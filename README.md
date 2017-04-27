@@ -70,3 +70,5 @@ Flank supports configurable shard durations. First time a new app is tested or a
 ### Troubleshooting
 
 Please enable debug mode ```debug-prints:true``` in the properties file if it's not working correctly. If it hangs and nothing seems to be happening (even when debug mode is enabled) make sure the correct user (registered with Firebase) is logged into Firebase. Please also see [Google Cloud Storage Authentication](https://cloud.google.com/storage/docs/authentication).
+
+If you are using the terminal in OS X and Flank gets stuck at around 250 shards its because of a setting in OS X. To fix it [please follow these instructions](https://blog.dekstroza.io/ulimit-shenanigans-on-osx-el-capitan/)
