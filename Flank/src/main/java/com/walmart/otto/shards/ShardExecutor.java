@@ -32,7 +32,6 @@ public class ShardExecutor {
         executeShards(testCases, bucket);
 
         fetchResults(toolManager.get(GsutilTool.class));
-
     }
 
     public void executeShards(List<String> testCases, String bucket) {
