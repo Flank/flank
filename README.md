@@ -23,7 +23,7 @@ java -jar Flank-1.0.3.jar <app-apk> <test-apk> <package-name>
 
 When the executions are completed Flanks will fetch the xml result files and store them in a folder named: ```results```. 
 
-### Configurable
+### Configure Flank 
 
 It's possible to configure Flank by including a Java properties file in the root folder: ```config.properties```
 
@@ -63,12 +63,18 @@ gsutil-path=
 
 ```
 
-Flank supports configurable shard durations. First time a new app is tested or a new test case is executed the execution times for each individual test is saved in a file: ```flank.tests```. This file is uploaded to your google cloud bucket after Flank is used and downloaded when Frank is started. Open the file in an editor to edit the execution times. Create an empty ```flank.tests``` in the root Flank folder to start from a clean slate. 
+### Configurable Shards
+
+Flank supports configurable shard durations. Instead of creating one shard per test case Flank can create shards that contain tests that add up to a given duration. This feature was introduced to make Flank faster while also saving cost (seconds are round up to minutes in cost by Firebase test lab). By default Flank will try to create shards with tests adding up to 2 minutes in execution time. 
+
+First time a new app is tested or a new test case is executed the execution times for each new test is saved in a file: ```flank.tests```. This file is uploaded to your google cloud bucket after Flank is used and downloaded when Frank is started. Open the file in an editor to edit the execution times. Create an empty ```flank.tests``` in the root Flank folder to start from a clean slate. 
 
 ```shard-duration``` can be set in ```flank.properties```. Default shard duration is 120 seconds. To enable one test per shard set ```shard-duration``` to -1 or specify a custom number of shards with ```numShards```. 
 
 ### Troubleshooting
 
-Please enable debug mode ```debug-prints:true``` in the properties file if it's not working correctly. If it hangs and nothing seems to be happening (even when debug mode is enabled) make sure the correct user (registered with Firebase) is logged into Firebase. Please also see [Google Cloud Storage Authentication](https://cloud.google.com/storage/docs/authentication).
+Please enable debug mode ```debug-prints:true``` in the properties file if it's not working correctly. 
+
+If Flank hangs and nothing seems to be happening (even when debug mode is enabled) make sure the correct user (registered with Firebase) is logged into Firebase. Please also see [Google Cloud Storage Authentication](https://cloud.google.com/storage/docs/authentication).
 
 If you are using the terminal in OS X and Flank gets stuck at around 250 shards its because of a setting in OS X. To fix it [please follow these instructions](https://blog.dekstroza.io/ulimit-shenanigans-on-osx-el-capitan/).
