@@ -65,9 +65,9 @@ gsutil-path=
 
 ### Configurable Shards
 
-Flank supports configurable shard durations. Instead of creating one shard per test case Flank can create shards that contain tests that add up to a given duration. This feature was introduced to make Flank faster while also saving cost (seconds are round up to minutes in by Firebase test lab). By default Flank will try to create shards with tests adding up to 2 minutes in execution time. 
+Flank supports configurable shard durations. Instead of creating one shard per test case Flank can create shards that contain tests that add up to a given duration. This feature was introduced to make Flank faster while also saving cost (seconds are round up to minutes by Firebase test lab). By default Flank will try to create shards with tests adding up to 2 minutes in execution time. 
 
-First time a new app is tested each test is run in its own shard so that Flank can save the individual execution times. This is also the case for new tests that are introduced. The execution times for tests are saved in a file: ```flank.tests```. This file is backed up in your google cloud bucket. Open the file in an editor to edit the execution times. Create an empty ```flank.tests``` in the root Flank folder to start from a clean slate. 
+First time a new app is tested each test is run in its own shard so that Flank can save the individual execution times. This is also the case for new tests that are introduced. The execution times for tests are saved in a file: ```flank.tests```. This file is used by Flank to create shards and is backed up in your google cloud bucket. Open the file in an editor to edit the execution times. Create an empty ```flank.tests``` in the root Flank folder to start from a clean slate. 
 
 ```shard-duration``` can be set in ```flank.properties```. Default shard duration is 120 seconds. To enable one test per shard set ```shard-duration``` to -1 or specify a custom number of shards with ```numShards```. 
 
