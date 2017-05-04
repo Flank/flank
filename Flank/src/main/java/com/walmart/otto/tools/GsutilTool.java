@@ -63,11 +63,11 @@ public class GsutilTool extends Tool {
     }
 
     public boolean findTestTimeFile() {
-        System.setOut(flankStream);
         executeCommand(findFile(Constants.ROOT_FLANK_BUCKET + Constants.TEST_TIME_FILE));
-        System.setOut(originalStream);
-        if (flankStreamStringBuilder.toString().contains(Constants.ROOT_FLANK_BUCKET)) {
-            return true;
+        for(String input : getInputStreamList()){
+            if(input.contains(Constants.ROOT_FLANK_BUCKET)){
+                return true;
+            }
         }
         return false;
     }
@@ -85,7 +85,6 @@ public class GsutilTool extends Tool {
                 xmlFileAndDevice.put(line[line.length - 1].replace("xml...", "xml"), line[line.length - 2]);
             }
         }
-
     }
 
     private String[] downloadTestTime() {
@@ -154,14 +153,4 @@ public class GsutilTool extends Tool {
         copyTest[3] = bucket;
         return copyTest;
     }
-
-    static StringBuilder flankStreamStringBuilder = new StringBuilder();
-
-    static PrintStream originalStream = System.out;
-
-    static PrintStream flankStream = new PrintStream(new OutputStream() {
-        public void write(int b) {
-            flankStreamStringBuilder.append(String.valueOf((char) b));
-        }
-    });
 }
