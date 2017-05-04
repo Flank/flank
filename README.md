@@ -32,7 +32,7 @@ Following properties can be configured:
 ```
 deviceIds: The ID:s of the devices to run the tests on
 os-version-ids: The API-levels of the devices to run the tests on
-orientations: The oriantations, portrait, landscape or both
+orientations: The orientations, portrait, landscape or both
 locales: The device locales
 shard-timeout: Timeout in minutes for each shard 
 shard-duration: Duration in seconds for each shard
