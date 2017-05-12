@@ -35,6 +35,9 @@ public class ConfigReader {
         if (value.isEmpty()) {
             return;
         }
+
+        value = value.replaceAll(" ","");
+
         switch (property) {
             case "deviceIds":
                 configurator.setDeviceIds(value.replaceAll(" ", ""));

@@ -19,7 +19,7 @@ public class GcloudTool extends Tool {
     }
 
     public void runGcloud(String testCase, String bucket) {
-        String[] runGcloud = new String[]{getConfigurator().getGcloud(), "beta", "test", "android", "run", "--app", bucket + "/" + getSimpleName(getAppAPK()),
+        String[] runGcloud = new String[]{getConfigurator().getGcloud(), "firebase", "test", "android", "run", "--app", bucket + "/" + getSimpleName(getAppAPK()),
                 "--type", "instrumentation", "--test", bucket + "/" + getSimpleName(getTestAPK()), "--device-ids", getConfigurator().getDeviceIds(),
                 "--os-version-ids", getConfigurator().getOsVersionIds(), "--locales", getConfigurator().getLocales(), "--orientations", getConfigurator().getOrientations(),
                 "--timeout", getConfigurator().getShardTimeout() + "m", "--results-bucket", bucket, "--test-targets", testCase};

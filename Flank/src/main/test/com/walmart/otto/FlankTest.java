@@ -4,10 +4,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class FirebaseRunnerTest {
+public class FlankTest {
 
     @Test
-    public void testFirebaseRunner(){
+    public void testFlank(){
 
     }
 
