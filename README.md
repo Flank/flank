@@ -82,13 +82,11 @@ If you see `AccessDeniedException: 403` you either need to upgrade your Firebase
 Follow below steps to set it:
 
 ```
-gcloud auth login
+gcloud config list - To view gcloud SDK properties. 
 
-To set gcloud to the correct google account. 
+gcloud auth login - To set gcloud to the correct google account. 
 
-Then please use:
-
-gcloud config set project <idOfYourProject>
+gcloud config set project <idOfYourProject> - To set gcloud to the correct project ID.
 
 ```
 Make sure that `<idOfYourProject>` belongs to a project that is subscribed to either Flame or Blaze (Paid subscriptions). 
