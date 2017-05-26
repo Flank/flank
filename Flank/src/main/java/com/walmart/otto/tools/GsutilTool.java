@@ -146,11 +146,12 @@ public class GsutilTool extends Tool {
     }
 
     private String[] copyFileToBucket(String file, String bucket) {
-        String[] copyTest = new String[4];
+        String[] copyTest = new String[5];
         copyTest[0] = getConfigurator().getGsutil();
-        copyTest[1] = "cp";
-        copyTest[2] = file;
-        copyTest[3] = bucket;
+        copyTest[1] = "--quiet";
+        copyTest[2] = "cp";
+        copyTest[3] = file;
+        copyTest[4] = bucket;
         return copyTest;
     }
 }
