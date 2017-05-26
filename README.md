@@ -77,11 +77,16 @@ Please enable debug mode ```debug-prints:true``` in the properties file if it's 
 
 If Flank hangs and nothing seems to be happening (even when debug mode is enabled) make sure the correct user (registered with Firebase) is logged into Firebase. Please also see [Google Cloud Storage Authentication](https://cloud.google.com/storage/docs/authentication).
 
-If you see `AccessDeniedException: 403` you either need to upgrade your Firebase project to a paid subscription or its due to your Firebase account and project ID not being in sync.
+If you see `AccessDeniedException: 403` verify that:
+- The GCloud SDK is on the latest version
+- The Firebase project is on a paid subscription
+- The Firebase account and project ID are in sync
 
 Follow below steps to set it:
 
 ```
+gcloud components update - Update the GCloud SDK
+
 gcloud config list - To view gcloud SDK properties. 
 
 gcloud auth login - To set gcloud to the correct google account. 
