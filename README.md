@@ -49,18 +49,6 @@ gsutil-path: The path to the gsutil binary
 Example of a properties file:
 
 ```
-<<<<<<< Updated upstream
-deviceIds=Nexus5X,Nexus6P
-os-version-ids=23,24
-orientations=portrait
-locales=en,sv
-shard-timeout=5
-shard-duration=120
-
-numShards=
-shardIndex=
-debug-prints=false
-=======
 deviceIds=Nexus5X,Nexus6P  
 os-version-ids=23,24   
 orientations=portrait  
@@ -72,7 +60,6 @@ shard-duration=120
 numShards=  
 shardIndex= 
 debug-prints=false  
->>>>>>> Stashed changes
 gcloud-path=
 gsutil-path=
 
