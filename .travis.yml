@@ -1,0 +1,9 @@
+language: java
+dist: trusty
+sudo: false
+cache:
+  directories:
+  - $HOME/.gradle
+  - ./Flank/.gradle
+script:
+- ./Flank/gradlew --no-daemon -p Flank clean build
