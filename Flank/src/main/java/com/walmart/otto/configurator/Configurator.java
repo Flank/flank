@@ -7,6 +7,7 @@ public class Configurator {
     private String osVersionIds = "23";
     private String gcloud = "gcloud";
     private String gsutil = "gsutil";
+    private String environmentVariables = "";
 
     private boolean debug = false;
     private int numShards = -1;
@@ -100,5 +101,13 @@ public class Configurator {
 
     public void setShardDuration(int shardDuration) {
         this.shardDuration = shardDuration;
+    }
+
+    public String getEnvironmentVariables() {
+        return environmentVariables;
+    }
+
+    public void setEnvironmentVariables(String environmentVariables) {
+        this.environmentVariables = environmentVariables;
     }
 }

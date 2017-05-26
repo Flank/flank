@@ -24,7 +24,7 @@ public class TimeReporter {
     }
 
     public static String getEndTime() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-hh-mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd_hh:mm");
         Date date = new Date();
         return simpleDateFormat.format(date);
     }

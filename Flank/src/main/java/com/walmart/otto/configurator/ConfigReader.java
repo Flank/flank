@@ -40,7 +40,7 @@ public class ConfigReader {
 
         switch (property) {
             case "deviceIds":
-                configurator.setDeviceIds(value.replaceAll(" ", ""));
+                configurator.setDeviceIds(value);
                 break;
 
             case "numShards":
@@ -76,15 +76,15 @@ public class ConfigReader {
                 break;
 
             case "locales":
-                configurator.setLocales(value.replaceAll(" ", ""));
+                configurator.setLocales(value);
                 break;
 
             case "orientations":
-                configurator.setOrientations(value.replaceAll(" ", ""));
+                configurator.setOrientations(value);
                 break;
 
             case "os-version-ids":
-                configurator.setOsVersionIds(value.replaceAll(" ", ""));
+                configurator.setOsVersionIds(value);
                 break;
 
             case "debug-prints":
@@ -92,12 +92,14 @@ public class ConfigReader {
                 break;
 
             case "gcloud-path":
-                configurator.setGcloud(value.replaceAll(" ", ""));
+                configurator.setGcloud(value);
                 break;
 
             case "gsutil-path":
-                configurator.setGsutil(value.replaceAll(" ", ""));
+                configurator.setGsutil(value);
                 break;
+            case "environment-variables":
+                configurator.setEnvironmentVariables(value);
         }
     }
 

@@ -34,7 +34,8 @@ deviceIds: The ID:s of the devices to run the tests on
 os-version-ids: The API-levels of the devices to run the tests on
 orientations: The orientations, portrait, landscape or both
 locales: The device locales
-shard-timeout: Timeout in minutes for each shard
+environment-variables: To set environment variables. Can also be used to enable code coverage 
+shard-timeout: Timeout in minutes for each shard 
 shard-duration: Duration in seconds for each shard
 
 numShards: Number of shards
@@ -48,6 +49,7 @@ gsutil-path: The path to the gsutil binary
 Example of a properties file:
 
 ```
+<<<<<<< Updated upstream
 deviceIds=Nexus5X,Nexus6P
 os-version-ids=23,24
 orientations=portrait
@@ -58,6 +60,19 @@ shard-duration=120
 numShards=
 shardIndex=
 debug-prints=false
+=======
+deviceIds=Nexus5X,Nexus6P  
+os-version-ids=23,24   
+orientations=portrait  
+locales=en,sv  
+environment-variables=coverage=true,coverageFile="/sdcard/tempDir/coverage.ec"
+shard-timeout=5 
+shard-duration=120  
+
+numShards=  
+shardIndex= 
+debug-prints=false  
+>>>>>>> Stashed changes
 gcloud-path=
 gsutil-path=
 
