@@ -6,9 +6,6 @@ import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -19,38 +16,12 @@ public class GsutilTool extends Tool {
         super(ToolManager.GSUTIL_TOOL, config);
     }
 
-    // Match _GenerateUniqueGcsObjectName from api_lib/firebase/test/arg_validate.py
-    //
-    // Example: 2017-05-31_17:19:36.431540_hRJD
-    private String uniqueBucketName() {
-        StringBuilder bucketName = new StringBuilder();
-        Instant instant = Instant.now();
-
-        bucketName.append(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss.")
-                .withZone(ZoneOffset.UTC)
-                .format(instant));
-        bucketName.append(String.valueOf(instant.getNano()).substring(0, 6));
-        bucketName.append("_");
-
-        Random random = new Random();
-        // a-z: 97 - 122
-        // A-Z: 65 - 90
-        for (int i = 0; i < 4; i++) {
-            int ascii = random.nextInt(26);
-            char letter = (char) (ascii + 'a');
-
-            if (ascii % 2 == 0) {
-                letter -= 32; // upcase
-            }
-
-            bucketName.append(letter);
-        }
-
-        return bucketName.toString();
-    }
-
     public String uploadAPKsToBucket() {
-        bucket = uniqueBucketName();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
+        Date date = new Date();
+
+        bucket = Constants.ROOT_APK_BUCKET + simpleDateFormat.format(date) + "_" + new Random().nextInt(50000000) + "_" + getConfigurator().getProjectNameHash();
+
         System.out.println("\nCreating bucket: " + bucket + "\n");
 
         executeCommand(createBucket(bucket));
@@ -67,7 +38,7 @@ public class GsutilTool extends Tool {
     }
 
     public void uploadTestTimeFile() {
-        if (!findTestTimeBucket()) {
+        if(!findTestTimeBucket()) {
             executeCommand(createBucket(getConfigurator().getTestTimeBucket()));
         }
         executeCommand(copyFileToBucket(Constants.TEST_TIME_FILE, getConfigurator().getTestTimeBucket()));
@@ -99,8 +70,8 @@ public class GsutilTool extends Tool {
         executeCommand(findFile(getConfigurator().getTestTimeBucket() + Constants.TEST_TIME_FILE), inputstreamList, new ArrayList<>());
         System.setOut(originalStream);
 
-        for (String input : inputstreamList) {
-            if (input.contains(getConfigurator().getTestTimeBucket())) {
+        for(String input : inputstreamList){
+            if(input.contains(getConfigurator().getTestTimeBucket())){
                 return true;
             }
         }
@@ -113,8 +84,8 @@ public class GsutilTool extends Tool {
         executeCommand(findFile(getConfigurator().getTestTimeBucket()), inputstreamList, new ArrayList<>());
         System.setOut(originalStream);
 
-        for (String input : inputstreamList) {
-            if (input.contains(getConfigurator().getTestTimeBucket())) {
+        for(String input : inputstreamList){
+            if(input.contains(getConfigurator().getTestTimeBucket())){
                 return true;
             }
         }
