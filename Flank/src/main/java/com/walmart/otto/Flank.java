@@ -31,7 +31,7 @@ public class Flank {
 
         configurator.setProjectNameHash(getProjectNameHash());
 
-        List<String> testCases = getTestCaseNames(args[1], args[2]);
+        List<String> testCases = getTestCaseNames(args);
 
         if (testCases.size() == 0) {
             System.out.println("No tests found within the specified package!\n");
@@ -102,8 +102,8 @@ public class Flank {
 
 
     private static boolean validateArguments(String[] args) {
-        if (args.length < 3) {
-            System.out.println("Usage: Flank <app-apk> <test-apk> <package-name>");
+        if (args.length < 2) {
+            System.out.println("Usage: Flank <app-apk> <test-apk> [package-name]");
             return false;
         }
         return true;
@@ -132,9 +132,18 @@ public class Flank {
         return true;
     }
 
-    private static List<String> getTestCaseNames(String testAPK, String packageName) {
+    private static List<String> getTestCaseNames(String[] args) {
         System.setOut(emptyStream);
-        List<String> filteredTests = FilterUtils.filterTests(DexParser.findTestNames(testAPK), packageName);
+        List<String> filteredTests;
+
+        if(args.length < 3) {
+            filteredTests = DexParser.findTestNames(args[1]);
+        }
+
+        else{
+            filteredTests = FilterUtils.filterTests(DexParser.findTestNames(args[1]), args[2]);
+        }
+
         System.setOut(originalStream);
         return filteredTests;
     }

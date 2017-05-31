@@ -2,8 +2,6 @@ package com.walmart.otto;
 
 public final class Constants {
 
-    public static final String ROOT_FLANK_BUCKET = "gs://flank/";
-
     public static final String ROOT_APK_BUCKET = "gs://apk-bucket-";
 
     public static final String TEST_TIME_FILE = "flank.tests";

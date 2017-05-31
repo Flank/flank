@@ -101,9 +101,11 @@ public class ConfigReader {
 
             case "environment-variables":
                 configurator.setEnvironmentVariables(value);
+                break;
 
             case "fetch-xml-files":
                 configurator.setFetchXMLFiles(Boolean.parseBoolean(value));
+                break;
         }
     }
 
