@@ -20,7 +20,7 @@ public class GsutilTool extends Tool {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
         Date date = new Date();
 
-        bucket = Constants.ROOT_APK_BUCKET + simpleDateFormat.format(date) + "_" + getConfigurator().getProjectNameHash();
+        bucket = Constants.ROOT_APK_BUCKET + simpleDateFormat.format(date) + "_" + new Random().nextInt(50000000) + "_" + getConfigurator().getProjectNameHash();
 
         System.out.println("\nCreating bucket: " + bucket + "\n");
 
