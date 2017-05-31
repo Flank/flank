@@ -5,6 +5,7 @@ import com.walmart.otto.configurator.Configurator;
 import com.walmart.otto.configurator.ConfigReader;
 import com.walmart.otto.reporter.TimeReporter;
 import com.walmart.otto.shards.ShardExecutor;
+import com.walmart.otto.tools.GcloudTool;
 import com.walmart.otto.tools.GsutilTool;
 import com.walmart.otto.tools.ProcessExecutor;
 import com.walmart.otto.tools.ToolManager;
@@ -17,15 +18,18 @@ import java.util.List;
 
 public class Flank {
     private static ToolManager toolManager;
+    private static Configurator configurator;
 
     public static void main(String[] args) {
         if (!validateArguments(args) || !doFilesExist(args[0], args[1])) {
             return;
         }
 
-        Configurator configurator = new ConfigReader(Constants.CONFIG_PROPERTIES).getConfiguration();
+        configurator = new ConfigReader(Constants.CONFIG_PROPERTIES).getConfiguration();
 
         loadTools(args[0], args[1], configurator);
+
+        configurator.setProjectNameHash(getProjectNameHash());
 
         List<String> testCases = getTestCaseNames(args[1], args[2]);
 
@@ -42,7 +46,9 @@ public class Flank {
 
         new ShardExecutor(configurator, toolManager).execute(testCases, gsutilTool.uploadAPKsToBucket());
 
-        gsutilTool.uploadTestTimeFile();
+        gsutilTool.deleteAPKs();
+
+        uploadTestTimeFile(gsutilTool);
 
         printExecutionTimes();
     }
@@ -55,6 +61,7 @@ public class Flank {
         toolConfig.configurator = configurator;
         toolConfig.processExecutor = new ProcessExecutor(configurator);
 
+
         toolManager = new ToolManager().load(toolConfig);
     }
 
@@ -64,17 +71,35 @@ public class Flank {
     }
 
     private static void downloadTestTimeFile(GsutilTool gsutilTool) {
+        if(configurator.getShardDuration() == -1){
+            return;
+        }
+
         if (new File(Constants.TEST_TIME_FILE).exists()) {
             System.out.println("\nLocal 'flank.tests' found. It contains test execution times used to create shards with configurable durations. Default shard duration is 120 seconds.");
         } else if (!new File(Constants.TEST_TIME_FILE).exists()) {
             if (gsutilTool.findTestTimeFile()) {
                 System.out.println("\nDownloading 'flank.tests'. It contains test execution times used to create shards with configurable durations. Default shard duration is 120 seconds.");
                 gsutilTool.downloadTestTimeFile();
-            } else {
-                System.out.println("\nNo Local 'flank.tests' found. It's used to create shards with configurable durations.");
             }
         }
     }
+
+    private static void uploadTestTimeFile(GsutilTool gsutilTool){
+        if(configurator.getShardDuration() == -1){
+            return;
+        }
+
+        gsutilTool.uploadTestTimeFile();
+    }
+
+    private static String getProjectNameHash(){
+        System.setOut(emptyStream);
+        String text =  String.valueOf(toolManager.get(GcloudTool.class).getProjectName().hashCode());
+        System.setOut(originalStream);
+        return text;
+    }
+
 
     private static boolean validateArguments(String[] args) {
         if (args.length < 3) {

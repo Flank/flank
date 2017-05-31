@@ -8,7 +8,9 @@ public class Configurator {
     private String gcloud = "gcloud";
     private String gsutil = "gsutil";
     private String environmentVariables = "";
+    private String projectNameHash;
 
+    private boolean fetchXMLFiles = true;
     private boolean debug = false;
     private int numShards = -1;
     private int shardIndex = -1;
@@ -109,5 +111,25 @@ public class Configurator {
 
     public void setEnvironmentVariables(String environmentVariables) {
         this.environmentVariables = environmentVariables;
+    }
+
+    public String getTestTimeBucket() {
+        return "gs://" + getProjectNameHash() + "/";
+    }
+
+    public String getProjectNameHash() {
+        return projectNameHash;
+    }
+
+    public void setProjectNameHash(String projectNameHash) {
+        this.projectNameHash = projectNameHash;
+    }
+
+    public boolean isFetchXMLFiles() {
+        return fetchXMLFiles;
+    }
+
+    public void setFetchXMLFiles(boolean fetchXMLFiles) {
+        this.fetchXMLFiles = fetchXMLFiles;
     }
 }

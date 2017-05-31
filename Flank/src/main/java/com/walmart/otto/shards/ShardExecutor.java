@@ -31,7 +31,9 @@ public class ShardExecutor {
 
         executeShards(testCases, bucket);
 
-        fetchResults(toolManager.get(GsutilTool.class));
+        if(configurator.isFetchXMLFiles()) {
+            fetchResults(toolManager.get(GsutilTool.class));
+        }
     }
 
     public void executeShards(List<String> testCases, String bucket) {
@@ -71,8 +73,6 @@ public class ShardExecutor {
 
     private void fetchResults(GsutilTool gsutilTool){
         Map<String, String> resultsMap = gsutilTool.fetchResults();
-
-        gsutilTool.deleteAPKs();
 
         //Add device name to test case names
         resultsMap.forEach((filename, device) -> XMLUtils.updateXML(Constants.RESULTS_DIR + File.separator + filename, device, "testcase", "name"));

@@ -22,7 +22,7 @@ public class GcloudTool extends Tool {
         String[] runGcloud = new String[]{getConfigurator().getGcloud(), "firebase", "test", "android", "run", "--app", bucket + "/" + getSimpleName(getAppAPK()),
                 "--type", "instrumentation", "--test", bucket + "/" + getSimpleName(getTestAPK()), "--device-ids", getConfigurator().getDeviceIds(),
                 "--os-version-ids", getConfigurator().getOsVersionIds(), "--locales", getConfigurator().getLocales(), "--orientations", getConfigurator().getOrientations(),
-                "--timeout", getConfigurator().getShardTimeout() + "m", "--results-bucket", bucket, "--test-targets", testCase, "--environment-variables", getConfigurator().getEnvironmentVariables()};
+                "--timeout", getConfigurator().getShardTimeout() + "m","--environment-variables", getConfigurator().getEnvironmentVariables(), "--results-bucket", bucket, "--test-targets", testCase};
 
         executeGcloud(runGcloud);
     }
@@ -56,6 +56,19 @@ public class GcloudTool extends Tool {
             System.out.println("\n" + resultsLink + "\n");
         }
         printTests = true;
+    }
+
+    public String getProjectName(){
+        String[] projectDetails = new String[]{getConfigurator().getGcloud(), "config", "get-value", "project"};
+        List<String> inputStreamList = new ArrayList<>();
+        String projectName = "";
+        executeCommand(projectDetails, inputStreamList, new ArrayList<>());
+
+        for(String projectProperties : inputStreamList){
+            projectName = projectProperties;
+        }
+        return projectName;
+
     }
 
     private void printTests(String[] commands) {

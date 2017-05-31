@@ -14,7 +14,6 @@ public abstract class Tool {
     private String appAPK;
     private String testAPK;
 
-    private List<String> inputStream = new ArrayList<>();
     private List<String> errorStream = new ArrayList<>();
 
     Tool(String name, ToolManager.Config config) {
@@ -41,16 +40,16 @@ public abstract class Tool {
         return testAPK;
     }
 
-    public List<String> getInputStreamList() {
-        return inputStream;
-    }
-
     public List<String> getErrorStreamList() {
         return errorStream;
     }
 
-    public void executeCommand(final String[] commands) {
+    public void executeCommand(final String[] commands, List<String> inputStream) {
         processExecutor.executeCommand(commands, inputStream, errorStream);
+    }
+
+    public void executeCommand(final String[] commands) {
+        processExecutor.executeCommand(commands, new ArrayList<>(), new ArrayList<>());
     }
 
     public void executeCommand(final String[] commands, List<String> inputStreamList, List<String> errorStreamList) {

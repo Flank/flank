@@ -98,8 +98,12 @@ public class ConfigReader {
             case "gsutil-path":
                 configurator.setGsutil(value);
                 break;
+
             case "environment-variables":
                 configurator.setEnvironmentVariables(value);
+
+            case "fetch-xml-files":
+                configurator.setFetchXMLFiles(Boolean.parseBoolean(value));
         }
     }
 
