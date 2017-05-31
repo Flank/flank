@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Flank {
     private static ToolManager toolManager;
@@ -66,7 +67,7 @@ public class Flank {
     }
 
     private static void printExecutionTimes() {
-        System.out.println("Combined test execution time: " + TimeReporter.getCombinedExecutionTimes() + " seconds\n");
+        System.out.println("Combined test execution time: ~" + TimeUnit.SECONDS.toMinutes(TimeReporter.getCombinedExecutionTimes()) + " minutes\n");
         System.out.println("End time: " + TimeReporter.getEndTime() + "\n");
     }
 
