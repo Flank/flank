@@ -12,9 +12,15 @@ To use Flank, please sign up for Firebase Test Lab and install the Google Cloud 
 
 * Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs/)
 
-* Download [Flank](https://bintray.com/flank1/Flank/download_file?file_path=Flank-1.2.0.jar)
+### Download
 
-Flank can also be downloaded by using curl: ```curl -L https://dl.bintray.com/flank1/Flank/Flank-1.2.0.jar -o Flank-1.2.0.jar```
+Either [download Flank from here](https://bintray.com/flank1/Flank/download_file?file_path=Flank-1.2.0.jar)
+
+or 
+
+Use curl: ```curl -L https://dl.bintray.com/flank1/Flank/Flank-1.2.0.jar -o Flank-1.2.0.jar```
+
+### Run Tests
 
 To runs tests with Flank you will need the app and test apk's. You can specify in which package you would like tests to run. A single class or test can also be executed (package_name.class_name#method_name). If no package name is provided all the tests will be executed. Usage:
 
