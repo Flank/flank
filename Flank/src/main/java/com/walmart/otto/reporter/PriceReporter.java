@@ -36,20 +36,13 @@ public class PriceReporter {
 
     public static BigDecimal calculatePrice(Number totalTimeInSecs, double pricePerMin) throws ParseException {
 
-
         double time = totalTimeInSecs.doubleValue()/60;
         int roundedTime = (int) Math.ceil(time);
-
         double actualPrice = roundedTime * pricePerMin;
 
         BigDecimal a = new BigDecimal(actualPrice);
-        BigDecimal roundOff = a.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-
-
-        return roundOff;
-
-
-
+        BigDecimal roundOffPrice = a.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+        return roundOffPrice;
     }
 
 
