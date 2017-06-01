@@ -1,6 +1,10 @@
 package com.walmart.otto.reporter;
 
 
+import com.walmart.otto.Constants;
+import com.walmart.otto.configurator.ConfigReader;
+import com.walmart.otto.configurator.Configurator;
+
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.HashMap;
@@ -8,14 +12,15 @@ import java.util.List;
 import java.util.Map;
 
 public class PriceReporter {
+    private static Configurator configurator;
 
-    private static HashMap<String, Double> mapOfPrices = new HashMap<String, Double>();
     private static HashMap<String, BigDecimal> estimates = new HashMap<String, BigDecimal>();
 
-
     public static HashMap<String, BigDecimal>  getTotalPrice(List<Integer> times)  {
-        mapOfPrices.put("virtual", (double)1);
-        mapOfPrices.put("real", (double)5);
+
+        configurator = new ConfigReader(Constants.CONFIG_PROPERTIES).getConfiguration();
+
+        HashMap<String, Double> mapOfPrices = configurator.getPricePerMinForDevice();
 
         for (Map.Entry<String, Double> entry : mapOfPrices.entrySet()) {
             BigDecimal price = new BigDecimal(0.00);
@@ -29,9 +34,7 @@ public class PriceReporter {
                 estimates.put(entry.getKey(), price);
             }
         }
-
         return estimates;
-
     }
 
     public static BigDecimal calculatePrice(Number totalTimeInSecs, double pricePerMin) throws ParseException {

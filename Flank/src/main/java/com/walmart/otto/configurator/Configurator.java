@@ -1,5 +1,8 @@
 package com.walmart.otto.configurator;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Configurator {
     private String deviceIds = "Nexus6P";
     private String locales = "en";
@@ -16,6 +19,9 @@ public class Configurator {
     private int shardIndex = -1;
     private int shardTimeout = 5;
     private int shardDuration = 120;
+    private double virtualDevicePricePerMin = 1.00;
+    private double realDevicePricePerMin = 5.00;
+    private static HashMap<String, Double> pricePerMinForDevice = new HashMap<String, Double>();
 
     public int getNumShards() {
         return numShards;
@@ -131,5 +137,19 @@ public class Configurator {
 
     public void setFetchXMLFiles(boolean fetchXMLFiles) {
         this.fetchXMLFiles = fetchXMLFiles;
+    }
+
+    public void setVirtualDevicePricePerMin(String price){
+        this.virtualDevicePricePerMin = Double.parseDouble(price);
+    }
+
+    public void setRealDevicePricePerMin(String price){
+        this.realDevicePricePerMin = Double.parseDouble(price);
+    }
+
+    public HashMap getPricePerMinForDevice(){
+        pricePerMinForDevice.put("virtual", this.virtualDevicePricePerMin);
+        pricePerMinForDevice.put("real",this.realDevicePricePerMin);
+        return pricePerMinForDevice;
     }
 }
