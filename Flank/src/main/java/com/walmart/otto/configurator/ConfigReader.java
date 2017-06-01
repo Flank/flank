@@ -106,7 +106,6 @@ public class ConfigReader {
             case "fetch-xml-files":
                 configurator.setFetchXMLFiles(Boolean.parseBoolean(value));
                 break;
-
         }
     }
 

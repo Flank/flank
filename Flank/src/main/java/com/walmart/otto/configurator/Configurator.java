@@ -1,6 +1,5 @@
 package com.walmart.otto.configurator;
 
-
 public class Configurator {
     private String deviceIds = "Nexus6P";
     private String locales = "en";
@@ -133,5 +132,4 @@ public class Configurator {
     public void setFetchXMLFiles(boolean fetchXMLFiles) {
         this.fetchXMLFiles = fetchXMLFiles;
     }
-
 }
