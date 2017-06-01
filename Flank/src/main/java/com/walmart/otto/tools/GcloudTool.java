@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import static com.walmart.otto.utils.FileUtils.getSimpleName;
+
 public class GcloudTool extends Tool {
     boolean printTests = true;
 
@@ -105,10 +107,4 @@ public class GcloudTool extends Tool {
         System.out.println("Test(s):" + tests);
         printTests = false;
     }
-
-    private String getSimpleName(String file) {
-        String[] parts = file.split(File.separator);
-        return parts[parts.length - 1];
-    }
-
 }

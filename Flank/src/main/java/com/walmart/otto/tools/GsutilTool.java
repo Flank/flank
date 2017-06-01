@@ -13,6 +13,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static com.walmart.otto.utils.FileUtils.getSimpleName;
+
 public class GsutilTool extends Tool {
     private String bucket;
 
@@ -163,7 +165,7 @@ public class GsutilTool extends Tool {
         fetchFiles[2] = "cp";
         fetchFiles[3] = "-r";
         fetchFiles[4] = "-U";
-        fetchFiles[5] = bucket + "/**/*.xml";
+        fetchFiles[5] = bucket + "**/*.xml";
         fetchFiles[6] = file.getAbsolutePath();
         return fetchFiles;
     }
@@ -190,7 +192,7 @@ public class GsutilTool extends Tool {
         deleteApp[0] = getConfigurator().getGsutil();
         deleteApp[1] = "rm";
         deleteApp[2] = "-r";
-        deleteApp[3] = bucket + File.separator + getAppAPK();
+        deleteApp[3] = bucket + getSimpleName(getAppAPK());
         return deleteApp;
     }
 
@@ -199,7 +201,7 @@ public class GsutilTool extends Tool {
         deleteTest[0] = getConfigurator().getGsutil();
         deleteTest[1] = "rm";
         deleteTest[2] = "-r";
-        deleteTest[3] = bucket + File.separator + getTestAPK();
+        deleteTest[3] = bucket + getSimpleName(getTestAPK());
         return deleteTest;
     }
 
