@@ -163,7 +163,6 @@ public class GsutilTool extends Tool {
     private String[] fetchXMLFiles(File file) {
         String[] fetchFiles = new String[]{
                 getConfigurator().getGsutil(),
-                "--quiet",
                 "-m",
                 "cp",
                 "-r",
