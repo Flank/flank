@@ -103,6 +103,10 @@ public class ConfigReader {
                 configurator.setEnvironmentVariables(value);
                 break;
 
+            case "fetch-xml-files":
+                configurator.setFetchXMLFiles(Boolean.parseBoolean(value));
+                break;
+
             case "virtual":
                 configurator.setVirtualDevicePricePerMin(value);
                 break;
