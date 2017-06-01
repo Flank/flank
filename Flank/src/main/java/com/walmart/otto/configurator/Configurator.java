@@ -132,5 +132,4 @@ public class Configurator {
     public void setFetchXMLFiles(boolean fetchXMLFiles) {
         this.fetchXMLFiles = fetchXMLFiles;
     }
-
 }
