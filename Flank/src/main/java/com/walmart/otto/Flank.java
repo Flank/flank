@@ -86,7 +86,7 @@ public class Flank {
              System.out.print("$" + price.getValue() + "(" + price.getKey() + ") ");
         }
 
-        System.out.println("Billable time:  " + PriceReporter.getTotalBillabeTime(TimeReporter.getExecutionTimes()) + " min(s)");
+        System.out.println("\nBillable time:  " + PriceReporter.getTotalBillabeTime(TimeReporter.getExecutionTimes()) + " min(s) \n");
     }
 
 

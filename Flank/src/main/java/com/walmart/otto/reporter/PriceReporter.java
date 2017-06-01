@@ -63,7 +63,7 @@ public class PriceReporter {
 
     private static HashMap getPricePerMinForDevice(){
         pricePerMinForDevice.put("virtual", virtualDevicePricePerMin);
-        pricePerMinForDevice.put("real", realDevicePricePerMin);
+        pricePerMinForDevice.put("physical", realDevicePricePerMin);
         return pricePerMinForDevice;
     }
 }
