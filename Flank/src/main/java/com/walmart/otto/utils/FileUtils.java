@@ -13,6 +13,11 @@ import java.util.Scanner;
 
 public class FileUtils {
 
+    public static String getSimpleName(String file) {
+        String[] parts = file.split(File.separator);
+        return parts[parts.length - 1];
+    }
+
     public static void cleanUpDuplicateXmlFiles(String directory) {
         List<String> xmlFiles = new ArrayList<>();
 

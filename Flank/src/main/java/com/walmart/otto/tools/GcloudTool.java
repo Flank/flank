@@ -6,8 +6,11 @@ import com.walmart.otto.utils.FilterUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import static com.walmart.otto.utils.FileUtils.getSimpleName;
 
 public class GcloudTool extends Tool {
     boolean printTests = true;
@@ -19,12 +22,31 @@ public class GcloudTool extends Tool {
     }
 
     public void runGcloud(String testCase, String bucket) {
-        String[] runGcloud = new String[]{getConfigurator().getGcloud(), "firebase", "test", "android", "run", "--app", bucket + "/" + getSimpleName(getAppAPK()),
-                "--type", "instrumentation", "--test", bucket + "/" + getSimpleName(getTestAPK()), "--device-ids", getConfigurator().getDeviceIds(),
-                "--os-version-ids", getConfigurator().getOsVersionIds(), "--locales", getConfigurator().getLocales(), "--orientations", getConfigurator().getOrientations(),
-                "--timeout", getConfigurator().getShardTimeout() + "m","--environment-variables", getConfigurator().getEnvironmentVariables(), "--results-bucket", bucket, "--test-targets", testCase};
+        // don't quote arguments or ProcessBuilder will error in strange ways.
+        String[] runGcloud = new String[]{
+                getConfigurator().getGcloud(), "firebase", "test", "android", "run",
+                "--type", "instrumentation",
+                "--app", bucket + getSimpleName(getAppAPK()),
+                "--test", bucket + getSimpleName(getTestAPK()),
+                "--results-bucket", "gs://" + bucket.split("/")[2],
+                "--device-ids", getConfigurator().getDeviceIds(),
+                "--os-version-ids", getConfigurator().getOsVersionIds(),
+                "--locales", getConfigurator().getLocales(),
+                "--orientations", getConfigurator().getOrientations(),
+                "--timeout", getConfigurator().getShardTimeout() + "m",
+                "--results-dir", bucket.split("/")[3],
+                "--test-targets", testCase};
 
-        executeGcloud(runGcloud);
+        List<String> gcloudList = new ArrayList<>(Arrays.asList(runGcloud));
+
+        String envVars = getConfigurator().getEnvironmentVariables();
+        if (!envVars.isEmpty()) {
+            gcloudList.add("--environment-variables");
+            gcloudList.add(envVars);
+        }
+        String[] cmdArray = gcloudList.toArray(new String[0]);
+
+        executeGcloud(cmdArray);
     }
 
     public void executeGcloud(String[] commands) {
@@ -58,13 +80,13 @@ public class GcloudTool extends Tool {
         printTests = true;
     }
 
-    public String getProjectName(){
+    public String getProjectName() {
         String[] projectDetails = new String[]{getConfigurator().getGcloud(), "config", "get-value", "project"};
         List<String> inputStreamList = new ArrayList<>();
         String projectName = "";
         executeCommand(projectDetails, inputStreamList, new ArrayList<>());
 
-        for(String projectProperties : inputStreamList){
+        for (String projectProperties : inputStreamList) {
             projectName = projectProperties;
         }
         return projectName;
@@ -85,10 +107,4 @@ public class GcloudTool extends Tool {
         System.out.println("Test(s):" + tests);
         printTests = false;
     }
-
-    private String getSimpleName(String file) {
-        String[] parts = file.split(File.separator);
-        return parts[parts.length - 1];
-    }
-
 }
