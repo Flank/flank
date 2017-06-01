@@ -67,6 +67,16 @@ public class PriceReporterTest {
         assertEquals(estimates.get("virtual"), new BigDecimal("5.00"));
         assertEquals(estimates.get("real"), new BigDecimal("25.00"));
 
+    }
 
+    @Test
+    public void testGetTotalBillableTime(){
+        ArrayList<Integer> input = new ArrayList<Integer>();
+        input.add(30);
+        input.add(50);
+        input.add(73);
+        input.add(9);
+        Integer totalBillableTime = PriceReporter.getTotalBillabeTime(input);
+        assertEquals(totalBillableTime.toString(), "5");
     }
 }

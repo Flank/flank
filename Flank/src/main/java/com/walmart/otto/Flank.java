@@ -81,8 +81,9 @@ public class Flank {
     private static void printEstimates()  {
 
        HashMap<String, BigDecimal> prices = PriceReporter.getTotalPrice(TimeReporter.getExecutionTimes());
+        System.out.print("Estimated costs:  ");
         for(Map.Entry<String, BigDecimal> price: prices.entrySet()){
-            System.out.println("Total price incurred for " + price.getKey() + " device is ~ $" + price.getValue() );
+             System.out.print("$" + price.getValue() + "(" + price.getKey() + ") ");
         }
 
     }
