@@ -1,10 +1,5 @@
 package com.walmart.otto.reporter;
 
-
-import com.walmart.otto.Constants;
-import com.walmart.otto.configurator.ConfigReader;
-import com.walmart.otto.configurator.Configurator;
-
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.HashMap;
