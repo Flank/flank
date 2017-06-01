@@ -6,6 +6,7 @@ import com.walmart.otto.utils.FilterUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -18,13 +19,36 @@ public class GcloudTool extends Tool {
         super(ToolManager.GCLOUD_TOOL, config);
     }
 
-    public void runGcloud(String testCase, String bucket) {
-        String[] runGcloud = new String[]{getConfigurator().getGcloud(), "firebase", "test", "android", "run", "--app", bucket + "/" + getSimpleName(getAppAPK()),
-                "--type", "instrumentation", "--test", bucket + "/" + getSimpleName(getTestAPK()), "--device-ids", getConfigurator().getDeviceIds(),
-                "--os-version-ids", getConfigurator().getOsVersionIds(), "--locales", getConfigurator().getLocales(), "--orientations", getConfigurator().getOrientations(),
-                "--timeout", getConfigurator().getShardTimeout() + "m","--environment-variables", getConfigurator().getEnvironmentVariables(), "--results-bucket", bucket, "--test-targets", testCase};
+    private String quote(String arg) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\"").append(arg).append("\"");
+        return sb.toString();
+    }
 
-        executeGcloud(runGcloud);
+    public void runGcloud(String testCase, String bucket) {
+        String[] runGcloud = new String[]{
+                getConfigurator().getGcloud(), "firebase", "test", "android", "run",
+                "--type", quote("instrumentation"),
+                "--app", quote(bucket + getSimpleName(getAppAPK())),
+                "--test", quote(bucket + getSimpleName(getTestAPK())),
+                "--results-bucket", quote("gs://" + bucket.split("/")[2]),
+                "--device-ids", quote(getConfigurator().getDeviceIds()),
+                "--os-version-ids", quote(getConfigurator().getOsVersionIds()),
+                "--locales", quote(getConfigurator().getLocales()),
+                "--orientations", quote(getConfigurator().getOrientations()),
+                "--timeout", quote(getConfigurator().getShardTimeout() + "m"),
+                "--results-dir", quote(bucket.split("/")[3]),
+                "--test-targets", quote(testCase)};
+
+        List<String> gcloudList = new ArrayList<>(Arrays.asList(runGcloud));
+
+        String envVars = getConfigurator().getEnvironmentVariables();
+        if (!envVars.isEmpty()) {
+            gcloudList.add("--environment-variables");
+            gcloudList.add(envVars);
+        }
+
+        executeGcloud(gcloudList.toArray(new String[0]));
     }
 
     public void executeGcloud(String[] commands) {
