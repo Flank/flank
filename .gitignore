@@ -1,5 +1,8 @@
 # Created by https://www.gitignore.io
 
+Flank/*.tests
+Flank/results/
+
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
 

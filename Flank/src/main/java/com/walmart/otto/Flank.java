@@ -35,7 +35,7 @@ public class Flank {
 
         loadTools(args[0], args[1], configurator);
 
-        configurator.setProjectNameHash(getProjectNameHash());
+        configurator.setProjectName(getProjectName());
 
         List<String> testCases = getTestCaseNames(args);
 
@@ -112,13 +112,12 @@ public class Flank {
         gsutilTool.uploadTestTimeFile();
     }
 
-    private static String getProjectNameHash(){
+    private static String getProjectName(){
         System.setOut(emptyStream);
-        String text =  String.valueOf(toolManager.get(GcloudTool.class).getProjectName().hashCode());
+        String text = String.valueOf(toolManager.get(GcloudTool.class).getProjectName()) + "-flank";
         System.setOut(originalStream);
         return text;
     }
-
 
     private static boolean validateArguments(String[] args) {
         if (args.length < 2) {

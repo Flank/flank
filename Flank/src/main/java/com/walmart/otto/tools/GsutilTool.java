@@ -1,13 +1,19 @@
 package com.walmart.otto.tools;
 
 import com.walmart.otto.Constants;
+import com.walmart.otto.configurator.Configurator;
 
 import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
+
+import static com.walmart.otto.utils.FileUtils.getSimpleName;
 
 public class GsutilTool extends Tool {
     private String bucket;
@@ -16,21 +22,54 @@ public class GsutilTool extends Tool {
         super(ToolManager.GSUTIL_TOOL, config);
     }
 
-    public String uploadAPKsToBucket() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
-        Date date = new Date();
 
-        bucket = Constants.ROOT_APK_BUCKET + simpleDateFormat.format(date) + "_" + new Random().nextInt(50000000) + "_" + getConfigurator().getProjectNameHash();
+    // Match _GenerateUniqueGcsObjectName from api_lib/firebase/test/arg_validate.py
+    //
+    // Example: 2017-05-31_17:19:36.431540_hRJD
+    //
+    // https://cloud.google.com/storage/docs/naming
+    private String uniqueObjectName() {
+        StringBuilder bucketName = new StringBuilder();
+        Instant instant = Instant.now();
+
+        bucketName.append(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss.")
+                .withZone(ZoneOffset.UTC)
+                .format(instant));
+        bucketName.append(String.valueOf(instant.getNano()).substring(0, 6));
+        bucketName.append("_");
+
+        Random random = new Random();
+        // a-z: 97 - 122
+        // A-Z: 65 - 90
+        for (int i = 0; i < 4; i++) {
+            int ascii = random.nextInt(26);
+            char letter = (char) (ascii + 'a');
+
+            if (ascii % 2 == 0) {
+                letter -= 32; // upcase
+            }
+
+            bucketName.append(letter);
+        }
+
+        bucketName.append("/");
+
+        return bucketName.toString();
+    }
+
+    public String uploadAPKsToBucket() {
+        bucket = getConfigurator().getTestTimeBucket();
+        executeCommand(createBucket(bucket));
 
         System.out.println("\nCreating bucket: " + bucket + "\n");
 
-        executeCommand(createBucket(bucket));
+        bucket = bucket + uniqueObjectName();
 
-        System.out.println("Uploading: " + getAppAPK() + " to bucket: " + bucket + "\n");
+        System.out.println("Uploading: " + getAppAPK() + " to: " + bucket + "\n");
 
         executeCommand(copyFileToBucket(getAppAPK(), bucket));
 
-        System.out.println("Uploading: " + getTestAPK() + " to bucket: " + bucket + "\n");
+        System.out.println("Uploading: " + getTestAPK() + " to: " + bucket + "\n");
 
         executeCommand(copyFileToBucket(getTestAPK(), bucket));
 
@@ -126,7 +165,7 @@ public class GsutilTool extends Tool {
         fetchFiles[2] = "cp";
         fetchFiles[3] = "-r";
         fetchFiles[4] = "-U";
-        fetchFiles[5] = bucket + "/**/*.xml";
+        fetchFiles[5] = bucket + "**/*.xml";
         fetchFiles[6] = file.getAbsolutePath();
         return fetchFiles;
     }
@@ -143,7 +182,7 @@ public class GsutilTool extends Tool {
     private String[] createBucket(String nameOfBucket) {
         String[] createBucket = new String[3];
         createBucket[0] = getConfigurator().getGsutil();
-        createBucket[1] = "mkdir";
+        createBucket[1] = "mb";
         createBucket[2] = nameOfBucket;
         return createBucket;
     }
@@ -153,7 +192,7 @@ public class GsutilTool extends Tool {
         deleteApp[0] = getConfigurator().getGsutil();
         deleteApp[1] = "rm";
         deleteApp[2] = "-r";
-        deleteApp[3] = bucket + File.separator + getAppAPK();
+        deleteApp[3] = bucket + getSimpleName(getAppAPK());
         return deleteApp;
     }
 
@@ -162,7 +201,7 @@ public class GsutilTool extends Tool {
         deleteTest[0] = getConfigurator().getGsutil();
         deleteTest[1] = "rm";
         deleteTest[2] = "-r";
-        deleteTest[3] = bucket + File.separator + getTestAPK();
+        deleteTest[3] = bucket + getSimpleName(getTestAPK());
         return deleteTest;
     }
 

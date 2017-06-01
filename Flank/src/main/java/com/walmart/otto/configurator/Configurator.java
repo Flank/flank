@@ -1,17 +1,17 @@
 package com.walmart.otto.configurator;
 
 public class Configurator {
-    private String deviceIds = "Nexus6P";
+    private String deviceIds = "NexusLowRes";
     private String locales = "en";
     private String orientations = "portrait";
-    private String osVersionIds = "23";
+    private String osVersionIds = "25";
     private String gcloud = "gcloud";
     private String gsutil = "gsutil";
     private String environmentVariables = "";
-    private String projectNameHash;
+    private String projectName;
 
     private boolean fetchXMLFiles = true;
-    private boolean debug = false;
+    private boolean debug = true;
     private int numShards = -1;
     private int shardIndex = -1;
     private int shardTimeout = 5;
@@ -114,15 +114,15 @@ public class Configurator {
     }
 
     public String getTestTimeBucket() {
-        return "gs://" + getProjectNameHash() + "/";
+        return "gs://" + getProjectName() + "/";
     }
 
-    public String getProjectNameHash() {
-        return projectNameHash;
+    public String getProjectName() {
+        return projectName;
     }
 
-    public void setProjectNameHash(String projectNameHash) {
-        this.projectNameHash = projectNameHash;
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 
     public boolean isFetchXMLFiles() {
