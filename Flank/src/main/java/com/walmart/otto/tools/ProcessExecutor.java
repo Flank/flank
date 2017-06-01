@@ -14,7 +14,16 @@ public class ProcessExecutor {
     public void executeCommand(final String[] commands, List<String> inputStream, List<String> errorStream) {
 
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder(commands, inputStream, errorStream);
+            if (configurator.isDebug()) {
+                StringBuilder command = new StringBuilder();
+                command.append("\u001B[32m"); // green
+                for (String cmd : commands) {
+                    command.append(cmd).append(" ");
+                }
+                command.append("\u001B[0m");
+                System.out.println("$ " + command.toString());
+            }
+            new ProcessBuilder(commands, inputStream, errorStream);
             if (configurator.isDebug()) {
                 printStreams(inputStream, errorStream);
             }
@@ -32,6 +41,4 @@ public class ProcessExecutor {
             System.out.println(line);
         }
     }
-
-
 }
