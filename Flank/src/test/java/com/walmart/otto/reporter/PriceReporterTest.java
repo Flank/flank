@@ -65,7 +65,7 @@ public class PriceReporterTest {
 
         assertEquals(estimates.size(), 2);
         assertEquals(estimates.get("virtual"), new BigDecimal("5.00"));
-        assertEquals(estimates.get("real"), new BigDecimal("25.00"));
+        assertEquals(estimates.get("physical"), new BigDecimal("25.00"));
 
     }
 

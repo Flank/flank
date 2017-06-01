@@ -56,9 +56,10 @@ public class Flank {
 
         uploadTestTimeFile(gsutilTool);
 
+        printEstimates();
+
         printExecutionTimes();
 
-        printEstimates();
     }
 
     private static void loadTools(String appAPK, String testAPK, Configurator configurator) {
@@ -74,19 +75,21 @@ public class Flank {
     }
 
     private static void printExecutionTimes() {
-        System.out.println("Combined test execution time: ~" + TimeUnit.SECONDS.toMinutes(TimeReporter.getCombinedExecutionTimes()) + " minutes\n");
+        System.out.println("\nCombined test execution time: ~" + TimeUnit.SECONDS.toMinutes(TimeReporter.getCombinedExecutionTimes()) + " minutes\n");
         System.out.println("End time: " + TimeReporter.getEndTime() + "\n");
     }
 
     private static void printEstimates()  {
 
+        System.out.println("\nBillable time:  " + PriceReporter.getTotalBillabeTime(TimeReporter.getExecutionTimes()) + " min(s) \n");
+
        HashMap<String, BigDecimal> prices = PriceReporter.getTotalPrice(TimeReporter.getExecutionTimes());
-        System.out.print("Estimated costs:  ");
+        System.out.print("Estimated cost:  ");
         for(Map.Entry<String, BigDecimal> price: prices.entrySet()){
              System.out.print("$" + price.getValue() + "(" + price.getKey() + ") ");
         }
 
-        System.out.println("\nBillable time:  " + PriceReporter.getTotalBillabeTime(TimeReporter.getExecutionTimes()) + " min(s) \n");
+
     }
 
 
