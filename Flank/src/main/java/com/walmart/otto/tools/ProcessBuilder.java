@@ -47,37 +47,4 @@ public class ProcessBuilder {
             seError.interrupt();
         }
     }
-
-    class StreamBoozer extends Thread {
-        private final InputStream in;
-        private final List<String> lines;
-        private final String[] command;
-
-        StreamBoozer(InputStream in, List<String> lines, String[] command) {
-            this.in = in;
-            this.lines = lines;
-            this.command = command;
-        }
-
-        @Override
-        public void run() {
-            BufferedReader br = null;
-            try {
-                br = new BufferedReader(new InputStreamReader(in));
-                String line = null;
-                while ((line = br.readLine()) != null) {
-                    lines.add(line);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
 }
