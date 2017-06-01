@@ -12,15 +12,15 @@ import java.util.List;
 import java.util.Map;
 
 public class PriceReporter {
-    private static Configurator configurator;
+    private static double virtualDevicePricePerMin = 1.00;
+    private static double realDevicePricePerMin = 5.00;
 
+    private static HashMap<String, Double> pricePerMinForDevice = new HashMap<String, Double>();
     private static HashMap<String, BigDecimal> estimates = new HashMap<String, BigDecimal>();
 
     public static HashMap<String, BigDecimal>  getTotalPrice(List<Integer> times)  {
 
-        configurator = new ConfigReader(Constants.CONFIG_PROPERTIES).getConfiguration();
-
-        HashMap<String, Double> mapOfPrices = configurator.getPricePerMinForDevice();
+        HashMap<String, Double> mapOfPrices = getPricePerMinForDevice();
 
         for (Map.Entry<String, Double> entry : mapOfPrices.entrySet()) {
             BigDecimal price = new BigDecimal(0.00);
@@ -48,5 +48,9 @@ public class PriceReporter {
         return roundOffPrice;
     }
 
-
+    private static HashMap getPricePerMinForDevice(){
+        pricePerMinForDevice.put("virtual", virtualDevicePricePerMin);
+        pricePerMinForDevice.put("real", realDevicePricePerMin);
+        return pricePerMinForDevice;
+    }
 }
