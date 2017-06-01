@@ -77,7 +77,7 @@ public class GsutilTool extends Tool {
     }
 
     public void uploadTestTimeFile() {
-        if(!findTestTimeBucket()) {
+        if (!findTestTimeBucket()) {
             executeCommand(createBucket(getConfigurator().getTestTimeBucket()));
         }
         executeCommand(copyFileToBucket(Constants.TEST_TIME_FILE, getConfigurator().getTestTimeBucket()));
@@ -109,8 +109,8 @@ public class GsutilTool extends Tool {
         executeCommand(findFile(getConfigurator().getTestTimeBucket() + Constants.TEST_TIME_FILE), inputstreamList, new ArrayList<>());
         System.setOut(originalStream);
 
-        for(String input : inputstreamList){
-            if(input.contains(getConfigurator().getTestTimeBucket())){
+        for (String input : inputstreamList) {
+            if (input.contains(getConfigurator().getTestTimeBucket())) {
                 return true;
             }
         }
@@ -123,8 +123,8 @@ public class GsutilTool extends Tool {
         executeCommand(findFile(getConfigurator().getTestTimeBucket()), inputstreamList, new ArrayList<>());
         System.setOut(originalStream);
 
-        for(String input : inputstreamList){
-            if(input.contains(getConfigurator().getTestTimeBucket())){
+        for (String input : inputstreamList) {
+            if (input.contains(getConfigurator().getTestTimeBucket())) {
                 return true;
             }
         }
@@ -147,71 +147,83 @@ public class GsutilTool extends Tool {
     }
 
     private String[] downloadTestTime() {
-        String[] downloadTestTimeFile = new String[7];
-        downloadTestTimeFile[0] = getConfigurator().getGsutil();
-        downloadTestTimeFile[1] = "-m";
-        downloadTestTimeFile[2] = "cp";
-        downloadTestTimeFile[3] = "-r";
-        downloadTestTimeFile[4] = "-U";
-        downloadTestTimeFile[5] = getConfigurator().getTestTimeBucket() + Constants.TEST_TIME_FILE;
-        downloadTestTimeFile[6] = new File("").getAbsolutePath();
+        String[] downloadTestTimeFile = new String[]{
+                getConfigurator().getGsutil(),
+                "--quiet",
+                "-m",
+                "cp",
+                "-r",
+                "-U",
+                getConfigurator().getTestTimeBucket() + Constants.TEST_TIME_FILE,
+                new File("").getAbsolutePath()
+        };
         return downloadTestTimeFile;
     }
 
     private String[] fetchXMLFiles(File file) {
-        String[] fetchFiles = new String[7];
-        fetchFiles[0] = getConfigurator().getGsutil();
-        fetchFiles[1] = "-m";
-        fetchFiles[2] = "cp";
-        fetchFiles[3] = "-r";
-        fetchFiles[4] = "-U";
-        fetchFiles[5] = bucket + "**/*.xml";
-        fetchFiles[6] = file.getAbsolutePath();
+        String[] fetchFiles = new String[]{
+                getConfigurator().getGsutil(),
+                "--quiet",
+                "-m",
+                "cp",
+                "-r",
+                "-U",
+                bucket + "**/*.xml",
+                file.getAbsolutePath()
+        };
         return fetchFiles;
     }
 
     private String[] findFile(String name) {
-        String[] findFile = new String[4];
-        findFile[0] = getConfigurator().getGsutil();
-        findFile[1] = "--quiet";
-        findFile[2] = "ls";
-        findFile[3] = name;
+        String[] findFile = new String[]{
+                getConfigurator().getGsutil(),
+                "--quiet",
+                "ls",
+                name
+        };
         return findFile;
     }
 
     private String[] createBucket(String nameOfBucket) {
-        String[] createBucket = new String[3];
-        createBucket[0] = getConfigurator().getGsutil();
-        createBucket[1] = "mb";
-        createBucket[2] = nameOfBucket;
+        String[] createBucket = new String[]{
+                getConfigurator().getGsutil(),
+                "--quiet",
+                "mb",
+                nameOfBucket,
+        };
         return createBucket;
     }
 
     private String[] deleteApp() {
-        String[] deleteApp = new String[4];
-        deleteApp[0] = getConfigurator().getGsutil();
-        deleteApp[1] = "rm";
-        deleteApp[2] = "-r";
-        deleteApp[3] = bucket + getSimpleName(getAppAPK());
+        String[] deleteApp = new String[]{
+                getConfigurator().getGsutil(),
+                "--quiet",
+                "rm",
+                "-r",
+                bucket + getSimpleName(getAppAPK())
+        };
         return deleteApp;
     }
 
     private String[] deleteTest() {
-        String[] deleteTest = new String[4];
-        deleteTest[0] = getConfigurator().getGsutil();
-        deleteTest[1] = "rm";
-        deleteTest[2] = "-r";
-        deleteTest[3] = bucket + getSimpleName(getTestAPK());
+        String[] deleteTest = new String[]{
+                getConfigurator().getGsutil(),
+                "--quiet",
+                "rm",
+                "-r",
+                bucket + getSimpleName(getTestAPK())
+        };
         return deleteTest;
     }
 
     private String[] copyFileToBucket(String file, String bucket) {
-        String[] copyTest = new String[5];
-        copyTest[0] = getConfigurator().getGsutil();
-        copyTest[1] = "--quiet";
-        copyTest[2] = "cp";
-        copyTest[3] = file;
-        copyTest[4] = bucket;
+        String[] copyTest = new String[]{
+                getConfigurator().getGsutil(),
+                "--quiet",
+                "cp",
+                file,
+                bucket,
+        };
         return copyTest;
     }
 
