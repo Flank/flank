@@ -28,4 +28,8 @@ public class TimeReporter {
         Date date = new Date();
         return simpleDateFormat.format(date);
     }
+
+    public static List<Integer> getExecutionTimes(){
+        return executionTimes;
+    }
 }
