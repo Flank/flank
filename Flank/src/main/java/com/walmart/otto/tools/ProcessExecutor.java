@@ -17,7 +17,6 @@ public class ProcessExecutor {
 
     public void executeCommand(final String[] commands, List<String> inputStream, List<String> errorStream) {
         Boolean isDebug = configurator.isDebug();
-        String debugString = "";
         try {
             if (isDebug) {
                 StringBuilder command = new StringBuilder();
@@ -26,8 +25,7 @@ public class ProcessExecutor {
                     command.append(cmd).append(" ");
                 }
                 command.append("\u001B[0m");
-                debugString = command.toString();
-                System.out.println("$ " + debugString);
+                System.out.println("$ " + command.toString());
             }
             new ProcessBuilder(commands, inputStream, errorStream);
             if (isDebug) {
