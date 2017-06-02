@@ -75,13 +75,13 @@ public class Flank {
     }
 
     private static void printExecutionTimes() {
-        System.out.println("\nCombined test execution time: ~" + TimeUnit.SECONDS.toMinutes(TimeReporter.getCombinedExecutionTimes()) + " minutes\n");
+        System.out.println("\n\nCombined test execution time: ~" + TimeUnit.SECONDS.toMinutes(TimeReporter.getCombinedExecutionTimes()) + " minutes\n");
         System.out.println("End time: " + TimeReporter.getEndTime() + "\n");
     }
 
     private static void printEstimates()  {
 
-        System.out.println("\nBillable time:  " + PriceReporter.getTotalBillabeTime(TimeReporter.getExecutionTimes()) + " min(s) \n");
+        System.out.println("\nBillable time:  " + PriceReporter.getTotalBillableTime(TimeReporter.getExecutionTimes()) + " min(s) \n");
 
        HashMap<String, BigDecimal> prices = PriceReporter.getTotalPrice(TimeReporter.getExecutionTimes());
         System.out.print("Estimated cost:  ");

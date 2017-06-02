@@ -33,10 +33,10 @@ public class PriceReporter {
         return estimates;
     }
 
-    public static Integer  getTotalBillabeTime(List<Integer> times)  {
+    public static Double  getTotalBillableTime(List<Integer> times)  {
 
         HashMap<String, Double> mapOfPrices = getPricePerMinForDevice();
-        Integer time = 0;
+        Double time = 0.00;
 
         for(Integer executionTime: times) {
             time  = time + getBillableTime(executionTime);
@@ -45,9 +45,10 @@ public class PriceReporter {
         return time;
     }
 
-    public static BigDecimal calculatePrice(Number totalTimeInSecs, double pricePerMin) throws ParseException {
+    public static BigDecimal calculatePrice(Number totalTimeInSecs, double pricePerHour) throws ParseException {
 
-        int billableTime = getBillableTime(totalTimeInSecs);
+        double billableTime = getBillableTime(totalTimeInSecs);
+        double pricePerMin = pricePerHour/60;
         double actualPrice = billableTime * pricePerMin;
 
         BigDecimal a = new BigDecimal(actualPrice);
