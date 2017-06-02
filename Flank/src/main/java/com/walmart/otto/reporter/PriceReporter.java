@@ -65,5 +65,3 @@ public class PriceReporter {
         return pricePerMinForDevice;
     }
 }
-
-

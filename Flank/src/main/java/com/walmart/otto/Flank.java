@@ -87,7 +87,6 @@ public class Flank {
         }
     }
 
-
     private static void downloadTestTimeFile(GsutilTool gsutilTool) {
         if(configurator.getShardDuration() == -1){
             return;
