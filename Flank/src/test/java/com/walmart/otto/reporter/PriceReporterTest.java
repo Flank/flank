@@ -1,13 +1,10 @@
 package com.walmart.otto.reporter;
 
 import org.junit.Test;
-
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-
 import static org.junit.Assert.*;
 
 public class PriceReporterTest {
@@ -62,11 +59,9 @@ public class PriceReporterTest {
         input.add(73);
         input.add(9);
         HashMap<String, BigDecimal> estimates = PriceReporter.getTotalPrice(input);
-
         assertEquals(estimates.size(), 2);
         assertEquals(estimates.get("virtual"), new BigDecimal("0.09"));
         assertEquals(estimates.get("physical"), new BigDecimal("0.41"));
-
     }
 
     @Test

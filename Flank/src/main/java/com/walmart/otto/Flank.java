@@ -59,7 +59,6 @@ public class Flank {
         printEstimates();
 
         printExecutionTimes();
-
     }
 
     private static void loadTools(String appAPK, String testAPK, Configurator configurator) {
@@ -80,16 +79,12 @@ public class Flank {
     }
 
     private static void printEstimates()  {
-
         System.out.println("\nBillable time:  " + PriceReporter.getTotalBillableTime(TimeReporter.getExecutionTimes()) + " min(s) \n");
-
-       HashMap<String, BigDecimal> prices = PriceReporter.getTotalPrice(TimeReporter.getExecutionTimes());
+        HashMap<String, BigDecimal> prices = PriceReporter.getTotalPrice(TimeReporter.getExecutionTimes());
         System.out.print("Estimated cost:  ");
         for(Map.Entry<String, BigDecimal> price: prices.entrySet()){
              System.out.print("$" + price.getValue() + "(" + price.getKey() + ") ");
         }
-
-
     }
 
 

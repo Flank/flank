@@ -25,8 +25,6 @@ public class PriceReporter {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
-
                 estimates.put(entry.getKey(), price);
             }
         }
@@ -41,7 +39,6 @@ public class PriceReporter {
         for(Integer executionTime: times) {
             time  = time + getBillableTime(executionTime);
         }
-
         return time;
     }
 
