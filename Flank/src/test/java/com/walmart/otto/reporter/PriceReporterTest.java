@@ -2,6 +2,7 @@ package com.walmart.otto.reporter;
 
 import org.junit.Test;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,56 +13,57 @@ public class PriceReporterTest {
     public void testCalculatePrice() throws ParseException {
 
         BigDecimal price1 = PriceReporter.calculatePrice(125, 5);
-        assertEquals(price1.toString(), "0.25");
+        assertEquals("0.25", price1.setScale(2, RoundingMode.HALF_UP).toString());
 
         BigDecimal price2 = PriceReporter.calculatePrice(67, 1);
-        assertEquals(price2.toString(), "0.03");
+        assertEquals("0.03", price2.setScale(2, RoundingMode.HALF_UP).toString());
 
         BigDecimal price3 = PriceReporter.calculatePrice(60, 1);
-        assertEquals(price3.toString(), "0.02");
+        assertEquals("0.02", price3.setScale(2, RoundingMode.HALF_UP).toString());
 
         BigDecimal price4 = PriceReporter.calculatePrice(60, 5);
-        assertEquals(price4.toString(), "0.08");
+        assertEquals("0.08", price4.setScale(2, RoundingMode.HALF_UP).toString());
 
         BigDecimal price5 = PriceReporter.calculatePrice(120, 5);
-        assertEquals(price5.toString(), "0.17");
+        assertEquals("0.17", price5.setScale(2, RoundingMode.HALF_UP).toString());
 
         BigDecimal price6 = PriceReporter.calculatePrice(123.56, 5);
-        assertEquals(price6.toString(), "0.25");
+        assertEquals("0.25", price6.setScale(2, RoundingMode.HALF_UP).toString());
 
         BigDecimal price7 = PriceReporter.calculatePrice(123.56, 1);
-        assertEquals(price7.toString(), "0.05");
+        assertEquals("0.05", price7.setScale(2, RoundingMode.HALF_UP).toString() );
 
         BigDecimal price8 = PriceReporter.calculatePrice(123.5623344233434343, 1);
-        assertEquals(price8.toString(), "0.05");
+        assertEquals("0.05", price8.setScale(2, RoundingMode.HALF_UP).toString());
 
         BigDecimal price9 = PriceReporter.calculatePrice(0, 1);
-        assertEquals(price9.toString(), "0.00");
+        assertEquals("0.00", price9.setScale(2, RoundingMode.HALF_UP).toString());
 
         BigDecimal price10 = PriceReporter.calculatePrice(0.45, 5);
-        assertEquals(price10.toString(), "0.08");
+        assertEquals("0.08", price10.setScale(2, RoundingMode.HALF_UP).toString());
 
         BigDecimal price11 = PriceReporter.calculatePrice(0.599999, 5);
-        assertEquals(price11.toString(), "0.08");
+        assertEquals("0.08", price11.setScale(2, RoundingMode.HALF_UP).toString());
 
         BigDecimal price12 = PriceReporter.calculatePrice(0.599999, 1);
-        assertEquals(price12.toString(), "0.02");
+        assertEquals("0.02", price12.setScale(2, RoundingMode.HALF_UP).toString());
 
         BigDecimal price13 = PriceReporter.calculatePrice(-0.599999, 1);
-        assertEquals(price13.toString(), "0.00");
+        assertEquals("0.00", price13.setScale(2, RoundingMode.HALF_UP).toString());
     }
 
     @Test
     public void testGetTotalPriceForDeviceTypeTest(){
         ArrayList<Integer> input = new ArrayList<Integer>();
-        input.add(30);
-        input.add(50);
-        input.add(73);
-        input.add(9);
+        input.add(500);
+        input.add(600);
+        input.add(200);
+        input.add(900);
+        input.add(900);
         HashMap<String, BigDecimal> estimates = PriceReporter.getTotalPrice(input);
         assertEquals(estimates.size(), 2);
-        assertEquals(estimates.get("virtual"), new BigDecimal("0.09"));
-        assertEquals(estimates.get("physical"), new BigDecimal("0.41"));
+        assertEquals(new BigDecimal("0.88") , estimates.get("virtual"));
+        assertEquals(new BigDecimal("4.42") , estimates.get("physical"));
     }
 
     @Test

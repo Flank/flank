@@ -1,9 +1,13 @@
 package com.walmart.otto.reporter;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class PriceReporter {
@@ -25,7 +29,7 @@ public class PriceReporter {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                estimates.put(entry.getKey(), price);
+                estimates.put(entry.getKey(), price.setScale(2, RoundingMode.HALF_UP));  // round up here
             }
         }
         return estimates;
@@ -44,13 +48,11 @@ public class PriceReporter {
 
     public static BigDecimal calculatePrice(Number totalTimeInSecs, double pricePerHour) throws ParseException {
 
-        double billableTime = getBillableTime(totalTimeInSecs);
-        double pricePerMin = pricePerHour/60;
-        double actualPrice = billableTime * pricePerMin;
+        Integer billableTime = getBillableTime(totalTimeInSecs);
+        BigDecimal pricePerMin = new BigDecimal(pricePerHour).divide(new BigDecimal(60), 10, RoundingMode.HALF_UP);
+        BigDecimal actualPrice = pricePerMin.multiply(new BigDecimal(billableTime));
 
-        BigDecimal a = new BigDecimal(actualPrice);
-        BigDecimal roundOffPrice = a.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-        return roundOffPrice;
+        return actualPrice;  // this price is not rounded-up because we want to add all the prices and then round-up.
     }
 
     public static Integer getBillableTime(Number totalTimeInSecs){
