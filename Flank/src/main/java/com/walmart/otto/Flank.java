@@ -3,6 +3,7 @@ package com.walmart.otto;
 import com.linkedin.dex.parser.DexParser;
 import com.walmart.otto.configurator.Configurator;
 import com.walmart.otto.configurator.ConfigReader;
+import com.walmart.otto.reporter.PriceReporter;
 import com.walmart.otto.reporter.TimeReporter;
 import com.walmart.otto.shards.ShardExecutor;
 import com.walmart.otto.tools.GcloudTool;
@@ -14,7 +15,11 @@ import com.walmart.otto.utils.FilterUtils;
 import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class Flank {
@@ -51,6 +56,8 @@ public class Flank {
 
         uploadTestTimeFile(gsutilTool);
 
+        printEstimates();
+
         printExecutionTimes();
     }
 
@@ -67,8 +74,17 @@ public class Flank {
     }
 
     private static void printExecutionTimes() {
-        System.out.println("Combined test execution time: ~" + TimeUnit.SECONDS.toMinutes(TimeReporter.getCombinedExecutionTimes()) + " minutes\n");
+        System.out.println("\n\nCombined test execution time: ~" + TimeUnit.SECONDS.toMinutes(TimeReporter.getCombinedExecutionTimes()) + " minutes\n");
         System.out.println("End time: " + TimeReporter.getEndTime() + "\n");
+    }
+
+    private static void printEstimates()  {
+        System.out.println("\nBillable time:  " + PriceReporter.getTotalBillableTime(TimeReporter.getExecutionTimes()) + " min(s) \n");
+        HashMap<String, BigDecimal> prices = PriceReporter.getTotalPrice(TimeReporter.getExecutionTimes());
+        System.out.print("Estimated cost:  ");
+        for(Map.Entry<String, BigDecimal> price: prices.entrySet()){
+             System.out.print("$" + price.getValue() + "(" + price.getKey() + ") ");
+        }
     }
 
     private static void downloadTestTimeFile(GsutilTool gsutilTool) {
