@@ -11,6 +11,14 @@ group 'com.walmart.otto'
 version '1.2.0'
 
 apply plugin: 'java'
+apply plugin: 'findbugs'
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
+}
 
 dependencies {
     compile 'com.linkedin.dextestparser:parser:1.0.0'
