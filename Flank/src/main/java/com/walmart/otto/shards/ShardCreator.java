@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 public class ShardCreator {
   private Configurator configurator;
+  int extraTestsInShard = 0;
 
   public ShardCreator(Configurator configurator) {
     this.configurator = configurator;
@@ -22,7 +23,6 @@ public class ShardCreator {
 
     int numberOfShards = configurator.getNumShards();
     int numTestsInShards = 0;
-    int extraTestsInShard = 0;
 
     if (numberOfShards != -1) {
       extraTestsInShard = testCases.size() % numberOfShards;
@@ -34,7 +34,7 @@ public class ShardCreator {
     List<String> list = new ArrayList<>();
 
     for (int ii = 1; ii <= numberOfShards; ii++) {
-      String test = addToShard(stack, numTestsInShards, extraTestsInShard);
+      String test = addToShard(stack, numTestsInShards);
 
       if (!test.isEmpty()) {
         list.add(test);
@@ -43,7 +43,7 @@ public class ShardCreator {
     return list;
   }
 
-  private String addToShard(Stack<String> stack, int numTestsInShards, int extraTestsInShard) {
+  private String addToShard(Stack<String> stack, int numTestsInShards) {
     StringBuilder stringBuilder = new StringBuilder();
 
     if (stack.isEmpty()) {
