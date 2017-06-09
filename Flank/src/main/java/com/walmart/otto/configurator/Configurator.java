@@ -1,5 +1,7 @@
 package com.walmart.otto.configurator;
 
+import java.io.File;
+
 public class Configurator {
   private String deviceIds = "NexusLowRes";
   private String locales = "en";
@@ -11,7 +13,7 @@ public class Configurator {
   private String projectName;
 
   private boolean fetchXMLFiles = true;
-  private boolean debug = true;
+  private boolean debug = false;
   private int numShards = -1;
   private int shardIndex = -1;
   private int shardTimeout = 5;
@@ -77,7 +79,10 @@ public class Configurator {
     return gcloud;
   }
 
-  public void setGcloud(String gcloud) {
+  public void setGcloud(String gcloud) throws IllegalArgumentException {
+    if (!new File(gcloud).exists()) {
+      throw new IllegalArgumentException("Gcloud binary not found at provided path: " + gcloud);
+    }
     this.gcloud = gcloud;
   }
 
@@ -85,7 +90,10 @@ public class Configurator {
     return gsutil;
   }
 
-  public void setGsutil(String gsutil) {
+  public void setGsutil(String gsutil) throws IllegalArgumentException {
+    if (!new File(gsutil).exists()) {
+      throw new IllegalArgumentException("Gsutil binary not found at provided path: " + gsutil);
+    }
     this.gsutil = gsutil;
   }
 
@@ -93,7 +101,7 @@ public class Configurator {
     return shardTimeout;
   }
 
-  public void setShardTimeout(int shardTimeout) {
+  public void setShardTimeout(int shardTimeout) throws NumberFormatException {
     this.shardTimeout = shardTimeout;
   }
 
@@ -101,7 +109,7 @@ public class Configurator {
     return shardDuration;
   }
 
-  public void setShardDuration(int shardDuration) {
+  public void setShardDuration(int shardDuration) throws NumberFormatException {
     this.shardDuration = shardDuration;
   }
 

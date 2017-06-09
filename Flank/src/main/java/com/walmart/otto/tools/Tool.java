@@ -47,8 +47,16 @@ public abstract class Tool {
     processExecutor.executeCommand(commands, inputStream, errorStream);
   }
 
-  public void executeCommand(final String[] commands) {
-    processExecutor.executeCommand(commands, new ArrayList<>(), new ArrayList<>());
+  public void executeCommand(final String[] commands) throws RuntimeException {
+    List<String> inputErrorStreamList = new ArrayList<>();
+
+    processExecutor.executeCommand(commands, new ArrayList<>(), inputErrorStreamList);
+
+    for (String input : inputErrorStreamList) {
+      if (input.contains("Exception")) {
+        throw new RuntimeException(input);
+      }
+    }
   }
 
   public void executeCommand(

@@ -8,6 +8,7 @@ import com.walmart.otto.tools.ToolManager;
 import com.walmart.otto.utils.FilterUtils;
 import com.walmart.otto.utils.XMLUtils;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -94,10 +95,13 @@ public class ShardExecutor {
         new Runnable() {
           @Override
           public void run() {
-
             final GcloudTool gcloudTool = toolManager.get(GcloudTool.class);
-
-            gcloudTool.runGcloud(testCase, bucket);
+            try {
+              gcloudTool.runGcloud(testCase, bucket);
+            } catch (RuntimeException e) {
+              System.out.println(e.getMessage());
+              System.exit(-1);
+            }
           }
         };
     return gCloudRunner;

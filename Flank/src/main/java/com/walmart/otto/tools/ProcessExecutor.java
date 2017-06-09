@@ -1,6 +1,7 @@
 package com.walmart.otto.tools;
 
 import com.walmart.otto.configurator.Configurator;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -27,7 +28,12 @@ public class ProcessExecutor {
         command.append("\u001B[0m");
         System.out.println("$ " + command.toString());
       }
-      new ProcessBuilder(commands, inputStream, errorStream);
+      try {
+        new ProcessBuilder(commands, inputStream, errorStream);
+      } catch (IOException e) {
+        e.printStackTrace();
+        System.exit(-1);
+      }
       if (isDebug) {
         List<String> cleanErrorStream = new ArrayList<>();
 

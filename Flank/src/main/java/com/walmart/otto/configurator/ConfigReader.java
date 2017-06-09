@@ -7,14 +7,14 @@ public class ConfigReader {
   Configurator configurator;
   private String fileName;
 
-  public ConfigReader(String fileName) {
+  public ConfigReader(String fileName) throws IllegalArgumentException {
     this.fileName = fileName;
     configurator = new Configurator();
 
     setProperties();
   }
 
-  private void setProperties() {
+  private void setProperties() throws IllegalArgumentException {
     try (InputStream in = new FileInputStream(fileName)) {
       Properties prop = new Properties();
       prop.load(in);
@@ -31,7 +31,7 @@ public class ConfigReader {
     return configurator;
   }
 
-  private void setProperty(String property, String value) {
+  private void setProperty(String property, String value) throws IllegalArgumentException {
     if (value.isEmpty()) {
       return;
     }
@@ -44,35 +44,19 @@ public class ConfigReader {
         break;
 
       case "numShards":
-        try {
-          configurator.setNumShards(Integer.parseInt(value));
-        } catch (NumberFormatException e) {
-          e.printStackTrace();
-        }
+        configurator.setNumShards(Integer.parseInt(value));
         break;
 
       case "shardIndex":
-        try {
-          configurator.setShardIndex(Integer.parseInt(value));
-        } catch (NumberFormatException e) {
-          e.printStackTrace();
-        }
+        configurator.setShardIndex(Integer.parseInt(value));
         break;
 
       case "shard-timeout":
-        try {
-          configurator.setShardTimeout(Integer.parseInt(value));
-        } catch (NumberFormatException e) {
-          e.printStackTrace();
-        }
+        configurator.setShardTimeout(Integer.parseInt(value));
         break;
 
       case "shard-duration":
-        try {
-          configurator.setShardDuration(Integer.parseInt(value));
-        } catch (NumberFormatException e) {
-          e.printStackTrace();
-        }
+        configurator.setShardDuration(Integer.parseInt(value));
         break;
 
       case "locales":

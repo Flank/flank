@@ -19,7 +19,7 @@ public class GcloudTool extends Tool {
     super(ToolManager.GCLOUD_TOOL, config);
   }
 
-  public void runGcloud(String testCase, String bucket) {
+  public void runGcloud(String testCase, String bucket) throws RuntimeException {
     // don't quote arguments or ProcessBuilder will error in strange ways.
     String[] runGcloud =
         new String[] {
@@ -61,10 +61,10 @@ public class GcloudTool extends Tool {
     }
     String[] cmdArray = gcloudList.toArray(new String[0]);
 
-    executeGcloud(cmdArray);
+    executeGcloud(cmdArray, testCase);
   }
 
-  public void executeGcloud(String[] commands) {
+  public void executeGcloud(String[] commands, String test) throws RuntimeException {
     List<String> inputStreamList = new ArrayList<>();
     List<String> errorStreamList = new ArrayList<>();
 
@@ -79,12 +79,14 @@ public class GcloudTool extends Tool {
         String[] timeLine = line.split(Pattern.quote("time="));
         latestExecutionTime = Integer.parseInt(timeLine[1].replaceAll("\\D+", ""));
         TimeReporter.addExecutionTime(Integer.parseInt(timeLine[1].replaceAll("\\D+", "")));
+      } else if (line.contains("ERROR")) {
+        throw new RuntimeException(line);
       }
     }
 
     for (String line : inputStreamList) {
       if (printTests) {
-        printTests(commands);
+        printTests(test);
       }
 
       System.out.println(line);
@@ -108,18 +110,19 @@ public class GcloudTool extends Tool {
     return projectName;
   }
 
-  private void printTests(String[] commands) {
-    String tests = FilterUtils.filterString(commands[commands.length - 1], "class");
+  private void printTests(String test) {
+    test = FilterUtils.filterString(test, "class");
 
-    if (tests.charAt(tests.length() - 1) == ',') {
-      tests = tests.substring(0, tests.length() - 1);
-
-      if (!tests.contains(",")) {
-        //Save test case name and execution times
-        FileUtils.writeToShardFile(tests, String.valueOf(latestExecutionTime));
-      }
+    if (test.charAt(test.length() - 1) == ',') {
+      test = test.substring(0, test.length() - 1);
     }
-    System.out.println("Test(s):" + tests);
+
+    if (!test.contains(",")) {
+      //Save test case name and execution times
+      FileUtils.writeToShardFile(test, String.valueOf(latestExecutionTime));
+    }
+
+    System.out.println("Test(s):" + test);
     printTests = false;
   }
 }

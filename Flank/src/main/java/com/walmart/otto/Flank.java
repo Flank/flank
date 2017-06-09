@@ -10,57 +10,78 @@ import com.walmart.otto.tools.GcloudTool;
 import com.walmart.otto.tools.GsutilTool;
 import com.walmart.otto.tools.ProcessExecutor;
 import com.walmart.otto.tools.ToolManager;
+import com.walmart.otto.utils.FileUtils;
 import com.walmart.otto.utils.FilterUtils;
-import java.io.File;
-import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class Flank {
-  private static ToolManager toolManager;
-  private static Configurator configurator;
+  private ToolManager toolManager;
+  private Configurator configurator;
 
-  public static void main(String[] args) {
-    if (!validateArguments(args) || !doFilesExist(args[0], args[1])) {
-      return;
+  public void start(String[] args) throws FileNotFoundException, RuntimeException, IOException {
+    long startTime = System.currentTimeMillis();
+
+    if (!FileUtils.doFileExist(args[0])) {
+      throw new FileNotFoundException("File not found: " + args[0]);
+    }
+
+    if (!FileUtils.doFileExist(args[1])) {
+      throw new FileNotFoundException("File not found: " + args[1]);
     }
 
     configurator = new ConfigReader(Constants.CONFIG_PROPERTIES).getConfiguration();
 
-    loadTools(args[0], args[1], configurator);
+    toolManager = new ToolManager().load(loadTools(args[0], args[1], configurator));
 
-    configurator.setProjectName(getProjectName());
+    configurator.setProjectName(getProjectName(toolManager));
 
     List<String> testCases = getTestCaseNames(args);
 
     if (testCases.size() == 0) {
-      System.out.println("No tests found within the specified package!\n");
-      return;
+      throw new IllegalArgumentException("No tests found within the specified package!");
     }
 
     printShards(configurator, testCases.size());
 
     GsutilTool gsutilTool = toolManager.get(GsutilTool.class);
 
-    downloadTestTimeFile(gsutilTool);
+    downloadTestTimeFile(gsutilTool, configurator.getShardDuration());
 
     new ShardExecutor(configurator, toolManager)
         .execute(testCases, gsutilTool.uploadAPKsToBucket());
 
     gsutilTool.deleteAPKs();
 
-    uploadTestTimeFile(gsutilTool);
+    uploadTestTimeFile(gsutilTool, configurator.getShardDuration());
 
     printEstimates();
 
-    printExecutionTimes();
+    printExecutionTimes(startTime);
   }
 
-  private static void loadTools(String appAPK, String testAPK, Configurator configurator) {
+  public static void main(String[] args) {
+    Flank flank = new Flank();
+
+    try {
+      if (validateArguments(args)) {
+        flank.start(args);
+      }
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (RuntimeException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally {
+      System.exit(-1);
+    }
+  }
+
+  private ToolManager.Config loadTools(String appAPK, String testAPK, Configurator configurator) {
     ToolManager.Config toolConfig = new ToolManager.Config();
 
     toolConfig.appAPK = appAPK;
@@ -68,32 +89,33 @@ public class Flank {
     toolConfig.configurator = configurator;
     toolConfig.processExecutor = new ProcessExecutor(configurator);
 
-    toolManager = new ToolManager().load(toolConfig);
+    return toolConfig;
   }
 
-  private static void printExecutionTimes() {
+  private void printExecutionTimes(long startTime) {
     System.out.println(
-        "\n\nCombined test execution time: ~"
-            + TimeUnit.SECONDS.toMinutes(TimeReporter.getCombinedExecutionTimes())
-            + " minutes\n");
-    System.out.println("End time: " + TimeReporter.getEndTime() + "\n");
+        "\n\n["
+            + TimeReporter.getEndTime()
+            + "] Total time: "
+            + TimeReporter.getTotalTime(startTime)
+            + "\n");
   }
 
-  private static void printEstimates() {
+  private void printEstimates() {
     System.out.println(
-        "\nBillable time:  "
+        "\nBillable time: "
             + PriceReporter.getTotalBillableTime(TimeReporter.getExecutionTimes())
             + " min(s) \n");
     HashMap<String, BigDecimal> prices =
         PriceReporter.getTotalPrice(TimeReporter.getExecutionTimes());
-    System.out.print("Estimated cost:  ");
+    System.out.print("Estimated cost: ");
     for (Map.Entry<String, BigDecimal> price : prices.entrySet()) {
       System.out.print("$" + price.getValue() + "(" + price.getKey() + ") ");
     }
   }
 
-  private static void downloadTestTimeFile(GsutilTool gsutilTool) {
-    if (configurator.getShardDuration() == -1) {
+  private void downloadTestTimeFile(GsutilTool gsutilTool, int shardDuration) throws IOException {
+    if (shardDuration == -1) {
       return;
     }
 
@@ -109,17 +131,16 @@ public class Flank {
     }
   }
 
-  private static void uploadTestTimeFile(GsutilTool gsutilTool) {
-    if (configurator.getShardDuration() == -1) {
+  private void uploadTestTimeFile(GsutilTool gsutilTool, int shardDuration) throws IOException {
+    if (shardDuration == -1) {
       return;
     }
-
     gsutilTool.uploadTestTimeFile();
   }
 
-  private static String getProjectName() {
+  private String getProjectName(ToolManager toolManager) throws IOException {
     System.setOut(emptyStream);
-    String text = String.valueOf(toolManager.get(GcloudTool.class).getProjectName()) + "-flank";
+    String text = toolManager.get(GcloudTool.class).getProjectName() + "-flank";
     System.setOut(originalStream);
     return text;
   }
@@ -132,7 +153,7 @@ public class Flank {
     return true;
   }
 
-  private static void printShards(Configurator configurator, int numberOfShards) {
+  private void printShards(Configurator configurator, int numberOfShards) {
     int numShards = configurator.getNumShards();
 
     if (configurator.getShardIndex() != -1) {
@@ -145,24 +166,12 @@ public class Flank {
               + " ("
               + numberOfShards
               + " shards in total) will be executed on: "
-              + configurator.getDeviceIds()
-              + "\n");
+              + configurator.getDeviceIds());
       return;
     }
   }
 
-  private static boolean doFilesExist(String appAPK, String testAPK) {
-    if (!new File(appAPK).exists()) {
-      System.out.println("File: " + appAPK + " can not be found!");
-      return false;
-    } else if (!new File(testAPK).exists()) {
-      System.out.println("File: " + testAPK + " can not be found!");
-      return false;
-    }
-    return true;
-  }
-
-  private static List<String> getTestCaseNames(String[] args) {
+  private List<String> getTestCaseNames(String[] args) {
     System.setOut(emptyStream);
     List<String> filteredTests;
 

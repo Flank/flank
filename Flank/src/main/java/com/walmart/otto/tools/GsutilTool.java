@@ -54,9 +54,13 @@ public class GsutilTool extends Tool {
     return bucketName.toString();
   }
 
-  public String uploadAPKsToBucket() {
+  public String uploadAPKsToBucket() throws RuntimeException {
+
     bucket = getConfigurator().getTestTimeBucket();
-    executeCommand(createBucket(bucket));
+
+    if (!findGSFile(bucket)) {
+      executeCommand(createBucket(bucket));
+    }
 
     System.out.println("\nCreating bucket: " + bucket + "\n");
 
@@ -91,7 +95,7 @@ public class GsutilTool extends Tool {
     File resultsDir =
         new File(currentDir.getAbsolutePath() + File.separator + Constants.RESULTS_DIR);
 
-    System.out.println("\nFetching results to: " + resultsDir.getAbsolutePath() + "\n");
+    System.out.println("\nFetching results to: " + resultsDir.getAbsolutePath());
     resultsDir.mkdirs();
     String[] fetchFiles = fetchXMLFiles(resultsDir);
 
@@ -102,13 +106,10 @@ public class GsutilTool extends Tool {
     return xmlFileAndDevice;
   }
 
-  public boolean findTestTimeFile() {
+  public boolean findGSFile(String fileName) {
     List<String> inputstreamList = new ArrayList<>();
     System.setOut(emptyStream);
-    executeCommand(
-        findFile(getConfigurator().getTestTimeBucket() + Constants.TEST_TIME_FILE),
-        inputstreamList,
-        new ArrayList<>());
+    executeCommand(findFile(fileName), inputstreamList, new ArrayList<>());
     System.setOut(originalStream);
 
     for (String input : inputstreamList) {
@@ -117,6 +118,10 @@ public class GsutilTool extends Tool {
       }
     }
     return false;
+  }
+
+  public boolean findTestTimeFile() {
+    return findGSFile(getConfigurator().getTestTimeBucket() + Constants.TEST_TIME_FILE);
   }
 
   public boolean findTestTimeBucket() {

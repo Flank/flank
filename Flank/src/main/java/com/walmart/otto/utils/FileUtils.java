@@ -17,6 +17,13 @@ public class FileUtils {
     return parts[parts.length - 1];
   }
 
+  public static boolean doFileExist(String filePath) {
+    if (!new File(filePath).exists()) {
+      return false;
+    }
+    return true;
+  }
+
   public static void cleanUpDuplicateXmlFiles(String directory) {
     List<String> xmlFiles = new ArrayList<>();
 
