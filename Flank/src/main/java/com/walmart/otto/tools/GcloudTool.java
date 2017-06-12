@@ -5,6 +5,7 @@ import static com.walmart.otto.utils.FileUtils.getSimpleName;
 import com.walmart.otto.reporter.TimeReporter;
 import com.walmart.otto.utils.FileUtils;
 import com.walmart.otto.utils.FilterUtils;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +20,8 @@ public class GcloudTool extends Tool {
     super(ToolManager.GCLOUD_TOOL, config);
   }
 
-  public void runGcloud(String testCase, String bucket) throws RuntimeException {
+  public void runGcloud(String testCase, String bucket)
+      throws RuntimeException, IOException, InterruptedException {
     // don't quote arguments or ProcessBuilder will error in strange ways.
     String[] runGcloud =
         new String[] {
@@ -64,7 +66,8 @@ public class GcloudTool extends Tool {
     executeGcloud(cmdArray, testCase);
   }
 
-  public void executeGcloud(String[] commands, String test) throws RuntimeException {
+  public void executeGcloud(String[] commands, String test)
+      throws RuntimeException, IOException, InterruptedException {
     List<String> inputStreamList = new ArrayList<>();
     List<String> errorStreamList = new ArrayList<>();
 
@@ -97,11 +100,12 @@ public class GcloudTool extends Tool {
     printTests = true;
   }
 
-  public String getProjectName() {
+  public String getProjectName() throws IOException, InterruptedException {
     String[] projectDetails =
         new String[] {getConfigurator().getGcloud(), "config", "get-value", "project"};
     List<String> inputStreamList = new ArrayList<>();
     String projectName = "";
+
     executeCommand(projectDetails, inputStreamList, new ArrayList<>());
 
     for (String projectProperties : inputStreamList) {

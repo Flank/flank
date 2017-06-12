@@ -5,15 +5,13 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-import org.w3c.dom.Document;
+import java.util.regex.Pattern;
 
 public class FileUtils {
 
   public static String getSimpleName(String file) {
-    String[] parts = file.split(File.separator);
+    String[] parts = file.split(Pattern.quote(File.separator));
     return parts[parts.length - 1];
   }
 
@@ -24,39 +22,12 @@ public class FileUtils {
     return true;
   }
 
-  public static void cleanUpDuplicateXmlFiles(String directory) {
-    List<String> xmlFiles = new ArrayList<>();
-
-    File currentDir = new File("");
-    File[] resultXmls = new File(currentDir.getAbsolutePath() + "/" + directory).listFiles();
-
-    for (File file : resultXmls) {
-
-      if (!file.getName().contains("xml")) {
-        continue;
-      }
-      Document resultsDocument = XMLUtils.getXMLFile(file.getAbsolutePath());
-
-      if (resultsDocument == null) {
-        continue;
-      }
-
-      String text = XMLUtils.getText(resultsDocument).toString();
-
-      if (xmlFiles.contains(text)) {
-        file.delete();
-      } else {
-        xmlFiles.add(text);
-      }
-    }
-  }
-
   public static boolean containsText(String text) {
     File file = new File(Constants.TEST_TIME_FILE);
     Scanner scanner = null;
 
     try {
-      scanner = new Scanner(file);
+      scanner = new Scanner(file, "UTF-8");
     } catch (FileNotFoundException ignored) {
       return false;
     }

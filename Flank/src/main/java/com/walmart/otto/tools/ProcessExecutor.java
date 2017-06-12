@@ -16,37 +16,30 @@ public class ProcessExecutor {
   private static Pattern uploadProgress = Pattern.compile(".*\\[\\d*/\\d* files]\\[.*% Done.*");
 
   public void executeCommand(
-      final String[] commands, List<String> inputStream, List<String> errorStream) {
+      final String[] commands, List<String> inputStream, List<String> errorStream)
+      throws IOException, InterruptedException {
     Boolean isDebug = configurator.isDebug();
-    try {
-      if (isDebug) {
-        StringBuilder command = new StringBuilder();
-        command.append("\u001B[32m"); // green
-        for (String cmd : commands) {
-          command.append(cmd).append(" ");
-        }
-        command.append("\u001B[0m");
-        System.out.println("$ " + command.toString());
+    if (isDebug) {
+      StringBuilder command = new StringBuilder();
+      command.append("\u001B[32m"); // green
+      for (String cmd : commands) {
+        command.append(cmd).append(" ");
       }
-      try {
-        new ProcessBuilder(commands, inputStream, errorStream);
-      } catch (IOException e) {
-        e.printStackTrace();
-        System.exit(-1);
-      }
-      if (isDebug) {
-        List<String> cleanErrorStream = new ArrayList<>();
+      command.append("\u001B[0m");
+      System.out.println("$ " + command.toString());
+    }
+    new ProcessBuilder(commands, inputStream, errorStream).start();
 
-        for (String line : errorStream) {
-          if (!uploadProgress.matcher(line).matches()) {
-            cleanErrorStream.add(line);
-          }
-        }
+    if (isDebug) {
+      List<String> cleanErrorStream = new ArrayList<>();
 
-        printStreams(inputStream, cleanErrorStream);
+      for (String line : errorStream) {
+        if (!uploadProgress.matcher(line).matches()) {
+          cleanErrorStream.add(line);
+        }
       }
-    } catch (Exception e) {
-      e.printStackTrace();
+
+      printStreams(inputStream, cleanErrorStream);
     }
   }
 

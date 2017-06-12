@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class StreamBoozer extends Thread {
@@ -18,14 +19,14 @@ public class StreamBoozer extends Thread {
   public StreamBoozer(InputStream in, List<String> lines, String[] command) {
     this.in = in;
     this.lines = lines;
-    this.command = command;
+    this.command = command.clone();
   }
 
   @Override
   public void run() {
     BufferedReader br = null;
     try {
-      br = new BufferedReader(new InputStreamReader(in));
+      br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
       String line = null;
       while ((line = br.readLine()) != null) {
         lines.add(line);
@@ -34,7 +35,9 @@ public class StreamBoozer extends Thread {
       e.printStackTrace();
     } finally {
       try {
-        br.close();
+        if (br != null) {
+          br.close();
+        }
       } catch (IOException e) {
         e.printStackTrace();
       }

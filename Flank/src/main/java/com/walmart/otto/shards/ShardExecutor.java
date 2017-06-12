@@ -9,11 +9,10 @@ import com.walmart.otto.utils.FilterUtils;
 import com.walmart.otto.utils.XMLUtils;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class ShardExecutor {
   ExecutorService executorService;
@@ -27,7 +26,8 @@ public class ShardExecutor {
     shardCreator = new ShardCreator(configurator);
   }
 
-  public void execute(List<String> testCases, String bucket) {
+  public void execute(List<String> testCases, String bucket)
+      throws InterruptedException, ExecutionException, IOException {
 
     executeShards(testCases, bucket);
 
@@ -36,7 +36,9 @@ public class ShardExecutor {
     }
   }
 
-  public void executeShards(List<String> testCases, String bucket) {
+  public void executeShards(List<String> testCases, String bucket)
+      throws InterruptedException, ExecutionException {
+    List<Future> futures = new ArrayList<>();
     List<String> shards = shardCreator.getConfigurableShards(testCases);
 
     if (shards.isEmpty()) {
@@ -47,32 +49,31 @@ public class ShardExecutor {
 
     if (configurator.getShardIndex() != -1) {
       printTests(shards.get(configurator.getShardIndex()), configurator.getShardIndex());
-      executeShard(shards.get(configurator.getShardIndex()), bucket);
+      futures.add(executeShard(shards.get(configurator.getShardIndex()), bucket));
     } else {
       System.out.println(
           shards.size() + " shards will be executed on: " + configurator.getDeviceIds() + "\n");
 
       for (int i = 0; i < shards.size(); i++) {
         printTests(shards.get(i), i);
-        executeShard(shards.get(i), bucket);
+        futures.add(executeShard(shards.get(i), bucket));
       }
     }
+
     executorService.shutdown();
 
-    try {
-      executorService.awaitTermination(240, TimeUnit.MINUTES);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
+    for (Future future : futures) {
+      future.get();
     }
   }
 
-  private void executeShard(String testCase, String bucket) {
-    Runnable testCaseRunner = getRunnable(testCase, bucket);
+  private Future executeShard(String testCase, String bucket) throws RuntimeException {
+    Callable testCaseCallable = getCallable(testCase, bucket);
 
-    executorService.submit(testCaseRunner);
+    return executorService.submit(testCaseCallable);
   }
 
-  private void fetchResults(GsutilTool gsutilTool) {
+  private void fetchResults(GsutilTool gsutilTool) throws IOException, InterruptedException {
     Map<String, String> resultsMap = gsutilTool.fetchResults();
 
     //Add device name to test case names
@@ -90,20 +91,16 @@ public class ShardExecutor {
     System.out.println("Executing shard " + index + ": " + tests + "\n");
   }
 
-  private Runnable getRunnable(String testCase, String bucket) {
-    Runnable gCloudRunner =
-        new Runnable() {
+  private Callable<Void> getCallable(String testCase, String bucket) throws RuntimeException {
+    Callable<Void> gCloudCallable =
+        new Callable<Void>() {
           @Override
-          public void run() {
+          public Void call() throws Exception {
             final GcloudTool gcloudTool = toolManager.get(GcloudTool.class);
-            try {
-              gcloudTool.runGcloud(testCase, bucket);
-            } catch (RuntimeException e) {
-              System.out.println(e.getMessage());
-              System.exit(-1);
-            }
+            gcloudTool.runGcloud(testCase, bucket);
+            return null;
           }
         };
-    return gCloudRunner;
+    return gCloudCallable;
   }
 }

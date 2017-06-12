@@ -1,6 +1,7 @@
 package com.walmart.otto.tools;
 
 import com.walmart.otto.configurator.Configurator;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,11 +44,13 @@ public abstract class Tool {
     return errorStream;
   }
 
-  public void executeCommand(final String[] commands, List<String> inputStream) {
+  public void executeCommand(final String[] commands, List<String> inputStream)
+      throws IOException, InterruptedException {
     processExecutor.executeCommand(commands, inputStream, errorStream);
   }
 
-  public void executeCommand(final String[] commands) throws RuntimeException {
+  public void executeCommand(final String[] commands)
+      throws RuntimeException, IOException, InterruptedException {
     List<String> inputErrorStreamList = new ArrayList<>();
 
     processExecutor.executeCommand(commands, new ArrayList<>(), inputErrorStreamList);
@@ -60,7 +63,9 @@ public abstract class Tool {
   }
 
   public void executeCommand(
-      final String[] commands, List<String> inputStreamList, List<String> errorStreamList) {
+      final String[] commands, List<String> inputStreamList, List<String> errorStreamList)
+      throws IOException, InterruptedException {
+
     processExecutor.executeCommand(commands, inputStreamList, errorStreamList);
   }
 }

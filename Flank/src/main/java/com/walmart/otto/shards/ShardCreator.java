@@ -2,10 +2,8 @@ package com.walmart.otto.shards;
 
 import com.walmart.otto.Constants;
 import com.walmart.otto.configurator.Configurator;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -47,7 +45,7 @@ public class ShardCreator {
     StringBuilder stringBuilder = new StringBuilder();
 
     if (stack.isEmpty()) {
-      return new String();
+      return "";
     }
 
     for (int i = 0; i < numTestsInShards; i++) {
@@ -109,7 +107,9 @@ public class ShardCreator {
     while (it.hasNext()) {
       Map.Entry testCase = (Map.Entry) it.next();
 
-      int testCaseTime = Integer.valueOf((String) testCase.getValue());
+      int testCaseTime =
+          Integer.parseInt(
+              (String) testCase.getValue()); //Integer.valueOf((String) testCase.getValue());
 
       if (shardLengthSec - testCaseTime > 0) {
         if (testCases.contains(testCase.getKey())) {
@@ -134,7 +134,9 @@ public class ShardCreator {
     Map<String, String> shardMap = new HashMap<>();
     try {
       try (BufferedReader br =
-          new BufferedReader(new FileReader(new File(Constants.TEST_TIME_FILE)))) {
+          new BufferedReader(
+              new InputStreamReader(
+                  new FileInputStream(Constants.TEST_TIME_FILE), StandardCharsets.UTF_8))) {
         String line;
         while ((line = br.readLine()) != null) {
           String[] testCase = line.split(Pattern.quote(" "));

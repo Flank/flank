@@ -3,9 +3,7 @@ package com.walmart.otto.tools;
 import static com.walmart.otto.utils.FileUtils.getSimpleName;
 
 import com.walmart.otto.Constants;
-import java.io.File;
-import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -54,15 +52,14 @@ public class GsutilTool extends Tool {
     return bucketName.toString();
   }
 
-  public String uploadAPKsToBucket() throws RuntimeException {
+  public String uploadAPKsToBucket() throws RuntimeException, IOException, InterruptedException {
 
     bucket = getConfigurator().getTestTimeBucket();
 
     if (!findGSFile(bucket)) {
+      System.out.println("\nCreating bucket: " + bucket + "\n");
       executeCommand(createBucket(bucket));
     }
-
-    System.out.println("\nCreating bucket: " + bucket + "\n");
 
     bucket = bucket + uniqueObjectName();
 
@@ -77,7 +74,7 @@ public class GsutilTool extends Tool {
     return bucket;
   }
 
-  public void uploadTestTimeFile() {
+  public void uploadTestTimeFile() throws IOException, InterruptedException {
     if (!findTestTimeBucket()) {
       executeCommand(createBucket(getConfigurator().getTestTimeBucket()));
     }
@@ -85,18 +82,24 @@ public class GsutilTool extends Tool {
         copyFileToBucket(Constants.TEST_TIME_FILE, getConfigurator().getTestTimeBucket()));
   }
 
-  public void downloadTestTimeFile() {
+  public void downloadTestTimeFile() throws IOException, InterruptedException {
     executeCommand(downloadTestTime(), new ArrayList<String>(), new ArrayList<>());
   }
 
-  public Map<String, String> fetchResults() {
+  public Map<String, String> fetchResults() throws IOException, InterruptedException {
     Map<String, String> xmlFileAndDevice = new HashMap<String, String>();
     File currentDir = new File("");
     File resultsDir =
         new File(currentDir.getAbsolutePath() + File.separator + Constants.RESULTS_DIR);
 
-    System.out.println("\nFetching results to: " + resultsDir.getAbsolutePath());
-    resultsDir.mkdirs();
+    boolean createdFolder = resultsDir.mkdirs();
+
+    if (createdFolder) {
+      System.out.println("Created folder: " + resultsDir.getAbsolutePath() + "\n");
+    }
+
+    System.out.println("Fetching results to: " + resultsDir.getAbsolutePath());
+
     String[] fetchFiles = fetchXMLFiles(resultsDir);
 
     executeCommand(fetchFiles, new ArrayList<>());
@@ -106,9 +109,9 @@ public class GsutilTool extends Tool {
     return xmlFileAndDevice;
   }
 
-  public boolean findGSFile(String fileName) {
+  public boolean findGSFile(String fileName) throws IOException, InterruptedException {
     List<String> inputstreamList = new ArrayList<>();
-    System.setOut(emptyStream);
+    System.setOut(getEmptyStream());
     executeCommand(findFile(fileName), inputstreamList, new ArrayList<>());
     System.setOut(originalStream);
 
@@ -120,13 +123,13 @@ public class GsutilTool extends Tool {
     return false;
   }
 
-  public boolean findTestTimeFile() {
+  public boolean findTestTimeFile() throws IOException, InterruptedException {
     return findGSFile(getConfigurator().getTestTimeBucket() + Constants.TEST_TIME_FILE);
   }
 
-  public boolean findTestTimeBucket() {
+  public boolean findTestTimeBucket() throws IOException, InterruptedException {
     List<String> inputstreamList = new ArrayList<>();
-    System.setOut(emptyStream);
+    System.setOut(getEmptyStream());
     executeCommand(
         findFile(getConfigurator().getTestTimeBucket()), inputstreamList, new ArrayList<>());
     System.setOut(originalStream);
@@ -139,7 +142,7 @@ public class GsutilTool extends Tool {
     return false;
   }
 
-  public void deleteAPKs() {
+  public void deleteAPKs() throws IOException, InterruptedException {
     executeCommand(deleteApp());
     executeCommand(deleteTest());
   }
@@ -221,9 +224,19 @@ public class GsutilTool extends Tool {
   }
 
   static PrintStream originalStream = System.out;
-  static PrintStream emptyStream =
-      new PrintStream(
-          new OutputStream() {
-            public void write(int b) {}
-          });
+
+  public PrintStream getEmptyStream() {
+    PrintStream emptyStream = null;
+    try {
+      emptyStream =
+          new PrintStream(
+              new OutputStream() {
+                public void write(int b) {}
+              },
+              false,
+              "UTF-8");
+    } catch (UnsupportedEncodingException ignored) {
+    }
+    return emptyStream;
+  }
 }

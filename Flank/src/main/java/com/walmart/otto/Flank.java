@@ -17,12 +17,14 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class Flank {
   private ToolManager toolManager;
   private Configurator configurator;
 
-  public void start(String[] args) throws FileNotFoundException, RuntimeException, IOException {
+  public void start(String[] args)
+      throws RuntimeException, IOException, InterruptedException, ExecutionException {
     long startTime = System.currentTimeMillis();
 
     if (!FileUtils.doFileExist(args[0])) {
@@ -76,6 +78,10 @@ public class Flank {
       e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    } catch (ExecutionException e) {
+      e.printStackTrace();
     } finally {
       System.exit(-1);
     }
@@ -114,7 +120,8 @@ public class Flank {
     }
   }
 
-  private void downloadTestTimeFile(GsutilTool gsutilTool, int shardDuration) throws IOException {
+  private void downloadTestTimeFile(GsutilTool gsutilTool, int shardDuration)
+      throws IOException, InterruptedException {
     if (shardDuration == -1) {
       return;
     }
@@ -131,16 +138,19 @@ public class Flank {
     }
   }
 
-  private void uploadTestTimeFile(GsutilTool gsutilTool, int shardDuration) throws IOException {
+  private void uploadTestTimeFile(GsutilTool gsutilTool, int shardDuration)
+      throws IOException, InterruptedException {
     if (shardDuration == -1) {
       return;
     }
     gsutilTool.uploadTestTimeFile();
   }
 
-  private String getProjectName(ToolManager toolManager) throws IOException {
-    System.setOut(emptyStream);
+  private String getProjectName(ToolManager toolManager) throws IOException, InterruptedException {
+    System.setOut(getEmptyStream());
+
     String text = toolManager.get(GcloudTool.class).getProjectName() + "-flank";
+
     System.setOut(originalStream);
     return text;
   }
@@ -172,7 +182,7 @@ public class Flank {
   }
 
   private List<String> getTestCaseNames(String[] args) {
-    System.setOut(emptyStream);
+    System.setOut(getEmptyStream());
     List<String> filteredTests;
 
     if (args.length < 3) {
@@ -186,9 +196,19 @@ public class Flank {
   }
 
   static PrintStream originalStream = System.out;
-  static PrintStream emptyStream =
-      new PrintStream(
-          new OutputStream() {
-            public void write(int b) {}
-          });
+
+  public PrintStream getEmptyStream() {
+    PrintStream emptyStream = null;
+    try {
+      emptyStream =
+          new PrintStream(
+              new OutputStream() {
+                public void write(int b) {}
+              },
+              false,
+              "UTF-8");
+    } catch (UnsupportedEncodingException ignored) {
+    }
+    return emptyStream;
+  }
 }

@@ -34,7 +34,6 @@ public class PriceReporter {
 
   public static Double getTotalBillableTime(List<Integer> times) {
 
-    HashMap<String, Double> mapOfPrices = getPricePerMinForDevice();
     Double time = 0.00;
 
     for (Integer executionTime : times) {
