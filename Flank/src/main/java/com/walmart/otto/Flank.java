@@ -72,19 +72,20 @@ public class Flank {
       if (validateArguments(args)) {
         flank.start(args);
       }
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
     } catch (RuntimeException e) {
-      e.printStackTrace();
+      exitWithFailure(e);
     } catch (IOException e) {
-      e.printStackTrace();
+      exitWithFailure(e);
     } catch (InterruptedException e) {
-      e.printStackTrace();
+      exitWithFailure(e);
     } catch (ExecutionException e) {
-      e.printStackTrace();
-    } finally {
-      System.exit(-1);
+      exitWithFailure(e);
     }
+  }
+
+  private static void exitWithFailure(Exception e) {
+    e.printStackTrace();
+    System.exit(-1);
   }
 
   private ToolManager.Config loadTools(String appAPK, String testAPK, Configurator configurator) {
