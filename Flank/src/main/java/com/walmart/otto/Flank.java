@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import static com.walmart.otto.utils.FileUtils.fileExists;
+
 public class Flank {
   private ToolManager toolManager;
   private Configurator configurator;
@@ -27,12 +29,10 @@ public class Flank {
       throws RuntimeException, IOException, InterruptedException, ExecutionException {
     long startTime = System.currentTimeMillis();
 
-    if (!FileUtils.doFileExist(args[0])) {
-      throw new FileNotFoundException("File not found: " + args[0]);
-    }
-
-    if (!FileUtils.doFileExist(args[1])) {
-      throw new FileNotFoundException("File not found: " + args[1]);
+    for (String file : new String[]{args[0], args[1]}) {
+      if (!fileExists(file)) {
+        throw new FileNotFoundException("File not found: " + file);
+      }
     }
 
     configurator = new ConfigReader(Constants.CONFIG_PROPERTIES).getConfiguration();

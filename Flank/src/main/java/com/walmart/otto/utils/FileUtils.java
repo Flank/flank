@@ -15,11 +15,8 @@ public class FileUtils {
     return parts[parts.length - 1];
   }
 
-  public static boolean doFileExist(String filePath) {
-    if (!new File(filePath).exists()) {
-      return false;
-    }
-    return true;
+  public static boolean fileExists(String filePath) {
+    return new File(filePath).exists();
   }
 
   public static boolean containsText(String text) {
