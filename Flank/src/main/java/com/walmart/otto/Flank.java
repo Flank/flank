@@ -1,5 +1,7 @@
 package com.walmart.otto;
 
+import static com.walmart.otto.utils.FileUtils.fileExists;
+
 import com.linkedin.dex.parser.DexParser;
 import com.walmart.otto.configurator.ConfigReader;
 import com.walmart.otto.configurator.Configurator;
@@ -10,7 +12,6 @@ import com.walmart.otto.tools.GcloudTool;
 import com.walmart.otto.tools.GsutilTool;
 import com.walmart.otto.tools.ProcessExecutor;
 import com.walmart.otto.tools.ToolManager;
-import com.walmart.otto.utils.FileUtils;
 import com.walmart.otto.utils.FilterUtils;
 import java.io.*;
 import java.math.BigDecimal;
@@ -27,12 +28,10 @@ public class Flank {
       throws RuntimeException, IOException, InterruptedException, ExecutionException {
     long startTime = System.currentTimeMillis();
 
-    if (!FileUtils.doFileExist(args[0])) {
-      throw new FileNotFoundException("File not found: " + args[0]);
-    }
-
-    if (!FileUtils.doFileExist(args[1])) {
-      throw new FileNotFoundException("File not found: " + args[1]);
+    for (String file : new String[] {args[0], args[1]}) {
+      if (!fileExists(file)) {
+        throw new FileNotFoundException("File not found: " + file);
+      }
     }
 
     configurator = new ConfigReader(Constants.CONFIG_PROPERTIES).getConfiguration();
