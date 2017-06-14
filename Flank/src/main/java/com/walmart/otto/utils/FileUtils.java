@@ -4,6 +4,7 @@ import com.walmart.otto.Constants;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -17,6 +18,10 @@ public class FileUtils {
 
   public static boolean fileExists(String filePath) {
     return new File(filePath).exists();
+  }
+
+  public static boolean fileExists(Path filePath) {
+    return filePath.toFile().exists();
   }
 
   public static boolean containsText(String text) {
