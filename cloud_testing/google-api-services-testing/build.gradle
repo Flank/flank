@@ -1,0 +1,43 @@
+/*
+<groupId>com.google.apis</groupId>
+<artifactId>google-api-services-testing</artifactId>
+<version>v1-revsnapshot-1.20.0</version>
+*/
+group 'com.google.apis'
+version 'v1-revsnapshot-1.20.0'
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.google.api-client:google-api-client:1.20.0'
+}
+
+task decompile(type: Exec) {
+    //noinspection GroovyAssignabilityCheck
+    executable "java"
+
+    def classPathBuilder = StringBuilder.newInstance()
+    configurations.runtime.each { classPathBuilder.append(it.absolutePath).append(":") }
+    classPathBuilder.deleteCharAt(classPathBuilder.size() - 1) // remove trailing :
+    def classPathStr = classPathBuilder.toString()
+    def outputDir = "./src/main/java"
+
+    // make sure code only runs when we invoke the task.
+    // without doFirst the code is always run as part of the gradle configuration phase.
+    doFirst {
+        // Clean up old files before decompiling.
+        File.newInstance(outputDir).deleteDir()
+    }
+
+    //noinspection GroovyAssignabilityCheck
+    // note: do not quote arguments! "\"$classPathStr\"" will silently discard the class path.
+    args = ["-jar", "../cfr/cfr_0_121.jar",
+            "../lib/google-api-services-testing-v1-revsnapshot-1.20.0.jar",
+            "--extraclasspath", "$classPathStr",
+            "--outputdir", outputDir,
+            "--caseinsensitivefs", "true"]
+}
