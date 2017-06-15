@@ -1,44 +1,35 @@
-/*
- * Decompiled with CFR 0_121.
- */
 package com.google.api.services.testing.model;
 
 import com.google.api.client.json.GenericJson;
-import com.google.api.client.util.GenericData;
 import com.google.api.client.util.Key;
-import com.google.api.services.testing.model.AndroidDeviceCatalog;
-import com.google.api.services.testing.model.WebDriverCatalog;
 
-public final class TestEnvironmentCatalog
-extends GenericJson {
-    @Key
-    private AndroidDeviceCatalog androidDeviceCatalog;
-    @Key
-    private WebDriverCatalog webDriverCatalog;
+public final class TestEnvironmentCatalog extends GenericJson {
+  @Key private AndroidDeviceCatalog androidDeviceCatalog;
+  @Key private WebDriverCatalog webDriverCatalog;
 
-    public AndroidDeviceCatalog getAndroidDeviceCatalog() {
-        return this.androidDeviceCatalog;
-    }
+  public AndroidDeviceCatalog getAndroidDeviceCatalog() {
+    return this.androidDeviceCatalog;
+  }
 
-    public TestEnvironmentCatalog setAndroidDeviceCatalog(AndroidDeviceCatalog androidDeviceCatalog) {
-        this.androidDeviceCatalog = androidDeviceCatalog;
-        return this;
-    }
+  public TestEnvironmentCatalog setAndroidDeviceCatalog(AndroidDeviceCatalog androidDeviceCatalog) {
+    this.androidDeviceCatalog = androidDeviceCatalog;
+    return this;
+  }
 
-    public WebDriverCatalog getWebDriverCatalog() {
-        return this.webDriverCatalog;
-    }
+  public WebDriverCatalog getWebDriverCatalog() {
+    return this.webDriverCatalog;
+  }
 
-    public TestEnvironmentCatalog setWebDriverCatalog(WebDriverCatalog webDriverCatalog) {
-        this.webDriverCatalog = webDriverCatalog;
-        return this;
-    }
+  public TestEnvironmentCatalog setWebDriverCatalog(WebDriverCatalog webDriverCatalog) {
+    this.webDriverCatalog = webDriverCatalog;
+    return this;
+  }
 
-    public TestEnvironmentCatalog set(String fieldName, Object value) {
-        return (TestEnvironmentCatalog)super.set(fieldName, value);
-    }
+  public TestEnvironmentCatalog set(String fieldName, Object value) {
+    return (TestEnvironmentCatalog) super.set(fieldName, value);
+  }
 
-    public TestEnvironmentCatalog clone() {
-        return (TestEnvironmentCatalog)super.clone();
-    }
+  public TestEnvironmentCatalog clone() {
+    return (TestEnvironmentCatalog) super.clone();
+  }
 }

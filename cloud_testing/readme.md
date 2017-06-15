@@ -9,7 +9,8 @@ libs extracted from Android Studio used to interface with the Firebase Test Lab 
 
 ## Decompile
 
-- `gradle decompile`
+- `gradle --rerun-tasks decompileCfr`
+- `gradle --rerun-tasks decompileFern`
 
 ## Build
 
