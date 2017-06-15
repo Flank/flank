@@ -1,3 +1,8 @@
+plugins {
+    // https://github.com/diffplug/spotless/tree/master/plugin-gradle
+    id 'com.diffplug.gradle.spotless' version '3.4.0'
+}
+
 /*
 <groupId>com.google.apis</groupId>
 <artifactId>google-api-services-testing</artifactId>
@@ -8,6 +13,13 @@ version 'v1-revsnapshot-1.20.0'
 
 apply plugin: 'java'
 
+apply plugin: 'com.diffplug.gradle.spotless'
+spotless { // gradle spotlessApply
+    java {
+        googleJavaFormat()
+    }
+}
+
 repositories {
     mavenCentral()
 }
@@ -16,15 +28,18 @@ dependencies {
     compile 'com.google.api-client:google-api-client:1.20.0'
 }
 
-task decompile(type: Exec) {
+def jarName = 'google-api-services-testing-v1-revsnapshot-1.20.0.jar'
+def inputJar = "../lib/$jarName"
+def outputDir = './src/main/java'
+
+task decompileCfr(type: Exec) {
     //noinspection GroovyAssignabilityCheck
-    executable "java"
+    executable 'java'
 
     def classPathBuilder = StringBuilder.newInstance()
-    configurations.runtime.each { classPathBuilder.append(it.absolutePath).append(":") }
+    configurations.runtime.each { classPathBuilder.append(it.absolutePath).append(':') }
     classPathBuilder.deleteCharAt(classPathBuilder.size() - 1) // remove trailing :
     def classPathStr = classPathBuilder.toString()
-    def outputDir = "./src/main/java"
 
     // make sure code only runs when we invoke the task.
     // without doFirst the code is always run as part of the gradle configuration phase.
@@ -35,9 +50,44 @@ task decompile(type: Exec) {
 
     //noinspection GroovyAssignabilityCheck
     // note: do not quote arguments! "\"$classPathStr\"" will silently discard the class path.
-    args = ["-jar", "../cfr/cfr_0_121.jar",
-            "../lib/google-api-services-testing-v1-revsnapshot-1.20.0.jar",
-            "--extraclasspath", "$classPathStr",
-            "--outputdir", outputDir,
-            "--caseinsensitivefs", "true"]
+    args = ['-jar', '../cfr/cfr_0_121.jar',
+            inputJar,
+            '--extraclasspath', "$classPathStr",
+            '--outputdir', outputDir,
+            '--caseinsensitivefs', 'true']
+}
+
+// Use rerun task flag to ensure spotless runs
+//
+// gradle --rerun-tasks decompileCfr
+// gradle --rerun-tasks decompileFern
+afterEvaluate {
+    decompileCfr.finalizedBy spotlessApply
+
+    decompileFern.finalizedBy extractFern
+    extractFern.finalizedBy spotlessApply
+}
+
+task decompileFern(type: Exec) {
+    def args_array = ['-jar', '../fernflower/fernflower.jar', '-dgs=1']
+    configurations.runtime.each { args_array.add('-e=' + it.absolutePath) }
+    args_array.add(inputJar)
+    args_array.add(outputDir)
+
+    executable 'java'
+    args = args_array
+}
+
+task extractFern(type: Exec) {
+    def jarDir = './src/main/java'
+    workingDir jarDir
+    executable 'jar'
+    args = ['xf', jarName]
+
+    doLast {
+        // fernflower always outputs a jar. clean it up after extracting.
+        File.newInstance("$jarDir/META-INF").deleteDir()
+        File.newInstance("$jarDir/summary.txt").delete()
+        File.newInstance("$jarDir/$jarName").delete()
+    }
 }

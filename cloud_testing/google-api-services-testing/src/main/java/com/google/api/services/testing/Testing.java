@@ -1,24 +1,16 @@
-/*
- * Decompiled with CFR 0_121.
- */
 package com.google.api.services.testing;
 
 import com.google.api.client.googleapis.GoogleUtils;
-import com.google.api.client.googleapis.services.AbstractGoogleClient;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient;
-import com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.util.GenericData;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
-import com.google.api.services.testing.TestingRequest;
-import com.google.api.services.testing.TestingRequestInitializer;
 import com.google.api.services.testing.model.CancelTestMatrixResponse;
 import com.google.api.services.testing.model.Device;
 import com.google.api.services.testing.model.Empty;
@@ -27,1217 +19,1266 @@ import com.google.api.services.testing.model.ListTestMatricesResponse;
 import com.google.api.services.testing.model.TestMatrix;
 import java.io.IOException;
 
-/*
- * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
- */
-public class Testing
-extends AbstractGoogleJsonClient {
-    public static final String DEFAULT_ROOT_URL = "https://testing.googleapis.com/";
-    public static final String DEFAULT_SERVICE_PATH = "";
-    public static final String DEFAULT_BASE_URL = "https://testing.googleapis.com/";
+public class Testing extends AbstractGoogleJsonClient {
+  public static final String DEFAULT_ROOT_URL = "https://testing.googleapis.com/";
+  public static final String DEFAULT_SERVICE_PATH = "";
+  public static final String DEFAULT_BASE_URL = "https://testing.googleapis.com/";
 
-    public Testing(HttpTransport transport, JsonFactory jsonFactory, HttpRequestInitializer httpRequestInitializer) {
-        this(new Builder(transport, jsonFactory, httpRequestInitializer));
+  public Testing(
+      HttpTransport transport,
+      JsonFactory jsonFactory,
+      HttpRequestInitializer httpRequestInitializer) {
+    this(new Testing.Builder(transport, jsonFactory, httpRequestInitializer));
+  }
+
+  Testing(Testing.Builder builder) {
+    super(builder);
+  }
+
+  protected void initialize(AbstractGoogleClientRequest<?> httpClientRequest) throws IOException {
+    super.initialize(httpClientRequest);
+  }
+
+  public Testing.Projects projects() {
+    return new Testing.Projects();
+  }
+
+  public Testing.TestEnvironmentCatalog testEnvironmentCatalog() {
+    return new Testing.TestEnvironmentCatalog();
+  }
+
+  static {
+    Preconditions.checkState(
+        GoogleUtils.MAJOR_VERSION.intValue() == 1 && GoogleUtils.MINOR_VERSION.intValue() >= 15,
+        "You are currently running with version %s of google-api-client. You need at least version 1.15 of google-api-client to run version 1.20.0 of the Google Cloud Testing API library.",
+        GoogleUtils.VERSION);
+  }
+
+  public static final class Builder
+      extends com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient.Builder {
+    public Builder(
+        HttpTransport transport,
+        JsonFactory jsonFactory,
+        HttpRequestInitializer httpRequestInitializer) {
+      super(
+          transport,
+          jsonFactory,
+          "https://testing.googleapis.com/",
+          "",
+          httpRequestInitializer,
+          false);
     }
 
-    Testing(Builder builder) {
-        super(builder);
+    public Testing build() {
+      return new Testing(this);
     }
 
-    @Override
-    protected void initialize(AbstractGoogleClientRequest<?> httpClientRequest) throws IOException {
-        super.initialize(httpClientRequest);
+    public Testing.Builder setRootUrl(String rootUrl) {
+      return (Testing.Builder) super.setRootUrl(rootUrl);
     }
 
-    public Projects projects() {
-        return new Projects();
+    public Testing.Builder setServicePath(String servicePath) {
+      return (Testing.Builder) super.setServicePath(servicePath);
     }
 
-    public TestEnvironmentCatalog testEnvironmentCatalog() {
-        return new TestEnvironmentCatalog();
+    public Testing.Builder setHttpRequestInitializer(
+        HttpRequestInitializer httpRequestInitializer) {
+      return (Testing.Builder) super.setHttpRequestInitializer(httpRequestInitializer);
     }
 
-    static {
-        Preconditions.checkState(GoogleUtils.MAJOR_VERSION == 1 && GoogleUtils.MINOR_VERSION >= 15, "You are currently running with version %s of google-api-client. You need at least version 1.15 of google-api-client to run version 1.20.0 of the Google Cloud Testing API library.", GoogleUtils.VERSION);
+    public Testing.Builder setApplicationName(String applicationName) {
+      return (Testing.Builder) super.setApplicationName(applicationName);
     }
 
-    public static final class Builder
-    extends AbstractGoogleJsonClient.Builder {
-        public Builder(HttpTransport transport, JsonFactory jsonFactory, HttpRequestInitializer httpRequestInitializer) {
-            super(transport, jsonFactory, "https://testing.googleapis.com/", "", httpRequestInitializer, false);
-        }
-
-        public Testing build() {
-            return new Testing(this);
-        }
-
-        public Builder setRootUrl(String rootUrl) {
-            return (Builder)super.setRootUrl(rootUrl);
-        }
-
-        public Builder setServicePath(String servicePath) {
-            return (Builder)super.setServicePath(servicePath);
-        }
-
-        public Builder setHttpRequestInitializer(HttpRequestInitializer httpRequestInitializer) {
-            return (Builder)super.setHttpRequestInitializer(httpRequestInitializer);
-        }
-
-        public Builder setApplicationName(String applicationName) {
-            return (Builder)super.setApplicationName(applicationName);
-        }
-
-        public Builder setSuppressPatternChecks(boolean suppressPatternChecks) {
-            return (Builder)super.setSuppressPatternChecks(suppressPatternChecks);
-        }
-
-        public Builder setSuppressRequiredParameterChecks(boolean suppressRequiredParameterChecks) {
-            return (Builder)super.setSuppressRequiredParameterChecks(suppressRequiredParameterChecks);
-        }
-
-        public Builder setSuppressAllChecks(boolean suppressAllChecks) {
-            return (Builder)super.setSuppressAllChecks(suppressAllChecks);
-        }
-
-        public Builder setTestingRequestInitializer(TestingRequestInitializer testingRequestInitializer) {
-            return (Builder)super.setGoogleClientRequestInitializer(testingRequestInitializer);
-        }
-
-        public Builder setGoogleClientRequestInitializer(GoogleClientRequestInitializer googleClientRequestInitializer) {
-            return (Builder)super.setGoogleClientRequestInitializer(googleClientRequestInitializer);
-        }
+    public Testing.Builder setSuppressPatternChecks(boolean suppressPatternChecks) {
+      return (Testing.Builder) super.setSuppressPatternChecks(suppressPatternChecks);
     }
 
-    public class TestEnvironmentCatalog {
-        public Get get(String environmentType) throws IOException {
-            Get result = new Get(environmentType);
-            Testing.this.initialize(result);
-            return result;
-        }
+    public Testing.Builder setSuppressRequiredParameterChecks(
+        boolean suppressRequiredParameterChecks) {
+      return (Testing.Builder)
+          super.setSuppressRequiredParameterChecks(suppressRequiredParameterChecks);
+    }
 
-        /*
-         * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
-         */
-        public class Get
+    public Testing.Builder setSuppressAllChecks(boolean suppressAllChecks) {
+      return (Testing.Builder) super.setSuppressAllChecks(suppressAllChecks);
+    }
+
+    public Testing.Builder setTestingRequestInitializer(
+        TestingRequestInitializer testingRequestInitializer) {
+      return (Testing.Builder) super.setGoogleClientRequestInitializer(testingRequestInitializer);
+    }
+
+    public Testing.Builder setGoogleClientRequestInitializer(
+        GoogleClientRequestInitializer googleClientRequestInitializer) {
+      return (Testing.Builder)
+          super.setGoogleClientRequestInitializer(googleClientRequestInitializer);
+    }
+  }
+
+  public class TestEnvironmentCatalog {
+    public Testing.TestEnvironmentCatalog.Get get(String environmentType) throws IOException {
+      Testing.TestEnvironmentCatalog.Get result =
+          new Testing.TestEnvironmentCatalog.Get(environmentType);
+      Testing.this.initialize(result);
+      return result;
+    }
+
+    public class Get
         extends TestingRequest<com.google.api.services.testing.model.TestEnvironmentCatalog> {
-            private static final String REST_PATH = "v1/testEnvironmentCatalog/{environmentType}";
-            @Key
-            private String environmentType;
+      private static final String REST_PATH = "v1/testEnvironmentCatalog/{environmentType}";
+      @Key private String environmentType;
 
-            protected Get(String environmentType) {
-                super(Testing.this, "GET", "v1/testEnvironmentCatalog/{environmentType}", null, com.google.api.services.testing.model.TestEnvironmentCatalog.class);
-                this.environmentType = Preconditions.checkNotNull(environmentType, "Required parameter environmentType must be specified.");
-            }
+      protected Get(String environmentType) {
+        super(
+            Testing.this,
+            "GET",
+            "v1/testEnvironmentCatalog/{environmentType}",
+            (Object) null,
+            com.google.api.services.testing.model.TestEnvironmentCatalog.class);
+        this.environmentType =
+            (String)
+                Preconditions.checkNotNull(
+                    environmentType, "Required parameter environmentType must be specified.");
+      }
 
-            @Override
-            public HttpResponse executeUsingHead() throws IOException {
-                return super.executeUsingHead();
-            }
+      public HttpResponse executeUsingHead() throws IOException {
+        return super.executeUsingHead();
+      }
 
-            @Override
-            public HttpRequest buildHttpRequestUsingHead() throws IOException {
-                return super.buildHttpRequestUsingHead();
-            }
+      public HttpRequest buildHttpRequestUsingHead() throws IOException {
+        return super.buildHttpRequestUsingHead();
+      }
 
-            public Get set$Xgafv(String $Xgafv) {
-                return (Get)super.set$Xgafv($Xgafv);
-            }
+      public Testing.TestEnvironmentCatalog.Get set$Xgafv(String $Xgafv) {
+        return (Testing.TestEnvironmentCatalog.Get) super.set$Xgafv($Xgafv);
+      }
 
-            public Get setAccessToken(String accessToken) {
-                return (Get)super.setAccessToken(accessToken);
-            }
+      public Testing.TestEnvironmentCatalog.Get setAccessToken(String accessToken) {
+        return (Testing.TestEnvironmentCatalog.Get) super.setAccessToken(accessToken);
+      }
 
-            public Get setAlt(String alt) {
-                return (Get)super.setAlt(alt);
-            }
+      public Testing.TestEnvironmentCatalog.Get setAlt(String alt) {
+        return (Testing.TestEnvironmentCatalog.Get) super.setAlt(alt);
+      }
 
-            public Get setBearerToken(String bearerToken) {
-                return (Get)super.setBearerToken(bearerToken);
-            }
+      public Testing.TestEnvironmentCatalog.Get setBearerToken(String bearerToken) {
+        return (Testing.TestEnvironmentCatalog.Get) super.setBearerToken(bearerToken);
+      }
 
-            public Get setCallback(String callback) {
-                return (Get)super.setCallback(callback);
-            }
+      public Testing.TestEnvironmentCatalog.Get setCallback(String callback) {
+        return (Testing.TestEnvironmentCatalog.Get) super.setCallback(callback);
+      }
 
-            public Get setFields(String fields) {
-                return (Get)super.setFields(fields);
-            }
+      public Testing.TestEnvironmentCatalog.Get setFields(String fields) {
+        return (Testing.TestEnvironmentCatalog.Get) super.setFields(fields);
+      }
 
-            public Get setKey(String key) {
-                return (Get)super.setKey(key);
-            }
+      public Testing.TestEnvironmentCatalog.Get setKey(String key) {
+        return (Testing.TestEnvironmentCatalog.Get) super.setKey(key);
+      }
 
-            public Get setOauthToken(String oauthToken) {
-                return (Get)super.setOauthToken(oauthToken);
-            }
+      public Testing.TestEnvironmentCatalog.Get setOauthToken(String oauthToken) {
+        return (Testing.TestEnvironmentCatalog.Get) super.setOauthToken(oauthToken);
+      }
 
-            public Get setPp(Boolean pp) {
-                return (Get)super.setPp(pp);
-            }
+      public Testing.TestEnvironmentCatalog.Get setPp(Boolean pp) {
+        return (Testing.TestEnvironmentCatalog.Get) super.setPp(pp);
+      }
 
-            public Get setPrettyPrint(Boolean prettyPrint) {
-                return (Get)super.setPrettyPrint(prettyPrint);
-            }
+      public Testing.TestEnvironmentCatalog.Get setPrettyPrint(Boolean prettyPrint) {
+        return (Testing.TestEnvironmentCatalog.Get) super.setPrettyPrint(prettyPrint);
+      }
 
-            public Get setQuotaUser(String quotaUser) {
-                return (Get)super.setQuotaUser(quotaUser);
-            }
+      public Testing.TestEnvironmentCatalog.Get setQuotaUser(String quotaUser) {
+        return (Testing.TestEnvironmentCatalog.Get) super.setQuotaUser(quotaUser);
+      }
 
-            public Get setUploadType(String uploadType) {
-                return (Get)super.setUploadType(uploadType);
-            }
+      public Testing.TestEnvironmentCatalog.Get setUploadType(String uploadType) {
+        return (Testing.TestEnvironmentCatalog.Get) super.setUploadType(uploadType);
+      }
 
-            public Get setUploadProtocol(String uploadProtocol) {
-                return (Get)super.setUploadProtocol(uploadProtocol);
-            }
+      public Testing.TestEnvironmentCatalog.Get setUploadProtocol(String uploadProtocol) {
+        return (Testing.TestEnvironmentCatalog.Get) super.setUploadProtocol(uploadProtocol);
+      }
 
-            public String getEnvironmentType() {
-                return this.environmentType;
-            }
+      public String getEnvironmentType() {
+        return this.environmentType;
+      }
 
-            public Get setEnvironmentType(String environmentType) {
-                this.environmentType = environmentType;
-                return this;
-            }
+      public Testing.TestEnvironmentCatalog.Get setEnvironmentType(String environmentType) {
+        this.environmentType = environmentType;
+        return this;
+      }
 
-            @Override
-            public Get set(String parameterName, Object value) {
-                return (Get)super.set(parameterName, value);
-            }
-        }
+      public Testing.TestEnvironmentCatalog.Get set(String parameterName, Object value) {
+        return (Testing.TestEnvironmentCatalog.Get) super.set(parameterName, value);
+      }
+    }
+  }
 
+  public class Projects {
+    public Testing.Projects.Devices devices() {
+      return new Testing.Projects.Devices();
     }
 
-    public class Projects {
-        public Devices devices() {
-            return new Devices();
-        }
-
-        public TestMatrices testMatrices() {
-            return new TestMatrices();
-        }
-
-        public class TestMatrices {
-            public Cancel cancel(String projectId, String testMatrixId) throws IOException {
-                Cancel result = new Cancel(projectId, testMatrixId);
-                Testing.this.initialize(result);
-                return result;
-            }
-
-            public Create create(String projectId, TestMatrix content) throws IOException {
-                Create result = new Create(projectId, content);
-                Testing.this.initialize(result);
-                return result;
-            }
-
-            public Delete delete(String projectId, String testMatrixId) throws IOException {
-                Delete result = new Delete(projectId, testMatrixId);
-                Testing.this.initialize(result);
-                return result;
-            }
-
-            public Get get(String projectId, String testMatrixId) throws IOException {
-                Get result = new Get(projectId, testMatrixId);
-                Testing.this.initialize(result);
-                return result;
-            }
-
-            public List list(String projectId) throws IOException {
-                List result = new List(projectId);
-                Testing.this.initialize(result);
-                return result;
-            }
-
-            /*
-             * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
-             */
-            public class List
-            extends TestingRequest<ListTestMatricesResponse> {
-                private static final String REST_PATH = "v1/projects/{projectId}/testMatrices";
-                @Key
-                private String projectId;
-
-                protected List(String projectId) {
-                    super(Testing.this, "GET", "v1/projects/{projectId}/testMatrices", null, ListTestMatricesResponse.class);
-                    this.projectId = Preconditions.checkNotNull(projectId, "Required parameter projectId must be specified.");
-                }
-
-                @Override
-                public HttpResponse executeUsingHead() throws IOException {
-                    return super.executeUsingHead();
-                }
-
-                @Override
-                public HttpRequest buildHttpRequestUsingHead() throws IOException {
-                    return super.buildHttpRequestUsingHead();
-                }
-
-                public List set$Xgafv(String $Xgafv) {
-                    return (List)super.set$Xgafv($Xgafv);
-                }
-
-                public List setAccessToken(String accessToken) {
-                    return (List)super.setAccessToken(accessToken);
-                }
-
-                public List setAlt(String alt) {
-                    return (List)super.setAlt(alt);
-                }
-
-                public List setBearerToken(String bearerToken) {
-                    return (List)super.setBearerToken(bearerToken);
-                }
-
-                public List setCallback(String callback) {
-                    return (List)super.setCallback(callback);
-                }
-
-                public List setFields(String fields) {
-                    return (List)super.setFields(fields);
-                }
-
-                public List setKey(String key) {
-                    return (List)super.setKey(key);
-                }
-
-                public List setOauthToken(String oauthToken) {
-                    return (List)super.setOauthToken(oauthToken);
-                }
-
-                public List setPp(Boolean pp) {
-                    return (List)super.setPp(pp);
-                }
-
-                public List setPrettyPrint(Boolean prettyPrint) {
-                    return (List)super.setPrettyPrint(prettyPrint);
-                }
-
-                public List setQuotaUser(String quotaUser) {
-                    return (List)super.setQuotaUser(quotaUser);
-                }
-
-                public List setUploadType(String uploadType) {
-                    return (List)super.setUploadType(uploadType);
-                }
-
-                public List setUploadProtocol(String uploadProtocol) {
-                    return (List)super.setUploadProtocol(uploadProtocol);
-                }
-
-                public String getProjectId() {
-                    return this.projectId;
-                }
-
-                public List setProjectId(String projectId) {
-                    this.projectId = projectId;
-                    return this;
-                }
-
-                @Override
-                public List set(String parameterName, Object value) {
-                    return (List)super.set(parameterName, value);
-                }
-            }
-
-            /*
-             * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
-             */
-            public class Get
-            extends TestingRequest<TestMatrix> {
-                private static final String REST_PATH = "v1/projects/{projectId}/testMatrices/{testMatrixId}";
-                @Key
-                private String projectId;
-                @Key
-                private String testMatrixId;
-
-                protected Get(String projectId, String testMatrixId) {
-                    super(Testing.this, "GET", "v1/projects/{projectId}/testMatrices/{testMatrixId}", null, TestMatrix.class);
-                    this.projectId = Preconditions.checkNotNull(projectId, "Required parameter projectId must be specified.");
-                    this.testMatrixId = Preconditions.checkNotNull(testMatrixId, "Required parameter testMatrixId must be specified.");
-                }
-
-                @Override
-                public HttpResponse executeUsingHead() throws IOException {
-                    return super.executeUsingHead();
-                }
-
-                @Override
-                public HttpRequest buildHttpRequestUsingHead() throws IOException {
-                    return super.buildHttpRequestUsingHead();
-                }
-
-                public Get set$Xgafv(String $Xgafv) {
-                    return (Get)super.set$Xgafv($Xgafv);
-                }
-
-                public Get setAccessToken(String accessToken) {
-                    return (Get)super.setAccessToken(accessToken);
-                }
-
-                public Get setAlt(String alt) {
-                    return (Get)super.setAlt(alt);
-                }
-
-                public Get setBearerToken(String bearerToken) {
-                    return (Get)super.setBearerToken(bearerToken);
-                }
-
-                public Get setCallback(String callback) {
-                    return (Get)super.setCallback(callback);
-                }
-
-                public Get setFields(String fields) {
-                    return (Get)super.setFields(fields);
-                }
-
-                public Get setKey(String key) {
-                    return (Get)super.setKey(key);
-                }
-
-                public Get setOauthToken(String oauthToken) {
-                    return (Get)super.setOauthToken(oauthToken);
-                }
-
-                public Get setPp(Boolean pp) {
-                    return (Get)super.setPp(pp);
-                }
-
-                public Get setPrettyPrint(Boolean prettyPrint) {
-                    return (Get)super.setPrettyPrint(prettyPrint);
-                }
-
-                public Get setQuotaUser(String quotaUser) {
-                    return (Get)super.setQuotaUser(quotaUser);
-                }
-
-                public Get setUploadType(String uploadType) {
-                    return (Get)super.setUploadType(uploadType);
-                }
-
-                public Get setUploadProtocol(String uploadProtocol) {
-                    return (Get)super.setUploadProtocol(uploadProtocol);
-                }
-
-                public String getProjectId() {
-                    return this.projectId;
-                }
-
-                public Get setProjectId(String projectId) {
-                    this.projectId = projectId;
-                    return this;
-                }
-
-                public String getTestMatrixId() {
-                    return this.testMatrixId;
-                }
-
-                public Get setTestMatrixId(String testMatrixId) {
-                    this.testMatrixId = testMatrixId;
-                    return this;
-                }
-
-                @Override
-                public Get set(String parameterName, Object value) {
-                    return (Get)super.set(parameterName, value);
-                }
-            }
-
-            /*
-             * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
-             */
-            public class Delete
-            extends TestingRequest<Empty> {
-                private static final String REST_PATH = "v1/projects/{projectId}/testMatrices/{testMatrixId}";
-                @Key
-                private String projectId;
-                @Key
-                private String testMatrixId;
-
-                protected Delete(String projectId, String testMatrixId) {
-                    super(Testing.this, "DELETE", "v1/projects/{projectId}/testMatrices/{testMatrixId}", null, Empty.class);
-                    this.projectId = Preconditions.checkNotNull(projectId, "Required parameter projectId must be specified.");
-                    this.testMatrixId = Preconditions.checkNotNull(testMatrixId, "Required parameter testMatrixId must be specified.");
-                }
-
-                public Delete set$Xgafv(String $Xgafv) {
-                    return (Delete)super.set$Xgafv($Xgafv);
-                }
-
-                public Delete setAccessToken(String accessToken) {
-                    return (Delete)super.setAccessToken(accessToken);
-                }
-
-                public Delete setAlt(String alt) {
-                    return (Delete)super.setAlt(alt);
-                }
-
-                public Delete setBearerToken(String bearerToken) {
-                    return (Delete)super.setBearerToken(bearerToken);
-                }
-
-                public Delete setCallback(String callback) {
-                    return (Delete)super.setCallback(callback);
-                }
-
-                public Delete setFields(String fields) {
-                    return (Delete)super.setFields(fields);
-                }
-
-                public Delete setKey(String key) {
-                    return (Delete)super.setKey(key);
-                }
-
-                public Delete setOauthToken(String oauthToken) {
-                    return (Delete)super.setOauthToken(oauthToken);
-                }
-
-                public Delete setPp(Boolean pp) {
-                    return (Delete)super.setPp(pp);
-                }
-
-                public Delete setPrettyPrint(Boolean prettyPrint) {
-                    return (Delete)super.setPrettyPrint(prettyPrint);
-                }
-
-                public Delete setQuotaUser(String quotaUser) {
-                    return (Delete)super.setQuotaUser(quotaUser);
-                }
-
-                public Delete setUploadType(String uploadType) {
-                    return (Delete)super.setUploadType(uploadType);
-                }
-
-                public Delete setUploadProtocol(String uploadProtocol) {
-                    return (Delete)super.setUploadProtocol(uploadProtocol);
-                }
-
-                public String getProjectId() {
-                    return this.projectId;
-                }
-
-                public Delete setProjectId(String projectId) {
-                    this.projectId = projectId;
-                    return this;
-                }
-
-                public String getTestMatrixId() {
-                    return this.testMatrixId;
-                }
-
-                public Delete setTestMatrixId(String testMatrixId) {
-                    this.testMatrixId = testMatrixId;
-                    return this;
-                }
-
-                @Override
-                public Delete set(String parameterName, Object value) {
-                    return (Delete)super.set(parameterName, value);
-                }
-            }
-
-            /*
-             * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
-             */
-            public class Create
-            extends TestingRequest<TestMatrix> {
-                private static final String REST_PATH = "v1/projects/{projectId}/testMatrices";
-                @Key
-                private String projectId;
-
-                protected Create(String projectId, TestMatrix content) {
-                    super(Testing.this, "POST", "v1/projects/{projectId}/testMatrices", content, TestMatrix.class);
-                    this.projectId = Preconditions.checkNotNull(projectId, "Required parameter projectId must be specified.");
-                }
-
-                public Create set$Xgafv(String $Xgafv) {
-                    return (Create)super.set$Xgafv($Xgafv);
-                }
-
-                public Create setAccessToken(String accessToken) {
-                    return (Create)super.setAccessToken(accessToken);
-                }
-
-                public Create setAlt(String alt) {
-                    return (Create)super.setAlt(alt);
-                }
-
-                public Create setBearerToken(String bearerToken) {
-                    return (Create)super.setBearerToken(bearerToken);
-                }
-
-                public Create setCallback(String callback) {
-                    return (Create)super.setCallback(callback);
-                }
-
-                public Create setFields(String fields) {
-                    return (Create)super.setFields(fields);
-                }
-
-                public Create setKey(String key) {
-                    return (Create)super.setKey(key);
-                }
-
-                public Create setOauthToken(String oauthToken) {
-                    return (Create)super.setOauthToken(oauthToken);
-                }
-
-                public Create setPp(Boolean pp) {
-                    return (Create)super.setPp(pp);
-                }
-
-                public Create setPrettyPrint(Boolean prettyPrint) {
-                    return (Create)super.setPrettyPrint(prettyPrint);
-                }
-
-                public Create setQuotaUser(String quotaUser) {
-                    return (Create)super.setQuotaUser(quotaUser);
-                }
-
-                public Create setUploadType(String uploadType) {
-                    return (Create)super.setUploadType(uploadType);
-                }
-
-                public Create setUploadProtocol(String uploadProtocol) {
-                    return (Create)super.setUploadProtocol(uploadProtocol);
-                }
-
-                public String getProjectId() {
-                    return this.projectId;
-                }
-
-                public Create setProjectId(String projectId) {
-                    this.projectId = projectId;
-                    return this;
-                }
-
-                @Override
-                public Create set(String parameterName, Object value) {
-                    return (Create)super.set(parameterName, value);
-                }
-            }
-
-            /*
-             * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
-             */
-            public class Cancel
-            extends TestingRequest<CancelTestMatrixResponse> {
-                private static final String REST_PATH = "v1/projects/{projectId}/testMatrices/{testMatrixId}:cancel";
-                @Key
-                private String projectId;
-                @Key
-                private String testMatrixId;
-
-                protected Cancel(String projectId, String testMatrixId) {
-                    super(Testing.this, "POST", "v1/projects/{projectId}/testMatrices/{testMatrixId}:cancel", null, CancelTestMatrixResponse.class);
-                    this.projectId = Preconditions.checkNotNull(projectId, "Required parameter projectId must be specified.");
-                    this.testMatrixId = Preconditions.checkNotNull(testMatrixId, "Required parameter testMatrixId must be specified.");
-                }
-
-                public Cancel set$Xgafv(String $Xgafv) {
-                    return (Cancel)super.set$Xgafv($Xgafv);
-                }
-
-                public Cancel setAccessToken(String accessToken) {
-                    return (Cancel)super.setAccessToken(accessToken);
-                }
-
-                public Cancel setAlt(String alt) {
-                    return (Cancel)super.setAlt(alt);
-                }
-
-                public Cancel setBearerToken(String bearerToken) {
-                    return (Cancel)super.setBearerToken(bearerToken);
-                }
-
-                public Cancel setCallback(String callback) {
-                    return (Cancel)super.setCallback(callback);
-                }
-
-                public Cancel setFields(String fields) {
-                    return (Cancel)super.setFields(fields);
-                }
-
-                public Cancel setKey(String key) {
-                    return (Cancel)super.setKey(key);
-                }
-
-                public Cancel setOauthToken(String oauthToken) {
-                    return (Cancel)super.setOauthToken(oauthToken);
-                }
-
-                public Cancel setPp(Boolean pp) {
-                    return (Cancel)super.setPp(pp);
-                }
-
-                public Cancel setPrettyPrint(Boolean prettyPrint) {
-                    return (Cancel)super.setPrettyPrint(prettyPrint);
-                }
-
-                public Cancel setQuotaUser(String quotaUser) {
-                    return (Cancel)super.setQuotaUser(quotaUser);
-                }
-
-                public Cancel setUploadType(String uploadType) {
-                    return (Cancel)super.setUploadType(uploadType);
-                }
-
-                public Cancel setUploadProtocol(String uploadProtocol) {
-                    return (Cancel)super.setUploadProtocol(uploadProtocol);
-                }
-
-                public String getProjectId() {
-                    return this.projectId;
-                }
-
-                public Cancel setProjectId(String projectId) {
-                    this.projectId = projectId;
-                    return this;
-                }
-
-                public String getTestMatrixId() {
-                    return this.testMatrixId;
-                }
-
-                public Cancel setTestMatrixId(String testMatrixId) {
-                    this.testMatrixId = testMatrixId;
-                    return this;
-                }
-
-                @Override
-                public Cancel set(String parameterName, Object value) {
-                    return (Cancel)super.set(parameterName, value);
-                }
-            }
-
-        }
-
-        public class Devices {
-            public Create create(String projectId, Device content) throws IOException {
-                Create result = new Create(projectId, content);
-                Testing.this.initialize(result);
-                return result;
-            }
-
-            public Delete delete(String projectId, String deviceId) throws IOException {
-                Delete result = new Delete(projectId, deviceId);
-                Testing.this.initialize(result);
-                return result;
-            }
-
-            public Get get(String projectId, String deviceId) throws IOException {
-                Get result = new Get(projectId, deviceId);
-                Testing.this.initialize(result);
-                return result;
-            }
-
-            public Keepalive keepalive(String projectId, String deviceId) throws IOException {
-                Keepalive result = new Keepalive(projectId, deviceId);
-                Testing.this.initialize(result);
-                return result;
-            }
-
-            public List list(String projectId) throws IOException {
-                List result = new List(projectId);
-                Testing.this.initialize(result);
-                return result;
-            }
-
-            /*
-             * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
-             */
-            public class List
-            extends TestingRequest<ListDevicesResponse> {
-                private static final String REST_PATH = "v1/projects/{projectId}/devices";
-                @Key
-                private String projectId;
-                @Key
-                private Integer pageSize;
-                @Key
-                private String pageToken;
-
-                protected List(String projectId) {
-                    super(Testing.this, "GET", "v1/projects/{projectId}/devices", null, ListDevicesResponse.class);
-                    this.projectId = Preconditions.checkNotNull(projectId, "Required parameter projectId must be specified.");
-                }
-
-                @Override
-                public HttpResponse executeUsingHead() throws IOException {
-                    return super.executeUsingHead();
-                }
-
-                @Override
-                public HttpRequest buildHttpRequestUsingHead() throws IOException {
-                    return super.buildHttpRequestUsingHead();
-                }
-
-                public List set$Xgafv(String $Xgafv) {
-                    return (List)super.set$Xgafv($Xgafv);
-                }
-
-                public List setAccessToken(String accessToken) {
-                    return (List)super.setAccessToken(accessToken);
-                }
-
-                public List setAlt(String alt) {
-                    return (List)super.setAlt(alt);
-                }
-
-                public List setBearerToken(String bearerToken) {
-                    return (List)super.setBearerToken(bearerToken);
-                }
-
-                public List setCallback(String callback) {
-                    return (List)super.setCallback(callback);
-                }
-
-                public List setFields(String fields) {
-                    return (List)super.setFields(fields);
-                }
-
-                public List setKey(String key) {
-                    return (List)super.setKey(key);
-                }
-
-                public List setOauthToken(String oauthToken) {
-                    return (List)super.setOauthToken(oauthToken);
-                }
-
-                public List setPp(Boolean pp) {
-                    return (List)super.setPp(pp);
-                }
-
-                public List setPrettyPrint(Boolean prettyPrint) {
-                    return (List)super.setPrettyPrint(prettyPrint);
-                }
-
-                public List setQuotaUser(String quotaUser) {
-                    return (List)super.setQuotaUser(quotaUser);
-                }
-
-                public List setUploadType(String uploadType) {
-                    return (List)super.setUploadType(uploadType);
-                }
-
-                public List setUploadProtocol(String uploadProtocol) {
-                    return (List)super.setUploadProtocol(uploadProtocol);
-                }
-
-                public String getProjectId() {
-                    return this.projectId;
-                }
-
-                public List setProjectId(String projectId) {
-                    this.projectId = projectId;
-                    return this;
-                }
-
-                public Integer getPageSize() {
-                    return this.pageSize;
-                }
-
-                public List setPageSize(Integer pageSize) {
-                    this.pageSize = pageSize;
-                    return this;
-                }
-
-                public String getPageToken() {
-                    return this.pageToken;
-                }
-
-                public List setPageToken(String pageToken) {
-                    this.pageToken = pageToken;
-                    return this;
-                }
-
-                @Override
-                public List set(String parameterName, Object value) {
-                    return (List)super.set(parameterName, value);
-                }
-            }
-
-            /*
-             * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
-             */
-            public class Keepalive
-            extends TestingRequest<Empty> {
-                private static final String REST_PATH = "v1/projects/{projectId}/devices/{deviceId}/keepalive";
-                @Key
-                private String projectId;
-                @Key
-                private String deviceId;
-
-                protected Keepalive(String projectId, String deviceId) {
-                    super(Testing.this, "POST", "v1/projects/{projectId}/devices/{deviceId}/keepalive", null, Empty.class);
-                    this.projectId = Preconditions.checkNotNull(projectId, "Required parameter projectId must be specified.");
-                    this.deviceId = Preconditions.checkNotNull(deviceId, "Required parameter deviceId must be specified.");
-                }
-
-                public Keepalive set$Xgafv(String $Xgafv) {
-                    return (Keepalive)super.set$Xgafv($Xgafv);
-                }
-
-                public Keepalive setAccessToken(String accessToken) {
-                    return (Keepalive)super.setAccessToken(accessToken);
-                }
-
-                public Keepalive setAlt(String alt) {
-                    return (Keepalive)super.setAlt(alt);
-                }
-
-                public Keepalive setBearerToken(String bearerToken) {
-                    return (Keepalive)super.setBearerToken(bearerToken);
-                }
-
-                public Keepalive setCallback(String callback) {
-                    return (Keepalive)super.setCallback(callback);
-                }
-
-                public Keepalive setFields(String fields) {
-                    return (Keepalive)super.setFields(fields);
-                }
-
-                public Keepalive setKey(String key) {
-                    return (Keepalive)super.setKey(key);
-                }
-
-                public Keepalive setOauthToken(String oauthToken) {
-                    return (Keepalive)super.setOauthToken(oauthToken);
-                }
-
-                public Keepalive setPp(Boolean pp) {
-                    return (Keepalive)super.setPp(pp);
-                }
-
-                public Keepalive setPrettyPrint(Boolean prettyPrint) {
-                    return (Keepalive)super.setPrettyPrint(prettyPrint);
-                }
-
-                public Keepalive setQuotaUser(String quotaUser) {
-                    return (Keepalive)super.setQuotaUser(quotaUser);
-                }
-
-                public Keepalive setUploadType(String uploadType) {
-                    return (Keepalive)super.setUploadType(uploadType);
-                }
-
-                public Keepalive setUploadProtocol(String uploadProtocol) {
-                    return (Keepalive)super.setUploadProtocol(uploadProtocol);
-                }
-
-                public String getProjectId() {
-                    return this.projectId;
-                }
-
-                public Keepalive setProjectId(String projectId) {
-                    this.projectId = projectId;
-                    return this;
-                }
-
-                public String getDeviceId() {
-                    return this.deviceId;
-                }
-
-                public Keepalive setDeviceId(String deviceId) {
-                    this.deviceId = deviceId;
-                    return this;
-                }
-
-                @Override
-                public Keepalive set(String parameterName, Object value) {
-                    return (Keepalive)super.set(parameterName, value);
-                }
-            }
-
-            /*
-             * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
-             */
-            public class Get
-            extends TestingRequest<Device> {
-                private static final String REST_PATH = "v1/projects/{projectId}/devices/{deviceId}";
-                @Key
-                private String projectId;
-                @Key
-                private String deviceId;
-
-                protected Get(String projectId, String deviceId) {
-                    super(Testing.this, "GET", "v1/projects/{projectId}/devices/{deviceId}", null, Device.class);
-                    this.projectId = Preconditions.checkNotNull(projectId, "Required parameter projectId must be specified.");
-                    this.deviceId = Preconditions.checkNotNull(deviceId, "Required parameter deviceId must be specified.");
-                }
-
-                @Override
-                public HttpResponse executeUsingHead() throws IOException {
-                    return super.executeUsingHead();
-                }
-
-                @Override
-                public HttpRequest buildHttpRequestUsingHead() throws IOException {
-                    return super.buildHttpRequestUsingHead();
-                }
-
-                public Get set$Xgafv(String $Xgafv) {
-                    return (Get)super.set$Xgafv($Xgafv);
-                }
-
-                public Get setAccessToken(String accessToken) {
-                    return (Get)super.setAccessToken(accessToken);
-                }
-
-                public Get setAlt(String alt) {
-                    return (Get)super.setAlt(alt);
-                }
-
-                public Get setBearerToken(String bearerToken) {
-                    return (Get)super.setBearerToken(bearerToken);
-                }
-
-                public Get setCallback(String callback) {
-                    return (Get)super.setCallback(callback);
-                }
-
-                public Get setFields(String fields) {
-                    return (Get)super.setFields(fields);
-                }
-
-                public Get setKey(String key) {
-                    return (Get)super.setKey(key);
-                }
-
-                public Get setOauthToken(String oauthToken) {
-                    return (Get)super.setOauthToken(oauthToken);
-                }
-
-                public Get setPp(Boolean pp) {
-                    return (Get)super.setPp(pp);
-                }
-
-                public Get setPrettyPrint(Boolean prettyPrint) {
-                    return (Get)super.setPrettyPrint(prettyPrint);
-                }
-
-                public Get setQuotaUser(String quotaUser) {
-                    return (Get)super.setQuotaUser(quotaUser);
-                }
-
-                public Get setUploadType(String uploadType) {
-                    return (Get)super.setUploadType(uploadType);
-                }
-
-                public Get setUploadProtocol(String uploadProtocol) {
-                    return (Get)super.setUploadProtocol(uploadProtocol);
-                }
-
-                public String getProjectId() {
-                    return this.projectId;
-                }
-
-                public Get setProjectId(String projectId) {
-                    this.projectId = projectId;
-                    return this;
-                }
-
-                public String getDeviceId() {
-                    return this.deviceId;
-                }
-
-                public Get setDeviceId(String deviceId) {
-                    this.deviceId = deviceId;
-                    return this;
-                }
-
-                @Override
-                public Get set(String parameterName, Object value) {
-                    return (Get)super.set(parameterName, value);
-                }
-            }
-
-            /*
-             * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
-             */
-            public class Delete
-            extends TestingRequest<Empty> {
-                private static final String REST_PATH = "v1/projects/{projectId}/devices/{deviceId}";
-                @Key
-                private String projectId;
-                @Key
-                private String deviceId;
-
-                protected Delete(String projectId, String deviceId) {
-                    super(Testing.this, "DELETE", "v1/projects/{projectId}/devices/{deviceId}", null, Empty.class);
-                    this.projectId = Preconditions.checkNotNull(projectId, "Required parameter projectId must be specified.");
-                    this.deviceId = Preconditions.checkNotNull(deviceId, "Required parameter deviceId must be specified.");
-                }
-
-                public Delete set$Xgafv(String $Xgafv) {
-                    return (Delete)super.set$Xgafv($Xgafv);
-                }
-
-                public Delete setAccessToken(String accessToken) {
-                    return (Delete)super.setAccessToken(accessToken);
-                }
-
-                public Delete setAlt(String alt) {
-                    return (Delete)super.setAlt(alt);
-                }
-
-                public Delete setBearerToken(String bearerToken) {
-                    return (Delete)super.setBearerToken(bearerToken);
-                }
-
-                public Delete setCallback(String callback) {
-                    return (Delete)super.setCallback(callback);
-                }
-
-                public Delete setFields(String fields) {
-                    return (Delete)super.setFields(fields);
-                }
-
-                public Delete setKey(String key) {
-                    return (Delete)super.setKey(key);
-                }
-
-                public Delete setOauthToken(String oauthToken) {
-                    return (Delete)super.setOauthToken(oauthToken);
-                }
-
-                public Delete setPp(Boolean pp) {
-                    return (Delete)super.setPp(pp);
-                }
-
-                public Delete setPrettyPrint(Boolean prettyPrint) {
-                    return (Delete)super.setPrettyPrint(prettyPrint);
-                }
-
-                public Delete setQuotaUser(String quotaUser) {
-                    return (Delete)super.setQuotaUser(quotaUser);
-                }
-
-                public Delete setUploadType(String uploadType) {
-                    return (Delete)super.setUploadType(uploadType);
-                }
-
-                public Delete setUploadProtocol(String uploadProtocol) {
-                    return (Delete)super.setUploadProtocol(uploadProtocol);
-                }
-
-                public String getProjectId() {
-                    return this.projectId;
-                }
-
-                public Delete setProjectId(String projectId) {
-                    this.projectId = projectId;
-                    return this;
-                }
-
-                public String getDeviceId() {
-                    return this.deviceId;
-                }
-
-                public Delete setDeviceId(String deviceId) {
-                    this.deviceId = deviceId;
-                    return this;
-                }
-
-                @Override
-                public Delete set(String parameterName, Object value) {
-                    return (Delete)super.set(parameterName, value);
-                }
-            }
-
-            /*
-             * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
-             */
-            public class Create
-            extends TestingRequest<Device> {
-                private static final String REST_PATH = "v1/projects/{projectId}/devices";
-                @Key
-                private String projectId;
-                @Key
-                private String sshPublicKey;
-
-                protected Create(String projectId, Device content) {
-                    super(Testing.this, "POST", "v1/projects/{projectId}/devices", content, Device.class);
-                    this.projectId = Preconditions.checkNotNull(projectId, "Required parameter projectId must be specified.");
-                }
-
-                public Create set$Xgafv(String $Xgafv) {
-                    return (Create)super.set$Xgafv($Xgafv);
-                }
-
-                public Create setAccessToken(String accessToken) {
-                    return (Create)super.setAccessToken(accessToken);
-                }
-
-                public Create setAlt(String alt) {
-                    return (Create)super.setAlt(alt);
-                }
-
-                public Create setBearerToken(String bearerToken) {
-                    return (Create)super.setBearerToken(bearerToken);
-                }
-
-                public Create setCallback(String callback) {
-                    return (Create)super.setCallback(callback);
-                }
-
-                public Create setFields(String fields) {
-                    return (Create)super.setFields(fields);
-                }
-
-                public Create setKey(String key) {
-                    return (Create)super.setKey(key);
-                }
-
-                public Create setOauthToken(String oauthToken) {
-                    return (Create)super.setOauthToken(oauthToken);
-                }
-
-                public Create setPp(Boolean pp) {
-                    return (Create)super.setPp(pp);
-                }
-
-                public Create setPrettyPrint(Boolean prettyPrint) {
-                    return (Create)super.setPrettyPrint(prettyPrint);
-                }
-
-                public Create setQuotaUser(String quotaUser) {
-                    return (Create)super.setQuotaUser(quotaUser);
-                }
-
-                public Create setUploadType(String uploadType) {
-                    return (Create)super.setUploadType(uploadType);
-                }
-
-                public Create setUploadProtocol(String uploadProtocol) {
-                    return (Create)super.setUploadProtocol(uploadProtocol);
-                }
-
-                public String getProjectId() {
-                    return this.projectId;
-                }
-
-                public Create setProjectId(String projectId) {
-                    this.projectId = projectId;
-                    return this;
-                }
-
-                public String getSshPublicKey() {
-                    return this.sshPublicKey;
-                }
-
-                public Create setSshPublicKey(String sshPublicKey) {
-                    this.sshPublicKey = sshPublicKey;
-                    return this;
-                }
-
-                @Override
-                public Create set(String parameterName, Object value) {
-                    return (Create)super.set(parameterName, value);
-                }
-            }
-
-        }
-
+    public Testing.Projects.TestMatrices testMatrices() {
+      return new Testing.Projects.TestMatrices();
     }
 
+    public class TestMatrices {
+      public Testing.Projects.TestMatrices.Cancel cancel(String projectId, String testMatrixId)
+          throws IOException {
+        Testing.Projects.TestMatrices.Cancel result =
+            new Testing.Projects.TestMatrices.Cancel(projectId, testMatrixId);
+        Testing.this.initialize(result);
+        return result;
+      }
+
+      public Testing.Projects.TestMatrices.Create create(String projectId, TestMatrix content)
+          throws IOException {
+        Testing.Projects.TestMatrices.Create result =
+            new Testing.Projects.TestMatrices.Create(projectId, content);
+        Testing.this.initialize(result);
+        return result;
+      }
+
+      public Testing.Projects.TestMatrices.Delete delete(String projectId, String testMatrixId)
+          throws IOException {
+        Testing.Projects.TestMatrices.Delete result =
+            new Testing.Projects.TestMatrices.Delete(projectId, testMatrixId);
+        Testing.this.initialize(result);
+        return result;
+      }
+
+      public Testing.Projects.TestMatrices.Get get(String projectId, String testMatrixId)
+          throws IOException {
+        Testing.Projects.TestMatrices.Get result =
+            new Testing.Projects.TestMatrices.Get(projectId, testMatrixId);
+        Testing.this.initialize(result);
+        return result;
+      }
+
+      public Testing.Projects.TestMatrices.List list(String projectId) throws IOException {
+        Testing.Projects.TestMatrices.List result =
+            new Testing.Projects.TestMatrices.List(projectId);
+        Testing.this.initialize(result);
+        return result;
+      }
+
+      public class List extends TestingRequest<ListTestMatricesResponse> {
+        private static final String REST_PATH = "v1/projects/{projectId}/testMatrices";
+        @Key private String projectId;
+
+        protected List(String projectId) {
+          super(
+              Testing.this,
+              "GET",
+              "v1/projects/{projectId}/testMatrices",
+              (Object) null,
+              ListTestMatricesResponse.class);
+          this.projectId =
+              (String)
+                  Preconditions.checkNotNull(
+                      projectId, "Required parameter projectId must be specified.");
+        }
+
+        public HttpResponse executeUsingHead() throws IOException {
+          return super.executeUsingHead();
+        }
+
+        public HttpRequest buildHttpRequestUsingHead() throws IOException {
+          return super.buildHttpRequestUsingHead();
+        }
+
+        public Testing.Projects.TestMatrices.List set$Xgafv(String $Xgafv) {
+          return (Testing.Projects.TestMatrices.List) super.set$Xgafv($Xgafv);
+        }
+
+        public Testing.Projects.TestMatrices.List setAccessToken(String accessToken) {
+          return (Testing.Projects.TestMatrices.List) super.setAccessToken(accessToken);
+        }
+
+        public Testing.Projects.TestMatrices.List setAlt(String alt) {
+          return (Testing.Projects.TestMatrices.List) super.setAlt(alt);
+        }
+
+        public Testing.Projects.TestMatrices.List setBearerToken(String bearerToken) {
+          return (Testing.Projects.TestMatrices.List) super.setBearerToken(bearerToken);
+        }
+
+        public Testing.Projects.TestMatrices.List setCallback(String callback) {
+          return (Testing.Projects.TestMatrices.List) super.setCallback(callback);
+        }
+
+        public Testing.Projects.TestMatrices.List setFields(String fields) {
+          return (Testing.Projects.TestMatrices.List) super.setFields(fields);
+        }
+
+        public Testing.Projects.TestMatrices.List setKey(String key) {
+          return (Testing.Projects.TestMatrices.List) super.setKey(key);
+        }
+
+        public Testing.Projects.TestMatrices.List setOauthToken(String oauthToken) {
+          return (Testing.Projects.TestMatrices.List) super.setOauthToken(oauthToken);
+        }
+
+        public Testing.Projects.TestMatrices.List setPp(Boolean pp) {
+          return (Testing.Projects.TestMatrices.List) super.setPp(pp);
+        }
+
+        public Testing.Projects.TestMatrices.List setPrettyPrint(Boolean prettyPrint) {
+          return (Testing.Projects.TestMatrices.List) super.setPrettyPrint(prettyPrint);
+        }
+
+        public Testing.Projects.TestMatrices.List setQuotaUser(String quotaUser) {
+          return (Testing.Projects.TestMatrices.List) super.setQuotaUser(quotaUser);
+        }
+
+        public Testing.Projects.TestMatrices.List setUploadType(String uploadType) {
+          return (Testing.Projects.TestMatrices.List) super.setUploadType(uploadType);
+        }
+
+        public Testing.Projects.TestMatrices.List setUploadProtocol(String uploadProtocol) {
+          return (Testing.Projects.TestMatrices.List) super.setUploadProtocol(uploadProtocol);
+        }
+
+        public String getProjectId() {
+          return this.projectId;
+        }
+
+        public Testing.Projects.TestMatrices.List setProjectId(String projectId) {
+          this.projectId = projectId;
+          return this;
+        }
+
+        public Testing.Projects.TestMatrices.List set(String parameterName, Object value) {
+          return (Testing.Projects.TestMatrices.List) super.set(parameterName, value);
+        }
+      }
+
+      public class Get extends TestingRequest<TestMatrix> {
+        private static final String REST_PATH =
+            "v1/projects/{projectId}/testMatrices/{testMatrixId}";
+        @Key private String projectId;
+        @Key private String testMatrixId;
+
+        protected Get(String projectId, String testMatrixId) {
+          super(
+              Testing.this,
+              "GET",
+              "v1/projects/{projectId}/testMatrices/{testMatrixId}",
+              (Object) null,
+              TestMatrix.class);
+          this.projectId =
+              (String)
+                  Preconditions.checkNotNull(
+                      projectId, "Required parameter projectId must be specified.");
+          this.testMatrixId =
+              (String)
+                  Preconditions.checkNotNull(
+                      testMatrixId, "Required parameter testMatrixId must be specified.");
+        }
+
+        public HttpResponse executeUsingHead() throws IOException {
+          return super.executeUsingHead();
+        }
+
+        public HttpRequest buildHttpRequestUsingHead() throws IOException {
+          return super.buildHttpRequestUsingHead();
+        }
+
+        public Testing.Projects.TestMatrices.Get set$Xgafv(String $Xgafv) {
+          return (Testing.Projects.TestMatrices.Get) super.set$Xgafv($Xgafv);
+        }
+
+        public Testing.Projects.TestMatrices.Get setAccessToken(String accessToken) {
+          return (Testing.Projects.TestMatrices.Get) super.setAccessToken(accessToken);
+        }
+
+        public Testing.Projects.TestMatrices.Get setAlt(String alt) {
+          return (Testing.Projects.TestMatrices.Get) super.setAlt(alt);
+        }
+
+        public Testing.Projects.TestMatrices.Get setBearerToken(String bearerToken) {
+          return (Testing.Projects.TestMatrices.Get) super.setBearerToken(bearerToken);
+        }
+
+        public Testing.Projects.TestMatrices.Get setCallback(String callback) {
+          return (Testing.Projects.TestMatrices.Get) super.setCallback(callback);
+        }
+
+        public Testing.Projects.TestMatrices.Get setFields(String fields) {
+          return (Testing.Projects.TestMatrices.Get) super.setFields(fields);
+        }
+
+        public Testing.Projects.TestMatrices.Get setKey(String key) {
+          return (Testing.Projects.TestMatrices.Get) super.setKey(key);
+        }
+
+        public Testing.Projects.TestMatrices.Get setOauthToken(String oauthToken) {
+          return (Testing.Projects.TestMatrices.Get) super.setOauthToken(oauthToken);
+        }
+
+        public Testing.Projects.TestMatrices.Get setPp(Boolean pp) {
+          return (Testing.Projects.TestMatrices.Get) super.setPp(pp);
+        }
+
+        public Testing.Projects.TestMatrices.Get setPrettyPrint(Boolean prettyPrint) {
+          return (Testing.Projects.TestMatrices.Get) super.setPrettyPrint(prettyPrint);
+        }
+
+        public Testing.Projects.TestMatrices.Get setQuotaUser(String quotaUser) {
+          return (Testing.Projects.TestMatrices.Get) super.setQuotaUser(quotaUser);
+        }
+
+        public Testing.Projects.TestMatrices.Get setUploadType(String uploadType) {
+          return (Testing.Projects.TestMatrices.Get) super.setUploadType(uploadType);
+        }
+
+        public Testing.Projects.TestMatrices.Get setUploadProtocol(String uploadProtocol) {
+          return (Testing.Projects.TestMatrices.Get) super.setUploadProtocol(uploadProtocol);
+        }
+
+        public String getProjectId() {
+          return this.projectId;
+        }
+
+        public Testing.Projects.TestMatrices.Get setProjectId(String projectId) {
+          this.projectId = projectId;
+          return this;
+        }
+
+        public String getTestMatrixId() {
+          return this.testMatrixId;
+        }
+
+        public Testing.Projects.TestMatrices.Get setTestMatrixId(String testMatrixId) {
+          this.testMatrixId = testMatrixId;
+          return this;
+        }
+
+        public Testing.Projects.TestMatrices.Get set(String parameterName, Object value) {
+          return (Testing.Projects.TestMatrices.Get) super.set(parameterName, value);
+        }
+      }
+
+      public class Delete extends TestingRequest<Empty> {
+        private static final String REST_PATH =
+            "v1/projects/{projectId}/testMatrices/{testMatrixId}";
+        @Key private String projectId;
+        @Key private String testMatrixId;
+
+        protected Delete(String projectId, String testMatrixId) {
+          super(
+              Testing.this,
+              "DELETE",
+              "v1/projects/{projectId}/testMatrices/{testMatrixId}",
+              (Object) null,
+              Empty.class);
+          this.projectId =
+              (String)
+                  Preconditions.checkNotNull(
+                      projectId, "Required parameter projectId must be specified.");
+          this.testMatrixId =
+              (String)
+                  Preconditions.checkNotNull(
+                      testMatrixId, "Required parameter testMatrixId must be specified.");
+        }
+
+        public Testing.Projects.TestMatrices.Delete set$Xgafv(String $Xgafv) {
+          return (Testing.Projects.TestMatrices.Delete) super.set$Xgafv($Xgafv);
+        }
+
+        public Testing.Projects.TestMatrices.Delete setAccessToken(String accessToken) {
+          return (Testing.Projects.TestMatrices.Delete) super.setAccessToken(accessToken);
+        }
+
+        public Testing.Projects.TestMatrices.Delete setAlt(String alt) {
+          return (Testing.Projects.TestMatrices.Delete) super.setAlt(alt);
+        }
+
+        public Testing.Projects.TestMatrices.Delete setBearerToken(String bearerToken) {
+          return (Testing.Projects.TestMatrices.Delete) super.setBearerToken(bearerToken);
+        }
+
+        public Testing.Projects.TestMatrices.Delete setCallback(String callback) {
+          return (Testing.Projects.TestMatrices.Delete) super.setCallback(callback);
+        }
+
+        public Testing.Projects.TestMatrices.Delete setFields(String fields) {
+          return (Testing.Projects.TestMatrices.Delete) super.setFields(fields);
+        }
+
+        public Testing.Projects.TestMatrices.Delete setKey(String key) {
+          return (Testing.Projects.TestMatrices.Delete) super.setKey(key);
+        }
+
+        public Testing.Projects.TestMatrices.Delete setOauthToken(String oauthToken) {
+          return (Testing.Projects.TestMatrices.Delete) super.setOauthToken(oauthToken);
+        }
+
+        public Testing.Projects.TestMatrices.Delete setPp(Boolean pp) {
+          return (Testing.Projects.TestMatrices.Delete) super.setPp(pp);
+        }
+
+        public Testing.Projects.TestMatrices.Delete setPrettyPrint(Boolean prettyPrint) {
+          return (Testing.Projects.TestMatrices.Delete) super.setPrettyPrint(prettyPrint);
+        }
+
+        public Testing.Projects.TestMatrices.Delete setQuotaUser(String quotaUser) {
+          return (Testing.Projects.TestMatrices.Delete) super.setQuotaUser(quotaUser);
+        }
+
+        public Testing.Projects.TestMatrices.Delete setUploadType(String uploadType) {
+          return (Testing.Projects.TestMatrices.Delete) super.setUploadType(uploadType);
+        }
+
+        public Testing.Projects.TestMatrices.Delete setUploadProtocol(String uploadProtocol) {
+          return (Testing.Projects.TestMatrices.Delete) super.setUploadProtocol(uploadProtocol);
+        }
+
+        public String getProjectId() {
+          return this.projectId;
+        }
+
+        public Testing.Projects.TestMatrices.Delete setProjectId(String projectId) {
+          this.projectId = projectId;
+          return this;
+        }
+
+        public String getTestMatrixId() {
+          return this.testMatrixId;
+        }
+
+        public Testing.Projects.TestMatrices.Delete setTestMatrixId(String testMatrixId) {
+          this.testMatrixId = testMatrixId;
+          return this;
+        }
+
+        public Testing.Projects.TestMatrices.Delete set(String parameterName, Object value) {
+          return (Testing.Projects.TestMatrices.Delete) super.set(parameterName, value);
+        }
+      }
+
+      public class Create extends TestingRequest<TestMatrix> {
+        private static final String REST_PATH = "v1/projects/{projectId}/testMatrices";
+        @Key private String projectId;
+
+        protected Create(String projectId, TestMatrix content) {
+          super(
+              Testing.this,
+              "POST",
+              "v1/projects/{projectId}/testMatrices",
+              content,
+              TestMatrix.class);
+          this.projectId =
+              (String)
+                  Preconditions.checkNotNull(
+                      projectId, "Required parameter projectId must be specified.");
+        }
+
+        public Testing.Projects.TestMatrices.Create set$Xgafv(String $Xgafv) {
+          return (Testing.Projects.TestMatrices.Create) super.set$Xgafv($Xgafv);
+        }
+
+        public Testing.Projects.TestMatrices.Create setAccessToken(String accessToken) {
+          return (Testing.Projects.TestMatrices.Create) super.setAccessToken(accessToken);
+        }
+
+        public Testing.Projects.TestMatrices.Create setAlt(String alt) {
+          return (Testing.Projects.TestMatrices.Create) super.setAlt(alt);
+        }
+
+        public Testing.Projects.TestMatrices.Create setBearerToken(String bearerToken) {
+          return (Testing.Projects.TestMatrices.Create) super.setBearerToken(bearerToken);
+        }
+
+        public Testing.Projects.TestMatrices.Create setCallback(String callback) {
+          return (Testing.Projects.TestMatrices.Create) super.setCallback(callback);
+        }
+
+        public Testing.Projects.TestMatrices.Create setFields(String fields) {
+          return (Testing.Projects.TestMatrices.Create) super.setFields(fields);
+        }
+
+        public Testing.Projects.TestMatrices.Create setKey(String key) {
+          return (Testing.Projects.TestMatrices.Create) super.setKey(key);
+        }
+
+        public Testing.Projects.TestMatrices.Create setOauthToken(String oauthToken) {
+          return (Testing.Projects.TestMatrices.Create) super.setOauthToken(oauthToken);
+        }
+
+        public Testing.Projects.TestMatrices.Create setPp(Boolean pp) {
+          return (Testing.Projects.TestMatrices.Create) super.setPp(pp);
+        }
+
+        public Testing.Projects.TestMatrices.Create setPrettyPrint(Boolean prettyPrint) {
+          return (Testing.Projects.TestMatrices.Create) super.setPrettyPrint(prettyPrint);
+        }
+
+        public Testing.Projects.TestMatrices.Create setQuotaUser(String quotaUser) {
+          return (Testing.Projects.TestMatrices.Create) super.setQuotaUser(quotaUser);
+        }
+
+        public Testing.Projects.TestMatrices.Create setUploadType(String uploadType) {
+          return (Testing.Projects.TestMatrices.Create) super.setUploadType(uploadType);
+        }
+
+        public Testing.Projects.TestMatrices.Create setUploadProtocol(String uploadProtocol) {
+          return (Testing.Projects.TestMatrices.Create) super.setUploadProtocol(uploadProtocol);
+        }
+
+        public String getProjectId() {
+          return this.projectId;
+        }
+
+        public Testing.Projects.TestMatrices.Create setProjectId(String projectId) {
+          this.projectId = projectId;
+          return this;
+        }
+
+        public Testing.Projects.TestMatrices.Create set(String parameterName, Object value) {
+          return (Testing.Projects.TestMatrices.Create) super.set(parameterName, value);
+        }
+      }
+
+      public class Cancel extends TestingRequest<CancelTestMatrixResponse> {
+        private static final String REST_PATH =
+            "v1/projects/{projectId}/testMatrices/{testMatrixId}:cancel";
+        @Key private String projectId;
+        @Key private String testMatrixId;
+
+        protected Cancel(String projectId, String testMatrixId) {
+          super(
+              Testing.this,
+              "POST",
+              "v1/projects/{projectId}/testMatrices/{testMatrixId}:cancel",
+              (Object) null,
+              CancelTestMatrixResponse.class);
+          this.projectId =
+              (String)
+                  Preconditions.checkNotNull(
+                      projectId, "Required parameter projectId must be specified.");
+          this.testMatrixId =
+              (String)
+                  Preconditions.checkNotNull(
+                      testMatrixId, "Required parameter testMatrixId must be specified.");
+        }
+
+        public Testing.Projects.TestMatrices.Cancel set$Xgafv(String $Xgafv) {
+          return (Testing.Projects.TestMatrices.Cancel) super.set$Xgafv($Xgafv);
+        }
+
+        public Testing.Projects.TestMatrices.Cancel setAccessToken(String accessToken) {
+          return (Testing.Projects.TestMatrices.Cancel) super.setAccessToken(accessToken);
+        }
+
+        public Testing.Projects.TestMatrices.Cancel setAlt(String alt) {
+          return (Testing.Projects.TestMatrices.Cancel) super.setAlt(alt);
+        }
+
+        public Testing.Projects.TestMatrices.Cancel setBearerToken(String bearerToken) {
+          return (Testing.Projects.TestMatrices.Cancel) super.setBearerToken(bearerToken);
+        }
+
+        public Testing.Projects.TestMatrices.Cancel setCallback(String callback) {
+          return (Testing.Projects.TestMatrices.Cancel) super.setCallback(callback);
+        }
+
+        public Testing.Projects.TestMatrices.Cancel setFields(String fields) {
+          return (Testing.Projects.TestMatrices.Cancel) super.setFields(fields);
+        }
+
+        public Testing.Projects.TestMatrices.Cancel setKey(String key) {
+          return (Testing.Projects.TestMatrices.Cancel) super.setKey(key);
+        }
+
+        public Testing.Projects.TestMatrices.Cancel setOauthToken(String oauthToken) {
+          return (Testing.Projects.TestMatrices.Cancel) super.setOauthToken(oauthToken);
+        }
+
+        public Testing.Projects.TestMatrices.Cancel setPp(Boolean pp) {
+          return (Testing.Projects.TestMatrices.Cancel) super.setPp(pp);
+        }
+
+        public Testing.Projects.TestMatrices.Cancel setPrettyPrint(Boolean prettyPrint) {
+          return (Testing.Projects.TestMatrices.Cancel) super.setPrettyPrint(prettyPrint);
+        }
+
+        public Testing.Projects.TestMatrices.Cancel setQuotaUser(String quotaUser) {
+          return (Testing.Projects.TestMatrices.Cancel) super.setQuotaUser(quotaUser);
+        }
+
+        public Testing.Projects.TestMatrices.Cancel setUploadType(String uploadType) {
+          return (Testing.Projects.TestMatrices.Cancel) super.setUploadType(uploadType);
+        }
+
+        public Testing.Projects.TestMatrices.Cancel setUploadProtocol(String uploadProtocol) {
+          return (Testing.Projects.TestMatrices.Cancel) super.setUploadProtocol(uploadProtocol);
+        }
+
+        public String getProjectId() {
+          return this.projectId;
+        }
+
+        public Testing.Projects.TestMatrices.Cancel setProjectId(String projectId) {
+          this.projectId = projectId;
+          return this;
+        }
+
+        public String getTestMatrixId() {
+          return this.testMatrixId;
+        }
+
+        public Testing.Projects.TestMatrices.Cancel setTestMatrixId(String testMatrixId) {
+          this.testMatrixId = testMatrixId;
+          return this;
+        }
+
+        public Testing.Projects.TestMatrices.Cancel set(String parameterName, Object value) {
+          return (Testing.Projects.TestMatrices.Cancel) super.set(parameterName, value);
+        }
+      }
+    }
+
+    public class Devices {
+      public Testing.Projects.Devices.Create create(String projectId, Device content)
+          throws IOException {
+        Testing.Projects.Devices.Create result =
+            new Testing.Projects.Devices.Create(projectId, content);
+        Testing.this.initialize(result);
+        return result;
+      }
+
+      public Testing.Projects.Devices.Delete delete(String projectId, String deviceId)
+          throws IOException {
+        Testing.Projects.Devices.Delete result =
+            new Testing.Projects.Devices.Delete(projectId, deviceId);
+        Testing.this.initialize(result);
+        return result;
+      }
+
+      public Testing.Projects.Devices.Get get(String projectId, String deviceId)
+          throws IOException {
+        Testing.Projects.Devices.Get result = new Testing.Projects.Devices.Get(projectId, deviceId);
+        Testing.this.initialize(result);
+        return result;
+      }
+
+      public Testing.Projects.Devices.Keepalive keepalive(String projectId, String deviceId)
+          throws IOException {
+        Testing.Projects.Devices.Keepalive result =
+            new Testing.Projects.Devices.Keepalive(projectId, deviceId);
+        Testing.this.initialize(result);
+        return result;
+      }
+
+      public Testing.Projects.Devices.List list(String projectId) throws IOException {
+        Testing.Projects.Devices.List result = new Testing.Projects.Devices.List(projectId);
+        Testing.this.initialize(result);
+        return result;
+      }
+
+      public class List extends TestingRequest<ListDevicesResponse> {
+        private static final String REST_PATH = "v1/projects/{projectId}/devices";
+        @Key private String projectId;
+        @Key private Integer pageSize;
+        @Key private String pageToken;
+
+        protected List(String projectId) {
+          super(
+              Testing.this,
+              "GET",
+              "v1/projects/{projectId}/devices",
+              (Object) null,
+              ListDevicesResponse.class);
+          this.projectId =
+              (String)
+                  Preconditions.checkNotNull(
+                      projectId, "Required parameter projectId must be specified.");
+        }
+
+        public HttpResponse executeUsingHead() throws IOException {
+          return super.executeUsingHead();
+        }
+
+        public HttpRequest buildHttpRequestUsingHead() throws IOException {
+          return super.buildHttpRequestUsingHead();
+        }
+
+        public Testing.Projects.Devices.List set$Xgafv(String $Xgafv) {
+          return (Testing.Projects.Devices.List) super.set$Xgafv($Xgafv);
+        }
+
+        public Testing.Projects.Devices.List setAccessToken(String accessToken) {
+          return (Testing.Projects.Devices.List) super.setAccessToken(accessToken);
+        }
+
+        public Testing.Projects.Devices.List setAlt(String alt) {
+          return (Testing.Projects.Devices.List) super.setAlt(alt);
+        }
+
+        public Testing.Projects.Devices.List setBearerToken(String bearerToken) {
+          return (Testing.Projects.Devices.List) super.setBearerToken(bearerToken);
+        }
+
+        public Testing.Projects.Devices.List setCallback(String callback) {
+          return (Testing.Projects.Devices.List) super.setCallback(callback);
+        }
+
+        public Testing.Projects.Devices.List setFields(String fields) {
+          return (Testing.Projects.Devices.List) super.setFields(fields);
+        }
+
+        public Testing.Projects.Devices.List setKey(String key) {
+          return (Testing.Projects.Devices.List) super.setKey(key);
+        }
+
+        public Testing.Projects.Devices.List setOauthToken(String oauthToken) {
+          return (Testing.Projects.Devices.List) super.setOauthToken(oauthToken);
+        }
+
+        public Testing.Projects.Devices.List setPp(Boolean pp) {
+          return (Testing.Projects.Devices.List) super.setPp(pp);
+        }
+
+        public Testing.Projects.Devices.List setPrettyPrint(Boolean prettyPrint) {
+          return (Testing.Projects.Devices.List) super.setPrettyPrint(prettyPrint);
+        }
+
+        public Testing.Projects.Devices.List setQuotaUser(String quotaUser) {
+          return (Testing.Projects.Devices.List) super.setQuotaUser(quotaUser);
+        }
+
+        public Testing.Projects.Devices.List setUploadType(String uploadType) {
+          return (Testing.Projects.Devices.List) super.setUploadType(uploadType);
+        }
+
+        public Testing.Projects.Devices.List setUploadProtocol(String uploadProtocol) {
+          return (Testing.Projects.Devices.List) super.setUploadProtocol(uploadProtocol);
+        }
+
+        public String getProjectId() {
+          return this.projectId;
+        }
+
+        public Testing.Projects.Devices.List setProjectId(String projectId) {
+          this.projectId = projectId;
+          return this;
+        }
+
+        public Integer getPageSize() {
+          return this.pageSize;
+        }
+
+        public Testing.Projects.Devices.List setPageSize(Integer pageSize) {
+          this.pageSize = pageSize;
+          return this;
+        }
+
+        public String getPageToken() {
+          return this.pageToken;
+        }
+
+        public Testing.Projects.Devices.List setPageToken(String pageToken) {
+          this.pageToken = pageToken;
+          return this;
+        }
+
+        public Testing.Projects.Devices.List set(String parameterName, Object value) {
+          return (Testing.Projects.Devices.List) super.set(parameterName, value);
+        }
+      }
+
+      public class Keepalive extends TestingRequest<Empty> {
+        private static final String REST_PATH =
+            "v1/projects/{projectId}/devices/{deviceId}/keepalive";
+        @Key private String projectId;
+        @Key private String deviceId;
+
+        protected Keepalive(String projectId, String deviceId) {
+          super(
+              Testing.this,
+              "POST",
+              "v1/projects/{projectId}/devices/{deviceId}/keepalive",
+              (Object) null,
+              Empty.class);
+          this.projectId =
+              (String)
+                  Preconditions.checkNotNull(
+                      projectId, "Required parameter projectId must be specified.");
+          this.deviceId =
+              (String)
+                  Preconditions.checkNotNull(
+                      deviceId, "Required parameter deviceId must be specified.");
+        }
+
+        public Testing.Projects.Devices.Keepalive set$Xgafv(String $Xgafv) {
+          return (Testing.Projects.Devices.Keepalive) super.set$Xgafv($Xgafv);
+        }
+
+        public Testing.Projects.Devices.Keepalive setAccessToken(String accessToken) {
+          return (Testing.Projects.Devices.Keepalive) super.setAccessToken(accessToken);
+        }
+
+        public Testing.Projects.Devices.Keepalive setAlt(String alt) {
+          return (Testing.Projects.Devices.Keepalive) super.setAlt(alt);
+        }
+
+        public Testing.Projects.Devices.Keepalive setBearerToken(String bearerToken) {
+          return (Testing.Projects.Devices.Keepalive) super.setBearerToken(bearerToken);
+        }
+
+        public Testing.Projects.Devices.Keepalive setCallback(String callback) {
+          return (Testing.Projects.Devices.Keepalive) super.setCallback(callback);
+        }
+
+        public Testing.Projects.Devices.Keepalive setFields(String fields) {
+          return (Testing.Projects.Devices.Keepalive) super.setFields(fields);
+        }
+
+        public Testing.Projects.Devices.Keepalive setKey(String key) {
+          return (Testing.Projects.Devices.Keepalive) super.setKey(key);
+        }
+
+        public Testing.Projects.Devices.Keepalive setOauthToken(String oauthToken) {
+          return (Testing.Projects.Devices.Keepalive) super.setOauthToken(oauthToken);
+        }
+
+        public Testing.Projects.Devices.Keepalive setPp(Boolean pp) {
+          return (Testing.Projects.Devices.Keepalive) super.setPp(pp);
+        }
+
+        public Testing.Projects.Devices.Keepalive setPrettyPrint(Boolean prettyPrint) {
+          return (Testing.Projects.Devices.Keepalive) super.setPrettyPrint(prettyPrint);
+        }
+
+        public Testing.Projects.Devices.Keepalive setQuotaUser(String quotaUser) {
+          return (Testing.Projects.Devices.Keepalive) super.setQuotaUser(quotaUser);
+        }
+
+        public Testing.Projects.Devices.Keepalive setUploadType(String uploadType) {
+          return (Testing.Projects.Devices.Keepalive) super.setUploadType(uploadType);
+        }
+
+        public Testing.Projects.Devices.Keepalive setUploadProtocol(String uploadProtocol) {
+          return (Testing.Projects.Devices.Keepalive) super.setUploadProtocol(uploadProtocol);
+        }
+
+        public String getProjectId() {
+          return this.projectId;
+        }
+
+        public Testing.Projects.Devices.Keepalive setProjectId(String projectId) {
+          this.projectId = projectId;
+          return this;
+        }
+
+        public String getDeviceId() {
+          return this.deviceId;
+        }
+
+        public Testing.Projects.Devices.Keepalive setDeviceId(String deviceId) {
+          this.deviceId = deviceId;
+          return this;
+        }
+
+        public Testing.Projects.Devices.Keepalive set(String parameterName, Object value) {
+          return (Testing.Projects.Devices.Keepalive) super.set(parameterName, value);
+        }
+      }
+
+      public class Get extends TestingRequest<Device> {
+        private static final String REST_PATH = "v1/projects/{projectId}/devices/{deviceId}";
+        @Key private String projectId;
+        @Key private String deviceId;
+
+        protected Get(String projectId, String deviceId) {
+          super(
+              Testing.this,
+              "GET",
+              "v1/projects/{projectId}/devices/{deviceId}",
+              (Object) null,
+              Device.class);
+          this.projectId =
+              (String)
+                  Preconditions.checkNotNull(
+                      projectId, "Required parameter projectId must be specified.");
+          this.deviceId =
+              (String)
+                  Preconditions.checkNotNull(
+                      deviceId, "Required parameter deviceId must be specified.");
+        }
+
+        public HttpResponse executeUsingHead() throws IOException {
+          return super.executeUsingHead();
+        }
+
+        public HttpRequest buildHttpRequestUsingHead() throws IOException {
+          return super.buildHttpRequestUsingHead();
+        }
+
+        public Testing.Projects.Devices.Get set$Xgafv(String $Xgafv) {
+          return (Testing.Projects.Devices.Get) super.set$Xgafv($Xgafv);
+        }
+
+        public Testing.Projects.Devices.Get setAccessToken(String accessToken) {
+          return (Testing.Projects.Devices.Get) super.setAccessToken(accessToken);
+        }
+
+        public Testing.Projects.Devices.Get setAlt(String alt) {
+          return (Testing.Projects.Devices.Get) super.setAlt(alt);
+        }
+
+        public Testing.Projects.Devices.Get setBearerToken(String bearerToken) {
+          return (Testing.Projects.Devices.Get) super.setBearerToken(bearerToken);
+        }
+
+        public Testing.Projects.Devices.Get setCallback(String callback) {
+          return (Testing.Projects.Devices.Get) super.setCallback(callback);
+        }
+
+        public Testing.Projects.Devices.Get setFields(String fields) {
+          return (Testing.Projects.Devices.Get) super.setFields(fields);
+        }
+
+        public Testing.Projects.Devices.Get setKey(String key) {
+          return (Testing.Projects.Devices.Get) super.setKey(key);
+        }
+
+        public Testing.Projects.Devices.Get setOauthToken(String oauthToken) {
+          return (Testing.Projects.Devices.Get) super.setOauthToken(oauthToken);
+        }
+
+        public Testing.Projects.Devices.Get setPp(Boolean pp) {
+          return (Testing.Projects.Devices.Get) super.setPp(pp);
+        }
+
+        public Testing.Projects.Devices.Get setPrettyPrint(Boolean prettyPrint) {
+          return (Testing.Projects.Devices.Get) super.setPrettyPrint(prettyPrint);
+        }
+
+        public Testing.Projects.Devices.Get setQuotaUser(String quotaUser) {
+          return (Testing.Projects.Devices.Get) super.setQuotaUser(quotaUser);
+        }
+
+        public Testing.Projects.Devices.Get setUploadType(String uploadType) {
+          return (Testing.Projects.Devices.Get) super.setUploadType(uploadType);
+        }
+
+        public Testing.Projects.Devices.Get setUploadProtocol(String uploadProtocol) {
+          return (Testing.Projects.Devices.Get) super.setUploadProtocol(uploadProtocol);
+        }
+
+        public String getProjectId() {
+          return this.projectId;
+        }
+
+        public Testing.Projects.Devices.Get setProjectId(String projectId) {
+          this.projectId = projectId;
+          return this;
+        }
+
+        public String getDeviceId() {
+          return this.deviceId;
+        }
+
+        public Testing.Projects.Devices.Get setDeviceId(String deviceId) {
+          this.deviceId = deviceId;
+          return this;
+        }
+
+        public Testing.Projects.Devices.Get set(String parameterName, Object value) {
+          return (Testing.Projects.Devices.Get) super.set(parameterName, value);
+        }
+      }
+
+      public class Delete extends TestingRequest<Empty> {
+        private static final String REST_PATH = "v1/projects/{projectId}/devices/{deviceId}";
+        @Key private String projectId;
+        @Key private String deviceId;
+
+        protected Delete(String projectId, String deviceId) {
+          super(
+              Testing.this,
+              "DELETE",
+              "v1/projects/{projectId}/devices/{deviceId}",
+              (Object) null,
+              Empty.class);
+          this.projectId =
+              (String)
+                  Preconditions.checkNotNull(
+                      projectId, "Required parameter projectId must be specified.");
+          this.deviceId =
+              (String)
+                  Preconditions.checkNotNull(
+                      deviceId, "Required parameter deviceId must be specified.");
+        }
+
+        public Testing.Projects.Devices.Delete set$Xgafv(String $Xgafv) {
+          return (Testing.Projects.Devices.Delete) super.set$Xgafv($Xgafv);
+        }
+
+        public Testing.Projects.Devices.Delete setAccessToken(String accessToken) {
+          return (Testing.Projects.Devices.Delete) super.setAccessToken(accessToken);
+        }
+
+        public Testing.Projects.Devices.Delete setAlt(String alt) {
+          return (Testing.Projects.Devices.Delete) super.setAlt(alt);
+        }
+
+        public Testing.Projects.Devices.Delete setBearerToken(String bearerToken) {
+          return (Testing.Projects.Devices.Delete) super.setBearerToken(bearerToken);
+        }
+
+        public Testing.Projects.Devices.Delete setCallback(String callback) {
+          return (Testing.Projects.Devices.Delete) super.setCallback(callback);
+        }
+
+        public Testing.Projects.Devices.Delete setFields(String fields) {
+          return (Testing.Projects.Devices.Delete) super.setFields(fields);
+        }
+
+        public Testing.Projects.Devices.Delete setKey(String key) {
+          return (Testing.Projects.Devices.Delete) super.setKey(key);
+        }
+
+        public Testing.Projects.Devices.Delete setOauthToken(String oauthToken) {
+          return (Testing.Projects.Devices.Delete) super.setOauthToken(oauthToken);
+        }
+
+        public Testing.Projects.Devices.Delete setPp(Boolean pp) {
+          return (Testing.Projects.Devices.Delete) super.setPp(pp);
+        }
+
+        public Testing.Projects.Devices.Delete setPrettyPrint(Boolean prettyPrint) {
+          return (Testing.Projects.Devices.Delete) super.setPrettyPrint(prettyPrint);
+        }
+
+        public Testing.Projects.Devices.Delete setQuotaUser(String quotaUser) {
+          return (Testing.Projects.Devices.Delete) super.setQuotaUser(quotaUser);
+        }
+
+        public Testing.Projects.Devices.Delete setUploadType(String uploadType) {
+          return (Testing.Projects.Devices.Delete) super.setUploadType(uploadType);
+        }
+
+        public Testing.Projects.Devices.Delete setUploadProtocol(String uploadProtocol) {
+          return (Testing.Projects.Devices.Delete) super.setUploadProtocol(uploadProtocol);
+        }
+
+        public String getProjectId() {
+          return this.projectId;
+        }
+
+        public Testing.Projects.Devices.Delete setProjectId(String projectId) {
+          this.projectId = projectId;
+          return this;
+        }
+
+        public String getDeviceId() {
+          return this.deviceId;
+        }
+
+        public Testing.Projects.Devices.Delete setDeviceId(String deviceId) {
+          this.deviceId = deviceId;
+          return this;
+        }
+
+        public Testing.Projects.Devices.Delete set(String parameterName, Object value) {
+          return (Testing.Projects.Devices.Delete) super.set(parameterName, value);
+        }
+      }
+
+      public class Create extends TestingRequest<Device> {
+        private static final String REST_PATH = "v1/projects/{projectId}/devices";
+        @Key private String projectId;
+        @Key private String sshPublicKey;
+
+        protected Create(String projectId, Device content) {
+          super(Testing.this, "POST", "v1/projects/{projectId}/devices", content, Device.class);
+          this.projectId =
+              (String)
+                  Preconditions.checkNotNull(
+                      projectId, "Required parameter projectId must be specified.");
+        }
+
+        public Testing.Projects.Devices.Create set$Xgafv(String $Xgafv) {
+          return (Testing.Projects.Devices.Create) super.set$Xgafv($Xgafv);
+        }
+
+        public Testing.Projects.Devices.Create setAccessToken(String accessToken) {
+          return (Testing.Projects.Devices.Create) super.setAccessToken(accessToken);
+        }
+
+        public Testing.Projects.Devices.Create setAlt(String alt) {
+          return (Testing.Projects.Devices.Create) super.setAlt(alt);
+        }
+
+        public Testing.Projects.Devices.Create setBearerToken(String bearerToken) {
+          return (Testing.Projects.Devices.Create) super.setBearerToken(bearerToken);
+        }
+
+        public Testing.Projects.Devices.Create setCallback(String callback) {
+          return (Testing.Projects.Devices.Create) super.setCallback(callback);
+        }
+
+        public Testing.Projects.Devices.Create setFields(String fields) {
+          return (Testing.Projects.Devices.Create) super.setFields(fields);
+        }
+
+        public Testing.Projects.Devices.Create setKey(String key) {
+          return (Testing.Projects.Devices.Create) super.setKey(key);
+        }
+
+        public Testing.Projects.Devices.Create setOauthToken(String oauthToken) {
+          return (Testing.Projects.Devices.Create) super.setOauthToken(oauthToken);
+        }
+
+        public Testing.Projects.Devices.Create setPp(Boolean pp) {
+          return (Testing.Projects.Devices.Create) super.setPp(pp);
+        }
+
+        public Testing.Projects.Devices.Create setPrettyPrint(Boolean prettyPrint) {
+          return (Testing.Projects.Devices.Create) super.setPrettyPrint(prettyPrint);
+        }
+
+        public Testing.Projects.Devices.Create setQuotaUser(String quotaUser) {
+          return (Testing.Projects.Devices.Create) super.setQuotaUser(quotaUser);
+        }
+
+        public Testing.Projects.Devices.Create setUploadType(String uploadType) {
+          return (Testing.Projects.Devices.Create) super.setUploadType(uploadType);
+        }
+
+        public Testing.Projects.Devices.Create setUploadProtocol(String uploadProtocol) {
+          return (Testing.Projects.Devices.Create) super.setUploadProtocol(uploadProtocol);
+        }
+
+        public String getProjectId() {
+          return this.projectId;
+        }
+
+        public Testing.Projects.Devices.Create setProjectId(String projectId) {
+          this.projectId = projectId;
+          return this;
+        }
+
+        public String getSshPublicKey() {
+          return this.sshPublicKey;
+        }
+
+        public Testing.Projects.Devices.Create setSshPublicKey(String sshPublicKey) {
+          this.sshPublicKey = sshPublicKey;
+          return this;
+        }
+
+        public Testing.Projects.Devices.Create set(String parameterName, Object value) {
+          return (Testing.Projects.Devices.Create) super.set(parameterName, value);
+        }
+      }
+    }
+  }
 }
