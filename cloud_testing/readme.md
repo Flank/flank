@@ -26,7 +26,7 @@ Published on [maven central](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22
 
 - [Not on GitHub](https://github.com/google/google-api-java-client)
 - [google-api-services-toolresults website](https://developers.google.com/api-client-library/java/apis/toolresults/v1beta3)
-- [google-api-services-toolresults javadoc](https://developers.google.com/resources/api-libraries/documentation/toolresults/v1beta3firstparty/java/latest/index.html?overview-summary.html)
+- [google-api-services-toolresults javadoc](https://developers.google.com/resources/api-libraries/documentation/toolresults/v1beta3/java/latest/index.html?overview-summary.html)
 
 ## google-api-services-testing
 
