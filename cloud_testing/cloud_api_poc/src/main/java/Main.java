@@ -73,6 +73,6 @@ public class Main {
 
         // todo: schedule test via google-api-services-testing
 
-        // todo: fetch rest results via google-api-services-toolresults
+        // todo: fetch test results via google-api-services-toolresults
     }
 }
