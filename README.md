@@ -10,7 +10,7 @@ To use Flank, please sign up for Firebase Test Lab and install the Google Cloud 
 
 * Signup for [Firebase Test Lab](https://firebase.google.com/)
 
-* Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs/)
+* Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs/) (>= 149.0.0)
 
 ### Download
 
