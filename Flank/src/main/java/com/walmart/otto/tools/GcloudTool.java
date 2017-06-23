@@ -56,14 +56,22 @@ public class GcloudTool extends Tool {
 
     List<String> gcloudList = new ArrayList<>(Arrays.asList(runGcloud));
 
-    String envVars = getConfigurator().getEnvironmentVariables();
-    if (!envVars.isEmpty()) {
-      gcloudList.add("--environment-variables");
-      gcloudList.add(envVars);
-    }
+    addParameterIfValueSet(
+        gcloudList, "--environment-variables", getConfigurator().getEnvironmentVariables());
+
+    addParameterIfValueSet(
+        gcloudList, "--directories-to-pull", getConfigurator().getDirectoriesToPull());
+
     String[] cmdArray = gcloudList.toArray(new String[0]);
 
     executeGcloud(cmdArray, testCase);
+  }
+
+  private void addParameterIfValueSet(List<String> list, String parameter, String value) {
+    if (!value.isEmpty()) {
+      list.add(parameter);
+      list.add(value);
+    }
   }
 
   public void executeGcloud(String[] commands, String test)
@@ -83,7 +91,8 @@ public class GcloudTool extends Tool {
         latestExecutionTime = Integer.parseInt(timeLine[1].replaceAll("\\D+", ""));
         TimeReporter.addExecutionTime(Integer.parseInt(timeLine[1].replaceAll("\\D+", "")));
       } else if (line.contains("ERROR")) {
-        throw new RuntimeException(line);
+        //TODO retry when error is returned from FTL
+        //throw new RuntimeException(line);
       }
     }
 

@@ -42,6 +42,7 @@ os-version-ids: The API-levels of the devices to run the tests on
 orientations: The orientations, portrait, landscape or both
 locales: The device locales
 environment-variables: To set environment variables. Can also be used to enable code coverage 
+directories-to-pull: If directories from the device should be pulled
 shard-timeout: Timeout in minutes for each shard 
 shard-duration: Duration in seconds for each shard
 
@@ -49,6 +50,7 @@ numShards: Number of shards
 shardIndex: If a specific shard should be executed
 debug-prints: If debug prints should be enabled
 fetch-xml-files: If the result xml files should be fetched
+fetch-bucket: If the bucket containing logs and artifacts should be fetched
 gcloud-path: The path to the glcoud binary
 gsutil-path: The path to the gsutil binary
 
@@ -61,7 +63,8 @@ deviceIds=Nexus5X,Nexus6P
 os-version-ids=23,24   
 orientations=portrait  
 locales=en,sv  
-environment-variables=coverage=true,coverageFile="/sdcard/tempDir/coverage.ec"
+environment-variables=coverage=true,coverageFile=/sdcard/tempDir/coverage.ec
+directories-to-pull=/sdcard
 shard-timeout=5 
 shard-duration=120  
 
@@ -69,6 +72,7 @@ numShards=
 shardIndex= 
 debug-prints=false  
 fetch-xml-files=true
+fetch-bucket=true
 gcloud-path=
 gsutil-path=
 

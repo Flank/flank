@@ -109,6 +109,27 @@ public class GsutilTool extends Tool {
     return xmlFileAndDevice;
   }
 
+  public void fetchBucket() throws IOException, InterruptedException {
+    if (!getConfigurator().isFetchBucket()) {
+      return;
+    }
+
+    File currentDir = new File("");
+    File resultsDir = new File(currentDir.getAbsolutePath() + File.separator + "bucket");
+
+    boolean createdFolder = resultsDir.mkdirs();
+
+    if (createdFolder) {
+      System.out.println("Created folder: " + resultsDir.getAbsolutePath());
+    }
+
+    System.out.println("\nFetching bucket to: " + resultsDir.getAbsolutePath());
+
+    String[] fetchBucket = fetchBucket(resultsDir);
+
+    executeCommand(fetchBucket, new ArrayList<>());
+  }
+
   public boolean findGSFile(String fileName) throws IOException, InterruptedException {
     List<String> inputstreamList = new ArrayList<>();
     System.setOut(getEmptyStream());
@@ -182,6 +203,14 @@ public class GsutilTool extends Tool {
           "-U",
           bucket + "**/*.xml",
           file.getAbsolutePath()
+        };
+    return fetchFiles;
+  }
+
+  private String[] fetchBucket(File file) {
+    String[] fetchFiles =
+        new String[] {
+          getConfigurator().getGsutil(), "-m", "cp", "-r", "-U", bucket, file.getAbsolutePath()
         };
     return fetchFiles;
   }

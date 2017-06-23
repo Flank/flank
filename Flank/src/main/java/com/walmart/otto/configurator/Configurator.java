@@ -11,9 +11,11 @@ public class Configurator {
   private String gsutil = "gsutil";
   private String environmentVariables = "";
   private String projectName;
+  private String directoriesToPull = "";
 
   private boolean fetchXMLFiles = true;
   private boolean debug = false;
+  private boolean fetchBucket = false;
   private int numShards = -1;
   private int shardIndex = -1;
   private int shardTimeout = 5;
@@ -139,5 +141,21 @@ public class Configurator {
 
   public void setFetchXMLFiles(boolean fetchXMLFiles) {
     this.fetchXMLFiles = fetchXMLFiles;
+  }
+
+  public String getDirectoriesToPull() {
+    return directoriesToPull;
+  }
+
+  public void setDirectoriesToPull(String directoriesToPull) {
+    this.directoriesToPull = directoriesToPull;
+  }
+
+  public boolean isFetchBucket() {
+    return fetchBucket;
+  }
+
+  public void setFetchBucket(boolean fetchArtefacts) {
+    this.fetchBucket = fetchArtefacts;
   }
 }

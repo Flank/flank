@@ -91,6 +91,14 @@ public class ConfigReader {
         configurator.setFetchXMLFiles(Boolean.parseBoolean(value));
         break;
 
+      case "directories-to-pull":
+        configurator.setDirectoriesToPull(value);
+        break;
+
+      case "fetch-bucket":
+        configurator.setFetchBucket(Boolean.parseBoolean(value));
+        break;
+
       default:
         break;
     }

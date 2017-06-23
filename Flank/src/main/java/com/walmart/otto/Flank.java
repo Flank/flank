@@ -27,12 +27,10 @@ public class Flank {
       throws RuntimeException, IOException, InterruptedException, ExecutionException {
     long startTime = System.currentTimeMillis();
 
-    if (!FileUtils.doFileExist(args[0])) {
-      throw new FileNotFoundException("File not found: " + args[0]);
-    }
-
-    if (!FileUtils.doFileExist(args[1])) {
-      throw new FileNotFoundException("File not found: " + args[1]);
+    for (String file : new String[] {args[0], args[1]}) {
+      if (!FileUtils.doFileExist(file)) {
+        throw new FileNotFoundException("File not found: " + file);
+      }
     }
 
     configurator = new ConfigReader(Constants.CONFIG_PROPERTIES).getConfiguration();
@@ -57,6 +55,8 @@ public class Flank {
         .execute(testCases, gsutilTool.uploadAPKsToBucket());
 
     gsutilTool.deleteAPKs();
+
+    gsutilTool.fetchBucket();
 
     uploadTestTimeFile(gsutilTool, configurator.getShardDuration());
 
@@ -129,11 +129,11 @@ public class Flank {
 
     if (new File(Constants.TEST_TIME_FILE).exists()) {
       System.out.println(
-          "\nLocal 'flank.tests' found. It contains test execution times used to create shards with configurable durations. Default shard duration is 120 seconds.");
+          "\nLocal 'flank.tests' found. It contains test execution times used to create shards with configurable durations. Default shard duration is 120 seconds.\n");
     } else if (!new File(Constants.TEST_TIME_FILE).exists()) {
       if (gsutilTool.findTestTimeFile()) {
         System.out.println(
-            "\nDownloading 'flank.tests'. It contains test execution times used to create shards with configurable durations. Default shard duration is 120 seconds.");
+            "\nDownloading 'flank.tests'. It contains test execution times used to create shards with configurable durations. Default shard duration is 120 seconds.\n");
         gsutilTool.downloadTestTimeFile();
       }
     }
