@@ -8,6 +8,15 @@ Google provides [two types of client libraries:](https://cloud.google.com/apis/d
   - `google-api-services-testing` - source code not published
 - `google-cloud-*` - newest
   - `google-cloud-storage`
+  
+## Discovery JSON
+
+The discovery JSON is useful for understanding APIs and producing clients automatically.
+
+- [toolresults/v1beta3/](https://www.googleapis.com/discovery/v1/apis/toolresults/v1beta3/rest)
+- [testing/v1](https://www.googleapis.com/discovery/v1/apis/testing/v1/rest)
+- [storage/v1](https://www.googleapis.com/discovery/v1/apis/storage/v1/rest)
+- `google-cloud-sdk\lib\googlecloudsdk\third_party\apis` contains the JSON descriptions locally
 
 ## google-cloud-storage
 
