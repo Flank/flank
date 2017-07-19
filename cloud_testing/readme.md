@@ -14,7 +14,7 @@ Google provides [two types of client libraries:](https://cloud.google.com/apis/d
 The discovery JSON is useful for understanding APIs and producing clients automatically.
 
 - [toolresults/v1beta3/](https://www.googleapis.com/discovery/v1/apis/toolresults/v1beta3/rest)
-- [testing/v1](https://www.googleapis.com/discovery/v1/apis/testing/v1/rest)
+- [testing/v1](https://www.googleapis.com/discovery/v1/apis/testing/v1/rest) or [testing](https://testing.googleapis.com/$discovery/rest?version=v1)
 - [storage/v1](https://www.googleapis.com/discovery/v1/apis/storage/v1/rest)
 - `google-cloud-sdk\lib\googlecloudsdk\third_party\apis` contains the JSON descriptions locally
 
