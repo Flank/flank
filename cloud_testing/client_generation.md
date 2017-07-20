@@ -8,6 +8,25 @@ The new clients are `google-cloud-*`. They are in the process of adopting the la
 >
 > https://github.com/GoogleCloudPlatform/google-cloud-go/issues/266#issuecomment-221083266
 
+# API client summary
+
+Google API clients (`google-api-*-client`)
+- Low level
+- Auto generated
+- Made for JSON REST APIs
+- Older project - [maintence mode](https://github.com/GoogleCloudPlatform/google-cloud-ruby/issues/1604#issuecomment-316834237)
+
+Google APIs toolkit (`googleapis/toolkit`)
+- Low level
+- Auto generated
+- Made for gRPC APIs
+- New project - actively developed
+
+Google Cloud libraries (`google-cloud-*`)
+- High level
+- Hand written
+- [Built on top of the low level clients](https://github.com/GoogleCloudPlatform/google-cloud-ruby/issues/1604#issuecomment-316841696)
+
 # google-api-client - `maintenance mode`
 
 - [google-api-nodejs-client](https://github.com/google/google-api-nodejs-client)
