@@ -18,7 +18,11 @@ Either [download Flank from here](https://bintray.com/flank1/Flank/download_file
 
 or 
 
-Use curl: ```curl -L https://dl.bintray.com/flank1/Flank/Flank-1.3.0.jar -o Flank-1.3.0.jar```
+Use curl: 
+
+```console
+curl --location --fail https://dl.bintray.com/flank1/Flank/Flank-1.3.0.jar --output Flank-1.3.0.jar
+```
 
 ### Run Tests
 
