@@ -94,7 +94,7 @@ If Flank hangs and nothing seems to be happening (even when debug mode is enable
 
 If you see `AccessDeniedException: 403` verify that:
 - The GCloud SDK is on the latest version
-- The Firebase project is on a paid subscription
+- The Firebase project is on a paid subscription (or you need to specify `gcloud-bucket` of the free account)
 - The Firebase account and project ID are in sync
 
 Follow below steps to set it:
@@ -109,6 +109,5 @@ gcloud auth login - To set gcloud to the correct google account.
 gcloud config set project <idOfYourProject> - To set gcloud to the correct project ID.
 
 ```
-Make sure that `<idOfYourProject>` belongs to a project that is subscribed to either Flame or Blaze (Paid subscriptions).
 
 If you are using the terminal in OS X and Flank gets stuck at around 250 shards its because of a setting in OS X. To fix it [please follow these instructions](https://blog.dekstroza.io/ulimit-shenanigans-on-osx-el-capitan/).
