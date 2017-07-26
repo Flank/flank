@@ -53,7 +53,7 @@ fetch-xml-files: If the result xml files should be fetched
 fetch-bucket: If the bucket containing logs and artifacts should be fetched
 gcloud-path: The path to the glcoud binary
 gsutil-path: The path to the gsutil binary
-
+gcloud-bucket: The Google Cloud Storage bucket to put/pull files during test run
 ```
 
 Example of a properties file:
