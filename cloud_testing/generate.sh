@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# pip install google-apis-client-generator
+# Note: Must have already installed google-apis-client-generator from the master branch. PIP release will not work!
 
 pushd apis
 
