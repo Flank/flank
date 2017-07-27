@@ -78,12 +78,11 @@ The latest code generation tech from Google.
 
 # Generating Java APIs with `apis-client-generator`
 
-Install Google API client generator. Works around https://github.com/google/apis-client-generator/issues/13
+Install Google API client generator from source. The last relase was in 2013 and is broken.
 
 ```
-pip install google-apis-client-generator`
-pip uninstall django
-pip install django==1.7.11
+git clone https://github.com/google/apis-client-generator.git
+pip install .
 ```
 
 Generate the library manually:
