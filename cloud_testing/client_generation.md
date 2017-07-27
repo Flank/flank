@@ -42,10 +42,11 @@ Google Cloud libraries (`google-cloud-*`)
   - Deprecated. Replaced entirely by [google-api-objectivec-client-for-rest](https://github.com/google/google-api-objectivec-client-for-rest)
 - [google-api-cpp-client](https://github.com/google/google-api-cpp-client)
 
-# apis-client-generator - `end of life?`
+# apis-client-generator - ``maintenance mode?`
 
 - [apis-client-generator](https://github.com/google/apis-client-generator)
   - Java, C++, C#, GWT, PHP, Dart
+  - Used to generate `google-api-java-client`
   - No new code since May 2017
 
 # apitools - `maintenance mode`
@@ -72,3 +73,26 @@ The latest code generation tech from Google.
 
 - [googleapis/toolkit](https://github.com/googleapis/toolkit)
 - [googleapis/api-compiler](https://github.com/googleapis/api-compiler)
+
+---
+
+# Generating Java APIs with `apis-client-generator`
+
+Install Google API client generator. Works around https://github.com/google/apis-client-generator/issues/13
+
+```
+pip install google-apis-client-generator`
+pip uninstall django
+pip install django==1.7.11
+```
+
+Generate the library manually:
+
+```
+ generate_library \
+    --input=./testing_v1.json \
+    --language=java \
+    --output_dir=./testing
+```
+
+Alternatively, generate the library by running `generate.sh`
