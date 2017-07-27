@@ -17,6 +17,9 @@ The discovery JSON is useful for understanding APIs and producing clients automa
 - [testing/v1](https://www.googleapis.com/discovery/v1/apis/testing/v1/rest) or [testing](https://testing.googleapis.com/$discovery/rest?version=v1)
 - [storage/v1](https://www.googleapis.com/discovery/v1/apis/storage/v1/rest)
 - `google-cloud-sdk\lib\googlecloudsdk\third_party\apis` contains the JSON descriptions locally
+  - `storage_v1.json`
+  - `toolresults_v1beta3.json`
+  - `testing_v1.json`
 
 See [client generation](client_generation.md) for more information.
 
