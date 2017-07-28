@@ -44,19 +44,12 @@ Published on [maven central](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22
 
 ## google-api-services-testing
 
-[Apache licensed](https://android.googlesource.com/platform/tools/studio/google/cloud/testing/+/studio-master-dev/firebase-testing/lib/licenses/google-api-services-testing.jar-NOTICE) `google-api-services-testing` extracted from [the open source Android Studio repo.](https://android.googlesource.com/platform/tools/studio/google/cloud/testing/+/studio-master-dev/firebase-testing/lib) Not published to maven central.
+Generated automatically from `gcloud-cli/googlecloudsdk/third_party/apis/testing_v1.json` using the master branch of [apis-client-generator](https://github.com/google/apis-client-generator). Not currently published by Google.
 
 ## Clone
 - `git clone https://android.googlesource.com/platform/tools/studio/google/cloud/testing`
 - `git checkout studio-master-dev`
 - [Android Studio repo](https://android.googlesource.com/platform/tools/studio/google/cloud/testing/+/studio-master-dev/firebase-testing/lib)
-
-## Decompile
-
-[Fernflower](https://github.com/fesh0r/fernflower) is the preferred decompiler because it's open source and used by IntelliJ. [Cfr](http://www.benf.org/other/cfr/) is available for comparison.
-
-- `gradle --rerun-tasks decompileFern`
-- `gradle --rerun-tasks decompileCfr`
 
 ## Build
 

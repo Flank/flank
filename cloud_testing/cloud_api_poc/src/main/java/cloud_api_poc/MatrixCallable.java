@@ -2,8 +2,8 @@ package cloud_api_poc;
 
 import static cloud_api_poc.Utils.fatalError;
 
-import com.google.api.services.testing.Testing.Projects.TestMatrices.Create;
-import com.google.api.services.testing.model.TestMatrix;
+import com.google.testing.Testing.Projects.TestMatrices.Create;
+import com.google.testing.model.TestMatrix;
 import java.util.List;
 import java.util.concurrent.Callable;
 

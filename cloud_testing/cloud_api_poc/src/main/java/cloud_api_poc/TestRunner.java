@@ -3,11 +3,11 @@ package cloud_api_poc;
 import static cloud_api_poc.Utils.sleep;
 import static java.lang.System.currentTimeMillis;
 
-import com.google.api.services.testing.Testing.Projects.TestMatrices.Create;
-import com.google.api.services.testing.model.AndroidMatrix;
-import com.google.api.services.testing.model.TestExecution;
-import com.google.api.services.testing.model.TestMatrix;
-import com.google.api.services.testing.model.ToolResultsStep;
+import com.google.testing.Testing.Projects.TestMatrices.Create;
+import com.google.testing.model.AndroidMatrix;
+import com.google.testing.model.TestExecution;
+import com.google.testing.model.TestMatrix;
+import com.google.testing.model.ToolResultsStep;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

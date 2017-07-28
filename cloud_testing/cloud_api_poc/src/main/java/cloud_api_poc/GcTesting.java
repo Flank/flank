@@ -3,7 +3,7 @@ package cloud_api_poc;
 import static cloud_api_poc.Config.getCredential;
 import static cloud_api_poc.Constants.*;
 
-import com.google.api.services.testing.Testing;
+import com.google.testing.Testing;
 
 public abstract class GcTesting {
   private GcTesting() {}
