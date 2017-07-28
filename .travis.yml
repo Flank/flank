@@ -5,9 +5,8 @@ cache:
   directories:
   - $HOME/.gradle
   - ./Flank/.gradle
-  - ./cloud_testing/google-api-services-testing/.gradle
+  - ./cloud_testing/apis/testing/.gradle
   - ./cloud_testing/cloud_api_poc/.gradle
 script:
 - ./gradle/gradlew -p Flank clean build
-- ./gradle/gradlew -p cloud_testing/google-api-services-testing clean build
 - ./gradle/gradlew -p cloud_testing/cloud_api_poc clean build

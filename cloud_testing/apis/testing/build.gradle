@@ -1,0 +1,28 @@
+group 'ftl'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+// https://github.com/google/apis-client-generator doesn't follow the standard src/main/java convention
+// https://docs.gradle.org/current/userguide/java_plugin.html#sec:changing_java_project_layout
+sourceSets {
+    main {
+        java {
+            srcDirs = ['com/']
+        }
+        resources {
+            srcDirs = ['com/']
+        }
+    }
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.google.api-client:google-api-client:1.22.0'
+}

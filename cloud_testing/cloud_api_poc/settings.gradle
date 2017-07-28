@@ -1,4 +1,4 @@
 rootProject.name = 'cloud_api_poc'
 
-include ':google-api-services-testing'
-project(':google-api-services-testing').projectDir = new File(settingsDir, '../google-api-services-testing')
+include ':testing'
+project(':testing').projectDir = new File(settingsDir, '../apis/testing')

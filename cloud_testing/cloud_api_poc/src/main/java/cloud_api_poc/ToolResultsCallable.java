@@ -2,8 +2,8 @@ package cloud_api_poc;
 
 import static cloud_api_poc.Utils.fatalError;
 
-import com.google.api.services.testing.model.ToolResultsStep;
 import com.google.api.services.toolresults.model.Step;
+import com.google.testing.model.ToolResultsStep;
 import java.util.List;
 import java.util.concurrent.Callable;
 

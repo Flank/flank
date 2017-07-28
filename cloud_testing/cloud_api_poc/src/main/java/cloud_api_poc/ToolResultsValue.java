@@ -3,10 +3,10 @@ package cloud_api_poc;
 import static cloud_api_poc.Billing.billableMinutes;
 import static cloud_api_poc.Constants.projectId;
 
-import com.google.api.services.testing.model.ToolResultsStep;
 import com.google.api.services.toolresults.model.Step;
 import com.google.api.services.toolresults.model.StepDimensionValueEntry;
 import com.google.api.services.toolresults.model.TestExecutionStep;
+import com.google.testing.model.ToolResultsStep;
 import java.util.List;
 
 class ToolResultsValue {

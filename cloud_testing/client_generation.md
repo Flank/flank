@@ -42,12 +42,12 @@ Google Cloud libraries (`google-cloud-*`)
   - Deprecated. Replaced entirely by [google-api-objectivec-client-for-rest](https://github.com/google/google-api-objectivec-client-for-rest)
 - [google-api-cpp-client](https://github.com/google/google-api-cpp-client)
 
-# apis-client-generator - ``maintenance mode?`
+# apis-client-generator - `end of life?`
 
 - [apis-client-generator](https://github.com/google/apis-client-generator)
   - Java, C++, C#, GWT, PHP, Dart
   - Used to generate `google-api-java-client`
-  - No new code since May 2017
+  - No new code since May 2017.
 
 # apitools - `maintenance mode`
 

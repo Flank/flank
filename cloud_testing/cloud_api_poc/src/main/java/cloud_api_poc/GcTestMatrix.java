@@ -4,9 +4,9 @@ import static cloud_api_poc.Config.bucketGcsPath;
 import static cloud_api_poc.Constants.projectId;
 import static cloud_api_poc.Utils.fatalError;
 
-import com.google.api.services.testing.Testing;
-import com.google.api.services.testing.model.*;
 import com.google.common.collect.Lists;
+import com.google.testing.Testing;
+import com.google.testing.model.*;
 
 public abstract class GcTestMatrix {
   private GcTestMatrix() {}
