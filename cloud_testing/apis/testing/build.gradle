@@ -6,18 +6,9 @@ apply plugin: 'java'
 sourceCompatibility = 1.8
 
 // https://github.com/google/apis-client-generator doesn't follow the standard src/main/java convention
+// must manually move the generated source into the correct folder structure
+//
 // https://docs.gradle.org/current/userguide/java_plugin.html#sec:changing_java_project_layout
-sourceSets {
-    main {
-        java {
-            srcDirs = ['com/']
-        }
-        resources {
-            srcDirs = ['com/']
-        }
-    }
-}
-
 
 repositories {
     mavenCentral()
