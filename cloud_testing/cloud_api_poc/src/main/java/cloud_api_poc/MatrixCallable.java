@@ -1,6 +1,7 @@
 package cloud_api_poc;
 
 import static cloud_api_poc.Utils.fatalError;
+import static cloud_api_poc.Utils.sleep;
 
 import com.google.testing.Testing.Projects.TestMatrices.Create;
 import com.google.testing.model.TestMatrix;
@@ -16,7 +17,8 @@ class MatrixCallable implements Callable {
     this.testMatrixCreate = testMatrixCreate;
   }
 
-  private void run() {
+  /** Returns test matrix id */
+  private String executeTestMatrix() {
     TestMatrix testMatrix = null;
     try {
       testMatrix = testMatrixCreate.execute();
@@ -24,7 +26,11 @@ class MatrixCallable implements Callable {
       try {
         testMatrix = testMatrixCreate.execute();
       } catch (Exception e2) {
-        fatalError(e2);
+        try {
+          testMatrix = testMatrixCreate.execute();
+        } catch (Exception e3) {
+          fatalError(e3);
+        }
       }
     }
 
@@ -32,7 +38,42 @@ class MatrixCallable implements Callable {
       throw new IllegalStateException("test matrix is null");
     }
 
-    testMatrixIds.add(testMatrix.getTestMatrixId());
+    return testMatrix.getTestMatrixId();
+  }
+
+  private void run() {
+    int tryCount = 3;
+
+    String testMatrixId = null;
+    boolean infrastructureFailure = false;
+    for (int i = 0; i < tryCount; i++) {
+      testMatrixId = executeTestMatrix();
+
+      while (TestMatrixState.validatingOrPending(testMatrixId)) {
+        sleep(20 * 1000);
+      }
+
+      if (TestMatrixState.infastructureFailure(testMatrixId)) {
+        System.out.println("Retrying infrastructure failure");
+        infrastructureFailure = true;
+      } else {
+        infrastructureFailure = false;
+        break;
+      }
+    }
+
+    if (infrastructureFailure) {
+      throw new RuntimeException(
+          "Infrastructure failure on test matrix after 3x retry " + testMatrixId);
+    }
+
+    System.out.println("Successfully scheduled test matrix: " + testMatrixId);
+
+    if (testMatrixId == null) {
+      throw new IllegalStateException("test matrix is null");
+    }
+
+    testMatrixIds.add(testMatrixId);
   }
 
   @Override
