@@ -37,7 +37,9 @@ public class Flank {
 
     toolManager = new ToolManager().load(loadTools(args[0], args[1], configurator));
 
-    configurator.setProjectName(getProjectName(toolManager));
+    if (configurator.getProjectName() == null) {
+      configurator.setProjectName(getProjectName(toolManager));
+    }
 
     List<String> testCases = getTestCaseNames(args);
 

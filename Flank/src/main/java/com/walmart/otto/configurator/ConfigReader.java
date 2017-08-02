@@ -83,6 +83,10 @@ public class ConfigReader {
         configurator.setGsutil(value);
         break;
 
+      case "gcloud-bucket":
+        configurator.setProjectName(value);
+        break;
+
       case "environment-variables":
         configurator.setEnvironmentVariables(value);
         break;
