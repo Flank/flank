@@ -98,7 +98,7 @@ If Flank hangs and nothing seems to be happening (even when debug mode is enable
 
 If you see `AccessDeniedException: 403` verify that:
 - The GCloud SDK is on the latest version
-- The Firebase project is on a paid subscription (or you need to specify `gcloud-bucket` of the free account)
+- The Firebase project is on a paid subscription (for free accounts specify the default bucket with property: `gcloud-bucket`)
 - The Firebase account and project ID are in sync
 
 Follow below steps to set it:
