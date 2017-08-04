@@ -3,7 +3,7 @@ package com.walmart.otto.configurator;
 import java.io.File;
 
 public class Configurator {
-  private String deviceIds = "NexusLowRes";
+  private String deviceIds = "Nexus6P";
   private String locales = "en";
   private String orientations = "portrait";
   private String osVersionIds = "25";

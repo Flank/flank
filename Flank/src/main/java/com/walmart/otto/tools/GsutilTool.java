@@ -131,17 +131,17 @@ public class GsutilTool extends Tool {
   }
 
   public boolean findGSFile(String fileName) throws IOException, InterruptedException {
-    List<String> inputstreamList = new ArrayList<>();
+    List<String> errorStreamList = new ArrayList<>();
     System.setOut(getEmptyStream());
-    executeCommand(findFile(fileName), inputstreamList, new ArrayList<>());
+    executeCommand(findFile(fileName), new ArrayList<>(), errorStreamList);
     System.setOut(originalStream);
 
-    for (String input : inputstreamList) {
-      if (input.contains(getConfigurator().getTestTimeBucket())) {
-        return true;
+    for (String input : errorStreamList) {
+      if (input.contains("Exception")) {
+        return false;
       }
     }
-    return false;
+    return true;
   }
 
   public boolean findTestTimeFile() throws IOException, InterruptedException {
