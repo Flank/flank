@@ -1,6 +1,7 @@
 package com.walmart.otto;
 
 import com.linkedin.dex.parser.DexParser;
+import com.linkedin.dex.parser.TestMethod;
 import com.walmart.otto.configurator.ConfigReader;
 import com.walmart.otto.configurator.Configurator;
 import com.walmart.otto.reporter.PriceReporter;
@@ -14,6 +15,7 @@ import com.walmart.otto.utils.FileUtils;
 import com.walmart.otto.utils.FilterUtils;
 import java.io.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -186,12 +188,16 @@ public class Flank {
 
   private List<String> getTestCaseNames(String[] args) {
     System.setOut(getEmptyStream());
-    List<String> filteredTests;
+    List<String> filteredTests = new ArrayList<>();
 
-    if (args.length < 3) {
-      filteredTests = DexParser.findTestNames(args[1]);
-    } else {
-      filteredTests = FilterUtils.filterTests(DexParser.findTestNames(args[1]), args[2]);
+    for (TestMethod testMethod : DexParser.findTestMethods(args[1])) {
+      if (!testMethod.getAnnotationNames().stream().anyMatch(str -> str.contains("Ignore"))) {
+        filteredTests.add(testMethod.getTestName());
+      }
+    }
+
+    if (args.length == 3) {
+      filteredTests = FilterUtils.filterTests(filteredTests, args[2]);
     }
 
     System.setOut(originalStream);
