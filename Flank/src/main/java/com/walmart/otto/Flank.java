@@ -145,7 +145,7 @@ public class Flank {
 
   private void uploadTestTimeFile(GsutilTool gsutilTool, int shardDuration)
       throws IOException, InterruptedException {
-    if (shardDuration == -1) {
+    if (shardDuration == -1 || !new File(Constants.TEST_TIME_FILE).exists()) {
       return;
     }
     gsutilTool.uploadTestTimeFile();
