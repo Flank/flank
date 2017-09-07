@@ -531,6 +531,9 @@
             "The APK manifest does not declare a package name.",
             "The test package and app package are the same.",
             "The test apk does not declare an instrumentation.",
+            "The input app apk does not have a signature.",
+            "The test runner class specified by user or in the test APK's manifest file\nis not compatible with Android Test Orchestrator.\nOrchestrator is only compatible with AndroidJUnitRunner version 1.0 or\nhigher.\nOrchestrator can be disabled by using DO_NOT_USE_ORCHESTRATOR\nOrchestratorOption.",
+            "The test APK does not contain the test runner class specified by user or in\nthe manifest file.\nThis can be caused by either of the following reasons:\n- the user provided a runner class name that's incorrect, or\n- the test runner isn't built into the test APK (might be in the app APK\ninstead).",
             "A main launcher activity could not be found.",
             "The app declares one or more permissions that are not allowed.",
             "There is a conflict in the provided robo_directives.",
@@ -538,7 +541,8 @@
             "The request contains a scenario label that was not declared in the\nmanifest.",
             "There was an error when parsing a label's value.",
             "The request contains a scenario number that was not declared in the\nmanifest.",
-            "Device administrator applications are not allowed."
+            "Device administrator applications are not allowed.",
+            "The APK is marked as \"testOnly\"."
           ],
           "type": "string",
           "enum": [
@@ -550,6 +554,9 @@
             "NO_PACKAGE_NAME",
             "TEST_SAME_AS_APP",
             "NO_INSTRUMENTATION",
+            "NO_SIGNATURE",
+            "INSTRUMENTATION_ORCHESTRATOR_INCOMPATIBLE",
+            "NO_TEST_RUNNER_CLASS",
             "NO_LAUNCHER_ACTIVITY",
             "FORBIDDEN_PERMISSIONS",
             "INVALID_ROBO_DIRECTIVES",
@@ -557,7 +564,8 @@
             "SCENARIO_LABEL_NOT_DECLARED",
             "SCENARIO_LABEL_MALFORMED",
             "SCENARIO_NOT_DECLARED",
-            "DEVICE_ADMIN_RECEIVER"
+            "DEVICE_ADMIN_RECEIVER",
+            "TEST_ONLY_APK"
           ]
         }
       }
@@ -569,6 +577,28 @@
       "properties": {
         "name": {
           "description": "Client name, such as gcloud.\nRequired",
+          "type": "string"
+        },
+        "clientInfoDetails": {
+          "description": "The list of detailed information about client.",
+          "type": "array",
+          "items": {
+            "$ref": "ClientInfoDetail"
+          }
+        }
+      }
+    },
+    "ClientInfoDetail": {
+      "id": "ClientInfoDetail",
+      "description": "Key-value pair of detailed information about the client which invoked the\ntest. For example {'Version', '1.0'}, {'Release Track', 'BETA'}",
+      "type": "object",
+      "properties": {
+        "key": {
+          "description": "The key of detailed client information.\nRequired",
+          "type": "string"
+        },
+        "value": {
+          "description": "The value of detailed client information.\nRequired",
           "type": "string"
         }
       }
@@ -742,6 +772,20 @@
           "items": {
             "type": "string"
           }
+        },
+        "orchestratorOption": {
+          "description": "The option of whether running each test within its own invocation of\ninstrumentation with Android Test Orchestrator or not.\n** Orchestrator is only compatible with AndroidJUnitRunner version 1.0 or\nhigher! **\nOrchestrator offers the following benefits:\n - No shared state\n - Crashes are isolated\n - Logs are scoped per test\n\nSee\n<https:\/\/developer.android.com\/training\/testing\/junit-runner.html#using-android-test-orchestrator>\nfor more information about Android Test Orchestrator.\n\nOptional, if empty, test will be run without orchestrator.",
+          "enumDescriptions": [
+            "This means that the server should choose the mode. And test will be run\nwithout orchestrator.\nUsing orchestrator is highly encouraged because of all the benefits it\noffers. And in the future, all instrumentation tests will be run with\norchestrator by default if preference unspecified.",
+            "Run test using orchestrator.\n** Only compatible with AndroidJUnitRunner version 1.0 or higher! **\nRecommended.",
+            "Run test without using orchestrator."
+          ],
+          "type": "string",
+          "enum": [
+            "ORCHESTRATOR_OPTION_UNSPECIFIED",
+            "USE_ORCHESTRATOR",
+            "DO_NOT_USE_ORCHESTRATOR"
+          ]
         }
       }
     },
