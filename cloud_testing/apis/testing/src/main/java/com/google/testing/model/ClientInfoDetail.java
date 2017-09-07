@@ -17,7 +17,8 @@
 package com.google.testing.model;
 
 /**
- * Information about the client which invoked the test.
+ * Key-value pair of detailed information about the client which invoked the test. For example
+ * {'Version', '1.0'}, {'Release Track', 'BETA'}
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the Google Cloud Testing API. For a detailed explanation
@@ -28,64 +29,64 @@ package com.google.testing.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class ClientInfo extends com.google.api.client.json.GenericJson {
+public final class ClientInfoDetail extends com.google.api.client.json.GenericJson {
 
   /**
-   * The list of detailed information about client.
+   * The key of detailed client information. Required
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.util.List<ClientInfoDetail> clientInfoDetails;
+  private java.lang.String key;
 
   /**
-   * Client name, such as gcloud. Required
+   * The value of detailed client information. Required
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.String name;
+  private java.lang.String value;
 
   /**
-   * The list of detailed information about client.
+   * The key of detailed client information. Required
    * @return value or {@code null} for none
    */
-  public java.util.List<ClientInfoDetail> getClientInfoDetails() {
-    return clientInfoDetails;
+  public java.lang.String getKey() {
+    return key;
   }
 
   /**
-   * The list of detailed information about client.
-   * @param clientInfoDetails clientInfoDetails or {@code null} for none
+   * The key of detailed client information. Required
+   * @param key key or {@code null} for none
    */
-  public ClientInfo setClientInfoDetails(java.util.List<ClientInfoDetail> clientInfoDetails) {
-    this.clientInfoDetails = clientInfoDetails;
+  public ClientInfoDetail setKey(java.lang.String key) {
+    this.key = key;
     return this;
   }
 
   /**
-   * Client name, such as gcloud. Required
+   * The value of detailed client information. Required
    * @return value or {@code null} for none
    */
-  public java.lang.String getName() {
-    return name;
+  public java.lang.String getValue() {
+    return value;
   }
 
   /**
-   * Client name, such as gcloud. Required
-   * @param name name or {@code null} for none
+   * The value of detailed client information. Required
+   * @param value value or {@code null} for none
    */
-  public ClientInfo setName(java.lang.String name) {
-    this.name = name;
+  public ClientInfoDetail setValue(java.lang.String value) {
+    this.value = value;
     return this;
   }
 
   @Override
-  public ClientInfo set(String fieldName, Object value) {
-    return (ClientInfo) super.set(fieldName, value);
+  public ClientInfoDetail set(String fieldName, Object value) {
+    return (ClientInfoDetail) super.set(fieldName, value);
   }
 
   @Override
-  public ClientInfo clone() {
-    return (ClientInfo) super.clone();
+  public ClientInfoDetail clone() {
+    return (ClientInfoDetail) super.clone();
   }
 
 }

@@ -66,6 +66,14 @@ public class Testing extends com.google.api.client.googleapis.services.json.Abst
   public static final String DEFAULT_SERVICE_PATH = "";
 
   /**
+   * The default encoded batch path of the service. This is determined when the library is
+   * generated and normally should not be changed.
+   *
+   * @since 1.23
+   */
+  public static final String DEFAULT_BATCH_PATH = "batch";
+
+  /**
    * The default encoded base URL of the service. This is determined when the library is generated
    * and normally should not be changed.
    */
@@ -888,6 +896,7 @@ public class Testing extends com.google.api.client.googleapis.services.json.Abst
           DEFAULT_SERVICE_PATH,
           httpRequestInitializer,
           false);
+      setBatchPath(DEFAULT_BATCH_PATH);
     }
 
     /** Builds a new instance of {@link Testing}. */
@@ -904,6 +913,11 @@ public class Testing extends com.google.api.client.googleapis.services.json.Abst
     @Override
     public Builder setServicePath(String servicePath) {
       return (Builder) super.setServicePath(servicePath);
+    }
+
+    @Override
+    public Builder setBatchPath(String batchPath) {
+      return (Builder) super.setBatchPath(batchPath);
     }
 
     @Override

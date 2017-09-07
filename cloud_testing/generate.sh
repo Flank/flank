@@ -14,7 +14,9 @@ pushd apis
  generate_library \
     --input=./testing_v1.json \
     --language=java \
-    --output_dir=./testing
+    --output_dir=./testing/src/main/java
+
+mv ./testing/src/main/java/pom.xml ./testing/pom.xml
 
 #  generate_library \
 #     --input=./toolresults_v1beta3.json \
