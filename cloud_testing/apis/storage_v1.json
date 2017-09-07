@@ -4,7 +4,7 @@
  "id": "storage:v1",
  "name": "storage",
  "version": "v1",
- "revision": "20170623",
+ "revision": "20170811",
  "title": "Cloud Storage JSON API",
  "description": "Stores and retrieves potentially large, immutable data objects.",
  "ownerDomain": "google.com",
@@ -686,7 +686,7 @@
     },
     "contentType": {
      "type": "string",
-     "description": "Content-Type of the object data. If contentType is not specified, object downloads will be served as application/octet-stream."
+     "description": "Content-Type of the object data. If an object is stored without a Content-Type, it is served as application/octet-stream."
     },
     "crc32c": {
      "type": "string",
@@ -2175,7 +2175,7 @@
      "parameters": {
       "bucket": {
        "type": "string",
-       "description": "Name of a GCS bucket.",
+       "description": "Name of a Google Cloud Storage bucket.",
        "required": true,
        "location": "path"
       },
@@ -2534,7 +2534,7 @@
       },
       "ifGenerationMatch": {
        "type": "string",
-       "description": "Makes the operation conditional on whether the object's current generation matches the given value.",
+       "description": "Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.",
        "format": "int64",
        "location": "query"
       },
@@ -2613,13 +2613,13 @@
       },
       "ifGenerationMatch": {
        "type": "string",
-       "description": "Makes the operation conditional on whether the destination object's current generation matches the given value.",
+       "description": "Makes the operation conditional on whether the destination object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.",
        "format": "int64",
        "location": "query"
       },
       "ifGenerationNotMatch": {
        "type": "string",
-       "description": "Makes the operation conditional on whether the destination object's current generation does not match the given value.",
+       "description": "Makes the operation conditional on whether the destination object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.",
        "format": "int64",
        "location": "query"
       },
@@ -2637,13 +2637,13 @@
       },
       "ifSourceGenerationMatch": {
        "type": "string",
-       "description": "Makes the operation conditional on whether the source object's generation matches the given value.",
+       "description": "Makes the operation conditional on whether the source object's current generation matches the given value.",
        "format": "int64",
        "location": "query"
       },
       "ifSourceGenerationNotMatch": {
        "type": "string",
-       "description": "Makes the operation conditional on whether the source object's generation does not match the given value.",
+       "description": "Makes the operation conditional on whether the source object's current generation does not match the given value.",
        "format": "int64",
        "location": "query"
       },
@@ -2735,13 +2735,13 @@
       },
       "ifGenerationMatch": {
        "type": "string",
-       "description": "Makes the operation conditional on whether the object's current generation matches the given value.",
+       "description": "Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.",
        "format": "int64",
        "location": "query"
       },
       "ifGenerationNotMatch": {
        "type": "string",
-       "description": "Makes the operation conditional on whether the object's current generation does not match the given value.",
+       "description": "Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.",
        "format": "int64",
        "location": "query"
       },
@@ -2799,13 +2799,13 @@
       },
       "ifGenerationMatch": {
        "type": "string",
-       "description": "Makes the operation conditional on whether the object's generation matches the given value.",
+       "description": "Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.",
        "format": "int64",
        "location": "query"
       },
       "ifGenerationNotMatch": {
        "type": "string",
-       "description": "Makes the operation conditional on whether the object's generation does not match the given value.",
+       "description": "Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.",
        "format": "int64",
        "location": "query"
       },
@@ -2926,13 +2926,13 @@
       },
       "ifGenerationMatch": {
        "type": "string",
-       "description": "Makes the operation conditional on whether the object's current generation matches the given value.",
+       "description": "Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.",
        "format": "int64",
        "location": "query"
       },
       "ifGenerationNotMatch": {
        "type": "string",
-       "description": "Makes the operation conditional on whether the object's current generation does not match the given value.",
+       "description": "Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.",
        "format": "int64",
        "location": "query"
       },
@@ -3124,13 +3124,13 @@
       },
       "ifGenerationMatch": {
        "type": "string",
-       "description": "Makes the operation conditional on whether the object's current generation matches the given value.",
+       "description": "Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.",
        "format": "int64",
        "location": "query"
       },
       "ifGenerationNotMatch": {
        "type": "string",
-       "description": "Makes the operation conditional on whether the object's current generation does not match the given value.",
+       "description": "Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.",
        "format": "int64",
        "location": "query"
       },
@@ -3253,13 +3253,13 @@
       },
       "ifGenerationMatch": {
        "type": "string",
-       "description": "Makes the operation conditional on whether the destination object's current generation matches the given value.",
+       "description": "Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.",
        "format": "int64",
        "location": "query"
       },
       "ifGenerationNotMatch": {
        "type": "string",
-       "description": "Makes the operation conditional on whether the destination object's current generation does not match the given value.",
+       "description": "Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.",
        "format": "int64",
        "location": "query"
       },
@@ -3277,13 +3277,13 @@
       },
       "ifSourceGenerationMatch": {
        "type": "string",
-       "description": "Makes the operation conditional on whether the source object's generation matches the given value.",
+       "description": "Makes the operation conditional on whether the source object's current generation matches the given value.",
        "format": "int64",
        "location": "query"
       },
       "ifSourceGenerationNotMatch": {
        "type": "string",
-       "description": "Makes the operation conditional on whether the source object's generation does not match the given value.",
+       "description": "Makes the operation conditional on whether the source object's current generation does not match the given value.",
        "format": "int64",
        "location": "query"
       },
@@ -3484,13 +3484,13 @@
       },
       "ifGenerationMatch": {
        "type": "string",
-       "description": "Makes the operation conditional on whether the object's current generation matches the given value.",
+       "description": "Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.",
        "format": "int64",
        "location": "query"
       },
       "ifGenerationNotMatch": {
        "type": "string",
-       "description": "Makes the operation conditional on whether the object's current generation does not match the given value.",
+       "description": "Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.",
        "format": "int64",
        "location": "query"
       },
@@ -3656,7 +3656,7 @@
        "id": "storage.projects.serviceAccount.get",
        "path": "projects/{projectId}/serviceAccount",
        "httpMethod": "GET",
-       "description": "Get the email address of this project's GCS service account.",
+       "description": "Get the email address of this project's Google Cloud Storage service account.",
        "parameters": {
         "projectId": {
          "type": "string",
