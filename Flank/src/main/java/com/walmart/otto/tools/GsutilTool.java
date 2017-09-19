@@ -30,7 +30,17 @@ public class GsutilTool extends Tool {
         DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss.")
             .withZone(ZoneOffset.UTC)
             .format(instant));
-    bucketName.append(String.valueOf(instant.getNano()).substring(0, 6));
+
+    String nanoseconds = String.valueOf(instant.getNano());
+
+    if(nanoseconds.length() >= 6){
+      bucketName.append(nanoseconds.substring(0, 6));
+    }
+
+    else{
+      bucketName.append(nanoseconds.substring(0, nanoseconds.length() - 1));
+    }
+
     bucketName.append("_");
 
     Random random = new Random();
