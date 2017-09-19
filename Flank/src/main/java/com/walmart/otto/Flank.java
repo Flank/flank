@@ -75,7 +75,7 @@ public class Flank {
     try {
       if (validateArguments(args)) {
         flank.start(args);
-        if(flank.hasTestFailed()){
+        if (flank.hasTestFailed()) {
           System.exit(-1);
         }
       }
@@ -95,7 +95,7 @@ public class Flank {
     System.exit(-1);
   }
 
-  private boolean hasTestFailed(){
+  private boolean hasTestFailed() {
     return toolManager.get(GcloudTool.class).hasTestFailed();
   }
 

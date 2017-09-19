@@ -74,7 +74,7 @@ public class GcloudTool extends Tool {
     }
   }
 
-  public boolean hasTestFailed(){
+  public boolean hasTestFailed() {
     return testFailed;
   }
 
@@ -101,7 +101,7 @@ public class GcloudTool extends Tool {
     }
 
     for (String line : inputStreamList) {
-      if(line.contains("Failed")){
+      if (line.contains("Failed")) {
         testFailed = true;
       }
       if (printTests) {

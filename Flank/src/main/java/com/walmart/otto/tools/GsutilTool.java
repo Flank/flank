@@ -33,11 +33,9 @@ public class GsutilTool extends Tool {
 
     String nanoseconds = String.valueOf(instant.getNano());
 
-    if(nanoseconds.length() >= 6){
+    if (nanoseconds.length() >= 6) {
       bucketName.append(nanoseconds.substring(0, 6));
-    }
-
-    else{
+    } else {
       bucketName.append(nanoseconds.substring(0, nanoseconds.length() - 1));
     }
 
