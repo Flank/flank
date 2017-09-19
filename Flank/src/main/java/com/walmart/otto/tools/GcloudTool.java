@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class GcloudTool extends Tool {
-  boolean printTests = true;
-
+  private boolean printTests = true;
+  private boolean testFailed = false;
   private int latestExecutionTime;
 
   public GcloudTool(ToolManager.Config config) {
@@ -74,6 +74,10 @@ public class GcloudTool extends Tool {
     }
   }
 
+  public boolean hasTestFailed(){
+    return testFailed;
+  }
+
   public void executeGcloud(String[] commands, String test)
       throws RuntimeException, IOException, InterruptedException {
     List<String> inputStreamList = new ArrayList<>();
@@ -97,6 +101,9 @@ public class GcloudTool extends Tool {
     }
 
     for (String line : inputStreamList) {
+      if(line.contains("Failed")){
+        testFailed = true;
+      }
       if (printTests) {
         printTests(test);
       }

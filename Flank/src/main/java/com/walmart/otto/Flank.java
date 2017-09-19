@@ -75,6 +75,9 @@ public class Flank {
     try {
       if (validateArguments(args)) {
         flank.start(args);
+        if(flank.hasTestFailed()){
+          System.exit(-1);
+        }
       }
     } catch (RuntimeException e) {
       exitWithFailure(e);
@@ -90,6 +93,10 @@ public class Flank {
   private static void exitWithFailure(Exception e) {
     e.printStackTrace();
     System.exit(-1);
+  }
+
+  private boolean hasTestFailed(){
+    return toolManager.get(GcloudTool.class).hasTestFailed();
   }
 
   private ToolManager.Config loadTools(String appAPK, String testAPK, Configurator configurator) {
