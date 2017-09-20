@@ -32,7 +32,7 @@ To runs tests with Flank you will need the app and test apk's. You can specify i
 java -jar Flank-1.4.2.jar <app-apk> <test-apk> [package-name]
 ```
 
-When the executions are completed Flanks will fetch the xml result files and store them in a folder named: ```results```.
+When the executions are completed Flanks will fetch the xml result files, add device name to the tests and store the files in a folder named: ```results```.
 
 ### Configure Flank
 
