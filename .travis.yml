@@ -7,6 +7,8 @@ cache:
   - ./Flank/.gradle
   - ./cloud_testing/apis/testing/.gradle
   - ./cloud_testing/cloud_api_poc/.gradle
+  - ./cloud_testing/kotlin_poc/.gradle
 script:
 - ./gradle/gradlew -p Flank clean build
 - ./gradle/gradlew -p cloud_testing/cloud_api_poc clean build
+- ./gradle/gradlew -p cloud_testing/kotlin_poc clean build

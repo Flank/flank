@@ -42,12 +42,12 @@ Google Cloud libraries (`google-cloud-*`)
   - Deprecated. Replaced entirely by [google-api-objectivec-client-for-rest](https://github.com/google/google-api-objectivec-client-for-rest)
 - [google-api-cpp-client](https://github.com/google/google-api-cpp-client)
 
-# apis-client-generator - `end of life?`
+# apis-client-generator - `active`
 
 - [apis-client-generator](https://github.com/google/apis-client-generator)
   - Java, C++, C#, GWT, PHP, Dart
   - Used to generate `google-api-java-client`
-  - No new code since May 2017.
+  - [Recommended way to generate bindings for REST APIs](https://github.com/google/apis-client-generator/issues/31#issuecomment-323881910)
 
 # apitools - `maintenance mode`
 
@@ -78,7 +78,7 @@ The latest code generation tech from Google.
 
 # Generating Java APIs with `apis-client-generator`
 
-Install Google API client generator from source. The last relase was in 2013 and is broken.
+Install Google API client generator from source.
 
 ```
 git clone https://github.com/google/apis-client-generator.git

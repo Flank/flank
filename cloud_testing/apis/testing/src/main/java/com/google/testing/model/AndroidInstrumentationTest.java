@@ -51,6 +51,22 @@ public final class AndroidInstrumentationTest extends com.google.api.client.json
   private java.lang.String appPackageId;
 
   /**
+   * The option of whether running each test within its own invocation of instrumentation with
+   * Android Test Orchestrator or not. ** Orchestrator is only compatible with AndroidJUnitRunner
+   * version 1.0 or higher! ** Orchestrator offers the following benefits:  - No shared state  -
+   * Crashes are isolated  - Logs are scoped per test
+   *
+   * See
+   *
+   * for more information about Android Test Orchestrator.
+   *
+   * Optional, if empty, test will be run without orchestrator.
+   * The value may be {@code null}.
+   */
+  @com.google.api.client.util.Key
+  private java.lang.String orchestratorOption;
+
+  /**
    * The APK containing the test code to be executed. Required
    * The value may be {@code null}.
    */
@@ -117,6 +133,41 @@ public final class AndroidInstrumentationTest extends com.google.api.client.json
    */
   public AndroidInstrumentationTest setAppPackageId(java.lang.String appPackageId) {
     this.appPackageId = appPackageId;
+    return this;
+  }
+
+  /**
+   * The option of whether running each test within its own invocation of instrumentation with
+   * Android Test Orchestrator or not. ** Orchestrator is only compatible with AndroidJUnitRunner
+   * version 1.0 or higher! ** Orchestrator offers the following benefits:  - No shared state  -
+   * Crashes are isolated  - Logs are scoped per test
+   *
+   * See
+   *
+   * for more information about Android Test Orchestrator.
+   *
+   * Optional, if empty, test will be run without orchestrator.
+   * @return value or {@code null} for none
+   */
+  public java.lang.String getOrchestratorOption() {
+    return orchestratorOption;
+  }
+
+  /**
+   * The option of whether running each test within its own invocation of instrumentation with
+   * Android Test Orchestrator or not. ** Orchestrator is only compatible with AndroidJUnitRunner
+   * version 1.0 or higher! ** Orchestrator offers the following benefits:  - No shared state  -
+   * Crashes are isolated  - Logs are scoped per test
+   *
+   * See
+   *
+   * for more information about Android Test Orchestrator.
+   *
+   * Optional, if empty, test will be run without orchestrator.
+   * @param orchestratorOption orchestratorOption or {@code null} for none
+   */
+  public AndroidInstrumentationTest setOrchestratorOption(java.lang.String orchestratorOption) {
+    this.orchestratorOption = orchestratorOption;
     return this;
   }
 
