@@ -1,2 +1,4 @@
 rootProject.name = 'kotlin_poc'
 
+include ':testing'
+project(':testing').projectDir = new File(settingsDir, '../apis/testing')
