@@ -47,16 +47,17 @@ public class ShardExecutor {
 
     executorService = Executors.newFixedThreadPool(shards.size());
 
-    if (configurator.getShardIndex() != -1) {
-      printTests(shards.get(configurator.getShardIndex()), configurator.getShardIndex());
-      futures.add(executeShard(shards.get(configurator.getShardIndex()), bucket));
+    int shardIndex = configurator.getShardIndex();
+    if (shardIndex != -1) {
+      printTests(shards.get(shardIndex), shardIndex);
+      futures.add(executeShard(shards.get(shardIndex), bucket, shardIndex));
     } else {
       System.out.println(
           shards.size() + " shards will be executed on: " + configurator.getDeviceIds() + "\n");
 
       for (int i = 0; i < shards.size(); i++) {
         printTests(shards.get(i), i);
-        futures.add(executeShard(shards.get(i), bucket));
+        futures.add(executeShard(shards.get(i), bucket, i));
       }
     }
 
@@ -67,8 +68,9 @@ public class ShardExecutor {
     }
   }
 
-  private Future executeShard(String testCase, String bucket) throws RuntimeException {
-    Callable testCaseCallable = getCallable(testCase, bucket);
+  private Future executeShard(String testCase, String bucket, int shardIndex)
+      throws RuntimeException {
+    Callable<Void> testCaseCallable = getCallable(testCase, bucket, shardIndex);
 
     return executorService.submit(testCaseCallable);
   }
@@ -91,16 +93,14 @@ public class ShardExecutor {
     System.out.println("Executing shard " + index + ": " + tests + "\n");
   }
 
-  private Callable<Void> getCallable(String testCase, String bucket) throws RuntimeException {
-    Callable<Void> gCloudCallable =
-        new Callable<Void>() {
-          @Override
-          public Void call() throws Exception {
-            final GcloudTool gcloudTool = toolManager.get(GcloudTool.class);
-            gcloudTool.runGcloud(testCase, bucket);
-            return null;
-          }
-        };
-    return gCloudCallable;
+  private Callable<Void> getCallable(String testCase, String bucket, int sharedIndex) {
+    return new Callable<Void>() {
+      @Override
+      public Void call() throws Exception {
+        final GcloudTool gcloudTool = toolManager.get(GcloudTool.class);
+        gcloudTool.runGcloud(testCase, bucket, sharedIndex);
+        return null;
+      }
+    };
   }
 }

@@ -21,7 +21,7 @@ public class GcloudTool extends Tool {
     super(ToolManager.GCLOUD_TOOL, config);
   }
 
-  public void runGcloud(String testCase, String bucket)
+  public void runGcloud(String testCase, String bucket, int shardIndex)
       throws RuntimeException, IOException, InterruptedException {
     // don't quote arguments or ProcessBuilder will error in strange ways.
     String[] runGcloud =
@@ -52,7 +52,7 @@ public class GcloudTool extends Tool {
           "--timeout",
           getConfigurator().getShardTimeout() + "m",
           "--results-dir",
-          bucket.split("/")[3],
+          bucket.split("/")[3] + "/" + shardIndex,
           "--test-targets",
           testCase
         };

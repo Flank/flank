@@ -35,6 +35,7 @@ public class ProcessBuilder {
     return status;
   }
 
+  @SuppressWarnings("deprecation")
   public void kill() {
     if (seInfo != null) {
       seInfo.stop();
