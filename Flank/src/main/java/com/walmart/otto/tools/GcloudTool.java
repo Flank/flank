@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class GcloudTool extends Tool {
   private boolean printTests = true;
@@ -32,6 +33,7 @@ public class GcloudTool extends Tool {
           "run",
           "--type",
           "instrumentation",
+          orchestratorFlag(),
           "--app",
           bucket + getSimpleName(getAppAPK()),
           "--test",
@@ -65,6 +67,13 @@ public class GcloudTool extends Tool {
     String[] cmdArray = gcloudList.toArray(new String[0]);
 
     executeGcloud(cmdArray, testCase);
+  }
+
+  private String orchestratorFlag() {
+    if (getConfigurator().isUseOrchestrator()) {
+      return "--use-orchestrator";
+    }
+    return "--no-use-orchestrator";
   }
 
   private void addParameterIfValueSet(List<String> list, String parameter, String value) {
