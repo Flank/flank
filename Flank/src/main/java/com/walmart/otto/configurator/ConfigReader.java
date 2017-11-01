@@ -107,6 +107,10 @@ public class ConfigReader {
         configurator.setUseOrchestrator(Boolean.parseBoolean(value));
         break;
 
+      case "use-gcloud-beta":
+        configurator.setUseGCloudBeta(Boolean.parseBoolean(value));
+        break;
+
       default:
         break;
     }
