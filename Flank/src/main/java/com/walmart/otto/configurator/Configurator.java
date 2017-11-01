@@ -13,6 +13,7 @@ public class Configurator {
   private String projectName;
   private String directoriesToPull = "";
 
+  private boolean useOrchestrator = false;
   private boolean fetchXMLFiles = true;
   private boolean debug = false;
   private boolean fetchBucket = false;
@@ -157,5 +158,13 @@ public class Configurator {
 
   public void setFetchBucket(boolean fetchArtefacts) {
     this.fetchBucket = fetchArtefacts;
+  }
+
+  public boolean isUseOrchestrator() {
+    return useOrchestrator;
+  }
+
+  public void setUseOrchestrator(boolean useOrchestrator) {
+    this.useOrchestrator = useOrchestrator;
   }
 }

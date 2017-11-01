@@ -103,6 +103,10 @@ public class ConfigReader {
         configurator.setFetchBucket(Boolean.parseBoolean(value));
         break;
 
+      case "use-orchestrator":
+        configurator.setUseOrchestrator(Boolean.parseBoolean(value));
+        break;
+
       default:
         break;
     }
