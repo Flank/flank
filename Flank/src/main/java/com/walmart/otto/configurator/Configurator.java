@@ -14,6 +14,7 @@ public class Configurator {
   private String directoriesToPull = "";
 
   private boolean useOrchestrator = false;
+  private boolean useGCloudBeta = false;
   private boolean fetchXMLFiles = true;
   private boolean debug = false;
   private boolean fetchBucket = false;
@@ -166,5 +167,13 @@ public class Configurator {
 
   public void setUseOrchestrator(boolean useOrchestrator) {
     this.useOrchestrator = useOrchestrator;
+  }
+
+  public boolean isUseGCloudBeta() {
+    return useGCloudBeta;
+  }
+
+  public void setUseGCloudBeta(boolean useGCloudBeta) {
+    this.useGCloudBeta = useGCloudBeta;
   }
 }

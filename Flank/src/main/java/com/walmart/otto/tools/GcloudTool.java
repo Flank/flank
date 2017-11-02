@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class GcloudTool extends Tool {
   private boolean printTests = true;
@@ -26,6 +27,7 @@ public class GcloudTool extends Tool {
     String[] runGcloud =
         new String[] {
           getConfigurator().getGcloud(),
+          betaConfiguration(),
           "firebase",
           "test",
           "android",
@@ -63,6 +65,12 @@ public class GcloudTool extends Tool {
     addParameterIfValueSet(
         gcloudList, "--directories-to-pull", getConfigurator().getDirectoriesToPull());
 
+    gcloudList =
+        gcloudList
+            .stream()
+            .filter(param -> param != null && !param.isEmpty())
+            .collect(Collectors.toList());
+
     String[] cmdArray = gcloudList.toArray(new String[0]);
 
     executeGcloud(cmdArray, testCase);
@@ -73,6 +81,13 @@ public class GcloudTool extends Tool {
       return "--use-orchestrator";
     }
     return "--no-use-orchestrator";
+  }
+
+  private String betaConfiguration() {
+    if (getConfigurator().isUseGCloudBeta()) {
+      return "beta";
+    }
+    return "";
   }
 
   private void addParameterIfValueSet(List<String> list, String parameter, String value) {
