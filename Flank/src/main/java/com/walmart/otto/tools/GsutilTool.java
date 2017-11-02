@@ -239,7 +239,12 @@ public class GsutilTool extends Tool {
   private String[] deleteApp() {
     String[] deleteApp =
         new String[] {
-          getConfigurator().getGsutil(), "--quiet", "rm", "-r", bucket + getSimpleName(getAppAPK())
+          getConfigurator().getGsutil(),
+          "--quiet",
+          "-m",
+          "rm",
+          "-r",
+          bucket + "**/" + getSimpleName(getAppAPK())
         };
     return deleteApp;
   }
@@ -247,7 +252,12 @@ public class GsutilTool extends Tool {
   private String[] deleteTest() {
     String[] deleteTest =
         new String[] {
-          getConfigurator().getGsutil(), "--quiet", "rm", "-r", bucket + getSimpleName(getTestAPK())
+          getConfigurator().getGsutil(),
+          "--quiet",
+          "-m",
+          "rm",
+          "-r",
+          bucket + "**/" + getSimpleName(getTestAPK())
         };
     return deleteTest;
   }
