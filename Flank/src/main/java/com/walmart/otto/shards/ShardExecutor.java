@@ -6,7 +6,6 @@ import com.walmart.otto.tools.GsutilTool;
 import com.walmart.otto.tools.ToolManager;
 import com.walmart.otto.utils.FilterUtils;
 import com.walmart.otto.utils.XMLUtils;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,11 +73,7 @@ public class ShardExecutor {
   }
 
   private void fetchResults(GsutilTool gsutilTool) throws IOException, InterruptedException {
-    File[] filesInResultsDir = gsutilTool.fetchResults();
-
-    if (filesInResultsDir != null) {
-      XMLUtils.updateXMLFilesWithDeviceName(filesInResultsDir);
-    }
+    XMLUtils.updateXMLFilesWithDeviceName(gsutilTool.fetchResults());
   }
 
   private void printTests(String testsString, int index) {
