@@ -8,7 +8,6 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.regex.Pattern;
 
 public class GsutilTool extends Tool {
   private String bucket;
@@ -94,8 +93,7 @@ public class GsutilTool extends Tool {
     executeCommand(downloadTestTime(), new ArrayList<String>(), new ArrayList<>());
   }
 
-  public Map<String, String> fetchResults() throws IOException, InterruptedException {
-    Map<String, String> xmlFileAndDevice = new HashMap<String, String>();
+  public File[] fetchResults() throws IOException, InterruptedException {
     File currentDir = new File("");
     File resultsDir =
         new File(currentDir.getAbsolutePath() + File.separator + Constants.RESULTS_DIR);
@@ -112,9 +110,7 @@ public class GsutilTool extends Tool {
 
     executeCommand(fetchFiles, new ArrayList<>());
 
-    getDeviceNames(xmlFileAndDevice);
-
-    return xmlFileAndDevice;
+    return resultsDir.listFiles();
   }
 
   public void fetchBucket() throws IOException, InterruptedException {
@@ -176,16 +172,6 @@ public class GsutilTool extends Tool {
     executeCommand(deleteTest());
   }
 
-  private void getDeviceNames(Map<String, String> xmlFileAndDevice) {
-    for (String name : getErrorStreamList()) {
-      String[] line;
-      if (name.contains("Copying gs")) {
-        line = name.split(Pattern.quote("/"));
-        xmlFileAndDevice.put(line[line.length - 1].replace("xml...", "xml"), line[line.length - 2]);
-      }
-    }
-  }
-
   private String[] downloadTestTime() {
     String[] downloadTestTimeFile =
         new String[] {
@@ -206,10 +192,11 @@ public class GsutilTool extends Tool {
         new String[] {
           getConfigurator().getGsutil(),
           "-m",
-          "cp",
+          "rsync",
           "-r",
-          "-U",
-          bucket + "**/*.xml",
+          "-x",
+          "^((?!test_result_\\d+\\.xml).)*$",
+          bucket,
           file.getAbsolutePath()
         };
     return fetchFiles;

@@ -1,6 +1,5 @@
 package com.walmart.otto.shards;
 
-import com.walmart.otto.Constants;
 import com.walmart.otto.configurator.Configurator;
 import com.walmart.otto.tools.GcloudTool;
 import com.walmart.otto.tools.GsutilTool;
@@ -11,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.*;
 
 public class ShardExecutor {
@@ -76,13 +74,11 @@ public class ShardExecutor {
   }
 
   private void fetchResults(GsutilTool gsutilTool) throws IOException, InterruptedException {
-    Map<String, String> resultsMap = gsutilTool.fetchResults();
+    File[] filesInResultsDir = gsutilTool.fetchResults();
 
-    //Add device name to test case names
-    resultsMap.forEach(
-        (filename, device) ->
-            XMLUtils.updateXML(
-                Constants.RESULTS_DIR + File.separator + filename, device, "testcase", "name"));
+    if (filesInResultsDir != null) {
+      XMLUtils.updateXMLFilesWithDeviceName(filesInResultsDir);
+    }
   }
 
   private void printTests(String testsString, int index) {

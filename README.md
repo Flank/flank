@@ -10,7 +10,7 @@ To use Flank, please sign up for Firebase Test Lab and install the Google Cloud 
 
 * Signup for [Firebase Test Lab](https://firebase.google.com/)
 
-* Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs/) (>= 149.0.0)
+* Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs/) (>= 176.0.0)
 
 ### Download
 
@@ -47,6 +47,7 @@ orientations: The orientations, portrait, landscape or both
 locales: The device locales
 environment-variables: To set environment variables. Can also be used to enable code coverage 
 directories-to-pull: If directories from the device should be pulled
+use-orchestrator: To enable Android Test Orchestrator
 shard-timeout: Timeout in minutes for each shard 
 shard-duration: Duration in seconds for each shard
 
@@ -58,6 +59,7 @@ fetch-bucket: If the bucket containing logs and artifacts should be fetched
 gcloud-path: The path to the glcoud binary
 gsutil-path: The path to the gsutil binary
 gcloud-bucket: The Google Cloud Storage bucket to use. If not specified Flank will create one. 
+use-gcloud-beta: If gcloud beta should be used
 ```
 
 Example of a properties file:

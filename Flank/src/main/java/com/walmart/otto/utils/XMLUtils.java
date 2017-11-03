@@ -12,9 +12,22 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class XMLUtils {
+  static String deviceName;
+
+  public static void updateXMLFilesWithDeviceName(File[] files) {
+    for (File file : files) {
+      if (file.isDirectory()) {
+        deviceName = file.getName();
+        updateXMLFilesWithDeviceName(file.listFiles());
+      } else {
+        XMLUtils.updateXML(file.getAbsolutePath(), deviceName, "testcase", "name");
+      }
+    }
+  }
 
   public static void updateXML(
       String filename, String deviceName, String elementTag, String element) {
+
     try {
       Document doc = getXMLFile(filename);
 
