@@ -35,7 +35,8 @@ public class Flank {
       }
     }
 
-    configurator = new ConfigReader(Constants.CONFIG_PROPERTIES).getConfiguration();
+    configurator =
+        new ConfigReader(Constants.CONFIG_PROPERTIES, new Configurator()).getConfiguration();
 
     toolManager = new ToolManager().load(loadTools(args[0], args[1], configurator));
 
@@ -204,7 +205,7 @@ public class Flank {
     }
 
     if (args.length == 3) {
-      filteredTests = FilterUtils.filterTests(filteredTests, args[2]);
+      filteredTests = FilterUtils.filterTests(filteredTests, configurator.getSkipTests(), args[2]);
     }
 
     System.setOut(originalStream);
