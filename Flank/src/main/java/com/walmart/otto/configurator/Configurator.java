@@ -1,6 +1,8 @@
 package com.walmart.otto.configurator;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.List;
 
 public class Configurator {
   private String deviceIds = "Nexus6P";
@@ -22,6 +24,8 @@ public class Configurator {
   private int shardIndex = -1;
   private int shardTimeout = 5;
   private int shardDuration = 120;
+
+  private List<String> skipTests = Collections.emptyList();
 
   public int getNumShards() {
     return numShards;
@@ -175,5 +179,13 @@ public class Configurator {
 
   public void setUseGCloudBeta(boolean useGCloudBeta) {
     this.useGCloudBeta = useGCloudBeta;
+  }
+
+  public List<String> getSkipTests() {
+    return skipTests;
+  }
+
+  public void setSkipTests(List<String> skipTests) {
+    this.skipTests = skipTests;
   }
 }

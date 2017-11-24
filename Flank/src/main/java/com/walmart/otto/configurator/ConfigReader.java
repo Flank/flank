@@ -1,15 +1,16 @@
 package com.walmart.otto.configurator;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.Properties;
 
 public class ConfigReader {
   Configurator configurator;
   private String fileName;
 
-  public ConfigReader(String fileName) throws IllegalArgumentException {
+  public ConfigReader(String fileName, Configurator configurator) throws IllegalArgumentException {
     this.fileName = fileName;
-    configurator = new Configurator();
+    this.configurator = configurator;
 
     setProperties();
   }
@@ -109,6 +110,10 @@ public class ConfigReader {
 
       case "use-gcloud-beta":
         configurator.setUseGCloudBeta(Boolean.parseBoolean(value));
+        break;
+
+      case "skip-tests":
+        configurator.setSkipTests(Arrays.asList(value.split(",")));
         break;
 
       default:
