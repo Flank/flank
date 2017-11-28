@@ -1,14 +1,18 @@
 package com.walmart.otto.configurator;
 
+import com.walmart.otto.models.Device;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class Configurator {
-  private String deviceIds = "Nexus6P";
-  private String locales = "en";
-  private String orientations = "portrait";
-  private String osVersionIds = "25";
+  private List<String> deviceIds = new ArrayList<>(Collections.singletonList("Nexus6P"));
+  private List<String> locales = new ArrayList<>(Collections.singletonList("en"));
+  private List<String> orientations = new ArrayList<>(Collections.singletonList("portrait"));
+  private List<String> osVersionIds = new ArrayList<>(Collections.singletonList("25"));
+  private List<Device> devices = new ArrayList<>();
   private String gcloud = "gcloud";
   private String gsutil = "gsutil";
   private String environmentVariables = "";
@@ -24,6 +28,10 @@ public class Configurator {
   private int shardIndex = -1;
   private int shardTimeout = 5;
   private int shardDuration = 120;
+
+  public Configurator() {
+    setupDevices();
+  }
 
   private List<String> skipTests = Collections.emptyList();
 
@@ -43,36 +51,36 @@ public class Configurator {
     this.shardIndex = shardIndex;
   }
 
-  public String getDeviceIds() {
-    return deviceIds;
-  }
-
+  @Deprecated
   public void setDeviceIds(String deviceIds) {
-    this.deviceIds = deviceIds;
+    this.deviceIds = Arrays.asList(deviceIds.split(","));
+    setupDevices();
   }
 
-  public String getOsVersionIds() {
-    return osVersionIds;
-  }
-
+  @Deprecated
   public void setOsVersionIds(String osVersionIds) {
-    this.osVersionIds = osVersionIds;
+    this.osVersionIds = Arrays.asList(osVersionIds.split(","));
+    setupDevices();
   }
 
-  public String getLocales() {
-    return locales;
-  }
-
+  @Deprecated
   public void setLocales(String locales) {
-    this.locales = locales;
+    this.locales = Arrays.asList(locales.split(","));
+    setupDevices();
   }
 
-  public String getOrientations() {
-    return orientations;
-  }
-
+  @Deprecated
   public void setOrientations(String orientations) {
-    this.orientations = orientations;
+    this.orientations = Arrays.asList(orientations.split(","));
+    setupDevices();
+  }
+
+  public void addDevices(List<Device> devices) {
+    this.devices = devices;
+  }
+
+  public List<Device> getDevices() {
+    return devices;
   }
 
   public boolean isDebug() {
@@ -187,5 +195,24 @@ public class Configurator {
 
   public void setSkipTests(List<String> skipTests) {
     this.skipTests = skipTests;
+  }
+
+  private void setupDevices() {
+    devices = new ArrayList<>();
+    for (String locale : locales) {
+      for (String deviceId : deviceIds) {
+        for (String osVersion : osVersionIds) {
+          for (String orientation : orientations) {
+            devices.add(
+                new Device.Builder()
+                    .setId(deviceId)
+                    .setLocale(locale)
+                    .setOrientation(orientation)
+                    .setOsVersion(osVersion)
+                    .build());
+          }
+        }
+      }
+    }
   }
 }

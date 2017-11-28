@@ -4,6 +4,7 @@ import com.linkedin.dex.parser.DexParser;
 import com.linkedin.dex.parser.TestMethod;
 import com.walmart.otto.configurator.ConfigReader;
 import com.walmart.otto.configurator.Configurator;
+import com.walmart.otto.models.Device;
 import com.walmart.otto.reporter.PriceReporter;
 import com.walmart.otto.reporter.TimeReporter;
 import com.walmart.otto.shards.ShardExecutor;
@@ -189,7 +190,11 @@ public class Flank {
               + " ("
               + numberOfShards
               + " shards in total) will be executed on: "
-              + configurator.getDeviceIds());
+              + configurator
+                  .getDevices()
+                  .stream()
+                  .map(Device::getId)
+                  .reduce((s, s2) -> s + ", " + s2));
       return;
     }
   }
