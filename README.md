@@ -41,12 +41,13 @@ It's possible to configure Flank by including a Java properties file in the root
 Following properties can be configured:
 
 ```
-device: Device Id, OSVersion, orientation, locale; Default values are `Nexus6P`, `25`, `portrait` and `en`
+devices: Device Id, OSVersion, orientation, locale; Default values are `Nexus6P`, `25`, `portrait` and `en`
 environment-variables: To set environment variables. Can also be used to enable code coverage
 directories-to-pull: If directories from the device should be pulled
 use-orchestrator: To enable Android Test Orchestrator
 shard-timeout: Timeout in minutes for each shard
 shard-duration: Duration in seconds for each shard
+skip-tests: Tests that should be excluded
 
 numShards: Number of shards
 shardIndex: If a specific shard should be executed
@@ -75,6 +76,7 @@ devices=model:Nexus5X;version:23;orientation:portrait;locale:en,\
         model:Nexus6P;version:24,\
         model:pixel;version:26
 
+skip-tests=com.example.app.screenshot,com.example.app.excluded
 numShards=  
 shardIndex=
 debug-prints=false  
