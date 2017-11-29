@@ -3,13 +3,21 @@ package com.walmart.otto.tools;
 import static com.walmart.otto.utils.FileUtils.getSimpleName;
 
 import com.walmart.otto.Constants;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 public class GsutilTool extends Tool {
+
   private String bucket;
 
   public GsutilTool(ToolManager.Config config) {
@@ -113,9 +121,9 @@ public class GsutilTool extends Tool {
     return resultsDir.listFiles();
   }
 
-  public void fetchBucket() throws IOException, InterruptedException {
+  public Optional<File> fetchBucket() throws IOException, InterruptedException {
     if (!getConfigurator().isFetchBucket()) {
-      return;
+      return Optional.empty();
     }
 
     File currentDir = new File("");
@@ -132,6 +140,8 @@ public class GsutilTool extends Tool {
     String[] fetchBucket = fetchBucket(resultsDir);
 
     executeCommand(fetchBucket, new ArrayList<>());
+
+    return Optional.of(new File(resultsDir, bucket.split("/")[3]));
   }
 
   public boolean findGSFile(String fileName) throws IOException, InterruptedException {
@@ -250,11 +260,15 @@ public class GsutilTool extends Tool {
   }
 
   private String[] copyFileToBucket(String file, String bucket) {
-    String[] copyTest =
-        new String[] {
-          getConfigurator().getGsutil(), "--quiet", "cp", file, bucket,
-        };
-    return copyTest;
+    return new String[] {
+      getConfigurator().getGsutil(), "--quiet", "cp", file, bucket,
+    };
+  }
+
+  private String[] copyDirectoryToBucket(String directory, String bucket) {
+    return new String[] {
+      getConfigurator().getGsutil(), "--quiet", "cp", "-r", directory, bucket,
+    };
   }
 
   static PrintStream originalStream = System.out;
@@ -272,5 +286,31 @@ public class GsutilTool extends Tool {
     } catch (UnsupportedEncodingException ignored) {
     }
     return emptyStream;
+  }
+
+  public void uploadAggregatedXmlFiles(File reportsBaseDir)
+      throws IOException, InterruptedException {
+    uploadFiles(reportsBaseDir, "*.xml");
+  }
+
+  public void uploadAggregatedHtmlReports(File reportsBaseDir)
+      throws IOException, InterruptedException {
+    uploadFiles(reportsBaseDir, "*.html");
+    uploadDirectoryIfExists(reportsBaseDir, "video");
+    uploadDirectoryIfExists(reportsBaseDir, "logcat");
+  }
+
+  private void uploadFiles(File reportsBaseDir, String pattern)
+      throws IOException, InterruptedException {
+    executeCommand(
+        copyFileToBucket(reportsBaseDir.getAbsolutePath() + File.separator + pattern, bucket));
+  }
+
+  private void uploadDirectoryIfExists(File file, String child)
+      throws IOException, InterruptedException {
+    File childDirectory = new File(file, child);
+    if (childDirectory.exists()) {
+      executeCommand(copyDirectoryToBucket(childDirectory.getAbsolutePath(), bucket));
+    }
   }
 }

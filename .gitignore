@@ -33,3 +33,5 @@ shifu-java-client/.gradle
 ## File-based project format:
 *.ipr
 *.iws
+
+.DS_Store
