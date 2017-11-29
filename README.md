@@ -74,7 +74,7 @@ shard-timeout=5
 shard-duration=120  
 devices=model:Nexus5X;version:23;orientation:portrait;locale:en,\
         model:Nexus6P;version:24,\
-        model:pixel;version:26
+        model:NexusLowRes;version:26
 
 skip-tests=com.example.app.screenshot,com.example.app.excluded
 numShards=  
