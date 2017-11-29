@@ -2,6 +2,7 @@ package com.walmart.otto.tools;
 
 import static com.walmart.otto.utils.FileUtils.getSimpleName;
 
+import com.walmart.otto.models.Device;
 import com.walmart.otto.reporter.TimeReporter;
 import com.walmart.otto.utils.FileUtils;
 import com.walmart.otto.utils.FilterUtils;
@@ -41,14 +42,6 @@ public class GcloudTool extends Tool {
           bucket + getSimpleName(getTestAPK()),
           "--results-bucket",
           "gs://" + bucket.split("/")[2],
-          "--device-ids",
-          getConfigurator().getDeviceIds(),
-          "--os-version-ids",
-          getConfigurator().getOsVersionIds(),
-          "--locales",
-          getConfigurator().getLocales(),
-          "--orientations",
-          getConfigurator().getOrientations(),
           "--timeout",
           getConfigurator().getShardTimeout() + "m",
           "--results-dir",
@@ -58,6 +51,10 @@ public class GcloudTool extends Tool {
         };
 
     List<String> gcloudList = new ArrayList<>(Arrays.asList(runGcloud));
+    for (Device device : getConfigurator().getDevices()) {
+      gcloudList.add("--device");
+      gcloudList.add(device.toString());
+    }
 
     addParameterIfValueSet(
         gcloudList, "--environment-variables", getConfigurator().getEnvironmentVariables());

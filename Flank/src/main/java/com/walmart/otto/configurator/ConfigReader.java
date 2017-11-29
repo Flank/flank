@@ -1,5 +1,6 @@
 package com.walmart.otto.configurator;
 
+import com.walmart.otto.models.Device;
 import java.io.*;
 import java.util.Arrays;
 import java.util.Properties;
@@ -32,6 +33,7 @@ public class ConfigReader {
     return configurator;
   }
 
+  @SuppressWarnings("deprecation")
   private void setProperty(String property, String value) throws IllegalArgumentException {
     if (value.isEmpty()) {
       return;
@@ -40,8 +42,24 @@ public class ConfigReader {
     value = value.replaceAll(" ", "");
 
     switch (property) {
+      case "devices":
+        configurator.addDevices(Device.parseDevices(value));
+        break;
+
       case "deviceIds":
         configurator.setDeviceIds(value);
+        break;
+
+      case "locales":
+        configurator.setLocales(value);
+        break;
+
+      case "orientations":
+        configurator.setOrientations(value);
+        break;
+
+      case "os-version-ids":
+        configurator.setOsVersionIds(value);
         break;
 
       case "numShards":
@@ -58,18 +76,6 @@ public class ConfigReader {
 
       case "shard-duration":
         configurator.setShardDuration(Integer.parseInt(value));
-        break;
-
-      case "locales":
-        configurator.setLocales(value);
-        break;
-
-      case "orientations":
-        configurator.setOrientations(value);
-        break;
-
-      case "os-version-ids":
-        configurator.setOsVersionIds(value);
         break;
 
       case "debug-prints":

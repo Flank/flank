@@ -1,6 +1,7 @@
 package com.walmart.otto.shards;
 
 import com.walmart.otto.configurator.Configurator;
+import com.walmart.otto.models.Device;
 import com.walmart.otto.tools.GcloudTool;
 import com.walmart.otto.tools.GsutilTool;
 import com.walmart.otto.tools.ToolManager;
@@ -50,7 +51,14 @@ public class ShardExecutor {
       futures.add(executeShard(shards.get(shardIndex), bucket, shardIndex));
     } else {
       System.out.println(
-          shards.size() + " shards will be executed on: " + configurator.getDeviceIds() + "\n");
+          shards.size()
+              + " shards will be executed on: "
+              + configurator
+                  .getDevices()
+                  .stream()
+                  .map(Device::getId)
+                  .reduce((s, s2) -> s + ", " + s2)
+              + "\n");
 
       for (int i = 0; i < shards.size(); i++) {
         printTests(shards.get(i), i);

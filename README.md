@@ -14,14 +14,14 @@ To use Flank, please sign up for Firebase Test Lab and install the Google Cloud 
 
 ### Download
 
-Either [download Flank from here](https://bintray.com/flank1/Flank/download_file?file_path=Flank-1.5.0.jar)
+Either [download Flank from here](https://bintray.com/flank1/Flank/download_file?file_path=Flank-1.6.0.jar)
 
-or 
+or
 
-Use curl: 
+Use curl:
 
 ```console
-curl --location --fail https://dl.bintray.com/flank1/Flank/Flank-1.5.0.jar --output Flank-1.5.0.jar
+curl --location --fail https://dl.bintray.com/flank1/Flank/Flank-1.6.0.jar --output Flank-1.6.0.jar
 ```
 
 ### Run Tests
@@ -29,7 +29,7 @@ curl --location --fail https://dl.bintray.com/flank1/Flank/Flank-1.5.0.jar --out
 To runs tests with Flank you will need the app and test apk's. You can specify in which package you would like tests to run. A single class or test can also be executed (package_name.class_name#method_name). If no package name is provided all the tests will be executed. Usage:
 
 ```
-java -jar Flank-1.5.0.jar <app-apk> <test-apk> [package-name]
+java -jar Flank-1.6.0.jar <app-apk> <test-apk> [package-name]
 ```
 
 When the executions are completed Flanks will fetch the xml result files, add device name to the tests and store the files in a folder named: ```results```.
@@ -41,14 +41,11 @@ It's possible to configure Flank by including a Java properties file in the root
 Following properties can be configured:
 
 ```
-deviceIds: The ID:s of the devices to run the tests on
-os-version-ids: The API-levels of the devices to run the tests on
-orientations: The orientations, portrait, landscape or both
-locales: The device locales
-environment-variables: To set environment variables. Can also be used to enable code coverage 
+device: Device Id, OSVersion, orientation, locale; Default values are `Nexus6P`, `25`, `portrait` and `en`
+environment-variables: To set environment variables. Can also be used to enable code coverage
 directories-to-pull: If directories from the device should be pulled
 use-orchestrator: To enable Android Test Orchestrator
-shard-timeout: Timeout in minutes for each shard 
+shard-timeout: Timeout in minutes for each shard
 shard-duration: Duration in seconds for each shard
 
 numShards: Number of shards
@@ -58,30 +55,33 @@ fetch-xml-files: If the result xml files should be fetched
 fetch-bucket: If the bucket containing logs and artifacts should be fetched
 gcloud-path: The path to the glcoud binary
 gsutil-path: The path to the gsutil binary
-gcloud-bucket: The Google Cloud Storage bucket to use. If not specified Flank will create one. 
+gcloud-bucket: The Google Cloud Storage bucket to use. If not specified Flank will create one.
 use-gcloud-beta: If gcloud beta should be used
+
+deviceIds: The ID:s of the devices to run the tests on (deprecated, should not be used in conjunction with `device`)
+os-version-ids: The API-levels of the devices to run the tests on (deprecated, should not be used in conjunction with `device`)
+orientations: The orientations, portrait, landscape or both (deprecated, should not be used in conjunction with `device`)
+locales: The device locales (deprecated, should not be used in conjunction with `device`)
 ```
 
 Example of a properties file:
 
 ```
-deviceIds=Nexus5X,Nexus6P  
-os-version-ids=23,24   
-orientations=portrait  
-locales=en,sv  
 environment-variables=coverage=true,coverageFile=/sdcard/tempDir/coverage.ec
 directories-to-pull=/sdcard
-shard-timeout=5 
+shard-timeout=5
 shard-duration=120  
+devices=model:Nexus5X;version:23;orientation:portrait;locale:en,\
+        model:Nexus6P;version:24,\
+        model:pixel;version:26
 
 numShards=  
-shardIndex= 
+shardIndex=
 debug-prints=false  
 fetch-xml-files=true
 fetch-bucket=true
 gcloud-path=
 gsutil-path=
-
 ```
 
 ### Configurable Shards
