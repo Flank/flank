@@ -93,8 +93,11 @@ class JunitReport {
             failureElement.setTextContent(exceptionMessage);
             testCaseElement.appendChild(failureElement);
             break;
-          default:
+          case SUCCESS:
+            //nothing to do here, the success test case doesn't have child nodes.
             break;
+          default:
+            throw new IllegalStateException("Invalid test case result");
         }
 
         testSuiteElement.appendChild(testCaseElement);
@@ -118,58 +121,14 @@ class JunitReport {
     System.out.println("XML report written to: " + outputFile.toString());
   }
 
-  public TestSuite readFromFile(Path filePath) {
-    List<TestCase> results = new ArrayList<>();
+  public TestSuite readTestSuite(Path filePath) {
+
     String shardName = extractShardName(filePath);
     String matrixName = extractMatrixName(filePath);
+
     Document document = XMLUtils.getXMLFile(filePath.toFile().getAbsolutePath());
 
-    NodeList nodes = document.getElementsByTagName(TESTCASE_TAG);
-
-    for (int i = 0; i < nodes.getLength(); i++) {
-      Node node = nodes.item(i);
-      if (node instanceof Element) {
-        Element testCase = (Element) node;
-
-        String testName = testCase.getAttribute(NAME_ATTRIBUTE);
-        String className = testCase.getAttribute(CLASSNAME_ATTRIBUTE);
-
-        boolean hasChildNodes = testCase.hasChildNodes();
-        if (hasChildNodes) {
-
-          Node firstElement = null;
-
-          NodeList childNodes = testCase.getChildNodes();
-          for (int j = 0; j < childNodes.getLength(); j++) {
-            Node item = childNodes.item(j);
-            if (item.getNodeType() == Node.ELEMENT_NODE) {
-              firstElement = item;
-              break;
-            }
-          }
-
-          if (firstElement == null) {
-            throw new IllegalStateException();
-          }
-
-          String message = firstElement.getTextContent().trim();
-          switch (firstElement.getNodeName()) {
-            case FAILURE_TAG:
-              results.add(TestCase.failure(shardName, testName, className, message));
-              break;
-            case ERROR_TAG:
-              results.add(TestCase.error(shardName, testName, className, message));
-              break;
-            case SKIPPED_TAG:
-              results.add(TestCase.skipped(shardName, testName, className));
-            default:
-              throw new IllegalStateException("Unable to process element: " + firstElement);
-          }
-        } else {
-          results.add(TestCase.success(shardName, testName, className));
-        }
-      }
-    }
+    List<TestCase> results = readTestCases(document, shardName);
 
     NodeList elements = document.getElementsByTagName(TESTSUITE_TAG);
     Element testSuite = (Element) elements.item(0);
@@ -188,6 +147,62 @@ class JunitReport {
         Integer.parseInt(skippedCount),
         Float.parseFloat(duration),
         results);
+  }
+
+  private List<TestCase> readTestCases(Document document, String shardName) {
+    NodeList nodes = document.getElementsByTagName(TESTCASE_TAG);
+    List<TestCase> testCases = new ArrayList<>();
+    for (int i = 0; i < nodes.getLength(); i++) {
+      Node node = nodes.item(i);
+      if (node instanceof Element) {
+        Element testCaseNode = (Element) node;
+        TestCase testCase = readSingleTestCase(testCaseNode, shardName);
+        testCases.add(testCase);
+      }
+    }
+    return testCases;
+  }
+
+  private TestCase readSingleTestCase(Element testCaseElement, String shardName) {
+    String testName = testCaseElement.getAttribute(NAME_ATTRIBUTE);
+    String className = testCaseElement.getAttribute(CLASSNAME_ATTRIBUTE);
+
+    boolean hasChildNodes = testCaseElement.hasChildNodes();
+
+    if (hasChildNodes) {
+      Node firstElement = extractFirstChildElement(testCaseElement);
+      String message = firstElement.getTextContent().trim();
+      switch (firstElement.getNodeName()) {
+        case FAILURE_TAG:
+          return TestCase.failure(shardName, testName, className, message);
+        case ERROR_TAG:
+          return TestCase.error(shardName, testName, className, message);
+        case SKIPPED_TAG:
+          return TestCase.skipped(shardName, testName, className);
+        default:
+          throw new IllegalStateException("Unable to process element: " + firstElement);
+      }
+    }
+
+    return TestCase.success(shardName, testName, className);
+  }
+
+  private Node extractFirstChildElement(Element testCaseNode) {
+    Node firstElement = null;
+
+    NodeList childNodes = testCaseNode.getChildNodes();
+    for (int j = 0; j < childNodes.getLength(); j++) {
+      Node item = childNodes.item(j);
+      if (item.getNodeType() == Node.ELEMENT_NODE) {
+        firstElement = item;
+        break;
+      }
+    }
+
+    if (firstElement == null) {
+      throw new IllegalStateException();
+    }
+    return firstElement;
   }
 
   @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")

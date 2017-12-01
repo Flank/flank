@@ -97,7 +97,7 @@ public class ReportsAggregator {
   }
 
   private List<TestSuite> readTestSuites(Path reportsBaseDir) throws IOException {
-    return findReportFiles(reportsBaseDir).map(junitReport::readFromFile).collect(toList());
+    return findReportFiles(reportsBaseDir).map(junitReport::readTestSuite).collect(toList());
   }
 
   static Stream<Path> findReportFiles(Path reportsBaseDir) throws IOException {

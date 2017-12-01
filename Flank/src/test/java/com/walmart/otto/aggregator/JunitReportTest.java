@@ -28,7 +28,7 @@ public class JunitReportTest {
   public void shouldProperlyReadTestSuiteFromFile() throws Exception {
     Path reportPath = TestUtils.readFileFromResources("test_report_with_failures.xml");
 
-    TestSuite testSuite = junitReport.readFromFile(reportPath);
+    TestSuite testSuite = junitReport.readTestSuite(reportPath);
     assertThat(testSuite.getFailuresCount(), equalTo(1));
     assertThat(testSuite.getTestsCount(), equalTo(4));
     assertThat(testSuite.getDurantion(), equalTo(123.0F));
