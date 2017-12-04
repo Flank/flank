@@ -14,7 +14,12 @@ import com.walmart.otto.tools.ProcessExecutor;
 import com.walmart.otto.tools.ToolManager;
 import com.walmart.otto.utils.FileUtils;
 import com.walmart.otto.utils.FilterUtils;
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,14 +77,16 @@ public class Flank {
   }
 
   public static void main(String[] args) {
+    if (!validateArguments(args)) {
+      System.exit(-1);
+    }
+
     Flank flank = new Flank();
 
     try {
-      if (validateArguments(args)) {
-        flank.start(args);
-        if (flank.hasTestFailed()) {
-          System.exit(-1);
-        }
+      flank.start(args);
+      if (flank.hasTestFailed()) {
+        System.exit(-1);
       }
     } catch (RuntimeException e) {
       exitWithFailure(e);
