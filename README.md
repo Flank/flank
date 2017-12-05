@@ -86,12 +86,9 @@ numShards=
 shardIndex=
 debug-prints=false  
 fetch-xml-files=true
-fetch-bucket=true
+fetch-bucket=false
 gcloud-path=
 gsutil-path=
-aggregate-reports.enabled=true
-aggregate-reports.xml=true
-aggregate-reports.html=true
 ```
 
 ### Configurable Shards
