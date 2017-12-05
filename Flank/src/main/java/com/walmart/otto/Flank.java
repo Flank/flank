@@ -97,14 +97,16 @@ public class Flank {
   }
 
   public static void main(String[] args) {
+    if (!validateArguments(args)) {
+      System.exit(-1);
+    }
+
     Flank flank = new Flank();
 
     try {
-      if (validateArguments(args)) {
-        flank.start(args);
-        if (flank.hasTestFailed()) {
-          System.exit(-1);
-        }
+      flank.start(args);
+      if (flank.hasTestFailed()) {
+        System.exit(-1);
       }
     } catch (RuntimeException | IOException | InterruptedException | ExecutionException e) {
       exitWithFailure(e);
