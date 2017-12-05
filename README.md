@@ -59,6 +59,11 @@ gsutil-path: The path to the gsutil binary
 gcloud-bucket: The Google Cloud Storage bucket to use. If not specified Flank will create one.
 use-gcloud-beta: If gcloud beta should be used
 
+aggregate-reports.enabled: Enable the experimental test aggregation feature. Requires fetch-bucket to be enabled. Disabled by default.
+aggregate-reports.xml: Generates and pushes to Google Cloud Storage an aggregated XML report
+aggregate-reports.html: Generates and pushes to Google Cloud Storage an aggregated HTML report, including Logcat and video for the failing tests
+aggregate-reports.split-video: For failing test cases, attempts to split the execution video to capture only the failing test and includes a link in the HTML report. Requires ffmpeg to be installed
+
 deviceIds: The ID:s of the devices to run the tests on (deprecated, should not be used in conjunction with `device`)
 os-version-ids: The API-levels of the devices to run the tests on (deprecated, should not be used in conjunction with `device`)
 orientations: The orientations, portrait, landscape or both (deprecated, should not be used in conjunction with `device`)
@@ -84,6 +89,9 @@ fetch-xml-files=true
 fetch-bucket=true
 gcloud-path=
 gsutil-path=
+aggregate-reports.enabled=true
+aggregate-reports.xml=true
+aggregate-reports.html=true
 ```
 
 ### Configurable Shards

@@ -1,12 +1,15 @@
 package com.walmart.otto.configurator;
 
 import com.walmart.otto.models.Device;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Properties;
 
 public class ConfigReader {
-  Configurator configurator;
+
+  private Configurator configurator;
   private String fileName;
 
   public ConfigReader(String fileName, Configurator configurator) throws IllegalArgumentException {
@@ -120,6 +123,22 @@ public class ConfigReader {
 
       case "skip-tests":
         configurator.setSkipTests(Arrays.asList(value.split(",")));
+        break;
+
+      case "aggregate-reports.enabled":
+        configurator.setAggregateReportsEnabled(Boolean.parseBoolean(value));
+        break;
+
+      case "aggregate-reports.xml":
+        configurator.setGenerateAggregatedXmlReport(Boolean.parseBoolean(value));
+        break;
+
+      case "aggregate-reports.html":
+        configurator.setGenerateAggregatedHtmlReport(Boolean.parseBoolean(value));
+        break;
+
+      case "aggregate-reports.split-video":
+        configurator.setGenerateSplitVideo(Boolean.parseBoolean(value));
         break;
 
       default:

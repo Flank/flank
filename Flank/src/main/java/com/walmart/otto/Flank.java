@@ -2,6 +2,9 @@ package com.walmart.otto;
 
 import com.linkedin.dex.parser.DexParser;
 import com.linkedin.dex.parser.TestMethod;
+import com.walmart.otto.aggregator.HtmlReportGenerationException;
+import com.walmart.otto.aggregator.ReportsAggregator;
+import com.walmart.otto.aggregator.XmlReportGenerationException;
 import com.walmart.otto.configurator.ConfigReader;
 import com.walmart.otto.configurator.Configurator;
 import com.walmart.otto.models.Device;
@@ -14,17 +17,25 @@ import com.walmart.otto.tools.ProcessExecutor;
 import com.walmart.otto.tools.ToolManager;
 import com.walmart.otto.utils.FileUtils;
 import com.walmart.otto.utils.FilterUtils;
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 public class Flank {
+
   private ToolManager toolManager;
   private Configurator configurator;
+  private GsutilTool gsutilTool;
 
   public void start(String[] args)
       throws RuntimeException, IOException, InterruptedException, ExecutionException {
@@ -53,7 +64,7 @@ public class Flank {
 
     printShards(configurator, testCases.size());
 
-    GsutilTool gsutilTool = toolManager.get(GsutilTool.class);
+    gsutilTool = toolManager.get(GsutilTool.class);
 
     downloadTestTimeFile(gsutilTool, configurator.getShardDuration());
 
@@ -62,13 +73,27 @@ public class Flank {
 
     gsutilTool.deleteAPKs();
 
-    gsutilTool.fetchBucket();
+    Optional<File> fetchedBucketDir = gsutilTool.fetchBucket();
+    fetchedBucketDir
+        .filter(file -> configurator.isAggregateReportsEnabled())
+        .ifPresent(this::aggregateTestReports);
 
     uploadTestTimeFile(gsutilTool, configurator.getShardDuration());
 
     printEstimates();
 
     printExecutionTimes(startTime);
+  }
+
+  private void aggregateTestReports(File dir) {
+    try {
+      new ReportsAggregator(configurator, gsutilTool).aggregate(dir.toPath());
+    } catch (XmlReportGenerationException
+        | HtmlReportGenerationException
+        | IOException
+        | InterruptedException e) {
+      e.printStackTrace(); // don't fail the build for the reports
+    }
   }
 
   public static void main(String[] args) {
@@ -81,13 +106,7 @@ public class Flank {
           System.exit(-1);
         }
       }
-    } catch (RuntimeException e) {
-      exitWithFailure(e);
-    } catch (IOException e) {
-      exitWithFailure(e);
-    } catch (InterruptedException e) {
-      exitWithFailure(e);
-    } catch (ExecutionException e) {
+    } catch (RuntimeException | IOException | InterruptedException | ExecutionException e) {
       exitWithFailure(e);
     }
   }

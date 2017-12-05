@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Tests result</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+        integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet">
+
+  <style>
+body { padding-top: 50px; }
+
+.main-container { padding: 3rem 12rem; }
+
+.test-class-name { height: 24px; }
+.test-class-name > span { line-height: 24px; vertical-align: middle; }
+.test-class-name > i { vertical-align: middle; }
+
+.material-icons.danger { color: rgba(217, 83, 79, 1); }
+.material-icons.success { color: rgba(92, 184, 92, 1); }
+  </style>
+</head>
+<body>
+
+<nav class="navbar fixed-top navbar-light bg-light">
+  {{#failed}}
+    <a class="navbar-brand">Tests result: {{failuresCount}} of {{testsCount}} tests are
+      failing 🔥</a>
+  {{/failed}}
+  {{^failed}}
+    <a class="navbar-brand">Tests result: All {{testsCount}} tests passed 🚀</a>
+  {{/failed}}
+  <span class="navbar-text">
+    Run time: {{duration}} on {{shardsCount}} emulators
+  </span>
+</nav>
+
+<main role="main" class="container-fluid">
+  <div class="main-container">
+    {{#testClasses}}
+    <div style="margin-bottom: 24px">
+      {{#hasFailure}}
+        <div class="test-class-name">
+          <span class="h5" data-toggle="collapse" data-target="#collapse{{-index}}"
+          aria-controls="collapse{{-index}}">{{name}}
+          </span>
+          <b class="badge badge-pill badge-danger">{{failingTestsCount}}/{{count}}</b>
+        </div>
+      <div class="collapse show" id="collapse{{-index}}">
+      {{/hasFailure}}
+      {{^hasFailure}}
+        <div class="test-class-name">
+          <span class="h5" data-toggle="collapse" data-target="#collapse{{-index}}"
+          aria-controls="collapse{{-index}}">{{name}}
+          </span>
+          <b class="badge badge-pill badge-success">{{count}}</b>
+        </div>
+      <div class="collapse" id="collapse{{-index}}">
+      {{/hasFailure}}
+
+      <div class="card" style="margin-top:24px">
+        <ul class="list-group list-group-flush">
+          {{#testCases}}
+
+            {{#isFailure}}
+              <li class="list-group-item">
+                <p class="card-text text-danger">{{testName}}
+                  <b class="badge badge-pill badge-light">Shard: {{shardName}}</b>
+                </p>
+                <pre class="card-text scrollable">{{exceptionMessage}}</pre>
+                <a href="{{baseUrl}}/logcat/{{id}}.txt" class="btn btn-outline-primary">Test Logcat</a>
+                {{#splitVideo}}
+                <a href="{{baseUrl}}/video/{{id}}.mp4" class="btn btn-outline-primary">Test Video (approx.)</a>
+                {{/splitVideo}}
+                <a href="{{baseUrl}}/logcat/shard_{{shardName}}.txt" class="btn btn-outline-secondary">Shard Logcat</a>
+                <a href="{{baseUrl}}/video/shard_{{shardName}}.mp4" class="btn btn-outline-secondary">Shard Video</a>
+              </li>
+            {{/isFailure}}
+
+            {{^isFailure}}
+              <li class="list-group-item">
+                <p class="card-text text-success">{{testName}}
+                  <b class="badge badge-pill badge-light">Shard: {{shardName}}</b>
+                </p>
+              </li>
+            {{/isFailure}}
+          {{/testCases}}
+        </ul>
+      </div>
+    </div>
+    </div>
+    {{/testClasses}}
+  </div>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+        integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+        integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+</body>
+</html>

@@ -29,6 +29,11 @@ public class Configurator {
   private int shardTimeout = 5;
   private int shardDuration = 120;
 
+  private boolean aggregateReportsEnabled = false;
+  private boolean generateAggregatedXmlReport = true;
+  private boolean generateAggregatedHtmlReport = true;
+  private boolean generateSplitVideo = false;
+
   public Configurator() {
     setupDevices();
   }
@@ -214,5 +219,37 @@ public class Configurator {
         }
       }
     }
+  }
+
+  public void setAggregateReportsEnabled(boolean aggregateReportsEnabled) {
+    this.aggregateReportsEnabled = aggregateReportsEnabled;
+  }
+
+  public boolean isAggregateReportsEnabled() {
+    return aggregateReportsEnabled;
+  }
+
+  public boolean isGenerateAggregatedXmlReport() {
+    return generateAggregatedXmlReport;
+  }
+
+  public void setGenerateAggregatedXmlReport(boolean generateAggregatedXmlReport) {
+    this.generateAggregatedXmlReport = generateAggregatedXmlReport;
+  }
+
+  public boolean isGenerateAggregatedHtmlReport() {
+    return generateAggregatedHtmlReport;
+  }
+
+  public void setGenerateAggregatedHtmlReport(boolean generateAggregatedHtmlReport) {
+    this.generateAggregatedHtmlReport = generateAggregatedHtmlReport;
+  }
+
+  public boolean isGenerateSplitVideo() {
+    return generateSplitVideo;
+  }
+
+  public void setGenerateSplitVideo(boolean generateSplitVideo) {
+    this.generateSplitVideo = generateSplitVideo;
   }
 }

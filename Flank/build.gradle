@@ -22,6 +22,8 @@ tasks.withType(FindBugs) {
 
 dependencies {
     compile 'com.linkedin.dextestparser:parser:1.1.0'
+    compile 'com.samskivert:jmustache:1.13'
+    compileOnly 'com.google.code.findbugs:annotations:3.0.1'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
