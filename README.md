@@ -91,7 +91,7 @@ gcloud-path=
 gsutil-path=
 ```
 
-### Configurable Shards
+#### Configurable Shards
 
 Flank supports configurable shard durations. Instead of creating one shard per test case Flank can create shards that contain tests that add up to a given duration. This feature was introduced to make Flank faster while also saving cost (seconds are round up to minutes by Firebase test lab). By default Flank will try to create shards with tests adding up to 2 minutes in execution time.
 
@@ -102,6 +102,8 @@ First time a new app is tested each test is run in its own shard so that Flank c
 ### Troubleshooting
 
 Please enable debug mode ```debug-prints:true``` in the properties file if it's not working correctly.
+
+Check out []Update log](https://github.com/TestArmada/flank/blob/master/Update_log.md) to see if the issue is fixed and Flank need to be updated.
 
 If Flank hangs and nothing seems to be happening (even when debug mode is enabled) make sure the correct user (registered with Firebase) is logged into Firebase. Please also see [Google Cloud Storage Authentication](https://cloud.google.com/storage/docs/authentication).
 
