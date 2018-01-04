@@ -17,19 +17,12 @@ import com.walmart.otto.tools.ProcessExecutor;
 import com.walmart.otto.tools.ToolManager;
 import com.walmart.otto.utils.FileUtils;
 import com.walmart.otto.utils.FilterUtils;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
+import joptsimple.OptionParser;
+import joptsimple.OptionSet;
 
 public class Flank {
 
@@ -37,26 +30,29 @@ public class Flank {
   private Configurator configurator;
   private GsutilTool gsutilTool;
 
-  public void start(String[] args)
+  public void start(OptionSet options)
       throws RuntimeException, IOException, InterruptedException, ExecutionException {
     long startTime = System.currentTimeMillis();
 
-    for (String file : new String[] {args[0], args[1]}) {
+    String appApk = (String) options.valueOf("a");
+    String testApk = (String) options.valueOf("t");
+    String config = (String) options.valueOf("c");
+
+    for (String file : new String[] {appApk, testApk}) {
       if (!FileUtils.doFileExist(file)) {
         throw new FileNotFoundException("File not found: " + file);
       }
     }
 
-    configurator =
-        new ConfigReader(Constants.CONFIG_PROPERTIES, new Configurator()).getConfiguration();
+    configurator = new ConfigReader(config, new Configurator()).getConfiguration();
 
-    toolManager = new ToolManager().load(loadTools(args[0], args[1], configurator));
+    toolManager = new ToolManager().load(loadTools(appApk, testApk, configurator));
 
     if (configurator.getProjectName() == null) {
       configurator.setProjectName(getProjectName(toolManager));
     }
 
-    List<String> testCases = getTestCaseNames(args);
+    List<String> testCases = getTestCaseNames(options);
 
     if (testCases.size() == 0) {
       throw new IllegalArgumentException("No tests found within the specified package!");
@@ -96,21 +92,44 @@ public class Flank {
     }
   }
 
-  public static void main(String[] args) {
-    if (!validateArguments(args)) {
+  public static void main(String[] args) throws IOException {
+    OptionParser parser = getOptionParser();
+    OptionSet options = parser.parse(args);
+    if (options.has("h")) {
+      parser.printHelpOn(System.out);
       System.exit(-1);
     }
 
     Flank flank = new Flank();
 
     try {
-      flank.start(args);
+      flank.start(options);
       if (flank.hasTestFailed()) {
         System.exit(-1);
       }
     } catch (RuntimeException | IOException | InterruptedException | ExecutionException e) {
       exitWithFailure(e);
     }
+  }
+
+  static OptionParser getOptionParser() {
+    return new OptionParser() {
+      {
+        accepts("h").forHelp();
+
+        accepts("a").withRequiredArg().ofType(String.class).required().describedAs("app-apk");
+
+        accepts("t").withRequiredArg().ofType(String.class).required().describedAs("test-apk");
+
+        accepts("c")
+            .withRequiredArg()
+            .ofType(String.class)
+            .describedAs("config-path")
+            .defaultsTo(Constants.CONFIG_PROPERTIES);
+
+        accepts("p").withRequiredArg().ofType(String.class).describedAs("[package-name]");
+      }
+    };
   }
 
   private static void exitWithFailure(Exception e) {
@@ -190,14 +209,6 @@ public class Flank {
     return text;
   }
 
-  private static boolean validateArguments(String[] args) {
-    if (args.length < 2) {
-      System.out.println("Usage: Flank <app-apk> <test-apk> [package-name]");
-      return false;
-    }
-    return true;
-  }
-
   private void printShards(Configurator configurator, int numberOfShards) {
     int numShards = configurator.getNumShards();
 
@@ -220,18 +231,20 @@ public class Flank {
     }
   }
 
-  private List<String> getTestCaseNames(String[] args) {
+  private List<String> getTestCaseNames(OptionSet options) {
     System.setOut(getEmptyStream());
     List<String> filteredTests = new ArrayList<>();
 
-    for (TestMethod testMethod : DexParser.findTestMethods(args[1])) {
+    for (TestMethod testMethod : DexParser.findTestMethods((String) options.valueOf("t"))) {
       if (!testMethod.getAnnotationNames().stream().anyMatch(str -> str.contains("Ignore"))) {
         filteredTests.add(testMethod.getTestName());
       }
     }
 
-    if (args.length == 3) {
-      filteredTests = FilterUtils.filterTests(filteredTests, configurator.getSkipTests(), args[2]);
+    if (options.has("p")) {
+      filteredTests =
+          FilterUtils.filterTests(
+              filteredTests, configurator.getSkipTests(), (String) options.valueOf("p"));
     }
 
     System.setOut(originalStream);

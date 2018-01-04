@@ -21,6 +21,7 @@ tasks.withType(FindBugs) {
 }
 
 dependencies {
+    compile 'net.sf.jopt-simple:jopt-simple:4.9'
     compile 'com.linkedin.dextestparser:parser:1.1.0'
     compile 'com.samskivert:jmustache:1.13'
     compileOnly 'com.google.code.findbugs:annotations:3.0.1'
