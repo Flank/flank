@@ -37,6 +37,7 @@ public class ParsingTest {
   @Test
   public void havingAllParametersShouldWork() {
     OptionParser parser = Flank.getOptionParser();
-    parser.parse("-a", "app.apk", "-t", "test.apk", "-c", "my.config", "-p", "my.package");
+    parser.parse(
+        "-a", "app.apk", "-t", "test.apk", "-c", "my.config", "-f", "package com.my.package");
   }
 }

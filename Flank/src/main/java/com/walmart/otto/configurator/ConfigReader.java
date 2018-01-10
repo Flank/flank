@@ -4,7 +4,6 @@ import com.walmart.otto.models.Device;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Properties;
 
 public class ConfigReader {
@@ -121,10 +120,6 @@ public class ConfigReader {
         configurator.setUseGCloudBeta(Boolean.parseBoolean(value));
         break;
 
-      case "skip-tests":
-        configurator.setSkipTests(Arrays.asList(value.split(",")));
-        break;
-
       case "aggregate-reports.enabled":
         configurator.setAggregateReportsEnabled(Boolean.parseBoolean(value));
         break;
@@ -140,6 +135,10 @@ public class ConfigReader {
       case "aggregate-reports.split-video":
         configurator.setGenerateSplitVideo(Boolean.parseBoolean(value));
         break;
+
+      case "skip-tests":
+        throw new IllegalArgumentException(
+            "The skip-tests option has been removed. See the new test filtering feature.");
 
       default:
         break;

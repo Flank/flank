@@ -7,6 +7,8 @@ import com.walmart.otto.aggregator.ReportsAggregator;
 import com.walmart.otto.aggregator.XmlReportGenerationException;
 import com.walmart.otto.configurator.ConfigReader;
 import com.walmart.otto.configurator.Configurator;
+import com.walmart.otto.filter.TestFilter;
+import com.walmart.otto.filter.TestFilters;
 import com.walmart.otto.models.Device;
 import com.walmart.otto.reporter.PriceReporter;
 import com.walmart.otto.reporter.TimeReporter;
@@ -16,11 +18,20 @@ import com.walmart.otto.tools.GsutilTool;
 import com.walmart.otto.tools.ProcessExecutor;
 import com.walmart.otto.tools.ToolManager;
 import com.walmart.otto.utils.FileUtils;
-import com.walmart.otto.utils.FilterUtils;
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+import joptsimple.BuiltinHelpFormatter;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 
@@ -53,10 +64,6 @@ public class Flank {
     }
 
     List<String> testCases = getTestCaseNames(options);
-
-    if (testCases.size() == 0) {
-      throw new IllegalArgumentException("No tests found within the specified package!");
-    }
 
     printShards(configurator, testCases.size());
 
@@ -113,23 +120,39 @@ public class Flank {
   }
 
   static OptionParser getOptionParser() {
-    return new OptionParser() {
-      {
-        accepts("h").forHelp();
+    OptionParser optionParser =
+        new OptionParser() {
+          {
+            accepts("h").forHelp();
 
-        accepts("a").withRequiredArg().ofType(String.class).required().describedAs("app-apk");
+            accepts("a", Constants.APP_APK_OPTION_DESCRIPTION)
+                .withRequiredArg()
+                .ofType(String.class)
+                .required()
+                .describedAs("app.apk");
 
-        accepts("t").withRequiredArg().ofType(String.class).required().describedAs("test-apk");
+            accepts("t", Constants.TEST_APK_OPTION_DESCRIPTION)
+                .withRequiredArg()
+                .ofType(String.class)
+                .required()
+                .describedAs("app-androidTest.apk");
 
-        accepts("c")
-            .withRequiredArg()
-            .ofType(String.class)
-            .describedAs("config-path")
-            .defaultsTo(Constants.CONFIG_PROPERTIES);
+            accepts("c", Constants.CONFIG_FILE_OPTION_DESCRIPTION)
+                .withRequiredArg()
+                .ofType(String.class)
+                .describedAs("config.properties")
+                .defaultsTo(Constants.CONFIG_PROPERTIES);
 
-        accepts("p").withRequiredArg().ofType(String.class).describedAs("[package-name]");
-      }
-    };
+            accepts("f", Constants.TEST_FILTERS_DESCRIPTION)
+                .withRequiredArg()
+                .ofType(String.class)
+                .describedAs("option1; option2;...");
+          }
+        };
+
+    optionParser.formatHelpWith(new BuiltinHelpFormatter(120, 2));
+
+    return optionParser;
   }
 
   private static void exitWithFailure(Exception e) {
@@ -233,21 +256,29 @@ public class Flank {
 
   private List<String> getTestCaseNames(OptionSet options) {
     System.setOut(getEmptyStream());
-    List<String> filteredTests = new ArrayList<>();
-
-    for (TestMethod testMethod : DexParser.findTestMethods((String) options.valueOf("t"))) {
-      if (!testMethod.getAnnotationNames().stream().anyMatch(str -> str.contains("Ignore"))) {
-        filteredTests.add(testMethod.getTestName());
-      }
-    }
-
-    if (options.has("p")) {
-      filteredTests =
-          FilterUtils.filterTests(
-              filteredTests, configurator.getSkipTests(), (String) options.valueOf("p"));
-    }
-
+    List<TestMethod> testMethods = DexParser.findTestMethods((String) options.valueOf("t"));
     System.setOut(originalStream);
+
+    final TestFilter filter;
+    if (options.has("f")) {
+      filter = TestFilters.fromCommandLineArguments((String) options.valueOf("f"));
+    } else {
+      filter = TestFilters.createDefault();
+    }
+
+    List<String> filteredTests =
+        testMethods
+            .stream()
+            .filter(filter::shouldRun)
+            .map(TestMethod::getTestName)
+            .collect(Collectors.toList());
+
+    if (filteredTests.size() == 0) {
+      throw new IllegalStateException("No tests to run!");
+    }
+
+    System.out.printf("Running %d out of %d tests", filteredTests.size(), testMethods.size());
+
     return filteredTests;
   }
 
