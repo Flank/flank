@@ -61,7 +61,15 @@ public class TestFiltersTest {
 
   @Test
   public void testFilteringByAnnotation() {
-    TestFilter filter = TestFilters.fromCommandLineArguments("annotation Foo");
+    TestFilter filter = TestFilters.fromCommandLineArguments("annotation Foo,Bar");
+
+    assertTrue(filter.shouldRun(WITH_FOO_ANNOTATION));
+    assertFalse(filter.shouldRun(WITHOUT_FOO_ANNOTATION));
+  }
+
+  @Test
+  public void testFilteringByAnnotationWithSpaces() {
+    TestFilter filter = TestFilters.fromCommandLineArguments("annotation Foo, Bar");
 
     assertTrue(filter.shouldRun(WITH_FOO_ANNOTATION));
     assertFalse(filter.shouldRun(WITHOUT_FOO_ANNOTATION));

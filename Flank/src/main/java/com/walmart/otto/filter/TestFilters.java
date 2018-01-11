@@ -14,7 +14,9 @@ import java.util.stream.Collectors;
 
 public class TestFilters {
 
-  private static final Pattern FILTER_ARGUMENT = Pattern.compile("(.+)\\s+(.+)");
+  private static final Pattern FILTER_ARGUMENT =
+      Pattern.compile(
+          "(not)?(annotation|class|package|testfile)\\s+(.+)", Pattern.CASE_INSENSITIVE);
 
   public static TestFilter fromCommandLineArguments(String arguments) {
     String[] args = arguments.split(";");
@@ -40,15 +42,16 @@ public class TestFilters {
       throw new IllegalArgumentException("Invalid argument: " + argument);
     }
 
-    Collection<String> args =
-        Arrays.stream(matcher.group(2).split(",")).collect(Collectors.toSet());
+    boolean isNegate = matcher.group(1) != null;
 
-    String command = matcher.group(1).toLowerCase();
-    String canonicalCommand = command.replaceFirst("^not", "");
+    Collection<String> args =
+        Arrays.stream(matcher.group(3).split(",")).collect(Collectors.toSet());
+
+    String command = matcher.group(2).toLowerCase();
 
     TestFilter filter;
 
-    switch (canonicalCommand) {
+    switch (command) {
       case "class":
         filter = withClassName(args);
         break;
@@ -66,7 +69,7 @@ public class TestFilters {
         throw new IllegalArgumentException("Filtering option " + command + " not supported");
     }
 
-    if (command.startsWith("not")) {
+    if (isNegate) {
       return not(filter);
     } else {
       return filter;
