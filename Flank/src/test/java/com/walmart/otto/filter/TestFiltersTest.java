@@ -77,9 +77,10 @@ public class TestFiltersTest {
 
   @Test
   public void allOfProperlyChecksAllFilters() {
-    TestFilter filter = TestFilters.fromCommandLineArguments("package foo; annotation Foo");
+    TestFilter filter = TestFilters.fromCommandLineArguments("package foo,bar; annotation Foo");
 
     assertFalse(filter.shouldRun(FOO_PACKAGE));
+    assertFalse(filter.shouldRun(BAR_PACKAGE));
     assertFalse(filter.shouldRun(WITH_FOO_ANNOTATION));
     assertTrue(filter.shouldRun(WITH_FOO_ANNOTATION_AND_PACKAGE));
   }
@@ -92,7 +93,7 @@ public class TestFiltersTest {
     TestFilter filter = TestFilters.fromCommandLineArguments("testFile " + filePath);
 
     assertTrue(filter.shouldRun(FOO_PACKAGE));
-    assertFalse(filter.shouldRun(BAR_PACKAGE));
+    assertTrue(filter.shouldRun(BAR_PACKAGE));
   }
 
   @Test
@@ -103,7 +104,7 @@ public class TestFiltersTest {
     TestFilter filter = TestFilters.fromCommandLineArguments("notTestFile " + filePath);
 
     assertFalse(filter.shouldRun(FOO_PACKAGE));
-    assertTrue(filter.shouldRun(BAR_PACKAGE));
+    assertFalse(filter.shouldRun(BAR_PACKAGE));
   }
 
   @Test(expected = IllegalArgumentException.class)

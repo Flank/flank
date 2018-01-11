@@ -136,10 +136,6 @@ public class ConfigReader {
         configurator.setGenerateSplitVideo(Boolean.parseBoolean(value));
         break;
 
-      case "skip-tests":
-        throw new IllegalArgumentException(
-            "The skip-tests option has been removed. See the new test filtering feature.");
-
       default:
         break;
     }

@@ -38,8 +38,6 @@ public class Configurator {
     setupDevices();
   }
 
-  private List<String> skipTests = Collections.emptyList();
-
   public int getNumShards() {
     return numShards;
   }
@@ -192,14 +190,6 @@ public class Configurator {
 
   public void setUseGCloudBeta(boolean useGCloudBeta) {
     this.useGCloudBeta = useGCloudBeta;
-  }
-
-  public List<String> getSkipTests() {
-    return skipTests;
-  }
-
-  public void setSkipTests(List<String> skipTests) {
-    this.skipTests = skipTests;
   }
 
   private void setupDevices() {

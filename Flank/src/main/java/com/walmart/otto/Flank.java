@@ -1,5 +1,10 @@
 package com.walmart.otto;
 
+import static com.walmart.otto.OptionDescriptions.APP_APK_OPTION_DESCRIPTION;
+import static com.walmart.otto.OptionDescriptions.CONFIG_FILE_OPTION_DESCRIPTION;
+import static com.walmart.otto.OptionDescriptions.TEST_APK_OPTION_DESCRIPTION;
+import static com.walmart.otto.OptionDescriptions.TEST_FILTERS_DESCRIPTION;
+
 import com.linkedin.dex.parser.DexParser;
 import com.linkedin.dex.parser.TestMethod;
 import com.walmart.otto.aggregator.HtmlReportGenerationException;
@@ -125,28 +130,28 @@ public class Flank {
           {
             accepts("h").forHelp();
 
-            accepts("a", Constants.APP_APK_OPTION_DESCRIPTION)
+            accepts("a", APP_APK_OPTION_DESCRIPTION)
                 .withRequiredArg()
                 .ofType(String.class)
                 .required()
                 .describedAs("app.apk");
 
-            accepts("t", Constants.TEST_APK_OPTION_DESCRIPTION)
+            accepts("t", TEST_APK_OPTION_DESCRIPTION)
                 .withRequiredArg()
                 .ofType(String.class)
                 .required()
                 .describedAs("app-androidTest.apk");
 
-            accepts("c", Constants.CONFIG_FILE_OPTION_DESCRIPTION)
+            accepts("c", CONFIG_FILE_OPTION_DESCRIPTION)
                 .withRequiredArg()
                 .ofType(String.class)
                 .describedAs("config.properties")
                 .defaultsTo(Constants.CONFIG_PROPERTIES);
 
-            accepts("f", Constants.TEST_FILTERS_DESCRIPTION)
+            accepts("f", TEST_FILTERS_DESCRIPTION)
                 .withRequiredArg()
                 .ofType(String.class)
-                .describedAs("option1; option2;...");
+                .describedAs("option1; option2; …");
           }
         };
 

@@ -14,14 +14,14 @@ import java.util.stream.Collectors;
 
 public class TestFilters {
 
-  private static final Pattern FILTER_ARGUMENT = Pattern.compile("(.+) (.+)");
+  private static final Pattern FILTER_ARGUMENT = Pattern.compile("(.+)\\s+(.+)");
 
   public static TestFilter fromCommandLineArguments(String arguments) {
     String[] args = arguments.split(";");
 
     List<TestFilter> filters =
         Arrays.stream(args)
-            .map(String::trim)
+            .map(String::trim) //splitting by semicolon will leave leading or trailing spaces
             .map(TestFilters::parseSingleFilter)
             .collect(Collectors.toList());
 
