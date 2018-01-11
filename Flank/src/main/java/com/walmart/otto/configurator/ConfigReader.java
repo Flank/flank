@@ -4,7 +4,6 @@ import com.walmart.otto.models.Device;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Properties;
 
 public class ConfigReader {
@@ -119,10 +118,6 @@ public class ConfigReader {
 
       case "use-gcloud-beta":
         configurator.setUseGCloudBeta(Boolean.parseBoolean(value));
-        break;
-
-      case "skip-tests":
-        configurator.setSkipTests(Arrays.asList(value.split(",")));
         break;
 
       case "aggregate-reports.enabled":
