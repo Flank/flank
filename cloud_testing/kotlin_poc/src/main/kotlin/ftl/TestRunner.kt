@@ -37,7 +37,9 @@ object TestRunner {
             if (name.matches(testResultRgx)) {
                 xmlCount += 1
                 println("Downloading: $name")
-                it.downloadTo(Paths.get(gcsFolder, "test_result_$xmlCount.xml"))
+                val downloadFile = Paths.get(gcsFolder, "test_result_$xmlCount.xml")
+                downloadFile.parent.toFile().mkdirs()
+                it.downloadTo(downloadFile)
             }
         })
     }
