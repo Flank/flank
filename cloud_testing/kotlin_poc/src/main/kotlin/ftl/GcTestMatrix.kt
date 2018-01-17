@@ -20,9 +20,6 @@ object GcTestMatrix {
         val testMatrix = TestMatrix()
         testMatrix.clientInfo = ClientInfo().setName("Flank")
 
-        // https://cloud.google.com/sdk/gcloud/reference/beta/test/android/run
-        val testTimeout = "600s" // must be in seconds
-
         // Use default instrumentationTestRunner
         //   String instrumentationTestRunner = "";
         //   .setTestRunnerClass(instrumentationTestRunner)
@@ -37,7 +34,6 @@ object GcTestMatrix {
         }
 
         testMatrix.testSpecification = TestSpecification()
-                .setTestTimeout(testTimeout)
                 .setAndroidInstrumentationTest(androidInstrumentation)
                 .setDisablePerformanceMetrics(runConfig.disablePerformanceMetrics)
                 .setDisableVideoRecording(runConfig.disableVideoRecording)

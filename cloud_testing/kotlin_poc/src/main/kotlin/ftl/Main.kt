@@ -1,11 +1,13 @@
 package ftl
 
+import com.google.testing.model.TestSpecification
 import com.linkedin.dex.parser.DexParser
 import ftl.GcStorage.uploadApk
 import ftl.GlobalConfig.appApk
 import ftl.GlobalConfig.testApk
 import ftl.TestRunner.pollTests
 import ftl.TestRunner.scheduleApks
+import java.util.stream.Collectors
 
 object Main {
 
@@ -52,6 +54,7 @@ object Main {
     @Throws(Exception::class)
     @JvmStatic
     fun main(args: Array<String>) {
+       TestSpecification().disablePerformanceMetrics
        runAllTestsInOneVM()
     }
 }
