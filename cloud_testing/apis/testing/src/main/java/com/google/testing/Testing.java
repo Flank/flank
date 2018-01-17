@@ -896,7 +896,7 @@ public class Testing extends com.google.api.client.googleapis.services.json.Abst
           DEFAULT_SERVICE_PATH,
           httpRequestInitializer,
           false);
-      // setBatchPath(DEFAULT_BATCH_PATH);
+      setBatchPath(DEFAULT_BATCH_PATH);
     }
 
     /** Builds a new instance of {@link Testing}. */
@@ -915,10 +915,10 @@ public class Testing extends com.google.api.client.googleapis.services.json.Abst
       return (Builder) super.setServicePath(servicePath);
     }
 
-    // @Override
-    // public Builder setBatchPath(String batchPath) {
-    //   return (Builder) super.setBatchPath(batchPath);
-    // }
+    @Override
+    public Builder setBatchPath(String batchPath) {
+      return (Builder) super.setBatchPath(batchPath);
+    }
 
     @Override
     public Builder setHttpRequestInitializer(com.google.api.client.http.HttpRequestInitializer httpRequestInitializer) {

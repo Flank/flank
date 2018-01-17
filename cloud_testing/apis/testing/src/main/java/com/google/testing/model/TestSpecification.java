@@ -63,6 +63,20 @@ public final class TestSpecification extends com.google.api.client.json.GenericJ
   private java.lang.Boolean autoGoogleLogin;
 
   /**
+   * Disables performance metrics recording; may reduce test latency.
+   * The value may be {@code null}.
+   */
+  @com.google.api.client.util.Key
+  private java.lang.Boolean disablePerformanceMetrics;
+
+  /**
+   * Disables video recording; may reduce test latency.
+   * The value may be {@code null}.
+   */
+  @com.google.api.client.util.Key
+  private java.lang.Boolean disableVideoRecording;
+
+  /**
    * Test setup requirements e.g. files to install, bootstrap scripts Optional
    * The value may be {@code null}.
    */
@@ -150,6 +164,40 @@ public final class TestSpecification extends com.google.api.client.json.GenericJ
    */
   public TestSpecification setAutoGoogleLogin(java.lang.Boolean autoGoogleLogin) {
     this.autoGoogleLogin = autoGoogleLogin;
+    return this;
+  }
+
+  /**
+   * Disables performance metrics recording; may reduce test latency.
+   * @return value or {@code null} for none
+   */
+  public java.lang.Boolean getDisablePerformanceMetrics() {
+    return disablePerformanceMetrics;
+  }
+
+  /**
+   * Disables performance metrics recording; may reduce test latency.
+   * @param disablePerformanceMetrics disablePerformanceMetrics or {@code null} for none
+   */
+  public TestSpecification setDisablePerformanceMetrics(java.lang.Boolean disablePerformanceMetrics) {
+    this.disablePerformanceMetrics = disablePerformanceMetrics;
+    return this;
+  }
+
+  /**
+   * Disables video recording; may reduce test latency.
+   * @return value or {@code null} for none
+   */
+  public java.lang.Boolean getDisableVideoRecording() {
+    return disableVideoRecording;
+  }
+
+  /**
+   * Disables video recording; may reduce test latency.
+   * @param disableVideoRecording disableVideoRecording or {@code null} for none
+   */
+  public TestSpecification setDisableVideoRecording(java.lang.Boolean disableVideoRecording) {
+    this.disableVideoRecording = disableVideoRecording;
     return this;
   }
 
