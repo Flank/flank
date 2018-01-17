@@ -26,30 +26,17 @@ object TestExecutionState {
     fun isValid(state: String?): Boolean {
         if (state == null) return false
 
-        val valid: Boolean
-
-        if (state == UNSUPPORTED_ENVIRONMENT) {
-            valid = false
-        } else if (state == VALIDATING) {
-            valid = true
-        } else if (state == INCOMPATIBLE_ENVIRONMENT) {
-            valid = false
-        } else if (state == INVALID) {
-            valid = false
-        } else if (state == INCOMPATIBLE_ARCHITECTURE) {
-            valid = false
-        } else if (state == PENDING) {
-            valid = true
-        } else if (state == ERROR) {
-            valid = false
-        } else if (state == RUNNING) {
-            valid = true
-        } else if (state == FINISHED) {
-            valid = true
-        } else {
-            throw IllegalStateException("Unknown state: " + state)
+        return when (state) {
+            UNSUPPORTED_ENVIRONMENT -> false
+            VALIDATING -> true
+            INCOMPATIBLE_ENVIRONMENT -> false
+            INVALID -> false
+            INCOMPATIBLE_ARCHITECTURE -> false
+            PENDING -> true
+            ERROR -> false
+            RUNNING -> true
+            FINISHED -> true
+            else -> throw IllegalStateException("Unknown state: " + state)
         }
-
-        return valid
     }
 }
