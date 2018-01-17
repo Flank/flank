@@ -1,11 +1,10 @@
 package ftl
 
 import com.google.api.services.toolresults.ToolResults
-
-import ftl.GlobalConfig.credential
-import ftl.Constants.httpTransport
 import ftl.Constants.JSON_FACTORY
 import ftl.Constants.applicationName
+import ftl.Constants.httpTransport
+import ftl.GlobalConfig.credential
 
 object GcToolResults {
 

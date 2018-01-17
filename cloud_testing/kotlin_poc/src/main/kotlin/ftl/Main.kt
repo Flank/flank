@@ -6,13 +6,13 @@ import ftl.GlobalConfig.appApk
 import ftl.GlobalConfig.testApk
 import ftl.TestRunner.pollTests
 import ftl.TestRunner.scheduleApks
-import java.util.concurrent.TimeUnit
 import java.util.stream.Collectors
 
 object Main {
 
     private fun runOneTestPerVM() {
         println("Test runner started.")
+        GlobalConfig.downloadXml = false
         val stopWatch = ftl.StopWatch().start()
 
         val appApk = appApk
@@ -36,6 +36,7 @@ object Main {
 
     private fun runAllTestsInOneVM() {
         println("runAllTestsInOneVM")
+        GlobalConfig.downloadXml = true
         val runConfig = ftl.RunConfig(testTimeoutMinutes = 60)
 
         println("Test runner started.")
@@ -54,6 +55,6 @@ object Main {
     @Throws(Exception::class)
     @JvmStatic
     fun main(args: Array<String>) {
-       runAllTestsInOneVM()
+        runAllTestsInOneVM()
     }
 }

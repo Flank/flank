@@ -3,10 +3,10 @@ package ftl
 import com.google.common.collect.Lists
 import com.google.testing.Testing
 import com.google.testing.model.*
-
-import ftl.GlobalConfig.bucketGcsPath
 import ftl.Constants.projectId
+import ftl.GlobalConfig.bucketGcsPath
 import ftl.Utils.fatalError
+import ftl.Utils.uniqueObjectName
 import java.util.concurrent.TimeUnit
 
 object GcTestMatrix {
@@ -43,7 +43,7 @@ object GcTestMatrix {
                 .setTestTimeout("${testTimeoutSeconds}s")
 
         testMatrix.resultStorage = ResultStorage()
-                .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(bucketGcsPath))
+                .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(bucketGcsPath + "/" + uniqueObjectName()))
         testMatrix.environmentMatrix = EnvironmentMatrix().setAndroidMatrix(androidMatrix)
 
         try {

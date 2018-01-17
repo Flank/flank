@@ -1,16 +1,15 @@
 package ftl
 
-import com.google.testing.model.ToolResultsStep
+import ftl.Utils.fatalError
 import java.util.concurrent.Callable
 
-import ftl.Utils.fatalError
-
 internal class ToolResultsCallable(private val toolResultsValue: MutableList<ToolResultsValue>,
-                                   private val toolResultsStep: ToolResultsStep) : Callable<Any> {
+                                   private val toolResultsStepGcsPath: ToolResultsStepGcsPath) : Callable<Any> {
 
     private fun run() {
         try {
-            val step = GcToolResults.get()!!
+            val toolResultsStep = toolResultsStepGcsPath.toolResults
+            val getStepResults = GcToolResults.get()!!
                     .projects()
                     .histories()
                     .executions()
@@ -22,7 +21,7 @@ internal class ToolResultsCallable(private val toolResultsValue: MutableList<Too
                             toolResultsStep.stepId)
                     .execute()
 
-            toolResultsValue.add(ToolResultsValue(step, toolResultsStep))
+            toolResultsValue.add(ToolResultsValue(getStepResults, toolResultsStepGcsPath))
         } catch (e: Exception) {
             fatalError(e)
         }

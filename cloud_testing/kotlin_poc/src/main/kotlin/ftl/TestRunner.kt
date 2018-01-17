@@ -1,30 +1,52 @@
 package ftl
 
-import ftl.GcStorage.uploadApk
+import com.google.cloud.storage.Storage
+import com.google.cloud.storage.StorageOptions
 import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
-import com.google.testing.model.ToolResultsStep
-
-import java.util.ArrayList
-import java.util.Collections
-import java.util.concurrent.TimeUnit
-
+import ftl.GcStorage.uploadApk
 import ftl.Utils.sleep
 import java.lang.System.currentTimeMillis
 import java.nio.file.Path
+import java.nio.file.Paths
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 object TestRunner {
 
-    private val POLLING_TIMEOUT = (60 * 60 * 1000).toLong() // 60m
-    private val POLLING_INTERVAL = 10 * 1000 // 10s
-    private val FINISHED = "FINISHED"
-    private val SUCCESS = "success"
+    private const val POLLING_TIMEOUT = (60 * 60 * 1000).toLong() // 60m
+    private const val POLLING_INTERVAL = 10 * 1000 // 10s
+    private const val FINISHED = "FINISHED"
+    private const val SUCCESS = "success"
+    private val storage = StorageOptions.newBuilder().build().service
+    private val testResultRgx = Regex(".*test_result_\\d+.xml$")
+
+    // gcsFolder = "2018-01-17_19:38:56.695000_fCMj"
+    private fun downloadXml(gcsFolder: String) {
+        if (!GlobalConfig.downloadXml) return
+        var xmlCount = -1
+
+        val prefix = Storage.BlobListOption
+                .prefix(gcsFolder)
+
+        val fields = Storage.BlobListOption.fields(Storage.BlobField.NAME)
+        val result = storage.list(GlobalConfig.bucketGcsPath, prefix, fields)
+
+        result.iterateAll().forEach({
+            val name = it.blobId.name
+            if (name.matches(testResultRgx)) {
+                xmlCount += 1
+                println("Downloading: $name")
+                it.downloadTo(Paths.get(gcsFolder, "test_result_$xmlCount.xml"))
+            }
+        })
+    }
 
     fun pollTests(testMatrixIds: ArrayList<String>): Boolean {
         val stopTime = currentTimeMillis() + POLLING_TIMEOUT
         val waitingOnIds = ArrayList<String>(testMatrixIds)
         val matrixCount = testMatrixIds.size
-        val finishedTestMatrix = ArrayList<TestMatrix>(matrixCount)
+        val finishedTestMatrixArray = ArrayList<TestMatrix>(matrixCount)
 
         var invalid = false
         var lastStatus = ""
@@ -40,7 +62,7 @@ object TestRunner {
                                 + " minutes")
             }
 
-            currentStatus = finishedTestMatrix.size.toString() + " / " + matrixCount + " complete"
+            currentStatus = finishedTestMatrixArray.size.toString() + " / " + matrixCount + " complete"
             if (currentStatus != lastStatus) {
                 println(currentStatus)
             }
@@ -71,7 +93,7 @@ object TestRunner {
             }
 
             if (finished) {
-                finishedTestMatrix.add(testMatrix)
+                finishedTestMatrixArray.add(testMatrix)
                 waitingOnIds.removeAt(0)
             } else {
                 sleep(POLLING_INTERVAL)
@@ -94,12 +116,12 @@ object TestRunner {
         }
 
         println("Test run finished")
-        currentStatus = finishedTestMatrix.size.toString() + " / " + matrixCount + " complete."
+        currentStatus = finishedTestMatrixArray.size.toString() + " / " + matrixCount + " complete."
         println(currentStatus)
         println()
 
         println("Fetching test results...")
-        val results = fetchTestResults(finishedTestMatrix)
+        val results = fetchTestResults(finishedTestMatrixArray)
 
         var allTestsSuccessful = true
         var billableMinutes: Long = 0
@@ -110,11 +132,19 @@ object TestRunner {
             println(result)
             println()
 
+            // What gcs object is associated with this result?
+            // "executionId" -> "6296919122126826652"
+            // "historyId" -> "bh.58317d9cd7ab9ba2"
+            // "projectId" -> "delta-essence-114723"
+            // "stepId" -> "bs.e7bbe13221894d52"
             if (result.outcome == SUCCESS) {
                 successCount += 1
             } else {
                 allTestsSuccessful = false
                 failureCount += 1
+
+                // Only download XML on failed runs
+                downloadXml(result.gcsPath)
             }
 
             billableMinutes += result.billableMinutes
@@ -128,19 +158,21 @@ object TestRunner {
     }
 
     private fun fetchTestResults(finishedTestMatrix: List<TestMatrix>): List<ToolResultsValue> {
-        val steps = ArrayList<ToolResultsStep>()
+        val steps = ArrayList<ToolResultsStepGcsPath>()
         for (testMatrix in finishedTestMatrix) {
-            for (testExecution in testMatrix.testExecutions) {
-                steps.add(testExecution.toolResultsStep)
-            }
+            val gcsPath = testMatrix.resultStorage.googleCloudStorage.gcsPath.split('/')[1]
+
+            testMatrix.testExecutions
+                    .map { it.toolResultsStep }
+                    .mapTo(steps) { ToolResultsStepGcsPath(it, gcsPath) }
         }
 
         val shardCount = steps.size
         val parallel = Parallel(shardCount)
         val toolValues = Collections.synchronizedList<ToolResultsValue>(ArrayList(shardCount))
 
-        for (i in 0 until shardCount) {
-            parallel.addCallable(ToolResultsCallable(toolValues, steps[i]))
+        for (step in steps) {
+            parallel.addCallable(ToolResultsCallable(toolValues, step))
         }
 
         parallel.run()
@@ -153,7 +185,6 @@ object TestRunner {
     }
 
     fun scheduleApks(appApk: Path, testApk: Path, shardCount: Int, runConfig: RunConfig): ArrayList<String> {
-
         val appApkGcsPath = uploadApk(appApk)
         val testApkGcsPath = uploadApk(testApk)
 
@@ -166,7 +197,6 @@ object TestRunner {
             val androidMatrix = GcAndroidMatrix.build("NexusLowRes", "26", "en", "portrait")
 
             val testMatrixCreate = GcTestMatrix.build(appApkGcsPath, testApkGcsPath, androidMatrix, runConfig = runConfig)
-
 
             parallel.addCallable(MatrixCallable(testMatrixIds, testMatrixCreate))
         }
@@ -204,6 +234,6 @@ object TestRunner {
             throw RuntimeException("Synchronization error")
         }
 
-        return ArrayList<String>(testMatrixIds)
+        return ArrayList(testMatrixIds)
     }
 }

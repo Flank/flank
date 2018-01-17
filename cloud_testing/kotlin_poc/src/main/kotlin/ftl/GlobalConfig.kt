@@ -9,7 +9,8 @@ import java.nio.file.Paths
 
 object GlobalConfig {
 
-    const val bucketGcsPath = "tmp_bucket_2"
+    var bucketGcsPath = "tmp_bucket_2"
+    var downloadXml = true
 
     // gcloud config get-value project
     //

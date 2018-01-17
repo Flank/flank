@@ -2,10 +2,9 @@ package ftl
 
 import com.google.testing.Testing.Projects.TestMatrices.Create
 import com.google.testing.model.TestMatrix
-import java.util.concurrent.Callable
-
 import ftl.Utils.fatalError
 import ftl.Utils.sleep
+import java.util.concurrent.Callable
 
 internal class MatrixCallable(private val testMatrixIds: MutableList<String>,
                               private val testMatrixCreate: Create) : Callable<Any> {
@@ -68,7 +67,7 @@ internal class MatrixCallable(private val testMatrixIds: MutableList<String>,
     }
 
     @Throws(Exception::class)
-    override fun call() : Void {
+    override fun call(): Void {
         run()
         return Void.TYPE.newInstance()
     }

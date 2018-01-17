@@ -1,11 +1,10 @@
 package ftl
 
-import java.util.ArrayList
+import ftl.Utils.fatalError
+import java.util.*
 import java.util.concurrent.Callable
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-
-import ftl.Utils.fatalError
 
 class Parallel(shardCount: Int) {
     private val callables: MutableList<Callable<Any>>

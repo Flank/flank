@@ -1,11 +1,10 @@
 package ftl
 
 import com.google.testing.Testing
-
-import ftl.GlobalConfig.credential
-import ftl.Constants.httpTransport
 import ftl.Constants.JSON_FACTORY
 import ftl.Constants.applicationName
+import ftl.Constants.httpTransport
+import ftl.GlobalConfig.credential
 
 object GcTesting {
 

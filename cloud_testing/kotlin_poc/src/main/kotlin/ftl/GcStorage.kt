@@ -2,14 +2,12 @@ package ftl
 
 import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.StorageOptions
-
+import ftl.Constants.GCS_PREFIX
+import ftl.GlobalConfig.bucketGcsPath
+import ftl.Utils.fatalError
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-
-import ftl.GlobalConfig.bucketGcsPath
-import ftl.Constants.GCS_PREFIX
-import ftl.Utils.fatalError
 
 object GcStorage {
 
