@@ -1,12 +1,12 @@
 package ftl
 
-import com.google.testing.model.TestSpecification
 import com.linkedin.dex.parser.DexParser
 import ftl.GcStorage.uploadApk
 import ftl.GlobalConfig.appApk
 import ftl.GlobalConfig.testApk
 import ftl.TestRunner.pollTests
 import ftl.TestRunner.scheduleApks
+import java.util.concurrent.TimeUnit
 import java.util.stream.Collectors
 
 object Main {
@@ -36,7 +36,7 @@ object Main {
 
     private fun runAllTestsInOneVM() {
         println("runAllTestsInOneVM")
-        val runConfig = ftl.RunConfig(testTimeout = "50m")
+        val runConfig = ftl.RunConfig(testTimeoutMinutes = 60)
 
         println("Test runner started.")
         val stopWatch = ftl.StopWatch().start()
@@ -54,7 +54,6 @@ object Main {
     @Throws(Exception::class)
     @JvmStatic
     fun main(args: Array<String>) {
-       TestSpecification().disablePerformanceMetrics
        runAllTestsInOneVM()
     }
 }

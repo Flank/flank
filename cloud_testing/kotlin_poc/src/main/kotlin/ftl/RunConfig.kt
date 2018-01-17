@@ -1,8 +1,8 @@
 package ftl
 
 data class RunConfig(
-        val useOrchestrator: String = "true",
+        val useOrchestrator: String = "USE_ORCHESTRATOR", // must be USE_ORCHESTRATOR or null
         val disablePerformanceMetrics: Boolean = true,
         val disableVideoRecording: Boolean = true,
-        val testTimeout: String = "5m"
+        val testTimeoutMinutes: Long = 5
 )

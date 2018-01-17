@@ -7,6 +7,7 @@ import com.google.testing.model.*
 import ftl.GlobalConfig.bucketGcsPath
 import ftl.Constants.projectId
 import ftl.Utils.fatalError
+import java.util.concurrent.TimeUnit
 
 object GcTestMatrix {
 
@@ -33,11 +34,13 @@ object GcTestMatrix {
             androidInstrumentation.testTargets = Lists.newArrayList(testTargets)
         }
 
+        val testTimeoutSeconds = TimeUnit.MINUTES.toSeconds(runConfig.testTimeoutMinutes)
+
         testMatrix.testSpecification = TestSpecification()
                 .setAndroidInstrumentationTest(androidInstrumentation)
                 .setDisablePerformanceMetrics(runConfig.disablePerformanceMetrics)
                 .setDisableVideoRecording(runConfig.disableVideoRecording)
-                .setTestTimeout(runConfig.testTimeout)
+                .setTestTimeout("${testTimeoutSeconds}s")
 
         testMatrix.resultStorage = ResultStorage()
                 .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(bucketGcsPath))
