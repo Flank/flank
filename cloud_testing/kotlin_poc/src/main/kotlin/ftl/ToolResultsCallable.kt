@@ -1,7 +1,9 @@
+package ftl
+
 import com.google.testing.model.ToolResultsStep
 import java.util.concurrent.Callable
 
-import Utils.fatalError
+import ftl.Utils.fatalError
 
 internal class ToolResultsCallable(private val toolResultsValue: MutableList<ToolResultsValue>,
                                    private val toolResultsStep: ToolResultsStep) : Callable<Any> {

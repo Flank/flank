@@ -1,3 +1,5 @@
+package ftl
+
 import java.util.concurrent.TimeUnit
 
 class StopWatch {

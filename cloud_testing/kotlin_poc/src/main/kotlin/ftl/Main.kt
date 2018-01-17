@@ -1,18 +1,17 @@
+package ftl
+
 import com.linkedin.dex.parser.DexParser
-
-import java.util.stream.Collectors
-
-import GlobalConfig.appApk
-import GlobalConfig.testApk
-import GcStorage.uploadApk
-import TestRunner.pollTests
-import TestRunner.scheduleApks
+import ftl.GcStorage.uploadApk
+import ftl.GlobalConfig.appApk
+import ftl.GlobalConfig.testApk
+import ftl.TestRunner.pollTests
+import ftl.TestRunner.scheduleApks
 
 object Main {
 
-    fun runOneTestPerVM() {
+    private fun runOneTestPerVM() {
         println("Test runner started.")
-        val stopWatch = StopWatch().start()
+        val stopWatch = ftl.StopWatch().start()
 
         val appApk = appApk
         val testApk = testApk
@@ -23,7 +22,7 @@ object Main {
         testMethodNames = testMethodNames.stream().map { i -> "class " + i }.collect(Collectors.toList())
 
         println("Running " + testMethodNames.size + " tests")
-        val testMatrixIds = TestRunner.scheduleTests(appApkGcsPath, testApkGcsPath, testMethodNames, RunConfig())
+        val testMatrixIds = ftl.TestRunner.scheduleTests(appApkGcsPath, testApkGcsPath, testMethodNames, ftl.RunConfig())
 
         val allTestsSuccessful = pollTests(testMatrixIds)
 
@@ -33,11 +32,12 @@ object Main {
         System.exit(exitCode)
     }
 
-    fun runAllTestsInOneVM() {
-        val runConfig = RunConfig(testTimeout = "50m")
+    private fun runAllTestsInOneVM() {
+        println("runAllTestsInOneVM")
+        val runConfig = ftl.RunConfig(testTimeout = "50m")
 
         println("Test runner started.")
-        val stopWatch = StopWatch().start()
+        val stopWatch = ftl.StopWatch().start()
 
         val testMatrixIds = scheduleApks(appApk, testApk, shardCount = 1, runConfig = runConfig)
 
@@ -52,6 +52,6 @@ object Main {
     @Throws(Exception::class)
     @JvmStatic
     fun main(args: Array<String>) {
-        runAllTestsInOneVM()
+       runAllTestsInOneVM()
     }
 }

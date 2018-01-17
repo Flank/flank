@@ -1,3 +1,5 @@
+package ftl
+
 import java.math.BigDecimal
 import java.math.RoundingMode
 

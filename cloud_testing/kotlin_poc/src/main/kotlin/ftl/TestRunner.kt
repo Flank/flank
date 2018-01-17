@@ -1,4 +1,6 @@
-import GcStorage.uploadApk
+package ftl
+
+import ftl.GcStorage.uploadApk
 import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
 import com.google.testing.model.ToolResultsStep
@@ -7,7 +9,7 @@ import java.util.ArrayList
 import java.util.Collections
 import java.util.concurrent.TimeUnit
 
-import Utils.sleep
+import ftl.Utils.sleep
 import java.lang.System.currentTimeMillis
 import java.nio.file.Path
 
@@ -159,6 +161,7 @@ object TestRunner {
         val testMatrixIds = Collections.synchronizedList<String>(ArrayList(shardCount))
         val parallel = Parallel(shardCount)
 
+        println("Running ${shardCount}x")
         repeat(shardCount) {
             val androidMatrix = GcAndroidMatrix.build("NexusLowRes", "26", "en", "portrait")
 

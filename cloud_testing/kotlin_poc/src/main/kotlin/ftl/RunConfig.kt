@@ -1,3 +1,5 @@
+package ftl
+
 data class RunConfig(
         val useOrchestrator: String = "true",
         val disablePerformanceMetrics: Boolean = true,

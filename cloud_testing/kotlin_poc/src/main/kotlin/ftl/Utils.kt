@@ -1,3 +1,5 @@
+package ftl
+
 object Utils {
 
     fun sleep(milliseconds: Int) {

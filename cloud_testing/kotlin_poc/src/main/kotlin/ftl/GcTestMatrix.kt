@@ -1,10 +1,12 @@
+package ftl
+
 import com.google.common.collect.Lists
 import com.google.testing.Testing
 import com.google.testing.model.*
 
-import GlobalConfig.bucketGcsPath
-import Constants.projectId
-import Utils.fatalError
+import ftl.GlobalConfig.bucketGcsPath
+import ftl.Constants.projectId
+import ftl.Utils.fatalError
 
 object GcTestMatrix {
 

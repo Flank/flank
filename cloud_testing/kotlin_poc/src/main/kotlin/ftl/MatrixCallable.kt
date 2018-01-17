@@ -1,9 +1,11 @@
+package ftl
+
 import com.google.testing.Testing.Projects.TestMatrices.Create
 import com.google.testing.model.TestMatrix
 import java.util.concurrent.Callable
 
-import Utils.fatalError
-import Utils.sleep
+import ftl.Utils.fatalError
+import ftl.Utils.sleep
 
 internal class MatrixCallable(private val testMatrixIds: MutableList<String>,
                               private val testMatrixCreate: Create) : Callable<Any> {

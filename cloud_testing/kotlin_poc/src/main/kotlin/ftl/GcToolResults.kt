@@ -1,9 +1,11 @@
+package ftl
+
 import com.google.api.services.toolresults.ToolResults
 
-import GlobalConfig.credential
-import Constants.httpTransport
-import Constants.JSON_FACTORY
-import Constants.applicationName
+import ftl.GlobalConfig.credential
+import ftl.Constants.httpTransport
+import ftl.Constants.JSON_FACTORY
+import ftl.Constants.applicationName
 
 object GcToolResults {
 
