@@ -6,7 +6,7 @@ version = "1.0-SNAPSHOT"
 val kotlinVersion: String by extra
 buildscript {
     val kotlinVersion: String by extra
-    extra["kotlinVersion"] = "1.1.4-3"
+    extra["kotlinVersion"] = "1.2.20"
 
     repositories {
         jcenter()
@@ -35,10 +35,10 @@ repositories {
 
 dependencies {
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.cloud%22%20AND%20a%3A%22google-cloud-storage%22
-    compile("com.google.cloud:google-cloud-storage:1.6.0")
+    compile("com.google.cloud:google-cloud-storage:1.14.0")
 
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-toolresults%22
-    compile("com.google.apis:google-api-services-toolresults:v1beta3-rev260-1.22.0")
+    compile("com.google.apis:google-api-services-toolresults:v1beta3-rev339-1.23.0")
 
     // https://github.com/linkedin/dex-test-parser/releases
     compile("com.linkedin.dextestparser:parser:1.1.0")
@@ -64,4 +64,3 @@ java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
-
