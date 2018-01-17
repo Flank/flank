@@ -5,7 +5,7 @@
  "name": "toolresults",
  "canonicalName": "Tool Results",
  "version": "v1beta3",
- "revision": "20170811",
+ "revision": "20171013",
  "title": "Cloud Tool Results API",
  "description": "Reads and publishes results from Firebase Test Lab.",
  "ownerDomain": "google.com",
@@ -412,7 +412,7 @@
    "properties": {
     "crashed": {
      "type": "boolean",
-     "description": "If the failure was severe because the system under test crashed."
+     "description": "If the failure was severe because the system (app) under test crashed."
     },
     "notInstalled": {
      "type": "boolean",
@@ -420,7 +420,7 @@
     },
     "otherNativeCrash": {
      "type": "boolean",
-     "description": "If a native process other than the app crashed."
+     "description": "If a native process (including any other than the app) crashed."
     },
     "timedOut": {
      "type": "boolean",
@@ -441,6 +441,93 @@
     "fileUri": {
      "type": "string",
      "description": "The URI of a file stored in Google Cloud Storage.\n\nFor example: http://storage.googleapis.com/mybucket/path/to/test.xml or in gsutil format: gs://mybucket/path/to/test.xml with version-specific info, gs://mybucket/path/to/test.xml#1360383693690000\n\nAn INVALID_ARGUMENT error will be returned if the URI format is not supported.\n\n- In response: always set - In create/update request: always set"
+    }
+   }
+  },
+  "GraphicsStats": {
+   "id": "GraphicsStats",
+   "type": "object",
+   "description": "Graphics statistics for the App. The information is collected from 'adb shell dumpsys graphicsstats'. For more info see: https://developer.android.com/training/testing/performance.html Statistics will only be present for API 23+.",
+   "externalTypeName": "google.devtools.toolresults.v1.GraphicsStats",
+   "properties": {
+    "buckets": {
+     "type": "array",
+     "description": "Histogram of frame render times. There should be 154 buckets ranging from [5ms, 6ms) to [4950ms, infinity)",
+     "items": {
+      "$ref": "GraphicsStatsBucket"
+     }
+    },
+    "highInputLatencyCount": {
+     "type": "string",
+     "description": "Total \"high input latency\" events.",
+     "format": "int64"
+    },
+    "jankyFrames": {
+     "type": "string",
+     "description": "Total frames with slow render time. Should be \u003c= total_frames.",
+     "format": "int64"
+    },
+    "missedVsyncCount": {
+     "type": "string",
+     "description": "Total \"missed vsync\" events.",
+     "format": "int64"
+    },
+    "p50Millis": {
+     "type": "string",
+     "description": "50th percentile frame render time in milliseconds.",
+     "format": "int64"
+    },
+    "p90Millis": {
+     "type": "string",
+     "description": "90th percentile frame render time in milliseconds.",
+     "format": "int64"
+    },
+    "p95Millis": {
+     "type": "string",
+     "description": "95th percentile frame render time in milliseconds.",
+     "format": "int64"
+    },
+    "p99Millis": {
+     "type": "string",
+     "description": "99th percentile frame render time in milliseconds.",
+     "format": "int64"
+    },
+    "slowBitmapUploadCount": {
+     "type": "string",
+     "description": "Total \"slow bitmap upload\" events.",
+     "format": "int64"
+    },
+    "slowDrawCount": {
+     "type": "string",
+     "description": "Total \"slow draw\" events.",
+     "format": "int64"
+    },
+    "slowUiThreadCount": {
+     "type": "string",
+     "description": "Total \"slow UI thread\" events.",
+     "format": "int64"
+    },
+    "totalFrames": {
+     "type": "string",
+     "description": "Total frames rendered by package.",
+     "format": "int64"
+    }
+   }
+  },
+  "GraphicsStatsBucket": {
+   "id": "GraphicsStatsBucket",
+   "type": "object",
+   "externalTypeName": "google.devtools.toolresults.v1.GraphicsStats.Bucket",
+   "properties": {
+    "frameCount": {
+     "type": "string",
+     "description": "Number of frames in the bucket.",
+     "format": "int64"
+    },
+    "renderMillis": {
+     "type": "string",
+     "description": "Lower bound of render time in milliseconds.",
+     "format": "int64"
     }
    }
   },
@@ -710,6 +797,10 @@
     "executionId": {
      "type": "string",
      "description": "A tool results execution ID."
+    },
+    "graphicsStats": {
+     "$ref": "GraphicsStats",
+     "description": "Graphics statistics for the entire run. Statistics are reset at the beginning of the run and collected at the end of the run."
     },
     "historyId": {
      "type": "string",
@@ -1669,6 +1760,47 @@
        "resources": {
         "clusters": {
          "methods": {
+          "get": {
+           "id": "toolresults.projects.histories.executions.clusters.get",
+           "path": "{projectId}/histories/{historyId}/executions/{executionId}/clusters/{clusterId}",
+           "httpMethod": "GET",
+           "description": "Retrieves a single screenshot cluster by its ID",
+           "parameters": {
+            "clusterId": {
+             "type": "string",
+             "description": "A Cluster id\n\nRequired.",
+             "required": true,
+             "location": "path"
+            },
+            "executionId": {
+             "type": "string",
+             "description": "An Execution id.\n\nRequired.",
+             "required": true,
+             "location": "path"
+            },
+            "historyId": {
+             "type": "string",
+             "description": "A History id.\n\nRequired.",
+             "required": true,
+             "location": "path"
+            },
+            "projectId": {
+             "type": "string",
+             "description": "A Project id.\n\nRequired.",
+             "required": true,
+             "location": "path"
+            }
+           },
+           "parameterOrder": [
+            "projectId",
+            "historyId",
+            "executionId",
+            "clusterId"
+           ],
+           "response": {
+            "$ref": "ScreenshotCluster"
+           }
+          },
           "list": {
            "id": "toolresults.projects.histories.executions.clusters.list",
            "path": "{projectId}/histories/{historyId}/executions/{executionId}/clusters",
@@ -1995,7 +2127,7 @@
              "id": "toolresults.projects.histories.executions.steps.perfMetricsSummary.create",
              "path": "{projectId}/histories/{historyId}/executions/{executionId}/steps/{stepId}/perfMetricsSummary",
              "httpMethod": "POST",
-             "description": "Creates a PerfMetricsSummary resource.\n\nMay return any of the following error code(s): - ALREADY_EXISTS - A PerfMetricSummary already exists for the given Step - NOT_FOUND - The containing Step does not exist",
+             "description": "Creates a PerfMetricsSummary resource. Returns the existing one if it has already been created.\n\nMay return any of the following error code(s): - NOT_FOUND - The containing Step does not exist",
              "parameters": {
               "executionId": {
                "type": "string",
