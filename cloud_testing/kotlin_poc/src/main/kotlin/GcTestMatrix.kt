@@ -2,7 +2,7 @@ import com.google.common.collect.Lists
 import com.google.testing.Testing
 import com.google.testing.model.*
 
-import Config.bucketGcsPath
+import GlobalConfig.bucketGcsPath
 import Constants.projectId
 import Utils.fatalError
 
@@ -12,7 +12,8 @@ object GcTestMatrix {
             appApkGcsPath: String,
             testApkGcsPath: String,
             androidMatrix: AndroidMatrix,
-            testTargets: String?): Testing.Projects.TestMatrices.Create {
+            testTargets: String? = null,
+            runConfig: RunConfig): Testing.Projects.TestMatrices.Create {
         // https://github.com/bootstraponline/studio-google-cloud-testing/blob/203ed2890c27a8078cd1b8f7ae12cf77527f426b/firebase-testing/src/com/google/gct/testing/launcher/CloudTestsLauncher.java#L120
         val testMatrix = TestMatrix()
         testMatrix.clientInfo = ClientInfo().setName("Flank")
@@ -27,6 +28,7 @@ object GcTestMatrix {
         val androidInstrumentation = AndroidInstrumentationTest()
                 .setAppApk(FileReference().setGcsPath(appApkGcsPath))
                 .setTestApk(FileReference().setGcsPath(testApkGcsPath))
+                .setOrchestratorOption(runConfig.useOrchestrator)
 
         if (testTargets != null) {
             androidInstrumentation.testTargets = Lists.newArrayList(testTargets)
@@ -35,6 +37,9 @@ object GcTestMatrix {
         testMatrix.testSpecification = TestSpecification()
                 .setTestTimeout(testTimeout)
                 .setAndroidInstrumentationTest(androidInstrumentation)
+                .setDisablePerformanceMetrics(runConfig.disablePerformanceMetrics)
+                .setDisableVideoRecording(runConfig.disableVideoRecording)
+                .setTestTimeout(runConfig.testTimeout)
 
         testMatrix.resultStorage = ResultStorage()
                 .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(bucketGcsPath))
