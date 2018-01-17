@@ -54,8 +54,8 @@ internal class ToolResultsValue(step: Step, var toolResultsStep: ToolResultsStep
 
         return """Billable minutes: ${billableMinutes}m
 Test duration: ${testDurationSeconds}s
-"Run duration: ${runDurationSeconds}s
-"Name: ${name}
+Run duration: ${runDurationSeconds}s
+Name: ${name}
 Targets: ${targets}
 Dimensions:
 $dimensionString
