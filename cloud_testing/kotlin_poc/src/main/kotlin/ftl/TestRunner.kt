@@ -77,6 +77,10 @@ object TestRunner {
                 println(testExecution.state)
 
                 if (!TestExecutionState.isValid(lastState)) {
+                    // TEST_ONLY_APK: The APK is marked as "testOnly".
+                    // Use Build > Build APK(s) in Android Studio to build the app apk.
+                    // App APKs built from using 'Run' in Android Studio don't work on Firebase Test Lab
+                    println("Error: " + testExecution.testDetails.errorMessage)
                     invalid = true
                     lastTestExecution = testExecution
                     break
