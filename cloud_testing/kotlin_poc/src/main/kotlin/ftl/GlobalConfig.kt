@@ -38,11 +38,10 @@ object GlobalConfig {
         return targetApk
     }
 
-    val testApk: Path
-        get() = getApk("app-debug-androidTest.apk")
+    val testApk = getApk("app-debug-androidTest.apk")
+    val testErrorApk = getApk("error-androidTest.apk")
 
-    val appApk: Path
-        get() = getApk("app-debug.apk")
+    val appApk = getApk("app-debug.apk")
 
     val credential: Credential?
         get() {

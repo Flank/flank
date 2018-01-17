@@ -4,6 +4,7 @@ import com.linkedin.dex.parser.DexParser
 import ftl.GcStorage.uploadApk
 import ftl.GlobalConfig.appApk
 import ftl.GlobalConfig.testApk
+import ftl.GlobalConfig.testErrorApk
 import ftl.TestRunner.pollTests
 import ftl.TestRunner.scheduleApks
 import java.util.stream.Collectors
@@ -42,7 +43,7 @@ object Main {
         println("Test runner started.")
         val stopWatch = ftl.StopWatch().start()
 
-        val testMatrixIds = scheduleApks(appApk, testApk, shardCount = 1, runConfig = runConfig)
+        val testMatrixIds = scheduleApks(appApk, testErrorApk, shardCount = 1, runConfig = runConfig)
 
         val allTestsSuccessful = pollTests(testMatrixIds)
 
