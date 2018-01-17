@@ -1,3 +1,4 @@
+import GcStorage.uploadApk
 import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
 import com.google.testing.model.ToolResultsStep
@@ -8,6 +9,7 @@ import java.util.concurrent.TimeUnit
 
 import Utils.sleep
 import java.lang.System.currentTimeMillis
+import java.nio.file.Path
 
 object TestRunner {
 
@@ -148,8 +150,36 @@ object TestRunner {
         return toolValues
     }
 
+    fun scheduleApks(appApk: Path, testApk: Path, shardCount: Int, runConfig: RunConfig): ArrayList<String> {
+
+        val appApkGcsPath = uploadApk(appApk)
+        val testApkGcsPath = uploadApk(testApk)
+
+        // *MUST* use synchronized list to play nice with ExecutorService
+        val testMatrixIds = Collections.synchronizedList<String>(ArrayList(shardCount))
+        val parallel = Parallel(shardCount)
+
+        repeat(shardCount) {
+            val androidMatrix = GcAndroidMatrix.build("NexusLowRes", "26", "en", "portrait")
+
+            val testMatrixCreate = GcTestMatrix.build(appApkGcsPath, testApkGcsPath, androidMatrix, runConfig = runConfig)
+
+
+            parallel.addCallable(MatrixCallable(testMatrixIds, testMatrixCreate))
+        }
+
+        parallel.run()
+
+        if (shardCount != testMatrixIds.size || shardCount != testMatrixIds.size) {
+            throw RuntimeException("Synchronization error")
+        }
+
+        return ArrayList(testMatrixIds)
+    }
+
+    /** Runs 1 test per VM **/
     fun scheduleTests(
-            appApkGcsPath: String, testApkGcsPath: String, testMethodNames: List<String>): ArrayList<String> {
+            appApkGcsPath: String, testApkGcsPath: String, testMethodNames: List<String>, runConfig: RunConfig): ArrayList<String> {
 
         val shardCount = testMethodNames.size
 
@@ -160,7 +190,7 @@ object TestRunner {
         for (testMethod in testMethodNames) {
             val androidMatrix = GcAndroidMatrix.build("NexusLowRes", "25", "en", "portrait")
 
-            val testMatrixCreate = GcTestMatrix.build(appApkGcsPath, testApkGcsPath, androidMatrix, testMethod)
+            val testMatrixCreate = GcTestMatrix.build(appApkGcsPath, testApkGcsPath, androidMatrix, testMethod, runConfig = runConfig)
 
             parallel.addCallable(MatrixCallable(testMatrixIds, testMatrixCreate))
         }

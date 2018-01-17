@@ -1,6 +1,6 @@
 import com.google.testing.Testing
 
-import Config.credential
+import GlobalConfig.credential
 import Constants.httpTransport
 import Constants.JSON_FACTORY
 import Constants.applicationName

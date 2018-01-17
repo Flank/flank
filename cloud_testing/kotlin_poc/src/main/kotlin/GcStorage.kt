@@ -5,7 +5,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
-import Config.bucketGcsPath
+import GlobalConfig.bucketGcsPath
 import Constants.GCS_PREFIX
 import Utils.fatalError
 

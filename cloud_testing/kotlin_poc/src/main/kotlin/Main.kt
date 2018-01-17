@@ -2,17 +2,15 @@ import com.linkedin.dex.parser.DexParser
 
 import java.util.stream.Collectors
 
-import Config.appApk
-import Config.testApk
+import GlobalConfig.appApk
+import GlobalConfig.testApk
 import GcStorage.uploadApk
 import TestRunner.pollTests
-import TestRunner.scheduleTests
+import TestRunner.scheduleApks
 
 object Main {
 
-    @Throws(Exception::class)
-    @JvmStatic
-    fun main(args: Array<String>) {
+    fun runOneTestPerVM() {
         println("Test runner started.")
         val stopWatch = StopWatch().start()
 
@@ -25,7 +23,7 @@ object Main {
         testMethodNames = testMethodNames.stream().map { i -> "class " + i }.collect(Collectors.toList())
 
         println("Running " + testMethodNames.size + " tests")
-        val testMatrixIds = scheduleTests(appApkGcsPath, testApkGcsPath, testMethodNames)
+        val testMatrixIds = TestRunner.scheduleTests(appApkGcsPath, testApkGcsPath, testMethodNames, RunConfig())
 
         val allTestsSuccessful = pollTests(testMatrixIds)
 
@@ -33,5 +31,27 @@ object Main {
 
         val exitCode = if (allTestsSuccessful) 0 else -1
         System.exit(exitCode)
+    }
+
+    fun runAllTestsInOneVM() {
+        val runConfig = RunConfig(testTimeout = "50m")
+
+        println("Test runner started.")
+        val stopWatch = StopWatch().start()
+
+        val testMatrixIds = scheduleApks(appApk, testApk, shardCount = 1, runConfig = runConfig)
+
+        val allTestsSuccessful = pollTests(testMatrixIds)
+
+        println("Finished in " + stopWatch.end())
+
+        val exitCode = if (allTestsSuccessful) 0 else -1
+        System.exit(exitCode)
+    }
+
+    @Throws(Exception::class)
+    @JvmStatic
+    fun main(args: Array<String>) {
+        runAllTestsInOneVM()
     }
 }

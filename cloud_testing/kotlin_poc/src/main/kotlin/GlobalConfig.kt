@@ -5,9 +5,9 @@ import com.google.cloud.ServiceOptions
 import java.nio.file.Path
 import java.nio.file.Paths
 
-object Config {
+object GlobalConfig {
 
-    val bucketGcsPath = "tmp_bucket_2"
+    const val bucketGcsPath = "tmp_bucket_2"
 
     // gcloud config get-value project
     //
