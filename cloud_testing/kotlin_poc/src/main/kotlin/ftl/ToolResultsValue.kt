@@ -39,27 +39,8 @@ internal class ToolResultsValue(step: Step, toolResultsStep: ToolResultsStepGcsP
     }
 
     override fun toString(): String {
-        val dimensionSb = StringBuilder()
-
-        for (dimension in dimensions) {
-            dimensionSb
-                    .append("  ")
-                    .append(dimension.key)
-                    .append(": ")
-                    .append(dimension.value)
-                    .append("\n")
-        }
-
-        val dimensionString = dimensionSb.toString()
-
-        return """Billable minutes: ${billableMinutes}m
-Test duration: ${testDurationSeconds}s
-Run duration: ${runDurationSeconds}s
-Name: ${name}
-Targets: ${targets}
-Dimensions:
-$dimensionString
-Outcome: ${outcome}
+        return """Billable / test / run: ${billableMinutes}m / ${testDurationSeconds}s / ${runDurationSeconds}s
+Outcome: $outcome
 $webLink"""
     }
 }

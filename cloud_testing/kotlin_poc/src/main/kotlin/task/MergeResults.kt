@@ -21,8 +21,6 @@ object MergeResults {
         }
 
         xmlFiles.forEach { file ->
-            println(file.name)
-
             val xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file)
             xml.normalizeDocument()
             xml.documentElement.normalize()
