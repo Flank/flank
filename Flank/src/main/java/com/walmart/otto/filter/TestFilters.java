@@ -45,7 +45,9 @@ public class TestFilters {
     boolean isNegate = matcher.group(1) != null;
 
     Collection<String> args =
-        Arrays.stream(matcher.group(3).split(",")).collect(Collectors.toSet());
+        Arrays.stream(matcher.group(3).split(","))
+            .map(String::trim) //splitting by comma will leave leading or trailing spaces
+            .collect(Collectors.toSet());
 
     String command = matcher.group(2).toLowerCase();
 

@@ -7,6 +7,7 @@ import static com.walmart.otto.filter.TestMethodFixtures.FOO_CLASSNAME;
 import static com.walmart.otto.filter.TestMethodFixtures.FOO_PACKAGE;
 import static com.walmart.otto.filter.TestMethodFixtures.WITHOUT_FOO_ANNOTATION;
 import static com.walmart.otto.filter.TestMethodFixtures.WITHOUT_IGNORE_ANNOTATION;
+import static com.walmart.otto.filter.TestMethodFixtures.WITH_BAR_ANNOTATION;
 import static com.walmart.otto.filter.TestMethodFixtures.WITH_FOO_ANNOTATION;
 import static com.walmart.otto.filter.TestMethodFixtures.WITH_FOO_ANNOTATION_AND_PACKAGE;
 import static com.walmart.otto.filter.TestMethodFixtures.WITH_IGNORE_ANNOTATION;
@@ -64,6 +65,7 @@ public class TestFiltersTest {
     TestFilter filter = TestFilters.fromCommandLineArguments("annotation Foo,Bar");
 
     assertTrue(filter.shouldRun(WITH_FOO_ANNOTATION));
+    assertTrue(filter.shouldRun(WITH_BAR_ANNOTATION));
     assertFalse(filter.shouldRun(WITHOUT_FOO_ANNOTATION));
   }
 
@@ -72,6 +74,7 @@ public class TestFiltersTest {
     TestFilter filter = TestFilters.fromCommandLineArguments("annotation Foo, Bar");
 
     assertTrue(filter.shouldRun(WITH_FOO_ANNOTATION));
+    assertTrue(filter.shouldRun(WITH_BAR_ANNOTATION));
     assertFalse(filter.shouldRun(WITHOUT_FOO_ANNOTATION));
   }
 
