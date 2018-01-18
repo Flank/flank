@@ -43,7 +43,7 @@ object Main {
         println("Test runner started.")
         val stopWatch = ftl.StopWatch().start()
 
-        val testMatrixIds = scheduleApks(appApk, testErrorApk, shardCount = 1, runConfig = runConfig)
+        val testMatrixIds = scheduleApks(appApk, testErrorApk, shardCount = 2, runConfig = runConfig)
 
         val allTestsSuccessful = pollTests(testMatrixIds)
 

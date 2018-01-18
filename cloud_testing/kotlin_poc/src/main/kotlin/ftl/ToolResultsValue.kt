@@ -5,7 +5,7 @@ import com.google.api.services.toolresults.model.StepDimensionValueEntry
 import ftl.Billing.billableMinutes
 import ftl.Constants.projectId
 
-internal class ToolResultsValue(step: Step, var toolResultsStep: ToolResultsStepGcsPath) {
+internal class ToolResultsValue(step: Step, toolResultsStep: ToolResultsStepGcsPath) {
     var webLink: String = ""
     var billableMinutes: Long = 0
     var testDurationSeconds: Long = 0
@@ -14,7 +14,7 @@ internal class ToolResultsValue(step: Step, var toolResultsStep: ToolResultsStep
     var targets: String
     var dimensions: List<StepDimensionValueEntry>
     var outcome: String
-    val step = toolResultsStep.toolResults
+    private val step = toolResultsStep.toolResults
     val gcsPath = toolResultsStep.gcsPath
 
     init {
