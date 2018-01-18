@@ -24,6 +24,9 @@ public class TestMethodFixtures {
   static final TestMethod WITH_FOO_ANNOTATION =
       new TestMethod("whatever.Foo#testName", singletonList("Foo"));
 
+  static final TestMethod WITH_BAR_ANNOTATION =
+      new TestMethod("whatever.Foo#testName", singletonList("Bar"));
+
   static final TestMethod WITHOUT_FOO_ANNOTATION =
       new TestMethod("whatever.Foo#testName", emptyList());
 
