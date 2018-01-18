@@ -9,9 +9,8 @@ import java.nio.file.Paths
 import javax.xml.parsers.DocumentBuilderFactory
 
 object MergeResults {
-    @JvmStatic
-    fun main(args: Array<String>) {
 
+    fun execute() {
         val xmlFiles = mutableListOf<File>()
         val results = mutableMapOf<String, Int>()
 
@@ -49,5 +48,10 @@ object MergeResults {
         }
 
         Files.write(csv, csvData.toString().toByteArray())
+    }
+
+    @JvmStatic
+    fun main(args: Array<String>) {
+       execute()
     }
 }
