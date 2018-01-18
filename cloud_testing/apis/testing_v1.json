@@ -632,6 +632,14 @@
         "autoGoogleLogin": {
           "description": "Enables automatic Google account login.\nIf set, the service will automatically generate a Google test account and\nadd it to the device, before executing the test. Note that test accounts\nmight be reused.\nMany applications show their full set of functionalities when an account is\npresent on the device. Logging into the device with these generated\naccounts allows testing more functionalities.\nDefault is false.\nOptional",
           "type": "boolean"
+        },
+        "disableVideoRecording": {
+          "description": "Disables video recording; may reduce test latency.",
+          "type": "boolean"
+        },
+        "disablePerformanceMetrics": {
+          "description": "Disables performance metrics recording; may reduce test latency.",
+          "type": "boolean"
         }
       }
     },
@@ -641,14 +649,14 @@
       "type": "object",
       "properties": {
         "filesToPush": {
-          "description": "Optional",
+          "description": "List of files to push to the device before starting the test.\n\nOptional",
           "type": "array",
           "items": {
             "$ref": "DeviceFile"
           }
         },
         "directoriesToPull": {
-          "description": "The directories on the device to upload to GCS at the end of the test;\nthey must be absolute, whitelisted paths.\nRefer to RegularFile for whitelisted paths.\nOptional",
+          "description": "List of directories on the device to upload to GCS at the end of the test;\nthey must be absolute paths under \/sdcard or \/data\/local\/tmp.\nPath names are restricted to characters a-z A-Z 0-9 _ - . + and \/\n\nNote: The paths \/sdcard and \/data will be made available and treated as\nimplicit path substitutions. E.g. if \/sdcard on a particular device does\nnot map to external storage, the system will replace it with the external\nstorage path prefix for that device.\n\nOptional",
           "type": "array",
           "items": {
             "type": "string"

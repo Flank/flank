@@ -1,4 +1,0 @@
-rootProject.name = 'cloud_api_poc'
-
-include ':testing'
-project(':testing').projectDir = new File(settingsDir, '../apis/testing')
