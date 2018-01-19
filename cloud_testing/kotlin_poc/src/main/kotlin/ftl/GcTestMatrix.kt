@@ -65,15 +65,24 @@ object GcTestMatrix {
                 // :(
                 e2.printStackTrace()
             }
-
         }
-
     }
 
     fun refresh(testMatrixId: String): TestMatrix {
         try {
             return GcTesting.get()!!.projects().testMatrices().get(projectId, testMatrixId).execute()
         } catch (e: Exception) {
+            // Getting the test matrix may throw an internal server error.
+            //  {
+            //      "code" : 500,
+            //      "errors" : [ {
+            //      "domain" : "global",
+            //      "message" : "Internal error encountered.",
+            //      "reason" : "backendError"
+            //  } ],
+            //      "message" : "Internal error encountered.",
+            //      "status" : "INTERNAL"
+            //  }
             fatalError(e)
         }
 

@@ -7,6 +7,7 @@ import ftl.GlobalConfig.testApk
 import ftl.GlobalConfig.testErrorApk
 import ftl.TestRunner.pollTests
 import ftl.TestRunner.scheduleApks
+import task.MergeResults
 import java.util.stream.Collectors
 
 object Main {
@@ -43,11 +44,13 @@ object Main {
         println("Test runner started.")
         val stopWatch = ftl.StopWatch().start()
 
-        val testMatrixIds = scheduleApks(appApk, testErrorApk, shardCount = 1, runConfig = runConfig)
+        val testMatrixIds = scheduleApks(appApk, testErrorApk, shardCount = 10, runConfig = runConfig)
 
         val allTestsSuccessful = pollTests(testMatrixIds)
 
         println("Finished in " + stopWatch.end())
+
+        MergeResults.execute()
 
         val exitCode = if (allTestsSuccessful) 0 else -1
         System.exit(exitCode)

@@ -11,6 +11,7 @@ object GlobalConfig {
 
     var bucketGcsPath = "tmp_bucket_2"
     var downloadXml = true
+    const val results = "results"
 
     // gcloud config get-value project
     //

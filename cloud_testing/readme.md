@@ -54,3 +54,11 @@ Generated automatically from `gcloud-cli/googlecloudsdk/third_party/apis/testing
 ## Build
 
 - `gradle build`
+
+## Testing
+
+API Discovery JSON may be converted to Swagger V2 using [apimatic.io/transformer](https://apimatic.io/transformer). [Stoplight prism](http://stoplight.io/platform/prism/) can then be used to spin up a local mock server.
+
+> prism run --mock --list --spec testing_v1_swagger_2.json
+
+For example, visiting `http://localhost:4010/v1/projects/123/testMatrices/456` will return a random valid result based on the Swagger schema.

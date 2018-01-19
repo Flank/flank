@@ -19,7 +19,7 @@ object TestRunner {
     private const val FINISHED = "FINISHED"
     private const val SUCCESS = "success"
     private val storage = StorageOptions.newBuilder().build().service
-    private val testResultRgx = Regex(".*test_result_\\d+.xml$")
+    val testResultRgx = Regex(".*test_result_\\d+.xml$")
 
     // gcsFolder = "2018-01-17_19:38:56.695000_fCMj"
     private fun downloadXml(gcsFolder: String) {
@@ -37,7 +37,7 @@ object TestRunner {
             if (name.matches(testResultRgx)) {
                 xmlCount += 1
                 println("Downloading: $name")
-                val downloadFile = Paths.get(gcsFolder, "test_result_$xmlCount.xml")
+                val downloadFile = Paths.get(GlobalConfig.results, gcsFolder, "test_result_$xmlCount.xml")
                 downloadFile.parent.toFile().mkdirs()
                 it.downloadTo(downloadFile)
             }
@@ -193,6 +193,8 @@ object TestRunner {
     fun scheduleApks(appApk: Path, testApk: Path, shardCount: Int, runConfig: RunConfig): ArrayList<String> {
         val appApkGcsPath = uploadApk(appApk)
         val testApkGcsPath = uploadApk(testApk)
+
+        Paths.get(GlobalConfig.results).toFile().deleteRecursively()
 
         // *MUST* use synchronized list to play nice with ExecutorService
         val testMatrixIds = Collections.synchronizedList<String>(ArrayList(shardCount))

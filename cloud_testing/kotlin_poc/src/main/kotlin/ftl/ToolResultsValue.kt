@@ -5,7 +5,7 @@ import com.google.api.services.toolresults.model.StepDimensionValueEntry
 import ftl.Billing.billableMinutes
 import ftl.Constants.projectId
 
-internal class ToolResultsValue(step: Step, var toolResultsStep: ToolResultsStepGcsPath) {
+internal class ToolResultsValue(step: Step, toolResultsStep: ToolResultsStepGcsPath) {
     var webLink: String = ""
     var billableMinutes: Long = 0
     var testDurationSeconds: Long = 0
@@ -14,7 +14,7 @@ internal class ToolResultsValue(step: Step, var toolResultsStep: ToolResultsStep
     var targets: String
     var dimensions: List<StepDimensionValueEntry>
     var outcome: String
-    val step = toolResultsStep.toolResults
+    private val step = toolResultsStep.toolResults
     val gcsPath = toolResultsStep.gcsPath
 
     init {
@@ -39,27 +39,8 @@ internal class ToolResultsValue(step: Step, var toolResultsStep: ToolResultsStep
     }
 
     override fun toString(): String {
-        val dimensionSb = StringBuilder()
-
-        for (dimension in dimensions) {
-            dimensionSb
-                    .append("  ")
-                    .append(dimension.key)
-                    .append(": ")
-                    .append(dimension.value)
-                    .append("\n")
-        }
-
-        val dimensionString = dimensionSb.toString()
-
-        return """Billable minutes: ${billableMinutes}m
-Test duration: ${testDurationSeconds}s
-Run duration: ${runDurationSeconds}s
-Name: ${name}
-Targets: ${targets}
-Dimensions:
-$dimensionString
-Outcome: ${outcome}
+        return """Billable / test / run: ${billableMinutes}m / ${testDurationSeconds}s / ${runDurationSeconds}s
+Outcome: $outcome
 $webLink"""
     }
 }
