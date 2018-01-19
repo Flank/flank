@@ -40,7 +40,7 @@ internal class MatrixCallable(private val testMatrixIds: MutableList<String>,
 
         var testMatrixId: String? = null
         var infrastructureFailure = false
-        for (i in 0..tryCount - 1) {
+        for (i in 0 until tryCount) {
             testMatrixId = executeTestMatrix()
 
             while (TestMatrixState.validatingOrPending(testMatrixId)) {
