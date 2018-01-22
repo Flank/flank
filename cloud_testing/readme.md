@@ -62,3 +62,18 @@ API Discovery JSON may be converted to Swagger V2 using [apimatic.io/transformer
 > prism run --mock --list --spec testing_v1_swagger_2.json
 
 For example, visiting `http://localhost:4010/v1/projects/123/testMatrices/456` will return a random valid result based on the Swagger schema.
+
+`cloud_testing/apis/testing/src/main/java/com/google/testing/Testing.java` has been modified to remove final from:
+
+```java
+public static String DEFAULT_ROOT_URL = "https://testing.googleapis.com/";
+```
+
+This enables pointing to the mock server with:
+
+```kotlin
+init {
+  // Use mock server
+  Testing.DEFAULT_ROOT_URL = "http://localhost:4010/"
+}
+```

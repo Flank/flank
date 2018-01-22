@@ -1,5 +1,10 @@
-package ftl
+package ftl.util
 
+import com.google.cloud.ServiceOptions
+import java.lang.Thread.sleep
+import java.nio.file.Paths
+import java.time.Duration
+import java.time.Duration.ofSeconds
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -8,9 +13,13 @@ import java.util.*
 
 object Utils {
 
-    fun sleep(milliseconds: Int) {
+    fun join(first: String, vararg more: String): String {
+        return Paths.get(first, *more).toString()
+    }
+
+    fun sleep(seconds: Long) {
         try {
-            Thread.sleep(milliseconds.toLong())
+            Thread.sleep(ofSeconds(seconds).toMillis())
         } catch (e: Exception) {
         }
 
@@ -69,4 +78,19 @@ object Utils {
         return bucketName.toString()
     }
 
+    // gcloud config get-value project
+    //
+    // cat ~/.config/gcloud/active_config
+    // cat ~/.config/gcloud/configurations/config_default
+    //
+    // export GOOGLE_APPLICATION_CREDENTIALS="path/to/secrets.json"
+    private fun checkProjectId() {
+        ServiceOptions.getDefaultProjectId() ?: throw RuntimeException(
+                "Project ID not found. Is GOOGLE_APPLICATION_CREDENTIALS defined?\n" + " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id")
+
+    }
+
+    init {
+        checkProjectId()
+    }
 }

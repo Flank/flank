@@ -1,20 +1,25 @@
-package task
+package ftl.reports
 
 import com.sun.org.apache.xerces.internal.dom.DeferredElementImpl
-import ftl.GlobalConfig
-import ftl.TestRunner.testResultRgx
+import ftl.Main
+import ftl.config.FtlConstants
+import ftl.util.ArtifactRegex.testResultRgx
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 import javax.xml.parsers.DocumentBuilderFactory
 
-object MergeResults {
+/** Used to create summary.csv from merging all the JUnit XML results **/
+object MergeJUnitResults {
 
     fun execute() {
         val xmlFiles = mutableListOf<File>()
         val results = mutableMapOf<String, Int>()
 
-        File(GlobalConfig.results).walk().forEach {
+        val rootFolderPath = Paths.get(FtlConstants.localResultsDir, Main.lastGcsPath())
+        val rootFolder = rootFolderPath.toFile()
+
+        rootFolder.walk().forEach {
             if (it.name.matches(testResultRgx)) {
                 xmlFiles.add(it)
             }
@@ -38,10 +43,12 @@ object MergeResults {
             }
         }
 
-        val csv = Paths.get(GlobalConfig.results, "summary.csv")
+        val csv = Paths.get(rootFolderPath.toString(), "summary.csv")
         val csvData = StringBuilder()
 
-        results.forEach {
+        val sorted = results.toList().sortedByDescending { (_, value) -> value }.toMap()
+
+        sorted.forEach {
             csvData.append(it.key, ',', it.value, "\n")
         }
 
@@ -50,6 +57,6 @@ object MergeResults {
 
     @JvmStatic
     fun main(args: Array<String>) {
-       execute()
+        execute()
     }
 }
