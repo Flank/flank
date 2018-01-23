@@ -245,7 +245,7 @@ object Main {
                 it.update(refreshedMatrix)
 
                 val state = refreshedMatrix.state
-                println("  $matrixId} $state ${stopwatch.end()}")
+                println("  $matrixId $state ${stopwatch.end()}")
 
                 if (!MatrixState.inProgress(state)) break
                 sleep(15)

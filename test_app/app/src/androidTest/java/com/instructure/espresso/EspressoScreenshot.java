@@ -81,6 +81,7 @@ public abstract class EspressoScreenshot {
         try {
             screenshotFolder.mkdirs();
         } catch (Exception ignored) {
+            Log.e(TAG, "Failed to make screenshot folder " + screenshotFolder);
         }
     }
 
@@ -94,11 +95,11 @@ public abstract class EspressoScreenshot {
         File imageFile = new File(screenshotFolder, screenshotName);
         BufferedOutputStream out = null;
         try {
-            Log.i(TAG, "Starting to save screenshot");
+            Log.i(TAG, "Saving screenshot to " + imageFile.getAbsolutePath());
             out = new BufferedOutputStream(new FileOutputStream(imageFile));
             capture.getBitmap().compress(capture.getFormat(), 100, out);
             out.flush();
-            Log.i(TAG, "Finished saving screenshot");
+            Log.i(TAG, "Screenshot exists? " + imageFile.exists());
         } catch (Exception ignored) {
             Log.e(TAG, ignored.toString());
             ignored.printStackTrace();
