@@ -1,4 +1,4 @@
-package ftl
+package ftl.gc
 
 import com.google.common.collect.Lists
 import com.google.testing.model.AndroidMatrix

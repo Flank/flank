@@ -1,4 +1,4 @@
-package ftl
+package ftl.util
 
 import java.util.concurrent.TimeUnit
 
@@ -23,6 +23,9 @@ class StopWatch {
     }
 
     fun end(): String {
+        if (startTime == 0L) {
+            throw RuntimeException("startTime is zero. start not called")
+        }
         endTime = System.currentTimeMillis()
         val duration = endTime - startTime
 

@@ -1,24 +1,27 @@
+import org.gradle.kotlin.dsl.extra
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.Coroutines
 
 group = "kotlin_poc"
 version = "1.0-SNAPSHOT"
 
-val kotlinVersion: String by extra
 buildscript {
-    val kotlinVersion: String by extra
-    extra["kotlinVersion"] = "1.2.20"
-
     repositories {
         jcenter()
     }
 
     dependencies {
-        classpath(kotlin("gradle-plugin", kotlinVersion))
+        classpath(kotlin("gradle-plugin", Deps.kotlinVersion))
     }
 }
 
 plugins {
     application
+    kotlin("jvm") version Deps.kotlinVersion
+}
+
+kotlin {
+    experimental.coroutines = Coroutines.ENABLE
 }
 
 apply {
@@ -34,6 +37,11 @@ repositories {
 }
 
 dependencies {
+    compile("com.google.code.gson:gson:2.8.2")
+
+    // https://github.com/Kotlin/kotlinx.coroutines/releases
+    compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21.2")
+
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.cloud%22%20AND%20a%3A%22google-cloud-storage%22
     compile("com.google.cloud:google-cloud-storage:1.14.0")
 
@@ -45,7 +53,7 @@ dependencies {
 
     compile(project(":testing"))
 
-    compile(kotlin("stdlib-jre8", kotlinVersion))
+    compile(kotlin("stdlib-jre8", Deps.kotlinVersion))
     testCompile("junit:junit:4.12")
 }
 
