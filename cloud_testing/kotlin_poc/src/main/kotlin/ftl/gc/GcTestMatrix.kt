@@ -18,7 +18,7 @@ object GcTestMatrix {
             testApkGcsPath: String,
             runGcsPath: String,
             androidMatrix: AndroidMatrix,
-            testTargets: String? = null,
+            testTargets: List<String>? = null,
             runConfig: RunConfig): Testing.Projects.TestMatrices.Create {
         // https://github.com/bootstraponline/studio-google-cloud-testing/blob/203ed2890c27a8078cd1b8f7ae12cf77527f426b/firebase-testing/src/com/google/gct/testing/launcher/CloudTestsLauncher.java#L120
         val testMatrix = TestMatrix()
@@ -33,8 +33,8 @@ object GcTestMatrix {
                 .setTestApk(FileReference().setGcsPath(testApkGcsPath))
                 .setOrchestratorOption(runConfig.useOrchestrator)
 
-        if (testTargets != null) {
-            androidInstrumentation.testTargets = Lists.newArrayList(testTargets)
+        if (testTargets != null && testTargets.isNotEmpty()) {
+            androidInstrumentation.testTargets = testTargets
         }
 
         val testTimeoutSeconds = TimeUnit.MINUTES.toSeconds(runConfig.testTimeoutMinutes)
