@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.google.testing.Testing
 import com.google.testing.model.TestMatrix
+import com.linkedin.dex.parser.DexParser
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.appApk
 import ftl.config.FtlConstants.localResultsDir
@@ -35,6 +36,7 @@ import java.nio.file.Paths
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.util.stream.Collectors
 
 object Main {
     private var useMock = false
@@ -54,13 +56,31 @@ object Main {
         if (!baseUrl.contains("localhost")) throw RuntimeException("expected localhost")
     }
 
-    private suspend fun runTests(shardCount: Int): MatrixMap {
+    private suspend fun runTests(shardCount: Int, testMethods: List<String>?): MatrixMap {
         println("runTests")
         val stopwatch = StopWatch().start()
         assertMockUrl()
 
         val runGcsPath = uniqueObjectName()
         val runConfig = RunConfig(testTimeoutMinutes = 60)
+        var testTargets: List<String>? = null
+
+        if (testMethods != null) {
+            val apkTestMethods = DexParser.findTestNames(testApk.toString())
+
+            val missingMethods = mutableListOf<String>()
+            testMethods.forEach { testMethod ->
+                if (!apkTestMethods.contains(testMethod)) {
+                    missingMethods.add(testMethod)
+                }
+            }
+
+            if (missingMethods.isNotEmpty()) {
+                throw RuntimeException("Methods not found in test apk: $missingMethods")
+            }
+
+            testTargets = testMethods.stream().map { i -> "class " + i }.collect(Collectors.toList())
+        }
 
         // GcAndroidMatrix => GcTestMatrix
         // GcTestMatrix.execute() 3x retry => matrix id (string)
@@ -80,6 +100,7 @@ object Main {
                         apks.second,
                         runGcsPath,
                         androidMatrix,
+                        testTargets,
                         runConfig = runConfig).execute()
             }
         }
@@ -263,8 +284,8 @@ object Main {
         fetchArtifacts(matrixMap)
     }
 
-    suspend fun newRun(shardCount: Int, waitForResults: Boolean = true) {
-        val matrixMap = runTests(shardCount)
+    suspend fun newRun(shardCount: Int, waitForResults: Boolean = true, testMethods: List<String>?) {
+        val matrixMap = runTests(shardCount, testMethods)
 
         if (waitForResults) {
             pollMatrices(matrixMap)
@@ -276,9 +297,11 @@ object Main {
     @JvmStatic
     fun main(args: Array<String>) {
         runBlocking {
-//            deleteResults()
-//            newRun(shardCount = 1, waitForResults = false)
-//            refreshLastRun()
+            // deleteResults()
+            newRun(shardCount = 1,
+                    waitForResults = true,
+                    testMethods = listOf("com.example.app.ExampleUiTest#testPasses"))
+            // refreshLastRun()
         }
     }
 }
