@@ -21,3 +21,10 @@ Implementation details:
 ## todo
 
 - Android Studio import test results
+
+## Authorization
+
+- `gcloud components update`
+- `gcloud config set project <PROJECT-ID>`
+- `gcloud auth login`
+- Save the application default credential to `~/.config/gcloud/application_default_credentials.json`
