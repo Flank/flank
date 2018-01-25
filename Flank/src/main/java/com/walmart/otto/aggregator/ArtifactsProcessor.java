@@ -53,6 +53,13 @@ class ArtifactsProcessor {
         reportBaseDir.resolve(
             testCase.getShardName() + File.separator + matrixName + File.separator + "logcat");
 
+    if (!Files.exists(sourceLogcatFile)) {
+      System.err.printf(
+          "Can't process logcat file for %s. Expected file %s does not exist.%n",
+          testCase.getId(), sourceLogcatFile.toString());
+      return;
+    }
+
     Path logcatsFolder = getOrCreateChildFolder(reportBaseDir, "logcat");
     Path testLogcatFile = logcatsFolder.resolve(testCase.getId() + ".txt");
 
@@ -62,13 +69,6 @@ class ArtifactsProcessor {
     Instant firstTestStartedTime = null;
     Instant targetTestStartedTime = null;
     Instant targetTestFinishedTime = null;
-
-    if (!Files.exists(sourceLogcatFile)) {
-      System.err.printf(
-          "Can't process logcat file for %s. Expected file %s does not exist.%n",
-          testCase.getId(), sourceLogcatFile.toString());
-      return;
-    }
 
     try (BufferedReader reader = Files.newBufferedReader(sourceLogcatFile);
         BufferedWriter writer = Files.newBufferedWriter(testLogcatFile, Charset.forName("UTF-8"))) {
