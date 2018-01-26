@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
+
     defaultConfig {
         applicationId "com.example.app"
         minSdkVersion 21
@@ -10,11 +11,17 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    testOptions {
+        animationsDisabled = true
+        execution 'ANDROID_TEST_ORCHESTRATOR'
     }
 }
 
@@ -24,9 +31,12 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
     def runnerVersion = '1.0.2-alpha1'
+    def orchestratorVersion = runnerVersion
     def espressoVersion = '3.0.2-alpha1'
 
+    androidTestUtil "com.android.support.test:orchestrator:$orchestratorVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "com.android.support.test:runner:$runnerVersion"
     testImplementation 'junit:junit:4.12'
+
 }

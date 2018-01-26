@@ -16,10 +16,6 @@ import static junit.framework.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class ExampleUiTest {
 
-    static {
-        EspressoScreenshot.deleteAllScreenshots();
-    }
-
     @Rule
     public GrantPermissionRule enableSavingScreenshots = GrantPermissionRule.grant(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,

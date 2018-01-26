@@ -65,18 +65,6 @@ public abstract class EspressoScreenshot {
         return result.toString();
     }
 
-    public static void deleteAllScreenshots() {
-        try {
-            File[] screenshots = screenshotFolder.listFiles();
-            if (screenshots == null) return;
-
-            for (File screenshot : screenshots) {
-                screenshot.delete();
-            }
-        } catch (Exception ignored) {
-        }
-    }
-
     private static void prepareScreenshotPath() {
         try {
             screenshotFolder.mkdirs();
