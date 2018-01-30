@@ -88,7 +88,6 @@ devices=model:Nexus5X;version:23;orientation:portrait;locale:en,\
         model:Nexus6P;version:24,\
         model:NexusLowRes;version:26
 
-skip-tests=com.example.app.screenshot,com.example.app.excluded
 numShards=  
 shardIndex=
 debug-prints=false  
