@@ -14,22 +14,30 @@ To use Flank, please sign up for Firebase Test Lab and install the Google Cloud 
 
 ### Download
 
-Either [download Flank from here](https://bintray.com/flank1/Flank/download_file?file_path=Flank-1.7.0.jar)
+Either [download Flank from here](https://bintray.com/flank1/Flank/download_file?file_path=Flank-2.0.0.jar)
 
 or
 
 Use curl:
 
 ```console
-curl --location --fail https://dl.bintray.com/flank1/Flank/Flank-1.7.0.jar --output Flank-1.7.0.jar
+curl --location --fail https://dl.bintray.com/flank1/Flank/Flank-2.0.0.jar --output Flank-2.0.0.jar
 ```
 
 ### Run Tests
 
-To runs tests with Flank you will need the app and test apk's. You can specify in which package you would like tests to run. A single class or test can also be executed (package_name.class_name#method_name). If no package name is provided all the tests will be executed. Usage:
+To runs tests with Flank you will need the app and test apk's. You can specify in which class/package/annotation/testFile you would like tests to run by using ```-f```. If ```-f``` is not provided all the tests will be executed. Usage:
 
 ```
-java -jar Flank-1.7.0.jar <app-apk> <test-apk> [package-name]
+java -jar Flank-2.0.0.jar -a app-apk -t test-apk -f "class/package/annotation/testFile name"
+
+"class foo.FooTest, bar.BarTest" executes only the tests in the given class(es)
+"class foo.FooTest#testFoo, bar.BarTest#testBar" executes only the given test(s)
+"package foo, bar" executes only the tests in the given package(s)
+"annotation foo.MyAnnotation, bar.MyAnnotation" executes only the tests annotated with the given annotation(s)
+"testFile path/to/file" executes only the tests listed in the given file. The file should contain a list of line separated package names or test classes and optionally methods
+
+To invert the operator add the 'not' prefix. For example, 'notPackage' executes all the tests except the ones in the given package.
 ```
 
 When the executions are completed Flanks will fetch the xml result files, add device name to the tests and store the files in a folder named: ```results```.
@@ -47,7 +55,6 @@ directories-to-pull: If directories from the device should be pulled
 use-orchestrator: To enable Android Test Orchestrator
 shard-timeout: Timeout in minutes for each shard
 shard-duration: Duration in seconds for each shard
-skip-tests: Tests that should be excluded
 
 numShards: Number of shards
 shardIndex: If a specific shard should be executed
