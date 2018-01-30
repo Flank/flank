@@ -286,7 +286,7 @@ public class Flank {
       throw new IllegalStateException("No tests to run!");
     }
 
-    System.out.printf("\nRunning %d out of %d tests", filteredTests.size(), testMethods.size());
+    System.out.printf("%nRunning %d out of %d tests", filteredTests.size(), testMethods.size());
     System.out.println();
 
     return filteredTests;
