@@ -190,11 +190,15 @@ public class Flank {
   }
 
   private void printEstimates() {
-    Double totalBillableTime = PriceReporter.getTotalBillableTime(TimeReporter.getExecutionTimes());
-    if (TimeReporter.getExecutionTimes().size() > 0) {
+
+    List<Integer> executionTimes = TimeReporter.getExecutionTimes();
+
+    //If no test time values have been parsed we can't calculate billable time & cost
+    if (!executionTimes.isEmpty()) {
+      Double totalBillableTime = PriceReporter.getTotalBillableTime(executionTimes);
+
       System.out.println("\nBillable time: " + totalBillableTime + " min(s) \n");
-      HashMap<String, BigDecimal> prices =
-          PriceReporter.getTotalPrice(TimeReporter.getExecutionTimes());
+      HashMap<String, BigDecimal> prices = PriceReporter.getTotalPrice(executionTimes);
       System.out.print("Estimated cost: ");
       for (Map.Entry<String, BigDecimal> price : prices.entrySet()) {
         System.out.print("$" + price.getValue() + "(" + price.getKey() + ") ");
@@ -282,7 +286,8 @@ public class Flank {
       throw new IllegalStateException("No tests to run!");
     }
 
-    System.out.printf("Running %d out of %d tests", filteredTests.size(), testMethods.size());
+    System.out.printf("\nRunning %d out of %d tests", filteredTests.size(), testMethods.size());
+    System.out.println();
 
     return filteredTests;
   }
