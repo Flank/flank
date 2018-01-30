@@ -190,15 +190,18 @@ public class Flank {
   }
 
   private void printEstimates() {
-    System.out.println(
-        "\nBillable time: "
-            + PriceReporter.getTotalBillableTime(TimeReporter.getExecutionTimes())
-            + " min(s) \n");
-    HashMap<String, BigDecimal> prices =
-        PriceReporter.getTotalPrice(TimeReporter.getExecutionTimes());
-    System.out.print("Estimated cost: ");
-    for (Map.Entry<String, BigDecimal> price : prices.entrySet()) {
-      System.out.print("$" + price.getValue() + "(" + price.getKey() + ") ");
+    Double totalBillableTime = PriceReporter.getTotalBillableTime(TimeReporter.getExecutionTimes());
+    if(totalBillableTime != 0.00) {
+      System.out.println(
+              "\nBillable time: "
+                      + totalBillableTime
+                      + " min(s) \n");
+      HashMap<String, BigDecimal> prices =
+              PriceReporter.getTotalPrice(TimeReporter.getExecutionTimes());
+      System.out.print("Estimated cost: ");
+      for (Map.Entry<String, BigDecimal> price : prices.entrySet()) {
+        System.out.print("$" + price.getValue() + "(" + price.getKey() + ") ");
+      }
     }
   }
 
