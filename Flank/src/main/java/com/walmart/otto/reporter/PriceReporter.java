@@ -54,9 +54,13 @@ public class PriceReporter {
   }
 
   public static Integer getBillableTime(Number totalTimeInSecs) {
-    double time = totalTimeInSecs.doubleValue() / 60;
-    int roundedTime = (int) Math.ceil(time);
-    return roundedTime;
+    if (totalTimeInSecs != null) {
+      double time = totalTimeInSecs.doubleValue() / 60;
+      int roundedTime = (int) Math.ceil(time);
+      return roundedTime;
+    } else {
+      return 0;
+    }
   }
 
   private static HashMap getPricePerMinForDevice() {
