@@ -191,7 +191,7 @@ public class Flank {
 
   private void printEstimates() {
     Double totalBillableTime = PriceReporter.getTotalBillableTime(TimeReporter.getExecutionTimes());
-    if (totalBillableTime != 0.00) {
+    if (TimeReporter.getExecutionTimes().size() > 0) {
       System.out.println("\nBillable time: " + totalBillableTime + " min(s) \n");
       HashMap<String, BigDecimal> prices =
           PriceReporter.getTotalPrice(TimeReporter.getExecutionTimes());
