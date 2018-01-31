@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit
 class StopWatch {
 
     private var startTime: Long = 0
-    private var endTime: Long = 0
 
     fun start(): StopWatch {
         startTime = System.currentTimeMillis()
@@ -22,11 +21,11 @@ class StopWatch {
         return TimeUnit.MILLISECONDS.toSeconds(duration)
     }
 
-    fun end(): String {
+    fun check(): String {
         if (startTime == 0L) {
             throw RuntimeException("startTime is zero. start not called")
         }
-        endTime = System.currentTimeMillis()
+        val endTime = System.currentTimeMillis()
         val duration = endTime - startTime
 
         val minutes = minutes(duration)
@@ -37,7 +36,6 @@ class StopWatch {
 
     fun reset(): StopWatch {
         startTime = 0
-        endTime = 0
         return this
     }
 }

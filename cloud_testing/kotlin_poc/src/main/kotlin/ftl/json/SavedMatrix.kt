@@ -1,9 +1,9 @@
 package ftl.json
 
 import com.google.testing.model.TestMatrix
-import ftl.util.MatrixState.FINISHED
 import ftl.gc.GcToolResults
 import ftl.util.Billing
+import ftl.util.MatrixState.FINISHED
 import ftl.util.firstToolResults
 import ftl.util.webLink
 
@@ -43,7 +43,7 @@ class SavedMatrix(matrix: TestMatrix) {
     private fun finished(matrix: TestMatrix) {
         val toolResultsStep = matrix.firstToolResults()
         if (toolResultsStep != null) {
-           val step = GcToolResults.getResults(toolResultsStep)
+            val step = GcToolResults.getResults(toolResultsStep)
             testDurationSeconds = step.testExecutionStep.testTiming.testProcessDuration.seconds
             runDurationSeconds = step.runDuration.seconds
             billableMinutes = Billing.billableMinutes(testDurationSeconds)

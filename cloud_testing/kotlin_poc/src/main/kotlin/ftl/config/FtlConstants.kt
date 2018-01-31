@@ -12,6 +12,7 @@ import java.nio.file.Paths
 
 object FtlConstants {
 
+    const val indent = "  "
     const val matrixIdsFile = "matrix_ids.json"
     const val applicationName = "Flank"
     val projectId = ServiceOptions.getDefaultProjectId()!!
@@ -44,11 +45,7 @@ object FtlConstants {
         return targetApk
     }
 
-    val testApk = getApk("app-debug-androidTest.apk")
     val testErrorApk = getApk("error-androidTest.apk")
 
-    val appApk = getApk("app-debug.apk")
-
     const val localResultsDir = "results"
-    const val rootGcsBucket = "tmp_bucket_2"
 }

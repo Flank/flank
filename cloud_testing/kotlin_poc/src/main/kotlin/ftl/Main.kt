@@ -5,20 +5,21 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.google.testing.Testing
 import com.google.testing.model.TestMatrix
-import com.linkedin.dex.parser.DexParser
 import ftl.config.FtlConstants
-import ftl.config.FtlConstants.appApk
+import ftl.config.FtlConstants.indent
 import ftl.config.FtlConstants.localResultsDir
 import ftl.config.FtlConstants.matrixIdsFile
-import ftl.config.FtlConstants.testApk
-import ftl.config.RunConfig
+import ftl.config.YamlConfig
 import ftl.gc.GcAndroidMatrix
 import ftl.gc.GcStorage.storage
-import ftl.gc.GcStorage.uploadApk
+import ftl.gc.GcStorage.uploadAppApk
+import ftl.gc.GcStorage.uploadTestApk
 import ftl.gc.GcTestMatrix
 import ftl.gc.GcTesting
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
+import ftl.reports.CostSummary
+import ftl.reports.ResultSummary
 import ftl.util.ArtifactRegex.screenshotRgx
 import ftl.util.ArtifactRegex.testResultRgx
 import ftl.util.MatrixState
@@ -56,30 +57,16 @@ object Main {
         if (!baseUrl.contains("localhost")) throw RuntimeException("expected localhost")
     }
 
-    private suspend fun runTests(shardCount: Int, testMethods: List<String>?): MatrixMap {
+    private suspend fun runTests(config: YamlConfig): MatrixMap {
         println("runTests")
         val stopwatch = StopWatch().start()
         assertMockUrl()
 
         val runGcsPath = uniqueObjectName()
-        val runConfig = RunConfig(testTimeoutMinutes = 60)
         var testTargets: List<String>? = null
 
-        if (testMethods != null) {
-            val apkTestMethods = DexParser.findTestNames(testApk.toString())
-
-            val missingMethods = mutableListOf<String>()
-            testMethods.forEach { testMethod ->
-                if (!apkTestMethods.contains(testMethod)) {
-                    missingMethods.add(testMethod)
-                }
-            }
-
-            if (missingMethods.isNotEmpty()) {
-                throw RuntimeException("Methods not found in test apk: $missingMethods")
-            }
-
-            testTargets = testMethods.stream().map { i -> "class " + i }.collect(Collectors.toList())
+        if (config.testMethods.isNotEmpty()) {
+            testTargets = config.testMethods.stream().map { i -> "class " + i }.collect(Collectors.toList())
         }
 
         // GcAndroidMatrix => GcTestMatrix
@@ -90,10 +77,10 @@ object Main {
                 "en",
                 "portrait")
 
-        val apks = uploadApksInParallel(appApk, testApk, runGcsPath)
+        val apks = uploadApksInParallel(config, runGcsPath)
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
-        repeat(shardCount) {
+        repeat(config.shardCount) {
             jobs += async {
                 GcTestMatrix.build(
                         apks.first,
@@ -101,7 +88,7 @@ object Main {
                         runGcsPath,
                         androidMatrix,
                         testTargets,
-                        runConfig = runConfig).execute()
+                        config = config).execute()
             }
         }
 
@@ -117,23 +104,26 @@ object Main {
 
         updateMatrixFile(matrixMap)
 
-        println("  ${savedMatrices.size} matrix ids created in ${stopwatch.end()}")
+        println(indent + "${savedMatrices.size} matrix ids created in ${stopwatch.check()}")
+        println(indent + matrixMap.runPath)
+        println()
 
         return matrixMap
     }
 
-    private fun updateMatrixFile(matrixMap: MatrixMap) {
-        val matrixIdsFile = Paths.get(FtlConstants.localResultsDir, matrixMap.runPath, matrixIdsFile)
-        matrixIdsFile.parent.toFile().mkdirs()
-        Files.write(matrixIdsFile, gson.toJson(matrixMap.map).toByteArray())
+    private fun updateMatrixFile(matrixMap: MatrixMap): Path {
+        val matrixIdsPath = Paths.get(FtlConstants.localResultsDir, matrixMap.runPath, matrixIdsFile)
+        matrixIdsPath.parent.toFile().mkdirs()
+        Files.write(matrixIdsPath, gson.toJson(matrixMap.map).toByteArray())
+        return matrixIdsPath
     }
 
     /** @return Pair(app apk, test apk) **/
-    private suspend fun uploadApksInParallel(appApk: Path, testApk: Path, runGcsPath: String): Pair<String, String> {
+    private suspend fun uploadApksInParallel(config: YamlConfig, runGcsPath: String): Pair<String, String> {
         if (useMock) return Pair("", "")
 
-        val appApkGcsPath = async { uploadApk(appApk, runGcsPath) }
-        val testApkGcsPath = async { uploadApk(testApk, runGcsPath) }
+        val appApkGcsPath = async { uploadAppApk(config, runGcsPath) }
+        val testApkGcsPath = async { uploadTestApk(config, runGcsPath) }
 
         return Pair(appApkGcsPath.await(), testApkGcsPath.await())
     }
@@ -160,7 +150,7 @@ object Main {
         }
 
         if (matrixCount != 0) {
-            println("  Refreshing ${matrixCount}x matrices")
+            println(indent + "Refreshing ${matrixCount}x matrices")
         }
 
         var dirty = false
@@ -174,7 +164,7 @@ object Main {
         }
 
         if (dirty) {
-            println("  Updating matrix file")
+            println(indent + "Updating matrix file")
             updateMatrixFile(matrixMap)
         }
     }
@@ -196,13 +186,16 @@ object Main {
     fun lastMatrices(): MatrixMap {
         val lastRun = lastGcsPath()
         println("Loading run $lastRun")
+        return matrixPathToObj(lastRun)
+    }
 
-        val json = Paths.get(FtlConstants.localResultsDir, lastRun, matrixIdsFile).toFile().readText()
+    private fun matrixPathToObj(path: String): MatrixMap {
+        val json = Paths.get(FtlConstants.localResultsDir, path, matrixIdsFile).toFile().readText()
 
         val listOfSavedMatrix = object : TypeToken<MutableMap<String, SavedMatrix>>() {}.type
         val map: MutableMap<String, SavedMatrix> = gson.fromJson(json, listOfSavedMatrix)
 
-        return MatrixMap(map, lastRun)
+        return MatrixMap(map, path)
     }
 
     /** fetch test_result_0.xml & *.png **/
@@ -230,9 +223,9 @@ object Main {
                 ) {
                     val downloadFile = Paths.get(localResultsDir, blobPath)
                     if (downloadFile.toFile().exists()) {
-                        println("  Already downloaded: $blobPath")
+                        println(indent + "Already downloaded: $blobPath")
                     } else {
-                        println("  Downloading: $blobPath")
+                        println(indent + "Downloading: $blobPath")
                         downloadFile.parent.toFile().mkdirs()
                         blob.downloadTo(downloadFile)
                     }
@@ -244,7 +237,7 @@ object Main {
         }
 
         if (dirty) {
-            println("  Updating matrix file")
+            println(indent + "Updating matrix file")
             updateMatrixFile(matrixMap)
         }
     } // fun
@@ -252,28 +245,38 @@ object Main {
     /** Synchronously poll all matrix ids until they complete **/
     fun pollMatrices(matrices: MatrixMap) {
         println("pollMatrices")
+        val map = matrices.map
         val poll = matrices.map.values.filter {
             MatrixState.inProgress(it.state)
         }
 
-        val stopwatch = StopWatch()
+        val stopwatch = StopWatch().start()
         poll.forEach {
-            stopwatch.reset().start()
             val matrixId = it.matrixId
 
             while (true) {
                 val refreshedMatrix = GcTestMatrix.refresh(matrixId)
-                it.update(refreshedMatrix)
+                map[matrixId]?.update(refreshedMatrix)
 
                 val state = refreshedMatrix.state
-                println("  $matrixId $state ${stopwatch.end()}")
+                println(indent + "$matrixId $state ${stopwatch.check()}")
 
                 if (!MatrixState.inProgress(state)) break
                 sleep(15)
             }
         }
 
+        poll.forEach { if (it.outcome == Outcome.failure) println(it.webLink) }
+        println()
+
         updateMatrixFile(matrices)
+
+        runReports(matrices)
+    }
+
+    fun runReports(matrixMap: MatrixMap) {
+        CostSummary.run(matrixMap)
+        ResultSummary.run(matrixMap)
     }
 
     // used to update results from an async run
@@ -281,13 +284,14 @@ object Main {
         val matrixMap = lastMatrices()
 
         refreshMatrices(matrixMap)
+        runReports(matrixMap)
         fetchArtifacts(matrixMap)
     }
 
-    suspend fun newRun(shardCount: Int, waitForResults: Boolean = true, testMethods: List<String>?) {
-        val matrixMap = runTests(shardCount, testMethods)
+    suspend fun newRun(config: YamlConfig) {
+        val matrixMap = runTests(config)
 
-        if (waitForResults) {
+        if (config.waitForResults) {
             pollMatrices(matrixMap)
             fetchArtifacts(matrixMap)
         }
@@ -296,11 +300,12 @@ object Main {
     @Throws(Exception::class)
     @JvmStatic
     fun main(args: Array<String>) {
+        val config = YamlConfig.load("./flank.yml")
+        println(config)
+
         runBlocking {
             // deleteResults()
-            newRun(shardCount = 1,
-                    waitForResults = true,
-                    testMethods = listOf("com.example.app.ExampleUiTest#testPasses"))
+            newRun(config)
             // refreshLastRun()
         }
     }
