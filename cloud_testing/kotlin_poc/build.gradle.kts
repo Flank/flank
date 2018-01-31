@@ -63,6 +63,16 @@ dependencies {
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.4")
 }
 
+
+// Fix Exception in thread "main" java.lang.NoSuchMethodError: com.google.common.hash.Hashing.crc32c()Lcom/google/common/hash/HashFunction;
+// https://stackoverflow.com/a/45286710
+configurations.all {
+    resolutionStrategy {
+        force("com.google.guava:guava:23.6-jre")
+        exclude(group = "com.google.guava", module = "guava-jdk5")
+    }
+}
+
 val javaVersion = "1.8"
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
@@ -77,4 +87,15 @@ compileTestKotlin.kotlinOptions {
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+task("fatJar", type = Jar::class) {
+    baseName = "${project.name}-all"
+    manifest {
+        attributes.apply {
+            put("Main-Class", "ftl.Main")
+        }
+    }
+    from(configurations.runtime.map({ if (it.isDirectory) it else zipTree(it) }))
+    with(tasks["jar"] as CopySpec)
 }
