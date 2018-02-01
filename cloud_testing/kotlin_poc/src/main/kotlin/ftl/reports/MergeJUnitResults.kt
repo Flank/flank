@@ -3,6 +3,7 @@ package ftl.reports
 import com.sun.org.apache.xerces.internal.dom.DeferredElementImpl
 import ftl.Main
 import ftl.config.FtlConstants
+import ftl.json.MatrixMap
 import ftl.util.ArtifactRegex.testResultRgx
 import java.io.File
 import java.nio.file.Files
@@ -12,11 +13,11 @@ import javax.xml.parsers.DocumentBuilderFactory
 /** Used to create summary.csv from merging all the JUnit XML results **/
 object MergeJUnitResults {
 
-    fun execute() {
+    fun run(matrixMap: MatrixMap) {
         val xmlFiles = mutableListOf<File>()
         val results = mutableMapOf<String, Int>()
 
-        val rootFolderPath = Paths.get(FtlConstants.localResultsDir, Main.lastGcsPath())
+        val rootFolderPath = Paths.get(FtlConstants.localResultsDir, matrixMap.runPath)
         val rootFolder = rootFolderPath.toFile()
 
         rootFolder.walk().forEach {
@@ -57,6 +58,6 @@ object MergeJUnitResults {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        execute()
+        run(Main.lastMatrices())
     }
 }

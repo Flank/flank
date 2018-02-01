@@ -2,30 +2,42 @@ package ftl.reports
 
 import ftl.Main
 import ftl.config.FtlConstants
+import ftl.config.FtlConstants.indent
+import ftl.json.MatrixMap
 import ftl.util.Billing
 import java.nio.file.Files
 import java.nio.file.Paths
 
 object CostSummary {
 
-    fun execute() {
-        val matrices = Main.lastMatrices()
+    private fun estimate(matrices: MatrixMap): String {
         var totalBillableMinutes = 0L
 
         matrices.map.values.forEach {
             totalBillableMinutes += it.billableMinutes
         }
 
-        val cost = Billing.estimateCosts(totalBillableMinutes)
+        return Billing.estimateCosts(totalBillableMinutes)
+    }
 
-        val rootFolder = Paths.get(FtlConstants.localResultsDir, Main.lastGcsPath()).toString()
+    private fun write(gcsPath: String, cost: String) {
+        val rootFolder = Paths.get(FtlConstants.localResultsDir, gcsPath).toString()
         val costSummaryPath = Paths.get(rootFolder, "cost_summary.txt")
+
+        print("CostSummary")
+        cost.split("\n").forEach { println(indent + it) }
+        println()
 
         Files.write(costSummaryPath, cost.toByteArray())
     }
 
+    fun run(matrices: MatrixMap) {
+        val cost = estimate(matrices)
+        write(matrices.runPath, cost)
+    }
+
     @JvmStatic
     fun main(args: Array<String>) {
-        execute()
+        run(Main.lastMatrices())
     }
 }

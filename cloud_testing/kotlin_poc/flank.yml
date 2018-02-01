@@ -1,0 +1,11 @@
+appApk: ../../test_app/apks/app-debug.apk
+testApk: ../../test_app/apks/app-debug-androidTest.apk
+rootGcsBucket: tmp_bucket_2
+useOrchestrator: true
+disablePerformanceMetrics: true
+disableVideoRecording: false
+testTimeoutMinutes: 60
+shardCount: 1
+waitForResults: true
+testMethods:
+  - com.example.app.ExampleUiTest#testPasses

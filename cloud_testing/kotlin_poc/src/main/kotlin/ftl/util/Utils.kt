@@ -1,9 +1,7 @@
 package ftl.util
 
 import com.google.cloud.ServiceOptions
-import java.lang.Thread.sleep
 import java.nio.file.Paths
-import java.time.Duration
 import java.time.Duration.ofSeconds
 import java.time.Instant
 import java.time.ZoneOffset
