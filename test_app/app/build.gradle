@@ -40,3 +40,18 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 
 }
+
+// Run espresso tests *without* building the APKs.
+// Useful for quickly running tests locally when the APKs already exist.
+//
+// Generates:
+// test_app/app/build/outputs/androidTest-results/connected/TEST-*.xml
+// test_app/app/build/reports/androidTests/connected/index.html
+//
+// gradle --configure-on-demand espresso
+task espresso << {
+    def testTask = project.tasks["connectedDebugAndroidTest"]
+    def runTestsAction = testTask.getActions().get(0)
+
+    runTestsAction.execute(testTask)
+}
