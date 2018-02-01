@@ -4,6 +4,7 @@ import com.sun.org.apache.xerces.internal.dom.DeferredElementImpl
 import ftl.Main
 import ftl.config.FtlConstants
 import ftl.json.MatrixMap
+import ftl.run.TestRunner
 import ftl.util.ArtifactRegex.testResultRgx
 import java.io.File
 import java.nio.file.Files
@@ -58,6 +59,6 @@ object MergeJUnitResults {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        run(Main.lastMatrices())
+        run(TestRunner.lastMatrices())
     }
 }

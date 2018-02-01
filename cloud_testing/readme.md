@@ -5,18 +5,18 @@ Google provides [two types of client libraries:](https://cloud.google.com/apis/d
 - `google-api-services-*` - legacy
   - `google-api-services-storage`
   - `google-api-services-toolresults`
-  - `google-api-services-testing` - source code not published
+  - `google-api-services-testing`
 - `google-cloud-*` - newest
   - `google-cloud-storage`
 
 ## Discovery JSON
 
-The discovery JSON is useful for understanding APIs and producing clients automatically. Note that the online discovery JSON may be very out of date. It's recommended to use the JSON descriptions included with the `google-cloud-sdk` for the most recent version.
+The discovery JSON is useful for understanding APIs and producing clients automatically. The discovery JSON contains the latest changes.
 
 - [toolresults/v1beta3/](https://www.googleapis.com/discovery/v1/apis/toolresults/v1beta3/rest)
 - [testing/v1](https://www.googleapis.com/discovery/v1/apis/testing/v1/rest) or [testing](https://testing.googleapis.com/$discovery/rest?version=v1)
 - [storage/v1](https://www.googleapis.com/discovery/v1/apis/storage/v1/rest)
-- `google-cloud-sdk\lib\googlecloudsdk\third_party\apis` contains the JSON descriptions locally
+- `google-cloud-sdk\lib\googlecloudsdk\third_party\apis` has older JSON versions. Not recommended for use.
   - `storage_v1.json`
   - `toolresults_v1beta3.json`
   - `testing_v1.json`
@@ -27,16 +27,16 @@ See [client generation](client_generation.md) for more information.
 
 Published on [maven central](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.cloud%22%20AND%20a%3A%22google-cloud-storage%22)
 
-`com.google.cloud:google-cloud-storage:1.2.0`
+`com.google.cloud:google-cloud-storage:1.15.0`
 
 - [google-cloud-storage github](https://github.com/GoogleCloudPlatform/google-cloud-java/tree/master/google-cloud-storage)
-- [google-cloud-storage JavaDoc](http://googlecloudplatform.github.io/google-cloud-java/0.20.0/apidocs/?com/google/cloud/storage/package-summary.html)
+- [google-cloud-storage JavaDoc](http://googlecloudplatform.github.io/google-cloud-java/latest/apidocs/?com/google/cloud/storage/package-summary.html)
 
 ## google-api-services-toolresults
 
 Published on [maven central](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-toolresults%22)
 
-`com.google.apis:google-api-services-toolresults:v1beta3-rev242-1.22.0`
+`com.google.apis:google-api-services-toolresults:v1beta3-rev351-1.21.0 `
 
 - [Not on GitHub](https://github.com/google/google-api-java-client)
 - [google-api-services-toolresults website](https://developers.google.com/api-client-library/java/apis/toolresults/v1beta3)
@@ -44,7 +44,13 @@ Published on [maven central](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22
 
 ## google-api-services-testing
 
-Generated automatically from `gcloud-cli/googlecloudsdk/third_party/apis/testing_v1.json` using the master branch of [apis-client-generator](https://github.com/google/apis-client-generator). Not currently published by Google.
+Client may be generated manually using `testing_v1.json` and the master branch of [apis-client-generator](https://github.com/google/apis-client-generator). Google also publishes official clients:
+
+- [Java](https://developers.google.com/api-client-library/java/apis/testing/v1)
+- [Python](https://developers.google.com/api-client-library/python/apis/testing/v1)
+- [.NET](https://developers.google.com/api-client-library/dotnet/apis/testing/v1)
+- [Ruby](https://developers.google.com/api-client-library/ruby/apis/testing/v1)
+- [Go](https://github.com/google/google-api-go-client/tree/master/testing/v1)
 
 ## Clone
 - `git clone https://android.googlesource.com/platform/tools/studio/google/cloud/testing`

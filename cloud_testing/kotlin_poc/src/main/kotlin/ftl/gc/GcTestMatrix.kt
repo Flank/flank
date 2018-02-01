@@ -1,7 +1,7 @@
 package ftl.gc
 
-import com.google.testing.Testing
-import com.google.testing.model.*
+import com.google.api.services.testing.Testing
+import com.google.api.services.testing.model.*
 import ftl.config.FtlConstants.projectId
 import ftl.config.YamlConfig
 import ftl.util.Utils.fatalError

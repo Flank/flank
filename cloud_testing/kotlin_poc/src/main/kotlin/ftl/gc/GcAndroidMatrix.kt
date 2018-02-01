@@ -1,7 +1,7 @@
 package ftl.gc
 
+import com.google.api.services.testing.model.AndroidMatrix
 import com.google.common.collect.Lists
-import com.google.testing.model.AndroidMatrix
 
 object GcAndroidMatrix {
 

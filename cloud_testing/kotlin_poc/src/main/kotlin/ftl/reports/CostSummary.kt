@@ -4,6 +4,7 @@ import ftl.Main
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.indent
 import ftl.json.MatrixMap
+import ftl.run.TestRunner
 import ftl.util.Billing
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -38,6 +39,6 @@ object CostSummary {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        run(Main.lastMatrices())
+        run(TestRunner.lastMatrices())
     }
 }
