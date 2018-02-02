@@ -115,8 +115,8 @@ public class GcloudTool extends Tool {
         latestExecutionTime = Integer.parseInt(timeLine[1].replaceAll("\\D+", ""));
         TimeReporter.addExecutionTime(Integer.parseInt(timeLine[1].replaceAll("\\D+", "")));
       } else if (line.contains("ERROR")) {
-        //TODO retry when error is returned from FTL
-        //throw new RuntimeException(line);
+        System.out.println("Gcloud command failed to run. Reporting that tests failed.\n" + line);
+        testFailed = true;
       }
     }
 
