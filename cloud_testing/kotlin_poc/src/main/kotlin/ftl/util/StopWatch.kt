@@ -21,7 +21,7 @@ class StopWatch {
         return TimeUnit.MILLISECONDS.toSeconds(duration)
     }
 
-    fun check(): String {
+    fun check(indent: Boolean = false): String {
         if (startTime == 0L) {
             throw RuntimeException("startTime is zero. start not called")
         }
@@ -31,7 +31,13 @@ class StopWatch {
         val minutes = minutes(duration)
         val seconds = seconds(duration) % 60
 
-        return String.format("%dm %ds", minutes, seconds)
+        // align seconds
+        // 3m  0s
+        // 2m 23s
+        var space = " "
+        if (indent && seconds < 10) space = "  "
+
+        return String.format("%dm$space%ds", minutes, seconds)
     }
 
     fun reset(): StopWatch {

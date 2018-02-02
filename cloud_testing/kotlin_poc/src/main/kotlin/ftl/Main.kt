@@ -4,6 +4,7 @@ import com.google.cloud.storage.Storage
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.google.testing.Testing
+import com.google.testing.model.TestDetails
 import com.google.testing.model.TestMatrix
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.indent
@@ -105,7 +106,9 @@ object Main {
         updateMatrixFile(matrixMap)
 
         println(indent + "${savedMatrices.size} matrix ids created in ${stopwatch.check()}")
-        println(indent + matrixMap.runPath)
+        val gcsBucket = "https://console.developers.google.com/storage/browser/" +
+                config.rootGcsBucket + "/" + matrixMap.runPath
+        println(indent + gcsBucket)
         println()
 
         return matrixMap
@@ -253,17 +256,9 @@ object Main {
         val stopwatch = StopWatch().start()
         poll.forEach {
             val matrixId = it.matrixId
+            val completedMatrix = pollMatrix(matrixId, stopwatch)
 
-            while (true) {
-                val refreshedMatrix = GcTestMatrix.refresh(matrixId)
-                map[matrixId]?.update(refreshedMatrix)
-
-                val state = refreshedMatrix.state
-                println(indent + "$matrixId $state ${stopwatch.check()}")
-
-                if (!MatrixState.inProgress(state)) break
-                sleep(15)
-            }
+            map[matrixId]?.update(completedMatrix)
         }
 
         poll.forEach { if (it.outcome == Outcome.failure) println(it.webLink) }
@@ -272,6 +267,58 @@ object Main {
         updateMatrixFile(matrices)
 
         runReports(matrices)
+    }
+
+    // Used for when the matrix has exactly one test. Polls for detailed progress
+    //
+    // Port of MonitorTestExecutionProgress
+    // gcloud-cli/googlecloudsdk/api_lib/firebase/test/matrix_ops.py
+    fun pollMatrix(matrixId: String, stopwatch: StopWatch): TestMatrix {
+        var lastState = ""
+        var error: String?
+        var progress = listOf<String>()
+        var lastProgressLen = 0
+        var refreshedMatrix: TestMatrix
+
+        fun puts(msg: String) {
+            val timestamp = stopwatch.check(indent = true)
+            println("$indent$timestamp $matrixId $msg")
+        }
+
+        while (true) {
+            refreshedMatrix = GcTestMatrix.refresh(matrixId)
+
+            val firstTestStatus = refreshedMatrix.testExecutions.first()
+
+            val details: TestDetails? = firstTestStatus.testDetails
+            if (details != null) {
+                error = details.errorMessage
+                if (error != null) {
+                    puts("Error: $error")
+                }
+                progress = details.progressMessages ?: progress
+            }
+
+            // if the matrix is already completed, return after checking for error.
+            if (MatrixState.completed(refreshedMatrix.state)) {
+                break
+            }
+
+            // Progress contains all messages. only print new updates
+            for (msg in progress.listIterator(lastProgressLen)) {
+                puts(msg)
+            }
+            lastProgressLen = progress.size
+
+            if (firstTestStatus.state != lastState) {
+                lastState = firstTestStatus.state
+                puts(lastState)
+            }
+
+            sleep(6)
+        }
+
+        return refreshedMatrix
     }
 
     fun runReports(matrixMap: MatrixMap) {
