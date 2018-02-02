@@ -1,8 +1,8 @@
 package ftl.gc
 
+import com.google.api.services.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.ToolResults
 import com.google.api.services.toolresults.model.Step
-import com.google.testing.model.ToolResultsStep
 import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.config.FtlConstants.applicationName
 import ftl.config.FtlConstants.credential

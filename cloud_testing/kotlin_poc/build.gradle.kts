@@ -43,16 +43,17 @@ dependencies {
     compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21.2")
 
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.cloud%22%20AND%20a%3A%22google-cloud-storage%22
-    compile("com.google.cloud:google-cloud-storage:1.14.0")
+    compile("com.google.cloud:google-cloud-storage:1.15.0")
 
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-toolresults%22
-    compile("com.google.apis:google-api-services-toolresults:v1beta3-rev339-1.23.0")
+    compile("com.google.apis:google-api-services-toolresults:v1beta3-rev351-1.21.0")
 
     // Note: dex-test-parse is failing to parse multi-dex Kotlin apks correctly
     // https://github.com/linkedin/dex-test-parser/releases
     // compile("com.linkedin.dextestparser:parser:1.1.0")
 
-    compile(project(":testing"))
+    // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-testing%22
+    compile("com.google.apis:google-api-services-testing:v1-rev23-1.23.0")
 
     compile(kotlin("stdlib-jre8", Deps.kotlinVersion))
     testCompile("junit:junit:4.12")
@@ -69,6 +70,7 @@ dependencies {
 configurations.all {
     resolutionStrategy {
         force("com.google.guava:guava:23.6-jre")
+        force("org.jetbrains.kotlin:kotlin-reflect:${Deps.kotlinVersion}")
         exclude(group = "com.google.guava", module = "guava-jdk5")
     }
 }

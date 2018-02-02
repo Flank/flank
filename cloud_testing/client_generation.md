@@ -1,6 +1,6 @@
 # Overview
 
-The `google-api-*-client` projects are officially marked as `maintenance mode`. They don't have a consistent code generation approach. Each binding appears to do something different. [`apis-client-generator`](https://github.com/google/apis-client-generator) seems to be end of life.
+The `google-api-*-client` projects are officially marked as `maintenance mode`. They don't have a consistent code generation approach. Each binding appears to do something different. [`apis-client-generator`](https://github.com/google/apis-client-generator) is used to generate REST bindings.
 
 The new clients are `google-cloud-*`. They are in the process of adopting the latest code generation tech `googleapis/toolkit` which is gRPC based.
 

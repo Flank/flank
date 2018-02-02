@@ -1,11 +1,12 @@
 {
  "kind": "discovery#restDescription",
+ "etag": "\"-iA1DTNe4s-I6JZXPt1t1Ypy8IU/JA-0ekhYmsuA9PEeqCgTCCacN6s\"",
  "discoveryVersion": "v1",
  "id": "toolresults:v1beta3",
  "name": "toolresults",
  "canonicalName": "Tool Results",
  "version": "v1beta3",
- "revision": "20171013",
+ "revision": "20180131",
  "title": "Cloud Tool Results API",
  "description": "Reads and publishes results from Firebase Test Lab.",
  "ownerDomain": "google.com",
@@ -20,7 +21,7 @@
  "basePath": "/toolresults/v1beta3/projects/",
  "rootUrl": "https://www.googleapis.com/",
  "servicePath": "toolresults/v1beta3/projects/",
- "batchPath": "batch",
+ "batchPath": "batch/toolresults/v1beta3",
  "parameters": {
   "alt": {
    "type": "string",
@@ -80,7 +81,6 @@
    "id": "AndroidAppInfo",
    "type": "object",
    "description": "Android app information.",
-   "externalTypeName": "google.devtools.toolresults.v1.AndroidAppInfo",
    "properties": {
     "name": {
      "type": "string",
@@ -104,7 +104,6 @@
    "id": "AndroidInstrumentationTest",
    "type": "object",
    "description": "A test of an Android application that can control an Android component independently of its normal lifecycle.\n\nSee  for more information on types of Android tests.",
-   "externalTypeName": "google.devtools.toolresults.v1.AndroidInstrumentationTest",
    "properties": {
     "testPackageId": {
      "type": "string",
@@ -123,7 +122,7 @@
     },
     "useOrchestrator": {
      "type": "boolean",
-     "description": "The flag indicates whether Android Test Orchestrator will be used to run test or not. Test orchestrator is used if either: - orchestrator_option field is USE_ORCHESTRATOR, and test runner is compatible with orchestrator. Or - orchestrator_option field is unspecified or ORCHESTRATOR_OPTION_UNSPECIFIED, and test runner is compatible with orchestrator."
+     "description": "The flag indicates whether Android Test Orchestrator will be used to run test or not."
     }
    }
   },
@@ -131,7 +130,6 @@
    "id": "AndroidRoboTest",
    "type": "object",
    "description": "A test of an android application that explores the application on a virtual or physical Android device, finding culprits and crashes as it goes.",
-   "externalTypeName": "google.devtools.toolresults.v1.AndroidRoboTest",
    "properties": {
     "appInitialActivity": {
      "type": "string",
@@ -161,7 +159,6 @@
    "id": "AndroidTest",
    "type": "object",
    "description": "An Android mobile test specification.",
-   "externalTypeName": "google.devtools.toolresults.v1.AndroidTest",
    "properties": {
     "androidAppInfo": {
      "$ref": "AndroidAppInfo",
@@ -185,11 +182,10 @@
    "id": "Any",
    "type": "object",
    "description": "`Any` contains an arbitrary serialized protocol buffer message along with a URL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form of utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\nFoo foo = ...; Any any; any.PackFrom(foo); ... if (any.UnpackTo(&foo)) { ... }\n\nExample 2: Pack and unpack a message in Java.\n\nFoo foo = ...; Any any = Any.pack(foo); ... if (any.is(Foo.class)) { foo = any.unpack(Foo.class); }\n\nExample 3: Pack and unpack a message in Python.\n\nfoo = Foo(...) any = Any() any.Pack(foo) ... if any.Is(Foo.DESCRIPTOR): any.Unpack(foo) ...\n\nExample 4: Pack and unpack a message in Go\n\nfoo := &pb.Foo{...} any, err := ptypes.MarshalAny(foo) ... foo := &pb.Foo{} if err := ptypes.UnmarshalAny(any, foo); err != nil { ... }\n\nThe pack methods provided by protobuf library will by default use 'type.googleapis.com/full.type.name' as the type URL and the unpack methods only use the fully qualified type name after the last '/' in the type URL, for example \"foo.bar.com/x/y.z\" will yield type name \"y.z\".\n\n\n\nJSON ==== The JSON representation of an `Any` value uses the regular representation of the deserialized, embedded message, with an additional field `@type` which contains the type URL. Example:\n\npackage google.profile; message Person { string first_name = 1; string last_name = 2; }\n\n{ \"@type\": \"type.googleapis.com/google.profile.Person\", \"firstName\": , \"lastName\":  }\n\nIf the embedded message type is well-known and has a custom JSON representation, that representation will be embedded adding a field `value` which holds the custom JSON in addition to the `@type` field. Example (for message [google.protobuf.Duration][]):\n\n{ \"@type\": \"type.googleapis.com/google.protobuf.Duration\", \"value\": \"1.212s\" }",
-   "externalTypeName": "google.protobuf.Any",
    "properties": {
     "typeUrl": {
      "type": "string",
-     "description": "A URL/resource name whose content describes the type of the serialized protocol buffer message.\n\nFor URLs which use the scheme `http`, `https`, or no scheme, the following restrictions and interpretations apply:\n\n* If no scheme is provided, `https` is assumed. * The last segment of the URL's path must represent the fully qualified name of the type (as in `path/google.protobuf.Duration`). The name should be in a canonical form (e.g., leading \".\" is not accepted). * An HTTP GET on the URL must yield a [google.protobuf.Type][] value in binary format, or produce an error. * Applications are allowed to cache lookup results based on the URL, or have them precompiled into a binary to avoid any lookup. Therefore, binary compatibility needs to be preserved on changes to types. (Use versioned type names to manage breaking changes.)\n\nSchemes other than `http`, `https` (or the empty scheme) might be used with implementation specific semantics."
+     "description": "A URL/resource name that uniquely identifies the type of the serialized protocol buffer message. The last segment of the URL's path must represent the fully qualified name of the type (as in `path/google.protobuf.Duration`). The name should be in a canonical form (e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they expect it to use in the context of Any. However, for URLs which use the scheme `http`, `https`, or no scheme, one can optionally set up a type server that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed. * An HTTP GET on the URL must yield a [google.protobuf.Type][] value in binary format, or produce an error. * Applications are allowed to cache lookup results based on the URL, or have them precompiled into a binary to avoid any lookup. Therefore, binary compatibility needs to be preserved on changes to types. (Use versioned type names to manage breaking changes.)\n\nNote: this functionality is not currently available in the official protobuf release, and it is not used for type URLs beginning with type.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be used with implementation specific semantics."
     },
     "value": {
      "type": "string",
@@ -201,7 +197,6 @@
   "AppStartTime": {
    "id": "AppStartTime",
    "type": "object",
-   "externalTypeName": "google.devtools.toolresults.v1.AppStartTime",
    "properties": {
     "fullyDrawnTime": {
      "$ref": "Duration",
@@ -217,7 +212,6 @@
    "id": "BasicPerfSampleSeries",
    "type": "object",
    "description": "Encapsulates the metadata for basic sample series represented by a line chart",
-   "externalTypeName": "google.devtools.toolresults.v1.BasicPerfSampleSeries",
    "properties": {
     "perfMetricType": {
      "type": "string",
@@ -294,7 +288,6 @@
    "id": "BatchCreatePerfSamplesRequest",
    "type": "object",
    "description": "The request must provide up to a maximum of 5000 samples to be created; a larger sample size will cause an INVALID_ARGUMENT error",
-   "externalTypeName": "google.devtools.toolresults.v1.BatchCreatePerfSamplesRequest",
    "properties": {
     "perfSamples": {
      "type": "array",
@@ -308,7 +301,6 @@
   "BatchCreatePerfSamplesResponse": {
    "id": "BatchCreatePerfSamplesResponse",
    "type": "object",
-   "externalTypeName": "google.devtools.toolresults.v1.BatchCreatePerfSamplesResponse",
    "properties": {
     "perfSamples": {
      "type": "array",
@@ -321,7 +313,6 @@
   "CPUInfo": {
    "id": "CPUInfo",
    "type": "object",
-   "externalTypeName": "google.devtools.toolresults.v1.CPUInfo",
    "properties": {
     "cpuProcessor": {
      "type": "string",
@@ -343,7 +334,6 @@
    "id": "Duration",
    "type": "object",
    "description": "A Duration represents a signed, fixed-length span of time represented as a count of seconds and fractions of seconds at nanosecond resolution. It is independent of any calendar and concepts like \"day\" or \"month\". It is related to Timestamp in that the difference between two Timestamp values is a Duration and it can be added or subtracted from a Timestamp. Range is approximately +-10,000 years.\n\n# Examples\n\nExample 1: Compute Duration from two Timestamps in pseudo code.\n\nTimestamp start = ...; Timestamp end = ...; Duration duration = ...;\n\nduration.seconds = end.seconds - start.seconds; duration.nanos = end.nanos - start.nanos;\n\nif (duration.seconds  0) { duration.seconds += 1; duration.nanos -= 1000000000; } else if (durations.seconds \u003e 0 && duration.nanos \u003c 0) { duration.seconds -= 1; duration.nanos += 1000000000; }\n\nExample 2: Compute Timestamp from Timestamp + Duration in pseudo code.\n\nTimestamp start = ...; Duration duration = ...; Timestamp end = ...;\n\nend.seconds = start.seconds + duration.seconds; end.nanos = start.nanos + duration.nanos;\n\nif (end.nanos = 1000000000) { end.seconds += 1; end.nanos -= 1000000000; }\n\nExample 3: Compute Duration from datetime.timedelta in Python.\n\ntd = datetime.timedelta(days=3, minutes=10) duration = Duration() duration.FromTimedelta(td)\n\n# JSON Mapping\n\nIn JSON format, the Duration type is encoded as a string rather than an object, where the string ends in the suffix \"s\" (indicating seconds) and is preceded by the number of seconds, with nanoseconds expressed as fractional seconds. For example, 3 seconds with 0 nanoseconds should be encoded in JSON format as \"3s\", while 3 seconds and 1 nanosecond should be expressed in JSON format as \"3.000000001s\", and 3 seconds and 1 microsecond should be expressed in JSON format as \"3.000001s\".",
-   "externalTypeName": "google.protobuf.Duration",
    "properties": {
     "nanos": {
      "type": "integer",
@@ -361,7 +351,6 @@
    "id": "Execution",
    "type": "object",
    "description": "An Execution represents a collection of Steps. For instance, it could represent: - a mobile test executed across a range of device configurations - a jenkins job with a build step followed by a test step\n\nThe maximum size of an execution message is 1 MiB.\n\nAn Execution can be updated until its state is set to COMPLETE at which point it becomes immutable.",
-   "externalTypeName": "google.devtools.toolresults.v1.Execution",
    "properties": {
     "completionTime": {
      "$ref": "Timestamp",
@@ -408,7 +397,6 @@
   "FailureDetail": {
    "id": "FailureDetail",
    "type": "object",
-   "externalTypeName": "google.devtools.toolresults.v1.FailureDetail",
    "properties": {
     "crashed": {
      "type": "boolean",
@@ -436,7 +424,6 @@
    "id": "FileReference",
    "type": "object",
    "description": "A reference to a file.",
-   "externalTypeName": "google.devtools.toolresults.v1.FileReference",
    "properties": {
     "fileUri": {
      "type": "string",
@@ -448,7 +435,6 @@
    "id": "GraphicsStats",
    "type": "object",
    "description": "Graphics statistics for the App. The information is collected from 'adb shell dumpsys graphicsstats'. For more info see: https://developer.android.com/training/testing/performance.html Statistics will only be present for API 23+.",
-   "externalTypeName": "google.devtools.toolresults.v1.GraphicsStats",
    "properties": {
     "buckets": {
      "type": "array",
@@ -517,7 +503,6 @@
   "GraphicsStatsBucket": {
    "id": "GraphicsStatsBucket",
    "type": "object",
-   "externalTypeName": "google.devtools.toolresults.v1.GraphicsStats.Bucket",
    "properties": {
     "frameCount": {
      "type": "string",
@@ -535,7 +520,6 @@
    "id": "History",
    "type": "object",
    "description": "A History represents a sorted list of Executions ordered by the start_timestamp_millis field (descending). It can be used to group all the Executions of a continuous build.\n\nNote that the ordering only operates on one-dimension. If a repository has multiple branches, it means that multiple histories will need to be used in order to order Executions per branch.",
-   "externalTypeName": "google.devtools.toolresults.v1.History",
    "properties": {
     "displayName": {
      "type": "string",
@@ -555,7 +539,6 @@
    "id": "Image",
    "type": "object",
    "description": "An image, with a link to the main image and a thumbnail.",
-   "externalTypeName": "google.devtools.toolresults.v1.Image",
    "properties": {
     "error": {
      "$ref": "Status",
@@ -578,7 +561,6 @@
   "InconclusiveDetail": {
    "id": "InconclusiveDetail",
    "type": "object",
-   "externalTypeName": "google.devtools.toolresults.v1.InconclusiveDetail",
    "properties": {
     "abortedByUser": {
      "type": "boolean",
@@ -593,7 +575,6 @@
   "ListExecutionsResponse": {
    "id": "ListExecutionsResponse",
    "type": "object",
-   "externalTypeName": "google.devtools.toolresults.v1.ListExecutionsResponse",
    "properties": {
     "executions": {
      "type": "array",
@@ -612,7 +593,6 @@
    "id": "ListHistoriesResponse",
    "type": "object",
    "description": "Response message for HistoryService.List",
-   "externalTypeName": "google.devtools.toolresults.v1.ListHistoriesResponse",
    "properties": {
     "histories": {
      "type": "array",
@@ -630,7 +610,6 @@
   "ListPerfSampleSeriesResponse": {
    "id": "ListPerfSampleSeriesResponse",
    "type": "object",
-   "externalTypeName": "google.devtools.toolresults.v1.ListPerfSampleSeriesResponse",
    "properties": {
     "perfSampleSeries": {
      "type": "array",
@@ -644,7 +623,6 @@
   "ListPerfSamplesResponse": {
    "id": "ListPerfSamplesResponse",
    "type": "object",
-   "externalTypeName": "google.devtools.toolresults.v1.ListPerfSamplesResponse",
    "properties": {
     "nextPageToken": {
      "type": "string",
@@ -661,7 +639,6 @@
   "ListScreenshotClustersResponse": {
    "id": "ListScreenshotClustersResponse",
    "type": "object",
-   "externalTypeName": "google.devtools.toolresults.v1.ListScreenshotClustersResponse",
    "properties": {
     "clusters": {
      "type": "array",
@@ -676,7 +653,6 @@
    "id": "ListStepThumbnailsResponse",
    "type": "object",
    "description": "A response containing the thumbnails in a step.",
-   "externalTypeName": "google.devtools.toolresults.v1.ListStepThumbnailsResponse",
    "properties": {
     "nextPageToken": {
      "type": "string",
@@ -695,7 +671,6 @@
    "id": "ListStepsResponse",
    "type": "object",
    "description": "Response message for StepService.List.",
-   "externalTypeName": "google.devtools.toolresults.v1.ListStepsResponse",
    "properties": {
     "nextPageToken": {
      "type": "string",
@@ -713,7 +688,6 @@
   "MemoryInfo": {
    "id": "MemoryInfo",
    "type": "object",
-   "externalTypeName": "google.devtools.toolresults.v1.MemoryInfo",
    "properties": {
     "memoryCapInKibibyte": {
      "type": "string",
@@ -731,7 +705,6 @@
    "id": "Outcome",
    "type": "object",
    "description": "Interprets a result so that humans and machines can act on it.",
-   "externalTypeName": "google.devtools.toolresults.v1.Outcome",
    "properties": {
     "failureDetail": {
      "$ref": "FailureDetail",
@@ -773,7 +746,6 @@
    "id": "PerfEnvironment",
    "type": "object",
    "description": "Encapsulates performance environment info",
-   "externalTypeName": "google.devtools.toolresults.v1.PerfEnvironment",
    "properties": {
     "cpuInfo": {
      "$ref": "CPUInfo",
@@ -789,7 +761,6 @@
    "id": "PerfMetricsSummary",
    "type": "object",
    "description": "A summary of perf metrics collected and performance environment info",
-   "externalTypeName": "google.devtools.toolresults.v1.PerfMetricsSummary",
    "properties": {
     "appStartTime": {
      "$ref": "AppStartTime"
@@ -845,7 +816,6 @@
    "id": "PerfSample",
    "type": "object",
    "description": "Resource representing a single performance measure or data point",
-   "externalTypeName": "google.devtools.toolresults.v1.PerfSample",
    "properties": {
     "sampleTime": {
      "$ref": "Timestamp",
@@ -862,7 +832,6 @@
    "id": "PerfSampleSeries",
    "type": "object",
    "description": "Resource representing a collection of performance samples (or data points)",
-   "externalTypeName": "google.devtools.toolresults.v1.PerfSampleSeries",
    "properties": {
     "basicPerfSampleSeries": {
      "$ref": "BasicPerfSampleSeries",
@@ -894,7 +863,6 @@
    "id": "ProjectSettings",
    "type": "object",
    "description": "Per-project settings for the Tool Results service.",
-   "externalTypeName": "google.devtools.toolresults.v1.ProjectSettings",
    "properties": {
     "defaultBucket": {
      "type": "string",
@@ -910,7 +878,6 @@
    "id": "PublishXunitXmlFilesRequest",
    "type": "object",
    "description": "Request message for StepService.PublishXunitXmlFiles.",
-   "externalTypeName": "google.devtools.toolresults.v1.PublishXunitXmlFilesRequest",
    "properties": {
     "xunitXmlFiles": {
      "type": "array",
@@ -924,7 +891,6 @@
   "Screen": {
    "id": "Screen",
    "type": "object",
-   "externalTypeName": "google.devtools.toolresults.v1.Screen",
    "properties": {
     "fileReference": {
      "type": "string",
@@ -947,7 +913,6 @@
   "ScreenshotCluster": {
    "id": "ScreenshotCluster",
    "type": "object",
-   "externalTypeName": "google.devtools.toolresults.v1.ScreenshotCluster",
    "properties": {
     "activity": {
      "type": "string",
@@ -973,7 +938,6 @@
   "SkippedDetail": {
    "id": "SkippedDetail",
    "type": "object",
-   "externalTypeName": "google.devtools.toolresults.v1.SkippedDetail",
    "properties": {
     "incompatibleAppVersion": {
      "type": "boolean",
@@ -993,7 +957,6 @@
    "id": "Specification",
    "type": "object",
    "description": "The details about how to run the execution.",
-   "externalTypeName": "google.devtools.toolresults.v1.Specification",
    "properties": {
     "androidTest": {
      "$ref": "AndroidTest",
@@ -1005,7 +968,6 @@
    "id": "StackTrace",
    "type": "object",
    "description": "A stacktrace.",
-   "externalTypeName": "google.devtools.toolresults.v1.StackTrace",
    "properties": {
     "clusterId": {
      "type": "string",
@@ -1025,7 +987,6 @@
    "id": "Status",
    "type": "object",
    "description": "The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). The error model is designed to be:\n\n- Simple to use and understand for most users - Flexible enough to meet unexpected needs\n\n# Overview\n\nThe `Status` message contains three pieces of data: error code, error message, and error details. The error code should be an enum value of [google.rpc.Code][], but it may accept additional error codes if needed. The error message should be a developer-facing English message that helps developers *understand* and *resolve* the error. If a localized user-facing error message is needed, put the localized message in the error details or localize it in the client. The optional error details may contain arbitrary information about the error. There is a predefined set of error detail types in the package `google.rpc` that can be used for common error conditions.\n\n# Language mapping\n\nThe `Status` message is the logical representation of the error model, but it is not necessarily the actual wire format. When the `Status` message is exposed in different client libraries and different wire protocols, it can be mapped differently. For example, it will likely be mapped to some exceptions in Java, but more likely mapped to some error codes in C.\n\n# Other uses\n\nThe error model and the `Status` message can be used in a variety of environments, either with or without APIs, to provide a consistent developer experience across different environments.\n\nExample uses of this error model include:\n\n- Partial errors. If a service needs to return partial errors to the client, it may embed the `Status` in the normal response to indicate the partial errors.\n\n- Workflow errors. A typical workflow has multiple steps. Each step may have a `Status` message for error reporting.\n\n- Batch operations. If a client uses batch request and batch response, the `Status` message should be used directly inside batch response, one for each error sub-response.\n\n- Asynchronous operations. If an API call embeds asynchronous operation results in its response, the status of those operations should be represented directly using the `Status` message.\n\n- Logging. If some API errors are stored in logs, the message `Status` could be used directly after any stripping needed for security/privacy reasons.",
-   "externalTypeName": "google.rpc.Status",
    "properties": {
     "code": {
      "type": "integer",
@@ -1049,7 +1010,6 @@
    "id": "Step",
    "type": "object",
    "description": "A Step represents a single operation performed as part of Execution. A step can be used to represent the execution of a tool ( for example a test runner execution or an execution of a compiler).\n\nSteps can overlap (for instance two steps might have the same start time if some operations are done in parallel).\n\nHere is an example, let's consider that we have a continuous build is executing a test runner for each iteration. The workflow would look like: - user creates a Execution with id 1 - user creates an TestExecutionStep with id 100 for Execution 1 - user update TestExecutionStep with id 100 to add a raw xml log + the service parses the xml logs and returns a TestExecutionStep with updated TestResult(s). - user update the status of TestExecutionStep with id 100 to COMPLETE\n\nA Step can be updated until its state is set to COMPLETE at which points it becomes immutable.",
-   "externalTypeName": "google.devtools.toolresults.v1.Step",
    "properties": {
     "completionTime": {
      "$ref": "Timestamp",
@@ -1130,7 +1090,6 @@
   "StepDimensionValueEntry": {
    "id": "StepDimensionValueEntry",
    "type": "object",
-   "externalTypeName": "google.devtools.toolresults.v1.Step.DimensionValueEntry",
    "properties": {
     "key": {
      "type": "string"
@@ -1143,7 +1102,6 @@
   "StepLabelsEntry": {
    "id": "StepLabelsEntry",
    "type": "object",
-   "externalTypeName": "google.devtools.toolresults.v1.Step.LabelsEntry",
    "properties": {
     "key": {
      "type": "string"
@@ -1156,7 +1114,6 @@
   "SuccessDetail": {
    "id": "SuccessDetail",
    "type": "object",
-   "externalTypeName": "google.devtools.toolresults.v1.SuccessDetail",
    "properties": {
     "otherNativeCrash": {
      "type": "boolean",
@@ -1168,7 +1125,6 @@
    "id": "TestCaseReference",
    "type": "object",
    "description": "A reference to a test case.\n\nTest case references are canonically ordered lexicographically by these three factors: * First, by test_suite_name. * Second, by class_name. * Third, by name.",
-   "externalTypeName": "google.devtools.toolresults.v1.TestCaseReference",
    "properties": {
     "className": {
      "type": "string",
@@ -1188,7 +1144,6 @@
    "id": "TestExecutionStep",
    "type": "object",
    "description": "A step that represents running tests.\n\nIt accepts ant-junit xml files which will be parsed into structured test results by the service. Xml file paths are updated in order to append more files, however they can't be deleted.\n\nUsers can also add test results manually by using the test_result field.",
-   "externalTypeName": "google.devtools.toolresults.v1.TestExecutionStep",
    "properties": {
     "testIssues": {
      "type": "array",
@@ -1218,7 +1173,6 @@
    "id": "TestIssue",
    "type": "object",
    "description": "An issue detected occurring during a test execution.",
-   "externalTypeName": "google.devtools.toolresults.v1.TestIssue",
    "properties": {
     "errorMessage": {
      "type": "string",
@@ -1249,11 +1203,19 @@
      "description": "Type of issue. Required.",
      "enum": [
       "anr",
+      "compatibleWithOrchestrator",
       "fatalException",
+      "launcherActivityNotFound",
       "nativeCrash",
-      "unspecifiedType"
+      "startActivityNotFound",
+      "unspecifiedType",
+      "unusedRoboDirective"
      ],
      "enumDescriptions": [
+      "",
+      "",
+      "",
+      "",
       "",
       "",
       "",
@@ -1262,7 +1224,7 @@
     },
     "warning": {
      "$ref": "Any",
-     "description": "Warning message with additional details of the issue. Should always be a message from com.google.devtools.toolresults.v1.warnings Required."
+     "description": "Warning message with additional details of the issue. Should always be a message from com.google.devtools.toolresults.v1.warnings"
     }
    }
   },
@@ -1270,7 +1232,6 @@
    "id": "TestSuiteOverview",
    "type": "object",
    "description": "A summary of a test suite result either parsed from XML or uploaded directly by a user.\n\nNote: the API related comments are for StepService only. This message is also being used in ExecutionService in a read only mode for the corresponding step.",
-   "externalTypeName": "google.devtools.toolresults.v1.TestSuiteOverview",
    "properties": {
     "errorCount": {
      "type": "integer",
@@ -1306,7 +1267,6 @@
    "id": "TestTiming",
    "type": "object",
    "description": "Testing timing break down to know phases.",
-   "externalTypeName": "google.devtools.toolresults.v1.TestTiming",
    "properties": {
     "testProcessDuration": {
      "$ref": "Duration",
@@ -1318,7 +1278,6 @@
    "id": "Thumbnail",
    "type": "object",
    "description": "A single thumbnail, with its size and format.",
-   "externalTypeName": "google.devtools.toolresults.v1.Thumbnail",
    "properties": {
     "contentType": {
      "type": "string",
@@ -1344,8 +1303,7 @@
   "Timestamp": {
    "id": "Timestamp",
    "type": "object",
-   "description": "A Timestamp represents a point in time independent of any time zone or calendar, represented as seconds and fractions of seconds at nanosecond resolution in UTC Epoch time. It is encoded using the Proleptic Gregorian Calendar which extends the Gregorian calendar backwards to year one. It is encoded assuming all minutes are 60 seconds long, i.e. leap seconds are \"smeared\" so that no leap second table is needed for interpretation. Range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By restricting to that range, we ensure that we can convert to and from RFC 3339 date strings. See [https://www.ietf.org/rfc/rfc3339.txt](https://www.ietf.org/rfc/rfc3339.txt).\n\n# Examples\n\nExample 1: Compute Timestamp from POSIX `time()`.\n\nTimestamp timestamp; timestamp.set_seconds(time(NULL)); timestamp.set_nanos(0);\n\nExample 2: Compute Timestamp from POSIX `gettimeofday()`.\n\nstruct timeval tv; gettimeofday(&tv, NULL);\n\nTimestamp timestamp; timestamp.set_seconds(tv.tv_sec); timestamp.set_nanos(tv.tv_usec * 1000);\n\nExample 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\nFILETIME ft; GetSystemTimeAsFileTime(&ft); UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n// A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z. Timestamp timestamp; timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL)); timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\nExample 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\nlong millis = System.currentTimeMillis();\n\nTimestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000) .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n\n\nExample 5: Compute Timestamp from current time in Python.\n\ntimestamp = Timestamp() timestamp.GetCurrentTime()\n\n# JSON Mapping\n\nIn JSON format, the Timestamp type is encoded as a string in the [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\" where {year} is always expressed using four digits while {month}, {day}, {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution), are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone is required, though only UTC (as indicated by \"Z\") is presently supported.\n\nFor example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past 01:30 UTC on January 15, 2017.\n\nIn JavaScript, one can convert a Date object to this format using the standard [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString] method. In Python, a standard `datetime.datetime` object can be converted to this format using [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use the Joda Time's [`ISODateTimeFormat.dateTime()`]( http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()) to obtain a formatter capable of generating timestamps in this format.",
-   "externalTypeName": "google.protobuf.Timestamp",
+   "description": "A Timestamp represents a point in time independent of any time zone or calendar, represented as seconds and fractions of seconds at nanosecond resolution in UTC Epoch time. It is encoded using the Proleptic Gregorian Calendar which extends the Gregorian calendar backwards to year one. It is encoded assuming all minutes are 60 seconds long, i.e. leap seconds are \"smeared\" so that no leap second table is needed for interpretation. Range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By restricting to that range, we ensure that we can convert to and from RFC 3339 date strings. See [https://www.ietf.org/rfc/rfc3339.txt](https://www.ietf.org/rfc/rfc3339.txt).\n\n# Examples\n\nExample 1: Compute Timestamp from POSIX `time()`.\n\nTimestamp timestamp; timestamp.set_seconds(time(NULL)); timestamp.set_nanos(0);\n\nExample 2: Compute Timestamp from POSIX `gettimeofday()`.\n\nstruct timeval tv; gettimeofday(&tv, NULL);\n\nTimestamp timestamp; timestamp.set_seconds(tv.tv_sec); timestamp.set_nanos(tv.tv_usec * 1000);\n\nExample 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\nFILETIME ft; GetSystemTimeAsFileTime(&ft); UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n// A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z. Timestamp timestamp; timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL)); timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\nExample 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\nlong millis = System.currentTimeMillis();\n\nTimestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000) .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n\n\nExample 5: Compute Timestamp from current time in Python.\n\ntimestamp = Timestamp() timestamp.GetCurrentTime()\n\n# JSON Mapping\n\nIn JSON format, the Timestamp type is encoded as a string in the [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\" where {year} is always expressed using four digits while {month}, {day}, {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution), are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone is required, though only UTC (as indicated by \"Z\") is currently supported.\n\nFor example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past 01:30 UTC on January 15, 2017.\n\nIn JavaScript, one can convert a Date object to this format using the standard [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString] method. In Python, a standard `datetime.datetime` object can be converted to this format using [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use the Joda Time's [`ISODateTimeFormat.dateTime()`]( http://www.joda.org/joda-time/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime-- ) to obtain a formatter capable of generating timestamps in this format.",
    "properties": {
     "nanos": {
      "type": "integer",
@@ -1363,7 +1321,6 @@
    "id": "ToolExecution",
    "type": "object",
    "description": "An execution of an arbitrary tool. It could be a test runner or a tool copying artifacts or deploying code.",
-   "externalTypeName": "google.devtools.toolresults.v1.ToolExecution",
    "properties": {
     "commandLineArguments": {
      "type": "array",
@@ -1396,7 +1353,6 @@
    "id": "ToolExecutionStep",
    "type": "object",
    "description": "Generic tool step to be used for binaries we do not explicitly support. For example: running cp to copy artifacts from one location to another.",
-   "externalTypeName": "google.devtools.toolresults.v1.ToolExecutionStep",
    "properties": {
     "toolExecution": {
      "$ref": "ToolExecution",
@@ -1408,7 +1364,6 @@
    "id": "ToolExitCode",
    "type": "object",
    "description": "Exit code from a tool execution.",
-   "externalTypeName": "google.devtools.toolresults.v1.ToolExitCode",
    "properties": {
     "number": {
      "type": "integer",
@@ -1421,7 +1376,6 @@
    "id": "ToolOutputReference",
    "type": "object",
    "description": "A reference to a ToolExecution output file.",
-   "externalTypeName": "google.devtools.toolresults.v1.ToolOutputReference",
    "properties": {
     "creationTime": {
      "$ref": "Timestamp",

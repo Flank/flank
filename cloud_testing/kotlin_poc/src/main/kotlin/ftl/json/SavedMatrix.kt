@@ -1,6 +1,6 @@
 package ftl.json
 
-import com.google.testing.model.TestMatrix
+import com.google.api.services.testing.model.TestMatrix
 import ftl.gc.GcToolResults
 import ftl.util.Billing
 import ftl.util.MatrixState.FINISHED
