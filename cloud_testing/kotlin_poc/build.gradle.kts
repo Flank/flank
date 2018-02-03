@@ -48,9 +48,8 @@ dependencies {
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-toolresults%22
     compile("com.google.apis:google-api-services-toolresults:v1beta3-rev351-1.21.0")
 
-    // Note: dex-test-parse is failing to parse multi-dex Kotlin apks correctly
     // https://github.com/linkedin/dex-test-parser/releases
-    // compile("com.linkedin.dextestparser:parser:1.1.0")
+    compile("com.linkedin.dextestparser:parser:1.1.0")
 
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-testing%22
     compile("com.google.apis:google-api-services-testing:v1-rev23-1.23.0")

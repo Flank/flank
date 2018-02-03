@@ -10,7 +10,6 @@ Implementation details:
 ## Notes
 
 - Disabling video recording causes infrastructure failures due to AVD idle timeout
-- Enabling orchestrator breaks pulling screenshots from `/sdcard/screenshots`
 
 ## workflow
 
