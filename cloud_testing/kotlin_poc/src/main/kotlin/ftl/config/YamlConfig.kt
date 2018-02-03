@@ -42,8 +42,7 @@ class YamlConfig(
             }
         }
 
-        if (missingMethods.isNotEmpty()) throw RuntimeException("Missing methods: ${missingMethods}")
-
+        if (missingMethods.isNotEmpty()) throw RuntimeException("Missing methods: $missingMethods")
     }
 
     companion object {
