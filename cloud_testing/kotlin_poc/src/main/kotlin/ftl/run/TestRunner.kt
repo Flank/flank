@@ -27,22 +27,12 @@ import java.time.LocalTime
 import java.util.stream.Collectors
 
 object TestRunner {
-    private var useMock = false
     private val gson = GsonBuilder().setPrettyPrinting().create()!!
 
-    init {
-        if (useMock) {
-            // TODO: Figure out how to use mock server with upstream jars
-            // Use mock server
-            // Testing.DEFAULT_ROOT_URL = "http://localhost:4010/"
-        }
-    }
-
     private fun assertMockUrl() {
-        if (!useMock) return
-        val create = GcTesting.get.projects().testMatrices().create(FtlConstants.projectId, TestMatrix())
-        val baseUrl = create.abstractGoogleClient.baseUrl
-        if (!baseUrl.contains("localhost")) throw RuntimeException("expected localhost")
+        if (!FtlConstants.useMock) return
+        if (!GcTesting.get.rootUrl.contains(FtlConstants.localhost)) throw RuntimeException("expected localhost in GcTesting")
+        if (!GcStorage.storageOptions.host.contains(FtlConstants.localhost)) throw RuntimeException("expected localhost in GcStorage")
     }
 
     private suspend fun runTests(config: YamlConfig): MatrixMap {
@@ -110,8 +100,6 @@ object TestRunner {
 
     /** @return Pair(app apk, test apk) **/
     private suspend fun uploadApksInParallel(config: YamlConfig, runGcsPath: String): Pair<String, String> {
-        if (useMock) return Pair("", "")
-
         val appApkGcsPath = async { GcStorage.uploadAppApk(config, runGcsPath) }
         val testApkGcsPath = async { GcStorage.uploadTestApk(config, runGcsPath) }
 

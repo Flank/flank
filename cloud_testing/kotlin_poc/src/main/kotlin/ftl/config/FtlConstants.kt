@@ -11,6 +11,8 @@ import java.nio.file.Path
 import java.nio.file.Paths
 
 object FtlConstants {
+    var useMock = false
+    const val localhost = "localhost"
 
     const val indent = "  "
     const val matrixIdsFile = "matrix_ids.json"
