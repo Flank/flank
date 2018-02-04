@@ -63,10 +63,18 @@ Client may be generated manually using `testing_v1.json` and the master branch o
 
 ## Testing
 
-API Discovery JSON may be converted to Swagger V2 using [apimatic.io/transformer](https://apimatic.io/transformer). [Stoplight prism](http://stoplight.io/platform/prism/) can then be used to spin up a local mock server.
+API Discovery JSON may be converted to OpenAPI 3 using [apimatic.io/transformer](https://apimatic.io/transformer). [swagger-codegen 3](https://github.com/swagger-api/swagger-codegen/releases/tag/v3.0.0-rc0) is then used to generate a [swagger-inflector](https://github.com/swagger-api/swagger-inflector/) based mock server.
 
-> prism run --mock --list --spec testing_v1_swagger_2.json
+```
+java -jar swagger-codegen-cli.jar generate \
+  -i testing_openapi_3.json \
+  -l inflector -o server/
+```
 
-For example, visiting `http://localhost:4010/v1/projects/123/testMatrices/456` will return a random valid result based on the Swagger schema.
+The server is started locally with `gradle appRun`.
+
+Visiting `http://localhost:8080/v1/projects/123/testMatrices/456` will return a random valid result based on the Swagger schema.
 
 Toggle mock server via `FtlConstants.useMock`
+
+- Gradle is added manually. [An issue](https://github.com/swagger-api/swagger-codegen/issues/7578) has been opened upstream.

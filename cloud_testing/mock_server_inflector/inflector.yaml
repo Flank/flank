@@ -1,0 +1,59 @@
+controllerPackage: io.swagger.controllers
+modelPackage:  io.swagger.model
+swaggerUrl: ./src/main/resources/openapi3.yaml
+modelMappings:
+  # to enable explicit mappings, use this syntax:
+  DefinitionFromSwaggerSpecification: fully.qualified.path.to.Model
+  Account : io.swagger.model.Account
+  ActionType : io.swagger.model.ActionType
+  AndroidDevice : io.swagger.model.AndroidDevice
+  AndroidDeviceCatalog : io.swagger.model.AndroidDeviceCatalog
+  AndroidDeviceList : io.swagger.model.AndroidDeviceList
+  AndroidInstrumentationTest : io.swagger.model.AndroidInstrumentationTest
+  AndroidMatrix : io.swagger.model.AndroidMatrix
+  AndroidModel : io.swagger.model.AndroidModel
+  AndroidRoboTest : io.swagger.model.AndroidRoboTest
+  AndroidRuntimeConfiguration : io.swagger.model.AndroidRuntimeConfiguration
+  AndroidTestLoop : io.swagger.model.AndroidTestLoop
+  AndroidVersion : io.swagger.model.AndroidVersion
+  CancelTestMatrixResponse : io.swagger.model.CancelTestMatrixResponse
+  ClientInfo : io.swagger.model.ClientInfo
+  ClientInfoDetail : io.swagger.model.ClientInfoDetail
+  Date20 : io.swagger.model.Date20
+  DeviceFile : io.swagger.model.DeviceFile
+  Distribution : io.swagger.model.Distribution
+  Environment : io.swagger.model.Environment
+  EnvironmentMatrix : io.swagger.model.EnvironmentMatrix
+  EnvironmentVariable : io.swagger.model.EnvironmentVariable
+  FileReference : io.swagger.model.FileReference
+  Form : io.swagger.model.Form
+  GoogleCloudStorage : io.swagger.model.GoogleCloudStorage
+  InvalidMatrixDetails : io.swagger.model.InvalidMatrixDetails
+  Locale : io.swagger.model.Locale
+  NetworkConfiguration : io.swagger.model.NetworkConfiguration
+  NetworkConfigurationCatalog : io.swagger.model.NetworkConfigurationCatalog
+  ObbFile : io.swagger.model.ObbFile
+  OrchestratorOption : io.swagger.model.OrchestratorOption
+  Orientation : io.swagger.model.Orientation
+  ResultStorage : io.swagger.model.ResultStorage
+  RoboDirective : io.swagger.model.RoboDirective
+  RoboStartingIntent : io.swagger.model.RoboStartingIntent
+  StartActivityIntent : io.swagger.model.StartActivityIntent
+  State : io.swagger.model.State
+  TestDetails : io.swagger.model.TestDetails
+  TestEnvironmentCatalog : io.swagger.model.TestEnvironmentCatalog
+  TestExecution : io.swagger.model.TestExecution
+  TestMatrix : io.swagger.model.TestMatrix
+  TestSetup : io.swagger.model.TestSetup
+  TestSpecification : io.swagger.model.TestSpecification
+  TestState : io.swagger.model.TestState
+  ToolResultsExecution : io.swagger.model.ToolResultsExecution
+  ToolResultsHistory : io.swagger.model.ToolResultsHistory
+  ToolResultsStep : io.swagger.model.ToolResultsStep
+  TrafficRule : io.swagger.model.TrafficRule
+  
+
+entityProcessors:
+  - json
+  - xml
+  - yaml
