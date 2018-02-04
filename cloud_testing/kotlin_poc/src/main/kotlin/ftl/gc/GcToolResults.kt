@@ -3,6 +3,7 @@ package ftl.gc
 import com.google.api.services.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.ToolResults
 import com.google.api.services.toolresults.model.Step
+import ftl.config.FtlConstants
 import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.config.FtlConstants.applicationName
 import ftl.config.FtlConstants.credential
@@ -11,8 +12,11 @@ import ftl.config.FtlConstants.httpTransport
 object GcToolResults {
 
     private val service: ToolResults by lazy {
-        ToolResults.Builder(httpTransport, JSON_FACTORY, credential)
-                .setApplicationName(applicationName)
+        val builder = ToolResults.Builder(httpTransport, JSON_FACTORY, credential)
+
+        if (FtlConstants.useMock) builder.rootUrl = FtlConstants.localhost
+
+        builder.setApplicationName(applicationName)
                 .build()
     }
 

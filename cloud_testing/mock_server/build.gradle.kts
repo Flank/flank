@@ -41,10 +41,14 @@ repositories {
 dependencies {
 
     // https://bintray.com/kotlin/ktor/ktor
-    val ktorVersion = "0.9.1-alpha-9"
+    val ktorVersion = "0.9.1"
     compile("io.ktor:ktor-server-core:$ktorVersion")
     compile("io.ktor:ktor-server-netty:$ktorVersion")
-    compile("org.slf4j:slf4j-nop:1.7.21")
+    compile("io.ktor:ktor-gson:$ktorVersion")
+
+    val log4jVersion = "1.8.0-beta1"
+    compile("org.slf4j:slf4j-log4j12:$log4jVersion")
+    compile("org.slf4j:jul-to-slf4j:$log4jVersion")
 
     compile("com.google.code.gson:gson:2.8.2")
 
@@ -60,7 +64,8 @@ dependencies {
     // https://github.com/linkedin/dex-test-parser/releases
     compile("com.linkedin.dextestparser:parser:1.1.0")
 
-    compile(project(":testing"))
+    // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-testing%22
+    compile("com.google.apis:google-api-services-testing:v1-rev23-1.23.0")
 
     compile(kotlin("stdlib-jre8", Deps.kotlinVersion))
     testCompile("junit:junit:4.12")

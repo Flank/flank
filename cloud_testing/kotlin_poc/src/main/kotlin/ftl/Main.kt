@@ -1,5 +1,6 @@
 package ftl
 
+import ftl.config.FtlConstants
 import ftl.config.YamlConfig
 import ftl.run.TestRunner
 import kotlinx.coroutines.experimental.runBlocking

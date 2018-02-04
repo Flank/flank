@@ -21,6 +21,10 @@ class SavedMatrix(matrix: TestMatrix) {
     var runDurationSeconds: Long = 0
     var outcome: String = ""
 
+    init {
+        if (this.state == FINISHED) finished(matrix)
+    }
+
     /** return true if the content changed **/
     fun update(matrix: TestMatrix): Boolean {
         val newState = matrix.state
