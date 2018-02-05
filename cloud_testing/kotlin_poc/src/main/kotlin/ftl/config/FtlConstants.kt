@@ -37,17 +37,5 @@ object FtlConstants {
         }
     }
 
-    private fun getApk(apkName: String): Path {
-        val apkRoot = "../../test_app/apks"
-        val targetApk = Paths.get(apkRoot, apkName)
-
-        if (!targetApk.toFile().exists()) {
-            throw RuntimeException(apkName + " doesn't exist!")
-        }
-        return targetApk
-    }
-
-    val testErrorApk = getApk("error-androidTest.apk")
-
     const val localResultsDir = "results"
 }

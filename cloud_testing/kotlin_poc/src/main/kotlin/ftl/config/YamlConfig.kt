@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.linkedin.dex.parser.DexParser
+import ftl.util.Utils.fatalError
 import java.io.File
 
 class YamlConfig(
@@ -26,11 +27,11 @@ class YamlConfig(
 
     private fun validate() {
         if (!File(appApk).exists()) {
-            throw RuntimeException("$appApk doesn't exist")
+            fatalError("$appApk doesn't exist")
         }
 
         if (!File(testApk).exists()) {
-            throw RuntimeException("$testApk doesn't exist")
+            fatalError("$testApk doesn't exist")
         }
 
         val validMethods = DexParser.findTestMethods(testApk).map { it.testName }
@@ -42,7 +43,7 @@ class YamlConfig(
             }
         }
 
-        if (missingMethods.isNotEmpty()) throw RuntimeException("Missing methods: $missingMethods")
+        if (missingMethods.isNotEmpty()) fatalError("Test APK is missing methods: $missingMethods")
     }
 
     companion object {
@@ -51,7 +52,7 @@ class YamlConfig(
         fun load(yamlPath: String): YamlConfig {
             val yamlFile = File(yamlPath).canonicalFile
             if (!yamlFile.exists()) {
-                throw RuntimeException("$yamlFile doesn't exist")
+                fatalError("$yamlFile doesn't exist")
             }
 
             return mapper.readValue(yamlFile, YamlConfig::class.java)

@@ -12,8 +12,6 @@ import java.nio.file.Paths
 object ResultSummary {
 
     fun run(matrixMap: MatrixMap) {
-        val results = mutableMapOf<String, Int>()
-
         val rootFolderPath = Paths.get(FtlConstants.localResultsDir, matrixMap.runPath)
 
         var total = 0
