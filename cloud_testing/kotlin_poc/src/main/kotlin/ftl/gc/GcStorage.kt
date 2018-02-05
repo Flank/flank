@@ -27,6 +27,8 @@ object GcStorage {
         val apkFileName = Paths.get(apk).fileName.toString()
         val gcsApkPath = GCS_PREFIX + join(rootGcsBucket, runGcsPath, apkFileName)
 
+        if (FtlConstants.useMock) return gcsApkPath
+
         // 404 Not Found error when rootGcsBucket does not exist
         val apkBlob = BlobInfo.newBuilder(rootGcsBucket, join(runGcsPath, apkFileName)).build()
 

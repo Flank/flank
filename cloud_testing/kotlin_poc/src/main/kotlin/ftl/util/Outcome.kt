@@ -1,6 +1,6 @@
 package ftl.util
 
 object Outcome {
-    val success = "success"
-    val failure = "failure"
+    const val success = "success"
+    const val failure = "failure"
 }

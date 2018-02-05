@@ -1,0 +1,47 @@
+plugins {
+    id 'org.akhikhl.gretty' version '2.0.0'
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'io.swagger'
+version = '1.0.0'
+
+description = """swagger-inflector-server"""
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+// http://akhikhl.github.io/gretty-doc/Gretty-configuration.html
+gretty {
+    httpPort = 8080
+    contextPath = '/'
+    httpIdleTimeout = 60000
+    scanInterval = 1
+    scanDir 'inflector.yaml'
+    scanDir 'src/main/swagger/swagger.yaml'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/gen/java'
+        }
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'io.swagger:swagger-inflector:2.0.0-rc1'
+}
+
+wrapper {
+    distributionType = Wrapper.DistributionType.ALL
+}

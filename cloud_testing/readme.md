@@ -61,12 +61,6 @@ Client may be generated manually using `testing_v1.json` and the master branch o
 
 - `gradle build`
 
-## Testing
+## Mock Servers
 
-API Discovery JSON may be converted to Swagger V2 using [apimatic.io/transformer](https://apimatic.io/transformer). [Stoplight prism](http://stoplight.io/platform/prism/) can then be used to spin up a local mock server.
-
-> prism run --mock --list --spec testing_v1_swagger_2.json
-
-For example, visiting `http://localhost:4010/v1/projects/123/testMatrices/456` will return a random valid result based on the Swagger schema.
-
-Toggle mock server via `FtlConstants.useMock`
+API Discovery JSON may be converted to OpenAPI 3 using [apimatic.io/transformer](https://apimatic.io/transformer). See [mock_server.md](mock_server.md) for details.

@@ -179,6 +179,7 @@ object TestRunner {
     /** fetch test_result_0.xml & *.png **/
     fun fetchArtifacts(matrixMap: MatrixMap) {
         println("fetchArtifacts")
+        if (FtlConstants.useMock) return
         val fields = Storage.BlobListOption.fields(Storage.BlobField.NAME)
 
         var dirty = false
