@@ -39,6 +39,9 @@ repositories {
 dependencies {
     compile("com.google.code.gson:gson:2.8.2")
 
+    // https://github.com/remkop/picocli
+    compile("info.picocli:picocli:2.2.1")
+
     // https://github.com/Kotlin/kotlinx.coroutines/releases
     compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21.2")
 

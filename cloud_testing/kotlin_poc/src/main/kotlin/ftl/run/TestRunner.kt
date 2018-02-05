@@ -312,6 +312,7 @@ object TestRunner {
     }
 
     suspend fun newRun(config: YamlConfig) {
+        println(config)
         val matrixMap = runTests(config)
 
         if (config.waitForResults) {

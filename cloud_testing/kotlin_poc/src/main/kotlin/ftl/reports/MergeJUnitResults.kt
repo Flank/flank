@@ -1,7 +1,6 @@
 package ftl.reports
 
 import com.sun.org.apache.xerces.internal.dom.DeferredElementImpl
-import ftl.Main
 import ftl.config.FtlConstants
 import ftl.json.MatrixMap
 import ftl.run.TestRunner

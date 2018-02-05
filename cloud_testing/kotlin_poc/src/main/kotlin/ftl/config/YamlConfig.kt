@@ -16,7 +16,7 @@ class YamlConfig(
         val disableVideoRecording: Boolean = false,
         val testTimeoutMinutes: Long = 60,
 
-        val shardCount: Int = 1,
+        var shardCount: Int = 1,
         val waitForResults: Boolean = true,
         val testMethods: List<String> = listOf()) {
 
