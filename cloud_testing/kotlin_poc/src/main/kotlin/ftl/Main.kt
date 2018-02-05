@@ -1,22 +1,25 @@
 package ftl
 
-import ftl.config.FtlConstants
-import ftl.config.YamlConfig
-import ftl.run.TestRunner
-import kotlinx.coroutines.experimental.runBlocking
+import ftl.cli.RefreshCommand
+import ftl.cli.RunCommand
+import picocli.CommandLine
 
-object Main {
+@CommandLine.Command(
+        name = "flank.jar\n",
+        synopsisHeading = "",
+        subcommands = [
+            RunCommand::class,
+            RefreshCommand::class
+        ]
+)
+object Main : Runnable {
+    override fun run() {
+        CommandLine.usage(Main, System.out);
+    }
 
     @Throws(Exception::class)
     @JvmStatic
     fun main(args: Array<String>) {
-        val config = YamlConfig.load("./flank.yml")
-        println(config)
-
-        runBlocking {
-            // TestRunner.deleteResults()
-            TestRunner.newRun(config)
-            // TestRunner.refreshLastRun()
-        }
+        CommandLine.run<Runnable>(Main, System.out, *args)
     }
 }

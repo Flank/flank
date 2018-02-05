@@ -1,6 +1,5 @@
 package ftl.reports
 
-import ftl.Main
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.indent
 import ftl.json.MatrixMap
@@ -13,8 +12,6 @@ import java.nio.file.Paths
 object ResultSummary {
 
     fun run(matrixMap: MatrixMap) {
-        val results = mutableMapOf<String, Int>()
-
         val rootFolderPath = Paths.get(FtlConstants.localResultsDir, matrixMap.runPath)
 
         var total = 0

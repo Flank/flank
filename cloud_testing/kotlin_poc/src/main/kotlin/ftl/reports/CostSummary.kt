@@ -1,6 +1,5 @@
 package ftl.reports
 
-import ftl.Main
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.indent
 import ftl.json.MatrixMap
