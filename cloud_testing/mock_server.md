@@ -22,5 +22,4 @@ Goal: Test Flank using a mock server so we don't have to spend $$ to verify the 
 
 ## Known issues
 
-* The gcloud client still pings `https://accounts.google.com/o/oauth2/token` in mocked mode.
 * Using a flag for mocked mode isn't ideal. Dependency injection with interfaces would be more robust.
