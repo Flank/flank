@@ -1,3 +1,4 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.kotlin.dsl.extra
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.Coroutines
@@ -34,6 +35,15 @@ application {
 
 repositories {
     jcenter()
+}
+
+// Output full test results to console
+// Avoids having to read the HTML report
+tasks.withType<Test> {
+    testLogging {
+        events("passed", "skipped", "failed")
+        exceptionFormat = TestExceptionFormat.FULL
+    }
 }
 
 dependencies {

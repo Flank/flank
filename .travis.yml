@@ -1,12 +1,18 @@
 language: java
 dist: trusty
 sudo: false
+env:
+- TERM=dumb
 cache:
   directories:
   - $HOME/.gradle
   - ./Flank/.gradle
   - ./cloud_testing/apis/testing/.gradle
   - ./cloud_testing/kotlin_poc/.gradle
+  - ./cloud_testing/mock_server/.gradle
+before_script:
+- ./gradle/gradlew -p cloud_testing/mock_server clean build 
+- ./gradle/gradlew -p cloud_testing/mock_server run &
 script:
 - ./gradle/gradlew -p Flank clean build
-- ./gradle/gradlew -p cloud_testing/kotlin_poc clean build
+- ./gradle/gradlew -p cloud_testing/kotlin_poc clean build --info --stacktrace

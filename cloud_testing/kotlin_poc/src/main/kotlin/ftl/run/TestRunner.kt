@@ -6,11 +6,9 @@ import com.google.cloud.storage.Storage
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import ftl.config.FtlConstants
+import ftl.config.FtlConstants.localhost
 import ftl.config.YamlConfig
-import ftl.gc.GcAndroidMatrix
-import ftl.gc.GcStorage
-import ftl.gc.GcTestMatrix
-import ftl.gc.GcTesting
+import ftl.gc.*
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
 import ftl.reports.CostSummary
@@ -31,8 +29,9 @@ object TestRunner {
 
     private fun assertMockUrl() {
         if (!FtlConstants.useMock) return
-        if (!GcTesting.get.rootUrl.contains(FtlConstants.localhost)) throw RuntimeException("expected localhost in GcTesting")
-        if (!GcStorage.storageOptions.host.contains(FtlConstants.localhost)) throw RuntimeException("expected localhost in GcStorage")
+        if (!GcTesting.get.rootUrl.contains(localhost)) throw RuntimeException("expected localhost in GcTesting")
+        if (!GcStorage.storageOptions.host.contains(localhost)) throw RuntimeException("expected localhost in GcStorage")
+        if (!GcToolResults.service.rootUrl.contains(localhost)) throw RuntimeException("expected localhost in GcToolResults")
     }
 
     private suspend fun runTests(config: YamlConfig): MatrixMap {

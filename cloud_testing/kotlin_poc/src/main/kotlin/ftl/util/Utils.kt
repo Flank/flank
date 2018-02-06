@@ -1,6 +1,7 @@
 package ftl.util
 
 import com.google.cloud.ServiceOptions
+import ftl.config.FtlConstants
 import java.nio.file.Paths
 import java.time.Duration.ofSeconds
 import java.time.Instant
@@ -83,6 +84,7 @@ object Utils {
     //
     // export GOOGLE_APPLICATION_CREDENTIALS="path/to/secrets.json"
     private fun checkProjectId() {
+        if (FtlConstants.useMock) return
         ServiceOptions.getDefaultProjectId() ?: throw RuntimeException(
                 "Project ID not found. Is GOOGLE_APPLICATION_CREDENTIALS defined?\n" + " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id")
 

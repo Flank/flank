@@ -2,7 +2,6 @@ package ftl
 
 import com.google.api.services.testing.model.*
 import com.google.api.services.toolresults.model.*
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.LongSerializationPolicy
 import io.ktor.application.call
