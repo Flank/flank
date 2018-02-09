@@ -6,6 +6,7 @@ disablePerformanceMetrics: true
 disableVideoRecording: false
 testTimeoutMinutes: 60
 shardCount: 1
+limitBreak: false
 waitForResults: true
 testMethods:
   - com.example.app.ExampleUiTest#testPasses
