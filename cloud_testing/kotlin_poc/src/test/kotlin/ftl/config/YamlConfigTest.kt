@@ -10,6 +10,10 @@ import java.io.File
 
 class YamlConfigTest {
 
+    init {
+        FtlConstants.useMock = true
+    }
+
     @Rule
     @JvmField
     val exit = ExpectedSystemExit.none()!!
