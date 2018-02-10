@@ -69,6 +69,8 @@ dependencies {
 
     compile(kotlin("stdlib-jre8", Deps.kotlinVersion))
     testCompile("junit:junit:4.12")
+    // http://stefanbirkner.github.io/system-rules/index.html
+    testCompile("com.github.stefanbirkner:system-rules:1.17.1")
 
     // yaml config
     compile("com.fasterxml.jackson.core:jackson-databind:2.9.4")

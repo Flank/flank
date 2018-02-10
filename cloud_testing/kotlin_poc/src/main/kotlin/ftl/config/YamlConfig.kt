@@ -17,9 +17,17 @@ class YamlConfig(
         val disableVideoRecording: Boolean = false,
         val testTimeoutMinutes: Long = 60,
 
-        var shardCount: Int = 1,
+        shardCount: Int = 1,
         val waitForResults: Boolean = true,
-        val testMethods: List<String> = listOf()) {
+        val testMethods: List<String> = listOf(),
+        val limitBreak: Boolean = false) {
+
+    var shardCount: Int = shardCount
+    set(value) {
+        if (value > 100 && !limitBreak) {
+            fatalError("Shard count exceeds 100. Set limitBreak=true to enable large shards")
+        }
+    }
 
     init {
         validate()
@@ -27,11 +35,11 @@ class YamlConfig(
 
     private fun validate() {
         if (!File(appApk).exists()) {
-            fatalError("$appApk doesn't exist")
+            fatalError("'$appApk' appApk doesn't exist")
         }
 
         if (!File(testApk).exists()) {
-            fatalError("$testApk doesn't exist")
+            fatalError("'$testApk' testApk doesn't exist")
         }
 
         val validMethods = DexParser.findTestMethods(testApk).map { it.testName }
@@ -75,6 +83,7 @@ class YamlConfig(
   shardCount: $shardCount,
   waitForResults: $waitForResults,
   testMethods: $testMethods
+  limitBreak: $limitBreak
 """
     }
 }
