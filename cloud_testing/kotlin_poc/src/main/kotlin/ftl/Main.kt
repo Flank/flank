@@ -4,6 +4,7 @@ import ftl.cli.RefreshCommand
 import ftl.cli.RunCommand
 import picocli.CommandLine
 
+
 @CommandLine.Command(
         name = "flank.jar\n",
         synopsisHeading = "",
@@ -14,12 +15,20 @@ import picocli.CommandLine
 )
 object Main : Runnable {
     override fun run() {
-        CommandLine.usage(Main, System.out);
+        if (version) {
+            println("v0.2")
+        } else {
+            CommandLine.usage(Main, System.out);
+        }
     }
+
+    @CommandLine.Option(names = ["-v", "--version"], description = ["Prints the version"])
+    var version = false
 
     @Throws(Exception::class)
     @JvmStatic
     fun main(args: Array<String>) {
-        CommandLine.run<Runnable>(Main, System.out, *args)
+        val args2 = arrayOf("-v")
+        CommandLine.run<Runnable>(Main, System.out, *args2)
     }
 }
