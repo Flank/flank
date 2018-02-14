@@ -28,7 +28,6 @@ object Main : Runnable {
     @Throws(Exception::class)
     @JvmStatic
     fun main(args: Array<String>) {
-        val args2 = arrayOf("-v")
-        CommandLine.run<Runnable>(Main, System.out, *args2)
+        CommandLine.run<Runnable>(Main, System.out, *args)
     }
 }
