@@ -18,13 +18,6 @@ object FtlConstants {
     const val indent = "  "
     const val matrixIdsFile = "matrix_ids.json"
     const val applicationName = "Flank"
-    val projectId by lazy {
-        if (useMock) {
-            "mockProjectId"
-        } else {
-            ServiceOptions.getDefaultProjectId()!!
-        }
-    }
     const val GCS_PREFIX = "gs://"
     val JSON_FACTORY: JacksonFactory by lazy { JacksonFactory.getDefaultInstance() }
 

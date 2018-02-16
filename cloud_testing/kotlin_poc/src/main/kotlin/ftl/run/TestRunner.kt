@@ -18,6 +18,7 @@ import ftl.reports.ResultSummary
 import ftl.util.*
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
+import org.yaml.snakeyaml.Yaml
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -114,7 +115,7 @@ object TestRunner {
     }
 
     /** Refresh all in progress matrices in parallel **/
-    suspend fun refreshMatrices(matrixMap: MatrixMap) {
+    suspend fun refreshMatrices(matrixMap: MatrixMap, config: YamlConfig) {
         println("refreshMatrices")
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
@@ -124,7 +125,7 @@ object TestRunner {
             // Only refresh unfinished
             if (MatrixState.inProgress(matrix.value.state)) {
                 matrixCount += 1
-                jobs += async { GcTestMatrix.refresh(matrix.key) }
+                jobs += async { GcTestMatrix.refresh(matrix.key, config) }
             }
         }
 
@@ -223,7 +224,7 @@ object TestRunner {
     } // fun
 
     /** Synchronously poll all matrix ids until they complete **/
-    fun pollMatrices(matrices: MatrixMap) {
+    fun pollMatrices(matrices: MatrixMap, config: YamlConfig) {
         println("pollMatrices")
         val map = matrices.map
         val poll = matrices.map.values.filter {
@@ -233,7 +234,7 @@ object TestRunner {
         val stopwatch = StopWatch().start()
         poll.forEach {
             val matrixId = it.matrixId
-            val completedMatrix = pollMatrix(matrixId, stopwatch)
+            val completedMatrix = pollMatrix(matrixId, stopwatch, config)
 
             map[matrixId]?.update(completedMatrix)
         }
@@ -250,7 +251,7 @@ object TestRunner {
     //
     // Port of MonitorTestExecutionProgress
     // gcloud-cli/googlecloudsdk/api_lib/firebase/test/matrix_ops.py
-    fun pollMatrix(matrixId: String, stopwatch: StopWatch): TestMatrix {
+    fun pollMatrix(matrixId: String, stopwatch: StopWatch, config: YamlConfig): TestMatrix {
         var lastState = ""
         var error: String?
         var progress = listOf<String>()
@@ -263,7 +264,7 @@ object TestRunner {
         }
 
         while (true) {
-            refreshedMatrix = GcTestMatrix.refresh(matrixId)
+            refreshedMatrix = GcTestMatrix.refresh(matrixId, config)
 
             val firstTestStatus = refreshedMatrix.testExecutions.first()
 
@@ -306,10 +307,10 @@ object TestRunner {
     }
 
     // used to update results from an async run
-    suspend fun refreshLastRun() {
+    suspend fun refreshLastRun(config: YamlConfig) {
         val matrixMap = lastMatrices()
 
-        refreshMatrices(matrixMap)
+        refreshMatrices(matrixMap, config)
         runReports(matrixMap)
         fetchArtifacts(matrixMap)
     }
@@ -319,7 +320,7 @@ object TestRunner {
         val matrixMap = runTests(config)
 
         if (config.waitForResults) {
-            pollMatrices(matrixMap)
+            pollMatrices(matrixMap, config)
             fetchArtifacts(matrixMap)
         }
     }

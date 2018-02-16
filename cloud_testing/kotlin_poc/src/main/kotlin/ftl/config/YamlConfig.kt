@@ -3,6 +3,7 @@ package ftl.config
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.google.cloud.ServiceOptions
 import com.linkedin.dex.parser.DexParser
 import ftl.util.Utils.fatalError
 import java.io.File
@@ -20,7 +21,8 @@ class YamlConfig(
         shardCount: Int = 1,
         val waitForResults: Boolean = true,
         val testMethods: List<String> = listOf(),
-        val limitBreak: Boolean = false) {
+        val limitBreak: Boolean = false,
+        val projectId: String = ServiceOptions.getDefaultProjectId()) {
 
     var shardCount: Int = shardCount
     set(value) {
@@ -73,6 +75,7 @@ class YamlConfig(
 
     override fun toString(): String {
         return """YamlConfig
+  projectId: '$projectId'
   appApk: '$appApk',
   testApk: '$testApk',
   rootGcsBucket: '$rootGcsBucket',

@@ -2,7 +2,6 @@ package ftl.gc
 
 import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.*
-import ftl.config.FtlConstants.projectId
 import ftl.config.YamlConfig
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
@@ -57,7 +56,7 @@ object GcTestMatrix {
         testMatrix.environmentMatrix = EnvironmentMatrix().setAndroidMatrix(androidMatrix)
 
         try {
-            return GcTesting.get.projects().testMatrices().create(projectId, testMatrix)
+            return GcTesting.get.projects().testMatrices().create(config.projectId, testMatrix)
         } catch (e: Exception) {
             fatalError(e)
         }
@@ -65,12 +64,12 @@ object GcTestMatrix {
         throw RuntimeException("Failed to create test matrix")
     }
 
-    fun cancel(testMatrixId: String) {
+    fun cancel(testMatrixId: String, config: YamlConfig) {
         try {
-            GcTesting.get.projects().testMatrices().cancel(projectId, testMatrixId)
+            GcTesting.get.projects().testMatrices().cancel(config.projectId, testMatrixId)
         } catch (e: Exception) {
             try {
-                GcTesting.get.projects().testMatrices().cancel(projectId, testMatrixId)
+                GcTesting.get.projects().testMatrices().cancel(config.projectId, testMatrixId)
             } catch (e2: Exception) {
                 // :(
                 e2.printStackTrace()
@@ -102,8 +101,8 @@ object GcTestMatrix {
     //        "message" : "The service is currently unavailable.",
     //        "status" : "UNAVAILABLE"
     //    }
-    fun refresh(testMatrixId: String): TestMatrix {
-        val getMatrix = GcTesting.get.projects().testMatrices().get(projectId, testMatrixId)
+    fun refresh(testMatrixId: String, config: YamlConfig): TestMatrix {
+        val getMatrix = GcTesting.get.projects().testMatrices().get(config.projectId, testMatrixId)
         var failed = 0
         val maxWait = ofHours(1).seconds
 
