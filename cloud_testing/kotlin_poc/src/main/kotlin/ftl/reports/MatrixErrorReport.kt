@@ -70,7 +70,6 @@ object MatrixErrorReport {
 
         val csv = Paths.get(rootFolderPath.toString(), "${this.javaClass.simpleName}.csv")
         val csvData = StringBuilder()
-        val t = "\t"
         csvData.puts(listOf("Test Name", "Link", "Failure"))
 
         val sorted = results.toList()

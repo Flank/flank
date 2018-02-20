@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-FLANK="../../../flank/cloud_testing/kotlin_poc/"
+DIR=`dirname "$BASH_SOURCE"`
+
+FLANK="$DIR/../../../flank/cloud_testing/kotlin_poc/"
 pushd "$FLANK"
 ./gradlew clean fatJar
 popd
