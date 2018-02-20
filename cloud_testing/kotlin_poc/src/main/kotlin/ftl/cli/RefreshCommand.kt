@@ -1,5 +1,6 @@
 package ftl.cli
 
+import ftl.config.YamlConfig
 import ftl.run.TestRunner
 import kotlinx.coroutines.experimental.runBlocking
 import picocli.CommandLine.Command
@@ -19,7 +20,8 @@ Reads in the matrix_ids.json file. Refreshes any incomplete matrices.
 class RefreshCommand : Runnable {
     override fun run() {
         runBlocking {
-            TestRunner.refreshLastRun()
+            val config = YamlConfig.load("./flank.yml")
+            TestRunner.refreshLastRun(config)
         }
     }
 
