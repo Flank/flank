@@ -69,10 +69,6 @@ class YamlConfig(
             return mapper.readValue(yamlFile, YamlConfig::class.java)
         }
 
-        fun load(yamlFile: File): YamlConfig {
-            return mapper.readValue(yamlFile, YamlConfig::class.java)
-        }
-
         private fun getDefaultProjectId(): String {
             if (useMock) return "mockProjectId"
             return ServiceOptions.getDefaultProjectId()
