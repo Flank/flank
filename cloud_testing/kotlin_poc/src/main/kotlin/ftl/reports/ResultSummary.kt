@@ -24,7 +24,7 @@ object ResultSummary {
             if (result.outcome == Outcome.success) success += 1
         }
         val failed = total - success
-        val successDouble: Double = success / total * 100.0
+        val successDouble: Double = success.toDouble() / total.toDouble() * 100.0
         val successPercent = percentFormat.format(successDouble)
 
         val outputPath = Paths.get(rootFolderPath.toString(), "result_summary.txt")
