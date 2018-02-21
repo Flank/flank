@@ -202,15 +202,14 @@ object TestRunner {
                         blobPath.matches(ArtifactRegex.screenshotRgx)
                 ) {
                     val downloadFile = Paths.get(FtlConstants.localResultsDir, blobPath)
-                    if (downloadFile.toFile().exists()) {
-                        println(FtlConstants.indent + "Already downloaded: $blobPath")
-                    } else {
-                        println(FtlConstants.indent + "Downloading: $blobPath")
+                    print(".")
+                    if (!downloadFile.toFile().exists()) {
                         downloadFile.parent.toFile().mkdirs()
                         blob.downloadTo(downloadFile)
                     }
                 }
             })
+            println("")
 
             dirty = true
             matrix.downloaded = true
