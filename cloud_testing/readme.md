@@ -1,3 +1,17 @@
+# Flank Kotlin [![Build Status](https://www.bitrise.io/app/ee155007f34f9bc0/status.svg?token=27NQxGRrrr0S0uSFrX_VVw&branch=cloud_testing)](https://www.bitrise.io/app/ee155007f34f9bc0)
+
+Rewrite of Flank in Kotlin
+
+## Design decisions.
+
+- APIs are used for all Google Cloud interactions
+- Firebase Test Lab transparently retries VMs 3x
+  - Infrastructure Failures may lead to [4 hours or more of wait times](https://github.com/TestArmada/flank/issues/108) as a result, retrying VMs on failure isn't super helpful.
+  - VM timeout applies only once the VM has booted. Hours spent waiting for the VM to boot aren't included in the wait time.
+- Test failures are best retried using [a retry JUnit rule](https://github.com/instructure/instructure-android/blob/80b0c5e7256317c223d4d3ed6f3b918df31c2548/espresso/src/main/java/com/instructure/espresso/ScreenshotTestRule.java#L38) combined with Android Test Orchestrator and an [app reset rule](https://github.com/instructure/instructure-android/blob/80b0c5e7256317c223d4d3ed6f3b918df31c2548/teacher/app/src/androidTest/java/com/instructure/teacher/ui/utils/TeacherActivityTestRule.java#L39)
+  - On device retry is free since we don't need to spin up a new VM. 
+  - Each VM created is another opportunity for FTL to error. Even when VMs boot correctly, it's at least a 5m wait time.
+
 ## Client libraries
 
 Google provides [two types of client libraries:](https://cloud.google.com/apis/docs/client-libraries-explained) `Google API Client Libraries` and `Google Cloud Client Libraries`.

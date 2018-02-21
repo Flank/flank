@@ -16,7 +16,7 @@ import picocli.CommandLine
 object Main : Runnable {
     override fun run() {
         if (version) {
-            println("v0.2")
+            println("v0.0.3")
         } else {
             CommandLine.usage(Main, System.out);
         }
