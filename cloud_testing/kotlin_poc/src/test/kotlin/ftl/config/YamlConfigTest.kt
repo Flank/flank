@@ -50,12 +50,15 @@ class YamlConfigTest {
         assert(config.limitBreak, false)
     }
 
+    val s99_999 = 99_999
+
     @Test
     fun limitBreakFalseExitsOnLargeShards() {
         exit.expectSystemExitWithStatus(-1)
 
         val config = YamlConfig.load(yamlFile)
-        config.shardCount = 99_999
+        config.shardCount = s99_999
+        assert(config.shardCount, s99_999)
     }
 
     @Test
@@ -66,6 +69,7 @@ class YamlConfigTest {
                 oldConfig.testApk,
                 oldConfig.rootGcsBucket,
                 limitBreak = true)
-        config.shardCount = 99_999
+        config.shardCount = s99_999
+        assert(config.shardCount, s99_999)
     }
 }

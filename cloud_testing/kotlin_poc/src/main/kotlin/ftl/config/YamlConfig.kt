@@ -26,11 +26,12 @@ class YamlConfig(
         val projectId: String = getDefaultProjectId()) {
 
     var shardCount: Int = shardCount
-    set(value) {
-        if (value > 100 && !limitBreak) {
-            fatalError("Shard count exceeds 100. Set limitBreak=true to enable large shards")
+        set(value) {
+            if (value > 100 && !limitBreak) {
+                fatalError("Shard count exceeds 100. Set limitBreak=true to enable large shards")
+            }
+            field = value
         }
-    }
 
     init {
         validate()
