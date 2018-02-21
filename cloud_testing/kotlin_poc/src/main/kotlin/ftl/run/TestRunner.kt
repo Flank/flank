@@ -18,7 +18,6 @@ import ftl.reports.ResultSummary
 import ftl.util.*
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
-import org.yaml.snakeyaml.Yaml
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -253,7 +252,7 @@ object TestRunner {
     // gcloud-cli/googlecloudsdk/api_lib/firebase/test/matrix_ops.py
     fun pollMatrix(matrixId: String, stopwatch: StopWatch, config: YamlConfig): TestMatrix {
         var lastState = ""
-        var error: String?
+        var lastError = ""
         var progress = listOf<String>()
         var lastProgressLen = 0
         var refreshedMatrix: TestMatrix
@@ -270,14 +269,19 @@ object TestRunner {
 
             val details: TestDetails? = firstTestStatus.testDetails
             if (details != null) {
-                error = details.errorMessage
-                if (error != null) {
-                    puts("Error: $error")
+                // Error message is never reset. Track last error to only print new messages.
+                val errorMessage = details.errorMessage
+                if (
+                        errorMessage != null &&
+                        errorMessage != lastError
+                ) {
+                    // Note: After an error (infrastructure failure), FTL will retry 3x
+                    lastError = errorMessage
+                    puts("Error: $lastError")
                 }
                 progress = details.progressMessages ?: progress
             }
 
-            // if the matrix is already completed, return after checking for error.
             if (MatrixState.completed(refreshedMatrix.state)) {
                 break
             }
