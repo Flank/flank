@@ -1,3 +1,7 @@
+# Flank Kotlin [![Build Status](https://www.bitrise.io/app/ee155007f34f9bc0/status.svg?token=27NQxGRrrr0S0uSFrX_VVw&branch=cloud_testing)](https://www.bitrise.io/app/ee155007f34f9bc0)
+
+Rewrite of Flank in Kotlin
+
 ## Client libraries
 
 Google provides [two types of client libraries:](https://cloud.google.com/apis/docs/client-libraries-explained) `Google API Client Libraries` and `Google Cloud Client Libraries`.
