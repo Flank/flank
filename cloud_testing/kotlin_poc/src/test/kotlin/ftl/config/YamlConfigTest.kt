@@ -6,7 +6,6 @@ import org.junit.Test
 import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
-import java.io.File
 
 class YamlConfigTest {
 
@@ -30,11 +29,7 @@ class YamlConfigTest {
         assertEquals(expected, actual)
     }
 
-    private val yamlFile: File by lazy {
-        val path = File("./flank.yml").canonicalFile
-        assert(path.exists())
-        path
-    }
+    private val yamlFile = "./flank.yml"
 
     @Test
     fun configLoadsSuccessfully() {
