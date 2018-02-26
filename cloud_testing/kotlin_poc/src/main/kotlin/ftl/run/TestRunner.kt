@@ -209,7 +209,6 @@ object TestRunner {
                     }
                 }
             })
-            println("")
 
             dirty = true
             matrix.downloaded = true
