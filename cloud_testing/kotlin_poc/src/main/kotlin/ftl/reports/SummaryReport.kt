@@ -11,7 +11,7 @@ import java.nio.file.Paths
 import javax.xml.parsers.DocumentBuilderFactory
 
 /** Used to create summary.csv from merging all the JUnit XML results **/
-object MergeJUnitResults {
+object SummaryReport {
 
     fun run(matrixMap: MatrixMap) {
         val xmlFiles = mutableListOf<File>()

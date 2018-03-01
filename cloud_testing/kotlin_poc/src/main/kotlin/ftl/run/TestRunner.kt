@@ -13,7 +13,7 @@ import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
 import ftl.reports.CostSummary
 import ftl.reports.MatrixErrorReport
-import ftl.reports.MergeJUnitResults
+import ftl.reports.SummaryReport
 import ftl.reports.ResultSummary
 import ftl.util.*
 import kotlinx.coroutines.experimental.Deferred
@@ -305,7 +305,7 @@ object TestRunner {
         CostSummary.run(matrixMap)
         ResultSummary.run(matrixMap)
         MatrixErrorReport.run(matrixMap)
-        MergeJUnitResults.run(matrixMap)
+        SummaryReport.run(matrixMap)
     }
 
     // used to update results from an async run
