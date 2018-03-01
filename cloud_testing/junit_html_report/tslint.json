@@ -1,0 +1,17 @@
+{
+  "extends": [
+    "tslint-microsoft-contrib",
+    "office-ui-fabric-react-tslint"
+  ],
+  "rules": {
+    "no-relative-imports": false,
+    "missing-jsdoc": false,
+    "no-import-side-effect": false,
+    "ordered-imports": false,
+    "no-submodule-imports": false,
+    "completed-docs": [false, "classes"],
+    "no-unsafe-any": false,
+    "no-default-export": false,
+    "max-line-length": false
+  }
+}
