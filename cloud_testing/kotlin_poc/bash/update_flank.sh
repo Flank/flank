@@ -2,7 +2,7 @@
 
 DIR=`dirname "$BASH_SOURCE"`
 
-FLANK="$DIR/../"
+FLANK="$DIR/.."
 
 "$FLANK/gradlew" -p "$FLANK" clean fatJar
 
