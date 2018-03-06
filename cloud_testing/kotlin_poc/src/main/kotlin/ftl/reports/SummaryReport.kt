@@ -21,14 +21,18 @@ com.instructure.teacher.ui.EditQuizDetailsPageTest#editQuizTitle  1
  **/
 object SummaryReport : IReport {
 
-    override fun run(matrices: MatrixMap, testSuite: TestSuite) {
-        File("${reportPath(matrices)}.csv").printWriter().use { writer ->
+    override fun run(matrices: MatrixMap, testSuite: TestSuite, print: Boolean) {
+        var noFailures = true
+        val report = File("${reportPath(matrices)}.csv")
+        report.printWriter().use { writer ->
             testSuite.testCases.forEach { test ->
                 val testName = test.key
                 val failureCount = test.value.failures.size
                 if (failureCount <= 0) return@forEach
+                noFailures = false
                 writer.println("$testName\t$failureCount")
             }
         }
+        if (noFailures) report.delete()
     }
 }

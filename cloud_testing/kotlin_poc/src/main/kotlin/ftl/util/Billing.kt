@@ -53,6 +53,6 @@ object Billing {
 Billable time:$tab${hours}h ${minutes}m
 Billable minutes:$tab$billableMinutes
 Physical device cost:$tab$$physicalCost
-Virtual  device cost:$tab$$virtualCost"""
+Virtual  device cost:$tab$$virtualCost""".trim()
     }
 }

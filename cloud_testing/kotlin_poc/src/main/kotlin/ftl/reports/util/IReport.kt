@@ -6,7 +6,7 @@ import java.io.File
 import java.nio.file.Paths
 
 interface IReport {
-    fun run(matrices: MatrixMap, testSuite: TestSuite)
+    fun run(matrices: MatrixMap, testSuite: TestSuite, print: Boolean = false)
 
     fun reportName(): String {
         return this::class.java.simpleName

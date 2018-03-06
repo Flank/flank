@@ -2,6 +2,8 @@ package ftl.util
 
 import com.google.cloud.ServiceOptions
 import ftl.config.FtlConstants
+import java.io.StringWriter
+import java.nio.file.Files
 import java.nio.file.Paths
 import java.time.Duration.ofSeconds
 import java.time.Instant
@@ -11,6 +13,14 @@ import java.util.*
 
 
 object Utils {
+
+    fun StringWriter.println(msg: String) {
+        this.append(msg + "\n")
+    }
+
+    fun String.write(data: String) {
+        Files.write(Paths.get(this), data.toByteArray())
+    }
 
     fun join(first: String, vararg more: String): String {
         return Paths.get(first, *more).toString()

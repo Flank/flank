@@ -93,11 +93,19 @@ object ReportManager {
 
     fun generate(matrices: MatrixMap) {
         val testSuite = parseJUnitXml(matrices)
+
+        // Print to stdout
         listOf(
                 CostReport,
+                MatrixReport
+        ).map {
+            it.run(matrices, testSuite, print = true)
+        }
+
+        // Generate report only
+        listOf(
                 HtmlReport,
                 MatrixErrorReport,
-                MatrixReport,
                 SummaryReport
         ).map { it.run(matrices, testSuite) }
     }

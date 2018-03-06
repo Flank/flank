@@ -6,6 +6,10 @@ import ftl.reports.util.IReport
 import ftl.reports.util.TestSuite
 import ftl.util.Billing
 import java.io.File
+import java.io.StringWriter
+import java.nio.file.Files
+import ftl.util.Utils.write
+import ftl.util.Utils.println
 
 /**
 
@@ -32,18 +36,24 @@ object CostReport : IReport {
         return Billing.estimateCosts(totalBillableMinutes)
     }
 
-    private fun write(matrices: MatrixMap, cost: String) {
-        val costSummaryPath = reportPath(matrices) + ".txt"
+    private fun generate(matrices: MatrixMap): String {
+        val cost = estimate(matrices)
 
-        File(costSummaryPath).printWriter().use { writer ->
-            writer.print(reportName())
+        StringWriter().use { writer ->
+            writer.println(reportName())
             cost.split("\n").forEach { writer.println(indent + it) }
-            writer.println()
+           return writer.toString()
         }
     }
 
-    override fun run(matrices: MatrixMap, testSuite: TestSuite) {
-        val cost = estimate(matrices)
-        write(matrices, cost)
+    private fun write(matrices: MatrixMap, output: String) {
+        val reportPath = reportPath(matrices) + ".txt"
+        reportPath.write(output)
+    }
+
+    override fun run(matrices: MatrixMap, testSuite: TestSuite, print: Boolean) {
+        val output = generate(matrices)
+        if (print) println(output)
+        write(matrices, output)
     }
 }

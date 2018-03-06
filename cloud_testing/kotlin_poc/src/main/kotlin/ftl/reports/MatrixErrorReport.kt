@@ -7,7 +7,7 @@ import java.io.File
 
 /**
 
-Used to create matrix error report
+Report matrix errors. Only created if there are failures.
 
 Example:
 
@@ -18,13 +18,14 @@ https://console.firebase.google.com/project/bootstraponline-awesome-sauce/testla
  **/
 object MatrixErrorReport : IReport {
 
-    private fun list(vararg args:String): String {
+    private fun list(vararg args: String): String {
         return args.joinToString("\t")
     }
 
-    override fun run(matrices: MatrixMap, testSuite: TestSuite) {
-        val matrixErrorReport = File(reportPath(matrices) + ".csv")
-        matrixErrorReport.printWriter().use { writer ->
+    override fun run(matrices: MatrixMap, testSuite: TestSuite, print: Boolean) {
+        var noFailures = true
+        val report = File(reportPath(matrices) + ".csv")
+        report.printWriter().use { writer ->
             writer.println(list("Test Name", "Link", "Failure"))
 
             testSuite.testCases.forEach { test ->
@@ -34,9 +35,12 @@ object MatrixErrorReport : IReport {
 
                 writer.println(list(testName, testFailures.size.toString() + "x"))
                 testFailures.forEach {
+                    noFailures = false
                     writer.println(list("", it.webLink, it.stackTrace.split("\n").firstOrNull() ?: ""))
                 }
             }
         }
+
+        if (noFailures) report.delete()
     }
 }

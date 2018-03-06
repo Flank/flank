@@ -6,6 +6,7 @@ import com.google.cloud.storage.Storage
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import ftl.config.FtlConstants
+import ftl.config.FtlConstants.indent
 import ftl.config.FtlConstants.localResultsDir
 import ftl.config.FtlConstants.localhost
 import ftl.config.FtlConstants.matrixIdsFile
@@ -36,7 +37,7 @@ object TestRunner {
     }
 
     private suspend fun runTests(config: YamlConfig): MatrixMap {
-        println("runTests")
+        println("RunTests")
         val stopwatch = StopWatch().start()
         assertMockUrl()
 
@@ -108,7 +109,7 @@ object TestRunner {
 
     /** Refresh all in progress matrices in parallel **/
     private suspend fun refreshMatrices(matrixMap: MatrixMap, config: YamlConfig) {
-        println("refreshMatrices")
+        println("RefreshMatrices")
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
         val map = matrixMap.map
@@ -122,7 +123,7 @@ object TestRunner {
         }
 
         if (matrixCount != 0) {
-            println(FtlConstants.indent + "Refreshing ${matrixCount}x matrices")
+            println(indent + "Refreshing ${matrixCount}x matrices")
         }
 
         var dirty = false
@@ -130,7 +131,7 @@ object TestRunner {
             val matrix = it.await()
             val matrixId = matrix.testMatrixId
 
-            println("${matrix.state} $matrixId")
+            println(indent + "${matrix.state} $matrixId")
 
             if (map[matrixId]?.update(matrix) == true) dirty = true
         }
@@ -139,6 +140,7 @@ object TestRunner {
             println(FtlConstants.indent + "Updating matrix file")
             updateMatrixFile(matrixMap)
         }
+        println()
     }
 
     private fun lastGcsPath(): String {
@@ -177,7 +179,7 @@ object TestRunner {
 
     /** fetch test_result_0.xml & *.png **/
     private fun fetchArtifacts(matrixMap: MatrixMap) {
-        println("fetchArtifacts")
+        println("FetchArtifacts")
         if (FtlConstants.useMock) return
         val fields = Storage.BlobListOption.fields(Storage.BlobField.NAME)
 
@@ -220,7 +222,7 @@ object TestRunner {
 
     /** Synchronously poll all matrix ids until they complete **/
     private fun pollMatrices(matrices: MatrixMap, config: YamlConfig) {
-        println("pollMatrices")
+        println("PollMatrices")
         val map = matrices.map
         val poll = matrices.map.values.filter {
             MatrixState.inProgress(it.state)
@@ -285,6 +287,10 @@ object TestRunner {
             // Progress contains all messages. only print new updates
             for (msg in progress.listIterator(lastProgressLen)) {
                 puts(msg)
+                // There may be significant time lag between 'Done' and the matrix actually finishing.
+                if (msg.contains("Done. Test time=")) {
+                    puts("Waiting for post-processing service to finish")
+                }
             }
             lastProgressLen = progress.size
 
@@ -293,9 +299,13 @@ object TestRunner {
                 puts(lastState)
             }
 
-            Utils.sleep(6)
+            // GetTestMatrix is not designed to handle many requests per second.
+            // Sleep 15s to avoid overloading the system.
+            Utils.sleep(15)
         }
 
+        // Print final matrix state with timestamp. May be many minutes after the 'Done.' progress message.
+        puts("$matrixId ${refreshedMatrix.state}")
         return refreshedMatrix
     }
 

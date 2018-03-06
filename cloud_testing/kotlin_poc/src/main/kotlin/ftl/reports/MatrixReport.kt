@@ -5,7 +5,9 @@ import ftl.json.MatrixMap
 import ftl.reports.util.IReport
 import ftl.reports.util.TestSuite
 import ftl.util.Outcome
-import java.io.File
+import ftl.util.Utils.println
+import ftl.util.Utils.write
+import java.io.StringWriter
 import java.text.DecimalFormat
 
 /**
@@ -22,7 +24,7 @@ object MatrixReport : IReport {
 
     private val percentFormat by lazy { DecimalFormat("#0.00") }
 
-    override fun run(matrices: MatrixMap, testSuite: TestSuite) {
+    private fun generate(matrices: MatrixMap): String {
         var total = 0
         var success = 0
         matrices.map.values.forEach { result ->
@@ -33,12 +35,26 @@ object MatrixReport : IReport {
         val successDouble: Double = success.toDouble() / total.toDouble() * 100.0
         val successPercent = percentFormat.format(successDouble)
 
-        var outputData = "$success / $total ($successPercent%)\n"
+        var outputData = "$success / $total ($successPercent%)"
         if (failed > 0) outputData += "$failed matrices failed"
 
-        File("${reportPath(matrices)}.txt").printWriter().use { writer ->
+        StringWriter().use { writer ->
             writer.println(reportName())
-            outputData.split("\n").forEach { writer.println(indent + it) }
+            writer.println("$indent$success / $total ($successPercent%)")
+            if (failed > 0) writer.println("$indent$failed matrices failed")
+
+            return writer.toString()
         }
+    }
+
+    private fun write(matrices: MatrixMap, output: String) {
+        val reportPath = reportPath(matrices) + ".txt"
+        reportPath.write(output)
+    }
+
+    override fun run(matrices: MatrixMap, testSuite: TestSuite, print: Boolean) {
+        val output = generate(matrices)
+        if (print) println(output)
+        write(matrices, output)
     }
 }
