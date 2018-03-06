@@ -19,7 +19,7 @@ https://console.firebase.google.com/project/bootstraponline-awesome-sauce/testla
  **/
 object MatrixErrorReport : IReport {
 
-    fun list(vararg args:String): String {
+    private fun list(vararg args:String): String {
         return args.joinToString("\t")
     }
 

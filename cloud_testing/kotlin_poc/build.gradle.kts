@@ -47,35 +47,34 @@ tasks.withType<Test> {
 }
 
 dependencies {
-    implementation("com.google.code.gson:gson:2.8.2")
+    compile(Libs.KOTLIN_STD_LIB)
+    compile(Libs.KOTLIN_COROUTINES_CORE)
 
     // https://github.com/remkop/picocli
-    implementation("info.picocli:picocli:2.2.1")
+    compile("info.picocli:picocli:2.2.1")
 
-    // https://github.com/Kotlin/kotlinx.coroutines/releases
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21.2")
+    compile("com.google.code.gson:gson:2.8.2")
 
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.cloud%22%20AND%20a%3A%22google-cloud-storage%22
-    implementation("com.google.cloud:google-cloud-storage:1.15.0")
+    compile("com.google.cloud:google-cloud-storage:1.15.0")
 
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-toolresults%22
-    implementation("com.google.apis:google-api-services-toolresults:v1beta3-rev351-1.21.0")
+    compile("com.google.apis:google-api-services-toolresults:v1beta3-rev351-1.21.0")
 
     // https://github.com/linkedin/dex-test-parser/releases
-    implementation("com.linkedin.dextestparser:parser:1.1.0")
+    compile("com.linkedin.dextestparser:parser:1.1.0")
 
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-testing%22
-    implementation("com.google.apis:google-api-services-testing:v1-rev23-1.23.0")
+    compile("com.google.apis:google-api-services-testing:v1-rev23-1.23.0")
 
-    implementation(Libs.KOTLIN_STD_LIB)
+    // yaml config
+    compile("com.fasterxml.jackson.core:jackson-databind:2.9.4")
+    compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.4")
+    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.4")
+
     testImplementation("junit:junit:4.12")
     // http://stefanbirkner.github.io/system-rules/index.html
     testImplementation("com.github.stefanbirkner:system-rules:1.17.1")
-
-    // yaml config
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.9.4")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.4")
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.4")
 }
 
 // Fix Exception in thread "main" java.lang.NoSuchMethodError: com.google.common.hash.Hashing.crc32c()Lcom/google/common/hash/HashFunction;
