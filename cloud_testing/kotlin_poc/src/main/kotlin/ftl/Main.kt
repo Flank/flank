@@ -28,6 +28,7 @@ object Main : Runnable {
     @Throws(Exception::class)
     @JvmStatic
     fun main(args: Array<String>) {
+//        val args2 = arrayOf("run") // for debugging. run test from IntelliJ IDEA
         CommandLine.run<Runnable>(Main, System.out, *args)
     }
 }
