@@ -21,7 +21,7 @@ object Billing {
         return billableMinutes(BigDecimal(testDurationSeconds))
     }
 
-    fun billableMinutes(testDurationSeconds: BigDecimal): Long {
+    private fun billableMinutes(testDurationSeconds: BigDecimal): Long {
         val billableMinutes = divBy60(checkForZero(testDurationSeconds))
         // round decimals up.  0.01 minutes is billable at 1 minute.
         return billableMinutes.setScale(0, RoundingMode.UP).longValueExact()
@@ -53,6 +53,6 @@ object Billing {
 Billable time:$tab${hours}h ${minutes}m
 Billable minutes:$tab$billableMinutes
 Physical device cost:$tab$$physicalCost
-Virtual  device cost:$tab$$virtualCost"""
+Virtual  device cost:$tab$$virtualCost""".trim()
     }
 }

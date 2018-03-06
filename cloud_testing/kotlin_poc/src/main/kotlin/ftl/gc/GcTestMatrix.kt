@@ -64,18 +64,18 @@ object GcTestMatrix {
         throw RuntimeException("Failed to create test matrix")
     }
 
-    fun cancel(testMatrixId: String, config: YamlConfig) {
-        try {
-            GcTesting.get.projects().testMatrices().cancel(config.projectId, testMatrixId)
-        } catch (e: Exception) {
-            try {
-                GcTesting.get.projects().testMatrices().cancel(config.projectId, testMatrixId)
-            } catch (e2: Exception) {
-                // :(
-                e2.printStackTrace()
-            }
-        }
-    }
+//    fun cancel(testMatrixId: String, config: YamlConfig) {
+//        try {
+//            GcTesting.get.projects().testMatrices().cancel(config.projectId, testMatrixId)
+//        } catch (e: Exception) {
+//            try {
+//                GcTesting.get.projects().testMatrices().cancel(config.projectId, testMatrixId)
+//            } catch (e2: Exception) {
+//                // :(
+//                e2.printStackTrace()
+//            }
+//        }
+//    }
 
     // Getting the test matrix may throw an internal server error.
     //  {

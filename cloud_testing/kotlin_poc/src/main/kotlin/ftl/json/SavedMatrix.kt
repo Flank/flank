@@ -17,8 +17,8 @@ class SavedMatrix(matrix: TestMatrix) {
     var downloaded = false
 
     var billableMinutes: Long = 0
-    var testDurationSeconds: Long = 0
-    var runDurationSeconds: Long = 0
+    private var testDurationSeconds: Long = 0
+    private var runDurationSeconds: Long = 0
     var outcome: String = ""
 
     init {

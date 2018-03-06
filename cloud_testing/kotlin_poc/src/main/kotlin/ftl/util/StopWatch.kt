@@ -39,9 +39,4 @@ class StopWatch {
 
         return String.format("%dm$space%ds", minutes, seconds)
     }
-
-    fun reset(): StopWatch {
-        startTime = 0
-        return this
-    }
 }

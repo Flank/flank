@@ -1,0 +1,7 @@
+{
+  "files": {
+    "packages/office-ui-fabric-react-tslint/package.json": "492c95ba21a0ac374f50b09484fe6759ce2c460d",
+    "packages/office-ui-fabric-react-tslint/tslint.json": "0fcb71bed6ed9a926b4df681fab355610259c99b"
+  },
+  "arguments": "node -v "
+}

@@ -6,19 +6,18 @@ import com.google.cloud.storage.Storage
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import ftl.config.FtlConstants
+import ftl.config.FtlConstants.indent
+import ftl.config.FtlConstants.localResultsDir
 import ftl.config.FtlConstants.localhost
+import ftl.config.FtlConstants.matrixIdsFile
 import ftl.config.YamlConfig
 import ftl.gc.*
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
-import ftl.reports.CostSummary
-import ftl.reports.MatrixErrorReport
-import ftl.reports.MergeJUnitResults
-import ftl.reports.ResultSummary
+import ftl.reports.util.ReportManager
 import ftl.util.*
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
-import org.yaml.snakeyaml.Yaml
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -38,7 +37,7 @@ object TestRunner {
     }
 
     private suspend fun runTests(config: YamlConfig): MatrixMap {
-        println("runTests")
+        println("RunTests")
         val stopwatch = StopWatch().start()
         assertMockUrl()
 
@@ -46,7 +45,7 @@ object TestRunner {
         var testTargets: List<String>? = null
 
         if (config.testMethods.isNotEmpty()) {
-            testTargets = config.testMethods.stream().map { i -> "class " + i }.collect(Collectors.toList())
+            testTargets = config.testMethods.stream().map { i -> "class $i" }.collect(Collectors.toList())
         }
 
         // GcAndroidMatrix => GcTestMatrix
@@ -108,15 +107,9 @@ object TestRunner {
         return Pair(appApkGcsPath.await(), testApkGcsPath.await())
     }
 
-    private fun deleteResults() {
-        val resultsFile = Paths.get(FtlConstants.localResultsDir).toFile()
-        resultsFile.deleteRecursively()
-        resultsFile.mkdirs()
-    }
-
     /** Refresh all in progress matrices in parallel **/
-    suspend fun refreshMatrices(matrixMap: MatrixMap, config: YamlConfig) {
-        println("refreshMatrices")
+    private suspend fun refreshMatrices(matrixMap: MatrixMap, config: YamlConfig) {
+        println("RefreshMatrices")
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
         val map = matrixMap.map
@@ -130,7 +123,7 @@ object TestRunner {
         }
 
         if (matrixCount != 0) {
-            println(FtlConstants.indent + "Refreshing ${matrixCount}x matrices")
+            println(indent + "Refreshing ${matrixCount}x matrices")
         }
 
         var dirty = false
@@ -138,7 +131,7 @@ object TestRunner {
             val matrix = it.await()
             val matrixId = matrix.testMatrixId
 
-            println("${matrix.state} $matrixId")
+            println(indent + "${matrix.state} $matrixId")
 
             if (map[matrixId]?.update(matrix) == true) dirty = true
         }
@@ -147,9 +140,10 @@ object TestRunner {
             println(FtlConstants.indent + "Updating matrix file")
             updateMatrixFile(matrixMap)
         }
+        println()
     }
 
-    fun lastGcsPath(): String {
+    private fun lastGcsPath(): String {
         val resultsFile = Paths.get(FtlConstants.localResultsDir).toFile()
         val scheduledRuns = resultsFile.listFiles().filter { it.isDirectory }.map { it.name }
 
@@ -163,14 +157,19 @@ object TestRunner {
     }
 
     /** Reads in the last matrices from the localResultsDir folder **/
-    fun lastMatrices(): MatrixMap {
+    private fun lastMatrices(): MatrixMap {
         val lastRun = lastGcsPath()
         println("Loading run $lastRun")
         return matrixPathToObj(lastRun)
     }
 
-    private fun matrixPathToObj(path: String): MatrixMap {
-        val json = Paths.get(FtlConstants.localResultsDir, path, FtlConstants.matrixIdsFile).toFile().readText()
+    /** Creates MatrixMap from matrix_ids.json file */
+    fun matrixPathToObj(path: String): MatrixMap {
+        var filePath = Paths.get(path, matrixIdsFile).toFile()
+        if (!filePath.exists()) {
+            filePath = Paths.get(localResultsDir, path, matrixIdsFile).toFile()
+        }
+        val json = filePath.readText()
 
         val listOfSavedMatrix = object : TypeToken<MutableMap<String, SavedMatrix>>() {}.type
         val map: MutableMap<String, SavedMatrix> = gson.fromJson(json, listOfSavedMatrix)
@@ -179,8 +178,8 @@ object TestRunner {
     }
 
     /** fetch test_result_0.xml & *.png **/
-    fun fetchArtifacts(matrixMap: MatrixMap) {
-        println("fetchArtifacts")
+    private fun fetchArtifacts(matrixMap: MatrixMap) {
+        println("FetchArtifacts")
         if (FtlConstants.useMock) return
         val fields = Storage.BlobListOption.fields(Storage.BlobField.NAME)
 
@@ -203,10 +202,8 @@ object TestRunner {
                         blobPath.matches(ArtifactRegex.screenshotRgx)
                 ) {
                     val downloadFile = Paths.get(FtlConstants.localResultsDir, blobPath)
-                    if (downloadFile.toFile().exists()) {
-                        println(FtlConstants.indent + "Already downloaded: $blobPath")
-                    } else {
-                        println(FtlConstants.indent + "Downloading: $blobPath")
+                    print(".")
+                    if (!downloadFile.toFile().exists()) {
                         downloadFile.parent.toFile().mkdirs()
                         blob.downloadTo(downloadFile)
                     }
@@ -224,8 +221,8 @@ object TestRunner {
     } // fun
 
     /** Synchronously poll all matrix ids until they complete **/
-    fun pollMatrices(matrices: MatrixMap, config: YamlConfig) {
-        println("pollMatrices")
+    private fun pollMatrices(matrices: MatrixMap, config: YamlConfig) {
+        println("PollMatrices")
         val map = matrices.map
         val poll = matrices.map.values.filter {
             MatrixState.inProgress(it.state)
@@ -251,9 +248,9 @@ object TestRunner {
     //
     // Port of MonitorTestExecutionProgress
     // gcloud-cli/googlecloudsdk/api_lib/firebase/test/matrix_ops.py
-    fun pollMatrix(matrixId: String, stopwatch: StopWatch, config: YamlConfig): TestMatrix {
+    private fun pollMatrix(matrixId: String, stopwatch: StopWatch, config: YamlConfig): TestMatrix {
         var lastState = ""
-        var error: String?
+        var lastError = ""
         var progress = listOf<String>()
         var lastProgressLen = 0
         var refreshedMatrix: TestMatrix
@@ -270,14 +267,19 @@ object TestRunner {
 
             val details: TestDetails? = firstTestStatus.testDetails
             if (details != null) {
-                error = details.errorMessage
-                if (error != null) {
-                    puts("Error: $error")
+                // Error message is never reset. Track last error to only print new messages.
+                val errorMessage = details.errorMessage
+                if (
+                        errorMessage != null &&
+                        errorMessage != lastError
+                ) {
+                    // Note: After an error (infrastructure failure), FTL will retry 3x
+                    lastError = errorMessage
+                    puts("Error: $lastError")
                 }
                 progress = details.progressMessages ?: progress
             }
 
-            // if the matrix is already completed, return after checking for error.
             if (MatrixState.completed(refreshedMatrix.state)) {
                 break
             }
@@ -285,6 +287,10 @@ object TestRunner {
             // Progress contains all messages. only print new updates
             for (msg in progress.listIterator(lastProgressLen)) {
                 puts(msg)
+                // There may be significant time lag between 'Done' and the matrix actually finishing.
+                if (msg.contains("Done. Test time=")) {
+                    puts("Waiting for post-processing service to finish")
+                }
             }
             lastProgressLen = progress.size
 
@@ -293,17 +299,18 @@ object TestRunner {
                 puts(lastState)
             }
 
-            Utils.sleep(6)
+            // GetTestMatrix is not designed to handle many requests per second.
+            // Sleep 15s to avoid overloading the system.
+            Utils.sleep(15)
         }
 
+        // Print final matrix state with timestamp. May be many minutes after the 'Done.' progress message.
+        puts("$matrixId ${refreshedMatrix.state}")
         return refreshedMatrix
     }
 
-    fun runReports(matrixMap: MatrixMap) {
-        CostSummary.run(matrixMap)
-        ResultSummary.run(matrixMap)
-        MatrixErrorReport.run(matrixMap)
-        MergeJUnitResults.run(matrixMap)
+    private fun runReports(matrixMap: MatrixMap) {
+        ReportManager.generate(matrixMap)
     }
 
     // used to update results from an async run
