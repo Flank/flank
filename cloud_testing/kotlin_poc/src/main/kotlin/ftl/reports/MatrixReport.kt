@@ -36,7 +36,7 @@ object MatrixReport : IReport {
         var outputData = "$success / $total ($successPercent%)\n"
         if (failed > 0) outputData += "$failed matrices failed"
 
-        File("${reportPath(matrices)}.csv").printWriter().use { writer ->
+        File("${reportPath(matrices)}.txt").printWriter().use { writer ->
             writer.println(reportName())
             outputData.split("\n").forEach { writer.println(indent + it) }
         }

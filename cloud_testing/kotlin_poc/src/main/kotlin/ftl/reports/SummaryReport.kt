@@ -11,12 +11,12 @@ List failure count for each test in CSV format.
 
 Example:
 
-com.instructure.teacher.ui.SpeedGraderPageTest#displaySubmissionPickerDialog,31
-com.instructure.teacher.ui.SpeedGraderCommentsPageTest#addsNewTextComment,5
-com.instructure.teacher.ui.AssignmentSubmissionListPageTest#displaysAssignmentStatusLate,3
-com.instructure.teacher.ui.QuizSubmissionListPageTest#filterLateSubmissions,2
-com.instructure.teacher.ui.AssignmentSubmissionListPageTest#filterLateSubmissions,2
-com.instructure.teacher.ui.EditQuizDetailsPageTest#editQuizTitle,1
+com.instructure.teacher.ui.SpeedGraderPageTest#displaySubmissionPickerDialog  31
+com.instructure.teacher.ui.SpeedGraderCommentsPageTest#addsNewTextComment  5
+com.instructure.teacher.ui.AssignmentSubmissionListPageTest#displaysAssignmentStatusLate  3
+com.instructure.teacher.ui.QuizSubmissionListPageTest#filterLateSubmissions  2
+com.instructure.teacher.ui.AssignmentSubmissionListPageTest#filterLateSubmissions  2
+com.instructure.teacher.ui.EditQuizDetailsPageTest#editQuizTitle  1
 
  **/
 object SummaryReport : IReport {
@@ -26,7 +26,8 @@ object SummaryReport : IReport {
             testSuite.testCases.forEach { test ->
                 val testName = test.key
                 val failureCount = test.value.failures.size
-                writer.println("$testName,$failureCount")
+                if (failureCount <= 0) return@forEach
+                writer.println("$testName\t$failureCount")
             }
         }
     }

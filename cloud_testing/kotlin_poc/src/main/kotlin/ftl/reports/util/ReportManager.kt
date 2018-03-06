@@ -7,6 +7,7 @@ import ftl.run.TestRunner
 import ftl.util.ArtifactRegex
 import org.w3c.dom.NodeList
 import java.io.File
+import java.nio.file.Paths
 import javax.xml.parsers.DocumentBuilderFactory
 
 object ReportManager {
@@ -40,7 +41,7 @@ object ReportManager {
             val nodes: NodeList = xml.getElementsByTagName("testcase")
 
             val matrixFolder = file.parentFile.parentFile.name
-            val matrixPath = matrices.runPath + "/" + matrixFolder
+            val matrixPath = Paths.get(matrices.runPath).fileName.resolve(matrixFolder).toString()
 
             repeat(nodes.length) { index ->
                 val node: DeferredElementImpl = nodes.item(index) as DeferredElementImpl
@@ -57,7 +58,11 @@ object ReportManager {
 
                 var webLink = ""
                 val savedMatrix = matrixMapValues.firstOrNull { it.gcsPath.endsWith(matrixPath) }
-                if (savedMatrix != null) webLink = savedMatrix.webLink
+                if (savedMatrix != null) {
+                    webLink = savedMatrix.webLink
+                } else {
+                    println("WARNING: Matrix path not found in JSON. $matrixPath")
+                }
 
                 val failureNode = node.getElementsByTagName("failure").item(0)
 

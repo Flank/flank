@@ -19,18 +19,23 @@ https://console.firebase.google.com/project/bootstraponline-awesome-sauce/testla
  **/
 object MatrixErrorReport : IReport {
 
+    fun list(vararg args:String): String {
+        return args.joinToString("\t")
+    }
+
     override fun run(matrices: MatrixMap, testSuite: TestSuite) {
         val matrixErrorReport = File(reportPath(matrices) + ".csv")
         matrixErrorReport.printWriter().use { writer ->
-            writer.println(listOf("Test Name", "Link", "Failure"))
+            writer.println(list("Test Name", "Link", "Failure"))
 
             testSuite.testCases.forEach { test ->
                 val testName = test.key.split(".").last()
                 val testFailures = test.value.failures
+                if (testFailures.isEmpty()) return@forEach
 
-                writer.println(listOf(testName, testFailures.size.toString() + "x"))
+                writer.println(list(testName, testFailures.size.toString() + "x"))
                 testFailures.forEach {
-                    writer.println(listOf("", it.webLink, it.stackTrace.split("\n").firstOrNull() ?: ""))
+                    writer.println(list("", it.webLink, it.stackTrace.split("\n").firstOrNull() ?: ""))
                 }
             }
         }
