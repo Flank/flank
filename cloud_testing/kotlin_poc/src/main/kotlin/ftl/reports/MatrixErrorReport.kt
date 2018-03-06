@@ -1,99 +1,38 @@
 package ftl.reports
 
-import com.sun.org.apache.xerces.internal.dom.DeferredElementImpl
-import ftl.config.FtlConstants
 import ftl.json.MatrixMap
-import ftl.run.TestRunner
-import ftl.util.ArtifactRegex.testResultRgx
+import ftl.reports.util.IReport
+import ftl.reports.util.TestSuite
 import java.io.File
-import java.nio.file.Files
 import java.nio.file.Paths
-import javax.xml.parsers.DocumentBuilderFactory
 
-/** Used to create matrix error report **/
-object MatrixErrorReport {
+/**
 
-    data class TestFailure(
-            val message: String,
-            val webLink: String
-    )
+Used to create matrix error report
 
-    fun run(matrixMap: MatrixMap) {
-        val xmlFiles = mutableListOf<File>()
-        val results = mutableMapOf<String, MutableList<TestFailure>>()
+Example:
 
-        val rootFolderPath = Paths.get(FtlConstants.localResultsDir, matrixMap.runPath)
-        val rootFolder = rootFolderPath.toFile()
+Test Name	Link	Failure
+SpeedGraderPageTest#displaySubmissionPickerDialog	31x
+https://console.firebase.google.com/project/bootstraponline-awesome-sauce/testlab/histories/bh.2c123bc6844a34b8/matrices/8756758526511083166	android.support.test.espresso.NoMatchingViewException: No views in hierarchy found matching: with string from resource id: <2131756174>[submission_versions] value: Submission versions
+https://console.firebase.google.com/project/bootstraponline-awesome-sauce/testlab/histories/bh.2c123bc6844a34b8/matrices/8810474127535026941
+ **/
+object MatrixErrorReport : IReport {
 
-        rootFolder.walk().forEach {
-            if (it.name.matches(testResultRgx)) {
-                xmlFiles.add(it)
-            }
-        }
+    override fun run(matrices: MatrixMap, testSuite: TestSuite) {
+        val matrixErrorReport = File(reportPath(matrices) + ".csv")
+        matrixErrorReport.printWriter().use { writer ->
+            writer.println(listOf("Test Name", "Link", "Failure"))
 
-        val matrixMapValues = matrixMap.map.values
+            testSuite.testCases.forEach { test ->
+                val testName = test.key.split(".").last()
+                val testFailures = test.value.failures
 
-        xmlFiles.forEach { file ->
-            val xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file)
-            xml.normalizeDocument()
-            xml.documentElement.normalize()
-
-            val nodes = xml.getElementsByTagName("failure")
-
-            val matrixFolder = file.parentFile.parentFile.name
-            val matrixPath = matrixMap.runPath + "/" + matrixFolder
-
-            repeat(nodes.length) { index ->
-                val node: DeferredElementImpl = nodes.item(index) as DeferredElementImpl
-
-                val parent = node.parentNode.attributes
-                val className = parent.getNamedItem("classname").nodeValue
-                val testName = parent.getNamedItem("name").nodeValue
-                val key = "$className#$testName"
-
-                val failureMessage = node.firstChild.nodeValue
-
-                val webLink = matrixMapValues.first { it.gcsPath.endsWith(matrixPath) }.webLink
-
-                val testFailure = TestFailure(
-                        message = failureMessage,
-                        webLink = webLink
-                )
-
-                if (results[key] == null) {
-                    results[key] = mutableListOf()
+                writer.println(listOf(testName, testFailures.size.toString() + "x"))
+                testFailures.forEach {
+                    writer.println(listOf("", it.webLink, it.stackTrace.split("\n").firstOrNull() ?: ""))
                 }
-
-                results[key]!!.add(testFailure)
             }
         }
-
-        val csv = Paths.get(rootFolderPath.toString(), "${this.javaClass.simpleName}.csv")
-        val csvData = StringBuilder()
-        csvData.puts(listOf("Test Name", "Link", "Failure"))
-
-        val sorted = results.toList()
-                .sortedByDescending { (_, value) -> value.size }.toMap()
-
-        sorted.forEach {
-            // com.a.b.c.TestClass#testName => TestClass#testName
-            val testName = it.key.split(".").last()
-            csvData.puts(listOf(testName, it.value.size.toString() + "x"))
-            it.value.forEach {
-                csvData.puts(listOf("", it.webLink, it.message.split("\n").firstOrNull() ?: ""))
-            }
-        }
-
-        Files.write(csv, csvData.toString().toByteArray())
-    }
-
-    private fun StringBuilder.puts(items: List<String>) {
-        val str = items.joinToString("\t") + "\n"
-        this.append(str)
-    }
-
-    @JvmStatic
-    fun main(args: Array<String>) {
-        run(TestRunner.lastMatrices())
     }
 }

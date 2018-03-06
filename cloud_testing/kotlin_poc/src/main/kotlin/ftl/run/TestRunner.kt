@@ -6,15 +6,14 @@ import com.google.cloud.storage.Storage
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import ftl.config.FtlConstants
+import ftl.config.FtlConstants.localResultsDir
 import ftl.config.FtlConstants.localhost
+import ftl.config.FtlConstants.matrixIdsFile
 import ftl.config.YamlConfig
 import ftl.gc.*
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
-import ftl.reports.CostSummary
-import ftl.reports.MatrixErrorReport
-import ftl.reports.SummaryReport
-import ftl.reports.ResultSummary
+import ftl.reports.util.ReportManager
 import ftl.util.*
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
@@ -168,8 +167,13 @@ object TestRunner {
         return matrixPathToObj(lastRun)
     }
 
-    private fun matrixPathToObj(path: String): MatrixMap {
-        val json = Paths.get(FtlConstants.localResultsDir, path, FtlConstants.matrixIdsFile).toFile().readText()
+    /** Creates MatrixMap from matrix_ids.json file */
+    fun matrixPathToObj(path: String): MatrixMap {
+        var filePath = Paths.get(path, matrixIdsFile).toFile()
+        if (!filePath.exists()) {
+            filePath = Paths.get(localResultsDir, path, matrixIdsFile).toFile()
+        }
+        val json = filePath.readText()
 
         val listOfSavedMatrix = object : TypeToken<MutableMap<String, SavedMatrix>>() {}.type
         val map: MutableMap<String, SavedMatrix> = gson.fromJson(json, listOfSavedMatrix)
@@ -302,10 +306,7 @@ object TestRunner {
     }
 
     fun runReports(matrixMap: MatrixMap) {
-        CostSummary.run(matrixMap)
-        ResultSummary.run(matrixMap)
-        MatrixErrorReport.run(matrixMap)
-        SummaryReport.run(matrixMap)
+        ReportManager.generate(matrixMap)
     }
 
     // used to update results from an async run

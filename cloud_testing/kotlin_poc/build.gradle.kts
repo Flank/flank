@@ -12,13 +12,13 @@ buildscript {
     }
 
     dependencies {
-        classpath(kotlin("gradle-plugin", Deps.kotlinVersion))
+        classpath(Plugins.KOTLIN)
     }
 }
 
 plugins {
     application
-    kotlin("jvm") version Deps.kotlinVersion
+    kotlin("jvm") version Versions.KOTLIN
 }
 
 kotlin {
@@ -47,44 +47,43 @@ tasks.withType<Test> {
 }
 
 dependencies {
-    compile("com.google.code.gson:gson:2.8.2")
+    implementation("com.google.code.gson:gson:2.8.2")
 
     // https://github.com/remkop/picocli
-    compile("info.picocli:picocli:2.2.1")
+    implementation("info.picocli:picocli:2.2.1")
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21.2")
 
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.cloud%22%20AND%20a%3A%22google-cloud-storage%22
-    compile("com.google.cloud:google-cloud-storage:1.15.0")
+    implementation("com.google.cloud:google-cloud-storage:1.15.0")
 
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-toolresults%22
-    compile("com.google.apis:google-api-services-toolresults:v1beta3-rev351-1.21.0")
+    implementation("com.google.apis:google-api-services-toolresults:v1beta3-rev351-1.21.0")
 
     // https://github.com/linkedin/dex-test-parser/releases
-    compile("com.linkedin.dextestparser:parser:1.1.0")
+    implementation("com.linkedin.dextestparser:parser:1.1.0")
 
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-testing%22
-    compile("com.google.apis:google-api-services-testing:v1-rev23-1.23.0")
+    implementation("com.google.apis:google-api-services-testing:v1-rev23-1.23.0")
 
-    compile(kotlin("stdlib-jre8", Deps.kotlinVersion))
-    testCompile("junit:junit:4.12")
+    implementation(Libs.KOTLIN_STD_LIB)
+    testImplementation("junit:junit:4.12")
     // http://stefanbirkner.github.io/system-rules/index.html
-    testCompile("com.github.stefanbirkner:system-rules:1.17.1")
+    testImplementation("com.github.stefanbirkner:system-rules:1.17.1")
 
     // yaml config
-    compile("com.fasterxml.jackson.core:jackson-databind:2.9.4")
-    compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.4")
-    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.4")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.9.4")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.4")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.4")
 }
-
 
 // Fix Exception in thread "main" java.lang.NoSuchMethodError: com.google.common.hash.Hashing.crc32c()Lcom/google/common/hash/HashFunction;
 // https://stackoverflow.com/a/45286710
 configurations.all {
     resolutionStrategy {
         force("com.google.guava:guava:23.6-jre")
-        force("org.jetbrains.kotlin:kotlin-reflect:${Deps.kotlinVersion}")
+        force(Libs.KOTLIN_REFLECT)
         exclude(group = "com.google.guava", module = "guava-jdk5")
     }
 }

@@ -1,63 +1,33 @@
 package ftl.reports
 
-import com.sun.org.apache.xerces.internal.dom.DeferredElementImpl
-import ftl.config.FtlConstants
 import ftl.json.MatrixMap
-import ftl.run.TestRunner
-import ftl.util.ArtifactRegex.testResultRgx
+import ftl.reports.util.IReport
+import ftl.reports.util.TestSuite
 import java.io.File
-import java.nio.file.Files
-import java.nio.file.Paths
-import javax.xml.parsers.DocumentBuilderFactory
 
-/** Used to create summary.csv from merging all the JUnit XML results **/
-object SummaryReport {
+/**
 
-    fun run(matrixMap: MatrixMap) {
-        val xmlFiles = mutableListOf<File>()
-        val results = mutableMapOf<String, Int>()
+List failure count for each test in CSV format.
 
-        val rootFolderPath = Paths.get(FtlConstants.localResultsDir, matrixMap.runPath)
-        val rootFolder = rootFolderPath.toFile()
+Example:
 
-        rootFolder.walk().forEach {
-            if (it.name.matches(testResultRgx)) {
-                xmlFiles.add(it)
+com.instructure.teacher.ui.SpeedGraderPageTest#displaySubmissionPickerDialog,31
+com.instructure.teacher.ui.SpeedGraderCommentsPageTest#addsNewTextComment,5
+com.instructure.teacher.ui.AssignmentSubmissionListPageTest#displaysAssignmentStatusLate,3
+com.instructure.teacher.ui.QuizSubmissionListPageTest#filterLateSubmissions,2
+com.instructure.teacher.ui.AssignmentSubmissionListPageTest#filterLateSubmissions,2
+com.instructure.teacher.ui.EditQuizDetailsPageTest#editQuizTitle,1
+
+ **/
+object SummaryReport : IReport {
+
+    override fun run(matrices: MatrixMap, testSuite: TestSuite) {
+        File("${reportPath(matrices)}.csv").printWriter().use { writer ->
+            testSuite.testCases.forEach { test ->
+                val testName = test.key
+                val failureCount = test.value.failures.size
+                writer.println("$testName,$failureCount")
             }
         }
-
-        xmlFiles.forEach { file ->
-            val xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file)
-            xml.normalizeDocument()
-            xml.documentElement.normalize()
-
-            val nodes = xml.getElementsByTagName("failure")
-
-            repeat(nodes.length) { index ->
-                val node: DeferredElementImpl = nodes.item(index) as DeferredElementImpl
-
-                val parent = node.parentNode.attributes
-                val className = parent.getNamedItem("classname").nodeValue
-                val testName = parent.getNamedItem("name").nodeValue
-                val key = "$className#$testName"
-                results[key] = results.getOrDefault(key, 0) + 1
-            }
-        }
-
-        val csv = Paths.get(rootFolderPath.toString(), "summary.csv")
-        val csvData = StringBuilder()
-
-        val sorted = results.toList().sortedByDescending { (_, value) -> value }.toMap()
-
-        sorted.forEach {
-            csvData.append(it.key, ',', it.value, "\n")
-        }
-
-        Files.write(csv, csvData.toString().toByteArray())
-    }
-
-    @JvmStatic
-    fun main(args: Array<String>) {
-        run(TestRunner.lastMatrices())
     }
 }
