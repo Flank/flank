@@ -50,7 +50,7 @@ class YamlConfigTest {
         assert(config.limitBreak, false)
     }
 
-    val s99_999 = 99_999
+    private val s99_999 = 99_999
 
     @Test
     fun limitBreakFalseExitsOnLargeShards() {

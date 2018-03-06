@@ -44,7 +44,7 @@ object TestRunner {
         var testTargets: List<String>? = null
 
         if (config.testMethods.isNotEmpty()) {
-            testTargets = config.testMethods.stream().map { i -> "class " + i }.collect(Collectors.toList())
+            testTargets = config.testMethods.stream().map { i -> "class $i" }.collect(Collectors.toList())
         }
 
         // GcAndroidMatrix => GcTestMatrix
@@ -106,14 +106,8 @@ object TestRunner {
         return Pair(appApkGcsPath.await(), testApkGcsPath.await())
     }
 
-    private fun deleteResults() {
-        val resultsFile = Paths.get(FtlConstants.localResultsDir).toFile()
-        resultsFile.deleteRecursively()
-        resultsFile.mkdirs()
-    }
-
     /** Refresh all in progress matrices in parallel **/
-    suspend fun refreshMatrices(matrixMap: MatrixMap, config: YamlConfig) {
+    private suspend fun refreshMatrices(matrixMap: MatrixMap, config: YamlConfig) {
         println("refreshMatrices")
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
@@ -147,7 +141,7 @@ object TestRunner {
         }
     }
 
-    fun lastGcsPath(): String {
+    private fun lastGcsPath(): String {
         val resultsFile = Paths.get(FtlConstants.localResultsDir).toFile()
         val scheduledRuns = resultsFile.listFiles().filter { it.isDirectory }.map { it.name }
 
@@ -161,7 +155,7 @@ object TestRunner {
     }
 
     /** Reads in the last matrices from the localResultsDir folder **/
-    fun lastMatrices(): MatrixMap {
+    private fun lastMatrices(): MatrixMap {
         val lastRun = lastGcsPath()
         println("Loading run $lastRun")
         return matrixPathToObj(lastRun)
@@ -182,7 +176,7 @@ object TestRunner {
     }
 
     /** fetch test_result_0.xml & *.png **/
-    fun fetchArtifacts(matrixMap: MatrixMap) {
+    private fun fetchArtifacts(matrixMap: MatrixMap) {
         println("fetchArtifacts")
         if (FtlConstants.useMock) return
         val fields = Storage.BlobListOption.fields(Storage.BlobField.NAME)
@@ -225,7 +219,7 @@ object TestRunner {
     } // fun
 
     /** Synchronously poll all matrix ids until they complete **/
-    fun pollMatrices(matrices: MatrixMap, config: YamlConfig) {
+    private fun pollMatrices(matrices: MatrixMap, config: YamlConfig) {
         println("pollMatrices")
         val map = matrices.map
         val poll = matrices.map.values.filter {
@@ -252,7 +246,7 @@ object TestRunner {
     //
     // Port of MonitorTestExecutionProgress
     // gcloud-cli/googlecloudsdk/api_lib/firebase/test/matrix_ops.py
-    fun pollMatrix(matrixId: String, stopwatch: StopWatch, config: YamlConfig): TestMatrix {
+    private fun pollMatrix(matrixId: String, stopwatch: StopWatch, config: YamlConfig): TestMatrix {
         var lastState = ""
         var lastError = ""
         var progress = listOf<String>()
@@ -305,7 +299,7 @@ object TestRunner {
         return refreshedMatrix
     }
 
-    fun runReports(matrixMap: MatrixMap) {
+    private fun runReports(matrixMap: MatrixMap) {
         ReportManager.generate(matrixMap)
     }
 

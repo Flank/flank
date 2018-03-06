@@ -18,12 +18,12 @@ object Main : Runnable {
         if (version) {
             println("v0.0.3")
         } else {
-            CommandLine.usage(Main, System.out);
+            CommandLine.usage(Main, System.out)
         }
     }
 
     @CommandLine.Option(names = ["-v", "--version"], description = ["Prints the version"])
-    var version = false
+    private var version = false
 
     @Throws(Exception::class)
     @JvmStatic

@@ -25,7 +25,7 @@ object ReportManager {
         return xmlFiles
     }
 
-    fun parseJUnitXml(matrices: MatrixMap): TestSuite {
+    private fun parseJUnitXml(matrices: MatrixMap): TestSuite {
         val testCases = mutableMapOf<String, TestResults>()
         val matrixMapValues = matrices.map.values
 
