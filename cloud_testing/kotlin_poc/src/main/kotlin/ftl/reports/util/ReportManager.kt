@@ -5,6 +5,7 @@ import ftl.json.MatrixMap
 import ftl.reports.*
 import ftl.run.TestRunner
 import ftl.util.ArtifactRegex
+import ftl.util.resolveLocalRunPath
 import org.w3c.dom.NodeList
 import java.io.File
 import java.nio.file.Paths
@@ -14,7 +15,7 @@ object ReportManager {
 
     private fun findXmlFiles(matrices: MatrixMap): List<File> {
         val xmlFiles = mutableListOf<File>()
-        val rootFolder = File(matrices.runPath)
+        val rootFolder = File(resolveLocalRunPath(matrices))
 
         rootFolder.walk().forEach {
             if (it.name.matches(ArtifactRegex.testResultRgx)) {
