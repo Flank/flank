@@ -5,7 +5,8 @@ useOrchestrator: true
 disablePerformanceMetrics: true
 disableVideoRecording: false
 testTimeoutMinutes: 60
-shardCount: 1
+testShards: 1
+testRuns: 1
 limitBreak: false
 waitForResults: true
 testMethods:
