@@ -305,7 +305,7 @@ object TestRunner {
         }
 
         // Print final matrix state with timestamp. May be many minutes after the 'Done.' progress message.
-        puts("$matrixId ${refreshedMatrix.state}")
+        puts(refreshedMatrix.state)
         return refreshedMatrix
     }
 
