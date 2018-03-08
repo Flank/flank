@@ -29,7 +29,8 @@ class YamlConfig(
         val waitForResults: Boolean = true,
         val testMethods: List<String> = listOf(),
         val limitBreak: Boolean = false,
-        val projectId: String = getDefaultProjectId()) {
+        val projectId: String = getDefaultProjectId(),
+        var testShardChunks: List<List<String>> = emptyList()) {
 
     private fun assertVmLimit(value: Int): Int {
         if (value > 100 && !limitBreak) {
@@ -61,16 +62,20 @@ class YamlConfig(
             fatalError("'$testApk' testApk doesn't exist")
         }
 
-        val validMethods = DexParser.findTestMethods(testApk).map { it.testName }
+        val dexValidTestNames= DexParser.findTestMethods(testApk).map { it.testName }
         val missingMethods = mutableListOf<String>()
 
         testMethods.forEach { testMethod ->
-            if (!validMethods.contains(testMethod)) {
+            if (!dexValidTestNames.contains(testMethod)) {
                 missingMethods.add(testMethod)
             }
         }
 
         if (missingMethods.isNotEmpty()) fatalError("Test APK is missing methods: $missingMethods")
+
+        if (testShards > 1) {
+            testShardChunks = dexValidTestNames.map { "class $it" }.chunked(dexValidTestNames.size/testShards)
+        }
     }
 
     companion object {

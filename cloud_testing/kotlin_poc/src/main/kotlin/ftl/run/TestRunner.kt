@@ -60,14 +60,18 @@ object TestRunner {
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
         repeat(config.testRuns) {
-            jobs += async {
-                GcTestMatrix.build(
-                        apks.first,
-                        apks.second,
-                        runGcsPath,
-                        androidMatrix,
-                        testTargets,
-                        config = config).execute()
+
+            repeat(config.testShards) { testShardsIndex ->
+                jobs += async {
+                    GcTestMatrix.build(
+                            appApkGcsPath = apks.first,
+                            testApkGcsPath = apks.second,
+                            runGcsPath = runGcsPath,
+                            androidMatrix = androidMatrix,
+                            testTargets = testTargets,
+                            testShardsIndex = testShardsIndex,
+                            config = config).execute()
+                }
             }
         }
 
@@ -191,6 +195,7 @@ object TestRunner {
             finished && notDownloaded && failure
         }
 
+        print(indent)
         filtered.forEach { matrix ->
             val prefix = Storage.BlobListOption.prefix(matrix.gcsPathWithoutRootBucket)
             val result = GcStorage.storage.list(matrix.gcsRootBucket, prefix, fields)
@@ -213,6 +218,7 @@ object TestRunner {
             dirty = true
             matrix.downloaded = true
         }
+        println()
 
         if (dirty) {
             println(FtlConstants.indent + "Updating matrix file")
