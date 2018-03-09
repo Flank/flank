@@ -9,5 +9,6 @@ inline.html({
 },
 function(err, result) {
   if (err) { console.log(err); }
-  fs.writeFileSync("./bitrise/inline.html", result);
+  var kotlinResource = '../kotlin_poc/src/main/resources/inline.html';
+  fs.writeFileSync(kotlinResource, result);
 });

@@ -87,9 +87,7 @@ object HtmlReport : IReport {
         val newItemsJson = reactJson.second
 
         // todo: delete if noFailures (see MatrixErrorReport)
-        // todo: embed inline.html as a resource in the jar so it works on the CLI
-        val templatePath = Paths.get("../junit_html_report/bitrise/inline.html").toAbsolutePath().normalize()
-        var templateData = String(Files.readAllBytes(templatePath))
+        var templateData = this::class.java.getResourceAsStream("/inline.html").bufferedReader().use { it.readText() }
 
         templateData = replaceRange(templateData, findGroupRange(templateData), newGroupJson)
         templateData = replaceRange(templateData, findItemRange(templateData), newItemsJson)
