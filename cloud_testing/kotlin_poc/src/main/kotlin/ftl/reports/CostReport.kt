@@ -13,7 +13,7 @@ import ftl.util.Utils.println
 
 /**
 
-Calculates cost based on the matrix map
+Calculates cost based on the matrix map. Always run.
 
 Example:
 

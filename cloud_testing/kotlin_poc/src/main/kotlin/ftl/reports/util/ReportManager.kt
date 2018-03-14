@@ -107,7 +107,7 @@ object ReportManager {
         listOf(
                 HtmlReport,
                 MatrixErrorReport,
-                SummaryReport
+                TestErrorCountReport
         ).map { it.run(matrices, testSuite) }
     }
 

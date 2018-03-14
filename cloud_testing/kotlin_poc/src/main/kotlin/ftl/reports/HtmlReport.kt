@@ -8,9 +8,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 /**
- * Outputs HTML report for Bitrise based on JUnit XML.
- *
- * Only created if there are failures.
+ * Outputs HTML report for Bitrise based on JUnit XML. Only run on failures.
  * */
 object HtmlReport : IReport {
     data class Group(val key: String, val name: String, val startIndex: Int, val count: Int)

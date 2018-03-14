@@ -12,7 +12,7 @@ import java.text.DecimalFormat
 
 /**
 
-Test Results
+Test Results. Always run.
 
 Example:
 
