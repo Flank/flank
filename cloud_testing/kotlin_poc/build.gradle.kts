@@ -56,16 +56,16 @@ dependencies {
     compile("com.google.code.gson:gson:2.8.2")
 
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.cloud%22%20AND%20a%3A%22google-cloud-storage%22
-    compile("com.google.cloud:google-cloud-storage:1.15.0")
+    compile("com.google.cloud:google-cloud-storage:1.20.0")
 
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-toolresults%22
-    compile("com.google.apis:google-api-services-toolresults:v1beta3-rev351-1.21.0")
+    compile("com.google.apis:google-api-services-toolresults:v1beta3-rev374-1.23.0")
 
     // https://github.com/linkedin/dex-test-parser/releases
     compile("com.linkedin.dextestparser:parser:1.1.0")
 
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-testing%22
-    compile("com.google.apis:google-api-services-testing:v1-rev23-1.23.0")
+    compile("com.google.apis:google-api-services-testing:v1-rev30-1.23.0")
 
     // yaml config
     compile("com.fasterxml.jackson.core:jackson-databind:2.9.4")
