@@ -226,8 +226,8 @@ object TestRunner {
         }
     } // fun
 
-    /** Synchronously poll all matrix ids until they complete **/
-    private fun pollMatrices(matrices: MatrixMap, config: YamlConfig) {
+    /** Synchronously poll all matrix ids until they complete. Returns true if test run passed. **/
+    private fun pollMatrices(matrices: MatrixMap, config: YamlConfig): Boolean {
         println("PollMatrices")
         val map = matrices.map
         val poll = matrices.map.values.filter {
@@ -244,7 +244,7 @@ object TestRunner {
 
         updateMatrixFile(matrices)
 
-        runReports(matrices)
+        return ReportManager.generate(matrices)
     }
 
     // Used for when the matrix has exactly one test. Polls for detailed progress
@@ -312,16 +312,12 @@ object TestRunner {
         return refreshedMatrix
     }
 
-    private fun runReports(matrixMap: MatrixMap) {
-        ReportManager.generate(matrixMap)
-    }
-
     // used to update results from an async run
     suspend fun refreshLastRun(config: YamlConfig) {
         val matrixMap = lastMatrices()
 
         refreshMatrices(matrixMap, config)
-        runReports(matrixMap)
+        ReportManager.generate(matrixMap)
         fetchArtifacts(matrixMap)
     }
 
@@ -330,8 +326,10 @@ object TestRunner {
         val matrixMap = runTests(config)
 
         if (config.waitForResults) {
-            pollMatrices(matrixMap, config)
+            val allTestsSuccessful = pollMatrices(matrixMap, config)
             fetchArtifacts(matrixMap)
+
+            if (!allTestsSuccessful) System.exit(1)
         }
     }
 }

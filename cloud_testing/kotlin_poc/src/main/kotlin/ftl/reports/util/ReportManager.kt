@@ -92,7 +92,8 @@ object ReportManager {
         )
     }
 
-    fun generate(matrices: MatrixMap) {
+    /** Returns true if there were no test failures */
+    fun generate(matrices: MatrixMap): Boolean {
         val testSuite = parseJUnitXml(matrices)
 
         // Print to stdout
@@ -109,6 +110,8 @@ object ReportManager {
                 MatrixErrorReport,
                 TestErrorCountReport
         ).map { it.run(matrices, testSuite) }
+
+        return testSuite.failures == 0
     }
 
     @JvmStatic
