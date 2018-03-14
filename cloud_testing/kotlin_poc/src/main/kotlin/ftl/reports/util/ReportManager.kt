@@ -98,7 +98,7 @@ object ReportManager {
         // Print to stdout
         listOf(
                 CostReport,
-                MatrixReport
+                MatrixResultsReport
         ).map {
             it.run(matrices, testSuite, print = true)
         }

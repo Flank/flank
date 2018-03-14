@@ -20,16 +20,20 @@ Example:
 41 matrices failed
 
  **/
-object MatrixReport : IReport {
+object MatrixResultsReport : IReport {
 
     private val percentFormat by lazy { DecimalFormat("#0.00") }
 
     private fun generate(matrices: MatrixMap): String {
         var total = 0
         var success = 0
-        matrices.map.values.forEach { result ->
+        val failureWebLinks = mutableListOf<String>()
+        matrices.map.values.forEach { matrix ->
             total += 1
-            if (result.outcome == Outcome.success) success += 1
+            when (matrix.outcome) {
+                Outcome.success -> success += 1
+                else -> failureWebLinks.add(matrix.webLink)
+            }
         }
         val failed = total - success
         val successDouble: Double = success.toDouble() / total.toDouble() * 100.0
@@ -42,6 +46,10 @@ object MatrixReport : IReport {
             writer.println(reportName())
             writer.println("$indent$success / $total ($successPercent%)")
             if (failed > 0) writer.println("$indent$failed matrices failed")
+            writer.println()
+            writer.println("Failed matrix links:")
+            failureWebLinks.forEach { writer.println(it) }
+            println()
 
             return writer.toString()
         }

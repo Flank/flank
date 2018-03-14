@@ -242,9 +242,6 @@ object TestRunner {
             map[matrixId]?.update(completedMatrix)
         }
 
-        poll.forEach { if (it.outcome == Outcome.failure) println(it.webLink) }
-        println()
-
         updateMatrixFile(matrices)
 
         runReports(matrices)
