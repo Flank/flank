@@ -223,11 +223,12 @@ object TestRunner {
         if (dirty) {
             println(FtlConstants.indent + "Updating matrix file")
             updateMatrixFile(matrixMap)
+            println()
         }
     } // fun
 
     /** Synchronously poll all matrix ids until they complete. Returns true if test run passed. **/
-    private fun pollMatrices(matrices: MatrixMap, config: YamlConfig): Boolean {
+    private fun pollMatrices(matrices: MatrixMap, config: YamlConfig) {
         println("PollMatrices")
         val map = matrices.map
         val poll = matrices.map.values.filter {
@@ -241,10 +242,9 @@ object TestRunner {
 
             map[matrixId]?.update(completedMatrix)
         }
+        println()
 
         updateMatrixFile(matrices)
-
-        return ReportManager.generate(matrices)
     }
 
     // Used for when the matrix has exactly one test. Polls for detailed progress
@@ -317,8 +317,9 @@ object TestRunner {
         val matrixMap = lastMatrices()
 
         refreshMatrices(matrixMap, config)
-        ReportManager.generate(matrixMap)
         fetchArtifacts(matrixMap)
+        // Must generate reports *after* fetching xml artifacts since reports require xml
+        ReportManager.generate(matrixMap)
     }
 
     suspend fun newRun(config: YamlConfig) {
@@ -326,10 +327,11 @@ object TestRunner {
         val matrixMap = runTests(config)
 
         if (config.waitForResults) {
-            val allTestsSuccessful = pollMatrices(matrixMap, config)
+            pollMatrices(matrixMap, config)
             fetchArtifacts(matrixMap)
 
-            if (!allTestsSuccessful) System.exit(1)
+            val testsSuccessful = ReportManager.generate(matrixMap)
+            if (!testsSuccessful) System.exit(1)
         }
     }
 }

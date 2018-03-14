@@ -96,6 +96,8 @@ object ReportManager {
     fun generate(matrices: MatrixMap): Boolean {
         val testSuite = parseJUnitXml(matrices)
 
+        if (testSuite.totalTests == 0) throw RuntimeException("No tests parsed from xml results!")
+
         // Print to stdout
         listOf(
                 CostReport,

@@ -47,8 +47,8 @@ object MatrixResultsReport : IReport {
             writer.println("$indent$success / $total ($successPercent%)")
             if (failed > 0) writer.println("$indent$failed matrices failed")
             writer.println()
-            writer.println("Failed matrix links:")
-            failureWebLinks.forEach { writer.println(it) }
+            writer.println("${indent}Failed matrix links:")
+            failureWebLinks.forEach { writer.println(indent + it) }
             println()
 
             return writer.toString()
@@ -62,7 +62,7 @@ object MatrixResultsReport : IReport {
 
     override fun run(matrices: MatrixMap, testSuite: TestSuite, print: Boolean) {
         val output = generate(matrices)
-        if (print) println(output)
+        if (print) print(output)
         write(matrices, output)
     }
 }

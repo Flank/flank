@@ -53,7 +53,7 @@ object CostReport : IReport {
 
     override fun run(matrices: MatrixMap, testSuite: TestSuite, print: Boolean) {
         val output = generate(matrices)
-        if (print) println(output)
+        if (print) print(output)
         write(matrices, output)
     }
 }
