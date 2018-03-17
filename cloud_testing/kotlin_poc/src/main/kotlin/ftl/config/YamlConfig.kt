@@ -9,6 +9,11 @@ import ftl.config.FtlConstants.useMock
 import ftl.util.Utils.fatalError
 import java.io.File
 
+// testShards - break tests into shards to run the test suite in parallel (converted to numShards in AndroidJUnitRunner)
+// https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner.html
+//
+// testRuns - how many times to run the tests.
+
 class YamlConfig(
         val appApk: String,
         val testApk: String,
@@ -19,18 +24,29 @@ class YamlConfig(
         val disableVideoRecording: Boolean = false,
         val testTimeoutMinutes: Long = 60,
 
-        shardCount: Int = 1,
+        testShards: Int = 1,
+        testRuns: Int = 1,
         val waitForResults: Boolean = true,
         val testMethods: List<String> = listOf(),
         val limitBreak: Boolean = false,
-        val projectId: String = getDefaultProjectId()) {
+        val projectId: String = getDefaultProjectId(),
+        var testShardChunks: List<List<String>> = emptyList()) {
 
-    var shardCount: Int = shardCount
+    private fun assertVmLimit(value: Int): Int {
+        if (value > 100 && !limitBreak) {
+            fatalError("Shard count exceeds 100. Set limitBreak=true to enable large shards")
+        }
+        return value
+    }
+
+    var testShards: Int = testShards
         set(value) {
-            if (value > 100 && !limitBreak) {
-                fatalError("Shard count exceeds 100. Set limitBreak=true to enable large shards")
-            }
-            field = value
+            field = assertVmLimit(value)
+        }
+
+    var testRuns: Int = testRuns
+        set(value) {
+            field = assertVmLimit(value)
         }
 
     init {
@@ -46,16 +62,20 @@ class YamlConfig(
             fatalError("'$testApk' testApk doesn't exist")
         }
 
-        val validMethods = DexParser.findTestMethods(testApk).map { it.testName }
+        val dexValidTestNames= DexParser.findTestMethods(testApk).map { it.testName }
         val missingMethods = mutableListOf<String>()
 
         testMethods.forEach { testMethod ->
-            if (!validMethods.contains(testMethod)) {
+            if (!dexValidTestNames.contains(testMethod)) {
                 missingMethods.add(testMethod)
             }
         }
 
         if (missingMethods.isNotEmpty()) fatalError("Test APK is missing methods: $missingMethods")
+
+        if (testShards > 1) {
+            testShardChunks = dexValidTestNames.map { "class $it" }.chunked(dexValidTestNames.size/testShards)
+        }
     }
 
     companion object {
@@ -86,7 +106,8 @@ class YamlConfig(
   disablePerformanceMetrics: $disablePerformanceMetrics,
   disableVideoRecording: $disableVideoRecording,
   testTimeoutMinutes: $testTimeoutMinutes,
-  shardCount: $shardCount,
+  testShards: $testShards,
+  testRuns: $testRuns,
   waitForResults: $waitForResults,
   testMethods: $testMethods
   limitBreak: $limitBreak

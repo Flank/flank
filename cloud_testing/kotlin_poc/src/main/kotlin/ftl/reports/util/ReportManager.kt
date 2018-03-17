@@ -1,6 +1,7 @@
 package ftl.reports.util
 
 import com.sun.org.apache.xerces.internal.dom.DeferredElementImpl
+import ftl.config.FtlConstants
 import ftl.json.MatrixMap
 import ftl.reports.*
 import ftl.run.TestRunner
@@ -92,13 +93,16 @@ object ReportManager {
         )
     }
 
-    fun generate(matrices: MatrixMap) {
+    /** Returns true if there were no test failures */
+    fun generate(matrices: MatrixMap): Boolean {
         val testSuite = parseJUnitXml(matrices)
+
+        if (testSuite.totalTests == 0 && !FtlConstants.useMock) throw RuntimeException("No tests parsed from xml results!")
 
         // Print to stdout
         listOf(
                 CostReport,
-                MatrixReport
+                MatrixResultsReport
         ).map {
             it.run(matrices, testSuite, print = true)
         }
@@ -107,8 +111,10 @@ object ReportManager {
         listOf(
                 HtmlReport,
                 MatrixErrorReport,
-                SummaryReport
+                TestErrorCountReport
         ).map { it.run(matrices, testSuite) }
+
+        return testSuite.failures == 0
     }
 
     @JvmStatic

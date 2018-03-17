@@ -14,7 +14,7 @@ import java.util.*
 
 object Utils {
 
-    fun StringWriter.println(msg: String) {
+    fun StringWriter.println(msg: String = "") {
         this.append(msg + "\n")
     }
 

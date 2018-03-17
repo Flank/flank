@@ -8,9 +8,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 /**
- * Outputs HTML report for Bitrise based on JUnit XML.
- *
- * Only created if there are failures.
+ * Outputs HTML report for Bitrise based on JUnit XML. Only run on failures.
  * */
 object HtmlReport : IReport {
     data class Group(val key: String, val name: String, val startIndex: Int, val count: Int)
@@ -20,7 +18,6 @@ object HtmlReport : IReport {
 
 
     fun reactJson(testSuite: TestSuite): Pair<String, String> {
-        // make group json && item json
         val groupList = mutableListOf<Group>()
         val itemList = mutableListOf<Item>()
 
@@ -53,43 +50,13 @@ object HtmlReport : IReport {
         return Pair(groupJson, itemJson)
     }
 
-//    // TODO: Convert TestData to group/items JSON
-//    private fun newGroupJson(): String {
-//        // startIndex / count controls what data items belong to the group.
-//        // key must be unique
-//        val dataGroup = listOf(
-//                Group("group-0",
-//                        "AssigneeListPageTest#displaysStudentItems",
-//                        0,
-//                        1),
-//                Group("group-1",
-//                        "SpeedGraderCommentsPageTest#displaysAuthorName",
-//                        1,
-//                        1)
-//        )
-//        return gson.toJson(dataGroup)
-//    }
-//
-//    private fun newItemsJson(): String {
-//        val dataItems = listOf(
-//                Item("item-0",
-//                        "android.support.test.espresso.NoMatchingViewException: No views in hierarchy found matching: (with text: is \"Everyone\" and has sibling: with id: com.instructure.teacher:id/assigneeSubtitleView)"),
-//                Item("item-1",
-//                        "java.lang.RuntimeException: Waited for the root of the view hierarchy to have window focus and not request layout for 10 seconds. If you specified a non default root matcher, it may be picking a root that never takes focus.")
-//        )
-//
-//        return gson.toJson(dataItems)
-//    }
-
     override fun run(matrices: MatrixMap, testSuite: TestSuite, print: Boolean) {
+        if (testSuite.failures <= 0) return
         val reactJson = reactJson(testSuite)
         val newGroupJson = reactJson.first
         val newItemsJson = reactJson.second
 
-        // todo: delete if noFailures (see MatrixErrorReport)
-        // todo: embed inline.html as a resource in the jar so it works on the CLI
-        val templatePath = Paths.get("../junit_html_report/bitrise/inline.html").toAbsolutePath().normalize()
-        var templateData = String(Files.readAllBytes(templatePath))
+        var templateData = this::class.java.getResourceAsStream("/inline.html").bufferedReader().use { it.readText() }
 
         templateData = replaceRange(templateData, findGroupRange(templateData), newGroupJson)
         templateData = replaceRange(templateData, findItemRange(templateData), newItemsJson)

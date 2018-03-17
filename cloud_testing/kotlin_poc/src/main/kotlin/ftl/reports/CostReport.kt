@@ -13,7 +13,7 @@ import ftl.util.Utils.println
 
 /**
 
-Calculates cost based on the matrix map
+Calculates cost based on the matrix map. Always run.
 
 Example:
 
@@ -53,7 +53,7 @@ object CostReport : IReport {
 
     override fun run(matrices: MatrixMap, testSuite: TestSuite, print: Boolean) {
         val output = generate(matrices)
-        if (print) println(output)
+        if (print) print(output)
         write(matrices, output)
     }
 }

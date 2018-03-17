@@ -44,7 +44,8 @@ class YamlConfigTest {
         assert(config.disableVideoRecording, false)
         assert(config.testTimeoutMinutes, 60L)
 
-        assert(config.shardCount, 1)
+        assert(config.testShards, 1)
+        assert(config.testRuns, 1)
         assert(config.waitForResults, true)
         assert(config.testMethods, listOf("com.example.app.ExampleUiTest#testPasses"))
         assert(config.limitBreak, false)
@@ -57,8 +58,10 @@ class YamlConfigTest {
         exit.expectSystemExitWithStatus(-1)
 
         val config = YamlConfig.load(yamlFile)
-        config.shardCount = s99_999
-        assert(config.shardCount, s99_999)
+        config.testRuns = s99_999
+        config.testShards = s99_999
+        assert(config.testRuns, s99_999)
+        assert(config.testShards, s99_999)
     }
 
     @Test
@@ -69,7 +72,9 @@ class YamlConfigTest {
                 oldConfig.testApk,
                 oldConfig.rootGcsBucket,
                 limitBreak = true)
-        config.shardCount = s99_999
-        assert(config.shardCount, s99_999)
+        config.testRuns = s99_999
+        config.testShards = s99_999
+        assert(config.testRuns, s99_999)
+        assert(config.testShards, s99_999)
     }
 }

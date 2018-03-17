@@ -7,7 +7,7 @@ import java.io.File
 
 /**
 
-List failure count for each test in CSV format.
+List failure count for each test in TSV format. Only run on failures.
 
 Example:
 
@@ -19,20 +19,18 @@ com.instructure.teacher.ui.AssignmentSubmissionListPageTest#filterLateSubmission
 com.instructure.teacher.ui.EditQuizDetailsPageTest#editQuizTitle  1
 
  **/
-object SummaryReport : IReport {
+object TestErrorCountReport : IReport {
 
     override fun run(matrices: MatrixMap, testSuite: TestSuite, print: Boolean) {
-        var noFailures = true
+        if (testSuite.failures <= 0) return
         val report = File("${reportPath(matrices)}.csv")
         report.printWriter().use { writer ->
             testSuite.testCases.forEach { test ->
                 val testName = test.key
                 val failureCount = test.value.failures.size
                 if (failureCount <= 0) return@forEach
-                noFailures = false
                 writer.println("$testName\t$failureCount")
             }
         }
-        if (noFailures) report.delete()
     }
 }

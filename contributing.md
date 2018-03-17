@@ -1,3 +1,7 @@
+## CLA
+
+A CLA is not required to contribute to flank. You can ignore the CLA bot.
+
 ## Gradle
 
 When creating a new project, setup symlinks to gradle. This allows all projects to

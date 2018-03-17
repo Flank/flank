@@ -21,7 +21,7 @@ Configuration is read from flank.yml
 class RunCommand : Runnable {
     override fun run() {
         val config = YamlConfig.load("./flank.yml")
-        if (shards > 0) config.shardCount = shards
+        if (shards > 0) config.testRuns = shards
         runBlocking {
             TestRunner.newRun(config)
         }

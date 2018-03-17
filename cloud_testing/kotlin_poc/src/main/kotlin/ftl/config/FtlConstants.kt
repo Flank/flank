@@ -33,7 +33,12 @@ object FtlConstants {
                         .build()
             }
 
-            return@lazy GoogleCredential.getApplicationDefault()
+            val defaultCredential = GoogleCredential.getApplicationDefault()
+            // Scope is required.
+            // https://developers.google.com/identity/protocols/googlescopes
+            // https://developers.google.com/identity/protocols/application-default-credentials
+            // https://cloud.google.com/sdk/gcloud/reference/alpha/compute/instances/set-scopes
+            return@lazy defaultCredential.createScoped(listOf("https://www.googleapis.com/auth/cloud-platform"))
         } catch (e: Exception) {
             throw RuntimeException(e)
         }

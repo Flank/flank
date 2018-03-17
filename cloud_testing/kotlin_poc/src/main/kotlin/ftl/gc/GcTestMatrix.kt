@@ -18,7 +18,16 @@ object GcTestMatrix {
             runGcsPath: String,
             androidMatrix: AndroidMatrix,
             testTargets: List<String>? = null,
+            testShardsIndex: Int = -1,
             config: YamlConfig): Testing.Projects.TestMatrices.Create {
+        val testShardsTotal = config.testShards
+        val useTestShards = testShardsTotal > 1 &&
+                testShardsIndex < testShardsTotal
+
+        if (testShardsIndex >= testShardsTotal) {
+            throw RuntimeException("Invalid test shard index $testShardsIndex not < $testShardsTotal")
+        }
+
         // https://github.com/bootstraponline/studio-google-cloud-testing/blob/203ed2890c27a8078cd1b8f7ae12cf77527f426b/firebase-testing/src/com/google/gct/testing/launcher/CloudTestsLauncher.java#L120
         val testMatrix = TestMatrix()
         testMatrix.clientInfo = ClientInfo().setName("Flank")
@@ -37,6 +46,10 @@ object GcTestMatrix {
 
         if (testTargets != null && testTargets.isNotEmpty()) {
             androidInstrumentation.testTargets = testTargets
+        }
+
+        if (useTestShards) {
+            androidInstrumentation.testTargets = config.testShardChunks[testShardsIndex]
         }
 
         val testTimeoutSeconds = TimeUnit.MINUTES.toSeconds(config.testTimeoutMinutes)

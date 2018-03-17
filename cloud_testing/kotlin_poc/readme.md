@@ -26,4 +26,7 @@ Implementation details:
 - `gcloud components update`
 - `gcloud config set project <PROJECT-ID>`
 - `gcloud auth login`
-- Save the application default credential to `~/.config/gcloud/application_default_credentials.json`
+    - This logs you in for `gcloud` and `gsutil`
+- `gcloud auth application-default login`
+    - This logs you in for the gcloud sdks (and therefore Flank as well). It will save the application default 
+      credential to `~/.config/gcloud/application_default_credentials.json`

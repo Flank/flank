@@ -59,15 +59,19 @@ object TestRunner {
         val apks = uploadApksInParallel(config, runGcsPath)
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
-        repeat(config.shardCount) {
-            jobs += async {
-                GcTestMatrix.build(
-                        apks.first,
-                        apks.second,
-                        runGcsPath,
-                        androidMatrix,
-                        testTargets,
-                        config = config).execute()
+        repeat(config.testRuns) {
+
+            repeat(config.testShards) { testShardsIndex ->
+                jobs += async {
+                    GcTestMatrix.build(
+                            appApkGcsPath = apks.first,
+                            testApkGcsPath = apks.second,
+                            runGcsPath = runGcsPath,
+                            androidMatrix = androidMatrix,
+                            testTargets = testTargets,
+                            testShardsIndex = testShardsIndex,
+                            config = config).execute()
+                }
             }
         }
 
@@ -191,6 +195,7 @@ object TestRunner {
             finished && notDownloaded && failure
         }
 
+        print(indent)
         filtered.forEach { matrix ->
             val prefix = Storage.BlobListOption.prefix(matrix.gcsPathWithoutRootBucket)
             val result = GcStorage.storage.list(matrix.gcsRootBucket, prefix, fields)
@@ -213,14 +218,16 @@ object TestRunner {
             dirty = true
             matrix.downloaded = true
         }
+        println()
 
         if (dirty) {
             println(FtlConstants.indent + "Updating matrix file")
             updateMatrixFile(matrixMap)
+            println()
         }
     } // fun
 
-    /** Synchronously poll all matrix ids until they complete **/
+    /** Synchronously poll all matrix ids until they complete. Returns true if test run passed. **/
     private fun pollMatrices(matrices: MatrixMap, config: YamlConfig) {
         println("PollMatrices")
         val map = matrices.map
@@ -235,13 +242,9 @@ object TestRunner {
 
             map[matrixId]?.update(completedMatrix)
         }
-
-        poll.forEach { if (it.outcome == Outcome.failure) println(it.webLink) }
         println()
 
         updateMatrixFile(matrices)
-
-        runReports(matrices)
     }
 
     // Used for when the matrix has exactly one test. Polls for detailed progress
@@ -305,12 +308,8 @@ object TestRunner {
         }
 
         // Print final matrix state with timestamp. May be many minutes after the 'Done.' progress message.
-        puts("$matrixId ${refreshedMatrix.state}")
+        puts(refreshedMatrix.state)
         return refreshedMatrix
-    }
-
-    private fun runReports(matrixMap: MatrixMap) {
-        ReportManager.generate(matrixMap)
     }
 
     // used to update results from an async run
@@ -318,8 +317,9 @@ object TestRunner {
         val matrixMap = lastMatrices()
 
         refreshMatrices(matrixMap, config)
-        runReports(matrixMap)
         fetchArtifacts(matrixMap)
+        // Must generate reports *after* fetching xml artifacts since reports require xml
+        ReportManager.generate(matrixMap)
     }
 
     suspend fun newRun(config: YamlConfig) {
@@ -329,6 +329,9 @@ object TestRunner {
         if (config.waitForResults) {
             pollMatrices(matrixMap, config)
             fetchArtifacts(matrixMap)
+
+            val testsSuccessful = ReportManager.generate(matrixMap)
+            if (!testsSuccessful) System.exit(1)
         }
     }
 }

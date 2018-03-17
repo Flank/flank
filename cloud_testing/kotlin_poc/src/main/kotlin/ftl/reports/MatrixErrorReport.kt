@@ -7,7 +7,7 @@ import java.io.File
 
 /**
 
-Report matrix errors. Only created if there are failures.
+Report matrix errors. Only run on failures.
 
 Example:
 
@@ -23,7 +23,7 @@ object MatrixErrorReport : IReport {
     }
 
     override fun run(matrices: MatrixMap, testSuite: TestSuite, print: Boolean) {
-        var noFailures = true
+        if (testSuite.failures <= 0) return
         val report = File(reportPath(matrices) + ".csv")
         report.printWriter().use { writer ->
             writer.println(list("Test Name", "Link", "Failure"))
@@ -35,12 +35,9 @@ object MatrixErrorReport : IReport {
 
                 writer.println(list(testName, testFailures.size.toString() + "x"))
                 testFailures.forEach {
-                    noFailures = false
                     writer.println(list("", it.webLink, it.stackTrace.split("\n").firstOrNull() ?: ""))
                 }
             }
         }
-
-        if (noFailures) report.delete()
     }
 }
