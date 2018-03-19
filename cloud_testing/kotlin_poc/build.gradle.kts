@@ -18,7 +18,21 @@ buildscript {
 
 plugins {
     application
+    jacoco
     kotlin("jvm") version Versions.KOTLIN
+}
+
+// http://www.eclemma.org/jacoco/
+jacoco {
+    toolVersion = "0.8.0"
+}
+
+// Html report created in kotlin_poc/build/reports/jacoco/test/html/index.html
+// ./gradlew clean check jacocoTestReport
+tasks.withType<JacocoReport> {
+    reports {
+        html.isEnabled = true
+    }
 }
 
 kotlin {
