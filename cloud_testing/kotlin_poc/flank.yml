@@ -1,6 +1,7 @@
 appApk: ../../test_app/apks/app-debug.apk
 testApk: ../../test_app/apks/app-debug-androidTest.apk
 rootGcsBucket: tmp_bucket_2
+autoGoogleLogin: true
 useOrchestrator: true
 disablePerformanceMetrics: true
 disableVideoRecording: false

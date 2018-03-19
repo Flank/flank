@@ -39,6 +39,7 @@ class YamlConfigTest {
         assert(config.testApk, "../../test_app/apks/app-debug-androidTest.apk")
         assert(config.rootGcsBucket, "tmp_bucket_2")
 
+        assert(config.autoGoogleLogin, true)
         assert(config.useOrchestrator, true)
         assert(config.disablePerformanceMetrics, true)
         assert(config.disableVideoRecording, false)

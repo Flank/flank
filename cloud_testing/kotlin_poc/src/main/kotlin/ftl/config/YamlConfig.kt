@@ -19,6 +19,7 @@ class YamlConfig(
         val testApk: String,
         val rootGcsBucket: String,
 
+        val autoGoogleLogin: Boolean = true,
         val useOrchestrator: Boolean = true,
         val disablePerformanceMetrics: Boolean = true,
         val disableVideoRecording: Boolean = false,
@@ -102,6 +103,7 @@ class YamlConfig(
   appApk: '$appApk',
   testApk: '$testApk',
   rootGcsBucket: '$rootGcsBucket',
+  autoGoogleLogin: '$autoGoogleLogin',
   useOrchestrator: $useOrchestrator,
   disablePerformanceMetrics: $disablePerformanceMetrics,
   disableVideoRecording: $disableVideoRecording,
