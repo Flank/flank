@@ -9,3 +9,5 @@ cache:
   - ./Flank/.gradle
 script:
 - ./gradle/gradlew -p Flank clean build
+notifications:
+  email: false
