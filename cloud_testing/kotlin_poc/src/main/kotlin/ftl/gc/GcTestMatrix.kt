@@ -54,7 +54,18 @@ object GcTestMatrix {
 
         val testTimeoutSeconds = TimeUnit.MINUTES.toSeconds(config.testTimeoutMinutes)
 
-        val testSetup = TestSetup().setDirectoriesToPull(listOf("/sdcard/screenshots"))
+        // --auto-google-login
+        // https://cloud.google.com/sdk/gcloud/reference/firebase/test/android/run
+        // https://github.com/bootstraponline/gcloud_cli/blob/e4b5e01610abad2e31d8a6edb20b17b2f84c5395/google-cloud-sdk/lib/googlecloudsdk/api_lib/firebase/test/android/matrix_creator.py#L174
+        var account: Account? = null
+
+        if (config.autoGoogleLogin) {
+            account = Account().setGoogleAuto(GoogleAuto())
+        }
+
+        val testSetup = TestSetup()
+                .setDirectoriesToPull(listOf("/sdcard/screenshots"))
+                .setAccount(account)
 
         testMatrix.testSpecification = TestSpecification()
                 .setAndroidInstrumentationTest(androidInstrumentation)
