@@ -5,6 +5,11 @@ import {
   GroupedList,
   IGroup
 } from 'office-ui-fabric-react/lib/components/GroupedList/index';
+import {
+  Link,
+  ILinkStyleProps,
+  ILinkStyles
+} from 'office-ui-fabric-react/lib/components/Link/index';
 import { GroupHeader } from 'office-ui-fabric-react/lib/components/GroupedList/GroupHeader';
 import {
   Selection,
@@ -35,6 +40,7 @@ class App extends React.Component {
     this._selection = new Selection();
     this._onRenderCell = this._onRenderCell.bind(this);
     this._onRenderHeader = this._onRenderHeader.bind(this);
+    this._linkStyles = this._linkStyles.bind(this);
   }
 
   public render(): JSX.Element {
@@ -67,11 +73,23 @@ class App extends React.Component {
     return <GroupHeader { ...props } />;
   }
 
+  private _linkStyles(props: ILinkStyleProps): ILinkStyles {
+    const style = { color: 'black' };
+
+    return { root: style};
+  }
+
   private _onRenderCell(nestingDepth: number, item: IItem, itemIndex: number): JSX.Element {
     return (
       <div data-selection-index={itemIndex}>
         <span className='GroupedList-name'>
-          {item.name}
+          <Link
+            href={item.link}
+            getStyles={this._linkStyles}
+            target='_blank'
+          >
+            {item.name}
+          </Link>
         </span>
       </div>
     );

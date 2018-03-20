@@ -12,7 +12,7 @@ import java.nio.file.Paths
  * */
 object HtmlReport : IReport {
     data class Group(val key: String, val name: String, val startIndex: Int, val count: Int)
-    data class Item(val key: String, val name: String)
+    data class Item(val key: String, val name: String, val link: String)
 
     private val gson = Gson()
 
@@ -39,7 +39,8 @@ object HtmlReport : IReport {
 
             failures.forEach { failure ->
                 itemList.add(Item("item-$itemId",
-                        failure.stackTrace.split("\n").firstOrNull() ?: ""
+                        failure.stackTrace.split("\n").firstOrNull() ?: "",
+                        failure.webLink
                 ))
                 itemId += 1
             }
