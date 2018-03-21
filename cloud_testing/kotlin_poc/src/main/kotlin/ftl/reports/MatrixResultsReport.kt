@@ -60,9 +60,9 @@ object MatrixResultsReport : IReport {
         reportPath.write(output)
     }
 
-    override fun run(matrices: MatrixMap, testSuite: TestSuite, print: Boolean) {
+    override fun run(matrices: MatrixMap, testSuite: TestSuite, printToStdout: Boolean) {
         val output = generate(matrices)
-        if (print) print(output)
+        if (printToStdout) print(output)
         write(matrices, output)
     }
 }

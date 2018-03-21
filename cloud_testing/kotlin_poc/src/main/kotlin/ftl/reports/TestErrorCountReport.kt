@@ -21,7 +21,7 @@ com.instructure.teacher.ui.EditQuizDetailsPageTest#editQuizTitle  1
  **/
 object TestErrorCountReport : IReport {
 
-    override fun run(matrices: MatrixMap, testSuite: TestSuite, print: Boolean) {
+    override fun run(matrices: MatrixMap, testSuite: TestSuite, printToStdout: Boolean) {
         if (testSuite.failures <= 0) return
         val report = File("${reportPath(matrices)}.csv")
         report.printWriter().use { writer ->

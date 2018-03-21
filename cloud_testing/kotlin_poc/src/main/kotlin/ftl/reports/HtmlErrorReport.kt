@@ -10,7 +10,7 @@ import java.nio.file.Paths
 /**
  * Outputs HTML report for Bitrise based on JUnit XML. Only run on failures.
  * */
-object HtmlReport : IReport {
+object HtmlErrorReport : IReport {
     data class Group(val key: String, val name: String, val startIndex: Int, val count: Int)
     data class Item(val key: String, val name: String, val link: String)
 
@@ -51,7 +51,7 @@ object HtmlReport : IReport {
         return Pair(groupJson, itemJson)
     }
 
-    override fun run(matrices: MatrixMap, testSuite: TestSuite, print: Boolean) {
+    override fun run(matrices: MatrixMap, testSuite: TestSuite, printToStdout: Boolean) {
         if (testSuite.failures <= 0) return
         val reactJson = reactJson(testSuite)
         val newGroupJson = reactJson.first

@@ -5,7 +5,7 @@ import ftl.util.resolveLocalRunPath
 import java.nio.file.Paths
 
 interface IReport {
-    fun run(matrices: MatrixMap, testSuite: TestSuite, print: Boolean = false)
+    fun run(matrices: MatrixMap, testSuite: TestSuite, printToStdout: Boolean = false)
 
     fun reportName(): String {
         return this::class.java.simpleName

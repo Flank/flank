@@ -5,9 +5,7 @@ import ftl.json.MatrixMap
 import ftl.reports.util.IReport
 import ftl.reports.util.TestSuite
 import ftl.util.Billing
-import java.io.File
 import java.io.StringWriter
-import java.nio.file.Files
 import ftl.util.Utils.write
 import ftl.util.Utils.println
 
@@ -51,9 +49,9 @@ object CostReport : IReport {
         reportPath.write(output)
     }
 
-    override fun run(matrices: MatrixMap, testSuite: TestSuite, print: Boolean) {
+    override fun run(matrices: MatrixMap, testSuite: TestSuite, printToStdout: Boolean) {
         val output = generate(matrices)
-        if (print) print(output)
+        if (printToStdout) print(output)
         write(matrices, output)
     }
 }

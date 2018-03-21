@@ -22,7 +22,7 @@ object MatrixErrorReport : IReport {
         return args.joinToString("\t")
     }
 
-    override fun run(matrices: MatrixMap, testSuite: TestSuite, print: Boolean) {
+    override fun run(matrices: MatrixMap, testSuite: TestSuite, printToStdout: Boolean) {
         if (testSuite.failures <= 0) return
         val report = File(reportPath(matrices) + ".csv")
         report.printWriter().use { writer ->
