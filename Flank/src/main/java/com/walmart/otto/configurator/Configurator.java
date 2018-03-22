@@ -24,6 +24,7 @@ public class Configurator {
   private boolean fetchXMLFiles = true;
   private boolean debug = false;
   private boolean fetchBucket = false;
+  private boolean disableAutoGoogleLogin = false;
   private int numShards = -1;
   private int shardIndex = -1;
   private int shardTimeout = 5;
@@ -190,6 +191,14 @@ public class Configurator {
 
   public void setUseGCloudBeta(boolean useGCloudBeta) {
     this.useGCloudBeta = useGCloudBeta;
+  }
+
+  public boolean disableAutoGoogleLogin() {
+    return disableAutoGoogleLogin;
+  }
+
+  public void setDisableAutoGoogleLogin(boolean disableAutoGoogleLogin) {
+    this.disableAutoGoogleLogin = disableAutoGoogleLogin;
   }
 
   private void setupDevices() {

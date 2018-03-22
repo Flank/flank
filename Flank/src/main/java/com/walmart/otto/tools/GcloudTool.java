@@ -36,6 +36,7 @@ public class GcloudTool extends Tool {
           "--type",
           "instrumentation",
           orchestratorFlag(),
+          autoGoogleLoginFlag(),
           "--app",
           bucket + getSimpleName(getAppAPK()),
           "--test",
@@ -78,6 +79,13 @@ public class GcloudTool extends Tool {
       return "--use-orchestrator";
     }
     return "--no-use-orchestrator";
+  }
+
+  private String autoGoogleLoginFlag() {
+    if (getConfigurator().disableAutoGoogleLogin()) {
+      return "--no-auto-google-login";
+    }
+    return "";
   }
 
   private String betaConfiguration() {
