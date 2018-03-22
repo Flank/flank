@@ -65,6 +65,7 @@ gcloud-path: The path to the glcoud binary
 gsutil-path: The path to the gsutil binary
 gcloud-bucket: The Google Cloud Storage bucket to use. If not specified Flank will create one.
 use-gcloud-beta: If gcloud beta should be used
+disable-google-login: If the argument `--no-auto-google-login` should be passed to the gcloud command line.
 
 aggregate-reports.enabled: Enable the experimental test aggregation feature. Requires fetch-bucket to be enabled. Disabled by default.
 aggregate-reports.xml: Generates and pushes to Google Cloud Storage an aggregated XML report
