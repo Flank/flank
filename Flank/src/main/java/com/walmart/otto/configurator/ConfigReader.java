@@ -140,6 +140,14 @@ public class ConfigReader {
         configurator.setAutoGoogleLogin(Boolean.parseBoolean(value));
         break;
 
+      case "record-video":
+        configurator.setRecordVideo(Boolean.parseBoolean(value));
+        break;
+
+      case "record-performance-metrics":
+        configurator.setRecordPerformanceMetrics(Boolean.parseBoolean(value));
+        break;
+
       default:
         break;
     }

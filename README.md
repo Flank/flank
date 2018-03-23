@@ -65,7 +65,9 @@ gcloud-path: The path to the glcoud binary
 gsutil-path: The path to the gsutil binary
 gcloud-bucket: The Google Cloud Storage bucket to use. If not specified Flank will create one.
 use-gcloud-beta: If gcloud beta should be used
-auto-google-login: Automatically log into the test device using a preconfigured Google account before beginning the test. False by default.
+auto-google-login: Automatically log into the test device using a preconfigured Google account before beginning the test. True by default.
+record-video: If the video of the instrumentation test should be recorded. True by default.
+record-performance-metrics: If the performance metrics should be recorded. True by default.
 
 aggregate-reports.enabled: Enable the experimental test aggregation feature. Requires fetch-bucket to be enabled. Disabled by default.
 aggregate-reports.xml: Generates and pushes to Google Cloud Storage an aggregated XML report
