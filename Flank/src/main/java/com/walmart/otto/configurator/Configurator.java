@@ -208,8 +208,8 @@ public class Configurator {
     return recordVideo;
   }
 
-  public void setRecordVideo(boolean shouldRecordVideo) {
-    recordVideo = shouldRecordVideo;
+  public void setRecordVideo(boolean recordVideo) {
+    this.recordVideo = recordVideo;
   }
 
   public boolean recordPerformanceMetrics() {
