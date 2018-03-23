@@ -39,6 +39,7 @@ public class GcloudTool extends Tool {
           orchestratorFlag(),
           autoGoogleLoginFlag(),
           recordVideoFlag(),
+          performanceMetricsFlag(),
           "--app",
           bucket + getSimpleName(getAppAPK()),
           "--test",
