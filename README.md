@@ -67,6 +67,7 @@ gcloud-bucket: The Google Cloud Storage bucket to use. If not specified Flank wi
 use-gcloud-beta: If gcloud beta should be used
 disable-google-login: If the argument `--no-auto-google-login` should be passed to the gcloud command line.
 record-video: If the video of the instrumentation test should be recorded. True by default.
+record-performance-metrics: If the performance metrics should be recorded. True by default.
 
 aggregate-reports.enabled: Enable the experimental test aggregation feature. Requires fetch-bucket to be enabled. Disabled by default.
 aggregate-reports.xml: Generates and pushes to Google Cloud Storage an aggregated XML report

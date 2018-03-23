@@ -27,6 +27,7 @@ public class Configurator {
   private boolean fetchBucket = false;
   private boolean disableAutoGoogleLogin = false;
   private boolean recordVideo = true;
+  private boolean recordPerformanceMetrics = true;
   private int numShards = -1;
   private int shardIndex = -1;
   private int shardTimeout = 5;
@@ -209,6 +210,14 @@ public class Configurator {
 
   public void setRecordVideo(boolean shouldRecordVideo) {
     recordVideo = shouldRecordVideo;
+  }
+
+  public boolean recordPerformanceMetrics() {
+    return recordPerformanceMetrics;
+  }
+
+  public void setRecordPerformanceMetrics(boolean recordPerformanceMetrics) {
+    this.recordPerformanceMetrics = recordPerformanceMetrics;
   }
 
   private void setupDevices() {

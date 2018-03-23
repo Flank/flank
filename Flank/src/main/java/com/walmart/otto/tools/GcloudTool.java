@@ -97,6 +97,13 @@ public class GcloudTool extends Tool {
     return "";
   }
 
+  private String performanceMetricsFlag() {
+    if (!getConfigurator().recordPerformanceMetrics()) {
+      return "--no-performance-metrics";
+    }
+    return "";
+  }
+
   private String betaConfiguration() {
     if (getConfigurator().isUseGCloudBeta()) {
       return "beta";
