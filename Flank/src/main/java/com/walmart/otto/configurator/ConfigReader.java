@@ -136,8 +136,8 @@ public class ConfigReader {
         configurator.setGenerateSplitVideo(Boolean.parseBoolean(value));
         break;
 
-      case "disable-google-login":
-        configurator.setDisableAutoGoogleLogin(Boolean.parseBoolean(value));
+      case "auto-google-login":
+        configurator.setAutoGoogleLogin(Boolean.parseBoolean(value));
         break;
 
       default:
