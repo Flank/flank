@@ -85,7 +85,7 @@ public class GcloudTool extends Tool {
   }
 
   private String autoGoogleLoginFlag() {
-    if (getConfigurator().disableAutoGoogleLogin()) {
+    if (!getConfigurator().autoGoogleLogin()) {
       return "--no-auto-google-login";
     }
     return "";
