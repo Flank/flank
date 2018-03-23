@@ -13,6 +13,7 @@ Flank/results/
  .idea/tasks.xml
  .idea/dictionaries
 **/.idea/**
+!**/.idea/codeStyles/*
 build/
 out/
 
