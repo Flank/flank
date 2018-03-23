@@ -140,6 +140,10 @@ public class ConfigReader {
         configurator.setDisableAutoGoogleLogin(Boolean.parseBoolean(value));
         break;
 
+      case "record-video":
+        configurator.setRecordVideo(Boolean.parseBoolean(value));
+        break;
+
       default:
         break;
     }

@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class GcloudTool extends Tool {
+
   private boolean printTests = true;
   private boolean testFailed = false;
   private int latestExecutionTime;
@@ -37,6 +38,7 @@ public class GcloudTool extends Tool {
           "instrumentation",
           orchestratorFlag(),
           autoGoogleLoginFlag(),
+          recordVideoFlag(),
           "--app",
           bucket + getSimpleName(getAppAPK()),
           "--test",
@@ -84,6 +86,13 @@ public class GcloudTool extends Tool {
   private String autoGoogleLoginFlag() {
     if (getConfigurator().disableAutoGoogleLogin()) {
       return "--no-auto-google-login";
+    }
+    return "";
+  }
+
+  private String recordVideoFlag() {
+    if (!getConfigurator().recordVideo()) {
+      return "--no-record-video";
     }
     return "";
   }

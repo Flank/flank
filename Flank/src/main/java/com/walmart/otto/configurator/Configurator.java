@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Configurator {
+
   private List<String> deviceIds = new ArrayList<>(Collections.singletonList("Nexus6P"));
   private List<String> locales = new ArrayList<>(Collections.singletonList("en"));
   private List<String> orientations = new ArrayList<>(Collections.singletonList("portrait"));
@@ -25,6 +26,7 @@ public class Configurator {
   private boolean debug = false;
   private boolean fetchBucket = false;
   private boolean disableAutoGoogleLogin = false;
+  private boolean recordVideo = true;
   private int numShards = -1;
   private int shardIndex = -1;
   private int shardTimeout = 5;
@@ -199,6 +201,14 @@ public class Configurator {
 
   public void setDisableAutoGoogleLogin(boolean disableAutoGoogleLogin) {
     this.disableAutoGoogleLogin = disableAutoGoogleLogin;
+  }
+
+  public boolean recordVideo() {
+    return recordVideo;
+  }
+
+  public void setRecordVideo(boolean shouldRecordVideo) {
+    recordVideo = shouldRecordVideo;
   }
 
   private void setupDevices() {
