@@ -53,7 +53,7 @@ devices: Device Id, OSVersion, orientation, locale; Default values are `Nexus6P`
 environment-variables: To set environment variables. Can also be used to enable code coverage
 directories-to-pull: If directories from the device should be pulled
 use-orchestrator: To enable Android Test Orchestrator
-shard-timeout: Timeout in minutes for each shard
+shard-timeout: Timeout in minutes for each shard. 5 minutes by default.
 shard-duration: Duration in seconds for each shard
 
 numShards: Number of shards to split the tests across. Unused by default.
