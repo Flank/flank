@@ -53,26 +53,26 @@ devices: Device Id, OSVersion, orientation, locale; Default values are `Nexus6P`
 environment-variables: To set environment variables. Can also be used to enable code coverage
 directories-to-pull: If directories from the device should be pulled
 use-orchestrator: To enable Android Test Orchestrator
-shard-timeout: Timeout in minutes for each shard
+shard-timeout: Timeout in minutes for each shard. 5 minutes by default.
 shard-duration: Duration in seconds for each shard
 
-numShards: Number of shards
+numShards: Number of shards to split the tests across. Unused by default.
 shardIndex: If a specific shard should be executed
-debug-prints: If debug prints should be enabled
-fetch-xml-files: If the result xml files should be fetched
-fetch-bucket: If the bucket containing logs and artifacts should be fetched
-gcloud-path: The path to the glcoud binary
-gsutil-path: The path to the gsutil binary
+debug-prints: If debug prints should be enabled. False by default.
+fetch-xml-files: If the result xml files should be fetched. True by default.
+fetch-bucket: If the bucket containing logs and artifacts should be fetched. False by default.
+gcloud-path: The path to the glcoud binary. This shouldn't need to be set if `gcloud` is found on the path.
+gsutil-path: The path to the gsutil binary. This shouldn't need to be set if `gcloud` is found on the path.
 gcloud-bucket: The Google Cloud Storage bucket to use. If not specified Flank will create one.
-use-gcloud-beta: If gcloud beta should be used
+use-gcloud-beta: If gcloud beta should be used. False by default.
 auto-google-login: Automatically log into the test device using a preconfigured Google account before beginning the test. True by default.
 record-video: If the video of the instrumentation test should be recorded. True by default.
 record-performance-metrics: If the performance metrics should be recorded. True by default.
 
-aggregate-reports.enabled: Enable the experimental test aggregation feature. Requires fetch-bucket to be enabled. Disabled by default.
-aggregate-reports.xml: Generates and pushes to Google Cloud Storage an aggregated XML report
-aggregate-reports.html: Generates and pushes to Google Cloud Storage an aggregated HTML report, including Logcat and video for the failing tests
-aggregate-reports.split-video: For failing test cases, attempts to split the execution video to capture only the failing test and includes a link in the HTML report. Requires ffmpeg to be installed
+aggregate-reports.enabled: Enable the experimental test aggregation feature. Requires fetch-bucket to be enabled. False by default.
+aggregate-reports.xml: Generates and pushes to Google Cloud Storage an aggregated XML report. True by default.
+aggregate-reports.html: Generates and pushes to Google Cloud Storage an aggregated HTML report, including Logcat and video for the failing tests. True by default.
+aggregate-reports.split-video: For failing test cases, attempts to split the execution video to capture only the failing test and includes a link in the HTML report. Requires ffmpeg to be installed. False by default.
 
 deviceIds: The ID:s of the devices to run the tests on (deprecated, should not be used in conjunction with `device`)
 os-version-ids: The API-levels of the devices to run the tests on (deprecated, should not be used in conjunction with `device`)
