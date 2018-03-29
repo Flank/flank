@@ -1,4 +1,4 @@
-# Flank [![Build Status](https://travis-ci.org/TestArmada/flank.svg?branch=master)](https://travis-ci.org/TestArmada/flank)
+# Flank [![Build Status](https://travis-ci.org/TestArmada/flank.svg?branch=master)](https://travis-ci.org/TestArmada/flank) [![](https://jitpack.io/v/TestArmada/flank.svg)](https://jitpack.io/#TestArmada/flank)
 
 Flank is a [Firebase Test Lab](https://firebase.google.com/docs/test-lab/?gclid=CjwKEAiA0fnFBRC6g8rgmICvrw0SJADx1_zAFTUPL4ffVSc5srwKT_Up4vJb15Ik4iIxIK4bQ5J-vxoCIS3w_wcB) tool for massively-scaling your automated Android tests. Run large test suites across many devices/versions/configurations at the same time, in parallel. Flank can easily be used in a CI environment where Gradle (or similar) first builds the APK:s and then Flank is used to execute the tests.
 
@@ -14,14 +14,14 @@ To use Flank, please sign up for Firebase Test Lab and install the Google Cloud 
 
 ### Download
 
-Either [download Flank from here](https://bintray.com/flank1/Flank/download_file?file_path=Flank-2.0.1.jar)
+Either [download Flank from here](https://jitpack.io/com/github/TestArmada/flank/v2.0.2/flank-v2.0.2.jar)
 
 or
 
 Use curl:
 
 ```console
-curl --location --fail https://dl.bintray.com/flank1/Flank/Flank-2.0.1.jar --output Flank-2.0.1.jar
+curl --location --fail https://jitpack.io/com/github/TestArmada/flank/v2.0.2/flank-v2.0.2.jar --output Flank-2.0.2.jar
 ```
 
 ### Run Tests
@@ -29,7 +29,7 @@ curl --location --fail https://dl.bintray.com/flank1/Flank/Flank-2.0.1.jar --out
 To runs tests with Flank you will need the app and test apk's. You can specify in which class/package/annotation/testFile you would like tests to run by using ```-f```. If ```-f``` is not provided all the tests will be executed. Usage:
 
 ```
-java -jar Flank-2.0.1.jar -a app-apk -t test-apk -f "class/package/annotation/testFile name"
+java -jar Flank-2.0.2.jar -a app-apk -t test-apk -f "class/package/annotation/testFile name"
 
 "class foo.FooTest, bar.BarTest" executes only the tests in the given class(es)
 "class foo.FooTest#testFoo, bar.BarTest#testBar" executes only the given test(s)
@@ -86,14 +86,14 @@ Example of a properties file:
 environment-variables=coverage=true,coverageFile=/sdcard/tempDir/coverage.ec
 directories-to-pull=/sdcard
 shard-timeout=5
-shard-duration=120  
+shard-duration=120
 devices=model:Nexus5X;version:23;orientation:portrait;locale:en,\
         model:Nexus6P;version:24,\
         model:NexusLowRes;version:26
 
-numShards=  
+numShards=
 shardIndex=
-debug-prints=false  
+debug-prints=false
 fetch-xml-files=true
 auto-google-login=true
 fetch-bucket=false
