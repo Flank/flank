@@ -11,7 +11,7 @@ repositories {
 // https://jitpack.io/docs/BUILDING/
 apply plugin: 'maven'
 group 'com.walmart.otto'
-version '2.0.2'
+version '2.0.3'
 
 apply plugin: 'java'
 apply plugin: 'findbugs'
