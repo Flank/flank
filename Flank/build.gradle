@@ -7,6 +7,9 @@ repositories {
     jcenter()
 }
 
+// JitPack requires maven plugin
+// https://jitpack.io/docs/BUILDING/
+apply plugin: 'maven'
 group 'com.walmart.otto'
 version '2.0.2'
 
