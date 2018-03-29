@@ -8,7 +8,7 @@ repositories {
 }
 
 group 'com.walmart.otto'
-version '2.0.1'
+version '2.0.2'
 
 apply plugin: 'java'
 apply plugin: 'findbugs'
