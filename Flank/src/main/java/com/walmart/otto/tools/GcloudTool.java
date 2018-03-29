@@ -135,8 +135,8 @@ public class GcloudTool extends Tool {
     for (String line : errorStreamList) {
       if (line.contains("More details are available")) {
         resultsLink = line;
-      } else if (line.contains("Test time=")) {
-        String[] timeLine = line.split(Pattern.quote("time="));
+      } else if (line.contains("Test time = ")) {
+        String[] timeLine = line.split(Pattern.quote("time = "));
         latestExecutionTime = Integer.parseInt(timeLine[1].replaceAll("\\D+", ""));
         TimeReporter.addExecutionTime(Integer.parseInt(timeLine[1].replaceAll("\\D+", "")));
       } else if (line.contains("ERROR")) {
