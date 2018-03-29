@@ -2,6 +2,10 @@ Release notes for flank
 
 # next (unreleased)
 
+-
+
+# 2.0.3
+
 - [Fix bug parsing test duration - **runningcode**](https://github.com/TestArmada/flank/pull/158)
 
 # 2.0.2

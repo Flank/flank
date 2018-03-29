@@ -14,22 +14,15 @@ To use Flank, please sign up for Firebase Test Lab and install the Google Cloud 
 
 ### Download
 
-Either [download Flank from here](https://jitpack.io/com/github/TestArmada/flank/v2.0.2/flank-v2.0.2.jar)
+Flank releases may be downloaded [directly from JitPack](https://jitpack.io/com/github/TestArmada/flank/) or via [a dependency manager.](https://jitpack.io/#TestArmada/flank)
 
-or
-
-Use curl:
-
-```console
-curl --location --fail https://jitpack.io/com/github/TestArmada/flank/v2.0.2/flank-v2.0.2.jar --output Flank-2.0.2.jar
-```
 
 ### Run Tests
 
 To runs tests with Flank you will need the app and test apk's. You can specify in which class/package/annotation/testFile you would like tests to run by using ```-f```. If ```-f``` is not provided all the tests will be executed. Usage:
 
 ```
-java -jar Flank-2.0.2.jar -a app-apk -t test-apk -f "class/package/annotation/testFile name"
+java -jar Flank.jar -a app-apk -t test-apk -f "class/package/annotation/testFile name"
 
 "class foo.FooTest, bar.BarTest" executes only the tests in the given class(es)
 "class foo.FooTest#testFoo, bar.BarTest#testBar" executes only the given test(s)
