@@ -63,7 +63,7 @@ class YamlConfig(
             fatalError("'$testApk' testApk doesn't exist")
         }
 
-        val dexValidTestNames= DexParser.findTestMethods(testApk).map { it.testName }
+        val dexValidTestNames = DexParser.findTestMethods(testApk).map { it.testName }
         val missingMethods = mutableListOf<String>()
 
         testMethods.forEach { testMethod ->
@@ -75,7 +75,7 @@ class YamlConfig(
         if (missingMethods.isNotEmpty()) fatalError("Test APK is missing methods: $missingMethods")
 
         if (testShards > 1) {
-            testShardChunks = dexValidTestNames.map { "class $it" }.chunked(dexValidTestNames.size/testShards)
+            testShardChunks = dexValidTestNames.map { "class $it" }.chunked(dexValidTestNames.size / testShards)
         }
     }
 
@@ -93,7 +93,9 @@ class YamlConfig(
 
         private fun getDefaultProjectId(): String {
             if (useMock) return "mockProjectId"
-            return ServiceOptions.getDefaultProjectId()
+
+            return ServiceOptions.getDefaultProjectId() ?: throw RuntimeException(
+                    "Project ID not found. Is GOOGLE_CLOUD_PROJECT defined?\n" + " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id")
         }
     }
 
