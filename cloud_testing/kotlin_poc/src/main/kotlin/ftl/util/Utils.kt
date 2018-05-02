@@ -86,21 +86,4 @@ object Utils {
 
         return bucketName.toString()
     }
-
-    // gcloud config get-value project
-    //
-    // cat ~/.config/gcloud/active_config
-    // cat ~/.config/gcloud/configurations/config_default
-    //
-    // export GOOGLE_APPLICATION_CREDENTIALS="path/to/secrets.json"
-    private fun checkProjectId() {
-        if (FtlConstants.useMock) return
-        ServiceOptions.getDefaultProjectId() ?: throw RuntimeException(
-                "Project ID not found. Is GOOGLE_APPLICATION_CREDENTIALS defined?\n" + " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id")
-
-    }
-
-    init {
-        checkProjectId()
-    }
 }
