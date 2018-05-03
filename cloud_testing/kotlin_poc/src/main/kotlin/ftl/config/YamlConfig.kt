@@ -74,10 +74,18 @@ class YamlConfig(
 
         if (missingMethods.isNotEmpty()) fatalError("Test APK is missing methods: $missingMethods")
 
-        if (testShards >= 1) {
-            val testShardMethods = if (testMethods.isEmpty()) { dexValidTestNames } else  { testMethods }
-            testShardChunks = testShardMethods.map { "class $it" }.chunked(testShardMethods.size / testShards)
+        val testShardMethods = if (testMethods.isNotEmpty()) {
+            testMethods
+        } else {
+            dexValidTestNames
         }
+
+        if (testShards < 1) testShards = 1
+        var chunkSize = testShardMethods.size / testShards
+        // 1 method / 40 shard = 0. chunked(0) throws an exception.
+        // default to running all tests in a single chunk if method count is less than shard count.
+        if (chunkSize < 1) chunkSize = testShardMethods.size
+        testShardChunks = testShardMethods.map { "class $it" }.chunked(chunkSize)
     }
 
     companion object {

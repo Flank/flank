@@ -59,9 +59,12 @@ object TestRunner {
         val apks = uploadApksInParallel(config, runGcsPath)
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
-        repeat(config.testRuns) {
+        val runCount = config.testRuns
+        val repeatShard = config.testShardChunks.size
 
-            repeat(config.testShards) { testShardsIndex ->
+        println("  Running ${runCount}x using $repeatShard VMs per run. ${runCount * repeatShard} total VMs")
+        repeat(runCount) {
+            repeat(repeatShard) { testShardsIndex ->
                 jobs += async {
                     GcTestMatrix.build(
                             appApkGcsPath = apks.first,
