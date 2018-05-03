@@ -74,7 +74,7 @@ class YamlConfig(
 
         if (missingMethods.isNotEmpty()) fatalError("Test APK is missing methods: $missingMethods")
 
-        if (testShards > 1) {
+        if (testShards >= 1) {
             val testShardMethods = if (testMethods.isEmpty()) { dexValidTestNames } else  { testMethods }
             testShardChunks = testShardMethods.map { "class $it" }.chunked(testShardMethods.size / testShards)
         }
