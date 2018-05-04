@@ -42,11 +42,6 @@ object TestRunner {
         assertMockUrl()
 
         val runGcsPath = Utils.uniqueObjectName()
-        var testTargets: List<String>? = null
-
-        if (config.testMethods.isNotEmpty()) {
-            testTargets = config.testMethods.stream().map { i -> "class $i" }.collect(Collectors.toList())
-        }
 
         // GcAndroidMatrix => GcTestMatrix
         // GcTestMatrix.execute() 3x retry => matrix id (string)
@@ -61,8 +56,11 @@ object TestRunner {
         val jobs = arrayListOf<Deferred<TestMatrix>>()
         val runCount = config.testRuns
         val repeatShard = config.testShardChunks.size
+        val testsPerVm = config.testShardChunks.first().size
+        val testsTotal = config.testShardChunks.sumBy { it.size }
 
         println("  Running ${runCount}x using $repeatShard VMs per run. ${runCount * repeatShard} total VMs")
+        println("  $testsPerVm tests per VM. $testsTotal total tests per run")
         repeat(runCount) {
             repeat(repeatShard) { testShardsIndex ->
                 jobs += async {
@@ -71,7 +69,6 @@ object TestRunner {
                             testApkGcsPath = apks.second,
                             runGcsPath = runGcsPath,
                             androidMatrix = androidMatrix,
-                            testTargets = testTargets,
                             testShardsIndex = testShardsIndex,
                             config = config).execute()
                 }

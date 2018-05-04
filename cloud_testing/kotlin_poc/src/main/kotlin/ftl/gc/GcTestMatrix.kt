@@ -17,12 +17,9 @@ object GcTestMatrix {
             testApkGcsPath: String,
             runGcsPath: String,
             androidMatrix: AndroidMatrix,
-            testTargets: List<String>? = null,
             testShardsIndex: Int = -1,
             config: YamlConfig): Testing.Projects.TestMatrices.Create {
-        val testShardsTotal = config.testShards
-        val useTestShards = testShardsTotal > 1 &&
-                testShardsIndex < testShardsTotal
+        val testShardsTotal = config.testShardChunks.size
 
         if (testShardsIndex >= testShardsTotal) {
             throw RuntimeException("Invalid test shard index $testShardsIndex not < $testShardsTotal")
@@ -44,13 +41,7 @@ object GcTestMatrix {
             androidInstrumentation.orchestratorOption = "USE_ORCHESTRATOR"
         }
 
-        if (testTargets != null && testTargets.isNotEmpty()) {
-            androidInstrumentation.testTargets = testTargets
-        }
-
-        if (useTestShards) {
-            androidInstrumentation.testTargets = config.testShardChunks[testShardsIndex]
-        }
+        androidInstrumentation.testTargets = config.testShardChunks[testShardsIndex]
 
         val testTimeoutSeconds = TimeUnit.MINUTES.toSeconds(config.testTimeoutMinutes)
 
