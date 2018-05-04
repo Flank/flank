@@ -17,7 +17,6 @@ object GcTestMatrix {
             testApkGcsPath: String,
             runGcsPath: String,
             androidMatrix: AndroidMatrix,
-            testTargets: List<String>? = null,
             testShardsIndex: Int = -1,
             config: YamlConfig): Testing.Projects.TestMatrices.Create {
         val testShardsTotal = config.testShardChunks.size

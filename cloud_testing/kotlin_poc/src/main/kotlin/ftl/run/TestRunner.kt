@@ -42,11 +42,6 @@ object TestRunner {
         assertMockUrl()
 
         val runGcsPath = Utils.uniqueObjectName()
-        var testTargets: List<String>? = null
-
-        if (config.testMethods.isNotEmpty()) {
-            testTargets = config.testMethods.stream().map { i -> "class $i" }.collect(Collectors.toList())
-        }
 
         // GcAndroidMatrix => GcTestMatrix
         // GcTestMatrix.execute() 3x retry => matrix id (string)
@@ -74,7 +69,6 @@ object TestRunner {
                             testApkGcsPath = apks.second,
                             runGcsPath = runGcsPath,
                             androidMatrix = androidMatrix,
-                            testTargets = testTargets,
                             testShardsIndex = testShardsIndex,
                             config = config).execute()
                 }
