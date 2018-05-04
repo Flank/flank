@@ -3,14 +3,34 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Below you will find some information on how to perform common tasks.<br>
 You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
+---
 
+#### Contributing
+
+Install [Visual Studio Code](https://code.visualstudio.com/)
+
+Install node 8 (10 doesn't currently work.)
+ - `brew install node@8`
+
+Install yarn
+- `brew install yarn`
+
+Install deps
+- `yarn`
+
+Run locally
+- `yarn start`
+
+Create inline.html to bundle in the flank jar
+- `./update_report.sh`
+
+#### How the app was created
 ```
-create-react-app tmp_react_ts --scripts-version=react-scripts-ts
+create-react-app junit_html_report --scripts-version=react-scripts-ts
 yarn add office-ui-fabric-react
 yarn add file:packages/office-ui-fabric-react-tslint
 yarn add --dev tslint-microsoft-contrib
 ```
-
 
 ## Table of Contents
 
@@ -292,7 +312,7 @@ In the WebStorm menu `Run` select `Edit Configurations...`. Then click `+` and s
 
 Start your app by running `npm start`, then press `^D` on macOS or `F9` on Windows and Linux or click the green debug icon to start debugging in WebStorm.
 
-The same way you can debug your application in IntelliJ IDEA Ultimate, PhpStorm, PyCharm Pro, and RubyMine. 
+The same way you can debug your application in IntelliJ IDEA Ultimate, PhpStorm, PyCharm Pro, and RubyMine.
 
 ## Formatting Code Automatically
 
@@ -1801,7 +1821,7 @@ If you’re using [Apache HTTP Server](https://httpd.apache.org/), you need to c
     RewriteRule ^ index.html [QSA,L]
 ```
 
-It will get copied to the `build` folder when you run `npm run build`. 
+It will get copied to the `build` folder when you run `npm run build`.
 
 If you’re using [Apache Tomcat](http://tomcat.apache.org/), you need to follow [this Stack Overflow answer](https://stackoverflow.com/a/41249464/4878474).
 
