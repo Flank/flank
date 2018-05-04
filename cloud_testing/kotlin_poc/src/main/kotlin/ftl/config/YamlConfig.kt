@@ -99,6 +99,7 @@ class YamlConfig(
         if (testShardChunks.size > testShards) {
             fatalError("Calculated chunks $testShardChunks is > requested $testShards testShards.")
         }
+        if (testShardChunks.isEmpty()) fatalError("Failed to populate test shard chunks")
     }
 
     companion object {
