@@ -74,7 +74,7 @@ class App extends React.Component {
   }
 
   private _linkStyles(props: ILinkStyleProps): ILinkStyles {
-    const style = { color: 'black' };
+    const style = { color: 'blue' };
 
     return { root: style};
   }
