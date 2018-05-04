@@ -61,8 +61,11 @@ object TestRunner {
         val jobs = arrayListOf<Deferred<TestMatrix>>()
         val runCount = config.testRuns
         val repeatShard = config.testShardChunks.size
+        val testsPerVm = config.testShardChunks.first().size
+        val testsTotal = config.testShardChunks.sumBy { it.size }
 
         println("  Running ${runCount}x using $repeatShard VMs per run. ${runCount * repeatShard} total VMs")
+        println("  $testsPerVm tests per VM. $testsTotal total tests per run")
         repeat(runCount) {
             repeat(repeatShard) { testShardsIndex ->
                 jobs += async {
