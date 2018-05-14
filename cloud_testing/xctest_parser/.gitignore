@@ -1,0 +1,4 @@
+results
+*.jar
+EarlGrey/
+xctestrun/
