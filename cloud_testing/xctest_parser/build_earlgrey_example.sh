@@ -35,5 +35,6 @@ xcodebuild build-for-testing \
   -destination "generic/platform=iOS" \
   -derivedDataPath "$DD_PATH"
 
-cp ./xctestrun/Build/Products/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest/EarlGreyExampleSwiftTests \
- "$DIR/src/main/kotlin/xctest/fixtures/swift"
+FIXTURES_PATH="$DIR/src/main/kotlin/xctest/fixtures/swift"
+cp "$DIR/xctestrun/Build/Products/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest/EarlGreyExampleSwiftTests" \
+ "$FIXTURES_PATH"
