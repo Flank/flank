@@ -17,13 +17,11 @@ object Parse {
     }
 
     private fun execute(cmd: String): String {
-        println("running command: $cmd")
-        val process = Runtime.getRuntime().exec(cmd)
+        println(cmd)
+        val process = Runtime.getRuntime().exec(arrayOf("/bin/bash", "-c", cmd))
         process.waitFor()
         val output = process.stdout()
-        val statusCode = process.successful()
-        println("successful? $statusCode")
-        // TODO: handle failures
+        if (!process.successful()) throw RuntimeException("Command failed: $cmd")
         return output
     }
 
@@ -32,6 +30,7 @@ object Parse {
             throw RuntimeException("File $file does not exist!")
         }
         val results = mutableSetOf<String>()
+        // https://github.com/linkedin/bluepill/blob/37e7efa42472222b81adaa0e88f2bd82aa289b44/Source/Shared/BPXCTestFile.m#L18
         val output = execute("nm -U ${file.path}")
         output.lines().forEach { line ->
             // 000089b0 t -[EarlGreyExampleTests testLayout]
@@ -50,8 +49,12 @@ object Parse {
             throw RuntimeException("File $file does not exist!")
         }
         val results = mutableSetOf<String>()
-        val mangledOutput = execute("nm -gU ${file.path}")
-        val demangledOutput = execute("xcrun swift-demangle $mangledOutput")
+
+        // The OS limits the list of arguments to ARG_MAX. Setting the xargs limit avoids a fatal
+        // 'argument too long' error. xargs will split the args and run the command for each chunk.
+        val argMax = execute("getconf ARG_MAX")
+        // https://github.com/linkedin/bluepill/blob/37e7efa42472222b81adaa0e88f2bd82aa289b44/Source/Shared/BPXCTestFile.m#L17-18
+        val demangledOutput = execute("nm -gU ${file.path} | xargs -s $argMax xcrun swift-demangle")
         demangledOutput.lines().forEach { line ->
             // _T025EarlGreyExampleTestsSwift0abceD0C10testLayoutyyF ---> EarlGreyExampleTestsSwift.EarlGreyExampleSwiftTests.testLayout() -> ()
             // _T025EarlGreyExampleTestsSwift0abceD0C16testCustomActionyyF ---> EarlGreyExampleTestsSwift.EarlGreyExampleSwiftTests.testCustomAction() -> ()
@@ -66,12 +69,6 @@ object Parse {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        // TODO: Build sample app from source
-        // TODO: Extract tests from sample app (Swift/ObjC)
-        // TODO: Add unit tests
-
-//        execute("./build_earlgrey_example.sh")
-
         // TODO: Replace hardcoded file with args
         val objcBinary = File("./src/test/kotlin/xctest/fixtures/objc/EarlGreyExampleTests")
         parseObjcTests(objcBinary)
