@@ -28,6 +28,10 @@ object Main : Runnable {
     @Throws(Exception::class)
     @JvmStatic
     fun main(args: Array<String>) {
+
+        // todo: port iOS features from
+        // https://github.com/bootstraponline/gcloud_cli/blob/5bcba57e825fc98e690281cf69484b7ba4eb668a/google-cloud-sdk/lib/googlecloudsdk/api_lib/firebase/test/ios/matrix_creator.py#L109
+
 //        val args2 = arrayOf("run") // for debugging. run test from IntelliJ IDEA
         CommandLine.run<Runnable>(Main, System.out, *args)
     }

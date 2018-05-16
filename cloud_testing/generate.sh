@@ -11,9 +11,12 @@ pushd apis
 #     --language=java \
 #     --output_dir=./storage
 
+rm -rf "./testing/src/"
+
  generate_library \
     --input=./testing_v1.json \
     --language=java \
+    --package_path=api/services \
     --output_dir=./testing/src/main/java
 
 mv ./testing/src/main/java/pom.xml ./testing/pom.xml
