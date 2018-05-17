@@ -23,7 +23,7 @@ object GcStorage {
         storageOptions.service
     }
 
-    private fun uploadApk(apk: String, rootGcsBucket: String, runGcsPath: String): String {
+    private fun upload(apk: String, rootGcsBucket: String, runGcsPath: String): String {
         val apkFileName = Paths.get(apk).fileName.toString()
         val gcsApkPath = GCS_PREFIX + join(rootGcsBucket, runGcsPath, apkFileName)
 
@@ -42,10 +42,14 @@ object GcStorage {
     }
 
     fun uploadAppApk(config: YamlConfig, runGcsPath: String): String {
-        return uploadApk(config.appApk, config.rootGcsBucket, runGcsPath)
+        return upload(config.appApk, config.rootGcsBucket, runGcsPath)
     }
 
     fun uploadTestApk(config: YamlConfig, runGcsPath: String): String {
-        return uploadApk(config.testApk, config.rootGcsBucket, runGcsPath)
+        return upload(config.testApk, config.rootGcsBucket, runGcsPath)
+    }
+
+    fun uploadXCTestZip(config: YamlConfig, runGcsPath: String): String {
+        return upload(config.xctestZip, config.rootGcsBucket, runGcsPath)
     }
 }
