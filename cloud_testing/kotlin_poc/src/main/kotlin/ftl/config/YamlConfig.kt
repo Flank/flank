@@ -17,8 +17,9 @@ import java.math.RoundingMode
 // testRuns - how many times to run the tests.
 
 class YamlConfig(
-        val appApk: String,
-        val testApk: String,
+        val appApk: String = "",
+        val testApk: String = "",
+        val xctestZip: String,
         val rootGcsBucket: String,
 
         val autoGoogleLogin: Boolean = true,
@@ -57,6 +58,9 @@ class YamlConfig(
     }
 
     private fun validate() {
+        val iosXCTest = File(xctestZip).exists()
+        if (iosXCTest) return
+
         if (!File(appApk).exists()) {
             fatalError("'$appApk' appApk doesn't exist")
         }
@@ -127,6 +131,7 @@ class YamlConfig(
   projectId: '$projectId'
   appApk: '$appApk',
   testApk: '$testApk',
+  xctestZip: '$xctestZip',
   rootGcsBucket: '$rootGcsBucket',
   autoGoogleLogin: '$autoGoogleLogin',
   useOrchestrator: $useOrchestrator,
