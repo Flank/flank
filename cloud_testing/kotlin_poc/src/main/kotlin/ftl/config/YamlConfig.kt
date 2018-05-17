@@ -19,7 +19,7 @@ import java.math.RoundingMode
 class YamlConfig(
         val appApk: String = "",
         val testApk: String = "",
-        val xctestZip: String,
+        val xctestZip: String = "",
         val rootGcsBucket: String,
 
         val autoGoogleLogin: Boolean = true,

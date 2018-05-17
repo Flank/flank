@@ -80,7 +80,7 @@ class YamlConfigTest {
         val config = YamlConfig(
                 oldConfig.appApk,
                 oldConfig.testApk,
-                oldConfig.rootGcsBucket,
+                rootGcsBucket = oldConfig.rootGcsBucket,
                 limitBreak = true)
         config.testRuns = s99_999
         config.testShards = s99_999
