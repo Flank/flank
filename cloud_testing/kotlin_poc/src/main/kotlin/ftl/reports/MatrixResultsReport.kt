@@ -45,11 +45,13 @@ object MatrixResultsReport : IReport {
         StringWriter().use { writer ->
             writer.println(reportName())
             writer.println("$indent$success / $total ($successPercent%)")
-            if (failed > 0) writer.println("$indent$failed matrices failed")
-            writer.println()
-            writer.println("${indent}Failed matrix links:")
-            failureWebLinks.forEach { writer.println(indent + it) }
-            println()
+            if (failed > 0) {
+                writer.println("$indent$failed matrices failed")
+                writer.println()
+                writer.println("${indent}Failed matrix links:")
+                failureWebLinks.forEach { writer.println(indent + it) }
+                println()
+            }
 
             return writer.toString()
         }
