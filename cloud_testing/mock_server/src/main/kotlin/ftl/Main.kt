@@ -83,7 +83,7 @@ object Main {
                 // GET /toolresults/v1beta3/projects/delta-essence-114723/histories/1/executions/1/steps/1
                 get("/toolresults/v1beta3/projects/{projectId}/histories/{historyId}/executions/{executionId}/steps/{stepId}") {
                     println("Responding to GET ${call.request.uri}")
-                    val projectId = call.parameters["projectId"]
+                    // val projectId = call.parameters["projectId"]
 
                     val oneSecond = Duration().setSeconds(1)
 
