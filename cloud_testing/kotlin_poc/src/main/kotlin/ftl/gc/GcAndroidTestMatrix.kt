@@ -5,9 +5,7 @@ import com.google.api.services.testing.model.*
 import ftl.config.YamlConfig
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
-import ftl.util.Utils.sleep
 import ftl.util.Utils.uniqueObjectName
-import java.time.Duration.ofHours
 import java.util.concurrent.TimeUnit
 
 object GcAndroidTestMatrix {

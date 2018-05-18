@@ -3,7 +3,6 @@ package ftl.run
 import com.google.api.services.testing.model.IosDevice
 import com.google.api.services.testing.model.TestMatrix
 import ftl.config.YamlConfig
-import ftl.gc.GcAndroidTestMatrix
 import ftl.gc.GcIosTestMatrix
 import ftl.gc.GcStorage
 import ftl.ios.IosCatalog

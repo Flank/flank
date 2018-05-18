@@ -3,7 +3,6 @@ package ftl.gc
 import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.*
 import ftl.config.YamlConfig
-import ftl.ios.IosCatalog
 import ftl.util.Utils
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join

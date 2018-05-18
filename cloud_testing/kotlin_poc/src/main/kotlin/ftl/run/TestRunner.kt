@@ -11,7 +11,10 @@ import ftl.config.FtlConstants.localResultsDir
 import ftl.config.FtlConstants.localhost
 import ftl.config.FtlConstants.matrixIdsFile
 import ftl.config.YamlConfig
-import ftl.gc.*
+import ftl.gc.GcStorage
+import ftl.gc.GcTestMatrix
+import ftl.gc.GcTesting
+import ftl.gc.GcToolResults
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
 import ftl.reports.util.ReportManager

@@ -2,9 +2,7 @@ package ftl.gc
 
 import com.google.api.services.testing.model.TestMatrix
 import ftl.config.YamlConfig
-import ftl.util.Utils
 import ftl.util.Utils.sleep
-import java.time.Duration
 import java.time.Duration.ofHours
 
 object GcTestMatrix {
