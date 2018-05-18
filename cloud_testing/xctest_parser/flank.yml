@@ -1,0 +1,8 @@
+xctestZip: ./EarlGreyExampleSwiftTests.zip
+rootGcsBucket: earlgrey-swift
+disablePerformanceMetrics: false
+disableVideoRecording: false
+testTimeoutMinutes: 30
+testRuns: 1
+limitBreak: false
+waitForResults: true

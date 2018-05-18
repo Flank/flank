@@ -11,7 +11,10 @@ import ftl.config.FtlConstants.localResultsDir
 import ftl.config.FtlConstants.localhost
 import ftl.config.FtlConstants.matrixIdsFile
 import ftl.config.YamlConfig
-import ftl.gc.*
+import ftl.gc.GcStorage
+import ftl.gc.GcTestMatrix
+import ftl.gc.GcTesting
+import ftl.gc.GcToolResults
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
 import ftl.reports.util.ReportManager
@@ -24,12 +27,11 @@ import java.nio.file.Paths
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.util.stream.Collectors
 
 object TestRunner {
     private val gson = GsonBuilder().setPrettyPrinting().create()!!
 
-    private fun assertMockUrl() {
+    fun assertMockUrl() {
         if (!FtlConstants.useMock) return
         if (!GcTesting.get.rootUrl.contains(localhost)) throw RuntimeException("expected localhost in GcTesting")
         if (!GcStorage.storageOptions.host.contains(localhost)) throw RuntimeException("expected localhost in GcStorage")
@@ -37,78 +39,18 @@ object TestRunner {
     }
 
     private suspend fun runTests(config: YamlConfig): MatrixMap {
-        println("RunTests")
-        val stopwatch = StopWatch().start()
-        assertMockUrl()
-
-        val runGcsPath = Utils.uniqueObjectName()
-
-        // GcAndroidMatrix => GcTestMatrix
-        // GcTestMatrix.execute() 3x retry => matrix id (string)
-        val androidMatrix = GcAndroidMatrix.build(
-                "NexusLowRes",
-                "26",
-                "en",
-                "portrait")
-
-        val apks = uploadApksInParallel(config, runGcsPath)
-
-        val jobs = arrayListOf<Deferred<TestMatrix>>()
-        val runCount = config.testRuns
-        val repeatShard = config.testShardChunks.size
-        val testsPerVm = config.testShardChunks.first().size
-        val testsTotal = config.testShardChunks.sumBy { it.size }
-
-        println("  Running ${runCount}x using $repeatShard VMs per run. ${runCount * repeatShard} total VMs")
-        println("  $testsPerVm tests per VM. $testsTotal total tests per run")
-        repeat(runCount) {
-            repeat(repeatShard) { testShardsIndex ->
-                jobs += async {
-                    GcTestMatrix.build(
-                            appApkGcsPath = apks.first,
-                            testApkGcsPath = apks.second,
-                            runGcsPath = runGcsPath,
-                            androidMatrix = androidMatrix,
-                            testShardsIndex = testShardsIndex,
-                            config = config).execute()
-                }
-            }
+        return if (config.xctestZip.isBlank()) {
+            AndroidTestRunner.runTests(config)
+        } else {
+            IosTestRunner.runTests(config)
         }
-
-        val savedMatrices = mutableMapOf<String, SavedMatrix>()
-
-        jobs.forEach {
-            val matrix = it.await()
-            val matrixId = matrix.testMatrixId
-            savedMatrices[matrixId] = SavedMatrix(matrix)
-        }
-
-        val matrixMap = MatrixMap(savedMatrices, runGcsPath)
-
-        updateMatrixFile(matrixMap)
-
-        println(FtlConstants.indent + "${savedMatrices.size} matrix ids created in ${stopwatch.check()}")
-        val gcsBucket = "https://console.developers.google.com/storage/browser/" +
-                config.rootGcsBucket + "/" + matrixMap.runPath
-        println(FtlConstants.indent + gcsBucket)
-        println()
-
-        return matrixMap
     }
 
-    private fun updateMatrixFile(matrixMap: MatrixMap): Path {
+    fun updateMatrixFile(matrixMap: MatrixMap): Path {
         val matrixIdsPath = Paths.get(FtlConstants.localResultsDir, matrixMap.runPath, FtlConstants.matrixIdsFile)
         matrixIdsPath.parent.toFile().mkdirs()
         Files.write(matrixIdsPath, gson.toJson(matrixMap.map).toByteArray())
         return matrixIdsPath
-    }
-
-    /** @return Pair(app apk, test apk) **/
-    private suspend fun uploadApksInParallel(config: YamlConfig, runGcsPath: String): Pair<String, String> {
-        val appApkGcsPath = async { GcStorage.uploadAppApk(config, runGcsPath) }
-        val testApkGcsPath = async { GcStorage.uploadTestApk(config, runGcsPath) }
-
-        return Pair(appApkGcsPath.await(), testApkGcsPath.await())
     }
 
     /** Refresh all in progress matrices in parallel **/

@@ -2,3 +2,4 @@ results
 *.jar
 EarlGrey/
 xctestrun/
+*.zip

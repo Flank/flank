@@ -5,9 +5,9 @@ import ftl.json.MatrixMap
 import ftl.reports.util.IReport
 import ftl.reports.util.TestSuite
 import ftl.util.Billing
-import java.io.StringWriter
-import ftl.util.Utils.write
 import ftl.util.Utils.println
+import ftl.util.Utils.write
+import java.io.StringWriter
 
 /**
 
@@ -40,7 +40,7 @@ object CostReport : IReport {
         StringWriter().use { writer ->
             writer.println(reportName())
             cost.split("\n").forEach { writer.println(indent + it) }
-           return writer.toString()
+            return writer.toString()
         }
     }
 
