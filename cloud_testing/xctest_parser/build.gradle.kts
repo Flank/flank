@@ -9,6 +9,7 @@ version = "1.0-SNAPSHOT"
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
     }
 
     dependencies {
@@ -49,6 +50,7 @@ application {
 
 repositories {
     jcenter()
+    mavenCentral()
 }
 
 // Output full test results to console
@@ -63,7 +65,8 @@ tasks.withType<Test> {
 dependencies {
     compile(Libs.KOTLIN_STD_LIB)
 
-    testImplementation("junit:junit:4.12")
+    compile("com.googlecode.plist:dd-plist:1.20")
+    testImplementation(Libs.JUNIT)
 }
 
 val javaVersion = "1.8"

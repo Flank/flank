@@ -7,8 +7,8 @@ import java.io.File
 
 class ParseTest {
 
-    private val objcBinary = File("./src/test/kotlin/xctest/fixtures/objc/EarlGreyExampleTests")
-    private val swiftBinary = File("./src/test/kotlin/xctest/fixtures/swift/EarlGreyExampleSwiftTests")
+    private val objcBinary = "./src/test/kotlin/xctest/fixtures/objc/EarlGreyExampleTests"
+    private val swiftBinary = "./src/test/kotlin/xctest/fixtures/swift/EarlGreyExampleSwiftTests"
 
     private val objcTests = mapOf(Pair("EarlGreyExampleTests", listOf(
             "testBasicSelection",
@@ -63,7 +63,7 @@ class ParseTest {
 
     @Test(expected=RuntimeException::class)
     fun parseObjcTests_fileNotFound() {
-        Parse.parseObjcTests(File("./BinaryThatDoesNotExist"))
+        Parse.parseObjcTests("./BinaryThatDoesNotExist")
     }
 
     @Test
@@ -82,7 +82,7 @@ class ParseTest {
 
     @Test(expected=RuntimeException::class)
     fun parseSwiftTests_fileNotFound() {
-        Parse.parseSwiftTests(File("./BinaryThatDoesNotExist"))
+        Parse.parseSwiftTests("./BinaryThatDoesNotExist")
     }
 
 }

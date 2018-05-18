@@ -3,3 +3,4 @@ results
 EarlGrey/
 xctestrun/
 *.zip
+src/test/kotlin/xctest/fixtures/EarlGreyExampleSwiftTests/
