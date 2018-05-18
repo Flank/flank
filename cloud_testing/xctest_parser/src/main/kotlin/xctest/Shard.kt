@@ -35,7 +35,6 @@ object Shard {
         return setOf()
     }
 
-
     private const val onlyTestIdentifiers = "OnlyTestIdentifiers"
 
     fun setOnlyTestIdentifiers(testDictionary: NSDictionary, tests: List<String>) {
@@ -60,7 +59,6 @@ object Shard {
         // Example/testExample
         for (testTarget in root.allKeys()) {
             val testDictionary = (root[testTarget] as NSDictionary)
-
 
             val methods = testsForTarget(testDictionary = testDictionary,
                     testRoot = testRoot,

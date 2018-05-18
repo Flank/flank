@@ -34,6 +34,12 @@ object Parse {
         if (file.isDirectory) throw RuntimeException("$path is a directory!")
     }
 
+    private fun methodName(matcher: MatchResult): String {
+        return matcher.groupValues.last()
+                .replace('.', '/')
+                .replace(' ', '/')
+    }
+
     internal fun parseObjcTests(binary: String): Set<String> {
         validateFile(binary)
 
@@ -46,7 +52,7 @@ object Parse {
             val pattern = """.+\st\s-\[(.+\stest.+)]""".toRegex()
             val matcher = pattern.find(line)
             if (matcher != null && matcher.groupValues.size == 2) {
-                results.add(matcher.groupValues.last())
+                results.add(methodName(matcher))
             }
         }
         return results
@@ -68,7 +74,7 @@ object Parse {
             val pattern = """.+\s--->\s.+\.(.+\.test.+)\(\)\s->\s\(\)""".toRegex()
             val matcher = pattern.find(line)
             if (matcher != null && matcher.groupValues.size == 2) {
-                results.add(matcher.groupValues.last())
+                results.add(methodName(matcher))
             }
         }
         return results

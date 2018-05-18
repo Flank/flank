@@ -10,55 +10,52 @@ class ParseTest {
     private val objcBinary = "./src/test/kotlin/xctest/fixtures/objc/EarlGreyExampleTests"
     private val swiftBinary = "./src/test/kotlin/xctest/fixtures/swift/EarlGreyExampleSwiftTests"
 
-    private val objcTests = mapOf(Pair("EarlGreyExampleTests", listOf(
-            "testBasicSelection",
-            "testBasicSelectionAndAction",
-            "testBasicSelectionAndAssert",
-            "testBasicSelectionActionAssert",
-            "testSelectionOnMultipleElements",
-            "testCollectionMatchers",
-            "testWithInRoot",
-            "testWithCustomMatcher",
-            "testTableCellOutOfScreen",
-            "testCatchErrorOnFailure",
-            "testCustomAction",
-            "testWithCustomAssertion",
-            "testWithCustomFailureHandler",
-            "testLayout",
-            "testWithCondition"
-    )))
+    private val objcTests = listOf(
+            "EarlGreyExampleTests/testBasicSelection",
+            "EarlGreyExampleTests/testBasicSelectionActionAssert",
+            "EarlGreyExampleTests/testBasicSelectionAndAction",
+            "EarlGreyExampleTests/testBasicSelectionAndAssert",
+            "EarlGreyExampleTests/testCatchErrorOnFailure",
+            "EarlGreyExampleTests/testCollectionMatchers",
+            "EarlGreyExampleTests/testCustomAction",
+            "EarlGreyExampleTests/testLayout",
+            "EarlGreyExampleTests/testSelectionOnMultipleElements",
+            "EarlGreyExampleTests/testTableCellOutOfScreen",
+            "EarlGreyExampleTests/testWithCondition",
+            "EarlGreyExampleTests/testWithCustomAssertion",
+            "EarlGreyExampleTests/testWithCustomFailureHandler",
+            "EarlGreyExampleTests/testWithCustomMatcher",
+            "EarlGreyExampleTests/testWithInRoot"
+    )
 
-    private val swiftTests = mapOf(Pair("EarlGreyExampleSwiftTests", listOf(
-            "testBasicSelection",
-            "testBasicSelectionAndAction",
-            "testBasicSelectionAndAssert",
-            "testBasicSelectionActionAssert",
-            "testSelectionOnMultipleElements",
-            "testCollectionMatchers",
-            "testWithInRoot",
-            "testWithCustomMatcher",
-            "testTableCellOutOfScreen",
-            "testCatchErrorOnFailure",
-            "testCustomAction",
-            "testWithCustomAssertion",
-            "testWithCustomFailureHandler",
-            "testLayout",
-            "testWithCondition",
-            "testWithGreyAssertions"
-    )))
+    private val swiftTests = listOf(
+            "EarlGreyExampleSwiftTests/testBasicSelection",
+            "EarlGreyExampleSwiftTests/testBasicSelectionActionAssert",
+            "EarlGreyExampleSwiftTests/testBasicSelectionAndAction",
+            "EarlGreyExampleSwiftTests/testBasicSelectionAndAssert",
+            "EarlGreyExampleSwiftTests/testCatchErrorOnFailure",
+            "EarlGreyExampleSwiftTests/testCollectionMatchers",
+            "EarlGreyExampleSwiftTests/testCustomAction",
+            "EarlGreyExampleSwiftTests/testLayout",
+            "EarlGreyExampleSwiftTests/testSelectionOnMultipleElements",
+            "EarlGreyExampleSwiftTests/testTableCellOutOfScreen",
+            "EarlGreyExampleSwiftTests/testWithCondition",
+            "EarlGreyExampleSwiftTests/testWithCustomAssertion",
+            "EarlGreyExampleSwiftTests/testWithCustomFailureHandler",
+            "EarlGreyExampleSwiftTests/testWithCustomMatcher",
+            "EarlGreyExampleSwiftTests/testWithGreyAssertions",
+            "EarlGreyExampleSwiftTests/testWithInRoot"
+    )
 
     @Test
     fun parseObjcTests() {
-        val results = Parse.parseObjcTests(objcBinary)
-        assertTrue(results.isNotEmpty())
-        results.forEach { result ->
-            val tokens = result.split(' ')
-            val klass = tokens.first()
-            val method = tokens.last()
-            val expectedMethods = objcTests[klass] ?: throw RuntimeException("Expected Class $klass not found!")
-            assertEquals(expectedMethods.size, results.size)
-            assertTrue(expectedMethods.contains(method))
+        val results = Parse.parseObjcTests(objcBinary).sorted()
+
+        results.forEachIndexed { index, result ->
+            assertEquals(objcTests[index], result)
         }
+
+        assertEquals(objcTests.size, results.size)
     }
 
     @Test(expected=RuntimeException::class)
@@ -68,16 +65,13 @@ class ParseTest {
 
     @Test
     fun parseSwiftTests() {
-        val results = Parse.parseSwiftTests(swiftBinary)
-        assertTrue(results.isNotEmpty())
-        results.forEach { result ->
-            val tokens = result.split('.')
-            val klass = tokens.first()
-            val method = tokens.last()
-            val expectedMethods = swiftTests[klass] ?: throw RuntimeException("Expected Class $klass not found!")
-            assertEquals(expectedMethods.size, results.size)
-            assertTrue(expectedMethods.contains(method))
+        val results = Parse.parseSwiftTests(swiftBinary).sorted()
+
+        results.forEachIndexed { index, result ->
+            assertEquals(swiftTests[index], result)
         }
+
+        assertEquals(swiftTests.size, results.size)
     }
 
     @Test(expected=RuntimeException::class)
