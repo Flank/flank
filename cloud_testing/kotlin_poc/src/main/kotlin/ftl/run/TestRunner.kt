@@ -24,7 +24,6 @@ import java.nio.file.Paths
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.util.stream.Collectors
 
 object TestRunner {
     private val gson = GsonBuilder().setPrettyPrinting().create()!!
@@ -43,8 +42,8 @@ object TestRunner {
 
         val runGcsPath = Utils.uniqueObjectName()
 
-        // GcAndroidMatrix => GcTestMatrix
-        // GcTestMatrix.execute() 3x retry => matrix id (string)
+        // GcAndroidMatrix => GcAndroidTestMatrix
+        // GcAndroidTestMatrix.execute() 3x retry => matrix id (string)
         val androidMatrix = GcAndroidMatrix.build(
                 "NexusLowRes",
                 "26",
@@ -64,7 +63,7 @@ object TestRunner {
         repeat(runCount) {
             repeat(repeatShard) { testShardsIndex ->
                 jobs += async {
-                    GcTestMatrix.build(
+                    GcAndroidTestMatrix.build(
                             appApkGcsPath = apks.first,
                             testApkGcsPath = apks.second,
                             runGcsPath = runGcsPath,
