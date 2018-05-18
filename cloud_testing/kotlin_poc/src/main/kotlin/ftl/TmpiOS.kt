@@ -3,18 +3,14 @@ package ftl
 import com.google.api.services.testing.model.*
 import ftl.config.YamlConfig
 import ftl.gc.GcTesting
+import ftl.ios.IosCatalog
 import ftl.util.Utils
 import java.io.File
 import java.util.concurrent.TimeUnit
 
 object TmpiOS {
-    @JvmStatic
-    fun main(args: Array<String>) {
-        // todo: port iOS features from
-        // https://github.com/bootstraponline/gcloud_cli/blob/5bcba57e825fc98e690281cf69484b7ba4eb668a/google-cloud-sdk/lib/googlecloudsdk/api_lib/firebase/test/ios/matrix_creator.py#L109
-        // https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/run
-        // https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/
 
+    fun runTest(){
         val xctestZipFile = "./fixtures/EarlGreyExampleSwiftTests.zip"
         if (!File(xctestZipFile).exists()) throw RuntimeException("zip doesn't exist!")
 
@@ -49,11 +45,9 @@ object TmpiOS {
 
         val matrixGcsPath = Utils.join(config.rootGcsBucket, runGcsPath, Utils.uniqueObjectName())
 
-        // note:  500 Internal Server Error is returned on invalid model id/version
-        // TODO: implement client side model id/version/locacle/orientation validation
         val iOSDevice = IosDevice()
-                .setIosModelId("iphone8")
-                .setIosVersionId("11.2")
+                .setIosModelId(IosCatalog.model("iphone8"))
+                .setIosVersionId(IosCatalog.version("11.2"))
                 .setLocale("en_US")
                 .setOrientation("portrait")
 
@@ -73,5 +67,16 @@ object TmpiOS {
                 .testMatrices()
                 .create(config.projectId, testMatrix)
         testRequest.execute()
+    }
+
+    @JvmStatic
+    fun main(args: Array<String>) {
+        // todo: port iOS features from
+        // https://github.com/bootstraponline/gcloud_cli/blob/5bcba57e825fc98e690281cf69484b7ba4eb668a/google-cloud-sdk/lib/googlecloudsdk/api_lib/firebase/test/ios/matrix_creator.py#L109
+        // https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/run
+        // https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/
+
+
+
     }
 }
