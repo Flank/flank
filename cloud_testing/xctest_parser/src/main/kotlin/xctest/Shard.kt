@@ -20,24 +20,23 @@ object Shard {
                 val binaryName = File(binaryRoot).nameWithoutExtension
                 val binaryPath = Paths.get(binaryRoot, binaryName).toString()
 
-                val methods = if (isSwift) {
+                return if (isSwift) {
                     println("Swift detected")
-                    Parse.parseSwiftTests(binaryPath)
+                    Parse.parseObjcTests(binaryPath) + Parse.parseSwiftTests(binaryPath)
                 } else {
                     println("Objc detected")
                     Parse.parseObjcTests(binaryPath)
                 }
-
-                return methods
             }
         }
 
-        return setOf()
+        throw RuntimeException("No tests found")
     }
 
+    // https://github.com/google/xctestrunner/blob/51dbb6b7eb35f2ed55439459ca49e06992bc4da0/xctestrunner/test_runner/xctestrun.py#L129
     private const val onlyTestIdentifiers = "OnlyTestIdentifiers"
 
-    fun setOnlyTestIdentifiers(testDictionary: NSDictionary, tests: List<String>) {
+    private fun setOnlyTestIdentifiers(testDictionary: NSDictionary, tests: List<String>) {
         val nsArray = NSArray(tests.size)
         tests.forEachIndexed { index, test ->  nsArray.setValue(index, test) }
 
@@ -45,7 +44,7 @@ object Shard {
         testDictionary["OnlyTestIdentifiers"] = nsArray
     }
 
-    fun update(xctestrunPath: String) {
+    private fun update(xctestrunPath: String) {
         val xctestrun = File(xctestrunPath).canonicalFile
         if (!xctestrun.exists()) throw RuntimeException("$xctestrun doesn't exist")
 
@@ -74,6 +73,7 @@ object Shard {
 
     @JvmStatic
     fun main(args: Array<String>) {
+        // TODO: remove
         val testRunPath = "./src/test/kotlin/xctest/fixtures/EarlGreyExampleSwiftTests/EarlGreyExampleSwiftTests_iphoneos11.3-arm64.xctestrun"
 
         update(testRunPath)
