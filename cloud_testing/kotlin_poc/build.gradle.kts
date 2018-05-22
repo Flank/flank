@@ -84,11 +84,11 @@ dependencies {
     compile(project(":testing"))
 
     // yaml config
-    compile("com.fasterxml.jackson.core:jackson-databind:2.9.4")
-    compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.4")
-    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.4")
+    compile("com.fasterxml.jackson.core:jackson-databind:${Versions.JACKSON}")
+    compile("com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.JACKSON}")
+    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${Versions.JACKSON}")
 
-    testImplementation("junit:junit:4.12")
+    testImplementation(Libs.JUNIT)
     // http://stefanbirkner.github.io/system-rules/index.html
     testImplementation("com.github.stefanbirkner:system-rules:1.17.1")
 }
