@@ -47,6 +47,21 @@ class ParseTest {
             "testWithGreyAssertions"
     )))
 
+    init {
+        val releaseUrl = "https://github.com/Flank/test_artifacts/releases/download/v0.2/EarlGreyExampleTests.zip"
+        val fixtures = File("./src/test/kotlin/xctest/fixtures")
+        if (!fixtures.exists()) {
+            fixtures.mkdir()
+
+            val zipPath = "${fixtures.path}/release.zip"
+            val curl = "curl -L $releaseUrl -o $zipPath"
+            Parse.execute(curl)
+
+            val unzip = "unzip $zipPath -d ${fixtures.path}"
+            Parse.execute(unzip)
+        }
+    }
+
     @Test
     fun parseObjcTests() {
         val results = Parse.parseObjcTests(objcBinary)

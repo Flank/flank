@@ -16,7 +16,7 @@ object Parse {
         return this.exitValue() == 0
     }
 
-    private fun execute(cmd: String): String {
+    internal fun execute(cmd: String): String {
         println(cmd)
         val process = Runtime.getRuntime().exec(arrayOf("/bin/bash", "-c", cmd))
         process.waitFor()
