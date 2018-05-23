@@ -9,6 +9,7 @@ import ftl.ios.IosCatalog
 import ftl.json.MatrixMap
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
+import xctest.Xctestrun
 
 object IosTestRunner : GenericTestRunner {
 
@@ -23,21 +24,30 @@ object IosTestRunner : GenericTestRunner {
         val iosDevice = IosDevice()
                 .setIosModelId(IosCatalog.model("iphone8"))
                 .setIosVersionId(IosCatalog.version("11.2"))
-                .setLocale("en_US") // iOS doesn't support other locales or orientations
+                .setLocale("en_US") // FTL iOS doesn't currently support other locales or orientations
                 .setOrientation("portrait")
+
+        val xcTestParsed = Xctestrun.parse(config.xctestrunFile)
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
         val runCount = config.testRuns
+        val repeatShard = config.testShardChunks.size
+        val testsPerVm = config.testShardChunks.first().size
+        val testsTotal = config.testShardChunks.sumBy { it.size }
 
-        // iOS doesn't support shards
-        println("  Running ${runCount}x")
+        println("  Running ${runCount}x using $repeatShard VMs per run. ${runCount * repeatShard} total VMs")
+        println("  $testsPerVm tests per VM. $testsTotal total tests per run")
         repeat(runCount) {
-            jobs += async {
-                GcIosTestMatrix.build(
-                        iosDevice = iosDevice,
-                        xcTestGcsPath = xcTestGcsPath,
-                        runGcsPath = runGcsPath,
-                        config = config).execute()
+            repeat(repeatShard) { testShardsIndex ->
+                jobs += async {
+                    GcIosTestMatrix.build(
+                            iosDevice = iosDevice,
+                            testZipGcsPath = xcTestGcsPath,
+                            runGcsPath = runGcsPath,
+                            testShardsIndex = testShardsIndex,
+                            xcTestParsed = xcTestParsed,
+                            config = config).execute()
+                }
             }
         }
 

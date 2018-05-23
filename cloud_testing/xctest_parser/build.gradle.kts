@@ -20,7 +20,7 @@ buildscript {
 plugins {
     application
     jacoco
-    kotlin("jvm") version Versions.KOTLIN
+    kotlin("jvm")
 }
 
 // http://www.eclemma.org/jacoco/

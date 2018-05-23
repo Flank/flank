@@ -82,6 +82,7 @@ dependencies {
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-testing%22
     // compile("com.google.apis:google-api-services-testing:v1-rev30-1.23.0")
     compile(project(":testing"))
+    compile(project(":xctest_parser"))
 
     // yaml config
     compile("com.fasterxml.jackson.core:jackson-databind:${Versions.JACKSON}")
