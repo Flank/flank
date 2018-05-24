@@ -65,7 +65,7 @@ tasks.withType<Test> {
 dependencies {
     compile(Libs.KOTLIN_STD_LIB)
     compile("com.googlecode.plist:dd-plist:1.20")
-    testCompile("org.jsoup:jsoup:1.11.3")
+    testImplementation("org.jsoup:jsoup:1.11.3")
     testImplementation(Libs.JUNIT)
 }
 
