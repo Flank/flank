@@ -20,6 +20,7 @@ buildscript {
 plugins {
     application
     jacoco
+    // TODO: https://github.com/TestArmada/flank/issues/195
     kotlin("jvm")
 }
 
