@@ -39,7 +39,7 @@ object TestRunner {
     }
 
     private suspend fun runTests(config: YamlConfig): MatrixMap {
-        return if (config.xctestZip.isBlank()) {
+        return if (config.xctestrunZip.isBlank()) {
             AndroidTestRunner.runTests(config)
         } else {
             IosTestRunner.runTests(config)

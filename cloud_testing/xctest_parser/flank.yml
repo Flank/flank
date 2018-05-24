@@ -1,8 +1,10 @@
-xctestZip: ./EarlGreyExampleSwiftTests.zip
+xctestrunZip: ./EarlGreyExample.zip
+xctestrunFile: ./EarlGreyExample/EarlGreyExampleSwiftTests_iphoneos11.3-arm64.xctestrun
 rootGcsBucket: earlgrey-swift
 disablePerformanceMetrics: false
 disableVideoRecording: false
 testTimeoutMinutes: 30
 testRuns: 1
+testShards: 2
 limitBreak: false
 waitForResults: true

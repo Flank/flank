@@ -3,28 +3,28 @@ package xctest
 import com.dd.plist.NSArray
 import com.dd.plist.NSDictionary
 import com.dd.plist.PropertyListParser
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.nio.file.Paths
 
-object Shard {
+object Xctestrun {
 
+    // Parses all tests for a given target
     private fun testsForTarget(testDictionary: NSDictionary, testTarget: String, testRoot: String): Set<String> {
         val productPaths = (testDictionary["DependentProductPaths"] as NSArray)
         for (product in productPaths.array) {
             val productString = product.toString()
             if (productString.contains("/$testTarget.xctest")) {
                 val binaryRoot = productString.replace("__TESTROOT__/", testRoot)
-                println("Found product: $binaryRoot")
+                println("Found xctest: $binaryRoot")
 
                 val isSwift = Paths.get(binaryRoot, "libswiftRemoteMirror.dylib").toFile().exists()
                 val binaryName = File(binaryRoot).nameWithoutExtension
                 val binaryPath = Paths.get(binaryRoot, binaryName).toString()
 
                 return if (isSwift) {
-                    println("Swift detected")
                     Parse.parseObjcTests(binaryPath) + Parse.parseSwiftTests(binaryPath)
                 } else {
-                    println("Objc detected")
                     Parse.parseObjcTests(binaryPath)
                 }
             }
@@ -36,22 +36,40 @@ object Shard {
     // https://github.com/google/xctestrunner/blob/51dbb6b7eb35f2ed55439459ca49e06992bc4da0/xctestrunner/test_runner/xctestrun.py#L129
     private const val onlyTestIdentifiers = "OnlyTestIdentifiers"
 
-    private fun setOnlyTestIdentifiers(testDictionary: NSDictionary, tests: List<String>) {
+    // Rewrites tests so that only the listed tests execute
+    private fun setOnlyTestIdentifiers(testDictionary: NSDictionary, tests: Set<String>) {
         val nsArray = NSArray(tests.size)
-        tests.forEachIndexed { index, test ->  nsArray.setValue(index, test) }
+        tests.forEachIndexed { index, test -> nsArray.setValue(index, test) }
 
-        testDictionary.remove(onlyTestIdentifiers)
-        testDictionary["OnlyTestIdentifiers"] = nsArray
+        while (testDictionary.containsKey(onlyTestIdentifiers)) {
+            testDictionary.remove(onlyTestIdentifiers)
+        }
+
+        testDictionary[onlyTestIdentifiers] = nsArray
     }
 
-    private fun update(xctestrunPath: String) {
-        val xctestrun = File(xctestrunPath).canonicalFile
-        if (!xctestrun.exists()) throw RuntimeException("$xctestrun doesn't exist")
+    fun parse(xctestrun: String): NSDictionary {
+        return parse(File(xctestrun))
+    }
 
+    // Parses xctestrun file into a dictonary
+    fun parse(xctestrun: File): NSDictionary {
+        val testrun = xctestrun.canonicalFile
+        if (!testrun.exists()) throw RuntimeException("$testrun doesn't exist")
+
+        return PropertyListParser.parse(testrun) as NSDictionary
+    }
+
+    fun findTestNames(xctestrun: String): Set<String> {
+        return findTestNames(File(xctestrun))
+    }
+
+    // Finds tests in a xctestrun file
+    private fun findTestNames(xctestrun: File): Set<String> {
+        val root = parse(xctestrun)
+        var result = setOf<String>()
         // EarlGreyExampleSwiftTests_iphoneos11.3-arm64.xctestrun => EarlGreyExampleSwiftTests
         val testRoot = xctestrun.parent + "/"
-
-        val root = PropertyListParser.parse(xctestrun) as NSDictionary
 
         // OnlyTestIdentifiers
         // Test-Class-Name[/Test-Method-Name]
@@ -62,20 +80,21 @@ object Shard {
             val methods = testsForTarget(testDictionary = testDictionary,
                     testRoot = testRoot,
                     testTarget = testTarget)
-            println("Found ${methods.size}x tests")
 
-            // run one method for now
-            setOnlyTestIdentifiers(testDictionary, listOf(methods.first()))
+            result += methods
         }
 
-        PropertyListParser.saveAsXML(root, xctestrun)
+        return result
     }
 
-    @JvmStatic
-    fun main(args: Array<String>) {
-        // TODO: remove
-        val testRunPath = "./src/test/kotlin/xctest/fixtures/EarlGreyExampleSwiftTests/EarlGreyExampleSwiftTests_iphoneos11.3-arm64.xctestrun"
+    fun rewrite(root: NSDictionary, methods: Set<String>): ByteArray {
+        for (testTarget in root.allKeys()) {
+            val testDictionary = (root[testTarget] as NSDictionary)
+            setOnlyTestIdentifiers(testDictionary, methods)
+        }
 
-        update(testRunPath)
+        val out = ByteArrayOutputStream()
+        PropertyListParser.saveAsXML(root, out)
+        return out.toByteArray()
     }
 }

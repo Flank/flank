@@ -8,6 +8,7 @@ import com.google.common.math.IntMath
 import com.linkedin.dex.parser.DexParser
 import ftl.config.FtlConstants.useMock
 import ftl.util.Utils.fatalError
+import xctest.Xctestrun
 import java.io.File
 import java.math.RoundingMode
 
@@ -19,7 +20,8 @@ import java.math.RoundingMode
 class YamlConfig(
         val appApk: String = "",
         val testApk: String = "",
-        val xctestZip: String = "",
+        val xctestrunZip: String = "",
+        val xctestrunFile: String = "",
         val rootGcsBucket: String,
 
         val autoGoogleLogin: Boolean = true,
@@ -34,7 +36,7 @@ class YamlConfig(
         val testMethods: List<String> = listOf(),
         val limitBreak: Boolean = false,
         val projectId: String = getDefaultProjectId(),
-        var testShardChunks: List<List<String>> = emptyList()) {
+        var testShardChunks: Set<Set<String>> = emptySet()) {
 
     private fun assertVmLimit(value: Int): Int {
         if (value > 100 && !limitBreak) {
@@ -57,17 +59,15 @@ class YamlConfig(
         validate()
     }
 
-    private fun validate() {
-        val iosXCTest = File(xctestZip).exists()
-        if (iosXCTest) return
-
-        if (!File(appApk).exists()) {
-            fatalError("'$appApk' appApk doesn't exist")
+    private fun assertFileExists(file: String, name: String) {
+        if (!File(file).exists()) {
+            fatalError("'$file' $name doesn't exist")
         }
+    }
 
-        if (!File(testApk).exists()) {
-            fatalError("'$testApk' testApk doesn't exist")
-        }
+    private fun validateAndroid() {
+        assertFileExists(appApk, "appApk")
+        assertFileExists(testApk, "testApk")
 
         val dexValidTestNames = DexParser.findTestMethods(testApk).map { it.testName }
         val missingMethods = mutableListOf<String>()
@@ -78,18 +78,42 @@ class YamlConfig(
             }
         }
 
-        if (missingMethods.isNotEmpty()) fatalError("Test APK is missing methods: $missingMethods")
+        // todo: update YamConfigTest to use fixture apk with 155 tests, then remove useMock here.
+        if (!useMock && missingMethods.isNotEmpty()) fatalError("Test APK is missing methods: $missingMethods")
         if (dexValidTestNames.isEmpty()) fatalError("Test APK has no tests")
 
         calculateShards(dexValidTestNames)
     }
 
-    private fun calculateShards(dexValidTestNames: List<String>) {
-        val testShardMethods = if (testMethods.isNotEmpty()) {
+    private fun validateIos() {
+        assertFileExists(xctestrunZip, "xctestrunZip")
+        assertFileExists(xctestrunFile, "xctestrunFile")
+
+        calculateShards(Xctestrun.findTestNames(xctestrunFile))
+    }
+
+    private fun iOS(): Boolean {
+        return xctestrunZip.isNotBlank()
+    }
+
+    private fun android(): Boolean {
+        return !iOS()
+    }
+
+    private fun validate() {
+        if (iOS()) {
+            validateIos()
+        } else {
+            validateAndroid()
+        }
+    }
+
+    private fun calculateShards(allTestMethods: Collection<String>) {
+        var testShardMethods = if (testMethods.isNotEmpty()) {
             testMethods
         } else {
-            dexValidTestNames
-        }
+            allTestMethods
+        }.sorted()
 
         if (testShards < 1) testShards = 1
 
@@ -97,7 +121,13 @@ class YamlConfig(
         // 1 method / 40 shard = 0. chunked(0) throws an exception.
         // default to running all tests in a single chunk if method count is less than shard count.
         if (chunkSize < 1) chunkSize = testShardMethods.size
-        testShardChunks = testShardMethods.map { "class $it" }.chunked(chunkSize)
+
+        // FTL requires 'class ' prefix on Android.
+        if (android()) {
+            testShardMethods = testShardMethods.map { "class $it" }
+        }
+
+        testShardChunks = testShardMethods.chunked(chunkSize).map { it.toSet() }.toSet()
 
         // Ensure we don't create more VMs than requested. VM count per run should be <= testShards
         if (testShardChunks.size > testShards) {
@@ -131,7 +161,8 @@ class YamlConfig(
   projectId: '$projectId'
   appApk: '$appApk',
   testApk: '$testApk',
-  xctestZip: '$xctestZip',
+  xctestrunZip: '$xctestrunZip',
+  xctestrunFile: '$xctestrunFile',
   rootGcsBucket: '$rootGcsBucket',
   autoGoogleLogin: '$autoGoogleLogin',
   useOrchestrator: $useOrchestrator,
