@@ -39,7 +39,7 @@ object GcAndroidTestMatrix {
             androidInstrumentation.orchestratorOption = "USE_ORCHESTRATOR"
         }
 
-        androidInstrumentation.testTargets = config.testShardChunks[testShardsIndex]
+        androidInstrumentation.testTargets = config.testShardChunks.elementAt(testShardsIndex).toList()
 
         val testTimeoutSeconds = TimeUnit.MINUTES.toSeconds(config.testTimeoutMinutes)
 

@@ -23,22 +23,29 @@ object GcStorage {
         storageOptions.service
     }
 
-    private fun upload(apk: String, rootGcsBucket: String, runGcsPath: String): String {
-        val apkFileName = Paths.get(apk).fileName.toString()
-        val gcsApkPath = GCS_PREFIX + join(rootGcsBucket, runGcsPath, apkFileName)
+    private fun upload(file: String, rootGcsBucket: String, runGcsPath: String): String {
+        return upload(file = file,
+                fileBytes = Files.readAllBytes(Paths.get(file)),
+                rootGcsBucket = rootGcsBucket,
+                runGcsPath = runGcsPath)
+    }
 
-        if (FtlConstants.useMock) return gcsApkPath
+    private fun upload(file: String, fileBytes: ByteArray, rootGcsBucket: String, runGcsPath: String): String {
+        val fileName = Paths.get(file).fileName.toString()
+        val gcsFilePath = GCS_PREFIX + join(rootGcsBucket, runGcsPath, fileName)
+
+        if (FtlConstants.useMock) return gcsFilePath
 
         // 404 Not Found error when rootGcsBucket does not exist
-        val apkBlob = BlobInfo.newBuilder(rootGcsBucket, join(runGcsPath, apkFileName)).build()
+        val fileBlob = BlobInfo.newBuilder(rootGcsBucket, join(runGcsPath, fileName)).build()
 
         try {
-            storage.create(apkBlob, Files.readAllBytes(Paths.get(apk)))
+            storage.create(fileBlob, fileBytes)
         } catch (e: Exception) {
             fatalError(e)
         }
 
-        return gcsApkPath
+        return gcsFilePath
     }
 
     fun uploadAppApk(config: YamlConfig, runGcsPath: String): String {
@@ -50,6 +57,13 @@ object GcStorage {
     }
 
     fun uploadXCTestZip(config: YamlConfig, runGcsPath: String): String {
-        return upload(config.xctestZip, config.rootGcsBucket, runGcsPath)
+        return upload(config.xctestrunZip, config.rootGcsBucket, runGcsPath)
+    }
+
+    fun uploadXCTestFile(config: YamlConfig, runGcsPath: String, fileBytes: ByteArray): String {
+        return upload(file = config.xctestrunFile,
+                fileBytes = fileBytes,
+                rootGcsBucket = config.rootGcsBucket,
+                runGcsPath = runGcsPath)
     }
 }

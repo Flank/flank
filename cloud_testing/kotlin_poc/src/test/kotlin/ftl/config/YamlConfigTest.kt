@@ -90,7 +90,8 @@ class YamlConfigTest {
 
     private fun configWithTestMethods(amount: Int, testShards: Int = 1): YamlConfig {
         val testMethods = mutableListOf<String>()
-        repeat(amount) { testMethods.add(testName) }
+        // test names must be unique otherwise the Set<String> will add them only once.
+        repeat(amount) { index -> testMethods.add(testName + index) }
 
         return YamlConfig(
                 appApk = appApk,

@@ -17,7 +17,6 @@ object Parse {
     }
 
     private fun execute(cmd: String): String {
-        println(cmd)
         val process = Runtime.getRuntime().exec(arrayOf("/bin/bash", "-c", cmd))
         process.waitFor()
         val output = process.stdout()
