@@ -8,8 +8,8 @@ When creating a new project, setup symlinks to gradle. This allows all projects 
 use the same Gradle config.
 
 ```bash
-ln -sf ../gradle/gradle ./gradle
-ln -sf ../gradle/gradle.properties ./gradle.properties
-ln -sf ../gradle/gradlew ./gradlew
-ln -sf ../gradle/gradlew.bat ./gradlew.bat
+ln -sf ../gradle/gradle
+ln -sf ../gradle/gradle.properties
+ln -sf ../gradle/gradlew
+ln -sf ../gradle/gradlew.bat
 ```
