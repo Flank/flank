@@ -30,19 +30,6 @@ abstract class TestArtifact {
         throw RuntimeException("Unable to connect to '$githubUrl' after $maxRetries attempts!")
     }
 
-    private fun downloadAsset(cmd: String) {
-        val maxRetries = 6
-        repeat(maxRetries) { attempt ->
-            try {
-                Parse.execute(cmd)
-                return
-            } catch (e: Exception) {
-                wait(attempt)
-            }
-        }
-        throw RuntimeException("$cmd failed after $maxRetries attempts!")
-    }
-
     private fun wait(attempt: Int) {
         // use AWS retry_backoff:
         // https://github.com/aws/aws-sdk-ruby/blob/a2e85a4db05f52804a1ec9bc1552732c7bb8a7b8/aws-sdk-core/lib/aws-sdk-core/plugins/retry_errors.rb#L16
@@ -80,10 +67,19 @@ abstract class TestArtifact {
         val downloadUrl = "https://github.com${remoteAssetLink.attr("href")}"
         val assetName = remoteAssetLink.attr("href").split("/").last()
         val zipPath = "${fixtures.path}/$assetName"
-        val curl = "curl -L $downloadUrl -o $zipPath"
-        downloadAsset(curl)
+        val curl = """
+            curl
+            --connect-timeout 5
+            --max-time 300
+            --retry 5
+            --retry-delay 0
+            --retry-max-time 1000
+            -L "$downloadUrl"
+            -o "$zipPath"
+            """.trimIndent().replace("\n", " ")
+        Parse.execute(curl)
 
-        val unzip = "unzip $zipPath -d ${fixtures.path}"
+        val unzip = "unzip \"$zipPath\" -d \"${fixtures.path}\""
         Parse.execute(unzip)
     }
 }
