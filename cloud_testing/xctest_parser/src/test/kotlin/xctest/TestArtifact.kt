@@ -74,7 +74,7 @@ abstract class TestArtifact {
             --retry 5
             --retry-delay 0
             --retry-max-time 1000
-            -L $downloadUrl
+            -L "$downloadUrl"
             -o "$zipPath"
             """.trimIndent().replace("\n", " ")
         Parse.execute(curl)
