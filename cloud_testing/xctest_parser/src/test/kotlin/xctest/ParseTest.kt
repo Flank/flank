@@ -1,14 +1,12 @@
 package xctest
 
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Test
-import java.io.File
 
-class ParseTest {
+class ParseTest : TestArtifact() {
 
-    private val objcBinary = "./src/test/kotlin/xctest/fixtures/objc/EarlGreyExampleTests"
-    private val swiftBinary = "./src/test/kotlin/xctest/fixtures/swift/EarlGreyExampleSwiftTests"
+    private val objcBinary = "$fixturesPath/objc/EarlGreyExampleTests"
+    private val swiftBinary = "$fixturesPath/swift/EarlGreyExampleSwiftTests"
 
     private val objcTests = listOf(
             "EarlGreyExampleTests/testBasicSelection",

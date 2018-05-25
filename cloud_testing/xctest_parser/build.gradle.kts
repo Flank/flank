@@ -20,6 +20,7 @@ buildscript {
 plugins {
     application
     jacoco
+    // TODO: https://github.com/TestArmada/flank/issues/195
     kotlin("jvm")
 }
 
@@ -64,8 +65,8 @@ tasks.withType<Test> {
 
 dependencies {
     compile(Libs.KOTLIN_STD_LIB)
-
     compile("com.googlecode.plist:dd-plist:1.20")
+    testImplementation("org.jsoup:jsoup:1.11.3")
     testImplementation(Libs.JUNIT)
 }
 
