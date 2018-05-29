@@ -35,8 +35,11 @@ object Bash {
         gobbleInput.join()
         gobbleError.join()
 
-        if (process.failed()) throw RuntimeException("Command failed: $cmd")
+        if (process.failed())  {
+            System.err.println("Error: ${gobbleError.output}")
+            throw RuntimeException("Command failed: $cmd")
+        }
 
-        return (gobbleInput.output + gobbleError.output).trim()
+        return gobbleInput.output.trim()
     }
 }
