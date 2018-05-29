@@ -7,11 +7,11 @@ class BashTest {
 
     @Test
     fun executeSmallOutput() {
-        assertEquals(Bash.execute("echo ok"), "ok")
+        assertEquals("ok", Bash.execute("echo ok"))
     }
 
     @Test
     fun executeLargeOutput() {
-        assertEquals(Bash.execute("ruby -e \"puts 'hi' * 100_000\"").length, 200_000)
+        assertEquals(200_000, Bash.execute("ruby -e \"puts 'hi' * 100_000\"").length)
     }
 }
