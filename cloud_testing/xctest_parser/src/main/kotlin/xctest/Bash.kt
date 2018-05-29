@@ -2,8 +2,6 @@ package xctest
 
 import java.io.InputStream
 import java.lang.ProcessBuilder.Redirect.PIPE
-import java.util.concurrent.Executors
-
 
 private class StreamGobbler(private val inputStream: InputStream) : Thread() {
     var output: String = ""
@@ -14,13 +12,11 @@ private class StreamGobbler(private val inputStream: InputStream) : Thread() {
     }
 }
 
-
 object Bash {
 
     private fun Process.failed(): Boolean {
         return this.exitValue() != 0
     }
-
 
     fun execute(cmd: String): String {
         println(cmd)
