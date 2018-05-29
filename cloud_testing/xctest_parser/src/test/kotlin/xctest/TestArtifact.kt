@@ -77,10 +77,10 @@ abstract class TestArtifact {
             -L "$downloadUrl"
             -o "$zipPath"
             """.trimIndent().replace("\n", " ")
-        Parse.execute(curl)
+        Bash.execute(curl)
 
         val unzip = "unzip \"$zipPath\" -d \"${fixtures.path}\""
-        Parse.execute(unzip)
+        Bash.execute(unzip)
     }
 }
 
