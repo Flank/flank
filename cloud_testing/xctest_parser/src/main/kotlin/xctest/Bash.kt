@@ -3,10 +3,9 @@ package xctest
 import java.io.InputStream
 import java.lang.ProcessBuilder.Redirect.PIPE
 import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 
-private class StreamGobbler(private val inputStream: InputStream) : Runnable {
+private class StreamGobbler(private val inputStream: InputStream) : Thread() {
     var output: String = ""
 
     override fun run() {
@@ -31,18 +30,16 @@ object Bash {
                 .redirectError(PIPE)
                 .start()
 
-        val pool = Executors.newFixedThreadPool(2)
         val gobbleInput = StreamGobbler(process.inputStream)
+        gobbleInput.start()
         val gobbleError = StreamGobbler(process.errorStream)
-        pool.submit(gobbleInput)
-        pool.submit(gobbleError)
+        gobbleError.start()
 
-        process.waitFor(1, TimeUnit.MINUTES)
+        process.waitFor()
+        gobbleInput.join()
+        gobbleError.join()
 
         if (process.failed()) throw RuntimeException("Command failed: $cmd")
-
-        pool.shutdown()
-        pool.awaitTermination(1, TimeUnit.MINUTES)
 
         return (gobbleInput.output + gobbleError.output).trim()
     }
