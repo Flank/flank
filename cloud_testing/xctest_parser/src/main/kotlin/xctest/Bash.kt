@@ -1,17 +1,10 @@
 package xctest
 
-import java.io.InputStream
+import xctest.util.failed
+import xctest.util.waitForResult
 import java.lang.ProcessBuilder.Redirect.PIPE
-import java.time.Duration
-import java.util.concurrent.TimeUnit
 
 object Bash {
-
-    private val timeoutMs = Duration.ofMinutes(10).toMillis()
-
-    private fun Process.failed(): Boolean {
-        return this.exitValue() != 0
-    }
 
     fun execute(cmd: String): String {
         println(cmd)
@@ -21,20 +14,13 @@ object Bash {
                 .redirectError(PIPE)
                 .start()
 
-        val gobbleInput = StreamGobbler(process.inputStream)
-        gobbleInput.start()
-        val gobbleError = StreamGobbler(process.errorStream)
-        gobbleError.start()
+        val result = process.waitForResult()
 
-        process.waitFor(timeoutMs, TimeUnit.MILLISECONDS)
-        gobbleInput.join(timeoutMs)
-        gobbleError.join(timeoutMs)
-
-        if (process.failed())  {
-            System.err.println("Error: ${gobbleError.output}")
+        if (process.failed()) {
+            System.err.println("Error: ${result.stderr}")
             throw RuntimeException("Command failed: $cmd")
         }
 
-        return gobbleInput.output.trim()
+        return result.stdout.trim()
     }
 }

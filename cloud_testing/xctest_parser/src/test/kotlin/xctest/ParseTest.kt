@@ -56,7 +56,7 @@ class ParseTest : TestArtifact() {
         assertEquals(objcTests.size, results.size)
     }
 
-    @Test(expected=RuntimeException::class)
+    @Test(expected = RuntimeException::class)
     fun parseObjcTests_fileNotFound() {
         Parse.parseObjcTests("./BinaryThatDoesNotExist")
     }
@@ -72,7 +72,7 @@ class ParseTest : TestArtifact() {
         assertEquals(swiftTests.size, results.size)
     }
 
-    @Test(expected=RuntimeException::class)
+    @Test(expected = RuntimeException::class)
     fun parseSwiftTests_fileNotFound() {
         Parse.parseSwiftTests("./BinaryThatDoesNotExist")
     }
