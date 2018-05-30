@@ -28,7 +28,8 @@ Implementation details:
 - `gcloud auth login`
     - This logs you in for `gcloud` and `gsutil`
 - `gcloud auth application-default login`
-    - This logs you in for the gcloud sdks (and therefore Flank as well). It will save the application default 
+    - This logs you in for the gcloud sdks (and therefore Flank as well). It will save the application default
       credential to `~/.config/gcloud/application_default_credentials.json`
 - `GOOGLE_APPLICATION_CREDENTIALS` - optionally use a custom path for credentials.json
 - `GOOGLE_CLOUD_PROJECT` - defines the project id (alternatively set via flank.yml)
+- Verify gcloud can [run Android](https://firebase.google.com/docs/test-lab/android/continuous) and [iOS tests.](https://firebase.google.com/docs/test-lab/ios/command-line).
