@@ -2,6 +2,8 @@ package xctest
 
 import java.io.InputStream
 import java.lang.ProcessBuilder.Redirect.PIPE
+import java.time.Duration
+import java.util.concurrent.TimeUnit
 
 private class StreamGobbler(private val inputStream: InputStream) : Thread() {
     var output: String = ""
@@ -13,6 +15,8 @@ private class StreamGobbler(private val inputStream: InputStream) : Thread() {
 }
 
 object Bash {
+
+    private val timeoutMs = Duration.ofMinutes(10).toMillis()
 
     private fun Process.failed(): Boolean {
         return this.exitValue() != 0
@@ -31,9 +35,9 @@ object Bash {
         val gobbleError = StreamGobbler(process.errorStream)
         gobbleError.start()
 
-        process.waitFor()
-        gobbleInput.join()
-        gobbleError.join()
+        process.waitFor(timeoutMs, TimeUnit.MILLISECONDS)
+        gobbleInput.join(timeoutMs)
+        gobbleError.join(timeoutMs)
 
         if (process.failed())  {
             System.err.println("Error: ${gobbleError.output}")
