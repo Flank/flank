@@ -32,4 +32,4 @@ Implementation details:
       credential to `~/.config/gcloud/application_default_credentials.json`
 - `GOOGLE_APPLICATION_CREDENTIALS` - optionally use a custom path for credentials.json
 - `GOOGLE_CLOUD_PROJECT` - defines the project id (alternatively set via flank.yml)
-- Verify gcloud can [run Android](https://firebase.google.com/docs/test-lab/android/continuous) and [iOS tests.](https://firebase.google.com/docs/test-lab/ios/command-line).
+- Verify gcloud can [run Android](https://firebase.google.com/docs/test-lab/android/continuous) and [iOS tests.](https://firebase.google.com/docs/test-lab/ios/command-line)
