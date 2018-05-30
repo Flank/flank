@@ -1,29 +1,9 @@
 package xctest
 
-import java.io.BufferedReader
 import java.io.File
-import java.io.InputStreamReader
-import java.util.stream.Collectors
 
 object Parse {
 
-    private fun Process.stdout(): String {
-        return BufferedReader(InputStreamReader(this.inputStream)).lines()
-                .parallel().collect(Collectors.joining("\n"))
-    }
-
-    private fun Process.successful(): Boolean {
-        return this.exitValue() == 0
-    }
-
-    internal fun execute(cmd: String): String {
-        println(cmd)
-        val process = Runtime.getRuntime().exec(arrayOf("/bin/bash", "-c", cmd))
-        process.waitFor()
-        val output = process.stdout()
-        if (!process.successful()) throw RuntimeException("Command failed: $cmd")
-        return output
-    }
 
     private fun validateFile(path: String) {
         val file = File(path)
@@ -45,7 +25,7 @@ object Parse {
 
         val results = mutableSetOf<String>()
         // https://github.com/linkedin/bluepill/blob/37e7efa42472222b81adaa0e88f2bd82aa289b44/Source/Shared/BPXCTestFile.m#L18
-        val output = execute("nm -U $binary")
+        val output = Bash.execute("nm -U $binary")
         output.lines().forEach { line ->
             // 000089b0 t -[EarlGreyExampleTests testLayout]
             // 00008330 t -[EarlGreyExampleTests testCustomAction]
@@ -65,9 +45,9 @@ object Parse {
 
         // The OS limits the list of arguments to ARG_MAX. Setting the xargs limit avoids a fatal
         // 'argument too long' error. xargs will split the args and run the command for each chunk.
-        val argMax = execute("getconf ARG_MAX")
+        val argMax = Bash.execute("getconf ARG_MAX")
         // https://github.com/linkedin/bluepill/blob/37e7efa42472222b81adaa0e88f2bd82aa289b44/Source/Shared/BPXCTestFile.m#L17-18
-        val demangledOutput = execute("nm -gU $binary | xargs -s $argMax xcrun swift-demangle")
+        val demangledOutput = Bash.execute("nm -gU $binary | xargs -s $argMax xcrun swift-demangle")
         demangledOutput.lines().forEach { line ->
             // _T025EarlGreyExampleTestsSwift0abceD0C10testLayoutyyF ---> EarlGreyExampleTestsSwift.EarlGreyExampleSwiftTests.testLayout() -> ()
             // _T025EarlGreyExampleTestsSwift0abceD0C16testCustomActionyyF ---> EarlGreyExampleTestsSwift.EarlGreyExampleSwiftTests.testCustomAction() -> ()
