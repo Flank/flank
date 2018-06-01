@@ -38,8 +38,12 @@ There are two possible ways of authenticating against google.
 
 ### Using service account
 
-Follow the [google docs](https://firebase.google.com/docs/test-lab/android/continuous) to create a service account
-- `gcloud components update`
-- Set `GOOGLE_APPLICATION_CREDENTIALS` env variable with a custom path for `credentials.json`
-- Set `GOOGLE_CLOUD_PROJECT` env var with your project id (alternatively set via flank.yml)
+Follow the [test lab docs](https://firebase.google.com/docs/test-lab/android/continuous) to create a service account.
+- Save the credential to `$HOME/.config/gcloud/application_default_credentials.json` or set `GOOGLE_APPLICATION_CREDENTIALS` when using a custom path.
+- Set the project id in flank.yml or set the `GOOGLE_CLOUD_PROJECT` env var.
 
+For CI, base64 encode the credential as `GCLOUD_KEY`. Then write the file using a shell script.
+
+```bash
+echo "$GCLOUD_KEY" | base64 --decode > "$HOME/.config/gcloud/application_default_credentials.json"
+```

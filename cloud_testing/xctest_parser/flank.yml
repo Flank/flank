@@ -1,3 +1,4 @@
+projectId: change-me
 xctestrunZip: ./EarlGreyExample.zip
 xctestrunFile: ./EarlGreyExample/EarlGreyExampleSwiftTests_iphoneos11.3-arm64.xctestrun
 rootGcsBucket: earlgrey-swift
