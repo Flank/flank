@@ -1,5 +1,6 @@
 package ftl
 
+import ftl.cli.DoctorCommand
 import ftl.cli.RefreshCommand
 import ftl.cli.RunCommand
 import picocli.CommandLine
@@ -10,7 +11,8 @@ import picocli.CommandLine
         synopsisHeading = "",
         subcommands = [
             RunCommand::class,
-            RefreshCommand::class
+            RefreshCommand::class,
+            DoctorCommand::class
         ]
 )
 object Main : Runnable {
@@ -28,7 +30,7 @@ object Main : Runnable {
     @Throws(Exception::class)
     @JvmStatic
     fun main(args: Array<String>) {
-//        val args2 = arrayOf("run") // for debugging. run test from IntelliJ IDEA
+//        val args = arrayOf("doctor") // for debugging. run test from IntelliJ IDEA
         CommandLine.run<Runnable>(Main, System.out, *args)
     }
 }
