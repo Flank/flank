@@ -18,6 +18,7 @@ import picocli.CommandLine.Option
 class DoctorCommand : Runnable {
     override fun run() {
         runBlocking {
+            // gcloud alpha firebase test ios models list
             IosCatalog.model("iphone8")
             println("Flank successfully connected to iOS catalog")
         }

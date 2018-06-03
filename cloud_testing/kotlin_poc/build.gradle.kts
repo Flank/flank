@@ -64,6 +64,8 @@ dependencies {
     compile(Libs.KOTLIN_STD_LIB)
     compile(Libs.KOTLIN_COROUTINES_CORE)
 
+    compile("com.google.oauth-client:google-oauth-client-jetty:1.23.0")
+
     // https://github.com/remkop/picocli
     compile("info.picocli:picocli:2.2.1")
 
