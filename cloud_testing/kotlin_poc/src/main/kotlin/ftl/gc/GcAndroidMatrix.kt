@@ -1,17 +1,16 @@
 package ftl.gc
 
 import com.google.api.services.testing.model.AndroidMatrix
-import com.google.common.collect.Lists
+import ftl.config.Devices
 
 object GcAndroidMatrix {
 
-    fun build(
-            modelIds: String, versionIds: String, locales: String, orientations: String): AndroidMatrix {
+    fun build(deviceList: List<Devices>): AndroidMatrix {
         val androidMatrix = AndroidMatrix()
-        androidMatrix.androidModelIds = Lists.newArrayList(modelIds)
-        androidMatrix.androidVersionIds = Lists.newArrayList(versionIds)
-        androidMatrix.locales = Lists.newArrayList(locales)
-        androidMatrix.orientations = Lists.newArrayList(orientations)
+        androidMatrix.androidModelIds = deviceList.map { it.model }
+        androidMatrix.androidVersionIds = deviceList.map { it.version }
+        androidMatrix.locales = deviceList.map { it.locale }
+        androidMatrix.orientations = deviceList.map { it.orientation }
         return androidMatrix
     }
 }

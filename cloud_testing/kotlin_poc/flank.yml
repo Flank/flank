@@ -12,3 +12,11 @@ limitBreak: false
 waitForResults: true
 testMethods:
   - com.example.app.ExampleUiTest#testPasses
+devices:
+  - model: Nexus6
+  - version: 23
+    orientation: landscape
+  - model: shamu
+    version: 22
+    locale: zh_CN
+    orientation: default
