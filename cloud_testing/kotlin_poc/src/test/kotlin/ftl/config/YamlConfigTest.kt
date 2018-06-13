@@ -119,4 +119,23 @@ class YamlConfigTest {
         assert(config.testShardChunks.size, 39)
         assert(config.testShardChunks.first().size, 4)
     }
+
+    @Test
+    fun platformDisplayConfig() {
+        val config = YamlConfig.load(yamlFile)
+
+        if (config.iOS()) {
+            val iosConfig = config.toString()
+            assert(iosConfig.contains("appApk"), false)
+            assert(iosConfig.contains("testApk"), false)
+            assert(iosConfig.contains("autoGoogleLogin"), false)
+            assert(iosConfig.contains("useOrchestrator"), false)
+            assert(iosConfig.contains("testShards"), false)
+            assert(iosConfig.contains("testMethods"), false)
+        } else {
+            val androidConfig = config.toString()
+            assert(androidConfig.contains("xctestrunZip"), false)
+            assert(androidConfig.contains("xctestrunFile"), false)
+        }
+    }
 }

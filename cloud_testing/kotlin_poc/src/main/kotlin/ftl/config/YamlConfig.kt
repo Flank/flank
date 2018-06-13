@@ -92,7 +92,7 @@ class YamlConfig(
         calculateShards(Xctestrun.findTestNames(xctestrunFile))
     }
 
-    private fun iOS(): Boolean {
+    fun iOS(): Boolean {
         return xctestrunZip.isNotBlank()
     }
 
