@@ -157,23 +157,37 @@ class YamlConfig(
     }
 
     override fun toString(): String {
-        return """YamlConfig
-  projectId: '$projectId'
-  appApk: '$appApk',
-  testApk: '$testApk',
-  xctestrunZip: '$xctestrunZip',
-  xctestrunFile: '$xctestrunFile',
-  rootGcsBucket: '$rootGcsBucket',
-  autoGoogleLogin: '$autoGoogleLogin',
-  useOrchestrator: $useOrchestrator,
-  disablePerformanceMetrics: $disablePerformanceMetrics,
-  disableVideoRecording: $disableVideoRecording,
-  testTimeoutMinutes: $testTimeoutMinutes,
-  testShards: $testShards,
-  testRuns: $testRuns,
-  waitForResults: $waitForResults,
-  testMethods: $testMethods
-  limitBreak: $limitBreak
-"""
+        // Only print out platform relevant information
+        if (iOS()) {
+            return """YamlConfig
+                projectId: '$projectId'
+                xctestrunZip: '$xctestrunZip',
+                xctestrunFile: '$xctestrunFile',
+                rootGcsBucket: '$rootGcsBucket',
+                disablePerformanceMetrics: $disablePerformanceMetrics,
+                disableVideoRecording: $disableVideoRecording,
+                testTimeoutMinutes: $testTimeoutMinutes,
+                testRuns: $testRuns,
+                waitForResults: $waitForResults,
+                limitBreak: $limitBreak
+                """
+        } else {
+            return """YamlConfig
+                projectId: '$projectId'
+                appApk: '$appApk',
+                testApk: '$testApk',
+                rootGcsBucket: '$rootGcsBucket',
+                autoGoogleLogin: '$autoGoogleLogin',
+                useOrchestrator: $useOrchestrator,
+                disablePerformanceMetrics: $disablePerformanceMetrics,
+                disableVideoRecording: $disableVideoRecording,
+                testTimeoutMinutes: $testTimeoutMinutes,
+                testShards: $testShards,
+                testRuns: $testRuns,
+                waitForResults: $waitForResults,
+                testMethods: $testMethods
+                limitBreak: $limitBreak
+                """
+        }
     }
 }
