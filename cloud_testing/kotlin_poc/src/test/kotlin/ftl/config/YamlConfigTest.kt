@@ -63,6 +63,7 @@ class YamlConfigTest {
                 Devices("NexusLowRes", "23", "en", "portrait"),
                 Devices("NexusLowRes", "23", "en", "landscape"),
                 Devices("shamu", "22", "zh_CN", "default")))
+        assert(config.environmentVariables, mapOf(Pair("clearPackageData", "true")))
     }
 
     private val s99_999 = 99_999
