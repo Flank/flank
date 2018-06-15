@@ -1,6 +1,5 @@
 package ftl.gc
 
-import com.dd.plist.NSDictionary
 import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.*
 import ftl.config.YamlConfig
@@ -17,13 +16,13 @@ object GcIosTestMatrix {
             testZipGcsPath: String,
             runGcsPath: String,
             testShardsIndex: Int,
-            xcTestParsed: NSDictionary,
             config: YamlConfig): Testing.Projects.TestMatrices.Create {
 
         val matrixGcsSuffix = join(runGcsPath, Utils.uniqueObjectName())
         val matrixGcsPath = join(config.rootGcsBucket, matrixGcsSuffix)
         val methods = config.testShardChunks.elementAt(testShardsIndex)
 
+        val xcTestParsed = Xctestrun.parse(config.xctestrunFile)
         val generatedXctestrun = Xctestrun.rewrite(xcTestParsed, methods)
         val xctestrunFileGcsPath = GcStorage.uploadXCTestFile(config, matrixGcsSuffix, generatedXctestrun)
 
