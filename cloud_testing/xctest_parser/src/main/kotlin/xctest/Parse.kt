@@ -4,7 +4,6 @@ import java.io.File
 
 object Parse {
 
-
     private fun validateFile(path: String) {
         val file = File(path)
         if (!file.exists()) {

@@ -1,6 +1,7 @@
 package xctest
 
 import com.dd.plist.NSDictionary
+import com.google.common.truth.Truth.assertThat
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -52,6 +53,21 @@ class XctestrunTest : TestArtifact() {
         val methods = Xctestrun.findTestNames(swiftXctestrun)
         val results = String(Xctestrun.rewrite(root, methods))
         assertTrue(results.contains("OnlyTestIdentifiers"))
+    }
+
+    @Test
+    fun rewriteImmutable() {
+        val root = Xctestrun.parse(swiftXctestrun)
+        val methods = Xctestrun.findTestNames(swiftXctestrun)
+
+        // ensure root object isn't modified. Rewrite should return a new object.
+        val key = "OnlyTestIdentifiers"
+
+        assertThat(root.toASCIIPropertyList().contains(key)).isFalse()
+
+        Xctestrun.rewrite(root, methods)
+
+        assertThat(root.toASCIIPropertyList().contains(key)).isFalse()
     }
 
     @Test
