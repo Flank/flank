@@ -68,6 +68,7 @@ dependencies {
     compile("com.googlecode.plist:dd-plist:1.20")
     testImplementation("org.jsoup:jsoup:1.11.3")
     testImplementation(Libs.JUNIT)
+    testImplementation("com.google.truth:truth:0.40")
 }
 
 val javaVersion = "1.8"
