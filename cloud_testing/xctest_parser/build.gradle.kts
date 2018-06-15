@@ -21,7 +21,7 @@ plugins {
     application
     jacoco
     // TODO: https://github.com/TestArmada/flank/issues/195
-    kotlin("jvm") // version Versions.KOTLIN
+    kotlin("jvm") version Versions.KOTLIN
 }
 
 // http://www.eclemma.org/jacoco/

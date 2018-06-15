@@ -83,7 +83,7 @@ class XctestrunTest : TestArtifact() {
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>EarlGreyExampleSwiftTests</key>
+	<key>EarlGreyExampleTests</key>
 	<dict>
 		<key>OnlyTestIdentifiers</key>
 		<array>
@@ -91,7 +91,7 @@ class XctestrunTest : TestArtifact() {
 			<string>testTwo</string>
 		</array>
 	</dict>
-	<key>EarlGreyExampleTests</key>
+	<key>EarlGreyExampleSwiftTests</key>
 	<dict>
 		<key>OnlyTestIdentifiers</key>
 		<array>

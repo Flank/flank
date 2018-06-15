@@ -89,14 +89,7 @@ object Xctestrun {
     }
 
     private fun NSDictionary.deepClone() : NSDictionary {
-        val newDictionary = NSDictionary()
-
-        this.forEach { (key, value) ->
-            val newValue = NSObject.fromJavaObject(value.toJavaObject())
-            newDictionary[key] = newValue
-        }
-
-        return newDictionary
+        return NSObject.fromJavaObject(this.toJavaObject()) as NSDictionary
     }
 
     fun rewrite(root: NSDictionary, methods: Set<String>): ByteArray {
