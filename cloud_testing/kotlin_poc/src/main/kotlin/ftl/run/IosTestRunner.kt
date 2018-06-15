@@ -9,7 +9,6 @@ import ftl.ios.IosCatalog
 import ftl.json.MatrixMap
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
-import xctest.Xctestrun
 
 object IosTestRunner : GenericTestRunner {
 
@@ -27,8 +26,6 @@ object IosTestRunner : GenericTestRunner {
                 .setLocale("en_US") // FTL iOS doesn't currently support other locales or orientations
                 .setOrientation("portrait")
 
-        val xcTestParsed = Xctestrun.parse(config.xctestrunFile)
-
         val jobs = arrayListOf<Deferred<TestMatrix>>()
         val runCount = config.testRuns
         val repeatShard = config.testShardChunks.size
@@ -45,7 +42,6 @@ object IosTestRunner : GenericTestRunner {
                             testZipGcsPath = xcTestGcsPath,
                             runGcsPath = runGcsPath,
                             testShardsIndex = testShardsIndex,
-                            xcTestParsed = xcTestParsed,
                             config = config).execute()
                 }
             }
