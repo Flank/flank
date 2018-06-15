@@ -181,7 +181,7 @@ class YamlConfig(
 }
 
 data class Devices(
-        val model: String = "",
-        val version: String = "",
-        val locale: String = "",
-        val orientation: String = "")
+        val model: String = "NexusLowRes",
+        val version: String = "23",
+        val locale: String = "en",
+        val orientation: String = "portrait")

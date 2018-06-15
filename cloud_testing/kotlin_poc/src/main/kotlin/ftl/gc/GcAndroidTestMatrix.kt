@@ -14,7 +14,7 @@ object GcAndroidTestMatrix {
             appApkGcsPath: String,
             testApkGcsPath: String,
             runGcsPath: String,
-            androidMatrix: AndroidMatrix,
+            androidDeviceList: AndroidDeviceList,
             testShardsIndex: Int = -1,
             config: YamlConfig): Testing.Projects.TestMatrices.Create {
         val testShardsTotal = config.testShardChunks.size
@@ -66,7 +66,7 @@ object GcAndroidTestMatrix {
         val matrixGcsPath = join(config.rootGcsBucket, runGcsPath, uniqueObjectName())
         testMatrix.resultStorage = ResultStorage()
                 .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
-        testMatrix.environmentMatrix = EnvironmentMatrix().setAndroidMatrix(androidMatrix)
+        testMatrix.environmentMatrix = EnvironmentMatrix().setAndroidDeviceList(androidDeviceList)
 
         try {
             return GcTesting.get.projects().testMatrices().create(config.projectId, testMatrix)
