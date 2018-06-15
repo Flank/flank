@@ -56,6 +56,18 @@ object GcAndroidTestMatrix {
                 .setDirectoriesToPull(listOf("/sdcard/screenshots"))
                 .setAccount(account)
 
+
+        if (config.environmentVariables.isNotEmpty()) {
+            val variables = arrayListOf<EnvironmentVariable>()
+            for (map in config.environmentVariables) {
+                val environmentVariable = EnvironmentVariable()
+                environmentVariable.key = map.key
+                environmentVariable.value = map.value
+                variables.add(environmentVariable)
+            }
+            testSetup.environmentVariables = variables
+        }
+
         testMatrix.testSpecification = TestSpecification()
                 .setAndroidInstrumentationTest(androidInstrumentation)
                 .setDisablePerformanceMetrics(config.disablePerformanceMetrics)
