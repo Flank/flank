@@ -24,11 +24,7 @@ object AndroidTestRunner : GenericTestRunner {
 
         // GcAndroidMatrix => GcAndroidTestMatrix
         // GcAndroidTestMatrix.execute() 3x retry => matrix id (string)
-        val androidMatrix = GcAndroidMatrix.build(
-                "NexusLowRes",
-                "26",
-                "en",
-                "portrait")
+        val androidDeviceList = GcAndroidMatrix.build(config.devices)
 
         val apks = uploadApksInParallel(config, runGcsPath)
 
@@ -47,7 +43,7 @@ object AndroidTestRunner : GenericTestRunner {
                             appApkGcsPath = apks.first,
                             testApkGcsPath = apks.second,
                             runGcsPath = runGcsPath,
-                            androidMatrix = androidMatrix,
+                            androidDeviceList = androidDeviceList,
                             testShardsIndex = testShardsIndex,
                             config = config).execute()
                 }

@@ -34,7 +34,7 @@ class YamlConfigTest {
         return Paths.get(path).normalize().toAbsolutePath().toString()
     }
 
-    private val yamlFile = getPath("flank.yml")
+    private val yamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.yml")
     private val appApk = getPath("../../test_app/apks/app-debug.apk")
     private val testApk = getPath("../../test_app/apks/app-debug-androidTest.apk")
     private val testName = "com.example.app.ExampleUiTest#testPasses"
@@ -59,6 +59,10 @@ class YamlConfigTest {
         assert(config.waitForResults, true)
         assert(config.testMethods, listOf(testName))
         assert(config.limitBreak, false)
+        assert(config.devices, listOf(
+                Devices("NexusLowRes", "23", "en", "portrait"),
+                Devices("NexusLowRes", "23", "en", "landscape"),
+                Devices("shamu", "22", "zh_CN", "default")))
     }
 
     private val s99_999 = 99_999
