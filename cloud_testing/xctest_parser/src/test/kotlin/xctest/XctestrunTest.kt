@@ -1,6 +1,7 @@
 package xctest
 
 import com.dd.plist.NSDictionary
+import com.google.common.truth.Truth.assertThat
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -55,6 +56,21 @@ class XctestrunTest : TestArtifact() {
     }
 
     @Test
+    fun rewriteImmutable() {
+        val root = Xctestrun.parse(swiftXctestrun)
+        val methods = Xctestrun.findTestNames(swiftXctestrun)
+
+        // ensure root object isn't modified. Rewrite should return a new object.
+        val key = "OnlyTestIdentifiers"
+
+        assertThat(root.toASCIIPropertyList().contains(key)).isFalse()
+
+        Xctestrun.rewrite(root, methods)
+
+        assertThat(root.toASCIIPropertyList().contains(key)).isFalse()
+    }
+
+    @Test
     fun rewrite_idempotent() {
         val root = NSDictionary()
         root["EarlGreyExampleSwiftTests"] = NSDictionary()
@@ -67,7 +83,7 @@ class XctestrunTest : TestArtifact() {
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>EarlGreyExampleSwiftTests</key>
+	<key>EarlGreyExampleTests</key>
 	<dict>
 		<key>OnlyTestIdentifiers</key>
 		<array>
@@ -75,7 +91,7 @@ class XctestrunTest : TestArtifact() {
 			<string>testTwo</string>
 		</array>
 	</dict>
-	<key>EarlGreyExampleTests</key>
+	<key>EarlGreyExampleSwiftTests</key>
 	<dict>
 		<key>OnlyTestIdentifiers</key>
 		<array>
