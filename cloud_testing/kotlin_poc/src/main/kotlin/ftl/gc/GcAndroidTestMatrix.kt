@@ -10,6 +10,11 @@ import java.util.concurrent.TimeUnit
 
 object GcAndroidTestMatrix {
 
+    private fun Map.Entry<String, String>.toEnvironmentVariable() = EnvironmentVariable().apply {
+        key = this@toEnvironmentVariable.key
+        value = this@toEnvironmentVariable.value
+    }
+
     fun build(
             appApkGcsPath: String,
             testApkGcsPath: String,
@@ -58,14 +63,8 @@ object GcAndroidTestMatrix {
 
 
         if (config.environmentVariables.isNotEmpty()) {
-            val variables = arrayListOf<EnvironmentVariable>()
-            for (map in config.environmentVariables) {
-                val environmentVariable = EnvironmentVariable()
-                environmentVariable.key = map.key
-                environmentVariable.value = map.value
-                variables.add(environmentVariable)
-            }
-            testSetup.environmentVariables = variables
+            testSetup.environmentVariables =
+                    config.environmentVariables.map { it.toEnvironmentVariable() }
         }
 
         testMatrix.testSpecification = TestSpecification()

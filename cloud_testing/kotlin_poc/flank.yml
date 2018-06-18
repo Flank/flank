@@ -21,5 +21,4 @@ devices:
     locale: zh_CN
     orientation: default
 environmentVariables:
-  ? clearPackageData
-  : true
+  clearPackageData: true
