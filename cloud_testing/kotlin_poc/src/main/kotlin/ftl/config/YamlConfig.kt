@@ -37,7 +37,9 @@ class YamlConfig(
         val limitBreak: Boolean = false,
         val projectId: String = getDefaultProjectId(),
         val devices: List<Device> = listOf(Device()),
-        var testShardChunks: Set<Set<String>> = emptySet()) {
+        var testShardChunks: Set<Set<String>> = emptySet(),
+        val environmentVariables: Map<String, String> = mapOf()) {
+
 
     private fun assertVmLimit(value: Int): Int {
         if (value > 100 && !limitBreak) {
@@ -186,9 +188,10 @@ class YamlConfig(
                 testShards: $testShards,
                 testRuns: $testRuns,
                 waitForResults: $waitForResults,
-                testMethods: $testMethods
-                limitBreak: $limitBreak
-                devices: $devices
+                testMethods: $testMethods,
+                limitBreak: $limitBreak,
+                devices: $devices,
+                environmentVariables: $environmentVariables
                 """
         }
     }

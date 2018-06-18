@@ -10,6 +10,11 @@ import java.util.concurrent.TimeUnit
 
 object GcAndroidTestMatrix {
 
+    private fun Map.Entry<String, String>.toEnvironmentVariable() = EnvironmentVariable().apply {
+        key = this@toEnvironmentVariable.key
+        value = this@toEnvironmentVariable.value
+    }
+
     fun build(
             appApkGcsPath: String,
             testApkGcsPath: String,
@@ -55,6 +60,12 @@ object GcAndroidTestMatrix {
         val testSetup = TestSetup()
                 .setDirectoriesToPull(listOf("/sdcard/screenshots"))
                 .setAccount(account)
+
+
+        if (config.environmentVariables.isNotEmpty()) {
+            testSetup.environmentVariables =
+                    config.environmentVariables.map { it.toEnvironmentVariable() }
+        }
 
         testMatrix.testSpecification = TestSpecification()
                 .setAndroidInstrumentationTest(androidInstrumentation)
