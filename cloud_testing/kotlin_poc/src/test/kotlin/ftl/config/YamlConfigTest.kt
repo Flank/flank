@@ -38,7 +38,7 @@ class YamlConfigTest {
     private val appApk = getPath("../../test_app/apks/app-debug.apk")
     private val testApk = getPath("../../test_app/apks/app-debug-androidTest.apk")
     private val testName = "com.example.app.ExampleUiTest#testPasses"
-
+    private val directoryToPull = "/sdcard/screenshots"
     // NOTE: Change working dir to '%MODULE_WORKING_DIR%' in IntelliJ to match gradle for this test to pass.
     @Test
     fun configLoadsSuccessfully() {
@@ -64,7 +64,7 @@ class YamlConfigTest {
             Device("NexusLowRes", "23", "en", "landscape"),
             Device("shamu", "22", "zh_CN", "default")))
         assert(config.environmentVariables, mapOf(Pair("clearPackageData", "true")))
-
+        assert(config.directoriesToPull, listOf(directoryToPull))
     }
 
     private val s99_999 = 99_999
