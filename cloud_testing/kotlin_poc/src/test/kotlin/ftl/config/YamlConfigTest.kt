@@ -60,9 +60,9 @@ class YamlConfigTest {
         assert(config.testMethods, listOf(testName))
         assert(config.limitBreak, false)
         assert(config.devices, listOf(
-                Devices("NexusLowRes", "23", "en", "portrait"),
-                Devices("NexusLowRes", "23", "en", "landscape"),
-                Devices("shamu", "22", "zh_CN", "default")))
+                Device("NexusLowRes", "23", "en", "portrait"),
+                Device("NexusLowRes", "23", "en", "landscape"),
+                Device("shamu", "22", "zh_CN", "default")))
     }
 
     private val s99_999 = 99_999
