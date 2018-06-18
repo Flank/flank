@@ -26,8 +26,8 @@ object IosTestRunner : GenericTestRunner {
         }
 
         val iosDevice = IosDevice()
-                .setIosModelId(IosCatalog.model("iphone8"))
-                .setIosVersionId(IosCatalog.version("11.2"))
+                .setIosModelId("iphone8")
+                .setIosVersionId("11.2")
                 .setLocale("en_US") // FTL iOS doesn't currently support other locales or orientations
                 .setOrientation("portrait")
 
