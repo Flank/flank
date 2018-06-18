@@ -101,7 +101,7 @@ class YamlConfig(
         }
         assertFileExists(xctestrunFile, "xctestrunFile")
 
-        for (device in devices) assertIosDeviceSupported(device)
+        devices.forEach { device -> assertIosDeviceSupported(device) }
 
         calculateShards(Xctestrun.findTestNames(xctestrunFile))
     }
