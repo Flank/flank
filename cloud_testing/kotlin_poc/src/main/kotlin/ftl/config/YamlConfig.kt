@@ -36,7 +36,7 @@ class YamlConfig(
         val testMethods: List<String> = listOf(),
         val limitBreak: Boolean = false,
         val projectId: String = getDefaultProjectId(),
-        val devices: List<Devices> = listOf(),
+        val devices: List<Device> = listOf(Device()),
         var testShardChunks: Set<Set<String>> = emptySet()) {
 
     private fun assertVmLimit(value: Int): Int {
@@ -194,7 +194,7 @@ class YamlConfig(
     }
 }
 
-data class Devices(
+data class Device(
         val model: String = "NexusLowRes",
         val version: String = "23",
         val locale: String = "en",
