@@ -19,7 +19,11 @@ object IosTestRunner : GenericTestRunner {
     override suspend fun runTests(config: YamlConfig): MatrixMap {
         val (stopwatch, runGcsPath) = beforeRunTests()
 
-        val xcTestGcsPath = GcStorage.uploadXCTestZip(config, runGcsPath)
+        val xcTestGcsPath = if (config.xctestrunZip.startsWith("gs://")) {
+            config.xctestrunZip
+        } else {
+            GcStorage.uploadXCTestZip(config, runGcsPath)
+        }
 
         val iosDevice = IosDevice()
                 .setIosModelId(IosCatalog.model("iphone8"))
