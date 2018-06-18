@@ -41,7 +41,6 @@ class YamlConfig(
         val environmentVariables: Map<String, String> = mapOf()) {
 
 
-
     private fun assertVmLimit(value: Int): Int {
         if (value > 100 && !limitBreak) {
             fatalError("Shard count exceeds 100. Set limitBreak=true to enable large shards")
