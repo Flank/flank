@@ -38,7 +38,8 @@ class YamlConfig(
         val projectId: String = getDefaultProjectId(),
         val devices: List<Device> = listOf(Device()),
         var testShardChunks: Set<Set<String>> = emptySet(),
-        val environmentVariables: Map<String, String> = mapOf()) {
+        val environmentVariables: Map<String, String> = mapOf(),
+        val directoriesToPull: List<String> = listOf()) {
 
 
     private fun assertVmLimit(value: Int): Int {
@@ -172,7 +173,8 @@ class YamlConfig(
                 testTimeoutMinutes: $testTimeoutMinutes,
                 testRuns: $testRuns,
                 waitForResults: $waitForResults,
-                limitBreak: $limitBreak
+                limitBreak: $limitBreak,
+                directoriesToPull: $directoriesToPull
                 """
         } else {
             return """YamlConfig
@@ -191,7 +193,8 @@ class YamlConfig(
                 testMethods: $testMethods,
                 limitBreak: $limitBreak,
                 devices: $devices,
-                environmentVariables: $environmentVariables
+                environmentVariables: $environmentVariables,
+                directoriesToPull: $directoriesToPull
                 """
         }
     }
