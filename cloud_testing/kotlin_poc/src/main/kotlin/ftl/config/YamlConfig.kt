@@ -89,7 +89,9 @@ class YamlConfig(
     }
 
     private fun validateIos() {
-        assertFileExists(xctestrunZip, "xctestrunZip")
+        if (!xctestrunZip.startsWith("gs://")) {
+            assertFileExists(xctestrunZip, "xctestrunZip")
+        }
         assertFileExists(xctestrunFile, "xctestrunFile")
 
         calculateShards(Xctestrun.findTestNames(xctestrunFile))
