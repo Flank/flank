@@ -58,9 +58,9 @@ object GcAndroidTestMatrix {
         }
 
         val testSetup = TestSetup()
-                .setDirectoriesToPull(listOf("/sdcard/screenshots"))
                 .setAccount(account)
 
+        testSetup.directoriesToPull = config.directoriesToPull
 
         if (config.environmentVariables.isNotEmpty()) {
             testSetup.environmentVariables =

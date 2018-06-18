@@ -22,4 +22,5 @@ devices:
     orientation: default
 environmentVariables:
   clearPackageData: true
-
+directoriesToPull:
+  - /sdcard/screenshots
