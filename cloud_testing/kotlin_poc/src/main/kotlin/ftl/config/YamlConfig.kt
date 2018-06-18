@@ -7,6 +7,7 @@ import com.google.cloud.ServiceOptions
 import com.google.common.math.IntMath
 import com.linkedin.dex.parser.DexParser
 import ftl.config.FtlConstants.useMock
+import ftl.ios.IosCatalog
 import ftl.util.Utils.fatalError
 import xctest.Xctestrun
 import java.io.File
@@ -68,6 +69,12 @@ class YamlConfig(
         }
     }
 
+    private fun assertIosDeviceSupported(device: Device) {
+        if (!IosCatalog.supported(device.model, device.version)) {
+            fatalError("iOS ${device.version} on ${device.model} is not a supported device")
+        }
+    }
+
     private fun validateAndroid() {
         assertFileExists(appApk, "appApk")
         assertFileExists(testApk, "testApk")
@@ -93,6 +100,8 @@ class YamlConfig(
             assertFileExists(xctestrunZip, "xctestrunZip")
         }
         assertFileExists(xctestrunFile, "xctestrunFile")
+
+        devices.forEach { device -> assertIosDeviceSupported(device) }
 
         calculateShards(Xctestrun.findTestNames(xctestrunFile))
     }
@@ -174,7 +183,8 @@ class YamlConfig(
                 testTimeoutMinutes: $testTimeoutMinutes,
                 testRuns: $testRuns,
                 waitForResults: $waitForResults,
-                limitBreak: $limitBreak
+                limitBreak: $limitBreak,
+                devices: $devices
                 """
         } else {
             return """YamlConfig

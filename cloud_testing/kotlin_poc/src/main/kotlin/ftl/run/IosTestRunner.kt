@@ -1,11 +1,10 @@
 package ftl.run
 
-import com.google.api.services.testing.model.IosDevice
 import com.google.api.services.testing.model.TestMatrix
 import ftl.config.YamlConfig
+import ftl.gc.GcIosMatrix
 import ftl.gc.GcIosTestMatrix
 import ftl.gc.GcStorage
-import ftl.ios.IosCatalog
 import ftl.json.MatrixMap
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
@@ -25,11 +24,7 @@ object IosTestRunner : GenericTestRunner {
             GcStorage.uploadXCTestZip(config, runGcsPath)
         }
 
-        val iosDevice = IosDevice()
-                .setIosModelId("iphone8")
-                .setIosVersionId("11.2")
-                .setLocale("en_US") // FTL iOS doesn't currently support other locales or orientations
-                .setOrientation("portrait")
+        val iosDeviceList = GcIosMatrix.build(config.devices)
 
         val xcTestParsed = Xctestrun.parse(config.xctestrunFile)
 
@@ -45,7 +40,7 @@ object IosTestRunner : GenericTestRunner {
             repeat(repeatShard) { testShardsIndex ->
                 jobs += async {
                     GcIosTestMatrix.build(
-                            iosDevice = iosDevice,
+                            iosDeviceList = iosDeviceList,
                             testZipGcsPath = xcTestGcsPath,
                             runGcsPath = runGcsPath,
                             testShardsIndex = testShardsIndex,
