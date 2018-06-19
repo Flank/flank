@@ -144,4 +144,18 @@ class YamlConfigTest {
             assert(androidConfig.contains("xctestrunFile"), false)
         }
     }
+
+    @Test
+    fun assertGcsBucket() {
+        val oldConfig = YamlConfig.load(yamlFile)
+        // Need to set the project id to get the bucket info from StorageOptions
+        val config = YamlConfig(
+                oldConfig.appApk,
+                oldConfig.testApk,
+                rootGcsBucket = oldConfig.rootGcsBucket,
+                projectId = "delta-essence-114723",
+                limitBreak = true)
+
+        assert(config.getGcsBucket(), "tmp_bucket_2")
+    }
 }

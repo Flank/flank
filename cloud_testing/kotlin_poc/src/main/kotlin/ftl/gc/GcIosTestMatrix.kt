@@ -20,12 +20,13 @@ object GcIosTestMatrix {
             xcTestParsed: NSDictionary,
             config: YamlConfig): Testing.Projects.TestMatrices.Create {
 
+        val gcsBucket = config.getGcsBucket()
         val matrixGcsSuffix = join(runGcsPath, Utils.uniqueObjectName())
-        val matrixGcsPath = join(config.rootGcsBucket, matrixGcsSuffix)
+        val matrixGcsPath = join(gcsBucket, matrixGcsSuffix)
         val methods = config.testShardChunks.elementAt(testShardsIndex)
 
         val generatedXctestrun = Xctestrun.rewrite(xcTestParsed, methods)
-        val xctestrunFileGcsPath = GcStorage.uploadXCTestFile(config, matrixGcsSuffix, generatedXctestrun)
+        val xctestrunFileGcsPath = GcStorage.uploadXCTestFile(config, gcsBucket, matrixGcsSuffix, generatedXctestrun)
 
         val iOSXCTest = IosXcTest()
                 .setTestsZip(FileReference().setGcsPath(testZipGcsPath))
