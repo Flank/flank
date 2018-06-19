@@ -7,6 +7,7 @@ import com.google.cloud.ServiceOptions
 import com.google.common.math.IntMath
 import com.linkedin.dex.parser.DexParser
 import ftl.config.FtlConstants.useMock
+import ftl.ios.IosCatalog
 import ftl.util.Utils.fatalError
 import xctest.Xctestrun
 import java.io.File
@@ -37,7 +38,10 @@ class YamlConfig(
         val limitBreak: Boolean = false,
         val projectId: String = getDefaultProjectId(),
         val devices: List<Device> = listOf(Device()),
-        var testShardChunks: Set<Set<String>> = emptySet()) {
+        var testShardChunks: Set<Set<String>> = emptySet(),
+        val environmentVariables: Map<String, String> = mapOf(),
+        val directoriesToPull: List<String> = listOf()) {
+
 
     private fun assertVmLimit(value: Int): Int {
         if (value > 100 && !limitBreak) {
@@ -66,6 +70,12 @@ class YamlConfig(
         }
     }
 
+    private fun assertIosDeviceSupported(device: Device) {
+        if (!IosCatalog.supported(device.model, device.version)) {
+            fatalError("iOS ${device.version} on ${device.model} is not a supported device")
+        }
+    }
+
     private fun validateAndroid() {
         assertFileExists(appApk, "appApk")
         assertFileExists(testApk, "testApk")
@@ -87,8 +97,12 @@ class YamlConfig(
     }
 
     private fun validateIos() {
-        assertFileExists(xctestrunZip, "xctestrunZip")
+        if (!xctestrunZip.startsWith("gs://")) {
+            assertFileExists(xctestrunZip, "xctestrunZip")
+        }
         assertFileExists(xctestrunFile, "xctestrunFile")
+
+        devices.forEach { device -> assertIosDeviceSupported(device) }
 
         calculateShards(Xctestrun.findTestNames(xctestrunFile))
     }
@@ -170,7 +184,8 @@ class YamlConfig(
                 testTimeoutMinutes: $testTimeoutMinutes,
                 testRuns: $testRuns,
                 waitForResults: $waitForResults,
-                limitBreak: $limitBreak
+                limitBreak: $limitBreak,
+                devices: $devices
                 """
         } else {
             return """YamlConfig
@@ -186,9 +201,11 @@ class YamlConfig(
                 testShards: $testShards,
                 testRuns: $testRuns,
                 waitForResults: $waitForResults,
-                testMethods: $testMethods
-                limitBreak: $limitBreak
-                devices: $devices
+                testMethods: $testMethods,
+                limitBreak: $limitBreak,
+                devices: $devices,
+                environmentVariables: $environmentVariables,
+                directoriesToPull: $directoriesToPull
                 """
         }
     }

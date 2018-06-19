@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 object GcIosTestMatrix {
 
     fun build(
-            iosDevice: IosDevice,
+            iosDeviceList: IosDeviceList,
             testZipGcsPath: String,
             runGcsPath: String,
             testShardsIndex: Int,
@@ -46,9 +46,7 @@ object GcIosTestMatrix {
         val resultStorage = ResultStorage()
                 .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
 
-        val environmentMatrix = EnvironmentMatrix()
-                .setIosDeviceList(
-                        IosDeviceList().setIosDevices(listOf(iosDevice)))
+        val environmentMatrix = EnvironmentMatrix().setIosDeviceList(iosDeviceList)
 
         val testMatrix = TestMatrix()
                 .setTestSpecification(testSpec)

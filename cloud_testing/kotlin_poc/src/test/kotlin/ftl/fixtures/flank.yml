@@ -20,3 +20,7 @@ devices:
     version: 22
     locale: zh_CN
     orientation: default
+environmentVariables:
+  clearPackageData: true
+directoriesToPull:
+  - /sdcard/screenshots
