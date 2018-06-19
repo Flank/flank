@@ -4,9 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.cloud.ServiceOptions
+import com.google.cloud.storage.BucketInfo
+import com.google.cloud.storage.StorageClass
+import com.google.cloud.storage.StorageOptions
 import com.google.common.math.IntMath
 import com.linkedin.dex.parser.DexParser
 import ftl.config.FtlConstants.useMock
+import ftl.gc.GcAndroidTestMatrix
 import ftl.ios.IosCatalog
 import ftl.util.Utils.fatalError
 import xctest.Xctestrun
@@ -42,6 +46,23 @@ class YamlConfig(
         val environmentVariables: Map<String, String> = mapOf(),
         val directoriesToPull: List<String> = listOf()) {
 
+
+    private val storage = StorageOptions.newBuilder().setProjectId(projectId).build().service
+    private val bucketLabel: Map<String, String> = mapOf(Pair("flank", "apks"))
+    private val storageLocation = "us-central1"
+    private val daysToLive = 30
+
+    fun getGcsBucket() : String {
+        val bucket = storage.list().values?.find { it.name == rootGcsBucket }
+        if (bucket != null) return bucket.name
+
+        return storage.create(BucketInfo.newBuilder(rootGcsBucket)
+                .setStorageClass(StorageClass.REGIONAL)
+                .setLocation(storageLocation)
+                .setLabels(bucketLabel)
+                .setDeleteRules(listOf(BucketInfo.AgeDeleteRule(daysToLive)))
+                .build()).name
+    }
 
     private fun assertVmLimit(value: Int): Int {
         if (value > 100 && !limitBreak) {
