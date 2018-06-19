@@ -1,5 +1,6 @@
 package ftl.cli
 
+import ftl.android.*
 import ftl.config.YamlConfig
 import ftl.run.TestRunner
 import kotlinx.coroutines.experimental.runBlocking
@@ -23,7 +24,17 @@ class RunCommand : Runnable {
         val config = YamlConfig.load("./flank.yml")
         if (shards > 0) config.testRuns = shards
         runBlocking {
-            TestRunner.newRun(config)
+            // Verify each device config
+            config.devices.forEach { device ->
+                val deviceConfigTest = AndroidCatalog.supportedDeviceConfig(device.model, device.version)
+                when (deviceConfigTest) {
+                    SupportedDeviceConfig -> TestRunner.newRun(config)
+                    UnsupportedModelId -> throw RuntimeException("Unsupported model id, '${device.model}'\nSupported model ids: ${AndroidCatalog.androidModelIds}")
+                    UnsupportedVersionId -> throw RuntimeException("Unsupported version id, '${device.version}'\nSupported Version ids: ${AndroidCatalog.androidVersionIds}")
+                    is IncompatibleModelVersion -> throw RuntimeException("Incompatible model, '${device.model}', and version, '${device.version}'\nSupported version ids for '${device.model}': ${deviceConfigTest}")
+                }
+            }
+
         }
     }
 
