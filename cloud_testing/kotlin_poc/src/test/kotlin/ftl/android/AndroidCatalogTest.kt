@@ -14,6 +14,8 @@ class AndroidCatalogTest {
 
     @Test
     fun validateDeviceConfig() {
+        if (bitrise) return
+
         assertEquals(UnsupportedModelId, AndroidCatalog.supportedDeviceConfig("ios", "23"))
         assertEquals(UnsupportedVersionId, AndroidCatalog.supportedDeviceConfig("NexusLowRes", "twenty-three"))
         assertEquals(IncompatibleModelVersion, AndroidCatalog.supportedDeviceConfig("NexusLowRes", "21"))
