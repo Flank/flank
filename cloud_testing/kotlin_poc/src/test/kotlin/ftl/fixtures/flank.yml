@@ -1,4 +1,3 @@
-projectId: delta-essence-114723
 appApk: ../../test_app/apks/app-debug.apk
 testApk: ../../test_app/apks/app-debug-androidTest.apk
 rootGcsBucket: tmp_bucket_2

@@ -53,7 +53,7 @@ class YamlConfig(
     private val storageLocation = "us-central1"
 
     fun getGcsBucket() : String {
-        if (bitrise) return rootGcsBucket
+        if (FtlConstants.useMock) return rootGcsBucket
 
         val bucket = storage.list().values?.find { it.name == rootGcsBucket }
         if (bucket != null) return bucket.name
