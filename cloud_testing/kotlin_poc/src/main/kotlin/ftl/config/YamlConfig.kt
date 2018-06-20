@@ -48,9 +48,8 @@ class YamlConfig(
 
 
     private val storage = StorageOptions.newBuilder().setProjectId(projectId).build().service
-    private val bucketLabel: Map<String, String> = mapOf(Pair("flank", "apks"))
+    private val bucketLabel: Map<String, String> = mapOf(Pair("flank", ""))
     private val storageLocation = "us-central1"
-    private val daysToLive = 30
 
     fun getGcsBucket() : String {
         val bucket = storage.list().values?.find { it.name == rootGcsBucket }
@@ -60,7 +59,6 @@ class YamlConfig(
                 .setStorageClass(StorageClass.REGIONAL)
                 .setLocation(storageLocation)
                 .setLabels(bucketLabel)
-                .setDeleteRules(listOf(BucketInfo.AgeDeleteRule(daysToLive)))
                 .build()).name
     }
 

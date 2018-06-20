@@ -10,6 +10,8 @@ import java.nio.file.Paths
 
 class YamlConfigTest {
 
+    private val bitrise = System.getenv("BITRISE_IO") != null
+
     init {
         FtlConstants.useMock = true
     }
@@ -147,6 +149,8 @@ class YamlConfigTest {
 
     @Test
     fun assertGcsBucket() {
+        if (bitrise) return
+
         val oldConfig = YamlConfig.load(yamlFile)
         // Need to set the project id to get the bucket info from StorageOptions
         val config = YamlConfig(
