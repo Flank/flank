@@ -6,6 +6,7 @@ import ftl.gc.GcAndroidMatrix
 import ftl.gc.GcAndroidTestMatrix
 import ftl.gc.GcStorage
 import ftl.json.MatrixMap
+import ftl.run.TestRunner.bitrise
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 
@@ -27,7 +28,7 @@ object AndroidTestRunner : GenericTestRunner {
         // GcAndroidTestMatrix.execute() 3x retry => matrix id (string)
         val androidDeviceList = GcAndroidMatrix.build(config.devices)
 
-        val apks = uploadApksInParallel(config, runGcsPath)
+        val apks = if (bitrise) Pair("", "") else uploadApksInParallel(config, runGcsPath)
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
         val runCount = config.testRuns
