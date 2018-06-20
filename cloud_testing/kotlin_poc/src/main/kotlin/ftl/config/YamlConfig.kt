@@ -12,6 +12,7 @@ import com.linkedin.dex.parser.DexParser
 import ftl.config.FtlConstants.useMock
 import ftl.gc.GcAndroidTestMatrix
 import ftl.ios.IosCatalog
+import ftl.run.TestRunner.bitrise
 import ftl.util.Utils.fatalError
 import xctest.Xctestrun
 import java.io.File
@@ -52,6 +53,8 @@ class YamlConfig(
     private val storageLocation = "us-central1"
 
     fun getGcsBucket() : String {
+        if (bitrise) return rootGcsBucket
+
         val bucket = storage.list().values?.find { it.name == rootGcsBucket }
         if (bucket != null) return bucket.name
 
