@@ -1,0 +1,6 @@
+jdk:
+  - openjdk8
+install:
+   - echo "Running a custom install command"
+   - cloud_testing/kotlin_poc/gradlew -p cloud_testing/kotlin_poc/ clean fatJar
+   - mvn install:install-file -Dfile=cloud_testing/kotlin_poc/build/libs/kotlin_poc-all-1.0-SNAPSHOT.jar -DgroupId=com.github.TestArmada.flank -DartifactId=kotlin -Dversion=SNAPSHOT -Dpackaging=jar
