@@ -13,8 +13,9 @@ object AndroidTestRunner : GenericTestRunner {
 
     /** @return Pair(app apk, test apk) **/
     private suspend fun uploadApksInParallel(config: YamlConfig, runGcsPath: String): Pair<String, String> {
-        val appApkGcsPath = async { GcStorage.uploadAppApk(config, runGcsPath) }
-        val testApkGcsPath = async { GcStorage.uploadTestApk(config, runGcsPath) }
+        val gcsBucket = config.getGcsBucket()
+        val appApkGcsPath = async { GcStorage.uploadAppApk(config, gcsBucket, runGcsPath) }
+        val testApkGcsPath = async { GcStorage.uploadTestApk(config, gcsBucket, runGcsPath) }
 
         return Pair(appApkGcsPath.await(), testApkGcsPath.await())
     }
