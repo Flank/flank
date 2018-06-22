@@ -12,6 +12,7 @@ import ftl.util.Utils.fatalError
 import xctest.Xctestrun
 import java.io.File
 import java.math.RoundingMode
+import java.util.*
 
 // testShards - break tests into shards to run the test suite in parallel (converted to numShards in AndroidJUnitRunner)
 // https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner.html
@@ -93,7 +94,18 @@ class YamlConfig(
         if (!useMock && missingMethods.isNotEmpty()) fatalError("Test APK is missing methods: $missingMethods")
         if (dexValidTestNames.isEmpty()) fatalError("Test APK has no tests")
 
-        calculateShards(dexValidTestNames)
+        var testList1 = ArrayList<Pair<String, Int>>()
+        var testList2 = ArrayList<String>()
+
+        // Randomly assign tests duration
+        for(test in testMethods) {
+            val time = (10..120).random()
+            testList1.add(Pair(test, time))
+            testList2.add(test + "duration=" + time)
+        }
+
+        calculateShardsByTime(testList1)
+        calculateShards(testList2) // Current chunking approach
     }
 
     private fun validateIos() {
@@ -123,12 +135,91 @@ class YamlConfig(
         }
     }
 
+    fun ClosedRange<Int>.random() =
+            Random().nextInt(endInclusive - start) +  start
+
+    private fun calculateShardsByTime(testList: ArrayList<Pair<String, Int>>) {
+//        if (testMethods.isNotEmpty()) {
+//            testMethods.sorted()
+//        }
+
+        // use the all methods list
+        testList.sortByDescending { it.second }
+
+        if (testShards < 1) testShards = 1
+
+        val shardList = ArrayList<ArrayList<String>>()
+        var shardCount = 0
+        var startingDuration = testList.first().second
+
+        while (testList.size > 0) {
+            if(shardCount == testShards) {
+                // we have "filled" all shards, reset starting duration/position
+                startingDuration = testList.first().second
+                System.out.println("Starting duration " + startingDuration)
+                shardCount = 0
+            }
+            if(shardList.size > shardCount) {
+                shardList[shardCount].addAll(fillShard(testList, startingDuration))
+            } else {
+                shardList.add(fillShard(testList, startingDuration))
+            }
+            shardCount++
+        }
+
+        testShardChunks = shardList.map { it.toSet() }.toSet()
+
+
+        System.out.println("WITH TIME BASED SORTING")
+        var totalTime = 0
+        var timelist = ArrayList<Int>()
+        for (shard in shardList) {
+            var shardTotal = 0
+            for (test in shard) {
+                shardTotal += test.substringAfter("duration=").toInt()
+            }
+            timelist.add(shardTotal)
+            totalTime += shardTotal
+        }
+
+        System.out.println("Slowest shard = " + timelist.max())
+        System.out.println("Total Time = " + totalTime)
+
+        // Ensure we don't create more VMs than requested. VM count per run should be <= testShards
+        if (testShardChunks.size > testShards) {
+            fatalError("Calculated chunks $testShardChunks is > requested $testShards testShards.")
+        }
+        if (testShardChunks.isEmpty()) fatalError("Failed to populate test shard chunks")
+    }
+
+    private fun fillShard(testList: ArrayList<Pair<String, Int>>, startingDuration: Int) : ArrayList<String> {
+        var shardDuration = startingDuration
+        val testIterator = testList.iterator()
+        val shard = ArrayList<String>()
+
+        while(testIterator.hasNext()) {
+            val test = testIterator.next()
+
+            if (shardDuration - test.second > 0) {
+                shard.add(test.first + " duration=" + test.second.toString())
+                shardDuration -= test.second
+                testIterator.remove()
+            } else if (shardDuration == startingDuration && test.second >= shardDuration) {
+                shard.add(test.first + " duration=" + test.second.toString())
+                testIterator.remove()
+                return shard
+            }
+        }
+        return shard
+    }
+
     private fun calculateShards(allTestMethods: Collection<String>) {
-        var testShardMethods = if (testMethods.isNotEmpty()) {
-            testMethods
-        } else {
-            allTestMethods
-        }.sorted()
+//        var testShardMethods = if (testMethods.isNotEmpty()) {
+//            testMethods
+//        } else {
+//            allTestMethods
+//        }.sorted()
+        var testShardMethods = allTestMethods.sorted()
 
         if (testShards < 1) testShards = 1
 
@@ -143,6 +234,22 @@ class YamlConfig(
         }
 
         testShardChunks = testShardMethods.chunked(chunkSize).map { it.toSet() }.toSet()
+
+        System.out.println("WITHOUT TIME SORTING")
+
+        var timelist = ArrayList<Int>()
+        var totalTime = 0
+        for (shard in testShardChunks) {
+            var shardTotal = 0
+            for (test in shard) {
+                shardTotal += test.substringAfter("duration=").toInt()
+            }
+            totalTime += shardTotal
+            timelist.add(shardTotal)
+        }
+
+        System.out.println("Slowest shard = " + timelist.max())
+        System.out.println("Total Time = " + totalTime)
 
         // Ensure we don't create more VMs than requested. VM count per run should be <= testShards
         if (testShardChunks.size > testShards) {
@@ -205,7 +312,8 @@ class YamlConfig(
                 limitBreak: $limitBreak,
                 devices: $devices,
                 environmentVariables: $environmentVariables,
-                directoriesToPull: $directoriesToPull
+                directoriesToPull: $directoriesToPull,
+                testShardChunks: $testShardChunks
                 """
         }
     }

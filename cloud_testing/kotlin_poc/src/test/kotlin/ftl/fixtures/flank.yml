@@ -6,12 +6,80 @@ useOrchestrator: true
 disablePerformanceMetrics: true
 disableVideoRecording: false
 testTimeoutMinutes: 60
-testShards: 1
+testShards: 30
 testRuns: 1
 limitBreak: false
 waitForResults: true
 testMethods:
-  - com.example.app.ExampleUiTest#testPasses
+  - com.example.app.ExampleUiTest#test1
+  - com.example.app.ExampleUiTest#test2
+  - com.example.app.ExampleUiTest#test3
+  - com.example.app.ExampleUiTest#test4
+  - com.example.app.ExampleUiTest#test5
+  - com.example.app.ExampleUiTest#test6
+  - com.example.app.ExampleUiTest#test7
+  - com.example.app.ExampleUiTest#test8
+  - com.example.app.ExampleUiTest#test9
+  - com.example.app.ExampleUiTest#test10
+  - com.example.app.ExampleUiTest#test11
+  - com.example.app.ExampleUiTest#test12
+  - com.example.app.ExampleUiTest#test13
+  - com.example.app.ExampleUiTest#test14
+  - com.example.app.ExampleUiTest#test15
+  - com.example.app.ExampleUiTest#test16
+  - com.example.app.ExampleUiTest#test17
+  - com.example.app.ExampleUiTest#test18
+  - com.example.app.ExampleUiTest#test19
+  - com.example.app.ExampleUiTest#test20
+  - com.example.app.ExampleUiTest#test21
+  - com.example.app.ExampleUiTest#test22
+  - com.example.app.ExampleUiTest#test23
+  - com.example.app.ExampleUiTest#test24
+  - com.example.app.ExampleUiTest#test25
+  - com.example.app.ExampleUiTest#test26
+  - com.example.app.ExampleUiTest#test27
+  - com.example.app.ExampleUiTest#test28
+  - com.example.app.ExampleUiTest#test29
+  - com.example.app.ExampleUiTest#test30
+  - com.example.app.ExampleUiTest#test31
+  - com.example.app.ExampleUiTest#test32
+  - com.example.app.ExampleUiTest#test33
+  - com.example.app.ExampleUiTest#test34
+  - com.example.app.ExampleUiTest#test35
+  - com.example.app.ExampleUiTest#test36
+  - com.example.app.ExampleUiTest#test37
+  - com.example.app.ExampleUiTest#test38
+  - com.example.app.ExampleUiTest#test39
+  - com.example.app.ExampleUiTest#test40
+  - com.example.app.ExampleUiTest#test41
+  - com.example.app.ExampleUiTest#test42
+  - com.example.app.ExampleUiTest#test43
+  - com.example.app.ExampleUiTest#test44
+  - com.example.app.ExampleUiTest#test45
+  - com.example.app.ExampleUiTest#test46
+  - com.example.app.ExampleUiTest#test47
+  - com.example.app.ExampleUiTest#test48
+  - com.example.app.ExampleUiTest#test49
+  - com.example.app.ExampleUiTest#test50
+  - com.example.app.ExampleUiTest#test51
+  - com.example.app.ExampleUiTest#test52
+  - com.example.app.ExampleUiTest#test53
+  - com.example.app.ExampleUiTest#test54
+  - com.example.app.ExampleUiTest#test55
+  - com.example.app.ExampleUiTest#test56
+  - com.example.app.ExampleUiTest#test57
+  - com.example.app.ExampleUiTest#test58
+  - com.example.app.ExampleUiTest#test59
+  - com.example.app.ExampleUiTest#test60
+  - com.example.app.ExampleUiTest#test61
+  - com.example.app.ExampleUiTest#test62
+  - com.example.app.ExampleUiTest#test63
+  - com.example.app.ExampleUiTest#test64
+  - com.example.app.ExampleUiTest#test65
+  - com.example.app.ExampleUiTest#test66
+  - com.example.app.ExampleUiTest#test67
+  - com.example.app.ExampleUiTest#test68
+  - com.example.app.ExampleUiTest#test69
 devices:
   - model: NexusLowRes
   - version: 23
