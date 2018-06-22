@@ -2,6 +2,9 @@ package ftl.gc
 
 import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.*
+import com.google.cloud.storage.BucketInfo
+import com.google.cloud.storage.StorageClass
+import com.google.cloud.storage.StorageOptions
 import ftl.config.YamlConfig
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
@@ -74,7 +77,7 @@ object GcAndroidTestMatrix {
                 .setTestTimeout("${testTimeoutSeconds}s")
                 .setTestSetup(testSetup)
 
-        val matrixGcsPath = join(config.rootGcsBucket, runGcsPath, uniqueObjectName())
+        val matrixGcsPath = join(config.getGcsBucket(), runGcsPath, uniqueObjectName())
         testMatrix.resultStorage = ResultStorage()
                 .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
         testMatrix.environmentMatrix = EnvironmentMatrix().setAndroidDeviceList(androidDeviceList)

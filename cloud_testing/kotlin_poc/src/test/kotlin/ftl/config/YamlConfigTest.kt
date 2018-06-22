@@ -1,5 +1,6 @@
 package ftl.config
 
+import ftl.run.TestRunner.bitrise
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -143,5 +144,21 @@ class YamlConfigTest {
             assert(androidConfig.contains("xctestrunZip"), false)
             assert(androidConfig.contains("xctestrunFile"), false)
         }
+    }
+
+    @Test
+    fun assertGcsBucket() {
+        if (bitrise) return
+
+        val oldConfig = YamlConfig.load(yamlFile)
+        // Need to set the project id to get the bucket info from StorageOptions
+        val config = YamlConfig(
+                oldConfig.appApk,
+                oldConfig.testApk,
+                rootGcsBucket = oldConfig.rootGcsBucket,
+                projectId = "delta-essence-114723",
+                limitBreak = true)
+
+        assert(config.getGcsBucket(), "tmp_bucket_2")
     }
 }
