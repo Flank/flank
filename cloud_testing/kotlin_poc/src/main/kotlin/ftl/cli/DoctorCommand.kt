@@ -18,8 +18,9 @@ import picocli.CommandLine.Option
 class DoctorCommand : Runnable {
     override fun run() {
         runBlocking {
-            // gcloud alpha firebase test ios models list
-            IosCatalog.model("iphone8")
+            if (!IosCatalog.supported("iphone8", "11.2")) {
+                throw RuntimeException("iPhone 8 with iOS 11.2 is unexpectedly unsupported")
+            }
             println("Flank successfully connected to iOS catalog")
         }
     }

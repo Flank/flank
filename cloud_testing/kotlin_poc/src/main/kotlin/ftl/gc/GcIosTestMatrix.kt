@@ -13,19 +13,20 @@ import java.util.concurrent.TimeUnit
 object GcIosTestMatrix {
 
     fun build(
-            iosDevice: IosDevice,
+            iosDeviceList: IosDeviceList,
             testZipGcsPath: String,
             runGcsPath: String,
             testShardsIndex: Int,
             xcTestParsed: NSDictionary,
             config: YamlConfig): Testing.Projects.TestMatrices.Create {
 
+        val gcsBucket = config.getGcsBucket()
         val matrixGcsSuffix = join(runGcsPath, Utils.uniqueObjectName())
-        val matrixGcsPath = join(config.rootGcsBucket, matrixGcsSuffix)
+        val matrixGcsPath = join(gcsBucket, matrixGcsSuffix)
         val methods = config.testShardChunks.elementAt(testShardsIndex)
 
         val generatedXctestrun = Xctestrun.rewrite(xcTestParsed, methods)
-        val xctestrunFileGcsPath = GcStorage.uploadXCTestFile(config, matrixGcsSuffix, generatedXctestrun)
+        val xctestrunFileGcsPath = GcStorage.uploadXCTestFile(config, gcsBucket, matrixGcsSuffix, generatedXctestrun)
 
         val iOSXCTest = IosXcTest()
                 .setTestsZip(FileReference().setGcsPath(testZipGcsPath))
@@ -46,9 +47,7 @@ object GcIosTestMatrix {
         val resultStorage = ResultStorage()
                 .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
 
-        val environmentMatrix = EnvironmentMatrix()
-                .setIosDeviceList(
-                        IosDeviceList().setIosDevices(listOf(iosDevice)))
+        val environmentMatrix = EnvironmentMatrix().setIosDeviceList(iosDeviceList)
 
         val testMatrix = TestMatrix()
                 .setTestSpecification(testSpec)

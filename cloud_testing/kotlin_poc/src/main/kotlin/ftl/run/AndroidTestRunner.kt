@@ -13,8 +13,9 @@ object AndroidTestRunner : GenericTestRunner {
 
     /** @return Pair(app apk, test apk) **/
     private suspend fun uploadApksInParallel(config: YamlConfig, runGcsPath: String): Pair<String, String> {
-        val appApkGcsPath = async { GcStorage.uploadAppApk(config, runGcsPath) }
-        val testApkGcsPath = async { GcStorage.uploadTestApk(config, runGcsPath) }
+        val gcsBucket = config.getGcsBucket()
+        val appApkGcsPath = async { GcStorage.uploadAppApk(config, gcsBucket, runGcsPath) }
+        val testApkGcsPath = async { GcStorage.uploadTestApk(config, gcsBucket, runGcsPath) }
 
         return Pair(appApkGcsPath.await(), testApkGcsPath.await())
     }
@@ -24,11 +25,7 @@ object AndroidTestRunner : GenericTestRunner {
 
         // GcAndroidMatrix => GcAndroidTestMatrix
         // GcAndroidTestMatrix.execute() 3x retry => matrix id (string)
-        val androidMatrix = GcAndroidMatrix.build(
-                "NexusLowRes",
-                "26",
-                "en",
-                "portrait")
+        val androidDeviceList = GcAndroidMatrix.build(config.devices)
 
         val apks = uploadApksInParallel(config, runGcsPath)
 
@@ -47,7 +44,7 @@ object AndroidTestRunner : GenericTestRunner {
                             appApkGcsPath = apks.first,
                             testApkGcsPath = apks.second,
                             runGcsPath = runGcsPath,
-                            androidMatrix = androidMatrix,
+                            androidDeviceList = androidDeviceList,
                             testShardsIndex = testShardsIndex,
                             config = config).execute()
                 }

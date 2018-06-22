@@ -24,4 +24,3 @@ environmentVariables:
   clearPackageData: true
 directoriesToPull:
   - /sdcard/screenshots
-

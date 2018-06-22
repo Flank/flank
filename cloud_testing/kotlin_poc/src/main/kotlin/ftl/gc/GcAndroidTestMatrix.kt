@@ -2,6 +2,9 @@ package ftl.gc
 
 import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.*
+import com.google.cloud.storage.BucketInfo
+import com.google.cloud.storage.StorageClass
+import com.google.cloud.storage.StorageOptions
 import ftl.config.YamlConfig
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
@@ -10,11 +13,16 @@ import java.util.concurrent.TimeUnit
 
 object GcAndroidTestMatrix {
 
+    private fun Map.Entry<String, String>.toEnvironmentVariable() = EnvironmentVariable().apply {
+        key = this@toEnvironmentVariable.key
+        value = this@toEnvironmentVariable.value
+    }
+
     fun build(
             appApkGcsPath: String,
             testApkGcsPath: String,
             runGcsPath: String,
-            androidMatrix: AndroidMatrix,
+            androidDeviceList: AndroidDeviceList,
             testShardsIndex: Int = -1,
             config: YamlConfig): Testing.Projects.TestMatrices.Create {
         val testShardsTotal = config.testShardChunks.size
@@ -53,8 +61,14 @@ object GcAndroidTestMatrix {
         }
 
         val testSetup = TestSetup()
-                .setDirectoriesToPull(listOf("/sdcard/screenshots"))
                 .setAccount(account)
+
+        testSetup.directoriesToPull = config.directoriesToPull
+
+        if (config.environmentVariables.isNotEmpty()) {
+            testSetup.environmentVariables =
+                    config.environmentVariables.map { it.toEnvironmentVariable() }
+        }
 
         testMatrix.testSpecification = TestSpecification()
                 .setAndroidInstrumentationTest(androidInstrumentation)
@@ -63,10 +77,10 @@ object GcAndroidTestMatrix {
                 .setTestTimeout("${testTimeoutSeconds}s")
                 .setTestSetup(testSetup)
 
-        val matrixGcsPath = join(config.rootGcsBucket, runGcsPath, uniqueObjectName())
+        val matrixGcsPath = join(config.getGcsBucket(), runGcsPath, uniqueObjectName())
         testMatrix.resultStorage = ResultStorage()
                 .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
-        testMatrix.environmentMatrix = EnvironmentMatrix().setAndroidMatrix(androidMatrix)
+        testMatrix.environmentMatrix = EnvironmentMatrix().setAndroidDeviceList(androidDeviceList)
 
         try {
             return GcTesting.get.projects().testMatrices().create(config.projectId, testMatrix)

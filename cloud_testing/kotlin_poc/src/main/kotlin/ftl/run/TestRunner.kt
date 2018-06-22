@@ -31,6 +31,8 @@ import java.time.LocalTime
 object TestRunner {
     private val gson = GsonBuilder().setPrettyPrinting().create()!!
 
+    val bitrise = System.getenv("BITRISE_IO") != null
+
     fun assertMockUrl() {
         if (!FtlConstants.useMock) return
         if (!GcTesting.get.rootUrl.contains(localhost)) throw RuntimeException("expected localhost in GcTesting")

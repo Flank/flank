@@ -1,5 +1,6 @@
 package ftl.config
 
+import ftl.run.TestRunner.bitrise
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -34,11 +35,11 @@ class YamlConfigTest {
         return Paths.get(path).normalize().toAbsolutePath().toString()
     }
 
-    private val yamlFile = getPath("flank.yml")
+    private val yamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.yml")
     private val appApk = getPath("../../test_app/apks/app-debug.apk")
     private val testApk = getPath("../../test_app/apks/app-debug-androidTest.apk")
     private val testName = "com.example.app.ExampleUiTest#testPasses"
-
+    private val directoryToPull = "/sdcard/screenshots"
     // NOTE: Change working dir to '%MODULE_WORKING_DIR%' in IntelliJ to match gradle for this test to pass.
     @Test
     fun configLoadsSuccessfully() {
@@ -59,6 +60,12 @@ class YamlConfigTest {
         assert(config.waitForResults, true)
         assert(config.testMethods, listOf(testName))
         assert(config.limitBreak, false)
+        assert(config.devices, listOf(
+            Device("NexusLowRes", "23", "en", "portrait"),
+            Device("NexusLowRes", "23", "en", "landscape"),
+            Device("shamu", "22", "zh_CN", "default")))
+        assert(config.environmentVariables, mapOf(Pair("clearPackageData", "true")))
+        assert(config.directoriesToPull, listOf(directoryToPull))
     }
 
     private val s99_999 = 99_999
@@ -118,5 +125,40 @@ class YamlConfigTest {
         assert(config.testShards, 40)
         assert(config.testShardChunks.size, 39)
         assert(config.testShardChunks.first().size, 4)
+    }
+
+    @Test
+    fun platformDisplayConfig() {
+        val config = YamlConfig.load(yamlFile)
+
+        if (config.iOS()) {
+            val iosConfig = config.toString()
+            assert(iosConfig.contains("appApk"), false)
+            assert(iosConfig.contains("testApk"), false)
+            assert(iosConfig.contains("autoGoogleLogin"), false)
+            assert(iosConfig.contains("useOrchestrator"), false)
+            assert(iosConfig.contains("testShards"), false)
+            assert(iosConfig.contains("testMethods"), false)
+        } else {
+            val androidConfig = config.toString()
+            assert(androidConfig.contains("xctestrunZip"), false)
+            assert(androidConfig.contains("xctestrunFile"), false)
+        }
+    }
+
+    @Test
+    fun assertGcsBucket() {
+        if (bitrise) return
+
+        val oldConfig = YamlConfig.load(yamlFile)
+        // Need to set the project id to get the bucket info from StorageOptions
+        val config = YamlConfig(
+                oldConfig.appApk,
+                oldConfig.testApk,
+                rootGcsBucket = oldConfig.rootGcsBucket,
+                projectId = "delta-essence-114723",
+                limitBreak = true)
+
+        assert(config.getGcsBucket(), "tmp_bucket_2")
     }
 }

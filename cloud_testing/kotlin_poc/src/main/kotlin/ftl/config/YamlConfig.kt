@@ -4,9 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.cloud.ServiceOptions
+import com.google.cloud.storage.BucketInfo
+import com.google.cloud.storage.StorageClass
+import com.google.cloud.storage.StorageOptions
 import com.google.common.math.IntMath
 import com.linkedin.dex.parser.DexParser
 import ftl.config.FtlConstants.useMock
+import ftl.gc.GcAndroidTestMatrix
+import ftl.ios.IosCatalog
+import ftl.run.TestRunner.bitrise
 import ftl.util.Utils.fatalError
 import xctest.Xctestrun
 import java.io.File
@@ -36,7 +42,28 @@ class YamlConfig(
         val testMethods: List<String> = listOf(),
         val limitBreak: Boolean = false,
         val projectId: String = getDefaultProjectId(),
-        var testShardChunks: Set<Set<String>> = emptySet()) {
+        val devices: List<Device> = listOf(Device()),
+        var testShardChunks: Set<Set<String>> = emptySet(),
+        val environmentVariables: Map<String, String> = mapOf(),
+        val directoriesToPull: List<String> = listOf()) {
+
+
+    private val storage = StorageOptions.newBuilder().setProjectId(projectId).build().service
+    private val bucketLabel: Map<String, String> = mapOf(Pair("flank", ""))
+    private val storageLocation = "us-central1"
+
+    fun getGcsBucket() : String {
+        if (FtlConstants.useMock) return rootGcsBucket
+
+        val bucket = storage.list().values?.find { it.name == rootGcsBucket }
+        if (bucket != null) return bucket.name
+
+        return storage.create(BucketInfo.newBuilder(rootGcsBucket)
+                .setStorageClass(StorageClass.REGIONAL)
+                .setLocation(storageLocation)
+                .setLabels(bucketLabel)
+                .build()).name
+    }
 
     private fun assertVmLimit(value: Int): Int {
         if (value > 100 && !limitBreak) {
@@ -65,6 +92,12 @@ class YamlConfig(
         }
     }
 
+    private fun assertIosDeviceSupported(device: Device) {
+        if (!IosCatalog.supported(device.model, device.version)) {
+            fatalError("iOS ${device.version} on ${device.model} is not a supported device")
+        }
+    }
+
     private fun validateAndroid() {
         assertFileExists(appApk, "appApk")
         assertFileExists(testApk, "testApk")
@@ -86,13 +119,17 @@ class YamlConfig(
     }
 
     private fun validateIos() {
-        assertFileExists(xctestrunZip, "xctestrunZip")
+        if (!xctestrunZip.startsWith("gs://")) {
+            assertFileExists(xctestrunZip, "xctestrunZip")
+        }
         assertFileExists(xctestrunFile, "xctestrunFile")
+
+        devices.forEach { device -> assertIosDeviceSupported(device) }
 
         calculateShards(Xctestrun.findTestNames(xctestrunFile))
     }
 
-    private fun iOS(): Boolean {
+    fun iOS(): Boolean {
         return xctestrunZip.isNotBlank()
     }
 
@@ -157,23 +194,47 @@ class YamlConfig(
     }
 
     override fun toString(): String {
-        return """YamlConfig
-  projectId: '$projectId'
-  appApk: '$appApk',
-  testApk: '$testApk',
-  xctestrunZip: '$xctestrunZip',
-  xctestrunFile: '$xctestrunFile',
-  rootGcsBucket: '$rootGcsBucket',
-  autoGoogleLogin: '$autoGoogleLogin',
-  useOrchestrator: $useOrchestrator,
-  disablePerformanceMetrics: $disablePerformanceMetrics,
-  disableVideoRecording: $disableVideoRecording,
-  testTimeoutMinutes: $testTimeoutMinutes,
-  testShards: $testShards,
-  testRuns: $testRuns,
-  waitForResults: $waitForResults,
-  testMethods: $testMethods
-  limitBreak: $limitBreak
-"""
+        // Only print out platform relevant information
+        if (iOS()) {
+            return """YamlConfig
+                projectId: '$projectId'
+                xctestrunZip: '$xctestrunZip',
+                xctestrunFile: '$xctestrunFile',
+                rootGcsBucket: '$rootGcsBucket',
+                disablePerformanceMetrics: $disablePerformanceMetrics,
+                disableVideoRecording: $disableVideoRecording,
+                testTimeoutMinutes: $testTimeoutMinutes,
+                testRuns: $testRuns,
+                waitForResults: $waitForResults,
+                limitBreak: $limitBreak,
+                devices: $devices
+                """
+        } else {
+            return """YamlConfig
+                projectId: '$projectId'
+                appApk: '$appApk',
+                testApk: '$testApk',
+                rootGcsBucket: '$rootGcsBucket',
+                autoGoogleLogin: '$autoGoogleLogin',
+                useOrchestrator: $useOrchestrator,
+                disablePerformanceMetrics: $disablePerformanceMetrics,
+                disableVideoRecording: $disableVideoRecording,
+                testTimeoutMinutes: $testTimeoutMinutes,
+                testShards: $testShards,
+                testRuns: $testRuns,
+                waitForResults: $waitForResults,
+                testMethods: $testMethods,
+                limitBreak: $limitBreak,
+                devices: $devices,
+                environmentVariables: $environmentVariables,
+                directoriesToPull: $directoriesToPull
+                """
+        }
     }
 }
+
+data class Device(
+        val model: String = "NexusLowRes",
+        val version: String = "23",
+        val locale: String = "en",
+        val orientation: String = "portrait")

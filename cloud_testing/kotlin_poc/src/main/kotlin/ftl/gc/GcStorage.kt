@@ -48,22 +48,22 @@ object GcStorage {
         return gcsFilePath
     }
 
-    fun uploadAppApk(config: YamlConfig, runGcsPath: String): String {
-        return upload(config.appApk, config.rootGcsBucket, runGcsPath)
+    fun uploadAppApk(config: YamlConfig, gcsBucket: String, runGcsPath: String): String {
+        return upload(config.appApk, gcsBucket, runGcsPath)
     }
 
-    fun uploadTestApk(config: YamlConfig, runGcsPath: String): String {
-        return upload(config.testApk, config.rootGcsBucket, runGcsPath)
+    fun uploadTestApk(config: YamlConfig, gcsBucket: String, runGcsPath: String): String {
+        return upload(config.testApk, gcsBucket, runGcsPath)
     }
 
     fun uploadXCTestZip(config: YamlConfig, runGcsPath: String): String {
-        return upload(config.xctestrunZip, config.rootGcsBucket, runGcsPath)
+        return upload(config.xctestrunZip, config.getGcsBucket(), runGcsPath)
     }
 
-    fun uploadXCTestFile(config: YamlConfig, runGcsPath: String, fileBytes: ByteArray): String {
+    fun uploadXCTestFile(config: YamlConfig, gcsBucket: String, runGcsPath: String, fileBytes: ByteArray): String {
         return upload(file = config.xctestrunFile,
                 fileBytes = fileBytes,
-                rootGcsBucket = config.rootGcsBucket,
+                rootGcsBucket = gcsBucket,
                 runGcsPath = runGcsPath)
     }
 }

@@ -2,6 +2,7 @@ package xctest
 
 import com.dd.plist.NSArray
 import com.dd.plist.NSDictionary
+import com.dd.plist.NSObject
 import com.dd.plist.PropertyListParser
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -87,14 +88,19 @@ object Xctestrun {
         return result
     }
 
+    private fun NSDictionary.deepClone() : NSDictionary {
+        return NSObject.fromJavaObject(this.toJavaObject()) as NSDictionary
+    }
+
     fun rewrite(root: NSDictionary, methods: Set<String>): ByteArray {
-        for (testTarget in root.allKeys()) {
-            val testDictionary = (root[testTarget] as NSDictionary)
+        val rootClone = root.deepClone()
+        for (testTarget in rootClone.allKeys()) {
+            val testDictionary = (rootClone[testTarget] as NSDictionary)
             setOnlyTestIdentifiers(testDictionary, methods)
         }
 
         val out = ByteArrayOutputStream()
-        PropertyListParser.saveAsXML(root, out)
+        PropertyListParser.saveAsXML(rootClone, out)
         return out.toByteArray()
     }
 }
