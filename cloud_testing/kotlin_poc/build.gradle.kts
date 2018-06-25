@@ -89,6 +89,7 @@ dependencies {
     compile("com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.JACKSON}")
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${Versions.JACKSON}")
 
+    testImplementation("org.jsoup:jsoup:1.11.3")
     testImplementation(Libs.JUNIT)
     // http://stefanbirkner.github.io/system-rules/index.html
     testImplementation("com.github.stefanbirkner:system-rules:1.17.1")
