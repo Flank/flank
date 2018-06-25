@@ -120,10 +120,18 @@ class YamlConfig(
         var testList2 = ArrayList<String>()
 
         // Randomly assign tests duration
-        for(test in testMethods) {
-            val time = (10..120).random()
-            testList1.add(Pair(test, time))
-            testList2.add(test + "duration=" + time)
+        if(testMethods.isEmpty()) {
+            for (test in dexValidTestNames) {
+                val time = (10..120).random()
+                testList1.add(Pair(test, time))
+                testList2.add(test + "duration=" + time)
+            }
+        } else {
+            for (test in testMethods) {
+                val time = (10..120).random()
+                testList1.add(Pair(test, time))
+                testList2.add(test + "duration=" + time)
+            }
         }
 
         calculateShardsByTime(testList1)
