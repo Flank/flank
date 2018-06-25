@@ -27,6 +27,11 @@ object AndroidCatalog {
 
         return SupportedDeviceConfig
     }
+
+    fun isVirtualDevice(modelId: String): Boolean {
+        val form = androidDeviceCatalog.models.find { it.id == modelId }?.form ?: "PHYSICAL"
+        return form == "VIRTUAL"
+    }
 }
 
 sealed class DeviceConfigCheck

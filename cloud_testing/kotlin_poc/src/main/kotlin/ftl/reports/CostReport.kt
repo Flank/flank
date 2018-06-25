@@ -16,22 +16,32 @@ Calculates cost based on the matrix map. Always run.
 Example:
 
 
-Billable time:	69h 51m
-Billable minutes:	4191
-Physical device cost:	$349.25
-Virtual  device cost:	$69.85
+Physical devices
+  Billable time:  35h 29m
+  Billable minutes:   2129
+  Cost:   $177.42
+Virtual devices
+  Billable time:  34h 22m
+  Billable minutes:   2062
+  Cost:   $34.37
+Total
+  Billable time:  69h 51m
+  Billable minutes:   4191
+  Cost:   $211.79
 
  */
 object CostReport : IReport {
 
     private fun estimate(matrices: MatrixMap): String {
-        var totalBillableMinutes = 0L
+        var totalBillableVirtualMinutes = 0L
+        var totalBillablePhysicalMinutes = 0L
 
         matrices.map.values.forEach {
-            totalBillableMinutes += it.billableMinutes
+            totalBillableVirtualMinutes += it.billableVirtualMinutes
+            totalBillablePhysicalMinutes += it.billablePhysicalMinutes
         }
 
-        return Billing.estimateCosts(totalBillableMinutes)
+        return Billing.estimateCosts(totalBillableVirtualMinutes, totalBillablePhysicalMinutes)
     }
 
     private fun generate(matrices: MatrixMap): String {

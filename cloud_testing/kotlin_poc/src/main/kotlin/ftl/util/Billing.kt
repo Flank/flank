@@ -36,23 +36,39 @@ object Billing {
         return testDurationSeconds
     }
 
-    fun estimateCosts(billableMinutes: Long): String {
-        return estimateCosts(BigDecimal(billableMinutes))
+    fun estimateCosts(billableVirtualMinutes: Long, billablePhysicalMinutes: Long): String {
+        return estimateCosts(BigDecimal(billableVirtualMinutes), BigDecimal(billablePhysicalMinutes))
     }
 
-    private fun estimateCosts(billableMinutes: BigDecimal): String {
-        val physicalCost = billableMinutes.multiply(PHYSICAL_COST_PER_MIN).setScale(2, RoundingMode.HALF_UP)
-        val virtualCost = billableMinutes.multiply(VIRTUAL_COST_PER_MIN).setScale(2, RoundingMode.HALF_UP)
+    private fun estimateCosts(billableVirtualMinutes: BigDecimal, billablePhysicalMinutes: BigDecimal): String {
+        val virtualCost = billableVirtualMinutes.multiply(VIRTUAL_COST_PER_MIN).setScale(2, RoundingMode.HALF_UP)
+        val physicalCost = billablePhysicalMinutes.multiply(PHYSICAL_COST_PER_MIN).setScale(2, RoundingMode.HALF_UP)
+        val totalCost = (virtualCost + physicalCost).setScale(2, RoundingMode.HALF_UP)
 
-        val remainder = billableMinutes.toLong()
-        val hours = TimeUnit.MINUTES.toHours(remainder)
-        val minutes = remainder % 60
+        val virtualTime = prettyTime(billableVirtualMinutes)
+        val physicalTime = prettyTime(billablePhysicalMinutes)
+        val totalTime = prettyTime(billableVirtualMinutes + billablePhysicalMinutes)
         val tab = "\t"
 
         return """
-Billable time:$tab${hours}h ${minutes}m
-Billable minutes:$tab$billableMinutes
-Physical device cost:$tab$$physicalCost
-Virtual  device cost:$tab$$virtualCost""".trim()
+Physical devices
+  Billable time:$tab$physicalTime
+  Billable minutes:$tab$billablePhysicalMinutes
+  Cost:$tab$$physicalCost
+Virtual devices
+  Billable time:$tab$virtualTime
+  Billable minutes:$tab$billableVirtualMinutes
+  Cost:$tab$$virtualCost
+Total
+  Billable time:$tab$totalTime
+  Billable minutes:$tab${billableVirtualMinutes + billablePhysicalMinutes}
+  Cost:$tab$$totalCost""".trim()
+    }
+
+    private fun prettyTime(billableMinutes: BigDecimal): String {
+        val remainder = billableMinutes.toLong()
+        val hours = TimeUnit.MINUTES.toHours(remainder)
+        val minutes = remainder % 60
+        return "${hours}h ${minutes}m"
     }
 }

@@ -21,4 +21,13 @@ class AndroidCatalogTest {
         assertEquals(IncompatibleModelVersion, AndroidCatalog.supportedDeviceConfig("NexusLowRes", "21"))
         assertEquals(SupportedDeviceConfig, AndroidCatalog.supportedDeviceConfig("NexusLowRes", "23"))
     }
+
+    @Test
+    fun validateIsVirtualDevice() {
+        if (bitrise) return
+
+        assertEquals(true, AndroidCatalog.isVirtualDevice("NexusLowRes"))
+        assertEquals(false, AndroidCatalog.isVirtualDevice("shamu"))
+        assertEquals(false, AndroidCatalog.isVirtualDevice("ios"))
+    }
 }
