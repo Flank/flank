@@ -35,6 +35,36 @@ object Main {
                 register(ContentType.Application.Json, GsonConverter(gson))
             }
             routing {
+                get("/v1/testEnvironmentCatalog/android") {
+                    println("Responding to GET ${call.request.uri}")
+
+                    val versions = (18..28).map { v ->
+                        var version = AndroidVersion()
+                        version.id = v.toString()
+                        version.apiLevel = v
+                        version
+                    }
+
+                    val nexusLowRes = AndroidModel()
+                    nexusLowRes.id = "NexusLowRes"
+                    nexusLowRes.form = "VIRTUAL"
+                    nexusLowRes.supportedVersionIds = listOf("23", "24", "25", "26", "27", "28")
+
+                    val shamu = AndroidModel()
+                    shamu.id = "shamu"
+                    shamu.form = "PHYSICAL"
+                    shamu.supportedVersionIds = listOf("21", "22", "23")
+
+                    val androidCatalog = AndroidDeviceCatalog()
+                            .setVersions(versions)
+                            .setModels(listOf(nexusLowRes, shamu))
+
+                    val catalog = TestEnvironmentCatalog()
+                    catalog.androidDeviceCatalog = androidCatalog
+
+                    call.respond(catalog)
+                }
+
                 get("/v1/testEnvironmentCatalog/ios") {
                     println("Responding to GET ${call.request.uri}")
 
@@ -62,6 +92,7 @@ object Main {
 
                     call.respond(catalog)
                 }
+
                 get("/v1/projects/{projectId}/testMatrices/{matrixIdCounter}") {
                     println("Responding to GET ${call.request.uri}")
                     val projectId = call.parameters["projectId"]
