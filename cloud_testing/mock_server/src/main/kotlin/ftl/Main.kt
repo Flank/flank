@@ -35,6 +35,33 @@ object Main {
                 register(ContentType.Application.Json, GsonConverter(gson))
             }
             routing {
+                get("/v1/testEnvironmentCatalog/ios") {
+                    println("Responding to GET ${call.request.uri}")
+
+                    val version = IosVersion()
+                    version.id = "11.2"
+                    version.majorVersion = 11
+                    version.minorVersion = 2
+
+                    val iphone8 = IosModel()
+                    iphone8.id = "iphone8"
+                    iphone8.name = "iPhone 8"
+                    iphone8.supportedVersionIds = listOf("11.2")
+
+                    val iphonex = IosModel()
+                    iphonex.id = "iphonex"
+                    iphonex.name = "iPhone X"
+                    iphonex.supportedVersionIds = listOf("11.2")
+
+                    val iosCatalog = IosDeviceCatalog()
+                            .setVersions(listOf(version))
+                            .setModels(listOf(iphone8, iphonex))
+
+                    val catalog = TestEnvironmentCatalog()
+                    catalog.iosDeviceCatalog = iosCatalog
+
+                    call.respond(catalog)
+                }
                 get("/v1/projects/{projectId}/testMatrices/{matrixIdCounter}") {
                     println("Responding to GET ${call.request.uri}")
                     val projectId = call.parameters["projectId"]
