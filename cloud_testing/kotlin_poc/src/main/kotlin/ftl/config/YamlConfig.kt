@@ -14,7 +14,7 @@ import ftl.gc.GcAndroidTestMatrix
 import ftl.ios.IosCatalog
 import ftl.run.TestRunner.bitrise
 import ftl.util.Utils.fatalError
-import xctest.Xctestrun
+import ftl.ios.Xctestrun
 import java.io.File
 import java.math.RoundingMode
 import java.util.*

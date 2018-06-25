@@ -1,4 +1,4 @@
-package xctest
+package ftl.util
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

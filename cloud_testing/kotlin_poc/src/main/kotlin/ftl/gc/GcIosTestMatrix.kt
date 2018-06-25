@@ -7,7 +7,7 @@ import ftl.config.YamlConfig
 import ftl.util.Utils
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
-import xctest.Xctestrun
+import ftl.ios.Xctestrun
 import java.util.concurrent.TimeUnit
 
 object GcIosTestMatrix {

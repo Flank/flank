@@ -1,4 +1,4 @@
-package xctest.util
+package ftl.util
 
 import java.io.InputStream
 

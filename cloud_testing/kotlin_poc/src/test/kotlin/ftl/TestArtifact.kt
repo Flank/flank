@@ -6,7 +6,7 @@ import org.jsoup.nodes.Element
 import java.io.File
 import java.util.concurrent.TimeUnit
 import kotlin.math.pow
-import xctest.Bash
+import ftl.util.Bash
 
 abstract class TestArtifact {
     internal val fixturesPath = "./src/test/kotlin/ftl/fixtures/tmp"
