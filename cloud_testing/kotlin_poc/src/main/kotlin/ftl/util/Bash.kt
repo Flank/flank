@@ -1,7 +1,5 @@
-package xctest
+package ftl.util
 
-import xctest.util.failed
-import xctest.util.waitForResult
 import java.lang.ProcessBuilder.Redirect.PIPE
 
 object Bash {

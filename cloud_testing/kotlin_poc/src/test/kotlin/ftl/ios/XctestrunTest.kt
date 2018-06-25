@@ -1,7 +1,8 @@
-package xctest
+package ftl.ios
 
 import com.dd.plist.NSDictionary
 import com.google.common.truth.Truth.assertThat
+import ftl.TestArtifact
 import org.junit.Assert.*
 import org.junit.Test
 

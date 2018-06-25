@@ -1,3 +1,7 @@
 results
 *.jar
+*.zip
 tmp
+EarlGrey/
+EarlGreyExample/
+xctestrun/
