@@ -265,21 +265,23 @@ class YamlConfig(
 
         testShardChunks = testShardMethods.chunked(chunkSize).map { it.toSet() }.toSet()
 
-        System.out.println("WITHOUT TIME SORTING")
+        if(android()) {
+            System.out.println("WITHOUT TIME SORTING")
 
-        var timelist = ArrayList<Int>()
-        var totalTime = 0
-        for (shard in testShardChunks) {
-            var shardTotal = 0
-            for (test in shard) {
-                shardTotal += test.substringAfter("duration=").toInt()
+            var timelist = ArrayList<Int>()
+            var totalTime = 0
+            for (shard in testShardChunks) {
+                var shardTotal = 0
+                for (test in shard) {
+                    shardTotal += test.substringAfter("duration=").toInt()
+                }
+                totalTime += shardTotal
+                timelist.add(shardTotal)
             }
-            totalTime += shardTotal
-            timelist.add(shardTotal)
-        }
 
-        System.out.println("Slowest shard = " + timelist.max())
-        System.out.println("Total Time = " + totalTime)
+            System.out.println("Slowest shard = " + timelist.max())
+            System.out.println("Total Time = " + totalTime)
+        }
 
         // Ensure we don't create more VMs than requested. VM count per run should be <= testShards
         if (testShardChunks.size > testShards) {
