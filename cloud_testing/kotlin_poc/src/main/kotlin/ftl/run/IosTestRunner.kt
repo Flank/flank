@@ -8,7 +8,7 @@ import ftl.gc.GcStorage
 import ftl.json.MatrixMap
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
-import xctest.Xctestrun
+import ftl.ios.Xctestrun
 
 object IosTestRunner : GenericTestRunner {
 

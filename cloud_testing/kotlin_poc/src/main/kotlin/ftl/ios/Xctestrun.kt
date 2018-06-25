@@ -1,4 +1,4 @@
-package xctest
+package ftl.ios
 
 import com.dd.plist.NSArray
 import com.dd.plist.NSDictionary
