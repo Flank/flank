@@ -1,8 +1,8 @@
 package ftl
 
+import ftl.cli.AndroidCommand
 import ftl.cli.DoctorCommand
-import ftl.cli.RefreshCommand
-import ftl.cli.RunCommand
+import ftl.cli.IosCommand
 import picocli.CommandLine
 
 
@@ -10,8 +10,8 @@ import picocli.CommandLine
         name = "flank.jar\n",
         synopsisHeading = "",
         subcommands = [
-            RunCommand::class,
-            RefreshCommand::class,
+            AndroidCommand::class,
+            IosCommand::class,
             DoctorCommand::class
         ]
 )

@@ -3,7 +3,7 @@ package ftl.gc
 import com.dd.plist.NSDictionary
 import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.*
-import ftl.config.YamlConfig
+import ftl.config.IosConfig
 import ftl.util.Utils
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
@@ -18,7 +18,7 @@ object GcIosTestMatrix {
             runGcsPath: String,
             testShardsIndex: Int,
             xcTestParsed: NSDictionary,
-            config: YamlConfig): Testing.Projects.TestMatrices.Create {
+            config: IosConfig): Testing.Projects.TestMatrices.Create {
 
         val gcsBucket = config.getGcsBucket()
         val matrixGcsSuffix = join(runGcsPath, Utils.uniqueObjectName())

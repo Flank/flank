@@ -1,7 +1,8 @@
 package ftl
 
+import ftl.config.AndroidConfig
 import ftl.config.FtlConstants
-import ftl.config.YamlConfig
+import ftl.config.IosConfig
 import ftl.run.TestRunner
 import kotlinx.coroutines.experimental.runBlocking
 import org.junit.Test
@@ -14,7 +15,7 @@ class MainTest : TestArtifact() {
 
     @Test
     fun mockedTestRun() {
-        val config = YamlConfig.load("src/test/kotlin/ftl/fixtures/flank.yml")
+        val config = AndroidConfig.load("src/test/kotlin/ftl/fixtures/flank.yml")
         runBlocking {
             TestRunner.newRun(config)
         }
@@ -22,7 +23,7 @@ class MainTest : TestArtifact() {
 
     @Test
     fun mockedIosTestRun() {
-        val config = YamlConfig.load("src/test/kotlin/ftl/fixtures/flank.ios.yml")
+        val config = IosConfig.load("src/test/kotlin/ftl/fixtures/flank.ios.yml")
         runBlocking {
             TestRunner.newRun(config)
         }

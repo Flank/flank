@@ -1,6 +1,7 @@
 package ftl.run
 
 import com.google.api.services.testing.model.TestMatrix
+import ftl.config.AndroidConfig
 import ftl.config.YamlConfig
 import ftl.gc.GcAndroidMatrix
 import ftl.gc.GcAndroidTestMatrix
@@ -12,7 +13,7 @@ import kotlinx.coroutines.experimental.async
 object AndroidTestRunner : GenericTestRunner {
 
     /** @return Pair(app apk, test apk) **/
-    private suspend fun uploadApksInParallel(config: YamlConfig, runGcsPath: String): Pair<String, String> {
+    private suspend fun uploadApksInParallel(config: AndroidConfig, runGcsPath: String): Pair<String, String> {
         val gcsBucket = config.getGcsBucket()
         val appApkGcsPath = async { GcStorage.uploadAppApk(config, gcsBucket, runGcsPath) }
         val testApkGcsPath = async { GcStorage.uploadTestApk(config, gcsBucket, runGcsPath) }
@@ -21,6 +22,7 @@ object AndroidTestRunner : GenericTestRunner {
     }
 
     override suspend fun runTests(config: YamlConfig): MatrixMap {
+        val config = config as AndroidConfig
         val (stopwatch, runGcsPath) = beforeRunTests()
 
         // GcAndroidMatrix => GcAndroidTestMatrix

@@ -1,7 +1,7 @@
 package ftl.cli
 
 import ftl.android.*
-import ftl.config.YamlConfig
+import ftl.config.IosConfig
 import ftl.run.TestRunner
 import kotlinx.coroutines.experimental.runBlocking
 import picocli.CommandLine.Command
@@ -15,25 +15,16 @@ import picocli.CommandLine.Option
         parameterListHeading = "%n@|bold,underline Parameters:|@%n",
         optionListHeading = "%n@|bold,underline Options:|@%n",
         header = ["Run tests on Firebase Test Lab"],
-        description = ["""Uploads the app and test apk to GCS.
-Runs the espresso tests using orchestrator.
+        description = ["""Uploads the app and tests to GCS.
+Runs the XCTests and XCUITests.
 Configuration is read from flank.yml
 """])
-class RunCommand : Runnable {
+class IosRunCommand : Runnable {
     override fun run() {
-        val config = YamlConfig.load(configPath)
+        val config = IosConfig.load(configPath)
         if (shards > 0) config.testRuns = shards
         runBlocking {
-            // Verify each device config
-            config.devices.forEach { device ->
-                val deviceConfigTest = AndroidCatalog.supportedDeviceConfig(device.model, device.version)
-                when (deviceConfigTest) {
-                    SupportedDeviceConfig -> TestRunner.newRun(config)
-                    UnsupportedModelId -> throw RuntimeException("Unsupported model id, '${device.model}'\nSupported model ids: ${AndroidCatalog.androidModelIds}")
-                    UnsupportedVersionId -> throw RuntimeException("Unsupported version id, '${device.version}'\nSupported Version ids: ${AndroidCatalog.androidVersionIds}")
-                    is IncompatibleModelVersion -> throw RuntimeException("Incompatible model, '${device.model}', and version, '${device.version}'\nSupported version ids for '${device.model}': ${deviceConfigTest}")
-                }
-            }
+            TestRunner.newRun(config)
 
         }
     }
@@ -51,7 +42,7 @@ class RunCommand : Runnable {
         @Throws(Exception::class)
         @JvmStatic
         fun main(args: Array<String>) {
-            RunCommand().run()
+            IosRunCommand().run()
         }
     }
 }

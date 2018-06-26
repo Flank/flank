@@ -9,7 +9,7 @@ import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
 import java.nio.file.Paths
 
-class YamlConfigTest {
+class AndroidConfigTest {
 
     init {
         FtlConstants.useMock = true
@@ -43,7 +43,7 @@ class YamlConfigTest {
     // NOTE: Change working dir to '%MODULE_WORKING_DIR%' in IntelliJ to match gradle for this test to pass.
     @Test
     fun configLoadsSuccessfully() {
-        val config = YamlConfig.load(yamlFile)
+        val config = AndroidConfig.load(yamlFile)
 
         assert(getPath(config.appApk), appApk)
         assert(getPath(config.testApk), testApk)
@@ -74,7 +74,7 @@ class YamlConfigTest {
     fun limitBreakFalseExitsOnLargeShards() {
         exit.expectSystemExitWithStatus(-1)
 
-        val config = YamlConfig.load(yamlFile)
+        val config = AndroidConfig.load(yamlFile)
         config.testRuns = s99_999
         config.testShards = s99_999
         assert(config.testRuns, s99_999)
@@ -83,8 +83,8 @@ class YamlConfigTest {
 
     @Test
     fun limitBreakTrueAllowsLargeShards() {
-        val oldConfig = YamlConfig.load(yamlFile)
-        val config = YamlConfig(
+        val oldConfig = AndroidConfig.load(yamlFile)
+        val config = AndroidConfig(
                 oldConfig.appApk,
                 oldConfig.testApk,
                 rootGcsBucket = oldConfig.rootGcsBucket,
@@ -100,7 +100,7 @@ class YamlConfigTest {
         // test names must be unique otherwise the Set<String> will add them only once.
         repeat(amount) { index -> testMethods.add(testName + index) }
 
-        return YamlConfig(
+        return AndroidConfig(
                 appApk = appApk,
                 testApk = testApk,
                 rootGcsBucket = "",
@@ -129,30 +129,18 @@ class YamlConfigTest {
 
     @Test
     fun platformDisplayConfig() {
-        val config = YamlConfig.load(yamlFile)
-
-        if (config.iOS()) {
-            val iosConfig = config.toString()
-            assert(iosConfig.contains("appApk"), false)
-            assert(iosConfig.contains("testApk"), false)
-            assert(iosConfig.contains("autoGoogleLogin"), false)
-            assert(iosConfig.contains("useOrchestrator"), false)
-            assert(iosConfig.contains("testShards"), false)
-            assert(iosConfig.contains("testMethods"), false)
-        } else {
-            val androidConfig = config.toString()
-            assert(androidConfig.contains("xctestrunZip"), false)
-            assert(androidConfig.contains("xctestrunFile"), false)
-        }
+        val androidConfig = AndroidConfig.load(yamlFile).toString()
+        assert(androidConfig.contains("xctestrunZip"), false)
+        assert(androidConfig.contains("xctestrunFile"), false)
     }
 
     @Test
     fun assertGcsBucket() {
         if (bitrise) return
 
-        val oldConfig = YamlConfig.load(yamlFile)
+        val oldConfig = AndroidConfig.load(yamlFile)
         // Need to set the project id to get the bucket info from StorageOptions
-        val config = YamlConfig(
+        val config = AndroidConfig(
                 oldConfig.appApk,
                 oldConfig.testApk,
                 rootGcsBucket = oldConfig.rootGcsBucket,

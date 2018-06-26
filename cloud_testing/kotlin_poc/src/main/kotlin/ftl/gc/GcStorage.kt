@@ -5,7 +5,8 @@ import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageOptions
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
-import ftl.config.YamlConfig
+import ftl.config.AndroidConfig
+import ftl.config.IosConfig
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
 import java.nio.file.Files
@@ -48,19 +49,19 @@ object GcStorage {
         return gcsFilePath
     }
 
-    fun uploadAppApk(config: YamlConfig, gcsBucket: String, runGcsPath: String): String {
+    fun uploadAppApk(config: AndroidConfig, gcsBucket: String, runGcsPath: String): String {
         return upload(config.appApk, gcsBucket, runGcsPath)
     }
 
-    fun uploadTestApk(config: YamlConfig, gcsBucket: String, runGcsPath: String): String {
+    fun uploadTestApk(config: AndroidConfig, gcsBucket: String, runGcsPath: String): String {
         return upload(config.testApk, gcsBucket, runGcsPath)
     }
 
-    fun uploadXCTestZip(config: YamlConfig, runGcsPath: String): String {
+    fun uploadXCTestZip(config: IosConfig, runGcsPath: String): String {
         return upload(config.xctestrunZip, config.getGcsBucket(), runGcsPath)
     }
 
-    fun uploadXCTestFile(config: YamlConfig, gcsBucket: String, runGcsPath: String, fileBytes: ByteArray): String {
+    fun uploadXCTestFile(config: IosConfig, gcsBucket: String, runGcsPath: String, fileBytes: ByteArray): String {
         return upload(file = config.xctestrunFile,
                 fileBytes = fileBytes,
                 rootGcsBucket = gcsBucket,

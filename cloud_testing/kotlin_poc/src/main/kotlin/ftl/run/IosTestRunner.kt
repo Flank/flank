@@ -1,6 +1,7 @@
 package ftl.run
 
 import com.google.api.services.testing.model.TestMatrix
+import ftl.config.IosConfig
 import ftl.config.YamlConfig
 import ftl.gc.GcIosMatrix
 import ftl.gc.GcIosTestMatrix
@@ -16,6 +17,7 @@ object IosTestRunner : GenericTestRunner {
     // https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/run
     // https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/
     override suspend fun runTests(config: YamlConfig): MatrixMap {
+        val config = config as IosConfig
         val (stopwatch, runGcsPath) = beforeRunTests()
 
         val xcTestGcsPath = if (config.xctestrunZip.startsWith("gs://")) {

@@ -2,10 +2,7 @@ package ftl.gc
 
 import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.*
-import com.google.cloud.storage.BucketInfo
-import com.google.cloud.storage.StorageClass
-import com.google.cloud.storage.StorageOptions
-import ftl.config.YamlConfig
+import ftl.config.AndroidConfig
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
 import ftl.util.Utils.uniqueObjectName
@@ -24,7 +21,7 @@ object GcAndroidTestMatrix {
             runGcsPath: String,
             androidDeviceList: AndroidDeviceList,
             testShardsIndex: Int = -1,
-            config: YamlConfig): Testing.Projects.TestMatrices.Create {
+            config: AndroidConfig): Testing.Projects.TestMatrices.Create {
         val testShardsTotal = config.testShardChunks.size
 
         if (testShardsIndex >= testShardsTotal) {
