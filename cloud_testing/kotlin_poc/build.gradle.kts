@@ -70,6 +70,7 @@ dependencies {
     compile("info.picocli:picocli:2.2.1")
 
     compile("com.google.code.gson:gson:2.8.2")
+    compile("com.googlecode.plist:dd-plist:1.20")
 
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.cloud%22%20AND%20a%3A%22google-cloud-storage%22
     compile("com.google.cloud:google-cloud-storage:1.20.0")
@@ -84,14 +85,15 @@ dependencies {
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-testing%22
     // compile("com.google.apis:google-api-services-testing:v1-rev30-1.23.0")
     compile(project(":testing"))
-    compile(project(":xctest_parser"))
 
     // yaml config
     compile("com.fasterxml.jackson.core:jackson-databind:${Versions.JACKSON}")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.JACKSON}")
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${Versions.JACKSON}")
 
+    testImplementation("org.jsoup:jsoup:1.11.3")
     testImplementation(Libs.JUNIT)
+    testImplementation("com.google.truth:truth:0.40")
     // http://stefanbirkner.github.io/system-rules/index.html
     testImplementation("com.github.stefanbirkner:system-rules:1.17.1")
 }

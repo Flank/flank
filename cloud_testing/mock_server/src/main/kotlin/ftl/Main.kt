@@ -35,6 +35,64 @@ object Main {
                 register(ContentType.Application.Json, GsonConverter(gson))
             }
             routing {
+                get("/v1/testEnvironmentCatalog/android") {
+                    println("Responding to GET ${call.request.uri}")
+
+                    val versions = (18..28).map { v ->
+                        var version = AndroidVersion()
+                        version.id = v.toString()
+                        version.apiLevel = v
+                        version
+                    }
+
+                    val nexusLowRes = AndroidModel()
+                    nexusLowRes.id = "NexusLowRes"
+                    nexusLowRes.form = "VIRTUAL"
+                    nexusLowRes.supportedVersionIds = listOf("23", "24", "25", "26", "27", "28")
+
+                    val shamu = AndroidModel()
+                    shamu.id = "shamu"
+                    shamu.form = "PHYSICAL"
+                    shamu.supportedVersionIds = listOf("21", "22", "23")
+
+                    val androidCatalog = AndroidDeviceCatalog()
+                            .setVersions(versions)
+                            .setModels(listOf(nexusLowRes, shamu))
+
+                    val catalog = TestEnvironmentCatalog()
+                    catalog.androidDeviceCatalog = androidCatalog
+
+                    call.respond(catalog)
+                }
+
+                get("/v1/testEnvironmentCatalog/ios") {
+                    println("Responding to GET ${call.request.uri}")
+
+                    val version = IosVersion()
+                    version.id = "11.2"
+                    version.majorVersion = 11
+                    version.minorVersion = 2
+
+                    val iphone8 = IosModel()
+                    iphone8.id = "iphone8"
+                    iphone8.name = "iPhone 8"
+                    iphone8.supportedVersionIds = listOf("11.2")
+
+                    val iphonex = IosModel()
+                    iphonex.id = "iphonex"
+                    iphonex.name = "iPhone X"
+                    iphonex.supportedVersionIds = listOf("11.2")
+
+                    val iosCatalog = IosDeviceCatalog()
+                            .setVersions(listOf(version))
+                            .setModels(listOf(iphone8, iphonex))
+
+                    val catalog = TestEnvironmentCatalog()
+                    catalog.iosDeviceCatalog = iosCatalog
+
+                    call.respond(catalog)
+                }
+
                 get("/v1/projects/{projectId}/testMatrices/{matrixIdCounter}") {
                     println("Responding to GET ${call.request.uri}")
                     val projectId = call.parameters["projectId"]

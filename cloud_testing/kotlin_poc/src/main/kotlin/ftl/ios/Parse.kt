@@ -1,5 +1,6 @@
-package xctest
+package ftl.ios
 
+import ftl.util.Bash
 import java.io.File
 
 object Parse {

@@ -1,4 +1,4 @@
-package xctest
+package ftl
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -6,9 +6,10 @@ import org.jsoup.nodes.Element
 import java.io.File
 import java.util.concurrent.TimeUnit
 import kotlin.math.pow
+import ftl.util.Bash
 
 abstract class TestArtifact {
-    internal val fixturesPath = "./src/test/kotlin/xctest/fixtures"
+    internal val fixturesPath = "./src/test/kotlin/ftl/fixtures/tmp"
 
     init {
         val assetLink = remoteAssetLink()
@@ -81,6 +82,7 @@ abstract class TestArtifact {
 
         val unzip = "unzip \"$zipPath\" -d \"${fixtures.path}\""
         Bash.execute(unzip)
+        File(zipPath).copyTo(File("${fixtures.path}/EarlGreyExample.zip"))
     }
 }
 

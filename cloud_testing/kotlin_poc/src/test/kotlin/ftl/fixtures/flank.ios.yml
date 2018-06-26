@@ -1,0 +1,17 @@
+xctestrunZip: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip
+xctestrunFile: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleMixedTests_iphoneos11.2-arm64.xctestrun
+rootGcsBucket: tmp_bucket_2
+disablePerformanceMetrics: true
+disableVideoRecording: false
+testTimeoutMinutes: 60
+testShards: 1
+testRuns: 1
+limitBreak: false
+waitForResults: true
+testMethods:
+  - EarlGreyExampleMixedTests/testBasicSelection
+devices:
+  - model: iphone8
+    version: 11.2
+    orientation: portrait
+    locale: en_US

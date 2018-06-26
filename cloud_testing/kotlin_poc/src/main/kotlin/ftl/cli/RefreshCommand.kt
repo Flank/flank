@@ -20,10 +20,13 @@ Reads in the matrix_ids.json file. Refreshes any incomplete matrices.
 class RefreshCommand : Runnable {
     override fun run() {
         runBlocking {
-            val config = YamlConfig.load("./flank.yml")
+            val config = YamlConfig.load(configPath)
             TestRunner.refreshLastRun(config)
         }
     }
+
+    @Option(names = ["-c", "--config"], description = ["YAML config file path"])
+    var configPath: String = "./flank.yml"
 
     @Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
     var usageHelpRequested: Boolean = false

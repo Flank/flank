@@ -1,5 +1,6 @@
-package xctest
+package ftl.ios
 
+import ftl.TestArtifact
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
