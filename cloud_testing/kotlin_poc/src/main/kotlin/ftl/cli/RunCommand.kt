@@ -21,7 +21,7 @@ Configuration is read from flank.yml
 """])
 class RunCommand : Runnable {
     override fun run() {
-        val config = YamlConfig.load("./flank.yml")
+        val config = YamlConfig.load(configPath)
         if (shards > 0) config.testRuns = shards
         runBlocking {
             // Verify each device config
@@ -37,6 +37,9 @@ class RunCommand : Runnable {
 
         }
     }
+
+    @Option(names = ["-c", "--config"], description = ["YAML config file path"])
+    var configPath: String = "./flank.yml"
 
     @Option(names = ["-s", "--shards"], description = ["Amount of shards to use"])
     var shards: Int = -1
