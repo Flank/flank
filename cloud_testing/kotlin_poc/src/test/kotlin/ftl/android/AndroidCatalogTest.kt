@@ -1,5 +1,6 @@
 package ftl.android
 
+import ftl.config.FtlConstants
 import junit.framework.Assert.assertEquals
 import org.hamcrest.CoreMatchers.instanceOf
 import org.junit.Assert.assertThat
@@ -10,12 +11,12 @@ import org.junit.rules.ExpectedException
 
 class AndroidCatalogTest {
 
-    private val bitrise = System.getenv("BITRISE_IO") != null
+    init {
+        FtlConstants.useMock = true
+    }
 
     @Test
     fun validateDeviceConfig() {
-        if (bitrise) return
-
         assertEquals(UnsupportedModelId, AndroidCatalog.supportedDeviceConfig("ios", "23"))
         assertEquals(UnsupportedVersionId, AndroidCatalog.supportedDeviceConfig("NexusLowRes", "twenty-three"))
         assertEquals(IncompatibleModelVersion, AndroidCatalog.supportedDeviceConfig("NexusLowRes", "21"))
@@ -24,8 +25,6 @@ class AndroidCatalogTest {
 
     @Test
     fun validateIsVirtualDevice() {
-        if (bitrise) return
-
         assertEquals(true, AndroidCatalog.isVirtualDevice("NexusLowRes"))
         assertEquals(false, AndroidCatalog.isVirtualDevice("shamu"))
         assertEquals(false, AndroidCatalog.isVirtualDevice("ios"))
