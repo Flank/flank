@@ -124,8 +124,15 @@ object Main {
                             .setExecutionId(matrixId)
                             .setStepId(matrixId)
 
+                    val device = AndroidDevice()
+                            .setAndroidModelId("NexusLowRes")
+
+                    val environment = Environment()
+                            .setAndroidDevice(device)
+
                     val testExecution = TestExecution()
                             .setToolResultsStep(toolResultsStep)
+                            .setEnvironment(environment)
 
                     val matrix = TestMatrix()
                             .setProjectId(projectId)

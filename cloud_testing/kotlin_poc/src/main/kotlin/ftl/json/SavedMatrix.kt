@@ -1,6 +1,7 @@
 package ftl.json
 
 import com.google.api.services.testing.model.TestMatrix
+import ftl.android.AndroidCatalog
 import ftl.gc.GcToolResults
 import ftl.util.Billing
 import ftl.util.MatrixState.FINISHED
@@ -16,9 +17,8 @@ class SavedMatrix(matrix: TestMatrix) {
     var webLink: String = matrix.webLink()
     var downloaded = false
 
-    var billableMinutes: Long = 0
-    private var testDurationSeconds: Long = 0
-    private var runDurationSeconds: Long = 0
+    var billableVirtualMinutes: Long = 0
+    var billablePhysicalMinutes: Long = 0
     var outcome: String = ""
 
     init {
@@ -45,12 +45,16 @@ class SavedMatrix(matrix: TestMatrix) {
     }
 
     private fun finished(matrix: TestMatrix) {
-        val toolResultsStep = matrix.firstToolResults()
-        if (toolResultsStep != null) {
-            val step = GcToolResults.getResults(toolResultsStep)
-            testDurationSeconds = step.testExecutionStep.testTiming.testProcessDuration.seconds
-            runDurationSeconds = step.runDuration.seconds
-            billableMinutes = Billing.billableMinutes(testDurationSeconds)
+        billableVirtualMinutes = 0
+        billablePhysicalMinutes = 0
+        matrix.testExecutions.forEach {
+            val step = GcToolResults.getResults(it.toolResultsStep)
+            val billableMinutes = Billing.billableMinutes(step.testExecutionStep.testTiming.testProcessDuration.seconds)
+            if (AndroidCatalog.isVirtualDevice(it.environment.androidDevice)) {
+                billableVirtualMinutes += billableMinutes
+            } else {
+                billablePhysicalMinutes += billableMinutes
+            }
             outcome = step.outcome.summary
         }
     }
