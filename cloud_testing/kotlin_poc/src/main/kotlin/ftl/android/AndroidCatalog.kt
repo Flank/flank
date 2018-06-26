@@ -1,5 +1,6 @@
 package ftl.android
 
+import com.google.api.services.testing.model.AndroidDevice
 import ftl.gc.GcTesting
 
 
@@ -28,7 +29,8 @@ object AndroidCatalog {
         return SupportedDeviceConfig
     }
 
-    fun isVirtualDevice(modelId: String): Boolean {
+    fun isVirtualDevice(device: AndroidDevice?): Boolean {
+        val modelId = device?.androidModelId ?: return false
         val form = androidDeviceCatalog.models.find { it.id == modelId }?.form ?: "PHYSICAL"
         return form == "VIRTUAL"
     }

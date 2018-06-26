@@ -1,5 +1,6 @@
 package ftl.android
 
+import com.google.api.services.testing.model.AndroidDevice
 import ftl.config.FtlConstants
 import junit.framework.Assert.assertEquals
 import org.hamcrest.CoreMatchers.instanceOf
@@ -25,8 +26,13 @@ class AndroidCatalogTest {
 
     @Test
     fun validateIsVirtualDevice() {
-        assertEquals(true, AndroidCatalog.isVirtualDevice("NexusLowRes"))
-        assertEquals(false, AndroidCatalog.isVirtualDevice("shamu"))
-        assertEquals(false, AndroidCatalog.isVirtualDevice("ios"))
+        val nexus = AndroidDevice()
+        nexus.androidModelId = "NexusLowRes"
+        val shamu = AndroidDevice()
+        shamu.androidModelId = "shamu"
+
+        assertEquals(true, AndroidCatalog.isVirtualDevice(nexus))
+        assertEquals(false, AndroidCatalog.isVirtualDevice(shamu))
+        assertEquals(false, AndroidCatalog.isVirtualDevice(null))
     }
 }
