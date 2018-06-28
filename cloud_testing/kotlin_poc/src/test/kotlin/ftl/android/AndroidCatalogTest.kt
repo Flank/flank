@@ -1,20 +1,10 @@
 package ftl.android
 
 import com.google.api.services.testing.model.AndroidDevice
-import ftl.config.FtlConstants
 import junit.framework.Assert.assertEquals
-import org.hamcrest.CoreMatchers.instanceOf
-import org.junit.Assert.assertThat
-import org.junit.Assert.assertTrue
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.ExpectedException
 
 class AndroidCatalogTest {
-
-    init {
-        FtlConstants.useMock = true
-    }
 
     @Test
     fun validateDeviceConfig() {

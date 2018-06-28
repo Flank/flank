@@ -10,13 +10,14 @@ import com.google.cloud.storage.StorageOptions
 import com.google.common.math.IntMath
 import com.linkedin.dex.parser.DexParser
 import ftl.config.FtlConstants.useMock
-import ftl.gc.GcAndroidTestMatrix
+import ftl.gc.GcStorage
 import ftl.ios.IosCatalog
-import ftl.run.TestRunner.bitrise
-import ftl.util.Utils.fatalError
 import ftl.ios.Xctestrun
+import ftl.util.Utils.fatalError
+import kotlinx.coroutines.experimental.runBlocking
 import java.io.File
 import java.math.RoundingMode
+import java.net.URI
 
 // testShards - break tests into shards to run the test suite in parallel (converted to numShards in AndroidJUnitRunner)
 // https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner.html
@@ -29,13 +30,11 @@ class YamlConfig(
         val xctestrunZip: String = "",
         val xctestrunFile: String = "",
         val rootGcsBucket: String,
-
         val autoGoogleLogin: Boolean = true,
         val useOrchestrator: Boolean = true,
         val disablePerformanceMetrics: Boolean = true,
         val disableVideoRecording: Boolean = false,
         val testTimeoutMinutes: Long = 60,
-
         testShards: Int = 1,
         testRuns: Int = 1,
         val waitForResults: Boolean = true,
@@ -47,12 +46,25 @@ class YamlConfig(
         val environmentVariables: Map<String, String> = mapOf(),
         val directoriesToPull: List<String> = listOf()) {
 
-
     private val storage = StorageOptions.newBuilder().setProjectId(projectId).build().service
     private val bucketLabel: Map<String, String> = mapOf(Pair("flank", ""))
     private val storageLocation = "us-central1"
 
-    fun getGcsBucket() : String {
+    var testShards: Int = testShards
+        set(value) {
+            field = assertVmLimit(value)
+        }
+
+    var testRuns: Int = testRuns
+        set(value) {
+            field = assertVmLimit(value)
+        }
+
+    init {
+        validate()
+    }
+
+    fun getGcsBucket(): String {
         if (FtlConstants.useMock) return rootGcsBucket
 
         val bucket = storage.list().values?.find { it.name == rootGcsBucket }
@@ -72,20 +84,6 @@ class YamlConfig(
         return value
     }
 
-    var testShards: Int = testShards
-        set(value) {
-            field = assertVmLimit(value)
-        }
-
-    var testRuns: Int = testRuns
-        set(value) {
-            field = assertVmLimit(value)
-        }
-
-    init {
-        validate()
-    }
-
     private fun assertFileExists(file: String, name: String) {
         if (!File(file).exists()) {
             fatalError("'$file' $name doesn't exist")
@@ -98,11 +96,40 @@ class YamlConfig(
         }
     }
 
-    private fun validateAndroid() {
-        assertFileExists(appApk, "appApk")
-        assertFileExists(testApk, "testApk")
+    private fun assertGcsFileExists(uri: String) {
+        val gcsURI = URI.create(uri)
+        val bucket = gcsURI.authority
+        val path = gcsURI.path.drop(1) // Drop leading slash
 
-        val dexValidTestNames = DexParser.findTestMethods(testApk).map { it.testName }
+        val blob = GcStorage.storage.get(bucket, path)
+
+        if (blob == null) {
+            fatalError("The file at '$uri' does not exist")
+        }
+    }
+
+    private fun validateAndroid() {
+        if (appApk.startsWith(FtlConstants.GCS_PREFIX)) {
+            assertGcsFileExists(appApk)
+        } else {
+            assertFileExists(appApk, "appApk")
+        }
+
+        if (testApk.startsWith(FtlConstants.GCS_PREFIX)) {
+            assertGcsFileExists(testApk)
+        } else {
+            assertFileExists(testApk, "testApk")
+        }
+
+        // Download test APK if necessary so it can be used to validate test methods
+        var testLocalApk = this@YamlConfig.testApk
+        if (this@YamlConfig.testApk.startsWith(FtlConstants.GCS_PREFIX)) {
+            runBlocking {
+                testLocalApk = GcStorage.downloadTestApk(this@YamlConfig)
+            }
+        }
+
+        val dexValidTestNames = DexParser.findTestMethods(testLocalApk).map { it.testName }
         val missingMethods = mutableListOf<String>()
 
         testMethods.forEach { testMethod ->
@@ -129,13 +156,9 @@ class YamlConfig(
         calculateShards(Xctestrun.findTestNames(xctestrunFile))
     }
 
-    fun iOS(): Boolean {
-        return xctestrunZip.isNotBlank()
-    }
+    fun iOS(): Boolean = xctestrunZip.isNotBlank()
 
-    private fun android(): Boolean {
-        return !iOS()
-    }
+    private fun android(): Boolean = !iOS()
 
     private fun validate() {
         if (iOS()) {

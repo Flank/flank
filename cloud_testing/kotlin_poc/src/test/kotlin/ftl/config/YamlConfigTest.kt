@@ -1,7 +1,9 @@
 package ftl.config
 
 import ftl.run.TestRunner.bitrise
+import ftl.android.LocalGcs
 import org.junit.Assert.assertEquals
+import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.ExpectedSystemExit
@@ -10,10 +12,6 @@ import org.junit.contrib.java.lang.system.SystemOutRule
 import java.nio.file.Paths
 
 class YamlConfigTest {
-
-    init {
-        FtlConstants.useMock = true
-    }
 
     @Rule
     @JvmField
@@ -27,27 +25,26 @@ class YamlConfigTest {
     @JvmField
     val systemOutRule = SystemOutRule().muteForSuccessfulTests()!!
 
-    private fun assert(actual: Any, expected: Any) {
-        assertEquals(expected, actual)
-    }
+    private fun assert(actual: Any, expected: Any) =
+            assertEquals(expected, actual)
 
-    private fun getPath(path: String): String {
-        return Paths.get(path).normalize().toAbsolutePath().toString()
-    }
+    private fun getPath(path: String): String =
+            Paths.get(path).normalize().toAbsolutePath().toString()
 
     private val yamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.yml")
     private val appApk = getPath("../../test_app/apks/app-debug.apk")
-    private val testApk = getPath("../../test_app/apks/app-debug-androidTest.apk")
+    private val testApk = "gs://tmp_bucket_2/app-debug-androidTest.apk"
     private val testName = "com.example.app.ExampleUiTest#testPasses"
     private val directoryToPull = "/sdcard/screenshots"
+
     // NOTE: Change working dir to '%MODULE_WORKING_DIR%' in IntelliJ to match gradle for this test to pass.
     @Test
     fun configLoadsSuccessfully() {
         val config = YamlConfig.load(yamlFile)
 
         assert(getPath(config.appApk), appApk)
-        assert(getPath(config.testApk), testApk)
-        assert(config.rootGcsBucket, "tmp_bucket_2")
+        assert(config.testApk, testApk)
+        assert(config.rootGcsBucket, LocalGcs.TEST_BUCKET)
 
         assert(config.autoGoogleLogin, true)
         assert(config.useOrchestrator, true)
@@ -160,5 +157,14 @@ class YamlConfigTest {
                 limitBreak = true)
 
         assert(config.getGcsBucket(), "tmp_bucket_2")
+    }
+
+    companion object {
+        @BeforeClass
+        @JvmStatic
+        fun setup() {
+            FtlConstants.useMock = true
+            LocalGcs.setupApks()
+        }
     }
 }

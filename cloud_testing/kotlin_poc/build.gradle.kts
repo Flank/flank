@@ -71,7 +71,7 @@ dependencies {
     compile("com.googlecode.plist:dd-plist:1.20")
 
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.cloud%22%20AND%20a%3A%22google-cloud-storage%22
-    compile("com.google.cloud:google-cloud-storage:1.20.0")
+    compile("com.google.cloud:google-cloud-storage:1.31.0")
 
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-toolresults%22
     compile("com.google.apis:google-api-services-toolresults:v1beta3-rev374-1.23.0")
