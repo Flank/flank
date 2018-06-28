@@ -3,18 +3,10 @@ package ftl.android
 import com.google.api.services.testing.model.AndroidDevice
 import ftl.config.FtlConstants
 import junit.framework.Assert.assertEquals
-import org.hamcrest.CoreMatchers.instanceOf
-import org.junit.Assert.assertThat
-import org.junit.Assert.assertTrue
-import org.junit.Rule
+import org.junit.BeforeClass
 import org.junit.Test
-import org.junit.rules.ExpectedException
 
 class AndroidCatalogTest {
-
-    init {
-        FtlConstants.useMock = true
-    }
 
     @Test
     fun validateDeviceConfig() {
@@ -34,5 +26,13 @@ class AndroidCatalogTest {
         assertEquals(true, AndroidCatalog.isVirtualDevice(nexus))
         assertEquals(false, AndroidCatalog.isVirtualDevice(shamu))
         assertEquals(false, AndroidCatalog.isVirtualDevice(null))
+    }
+
+    companion object {
+        @BeforeClass
+        @JvmStatic
+        fun setup() {
+            FtlConstants.useMock = true
+        }
     }
 }
