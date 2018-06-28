@@ -1,7 +1,9 @@
 package ftl.android
 
 import com.google.api.services.testing.model.AndroidDevice
+import ftl.config.FtlConstants
 import junit.framework.Assert.assertEquals
+import org.junit.BeforeClass
 import org.junit.Test
 
 class AndroidCatalogTest {
@@ -24,5 +26,13 @@ class AndroidCatalogTest {
         assertEquals(true, AndroidCatalog.isVirtualDevice(nexus))
         assertEquals(false, AndroidCatalog.isVirtualDevice(shamu))
         assertEquals(false, AndroidCatalog.isVirtualDevice(null))
+    }
+
+    companion object {
+        @BeforeClass
+        @JvmStatic
+        fun setup() {
+            FtlConstants.useMock = true
+        }
     }
 }
