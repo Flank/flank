@@ -12,9 +12,11 @@ class MainTest : TestArtifact() {
 
     @Test
     fun mockedTestRun() {
-        val config = YamlConfig.load("src/test/kotlin/ftl/fixtures/flank.yml")
+        val localConfig = YamlConfig.load("src/test/kotlin/ftl/fixtures/flank.local.yml")
+        val gcsConfig = YamlConfig.load("src/test/kotlin/ftl/fixtures/flank.gcs.yml")
         runBlocking {
-            TestRunner.newRun(config)
+            TestRunner.newRun(localConfig)
+            TestRunner.newRun(gcsConfig)
         }
     }
 

@@ -48,8 +48,7 @@ object AndroidTestRunner : GenericTestRunner {
     }
 
     /**
-     * If given a Gcs URI, then download the APKs
-     * Otherwise, we assume the file is local and is uploaded to Gcs
+     * Upload APKs if the path given is local
      *
      * @return Pair(gcs uri for app apk, gcs uri for test apk)
      */

@@ -94,6 +94,8 @@ dependencies {
     testImplementation("com.google.truth:truth:0.40")
     // http://stefanbirkner.github.io/system-rules/index.html
     testImplementation("com.github.stefanbirkner:system-rules:1.17.1")
+
+    compile("com.google.cloud:google-cloud-nio:0.30.0-alpha")
 }
 
 // Fix Exception in thread "main" java.lang.NoSuchMethodError: com.google.common.hash.Hashing.crc32c()Lcom/google/common/hash/HashFunction;

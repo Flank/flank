@@ -1,0 +1,26 @@
+appApk: gs://tmp_bucket_2/app-debug.apk
+testApk: gs://tmp_bucket_2/app-debug-androidTest.apk
+rootGcsBucket: tmp_bucket_2
+autoGoogleLogin: true
+useOrchestrator: true
+disablePerformanceMetrics: true
+disableVideoRecording: false
+testTimeoutMinutes: 60
+testShards: 1
+testRuns: 1
+limitBreak: false
+waitForResults: true
+testMethods:
+  - com.example.app.ExampleUiTest#testPasses
+devices:
+  - model: NexusLowRes
+  - version: 23
+    orientation: landscape
+  - model: shamu
+    version: 22
+    locale: zh_CN
+    orientation: default
+environmentVariables:
+  clearPackageData: true
+directoriesToPull:
+  - /sdcard/screenshots

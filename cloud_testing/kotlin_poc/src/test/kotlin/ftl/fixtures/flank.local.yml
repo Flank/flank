@@ -1,5 +1,5 @@
 appApk: ../../test_app/apks/app-debug.apk
-testApk: gs://tmp_bucket_2/app-debug-androidTest.apk
+testApk: ../../test_app/apks/app-debug-androidTest.apk
 rootGcsBucket: tmp_bucket_2
 autoGoogleLogin: true
 useOrchestrator: true
