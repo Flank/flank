@@ -1,6 +1,5 @@
 package ftl.cli
 
-import ftl.android.*
 import ftl.config.IosConfig
 import ftl.run.TestRunner
 import kotlinx.coroutines.experimental.runBlocking

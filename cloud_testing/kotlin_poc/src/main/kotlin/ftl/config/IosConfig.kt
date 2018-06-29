@@ -36,7 +36,9 @@ class IosConfig(
 ) {
 
     init {
-        if (!xctestrunZip.startsWith("gs://")) {
+        if (xctestrunZip.startsWith(FtlConstants.GCS_PREFIX)) {
+            assertGcsFileExists(xctestrunZip)
+        } else {
             assertFileExists(xctestrunZip, "xctestrunZip")
         }
         assertFileExists(xctestrunFile, "xctestrunFile")

@@ -1,6 +1,7 @@
 package ftl.run
 
 import com.google.api.services.testing.model.TestMatrix
+import ftl.config.FtlConstants
 import ftl.config.IosConfig
 import ftl.config.YamlConfig
 import ftl.gc.GcIosMatrix
@@ -20,7 +21,7 @@ object IosTestRunner : GenericTestRunner {
         val config = yamlConfig as IosConfig
         val (stopwatch, runGcsPath) = beforeRunTests()
 
-        val xcTestGcsPath = if (config.xctestrunZip.startsWith("gs://")) {
+        val xcTestGcsPath = if (config.xctestrunZip.startsWith(FtlConstants.GCS_PREFIX)) {
             config.xctestrunZip
         } else {
             GcStorage.uploadXCTestZip(config, runGcsPath)

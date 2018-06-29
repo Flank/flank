@@ -12,7 +12,7 @@ import picocli.CommandLine.Option
         descriptionHeading = "%n@|bold,underline Description:|@%n%n",
         parameterListHeading = "%n@|bold,underline Parameters:|@%n",
         optionListHeading = "%n@|bold,underline Options:|@%n",
-        header = ["Verifies flank is setup correctly"],
+        header = ["Verifies flank firebase is setup correctly"],
         description = ["""Fetches the iOS catalog to verify Flank auth is valid.
 """])
 class DoctorCommand : Runnable {

@@ -1,8 +1,6 @@
 package ftl
 
-import ftl.cli.AndroidCommand
-import ftl.cli.DoctorCommand
-import ftl.cli.IosCommand
+import ftl.cli.FirebaseCommand
 import picocli.CommandLine
 
 
@@ -10,9 +8,7 @@ import picocli.CommandLine
         name = "flank.jar\n",
         synopsisHeading = "",
         subcommands = [
-            AndroidCommand::class,
-            IosCommand::class,
-            DoctorCommand::class
+            FirebaseCommand::class
         ]
 )
 object Main : Runnable {
@@ -30,7 +26,7 @@ object Main : Runnable {
     @Throws(Exception::class)
     @JvmStatic
     fun main(args: Array<String>) {
-//        val args = arrayOf("doctor") // for debugging. run test from IntelliJ IDEA
+//        val args = arrayOf("firebase", "doctor") // for debugging. run test from IntelliJ IDEA
         CommandLine.run<Runnable>(Main, System.out, *args)
     }
 }

@@ -3,14 +3,14 @@ package ftl.cli
 import picocli.CommandLine
 import picocli.CommandLine.Command
 
-@Command(name = "ios",
+@Command(name = "test",
         synopsisHeading = "",
         subcommands = [
-            IosRunCommand::class,
-            IosRefreshCommand::class
+            AndroidCommand::class,
+            IosCommand::class
         ])
-class IosCommand : Runnable {
+class TestCommand : Runnable {
     override fun run() {
-        CommandLine.usage(IosCommand(), System.out)
+        CommandLine.usage(TestCommand(), System.out)
     }
 }
