@@ -10,8 +10,10 @@ import com.google.cloud.storage.StorageOptions
 import com.google.common.math.IntMath
 import ftl.config.FtlConstants.useMock
 import ftl.util.Utils.fatalError
+import ftl.gc.GcStorage
 import java.io.File
 import java.math.RoundingMode
+import java.net.URI
 
 // testShards - break tests into shards to run the test suite in parallel (converted to numShards in AndroidJUnitRunner)
 // https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner.html
@@ -20,11 +22,9 @@ import java.math.RoundingMode
 
 open class YamlConfig(
         val rootGcsBucket: String,
-
         val disablePerformanceMetrics: Boolean = true,
         val disableVideoRecording: Boolean = false,
         val testTimeoutMinutes: Long = 60,
-
         testShards: Int = 1,
         testRuns: Int = 1,
         val waitForResults: Boolean = true,
@@ -34,12 +34,21 @@ open class YamlConfig(
         val devices: List<Device> = listOf(Device()),
         var testShardChunks: Set<Set<String>> = emptySet()) {
 
-
     private val storage = StorageOptions.newBuilder().setProjectId(projectId).build().service
     private val bucketLabel: Map<String, String> = mapOf(Pair("flank", ""))
     private val storageLocation = "us-central1"
 
-    fun getGcsBucket() : String {
+    var testShards: Int = testShards
+        set(value) {
+            field = assertVmLimit(value)
+        }
+
+    var testRuns: Int = testRuns
+        set(value) {
+            field = assertVmLimit(value)
+        }
+
+    fun getGcsBucket(): String {
         if (FtlConstants.useMock) return rootGcsBucket
 
         val bucket = storage.list().values?.find { it.name == rootGcsBucket }
@@ -59,19 +68,21 @@ open class YamlConfig(
         return value
     }
 
-    var testShards: Int = testShards
-        set(value) {
-            field = assertVmLimit(value)
-        }
-
-    var testRuns: Int = testRuns
-        set(value) {
-            field = assertVmLimit(value)
-        }
-
     protected fun assertFileExists(file: String, name: String) {
         if (!File(file).exists()) {
             fatalError("'$file' $name doesn't exist")
+        }
+    }
+
+    protected fun assertGcsFileExists(uri: String) {
+        val gcsURI = URI.create(uri)
+        val bucket = gcsURI.authority
+        val path = gcsURI.path.drop(1) // Drop leading slash
+
+        val blob = GcStorage.storage.get(bucket, path)
+
+        if (blob == null) {
+            fatalError("The file at '$uri' does not exist")
         }
     }
 

@@ -71,7 +71,7 @@ dependencies {
     compile("com.googlecode.plist:dd-plist:1.20")
 
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.cloud%22%20AND%20a%3A%22google-cloud-storage%22
-    compile("com.google.cloud:google-cloud-storage:1.20.0")
+    compile("com.google.cloud:google-cloud-storage:1.31.0")
 
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-toolresults%22
     compile("com.google.apis:google-api-services-toolresults:v1beta3-rev374-1.23.0")
@@ -94,6 +94,8 @@ dependencies {
     testImplementation("com.google.truth:truth:0.40")
     // http://stefanbirkner.github.io/system-rules/index.html
     testImplementation("com.github.stefanbirkner:system-rules:1.17.1")
+
+    compile("com.google.cloud:google-cloud-nio:0.30.0-alpha")
 }
 
 // Fix Exception in thread "main" java.lang.NoSuchMethodError: com.google.common.hash.Hashing.crc32c()Lcom/google/common/hash/HashFunction;

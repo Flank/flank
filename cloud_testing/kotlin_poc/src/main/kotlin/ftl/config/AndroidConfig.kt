@@ -2,6 +2,8 @@ package ftl.config
 
 import com.linkedin.dex.parser.DexParser
 import ftl.android.*
+import ftl.gc.GcStorage
+import kotlinx.coroutines.experimental.runBlocking
 
 class AndroidConfig(
         val appApk: String = "",
@@ -39,12 +41,29 @@ class AndroidConfig(
 ) {
 
     init {
-        assertFileExists(appApk, "appApk")
-        assertFileExists(testApk, "testApk")
+        if (appApk.startsWith(FtlConstants.GCS_PREFIX)) {
+            assertGcsFileExists(appApk)
+        } else {
+            assertFileExists(appApk, "appApk")
+        }
+
+        if (testApk.startsWith(FtlConstants.GCS_PREFIX)) {
+            assertGcsFileExists(testApk)
+        } else {
+            assertFileExists(testApk, "testApk")
+        }
+
+        // Download test APK if necessary so it can be used to validate test methods
+        var testLocalApk = testApk
+        if (testApk.startsWith(FtlConstants.GCS_PREFIX)) {
+            runBlocking {
+                testLocalApk = GcStorage.downloadTestApk(this@AndroidConfig)
+            }
+        }
 
         devices.forEach { device -> assertDeviceSupported(device) }
 
-        val dexValidTestNames = DexParser.findTestMethods(testApk).map { "class ${it.testName}" }
+        val dexValidTestNames = DexParser.findTestMethods(testLocalApk).map { "class ${it.testName}" }
         validateTestMethods(dexValidTestNames, "Test APK")
     }
 

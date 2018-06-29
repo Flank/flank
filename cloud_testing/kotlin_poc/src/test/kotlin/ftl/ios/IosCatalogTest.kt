@@ -2,13 +2,10 @@ package ftl.ios
 
 import ftl.config.FtlConstants
 import org.junit.Assert.assertEquals
+import org.junit.BeforeClass
 import org.junit.Test
 
 class IosCatalogTest {
-
-    init {
-        FtlConstants.useMock = true
-    }
 
     @Test
     fun supported() {

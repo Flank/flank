@@ -16,8 +16,8 @@ object IosTestRunner : GenericTestRunner {
     // https://github.com/bootstraponline/gcloud_cli/blob/5bcba57e825fc98e690281cf69484b7ba4eb668a/google-cloud-sdk/lib/googlecloudsdk/api_lib/firebase/test/ios/matrix_creator.py#L109
     // https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/run
     // https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/
-    override suspend fun runTests(config: YamlConfig): MatrixMap {
-        val config = config as IosConfig
+    override suspend fun runTests(yamlConfig: YamlConfig): MatrixMap {
+        val config = yamlConfig as IosConfig
         val (stopwatch, runGcsPath) = beforeRunTests()
 
         val xcTestGcsPath = if (config.xctestrunZip.startsWith("gs://")) {

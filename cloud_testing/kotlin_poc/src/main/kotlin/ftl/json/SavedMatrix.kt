@@ -51,7 +51,7 @@ class SavedMatrix(matrix: TestMatrix) {
             val step = GcToolResults.getResults(it.toolResultsStep)
             if (step.testExecutionStep == null) return
             val billableMinutes = Billing.billableMinutes(step.testExecutionStep.testTiming.testProcessDuration.seconds)
-            if (AndroidCatalog.isVirtualDevice(it.environment.androidDevice)) {
+            if (AndroidCatalog.isVirtualDevice(it.environment?.androidDevice)) {
                 billableVirtualMinutes += billableMinutes
             } else {
                 billablePhysicalMinutes += billableMinutes

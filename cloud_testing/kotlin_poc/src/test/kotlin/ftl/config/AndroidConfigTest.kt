@@ -1,7 +1,9 @@
 package ftl.config
 
 import ftl.run.TestRunner.bitrise
+import ftl.android.LocalGcs
 import org.junit.Assert.assertEquals
+import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.ExpectedSystemExit
@@ -10,10 +12,6 @@ import org.junit.contrib.java.lang.system.SystemOutRule
 import java.nio.file.Paths
 
 class AndroidConfigTest {
-
-    init {
-        FtlConstants.useMock = true
-    }
 
     @Rule
     @JvmField
@@ -27,27 +25,42 @@ class AndroidConfigTest {
     @JvmField
     val systemOutRule = SystemOutRule().muteForSuccessfulTests()!!
 
-    private fun assert(actual: Any, expected: Any) {
-        assertEquals(expected, actual)
-    }
+    private fun assert(actual: Any, expected: Any) =
+            assertEquals(expected, actual)
 
-    private fun getPath(path: String): String {
-        return Paths.get(path).normalize().toAbsolutePath().toString()
-    }
+    private fun getPath(path: String): String =
+            Paths.get(path).normalize().toAbsolutePath().toString()
 
-    private val yamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.yml")
-    private val appApk = getPath("../../test_app/apks/app-debug.apk")
-    private val testApk = getPath("../../test_app/apks/app-debug-androidTest.apk")
+    private val localYamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.local.yml")
+    private val gcsYamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.gcs.yml")
+    private val appApkLocal = getPath("../../test_app/apks/app-debug.apk")
+    private val appApkGcs = "gs://tmp_bucket_2/app-debug.apk"
+    private val testApkLocal = getPath("../../test_app/apks/app-debug-androidTest.apk")
+    private val testApkGcs = "gs://tmp_bucket_2/app-debug-androidTest.apk"
     private val testName = "com.example.app.ExampleUiTest#testPasses"
     private val directoryToPull = "/sdcard/screenshots"
+
     // NOTE: Change working dir to '%MODULE_WORKING_DIR%' in IntelliJ to match gradle for this test to pass.
     @Test
-    fun configLoadsSuccessfully() {
-        val config = AndroidConfig.load(yamlFile)
+    fun localConfigLoadsSuccessfully() {
+        val config = AndroidConfig.load(localYamlFile)
+        checkConfig(config, true)
+    }
 
-        assert(getPath(config.appApk), appApk)
-        assert(getPath(config.testApk), testApk)
-        assert(config.rootGcsBucket, "tmp_bucket_2")
+    @Test
+    fun gcsConfigLoadsSuccessfully() {
+        val config = AndroidConfig.load(gcsYamlFile)
+        checkConfig(config, false)
+    }
+
+    private fun checkConfig(config: AndroidConfig, local: Boolean) {
+        if (local) assert(getPath(config.testApk), testApkLocal)
+        else assert(config.testApk, testApkGcs)
+
+        if (local) assert(getPath(config.appApk), appApkLocal)
+        else assert(config.appApk, appApkGcs)
+
+        assert(config.rootGcsBucket, LocalGcs.TEST_BUCKET)
 
         assert(config.autoGoogleLogin, true)
         assert(config.useOrchestrator, true)
@@ -61,11 +74,12 @@ class AndroidConfigTest {
         assert(config.testMethods, listOf(testName))
         assert(config.limitBreak, false)
         assert(config.devices, listOf(
-            Device("NexusLowRes", "23", "en", "portrait"),
-            Device("NexusLowRes", "23", "en", "landscape"),
-            Device("shamu", "22", "zh_CN", "default")))
+                Device("NexusLowRes", "23", "en", "portrait"),
+                Device("NexusLowRes", "23", "en", "landscape"),
+                Device("shamu", "22", "zh_CN", "default")))
         assert(config.environmentVariables, mapOf(Pair("clearPackageData", "true")))
         assert(config.directoriesToPull, listOf(directoryToPull))
+
     }
 
     private val s99_999 = 99_999
@@ -74,7 +88,7 @@ class AndroidConfigTest {
     fun limitBreakFalseExitsOnLargeShards() {
         exit.expectSystemExitWithStatus(-1)
 
-        val config = AndroidConfig.load(yamlFile)
+        val config = AndroidConfig.load(localYamlFile)
         config.testRuns = s99_999
         config.testShards = s99_999
         assert(config.testRuns, s99_999)
@@ -83,7 +97,7 @@ class AndroidConfigTest {
 
     @Test
     fun limitBreakTrueAllowsLargeShards() {
-        val oldConfig = AndroidConfig.load(yamlFile)
+        val oldConfig = AndroidConfig.load(localYamlFile)
         val config = AndroidConfig(
                 oldConfig.appApk,
                 oldConfig.testApk,
@@ -101,8 +115,8 @@ class AndroidConfigTest {
         repeat(amount) { index -> testMethods.add(testName + index) }
 
         return AndroidConfig(
-                appApk = appApk,
-                testApk = testApk,
+                appApk = appApkLocal,
+                testApk = testApkLocal,
                 rootGcsBucket = "",
                 testShards = testShards,
                 testMethods = testMethods
@@ -129,7 +143,7 @@ class AndroidConfigTest {
 
     @Test
     fun platformDisplayConfig() {
-        val androidConfig = AndroidConfig.load(yamlFile).toString()
+        val androidConfig = AndroidConfig.load(localYamlFile).toString()
         assert(androidConfig.contains("xctestrunZip"), false)
         assert(androidConfig.contains("xctestrunFile"), false)
     }
@@ -138,7 +152,7 @@ class AndroidConfigTest {
     fun assertGcsBucket() {
         if (bitrise) return
 
-        val oldConfig = AndroidConfig.load(yamlFile)
+        val oldConfig = AndroidConfig.load(localYamlFile)
         // Need to set the project id to get the bucket info from StorageOptions
         val config = AndroidConfig(
                 oldConfig.appApk,
@@ -148,5 +162,14 @@ class AndroidConfigTest {
                 limitBreak = true)
 
         assert(config.getGcsBucket(), "tmp_bucket_2")
+    }
+
+    companion object {
+        @BeforeClass
+        @JvmStatic
+        fun setup() {
+            FtlConstants.useMock = true
+            LocalGcs.setupApks()
+        }
     }
 }

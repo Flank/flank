@@ -42,10 +42,10 @@ object TestRunner {
         if (!GcToolResults.service.rootUrl.contains(localhost)) throw RuntimeException("expected localhost in GcToolResults")
     }
 
-    private suspend fun runTests(config: YamlConfig): MatrixMap {
-        return when (config) {
-            is AndroidConfig -> AndroidTestRunner.runTests(config)
-            is IosConfig -> IosTestRunner.runTests(config)
+    private suspend fun runTests(yamlConfig: YamlConfig): MatrixMap {
+        return when (yamlConfig) {
+            is AndroidConfig -> AndroidTestRunner.runTests(yamlConfig)
+            is IosConfig -> IosTestRunner.runTests(yamlConfig)
             else -> throw RuntimeException("Unknown config type")
         }
     }
