@@ -37,7 +37,7 @@ class AndroidConfigTest {
     private val appApkGcs = "gs://tmp_bucket_2/app-debug.apk"
     private val testApkLocal = getPath("../../test_app/apks/app-debug-androidTest.apk")
     private val testApkGcs = "gs://tmp_bucket_2/app-debug-androidTest.apk"
-    private val testName = "com.example.app.ExampleUiTest#testPasses"
+    private val testName = "class com.example.app.ExampleUiTest#testPasses"
     private val directoryToPull = "/sdcard/screenshots"
 
     // NOTE: Change working dir to '%MODULE_WORKING_DIR%' in IntelliJ to match gradle for this test to pass.

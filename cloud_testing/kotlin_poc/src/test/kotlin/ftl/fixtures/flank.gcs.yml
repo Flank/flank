@@ -11,10 +11,12 @@ testRuns: 1
 limitBreak: false
 waitForResults: true
 testMethods:
-  - com.example.app.ExampleUiTest#testPasses
+  - class com.example.app.ExampleUiTest#testPasses
 devices:
   - model: NexusLowRes
-  - version: 23
+    version: 23
+  - model: NexusLowRes
+    version: 23
     orientation: landscape
   - model: shamu
     version: 22
