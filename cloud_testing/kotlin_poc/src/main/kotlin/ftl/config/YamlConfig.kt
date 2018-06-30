@@ -90,7 +90,7 @@ open class YamlConfig(
         val missingMethods = testMethods - validTestMethods
 
         // todo: update YamConfigTest to use fixture apk with 155 tests, then remove useMock here.
-        if (!useMock && missingMethods.isNotEmpty()) fatalError("$from is missing methods: $missingMethods")
+        if (!useMock && missingMethods.isNotEmpty()) fatalError("$from is missing methods: $missingMethods.\nValid methods:\n$validTestMethods")
         if (validTestMethods.isEmpty()) fatalError("$from has no tests")
 
         calculateShards(validTestMethods)
