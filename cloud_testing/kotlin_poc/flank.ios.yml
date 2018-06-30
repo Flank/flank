@@ -1,6 +1,5 @@
-projectId: change-me
-xctestrunZip: ./EarlGreyExample.zip
-xctestrunFile: ./EarlGreyExample/EarlGreyExampleSwiftTests_iphoneos11.3-arm64.xctestrun
+xctestrunZip: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip
+xctestrunFile: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos11.2-arm64.xctestrun
 rootGcsBucket: earlgrey-swift
 disablePerformanceMetrics: false
 disableVideoRecording: false
