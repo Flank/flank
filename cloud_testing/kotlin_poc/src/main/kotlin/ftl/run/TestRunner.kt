@@ -5,11 +5,13 @@ import com.google.api.services.testing.model.TestMatrix
 import com.google.cloud.storage.Storage
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import ftl.config.AndroidConfig
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.indent
 import ftl.config.FtlConstants.localResultsDir
 import ftl.config.FtlConstants.localhost
 import ftl.config.FtlConstants.matrixIdsFile
+import ftl.config.IosConfig
 import ftl.config.YamlConfig
 import ftl.gc.GcStorage
 import ftl.gc.GcTestMatrix
@@ -40,11 +42,11 @@ object TestRunner {
         if (!GcToolResults.service.rootUrl.contains(localhost)) throw RuntimeException("expected localhost in GcToolResults")
     }
 
-    private suspend fun runTests(config: YamlConfig): MatrixMap {
-        return if (config.xctestrunZip.isBlank()) {
-            AndroidTestRunner.runTests(config)
-        } else {
-            IosTestRunner.runTests(config)
+    private suspend fun runTests(yamlConfig: YamlConfig): MatrixMap {
+        return when (yamlConfig) {
+            is AndroidConfig -> AndroidTestRunner.runTests(yamlConfig)
+            is IosConfig -> IosTestRunner.runTests(yamlConfig)
+            else -> throw RuntimeException("Unknown config type")
         }
     }
 

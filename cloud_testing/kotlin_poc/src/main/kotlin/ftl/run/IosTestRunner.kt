@@ -1,6 +1,8 @@
 package ftl.run
 
 import com.google.api.services.testing.model.TestMatrix
+import ftl.config.FtlConstants
+import ftl.config.IosConfig
 import ftl.config.YamlConfig
 import ftl.gc.GcIosMatrix
 import ftl.gc.GcIosTestMatrix
@@ -15,10 +17,11 @@ object IosTestRunner : GenericTestRunner {
     // https://github.com/bootstraponline/gcloud_cli/blob/5bcba57e825fc98e690281cf69484b7ba4eb668a/google-cloud-sdk/lib/googlecloudsdk/api_lib/firebase/test/ios/matrix_creator.py#L109
     // https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/run
     // https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/
-    override suspend fun runTests(config: YamlConfig): MatrixMap {
+    override suspend fun runTests(yamlConfig: YamlConfig): MatrixMap {
+        val config = yamlConfig as IosConfig
         val (stopwatch, runGcsPath) = beforeRunTests()
 
-        val xcTestGcsPath = if (config.xctestrunZip.startsWith("gs://")) {
+        val xcTestGcsPath = if (config.xctestrunZip.startsWith(FtlConstants.GCS_PREFIX)) {
             config.xctestrunZip
         } else {
             GcStorage.uploadXCTestZip(config, runGcsPath)

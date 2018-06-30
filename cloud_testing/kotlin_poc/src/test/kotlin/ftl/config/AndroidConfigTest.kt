@@ -11,7 +11,7 @@ import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
 import java.nio.file.Paths
 
-class YamlConfigTest {
+class AndroidConfigTest {
 
     @Rule
     @JvmField
@@ -37,23 +37,23 @@ class YamlConfigTest {
     private val appApkGcs = "gs://tmp_bucket_2/app-debug.apk"
     private val testApkLocal = getPath("../../test_app/apks/app-debug-androidTest.apk")
     private val testApkGcs = "gs://tmp_bucket_2/app-debug-androidTest.apk"
-    private val testName = "com.example.app.ExampleUiTest#testPasses"
+    private val testName = "class com.example.app.ExampleUiTest#testPasses"
     private val directoryToPull = "/sdcard/screenshots"
 
     // NOTE: Change working dir to '%MODULE_WORKING_DIR%' in IntelliJ to match gradle for this test to pass.
     @Test
     fun localConfigLoadsSuccessfully() {
-        val config = YamlConfig.load(localYamlFile)
+        val config = AndroidConfig.load(localYamlFile)
         checkConfig(config, true)
     }
 
     @Test
     fun gcsConfigLoadsSuccessfully() {
-        val config = YamlConfig.load(gcsYamlFile)
+        val config = AndroidConfig.load(gcsYamlFile)
         checkConfig(config, false)
     }
 
-    private fun checkConfig(config: YamlConfig, local: Boolean) {
+    private fun checkConfig(config: AndroidConfig, local: Boolean) {
         if (local) assert(getPath(config.testApk), testApkLocal)
         else assert(config.testApk, testApkGcs)
 
@@ -88,7 +88,7 @@ class YamlConfigTest {
     fun limitBreakFalseExitsOnLargeShards() {
         exit.expectSystemExitWithStatus(-1)
 
-        val config = YamlConfig.load(localYamlFile)
+        val config = AndroidConfig.load(localYamlFile)
         config.testRuns = s99_999
         config.testShards = s99_999
         assert(config.testRuns, s99_999)
@@ -97,8 +97,8 @@ class YamlConfigTest {
 
     @Test
     fun limitBreakTrueAllowsLargeShards() {
-        val oldConfig = YamlConfig.load(localYamlFile)
-        val config = YamlConfig(
+        val oldConfig = AndroidConfig.load(localYamlFile)
+        val config = AndroidConfig(
                 oldConfig.appApk,
                 oldConfig.testApk,
                 rootGcsBucket = oldConfig.rootGcsBucket,
@@ -114,7 +114,7 @@ class YamlConfigTest {
         // test names must be unique otherwise the Set<String> will add them only once.
         repeat(amount) { index -> testMethods.add(testName + index) }
 
-        return YamlConfig(
+        return AndroidConfig(
                 appApk = appApkLocal,
                 testApk = testApkLocal,
                 rootGcsBucket = "",
@@ -143,30 +143,18 @@ class YamlConfigTest {
 
     @Test
     fun platformDisplayConfig() {
-        val config = YamlConfig.load(localYamlFile)
-
-        if (config.iOS()) {
-            val iosConfig = config.toString()
-            assert(iosConfig.contains("appApk"), false)
-            assert(iosConfig.contains("testApk"), false)
-            assert(iosConfig.contains("autoGoogleLogin"), false)
-            assert(iosConfig.contains("useOrchestrator"), false)
-            assert(iosConfig.contains("testShards"), false)
-            assert(iosConfig.contains("testMethods"), false)
-        } else {
-            val androidConfig = config.toString()
-            assert(androidConfig.contains("xctestrunZip"), false)
-            assert(androidConfig.contains("xctestrunFile"), false)
-        }
+        val androidConfig = AndroidConfig.load(localYamlFile).toString()
+        assert(androidConfig.contains("xctestrunZip"), false)
+        assert(androidConfig.contains("xctestrunFile"), false)
     }
 
     @Test
     fun assertGcsBucket() {
         if (bitrise) return
 
-        val oldConfig = YamlConfig.load(localYamlFile)
+        val oldConfig = AndroidConfig.load(localYamlFile)
         // Need to set the project id to get the bucket info from StorageOptions
-        val config = YamlConfig(
+        val config = AndroidConfig(
                 oldConfig.appApk,
                 oldConfig.testApk,
                 rootGcsBucket = oldConfig.rootGcsBucket,

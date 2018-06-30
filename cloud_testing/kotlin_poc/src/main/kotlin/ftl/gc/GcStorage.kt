@@ -4,18 +4,15 @@ import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageOptions
 import com.google.cloud.storage.contrib.nio.testing.LocalStorageHelper
-import com.google.cloud.storage.testing.RemoteStorageHelper
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
-import ftl.config.YamlConfig
+import ftl.config.AndroidConfig
+import ftl.config.IosConfig
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URI
-import java.net.URL
-import java.net.URLDecoder
-import java.net.URLEncoder
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -41,22 +38,22 @@ object GcStorage {
                     rootGcsBucket = rootGcsBucket,
                     runGcsPath = runGcsPath)
 
-    fun uploadAppApk(config: YamlConfig, gcsBucket: String, runGcsPath: String): String =
+    fun uploadAppApk(config: AndroidConfig, gcsBucket: String, runGcsPath: String): String =
             upload(config.appApk, gcsBucket, runGcsPath)
 
-    fun uploadTestApk(config: YamlConfig, gcsBucket: String, runGcsPath: String): String =
+    fun uploadTestApk(config: AndroidConfig, gcsBucket: String, runGcsPath: String): String =
             upload(config.testApk, gcsBucket, runGcsPath)
 
-    fun uploadXCTestZip(config: YamlConfig, runGcsPath: String): String =
+    fun uploadXCTestZip(config: IosConfig, runGcsPath: String): String =
             upload(config.xctestrunZip, config.getGcsBucket(), runGcsPath)
 
-    fun uploadXCTestFile(config: YamlConfig, gcsBucket: String, runGcsPath: String, fileBytes: ByteArray): String =
+    fun uploadXCTestFile(config: IosConfig, gcsBucket: String, runGcsPath: String, fileBytes: ByteArray): String =
             upload(file = config.xctestrunFile,
                     fileBytes = fileBytes,
                     rootGcsBucket = gcsBucket,
                     runGcsPath = runGcsPath)
 
-    fun downloadTestApk(config: YamlConfig): String =
+    fun downloadTestApk(config: AndroidConfig): String =
             download(config.testApk)
 
     private fun upload(file: String, fileBytes: ByteArray, rootGcsBucket: String, runGcsPath: String): String {

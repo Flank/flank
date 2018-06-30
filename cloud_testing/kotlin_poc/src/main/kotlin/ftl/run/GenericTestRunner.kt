@@ -18,7 +18,7 @@ interface GenericTestRunner {
         return Pair(stopwatch, Utils.uniqueObjectName())
     }
 
-    suspend fun runTests(config: YamlConfig): MatrixMap
+    suspend fun runTests(yamlConfig: YamlConfig): MatrixMap
 
     suspend fun afterRunTests(
             jobs: ArrayList<Deferred<TestMatrix>>,
