@@ -1,6 +1,6 @@
-package ftl.cli
+package ftl.cli.firebase.test.ios
 
-import ftl.config.AndroidConfig
+import ftl.config.IosConfig
 import ftl.run.TestRunner
 import kotlinx.coroutines.experimental.runBlocking
 import picocli.CommandLine.Command
@@ -17,10 +17,10 @@ import picocli.CommandLine.Option
         description = ["""Selects the most recent run in the results/ folder.
 Reads in the matrix_ids.json file. Refreshes any incomplete matrices.
 """])
-class AndroidRefreshCommand : Runnable {
+class IosRefreshCommand : Runnable {
     override fun run() {
         runBlocking {
-            val config = AndroidConfig.load(configPath)
+            val config = IosConfig.load(configPath)
             TestRunner.refreshLastRun(config)
         }
     }

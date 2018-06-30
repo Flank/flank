@@ -1,5 +1,7 @@
-package ftl.cli
+package ftl.cli.firebase
 
+import ftl.cli.firebase.test.AndroidCommand
+import ftl.cli.firebase.test.IosCommand
 import picocli.CommandLine
 import picocli.CommandLine.Command
 

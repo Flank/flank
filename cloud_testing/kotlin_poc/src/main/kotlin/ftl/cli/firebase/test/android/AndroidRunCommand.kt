@@ -1,6 +1,6 @@
-package ftl.cli
+package ftl.cli.firebase.test.android
 
-import ftl.config.IosConfig
+import ftl.config.AndroidConfig
 import ftl.run.TestRunner
 import kotlinx.coroutines.experimental.runBlocking
 import picocli.CommandLine.Command
@@ -14,17 +14,16 @@ import picocli.CommandLine.Option
         parameterListHeading = "%n@|bold,underline Parameters:|@%n",
         optionListHeading = "%n@|bold,underline Options:|@%n",
         header = ["Run tests on Firebase Test Lab"],
-        description = ["""Uploads the app and tests to GCS.
-Runs the XCTests and XCUITests.
+        description = ["""Uploads the app and test apk to GCS.
+Runs the espresso tests using orchestrator.
 Configuration is read from flank.yml
 """])
-class IosRunCommand : Runnable {
+class AndroidRunCommand : Runnable {
     override fun run() {
-        val config = IosConfig.load(configPath)
+        val config = AndroidConfig.load(configPath)
         if (shards > 0) config.testRuns = shards
         runBlocking {
             TestRunner.newRun(config)
-
         }
     }
 
@@ -41,7 +40,7 @@ class IosRunCommand : Runnable {
         @Throws(Exception::class)
         @JvmStatic
         fun main(args: Array<String>) {
-            IosRunCommand().run()
+            AndroidRunCommand().run()
         }
     }
 }

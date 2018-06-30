@@ -1,4 +1,4 @@
-package ftl.cli
+package ftl.cli.firebase
 
 import ftl.ios.IosCatalog
 import kotlinx.coroutines.experimental.runBlocking
