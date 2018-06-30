@@ -63,16 +63,16 @@ class IosConfig(
 
     override fun toString(): String {
         return """IosConfig
-            projectId: '$projectId'
-            xctestrunZip: '$xctestrunZip',
-            xctestrunFile: '$xctestrunFile',
-            rootGcsBucket: '$rootGcsBucket',
-            disableVideoRecording: $disableVideoRecording,
-            testTimeoutMinutes: $testTimeoutMinutes,
-            testRuns: $testRuns,
-            waitForResults: $waitForResults,
-            limitBreak: $limitBreak,
-            devices: $devices
+  projectId: '$projectId'
+  xctestrunZip: '$xctestrunZip',
+  xctestrunFile: '$xctestrunFile',
+  rootGcsBucket: '$rootGcsBucket',
+  disableVideoRecording: $disableVideoRecording,
+  testTimeoutMinutes: $testTimeoutMinutes,
+  testRuns: $testRuns,
+  waitForResults: $waitForResults,
+  limitBreak: $limitBreak,
+  devices: $devices
             """
     }
 }

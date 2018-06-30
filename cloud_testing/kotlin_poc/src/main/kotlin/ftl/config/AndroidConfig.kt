@@ -85,23 +85,23 @@ class AndroidConfig(
 
     override fun toString(): String {
         return """AndroidConfig
-            projectId: '$projectId'
-            appApk: '$appApk',
-            testApk: '$testApk',
-            rootGcsBucket: '$rootGcsBucket',
-            autoGoogleLogin: '$autoGoogleLogin',
-            useOrchestrator: $useOrchestrator,
-            disablePerformanceMetrics: $disablePerformanceMetrics,
-            disableVideoRecording: $disableVideoRecording,
-            testTimeoutMinutes: $testTimeoutMinutes,
-            testShards: $testShards,
-            testRuns: $testRuns,
-            waitForResults: $waitForResults,
-            testMethods: $testMethods,
-            limitBreak: $limitBreak,
-            devices: $devices,
-            environmentVariables: $environmentVariables,
-            directoriesToPull: $directoriesToPull
+  projectId: '$projectId'
+  appApk: '$appApk',
+  testApk: '$testApk',
+  rootGcsBucket: '$rootGcsBucket',
+  autoGoogleLogin: '$autoGoogleLogin',
+  useOrchestrator: $useOrchestrator,
+  disablePerformanceMetrics: $disablePerformanceMetrics,
+  disableVideoRecording: $disableVideoRecording,
+  testTimeoutMinutes: $testTimeoutMinutes,
+  testShards: $testShards,
+  testRuns: $testRuns,
+  waitForResults: $waitForResults,
+  testMethods: $testMethods,
+  limitBreak: $limitBreak,
+  devices: $devices,
+  environmentVariables: $environmentVariables,
+  directoriesToPull: $directoriesToPull
             """
     }
 }
