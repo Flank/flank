@@ -18,7 +18,7 @@ class IosConfig(
         testMethods: List<String> = listOf(),
         limitBreak: Boolean = false,
         projectId: String = YamlConfig.getDefaultProjectId(),
-        devices: List<Device> = listOf(Device()),
+        devices: List<Device> = listOf(Device("iphone8", "11.2")),
         testShardChunks: Set<Set<String>> = emptySet()
 ): YamlConfig(
         rootGcsBucket,

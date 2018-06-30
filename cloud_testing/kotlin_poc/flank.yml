@@ -12,10 +12,6 @@ limitBreak: false
 waitForResults: true
 testMethods:
   - class com.example.app.ExampleUiTest#testPasses
-devices:
-  - model: NexusLowRes
-  - version: 23
-    orientation: landscape
 environmentVariables:
   clearPackageData: true
 directoriesToPull:

@@ -31,7 +31,7 @@ open class YamlConfig(
         val testMethods: List<String> = listOf(),
         val limitBreak: Boolean = false,
         val projectId: String = getDefaultProjectId(),
-        val devices: List<Device> = listOf(Device()),
+        val devices: List<Device> = listOf(),
         var testShardChunks: Set<Set<String>> = emptySet()) {
 
     private val storage = StorageOptions.newBuilder().setProjectId(projectId).build().service
@@ -141,7 +141,7 @@ open class YamlConfig(
 }
 
 data class Device(
-        val model: String = "NexusLowRes",
-        val version: String = "23",
+        val model: String,
+        val version: String,
         val locale: String = "en",
         val orientation: String = "portrait")
