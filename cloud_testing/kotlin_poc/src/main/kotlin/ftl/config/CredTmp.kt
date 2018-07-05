@@ -72,13 +72,8 @@ object CredTmp {
     @Throws(IOException::class)
     fun authorize(): Credential {
         // https://github.com/bootstraponline/gcloud_cli/blob/e4b5e01610abad2e31d8a6edb20b17b2f84c5395/google-cloud-sdk/lib/googlecloudsdk/core/config.py#L167
-        // TODO: delete scopes except for auth/cloud-platform
         val scopes = listOf(
-                "https://www.googleapis.com/auth/userinfo.email",
-                "https://www.googleapis.com/auth/cloud-platform",
-                "https://www.googleapis.com/auth/appengine.admin",
-                "https://www.googleapis.com/auth/compute",
-                "https://www.googleapis.com/auth/accounts.reauth"
+                "https://www.googleapis.com/auth/cloud-platform"
         )
 
         // https://github.com/bootstraponline/gcloud_cli/blob/40521a6e297830b9f652a9ab4d8002e309b4353a/google-cloud-sdk/platform/gsutil/gslib/utils/system_util.py#L177

@@ -1,7 +1,9 @@
 package ftl.cli
 
 import ftl.android.*
+import ftl.config.CredTmp
 import ftl.config.YamlConfig
+import ftl.gc.GcTesting
 import ftl.run.TestRunner
 import kotlinx.coroutines.experimental.runBlocking
 import picocli.CommandLine.Command
@@ -23,6 +25,11 @@ class RunCommand : Runnable {
     override fun run() {
         val config = YamlConfig.load(configPath)
         if (shards > 0) config.testRuns = shards
+        if (auth) {
+            runBlocking {
+                CredTmp.authorize()
+            }
+        }
         runBlocking {
             // Verify each device config
             config.devices.forEach { device ->
@@ -46,6 +53,9 @@ class RunCommand : Runnable {
 
     @Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
     var usageHelpRequested: Boolean = false
+
+    @Option(names = ["-a", "--auth"], description = ["Log in with an oauth user flow"])
+    var auth: Boolean = false
 
     companion object {
         @Throws(Exception::class)

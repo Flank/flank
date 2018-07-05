@@ -26,8 +26,6 @@ object FtlConstants {
     }
 
     val credential: Credential by lazy {
-        // TODO: only CredTmp.authorize if there's no service credential
-
         try {
             if (useMock) {
                 return@lazy MockGoogleCredential.Builder()
@@ -36,6 +34,11 @@ object FtlConstants {
             }
 
             val defaultCredential = GoogleCredential.getApplicationDefault()
+
+            // If it is a service account it will have a private key id
+            if (defaultCredential?.serviceAccountPrivateKeyId == null) {
+                throw RuntimeException("Run flank auth to use the oauth user flow to generate token")
+            }
             // Scope is required.
             // https://developers.google.com/identity/protocols/googlescopes
             // https://developers.google.com/identity/protocols/application-default-credentials
@@ -44,8 +47,6 @@ object FtlConstants {
         } catch (e: Exception) {
             throw RuntimeException(e)
         }
-
-        CredTmp.authorize()
     }
 
     const val localResultsDir = "results"
