@@ -11,24 +11,23 @@ import ftl.json.MatrixMap
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 
-object AndroidTestRunner : GenericTestRunner {
+object AndroidTestRunner : GenericTestRunner<AndroidConfig> {
 
-    override suspend fun runTests(yamlConfig: YamlConfig): MatrixMap {
-        val config = yamlConfig as AndroidConfig
+    override suspend fun runTests(yamlConfig: YamlConfig<AndroidConfig>): MatrixMap {
         val (stopwatch, runGcsPath) = beforeRunTests()
 
         // GcAndroidMatrix => GcAndroidTestMatrix
         // GcAndroidTestMatrix.execute() 3x retry => matrix id (string)
-        val androidDeviceList = GcAndroidMatrix.build(config.devices)
+        val androidDeviceList = GcAndroidMatrix.build(yamlConfig.gCloudConfig.devices)
 
-        val apks = resolveApks(config, runGcsPath)
+        val apks = resolveApks(yamlConfig.gCloudConfig, runGcsPath)
         println("apks: $apks")
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
-        val runCount = config.testRuns
-        val repeatShard = config.testShardChunks.size
-        val testsPerVm = config.testShardChunks.first().size
-        val testsTotal = config.testShardChunks.sumBy { it.size }
+        val runCount = yamlConfig.flankConfig.testRuns
+        val repeatShard = yamlConfig.flankConfig.testShardChunks.size
+        val testsPerVm = yamlConfig.flankConfig.testShardChunks.first().size
+        val testsTotal = yamlConfig.flankConfig.testShardChunks.sumBy { it.size }
 
         println("  Running ${runCount}x using $repeatShard VMs per run. ${runCount * repeatShard} total VMs")
         println("  $testsPerVm tests per VM. $testsTotal total tests per run")
@@ -41,12 +40,12 @@ object AndroidTestRunner : GenericTestRunner {
                             runGcsPath = runGcsPath,
                             androidDeviceList = androidDeviceList,
                             testShardsIndex = testShardsIndex,
-                            config = config).execute()
+                            config = yamlConfig).execute()
                 }
             }
         }
 
-        return afterRunTests(jobs, runGcsPath, stopwatch, config)
+        return afterRunTests(jobs, runGcsPath, stopwatch, yamlConfig)
     }
 
     /**

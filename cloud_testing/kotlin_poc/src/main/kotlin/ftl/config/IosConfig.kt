@@ -1,41 +1,35 @@
 package ftl.config
 
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.type.TypeReference
 import ftl.ios.IosCatalog
 import ftl.ios.Xctestrun
 import ftl.util.Utils.fatalError
 
 class IosConfig(
+        @field:JsonProperty("test")
         val xctestrunZip: String = "",
+        @field:JsonProperty("xctestrun-file")
         val xctestrunFile: String = "",
-
+        // The following fields are annotated in the base class, GCloudConfig
         rootGcsBucket: String,
         disablePerformanceMetrics: Boolean = true,
         disableVideoRecording: Boolean = false,
-        testTimeoutMinutes: Long = 60,
-        testShards: Int = 1,
-        testRuns: Int = 1,
+        timeout: String = "60m",
         waitForResults: Boolean = true,
         testMethods: List<String> = emptyList(),
-        testMethodsAlwaysRun: List<String> = emptyList(),
-        limitBreak: Boolean = false,
         projectId: String = YamlConfig.getDefaultProjectId(),
-        devices: List<Device> = listOf(Device("iphone8", "11.2")),
-        testShardChunks: List<List<String>> = emptyList()
-) : YamlConfig(
-        rootGcsBucket,
-        disablePerformanceMetrics,
-        disableVideoRecording,
-        testTimeoutMinutes,
-        testShards,
-        testRuns,
-        waitForResults,
-        testMethods,
-        testMethodsAlwaysRun,
-        limitBreak,
-        projectId,
-        devices,
-        testShardChunks
-) {
+        devices: List<Device> = listOf(Device("iphone8", "11.2"))
+) :
+        GCloudConfig(
+                rootGcsBucket,
+                disablePerformanceMetrics,
+                disableVideoRecording,
+                timeout,
+                waitForResults,
+                testMethods,
+                projectId,
+                devices) {
 
     init {
         if (xctestrunZip.startsWith(FtlConstants.GCS_PREFIX)) {
@@ -47,8 +41,8 @@ class IosConfig(
 
         devices.forEach { device -> assertDeviceSupported(device) }
 
-        val xctestValidTestNames = Xctestrun.findTestNames(xctestrunFile)
-        validateTestMethods(xctestValidTestNames, "xctest binary")
+        validTestNames = Xctestrun.findTestNames(xctestrunFile)
+        validateTestMethods(validTestNames, "xctest binary")
     }
 
     private fun assertDeviceSupported(device: Device) {
@@ -58,23 +52,13 @@ class IosConfig(
     }
 
     companion object {
-        fun load(yamlPath: String): IosConfig {
-            return YamlConfig.load(yamlPath, IosConfig::class.java)
-        }
+        fun load(yamlPath: String): YamlConfig<IosConfig> = YamlConfig.load(yamlPath, object : TypeReference<YamlConfig<IosConfig>>() {})
     }
 
-    override fun toString(): String {
-        return """IosConfig
-  projectId: '$projectId'
-  xctestrunZip: '$xctestrunZip',
-  xctestrunFile: '$xctestrunFile',
-  rootGcsBucket: '$rootGcsBucket',
-  disableVideoRecording: $disableVideoRecording,
-  testTimeoutMinutes: $testTimeoutMinutes,
-  testRuns: $testRuns,
-  waitForResults: $waitForResults,
-  limitBreak: $limitBreak,
-  devices: $devices
+    override fun toString() = """${super.toString()}
+
+        IosConfig
+            xctestrunZip: '$xctestrunZip',
+            xctestrunFile: '$xctestrunFile',
             """
-    }
 }

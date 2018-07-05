@@ -1,18 +1,21 @@
-appApk: ../../test_app/apks/app-debug.apk
-testApk: ../../test_app/apks/app-debug-androidTest.apk
-rootGcsBucket: tmp_bucket_2
-autoGoogleLogin: true
-useOrchestrator: true
-disablePerformanceMetrics: true
-disableVideoRecording: false
-testTimeoutMinutes: 60
-testShards: 1
-testRuns: 1
-limitBreak: false
-waitForResults: true
-testMethods:
-  - class com.example.app.ExampleUiTest#testPasses
-environmentVariables:
-  clearPackageData: true
-directoriesToPull:
-  - /sdcard/screenshots
+gcloud:
+  app: ../../test_app/apks/app-debug.apk
+  test: ../../test_app/apks/app-debug-androidTest.apk
+  results-bucket: tmp_bucket_2
+  auto-google-login: true
+  use-orchestrator: true
+  performance-metrics: true
+  record-video: true
+  timeout: 60m
+  async: true
+  test-targets:
+    - class com.example.app.ExampleUiTest#testPasses
+  environment-variables:
+    clearPackageData: true
+  directories-to-pull:
+    - /sdcard/screenshots
+
+flank:
+  testShards: 1
+  limitBreak: false
+  testRuns: 1

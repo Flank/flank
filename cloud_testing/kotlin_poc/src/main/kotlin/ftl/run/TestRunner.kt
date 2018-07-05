@@ -5,14 +5,11 @@ import com.google.api.services.testing.model.TestMatrix
 import com.google.cloud.storage.Storage
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import ftl.config.AndroidConfig
-import ftl.config.FtlConstants
+import ftl.config.*
 import ftl.config.FtlConstants.indent
 import ftl.config.FtlConstants.localResultsDir
 import ftl.config.FtlConstants.localhost
 import ftl.config.FtlConstants.matrixIdsFile
-import ftl.config.IosConfig
-import ftl.config.YamlConfig
 import ftl.gc.GcStorage
 import ftl.gc.GcTestMatrix
 import ftl.gc.GcTesting
@@ -42,10 +39,10 @@ object TestRunner {
         if (!GcToolResults.service.rootUrl.contains(localhost)) throw RuntimeException("expected localhost in GcToolResults")
     }
 
-    private suspend fun runTests(yamlConfig: YamlConfig): MatrixMap {
-        return when (yamlConfig) {
-            is AndroidConfig -> AndroidTestRunner.runTests(yamlConfig)
-            is IosConfig -> IosTestRunner.runTests(yamlConfig)
+    private suspend fun <MOBILE_CONFIG : GCloudConfig> runTests(yamlConfig: YamlConfig<MOBILE_CONFIG>): MatrixMap {
+        return when (yamlConfig.gCloudConfig) {
+            is AndroidConfig -> AndroidTestRunner.runTests(yamlConfig as YamlConfig<AndroidConfig>)
+            is IosConfig -> IosTestRunner.runTests(yamlConfig as YamlConfig<IosConfig>)
             else -> throw RuntimeException("Unknown config type")
         }
     }
@@ -58,7 +55,7 @@ object TestRunner {
     }
 
     /** Refresh all in progress matrices in parallel **/
-    private suspend fun refreshMatrices(matrixMap: MatrixMap, config: YamlConfig) {
+    private suspend fun refreshMatrices(matrixMap: MatrixMap, config: GCloudConfig) {
         println("RefreshMatrices")
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
@@ -146,7 +143,7 @@ object TestRunner {
             val prefix = Storage.BlobListOption.prefix(matrix.gcsPathWithoutRootBucket)
             val result = GcStorage.storage.list(matrix.gcsRootBucket, prefix, fields)
 
-            result.iterateAll().forEach({ blob ->
+            result.iterateAll().forEach { blob ->
                 val blobPath = blob.blobId.name
                 if (
                         blobPath.matches(ArtifactRegex.testResultRgx) ||
@@ -159,7 +156,7 @@ object TestRunner {
                         blob.downloadTo(downloadFile)
                     }
                 }
-            })
+            }
 
             dirty = true
             matrix.downloaded = true
@@ -174,7 +171,7 @@ object TestRunner {
     } // fun
 
     /** Synchronously poll all matrix ids until they complete. Returns true if test run passed. **/
-    private fun pollMatrices(matrices: MatrixMap, config: YamlConfig) {
+    private fun pollMatrices(matrices: MatrixMap, config: GCloudConfig) {
         println("PollMatrices")
         val map = matrices.map
         val poll = matrices.map.values.filter {
@@ -197,7 +194,7 @@ object TestRunner {
     //
     // Port of MonitorTestExecutionProgress
     // gcloud-cli/googlecloudsdk/api_lib/firebase/test/matrix_ops.py
-    private fun pollMatrix(matrixId: String, stopwatch: StopWatch, config: YamlConfig): TestMatrix {
+    private fun pollMatrix(matrixId: String, stopwatch: StopWatch, config: GCloudConfig): TestMatrix {
         var lastState = ""
         var lastError = ""
         var progress = listOf<String>()
@@ -259,7 +256,7 @@ object TestRunner {
     }
 
     // used to update results from an async run
-    suspend fun refreshLastRun(config: YamlConfig) {
+    suspend fun refreshLastRun(config: GCloudConfig) {
         val matrixMap = lastMatrices()
 
         refreshMatrices(matrixMap, config)
@@ -268,12 +265,12 @@ object TestRunner {
         ReportManager.generate(matrixMap)
     }
 
-    suspend fun newRun(config: YamlConfig) {
+    suspend fun <MOBILE_CONFIG : GCloudConfig> newRun(config: YamlConfig<MOBILE_CONFIG>) {
         println(config)
         val matrixMap = runTests(config)
 
-        if (config.waitForResults) {
-            pollMatrices(matrixMap, config)
+        if (config.gCloudConfig.waitForResults) {
+            pollMatrices(matrixMap, config.gCloudConfig)
             fetchArtifacts(matrixMap)
 
             val testsSuccessful = ReportManager.generate(matrixMap)

@@ -2,6 +2,7 @@ package ftl.run
 
 import com.google.api.services.testing.model.TestMatrix
 import ftl.config.FtlConstants
+import ftl.config.GCloudConfig
 import ftl.config.YamlConfig
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
@@ -9,7 +10,7 @@ import ftl.util.StopWatch
 import ftl.util.Utils
 import kotlinx.coroutines.experimental.Deferred
 
-interface GenericTestRunner {
+interface GenericTestRunner<MOBILE_CONFIG : GCloudConfig> {
     fun beforeRunTests(): Pair<StopWatch, String> {
         println("RunTests")
         val stopwatch = StopWatch().start()
@@ -18,13 +19,13 @@ interface GenericTestRunner {
         return Pair(stopwatch, Utils.uniqueObjectName())
     }
 
-    suspend fun runTests(yamlConfig: YamlConfig): MatrixMap
+    suspend fun runTests(yamlConfig: YamlConfig<MOBILE_CONFIG>): MatrixMap
 
     suspend fun afterRunTests(
             jobs: ArrayList<Deferred<TestMatrix>>,
             runGcsPath: String,
             stopwatch: StopWatch,
-            config: YamlConfig): MatrixMap {
+            config: YamlConfig<MOBILE_CONFIG>): MatrixMap {
         val savedMatrices = mutableMapOf<String, SavedMatrix>()
 
         jobs.forEach {
@@ -38,7 +39,7 @@ interface GenericTestRunner {
 
         println(FtlConstants.indent + "${savedMatrices.size} matrix ids created in ${stopwatch.check()}")
         val gcsBucket = "https://console.developers.google.com/storage/browser/" +
-                config.rootGcsBucket + "/" + matrixMap.runPath
+                config.gCloudConfig.rootGcsBucket + "/" + matrixMap.runPath
         println(FtlConstants.indent + gcsBucket)
         println()
 

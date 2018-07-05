@@ -1,46 +1,44 @@
 package ftl.config
 
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.type.TypeReference
 import com.linkedin.dex.parser.DexParser
 import ftl.android.*
 import ftl.gc.GcStorage
 import kotlinx.coroutines.experimental.runBlocking
 
 class AndroidConfig(
+        @field:JsonProperty("app")
         val appApk: String = "",
+        @field:JsonProperty("test")
         val testApk: String = "",
+        @field:JsonProperty("auto-google-login")
         val autoGoogleLogin: Boolean = true,
+        @field:JsonProperty("use-orchestrator")
         val useOrchestrator: Boolean = true,
+        @field:JsonProperty("environment-variables")
         val environmentVariables: Map<String, String> = emptyMap(),
+        @field:JsonProperty("directories-to-pull")
         val directoriesToPull: List<String> = emptyList(),
-
+        // The following fields are annotated in the base class, GCloudConfig
         rootGcsBucket: String,
-        disablePerformanceMetrics: Boolean = true,
-        disableVideoRecording: Boolean = false,
-        testTimeoutMinutes: Long = 60,
-        testShards: Int = 1,
-        testRuns: Int = 1,
+        disablePerformanceMetrics: Boolean = false,
+        disableVideoRecording: Boolean = true,
+        testTimeoutMinutes: String = "60m",
         waitForResults: Boolean = true,
         testMethods: List<String> = emptyList(),
-        testMethodsAlwaysRun: List<String> = emptyList(),
-        limitBreak: Boolean = false,
         projectId: String = YamlConfig.getDefaultProjectId(),
-        devices: List<Device> = listOf(Device("NexusLowRes", "23")),
-        testShardChunks: List<List<String>> = emptyList()
-) : YamlConfig(
-        rootGcsBucket,
-        disablePerformanceMetrics,
-        disableVideoRecording,
-        testTimeoutMinutes,
-        testShards,
-        testRuns,
-        waitForResults,
-        testMethods,
-        testMethodsAlwaysRun,
-        limitBreak,
-        projectId,
-        devices,
-        testShardChunks
-) {
+        devices: List<Device> = listOf(Device("NexusLowRes", "23"))
+) :
+        GCloudConfig(
+                rootGcsBucket,
+                disablePerformanceMetrics,
+                disableVideoRecording,
+                testTimeoutMinutes,
+                waitForResults,
+                testMethods,
+                projectId,
+                devices) {
 
     init {
         if (appApk.startsWith(FtlConstants.GCS_PREFIX)) {
@@ -65,8 +63,8 @@ class AndroidConfig(
 
         devices.forEach { device -> assertDeviceSupported(device) }
 
-        val dexValidTestNames = DexParser.findTestMethods(testLocalApk).map { "class ${it.testName}" }
-        validateTestMethods(dexValidTestNames, "Test APK")
+        validTestNames = DexParser.findTestMethods(testLocalApk).map { "class ${it.testName}" }
+        validateTestMethods(validTestNames, "Test APK")
     }
 
     private fun assertDeviceSupported(device: Device) {
@@ -81,30 +79,17 @@ class AndroidConfig(
     }
 
     companion object {
-        fun load(yamlPath: String): AndroidConfig {
-            return YamlConfig.load(yamlPath, AndroidConfig::class.java)
-        }
+        fun load(yamlPath: String): YamlConfig<AndroidConfig> = YamlConfig.load(yamlPath, object : TypeReference<YamlConfig<AndroidConfig>>() {})
     }
 
-    override fun toString(): String {
-        return """AndroidConfig
-  projectId: '$projectId'
-  appApk: '$appApk',
-  testApk: '$testApk',
-  rootGcsBucket: '$rootGcsBucket',
-  autoGoogleLogin: '$autoGoogleLogin',
-  useOrchestrator: $useOrchestrator,
-  disablePerformanceMetrics: $disablePerformanceMetrics,
-  disableVideoRecording: $disableVideoRecording,
-  testTimeoutMinutes: $testTimeoutMinutes,
-  testShards: $testShards,
-  testRuns: $testRuns,
-  waitForResults: $waitForResults,
-  testMethods: $testMethods,
-  limitBreak: $limitBreak,
-  devices: $devices,
-  environmentVariables: $environmentVariables,
-  directoriesToPull: $directoriesToPull
+    override fun toString() = """${super.toString()}
+
+        AndroidConfig
+            app: '$appApk',
+            test: '$testApk',
+            autoGoogleLogin: '$autoGoogleLogin',
+            useOrchestrator: $useOrchestrator,
+            environmentVariables: $environmentVariables,
+            directoriesToPull: $directoriesToPull
             """
-    }
 }

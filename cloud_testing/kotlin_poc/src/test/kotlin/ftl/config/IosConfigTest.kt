@@ -36,22 +36,26 @@ class IosConfigTest {
     fun configLoadsSuccessfully() {
         val config = IosConfig.load(yamlFile)
 
-        assert(getPath(config.xctestrunZip), xctestrunZip)
-        assert(getPath(config.xctestrunFile), xctestrunFile)
-        assert(config.rootGcsBucket, "tmp_bucket_2")
+        assert(getPath(config.gCloudConfig.xctestrunZip), xctestrunZip)
+        assert(getPath(config.gCloudConfig.xctestrunFile), xctestrunFile)
 
-        assert(config.disablePerformanceMetrics, true)
-        assert(config.disableVideoRecording, false)
-        assert(config.testTimeoutMinutes, 60L)
+        with(config.gCloudConfig) {
+            assert(rootGcsBucket, "tmp_bucket_2")
+            assert(disablePerformanceMetrics, true)
+            assert(disableRecordVideo, true)
+            assert(testTimeout, "60m")
+            assert(waitForResults, true)
+            assert(testMethods, listOf(testName))
+            assert(devices, listOf(
+                    Device("iphone8", "11.2", "en_US", "portrait")
+            ))
+        }
 
-        assert(config.testShards, 1)
-        assert(config.testRuns, 1)
-        assert(config.waitForResults, true)
-        assert(config.testMethods, listOf(testName))
-        assert(config.limitBreak, false)
-        assert(config.devices, listOf(
-                Device("iphone8", "11.2", "en_US", "portrait")
-        ))
+        with(config.flankConfig) {
+            assert(testShards, 1)
+            assert(testRuns, 1)
+            assert(limitBreak, false)
+        }
     }
 
     @Test
@@ -80,8 +84,10 @@ class IosConfigTest {
                 "EarlGreyExampleMixedTests/testBasicSelection3",
                 "EarlGreyExampleMixedTests/testBasicSelection4")
 
-        assertThat(config.testShardChunks.size).isEqualTo(2)
-        assertThat(config.testShardChunks[0]).isEqualTo(chunk0)
-        assertThat(config.testShardChunks[1]).isEqualTo(chunk1)
+        val testShardChunks = config.flankConfig.testShardChunks
+
+        assertThat(testShardChunks.size).isEqualTo(2)
+        assertThat(testShardChunks[0]).isEqualTo(chunk0)
+        assertThat(testShardChunks[1]).isEqualTo(chunk1)
     }
 }
