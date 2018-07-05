@@ -7,10 +7,10 @@ import ftl.config.YamlConfig
 import ftl.gc.GcIosMatrix
 import ftl.gc.GcIosTestMatrix
 import ftl.gc.GcStorage
+import ftl.ios.Xctestrun
 import ftl.json.MatrixMap
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
-import ftl.ios.Xctestrun
 
 object IosTestRunner : GenericTestRunner {
 

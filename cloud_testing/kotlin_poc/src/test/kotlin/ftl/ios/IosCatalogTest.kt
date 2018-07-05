@@ -1,16 +1,17 @@
 package ftl.ios
 
-import ftl.config.FtlConstants
-import org.junit.Assert.assertEquals
-import org.junit.BeforeClass
+import com.google.common.truth.Truth.assertThat
+import ftl.test.util.FlankTestRunner
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(FlankTestRunner::class)
 class IosCatalogTest {
 
     @Test
     fun supported() {
-        assertEquals(false, IosCatalog.supported("bogus", "11.2"))
-        assertEquals(false, IosCatalog.supported("iphone8", "bogus"))
-        assertEquals(true, IosCatalog.supported("iphone8", "11.2"))
+        assertThat(IosCatalog.supported("bogus", "11.2")).isFalse()
+        assertThat(IosCatalog.supported("iphone8", "bogus")).isFalse()
+        assertThat(IosCatalog.supported("iphone8", "11.2")).isTrue()
     }
 }

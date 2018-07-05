@@ -25,7 +25,7 @@ class AndroidConfig(
         projectId: String = YamlConfig.getDefaultProjectId(),
         devices: List<Device> = listOf(Device("NexusLowRes", "23")),
         testShardChunks: Set<Set<String>> = emptySet()
-): YamlConfig(
+) : YamlConfig(
         rootGcsBucket,
         disablePerformanceMetrics,
         disableVideoRecording,
@@ -70,7 +70,8 @@ class AndroidConfig(
     private fun assertDeviceSupported(device: Device) {
         val deviceConfigTest = AndroidCatalog.supportedDeviceConfig(device.model, device.version)
         when (deviceConfigTest) {
-            SupportedDeviceConfig -> {}
+            SupportedDeviceConfig -> {
+            }
             UnsupportedModelId -> throw RuntimeException("Unsupported model id, '${device.model}'\nSupported model ids: ${AndroidCatalog.androidModelIds}")
             UnsupportedVersionId -> throw RuntimeException("Unsupported version id, '${device.version}'\nSupported Version ids: ${AndroidCatalog.androidVersionIds}")
             is IncompatibleModelVersion -> throw RuntimeException("Incompatible model, '${device.model}', and version, '${device.version}'\nSupported version ids for '${device.model}': $deviceConfigTest")

@@ -48,6 +48,8 @@ application {
 }
 
 repositories {
+    maven(url = "http://dl.bintray.com/kotlin/ktor")
+    maven(url = "https://dl.bintray.com/kotlin/kotlinx")
     jcenter()
 }
 
@@ -95,6 +97,18 @@ dependencies {
     // http://stefanbirkner.github.io/system-rules/index.html
     testImplementation("com.github.stefanbirkner:system-rules:1.17.1")
 
+    // https://bintray.com/kotlin/ktor/ktor
+    val ktorVersion = "0.9.3"
+    testImplementation("io.ktor:ktor-server-core:$ktorVersion")
+    testImplementation("io.ktor:ktor-server-netty:$ktorVersion")
+    testImplementation("io.ktor:ktor-gson:$ktorVersion")
+
+    // https://www.slf4j.org/download.html
+    val slf4jVersion = "1.8.0-beta1"
+    testImplementation("org.slf4j:slf4j-log4j12:$slf4jVersion")
+    testImplementation("org.slf4j:jul-to-slf4j:$slf4jVersion")
+
+    // todo: move to testImplementation once dagger is implemented https://github.com/TestArmada/flank/issues/248
     compile("com.google.cloud:google-cloud-nio:0.30.0-alpha")
 }
 

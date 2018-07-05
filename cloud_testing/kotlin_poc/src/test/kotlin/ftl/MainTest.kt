@@ -1,15 +1,25 @@
 package ftl
 
-import ftl.android.LocalGcs
 import ftl.config.AndroidConfig
-import ftl.config.FtlConstants
 import ftl.config.IosConfig
 import ftl.run.TestRunner
+import ftl.test.util.FlankTestRunner
+import ftl.test.util.LocalGcs
 import kotlinx.coroutines.experimental.runBlocking
 import org.junit.BeforeClass
 import org.junit.Test
+import org.junit.runner.RunWith
 
-class MainTest : TestArtifact() {
+@RunWith(FlankTestRunner::class)
+class MainTest {
+
+    companion object {
+        @BeforeClass
+        @JvmStatic
+        fun setup() {
+            LocalGcs.setupApks()
+        }
+    }
 
     @Test
     fun mockedTestRun() {
@@ -26,15 +36,6 @@ class MainTest : TestArtifact() {
         val config = IosConfig.load("src/test/kotlin/ftl/fixtures/flank.ios.yml")
         runBlocking {
             TestRunner.newRun(config)
-        }
-    }
-
-    companion object {
-        @BeforeClass
-        @JvmStatic
-        fun setup() {
-            FtlConstants.useMock = true
-            LocalGcs.setupApks()
         }
     }
 }

@@ -5,7 +5,6 @@ import ftl.android.AndroidCatalog
 import ftl.gc.GcToolResults
 import ftl.util.Billing
 import ftl.util.MatrixState.FINISHED
-import ftl.util.firstToolResults
 import ftl.util.webLink
 
 // Note: 1 matrix = 1 execution is assumed.

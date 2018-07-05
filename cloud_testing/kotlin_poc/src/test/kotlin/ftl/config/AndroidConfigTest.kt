@@ -1,16 +1,19 @@
 package ftl.config
 
 import ftl.run.TestRunner.bitrise
-import ftl.android.LocalGcs
-import org.junit.Assert.assertEquals
+import ftl.test.util.FlankTestRunner
+import ftl.test.util.LocalGcs
+import ftl.test.util.TestHelper.assert
+import ftl.test.util.TestHelper.getPath
 import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
-import java.nio.file.Paths
+import org.junit.runner.RunWith
 
+@RunWith(FlankTestRunner::class)
 class AndroidConfigTest {
 
     @Rule
@@ -25,12 +28,6 @@ class AndroidConfigTest {
     @JvmField
     val systemOutRule = SystemOutRule().muteForSuccessfulTests()!!
 
-    private fun assert(actual: Any, expected: Any) =
-            assertEquals(expected, actual)
-
-    private fun getPath(path: String): String =
-            Paths.get(path).normalize().toAbsolutePath().toString()
-
     private val localYamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.local.yml")
     private val gcsYamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.gcs.yml")
     private val appApkLocal = getPath("../../test_app/apks/app-debug.apk")
@@ -39,6 +36,14 @@ class AndroidConfigTest {
     private val testApkGcs = "gs://tmp_bucket_2/app-debug-androidTest.apk"
     private val testName = "class com.example.app.ExampleUiTest#testPasses"
     private val directoryToPull = "/sdcard/screenshots"
+
+    companion object {
+        @BeforeClass
+        @JvmStatic
+        fun setup() {
+            LocalGcs.setupApks()
+        }
+    }
 
     // NOTE: Change working dir to '%MODULE_WORKING_DIR%' in IntelliJ to match gradle for this test to pass.
     @Test
@@ -162,14 +167,5 @@ class AndroidConfigTest {
                 limitBreak = true)
 
         assert(config.getGcsBucket(), "tmp_bucket_2")
-    }
-
-    companion object {
-        @BeforeClass
-        @JvmStatic
-        fun setup() {
-            FtlConstants.useMock = true
-            LocalGcs.setupApks()
-        }
     }
 }

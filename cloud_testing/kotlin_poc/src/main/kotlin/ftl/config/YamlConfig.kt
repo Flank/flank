@@ -9,8 +9,8 @@ import com.google.cloud.storage.StorageClass
 import com.google.cloud.storage.StorageOptions
 import com.google.common.math.IntMath
 import ftl.config.FtlConstants.useMock
-import ftl.util.Utils.fatalError
 import ftl.gc.GcStorage
+import ftl.util.Utils.fatalError
 import java.io.File
 import java.math.RoundingMode
 import java.net.URI

@@ -1,10 +1,13 @@
 package ftl.ios
 
-import ftl.TestArtifact
-import org.junit.Assert.assertEquals
+import com.google.common.truth.Truth.assertThat
+import ftl.test.util.FlankTestRunner
+import ftl.test.util.TestArtifact.fixturesPath
 import org.junit.Test
+import org.junit.runner.RunWith
 
-class ParseTest : TestArtifact() {
+@RunWith(FlankTestRunner::class)
+class ParseTest {
 
     private val objcBinary = "$fixturesPath/objc/EarlGreyExampleTests"
     private val swiftBinary = "$fixturesPath/swift/EarlGreyExampleSwiftTests"
@@ -51,10 +54,10 @@ class ParseTest : TestArtifact() {
         val results = Parse.parseObjcTests(objcBinary).sorted()
 
         results.forEachIndexed { index, result ->
-            assertEquals(objcTests[index], result)
+            assertThat(objcTests[index]).isEqualTo(result)
         }
 
-        assertEquals(objcTests.size, results.size)
+        assertThat(objcTests.size).isEqualTo(results.size)
     }
 
     @Test(expected = RuntimeException::class)
@@ -67,15 +70,14 @@ class ParseTest : TestArtifact() {
         val results = Parse.parseSwiftTests(swiftBinary).sorted()
 
         results.forEachIndexed { index, result ->
-            assertEquals(swiftTests[index], result)
+            assertThat(swiftTests[index]).isEqualTo(result)
         }
 
-        assertEquals(swiftTests.size, results.size)
+        assertThat(swiftTests.size).isEqualTo(results.size)
     }
 
     @Test(expected = RuntimeException::class)
     fun parseSwiftTests_fileNotFound() {
         Parse.parseSwiftTests("./BinaryThatDoesNotExist")
     }
-
 }

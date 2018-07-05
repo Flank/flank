@@ -1,20 +1,17 @@
 package ftl.config
 
-import ftl.TestArtifact
-import ftl.run.TestRunner.bitrise
-import org.junit.Assert.assertEquals
+import ftl.test.util.FlankTestRunner
+import ftl.test.util.TestHelper.assert
+import ftl.test.util.TestHelper.getPath
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
-import java.nio.file.Paths
+import org.junit.runner.RunWith
 
-class IosConfigTest: TestArtifact() {
-
-    init {
-        FtlConstants.useMock = true
-    }
+@RunWith(FlankTestRunner::class)
+class IosConfigTest {
 
     @Rule
     @JvmField
@@ -27,14 +24,6 @@ class IosConfigTest: TestArtifact() {
     @Rule
     @JvmField
     val systemOutRule = SystemOutRule().muteForSuccessfulTests()!!
-
-    private fun assert(actual: Any, expected: Any) {
-        assertEquals(expected, actual)
-    }
-
-    private fun getPath(path: String): String {
-        return Paths.get(path).normalize().toAbsolutePath().toString()
-    }
 
     private val yamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.ios.yml")
     private val xctestrunZip = getPath("src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip")
@@ -59,7 +48,7 @@ class IosConfigTest: TestArtifact() {
         assert(config.testMethods, listOf(testName))
         assert(config.limitBreak, false)
         assert(config.devices, listOf(
-            Device("iphone8", "11.2", "en_US", "portrait")
+                Device("iphone8", "11.2", "en_US", "portrait")
         ))
     }
 
