@@ -1,32 +1,32 @@
 package ftl.util
 
-import org.junit.Assert.assertEquals
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
 class BashTest {
 
     @Test
     fun executeStderr() {
-        assertEquals("", Bash.execute("echo a 1>&2"))
+        assertThat(Bash.execute("echo a 1>&2")).isEmpty()
     }
 
     @Test(expected = RuntimeException::class)
     fun executeStderrExitCode1() {
-        assertEquals("", Bash.execute("echo not an error 1>&2; exit 1"))
+        assertThat(Bash.execute("echo not an error 1>&2; exit 1")).isEmpty()
     }
 
     @Test
     fun executeNoOutput() {
-        assertEquals("", Bash.execute(""))
+        assertThat(Bash.execute("")).isEmpty()
     }
 
     @Test
     fun executeSmallOutput() {
-        assertEquals("ok", Bash.execute("echo ok"))
+        assertThat(Bash.execute("echo ok")).isEqualTo("ok")
     }
 
     @Test
     fun executeLargeOutput() {
-        assertEquals(200_000, Bash.execute("ruby -e \"puts 'hi' * 100_000\"").length)
+        assertThat(Bash.execute("ruby -e \"puts 'hi' * 100_000\"").length).isEqualTo(200_000)
     }
 }

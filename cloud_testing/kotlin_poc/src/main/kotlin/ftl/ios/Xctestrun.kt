@@ -88,7 +88,7 @@ object Xctestrun {
         return result
     }
 
-    private fun NSDictionary.deepClone() : NSDictionary {
+    private fun NSDictionary.deepClone(): NSDictionary {
         return NSObject.fromJavaObject(this.toJavaObject()) as NSDictionary
     }
 

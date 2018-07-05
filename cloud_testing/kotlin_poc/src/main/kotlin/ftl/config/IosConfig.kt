@@ -1,8 +1,8 @@
 package ftl.config
 
 import ftl.ios.IosCatalog
-import ftl.util.Utils.fatalError
 import ftl.ios.Xctestrun
+import ftl.util.Utils.fatalError
 
 class IosConfig(
         val xctestrunZip: String = "",
@@ -20,7 +20,7 @@ class IosConfig(
         projectId: String = YamlConfig.getDefaultProjectId(),
         devices: List<Device> = listOf(Device("iphone8", "11.2")),
         testShardChunks: Set<Set<String>> = emptySet()
-): YamlConfig(
+) : YamlConfig(
         rootGcsBucket,
         disablePerformanceMetrics,
         disableVideoRecording,

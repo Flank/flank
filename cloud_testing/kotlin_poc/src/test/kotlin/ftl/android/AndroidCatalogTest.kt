@@ -1,19 +1,20 @@
 package ftl.android
 
 import com.google.api.services.testing.model.AndroidDevice
-import ftl.config.FtlConstants
-import junit.framework.Assert.assertEquals
-import org.junit.BeforeClass
+import com.google.common.truth.Truth.assertThat
+import ftl.test.util.FlankTestRunner
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(FlankTestRunner::class)
 class AndroidCatalogTest {
 
     @Test
     fun validateDeviceConfig() {
-        assertEquals(UnsupportedModelId, AndroidCatalog.supportedDeviceConfig("ios", "23"))
-        assertEquals(UnsupportedVersionId, AndroidCatalog.supportedDeviceConfig("NexusLowRes", "twenty-three"))
-        assertEquals(IncompatibleModelVersion, AndroidCatalog.supportedDeviceConfig("NexusLowRes", "21"))
-        assertEquals(SupportedDeviceConfig, AndroidCatalog.supportedDeviceConfig("NexusLowRes", "23"))
+        assertThat(AndroidCatalog.supportedDeviceConfig("ios", "23")).isEqualTo(UnsupportedModelId)
+        assertThat(AndroidCatalog.supportedDeviceConfig("NexusLowRes", "twenty-three")).isEqualTo(UnsupportedVersionId)
+        assertThat(AndroidCatalog.supportedDeviceConfig("NexusLowRes", "21")).isEqualTo(IncompatibleModelVersion)
+        assertThat(AndroidCatalog.supportedDeviceConfig("NexusLowRes", "23")).isEqualTo(SupportedDeviceConfig)
     }
 
     @Test
@@ -23,16 +24,8 @@ class AndroidCatalogTest {
         val shamu = AndroidDevice()
         shamu.androidModelId = "shamu"
 
-        assertEquals(true, AndroidCatalog.isVirtualDevice(nexus))
-        assertEquals(false, AndroidCatalog.isVirtualDevice(shamu))
-        assertEquals(false, AndroidCatalog.isVirtualDevice(null))
-    }
-
-    companion object {
-        @BeforeClass
-        @JvmStatic
-        fun setup() {
-            FtlConstants.useMock = true
-        }
+        assertThat(AndroidCatalog.isVirtualDevice(nexus)).isEqualTo(true)
+        assertThat(AndroidCatalog.isVirtualDevice(shamu)).isEqualTo(false)
+        assertThat(AndroidCatalog.isVirtualDevice(null)).isEqualTo(false)
     }
 }

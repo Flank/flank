@@ -1,16 +1,16 @@
 package ftl.util
 
-import org.junit.Assert.assertEquals
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
 class BillingTest {
 
     @Test
     fun billableMinutes() {
-        assertEquals(1L, Billing.billableMinutes(0L))
-        assertEquals(1L, Billing.billableMinutes(60L))
-        assertEquals(2L, Billing.billableMinutes(61L))
-        assertEquals(60L, Billing.billableMinutes(3_555L))
+        assertThat(Billing.billableMinutes(0L)).isEqualTo(1L)
+        assertThat(Billing.billableMinutes(60L)).isEqualTo(1L)
+        assertThat(Billing.billableMinutes(61L)).isEqualTo(2L)
+        assertThat(Billing.billableMinutes(3_555L)).isEqualTo(60L)
     }
 
     @Test
@@ -28,6 +28,6 @@ Total
   Billable time:	9h 39m
   Billable minutes:	579
   Cost:	$17.85""".trim()
-        assertEquals(expectedReport, Billing.estimateCosts(456L, 123L))
+        assertThat(Billing.estimateCosts(456L, 123L)).isEqualTo(expectedReport)
     }
 }

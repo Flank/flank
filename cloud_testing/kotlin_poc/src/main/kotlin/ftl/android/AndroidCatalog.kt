@@ -37,7 +37,7 @@ object AndroidCatalog {
 }
 
 sealed class DeviceConfigCheck
-object SupportedDeviceConfig: DeviceConfigCheck()
+object SupportedDeviceConfig : DeviceConfigCheck()
 object UnsupportedModelId : DeviceConfigCheck()
 object UnsupportedVersionId : DeviceConfigCheck()
 object IncompatibleModelVersion : DeviceConfigCheck()

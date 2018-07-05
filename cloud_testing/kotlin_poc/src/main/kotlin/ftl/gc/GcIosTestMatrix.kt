@@ -4,10 +4,10 @@ import com.dd.plist.NSDictionary
 import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.*
 import ftl.config.IosConfig
+import ftl.ios.Xctestrun
 import ftl.util.Utils
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
-import ftl.ios.Xctestrun
 import java.util.concurrent.TimeUnit
 
 object GcIosTestMatrix {

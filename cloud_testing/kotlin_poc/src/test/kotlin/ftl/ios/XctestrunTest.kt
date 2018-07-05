@@ -2,11 +2,14 @@ package ftl.ios
 
 import com.dd.plist.NSDictionary
 import com.google.common.truth.Truth.assertThat
-import ftl.TestArtifact
+import ftl.test.util.FlankTestRunner
+import ftl.test.util.TestArtifact.fixturesPath
 import org.junit.Assert.*
 import org.junit.Test
+import org.junit.runner.RunWith
 
-class XctestrunTest : TestArtifact() {
+@RunWith(FlankTestRunner::class)
+class XctestrunTest {
 
     private val swiftXctestrun = "$fixturesPath/EarlGreyExampleSwiftTests_iphoneos11.2-arm64.xctestrun"
     private val swiftTests = setOf(

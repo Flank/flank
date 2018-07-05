@@ -1,4 +1,4 @@
-package ftl.android
+package ftl.test.util
 
 import com.google.cloud.storage.BlobInfo
 import ftl.gc.GcStorage
@@ -37,6 +37,5 @@ object LocalGcs {
                         .map { it.name }
                         .any { APP_BLOB_PATH == it }
         )
-
     }
 }

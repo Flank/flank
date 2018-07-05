@@ -1,4 +1,4 @@
-package ftl
+package ftl.test.util
 
 import com.google.api.services.testing.model.*
 import com.google.api.services.toolresults.model.*
@@ -19,16 +19,13 @@ import io.ktor.server.netty.Netty
 import org.apache.log4j.BasicConfigurator
 import java.util.concurrent.atomic.AtomicInteger
 
-object Main {
+object MockServer {
 
     private val matrixIdCounter: AtomicInteger = AtomicInteger(0)
 
-    @Throws(Exception::class)
-    @JvmStatic
-    fun main(args: Array<String>) {
+    val application by lazy {
         BasicConfigurator.configure();
-
-        val server = embeddedServer(Netty, 8080) {
+        embeddedServer(Netty, 8080) {
             install(ContentNegotiation) {
                 // Fix: IllegalArgumentException: number type formatted as a JSON number cannot use @JsonString annotation
                 val gson = GsonBuilder().setLongSerializationPolicy(LongSerializationPolicy.STRING).create()
@@ -184,6 +181,5 @@ object Main {
                 }
             }
         }
-        server.start(wait = true)
     }
 }

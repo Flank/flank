@@ -1,4 +1,0 @@
-rootProject.name = 'mock_server'
-
-include ':testing'
-project(':testing').projectDir = new File(settingsDir, '../apis/testing')

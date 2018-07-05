@@ -1,17 +1,17 @@
-package ftl
+package ftl.test.util
 
+import ftl.util.Bash
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import java.io.File
 import java.util.concurrent.TimeUnit
 import kotlin.math.pow
-import ftl.util.Bash
 
-abstract class TestArtifact {
-    internal val fixturesPath = "./src/test/kotlin/ftl/fixtures/tmp"
+object TestArtifact {
+    val fixturesPath = "./src/test/kotlin/ftl/fixtures/tmp"
 
-    init {
+    val checkFixtures by lazy {
         val assetLink = remoteAssetLink()
         if (updateRequired(assetLink)) {
             updateFixtures(assetLink)
