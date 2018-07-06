@@ -25,16 +25,17 @@ Implementation details:
 
 There are two possible ways of authenticating against google.
 
-### Using your google account
+### Using gcloud
 
 - `gcloud components update`
 - `gcloud config set project <PROJECT-ID>`
 - `gcloud auth login`
     - This logs you in for `gcloud` and `gsutil`
-- `gcloud auth application-default login`
-    - This logs you in for the gcloud sdks (and therefore Flank as well). It will save the application default
-      credential to `~/.config/gcloud/application_default_credentials.json`
 - Verify gcloud can [run Android](https://firebase.google.com/docs/test-lab/android/continuous) and [iOS tests.](https://firebase.google.com/docs/test-lab/ios/command-line)
+
+### Using your google account
+
+- Run flank, follow directions.
 
 ### Using service account
 

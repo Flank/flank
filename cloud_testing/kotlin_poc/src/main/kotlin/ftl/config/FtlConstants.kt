@@ -26,6 +26,8 @@ object FtlConstants {
     }
 
     val credential: Credential by lazy {
+        // TODO: only CredTmp.authorize if there's no service credential
+
         try {
             if (useMock) {
                 return@lazy MockGoogleCredential.Builder()
@@ -42,6 +44,8 @@ object FtlConstants {
         } catch (e: Exception) {
             throw RuntimeException(e)
         }
+
+        CredTmp.authorize()
     }
 
     const val localResultsDir = "results"

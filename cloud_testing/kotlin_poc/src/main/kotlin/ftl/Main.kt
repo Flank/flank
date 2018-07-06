@@ -28,5 +28,13 @@ object Main : Runnable {
     fun main(args: Array<String>) {
 //        val args = arrayOf("firebase", "doctor") // for debugging. run test from IntelliJ IDEA
         CommandLine.run<Runnable>(Main, System.out, *args)
+
+//        GoogleApiLogger.logAllToStdout()
+//        // X-Goog-User-Project => get quota project.
+//        val project = ServiceOptions.getDefaultProjectId()
+//        val cred = CredTmp.authorize() // Credential
+//        val cred2 = GoogleCredential.getApplicationDefault() // GoogleCredential // serviceAccountProjectId
+//
+//        DoctorCommand().run()
     }
 }
