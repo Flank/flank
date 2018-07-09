@@ -32,7 +32,7 @@ object GcTestMatrix {
     //        "status" : "UNAVAILABLE"
     //    }
     fun refresh(testMatrixId: String, config: YamlConfig): TestMatrix {
-        val getMatrix = GcTesting.get.projects().testMatrices().get(config.projectId, testMatrixId)
+        val getMatrix = GcTesting.getTestingWithId(config.projectId).projects().testMatrices().get(config.projectId, testMatrixId)
         var failed = 0
         val maxWait = ofHours(1).seconds
 

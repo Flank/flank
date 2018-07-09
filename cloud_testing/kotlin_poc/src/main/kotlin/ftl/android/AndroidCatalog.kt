@@ -8,13 +8,20 @@ import ftl.gc.GcTesting
  * to validate device configuration
  */
 object AndroidCatalog {
+    private var projectId: String? = null
+
     private val androidDeviceCatalog by lazy {
-        GcTesting.get.testEnvironmentCatalog().get("android").execute().androidDeviceCatalog
+        print(projectId)
+        GcTesting.getTestingWithId(projectId).testEnvironmentCatalog().get("android").execute().androidDeviceCatalog
     }
 
     val androidModelIds by lazy { androidDeviceCatalog.models.map { it.id } }
     val androidVersionIds by lazy { androidDeviceCatalog.versions.map { it.id } }
 
+    fun init(id: String) : AndroidCatalog {
+        projectId = id
+        return this
+    }
 
     fun supportedDeviceConfig(modelId: String, versionId: String): DeviceConfigCheck {
         if (!androidModelIds.contains(modelId)) return UnsupportedModelId

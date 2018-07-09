@@ -83,7 +83,7 @@ object GcAndroidTestMatrix {
         testMatrix.environmentMatrix = EnvironmentMatrix().setAndroidDeviceList(androidDeviceList)
 
         try {
-            return GcTesting.get.projects().testMatrices().create(config.projectId, testMatrix)
+            return GcTesting.getTestingWithId(config.projectId).projects().testMatrices().create(config.projectId, testMatrix)
         } catch (e: Exception) {
             fatalError(e)
         }

@@ -11,19 +11,30 @@ import ftl.config.FtlConstants.credential
 import ftl.config.FtlConstants.httpTransport
 
 // https://github.com/bootstraponline/gcloud_cli/blob/40521a6e297830b9f652a9ab4d8002e309b4353a/google-cloud-sdk/lib/googlecloudsdk/core/credentials/http.py#L82
-private class BillingQuotaProject internal constructor() : GoogleClientRequestInitializer {
+private class BillingQuotaProject internal constructor(var projectId: String? = null) : GoogleClientRequestInitializer {
 
     override fun initialize(request: AbstractGoogleClientRequest<*>) {
-        request.requestHeaders.set("X-Goog-User-Project", ServiceOptions.getDefaultProjectId())
+        print("BillingQuotaProject")
+        request.requestHeaders.set("X-Goog-User-Project", projectId)
     }
 }
 
 object GcTesting {
 
+    fun getTestingWithId(projectId: String?) : Testing {
+        val builder = Testing.Builder(httpTransport, JSON_FACTORY, credential)
+                .setApplicationName(applicationName)
+
+        projectId?.let { builder.setGoogleClientRequestInitializer(BillingQuotaProject(projectId)) }
+
+        if (FtlConstants.useMock) builder.rootUrl = FtlConstants.localhost
+
+        return builder.build()
+    }
+
     val get: Testing by lazy {
         val builder = Testing.Builder(httpTransport, JSON_FACTORY, credential)
                 .setApplicationName(applicationName)
-                .setGoogleClientRequestInitializer(BillingQuotaProject())
 
         if (FtlConstants.useMock) builder.rootUrl = FtlConstants.localhost
 
