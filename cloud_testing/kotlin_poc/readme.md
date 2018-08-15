@@ -45,5 +45,7 @@ Follow the [test lab docs](https://firebase.google.com/docs/test-lab/android/con
 For CI, base64 encode the credential as `GCLOUD_KEY`. Then write the file using a shell script.
 
 ```bash
-echo "$GCLOUD_KEY" | base64 --decode > "$HOME/.config/gcloud/application_default_credentials.json"
+GCLOUD_DIR="$HOME/.config/gcloud/"
+mkdir -p "$GCLOUD_DIR"
+echo "$GCLOUD_KEY" | base64 --decode > "$GCLOUD_DIR/application_default_credentials.json"
 ```
