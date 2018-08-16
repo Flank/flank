@@ -77,11 +77,11 @@ class IosConfigTest {
 
         val chunk1 = arrayListOf("EarlGreyExampleMixedTests/testGrantCameraPermission",
                 "EarlGreyExampleMixedTests/testGrantMicrophonePermission",
-                "EarlGreyExampleMixedTests/testBasicSelection1",
-                "EarlGreyExampleMixedTests/testBasicSelection2")
+                "EarlGreyExampleMixedTests/testBasicSelection3",
+                "EarlGreyExampleMixedTests/testBasicSelection4")
 
         assertThat(config.testShardChunks.size).isEqualTo(2)
         assertThat(config.testShardChunks[0]).isEqualTo(chunk0)
-        assertThat(config.testShardChunks[0]).isEqualTo(chunk1)
+        assertThat(config.testShardChunks[1]).isEqualTo(chunk1)
     }
 }
