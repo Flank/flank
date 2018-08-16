@@ -31,9 +31,9 @@ object LocalGcs {
                         .any { TEST_BLOB_PATH == it }
         )
 
-        val appApkInputStream = FileInputStream(APP_APK_PATH)
+        val appApkBytes = Files.readAllBytes(Paths.get(APP_APK_PATH))
         val appApkBlobInfo = BlobInfo.newBuilder(TEST_BUCKET, APP_BLOB_PATH).build()
-        GcStorage.storage.create(appApkBlobInfo, appApkInputStream)
+        GcStorage.storage.create(appApkBlobInfo, appApkBytes)
 
         Assert.assertTrue(
                 GcStorage.storage.list(TEST_BUCKET).values
