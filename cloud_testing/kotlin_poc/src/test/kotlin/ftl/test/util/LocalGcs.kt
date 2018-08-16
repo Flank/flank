@@ -3,7 +3,10 @@ package ftl.test.util
 import com.google.cloud.storage.BlobInfo
 import ftl.gc.GcStorage
 import org.junit.Assert
+import java.io.File
 import java.io.FileInputStream
+import java.nio.file.Files
+import java.nio.file.Paths
 
 object LocalGcs {
     private const val APP_APK = "app-debug.apk"
@@ -18,9 +21,9 @@ object LocalGcs {
     private const val TEST_BLOB_PATH = TEST_APK
 
     fun setupApks() {
-        val testApkInputStream = FileInputStream(TEST_APK_PATH)
+        val testApkBytes = Files.readAllBytes(Paths.get(TEST_APK_PATH))
         val testApkBlobInfo = BlobInfo.newBuilder(TEST_BUCKET, TEST_BLOB_PATH).build()
-        GcStorage.storage.create(testApkBlobInfo, testApkInputStream)
+        GcStorage.storage.create(testApkBlobInfo, testApkBytes)
 
         Assert.assertTrue(
                 GcStorage.storage.list(TEST_BUCKET).values
