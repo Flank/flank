@@ -15,11 +15,12 @@ class IosConfig(
         testShards: Int = 1,
         testRuns: Int = 1,
         waitForResults: Boolean = true,
-        testMethods: List<String> = listOf(),
+        testMethods: List<String> = emptyList(),
+        testMethodsAlwaysRun: List<String> = emptyList(),
         limitBreak: Boolean = false,
         projectId: String = YamlConfig.getDefaultProjectId(),
         devices: List<Device> = listOf(Device("iphone8", "11.2")),
-        testShardChunks: Set<Set<String>> = emptySet()
+        testShardChunks: List<List<String>> = emptyList()
 ) : YamlConfig(
         rootGcsBucket,
         disablePerformanceMetrics,
@@ -29,6 +30,7 @@ class IosConfig(
         testRuns,
         waitForResults,
         testMethods,
+        testMethodsAlwaysRun,
         limitBreak,
         projectId,
         devices,

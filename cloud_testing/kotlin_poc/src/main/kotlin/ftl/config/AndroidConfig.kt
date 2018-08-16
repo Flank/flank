@@ -10,8 +10,8 @@ class AndroidConfig(
         val testApk: String = "",
         val autoGoogleLogin: Boolean = true,
         val useOrchestrator: Boolean = true,
-        val environmentVariables: Map<String, String> = mapOf(),
-        val directoriesToPull: List<String> = listOf(),
+        val environmentVariables: Map<String, String> = emptyMap(),
+        val directoriesToPull: List<String> = emptyList(),
 
         rootGcsBucket: String,
         disablePerformanceMetrics: Boolean = true,
@@ -20,11 +20,12 @@ class AndroidConfig(
         testShards: Int = 1,
         testRuns: Int = 1,
         waitForResults: Boolean = true,
-        testMethods: List<String> = listOf(),
+        testMethods: List<String> = emptyList(),
+        testMethodsAlwaysRun: List<String> = emptyList(),
         limitBreak: Boolean = false,
         projectId: String = YamlConfig.getDefaultProjectId(),
         devices: List<Device> = listOf(Device("NexusLowRes", "23")),
-        testShardChunks: Set<Set<String>> = emptySet()
+        testShardChunks: List<List<String>> = emptyList()
 ) : YamlConfig(
         rootGcsBucket,
         disablePerformanceMetrics,
@@ -34,6 +35,7 @@ class AndroidConfig(
         testRuns,
         waitForResults,
         testMethods,
+        testMethodsAlwaysRun,
         limitBreak,
         projectId,
         devices,

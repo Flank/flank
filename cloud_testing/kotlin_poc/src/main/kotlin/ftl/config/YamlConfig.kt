@@ -29,10 +29,11 @@ open class YamlConfig(
         testRuns: Int = 1,
         val waitForResults: Boolean = true,
         val testMethods: List<String> = listOf(),
+        val testMethodsAlwaysRun: List<String> = listOf(),
         val limitBreak: Boolean = false,
         val projectId: String = getDefaultProjectId(),
         val devices: List<Device> = listOf(),
-        var testShardChunks: Set<Set<String>> = emptySet()) {
+        var testShardChunks: List<List<String>> = emptyList()) {
 
     private val storage = StorageOptions.newBuilder().setProjectId(projectId).build().service
     private val bucketLabel: Map<String, String> = mapOf(Pair("flank", ""))
@@ -97,11 +98,12 @@ open class YamlConfig(
     }
 
     private fun calculateShards(allTestMethods: Collection<String>) {
-        var testShardMethods = if (testMethods.isNotEmpty()) {
+        val testShardMethods = if (testMethods.isNotEmpty()) {
             testMethods
         } else {
             allTestMethods
-        }.sorted()
+        }.distinct().toMutableList()
+        testShardMethods.removeAll(testMethodsAlwaysRun)
 
         if (testShards < 1) testShards = 1
 
@@ -110,7 +112,7 @@ open class YamlConfig(
         // default to running all tests in a single chunk if method count is less than shard count.
         if (chunkSize < 1) chunkSize = testShardMethods.size
 
-        testShardChunks = testShardMethods.chunked(chunkSize).map { it.toSet() }.toSet()
+        testShardChunks = testShardMethods.chunked(chunkSize).map { testMethodsAlwaysRun + it }
 
         // Ensure we don't create more VMs than requested. VM count per run should be <= testShards
         if (testShardChunks.size > testShards) {
