@@ -3,7 +3,8 @@ abstract class Versions {
     public static final String KOTLIN = "1.2.41";
     // https://github.com/Kotlin/kotlinx.coroutines/releases
     public static final String KOTLIN_COROUTINES = "0.22.5";
-    public static final String JACKSON = "2.9.5";
+    // https://github.com/FasterXML/jackson-core/releases
+    public static final String JACKSON = "2.9.6";
 }
 
 @SuppressWarnings("unused")

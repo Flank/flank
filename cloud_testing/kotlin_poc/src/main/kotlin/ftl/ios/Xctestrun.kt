@@ -88,12 +88,8 @@ object Xctestrun {
         return result
     }
 
-    private fun NSDictionary.deepClone(): NSDictionary {
-        return NSObject.fromJavaObject(this.toJavaObject()) as NSDictionary
-    }
-
     fun rewrite(root: NSDictionary, methods: Set<String>): ByteArray {
-        val rootClone = root.deepClone()
+        val rootClone = root.clone()
         for (testTarget in rootClone.allKeys()) {
             val testDictionary = (rootClone[testTarget] as NSDictionary)
             setOnlyTestIdentifiers(testDictionary, methods)
