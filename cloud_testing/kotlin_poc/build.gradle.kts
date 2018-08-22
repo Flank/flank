@@ -24,7 +24,7 @@ plugins {
 
 // http://www.eclemma.org/jacoco/
 jacoco {
-    toolVersion = "0.8.0"
+    toolVersion = "0.8.2"
 }
 
 // Html report created in kotlin_poc/build/reports/jacoco/test/html/index.html
@@ -67,16 +67,19 @@ dependencies {
     compile(Libs.KOTLIN_COROUTINES_CORE)
 
     // https://github.com/remkop/picocli
-    compile("info.picocli:picocli:2.2.1")
+    compile("info.picocli:picocli:3.5.2")
 
-    compile("com.google.code.gson:gson:2.8.2")
-    compile("com.googlecode.plist:dd-plist:1.20")
+    // https://github.com/google/gson/releases
+    compile("com.google.code.gson:gson:2.8.5")
 
-    // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.cloud%22%20AND%20a%3A%22google-cloud-storage%22
-    compile("com.google.cloud:google-cloud-storage:1.31.0")
+    // https://github.com/3breadt/dd-plist/releases
+    compile("com.googlecode.plist:dd-plist:1.21")
 
-    // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-toolresults%22
-    compile("com.google.apis:google-api-services-toolresults:v1beta3-rev374-1.23.0")
+    // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
+    compile("com.google.cloud:google-cloud-storage:1.40.0")
+
+    // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
+    compile("com.google.apis:google-api-services-toolresults:v1beta3-rev444-1.24.1")
 
     // https://github.com/linkedin/dex-test-parser/releases
     compile("com.linkedin.dextestparser:parser:2.0.0")
@@ -87,15 +90,18 @@ dependencies {
     compile(project(":testing"))
 
     // yaml config
+    // https://search.maven.org/search?q=a:jackson-databind%20g:com.fasterxml.jackson.core
     compile("com.fasterxml.jackson.core:jackson-databind:${Versions.JACKSON}")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.JACKSON}")
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${Versions.JACKSON}")
 
+    // https://github.com/jhy/jsoup/releases
     testImplementation("org.jsoup:jsoup:1.11.3")
     testImplementation(Libs.JUNIT)
-    testImplementation("com.google.truth:truth:0.40")
-    // http://stefanbirkner.github.io/system-rules/index.html
-    testImplementation("com.github.stefanbirkner:system-rules:1.17.1")
+    // https://github.com/google/truth/releases
+    testImplementation("com.google.truth:truth:0.42")
+    // https://github.com/stefanbirkner/system-rules/releases
+    testImplementation("com.github.stefanbirkner:system-rules:1.18.0")
 
     // https://bintray.com/kotlin/ktor/ktor
     val ktorVersion = "0.9.3"
@@ -104,12 +110,13 @@ dependencies {
     testImplementation("io.ktor:ktor-gson:$ktorVersion")
 
     // https://www.slf4j.org/download.html
-    val slf4jVersion = "1.8.0-beta1"
+    val slf4jVersion = "1.8.0-beta2"
     testImplementation("org.slf4j:slf4j-log4j12:$slf4jVersion")
     testImplementation("org.slf4j:jul-to-slf4j:$slf4jVersion")
 
     // todo: move to testImplementation once dagger is implemented https://github.com/TestArmada/flank/issues/248
-    compile("com.google.cloud:google-cloud-nio:0.30.0-alpha")
+    // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
+    compile("com.google.cloud:google-cloud-nio:0.58.0-alpha")
 }
 
 // Fix Exception in thread "main" java.lang.NoSuchMethodError: com.google.common.hash.Hashing.crc32c()Lcom/google/common/hash/HashFunction;
