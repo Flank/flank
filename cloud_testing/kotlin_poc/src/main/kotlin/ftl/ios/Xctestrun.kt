@@ -38,7 +38,7 @@ object Xctestrun {
     private const val onlyTestIdentifiers = "OnlyTestIdentifiers"
 
     // Rewrites tests so that only the listed tests execute
-    private fun setOnlyTestIdentifiers(testDictionary: NSDictionary, tests: Set<String>) {
+    private fun setOnlyTestIdentifiers(testDictionary: NSDictionary, tests: Collection<String>) {
         val nsArray = NSArray(tests.size)
         tests.forEachIndexed { index, test -> nsArray.setValue(index, test) }
 
@@ -88,7 +88,7 @@ object Xctestrun {
         return result
     }
 
-    fun rewrite(root: NSDictionary, methods: Set<String>): ByteArray {
+    fun rewrite(root: NSDictionary, methods: Collection<String>): ByteArray {
         val rootClone = root.clone()
         for (testTarget in rootClone.allKeys()) {
             val testDictionary = (rootClone[testTarget] as NSDictionary)

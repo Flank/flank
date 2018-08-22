@@ -1,5 +1,6 @@
 package ftl.config
 
+import com.google.common.truth.Truth.assertThat
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
@@ -26,6 +27,7 @@ class IosConfigTest {
     val systemOutRule = SystemOutRule().muteForSuccessfulTests()!!
 
     private val yamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.ios.yml")
+    private val yamlFile2 = getPath("src/test/kotlin/ftl/fixtures/flank2.ios.yml")
     private val xctestrunZip = getPath("src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip")
     private val xctestrunFile = getPath("src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleMixedTests_iphoneos11.2-arm64.xctestrun")
     private val testName = "EarlGreyExampleMixedTests/testBasicSelection"
@@ -62,5 +64,24 @@ class IosConfigTest {
         assert(iosConfig.contains("useOrchestrator"), false)
         assert(iosConfig.contains("environmentVariables"), false)
         assert(iosConfig.contains("directoriesToPull"), false)
+    }
+
+    @Test
+    fun testMethodsAlwaysRun() {
+        val config = IosConfig.load(yamlFile2)
+
+        val chunk0 = arrayListOf("EarlGreyExampleMixedTests/testGrantCameraPermission",
+                "EarlGreyExampleMixedTests/testGrantMicrophonePermission",
+                "EarlGreyExampleMixedTests/testBasicSelection1",
+                "EarlGreyExampleMixedTests/testBasicSelection2")
+
+        val chunk1 = arrayListOf("EarlGreyExampleMixedTests/testGrantCameraPermission",
+                "EarlGreyExampleMixedTests/testGrantMicrophonePermission",
+                "EarlGreyExampleMixedTests/testBasicSelection3",
+                "EarlGreyExampleMixedTests/testBasicSelection4")
+
+        assertThat(config.testShardChunks.size).isEqualTo(2)
+        assertThat(config.testShardChunks[0]).isEqualTo(chunk0)
+        assertThat(config.testShardChunks[1]).isEqualTo(chunk1)
     }
 }
