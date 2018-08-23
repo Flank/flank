@@ -10,6 +10,7 @@ import java.io.File
 import java.net.URI
 
 abstract class GCloudConfig(
+        // Note: After renaming these, must update IosConfig and AndroidConfig manually.
         @field:JsonProperty("results-bucket")
         val resultsBucket: String,
         @field:JsonProperty("performance-metrics")

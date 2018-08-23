@@ -113,7 +113,7 @@ class AndroidConfigTest {
                 AndroidConfig(
                         oldConfig.appApk,
                         oldConfig.testApk,
-                        rootGcsBucket = oldConfig.resultsBucket),
+                        resultsBucket = oldConfig.resultsBucket),
                 FlankConfig(
                         limitBreak = true
                 )
@@ -136,8 +136,8 @@ class AndroidConfigTest {
                 AndroidConfig(
                         appApk = appApkLocal,
                         testApk = testApkLocal,
-                        rootGcsBucket = "",
-                        testMethods = testMethods),
+                        resultsBucket = "",
+                        testTargets = testMethods),
                 FlankConfig(
                         testShards = testShards
                 )
@@ -185,7 +185,7 @@ class AndroidConfigTest {
                 AndroidConfig(
                         oldConfig.appApk,
                         oldConfig.testApk,
-                        rootGcsBucket = oldConfig.resultsBucket,
+                        resultsBucket = oldConfig.resultsBucket,
                         projectId = "delta-essence-114723"),
                 FlankConfig(
                         limitBreak = true

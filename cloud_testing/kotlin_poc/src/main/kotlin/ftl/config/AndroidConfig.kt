@@ -21,22 +21,22 @@ class AndroidConfig(
         @field:JsonProperty("directories-to-pull")
         val directoriesToPull: List<String> = emptyList(),
         // The following fields are annotated in the base class, GCloudConfig
-        rootGcsBucket: String,
-        disablePerformanceMetrics: Boolean = false,
-        disableVideoRecording: Boolean = true,
-        testTimeoutMinutes: String = "60m",
-        waitForResults: Boolean = true,
-        testMethods: List<String> = emptyList(),
+        resultsBucket: String,
+        performanceMetrics: Boolean = false,
+        recordVideo: Boolean = true,
+        testTimeout: String = "60m",
+        async: Boolean = false,
+        testTargets: List<String> = emptyList(),
         projectId: String = YamlConfig.getDefaultProjectId(),
         devices: List<Device> = listOf(Device("NexusLowRes", "23"))
 ) :
         GCloudConfig(
-                rootGcsBucket,
-                disablePerformanceMetrics,
-                disableVideoRecording,
-                testTimeoutMinutes,
-                waitForResults,
-                testMethods,
+                resultsBucket,
+                performanceMetrics,
+                recordVideo,
+                testTimeout,
+                async,
+                testTargets,
                 projectId,
                 devices) {
 

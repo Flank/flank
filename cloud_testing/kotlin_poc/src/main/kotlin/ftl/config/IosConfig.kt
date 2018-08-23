@@ -12,22 +12,22 @@ class IosConfig(
         @field:JsonProperty("xctestrun-file")
         val xctestrunFile: String = "",
         // The following fields are annotated in the base class, GCloudConfig
-        rootGcsBucket: String,
-        disablePerformanceMetrics: Boolean = true,
-        disableVideoRecording: Boolean = false,
-        timeout: String = "60m",
-        waitForResults: Boolean = true,
-        testMethods: List<String> = emptyList(),
+        resultsBucket: String,
+        performanceMetrics: Boolean = false,
+        recordVideo: Boolean = false,
+        testTimeout: String = "60m",
+        async: Boolean = true,
+        testTargets: List<String> = emptyList(),
         projectId: String = YamlConfig.getDefaultProjectId(),
         devices: List<Device> = listOf(Device("iphone8", "11.2"))
 ) :
         GCloudConfig(
-                rootGcsBucket,
-                disablePerformanceMetrics,
-                disableVideoRecording,
-                timeout,
-                waitForResults,
-                testMethods,
+                resultsBucket,
+                performanceMetrics,
+                recordVideo,
+                testTimeout,
+                async,
+                testTargets,
                 projectId,
                 devices) {
 
