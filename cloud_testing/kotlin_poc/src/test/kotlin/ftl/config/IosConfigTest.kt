@@ -40,12 +40,12 @@ class IosConfigTest {
         assert(getPath(config.gCloudConfig.xctestrunFile), xctestrunFile)
 
         with(config.gCloudConfig) {
-            assert(rootGcsBucket, "tmp_bucket_2")
-            assert(disablePerformanceMetrics, true)
-            assert(disableRecordVideo, true)
+            assert(resultsBucket, "tmp_bucket_2")
+            assert(performanceMetrics, true)
+            assert(recordVideo, true)
             assert(testTimeout, "60m")
-            assert(waitForResults, true)
-            assert(testMethods, listOf(testName))
+            assert(async, true)
+            assert(testTargets, listOf(testName))
             assert(devices, listOf(
                     Device("iphone8", "11.2", "en_US", "portrait")
             ))

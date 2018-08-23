@@ -45,8 +45,8 @@ object GcIosTestMatrix {
         }
 
         val testSpec = TestSpecification()
-                .setDisablePerformanceMetrics(config.gCloudConfig.disablePerformanceMetrics)
-                .setDisableVideoRecording(config.gCloudConfig.disableRecordVideo)
+                .setDisablePerformanceMetrics(!config.gCloudConfig.performanceMetrics)
+                .setDisableVideoRecording(!config.gCloudConfig.recordVideo)
                 .setTestTimeout("${testTimeoutSeconds}s")
                 .setIosTestSetup(iOSTestSetup)
                 .setIosXcTest(iOSXCTest)

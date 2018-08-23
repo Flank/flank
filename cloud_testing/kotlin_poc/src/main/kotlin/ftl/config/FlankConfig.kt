@@ -31,7 +31,7 @@ class FlankConfig(
     }
 
     fun calculateShards(gCloudConfig: GCloudConfig) {
-        val testMethods = gCloudConfig.testMethods
+        val testMethods = gCloudConfig.testTargets
         val allTestMethods = gCloudConfig.validTestNames
 
         val testShardMethods = if (testMethods.isNotEmpty()) {

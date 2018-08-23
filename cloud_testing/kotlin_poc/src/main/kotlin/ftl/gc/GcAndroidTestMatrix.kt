@@ -76,8 +76,8 @@ object GcAndroidTestMatrix {
 
         testMatrix.testSpecification = TestSpecification()
                 .setAndroidInstrumentationTest(androidInstrumentation)
-                .setDisablePerformanceMetrics(!config.gCloudConfig.disablePerformanceMetrics)
-                .setDisableVideoRecording(!config.gCloudConfig.disableRecordVideo)
+                .setDisablePerformanceMetrics(!config.gCloudConfig.performanceMetrics)
+                .setDisableVideoRecording(!config.gCloudConfig.recordVideo)
                 .setTestTimeout("${testTimeoutSeconds}s")
                 .setTestSetup(testSetup)
 

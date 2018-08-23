@@ -71,12 +71,12 @@ class AndroidConfigTest {
             assert(useOrchestrator, true)
             assert(environmentVariables, mapOf(Pair("clearPackageData", "true")))
             assert(directoriesToPull, listOf(directoryToPull))
-            assert(rootGcsBucket, LocalGcs.TEST_BUCKET)
-            assert(disablePerformanceMetrics, true)
-            assert(disableRecordVideo, true)
+            assert(resultsBucket, LocalGcs.TEST_BUCKET)
+            assert(performanceMetrics, true)
+            assert(recordVideo, true)
             assert(testTimeout, "60m")
-            assert(waitForResults, true)
-            assert(testMethods, listOf(testName))
+            assert(async, true)
+            assert(testTargets, listOf(testName))
             assert(devices, listOf(
                     Device("NexusLowRes", "23", "en", "portrait"),
                     Device("NexusLowRes", "23", "en", "landscape"),
@@ -113,7 +113,7 @@ class AndroidConfigTest {
                 AndroidConfig(
                         oldConfig.appApk,
                         oldConfig.testApk,
-                        rootGcsBucket = oldConfig.rootGcsBucket),
+                        rootGcsBucket = oldConfig.resultsBucket),
                 FlankConfig(
                         limitBreak = true
                 )
@@ -185,7 +185,7 @@ class AndroidConfigTest {
                 AndroidConfig(
                         oldConfig.appApk,
                         oldConfig.testApk,
-                        rootGcsBucket = oldConfig.rootGcsBucket,
+                        rootGcsBucket = oldConfig.resultsBucket,
                         projectId = "delta-essence-114723"),
                 FlankConfig(
                         limitBreak = true

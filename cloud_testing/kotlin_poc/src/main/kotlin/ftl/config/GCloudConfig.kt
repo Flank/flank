@@ -11,17 +11,17 @@ import java.net.URI
 
 abstract class GCloudConfig(
         @field:JsonProperty("results-bucket")
-        val rootGcsBucket: String,
+        val resultsBucket: String,
         @field:JsonProperty("performance-metrics")
-        val disablePerformanceMetrics: Boolean = true,
+        val performanceMetrics: Boolean = false,
         @field:JsonProperty("record-video")
-        val disableRecordVideo: Boolean = false,
+        val recordVideo: Boolean = true,
         @field:JsonProperty("timeout")
         val testTimeout: String = "60m",
         @field:JsonProperty("async")
-        val waitForResults: Boolean = true,
+        val async: Boolean = false,
         @field:JsonProperty("test-targets")
-        val testMethods: List<String> = listOf(),
+        val testTargets: List<String> = listOf(),
         @field:JsonProperty("project")
         val projectId: String = YamlConfig.getDefaultProjectId(),
         @field:JsonProperty("device")
@@ -36,12 +36,12 @@ abstract class GCloudConfig(
     lateinit var validTestNames: Collection<String>
 
     fun getGcsBucket(): String {
-        if (FtlConstants.useMock) return rootGcsBucket
+        if (FtlConstants.useMock) return resultsBucket
 
-        val bucket = storage.list().values?.find { it.name == rootGcsBucket }
+        val bucket = storage.list().values?.find { it.name == resultsBucket }
         if (bucket != null) return bucket.name
 
-        return storage.create(BucketInfo.newBuilder(rootGcsBucket)
+        return storage.create(BucketInfo.newBuilder(resultsBucket)
                 .setStorageClass(StorageClass.REGIONAL)
                 .setLocation(storageLocation)
                 .setLabels(bucketLabel)
@@ -49,7 +49,7 @@ abstract class GCloudConfig(
     }
 
     fun validateTestMethods(validTestMethods: Collection<String>, from: String) {
-        val missingMethods = testMethods - validTestMethods
+        val missingMethods = testTargets - validTestMethods
 
         // todo: update YamConfigTest to use fixture apk with 155 tests, then remove useMock here.
         if (!FtlConstants.useMock && missingMethods.isNotEmpty()) Utils.fatalError("$from is missing methods: $missingMethods.\nValid methods:\n$validTestMethods")
@@ -77,12 +77,12 @@ abstract class GCloudConfig(
     override fun toString() =
             """GCloud Config
   project: '$projectId'
-  rootGcsBucket: '$rootGcsBucket',
-  disablePerformanceMetrics: $disablePerformanceMetrics,
-  disableRecordVideo: $disableRecordVideo,
+  rootGcsBucket: '$resultsBucket',
+  performanceMetrics: $performanceMetrics,
+  recordVideo: $recordVideo,
   testTimeout: $testTimeout,
-  async: $waitForResults,
-  testMethods: $testMethods,
+  async: $async,
+  testMethods: $testTargets,
   devices: $devices
             """
 

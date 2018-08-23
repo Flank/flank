@@ -269,7 +269,7 @@ object TestRunner {
         println(config)
         val matrixMap = runTests(config)
 
-        if (config.gCloudConfig.waitForResults) {
+        if (!config.gCloudConfig.async) {
             pollMatrices(matrixMap, config.gCloudConfig)
             fetchArtifacts(matrixMap)
 

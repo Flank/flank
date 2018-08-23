@@ -39,7 +39,7 @@ interface GenericTestRunner<MOBILE_CONFIG : GCloudConfig> {
 
         println(FtlConstants.indent + "${savedMatrices.size} matrix ids created in ${stopwatch.check()}")
         val gcsBucket = "https://console.developers.google.com/storage/browser/" +
-                config.gCloudConfig.rootGcsBucket + "/" + matrixMap.runPath
+                config.gCloudConfig.resultsBucket + "/" + matrixMap.runPath
         println(FtlConstants.indent + gcsBucket)
         println()
 
