@@ -1,4 +1,4 @@
-# Flank Kotlin [![Build Status](https://www.bitrise.io/app/9767f3e19047d4db/status.svg?token=uDM3wCumR2xTd0axh4bjDQ)](https://www.bitrise.io/app/9767f3e19047d4db)
+# Flank Kotlin [![Build Status](https://app.bitrise.io/app/9767f3e19047d4db/status.svg?token=uDM3wCumR2xTd0axh4bjDQ&branch=master)](https://app.bitrise.io/app/9767f3e19047d4db)
 
 Rewrite of Flank in Kotlin
 
