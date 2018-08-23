@@ -1,7 +1,7 @@
 package ftl.gc
 
 import com.google.api.services.testing.model.TestMatrix
-import ftl.config.YamlConfig
+import ftl.config.GCloudConfig
 import ftl.util.Utils.sleep
 import java.time.Duration.ofHours
 
@@ -31,7 +31,7 @@ object GcTestMatrix {
     //        "message" : "The service is currently unavailable.",
     //        "status" : "UNAVAILABLE"
     //    }
-    fun refresh(testMatrixId: String, config: YamlConfig): TestMatrix {
+    fun refresh(testMatrixId: String, config: GCloudConfig): TestMatrix {
         val getMatrix = GcTesting.get.projects().testMatrices().get(config.projectId, testMatrixId)
         var failed = 0
         val maxWait = ofHours(1).seconds

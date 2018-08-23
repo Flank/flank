@@ -21,7 +21,7 @@ class IosRefreshCommand : Runnable {
     override fun run() {
         runBlocking {
             val config = IosConfig.load(configPath)
-            TestRunner.refreshLastRun(config)
+            TestRunner.refreshLastRun(config.gCloudConfig)
         }
     }
 

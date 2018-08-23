@@ -21,7 +21,7 @@ class AndroidRefreshCommand : Runnable {
     override fun run() {
         runBlocking {
             val config = AndroidConfig.load(configPath)
-            TestRunner.refreshLastRun(config)
+            TestRunner.refreshLastRun(config.gCloudConfig)
         }
     }
 

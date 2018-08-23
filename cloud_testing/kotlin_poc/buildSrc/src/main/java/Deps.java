@@ -1,8 +1,8 @@
 @SuppressWarnings("unused")
 abstract class Versions {
-    public static final String KOTLIN = "1.2.41";
+    public static final String KOTLIN = "1.2.61";
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    public static final String KOTLIN_COROUTINES = "0.22.5";
+    public static final String KOTLIN_COROUTINES = "0.24.0";
     // https://github.com/FasterXML/jackson-core/releases
     public static final String JACKSON = "2.9.6";
 }

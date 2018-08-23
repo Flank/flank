@@ -3,8 +3,6 @@ package ftl.test.util
 import com.google.cloud.storage.BlobInfo
 import ftl.gc.GcStorage
 import org.junit.Assert
-import java.io.File
-import java.io.FileInputStream
 import java.nio.file.Files
 import java.nio.file.Paths
 

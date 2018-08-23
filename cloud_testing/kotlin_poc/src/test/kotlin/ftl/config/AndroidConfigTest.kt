@@ -58,35 +58,39 @@ class AndroidConfigTest {
         checkConfig(config, false)
     }
 
-    private fun checkConfig(config: AndroidConfig, local: Boolean) {
-        if (local) assert(getPath(config.testApk), testApkLocal)
-        else assert(config.testApk, testApkGcs)
+    private fun checkConfig(config: YamlConfig<AndroidConfig>, local: Boolean) {
 
-        if (local) assert(getPath(config.appApk), appApkLocal)
-        else assert(config.appApk, appApkGcs)
+        with(config.gCloudConfig) {
+            if (local) assert(getPath(testApk), testApkLocal)
+            else assert(testApk, testApkGcs)
 
-        assert(config.rootGcsBucket, LocalGcs.TEST_BUCKET)
+            if (local) assert(getPath(appApk), appApkLocal)
+            else assert(appApk, appApkGcs)
 
-        assert(config.autoGoogleLogin, true)
-        assert(config.useOrchestrator, true)
-        assert(config.disablePerformanceMetrics, true)
-        assert(config.disableVideoRecording, false)
-        assert(config.testTimeoutMinutes, 60L)
+            assert(autoGoogleLogin, true)
+            assert(useOrchestrator, true)
+            assert(environmentVariables, mapOf(Pair("clearPackageData", "true")))
+            assert(directoriesToPull, listOf(directoryToPull))
+            assert(resultsBucket, LocalGcs.TEST_BUCKET)
+            assert(performanceMetrics, true)
+            assert(recordVideo, true)
+            assert(testTimeout, "60m")
+            assert(async, true)
+            assert(testTargets, listOf(testName))
+            assert(devices, listOf(
+                    Device("NexusLowRes", "23", "en", "portrait"),
+                    Device("NexusLowRes", "23", "en", "landscape"),
+                    Device("shamu", "22", "zh_CN", "default")))
+        }
 
-        assert(config.testShards, 1)
-        assert(config.testRuns, 1)
-        assert(config.waitForResults, true)
-        assert(config.testMethods, listOf(testName))
-        assert(config.limitBreak, false)
-        assert(config.devices, listOf(
-                Device("NexusLowRes", "23", "en", "portrait"),
-                Device("NexusLowRes", "23", "en", "landscape"),
-                Device("shamu", "22", "zh_CN", "default")))
-        assert(config.environmentVariables, mapOf(Pair("clearPackageData", "true")))
-        assert(config.directoriesToPull, listOf(directoryToPull))
-
+        with(config.flankConfig) {
+            assert(testShards, 1)
+            assert(testRuns, 1)
+            assert(limitBreak, false)
+        }
     }
 
+    @Suppress("PrivatePropertyName")
     private val s99_999 = 99_999
 
     @Test
@@ -94,56 +98,74 @@ class AndroidConfigTest {
         exit.expectSystemExitWithStatus(-1)
 
         val config = AndroidConfig.load(localYamlFile)
-        config.testRuns = s99_999
-        config.testShards = s99_999
-        assert(config.testRuns, s99_999)
-        assert(config.testShards, s99_999)
+        with(config.flankConfig) {
+            testRuns = s99_999
+            testShards = s99_999
+            assert(testRuns, s99_999)
+            assert(testShards, s99_999)
+        }
     }
 
     @Test
     fun limitBreakTrueAllowsLargeShards() {
-        val oldConfig = AndroidConfig.load(localYamlFile)
-        val config = AndroidConfig(
-                oldConfig.appApk,
-                oldConfig.testApk,
-                rootGcsBucket = oldConfig.rootGcsBucket,
-                limitBreak = true)
-        config.testRuns = s99_999
-        config.testShards = s99_999
-        assert(config.testRuns, s99_999)
-        assert(config.testShards, s99_999)
+        val oldConfig = AndroidConfig.load(localYamlFile).gCloudConfig
+        val config = YamlConfig(
+                AndroidConfig(
+                        oldConfig.appApk,
+                        oldConfig.testApk,
+                        resultsBucket = oldConfig.resultsBucket),
+                FlankConfig(
+                        limitBreak = true
+                )
+        )
+
+        with(config.flankConfig) {
+            testRuns = s99_999
+            testShards = s99_999
+            assert(testRuns, s99_999)
+            assert(testShards, s99_999)
+        }
     }
 
-    private fun configWithTestMethods(amount: Int, testShards: Int = 1): YamlConfig {
+    private fun configWithTestMethods(amount: Int, testShards: Int = 1): YamlConfig<AndroidConfig> {
         val testMethods = mutableListOf<String>()
         // test names must be unique otherwise the Set<String> will add them only once.
         repeat(amount) { index -> testMethods.add(testName + index) }
 
-        return AndroidConfig(
-                appApk = appApkLocal,
-                testApk = testApkLocal,
-                rootGcsBucket = "",
-                testShards = testShards,
-                testMethods = testMethods
+        return YamlConfig(
+                AndroidConfig(
+                        appApk = appApkLocal,
+                        testApk = testApkLocal,
+                        resultsBucket = "",
+                        testTargets = testMethods),
+                FlankConfig(
+                        testShards = testShards
+                )
         )
     }
 
     @Test
     fun calculateShards() {
         var config = configWithTestMethods(1)
-        assert(config.testShards, 1)
-        assert(config.testShardChunks.size, 1)
-        assert(config.testShardChunks.first().size, 1)
+        with(config.flankConfig) {
+            assert(testShards, 1)
+            assert(testShardChunks.size, 1)
+            assert(testShardChunks.first().size, 1)
+        }
 
         config = configWithTestMethods(155)
-        assert(config.testShards, 1)
-        assert(config.testShardChunks.size, 1)
-        assert(config.testShardChunks.first().size, 155)
+        with(config.flankConfig) {
+            assert(testShards, 1)
+            assert(testShardChunks.size, 1)
+            assert(testShardChunks.first().size, 155)
+        }
 
         config = configWithTestMethods(155, testShards = 40)
-        assert(config.testShards, 40)
-        assert(config.testShardChunks.size, 39)
-        assert(config.testShardChunks.first().size, 4)
+        with(config.flankConfig) {
+            assert(testShards, 40)
+            assert(testShardChunks.size, 39)
+            assert(testShardChunks.first().size, 4)
+        }
     }
 
     @Test
@@ -157,14 +179,18 @@ class AndroidConfigTest {
     fun assertGcsBucket() {
         if (bitrise) return
 
-        val oldConfig = AndroidConfig.load(localYamlFile)
+        val oldConfig = AndroidConfig.load(localYamlFile).gCloudConfig
         // Need to set the project id to get the bucket info from StorageOptions
-        val config = AndroidConfig(
-                oldConfig.appApk,
-                oldConfig.testApk,
-                rootGcsBucket = oldConfig.rootGcsBucket,
-                projectId = "delta-essence-114723",
-                limitBreak = true)
+        val config = YamlConfig(
+                AndroidConfig(
+                        oldConfig.appApk,
+                        oldConfig.testApk,
+                        resultsBucket = oldConfig.resultsBucket,
+                        projectId = "delta-essence-114723"),
+                FlankConfig(
+                        limitBreak = true
+                )
+        )
 
         assert(config.getGcsBucket(), "tmp_bucket_2")
     }

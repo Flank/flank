@@ -2,7 +2,6 @@ package ftl.ios
 
 import com.dd.plist.NSArray
 import com.dd.plist.NSDictionary
-import com.dd.plist.NSObject
 import com.dd.plist.PropertyListParser
 import java.io.ByteArrayOutputStream
 import java.io.File
