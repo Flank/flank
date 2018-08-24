@@ -1,0 +1,33 @@
+buildscript {
+
+  repositories {
+    google()
+    jcenter()
+  }
+
+  dependencies {
+    classpath Plugins.KOTLIN
+  }
+}
+
+plugins {
+  id "com.diffplug.gradle.spotless" version "3.14.0"
+}
+
+subprojects { project ->
+  repositories {
+    google()
+    jcenter()
+  }
+
+  project.plugins.whenPluginAdded { plugin ->
+    if (plugin instanceof org.gradle.api.plugins.JavaBasePlugin) {
+      project.apply plugin: 'com.diffplug.gradle.spotless'
+      spotless {
+        java {
+          googleJavaFormat()
+        }
+      }
+    }
+  }
+}

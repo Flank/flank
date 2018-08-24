@@ -1,4 +1,4 @@
-language: java
+language: android
 dist: trusty
 sudo: false
 env:
@@ -8,6 +8,6 @@ cache:
   - $HOME/.gradle
   - ./Flank/.gradle
 script:
-- ./gradle/gradlew -p Flank clean build
+- ./gradlew clean build
 notifications:
   email: false

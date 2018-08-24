@@ -27,8 +27,6 @@ out/
 # Gradle:
  .idea/gradle.xml
  .idea/libraries
- gradle/
-**/.gradle/**
 shifu-java-client/.gradle
 
 ## File-based project format:
@@ -36,3 +34,5 @@ shifu-java-client/.gradle
 *.iws
 
 .DS_Store
+
+local.properties
