@@ -26,6 +26,12 @@ subprojects { project ->
       spotless {
         java {
           googleJavaFormat()
+          target("**/*.java")
+        }
+
+        kotlin {
+          target("**/*.kt")
+          ktlint("0.24.0")
         }
       }
     }
