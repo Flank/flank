@@ -101,8 +101,6 @@ AndroidArgs
       testShards: 7
       testRuns: 8
       testTargetsAlwaysRun: [class example.Test#grantPermission]
-      # computed properties
-      testShardChunks: [[class example.Test#grantPermission, class com.example.app.ExampleUiTest#testPasses]]
 """.trimIndent())
     }
 

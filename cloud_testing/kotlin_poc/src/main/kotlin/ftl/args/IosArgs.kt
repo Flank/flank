@@ -95,8 +95,6 @@ IosArgs
       testTargetsAlwaysRun: $testTargetsAlwaysRun
       # iOS flank
       testTargets: $testTargets
-      # computed properties
-      testShardChunks: $testShardChunks
     """.trimIndent()
     }
 

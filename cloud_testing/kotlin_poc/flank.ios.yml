@@ -5,8 +5,8 @@ gcloud:
   performance-metrics: false
   record-video: true
   timeout: 30m
-  async: true
+  async: false
 
 flank:
   testRuns: 1
-  testShards: 2
+  testShards: 1

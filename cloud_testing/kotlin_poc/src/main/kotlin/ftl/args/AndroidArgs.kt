@@ -125,8 +125,6 @@ AndroidArgs
       testShards: $testShards
       testRuns: $testRuns
       testTargetsAlwaysRun: $testTargetsAlwaysRun
-      # computed properties
-      testShardChunks: $testShardChunks
    """.trimIndent()
     }
 

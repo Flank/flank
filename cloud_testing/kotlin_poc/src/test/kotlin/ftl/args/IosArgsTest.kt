@@ -86,8 +86,6 @@ IosArgs
       testTargetsAlwaysRun: [a/testGrantPermissions]
       # iOS flank
       testTargets: [b/testBasicSelection]
-      # computed properties
-      testShardChunks: [[a/testGrantPermissions, b/testBasicSelection]]
 """.trimIndent())
     }
 
