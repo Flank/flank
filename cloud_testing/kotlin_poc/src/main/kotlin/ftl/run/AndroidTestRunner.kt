@@ -20,8 +20,6 @@ object AndroidTestRunner {
         val androidDeviceList = GcAndroidMatrix.build(androidArgs.devices)
 
         val apks = resolveApks(androidArgs, runGcsPath)
-        println("apks: $apks")
-
         val jobs = arrayListOf<Deferred<TestMatrix>>()
         val runCount = androidArgs.testRuns
         val repeatShard = androidArgs.testShardChunks.size
