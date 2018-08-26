@@ -6,11 +6,10 @@ import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
 import ftl.args.ArgsHelper.calculateShards
 import ftl.args.ArgsHelper.getGcsBucket
+import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.validateTestMethods
 import ftl.args.ArgsHelper.yamlMapper
-import ftl.args.yml.AndroidGcloudYml
-import ftl.args.yml.FlankYml
-import ftl.args.yml.GcloudYml
+import ftl.args.yml.*
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.useMock
@@ -18,7 +17,6 @@ import ftl.gc.GcStorage
 import kotlinx.coroutines.experimental.runBlocking
 import java.nio.file.Files
 import java.nio.file.Path
-
 
 // set default values, init properties, etc.
 class AndroidArgs(
@@ -129,7 +127,11 @@ AndroidArgs
     }
 
 
-    companion object {
+    companion object : IArgsCompanion  {
+        override val validArgs by lazy {
+            mergeYmlMaps(GcloudYml, AndroidGcloudYml, FlankYml)
+        }
+
         fun load(data: Path): AndroidArgs = load(String(Files.readAllBytes(data)))
 
         fun load(data: String): AndroidArgs {

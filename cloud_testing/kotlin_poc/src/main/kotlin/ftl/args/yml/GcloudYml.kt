@@ -28,6 +28,10 @@ class GcloudYmlParams(
 
         val project: String = getDefaultProjectId()
 ) {
+    companion object : IYmlKeys {
+        override val keys = listOf("results-bucket", "record-video", "timeout", "async", "project")
+    }
+
     init {
         assertNotEmpty(project, "project is not set. Define GOOGLE_CLOUD_PROJECT or set project in flank.yml\n" +
                 " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id")
@@ -44,4 +48,8 @@ class GcloudYmlParams(
 @JsonIgnoreProperties(ignoreUnknown = true)
 class GcloudYml(
         val gcloud: GcloudYmlParams
-)
+) {
+    companion object : IYmlMap {
+        override val map = mapOf("gcloud" to GcloudYmlParams.keys)
+    }
+}

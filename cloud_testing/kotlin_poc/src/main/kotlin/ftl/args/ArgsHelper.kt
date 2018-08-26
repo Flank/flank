@@ -8,6 +8,7 @@ import com.google.cloud.storage.BucketInfo
 import com.google.cloud.storage.StorageClass
 import com.google.cloud.storage.StorageOptions
 import com.google.common.math.IntMath
+import ftl.args.yml.IYmlMap
 import ftl.config.FtlConstants
 import ftl.gc.GcStorage
 import ftl.util.Utils
@@ -18,6 +19,17 @@ import java.net.URI
 object ArgsHelper {
 
     val yamlMapper by lazy { ObjectMapper(YAMLFactory()).registerModule(KotlinModule()) }
+
+    fun mergeYmlMaps(vararg ymlMaps: IYmlMap): Map<String, List<String>> {
+        val result = mutableMapOf<String, List<String>>()
+        ymlMaps.map { it.map }
+                .forEach { map ->
+                    map.forEach { (k, v) ->
+                        result.merge(k, v) { a, b -> a + b }
+                    }
+                }
+        return result
+    }
 
     fun assertFileExists(file: String, name: String) {
         if (!File(file).exists()) {

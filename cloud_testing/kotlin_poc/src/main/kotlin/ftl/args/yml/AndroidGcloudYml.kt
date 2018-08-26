@@ -35,6 +35,11 @@ class AndroidGcloudYmlParams(
 
         val device: List<Device> = listOf(Device("NexusLowRes", "28"))
 ) {
+    companion object : IYmlKeys {
+        override val keys = listOf("app", "test", "auto-google-login", "use-orchestrator", "environment-variables",
+                "directories-to-pull", "performance-metrics", "test-targets", "device")
+    }
+
     init {
         assertNotEmpty(app, "app is not set")
         assertNotEmpty(test, "test is not set")
@@ -44,4 +49,9 @@ class AndroidGcloudYmlParams(
 @JsonIgnoreProperties(ignoreUnknown = true)
 class AndroidGcloudYml(
         val gcloud: AndroidGcloudYmlParams
-)
+
+) {
+    companion object : IYmlMap {
+        override val map = mapOf("gcloud" to AndroidGcloudYmlParams.keys)
+    }
+}

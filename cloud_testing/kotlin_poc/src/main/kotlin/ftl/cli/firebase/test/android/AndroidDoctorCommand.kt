@@ -1,9 +1,12 @@
-package ftl.cli.firebase
+package ftl.cli.firebase.test.android
 
-import ftl.ios.IosCatalog
-import kotlinx.coroutines.experimental.runBlocking
+import ftl.args.AndroidArgs
+import ftl.args.IosArgs
+import ftl.doctor.Doctor.checkIosCatalog
+import ftl.doctor.Doctor.validateYaml
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
+import java.nio.file.Paths
 
 @Command(name = "doctor",
         sortOptions = false,
@@ -13,18 +16,18 @@ import picocli.CommandLine.Option
         parameterListHeading = "%n@|bold,underline Parameters:|@%n",
         optionListHeading = "%n@|bold,underline Options:|@%n",
         header = ["Verifies flank firebase is setup correctly"],
-        description = ["""Fetches the iOS catalog to verify Flank auth is valid.
+        description = ["""Validates Android Flank YAML.
 """])
-class DoctorCommand : Runnable {
+class AndroidDoctorCommand : Runnable {
     override fun run() {
-        runBlocking {
-            if (!IosCatalog.supported("iphone8", "11.2")) {
-                throw RuntimeException("iPhone 8 with iOS 11.2 is unexpectedly unsupported")
-            }
-            println("Flank successfully connected to iOS catalog")
-        }
+        checkIosCatalog()
+        println(validateYaml(AndroidArgs, Paths.get(configPath)))
     }
+
+    @Option(names = ["-c", "--config"], description = ["YAML config file path"])
+    var configPath: String = "./flank.yml"
 
     @Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
     var usageHelpRequested: Boolean = false
 }
+

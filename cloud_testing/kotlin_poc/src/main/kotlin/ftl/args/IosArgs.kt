@@ -2,6 +2,7 @@ package ftl.args
 
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
+import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.validateTestMethods
 import ftl.args.ArgsHelper.yamlMapper
 import ftl.args.yml.FlankYml
@@ -98,7 +99,11 @@ IosArgs
     """.trimIndent()
     }
 
-    companion object {
+    companion object : IArgsCompanion {
+        override val validArgs by lazy {
+            mergeYmlMaps(GcloudYml, IosGcloudYml, FlankYml, IosFlankYml)
+        }
+
         fun load(data: Path): IosArgs = IosArgs.load(String(Files.readAllBytes(data)))
 
         fun load(data: String): IosArgs {
