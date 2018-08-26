@@ -1,6 +1,6 @@
 package ftl.cli.firebase.test.ios
 
-import ftl.config.IosConfig
+import ftl.args.IosArgs
 import ftl.run.TestRunner
 import kotlinx.coroutines.experimental.runBlocking
 import picocli.CommandLine.Command
@@ -20,8 +20,7 @@ Configuration is read from flank.yml
 """])
 class IosRunCommand : Runnable {
     override fun run() {
-        val config = IosConfig.load(configPath)
-        if (shards > 0) config.flankConfig.testRuns = shards
+        val config = IosArgs.load(configPath)
         runBlocking {
             TestRunner.newRun(config)
 
@@ -30,9 +29,6 @@ class IosRunCommand : Runnable {
 
     @Option(names = ["-c", "--config"], description = ["YAML config file path"])
     var configPath: String = "./flank.ios.yml"
-
-    @Option(names = ["-s", "--shards"], description = ["Amount of shards to use"])
-    var shards: Int = -1
 
     @Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
     var usageHelpRequested: Boolean = false

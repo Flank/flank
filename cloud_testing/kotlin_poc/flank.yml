@@ -17,5 +17,4 @@ gcloud:
 
 flank:
   testShards: 1
-  limitBreak: false
   testRuns: 1

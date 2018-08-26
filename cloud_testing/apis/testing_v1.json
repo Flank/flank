@@ -61,11 +61,6 @@
       "location": "query",
       "type": "string"
     },
-    "bearer_token": {
-      "description": "OAuth bearer token.",
-      "location": "query",
-      "type": "string"
-    },
     "callback": {
       "description": "JSONP",
       "location": "query",
@@ -85,12 +80,6 @@
       "description": "OAuth 2.0 token for the current user.",
       "location": "query",
       "type": "string"
-    },
-    "pp": {
-      "default": "true",
-      "description": "Pretty-print response.",
-      "location": "query",
-      "type": "boolean"
     },
     "prettyPrint": {
       "default": "true",
@@ -258,7 +247,8 @@
                 "ENVIRONMENT_TYPE_UNSPECIFIED",
                 "ANDROID",
                 "IOS",
-                "NETWORK_CONFIGURATION"
+                "NETWORK_CONFIGURATION",
+                "PROVIDED_SOFTWARE"
               ],
               "location": "path",
               "required": true,
@@ -364,21 +354,21 @@
       "properties": {
         "appApk": {
           "$ref": "FileReference",
-          "description": "The APK for the application under test.\nRequired"
+          "description": "The APK for the application under test."
         },
         "appPackageId": {
           "description": "The java package for the application under test.\nOptional, default is determined by examining the application's manifest.",
           "type": "string"
         },
         "orchestratorOption": {
-          "description": "The option of whether running each test within its own invocation of\ninstrumentation with Android Test Orchestrator or not.\n** Orchestrator is only compatible with AndroidJUnitRunner version 1.0 or\nhigher! **\nOrchestrator offers the following benefits:\n - No shared state\n - Crashes are isolated\n - Logs are scoped per test\n\nSee\n<https://developer.android.com/training/testing/junit-runner.html#using-android-test-orchestrator>\nfor more information about Android Test Orchestrator.\n\nOptional, if empty, test will be run without orchestrator.",
+          "description": "The option of whether running each test within its own invocation of\ninstrumentation with Android Test Orchestrator or not.\n** Orchestrator is only compatible with AndroidJUnitRunner version 1.0 or\nhigher! **\nOrchestrator offers the following benefits:\n - No shared state\n - Crashes are isolated\n - Logs are scoped per test\n\nSee\n<https://developer.android.com/training/testing/junit-runner.html#using-android-test-orchestrator>\nfor more information about Android Test Orchestrator.\n\nOptional. If not set, the test will be run without the orchestrator.",
           "enum": [
             "ORCHESTRATOR_OPTION_UNSPECIFIED",
             "USE_ORCHESTRATOR",
             "DO_NOT_USE_ORCHESTRATOR"
           ],
           "enumDescriptions": [
-            "This means that the server should choose the mode. And test will be run\nwithout orchestrator.\nUsing orchestrator is highly encouraged because of all the benefits it\noffers. And in the future, all instrumentation tests will be run with\norchestrator by default if preference unspecified.",
+            "Default value: the server will choose the mode. Currently implies that\nthe test will run without the orchestrator. In the future,\nall instrumentation tests will be run with the orchestrator.\nUsing the orchestrator is highly encouraged because of all the benefits it\noffers.",
             "Run test using orchestrator.\n** Only compatible with AndroidJUnitRunner version 1.0 or higher! **\nRecommended.",
             "Run test without using orchestrator."
           ],
@@ -528,7 +518,7 @@
       "properties": {
         "appApk": {
           "$ref": "FileReference",
-          "description": "The APK for the application under test.\nRequired"
+          "description": "The APK for the application under test."
         },
         "appInitialActivity": {
           "description": "The initial activity that should be used to start the app.\nOptional",
@@ -570,7 +560,7 @@
       "type": "object"
     },
     "AndroidRuntimeConfiguration": {
-      "description": "Configuration that can be selected at the time a test is run.",
+      "description": "Android configuration that can be selected at the time a test is run.",
       "id": "AndroidRuntimeConfiguration",
       "properties": {
         "locales": {
@@ -596,7 +586,7 @@
       "properties": {
         "appApk": {
           "$ref": "FileReference",
-          "description": "The APK for the application under test.\nRequired"
+          "description": "The APK for the application under test."
         },
         "appPackageId": {
           "description": "The java package for the application under test.\nOptional, default is determined by examining the application's manifest.",
@@ -965,11 +955,11 @@
           "type": "string"
         },
         "locale": {
-          "description": "The locale the test device used for testing.\nUse the EnvironmentDiscoveryService to get supported options.\nRequired",
+          "description": "The locale the test device used for testing (only \"en\" is currently\nsupported). Use the EnvironmentDiscoveryService to get supported options\n(not yet implemented).\nRequired",
           "type": "string"
         },
         "orientation": {
-          "description": "How the device is oriented during the test.\nUse the EnvironmentDiscoveryService to get supported options.\nRequired",
+          "description": "How the device is oriented during the test (only \"portrait\" is currently\nsupported). Use the EnvironmentDiscoveryService to get supported options.\n(not yet implemented).\nRequired",
           "type": "string"
         }
       },
@@ -985,6 +975,10 @@
             "$ref": "IosModel"
           },
           "type": "array"
+        },
+        "runtimeConfiguration": {
+          "$ref": "IosRuntimeConfiguration",
+          "description": "The set of supported runtime configurations.\n@OutputOnly"
         },
         "versions": {
           "description": "The set of supported iOS software versions.\n@OutputOnly",
@@ -1039,6 +1033,27 @@
       },
       "type": "object"
     },
+    "IosRuntimeConfiguration": {
+      "description": "iOS configuration that can be selected at the time a test is run.",
+      "id": "IosRuntimeConfiguration",
+      "properties": {
+        "locales": {
+          "description": "The set of available locales.\n@OutputOnly",
+          "items": {
+            "$ref": "Locale"
+          },
+          "type": "array"
+        },
+        "orientations": {
+          "description": "The set of available orientations.\n@OutputOnly",
+          "items": {
+            "$ref": "Orientation"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
     "IosTestSetup": {
       "description": "A description of how to set up an iOS device prior to a test.",
       "id": "IosTestSetup",
@@ -1079,12 +1094,12 @@
       "type": "object"
     },
     "IosXcTest": {
-      "description": "A test of an iOS application that uses the XCTest framework.\nXcode supports the option to \"build for testing\", which generates an\n.xctestrun file that contains a test specification (arguments, test methods,\netc). This test type accepts a zip file containing the .xctestrun file and\nits corresponding Debug-iphoneos directory that contains all of the binaries\nneeded to run the tests.",
+      "description": "A test of an iOS application that uses the XCTest framework.\nXcode supports the option to \"build for testing\", which generates an\n.xctestrun file that contains a test specification (arguments, test methods,\netc). This test type accepts a zip file containing the .xctestrun file and\nthe corresponding contents of the Build/Products directory that contains all\nthe binaries needed to run the tests.",
       "id": "IosXcTest",
       "properties": {
         "testsZip": {
           "$ref": "FileReference",
-          "description": "The .zip containing the .xctestrun file and the Debug-iphoneos directory\nfrom DerivedData/Build/Products. The .xctestrun file in this zip is ignored\nif the xctestrun field is specified.\nRequired"
+          "description": "The .zip containing the .xctestrun file and the contents of the\nDerivedData/Build/Products directory.\nThe .xctestrun file in this zip is ignored if the xctestrun field is\nspecified.\nRequired"
         },
         "xctestrun": {
           "$ref": "FileReference",
@@ -1188,6 +1203,17 @@
             "type": "string"
           },
           "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "ProvidedSoftwareCatalog": {
+      "description": "The currently provided software environment on the devices under test.",
+      "id": "ProvidedSoftwareCatalog",
+      "properties": {
+        "orchestratorVersion": {
+          "description": "A string representing the current version of Android Test Orchestrator that\nis provided by TestExecutionService. Example: \"1.0.2 beta\"",
+          "type": "string"
         }
       },
       "type": "object"
@@ -1327,6 +1353,10 @@
         "networkConfigurationCatalog": {
           "$ref": "NetworkConfigurationCatalog",
           "description": "Supported network configurations"
+        },
+        "softwareCatalog": {
+          "$ref": "ProvidedSoftwareCatalog",
+          "description": "The software test environment provided by TestExecutionService."
         }
       },
       "type": "object"
@@ -1439,6 +1469,7 @@
             "BUILT_FOR_IOS_SIMULATOR",
             "NO_TESTS_IN_XC_TEST_ZIP",
             "USE_DESTINATION_ARTIFACTS",
+            "TEST_NOT_APP_HOSTED",
             "TEST_ONLY_APK",
             "MALFORMED_IPA",
             "NO_CODE_APK",
@@ -1464,12 +1495,13 @@
             "There was an error when parsing a label's value.",
             "The request contains a scenario number that was not declared in the\nmanifest.",
             "Device administrator applications are not allowed.",
-            "The zipped XCTest was malformed. The zip did not contain a single\n.xctestrun file alongside a Debug-iphoneos directory containing the\ncompiled artifacts for the test.",
+            "The zipped XCTest was malformed. The zip did not contain a single\n.xctestrun file and the contents of the DerivedData/Build/Products\ndirectory.",
             "The zipped XCTest was built for the iOS simulator rather than for a\nphysical device.",
             "The .xctestrun file did not specify any test targets.",
             "One or more of the test targets defined in the .xctestrun file specifies\n\"UseDestinationArtifacts\", which is disallowed.",
+            "XC tests which run on physical devices must have\n\"IsAppHostedTestBundle\" == \"true\" in the xctestrun file.",
             "The APK is marked as \"testOnly\".\nNOT USED",
-            "The input IPA could not be parsed.",
+            "The input IPA could not be parsed.\nNOT USED",
             "APK contains no code.\nSee also\nhttps://developer.android.com/guide/topics/manifest/application-element.html#code",
             "Either the provided input APK path was malformed,\nthe APK file does not exist, or the user does not have permission to\naccess the APK file."
           ],

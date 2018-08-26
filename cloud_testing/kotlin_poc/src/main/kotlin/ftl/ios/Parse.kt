@@ -20,10 +20,10 @@ object Parse {
                 .replace(' ', '/')
     }
 
-    internal fun parseObjcTests(binary: String): Set<String> {
+    internal fun parseObjcTests(binary: String): List<String> {
         validateFile(binary)
 
-        val results = mutableSetOf<String>()
+        val results = mutableListOf<String>()
         // https://github.com/linkedin/bluepill/blob/37e7efa42472222b81adaa0e88f2bd82aa289b44/Source/Shared/BPXCTestFile.m#L18
         val output = Bash.execute("nm -U $binary")
         output.lines().forEach { line ->
@@ -38,10 +38,10 @@ object Parse {
         return results
     }
 
-    internal fun parseSwiftTests(binary: String): Set<String> {
+    internal fun parseSwiftTests(binary: String): List<String> {
         validateFile(binary)
 
-        val results = mutableSetOf<String>()
+        val results = mutableListOf<String>()
 
         // The OS limits the list of arguments to ARG_MAX. Setting the xargs limit avoids a fatal
         // 'argument too long' error. xargs will split the args and run the command for each chunk.

@@ -1,6 +1,6 @@
 package ftl.cli.firebase.test.ios
 
-import ftl.config.IosConfig
+import ftl.args.IosArgs
 import ftl.run.TestRunner
 import kotlinx.coroutines.experimental.runBlocking
 import picocli.CommandLine.Command
@@ -20,8 +20,8 @@ Reads in the matrix_ids.json file. Refreshes any incomplete matrices.
 class IosRefreshCommand : Runnable {
     override fun run() {
         runBlocking {
-            val config = IosConfig.load(configPath)
-            TestRunner.refreshLastRun(config.gCloudConfig)
+            val config = IosArgs.load(configPath)
+            TestRunner.refreshLastRun(config)
         }
     }
 

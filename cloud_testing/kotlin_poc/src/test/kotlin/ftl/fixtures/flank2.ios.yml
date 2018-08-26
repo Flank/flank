@@ -22,7 +22,6 @@ gcloud:
 flank:
   testShards: 2
   testRuns: 1
-  limitBreak: false
   testMethodsAlwaysRun:
   - EarlGreyExampleMixedTests/testGrantCameraPermission
   - EarlGreyExampleMixedTests/testGrantMicrophonePermission

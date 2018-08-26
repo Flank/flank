@@ -10,7 +10,7 @@ import java.nio.file.Paths
 object Xctestrun {
 
     // Parses all tests for a given target
-    private fun testsForTarget(testDictionary: NSDictionary, testTarget: String, testRoot: String): Set<String> {
+    private fun testsForTarget(testDictionary: NSDictionary, testTarget: String, testRoot: String): List<String> {
         val productPaths = (testDictionary["DependentProductPaths"] as NSArray)
         for (product in productPaths.array) {
             val productString = product.toString()
@@ -60,14 +60,14 @@ object Xctestrun {
         return PropertyListParser.parse(testrun) as NSDictionary
     }
 
-    fun findTestNames(xctestrun: String): Set<String> {
+    fun findTestNames(xctestrun: String): List<String> {
         return findTestNames(File(xctestrun))
     }
 
     // Finds tests in a xctestrun file
-    private fun findTestNames(xctestrun: File): Set<String> {
+    private fun findTestNames(xctestrun: File): List<String> {
         val root = parse(xctestrun)
-        var result = setOf<String>()
+        var result = listOf<String>()
         // EarlGreyExampleSwiftTests_iphoneos11.3-arm64.xctestrun => EarlGreyExampleSwiftTests
         val testRoot = xctestrun.parent + "/"
 

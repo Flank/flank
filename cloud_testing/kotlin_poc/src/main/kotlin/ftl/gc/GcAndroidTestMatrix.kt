@@ -2,8 +2,7 @@ package ftl.gc
 
 import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.*
-import ftl.config.AndroidConfig
-import ftl.config.YamlConfig
+import ftl.args.AndroidArgs
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
 import ftl.util.Utils.uniqueObjectName
@@ -22,8 +21,8 @@ object GcAndroidTestMatrix {
             runGcsPath: String,
             androidDeviceList: AndroidDeviceList,
             testShardsIndex: Int = -1,
-            config: YamlConfig<AndroidConfig>): Testing.Projects.TestMatrices.Create {
-        val testShardsTotal = config.flankConfig.testShardChunks.size
+            config: AndroidArgs): Testing.Projects.TestMatrices.Create {
+        val testShardsTotal = config.testShardChunks.size
 
         if (testShardsIndex >= testShardsTotal) {
             throw RuntimeException("Invalid test shard index $testShardsIndex not < $testShardsTotal")
@@ -41,13 +40,13 @@ object GcAndroidTestMatrix {
                 .setAppApk(FileReference().setGcsPath(appApkGcsPath))
                 .setTestApk(FileReference().setGcsPath(testApkGcsPath))
 
-        if (config.gCloudConfig.useOrchestrator) {
+        if (config.useOrchestrator) {
             androidInstrumentation.orchestratorOption = "USE_ORCHESTRATOR"
         }
 
-        androidInstrumentation.testTargets = config.flankConfig.testShardChunks.elementAt(testShardsIndex).toList()
+        androidInstrumentation.testTargets = config.testShardChunks.elementAt(testShardsIndex).toList()
 
-        val timeout = config.gCloudConfig.testTimeout
+        val timeout = config.testTimeout
         val testTimeoutSeconds = when {
             timeout.contains("h") -> TimeUnit.HOURS.toSeconds(timeout.removeSuffix("h").toLong()) // Hours
             timeout.contains("m") -> TimeUnit.MINUTES.toSeconds(timeout.removeSuffix("m").toLong()) // Minutes
@@ -60,34 +59,34 @@ object GcAndroidTestMatrix {
         // https://github.com/bootstraponline/gcloud_cli/blob/e4b5e01610abad2e31d8a6edb20b17b2f84c5395/google-cloud-sdk/lib/googlecloudsdk/api_lib/firebase/test/android/matrix_creator.py#L174
         var account: Account? = null
 
-        if (config.gCloudConfig.autoGoogleLogin) {
+        if (config.autoGoogleLogin) {
             account = Account().setGoogleAuto(GoogleAuto())
         }
 
         val testSetup = TestSetup()
                 .setAccount(account)
 
-        testSetup.directoriesToPull = config.gCloudConfig.directoriesToPull
+        testSetup.directoriesToPull = config.directoriesToPull
 
-        if (config.gCloudConfig.environmentVariables.isNotEmpty()) {
+        if (config.environmentVariables.isNotEmpty()) {
             testSetup.environmentVariables =
-                    config.gCloudConfig.environmentVariables.map { it.toEnvironmentVariable() }
+                    config.environmentVariables.map { it.toEnvironmentVariable() }
         }
 
         testMatrix.testSpecification = TestSpecification()
                 .setAndroidInstrumentationTest(androidInstrumentation)
-                .setDisablePerformanceMetrics(!config.gCloudConfig.performanceMetrics)
-                .setDisableVideoRecording(!config.gCloudConfig.recordVideo)
+                .setDisablePerformanceMetrics(!config.performanceMetrics)
+                .setDisableVideoRecording(!config.recordVideo)
                 .setTestTimeout("${testTimeoutSeconds}s")
                 .setTestSetup(testSetup)
 
-        val matrixGcsPath = join(config.getGcsBucket(), runGcsPath, uniqueObjectName())
+        val matrixGcsPath = join(config.resultsBucket, runGcsPath, uniqueObjectName())
         testMatrix.resultStorage = ResultStorage()
                 .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
         testMatrix.environmentMatrix = EnvironmentMatrix().setAndroidDeviceList(androidDeviceList)
 
         try {
-            return GcTesting.get.projects().testMatrices().create(config.gCloudConfig.projectId, testMatrix)
+            return GcTesting.get.projects().testMatrices().create(config.projectId, testMatrix)
         } catch (e: Exception) {
             fatalError(e)
         }

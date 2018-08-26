@@ -33,4 +33,9 @@ object GcToolResults {
                         toolResultsStep.stepId)
                 .execute()
     }
+
+    fun getDefaultBucket(projectId: String): String? {
+        val response = GcToolResults.service.Projects().initializeSettings(projectId).execute()
+        return response.defaultBucket
+    }
 }

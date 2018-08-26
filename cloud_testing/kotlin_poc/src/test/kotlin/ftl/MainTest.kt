@@ -1,7 +1,7 @@
 package ftl
 
-import ftl.config.AndroidConfig
-import ftl.config.IosConfig
+import ftl.args.AndroidArgs
+import ftl.args.IosArgs
 import ftl.run.TestRunner
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.LocalGcs
@@ -23,8 +23,8 @@ class MainTest {
 
     @Test
     fun mockedTestRun() {
-        val localConfig = AndroidConfig.load("src/test/kotlin/ftl/fixtures/flank.local.yml")
-        val gcsConfig = AndroidConfig.load("src/test/kotlin/ftl/fixtures/flank.gcs.yml")
+        val localConfig = AndroidArgs.load("src/test/kotlin/ftl/fixtures/flank.local.yml")
+        val gcsConfig = AndroidArgs.load("src/test/kotlin/ftl/fixtures/flank.gcs.yml")
         runBlocking {
             TestRunner.newRun(localConfig)
             TestRunner.newRun(gcsConfig)
@@ -33,7 +33,7 @@ class MainTest {
 
     @Test
     fun mockedIosTestRun() {
-        val config = IosConfig.load("src/test/kotlin/ftl/fixtures/flank.ios.yml")
+        val config = IosArgs.load("src/test/kotlin/ftl/fixtures/flank.ios.yml")
         runBlocking {
             TestRunner.newRun(config)
         }

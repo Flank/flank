@@ -1,6 +1,7 @@
-package ftl.config
+package ftl.args
 
 import com.google.common.truth.Truth.assertThat
+import ftl.config.Device
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
@@ -12,7 +13,7 @@ import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 
 @RunWith(FlankTestRunner::class)
-class IosConfigTest {
+class IosArgsFileTest {
 
     @Rule
     @JvmField
@@ -34,14 +35,13 @@ class IosConfigTest {
     // NOTE: Change working dir to '%MODULE_WORKING_DIR%' in IntelliJ to match gradle for this test to pass.
     @Test
     fun configLoadsSuccessfully() {
-        val config = IosConfig.load(yamlFile)
+        val config = IosArgs.load(yamlFile)
 
-        assert(getPath(config.gCloudConfig.xctestrunZip), xctestrunZip)
-        assert(getPath(config.gCloudConfig.xctestrunFile), xctestrunFile)
+        assert(getPath(config.xctestrunZip), xctestrunZip)
+        assert(getPath(config.xctestrunFile), xctestrunFile)
 
-        with(config.gCloudConfig) {
+        with(config) {
             assert(resultsBucket, "tmp_bucket_2")
-            assert(performanceMetrics, true)
             assert(recordVideo, true)
             assert(testTimeout, "60m")
             assert(async, true)
@@ -49,18 +49,14 @@ class IosConfigTest {
             assert(devices, listOf(
                     Device("iphone8", "11.2", "en_US", "portrait")
             ))
-        }
-
-        with(config.flankConfig) {
             assert(testShards, 1)
             assert(testRuns, 1)
-            assert(limitBreak, false)
         }
     }
 
     @Test
     fun platformDisplayConfig() {
-        val config = IosConfig.load(yamlFile)
+        val config = IosArgs.load(yamlFile)
         val iosConfig = config.toString()
         assert(iosConfig.contains("appApk"), false)
         assert(iosConfig.contains("testApk"), false)
@@ -72,7 +68,7 @@ class IosConfigTest {
 
     @Test
     fun testMethodsAlwaysRun() {
-        val config = IosConfig.load(yamlFile2)
+        val config = IosArgs.load(yamlFile2)
 
         val chunk0 = arrayListOf("EarlGreyExampleMixedTests/testGrantCameraPermission",
                 "EarlGreyExampleMixedTests/testGrantMicrophonePermission",
@@ -84,7 +80,7 @@ class IosConfigTest {
                 "EarlGreyExampleMixedTests/testBasicSelection3",
                 "EarlGreyExampleMixedTests/testBasicSelection4")
 
-        val testShardChunks = config.flankConfig.testShardChunks
+        val testShardChunks = config.testShardChunks
 
         assertThat(testShardChunks.size).isEqualTo(2)
         assertThat(testShardChunks[0]).isEqualTo(chunk0)
