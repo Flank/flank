@@ -84,7 +84,7 @@ object Xctestrun {
             result += methods
         }
 
-        return result
+        return result.distinct()
     }
 
     fun rewrite(root: NSDictionary, methods: Collection<String>): ByteArray {

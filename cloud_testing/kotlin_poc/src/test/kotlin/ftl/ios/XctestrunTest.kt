@@ -12,7 +12,7 @@ import org.junit.runner.RunWith
 class XctestrunTest {
 
     private val swiftXctestrun = "$fixturesPath/EarlGreyExampleSwiftTests_iphoneos11.2-arm64.xctestrun"
-    private val swiftTests = setOf(
+    private val swiftTests = listOf(
             "EarlGreyExampleSwiftTests/testBasicSelection",
             "EarlGreyExampleSwiftTests/testBasicSelectionActionAssert",
             "EarlGreyExampleSwiftTests/testBasicSelectionAndAction",
@@ -47,7 +47,7 @@ class XctestrunTest {
 
     @Test
     fun findTestNames() {
-        val names = Xctestrun.findTestNames(swiftXctestrun)
+        val names = Xctestrun.findTestNames(swiftXctestrun).sorted()
         assertEquals(swiftTests, names)
     }
 

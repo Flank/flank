@@ -35,7 +35,7 @@ object Parse {
                 results.add(methodName(matcher))
             }
         }
-        return results
+        return results.distinct()
     }
 
     internal fun parseSwiftTests(binary: String): List<String> {
@@ -57,7 +57,7 @@ object Parse {
                 results.add(methodName(matcher))
             }
         }
-        return results
+        return results.distinct()
     }
 
     @JvmStatic
