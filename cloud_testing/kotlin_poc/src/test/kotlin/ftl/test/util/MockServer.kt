@@ -22,10 +22,11 @@ import java.util.concurrent.atomic.AtomicInteger
 object MockServer {
 
     private val matrixIdCounter: AtomicInteger = AtomicInteger(0)
+    val port = 8080
 
     val application by lazy {
         BasicConfigurator.configure();
-        embeddedServer(Netty, 8080) {
+        embeddedServer(Netty, port) {
             install(ContentNegotiation) {
                 // Fix: IllegalArgumentException: number type formatted as a JSON number cannot use @JsonString annotation
                 val gson = GsonBuilder().setLongSerializationPolicy(LongSerializationPolicy.STRING).create()

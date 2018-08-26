@@ -8,6 +8,7 @@ import ftl.test.util.FlankTestRunner
 import ftl.test.util.LocalGcs
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
+import ftl.test.util.TestHelper.getString
 import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
@@ -33,9 +34,9 @@ class AndroidArgsFileTest {
 
     private val localYamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.local.yml")
     private val gcsYamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.gcs.yml")
-    private val appApkLocal = getPath("../../test_app/apks/app-debug.apk")
+    private val appApkLocal = getString("../../test_app/apks/app-debug.apk")
     private val appApkGcs = "gs://tmp_bucket_2/app-debug.apk"
-    private val testApkLocal = getPath("../../test_app/apks/app-debug-androidTest.apk")
+    private val testApkLocal = getString("../../test_app/apks/app-debug-androidTest.apk")
     private val testApkGcs = "gs://tmp_bucket_2/app-debug-androidTest.apk"
     private val testName = "class com.example.app.ExampleUiTest#testPasses"
     private val directoryToPull = "/sdcard/screenshots"
@@ -64,17 +65,17 @@ class AndroidArgsFileTest {
     private fun checkConfig(config: AndroidArgs, local: Boolean) {
 
         with(config) {
-            if (local) assert(getPath(testApk), testApkLocal)
+            if (local) assert(getString(testApk), testApkLocal)
             else assert(testApk, testApkGcs)
 
-            if (local) assert(getPath(appApk), appApkLocal)
+            if (local) assert(getString(appApk), appApkLocal)
             else assert(appApk, appApkGcs)
 
             assert(autoGoogleLogin, true)
             assert(useOrchestrator, true)
             assert(environmentVariables, mapOf(Pair("clearPackageData", "true")))
             assert(directoriesToPull, listOf(directoryToPull))
-            assert(resultsBucket, LocalGcs.TEST_BUCKET)
+            assert(resultsBucket, "mockBucket")
             assert(performanceMetrics, true)
             assert(recordVideo, true)
             assert(testTimeout, "60m")
@@ -158,6 +159,6 @@ class AndroidArgsFileTest {
                 )),
                 FlankYml())
 
-        assert(config.resultsBucket, "tmp_bucket_2")
+        assert(config.resultsBucket, "mockBucket")
     }
 }
