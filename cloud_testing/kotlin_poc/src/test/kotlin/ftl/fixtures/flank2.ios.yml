@@ -21,6 +21,6 @@ flank:
   - EarlGreyExampleMixedTests/testBasicSelection2
   - EarlGreyExampleMixedTests/testBasicSelection3
   - EarlGreyExampleMixedTests/testBasicSelection4
-  testMethodsAlwaysRun:
+  test-targets-always-run:
   - EarlGreyExampleMixedTests/testGrantCameraPermission
   - EarlGreyExampleMixedTests/testGrantMicrophonePermission
