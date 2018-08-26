@@ -14,6 +14,9 @@ gcloud:
     clearPackageData: true
   directories-to-pull:
     - /sdcard/screenshots
+  device:
+    - model: NexusLowRes
+      version: 28
 
 flank:
   testShards: 1
