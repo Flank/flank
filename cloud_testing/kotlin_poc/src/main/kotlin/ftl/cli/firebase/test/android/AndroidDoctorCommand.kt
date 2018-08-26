@@ -20,7 +20,6 @@ import java.nio.file.Paths
 """])
 class AndroidDoctorCommand : Runnable {
     override fun run() {
-        checkIosCatalog()
         println(validateYaml(AndroidArgs, Paths.get(configPath)))
     }
 
