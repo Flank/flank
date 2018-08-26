@@ -60,7 +60,7 @@ class IosArgsTest {
             assert(testTargetsAlwaysRun, listOf("a/testGrantPermissions"))
 
             // IosFlankYml
-            assert(testTargets, empty)
+            assert(testTargets, listOf("b/testBasicSelection"))
         }
     }
 
@@ -85,9 +85,9 @@ IosArgs
       testRuns: 8
       testTargetsAlwaysRun: [a/testGrantPermissions]
       # iOS flank
-      testTargets: []
+      testTargets: [b/testBasicSelection]
       # computed properties
-      testShardChunks: [[a/testGrantPermissions, EarlGreyExampleTests/testLayout], [a/testGrantPermissions, EarlGreyExampleTests/testWithCondition], [a/testGrantPermissions, EarlGreyExampleTests/testWithCustomFailureHandler], [a/testGrantPermissions, SwiftTests/testBasicSelection], [a/testGrantPermissions, SwiftTests/testBasicSelectionAndAction], [a/testGrantPermissions, SwiftTests/testBasicSelectionAndAssert]]
+      testShardChunks: [[a/testGrantPermissions, b/testBasicSelection]]
 """.trimIndent())
     }
 
