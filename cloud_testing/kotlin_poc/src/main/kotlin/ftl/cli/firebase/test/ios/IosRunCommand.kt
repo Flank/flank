@@ -5,6 +5,7 @@ import ftl.run.TestRunner
 import kotlinx.coroutines.experimental.runBlocking
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
+import java.nio.file.Paths
 
 @Command(name = "run",
         sortOptions = false,
@@ -20,7 +21,7 @@ Configuration is read from flank.yml
 """])
 class IosRunCommand : Runnable {
     override fun run() {
-        val config = IosArgs.load(configPath)
+        val config = IosArgs.load(Paths.get(configPath))
         runBlocking {
             TestRunner.newRun(config)
 

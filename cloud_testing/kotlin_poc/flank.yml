@@ -7,7 +7,7 @@ gcloud:
   performance-metrics: true
   record-video: true
   timeout: 60m
-  async: true
+  async: false
   test-targets:
     - class com.example.app.ExampleUiTest#testPasses
   environment-variables:
