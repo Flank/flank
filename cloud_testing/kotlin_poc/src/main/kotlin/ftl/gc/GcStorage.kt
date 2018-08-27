@@ -4,10 +4,10 @@ import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageOptions
 import com.google.cloud.storage.contrib.nio.testing.LocalStorageHelper
-import ftl.config.AndroidConfig
+import ftl.args.AndroidArgs
+import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
-import ftl.config.IosConfig
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
 import java.io.File
@@ -38,22 +38,22 @@ object GcStorage {
                     rootGcsBucket = rootGcsBucket,
                     runGcsPath = runGcsPath)
 
-    fun uploadAppApk(config: AndroidConfig, gcsBucket: String, runGcsPath: String): String =
+    fun uploadAppApk(config: AndroidArgs, gcsBucket: String, runGcsPath: String): String =
             upload(config.appApk, gcsBucket, runGcsPath)
 
-    fun uploadTestApk(config: AndroidConfig, gcsBucket: String, runGcsPath: String): String =
+    fun uploadTestApk(config: AndroidArgs, gcsBucket: String, runGcsPath: String): String =
             upload(config.testApk, gcsBucket, runGcsPath)
 
-    fun uploadXCTestZip(config: IosConfig, runGcsPath: String): String =
-            upload(config.xctestrunZip, config.getGcsBucket(), runGcsPath)
+    fun uploadXCTestZip(config: IosArgs, runGcsPath: String): String =
+            upload(config.xctestrunZip, config.resultsBucket, runGcsPath)
 
-    fun uploadXCTestFile(config: IosConfig, gcsBucket: String, runGcsPath: String, fileBytes: ByteArray): String =
+    fun uploadXCTestFile(config: IosArgs, gcsBucket: String, runGcsPath: String, fileBytes: ByteArray): String =
             upload(file = config.xctestrunFile,
                     fileBytes = fileBytes,
                     rootGcsBucket = gcsBucket,
                     runGcsPath = runGcsPath)
 
-    fun downloadTestApk(config: AndroidConfig): String =
+    fun downloadTestApk(config: AndroidArgs): String =
             download(config.testApk)
 
     private fun upload(file: String, fileBytes: ByteArray, rootGcsBucket: String, runGcsPath: String): String {

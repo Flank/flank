@@ -1,10 +1,11 @@
 package ftl.cli.firebase.test.android
 
-import ftl.config.AndroidConfig
+import ftl.args.AndroidArgs
 import ftl.run.TestRunner
 import kotlinx.coroutines.experimental.runBlocking
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
+import java.nio.file.Paths
 
 @Command(name = "run",
         sortOptions = false,
@@ -20,8 +21,7 @@ Configuration is read from flank.yml
 """])
 class AndroidRunCommand : Runnable {
     override fun run() {
-        val config = AndroidConfig.load(configPath)
-        if (shards > 0) config.flankConfig.testRuns = shards
+        val config = AndroidArgs.load(Paths.get(configPath))
         runBlocking {
             TestRunner.newRun(config)
         }
@@ -29,9 +29,6 @@ class AndroidRunCommand : Runnable {
 
     @Option(names = ["-c", "--config"], description = ["YAML config file path"])
     var configPath: String = "./flank.yml"
-
-    @Option(names = ["-s", "--shards"], description = ["Amount of shards to use"])
-    var shards: Int = -1
 
     @Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
     var usageHelpRequested: Boolean = false

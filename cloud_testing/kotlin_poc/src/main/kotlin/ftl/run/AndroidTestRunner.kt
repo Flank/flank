@@ -1,9 +1,8 @@
 package ftl.run
 
 import com.google.api.services.testing.model.TestMatrix
-import ftl.config.AndroidConfig
+import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
-import ftl.config.YamlConfig
 import ftl.gc.GcAndroidMatrix
 import ftl.gc.GcAndroidTestMatrix
 import ftl.gc.GcStorage
@@ -11,23 +10,21 @@ import ftl.json.MatrixMap
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 
-object AndroidTestRunner : GenericTestRunner<AndroidConfig> {
+object AndroidTestRunner {
 
-    override suspend fun runTests(yamlConfig: YamlConfig<AndroidConfig>): MatrixMap {
-        val (stopwatch, runGcsPath) = beforeRunTests()
+    suspend fun runTests(androidArgs: AndroidArgs): MatrixMap {
+        val (stopwatch, runGcsPath) = GenericTestRunner.beforeRunTests()
 
         // GcAndroidMatrix => GcAndroidTestMatrix
         // GcAndroidTestMatrix.execute() 3x retry => matrix id (string)
-        val androidDeviceList = GcAndroidMatrix.build(yamlConfig.gCloudConfig.devices)
+        val androidDeviceList = GcAndroidMatrix.build(androidArgs.devices)
 
-        val apks = resolveApks(yamlConfig.gCloudConfig, runGcsPath)
-        println("apks: $apks")
-
+        val apks = resolveApks(androidArgs, runGcsPath)
         val jobs = arrayListOf<Deferred<TestMatrix>>()
-        val runCount = yamlConfig.flankConfig.testRuns
-        val repeatShard = yamlConfig.flankConfig.testShardChunks.size
-        val testsPerVm = yamlConfig.flankConfig.testShardChunks.first().size
-        val testsTotal = yamlConfig.flankConfig.testShardChunks.sumBy { it.size }
+        val runCount = androidArgs.testRuns
+        val repeatShard = androidArgs.testShardChunks.size
+        val testsPerVm = androidArgs.testShardChunks.first().size
+        val testsTotal = androidArgs.testShardChunks.sumBy { it.size }
 
         println("  Running ${runCount}x using $repeatShard VMs per run. ${runCount * repeatShard} total VMs")
         println("  $testsPerVm tests per VM. $testsTotal total tests per run")
@@ -40,12 +37,12 @@ object AndroidTestRunner : GenericTestRunner<AndroidConfig> {
                             runGcsPath = runGcsPath,
                             androidDeviceList = androidDeviceList,
                             testShardsIndex = testShardsIndex,
-                            config = yamlConfig).execute()
+                            config = androidArgs).execute()
                 }
             }
         }
 
-        return afterRunTests(jobs, runGcsPath, stopwatch, yamlConfig)
+        return GenericTestRunner.afterRunTests(jobs, runGcsPath, stopwatch, androidArgs)
     }
 
     /**
@@ -53,8 +50,8 @@ object AndroidTestRunner : GenericTestRunner<AndroidConfig> {
      *
      * @return Pair(gcs uri for app apk, gcs uri for test apk)
      */
-    private suspend fun resolveApks(config: AndroidConfig, runGcsPath: String): Pair<String, String> {
-        val gcsBucket = config.getGcsBucket()
+    private suspend fun resolveApks(config: AndroidArgs, runGcsPath: String): Pair<String, String> {
+        val gcsBucket = config.resultsBucket
 
         val appApkGcsPath = async {
             if (!config.appApk.startsWith(FtlConstants.GCS_PREFIX)) {

@@ -2,12 +2,9 @@ gcloud:
   test: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip
   xctestrun-file: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleMixedTests_iphoneos11.2-arm64.xctestrun
   results-bucket: tmp_bucket_2
-  performance-metrics: true
   record-video: true
   timeout: 60m
   async: true
-  test-targets:
-  - EarlGreyExampleMixedTests/testBasicSelection
   device:
   - model: iphone8
     version: 11.2
@@ -15,6 +12,7 @@ gcloud:
     locale: en_US
 
 flank:
+  test-targets:
+  - EarlGreyExampleMixedTests/testBasicSelection
   testShards: 1
   testRuns: 1
-  limitBreak: false

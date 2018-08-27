@@ -3,8 +3,7 @@ package ftl.gc
 import com.dd.plist.NSDictionary
 import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.*
-import ftl.config.IosConfig
-import ftl.config.YamlConfig
+import ftl.args.IosArgs
 import ftl.ios.Xctestrun
 import ftl.util.Utils
 import ftl.util.Utils.fatalError
@@ -19,15 +18,15 @@ object GcIosTestMatrix {
             runGcsPath: String,
             testShardsIndex: Int,
             xcTestParsed: NSDictionary,
-            config: YamlConfig<IosConfig>): Testing.Projects.TestMatrices.Create {
+            config: IosArgs): Testing.Projects.TestMatrices.Create {
 
-        val gcsBucket = config.getGcsBucket()
+        val gcsBucket = config.resultsBucket
         val matrixGcsSuffix = join(runGcsPath, Utils.uniqueObjectName())
         val matrixGcsPath = join(gcsBucket, matrixGcsSuffix)
-        val methods = config.flankConfig.testShardChunks.elementAt(testShardsIndex)
+        val methods = config.testShardChunks.elementAt(testShardsIndex)
 
         val generatedXctestrun = Xctestrun.rewrite(xcTestParsed, methods)
-        val xctestrunFileGcsPath = GcStorage.uploadXCTestFile(config.gCloudConfig, gcsBucket, matrixGcsSuffix, generatedXctestrun)
+        val xctestrunFileGcsPath = GcStorage.uploadXCTestFile(config, gcsBucket, matrixGcsSuffix, generatedXctestrun)
 
         val iOSXCTest = IosXcTest()
                 .setTestsZip(FileReference().setGcsPath(testZipGcsPath))
@@ -36,7 +35,7 @@ object GcIosTestMatrix {
         val iOSTestSetup = IosTestSetup()
                 .setNetworkProfile(null)
 
-        val timeout = config.gCloudConfig.testTimeout
+        val timeout = config.testTimeout
         val testTimeoutSeconds = when {
             timeout.contains("h") -> TimeUnit.HOURS.toSeconds(timeout.removeSuffix("h").toLong()) // Hours
             timeout.contains("m") -> TimeUnit.MINUTES.toSeconds(timeout.removeSuffix("m").toLong()) // Minutes
@@ -45,8 +44,7 @@ object GcIosTestMatrix {
         }
 
         val testSpec = TestSpecification()
-                .setDisablePerformanceMetrics(!config.gCloudConfig.performanceMetrics)
-                .setDisableVideoRecording(!config.gCloudConfig.recordVideo)
+                .setDisableVideoRecording(!config.recordVideo)
                 .setTestTimeout("${testTimeoutSeconds}s")
                 .setIosTestSetup(iOSTestSetup)
                 .setIosXcTest(iOSXCTest)
@@ -64,7 +62,7 @@ object GcIosTestMatrix {
                 .setResultStorage(resultStorage)
 
         try {
-            return GcTesting.get.projects().testMatrices().create(config.gCloudConfig.projectId, testMatrix)
+            return GcTesting.get.projects().testMatrices().create(config.projectId, testMatrix)
         } catch (e: Exception) {
             fatalError(e)
         }

@@ -42,6 +42,12 @@ object Utils {
         System.exit(-1)
     }
 
+    fun assertNotEmpty(str: String, e: String) {
+        if (str.isEmpty()) {
+            fatalError(e)
+        }
+    }
+
     // Match _GenerateUniqueGcsObjectName from api_lib/firebase/test/arg_validate.py
     //
     // Example: 2017-05-31_17:19:36.431540_hRJD

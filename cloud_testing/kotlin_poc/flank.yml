@@ -7,15 +7,17 @@ gcloud:
   performance-metrics: true
   record-video: true
   timeout: 60m
-  async: true
+  async: false
   test-targets:
     - class com.example.app.ExampleUiTest#testPasses
   environment-variables:
     clearPackageData: true
   directories-to-pull:
     - /sdcard/screenshots
+  device:
+    - model: NexusLowRes
+      version: 28
 
 flank:
   testShards: 1
-  limitBreak: false
   testRuns: 1

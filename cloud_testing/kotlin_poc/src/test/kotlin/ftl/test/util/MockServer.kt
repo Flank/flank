@@ -1,5 +1,7 @@
 package ftl.test.util
 
+import ch.qos.logback.classic.Level
+import ch.qos.logback.classic.Logger
 import com.google.api.services.testing.model.*
 import com.google.api.services.toolresults.model.*
 import com.google.gson.GsonBuilder
@@ -16,16 +18,17 @@ import io.ktor.routing.post
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
-import org.apache.log4j.BasicConfigurator
 import java.util.concurrent.atomic.AtomicInteger
+import org.slf4j.LoggerFactory.getLogger
 
 object MockServer {
 
     private val matrixIdCounter: AtomicInteger = AtomicInteger(0)
+    val port = 8080
 
     val application by lazy {
-        BasicConfigurator.configure();
-        embeddedServer(Netty, 8080) {
+        (getLogger(Logger.ROOT_LOGGER_NAME) as Logger).level = Level.OFF
+        embeddedServer(Netty, port) {
             install(ContentNegotiation) {
                 // Fix: IllegalArgumentException: number type formatted as a JSON number cannot use @JsonString annotation
                 val gson = GsonBuilder().setLongSerializationPolicy(LongSerializationPolicy.STRING).create()
