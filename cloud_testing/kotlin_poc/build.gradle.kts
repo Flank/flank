@@ -109,10 +109,7 @@ dependencies {
     testImplementation("io.ktor:ktor-server-netty:$ktorVersion")
     testImplementation("io.ktor:ktor-gson:$ktorVersion")
 
-    // https://www.slf4j.org/download.html
-    val slf4jVersion = "1.8.0-beta2"
-    testImplementation("org.slf4j:slf4j-log4j12:$slf4jVersion")
-    testImplementation("org.slf4j:jul-to-slf4j:$slf4jVersion")
+    testImplementation("ch.qos.logback:logback-classic:1.2.3")
 
     // todo: move to testImplementation once dagger is implemented https://github.com/TestArmada/flank/issues/248
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
