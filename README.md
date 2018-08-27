@@ -2,6 +2,8 @@
 
 Flank is a massively parallel Android and iOS test runner for [Firebase Test Lab](https://firebase.google.com/docs/test-lab/).
 
-### To Do
+### Contributing
 
-- write docs
+- Use [JetBrains Toolbox](https://www.jetbrains.com/toolbox/app/) to install `IntelliJ IDEA Community`
+- Clone the repo `git clone https://github.com/TestArmada/flank.git`
+- Open `test_runner/build.gradle.kts` with `IntelliJ IDEA Community`
