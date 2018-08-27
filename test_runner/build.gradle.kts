@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.Coroutines
 
 group = "kotlin_poc"
-version = "1.0-SNAPSHOT"
+version = "3.0-SNAPSHOT"
 
 plugins {
     application
@@ -117,7 +117,7 @@ configurations.all {
 }
 
 task("fatJar", type = Jar::class) {
-    baseName = "${project.name}-all"
+    baseName = "flank"
     manifest {
         attributes.apply {
             put("Main-Class", "ftl.Main")
