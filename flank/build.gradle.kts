@@ -9,6 +9,7 @@ version = "1.0-SNAPSHOT"
 plugins {
     application
     jacoco
+    kotlin("jvm") version Versions.KOTLIN
 }
 
 // http://www.eclemma.org/jacoco/
@@ -124,4 +125,8 @@ task("fatJar", type = Jar::class) {
     }
     from(configurations.runtime.map({ if (it.isDirectory) it else zipTree(it) }))
     with(tasks["jar"] as CopySpec)
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
 }
