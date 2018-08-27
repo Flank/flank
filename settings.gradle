@@ -1,0 +1,3 @@
+include ':cloud_testing:kotlin_poc'
+include ':cloud_testing:apis:testing'
+include ':test_app:app'

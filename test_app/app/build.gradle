@@ -1,5 +1,15 @@
 apply plugin: 'com.android.application'
 
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.4'
+    }
+}
+
 android {
     compileSdkVersion 27
 
@@ -49,9 +59,11 @@ dependencies {
 // test_app/app/build/reports/androidTests/connected/index.html
 //
 // gradle --configure-on-demand espresso
-task espresso << {
-    def testTask = project.tasks["connectedDebugAndroidTest"]
-    def runTestsAction = testTask.getActions().get(0)
+task espresso {
+    doLast {
+        def testTask = project.tasks["connectedDebugAndroidTest"]
+        def runTestsAction = testTask.getActions().get(0)
 
-    runTestsAction.execute(testTask)
+        runTestsAction.execute(testTask)
+    }
 }

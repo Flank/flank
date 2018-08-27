@@ -1,7 +1,0 @@
-apply plugin: 'com.diffplug.gradle.spotless'
-
-spotless { // gradle spotlessApply
-    java {
-        googleJavaFormat()
-    }
-}
