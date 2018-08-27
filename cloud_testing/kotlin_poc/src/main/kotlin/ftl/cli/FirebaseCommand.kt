@@ -1,6 +1,6 @@
 package ftl.cli
 
-import ftl.cli.firebase.DoctorCommand
+import ftl.cli.firebase.test.ios.IosDoctorCommand
 import ftl.cli.firebase.TestCommand
 import picocli.CommandLine
 import picocli.CommandLine.Command
@@ -9,7 +9,7 @@ import picocli.CommandLine.Command
         synopsisHeading = "",
         subcommands = [
             TestCommand::class,
-            DoctorCommand::class
+            IosDoctorCommand::class
         ])
 class FirebaseCommand : Runnable {
     override fun run() {

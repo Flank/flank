@@ -5,6 +5,9 @@ import com.google.api.services.testing.model.TestMatrix
 import com.google.cloud.storage.Storage
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import ftl.args.AndroidArgs
+import ftl.args.IArgs
+import ftl.args.IosArgs
 import ftl.config.*
 import ftl.config.FtlConstants.indent
 import ftl.config.FtlConstants.localResultsDir
@@ -39,10 +42,10 @@ object TestRunner {
         if (!GcToolResults.service.rootUrl.contains(localhost)) throw RuntimeException("expected localhost in GcToolResults")
     }
 
-    private suspend fun <MOBILE_CONFIG : GCloudConfig> runTests(yamlConfig: YamlConfig<MOBILE_CONFIG>): MatrixMap {
-        return when (yamlConfig.gCloudConfig) {
-            is AndroidConfig -> AndroidTestRunner.runTests(yamlConfig as YamlConfig<AndroidConfig>)
-            is IosConfig -> IosTestRunner.runTests(yamlConfig as YamlConfig<IosConfig>)
+    private suspend fun runTests(args: IArgs): MatrixMap {
+        return when (args) {
+            is AndroidArgs -> AndroidTestRunner.runTests(args)
+            is IosArgs -> IosTestRunner.runTests(args)
             else -> throw RuntimeException("Unknown config type")
         }
     }
@@ -55,7 +58,7 @@ object TestRunner {
     }
 
     /** Refresh all in progress matrices in parallel **/
-    private suspend fun refreshMatrices(matrixMap: MatrixMap, config: GCloudConfig) {
+    private suspend fun refreshMatrices(matrixMap: MatrixMap, config: IArgs) {
         println("RefreshMatrices")
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
@@ -171,7 +174,7 @@ object TestRunner {
     } // fun
 
     /** Synchronously poll all matrix ids until they complete. Returns true if test run passed. **/
-    private fun pollMatrices(matrices: MatrixMap, config: GCloudConfig) {
+    private fun pollMatrices(matrices: MatrixMap, config: IArgs) {
         println("PollMatrices")
         val map = matrices.map
         val poll = matrices.map.values.filter {
@@ -194,7 +197,7 @@ object TestRunner {
     //
     // Port of MonitorTestExecutionProgress
     // gcloud-cli/googlecloudsdk/api_lib/firebase/test/matrix_ops.py
-    private fun pollMatrix(matrixId: String, stopwatch: StopWatch, config: GCloudConfig): TestMatrix {
+    private fun pollMatrix(matrixId: String, stopwatch: StopWatch, config: IArgs): TestMatrix {
         var lastState = ""
         var lastError = ""
         var progress = listOf<String>()
@@ -256,7 +259,7 @@ object TestRunner {
     }
 
     // used to update results from an async run
-    suspend fun refreshLastRun(config: GCloudConfig) {
+    suspend fun refreshLastRun(config: IArgs) {
         val matrixMap = lastMatrices()
 
         refreshMatrices(matrixMap, config)
@@ -265,12 +268,12 @@ object TestRunner {
         ReportManager.generate(matrixMap)
     }
 
-    suspend fun <MOBILE_CONFIG : GCloudConfig> newRun(config: YamlConfig<MOBILE_CONFIG>) {
+    suspend fun newRun(config: IArgs) {
         println(config)
         val matrixMap = runTests(config)
 
-        if (!config.gCloudConfig.async) {
-            pollMatrices(matrixMap, config.gCloudConfig)
+        if (!config.async) {
+            pollMatrices(matrixMap, config)
             fetchArtifacts(matrixMap)
 
             val testsSuccessful = ReportManager.generate(matrixMap)

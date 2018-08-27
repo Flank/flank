@@ -49,3 +49,15 @@ GCLOUD_DIR="$HOME/.config/gcloud/"
 mkdir -p "$GCLOUD_DIR"
 echo "$GCLOUD_KEY" | base64 --decode > "$GCLOUD_DIR/application_default_credentials.json"
 ```
+
+### Running with gcloud directly
+
+- `gcloud firebase test android run flank.yml:gcloud`
+- `gcloud alpha firebase test ios run flank.ios.yml:gcloud`
+
+### Doctor
+
+Use the doctor command to check for errors in the YAML.
+
+- `flank firebase test android doctor`
+- `flank firebase test ios doctor`

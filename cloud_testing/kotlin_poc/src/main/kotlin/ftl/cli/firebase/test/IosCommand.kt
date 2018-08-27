@@ -1,5 +1,6 @@
 package ftl.cli.firebase.test
 
+import ftl.cli.firebase.test.ios.IosDoctorCommand
 import ftl.cli.firebase.test.ios.IosRefreshCommand
 import ftl.cli.firebase.test.ios.IosRunCommand
 import picocli.CommandLine
@@ -9,7 +10,8 @@ import picocli.CommandLine.Command
         synopsisHeading = "",
         subcommands = [
             IosRunCommand::class,
-            IosRefreshCommand::class
+            IosRefreshCommand::class,
+            IosDoctorCommand::class
         ])
 class IosCommand : Runnable {
     override fun run() {
