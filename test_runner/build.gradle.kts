@@ -77,7 +77,7 @@ dependencies {
     // NOTE: iOS support isn't in the public artifact. Use testing jar generated from the private gcloud CLI json
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-testing%22
     // compile("com.google.apis:google-api-services-testing:v1-rev30-1.23.0")
-    compile(project(":firebase_apis:testing"))
+    compile(project("test_api"))
 
     // yaml config
     // https://search.maven.org/search?q=a:jackson-databind%20g:com.fasterxml.jackson.core
@@ -123,7 +123,10 @@ task("fatJar", type = Jar::class) {
             put("Main-Class", "ftl.Main")
         }
     }
-    from(configurations.runtime.map({ if (it.isDirectory) it else zipTree(it) }))
+    from(configurations.runtime.map {
+        @Suppress("IMPLICIT_CAST_TO_ANY")
+        if (it.isDirectory) it else zipTree(it)
+    })
     with(tasks["jar"] as CopySpec)
 }
 

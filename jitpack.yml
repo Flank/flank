@@ -2,5 +2,5 @@ jdk:
   - openjdk8
 install:
    - echo "Installing Flank"
-   - test_runner/gradlew -p test_runner/ clean fatJar
+   - test_runner/gradlew -p test_runner/ clean assemble fatJar
    - mvn install:install-file -Dfile=test_runner/build/libs/kotlin_poc-all-1.0-SNAPSHOT.jar -DgroupId=com.github.TestArmada.flank -DartifactId=kotlin -Dversion=SNAPSHOT -Dpackaging=jar
