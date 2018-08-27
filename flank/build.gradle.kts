@@ -6,20 +6,9 @@ import org.jetbrains.kotlin.gradle.dsl.Coroutines
 group = "kotlin_poc"
 version = "1.0-SNAPSHOT"
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath(Plugins.KOTLIN)
-    }
-}
-
 plugins {
     application
     jacoco
-    kotlin("jvm") version Versions.KOTLIN
 }
 
 // http://www.eclemma.org/jacoco/
@@ -124,22 +113,6 @@ configurations.all {
         force(Libs.KOTLIN_REFLECT)
         exclude(group = "com.google.guava", module = "guava-jdk5")
     }
-}
-
-val javaVersion = "1.8"
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    jvmTarget = javaVersion
-}
-
-val compileTestKotlin: KotlinCompile by tasks
-compileTestKotlin.kotlinOptions {
-    jvmTarget = javaVersion
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 task("fatJar", type = Jar::class) {
