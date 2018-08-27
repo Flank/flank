@@ -1,1 +1,1 @@
-../gradle/gradlew.bat
+../gradlew.bat
