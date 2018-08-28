@@ -10,8 +10,8 @@ object LocalGcs {
     private const val APP_APK = "app-debug.apk"
     private const val TEST_APK = "app-debug-androidTest.apk"
 
-    private const val APP_APK_PATH = "../../test_app/apks/app-debug.apk"
-    private const val TEST_APK_PATH = "../../test_app/apks/app-debug-androidTest.apk"
+    private const val APP_APK_PATH = "../test_app/apks/app-debug.apk"
+    private const val TEST_APK_PATH = "../test_app/apks/app-debug-androidTest.apk"
 
     const val TEST_BUCKET = "tmp_bucket_2"
 

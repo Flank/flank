@@ -34,9 +34,9 @@ class AndroidArgsFileTest {
 
     private val localYamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.local.yml")
     private val gcsYamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.gcs.yml")
-    private val appApkLocal = getString("../../test_app/apks/app-debug.apk")
+    private val appApkLocal = getString("../test_app/apks/app-debug.apk")
     private val appApkGcs = "gs://tmp_bucket_2/app-debug.apk"
-    private val testApkLocal = getString("../../test_app/apks/app-debug-androidTest.apk")
+    private val testApkLocal = getString("../test_app/apks/app-debug-androidTest.apk")
     private val testApkGcs = "gs://tmp_bucket_2/app-debug-androidTest.apk"
     private val testName = "class com.example.app.ExampleUiTest#testPasses"
     private val directoryToPull = "/sdcard/screenshots"

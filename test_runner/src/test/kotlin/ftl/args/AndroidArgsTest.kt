@@ -10,8 +10,8 @@ import org.junit.runner.RunWith
 @RunWith(FlankTestRunner::class)
 class AndroidArgsTest {
     private val empty = emptyList<String>()
-    private val appApk = "../../test_app/apks/app-debug.apk"
-    private val testApk = "../../test_app/apks/app-debug-androidTest.apk"
+    private val appApk = "../test_app/apks/app-debug.apk"
+    private val testApk = "../test_app/apks/app-debug-androidTest.apk"
 
     private val androidNonDefault = """
         gcloud:
@@ -87,8 +87,8 @@ AndroidArgs
       async: true
       projectId: projectFoo
       # Android gcloud
-      appApk: ../../test_app/apks/app-debug.apk
-      testApk: ../../test_app/apks/app-debug-androidTest.apk
+      appApk: ../test_app/apks/app-debug.apk
+      testApk: ../test_app/apks/app-debug-androidTest.apk
       autoGoogleLogin: false
       useOrchestrator: false
       environmentVariables: {clearPackageData=true}

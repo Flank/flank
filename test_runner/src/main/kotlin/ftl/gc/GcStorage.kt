@@ -79,7 +79,8 @@ object GcStorage {
         val bucket = gcsURI.authority
         val path = gcsURI.path.drop(1) // Drop leading slash
 
-        val outputFile = File("../../test_app/apks/$path")
+        val outputFile = File.createTempFile("apk", null)
+        outputFile.deleteOnExit()
 
         try {
             val blob = storage.get(bucket, path)
