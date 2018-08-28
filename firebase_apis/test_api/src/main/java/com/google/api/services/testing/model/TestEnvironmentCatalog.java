@@ -51,6 +51,13 @@ public final class TestEnvironmentCatalog extends com.google.api.client.json.Gen
   private NetworkConfigurationCatalog networkConfigurationCatalog;
 
   /**
+   * The software test environment provided by TestExecutionService.
+   * The value may be {@code null}.
+   */
+  @com.google.api.client.util.Key
+  private ProvidedSoftwareCatalog softwareCatalog;
+
+  /**
    * Android devices suitable for running Android Instrumentation Tests.
    * @return value or {@code null} for none
    */
@@ -98,6 +105,23 @@ public final class TestEnvironmentCatalog extends com.google.api.client.json.Gen
    */
   public TestEnvironmentCatalog setNetworkConfigurationCatalog(NetworkConfigurationCatalog networkConfigurationCatalog) {
     this.networkConfigurationCatalog = networkConfigurationCatalog;
+    return this;
+  }
+
+  /**
+   * The software test environment provided by TestExecutionService.
+   * @return value or {@code null} for none
+   */
+  public ProvidedSoftwareCatalog getSoftwareCatalog() {
+    return softwareCatalog;
+  }
+
+  /**
+   * The software test environment provided by TestExecutionService.
+   * @param softwareCatalog softwareCatalog or {@code null} for none
+   */
+  public TestEnvironmentCatalog setSoftwareCatalog(ProvidedSoftwareCatalog softwareCatalog) {
+    this.softwareCatalog = softwareCatalog;
     return this;
   }
 

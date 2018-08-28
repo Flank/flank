@@ -19,8 +19,9 @@ package com.google.api.services.testing.model;
 /**
  * A test of an iOS application that uses the XCTest framework. Xcode supports the option to "build
  * for testing", which generates an .xctestrun file that contains a test specification (arguments,
- * test methods, etc). This test type accepts a zip file containing the .xctestrun file and its
- * corresponding Debug-iphoneos directory that contains all of the binaries needed to run the tests.
+ * test methods, etc). This test type accepts a zip file containing the .xctestrun file and the
+ * corresponding contents of the Build/Products directory that contains all the binaries needed to
+ * run the tests.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the Cloud Testing API. For a detailed explanation see:
@@ -33,9 +34,9 @@ package com.google.api.services.testing.model;
 public final class IosXcTest extends com.google.api.client.json.GenericJson {
 
   /**
-   * The .zip containing the .xctestrun file and the Debug-iphoneos directory from
-   * DerivedData/Build/Products. The .xctestrun file in this zip is ignored if the xctestrun field
-   * is specified. Required
+   * The .zip containing the .xctestrun file and the contents of the DerivedData/Build/Products
+   * directory. The .xctestrun file in this zip is ignored if the xctestrun field is specified.
+   * Required
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
@@ -51,9 +52,9 @@ public final class IosXcTest extends com.google.api.client.json.GenericJson {
   private FileReference xctestrun;
 
   /**
-   * The .zip containing the .xctestrun file and the Debug-iphoneos directory from
-   * DerivedData/Build/Products. The .xctestrun file in this zip is ignored if the xctestrun field
-   * is specified. Required
+   * The .zip containing the .xctestrun file and the contents of the DerivedData/Build/Products
+   * directory. The .xctestrun file in this zip is ignored if the xctestrun field is specified.
+   * Required
    * @return value or {@code null} for none
    */
   public FileReference getTestsZip() {
@@ -61,9 +62,9 @@ public final class IosXcTest extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * The .zip containing the .xctestrun file and the Debug-iphoneos directory from
-   * DerivedData/Build/Products. The .xctestrun file in this zip is ignored if the xctestrun field
-   * is specified. Required
+   * The .zip containing the .xctestrun file and the contents of the DerivedData/Build/Products
+   * directory. The .xctestrun file in this zip is ignored if the xctestrun field is specified.
+   * Required
    * @param testsZip testsZip or {@code null} for none
    */
   public IosXcTest setTestsZip(FileReference testsZip) {

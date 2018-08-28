@@ -37,6 +37,13 @@ public final class IosDeviceCatalog extends com.google.api.client.json.GenericJs
   private java.util.List<IosModel> models;
 
   /**
+   * The set of supported runtime configurations. @OutputOnly
+   * The value may be {@code null}.
+   */
+  @com.google.api.client.util.Key
+  private IosRuntimeConfiguration runtimeConfiguration;
+
+  /**
    * The set of supported iOS software versions. @OutputOnly
    * The value may be {@code null}.
    */
@@ -57,6 +64,23 @@ public final class IosDeviceCatalog extends com.google.api.client.json.GenericJs
    */
   public IosDeviceCatalog setModels(java.util.List<IosModel> models) {
     this.models = models;
+    return this;
+  }
+
+  /**
+   * The set of supported runtime configurations. @OutputOnly
+   * @return value or {@code null} for none
+   */
+  public IosRuntimeConfiguration getRuntimeConfiguration() {
+    return runtimeConfiguration;
+  }
+
+  /**
+   * The set of supported runtime configurations. @OutputOnly
+   * @param runtimeConfiguration runtimeConfiguration or {@code null} for none
+   */
+  public IosDeviceCatalog setRuntimeConfiguration(IosRuntimeConfiguration runtimeConfiguration) {
+    this.runtimeConfiguration = runtimeConfiguration;
     return this;
   }
 

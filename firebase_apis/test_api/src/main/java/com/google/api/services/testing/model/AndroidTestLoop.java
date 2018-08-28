@@ -31,7 +31,7 @@ package com.google.api.services.testing.model;
 public final class AndroidTestLoop extends com.google.api.client.json.GenericJson {
 
   /**
-   * The APK for the application under test. Required
+   * The APK for the application under test.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
@@ -65,7 +65,7 @@ public final class AndroidTestLoop extends com.google.api.client.json.GenericJso
   private java.util.List<java.lang.Integer> scenarios;
 
   /**
-   * The APK for the application under test. Required
+   * The APK for the application under test.
    * @return value or {@code null} for none
    */
   public FileReference getAppApk() {
@@ -73,7 +73,7 @@ public final class AndroidTestLoop extends com.google.api.client.json.GenericJso
   }
 
   /**
-   * The APK for the application under test. Required
+   * The APK for the application under test.
    * @param appApk appApk or {@code null} for none
    */
   public AndroidTestLoop setAppApk(FileReference appApk) {

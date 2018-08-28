@@ -197,11 +197,6 @@ public class Testing extends com.google.api.client.googleapis.services.json.Abst
       }
 
       @Override
-      public GetApkDetails setBearerToken(java.lang.String bearerToken) {
-        return (GetApkDetails) super.setBearerToken(bearerToken);
-      }
-
-      @Override
       public GetApkDetails setCallback(java.lang.String callback) {
         return (GetApkDetails) super.setCallback(callback);
       }
@@ -219,11 +214,6 @@ public class Testing extends com.google.api.client.googleapis.services.json.Abst
       @Override
       public GetApkDetails setOauthToken(java.lang.String oauthToken) {
         return (GetApkDetails) super.setOauthToken(oauthToken);
-      }
-
-      @Override
-      public GetApkDetails setPp(java.lang.Boolean pp) {
-        return (GetApkDetails) super.setPp(pp);
       }
 
       @Override
@@ -366,11 +356,6 @@ public class Testing extends com.google.api.client.googleapis.services.json.Abst
         }
 
         @Override
-        public Cancel setBearerToken(java.lang.String bearerToken) {
-          return (Cancel) super.setBearerToken(bearerToken);
-        }
-
-        @Override
         public Cancel setCallback(java.lang.String callback) {
           return (Cancel) super.setCallback(callback);
         }
@@ -388,11 +373,6 @@ public class Testing extends com.google.api.client.googleapis.services.json.Abst
         @Override
         public Cancel setOauthToken(java.lang.String oauthToken) {
           return (Cancel) super.setOauthToken(oauthToken);
-        }
-
-        @Override
-        public Cancel setPp(java.lang.Boolean pp) {
-          return (Cancel) super.setPp(pp);
         }
 
         @Override
@@ -525,11 +505,6 @@ public class Testing extends com.google.api.client.googleapis.services.json.Abst
         }
 
         @Override
-        public Create setBearerToken(java.lang.String bearerToken) {
-          return (Create) super.setBearerToken(bearerToken);
-        }
-
-        @Override
         public Create setCallback(java.lang.String callback) {
           return (Create) super.setCallback(callback);
         }
@@ -547,11 +522,6 @@ public class Testing extends com.google.api.client.googleapis.services.json.Abst
         @Override
         public Create setOauthToken(java.lang.String oauthToken) {
           return (Create) super.setOauthToken(oauthToken);
-        }
-
-        @Override
-        public Create setPp(java.lang.Boolean pp) {
-          return (Create) super.setPp(pp);
         }
 
         @Override
@@ -702,11 +672,6 @@ public class Testing extends com.google.api.client.googleapis.services.json.Abst
         }
 
         @Override
-        public Get setBearerToken(java.lang.String bearerToken) {
-          return (Get) super.setBearerToken(bearerToken);
-        }
-
-        @Override
         public Get setCallback(java.lang.String callback) {
           return (Get) super.setCallback(callback);
         }
@@ -724,11 +689,6 @@ public class Testing extends com.google.api.client.googleapis.services.json.Abst
         @Override
         public Get setOauthToken(java.lang.String oauthToken) {
           return (Get) super.setOauthToken(oauthToken);
-        }
-
-        @Override
-        public Get setPp(java.lang.Boolean pp) {
-          return (Get) super.setPp(pp);
         }
 
         @Override
@@ -889,11 +849,6 @@ public class Testing extends com.google.api.client.googleapis.services.json.Abst
       }
 
       @Override
-      public Get setBearerToken(java.lang.String bearerToken) {
-        return (Get) super.setBearerToken(bearerToken);
-      }
-
-      @Override
       public Get setCallback(java.lang.String callback) {
         return (Get) super.setCallback(callback);
       }
@@ -911,11 +866,6 @@ public class Testing extends com.google.api.client.googleapis.services.json.Abst
       @Override
       public Get setOauthToken(java.lang.String oauthToken) {
         return (Get) super.setOauthToken(oauthToken);
-      }
-
-      @Override
-      public Get setPp(java.lang.Boolean pp) {
-        return (Get) super.setPp(pp);
       }
 
       @Override
