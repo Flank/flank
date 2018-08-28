@@ -1,7 +1,7 @@
 # gcloud args match the official gcloud cli
 # https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/run
 gcloud:
-  # results-bucket: earlgrey-swift
+  results-bucket: tmp_flank
   record-video: true
   timeout: 30m
   async: false

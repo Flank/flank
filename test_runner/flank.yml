@@ -1,15 +1,15 @@
 # gcloud args match the official gcloud cli
 # https://cloud.google.com/sdk/gcloud/reference/firebase/test/android/run
 gcloud:
-  # results-bucket: tmp_bucket_2
+  results-bucket: tmp_flank
   record-video: true
   timeout: 60m
   async: false
   # project: delta-essence-114723
 
   # test and app are the only required args
-  app: ../../test_app/apks/app-debug.apk
-  test: ../../test_app/apks/app-debug-androidTest.apk
+  app: ../test_app/apks/app-debug.apk
+  test: ../test_app/apks/app-debug-androidTest.apk
   auto-google-login: true
   use-orchestrator: true
   environment-variables:

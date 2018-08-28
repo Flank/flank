@@ -10,7 +10,7 @@ Flank is a [massively parallel Android and iOS test runner](https://medium.com/w
 
 ### iOS example
 
-Run `test_runner/flank.ios.yml` with flank to verify Android execution is working.
+Run `test_runner/flank.ios.yml` with flank to verify iOS execution is working.
 
 - `cd test_runner/`
 - `java -jar ./flank.jar firebase test ios run`
@@ -49,6 +49,7 @@ flank:
 Run `test_runner/flank.yml` with flank to verify Android execution is working.
 
 - `cd test_runner/`
+- `./gradlew build`
 - `java -jar ./flank.jar firebase test android run`
 
 ```yaml
