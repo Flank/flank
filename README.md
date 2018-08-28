@@ -1,4 +1,4 @@
-# Flank [![Build Status](https://app.bitrise.io/app/9767f3e19047d4db/status.svg?token=uDM3wCumR2xTd0axh4bjDQ&branch=master)](https://app.bitrise.io/app/9767f3e19047d4db) [![](https://jitpack.io/v/TestArmada/flank.svg)](https://jitpack.io/#TestArmada/flank)
+# Flank [![Build Status](https://app.bitrise.io/app/9767f3e19047d4db/status.svg?token=uDM3wCumR2xTd0axh4bjDQ&branch=master)](https://app.bitrise.io/app/9767f3e19047d4db)
 
 Flank is a [massively parallel Android and iOS test runner](https://medium.com/walmartlabs/flank-smart-test-runner-for-firebase-cf65e1b1eca7) for [Firebase Test Lab](https://firebase.google.com/docs/test-lab/).
 
@@ -93,10 +93,10 @@ flank:
 
 ### CI integration
 
-Download Flank [from jitpack](https://jitpack.io/com/github/TestArmada/flank/master-SNAPSHOT)
+Download Flank from GitHub releases. The snapshot jar tracks master and is always up to date. Alternatively, rehost the jar to avoid automatically updating to new versions of Flank.
 
 ```
-wget --quiet https://jitpack.io/com/github/TestArmada/flank/master-v2.0.3-ga0edd87-58/flank-master-v2.0.3-ga0edd87-58.jar -O ./flank.jar
+wget --quiet https://github.com/TestArmada/flank/releases/download/flank_snapshot/flank.jar -O ./flank.jar
 ```
 
 In CI, it may be useful to generate the file via a shell script:
