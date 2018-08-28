@@ -16,6 +16,7 @@ object Doctor {
     }
 
     fun validateYaml(args: IArgsCompanion, data: Path): String {
+        if (!data.toFile().exists()) return "Skipping yaml validation. No file at path $data"
         return validateYaml(args, String(Files.readAllBytes(data)))
     }
 
