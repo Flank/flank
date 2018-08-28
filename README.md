@@ -111,7 +111,7 @@ EOF
 
 Place the [flank bash helper](https://github.com/TestArmada/flank/blob/master/test_runner/bash/flank) on the path to use `flank` instead of `java -jar flank.jar`
 
-### Autenticate with a service account
+### Authenticate with a service account
 
 Follow the [test lab docs](https://firebase.google.com/docs/test-lab/android/continuous) to create a service account.
 - Save the credential to `$HOME/.config/gcloud/application_default_credentials.json` or set `GOOGLE_APPLICATION_CREDENTIALS` when using a custom path.
@@ -152,4 +152,4 @@ v3.0-SNAPSHOT
 
 > Access Not Configured. Cloud Tool Results API has not been used in project 764086051850 before or it is disabled.
 
-This error means authentication hasn't been setup properly. See `Autenticate with a service account` in this readme.
+This error means authentication hasn't been setup properly. See `Authenticate with a service account` in this readme.
