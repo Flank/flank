@@ -13,7 +13,8 @@ Flank is a [massively parallel Android and iOS test runner](https://medium.com/w
 Run `test_runner/flank.ios.yml` with flank to verify iOS execution is working.
 
 - `cd test_runner/`
-- `java -jar ./flank.jar firebase test ios run`
+- `./gradlew build`
+- `java -jar ./build/libs/flank-*.jar firebase test ios run`
 
 ```yaml
 # gcloud args match the official gcloud cli
@@ -50,7 +51,7 @@ Run `test_runner/flank.yml` with flank to verify Android execution is working.
 
 - `cd test_runner/`
 - `./gradlew build`
-- `java -jar ./flank.jar firebase test android run`
+- `java -jar ./build/libs/flank-*.jar firebase test android run`
 
 ```yaml
 # gcloud args match the official gcloud cli
@@ -107,6 +108,8 @@ gcloud:
   test: ../../test_app/apks/app-debug-androidTest.apk
 EOF
 ```
+
+Place the [flank bash helper](https://github.com/TestArmada/flank/blob/master/test_runner/bash/flank) on the path to use `flank` instead of `java -jar flank.jar`
 
 ### Autenticate with a service account
 
