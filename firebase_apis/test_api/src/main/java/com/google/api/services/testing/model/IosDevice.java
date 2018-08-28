@@ -46,16 +46,16 @@ public final class IosDevice extends com.google.api.client.json.GenericJson {
   private java.lang.String iosVersionId;
 
   /**
-   * The locale the test device used for testing. Use the EnvironmentDiscoveryService to get
-   * supported options. Required
+   * The locale the test device used for testing (only "en" is currently supported). Use the
+   * EnvironmentDiscoveryService to get supported options (not yet implemented). Required
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private java.lang.String locale;
 
   /**
-   * How the device is oriented during the test. Use the EnvironmentDiscoveryService to get
-   * supported options. Required
+   * How the device is oriented during the test (only "portrait" is currently supported). Use the
+   * EnvironmentDiscoveryService to get supported options. (not yet implemented). Required
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
@@ -100,8 +100,8 @@ public final class IosDevice extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * The locale the test device used for testing. Use the EnvironmentDiscoveryService to get
-   * supported options. Required
+   * The locale the test device used for testing (only "en" is currently supported). Use the
+   * EnvironmentDiscoveryService to get supported options (not yet implemented). Required
    * @return value or {@code null} for none
    */
   public java.lang.String getLocale() {
@@ -109,8 +109,8 @@ public final class IosDevice extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * The locale the test device used for testing. Use the EnvironmentDiscoveryService to get
-   * supported options. Required
+   * The locale the test device used for testing (only "en" is currently supported). Use the
+   * EnvironmentDiscoveryService to get supported options (not yet implemented). Required
    * @param locale locale or {@code null} for none
    */
   public IosDevice setLocale(java.lang.String locale) {
@@ -119,8 +119,8 @@ public final class IosDevice extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * How the device is oriented during the test. Use the EnvironmentDiscoveryService to get
-   * supported options. Required
+   * How the device is oriented during the test (only "portrait" is currently supported). Use the
+   * EnvironmentDiscoveryService to get supported options. (not yet implemented). Required
    * @return value or {@code null} for none
    */
   public java.lang.String getOrientation() {
@@ -128,8 +128,8 @@ public final class IosDevice extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * How the device is oriented during the test. Use the EnvironmentDiscoveryService to get
-   * supported options. Required
+   * How the device is oriented during the test (only "portrait" is currently supported). Use the
+   * EnvironmentDiscoveryService to get supported options. (not yet implemented). Required
    * @param orientation orientation or {@code null} for none
    */
   public IosDevice setOrientation(java.lang.String orientation) {

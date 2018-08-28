@@ -17,7 +17,7 @@
 package com.google.api.services.testing.model;
 
 /**
- * Android configuration that can be selected at the time a test is run.
+ * iOS configuration that can be selected at the time a test is run.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the Cloud Testing API. For a detailed explanation see:
@@ -27,7 +27,7 @@ package com.google.api.services.testing.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class AndroidRuntimeConfiguration extends com.google.api.client.json.GenericJson {
+public final class IosRuntimeConfiguration extends com.google.api.client.json.GenericJson {
 
   /**
    * The set of available locales. @OutputOnly
@@ -55,7 +55,7 @@ public final class AndroidRuntimeConfiguration extends com.google.api.client.jso
    * The set of available locales. @OutputOnly
    * @param locales locales or {@code null} for none
    */
-  public AndroidRuntimeConfiguration setLocales(java.util.List<Locale> locales) {
+  public IosRuntimeConfiguration setLocales(java.util.List<Locale> locales) {
     this.locales = locales;
     return this;
   }
@@ -72,19 +72,19 @@ public final class AndroidRuntimeConfiguration extends com.google.api.client.jso
    * The set of available orientations. @OutputOnly
    * @param orientations orientations or {@code null} for none
    */
-  public AndroidRuntimeConfiguration setOrientations(java.util.List<Orientation> orientations) {
+  public IosRuntimeConfiguration setOrientations(java.util.List<Orientation> orientations) {
     this.orientations = orientations;
     return this;
   }
 
   @Override
-  public AndroidRuntimeConfiguration set(String fieldName, Object value) {
-    return (AndroidRuntimeConfiguration) super.set(fieldName, value);
+  public IosRuntimeConfiguration set(String fieldName, Object value) {
+    return (IosRuntimeConfiguration) super.set(fieldName, value);
   }
 
   @Override
-  public AndroidRuntimeConfiguration clone() {
-    return (AndroidRuntimeConfiguration) super.clone();
+  public IosRuntimeConfiguration clone() {
+    return (IosRuntimeConfiguration) super.clone();
   }
 
 }

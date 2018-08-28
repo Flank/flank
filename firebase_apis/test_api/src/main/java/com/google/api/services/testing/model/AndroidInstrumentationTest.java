@@ -35,7 +35,7 @@ package com.google.api.services.testing.model;
 public final class AndroidInstrumentationTest extends com.google.api.client.json.GenericJson {
 
   /**
-   * The APK for the application under test. Required
+   * The APK for the application under test.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
@@ -59,7 +59,7 @@ public final class AndroidInstrumentationTest extends com.google.api.client.json
    *
    * for more information about Android Test Orchestrator.
    *
-   * Optional, if empty, test will be run without orchestrator.
+   * Optional. If not set, the test will be run without the orchestrator.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
@@ -100,7 +100,7 @@ public final class AndroidInstrumentationTest extends com.google.api.client.json
   private java.util.List<java.lang.String> testTargets;
 
   /**
-   * The APK for the application under test. Required
+   * The APK for the application under test.
    * @return value or {@code null} for none
    */
   public FileReference getAppApk() {
@@ -108,7 +108,7 @@ public final class AndroidInstrumentationTest extends com.google.api.client.json
   }
 
   /**
-   * The APK for the application under test. Required
+   * The APK for the application under test.
    * @param appApk appApk or {@code null} for none
    */
   public AndroidInstrumentationTest setAppApk(FileReference appApk) {
@@ -145,7 +145,7 @@ public final class AndroidInstrumentationTest extends com.google.api.client.json
    *
    * for more information about Android Test Orchestrator.
    *
-   * Optional, if empty, test will be run without orchestrator.
+   * Optional. If not set, the test will be run without the orchestrator.
    * @return value or {@code null} for none
    */
   public java.lang.String getOrchestratorOption() {
@@ -162,7 +162,7 @@ public final class AndroidInstrumentationTest extends com.google.api.client.json
    *
    * for more information about Android Test Orchestrator.
    *
-   * Optional, if empty, test will be run without orchestrator.
+   * Optional. If not set, the test will be run without the orchestrator.
    * @param orchestratorOption orchestratorOption or {@code null} for none
    */
   public AndroidInstrumentationTest setOrchestratorOption(java.lang.String orchestratorOption) {
