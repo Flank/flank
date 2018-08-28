@@ -18,8 +18,8 @@ import io.ktor.routing.post
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
-import java.util.concurrent.atomic.AtomicInteger
 import org.slf4j.LoggerFactory.getLogger
+import java.util.concurrent.atomic.AtomicInteger
 
 object MockServer {
 

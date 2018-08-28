@@ -2,9 +2,7 @@ package ftl.doctor
 
 import ftl.args.ArgsHelper
 import ftl.args.IArgsCompanion
-import ftl.args.IosArgs
 import ftl.ios.IosCatalog
-import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 

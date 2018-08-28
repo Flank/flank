@@ -8,7 +8,7 @@ import com.google.gson.reflect.TypeToken
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
-import ftl.config.*
+import ftl.config.FtlConstants
 import ftl.config.FtlConstants.indent
 import ftl.config.FtlConstants.localResultsDir
 import ftl.config.FtlConstants.localhost

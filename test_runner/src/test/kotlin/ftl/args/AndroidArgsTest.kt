@@ -2,7 +2,6 @@ package ftl.args
 
 import ftl.config.Device
 import ftl.test.util.FlankTestRunner
-import ftl.test.util.TestHelper
 import ftl.test.util.TestHelper.assert
 import org.junit.Test
 import org.junit.runner.RunWith

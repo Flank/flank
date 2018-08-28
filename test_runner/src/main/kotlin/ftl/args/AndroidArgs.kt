@@ -9,7 +9,9 @@ import ftl.args.ArgsHelper.getGcsBucket
 import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.validateTestMethods
 import ftl.args.ArgsHelper.yamlMapper
-import ftl.args.yml.*
+import ftl.args.yml.AndroidGcloudYml
+import ftl.args.yml.FlankYml
+import ftl.args.yml.GcloudYml
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.useMock
@@ -127,7 +129,7 @@ AndroidArgs
     }
 
 
-    companion object : IArgsCompanion  {
+    companion object : IArgsCompanion {
         override val validArgs by lazy {
             mergeYmlMaps(GcloudYml, AndroidGcloudYml, FlankYml)
         }

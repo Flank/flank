@@ -18,7 +18,7 @@ class IosFlankYmlParams(
 class IosFlankYml(
         val flank: IosFlankYmlParams = IosFlankYmlParams()
 ) {
-    companion object : IYmlMap  {
+    companion object : IYmlMap {
         override val map = mapOf("flank" to IosFlankYmlParams.keys)
     }
 }

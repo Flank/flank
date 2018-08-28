@@ -1,8 +1,6 @@
 package ftl.cli.firebase.test.android
 
 import ftl.args.AndroidArgs
-import ftl.args.IosArgs
-import ftl.doctor.Doctor.checkIosCatalog
 import ftl.doctor.Doctor.validateYaml
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option

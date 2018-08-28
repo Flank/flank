@@ -1,6 +1,5 @@
 package ftl.args
 
-import ftl.args.AndroidArgs
 import ftl.args.yml.*
 import ftl.config.Device
 import ftl.run.TestRunner.bitrise
