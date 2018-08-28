@@ -1,5 +1,6 @@
 package ftl.util
 
+import java.io.InputStream
 import java.io.StringWriter
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -89,5 +90,11 @@ object Utils {
         bucketName.append("/")
 
         return bucketName.toString()
+    }
+
+    fun readTextResource(name: String): String {
+        val resource: InputStream = this::class.java.getResourceAsStream("/$name")
+                ?: throw RuntimeException("Unable to find resource: /$name")
+        return resource.bufferedReader().use { it.readText() }
     }
 }
