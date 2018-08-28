@@ -1,0 +1,6 @@
+results
+*.zip
+tmp
+EarlGrey/
+EarlGreyExample/
+xctestrun/
