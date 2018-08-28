@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import ftl.json.MatrixMap
 import ftl.reports.util.IReport
 import ftl.reports.util.TestSuite
+import ftl.util.Utils.readTextResource
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -57,7 +58,7 @@ object HtmlErrorReport : IReport {
         val newGroupJson = reactJson.first
         val newItemsJson = reactJson.second
 
-        var templateData = this::class.java.getResourceAsStream("/inline.html").bufferedReader().use { it.readText() }
+        var templateData = readTextResource("inline.html")
 
         templateData = replaceRange(templateData, findGroupRange(templateData), newGroupJson)
         templateData = replaceRange(templateData, findItemRange(templateData), newItemsJson)

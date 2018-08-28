@@ -1,6 +1,7 @@
 package ftl
 
 import ftl.cli.FirebaseCommand
+import ftl.util.Utils.readTextResource
 import picocli.CommandLine
 
 
@@ -13,15 +14,15 @@ import picocli.CommandLine
 )
 object Main : Runnable {
     override fun run() {
-        if (version) {
-            println("v3.0-SNAPSHOT")
+        if (printVersion) {
+            println(readTextResource("version.txt").trim())
         } else {
             CommandLine.usage(Main, System.out)
         }
     }
 
     @CommandLine.Option(names = ["-v", "--version"], description = ["Prints the version"])
-    private var version = false
+    private var printVersion = false
 
     @Throws(Exception::class)
     @JvmStatic
