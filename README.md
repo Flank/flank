@@ -152,4 +152,4 @@ v3.0-SNAPSHOT
 
 > Access Not Configured. Cloud Tool Results API has not been used in project 764086051850 before or it is disabled.
 
-This error means authentication hasn't been setup propelry. See `Autenticate with a service account` in this readme.
+This error means authentication hasn't been setup properly. See `Autenticate with a service account` in this readme.
