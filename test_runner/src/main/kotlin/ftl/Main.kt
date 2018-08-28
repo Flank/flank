@@ -26,7 +26,7 @@ object Main : Runnable {
     @Throws(Exception::class)
     @JvmStatic
     fun main(args: Array<String>) {
-        // val args = arrayOf("firebase", "test", "ios", "run") // for debugging. run test from IntelliJ IDEA
+        // val args = arrayOf("firebase", "test", "android", "run") // for debugging. run test from IntelliJ IDEA
         CommandLine.run<Runnable>(Main, System.out, *args)
     }
 }

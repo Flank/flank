@@ -1,11 +1,11 @@
 # gcloud args match the official gcloud cli
 # https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/run
 gcloud:
-  results-bucket: tmp_flank
+# results-bucket: tmp_flank
   record-video: true
   timeout: 30m
   async: false
-  # project: delta-essence-114723
+# project: delta-essence-114723
 
   # test and xctestrun-file are the only required args
   test: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip
@@ -17,10 +17,10 @@ flank:
   # test runs - the amount of times to run the tests.
   # 1 runs the tests once. 10 runs all the tests 10x
   testRuns: 1
-  # # always run - these tests are inserted at the beginning of every shard
-  # # useful if you need to grant permissions or login before other tests run
-  # test-targets-always-run:
-  #  - a/testGrantPermissions
-  # # test targets - a list of tests to run. omit to run all tests.
-  # test-targets:
-  #  - b/testBasicSelection
+# # always run - these tests are inserted at the beginning of every shard
+# # useful if you need to grant permissions or login before other tests run
+# test-targets-always-run:
+#  - a/testGrantPermissions
+# # test targets - a list of tests to run. omit to run all tests.
+# test-targets:
+#  - b/testBasicSelection

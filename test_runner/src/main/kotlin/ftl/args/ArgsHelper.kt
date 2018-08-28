@@ -86,13 +86,17 @@ object ArgsHelper {
 
     fun getGcsBucket(projectId: String, resultsBucket: String): String {
         if (FtlConstants.useMock) return resultsBucket
+        // test lab supports using a special free storage bucket
+        // because we don't have access to the root account, it won't show up in the storage list.
+        if (resultsBucket.startsWith("test-lab-")) return resultsBucket
 
         val storage = StorageOptions.newBuilder().setProjectId(projectId).build().service
         val bucketLabel = mapOf(Pair("flank", ""))
         val storageLocation = "us-central1"
 
-        val bucket = storage.list().values?.find { it.name == resultsBucket }
-        if (bucket != null) return bucket.name
+        val storageList = storage.list().values?.map { it.name } ?: emptyList()
+        val bucket = storageList.find { it == resultsBucket }
+        if (bucket != null) return bucket
 
         return storage.create(BucketInfo.newBuilder(resultsBucket)
                 .setStorageClass(StorageClass.REGIONAL)
