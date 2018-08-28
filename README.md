@@ -13,7 +13,7 @@ Flank is a [massively parallel Android and iOS test runner](https://medium.com/w
 Run `test_runner/flank.ios.yml` with flank to verify iOS execution is working.
 
 - `cd test_runner/`
-- `./gradlew build`
+- `./gradlew clean assemble fatJar`
 - `java -jar ./build/libs/flank-*.jar firebase test ios run`
 
 ```yaml
@@ -50,7 +50,7 @@ flank:
 Run `test_runner/flank.yml` with flank to verify Android execution is working.
 
 - `cd test_runner/`
-- `./gradlew build`
+- `./gradlew clean assemble fatJar`
 - `java -jar ./build/libs/flank-*.jar firebase test android run`
 
 ```yaml
@@ -147,3 +147,9 @@ Flank supports printing the current version.
 $ flank -v
 v3.0-SNAPSHOT
 ```
+
+### FAQ
+
+> Access Not Configured. Cloud Tool Results API has not been used in project 764086051850 before or it is disabled.
+
+This error means authentication hasn't been setup propelry. See `Autenticate with a service account` in this readme.
