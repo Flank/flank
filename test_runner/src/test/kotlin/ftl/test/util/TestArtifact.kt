@@ -5,16 +5,27 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import java.io.File
+import java.net.InetAddress
 import java.util.concurrent.TimeUnit
 import kotlin.math.pow
 
 object TestArtifact {
-    val fixturesPath = "./src/test/kotlin/ftl/fixtures/tmp"
+    const val fixturesPath = "./src/test/kotlin/ftl/fixtures/tmp"
 
     val checkFixtures by lazy {
-        val assetLink = remoteAssetLink()
-        if (updateRequired(assetLink)) {
-            updateFixtures(assetLink)
+        if (online()) {
+            val assetLink = remoteAssetLink()
+            if (updateRequired(assetLink)) {
+                updateFixtures(assetLink)
+            }
+        }
+    }
+
+    private fun online(): Boolean {
+        return try {
+            InetAddress.getByName("8.8.8.8").isReachable(1000)
+        } catch (e: Exception) {
+            false
         }
     }
 
