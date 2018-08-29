@@ -31,11 +31,11 @@ object IosTestRunner {
         val jobs = arrayListOf<Deferred<TestMatrix>>()
         val runCount = yamlConfig.testRuns
         val repeatShard = yamlConfig.testShardChunks.size
-        val testsPerVm = yamlConfig.testShardChunks.first().size
+        val testsPerDevice = yamlConfig.testShardChunks.first().size
         val testsTotal = yamlConfig.testShardChunks.sumBy { it.size }
 
-        println("  Running ${runCount}x using $repeatShard VMs per run. ${runCount * repeatShard} total VMs")
-        println("  $testsPerVm tests per VM. $testsTotal total tests per run")
+        println("  Running ${runCount}x using $repeatShard devices per run. ${runCount * repeatShard} total devices")
+        println("  $testsPerDevice tests per device. $testsTotal total tests per run")
         repeat(runCount) {
             repeat(repeatShard) { testShardsIndex ->
                 jobs += async {
