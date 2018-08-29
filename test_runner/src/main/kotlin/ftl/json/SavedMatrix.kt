@@ -5,6 +5,7 @@ import ftl.android.AndroidCatalog
 import ftl.gc.GcToolResults
 import ftl.util.Billing
 import ftl.util.MatrixState.FINISHED
+import ftl.util.Outcome
 import ftl.util.webLink
 
 // Note: 1 matrix = 1 execution is assumed.
@@ -55,7 +56,8 @@ class SavedMatrix(matrix: TestMatrix) {
             } else {
                 billablePhysicalMinutes += billableMinutes
             }
-            outcome = step.outcome.summary
+            outcome = if (step.outcome.summary == Outcome.failure || outcome == Outcome.failure) Outcome.failure
+            else Outcome.success
         }
     }
 
