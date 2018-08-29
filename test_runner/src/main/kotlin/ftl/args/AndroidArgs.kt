@@ -46,11 +46,11 @@ class AndroidArgs(
 
     private val flank = flankYml.flank
     val testShards = flank.testShards
-    val testRuns = flank.testRuns
+    override val testRuns = flank.testRuns
     val testTargetsAlwaysRun = flank.testTargetsAlwaysRun
 
     // computed properties not specified in yaml
-    val testShardChunks: List<List<String>>
+    override val testShardChunks: List<List<String>>
 
     init {
         resultsBucket = getGcsBucket(projectId, gcloud.resultsBucket)

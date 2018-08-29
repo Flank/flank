@@ -8,6 +8,7 @@ import ftl.gc.GcIosTestMatrix
 import ftl.gc.GcStorage
 import ftl.ios.Xctestrun
 import ftl.json.MatrixMap
+import ftl.run.GenericTestRunner.beforeRunMessage
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 
@@ -30,14 +31,11 @@ object IosTestRunner {
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
         val runCount = yamlConfig.testRuns
-        val repeatShard = yamlConfig.testShardChunks.size
-        val testsPerDevice = yamlConfig.testShardChunks.first().size
-        val testsTotal = yamlConfig.testShardChunks.sumBy { it.size }
+        val deviceCount = yamlConfig.testShardChunks.size
 
-        println("  Running ${runCount}x using $repeatShard devices per run. ${runCount * repeatShard} total devices")
-        println("  $testsPerDevice tests per device. $testsTotal total tests per run")
+        println(beforeRunMessage(yamlConfig))
         repeat(runCount) {
-            repeat(repeatShard) { testShardsIndex ->
+            repeat(deviceCount) { testShardsIndex ->
                 jobs += async {
                     GcIosTestMatrix.build(
                             iosDeviceList = iosDeviceList,
