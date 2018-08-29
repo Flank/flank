@@ -5,7 +5,8 @@ import ftl.android.AndroidCatalog
 import ftl.gc.GcToolResults
 import ftl.util.Billing
 import ftl.util.MatrixState.FINISHED
-import ftl.util.Outcome
+import ftl.util.Outcome.failure
+import ftl.util.Outcome.success
 import ftl.util.webLink
 
 // execution gcs paths aren't API accessible.
@@ -46,7 +47,7 @@ class SavedMatrix(matrix: TestMatrix) {
     private fun finished(matrix: TestMatrix) {
         billableVirtualMinutes = 0
         billablePhysicalMinutes = 0
-        outcome = Outcome.success
+        outcome = success
         matrix.testExecutions.forEach {
             val step = GcToolResults.getResults(it.toolResultsStep)
             if (step.testExecutionStep == null) return
@@ -56,7 +57,8 @@ class SavedMatrix(matrix: TestMatrix) {
             } else {
                 billablePhysicalMinutes += billableMinutes
             }
-            if (step.outcome.summary == Outcome.failure) outcome = Outcome.failure
+            val stepOutcome = step.outcome.summary
+            if (stepOutcome == failure) outcome = failure
         }
     }
 

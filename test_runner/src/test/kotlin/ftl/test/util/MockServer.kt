@@ -6,6 +6,7 @@ import com.google.api.services.testing.model.*
 import com.google.api.services.toolresults.model.*
 import com.google.gson.GsonBuilder
 import com.google.gson.LongSerializationPolicy
+import ftl.util.Outcome
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
@@ -24,10 +25,14 @@ import java.util.concurrent.atomic.AtomicInteger
 object MockServer {
 
     private val matrixIdCounter: AtomicInteger = AtomicInteger(0)
-    val port = 8080
+    const val port = 8080
+    private val logger = getLogger(Logger.ROOT_LOGGER_NAME) as Logger
+
+    init {
+        logger.level = Level.OFF
+    }
 
     val application by lazy {
-        (getLogger(Logger.ROOT_LOGGER_NAME) as Logger).level = Level.OFF
         embeddedServer(Netty, port) {
             install(ContentNegotiation) {
                 // Fix: IllegalArgumentException: number type formatted as a JSON number cannot use @JsonString annotation
@@ -39,7 +44,7 @@ object MockServer {
                     println("Responding to GET ${call.request.uri}")
 
                     val versions = (18..28).map { v ->
-                        var version = AndroidVersion()
+                        val version = AndroidVersion()
                         version.id = v.toString()
                         version.apiLevel = v
                         version
@@ -148,7 +153,7 @@ object MockServer {
                 // GET /toolresults/v1beta3/projects/delta-essence-114723/histories/1/executions/1/steps/1
                 get("/toolresults/v1beta3/projects/{projectId}/histories/{historyId}/executions/{executionId}/steps/{stepId}") {
                     println("Responding to GET ${call.request.uri}")
-                    // val projectId = call.parameters["projectId"]
+                    val stepId = call.parameters["stepId"] ?: ""
 
                     val oneSecond = Duration().setSeconds(1)
 
@@ -158,7 +163,12 @@ object MockServer {
                     val testExecutionStep = TestExecutionStep()
                             .setTestTiming(testTiming)
 
-                    val outcome = Outcome().setSummary("success")
+                    val outcome = Outcome()
+                    outcome.summary = if (stepId == "-1") {
+                        Outcome.failure
+                    } else {
+                        Outcome.success
+                    }
 
                     val step = Step()
                             .setTestExecutionStep(testExecutionStep)
