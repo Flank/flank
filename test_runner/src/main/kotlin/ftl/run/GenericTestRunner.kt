@@ -42,4 +42,33 @@ object GenericTestRunner {
 
         return matrixMap
     }
+
+    private fun s(amount: Int): String {
+        return if (amount > 1) {
+            "s"
+        } else {
+            ""
+        }
+    }
+
+    fun beforeRunMessage(args: IArgs): String {
+        val runCount = args.testRuns
+        val deviceCount = args.testShardChunks.size
+        val testsPerDevice = args.testShardChunks.first().size
+        val testsCount = args.testShardChunks.sumBy { it.size }
+
+        val result = StringBuilder()
+        result.appendln("  $testsCount test${s(testsCount)} / $deviceCount device${s(deviceCount)} = " +
+                "$testsPerDevice test${s(testsPerDevice)} per device")
+
+        if (runCount > 1) {
+            result.appendln("  Running ${runCount}x")
+            val runDevices = runCount * deviceCount
+            val runTests = runCount * testsCount
+            result.appendln("    $runDevices total device${s(runDevices)}")
+            result.appendln("    $runTests total test${s(runTests)}")
+        }
+
+        return result.toString()
+    }
 }

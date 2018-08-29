@@ -38,14 +38,14 @@ class IosArgs(
 
     private val flank = flankYml.flank
     val testShards = flank.testShards
-    val testRuns = flank.testRuns
+    override val testRuns = flank.testRuns
     val testTargetsAlwaysRun = flank.testTargetsAlwaysRun
 
     private val iosFlank = iosFlankYml.flank
     val testTargets = iosFlank.testTargets
 
     // computed properties not specified in yaml
-    val testShardChunks: List<List<String>>
+    override val testShardChunks: List<List<String>>
 
     init {
         if (xctestrunZip.startsWith(FtlConstants.GCS_PREFIX)) {

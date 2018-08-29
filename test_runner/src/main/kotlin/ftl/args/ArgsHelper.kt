@@ -68,15 +68,17 @@ object ArgsHelper {
         }.distinct().toMutableList()
         testShardMethods.removeAll(testMethodsAlwaysRun)
 
+        val oneTestPerChunk = testShards == -1
         var chunkSize = IntMath.divide(testShardMethods.size, testShards, RoundingMode.UP)
-        // 1 method / 40 shard = 0. chunked(0) throws an exception.
-        // default to running all tests in a single chunk if method count is less than shard count.
-        if (chunkSize < 1) chunkSize = testShardMethods.size
+
+        if (oneTestPerChunk || chunkSize < 1) {
+            chunkSize = 1
+        }
 
         val testShardChunks = testShardMethods.chunked(chunkSize).map { testMethodsAlwaysRun + it }
 
         // Ensure we don't create more VMs than requested. VM count per run should be <= testShards
-        if (testShardChunks.size > testShards) {
+        if (!oneTestPerChunk && testShardChunks.size > testShards) {
             Utils.fatalError("Calculated chunks $testShardChunks is > requested $testShards testShards.")
         }
         if (testShardChunks.isEmpty()) Utils.fatalError("Failed to populate test shard chunks")

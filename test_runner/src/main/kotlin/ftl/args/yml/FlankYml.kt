@@ -18,7 +18,7 @@ class FlankYmlParams(
     }
 
     init {
-        if (testShards < 1) fatalError("testShards must be >= 1")
+        if (testShards <= 0 && testShards != -1) fatalError("testShards must be >= 1 or -1")
         if (testRuns < 1) fatalError("testRuns must be >= 1")
     }
 }

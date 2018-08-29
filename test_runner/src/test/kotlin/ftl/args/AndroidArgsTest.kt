@@ -11,6 +11,7 @@ class AndroidArgsTest {
     private val empty = emptyList<String>()
     private val appApk = "../test_app/apks/app-debug.apk"
     private val testApk = "../test_app/apks/app-debug-androidTest.apk"
+    private val testErrorApk = "../test_app/apks/error-androidTest.apk"
 
     private val androidNonDefault = """
         gcloud:
@@ -134,6 +135,24 @@ AndroidArgs
             assert(testShards, 1)
             assert(testRuns, 1)
             assert(testTargetsAlwaysRun, empty)
+        }
+    }
+
+    @Test
+    fun negativeOneTestShards() {
+        val androidArgs = AndroidArgs.load("""
+        gcloud:
+          app: $appApk
+          test: $testErrorApk
+
+        flank:
+          testShards: -1
+      """)
+
+        with(androidArgs) {
+            assert(testShards, -1)
+            assert(testShardChunks.size, 2)
+            testShardChunks.forEach { chunk -> assert(chunk.size, 1) }
         }
     }
 }

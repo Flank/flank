@@ -32,6 +32,7 @@ gcloud:
 
 flank:
   # test shards - the amount of groups to split the test suite into
+  # set to -1 to use one shard per test.
   testShards: 1
   # test runs - the amount of times to run the tests.
   # 1 runs the tests once. 10 runs all the tests 10x
@@ -81,6 +82,7 @@ gcloud:
 
 flank:
   # test shards - the amount of groups to split the test suite into
+  # set to -1 to use one shard per test.
   testShards: 1
   # test runs - the amount of times to run the tests.
   # 1 runs the tests once. 10 runs all the tests 10x

@@ -46,6 +46,7 @@ class SavedMatrix(matrix: TestMatrix) {
     private fun finished(matrix: TestMatrix) {
         billableVirtualMinutes = 0
         billablePhysicalMinutes = 0
+        outcome = Outcome.success
         matrix.testExecutions.forEach {
             val step = GcToolResults.getResults(it.toolResultsStep)
             if (step.testExecutionStep == null) return
@@ -55,8 +56,7 @@ class SavedMatrix(matrix: TestMatrix) {
             } else {
                 billablePhysicalMinutes += billableMinutes
             }
-            outcome = if (step.outcome.summary == Outcome.failure || outcome == Outcome.failure) Outcome.failure
-            else Outcome.success
+            if (step.outcome.summary == Outcome.failure) outcome = Outcome.failure
         }
     }
 
