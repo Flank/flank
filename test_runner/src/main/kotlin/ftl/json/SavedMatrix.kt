@@ -8,7 +8,6 @@ import ftl.util.MatrixState.FINISHED
 import ftl.util.Outcome
 import ftl.util.webLink
 
-// Note: 1 matrix = 1 execution is assumed.
 // execution gcs paths aren't API accessible.
 class SavedMatrix(matrix: TestMatrix) {
     val matrixId: String = matrix.testMatrixId
