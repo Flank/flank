@@ -118,4 +118,23 @@ IosArgs
             assert(testTargets, empty)
         }
     }
+
+    @Test
+    fun negativeOneTestShards() {
+        val iosArgs = IosArgs.load(
+                """
+    gcloud:
+      test: $testPath
+      xctestrun-file: $xctestrunFile
+
+    flank:
+      testShards: -1
+""")
+
+        with(iosArgs) {
+            assert(testShards, -1)
+            assert(testShardChunks.size, 6)
+            testShardChunks.forEach { chunk -> assert(chunk.size, 1) }
+        }
+    }
 }
