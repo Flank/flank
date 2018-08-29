@@ -69,10 +69,10 @@ object ArgsHelper {
         testShardMethods.removeAll(testMethodsAlwaysRun)
 
         val oneTestPerChunk = testShards == -1
-        val chunkSize = if (oneTestPerChunk) {
-            1
-        } else {
-            IntMath.divide(testShardMethods.size, testShards, RoundingMode.UP)
+        var chunkSize = IntMath.divide(testShardMethods.size, testShards, RoundingMode.UP)
+
+        if (oneTestPerChunk || chunkSize < 1) {
+            chunkSize = 1
         }
 
         val testShardChunks = testShardMethods.chunked(chunkSize).map { testMethodsAlwaysRun + it }
