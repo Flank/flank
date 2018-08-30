@@ -5,7 +5,9 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import java.io.File
-import java.net.InetAddress
+import java.io.IOException
+import java.net.InetSocketAddress
+import java.net.Socket
 import java.util.concurrent.TimeUnit
 import kotlin.math.pow
 
@@ -22,11 +24,12 @@ object TestArtifact {
     }
 
     private fun online(): Boolean {
-        return try {
-            InetAddress.getByName("8.8.8.8").isReachable(1000)
+        try {
+            Socket().connect(InetSocketAddress("1.1.1.1", 53), 1000)
+            return true
         } catch (e: Exception) {
-            false
         }
+        return false
     }
 
     private fun getHtml(): Document {
