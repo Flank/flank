@@ -1,15 +1,19 @@
 package ftl
 
 import ftl.cli.FirebaseCommand
+import ftl.cli.firebase.test.AndroidCommand
+import ftl.cli.firebase.test.IosCommand
 import ftl.util.Utils.readTextResource
 import picocli.CommandLine
 
 @CommandLine.Command(
-        name = "flank.jar\n",
-        synopsisHeading = "",
-        subcommands = [
-            FirebaseCommand::class
-        ]
+    name = "flank.jar\n",
+    synopsisHeading = "",
+    subcommands = [
+        FirebaseCommand::class,
+        IosCommand::class,
+        AndroidCommand::class
+    ]
 )
 object Main : Runnable {
     override fun run() {
