@@ -8,8 +8,7 @@ import java.time.Duration.ofSeconds
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
-import java.util.*
-
+import java.util.Random
 
 object Utils {
 
@@ -30,7 +29,6 @@ object Utils {
             Thread.sleep(ofSeconds(seconds).toMillis())
         } catch (e: Exception) {
         }
-
     }
 
     fun fatalError(e: Exception) {

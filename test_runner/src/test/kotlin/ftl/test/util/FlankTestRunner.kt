@@ -25,6 +25,4 @@ class FlankTestRunner(klass: Class<*>) : BlockJUnit4ClassRunner(klass) {
             TestArtifact.checkFixtures
         }
     }
-
-
 }

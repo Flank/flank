@@ -16,4 +16,3 @@ interface IReport {
         return Paths.get(path, reportName()).toString()
     }
 }
-

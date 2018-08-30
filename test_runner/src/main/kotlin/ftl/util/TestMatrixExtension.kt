@@ -13,5 +13,4 @@ fun TestMatrix.webLink(): String {
             "testlab/histories/${firstStep.historyId}/" +
             "matrices/${firstStep.executionId}/" +
             "executions/${firstStep.stepId}"
-
 }

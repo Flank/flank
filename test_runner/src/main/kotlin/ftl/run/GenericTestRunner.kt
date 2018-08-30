@@ -19,10 +19,11 @@ object GenericTestRunner {
     }
 
     suspend fun afterRunTests(
-            jobs: ArrayList<Deferred<TestMatrix>>,
-            runGcsPath: String,
-            stopwatch: StopWatch,
-            config: IArgs): MatrixMap {
+        jobs: ArrayList<Deferred<TestMatrix>>,
+        runGcsPath: String,
+        stopwatch: StopWatch,
+        config: IArgs
+    ): MatrixMap {
         val savedMatrices = mutableMapOf<String, SavedMatrix>()
 
         jobs.forEach {

@@ -1,7 +1,11 @@
 package ftl.args
 
 import com.linkedin.dex.parser.DexParser
-import ftl.android.*
+import ftl.android.AndroidCatalog
+import ftl.android.IncompatibleModelVersion
+import ftl.android.SupportedDeviceConfig
+import ftl.android.UnsupportedModelId
+import ftl.android.UnsupportedVersionId
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
 import ftl.args.ArgsHelper.calculateShards
@@ -22,9 +26,9 @@ import java.nio.file.Path
 
 // set default values, init properties, etc.
 class AndroidArgs(
-        gcloudYml: GcloudYml,
-        androidGcloudYml: AndroidGcloudYml,
-        flankYml: FlankYml
+    gcloudYml: GcloudYml,
+    androidGcloudYml: AndroidGcloudYml,
+    flankYml: FlankYml
 ) : IArgs {
     private val gcloud = gcloudYml.gcloud
     override val resultsBucket: String
@@ -127,7 +131,6 @@ AndroidArgs
       testTargetsAlwaysRun: $testTargetsAlwaysRun
    """.trimIndent()
     }
-
 
     companion object : IArgsCompanion {
         override val validArgs by lazy {

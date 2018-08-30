@@ -24,7 +24,6 @@ class IosRunCommand : Runnable {
         val config = IosArgs.load(Paths.get(configPath))
         runBlocking {
             TestRunner.newRun(config)
-
         }
     }
 

@@ -94,5 +94,4 @@ object GcStorage {
 
         return outputFile.path
     }
-
 }

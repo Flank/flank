@@ -57,10 +57,12 @@ object ArgsHelper {
         if (validTestMethods.isEmpty()) Utils.fatalError("$from has no tests")
     }
 
-    fun calculateShards(testTargets: Collection<String>,
-                        validTestNames: Collection<String>,
-                        testMethodsAlwaysRun: Collection<String>,
-                        testShards: Int): List<List<String>> {
+    fun calculateShards(
+        testTargets: Collection<String>,
+        validTestNames: Collection<String>,
+        testMethodsAlwaysRun: Collection<String>,
+        testShards: Int
+    ): List<List<String>> {
         val testShardMethods = if (testTargets.isNotEmpty()) {
             testTargets
         } else {

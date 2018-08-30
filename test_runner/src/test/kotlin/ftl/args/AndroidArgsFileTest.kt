@@ -1,6 +1,11 @@
 package ftl.args
 
-import ftl.args.yml.*
+import ftl.args.yml.AndroidGcloudYml
+import ftl.args.yml.AndroidGcloudYmlParams
+import ftl.args.yml.FlankYml
+import ftl.args.yml.FlankYmlParams
+import ftl.args.yml.GcloudYml
+import ftl.args.yml.GcloudYmlParams
 import ftl.config.Device
 import ftl.run.TestRunner.bitrise
 import ftl.test.util.FlankTestRunner
@@ -11,17 +16,12 @@ import ftl.test.util.TestHelper.getString
 import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
-import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 
 @RunWith(FlankTestRunner::class)
 class AndroidArgsFileTest {
-
-    @Rule
-    @JvmField
-    val exit = ExpectedSystemExit.none()!!
 
     @Rule
     @JvmField
@@ -99,14 +99,18 @@ class AndroidArgsFileTest {
 
         return AndroidArgs(
                 GcloudYml(GcloudYmlParams()),
-                AndroidGcloudYml(AndroidGcloudYmlParams(
+                AndroidGcloudYml(
+                    AndroidGcloudYmlParams(
                         app = appApkLocal,
                         test = testApkLocal,
                         testTargets = testMethods
-                )),
-                FlankYml(FlankYmlParams(
+                )
+                ),
+                FlankYml(
+                    FlankYmlParams(
                         testShards = testShards
-                ))
+                )
+                )
         )
     }
 

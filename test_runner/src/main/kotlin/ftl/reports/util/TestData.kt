@@ -8,25 +8,25 @@ package ftl.reports.util
 //     <failure> ... </failure>
 
 data class TestSuite(
-        val totalTests: Int,
-        var failures: Int,
-        var successes: Int,
+    val totalTests: Int,
+    var failures: Int,
+    var successes: Int,
         // Map testcase name to results. Single test may have many results when run more than once.
-        val testCases: Map<String, TestResults>
+    val testCases: Map<String, TestResults>
 )
 
 data class TestResults(
-        val successes: MutableList<TestSuccess> = mutableListOf(),
-        val failures: MutableList<TestFailure> = mutableListOf()
+    val successes: MutableList<TestSuccess> = mutableListOf(),
+    val failures: MutableList<TestFailure> = mutableListOf()
 )
 
 // success shouldn't have stackTrace or screenshot
 data class TestSuccess(
-        val webLink: String
+    val webLink: String
 )
 
 data class TestFailure(
-        val stackTrace: String,
-        val webLink: String
+    val stackTrace: String,
+    val webLink: String
 //            val screenshot: String? // TODO: screenshot support
 )

@@ -27,4 +27,3 @@ class AndroidDoctorCommand : Runnable {
     @Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
     var usageHelpRequested: Boolean = false
 }
-

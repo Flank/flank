@@ -7,11 +7,11 @@ import ftl.util.Utils.fatalError
 /** Flank specific parameters for both iOS and Android */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class FlankYmlParams(
-        val testShards: Int = 1,
-        val testRuns: Int = 1,
+    val testShards: Int = 1,
+    val testRuns: Int = 1,
 
-        @field:JsonProperty("test-targets-always-run")
-        val testTargetsAlwaysRun: List<String> = emptyList()
+    @field:JsonProperty("test-targets-always-run")
+    val testTargetsAlwaysRun: List<String> = emptyList()
 ) {
     companion object : IYmlKeys {
         override val keys = listOf("testShards", "testRuns", "test-targets-always-run")
@@ -25,7 +25,7 @@ class FlankYmlParams(
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class FlankYml(
-        val flank: FlankYmlParams = FlankYmlParams()
+    val flank: FlankYmlParams = FlankYmlParams()
 ) {
     companion object : IYmlMap {
         override val map = mapOf("flank" to FlankYmlParams.keys)

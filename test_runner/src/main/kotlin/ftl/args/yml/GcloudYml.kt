@@ -16,17 +16,17 @@ import ftl.util.Utils.assertNotEmpty
 @JsonIgnoreProperties(ignoreUnknown = true)
 class GcloudYmlParams(
         // TODO: make resultsBucket immutable
-        @field:JsonProperty("results-bucket")
-        var resultsBucket: String = "",
+    @field:JsonProperty("results-bucket")
+    var resultsBucket: String = "",
 
-        @field:JsonProperty("record-video")
-        val recordVideo: Boolean = true,
+    @field:JsonProperty("record-video")
+    val recordVideo: Boolean = true,
 
-        val timeout: String = "15m",
+    val timeout: String = "15m",
 
-        val async: Boolean = false,
+    val async: Boolean = false,
 
-        val project: String = getDefaultProjectId()
+    val project: String = getDefaultProjectId()
 ) {
     companion object : IYmlKeys {
         override val keys = listOf("results-bucket", "record-video", "timeout", "async", "project")
@@ -47,7 +47,7 @@ class GcloudYmlParams(
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class GcloudYml(
-        val gcloud: GcloudYmlParams
+    val gcloud: GcloudYmlParams
 ) {
     companion object : IYmlMap {
         override val map = mapOf("gcloud" to GcloudYmlParams.keys)

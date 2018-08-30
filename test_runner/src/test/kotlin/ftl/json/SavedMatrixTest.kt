@@ -1,6 +1,10 @@
 package ftl.json
 
-import com.google.api.services.testing.model.*
+import com.google.api.services.testing.model.GoogleCloudStorage
+import com.google.api.services.testing.model.ResultStorage
+import com.google.api.services.testing.model.TestExecution
+import com.google.api.services.testing.model.TestMatrix
+import com.google.api.services.testing.model.ToolResultsStep
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
 import ftl.util.MatrixState.FINISHED

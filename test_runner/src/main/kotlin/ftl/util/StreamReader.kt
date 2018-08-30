@@ -10,4 +10,3 @@ class StreamReader(private val inputStream: InputStream) : Thread() {
         text = inputStream.bufferedReader().use { it.readText() }
     }
 }
-
