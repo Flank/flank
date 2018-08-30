@@ -10,7 +10,6 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-
 object Utils {
 
     fun StringWriter.println(msg: String = "") {
@@ -30,7 +29,6 @@ object Utils {
             Thread.sleep(ofSeconds(seconds).toMillis())
         } catch (e: Exception) {
         }
-
     }
 
     fun fatalError(e: Exception) {

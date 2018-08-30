@@ -13,12 +13,13 @@ import java.util.concurrent.TimeUnit
 object GcIosTestMatrix {
 
     fun build(
-            iosDeviceList: IosDeviceList,
-            testZipGcsPath: String,
-            runGcsPath: String,
-            testShardsIndex: Int,
-            xcTestParsed: NSDictionary,
-            config: IosArgs): Testing.Projects.TestMatrices.Create {
+        iosDeviceList: IosDeviceList,
+        testZipGcsPath: String,
+        runGcsPath: String,
+        testShardsIndex: Int,
+        xcTestParsed: NSDictionary,
+        config: IosArgs
+    ): Testing.Projects.TestMatrices.Create {
 
         val gcsBucket = config.resultsBucket
         val matrixGcsSuffix = join(runGcsPath, Utils.uniqueObjectName())
@@ -48,7 +49,6 @@ object GcIosTestMatrix {
                 .setTestTimeout("${testTimeoutSeconds}s")
                 .setIosTestSetup(iOSTestSetup)
                 .setIosXcTest(iOSXCTest)
-
 
         val resultStorage = ResultStorage()
                 .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))

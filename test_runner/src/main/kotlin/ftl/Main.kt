@@ -4,7 +4,6 @@ import ftl.cli.FirebaseCommand
 import ftl.util.Utils.readTextResource
 import picocli.CommandLine
 
-
 @CommandLine.Command(
         name = "flank.jar\n",
         synopsisHeading = "",

@@ -12,28 +12,28 @@ import ftl.util.Utils.assertNotEmpty
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class AndroidGcloudYmlParams(
-        val app: String = "",
-        val test: String = "",
+    val app: String = "",
+    val test: String = "",
 
-        @field:JsonProperty("auto-google-login")
-        val autoGoogleLogin: Boolean = true,
+    @field:JsonProperty("auto-google-login")
+    val autoGoogleLogin: Boolean = true,
 
-        @field:JsonProperty("use-orchestrator")
-        val useOrchestrator: Boolean = true,
+    @field:JsonProperty("use-orchestrator")
+    val useOrchestrator: Boolean = true,
 
-        @field:JsonProperty("environment-variables")
-        val environmentVariables: Map<String, String> = emptyMap(),
+    @field:JsonProperty("environment-variables")
+    val environmentVariables: Map<String, String> = emptyMap(),
 
-        @field:JsonProperty("directories-to-pull")
-        val directoriesToPull: List<String> = emptyList(),
+    @field:JsonProperty("directories-to-pull")
+    val directoriesToPull: List<String> = emptyList(),
 
-        @field:JsonProperty("performance-metrics")
-        val performanceMetrics: Boolean = true,
+    @field:JsonProperty("performance-metrics")
+    val performanceMetrics: Boolean = true,
 
-        @field:JsonProperty("test-targets")
-        val testTargets: List<String> = emptyList(),
+    @field:JsonProperty("test-targets")
+    val testTargets: List<String> = emptyList(),
 
-        val device: List<Device> = listOf(Device("NexusLowRes", "28"))
+    val device: List<Device> = listOf(Device("NexusLowRes", "28"))
 ) {
     companion object : IYmlKeys {
         override val keys = listOf("app", "test", "auto-google-login", "use-orchestrator", "environment-variables",
@@ -48,7 +48,7 @@ class AndroidGcloudYmlParams(
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class AndroidGcloudYml(
-        val gcloud: AndroidGcloudYmlParams
+    val gcloud: AndroidGcloudYmlParams
 
 ) {
     companion object : IYmlMap {

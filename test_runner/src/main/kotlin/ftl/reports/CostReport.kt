@@ -15,7 +15,6 @@ Calculates cost based on the matrix map. Always run.
 
 Example:
 
-
 Physical devices
   Billable time:  35h 29m
   Billable minutes:   2129

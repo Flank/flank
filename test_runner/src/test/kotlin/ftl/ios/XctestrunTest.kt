@@ -107,5 +107,4 @@ class XctestrunTest {
 </plist>"""
         assertEquals(expected, String(result))
     }
-
 }

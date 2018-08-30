@@ -19,10 +19,10 @@ import java.nio.file.Files
 import java.nio.file.Path
 
 class IosArgs(
-        gcloudYml: GcloudYml,
-        iosGcloudYml: IosGcloudYml,
-        flankYml: FlankYml,
-        iosFlankYml: IosFlankYml
+    gcloudYml: GcloudYml,
+    iosGcloudYml: IosGcloudYml,
+    flankYml: FlankYml,
+    iosFlankYml: IosFlankYml
 ) : IArgs {
     private val gcloud = gcloudYml.gcloud
     override val resultsBucket = gcloud.resultsBucket
@@ -120,6 +120,4 @@ IosArgs
             )
         }
     }
-
-
 }

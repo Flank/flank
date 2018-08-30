@@ -22,9 +22,9 @@ import java.nio.file.Path
 
 // set default values, init properties, etc.
 class AndroidArgs(
-        gcloudYml: GcloudYml,
-        androidGcloudYml: AndroidGcloudYml,
-        flankYml: FlankYml
+    gcloudYml: GcloudYml,
+    androidGcloudYml: AndroidGcloudYml,
+    flankYml: FlankYml
 ) : IArgs {
     private val gcloud = gcloudYml.gcloud
     override val resultsBucket: String
@@ -127,7 +127,6 @@ AndroidArgs
       testTargetsAlwaysRun: $testTargetsAlwaysRun
    """.trimIndent()
     }
-
 
     companion object : IArgsCompanion {
         override val validArgs by lazy {

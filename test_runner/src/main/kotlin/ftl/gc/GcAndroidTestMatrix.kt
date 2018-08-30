@@ -16,12 +16,13 @@ object GcAndroidTestMatrix {
     }
 
     fun build(
-            appApkGcsPath: String,
-            testApkGcsPath: String,
-            runGcsPath: String,
-            androidDeviceList: AndroidDeviceList,
-            testShardsIndex: Int = -1,
-            config: AndroidArgs): Testing.Projects.TestMatrices.Create {
+        appApkGcsPath: String,
+        testApkGcsPath: String,
+        runGcsPath: String,
+        androidDeviceList: AndroidDeviceList,
+        testShardsIndex: Int = -1,
+        config: AndroidArgs
+    ): Testing.Projects.TestMatrices.Create {
         val testShardsTotal = config.testShardChunks.size
 
         if (testShardsIndex >= testShardsTotal) {

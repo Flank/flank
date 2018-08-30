@@ -6,7 +6,6 @@ import ftl.ios.IosCatalog
 import java.nio.file.Files
 import java.nio.file.Path
 
-
 object Doctor {
     fun checkIosCatalog() {
         if (!IosCatalog.supported("iphone8", "11.2")) {

@@ -3,8 +3,8 @@ package ftl.util
 import java.util.concurrent.TimeUnit
 
 data class ProcessResult(
-        val stdout: String,
-        val stderr: String
+    val stdout: String,
+    val stderr: String
 )
 
 fun Process.failed(): Boolean {

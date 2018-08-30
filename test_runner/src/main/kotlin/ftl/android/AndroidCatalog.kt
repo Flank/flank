@@ -3,7 +3,6 @@ package ftl.android
 import com.google.api.services.testing.model.AndroidDevice
 import ftl.gc.GcTesting
 
-
 /**
  * Contains lists of possible Android device and version ids, as well as checks
  * to validate device configuration
@@ -15,7 +14,6 @@ object AndroidCatalog {
 
     val androidModelIds by lazy { androidDeviceCatalog.models.map { it.id } }
     val androidVersionIds by lazy { androidDeviceCatalog.versions.map { it.id } }
-
 
     fun supportedDeviceConfig(modelId: String, versionId: String): DeviceConfigCheck {
         if (!androidModelIds.contains(modelId)) return UnsupportedModelId

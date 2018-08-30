@@ -13,12 +13,12 @@ import ftl.util.Utils.assertNotEmpty
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class IosGcloudYmlParams(
-        val test: String = "",
+    val test: String = "",
 
-        @field:JsonProperty("xctestrun-file")
-        val xctestrunFile: String = "",
+    @field:JsonProperty("xctestrun-file")
+    val xctestrunFile: String = "",
 
-        val device: List<Device> = listOf(Device("iphone8", "11.2"))
+    val device: List<Device> = listOf(Device("iphone8", "11.2"))
 ) {
     companion object : IYmlKeys {
         override val keys = listOf("test", "xctestrun-file", "device")
@@ -32,7 +32,7 @@ class IosGcloudYmlParams(
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class IosGcloudYml(
-        val gcloud: IosGcloudYmlParams
+    val gcloud: IosGcloudYmlParams
 ) {
     companion object : IYmlMap {
         override val map = mapOf("gcloud" to IosGcloudYmlParams.keys)
