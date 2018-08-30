@@ -4,7 +4,6 @@ import com.dd.plist.NSDictionary
 import com.google.common.truth.Truth.assertThat
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestArtifact.fixturesPath
-import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -34,10 +33,10 @@ class XctestrunTest {
     @Test
     fun parse() {
         val result = Xctestrun.parse(swiftXctestrun)
-        assertArrayEquals(arrayOf("EarlGreyExampleSwiftTests"), result.allKeys())
+        assertThat(arrayOf("EarlGreyExampleSwiftTests")).isEqualTo(result.allKeys())
         val dict = result["EarlGreyExampleSwiftTests"] as NSDictionary
-        assertEquals(15, dict.count())
-        assertFalse(dict.containsKey("OnlyTestIdentifiers"))
+        assertThat(dict.count()).isEqualTo(15)
+        assertThat(dict.containsKey("OnlyTestIdentifiers")).isFalse()
     }
 
     @Test(expected = RuntimeException::class)
@@ -48,7 +47,7 @@ class XctestrunTest {
     @Test
     fun findTestNames() {
         val names = Xctestrun.findTestNames(swiftXctestrun).sorted()
-        assertEquals(swiftTests, names)
+        assertThat(swiftTests).isEqualTo(names)
     }
 
     @Test
@@ -56,7 +55,7 @@ class XctestrunTest {
         val root = Xctestrun.parse(swiftXctestrun)
         val methods = Xctestrun.findTestNames(swiftXctestrun)
         val results = String(Xctestrun.rewrite(root, methods))
-        assertTrue(results.contains("OnlyTestIdentifiers"))
+        assertThat(results.contains("OnlyTestIdentifiers")).isTrue()
     }
 
     @Test
@@ -105,6 +104,6 @@ class XctestrunTest {
 	</dict>
 </dict>
 </plist>"""
-        assertEquals(expected, String(result))
+        assertThat(expected).isEqualTo(String(result))
     }
 }

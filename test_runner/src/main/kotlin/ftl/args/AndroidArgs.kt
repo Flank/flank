@@ -1,7 +1,11 @@
 package ftl.args
 
 import com.linkedin.dex.parser.DexParser
-import ftl.android.*
+import ftl.android.AndroidCatalog
+import ftl.android.IncompatibleModelVersion
+import ftl.android.SupportedDeviceConfig
+import ftl.android.UnsupportedModelId
+import ftl.android.UnsupportedVersionId
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
 import ftl.args.ArgsHelper.calculateShards

@@ -2,7 +2,16 @@ package ftl.gc
 
 import com.dd.plist.NSDictionary
 import com.google.api.services.testing.Testing
-import com.google.api.services.testing.model.*
+import com.google.api.services.testing.model.ClientInfo
+import com.google.api.services.testing.model.EnvironmentMatrix
+import com.google.api.services.testing.model.FileReference
+import com.google.api.services.testing.model.GoogleCloudStorage
+import com.google.api.services.testing.model.IosDeviceList
+import com.google.api.services.testing.model.IosTestSetup
+import com.google.api.services.testing.model.IosXcTest
+import com.google.api.services.testing.model.ResultStorage
+import com.google.api.services.testing.model.TestMatrix
+import com.google.api.services.testing.model.TestSpecification
 import ftl.args.IosArgs
 import ftl.ios.Xctestrun
 import ftl.util.Utils

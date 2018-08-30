@@ -20,7 +20,11 @@ import ftl.gc.GcToolResults
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
 import ftl.reports.util.ReportManager
-import ftl.util.*
+import ftl.util.ArtifactRegex
+import ftl.util.MatrixState
+import ftl.util.Outcome
+import ftl.util.StopWatch
+import ftl.util.Utils
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 import java.nio.file.Files

@@ -2,11 +2,29 @@ package ftl.test.util
 
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.Logger
-import com.google.api.services.testing.model.*
-import com.google.api.services.toolresults.model.*
+import com.google.api.services.testing.model.AndroidDevice
+import com.google.api.services.testing.model.AndroidDeviceCatalog
+import com.google.api.services.testing.model.AndroidModel
+import com.google.api.services.testing.model.AndroidVersion
+import com.google.api.services.testing.model.Environment
+import com.google.api.services.testing.model.GoogleCloudStorage
+import com.google.api.services.testing.model.IosDeviceCatalog
+import com.google.api.services.testing.model.IosModel
+import com.google.api.services.testing.model.IosVersion
+import com.google.api.services.testing.model.ResultStorage
+import com.google.api.services.testing.model.TestEnvironmentCatalog
+import com.google.api.services.testing.model.TestExecution
+import com.google.api.services.testing.model.TestMatrix
+import com.google.api.services.testing.model.ToolResultsStep
+import com.google.api.services.toolresults.model.Duration
+import com.google.api.services.toolresults.model.Outcome
+import com.google.api.services.toolresults.model.Step
+import com.google.api.services.toolresults.model.TestExecutionStep
+import com.google.api.services.toolresults.model.TestTiming
 import com.google.gson.GsonBuilder
 import com.google.gson.LongSerializationPolicy
-import ftl.util.Outcome
+import ftl.util.Outcome.failure
+import ftl.util.Outcome.success
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
@@ -165,9 +183,9 @@ object MockServer {
 
                     val outcome = Outcome()
                     outcome.summary = if (stepId == "-1") {
-                        Outcome.failure
+                        failure
                     } else {
-                        Outcome.success
+                        success
                     }
 
                     val step = Step()
