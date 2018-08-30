@@ -45,6 +45,7 @@ class SavedMatrix(matrix: TestMatrix) {
     }
 
     private fun finished(matrix: TestMatrix) {
+        if (matrix.state != FINISHED) throw RuntimeException("Incorrect matrix state. Expected finished")
         billableVirtualMinutes = 0
         billablePhysicalMinutes = 0
         outcome = success
