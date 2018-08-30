@@ -99,7 +99,7 @@ object ReportManager {
     /** Returns true if there were no test failures */
     fun generate(matrices: MatrixMap): Boolean {
         val testSuite = parseJUnitXml(matrices)
-        val testSuccessful = testSuite.failures == 0
+        val testSuccessful = matrices.allSuccessful()
 
         listOf(
                 CostReport,
