@@ -1,5 +1,4 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
-import org.gradle.kotlin.dsl.extra
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.Coroutines
 
@@ -10,6 +9,11 @@ plugins {
     application
     jacoco
     kotlin("jvm") version Versions.KOTLIN
+    // https://github.com/jlleitschuh/ktlint-gradle
+    // ./gradlew ktlintFormat
+    // ./gradlew ktlintCheck
+    // ./gradlew ktlintApplyToIdea
+    id("org.jlleitschuh.gradle.ktlint") version "5.0.0"
 }
 
 // http://www.eclemma.org/jacoco/
