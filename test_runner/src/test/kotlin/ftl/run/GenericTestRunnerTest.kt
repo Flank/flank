@@ -4,17 +4,16 @@ import ftl.args.IArgs
 import ftl.run.GenericTestRunner.beforeRunMessage
 import ftl.test.util.TestHelper.assert
 import org.junit.Test
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 
 class GenericTestRunnerTest {
 
     private fun createMock(testRuns: Int, testShardChunks: List<List<String>>): IArgs {
-        return object : IArgs {
-            override val async = true
-            override val projectId = ""
-            override val resultsBucket = ""
-            override val testRuns = testRuns
-            override val testShardChunks = testShardChunks
-        }
+        val args = mock(IArgs::class.java)
+        `when`(args.testRuns).thenReturn(testRuns)
+        `when`(args.testShardChunks).thenReturn(testShardChunks)
+        return args
     }
 
     private fun String.trim2(): String {

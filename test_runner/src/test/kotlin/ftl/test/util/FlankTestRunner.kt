@@ -9,7 +9,7 @@ class FlankTestRunner(klass: Class<*>) : BlockJUnit4ClassRunner(klass) {
 
     companion object {
         init {
-            println("FlankTestRunner init")
+            println("FlankTestRunner init\n")
             val server = MockServer.application
 
             try {

@@ -7,17 +7,12 @@ import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
 import org.junit.Rule
 import org.junit.Test
-import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 
 @RunWith(FlankTestRunner::class)
 class IosArgsFileTest {
-
-    @Rule
-    @JvmField
-    val exit = ExpectedSystemExit.none()!!
 
     @Rule
     @JvmField
