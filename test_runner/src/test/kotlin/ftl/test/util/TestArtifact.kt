@@ -5,7 +5,6 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import java.io.File
-import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.Socket
 import java.util.concurrent.TimeUnit
@@ -25,9 +24,9 @@ object TestArtifact {
 
     private fun online(): Boolean {
         try {
-            Socket().connect(InetSocketAddress("1.1.1.1", 53), 1000)
+            Socket().use { it.connect(InetSocketAddress("1.1.1.1", 53), 1000) }
             return true
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
         return false
     }
