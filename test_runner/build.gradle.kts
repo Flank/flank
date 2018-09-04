@@ -21,11 +21,12 @@ jacoco {
     toolVersion = "0.8.2"
 }
 
-// Html report created in kotlin_poc/build/reports/jacoco/test/html/index.html
+// Html report created in ./build/reports/jacoco/test/html/index.html
 // ./gradlew clean check jacocoTestReport
 tasks.withType<JacocoReport> {
     reports {
         html.isEnabled = true
+        xml.isEnabled = true
     }
 }
 
