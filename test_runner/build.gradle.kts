@@ -99,7 +99,7 @@ dependencies {
     testImplementation("com.github.stefanbirkner:system-rules:1.18.0")
 
     // https://bintray.com/kotlin/ktor/ktor
-    val ktorVersion = "0.9.3"
+    val ktorVersion = "0.9.4"
     testImplementation("io.ktor:ktor-server-core:$ktorVersion")
     testImplementation("io.ktor:ktor-server-netty:$ktorVersion")
     testImplementation("io.ktor:ktor-gson:$ktorVersion")
@@ -139,3 +139,7 @@ task("fatJar", type = Jar::class) {
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
+
+// https://github.com/gradle/kotlin-dsl/blob/master/samples/task-dependencies/build.gradle.kts#L41
+// https://github.com/codecov/example-gradle/blob/master/build.gradle#L25
+tasks["check"].dependsOn(tasks["jacocoTestReport"])
