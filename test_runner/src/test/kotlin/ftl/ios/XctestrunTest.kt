@@ -12,22 +12,22 @@ class XctestrunTest {
 
     private val swiftXctestrun = "$fixturesPath/EarlGreyExampleSwiftTests_iphoneos11.2-arm64.xctestrun"
     private val swiftTests = listOf(
-            "EarlGreyExampleSwiftTests/testBasicSelection",
-            "EarlGreyExampleSwiftTests/testBasicSelectionActionAssert",
-            "EarlGreyExampleSwiftTests/testBasicSelectionAndAction",
-            "EarlGreyExampleSwiftTests/testBasicSelectionAndAssert",
-            "EarlGreyExampleSwiftTests/testCatchErrorOnFailure",
-            "EarlGreyExampleSwiftTests/testCollectionMatchers",
-            "EarlGreyExampleSwiftTests/testCustomAction",
-            "EarlGreyExampleSwiftTests/testLayout",
-            "EarlGreyExampleSwiftTests/testSelectionOnMultipleElements",
-            "EarlGreyExampleSwiftTests/testTableCellOutOfScreen",
-            "EarlGreyExampleSwiftTests/testWithCondition",
-            "EarlGreyExampleSwiftTests/testWithCustomAssertion",
-            "EarlGreyExampleSwiftTests/testWithCustomFailureHandler",
-            "EarlGreyExampleSwiftTests/testWithCustomMatcher",
-            "EarlGreyExampleSwiftTests/testWithGreyAssertions",
-            "EarlGreyExampleSwiftTests/testWithInRoot"
+        "EarlGreyExampleSwiftTests/testBasicSelection",
+        "EarlGreyExampleSwiftTests/testBasicSelectionActionAssert",
+        "EarlGreyExampleSwiftTests/testBasicSelectionAndAction",
+        "EarlGreyExampleSwiftTests/testBasicSelectionAndAssert",
+        "EarlGreyExampleSwiftTests/testCatchErrorOnFailure",
+        "EarlGreyExampleSwiftTests/testCollectionMatchers",
+        "EarlGreyExampleSwiftTests/testCustomAction",
+        "EarlGreyExampleSwiftTests/testLayout",
+        "EarlGreyExampleSwiftTests/testSelectionOnMultipleElements",
+        "EarlGreyExampleSwiftTests/testTableCellOutOfScreen",
+        "EarlGreyExampleSwiftTests/testWithCondition",
+        "EarlGreyExampleSwiftTests/testWithCustomAssertion",
+        "EarlGreyExampleSwiftTests/testWithCustomFailureHandler",
+        "EarlGreyExampleSwiftTests/testWithCustomMatcher",
+        "EarlGreyExampleSwiftTests/testWithGreyAssertions",
+        "EarlGreyExampleSwiftTests/testWithInRoot"
     )
 
     @Test

@@ -24,9 +24,9 @@ object LocalGcs {
         GcStorage.storage.create(testApkBlobInfo, testApkBytes)
 
         Assert.assertTrue(
-                GcStorage.storage.list(TEST_BUCKET).values
-                        .map { it.name }
-                        .any { TEST_BLOB_PATH == it }
+            GcStorage.storage.list(TEST_BUCKET).values
+                .map { it.name }
+                .any { TEST_BLOB_PATH == it }
         )
 
         val appApkBytes = Files.readAllBytes(Paths.get(APP_APK_PATH))
@@ -34,9 +34,9 @@ object LocalGcs {
         GcStorage.storage.create(appApkBlobInfo, appApkBytes)
 
         Assert.assertTrue(
-                GcStorage.storage.list(TEST_BUCKET).values
-                        .map { it.name }
-                        .any { APP_BLOB_PATH == it }
+            GcStorage.storage.list(TEST_BUCKET).values
+                .map { it.name }
+                .any { APP_BLOB_PATH == it }
         )
     }
 }

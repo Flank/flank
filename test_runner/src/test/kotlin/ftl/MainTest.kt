@@ -22,8 +22,9 @@ class MainTest {
 
     private fun assertMainHelpStrings(output: String) {
         val mainHelpStrings = listOf(
-                "flank.jar", "-v", "--version", "Commands:",
-                "firebase", "ios", "android")
+            "flank.jar", "-v", "--version", "Commands:",
+            "firebase", "ios", "android"
+        )
         mainHelpStrings.forEach {
             assertThat(output).contains(it)
         }
@@ -39,7 +40,7 @@ class MainTest {
     @Test
     fun mainCLIVersionCommand() {
         assertThat(
-                runCommand("-v")
+            runCommand("-v")
         ).contains("-SNAPSHOT")
     }
 

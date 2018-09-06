@@ -79,8 +79,8 @@ object MockServer {
                     shamu.supportedVersionIds = listOf("21", "22", "23")
 
                     val androidCatalog = AndroidDeviceCatalog()
-                            .setVersions(versions)
-                            .setModels(listOf(nexusLowRes, shamu))
+                        .setVersions(versions)
+                        .setModels(listOf(nexusLowRes, shamu))
 
                     val catalog = TestEnvironmentCatalog()
                     catalog.androidDeviceCatalog = androidCatalog
@@ -107,8 +107,8 @@ object MockServer {
                     iphonex.supportedVersionIds = listOf("11.2")
 
                     val iosCatalog = IosDeviceCatalog()
-                            .setVersions(listOf(version))
-                            .setModels(listOf(iphone8, iphonex))
+                        .setVersions(listOf(version))
+                        .setModels(listOf(iphone8, iphonex))
 
                     val catalog = TestEnvironmentCatalog()
                     catalog.iosDeviceCatalog = iosCatalog
@@ -122,9 +122,9 @@ object MockServer {
                     val matrixId = call.parameters["matrixIdCounter"]
 
                     val testMatrix = TestMatrix()
-                            .setProjectId(projectId)
-                            .setTestMatrixId(matrixId)
-                            .setState("FINISHED")
+                        .setProjectId(projectId)
+                        .setTestMatrixId(matrixId)
+                        .setState("FINISHED")
 
                     call.respond(testMatrix)
                 }
@@ -142,27 +142,27 @@ object MockServer {
                     resultStorage.googleCloudStorage.gcsPath = matrixId
 
                     val toolResultsStep = ToolResultsStep()
-                            .setProjectId(projectId)
-                            .setHistoryId(matrixId)
-                            .setExecutionId(matrixId)
-                            .setStepId(matrixId)
+                        .setProjectId(projectId)
+                        .setHistoryId(matrixId)
+                        .setExecutionId(matrixId)
+                        .setStepId(matrixId)
 
                     val device = AndroidDevice()
-                            .setAndroidModelId("NexusLowRes")
+                        .setAndroidModelId("NexusLowRes")
 
                     val environment = Environment()
-                            .setAndroidDevice(device)
+                        .setAndroidDevice(device)
 
                     val testExecution = TestExecution()
-                            .setToolResultsStep(toolResultsStep)
-                            .setEnvironment(environment)
+                        .setToolResultsStep(toolResultsStep)
+                        .setEnvironment(environment)
 
                     val matrix = TestMatrix()
-                            .setProjectId(projectId)
-                            .setTestMatrixId("matrix-$matrixId")
-                            .setState("FINISHED")
-                            .setResultStorage(resultStorage)
-                            .setTestExecutions(listOf(testExecution))
+                        .setProjectId(projectId)
+                        .setTestMatrixId("matrix-$matrixId")
+                        .setState("FINISHED")
+                        .setResultStorage(resultStorage)
+                        .setTestExecutions(listOf(testExecution))
 
                     call.respond(matrix)
                 }
@@ -176,10 +176,10 @@ object MockServer {
                     val oneSecond = Duration().setSeconds(1)
 
                     val testTiming = TestTiming()
-                            .setTestProcessDuration(oneSecond)
+                        .setTestProcessDuration(oneSecond)
 
                     val testExecutionStep = TestExecutionStep()
-                            .setTestTiming(testTiming)
+                        .setTestTiming(testTiming)
 
                     val outcome = Outcome()
                     outcome.summary = if (stepId == "-1") {
@@ -189,9 +189,9 @@ object MockServer {
                     }
 
                     val step = Step()
-                            .setTestExecutionStep(testExecutionStep)
-                            .setRunDuration(oneSecond)
-                            .setOutcome(outcome)
+                        .setTestExecutionStep(testExecutionStep)
+                        .setRunDuration(oneSecond)
+                        .setOutcome(outcome)
 
                     call.respond(step)
                 }

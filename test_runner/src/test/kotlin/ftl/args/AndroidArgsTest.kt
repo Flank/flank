@@ -78,7 +78,8 @@ class AndroidArgsTest {
     @Test
     fun androidArgsToString() {
         val androidArgs = AndroidArgs.load(androidNonDefault)
-        assert(androidArgs.toString(), """
+        assert(
+            androidArgs.toString(), """
 AndroidArgs
     gcloud:
       resultsBucket: mockBucket
@@ -101,16 +102,19 @@ AndroidArgs
       testShards: 7
       testRuns: 8
       testTargetsAlwaysRun: [class example.Test#grantPermission]
-""".trimIndent())
+""".trimIndent()
+        )
     }
 
     @Test
     fun androidArgsDefault() {
-        val androidArgs = AndroidArgs.load("""
+        val androidArgs = AndroidArgs.load(
+            """
         gcloud:
           app: $appApk
           test: $testApk
-      """)
+      """
+        )
 
         with(androidArgs) {
             // GcloudYml
@@ -140,14 +144,16 @@ AndroidArgs
 
     @Test
     fun negativeOneTestShards() {
-        val androidArgs = AndroidArgs.load("""
+        val androidArgs = AndroidArgs.load(
+            """
         gcloud:
           app: $appApk
           test: $testErrorApk
 
         flank:
           testShards: -1
-      """)
+      """
+        )
 
         with(androidArgs) {
             assert(testShards, -1)

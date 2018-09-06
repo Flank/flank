@@ -10,7 +10,8 @@ import org.junit.runner.RunWith
 class IosArgsTest {
     private val empty = emptyList<String>()
     private val testPath = "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip"
-    private val xctestrunFile = "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleMixedTests_iphoneos11.2-arm64.xctestrun"
+    private val xctestrunFile =
+        "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleMixedTests_iphoneos11.2-arm64.xctestrun"
     private val iosNonDefault = """
         gcloud:
           results-bucket: mockBucket
@@ -66,7 +67,8 @@ class IosArgsTest {
     @Test
     fun iosArgsToString() {
         val iosArgs = IosArgs.load(iosNonDefault)
-        assert(iosArgs.toString(), """
+        assert(
+            iosArgs.toString(), """
 IosArgs
     gcloud:
       resultsBucket: mockBucket
@@ -85,16 +87,19 @@ IosArgs
       testTargetsAlwaysRun: [a/testGrantPermissions]
       # iOS flank
       testTargets: [b/testBasicSelection]
-""".trimIndent())
+""".trimIndent()
+        )
     }
 
     @Test
     fun iosArgsDefault() {
-        val iosArgs = IosArgs.load("""
+        val iosArgs = IosArgs.load(
+            """
         gcloud:
           test: $testPath
           xctestrun-file: $xctestrunFile
-        """)
+        """
+        )
 
         with(iosArgs) {
             // GcloudYml
@@ -122,14 +127,15 @@ IosArgs
     @Test
     fun negativeOneTestShards() {
         val iosArgs = IosArgs.load(
-                """
+            """
     gcloud:
       test: $testPath
       xctestrun-file: $xctestrunFile
 
     flank:
       testShards: -1
-""")
+"""
+        )
 
         with(iosArgs) {
             assert(testShards, -1)

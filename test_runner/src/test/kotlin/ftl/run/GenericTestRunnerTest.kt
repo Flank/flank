@@ -29,33 +29,44 @@ class GenericTestRunnerTest {
     @Test
     fun testBeforeRunMessage2() {
         val result = beforeRunMessage(createMock(2, listOf(listOf(""))))
-        assert(result, """
+        assert(
+            result, """
   1 test / 1 device = 1 test per device
   Running 2x
     2 total devices
     2 total tests
-""".trim2())
+""".trim2()
+        )
     }
 
     @Test
     fun testBeforeRunMessage3() {
-        val result = beforeRunMessage(createMock(2, listOf(listOf(""), listOf(""), listOf(""), listOf(""), listOf(""), listOf(""))))
-        assert(result, """
+        val result = beforeRunMessage(
+            createMock(
+                2,
+                listOf(listOf(""), listOf(""), listOf(""), listOf(""), listOf(""), listOf(""))
+            )
+        )
+        assert(
+            result, """
   6 tests / 6 devices = 1 test per device
   Running 2x
     12 total devices
     12 total tests
-""".trim2())
+""".trim2()
+        )
     }
 
     @Test
     fun testBeforeRunMessage4() {
         val result = beforeRunMessage(createMock(100, listOf(listOf("", "", "", "", ""), listOf("", "", "", "", ""))))
-        assert(result, """
+        assert(
+            result, """
   10 tests / 2 devices = 5 tests per device
   Running 100x
     200 total devices
     1000 total tests
-""".trim2())
+""".trim2()
+        )
     }
 }
