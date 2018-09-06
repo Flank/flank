@@ -9,11 +9,9 @@ import ftl.args.yml.GcloudYmlParams
 import ftl.config.Device
 import ftl.run.TestRunner.bitrise
 import ftl.test.util.FlankTestRunner
-import ftl.test.util.LocalGcs
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
 import ftl.test.util.TestHelper.getString
-import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
@@ -39,14 +37,6 @@ class AndroidArgsFileTest {
     private val testApkGcs = "gs://tmp_bucket_2/app-debug-androidTest.apk"
     private val testName = "class com.example.app.ExampleUiTest#testPasses"
     private val directoryToPull = "/sdcard/screenshots"
-
-    companion object {
-        @BeforeClass
-        @JvmStatic
-        fun setup() {
-            LocalGcs.setupApks()
-        }
-    }
 
     // NOTE: Change working dir to '%MODULE_WORKING_DIR%' in IntelliJ to match gradle for this test to pass.
     @Test
@@ -100,16 +90,16 @@ class AndroidArgsFileTest {
         return AndroidArgs(
                 GcloudYml(GcloudYmlParams()),
                 AndroidGcloudYml(
-                    AndroidGcloudYmlParams(
-                        app = appApkLocal,
-                        test = testApkLocal,
-                        testTargets = testMethods
-                )
+                        AndroidGcloudYmlParams(
+                                app = appApkLocal,
+                                test = testApkLocal,
+                                testTargets = testMethods
+                        )
                 ),
                 FlankYml(
-                    FlankYmlParams(
-                        testShards = testShards
-                )
+                        FlankYmlParams(
+                                testShards = testShards
+                        )
                 )
         )
     }
