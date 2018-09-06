@@ -18,7 +18,8 @@ class DoctorTest {
 
     @Test
     fun androidDoctorTest2() {
-        val lint = Doctor.validateYaml(AndroidArgs, """
+        val lint = Doctor.validateYaml(
+            AndroidArgs, """
 hi: .
 foo:
   bar: 1
@@ -53,13 +54,16 @@ flank:
   test-targets-always-run:
     - .
   three: .
-        """.trimIndent())
-        assertThat(lint).isEqualTo("""
+        """.trimIndent()
+        )
+        assertThat(lint).isEqualTo(
+            """
 Unknown top level keys: [hi, foo]
 Unknown keys in gcloud -> [two]
 Unknown keys in flank -> [three]
 
-""".trimIndent())
+""".trimIndent()
+        )
     }
 
     @Test
@@ -71,7 +75,8 @@ Unknown keys in flank -> [three]
 
     @Test
     fun iosDoctorTest2() {
-        val lint = Doctor.validateYaml(IosArgs, """
+        val lint = Doctor.validateYaml(
+            IosArgs, """
 hi: .
 foo:
   bar: 1
@@ -99,12 +104,15 @@ flank:
   test-targets:
     - .
   three: .
-""".trimIndent())
-        assertThat(lint).isEqualTo("""
+""".trimIndent()
+        )
+        assertThat(lint).isEqualTo(
+            """
 Unknown top level keys: [hi, foo]
 Unknown keys in gcloud -> [two]
 Unknown keys in flank -> [three]
 
-""".trimIndent())
+""".trimIndent()
+        )
     }
 }

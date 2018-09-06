@@ -16,17 +16,17 @@ Calculates cost based on the matrix map. Always run.
 Example:
 
 Physical devices
-  Billable time:  35h 29m
-  Billable minutes:   2129
-  Cost:   $177.42
+Billable time:  35h 29m
+Billable minutes:   2129
+Cost:   $177.42
 Virtual devices
-  Billable time:  34h 22m
-  Billable minutes:   2062
-  Cost:   $34.37
+Billable time:  34h 22m
+Billable minutes:   2062
+Cost:   $34.37
 Total
-  Billable time:  69h 51m
-  Billable minutes:   4191
-  Cost:   $211.79
+Billable time:  69h 51m
+Billable minutes:   4191
+Cost:   $211.79
 
  */
 object CostReport : IReport {

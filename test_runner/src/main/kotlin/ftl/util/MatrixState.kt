@@ -11,8 +11,10 @@ object MatrixState {
     const val FINISHED = "FINISHED"
     private const val ERROR = "ERROR"
     private const val UNSUPPORTED_ENVIRONMENT = "UNSUPPORTED_ENVIRONMENT" // Incompatible device/OS combination
-    private const val INCOMPATIBLE_ENVIRONMENT = "INCOMPATIBLE_ENVIRONMENT" // Application does not support the specified OS version
-    private const val INCOMPATIBLE_ARCHITECTURE = "INCOMPATIBLE_ARCHITECTURE" // Application does not support the specified device architecture
+    private const val INCOMPATIBLE_ENVIRONMENT =
+        "INCOMPATIBLE_ENVIRONMENT" // Application does not support the specified OS version
+    private const val INCOMPATIBLE_ARCHITECTURE =
+        "INCOMPATIBLE_ARCHITECTURE" // Application does not support the specified device architecture
     private const val CANCELLED = "CANCELLED"
     private const val INVALID = "INVALID" // The provided APK is invalid
 

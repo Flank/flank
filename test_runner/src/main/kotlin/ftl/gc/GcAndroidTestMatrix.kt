@@ -50,8 +50,8 @@ object GcAndroidTestMatrix {
         //   .setTestRunnerClass(instrumentationTestRunner)
 
         val androidInstrumentation = AndroidInstrumentationTest()
-                .setAppApk(FileReference().setGcsPath(appApkGcsPath))
-                .setTestApk(FileReference().setGcsPath(testApkGcsPath))
+            .setAppApk(FileReference().setGcsPath(appApkGcsPath))
+            .setTestApk(FileReference().setGcsPath(testApkGcsPath))
 
         if (config.useOrchestrator) {
             androidInstrumentation.orchestratorOption = "USE_ORCHESTRATOR"
@@ -77,25 +77,25 @@ object GcAndroidTestMatrix {
         }
 
         val testSetup = TestSetup()
-                .setAccount(account)
+            .setAccount(account)
 
         testSetup.directoriesToPull = config.directoriesToPull
 
         if (config.environmentVariables.isNotEmpty()) {
             testSetup.environmentVariables =
-                    config.environmentVariables.map { it.toEnvironmentVariable() }
+                config.environmentVariables.map { it.toEnvironmentVariable() }
         }
 
         testMatrix.testSpecification = TestSpecification()
-                .setAndroidInstrumentationTest(androidInstrumentation)
-                .setDisablePerformanceMetrics(!config.performanceMetrics)
-                .setDisableVideoRecording(!config.recordVideo)
-                .setTestTimeout("${testTimeoutSeconds}s")
-                .setTestSetup(testSetup)
+            .setAndroidInstrumentationTest(androidInstrumentation)
+            .setDisablePerformanceMetrics(!config.performanceMetrics)
+            .setDisableVideoRecording(!config.recordVideo)
+            .setTestTimeout("${testTimeoutSeconds}s")
+            .setTestSetup(testSetup)
 
         val matrixGcsPath = join(config.resultsBucket, runGcsPath, uniqueObjectName())
         testMatrix.resultStorage = ResultStorage()
-                .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
+            .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
         testMatrix.environmentMatrix = EnvironmentMatrix().setAndroidDeviceList(androidDeviceList)
 
         try {

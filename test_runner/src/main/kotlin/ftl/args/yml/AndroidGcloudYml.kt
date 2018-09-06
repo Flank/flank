@@ -36,8 +36,10 @@ class AndroidGcloudYmlParams(
     val device: List<Device> = listOf(Device("NexusLowRes", "28"))
 ) {
     companion object : IYmlKeys {
-        override val keys = listOf("app", "test", "auto-google-login", "use-orchestrator", "environment-variables",
-                "directories-to-pull", "performance-metrics", "test-targets", "device")
+        override val keys = listOf(
+            "app", "test", "auto-google-login", "use-orchestrator", "environment-variables",
+            "directories-to-pull", "performance-metrics", "test-targets", "device"
+        )
     }
 
     init {

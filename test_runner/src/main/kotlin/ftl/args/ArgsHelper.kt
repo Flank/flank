@@ -23,11 +23,11 @@ object ArgsHelper {
     fun mergeYmlMaps(vararg ymlMaps: IYmlMap): Map<String, List<String>> {
         val result = mutableMapOf<String, List<String>>()
         ymlMaps.map { it.map }
-                .forEach { map ->
-                    map.forEach { (k, v) ->
-                        result.merge(k, v) { a, b -> a + b }
-                    }
+            .forEach { map ->
+                map.forEach { (k, v) ->
+                    result.merge(k, v) { a, b -> a + b }
                 }
+            }
         return result
     }
 
@@ -102,11 +102,13 @@ object ArgsHelper {
         val bucket = storageList.find { it == resultsBucket }
         if (bucket != null) return bucket
 
-        return storage.create(BucketInfo.newBuilder(resultsBucket)
+        return storage.create(
+            BucketInfo.newBuilder(resultsBucket)
                 .setStorageClass(StorageClass.REGIONAL)
                 .setLocation(storageLocation)
                 .setLabels(bucketLabel)
-                .build()).name
+                .build()
+        ).name
     }
 
     fun getDefaultProjectId(): String {

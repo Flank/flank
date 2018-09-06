@@ -77,9 +77,11 @@ object Xctestrun {
         for (testTarget in root.allKeys()) {
             val testDictionary = (root[testTarget] as NSDictionary)
 
-            val methods = testsForTarget(testDictionary = testDictionary,
-                    testRoot = testRoot,
-                    testTarget = testTarget)
+            val methods = testsForTarget(
+                testDictionary = testDictionary,
+                testRoot = testRoot,
+                testTarget = testTarget
+            )
 
             result += methods
         }

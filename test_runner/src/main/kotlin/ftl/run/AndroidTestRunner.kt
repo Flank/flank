@@ -29,12 +29,13 @@ object AndroidTestRunner {
             repeat(deviceCount) { testShardsIndex ->
                 jobs += async {
                     GcAndroidTestMatrix.build(
-                            appApkGcsPath = apks.first,
-                            testApkGcsPath = apks.second,
-                            runGcsPath = runGcsPath,
-                            androidDeviceList = androidDeviceList,
-                            testShardsIndex = testShardsIndex,
-                            config = androidArgs).execute()
+                        appApkGcsPath = apks.first,
+                        testApkGcsPath = apks.second,
+                        runGcsPath = runGcsPath,
+                        androidDeviceList = androidDeviceList,
+                        testShardsIndex = testShardsIndex,
+                        config = androidArgs
+                    ).execute()
                 }
             }
         }

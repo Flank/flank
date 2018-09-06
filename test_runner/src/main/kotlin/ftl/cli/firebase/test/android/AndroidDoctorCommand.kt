@@ -6,16 +6,18 @@ import picocli.CommandLine.Command
 import picocli.CommandLine.Option
 import java.nio.file.Paths
 
-@Command(name = "doctor",
-        sortOptions = false,
-        headerHeading = "",
-        synopsisHeading = "%n",
-        descriptionHeading = "%n@|bold,underline Description:|@%n%n",
-        parameterListHeading = "%n@|bold,underline Parameters:|@%n",
-        optionListHeading = "%n@|bold,underline Options:|@%n",
-        header = ["Verifies flank firebase is setup correctly"],
-        description = ["""Validates Android Flank YAML.
-"""])
+@Command(
+    name = "doctor",
+    sortOptions = false,
+    headerHeading = "",
+    synopsisHeading = "%n",
+    descriptionHeading = "%n@|bold,underline Description:|@%n%n",
+    parameterListHeading = "%n@|bold,underline Parameters:|@%n",
+    optionListHeading = "%n@|bold,underline Options:|@%n",
+    header = ["Verifies flank firebase is setup correctly"],
+    description = ["""Validates Android Flank YAML.
+"""]
+)
 class AndroidDoctorCommand : Runnable {
     override fun run() {
         println(validateYaml(AndroidArgs, Paths.get(configPath)))

@@ -57,9 +57,10 @@ object Utils {
         val instant = Instant.now()
 
         bucketName.append(
-                DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss.")
-                        .withZone(ZoneOffset.UTC)
-                        .format(instant))
+            DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss.")
+                .withZone(ZoneOffset.UTC)
+                .format(instant)
+        )
 
         val nanoseconds = instant.nano.toString()
 
@@ -92,7 +93,7 @@ object Utils {
 
     fun readTextResource(name: String): String {
         val resource: InputStream = this::class.java.getResourceAsStream("/$name")
-                ?: throw RuntimeException("Unable to find resource: /$name")
+            ?: throw RuntimeException("Unable to find resource: /$name")
         return resource.bufferedReader().use { it.readText() }
     }
 }

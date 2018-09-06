@@ -25,7 +25,8 @@ class IosArgsFileTest {
     private val yamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.ios.yml")
     private val yamlFile2 = getPath("src/test/kotlin/ftl/fixtures/flank2.ios.yml")
     private val xctestrunZip = getPath("src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip")
-    private val xctestrunFile = getPath("src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleMixedTests_iphoneos11.2-arm64.xctestrun")
+    private val xctestrunFile =
+        getPath("src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleMixedTests_iphoneos11.2-arm64.xctestrun")
     private val testName = "EarlGreyExampleMixedTests/testBasicSelection"
     // NOTE: Change working dir to '%MODULE_WORKING_DIR%' in IntelliJ to match gradle for this test to pass.
     @Test
@@ -41,9 +42,11 @@ class IosArgsFileTest {
             assert(testTimeout, "60m")
             assert(async, true)
             assert(testTargets, listOf(testName))
-            assert(devices, listOf(
+            assert(
+                devices, listOf(
                     Device("iphone8", "11.2", "en_US", "portrait")
-            ))
+                )
+            )
             assert(testShards, 1)
             assert(testRuns, 1)
         }
@@ -65,15 +68,19 @@ class IosArgsFileTest {
     fun testMethodsAlwaysRun() {
         val config = IosArgs.load(yamlFile2)
 
-        val chunk0 = arrayListOf("EarlGreyExampleMixedTests/testGrantCameraPermission",
-                "EarlGreyExampleMixedTests/testGrantMicrophonePermission",
-                "EarlGreyExampleMixedTests/testBasicSelection1",
-                "EarlGreyExampleMixedTests/testBasicSelection2")
+        val chunk0 = arrayListOf(
+            "EarlGreyExampleMixedTests/testGrantCameraPermission",
+            "EarlGreyExampleMixedTests/testGrantMicrophonePermission",
+            "EarlGreyExampleMixedTests/testBasicSelection1",
+            "EarlGreyExampleMixedTests/testBasicSelection2"
+        )
 
-        val chunk1 = arrayListOf("EarlGreyExampleMixedTests/testGrantCameraPermission",
-                "EarlGreyExampleMixedTests/testGrantMicrophonePermission",
-                "EarlGreyExampleMixedTests/testBasicSelection3",
-                "EarlGreyExampleMixedTests/testBasicSelection4")
+        val chunk1 = arrayListOf(
+            "EarlGreyExampleMixedTests/testGrantCameraPermission",
+            "EarlGreyExampleMixedTests/testGrantMicrophonePermission",
+            "EarlGreyExampleMixedTests/testBasicSelection3",
+            "EarlGreyExampleMixedTests/testBasicSelection4"
+        )
 
         val testShardChunks = config.testShardChunks
 

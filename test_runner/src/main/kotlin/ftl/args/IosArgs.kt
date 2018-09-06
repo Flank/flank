@@ -63,10 +63,10 @@ class IosArgs(
         validateTestMethods(testTargets, validTestMethods, "xctest binary")
 
         testShardChunks = ArgsHelper.calculateShards(
-                testTargets,
-                validTestMethods,
-                testTargetsAlwaysRun,
-                testShards
+            testTargets,
+            validTestMethods,
+            testTargetsAlwaysRun,
+            testShards
         )
     }
 
@@ -113,10 +113,10 @@ IosArgs
             val iosGcloudYml = yamlMapper.readValue(data, IosGcloudYml::class.java)
 
             return IosArgs(
-                    gcloudYml,
-                    iosGcloudYml,
-                    flankYml,
-                    iosFlankYml
+                gcloudYml,
+                iosGcloudYml,
+                flankYml,
+                iosFlankYml
             )
         }
     }

@@ -87,10 +87,10 @@ class AndroidArgs(
         validateTestMethods(testTargets, validTestMethods, "Test APK")
 
         testShardChunks = calculateShards(
-                testTargets,
-                validTestMethods,
-                testTargetsAlwaysRun,
-                testShards
+            testTargets,
+            validTestMethods,
+            testTargetsAlwaysRun,
+            testShards
         )
     }
 
@@ -145,9 +145,9 @@ AndroidArgs
             val androidGcloudYml = yamlMapper.readValue(data, AndroidGcloudYml::class.java)
 
             return AndroidArgs(
-                    gcloudYml,
-                    androidGcloudYml,
-                    flankYml
+                gcloudYml,
+                androidGcloudYml,
+                flankYml
             )
         }
     }

@@ -77,22 +77,24 @@ object ReportManager {
                 } else {
                     failureCount += 1
                     val stackTrace = failureNode.firstChild.nodeValue
-                    testResults.failures.add(TestFailure(
+                    testResults.failures.add(
+                        TestFailure(
                             stackTrace = stackTrace,
                             webLink = webLink
-                    ))
+                        )
+                    )
                 }
             }
         }
 
         val sortedTestCases = testCases.toList()
-                .sortedByDescending { (_, value) -> value.failures.size }.toMap()
+            .sortedByDescending { (_, value) -> value.failures.size }.toMap()
 
         return TestSuite(
-                totalTests = failureCount + successCount,
-                failures = failureCount,
-                successes = successCount,
-                testCases = sortedTestCases
+            totalTests = failureCount + successCount,
+            failures = failureCount,
+            successes = successCount,
+            testCases = sortedTestCases
         )
     }
 
@@ -102,17 +104,17 @@ object ReportManager {
         val testSuccessful = matrices.allSuccessful()
 
         listOf(
-                CostReport,
-                MatrixResultsReport
+            CostReport,
+            MatrixResultsReport
         ).map {
             it.run(matrices, testSuite, printToStdout = true)
         }
 
         if (!testSuccessful) {
             listOf(
-                    HtmlErrorReport,
-                    MatrixErrorReport,
-                    TestErrorCountReport
+                HtmlErrorReport,
+                MatrixErrorReport,
+                TestErrorCountReport
             ).map { it.run(matrices, testSuite) }
         }
 

@@ -41,8 +41,9 @@ class SavedMatrixTest {
         // Verify that if we have two executions: failure then success
         // the SavedMatrix outcome is correctly recorded as failure
         val testExecutions = listOf(
-                createStepExecution(-1),
-                createStepExecution(1))
+            createStepExecution(-1),
+            createStepExecution(1)
+        )
 
         val testMatrix = TestMatrix()
         testMatrix.testMatrixId = "123"

@@ -105,7 +105,8 @@ dependencies {
     testImplementation("io.ktor:ktor-gson:$ktorVersion")
 
     testImplementation("ch.qos.logback:logback-classic:1.2.3")
-    testImplementation("org.mockito:mockito-core:2.21.0")
+    // mockito-inline is used to mock final classes
+    testImplementation("org.mockito:mockito-inline:2.21.0")
 
     // todo: move to testImplementation once dagger is implemented https://github.com/TestArmada/flank/issues/248
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud

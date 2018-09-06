@@ -11,7 +11,7 @@ data class TestSuite(
     val totalTests: Int,
     var failures: Int,
     var successes: Int,
-        // Map testcase name to results. Single test may have many results when run more than once.
+    // Map testcase name to results. Single test may have many results when run more than once.
     val testCases: Map<String, TestResults>
 )
 

@@ -37,7 +37,7 @@ object GenericTestRunner {
 
         println(FtlConstants.indent + "${savedMatrices.size} matrix ids created in ${stopwatch.check()}")
         val gcsBucket = "https://console.developers.google.com/storage/browser/" +
-                config.resultsBucket + "/" + matrixMap.runPath
+            config.resultsBucket + "/" + matrixMap.runPath
         println(FtlConstants.indent + gcsBucket)
         println()
 
@@ -59,8 +59,10 @@ object GenericTestRunner {
         val testsCount = args.testShardChunks.sumBy { it.size }
 
         val result = StringBuilder()
-        result.appendln("  $testsCount test${s(testsCount)} / $deviceCount device${s(deviceCount)} = " +
-                "$testsPerDevice test${s(testsPerDevice)} per device")
+        result.appendln(
+            "  $testsCount test${s(testsCount)} / $deviceCount device${s(deviceCount)} = " +
+                "$testsPerDevice test${s(testsPerDevice)} per device"
+        )
 
         if (runCount > 1) {
             result.appendln("  Running ${runCount}x")

@@ -12,11 +12,13 @@ object IosCatalog {
         try {
             GcTesting.get.testEnvironmentCatalog().get("ios").execute().iosDeviceCatalog
         } catch (e: java.lang.Exception) {
-            throw java.lang.RuntimeException("""
+            throw java.lang.RuntimeException(
+                """
 Unable to access the test environment catalog. Firebase Test Lab for iOS is currently in beta.
 Request access for your project via the following form:
   https://goo.gl/forms/wAxbiNEP2pxeIRG82
-If this project has already been granted access, please email ftl-ios-feedback@google.com for support.""", e)
+If this project has already been granted access, please email ftl-ios-feedback@google.com for support.""", e
+            )
         }
     }
 

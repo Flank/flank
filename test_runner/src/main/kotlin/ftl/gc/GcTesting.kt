@@ -11,7 +11,7 @@ object GcTesting {
 
     val get: Testing by lazy {
         val builder = Testing.Builder(httpTransport, JSON_FACTORY, credential)
-                .setApplicationName(applicationName)
+            .setApplicationName(applicationName)
 
         if (FtlConstants.useMock) builder.rootUrl = FtlConstants.localhost
 
