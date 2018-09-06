@@ -15,7 +15,7 @@ import ftl.util.Utils.assertNotEmpty
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class GcloudYmlParams(
-        // TODO: make resultsBucket immutable
+    // TODO: make resultsBucket immutable
     @field:JsonProperty("results-bucket")
     var resultsBucket: String = "",
 
@@ -33,8 +33,10 @@ class GcloudYmlParams(
     }
 
     init {
-        assertNotEmpty(project, "project is not set. Define GOOGLE_CLOUD_PROJECT or set project in flank.yml\n" +
-                " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id")
+        assertNotEmpty(
+            project, "project is not set. Define GOOGLE_CLOUD_PROJECT or set project in flank.yml\n" +
+                " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
+        )
 
         if (useMock) {
             resultsBucket = "mockBucket"

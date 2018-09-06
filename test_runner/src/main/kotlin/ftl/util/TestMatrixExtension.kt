@@ -10,7 +10,7 @@ fun TestMatrix.firstToolResults(): ToolResultsStep? {
 fun TestMatrix.webLink(): String {
     val firstStep: ToolResultsStep = firstToolResults() ?: return ""
     return "https://console.firebase.google.com/project/${this.projectId}/" +
-            "testlab/histories/${firstStep.historyId}/" +
-            "matrices/${firstStep.executionId}/" +
-            "executions/${firstStep.stepId}"
+        "testlab/histories/${firstStep.historyId}/" +
+        "matrices/${firstStep.executionId}/" +
+        "executions/${firstStep.stepId}"
 }

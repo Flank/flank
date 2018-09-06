@@ -153,8 +153,8 @@ object TestRunner {
             result.iterateAll().forEach { blob ->
                 val blobPath = blob.blobId.name
                 if (
-                        blobPath.matches(ArtifactRegex.testResultRgx) ||
-                        blobPath.matches(ArtifactRegex.screenshotRgx)
+                    blobPath.matches(ArtifactRegex.testResultRgx) ||
+                    blobPath.matches(ArtifactRegex.screenshotRgx)
                 ) {
                     val downloadFile = Paths.get(FtlConstants.localResultsDir, blobPath)
                     print(".")
@@ -223,8 +223,8 @@ object TestRunner {
                 // Error message is never reset. Track last error to only print new messages.
                 val errorMessage = details.errorMessage
                 if (
-                        errorMessage != null &&
-                        errorMessage != lastError
+                    errorMessage != null &&
+                    errorMessage != lastError
                 ) {
                     // Note: After an error (infrastructure failure), FTL will retry 3x
                     lastError = errorMessage

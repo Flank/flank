@@ -7,13 +7,13 @@ import ftl.util.Utils.readTextResource
 import picocli.CommandLine
 
 @CommandLine.Command(
-        name = "flank.jar\n",
-        synopsisHeading = "",
-        subcommands = [
-            FirebaseCommand::class,
-            IosCommand::class,
-            AndroidCommand::class
-        ]
+    name = "flank.jar\n",
+    synopsisHeading = "",
+    subcommands = [
+        FirebaseCommand::class,
+        IosCommand::class,
+        AndroidCommand::class
+    ]
 )
 class Main : Runnable {
     override fun run() {

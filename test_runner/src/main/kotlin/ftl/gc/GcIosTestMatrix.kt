@@ -39,11 +39,11 @@ object GcIosTestMatrix {
         val xctestrunFileGcsPath = GcStorage.uploadXCTestFile(config, gcsBucket, matrixGcsSuffix, generatedXctestrun)
 
         val iOSXCTest = IosXcTest()
-                .setTestsZip(FileReference().setGcsPath(testZipGcsPath))
-                .setXctestrun(FileReference().setGcsPath(xctestrunFileGcsPath))
+            .setTestsZip(FileReference().setGcsPath(testZipGcsPath))
+            .setXctestrun(FileReference().setGcsPath(xctestrunFileGcsPath))
 
         val iOSTestSetup = IosTestSetup()
-                .setNetworkProfile(null)
+            .setNetworkProfile(null)
 
         val timeout = config.testTimeout
         val testTimeoutSeconds = when {
@@ -54,21 +54,21 @@ object GcIosTestMatrix {
         }
 
         val testSpec = TestSpecification()
-                .setDisableVideoRecording(!config.recordVideo)
-                .setTestTimeout("${testTimeoutSeconds}s")
-                .setIosTestSetup(iOSTestSetup)
-                .setIosXcTest(iOSXCTest)
+            .setDisableVideoRecording(!config.recordVideo)
+            .setTestTimeout("${testTimeoutSeconds}s")
+            .setIosTestSetup(iOSTestSetup)
+            .setIosXcTest(iOSXCTest)
 
         val resultStorage = ResultStorage()
-                .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
+            .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
 
         val environmentMatrix = EnvironmentMatrix().setIosDeviceList(iosDeviceList)
 
         val testMatrix = TestMatrix()
-                .setTestSpecification(testSpec)
-                .setClientInfo(ClientInfo().setName("Flank"))
-                .setEnvironmentMatrix(environmentMatrix)
-                .setResultStorage(resultStorage)
+            .setTestSpecification(testSpec)
+            .setClientInfo(ClientInfo().setName("Flank"))
+            .setEnvironmentMatrix(environmentMatrix)
+            .setResultStorage(resultStorage)
 
         try {
             return GcTesting.get.projects().testMatrices().create(config.projectId, testMatrix)

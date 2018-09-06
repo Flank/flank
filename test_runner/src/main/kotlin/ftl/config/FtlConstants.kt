@@ -29,8 +29,8 @@ object FtlConstants {
         try {
             if (useMock) {
                 return@lazy MockGoogleCredential.Builder()
-                        .setTransport(MockGoogleCredential.newMockHttpTransportWithSampleTokenResponse())
-                        .build()
+                    .setTransport(MockGoogleCredential.newMockHttpTransportWithSampleTokenResponse())
+                    .build()
             }
 
             val defaultCredential = GoogleCredential.getApplicationDefault()

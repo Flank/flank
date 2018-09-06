@@ -8,9 +8,9 @@ object Bash {
         println(cmd)
 
         val process = ProcessBuilder("/bin/bash", "-c", cmd)
-                .redirectOutput(PIPE)
-                .redirectError(PIPE)
-                .start()
+            .redirectOutput(PIPE)
+            .redirectError(PIPE)
+            .start()
 
         val result = process.waitForResult()
 

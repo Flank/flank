@@ -7,18 +7,20 @@ import picocli.CommandLine.Command
 import picocli.CommandLine.Option
 import java.nio.file.Paths
 
-@Command(name = "run",
-        sortOptions = false,
-        headerHeading = "",
-        synopsisHeading = "%n",
-        descriptionHeading = "%n@|bold,underline Description:|@%n%n",
-        parameterListHeading = "%n@|bold,underline Parameters:|@%n",
-        optionListHeading = "%n@|bold,underline Options:|@%n",
-        header = ["Run tests on Firebase Test Lab"],
-        description = ["""Uploads the app and tests to GCS.
+@Command(
+    name = "run",
+    sortOptions = false,
+    headerHeading = "",
+    synopsisHeading = "%n",
+    descriptionHeading = "%n@|bold,underline Description:|@%n%n",
+    parameterListHeading = "%n@|bold,underline Parameters:|@%n",
+    optionListHeading = "%n@|bold,underline Options:|@%n",
+    header = ["Run tests on Firebase Test Lab"],
+    description = ["""Uploads the app and tests to GCS.
 Runs the XCTests and XCUITests.
 Configuration is read from flank.yml
-"""])
+"""]
+)
 class IosRunCommand : Runnable {
     override fun run() {
         val config = IosArgs.load(Paths.get(configPath))

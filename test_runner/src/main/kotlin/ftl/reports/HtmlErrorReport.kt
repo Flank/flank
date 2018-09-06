@@ -31,17 +31,24 @@ object HtmlErrorReport : IReport {
             val failures = testResults.failures
             if (failures.isEmpty()) return@forEach
 
-            groupList.add(Group("group-$groupId",
+            groupList.add(
+                Group(
+                    "group-$groupId",
                     testName,
                     groupId,
-                    failures.size))
+                    failures.size
+                )
+            )
             groupId += 1
 
             failures.forEach { failure ->
-                itemList.add(Item("item-$itemId",
+                itemList.add(
+                    Item(
+                        "item-$itemId",
                         failure.stackTrace.split("\n").firstOrNull() ?: "",
                         failure.webLink
-                ))
+                    )
+                )
                 itemId += 1
             }
         }

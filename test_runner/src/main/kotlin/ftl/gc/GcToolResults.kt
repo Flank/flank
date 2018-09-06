@@ -17,21 +17,22 @@ object GcToolResults {
         if (FtlConstants.useMock) builder.rootUrl = FtlConstants.localhost
 
         builder.setApplicationName(applicationName)
-                .build()
+            .build()
     }
 
     fun getResults(toolResultsStep: ToolResultsStep): Step {
         return GcToolResults.service
-                .projects()
-                .histories()
-                .executions()
-                .steps()
-                .get(
-                        toolResultsStep.projectId,
-                        toolResultsStep.historyId,
-                        toolResultsStep.executionId,
-                        toolResultsStep.stepId)
-                .execute()
+            .projects()
+            .histories()
+            .executions()
+            .steps()
+            .get(
+                toolResultsStep.projectId,
+                toolResultsStep.historyId,
+                toolResultsStep.executionId,
+                toolResultsStep.stepId
+            )
+            .execute()
     }
 
     fun getDefaultBucket(projectId: String): String? {

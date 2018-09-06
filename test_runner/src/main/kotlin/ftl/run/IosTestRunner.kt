@@ -38,12 +38,13 @@ object IosTestRunner {
             repeat(deviceCount) { testShardsIndex ->
                 jobs += async {
                     GcIosTestMatrix.build(
-                            iosDeviceList = iosDeviceList,
-                            testZipGcsPath = xcTestGcsPath,
-                            runGcsPath = runGcsPath,
-                            testShardsIndex = testShardsIndex,
-                            xcTestParsed = xcTestParsed,
-                            config = yamlConfig).execute()
+                        iosDeviceList = iosDeviceList,
+                        testZipGcsPath = xcTestGcsPath,
+                        runGcsPath = runGcsPath,
+                        testShardsIndex = testShardsIndex,
+                        xcTestParsed = xcTestParsed,
+                        config = yamlConfig
+                    ).execute()
                 }
             }
         }
