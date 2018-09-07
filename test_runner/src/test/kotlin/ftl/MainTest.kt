@@ -21,13 +21,13 @@ class MainTest {
     val systemErrRule: SystemErrRule = SystemErrRule().enableLog().muteForSuccessfulTests()
 
     private fun assertMainHelpStrings(output: String) {
-        val mainHelpStrings = listOf(
-            "flank.jar", "-v", "--version", "Commands:",
-            "firebase", "ios", "android"
-        )
-        mainHelpStrings.forEach {
-            assertThat(output).contains(it)
-        }
+        assertThat(output).contains("flank.jar\n" +
+                " [-v] [COMMAND]\n" +
+                "  -v, --version   Prints the version\n" +
+                "Commands:\n" +
+                "  firebase\n" +
+                "  ios\n" +
+                "  android\n")
     }
 
     private fun runCommand(vararg args: String): String {
@@ -40,7 +40,7 @@ class MainTest {
     @Test
     fun mainCLIVersionCommand() {
         assertThat(
-            runCommand("-v")
+                runCommand("-v")
         ).contains("-SNAPSHOT")
     }
 
