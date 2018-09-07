@@ -24,9 +24,16 @@ jacoco {
 // Html report created in ./build/reports/jacoco/test/html/index.html
 // ./gradlew clean check jacocoTestReport
 tasks.withType<JacocoReport> {
-    reports {
-        html.isEnabled = true
-        xml.isEnabled = true
+    doFirst {
+        classDirectories = fileTree("build/classes/kotlin/main").apply {
+            // runBlocking {} produces generated Kotlin code. Ignore that.
+            exclude("**/*\$run$1.class")
+        }
+
+        reports {
+            html.isEnabled = true
+            xml.isEnabled = true
+        }
     }
 }
 
