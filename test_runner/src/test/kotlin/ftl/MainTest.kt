@@ -55,4 +55,10 @@ class MainTest {
         assertThat(output).contains("Unknown option: -unknown-flag")
         assertMainHelpStrings(output)
     }
+
+    @Test
+    fun mainStaticEntrypoint() {
+        Main.main(emptyArray())
+        assertMainHelpStrings(systemOutRule.log)
+    }
 }
