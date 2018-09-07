@@ -34,12 +34,4 @@ class AndroidRunCommand : Runnable {
 
     @Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
     var usageHelpRequested: Boolean = false
-
-    companion object {
-        @Throws(Exception::class)
-        @JvmStatic
-        fun main(args: Array<String>) {
-            AndroidRunCommand().run()
-        }
-    }
 }
