@@ -2,6 +2,7 @@ package ftl.cli.firebase.test.android
 
 import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
+import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
@@ -47,6 +48,18 @@ class AndroidRunCommandTest {
     fun androidRunCommandRuns() {
         AndroidRunCommand().run()
         val output = systemOutRule.log
-        Truth.assertThat(output).contains("1 / 1 (100.00%)")
+        assertThat(output).contains("1 / 1 (100.00%)")
+    }
+
+    @Test
+    fun androidRunCommandOptions() {
+        val cmd = AndroidRunCommand()
+        assertThat(cmd.configPath).isEqualTo(FtlConstants.defaultAndroidConfig)
+        cmd.configPath = "tmp"
+        assertThat(cmd.configPath).isEqualTo("tmp")
+
+        assertThat(cmd.usageHelpRequested).isFalse()
+        cmd.usageHelpRequested = true
+        assertThat(cmd.usageHelpRequested).isTrue()
     }
 }

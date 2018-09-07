@@ -2,6 +2,7 @@ package ftl.cli.firebase.test.android
 
 import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
+import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
@@ -47,5 +48,17 @@ class AndroidDoctorCommandTest {
         // When there are no lint errors, output is a newline.
         val output = systemOutRule.log
         Truth.assertThat(output).isEqualTo("\n")
+    }
+
+    @Test
+    fun androidDoctorCommandOptions() {
+        val cmd = AndroidDoctorCommand()
+        assertThat(cmd.configPath).isEqualTo(FtlConstants.defaultAndroidConfig)
+        cmd.configPath = "tmp"
+        assertThat(cmd.configPath).isEqualTo("tmp")
+
+        assertThat(cmd.usageHelpRequested).isFalse()
+        cmd.usageHelpRequested = true
+        assertThat(cmd.usageHelpRequested).isTrue()
     }
 }

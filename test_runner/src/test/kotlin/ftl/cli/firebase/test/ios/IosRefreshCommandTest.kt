@@ -2,6 +2,7 @@ package ftl.cli.firebase.test.ios
 
 import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
+import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
@@ -47,5 +48,17 @@ class IosRefreshCommandTest {
         IosRefreshCommand().run()
         val output = systemOutRule.log
         Truth.assertThat(output).contains("1 / 1 (100.00%)")
+    }
+
+    @Test
+    fun iosRefreshCommandOptions() {
+        val cmd = IosRefreshCommand()
+        assertThat(cmd.configPath).isEqualTo(FtlConstants.defaultIosConfig)
+        cmd.configPath = "tmp"
+        assertThat(cmd.configPath).isEqualTo("tmp")
+
+        assertThat(cmd.usageHelpRequested).isFalse()
+        cmd.usageHelpRequested = true
+        assertThat(cmd.usageHelpRequested).isTrue()
     }
 }
