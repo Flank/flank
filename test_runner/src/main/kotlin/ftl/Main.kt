@@ -18,6 +18,7 @@ import picocli.CommandLine
 class Main : Runnable {
     override fun run() {
         if (printVersion) {
+            // inline functions like .trim aren't counted as code coverage https://github.com/jacoco/jacoco/issues/654
             val version = readTextResource("version.txt").trim()
             println(version)
         } else {
