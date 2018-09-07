@@ -16,10 +16,10 @@ object AndroidCatalog {
     val androidVersionIds by lazy { androidDeviceCatalog.versions.map { it.id } }
 
     fun supportedDeviceConfig(modelId: String, versionId: String): DeviceConfigCheck {
-        if (!androidModelIds.contains(modelId)) return UnsupportedModelId
+        val foundModel = androidDeviceCatalog.models.find { it.id == modelId } ?: return UnsupportedModelId
         if (!androidVersionIds.contains(versionId)) return UnsupportedVersionId
 
-        val supportedVersionIds = androidDeviceCatalog.models.find { it.id == modelId }?.supportedVersionIds
+        val supportedVersionIds = foundModel.supportedVersionIds
         supportedVersionIds?.let {
             if (!it.contains(versionId)) return IncompatibleModelVersion
         } ?: return UnsupportedModelId

@@ -78,9 +78,14 @@ object MockServer {
                     shamu.form = "PHYSICAL"
                     shamu.supportedVersionIds = listOf("21", "22", "23")
 
+                    val brokenModel = AndroidModel()
+                    shamu.id = "brokenModel"
+                    shamu.form = null
+                    shamu.supportedVersionIds = null
+
                     val androidCatalog = AndroidDeviceCatalog()
                         .setVersions(versions)
-                        .setModels(listOf(nexusLowRes, shamu))
+                        .setModels(listOf(nexusLowRes, shamu, brokenModel))
 
                     val catalog = TestEnvironmentCatalog()
                     catalog.androidDeviceCatalog = androidCatalog
