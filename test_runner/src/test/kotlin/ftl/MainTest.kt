@@ -21,13 +21,15 @@ class MainTest {
     val systemErrRule: SystemErrRule = SystemErrRule().enableLog().muteForSuccessfulTests()
 
     private fun assertMainHelpStrings(output: String) {
-        val mainHelpStrings = listOf(
-            "flank.jar", "-v", "--version", "Commands:",
-            "firebase", "ios", "android"
+        assertThat(output).contains(
+            "flank.jar\n" +
+                " [-v] [COMMAND]\n" +
+                "  -v, --version   Prints the version\n" +
+                "Commands:\n" +
+                "  firebase\n" +
+                "  ios\n" +
+                "  android\n"
         )
-        mainHelpStrings.forEach {
-            assertThat(output).contains(it)
-        }
     }
 
     private fun runCommand(vararg args: String): String {
@@ -54,5 +56,11 @@ class MainTest {
         val output = runCommand("-unknown-flag")
         assertThat(output).contains("Unknown option: -unknown-flag")
         assertMainHelpStrings(output)
+    }
+
+    @Test
+    fun mainStaticEntrypoint() {
+        Main.main(emptyArray())
+        assertMainHelpStrings(systemOutRule.log)
     }
 }
