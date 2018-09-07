@@ -1,10 +1,12 @@
 package ftl.cli.firebase.test.ios
 
 import ftl.args.IosArgs
+import ftl.config.FtlConstants
 import ftl.run.TestRunner
 import kotlinx.coroutines.experimental.runBlocking
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
+import java.nio.file.Paths
 
 @Command(
     name = "refresh",
@@ -22,13 +24,13 @@ Reads in the matrix_ids.json file. Refreshes any incomplete matrices.
 class IosRefreshCommand : Runnable {
     override fun run() {
         runBlocking {
-            val config = IosArgs.load(configPath)
+            val config = IosArgs.load(Paths.get(configPath))
             TestRunner.refreshLastRun(config)
         }
     }
 
     @Option(names = ["-c", "--config"], description = ["YAML config file path"])
-    var configPath: String = "./flank.yml"
+    var configPath: String = FtlConstants.defaultIosConfig
 
     @Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
     var usageHelpRequested: Boolean = false

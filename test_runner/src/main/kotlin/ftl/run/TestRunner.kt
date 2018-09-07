@@ -25,6 +25,7 @@ import ftl.util.MatrixState
 import ftl.util.Outcome
 import ftl.util.StopWatch
 import ftl.util.Utils
+import ftl.util.Utils.fatalError
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 import java.nio.file.Files
@@ -97,9 +98,11 @@ object TestRunner {
         println()
     }
 
-    private fun lastGcsPath(): String {
+    private fun lastGcsPath(): String? {
         val resultsFile = Paths.get(FtlConstants.localResultsDir).toFile()
+        if (!resultsFile.exists()) return null
         val scheduledRuns = resultsFile.listFiles().filter { it.isDirectory }.map { it.name }
+        if (scheduledRuns.isEmpty()) return null
 
         val fileTimePairs = scheduledRuns.map {
             val dateTimePair = it.split('.')[0].split('_')
@@ -113,6 +116,12 @@ object TestRunner {
     /** Reads in the last matrices from the localResultsDir folder **/
     private fun lastMatrices(): MatrixMap {
         val lastRun = lastGcsPath()
+
+        if (lastRun == null) {
+            fatalError("no runs found in results/ folder")
+            throw RuntimeException("fatalError failed to exit the process")
+        }
+
         println("Loading run $lastRun")
         return matrixPathToObj(lastRun)
     }

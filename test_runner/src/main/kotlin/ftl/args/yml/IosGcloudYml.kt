@@ -26,7 +26,7 @@ class IosGcloudYmlParams(
 
     init {
         assertNotEmpty(test, "test is not set")
-        assertNotEmpty(xctestrunFile, "xctestrunFile is not set")
+        assertNotEmpty(xctestrunFile, "xctestrun-file is not set")
     }
 }
 

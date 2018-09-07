@@ -15,7 +15,6 @@ import ftl.util.Utils.assertNotEmpty
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class GcloudYmlParams(
-    // TODO: make resultsBucket immutable
     @field:JsonProperty("results-bucket")
     var resultsBucket: String = "",
 

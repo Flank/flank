@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.ios
 
 import ftl.args.IosArgs
+import ftl.config.FtlConstants
 import ftl.run.TestRunner
 import kotlinx.coroutines.experimental.runBlocking
 import picocli.CommandLine.Command
@@ -30,7 +31,7 @@ class IosRunCommand : Runnable {
     }
 
     @Option(names = ["-c", "--config"], description = ["YAML config file path"])
-    var configPath: String = "./flank.ios.yml"
+    var configPath: String = FtlConstants.defaultIosConfig
 
     @Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
     var usageHelpRequested: Boolean = false
