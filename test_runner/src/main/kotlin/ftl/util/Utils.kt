@@ -9,6 +9,7 @@ import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Random
+import kotlin.system.exitProcess
 
 object Utils {
 
@@ -33,12 +34,12 @@ object Utils {
 
     fun fatalError(e: Exception) {
         e.printStackTrace()
-        System.exit(-1)
+        exitProcess(-1)
     }
 
     fun fatalError(e: String) {
         System.err.println(e)
-        System.exit(-1)
+        exitProcess(-1)
     }
 
     fun assertNotEmpty(str: String, e: String) {
