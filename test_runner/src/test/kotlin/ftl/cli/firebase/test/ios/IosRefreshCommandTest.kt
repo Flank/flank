@@ -42,11 +42,10 @@ class IosRefreshCommandTest {
         assertThat(refresh.usageHelpRequested).isTrue()
     }
 
-//    @Test
-//    fun iosRefreshCommandRuns() {
-//        // TODO: fix this test
-//        IosRefreshCommand().run()
-//        val output = systemOutRule.log
-//        Truth.assertThat(output).isEqualTo("\n")
-//    }
+    @Test
+    fun iosRefreshCommandRuns() {
+        IosRefreshCommand().run()
+        val output = systemOutRule.log
+        Truth.assertThat(output).contains("1 / 1 (100.00%)")
+    }
 }

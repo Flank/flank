@@ -11,6 +11,8 @@ object FtlConstants {
     var useMock = false
     const val localhost = "http://localhost:8080"
 
+    const val defaultIosConfig = "./flank.ios.yml"
+    const val defaultAndroidConfig = "./flank.yml"
     const val indent = "  "
     const val matrixIdsFile = "matrix_ids.json"
     const val applicationName = "Flank"

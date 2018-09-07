@@ -1,10 +1,12 @@
 package ftl.cli.firebase.test.android
 
 import ftl.args.AndroidArgs
+import ftl.config.FtlConstants
 import ftl.run.TestRunner
 import kotlinx.coroutines.experimental.runBlocking
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
+import java.nio.file.Paths
 
 @Command(
     name = "refresh",
@@ -22,13 +24,13 @@ Reads in the matrix_ids.json file. Refreshes any incomplete matrices.
 class AndroidRefreshCommand : Runnable {
     override fun run() {
         runBlocking {
-            val config = AndroidArgs.load(configPath)
+            val config = AndroidArgs.load(Paths.get(configPath))
             TestRunner.refreshLastRun(config)
         }
     }
 
     @Option(names = ["-c", "--config"], description = ["YAML config file path"])
-    var configPath: String = "./flank.yml"
+    var configPath: String = FtlConstants.defaultAndroidConfig
 
     @Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
     var usageHelpRequested: Boolean = false

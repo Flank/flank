@@ -42,11 +42,10 @@ class AndroidRefreshCommandTest {
         assertThat(refresh.usageHelpRequested).isTrue()
     }
 
-//    @Test
-//    fun androidRefreshCommandRuns() {
-//        // TODO: fix this test
-//        AndroidRefreshCommand().run()
-//        val output = systemOutRule.log
-//        Truth.assertThat(output).isEqualTo("\n")
-//    }
+    @Test
+    fun androidRefreshCommandRuns() {
+        AndroidRefreshCommand().run()
+        val output = systemOutRule.log
+        Truth.assertThat(output).contains("1 / 1 (100.00%)")
+    }
 }
