@@ -1,0 +1,51 @@
+package ftl.cli.firebase.test.ios
+
+import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
+import ftl.test.util.FlankTestRunner
+import org.junit.Rule
+import org.junit.Test
+import org.junit.contrib.java.lang.system.SystemOutRule
+import org.junit.runner.RunWith
+import picocli.CommandLine
+
+@RunWith(FlankTestRunner::class)
+class IosDoctorCommandTest {
+    @Rule
+    @JvmField
+    val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
+
+    @Test
+    fun iosDoctorCommandPrintsHelp() {
+        val doctor = IosDoctorCommand()
+        assertThat(doctor.usageHelpRequested).isFalse()
+        CommandLine.run<Runnable>(doctor, System.out, "-h")
+
+        val output = systemOutRule.log
+        Truth.assertThat(output).startsWith(
+            "Verifies flank firebase is setup correctly\n" +
+                "\n" +
+                "doctor [-h] [-c=<configPath>]\n" +
+                "\n" +
+                "Description:\n" +
+                "\n" +
+                "Validates iOS YAML and connection to iOS catalog.\n" +
+                "\n" +
+                "\n" +
+                "Options:\n" +
+                "  -c, --config=<configPath>\n" +
+                "               YAML config file path\n" +
+                "  -h, --help   Prints this help message\n"
+        )
+
+        assertThat(doctor.usageHelpRequested).isTrue()
+    }
+
+    @Test
+    fun iosDoctorCommandRuns() {
+        IosDoctorCommand().run()
+        // iOS doctor connects to iOS catalog in addition to YAML validation
+        val output = systemOutRule.log
+        Truth.assertThat(output).contains("Flank successfully connected to iOS catalog")
+    }
+}
