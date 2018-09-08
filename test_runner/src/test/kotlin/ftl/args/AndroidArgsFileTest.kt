@@ -64,7 +64,7 @@ class AndroidArgsFileTest {
             assert(useOrchestrator, true)
             assert(environmentVariables, mapOf(Pair("clearPackageData", "true")))
             assert(directoriesToPull, listOf(directoryToPull))
-            assert(resultsBucket, "mockBucket")
+            assert(resultsBucket, "tmp_bucket_2")
             assert(performanceMetrics, true)
             assert(recordVideo, true)
             assert(testTimeout, "60m")
@@ -160,6 +160,6 @@ class AndroidArgsFileTest {
             FlankYml()
         )
 
-        assert(config.resultsBucket, "mockBucket")
+        assert(config.resultsBucket, "tmp_bucket_2")
     }
 }
