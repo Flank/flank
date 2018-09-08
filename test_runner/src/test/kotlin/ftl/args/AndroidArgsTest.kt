@@ -3,7 +3,9 @@ package ftl.args
 import ftl.config.Device
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 
 @RunWith(FlankTestRunner::class)
@@ -45,8 +47,14 @@ class AndroidArgsTest {
             - class example.Test#grantPermission
       """
 
-    @Test(expected = RuntimeException::class)
-    fun androidArgs_invalidDevice() {
+    @Rule
+    @JvmField
+    var expectedException = ExpectedException.none()!!
+
+    @Test
+    fun androidArgs_invalidModel() {
+        expectedException.expect(RuntimeException::class.java)
+        expectedException.expectMessage("Unsupported model id")
         AndroidArgs.load(
             """
         gcloud:
@@ -55,6 +63,38 @@ class AndroidArgsTest {
           device:
           - model: no
             version: nope
+      """
+        )
+    }
+
+    @Test
+    fun androidArgs_invalidVersion() {
+        expectedException.expect(RuntimeException::class.java)
+        expectedException.expectMessage("Unsupported version id")
+        AndroidArgs.load(
+            """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+          - model: NexusLowRes
+            version: nope
+      """
+        )
+    }
+
+    @Test
+    fun androidArgs_incompatibleModel() {
+        expectedException.expect(RuntimeException::class.java)
+        expectedException.expectMessage("Incompatible model")
+        AndroidArgs.load(
+            """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+          - model: shamu
+            version: 18
       """
         )
     }
