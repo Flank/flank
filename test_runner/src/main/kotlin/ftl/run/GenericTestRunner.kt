@@ -54,21 +54,21 @@ object GenericTestRunner {
 
     fun beforeRunMessage(args: IArgs): String {
         val runCount = args.testRuns
-        val deviceCount = args.testShardChunks.size
-        val testsPerDevice = args.testShardChunks.first().size
+        val shardCount = args.testShardChunks.size
+        val testsPerShard = args.testShardChunks.first().size
         val testsCount = args.testShardChunks.sumBy { it.size }
 
         val result = StringBuilder()
         result.appendln(
-            "  $testsCount test${s(testsCount)} / $deviceCount device${s(deviceCount)} = " +
-                "$testsPerDevice test${s(testsPerDevice)} per device"
+            "  $testsCount test${s(testsCount)} / $shardCount shard${s(shardCount)} = " +
+                "$testsPerShard test${s(testsPerShard)} per shard"
         )
 
         if (runCount > 1) {
             result.appendln("  Running ${runCount}x")
-            val runDevices = runCount * deviceCount
+            val runDevices = runCount * shardCount
             val runTests = runCount * testsCount
-            result.appendln("    $runDevices total device${s(runDevices)}")
+            result.appendln("    $runDevices total shard${s(runDevices)}")
             result.appendln("    $runTests total test${s(runTests)}")
         }
 
