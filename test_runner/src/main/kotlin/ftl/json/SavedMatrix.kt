@@ -13,13 +13,18 @@ import ftl.util.webLink
 class SavedMatrix(matrix: TestMatrix) {
     val matrixId: String = matrix.testMatrixId
     var state: String = matrix.state
+        private set
     val gcsPath: String = matrix.resultStorage.googleCloudStorage.gcsPath
     var webLink: String = matrix.webLink()
+        private set
     var downloaded = false
 
     var billableVirtualMinutes: Long = 0
+        private set
     var billablePhysicalMinutes: Long = 0
+        private set
     var outcome: String = ""
+        private set
 
     init {
         if (this.state == FINISHED) finished(matrix)
