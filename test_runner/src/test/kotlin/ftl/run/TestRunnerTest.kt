@@ -12,18 +12,32 @@ import java.nio.file.Paths
 class TestRunnerTest {
 
     @Test
-    fun mockedAndroidTestRun() {
+    fun mockedAndroidTestRun_local() {
         val localConfig = AndroidArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.local.yml"))
-        val gcsConfig = AndroidArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.gcs.yml"))
         runBlocking {
             TestRunner.newRun(localConfig)
+        }
+    }
+
+    @Test
+    fun mockedAndroidTestRun_gcs() {
+        val gcsConfig = AndroidArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.gcs.yml"))
+        runBlocking {
             TestRunner.newRun(gcsConfig)
         }
     }
 
     @Test
-    fun mockedIosTestRun() {
+    fun mockedIosTestRun_local() {
         val config = IosArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.yml"))
+        runBlocking {
+            TestRunner.newRun(config)
+        }
+    }
+
+    @Test
+    fun mockedIosTestRun_gcs() {
+        val config = IosArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.gcs.yml"))
         runBlocking {
             TestRunner.newRun(config)
         }

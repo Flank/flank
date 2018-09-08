@@ -38,8 +38,6 @@ import java.time.LocalTime
 object TestRunner {
     private val gson = GsonBuilder().setPrettyPrinting().create()!!
 
-    val bitrise = System.getenv("BITRISE_IO") != null
-
     fun assertMockUrl() {
         if (!FtlConstants.useMock) return
         if (!GcTesting.get.rootUrl.contains(localhost)) throw RuntimeException("expected localhost in GcTesting")
@@ -143,7 +141,6 @@ object TestRunner {
     /** fetch test_result_0.xml & *.png **/
     private fun fetchArtifacts(matrixMap: MatrixMap) {
         println("FetchArtifacts")
-        if (FtlConstants.useMock) return
         val fields = Storage.BlobListOption.fields(Storage.BlobField.NAME)
 
         var dirty = false
