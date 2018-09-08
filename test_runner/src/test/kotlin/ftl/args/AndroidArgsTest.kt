@@ -33,10 +33,10 @@ class AndroidArgsTest {
           test-targets:
           - class com.example.app.ExampleUiTest#testPasses
           device:
-          - model: a
-            version: b
-            locale: c
-            orientation: d
+          - model: NexusLowRes
+            version: 23
+            locale: en
+            orientation: portrait
 
         flank:
           testShards: 7
@@ -44,6 +44,20 @@ class AndroidArgsTest {
           test-targets-always-run:
             - class example.Test#grantPermission
       """
+
+    @Test(expected = RuntimeException::class)
+    fun androidArgs_invalidDevice() {
+        AndroidArgs.load(
+            """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+          - model: no
+            version: nope
+      """
+        )
+    }
 
     @Test
     fun androidArgs() {
@@ -66,7 +80,7 @@ class AndroidArgsTest {
             assert(directoriesToPull, listOf("/sdcard/screenshots"))
             assert(performanceMetrics, false)
             assert(testTargets, listOf("class com.example.app.ExampleUiTest#testPasses"))
-            assert(devices, listOf(Device("a", "b", "c", "d")))
+            assert(devices, listOf(Device("NexusLowRes", "23", "en", "portrait")))
 
             // FlankYml
             assert(testShards, 7)
@@ -96,7 +110,7 @@ AndroidArgs
       directoriesToPull: [/sdcard/screenshots]
       performanceMetrics: false
       testTargets: [class com.example.app.ExampleUiTest#testPasses]
-      devices: [Device(model=a, version=b, locale=c, orientation=d)]
+      devices: [Device(model=NexusLowRes, version=23, locale=en, orientation=portrait)]
 
     flank:
       testShards: 7

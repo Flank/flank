@@ -11,7 +11,6 @@ import ftl.args.yml.IosFlankYml
 import ftl.args.yml.IosGcloudYml
 import ftl.config.Device
 import ftl.config.FtlConstants
-import ftl.config.FtlConstants.useMock
 import ftl.ios.IosCatalog
 import ftl.ios.Xctestrun
 import ftl.util.Utils
@@ -55,9 +54,7 @@ class IosArgs(
         }
         assertFileExists(xctestrunFile, "xctestrunFile")
 
-        if (!useMock) {
-            devices.forEach { device -> assertDeviceSupported(device) }
-        }
+        devices.forEach { device -> assertDeviceSupported(device) }
 
         val validTestMethods = Xctestrun.findTestNames(xctestrunFile)
         validateTestMethods(testTargets, validTestMethods, "xctest binary")

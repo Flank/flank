@@ -4,13 +4,9 @@ import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.Logger
 import com.google.api.services.testing.model.AndroidDevice
 import com.google.api.services.testing.model.AndroidDeviceCatalog
-import com.google.api.services.testing.model.AndroidModel
-import com.google.api.services.testing.model.AndroidVersion
 import com.google.api.services.testing.model.Environment
 import com.google.api.services.testing.model.GoogleCloudStorage
 import com.google.api.services.testing.model.IosDeviceCatalog
-import com.google.api.services.testing.model.IosModel
-import com.google.api.services.testing.model.IosVersion
 import com.google.api.services.testing.model.ResultStorage
 import com.google.api.services.testing.model.TestEnvironmentCatalog
 import com.google.api.services.testing.model.TestExecution
@@ -24,6 +20,7 @@ import com.google.api.services.toolresults.model.TestExecutionStep
 import com.google.api.services.toolresults.model.TestTiming
 import com.google.gson.GsonBuilder
 import com.google.gson.LongSerializationPolicy
+import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.util.Outcome.failure
 import ftl.util.Outcome.success
 import io.ktor.application.call
@@ -39,6 +36,8 @@ import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import org.slf4j.LoggerFactory.getLogger
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.util.concurrent.atomic.AtomicInteger
 
 object MockServer {
@@ -51,6 +50,16 @@ object MockServer {
         logger.level = Level.OFF
     }
 
+    private inline fun <reified T> loadCatalog(fileName: String): T {
+        val jsonPath = Paths.get("./src/test/kotlin/ftl/fixtures/$fileName")
+        if (!jsonPath.toFile().exists()) throw RuntimeException("Path doesn't exist: $fileName")
+        val jsonString = String(Files.readAllBytes(jsonPath))
+        return JSON_FACTORY.fromString(jsonString, T::class.java)
+    }
+
+    private val androidCatalog by lazy { loadCatalog<AndroidDeviceCatalog>("android_catalog.json") }
+    private val iosCatalog by lazy { loadCatalog<IosDeviceCatalog>("ios_catalog.json") }
+
     val application by lazy {
         embeddedServer(Netty, port) {
             install(ContentNegotiation) {
@@ -62,32 +71,6 @@ object MockServer {
                 get("/v1/testEnvironmentCatalog/android") {
                     println("Responding to GET ${call.request.uri}")
 
-                    val versions = (18..28).map { v ->
-                        val version = AndroidVersion()
-                        version.id = v.toString()
-                        version.apiLevel = v
-                        version
-                    }
-
-                    val nexusLowRes = AndroidModel()
-                    nexusLowRes.id = "NexusLowRes"
-                    nexusLowRes.form = "VIRTUAL"
-                    nexusLowRes.supportedVersionIds = listOf("23", "24", "25", "26", "27", "28")
-
-                    val shamu = AndroidModel()
-                    shamu.id = "shamu"
-                    shamu.form = "PHYSICAL"
-                    shamu.supportedVersionIds = listOf("21", "22", "23")
-
-                    val brokenModel = AndroidModel()
-                    shamu.id = "brokenModel"
-                    shamu.form = null
-                    shamu.supportedVersionIds = null
-
-                    val androidCatalog = AndroidDeviceCatalog()
-                        .setVersions(versions)
-                        .setModels(listOf(nexusLowRes, shamu, brokenModel))
-
                     val catalog = TestEnvironmentCatalog()
                     catalog.androidDeviceCatalog = androidCatalog
 
@@ -96,25 +79,6 @@ object MockServer {
 
                 get("/v1/testEnvironmentCatalog/ios") {
                     println("Responding to GET ${call.request.uri}")
-
-                    val version = IosVersion()
-                    version.id = "11.2"
-                    version.majorVersion = 11
-                    version.minorVersion = 2
-
-                    val iphone8 = IosModel()
-                    iphone8.id = "iphone8"
-                    iphone8.name = "iPhone 8"
-                    iphone8.supportedVersionIds = listOf("11.2")
-
-                    val iphonex = IosModel()
-                    iphonex.id = "iphonex"
-                    iphonex.name = "iPhone X"
-                    iphonex.supportedVersionIds = listOf("11.2")
-
-                    val iosCatalog = IosDeviceCatalog()
-                        .setVersions(listOf(version))
-                        .setModels(listOf(iphone8, iphonex))
 
                     val catalog = TestEnvironmentCatalog()
                     catalog.iosDeviceCatalog = iosCatalog
