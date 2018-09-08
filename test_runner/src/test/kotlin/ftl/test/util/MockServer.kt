@@ -18,6 +18,7 @@ import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.model.Duration
 import com.google.api.services.toolresults.model.Outcome
+import com.google.api.services.toolresults.model.ProjectSettings
 import com.google.api.services.toolresults.model.Step
 import com.google.api.services.toolresults.model.TestExecutionStep
 import com.google.api.services.toolresults.model.TestTiming
@@ -78,9 +79,14 @@ object MockServer {
                     shamu.form = "PHYSICAL"
                     shamu.supportedVersionIds = listOf("21", "22", "23")
 
+                    val brokenModel = AndroidModel()
+                    shamu.id = "brokenModel"
+                    shamu.form = null
+                    shamu.supportedVersionIds = null
+
                     val androidCatalog = AndroidDeviceCatalog()
                         .setVersions(versions)
-                        .setModels(listOf(nexusLowRes, shamu))
+                        .setModels(listOf(nexusLowRes, shamu, brokenModel))
 
                     val catalog = TestEnvironmentCatalog()
                     catalog.androidDeviceCatalog = androidCatalog
@@ -194,6 +200,13 @@ object MockServer {
                         .setOutcome(outcome)
 
                     call.respond(step)
+                }
+
+                // GcToolResults.getDefaultBucket(project)
+                post("/toolresults/v1beta3/projects/{projectId}:initializeSettings") {
+                    val settings = ProjectSettings()
+                        .setDefaultBucket("mockBucket")
+                    call.respond(settings)
                 }
 
                 // POST /upload/storage/v1/b/tmp_bucket_2/o?projection=full&uploadType=multipart

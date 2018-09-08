@@ -3,7 +3,6 @@ package ftl.args.yml
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.args.ArgsHelper.getDefaultProjectId
-import ftl.config.FtlConstants.useMock
 import ftl.gc.GcToolResults
 import ftl.util.Utils.assertNotEmpty
 
@@ -37,18 +36,14 @@ class GcloudYmlParams(
                 " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
         )
 
-        if (useMock) {
-            resultsBucket = "mockBucket"
-        } else {
-            if (resultsBucket.isEmpty()) resultsBucket = GcToolResults.getDefaultBucket(project) ?: ""
-            assertNotEmpty(resultsBucket, "results-bucket is not set")
-        }
+        if (resultsBucket.isEmpty()) resultsBucket = GcToolResults.getDefaultBucket(project) ?: ""
+        assertNotEmpty(resultsBucket, "results-bucket is not set")
     }
 }
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class GcloudYml(
-    val gcloud: GcloudYmlParams
+    val gcloud: GcloudYmlParams = GcloudYmlParams()
 ) {
     companion object : IYmlMap {
         override val map = mapOf("gcloud" to GcloudYmlParams.keys)

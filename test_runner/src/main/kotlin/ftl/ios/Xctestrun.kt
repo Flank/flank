@@ -23,7 +23,7 @@ object Xctestrun {
                 val binaryPath = Paths.get(binaryRoot, binaryName).toString()
 
                 return if (isSwift) {
-                    Parse.parseObjcTests(binaryPath) + Parse.parseSwiftTests(binaryPath)
+                    (Parse.parseObjcTests(binaryPath) + Parse.parseSwiftTests(binaryPath)).distinct()
                 } else {
                     Parse.parseObjcTests(binaryPath)
                 }

@@ -37,7 +37,7 @@ class IosArgsFileTest {
         assert(getPath(config.xctestrunFile), xctestrunFile)
 
         with(config) {
-            assert(resultsBucket, "mockBucket")
+            assert(resultsBucket, "tmp_bucket_2")
             assert(recordVideo, true)
             assert(testTimeout, "60m")
             assert(async, true)

@@ -32,12 +32,15 @@ object Utils {
         }
     }
 
-    fun fatalError(e: Exception) {
+    // marked as inline to make JaCoCo happy
+    @Suppress("NOTHING_TO_INLINE")
+    inline fun fatalError(e: Exception) {
         e.printStackTrace()
         exitProcess(-1)
     }
 
-    fun fatalError(e: String) {
+    @Suppress("NOTHING_TO_INLINE")
+    inline fun fatalError(e: String) {
         System.err.println(e)
         exitProcess(-1)
     }
