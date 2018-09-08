@@ -64,8 +64,6 @@ object GcStorage {
         val fileName = Paths.get(file).fileName.toString()
         val gcsFilePath = GCS_PREFIX + join(rootGcsBucket, runGcsPath, fileName)
 
-        if (FtlConstants.useMock) return gcsFilePath
-
         // 404 Not Found error when rootGcsBucket does not exist
         val fileBlob = BlobInfo.newBuilder(rootGcsBucket, join(runGcsPath, fileName)).build()
 

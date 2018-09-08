@@ -17,7 +17,8 @@ import ftl.ios.Xctestrun
 import ftl.util.Utils
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
-import java.util.concurrent.TimeUnit
+import ftl.util.testTimeoutToSeconds
+import ftl.util.validateTestShardIndex
 
 object GcIosTestMatrix {
 
@@ -29,6 +30,7 @@ object GcIosTestMatrix {
         xcTestParsed: NSDictionary,
         config: IosArgs
     ): Testing.Projects.TestMatrices.Create {
+        validateTestShardIndex(testShardsIndex, config)
 
         val gcsBucket = config.resultsBucket
         val matrixGcsSuffix = join(runGcsPath, Utils.uniqueObjectName())
@@ -45,13 +47,7 @@ object GcIosTestMatrix {
         val iOSTestSetup = IosTestSetup()
             .setNetworkProfile(null)
 
-        val timeout = config.testTimeout
-        val testTimeoutSeconds = when {
-            timeout.contains("h") -> TimeUnit.HOURS.toSeconds(timeout.removeSuffix("h").toLong()) // Hours
-            timeout.contains("m") -> TimeUnit.MINUTES.toSeconds(timeout.removeSuffix("m").toLong()) // Minutes
-            timeout.contains("s") -> timeout.removeSuffix("s").toLong() // Seconds
-            else -> timeout.removeSuffix("s").toLong() // Seconds
-        }
+        val testTimeoutSeconds = testTimeoutToSeconds(config.testTimeout)
 
         val testSpec = TestSpecification()
             .setDisableVideoRecording(!config.recordVideo)
