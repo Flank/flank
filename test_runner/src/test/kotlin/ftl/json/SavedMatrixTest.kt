@@ -1,13 +1,18 @@
 package ftl.json
 
+import com.google.api.services.testing.model.Environment
 import com.google.api.services.testing.model.GoogleCloudStorage
 import com.google.api.services.testing.model.ResultStorage
 import com.google.api.services.testing.model.TestExecution
 import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.testing.model.ToolResultsStep
+import com.google.common.truth.Truth.assertThat
+import ftl.config.Device
+import ftl.gc.GcAndroidDevice
 import ftl.test.util.FlankTestRunner
-import ftl.test.util.TestHelper.assert
 import ftl.util.MatrixState.FINISHED
+import ftl.util.MatrixState.PENDING
+import ftl.util.webLink
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -15,7 +20,7 @@ import org.junit.runner.RunWith
 class SavedMatrixTest {
 
     // use -1 step id to get a failure outcome from the mock server
-    private fun createStepExecution(stepId: Int): TestExecution {
+    private fun createStepExecution(stepId: Int, deviceModel: String = "shamu"): TestExecution {
         val toolResultsStep = ToolResultsStep()
         toolResultsStep.projectId = "1"
         toolResultsStep.historyId = "2"
@@ -24,12 +29,20 @@ class SavedMatrixTest {
 
         val testExecution = TestExecution()
         testExecution.toolResultsStep = toolResultsStep
+
+        val androidDevice = GcAndroidDevice.build(Device(deviceModel, "23"))
+        testExecution.environment = Environment().setAndroidDevice(androidDevice)
+
         return testExecution
     }
 
+    private val mockFileName = "mockFileName"
+    private val mockBucket = "mockBucket"
+    private val mockGcsPath = "$mockBucket/$mockFileName"
+
     private fun createResultsStorage(): ResultStorage {
         val googleCloudStorage = GoogleCloudStorage()
-        googleCloudStorage.gcsPath = "path"
+        googleCloudStorage.gcsPath = mockGcsPath
 
         val resultsStorage = ResultStorage()
         resultsStorage.googleCloudStorage = googleCloudStorage
@@ -37,7 +50,7 @@ class SavedMatrixTest {
     }
 
     @Test
-    fun savedMatrixOutcome() {
+    fun savedMatrix_failureOutcome() {
         // Verify that if we have two executions: failure then success
         // the SavedMatrix outcome is correctly recorded as failure
         val testExecutions = listOf(
@@ -45,13 +58,47 @@ class SavedMatrixTest {
             createStepExecution(1)
         )
 
+        val matrixId = "123"
+        val matrixState = FINISHED
         val testMatrix = TestMatrix()
-        testMatrix.testMatrixId = "123"
-        testMatrix.state = FINISHED
+        testMatrix.testMatrixId = matrixId
+        testMatrix.state = matrixState
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
 
         val savedMatrix = SavedMatrix(testMatrix)
-        assert(savedMatrix.outcome, "failure")
+        assertThat(savedMatrix.outcome).isEqualTo("failure")
+
+        // assert other properties
+        assertThat(savedMatrix.matrixId).isEqualTo(matrixId)
+        assertThat(savedMatrix.state).isEqualTo(matrixState)
+        assertThat(savedMatrix.gcsPath).isEqualTo(mockGcsPath)
+        assertThat(savedMatrix.webLink).isEqualTo("https://console.firebase.google.com/project/null/testlab/histories/2/matrices/3/executions/-1")
+        assertThat(savedMatrix.downloaded).isFalse()
+        assertThat(savedMatrix.billableVirtualMinutes).isEqualTo(0)
+        assertThat(savedMatrix.billablePhysicalMinutes).isEqualTo(2)
+        assertThat(savedMatrix.gcsPathWithoutRootBucket).isEqualTo(mockFileName)
+        assertThat(savedMatrix.gcsRootBucket).isEqualTo(mockBucket)
+    }
+
+    @Test
+    fun savedMatrix_update() {
+        val testExecutions = listOf(
+            createStepExecution(1, "shamu"),
+            createStepExecution(1, "NexusLowRes")
+        )
+
+        val matrixId = "123"
+        val testMatrix = TestMatrix()
+        testMatrix.testMatrixId = matrixId
+        testMatrix.state = PENDING
+        testMatrix.resultStorage = createResultsStorage()
+        testMatrix.testExecutions = testExecutions
+
+        val savedMatrix = SavedMatrix(testMatrix)
+        savedMatrix.update(testMatrix)
+        testMatrix.state = FINISHED
+        testMatrix.webLink()
+        savedMatrix.update(testMatrix)
     }
 }

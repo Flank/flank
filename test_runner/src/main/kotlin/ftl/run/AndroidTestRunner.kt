@@ -3,7 +3,7 @@ package ftl.run
 import com.google.api.services.testing.model.TestMatrix
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
-import ftl.gc.GcAndroidMatrix
+import ftl.gc.GcAndroidDevice
 import ftl.gc.GcAndroidTestMatrix
 import ftl.gc.GcStorage
 import ftl.json.MatrixMap
@@ -17,7 +17,7 @@ object AndroidTestRunner {
 
         // GcAndroidMatrix => GcAndroidTestMatrix
         // GcAndroidTestMatrix.execute() 3x retry => matrix id (string)
-        val androidDeviceList = GcAndroidMatrix.build(androidArgs.devices)
+        val androidDeviceList = GcAndroidDevice.build(androidArgs.devices)
 
         val apks = resolveApks(androidArgs, runGcsPath)
         val jobs = arrayListOf<Deferred<TestMatrix>>()
