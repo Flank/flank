@@ -4,7 +4,7 @@ import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.testing.model.ToolResultsStep
 
 fun TestMatrix.firstToolResults(): ToolResultsStep? {
-    return this.testExecutions[0].toolResultsStep
+    return this.testExecutions?.get(0)?.toolResultsStep
 }
 
 fun TestMatrix.webLink(): String {
