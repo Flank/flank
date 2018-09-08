@@ -7,7 +7,6 @@ import ftl.args.yml.FlankYmlParams
 import ftl.args.yml.GcloudYml
 import ftl.args.yml.GcloudYmlParams
 import ftl.config.Device
-import ftl.run.TestRunner.bitrise
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
@@ -140,8 +139,6 @@ class AndroidArgsFileTest {
 
     @Test
     fun assertGcsBucket() {
-        if (bitrise) return
-
         val oldConfig = AndroidArgs.load(localYamlFile)
         // Need to set the project id to get the bucket info from StorageOptions
         val config = AndroidArgs(

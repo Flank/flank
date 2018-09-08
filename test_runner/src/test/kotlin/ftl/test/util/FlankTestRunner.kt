@@ -25,7 +25,7 @@ class FlankTestRunner(klass: Class<*>) : BlockJUnit4ClassRunner(klass) {
             }
             FtlConstants.useMock = true
             TestArtifact.checkFixtures
-            LocalGcs.setupApks()
+            LocalGcs.uploadFiles()
             setupResultsDir()
         }
 
