@@ -18,7 +18,6 @@ import ftl.args.yml.FlankYml
 import ftl.args.yml.GcloudYml
 import ftl.config.Device
 import ftl.config.FtlConstants
-import ftl.config.FtlConstants.useMock
 import ftl.gc.GcStorage
 import kotlinx.coroutines.experimental.runBlocking
 import java.nio.file.Files
@@ -79,9 +78,7 @@ class AndroidArgs(
             }
         }
 
-        if (!useMock) {
-            devices.forEach { device -> assertDeviceSupported(device) }
-        }
+        devices.forEach { device -> assertDeviceSupported(device) }
 
         val validTestMethods = DexParser.findTestMethods(testLocalApk).map { "class ${it.testName}" }
         validateTestMethods(testTargets, validTestMethods, "Test APK")

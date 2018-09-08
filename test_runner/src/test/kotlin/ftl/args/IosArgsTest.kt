@@ -1,9 +1,17 @@
 package ftl.args
 
+import ftl.args.yml.FlankYml
+import ftl.args.yml.GcloudYml
+import ftl.args.yml.IosFlankYml
+import ftl.args.yml.IosGcloudYml
+import ftl.args.yml.IosGcloudYmlParams
 import ftl.config.Device
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
+import org.junit.Rule
 import org.junit.Test
+import org.junit.contrib.java.lang.system.ExpectedSystemExit
+import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.runner.RunWith
 
 @RunWith(FlankTestRunner::class)
@@ -23,8 +31,8 @@ class IosArgsTest {
           test: $testPath
           xctestrun-file: $xctestrunFile
           device:
-          - model: a
-            version: b
+          - model: iphone8
+            version: 11.2
             locale: c
             orientation: d
 
@@ -36,6 +44,26 @@ class IosArgsTest {
           test-targets:
             - b/testBasicSelection
         """
+
+    @Rule
+    @JvmField
+    val expectedExitRule: ExpectedSystemExit = ExpectedSystemExit.none()
+
+    @Rule
+    @JvmField
+    val systemErrRule = SystemErrRule().muteForSuccessfulTests()!!
+
+    @Test
+    fun iosArgs_invalidDeviceExits() {
+        expectedExitRule.expectSystemExitWithStatus(-1)
+        val invalidDevice = listOf(Device("iphoneZ", "99.9"))
+        IosArgs(
+            GcloudYml(),
+            IosGcloudYml(IosGcloudYmlParams(test = testPath, xctestrunFile = xctestrunFile, device = invalidDevice)),
+            FlankYml(),
+            IosFlankYml()
+        )
+    }
 
     @Test
     fun iosArgs() {
@@ -52,7 +80,7 @@ class IosArgsTest {
             // IosGcloudYml
             assert(xctestrunZip, testPath)
             assert(xctestrunFile, xctestrunFile)
-            assert(devices, listOf(Device("a", "b", "c", "d")))
+            assert(devices, listOf(Device("iphone8", "11.2", "c", "d")))
 
             // FlankYml
             assert(testShards, 7)
@@ -79,7 +107,7 @@ IosArgs
       # iOS gcloud
       xctestrunZip: $testPath
       xctestrunFile: $xctestrunFile
-      devices: [Device(model=a, version=b, locale=c, orientation=d)]
+      devices: [Device(model=iphone8, version=11.2, locale=c, orientation=d)]
 
     flank:
       testShards: 7

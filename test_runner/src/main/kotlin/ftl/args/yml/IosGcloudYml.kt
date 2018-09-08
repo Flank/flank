@@ -32,7 +32,7 @@ class IosGcloudYmlParams(
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class IosGcloudYml(
-    val gcloud: IosGcloudYmlParams
+    val gcloud: IosGcloudYmlParams = IosGcloudYmlParams()
 ) {
     companion object : IYmlMap {
         override val map = mapOf("gcloud" to IosGcloudYmlParams.keys)

@@ -1,0 +1,3176 @@
+{
+  "models" : [ {
+    "brand" : "OnePlus",
+    "codename" : "A0001",
+    "form" : "PHYSICAL",
+    "id" : "A0001",
+    "manufacturer" : "OnePlus",
+    "name" : "OnePlus One",
+    "screenDensity" : 401,
+    "screenX" : 1080,
+    "screenY" : 1920,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "22" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Sony",
+    "codename" : "D6503",
+    "form" : "PHYSICAL",
+    "id" : "D6503",
+    "manufacturer" : "Sony",
+    "name" : "Xperia Z2",
+    "screenDensity" : 424,
+    "screenX" : 1080,
+    "screenY" : 1920,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "21" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Sony",
+    "codename" : "D6603",
+    "form" : "PHYSICAL",
+    "id" : "D6603",
+    "manufacturer" : "Sony",
+    "name" : "Xperia Z3",
+    "screenDensity" : 424,
+    "screenX" : 1080,
+    "screenY" : 1920,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "21" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Sony",
+    "codename" : "E5803",
+    "form" : "PHYSICAL",
+    "id" : "E5803",
+    "manufacturer" : "Sony",
+    "name" : "Xperia Z5 Compact",
+    "screenDensity" : 323,
+    "screenX" : 720,
+    "screenY" : 1280,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "tags" : [ "deprecated" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Sony",
+    "codename" : "F5121",
+    "form" : "PHYSICAL",
+    "id" : "F5121",
+    "manufacturer" : "Sony",
+    "name" : "Sony Xperia X",
+    "screenDensity" : 480,
+    "screenX" : 1080,
+    "screenY" : 1920,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "tags" : [ "deprecated" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Sony",
+    "codename" : "G8142",
+    "form" : "PHYSICAL",
+    "id" : "G8142",
+    "manufacturer" : "Sony",
+    "name" : "Sony XPERIA XZ Premium",
+    "screenDensity" : 480,
+    "screenX" : 1080,
+    "screenY" : 1920,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "25" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Sony",
+    "codename" : "G8441",
+    "form" : "PHYSICAL",
+    "id" : "G8441",
+    "manufacturer" : "Sony",
+    "name" : "Xperia XZ1 Compact",
+    "screenDensity" : 320,
+    "screenX" : 720,
+    "screenY" : 1280,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "26" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "HUAWEI",
+    "codename" : "HWMHA",
+    "form" : "PHYSICAL",
+    "id" : "HWMHA",
+    "manufacturer" : "Huawei",
+    "name" : "Huawei Mate 9",
+    "screenDensity" : 480,
+    "screenX" : 1080,
+    "screenY" : 1920,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "24" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Google",
+    "codename" : "Nexus10",
+    "form" : "VIRTUAL",
+    "id" : "Nexus10",
+    "manufacturer" : "Samsung",
+    "name" : "Nexus 10",
+    "screenDensity" : 320,
+    "screenX" : 1600,
+    "screenY" : 2560,
+    "supportedAbis" : [ "x86" ],
+    "supportedVersionIds" : [ "19", "21", "22" ],
+    "formFactor" : "TABLET"
+  }, {
+    "brand" : "Google",
+    "codename" : "Nexus4",
+    "form" : "VIRTUAL",
+    "id" : "Nexus4",
+    "manufacturer" : "LG",
+    "name" : "Nexus 4",
+    "screenDensity" : 320,
+    "screenX" : 768,
+    "screenY" : 1280,
+    "supportedAbis" : [ "x86" ],
+    "supportedVersionIds" : [ "19", "21", "22" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Google",
+    "codename" : "Nexus5",
+    "form" : "VIRTUAL",
+    "id" : "Nexus5",
+    "manufacturer" : "LG",
+    "name" : "Nexus 5",
+    "screenDensity" : 480,
+    "screenX" : 1080,
+    "screenY" : 1920,
+    "supportedAbis" : [ "x86", "23:armeabi", "23:armeabi-v7a" ],
+    "supportedVersionIds" : [ "19", "21", "22", "23" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Google",
+    "codename" : "Nexus5X",
+    "form" : "VIRTUAL",
+    "id" : "Nexus5X",
+    "manufacturer" : "LG",
+    "name" : "Nexus 5X",
+    "screenDensity" : 423,
+    "screenX" : 1080,
+    "screenY" : 1920,
+    "supportedAbis" : [ "x86", "23:armeabi", "23:armeabi-v7a", "24:armeabi", "24:armeabi-v7a", "25:armeabi", "25:armeabi-v7a", "26:armeabi", "26:armeabi-v7a" ],
+    "supportedVersionIds" : [ "23", "24", "25", "26" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Google",
+    "codename" : "Nexus6",
+    "form" : "VIRTUAL",
+    "id" : "Nexus6",
+    "manufacturer" : "Motorola",
+    "name" : "Nexus 6",
+    "screenDensity" : 560,
+    "screenX" : 1440,
+    "screenY" : 2560,
+    "supportedAbis" : [ "x86", "23:armeabi", "23:armeabi-v7a", "24:armeabi", "24:armeabi-v7a", "25:armeabi", "25:armeabi-v7a" ],
+    "supportedVersionIds" : [ "21", "22", "23", "24", "25" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Google",
+    "codename" : "Nexus6P",
+    "form" : "VIRTUAL",
+    "id" : "Nexus6P",
+    "manufacturer" : "Google",
+    "name" : "Nexus 6P",
+    "screenDensity" : 518,
+    "screenX" : 1440,
+    "screenY" : 2560,
+    "supportedAbis" : [ "x86", "23:armeabi", "23:armeabi-v7a", "24:armeabi", "24:armeabi-v7a", "25:armeabi", "25:armeabi-v7a", "26:armeabi", "26:armeabi-v7a", "27:armeabi", "27:armeabi-v7a" ],
+    "supportedVersionIds" : [ "23", "24", "25", "26", "27" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Google",
+    "codename" : "Nexus7",
+    "form" : "VIRTUAL",
+    "id" : "Nexus7",
+    "manufacturer" : "Asus",
+    "name" : "Nexus 7 (2012)",
+    "screenDensity" : 213,
+    "screenX" : 800,
+    "screenY" : 1280,
+    "supportedAbis" : [ "x86" ],
+    "supportedVersionIds" : [ "19", "21", "22" ],
+    "formFactor" : "TABLET"
+  }, {
+    "brand" : "Generic",
+    "codename" : "Nexus7_clone_16_9",
+    "form" : "VIRTUAL",
+    "id" : "Nexus7_clone_16_9",
+    "manufacturer" : "Generic",
+    "name" : "Nexus7 clone, DVD 16:9 aspect ratio",
+    "screenDensity" : 160,
+    "screenX" : 720,
+    "screenY" : 1280,
+    "supportedAbis" : [ "x86", "23:armeabi", "23:armeabi-v7a", "24:armeabi", "24:armeabi-v7a", "25:armeabi", "25:armeabi-v7a", "26:armeabi", "26:armeabi-v7a" ],
+    "supportedVersionIds" : [ "23", "24", "25", "26" ],
+    "tags" : [ "beta" ],
+    "formFactor" : "TABLET"
+  }, {
+    "brand" : "Google",
+    "codename" : "Nexus9",
+    "form" : "VIRTUAL",
+    "id" : "Nexus9",
+    "manufacturer" : "HTC",
+    "name" : "Nexus 9",
+    "screenDensity" : 320,
+    "screenX" : 1536,
+    "screenY" : 2048,
+    "supportedAbis" : [ "x86", "23:armeabi", "23:armeabi-v7a", "24:armeabi", "24:armeabi-v7a", "25:armeabi", "25:armeabi-v7a" ],
+    "supportedVersionIds" : [ "21", "22", "23", "24", "25" ],
+    "formFactor" : "TABLET"
+  }, {
+    "brand" : "Generic",
+    "codename" : "NexusLowRes",
+    "form" : "VIRTUAL",
+    "id" : "NexusLowRes",
+    "manufacturer" : "Generic",
+    "name" : "Low-resolution MDPI phone",
+    "screenDensity" : 160,
+    "screenX" : 360,
+    "screenY" : 640,
+    "supportedAbis" : [ "x86", "23:armeabi", "23:armeabi-v7a", "24:armeabi", "24:armeabi-v7a", "25:armeabi", "25:armeabi-v7a", "26:armeabi", "26:armeabi-v7a", "27:armeabi", "27:armeabi-v7a", "28:armeabi", "28:armeabi-v7a" ],
+    "supportedVersionIds" : [ "23", "24", "25", "26", "27", "28" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Google",
+    "codename" : "Pixel2",
+    "form" : "VIRTUAL",
+    "id" : "Pixel2",
+    "manufacturer" : "HTC",
+    "name" : "Pixel 2",
+    "screenDensity" : 441,
+    "screenX" : 1080,
+    "screenY" : 1920,
+    "supportedAbis" : [ "x86", "26:armeabi", "26:armeabi-v7a", "27:armeabi", "27:armeabi-v7a", "28:armeabi", "28:armeabi-v7a" ],
+    "supportedVersionIds" : [ "26", "27", "28" ],
+    "tags" : [ "beta" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "DOCOMO",
+    "codename" : "SH-04H",
+    "form" : "PHYSICAL",
+    "id" : "SH-04H",
+    "manufacturer" : "SHARP",
+    "name" : "SH-04H",
+    "screenDensity" : 480,
+    "screenX" : 1080,
+    "screenY" : 1920,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "23" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "samsung",
+    "codename" : "a5y17lte",
+    "form" : "PHYSICAL",
+    "id" : "a5y17lte",
+    "manufacturer" : "Samsung",
+    "name" : "Galaxy A5 2017",
+    "screenDensity" : 480,
+    "screenX" : 1080,
+    "screenY" : 1920,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "24" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Motorola",
+    "codename" : "athene",
+    "form" : "PHYSICAL",
+    "id" : "athene",
+    "manufacturer" : "Motorola",
+    "name" : "Moto G4 Plus",
+    "screenDensity" : 401,
+    "screenX" : 1080,
+    "screenY" : 1920,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "23" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Motorola",
+    "codename" : "athene_f",
+    "form" : "PHYSICAL",
+    "id" : "athene_f",
+    "manufacturer" : "Motorola",
+    "name" : "Moto G4",
+    "screenDensity" : 401,
+    "screenX" : 1080,
+    "screenY" : 1920,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "23" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "razer",
+    "codename" : "cheryl",
+    "form" : "PHYSICAL",
+    "id" : "cheryl",
+    "manufacturer" : "Razer",
+    "name" : "Razer Phone",
+    "screenDensity" : 480,
+    "screenX" : 1440,
+    "screenY" : 2560,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "25" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Motorola",
+    "codename" : "condor_umts",
+    "form" : "PHYSICAL",
+    "id" : "condor_umts",
+    "manufacturer" : "Motorola",
+    "name" : "Moto E",
+    "screenDensity" : 240,
+    "screenX" : 540,
+    "screenY" : 960,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "tags" : [ "deprecated" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Motorola",
+    "codename" : "falcon_umts",
+    "form" : "PHYSICAL",
+    "id" : "falcon_umts",
+    "manufacturer" : "Motorola",
+    "name" : "Moto G (1st Gen)",
+    "screenDensity" : 320,
+    "screenX" : 720,
+    "screenY" : 1280,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "tags" : [ "deprecated" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "ASUS",
+    "codename" : "flo",
+    "form" : "PHYSICAL",
+    "id" : "flo",
+    "manufacturer" : "Asus",
+    "name" : "Nexus 7 (2013)",
+    "screenDensity" : 320,
+    "screenX" : 1200,
+    "screenY" : 1920,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "19", "21" ],
+    "formFactor" : "TABLET"
+  }, {
+    "brand" : "LG",
+    "codename" : "g3",
+    "form" : "PHYSICAL",
+    "id" : "g3",
+    "manufacturer" : "LG",
+    "name" : "LG G3",
+    "screenDensity" : 640,
+    "screenX" : 1440,
+    "screenY" : 2560,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "19" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Samsung",
+    "codename" : "grandpplte",
+    "form" : "PHYSICAL",
+    "id" : "grandpplte",
+    "manufacturer" : "Samsung",
+    "name" : "Galaxy J2 Prime SM-G532M",
+    "screenDensity" : 240,
+    "screenX" : 540,
+    "screenY" : 960,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "23" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "LG",
+    "codename" : "hammerhead",
+    "form" : "PHYSICAL",
+    "id" : "hammerhead",
+    "manufacturer" : "LG",
+    "name" : "Nexus 5",
+    "screenDensity" : 480,
+    "screenX" : 1080,
+    "screenY" : 1920,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "21", "23" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Motorola",
+    "codename" : "harpia",
+    "form" : "PHYSICAL",
+    "id" : "harpia",
+    "manufacturer" : "Motorola",
+    "name" : "Moto G Play (4th Gen) XT1607",
+    "screenDensity" : 320,
+    "screenX" : 720,
+    "screenY" : 1280,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "23" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Samsung",
+    "codename" : "hero2lte",
+    "form" : "PHYSICAL",
+    "id" : "hero2lte",
+    "manufacturer" : "Samsung",
+    "name" : "Galaxy S7 edge",
+    "screenDensity" : 640,
+    "screenX" : 2560,
+    "screenY" : 1440,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "23" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Samsung",
+    "codename" : "herolte",
+    "form" : "PHYSICAL",
+    "id" : "herolte",
+    "manufacturer" : "Samsung",
+    "name" : "Galaxy S7",
+    "screenDensity" : 577,
+    "screenX" : 2560,
+    "screenY" : 1440,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "23", "24" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Samsung",
+    "codename" : "hlte",
+    "form" : "PHYSICAL",
+    "id" : "hlte",
+    "manufacturer" : "Samsung",
+    "name" : "Galaxy Note 3 Duos",
+    "screenDensity" : 480,
+    "screenX" : 1080,
+    "screenY" : 1920,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "19" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "HTC",
+    "codename" : "htc_m8",
+    "form" : "PHYSICAL",
+    "id" : "htc_m8",
+    "manufacturer" : "HTC",
+    "name" : "HTC One (M8)",
+    "screenDensity" : 480,
+    "screenX" : 1080,
+    "screenY" : 1920,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "19" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Huawei",
+    "codename" : "hwALE-H",
+    "form" : "PHYSICAL",
+    "id" : "hwALE-H",
+    "manufacturer" : "Huawei",
+    "name" : "Huawei P8 lite",
+    "screenDensity" : 320,
+    "screenX" : 720,
+    "screenY" : 1280,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "21" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Samsung",
+    "codename" : "j1acevelte",
+    "form" : "PHYSICAL",
+    "id" : "j1acevelte",
+    "manufacturer" : "Samsung",
+    "name" : "Galaxy J1 ace SM-J111M",
+    "screenDensity" : 240,
+    "screenX" : 480,
+    "screenY" : 800,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "22" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Samsung",
+    "codename" : "j5lte",
+    "form" : "PHYSICAL",
+    "id" : "j5lte",
+    "manufacturer" : "Samsung",
+    "name" : "Galaxy J5",
+    "screenDensity" : 294,
+    "screenX" : 720,
+    "screenY" : 1280,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "tags" : [ "deprecated" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Samsung",
+    "codename" : "j7xelte",
+    "form" : "PHYSICAL",
+    "id" : "j7xelte",
+    "manufacturer" : "Samsung",
+    "name" : "Galaxy J7 (SM-J710MN)",
+    "screenDensity" : 320,
+    "screenX" : 720,
+    "screenY" : 1280,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "23" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Samsung",
+    "codename" : "lt02wifi",
+    "form" : "PHYSICAL",
+    "id" : "lt02wifi",
+    "manufacturer" : "Samsung",
+    "name" : "Galaxy Tab 3",
+    "screenDensity" : 160,
+    "screenX" : 1024,
+    "screenY" : 600,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "19" ],
+    "formFactor" : "TABLET"
+  }, {
+    "brand" : "lge",
+    "codename" : "lucye",
+    "form" : "PHYSICAL",
+    "id" : "lucye",
+    "manufacturer" : "LG",
+    "name" : "LG G6 LGUS997",
+    "screenDensity" : 640,
+    "screenX" : 1440,
+    "screenY" : 2880,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "24" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "lge",
+    "codename" : "lv0",
+    "form" : "PHYSICAL",
+    "id" : "lv0",
+    "manufacturer" : "LG",
+    "name" : "LG K3",
+    "screenDensity" : 240,
+    "screenX" : 480,
+    "screenY" : 854,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "23" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Samsung",
+    "codename" : "m0",
+    "form" : "PHYSICAL",
+    "id" : "m0",
+    "manufacturer" : "Samsung",
+    "name" : "Samsung Galaxy S3",
+    "screenDensity" : 320,
+    "screenX" : 720,
+    "screenY" : 1280,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "18" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "LG",
+    "codename" : "mako",
+    "form" : "PHYSICAL",
+    "id" : "mako",
+    "manufacturer" : "LG",
+    "name" : "Nexus 4",
+    "screenDensity" : 320,
+    "screenX" : 768,
+    "screenY" : 1280,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "tags" : [ "deprecated" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "essential",
+    "codename" : "mata",
+    "form" : "PHYSICAL",
+    "id" : "mata",
+    "manufacturer" : "Essential Products",
+    "name" : "Essential PH-1",
+    "screenDensity" : 480,
+    "screenX" : 1312,
+    "screenY" : 2560,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "25" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "lge",
+    "codename" : "mlv1",
+    "form" : "PHYSICAL",
+    "id" : "mlv1",
+    "manufacturer" : "LG",
+    "name" : "LG K4 (LG-X230)",
+    "screenDensity" : 240,
+    "screenX" : 480,
+    "screenY" : 854,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "23" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Motorola",
+    "codename" : "osprey_umts",
+    "form" : "PHYSICAL",
+    "id" : "osprey_umts",
+    "manufacturer" : "Motorola",
+    "name" : "Moto G (3rd Gen)",
+    "screenDensity" : 320,
+    "screenX" : 720,
+    "screenY" : 1280,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "tags" : [ "deprecated" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "LG",
+    "codename" : "p1",
+    "form" : "PHYSICAL",
+    "id" : "p1",
+    "manufacturer" : "LG",
+    "name" : "LG G4",
+    "screenDensity" : 538,
+    "screenX" : 2560,
+    "screenY" : 1440,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "tags" : [ "deprecated" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Google",
+    "codename" : "sailfish",
+    "form" : "PHYSICAL",
+    "id" : "sailfish",
+    "manufacturer" : "Google",
+    "name" : "Pixel",
+    "screenDensity" : 420,
+    "screenX" : 1920,
+    "screenY" : 1080,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "25", "26", "27", "28" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Samsung",
+    "codename" : "serranolte",
+    "form" : "PHYSICAL",
+    "id" : "serranolte",
+    "manufacturer" : "Samsung",
+    "name" : "Galaxy S4 mini",
+    "screenDensity" : 240,
+    "screenX" : 540,
+    "screenY" : 960,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "tags" : [ "deprecated" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Motorola",
+    "codename" : "shamu",
+    "form" : "PHYSICAL",
+    "id" : "shamu",
+    "manufacturer" : "Motorola",
+    "name" : "Nexus 6",
+    "screenDensity" : 560,
+    "screenX" : 1440,
+    "screenY" : 2560,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "21", "22", "23" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "samsung",
+    "codename" : "star2qlteue",
+    "form" : "PHYSICAL",
+    "id" : "star2qlteue",
+    "manufacturer" : "Samsung",
+    "name" : "Samsung Galaxy S9+ (US)",
+    "screenDensity" : 420,
+    "screenX" : 1080,
+    "screenY" : 2220,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "26" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "samsung",
+    "codename" : "starqlteue",
+    "form" : "PHYSICAL",
+    "id" : "starqlteue",
+    "manufacturer" : "Samsung",
+    "name" : "Samsung Galaxy S9 (US)",
+    "screenDensity" : 480,
+    "screenX" : 1080,
+    "screenY" : 2220,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "26" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Samsung",
+    "codename" : "t03g",
+    "form" : "PHYSICAL",
+    "id" : "t03g",
+    "manufacturer" : "Samsung",
+    "name" : "Galaxy Note 2",
+    "screenDensity" : 320,
+    "screenX" : 720,
+    "screenY" : 1280,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "tags" : [ "deprecated" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Google",
+    "codename" : "taimen",
+    "form" : "PHYSICAL",
+    "id" : "taimen",
+    "manufacturer" : "Google",
+    "name" : "Pixel 2 XL",
+    "screenDensity" : 560,
+    "screenX" : 1440,
+    "screenY" : 2880,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "26", "27" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Motorola",
+    "codename" : "titan_umts",
+    "form" : "PHYSICAL",
+    "id" : "titan_umts",
+    "manufacturer" : "Motorola",
+    "name" : "Moto G (2nd Gen)",
+    "screenDensity" : 320,
+    "screenX" : 720,
+    "screenY" : 1280,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "tags" : [ "deprecated" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Samsung",
+    "codename" : "trelte",
+    "form" : "PHYSICAL",
+    "id" : "trelte",
+    "manufacturer" : "Samsung",
+    "name" : "Galaxy Note 4",
+    "screenDensity" : 386,
+    "screenX" : 1080,
+    "screenY" : 1920,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "tags" : [ "deprecated" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Motorola",
+    "codename" : "victara",
+    "form" : "PHYSICAL",
+    "id" : "victara",
+    "manufacturer" : "Motorola",
+    "name" : "Moto X",
+    "screenDensity" : 480,
+    "screenX" : 1080,
+    "screenY" : 1920,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "19" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Google",
+    "codename" : "walleye",
+    "form" : "PHYSICAL",
+    "id" : "walleye",
+    "manufacturer" : "Google",
+    "name" : "Pixel 2",
+    "screenDensity" : 420,
+    "screenX" : 1080,
+    "screenY" : 1920,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "26", "27", "28" ],
+    "tags" : [ "default" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Samsung",
+    "codename" : "zeroflte",
+    "form" : "PHYSICAL",
+    "id" : "zeroflte",
+    "manufacturer" : "Samsung",
+    "name" : "Galaxy S6",
+    "screenDensity" : 640,
+    "screenX" : 1440,
+    "screenY" : 2560,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "23" ],
+    "formFactor" : "PHONE"
+  }, {
+    "brand" : "Samsung",
+    "codename" : "zerolte",
+    "form" : "PHYSICAL",
+    "id" : "zerolte",
+    "manufacturer" : "Samsung",
+    "name" : "Galaxy S6 Edge",
+    "screenDensity" : 640,
+    "screenX" : 1440,
+    "screenY" : 2560,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "tags" : [ "deprecated" ],
+    "formFactor" : "PHONE"
+  } ],
+  "runtimeConfiguration" : {
+    "locales" : [ {
+      "id" : "af",
+      "name" : "Afrikaans"
+    }, {
+      "id" : "af_NA",
+      "name" : "Afrikaans",
+      "region" : "Namibia"
+    }, {
+      "id" : "af_ZA",
+      "name" : "Afrikaans",
+      "region" : "South Africa"
+    }, {
+      "id" : "agq",
+      "name" : "Aghem"
+    }, {
+      "id" : "agq_CM",
+      "name" : "Aghem",
+      "region" : "Cameroon"
+    }, {
+      "id" : "ak",
+      "name" : "Akan"
+    }, {
+      "id" : "ak_GH",
+      "name" : "Akan",
+      "region" : "Ghana"
+    }, {
+      "id" : "am",
+      "name" : "Amharic"
+    }, {
+      "id" : "am_ET",
+      "name" : "Amharic",
+      "region" : "Ethiopia"
+    }, {
+      "id" : "ar",
+      "name" : "Arabic"
+    }, {
+      "id" : "ar_001",
+      "name" : "Arabic",
+      "region" : "World"
+    }, {
+      "id" : "ar_AE",
+      "name" : "Arabic",
+      "region" : "United Arab Emirates"
+    }, {
+      "id" : "ar_BH",
+      "name" : "Arabic",
+      "region" : "Bahrain"
+    }, {
+      "id" : "ar_DJ",
+      "name" : "Arabic",
+      "region" : "Djibouti"
+    }, {
+      "id" : "ar_DZ",
+      "name" : "Arabic",
+      "region" : "Algeria"
+    }, {
+      "id" : "ar_EG",
+      "name" : "Arabic",
+      "region" : "Egypt"
+    }, {
+      "id" : "ar_EH",
+      "name" : "Arabic",
+      "region" : "Western Sahara"
+    }, {
+      "id" : "ar_ER",
+      "name" : "Arabic",
+      "region" : "Eritrea"
+    }, {
+      "id" : "ar_IL",
+      "name" : "Arabic",
+      "region" : "Israel"
+    }, {
+      "id" : "ar_IQ",
+      "name" : "Arabic",
+      "region" : "Iraq"
+    }, {
+      "id" : "ar_JO",
+      "name" : "Arabic",
+      "region" : "Jordan"
+    }, {
+      "id" : "ar_KM",
+      "name" : "Arabic",
+      "region" : "Comoros"
+    }, {
+      "id" : "ar_KW",
+      "name" : "Arabic",
+      "region" : "Kuwait"
+    }, {
+      "id" : "ar_LB",
+      "name" : "Arabic",
+      "region" : "Lebanon"
+    }, {
+      "id" : "ar_LY",
+      "name" : "Arabic",
+      "region" : "Libya"
+    }, {
+      "id" : "ar_MA",
+      "name" : "Arabic",
+      "region" : "Morocco"
+    }, {
+      "id" : "ar_MR",
+      "name" : "Arabic",
+      "region" : "Mauritania"
+    }, {
+      "id" : "ar_OM",
+      "name" : "Arabic",
+      "region" : "Oman"
+    }, {
+      "id" : "ar_PS",
+      "name" : "Arabic",
+      "region" : "Palestine"
+    }, {
+      "id" : "ar_QA",
+      "name" : "Arabic",
+      "region" : "Qatar"
+    }, {
+      "id" : "ar_SA",
+      "name" : "Arabic",
+      "region" : "Saudi Arabia"
+    }, {
+      "id" : "ar_SD",
+      "name" : "Arabic",
+      "region" : "Sudan"
+    }, {
+      "id" : "ar_SO",
+      "name" : "Arabic",
+      "region" : "Somalia"
+    }, {
+      "id" : "ar_SS",
+      "name" : "Arabic",
+      "region" : "South Sudan"
+    }, {
+      "id" : "ar_SY",
+      "name" : "Arabic",
+      "region" : "Syria"
+    }, {
+      "id" : "ar_TD",
+      "name" : "Arabic",
+      "region" : "Chad"
+    }, {
+      "id" : "ar_TN",
+      "name" : "Arabic",
+      "region" : "Tunisia"
+    }, {
+      "id" : "ar_YE",
+      "name" : "Arabic",
+      "region" : "Yemen"
+    }, {
+      "id" : "as",
+      "name" : "Assamese"
+    }, {
+      "id" : "as_IN",
+      "name" : "Assamese",
+      "region" : "India"
+    }, {
+      "id" : "asa",
+      "name" : "Asu"
+    }, {
+      "id" : "asa_TZ",
+      "name" : "Asu",
+      "region" : "Tanzania"
+    }, {
+      "id" : "az",
+      "name" : "Azerbaijani"
+    }, {
+      "id" : "az_AZ",
+      "name" : "Azerbaijani",
+      "region" : "Azerbaijan"
+    }, {
+      "id" : "bas",
+      "name" : "Basaa"
+    }, {
+      "id" : "bas_CM",
+      "name" : "Basaa",
+      "region" : "Cameroon"
+    }, {
+      "id" : "be",
+      "name" : "Belarusian"
+    }, {
+      "id" : "be_BY",
+      "name" : "Belarusian",
+      "region" : "Belarus"
+    }, {
+      "id" : "bem",
+      "name" : "Bemba"
+    }, {
+      "id" : "bem_ZM",
+      "name" : "Bemba",
+      "region" : "Zambia"
+    }, {
+      "id" : "bez",
+      "name" : "Bena"
+    }, {
+      "id" : "bez_TZ",
+      "name" : "Bena",
+      "region" : "Tanzania"
+    }, {
+      "id" : "bg",
+      "name" : "Bulgarian"
+    }, {
+      "id" : "bg_BG",
+      "name" : "Bulgarian",
+      "region" : "Bulgaria"
+    }, {
+      "id" : "bm",
+      "name" : "Bambara"
+    }, {
+      "id" : "bm_ML",
+      "name" : "Bambara",
+      "region" : "Mali"
+    }, {
+      "id" : "bn",
+      "name" : "Bengali"
+    }, {
+      "id" : "bn_BD",
+      "name" : "Bengali",
+      "region" : "Bangladesh"
+    }, {
+      "id" : "bn_IN",
+      "name" : "Bengali",
+      "region" : "India"
+    }, {
+      "id" : "bo",
+      "name" : "Tibetan"
+    }, {
+      "id" : "bo_CN",
+      "name" : "Tibetan",
+      "region" : "China"
+    }, {
+      "id" : "bo_IN",
+      "name" : "Tibetan",
+      "region" : "India"
+    }, {
+      "id" : "br",
+      "name" : "Breton"
+    }, {
+      "id" : "br_FR",
+      "name" : "Breton",
+      "region" : "France"
+    }, {
+      "id" : "brx",
+      "name" : "Bodo"
+    }, {
+      "id" : "brx_IN",
+      "name" : "Bodo",
+      "region" : "India"
+    }, {
+      "id" : "bs",
+      "name" : "Bosnian"
+    }, {
+      "id" : "bs_BA",
+      "name" : "Bosnian",
+      "region" : "Bosnia and Herzegovina"
+    }, {
+      "id" : "ca",
+      "name" : "Catalan"
+    }, {
+      "id" : "ca_AD",
+      "name" : "Catalan",
+      "region" : "Andorra"
+    }, {
+      "id" : "ca_ES",
+      "name" : "Catalan",
+      "region" : "Spain"
+    }, {
+      "id" : "ca_FR",
+      "name" : "Catalan",
+      "region" : "France"
+    }, {
+      "id" : "ca_IT",
+      "name" : "Catalan",
+      "region" : "Italy"
+    }, {
+      "id" : "cgg",
+      "name" : "Chiga"
+    }, {
+      "id" : "cgg_UG",
+      "name" : "Chiga",
+      "region" : "Uganda"
+    }, {
+      "id" : "chr",
+      "name" : "Cherokee"
+    }, {
+      "id" : "chr_US",
+      "name" : "Cherokee",
+      "region" : "United States"
+    }, {
+      "id" : "cs",
+      "name" : "Czech"
+    }, {
+      "id" : "cs_CZ",
+      "name" : "Czech",
+      "region" : "Czech Republic"
+    }, {
+      "id" : "cy",
+      "name" : "Welsh"
+    }, {
+      "id" : "cy_GB",
+      "name" : "Welsh",
+      "region" : "United Kingdom"
+    }, {
+      "id" : "da",
+      "name" : "Danish"
+    }, {
+      "id" : "da_DK",
+      "name" : "Danish",
+      "region" : "Denmark"
+    }, {
+      "id" : "da_GL",
+      "name" : "Danish",
+      "region" : "Greenland"
+    }, {
+      "id" : "dav",
+      "name" : "Taita"
+    }, {
+      "id" : "dav_KE",
+      "name" : "Taita",
+      "region" : "Kenya"
+    }, {
+      "id" : "de",
+      "name" : "German"
+    }, {
+      "id" : "de_AT",
+      "name" : "German",
+      "region" : "Austria"
+    }, {
+      "id" : "de_BE",
+      "name" : "German",
+      "region" : "Belgium"
+    }, {
+      "id" : "de_CH",
+      "name" : "German",
+      "region" : "Switzerland"
+    }, {
+      "id" : "de_DE",
+      "name" : "German",
+      "region" : "Germany"
+    }, {
+      "id" : "de_LI",
+      "name" : "German",
+      "region" : "Liechtenstein"
+    }, {
+      "id" : "de_LU",
+      "name" : "German",
+      "region" : "Luxembourg"
+    }, {
+      "id" : "dje",
+      "name" : "Zarma"
+    }, {
+      "id" : "dje_NE",
+      "name" : "Zarma",
+      "region" : "Niger"
+    }, {
+      "id" : "dua",
+      "name" : "Duala"
+    }, {
+      "id" : "dua_CM",
+      "name" : "Duala",
+      "region" : "Cameroon"
+    }, {
+      "id" : "dyo",
+      "name" : "Jola-Fonyi"
+    }, {
+      "id" : "dyo_SN",
+      "name" : "Jola-Fonyi",
+      "region" : "Senegal"
+    }, {
+      "id" : "dz",
+      "name" : "Dzongkha"
+    }, {
+      "id" : "dz_BT",
+      "name" : "Dzongkha",
+      "region" : "Bhutan"
+    }, {
+      "id" : "ebu",
+      "name" : "Embu"
+    }, {
+      "id" : "ebu_KE",
+      "name" : "Embu",
+      "region" : "Kenya"
+    }, {
+      "id" : "ee",
+      "name" : "Ewe"
+    }, {
+      "id" : "ee_GH",
+      "name" : "Ewe",
+      "region" : "Ghana"
+    }, {
+      "id" : "ee_TG",
+      "name" : "Ewe",
+      "region" : "Togo"
+    }, {
+      "id" : "el",
+      "name" : "Greek"
+    }, {
+      "id" : "el_CY",
+      "name" : "Greek",
+      "region" : "Cyprus"
+    }, {
+      "id" : "el_GR",
+      "name" : "Greek",
+      "region" : "Greece"
+    }, {
+      "id" : "en",
+      "name" : "English",
+      "tags" : [ "default" ]
+    }, {
+      "id" : "en_001",
+      "name" : "English",
+      "region" : "World"
+    }, {
+      "id" : "en_150",
+      "name" : "English",
+      "region" : "Europe"
+    }, {
+      "id" : "en_AG",
+      "name" : "English",
+      "region" : "Antigua and Barbuda"
+    }, {
+      "id" : "en_AI",
+      "name" : "English",
+      "region" : "Anguilla"
+    }, {
+      "id" : "en_AS",
+      "name" : "English",
+      "region" : "American Samoa"
+    }, {
+      "id" : "en_AU",
+      "name" : "English",
+      "region" : "Australia"
+    }, {
+      "id" : "en_BB",
+      "name" : "English",
+      "region" : "Barbados"
+    }, {
+      "id" : "en_BE",
+      "name" : "English",
+      "region" : "Belgium"
+    }, {
+      "id" : "en_BM",
+      "name" : "English",
+      "region" : "Bermuda"
+    }, {
+      "id" : "en_BS",
+      "name" : "English",
+      "region" : "Bahamas"
+    }, {
+      "id" : "en_BW",
+      "name" : "English",
+      "region" : "Botswana"
+    }, {
+      "id" : "en_BZ",
+      "name" : "English",
+      "region" : "Belize"
+    }, {
+      "id" : "en_CA",
+      "name" : "English",
+      "region" : "Canada"
+    }, {
+      "id" : "en_CC",
+      "name" : "English",
+      "region" : "Cocos (Keeling) Islands"
+    }, {
+      "id" : "en_CK",
+      "name" : "English",
+      "region" : "Cook Islands"
+    }, {
+      "id" : "en_CM",
+      "name" : "English",
+      "region" : "Cameroon"
+    }, {
+      "id" : "en_CX",
+      "name" : "English",
+      "region" : "Christmas Island"
+    }, {
+      "id" : "en_DG",
+      "name" : "English",
+      "region" : "Diego Garcia"
+    }, {
+      "id" : "en_DM",
+      "name" : "English",
+      "region" : "Dominica"
+    }, {
+      "id" : "en_ER",
+      "name" : "English",
+      "region" : "Eritrea"
+    }, {
+      "id" : "en_FJ",
+      "name" : "English",
+      "region" : "Fiji"
+    }, {
+      "id" : "en_FK",
+      "name" : "English",
+      "region" : "Falkland Islands (Islas Malvinas)"
+    }, {
+      "id" : "en_FM",
+      "name" : "English",
+      "region" : "Micronesia"
+    }, {
+      "id" : "en_GB",
+      "name" : "English",
+      "region" : "United Kingdom"
+    }, {
+      "id" : "en_GD",
+      "name" : "English",
+      "region" : "Grenada"
+    }, {
+      "id" : "en_GG",
+      "name" : "English",
+      "region" : "Guernsey"
+    }, {
+      "id" : "en_GH",
+      "name" : "English",
+      "region" : "Ghana"
+    }, {
+      "id" : "en_GI",
+      "name" : "English",
+      "region" : "Gibraltar"
+    }, {
+      "id" : "en_GM",
+      "name" : "English",
+      "region" : "Gambia"
+    }, {
+      "id" : "en_GU",
+      "name" : "English",
+      "region" : "Guam"
+    }, {
+      "id" : "en_GY",
+      "name" : "English",
+      "region" : "Guyana"
+    }, {
+      "id" : "en_HK",
+      "name" : "English",
+      "region" : "Hong Kong"
+    }, {
+      "id" : "en_IE",
+      "name" : "English",
+      "region" : "Ireland"
+    }, {
+      "id" : "en_IM",
+      "name" : "English",
+      "region" : "Isle of Man"
+    }, {
+      "id" : "en_IN",
+      "name" : "English",
+      "region" : "India"
+    }, {
+      "id" : "en_IO",
+      "name" : "English",
+      "region" : "British Indian Ocean Territory"
+    }, {
+      "id" : "en_JE",
+      "name" : "English",
+      "region" : "Jersey"
+    }, {
+      "id" : "en_JM",
+      "name" : "English",
+      "region" : "Jamaica"
+    }, {
+      "id" : "en_KE",
+      "name" : "English",
+      "region" : "Kenya"
+    }, {
+      "id" : "en_KI",
+      "name" : "English",
+      "region" : "Kiribati"
+    }, {
+      "id" : "en_KN",
+      "name" : "English",
+      "region" : "Saint Kitts and Nevis"
+    }, {
+      "id" : "en_KY",
+      "name" : "English",
+      "region" : "Cayman Islands"
+    }, {
+      "id" : "en_LC",
+      "name" : "English",
+      "region" : "Saint Lucia"
+    }, {
+      "id" : "en_LR",
+      "name" : "English",
+      "region" : "Liberia"
+    }, {
+      "id" : "en_LS",
+      "name" : "English",
+      "region" : "Lesotho"
+    }, {
+      "id" : "en_MG",
+      "name" : "English",
+      "region" : "Madagascar"
+    }, {
+      "id" : "en_MH",
+      "name" : "English",
+      "region" : "Marshall Islands"
+    }, {
+      "id" : "en_MO",
+      "name" : "English",
+      "region" : "Macau"
+    }, {
+      "id" : "en_MP",
+      "name" : "English",
+      "region" : "Northern Mariana Islands"
+    }, {
+      "id" : "en_MS",
+      "name" : "English",
+      "region" : "Montserrat"
+    }, {
+      "id" : "en_MT",
+      "name" : "English",
+      "region" : "Malta"
+    }, {
+      "id" : "en_MU",
+      "name" : "English",
+      "region" : "Mauritius"
+    }, {
+      "id" : "en_MW",
+      "name" : "English",
+      "region" : "Malawi"
+    }, {
+      "id" : "en_NA",
+      "name" : "English",
+      "region" : "Namibia"
+    }, {
+      "id" : "en_NF",
+      "name" : "English",
+      "region" : "Norfolk Island"
+    }, {
+      "id" : "en_NG",
+      "name" : "English",
+      "region" : "Nigeria"
+    }, {
+      "id" : "en_NR",
+      "name" : "English",
+      "region" : "Nauru"
+    }, {
+      "id" : "en_NU",
+      "name" : "English",
+      "region" : "Niue"
+    }, {
+      "id" : "en_NZ",
+      "name" : "English",
+      "region" : "New Zealand"
+    }, {
+      "id" : "en_PG",
+      "name" : "English",
+      "region" : "Papua New Guinea"
+    }, {
+      "id" : "en_PH",
+      "name" : "English",
+      "region" : "Philippines"
+    }, {
+      "id" : "en_PK",
+      "name" : "English",
+      "region" : "Pakistan"
+    }, {
+      "id" : "en_PN",
+      "name" : "English",
+      "region" : "Pitcairn Islands"
+    }, {
+      "id" : "en_PR",
+      "name" : "English",
+      "region" : "Puerto Rico"
+    }, {
+      "id" : "en_PW",
+      "name" : "English",
+      "region" : "Palau"
+    }, {
+      "id" : "en_RW",
+      "name" : "English",
+      "region" : "Rwanda"
+    }, {
+      "id" : "en_SB",
+      "name" : "English",
+      "region" : "Solomon Islands"
+    }, {
+      "id" : "en_SC",
+      "name" : "English",
+      "region" : "Seychelles"
+    }, {
+      "id" : "en_SD",
+      "name" : "English",
+      "region" : "Sudan"
+    }, {
+      "id" : "en_SG",
+      "name" : "English",
+      "region" : "Singapore"
+    }, {
+      "id" : "en_SH",
+      "name" : "English",
+      "region" : "Saint Helena"
+    }, {
+      "id" : "en_SL",
+      "name" : "English",
+      "region" : "Sierra Leone"
+    }, {
+      "id" : "en_SS",
+      "name" : "English",
+      "region" : "South Sudan"
+    }, {
+      "id" : "en_SX",
+      "name" : "English",
+      "region" : "Sint Maarten"
+    }, {
+      "id" : "en_SZ",
+      "name" : "English",
+      "region" : "Swaziland"
+    }, {
+      "id" : "en_TC",
+      "name" : "English",
+      "region" : "Turks and Caicos Islands"
+    }, {
+      "id" : "en_TK",
+      "name" : "English",
+      "region" : "Tokelau"
+    }, {
+      "id" : "en_TO",
+      "name" : "English",
+      "region" : "Tonga"
+    }, {
+      "id" : "en_TT",
+      "name" : "English",
+      "region" : "Trinidad and Tobago"
+    }, {
+      "id" : "en_TV",
+      "name" : "English",
+      "region" : "Tuvalu"
+    }, {
+      "id" : "en_TZ",
+      "name" : "English",
+      "region" : "Tanzania"
+    }, {
+      "id" : "en_UG",
+      "name" : "English",
+      "region" : "Uganda"
+    }, {
+      "id" : "en_UM",
+      "name" : "English",
+      "region" : "U.S. Outlying Islands"
+    }, {
+      "id" : "en_US",
+      "name" : "English",
+      "region" : "United States"
+    }, {
+      "id" : "en_VC",
+      "name" : "English",
+      "region" : "St. Vincent & Grenadines"
+    }, {
+      "id" : "en_VG",
+      "name" : "English",
+      "region" : "British Virgin Islands"
+    }, {
+      "id" : "en_VI",
+      "name" : "English",
+      "region" : "U.S. Virgin Islands"
+    }, {
+      "id" : "en_VU",
+      "name" : "English",
+      "region" : "Vanuatu"
+    }, {
+      "id" : "en_WS",
+      "name" : "English",
+      "region" : "Samoa"
+    }, {
+      "id" : "en_ZA",
+      "name" : "English",
+      "region" : "South Africa"
+    }, {
+      "id" : "en_ZM",
+      "name" : "English",
+      "region" : "Zambia"
+    }, {
+      "id" : "en_ZW",
+      "name" : "English",
+      "region" : "Zimbabwe"
+    }, {
+      "id" : "eo",
+      "name" : "Esperanto"
+    }, {
+      "id" : "es",
+      "name" : "Spanish"
+    }, {
+      "id" : "es_419",
+      "name" : "Spanish",
+      "region" : "Latin America"
+    }, {
+      "id" : "es_AR",
+      "name" : "Spanish",
+      "region" : "Argentina"
+    }, {
+      "id" : "es_BO",
+      "name" : "Spanish",
+      "region" : "Bolivia"
+    }, {
+      "id" : "es_CL",
+      "name" : "Spanish",
+      "region" : "Chile"
+    }, {
+      "id" : "es_CO",
+      "name" : "Spanish",
+      "region" : "Colombia"
+    }, {
+      "id" : "es_CR",
+      "name" : "Spanish",
+      "region" : "Costa Rica"
+    }, {
+      "id" : "es_CU",
+      "name" : "Spanish",
+      "region" : "Cuba"
+    }, {
+      "id" : "es_DO",
+      "name" : "Spanish",
+      "region" : "Dominican Republic"
+    }, {
+      "id" : "es_EA",
+      "name" : "Spanish",
+      "region" : "Ceuta and Melilla"
+    }, {
+      "id" : "es_EC",
+      "name" : "Spanish",
+      "region" : "Ecuador"
+    }, {
+      "id" : "es_ES",
+      "name" : "Spanish",
+      "region" : "Spain"
+    }, {
+      "id" : "es_GQ",
+      "name" : "Spanish",
+      "region" : "Equatorial Guinea"
+    }, {
+      "id" : "es_GT",
+      "name" : "Spanish",
+      "region" : "Guatemala"
+    }, {
+      "id" : "es_HN",
+      "name" : "Spanish",
+      "region" : "Honduras"
+    }, {
+      "id" : "es_IC",
+      "name" : "Spanish",
+      "region" : "Canary Islands"
+    }, {
+      "id" : "es_MX",
+      "name" : "Spanish",
+      "region" : "Mexico"
+    }, {
+      "id" : "es_NI",
+      "name" : "Spanish",
+      "region" : "Nicaragua"
+    }, {
+      "id" : "es_PA",
+      "name" : "Spanish",
+      "region" : "Panama"
+    }, {
+      "id" : "es_PE",
+      "name" : "Spanish",
+      "region" : "Peru"
+    }, {
+      "id" : "es_PH",
+      "name" : "Spanish",
+      "region" : "Philippines"
+    }, {
+      "id" : "es_PR",
+      "name" : "Spanish",
+      "region" : "Puerto Rico"
+    }, {
+      "id" : "es_PY",
+      "name" : "Spanish",
+      "region" : "Paraguay"
+    }, {
+      "id" : "es_SV",
+      "name" : "Spanish",
+      "region" : "El Salvador"
+    }, {
+      "id" : "es_US",
+      "name" : "Spanish",
+      "region" : "United States"
+    }, {
+      "id" : "es_UY",
+      "name" : "Spanish",
+      "region" : "Uruguay"
+    }, {
+      "id" : "es_VE",
+      "name" : "Spanish",
+      "region" : "Venezuela"
+    }, {
+      "id" : "et",
+      "name" : "Estonian"
+    }, {
+      "id" : "et_EE",
+      "name" : "Estonian",
+      "region" : "Estonia"
+    }, {
+      "id" : "eu",
+      "name" : "Basque"
+    }, {
+      "id" : "eu_ES",
+      "name" : "Basque",
+      "region" : "Spain"
+    }, {
+      "id" : "ewo",
+      "name" : "Ewondo"
+    }, {
+      "id" : "ewo_CM",
+      "name" : "Ewondo",
+      "region" : "Cameroon"
+    }, {
+      "id" : "fa",
+      "name" : "Persian"
+    }, {
+      "id" : "fa_AF",
+      "name" : "Persian",
+      "region" : "Afghanistan"
+    }, {
+      "id" : "fa_IR",
+      "name" : "Persian",
+      "region" : "Iran"
+    }, {
+      "id" : "ff",
+      "name" : "Fulah"
+    }, {
+      "id" : "ff_SN",
+      "name" : "Fulah",
+      "region" : "Senegal"
+    }, {
+      "id" : "fi",
+      "name" : "Finnish"
+    }, {
+      "id" : "fi_FI",
+      "name" : "Finnish",
+      "region" : "Finland"
+    }, {
+      "id" : "fil",
+      "name" : "Filipino"
+    }, {
+      "id" : "fil_PH",
+      "name" : "Filipino",
+      "region" : "Philippines"
+    }, {
+      "id" : "fo",
+      "name" : "Faroese"
+    }, {
+      "id" : "fo_FO",
+      "name" : "Faroese",
+      "region" : "Faroe Islands"
+    }, {
+      "id" : "fr",
+      "name" : "French"
+    }, {
+      "id" : "fr_BE",
+      "name" : "French",
+      "region" : "Belgium"
+    }, {
+      "id" : "fr_BF",
+      "name" : "French",
+      "region" : "Burkina Faso"
+    }, {
+      "id" : "fr_BI",
+      "name" : "French",
+      "region" : "Burundi"
+    }, {
+      "id" : "fr_BJ",
+      "name" : "French",
+      "region" : "Benin"
+    }, {
+      "id" : "fr_BL",
+      "name" : "French",
+      "region" : "Saint Barthélemy"
+    }, {
+      "id" : "fr_CA",
+      "name" : "French",
+      "region" : "Canada"
+    }, {
+      "id" : "fr_CD",
+      "name" : "French",
+      "region" : "Congo (DRC)"
+    }, {
+      "id" : "fr_CF",
+      "name" : "French",
+      "region" : "Central African Republic"
+    }, {
+      "id" : "fr_CG",
+      "name" : "French",
+      "region" : "Congo (Republic)"
+    }, {
+      "id" : "fr_CH",
+      "name" : "French",
+      "region" : "Switzerland"
+    }, {
+      "id" : "fr_CI",
+      "name" : "French",
+      "region" : "Côte d’Ivoire"
+    }, {
+      "id" : "fr_CM",
+      "name" : "French",
+      "region" : "Cameroon"
+    }, {
+      "id" : "fr_DJ",
+      "name" : "French",
+      "region" : "Djibouti"
+    }, {
+      "id" : "fr_DZ",
+      "name" : "French",
+      "region" : "Algeria"
+    }, {
+      "id" : "fr_FR",
+      "name" : "French",
+      "region" : "France"
+    }, {
+      "id" : "fr_GA",
+      "name" : "French",
+      "region" : "Gabon"
+    }, {
+      "id" : "fr_GF",
+      "name" : "French",
+      "region" : "French Guiana"
+    }, {
+      "id" : "fr_GN",
+      "name" : "French",
+      "region" : "Guinea"
+    }, {
+      "id" : "fr_GP",
+      "name" : "French",
+      "region" : "Guadeloupe"
+    }, {
+      "id" : "fr_GQ",
+      "name" : "French",
+      "region" : "Equatorial Guinea"
+    }, {
+      "id" : "fr_HT",
+      "name" : "French",
+      "region" : "Haiti"
+    }, {
+      "id" : "fr_KM",
+      "name" : "French",
+      "region" : "Comoros"
+    }, {
+      "id" : "fr_LU",
+      "name" : "French",
+      "region" : "Luxembourg"
+    }, {
+      "id" : "fr_MA",
+      "name" : "French",
+      "region" : "Morocco"
+    }, {
+      "id" : "fr_MC",
+      "name" : "French",
+      "region" : "Monaco"
+    }, {
+      "id" : "fr_MF",
+      "name" : "French",
+      "region" : "Saint Martin"
+    }, {
+      "id" : "fr_MG",
+      "name" : "French",
+      "region" : "Madagascar"
+    }, {
+      "id" : "fr_ML",
+      "name" : "French",
+      "region" : "Mali"
+    }, {
+      "id" : "fr_MQ",
+      "name" : "French",
+      "region" : "Martinique"
+    }, {
+      "id" : "fr_MR",
+      "name" : "French",
+      "region" : "Mauritania"
+    }, {
+      "id" : "fr_MU",
+      "name" : "French",
+      "region" : "Mauritius"
+    }, {
+      "id" : "fr_NC",
+      "name" : "French",
+      "region" : "New Caledonia"
+    }, {
+      "id" : "fr_NE",
+      "name" : "French",
+      "region" : "Niger"
+    }, {
+      "id" : "fr_PF",
+      "name" : "French",
+      "region" : "French Polynesia"
+    }, {
+      "id" : "fr_PM",
+      "name" : "French",
+      "region" : "Saint Pierre and Miquelon"
+    }, {
+      "id" : "fr_RE",
+      "name" : "French",
+      "region" : "Réunion"
+    }, {
+      "id" : "fr_RW",
+      "name" : "French",
+      "region" : "Rwanda"
+    }, {
+      "id" : "fr_SC",
+      "name" : "French",
+      "region" : "Seychelles"
+    }, {
+      "id" : "fr_SN",
+      "name" : "French",
+      "region" : "Senegal"
+    }, {
+      "id" : "fr_SY",
+      "name" : "French",
+      "region" : "Syria"
+    }, {
+      "id" : "fr_TD",
+      "name" : "French",
+      "region" : "Chad"
+    }, {
+      "id" : "fr_TG",
+      "name" : "French",
+      "region" : "Togo"
+    }, {
+      "id" : "fr_TN",
+      "name" : "French",
+      "region" : "Tunisia"
+    }, {
+      "id" : "fr_VU",
+      "name" : "French",
+      "region" : "Vanuatu"
+    }, {
+      "id" : "fr_WF",
+      "name" : "French",
+      "region" : "Wallis and Futuna"
+    }, {
+      "id" : "fr_YT",
+      "name" : "French",
+      "region" : "Mayotte"
+    }, {
+      "id" : "ga",
+      "name" : "Irish"
+    }, {
+      "id" : "ga_IE",
+      "name" : "Irish",
+      "region" : "Ireland"
+    }, {
+      "id" : "gl",
+      "name" : "Galician"
+    }, {
+      "id" : "gl_ES",
+      "name" : "Galician",
+      "region" : "Spain"
+    }, {
+      "id" : "gsw",
+      "name" : "Swiss German"
+    }, {
+      "id" : "gsw_CH",
+      "name" : "Swiss German",
+      "region" : "Switzerland"
+    }, {
+      "id" : "gsw_LI",
+      "name" : "Swiss German",
+      "region" : "Liechtenstein"
+    }, {
+      "id" : "gu",
+      "name" : "Gujarati"
+    }, {
+      "id" : "gu_IN",
+      "name" : "Gujarati",
+      "region" : "India"
+    }, {
+      "id" : "guz",
+      "name" : "Gusii"
+    }, {
+      "id" : "guz_KE",
+      "name" : "Gusii",
+      "region" : "Kenya"
+    }, {
+      "id" : "gv",
+      "name" : "Manx"
+    }, {
+      "id" : "gv_IM",
+      "name" : "Manx",
+      "region" : "Isle of Man"
+    }, {
+      "id" : "ha",
+      "name" : "Hausa"
+    }, {
+      "id" : "ha_GH",
+      "name" : "Hausa",
+      "region" : "Ghana"
+    }, {
+      "id" : "ha_NE",
+      "name" : "Hausa",
+      "region" : "Niger"
+    }, {
+      "id" : "ha_NG",
+      "name" : "Hausa",
+      "region" : "Nigeria"
+    }, {
+      "id" : "haw",
+      "name" : "Hawaiian"
+    }, {
+      "id" : "haw_US",
+      "name" : "Hawaiian",
+      "region" : "United States"
+    }, {
+      "id" : "iw",
+      "name" : "Hebrew"
+    }, {
+      "id" : "iw_IL",
+      "name" : "Hebrew",
+      "region" : "Israel"
+    }, {
+      "id" : "hi",
+      "name" : "Hindi"
+    }, {
+      "id" : "hi_IN",
+      "name" : "Hindi",
+      "region" : "India"
+    }, {
+      "id" : "hr",
+      "name" : "Croatian"
+    }, {
+      "id" : "hr_BA",
+      "name" : "Croatian",
+      "region" : "Bosnia and Herzegovina"
+    }, {
+      "id" : "hr_HR",
+      "name" : "Croatian",
+      "region" : "Croatia"
+    }, {
+      "id" : "hu",
+      "name" : "Hungarian"
+    }, {
+      "id" : "hu_HU",
+      "name" : "Hungarian",
+      "region" : "Hungary"
+    }, {
+      "id" : "hy",
+      "name" : "Armenian"
+    }, {
+      "id" : "hy_AM",
+      "name" : "Armenian",
+      "region" : "Armenia"
+    }, {
+      "id" : "in",
+      "name" : "Indonesian"
+    }, {
+      "id" : "in_ID",
+      "name" : "Indonesian",
+      "region" : "Indonesia"
+    }, {
+      "id" : "ig",
+      "name" : "Igbo"
+    }, {
+      "id" : "ig_NG",
+      "name" : "Igbo",
+      "region" : "Nigeria"
+    }, {
+      "id" : "ii",
+      "name" : "Sichuan Yi"
+    }, {
+      "id" : "ii_CN",
+      "name" : "Sichuan Yi",
+      "region" : "China"
+    }, {
+      "id" : "is",
+      "name" : "Icelandic"
+    }, {
+      "id" : "is_IS",
+      "name" : "Icelandic",
+      "region" : "Iceland"
+    }, {
+      "id" : "it",
+      "name" : "Italian"
+    }, {
+      "id" : "it_CH",
+      "name" : "Italian",
+      "region" : "Switzerland"
+    }, {
+      "id" : "it_IT",
+      "name" : "Italian",
+      "region" : "Italy"
+    }, {
+      "id" : "it_SM",
+      "name" : "Italian",
+      "region" : "San Marino"
+    }, {
+      "id" : "ja",
+      "name" : "Japanese"
+    }, {
+      "id" : "ja_JP",
+      "name" : "Japanese",
+      "region" : "Japan"
+    }, {
+      "id" : "jgo",
+      "name" : "Ngomba"
+    }, {
+      "id" : "jgo_CM",
+      "name" : "Ngomba",
+      "region" : "Cameroon"
+    }, {
+      "id" : "jmc",
+      "name" : "Machame"
+    }, {
+      "id" : "jmc_TZ",
+      "name" : "Machame",
+      "region" : "Tanzania"
+    }, {
+      "id" : "ka",
+      "name" : "Georgian"
+    }, {
+      "id" : "ka_GE",
+      "name" : "Georgian",
+      "region" : "Georgia"
+    }, {
+      "id" : "kab",
+      "name" : "Kabyle"
+    }, {
+      "id" : "kab_DZ",
+      "name" : "Kabyle",
+      "region" : "Algeria"
+    }, {
+      "id" : "kam",
+      "name" : "Kamba"
+    }, {
+      "id" : "kam_KE",
+      "name" : "Kamba",
+      "region" : "Kenya"
+    }, {
+      "id" : "kde",
+      "name" : "Makonde"
+    }, {
+      "id" : "kde_TZ",
+      "name" : "Makonde",
+      "region" : "Tanzania"
+    }, {
+      "id" : "kea",
+      "name" : "Kabuverdianu"
+    }, {
+      "id" : "kea_CV",
+      "name" : "Kabuverdianu",
+      "region" : "Cape Verde"
+    }, {
+      "id" : "khq",
+      "name" : "Koyra Chiini"
+    }, {
+      "id" : "khq_ML",
+      "name" : "Koyra Chiini",
+      "region" : "Mali"
+    }, {
+      "id" : "ki",
+      "name" : "Kikuyu"
+    }, {
+      "id" : "ki_KE",
+      "name" : "Kikuyu",
+      "region" : "Kenya"
+    }, {
+      "id" : "kk",
+      "name" : "Kazakh"
+    }, {
+      "id" : "kk_KZ",
+      "name" : "Kazakh",
+      "region" : "Kazakhstan"
+    }, {
+      "id" : "kkj",
+      "name" : "Kako"
+    }, {
+      "id" : "kkj_CM",
+      "name" : "Kako",
+      "region" : "Cameroon"
+    }, {
+      "id" : "kl",
+      "name" : "Kalaallisut"
+    }, {
+      "id" : "kl_GL",
+      "name" : "Kalaallisut",
+      "region" : "Greenland"
+    }, {
+      "id" : "kln",
+      "name" : "Kalenjin"
+    }, {
+      "id" : "kln_KE",
+      "name" : "Kalenjin",
+      "region" : "Kenya"
+    }, {
+      "id" : "km",
+      "name" : "Khmer"
+    }, {
+      "id" : "km_KH",
+      "name" : "Khmer",
+      "region" : "Cambodia"
+    }, {
+      "id" : "kn",
+      "name" : "Kannada"
+    }, {
+      "id" : "kn_IN",
+      "name" : "Kannada",
+      "region" : "India"
+    }, {
+      "id" : "ko",
+      "name" : "Korean"
+    }, {
+      "id" : "ko_KP",
+      "name" : "Korean",
+      "region" : "North Korea"
+    }, {
+      "id" : "ko_KR",
+      "name" : "Korean",
+      "region" : "South Korea"
+    }, {
+      "id" : "kok",
+      "name" : "Konkani"
+    }, {
+      "id" : "kok_IN",
+      "name" : "Konkani",
+      "region" : "India"
+    }, {
+      "id" : "ks",
+      "name" : "Kashmiri"
+    }, {
+      "id" : "ks_IN",
+      "name" : "Kashmiri",
+      "region" : "India"
+    }, {
+      "id" : "ksb",
+      "name" : "Shambala"
+    }, {
+      "id" : "ksb_TZ",
+      "name" : "Shambala",
+      "region" : "Tanzania"
+    }, {
+      "id" : "ksf",
+      "name" : "Bafia"
+    }, {
+      "id" : "ksf_CM",
+      "name" : "Bafia",
+      "region" : "Cameroon"
+    }, {
+      "id" : "kw",
+      "name" : "Cornish"
+    }, {
+      "id" : "kw_GB",
+      "name" : "Cornish",
+      "region" : "United Kingdom"
+    }, {
+      "id" : "ky",
+      "name" : "Kyrgyz"
+    }, {
+      "id" : "ky_KG",
+      "name" : "Kyrgyz",
+      "region" : "Kyrgyzstan"
+    }, {
+      "id" : "lag",
+      "name" : "Langi"
+    }, {
+      "id" : "lag_TZ",
+      "name" : "Langi",
+      "region" : "Tanzania"
+    }, {
+      "id" : "lg",
+      "name" : "Ganda"
+    }, {
+      "id" : "lg_UG",
+      "name" : "Ganda",
+      "region" : "Uganda"
+    }, {
+      "id" : "lkt",
+      "name" : "Lakota"
+    }, {
+      "id" : "lkt_US",
+      "name" : "Lakota",
+      "region" : "United States"
+    }, {
+      "id" : "ln",
+      "name" : "Lingala"
+    }, {
+      "id" : "ln_AO",
+      "name" : "Lingala",
+      "region" : "Angola"
+    }, {
+      "id" : "ln_CD",
+      "name" : "Lingala",
+      "region" : "Congo (DRC)"
+    }, {
+      "id" : "ln_CF",
+      "name" : "Lingala",
+      "region" : "Central African Republic"
+    }, {
+      "id" : "ln_CG",
+      "name" : "Lingala",
+      "region" : "Congo (Republic)"
+    }, {
+      "id" : "lo",
+      "name" : "Lao"
+    }, {
+      "id" : "lo_LA",
+      "name" : "Lao",
+      "region" : "Laos"
+    }, {
+      "id" : "lt",
+      "name" : "Lithuanian"
+    }, {
+      "id" : "lt_LT",
+      "name" : "Lithuanian",
+      "region" : "Lithuania"
+    }, {
+      "id" : "lu",
+      "name" : "Luba-Katanga"
+    }, {
+      "id" : "lu_CD",
+      "name" : "Luba-Katanga",
+      "region" : "Congo (DRC)"
+    }, {
+      "id" : "luo",
+      "name" : "Luo"
+    }, {
+      "id" : "luo_KE",
+      "name" : "Luo",
+      "region" : "Kenya"
+    }, {
+      "id" : "luy",
+      "name" : "Luyia"
+    }, {
+      "id" : "luy_KE",
+      "name" : "Luyia",
+      "region" : "Kenya"
+    }, {
+      "id" : "lv",
+      "name" : "Latvian"
+    }, {
+      "id" : "lv_LV",
+      "name" : "Latvian",
+      "region" : "Latvia"
+    }, {
+      "id" : "mas",
+      "name" : "Masai"
+    }, {
+      "id" : "mas_KE",
+      "name" : "Masai",
+      "region" : "Kenya"
+    }, {
+      "id" : "mas_TZ",
+      "name" : "Masai",
+      "region" : "Tanzania"
+    }, {
+      "id" : "mer",
+      "name" : "Meru"
+    }, {
+      "id" : "mer_KE",
+      "name" : "Meru",
+      "region" : "Kenya"
+    }, {
+      "id" : "mfe",
+      "name" : "Morisyen"
+    }, {
+      "id" : "mfe_MU",
+      "name" : "Morisyen",
+      "region" : "Mauritius"
+    }, {
+      "id" : "mg",
+      "name" : "Malagasy"
+    }, {
+      "id" : "mg_MG",
+      "name" : "Malagasy",
+      "region" : "Madagascar"
+    }, {
+      "id" : "mgh",
+      "name" : "Makhuwa-Meetto"
+    }, {
+      "id" : "mgh_MZ",
+      "name" : "Makhuwa-Meetto",
+      "region" : "Mozambique"
+    }, {
+      "id" : "mgo",
+      "name" : "Meta'"
+    }, {
+      "id" : "mgo_CM",
+      "name" : "Meta'",
+      "region" : "Cameroon"
+    }, {
+      "id" : "mk",
+      "name" : "Macedonian"
+    }, {
+      "id" : "mk_MK",
+      "name" : "Macedonian",
+      "region" : "Macedonia (FYROM)"
+    }, {
+      "id" : "ml",
+      "name" : "Malayalam"
+    }, {
+      "id" : "ml_IN",
+      "name" : "Malayalam",
+      "region" : "India"
+    }, {
+      "id" : "mn",
+      "name" : "Mongolian"
+    }, {
+      "id" : "mn_MN",
+      "name" : "Mongolian",
+      "region" : "Mongolia"
+    }, {
+      "id" : "mr",
+      "name" : "Marathi"
+    }, {
+      "id" : "mr_IN",
+      "name" : "Marathi",
+      "region" : "India"
+    }, {
+      "id" : "ms",
+      "name" : "Malay"
+    }, {
+      "id" : "ms_BN",
+      "name" : "Malay",
+      "region" : "Brunei"
+    }, {
+      "id" : "ms_MY",
+      "name" : "Malay",
+      "region" : "Malaysia"
+    }, {
+      "id" : "ms_SG",
+      "name" : "Malay",
+      "region" : "Singapore"
+    }, {
+      "id" : "mt",
+      "name" : "Maltese"
+    }, {
+      "id" : "mt_MT",
+      "name" : "Maltese",
+      "region" : "Malta"
+    }, {
+      "id" : "mua",
+      "name" : "Mundang"
+    }, {
+      "id" : "mua_CM",
+      "name" : "Mundang",
+      "region" : "Cameroon"
+    }, {
+      "id" : "my",
+      "name" : "Burmese"
+    }, {
+      "id" : "my_MM",
+      "name" : "Burmese",
+      "region" : "Myanmar (Burma)"
+    }, {
+      "id" : "naq",
+      "name" : "Nama"
+    }, {
+      "id" : "naq_NA",
+      "name" : "Nama",
+      "region" : "Namibia"
+    }, {
+      "id" : "nb",
+      "name" : "Norwegian Bokmål"
+    }, {
+      "id" : "nb_NO",
+      "name" : "Norwegian Bokmål",
+      "region" : "Norway"
+    }, {
+      "id" : "nb_SJ",
+      "name" : "Norwegian Bokmål",
+      "region" : "Svalbard and Jan Mayen"
+    }, {
+      "id" : "nd",
+      "name" : "North Ndebele"
+    }, {
+      "id" : "nd_ZW",
+      "name" : "North Ndebele",
+      "region" : "Zimbabwe"
+    }, {
+      "id" : "ne",
+      "name" : "Nepali"
+    }, {
+      "id" : "ne_IN",
+      "name" : "Nepali",
+      "region" : "India"
+    }, {
+      "id" : "ne_NP",
+      "name" : "Nepali",
+      "region" : "Nepal"
+    }, {
+      "id" : "nl",
+      "name" : "Dutch"
+    }, {
+      "id" : "nl_AW",
+      "name" : "Dutch",
+      "region" : "Aruba"
+    }, {
+      "id" : "nl_BE",
+      "name" : "Dutch",
+      "region" : "Belgium"
+    }, {
+      "id" : "nl_BQ",
+      "name" : "Dutch",
+      "region" : "Caribbean Netherlands"
+    }, {
+      "id" : "nl_CW",
+      "name" : "Dutch",
+      "region" : "Curaçao"
+    }, {
+      "id" : "nl_NL",
+      "name" : "Dutch",
+      "region" : "Netherlands"
+    }, {
+      "id" : "nl_SR",
+      "name" : "Dutch",
+      "region" : "Suriname"
+    }, {
+      "id" : "nl_SX",
+      "name" : "Dutch",
+      "region" : "Sint Maarten"
+    }, {
+      "id" : "nmg",
+      "name" : "Kwasio"
+    }, {
+      "id" : "nmg_CM",
+      "name" : "Kwasio",
+      "region" : "Cameroon"
+    }, {
+      "id" : "nn",
+      "name" : "Norwegian Nynorsk"
+    }, {
+      "id" : "nn_NO",
+      "name" : "Norwegian Nynorsk",
+      "region" : "Norway"
+    }, {
+      "id" : "nnh",
+      "name" : "Ngiemboon"
+    }, {
+      "id" : "nnh_CM",
+      "name" : "Ngiemboon",
+      "region" : "Cameroon"
+    }, {
+      "id" : "nus",
+      "name" : "Nuer"
+    }, {
+      "id" : "nus_SD",
+      "name" : "Nuer",
+      "region" : "Sudan"
+    }, {
+      "id" : "nyn",
+      "name" : "Nyankole"
+    }, {
+      "id" : "nyn_UG",
+      "name" : "Nyankole",
+      "region" : "Uganda"
+    }, {
+      "id" : "om",
+      "name" : "Oromo"
+    }, {
+      "id" : "om_ET",
+      "name" : "Oromo",
+      "region" : "Ethiopia"
+    }, {
+      "id" : "om_KE",
+      "name" : "Oromo",
+      "region" : "Kenya"
+    }, {
+      "id" : "or",
+      "name" : "Oriya"
+    }, {
+      "id" : "or_IN",
+      "name" : "Oriya",
+      "region" : "India"
+    }, {
+      "id" : "pa",
+      "name" : "Punjabi"
+    }, {
+      "id" : "pa_PK",
+      "name" : "Punjabi",
+      "region" : "Pakistan"
+    }, {
+      "id" : "pa_IN",
+      "name" : "Punjabi",
+      "region" : "India"
+    }, {
+      "id" : "pl",
+      "name" : "Polish"
+    }, {
+      "id" : "pl_PL",
+      "name" : "Polish",
+      "region" : "Poland"
+    }, {
+      "id" : "ps",
+      "name" : "Pashto"
+    }, {
+      "id" : "ps_AF",
+      "name" : "Pashto",
+      "region" : "Afghanistan"
+    }, {
+      "id" : "pt",
+      "name" : "Portuguese"
+    }, {
+      "id" : "pt_AO",
+      "name" : "Portuguese",
+      "region" : "Angola"
+    }, {
+      "id" : "pt_BR",
+      "name" : "Portuguese",
+      "region" : "Brazil"
+    }, {
+      "id" : "pt_CV",
+      "name" : "Portuguese",
+      "region" : "Cape Verde"
+    }, {
+      "id" : "pt_GW",
+      "name" : "Portuguese",
+      "region" : "Guinea-Bissau"
+    }, {
+      "id" : "pt_MO",
+      "name" : "Portuguese",
+      "region" : "Macau"
+    }, {
+      "id" : "pt_MZ",
+      "name" : "Portuguese",
+      "region" : "Mozambique"
+    }, {
+      "id" : "pt_PT",
+      "name" : "Portuguese",
+      "region" : "Portugal"
+    }, {
+      "id" : "pt_ST",
+      "name" : "Portuguese",
+      "region" : "São Tomé and Príncipe"
+    }, {
+      "id" : "pt_TL",
+      "name" : "Portuguese",
+      "region" : "Timor-Leste"
+    }, {
+      "id" : "rm",
+      "name" : "Romansh"
+    }, {
+      "id" : "rm_CH",
+      "name" : "Romansh",
+      "region" : "Switzerland"
+    }, {
+      "id" : "rn",
+      "name" : "Rundi"
+    }, {
+      "id" : "rn_BI",
+      "name" : "Rundi",
+      "region" : "Burundi"
+    }, {
+      "id" : "ro",
+      "name" : "Romanian"
+    }, {
+      "id" : "ro_MD",
+      "name" : "Romanian",
+      "region" : "Moldova"
+    }, {
+      "id" : "ro_RO",
+      "name" : "Romanian",
+      "region" : "Romania"
+    }, {
+      "id" : "rof",
+      "name" : "Rombo"
+    }, {
+      "id" : "rof_TZ",
+      "name" : "Rombo",
+      "region" : "Tanzania"
+    }, {
+      "id" : "ru",
+      "name" : "Russian"
+    }, {
+      "id" : "ru_BY",
+      "name" : "Russian",
+      "region" : "Belarus"
+    }, {
+      "id" : "ru_KG",
+      "name" : "Russian",
+      "region" : "Kyrgyzstan"
+    }, {
+      "id" : "ru_KZ",
+      "name" : "Russian",
+      "region" : "Kazakhstan"
+    }, {
+      "id" : "ru_MD",
+      "name" : "Russian",
+      "region" : "Moldova"
+    }, {
+      "id" : "ru_RU",
+      "name" : "Russian",
+      "region" : "Russia"
+    }, {
+      "id" : "ru_UA",
+      "name" : "Russian",
+      "region" : "Ukraine"
+    }, {
+      "id" : "rw",
+      "name" : "Kinyarwanda"
+    }, {
+      "id" : "rw_RW",
+      "name" : "Kinyarwanda",
+      "region" : "Rwanda"
+    }, {
+      "id" : "rwk",
+      "name" : "Rwa"
+    }, {
+      "id" : "rwk_TZ",
+      "name" : "Rwa",
+      "region" : "Tanzania"
+    }, {
+      "id" : "saq",
+      "name" : "Samburu"
+    }, {
+      "id" : "saq_KE",
+      "name" : "Samburu",
+      "region" : "Kenya"
+    }, {
+      "id" : "sbp",
+      "name" : "Sangu"
+    }, {
+      "id" : "sbp_TZ",
+      "name" : "Sangu",
+      "region" : "Tanzania"
+    }, {
+      "id" : "seh",
+      "name" : "Sena"
+    }, {
+      "id" : "seh_MZ",
+      "name" : "Sena",
+      "region" : "Mozambique"
+    }, {
+      "id" : "ses",
+      "name" : "Koyraboro Senni"
+    }, {
+      "id" : "ses_ML",
+      "name" : "Koyraboro Senni",
+      "region" : "Mali"
+    }, {
+      "id" : "sg",
+      "name" : "Sango"
+    }, {
+      "id" : "sg_CF",
+      "name" : "Sango",
+      "region" : "Central African Republic"
+    }, {
+      "id" : "shi",
+      "name" : "Tachelhit"
+    }, {
+      "id" : "shi_MA",
+      "name" : "Tachelhit",
+      "region" : "Morocco"
+    }, {
+      "id" : "si",
+      "name" : "Sinhala"
+    }, {
+      "id" : "si_LK",
+      "name" : "Sinhala",
+      "region" : "Sri Lanka"
+    }, {
+      "id" : "sk",
+      "name" : "Slovak"
+    }, {
+      "id" : "sk_SK",
+      "name" : "Slovak",
+      "region" : "Slovakia"
+    }, {
+      "id" : "sl",
+      "name" : "Slovenian"
+    }, {
+      "id" : "sl_SI",
+      "name" : "Slovenian",
+      "region" : "Slovenia"
+    }, {
+      "id" : "sn",
+      "name" : "Shona"
+    }, {
+      "id" : "sn_ZW",
+      "name" : "Shona",
+      "region" : "Zimbabwe"
+    }, {
+      "id" : "so",
+      "name" : "Somali"
+    }, {
+      "id" : "so_DJ",
+      "name" : "Somali",
+      "region" : "Djibouti"
+    }, {
+      "id" : "so_ET",
+      "name" : "Somali",
+      "region" : "Ethiopia"
+    }, {
+      "id" : "so_KE",
+      "name" : "Somali",
+      "region" : "Kenya"
+    }, {
+      "id" : "so_SO",
+      "name" : "Somali",
+      "region" : "Somalia"
+    }, {
+      "id" : "sq",
+      "name" : "Albanian"
+    }, {
+      "id" : "sq_AL",
+      "name" : "Albanian",
+      "region" : "Albania"
+    }, {
+      "id" : "sq_MK",
+      "name" : "Albanian",
+      "region" : "Macedonia (FYROM)"
+    }, {
+      "id" : "sq_XK",
+      "name" : "Albanian",
+      "region" : "Kosovo"
+    }, {
+      "id" : "sr",
+      "name" : "Serbian"
+    }, {
+      "id" : "sr_BA",
+      "name" : "Serbian",
+      "region" : "Bosnia and Herzegovina"
+    }, {
+      "id" : "sr_ME",
+      "name" : "Serbian",
+      "region" : "Montenegro"
+    }, {
+      "id" : "sr_RS",
+      "name" : "Serbian",
+      "region" : "Serbia"
+    }, {
+      "id" : "sr_XK",
+      "name" : "Serbian",
+      "region" : "Kosovo"
+    }, {
+      "id" : "sv",
+      "name" : "Swedish"
+    }, {
+      "id" : "sv_AX",
+      "name" : "Swedish",
+      "region" : "Åland Islands"
+    }, {
+      "id" : "sv_FI",
+      "name" : "Swedish",
+      "region" : "Finland"
+    }, {
+      "id" : "sv_SE",
+      "name" : "Swedish",
+      "region" : "Sweden"
+    }, {
+      "id" : "sw",
+      "name" : "Swahili"
+    }, {
+      "id" : "sw_KE",
+      "name" : "Swahili",
+      "region" : "Kenya"
+    }, {
+      "id" : "sw_TZ",
+      "name" : "Swahili",
+      "region" : "Tanzania"
+    }, {
+      "id" : "sw_UG",
+      "name" : "Swahili",
+      "region" : "Uganda"
+    }, {
+      "id" : "swc",
+      "name" : "Congo Swahili"
+    }, {
+      "id" : "swc_CD",
+      "name" : "Congo Swahili",
+      "region" : "Congo (DRC)"
+    }, {
+      "id" : "ta",
+      "name" : "Tamil"
+    }, {
+      "id" : "ta_IN",
+      "name" : "Tamil",
+      "region" : "India"
+    }, {
+      "id" : "ta_LK",
+      "name" : "Tamil",
+      "region" : "Sri Lanka"
+    }, {
+      "id" : "ta_MY",
+      "name" : "Tamil",
+      "region" : "Malaysia"
+    }, {
+      "id" : "ta_SG",
+      "name" : "Tamil",
+      "region" : "Singapore"
+    }, {
+      "id" : "te",
+      "name" : "Telugu"
+    }, {
+      "id" : "te_IN",
+      "name" : "Telugu",
+      "region" : "India"
+    }, {
+      "id" : "teo",
+      "name" : "Teso"
+    }, {
+      "id" : "teo_KE",
+      "name" : "Teso",
+      "region" : "Kenya"
+    }, {
+      "id" : "teo_UG",
+      "name" : "Teso",
+      "region" : "Uganda"
+    }, {
+      "id" : "th",
+      "name" : "Thai"
+    }, {
+      "id" : "th_TH",
+      "name" : "Thai",
+      "region" : "Thailand"
+    }, {
+      "id" : "ti",
+      "name" : "Tigrinya"
+    }, {
+      "id" : "ti_ER",
+      "name" : "Tigrinya",
+      "region" : "Eritrea"
+    }, {
+      "id" : "ti_ET",
+      "name" : "Tigrinya",
+      "region" : "Ethiopia"
+    }, {
+      "id" : "to",
+      "name" : "Tongan"
+    }, {
+      "id" : "to_TO",
+      "name" : "Tongan",
+      "region" : "Tonga"
+    }, {
+      "id" : "tr",
+      "name" : "Turkish"
+    }, {
+      "id" : "tr_CY",
+      "name" : "Turkish",
+      "region" : "Cyprus"
+    }, {
+      "id" : "tr_TR",
+      "name" : "Turkish",
+      "region" : "Turkey"
+    }, {
+      "id" : "twq",
+      "name" : "Tasawaq"
+    }, {
+      "id" : "twq_NE",
+      "name" : "Tasawaq",
+      "region" : "Niger"
+    }, {
+      "id" : "tzm",
+      "name" : "Central Atlas Tamazight"
+    }, {
+      "id" : "tzm_MA",
+      "name" : "Central Atlas Tamazight",
+      "region" : "Morocco"
+    }, {
+      "id" : "ug",
+      "name" : "Uyghur"
+    }, {
+      "id" : "ug_CN",
+      "name" : "Uyghur",
+      "region" : "China"
+    }, {
+      "id" : "uk",
+      "name" : "Ukrainian"
+    }, {
+      "id" : "uk_UA",
+      "name" : "Ukrainian",
+      "region" : "Ukraine"
+    }, {
+      "id" : "ur",
+      "name" : "Urdu"
+    }, {
+      "id" : "ur_IN",
+      "name" : "Urdu",
+      "region" : "India"
+    }, {
+      "id" : "ur_PK",
+      "name" : "Urdu",
+      "region" : "Pakistan"
+    }, {
+      "id" : "uz",
+      "name" : "Uzbek"
+    }, {
+      "id" : "uz_AF",
+      "name" : "Uzbek",
+      "region" : "Afghanistan"
+    }, {
+      "id" : "uz_UZ",
+      "name" : "Uzbek",
+      "region" : "Uzbekistan"
+    }, {
+      "id" : "vai",
+      "name" : "Vai"
+    }, {
+      "id" : "vai_LR",
+      "name" : "Vai",
+      "region" : "Liberia"
+    }, {
+      "id" : "vi",
+      "name" : "Vietnamese"
+    }, {
+      "id" : "vi_VN",
+      "name" : "Vietnamese",
+      "region" : "Vietnam"
+    }, {
+      "id" : "vun",
+      "name" : "Vunjo"
+    }, {
+      "id" : "vun_TZ",
+      "name" : "Vunjo",
+      "region" : "Tanzania"
+    }, {
+      "id" : "xog",
+      "name" : "Soga"
+    }, {
+      "id" : "xog_UG",
+      "name" : "Soga",
+      "region" : "Uganda"
+    }, {
+      "id" : "yav",
+      "name" : "Yangben"
+    }, {
+      "id" : "yav_CM",
+      "name" : "Yangben",
+      "region" : "Cameroon"
+    }, {
+      "id" : "yo",
+      "name" : "Yoruba"
+    }, {
+      "id" : "yo_BJ",
+      "name" : "Yoruba",
+      "region" : "Benin"
+    }, {
+      "id" : "yo_NG",
+      "name" : "Yoruba",
+      "region" : "Nigeria"
+    }, {
+      "id" : "zgh",
+      "name" : "Standard Moroccan Tamazight"
+    }, {
+      "id" : "zgh_MA",
+      "name" : "Standard Moroccan Tamazight",
+      "region" : "Morocco"
+    }, {
+      "id" : "zh",
+      "name" : "Chinese"
+    }, {
+      "id" : "zh_CN",
+      "name" : "Chinese",
+      "region" : "China"
+    }, {
+      "id" : "zh_HK",
+      "name" : "Chinese",
+      "region" : "Hong Kong"
+    }, {
+      "id" : "zh_MO",
+      "name" : "Chinese",
+      "region" : "Macau"
+    }, {
+      "id" : "zh_SG",
+      "name" : "Chinese",
+      "region" : "Singapore"
+    }, {
+      "id" : "zh_TW",
+      "name" : "Chinese",
+      "region" : "Taiwan"
+    }, {
+      "id" : "zu",
+      "name" : "Zulu"
+    }, {
+      "id" : "zu_ZA",
+      "name" : "Zulu",
+      "region" : "South Africa"
+    } ],
+    "orientations" : [ {
+      "id" : "landscape",
+      "name" : "Landscape"
+    }, {
+      "id" : "portrait",
+      "name" : "Portrait",
+      "tags" : [ "default" ]
+    }, {
+      "id" : "default",
+      "name" : "Default"
+    } ]
+  },
+  "versions" : [ {
+    "apiLevel" : 18,
+    "codeName" : "Jelly Bean",
+    "id" : "18",
+    "releaseDate" : {
+      "day" : 3,
+      "month" : 10,
+      "year" : 2013
+    },
+    "versionString" : "4.3.x"
+  }, {
+    "apiLevel" : 19,
+    "codeName" : "KitKat",
+    "id" : "19",
+    "releaseDate" : {
+      "day" : 2,
+      "month" : 6,
+      "year" : 2014
+    },
+    "versionString" : "4.4.x"
+  }, {
+    "apiLevel" : 21,
+    "codeName" : "Lollipop",
+    "id" : "21",
+    "releaseDate" : {
+      "day" : 19,
+      "month" : 12,
+      "year" : 2014
+    },
+    "versionString" : "5.0.x"
+  }, {
+    "apiLevel" : 22,
+    "codeName" : "Lollipop",
+    "id" : "22",
+    "releaseDate" : {
+      "day" : 21,
+      "month" : 4,
+      "year" : 2015
+    },
+    "versionString" : "5.1.x"
+  }, {
+    "apiLevel" : 23,
+    "codeName" : "Marshmallow",
+    "id" : "23",
+    "releaseDate" : {
+      "day" : 5,
+      "month" : 10,
+      "year" : 2015
+    },
+    "versionString" : "6.0.x"
+  }, {
+    "apiLevel" : 24,
+    "codeName" : "Nougat",
+    "id" : "24",
+    "releaseDate" : {
+      "day" : 22,
+      "month" : 8,
+      "year" : 2016
+    },
+    "versionString" : "7.0.x"
+  }, {
+    "apiLevel" : 25,
+    "codeName" : "Nougat",
+    "id" : "25",
+    "releaseDate" : {
+      "day" : 19,
+      "month" : 10,
+      "year" : 2016
+    },
+    "versionString" : "7.1.x"
+  }, {
+    "apiLevel" : 26,
+    "codeName" : "Oreo",
+    "id" : "26",
+    "releaseDate" : {
+      "day" : 21,
+      "month" : 8,
+      "year" : 2017
+    },
+    "tags" : [ "default" ],
+    "versionString" : "8.0.x"
+  }, {
+    "apiLevel" : 27,
+    "codeName" : "Oreo MR1",
+    "id" : "27",
+    "releaseDate" : {
+      "day" : 4,
+      "month" : 12,
+      "year" : 2017
+    },
+    "versionString" : "8.1.x"
+  }, {
+    "apiLevel" : 28,
+    "codeName" : "P",
+    "id" : "28",
+    "releaseDate" : {
+      "day" : 7,
+      "month" : 3,
+      "year" : 2018
+    },
+    "versionString" : "9.0.x"
+  } ]
+}

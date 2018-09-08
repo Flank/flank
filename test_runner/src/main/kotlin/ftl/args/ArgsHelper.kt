@@ -10,6 +10,7 @@ import com.google.cloud.storage.StorageOptions
 import com.google.common.math.IntMath
 import ftl.args.yml.IYmlMap
 import ftl.config.FtlConstants
+import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.gc.GcStorage
 import ftl.util.Utils
 import java.io.File
@@ -18,7 +19,7 @@ import java.net.URI
 
 object ArgsHelper {
 
-    val yamlMapper by lazy { ObjectMapper(YAMLFactory()).registerModule(KotlinModule()) }
+    val yamlMapper: ObjectMapper by lazy { ObjectMapper(YAMLFactory()).registerModule(KotlinModule()) }
 
     fun mergeYmlMaps(vararg ymlMaps: IYmlMap): Map<String, List<String>> {
         val result = mutableMapOf<String, List<String>>()
@@ -38,6 +39,10 @@ object ArgsHelper {
     }
 
     fun assertGcsFileExists(uri: String) {
+        if (!uri.startsWith(GCS_PREFIX)) {
+            throw IllegalArgumentException("must start with $GCS_PREFIX uri: $uri")
+        }
+
         val gcsURI = URI.create(uri)
         val bucket = gcsURI.authority
         val path = gcsURI.path.drop(1) // Drop leading slash
@@ -49,11 +54,15 @@ object ArgsHelper {
         }
     }
 
-    fun validateTestMethods(testTargets: List<String>, validTestMethods: Collection<String>, from: String) {
+    fun validateTestMethods(
+        testTargets: List<String>,
+        validTestMethods: Collection<String>,
+        from: String,
+        skipValidation: Boolean = FtlConstants.useMock
+    ) {
         val missingMethods = testTargets - validTestMethods
 
-        // todo: update YamConfigTest to use fixture apk with 155 tests, then remove useMock here.
-        if (!FtlConstants.useMock && missingMethods.isNotEmpty()) Utils.fatalError("$from is missing methods: $missingMethods.\nValid methods:\n$validTestMethods")
+        if (!skipValidation && missingMethods.isNotEmpty()) Utils.fatalError("$from is missing methods: $missingMethods.\nValid methods:\n$validTestMethods")
         if (validTestMethods.isEmpty()) Utils.fatalError("$from has no tests")
     }
 
@@ -89,6 +98,8 @@ object ArgsHelper {
     }
 
     fun getGcsBucket(projectId: String, resultsBucket: String): String {
+        // com.google.cloud.storage.contrib.nio.testing.FakeStorageRpc doesn't support list
+        // when testing, use a hard coded results bucket instead.
         if (FtlConstants.useMock) return resultsBucket
         // test lab supports using a special free storage bucket
         // because we don't have access to the root account, it won't show up in the storage list.

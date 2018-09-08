@@ -3,7 +3,9 @@ package ftl.args
 import ftl.config.Device
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 
 @RunWith(FlankTestRunner::class)
@@ -33,10 +35,10 @@ class AndroidArgsTest {
           test-targets:
           - class com.example.app.ExampleUiTest#testPasses
           device:
-          - model: a
-            version: b
-            locale: c
-            orientation: d
+          - model: NexusLowRes
+            version: 23
+            locale: en
+            orientation: portrait
 
         flank:
           testShards: 7
@@ -44,6 +46,58 @@ class AndroidArgsTest {
           test-targets-always-run:
             - class example.Test#grantPermission
       """
+
+    @Rule
+    @JvmField
+    var expectedException = ExpectedException.none()!!
+
+    @Test
+    fun androidArgs_invalidModel() {
+        expectedException.expect(RuntimeException::class.java)
+        expectedException.expectMessage("Unsupported model id")
+        AndroidArgs.load(
+            """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+          - model: no
+            version: nope
+      """
+        )
+    }
+
+    @Test
+    fun androidArgs_invalidVersion() {
+        expectedException.expect(RuntimeException::class.java)
+        expectedException.expectMessage("Unsupported version id")
+        AndroidArgs.load(
+            """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+          - model: NexusLowRes
+            version: nope
+      """
+        )
+    }
+
+    @Test
+    fun androidArgs_incompatibleModel() {
+        expectedException.expect(RuntimeException::class.java)
+        expectedException.expectMessage("Incompatible model")
+        AndroidArgs.load(
+            """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+          - model: shamu
+            version: 18
+      """
+        )
+    }
 
     @Test
     fun androidArgs() {
@@ -66,7 +120,7 @@ class AndroidArgsTest {
             assert(directoriesToPull, listOf("/sdcard/screenshots"))
             assert(performanceMetrics, false)
             assert(testTargets, listOf("class com.example.app.ExampleUiTest#testPasses"))
-            assert(devices, listOf(Device("a", "b", "c", "d")))
+            assert(devices, listOf(Device("NexusLowRes", "23", "en", "portrait")))
 
             // FlankYml
             assert(testShards, 7)
@@ -96,7 +150,7 @@ AndroidArgs
       directoriesToPull: [/sdcard/screenshots]
       performanceMetrics: false
       testTargets: [class com.example.app.ExampleUiTest#testPasses]
-      devices: [Device(model=a, version=b, locale=c, orientation=d)]
+      devices: [Device(model=NexusLowRes, version=23, locale=en, orientation=portrait)]
 
     flank:
       testShards: 7
