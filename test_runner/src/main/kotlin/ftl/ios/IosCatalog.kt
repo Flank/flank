@@ -17,7 +17,12 @@ object IosCatalog {
 Unable to access the test environment catalog. Firebase Test Lab for iOS is currently in beta.
 Request access for your project via the following form:
   https://goo.gl/forms/wAxbiNEP2pxeIRG82
-If this project has already been granted access, please email ftl-ios-feedback@google.com for support.""", e
+
+If this project has already been granted access, please make sure you are using a project
+on the Blaze or Flame billing plans, and that you have run
+gcloud config set billing/quota_project projectId
+
+If you are still having issues, please email ftl-ios-feedback@google.com for support.""", e
             )
         }
     }

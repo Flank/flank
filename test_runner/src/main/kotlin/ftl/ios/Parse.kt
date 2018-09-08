@@ -59,14 +59,4 @@ object Parse {
         }
         return results.distinct()
     }
-
-    @JvmStatic
-    fun main(args: Array<String>) {
-        // TODO: Replace hardcoded file with args
-        val objcBinary = "./src/test/kotlin/xctest/fixtures/objc/EarlGreyExampleTests"
-        parseObjcTests(objcBinary)
-
-        val swiftBinary = "./src/test/kotlin/xctest/fixtures/swift/EarlGreyExampleSwiftTests"
-        parseSwiftTests(swiftBinary)
-    }
 }

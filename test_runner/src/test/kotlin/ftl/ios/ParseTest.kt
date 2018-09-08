@@ -80,4 +80,9 @@ class ParseTest {
     fun parseSwiftTests_fileNotFound() {
         Parse.parseSwiftTests("./BinaryThatDoesNotExist")
     }
+
+    @Test(expected = RuntimeException::class)
+    fun parseSwiftTests_validateFile() {
+        Parse.parseSwiftTests("/tmp")
+    }
 }
