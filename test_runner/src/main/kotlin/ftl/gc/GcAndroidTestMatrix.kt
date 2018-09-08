@@ -18,7 +18,8 @@ import ftl.args.AndroidArgs
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
 import ftl.util.Utils.uniqueObjectName
-import java.util.concurrent.TimeUnit
+import ftl.util.testTimeoutToSeconds
+import ftl.util.validateTestShardIndex
 
 object GcAndroidTestMatrix {
 
@@ -35,11 +36,7 @@ object GcAndroidTestMatrix {
         testShardsIndex: Int = -1,
         config: AndroidArgs
     ): Testing.Projects.TestMatrices.Create {
-        val testShardsTotal = config.testShardChunks.size
-
-        if (testShardsIndex >= testShardsTotal) {
-            throw RuntimeException("Invalid test shard index $testShardsIndex not < $testShardsTotal")
-        }
+        validateTestShardIndex(testShardsIndex, config)
 
         // https://github.com/bootstraponline/studio-google-cloud-testing/blob/203ed2890c27a8078cd1b8f7ae12cf77527f426b/firebase-testing/src/com/google/gct/testing/launcher/CloudTestsLauncher.java#L120
         val testMatrix = TestMatrix()
@@ -58,14 +55,7 @@ object GcAndroidTestMatrix {
         }
 
         androidInstrumentation.testTargets = config.testShardChunks.elementAt(testShardsIndex).toList()
-
-        val timeout = config.testTimeout
-        val testTimeoutSeconds = when {
-            timeout.contains("h") -> TimeUnit.HOURS.toSeconds(timeout.removeSuffix("h").toLong()) // Hours
-            timeout.contains("m") -> TimeUnit.MINUTES.toSeconds(timeout.removeSuffix("m").toLong()) // Minutes
-            timeout.contains("s") -> timeout.removeSuffix("s").toLong() // Seconds
-            else -> timeout.removeSuffix("s").toLong() // Seconds
-        }
+        val testTimeoutSeconds = testTimeoutToSeconds(config.testTimeout)
 
         // --auto-google-login
         // https://cloud.google.com/sdk/gcloud/reference/firebase/test/android/run

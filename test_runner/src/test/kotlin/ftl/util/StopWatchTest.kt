@@ -10,7 +10,7 @@ class StopWatchTest {
         StopWatch().check()
     }
 
-    @Test()
+    @Test
     fun stopWatch_recordTime() {
         val watch = StopWatch().start()
         assertThat(watch.check(indent = true)).isNotEmpty()
