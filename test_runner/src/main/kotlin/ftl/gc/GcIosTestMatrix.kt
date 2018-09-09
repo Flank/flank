@@ -14,7 +14,7 @@ import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.testing.model.TestSpecification
 import ftl.args.IosArgs
 import ftl.ios.Xctestrun
-import ftl.util.Utils
+import ftl.util.ShardCounter
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
 import ftl.util.testTimeoutToSeconds
@@ -28,12 +28,13 @@ object GcIosTestMatrix {
         runGcsPath: String,
         testShardsIndex: Int,
         xcTestParsed: NSDictionary,
-        config: IosArgs
+        config: IosArgs,
+        shardCounter: ShardCounter
     ): Testing.Projects.TestMatrices.Create {
         validateTestShardIndex(testShardsIndex, config)
 
         val gcsBucket = config.resultsBucket
-        val matrixGcsSuffix = join(runGcsPath, Utils.uniqueObjectName())
+        val matrixGcsSuffix = join(runGcsPath, shardCounter.next())
         val matrixGcsPath = join(gcsBucket, matrixGcsSuffix)
         val methods = config.testShardChunks.elementAt(testShardsIndex)
 

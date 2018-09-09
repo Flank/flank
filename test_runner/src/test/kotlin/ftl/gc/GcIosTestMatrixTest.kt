@@ -4,6 +4,7 @@ import com.dd.plist.NSDictionary
 import com.google.api.services.testing.model.IosDeviceList
 import ftl.args.IosArgs
 import ftl.test.util.FlankTestRunner
+import ftl.util.ShardCounter
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
@@ -17,7 +18,7 @@ class GcIosTestMatrixTest {
         val iosArgs = mock(IosArgs::class.java)
         `when`(iosArgs.testShardChunks).thenReturn(listOf(listOf("")))
         GcIosTestMatrix.build(
-            IosDeviceList(), "", "", -1, NSDictionary(), iosArgs
+            IosDeviceList(), "", "", -1, NSDictionary(), iosArgs, ShardCounter()
         )
     }
 
@@ -25,7 +26,7 @@ class GcIosTestMatrixTest {
     fun build_invalidShardErrors() {
         val iosArgs = mock(IosArgs::class.java)
         GcIosTestMatrix.build(
-            IosDeviceList(), "", "", 1, NSDictionary(), iosArgs
+            IosDeviceList(), "", "", 1, NSDictionary(), iosArgs, ShardCounter()
         )
     }
 
@@ -39,7 +40,7 @@ class GcIosTestMatrixTest {
         `when`(iosArgs.xctestrunFile).thenReturn("456")
 
         GcIosTestMatrix.build(
-            IosDeviceList(), "", "", 0, NSDictionary(), iosArgs
+            IosDeviceList(), "", "", 0, NSDictionary(), iosArgs, ShardCounter()
         )
     }
 }

@@ -3,6 +3,7 @@ package ftl.gc
 import com.google.api.services.testing.model.AndroidDeviceList
 import ftl.args.AndroidArgs
 import ftl.test.util.FlankTestRunner
+import ftl.util.ShardCounter
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
@@ -16,7 +17,7 @@ class GcAndroidTestMatrixTest {
         val androidArgs = mock(AndroidArgs::class.java)
         GcAndroidTestMatrix.build(
             "", "", "",
-            AndroidDeviceList(), -2, androidArgs
+            AndroidDeviceList(), -2, androidArgs, ShardCounter()
         )
     }
 
@@ -25,7 +26,7 @@ class GcAndroidTestMatrixTest {
         val androidArgs = mock(AndroidArgs::class.java)
         GcAndroidTestMatrix.build(
             "", "", "",
-            AndroidDeviceList(), 1, androidArgs
+            AndroidDeviceList(), 1, androidArgs, ShardCounter()
         )
     }
 
@@ -39,7 +40,7 @@ class GcAndroidTestMatrixTest {
 
         GcAndroidTestMatrix.build(
             "", "", "",
-            AndroidDeviceList(), 0, androidArgs
+            AndroidDeviceList(), 0, androidArgs, ShardCounter()
         )
     }
 }

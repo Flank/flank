@@ -15,9 +15,9 @@ import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.testing.model.TestSetup
 import com.google.api.services.testing.model.TestSpecification
 import ftl.args.AndroidArgs
+import ftl.util.ShardCounter
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
-import ftl.util.Utils.uniqueObjectName
 import ftl.util.testTimeoutToSeconds
 import ftl.util.validateTestShardIndex
 
@@ -34,7 +34,8 @@ object GcAndroidTestMatrix {
         runGcsPath: String,
         androidDeviceList: AndroidDeviceList,
         testShardsIndex: Int = -1,
-        config: AndroidArgs
+        config: AndroidArgs,
+        shardCounter: ShardCounter
     ): Testing.Projects.TestMatrices.Create {
         validateTestShardIndex(testShardsIndex, config)
 
@@ -83,7 +84,7 @@ object GcAndroidTestMatrix {
             .setTestTimeout("${testTimeoutSeconds}s")
             .setTestSetup(testSetup)
 
-        val matrixGcsPath = join(config.resultsBucket, runGcsPath, uniqueObjectName())
+        val matrixGcsPath = join(config.resultsBucket, runGcsPath, shardCounter.next())
         testMatrix.resultStorage = ResultStorage()
             .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
         testMatrix.environmentMatrix = EnvironmentMatrix().setAndroidDeviceList(androidDeviceList)
