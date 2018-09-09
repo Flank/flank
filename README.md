@@ -95,7 +95,15 @@ flank:
 
 ### CI integration
 
-Download Flank from GitHub releases. The snapshot jar tracks master and is always up to date. Alternatively, rehost the jar to avoid automatically updating to new versions of Flank.
+Download Flank from GitHub releases.
+
+Stable
+
+```
+wget --quiet https://github.com/TestArmada/flank/releases/download/v3.0.0/flank.jar -O ./flank.jar
+```
+
+Snapshot (published after every commit)
 
 ```
 wget --quiet https://github.com/TestArmada/flank/releases/download/flank_snapshot/flank.jar -O ./flank.jar
