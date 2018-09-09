@@ -13,7 +13,7 @@ gcloud:
 
 flank:
   testShards: 2
-  testRuns: 1
+  repeatTests: 1
   test-targets:
   - EarlGreyExampleMixedTests/testGrantCameraPermission
   - EarlGreyExampleMixedTests/testGrantMicrophonePermission

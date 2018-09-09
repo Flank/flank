@@ -25,8 +25,8 @@ class FlankYmlTest {
     fun testValidArgs() {
         FlankYml()
         FlankYml(FlankYmlParams(testShards = -1))
-        val yml = FlankYml(FlankYmlParams(testShards = 1, testRuns = 1))
-        assertThat(yml.flank.testRuns).isEqualTo(1)
+        val yml = FlankYml(FlankYmlParams(testShards = 1, repeatTests = 1))
+        assertThat(yml.flank.repeatTests).isEqualTo(1)
         assertThat(yml.flank.testShards).isEqualTo(1)
         assertThat(yml.flank.testTargetsAlwaysRun).isEqualTo(emptyList<String>())
         assertThat(FlankYml.map).isNotEmpty()
@@ -39,8 +39,8 @@ class FlankYmlTest {
     }
 
     @Test
-    fun testInvalidTestRuns() {
+    fun testInvalidrepeatTests() {
         expectedExitRule.expectSystemExitWithStatus(-1)
-        FlankYml(FlankYmlParams(testRuns = 0))
+        FlankYml(FlankYmlParams(repeatTests = 0))
     }
 }

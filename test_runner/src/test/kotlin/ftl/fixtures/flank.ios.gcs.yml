@@ -17,4 +17,4 @@ flank:
   test-targets:
   - EarlGreyExampleMixedTests/testBasicSelection
   testShards: 1
-  testRuns: 1
+  repeatTests: 1

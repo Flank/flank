@@ -22,7 +22,7 @@ object AndroidTestRunner {
 
         val apks = resolveApks(androidArgs, runGcsPath)
         val jobs = arrayListOf<Deferred<TestMatrix>>()
-        val runCount = androidArgs.testRuns
+        val runCount = androidArgs.repeatTests
         val deviceCount = androidArgs.testShardChunks.size
         val shardCounter = ShardCounter()
 

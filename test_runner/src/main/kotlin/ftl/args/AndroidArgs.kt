@@ -49,7 +49,7 @@ class AndroidArgs(
 
     private val flank = flankYml.flank
     val testShards = flank.testShards
-    override val testRuns = flank.testRuns
+    override val repeatTests = flank.repeatTests
     val testTargetsAlwaysRun = flank.testTargetsAlwaysRun
 
     // computed properties not specified in yaml
@@ -124,7 +124,7 @@ AndroidArgs
 
     flank:
       testShards: $testShards
-      testRuns: $testRuns
+      repeatTests: $repeatTests
       testTargetsAlwaysRun: $testTargetsAlwaysRun
    """.trimIndent()
     }
