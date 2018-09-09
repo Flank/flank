@@ -9,6 +9,7 @@ import ftl.gc.GcStorage
 import ftl.ios.Xctestrun
 import ftl.json.MatrixMap
 import ftl.run.GenericTestRunner.beforeRunMessage
+import ftl.util.ShardCounter
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 
@@ -32,6 +33,7 @@ object IosTestRunner {
         val jobs = arrayListOf<Deferred<TestMatrix>>()
         val runCount = yamlConfig.testRuns
         val deviceCount = yamlConfig.testShardChunks.size
+        val shardCounter = ShardCounter()
 
         println(beforeRunMessage(yamlConfig))
         repeat(runCount) {
@@ -43,7 +45,8 @@ object IosTestRunner {
                         runGcsPath = runGcsPath,
                         testShardsIndex = testShardsIndex,
                         xcTestParsed = xcTestParsed,
-                        config = yamlConfig
+                        config = yamlConfig,
+                        shardCounter = shardCounter
                     ).execute()
                 }
             }

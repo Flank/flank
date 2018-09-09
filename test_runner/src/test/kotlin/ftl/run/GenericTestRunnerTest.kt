@@ -23,7 +23,7 @@ class GenericTestRunnerTest {
     @Test
     fun testBeforeRunMessage1() {
         val result = beforeRunMessage(createMock(1, listOf(listOf(""))))
-        assert(result, "  1 test / 1 device = 1 test per device\n")
+        assert(result, "  1 test / 1 shard = 1 test per shard\n")
     }
 
     @Test
@@ -31,9 +31,9 @@ class GenericTestRunnerTest {
         val result = beforeRunMessage(createMock(2, listOf(listOf(""))))
         assert(
             result, """
-  1 test / 1 device = 1 test per device
+  1 test / 1 shard = 1 test per shard
   Running 2x
-    2 total devices
+    2 total shards
     2 total tests
 """.trim2()
         )
@@ -49,9 +49,9 @@ class GenericTestRunnerTest {
         )
         assert(
             result, """
-  6 tests / 6 devices = 1 test per device
+  6 tests / 6 shards = 1 test per shard
   Running 2x
-    12 total devices
+    12 total shards
     12 total tests
 """.trim2()
         )
@@ -62,9 +62,9 @@ class GenericTestRunnerTest {
         val result = beforeRunMessage(createMock(100, listOf(listOf("", "", "", "", ""), listOf("", "", "", "", ""))))
         assert(
             result, """
-  10 tests / 2 devices = 5 tests per device
+  10 tests / 2 shards = 5 tests per shard
   Running 100x
-    200 total devices
+    200 total shards
     1000 total tests
 """.trim2()
         )
