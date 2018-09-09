@@ -160,3 +160,7 @@ Place the [flank bash helper](https://github.com/TestArmada/flank/blob/master/te
 
 - `flank android run`
 - `flank ios run`
+
+> Symbol is declared in module 'java.xml' which does not export package 'com.sun.org.apache.xerces.internal.dom'
+
+Make sure you're using JDK 8 to compile Flank.
