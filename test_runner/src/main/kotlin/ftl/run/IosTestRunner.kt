@@ -31,7 +31,7 @@ object IosTestRunner {
         val xcTestParsed = Xctestrun.parse(yamlConfig.xctestrunFile)
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
-        val runCount = yamlConfig.testRuns
+        val runCount = yamlConfig.repeatTests
         val deviceCount = yamlConfig.testShardChunks.size
         val shardCounter = ShardCounter()
 

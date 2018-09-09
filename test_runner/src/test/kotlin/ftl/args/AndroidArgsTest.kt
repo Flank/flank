@@ -42,7 +42,7 @@ class AndroidArgsTest {
 
         flank:
           testShards: 7
-          testRuns: 8
+          repeatTests: 8
           test-targets-always-run:
             - class example.Test#grantPermission
       """
@@ -124,7 +124,7 @@ class AndroidArgsTest {
 
             // FlankYml
             assert(testShards, 7)
-            assert(testRuns, 8)
+            assert(repeatTests, 8)
             assert(testTargetsAlwaysRun, listOf("class example.Test#grantPermission"))
         }
     }
@@ -154,7 +154,7 @@ AndroidArgs
 
     flank:
       testShards: 7
-      testRuns: 8
+      repeatTests: 8
       testTargetsAlwaysRun: [class example.Test#grantPermission]
 """.trimIndent()
         )
@@ -191,7 +191,7 @@ AndroidArgs
 
             // FlankYml
             assert(testShards, 1)
-            assert(testRuns, 1)
+            assert(repeatTests, 1)
             assert(testTargetsAlwaysRun, empty)
         }
     }

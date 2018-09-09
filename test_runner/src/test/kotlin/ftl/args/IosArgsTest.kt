@@ -38,7 +38,7 @@ class IosArgsTest {
 
         flank:
           testShards: 7
-          testRuns: 8
+          repeatTests: 8
           test-targets-always-run:
             - a/testGrantPermissions
           test-targets:
@@ -84,7 +84,7 @@ class IosArgsTest {
 
             // FlankYml
             assert(testShards, 7)
-            assert(testRuns, 8)
+            assert(repeatTests, 8)
             assert(testTargetsAlwaysRun, listOf("a/testGrantPermissions"))
 
             // IosFlankYml
@@ -111,7 +111,7 @@ IosArgs
 
     flank:
       testShards: 7
-      testRuns: 8
+      repeatTests: 8
       testTargetsAlwaysRun: [a/testGrantPermissions]
       # iOS flank
       testTargets: [b/testBasicSelection]
@@ -144,7 +144,7 @@ IosArgs
 
             // FlankYml
             assert(testShards, 1)
-            assert(testRuns, 1)
+            assert(repeatTests, 1)
             assert(testTargetsAlwaysRun, emptyList<String>())
 
             // IosFlankYml

@@ -80,7 +80,7 @@ class AndroidArgsFileTest {
 
         with(config) {
             assert(testShards, 1)
-            assert(testRuns, 1)
+            assert(repeatTests, 1)
         }
     }
 

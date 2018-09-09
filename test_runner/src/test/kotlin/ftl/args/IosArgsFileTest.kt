@@ -48,7 +48,7 @@ class IosArgsFileTest {
                 )
             )
             assert(testShards, 1)
-            assert(testRuns, 1)
+            assert(repeatTests, 1)
         }
     }
 

@@ -9,9 +9,9 @@ import org.mockito.Mockito.mock
 
 class GenericTestRunnerTest {
 
-    private fun createMock(testRuns: Int, testShardChunks: List<List<String>>): IArgs {
+    private fun createMock(repeatTests: Int, testShardChunks: List<List<String>>): IArgs {
         val args = mock(IArgs::class.java)
-        `when`(args.testRuns).thenReturn(testRuns)
+        `when`(args.repeatTests).thenReturn(repeatTests)
         `when`(args.testShardChunks).thenReturn(testShardChunks)
         return args
     }
