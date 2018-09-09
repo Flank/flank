@@ -7,7 +7,6 @@ import ftl.reports.HtmlErrorReport
 import ftl.reports.MatrixErrorReport
 import ftl.reports.MatrixResultsReport
 import ftl.reports.TestErrorCountReport
-import ftl.run.TestRunner
 import ftl.util.ArtifactRegex
 import ftl.util.resolveLocalRunPath
 import org.w3c.dom.NodeList
@@ -119,14 +118,5 @@ object ReportManager {
         }
 
         return testSuccessful
-    }
-
-    @JvmStatic
-    fun main(args: Array<String>) {
-        val tmpPath = "../../../android-uno/teacher/results/2018-02-26_19:50:03.170000_jEIK"
-        val matrix = TestRunner.matrixPathToObj(tmpPath)
-
-        generate(matrix)
-//        parseJUnitXml(matrix)
     }
 }
