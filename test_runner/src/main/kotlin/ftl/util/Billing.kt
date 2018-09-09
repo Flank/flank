@@ -50,19 +50,39 @@ object Billing {
         val totalTime = prettyTime(billableVirtualMinutes + billablePhysicalMinutes)
         val tab = "\t"
 
-        return """
+        val displayPhysical = billablePhysicalMinutes.signum() == 1
+        val displayVirtual = billableVirtualMinutes.signum() == 1 // 1 = positive number > 0
+        val displayTotal = displayPhysical && displayVirtual
+        var result = ""
+
+        if (displayPhysical) {
+            result += """
 Physical devices
   Billable time:$tab$physicalTime
   Billable minutes:$tab$billablePhysicalMinutes
-  Cost:$tab$$physicalCost
+  Cost:$tab${'$'}$physicalCost
+"""
+        }
+
+        if (displayVirtual) {
+            result += """
 Virtual devices
   Billable time:$tab$virtualTime
   Billable minutes:$tab$billableVirtualMinutes
-  Cost:$tab$$virtualCost
+  Cost:$tab${'$'}$virtualCost
+"""
+        }
+
+        if (displayTotal) {
+            result += """
 Total
   Billable time:$tab$totalTime
   Billable minutes:$tab${billableVirtualMinutes + billablePhysicalMinutes}
-  Cost:$tab$$totalCost""".trim()
+  Cost:$tab${'$'}$totalCost
+"""
+        }
+
+        return result.trim()
     }
 
     private fun prettyTime(billableMinutes: BigDecimal): String {
