@@ -14,20 +14,47 @@ class BillingTest {
     }
 
     @Test
-    fun estimateCosts() {
+    fun estimateCosts_physicalAndVirtual() {
         val expectedReport = """
 Physical devices
   Billable time:	2h 3m
   Billable minutes:	123
   Cost:	$10.25
+
 Virtual devices
   Billable time:	7h 36m
   Billable minutes:	456
   Cost:	$7.60
+
 Total
   Billable time:	9h 39m
   Billable minutes:	579
   Cost:	$17.85""".trim()
-        assertThat(Billing.estimateCosts(456L, 123L)).isEqualTo(expectedReport)
+        val actualReport = Billing.estimateCosts(456L, 123L)
+        assertThat(actualReport).isEqualTo(expectedReport)
+    }
+
+    @Test
+    fun estimateCosts_physical() {
+        val expectedReport = """
+Physical devices
+  Billable time:	2h 3m
+  Billable minutes:	123
+  Cost:	$10.25
+""".trim()
+        val actualReport = Billing.estimateCosts(0, 123L)
+        assertThat(actualReport).isEqualTo(expectedReport)
+    }
+
+    @Test
+    fun estimateCosts_virtual() {
+        val expectedReport = """
+Virtual devices
+  Billable time:	7h 36m
+  Billable minutes:	456
+  Cost:	$7.60
+""".trim()
+        val actualReport = Billing.estimateCosts(456L, 0)
+        assertThat(actualReport).isEqualTo(expectedReport)
     }
 }
