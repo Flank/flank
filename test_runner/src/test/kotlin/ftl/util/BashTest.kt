@@ -1,13 +1,14 @@
 package ftl.util
 
 import com.google.common.truth.Truth.assertThat
+import ftl.test.util.FlankTestRunner.Companion.macOS
 import org.junit.Test
 
 class BashTest {
 
     @Test
     fun executeStderr() {
-        assertThat(Bash.execute("echo a 1>&2")).isEmpty()
+        assertThat(Bash.execute("echo a 1>&2")).isEqualTo("a")
     }
 
     @Test(expected = RuntimeException::class)
@@ -27,6 +28,13 @@ class BashTest {
 
     @Test
     fun executeLargeOutput() {
-        assertThat(Bash.execute("ruby -e \"puts 'hi' * 100_000\"").length).isEqualTo(200_000)
+        // gohello is a binary that outputs 100k 'hi' to stdout
+        val os = if (macOS) {
+            "mac"
+        } else {
+            "linux"
+        }
+        val cmd = "./src/test/kotlin/ftl/fixtures/tmp/gohello/bin/$os/gohello"
+        assertThat(Bash.execute(cmd).length).isEqualTo(200_000)
     }
 }
