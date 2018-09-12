@@ -1,5 +1,6 @@
 package ftl.args
 
+import com.google.common.truth.Truth.assertThat
 import ftl.config.Device
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
@@ -56,7 +57,7 @@ class AndroidArgsTest {
         expectedException.expect(RuntimeException::class.java)
         expectedException.expectMessage("Unsupported model id")
         AndroidArgs.load(
-            """
+                """
         gcloud:
           app: $appApk
           test: $testApk
@@ -72,7 +73,7 @@ class AndroidArgsTest {
         expectedException.expect(RuntimeException::class.java)
         expectedException.expectMessage("Unsupported version id")
         AndroidArgs.load(
-            """
+                """
         gcloud:
           app: $appApk
           test: $testApk
@@ -88,7 +89,7 @@ class AndroidArgsTest {
         expectedException.expect(RuntimeException::class.java)
         expectedException.expectMessage("Incompatible model")
         AndroidArgs.load(
-            """
+                """
         gcloud:
           app: $appApk
           test: $testApk
@@ -133,7 +134,7 @@ class AndroidArgsTest {
     fun androidArgsToString() {
         val androidArgs = AndroidArgs.load(androidNonDefault)
         assert(
-            androidArgs.toString(), """
+                androidArgs.toString(), """
 AndroidArgs
     gcloud:
       resultsBucket: mockBucket
@@ -163,7 +164,7 @@ AndroidArgs
     @Test
     fun androidArgsDefault() {
         val androidArgs = AndroidArgs.load(
-            """
+                """
         gcloud:
           app: $appApk
           test: $testApk
@@ -199,7 +200,7 @@ AndroidArgs
     @Test
     fun negativeOneTestShards() {
         val androidArgs = AndroidArgs.load(
-            """
+                """
         gcloud:
           app: $appApk
           test: $testErrorApk
@@ -214,5 +215,21 @@ AndroidArgs
             assert(testShardChunks.size, 2)
             testShardChunks.forEach { chunk -> assert(chunk.size, 1) }
         }
+    }
+
+    @Test
+    fun androidArgs_emptyFlank() {
+        val androidArgs = AndroidArgs.load(
+                """
+        gcloud:
+          app: $appApk
+          test: $testApk
+
+        flank:
+      """
+        )
+
+        assertThat(androidArgs.appApk).isEqualTo(appApk)
+        assertThat(androidArgs.testApk).isEqualTo(testApk)
     }
 }
