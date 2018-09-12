@@ -10,6 +10,8 @@ import java.nio.file.Paths
 class FlankTestRunner(klass: Class<*>) : BlockJUnit4ClassRunner(klass) {
 
     companion object {
+        val macOS = System.getProperty("os.name") == "Mac OS X"
+
         init {
             println("FlankTestRunner init\n")
             val server = MockServer.application

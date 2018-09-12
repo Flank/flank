@@ -19,6 +19,6 @@ object Bash {
             throw RuntimeException("Command failed: $cmd")
         }
 
-        return result.stdout.trim()
+        return result.stdout.trim() + result.stderr.trim()
     }
 }
