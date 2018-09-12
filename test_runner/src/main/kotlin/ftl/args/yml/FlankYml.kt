@@ -25,8 +25,12 @@ class FlankYmlParams(
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class FlankYml(
-    val flank: FlankYmlParams = FlankYmlParams()
+    // when an empty 'flank:' is present in a yaml then parsedFlank will be parsed as null.
+    @field:JsonProperty("flank")
+    private val parsedFlank: FlankYmlParams? = FlankYmlParams()
 ) {
+    val flank = parsedFlank ?: FlankYmlParams()
+
     companion object : IYmlMap {
         override val map = mapOf("flank" to FlankYmlParams.keys)
     }

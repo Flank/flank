@@ -39,7 +39,7 @@ object Doctor {
 
         validArgs.forEach { (topLevelKey, keyList) ->
             val parsedKeys = mutableListOf<String>()
-            parsed[topLevelKey].fields().forEach { parsedKeys.add(it.key) }
+            parsed[topLevelKey]?.fields()?.forEach { parsedKeys.add(it.key) }
             val unknownKeys = parsedKeys - keyList
             if (unknownKeys.isNotEmpty()) result += "Unknown keys in $topLevelKey -> $unknownKeys\n"
         }

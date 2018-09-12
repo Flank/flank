@@ -67,6 +67,19 @@ Unknown keys in flank -> [three]
     }
 
     @Test
+    fun androidDoctorTest3() {
+        val lint = Doctor.validateYaml(
+                AndroidArgs, """
+gcloud:
+  app: .
+  test: .
+  project: .
+        """.trimIndent()
+        )
+        assertThat(lint).isEqualTo("")
+    }
+
+    @Test
     fun iosDoctorTest() {
         Doctor.checkIosCatalog()
         val lint = Doctor.validateYaml(IosArgs, Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.yml"))
@@ -114,5 +127,18 @@ Unknown keys in flank -> [three]
 
 """.trimIndent()
         )
+    }
+
+    @Test
+    fun iosDoctorTest3() {
+        val lint = Doctor.validateYaml(
+                IosArgs, """
+gcloud:
+  project: .
+  test: .
+  xctestrun-file: .
+""".trimIndent()
+        )
+        assertThat(lint).isEqualTo("")
     }
 }

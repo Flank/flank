@@ -1,5 +1,6 @@
 package ftl.args
 
+import com.google.common.truth.Truth.assertThat
 import ftl.args.yml.FlankYml
 import ftl.args.yml.GcloudYml
 import ftl.args.yml.IosFlankYml
@@ -169,6 +170,24 @@ IosArgs
             assert(testShards, -1)
             assert(testShardChunks.size, 6)
             testShardChunks.forEach { chunk -> assert(chunk.size, 1) }
+        }
+    }
+
+    @Test
+    fun iosArgs_emptyFlank() {
+        val iosArgs = IosArgs.load(
+                """
+    gcloud:
+      test: $testPath
+      xctestrun-file: $xctestrunFile
+
+    flank:
+"""
+        )
+
+        with(iosArgs) {
+            assertThat(xctestrunZip).isEqualTo(testPath)
+            assertThat(xctestrunFile).isEqualTo(xctestrunFile)
         }
     }
 }
