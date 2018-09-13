@@ -9,6 +9,7 @@ import com.google.api.client.json.jackson2.JacksonFactory
 
 object FtlConstants {
     var useMock = false
+    val macOS = System.getProperty("os.name") == "Mac OS X"
     const val localhost = "http://localhost:8080"
 
     const val defaultIosConfig = "./flank.ios.yml"

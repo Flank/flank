@@ -95,9 +95,29 @@ object Utils {
         return bucketName.toString()
     }
 
+    private val classLoader = Thread.currentThread().contextClassLoader
+
+    private fun getResource(name: String): InputStream {
+        return classLoader.getResourceAsStream(name)
+                ?: throw RuntimeException("Unable to find resource: $name")
+    }
+
     fun readTextResource(name: String): String {
-        val resource: InputStream = this::class.java.getResourceAsStream("/$name")
-            ?: throw RuntimeException("Unable to find resource: /$name")
-        return resource.bufferedReader().use { it.readText() }
+        return getResource(name).bufferedReader().use { it.readText() }
+    }
+
+    private val userHome = System.getProperty("user.home")
+
+    fun copyBinaryResource(name: String) {
+        val destinationPath = Paths.get(userHome, ".flank", name)
+        val destinationFile = destinationPath.toFile()
+
+        if (destinationFile.exists()) return
+        destinationPath.parent.toFile().mkdirs()
+
+        // "binaries/" folder prefix is required for Linux to find the resource.
+        val bytes = getResource("binaries/$name").use { it.readBytes() }
+        Files.write(destinationPath, bytes)
+        destinationFile.setExecutable(true)
     }
 }
