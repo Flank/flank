@@ -95,15 +95,15 @@ object Utils {
         return bucketName.toString()
     }
 
-    private val thisClass = this::class.java
+    private val classLoader = this::class.java.classLoader
 
     private fun getResource(name: String): InputStream {
-        return thisClass.getResourceAsStream(name)
+        return classLoader.getResourceAsStream(name)
                 ?: throw RuntimeException("Unable to find resource: $name")
     }
 
     fun readTextResource(name: String): String {
-        return getResource("/$name").bufferedReader().use { it.readText() }
+        return getResource(name).bufferedReader().use { it.readText() }
     }
 
     private val userHome = System.getProperty("user.home")
@@ -115,7 +115,7 @@ object Utils {
         if (destinationFile.exists()) return
         destinationPath.parent.toFile().mkdirs()
 
-        val bytes = getResource("/binaries/$name").use { it.readBytes() }
+        val bytes = getResource(name).use { it.readBytes() }
         Files.write(destinationPath, bytes)
         destinationFile.setExecutable(true)
     }
