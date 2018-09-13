@@ -82,7 +82,7 @@ class ParseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun parseSwiftTests_validateFile() {
+    fun parseSwiftTests_tmpFolder() {
         Parse.parseSwiftTests("/tmp")
     }
 }

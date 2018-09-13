@@ -1,7 +1,7 @@
 package ftl.util
 
 import com.google.common.truth.Truth.assertThat
-import ftl.test.util.FlankTestRunner.Companion.macOS
+import ftl.config.FtlConstants.macOS
 import org.junit.Test
 
 class BashTest {
