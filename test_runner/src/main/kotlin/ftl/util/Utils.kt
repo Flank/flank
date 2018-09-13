@@ -115,7 +115,8 @@ object Utils {
         if (destinationFile.exists()) return
         destinationPath.parent.toFile().mkdirs()
 
-        val bytes = getResource(name).use { it.readBytes() }
+        // "binaries/" folder prefix is required for Linux to find the resource.
+        val bytes = getResource("binaries/$name").use { it.readBytes() }
         Files.write(destinationPath, bytes)
         destinationFile.setExecutable(true)
     }
