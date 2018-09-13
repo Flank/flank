@@ -2,8 +2,11 @@ package ftl.util
 
 import com.google.common.truth.Truth.assertThat
 import ftl.config.FtlConstants.macOS
+import ftl.test.util.FlankTestRunner
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(FlankTestRunner::class)
 class BashTest {
 
     @Test

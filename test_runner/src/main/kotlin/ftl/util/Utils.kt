@@ -95,7 +95,7 @@ object Utils {
         return bucketName.toString()
     }
 
-    private val classLoader = this::class.java.classLoader
+    private val classLoader = Thread.currentThread().contextClassLoader
 
     private fun getResource(name: String): InputStream {
         return classLoader.getResourceAsStream(name)
