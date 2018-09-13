@@ -7,7 +7,7 @@ import java.io.File
 
 object Parse {
 
-    init {
+    private val installBinaries by lazy {
         if (!macOS) {
             copyBinaryResource("nm")
             copyBinaryResource("swift-demangle")
@@ -32,6 +32,7 @@ object Parse {
     }
 
     internal fun parseObjcTests(binary: String): List<String> {
+        installBinaries
         validateFile(binary)
 
         val results = mutableListOf<String>()
@@ -53,6 +54,7 @@ object Parse {
     }
 
     internal fun parseSwiftTests(binary: String): List<String> {
+        installBinaries
         validateFile(binary)
         val results = mutableListOf<String>()
         // The OS limits the list of arguments to ARG_MAX. Setting the xargs limit avoids a fatal
