@@ -5,7 +5,8 @@ Flank is a [massively parallel Android and iOS test runner](https://medium.com/w
 ### Contributing
 
 - Use [JetBrains Toolbox](https://www.jetbrains.com/toolbox/app/) to install `IntelliJ IDEA Community`
-- Clone the repo `git clone https://github.com/TestArmada/flank.git`
+- Clone the repo `git clone --recursive https://github.com/TestArmada/flank.git`
+  - `git submodule update --init --recursive` updates the submodules
 - Open `test_runner/build.gradle.kts` with `IntelliJ IDEA Community`
 
 ### iOS example
