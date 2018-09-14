@@ -114,6 +114,7 @@ dependencies {
     testImplementation("ch.qos.logback:logback-classic:1.2.3")
     // mockito-inline is used to mock final classes
     testImplementation("org.mockito:mockito-inline:2.21.0")
+    testImplementation("com.squareup.okhttp3:okhttp:3.11.0")
 
     // todo: move to testImplementation once dagger is implemented https://github.com/TestArmada/flank/issues/248
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud

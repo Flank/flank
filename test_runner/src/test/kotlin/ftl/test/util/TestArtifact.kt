@@ -1,12 +1,17 @@
 package ftl.test.util
 
 import ftl.util.Bash
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.ResponseBody
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import java.io.File
 import java.net.InetSocketAddress
 import java.net.Socket
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.util.concurrent.TimeUnit
 import kotlin.math.pow
 
@@ -73,6 +78,16 @@ object TestArtifact {
         return false
     }
 
+    private val httpClient = OkHttpClient()
+
+    private fun download(src: String, dst: String) {
+        val request = Request.Builder().url(src).build()
+        val response = httpClient.newCall(request).execute()
+        val body: ResponseBody = response.body() ?: throw RuntimeException("null response body downloading $src")
+
+        Files.write(Paths.get(dst), body.bytes())
+    }
+
     private fun updateFixtures(remoteAssetLink: Element) {
         val fixtures = File(fixturesPath)
         if (fixtures.exists()) fixtures.deleteRecursively()
@@ -81,17 +96,7 @@ object TestArtifact {
         val downloadUrl = "https://github.com${remoteAssetLink.attr("href")}"
         val assetName = remoteAssetLink.attr("href").split("/").last()
         val zipPath = "${fixtures.path}/$assetName"
-        val curl = """
-            curl
-            --connect-timeout 5
-            --max-time 300
-            --retry 5
-            --retry-delay 0
-            --retry-max-time 1000
-            -L "$downloadUrl"
-            -o "$zipPath"
-            """.trimIndent().replace("\n", " ")
-        Bash.execute(curl)
+        download(downloadUrl, zipPath)
 
         val unzip = "unzip \"$zipPath\" -d \"${fixtures.path}\""
         Bash.execute(unzip)
