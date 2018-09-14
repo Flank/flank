@@ -23,6 +23,7 @@ class AndroidArgsTest {
           timeout: 70m
           async: true
           project: projectFoo
+          results-history-name: android-history
 
           app: $appApk
           test: $testApk
@@ -30,14 +31,21 @@ class AndroidArgsTest {
           use-orchestrator: false
           environment-variables:
             clearPackageData: true
+            randomEnvVar: false
           directories-to-pull:
           - /sdcard/screenshots
+          - /sdcard/screenshots2
           performance-metrics: false
           test-targets:
           - class com.example.app.ExampleUiTest#testPasses
+          - class com.example.app.ExampleUiTest#testFails
           device:
           - model: NexusLowRes
             version: 23
+            locale: en
+            orientation: portrait
+          - model: NexusLowRes
+            version: 24
             locale: en
             orientation: portrait
 
@@ -46,6 +54,7 @@ class AndroidArgsTest {
           repeatTests: 8
           test-targets-always-run:
             - class example.Test#grantPermission
+            - class example.Test#grantPermission2
       """
 
     @Rule
@@ -111,22 +120,27 @@ class AndroidArgsTest {
             assert(testTimeout, "70m")
             assert(async, true)
             assert(projectId, "projectFoo")
+            assert(resultsHistoryName ?: "", "android-history")
 
             // AndroidGcloudYml
             assert(appApk, appApk)
             assert(testApk, testApk)
             assert(autoGoogleLogin, false)
             assert(useOrchestrator, false)
-            assert(environmentVariables, linkedMapOf("clearPackageData" to "true"))
-            assert(directoriesToPull, listOf("/sdcard/screenshots"))
+            assert(environmentVariables, linkedMapOf("clearPackageData" to "true", "randomEnvVar" to "false"))
+            assert(directoriesToPull, listOf("/sdcard/screenshots", "/sdcard/screenshots2"))
             assert(performanceMetrics, false)
-            assert(testTargets, listOf("class com.example.app.ExampleUiTest#testPasses"))
-            assert(devices, listOf(Device("NexusLowRes", "23", "en", "portrait")))
+            assert(testTargets, listOf("class com.example.app.ExampleUiTest#testPasses", "class com.example.app.ExampleUiTest#testFails"))
+            assert(devices, listOf(
+                    Device("NexusLowRes", "23", "en", "portrait"),
+                    Device("NexusLowRes", "24", "en", "portrait")))
 
             // FlankYml
             assert(testShards, 7)
             assert(repeatTests, 8)
-            assert(testTargetsAlwaysRun, listOf("class example.Test#grantPermission"))
+            assert(testTargetsAlwaysRun, listOf(
+                    "class example.Test#grantPermission",
+                    "class example.Test#grantPermission2"))
         }
     }
 
@@ -137,26 +151,43 @@ class AndroidArgsTest {
                 androidArgs.toString(), """
 AndroidArgs
     gcloud:
-      resultsBucket: mockBucket
-      recordVideo: false
-      testTimeout: 70m
+      results-bucket: mockBucket
+      record-video: false
+      timeout: 70m
       async: true
-      projectId: projectFoo
+      project: projectFoo
+      results-history-name: android-history
       # Android gcloud
-      appApk: ../test_app/apks/app-debug.apk
-      testApk: ../test_app/apks/app-debug-androidTest.apk
-      autoGoogleLogin: false
-      useOrchestrator: false
-      environmentVariables: {clearPackageData=true}
-      directoriesToPull: [/sdcard/screenshots]
-      performanceMetrics: false
-      testTargets: [class com.example.app.ExampleUiTest#testPasses]
-      devices: [Device(model=NexusLowRes, version=23, locale=en, orientation=portrait)]
+      app: ../test_app/apks/app-debug.apk
+      test: ../test_app/apks/app-debug-androidTest.apk
+      auto-google-login: false
+      use-orchestrator: false
+      environment-variables:
+        clearPackageData: true
+        randomEnvVar: false
+      directories-to-pull:
+        - /sdcard/screenshots
+        - /sdcard/screenshots2
+      performance-metrics: false
+      test-targets:
+        - class com.example.app.ExampleUiTest#testPasses
+        - class com.example.app.ExampleUiTest#testFails
+      device:
+        - model: NexusLowRes
+          version: 23
+          locale: en
+          orientation: portrait
+        - model: NexusLowRes
+          version: 24
+          locale: en
+          orientation: portrait
 
     flank:
       testShards: 7
       repeatTests: 8
-      testTargetsAlwaysRun: [class example.Test#grantPermission]
+      test-targets-always-run:
+        - class example.Test#grantPermission
+        - class example.Test#grantPermission2
 """.trimIndent()
         )
     }

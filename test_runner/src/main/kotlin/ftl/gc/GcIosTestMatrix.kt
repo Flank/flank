@@ -12,6 +12,7 @@ import com.google.api.services.testing.model.IosXcTest
 import com.google.api.services.testing.model.ResultStorage
 import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.testing.model.TestSpecification
+import com.google.api.services.testing.model.ToolResultsHistory
 import ftl.args.IosArgs
 import ftl.ios.Xctestrun
 import ftl.util.ShardCounter
@@ -32,6 +33,7 @@ object GcIosTestMatrix {
         shardCounter: ShardCounter
     ): Testing.Projects.TestMatrices.Create {
         validateTestShardIndex(testShardsIndex, config)
+        val clientInfo = ClientInfo().setName("Flank")
 
         val gcsBucket = config.resultsBucket
         val matrixGcsSuffix = join(runGcsPath, shardCounter.next())
@@ -42,30 +44,35 @@ object GcIosTestMatrix {
         val xctestrunFileGcsPath = GcStorage.uploadXCTestFile(config, gcsBucket, matrixGcsSuffix, generatedXctestrun)
 
         val iOSXCTest = IosXcTest()
-            .setTestsZip(FileReference().setGcsPath(testZipGcsPath))
-            .setXctestrun(FileReference().setGcsPath(xctestrunFileGcsPath))
+                .setTestsZip(FileReference().setGcsPath(testZipGcsPath))
+                .setXctestrun(FileReference().setGcsPath(xctestrunFileGcsPath))
 
         val iOSTestSetup = IosTestSetup()
-            .setNetworkProfile(null)
+                .setNetworkProfile(null)
 
         val testTimeoutSeconds = testTimeoutToSeconds(config.testTimeout)
 
-        val testSpec = TestSpecification()
-            .setDisableVideoRecording(!config.recordVideo)
-            .setTestTimeout("${testTimeoutSeconds}s")
-            .setIosTestSetup(iOSTestSetup)
-            .setIosXcTest(iOSXCTest)
+        val testSpecification = TestSpecification()
+                .setDisableVideoRecording(!config.recordVideo)
+                .setTestTimeout("${testTimeoutSeconds}s")
+                .setIosTestSetup(iOSTestSetup)
+                .setIosXcTest(iOSXCTest)
+
+        val toolResultsHistory = ToolResultsHistory()
+                .setHistoryId(config.resultsHistoryName)
+                .setProjectId(config.projectId)
 
         val resultStorage = ResultStorage()
-            .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
+                .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
+                .setToolResultsHistory(toolResultsHistory)
 
         val environmentMatrix = EnvironmentMatrix().setIosDeviceList(iosDeviceList)
 
         val testMatrix = TestMatrix()
-            .setTestSpecification(testSpec)
-            .setClientInfo(ClientInfo().setName("Flank"))
-            .setEnvironmentMatrix(environmentMatrix)
-            .setResultStorage(resultStorage)
+                .setClientInfo(clientInfo)
+                .setTestSpecification(testSpecification)
+                .setEnvironmentMatrix(environmentMatrix)
+                .setResultStorage(resultStorage)
 
         try {
             return GcTesting.get.projects().testMatrices().create(config.projectId, testMatrix)

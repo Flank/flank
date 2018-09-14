@@ -13,6 +13,10 @@ import kotlin.system.exitProcess
 
 object Utils {
 
+    fun String.trimStartLine(): String {
+        return this.split("\n").drop(1).joinToString("\n")
+    }
+
     fun StringWriter.println(msg: String = "") {
         this.append(msg + "\n")
     }

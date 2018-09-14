@@ -6,6 +6,7 @@ gcloud:
   timeout: 30m
   async: false
 # project: delta-essence-114723
+# results-history-name: ios-history
 
   # test and xctestrun-file are the only required args
   test: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip

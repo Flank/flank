@@ -28,10 +28,15 @@ class IosArgsTest {
           timeout: 70m
           async: true
           project: projectFoo
+          results-history-name: ios-history
 
           test: $testPath
           xctestrun-file: $xctestrunFile
           device:
+          - model: iphone8
+            version: 11.2
+            locale: c
+            orientation: d
           - model: iphone8
             version: 11.2
             locale: c
@@ -42,8 +47,10 @@ class IosArgsTest {
           repeatTests: 8
           test-targets-always-run:
             - a/testGrantPermissions
+            - a/testGrantPermissions2
           test-targets:
             - b/testBasicSelection
+            - b/testBasicSelection2
         """
 
     @Rule
@@ -77,45 +84,60 @@ class IosArgsTest {
             assert(testTimeout, "70m")
             assert(async, true)
             assert(projectId, "projectFoo")
+            assert(resultsHistoryName ?: "", "ios-history")
 
             // IosGcloudYml
             assert(xctestrunZip, testPath)
             assert(xctestrunFile, xctestrunFile)
-            assert(devices, listOf(Device("iphone8", "11.2", "c", "d")))
+            val device = Device("iphone8", "11.2", "c", "d")
+            assert(devices, listOf(device, device))
 
             // FlankYml
             assert(testShards, 7)
             assert(repeatTests, 8)
-            assert(testTargetsAlwaysRun, listOf("a/testGrantPermissions"))
+            assert(testTargetsAlwaysRun, listOf("a/testGrantPermissions", "a/testGrantPermissions2"))
 
             // IosFlankYml
-            assert(testTargets, listOf("b/testBasicSelection"))
+            assert(testTargets, listOf("b/testBasicSelection", "b/testBasicSelection2"))
         }
     }
 
     @Test
-    fun iosArgsToString() {
+    fun iosArgs_toString() {
         val iosArgs = IosArgs.load(iosNonDefault)
         assert(
             iosArgs.toString(), """
 IosArgs
     gcloud:
-      resultsBucket: mockBucket
-      recordVideo: false
-      testTimeout: 70m
+      results-bucket: mockBucket
+      record-video: false
+      timeout: 70m
       async: true
-      projectId: projectFoo
+      project: projectFoo
+      results-history-name: ios-history
       # iOS gcloud
-      xctestrunZip: $testPath
-      xctestrunFile: $xctestrunFile
-      devices: [Device(model=iphone8, version=11.2, locale=c, orientation=d)]
+      test: $testPath
+      xctestrun-file: $xctestrunFile
+      device:
+        - model: iphone8
+          version: 11.2
+          locale: c
+          orientation: d
+        - model: iphone8
+          version: 11.2
+          locale: c
+          orientation: d
 
     flank:
       testShards: 7
       repeatTests: 8
-      testTargetsAlwaysRun: [a/testGrantPermissions]
+      test-targets-always-run:
+        - a/testGrantPermissions
+        - a/testGrantPermissions2
       # iOS flank
-      testTargets: [b/testBasicSelection]
+      test-targets:
+        - b/testBasicSelection
+        - b/testBasicSelection2
 """.trimIndent()
         )
     }

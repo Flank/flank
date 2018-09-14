@@ -24,10 +24,13 @@ class GcloudYmlParams(
 
     val async: Boolean = false,
 
-    val project: String = getDefaultProjectId()
+    val project: String = getDefaultProjectId(),
+
+    @field:JsonProperty("results-history-name")
+    val resultsHistoryName: String? = null
 ) {
     companion object : IYmlKeys {
-        override val keys = listOf("results-bucket", "record-video", "timeout", "async", "project")
+        override val keys = listOf("results-bucket", "record-video", "timeout", "async", "project", "results-history-name")
     }
 
     init {

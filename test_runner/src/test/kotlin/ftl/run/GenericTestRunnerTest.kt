@@ -6,6 +6,7 @@ import ftl.test.util.TestHelper.assert
 import org.junit.Test
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
+import ftl.util.Utils.trimStartLine
 
 class GenericTestRunnerTest {
 
@@ -14,10 +15,6 @@ class GenericTestRunnerTest {
         `when`(args.repeatTests).thenReturn(repeatTests)
         `when`(args.testShardChunks).thenReturn(testShardChunks)
         return args
-    }
-
-    private fun String.trim2(): String {
-        return this.split("\n").drop(1).joinToString("\n")
     }
 
     @Test
@@ -35,7 +32,7 @@ class GenericTestRunnerTest {
   Running 2x
     2 total shards
     2 total tests
-""".trim2()
+""".trimStartLine()
         )
     }
 
@@ -53,7 +50,7 @@ class GenericTestRunnerTest {
   Running 2x
     12 total shards
     12 total tests
-""".trim2()
+""".trimStartLine()
         )
     }
 
@@ -66,7 +63,7 @@ class GenericTestRunnerTest {
   Running 100x
     200 total shards
     1000 total tests
-""".trim2()
+""".trimStartLine()
         )
     }
 }

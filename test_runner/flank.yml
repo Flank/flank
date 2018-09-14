@@ -6,6 +6,7 @@ gcloud:
   timeout: 60m
   async: false
 # project: delta-essence-114723
+# results-history-name: android-history
 
   # test and app are the only required args
   app: ../test_app/apks/app-debug.apk

@@ -5,6 +5,8 @@ import ftl.args.ArgsHelper.assertGcsFileExists
 import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.validateTestMethods
 import ftl.args.ArgsHelper.yamlMapper
+import ftl.args.ArgsToString.devicesToString
+import ftl.args.ArgsToString.listToString
 import ftl.args.yml.FlankYml
 import ftl.args.yml.GcloudYml
 import ftl.args.yml.IosFlankYml
@@ -29,6 +31,7 @@ class IosArgs(
     val testTimeout = gcloud.timeout
     override val async = gcloud.async
     override val projectId = gcloud.project
+    val resultsHistoryName = gcloud.resultsHistoryName
 
     private val iosGcloud = iosGcloudYml.gcloud
     val xctestrunZip = iosGcloud.test
@@ -77,22 +80,26 @@ class IosArgs(
         return """
 IosArgs
     gcloud:
-      resultsBucket: $resultsBucket
-      recordVideo: $recordVideo
-      testTimeout: $testTimeout
+      results-bucket: $resultsBucket
+      record-video: $recordVideo
+      timeout: $testTimeout
       async: $async
-      projectId: $projectId
+      project: $projectId
+      results-history-name: $resultsHistoryName
       # iOS gcloud
-      xctestrunZip: $xctestrunZip
-      xctestrunFile: $xctestrunFile
-      devices: $devices
+      test: $xctestrunZip
+      xctestrun-file: $xctestrunFile
+      device:
+${devicesToString(devices)}
 
     flank:
       testShards: $testShards
       repeatTests: $repeatTests
-      testTargetsAlwaysRun: $testTargetsAlwaysRun
+      test-targets-always-run:
+${listToString(testTargetsAlwaysRun)}
       # iOS flank
-      testTargets: $testTargets
+      test-targets:
+${listToString(testTargets)}
     """.trimIndent()
     }
 
