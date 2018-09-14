@@ -21,12 +21,12 @@ Run `test_runner/flank.ios.yml` with flank to verify iOS execution is working.
 # gcloud args match the official gcloud cli
 # https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/run
 gcloud:
-# results-bucket: tmp_flank
+  # results-bucket: tmp_flank
   record-video: true
   timeout: 30m
   async: false
-# project: delta-essence-114723
-# results-history-name: ios-history
+  # project: delta-essence-114723
+  # results-history-name: ios-history
 
   # test and xctestrun-file are the only required args
   test: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip
@@ -39,13 +39,13 @@ flank:
   # repeat tests - the amount of times to run the tests.
   # 1 runs the tests once. 10 runs all the tests 10x
   repeatTests: 1
-# # always run - these tests are inserted at the beginning of every shard
-# # useful if you need to grant permissions or login before other tests run
-# test-targets-always-run:
-#  - a/testGrantPermissions
-# # test targets - a list of tests to run. omit to run all tests.
-# test-targets:
-#  - b/testBasicSelection
+  # always run - these tests are inserted at the beginning of every shard
+  # useful if you need to grant permissions or login before other tests run
+  test-targets-always-run:
+    - a/testGrantPermissions
+  # test targets - a list of tests to run. omit to run all tests.
+  test-targets:
+    - b/testBasicSelection
 ```
 
 ### Android example
@@ -60,12 +60,12 @@ Run `test_runner/flank.yml` with flank to verify Android execution is working.
 # gcloud args match the official gcloud cli
 # https://cloud.google.com/sdk/gcloud/reference/firebase/test/android/run
 gcloud:
-# results-bucket: tmp_flank
+  results-bucket: tmp_flank
   record-video: true
   timeout: 60m
   async: false
-# project: delta-essence-114723
-# results-history-name: android-history
+  project: delta-essence-114723
+  results-history-name: android-history
 
   # test and app are the only required args
   app: ../test_app/apks/app-debug.apk
@@ -90,10 +90,10 @@ flank:
   # repeat tests - the amount of times to run the tests.
   # 1 runs the tests once. 10 runs all the tests 10x
   repeatTests: 1
-# # always run - these tests are inserted at the beginning of every shard
-# # useful if you need to grant permissions or login before other tests run
-# test-targets-always-run:
-#   - class com.example.app.ExampleUiTest#testPasses
+  # always run - these tests are inserted at the beginning of every shard
+  # useful if you need to grant permissions or login before other tests run
+  test-targets-always-run:
+    - class com.example.app.ExampleUiTest#testPasses
 ```
 
 ### CI integration
