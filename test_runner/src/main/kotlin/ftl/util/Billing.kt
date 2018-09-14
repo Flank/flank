@@ -44,11 +44,11 @@ object Billing {
         val virtualCost = billableVirtualMinutes.multiply(VIRTUAL_COST_PER_MIN).setScale(2, RoundingMode.HALF_UP)
         val physicalCost = billablePhysicalMinutes.multiply(PHYSICAL_COST_PER_MIN).setScale(2, RoundingMode.HALF_UP)
         val totalCost = (virtualCost + physicalCost).setScale(2, RoundingMode.HALF_UP)
+        val totalMinutes = billableVirtualMinutes + billablePhysicalMinutes
 
-        val virtualTime = prettyTime(billableVirtualMinutes)
-        val physicalTime = prettyTime(billablePhysicalMinutes)
+        val billableVirtualTime = prettyTime(billableVirtualMinutes)
+        val billablePhysicalTime = prettyTime(billablePhysicalMinutes)
         val totalTime = prettyTime(billableVirtualMinutes + billablePhysicalMinutes)
-        val tab = "\t"
 
         val displayPhysical = billablePhysicalMinutes.signum() == 1
         val displayVirtual = billableVirtualMinutes.signum() == 1 // 1 = positive number > 0
@@ -58,27 +58,21 @@ object Billing {
         if (displayPhysical) {
             result += """
 Physical devices
-  Billable time:$tab$physicalTime
-  Billable minutes:$tab$billablePhysicalMinutes
-  Cost:$tab${'$'}$physicalCost
+  $$physicalCost for $billablePhysicalTime
 """
         }
 
         if (displayVirtual) {
             result += """
 Virtual devices
-  Billable time:$tab$virtualTime
-  Billable minutes:$tab$billableVirtualMinutes
-  Cost:$tab${'$'}$virtualCost
+  $$virtualCost for $billableVirtualTime
 """
         }
 
         if (displayTotal) {
             result += """
 Total
-  Billable time:$tab$totalTime
-  Billable minutes:$tab${billableVirtualMinutes + billablePhysicalMinutes}
-  Cost:$tab${'$'}$totalCost
+  $$totalCost for $totalTime
 """
         }
 
