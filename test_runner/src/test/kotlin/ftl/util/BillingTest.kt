@@ -47,4 +47,23 @@ Virtual devices
         val actualReport = Billing.estimateCosts(456L, 0)
         assertThat(actualReport).isEqualTo(expectedReport)
     }
+
+    @Test
+    fun estimateCosts_1m() {
+        val expectedReport = """
+Virtual devices
+  $0.02 for 1m
+""".trim()
+        val actualReport = Billing.estimateCosts(1, 0)
+        assertThat(actualReport).isEqualTo(expectedReport)
+    }
+
+    @Test
+    fun estimateCosts_0m() {
+        val expectedReport = """
+No cost. 0m
+""".trim()
+        val actualReport = Billing.estimateCosts(0, 0)
+        assertThat(actualReport).isEqualTo(expectedReport)
+    }
 }

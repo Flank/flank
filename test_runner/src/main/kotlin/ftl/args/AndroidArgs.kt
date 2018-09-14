@@ -34,11 +34,11 @@ class AndroidArgs(
 ) : IArgs {
     private val gcloud = gcloudYml.gcloud
     override val resultsBucket: String
-    val recordVideo = gcloud.recordVideo
-    val testTimeout = gcloud.timeout
+    override val recordVideo = gcloud.recordVideo
+    override val testTimeout = gcloud.timeout
     override val async = gcloud.async
     override val projectId = gcloud.project
-    val resultsHistoryName = gcloud.resultsHistoryName
+    override val resultsHistoryName = gcloud.resultsHistoryName
 
     private val androidGcloud = androidGcloudYml.gcloud
     val appApk = androidGcloud.app
@@ -52,9 +52,9 @@ class AndroidArgs(
     val devices = androidGcloud.device
 
     private val flank = flankYml.flank
-    val testShards = flank.testShards
+    override val testShards = flank.testShards
     override val repeatTests = flank.repeatTests
-    val testTargetsAlwaysRun = flank.testTargetsAlwaysRun
+    override val testTargetsAlwaysRun = flank.testTargetsAlwaysRun
 
     // computed properties not specified in yaml
     override val testShardChunks: List<List<String>>

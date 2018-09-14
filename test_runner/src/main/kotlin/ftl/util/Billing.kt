@@ -44,7 +44,6 @@ object Billing {
         val virtualCost = billableVirtualMinutes.multiply(VIRTUAL_COST_PER_MIN).setScale(2, RoundingMode.HALF_UP)
         val physicalCost = billablePhysicalMinutes.multiply(PHYSICAL_COST_PER_MIN).setScale(2, RoundingMode.HALF_UP)
         val totalCost = (virtualCost + physicalCost).setScale(2, RoundingMode.HALF_UP)
-        val totalMinutes = billableVirtualMinutes + billablePhysicalMinutes
 
         val billableVirtualTime = prettyTime(billableVirtualMinutes)
         val billablePhysicalTime = prettyTime(billablePhysicalMinutes)
@@ -54,6 +53,10 @@ object Billing {
         val displayVirtual = billableVirtualMinutes.signum() == 1 // 1 = positive number > 0
         val displayTotal = displayPhysical && displayVirtual
         var result = ""
+
+        if (!displayPhysical && !displayVirtual) {
+            result = "No cost. 0m"
+        }
 
         if (displayPhysical) {
             result += """
@@ -83,6 +86,11 @@ Total
         val remainder = billableMinutes.toLong()
         val hours = TimeUnit.MINUTES.toHours(remainder)
         val minutes = remainder % 60
-        return "${hours}h ${minutes}m"
+
+        return if (hours > 0) {
+            "${hours}h ${minutes}m"
+        } else {
+            "${minutes}m"
+        }
     }
 }

@@ -27,11 +27,11 @@ class IosArgs(
 ) : IArgs {
     private val gcloud = gcloudYml.gcloud
     override val resultsBucket = gcloud.resultsBucket
-    val recordVideo = gcloud.recordVideo
-    val testTimeout = gcloud.timeout
+    override val recordVideo = gcloud.recordVideo
+    override val testTimeout = gcloud.timeout
     override val async = gcloud.async
     override val projectId = gcloud.project
-    val resultsHistoryName = gcloud.resultsHistoryName
+    override val resultsHistoryName = gcloud.resultsHistoryName
 
     private val iosGcloud = iosGcloudYml.gcloud
     val xctestrunZip = iosGcloud.test
@@ -39,9 +39,9 @@ class IosArgs(
     val devices = iosGcloud.device
 
     private val flank = flankYml.flank
-    val testShards = flank.testShards
+    override val testShards = flank.testShards
     override val repeatTests = flank.repeatTests
-    val testTargetsAlwaysRun = flank.testTargetsAlwaysRun
+    override val testTargetsAlwaysRun = flank.testTargetsAlwaysRun
 
     private val iosFlank = iosFlankYml.flank
     val testTargets = iosFlank.testTargets

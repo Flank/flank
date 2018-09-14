@@ -9,26 +9,7 @@ import ftl.util.Utils.println
 import ftl.util.Utils.write
 import java.io.StringWriter
 
-/**
-
-Calculates cost based on the matrix map. Always run.
-
-Example:
-
-Physical devices
-Billable time:  35h 29m
-Billable minutes:   2129
-Cost:   $177.42
-Virtual devices
-Billable time:  34h 22m
-Billable minutes:   2062
-Cost:   $34.37
-Total
-Billable time:  69h 51m
-Billable minutes:   4191
-Cost:   $211.79
-
- */
+/** Calculates cost based on the matrix map. Always run. */
 object CostReport : IReport {
 
     private fun estimate(matrices: MatrixMap): String {
@@ -49,7 +30,7 @@ object CostReport : IReport {
         StringWriter().use { writer ->
             writer.println(reportName())
             cost.split("\n").forEach { writer.println(indent + it) }
-            return writer.toString()
+            return writer.toString() + "\n"
         }
     }
 

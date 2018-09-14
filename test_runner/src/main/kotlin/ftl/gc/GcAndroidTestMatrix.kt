@@ -82,8 +82,10 @@ object GcAndroidTestMatrix {
                 .setTestTimeout("${testTimeoutSeconds}s")
                 .setTestSetup(testSetup)
 
+        val historyId = GcToolResults.getHistoryId(config)
+
         val toolResultsHistory = ToolResultsHistory()
-                .setHistoryId(config.resultsHistoryName)
+                .setHistoryId(historyId)
                 .setProjectId(config.projectId)
 
         val resultsStorage = ResultStorage()

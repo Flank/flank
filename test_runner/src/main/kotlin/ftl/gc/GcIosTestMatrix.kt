@@ -58,8 +58,10 @@ object GcIosTestMatrix {
                 .setIosTestSetup(iOSTestSetup)
                 .setIosXcTest(iOSXCTest)
 
+        val historyId = GcToolResults.getHistoryId(config)
+
         val toolResultsHistory = ToolResultsHistory()
-                .setHistoryId(config.resultsHistoryName)
+                .setHistoryId(historyId)
                 .setProjectId(config.projectId)
 
         val resultStorage = ResultStorage()
