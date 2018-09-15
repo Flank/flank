@@ -20,7 +20,7 @@ class TestRunnerTest {
     }
 
     @Test
-    fun mockedAndroidTestRun_gcs() {
+    fun mockedAndroidTestRun_gcsAndHistoryName() {
         val gcsConfig = AndroidArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.gcs.yml"))
         runBlocking {
             TestRunner.newRun(gcsConfig)
@@ -36,7 +36,7 @@ class TestRunnerTest {
     }
 
     @Test
-    fun mockedIosTestRun_gcs() {
+    fun mockedIosTestRun_gcsAndHistoryName() {
         val config = IosArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.gcs.yml"))
         runBlocking {
             TestRunner.newRun(config)

@@ -8,6 +8,7 @@ gcloud:
   record-video: true
   timeout: 60m
   async: true
+  results-history-name: android-gcs
   test-targets:
   - class com.example.app.ExampleUiTest#testPasses
   device:
