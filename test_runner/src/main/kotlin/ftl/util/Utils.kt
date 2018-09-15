@@ -103,7 +103,7 @@ object Utils {
 
     private fun getResource(name: String): InputStream {
         return classLoader.getResourceAsStream(name)
-                ?: throw RuntimeException("Unable to find resource: $name")
+            ?: throw RuntimeException("Unable to find resource: $name")
     }
 
     fun readTextResource(name: String): String {

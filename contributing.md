@@ -17,9 +17,10 @@ See the main readme for instructions on how to run the iOS and Android samples.
 
 ## Adding new gcloud property common to iOS and Android
 
-- Add property to `GcloudYml` and update `keys` in the same file
-- Update `AndroidArgs` to reference the propery and `toString` in the same file.
-- Update `IosArgs` to reference the propery and `toString` in the same file.
+- Add property to `GcloudYml` and update `keys`
+- Update `IArgs` with new property
+- Update `AndroidArgs` to reference the propery and update `toString`
+- Update `IosArgs` to reference the propery and `toString`
 
 ## CLA
 

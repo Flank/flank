@@ -46,8 +46,8 @@ object GcAndroidTestMatrix {
         val matrixGcsPath = join(config.resultsBucket, runGcsPath, shardCounter.next())
 
         val androidInstrumentation = AndroidInstrumentationTest()
-                .setAppApk(FileReference().setGcsPath(appApkGcsPath))
-                .setTestApk(FileReference().setGcsPath(testApkGcsPath))
+            .setAppApk(FileReference().setGcsPath(appApkGcsPath))
+            .setTestApk(FileReference().setGcsPath(testApkGcsPath))
 
         if (config.useOrchestrator) {
             androidInstrumentation.orchestratorOption = "USE_ORCHESTRATOR"
@@ -65,41 +65,41 @@ object GcAndroidTestMatrix {
         }
 
         val testSetup = TestSetup()
-                .setAccount(account)
-                .setDirectoriesToPull(config.directoriesToPull)
+            .setAccount(account)
+            .setDirectoriesToPull(config.directoriesToPull)
 
         if (config.environmentVariables.isNotEmpty()) {
             testSetup.environmentVariables =
-                    config.environmentVariables.map { it.toEnvironmentVariable() }
+                config.environmentVariables.map { it.toEnvironmentVariable() }
         }
 
         val testTimeoutSeconds = testTimeoutToSeconds(config.testTimeout)
 
         val testSpecification = TestSpecification()
-                .setAndroidInstrumentationTest(androidInstrumentation)
-                .setDisablePerformanceMetrics(!config.performanceMetrics)
-                .setDisableVideoRecording(!config.recordVideo)
-                .setTestTimeout("${testTimeoutSeconds}s")
-                .setTestSetup(testSetup)
+            .setAndroidInstrumentationTest(androidInstrumentation)
+            .setDisablePerformanceMetrics(!config.performanceMetrics)
+            .setDisableVideoRecording(!config.recordVideo)
+            .setTestTimeout("${testTimeoutSeconds}s")
+            .setTestSetup(testSetup)
 
         val historyId = GcToolResults.getHistoryId(config)
 
         val toolResultsHistory = ToolResultsHistory()
-                .setHistoryId(historyId)
-                .setProjectId(config.projectId)
+            .setHistoryId(historyId)
+            .setProjectId(config.projectId)
 
         val resultsStorage = ResultStorage()
-                .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
-                .setToolResultsHistory(toolResultsHistory)
+            .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
+            .setToolResultsHistory(toolResultsHistory)
 
         val environmentMatrix = EnvironmentMatrix()
-                .setAndroidDeviceList(androidDeviceList)
+            .setAndroidDeviceList(androidDeviceList)
 
         val testMatrix = TestMatrix()
-                .setClientInfo(clientInfo)
-                .setTestSpecification(testSpecification)
-                .setResultStorage(resultsStorage)
-                .setEnvironmentMatrix(environmentMatrix)
+            .setClientInfo(clientInfo)
+            .setTestSpecification(testSpecification)
+            .setResultStorage(resultsStorage)
+            .setEnvironmentMatrix(environmentMatrix)
         try {
             return GcTesting.get.projects().testMatrices().create(config.projectId, testMatrix)
         } catch (e: Exception) {

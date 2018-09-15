@@ -27,8 +27,8 @@ object Parse {
 
     private fun methodName(matcher: MatchResult): String {
         return matcher.groupValues.last()
-                .replace('.', '/')
-                .replace(' ', '/')
+            .replace('.', '/')
+            .replace(' ', '/')
     }
 
     internal fun parseObjcTests(binary: String): List<String> {

@@ -30,7 +30,8 @@ class GcloudYmlParams(
     val resultsHistoryName: String? = null
 ) {
     companion object : IYmlKeys {
-        override val keys = listOf("results-bucket", "record-video", "timeout", "async", "project", "results-history-name")
+        override val keys =
+            listOf("results-bucket", "record-video", "timeout", "async", "project", "results-history-name")
     }
 
     init {

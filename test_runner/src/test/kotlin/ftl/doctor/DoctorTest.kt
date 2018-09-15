@@ -69,7 +69,7 @@ Unknown keys in flank -> [three]
     @Test
     fun androidDoctorTest3() {
         val lint = Doctor.validateYaml(
-                AndroidArgs, """
+            AndroidArgs, """
 gcloud:
   app: .
   test: .
@@ -132,7 +132,7 @@ Unknown keys in flank -> [three]
     @Test
     fun iosDoctorTest3() {
         val lint = Doctor.validateYaml(
-                IosArgs, """
+            IosArgs, """
 gcloud:
   project: .
   test: .

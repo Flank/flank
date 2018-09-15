@@ -3,10 +3,10 @@ package ftl.run
 import ftl.args.IArgs
 import ftl.run.GenericTestRunner.beforeRunMessage
 import ftl.test.util.TestHelper.assert
+import ftl.util.Utils.trimStartLine
 import org.junit.Test
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
-import ftl.util.Utils.trimStartLine
 
 class GenericTestRunnerTest {
 

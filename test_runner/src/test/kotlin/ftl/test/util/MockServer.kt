@@ -184,10 +184,12 @@ object MockServer {
 
                 // GcToolResults.createHistory
                 post("/toolresults/v1beta3/projects/{projectId}/histories") {
-                    call.respond(History()
-                        .setHistoryId("mockId")
-                        .setDisplayName("mockDisplayName")
-                        .setName("mockName"))
+                    call.respond(
+                        History()
+                            .setHistoryId("mockId")
+                            .setDisplayName("mockDisplayName")
+                            .setName("mockName")
+                    )
                 }
 
                 // POST /upload/storage/v1/b/tmp_bucket_2/o?projection=full&uploadType=multipart
