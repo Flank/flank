@@ -13,6 +13,9 @@ import ftl.args.ArgsHelper.getGcsBucket
 import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.validateTestMethods
 import ftl.args.ArgsHelper.yamlMapper
+import ftl.args.ArgsToString.devicesToString
+import ftl.args.ArgsToString.listToString
+import ftl.args.ArgsToString.mapToString
 import ftl.args.yml.AndroidGcloudYml
 import ftl.args.yml.FlankYml
 import ftl.args.yml.GcloudYml
@@ -31,10 +34,11 @@ class AndroidArgs(
 ) : IArgs {
     private val gcloud = gcloudYml.gcloud
     override val resultsBucket: String
-    val recordVideo = gcloud.recordVideo
-    val testTimeout = gcloud.timeout
+    override val recordVideo = gcloud.recordVideo
+    override val testTimeout = gcloud.timeout
     override val async = gcloud.async
     override val projectId = gcloud.project
+    override val resultsHistoryName = gcloud.resultsHistoryName
 
     private val androidGcloud = androidGcloudYml.gcloud
     val appApk = androidGcloud.app
@@ -48,9 +52,9 @@ class AndroidArgs(
     val devices = androidGcloud.device
 
     private val flank = flankYml.flank
-    val testShards = flank.testShards
+    override val testShards = flank.testShards
     override val repeatTests = flank.repeatTests
-    val testTargetsAlwaysRun = flank.testTargetsAlwaysRun
+    override val testTargetsAlwaysRun = flank.testTargetsAlwaysRun
 
     // computed properties not specified in yaml
     override val testShardChunks: List<List<String>>
@@ -106,26 +110,32 @@ class AndroidArgs(
         return """
 AndroidArgs
     gcloud:
-      resultsBucket: $resultsBucket
-      recordVideo: $recordVideo
-      testTimeout: $testTimeout
+      results-bucket: $resultsBucket
+      record-video: $recordVideo
+      timeout: $testTimeout
       async: $async
-      projectId: $projectId
+      project: $projectId
+      results-history-name: $resultsHistoryName
       # Android gcloud
-      appApk: $appApk
-      testApk: $testApk
-      autoGoogleLogin: $autoGoogleLogin
-      useOrchestrator: $useOrchestrator
-      environmentVariables: $environmentVariables
-      directoriesToPull: $directoriesToPull
-      performanceMetrics: $performanceMetrics
-      testTargets: $testTargets
-      devices: $devices
+      app: $appApk
+      test: $testApk
+      auto-google-login: $autoGoogleLogin
+      use-orchestrator: $useOrchestrator
+      environment-variables:
+${mapToString(environmentVariables)}
+      directories-to-pull:
+${listToString(directoriesToPull)}
+      performance-metrics: $performanceMetrics
+      test-targets:
+${listToString(testTargets)}
+      device:
+${devicesToString(devices)}
 
     flank:
       testShards: $testShards
       repeatTests: $repeatTests
-      testTargetsAlwaysRun: $testTargetsAlwaysRun
+      test-targets-always-run:
+${listToString(testTargetsAlwaysRun)}
    """.trimIndent()
     }
 

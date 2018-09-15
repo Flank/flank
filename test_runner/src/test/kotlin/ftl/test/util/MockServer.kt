@@ -13,6 +13,8 @@ import com.google.api.services.testing.model.TestExecution
 import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.model.Duration
+import com.google.api.services.toolresults.model.History
+import com.google.api.services.toolresults.model.ListHistoriesResponse
 import com.google.api.services.toolresults.model.Outcome
 import com.google.api.services.toolresults.model.ProjectSettings
 import com.google.api.services.toolresults.model.Step
@@ -171,6 +173,21 @@ object MockServer {
                     val settings = ProjectSettings()
                         .setDefaultBucket("mockBucket")
                     call.respond(settings)
+                }
+
+                // GcToolResults.listHistoriesByName
+                get("/toolresults/v1beta3/projects/{projectId}/histories") {
+                    val response = ListHistoriesResponse()
+                        .setHistories(null)
+                    call.respond(response)
+                }
+
+                // GcToolResults.createHistory
+                post("/toolresults/v1beta3/projects/{projectId}/histories") {
+                    call.respond(History()
+                        .setHistoryId("mockId")
+                        .setDisplayName("mockDisplayName")
+                        .setName("mockName"))
                 }
 
                 // POST /upload/storage/v1/b/tmp_bucket_2/o?projection=full&uploadType=multipart

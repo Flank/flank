@@ -21,11 +21,12 @@ Run `test_runner/flank.ios.yml` with flank to verify iOS execution is working.
 # gcloud args match the official gcloud cli
 # https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/run
 gcloud:
-  # results-bucket: earlgrey-swift
+  # results-bucket: tmp_flank
   record-video: true
   timeout: 30m
   async: false
   # project: delta-essence-114723
+  # results-history-name: ios-history
 
   # test and xctestrun-file are the only required args
   test: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip
@@ -41,10 +42,10 @@ flank:
   # always run - these tests are inserted at the beginning of every shard
   # useful if you need to grant permissions or login before other tests run
   test-targets-always-run:
-   - a/testGrantPermissions
+    - a/testGrantPermissions
   # test targets - a list of tests to run. omit to run all tests.
   test-targets:
-   - b/testBasicSelection
+    - b/testBasicSelection
 ```
 
 ### Android example
@@ -59,15 +60,16 @@ Run `test_runner/flank.yml` with flank to verify Android execution is working.
 # gcloud args match the official gcloud cli
 # https://cloud.google.com/sdk/gcloud/reference/firebase/test/android/run
 gcloud:
-  results-bucket: tmp_bucket_2
+  results-bucket: tmp_flank
   record-video: true
   timeout: 60m
   async: false
   project: delta-essence-114723
+  results-history-name: android-history
 
   # test and app are the only required args
-  app: ../../test_app/apks/app-debug.apk
-  test: ../../test_app/apks/app-debug-androidTest.apk
+  app: ../test_app/apks/app-debug.apk
+  test: ../test_app/apks/app-debug-androidTest.apk
   auto-google-login: true
   use-orchestrator: true
   environment-variables:
