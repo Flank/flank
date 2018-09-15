@@ -66,7 +66,7 @@ class AndroidArgsTest {
         expectedException.expect(RuntimeException::class.java)
         expectedException.expectMessage("Unsupported model id")
         AndroidArgs.load(
-                """
+            """
         gcloud:
           app: $appApk
           test: $testApk
@@ -82,7 +82,7 @@ class AndroidArgsTest {
         expectedException.expect(RuntimeException::class.java)
         expectedException.expectMessage("Unsupported version id")
         AndroidArgs.load(
-                """
+            """
         gcloud:
           app: $appApk
           test: $testApk
@@ -98,7 +98,7 @@ class AndroidArgsTest {
         expectedException.expect(RuntimeException::class.java)
         expectedException.expectMessage("Incompatible model")
         AndroidArgs.load(
-                """
+            """
         gcloud:
           app: $appApk
           test: $testApk
@@ -130,17 +130,29 @@ class AndroidArgsTest {
             assert(environmentVariables, linkedMapOf("clearPackageData" to "true", "randomEnvVar" to "false"))
             assert(directoriesToPull, listOf("/sdcard/screenshots", "/sdcard/screenshots2"))
             assert(performanceMetrics, false)
-            assert(testTargets, listOf("class com.example.app.ExampleUiTest#testPasses", "class com.example.app.ExampleUiTest#testFails"))
-            assert(devices, listOf(
+            assert(
+                testTargets,
+                listOf(
+                    "class com.example.app.ExampleUiTest#testPasses",
+                    "class com.example.app.ExampleUiTest#testFails"
+                )
+            )
+            assert(
+                devices, listOf(
                     Device("NexusLowRes", "23", "en", "portrait"),
-                    Device("NexusLowRes", "24", "en", "portrait")))
+                    Device("NexusLowRes", "24", "en", "portrait")
+                )
+            )
 
             // FlankYml
             assert(testShards, 7)
             assert(repeatTests, 8)
-            assert(testTargetsAlwaysRun, listOf(
+            assert(
+                testTargetsAlwaysRun, listOf(
                     "class example.Test#grantPermission",
-                    "class example.Test#grantPermission2"))
+                    "class example.Test#grantPermission2"
+                )
+            )
         }
     }
 
@@ -148,7 +160,7 @@ class AndroidArgsTest {
     fun androidArgsToString() {
         val androidArgs = AndroidArgs.load(androidNonDefault)
         assert(
-                androidArgs.toString(), """
+            androidArgs.toString(), """
 AndroidArgs
     gcloud:
       results-bucket: mockBucket
@@ -195,7 +207,7 @@ AndroidArgs
     @Test
     fun androidArgsDefault() {
         val androidArgs = AndroidArgs.load(
-                """
+            """
         gcloud:
           app: $appApk
           test: $testApk
@@ -231,7 +243,7 @@ AndroidArgs
     @Test
     fun negativeOneTestShards() {
         val androidArgs = AndroidArgs.load(
-                """
+            """
         gcloud:
           app: $appApk
           test: $testErrorApk
@@ -251,7 +263,7 @@ AndroidArgs
     @Test
     fun androidArgs_emptyFlank() {
         val androidArgs = AndroidArgs.load(
-                """
+            """
         gcloud:
           app: $appApk
           test: $testApk

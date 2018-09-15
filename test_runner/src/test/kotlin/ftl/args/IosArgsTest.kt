@@ -198,7 +198,7 @@ IosArgs
     @Test
     fun iosArgs_emptyFlank() {
         val iosArgs = IosArgs.load(
-                """
+            """
     gcloud:
       test: $testPath
       xctestrun-file: $xctestrunFile

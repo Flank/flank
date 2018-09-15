@@ -17,8 +17,8 @@ object GcAndroidDevice {
     )
 
     fun build(device: Device): AndroidDevice = AndroidDevice()
-                .setAndroidModelId(device.model)
-                .setAndroidVersionId(device.version)
-                .setLocale(device.locale)
-                .setOrientation(device.orientation)
+        .setAndroidModelId(device.model)
+        .setAndroidVersionId(device.version)
+        .setLocale(device.locale)
+        .setOrientation(device.orientation)
 }

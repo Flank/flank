@@ -44,37 +44,37 @@ object GcIosTestMatrix {
         val xctestrunFileGcsPath = GcStorage.uploadXCTestFile(config, gcsBucket, matrixGcsSuffix, generatedXctestrun)
 
         val iOSXCTest = IosXcTest()
-                .setTestsZip(FileReference().setGcsPath(testZipGcsPath))
-                .setXctestrun(FileReference().setGcsPath(xctestrunFileGcsPath))
+            .setTestsZip(FileReference().setGcsPath(testZipGcsPath))
+            .setXctestrun(FileReference().setGcsPath(xctestrunFileGcsPath))
 
         val iOSTestSetup = IosTestSetup()
-                .setNetworkProfile(null)
+            .setNetworkProfile(null)
 
         val testTimeoutSeconds = testTimeoutToSeconds(config.testTimeout)
 
         val testSpecification = TestSpecification()
-                .setDisableVideoRecording(!config.recordVideo)
-                .setTestTimeout("${testTimeoutSeconds}s")
-                .setIosTestSetup(iOSTestSetup)
-                .setIosXcTest(iOSXCTest)
+            .setDisableVideoRecording(!config.recordVideo)
+            .setTestTimeout("${testTimeoutSeconds}s")
+            .setIosTestSetup(iOSTestSetup)
+            .setIosXcTest(iOSXCTest)
 
         val historyId = GcToolResults.getHistoryId(config)
 
         val toolResultsHistory = ToolResultsHistory()
-                .setHistoryId(historyId)
-                .setProjectId(config.projectId)
+            .setHistoryId(historyId)
+            .setProjectId(config.projectId)
 
         val resultStorage = ResultStorage()
-                .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
-                .setToolResultsHistory(toolResultsHistory)
+            .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
+            .setToolResultsHistory(toolResultsHistory)
 
         val environmentMatrix = EnvironmentMatrix().setIosDeviceList(iosDeviceList)
 
         val testMatrix = TestMatrix()
-                .setClientInfo(clientInfo)
-                .setTestSpecification(testSpecification)
-                .setEnvironmentMatrix(environmentMatrix)
-                .setResultStorage(resultStorage)
+            .setClientInfo(clientInfo)
+            .setTestSpecification(testSpecification)
+            .setEnvironmentMatrix(environmentMatrix)
+            .setResultStorage(resultStorage)
 
         try {
             return GcTesting.get.projects().testMatrices().create(config.projectId, testMatrix)

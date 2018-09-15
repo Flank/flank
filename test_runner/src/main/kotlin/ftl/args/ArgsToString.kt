@@ -6,7 +6,7 @@ object ArgsToString {
 
     fun mapToString(map: Map<String, String>): String {
         return map.map { (key, value) -> "        $key: $value" }
-                .joinToString("\n")
+            .joinToString("\n")
     }
 
     fun listToString(list: List<String>): String {
