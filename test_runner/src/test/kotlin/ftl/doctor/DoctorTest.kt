@@ -29,6 +29,7 @@ gcloud:
   timeout: .
   async: .
   project: .
+  results-history-name: .
 
   app: .
   test: .
@@ -99,6 +100,7 @@ gcloud:
   timeout: .
   async: .
   project: .
+  results-history-name: .
 
   test: .
   xctestrun-file: .
