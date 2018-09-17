@@ -124,9 +124,9 @@ EOF
 
 ### Gradle Plugin
 
-Flank can also be configured to run as a Gradle Task using the [Flank Gradle plugin - Fladle](https://github.com/runningcode/fladle).
+[Fladle][fladle] is a Gradle plugin for Flank that provides DSL configuration and task based execution.
 
-Once configured, Flank can be run like so `./gradlew runFlank`.
+[fladle]: https://github.com/runningcode/fladle
 
 ### Authenticate with a service account
 
