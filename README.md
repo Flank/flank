@@ -122,6 +122,12 @@ gcloud:
 EOF
 ```
 
+### Gradle Plugin
+
+[Fladle][fladle] is a Gradle plugin for Flank that provides DSL configuration and task based execution.
+
+[fladle]: https://github.com/runningcode/fladle
+
 ### Authenticate with a service account
 
 Follow the [test lab docs](https://firebase.google.com/docs/test-lab/android/continuous) to create a service account.
