@@ -122,6 +122,12 @@ gcloud:
 EOF
 ```
 
+### Gradle Plugin
+
+Flank can also be configured to run as a Gradle Task using the [Flank Gradle plugin - Fladle](https://github.com/runningcode/fladle).
+
+Once configured, Flank can be run like so `./gradlew runFlank`.
+
 ### Authenticate with a service account
 
 Follow the [test lab docs](https://firebase.google.com/docs/test-lab/android/continuous) to create a service account.
