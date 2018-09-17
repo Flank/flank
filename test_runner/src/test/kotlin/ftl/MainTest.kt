@@ -43,7 +43,7 @@ class MainTest {
     fun mainCLIVersionCommand() {
         assertThat(
             runCommand("-v")
-        ).contains("-SNAPSHOT")
+        ).isNotEmpty()
     }
 
     @Test
