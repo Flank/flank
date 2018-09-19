@@ -78,6 +78,8 @@ gcloud:
     - /sdcard/screenshots
   performance-metrics: true
   test-targets:
+    # supported are class, notClass, package, notPackage, annotation, notAnnotation, testfile, notTestfile, size
+    # as described in https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner
     - class com.example.app.ExampleUiTest#testPasses
   device:
     - model: NexusLowRes
