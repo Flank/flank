@@ -1,6 +1,7 @@
 package ftl.args
 
 import com.linkedin.dex.parser.DexParser
+import com.linkedin.dex.parser.TestMethod
 import ftl.android.AndroidCatalog
 import ftl.android.IncompatibleModelVersion
 import ftl.android.SupportedDeviceConfig
@@ -11,7 +12,6 @@ import ftl.args.ArgsHelper.assertGcsFileExists
 import ftl.args.ArgsHelper.calculateShards
 import ftl.args.ArgsHelper.getGcsBucket
 import ftl.args.ArgsHelper.mergeYmlMaps
-import ftl.args.ArgsHelper.validateTestMethods
 import ftl.args.ArgsHelper.yamlMapper
 import ftl.args.ArgsToString.devicesToString
 import ftl.args.ArgsToString.listToString
@@ -21,7 +21,9 @@ import ftl.args.yml.FlankYml
 import ftl.args.yml.GcloudYml
 import ftl.config.Device
 import ftl.config.FtlConstants
+import ftl.filter.TestFilters
 import ftl.gc.GcStorage
+import ftl.util.Utils
 import kotlinx.coroutines.experimental.runBlocking
 import java.nio.file.Files
 import java.nio.file.Path
@@ -83,16 +85,27 @@ class AndroidArgs(
         }
 
         devices.forEach { device -> assertDeviceSupported(device) }
-
-        val validTestMethods = DexParser.findTestMethods(testLocalApk).map { "class ${it.testName}" }
-        validateTestMethods(testTargets, validTestMethods, "Test APK")
+        val filteredTests = getTestMethods(testLocalApk)
 
         testShardChunks = calculateShards(
             testTargets,
-            validTestMethods,
+            filteredTests,
             testTargetsAlwaysRun,
             testShards
         )
+    }
+
+    private fun getTestMethods(testLocalApk: String): List<String> {
+        val validTestMethods = DexParser.findTestMethods(testLocalApk)
+        val testFilter = TestFilters.fromTestTargets(testTargets)
+        val filteredTests = validTestMethods
+            .asSequence()
+            .filter(testFilter::invoke)
+            .map(TestMethod::testName)
+            .map { "class $it" }
+            .toList()
+        require(validTestMethods.isNotEmpty()) { Utils.fatalError("Test APK has no tests") }
+        return filteredTests
     }
 
     private fun assertDeviceSupported(device: Device) {
