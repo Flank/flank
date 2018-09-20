@@ -5,6 +5,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.cloud.ServiceOptions
 import com.google.cloud.storage.BucketInfo
+import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageClass
 import com.google.cloud.storage.StorageOptions
 import com.google.common.math.IntMath
@@ -109,7 +110,8 @@ object ArgsHelper {
         val bucketLabel = mapOf(Pair("flank", ""))
         val storageLocation = "us-central1"
 
-        val storageList = storage.list().values?.map { it.name } ?: emptyList()
+        val bucketListOption = Storage.BucketListOption.prefix(resultsBucket)
+        val storageList = storage.list(bucketListOption).values?.map { it.name } ?: emptyList()
         val bucket = storageList.find { it == resultsBucket }
         if (bucket != null) return bucket
 
