@@ -4,28 +4,62 @@ import com.linkedin.dex.parser.TestMethod
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.Locale
 import java.util.regex.Pattern
 
-typealias TestFilter = (TestMethod) -> Boolean
+/**
+ * TestFilter similar to https://junit.org/junit4/javadoc/4.12/org/junit/runner/manipulation/Filter.html
+ *
+ * @property describe - description of the filter
+ * @property shouldRun - lambda that returns if a TestMethod should be included in the test run
+ * **/
+data class TestFilter(
+    val describe: String,
+    val shouldRun: ((testMethod: TestMethod) -> Boolean)
+)
 
+private fun TestFilter.isTestMethod(): Boolean {
+    return describe.startsWith("withClassName") && describe.contains("#")
+}
+
+/**
+ * Supports arguments defined in androidx.test.internal.runner.RunnerArgs
+ *
+ * Multiple arguments will result in the intersection. A test must match *all* arguments to be included in a test run.
+ * **/
 object TestFilters {
-    private const val ANNOTATION_IGNORE = "Ignore"
-    private const val ARGUMENT_NOT = "not"
     private const val ARGUMENT_TEST_CLASS = "class"
-    private const val ARGUMENT_NOT_TEST_CLASS = ARGUMENT_NOT + ARGUMENT_TEST_CLASS
-    private const val ARGUMENT_TEST_PACKAGE = "package"
-    private const val ARGUMENT_NOT_TEST_PACKAGE = ARGUMENT_NOT + ARGUMENT_TEST_PACKAGE
-    private const val ARGUMENT_TEST_ANNOTATION = "annotation"
-    private const val ARGUMENT_NOT_TEST_ANNOTATION = ARGUMENT_NOT + ARGUMENT_TEST_ANNOTATION
-    private const val ARGUMENT_TEST_FILE = "testfile"
-    private const val ARGUMENT_NOT_TEST_FILE = ARGUMENT_NOT + ARGUMENT_TEST_FILE
+    private const val ARGUMENT_NOT_TEST_CLASS = "notClass"
+
     private const val ARGUMENT_TEST_SIZE = "size"
-    private val FILTER_ARGUMENT = Pattern.compile(
-        "($ARGUMENT_TEST_CLASS|$ARGUMENT_NOT_TEST_CLASS|$ARGUMENT_TEST_PACKAGE|$ARGUMENT_NOT_TEST_PACKAGE|$ARGUMENT_TEST_ANNOTATION|$ARGUMENT_NOT_TEST_ANNOTATION|$ARGUMENT_TEST_FILE|$ARGUMENT_NOT_TEST_FILE|$ARGUMENT_TEST_SIZE)\\s+(.+)",
-        Pattern.CASE_INSENSITIVE
-    )
-    private const val MISSING_ARGUMENTS_MSG = "Must provide either classes to run, or apks to scan"
+
+    private const val ARGUMENT_ANNOTATION = "annotation"
+    private const val ARGUMENT_NOT_ANNOTATION = "notAnnotation"
+
+    private const val ARGUMENT_TEST_PACKAGE = "package"
+    private const val ARGUMENT_NOT_TEST_PACKAGE = "notPackage"
+
+    private const val ARGUMENT_TEST_FILE = "testFile"
+    private const val ARGUMENT_NOT_TEST_FILE = "notTestFile"
+
+    // JUnit @Ignore tests are removed.
+    private const val ANNOTATION_IGNORE = "Ignore"
+
+    private val FILTER_ARGUMENT by lazy {
+
+        val pattern = listOf(
+            ARGUMENT_TEST_CLASS,
+            ARGUMENT_NOT_TEST_CLASS,
+            ARGUMENT_TEST_SIZE,
+            ARGUMENT_ANNOTATION,
+            ARGUMENT_NOT_ANNOTATION,
+            ARGUMENT_TEST_PACKAGE,
+            ARGUMENT_NOT_TEST_PACKAGE,
+            ARGUMENT_TEST_FILE,
+            ARGUMENT_NOT_TEST_FILE
+        ).joinToString("|")
+
+        Pattern.compile("""($pattern)\s+(.+)""")
+    }
 
     private enum class Size(val annotation: String) {
         LARGE("LargeTest"),
@@ -38,10 +72,23 @@ object TestFilters {
         }
     }
 
-    fun fromTestTargets(targets: List<String>): TestFilter = if (targets.isEmpty()) {
-        notIgnored()
-    } else {
-        allOf(targets.asSequence().map(String::trim).map(TestFilters::parseSingleFilter).toList() + notIgnored())
+    fun fromTestTargets(targets: List<String>): TestFilter {
+        return if (targets.isEmpty()) {
+            notIgnored()
+        } else {
+            val parsedFilters =
+                targets
+                    .asSequence()
+                    .map(String::trim)
+                    .map(TestFilters::parseSingleFilter)
+                    .toList()
+
+            // select test method name filters and short circuit if they match ex: class a.b#c
+            val testMethod = parsedFilters.filter { it.isTestMethod() }.toTypedArray()
+            val otherFilters = parsedFilters.filterNot { it.isTestMethod() }.toTypedArray()
+
+            allOf(notIgnored(), anyOf(*testMethod, allOf(*otherFilters)))
+        }
     }
 
     private fun parseSingleFilter(target: String): TestFilter {
@@ -50,14 +97,15 @@ object TestFilters {
         val args = matcher.group(2)
             .split(",")
             .map(String::trim)
-        val command = matcher.group(1).toLowerCase(Locale.ENGLISH)
+        val command = matcher.group(1)
+        require(args.isNotEmpty()) { "Empty args parsed from $target" }
         return when (command) {
             ARGUMENT_TEST_CLASS -> withClassName(args)
             ARGUMENT_NOT_TEST_CLASS -> not(withClassName(args))
             ARGUMENT_TEST_PACKAGE -> withPackageName(args)
             ARGUMENT_NOT_TEST_PACKAGE -> not(withPackageName(args))
-            ARGUMENT_TEST_ANNOTATION -> withAnnotation(args)
-            ARGUMENT_NOT_TEST_ANNOTATION -> not(withAnnotation(args))
+            ARGUMENT_ANNOTATION -> withAnnotation(args)
+            ARGUMENT_NOT_ANNOTATION -> not(withAnnotation(args))
             ARGUMENT_TEST_FILE -> fromTestFile(args)
             ARGUMENT_NOT_TEST_FILE -> not(fromTestFile(args))
             ARGUMENT_TEST_SIZE -> withSize(args)
@@ -82,30 +130,54 @@ object TestFilters {
         }
     }
 
-    private fun withPackageName(packageNames: List<String>): TestFilter {
-        require(packageNames.isNotEmpty()) { MISSING_ARGUMENTS_MSG }
-        return { method ->
-            packageNames.any { packageName -> method.testName.startsWith(packageName) }
+    private fun withPackageName(packageNames: List<String>): TestFilter = TestFilter(
+        describe = "withPackageName ${packageNames.joinToString(", ")}",
+        shouldRun = { testMethod ->
+            packageNames.any { packageName -> testMethod.testName.startsWith(packageName) }
         }
-    }
+    )
 
-    private fun withClassName(classNames: List<String>): TestFilter =
-        withPackageName(classNames)
+    private fun withClassName(classNames: List<String>): TestFilter = TestFilter(
+        describe = "withClassName ${classNames.joinToString(", ")}",
+        shouldRun = { testMethod ->
+            withPackageName(classNames).shouldRun(testMethod)
+        }
+    )
 
-    private fun withAnnotation(annotations: List<String>): TestFilter = { method ->
-        method.annotationNames.any { annotations.contains(it) }
-    }
+    private fun withAnnotation(annotations: List<String>): TestFilter = TestFilter(
+        describe = "withAnnotation ${annotations.joinToString(", ")}",
+        shouldRun = { testMethod ->
+            testMethod.annotationNames.any { annotations.contains(it) }
+        }
+    )
 
-    private fun notIgnored(): TestFilter =
-        not(withAnnotation(listOf(ANNOTATION_IGNORE)))
+    private fun notIgnored(): TestFilter = TestFilter(
+        describe = "notIgnored",
+        shouldRun = { testMethod ->
+            withAnnotation(listOf(ANNOTATION_IGNORE)).shouldRun(testMethod).not()
+        }
+    )
 
-    private fun not(filter: TestFilter): TestFilter = { method ->
-        filter(method).not()
-    }
+    private fun not(filter: TestFilter): TestFilter = TestFilter(
+        describe = "not ${filter.describe}",
+        shouldRun = { testMethod ->
+            filter.shouldRun(testMethod).not()
+        }
+    )
 
-    private fun allOf(filters: List<TestFilter>): TestFilter = { method ->
-        filters.all { filter -> filter(method) }
-    }
+    private fun anyOf(vararg filters: TestFilter): TestFilter = TestFilter(
+        describe = "anyOf ${filters.map { it.describe }}",
+        shouldRun = { testMethod ->
+            filters.any { filter -> filter.shouldRun(testMethod) }
+        }
+    )
+
+    private fun allOf(vararg filters: TestFilter): TestFilter = TestFilter(
+        describe = "allOf ${filters.map { it.describe }}",
+        shouldRun = { testMethod ->
+            filters.all { filter -> filter.shouldRun(testMethod) }
+        }
+    )
 
     private val TestMethod.annotationNames get() = annotations.map { it.name }
 }

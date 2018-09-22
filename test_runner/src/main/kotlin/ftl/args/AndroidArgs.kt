@@ -97,14 +97,15 @@ class AndroidArgs(
 
     private fun getTestMethods(testLocalApk: String): List<String> {
         val validTestMethods = DexParser.findTestMethods(testLocalApk)
+        require(validTestMethods.isNotEmpty()) { Utils.fatalError("Test APK has no tests") }
         val testFilter = TestFilters.fromTestTargets(testTargets)
         val filteredTests = validTestMethods
             .asSequence()
-            .filter(testFilter::invoke)
+            .filter(testFilter.shouldRun)
             .map(TestMethod::testName)
             .map { "class $it" }
             .toList()
-        require(validTestMethods.isNotEmpty()) { Utils.fatalError("Test APK has no tests") }
+        require(filteredTests.isNotEmpty()) { Utils.fatalError("All tests filtered out") }
         return filteredTests
     }
 
