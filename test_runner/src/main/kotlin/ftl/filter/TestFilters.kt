@@ -18,7 +18,7 @@ data class TestFilter(
 )
 
 private fun TestFilter.isTestMethod(): Boolean {
-    return describe.startsWith("withClassName") && describe.contains("#")
+    return describe.startsWith("withClassName")
 }
 
 /**
