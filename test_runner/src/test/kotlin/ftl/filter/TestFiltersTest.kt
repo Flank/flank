@@ -52,6 +52,15 @@ class TestFiltersTest {
     }
 
     @Test
+    fun testFilteringByMultipleClasses() {
+        val testMethods = getTestMethodSet()
+        val filter = fromTestTargets(listOf("class d.e", "class h.i"))
+
+        val filtered = testMethods.asSequence().filter(filter.shouldRun).map { it.testName }.toList()
+        assertThat(filtered).isEqualTo(listOf("d.e#f", "h.i#j"))
+    }
+
+    @Test
     fun testFilteringByClassNameNegative() {
         val filter = fromTestTargets(listOf("notClass whatever.Foo"))
 
