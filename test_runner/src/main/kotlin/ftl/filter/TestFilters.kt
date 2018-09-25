@@ -1,6 +1,7 @@
 package ftl.filter
 
 import com.linkedin.dex.parser.TestMethod
+import ftl.config.FtlConstants
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -9,22 +10,23 @@ import java.util.regex.Pattern
 /**
  * TestFilter similar to https://junit.org/junit4/javadoc/4.12/org/junit/runner/manipulation/Filter.html
  *
+ * Annotations are tracked as all annotation filters must match on a test.
+ *
  * @property describe - description of the filter
  * @property shouldRun - lambda that returns if a TestMethod should be included in the test run
  * **/
 data class TestFilter(
     val describe: String,
-    val shouldRun: ((testMethod: TestMethod) -> Boolean)
+    val shouldRun: ((testMethod: TestMethod) -> Boolean),
+    val isAnnotation: Boolean = false
 )
-
-private fun TestFilter.isTestMethod(): Boolean {
-    return describe.startsWith("withClassName") && describe.contains("#")
-}
 
 /**
  * Supports arguments defined in androidx.test.internal.runner.RunnerArgs
  *
- * Multiple arguments will result in the intersection. A test must match *all* arguments to be included in a test run.
+ * Multiple annotation arguments will result in the intersection.
+ * https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner
+ * https://cloud.google.com/sdk/gcloud/reference/firebase/test/android/run
  * **/
 object TestFilters {
     private const val ARGUMENT_TEST_CLASS = "class"
@@ -84,10 +86,12 @@ object TestFilters {
                     .toList()
 
             // select test method name filters and short circuit if they match ex: class a.b#c
-            val testMethod = parsedFilters.filter { it.isTestMethod() }.toTypedArray()
-            val otherFilters = parsedFilters.filterNot { it.isTestMethod() }.toTypedArray()
+            val annotationFilters = parsedFilters.filter { it.isAnnotation }.toTypedArray()
+            val otherFilters = parsedFilters.filterNot { it.isAnnotation }.toTypedArray()
 
-            allOf(notIgnored(), anyOf(*testMethod, allOf(*otherFilters)))
+            val result = allOf(notIgnored(), *annotationFilters, anyOf(*otherFilters))
+            if (FtlConstants.useMock) println(result.describe)
+            result
         }
     }
 
@@ -148,34 +152,42 @@ object TestFilters {
         describe = "withAnnotation ${annotations.joinToString(", ")}",
         shouldRun = { testMethod ->
             testMethod.annotationNames.any { annotations.contains(it) }
-        }
+        },
+        isAnnotation = true
     )
 
     private fun notIgnored(): TestFilter = TestFilter(
         describe = "notIgnored",
         shouldRun = { testMethod ->
             withAnnotation(listOf(ANNOTATION_IGNORE)).shouldRun(testMethod).not()
-        }
+        },
+        isAnnotation = true
     )
 
     private fun not(filter: TestFilter): TestFilter = TestFilter(
         describe = "not ${filter.describe}",
         shouldRun = { testMethod ->
             filter.shouldRun(testMethod).not()
-        }
+        },
+        isAnnotation = filter.isAnnotation
     )
 
     private fun anyOf(vararg filters: TestFilter): TestFilter = TestFilter(
         describe = "anyOf ${filters.map { it.describe }}",
         shouldRun = { testMethod ->
-            filters.any { filter -> filter.shouldRun(testMethod) }
+            filters.isEmpty() || filters.any { filter -> filter.shouldRun(testMethod) }
         }
     )
 
     private fun allOf(vararg filters: TestFilter): TestFilter = TestFilter(
         describe = "allOf ${filters.map { it.describe }}",
         shouldRun = { testMethod ->
-            filters.all { filter -> filter.shouldRun(testMethod) }
+            if (FtlConstants.useMock) println(":: ${testMethod.testName} @${testMethod.annotations.firstOrNull()}")
+            filters.isEmpty() || filters.all { filter ->
+                val result = filter.shouldRun(testMethod)
+                if (FtlConstants.useMock) println("  $result ${filter.describe}")
+                result
+            }
         }
     )
 

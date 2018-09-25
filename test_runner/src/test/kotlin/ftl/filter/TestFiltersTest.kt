@@ -4,8 +4,10 @@ import com.google.common.truth.Truth.assertThat
 import com.linkedin.dex.parser.TestAnnotation
 import com.linkedin.dex.parser.TestMethod
 import ftl.filter.TestFilters.fromTestTargets
+import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper
 import org.junit.Test
+import org.junit.runner.RunWith
 
 val FOO_PACKAGE = TestMethod("foo.ClassName#testName", emptyList())
 val BAR_PACKAGE = TestMethod("bar.ClassName#testName", emptyList())
@@ -25,7 +27,7 @@ val WITHOUT_MEDIUM_ANNOTATION = TestMethod("whatever.Foo#testName", emptyList())
 val WITHOUT_SMALL_ANNOTATION = TestMethod("whatever.Foo#testName", emptyList())
 const val TEST_FILE = "src/test/kotlin/ftl/filter/fixtures/dummy-tests-file.txt"
 
-//@RunWith(FlankTestRunner::class)
+@RunWith(FlankTestRunner::class)
 class TestFiltersTest {
     @Test
     fun testFilteringByPackage() {
@@ -208,14 +210,17 @@ class TestFiltersTest {
             result
         }.map { "class ${it.testName}" }.toList()
 
+        // @Ignore a.b#c
+        // @Foo d.e#f
+        // @Bar h.i#j
         val expected = listOf(
-            "false a.b#c [allOf [notIgnored, anyOf [withClassName d.e#f, withClassName h.i#j, allOf [not withAnnotation Foo]]]]",
-            "true d.e#f [allOf [notIgnored, anyOf [withClassName d.e#f, withClassName h.i#j, allOf [not withAnnotation Foo]]]]",
-            "true h.i#j [allOf [notIgnored, anyOf [withClassName d.e#f, withClassName h.i#j, allOf [not withAnnotation Foo]]]]"
+            "false a.b#c [allOf [notIgnored, not withAnnotation Foo, anyOf [withClassName d.e#f, withClassName h.i#j]]]",
+            "false d.e#f [allOf [notIgnored, not withAnnotation Foo, anyOf [withClassName d.e#f, withClassName h.i#j]]]",
+            "true h.i#j [allOf [notIgnored, not withAnnotation Foo, anyOf [withClassName d.e#f, withClassName h.i#j]]]"
         )
 
         assertThat(output).isEqualTo(expected)
-        assertThat(filtered).isEqualTo(listOf("class d.e#f", "class h.i#j"))
+        assertThat(filtered).isEqualTo(listOf("class h.i#j"))
     }
 
     @Test
@@ -237,11 +242,26 @@ class TestFiltersTest {
     }
 
     @Test
-    fun classDoesntOverrideIgnored() {
-        val testMethods = getTestMethodSet()
+    fun methodOverrideIgnored() {
         val filter = fromTestTargets(listOf("class a.b#c", "class d.e#f", "class h.i#j"))
 
-        val filtered = testMethods.asSequence().filter(filter.shouldRun).map { it.testName }.toList()
+        val filtered = getTestMethodSet().asSequence().filter(filter.shouldRun).map { it.testName }.toList()
+        assertThat(filtered).isEqualTo(listOf("d.e#f", "h.i#j"))
+    }
+
+    @Test
+    fun multipleClassesResolveToMethods() {
+        val filter = fromTestTargets(listOf("class a.b", "class d.e", "class h.i"))
+
+        val filtered = getTestMethodSet().asSequence().filter(filter.shouldRun).map { it.testName }.toList()
+        assertThat(filtered).isEqualTo(listOf("d.e#f", "h.i#j"))
+    }
+
+    @Test
+    fun multiplePackagesResolveToMethods() {
+        val filter = fromTestTargets(listOf("package a", "package d", "package h"))
+
+        val filtered = getTestMethodSet().asSequence().filter(filter.shouldRun).map { it.testName }.toList()
         assertThat(filtered).isEqualTo(listOf("d.e#f", "h.i#j"))
     }
 }
