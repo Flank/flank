@@ -12,8 +12,8 @@ import ftl.args.yml.IosGcloudYml
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
-import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemErrRule
+import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 
 @RunWith(FlankTestRunner::class)
@@ -21,7 +21,7 @@ class ArgsHelperTest {
 
     @Rule
     @JvmField
-    val expectedExitRule: ExpectedSystemExit = ExpectedSystemExit.none()
+    val exceptionRule = ExpectedException.none()!!
 
     @Rule
     @JvmField
@@ -41,7 +41,7 @@ class ArgsHelperTest {
 
     @Test
     fun assertFileExists_fails() {
-        expectedExitRule.expectSystemExitWithStatus(-1)
+        exceptionRule.expectMessage("'/tmp/1/2/3/fake'  doesn't exist")
         assertFileExists("/tmp/1/2/3/fake", "")
     }
 
@@ -52,7 +52,7 @@ class ArgsHelperTest {
 
     @Test
     fun assertGcsFileExists_fails() {
-        expectedExitRule.expectSystemExitWithStatus(-1)
+        exceptionRule.expectMessage("The file at 'gs://does-not-exist' does not exist")
         assertGcsFileExists("gs://does-not-exist")
     }
 
@@ -78,7 +78,7 @@ class ArgsHelperTest {
 
     @Test
     fun validateTestMethods_validationOn() {
-        expectedExitRule.expectSystemExitWithStatus(-1)
+        exceptionRule.expectMessage(" is missing methods: [d].")
         val testTargets = listOf("d")
         val validTestMethods = listOf("a", "b", "c")
         val skipValidation = false
@@ -87,7 +87,7 @@ class ArgsHelperTest {
 
     @Test
     fun validateTestMethods_validationOn_Empty() {
-        expectedExitRule.expectSystemExitWithStatus(-1)
+        exceptionRule.expectMessage("has no tests")
         val testTargets = emptyList<String>()
         val validTestMethods = emptyList<String>()
         val skipValidation = false
@@ -96,7 +96,7 @@ class ArgsHelperTest {
 
     @Test
     fun calculateShards_fails_emptyShardChunks() {
-        expectedExitRule.expectSystemExitWithStatus(-1)
+        exceptionRule.expectMessage("Failed to populate test shard chunks")
         calculateShards(
             testTargets = listOf(""),
             validTestNames = listOf(""),

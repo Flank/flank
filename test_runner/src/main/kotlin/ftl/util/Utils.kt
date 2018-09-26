@@ -1,5 +1,6 @@
 package ftl.util
 
+import ftl.config.FtlConstants
 import java.io.InputStream
 import java.io.StringWriter
 import java.nio.file.Files
@@ -39,12 +40,14 @@ object Utils {
     // marked as inline to make JaCoCo happy
     @Suppress("NOTHING_TO_INLINE")
     inline fun fatalError(e: Exception) {
-        e.printStackTrace()
-        exitProcess(-1)
+        throw RuntimeException(e)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     inline fun fatalError(e: String) {
+        if (FtlConstants.useMock) {
+            throw RuntimeException(e)
+        }
         System.err.println(e)
         exitProcess(-1)
     }
