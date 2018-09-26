@@ -6,8 +6,8 @@ import ftl.args.yml.FlankYmlParams
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
-import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemErrRule
+import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 
 @RunWith(FlankTestRunner::class)
@@ -15,7 +15,7 @@ class FlankYmlTest {
 
     @Rule
     @JvmField
-    val expectedExitRule: ExpectedSystemExit = ExpectedSystemExit.none()
+    val exceptionRule = ExpectedException.none()
 
     @Rule
     @JvmField
@@ -34,13 +34,13 @@ class FlankYmlTest {
 
     @Test
     fun testInvalidTestShards() {
-        expectedExitRule.expectSystemExitWithStatus(-1)
+        exceptionRule.expectMessage("testShards must be >= 1 or -1")
         FlankYml(FlankYmlParams(testShards = -2))
     }
 
     @Test
     fun testInvalidrepeatTests() {
-        expectedExitRule.expectSystemExitWithStatus(-1)
+        exceptionRule.expectMessage("repeatTests must be >= 1")
         FlankYml(FlankYmlParams(repeatTests = 0))
     }
 }

@@ -21,6 +21,7 @@ import ftl.args.yml.FlankYml
 import ftl.args.yml.GcloudYml
 import ftl.config.Device
 import ftl.config.FtlConstants
+import ftl.config.FtlConstants.useMock
 import ftl.filter.TestFilters
 import ftl.gc.GcStorage
 import ftl.util.Utils
@@ -105,7 +106,7 @@ class AndroidArgs(
             .map(TestMethod::testName)
             .map { "class $it" }
             .toList()
-        require(filteredTests.isNotEmpty()) { Utils.fatalError("All tests filtered out") }
+        require(useMock || filteredTests.isNotEmpty()) { Utils.fatalError("All tests filtered out") }
         return filteredTests
     }
 

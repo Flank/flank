@@ -11,8 +11,8 @@ import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
 import org.junit.Rule
 import org.junit.Test
-import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemErrRule
+import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 
 @RunWith(FlankTestRunner::class)
@@ -55,7 +55,7 @@ class IosArgsTest {
 
     @Rule
     @JvmField
-    val expectedExitRule: ExpectedSystemExit = ExpectedSystemExit.none()
+    val exceptionRule = ExpectedException.none()
 
     @Rule
     @JvmField
@@ -63,7 +63,7 @@ class IosArgsTest {
 
     @Test
     fun iosArgs_invalidDeviceExits() {
-        expectedExitRule.expectSystemExitWithStatus(-1)
+        exceptionRule.expectMessage("iOS 99.9 on iphoneZ is not a supported device")
         val invalidDevice = listOf(Device("iphoneZ", "99.9"))
         IosArgs(
             GcloudYml(),
