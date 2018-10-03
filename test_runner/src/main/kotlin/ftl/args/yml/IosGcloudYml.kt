@@ -18,10 +18,13 @@ class IosGcloudYmlParams(
     @field:JsonProperty("xctestrun-file")
     val xctestrunFile: String = "",
 
+    @field:JsonProperty("xcode-version")
+    val xcodeVersion: String? = null,
+
     val device: List<Device> = listOf(Device("iphone8", "11.2"))
 ) {
     companion object : IYmlKeys {
-        override val keys = listOf("test", "xctestrun-file", "device")
+        override val keys = listOf("test", "xctestrun-file", "xcode-version", "device")
     }
 
     init {

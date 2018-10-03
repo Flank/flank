@@ -46,6 +46,7 @@ object GcIosTestMatrix {
         val iOSXCTest = IosXcTest()
             .setTestsZip(FileReference().setGcsPath(testZipGcsPath))
             .setXctestrun(FileReference().setGcsPath(xctestrunFileGcsPath))
+            .setXcodeVersion(config.xcodeVersion)
 
         val iOSTestSetup = IosTestSetup()
             .setNetworkProfile(null)

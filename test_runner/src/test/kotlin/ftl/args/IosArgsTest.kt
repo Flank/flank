@@ -32,6 +32,7 @@ class IosArgsTest {
 
           test: $testPath
           xctestrun-file: $xctestrunFile
+          xcode-version: 99.9
           device:
           - model: iphone8
             version: 11.2
@@ -90,6 +91,7 @@ class IosArgsTest {
             assert(xctestrunZip, testPath)
             assert(xctestrunFile, xctestrunFile)
             val device = Device("iphone8", "11.2", "c", "d")
+            assert(xcodeVersion, "99.9")
             assert(devices, listOf(device, device))
 
             // FlankYml
@@ -118,6 +120,7 @@ IosArgs
       # iOS gcloud
       test: $testPath
       xctestrun-file: $xctestrunFile
+      xcode-version:
       device:
         - model: iphone8
           version: 11.2

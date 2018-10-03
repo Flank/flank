@@ -36,6 +36,7 @@ class IosArgs(
     private val iosGcloud = iosGcloudYml.gcloud
     val xctestrunZip = iosGcloud.test
     val xctestrunFile = iosGcloud.xctestrunFile
+    val xcodeVersion = iosGcloud.xcodeVersion
     val devices = iosGcloud.device
 
     private val flank = flankYml.flank
@@ -89,6 +90,7 @@ IosArgs
       # iOS gcloud
       test: $xctestrunZip
       xctestrun-file: $xctestrunFile
+      xcode-version: $xcodeVersion
       device:
 ${devicesToString(devices)}
 
