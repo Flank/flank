@@ -31,6 +31,12 @@ gcloud:
   # test and xctestrun-file are the only required args
   test: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip
   xctestrun-file: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos11.2-arm64.xctestrun
+  xcode-version: 9.2
+  device:
+    - model: iphone8
+      version: 11.2
+      locale: en
+      orientation: portrait
 
 flank:
   # test shards - the amount of groups to split the test suite into

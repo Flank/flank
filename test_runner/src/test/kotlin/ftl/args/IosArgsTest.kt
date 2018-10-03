@@ -32,6 +32,7 @@ class IosArgsTest {
 
           test: $testPath
           xctestrun-file: $xctestrunFile
+          xcode-version: 9.2
           device:
           - model: iphone8
             version: 11.2
@@ -74,6 +75,17 @@ class IosArgsTest {
     }
 
     @Test
+    fun iosArgs_invalidXcodeExits() {
+        exceptionRule.expectMessage("Xcode 99.9 is not a supported Xcode version")
+        IosArgs(
+                GcloudYml(),
+                IosGcloudYml(IosGcloudYmlParams(test = testPath, xctestrunFile = xctestrunFile, xcodeVersion = "99.9")),
+                FlankYml(),
+                IosFlankYml()
+        )
+    }
+
+    @Test
     fun iosArgs() {
         val iosArgs = IosArgs.load(iosNonDefault)
 
@@ -90,6 +102,7 @@ class IosArgsTest {
             assert(xctestrunZip, testPath)
             assert(xctestrunFile, xctestrunFile)
             val device = Device("iphone8", "11.2", "c", "d")
+            assert(xcodeVersion ?: "", "9.2")
             assert(devices, listOf(device, device))
 
             // FlankYml
@@ -118,6 +131,7 @@ IosArgs
       # iOS gcloud
       test: $testPath
       xctestrun-file: $xctestrunFile
+      xcode-version: 9.2
       device:
         - model: iphone8
           version: 11.2

@@ -36,6 +36,7 @@ class IosArgs(
     private val iosGcloud = iosGcloudYml.gcloud
     val xctestrunZip = iosGcloud.test
     val xctestrunFile = iosGcloud.xctestrunFile
+    val xcodeVersion = iosGcloud.xcodeVersion
     val devices = iosGcloud.device
 
     private val flank = flankYml.flank
@@ -58,6 +59,7 @@ class IosArgs(
         assertFileExists(xctestrunFile, "xctestrunFile")
 
         devices.forEach { device -> assertDeviceSupported(device) }
+        assertXcodeSupported(xcodeVersion)
 
         val validTestMethods = Xctestrun.findTestNames(xctestrunFile)
         validateTestMethods(testTargets, validTestMethods, "xctest binary")
@@ -70,8 +72,15 @@ class IosArgs(
         )
     }
 
+    private fun assertXcodeSupported(xcodeVersion: String?) {
+        if (xcodeVersion == null) return
+        if (!IosCatalog.supportedXcode(xcodeVersion)) {
+            Utils.fatalError(("Xcode $xcodeVersion is not a supported Xcode version"))
+        }
+    }
+
     private fun assertDeviceSupported(device: Device) {
-        if (!IosCatalog.supported(device.model, device.version)) {
+        if (!IosCatalog.supportedDevice(device.model, device.version)) {
             Utils.fatalError("iOS ${device.version} on ${device.model} is not a supported device")
         }
     }
@@ -89,6 +98,7 @@ IosArgs
       # iOS gcloud
       test: $xctestrunZip
       xctestrun-file: $xctestrunFile
+      xcode-version: $xcodeVersion
       device:
 ${devicesToString(devices)}
 
