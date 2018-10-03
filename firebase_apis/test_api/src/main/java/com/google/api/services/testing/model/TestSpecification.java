@@ -76,7 +76,7 @@ public final class TestSpecification extends com.google.api.client.json.GenericJ
   private java.lang.Boolean disableVideoRecording;
 
   /**
-   * Test setup requirements for iOS. Optional
+   * Optional. Test setup requirements for iOS.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
@@ -215,7 +215,7 @@ public final class TestSpecification extends com.google.api.client.json.GenericJ
   }
 
   /**
-   * Test setup requirements for iOS. Optional
+   * Optional. Test setup requirements for iOS.
    * @return value or {@code null} for none
    */
   public IosTestSetup getIosTestSetup() {
@@ -223,7 +223,7 @@ public final class TestSpecification extends com.google.api.client.json.GenericJ
   }
 
   /**
-   * Test setup requirements for iOS. Optional
+   * Optional. Test setup requirements for iOS.
    * @param iosTestSetup iosTestSetup or {@code null} for none
    */
   public TestSpecification setIosTestSetup(IosTestSetup iosTestSetup) {

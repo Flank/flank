@@ -93,7 +93,9 @@ public final class TestSetup extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * The network traffic profile used for running the test. Optional
+   * Optional. The network traffic profile used for running the test. Available network profiles can
+   * be queried by using the NETWORK_CONFIGURATION environment type when calling
+   * TestEnvironmentDiscoveryService.GetTestEnvironmentCatalog.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
@@ -205,7 +207,9 @@ public final class TestSetup extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * The network traffic profile used for running the test. Optional
+   * Optional. The network traffic profile used for running the test. Available network profiles can
+   * be queried by using the NETWORK_CONFIGURATION environment type when calling
+   * TestEnvironmentDiscoveryService.GetTestEnvironmentCatalog.
    * @return value or {@code null} for none
    */
   public java.lang.String getNetworkProfile() {
@@ -213,7 +217,9 @@ public final class TestSetup extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * The network traffic profile used for running the test. Optional
+   * Optional. The network traffic profile used for running the test. Available network profiles can
+   * be queried by using the NETWORK_CONFIGURATION environment type when calling
+   * TestEnvironmentDiscoveryService.GetTestEnvironmentCatalog.
    * @param networkProfile networkProfile or {@code null} for none
    */
   public TestSetup setNetworkProfile(java.lang.String networkProfile) {

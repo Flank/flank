@@ -17,11 +17,15 @@
 package com.google.api.services.testing.model;
 
 /**
- * Represents a whole calendar date, e.g. date of birth. The time of day and time zone are either
- * specified elsewhere or are not significant. The date is relative to the Proleptic Gregorian
- * Calendar. The day may be 0 to represent a year and month where the day is not significant, e.g.
- * credit card expiration date. The year may be 0 to represent a month and day independent of year,
- * e.g. anniversary date. Related types are google.type.TimeOfDay and `google.protobuf.Timestamp`.
+ * Represents a whole or partial calendar date, e.g. a birthday. The time of day and time zone are
+ * either specified elsewhere or are not significant. The date is relative to the Proleptic
+ * Gregorian Calendar. This can represent:
+ *
+ * * A full date, with non-zero year, month and day values * A month and day value, with a zero
+ * year, e.g. an anniversary * A year on its own, with zero month and day values * A year and month
+ * value, with a zero day, e.g. a credit card expiration date
+ *
+ * Related types are google.type.TimeOfDay and `google.protobuf.Timestamp`.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the Cloud Testing API. For a detailed explanation see:
@@ -34,15 +38,15 @@ package com.google.api.services.testing.model;
 public final class Date extends com.google.api.client.json.GenericJson {
 
   /**
-   * Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a
-   * year/month where the day is not significant.
+   * Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a year
+   * by itself or a year and month where the day is not significant.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private java.lang.Integer day;
 
   /**
-   * Month of year. Must be from 1 to 12, or 0 if specifying a date without a month.
+   * Month of year. Must be from 1 to 12, or 0 if specifying a year without a month and day.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
@@ -56,8 +60,8 @@ public final class Date extends com.google.api.client.json.GenericJson {
   private java.lang.Integer year;
 
   /**
-   * Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a
-   * year/month where the day is not significant.
+   * Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a year
+   * by itself or a year and month where the day is not significant.
    * @return value or {@code null} for none
    */
   public java.lang.Integer getDay() {
@@ -65,8 +69,8 @@ public final class Date extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a
-   * year/month where the day is not significant.
+   * Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a year
+   * by itself or a year and month where the day is not significant.
    * @param day day or {@code null} for none
    */
   public Date setDay(java.lang.Integer day) {
@@ -75,7 +79,7 @@ public final class Date extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Month of year. Must be from 1 to 12, or 0 if specifying a date without a month.
+   * Month of year. Must be from 1 to 12, or 0 if specifying a year without a month and day.
    * @return value or {@code null} for none
    */
   public java.lang.Integer getMonth() {
@@ -83,7 +87,7 @@ public final class Date extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Month of year. Must be from 1 to 12, or 0 if specifying a date without a month.
+   * Month of year. Must be from 1 to 12, or 0 if specifying a year without a month and day.
    * @param month month or {@code null} for none
    */
   public Date setMonth(java.lang.Integer month) {
