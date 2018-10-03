@@ -8,6 +8,10 @@ import ftl.gc.GcTesting
  * note:  500 Internal Server Error is returned on invalid model id/version
  **/
 object IosCatalog {
+    private val xcodeVersions by lazy {
+        iosDeviceCatalog.xcodeVersions.map { it.version }
+    }
+
     private val iosDeviceCatalog by lazy {
         try {
             GcTesting.get.testEnvironmentCatalog().get("ios").execute().iosDeviceCatalog
@@ -27,7 +31,11 @@ If you are still having issues, please email ftl-ios-feedback@google.com for sup
         }
     }
 
-    fun supported(modelId: String, versionId: String): Boolean {
+    fun supportedXcode(version: String): Boolean {
+        return xcodeVersions.contains(version)
+    }
+
+    fun supportedDevice(modelId: String, versionId: String): Boolean {
         val model = iosDeviceCatalog.models.find { it.id == modelId }
         return model?.supportedVersionIds?.contains(versionId) ?: false
     }

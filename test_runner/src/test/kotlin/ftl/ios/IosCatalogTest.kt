@@ -9,9 +9,15 @@ import org.junit.runner.RunWith
 class IosCatalogTest {
 
     @Test
-    fun supported() {
-        assertThat(IosCatalog.supported("bogus", "11.2")).isFalse()
-        assertThat(IosCatalog.supported("iphone8", "bogus")).isFalse()
-        assertThat(IosCatalog.supported("iphone8", "11.2")).isTrue()
+    fun supportedDevice() {
+        assertThat(IosCatalog.supportedDevice("bogus", "11.2")).isFalse()
+        assertThat(IosCatalog.supportedDevice("iphone8", "bogus")).isFalse()
+        assertThat(IosCatalog.supportedDevice("iphone8", "11.2")).isTrue()
+    }
+
+    @Test
+    fun supportedXcode() {
+        assertThat(IosCatalog.supportedXcode("9.2")).isTrue()
+        assertThat(IosCatalog.supportedXcode("0.1")).isFalse()
     }
 }
