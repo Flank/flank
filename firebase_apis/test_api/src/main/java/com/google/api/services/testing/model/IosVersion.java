@@ -30,35 +30,42 @@ package com.google.api.services.testing.model;
 public final class IosVersion extends com.google.api.client.json.GenericJson {
 
   /**
-   * An opaque id for this iOS version. Use this id to invoke the TestExecutionService. @OutputOnly
+   * Output only. An opaque id for this iOS version. Use this id to invoke the TestExecutionService.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private java.lang.String id;
 
   /**
-   * A integer representing the major iOS version. Examples: "8", "9" @OutputOnly
+   * Output only. An integer representing the major iOS version. Examples: "8", "9"
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private java.lang.Integer majorVersion;
 
   /**
-   * A integer representing the minor iOS version. Examples: "1", "2" @OutputOnly
+   * Output only. An integer representing the minor iOS version. Examples: "1", "2"
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private java.lang.Integer minorVersion;
 
   /**
-   * Tags for this dimension. Examples: "default", "preview", "deprecated" @OutputOnly
+   * Output only. The available Xcode versions for this version.
+   * The value may be {@code null}.
+   */
+  @com.google.api.client.util.Key
+  private java.util.List<java.lang.String> supportedXcodeVersionIds;
+
+  /**
+   * Output only. Tags for this dimension. Examples: "default", "preview", "deprecated"
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private java.util.List<java.lang.String> tags;
 
   /**
-   * An opaque id for this iOS version. Use this id to invoke the TestExecutionService. @OutputOnly
+   * Output only. An opaque id for this iOS version. Use this id to invoke the TestExecutionService.
    * @return value or {@code null} for none
    */
   public java.lang.String getId() {
@@ -66,7 +73,7 @@ public final class IosVersion extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * An opaque id for this iOS version. Use this id to invoke the TestExecutionService. @OutputOnly
+   * Output only. An opaque id for this iOS version. Use this id to invoke the TestExecutionService.
    * @param id id or {@code null} for none
    */
   public IosVersion setId(java.lang.String id) {
@@ -75,7 +82,7 @@ public final class IosVersion extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * A integer representing the major iOS version. Examples: "8", "9" @OutputOnly
+   * Output only. An integer representing the major iOS version. Examples: "8", "9"
    * @return value or {@code null} for none
    */
   public java.lang.Integer getMajorVersion() {
@@ -83,7 +90,7 @@ public final class IosVersion extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * A integer representing the major iOS version. Examples: "8", "9" @OutputOnly
+   * Output only. An integer representing the major iOS version. Examples: "8", "9"
    * @param majorVersion majorVersion or {@code null} for none
    */
   public IosVersion setMajorVersion(java.lang.Integer majorVersion) {
@@ -92,7 +99,7 @@ public final class IosVersion extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * A integer representing the minor iOS version. Examples: "1", "2" @OutputOnly
+   * Output only. An integer representing the minor iOS version. Examples: "1", "2"
    * @return value or {@code null} for none
    */
   public java.lang.Integer getMinorVersion() {
@@ -100,7 +107,7 @@ public final class IosVersion extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * A integer representing the minor iOS version. Examples: "1", "2" @OutputOnly
+   * Output only. An integer representing the minor iOS version. Examples: "1", "2"
    * @param minorVersion minorVersion or {@code null} for none
    */
   public IosVersion setMinorVersion(java.lang.Integer minorVersion) {
@@ -109,7 +116,24 @@ public final class IosVersion extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Tags for this dimension. Examples: "default", "preview", "deprecated" @OutputOnly
+   * Output only. The available Xcode versions for this version.
+   * @return value or {@code null} for none
+   */
+  public java.util.List<java.lang.String> getSupportedXcodeVersionIds() {
+    return supportedXcodeVersionIds;
+  }
+
+  /**
+   * Output only. The available Xcode versions for this version.
+   * @param supportedXcodeVersionIds supportedXcodeVersionIds or {@code null} for none
+   */
+  public IosVersion setSupportedXcodeVersionIds(java.util.List<java.lang.String> supportedXcodeVersionIds) {
+    this.supportedXcodeVersionIds = supportedXcodeVersionIds;
+    return this;
+  }
+
+  /**
+   * Output only. Tags for this dimension. Examples: "default", "preview", "deprecated"
    * @return value or {@code null} for none
    */
   public java.util.List<java.lang.String> getTags() {
@@ -117,7 +141,7 @@ public final class IosVersion extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Tags for this dimension. Examples: "default", "preview", "deprecated" @OutputOnly
+   * Output only. Tags for this dimension. Examples: "default", "preview", "deprecated"
    * @param tags tags or {@code null} for none
    */
   public IosVersion setTags(java.util.List<java.lang.String> tags) {

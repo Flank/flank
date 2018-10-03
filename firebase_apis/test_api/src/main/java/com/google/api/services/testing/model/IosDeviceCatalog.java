@@ -30,28 +30,35 @@ package com.google.api.services.testing.model;
 public final class IosDeviceCatalog extends com.google.api.client.json.GenericJson {
 
   /**
-   * The set of supported iOS device models. @OutputOnly
+   * Output only. The set of supported iOS device models.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private java.util.List<IosModel> models;
 
   /**
-   * The set of supported runtime configurations. @OutputOnly
+   * Output only. The set of supported runtime configurations.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private IosRuntimeConfiguration runtimeConfiguration;
 
   /**
-   * The set of supported iOS software versions. @OutputOnly
+   * Output only. The set of supported iOS software versions.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private java.util.List<IosVersion> versions;
 
   /**
-   * The set of supported iOS device models. @OutputOnly
+   * Output only. The set of supported Xcode versions.
+   * The value may be {@code null}.
+   */
+  @com.google.api.client.util.Key
+  private java.util.List<XcodeVersion> xcodeVersions;
+
+  /**
+   * Output only. The set of supported iOS device models.
    * @return value or {@code null} for none
    */
   public java.util.List<IosModel> getModels() {
@@ -59,7 +66,7 @@ public final class IosDeviceCatalog extends com.google.api.client.json.GenericJs
   }
 
   /**
-   * The set of supported iOS device models. @OutputOnly
+   * Output only. The set of supported iOS device models.
    * @param models models or {@code null} for none
    */
   public IosDeviceCatalog setModels(java.util.List<IosModel> models) {
@@ -68,7 +75,7 @@ public final class IosDeviceCatalog extends com.google.api.client.json.GenericJs
   }
 
   /**
-   * The set of supported runtime configurations. @OutputOnly
+   * Output only. The set of supported runtime configurations.
    * @return value or {@code null} for none
    */
   public IosRuntimeConfiguration getRuntimeConfiguration() {
@@ -76,7 +83,7 @@ public final class IosDeviceCatalog extends com.google.api.client.json.GenericJs
   }
 
   /**
-   * The set of supported runtime configurations. @OutputOnly
+   * Output only. The set of supported runtime configurations.
    * @param runtimeConfiguration runtimeConfiguration or {@code null} for none
    */
   public IosDeviceCatalog setRuntimeConfiguration(IosRuntimeConfiguration runtimeConfiguration) {
@@ -85,7 +92,7 @@ public final class IosDeviceCatalog extends com.google.api.client.json.GenericJs
   }
 
   /**
-   * The set of supported iOS software versions. @OutputOnly
+   * Output only. The set of supported iOS software versions.
    * @return value or {@code null} for none
    */
   public java.util.List<IosVersion> getVersions() {
@@ -93,11 +100,28 @@ public final class IosDeviceCatalog extends com.google.api.client.json.GenericJs
   }
 
   /**
-   * The set of supported iOS software versions. @OutputOnly
+   * Output only. The set of supported iOS software versions.
    * @param versions versions or {@code null} for none
    */
   public IosDeviceCatalog setVersions(java.util.List<IosVersion> versions) {
     this.versions = versions;
+    return this;
+  }
+
+  /**
+   * Output only. The set of supported Xcode versions.
+   * @return value or {@code null} for none
+   */
+  public java.util.List<XcodeVersion> getXcodeVersions() {
+    return xcodeVersions;
+  }
+
+  /**
+   * Output only. The set of supported Xcode versions.
+   * @param xcodeVersions xcodeVersions or {@code null} for none
+   */
+  public IosDeviceCatalog setXcodeVersions(java.util.List<XcodeVersion> xcodeVersions) {
+    this.xcodeVersions = xcodeVersions;
     return this;
   }
 

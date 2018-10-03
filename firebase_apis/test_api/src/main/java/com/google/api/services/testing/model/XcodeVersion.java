@@ -17,7 +17,7 @@
 package com.google.api.services.testing.model;
 
 /**
- * iOS configuration that can be selected at the time a test is run.
+ * An Xcode version that an iOS version is compatible with.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the Cloud Testing API. For a detailed explanation see:
@@ -27,64 +27,64 @@ package com.google.api.services.testing.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class IosRuntimeConfiguration extends com.google.api.client.json.GenericJson {
+public final class XcodeVersion extends com.google.api.client.json.GenericJson {
 
   /**
-   * Output only. The set of available locales.
+   * Output only. Tags for this Xcode version. Examples: "default"
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.util.List<Locale> locales;
+  private java.util.List<java.lang.String> tags;
 
   /**
-   * Output only. The set of available orientations.
+   * Output only. The id for this version. Example: "9.2"
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.util.List<Orientation> orientations;
+  private java.lang.String version;
 
   /**
-   * Output only. The set of available locales.
+   * Output only. Tags for this Xcode version. Examples: "default"
    * @return value or {@code null} for none
    */
-  public java.util.List<Locale> getLocales() {
-    return locales;
+  public java.util.List<java.lang.String> getTags() {
+    return tags;
   }
 
   /**
-   * Output only. The set of available locales.
-   * @param locales locales or {@code null} for none
+   * Output only. Tags for this Xcode version. Examples: "default"
+   * @param tags tags or {@code null} for none
    */
-  public IosRuntimeConfiguration setLocales(java.util.List<Locale> locales) {
-    this.locales = locales;
+  public XcodeVersion setTags(java.util.List<java.lang.String> tags) {
+    this.tags = tags;
     return this;
   }
 
   /**
-   * Output only. The set of available orientations.
+   * Output only. The id for this version. Example: "9.2"
    * @return value or {@code null} for none
    */
-  public java.util.List<Orientation> getOrientations() {
-    return orientations;
+  public java.lang.String getVersion() {
+    return version;
   }
 
   /**
-   * Output only. The set of available orientations.
-   * @param orientations orientations or {@code null} for none
+   * Output only. The id for this version. Example: "9.2"
+   * @param version version or {@code null} for none
    */
-  public IosRuntimeConfiguration setOrientations(java.util.List<Orientation> orientations) {
-    this.orientations = orientations;
+  public XcodeVersion setVersion(java.lang.String version) {
+    this.version = version;
     return this;
   }
 
   @Override
-  public IosRuntimeConfiguration set(String fieldName, Object value) {
-    return (IosRuntimeConfiguration) super.set(fieldName, value);
+  public XcodeVersion set(String fieldName, Object value) {
+    return (XcodeVersion) super.set(fieldName, value);
   }
 
   @Override
-  public IosRuntimeConfiguration clone() {
-    return (IosRuntimeConfiguration) super.clone();
+  public XcodeVersion clone() {
+    return (XcodeVersion) super.clone();
   }
 
 }
