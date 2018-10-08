@@ -157,6 +157,8 @@ flank.yml is compatible with the gcloud CLI.
 - `gcloud firebase test android run flank.yml:gcloud`
 - `gcloud alpha firebase test ios run flank.ios.yml:gcloud`
 
+**NOTE:** You will need to [activate gcloud's service account](https://cloud.google.com/sdk/gcloud/reference/auth/activate-service-account) for the above commands to work.
+
 ### Doctor
 
 Use the doctor command to check for errors in the YAML.
@@ -181,10 +183,14 @@ This error means authentication hasn't been setup properly. See `Authenticate wi
 
 > How do I use Flank without typing long commands?
 
-Place the [flank bash helper](https://github.com/TestArmada/flank/blob/master/test_runner/bash/flank) on the path to use `flank` instead of `java -jar flank.jar`. Examples:
+Add Flank's [bash helper folder](https://github.com/TestArmada/flank/blob/master/test_runner/bash/) to your $PATH environment variable. This will allow you to call the shell scripts in that helper folder from anywhere. 
+
+With the [flank](https://github.com/TestArmada/flank/blob/master/test_runner/bash/flank) shell script, you can use `flank` instead of `java -jar flank.jar`. Examples:
 
 - `flank android run`
 - `flank ios run`
+
+With the [update_flank.sh](https://github.com/TestArmada/flank/blob/master/test_runner/bash/update_flank.sh) shell script, you can rebuild `flank.jar`.
 
 > Symbol is declared in module 'java.xml' which does not export package 'com.sun.org.apache.xerces.internal.dom'
 
