@@ -1,6 +1,7 @@
 package ftl.android
 
 import com.google.api.services.testing.model.AndroidDevice
+import ftl.config.executeWithRetry
 import ftl.gc.GcTesting
 
 /**
@@ -9,7 +10,7 @@ import ftl.gc.GcTesting
  */
 object AndroidCatalog {
     private val androidDeviceCatalog by lazy {
-        GcTesting.get.testEnvironmentCatalog().get("android").execute().androidDeviceCatalog
+        GcTesting.get.testEnvironmentCatalog().get("android").executeWithRetry().androidDeviceCatalog
     }
 
     val androidModelIds by lazy { androidDeviceCatalog.models.map { it.id } }
