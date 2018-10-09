@@ -10,7 +10,7 @@ import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.config.FtlConstants.applicationName
 import ftl.config.FtlConstants.credential
 import ftl.config.FtlConstants.httpTransport
-import ftl.config.executeWithRetry
+import ftl.http.executeWithRetry
 
 object GcToolResults {
 

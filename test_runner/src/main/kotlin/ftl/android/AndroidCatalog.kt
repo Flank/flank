@@ -1,7 +1,7 @@
 package ftl.android
 
 import com.google.api.services.testing.model.AndroidDevice
-import ftl.config.executeWithRetry
+import ftl.http.executeWithRetry
 import ftl.gc.GcTesting
 
 /**

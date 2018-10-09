@@ -1,4 +1,4 @@
-package ftl.config
+package ftl.http
 
 import com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest
 import java.io.IOException

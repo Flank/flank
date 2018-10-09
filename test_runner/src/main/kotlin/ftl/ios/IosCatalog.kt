@@ -1,6 +1,6 @@
 package ftl.ios
 
-import ftl.config.executeWithRetry
+import ftl.http.executeWithRetry
 import ftl.gc.GcTesting
 
 /**

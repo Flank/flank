@@ -2,7 +2,7 @@ package ftl.gc
 
 import com.google.api.services.testing.model.TestMatrix
 import ftl.args.IArgs
-import ftl.config.executeWithRetry
+import ftl.http.executeWithRetry
 import ftl.util.Utils.sleep
 import java.time.Duration.ofHours
 

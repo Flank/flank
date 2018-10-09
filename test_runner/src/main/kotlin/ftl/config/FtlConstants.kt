@@ -7,6 +7,7 @@ import com.google.api.client.googleapis.util.Utils
 import com.google.api.client.http.HttpRequestInitializer
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.JsonFactory
+import ftl.http.TimeoutHttpRequestInitializer
 
 object FtlConstants {
     var useMock = false
