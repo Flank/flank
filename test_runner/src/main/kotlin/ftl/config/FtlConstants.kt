@@ -32,20 +32,20 @@ object FtlConstants {
 
     val credential: HttpRequestInitializer by lazy {
         try {
-            if (useMock) {
-                return@lazy MockGoogleCredential.Builder()
-                    .setTransport(MockGoogleCredential.newMockHttpTransportWithSampleTokenResponse())
-                    .build()
-            }
-
             // Scope is required.
             // https://developers.google.com/identity/protocols/googlescopes
             // https://developers.google.com/identity/protocols/application-default-credentials
             // https://cloud.google.com/sdk/gcloud/reference/alpha/compute/instances/set-scopes
-            val defaultCredential = GoogleCredential.getApplicationDefault()
-                .createScoped(listOf("https://www.googleapis.com/auth/cloud-platform"))
+            val credential = if (useMock) {
+                MockGoogleCredential.Builder()
+                    .setTransport(MockGoogleCredential.newMockHttpTransportWithSampleTokenResponse())
+                    .build()
+            } else {
+                GoogleCredential.getApplicationDefault()
+                    .createScoped(listOf("https://www.googleapis.com/auth/cloud-platform"))
+            }
 
-            return@lazy TimeoutHttpRequestInitializer(defaultCredential)
+            return@lazy TimeoutHttpRequestInitializer(credential)
         } catch (e: Exception) {
             throw RuntimeException(e)
         }
