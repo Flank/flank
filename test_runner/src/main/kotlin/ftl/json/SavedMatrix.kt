@@ -54,6 +54,7 @@ class SavedMatrix(matrix: TestMatrix) {
         billableVirtualMinutes = 0
         billablePhysicalMinutes = 0
         outcome = success
+        if (matrix.testExecutions == null) return
         matrix.testExecutions.forEach {
             val step = GcToolResults.getResults(it.toolResultsStep)
             if (step.testExecutionStep == null) return

@@ -2,6 +2,7 @@ package ftl.gc
 
 import com.google.api.services.testing.model.TestMatrix
 import ftl.args.IArgs
+import ftl.http.executeWithRetry
 import ftl.util.Utils.sleep
 import java.time.Duration.ofHours
 
@@ -38,7 +39,7 @@ object GcTestMatrix {
 
         while (failed < maxWait) {
             try {
-                return getMatrix.execute()
+                return getMatrix.executeWithRetry()
             } catch (e: Exception) {
                 sleep(1)
                 failed += 1

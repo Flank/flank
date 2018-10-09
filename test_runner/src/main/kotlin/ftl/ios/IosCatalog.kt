@@ -1,5 +1,6 @@
 package ftl.ios
 
+import ftl.http.executeWithRetry
 import ftl.gc.GcTesting
 
 /**
@@ -14,7 +15,7 @@ object IosCatalog {
 
     private val iosDeviceCatalog by lazy {
         try {
-            GcTesting.get.testEnvironmentCatalog().get("ios").execute().iosDeviceCatalog
+            GcTesting.get.testEnvironmentCatalog().get("ios").executeWithRetry().iosDeviceCatalog
         } catch (e: java.lang.Exception) {
             throw java.lang.RuntimeException(
                 """
