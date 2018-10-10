@@ -15,10 +15,15 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
+import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 
 @RunWith(FlankTestRunner::class)
 class AndroidArgsFileTest {
+
+    @Rule
+    @JvmField
+    val exceptionRule = ExpectedException.none()!!
 
     @Rule
     @JvmField
@@ -85,17 +90,13 @@ class AndroidArgsFileTest {
     }
 
     private fun configWithTestMethods(amount: Int, testShards: Int = 1): AndroidArgs {
-        val testMethods = mutableListOf<String>()
-        // test names must be unique otherwise the Set<String> will add them only once.
-        repeat(amount) { index -> testMethods.add(testName + index) }
 
         return AndroidArgs(
             GcloudYml(GcloudYmlParams()),
             AndroidGcloudYml(
                 AndroidGcloudYmlParams(
                     app = appApkLocal,
-                    test = testApkLocal,
-                    testTargets = testMethods
+                    test = getString("src/test/kotlin/ftl/fixtures/tmp/apk/app-debug-androidTest_$amount.apk")
                 )
             ),
             FlankYml(
@@ -107,22 +108,34 @@ class AndroidArgsFileTest {
     }
 
     @Test
-    fun calculateShards() {
-        var config = configWithTestMethods(1)
+    fun calculateShards_0() {
+        exceptionRule.expectMessage("Test APK has no tests")
+        configWithTestMethods(0)
+    }
+
+    @Test
+    fun calculateShards_1() {
+        val config = configWithTestMethods(1)
         with(config) {
             assert(testShards, 1)
             assert(testShardChunks.size, 1)
             assert(testShardChunks.first().size, 1)
         }
+    }
 
-        config = configWithTestMethods(155)
+    @Test
+    fun calculateShards_155() {
+        val config = configWithTestMethods(155)
         with(config) {
             assert(testShards, 1)
             assert(testShardChunks.size, 1)
             assert(testShardChunks.first().size, 155)
         }
+    }
 
-        config = configWithTestMethods(155, testShards = 40)
+    @Test
+    fun calculateShards_155_40() {
+        val config = configWithTestMethods(155, testShards = 40)
         with(config) {
             assert(testShards, 40)
             assert(testShardChunks.size, 39)

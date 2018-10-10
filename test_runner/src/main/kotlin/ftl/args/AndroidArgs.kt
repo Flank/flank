@@ -89,7 +89,6 @@ class AndroidArgs(
         val filteredTests = getTestMethods(testLocalApk)
 
         testShardChunks = calculateShards(
-            testTargets,
             filteredTests,
             testTargetsAlwaysRun,
             testShards
@@ -97,10 +96,10 @@ class AndroidArgs(
     }
 
     private fun getTestMethods(testLocalApk: String): List<String> {
-        val validTestMethods = DexParser.findTestMethods(testLocalApk)
-        require(validTestMethods.isNotEmpty()) { Utils.fatalError("Test APK has no tests") }
+        val allTestMethods = DexParser.findTestMethods(testLocalApk)
+        require(allTestMethods.isNotEmpty()) { Utils.fatalError("Test APK has no tests") }
         val testFilter = TestFilters.fromTestTargets(testTargets)
-        val filteredTests = validTestMethods
+        val filteredTests = allTestMethods
             .asSequence()
             .filter(testFilter.shouldRun)
             .map(TestMethod::testName)

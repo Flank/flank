@@ -68,16 +68,11 @@ object ArgsHelper {
     }
 
     fun calculateShards(
-        testTargets: Collection<String>,
-        validTestNames: Collection<String>,
+        testMethodsToShard: Collection<String>,
         testMethodsAlwaysRun: Collection<String>,
         testShards: Int
     ): List<List<String>> {
-        val testShardMethods = if (testTargets.isNotEmpty()) {
-            testTargets
-        } else {
-            validTestNames
-        }.distinct().toMutableList()
+        val testShardMethods = testMethodsToShard.distinct().toMutableList()
         testShardMethods.removeAll(testMethodsAlwaysRun)
 
         val oneTestPerChunk = testShards == -1
@@ -87,7 +82,10 @@ object ArgsHelper {
             chunkSize = 1
         }
 
-        val testShardChunks = testShardMethods.chunked(chunkSize).map { testMethodsAlwaysRun + it }
+        val testShardChunks = testShardMethods.asSequence()
+            .chunked(chunkSize)
+            .map { testMethodsAlwaysRun + it }
+            .toList()
 
         // Ensure we don't create more VMs than requested. VM count per run should be <= testShards
         if (!oneTestPerChunk && testShardChunks.size > testShards) {

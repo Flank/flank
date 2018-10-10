@@ -63,12 +63,16 @@ class IosArgs(
 
         val validTestMethods = Xctestrun.findTestNames(xctestrunFile)
         validateTestMethods(testTargets, validTestMethods, "xctest binary")
+        val testsToShard = if (testTargets.isEmpty()) {
+            validTestMethods
+        } else {
+            testTargets
+        }
 
         testShardChunks = ArgsHelper.calculateShards(
-            testTargets,
-            validTestMethods,
-            testTargetsAlwaysRun,
-            testShards
+            testMethodsToShard = testsToShard,
+            testMethodsAlwaysRun = testTargetsAlwaysRun,
+            testShards = testShards
         )
     }
 
