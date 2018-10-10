@@ -35,6 +35,8 @@ object GenericTestRunner {
         val matrixMap = MatrixMap(savedMatrices, runGcsPath)
         TestRunner.updateMatrixFile(matrixMap)
 
+        TestRunner.saveConfigFile(matrixMap.runPath, config)
+
         println(FtlConstants.indent + "${savedMatrices.size} matrix ids created in ${stopwatch.check()}")
         val gcsBucket = "https://console.developers.google.com/storage/browser/" +
             config.resultsBucket + "/" + matrixMap.runPath

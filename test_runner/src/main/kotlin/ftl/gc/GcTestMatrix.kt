@@ -1,5 +1,6 @@
 package ftl.gc
 
+import com.google.api.services.testing.model.CancelTestMatrixResponse
 import com.google.api.services.testing.model.TestMatrix
 import ftl.args.IArgs
 import ftl.http.executeWithRetry
@@ -47,5 +48,23 @@ object GcTestMatrix {
         }
 
         throw RuntimeException("Failed to refresh matrix")
+    }
+
+    fun cancel(testMatrixId: String, config: IArgs): CancelTestMatrixResponse {
+        val cancelMatrix = GcTesting.get.projects().testMatrices().cancel(config.projectId, testMatrixId)
+        var failed = 0
+        val maxTries = 3
+
+        while (failed < maxTries) {
+            try {
+                return cancelMatrix.executeWithRetry()
+            } catch (e: Exception) {
+                System.err.println("Error cancelling $testMatrixId; Attempt ${failed + 1} of $maxTries; Exception: ${e.localizedMessage}")
+                sleep(2)
+                failed += 1
+            }
+        }
+
+        throw RuntimeException("Failed to cancel matrix")
     }
 }
