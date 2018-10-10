@@ -1,6 +1,10 @@
 package ftl.args
 
+import java.nio.file.Path
+
 interface IArgs {
+    var filePath: Path?
+
     // GcloudYml
     val resultsBucket: String
     val recordVideo: Boolean

@@ -1,6 +1,7 @@
 package ftl
 
 import ftl.cli.FirebaseCommand
+import ftl.cli.firebase.CancelCommand
 import ftl.cli.firebase.test.AndroidCommand
 import ftl.cli.firebase.test.IosCommand
 import ftl.util.Utils.readTextResource
@@ -12,7 +13,8 @@ import picocli.CommandLine
     subcommands = [
         FirebaseCommand::class,
         IosCommand::class,
-        AndroidCommand::class
+        AndroidCommand::class,
+        CancelCommand::class
     ]
 )
 class Main : Runnable {

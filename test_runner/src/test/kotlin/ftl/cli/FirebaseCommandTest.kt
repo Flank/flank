@@ -21,6 +21,7 @@ class FirebaseCommandTest {
             "firebase [COMMAND]\n" +
                 "Commands:\n" +
                 "  test\n" +
+                "  cancel  Cancels the last Firebase Test Lab run\n" +
                 "  doctor  Verifies flank firebase is setup correctly\n"
         )
     }

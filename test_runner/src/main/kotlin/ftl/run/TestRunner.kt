@@ -1,5 +1,6 @@
 package ftl.run
 
+import com.google.api.services.testing.model.CancelTestMatrixResponse
 import com.google.api.services.testing.model.TestDetails
 import com.google.api.services.testing.model.TestMatrix
 import com.google.cloud.storage.Storage
@@ -60,6 +61,17 @@ object TestRunner {
         return matrixIdsPath
     }
 
+    fun saveConfigFile(matrixRunPath: String, config: IArgs): Path? {
+        if (config.filePath == null) {
+            return null
+        }
+
+        val configFilePath = Paths.get(FtlConstants.localResultsDir, matrixRunPath, FtlConstants.configFileForArgs(config))
+        configFilePath.parent.toFile().mkdirs()
+        Files.copy(config.filePath, configFilePath)
+        return configFilePath
+    }
+
     /** Refresh all in progress matrices in parallel **/
     private suspend fun refreshMatrices(matrixMap: MatrixMap, config: IArgs) {
         println("RefreshMatrices")
@@ -96,6 +108,37 @@ object TestRunner {
         println()
     }
 
+    /** Cancel all in progress matrices in parallel **/
+    private suspend fun cancelMatrices(matrixMap: MatrixMap, config: IArgs) {
+        println("CancelMatrices")
+
+        val cancelJobs = hashMapOf<String, Deferred<CancelTestMatrixResponse>>()
+        val map = matrixMap.map
+        var matrixCount = 0
+        map.forEach { matrix ->
+            // Only cancel unfinished
+            if (MatrixState.inProgress(matrix.value.state)) {
+                matrixCount += 1
+                cancelJobs[matrix.value.matrixId] = async { GcTestMatrix.cancel(matrix.key, config) }
+            }
+        }
+
+        if (matrixCount == 0) {
+            println(indent + "No matrices to cancel")
+        } else {
+            println(indent + "Cancelling ${matrixCount}x matrices")
+        }
+
+        cancelJobs.forEach {
+            val response = it.value.await()
+            val matrixId = it.key
+
+            println(indent + "${response.testState} $matrixId")
+        }
+
+        println()
+    }
+
     private fun lastGcsPath(): String? {
         val resultsFile = Paths.get(FtlConstants.localResultsDir).toFile()
         if (!resultsFile.exists()) return null
@@ -109,6 +152,33 @@ object TestRunner {
             Pair(it, LocalDateTime.of(date, time))
         }.sortedByDescending { it.second }
         return fileTimePairs.first().first
+    }
+
+    /** Reads in the last matrices from the localResultsDir folder **/
+    private fun lastConfig(): IArgs {
+        val lastRun = lastGcsPath()
+
+        if (lastRun == null) {
+            fatalError("no runs found in results/ folder")
+            throw RuntimeException("fatalError failed to exit the process")
+        }
+
+        var dirPath = Paths.get(lastRun).toFile()
+        if (!dirPath.exists()) {
+            dirPath = Paths.get(FtlConstants.localResultsDir, lastRun).toFile()
+        }
+
+        var filePath = Paths.get(dirPath.absolutePath, FtlConstants.defaultIosConfig).toAbsolutePath().normalize().toFile()
+        if (filePath.exists()) {
+            return IosArgs.load(filePath.toPath())
+        }
+
+        filePath = Paths.get(dirPath.absolutePath, FtlConstants.defaultAndroidConfig).toAbsolutePath().normalize().toFile()
+        if (filePath.exists()) {
+            return AndroidArgs.load(filePath.toPath())
+        }
+
+        throw RuntimeException("No config file found in the last run folder: $lastRun")
     }
 
     /** Reads in the last matrices from the localResultsDir folder **/
@@ -276,6 +346,17 @@ object TestRunner {
         fetchArtifacts(matrixMap)
         // Must generate reports *after* fetching xml artifacts since reports require xml
         ReportManager.generate(matrixMap)
+    }
+
+    // used to cancel and update results from an async run
+    suspend fun cancelLastRun() {
+        val matrixMap = lastMatrices()
+        val config = lastConfig()
+
+        cancelMatrices(matrixMap, config)
+//
+//        val allFinished = ReportManager.generate(matrixMap)
+//        if (!allFinished) System.exit(1)
     }
 
     suspend fun newRun(config: IArgs) {

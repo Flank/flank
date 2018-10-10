@@ -7,6 +7,9 @@ import com.google.api.client.googleapis.util.Utils
 import com.google.api.client.http.HttpRequestInitializer
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.JsonFactory
+import ftl.args.AndroidArgs
+import ftl.args.IArgs
+import ftl.args.IosArgs
 import ftl.http.TimeoutHttpRequestInitializer
 
 object FtlConstants {
@@ -52,4 +55,12 @@ object FtlConstants {
     }
 
     const val localResultsDir = "results"
+
+    fun configFileForArgs(args: IArgs): String {
+        return when (args) {
+            is IosArgs -> defaultIosConfig
+            is AndroidArgs -> defaultAndroidConfig
+            else -> throw RuntimeException("Unknown config type")
+        }
+    }
 }
