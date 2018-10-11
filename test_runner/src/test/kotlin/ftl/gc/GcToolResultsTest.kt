@@ -1,5 +1,6 @@
 package ftl.gc
 
+import com.google.api.services.testing.model.ToolResultsHistory
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.test.util.FlankTestRunner
@@ -12,19 +13,25 @@ import org.mockito.Mockito.mock
 class GcToolResultsTest {
 
     @Test
-    fun getHistoryId_null_succeeds() {
+    fun createToolResultsHistory_null_succeeds() {
         val args = mock(AndroidArgs::class.java)
         `when`(args.projectId).thenReturn("123")
 
-        assertThat(GcToolResults.createHistoryId(args)).isNull()
+        val expected = ToolResultsHistory().setProjectId("123")
+
+        assertThat(GcToolResults.createToolResultsHistory(args)).isEqualTo(expected)
     }
 
     @Test
-    fun getHistoryId_succeeds() {
+    fun createToolResultsHistory_succeeds() {
         val args = mock(AndroidArgs::class.java)
         `when`(args.projectId).thenReturn("123")
         `when`(args.resultsHistoryName).thenReturn("custom history")
 
-        assertThat(GcToolResults.createHistoryId(args)).isEqualTo("mockId")
+        val expected = ToolResultsHistory()
+            .setProjectId("123")
+            .setHistoryId("mockId")
+
+        assertThat(GcToolResults.createToolResultsHistory(args)).isEqualTo(expected)
     }
 }
