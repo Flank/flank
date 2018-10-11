@@ -1,9 +1,8 @@
 package ftl.args
 
-import java.nio.file.Path
-
 interface IArgs {
-    var filePath: Path?
+    // original YAML data
+    val data: String
 
     // GcloudYml
     val resultsBucket: String

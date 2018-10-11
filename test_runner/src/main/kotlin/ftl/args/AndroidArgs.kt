@@ -33,10 +33,10 @@ import java.nio.file.Path
 class AndroidArgs(
     gcloudYml: GcloudYml,
     androidGcloudYml: AndroidGcloudYml,
-    flankYml: FlankYml
+    flankYml: FlankYml,
+    override val data: String
 ) : IArgs {
     private val gcloud = gcloudYml.gcloud
-    override var filePath: Path? = null
     override val resultsBucket: String
     override val recordVideo = gcloud.recordVideo
     override val testTimeout = gcloud.timeout
@@ -159,11 +159,7 @@ ${listToString(testTargetsAlwaysRun)}
             mergeYmlMaps(GcloudYml, AndroidGcloudYml, FlankYml)
         }
 
-        fun load(data: Path): AndroidArgs {
-            val rtn = load(String(Files.readAllBytes(data)))
-            rtn.filePath = data
-            return rtn
-        }
+        fun load(data: Path): AndroidArgs = load(String(Files.readAllBytes(data)))
 
         fun load(data: String): AndroidArgs {
             val flankYml = yamlMapper.readValue(data, FlankYml::class.java)
@@ -173,7 +169,8 @@ ${listToString(testTargetsAlwaysRun)}
             return AndroidArgs(
                 gcloudYml,
                 androidGcloudYml,
-                flankYml
+                flankYml,
+                data
             )
         }
     }
