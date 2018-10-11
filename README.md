@@ -4,6 +4,8 @@ Flank is a [massively parallel Android and iOS test runner](https://medium.com/w
 
 ### Contributing
 
+- Install [Oracle JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+  - JDK 9 or later will not work
 - Use [JetBrains Toolbox](https://www.jetbrains.com/toolbox/app/) to install `IntelliJ IDEA Community`
 - Clone the repo `git clone --recursive https://github.com/TestArmada/flank.git`
   - `git submodule update --init --recursive` updates the submodules
