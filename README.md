@@ -70,7 +70,7 @@ Run `test_runner/flank.yml` with flank to verify Android execution is working.
 gcloud:
   results-bucket: tmp_flank
   record-video: true
-  timeout: 60m
+  timeout: 30m
   async: false
   project: delta-essence-114723
   results-history-name: android-history
@@ -185,7 +185,7 @@ This error means authentication hasn't been setup properly. See `Authenticate wi
 
 > How do I use Flank without typing long commands?
 
-Add Flank's [bash helper folder](https://github.com/TestArmada/flank/blob/master/test_runner/bash/) to your $PATH environment variable. This will allow you to call the shell scripts in that helper folder from anywhere. 
+Add Flank's [bash helper folder](https://github.com/TestArmada/flank/blob/master/test_runner/bash/) to your $PATH environment variable. This will allow you to call the shell scripts in that helper folder from anywhere.
 
 With the [flank](https://github.com/TestArmada/flank/blob/master/test_runner/bash/flank) shell script, you can use `flank` instead of `java -jar flank.jar`. Examples:
 

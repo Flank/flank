@@ -3,7 +3,7 @@
 gcloud:
   # results-bucket: tmp_flank
   record-video: true
-  timeout: 60m
+  timeout: 30m
   async: false
   # project: delta-essence-114723
   # results-history-name: android-history
