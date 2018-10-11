@@ -30,7 +30,8 @@ object GcIosTestMatrix {
         testShardsIndex: Int,
         xcTestParsed: NSDictionary,
         config: IosArgs,
-        shardCounter: ShardCounter
+        shardCounter: ShardCounter,
+        toolResultsHistory: ToolResultsHistory
     ): Testing.Projects.TestMatrices.Create {
         validateTestShardIndex(testShardsIndex, config)
         val clientInfo = ClientInfo().setName("Flank")
@@ -58,12 +59,6 @@ object GcIosTestMatrix {
             .setTestTimeout("${testTimeoutSeconds}s")
             .setIosTestSetup(iOSTestSetup)
             .setIosXcTest(iOSXCTest)
-
-        val historyId = GcToolResults.getHistoryId(config)
-
-        val toolResultsHistory = ToolResultsHistory()
-            .setHistoryId(historyId)
-            .setProjectId(config.projectId)
 
         val resultStorage = ResultStorage()
             .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))

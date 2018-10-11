@@ -18,7 +18,8 @@ class GcIosTestMatrixTest {
         val iosArgs = mock(IosArgs::class.java)
         `when`(iosArgs.testShardChunks).thenReturn(listOf(listOf("")))
         GcIosTestMatrix.build(
-            IosDeviceList(), "", "", -1, NSDictionary(), iosArgs, ShardCounter()
+            IosDeviceList(), "", "", -1, NSDictionary(), iosArgs, ShardCounter(),
+            GcToolResults.createToolResultsHistory(iosArgs)
         )
     }
 
@@ -26,7 +27,8 @@ class GcIosTestMatrixTest {
     fun build_invalidShardErrors() {
         val iosArgs = mock(IosArgs::class.java)
         GcIosTestMatrix.build(
-            IosDeviceList(), "", "", 1, NSDictionary(), iosArgs, ShardCounter()
+            IosDeviceList(), "", "", 1, NSDictionary(), iosArgs, ShardCounter(),
+            GcToolResults.createToolResultsHistory(iosArgs)
         )
     }
 
@@ -40,7 +42,8 @@ class GcIosTestMatrixTest {
         `when`(iosArgs.xctestrunFile).thenReturn("456")
 
         GcIosTestMatrix.build(
-            IosDeviceList(), "", "", 0, NSDictionary(), iosArgs, ShardCounter()
+            IosDeviceList(), "", "", 0, NSDictionary(), iosArgs, ShardCounter(),
+            GcToolResults.createToolResultsHistory(iosArgs)
         )
     }
 }

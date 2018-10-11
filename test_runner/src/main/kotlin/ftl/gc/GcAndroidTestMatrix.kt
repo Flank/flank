@@ -36,7 +36,8 @@ object GcAndroidTestMatrix {
         androidDeviceList: AndroidDeviceList,
         testShardsIndex: Int = -1,
         config: AndroidArgs,
-        shardCounter: ShardCounter
+        shardCounter: ShardCounter,
+        toolResultsHistory: ToolResultsHistory
     ): Testing.Projects.TestMatrices.Create {
         validateTestShardIndex(testShardsIndex, config)
 
@@ -81,12 +82,6 @@ object GcAndroidTestMatrix {
             .setDisableVideoRecording(!config.recordVideo)
             .setTestTimeout("${testTimeoutSeconds}s")
             .setTestSetup(testSetup)
-
-        val historyId = GcToolResults.getHistoryId(config)
-
-        val toolResultsHistory = ToolResultsHistory()
-            .setHistoryId(historyId)
-            .setProjectId(config.projectId)
 
         val resultsStorage = ResultStorage()
             .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
