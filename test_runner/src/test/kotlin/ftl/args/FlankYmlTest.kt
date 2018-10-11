@@ -15,7 +15,7 @@ class FlankYmlTest {
 
     @Rule
     @JvmField
-    val exceptionRule = ExpectedException.none()
+    val exceptionRule = ExpectedException.none()!!
 
     @Rule
     @JvmField

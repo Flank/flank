@@ -98,8 +98,7 @@ class ArgsHelperTest {
     fun calculateShards_fails_emptyShardChunks() {
         exceptionRule.expectMessage("Failed to populate test shard chunks")
         calculateShards(
-            testTargets = listOf(""),
-            validTestNames = listOf(""),
+            testMethodsToShard = listOf(""),
             testMethodsAlwaysRun = listOf(""),
             testShards = 1
         )
@@ -108,8 +107,7 @@ class ArgsHelperTest {
     @Test
     fun calculateShards_succeeds() {
         calculateShards(
-            testTargets = listOf("a", "b"),
-            validTestNames = listOf("a", "b", "c"),
+            testMethodsToShard = listOf("a", "b", "c"),
             testMethodsAlwaysRun = listOf("c"),
             testShards = -1
         )
@@ -117,12 +115,35 @@ class ArgsHelperTest {
 
     @Test
     fun calculateShards_emptyTestTargets() {
-        calculateShards(
-            testTargets = listOf(),
-            validTestNames = listOf("a", "b", "c"),
+        val tests = listOf(
+            "class com.example.profile.ProfileTest#testOne",
+            "class com.example.profile.ProfileTest#testTwo"
+        )
+        val shards = calculateShards(
+            testMethodsToShard = tests,
+            testMethodsAlwaysRun = emptyList(),
+            testShards = -1
+        )
+        val expectedShards = listOf(
+            listOf(tests[0]),
+            listOf(tests[1])
+        )
+        assertThat(shards).isEqualTo(expectedShards)
+    }
+
+    @Test
+    fun calculateShards_packageTarget() {
+        val shards = calculateShards(
+            testMethodsToShard = listOf("a", "b", "c"),
             testMethodsAlwaysRun = listOf("c"),
             testShards = 2
         )
+
+        val expectedShards = listOf(
+            listOf("c", "a"),
+            listOf("c", "b")
+        )
+        assertThat(shards).isEqualTo(expectedShards)
     }
 
     @Test
