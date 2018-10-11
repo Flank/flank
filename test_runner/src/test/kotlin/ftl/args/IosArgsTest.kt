@@ -70,7 +70,8 @@ class IosArgsTest {
             GcloudYml(),
             IosGcloudYml(IosGcloudYmlParams(test = testPath, xctestrunFile = xctestrunFile, device = invalidDevice)),
             FlankYml(),
-            IosFlankYml()
+            IosFlankYml(),
+            ""
         )
     }
 
@@ -81,7 +82,8 @@ class IosArgsTest {
                 GcloudYml(),
                 IosGcloudYml(IosGcloudYmlParams(test = testPath, xctestrunFile = xctestrunFile, xcodeVersion = "99.9")),
                 FlankYml(),
-                IosFlankYml()
+                IosFlankYml(),
+            ""
         )
     }
 

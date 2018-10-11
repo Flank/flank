@@ -103,7 +103,8 @@ class AndroidArgsFileTest {
                 FlankYmlParams(
                     testShards = testShards
                 )
-            )
+            ),
+            ""
         )
     }
 
@@ -167,7 +168,8 @@ class AndroidArgsFileTest {
                     test = oldConfig.testApk
                 )
             ),
-            FlankYml()
+            FlankYml(),
+            ""
         )
 
         assert(config.resultsBucket, "tmp_bucket_2")

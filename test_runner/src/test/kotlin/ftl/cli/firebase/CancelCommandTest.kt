@@ -2,6 +2,7 @@ package ftl.cli.firebase
 
 import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
+import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
@@ -10,7 +11,7 @@ import org.junit.runner.RunWith
 import picocli.CommandLine
 
 @RunWith(FlankTestRunner::class)
-class IosCancelCommandTest {
+class CancelCommandTest {
     @Rule
     @JvmField
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
@@ -42,6 +43,7 @@ class IosCancelCommandTest {
 
     @Test
     fun cancelCommandRuns() {
+        AndroidRunCommand().run()
         CancelCommand().run()
         val output = systemOutRule.log
         Truth.assertThat(output).contains("No matrices to cancel")

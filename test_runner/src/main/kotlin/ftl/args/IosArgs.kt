@@ -23,10 +23,11 @@ class IosArgs(
     gcloudYml: GcloudYml,
     iosGcloudYml: IosGcloudYml,
     flankYml: FlankYml,
-    iosFlankYml: IosFlankYml
+    iosFlankYml: IosFlankYml,
+    override val data: String
 ) : IArgs {
+
     private val gcloud = gcloudYml.gcloud
-    override var filePath: Path? = null
     override val resultsBucket = gcloud.resultsBucket
     override val recordVideo = gcloud.recordVideo
     override val testTimeout = gcloud.timeout
@@ -123,11 +124,7 @@ ${listToString(testTargets)}
             mergeYmlMaps(GcloudYml, IosGcloudYml, FlankYml, IosFlankYml)
         }
 
-        fun load(data: Path): IosArgs {
-            val rtn = IosArgs.load(String(Files.readAllBytes(data)))
-            rtn.filePath = data
-            return rtn
-        }
+        fun load(data: Path): IosArgs = IosArgs.load(String(Files.readAllBytes(data)))
 
         fun load(data: String): IosArgs {
             val flankYml = yamlMapper.readValue(data, FlankYml::class.java)
@@ -139,7 +136,8 @@ ${listToString(testTargets)}
                 gcloudYml,
                 iosGcloudYml,
                 flankYml,
-                iosFlankYml
+                iosFlankYml,
+                data
             )
         }
     }

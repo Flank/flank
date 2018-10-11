@@ -1,6 +1,5 @@
 package ftl.run
 
-import com.google.api.services.testing.model.CancelTestMatrixResponse
 import com.google.api.services.testing.model.TestDetails
 import com.google.api.services.testing.model.TestMatrix
 import com.google.cloud.storage.Storage
@@ -10,6 +9,8 @@ import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
+import ftl.config.FtlConstants.defaultAndroidConfig
+import ftl.config.FtlConstants.defaultIosConfig
 import ftl.config.FtlConstants.indent
 import ftl.config.FtlConstants.localResultsDir
 import ftl.config.FtlConstants.localhost
@@ -29,6 +30,8 @@ import ftl.util.Utils
 import ftl.util.Utils.fatalError
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.runBlocking
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -62,13 +65,10 @@ object TestRunner {
     }
 
     fun saveConfigFile(matrixRunPath: String, config: IArgs): Path? {
-        if (config.filePath == null) {
-            return null
-        }
-
-        val configFilePath = Paths.get(FtlConstants.localResultsDir, matrixRunPath, FtlConstants.configFileForArgs(config))
+        val configFilePath =
+            Paths.get(FtlConstants.localResultsDir, matrixRunPath, FtlConstants.configFileName(config))
         configFilePath.parent.toFile().mkdirs()
-        Files.copy(config.filePath, configFilePath)
+        Files.write(configFilePath, config.data.toByteArray())
         return configFilePath
     }
 
@@ -109,17 +109,19 @@ object TestRunner {
     }
 
     /** Cancel all in progress matrices in parallel **/
-    private suspend fun cancelMatrices(matrixMap: MatrixMap, config: IArgs) {
+    private fun cancelMatrices(matrixMap: MatrixMap, config: IArgs) {
         println("CancelMatrices")
 
-        val cancelJobs = hashMapOf<String, Deferred<CancelTestMatrixResponse>>()
         val map = matrixMap.map
         var matrixCount = 0
-        map.forEach { matrix ->
-            // Only cancel unfinished
-            if (MatrixState.inProgress(matrix.value.state)) {
-                matrixCount += 1
-                cancelJobs[matrix.value.matrixId] = async { GcTestMatrix.cancel(matrix.key, config) }
+
+        runBlocking {
+            map.forEach { matrix ->
+                // Only cancel unfinished
+                if (MatrixState.inProgress(matrix.value.state)) {
+                    matrixCount += 1
+                    launch { GcTestMatrix.cancel(matrix.key, config) }
+                }
             }
         }
 
@@ -127,13 +129,6 @@ object TestRunner {
             println(indent + "No matrices to cancel")
         } else {
             println(indent + "Cancelling ${matrixCount}x matrices")
-        }
-
-        cancelJobs.forEach {
-            val response = it.value.await()
-            val matrixId = it.key
-
-            println(indent + "${response.testState} $matrixId")
         }
 
         println()
@@ -160,25 +155,18 @@ object TestRunner {
 
         if (lastRun == null) {
             fatalError("no runs found in results/ folder")
-            throw RuntimeException("fatalError failed to exit the process")
         }
 
-        var dirPath = Paths.get(lastRun).toFile()
-        if (!dirPath.exists()) {
-            dirPath = Paths.get(FtlConstants.localResultsDir, lastRun).toFile()
+        val iosConfig = Paths.get(localResultsDir, lastRun, defaultIosConfig)
+        val androidConfig = Paths.get(localResultsDir, lastRun, defaultAndroidConfig)
+
+        when {
+            iosConfig.toFile().exists() -> return IosArgs.load(iosConfig)
+            androidConfig.toFile().exists() -> return AndroidArgs.load(androidConfig)
+            else -> fatalError("No config file found in the last run folder: $lastRun")
         }
 
-        var filePath = Paths.get(dirPath.absolutePath, FtlConstants.defaultIosConfig).toAbsolutePath().normalize().toFile()
-        if (filePath.exists()) {
-            return IosArgs.load(filePath.toPath())
-        }
-
-        filePath = Paths.get(dirPath.absolutePath, FtlConstants.defaultAndroidConfig).toAbsolutePath().normalize().toFile()
-        if (filePath.exists()) {
-            return AndroidArgs.load(filePath.toPath())
-        }
-
-        throw RuntimeException("No config file found in the last run folder: $lastRun")
+        throw RuntimeException("should not happen")
     }
 
     /** Reads in the last matrices from the localResultsDir folder **/
@@ -349,14 +337,11 @@ object TestRunner {
     }
 
     // used to cancel and update results from an async run
-    suspend fun cancelLastRun() {
+    fun cancelLastRun() {
         val matrixMap = lastMatrices()
         val config = lastConfig()
 
         cancelMatrices(matrixMap, config)
-//
-//        val allFinished = ReportManager.generate(matrixMap)
-//        if (!allFinished) System.exit(1)
     }
 
     suspend fun newRun(config: IArgs) {
