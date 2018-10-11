@@ -2,6 +2,7 @@ package ftl
 
 import ftl.cli.FirebaseCommand
 import ftl.cli.firebase.CancelCommand
+import ftl.cli.firebase.RefreshCommand
 import ftl.cli.firebase.test.AndroidCommand
 import ftl.cli.firebase.test.IosCommand
 import ftl.util.Utils.readTextResource
@@ -14,6 +15,7 @@ import picocli.CommandLine
         FirebaseCommand::class,
         IosCommand::class,
         AndroidCommand::class,
+        RefreshCommand::class,
         CancelCommand::class
     ]
 )
