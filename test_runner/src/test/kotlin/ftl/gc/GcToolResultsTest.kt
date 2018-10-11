@@ -16,7 +16,7 @@ class GcToolResultsTest {
         val args = mock(AndroidArgs::class.java)
         `when`(args.projectId).thenReturn("123")
 
-        assertThat(GcToolResults.getHistoryId(args)).isNull()
+        assertThat(GcToolResults.createHistoryId(args)).isNull()
     }
 
     @Test
@@ -25,6 +25,6 @@ class GcToolResultsTest {
         `when`(args.projectId).thenReturn("123")
         `when`(args.resultsHistoryName).thenReturn("custom history")
 
-        assertThat(GcToolResults.getHistoryId(args)).isEqualTo("mockId")
+        assertThat(GcToolResults.createHistoryId(args)).isEqualTo("mockId")
     }
 }

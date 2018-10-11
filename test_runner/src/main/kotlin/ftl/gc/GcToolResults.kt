@@ -1,5 +1,6 @@
 package ftl.gc
 
+import com.google.api.services.testing.model.ToolResultsHistory
 import com.google.api.services.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.ToolResults
 import com.google.api.services.toolresults.model.History
@@ -45,7 +46,13 @@ object GcToolResults {
             .execute()
     }
 
-    fun getHistoryId(args: IArgs): String? {
+    fun createToolResultsHistory(args: IArgs): ToolResultsHistory {
+        return ToolResultsHistory()
+            .setHistoryId(createHistoryId(args))
+            .setProjectId(args.projectId)
+    }
+
+    private fun createHistoryId(args: IArgs): String? {
         if (args.resultsHistoryName == null) return null
         val histories = listHistoriesByName(args)
         if (histories.isNotEmpty()) return histories.first().historyId

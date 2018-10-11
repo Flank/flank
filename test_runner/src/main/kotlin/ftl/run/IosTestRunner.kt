@@ -6,6 +6,7 @@ import ftl.config.FtlConstants
 import ftl.gc.GcIosMatrix
 import ftl.gc.GcIosTestMatrix
 import ftl.gc.GcStorage
+import ftl.gc.GcToolResults
 import ftl.ios.Xctestrun
 import ftl.json.MatrixMap
 import ftl.run.GenericTestRunner.beforeRunMessage
@@ -17,25 +18,26 @@ object IosTestRunner {
     // https://github.com/bootstraponline/gcloud_cli/blob/5bcba57e825fc98e690281cf69484b7ba4eb668a/google-cloud-sdk/lib/googlecloudsdk/api_lib/firebase/test/ios/matrix_creator.py#L109
     // https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/run
     // https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/
-    suspend fun runTests(yamlConfig: IosArgs): MatrixMap {
+    suspend fun runTests(iosArgs: IosArgs): MatrixMap {
         val (stopwatch, runGcsPath) = GenericTestRunner.beforeRunTests()
 
-        val xcTestGcsPath = if (yamlConfig.xctestrunZip.startsWith(FtlConstants.GCS_PREFIX)) {
-            yamlConfig.xctestrunZip
+        val xcTestGcsPath = if (iosArgs.xctestrunZip.startsWith(FtlConstants.GCS_PREFIX)) {
+            iosArgs.xctestrunZip
         } else {
-            GcStorage.uploadXCTestZip(yamlConfig, runGcsPath)
+            GcStorage.uploadXCTestZip(iosArgs, runGcsPath)
         }
 
-        val iosDeviceList = GcIosMatrix.build(yamlConfig.devices)
+        val iosDeviceList = GcIosMatrix.build(iosArgs.devices)
 
-        val xcTestParsed = Xctestrun.parse(yamlConfig.xctestrunFile)
+        val xcTestParsed = Xctestrun.parse(iosArgs.xctestrunFile)
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
-        val runCount = yamlConfig.repeatTests
-        val deviceCount = yamlConfig.testShardChunks.size
+        val runCount = iosArgs.repeatTests
+        val deviceCount = iosArgs.testShardChunks.size
         val shardCounter = ShardCounter()
+        val history = GcToolResults.createToolResultsHistory(iosArgs)
 
-        println(beforeRunMessage(yamlConfig))
+        println(beforeRunMessage(iosArgs))
         repeat(runCount) {
             repeat(deviceCount) { testShardsIndex ->
                 jobs += async {
@@ -45,13 +47,14 @@ object IosTestRunner {
                         runGcsPath = runGcsPath,
                         testShardsIndex = testShardsIndex,
                         xcTestParsed = xcTestParsed,
-                        config = yamlConfig,
-                        shardCounter = shardCounter
+                        config = iosArgs,
+                        shardCounter = shardCounter,
+                        toolResultsHistory = history
                     ).execute()
                 }
             }
         }
 
-        return GenericTestRunner.afterRunTests(jobs, runGcsPath, stopwatch, yamlConfig)
+        return GenericTestRunner.afterRunTests(jobs, runGcsPath, stopwatch, iosArgs)
     }
 }

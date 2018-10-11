@@ -6,6 +6,7 @@ import ftl.config.FtlConstants
 import ftl.gc.GcAndroidDevice
 import ftl.gc.GcAndroidTestMatrix
 import ftl.gc.GcStorage
+import ftl.gc.GcToolResults
 import ftl.json.MatrixMap
 import ftl.util.ShardCounter
 import kotlinx.coroutines.experimental.Deferred
@@ -25,6 +26,7 @@ object AndroidTestRunner {
         val runCount = androidArgs.repeatTests
         val deviceCount = androidArgs.testShardChunks.size
         val shardCounter = ShardCounter()
+        val history = GcToolResults.createToolResultsHistory(androidArgs)
 
         println(GenericTestRunner.beforeRunMessage(androidArgs))
         repeat(runCount) {
@@ -37,7 +39,8 @@ object AndroidTestRunner {
                         androidDeviceList = androidDeviceList,
                         testShardsIndex = testShardsIndex,
                         config = androidArgs,
-                        shardCounter = shardCounter
+                        shardCounter = shardCounter,
+                        toolResultsHistory = history
                     ).execute()
                 }
             }
