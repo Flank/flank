@@ -68,8 +68,8 @@ dependencies {
     compile(Libs.KOTLIN_STD_LIB)
     compile(Libs.KOTLIN_COROUTINES_CORE)
 
-    // https://github.com/remkop/picocli
-    compile("info.picocli:picocli:3.5.2")
+    // https://github.com/remkop/picocli/releases
+    compile("info.picocli:picocli:3.6.1")
 
     // https://github.com/google/gson/releases
     compile("com.google.code.gson:gson:2.8.5")
@@ -78,10 +78,10 @@ dependencies {
     compile("com.googlecode.plist:dd-plist:1.21")
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    compile("com.google.cloud:google-cloud-storage:1.40.0")
+    compile("com.google.cloud:google-cloud-storage:1.49.0")
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
-    compile("com.google.apis:google-api-services-toolresults:v1beta3-rev444-1.24.1")
+    compile("com.google.apis:google-api-services-toolresults:v1beta3-rev469-1.25.0")
 
     // https://github.com/linkedin/dex-test-parser/releases
     compile("com.linkedin.dextestparser:parser:2.0.0")
@@ -106,19 +106,22 @@ dependencies {
     testImplementation("com.github.stefanbirkner:system-rules:1.18.0")
 
     // https://bintray.com/kotlin/ktor/ktor
-    val ktorVersion = "0.9.4"
+    val ktorVersion = "0.9.5"
     testImplementation("io.ktor:ktor-server-core:$ktorVersion")
     testImplementation("io.ktor:ktor-server-netty:$ktorVersion")
     testImplementation("io.ktor:ktor-gson:$ktorVersion")
 
+    // https://github.com/qos-ch/logback/releases
     testImplementation("ch.qos.logback:logback-classic:1.2.3")
     // mockito-inline is used to mock final classes
-    testImplementation("org.mockito:mockito-inline:2.21.0")
+    // https://github.com/mockito/mockito/releases
+    testImplementation("org.mockito:mockito-inline:2.23.0")
+    // https://github.com/square/okhttp/releases
     testImplementation("com.squareup.okhttp3:okhttp:3.11.0")
 
-    // todo: move to testImplementation once dagger is implemented https://github.com/TestArmada/flank/issues/248
+    // todo: move to testImplementation once DI is implemented https://github.com/TestArmada/flank/issues/248
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    compile("com.google.cloud:google-cloud-nio:0.58.0-alpha")
+    compile("com.google.cloud:google-cloud-nio:0.67.0-alpha")
 }
 
 // Fix Exception in thread "main" java.lang.NoSuchMethodError: com.google.common.hash.Hashing.crc32c()Lcom/google/common/hash/HashFunction;

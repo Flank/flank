@@ -20,9 +20,8 @@ class IosCommandTest {
         Truth.assertThat(output).startsWith(
             "ios [COMMAND]\n" +
                 "Commands:\n" +
-                "  run      Run tests on Firebase Test Lab\n" +
-                "  refresh  Downloads results for the last Firebase Test Lab run\n" +
-                "  doctor   Verifies flank firebase is setup correctly\n"
+                "  run     Run tests on Firebase Test Lab\n" +
+                "  doctor  Verifies flank firebase is setup correctly\n"
         )
     }
 }

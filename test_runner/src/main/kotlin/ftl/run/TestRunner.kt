@@ -326,14 +326,18 @@ object TestRunner {
         return refreshedMatrix
     }
 
-    // used to update results from an async run
-    suspend fun refreshLastRun(config: IArgs) {
+    // used to update and poll the results from an async run
+    suspend fun refreshLastRun() {
         val matrixMap = lastMatrices()
+        val config = lastConfig()
 
         refreshMatrices(matrixMap, config)
+        pollMatrices(matrixMap, config)
         fetchArtifacts(matrixMap)
+
         // Must generate reports *after* fetching xml artifacts since reports require xml
-        ReportManager.generate(matrixMap)
+        val testsSuccessful = ReportManager.generate(matrixMap)
+        if (!testsSuccessful) System.exit(1)
     }
 
     // used to cancel and update results from an async run
