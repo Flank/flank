@@ -3,7 +3,6 @@ package ftl.cli
 import ftl.cli.firebase.CancelCommand
 import ftl.cli.firebase.RefreshCommand
 import ftl.cli.firebase.TestCommand
-import ftl.cli.firebase.test.ios.IosDoctorCommand
 import picocli.CommandLine
 import picocli.CommandLine.Command
 
@@ -13,8 +12,7 @@ import picocli.CommandLine.Command
     subcommands = [
         TestCommand::class,
         RefreshCommand::class,
-        CancelCommand::class,
-        IosDoctorCommand::class
+        CancelCommand::class
     ]
 )
 class FirebaseCommand : Runnable {
