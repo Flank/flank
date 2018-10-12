@@ -63,7 +63,7 @@ class IosArgs(
             testMethodsToShard = testsToShard,
             testMethodsAlwaysRun = testTargetsAlwaysRun,
             testShards = testShards
-        )
+            )
     }
 
     init {

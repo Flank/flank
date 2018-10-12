@@ -72,11 +72,11 @@ class AndroidArgs(
 
         val filteredTests = getTestMethods(testLocalApk)
 
-         calculateShards(
+        calculateShards(
             filteredTests,
             testTargetsAlwaysRun,
             testShards
-        )
+            )
     }
 
     init {
