@@ -1,6 +1,5 @@
 package ftl.cli.firebase
 
-
 import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import ftl.test.util.FlankTestRunner
@@ -43,8 +42,7 @@ class RefreshCommandTest {
 
     @Test
     fun refreshCommandRuns() {
-        val cmd = RefreshCommand()
-        cmd.run()
+        RefreshCommand().run()
         val output = systemOutRule.log
         Truth.assertThat(output).contains("1 / 1 (100.00%)")
     }
