@@ -61,7 +61,23 @@ class AndroidArgs(
     override val testTargetsAlwaysRun = flank.testTargetsAlwaysRun
 
     // computed properties not specified in yaml
-    override val testShardChunks: List<List<String>>
+    override val testShardChunks: List<List<String>> by lazy {
+        // Download test APK if necessary so it can be used to validate test methods
+        var testLocalApk = testApk
+        if (testApk.startsWith(FtlConstants.GCS_PREFIX)) {
+            runBlocking {
+                testLocalApk = GcStorage.downloadTestApk(this@AndroidArgs)
+            }
+        }
+
+        val filteredTests = getTestMethods(testLocalApk)
+
+         calculateShards(
+            filteredTests,
+            testTargetsAlwaysRun,
+            testShards
+        )
+    }
 
     init {
         resultsBucket = getGcsBucket(projectId, gcloud.resultsBucket)
@@ -78,22 +94,7 @@ class AndroidArgs(
             assertFileExists(testApk, "testApk")
         }
 
-        // Download test APK if necessary so it can be used to validate test methods
-        var testLocalApk = testApk
-        if (testApk.startsWith(FtlConstants.GCS_PREFIX)) {
-            runBlocking {
-                testLocalApk = GcStorage.downloadTestApk(this@AndroidArgs)
-            }
-        }
-
         devices.forEach { device -> assertDeviceSupported(device) }
-        val filteredTests = getTestMethods(testLocalApk)
-
-        testShardChunks = calculateShards(
-            filteredTests,
-            testTargetsAlwaysRun,
-            testShards
-        )
     }
 
     private fun getTestMethods(testLocalApk: String): List<String> {

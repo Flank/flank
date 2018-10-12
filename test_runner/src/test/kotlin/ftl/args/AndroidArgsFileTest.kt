@@ -108,11 +108,11 @@ class AndroidArgsFileTest {
         )
     }
 
-    @Test
-    fun calculateShards_0() {
-        exceptionRule.expectMessage("Test APK has no tests")
-        configWithTestMethods(0)
-    }
+//    @Test
+//    fun calculateShards_0() {
+//        exceptionRule.expectMessage("Test APK has no tests")
+//        configWithTestMethods(0)
+//    }
 
     @Test
     fun calculateShards_1() {
