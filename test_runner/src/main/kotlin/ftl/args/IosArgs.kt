@@ -50,7 +50,21 @@ class IosArgs(
     val testTargets = iosFlank.testTargets
 
     // computed properties not specified in yaml
-    override val testShardChunks: List<List<String>>
+    override val testShardChunks: List<List<String>> by lazy {
+        val validTestMethods = Xctestrun.findTestNames(xctestrunFile)
+        validateTestMethods(testTargets, validTestMethods, "xctest binary")
+        val testsToShard = if (testTargets.isEmpty()) {
+            validTestMethods
+        } else {
+            testTargets
+        }
+
+        ArgsHelper.calculateShards(
+            testMethodsToShard = testsToShard,
+            testMethodsAlwaysRun = testTargetsAlwaysRun,
+            testShards = testShards
+            )
+    }
 
     init {
         if (xctestrunZip.startsWith(FtlConstants.GCS_PREFIX)) {
@@ -62,20 +76,6 @@ class IosArgs(
 
         devices.forEach { device -> assertDeviceSupported(device) }
         assertXcodeSupported(xcodeVersion)
-
-        val validTestMethods = Xctestrun.findTestNames(xctestrunFile)
-        validateTestMethods(testTargets, validTestMethods, "xctest binary")
-        val testsToShard = if (testTargets.isEmpty()) {
-            validTestMethods
-        } else {
-            testTargets
-        }
-
-        testShardChunks = ArgsHelper.calculateShards(
-            testMethodsToShard = testsToShard,
-            testMethodsAlwaysRun = testTargetsAlwaysRun,
-            testShards = testShards
-        )
     }
 
     private fun assertXcodeSupported(xcodeVersion: String?) {
