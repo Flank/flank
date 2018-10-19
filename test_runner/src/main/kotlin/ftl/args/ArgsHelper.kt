@@ -137,6 +137,8 @@ object ArgsHelper {
                 Charsets.UTF_8,
                 GenericJson::class.java)["project_id"] as String
         } catch (e: Exception) {
+            println("Parsing $defaultCredentialPath failed:")
+            println(e.printStackTrace())
         }
 
         return null
