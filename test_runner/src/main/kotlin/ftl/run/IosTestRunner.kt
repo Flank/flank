@@ -12,6 +12,7 @@ import ftl.json.MatrixMap
 import ftl.run.GenericTestRunner.beforeRunMessage
 import ftl.util.ShardCounter
 import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
 
 object IosTestRunner {
@@ -40,7 +41,7 @@ object IosTestRunner {
         println(beforeRunMessage(iosArgs))
         repeat(runCount) {
             repeat(deviceCount) { testShardsIndex ->
-                jobs += async {
+                jobs += GlobalScope.async {
                     GcIosTestMatrix.build(
                         iosDeviceList = iosDeviceList,
                         testZipGcsPath = xcTestGcsPath,

@@ -29,6 +29,7 @@ import ftl.util.StopWatch
 import ftl.util.Utils
 import ftl.util.Utils.fatalError
 import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
@@ -83,7 +84,7 @@ object TestRunner {
             // Only refresh unfinished
             if (MatrixState.inProgress(matrix.value.state)) {
                 matrixCount += 1
-                jobs += async { GcTestMatrix.refresh(matrix.key, config) }
+                jobs += GlobalScope.async { GcTestMatrix.refresh(matrix.key, config) }
             }
         }
 
