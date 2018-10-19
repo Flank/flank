@@ -24,7 +24,7 @@ class GcloudYmlParams(
 
     val async: Boolean = false,
 
-    val project: String = getDefaultProjectId(),
+    val project: String = getDefaultProjectId() ?: "",
 
     @field:JsonProperty("results-history-name")
     val resultsHistoryName: String? = null

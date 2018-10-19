@@ -3,6 +3,9 @@ package ftl.args
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.google.api.client.json.GenericJson
+import com.google.api.client.json.JsonObjectParser
+import com.google.api.client.util.Charsets
 import com.google.cloud.ServiceOptions
 import com.google.cloud.storage.BucketInfo
 import com.google.cloud.storage.Storage
@@ -12,11 +15,14 @@ import com.google.common.math.IntMath
 import ftl.args.yml.IYmlMap
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
+import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.gc.GcStorage
 import ftl.util.Utils
 import java.io.File
 import java.math.RoundingMode
 import java.net.URI
+import java.nio.file.Files
+import java.nio.file.Paths
 
 object ArgsHelper {
 
@@ -122,9 +128,24 @@ object ArgsHelper {
         ).name
     }
 
-    fun getDefaultProjectId(): String {
+    private fun serviceAccountProjectId(): String? {
+        try {
+            val serviceAccount =
+                Paths.get(System.getProperty("user.home"), ".config/gcloud/application_default_credentials.json")
+
+            val parser = JsonObjectParser(JSON_FACTORY)
+            return parser.parseAndClose(
+                Files.newInputStream(serviceAccount), Charsets.UTF_8, GenericJson::class.java
+            )["project_id"] as String
+        } catch (e: Exception) {
+        }
+
+        return null
+    }
+
+    fun getDefaultProjectId(): String? {
         if (FtlConstants.useMock) return "mockProjectId"
 
-        return ServiceOptions.getDefaultProjectId() ?: ""
+        return serviceAccountProjectId() ?: ServiceOptions.getDefaultProjectId()
     }
 }
