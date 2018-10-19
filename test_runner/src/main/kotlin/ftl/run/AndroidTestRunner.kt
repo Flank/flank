@@ -10,6 +10,7 @@ import ftl.gc.GcToolResults
 import ftl.json.MatrixMap
 import ftl.util.ShardCounter
 import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
 
 object AndroidTestRunner {
@@ -57,7 +58,7 @@ object AndroidTestRunner {
     private suspend fun resolveApks(config: AndroidArgs, runGcsPath: String): Pair<String, String> {
         val gcsBucket = config.resultsBucket
 
-        val appApkGcsPath = async {
+        val appApkGcsPath = GlobalScope.async {
             if (!config.appApk.startsWith(FtlConstants.GCS_PREFIX)) {
                 GcStorage.uploadAppApk(config, gcsBucket, runGcsPath)
             } else {
@@ -65,7 +66,7 @@ object AndroidTestRunner {
             }
         }
 
-        val testApkGcsPath = async {
+        val testApkGcsPath = GlobalScope.async {
             // Skip download case for testApk - YamlConfig downloads it when it does validation
             if (!config.testApk.startsWith(FtlConstants.GCS_PREFIX)) {
                 GcStorage.uploadTestApk(config, gcsBucket, runGcsPath)
