@@ -16,13 +16,13 @@ import ftl.args.yml.IYmlMap
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.FtlConstants.JSON_FACTORY
+import ftl.config.FtlConstants.defaultCredentialPath
 import ftl.gc.GcStorage
 import ftl.util.Utils
 import java.io.File
 import java.math.RoundingMode
 import java.net.URI
 import java.nio.file.Files
-import java.nio.file.Paths
 
 object ArgsHelper {
 
@@ -130,14 +130,15 @@ object ArgsHelper {
 
     private fun serviceAccountProjectId(): String? {
         try {
-            val serviceAccount =
-                Paths.get(System.getProperty("user.home"), ".config/gcloud/application_default_credentials.json")
+            if (!defaultCredentialPath.toFile().exists()) return null
 
-            val parser = JsonObjectParser(JSON_FACTORY)
-            return parser.parseAndClose(
-                Files.newInputStream(serviceAccount), Charsets.UTF_8, GenericJson::class.java
-            )["project_id"] as String
+            return JsonObjectParser(JSON_FACTORY).parseAndClose(
+                Files.newInputStream(defaultCredentialPath),
+                Charsets.UTF_8,
+                GenericJson::class.java)["project_id"] as String
         } catch (e: Exception) {
+            println("Parsing $defaultCredentialPath failed:")
+            println(e.printStackTrace())
         }
 
         return null

@@ -11,6 +11,8 @@ import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.http.TimeoutHttpRequestInitializer
+import java.nio.file.Path
+import java.nio.file.Paths
 
 object FtlConstants {
     var useMock = false
@@ -31,6 +33,10 @@ object FtlConstants {
         } catch (e: Exception) {
             throw RuntimeException(e)
         }
+    }
+
+    val defaultCredentialPath: Path by lazy {
+        Paths.get(System.getProperty("user.home"), ".config/gcloud/application_default_credentials.json")
     }
 
     val credential: HttpRequestInitializer by lazy {

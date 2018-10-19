@@ -3,6 +3,7 @@ package ftl.args.yml
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.args.ArgsHelper.getDefaultProjectId
+import ftl.config.FtlConstants.defaultCredentialPath
 import ftl.gc.GcToolResults
 import ftl.util.Utils.assertNotEmpty
 
@@ -36,7 +37,8 @@ class GcloudYmlParams(
 
     init {
         assertNotEmpty(
-            project, "project is not set. Define GOOGLE_CLOUD_PROJECT or set project in flank.yml\n" +
+            project, "project is not set. Define GOOGLE_CLOUD_PROJECT, set project in flank.yml\n" +
+                "or save service account credential to $defaultCredentialPath\n" +
                 " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
         )
 
