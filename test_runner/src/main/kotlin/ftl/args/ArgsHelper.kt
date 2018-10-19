@@ -147,6 +147,7 @@ object ArgsHelper {
     fun getDefaultProjectId(): String? {
         if (FtlConstants.useMock) return "mockProjectId"
 
-        return serviceAccountProjectId() ?: ServiceOptions.getDefaultProjectId()
+        // Allow users control over projectId by checking using Google's logic first before falling back to JSON.
+        return ServiceOptions.getDefaultProjectId() ?: serviceAccountProjectId()
     }
 }
