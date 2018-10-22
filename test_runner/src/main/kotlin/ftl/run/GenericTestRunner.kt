@@ -7,7 +7,6 @@ import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
 import ftl.util.StopWatch
 import ftl.util.Utils
-import kotlinx.coroutines.experimental.Deferred
 
 object GenericTestRunner {
     fun beforeRunTests(): Pair<StopWatch, String> {
@@ -18,16 +17,15 @@ object GenericTestRunner {
         return Pair(stopwatch, Utils.uniqueObjectName())
     }
 
-    suspend fun afterRunTests(
-        jobs: ArrayList<Deferred<TestMatrix>>,
+    fun afterRunTests(
+        jobs: List<TestMatrix>,
         runGcsPath: String,
         stopwatch: StopWatch,
         config: IArgs
     ): MatrixMap {
         val savedMatrices = mutableMapOf<String, SavedMatrix>()
 
-        jobs.forEach {
-            val matrix = it.await()
+        jobs.forEach { matrix ->
             val matrixId = matrix.testMatrixId
             savedMatrices[matrixId] = SavedMatrix(matrix)
         }

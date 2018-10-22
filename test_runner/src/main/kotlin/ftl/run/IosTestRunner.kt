@@ -12,14 +12,15 @@ import ftl.json.MatrixMap
 import ftl.run.GenericTestRunner.beforeRunMessage
 import ftl.util.ShardCounter
 import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.awaitAll
+import kotlinx.coroutines.experimental.coroutineScope
 
 object IosTestRunner {
     // https://github.com/bootstraponline/gcloud_cli/blob/5bcba57e825fc98e690281cf69484b7ba4eb668a/google-cloud-sdk/lib/googlecloudsdk/api_lib/firebase/test/ios/matrix_creator.py#L109
     // https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/run
     // https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/
-    suspend fun runTests(iosArgs: IosArgs): MatrixMap {
+    suspend fun runTests(iosArgs: IosArgs): MatrixMap = coroutineScope {
         val (stopwatch, runGcsPath) = GenericTestRunner.beforeRunTests()
 
         val xcTestGcsPath = if (iosArgs.xctestrunZip.startsWith(FtlConstants.GCS_PREFIX)) {
@@ -41,7 +42,7 @@ object IosTestRunner {
         println(beforeRunMessage(iosArgs))
         repeat(runCount) {
             repeat(deviceCount) { testShardsIndex ->
-                jobs += GlobalScope.async {
+                jobs += async {
                     GcIosTestMatrix.build(
                         iosDeviceList = iosDeviceList,
                         testZipGcsPath = xcTestGcsPath,
@@ -56,6 +57,6 @@ object IosTestRunner {
             }
         }
 
-        return GenericTestRunner.afterRunTests(jobs, runGcsPath, stopwatch, iosArgs)
+        GenericTestRunner.afterRunTests(jobs.awaitAll(), runGcsPath, stopwatch, iosArgs)
     }
 }

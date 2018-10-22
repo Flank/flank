@@ -10,12 +10,13 @@ import ftl.gc.GcToolResults
 import ftl.json.MatrixMap
 import ftl.util.ShardCounter
 import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.awaitAll
+import kotlinx.coroutines.experimental.coroutineScope
 
 object AndroidTestRunner {
 
-    suspend fun runTests(androidArgs: AndroidArgs): MatrixMap {
+    suspend fun runTests(androidArgs: AndroidArgs): MatrixMap = coroutineScope {
         val (stopwatch, runGcsPath) = GenericTestRunner.beforeRunTests()
 
         // GcAndroidMatrix => GcAndroidTestMatrix
@@ -47,7 +48,7 @@ object AndroidTestRunner {
             }
         }
 
-        return GenericTestRunner.afterRunTests(jobs, runGcsPath, stopwatch, androidArgs)
+        GenericTestRunner.afterRunTests(jobs.awaitAll(), runGcsPath, stopwatch, androidArgs)
     }
 
     /**
@@ -55,10 +56,10 @@ object AndroidTestRunner {
      *
      * @return Pair(gcs uri for app apk, gcs uri for test apk)
      */
-    private suspend fun resolveApks(config: AndroidArgs, runGcsPath: String): Pair<String, String> {
+    private suspend fun resolveApks(config: AndroidArgs, runGcsPath: String): Pair<String, String> = coroutineScope {
         val gcsBucket = config.resultsBucket
 
-        val appApkGcsPath = GlobalScope.async {
+        val appApkGcsPath = async {
             if (!config.appApk.startsWith(FtlConstants.GCS_PREFIX)) {
                 GcStorage.uploadAppApk(config, gcsBucket, runGcsPath)
             } else {
@@ -66,7 +67,7 @@ object AndroidTestRunner {
             }
         }
 
-        val testApkGcsPath = GlobalScope.async {
+        val testApkGcsPath = async {
             // Skip download case for testApk - YamlConfig downloads it when it does validation
             if (!config.testApk.startsWith(FtlConstants.GCS_PREFIX)) {
                 GcStorage.uploadTestApk(config, gcsBucket, runGcsPath)
@@ -75,6 +76,6 @@ object AndroidTestRunner {
             }
         }
 
-        return Pair(appApkGcsPath.await(), testApkGcsPath.await())
+        Pair(appApkGcsPath.await(), testApkGcsPath.await())
     }
 }
