@@ -29,8 +29,9 @@ import ftl.util.StopWatch
 import ftl.util.Utils
 import ftl.util.Utils.fatalError
 import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.awaitAll
+import kotlinx.coroutines.experimental.coroutineScope
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
 import java.nio.file.Files
@@ -74,7 +75,7 @@ object TestRunner {
     }
 
     /** Refresh all in progress matrices in parallel **/
-    private suspend fun refreshMatrices(matrixMap: MatrixMap, config: IArgs) {
+    private suspend fun refreshMatrices(matrixMap: MatrixMap, config: IArgs) = coroutineScope {
         println("RefreshMatrices")
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
@@ -84,7 +85,7 @@ object TestRunner {
             // Only refresh unfinished
             if (MatrixState.inProgress(matrix.value.state)) {
                 matrixCount += 1
-                jobs += GlobalScope.async { GcTestMatrix.refresh(matrix.key, config) }
+                jobs += async { GcTestMatrix.refresh(matrix.key, config) }
             }
         }
 
@@ -93,8 +94,7 @@ object TestRunner {
         }
 
         var dirty = false
-        jobs.forEach {
-            val matrix = it.await()
+        jobs.awaitAll().forEach { matrix ->
             val matrixId = matrix.testMatrixId
 
             println(indent + "${matrix.state} $matrixId")

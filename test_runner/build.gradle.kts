@@ -9,11 +9,11 @@ plugins {
     application
     jacoco
     kotlin("jvm") version Versions.KOTLIN
-    // https://github.com/jlleitschuh/ktlint-gradle
+    // https://github.com/JLLeitschuh/ktlint-gradle/releases
     // ./gradlew ktlintFormat
     // ./gradlew ktlintCheck
     // ./gradlew ktlintApplyToIdea
-    id("org.jlleitschuh.gradle.ktlint") version "5.0.0"
+    id("org.jlleitschuh.gradle.ktlint") version "6.2.0"
 }
 
 // http://www.eclemma.org/jacoco/
@@ -69,7 +69,7 @@ dependencies {
     compile(Libs.KOTLIN_COROUTINES_CORE)
 
     // https://github.com/remkop/picocli/releases
-    compile("info.picocli:picocli:3.6.1")
+    compile("info.picocli:picocli:3.7.0")
 
     // https://github.com/google/gson/releases
     compile("com.google.code.gson:gson:2.8.5")
@@ -81,7 +81,7 @@ dependencies {
     compile("com.google.cloud:google-cloud-storage:1.49.0")
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
-    compile("com.google.apis:google-api-services-toolresults:v1beta3-rev469-1.25.0")
+    compile("com.google.apis:google-api-services-toolresults:v1beta3-rev20181015-1.26.0")
 
     // https://github.com/linkedin/dex-test-parser/releases
     compile("com.linkedin.dextestparser:parser:2.0.0")

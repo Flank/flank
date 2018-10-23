@@ -11,7 +11,7 @@
 
 REPO_NAME="EarlGrey"
 if [ ! -d "$REPO_NAME" ]; then
-  git clone https://github.com/google/$REPO_NAME.git
+  git clone https://github.com/google/${REPO_NAME}.git
 fi
 
 DIR=$(pwd)

@@ -17,7 +17,7 @@ object HtmlErrorReport : IReport {
 
     private val gson = Gson()
 
-    fun reactJson(testSuite: TestSuite): Pair<String, String> {
+    private fun reactJson(testSuite: TestSuite): Pair<String, String> {
         val groupList = mutableListOf<Group>()
         val itemList = mutableListOf<Item>()
 
