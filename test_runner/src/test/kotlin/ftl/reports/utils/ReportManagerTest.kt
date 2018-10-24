@@ -1,5 +1,6 @@
 package ftl.reports.utils
 
+import ftl.args.AndroidArgs
 import ftl.reports.util.ReportManager
 import ftl.run.TestRunner
 import ftl.test.util.FlankTestRunner
@@ -8,6 +9,7 @@ import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
+import org.mockito.Mockito.mock
 
 @RunWith(FlankTestRunner::class)
 class ReportManagerTest {
@@ -23,12 +25,12 @@ class ReportManagerTest {
     @Test
     fun generate_fromErrorResult() {
         val matrix = TestRunner.matrixPathToObj("./src/test/kotlin/ftl/fixtures/error_result")
-        ReportManager.generate(matrix)
+        ReportManager.generate(matrix, mock(AndroidArgs::class.java))
     }
 
     @Test
     fun generate_fromSuccessResult() {
         val matrix = TestRunner.matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result")
-        ReportManager.generate(matrix)
+        ReportManager.generate(matrix, mock(AndroidArgs::class.java))
     }
 }

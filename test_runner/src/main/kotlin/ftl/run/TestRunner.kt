@@ -24,7 +24,6 @@ import ftl.json.SavedMatrix
 import ftl.reports.util.ReportManager
 import ftl.util.ArtifactRegex
 import ftl.util.MatrixState
-import ftl.util.Outcome
 import ftl.util.StopWatch
 import ftl.util.Utils
 import ftl.util.Utils.fatalError
@@ -206,10 +205,10 @@ object TestRunner {
         val filtered = matrixMap.map.values.filter {
             val finished = it.state == MatrixState.FINISHED
             val notDownloaded = !it.downloaded
-            val failure = it.outcome == Outcome.failure
-            finished && notDownloaded && failure
+            finished && notDownloaded
         }
 
+        // TODO: fetch in parallel https://github.com/TestArmada/flank/issues/323
         print(indent)
         filtered.forEach { matrix ->
             val prefix = Storage.BlobListOption.prefix(matrix.gcsPathWithoutRootBucket)
@@ -218,8 +217,7 @@ object TestRunner {
             result.iterateAll().forEach { blob ->
                 val blobPath = blob.blobId.name
                 if (
-                    blobPath.matches(ArtifactRegex.testResultRgx) ||
-                    blobPath.matches(ArtifactRegex.screenshotRgx)
+                    blobPath.matches(ArtifactRegex.testResultRgx)
                 ) {
                     val downloadFile = Paths.get(FtlConstants.localResultsDir, blobPath)
                     print(".")
@@ -337,7 +335,7 @@ object TestRunner {
         fetchArtifacts(matrixMap)
 
         // Must generate reports *after* fetching xml artifacts since reports require xml
-        val testsSuccessful = ReportManager.generate(matrixMap)
+        val testsSuccessful = ReportManager.generate(matrixMap, config)
         if (!testsSuccessful) System.exit(1)
     }
 
@@ -357,7 +355,7 @@ object TestRunner {
             pollMatrices(matrixMap, config)
             fetchArtifacts(matrixMap)
 
-            val testsSuccessful = ReportManager.generate(matrixMap)
+            val testsSuccessful = ReportManager.generate(matrixMap, config)
             if (!testsSuccessful) System.exit(1)
         }
     }

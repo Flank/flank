@@ -3,7 +3,7 @@ package ftl.reports
 import ftl.config.FtlConstants.indent
 import ftl.json.MatrixMap
 import ftl.reports.util.IReport
-import ftl.reports.util.TestSuite
+import ftl.reports.xml.model.JUnitTestResult
 import ftl.util.Billing
 import ftl.util.Utils.println
 import ftl.util.Utils.write
@@ -39,7 +39,7 @@ object CostReport : IReport {
         reportPath.write(output)
     }
 
-    override fun run(matrices: MatrixMap, testSuite: TestSuite, printToStdout: Boolean) {
+    override fun run(matrices: MatrixMap, testSuite: JUnitTestResult?, printToStdout: Boolean) {
         val output = generate(matrices)
         if (printToStdout) print(output)
         write(matrices, output)

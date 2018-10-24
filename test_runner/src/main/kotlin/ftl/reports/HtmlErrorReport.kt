@@ -3,13 +3,15 @@ package ftl.reports
 import com.google.gson.Gson
 import ftl.json.MatrixMap
 import ftl.reports.util.IReport
-import ftl.reports.util.TestSuite
+import ftl.reports.xml.model.JUnitTestCase
+import ftl.reports.xml.model.JUnitTestResult
 import ftl.util.Utils.readTextResource
 import java.nio.file.Files
 import java.nio.file.Paths
 
 /**
  * Outputs HTML report for Bitrise based on JUnit XML. Only run on failures.
+ * TODO: Add tests! Currently broken!
  * */
 object HtmlErrorReport : IReport {
     data class Group(val key: String, val name: String, val startIndex: Int, val count: Int)
@@ -17,20 +19,27 @@ object HtmlErrorReport : IReport {
 
     private val gson = Gson()
 
-    private fun reactJson(testSuite: TestSuite): Pair<String, String> {
+    private fun reactJson(testSuites: JUnitTestResult): Pair<String, String> {
         val groupList = mutableListOf<Group>()
         val itemList = mutableListOf<Item>()
 
         var groupId = 0
         var itemId = 0
 
-        testSuite.testCases.forEach { testCase ->
-            val testName = testCase.key
-            val testResults = testCase.value
+        val failures = mutableMapOf<String, MutableList<JUnitTestCase>>()
+        testSuites.testsuites?.forEach { suite ->
+            suite.testcases?.forEach { testCase ->
+                val key = "${suite.name} ${testCase.classname}#${testCase.name}".trim()
 
-            val failures = testResults.failures
-            if (failures.isEmpty()) return@forEach
+                if (failures[key] == null) {
+                    failures[key] = mutableListOf(testCase)
+                } else {
+                    failures[key]?.add(testCase)
+                }
+            }
+        }
 
+        failures.forEach { testName, testResults ->
             groupList.add(
                 Group(
                     "group-$groupId",
@@ -41,12 +50,12 @@ object HtmlErrorReport : IReport {
             )
             groupId += 1
 
-            failures.forEach { failure ->
+            testResults.forEach { failure ->
                 itemList.add(
                     Item(
                         "item-$itemId",
-                        failure.stackTrace.split("\n").firstOrNull() ?: "",
-                        failure.webLink
+                        failure.stackTrace().split("\n").firstOrNull() ?: "",
+                        failure.webLink ?: ""
                     )
                 )
                 itemId += 1
@@ -58,8 +67,8 @@ object HtmlErrorReport : IReport {
         return Pair(groupJson, itemJson)
     }
 
-    override fun run(matrices: MatrixMap, testSuite: TestSuite, printToStdout: Boolean) {
-        if (testSuite.failures <= 0) return
+    override fun run(matrices: MatrixMap, testSuite: JUnitTestResult?, printToStdout: Boolean) {
+        if (testSuite == null) return
         val reactJson = reactJson(testSuite)
         val newGroupJson = reactJson.first
         val newItemsJson = reactJson.second
