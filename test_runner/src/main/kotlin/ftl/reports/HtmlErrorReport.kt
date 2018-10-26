@@ -11,7 +11,6 @@ import java.nio.file.Paths
 
 /**
  * Outputs HTML report for Bitrise based on JUnit XML. Only run on failures.
- * TODO: Add tests! Currently broken!
  * */
 object HtmlErrorReport : IReport {
     data class Group(val key: String, val name: String, val startIndex: Int, val count: Int)
@@ -19,7 +18,7 @@ object HtmlErrorReport : IReport {
 
     private val gson = Gson()
 
-    private fun reactJson(testSuites: JUnitTestResult): Pair<String, String> {
+    fun reactJson(testSuites: JUnitTestResult): Pair<String, String>? {
         val groupList = mutableListOf<Group>()
         val itemList = mutableListOf<Item>()
 
@@ -28,7 +27,8 @@ object HtmlErrorReport : IReport {
 
         val failures = mutableMapOf<String, MutableList<JUnitTestCase>>()
         testSuites.testsuites?.forEach { suite ->
-            suite.testcases?.forEach { testCase ->
+            suite.testcases?.forEach testCase@{ testCase ->
+                if (!testCase.failed()) return@testCase
                 val key = "${suite.name} ${testCase.classname}#${testCase.name}".trim()
 
                 if (failures[key] == null) {
@@ -38,6 +38,8 @@ object HtmlErrorReport : IReport {
                 }
             }
         }
+
+        if (failures.isEmpty()) return null
 
         failures.forEach { testName, testResults ->
             groupList.add(
@@ -69,7 +71,7 @@ object HtmlErrorReport : IReport {
 
     override fun run(matrices: MatrixMap, testSuite: JUnitTestResult?, printToStdout: Boolean) {
         if (testSuite == null) return
-        val reactJson = reactJson(testSuite)
+        val reactJson = reactJson(testSuite) ?: return
         val newGroupJson = reactJson.first
         val newItemsJson = reactJson.second
 

@@ -5,11 +5,14 @@ import org.junit.Test
 import java.nio.file.Paths
 
 class JUnitXmlTest {
-    private val xmlRoot = "./src/test/kotlin/ftl/fixtures/ftl_junit_xml"
-    private val androidPassXml = Paths.get("$xmlRoot/android_pass.xml")
-    private val androidFailXml = Paths.get("$xmlRoot/android_fail.xml")
-    private val iosPassXml = Paths.get("$xmlRoot/ios_pass.xml")
-    private val iosFailXml = Paths.get("$xmlRoot/ios_fail.xml")
+
+    companion object {
+        private const val xmlRoot = "./src/test/kotlin/ftl/fixtures/ftl_junit_xml"
+        val androidPassXml = Paths.get("$xmlRoot/android_pass.xml")!!
+        val androidFailXml = Paths.get("$xmlRoot/android_fail.xml")!!
+        val iosPassXml = Paths.get("$xmlRoot/ios_pass.xml")!!
+        val iosFailXml = Paths.get("$xmlRoot/ios_fail.xml")!!
+    }
 
     @Test
     fun merge_android() {
