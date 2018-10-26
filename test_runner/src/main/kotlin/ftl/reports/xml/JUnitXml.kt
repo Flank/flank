@@ -27,18 +27,36 @@ fun JUnitTestResult?.xmlToString(): String {
     return prefix + xmlPrettyWriter.writeValueAsString(this)
 }
 
+fun parseAndroidXml(bytes: ByteArray): JUnitTestResult {
+    return JUnitTestResult(mutableListOf(xmlMapper.readValue(bytes, JUnitTestSuite::class.java)))
+}
+
 fun parseAndroidXml(path: Path): JUnitTestResult {
-    return JUnitTestResult(mutableListOf(xmlMapper.readValue(xmlBytes(path), JUnitTestSuite::class.java)))
+    return parseAndroidXml(xmlBytes(path))
 }
 
 fun parseAndroidXml(path: File): JUnitTestResult {
-    return parseAndroidXml(path.toPath())
+    return parseAndroidXml(xmlBytes(path.toPath()))
+}
+
+fun parseAndroidXml(data: String): JUnitTestResult {
+    return parseAndroidXml(data.toByteArray())
+}
+
+// --
+
+fun parseIosXml(bytes: ByteArray): JUnitTestResult {
+    return xmlMapper.readValue(bytes, JUnitTestResult::class.java)
 }
 
 fun parseIosXml(path: Path): JUnitTestResult {
-    return xmlMapper.readValue(xmlBytes(path), JUnitTestResult::class.java)
+    return parseIosXml(xmlBytes(path))
 }
 
 fun parseIosXml(path: File): JUnitTestResult {
     return parseIosXml(path.toPath())
+}
+
+fun parseIosXml(data: String): JUnitTestResult {
+    return parseIosXml(data.toByteArray())
 }
