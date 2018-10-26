@@ -1,6 +1,5 @@
 package ftl.reports.xml
 
-import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -13,7 +12,6 @@ import java.nio.file.Path
 private val xmlModule = JacksonXmlModule().apply { setDefaultUseWrapper(false) }
 private val xmlMapper = XmlMapper(xmlModule)
     .registerModules(KotlinModule())
-    .setSerializationInclusion(JsonInclude.Include.NON_NULL)
 private val xmlPrettyWriter = xmlMapper.writerWithDefaultPrettyPrinter()
 
 private fun xmlBytes(path: Path): ByteArray {
