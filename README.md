@@ -11,6 +11,16 @@ Flank is a [massively parallel Android and iOS test runner](https://medium.com/w
   - `git submodule update --init --recursive` updates the submodules
 - Open `test_runner/build.gradle.kts` with `IntelliJ IDEA Community`
 
+### Features
+
+Available now | Late 2018 | Early 2019
+ --           |        -- |  --
+Test sharding | Smart Flank | Client/Server refactor
+Cost reporting
+Stability testing
+HTML report
+JUnit XML report
+
 ### iOS example
 
 Run `test_runner/flank.ios.yml` with flank to verify iOS execution is working.
