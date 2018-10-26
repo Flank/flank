@@ -68,6 +68,20 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
     }
 
     @Test
+    fun parse_androidSkipped() {
+        val parsed = parseAndroidXml("""
+<testsuite name="" tests="2" failures="0" errors="0" skipped="1" time="0.026" timestamp="2018-10-26T19:57:28" hostname="localhost">
+    <properties/>
+    <testcase name="testFails" classname="com.example.app.ExampleUiTest" time="0.0">
+        <skipped/>
+    </testcase>
+    <testcase name="testPasses" classname="com.example.app.ExampleUiTest" time="0.001"/>
+</testsuite>
+        """.trimIndent())
+        assertThat(parsed.testsuites?.first()?.testcases?.first()?.skipped).isNull()
+    }
+
+    @Test
     fun junitXmlToString_androidPassXml() {
         val parsed = parseAndroidXml(androidPassXml).xmlToString()
         val expected = """

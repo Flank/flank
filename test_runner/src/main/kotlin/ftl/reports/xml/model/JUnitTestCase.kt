@@ -17,7 +17,9 @@ data class JUnitTestCase(
     val failures: List<String>?,
 
     @JacksonXmlProperty(localName = "error")
-    val errors: List<String>?
+    val errors: List<String>?,
+
+    val skipped: Any? // Android only. Produced by @Ignore tests.
 ) {
     var webLink: String? = null
 
