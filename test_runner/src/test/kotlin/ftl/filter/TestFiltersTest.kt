@@ -14,7 +14,7 @@ val BAR_PACKAGE = TestMethod("bar.ClassName#testName", emptyList())
 val FOO_CLASSNAME = TestMethod("whatever.Foo#testName", emptyList())
 val BAR_CLASSNAME = TestMethod("whatever.Bar#testName", emptyList())
 val WITHOUT_IGNORE_ANNOTATION = TestMethod("whatever.Foo#testName", emptyList())
-val WITH_IGNORE_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnotation("Ignore", emptyMap())))
+val WITH_IGNORE_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnotation("org.junit.Ignore", emptyMap())))
 val WITH_FOO_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnotation("Foo", emptyMap())))
 val WITH_BAR_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnotation("Bar", emptyMap())))
 val WITHOUT_FOO_ANNOTATION = TestMethod("whatever.Foo#testName", emptyList())
@@ -29,6 +29,20 @@ const val TEST_FILE = "src/test/kotlin/ftl/filter/fixtures/dummy-tests-file.txt"
 
 @RunWith(FlankTestRunner::class)
 class TestFiltersTest {
+
+    @Test
+    fun testIgnoreMultipleAnnotations() {
+        val m1 = TestMethod("com.example.app.ExampleUiTest#testFails", listOf(
+            TestAnnotation("org.junit.runner.RunWith", emptyMap()),
+            TestAnnotation("org.junit.Ignore", emptyMap()),
+            TestAnnotation("org.junit.Test", emptyMap())
+        ))
+
+        val filter = fromTestTargets(listOf("class com.example.app.ExampleUiTest#testFails"))
+
+        assertThat(filter.shouldRun(m1)).isFalse()
+    }
+
     @Test
     fun testFilteringByPackage() {
         val filter = fromTestTargets(listOf("package foo"))
@@ -192,7 +206,7 @@ class TestFiltersTest {
     }
 
     private fun getTestMethodSet(): List<TestMethod> {
-        val m1 = TestMethod("a.b#c", listOf(TestAnnotation("Ignore", emptyMap())))
+        val m1 = TestMethod("a.b#c", listOf(TestAnnotation("org.junit.Ignore", emptyMap())))
         val m2 = TestMethod("d.e#f", listOf(TestAnnotation("Foo", emptyMap())))
         val m3 = TestMethod("h.i#j", listOf(TestAnnotation("Bar", emptyMap())))
         return listOf(m1, m2, m3)

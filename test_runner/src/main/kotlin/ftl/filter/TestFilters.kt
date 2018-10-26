@@ -44,7 +44,7 @@ object TestFilters {
     private const val ARGUMENT_NOT_TEST_FILE = "notTestFile"
 
     // JUnit @Ignore tests are removed.
-    private const val ANNOTATION_IGNORE = "Ignore"
+    private const val ANNOTATION_IGNORE = "org.junit.Ignore"
 
     private val FILTER_ARGUMENT by lazy {
 
