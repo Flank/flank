@@ -1,18 +1,19 @@
 package ftl.reports.util
 
-import com.sun.org.apache.xerces.internal.dom.DeferredElementImpl
+import ftl.args.IArgs
+import ftl.args.IosArgs
 import ftl.json.MatrixMap
 import ftl.reports.CostReport
 import ftl.reports.HtmlErrorReport
-import ftl.reports.MatrixErrorReport
+import ftl.reports.JUnitReport
 import ftl.reports.MatrixResultsReport
-import ftl.reports.TestErrorCountReport
+import ftl.reports.xml.model.JUnitTestResult
+import ftl.reports.xml.parseAndroidXml
+import ftl.reports.xml.parseIosXml
 import ftl.util.ArtifactRegex
 import ftl.util.resolveLocalRunPath
-import org.w3c.dom.NodeList
 import java.io.File
 import java.nio.file.Paths
-import javax.xml.parsers.DocumentBuilderFactory
 
 object ReportManager {
 
@@ -29,77 +30,46 @@ object ReportManager {
         return xmlFiles
     }
 
-    private fun parseJUnitXml(matrices: MatrixMap): TestSuite {
-        val testCases = mutableMapOf<String, TestResults>()
-        val matrixMapValues = matrices.map.values
+    private fun getWebLink(matrices: MatrixMap, xmlFile: File): String {
+        val matrixFolder = xmlFile.parentFile.parentFile.name
+        val matrixPath = Paths.get(matrices.runPath).fileName.resolve(matrixFolder).toString()
+        var webLink = ""
+        val savedMatrix = matrices.map.values.firstOrNull { it.gcsPath.endsWith(matrixPath) }
+        if (savedMatrix != null) {
+            webLink = savedMatrix.webLink
+        } else {
+            println("WARNING: Matrix path not found in JSON. $matrixPath")
+        }
+        return webLink
+    }
 
-        val xmlFiles = findXmlFiles(matrices)
-        var failureCount = 0
-        var successCount = 0
+    private fun processXml(matrices: MatrixMap, process: (file: File) -> JUnitTestResult): JUnitTestResult? {
+        var mergedXml: JUnitTestResult? = null
 
-        xmlFiles.forEach { file ->
-            val xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file)
-            xml.normalizeDocument()
-            xml.documentElement.normalize()
+        findXmlFiles(matrices).forEach { xmlFile ->
+            val parsedXml = process(xmlFile)
+            val webLink = getWebLink(matrices, xmlFile)
 
-            val nodes: NodeList = xml.getElementsByTagName("testcase")
-
-            val matrixFolder = file.parentFile.parentFile.name
-            val matrixPath = Paths.get(matrices.runPath).fileName.resolve(matrixFolder).toString()
-
-            repeat(nodes.length) { index ->
-                val node: DeferredElementImpl = nodes.item(index) as DeferredElementImpl
-
-                val attr = node.attributes
-                val className = attr.getNamedItem("classname").nodeValue
-                val testName = attr.getNamedItem("name").nodeValue
-                val key = "$className#$testName"
-
-                if (testCases[key] == null) {
-                    testCases[key] = TestResults()
-                }
-                val testResults = testCases[key]!!
-
-                var webLink = ""
-                val savedMatrix = matrixMapValues.firstOrNull { it.gcsPath.endsWith(matrixPath) }
-                if (savedMatrix != null) {
-                    webLink = savedMatrix.webLink
-                } else {
-                    println("WARNING: Matrix path not found in JSON. $matrixPath")
-                }
-
-                val failureNode = node.getElementsByTagName("failure").item(0)
-
-                if (failureNode == null) {
-                    successCount += 1
-                    testResults.successes.add(TestSuccess(webLink = webLink))
-                } else {
-                    failureCount += 1
-                    val stackTrace = failureNode.firstChild.nodeValue
-                    testResults.failures.add(
-                        TestFailure(
-                            stackTrace = stackTrace,
-                            webLink = webLink
-                        )
-                    )
+            parsedXml.testsuites?.forEach { testSuite ->
+                testSuite.testcases?.forEach { testCase ->
+                    testCase.webLink = webLink
                 }
             }
+
+            mergedXml = parsedXml.merge(mergedXml)
         }
 
-        val sortedTestCases = testCases.toList()
-            .sortedByDescending { (_, value) -> value.failures.size }.toMap()
-
-        return TestSuite(
-            totalTests = failureCount + successCount,
-            failures = failureCount,
-            successes = successCount,
-            testCases = sortedTestCases
-        )
+        return mergedXml
     }
 
     /** Returns true if there were no test failures */
-    fun generate(matrices: MatrixMap): Boolean {
-        val testSuite = parseJUnitXml(matrices)
+    fun generate(matrices: MatrixMap, config: IArgs): Boolean {
+        val iosXml = config is IosArgs
+        val testSuite = if (iosXml) {
+            processXml(matrices, ::parseIosXml)
+        } else {
+            processXml(matrices, ::parseAndroidXml)
+        }
         val testSuccessful = matrices.allSuccessful()
 
         listOf(
@@ -109,11 +79,11 @@ object ReportManager {
             it.run(matrices, testSuite, printToStdout = true)
         }
 
+        JUnitReport.run(matrices, testSuite)
+
         if (!testSuccessful) {
             listOf(
-                HtmlErrorReport,
-                MatrixErrorReport,
-                TestErrorCountReport
+                HtmlErrorReport
             ).map { it.run(matrices, testSuite) }
         }
 

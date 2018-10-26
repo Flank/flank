@@ -3,7 +3,8 @@ package ftl.reports
 import com.google.gson.Gson
 import ftl.json.MatrixMap
 import ftl.reports.util.IReport
-import ftl.reports.util.TestSuite
+import ftl.reports.xml.model.JUnitTestCase
+import ftl.reports.xml.model.JUnitTestResult
 import ftl.util.Utils.readTextResource
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -17,50 +18,66 @@ object HtmlErrorReport : IReport {
 
     private val gson = Gson()
 
-    private fun reactJson(testSuite: TestSuite): Pair<String, String> {
+    fun groupItemList(testSuites: JUnitTestResult): Pair<List<HtmlErrorReport.Group>, List<HtmlErrorReport.Item>>? {
         val groupList = mutableListOf<Group>()
         val itemList = mutableListOf<Item>()
 
         var groupId = 0
         var itemId = 0
 
-        testSuite.testCases.forEach { testCase ->
-            val testName = testCase.key
-            val testResults = testCase.value
+        val failures = mutableMapOf<String, MutableList<JUnitTestCase>>()
+        testSuites.testsuites?.forEach { suite ->
+            suite.testcases?.forEach testCase@{ testCase ->
+                if (!testCase.failed()) return@testCase
+                val key = "${suite.name} ${testCase.classname}#${testCase.name}".trim()
 
-            val failures = testResults.failures
-            if (failures.isEmpty()) return@forEach
+                if (failures[key] == null) {
+                    failures[key] = mutableListOf(testCase)
+                } else {
+                    failures[key]?.add(testCase)
+                }
+            }
+        }
 
+        if (failures.isEmpty()) return null
+
+        failures.forEach { testName, testResults ->
             groupList.add(
                 Group(
                     "group-$groupId",
                     testName,
                     groupId,
-                    failures.size
+                    testResults.size
                 )
             )
             groupId += 1
 
-            failures.forEach { failure ->
+            testResults.forEach { failure ->
                 itemList.add(
                     Item(
                         "item-$itemId",
-                        failure.stackTrace.split("\n").firstOrNull() ?: "",
-                        failure.webLink
+                        failure.stackTrace().split("\n").firstOrNull() ?: "",
+                        failure.webLink ?: ""
                     )
                 )
                 itemId += 1
             }
         }
 
-        val groupJson = gson.toJson(groupList)
-        val itemJson = gson.toJson(itemList)
+        return Pair(groupList, itemList)
+    }
+
+    private fun reactJson(testSuites: JUnitTestResult): Pair<String, String>? {
+        val groupItemList = groupItemList(testSuites) ?: return null
+
+        val groupJson = gson.toJson(groupItemList.first)
+        val itemJson = gson.toJson(groupItemList.second)
         return Pair(groupJson, itemJson)
     }
 
-    override fun run(matrices: MatrixMap, testSuite: TestSuite, printToStdout: Boolean) {
-        if (testSuite.failures <= 0) return
-        val reactJson = reactJson(testSuite)
+    override fun run(matrices: MatrixMap, testSuite: JUnitTestResult?, printToStdout: Boolean) {
+        if (testSuite == null) return
+        val reactJson = reactJson(testSuite) ?: return
         val newGroupJson = reactJson.first
         val newItemsJson = reactJson.second
 
