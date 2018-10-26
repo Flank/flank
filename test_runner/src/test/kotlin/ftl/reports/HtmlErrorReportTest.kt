@@ -56,7 +56,7 @@ class HtmlErrorReportTest {
             assertThat(key).isEqualTo("group-0")
             assertThat(name).isEqualTo("com.example.app.ExampleUiTest#testFails")
             assertThat(startIndex).isEqualTo(0)
-            assertThat(count).isEqualTo(1)
+            assertThat(count).isEqualTo(2)
         }
 
         val items = results.second

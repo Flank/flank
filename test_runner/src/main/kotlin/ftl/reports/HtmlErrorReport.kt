@@ -47,7 +47,7 @@ object HtmlErrorReport : IReport {
                     "group-$groupId",
                     testName,
                     groupId,
-                    failures.size
+                    testResults.size
                 )
             )
             groupId += 1
