@@ -18,7 +18,7 @@ object HtmlErrorReport : IReport {
 
     private val gson = Gson()
 
-    fun reactJson(testSuites: JUnitTestResult): Pair<String, String>? {
+    fun groupItemList(testSuites: JUnitTestResult): Pair<List<HtmlErrorReport.Group>, List<HtmlErrorReport.Item>>? {
         val groupList = mutableListOf<Group>()
         val itemList = mutableListOf<Item>()
 
@@ -64,8 +64,14 @@ object HtmlErrorReport : IReport {
             }
         }
 
-        val groupJson = gson.toJson(groupList)
-        val itemJson = gson.toJson(itemList)
+        return Pair(groupList, itemList)
+    }
+
+    private fun reactJson(testSuites: JUnitTestResult): Pair<String, String>? {
+        val groupItemList = groupItemList(testSuites) ?: return null
+
+        val groupJson = gson.toJson(groupItemList.first)
+        val itemJson = gson.toJson(groupItemList.second)
         return Pair(groupJson, itemJson)
     }
 

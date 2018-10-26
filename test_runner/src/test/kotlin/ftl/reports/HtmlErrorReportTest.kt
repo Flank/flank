@@ -10,28 +10,93 @@ class HtmlErrorReportTest {
 
     @Test
     fun reactJson_androidPassXml() {
-        val results = HtmlErrorReport.reactJson(parseAndroidXml(JUnitXmlTest.androidPassXml))
+        val results = HtmlErrorReport.groupItemList(parseAndroidXml(JUnitXmlTest.androidPassXml))
         assertThat(results).isNull()
     }
 
     @Test
     fun reactJson_androidFailXml() {
-        val results = HtmlErrorReport.reactJson(parseAndroidXml(JUnitXmlTest.androidFailXml))
+        val results = HtmlErrorReport.groupItemList(parseAndroidXml(JUnitXmlTest.androidFailXml))
+            ?: throw RuntimeException("null")
 
-        assertThat(results?.first).isEqualTo("[{\"key\":\"group-0\",\"name\":\"com.example.app.ExampleUiTest#testFails\",\"startIndex\":0,\"count\":1}]")
-        assertThat(results?.second).isEqualTo("[{\"key\":\"item-0\",\"name\":\"junit.framework.AssertionFailedError: expected:\\u003ctrue\\u003e but was:\\u003cfalse\\u003e\",\"link\":\"\"}]")
+        val group = results.first
+        assertThat(group.size).isEqualTo(1)
+
+        with(group.first()) {
+            assertThat(key).isEqualTo("group-0")
+            assertThat(name).isEqualTo("com.example.app.ExampleUiTest#testFails")
+            assertThat(startIndex).isEqualTo(0)
+            assertThat(count).isEqualTo(1)
+        }
+
+        val item = results.second
+        assertThat(item.size).isEqualTo(1)
+        with(item.first()) {
+            assertThat(key).isEqualTo("item-0")
+            assertThat(name).isEqualTo("junit.framework.AssertionFailedError: expected:<true> but was:<false>")
+            assertThat(link).isEqualTo("")
+        }
+    }
+
+    @Test
+    fun reactJson_androidFailXml_merged() {
+        // 4 tests - 2 pass, 2 fail. we should have 2 failures in the report
+        val mergedXml = parseAndroidXml(JUnitXmlTest.androidFailXml)
+        mergedXml.merge(mergedXml)
+
+        assertThat(mergedXml.testsuites?.first()?.testcases?.size).isEqualTo(4)
+
+        val results = HtmlErrorReport.groupItemList(mergedXml)
+            ?: throw RuntimeException("null")
+
+        val group = results.first
+        assertThat(group.size).isEqualTo(1)
+
+        with(group.first()) {
+            assertThat(key).isEqualTo("group-0")
+            assertThat(name).isEqualTo("com.example.app.ExampleUiTest#testFails")
+            assertThat(startIndex).isEqualTo(0)
+            assertThat(count).isEqualTo(1)
+        }
+
+        val items = results.second
+        assertThat(items.size).isEqualTo(2)
+        items.forEachIndexed { index, item ->
+            with(item) {
+                assertThat(key).isEqualTo("item-$index")
+                assertThat(name).isEqualTo("junit.framework.AssertionFailedError: expected:<true> but was:<false>")
+                assertThat(link).isEqualTo("")
+            }
+        }
     }
 
     @Test
     fun reactJson_iosPassXml() {
-        val results = HtmlErrorReport.reactJson(parseIosXml(JUnitXmlTest.iosPassXml))
+        val results = HtmlErrorReport.groupItemList(parseIosXml(JUnitXmlTest.iosPassXml))
         assertThat(results).isNull()
     }
 
     @Test
     fun reactJson_iosFailXml() {
-        val results = HtmlErrorReport.reactJson(parseIosXml(JUnitXmlTest.iosFailXml))
-        assertThat(results?.first).isEqualTo("[{\"key\":\"group-0\",\"name\":\"EarlGreyExampleSwiftTests EarlGreyExampleSwiftTests#testBasicSelectionAndAction()\",\"startIndex\":0,\"count\":1}]")
-        assertThat(results?.second).isEqualTo("[{\"key\":\"item-0\",\"name\":\"Exception: NoMatchingElementException, failed: caught \\\"EarlGreyInternalTestInterruptException\\\", \\\"Immediately halt execution of testcase\\\"null\",\"link\":\"\"}]")
+        val results =
+            HtmlErrorReport.groupItemList(parseIosXml(JUnitXmlTest.iosFailXml)) ?: throw RuntimeException("null")
+
+        val group = results.first
+        assertThat(group.size).isEqualTo(1)
+
+        with(group.first()) {
+            assertThat(key).isEqualTo("group-0")
+            assertThat(name).isEqualTo("EarlGreyExampleSwiftTests EarlGreyExampleSwiftTests#testBasicSelectionAndAction()")
+            assertThat(startIndex).isEqualTo(0)
+            assertThat(count).isEqualTo(1)
+        }
+
+        val item = results.second
+        assertThat(item.size).isEqualTo(1)
+        with(item.first()) {
+            assertThat(key).isEqualTo("item-0")
+            assertThat(name).isEqualTo("Exception: NoMatchingElementException, failed: caught \"EarlGreyInternalTestInterruptException\", \"Immediately halt execution of testcase\"null")
+            assertThat(link).isEqualTo("")
+        }
     }
 }
