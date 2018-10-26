@@ -12,6 +12,15 @@ class JUnitXmlTest {
         val androidFailXml = Paths.get("$xmlRoot/android_fail.xml")!!
         val iosPassXml = Paths.get("$xmlRoot/ios_pass.xml")!!
         val iosFailXml = Paths.get("$xmlRoot/ios_fail.xml")!!
+        val androidSkipped = """
+<testsuite name="" tests="2" failures="0" errors="0" skipped="1" time="0.026" timestamp="2018-10-26T19:57:28" hostname="localhost">
+    <properties/>
+    <testcase name="testFails" classname="com.example.app.ExampleUiTest" time="0.0">
+        <skipped/>
+    </testcase>
+    <testcase name="testPasses" classname="com.example.app.ExampleUiTest" time="0.001"/>
+</testsuite>
+        """.trimIndent()
     }
 
     @Test
@@ -69,16 +78,32 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun parse_androidSkipped() {
-        val parsed = parseAndroidXml("""
-<testsuite name="" tests="2" failures="0" errors="0" skipped="1" time="0.026" timestamp="2018-10-26T19:57:28" hostname="localhost">
-    <properties/>
+        val parsed = parseAndroidXml(androidSkipped)
+        assertThat(parsed.testsuites?.first()?.testcases?.first()?.skipped).isNull()
+    }
+
+    @Test
+    fun merge_androidSkipped() {
+        val merged = parseAndroidXml(androidSkipped)
+        merged.merge(merged)
+        val actual = merged.xmlToString()
+
+        assertThat(actual).isEqualTo("""
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites>
+  <testsuite name="" tests="4" failures="0" errors="0" skipped="2" time="0.052" timestamp="2018-10-26T19:57:28" hostname="localhost">
     <testcase name="testFails" classname="com.example.app.ExampleUiTest" time="0.0">
-        <skipped/>
+      <skipped/>
     </testcase>
     <testcase name="testPasses" classname="com.example.app.ExampleUiTest" time="0.001"/>
-</testsuite>
+    <testcase name="testFails" classname="com.example.app.ExampleUiTest" time="0.0">
+      <skipped/>
+    </testcase>
+    <testcase name="testPasses" classname="com.example.app.ExampleUiTest" time="0.001"/>
+  </testsuite>
+</testsuites>
+
         """.trimIndent())
-        assertThat(parsed.testsuites?.first()?.testcases?.first()?.skipped).isNull()
     }
 
     @Test
