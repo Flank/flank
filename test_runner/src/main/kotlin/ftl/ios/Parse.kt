@@ -73,7 +73,7 @@ object Parse {
         demangledOutput.lines().forEach { line ->
             // _T025EarlGreyExampleTestsSwift0abceD0C10testLayoutyyF ---> EarlGreyExampleTestsSwift.EarlGreyExampleSwiftTests.testLayout() -> ()
             // _T025EarlGreyExampleTestsSwift0abceD0C16testCustomActionyyF ---> EarlGreyExampleTestsSwift.EarlGreyExampleSwiftTests.testCustomAction() -> ()
-            val pattern = """.+\s--->\s.+\.(.+\.test.+)\(\)\s->\s\(\)""".toRegex()
+            val pattern = """.+\s--->\s.+\.(.+\.test.+)\(\)\s.*->\s\(\)""".toRegex()
             val matcher = pattern.find(line)
             if (matcher != null && matcher.groupValues.size == 2) {
                 results.add(methodName(matcher))
