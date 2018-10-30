@@ -3,7 +3,7 @@ package ftl.cli.firebase.test.android
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
 import ftl.run.TestRunner
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.runBlocking
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
 import java.nio.file.Paths

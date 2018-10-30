@@ -3,7 +3,7 @@ package ftl.run
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
 import ftl.test.util.FlankTestRunner
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.nio.file.Paths

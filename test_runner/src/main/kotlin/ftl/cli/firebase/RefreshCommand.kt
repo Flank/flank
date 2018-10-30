@@ -1,7 +1,7 @@
 package ftl.cli.firebase
 
 import ftl.run.TestRunner
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.runBlocking
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
 

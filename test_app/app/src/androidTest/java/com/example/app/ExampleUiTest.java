@@ -3,10 +3,7 @@ package com.example.app;
 import android.Manifest;
 import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
-
-import com.instructure.espresso.EspressoScreenshot;
 import com.instructure.espresso.ScreenshotTestRule;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;

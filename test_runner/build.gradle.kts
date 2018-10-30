@@ -109,8 +109,8 @@ dependencies {
     // https://github.com/stefanbirkner/system-rules/releases
     testImplementation("com.github.stefanbirkner:system-rules:1.18.0")
 
-    // https://bintray.com/kotlin/ktor/ktor
-    val ktorVersion = "0.9.5"
+    // https://github.com/ktorio/ktor/releases
+    val ktorVersion = "1.0.0-beta-3"
     testImplementation("io.ktor:ktor-server-core:$ktorVersion")
     testImplementation("io.ktor:ktor-server-netty:$ktorVersion")
     testImplementation("io.ktor:ktor-gson:$ktorVersion")
