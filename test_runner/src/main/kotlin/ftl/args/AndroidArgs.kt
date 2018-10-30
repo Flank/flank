@@ -25,7 +25,7 @@ import ftl.config.FtlConstants.useMock
 import ftl.filter.TestFilters
 import ftl.gc.GcStorage
 import ftl.util.Utils
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.runBlocking
 import java.nio.file.Files
 import java.nio.file.Path
 

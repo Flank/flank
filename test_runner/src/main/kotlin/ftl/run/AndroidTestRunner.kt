@@ -9,10 +9,10 @@ import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.json.MatrixMap
 import ftl.util.ShardCounter
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.awaitAll
-import kotlinx.coroutines.experimental.coroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 
 object AndroidTestRunner {
 
