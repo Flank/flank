@@ -2,7 +2,6 @@ import * as React from 'react';
 import './App.css';
 import {
   IGroupDividerProps,
-  IGroupRenderProps,
   GroupedList,
   IGroup
 } from 'office-ui-fabric-react/lib/components/GroupedList/index';
