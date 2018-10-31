@@ -9,6 +9,6 @@ inline.html({
 },
 function(err, result) {
   if (err) { console.log(err); }
-  var kotlinResource = '../kotlin_poc/src/main/resources/inline.html';
+  var kotlinResource = '../test_runner/src/main/resources/inline.html';
   fs.writeFileSync(kotlinResource, result);
 });

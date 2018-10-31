@@ -52,11 +52,9 @@ class App extends React.Component {
           selectionMode={SelectionMode.none}
           selection={this._selection}
           groups={_groups}
-          groupProps={
-            {
-              onRenderHeader: this._onRenderHeader
-            }
-          }
+          groupProps={{
+            onRenderHeader: this._onRenderHeader
+          }}
         />
       </div>
     );
@@ -67,7 +65,8 @@ class App extends React.Component {
     if (props.onToggleCollapse !== undefined) { props.onToggleCollapse(group); }
   }
 
-  private _onRenderHeader(props: IGroupDividerProps): JSX.Element {
+  private _onRenderHeader(props?: IGroupDividerProps): JSX.Element {
+    if (props === undefined) return <GroupHeader />;
     props.onGroupHeaderClick = this._onGroupHeaderClick.bind(null, props);
 
     return <GroupHeader { ...props } />;
@@ -79,16 +78,18 @@ class App extends React.Component {
     return { root: style};
   }
 
-  private _onRenderCell(nestingDepth: number, item: IItem, itemIndex: number): JSX.Element {
+  private _onRenderCell(nestingDepth?: number, item?: IItem, itemIndex?: number): React.ReactNode {
+    var emptyItem: IItem = { "key": "empty", "name": "empty", "link": "empty"}
+    var itemObj = item || emptyItem
     return (
       <div data-selection-index={itemIndex}>
         <span className='GroupedList-name'>
           <Link
-            href={item.link}
+            href={itemObj.link}
             getStyles={this._linkStyles}
             target='_blank'
           >
-            {item.name}
+            {itemObj.name}
           </Link>
         </span>
       </div>

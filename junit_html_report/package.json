@@ -1,29 +1,32 @@
 {
-  "name": "tmp_react_ts",
+  "name": "junit_html_report",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "office-ui-fabric-react": "^5.57.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-scripts-ts": "2.13.0"
-  },
-  "scripts": {
-    "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "office-ui-fabric-react": "^6.97.0",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "react-scripts": "2.1.0",
+    "typescript": "^3.1.4"
   },
   "devDependencies": {
-    "@types/jest": "^22.1.4",
-    "@types/node": "^9.4.6",
-    "@types/prop-types": "^15.5.2",
-    "@types/react": "^16.0.39",
-    "@types/react-dom": "^16.0.4",
-    "office-ui-fabric-react-tslint": "file:packages/office-ui-fabric-react-tslint",
-    "tslint": "^5.9.1",
-    "tslint-microsoft-contrib": "^5.0.3",
-    "typescript": "^2.7.2",
+    "@types/react": "^16.4.18",
+    "@types/react-dom": "^16.0.9",
     "web-resource-inliner": "^4.2.1"
-  }
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
