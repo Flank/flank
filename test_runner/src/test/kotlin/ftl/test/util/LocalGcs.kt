@@ -32,7 +32,7 @@ object LocalGcs {
         val appApk = "../test_app/apks/app-debug.apk"
         val testApk = "../test_app/apks/app-debug-androidTest.apk"
         val ipaZip = "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip"
-        val xctestrun = "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleMixedTests_iphoneos11.2-arm64.xctestrun"
+        val xctestrun = "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun"
 
         listOf(appApk, testApk, ipaZip, xctestrun).forEach { file ->
             uploadToMockGcs(Paths.get(file))

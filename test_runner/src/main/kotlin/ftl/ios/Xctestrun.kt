@@ -11,6 +11,7 @@ object Xctestrun {
 
     // Parses all tests for a given target
     private fun testsForTarget(testDictionary: NSDictionary, testTarget: String, testRoot: String): List<String> {
+        if (testTarget.contentEquals("__xctestrun_metadata__")) return emptyList()
         val productPaths = (testDictionary["DependentProductPaths"] as NSArray)
         for (product in productPaths.array) {
             val productString = product.toString()

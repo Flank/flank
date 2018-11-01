@@ -42,7 +42,7 @@ gcloud:
 
   # test and xctestrun-file are the only required args
   test: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip
-  xctestrun-file: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos11.2-arm64.xctestrun
+  xctestrun-file: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun
   xcode-version: 9.2
   device:
     - model: iphone8

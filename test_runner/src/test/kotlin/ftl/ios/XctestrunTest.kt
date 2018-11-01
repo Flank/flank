@@ -10,7 +10,7 @@ import org.junit.runner.RunWith
 @RunWith(FlankTestRunner::class)
 class XctestrunTest {
 
-    private val swiftXctestrun = "$fixturesPath/EarlGreyExampleSwiftTests_iphoneos11.2-arm64.xctestrun"
+    private val swiftXctestrun = "$fixturesPath/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun"
     private val swiftTests = listOf(
         "EarlGreyExampleSwiftTests/testBasicSelection",
         "EarlGreyExampleSwiftTests/testBasicSelectionActionAssert",
@@ -22,6 +22,7 @@ class XctestrunTest {
         "EarlGreyExampleSwiftTests/testLayout",
         "EarlGreyExampleSwiftTests/testSelectionOnMultipleElements",
         "EarlGreyExampleSwiftTests/testTableCellOutOfScreen",
+        "EarlGreyExampleSwiftTests/testThatThrows",
         "EarlGreyExampleSwiftTests/testWithCondition",
         "EarlGreyExampleSwiftTests/testWithCustomAssertion",
         "EarlGreyExampleSwiftTests/testWithCustomFailureHandler",
@@ -33,7 +34,7 @@ class XctestrunTest {
     @Test
     fun parse() {
         val result = Xctestrun.parse(swiftXctestrun)
-        assertThat(arrayOf("EarlGreyExampleSwiftTests")).isEqualTo(result.allKeys())
+        assertThat(arrayOf("EarlGreyExampleSwiftTests", "__xctestrun_metadata__")).isEqualTo(result.allKeys())
         val dict = result["EarlGreyExampleSwiftTests"] as NSDictionary
         assertThat(dict.count()).isEqualTo(15)
         assertThat(dict.containsKey("OnlyTestIdentifiers")).isFalse()

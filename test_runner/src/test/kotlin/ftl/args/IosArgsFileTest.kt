@@ -26,7 +26,7 @@ class IosArgsFileTest {
     private val yamlFile2 = getPath("src/test/kotlin/ftl/fixtures/flank2.ios.yml")
     private val xctestrunZip = getPath("src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip")
     private val xctestrunFile =
-        getPath("src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleMixedTests_iphoneos11.2-arm64.xctestrun")
+        getPath("src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun")
     private val testName = "EarlGreyExampleMixedTests/testBasicSelection"
     // NOTE: Change working dir to '%MODULE_WORKING_DIR%' in IntelliJ to match gradle for this test to pass.
     @Test

@@ -41,6 +41,7 @@ class ParseTest {
         "EarlGreyExampleSwiftTests/testLayout",
         "EarlGreyExampleSwiftTests/testSelectionOnMultipleElements",
         "EarlGreyExampleSwiftTests/testTableCellOutOfScreen",
+        "EarlGreyExampleSwiftTests/testThatThrows",
         "EarlGreyExampleSwiftTests/testWithCondition",
         "EarlGreyExampleSwiftTests/testWithCustomAssertion",
         "EarlGreyExampleSwiftTests/testWithCustomFailureHandler",
@@ -70,10 +71,10 @@ class ParseTest {
         val results = Parse.parseSwiftTests(swiftBinary).sorted()
 
         results.forEachIndexed { index, result ->
-            assertThat(swiftTests[index]).isEqualTo(result)
+            assertThat(result).isEqualTo(swiftTests[index])
         }
 
-        assertThat(swiftTests.size).isEqualTo(results.size)
+        assertThat(results.size).isEqualTo(swiftTests.size)
     }
 
     @Test(expected = RuntimeException::class)
