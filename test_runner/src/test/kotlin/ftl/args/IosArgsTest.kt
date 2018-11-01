@@ -20,7 +20,7 @@ class IosArgsTest {
     private val empty = emptyList<String>()
     private val testPath = "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip"
     private val xctestrunFile =
-        "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleMixedTests_iphoneos11.2-arm64.xctestrun"
+        "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun"
     private val iosNonDefault = """
         gcloud:
           results-bucket: mockBucket
@@ -206,7 +206,7 @@ IosArgs
 
         with(iosArgs) {
             assert(testShards, -1)
-            assert(testShardChunks.size, 6)
+            assert(testShardChunks.size, 17)
             testShardChunks.forEach { chunk -> assert(chunk.size, 1) }
         }
     }
