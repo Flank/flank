@@ -207,3 +207,7 @@ With the [update_flank.sh](https://github.com/TestArmada/flank/blob/master/test_
 > Symbol is declared in module 'java.xml' which does not export package 'com.sun.org.apache.xerces.internal.dom'
 
 Make sure you're using JDK 8 to compile Flank.
+
+> Test run failed to complete. Expected 786 tests, received 660
+
+Try setting `use-orchestrator: false`. Some legacy Android test suites are not compatible with orchestrator. Flank uses [orchestrator by default on Android.](https://developer.android.com/training/testing/junit-runner)
