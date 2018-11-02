@@ -9,7 +9,7 @@ import ftl.util.Utils.fatalError
 class FlankYmlParams(
     val testShards: Int = 1,
     val repeatTests: Int = 1,
-    val shuffleTests : Boolean = false,
+    val shuffleTests: Boolean = false,
 
     @field:JsonProperty("test-targets-always-run")
     val testTargetsAlwaysRun: List<String> = emptyList()
