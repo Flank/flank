@@ -58,7 +58,7 @@ class IosArgs(
         } else {
             testTargets
         }.also {
-            if (flank.testsShuffled) {
+            if (flank.shuffleTests) {
                 it.shuffled()
             }
         }

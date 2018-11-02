@@ -9,13 +9,13 @@ import ftl.util.Utils.fatalError
 class FlankYmlParams(
     val testShards: Int = 1,
     val repeatTests: Int = 1,
-    val testsShuffled : Boolean = false,
+    val shuffleTests : Boolean = false,
 
     @field:JsonProperty("test-targets-always-run")
     val testTargetsAlwaysRun: List<String> = emptyList()
 ) {
     companion object : IYmlKeys {
-        override val keys = listOf("testShards", "repeatTests", "test-targets-always-run", "testsShuffled")
+        override val keys = listOf("testShards", "repeatTests", "test-targets-always-run", "shuffleTests")
     }
 
     init {

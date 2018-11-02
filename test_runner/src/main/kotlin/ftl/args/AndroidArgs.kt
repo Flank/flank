@@ -70,7 +70,7 @@ class AndroidArgs(
             }
         }
 
-        val filteredTests = getTestMethods(testLocalApk, shuffled = flank.testsShuffled)
+        val filteredTests = getTestMethods(testLocalApk, shuffled = flank.shuffleTests)
 
         calculateShards(
             filteredTests,
