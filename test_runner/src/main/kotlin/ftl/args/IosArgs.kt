@@ -57,13 +57,17 @@ class IosArgs(
             validTestMethods
         } else {
             testTargets
+        }.also {
+            if (flank.testsShuffled) {
+                it.shuffled()
+            }
         }
 
         ArgsHelper.calculateShards(
             testMethodsToShard = testsToShard,
             testMethodsAlwaysRun = testTargetsAlwaysRun,
             testShards = testShards
-            )
+        )
     }
 
     init {

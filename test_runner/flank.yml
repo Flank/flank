@@ -37,3 +37,9 @@ flank:
   # useful if you need to grant permissions or login before other tests run
   # test-targets-always-run:
     # - class com.example.app.ExampleUiTest#testPasses
+
+  # whether you want your tests to be shuffled before sharding.
+  # If you have heavy tests in the same class, default sharding will put them together.
+  # setting this to true will ensure that they are somewhat spread across all the shards.
+  # false by default
+  shuffleTests: false

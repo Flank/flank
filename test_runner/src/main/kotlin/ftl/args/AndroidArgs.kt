@@ -70,13 +70,13 @@ class AndroidArgs(
             }
         }
 
-        val filteredTests = getTestMethods(testLocalApk)
+        val filteredTests = getTestMethods(testLocalApk, shuffled = flank.testsShuffled)
 
         calculateShards(
             filteredTests,
             testTargetsAlwaysRun,
             testShards
-            )
+        )
     }
 
     init {
@@ -97,7 +97,7 @@ class AndroidArgs(
         devices.forEach { device -> assertDeviceSupported(device) }
     }
 
-    private fun getTestMethods(testLocalApk: String): List<String> {
+    private fun getTestMethods(testLocalApk: String, shuffled: Boolean): List<String> {
         val allTestMethods = DexParser.findTestMethods(testLocalApk)
         require(allTestMethods.isNotEmpty()) { Utils.fatalError("Test APK has no tests") }
         val testFilter = TestFilters.fromTestTargets(testTargets)
@@ -106,7 +106,11 @@ class AndroidArgs(
             .filter(testFilter.shouldRun)
             .map(TestMethod::testName)
             .map { "class $it" }
-            .toList()
+            .toList().also {
+                if (shuffled) {
+                    it.shuffled()
+                }
+            }
         require(useMock || filteredTests.isNotEmpty()) { Utils.fatalError("All tests filtered out") }
         return filteredTests
     }

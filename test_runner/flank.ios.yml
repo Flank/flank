@@ -32,3 +32,9 @@ flank:
   # test targets - a list of tests to run. omit to run all tests.
   # test-targets:
   #   - b/testBasicSelection
+
+  # whether you want your tests to be shuffled before sharding.
+  # If you have heavy tests in the same class, default sharding will put them together.
+  # setting this to true will ensure that they are somewhat spread across all the shards.
+  # false by default
+  shuffleTests: false
