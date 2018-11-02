@@ -124,12 +124,14 @@ Stable
 
 ```
 wget --quiet https://github.com/TestArmada/flank/releases/download/v3.0.0/flank.jar -O ./flank.jar
+java -jar ./flank.jar android run
 ```
 
 Snapshot (published after every commit)
 
 ```
 wget --quiet https://github.com/TestArmada/flank/releases/download/flank_snapshot/flank.jar -O ./flank.jar
+java -jar ./flank.jar android run
 ```
 
 In CI, it may be useful to generate the file via a shell script:
