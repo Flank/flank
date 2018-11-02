@@ -37,8 +37,8 @@ tasks.withType<JacocoReport> {
     }
 }
 
-kotlin {
-    experimental.coroutines = Coroutines.ENABLE
+tasks.withType<KotlinCompile>().configureEach {
+    kotlinOptions.allWarningsAsErrors = true
 }
 
 apply {
