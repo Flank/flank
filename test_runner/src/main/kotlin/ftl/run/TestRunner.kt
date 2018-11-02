@@ -208,28 +208,29 @@ object TestRunner {
             finished && notDownloaded
         }
 
-        // TODO: fetch in parallel https://github.com/TestArmada/flank/issues/323
         print(indent)
-        filtered.forEach { matrix ->
-            val prefix = Storage.BlobListOption.prefix(matrix.gcsPathWithoutRootBucket)
-            val result = GcStorage.storage.list(matrix.gcsRootBucket, prefix, fields)
+        runBlocking {
+            filtered.forEach { matrix ->
+                launch {
+                    val prefix = Storage.BlobListOption.prefix(matrix.gcsPathWithoutRootBucket)
+                    val result = GcStorage.storage.list(matrix.gcsRootBucket, prefix, fields)
 
-            result.iterateAll().forEach { blob ->
-                val blobPath = blob.blobId.name
-                if (
-                    blobPath.matches(ArtifactRegex.testResultRgx)
-                ) {
-                    val downloadFile = Paths.get(FtlConstants.localResultsDir, blobPath)
-                    print(".")
-                    if (!downloadFile.toFile().exists()) {
-                        downloadFile.parent.toFile().mkdirs()
-                        blob.downloadTo(downloadFile)
+                    result.iterateAll().forEach { blob ->
+                        val blobPath = blob.blobId.name
+                        if (blobPath.matches(ArtifactRegex.testResultRgx)) {
+                            val downloadFile = Paths.get(FtlConstants.localResultsDir, blobPath)
+                            print(".")
+                            if (!downloadFile.toFile().exists()) {
+                                downloadFile.parent.toFile().mkdirs()
+                                blob.downloadTo(downloadFile)
+                            }
+                        }
                     }
+
+                    dirty = true
+                    matrix.downloaded = true
                 }
             }
-
-            dirty = true
-            matrix.downloaded = true
         }
         println()
 
@@ -238,7 +239,7 @@ object TestRunner {
             updateMatrixFile(matrixMap)
             println()
         }
-    } // fun
+    }
 
     /** Synchronously poll all matrix ids until they complete. Returns true if test run passed. **/
     private fun pollMatrices(matrices: MatrixMap, config: IArgs) {
