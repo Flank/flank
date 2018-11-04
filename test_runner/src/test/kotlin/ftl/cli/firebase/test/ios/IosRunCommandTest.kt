@@ -9,12 +9,16 @@ import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
+import org.junit.contrib.java.lang.system.ExpectedSystemExit
 
 @RunWith(FlankTestRunner::class)
 class IosRunCommandTest {
     @Rule
     @JvmField
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
+
+    @get:Rule
+    val exit = ExpectedSystemExit.none()
 
     @Test
     fun iosRunCommandPrintsHelp() {
@@ -46,6 +50,7 @@ class IosRunCommandTest {
 
     @Test
     fun iosRunCommandRuns() {
+        exit.expectSystemExit()
         IosRunCommand().run()
         val output = systemOutRule.log
         Truth.assertThat(output).contains("1 / 1 (100.00%)")

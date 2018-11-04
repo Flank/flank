@@ -5,6 +5,7 @@ import com.google.common.truth.Truth.assertThat
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
+import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
@@ -14,6 +15,9 @@ class RefreshCommandTest {
     @Rule
     @JvmField
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
+
+    @get:Rule
+    val exit = ExpectedSystemExit.none()
 
     @Test
     fun refreshCommandPrintsHelp() {
@@ -42,6 +46,7 @@ class RefreshCommandTest {
 
     @Test
     fun refreshCommandRuns() {
+        exit.expectSystemExit()
         RefreshCommand().run()
         val output = systemOutRule.log
         Truth.assertThat(output).contains("1 / 1 (100.00%)")
