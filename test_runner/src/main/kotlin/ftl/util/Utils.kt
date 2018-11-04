@@ -1,6 +1,7 @@
 package ftl.util
 
 import ftl.config.FtlConstants
+import ftl.json.MatrixMap
 import java.io.InputStream
 import java.io.StringWriter
 import java.nio.file.Files
@@ -126,5 +127,36 @@ object Utils {
         val bytes = getResource("binaries/$name").use { it.readBytes() }
         Files.write(destinationPath, bytes)
         destinationFile.setExecutable(true)
+    }
+
+    /**
+     * exit code 0 - all tests passed
+     * exit code 1 - at least test failed & no FTL errors
+     * exit code 2 - at least one infrastructure failure or other FTL error
+     */
+    fun getExitCode(matrices: MatrixMap): Int {
+        val savedMatrices = matrices.map.values
+        var exitCode = 0
+        savedMatrices.forEach { matrix ->
+            when (matrix.state) {
+                MatrixState.ERROR,
+                MatrixState.UNSUPPORTED_ENVIRONMENT,
+                MatrixState.INCOMPATIBLE_ENVIRONMENT,
+                MatrixState.INCOMPATIBLE_ARCHITECTURE,
+                MatrixState.CANCELLED,
+                MatrixState.INVALID -> {
+                    return 2
+                }
+                MatrixState.FINISHED -> {
+                    if (matrix.outcome != Outcome.success) {
+                        exitCode = 1
+                        if (matrix.outcome != Outcome.failure) {
+                            return 2
+                        }
+                    }
+                }
+            }
+        }
+        return exitCode
     }
 }

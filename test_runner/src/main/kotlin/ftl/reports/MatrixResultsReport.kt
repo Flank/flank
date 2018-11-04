@@ -27,12 +27,12 @@ object MatrixResultsReport : IReport {
     private fun generate(matrices: MatrixMap): String {
         var total = 0
         var success = 0
-        val failureWebLinks = mutableListOf<String>()
+        val failureDetails = mutableListOf<Triple<String, String, String>>()
         matrices.map.values.forEach { matrix ->
             total += 1
             when (matrix.outcome) {
                 Outcome.success -> success += 1
-                else -> failureWebLinks.add(matrix.webLink)
+                else -> failureDetails.add(Triple(matrix.matrixId, matrix.webLink, matrix.outcomeAdditionalDetails))
             }
         }
         val failed = total - success
@@ -48,9 +48,15 @@ object MatrixResultsReport : IReport {
             if (failed > 0) {
                 writer.println("$indent$failed matrices failed")
                 writer.println()
-                writer.println("${indent}Failed matrix links:")
-                failureWebLinks.forEach { writer.println(indent + it) }
-                println()
+                failureDetails.forEach {
+                    writer.println("${indent}Failed matrix:")
+                    writer.println("${indent}${indent}Matrix Id: " + it.first)
+                    if (!it.third.isNullOrEmpty()) {
+                        writer.println("${indent}${indent}Reason: " + it.third)
+                    }
+                    writer.println("${indent}${indent}Web Link: " + it.second)
+                    writer.println()
+                }
             }
 
             return writer.toString()

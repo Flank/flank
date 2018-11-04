@@ -1,11 +1,14 @@
 package ftl.json
 
 import com.google.api.services.testing.model.TestMatrix
+import com.google.api.services.toolresults.model.Outcome
 import ftl.android.AndroidCatalog
 import ftl.gc.GcToolResults
 import ftl.util.Billing
 import ftl.util.MatrixState.FINISHED
 import ftl.util.Outcome.failure
+import ftl.util.Outcome.inconclusive
+import ftl.util.Outcome.skipped
 import ftl.util.Outcome.success
 import ftl.util.webLink
 
@@ -24,6 +27,8 @@ class SavedMatrix(matrix: TestMatrix) {
     var billablePhysicalMinutes: Long = 0
         private set
     var outcome: String = ""
+        private set
+    var outcomeAdditionalDetails: String = ""
         private set
 
     init {
@@ -50,13 +55,14 @@ class SavedMatrix(matrix: TestMatrix) {
     }
 
     private fun finished(matrix: TestMatrix) {
-        if (matrix.state != FINISHED) throw RuntimeException("Incorrect matrix state. Expected finished")
+        if (matrix.state != FINISHED) throw RuntimeException("Incorrect matrix state. Expected:'finished', Actual:" + matrix.state)
         billableVirtualMinutes = 0
         billablePhysicalMinutes = 0
         outcome = success
         if (matrix.testExecutions == null) return
         matrix.testExecutions.forEach {
             val step = GcToolResults.getResults(it.toolResultsStep)
+            updateOutcome(step.outcome)
             if (step.testExecutionStep == null) return
             val billableMinutes = Billing.billableMinutes(step.testExecutionStep.testTiming.testProcessDuration.seconds)
             if (AndroidCatalog.isVirtualDevice(it.environment?.androidDevice)) {
@@ -64,8 +70,20 @@ class SavedMatrix(matrix: TestMatrix) {
             } else {
                 billablePhysicalMinutes += billableMinutes
             }
-            val stepOutcome = step.outcome.summary
-            if (stepOutcome == failure) outcome = failure
+        }
+    }
+
+    private fun updateOutcome(stepOutcome: Outcome) {
+        // 'failure' outcome gets the highest precedence,
+        // so update outcome only if the current state is not failure.
+        if (outcome != failure) {
+            outcome = stepOutcome.summary
+            when (outcome) {
+                failure -> outcomeAdditionalDetails = stepOutcome.failureDetail?.keys?.joinToString(",") ?: ""
+                success -> outcomeAdditionalDetails = stepOutcome.successDetail?.keys?.joinToString(",") ?: ""
+                inconclusive -> outcomeAdditionalDetails = stepOutcome.inconclusiveDetail?.keys?.joinToString(",") ?: ""
+                skipped -> outcomeAdditionalDetails = stepOutcome.skippedDetail?.keys?.joinToString(",") ?: ""
+            }
         }
     }
 
