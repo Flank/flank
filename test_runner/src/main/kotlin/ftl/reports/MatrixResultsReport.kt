@@ -2,9 +2,9 @@ package ftl.reports
 
 import ftl.config.FtlConstants.indent
 import ftl.json.MatrixMap
+import ftl.json.SavedMatrix
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
-import ftl.util.Outcome
 import ftl.util.Utils.println
 import ftl.util.Utils.write
 import java.io.StringWriter
@@ -27,12 +27,14 @@ object MatrixResultsReport : IReport {
     private fun generate(matrices: MatrixMap): String {
         var total = 0
         var success = 0
-        val failureDetails = mutableListOf<Triple<String, String, String>>()
+        val failedMatrices = mutableListOf<SavedMatrix>()
         matrices.map.values.forEach { matrix ->
             total += 1
-            when (matrix.outcome) {
-                Outcome.success -> success += 1
-                else -> failureDetails.add(Triple(matrix.matrixId, matrix.webLink, matrix.outcomeAdditionalDetails))
+
+            if (matrix.failed()) {
+                failedMatrices.add(matrix)
+            } else {
+                success += 1
             }
         }
         val failed = total - success
@@ -48,13 +50,9 @@ object MatrixResultsReport : IReport {
             if (failed > 0) {
                 writer.println("$indent$failed matrices failed")
                 writer.println()
-                failureDetails.forEach {
-                    writer.println("${indent}Failed matrix:")
-                    writer.println("${indent}${indent}Matrix Id: " + it.first)
-                    if (!it.third.isNullOrEmpty()) {
-                        writer.println("${indent}${indent}Reason: " + it.third)
-                    }
-                    writer.println("${indent}${indent}Web Link: " + it.second)
+                failedMatrices.forEach {
+                    writer.println("$indent${it.matrixId} ${it.outcomeDetails}")
+                    writer.println("$indent${it.webLink}")
                     writer.println()
                 }
             }

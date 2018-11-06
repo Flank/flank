@@ -336,9 +336,8 @@ object TestRunner {
         fetchArtifacts(matrixMap)
 
         // Must generate reports *after* fetching xml artifacts since reports require xml
-        ReportManager.generate(matrixMap, config)
-        var eixtCode = getExitCode(matrixMap)
-        System.exit(eixtCode)
+        val exitCode = ReportManager.generate(matrixMap, config)
+        System.exit(exitCode)
     }
 
     // used to cancel and update results from an async run
@@ -357,8 +356,7 @@ object TestRunner {
             pollMatrices(matrixMap, config)
             fetchArtifacts(matrixMap)
 
-            ReportManager.generate(matrixMap, config)
-            var exitCode = getExitCode(matrixMap)
+            val exitCode = ReportManager.generate(matrixMap, config)
             System.exit(exitCode)
         }
     }

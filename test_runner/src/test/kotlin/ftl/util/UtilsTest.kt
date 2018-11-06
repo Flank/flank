@@ -4,7 +4,8 @@ import com.google.api.services.testing.model.TestMatrix
 import com.google.common.truth.Truth.assertThat
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
-import ftl.json.SavedMatrixTest
+import ftl.json.SavedMatrixTest.Companion.createResultsStorage
+import ftl.json.SavedMatrixTest.Companion.createStepExecution
 import ftl.test.util.FlankTestRunner
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,83 +25,63 @@ class UtilsTest {
 
     @Test
     fun testExitCodeForFailed() {
-        // Given
-        var savedMatrixTest = SavedMatrixTest()
         val testExecutions = listOf(
-            savedMatrixTest.createStepExecution(1, "Success"),
-            savedMatrixTest.createStepExecution(-1, "Failed")
+            createStepExecution(1, "Success"),
+            createStepExecution(-1, "Failed")
         )
         val testMatrix = TestMatrix()
         testMatrix.testMatrixId = "123"
         testMatrix.state = MatrixState.FINISHED
-        testMatrix.resultStorage = savedMatrixTest.createResultsStorage()
+        testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
         val finishedMatrix = SavedMatrix(testMatrix)
         val matrixMap = MatrixMap(mutableMapOf("finishedMatrix" to finishedMatrix), "MockPath")
-        // When
-        var exitCode = Utils.getExitCode(matrixMap)
-        // Then
-        assertThat(exitCode).isEqualTo(1)
+        assertThat(matrixMap.exitCode()).isEqualTo(1)
     }
 
     @Test
     fun testExitCodeForSuccess() {
-        // Given
-        var savedMatrixTest = SavedMatrixTest()
         val testExecutions = listOf(
-            savedMatrixTest.createStepExecution(1, "Success")
+            createStepExecution(1, "Success")
         )
         val testMatrix = TestMatrix()
         testMatrix.testMatrixId = "123"
         testMatrix.state = MatrixState.FINISHED
-        testMatrix.resultStorage = savedMatrixTest.createResultsStorage()
+        testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
         val finishedMatrix = SavedMatrix(testMatrix)
         val matrixMap = MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath")
-        // When
-        var exitCode = Utils.getExitCode(matrixMap)
-        // Then
-        assertThat(exitCode).isEqualTo(0)
+        assertThat(matrixMap.exitCode()).isEqualTo(0)
     }
 
     @Test
-    fun testExitCodeForInconclusive() {
-        // Given
-        var savedMatrixTest = SavedMatrixTest()
+    fun testExitCodeForInconclusive() { // inconclusive is treated as a failure
         val testExecutions = listOf(
-            savedMatrixTest.createStepExecution(-2, "Inconclusive")
+            createStepExecution(-2, "Inconclusive")
         )
         val testMatrix = TestMatrix()
         testMatrix.testMatrixId = "123"
         testMatrix.state = MatrixState.FINISHED
-        testMatrix.resultStorage = savedMatrixTest.createResultsStorage()
+        testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
         val finishedMatrix = SavedMatrix(testMatrix)
         val matrixMap = MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath")
-        // When
-        var exitCode = Utils.getExitCode(matrixMap)
-        // Then
-        assertThat(exitCode).isEqualTo(2)
+        assertThat(matrixMap.exitCode()).isEqualTo(1)
     }
 
     @Test
     fun testExitCodeForError() {
-        // Given
-        var savedMatrixTest = SavedMatrixTest()
         val testExecutions = listOf(
-            savedMatrixTest.createStepExecution(-2, "Inconclusive"),
-            savedMatrixTest.createStepExecution(-3, "Skipped")
+            createStepExecution(-2, "Inconclusive"),
+            createStepExecution(-3, "Skipped")
         )
         val testMatrix = TestMatrix()
         testMatrix.testMatrixId = "123"
         testMatrix.state = MatrixState.ERROR
-        testMatrix.resultStorage = savedMatrixTest.createResultsStorage()
+        testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
         val errorMatrix = SavedMatrix(testMatrix)
         val matrixMap = MatrixMap(mutableMapOf("errorMatrix" to errorMatrix), "MockPath")
-        // When
-        var exitCode = Utils.getExitCode(matrixMap)
-        // Then
-        assertThat(exitCode).isEqualTo(2)
+        assertThat(matrixMap.exitCode()).isEqualTo(2)
     }
 }
