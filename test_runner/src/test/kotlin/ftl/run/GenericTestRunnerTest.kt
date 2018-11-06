@@ -2,12 +2,15 @@ package ftl.run
 
 import ftl.args.IArgs
 import ftl.run.GenericTestRunner.beforeRunMessage
+import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
 import ftl.util.Utils.trimStartLine
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
+@RunWith(FlankTestRunner::class)
 class GenericTestRunnerTest {
 
     private fun createMock(repeatTests: Int, testShardChunks: List<List<String>>): IArgs {

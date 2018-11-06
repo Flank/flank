@@ -63,7 +63,7 @@ object ReportManager {
     }
 
     /** Returns true if there were no test failures */
-    fun generate(matrices: MatrixMap, config: IArgs): Boolean {
+    fun generate(matrices: MatrixMap, config: IArgs): Int {
         val iosXml = config is IosArgs
         val testSuite = if (iosXml) {
             processXml(matrices, ::parseIosXml)
@@ -87,6 +87,6 @@ object ReportManager {
             ).map { it.run(matrices, testSuite) }
         }
 
-        return testSuccessful
+        return matrices.exitCode()
     }
 }

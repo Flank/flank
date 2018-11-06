@@ -21,6 +21,14 @@ Stability testing
 HTML report
 JUnit XML report
 
+### Exit Codes
+
+Exit code | Description
+ --       |         -- |
+0         | All tests passed
+1         | At least one test failed or inconclusive and all matrices finished.
+2         | At least one matrix not finished, usually a FTL error.
+
 ### iOS example
 
 Run `test_runner/flank.ios.yml` with flank to verify iOS execution is working.
@@ -157,6 +165,14 @@ Follow the [test lab docs](https://firebase.google.com/docs/test-lab/android/con
 - Set the project id in flank.yml or set the `GOOGLE_CLOUD_PROJECT` environment variable.
 
 For continuous integration, base64 encode the credential as `GCLOUD_KEY`. Then write the file using a shell script. Note that gcloud CLI does not need to be installed. Flank works without any dependency on gcloud CLI.
+
+Encode JSON locally.
+
+```bash
+base64 -i "$HOME/.config/gcloud/application_default_credentials.json" | pbcopy
+```
+
+Then in CI decode the JSON.
 
 ```bash
 GCLOUD_DIR="$HOME/.config/gcloud/"
