@@ -158,6 +158,14 @@ Follow the [test lab docs](https://firebase.google.com/docs/test-lab/android/con
 
 For continuous integration, base64 encode the credential as `GCLOUD_KEY`. Then write the file using a shell script. Note that gcloud CLI does not need to be installed. Flank works without any dependency on gcloud CLI.
 
+Encode JSON locally.
+
+```bash
+base64 -i "$HOME/.config/gcloud/application_default_credentials.json" | pbcopy
+```
+
+Then in CI decode the JSON.
+
 ```bash
 GCLOUD_DIR="$HOME/.config/gcloud/"
 mkdir -p "$GCLOUD_DIR"
