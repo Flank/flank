@@ -26,10 +26,10 @@ import com.google.api.services.toolresults.model.SkippedDetail
 import com.google.gson.GsonBuilder
 import com.google.gson.LongSerializationPolicy
 import ftl.config.FtlConstants.JSON_FACTORY
-import ftl.util.Outcome.failure
-import ftl.util.Outcome.inconclusive
-import ftl.util.Outcome.skipped
-import ftl.util.Outcome.success
+import ftl.util.StepOutcome.failure
+import ftl.util.StepOutcome.inconclusive
+import ftl.util.StepOutcome.skipped
+import ftl.util.StepOutcome.success
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
