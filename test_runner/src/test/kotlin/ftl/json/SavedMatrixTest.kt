@@ -75,7 +75,7 @@ class SavedMatrixTest {
         assertThat(savedMatrix.matrixId).isEqualTo(matrixId)
         assertThat(savedMatrix.state).isEqualTo(matrixState)
         assertThat(savedMatrix.gcsPath).isEqualTo(mockGcsPath)
-        assertThat(savedMatrix.webLink).isEqualTo("https://console.firebase.google.com/project/null/testlab/histories/2/matrices/3/executions/-1")
+        assertThat(savedMatrix.webLink).isEqualTo("https://console.firebase.google.com/project/null/testlab/histories/2/matrices/3")
         assertThat(savedMatrix.downloaded).isFalse()
         assertThat(savedMatrix.billableVirtualMinutes).isEqualTo(0)
         assertThat(savedMatrix.billablePhysicalMinutes).isEqualTo(2)
