@@ -1,12 +1,17 @@
 package ftl.json
 
+import com.google.api.client.json.GenericJson
 import com.google.api.services.testing.model.TestMatrix
+import com.google.api.services.toolresults.model.Outcome
 import ftl.android.AndroidCatalog
 import ftl.gc.GcToolResults
 import ftl.util.Billing
 import ftl.util.MatrixState.FINISHED
-import ftl.util.Outcome.failure
-import ftl.util.Outcome.success
+import ftl.util.StepOutcome.failure
+import ftl.util.StepOutcome.inconclusive
+import ftl.util.StepOutcome.skipped
+import ftl.util.StepOutcome.success
+import ftl.util.StepOutcome.unset
 import ftl.util.webLink
 
 // execution gcs paths aren't API accessible.
@@ -25,9 +30,19 @@ class SavedMatrix(matrix: TestMatrix) {
         private set
     var outcome: String = ""
         private set
+    var outcomeDetails: String = ""
+        private set
 
     init {
         if (this.state == FINISHED) finished(matrix)
+    }
+
+    fun failed(): Boolean {
+        return when (outcome) {
+            failure -> true
+            inconclusive -> true
+            else -> false
+        }
     }
 
     /** return true if the content changed **/
@@ -50,23 +65,49 @@ class SavedMatrix(matrix: TestMatrix) {
     }
 
     private fun finished(matrix: TestMatrix) {
-        if (matrix.state != FINISHED) throw RuntimeException("Incorrect matrix state. Expected finished")
+        if (matrix.state != FINISHED) {
+            throw RuntimeException("Matrix ${matrix.testMatrixId} ${matrix.state} != $FINISHED")
+        }
         billableVirtualMinutes = 0
         billablePhysicalMinutes = 0
         outcome = success
         if (matrix.testExecutions == null) return
+
         matrix.testExecutions.forEach {
             val step = GcToolResults.getResults(it.toolResultsStep)
+            updateOutcome(step.outcome)
+
             if (step.testExecutionStep == null) return
             val billableMinutes = Billing.billableMinutes(step.testExecutionStep.testTiming.testProcessDuration.seconds)
+
             if (AndroidCatalog.isVirtualDevice(it.environment?.androidDevice)) {
                 billableVirtualMinutes += billableMinutes
             } else {
                 billablePhysicalMinutes += billableMinutes
             }
-            val stepOutcome = step.outcome.summary
-            if (stepOutcome == failure) outcome = failure
         }
+    }
+
+    private fun updateOutcome(stepOutcome: Outcome) {
+        // the matrix outcome is failure if any step fails
+        // if the matrix outcome is already set to failure then we can ignore the other step outcomes.
+        // inconclusive is treated as a failure
+        if (outcome == failure || outcome == inconclusive) return
+
+        outcome = stepOutcome.summary
+
+        outcomeDetails = when (outcome) {
+            failure -> stepOutcome.failureDetail.keysToString()
+            success -> stepOutcome.successDetail.keysToString()
+            inconclusive -> stepOutcome.inconclusiveDetail.keysToString()
+            skipped -> stepOutcome.skippedDetail.keysToString()
+            unset -> "unset"
+            else -> "unknown"
+        }
+    }
+
+    private fun GenericJson?.keysToString(): String {
+        return this?.keys?.joinToString(",") ?: ""
     }
 
     val gcsPathWithoutRootBucket get() = gcsPath.substringAfter('/')

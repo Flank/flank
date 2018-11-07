@@ -8,6 +8,13 @@ object MatrixState {
     const val PENDING = "PENDING"
     const val RUNNING = "RUNNING"
     const val FINISHED = "FINISHED"
+    const val TEST_STATE_UNSPECIFIED = "TEST_STATE_UNSPECIFIED"
+    const val ERROR = "ERROR"
+    const val UNSUPPORTED_ENVIRONMENT = "UNSUPPORTED_ENVIRONMENT"
+    const val INCOMPATIBLE_ENVIRONMENT = "INCOMPATIBLE_ENVIRONMENT"
+    const val INCOMPATIBLE_ARCHITECTURE = "INCOMPATIBLE_ARCHITECTURE"
+    const val CANCELLED = "CANCELLED"
+    const val INVALID = "INVALID"
 
     fun inProgress(state: String): Boolean {
         return when (state) {

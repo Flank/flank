@@ -19,34 +19,36 @@ import org.junit.runner.RunWith
 @RunWith(FlankTestRunner::class)
 class SavedMatrixTest {
 
-    // use -1 step id to get a failure outcome from the mock server
-    private fun createStepExecution(stepId: Int, deviceModel: String = "shamu"): TestExecution {
-        val toolResultsStep = ToolResultsStep()
-        toolResultsStep.projectId = "1"
-        toolResultsStep.historyId = "2"
-        toolResultsStep.executionId = "3"
-        toolResultsStep.stepId = stepId.toString()
+    companion object {
+        // use -1 step id to get a failure outcome from the mock server
+        fun createStepExecution(stepId: Int, deviceModel: String = "shamu"): TestExecution {
+            val toolResultsStep = ToolResultsStep()
+            toolResultsStep.projectId = "1"
+            toolResultsStep.historyId = "2"
+            toolResultsStep.executionId = "3"
+            toolResultsStep.stepId = stepId.toString()
 
-        val testExecution = TestExecution()
-        testExecution.toolResultsStep = toolResultsStep
+            val testExecution = TestExecution()
+            testExecution.toolResultsStep = toolResultsStep
 
-        val androidDevice = GcAndroidDevice.build(Device(deviceModel, "23"))
-        testExecution.environment = Environment().setAndroidDevice(androidDevice)
+            val androidDevice = GcAndroidDevice.build(Device(deviceModel, "23"))
+            testExecution.environment = Environment().setAndroidDevice(androidDevice)
 
-        return testExecution
-    }
+            return testExecution
+        }
 
-    private val mockFileName = "mockFileName"
-    private val mockBucket = "mockBucket"
-    private val mockGcsPath = "$mockBucket/$mockFileName"
+        private val mockFileName = "mockFileName"
+        private val mockBucket = "mockBucket"
+        private val mockGcsPath = "$mockBucket/$mockFileName"
 
-    private fun createResultsStorage(): ResultStorage {
-        val googleCloudStorage = GoogleCloudStorage()
-        googleCloudStorage.gcsPath = mockGcsPath
+        fun createResultsStorage(): ResultStorage {
+            val googleCloudStorage = GoogleCloudStorage()
+            googleCloudStorage.gcsPath = mockGcsPath
 
-        val resultsStorage = ResultStorage()
-        resultsStorage.googleCloudStorage = googleCloudStorage
-        return resultsStorage
+            val resultsStorage = ResultStorage()
+            resultsStorage.googleCloudStorage = googleCloudStorage
+            return resultsStorage
+        }
     }
 
     @Test
@@ -79,6 +81,39 @@ class SavedMatrixTest {
         assertThat(savedMatrix.billablePhysicalMinutes).isEqualTo(2)
         assertThat(savedMatrix.gcsPathWithoutRootBucket).isEqualTo(mockFileName)
         assertThat(savedMatrix.gcsRootBucket).isEqualTo(mockBucket)
+        assertThat(savedMatrix.outcomeDetails).isNotEmpty()
+    }
+
+    @Test
+    fun savedMatrix_skippedOutcome() {
+        // Verify that if we have two executions: skipped
+        // the SavedMatrix outcome is correctly recorded as skipped
+        val testExecutions = listOf(
+            createStepExecution(-3)
+        )
+
+        val matrixId = "123"
+        val matrixState = FINISHED
+        val testMatrix = TestMatrix()
+        testMatrix.testMatrixId = matrixId
+        testMatrix.state = matrixState
+        testMatrix.resultStorage = createResultsStorage()
+        testMatrix.testExecutions = testExecutions
+
+        val savedMatrix = SavedMatrix(testMatrix)
+        assertThat(savedMatrix.outcome).isEqualTo("skipped")
+
+        // assert other properties
+        assertThat(savedMatrix.matrixId).isEqualTo(matrixId)
+        assertThat(savedMatrix.state).isEqualTo(matrixState)
+        assertThat(savedMatrix.gcsPath).isEqualTo(mockGcsPath)
+        assertThat(savedMatrix.webLink).isEqualTo("https://console.firebase.google.com/project/null/testlab/histories/2/matrices/3/executions/-3")
+        assertThat(savedMatrix.downloaded).isFalse()
+        assertThat(savedMatrix.billableVirtualMinutes).isEqualTo(0)
+        assertThat(savedMatrix.billablePhysicalMinutes).isEqualTo(1)
+        assertThat(savedMatrix.gcsPathWithoutRootBucket).isEqualTo(mockFileName)
+        assertThat(savedMatrix.gcsRootBucket).isEqualTo(mockBucket)
+        assertThat(savedMatrix.outcomeDetails).isNotEmpty()
     }
 
     @Test

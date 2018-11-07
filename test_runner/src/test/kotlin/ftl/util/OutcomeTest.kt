@@ -7,8 +7,8 @@ class OutcomeTest {
 
     @Test
     fun outcome_isNotEmpty() {
-        assertThat(Outcome.failure).isNotEmpty()
-        assertThat(Outcome.success).isNotEmpty()
-        assertThat(Outcome).isNotNull()
+        assertThat(StepOutcome.failure).isNotEmpty()
+        assertThat(StepOutcome.success).isNotEmpty()
+        assertThat(StepOutcome).isNotNull()
     }
 }

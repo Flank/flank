@@ -6,6 +6,7 @@ import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
+import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
@@ -15,6 +16,9 @@ class CancelCommandTest {
     @Rule
     @JvmField
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
+
+    @get:Rule
+    val exit = ExpectedSystemExit.none()
 
     @Test
     fun cancelCommandPrintsHelp() {
@@ -43,6 +47,7 @@ class CancelCommandTest {
 
     @Test
     fun cancelCommandRuns() {
+        exit.expectSystemExit()
         AndroidRunCommand().run()
         CancelCommand().run()
         val output = systemOutRule.log

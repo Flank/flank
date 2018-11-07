@@ -20,11 +20,16 @@ import com.google.api.services.toolresults.model.ProjectSettings
 import com.google.api.services.toolresults.model.Step
 import com.google.api.services.toolresults.model.TestExecutionStep
 import com.google.api.services.toolresults.model.TestTiming
+import com.google.api.services.toolresults.model.FailureDetail
+import com.google.api.services.toolresults.model.InconclusiveDetail
+import com.google.api.services.toolresults.model.SkippedDetail
 import com.google.gson.GsonBuilder
 import com.google.gson.LongSerializationPolicy
 import ftl.config.FtlConstants.JSON_FACTORY
-import ftl.util.Outcome.failure
-import ftl.util.Outcome.success
+import ftl.util.StepOutcome.failure
+import ftl.util.StepOutcome.inconclusive
+import ftl.util.StepOutcome.skipped
+import ftl.util.StepOutcome.success
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
@@ -154,10 +159,26 @@ object MockServer {
                         .setTestTiming(testTiming)
 
                     val outcome = Outcome()
-                    outcome.summary = if (stepId == "-1") {
-                        failure
-                    } else {
-                        success
+                    when (stepId) {
+                        "-1" -> {
+                            outcome.summary = failure
+                            val failureDetail = FailureDetail()
+                            failureDetail.timedOut = true
+                            outcome.failureDetail = failureDetail
+                        }
+                        "-2" -> {
+                        outcome.summary = inconclusive
+                        val inconclusiveDetail = InconclusiveDetail()
+                        inconclusiveDetail.abortedByUser = true
+                        outcome.inconclusiveDetail = inconclusiveDetail
+                        }
+                        "-3" -> {
+                            outcome.summary = skipped
+                            val skippedDetail = SkippedDetail()
+                            skippedDetail.incompatibleAppVersion = true
+                            outcome.skippedDetail = skippedDetail
+                        }
+                        else -> outcome.summary = success
                     }
 
                     val step = Step()
