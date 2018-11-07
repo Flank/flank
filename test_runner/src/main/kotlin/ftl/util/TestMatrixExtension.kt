@@ -8,9 +8,16 @@ fun TestMatrix.firstToolResults(): ToolResultsStep? {
 }
 
 fun TestMatrix.webLink(): String {
+    val numDevices = testExecutions?.size ?: 0
     val firstStep: ToolResultsStep = firstToolResults() ?: return ""
-    return "https://console.firebase.google.com/project/${this.projectId}/" +
-        "testlab/histories/${firstStep.historyId}/" +
-        "matrices/${firstStep.executionId}/" +
-        "executions/${firstStep.stepId}"
+
+    val baseUrl =
+        "https://console.firebase.google.com/project/${this.projectId}/" +
+                "testlab/histories/${firstStep.historyId}/" +
+                "matrices/${firstStep.executionId}"
+    return if (numDevices == 1) {
+        "$baseUrl/executions/${firstStep.stepId}"
+    } else {
+        baseUrl
+    }
 }
