@@ -228,4 +228,4 @@ Make sure you're using JDK 8 to compile Flank.
 
 > Test run failed to complete. Expected 786 tests, received 660
 
-Try setting `use-orchestrator: false`. Some legacy Android test suites are not compatible with orchestrator. Flank uses [orchestrator by default on Android.](https://developer.android.com/training/testing/junit-runner)
+Try setting `use-orchestrator: false`. Parameterized tests [are not compatible with orchestrator](https://stackoverflow.com/questions/48735268/unable-to-run-parameterized-tests-with-android-test-orchestrator). Flank uses [orchestrator by default on Android.](https://developer.android.com/training/testing/junit-runner)
