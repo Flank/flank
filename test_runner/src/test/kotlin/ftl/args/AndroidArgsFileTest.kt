@@ -55,9 +55,9 @@ class AndroidArgsFileTest {
         checkConfig(config, false)
     }
 
-    private fun checkConfig(config: AndroidArgs, local: Boolean) {
+    private fun checkConfig(args: AndroidArgs, local: Boolean) {
 
-        with(config) {
+        with(args) {
             if (local) assert(getString(testApk), testApkLocal)
             else assert(testApk, testApkGcs)
 
@@ -83,7 +83,7 @@ class AndroidArgsFileTest {
             )
         }
 
-        with(config) {
+        with(args) {
             assert(testShards, 1)
             assert(repeatTests, 1)
         }

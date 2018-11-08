@@ -65,16 +65,16 @@ object TestRunner {
         return matrixIdsPath
     }
 
-    fun saveConfigFile(matrixRunPath: String, config: IArgs): Path? {
+    fun saveConfigFile(matrixRunPath: String, args: IArgs): Path? {
         val configFilePath =
-            Paths.get(FtlConstants.localResultsDir, matrixRunPath, FtlConstants.configFileName(config))
+            Paths.get(FtlConstants.localResultsDir, matrixRunPath, FtlConstants.configFileName(args))
         configFilePath.parent.toFile().mkdirs()
-        Files.write(configFilePath, config.data.toByteArray())
+        Files.write(configFilePath, args.data.toByteArray())
         return configFilePath
     }
 
     /** Refresh all in progress matrices in parallel **/
-    private suspend fun refreshMatrices(matrixMap: MatrixMap, config: IArgs) = coroutineScope {
+    private suspend fun refreshMatrices(matrixMap: MatrixMap, args: IArgs) = coroutineScope {
         println("RefreshMatrices")
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
@@ -84,7 +84,7 @@ object TestRunner {
             // Only refresh unfinished
             if (MatrixState.inProgress(matrix.value.state)) {
                 matrixCount += 1
-                jobs += async { GcTestMatrix.refresh(matrix.key, config) }
+                jobs += async { GcTestMatrix.refresh(matrix.key, args) }
             }
         }
 
@@ -109,7 +109,7 @@ object TestRunner {
     }
 
     /** Cancel all in progress matrices in parallel **/
-    private fun cancelMatrices(matrixMap: MatrixMap, config: IArgs) {
+    private fun cancelMatrices(matrixMap: MatrixMap, args: IArgs) {
         println("CancelMatrices")
 
         val map = matrixMap.map
@@ -120,7 +120,7 @@ object TestRunner {
                 // Only cancel unfinished
                 if (MatrixState.inProgress(matrix.value.state)) {
                     matrixCount += 1
-                    launch { GcTestMatrix.cancel(matrix.key, config) }
+                    launch { GcTestMatrix.cancel(matrix.key, args) }
                 }
             }
         }
@@ -242,7 +242,7 @@ object TestRunner {
     }
 
     /** Synchronously poll all matrix ids until they complete. Returns true if test run passed. **/
-    private fun pollMatrices(matrices: MatrixMap, config: IArgs) {
+    private fun pollMatrices(matrices: MatrixMap, args: IArgs) {
         println("PollMatrices")
         val map = matrices.map
         val poll = matrices.map.values.filter {
@@ -252,7 +252,7 @@ object TestRunner {
         val stopwatch = StopWatch().start()
         poll.forEach {
             val matrixId = it.matrixId
-            val completedMatrix = pollMatrix(matrixId, stopwatch, config)
+            val completedMatrix = pollMatrix(matrixId, stopwatch, args)
 
             map[matrixId]?.update(completedMatrix)
         }
@@ -265,7 +265,7 @@ object TestRunner {
     //
     // Port of MonitorTestExecutionProgress
     // gcloud-cli/googlecloudsdk/api_lib/firebase/test/matrix_ops.py
-    private fun pollMatrix(matrixId: String, stopwatch: StopWatch, config: IArgs): TestMatrix {
+    private fun pollMatrix(matrixId: String, stopwatch: StopWatch, args: IArgs): TestMatrix {
         var lastState = ""
         var lastError = ""
         var progress = listOf<String>()
@@ -278,7 +278,7 @@ object TestRunner {
         }
 
         while (true) {
-            refreshedMatrix = GcTestMatrix.refresh(matrixId, config)
+            refreshedMatrix = GcTestMatrix.refresh(matrixId, args)
 
             val firstTestStatus = refreshedMatrix.testExecutions.first()
 
@@ -348,15 +348,15 @@ object TestRunner {
         cancelMatrices(matrixMap, config)
     }
 
-    suspend fun newRun(config: IArgs) {
-        println(config)
-        val matrixMap = runTests(config)
+    suspend fun newRun(args: IArgs) {
+        println(args)
+        val matrixMap = runTests(args)
 
-        if (!config.async) {
-            pollMatrices(matrixMap, config)
+        if (!args.async) {
+            pollMatrices(matrixMap, args)
             fetchArtifacts(matrixMap)
 
-            val exitCode = ReportManager.generate(matrixMap, config)
+            val exitCode = ReportManager.generate(matrixMap, args)
             System.exit(exitCode)
         }
     }

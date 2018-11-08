@@ -33,8 +33,8 @@ object GcTestMatrix {
     //        "message" : "The service is currently unavailable.",
     //        "status" : "UNAVAILABLE"
     //    }
-    fun refresh(testMatrixId: String, config: IArgs): TestMatrix {
-        val getMatrix = GcTesting.get.projects().testMatrices().get(config.projectId, testMatrixId)
+    fun refresh(testMatrixId: String, args: IArgs): TestMatrix {
+        val getMatrix = GcTesting.get.projects().testMatrices().get(args.projectId, testMatrixId)
         var failed = 0
         val maxWait = ofHours(1).seconds
 
@@ -50,8 +50,8 @@ object GcTestMatrix {
         throw RuntimeException("Failed to refresh matrix")
     }
 
-    fun cancel(testMatrixId: String, config: IArgs): CancelTestMatrixResponse {
-        val cancelMatrix = GcTesting.get.projects().testMatrices().cancel(config.projectId, testMatrixId)
+    fun cancel(testMatrixId: String, args: IArgs): CancelTestMatrixResponse {
+        val cancelMatrix = GcTesting.get.projects().testMatrices().cancel(args.projectId, testMatrixId)
         var failed = 0
         val maxTries = 3
 

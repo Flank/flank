@@ -35,51 +35,51 @@ object GcAndroidTestMatrix {
         runGcsPath: String,
         androidDeviceList: AndroidDeviceList,
         testShardsIndex: Int = -1,
-        config: AndroidArgs,
+        args: AndroidArgs,
         shardCounter: ShardCounter,
         toolResultsHistory: ToolResultsHistory
     ): Testing.Projects.TestMatrices.Create {
-        validateTestShardIndex(testShardsIndex, config)
+        validateTestShardIndex(testShardsIndex, args)
 
         // https://github.com/bootstraponline/studio-google-cloud-testing/blob/203ed2890c27a8078cd1b8f7ae12cf77527f426b/firebase-testing/src/com/google/gct/testing/launcher/CloudTestsLauncher.java#L120
         val clientInfo = ClientInfo().setName("Flank")
 
-        val matrixGcsPath = join(config.resultsBucket, runGcsPath, shardCounter.next())
+        val matrixGcsPath = join(args.resultsBucket, runGcsPath, shardCounter.next())
 
         val androidInstrumentation = AndroidInstrumentationTest()
             .setAppApk(FileReference().setGcsPath(appApkGcsPath))
             .setTestApk(FileReference().setGcsPath(testApkGcsPath))
 
-        if (config.useOrchestrator) {
+        if (args.useOrchestrator) {
             androidInstrumentation.orchestratorOption = "USE_ORCHESTRATOR"
         }
 
-        androidInstrumentation.testTargets = config.testShardChunks.elementAt(testShardsIndex).toList()
+        androidInstrumentation.testTargets = args.testShardChunks.elementAt(testShardsIndex).toList()
 
         // --auto-google-login
         // https://cloud.google.com/sdk/gcloud/reference/firebase/test/android/run
         // https://github.com/bootstraponline/gcloud_cli/blob/e4b5e01610abad2e31d8a6edb20b17b2f84c5395/google-cloud-sdk/lib/googlecloudsdk/api_lib/firebase/test/android/matrix_creator.py#L174
         var account: Account? = null
 
-        if (config.autoGoogleLogin) {
+        if (args.autoGoogleLogin) {
             account = Account().setGoogleAuto(GoogleAuto())
         }
 
         val testSetup = TestSetup()
             .setAccount(account)
-            .setDirectoriesToPull(config.directoriesToPull)
+            .setDirectoriesToPull(args.directoriesToPull)
 
-        if (config.environmentVariables.isNotEmpty()) {
+        if (args.environmentVariables.isNotEmpty()) {
             testSetup.environmentVariables =
-                config.environmentVariables.map { it.toEnvironmentVariable() }
+                args.environmentVariables.map { it.toEnvironmentVariable() }
         }
 
-        val testTimeoutSeconds = testTimeoutToSeconds(config.testTimeout)
+        val testTimeoutSeconds = testTimeoutToSeconds(args.testTimeout)
 
         val testSpecification = TestSpecification()
             .setAndroidInstrumentationTest(androidInstrumentation)
-            .setDisablePerformanceMetrics(!config.performanceMetrics)
-            .setDisableVideoRecording(!config.recordVideo)
+            .setDisablePerformanceMetrics(!args.performanceMetrics)
+            .setDisableVideoRecording(!args.recordVideo)
             .setTestTimeout("${testTimeoutSeconds}s")
             .setTestSetup(testSetup)
 
@@ -96,7 +96,7 @@ object GcAndroidTestMatrix {
             .setResultStorage(resultsStorage)
             .setEnvironmentMatrix(environmentMatrix)
         try {
-            return GcTesting.get.projects().testMatrices().create(config.projectId, testMatrix)
+            return GcTesting.get.projects().testMatrices().create(args.projectId, testMatrix)
         } catch (e: Exception) {
             fatalError(e)
         }
