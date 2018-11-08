@@ -1,4 +1,7 @@
-## v4.0
+## v4.1
+- ?
+
+## v4.0.0
 
 - Add `flank cancel` command. See `flank cancel --help`
 - Add `flank refresh` command. See `flank refresh --help`
