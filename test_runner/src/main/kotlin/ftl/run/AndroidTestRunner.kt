@@ -40,7 +40,7 @@ object AndroidTestRunner {
                         runGcsPath = runGcsPath,
                         androidDeviceList = androidDeviceList,
                         testShardsIndex = testShardsIndex,
-                        config = androidArgs,
+                        args = androidArgs,
                         shardCounter = shardCounter,
                         toolResultsHistory = history
                     ).execute()
@@ -56,23 +56,23 @@ object AndroidTestRunner {
      *
      * @return Pair(gcs uri for app apk, gcs uri for test apk)
      */
-    private suspend fun resolveApks(config: AndroidArgs, runGcsPath: String): Pair<String, String> = coroutineScope {
-        val gcsBucket = config.resultsBucket
+    private suspend fun resolveApks(args: AndroidArgs, runGcsPath: String): Pair<String, String> = coroutineScope {
+        val gcsBucket = args.resultsBucket
 
         val appApkGcsPath = async {
-            if (!config.appApk.startsWith(FtlConstants.GCS_PREFIX)) {
-                GcStorage.uploadAppApk(config, gcsBucket, runGcsPath)
+            if (!args.appApk.startsWith(FtlConstants.GCS_PREFIX)) {
+                GcStorage.uploadAppApk(args, gcsBucket, runGcsPath)
             } else {
-                config.appApk
+                args.appApk
             }
         }
 
         val testApkGcsPath = async {
             // Skip download case for testApk - YamlConfig downloads it when it does validation
-            if (!config.testApk.startsWith(FtlConstants.GCS_PREFIX)) {
-                GcStorage.uploadTestApk(config, gcsBucket, runGcsPath)
+            if (!args.testApk.startsWith(FtlConstants.GCS_PREFIX)) {
+                GcStorage.uploadTestApk(args, gcsBucket, runGcsPath)
             } else {
-                config.testApk
+                args.testApk
             }
         }
 

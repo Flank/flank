@@ -49,7 +49,7 @@ object IosTestRunner {
                         runGcsPath = runGcsPath,
                         testShardsIndex = testShardsIndex,
                         xcTestParsed = xcTestParsed,
-                        config = iosArgs,
+                        args = iosArgs,
                         shardCounter = shardCounter,
                         toolResultsHistory = history
                     ).execute()

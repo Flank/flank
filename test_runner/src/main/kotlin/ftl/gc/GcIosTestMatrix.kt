@@ -29,33 +29,33 @@ object GcIosTestMatrix {
         runGcsPath: String,
         testShardsIndex: Int,
         xcTestParsed: NSDictionary,
-        config: IosArgs,
+        args: IosArgs,
         shardCounter: ShardCounter,
         toolResultsHistory: ToolResultsHistory
     ): Testing.Projects.TestMatrices.Create {
-        validateTestShardIndex(testShardsIndex, config)
+        validateTestShardIndex(testShardsIndex, args)
         val clientInfo = ClientInfo().setName("Flank")
 
-        val gcsBucket = config.resultsBucket
+        val gcsBucket = args.resultsBucket
         val matrixGcsSuffix = join(runGcsPath, shardCounter.next())
         val matrixGcsPath = join(gcsBucket, matrixGcsSuffix)
-        val methods = config.testShardChunks.elementAt(testShardsIndex)
+        val methods = args.testShardChunks.elementAt(testShardsIndex)
 
         val generatedXctestrun = Xctestrun.rewrite(xcTestParsed, methods)
-        val xctestrunFileGcsPath = GcStorage.uploadXCTestFile(config, gcsBucket, matrixGcsSuffix, generatedXctestrun)
+        val xctestrunFileGcsPath = GcStorage.uploadXCTestFile(args, gcsBucket, matrixGcsSuffix, generatedXctestrun)
 
         val iOSXCTest = IosXcTest()
             .setTestsZip(FileReference().setGcsPath(testZipGcsPath))
             .setXctestrun(FileReference().setGcsPath(xctestrunFileGcsPath))
-            .setXcodeVersion(config.xcodeVersion)
+            .setXcodeVersion(args.xcodeVersion)
 
         val iOSTestSetup = IosTestSetup()
             .setNetworkProfile(null)
 
-        val testTimeoutSeconds = testTimeoutToSeconds(config.testTimeout)
+        val testTimeoutSeconds = testTimeoutToSeconds(args.testTimeout)
 
         val testSpecification = TestSpecification()
-            .setDisableVideoRecording(!config.recordVideo)
+            .setDisableVideoRecording(!args.recordVideo)
             .setTestTimeout("${testTimeoutSeconds}s")
             .setIosTestSetup(iOSTestSetup)
             .setIosXcTest(iOSXCTest)
@@ -73,7 +73,7 @@ object GcIosTestMatrix {
             .setResultStorage(resultStorage)
 
         try {
-            return GcTesting.get.projects().testMatrices().create(config.projectId, testMatrix)
+            return GcTesting.get.projects().testMatrices().create(args.projectId, testMatrix)
         } catch (e: Exception) {
             fatalError(e)
         }

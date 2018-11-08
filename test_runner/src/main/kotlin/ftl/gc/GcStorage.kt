@@ -40,25 +40,25 @@ object GcStorage {
             runGcsPath = runGcsPath
         )
 
-    fun uploadAppApk(config: AndroidArgs, gcsBucket: String, runGcsPath: String): String =
-        upload(config.appApk, gcsBucket, runGcsPath)
+    fun uploadAppApk(args: AndroidArgs, gcsBucket: String, runGcsPath: String): String =
+        upload(args.appApk, gcsBucket, runGcsPath)
 
-    fun uploadTestApk(config: AndroidArgs, gcsBucket: String, runGcsPath: String): String =
-        upload(config.testApk, gcsBucket, runGcsPath)
+    fun uploadTestApk(args: AndroidArgs, gcsBucket: String, runGcsPath: String): String =
+        upload(args.testApk, gcsBucket, runGcsPath)
 
-    fun uploadXCTestZip(config: IosArgs, runGcsPath: String): String =
-        upload(config.xctestrunZip, config.resultsBucket, runGcsPath)
+    fun uploadXCTestZip(args: IosArgs, runGcsPath: String): String =
+        upload(args.xctestrunZip, args.resultsBucket, runGcsPath)
 
-    fun uploadXCTestFile(config: IosArgs, gcsBucket: String, runGcsPath: String, fileBytes: ByteArray): String =
+    fun uploadXCTestFile(args: IosArgs, gcsBucket: String, runGcsPath: String, fileBytes: ByteArray): String =
         upload(
-            file = config.xctestrunFile,
+            file = args.xctestrunFile,
             fileBytes = fileBytes,
             rootGcsBucket = gcsBucket,
             runGcsPath = runGcsPath
         )
 
-    fun downloadTestApk(config: AndroidArgs): String =
-        download(config.testApk)
+    fun downloadTestApk(args: AndroidArgs): String =
+        download(args.testApk)
 
     private fun upload(file: String, fileBytes: ByteArray, rootGcsBucket: String, runGcsPath: String): String {
         val fileName = Paths.get(file).fileName.toString()
