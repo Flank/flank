@@ -21,6 +21,7 @@ Example:
 
  **/
 object MatrixResultsReport : IReport {
+    override val extension = ".txt"
 
     private val percentFormat by lazy { DecimalFormat("#0.00") }
 
@@ -62,7 +63,7 @@ object MatrixResultsReport : IReport {
     }
 
     private fun write(matrices: MatrixMap, output: String) {
-        val reportPath = reportPath(matrices) + ".txt"
+        val reportPath = reportPath(matrices)
         reportPath.write(output)
     }
 

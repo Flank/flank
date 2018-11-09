@@ -4,7 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
 import ftl.args.ArgsHelper.calculateShards
-import ftl.args.ArgsHelper.getGcsBucket
+import ftl.args.ArgsHelper.createGcsBucket
 import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.validateTestMethods
 import ftl.args.yml.GcloudYml
@@ -158,8 +158,8 @@ class ArgsHelperTest {
     }
 
     @Test
-    fun getGcsBucket_succeeds() {
-        getGcsBucket("123", "results_bucket")
+    fun createGcsBucket_succeeds() {
+        createGcsBucket("123", "results_bucket")
     }
 
     @Test

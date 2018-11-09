@@ -202,6 +202,7 @@ AndroidArgs
     flank:
       testShards: 7
       repeatTests: 8
+      junitGcsPath:${' '}
       test-targets-always-run:
         - class example.Test#grantPermission
         - class example.Test#grantPermission2

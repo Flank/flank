@@ -2,6 +2,7 @@ package ftl.args.yml
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.util.Utils.fatalError
 
 /** Flank specific parameters for both iOS and Android */
@@ -9,17 +10,27 @@ import ftl.util.Utils.fatalError
 class FlankYmlParams(
     val testShards: Int = 1,
     val repeatTests: Int = 1,
+    val junitGcsPath: String = "",
 
     @field:JsonProperty("test-targets-always-run")
     val testTargetsAlwaysRun: List<String> = emptyList()
 ) {
     companion object : IYmlKeys {
-        override val keys = listOf("testShards", "repeatTests", "test-targets-always-run")
+        override val keys = listOf("testShards", "repeatTests", "junitGcsPath", "test-targets-always-run")
     }
 
     init {
         if (testShards <= 0 && testShards != -1) fatalError("testShards must be >= 1 or -1")
         if (repeatTests < 1) fatalError("repeatTests must be >= 1")
+
+        if (junitGcsPath.isNotEmpty()) {
+            if (!junitGcsPath.startsWith(GCS_PREFIX)) {
+                fatalError("junitGcsPath must start with gs://")
+            }
+            if (junitGcsPath.count { it == '/' } <= 2 || !junitGcsPath.endsWith(".xml")) {
+                fatalError("junitGcsPath must be in the format gs://bucket/foo.xml")
+            }
+        }
     }
 }
 

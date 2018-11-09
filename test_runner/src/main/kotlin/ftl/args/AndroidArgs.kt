@@ -11,7 +11,9 @@ import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
 import ftl.args.ArgsHelper.calculateShards
 import ftl.args.ArgsHelper.evaluateFilePath
-import ftl.args.ArgsHelper.getGcsBucket
+import ftl.args.ArgsHelper.createGcsBucket
+import ftl.args.ArgsHelper.createJunitBucket
+import ftl.args.ArgsHelper.evaluateFilePath
 import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.yamlMapper
 import ftl.args.ArgsToString.devicesToString
@@ -63,6 +65,7 @@ class AndroidArgs(
     private val flank = flankYml.flank
     override val testShards = flank.testShards
     override val repeatTests = flank.repeatTests
+    override val junitGcsPath = flank.junitGcsPath
     override val testTargetsAlwaysRun = flank.testTargetsAlwaysRun
 
     // computed properties not specified in yaml
@@ -85,7 +88,8 @@ class AndroidArgs(
     }
 
     init {
-        resultsBucket = getGcsBucket(projectId, gcloud.resultsBucket)
+        resultsBucket = createGcsBucket(projectId, gcloud.resultsBucket)
+        createJunitBucket(projectId, flank.junitGcsPath)
 
         if (appApk.startsWith(FtlConstants.GCS_PREFIX)) {
             assertGcsFileExists(appApk)
@@ -157,6 +161,7 @@ ${devicesToString(devices)}
     flank:
       testShards: $testShards
       repeatTests: $repeatTests
+      junitGcsPath: $junitGcsPath
       test-targets-always-run:
 ${listToString(testTargetsAlwaysRun)}
    """.trimIndent()

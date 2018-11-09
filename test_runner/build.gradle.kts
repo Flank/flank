@@ -38,7 +38,7 @@ tasks.withType<JacocoReport> {
 }
 
 tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions.allWarningsAsErrors = true
+    kotlinOptions.allWarningsAsErrors = false
 }
 
 apply {

@@ -124,25 +124,31 @@ object ArgsHelper {
         return testShardChunks
     }
 
-    fun getGcsBucket(projectId: String, resultsBucket: String): String {
+    fun createJunitBucket(projectId: String, junitGcsPath: String) {
+        if (FtlConstants.useMock || junitGcsPath.isEmpty()) return
+        val bucket = junitGcsPath.drop(GCS_PREFIX.length).substringBefore('/')
+        createGcsBucket(projectId, bucket)
+    }
+
+    fun createGcsBucket(projectId: String, bucket: String): String {
         // com.google.cloud.storage.contrib.nio.testing.FakeStorageRpc doesn't support list
         // when testing, use a hard coded results bucket instead.
-        if (FtlConstants.useMock) return resultsBucket
+        if (FtlConstants.useMock) return bucket
         // test lab supports using a special free storage bucket
         // because we don't have access to the root account, it won't show up in the storage list.
-        if (resultsBucket.startsWith("test-lab-")) return resultsBucket
+        if (bucket.startsWith("test-lab-")) return bucket
 
         val storage = StorageOptions.newBuilder().setProjectId(projectId).build().service
         val bucketLabel = mapOf(Pair("flank", ""))
         val storageLocation = "us-central1"
 
-        val bucketListOption = Storage.BucketListOption.prefix(resultsBucket)
+        val bucketListOption = Storage.BucketListOption.prefix(bucket)
         val storageList = storage.list(bucketListOption).values?.map { it.name } ?: emptyList()
-        val bucket = storageList.find { it == resultsBucket }
-        if (bucket != null) return bucket
+        val targetBucket = storageList.find { it == bucket }
+        if (targetBucket != null) return targetBucket
 
         return storage.create(
-            BucketInfo.newBuilder(resultsBucket)
+            BucketInfo.newBuilder(targetBucket)
                 .setStorageClass(StorageClass.REGIONAL)
                 .setLocation(storageLocation)
                 .setLabels(bucketLabel)

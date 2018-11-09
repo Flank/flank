@@ -12,6 +12,8 @@ import java.io.StringWriter
 /** Calculates cost based on the matrix map. Always run. */
 object CostReport : IReport {
 
+    override val extension = ".txt"
+
     private fun estimate(matrices: MatrixMap): String {
         var totalBillableVirtualMinutes = 0L
         var totalBillablePhysicalMinutes = 0L
@@ -35,7 +37,7 @@ object CostReport : IReport {
     }
 
     private fun write(matrices: MatrixMap, output: String) {
-        val reportPath = reportPath(matrices) + ".txt"
+        val reportPath = reportPath(matrices)
         reportPath.write(output)
     }
 

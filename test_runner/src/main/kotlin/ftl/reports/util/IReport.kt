@@ -12,8 +12,10 @@ interface IReport {
         return this::class.java.simpleName
     }
 
+    val extension: String
+
     fun reportPath(matrices: MatrixMap): String {
         val path = resolveLocalRunPath(matrices)
-        return Paths.get(path, reportName()).toString()
+        return Paths.get(path, reportName() + extension).toString()
     }
 }
