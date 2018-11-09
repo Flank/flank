@@ -5,6 +5,7 @@ import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageOptions
 import com.google.cloud.storage.contrib.nio.testing.LocalStorageHelper
 import ftl.args.AndroidArgs
+import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
@@ -39,6 +40,24 @@ object GcStorage {
             rootGcsBucket = rootGcsBucket,
             runGcsPath = runGcsPath
         )
+
+    fun uploadJunitXml(localJunitXml: String, args: IArgs) {
+        if (args.junitGcsPath.isEmpty()) return
+        if (File(localJunitXml).exists().not()) return
+
+        // bucket/path/to/object
+        val rawPath = args.junitGcsPath.drop(GCS_PREFIX.length)
+        val bucket = rawPath.substringBefore('/')
+        val name = rawPath.substringAfter('/')
+
+        val fileBlob = BlobInfo.newBuilder(bucket, name).build()
+
+        try {
+            storage.create(fileBlob, Files.readAllBytes(Paths.get(localJunitXml)))
+        } catch (e: Exception) {
+            fatalError(e)
+        }
+    }
 
     fun uploadAppApk(args: AndroidArgs, gcsBucket: String, runGcsPath: String): String =
         upload(args.appApk, gcsBucket, runGcsPath)

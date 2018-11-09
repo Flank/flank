@@ -9,6 +9,7 @@ import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
+import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
 @RunWith(FlankTestRunner::class)
@@ -25,12 +26,16 @@ class ReportManagerTest {
     @Test
     fun generate_fromErrorResult() {
         val matrix = TestRunner.matrixPathToObj("./src/test/kotlin/ftl/fixtures/error_result")
-        ReportManager.generate(matrix, mock(AndroidArgs::class.java))
+        val mockArgs = mock(AndroidArgs::class.java)
+        `when`(mockArgs.junitGcsPath).thenReturn("")
+        ReportManager.generate(matrix, mockArgs)
     }
 
     @Test
     fun generate_fromSuccessResult() {
         val matrix = TestRunner.matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result")
-        ReportManager.generate(matrix, mock(AndroidArgs::class.java))
+        val mockArgs = mock(AndroidArgs::class.java)
+        `when`(mockArgs.junitGcsPath).thenReturn("")
+        ReportManager.generate(matrix, mockArgs)
     }
 }

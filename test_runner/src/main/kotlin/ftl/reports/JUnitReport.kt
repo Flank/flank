@@ -8,8 +8,10 @@ import ftl.util.Utils.write
 
 /** Calculates cost based on the matrix map. Always run. */
 object JUnitReport : IReport {
+    override val extension = ".xml"
+
     private fun write(matrices: MatrixMap, output: String) {
-        val reportPath = reportPath(matrices) + ".xml"
+        val reportPath = reportPath(matrices)
         reportPath.write(output)
     }
 

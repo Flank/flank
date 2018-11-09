@@ -147,6 +147,7 @@ IosArgs
     flank:
       testShards: 7
       repeatTests: 8
+      junitGcsPath:${' '}
       test-targets-always-run:
         - a/testGrantPermissions
         - a/testGrantPermissions2

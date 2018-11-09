@@ -2,6 +2,7 @@ package ftl.reports.util
 
 import ftl.args.IArgs
 import ftl.args.IosArgs
+import ftl.gc.GcStorage
 import ftl.json.MatrixMap
 import ftl.reports.CostReport
 import ftl.reports.HtmlErrorReport
@@ -80,6 +81,9 @@ object ReportManager {
         }
 
         JUnitReport.run(matrices, testSuite)
+
+        val localJunitXmlPath = JUnitReport.reportPath(matrices)
+        GcStorage.uploadJunitXml(localJunitXmlPath, args)
 
         if (!testSuccessful) {
             listOf(
