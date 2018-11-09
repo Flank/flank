@@ -2,8 +2,8 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.Coroutines
 
-group = "kotlin_poc"
-version = "3.0-SNAPSHOT"
+group = "test_runner"
+version = "SNAPSHOT"
 
 plugins {
     application
