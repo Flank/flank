@@ -15,7 +15,7 @@ import java.util.EnumSet
 
 class ArgsFileVisitor(glob: String) : SimpleFileVisitor<Path>() {
     private val pathMatcher = FileSystems.getDefault().getPathMatcher(glob)
-    val result: MutableList<Path> = mutableListOf()
+    private val result: MutableList<Path> = mutableListOf()
 
     @Throws(IOException::class)
     override fun visitFile(path: Path, attrs: BasicFileAttributes): FileVisitResult {
@@ -30,7 +30,9 @@ class ArgsFileVisitor(glob: String) : SimpleFileVisitor<Path>() {
         return FileVisitResult.CONTINUE
     }
 
-    private val RECURSE = "/**"
+    companion object {
+        private const val RECURSE = "/**"
+    }
 
     @Throws(java.nio.file.NoSuchFileException::class)
     fun walk(searchPath: Path): List<Path> {
