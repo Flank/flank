@@ -23,14 +23,13 @@ import java.io.File
 import java.io.IOException
 import java.math.RoundingMode
 import java.net.URI
+import java.nio.file.FileSystems
 import java.nio.file.FileVisitResult
 import java.nio.file.Files
-import java.nio.file.FileSystems
-import java.nio.file.SimpleFileVisitor
-import java.nio.file.attribute.BasicFileAttributes
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.util.HashSet
+import java.nio.file.SimpleFileVisitor
+import java.nio.file.attribute.BasicFileAttributes
 import java.util.regex.Pattern
 
 object ArgsHelper {
@@ -54,15 +53,17 @@ object ArgsHelper {
         }
     }
 
-    fun evaluateFilePath(fileRegEx: String, name: String): String {
-        var file = fileRegEx.trim().replaceFirst("~", System.getProperty("user.home"))
+    fun evaluateFilePath(filePath: String): String {
+        var file = filePath.trim().replaceFirst("~", System.getProperty("user.home"))
         file = substituteEnvVars(file)
-        val searchDirectoryPath = getSearchDirectoryPath(file)
-        val filePaths = getAbsoluteFilePaths(searchDirectoryPath, file)
+        // avoid File(..).canonicalPath since that will resolve symlinks
+        file = Paths.get(file).toAbsolutePath().normalize().toString()
+
+        val filePaths = walkFileTree(file)
         if (filePaths.size > 1) {
-            Utils.fatalError("$name multiple files found with expression: `$fileRegEx`: $filePaths")
+            Utils.fatalError("'$file' ($filePath) matches multiple files: $filePaths")
         } else if (filePaths.isEmpty()) {
-            Utils.fatalError("'$fileRegEx' $name doesn't exist")
+            Utils.fatalError("'$file' not found ($filePath)")
         }
         return filePaths[0].toAbsolutePath().toString()
     }
@@ -157,7 +158,8 @@ object ArgsHelper {
             return JsonObjectParser(JSON_FACTORY).parseAndClose(
                 Files.newInputStream(defaultCredentialPath),
                 Charsets.UTF_8,
-                GenericJson::class.java)["project_id"] as String
+                GenericJson::class.java
+            )["project_id"] as String
         } catch (e: Exception) {
             println("Parsing $defaultCredentialPath failed:")
             println(e.printStackTrace())
@@ -173,14 +175,14 @@ object ArgsHelper {
         return ServiceOptions.getDefaultProjectId() ?: serviceAccountProjectId()
     }
 
-    private fun getSearchDirectoryPath(path: String): String {
+    private fun getSearchDirectoryPath(path: String): Path {
         var searchDirectoryPath = String()
         val pattern = "([^*]*/)"
         val matcher = Pattern.compile(pattern).matcher(path)
         if (matcher.find()) {
             searchDirectoryPath = matcher.group(1)
         }
-        return searchDirectoryPath
+        return Paths.get(searchDirectoryPath)
     }
 
     private fun substituteEnvVars(text: String): String {
@@ -197,28 +199,30 @@ object ArgsHelper {
         return sb.toString()
     }
 
-    private fun getAbsoluteFilePaths(searchDir: String, globPath: String): List<Path> {
-        val maxDepth = if (globPath.contains("/*")) Integer.MAX_VALUE else 1
-        val glob = "glob:$globPath"
-        val paths = ArrayList<Path>()
+    private fun walkFileTree(filePath: String): List<Path> {
+        val searchDir = getSearchDirectoryPath(filePath)
+        val glob = "glob:$filePath"
+        val result = ArrayList<Path>()
         val pathMatcher = FileSystems.getDefault().getPathMatcher(glob)
 
-        Files.walkFileTree(Paths.get(searchDir), HashSet(), maxDepth, object : SimpleFileVisitor<Path>() {
+        Files.walkFileTree(searchDir, object : SimpleFileVisitor<Path>() {
 
             @Throws(IOException::class)
             override fun visitFile(path: Path, attrs: BasicFileAttributes): FileVisitResult {
                 if (pathMatcher.matches(path)) {
-                    paths.add(path)
+                    result.add(path)
                 }
                 return FileVisitResult.CONTINUE
             }
 
-            @Throws(IOException::class)
-            override fun visitFileFailed(file: Path, exc: IOException?): FileVisitResult {
-                Utils.fatalError("'$file' doesn't exist")
+            override fun visitFileFailed(file: Path?, exc: IOException?): FileVisitResult {
+                return FileVisitResult.CONTINUE
+            }
+
+            override fun preVisitDirectory(dir: Path?, attrs: BasicFileAttributes?): FileVisitResult {
                 return FileVisitResult.CONTINUE
             }
         })
-        return paths
+        return result
     }
 }

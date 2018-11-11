@@ -86,14 +86,14 @@ class AndroidArgs(
         if (appApk.startsWith(FtlConstants.GCS_PREFIX)) {
             assertGcsFileExists(appApk)
         } else {
-            appApk = evaluateFilePath(appApk, "appApk")
+            appApk = evaluateFilePath(appApk)
             assertFileExists(appApk, "appApk")
         }
 
         if (testApk.startsWith(FtlConstants.GCS_PREFIX)) {
             assertGcsFileExists(testApk)
         } else {
-            testApk = evaluateFilePath(testApk, "testApk")
+            testApk = evaluateFilePath(testApk)
             assertFileExists(testApk, "testApk")
         }
 
