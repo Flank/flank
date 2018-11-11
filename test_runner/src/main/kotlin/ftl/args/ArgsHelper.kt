@@ -20,9 +20,18 @@ import ftl.config.FtlConstants.defaultCredentialPath
 import ftl.gc.GcStorage
 import ftl.util.Utils
 import java.io.File
+import java.io.IOException
 import java.math.RoundingMode
 import java.net.URI
+import java.nio.file.FileVisitResult
 import java.nio.file.Files
+import java.nio.file.FileSystems
+import java.nio.file.SimpleFileVisitor
+import java.nio.file.attribute.BasicFileAttributes
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.util.HashSet
+import java.util.regex.Pattern
 
 object ArgsHelper {
 
@@ -43,6 +52,17 @@ object ArgsHelper {
         if (!File(file).exists()) {
             Utils.fatalError("'$file' $name doesn't exist")
         }
+    }
+
+    fun evaluateFilePath(fileRegEx: String, name: String): String {
+        var file = fileRegEx.trim().replaceFirst("^~", System.getProperty("user.home"))
+        file = substituteEnvVars(file)
+        val searchDirectoryPath = getSearchDirectoryPath(file)
+        val filePaths = getAbsoluteFilePaths(searchDirectoryPath, file)
+        if (filePaths.size > 1) {
+            Utils.fatalError("$name multiple files found with expression: `$fileRegEx`: $filePaths")
+        }
+        return filePaths[0].toAbsolutePath().toString()
     }
 
     fun assertGcsFileExists(uri: String) {
@@ -149,5 +169,55 @@ object ArgsHelper {
 
         // Allow users control over projectId by checking using Google's logic first before falling back to JSON.
         return ServiceOptions.getDefaultProjectId() ?: serviceAccountProjectId()
+    }
+
+    internal fun getSearchDirectoryPath(path: String): String {
+        var searchDirectoryPath = String()
+        val pattern = "([^*]*/)"
+        val matcher = Pattern.compile(pattern).matcher(path)
+        if (matcher.find()) {
+            searchDirectoryPath = matcher.group(1)
+        }
+        return searchDirectoryPath
+    }
+
+    internal fun substituteEnvVars(text: String): String {
+        val sb = StringBuffer()
+        // https://stackoverflow.com/a/2821201/2450315
+        val pattern = "\\$([a-zA-Z_]{1,}[a-zA-Z0-9_]{0,})"
+        val matcher = Pattern.compile(pattern).matcher(text)
+        while (matcher.find()) {
+            val varname = matcher.group(1)
+            val envValue: String = System.getenv(varname) ?: ""
+            matcher.appendReplacement(sb, envValue)
+        }
+        matcher.appendTail(sb)
+        return sb.toString()
+    }
+
+    fun getAbsoluteFilePaths(searchDir: String, globPath: String): List<Path> {
+        val maxDepth = if (globPath.contains("**")) Integer.MAX_VALUE else 1
+        val glob = "glob:$globPath"
+        val paths = ArrayList<Path>()
+        val pathMatcher = FileSystems.getDefault().getPathMatcher(glob)
+
+        Files.walkFileTree(Paths.get(searchDir), HashSet(), maxDepth, object : SimpleFileVisitor<Path>() {
+
+            @Throws(IOException::class)
+            override fun visitFile(path: Path, attrs: BasicFileAttributes): FileVisitResult {
+                println(path)
+                if (pathMatcher.matches(path)) {
+                    paths.add(path)
+                }
+                return FileVisitResult.CONTINUE
+            }
+
+            @Throws(IOException::class)
+            override fun visitFileFailed(file: Path, exc: IOException?): FileVisitResult {
+                Utils.fatalError("'$file' doesn't exist")
+                return FileVisitResult.CONTINUE
+            }
+        })
+        return paths
     }
 }
