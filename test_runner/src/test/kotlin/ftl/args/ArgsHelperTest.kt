@@ -12,7 +12,6 @@ import ftl.args.yml.IosGcloudYml
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
-import org.junit.contrib.java.lang.system.EnvironmentVariables
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
@@ -27,9 +26,6 @@ class ArgsHelperTest {
     @Rule
     @JvmField
     val systemErrRule = SystemErrRule().muteForSuccessfulTests()!!
-
-    @get:Rule
-    val environmentVariables = EnvironmentVariables()
 
     @Test
     fun mergeYmlMaps_succeeds() {
