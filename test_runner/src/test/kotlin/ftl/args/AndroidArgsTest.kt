@@ -8,6 +8,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
+import java.io.File
 
 @RunWith(FlankTestRunner::class)
 class AndroidArgsTest {
@@ -15,6 +16,8 @@ class AndroidArgsTest {
     private val appApk = "../test_app/apks/app-debug.apk"
     private val testApk = "../test_app/apks/app-debug-androidTest.apk"
     private val testErrorApk = "../test_app/apks/error-androidTest.apk"
+    private val appApkAbsolutePath = File(appApk).absolutePath
+    private val testApkAbsolutePath = File(testApk).absolutePath
 
     private val androidNonDefault = """
         gcloud:
@@ -123,8 +126,8 @@ class AndroidArgsTest {
             assert(resultsHistoryName ?: "", "android-history")
 
             // AndroidGcloudYml
-            assert(appApk, appApk)
-            assert(testApk, testApk)
+            assert(appApk, appApkAbsolutePath)
+            assert(testApk, testApkAbsolutePath)
             assert(autoGoogleLogin, false)
             assert(useOrchestrator, false)
             assert(environmentVariables, linkedMapOf("clearPackageData" to "true", "randomEnvVar" to "false"))
@@ -170,8 +173,8 @@ AndroidArgs
       project: projectFoo
       results-history-name: android-history
       # Android gcloud
-      app: ../test_app/apks/app-debug.apk
-      test: ../test_app/apks/app-debug-androidTest.apk
+      app: $appApkAbsolutePath
+      test: $testApkAbsolutePath
       auto-google-login: false
       use-orchestrator: false
       environment-variables:
@@ -223,8 +226,8 @@ AndroidArgs
             assert(projectId, "mockProjectId")
 
             // AndroidGcloudYml
-            assert(appApk, appApk)
-            assert(testApk, testApk)
+            assert(appApk, appApkAbsolutePath)
+            assert(testApk, testApkAbsolutePath)
             assert(autoGoogleLogin, true)
             assert(useOrchestrator, true)
             assert(environmentVariables, emptyMap<String, String>())
@@ -272,7 +275,7 @@ AndroidArgs
       """
         )
 
-        assertThat(androidArgs.appApk).isEqualTo(appApk)
-        assertThat(androidArgs.testApk).isEqualTo(testApk)
+        assertThat(androidArgs.appApk).isEqualTo(appApkAbsolutePath)
+        assertThat(androidArgs.testApk).isEqualTo(testApkAbsolutePath)
     }
 }
