@@ -15,6 +15,9 @@ import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
+import java.io.File
+import org.junit.contrib.java.lang.system.EnvironmentVariables
+import java.lang.RuntimeException
 
 @RunWith(FlankTestRunner::class)
 class ArgsHelperTest {
@@ -26,6 +29,9 @@ class ArgsHelperTest {
     @Rule
     @JvmField
     val systemErrRule = SystemErrRule().muteForSuccessfulTests()!!
+
+    @get:Rule
+    val environmentVariables = EnvironmentVariables()
 
     @Test
     fun mergeYmlMaps_succeeds() {
@@ -160,5 +166,44 @@ class ArgsHelperTest {
     fun getDefaultProjectId_succeeds() {
         assertThat(ArgsHelper.getDefaultProjectId())
             .isEqualTo("mockProjectId")
+    }
+
+    @Test
+    fun evaluateBlobInFilePath() {
+        val testApkRelativePath = "../test_app/apks/app-debug-androidTest.apk"
+        val testApkBlobPath = "../test_app/**/app-debug-*.apk"
+
+        assertThat(File(testApkRelativePath).absolutePath)
+            .isEqualTo(ArgsHelper.evaluateFilePath(testApkBlobPath, "test"))
+    }
+
+    @Test
+    fun evaluateTildeInFilePath() {
+        val testApkPath = "~/flank_test_app/random.xctestrun"
+        val file = File(testApkPath.replaceFirst("~", System.getProperty("user.home")))
+        file.getParentFile().mkdirs()
+        file.createNewFile()
+
+        assertThat(file.absolutePath)
+            .isEqualTo(ArgsHelper.evaluateFilePath(testApkPath, "xctestrun-file"))
+    }
+
+    @Test
+    fun evaluateEnvVarInFilePath() {
+        environmentVariables.set("TEST_APK_DIR", "test_app/apks")
+        val testApkPath = "../\$TEST_APK_DIR/app-debug-androidTest.apk"
+        val expectedPath = File("../test_app/apks/app-debug-androidTest.apk").absolutePath
+        val file = File(testApkPath.replaceFirst("~", System.getProperty("user.home")))
+        file.getParentFile().mkdirs()
+        file.createNewFile()
+
+        assertThat(expectedPath)
+            .isEqualTo(ArgsHelper.evaluateFilePath(testApkPath, "test"))
+    }
+
+    @Test(expected = RuntimeException::class)
+    fun evaluateInvalidFilePath() {
+        val testApkPath = "~/flank_test_app/invalid_path/app-debug-*.xctestrun"
+        ArgsHelper.evaluateFilePath(testApkPath, "test")
     }
 }

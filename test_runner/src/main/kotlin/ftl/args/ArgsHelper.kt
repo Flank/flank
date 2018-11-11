@@ -55,12 +55,14 @@ object ArgsHelper {
     }
 
     fun evaluateFilePath(fileRegEx: String, name: String): String {
-        var file = fileRegEx.trim().replaceFirst("^~", System.getProperty("user.home"))
+        var file = fileRegEx.trim().replaceFirst("~", System.getProperty("user.home"))
         file = substituteEnvVars(file)
         val searchDirectoryPath = getSearchDirectoryPath(file)
         val filePaths = getAbsoluteFilePaths(searchDirectoryPath, file)
         if (filePaths.size > 1) {
             Utils.fatalError("$name multiple files found with expression: `$fileRegEx`: $filePaths")
+        } else if (filePaths.isEmpty()) {
+            Utils.fatalError("'$fileRegEx' $name doesn't exist")
         }
         return filePaths[0].toAbsolutePath().toString()
     }
@@ -171,7 +173,7 @@ object ArgsHelper {
         return ServiceOptions.getDefaultProjectId() ?: serviceAccountProjectId()
     }
 
-    internal fun getSearchDirectoryPath(path: String): String {
+    private fun getSearchDirectoryPath(path: String): String {
         var searchDirectoryPath = String()
         val pattern = "([^*]*/)"
         val matcher = Pattern.compile(pattern).matcher(path)
@@ -181,7 +183,7 @@ object ArgsHelper {
         return searchDirectoryPath
     }
 
-    internal fun substituteEnvVars(text: String): String {
+    private fun substituteEnvVars(text: String): String {
         val sb = StringBuffer()
         // https://stackoverflow.com/a/2821201/2450315
         val pattern = "\\$([a-zA-Z_]{1,}[a-zA-Z0-9_]{0,})"
@@ -195,8 +197,8 @@ object ArgsHelper {
         return sb.toString()
     }
 
-    fun getAbsoluteFilePaths(searchDir: String, globPath: String): List<Path> {
-        val maxDepth = if (globPath.contains("**")) Integer.MAX_VALUE else 1
+    private fun getAbsoluteFilePaths(searchDir: String, globPath: String): List<Path> {
+        val maxDepth = if (globPath.contains("/*")) Integer.MAX_VALUE else 1
         val glob = "glob:$globPath"
         val paths = ArrayList<Path>()
         val pathMatcher = FileSystems.getDefault().getPathMatcher(glob)
@@ -205,7 +207,6 @@ object ArgsHelper {
 
             @Throws(IOException::class)
             override fun visitFile(path: Path, attrs: BasicFileAttributes): FileVisitResult {
-                println(path)
                 if (pathMatcher.matches(path)) {
                     paths.add(path)
                 }
