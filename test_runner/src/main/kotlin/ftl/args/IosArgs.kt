@@ -71,10 +71,10 @@ class IosArgs(
         if (xctestrunZip.startsWith(FtlConstants.GCS_PREFIX)) {
             assertGcsFileExists(xctestrunZip)
         } else {
-            xctestrunZip = evaluateFilePath(xctestrunZip, "xctestrunZip")
+            xctestrunZip = evaluateFilePath(xctestrunZip)
             assertFileExists(xctestrunZip, "xctestrunZip")
         }
-        xctestrunFile = evaluateFilePath(xctestrunFile, "xctestrunFile")
+        xctestrunFile = evaluateFilePath(xctestrunFile)
         assertFileExists(xctestrunFile, "xctestrunFile")
 
         devices.forEach { device -> assertDeviceSupported(device) }

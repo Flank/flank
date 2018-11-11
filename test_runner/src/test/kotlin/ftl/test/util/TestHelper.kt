@@ -10,8 +10,10 @@ object TestHelper {
         Truth.assertThat(actual).isEqualTo(expected)
 
     fun getPath(path: String): Path =
-        Paths.get(path).normalize().toAbsolutePath()
+        Paths.get(path).toAbsolutePath().normalize()
 
     fun getString(path: String): String =
         getPath(path).toString()
+
+    fun String.absolutePath(): String = Paths.get(this).toAbsolutePath().normalize().toString()
 }
