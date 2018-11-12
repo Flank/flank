@@ -41,9 +41,9 @@ object GcStorage {
             runGcsPath = runGcsPath
         )
 
-    fun uploadJunitXml(localJunitXml: String, args: IArgs) {
+    fun uploadJunitXml(jUnitXmlPath: String, args: IArgs) {
         if (args.junitGcsPath.isEmpty()) return
-        if (File(localJunitXml).exists().not()) return
+        if (File(jUnitXmlPath).exists().not()) return
 
         // bucket/path/to/object
         val rawPath = args.junitGcsPath.drop(GCS_PREFIX.length)
@@ -53,7 +53,7 @@ object GcStorage {
         val fileBlob = BlobInfo.newBuilder(bucket, name).build()
 
         try {
-            storage.create(fileBlob, Files.readAllBytes(Paths.get(localJunitXml)))
+            storage.create(fileBlob, Files.readAllBytes(Paths.get(jUnitXmlPath)))
         } catch (e: Exception) {
             fatalError(e)
         }
@@ -95,12 +95,12 @@ object GcStorage {
         return gcsFilePath
     }
 
-    private fun download(gcsUriString: String): String {
+    fun download(gcsUriString: String, filePrefix: String = "apk"): String {
         val gcsURI = URI.create(gcsUriString)
         val bucket = gcsURI.authority
         val path = gcsURI.path.drop(1) // Drop leading slash
 
-        val outputFile = File.createTempFile("apk", null)
+        val outputFile = File.createTempFile(filePrefix, null)
         outputFile.deleteOnExit()
 
         try {

@@ -18,7 +18,7 @@ data class JUnitTestCase(
     @JacksonXmlProperty(isAttribute = true)
     val classname: String,
     @JacksonXmlProperty(isAttribute = true)
-    val time: String,
+    var time: String,
 
     // iOS contains multiple failures for a single test.
     // JUnit XML allows arbitrary amounts of failure/error tags

@@ -3,6 +3,7 @@ package ftl.reports.util
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.gc.GcStorage
+import ftl.gc.GcStorage.download
 import ftl.json.MatrixMap
 import ftl.reports.CostReport
 import ftl.reports.HtmlErrorReport
@@ -83,7 +84,12 @@ object ReportManager {
         JUnitReport.run(matrices, testSuite)
 
         val localJunitXmlPath = JUnitReport.reportPath(matrices)
-        GcStorage.uploadJunitXml(localJunitXmlPath, args)
+        if (testSuccessful) {
+            GcStorage.uploadJunitXml(localJunitXmlPath, args)
+        } else {
+            val oldJUnit = download(args.junitGcsPath, "junit")
+            val jUnitPath = mergeJUnitOutputs(oldJUnit, localJunitXmlPath, args)
+        }
 
         if (!testSuccessful) {
             listOf(
@@ -92,5 +98,39 @@ object ReportManager {
         }
 
         return matrices.exitCode()
+    }
+
+    private fun mergeJUnitOutputs(oldJUnit: String, newJUnit: String, args: IArgs? = null): String {
+
+        val oldJUnitPath = Paths.get(oldJUnit)
+        val newJUnitPath = Paths.get(newJUnit)
+
+        val oldJUnitXml = if (args is IosArgs) parseIosXml(oldJUnitPath) else parseAndroidXml(oldJUnitPath)
+        val newJUnitXml = if (args is IosArgs) parseIosXml(newJUnitPath) else parseAndroidXml(newJUnitPath)
+
+
+        // Sanitize newJUnitXml so we can use bangs
+        if (newJUnitXml.testsuites == null) newJUnitXml.testsuites = mutableListOf()
+        newJUnitXml.testsuites!!.forEach {
+            if (it.testcases == null) it.testcases = mutableListOf()
+        }
+
+
+        oldJUnitXml.testsuites!!.forEach { oldTestSuite ->
+            oldTestSuite.testcases!!.forEach { oldTestCase ->
+                newJUnitXml.testsuites!!.forEach {
+                    it.testcases!!.forEach {
+                        if (it.name == oldTestCase.name) {
+                            if (!it.failed()) {
+                                oldTestCase.time = it.time
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // TODO: Write oldXML to a temp file so we can upload that and not modify localJUnitXml
+        return oldJUnitXml.toString()
     }
 }
