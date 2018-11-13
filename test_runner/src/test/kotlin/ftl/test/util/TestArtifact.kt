@@ -8,6 +8,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import java.io.File
+import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.Socket
 import java.nio.file.Files
@@ -28,11 +29,22 @@ object TestArtifact {
     }
 
     private fun online(): Boolean {
+        val host = "1.1.1.1"
+
         try {
-            Socket().use { it.connect(InetSocketAddress("1.1.1.1", 53), 1000) }
-            return true
-        } catch (_: Exception) {
+            val pingResult = InetAddress.getByName(host).isReachable(1000)
+            if (pingResult) return true
+        } catch (e: Exception) {
+            println("TestArtifact couldn't ping $host: $e\n")
         }
+
+        try {
+            Socket().use { it.connect(InetSocketAddress(host, 53), 1000) }
+            return true
+        } catch (e: Exception) {
+            println("TestArtifact couldn't connect to $host: $e\n")
+        }
+
         return false
     }
 
