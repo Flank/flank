@@ -33,8 +33,7 @@ object TestArtifact {
 
         try {
             val pingResult = InetAddress.getByName(host).isReachable(1000)
-            if (pingResult)
-                return true
+            if (pingResult) return true
         } catch (e: Exception) {
             println("TestArtifact couldn't ping $host: $e\n")
         }
