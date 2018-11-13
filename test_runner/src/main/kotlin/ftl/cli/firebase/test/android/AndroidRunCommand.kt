@@ -23,8 +23,9 @@ Configuration is read from flank.yml
 """]
 )
 class AndroidRunCommand : Runnable {
+
     override fun run() {
-        val config = AndroidArgs.load(Paths.get(configPath))
+        val config = AndroidArgs.load(Paths.get(configPath), this)
         runBlocking {
             TestRunner.newRun(config)
         }
@@ -35,4 +36,8 @@ class AndroidRunCommand : Runnable {
 
     @Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
     var usageHelpRequested: Boolean = false
+
+    @Option(names = ["--app"], description = ["""The path to the application binary file.
+        |The path may be in the local filesystem or in Google Cloud Storage using gs:// notation."""])
+    var app: String? = null
 }

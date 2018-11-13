@@ -1,6 +1,7 @@
 package ftl.args
 
 import com.google.common.truth.Truth.assertThat
+import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
@@ -8,6 +9,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
+import picocli.CommandLine
 
 @RunWith(FlankTestRunner::class)
 class AndroidArgsTest {
@@ -223,8 +225,6 @@ AndroidArgs
             assert(projectId, "mockProjectId")
 
             // AndroidGcloudYml
-            assert(appApk, appApk)
-            assert(testApk, testApk)
             assert(autoGoogleLogin, true)
             assert(useOrchestrator, true)
             assert(environmentVariables, emptyMap<String, String>())
@@ -274,5 +274,25 @@ AndroidArgs
 
         assertThat(androidArgs.appApk).isEqualTo(appApk)
         assertThat(androidArgs.testApk).isEqualTo(testApk)
+    }
+
+    @Test
+    fun androidArgs_overrideAppFromCmdLine() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--app", testApk)
+
+        val androidArgs = AndroidArgs.load(
+            """
+        gcloud:
+          app: $appApk
+          test: $testApk
+
+        flank:
+      """,
+            cli
+        )
+
+        assertThat(androidArgs.appApk).isEqualTo(testApk)
+        assertThat(androidArgs.cli).isEqualTo(cli)
     }
 }
