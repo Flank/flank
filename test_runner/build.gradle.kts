@@ -110,7 +110,7 @@ dependencies {
     testImplementation("com.github.stefanbirkner:system-rules:1.18.0")
 
     // https://github.com/ktorio/ktor/releases
-    val ktorVersion = "1.0.0-beta-3"
+    val ktorVersion = "1.0.0-beta-4"
     testImplementation("io.ktor:ktor-server-core:$ktorVersion")
     testImplementation("io.ktor:ktor-server-netty:$ktorVersion")
     testImplementation("io.ktor:ktor-gson:$ktorVersion")
