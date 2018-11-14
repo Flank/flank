@@ -59,6 +59,7 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parse()
         assertThat(cmd.app).isEqualTo(null)
         assertThat(cmd.test).isEqualTo(null)
+        assertThat(cmd.testTargets).isEqualTo(null)
     }
 
     @Test
@@ -73,5 +74,14 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--test", "myTestApp.apk")
         assertThat(cmd.test).isEqualTo("myTestApp.apk")
+    }
+
+    @Test
+    fun testTargets_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--test-targets", "class com.foo.Clazz", "--test-targets", "package com.my.package")
+        assertThat(cmd.testTargets).isNotNull()
+        assertThat(cmd.testTargets?.size).isEqualTo(2)
+        assertThat(cmd.testTargets).isEqualTo(listOf("class com.foo.Clazz", "package com.my.package"))
     }
 }
