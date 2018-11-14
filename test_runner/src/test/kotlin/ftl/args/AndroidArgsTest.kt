@@ -225,6 +225,8 @@ AndroidArgs
             assert(projectId, "mockProjectId")
 
             // AndroidGcloudYml
+            assert(appApk, appApk)
+            assert(testApk, testApk)
             assert(autoGoogleLogin, true)
             assert(useOrchestrator, true)
             assert(environmentVariables, emptyMap<String, String>())
