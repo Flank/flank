@@ -78,10 +78,13 @@ class AndroidRunCommandTest {
 
     @Test
     fun testTargets_parse() {
+        val params = arrayOf("--test-targets", "class com.foo.Clazz", "--test-targets", "package com.my.package")
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--test-targets", "class com.foo.Clazz", "--test-targets", "package com.my.package")
+
+        CommandLine(cmd).parse(*params)
+
         assertThat(cmd.testTargets).isNotNull()
         assertThat(cmd.testTargets?.size).isEqualTo(2)
-        assertThat(cmd.testTargets).isEqualTo(listOf("class com.foo.Clazz", "package com.my.package"))
+        assertThat(cmd.testTargets).isEqualTo(params.filter { it != "--test-targets" })
     }
 }

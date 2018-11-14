@@ -319,7 +319,9 @@ AndroidArgs
     @Test
     fun androidArgs_overrideTestTargetsFromCmdLine() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--test-targets", "class com.foo.ClassName")
+        val testTarget = "class com.foo.ClassName"
+
+        CommandLine(cli).parse("--test-targets", testTarget)
 
         val androidArgs = AndroidArgs.load(
             """
@@ -334,6 +336,6 @@ AndroidArgs
         )
 
         assertThat(androidArgs.testTargets.size).isEqualTo(1)
-        assertThat(androidArgs.testTargets).isEqualTo(listOf("class com.foo.ClassName"))
+        assertThat(androidArgs.testTargets).isEqualTo(listOf(testTarget))
     }
 }
