@@ -1,6 +1,7 @@
 package ftl.args
 
 import com.google.common.truth.Truth.assertThat
+import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
@@ -8,6 +9,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
+import picocli.CommandLine
 
 @RunWith(FlankTestRunner::class)
 class AndroidArgsTest {
@@ -112,6 +114,8 @@ class AndroidArgsTest {
     @Test
     fun androidArgs() {
         val androidArgs = AndroidArgs.load(androidNonDefault)
+        val expectedAppApk = appApk
+        val expectedTestApk = testApk
 
         with(androidArgs) {
             // GcloudYml
@@ -123,8 +127,8 @@ class AndroidArgsTest {
             assert(resultsHistoryName ?: "", "android-history")
 
             // AndroidGcloudYml
-            assert(appApk, appApk)
-            assert(testApk, testApk)
+            assert(appApk, expectedAppApk)
+            assert(testApk, expectedTestApk)
             assert(autoGoogleLogin, false)
             assert(useOrchestrator, false)
             assert(environmentVariables, linkedMapOf("clearPackageData" to "true", "randomEnvVar" to "false"))
@@ -274,5 +278,23 @@ AndroidArgs
 
         assertThat(androidArgs.appApk).isEqualTo(appApk)
         assertThat(androidArgs.testApk).isEqualTo(testApk)
+    }
+
+    @Test
+    fun androidArgs_overrideAppFromCmdLine() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--app", testApk)
+
+        val androidArgs = AndroidArgs.load(
+            """
+        gcloud:
+          app: $appApk
+          test: $testApk
+      """,
+            cli
+        )
+
+        assertThat(androidArgs.appApk).isEqualTo(testApk)
+        assertThat(androidArgs.cli).isEqualTo(cli)
     }
 }

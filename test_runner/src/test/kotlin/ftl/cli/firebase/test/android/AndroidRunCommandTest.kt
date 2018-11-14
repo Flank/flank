@@ -28,21 +28,24 @@ class AndroidRunCommandTest {
 
         val output = systemOutRule.log
         Truth.assertThat(output).startsWith(
-            "Run tests on Firebase Test Lab\n" +
-                "\n" +
-                "run [-h] [-c=<configPath>]\n" +
-                "\n" +
-                "Description:\n" +
-                "\n" +
-                "Uploads the app and test apk to GCS.\n" +
-                "Runs the espresso tests using orchestrator.\n" +
-                "Configuration is read from flank.yml\n" +
-                "\n" +
-                "\n" +
-                "Options:\n" +
-                "  -c, --config=<configPath>\n" +
-                "               YAML config file path\n" +
-                "  -h, --help   Prints this help message\n"
+            """
+                Run tests on Firebase Test Lab
+
+                run [-h] [--app=<app>] [-c=<configPath>]
+
+                Description:
+
+                Uploads the app and test apk to GCS.
+                Runs the espresso tests using orchestrator.
+                Configuration is read from flank.yml
+
+
+                Options:
+                  -c, --config=<configPath>
+                                    YAML config file path
+                  -h, --help        Prints this help message
+                      --app=<app>   The path to the application binary file.
+            """.trimIndent()
         )
 
         assertThat(android.usageHelpRequested).isTrue()
@@ -66,5 +69,19 @@ class AndroidRunCommandTest {
         assertThat(cmd.usageHelpRequested).isFalse()
         cmd.usageHelpRequested = true
         assertThat(cmd.usageHelpRequested).isTrue()
+    }
+
+    @Test
+    fun app_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--app", "myApp.apk")
+        assertThat(cmd.app).isEqualTo("myApp.apk")
+    }
+
+    @Test
+    fun app_parse_null() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse()
+        assertThat(cmd.app).isEqualTo(null)
     }
 }
