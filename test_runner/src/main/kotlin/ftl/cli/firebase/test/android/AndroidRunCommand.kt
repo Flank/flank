@@ -40,4 +40,8 @@ class AndroidRunCommand : Runnable {
     @Option(names = ["--app"], description = ["""The path to the application binary file.
         |The path may be in the local filesystem or in Google Cloud Storage using gs:// notation."""])
     var app: String? = null
+
+    @Option(names = ["--test"], description = ["""The path to the binary file containing instrumentation tests.
+        |The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://."""])
+    var test: String? = null
 }

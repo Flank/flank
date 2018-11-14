@@ -297,4 +297,22 @@ AndroidArgs
         assertThat(androidArgs.appApk).isEqualTo(testApk)
         assertThat(androidArgs.cli).isEqualTo(cli)
     }
+
+    @Test
+    fun androidArgs_overrideTestFromCmdLine() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--test", appApk)
+
+        val androidArgs = AndroidArgs.load(
+            """
+        gcloud:
+          app: $appApk
+          test: $testApk
+      """,
+            cli
+        )
+
+        assertThat(androidArgs.testApk).isEqualTo(appApk)
+        assertThat(androidArgs.cli).isEqualTo(cli)
+    }
 }
