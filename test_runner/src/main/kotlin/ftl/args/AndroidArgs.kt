@@ -54,7 +54,7 @@ class AndroidArgs(
     val environmentVariables = androidGcloud.environmentVariables
     val directoriesToPull = androidGcloud.directoriesToPull
     val performanceMetrics = androidGcloud.performanceMetrics
-    val testTargets = androidGcloud.testTargets
+    val testTargets = cli.testTargets ?: androidGcloud.testTargets
     val devices = androidGcloud.device
 
     private val flank = flankYml.flank

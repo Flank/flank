@@ -315,4 +315,27 @@ AndroidArgs
         assertThat(androidArgs.testApk).isEqualTo(appApk)
         assertThat(androidArgs.cli).isEqualTo(cli)
     }
+
+    @Test
+    fun androidArgs_overrideTestTargetsFromCmdLine() {
+        val cli = AndroidRunCommand()
+        val testTarget = "class com.foo.ClassName"
+
+        CommandLine(cli).parse("--test-targets", testTarget)
+
+        val androidArgs = AndroidArgs.load(
+            """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          test-targets:
+            - class com.example.app.ExampleUiTest#testPasses
+            - class com.example.app.ExampleUiTest#testFails
+      """,
+            cli
+        )
+
+        assertThat(androidArgs.testTargets.size).isEqualTo(1)
+        assertThat(androidArgs.testTargets).isEqualTo(listOf(testTarget))
+    }
 }
