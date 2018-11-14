@@ -3,12 +3,12 @@ package ftl.args
 import com.google.common.truth.Truth.assertThat
 import ftl.config.Device
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
-import java.io.File
 
 @RunWith(FlankTestRunner::class)
 class AndroidArgsTest {
@@ -16,8 +16,8 @@ class AndroidArgsTest {
     private val appApk = "../test_app/apks/app-debug.apk"
     private val testApk = "../test_app/apks/app-debug-androidTest.apk"
     private val testErrorApk = "../test_app/apks/error-androidTest.apk"
-    private val appApkAbsolutePath = File(appApk).absolutePath
-    private val testApkAbsolutePath = File(testApk).absolutePath
+    private val appApkAbsolutePath = appApk.absolutePath()
+    private val testApkAbsolutePath = testApk.absolutePath()
 
     private val androidNonDefault = """
         gcloud:

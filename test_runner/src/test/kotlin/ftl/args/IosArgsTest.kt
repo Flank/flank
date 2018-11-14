@@ -8,13 +8,13 @@ import ftl.args.yml.IosGcloudYml
 import ftl.args.yml.IosGcloudYmlParams
 import ftl.config.Device
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
-import java.io.File
 
 @RunWith(FlankTestRunner::class)
 class IosArgsTest {
@@ -22,8 +22,8 @@ class IosArgsTest {
     private val testPath = "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip"
     private val xctestrunFile =
         "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun"
-    val xctestrunFileAbsolutePath = File(xctestrunFile).absolutePath
-    val testAbsolutePath = File(testPath).absolutePath
+    private val xctestrunFileAbsolutePath = xctestrunFile.absolutePath()
+    private val testAbsolutePath = testPath.absolutePath()
     private val iosNonDefault = """
         gcloud:
           results-bucket: mockBucket

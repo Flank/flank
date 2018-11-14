@@ -20,16 +20,11 @@ import ftl.config.FtlConstants.defaultCredentialPath
 import ftl.gc.GcStorage
 import ftl.util.Utils
 import java.io.File
-import java.io.IOException
 import java.math.RoundingMode
 import java.net.URI
-import java.nio.file.FileSystems
-import java.nio.file.FileVisitResult
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.nio.file.SimpleFileVisitor
-import java.nio.file.attribute.BasicFileAttributes
 import java.util.regex.Pattern
 
 object ArgsHelper {
@@ -58,6 +53,9 @@ object ArgsHelper {
         file = substituteEnvVars(file)
         // avoid File(..).canonicalPath since that will resolve symlinks
         file = Paths.get(file).toAbsolutePath().normalize().toString()
+
+        // Avoid walking the folder's parent dir if we know it exists already.
+        if (File(file).exists()) return file
 
         val filePaths = walkFileTree(file)
         if (filePaths.size > 1) {
@@ -175,54 +173,23 @@ object ArgsHelper {
         return ServiceOptions.getDefaultProjectId() ?: serviceAccountProjectId()
     }
 
-    private fun getSearchDirectoryPath(path: String): Path {
-        var searchDirectoryPath = String()
-        val pattern = "([^*]*/)"
-        val matcher = Pattern.compile(pattern).matcher(path)
-        if (matcher.find()) {
-            searchDirectoryPath = matcher.group(1)
-        }
-        return Paths.get(searchDirectoryPath)
-    }
-
+    // https://stackoverflow.com/a/2821201/2450315
+    private val envRegex = Pattern.compile("\\$([a-zA-Z_]+[a-zA-Z0-9_]*)")
     private fun substituteEnvVars(text: String): String {
-        val sb = StringBuffer()
-        // https://stackoverflow.com/a/2821201/2450315
-        val pattern = "\\$([a-zA-Z_]{1,}[a-zA-Z0-9_]{0,})"
-        val matcher = Pattern.compile(pattern).matcher(text)
+        val buffer = StringBuffer()
+        val matcher = envRegex.matcher(text)
         while (matcher.find()) {
-            val varname = matcher.group(1)
-            val envValue: String = System.getenv(varname) ?: ""
-            matcher.appendReplacement(sb, envValue)
+            val envName = matcher.group(1)
+            val envValue = System.getenv(envName) ?: ""
+            matcher.appendReplacement(buffer, envValue)
         }
-        matcher.appendTail(sb)
-        return sb.toString()
+        matcher.appendTail(buffer)
+        return buffer.toString()
     }
 
     private fun walkFileTree(filePath: String): List<Path> {
-        val searchDir = getSearchDirectoryPath(filePath)
-        val glob = "glob:$filePath"
-        val result = ArrayList<Path>()
-        val pathMatcher = FileSystems.getDefault().getPathMatcher(glob)
+        val searchDir = Paths.get(filePath).parent
 
-        Files.walkFileTree(searchDir, object : SimpleFileVisitor<Path>() {
-
-            @Throws(IOException::class)
-            override fun visitFile(path: Path, attrs: BasicFileAttributes): FileVisitResult {
-                if (pathMatcher.matches(path)) {
-                    result.add(path)
-                }
-                return FileVisitResult.CONTINUE
-            }
-
-            override fun visitFileFailed(file: Path?, exc: IOException?): FileVisitResult {
-                return FileVisitResult.CONTINUE
-            }
-
-            override fun preVisitDirectory(dir: Path?, attrs: BasicFileAttributes?): FileVisitResult {
-                return FileVisitResult.CONTINUE
-            }
-        })
-        return result
+        return ArgsFileVisitor("glob:$filePath").walk(searchDir)
     }
 }
