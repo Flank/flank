@@ -72,9 +72,16 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun androidRunCommandApp() {
+    fun app_parse() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--app", "myApp.apk")
         assertThat(cmd.app).isEqualTo("myApp.apk")
+    }
+
+    @Test
+    fun app_parse_null() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse()
+        assertThat(cmd.app).isEqualTo(null)
     }
 }
