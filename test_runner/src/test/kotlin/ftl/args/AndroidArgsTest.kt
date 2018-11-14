@@ -290,8 +290,6 @@ AndroidArgs
         gcloud:
           app: $appApk
           test: $testApk
-
-        flank:
       """,
             cli
         )
