@@ -48,7 +48,7 @@ class AndroidArgs(
 
     private val androidGcloud = androidGcloudYml.gcloud
     val appApk = cli.app ?: androidGcloud.app
-    val testApk = androidGcloud.test
+    val testApk = cli.test ?: androidGcloud.test
     val autoGoogleLogin = androidGcloud.autoGoogleLogin
     val useOrchestrator = androidGcloud.useOrchestrator
     val environmentVariables = androidGcloud.environmentVariables

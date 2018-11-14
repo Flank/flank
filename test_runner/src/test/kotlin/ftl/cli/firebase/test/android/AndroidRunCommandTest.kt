@@ -27,26 +27,8 @@ class AndroidRunCommandTest {
         CommandLine.run<Runnable>(android, System.out, "-h")
 
         val output = systemOutRule.log
-        Truth.assertThat(output).startsWith(
-            """
-                Run tests on Firebase Test Lab
-
-                run [-h] [--app=<app>] [-c=<configPath>]
-
-                Description:
-
-                Uploads the app and test apk to GCS.
-                Runs the espresso tests using orchestrator.
-                Configuration is read from flank.yml
-
-
-                Options:
-                  -c, --config=<configPath>
-                                    YAML config file path
-                  -h, --help        Prints this help message
-                      --app=<app>   The path to the application binary file.
-            """.trimIndent()
-        )
+        Truth.assertThat(output).startsWith("Run tests on Firebase Test Lab")
+        Truth.assertThat(output).contains("run [-h]")
 
         assertThat(android.usageHelpRequested).isTrue()
     }
@@ -72,6 +54,14 @@ class AndroidRunCommandTest {
     }
 
     @Test
+    fun empty_params_parse_null() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse()
+        assertThat(cmd.app).isEqualTo(null)
+        assertThat(cmd.test).isEqualTo(null)
+    }
+
+    @Test
     fun app_parse() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--app", "myApp.apk")
@@ -79,9 +69,9 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun app_parse_null() {
+    fun test_parse() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse()
-        assertThat(cmd.app).isEqualTo(null)
+        CommandLine(cmd).parse("--test", "myTestApp.apk")
+        assertThat(cmd.test).isEqualTo("myTestApp.apk")
     }
 }
