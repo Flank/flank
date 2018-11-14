@@ -114,6 +114,8 @@ class AndroidArgsTest {
     @Test
     fun androidArgs() {
         val androidArgs = AndroidArgs.load(androidNonDefault)
+        val expectedAppApk = appApk
+        val expectedTestApk = testApk
 
         with(androidArgs) {
             // GcloudYml
@@ -125,8 +127,8 @@ class AndroidArgsTest {
             assert(resultsHistoryName ?: "", "android-history")
 
             // AndroidGcloudYml
-            assert(appApk, appApk)
-            assert(testApk, testApk)
+            assert(appApk, expectedAppApk)
+            assert(testApk, expectedTestApk)
             assert(autoGoogleLogin, false)
             assert(useOrchestrator, false)
             assert(environmentVariables, linkedMapOf("clearPackageData" to "true", "randomEnvVar" to "false"))
