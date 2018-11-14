@@ -79,7 +79,7 @@ class AndroidRunCommandTest {
     @Test
     fun testTargets_parse() {
         val testTargets = "--test-targets"
-        val params = arrayOf(testTargets, "class com.foo.Clazz", "--test-targets", "package com.my.package")
+        val params = arrayOf(testTargets, "class com.foo.Clazz", testTargets, "package com.my.package")
         val cmd = AndroidRunCommand()
 
         CommandLine(cmd).parse(*params)
