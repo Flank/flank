@@ -60,6 +60,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.app).isEqualTo(null)
         assertThat(cmd.test).isEqualTo(null)
         assertThat(cmd.testTargets).isEqualTo(null)
+        assertThat(cmd.useOrchestrator).isEqualTo(null)
     }
 
     @Test
@@ -87,5 +88,13 @@ class AndroidRunCommandTest {
         assertThat(cmd.testTargets).isNotNull()
         assertThat(cmd.testTargets?.size).isEqualTo(2)
         assertThat(cmd.testTargets).isEqualTo(params.filter { it != testTargets })
+    }
+
+    @Test
+    fun useOrchestrator_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--use-orchestrator")
+
+        assertThat(cmd.useOrchestrator).isTrue()
     }
 }

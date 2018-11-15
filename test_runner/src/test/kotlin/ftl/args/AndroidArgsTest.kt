@@ -338,4 +338,22 @@ AndroidArgs
         assertThat(androidArgs.testTargets.size).isEqualTo(1)
         assertThat(androidArgs.testTargets).isEqualTo(listOf(testTarget))
     }
+
+    @Test
+    fun androidArgs_overrideUseOrchestratorFromCmdLine() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--use-orchestrator")
+
+        val androidArgs = AndroidArgs.load(
+            """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          use-orchestrator: false
+      """,
+            cli
+        )
+
+        assertThat(androidArgs.useOrchestrator).isTrue()
+    }
 }
