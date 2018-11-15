@@ -49,7 +49,7 @@ object ArgsHelper {
     }
 
     fun evaluateFilePath(filePath: String): String {
-        var file = filePath.trim().replaceFirst("~", System.getProperty("user.home"))
+        var file = filePath.trim().replaceFirst(Regex("^~"), System.getProperty("user.home"))
         file = substituteEnvVars(file)
         // avoid File(..).canonicalPath since that will resolve symlinks
         file = Paths.get(file).toAbsolutePath().normalize().toString()
@@ -180,7 +180,10 @@ object ArgsHelper {
         val matcher = envRegex.matcher(text)
         while (matcher.find()) {
             val envName = matcher.group(1)
-            val envValue = System.getenv(envName) ?: ""
+            val envValue = System.getenv(envName)
+            if (envValue == null) {
+                println("WARNING: $envName not found")
+            }
             matcher.appendReplacement(buffer, envValue)
         }
         matcher.appendTail(buffer)

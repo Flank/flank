@@ -59,9 +59,73 @@ class ArgsHelperFilePathTest {
         Truth.assertThat(actual).isEqualTo(expected)
     }
 
+    @Test
+    fun evaluateRelativeFilePath() {
+        val expected = makeTmpFile("/tmp/app-debug.apk")
+        val testApkPath = "~/../../../../../../../../../tmp/app-debug.apk"
+        val actual = ArgsHelper.evaluateFilePath(testApkPath)
+
+        Truth.assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun evaluateRelativeAndWildCardsInFilePath() {
+        makeTmpFile("/tmp/tmp1/tmp2/tmp3/tmp4/tmp5/tmp6/tmp7/tmp8/tmp9/app-debug.apk")
+        val expected = makeTmpFile("/tmp/tmp1/tmp2/tmp3/tmp4/tmp5/tmp6/tmp7/tmp8/tmp9/tmp10/app-debug.apk")
+        val inputPath = "~/../../../../../../../../../tmp/tmp1/**/tmp4/**/tmp7/*/tmp9/*/app*debug.apk"
+        val actual = ArgsHelper.evaluateFilePath(inputPath)
+
+        Truth.assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun evaluateWildCardsInFilePath() {
+        val expected = makeTmpFile("/tmp/tmp1/tmp2/tmp3/tmp4/tmp5/tmp6/tmp7/tmp8/tmp9/app-debug.apk")
+        makeTmpFile("/tmp/tmp1/tmp2/tmp3/tmp4/tmp5/tmp6/tmp7/tmp8/tmp9/tmp10/app-debug.apk")
+        val inputPath = "/tmp/**/tmp4/**/tmp8/*/app*debug.apk"
+        val actual = ArgsHelper.evaluateFilePath(inputPath)
+
+        Truth.assertThat(actual).isEqualTo(expected)
+    }
+
+
+    @Test(expected = RuntimeException::class)
+    fun wildCardsInFileNameWithMultipleMatches() {
+        makeTmpFile("/tmp/tmp1/app-debug.apk")
+        makeTmpFile("/tmp/tmp1/app---debug.apk")
+        val inputPath = "/tmp/tmp1/app*debug.apk"
+        ArgsHelper.evaluateFilePath(inputPath)
+    }
+
+
+    @Test(expected = RuntimeException::class)
+    fun wildCardsInFilePathWithMultipleMatches() {
+        makeTmpFile("/tmp/tmp1/tmp2/tmp3/app-debug.apk")
+        makeTmpFile("/tmp/tmp1/tmp2/tmp3/tmp4/app-debug.apk")
+        val inputPath = "~/../../../../../../../../../tmp/**/tmp2/**/app*debug.apk"
+        ArgsHelper.evaluateFilePath(inputPath)
+    }
+
+    @Test
+    fun evaluateMultipleEnvVarsInFilePath() {
+        val expected = makeTmpFile("/tmp/tmp/random.xctestrun")
+        environmentVariables.set("TMP_DIR", "tmp")
+        environmentVariables.set("RANDOM_FILE", "random")
+        val inputPath = "/\$TMP_DIR/\$TMP_DIR/\$RANDOM_FILE.xctestrun"
+        val actual = ArgsHelper.evaluateFilePath(inputPath)
+
+        Truth.assertThat(actual).isEqualTo(expected)
+    }
+
     @Test(expected = java.nio.file.NoSuchFileException::class)
     fun evaluateInvalidFilePath() {
         val testApkPath = "~/flank_test_app/invalid_path/app-debug-*.xctestrun"
+        ArgsHelper.evaluateFilePath(testApkPath)
+    }
+
+    @Test(expected = java.nio.file.NoSuchFileException::class)
+    fun evaluateInvalidFilePathWithTilde() {
+        val testApkPath = "~/flank_test_app/~/invalid_path/app-debug-*.xctestrun"
         ArgsHelper.evaluateFilePath(testApkPath)
     }
 }
