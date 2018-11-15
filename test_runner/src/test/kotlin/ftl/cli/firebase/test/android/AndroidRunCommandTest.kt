@@ -97,4 +97,12 @@ class AndroidRunCommandTest {
 
         assertThat(cmd.useOrchestrator).isTrue()
     }
+
+    @Test
+    fun noUseOrchestrator_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--no-use-orchestrator")
+
+        assertThat(cmd.useOrchestrator).isFalse()
+    }
 }

@@ -356,4 +356,22 @@ AndroidArgs
 
         assertThat(androidArgs.useOrchestrator).isTrue()
     }
+
+    @Test
+    fun androidArgs_overrideNoUseOrchestratorFromCmdLine() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--no-use-orchestrator")
+
+        val androidArgs = AndroidArgs.load(
+            """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          use-orchestrator: true
+      """,
+            cli
+        )
+
+        assertThat(androidArgs.useOrchestrator).isFalse()
+    }
 }

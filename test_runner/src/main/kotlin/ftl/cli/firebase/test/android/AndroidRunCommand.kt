@@ -58,4 +58,7 @@ class AndroidRunCommand : Runnable {
         |https://developer.android.com/training/testing/junit-runner.html#using-android-test-orchestrator for more
         |information about Android Test Orchestrator."""])
     var useOrchestrator: Boolean? = null
+
+    @Option(names = ["--no-use-orchestrator"], description = ["""Orchestrator is not used. See --use-orchestrator."""])
+    var noUseOrchestrator: Boolean? = null
 }

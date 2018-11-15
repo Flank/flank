@@ -50,7 +50,7 @@ class AndroidArgs(
     val appApk = cli.app ?: androidGcloud.app
     val testApk = cli.test ?: androidGcloud.test
     val autoGoogleLogin = androidGcloud.autoGoogleLogin
-    val useOrchestrator = cli.useOrchestrator ?: androidGcloud.useOrchestrator
+    val useOrchestrator = cli.useOrchestrator ?: cli.noUseOrchestrator?.not() ?: androidGcloud.useOrchestrator
     val environmentVariables = androidGcloud.environmentVariables
     val directoriesToPull = androidGcloud.directoriesToPull
     val performanceMetrics = androidGcloud.performanceMetrics
