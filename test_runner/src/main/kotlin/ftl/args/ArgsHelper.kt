@@ -18,6 +18,7 @@ import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.config.FtlConstants.defaultCredentialPath
 import ftl.gc.GcStorage
+import ftl.shard.TestShard
 import ftl.util.Utils
 import java.io.File
 import java.math.RoundingMode
@@ -127,7 +128,7 @@ object ArgsHelper {
     fun createJunitBucket(projectId: String, junitGcsPath: String) {
         if (FtlConstants.useMock || junitGcsPath.isEmpty()) return
         val bucket = junitGcsPath.drop(GCS_PREFIX.length).substringBefore('/')
-        createGcsBucket(projectId, bucket)
+            createGcsBucket(projectId, bucket)
     }
 
     fun createGcsBucket(projectId: String, bucket: String): String {
@@ -182,6 +183,7 @@ object ArgsHelper {
 
     // https://stackoverflow.com/a/2821201/2450315
     private val envRegex = Pattern.compile("\\$([a-zA-Z_]+[a-zA-Z0-9_]*)")
+
     private fun evaluateEnvVars(text: String): String {
         val buffer = StringBuffer()
         val matcher = envRegex.matcher(text)
@@ -201,5 +203,11 @@ object ArgsHelper {
         val searchDir = Paths.get(filePath).parent
 
         return ArgsFileVisitor("glob:$filePath").walk(searchDir)
+    }
+
+    fun convertShards(shards: List<TestShard>): List<List<String>> {
+        return shards.map { shard ->
+            shard.testMethods.map { it.name }
+        }
     }
 }

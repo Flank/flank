@@ -143,8 +143,8 @@ class AndroidArgsFileTest {
         val config = configWithTestMethods(155, testShards = 40)
         with(config) {
             assert(testShards, 40)
-            assert(testShardChunks.size, 39)
-            assert(testShardChunks.first().size, 4)
+            assert(testShardChunks.size, 40)
+            assert(testShardChunks.first().size, 3)
         }
     }
 

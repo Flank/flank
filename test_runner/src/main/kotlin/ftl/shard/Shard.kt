@@ -1,64 +1,61 @@
 package ftl.shard
 
+import ftl.reports.xml.model.JUnitTestResult
+
 data class TestMethod(
     val name: String,
     val time: Double
 )
 
 data class TestShard(
-    val time: Double,
+    var time: Double,
     val testMethods: MutableList<TestMethod>
-)
-
-data class TestShards(
-    val shards: MutableList<TestShard> = mutableListOf()
 )
 
 object Shard {
 
-    /**
-     * Build shard by removing remaining methods that total to targetShardDuration
-     * At least one method per shard will always be returned, regardless of targetShardDuration.
-     *
-     * remainingMethods must be sorted in order of fastest execution time to slowest.
-     * remainingMethods.sortBy { it.time }
-     *
-     * Based on createConfigurableShard from Flank Java
-     * https://github.com/TestArmada/flank/blob/ceda6d2c3d9eb2a366f19b826e04289cd24bddf3/Flank/src/main/java/com/walmart/otto/shards/ShardCreator.java#L99
-     */
-    fun build(remainingMethods: MutableList<TestMethod>, targetShardDuration: Double): TestShard {
-        var timeBudget = targetShardDuration
-        var shardTime = 0.0
+    // take in the XML with timing info then return list of shards
+    fun calculateShardsByTime(runningTests: List<String>, testResult: JUnitTestResult, maxShards: Int): List<TestShard> {
 
-        val testMethods = remainingMethods.iterator()
-        val shardTests = mutableListOf<TestMethod>()
+        val junitMap = mutableMapOf<String, Double>()
 
-        while (testMethods.hasNext()) {
-            val test = testMethods.next()
-            val testWithinBudget = timeBudget - test.time >= 0
-
-            if (testWithinBudget) {
-                timeBudget -= test.time
-
-                shardTime += test.time
-                shardTests.add(test)
-                testMethods.remove()
-
-                continue
-            }
-
-            val noTestsAdded = timeBudget == targetShardDuration
-            val testOverBudget = test.time >= timeBudget
-
-            if (noTestsAdded && testOverBudget) {
-                // Always add at least 1 test per shard regardless of budget
-                shardTime += test.time
-                shardTests.add(test)
-                testMethods.remove()
-
-                return TestShard(shardTime, shardTests)
+        // Create a map with information from previous junit run
+        testResult.testsuites?.forEach { testsuite ->
+            testsuite.testcases?.forEach { testcase ->
+                val key = "${testsuite.name}${testcase.classname}#${testcase.name}".trim()
+                junitMap[key] = testcase.time.toDouble()
             }
         }
-        return TestShard(shardTime, shardTests)
+
+        val testcases = mutableListOf<TestMethod>()
+        runningTests.forEach {
+            // junitMap doesn't include `class `, we remove it to search in the map
+            val key = it.replace("class ", "")
+            val time = junitMap[key] ?: 10.0
+            testcases.add(TestMethod(it, time))
+        }
+
+        val testCount = testcases.size
+
+        // If maxShards is infinite or we have more shards than tests, let's match it
+        val shardsCount = if (maxShards == -1 || maxShards > testCount) testCount else maxShards
+
+        // Create the list of shards we will return
+        var shards = List(shardsCount) { TestShard(0.0, mutableListOf()) }
+
+        // We want to iterate over testcase going from slowest to fastest
+        testcases.sortByDescending { it.time }
+
+        testcases.forEach { testMethod ->
+            val shard = shards.first()
+
+            shard.testMethods.add(testMethod)
+            shard.time += testMethod.time
+
+            // Sort the shards to keep the most empty shard first
+            shards = shards.sortedBy { it.time }
+        }
+
+        return shards
     }
 }

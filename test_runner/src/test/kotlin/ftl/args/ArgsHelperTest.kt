@@ -4,11 +4,14 @@ import com.google.common.truth.Truth.assertThat
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
 import ftl.args.ArgsHelper.calculateShards
+import ftl.args.ArgsHelper.convertShards
 import ftl.args.ArgsHelper.createGcsBucket
 import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.validateTestMethods
 import ftl.args.yml.GcloudYml
 import ftl.args.yml.IosGcloudYml
+import ftl.shard.TestMethod
+import ftl.shard.TestShard
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import org.junit.Rule
@@ -215,5 +218,20 @@ class ArgsHelperTest {
     fun evaluateInvalidFilePath() {
         val testApkPath = "~/flank_test_app/invalid_path/app-debug-*.xctestrun"
         ArgsHelper.evaluateFilePath(testApkPath)
+        fun convertShardsTest() {
+            val shards = listOf(
+                TestShard(3.0, mutableListOf(TestMethod("a", 1.0), TestMethod("b", 2.0))),
+                TestShard(4.0, mutableListOf(TestMethod("c", 4.0))),
+                TestShard(5.0, mutableListOf(TestMethod("d", 2.0), TestMethod("e", 3.0)))
+            )
+
+            val expected = listOf(
+                listOf("a", "b"),
+                listOf("c"),
+                listOf("d", "e")
+            )
+
+            assertThat(convertShards(shards)).isEqualTo(expected)
+        }
     }
 }

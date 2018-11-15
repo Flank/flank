@@ -10,7 +10,7 @@ import ftl.android.UnsupportedVersionId
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
 import ftl.args.ArgsHelper.calculateShards
-import ftl.args.ArgsHelper.evaluateFilePath
+import ftl.args.ArgsHelper.convertShards
 import ftl.args.ArgsHelper.createGcsBucket
 import ftl.args.ArgsHelper.createJunitBucket
 import ftl.args.ArgsHelper.evaluateFilePath
@@ -28,10 +28,13 @@ import ftl.config.FtlConstants
 import ftl.config.FtlConstants.useMock
 import ftl.filter.TestFilters
 import ftl.gc.GcStorage
+import ftl.reports.xml.model.JUnitTestResult
+import ftl.shard.Shard
 import ftl.util.Utils
 import kotlinx.coroutines.runBlocking
 import java.nio.file.Files
 import java.nio.file.Path
+import java.util.concurrent.TimeUnit
 
 // set default values, init properties, etc.
 class AndroidArgs(
@@ -80,11 +83,22 @@ class AndroidArgs(
 
         val filteredTests = getTestMethods(testLocalApk)
 
-        calculateShards(
-            filteredTests,
-            testTargetsAlwaysRun,
-            testShards
-            )
+        if (true) {
+            val oldTestResult = GcStorage.downloadJunitXml(this) ?: JUnitTestResult(mutableListOf())
+
+            val start = System.nanoTime()
+            val result = convertShards(Shard.calculateShardsByTime(filteredTests, oldTestResult, testShards))
+            val shardCreationTime = TimeUnit.SECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS)
+
+            println("Shard calculation took: $shardCreationTime")
+
+            result
+        } else {
+            calculateShards(
+                filteredTests,
+                testTargetsAlwaysRun,
+                testShards)
+        }
     }
 
     init {
