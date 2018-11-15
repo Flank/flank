@@ -51,4 +51,14 @@ class AndroidRunCommand : Runnable {
           See https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner for more
           information."""])
     var testTargets: List<String>? = null
+
+    @Option(names = ["--use-orchestrator"], description = ["""Whether each test runs in its own Instrumentation instance
+        |with the Android Test Orchestrator (default: Orchestrator is used. To disable, use --no-use-orchestrator).
+        |Orchestrator is only compatible with AndroidJUnitRunner v1.0 or higher. See
+        |https://developer.android.com/training/testing/junit-runner.html#using-android-test-orchestrator for more
+        |information about Android Test Orchestrator."""])
+    var useOrchestrator: Boolean? = null
+
+    @Option(names = ["--no-use-orchestrator"], description = ["""Orchestrator is not used. See --use-orchestrator."""])
+    var noUseOrchestrator: Boolean? = null
 }
