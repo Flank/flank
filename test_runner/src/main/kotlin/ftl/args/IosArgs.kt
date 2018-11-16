@@ -2,6 +2,7 @@ package ftl.args
 
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
+import ftl.args.ArgsHelper.evaluateFilePath
 import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.validateTestMethods
 import ftl.args.ArgsHelper.yamlMapper
@@ -36,8 +37,8 @@ class IosArgs(
     override val resultsHistoryName = gcloud.resultsHistoryName
 
     private val iosGcloud = iosGcloudYml.gcloud
-    val xctestrunZip = iosGcloud.test
-    val xctestrunFile = iosGcloud.xctestrunFile
+    var xctestrunZip = iosGcloud.test
+    var xctestrunFile = iosGcloud.xctestrunFile
     val xcodeVersion = iosGcloud.xcodeVersion
     val devices = iosGcloud.device
 
@@ -70,8 +71,10 @@ class IosArgs(
         if (xctestrunZip.startsWith(FtlConstants.GCS_PREFIX)) {
             assertGcsFileExists(xctestrunZip)
         } else {
+            xctestrunZip = evaluateFilePath(xctestrunZip)
             assertFileExists(xctestrunZip, "xctestrunZip")
         }
+        xctestrunFile = evaluateFilePath(xctestrunFile)
         assertFileExists(xctestrunFile, "xctestrunFile")
 
         devices.forEach { device -> assertDeviceSupported(device) }

@@ -10,6 +10,7 @@ import ftl.android.UnsupportedVersionId
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
 import ftl.args.ArgsHelper.calculateShards
+import ftl.args.ArgsHelper.evaluateFilePath
 import ftl.args.ArgsHelper.getGcsBucket
 import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.yamlMapper
@@ -47,8 +48,8 @@ class AndroidArgs(
     override val resultsHistoryName = gcloud.resultsHistoryName
 
     private val androidGcloud = androidGcloudYml.gcloud
-    val appApk = cli.app ?: androidGcloud.app
-    val testApk = cli.test ?: androidGcloud.test
+    var appApk = cli.app ?: androidGcloud.app
+    var testApk = cli.test ?: androidGcloud.test
     val autoGoogleLogin = androidGcloud.autoGoogleLogin
 
     // We use not() on noUseOrchestrator because if the flag is on, useOrchestrator needs to be false
@@ -89,12 +90,14 @@ class AndroidArgs(
         if (appApk.startsWith(FtlConstants.GCS_PREFIX)) {
             assertGcsFileExists(appApk)
         } else {
+            appApk = evaluateFilePath(appApk)
             assertFileExists(appApk, "appApk")
         }
 
         if (testApk.startsWith(FtlConstants.GCS_PREFIX)) {
             assertGcsFileExists(testApk)
         } else {
+            testApk = evaluateFilePath(testApk)
             assertFileExists(testApk, "testApk")
         }
 

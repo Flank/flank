@@ -23,6 +23,9 @@ import java.io.File
 import java.math.RoundingMode
 import java.net.URI
 import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.util.regex.Pattern
 
 object ArgsHelper {
 
@@ -43,6 +46,25 @@ object ArgsHelper {
         if (!File(file).exists()) {
             Utils.fatalError("'$file' $name doesn't exist")
         }
+    }
+
+    fun evaluateFilePath(filePath: String): String {
+        var file = filePath.trim().replaceFirst(Regex("^~"), System.getProperty("user.home"))
+        file = evaluateEnvVars(file)
+        // avoid File(..).canonicalPath since that will resolve symlinks
+        file = Paths.get(file).toAbsolutePath().normalize().toString()
+
+        // Avoid walking the folder's parent dir if we know it exists already.
+        if (File(file).exists()) return file
+
+        val filePaths = walkFileTree(file)
+        if (filePaths.size > 1) {
+            Utils.fatalError("'$file' ($filePath) matches multiple files: $filePaths")
+        } else if (filePaths.isEmpty()) {
+            Utils.fatalError("'$file' not found ($filePath)")
+        }
+
+        return filePaths.first().toAbsolutePath().normalize().toString()
     }
 
     fun assertGcsFileExists(uri: String) {
@@ -135,7 +157,8 @@ object ArgsHelper {
             return JsonObjectParser(JSON_FACTORY).parseAndClose(
                 Files.newInputStream(defaultCredentialPath),
                 Charsets.UTF_8,
-                GenericJson::class.java)["project_id"] as String
+                GenericJson::class.java
+            )["project_id"] as String
         } catch (e: Exception) {
             println("Parsing $defaultCredentialPath failed:")
             println(e.printStackTrace())
@@ -149,5 +172,28 @@ object ArgsHelper {
 
         // Allow users control over projectId by checking using Google's logic first before falling back to JSON.
         return ServiceOptions.getDefaultProjectId() ?: serviceAccountProjectId()
+    }
+
+    // https://stackoverflow.com/a/2821201/2450315
+    private val envRegex = Pattern.compile("\\$([a-zA-Z_]+[a-zA-Z0-9_]*)")
+    private fun evaluateEnvVars(text: String): String {
+        val buffer = StringBuffer()
+        val matcher = envRegex.matcher(text)
+        while (matcher.find()) {
+            val envName = matcher.group(1)
+            val envValue: String? = System.getenv(envName)
+            if (envValue == null) {
+                println("WARNING: $envName not found")
+            }
+            matcher.appendReplacement(buffer, envValue ?: "")
+        }
+        matcher.appendTail(buffer)
+        return buffer.toString()
+    }
+
+    private fun walkFileTree(filePath: String): List<Path> {
+        val searchDir = Paths.get(filePath).parent
+
+        return ArgsFileVisitor("glob:$filePath").walk(searchDir)
     }
 }

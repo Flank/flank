@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import org.junit.Rule
 import org.junit.Test
@@ -17,6 +18,8 @@ class AndroidArgsTest {
     private val appApk = "../test_app/apks/app-debug.apk"
     private val testApk = "../test_app/apks/app-debug-androidTest.apk"
     private val testErrorApk = "../test_app/apks/error-androidTest.apk"
+    private val appApkAbsolutePath = appApk.absolutePath()
+    private val testApkAbsolutePath = testApk.absolutePath()
 
     private val androidNonDefault = """
         gcloud:
@@ -114,8 +117,6 @@ class AndroidArgsTest {
     @Test
     fun androidArgs() {
         val androidArgs = AndroidArgs.load(androidNonDefault)
-        val expectedAppApk = appApk
-        val expectedTestApk = testApk
 
         with(androidArgs) {
             // GcloudYml
@@ -127,8 +128,8 @@ class AndroidArgsTest {
             assert(resultsHistoryName ?: "", "android-history")
 
             // AndroidGcloudYml
-            assert(appApk, expectedAppApk)
-            assert(testApk, expectedTestApk)
+            assert(appApk, appApkAbsolutePath)
+            assert(testApk, testApkAbsolutePath)
             assert(autoGoogleLogin, false)
             assert(useOrchestrator, false)
             assert(environmentVariables, linkedMapOf("clearPackageData" to "true", "randomEnvVar" to "false"))
@@ -174,8 +175,8 @@ AndroidArgs
       project: projectFoo
       results-history-name: android-history
       # Android gcloud
-      app: ../test_app/apks/app-debug.apk
-      test: ../test_app/apks/app-debug-androidTest.apk
+      app: $appApkAbsolutePath
+      test: $testApkAbsolutePath
       auto-google-login: false
       use-orchestrator: false
       environment-variables:
@@ -227,8 +228,8 @@ AndroidArgs
             assert(projectId, "mockProjectId")
 
             // AndroidGcloudYml
-            assert(appApk, appApk)
-            assert(testApk, testApk)
+            assert(appApk, appApkAbsolutePath)
+            assert(testApk, testApkAbsolutePath)
             assert(autoGoogleLogin, true)
             assert(useOrchestrator, true)
             assert(environmentVariables, emptyMap<String, String>())
@@ -276,8 +277,8 @@ AndroidArgs
       """
         )
 
-        assertThat(androidArgs.appApk).isEqualTo(appApk)
-        assertThat(androidArgs.testApk).isEqualTo(testApk)
+        assertThat(androidArgs.appApk).isEqualTo(appApkAbsolutePath)
+        assertThat(androidArgs.testApk).isEqualTo(testApkAbsolutePath)
     }
 
     @Test
@@ -294,7 +295,7 @@ AndroidArgs
             cli
         )
 
-        assertThat(androidArgs.appApk).isEqualTo(testApk)
+        assertThat(androidArgs.appApk).isEqualTo(testApkAbsolutePath)
         assertThat(androidArgs.cli).isEqualTo(cli)
     }
 
@@ -312,7 +313,7 @@ AndroidArgs
             cli
         )
 
-        assertThat(androidArgs.testApk).isEqualTo(appApk)
+        assertThat(androidArgs.testApk).isEqualTo(appApkAbsolutePath)
         assertThat(androidArgs.cli).isEqualTo(cli)
     }
 

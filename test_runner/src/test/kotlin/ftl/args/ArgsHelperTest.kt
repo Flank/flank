@@ -10,11 +10,14 @@ import ftl.args.ArgsHelper.validateTestMethods
 import ftl.args.yml.GcloudYml
 import ftl.args.yml.IosGcloudYml
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.TestHelper.absolutePath
 import org.junit.Rule
 import org.junit.Test
+import org.junit.contrib.java.lang.system.EnvironmentVariables
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
+import java.io.File
 
 @RunWith(FlankTestRunner::class)
 class ArgsHelperTest {
@@ -26,6 +29,9 @@ class ArgsHelperTest {
     @Rule
     @JvmField
     val systemErrRule = SystemErrRule().muteForSuccessfulTests()!!
+
+    @get:Rule
+    val environmentVariables = EnvironmentVariables()
 
     @Test
     fun mergeYmlMaps_succeeds() {
@@ -160,5 +166,54 @@ class ArgsHelperTest {
     fun getDefaultProjectId_succeeds() {
         assertThat(ArgsHelper.getDefaultProjectId())
             .isEqualTo("mockProjectId")
+    }
+
+    @Test
+    fun evaluateBlobInFilePath() {
+        val testApkRelativePath = "../test_app/apks/app-debug-androidTest.apk"
+        val testApkBlobPath = "../test_app/**/app-debug-*.apk"
+
+        val actual = ArgsHelper.evaluateFilePath(testApkBlobPath)
+        val expected = testApkRelativePath.absolutePath()
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    private fun makeTmpFile(filePath: String): String {
+        val file = File(filePath)
+        file.parentFile.mkdirs()
+
+        file.apply {
+            createNewFile()
+            deleteOnExit()
+        }
+
+        return file.absolutePath
+    }
+
+    @Test
+    fun evaluateTildeInFilePath() {
+        val expected = makeTmpFile("/tmp/random.xctestrun")
+
+        val inputPath = "~/../../tmp/random.xctestrun"
+        val actual = ArgsHelper.evaluateFilePath(inputPath)
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun evaluateEnvVarInFilePath() {
+        environmentVariables.set("TEST_APK_DIR", "test_app/apks")
+        val testApkPath = "../\$TEST_APK_DIR/app-debug-androidTest.apk"
+        val actual = ArgsHelper.evaluateFilePath(testApkPath)
+        val expected = "../test_app/apks/app-debug-androidTest.apk".absolutePath()
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test(expected = java.nio.file.NoSuchFileException::class)
+    fun evaluateInvalidFilePath() {
+        val testApkPath = "~/flank_test_app/invalid_path/app-debug-*.xctestrun"
+        ArgsHelper.evaluateFilePath(testApkPath)
     }
 }

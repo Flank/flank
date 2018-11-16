@@ -8,6 +8,7 @@ import ftl.args.yml.IosGcloudYml
 import ftl.args.yml.IosGcloudYmlParams
 import ftl.config.Device
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import org.junit.Rule
 import org.junit.Test
@@ -21,6 +22,8 @@ class IosArgsTest {
     private val testPath = "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip"
     private val xctestrunFile =
         "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun"
+    private val xctestrunFileAbsolutePath = xctestrunFile.absolutePath()
+    private val testAbsolutePath = testPath.absolutePath()
     private val iosNonDefault = """
         gcloud:
           results-bucket: mockBucket
@@ -101,8 +104,8 @@ class IosArgsTest {
             assert(resultsHistoryName ?: "", "ios-history")
 
             // IosGcloudYml
-            assert(xctestrunZip, testPath)
-            assert(xctestrunFile, xctestrunFile)
+            assert(xctestrunZip, testAbsolutePath)
+            assert(xctestrunFile, xctestrunFileAbsolutePath)
             val device = Device("iphone8", "11.2", "c", "d")
             assert(xcodeVersion ?: "", "9.2")
             assert(devices, listOf(device, device))
@@ -131,8 +134,8 @@ IosArgs
       project: projectFoo
       results-history-name: ios-history
       # iOS gcloud
-      test: $testPath
-      xctestrun-file: $xctestrunFile
+      test: $testAbsolutePath
+      xctestrun-file: $xctestrunFileAbsolutePath
       xcode-version: 9.2
       device:
         - model: iphone8
@@ -177,8 +180,8 @@ IosArgs
             assert(projectId, "mockProjectId")
 
             // IosGcloudYml
-            assert(xctestrunZip, testPath)
-            assert(xctestrunFile, xctestrunFile)
+            assert(xctestrunZip, testAbsolutePath)
+            assert(xctestrunFile, xctestrunFileAbsolutePath)
             assert(devices, listOf(Device("iphone8", "11.2")))
 
             // FlankYml
@@ -224,8 +227,8 @@ IosArgs
         )
 
         with(iosArgs) {
-            assertThat(xctestrunZip).isEqualTo(testPath)
-            assertThat(xctestrunFile).isEqualTo(xctestrunFile)
+            assertThat(xctestrunZip).isEqualTo(testAbsolutePath)
+            assertThat(xctestrunFile).isEqualTo(xctestrunFileAbsolutePath)
         }
     }
 }
