@@ -20,6 +20,7 @@ import ftl.args.ArgsToString.mapToString
 import ftl.args.yml.AndroidGcloudYml
 import ftl.args.yml.FlankYml
 import ftl.args.yml.GcloudYml
+import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.useMock
@@ -35,7 +36,8 @@ class AndroidArgs(
     gcloudYml: GcloudYml,
     androidGcloudYml: AndroidGcloudYml,
     flankYml: FlankYml,
-    override val data: String
+    override val data: String,
+    val cli: AndroidRunCommand = AndroidRunCommand()
 ) : IArgs {
     private val gcloud = gcloudYml.gcloud
     override val resultsBucket: String
@@ -46,14 +48,16 @@ class AndroidArgs(
     override val resultsHistoryName = gcloud.resultsHistoryName
 
     private val androidGcloud = androidGcloudYml.gcloud
-    var appApk = androidGcloud.app
-    var testApk = androidGcloud.test
+    val appApk = cli.app ?: androidGcloud.app
+    val testApk = cli.test ?: androidGcloud.test
     val autoGoogleLogin = androidGcloud.autoGoogleLogin
-    val useOrchestrator = androidGcloud.useOrchestrator
+
+    // We use not() on noUseOrchestrator because if the flag is on, useOrchestrator needs to be false
+    val useOrchestrator = cli.useOrchestrator ?: cli.noUseOrchestrator?.not() ?: androidGcloud.useOrchestrator
     val environmentVariables = androidGcloud.environmentVariables
     val directoriesToPull = androidGcloud.directoriesToPull
     val performanceMetrics = androidGcloud.performanceMetrics
-    val testTargets = androidGcloud.testTargets
+    val testTargets = cli.testTargets ?: androidGcloud.testTargets
     val devices = androidGcloud.device
 
     private val flank = flankYml.flank
@@ -163,9 +167,9 @@ ${listToString(testTargetsAlwaysRun)}
             mergeYmlMaps(GcloudYml, AndroidGcloudYml, FlankYml)
         }
 
-        fun load(data: Path): AndroidArgs = load(String(Files.readAllBytes(data)))
+        fun load(data: Path, cli: AndroidRunCommand = AndroidRunCommand()): AndroidArgs = load(String(Files.readAllBytes(data)), cli)
 
-        fun load(data: String): AndroidArgs {
+        fun load(data: String, cli: AndroidRunCommand = AndroidRunCommand()): AndroidArgs {
             val flankYml = yamlMapper.readValue(data, FlankYml::class.java)
             val gcloudYml = yamlMapper.readValue(data, GcloudYml::class.java)
             val androidGcloudYml = yamlMapper.readValue(data, AndroidGcloudYml::class.java)
@@ -174,7 +178,8 @@ ${listToString(testTargetsAlwaysRun)}
                 gcloudYml,
                 androidGcloudYml,
                 flankYml,
-                data
+                data,
+                cli
             )
         }
     }

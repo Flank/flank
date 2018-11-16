@@ -27,23 +27,8 @@ class AndroidRunCommandTest {
         CommandLine.run<Runnable>(android, System.out, "-h")
 
         val output = systemOutRule.log
-        Truth.assertThat(output).startsWith(
-            "Run tests on Firebase Test Lab\n" +
-                "\n" +
-                "run [-h] [-c=<configPath>]\n" +
-                "\n" +
-                "Description:\n" +
-                "\n" +
-                "Uploads the app and test apk to GCS.\n" +
-                "Runs the espresso tests using orchestrator.\n" +
-                "Configuration is read from flank.yml\n" +
-                "\n" +
-                "\n" +
-                "Options:\n" +
-                "  -c, --config=<configPath>\n" +
-                "               YAML config file path\n" +
-                "  -h, --help   Prints this help message\n"
-        )
+        Truth.assertThat(output).startsWith("Run tests on Firebase Test Lab")
+        Truth.assertThat(output).contains("run [-h]")
 
         assertThat(android.usageHelpRequested).isTrue()
     }
@@ -66,5 +51,58 @@ class AndroidRunCommandTest {
         assertThat(cmd.usageHelpRequested).isFalse()
         cmd.usageHelpRequested = true
         assertThat(cmd.usageHelpRequested).isTrue()
+    }
+
+    @Test
+    fun empty_params_parse_null() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse()
+        assertThat(cmd.app).isEqualTo(null)
+        assertThat(cmd.test).isEqualTo(null)
+        assertThat(cmd.testTargets).isEqualTo(null)
+        assertThat(cmd.useOrchestrator).isEqualTo(null)
+    }
+
+    @Test
+    fun app_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--app", "myApp.apk")
+        assertThat(cmd.app).isEqualTo("myApp.apk")
+    }
+
+    @Test
+    fun test_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--test", "myTestApp.apk")
+        assertThat(cmd.test).isEqualTo("myTestApp.apk")
+    }
+
+    @Test
+    fun testTargets_parse() {
+        val testTargets = "--test-targets"
+        val params = arrayOf(testTargets, "class com.foo.Clazz", testTargets, "package com.my.package")
+        val cmd = AndroidRunCommand()
+
+        CommandLine(cmd).parse(*params)
+
+        assertThat(cmd.testTargets).isNotNull()
+        assertThat(cmd.testTargets?.size).isEqualTo(2)
+        assertThat(cmd.testTargets).isEqualTo(params.filter { it != testTargets })
+    }
+
+    @Test
+    fun useOrchestrator_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--use-orchestrator")
+
+        assertThat(cmd.useOrchestrator).isTrue()
+    }
+
+    @Test
+    fun noUseOrchestrator_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--no-use-orchestrator")
+
+        assertThat(cmd.noUseOrchestrator).isTrue()
     }
 }

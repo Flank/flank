@@ -1,6 +1,7 @@
 package ftl.args
 
 import com.google.common.truth.Truth.assertThat
+import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
@@ -9,6 +10,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
+import picocli.CommandLine
 
 @RunWith(FlankTestRunner::class)
 class AndroidArgsTest {
@@ -115,6 +117,8 @@ class AndroidArgsTest {
     @Test
     fun androidArgs() {
         val androidArgs = AndroidArgs.load(androidNonDefault)
+        val expectedAppApk = appApk
+        val expectedTestApk = testApk
 
         with(androidArgs) {
             // GcloudYml
@@ -126,8 +130,8 @@ class AndroidArgsTest {
             assert(resultsHistoryName ?: "", "android-history")
 
             // AndroidGcloudYml
-            assert(appApk, appApkAbsolutePath)
-            assert(testApk, testApkAbsolutePath)
+            assert(appApk, expectedAppApk)
+            assert(testApk, expectedTestApk)
             assert(autoGoogleLogin, false)
             assert(useOrchestrator, false)
             assert(environmentVariables, linkedMapOf("clearPackageData" to "true", "randomEnvVar" to "false"))
@@ -277,5 +281,100 @@ AndroidArgs
 
         assertThat(androidArgs.appApk).isEqualTo(appApkAbsolutePath)
         assertThat(androidArgs.testApk).isEqualTo(testApkAbsolutePath)
+    }
+
+    @Test
+    fun androidArgs_overrideAppFromCmdLine() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--app", testApk)
+
+        val androidArgs = AndroidArgs.load(
+            """
+        gcloud:
+          app: $appApk
+          test: $testApk
+      """,
+            cli
+        )
+
+        assertThat(androidArgs.appApk).isEqualTo(testApk)
+        assertThat(androidArgs.cli).isEqualTo(cli)
+    }
+
+    @Test
+    fun androidArgs_overrideTestFromCmdLine() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--test", appApk)
+
+        val androidArgs = AndroidArgs.load(
+            """
+        gcloud:
+          app: $appApk
+          test: $testApk
+      """,
+            cli
+        )
+
+        assertThat(androidArgs.testApk).isEqualTo(appApk)
+        assertThat(androidArgs.cli).isEqualTo(cli)
+    }
+
+    @Test
+    fun androidArgs_overrideTestTargetsFromCmdLine() {
+        val cli = AndroidRunCommand()
+        val testTarget = "class com.foo.ClassName"
+
+        CommandLine(cli).parse("--test-targets", testTarget)
+
+        val androidArgs = AndroidArgs.load(
+            """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          test-targets:
+            - class com.example.app.ExampleUiTest#testPasses
+            - class com.example.app.ExampleUiTest#testFails
+      """,
+            cli
+        )
+
+        assertThat(androidArgs.testTargets.size).isEqualTo(1)
+        assertThat(androidArgs.testTargets).isEqualTo(listOf(testTarget))
+    }
+
+    @Test
+    fun androidArgs_overrideUseOrchestratorFromCmdLine() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--use-orchestrator")
+
+        val androidArgs = AndroidArgs.load(
+            """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          use-orchestrator: false
+      """,
+            cli
+        )
+
+        assertThat(androidArgs.useOrchestrator).isTrue()
+    }
+
+    @Test
+    fun androidArgs_overrideNoUseOrchestratorFromCmdLine() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--no-use-orchestrator")
+
+        val androidArgs = AndroidArgs.load(
+            """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          use-orchestrator: true
+      """,
+            cli
+        )
+
+        assertThat(androidArgs.useOrchestrator).isFalse()
     }
 }

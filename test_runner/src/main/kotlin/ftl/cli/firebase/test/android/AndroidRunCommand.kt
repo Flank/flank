@@ -23,8 +23,9 @@ Configuration is read from flank.yml
 """]
 )
 class AndroidRunCommand : Runnable {
+
     override fun run() {
-        val config = AndroidArgs.load(Paths.get(configPath))
+        val config = AndroidArgs.load(Paths.get(configPath), this)
         runBlocking {
             TestRunner.newRun(config)
         }
@@ -35,4 +36,29 @@ class AndroidRunCommand : Runnable {
 
     @Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
     var usageHelpRequested: Boolean = false
+
+    @Option(names = ["--app"], description = ["""The path to the application binary file.
+        |The path may be in the local filesystem or in Google Cloud Storage using gs:// notation."""])
+    var app: String? = null
+
+    @Option(names = ["--test"], description = ["""The path to the binary file containing instrumentation tests.
+        |The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://."""])
+    var test: String? = null
+
+    @Option(names = ["--test-targets"], description = ["""A list of one or more test target filters to apply
+         (default: run all test targets). Each target filter must be fully qualified with the package name, class name,
+          or test annotation desired. Any test filter supported by am instrument -e … is supported.
+          See https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner for more
+          information."""])
+    var testTargets: List<String>? = null
+
+    @Option(names = ["--use-orchestrator"], description = ["""Whether each test runs in its own Instrumentation instance
+        |with the Android Test Orchestrator (default: Orchestrator is used. To disable, use --no-use-orchestrator).
+        |Orchestrator is only compatible with AndroidJUnitRunner v1.0 or higher. See
+        |https://developer.android.com/training/testing/junit-runner.html#using-android-test-orchestrator for more
+        |information about Android Test Orchestrator."""])
+    var useOrchestrator: Boolean? = null
+
+    @Option(names = ["--no-use-orchestrator"], description = ["""Orchestrator is not used. See --use-orchestrator."""])
+    var noUseOrchestrator: Boolean? = null
 }
