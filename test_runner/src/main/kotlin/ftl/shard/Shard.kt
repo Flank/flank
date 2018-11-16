@@ -30,7 +30,7 @@ object Shard {
         val testcases = mutableListOf<TestMethod>()
         runningTests.forEach {
             // junitMap doesn't include `class `, we remove it to search in the map
-            val key = it.replace("class ", "")
+            val key = it.replaceFirst("class ", "")
             val time = junitMap[key] ?: 10.0
             testcases.add(TestMethod(it, time))
         }

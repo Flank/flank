@@ -63,11 +63,8 @@ class IosArgs(
             testTargets
         }
 
-        ArgsHelper.calculateShards(
-            testMethodsToShard = testsToShard,
-            testMethodsAlwaysRun = testTargetsAlwaysRun,
-            testShards = testShards
-            )
+        // TODO: Use Shard.calculateShardsByTime
+        emptyList<List<String>>()
     }
 
     init {
