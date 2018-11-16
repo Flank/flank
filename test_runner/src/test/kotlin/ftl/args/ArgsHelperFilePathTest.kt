@@ -97,7 +97,6 @@ class ArgsHelperFilePathTest {
         Truth.assertThat(actual).isEqualTo(expected)
     }
 
-
     @Test(expected = RuntimeException::class)
     fun wildCardsInFileNameWithMultipleMatches() {
         makeTmpFile("/tmp/tmp1/app-debug.apk")
@@ -105,7 +104,6 @@ class ArgsHelperFilePathTest {
         val inputPath = "/tmp/tmp1/app*debug.apk"
         ArgsHelper.evaluateFilePath(inputPath)
     }
-
 
     @Test(expected = RuntimeException::class)
     fun wildCardsInFilePathWithMultipleMatches() {

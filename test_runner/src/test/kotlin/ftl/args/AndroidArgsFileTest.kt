@@ -17,7 +17,6 @@ import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
-import java.io.File
 import ftl.test.util.TestHelper.absolutePath
 
 @RunWith(FlankTestRunner::class)

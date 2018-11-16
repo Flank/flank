@@ -39,15 +39,11 @@ class ArgsFileVisitor(glob: String) : SimpleFileVisitor<Path>() {
     fun walk(searchPath: Path): List<Path> {
         val searchString = searchPath.toString()
         // /Users/tmp/code/flank/test_app/** => /Users/tmp/code/flank/test_app/
+        // /Users/tmp/code/*                 => /Users/tmp/code/
         val beforeGlob = Paths.get(searchString.substringBefore(SINGLE_GLOB))
         // must not follow links when resolving paths or /tmp turns into /private/tmp
         val realPath = beforeGlob.toRealPath(LinkOption.NOFOLLOW_LINKS)
-
-        val searchDepth = if (searchString.contains(RECURSE)) {
-            Integer.MAX_VALUE
-        } else {
-            1
-        }
+        val searchDepth = if (searchString.contains(RECURSE)) Integer.MAX_VALUE else 1
 
         Files.walkFileTree(realPath, EnumSet.of(FileVisitOption.FOLLOW_LINKS), searchDepth, this)
         return this.result
