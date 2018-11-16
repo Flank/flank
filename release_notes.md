@@ -1,5 +1,5 @@
 ## v4.1 (unreleased)
-- `app`, `test`, and `xctestrun-file` now support `~`, environment variables, and globs (`*`, `**`) when resolving paths. #386
+- `app`, `test`, and `xctestrun-file` now support `~`, environment variables, and globs (`*`, `**`) when resolving paths. [#386](https://github.com/TestArmada/flank/pull/386)
 - Update `flank android run` to support `--app`, `--test`, `--test-targets`, `--use-orchestrator` and `--no-use-orchestrator`.
 
 ## v4.0.0
