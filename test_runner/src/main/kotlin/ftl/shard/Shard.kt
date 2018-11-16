@@ -12,6 +12,15 @@ data class TestShard(
     val testMethods: MutableList<TestMethod>
 )
 
+/** List of shards containing test names as a string. */
+typealias StringShards = MutableList<MutableList<String>>
+
+fun List<TestShard>.stringShards(): StringShards {
+    return this.map { shard ->
+        shard.testMethods.map { it.name }.toMutableList()
+    }.toMutableList()
+}
+
 object Shard {
 
     // take in the XML with timing info then return list of shards

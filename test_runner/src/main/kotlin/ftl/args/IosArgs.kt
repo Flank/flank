@@ -61,10 +61,9 @@ class IosArgs(
             validTestMethods
         } else {
             testTargets
-        }
+        }.distinct()
 
-        // TODO: Use Shard.calculateShardsByTime
-        emptyList<List<String>>()
+        ArgsHelper.calculateShards(testsToShard, this)
     }
 
     init {

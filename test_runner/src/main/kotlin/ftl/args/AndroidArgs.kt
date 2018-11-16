@@ -9,7 +9,7 @@ import ftl.android.UnsupportedModelId
 import ftl.android.UnsupportedVersionId
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
-import ftl.args.ArgsHelper.convertShards
+import ftl.args.ArgsHelper.calculateShards
 import ftl.args.ArgsHelper.createGcsBucket
 import ftl.args.ArgsHelper.createJunitBucket
 import ftl.args.ArgsHelper.evaluateFilePath
@@ -27,8 +27,6 @@ import ftl.config.FtlConstants
 import ftl.config.FtlConstants.useMock
 import ftl.filter.TestFilters
 import ftl.gc.GcStorage
-import ftl.reports.xml.model.JUnitTestResult
-import ftl.shard.Shard
 import ftl.util.Utils
 import kotlinx.coroutines.runBlocking
 import java.nio.file.Files
@@ -80,8 +78,7 @@ class AndroidArgs(
         }
 
         val filteredTests = getTestMethods(testLocalApk)
-        val oldTestResult = GcStorage.downloadJunitXml(this) ?: JUnitTestResult(mutableListOf())
-        convertShards(Shard.calculateShardsByTime(filteredTests, oldTestResult, testShards)).toMutableList()
+        calculateShards(filteredTests, this)
     }
 
     init {
@@ -111,6 +108,7 @@ class AndroidArgs(
         val testFilter = TestFilters.fromTestTargets(testTargets)
         val filteredTests = allTestMethods
             .asSequence()
+            .distinct()
             .filter(testFilter.shouldRun)
             .map(TestMethod::testName)
             .map { "class $it" }
@@ -169,7 +167,8 @@ ${listToString(testTargetsAlwaysRun)}
             mergeYmlMaps(GcloudYml, AndroidGcloudYml, FlankYml)
         }
 
-        fun load(data: Path, cli: AndroidRunCommand = AndroidRunCommand()): AndroidArgs = load(String(Files.readAllBytes(data)), cli)
+        fun load(data: Path, cli: AndroidRunCommand = AndroidRunCommand()): AndroidArgs =
+            load(String(Files.readAllBytes(data)), cli)
 
         fun load(data: String, cli: AndroidRunCommand = AndroidRunCommand()): AndroidArgs {
             val flankYml = yamlMapper.readValue(data, FlankYml::class.java)

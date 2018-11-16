@@ -17,7 +17,10 @@ import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.config.FtlConstants.defaultCredentialPath
 import ftl.gc.GcStorage
-import ftl.shard.TestShard
+import ftl.reports.xml.model.JUnitTestResult
+import ftl.shard.Shard
+import ftl.shard.StringShards
+import ftl.shard.stringShards
 import ftl.util.Utils
 import java.io.File
 import java.net.URI
@@ -174,9 +177,21 @@ object ArgsHelper {
         return ArgsFileVisitor("glob:$filePath").walk(searchDir)
     }
 
-    fun convertShards(shards: List<TestShard>): List<List<String>> {
-        return shards.map { shard ->
-            shard.testMethods.map { it.name }
+    fun calculateShards(filteredTests: List<String>, args: IArgs): List<List<String>> {
+        val oldTestResult = GcStorage.downloadJunitXml(args) ?: JUnitTestResult(mutableListOf())
+        val shardsByTime = Shard.calculateShardsByTime(filteredTests, oldTestResult, args.testShards)
+
+        return testMethodsAlwaysRun(shardsByTime.stringShards(), args)
+    }
+
+    private fun testMethodsAlwaysRun(shards: StringShards, args: IArgs): StringShards {
+        val alwaysRun = args.testTargetsAlwaysRun
+
+        shards.forEach { shard ->
+            shard.removeAll(alwaysRun)
+            shard.addAll(0, alwaysRun)
         }
+
+        return shards
     }
 }

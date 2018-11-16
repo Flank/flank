@@ -38,7 +38,9 @@ tasks.withType<JacocoReport> {
 }
 
 tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions.allWarningsAsErrors = false
+    // https://devcenter.bitrise.io/builds/available-environment-variables/
+    val runningOnBitrise = System.getenv("BITRISE_IO") != null
+    kotlinOptions.allWarningsAsErrors = runningOnBitrise
 }
 
 apply {
