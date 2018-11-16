@@ -11,7 +11,6 @@ import ftl.reports.MatrixResultsReport
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAndroidXml
 import ftl.reports.xml.parseIosXml
-import ftl.reports.xml.xmlToString
 import ftl.util.ArtifactRegex
 import ftl.util.resolveLocalRunPath
 import java.io.File
@@ -100,11 +99,10 @@ object ReportManager {
     private fun processJunitXml(newTestResult: JUnitTestResult?, args: IArgs) {
         if (newTestResult == null) return
 
-        val oldXmlPath = GcStorage.downloadJunitXml(args)
-        val oldTestResult = if (oldXmlPath.isNotEmpty()) parseIosXml(oldXmlPath) else null
+        val oldTestResult = GcStorage.downloadJunitXml(args)
 
         newTestResult.mergeTestTimes(oldTestResult)
 
-        GcStorage.uploadJunitXml(newTestResult.xmlToString(), args)
+        GcStorage.uploadJunitXml(newTestResult, args)
     }
 }

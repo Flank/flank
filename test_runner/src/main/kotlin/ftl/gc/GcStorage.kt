@@ -9,6 +9,9 @@ import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
+import ftl.reports.xml.model.JUnitTestResult
+import ftl.reports.xml.parseIosXml
+import ftl.reports.xml.xmlToString
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
 import java.io.File
@@ -41,9 +44,8 @@ object GcStorage {
             runGcsPath = runGcsPath
         )
 
-    fun uploadJunitXml(localJunitXml: String, args: IArgs) {
+    fun uploadJunitXml(testResult: JUnitTestResult, args: IArgs) {
         if (args.junitGcsPath.isEmpty()) return
-        if (File(localJunitXml).exists().not()) return
 
         // bucket/path/to/object
         val rawPath = args.junitGcsPath.drop(GCS_PREFIX.length)
@@ -53,7 +55,7 @@ object GcStorage {
         val fileBlob = BlobInfo.newBuilder(bucket, name).build()
 
         try {
-            storage.create(fileBlob, Files.readAllBytes(Paths.get(localJunitXml)))
+            storage.create(fileBlob, testResult.xmlToString().toByteArray())
         } catch (e: Exception) {
             fatalError(e)
         }
@@ -80,8 +82,14 @@ object GcStorage {
         download(args.testApk)
 
     // junit xml may not exist. ignore error if it doesn't exist
-    fun downloadJunitXml(args: IArgs): String =
-        download(args.junitGcsPath, ignoreError = true)
+    fun downloadJunitXml(args: IArgs): JUnitTestResult? {
+        val oldXmlPath = download(args.junitGcsPath, ignoreError = true)
+        if (oldXmlPath.isNotEmpty()) {
+            return parseIosXml(Paths.get(oldXmlPath))
+        }
+
+        return null
+    }
 
     private fun upload(file: String, fileBytes: ByteArray, rootGcsBucket: String, runGcsPath: String): String {
         val fileName = Paths.get(file).fileName.toString()

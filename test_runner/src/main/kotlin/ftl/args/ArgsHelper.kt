@@ -11,16 +11,15 @@ import com.google.cloud.storage.BucketInfo
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageClass
 import com.google.cloud.storage.StorageOptions
-import com.google.common.math.IntMath
 import ftl.args.yml.IYmlMap
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.config.FtlConstants.defaultCredentialPath
 import ftl.gc.GcStorage
+import ftl.shard.TestShard
 import ftl.util.Utils
 import java.io.File
-import java.math.RoundingMode
 import java.net.URI
 import java.nio.file.Files
 import java.nio.file.Path
@@ -95,39 +94,10 @@ object ArgsHelper {
         if (validTestMethods.isEmpty()) Utils.fatalError("$from has no tests")
     }
 
-    fun calculateShards(
-        testMethodsToShard: Collection<String>,
-        testMethodsAlwaysRun: Collection<String>,
-        testShards: Int
-    ): List<List<String>> {
-        val testShardMethods = testMethodsToShard.distinct().toMutableList()
-        testShardMethods.removeAll(testMethodsAlwaysRun)
-
-        val oneTestPerChunk = testShards == -1
-        var chunkSize = IntMath.divide(testShardMethods.size, testShards, RoundingMode.UP)
-
-        if (oneTestPerChunk || chunkSize < 1) {
-            chunkSize = 1
-        }
-
-        val testShardChunks = testShardMethods.asSequence()
-            .chunked(chunkSize)
-            .map { testMethodsAlwaysRun + it }
-            .toList()
-
-        // Ensure we don't create more VMs than requested. VM count per run should be <= testShards
-        if (!oneTestPerChunk && testShardChunks.size > testShards) {
-            Utils.fatalError("Calculated chunks $testShardChunks is > requested $testShards testShards.")
-        }
-        if (testShardChunks.isEmpty()) Utils.fatalError("Failed to populate test shard chunks")
-
-        return testShardChunks
-    }
-
     fun createJunitBucket(projectId: String, junitGcsPath: String) {
         if (FtlConstants.useMock || junitGcsPath.isEmpty()) return
         val bucket = junitGcsPath.drop(GCS_PREFIX.length).substringBefore('/')
-        createGcsBucket(projectId, bucket)
+            createGcsBucket(projectId, bucket)
     }
 
     fun createGcsBucket(projectId: String, bucket: String): String {
@@ -182,6 +152,7 @@ object ArgsHelper {
 
     // https://stackoverflow.com/a/2821201/2450315
     private val envRegex = Pattern.compile("\\$([a-zA-Z_]+[a-zA-Z0-9_]*)")
+
     private fun evaluateEnvVars(text: String): String {
         val buffer = StringBuffer()
         val matcher = envRegex.matcher(text)
@@ -201,5 +172,11 @@ object ArgsHelper {
         val searchDir = Paths.get(filePath).parent
 
         return ArgsFileVisitor("glob:$filePath").walk(searchDir)
+    }
+
+    fun convertShards(shards: List<TestShard>): List<List<String>> {
+        return shards.map { shard ->
+            shard.testMethods.map { it.name }
+        }
     }
 }
