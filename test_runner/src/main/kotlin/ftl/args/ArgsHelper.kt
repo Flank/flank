@@ -50,7 +50,7 @@ object ArgsHelper {
 
     fun evaluateFilePath(filePath: String): String {
         var file = filePath.trim().replaceFirst(Regex("^~"), System.getProperty("user.home"))
-        file = substituteEnvVars(file)
+        file = evaluateEnvVars(file)
         // avoid File(..).canonicalPath since that will resolve symlinks
         file = Paths.get(file).toAbsolutePath().normalize().toString()
 
@@ -63,7 +63,8 @@ object ArgsHelper {
         } else if (filePaths.isEmpty()) {
             Utils.fatalError("'$file' not found ($filePath)")
         }
-        return filePaths[0].toAbsolutePath().toString()
+
+        return filePaths.first().toAbsolutePath().normalize().toString()
     }
 
     fun assertGcsFileExists(uri: String) {
@@ -175,16 +176,16 @@ object ArgsHelper {
 
     // https://stackoverflow.com/a/2821201/2450315
     private val envRegex = Pattern.compile("\\$([a-zA-Z_]+[a-zA-Z0-9_]*)")
-    private fun substituteEnvVars(text: String): String {
+    private fun evaluateEnvVars(text: String): String {
         val buffer = StringBuffer()
         val matcher = envRegex.matcher(text)
         while (matcher.find()) {
             val envName = matcher.group(1)
-            val envValue = System.getenv(envName)
+            val envValue: String? = System.getenv(envName)
             if (envValue == null) {
                 println("WARNING: $envName not found")
             }
-            matcher.appendReplacement(buffer, envValue)
+            matcher.appendReplacement(buffer, envValue ?: "")
         }
         matcher.appendTail(buffer)
         return buffer.toString()

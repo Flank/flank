@@ -69,6 +69,15 @@ class ArgsHelperFilePathTest {
     }
 
     @Test
+    fun evaluateSingleGlobBeforeDouble() {
+        val expected = makeTmpFile("/tmp/tmp1/tmp2/singleglob/app-debug.apk")
+        val inputPath = "/tmp/*/**/singleglob/app-debug.apk"
+        val actual = ArgsHelper.evaluateFilePath(inputPath)
+
+        Truth.assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
     fun evaluateRelativeAndWildCardsInFilePath() {
         makeTmpFile("/tmp/tmp1/tmp2/tmp3/tmp4/tmp5/tmp6/tmp7/tmp8/tmp9/app-debug.apk")
         val expected = makeTmpFile("/tmp/tmp1/tmp2/tmp3/tmp4/tmp5/tmp6/tmp7/tmp8/tmp9/tmp10/app-debug.apk")

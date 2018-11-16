@@ -18,6 +18,7 @@ import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import java.io.File
+import ftl.test.util.TestHelper.absolutePath
 
 @RunWith(FlankTestRunner::class)
 class AndroidArgsFileTest {
@@ -43,8 +44,8 @@ class AndroidArgsFileTest {
     private val testName = "class com.example.app.ExampleUiTest#testPasses"
     private val directoryToPull = "/sdcard/screenshots"
 
-    private val appApkAbsolutePath = File(appApkLocal).absolutePath
-    private val testApkAbsolutePath = File(testApkLocal).absolutePath
+    private val appApkAbsolutePath = appApkLocal.absolutePath()
+    private val testApkAbsolutePath = testApkLocal.absolutePath()
     // NOTE: Change working dir to '%MODULE_WORKING_DIR%' in IntelliJ to match gradle for this test to pass.
     @Test
     fun localConfigLoadsSuccessfully() {
