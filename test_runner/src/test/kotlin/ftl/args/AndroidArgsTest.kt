@@ -117,8 +117,6 @@ class AndroidArgsTest {
     @Test
     fun androidArgs() {
         val androidArgs = AndroidArgs.load(androidNonDefault)
-        val expectedAppApk = appApk
-        val expectedTestApk = testApk
 
         with(androidArgs) {
             // GcloudYml
@@ -130,8 +128,8 @@ class AndroidArgsTest {
             assert(resultsHistoryName ?: "", "android-history")
 
             // AndroidGcloudYml
-            assert(appApk, expectedAppApk)
-            assert(testApk, expectedTestApk)
+            assert(appApk, appApkAbsolutePath)
+            assert(testApk, testApkAbsolutePath)
             assert(autoGoogleLogin, false)
             assert(useOrchestrator, false)
             assert(environmentVariables, linkedMapOf("clearPackageData" to "true", "randomEnvVar" to "false"))
@@ -297,7 +295,7 @@ AndroidArgs
             cli
         )
 
-        assertThat(androidArgs.appApk).isEqualTo(testApk)
+        assertThat(androidArgs.appApk).isEqualTo(testApkAbsolutePath)
         assertThat(androidArgs.cli).isEqualTo(cli)
     }
 
@@ -315,7 +313,7 @@ AndroidArgs
             cli
         )
 
-        assertThat(androidArgs.testApk).isEqualTo(appApk)
+        assertThat(androidArgs.testApk).isEqualTo(appApkAbsolutePath)
         assertThat(androidArgs.cli).isEqualTo(cli)
     }
 

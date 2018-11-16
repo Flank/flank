@@ -48,8 +48,8 @@ class AndroidArgs(
     override val resultsHistoryName = gcloud.resultsHistoryName
 
     private val androidGcloud = androidGcloudYml.gcloud
-    val appApk = cli.app ?: androidGcloud.app
-    val testApk = cli.test ?: androidGcloud.test
+    var appApk = cli.app ?: androidGcloud.app
+    var testApk = cli.test ?: androidGcloud.test
     val autoGoogleLogin = androidGcloud.autoGoogleLogin
 
     // We use not() on noUseOrchestrator because if the flag is on, useOrchestrator needs to be false

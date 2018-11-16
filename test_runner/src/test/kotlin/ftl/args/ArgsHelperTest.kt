@@ -10,6 +10,7 @@ import ftl.args.ArgsHelper.validateTestMethods
 import ftl.args.yml.GcloudYml
 import ftl.args.yml.IosGcloudYml
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.TestHelper.absolutePath
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.EnvironmentVariables
@@ -17,13 +18,6 @@ import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import java.io.File
-import java.io.IOException
-import java.nio.file.FileVisitResult
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
-import java.nio.file.SimpleFileVisitor
-import java.nio.file.attribute.BasicFileAttributes
 
 @RunWith(FlankTestRunner::class)
 class ArgsHelperTest {
@@ -179,8 +173,10 @@ class ArgsHelperTest {
         val testApkRelativePath = "../test_app/apks/app-debug-androidTest.apk"
         val testApkBlobPath = "../test_app/**/app-debug-*.apk"
 
-        assertThat(File(testApkRelativePath).absolutePath)
-            .isEqualTo(ArgsHelper.evaluateFilePath(testApkBlobPath))
+        val actual = ArgsHelper.evaluateFilePath(testApkBlobPath)
+        val expected = testApkRelativePath.absolutePath()
+
+        assertThat(actual).isEqualTo(expected)
     }
 
     private fun makeTmpFile(filePath: String): String {
@@ -193,29 +189,6 @@ class ArgsHelperTest {
         }
 
         return file.absolutePath
-    }
-
-    private fun String.absolutePath(): String {
-        return File(this).absolutePath
-    }
-
-    @Test
-    fun tmpTest() {
-        Files.walkFileTree(Paths.get("/tmp"), object : SimpleFileVisitor<Path>() {
-            @Throws(IOException::class)
-            override fun visitFile(path: Path, attrs: BasicFileAttributes): FileVisitResult {
-                 // hits '/tmp' once and doesn't iterate through the files
-                return FileVisitResult.CONTINUE
-            }
-
-            override fun visitFileFailed(file: Path?, exc: IOException?): FileVisitResult {
-                return FileVisitResult.CONTINUE
-            }
-
-            override fun preVisitDirectory(dir: Path?, attrs: BasicFileAttributes?): FileVisitResult {
-                return FileVisitResult.CONTINUE
-            }
-        })
     }
 
     @Test
@@ -232,10 +205,10 @@ class ArgsHelperTest {
     fun evaluateEnvVarInFilePath() {
         environmentVariables.set("TEST_APK_DIR", "test_app/apks")
         val testApkPath = "../\$TEST_APK_DIR/app-debug-androidTest.apk"
-        val expectedPath = "../test_app/apks/app-debug-androidTest.apk".absolutePath()
+        val actual = ArgsHelper.evaluateFilePath(testApkPath)
+        val expected = "../test_app/apks/app-debug-androidTest.apk".absolutePath()
 
-        assertThat(expectedPath)
-            .isEqualTo(ArgsHelper.evaluateFilePath(testApkPath))
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test(expected = java.nio.file.NoSuchFileException::class)
