@@ -1,6 +1,7 @@
 package ftl.shard
 
 import ftl.reports.xml.model.JUnitTestResult
+import kotlin.math.roundToInt
 
 data class TestMethod(
     val name: String,
@@ -80,7 +81,7 @@ object Shard {
         val cacheHit = allTests - cacheMiss
         val cachePercent = cacheHit / allTests * 100
         println("  Smart Flank cache hit: $cachePercent% ($cacheHit / $allTests)")
-        println("  Shard times: " + shards.map { it.time }.joinToString(", ") + "\n")
+        println("  Shard times: " + shards.map { it.time.roundToInt() }.joinToString(", ") + "\n")
 
         return shards
     }
