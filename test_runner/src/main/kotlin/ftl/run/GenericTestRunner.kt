@@ -60,8 +60,7 @@ object GenericTestRunner {
 
         val result = StringBuilder()
         result.appendln(
-            "  $testsCount test${s(testsCount)} / $shardCount shard${s(shardCount)} = " +
-                "$testsPerShard test${s(testsPerShard)} per shard"
+            "  $testsCount test${s(testsCount)} / $shardCount shard${s(shardCount)}"
         )
 
         if (runCount > 1) {

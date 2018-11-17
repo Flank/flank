@@ -24,7 +24,11 @@ fun List<TestShard>.stringShards(): StringShards {
 object Shard {
 
     // take in the XML with timing info then return list of shards
-    fun calculateShardsByTime(runningTests: List<String>, testResult: JUnitTestResult, maxShards: Int): List<TestShard> {
+    fun calculateShardsByTime(
+        runningTests: List<String>,
+        testResult: JUnitTestResult,
+        maxShards: Int
+    ): List<TestShard> {
 
         val junitMap = mutableMapOf<String, Double>()
 
@@ -36,11 +40,18 @@ object Shard {
             }
         }
 
+        var cacheMiss = 0
         val testcases = mutableListOf<TestMethod>()
         runningTests.forEach {
             // junitMap doesn't include `class `, we remove it to search in the map
             val key = it.replaceFirst("class ", "")
-            val time = junitMap[key] ?: 10.0
+            val previousTime = junitMap[key]
+            val time = previousTime ?: 10.0
+
+            if (previousTime == null) {
+                cacheMiss += 1
+            }
+            
             testcases.add(TestMethod(it, time))
         }
 
@@ -64,6 +75,12 @@ object Shard {
             // Sort the shards to keep the most empty shard first
             shards = shards.sortedBy { it.time }
         }
+
+        val allTests = runningTests.size
+        val cacheHit = allTests - cacheMiss
+        val cachePercent = cacheHit / allTests * 100
+        println("  Smart Flank cache hit: $cachePercent% ($cacheHit / $allTests)")
+        println("  Shard times: " + shards.map { it.time }.joinToString(", ") + "\n")
 
         return shards
     }
