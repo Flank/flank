@@ -55,7 +55,6 @@ object GenericTestRunner {
     fun beforeRunMessage(args: IArgs): String {
         val runCount = args.repeatTests
         val shardCount = args.testShardChunks.size
-        val testsPerShard = args.testShardChunks.first().size
         val testsCount = args.testShardChunks.sumBy { it.size }
 
         val result = StringBuilder()
