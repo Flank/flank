@@ -36,7 +36,7 @@ object Shard {
         // Create a map with information from previous junit run
         testResult.testsuites?.forEach { testsuite ->
             testsuite.testcases?.forEach { testcase ->
-                val key = "${testsuite.name}${testcase.classname}#${testcase.name}".trim()
+                val key = "${testcase.classname}#${testcase.name.replaceFirst("()", "")}".trim()
                 junitMap[key] = testcase.time.toDouble()
             }
         }
@@ -45,7 +45,7 @@ object Shard {
         val testcases = mutableListOf<TestMethod>()
         runningTests.forEach {
             // junitMap doesn't include `class `, we remove it to search in the map
-            val key = it.replaceFirst("class ", "")
+            val key = it.replaceFirst("class ", "").replaceFirst("/", "#")
             val previousTime = junitMap[key]
             val time = previousTime ?: 10.0
 
