@@ -108,10 +108,10 @@ class ShardTest {
     @Test
     fun performance_calculateShardsByTime() {
         val testsToRun = mutableListOf<String>()
-        repeat(1_000_000) { index -> testsToRun.add("$index/$index")}
+        repeat(1_000_000) { index -> testsToRun.add("$index/$index") }
 
         val nano = measureNanoTime {
-           Shard.calculateShardsByTime(testsToRun, JUnitTestResult(null), mockArgs(4))
+            Shard.calculateShardsByTime(testsToRun, JUnitTestResult(null), mockArgs(4))
         }
 
         val ms = TimeUnit.NANOSECONDS.toMillis(nano)
