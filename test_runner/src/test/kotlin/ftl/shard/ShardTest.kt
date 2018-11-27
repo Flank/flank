@@ -11,6 +11,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
+import java.util.concurrent.TimeUnit
+import kotlin.system.measureNanoTime
 
 @RunWith(FlankTestRunner::class)
 class ShardTest {
@@ -101,5 +103,19 @@ class ShardTest {
         assertThat(ordered[1].testMethods.size).isEqualTo(1)
         assertThat(ordered[2].testMethods.size).isEqualTo(1)
         assertThat(ordered[3].testMethods.size).isEqualTo(3)
+    }
+
+    @Test
+    fun performance_calculateShardsByTime() {
+        val testsToRun = mutableListOf<String>()
+        repeat(1_000_000) { index -> testsToRun.add("$index/$index")}
+
+        val nano = measureNanoTime {
+           Shard.calculateShardsByTime(testsToRun, JUnitTestResult(null), mockArgs(4))
+        }
+
+        val ms = TimeUnit.NANOSECONDS.toMillis(nano)
+        println("Shards calculated in $ms ms")
+        assertThat(ms).isLessThan(5000)
     }
 }
