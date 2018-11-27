@@ -9,9 +9,13 @@ import java.nio.file.Paths
 
 object Xctestrun {
 
+    private fun String.isMetadata(): Boolean {
+        return this.contentEquals("__xctestrun_metadata__")
+    }
+
     // Parses all tests for a given target
     private fun testsForTarget(testDictionary: NSDictionary, testTarget: String, testRoot: String): List<String> {
-        if (testTarget.contentEquals("__xctestrun_metadata__")) return emptyList()
+        if (testTarget.isMetadata()) return emptyList()
         val productPaths = (testDictionary["DependentProductPaths"] as NSArray)
         for (product in productPaths.array) {
             val productString = product.toString()
@@ -93,6 +97,7 @@ object Xctestrun {
     fun rewrite(root: NSDictionary, methods: Collection<String>): ByteArray {
         val rootClone = root.clone()
         for (testTarget in rootClone.allKeys()) {
+            if (testTarget.isMetadata()) continue
             val testDictionary = (rootClone[testTarget] as NSDictionary)
             setOnlyTestIdentifiers(testDictionary, methods)
         }

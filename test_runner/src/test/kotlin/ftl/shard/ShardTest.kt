@@ -1,12 +1,15 @@
 package ftl.shard
 
 import com.google.common.truth.Truth.assertThat
+import ftl.args.IArgs
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
 import ftl.test.util.FlankTestRunner
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 
 @RunWith(FlankTestRunner::class)
 class ShardTest {
@@ -29,11 +32,18 @@ class ShardTest {
         return JUnitTestResult(mutableListOf(suite1, suite2))
     }
 
+    private fun mockArgs(testShards: Int): IArgs {
+        val mockArgs = mock(IArgs::class.java)
+        `when`(mockArgs.testShards).thenReturn(testShards)
+        return mockArgs
+    }
+
     @Test
     fun oneTestPerShard() {
         val reRunTestsToRun = listOf("a", "b", "c", "d", "e", "f", "g")
         val suite = sample()
-        val result = Shard.calculateShardsByTime(reRunTestsToRun, suite, 100)
+
+        val result = Shard.calculateShardsByTime(reRunTestsToRun, suite, mockArgs(100))
 
         assertThat(result.size).isEqualTo(7)
         result.forEach {
@@ -45,7 +55,7 @@ class ShardTest {
     fun sampleTest() {
         val reRunTestsToRun = listOf("a#a", "b#b", "c#c", "d#d", "e#e", "f#f", "g#g")
         val suite = sample()
-        val result = Shard.calculateShardsByTime(reRunTestsToRun, suite, 3)
+        val result = Shard.calculateShardsByTime(reRunTestsToRun, suite, mockArgs(3))
 
         assertThat(result.size).isEqualTo(3)
         result.forEach {
@@ -68,7 +78,7 @@ class ShardTest {
     @Test
     fun firstRun() {
         val testsToRun = listOf("a", "b", "c")
-        val result = Shard.calculateShardsByTime(testsToRun, JUnitTestResult(null), 2)
+        val result = Shard.calculateShardsByTime(testsToRun, JUnitTestResult(null), mockArgs(2))
 
         assertThat(result.size).isEqualTo(2)
         assertThat(result.sumByDouble { it.time }).isEqualTo(30.0)
@@ -81,7 +91,7 @@ class ShardTest {
     @Test
     fun mixedNewAndOld() {
         val testsToRun = listOf("a#a", "b#b", "c#c", "w", "y", "z")
-        val result = Shard.calculateShardsByTime(testsToRun, sample(), 4)
+        val result = Shard.calculateShardsByTime(testsToRun, sample(), mockArgs(4))
         assertThat(result.size).isEqualTo(4)
         assertThat(result.sumByDouble { it.time }).isEqualTo(37.0)
 

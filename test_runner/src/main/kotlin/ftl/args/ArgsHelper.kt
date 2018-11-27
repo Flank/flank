@@ -179,7 +179,7 @@ object ArgsHelper {
 
     fun calculateShards(filteredTests: List<String>, args: IArgs): List<List<String>> {
         val oldTestResult = GcStorage.downloadJunitXml(args) ?: JUnitTestResult(mutableListOf())
-        val shardsByTime = Shard.calculateShardsByTime(filteredTests, oldTestResult, args.testShards)
+        val shardsByTime = Shard.calculateShardsByTime(filteredTests, oldTestResult, args)
 
         return testMethodsAlwaysRun(shardsByTime.stringShards(), args)
     }
