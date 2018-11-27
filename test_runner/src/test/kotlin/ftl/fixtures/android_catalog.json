@@ -3,6 +3,7 @@
     "brand" : "OnePlus",
     "codename" : "A0001",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "A0001",
     "manufacturer" : "OnePlus",
     "name" : "OnePlus One",
@@ -10,12 +11,12 @@
     "screenX" : 1080,
     "screenY" : 1920,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "22" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "22" ]
   }, {
     "brand" : "Sony",
     "codename" : "D6503",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "D6503",
     "manufacturer" : "Sony",
     "name" : "Xperia Z2",
@@ -23,12 +24,12 @@
     "screenX" : 1080,
     "screenY" : 1920,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "21" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "21" ]
   }, {
     "brand" : "Sony",
     "codename" : "D6603",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "D6603",
     "manufacturer" : "Sony",
     "name" : "Xperia Z3",
@@ -37,11 +38,12 @@
     "screenY" : 1920,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
     "supportedVersionIds" : [ "21" ],
-    "formFactor" : "PHONE"
+    "tags" : [ "deprecated" ]
   }, {
     "brand" : "Sony",
     "codename" : "E5803",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "E5803",
     "manufacturer" : "Sony",
     "name" : "Xperia Z5 Compact",
@@ -49,12 +51,12 @@
     "screenX" : 720,
     "screenY" : 1280,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ],
-    "formFactor" : "PHONE"
+    "tags" : [ "deprecated" ]
   }, {
     "brand" : "Sony",
     "codename" : "F5121",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "F5121",
     "manufacturer" : "Sony",
     "name" : "Sony Xperia X",
@@ -62,12 +64,12 @@
     "screenX" : 1080,
     "screenY" : 1920,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ],
-    "formFactor" : "PHONE"
+    "tags" : [ "deprecated" ]
   }, {
     "brand" : "Sony",
     "codename" : "G8142",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "G8142",
     "manufacturer" : "Sony",
     "name" : "Sony XPERIA XZ Premium",
@@ -75,12 +77,12 @@
     "screenX" : 1080,
     "screenY" : 1920,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "25" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "25" ]
   }, {
     "brand" : "Sony",
     "codename" : "G8441",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "G8441",
     "manufacturer" : "Sony",
     "name" : "Xperia XZ1 Compact",
@@ -88,12 +90,12 @@
     "screenX" : 720,
     "screenY" : 1280,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "26" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "26" ]
   }, {
     "brand" : "HUAWEI",
     "codename" : "HWMHA",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "HWMHA",
     "manufacturer" : "Huawei",
     "name" : "Huawei Mate 9",
@@ -101,12 +103,12 @@
     "screenX" : 1080,
     "screenY" : 1920,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "24" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "24" ]
   }, {
     "brand" : "Google",
     "codename" : "Nexus10",
     "form" : "VIRTUAL",
+    "formFactor" : "TABLET",
     "id" : "Nexus10",
     "manufacturer" : "Samsung",
     "name" : "Nexus 10",
@@ -114,12 +116,12 @@
     "screenX" : 1600,
     "screenY" : 2560,
     "supportedAbis" : [ "x86" ],
-    "supportedVersionIds" : [ "19", "21", "22" ],
-    "formFactor" : "TABLET"
+    "supportedVersionIds" : [ "19", "21", "22" ]
   }, {
     "brand" : "Google",
     "codename" : "Nexus4",
     "form" : "VIRTUAL",
+    "formFactor" : "PHONE",
     "id" : "Nexus4",
     "manufacturer" : "LG",
     "name" : "Nexus 4",
@@ -127,12 +129,12 @@
     "screenX" : 768,
     "screenY" : 1280,
     "supportedAbis" : [ "x86" ],
-    "supportedVersionIds" : [ "19", "21", "22" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "19", "21", "22" ]
   }, {
     "brand" : "Google",
     "codename" : "Nexus5",
     "form" : "VIRTUAL",
+    "formFactor" : "PHONE",
     "id" : "Nexus5",
     "manufacturer" : "LG",
     "name" : "Nexus 5",
@@ -140,12 +142,12 @@
     "screenX" : 1080,
     "screenY" : 1920,
     "supportedAbis" : [ "x86", "23:armeabi", "23:armeabi-v7a" ],
-    "supportedVersionIds" : [ "19", "21", "22", "23" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "19", "21", "22", "23" ]
   }, {
     "brand" : "Google",
     "codename" : "Nexus5X",
     "form" : "VIRTUAL",
+    "formFactor" : "PHONE",
     "id" : "Nexus5X",
     "manufacturer" : "LG",
     "name" : "Nexus 5X",
@@ -153,12 +155,12 @@
     "screenX" : 1080,
     "screenY" : 1920,
     "supportedAbis" : [ "x86", "23:armeabi", "23:armeabi-v7a", "24:armeabi", "24:armeabi-v7a", "25:armeabi", "25:armeabi-v7a", "26:armeabi", "26:armeabi-v7a" ],
-    "supportedVersionIds" : [ "23", "24", "25", "26" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "23", "24", "25", "26" ]
   }, {
     "brand" : "Google",
     "codename" : "Nexus6",
     "form" : "VIRTUAL",
+    "formFactor" : "PHONE",
     "id" : "Nexus6",
     "manufacturer" : "Motorola",
     "name" : "Nexus 6",
@@ -166,12 +168,12 @@
     "screenX" : 1440,
     "screenY" : 2560,
     "supportedAbis" : [ "x86", "23:armeabi", "23:armeabi-v7a", "24:armeabi", "24:armeabi-v7a", "25:armeabi", "25:armeabi-v7a" ],
-    "supportedVersionIds" : [ "21", "22", "23", "24", "25" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "21", "22", "23", "24", "25" ]
   }, {
     "brand" : "Google",
     "codename" : "Nexus6P",
     "form" : "VIRTUAL",
+    "formFactor" : "PHONE",
     "id" : "Nexus6P",
     "manufacturer" : "Google",
     "name" : "Nexus 6P",
@@ -179,12 +181,12 @@
     "screenX" : 1440,
     "screenY" : 2560,
     "supportedAbis" : [ "x86", "23:armeabi", "23:armeabi-v7a", "24:armeabi", "24:armeabi-v7a", "25:armeabi", "25:armeabi-v7a", "26:armeabi", "26:armeabi-v7a", "27:armeabi", "27:armeabi-v7a" ],
-    "supportedVersionIds" : [ "23", "24", "25", "26", "27" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "23", "24", "25", "26", "27" ]
   }, {
     "brand" : "Google",
     "codename" : "Nexus7",
     "form" : "VIRTUAL",
+    "formFactor" : "TABLET",
     "id" : "Nexus7",
     "manufacturer" : "Asus",
     "name" : "Nexus 7 (2012)",
@@ -192,12 +194,12 @@
     "screenX" : 800,
     "screenY" : 1280,
     "supportedAbis" : [ "x86" ],
-    "supportedVersionIds" : [ "19", "21", "22" ],
-    "formFactor" : "TABLET"
+    "supportedVersionIds" : [ "19", "21", "22" ]
   }, {
     "brand" : "Generic",
     "codename" : "Nexus7_clone_16_9",
     "form" : "VIRTUAL",
+    "formFactor" : "TABLET",
     "id" : "Nexus7_clone_16_9",
     "manufacturer" : "Generic",
     "name" : "Nexus7 clone, DVD 16:9 aspect ratio",
@@ -206,12 +208,12 @@
     "screenY" : 1280,
     "supportedAbis" : [ "x86", "23:armeabi", "23:armeabi-v7a", "24:armeabi", "24:armeabi-v7a", "25:armeabi", "25:armeabi-v7a", "26:armeabi", "26:armeabi-v7a" ],
     "supportedVersionIds" : [ "23", "24", "25", "26" ],
-    "tags" : [ "beta" ],
-    "formFactor" : "TABLET"
+    "tags" : [ "beta" ]
   }, {
     "brand" : "Google",
     "codename" : "Nexus9",
     "form" : "VIRTUAL",
+    "formFactor" : "TABLET",
     "id" : "Nexus9",
     "manufacturer" : "HTC",
     "name" : "Nexus 9",
@@ -219,12 +221,12 @@
     "screenX" : 1536,
     "screenY" : 2048,
     "supportedAbis" : [ "x86", "23:armeabi", "23:armeabi-v7a", "24:armeabi", "24:armeabi-v7a", "25:armeabi", "25:armeabi-v7a" ],
-    "supportedVersionIds" : [ "21", "22", "23", "24", "25" ],
-    "formFactor" : "TABLET"
+    "supportedVersionIds" : [ "21", "22", "23", "24", "25" ]
   }, {
     "brand" : "Generic",
     "codename" : "NexusLowRes",
     "form" : "VIRTUAL",
+    "formFactor" : "PHONE",
     "id" : "NexusLowRes",
     "manufacturer" : "Generic",
     "name" : "Low-resolution MDPI phone",
@@ -232,12 +234,12 @@
     "screenX" : 360,
     "screenY" : 640,
     "supportedAbis" : [ "x86", "23:armeabi", "23:armeabi-v7a", "24:armeabi", "24:armeabi-v7a", "25:armeabi", "25:armeabi-v7a", "26:armeabi", "26:armeabi-v7a", "27:armeabi", "27:armeabi-v7a", "28:armeabi", "28:armeabi-v7a" ],
-    "supportedVersionIds" : [ "23", "24", "25", "26", "27", "28" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "23", "24", "25", "26", "27", "28" ]
   }, {
     "brand" : "OnePlus",
     "codename" : "OnePlus5",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "OnePlus5",
     "manufacturer" : "OnePlus",
     "name" : "OnePlus 5",
@@ -245,26 +247,25 @@
     "screenX" : 1080,
     "screenY" : 1920,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "26" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "26" ]
   }, {
     "brand" : "Google",
     "codename" : "Pixel2",
     "form" : "VIRTUAL",
+    "formFactor" : "PHONE",
     "id" : "Pixel2",
-    "manufacturer" : "HTC",
+    "manufacturer" : "Google",
     "name" : "Pixel 2",
     "screenDensity" : 441,
     "screenX" : 1080,
     "screenY" : 1920,
     "supportedAbis" : [ "x86", "26:armeabi", "26:armeabi-v7a", "27:armeabi", "27:armeabi-v7a", "28:armeabi", "28:armeabi-v7a" ],
-    "supportedVersionIds" : [ "26", "27", "28" ],
-    "tags" : [ "beta" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "26", "27", "28" ]
   }, {
     "brand" : "DOCOMO",
     "codename" : "SH-04H",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "SH-04H",
     "manufacturer" : "SHARP",
     "name" : "SH-04H",
@@ -273,12 +274,12 @@
     "screenY" : 1920,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
     "supportedVersionIds" : [ "23" ],
-    "tags" : [ "deprecated" ],
-    "formFactor" : "PHONE"
+    "tags" : [ "deprecated" ]
   }, {
     "brand" : "samsung",
     "codename" : "a5y17lte",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "a5y17lte",
     "manufacturer" : "Samsung",
     "name" : "Galaxy A5 2017",
@@ -286,12 +287,12 @@
     "screenX" : 1080,
     "screenY" : 1920,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "24" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "24" ]
   }, {
     "brand" : "Motorola",
     "codename" : "athene",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "athene",
     "manufacturer" : "Motorola",
     "name" : "Moto G4 Plus",
@@ -299,12 +300,12 @@
     "screenX" : 1080,
     "screenY" : 1920,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "23" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "23" ]
   }, {
     "brand" : "Motorola",
     "codename" : "athene_f",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "athene_f",
     "manufacturer" : "Motorola",
     "name" : "Moto G4",
@@ -312,12 +313,12 @@
     "screenX" : 1080,
     "screenY" : 1920,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "23" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "23" ]
   }, {
     "brand" : "razer",
     "codename" : "cheryl",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "cheryl",
     "manufacturer" : "Razer",
     "name" : "Razer Phone",
@@ -325,12 +326,12 @@
     "screenX" : 1440,
     "screenY" : 2560,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "25" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "25" ]
   }, {
     "brand" : "Motorola",
     "codename" : "condor_umts",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "condor_umts",
     "manufacturer" : "Motorola",
     "name" : "Moto E",
@@ -338,12 +339,12 @@
     "screenX" : 540,
     "screenY" : 960,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ],
-    "formFactor" : "PHONE"
+    "tags" : [ "deprecated" ]
   }, {
     "brand" : "Motorola",
     "codename" : "falcon_umts",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "falcon_umts",
     "manufacturer" : "Motorola",
     "name" : "Moto G (1st Gen)",
@@ -351,12 +352,12 @@
     "screenX" : 720,
     "screenY" : 1280,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ],
-    "formFactor" : "PHONE"
+    "tags" : [ "deprecated" ]
   }, {
     "brand" : "ASUS",
     "codename" : "flo",
     "form" : "PHYSICAL",
+    "formFactor" : "TABLET",
     "id" : "flo",
     "manufacturer" : "Asus",
     "name" : "Nexus 7 (2013)",
@@ -364,12 +365,12 @@
     "screenX" : 1200,
     "screenY" : 1920,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "19", "21" ],
-    "formFactor" : "TABLET"
+    "supportedVersionIds" : [ "19", "21" ]
   }, {
     "brand" : "LG",
     "codename" : "g3",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "g3",
     "manufacturer" : "LG",
     "name" : "LG G3",
@@ -377,12 +378,12 @@
     "screenX" : 1440,
     "screenY" : 2560,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "19" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "19" ]
   }, {
     "brand" : "Samsung",
     "codename" : "grandpplte",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "grandpplte",
     "manufacturer" : "Samsung",
     "name" : "Galaxy J2 Prime SM-G532M",
@@ -390,12 +391,25 @@
     "screenX" : 540,
     "screenY" : 960,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "23" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "23" ]
+  }, {
+    "brand" : "motorola",
+    "codename" : "griffin",
+    "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
+    "id" : "griffin",
+    "manufacturer" : "Motorola",
+    "name" : "Moto Z XT1650",
+    "screenDensity" : 640,
+    "screenX" : 1440,
+    "screenY" : 2560,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "24" ]
   }, {
     "brand" : "LG",
     "codename" : "hammerhead",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "hammerhead",
     "manufacturer" : "LG",
     "name" : "Nexus 5",
@@ -403,12 +417,12 @@
     "screenX" : 1080,
     "screenY" : 1920,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "21", "23" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "21", "23" ]
   }, {
     "brand" : "Motorola",
     "codename" : "harpia",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "harpia",
     "manufacturer" : "Motorola",
     "name" : "Moto G Play (4th Gen) XT1607",
@@ -416,12 +430,12 @@
     "screenX" : 720,
     "screenY" : 1280,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "23" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "23" ]
   }, {
     "brand" : "Samsung",
     "codename" : "hero2lte",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "hero2lte",
     "manufacturer" : "Samsung",
     "name" : "Galaxy S7 edge",
@@ -429,12 +443,12 @@
     "screenX" : 2560,
     "screenY" : 1440,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "23" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "23" ]
   }, {
     "brand" : "Samsung",
     "codename" : "herolte",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "herolte",
     "manufacturer" : "Samsung",
     "name" : "Galaxy S7",
@@ -442,12 +456,12 @@
     "screenX" : 2560,
     "screenY" : 1440,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "23", "24" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "23", "24" ]
   }, {
     "brand" : "Samsung",
     "codename" : "hlte",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "hlte",
     "manufacturer" : "Samsung",
     "name" : "Galaxy Note 3 Duos",
@@ -455,12 +469,12 @@
     "screenX" : 1080,
     "screenY" : 1920,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "19" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "19" ]
   }, {
     "brand" : "HTC",
     "codename" : "htc_m8",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "htc_m8",
     "manufacturer" : "HTC",
     "name" : "HTC One (M8)",
@@ -468,12 +482,12 @@
     "screenX" : 1080,
     "screenY" : 1920,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "19" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "19" ]
   }, {
     "brand" : "Huawei",
     "codename" : "hwALE-H",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "hwALE-H",
     "manufacturer" : "Huawei",
     "name" : "Huawei P8 lite",
@@ -481,12 +495,12 @@
     "screenX" : 720,
     "screenY" : 1280,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "21" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "21" ]
   }, {
     "brand" : "Samsung",
     "codename" : "j1acevelte",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "j1acevelte",
     "manufacturer" : "Samsung",
     "name" : "Galaxy J1 ace SM-J111M",
@@ -494,12 +508,12 @@
     "screenX" : 480,
     "screenY" : 800,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "22" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "22" ]
   }, {
     "brand" : "Samsung",
     "codename" : "j5lte",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "j5lte",
     "manufacturer" : "Samsung",
     "name" : "Galaxy J5",
@@ -507,12 +521,12 @@
     "screenX" : 720,
     "screenY" : 1280,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ],
-    "formFactor" : "PHONE"
+    "tags" : [ "deprecated" ]
   }, {
     "brand" : "Samsung",
     "codename" : "j7xelte",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "j7xelte",
     "manufacturer" : "Samsung",
     "name" : "Galaxy J7 (SM-J710MN)",
@@ -520,12 +534,12 @@
     "screenX" : 720,
     "screenY" : 1280,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "23" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "23" ]
   }, {
     "brand" : "Samsung",
     "codename" : "lt02wifi",
     "form" : "PHYSICAL",
+    "formFactor" : "TABLET",
     "id" : "lt02wifi",
     "manufacturer" : "Samsung",
     "name" : "Galaxy Tab 3",
@@ -533,12 +547,12 @@
     "screenX" : 1024,
     "screenY" : 600,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "19" ],
-    "formFactor" : "TABLET"
+    "supportedVersionIds" : [ "19" ]
   }, {
     "brand" : "lge",
     "codename" : "lucye",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "lucye",
     "manufacturer" : "LG",
     "name" : "LG G6 LGUS997",
@@ -546,12 +560,12 @@
     "screenX" : 1440,
     "screenY" : 2880,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "24" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "24" ]
   }, {
     "brand" : "lge",
     "codename" : "lv0",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "lv0",
     "manufacturer" : "LG",
     "name" : "LG K3",
@@ -559,12 +573,12 @@
     "screenX" : 480,
     "screenY" : 854,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "23" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "23" ]
   }, {
     "brand" : "Samsung",
     "codename" : "m0",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "m0",
     "manufacturer" : "Samsung",
     "name" : "Samsung Galaxy S3",
@@ -572,12 +586,12 @@
     "screenX" : 720,
     "screenY" : 1280,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "18" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "18" ]
   }, {
     "brand" : "LG",
     "codename" : "mako",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "mako",
     "manufacturer" : "LG",
     "name" : "Nexus 4",
@@ -585,12 +599,12 @@
     "screenX" : 768,
     "screenY" : 1280,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ],
-    "formFactor" : "PHONE"
+    "tags" : [ "deprecated" ]
   }, {
     "brand" : "essential",
     "codename" : "mata",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "mata",
     "manufacturer" : "Essential Products",
     "name" : "Essential PH-1",
@@ -598,12 +612,12 @@
     "screenX" : 1312,
     "screenY" : 2560,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "25" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "25" ]
   }, {
     "brand" : "lge",
     "codename" : "mlv1",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "mlv1",
     "manufacturer" : "LG",
     "name" : "LG K4 (LG-X230)",
@@ -611,12 +625,12 @@
     "screenX" : 480,
     "screenY" : 854,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "23" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "23" ]
   }, {
     "brand" : "Motorola",
     "codename" : "osprey_umts",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "osprey_umts",
     "manufacturer" : "Motorola",
     "name" : "Moto G (3rd Gen)",
@@ -624,12 +638,12 @@
     "screenX" : 720,
     "screenY" : 1280,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ],
-    "formFactor" : "PHONE"
+    "tags" : [ "deprecated" ]
   }, {
     "brand" : "LG",
     "codename" : "p1",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "p1",
     "manufacturer" : "LG",
     "name" : "LG G4",
@@ -637,12 +651,12 @@
     "screenX" : 2560,
     "screenY" : 1440,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ],
-    "formFactor" : "PHONE"
+    "tags" : [ "deprecated" ]
   }, {
     "brand" : "motorola",
     "codename" : "potter",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "potter",
     "manufacturer" : "Motorola",
     "name" : "Moto G (5) Plus",
@@ -650,12 +664,12 @@
     "screenX" : 1080,
     "screenY" : 1920,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "24" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "24" ]
   }, {
     "brand" : "Google",
     "codename" : "sailfish",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "sailfish",
     "manufacturer" : "Google",
     "name" : "Pixel",
@@ -663,12 +677,12 @@
     "screenX" : 1920,
     "screenY" : 1080,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "25", "26", "27", "28" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "25", "26", "27", "28" ]
   }, {
     "brand" : "Samsung",
     "codename" : "serranolte",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "serranolte",
     "manufacturer" : "Samsung",
     "name" : "Galaxy S4 mini",
@@ -676,12 +690,12 @@
     "screenX" : 540,
     "screenY" : 960,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ],
-    "formFactor" : "PHONE"
+    "tags" : [ "deprecated" ]
   }, {
     "brand" : "Motorola",
     "codename" : "shamu",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "shamu",
     "manufacturer" : "Motorola",
     "name" : "Nexus 6",
@@ -689,12 +703,12 @@
     "screenX" : 1440,
     "screenY" : 2560,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "21", "22", "23" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "21", "22", "23" ]
   }, {
     "brand" : "samsung",
     "codename" : "star2qlteue",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "star2qlteue",
     "manufacturer" : "Samsung",
     "name" : "Samsung Galaxy S9+ (US)",
@@ -702,12 +716,12 @@
     "screenX" : 1080,
     "screenY" : 2220,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "26" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "26" ]
   }, {
     "brand" : "samsung",
     "codename" : "starqlteue",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "starqlteue",
     "manufacturer" : "Samsung",
     "name" : "Samsung Galaxy S9 (US)",
@@ -715,12 +729,12 @@
     "screenX" : 1080,
     "screenY" : 2220,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "26" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "26" ]
   }, {
     "brand" : "Samsung",
     "codename" : "t03g",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "t03g",
     "manufacturer" : "Samsung",
     "name" : "Galaxy Note 2",
@@ -728,12 +742,12 @@
     "screenX" : 720,
     "screenY" : 1280,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ],
-    "formFactor" : "PHONE"
+    "tags" : [ "deprecated" ]
   }, {
     "brand" : "Google",
     "codename" : "taimen",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "taimen",
     "manufacturer" : "Google",
     "name" : "Pixel 2 XL",
@@ -741,12 +755,12 @@
     "screenX" : 1440,
     "screenY" : 2880,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "26", "27" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "26", "27" ]
   }, {
     "brand" : "Motorola",
     "codename" : "titan_umts",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "titan_umts",
     "manufacturer" : "Motorola",
     "name" : "Moto G (2nd Gen)",
@@ -754,12 +768,12 @@
     "screenX" : 720,
     "screenY" : 1280,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ],
-    "formFactor" : "PHONE"
+    "tags" : [ "deprecated" ]
   }, {
     "brand" : "Samsung",
     "codename" : "trelte",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "trelte",
     "manufacturer" : "Samsung",
     "name" : "Galaxy Note 4",
@@ -767,12 +781,12 @@
     "screenX" : 1080,
     "screenY" : 1920,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ],
-    "formFactor" : "PHONE"
+    "tags" : [ "deprecated" ]
   }, {
     "brand" : "Motorola",
     "codename" : "victara",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "victara",
     "manufacturer" : "Motorola",
     "name" : "Moto X",
@@ -780,12 +794,12 @@
     "screenX" : 1080,
     "screenY" : 1920,
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "19" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "19" ]
   }, {
     "brand" : "Google",
     "codename" : "walleye",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "walleye",
     "manufacturer" : "Google",
     "name" : "Pixel 2",
@@ -794,12 +808,12 @@
     "screenY" : 1920,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
     "supportedVersionIds" : [ "26", "27", "28" ],
-    "tags" : [ "default" ],
-    "formFactor" : "PHONE"
+    "tags" : [ "default" ]
   }, {
     "brand" : "Samsung",
     "codename" : "zeroflte",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "zeroflte",
     "manufacturer" : "Samsung",
     "name" : "Galaxy S6",
@@ -807,12 +821,12 @@
     "screenX" : 1440,
     "screenY" : 2560,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "23" ],
-    "formFactor" : "PHONE"
+    "supportedVersionIds" : [ "23" ]
   }, {
     "brand" : "Samsung",
     "codename" : "zerolte",
     "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
     "id" : "zerolte",
     "manufacturer" : "Samsung",
     "name" : "Galaxy S6 Edge",
@@ -820,8 +834,7 @@
     "screenX" : 1440,
     "screenY" : 2560,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ],
-    "formFactor" : "PHONE"
+    "tags" : [ "deprecated" ]
   } ],
   "runtimeConfiguration" : {
     "locales" : [ {
