@@ -2,6 +2,7 @@ package ftl.reports.util
 
 import ftl.args.IArgs
 import ftl.args.IosArgs
+import ftl.gc.GcStorage
 import ftl.json.MatrixMap
 import ftl.reports.CostReport
 import ftl.reports.HtmlErrorReport
@@ -62,14 +63,18 @@ object ReportManager {
         return mergedXml
     }
 
-    /** Returns true if there were no test failures */
-    fun generate(matrices: MatrixMap, args: IArgs): Int {
+    private fun parseTestSuite(matrices: MatrixMap, args: IArgs): JUnitTestResult? {
         val iosXml = args is IosArgs
-        val testSuite = if (iosXml) {
+        return if (iosXml) {
             processXml(matrices, ::parseIosXml)
         } else {
             processXml(matrices, ::parseAndroidXml)
         }
+    }
+
+    /** Returns true if there were no test failures */
+    fun generate(matrices: MatrixMap, args: IArgs): Int {
+        val testSuite = parseTestSuite(matrices, args)
         val testSuccessful = matrices.allSuccessful()
 
         listOf(
@@ -79,14 +84,25 @@ object ReportManager {
             it.run(matrices, testSuite, printToStdout = true)
         }
 
-        JUnitReport.run(matrices, testSuite)
-
         if (!testSuccessful) {
             listOf(
                 HtmlErrorReport
             ).map { it.run(matrices, testSuite) }
         }
 
+        JUnitReport.run(matrices, testSuite)
+        processJunitXml(testSuite, args)
+
         return matrices.exitCode()
+    }
+
+    private fun processJunitXml(newTestResult: JUnitTestResult?, args: IArgs) {
+        if (newTestResult == null) return
+
+        val oldTestResult = GcStorage.downloadJunitXml(args)
+
+        newTestResult.mergeTestTimes(oldTestResult)
+
+        GcStorage.uploadJunitXml(newTestResult, args)
     }
 }

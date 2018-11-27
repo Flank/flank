@@ -10,8 +10,9 @@ import ftl.android.UnsupportedVersionId
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
 import ftl.args.ArgsHelper.calculateShards
+import ftl.args.ArgsHelper.createGcsBucket
+import ftl.args.ArgsHelper.createJunitBucket
 import ftl.args.ArgsHelper.evaluateFilePath
-import ftl.args.ArgsHelper.getGcsBucket
 import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.yamlMapper
 import ftl.args.ArgsToString.devicesToString
@@ -63,6 +64,7 @@ class AndroidArgs(
     private val flank = flankYml.flank
     override val testShards = flank.testShards
     override val repeatTests = flank.repeatTests
+    override val smartFlankGcsPath = flank.smartFlankGcsPath
     override val testTargetsAlwaysRun = flank.testTargetsAlwaysRun
 
     // computed properties not specified in yaml
@@ -76,16 +78,12 @@ class AndroidArgs(
         }
 
         val filteredTests = getTestMethods(testLocalApk)
-
-        calculateShards(
-            filteredTests,
-            testTargetsAlwaysRun,
-            testShards
-            )
+        calculateShards(filteredTests, this)
     }
 
     init {
-        resultsBucket = getGcsBucket(projectId, gcloud.resultsBucket)
+        resultsBucket = createGcsBucket(projectId, gcloud.resultsBucket)
+        createJunitBucket(projectId, flank.smartFlankGcsPath)
 
         if (appApk.startsWith(FtlConstants.GCS_PREFIX)) {
             assertGcsFileExists(appApk)
@@ -110,6 +108,7 @@ class AndroidArgs(
         val testFilter = TestFilters.fromTestTargets(testTargets)
         val filteredTests = allTestMethods
             .asSequence()
+            .distinct()
             .filter(testFilter.shouldRun)
             .map(TestMethod::testName)
             .map { "class $it" }
@@ -157,6 +156,7 @@ ${devicesToString(devices)}
     flank:
       testShards: $testShards
       repeatTests: $repeatTests
+      smartFlankGcsPath: $smartFlankGcsPath
       test-targets-always-run:
 ${listToString(testTargetsAlwaysRun)}
    """.trimIndent()
@@ -167,7 +167,8 @@ ${listToString(testTargetsAlwaysRun)}
             mergeYmlMaps(GcloudYml, AndroidGcloudYml, FlankYml)
         }
 
-        fun load(data: Path, cli: AndroidRunCommand = AndroidRunCommand()): AndroidArgs = load(String(Files.readAllBytes(data)), cli)
+        fun load(data: Path, cli: AndroidRunCommand = AndroidRunCommand()): AndroidArgs =
+            load(String(Files.readAllBytes(data)), cli)
 
         fun load(data: String, cli: AndroidRunCommand = AndroidRunCommand()): AndroidArgs {
             val flankYml = yamlMapper.readValue(data, FlankYml::class.java)

@@ -72,14 +72,14 @@ class IosArgsFileTest {
             "EarlGreyExampleMixedTests/testGrantCameraPermission",
             "EarlGreyExampleMixedTests/testGrantMicrophonePermission",
             "EarlGreyExampleMixedTests/testBasicSelection1",
-            "EarlGreyExampleMixedTests/testBasicSelection2"
+            "EarlGreyExampleMixedTests/testBasicSelection4"
         )
 
         val chunk1 = arrayListOf(
             "EarlGreyExampleMixedTests/testGrantCameraPermission",
             "EarlGreyExampleMixedTests/testGrantMicrophonePermission",
-            "EarlGreyExampleMixedTests/testBasicSelection3",
-            "EarlGreyExampleMixedTests/testBasicSelection4"
+            "EarlGreyExampleMixedTests/testBasicSelection2",
+            "EarlGreyExampleMixedTests/testBasicSelection3"
         )
 
         val testShardChunks = config.testShardChunks

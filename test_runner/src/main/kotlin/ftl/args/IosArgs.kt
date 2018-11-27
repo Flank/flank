@@ -2,6 +2,8 @@ package ftl.args
 
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
+import ftl.args.ArgsHelper.createGcsBucket
+import ftl.args.ArgsHelper.createJunitBucket
 import ftl.args.ArgsHelper.evaluateFilePath
 import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.validateTestMethods
@@ -29,7 +31,7 @@ class IosArgs(
 ) : IArgs {
 
     private val gcloud = gcloudYml.gcloud
-    override val resultsBucket = gcloud.resultsBucket
+    override val resultsBucket: String
     override val recordVideo = gcloud.recordVideo
     override val testTimeout = gcloud.timeout
     override val async = gcloud.async
@@ -45,6 +47,7 @@ class IosArgs(
     private val flank = flankYml.flank
     override val testShards = flank.testShards
     override val repeatTests = flank.repeatTests
+    override val smartFlankGcsPath = flank.smartFlankGcsPath
     override val testTargetsAlwaysRun = flank.testTargetsAlwaysRun
 
     private val iosFlank = iosFlankYml.flank
@@ -58,16 +61,15 @@ class IosArgs(
             validTestMethods
         } else {
             testTargets
-        }
+        }.distinct()
 
-        ArgsHelper.calculateShards(
-            testMethodsToShard = testsToShard,
-            testMethodsAlwaysRun = testTargetsAlwaysRun,
-            testShards = testShards
-            )
+        ArgsHelper.calculateShards(testsToShard, this)
     }
 
     init {
+        resultsBucket = createGcsBucket(projectId, gcloud.resultsBucket)
+        createJunitBucket(projectId, flank.smartFlankGcsPath)
+
         if (xctestrunZip.startsWith(FtlConstants.GCS_PREFIX)) {
             assertGcsFileExists(xctestrunZip)
         } else {
@@ -114,6 +116,7 @@ ${devicesToString(devices)}
     flank:
       testShards: $testShards
       repeatTests: $repeatTests
+      smartFlankGcsPath: $smartFlankGcsPath
       test-targets-always-run:
 ${listToString(testTargetsAlwaysRun)}
       # iOS flank

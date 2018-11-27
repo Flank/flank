@@ -3,12 +3,14 @@ package ftl.args
 import com.google.common.truth.Truth.assertThat
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
-import ftl.args.ArgsHelper.calculateShards
-import ftl.args.ArgsHelper.getGcsBucket
+import ftl.args.ArgsHelper.createGcsBucket
 import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.validateTestMethods
 import ftl.args.yml.GcloudYml
 import ftl.args.yml.IosGcloudYml
+import ftl.shard.TestMethod
+import ftl.shard.TestShard
+import ftl.shard.stringShards
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import org.junit.Rule
@@ -101,65 +103,13 @@ class ArgsHelperTest {
     }
 
     @Test
-    fun calculateShards_fails_emptyShardChunks() {
-        exceptionRule.expectMessage("Failed to populate test shard chunks")
-        calculateShards(
-            testMethodsToShard = listOf(""),
-            testMethodsAlwaysRun = listOf(""),
-            testShards = 1
-        )
-    }
-
-    @Test
-    fun calculateShards_succeeds() {
-        calculateShards(
-            testMethodsToShard = listOf("a", "b", "c"),
-            testMethodsAlwaysRun = listOf("c"),
-            testShards = -1
-        )
-    }
-
-    @Test
-    fun calculateShards_emptyTestTargets() {
-        val tests = listOf(
-            "class com.example.profile.ProfileTest#testOne",
-            "class com.example.profile.ProfileTest#testTwo"
-        )
-        val shards = calculateShards(
-            testMethodsToShard = tests,
-            testMethodsAlwaysRun = emptyList(),
-            testShards = -1
-        )
-        val expectedShards = listOf(
-            listOf(tests[0]),
-            listOf(tests[1])
-        )
-        assertThat(shards).isEqualTo(expectedShards)
-    }
-
-    @Test
-    fun calculateShards_packageTarget() {
-        val shards = calculateShards(
-            testMethodsToShard = listOf("a", "b", "c"),
-            testMethodsAlwaysRun = listOf("c"),
-            testShards = 2
-        )
-
-        val expectedShards = listOf(
-            listOf("c", "a"),
-            listOf("c", "b")
-        )
-        assertThat(shards).isEqualTo(expectedShards)
-    }
-
-    @Test
     fun yamlMapper_exists() {
         assertThat(ArgsHelper.yamlMapper).isNotNull()
     }
 
     @Test
-    fun getGcsBucket_succeeds() {
-        getGcsBucket("123", "results_bucket")
+    fun createGcsBucket_succeeds() {
+        createGcsBucket("123", "results_bucket")
     }
 
     @Test
@@ -215,5 +165,22 @@ class ArgsHelperTest {
     fun evaluateInvalidFilePath() {
         val testApkPath = "~/flank_test_app/invalid_path/app-debug-*.xctestrun"
         ArgsHelper.evaluateFilePath(testApkPath)
+    }
+
+    @Test
+    fun stringShardsTest() {
+        val shards = listOf(
+            TestShard(3.0, mutableListOf(TestMethod("a", 1.0), TestMethod("b", 2.0))),
+            TestShard(4.0, mutableListOf(TestMethod("c", 4.0))),
+            TestShard(5.0, mutableListOf(TestMethod("d", 2.0), TestMethod("e", 3.0)))
+        )
+
+        val expected = listOf(
+            listOf("a", "b"),
+            listOf("c"),
+            listOf("d", "e")
+        )
+
+        assertThat(shards.stringShards()).isEqualTo(expected)
     }
 }

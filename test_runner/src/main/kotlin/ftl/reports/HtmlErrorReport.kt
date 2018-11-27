@@ -13,6 +13,8 @@ import java.nio.file.Paths
  * Outputs HTML report for Bitrise based on JUnit XML. Only run on failures.
  * */
 object HtmlErrorReport : IReport {
+    override val extension = ".html"
+
     data class Group(val key: String, val name: String, val startIndex: Int, val count: Int)
     data class Item(val key: String, val name: String, val link: String)
 
@@ -86,7 +88,7 @@ object HtmlErrorReport : IReport {
         templateData = replaceRange(templateData, findGroupRange(templateData), newGroupJson)
         templateData = replaceRange(templateData, findItemRange(templateData), newItemsJson)
 
-        val writePath = Paths.get(reportPath(matrices) + ".html")
+        val writePath = Paths.get(reportPath(matrices))
         Files.write(writePath, templateData.toByteArray())
     }
 

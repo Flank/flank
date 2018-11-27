@@ -11,6 +11,22 @@ data class JUnitTestResult(
     @JacksonXmlProperty(localName = "testsuite")
     var testsuites: MutableList<JUnitTestSuite>?
 ) {
+    fun mergeTestTimes(other: JUnitTestResult?): JUnitTestResult {
+        if (other == null) return this
+        if (this.testsuites == null) this.testsuites = mutableListOf()
+
+        // newTestResult.mergeTestTimes(oldTestResult)
+        //
+        // for each new JUnitTestSuite, check if it exists on old
+        // if JUnitTestSuite exists on both then merge test times
+        this.testsuites?.forEach { testSuite ->
+            val oldSuite = other.testsuites?.firstOrNull { it.name == testSuite.name }
+            if (oldSuite != null) testSuite.mergeTestTimes(oldSuite)
+        }
+
+        return this
+    }
+
     fun merge(other: JUnitTestResult?): JUnitTestResult {
         if (other == null) return this
         if (this.testsuites == null) this.testsuites = mutableListOf()

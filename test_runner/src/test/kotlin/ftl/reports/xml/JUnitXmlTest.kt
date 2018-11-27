@@ -312,4 +312,68 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
             }
         }
     }
+
+    @Test
+    fun merge_testTimes() {
+
+        /**
+         * 1. First run generates local merged JUnit XML
+         *    - Firbase XML downloaded from each shard
+         *    - Merged XML is saved locally
+         *
+         * 2. Time XML is generated from merged JUnit XML
+         *    - Only passed tests
+         *    - Failed tests from current run use timing data from last run
+         *    - Uploaded to Google Cloud Storage
+         *    * Feedback: instead of overwriting time ... use average?
+         */
+
+        val newRun = """
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites>
+  <testsuite name="EarlGreyExampleSwiftTests" tests="4" failures="1" errors="0" skipped="0" time="51.773" hostname="localhost">
+    <testcase name="a()" classname="a" time="1.0"/>
+    <testcase name="b()" classname="b" time="2.0"/>
+    <testcase name="c()" classname="c" time="0.584">
+      <failure>Exception: NoMatchingElementException</failure>
+      <failure>failed: caught "EarlGreyInternalTestInterruptException", "Immediately halt execution of testcase"</failure>
+    </testcase>
+    <testcase name="d()" classname="d" time="0.0">
+        <skipped/>
+    </testcase>
+  </testsuite>
+</testsuites>
+        """.trimIndent()
+
+        val oldRun = """
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites>
+  <testsuite name="EarlGreyExampleSwiftTests" tests="4" failures="1" errors="0" skipped="0" time="51.773" hostname="localhost">
+    <testcase name="a()" classname="a" time="5.0"/>
+    <testcase name="b()" classname="b" time="6.0"/>
+    <testcase name="c()" classname="c" time="7.0"/>
+    <testcase name="d()" classname="d" time="8.0"/>
+  </testsuite>
+</testsuites>
+        """.trimIndent()
+
+        // new run has 2 passing, 1 failure, and 1 skipped
+        // * a() and b() passed in newRun and are copied over
+        // * c() failed in newRun and passed in oldRun. timing info copied over from oldRun
+        // * d() was skipped in newRun and successful in oldRun. d() is excluded from the merged result
+
+        val merged = parseIosXml(newRun).mergeTestTimes(parseIosXml(oldRun)).xmlToString()
+        val expected = """
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites>
+  <testsuite name="EarlGreyExampleSwiftTests" tests="3" failures="0" errors="0" skipped="0" time="10.0" hostname="localhost">
+    <testcase name="a()" classname="a" time="1.0"/>
+    <testcase name="b()" classname="b" time="2.0"/>
+    <testcase name="c()" classname="c" time="7.0"/>
+  </testsuite>
+</testsuites>
+
+        """.trimIndent()
+        assertThat(merged).isEqualTo(expected)
+    }
 }

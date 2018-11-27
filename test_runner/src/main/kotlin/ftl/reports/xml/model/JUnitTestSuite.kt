@@ -71,4 +71,59 @@ data class JUnitTestSuite(
 
         return this
     }
+
+    fun mergeTestTimes(other: JUnitTestSuite): JUnitTestSuite {
+        if (this.name != other.name) throw RuntimeException("Attempted to merge ${other.name} into ${this.name}")
+
+        // For each new JUnitTestCase:
+        //  * if it failed then pull timing info from old
+        //  * remove if not successful in either new or old
+
+        // if we ran no test cases then don't bother merging old times.
+        if (this.testcases == null) return this
+
+        val mergedTestCases = mutableListOf<JUnitTestCase>()
+        var mergedTime = 0.0
+
+        this.testcases?.forEach { testcase ->
+            // if test was skipped, then continue to skip it.
+            if (testcase.skipped()) return@forEach
+
+            // if the test succeeded, use the new time value
+            if (testcase.successful()) {
+                mergedTime += testcase.time.toDouble()
+                mergedTestCases.add(
+                    JUnitTestCase(
+                        name = testcase.name,
+                        classname = testcase.classname,
+                        time = testcase.time
+                    )
+                )
+                return@forEach
+            }
+
+            // if the test we ran failed, copy timing from the last successful run
+            val lastSuccessfulRun = other.testcases?.firstOrNull {
+                it.successful() && it.name == testcase.name && it.classname == testcase.classname
+            } ?: return@forEach
+
+            mergedTime += lastSuccessfulRun.time.toDouble()
+            mergedTestCases.add(
+                JUnitTestCase(
+                    name = testcase.name,
+                    classname = testcase.classname,
+                    time = lastSuccessfulRun.time
+                )
+            )
+        }
+
+        this.testcases = mergedTestCases
+        this.tests = mergedTestCases.size.toString()
+        this.failures = "0"
+        this.errors = "0"
+        this.skipped = "0"
+        this.time = mergedTime.toString()
+
+        return this
+    }
 }

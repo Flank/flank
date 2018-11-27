@@ -1,6 +1,5 @@
 package ftl.args
 
-import ftl.util.Utils.fatalError
 import java.io.IOException
 import java.nio.file.FileSystems
 import java.nio.file.FileVisitOption
@@ -26,7 +25,8 @@ class ArgsFileVisitor(glob: String) : SimpleFileVisitor<Path>() {
     }
 
     override fun visitFileFailed(file: Path?, exc: IOException?): FileVisitResult {
-        fatalError("Failed to visit $file $exc")
+        // java.nio.file.AccessDeniedException: /tmp/systemd-private-2bc4cd4c824142ab95fb18cbb14165f5-systemd-timesyncd.service-epYUoK
+        System.err.println("Failed to visit $file ${exc?.message}")
         return FileVisitResult.CONTINUE
     }
 

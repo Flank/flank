@@ -24,11 +24,11 @@ data class JUnitTestCase(
     // JUnit XML allows arbitrary amounts of failure/error tags
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JacksonXmlProperty(localName = "failure")
-    val failures: List<String>?,
+    val failures: List<String>? = null,
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JacksonXmlProperty(localName = "error")
-    val errors: List<String>?,
+    val errors: List<String>? = null,
 
     @JsonInclude(JsonInclude.Include.CUSTOM, valueFilter = FilterNotNull::class)
     val skipped: String? = "absent" // used by FilterNotNull to filter out absent `skipped` values
@@ -39,6 +39,14 @@ data class JUnitTestCase(
 
     fun failed(): Boolean {
         return failures?.isNotEmpty() == true || errors?.isNotEmpty() == true
+    }
+
+    fun skipped(): Boolean {
+        return skipped == null
+    }
+
+    fun successful(): Boolean {
+        return failed().not().and(skipped().not())
     }
 
     fun stackTrace(): String {

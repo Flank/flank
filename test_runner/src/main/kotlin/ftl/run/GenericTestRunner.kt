@@ -55,13 +55,11 @@ object GenericTestRunner {
     fun beforeRunMessage(args: IArgs): String {
         val runCount = args.repeatTests
         val shardCount = args.testShardChunks.size
-        val testsPerShard = args.testShardChunks.first().size
         val testsCount = args.testShardChunks.sumBy { it.size }
 
         val result = StringBuilder()
         result.appendln(
-            "  $testsCount test${s(testsCount)} / $shardCount shard${s(shardCount)} = " +
-                "$testsPerShard test${s(testsPerShard)} per shard"
+            "  $testsCount test${s(testsCount)} / $shardCount shard${s(shardCount)}"
         )
 
         if (runCount > 1) {
