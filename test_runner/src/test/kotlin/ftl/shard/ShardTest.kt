@@ -2,6 +2,7 @@ package ftl.shard
 
 import com.google.common.truth.Truth.assertThat
 import ftl.args.IArgs
+import ftl.args.IosArgs
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
@@ -33,7 +34,7 @@ class ShardTest {
     }
 
     private fun mockArgs(testShards: Int): IArgs {
-        val mockArgs = mock(IArgs::class.java)
+        val mockArgs = mock(IosArgs::class.java)
         `when`(mockArgs.testShards).thenReturn(testShards)
         return mockArgs
     }
@@ -53,7 +54,7 @@ class ShardTest {
 
     @Test
     fun sampleTest() {
-        val reRunTestsToRun = listOf("a#a", "b#b", "c#c", "d#d", "e#e", "f#f", "g#g")
+        val reRunTestsToRun = listOf("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g")
         val suite = sample()
         val result = Shard.calculateShardsByTime(reRunTestsToRun, suite, mockArgs(3))
 
@@ -65,14 +66,14 @@ class ShardTest {
         assertThat(result.sumByDouble { it.time }).isEqualTo(16.5)
 
         val testNames = mutableListOf<String>()
-        result.forEach {
-            it.testMethods.forEach {
+        result.forEach { shard ->
+            shard.testMethods.forEach {
                 testNames.add(it.name)
             }
         }
 
         testNames.sort()
-        assertThat(testNames).isEqualTo(listOf("a#a", "b#b", "c#c", "d#d", "e#e", "f#f", "g#g"))
+        assertThat(testNames).isEqualTo(listOf("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g"))
     }
 
     @Test
@@ -90,7 +91,7 @@ class ShardTest {
 
     @Test
     fun mixedNewAndOld() {
-        val testsToRun = listOf("a#a", "b#b", "c#c", "w", "y", "z")
+        val testsToRun = listOf("a/a", "b/b", "c/c", "w", "y", "z")
         val result = Shard.calculateShardsByTime(testsToRun, sample(), mockArgs(4))
         assertThat(result.size).isEqualTo(4)
         assertThat(result.sumByDouble { it.time }).isEqualTo(37.0)
