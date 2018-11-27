@@ -150,7 +150,7 @@ IosArgs
     flank:
       testShards: 7
       repeatTests: 8
-      junitGcsPath:${' '}
+      smartFlankGcsPath:${' '}
       test-targets-always-run:
         - a/testGrantPermissions
         - a/testGrantPermissions2

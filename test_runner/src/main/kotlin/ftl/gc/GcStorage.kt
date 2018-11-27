@@ -45,10 +45,10 @@ object GcStorage {
         )
 
     fun uploadJunitXml(testResult: JUnitTestResult, args: IArgs) {
-        if (args.junitGcsPath.isEmpty()) return
+        if (args.smartFlankGcsPath.isEmpty()) return
 
         // bucket/path/to/object
-        val rawPath = args.junitGcsPath.drop(GCS_PREFIX.length)
+        val rawPath = args.smartFlankGcsPath.drop(GCS_PREFIX.length)
         val bucket = rawPath.substringBefore('/')
         val name = rawPath.substringAfter('/')
 
@@ -83,7 +83,7 @@ object GcStorage {
 
     // junit xml may not exist. ignore error if it doesn't exist
     fun downloadJunitXml(args: IArgs): JUnitTestResult? {
-        val oldXmlPath = download(args.junitGcsPath, ignoreError = true)
+        val oldXmlPath = download(args.smartFlankGcsPath, ignoreError = true)
         if (oldXmlPath.isNotEmpty()) {
             return parseIosXml(Paths.get(oldXmlPath))
         }

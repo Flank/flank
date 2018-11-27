@@ -27,9 +27,9 @@ gcloud:
       version: 28
 
 flank:
-  # Google cloud storage path to store the JUnit XML results from the last run.
+  # # Google cloud storage path to store the JUnit XML results from the last run.
   #
-  # junitGcsPath: gs://tmp_flank/flank/test_app_android.xml
+  # smartFlankGcsPath: gs://tmp_flank/flank/test_app_android.xml
 
   # test shards - the amount of groups to split the test suite into
   # set to -1 to use one shard per test.
@@ -41,8 +41,8 @@ flank:
   #
   repeatTests: 1
 
-  # always run - these tests are inserted at the beginning of every shard
-  # useful if you need to grant permissions or login before other tests run
+  # # always run - these tests are inserted at the beginning of every shard
+  # # useful if you need to grant permissions or login before other tests run
   #
   # test-targets-always-run:
-    # - class com.example.app.ExampleUiTest#testPasses
+  #   - class com.example.app.ExampleUiTest#testPasses

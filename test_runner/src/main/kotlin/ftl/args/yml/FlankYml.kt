@@ -10,25 +10,25 @@ import ftl.util.Utils.fatalError
 class FlankYmlParams(
     val testShards: Int = 1,
     val repeatTests: Int = 1,
-    val junitGcsPath: String = "",
+    val smartFlankGcsPath: String = "",
 
     @field:JsonProperty("test-targets-always-run")
     val testTargetsAlwaysRun: List<String> = emptyList()
 ) {
     companion object : IYmlKeys {
-        override val keys = listOf("testShards", "repeatTests", "junitGcsPath", "test-targets-always-run")
+        override val keys = listOf("testShards", "repeatTests", "smartFlankGcsPath", "test-targets-always-run")
     }
 
     init {
         if (testShards <= 0 && testShards != -1) fatalError("testShards must be >= 1 or -1")
         if (repeatTests < 1) fatalError("repeatTests must be >= 1")
 
-        if (junitGcsPath.isNotEmpty()) {
-            if (!junitGcsPath.startsWith(GCS_PREFIX)) {
-                fatalError("junitGcsPath must start with gs://")
+        if (smartFlankGcsPath.isNotEmpty()) {
+            if (!smartFlankGcsPath.startsWith(GCS_PREFIX)) {
+                fatalError("smartFlankGcsPath must start with gs://")
             }
-            if (junitGcsPath.count { it == '/' } <= 2 || !junitGcsPath.endsWith(".xml")) {
-                fatalError("junitGcsPath must be in the format gs://bucket/foo.xml")
+            if (smartFlankGcsPath.count { it == '/' } <= 2 || !smartFlankGcsPath.endsWith(".xml")) {
+                fatalError("smartFlankGcsPath must be in the format gs://bucket/foo.xml")
             }
         }
     }

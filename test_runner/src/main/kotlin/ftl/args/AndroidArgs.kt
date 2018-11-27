@@ -64,7 +64,7 @@ class AndroidArgs(
     private val flank = flankYml.flank
     override val testShards = flank.testShards
     override val repeatTests = flank.repeatTests
-    override val junitGcsPath = flank.junitGcsPath
+    override val smartFlankGcsPath = flank.smartFlankGcsPath
     override val testTargetsAlwaysRun = flank.testTargetsAlwaysRun
 
     // computed properties not specified in yaml
@@ -83,7 +83,7 @@ class AndroidArgs(
 
     init {
         resultsBucket = createGcsBucket(projectId, gcloud.resultsBucket)
-        createJunitBucket(projectId, flank.junitGcsPath)
+        createJunitBucket(projectId, flank.smartFlankGcsPath)
 
         if (appApk.startsWith(FtlConstants.GCS_PREFIX)) {
             assertGcsFileExists(appApk)
@@ -156,7 +156,7 @@ ${devicesToString(devices)}
     flank:
       testShards: $testShards
       repeatTests: $repeatTests
-      junitGcsPath: $junitGcsPath
+      smartFlankGcsPath: $smartFlankGcsPath
       test-targets-always-run:
 ${listToString(testTargetsAlwaysRun)}
    """.trimIndent()

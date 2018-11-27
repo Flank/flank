@@ -47,7 +47,7 @@ class IosArgs(
     private val flank = flankYml.flank
     override val testShards = flank.testShards
     override val repeatTests = flank.repeatTests
-    override val junitGcsPath = flank.junitGcsPath
+    override val smartFlankGcsPath = flank.smartFlankGcsPath
     override val testTargetsAlwaysRun = flank.testTargetsAlwaysRun
 
     private val iosFlank = iosFlankYml.flank
@@ -68,7 +68,7 @@ class IosArgs(
 
     init {
         resultsBucket = createGcsBucket(projectId, gcloud.resultsBucket)
-        createJunitBucket(projectId, flank.junitGcsPath)
+        createJunitBucket(projectId, flank.smartFlankGcsPath)
 
         if (xctestrunZip.startsWith(FtlConstants.GCS_PREFIX)) {
             assertGcsFileExists(xctestrunZip)
@@ -116,7 +116,7 @@ ${devicesToString(devices)}
     flank:
       testShards: $testShards
       repeatTests: $repeatTests
-      junitGcsPath: $junitGcsPath
+      smartFlankGcsPath: $smartFlankGcsPath
       test-targets-always-run:
 ${listToString(testTargetsAlwaysRun)}
       # iOS flank

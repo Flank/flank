@@ -27,7 +27,7 @@ class ReportManagerTest {
     fun generate_fromErrorResult() {
         val matrix = TestRunner.matrixPathToObj("./src/test/kotlin/ftl/fixtures/error_result")
         val mockArgs = mock(AndroidArgs::class.java)
-        `when`(mockArgs.junitGcsPath).thenReturn("")
+        `when`(mockArgs.smartFlankGcsPath).thenReturn("")
         ReportManager.generate(matrix, mockArgs)
     }
 
@@ -35,7 +35,7 @@ class ReportManagerTest {
     fun generate_fromSuccessResult() {
         val matrix = TestRunner.matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result")
         val mockArgs = mock(AndroidArgs::class.java)
-        `when`(mockArgs.junitGcsPath).thenReturn("")
+        `when`(mockArgs.smartFlankGcsPath).thenReturn("")
         ReportManager.generate(matrix, mockArgs)
     }
 }
