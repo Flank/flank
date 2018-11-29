@@ -12,6 +12,7 @@ import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.xmlToString
+import ftl.util.ProgressBar
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
 import java.io.File
@@ -54,10 +55,14 @@ object GcStorage {
 
         val fileBlob = BlobInfo.newBuilder(bucket, name).build()
 
+        val progress = ProgressBar()
         try {
+            progress.start("Uploading smart flank XML")
             storage.create(fileBlob, testResult.xmlToString().toByteArray())
         } catch (e: Exception) {
             fatalError(e)
+        } finally {
+            progress.stop()
         }
     }
 
@@ -98,10 +103,14 @@ object GcStorage {
         // 404 Not Found error when rootGcsBucket does not exist
         val fileBlob = BlobInfo.newBuilder(rootGcsBucket, join(runGcsPath, fileName)).build()
 
+        val progress = ProgressBar()
         try {
+            progress.start("Uploading $fileName")
             storage.create(fileBlob, fileBytes)
         } catch (e: Exception) {
             fatalError(e)
+        } finally {
+            progress.stop()
         }
 
         return gcsFilePath
