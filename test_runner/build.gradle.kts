@@ -25,10 +25,12 @@ jacoco {
 // ./gradlew clean check jacocoTestReport
 tasks.withType<JacocoReport> {
     doFirst {
-        classDirectories = fileTree("build/classes/kotlin/main").apply {
-            // runBlocking {} produces generated Kotlin code. Ignore that.
-            exclude("**/*\$run$1.class")
-        }
+        // Broken until issue in Kotlin DSL is resolved
+        // https://github.com/gradle/kotlin-dsl/issues/1265
+//        classDirectories = fileTree("build/classes/kotlin/main").apply {
+//            // runBlocking {} produces generated Kotlin code. Ignore that.
+//            exclude("**/*\$run$1.class")
+//        }
 
         reports {
             html.isEnabled = true
