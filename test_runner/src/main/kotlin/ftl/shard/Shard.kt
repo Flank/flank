@@ -111,6 +111,7 @@ object Shard {
         val allTests = testsToRun.size
         val cacheHit = allTests - cacheMiss
         val cachePercent = cacheHit.toDouble() / allTests * 100.0
+        println()
         println("  Smart Flank cache hit: ${cachePercent.roundToInt()}% ($cacheHit / $allTests)")
         println("  Shard times: " + shards.joinToString(", ") { "${it.time.roundToInt()}s" } + "\n")
 
