@@ -48,7 +48,7 @@ object Shard {
     private fun JUnitTestCase.iosKey(): String {
         // FTL iOS XML appends `()` to each test name. ex: `testBasicSelection()`
         // xctestrun file requires classname/name with no `()`
-        val testName = name.substringBefore('(')
+        val testName = name?.substringBefore('(')
         return "$classname/$testName"
     }
 
@@ -65,8 +65,10 @@ object Shard {
         // Create a map with information from previous junit run
         oldTestResult.testsuites?.forEach { testsuite ->
             testsuite.testcases?.forEach { testcase ->
-                val key = if (android) testcase.androidKey() else testcase.iosKey()
-                junitMap[key] = testcase.time.toDouble()
+                if (!testcase.empty() && testcase.time != null) {
+                    val key = if (android) testcase.androidKey() else testcase.iosKey()
+                    junitMap[key] = testcase.time.toDouble()
+                }
             }
         }
 

@@ -86,11 +86,11 @@ data class JUnitTestSuite(
         var mergedTime = 0.0
 
         this.testcases?.forEach { testcase ->
-            // if test was skipped, then continue to skip it.
-            if (testcase.skipped()) return@forEach
+            // if test was skipped or empty, then continue to skip it.
+            if (testcase.skipped() || testcase.empty()) return@forEach
 
             // if the test succeeded, use the new time value
-            if (testcase.successful()) {
+            if (testcase.successful() && testcase.time != null) {
                 mergedTime += testcase.time.toDouble()
                 mergedTestCases.add(
                     JUnitTestCase(
@@ -107,7 +107,7 @@ data class JUnitTestSuite(
                 it.successful() && it.name == testcase.name && it.classname == testcase.classname
             } ?: return@forEach
 
-            mergedTime += lastSuccessfulRun.time.toDouble()
+            if (lastSuccessfulRun.time != null) mergedTime += lastSuccessfulRun.time.toDouble()
             mergedTestCases.add(
                 JUnitTestCase(
                     name = testcase.name,

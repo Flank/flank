@@ -2,21 +2,21 @@ package ftl.reports
 
 import com.google.common.truth.Truth.assertThat
 import ftl.reports.xml.JUnitXmlTest
-import ftl.reports.xml.parseAndroidXml
-import ftl.reports.xml.parseIosXml
+import ftl.reports.xml.parseOneSuiteXml
+import ftl.reports.xml.parseAllSuitesXml
 import org.junit.Test
 
 class HtmlErrorReportTest {
 
     @Test
     fun reactJson_androidPassXml() {
-        val results = HtmlErrorReport.groupItemList(parseAndroidXml(JUnitXmlTest.androidPassXml))
+        val results = HtmlErrorReport.groupItemList(parseOneSuiteXml(JUnitXmlTest.androidPassXml))
         assertThat(results).isNull()
     }
 
     @Test
     fun reactJson_androidFailXml() {
-        val results = HtmlErrorReport.groupItemList(parseAndroidXml(JUnitXmlTest.androidFailXml))
+        val results = HtmlErrorReport.groupItemList(parseOneSuiteXml(JUnitXmlTest.androidFailXml))
             ?: throw RuntimeException("null")
 
         val group = results.first
@@ -41,7 +41,7 @@ class HtmlErrorReportTest {
     @Test
     fun reactJson_androidFailXml_merged() {
         // 4 tests - 2 pass, 2 fail. we should have 2 failures in the report
-        val mergedXml = parseAndroidXml(JUnitXmlTest.androidFailXml)
+        val mergedXml = parseOneSuiteXml(JUnitXmlTest.androidFailXml)
         mergedXml.merge(mergedXml)
 
         assertThat(mergedXml.testsuites?.first()?.testcases?.size).isEqualTo(4)
@@ -72,14 +72,14 @@ class HtmlErrorReportTest {
 
     @Test
     fun reactJson_iosPassXml() {
-        val results = HtmlErrorReport.groupItemList(parseIosXml(JUnitXmlTest.iosPassXml))
+        val results = HtmlErrorReport.groupItemList(parseAllSuitesXml(JUnitXmlTest.iosPassXml))
         assertThat(results).isNull()
     }
 
     @Test
     fun reactJson_iosFailXml() {
         val results =
-            HtmlErrorReport.groupItemList(parseIosXml(JUnitXmlTest.iosFailXml)) ?: throw RuntimeException("null")
+            HtmlErrorReport.groupItemList(parseAllSuitesXml(JUnitXmlTest.iosFailXml)) ?: throw RuntimeException("null")
 
         val group = results.first
         assertThat(group.size).isEqualTo(1)

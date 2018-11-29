@@ -13,12 +13,13 @@ private class FilterNotNull {
 
 // https://android.googlesource.com/platform/tools/base/+/tools_r22/ddmlib/src/main/java/com/android/ddmlib/testrunner/XmlTestRunListener.java#256
 data class JUnitTestCase(
+    // name, classname, and time are always present except for empty test cases <testcase/>
     @JacksonXmlProperty(isAttribute = true)
-    val name: String,
+    val name: String?,
     @JacksonXmlProperty(isAttribute = true)
-    val classname: String,
+    val classname: String?,
     @JacksonXmlProperty(isAttribute = true)
-    val time: String,
+    val time: String?,
 
     // iOS contains multiple failures for a single test.
     // JUnit XML allows arbitrary amounts of failure/error tags
@@ -36,6 +37,10 @@ data class JUnitTestCase(
 ) {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var webLink: String? = null
+
+    fun empty(): Boolean {
+        return name == null || classname == null || time == null
+    }
 
     fun failed(): Boolean {
         return failures?.isNotEmpty() == true || errors?.isNotEmpty() == true
