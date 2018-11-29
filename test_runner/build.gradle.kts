@@ -13,7 +13,7 @@ plugins {
     // ./gradlew ktlintFormat
     // ./gradlew ktlintCheck
     // ./gradlew ktlintApplyToIdea
-    id("org.jlleitschuh.gradle.ktlint") version "6.2.0"
+    id("org.jlleitschuh.gradle.ktlint") version "6.3.1"
 }
 
 // http://www.eclemma.org/jacoco/
@@ -25,10 +25,12 @@ jacoco {
 // ./gradlew clean check jacocoTestReport
 tasks.withType<JacocoReport> {
     doFirst {
-        classDirectories = fileTree("build/classes/kotlin/main").apply {
-            // runBlocking {} produces generated Kotlin code. Ignore that.
-            exclude("**/*\$run$1.class")
-        }
+        // Broken until issue in Kotlin DSL is resolved
+        // https://github.com/gradle/kotlin-dsl/issues/1265
+//        classDirectories = fileTree("build/classes/kotlin/main").apply {
+//            // runBlocking {} produces generated Kotlin code. Ignore that.
+//            exclude("**/*\$run$1.class")
+//        }
 
         reports {
             html.isEnabled = true
@@ -147,9 +149,9 @@ task("fatJar", type = Jar::class) {
             put("Main-Class", "ftl.Main")
         }
     }
-    from(configurations.runtime.map {
-        @Suppress("IMPLICIT_CAST_TO_ANY")
-        if (it.isDirectory) it else zipTree(it)
+    // https://github.com/gradle/kotlin-dsl/issues/1082#issuecomment-433035138
+    from(configurations.runtime.get().map { file ->
+        if (file.isDirectory) file else zipTree(file)
     })
     with(tasks["jar"] as CopySpec)
 }
