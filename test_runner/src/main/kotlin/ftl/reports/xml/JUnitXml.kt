@@ -25,36 +25,36 @@ fun JUnitTestResult?.xmlToString(): String {
     return prefix + xmlPrettyWriter.writeValueAsString(this)
 }
 
-fun parseAndroidXml(bytes: ByteArray): JUnitTestResult {
+fun parseOneSuiteXml(bytes: ByteArray): JUnitTestResult {
     return JUnitTestResult(mutableListOf(xmlMapper.readValue(bytes, JUnitTestSuite::class.java)))
 }
 
-fun parseAndroidXml(path: Path): JUnitTestResult {
-    return parseAndroidXml(xmlBytes(path))
+fun parseOneSuiteXml(path: Path): JUnitTestResult {
+    return parseOneSuiteXml(xmlBytes(path))
 }
 
-fun parseAndroidXml(path: File): JUnitTestResult {
-    return parseAndroidXml(xmlBytes(path.toPath()))
+fun parseOneSuiteXml(path: File): JUnitTestResult {
+    return parseOneSuiteXml(xmlBytes(path.toPath()))
 }
 
-fun parseAndroidXml(data: String): JUnitTestResult {
-    return parseAndroidXml(data.toByteArray())
+fun parseOneSuiteXml(data: String): JUnitTestResult {
+    return parseOneSuiteXml(data.toByteArray())
 }
 
 // --
 
-fun parseIosXml(bytes: ByteArray): JUnitTestResult {
+fun parseAllSuitesXml(bytes: ByteArray): JUnitTestResult {
     return xmlMapper.readValue(bytes, JUnitTestResult::class.java)
 }
 
-fun parseIosXml(path: Path): JUnitTestResult {
-    return parseIosXml(xmlBytes(path))
+fun parseAllSuitesXml(path: Path): JUnitTestResult {
+    return parseAllSuitesXml(xmlBytes(path))
 }
 
-fun parseIosXml(path: File): JUnitTestResult {
-    return parseIosXml(path.toPath())
+fun parseAllSuitesXml(path: File): JUnitTestResult {
+    return parseAllSuitesXml(path.toPath())
 }
 
-fun parseIosXml(data: String): JUnitTestResult {
-    return parseIosXml(data.toByteArray())
+fun parseAllSuitesXml(data: String): JUnitTestResult {
+    return parseAllSuitesXml(data.toByteArray())
 }

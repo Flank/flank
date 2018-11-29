@@ -10,7 +10,7 @@ import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.reports.xml.model.JUnitTestResult
-import ftl.reports.xml.parseIosXml
+import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.xmlToString
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
@@ -85,7 +85,7 @@ object GcStorage {
     fun downloadJunitXml(args: IArgs): JUnitTestResult? {
         val oldXmlPath = download(args.smartFlankGcsPath, ignoreError = true)
         if (oldXmlPath.isNotEmpty()) {
-            return parseIosXml(Paths.get(oldXmlPath))
+            return parseAllSuitesXml(Paths.get(oldXmlPath))
         }
 
         return null

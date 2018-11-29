@@ -24,8 +24,21 @@ class JUnitXmlTest {
     }
 
     @Test
+    fun empty_testcase() {
+        val xml = """
+<testsuites>
+  <testsuite name="" tests="0" failures="0" errors="0" skipped="0" time="0.0" timestamp="2018-11-22T00:56:07" hostname="localhost">
+    <testcase/>
+  </testsuite>
+</testsuites>
+        """.trimIndent()
+
+        parseAllSuitesXml(xml)
+    }
+
+    @Test
     fun merge_android() {
-        val mergedXml = parseAndroidXml(androidPassXml).merge(parseAndroidXml(androidFailXml))
+        val mergedXml = parseOneSuiteXml(androidPassXml).merge(parseOneSuiteXml(androidFailXml))
         val merged = mergedXml.xmlToString()
 
         val testSuite = mergedXml.testsuites?.first() ?: throw java.lang.RuntimeException("no test suite")
@@ -57,7 +70,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun merge_ios() {
-        val merged = parseIosXml(iosPassXml).merge(parseIosXml(iosFailXml)).xmlToString()
+        val merged = parseAllSuitesXml(iosPassXml).merge(parseAllSuitesXml(iosFailXml)).xmlToString()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
@@ -78,13 +91,13 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun parse_androidSkipped() {
-        val parsed = parseAndroidXml(androidSkipped)
+        val parsed = parseOneSuiteXml(androidSkipped)
         assertThat(parsed.testsuites?.first()?.testcases?.first()?.skipped).isNull()
     }
 
     @Test
     fun merge_androidSkipped() {
-        val merged = parseAndroidXml(androidSkipped)
+        val merged = parseOneSuiteXml(androidSkipped)
         merged.merge(merged)
         val actual = merged.xmlToString()
 
@@ -108,7 +121,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun junitXmlToString_androidPassXml() {
-        val parsed = parseAndroidXml(androidPassXml).xmlToString()
+        val parsed = parseOneSuiteXml(androidPassXml).xmlToString()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
@@ -124,7 +137,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun junitXmlToString_androidFailXml() {
-        val parsed = parseAndroidXml(androidFailXml).xmlToString()
+        val parsed = parseOneSuiteXml(androidFailXml).xmlToString()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
@@ -144,7 +157,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun junitXmlToString_iosPassXml() {
-        val parsed = parseIosXml(iosPassXml).xmlToString()
+        val parsed = parseAllSuitesXml(iosPassXml).xmlToString()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
@@ -161,7 +174,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun junitXmlToString_iosFailXml() {
-        val parsed = parseIosXml(iosFailXml).xmlToString()
+        val parsed = parseAllSuitesXml(iosFailXml).xmlToString()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
@@ -181,7 +194,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun parse_androidPassXml() {
-        val testSuite = parseAndroidXml(androidPassXml)
+        val testSuite = parseOneSuiteXml(androidPassXml)
             .testsuites?.first() ?: throw RuntimeException("Missing test suite")
 
         with(testSuite) {
@@ -210,7 +223,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun parse_androidFailXml() {
-        val testSuite = parseAndroidXml(androidFailXml)
+        val testSuite = parseOneSuiteXml(androidFailXml)
             .testsuites?.first() ?: throw RuntimeException("Missing test suite")
 
         with(testSuite) {
@@ -245,7 +258,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun parse_iosPassXml() {
-        val testSuites = parseIosXml(iosPassXml)
+        val testSuites = parseAllSuitesXml(iosPassXml)
         val testSuite = testSuites.testsuites?.first()
         assertThat(testSuite).isNotNull()
 
@@ -277,7 +290,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun parse_iosFailXml() {
-        val testSuites = parseIosXml(iosFailXml)
+        val testSuites = parseAllSuitesXml(iosFailXml)
         val testSuite = testSuites.testsuites?.first()
         assertThat(testSuite).isNotNull()
 
@@ -362,7 +375,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
         // * c() failed in newRun and passed in oldRun. timing info copied over from oldRun
         // * d() was skipped in newRun and successful in oldRun. d() is excluded from the merged result
 
-        val merged = parseIosXml(newRun).mergeTestTimes(parseIosXml(oldRun)).xmlToString()
+        val merged = parseAllSuitesXml(newRun).mergeTestTimes(parseAllSuitesXml(oldRun)).xmlToString()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>

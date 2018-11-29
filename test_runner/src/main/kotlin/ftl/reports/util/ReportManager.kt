@@ -9,8 +9,8 @@ import ftl.reports.HtmlErrorReport
 import ftl.reports.JUnitReport
 import ftl.reports.MatrixResultsReport
 import ftl.reports.xml.model.JUnitTestResult
-import ftl.reports.xml.parseAndroidXml
-import ftl.reports.xml.parseIosXml
+import ftl.reports.xml.parseOneSuiteXml
+import ftl.reports.xml.parseAllSuitesXml
 import ftl.util.ArtifactRegex
 import ftl.util.resolveLocalRunPath
 import java.io.File
@@ -66,9 +66,9 @@ object ReportManager {
     private fun parseTestSuite(matrices: MatrixMap, args: IArgs): JUnitTestResult? {
         val iosXml = args is IosArgs
         return if (iosXml) {
-            processXml(matrices, ::parseIosXml)
+            processXml(matrices, ::parseAllSuitesXml)
         } else {
-            processXml(matrices, ::parseAndroidXml)
+            processXml(matrices, ::parseOneSuiteXml)
         }
     }
 
