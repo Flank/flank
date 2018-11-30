@@ -1,7 +1,12 @@
 package ftl.cli.firebase.test.android
 
 import ftl.args.AndroidArgs
+import ftl.config.Device
 import ftl.config.FtlConstants
+import ftl.config.FtlConstants.defaultAndroidModel
+import ftl.config.FtlConstants.defaultAndroidVersion
+import ftl.config.FtlConstants.defaultLocale
+import ftl.config.FtlConstants.defaultOrientation
 import ftl.run.TestRunner
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine.Command
@@ -89,4 +94,26 @@ class AndroidRunCommand : Runnable {
         | and treated as implicit path substitutions. E.g. if /sdcard on a particular device does not map to external
         | storage, the system will replace it with the external storage path prefix for that device."""])
     var directoriesToPull: List<String>? = null
+
+    @Option(
+        names = ["--device"], split = ",", description = ["""A list of DIMENSION=VALUE pairs which specify a target
+        |device to test against. The four device dimensions are:
+        | model, version, locale, and orientation. If any dimensions are omitted, they will use a default value. Omitting
+        |  all of the preceding dimension-related flags will run tests against a single device using defaults for all four
+        |   device dimensions."""]
+    )
+    fun deviceMap(map: Map<String, String>?) {
+        if (map.isNullOrEmpty()) return
+        val androidDevice = Device(
+            model = map.getOrDefault("model", defaultAndroidModel),
+            version = map.getOrDefault("version", defaultAndroidVersion),
+            locale = map.getOrDefault("locale", defaultLocale),
+            orientation = map.getOrDefault("orientation", defaultOrientation)
+        )
+
+        if (device == null) device = mutableListOf()
+        device?.add(androidDevice)
+    }
+
+    var device: MutableList<Device>? = null
 }

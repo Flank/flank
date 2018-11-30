@@ -2,6 +2,7 @@ package ftl.cli.firebase.test.android
 
 import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
+import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
@@ -68,6 +69,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.noPerformanceMetrics).isNull()
         assertThat(cmd.environmentVariables).isNull()
         assertThat(cmd.directoriesToPull).isNull()
+        assertThat(cmd.device).isNull()
     }
 
     @Test
@@ -159,5 +161,15 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parse("--directories-to-pull=a,b")
 
         assertThat(cmd.directoriesToPull).hasSize(2)
+    }
+
+    @Test
+    fun device_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--device=model=shamu,version=22,locale=zh_CN,orientation=default")
+
+        val expectedDevice = Device("shamu", "22", "zh_CN", "default")
+        assertThat(cmd.device?.size).isEqualTo(1)
+        assertThat(cmd.device?.first()).isEqualTo(expectedDevice)
     }
 }
