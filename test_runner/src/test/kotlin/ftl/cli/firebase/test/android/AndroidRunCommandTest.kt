@@ -66,6 +66,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.noUseOrchestrator).isNull()
         assertThat(cmd.performanceMetrics).isNull()
         assertThat(cmd.noPerformanceMetrics).isNull()
+        assertThat(cmd.environmentVariables).isNull()
     }
 
     @Test
@@ -141,5 +142,13 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parse("--no-performance-metrics")
 
         assertThat(cmd.noPerformanceMetrics).isTrue()
+    }
+
+    @Test
+    fun environmentVariables_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--environment-variables=a=1,b=2")
+
+        assertThat(cmd.environmentVariables).hasSize(2)
     }
 }

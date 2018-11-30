@@ -55,7 +55,7 @@ class AndroidArgs(
 
     // We use not() on noUseOrchestrator because if the flag is on, useOrchestrator needs to be false
     val useOrchestrator = cli.useOrchestrator ?: cli.noUseOrchestrator?.not() ?: androidGcloud.useOrchestrator
-    val environmentVariables = androidGcloud.environmentVariables
+    val environmentVariables = cli.environmentVariables ?: androidGcloud.environmentVariables
     val directoriesToPull = androidGcloud.directoriesToPull
     val performanceMetrics = cli.performanceMetrics ?: cli.noPerformanceMetrics?.not() ?: androidGcloud.performanceMetrics
     val testTargets = cli.testTargets ?: androidGcloud.testTargets
