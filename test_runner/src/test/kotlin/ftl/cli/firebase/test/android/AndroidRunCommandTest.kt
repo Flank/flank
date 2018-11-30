@@ -67,6 +67,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.performanceMetrics).isNull()
         assertThat(cmd.noPerformanceMetrics).isNull()
         assertThat(cmd.environmentVariables).isNull()
+        assertThat(cmd.directoriesToPull).isNull()
     }
 
     @Test
@@ -150,5 +151,13 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parse("--environment-variables=a=1,b=2")
 
         assertThat(cmd.environmentVariables).hasSize(2)
+    }
+
+    @Test
+    fun directoriesToPull_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--directories-to-pull=a,b")
+
+        assertThat(cmd.directoriesToPull).hasSize(2)
     }
 }
