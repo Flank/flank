@@ -438,4 +438,21 @@ AndroidArgs
         val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.performanceMetrics).isFalse()
     }
+
+    @Test
+    fun cli_environmentVariables() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--environment-variables=a=1,b=2")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+      """
+        assertThat(AndroidArgs.load(yaml).environmentVariables).isEmpty()
+
+        val androidArgs = AndroidArgs.load(yaml, cli)
+        val expectedMap = mapOf("a" to "1", "b" to "2")
+        assertThat(androidArgs.environmentVariables).isEqualTo(expectedMap)
+    }
 }

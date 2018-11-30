@@ -75,4 +75,10 @@ class AndroidRunCommand : Runnable {
 
     @Option(names = ["--no-performance-metrics"], description = ["""Disables performance metrics. See --performance-metrics"""])
     var noPerformanceMetrics: Boolean? = null
+
+    @Option(names = ["--environment-variables"], split = ",", description = ["""A comma-separated, key=value map of environment variables
+        | and their desired values. --environment-variables=coverage=true,coverageFile=/sdcard/coverage.ec
+        | The environment variables are mirrored as extra options to the am instrument -e KEY1 VALUE1 … command and
+        | passed to your test runner (typically AndroidJUnitRunner)"""])
+    var environmentVariables: Map<String, String>? = null
 }
