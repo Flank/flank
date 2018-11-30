@@ -455,4 +455,20 @@ AndroidArgs
         val expectedMap = mapOf("a" to "1", "b" to "2")
         assertThat(androidArgs.environmentVariables).isEqualTo(expectedMap)
     }
+
+    @Test
+    fun cli_directoriesToPull() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--directories-to-pull=a,b")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+      """
+        assertThat(AndroidArgs.load(yaml).directoriesToPull).isEmpty()
+
+        val androidArgs = AndroidArgs.load(yaml, cli)
+        assertThat(androidArgs.directoriesToPull).isEqualTo(listOf("a", "b"))
+    }
 }
