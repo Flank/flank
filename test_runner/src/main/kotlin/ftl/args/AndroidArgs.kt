@@ -59,7 +59,7 @@ class AndroidArgs(
     val directoriesToPull = cli.directoriesToPull ?: androidGcloud.directoriesToPull
     val performanceMetrics = cli.performanceMetrics ?: cli.noPerformanceMetrics?.not() ?: androidGcloud.performanceMetrics
     val testTargets = cli.testTargets ?: androidGcloud.testTargets
-    val devices = androidGcloud.device
+    val devices = cli.device ?: androidGcloud.device
 
     private val flank = flankYml.flank
     override val testShards = flank.testShards

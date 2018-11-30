@@ -3,6 +3,8 @@ package ftl.args
 import com.google.common.truth.Truth.assertThat
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
+import ftl.config.FtlConstants.defaultAndroidModel
+import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
@@ -470,5 +472,27 @@ AndroidArgs
 
         val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.directoriesToPull).isEqualTo(listOf("a", "b"))
+    }
+
+    @Test
+    fun cli_device() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--device=model=shamu,version=22,locale=zh_CN,orientation=default")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+      """
+        val expectedDefaultDevice = Device(defaultAndroidModel, defaultAndroidVersion)
+        val defaultDevices = AndroidArgs.load(yaml).devices
+        assertThat(defaultDevices.first()).isEqualTo(expectedDefaultDevice)
+        assertThat(defaultDevices.size).isEqualTo(1)
+
+        val androidArgs = AndroidArgs.load(yaml, cli)
+        val expectedDevice = Device("shamu", "22", "zh_CN", "default")
+        val actualDevices = androidArgs.devices
+        assertThat(actualDevices.first()).isEqualTo(expectedDevice)
+        assertThat(actualDevices.size).isEqualTo(1)
     }
 }

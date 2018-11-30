@@ -3,6 +3,8 @@ package ftl.args.yml
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.config.Device
+import ftl.config.FtlConstants.defaultAndroidModel
+import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.util.Utils.assertNotEmpty
 
 /**
@@ -33,7 +35,7 @@ class AndroidGcloudYmlParams(
     @field:JsonProperty("test-targets")
     val testTargets: List<String> = emptyList(),
 
-    val device: List<Device> = listOf(Device("NexusLowRes", "28"))
+    val device: List<Device> = listOf(Device(defaultAndroidModel, defaultAndroidVersion))
 ) {
     companion object : IYmlKeys {
         override val keys = listOf(

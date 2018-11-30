@@ -19,6 +19,10 @@ object FtlConstants {
     val macOS = System.getProperty("os.name") == "Mac OS X"
     const val localhost = "http://localhost:8080"
 
+    const val defaultLocale = "en"
+    const val defaultOrientation = "portrait"
+    const val defaultAndroidModel = "NexusLowRes"
+    const val defaultAndroidVersion = "28"
     const val defaultIosConfig = "./flank.ios.yml"
     const val defaultAndroidConfig = "./flank.yml"
     const val indent = "  "

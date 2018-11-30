@@ -1,12 +1,14 @@
 package ftl.config
 
+import ftl.config.FtlConstants.defaultLocale
+import ftl.config.FtlConstants.defaultOrientation
 import ftl.util.Utils.trimStartLine
 
 data class Device(
     val model: String,
     val version: String,
-    val locale: String = "en",
-    val orientation: String = "portrait"
+    val locale: String = defaultLocale,
+    val orientation: String = defaultOrientation
 ) {
 
     override fun toString(): String {
