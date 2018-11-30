@@ -283,133 +283,159 @@ AndroidArgs
     }
 
     @Test
-    fun androidArgs_overrideAppFromCmdLine() {
+    fun cli_app() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--app", testApk)
 
-        val androidArgs = AndroidArgs.load(
-            """
+        val yaml = """
         gcloud:
           app: $appApk
           test: $testApk
-      """,
-            cli
-        )
+      """
+        assertThat(AndroidArgs.load(yaml).appApk).isEqualTo(appApkAbsolutePath)
 
+        val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.appApk).isEqualTo(testApkAbsolutePath)
-        assertThat(androidArgs.cli).isEqualTo(cli)
     }
 
     @Test
-    fun androidArgs_overrideTestFromCmdLine() {
+    fun cli_test() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--test", appApk)
 
-        val androidArgs = AndroidArgs.load(
-            """
+        val yaml = """
         gcloud:
           app: $appApk
           test: $testApk
-      """,
-            cli
-        )
+      """
+        assertThat(AndroidArgs.load(yaml).testApk).isEqualTo(testApkAbsolutePath)
 
+        val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.testApk).isEqualTo(appApkAbsolutePath)
         assertThat(androidArgs.cli).isEqualTo(cli)
     }
 
     @Test
-    fun androidArgs_overrideTestTargetsFromCmdLine() {
+    fun cli_testTargets() {
         val cli = AndroidRunCommand()
         val testTarget = "class com.foo.ClassName"
 
         CommandLine(cli).parse("--test-targets", testTarget)
 
-        val androidArgs = AndroidArgs.load(
-            """
+        val yaml = """
         gcloud:
           app: $appApk
           test: $testApk
           test-targets:
             - class com.example.app.ExampleUiTest#testPasses
             - class com.example.app.ExampleUiTest#testFails
-      """,
-            cli
-        )
+      """
+        assertThat(AndroidArgs.load(yaml).testTargets.size).isEqualTo(2)
 
+        val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.testTargets.size).isEqualTo(1)
         assertThat(androidArgs.testTargets).isEqualTo(listOf(testTarget))
     }
 
     @Test
-    fun androidArgs_overrideUseOrchestratorFromCmdLine() {
+    fun cli_useOrchestrator() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--use-orchestrator")
 
-        val androidArgs = AndroidArgs.load(
-            """
+        val yaml = """
         gcloud:
           app: $appApk
           test: $testApk
           use-orchestrator: false
-      """,
-            cli
-        )
+      """
+        assertThat(AndroidArgs.load(yaml).useOrchestrator).isFalse()
 
+        val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.useOrchestrator).isTrue()
     }
 
     @Test
-    fun androidArgs_overrideNoUseOrchestratorFromCmdLine() {
+    fun cli_noUseOrchestrator() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--no-use-orchestrator")
 
-        val androidArgs = AndroidArgs.load(
-            """
+        val yaml = """
         gcloud:
           app: $appApk
           test: $testApk
           use-orchestrator: true
-      """,
-            cli
-        )
+      """
+        assertThat(AndroidArgs.load(yaml).useOrchestrator).isTrue()
 
+        val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.useOrchestrator).isFalse()
     }
 
     @Test
-    fun androidArgs_overrideAutoGoogleLoginFromCmdLine() {
+    fun cli_autoGoogleLogin() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--auto-google-login")
 
-        val androidArgs = AndroidArgs.load(
-            """
+        val yaml = """
         gcloud:
           app: $appApk
           test: $testApk
           auto-google-login: false
-      """,
-            cli
-        )
+      """
+        assertThat(AndroidArgs.load(yaml).autoGoogleLogin).isFalse()
 
+        val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.autoGoogleLogin).isTrue()
     }
 
     @Test
-    fun androidArgs_overrideNoAutoGoogleLoginFromCmdLine() {
+    fun cli_noAutoGoogleLogin() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--no-auto-google-login")
 
-        val androidArgs = AndroidArgs.load(
-            """
+        val yaml = """
         gcloud:
           app: $appApk
           test: $testApk
           auto-google-login: true
-      """,
-            cli
-        )
+      """
+        assertThat(AndroidArgs.load(yaml).autoGoogleLogin).isTrue()
 
+        val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.autoGoogleLogin).isFalse()
+    }
+
+    @Test
+    fun cli_performanceMetrics() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--performance-metrics")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          performance-metrics: false
+      """
+        assertThat(AndroidArgs.load(yaml).performanceMetrics).isFalse()
+
+        val androidArgs = AndroidArgs.load(yaml, cli)
+        assertThat(androidArgs.performanceMetrics).isTrue()
+    }
+
+    @Test
+    fun cli_noPerformanceMetrics() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--no-performance-metrics")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          performance-metrics: true
+      """
+        assertThat(AndroidArgs.load(yaml).performanceMetrics).isTrue()
+
+        val androidArgs = AndroidArgs.load(yaml, cli)
+        assertThat(androidArgs.performanceMetrics).isFalse()
     }
 }
