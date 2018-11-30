@@ -61,4 +61,11 @@ class AndroidRunCommand : Runnable {
 
     @Option(names = ["--no-use-orchestrator"], description = ["""Orchestrator is not used. See --use-orchestrator."""])
     var noUseOrchestrator: Boolean? = null
+
+    @Option(names = ["--auto-google-login"], description = ["""Automatically log into the test device using a preconfigured
+        | Google account before beginning the test. Enabled by default, use --no-auto-google-login to disable."""])
+    var autoGoogleLogin: Boolean? = null
+
+    @Option(names = ["--no-auto-google-login"], description = ["""Google account not logged in. See --auto-google-login."""])
+    var noAutoGoogleLogin: Boolean? = null
 }

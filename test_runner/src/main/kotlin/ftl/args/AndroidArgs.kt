@@ -51,7 +51,7 @@ class AndroidArgs(
     private val androidGcloud = androidGcloudYml.gcloud
     var appApk = cli.app ?: androidGcloud.app
     var testApk = cli.test ?: androidGcloud.test
-    val autoGoogleLogin = androidGcloud.autoGoogleLogin
+    val autoGoogleLogin = cli.autoGoogleLogin ?: cli.noAutoGoogleLogin?.not() ?: androidGcloud.autoGoogleLogin
 
     // We use not() on noUseOrchestrator because if the flag is on, useOrchestrator needs to be false
     val useOrchestrator = cli.useOrchestrator ?: cli.noUseOrchestrator?.not() ?: androidGcloud.useOrchestrator
