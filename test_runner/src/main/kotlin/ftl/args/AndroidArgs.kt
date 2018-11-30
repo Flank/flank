@@ -57,7 +57,7 @@ class AndroidArgs(
     val useOrchestrator = cli.useOrchestrator ?: cli.noUseOrchestrator?.not() ?: androidGcloud.useOrchestrator
     val environmentVariables = androidGcloud.environmentVariables
     val directoriesToPull = androidGcloud.directoriesToPull
-    val performanceMetrics = androidGcloud.performanceMetrics
+    val performanceMetrics = cli.performanceMetrics ?: cli.noPerformanceMetrics?.not() ?: androidGcloud.performanceMetrics
     val testTargets = cli.testTargets ?: androidGcloud.testTargets
     val devices = androidGcloud.device
 

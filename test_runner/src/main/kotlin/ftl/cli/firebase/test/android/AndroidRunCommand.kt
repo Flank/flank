@@ -68,4 +68,11 @@ class AndroidRunCommand : Runnable {
 
     @Option(names = ["--no-auto-google-login"], description = ["""Google account not logged in. See --auto-google-login."""])
     var noAutoGoogleLogin: Boolean? = null
+
+    @Option(names = ["--performance-metrics"], description = ["""Monitor and record performance metrics: CPU, memory,
+        | network usage, and FPS (game-loop only). Enabled by default, use --no-performance-metrics to disable."""])
+    var performanceMetrics: Boolean? = null
+
+    @Option(names = ["--no-performance-metrics"], description = ["""Disables performance metrics. See --performance-metrics"""])
+    var noPerformanceMetrics: Boolean? = null
 }

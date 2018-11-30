@@ -64,6 +64,8 @@ class AndroidRunCommandTest {
         assertThat(cmd.noUseOrchestrator).isNull()
         assertThat(cmd.autoGoogleLogin).isNull()
         assertThat(cmd.noUseOrchestrator).isNull()
+        assertThat(cmd.performanceMetrics).isNull()
+        assertThat(cmd.noPerformanceMetrics).isNull()
     }
 
     @Test
@@ -123,5 +125,21 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parse("--no-auto-google-login")
 
         assertThat(cmd.noAutoGoogleLogin).isTrue()
+    }
+
+    @Test
+    fun performanceMetrics_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--performance-metrics")
+
+        assertThat(cmd.performanceMetrics).isTrue()
+    }
+
+    @Test
+    fun noPerformanceMetrics_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--no-performance-metrics")
+
+        assertThat(cmd.noPerformanceMetrics).isTrue()
     }
 }
