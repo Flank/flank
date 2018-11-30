@@ -97,7 +97,7 @@ class AndroidRunCommand : Runnable {
 
     @Option(
         names = ["--device"], split = ",", description = ["""A list of DIMENSION=VALUE pairs which specify a target
-        |device to test against. This flag may be repeated to specify multiple devices. The four device dimensions are:
+        |device to test against. The four device dimensions are:
         | model, version, locale, and orientation. If any dimensions are omitted, they will use a default value. Omitting
         |  all of the preceding dimension-related flags will run tests against a single device using defaults for all four
         |   device dimensions."""]
