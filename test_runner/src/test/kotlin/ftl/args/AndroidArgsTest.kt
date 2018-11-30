@@ -376,4 +376,40 @@ AndroidArgs
 
         assertThat(androidArgs.useOrchestrator).isFalse()
     }
+
+    @Test
+    fun androidArgs_overrideAutoGoogleLoginFromCmdLine() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--auto-google-login")
+
+        val androidArgs = AndroidArgs.load(
+            """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          auto-google-login: false
+      """,
+            cli
+        )
+
+        assertThat(androidArgs.autoGoogleLogin).isTrue()
+    }
+
+    @Test
+    fun androidArgs_overrideNoAutoGoogleLoginFromCmdLine() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--no-auto-google-login")
+
+        val androidArgs = AndroidArgs.load(
+            """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          auto-google-login: true
+      """,
+            cli
+        )
+
+        assertThat(androidArgs.autoGoogleLogin).isFalse()
+    }
 }

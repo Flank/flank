@@ -57,10 +57,13 @@ class AndroidRunCommandTest {
     fun empty_params_parse_null() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse()
-        assertThat(cmd.app).isEqualTo(null)
-        assertThat(cmd.test).isEqualTo(null)
-        assertThat(cmd.testTargets).isEqualTo(null)
-        assertThat(cmd.useOrchestrator).isEqualTo(null)
+        assertThat(cmd.app).isNull()
+        assertThat(cmd.test).isNull()
+        assertThat(cmd.testTargets).isNull()
+        assertThat(cmd.useOrchestrator).isNull()
+        assertThat(cmd.noUseOrchestrator).isNull()
+        assertThat(cmd.autoGoogleLogin).isNull()
+        assertThat(cmd.noUseOrchestrator).isNull()
     }
 
     @Test
@@ -104,5 +107,21 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parse("--no-use-orchestrator")
 
         assertThat(cmd.noUseOrchestrator).isTrue()
+    }
+
+    @Test
+    fun autoGoogleLogin_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--auto-google-login")
+
+        assertThat(cmd.autoGoogleLogin).isTrue()
+    }
+
+    @Test
+    fun noAutoGoogleLogin_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--no-auto-google-login")
+
+        assertThat(cmd.noAutoGoogleLogin).isTrue()
     }
 }
