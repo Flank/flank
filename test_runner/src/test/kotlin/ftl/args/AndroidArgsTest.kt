@@ -495,4 +495,23 @@ AndroidArgs
         assertThat(actualDevices.first()).isEqualTo(expectedDevice)
         assertThat(actualDevices.size).isEqualTo(1)
     }
+
+    @Test
+    fun cli_device_repeat() {
+        val cli = AndroidRunCommand()
+        val deviceCmd = "--device=model=shamu,version=22,locale=zh_CN,orientation=default"
+        CommandLine(cli).parse(deviceCmd, deviceCmd)
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+      """
+        val androidArgs = AndroidArgs.load(yaml, cli)
+        val expectedDevice = Device("shamu", "22", "zh_CN", "default")
+        val actualDevices = androidArgs.devices
+        assertThat(actualDevices.size).isEqualTo(2)
+        assertThat(actualDevices[0]).isEqualTo(expectedDevice)
+        assertThat(actualDevices[1]).isEqualTo(expectedDevice)
+    }
 }
