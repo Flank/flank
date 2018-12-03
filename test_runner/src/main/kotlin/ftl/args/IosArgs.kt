@@ -53,7 +53,7 @@ class IosArgs(
     override val testTargetsAlwaysRun = cli?.testTargetsAlwaysRun ?: flank.testTargetsAlwaysRun
 
     private val iosFlank = iosFlankYml.flank
-    val testTargets = iosFlank.testTargets
+    val testTargets = cli?.testTargets ?: iosFlank.testTargets
 
     // computed properties not specified in yaml
     override val testShardChunks: List<List<String>> by lazy {

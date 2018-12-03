@@ -67,6 +67,7 @@ class IosRunCommandTest {
         assertThat(cmd.testShards).isNull()
         assertThat(cmd.repeatTests).isNull()
         assertThat(cmd.testTargetsAlwaysRun).isNull()
+        assertThat(cmd.testTargets).isNull()
     }
 
     @Test
@@ -149,5 +150,13 @@ class IosRunCommandTest {
         CommandLine(cmd).parse("--test-targets-always-run=a,b,c")
 
         assertThat(cmd.testTargetsAlwaysRun).isEqualTo(arrayListOf("a", "b", "c"))
+    }
+
+    @Test
+    fun testTargets_parse() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parse("--test-targets=a,b,c")
+
+        assertThat(cmd.testTargets).isEqualTo(arrayListOf("a", "b", "c"))
     }
 }

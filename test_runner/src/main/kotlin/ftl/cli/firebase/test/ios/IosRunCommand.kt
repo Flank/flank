@@ -77,4 +77,8 @@ class IosRunCommand : Runnable {
     @Option(names = ["--test-targets-always-run"], split = ",", description = ["""A list of one or more test methods to always run
         |first in every shard."""])
     var testTargetsAlwaysRun: List<String>? = null
+
+    @Option(names = ["--test-targets"], split = ",", description = ["""A list of one or more test method
+        names to run (default: run all test targets)."""])
+    var testTargets: List<String>? = null
 }
