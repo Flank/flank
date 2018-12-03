@@ -93,4 +93,9 @@ class IosRunCommand : Runnable {
         |along with test methods to run and/or ignore, this can be useful for customizing or sharding test suites. The
         | given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://."""])
     var xctestrunFile: String? = null
+
+    @Option(names = ["--xcode-version"], description = ["""The version of Xcode that should be used to run an XCTest.
+        | Defaults to the latest Xcode version supported in Firebase Test Lab. This Xcode version must be supported by
+        |  all iOS versions selected in the test matrix."""])
+    var xcodeVersion: String? = null
 }

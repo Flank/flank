@@ -70,6 +70,7 @@ class IosRunCommandTest {
         assertThat(cmd.testTargets).isNull()
         assertThat(cmd.test).isNull()
         assertThat(cmd.xctestrunFile).isNull()
+        assertThat(cmd.xcodeVersion).isNull()
     }
 
     @Test
@@ -176,5 +177,13 @@ class IosRunCommandTest {
         CommandLine(cmd).parse("--xctestrun-file=a")
 
         assertThat(cmd.xctestrunFile).isEqualTo("a")
+    }
+
+    @Test
+    fun test_xcodeVersion() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parse("--xcode-version=999")
+
+        assertThat(cmd.xcodeVersion).isEqualTo("999")
     }
 }
