@@ -235,6 +235,8 @@ IosArgs
         }
     }
 
+    // gcloudYml
+
     @Test
     fun cli_resultsBucket() {
         val cli = IosRunCommand()
@@ -248,5 +250,35 @@ IosArgs
       """
         assertThat(IosArgs.load(yaml).resultsBucket).isEqualTo("b")
         assertThat(IosArgs.load(yaml, cli).resultsBucket).isEqualTo("a")
+    }
+
+    @Test
+    fun cli_recordVideo() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--record-video")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $xctestrunFile
+          record-video: false
+      """
+        assertThat(IosArgs.load(yaml).recordVideo).isFalse()
+        assertThat(IosArgs.load(yaml, cli).recordVideo).isTrue()
+    }
+
+    @Test
+    fun cli_noRecordVideo() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--no-record-video")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $xctestrunFile
+          record-video: true
+      """
+        assertThat(IosArgs.load(yaml).recordVideo).isTrue()
+        assertThat(IosArgs.load(yaml, cli).recordVideo).isFalse()
     }
 }

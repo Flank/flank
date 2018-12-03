@@ -71,6 +71,8 @@ class AndroidRunCommandTest {
         assertThat(cmd.directoriesToPull).isNull()
         assertThat(cmd.device).isNull()
         assertThat(cmd.resultsBucket).isNull()
+        assertThat(cmd.recordVideo).isNull()
+        assertThat(cmd.noRecordVideo).isNull()
     }
 
     @Test
@@ -180,5 +182,21 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parse("--results-bucket=a")
 
         assertThat(cmd.resultsBucket).isEqualTo("a")
+    }
+
+    @Test
+    fun recordVideo_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--record-video")
+
+        assertThat(cmd.recordVideo).isTrue()
+    }
+
+    @Test
+    fun noRecordVideo_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--no-record-video")
+
+        assertThat(cmd.noRecordVideo).isTrue()
     }
 }

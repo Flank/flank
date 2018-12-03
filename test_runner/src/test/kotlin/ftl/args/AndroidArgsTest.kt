@@ -515,6 +515,8 @@ AndroidArgs
         assertThat(actualDevices[1]).isEqualTo(expectedDevice)
     }
 
+    // gcloudYml
+
     @Test
     fun cli_resultsBucket() {
         val cli = AndroidRunCommand()
@@ -528,5 +530,35 @@ AndroidArgs
       """
         assertThat(AndroidArgs.load(yaml).resultsBucket).isEqualTo("b")
         assertThat(AndroidArgs.load(yaml, cli).resultsBucket).isEqualTo("a")
+    }
+
+    @Test
+    fun cli_recordVideo() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--record-video")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          record-video: false
+      """
+        assertThat(AndroidArgs.load(yaml).recordVideo).isFalse()
+        assertThat(AndroidArgs.load(yaml, cli).recordVideo).isTrue()
+    }
+
+    @Test
+    fun cli_noRecordVideo() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--no-record-video")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          record-video: true
+      """
+        assertThat(AndroidArgs.load(yaml).recordVideo).isTrue()
+        assertThat(AndroidArgs.load(yaml, cli).recordVideo).isFalse()
     }
 }
