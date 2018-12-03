@@ -322,7 +322,7 @@ AndroidArgs
         val cli = AndroidRunCommand()
         val testTarget = "class com.foo.ClassName"
 
-        CommandLine(cli).parse("--test-targets", testTarget)
+        CommandLine(cli).parse("--test-targets=$testTarget,$testTarget")
 
         val yaml = """
         gcloud:
@@ -330,13 +330,14 @@ AndroidArgs
           test: $testApk
           test-targets:
             - class com.example.app.ExampleUiTest#testPasses
+            - class com.example.app.ExampleUiTest#testPasses
             - class com.example.app.ExampleUiTest#testFails
       """
-        assertThat(AndroidArgs.load(yaml).testTargets.size).isEqualTo(2)
+        assertThat(AndroidArgs.load(yaml).testTargets.size).isEqualTo(3)
 
         val androidArgs = AndroidArgs.load(yaml, cli)
-        assertThat(androidArgs.testTargets.size).isEqualTo(1)
-        assertThat(androidArgs.testTargets).isEqualTo(listOf(testTarget))
+        assertThat(androidArgs.testTargets.size).isEqualTo(2)
+        assertThat(androidArgs.testTargets).isEqualTo(listOf(testTarget, testTarget))
     }
 
     @Test
@@ -654,5 +655,18 @@ AndroidArgs
       """
         assertThat(AndroidArgs.load(yaml).repeatTests).isEqualTo(2)
         assertThat(AndroidArgs.load(yaml, cli).repeatTests).isEqualTo(3)
+    }
+
+    @Test
+    fun cli_testTargetsAlwaysRun() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--test-targets-always-run=com.A,com.B")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+      """
+        assertThat(AndroidArgs.load(yaml, cli).testTargetsAlwaysRun).isEqualTo(arrayListOf("com.A", "com.B"))
     }
 }
