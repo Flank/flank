@@ -431,4 +431,20 @@ IosArgs
         assertThat(IosArgs.load(yaml).xctestrunFile).isEqualTo(testAbsolutePath)
         assertThat(IosArgs.load(yaml, cli).xctestrunFile).isEqualTo(xctestrunFileAbsolutePath)
     }
+
+    @Test
+    fun cli_xcodeVersion() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--xcode-version=10.1")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+          xcode-version: 10.0
+      """
+
+        assertThat(IosArgs.load(yaml).xcodeVersion).isEqualTo("10.0")
+        assertThat(IosArgs.load(yaml, cli).xcodeVersion).isEqualTo("10.1")
+    }
 }
