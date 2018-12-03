@@ -102,7 +102,7 @@ class IosArgsTest {
             assert(recordVideo, false)
             assert(testTimeout, "70m")
             assert(async, true)
-            assert(projectId, "projectFoo")
+            assert(project, "projectFoo")
             assert(resultsHistoryName ?: "", "ios-history")
 
             // IosGcloudYml
@@ -180,7 +180,7 @@ IosArgs
             assert(recordVideo, true)
             assert(testTimeout, "15m")
             assert(async, false)
-            assert(projectId, "mockProjectId")
+            assert(project, "mockProjectId")
 
             // IosGcloudYml
             assert(xctestrunZip, testAbsolutePath)
@@ -310,5 +310,20 @@ IosArgs
       """
         assertThat(IosArgs.load(yaml).async).isEqualTo(false)
         assertThat(IosArgs.load(yaml, cli).async).isEqualTo(true)
+    }
+
+    @Test
+    fun cli_project() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--project=b")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $xctestrunFile
+          project: a
+      """
+        assertThat(IosArgs.load(yaml).project).isEqualTo("a")
+        assertThat(IosArgs.load(yaml, cli).project).isEqualTo("b")
     }
 }

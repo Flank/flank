@@ -38,7 +38,7 @@ class GcIosTestMatrixTest {
         `when`(iosArgs.testShardChunks).thenReturn(listOf(listOf("")))
         `when`(iosArgs.testTimeout).thenReturn("3m")
         `when`(iosArgs.resultsBucket).thenReturn("/hi")
-        `when`(iosArgs.projectId).thenReturn("123")
+        `when`(iosArgs.project).thenReturn("123")
         `when`(iosArgs.xctestrunFile).thenReturn("456")
 
         GcIosTestMatrix.build(

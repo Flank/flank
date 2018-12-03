@@ -15,7 +15,7 @@ class GcToolResultsTest {
     @Test
     fun createToolResultsHistory_null_succeeds() {
         val args = mock(AndroidArgs::class.java)
-        `when`(args.projectId).thenReturn("123")
+        `when`(args.project).thenReturn("123")
 
         val expected = ToolResultsHistory().setProjectId("123")
 
@@ -25,7 +25,7 @@ class GcToolResultsTest {
     @Test
     fun createToolResultsHistory_succeeds() {
         val args = mock(AndroidArgs::class.java)
-        `when`(args.projectId).thenReturn("123")
+        `when`(args.project).thenReturn("123")
         `when`(args.resultsHistoryName).thenReturn("custom history")
 
         val expected = ToolResultsHistory()

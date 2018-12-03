@@ -9,7 +9,7 @@ interface IArgs {
     val recordVideo: Boolean
     val testTimeout: String
     val async: Boolean
-    val projectId: String
+    val project: String
     val resultsHistoryName: String?
 
     // FlankYml

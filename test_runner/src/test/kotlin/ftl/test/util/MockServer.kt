@@ -93,9 +93,9 @@ object MockServer {
                     call.respond(catalog)
                 }
 
-                get("/v1/projects/{projectId}/testMatrices/{matrixIdCounter}") {
+                get("/v1/projects/{project}/testMatrices/{matrixIdCounter}") {
                     println("Responding to GET ${call.request.uri}")
-                    val projectId = call.parameters["projectId"]
+                    val projectId = call.parameters["project"]
                     val matrixId = call.parameters["matrixIdCounter"]
 
                     val testMatrix = TestMatrix()
@@ -108,9 +108,9 @@ object MockServer {
 
                 // GcTestMatrix.build
                 // http://localhost:8080/v1/projects/delta-essence-114723/testMatrices
-                post("/v1/projects/{projectId}/testMatrices") {
+                post("/v1/projects/{project}/testMatrices") {
                     println("Responding to POST ${call.request.uri}")
-                    val projectId = call.parameters["projectId"]
+                    val projectId = call.parameters["project"]
 
                     val matrixId = matrixIdCounter.incrementAndGet().toString()
 
@@ -146,7 +146,7 @@ object MockServer {
 
                 // GcToolResults.getResults(toolResultsStep)
                 // GET /toolresults/v1beta3/projects/delta-essence-114723/histories/1/executions/1/steps/1
-                get("/toolresults/v1beta3/projects/{projectId}/histories/{historyId}/executions/{executionId}/steps/{stepId}") {
+                get("/toolresults/v1beta3/projects/{project}/histories/{historyId}/executions/{executionId}/steps/{stepId}") {
                     println("Responding to GET ${call.request.uri}")
                     val stepId = call.parameters["stepId"] ?: ""
 
@@ -190,21 +190,21 @@ object MockServer {
                 }
 
                 // GcToolResults.getDefaultBucket(project)
-                post("/toolresults/v1beta3/projects/{projectId}:initializeSettings") {
+                post("/toolresults/v1beta3/projects/{project}:initializeSettings") {
                     val settings = ProjectSettings()
                         .setDefaultBucket("mockBucket")
                     call.respond(settings)
                 }
 
                 // GcToolResults.listHistoriesByName
-                get("/toolresults/v1beta3/projects/{projectId}/histories") {
+                get("/toolresults/v1beta3/projects/{project}/histories") {
                     val response = ListHistoriesResponse()
                         .setHistories(null)
                     call.respond(response)
                 }
 
                 // GcToolResults.createHistory
-                post("/toolresults/v1beta3/projects/{projectId}/histories") {
+                post("/toolresults/v1beta3/projects/{project}/histories") {
                     call.respond(
                         History()
                             .setHistoryId("mockId")

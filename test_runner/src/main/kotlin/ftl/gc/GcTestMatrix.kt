@@ -34,7 +34,7 @@ object GcTestMatrix {
     //        "status" : "UNAVAILABLE"
     //    }
     fun refresh(testMatrixId: String, args: IArgs): TestMatrix {
-        val getMatrix = GcTesting.get.projects().testMatrices().get(args.projectId, testMatrixId)
+        val getMatrix = GcTesting.get.projects().testMatrices().get(args.project, testMatrixId)
         var failed = 0
         val maxWait = ofHours(1).seconds
 
@@ -51,7 +51,7 @@ object GcTestMatrix {
     }
 
     fun cancel(testMatrixId: String, args: IArgs): CancelTestMatrixResponse {
-        val cancelMatrix = GcTesting.get.projects().testMatrices().cancel(args.projectId, testMatrixId)
+        val cancelMatrix = GcTesting.get.projects().testMatrices().cancel(args.project, testMatrixId)
         var failed = 0
         val maxTries = 3
 

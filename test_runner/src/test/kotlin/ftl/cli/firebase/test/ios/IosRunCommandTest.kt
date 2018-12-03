@@ -62,6 +62,7 @@ class IosRunCommandTest {
         assertThat(cmd.noRecordVideo).isNull()
         assertThat(cmd.timeout).isNull()
         assertThat(cmd.async).isNull()
+        assertThat(cmd.project).isNull()
     }
 
     @Test
@@ -102,5 +103,13 @@ class IosRunCommandTest {
         CommandLine(cmd).parse("--async")
 
         assertThat(cmd.async).isTrue()
+    }
+
+    @Test
+    fun project_parse() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parse("--project=a")
+
+        assertThat(cmd.project).isEqualTo("a")
     }
 }
