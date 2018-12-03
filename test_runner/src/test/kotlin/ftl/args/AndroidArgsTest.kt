@@ -621,4 +621,21 @@ AndroidArgs
         assertThat(AndroidArgs.load(yaml).resultsHistoryName).isEqualTo("a")
         assertThat(AndroidArgs.load(yaml, cli).resultsHistoryName).isEqualTo("b")
     }
+
+    @Test
+    fun cli_testShards() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--test-shards=3")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+
+        flank:
+          testShards: 2
+      """
+        assertThat(AndroidArgs.load(yaml).testShards).isEqualTo(2)
+        assertThat(AndroidArgs.load(yaml, cli).testShards).isEqualTo(3)
+    }
 }

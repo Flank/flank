@@ -148,4 +148,7 @@ class AndroidRunCommand : Runnable {
         same history name will have their results grouped together in the Firebase console in a time-ordered test
          history list."""])
     var resultsHistoryName: String? = null
+
+    @Option(names = ["--test-shards"], description = ["""The amount of matrices to split the tests across."""])
+    var testShards: Int? = null
 }
