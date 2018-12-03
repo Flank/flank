@@ -41,7 +41,7 @@ class IosArgs(
     override val resultsHistoryName = cli?.resultsHistoryName ?: gcloud.resultsHistoryName
 
     private val iosGcloud = iosGcloudYml.gcloud
-    var xctestrunZip = iosGcloud.test
+    var xctestrunZip = cli?.test ?: iosGcloud.test
     var xctestrunFile = iosGcloud.xctestrunFile
     val xcodeVersion = iosGcloud.xcodeVersion
     val devices = iosGcloud.device

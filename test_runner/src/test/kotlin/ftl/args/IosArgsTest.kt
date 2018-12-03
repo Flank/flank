@@ -401,4 +401,19 @@ IosArgs
       """
         assertThat(IosArgs.load(yaml, cli).testTargets).isEqualTo(arrayListOf("com.A", "com.B"))
     }
+
+    @Test
+    fun cli_test() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--test=$testPath")
+
+        val yaml = """
+        gcloud:
+          test: $xctestrunFile
+          xctestrun-file: $xctestrunFile
+      """
+
+        assertThat(IosArgs.load(yaml).xctestrunZip).isEqualTo(xctestrunFileAbsolutePath)
+        assertThat(IosArgs.load(yaml, cli).xctestrunZip).isEqualTo(testAbsolutePath)
+    }
 }
