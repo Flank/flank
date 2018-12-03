@@ -2,6 +2,7 @@ package ftl.cli.firebase.test.ios
 
 import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
+import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
@@ -71,6 +72,7 @@ class IosRunCommandTest {
         assertThat(cmd.test).isNull()
         assertThat(cmd.xctestrunFile).isNull()
         assertThat(cmd.xcodeVersion).isNull()
+        assertThat(cmd.device).isNull()
     }
 
     @Test
@@ -172,7 +174,7 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun test_xctestrunFile() {
+    fun xctestrunFile_parse() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--xctestrun-file=a")
 
@@ -180,10 +182,20 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun test_xcodeVersion() {
+    fun xcodeVersion_parse() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--xcode-version=999")
 
         assertThat(cmd.xcodeVersion).isEqualTo("999")
+    }
+
+    @Test
+    fun device_parse() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parse("--device=model=iphone8,version=11.2,locale=zh_CN,orientation=default")
+
+        val expectedDevice = Device("iphone8", "11.2", "zh_CN", "default")
+        assertThat(cmd.device?.size).isEqualTo(1)
+        assertThat(cmd.device?.first()).isEqualTo(expectedDevice)
     }
 }

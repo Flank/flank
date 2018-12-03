@@ -44,7 +44,7 @@ class IosArgs(
     var xctestrunZip = cli?.test ?: iosGcloud.test
     var xctestrunFile = cli?.xctestrunFile ?: iosGcloud.xctestrunFile
     val xcodeVersion = cli?.xcodeVersion ?: iosGcloud.xcodeVersion
-    val devices = iosGcloud.device
+    val devices = cli?.device ?: iosGcloud.device
 
     private val flank = flankYml.flank
     override val testShards = cli?.testShards ?: flank.testShards

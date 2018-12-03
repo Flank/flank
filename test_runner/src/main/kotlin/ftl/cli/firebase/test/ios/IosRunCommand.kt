@@ -1,7 +1,10 @@
 package ftl.cli.firebase.test.ios
 
 import ftl.args.IosArgs
+import ftl.config.Device
 import ftl.config.FtlConstants
+import ftl.config.FtlConstants.defaultIosModel
+import ftl.config.FtlConstants.defaultIosVersion
 import ftl.run.TestRunner
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine.Command
@@ -98,4 +101,25 @@ class IosRunCommand : Runnable {
         | Defaults to the latest Xcode version supported in Firebase Test Lab. This Xcode version must be supported by
         |  all iOS versions selected in the test matrix."""])
     var xcodeVersion: String? = null
+
+    @Option(names = ["--device"], split = ",", description = ["""A list of DIMENSION=VALUE pairs which specify a target
+        |device to test against. This flag may be repeated to specify multiple devices. The four device dimensions are:
+        | model, version, locale, and orientation. If any dimensions are omitted, they will use a default value. Omitting
+        |  all of the preceding dimension-related flags will run tests against a single device using defaults for all four
+        |   device dimensions."""]
+    )
+    fun deviceMap(map: Map<String, String>?) {
+        if (map.isNullOrEmpty()) return
+        val androidDevice = Device(
+            model = map.getOrDefault("model", defaultIosModel),
+            version = map.getOrDefault("version", defaultIosVersion),
+            locale = map.getOrDefault("locale", FtlConstants.defaultLocale),
+            orientation = map.getOrDefault("orientation", FtlConstants.defaultOrientation)
+        )
+
+        if (device == null) device = mutableListOf()
+        device?.add(androidDevice)
+    }
+
+    var device: MutableList<Device>? = null
 }

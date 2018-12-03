@@ -3,6 +3,8 @@ package ftl.args.yml
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.config.Device
+import ftl.config.FtlConstants.defaultIosModel
+import ftl.config.FtlConstants.defaultIosVersion
 import ftl.util.Utils.assertNotEmpty
 
 /**
@@ -21,7 +23,7 @@ class IosGcloudYmlParams(
     @field:JsonProperty("xcode-version")
     val xcodeVersion: String? = null,
 
-    val device: List<Device> = listOf(Device("iphone8", "11.2"))
+    val device: List<Device> = listOf(Device(defaultIosModel, defaultIosVersion))
 ) {
     companion object : IYmlKeys {
         override val keys = listOf("test", "xctestrun-file", "xcode-version", "device")
