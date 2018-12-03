@@ -29,7 +29,7 @@ object GcToolResults {
         val result = GcToolResults.service
             .projects()
             .histories()
-            .list(args.projectId)
+            .list(args.project)
             .setFilterByName(args.resultsHistoryName)
             .executeWithRetry()
         return result?.histories ?: emptyList()
@@ -42,14 +42,14 @@ object GcToolResults {
         return GcToolResults.service
             .projects()
             .histories()
-            .create(args.projectId, history)
+            .create(args.project, history)
             .execute()
     }
 
     fun createToolResultsHistory(args: IArgs): ToolResultsHistory {
         return ToolResultsHistory()
             .setHistoryId(createHistoryId(args))
-            .setProjectId(args.projectId)
+            .setProjectId(args.project)
     }
 
     private fun createHistoryId(args: IArgs): String? {

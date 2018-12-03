@@ -37,7 +37,7 @@ class GcAndroidTestMatrixTest {
         `when`(androidArgs.testShardChunks).thenReturn(listOf(listOf("")))
         `when`(androidArgs.testTimeout).thenReturn("3m")
         `when`(androidArgs.resultsBucket).thenReturn("/hi")
-        `when`(androidArgs.projectId).thenReturn("123")
+        `when`(androidArgs.project).thenReturn("123")
 
         GcAndroidTestMatrix.build(
             "", "", "",

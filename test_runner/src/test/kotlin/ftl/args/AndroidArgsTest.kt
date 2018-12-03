@@ -126,7 +126,7 @@ class AndroidArgsTest {
             assert(recordVideo, false)
             assert(testTimeout, "70m")
             assert(async, true)
-            assert(projectId, "projectFoo")
+            assert(project, "projectFoo")
             assert(resultsHistoryName ?: "", "android-history")
 
             // AndroidGcloudYml
@@ -228,7 +228,7 @@ AndroidArgs
             assert(recordVideo, true)
             assert(testTimeout, "15m")
             assert(async, false)
-            assert(projectId, "mockProjectId")
+            assert(project, "mockProjectId")
 
             // AndroidGcloudYml
             assert(appApk, appApkAbsolutePath)
@@ -590,5 +590,20 @@ AndroidArgs
       """
         assertThat(AndroidArgs.load(yaml).async).isEqualTo(false)
         assertThat(AndroidArgs.load(yaml, cli).async).isEqualTo(true)
+    }
+
+    @Test
+    fun cli_project() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--project=b")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          project: a
+      """
+        assertThat(AndroidArgs.load(yaml).project).isEqualTo("a")
+        assertThat(AndroidArgs.load(yaml, cli).project).isEqualTo("b")
     }
 }

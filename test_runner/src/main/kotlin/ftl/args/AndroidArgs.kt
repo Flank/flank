@@ -45,7 +45,7 @@ class AndroidArgs(
     override val recordVideo = cli?.recordVideo ?: cli?.noRecordVideo?.not() ?: gcloud.recordVideo
     override val testTimeout = cli?.timeout ?: gcloud.timeout
     override val async = cli?.async ?: gcloud.async
-    override val projectId = gcloud.project
+    override val project = cli?.project ?: gcloud.project
     override val resultsHistoryName = gcloud.resultsHistoryName
 
     private val androidGcloud = androidGcloudYml.gcloud
@@ -82,8 +82,8 @@ class AndroidArgs(
     }
 
     init {
-        resultsBucket = createGcsBucket(projectId, cli?.resultsBucket ?: gcloud.resultsBucket)
-        createJunitBucket(projectId, flank.smartFlankGcsPath)
+        resultsBucket = createGcsBucket(project, cli?.resultsBucket ?: gcloud.resultsBucket)
+        createJunitBucket(project, flank.smartFlankGcsPath)
 
         if (appApk.startsWith(FtlConstants.GCS_PREFIX)) {
             assertGcsFileExists(appApk)
@@ -136,7 +136,7 @@ AndroidArgs
       record-video: $recordVideo
       timeout: $testTimeout
       async: $async
-      project: $projectId
+      project: $project
       results-history-name: $resultsHistoryName
       # Android gcloud
       app: $appApk

@@ -96,7 +96,7 @@ object GcAndroidTestMatrix {
             .setResultStorage(resultsStorage)
             .setEnvironmentMatrix(environmentMatrix)
         try {
-            return GcTesting.get.projects().testMatrices().create(args.projectId, testMatrix)
+            return GcTesting.get.projects().testMatrices().create(args.project, testMatrix)
         } catch (e: Exception) {
             fatalError(e)
         }
