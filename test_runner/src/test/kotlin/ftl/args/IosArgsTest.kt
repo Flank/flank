@@ -296,4 +296,19 @@ IosArgs
         assertThat(IosArgs.load(yaml).testTimeout).isEqualTo("2m")
         assertThat(IosArgs.load(yaml, cli).testTimeout).isEqualTo("1m")
     }
+
+    @Test
+    fun cli_async() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--async")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $xctestrunFile
+          async: false
+      """
+        assertThat(IosArgs.load(yaml).async).isEqualTo(false)
+        assertThat(IosArgs.load(yaml, cli).async).isEqualTo(true)
+    }
 }

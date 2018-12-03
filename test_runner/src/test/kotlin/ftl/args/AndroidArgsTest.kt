@@ -576,4 +576,19 @@ AndroidArgs
         assertThat(AndroidArgs.load(yaml).testTimeout).isEqualTo("2m")
         assertThat(AndroidArgs.load(yaml, cli).testTimeout).isEqualTo("1m")
     }
+
+    @Test
+    fun cli_async() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--async")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          async: false
+      """
+        assertThat(AndroidArgs.load(yaml).async).isEqualTo(false)
+        assertThat(AndroidArgs.load(yaml, cli).async).isEqualTo(true)
+    }
 }
