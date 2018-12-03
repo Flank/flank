@@ -69,6 +69,7 @@ class IosRunCommandTest {
         assertThat(cmd.testTargetsAlwaysRun).isNull()
         assertThat(cmd.testTargets).isNull()
         assertThat(cmd.test).isNull()
+        assertThat(cmd.xctestrunFile).isNull()
     }
 
     @Test
@@ -167,5 +168,13 @@ class IosRunCommandTest {
         CommandLine(cmd).parse("--test=a")
 
         assertThat(cmd.test).isEqualTo("a")
+    }
+
+    @Test
+    fun test_xctestrunFile() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parse("--xctestrun-file=a")
+
+        assertThat(cmd.xctestrunFile).isEqualTo("a")
     }
 }

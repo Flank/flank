@@ -42,7 +42,7 @@ class IosArgs(
 
     private val iosGcloud = iosGcloudYml.gcloud
     var xctestrunZip = cli?.test ?: iosGcloud.test
-    var xctestrunFile = iosGcloud.xctestrunFile
+    var xctestrunFile = cli?.xctestrunFile ?: iosGcloud.xctestrunFile
     val xcodeVersion = iosGcloud.xcodeVersion
     val devices = iosGcloud.device
 
