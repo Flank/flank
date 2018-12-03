@@ -326,4 +326,19 @@ IosArgs
         assertThat(IosArgs.load(yaml).project).isEqualTo("a")
         assertThat(IosArgs.load(yaml, cli).project).isEqualTo("b")
     }
+
+    @Test
+    fun cli_resultsHistoryName() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--results-history-name=b")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $xctestrunFile
+          results-history-name: a
+      """
+        assertThat(IosArgs.load(yaml).resultsHistoryName).isEqualTo("a")
+        assertThat(IosArgs.load(yaml, cli).resultsHistoryName).isEqualTo("b")
+    }
 }

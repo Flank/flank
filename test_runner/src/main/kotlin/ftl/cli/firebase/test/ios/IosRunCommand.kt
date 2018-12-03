@@ -61,4 +61,10 @@ class IosRunCommand : Runnable {
     @Option(names = ["--project"], description = ["""The Google Cloud Platform project name to use for this invocation.
          If omitted, then the project from the service account credential is used"""])
     var project: String? = null
+
+    @Option(names = ["--results-history-name"], description = ["""The history name for your test results
+        (an arbitrary string label; default: the application's label from the APK manifest). All tests which use the
+        same history name will have their results grouped together in the Firebase console in a time-ordered test
+         history list."""])
+    var resultsHistoryName: String? = null
 }

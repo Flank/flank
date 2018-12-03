@@ -38,7 +38,7 @@ class IosArgs(
     override val testTimeout = cli?.timeout ?: gcloud.timeout
     override val async = cli?.async ?: gcloud.async
     override val project = cli?.project ?: gcloud.project
-    override val resultsHistoryName = gcloud.resultsHistoryName
+    override val resultsHistoryName = cli?.resultsHistoryName ?: gcloud.resultsHistoryName
 
     private val iosGcloud = iosGcloudYml.gcloud
     var xctestrunZip = iosGcloud.test
