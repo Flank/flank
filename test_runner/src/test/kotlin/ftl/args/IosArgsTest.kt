@@ -8,6 +8,8 @@ import ftl.args.yml.IosGcloudYml
 import ftl.args.yml.IosGcloudYmlParams
 import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.config.Device
+import ftl.config.FtlConstants.defaultIosModel
+import ftl.config.FtlConstants.defaultIosVersion
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
@@ -446,5 +448,46 @@ IosArgs
 
         assertThat(IosArgs.load(yaml).xcodeVersion).isEqualTo("10.0")
         assertThat(IosArgs.load(yaml, cli).xcodeVersion).isEqualTo("10.1")
+    }
+
+    @Test
+    fun cli_device() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--device=model=iphone8,version=12.0,locale=zh_CN,orientation=default")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+      """
+        val expectedDefaultDevice = Device(defaultIosModel, defaultIosVersion)
+        val defaultDevices = IosArgs.load(yaml).devices
+        assertThat(defaultDevices.first()).isEqualTo(expectedDefaultDevice)
+        assertThat(defaultDevices.size).isEqualTo(1)
+
+        val iosArgs = IosArgs.load(yaml, cli)
+        val expectedDevice = Device("iphone8", "12.0", "zh_CN", "default")
+        val actualDevices = iosArgs.devices
+        assertThat(actualDevices.first()).isEqualTo(expectedDevice)
+        assertThat(actualDevices.size).isEqualTo(1)
+    }
+
+    @Test
+    fun cli_device_repeat() {
+        val cli = IosRunCommand()
+        val deviceCmd = "--device=model=iphone8,version=12.0,locale=zh_CN,orientation=default"
+        CommandLine(cli).parse(deviceCmd, deviceCmd)
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+      """
+        val iosArgs = IosArgs.load(yaml, cli)
+        val expectedDevice = Device("iphone8", "12.0", "zh_CN", "default")
+        val actualDevices = iosArgs.devices
+        assertThat(actualDevices.size).isEqualTo(2)
+        assertThat(actualDevices[0]).isEqualTo(expectedDevice)
+        assertThat(actualDevices[1]).isEqualTo(expectedDevice)
     }
 }
