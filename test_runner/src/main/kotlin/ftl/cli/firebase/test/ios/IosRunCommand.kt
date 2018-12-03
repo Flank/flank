@@ -48,4 +48,10 @@ class IosRunCommand : Runnable {
 
     @Option(names = ["--no-record-video"], description = ["""Disable video recording during the test. See --record-video to enable."""])
     var noRecordVideo: Boolean? = null
+
+    @Option(names = ["--timeout"], description = ["""The max time this test execution can run before it is cancelled
+        |(default: 15m). It does not include any time necessary to prepare and clean up the target device. The maximum
+        |possible testing time is 30m on physical devices and 60m on virtual devices. The TIMEOUT units can be h, m,
+        | or s. If no unit is given, seconds are assumed. """])
+    var timeout: String? = null
 }

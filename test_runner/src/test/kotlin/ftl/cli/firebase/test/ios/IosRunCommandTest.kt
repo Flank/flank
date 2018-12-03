@@ -60,6 +60,7 @@ class IosRunCommandTest {
         assertThat(cmd.resultsBucket).isNull()
         assertThat(cmd.recordVideo).isNull()
         assertThat(cmd.noRecordVideo).isNull()
+        assertThat(cmd.timeout).isNull()
     }
 
     @Test
@@ -84,5 +85,13 @@ class IosRunCommandTest {
         CommandLine(cmd).parse("--no-record-video")
 
         assertThat(cmd.noRecordVideo).isTrue()
+    }
+
+    @Test
+    fun timeout_parse() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parse("--timeout=1m")
+
+        assertThat(cmd.timeout).isEqualTo("1m")
     }
 }

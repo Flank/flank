@@ -561,4 +561,19 @@ AndroidArgs
         assertThat(AndroidArgs.load(yaml).recordVideo).isTrue()
         assertThat(AndroidArgs.load(yaml, cli).recordVideo).isFalse()
     }
+
+    @Test
+    fun cli_timeout() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--timeout=1m")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          timeout: 2m
+      """
+        assertThat(AndroidArgs.load(yaml).testTimeout).isEqualTo("2m")
+        assertThat(AndroidArgs.load(yaml, cli).testTimeout).isEqualTo("1m")
+    }
 }
