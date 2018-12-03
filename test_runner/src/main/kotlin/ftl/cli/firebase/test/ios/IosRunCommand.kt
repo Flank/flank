@@ -81,4 +81,10 @@ class IosRunCommand : Runnable {
     @Option(names = ["--test-targets"], split = ",", description = ["""A list of one or more test method
         names to run (default: run all test targets)."""])
     var testTargets: List<String>? = null
+
+    @Option(names = ["--test"], description = ["""The path to the test package (a zip file containing the iOS app
+        | and XCTest files). The given path may be in the local filesystem or in Google Cloud Storage using a URL
+        |  beginning with gs://. Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file
+        |   is specified."""])
+    var test: String? = null
 }
