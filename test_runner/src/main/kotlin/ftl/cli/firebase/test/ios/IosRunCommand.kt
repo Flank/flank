@@ -87,4 +87,10 @@ class IosRunCommand : Runnable {
         |  beginning with gs://. Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file
         |   is specified."""])
     var test: String? = null
+
+    @Option(names = ["--xctestrun-file"], description = ["""The path to an .xctestrun file that will override any
+        |.xctestrun file contained in the --test package. Because the .xctestrun file contains environment variables
+        |along with test methods to run and/or ignore, this can be useful for customizing or sharding test suites. The
+        | given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://."""])
+    var xctestrunFile: String? = null
 }
