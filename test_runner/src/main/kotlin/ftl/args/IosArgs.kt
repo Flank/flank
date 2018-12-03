@@ -34,7 +34,7 @@ class IosArgs(
 
     private val gcloud = gcloudYml.gcloud
     override val resultsBucket: String
-    override val recordVideo = gcloud.recordVideo
+    override val recordVideo = cli?.recordVideo ?: cli?.noRecordVideo?.not() ?: gcloud.recordVideo
     override val testTimeout = gcloud.timeout
     override val async = gcloud.async
     override val projectId = gcloud.project
