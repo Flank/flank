@@ -48,7 +48,7 @@ class IosArgs(
 
     private val flank = flankYml.flank
     override val testShards = cli?.testShards ?: flank.testShards
-    override val repeatTests = flank.repeatTests
+    override val repeatTests = cli?.repeatTests ?: flank.repeatTests
     override val smartFlankGcsPath = flank.smartFlankGcsPath
     override val testTargetsAlwaysRun = flank.testTargetsAlwaysRun
 

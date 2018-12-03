@@ -358,4 +358,21 @@ IosArgs
         assertThat(IosArgs.load(yaml).testShards).isEqualTo(2)
         assertThat(IosArgs.load(yaml, cli).testShards).isEqualTo(3)
     }
+
+    @Test
+    fun cli_repeatTests() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--repeat-tests=3")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $xctestrunFile
+
+        flank:
+          repeatTests: 2
+      """
+        assertThat(IosArgs.load(yaml).repeatTests).isEqualTo(2)
+        assertThat(IosArgs.load(yaml, cli).repeatTests).isEqualTo(3)
+    }
 }

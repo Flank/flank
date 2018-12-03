@@ -78,6 +78,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.project).isNull()
         assertThat(cmd.resultsHistoryName).isNull()
         assertThat(cmd.testShards).isNull()
+        assertThat(cmd.repeatTests).isNull()
     }
 
     @Test
@@ -245,5 +246,13 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parse("--test-shards=3")
 
         assertThat(cmd.testShards).isEqualTo(3)
+    }
+
+    @Test
+    fun repeatTests_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--repeat-tests=3")
+
+        assertThat(cmd.repeatTests).isEqualTo(3)
     }
 }
