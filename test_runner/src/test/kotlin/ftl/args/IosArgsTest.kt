@@ -6,6 +6,7 @@ import ftl.args.yml.GcloudYml
 import ftl.args.yml.IosFlankYml
 import ftl.args.yml.IosGcloudYml
 import ftl.args.yml.IosGcloudYmlParams
+import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.config.Device
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
@@ -15,6 +16,7 @@ import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
+import picocli.CommandLine
 
 @RunWith(FlankTestRunner::class)
 class IosArgsTest {
@@ -231,5 +233,20 @@ IosArgs
             assertThat(xctestrunZip).isEqualTo(testAbsolutePath)
             assertThat(xctestrunFile).isEqualTo(xctestrunFileAbsolutePath)
         }
+    }
+
+    @Test
+    fun cli_resultsBucket() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--results-bucket=a")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $xctestrunFile
+          results-bucket: b
+      """
+        assertThat(IosArgs.load(yaml).resultsBucket).isEqualTo("b")
+        assertThat(IosArgs.load(yaml, cli).resultsBucket).isEqualTo("a")
     }
 }

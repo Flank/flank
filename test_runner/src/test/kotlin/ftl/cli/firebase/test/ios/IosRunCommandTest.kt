@@ -6,10 +6,10 @@ import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
+import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
-import org.junit.contrib.java.lang.system.ExpectedSystemExit
 
 @RunWith(FlankTestRunner::class)
 class IosRunCommandTest {
@@ -18,7 +18,7 @@ class IosRunCommandTest {
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
 
     @get:Rule
-    val exit = ExpectedSystemExit.none()
+    val exit = ExpectedSystemExit.none()!!
 
     @Test
     fun iosRunCommandPrintsHelp() {
@@ -27,23 +27,8 @@ class IosRunCommandTest {
         CommandLine.run<Runnable>(iosRun, System.out, "-h")
 
         val output = systemOutRule.log
-        Truth.assertThat(output).startsWith(
-            "Run tests on Firebase Test Lab\n" +
-                "\n" +
-                "run [-h] [-c=<configPath>]\n" +
-                "\n" +
-                "Description:\n" +
-                "\n" +
-                "Uploads the app and tests to GCS.\n" +
-                "Runs the XCTests and XCUITests.\n" +
-                "Configuration is read from flank.yml\n" +
-                "\n" +
-                "\n" +
-                "Options:\n" +
-                "  -c, --config=<configPath>\n" +
-                "               YAML config file path\n" +
-                "  -h, --help   Prints this help message\n"
-        )
+        Truth.assertThat(output).startsWith("Run tests on Firebase Test Lab")
+        Truth.assertThat(output).contains("run [-h]")
 
         assertThat(iosRun.usageHelpRequested).isTrue()
     }
@@ -66,5 +51,20 @@ class IosRunCommandTest {
         assertThat(cmd.usageHelpRequested).isFalse()
         cmd.usageHelpRequested = true
         assertThat(cmd.usageHelpRequested).isTrue()
+    }
+
+    @Test
+    fun empty_params_parse_null() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parse()
+        assertThat(cmd.resultsBucket).isNull()
+    }
+
+    @Test
+    fun resultsBucket_parse() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parse("--results-bucket=a")
+
+        assertThat(cmd.resultsBucket).isEqualTo("a")
     }
 }
