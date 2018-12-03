@@ -73,4 +73,8 @@ class IosRunCommand : Runnable {
 
     @Option(names = ["--repeat-tests"], description = ["""The amount of times to repeat the test executions."""])
     var repeatTests: Int? = null
+
+    @Option(names = ["--test-targets-always-run"], split = ",", description = ["""A list of one or more test methods to always run
+        |first in every shard."""])
+    var testTargetsAlwaysRun: List<String>? = null
 }

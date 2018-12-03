@@ -375,4 +375,17 @@ IosArgs
         assertThat(IosArgs.load(yaml).repeatTests).isEqualTo(2)
         assertThat(IosArgs.load(yaml, cli).repeatTests).isEqualTo(3)
     }
+
+    @Test
+    fun cli_testTargetsAlwaysRun() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--test-targets-always-run=com.A,com.B")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $xctestrunFile
+      """
+        assertThat(IosArgs.load(yaml, cli).testTargetsAlwaysRun).isEqualTo(arrayListOf("com.A", "com.B"))
+    }
 }

@@ -50,7 +50,7 @@ class AndroidRunCommand : Runnable {
         |The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://."""])
     var test: String? = null
 
-    @Option(names = ["--test-targets"], description = ["""A list of one or more test target filters to apply
+    @Option(names = ["--test-targets"], split = ",", description = ["""A list of one or more test target filters to apply
          (default: run all test targets). Each target filter must be fully qualified with the package name, class name,
           or test annotation desired. Any test filter supported by am instrument -e … is supported.
           See https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner for more
@@ -154,4 +154,8 @@ class AndroidRunCommand : Runnable {
 
     @Option(names = ["--repeat-tests"], description = ["""The amount of times to repeat the test executions."""])
     var repeatTests: Int? = null
+
+    @Option(names = ["--test-targets-always-run"], split = ",", description = ["""A list of one or more test methods to always run
+        |first in every shard."""])
+    var testTargetsAlwaysRun: List<String>? = null
 }

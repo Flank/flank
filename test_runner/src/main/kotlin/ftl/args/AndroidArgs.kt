@@ -65,7 +65,7 @@ class AndroidArgs(
     override val testShards = cli?.testShards ?: flank.testShards
     override val repeatTests = cli?.repeatTests ?: flank.repeatTests
     override val smartFlankGcsPath = flank.smartFlankGcsPath
-    override val testTargetsAlwaysRun = flank.testTargetsAlwaysRun
+    override val testTargetsAlwaysRun = cli?.testTargetsAlwaysRun ?: flank.testTargetsAlwaysRun
 
     // computed properties not specified in yaml
     override val testShardChunks: List<List<String>> by lazy {
