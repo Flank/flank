@@ -36,71 +36,116 @@ class AndroidRunCommand : Runnable {
         }
     }
 
-    @Option(names = ["-c", "--config"], description = ["YAML config file path"])
+    @Option(
+        names = ["-c", "--config"],
+        description = ["YAML config file path"]
+    )
     var configPath: String = FtlConstants.defaultAndroidConfig
 
-    @Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
+    @Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
     var usageHelpRequested: Boolean = false
 
-    @Option(names = ["--app"], description = ["""The path to the application binary file.
-        |The path may be in the local filesystem or in Google Cloud Storage using gs:// notation."""])
+    @Option(
+        names = ["--app"],
+        description = ["The path to the application binary file. " +
+            "The path may be in the local filesystem or in Google Cloud Storage using gs:// notation."]
+    )
     var app: String? = null
 
-    @Option(names = ["--test"], description = ["""The path to the binary file containing instrumentation tests.
-        |The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://."""])
+    @Option(
+        names = ["--test"],
+        description = ["The path to the binary file containing instrumentation tests. " +
+            "The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://."]
+    )
     var test: String? = null
 
-    @Option(names = ["--test-targets"], split = ",", description = ["""A list of one or more test target filters to apply
-         (default: run all test targets). Each target filter must be fully qualified with the package name, class name,
-          or test annotation desired. Any test filter supported by am instrument -e … is supported.
-          See https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner for more
-          information."""])
+    @Option(
+        names = ["--test-targets"],
+        split = ",",
+        description = ["A list of one or more test target filters to apply " +
+            "(default: run all test targets). Each target filter must be fully qualified with the package name, class name, " +
+            "or test annotation desired. Any test filter supported by am instrument -e … is supported. " +
+            "See https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner for more " +
+            "information."]
+    )
     var testTargets: List<String>? = null
 
-    @Option(names = ["--use-orchestrator"], description = ["""Whether each test runs in its own Instrumentation instance
-        |with the Android Test Orchestrator (default: Orchestrator is used. To disable, use --no-use-orchestrator).
-        |Orchestrator is only compatible with AndroidJUnitRunner v1.0 or higher. See
-        |https://developer.android.com/training/testing/junit-runner.html#using-android-test-orchestrator for more
-        |information about Android Test Orchestrator."""])
+    @Option(
+        names = ["--use-orchestrator"],
+        description = ["Whether each test runs in its own Instrumentation instance " +
+            "with the Android Test Orchestrator (default: Orchestrator is used. To disable, use --no-use-orchestrator). " +
+            "Orchestrator is only compatible with AndroidJUnitRunner v1.0 or higher. See " +
+            "https://developer.android.com/training/testing/junit-runner.html#using-android-test-orchestrator for more " +
+            "information about Android Test Orchestrator."]
+    )
     var useOrchestrator: Boolean? = null
 
-    @Option(names = ["--no-use-orchestrator"], description = ["""Orchestrator is not used. See --use-orchestrator."""])
+    @Option(
+        names = ["--no-use-orchestrator"],
+        description = ["Orchestrator is not used. See --use-orchestrator."]
+    )
     var noUseOrchestrator: Boolean? = null
 
-    @Option(names = ["--auto-google-login"], description = ["""Automatically log into the test device using a preconfigured
-        | Google account before beginning the test. Enabled by default, use --no-auto-google-login to disable."""])
+    @Option(
+        names = ["--auto-google-login"],
+        description = ["Automatically log into the test device using a preconfigured " +
+            "Google account before beginning the test. Enabled by default, use --no-auto-google-login to disable."]
+    )
     var autoGoogleLogin: Boolean? = null
 
-    @Option(names = ["--no-auto-google-login"], description = ["""Google account not logged in. See --auto-google-login."""])
+    @Option(
+        names = ["--no-auto-google-login"],
+        description = ["Google account not logged in. See --auto-google-login."]
+    )
     var noAutoGoogleLogin: Boolean? = null
 
-    @Option(names = ["--performance-metrics"], description = ["""Monitor and record performance metrics: CPU, memory,
-        | network usage, and FPS (game-loop only). Enabled by default, use --no-performance-metrics to disable."""])
+    @Option(
+        names = ["--performance-metrics"],
+        description = ["Monitor and record performance metrics: CPU, memory, " +
+            "network usage, and FPS (game-loop only). Enabled by default, use --no-performance-metrics to disable."]
+    )
     var performanceMetrics: Boolean? = null
 
-    @Option(names = ["--no-performance-metrics"], description = ["""Disables performance metrics. See --performance-metrics"""])
+    @Option(
+        names = ["--no-performance-metrics"],
+        description = ["Disables performance metrics. See --performance-metrics"]
+    )
     var noPerformanceMetrics: Boolean? = null
 
-    @Option(names = ["--environment-variables"], split = ",", description = ["""A comma-separated, key=value map of environment variables
-        | and their desired values. --environment-variables=coverage=true,coverageFile=/sdcard/coverage.ec
-        | The environment variables are mirrored as extra options to the am instrument -e KEY1 VALUE1 … command and
-        | passed to your test runner (typically AndroidJUnitRunner)"""])
+    @Option(
+        names = ["--environment-variables"],
+        split = ",",
+        description = ["A comma-separated, key=value map of environment variables " +
+            "and their desired values. --environment-variables=coverage=true,coverageFile=/sdcard/coverage.ec " +
+            "The environment variables are mirrored as extra options to the am instrument -e KEY1 VALUE1 … command and " +
+            "passed to your test runner (typically AndroidJUnitRunner)"]
+    )
     var environmentVariables: Map<String, String>? = null
 
-    @Option(names = ["--directories-to-pull"], split = ",", description = ["""A list of paths that will be copied from the device's
-        |storage to the designated results bucket after the test is complete. These must be absolute paths under
-        |/sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2).
-        | Path names are restricted to the characters a-zA-Z0-9_-./+. The paths /sdcard and /data will be made available
-        | and treated as implicit path substitutions. E.g. if /sdcard on a particular device does not map to external
-        | storage, the system will replace it with the external storage path prefix for that device."""])
+    @Option(
+        names = ["--directories-to-pull"],
+        split = ",",
+        description = ["A list of paths that will be copied from the device's " +
+            "storage to the designated results bucket after the test is complete. These must be absolute paths under " +
+            "/sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2). " +
+            "Path names are restricted to the characters a-zA-Z0-9_-./+. The paths /sdcard and /data will be made available " +
+            "and treated as implicit path substitutions. E.g. if /sdcard on a particular device does not map to external " +
+            "storage, the system will replace it with the external storage path prefix for that device."]
+    )
     var directoriesToPull: List<String>? = null
 
     @Option(
-        names = ["--device"], split = ",", description = ["""A list of DIMENSION=VALUE pairs which specify a target
-        |device to test against. This flag may be repeated to specify multiple devices. The four device dimensions are:
-        | model, version, locale, and orientation. If any dimensions are omitted, they will use a default value. Omitting
-        |  all of the preceding dimension-related flags will run tests against a single device using defaults for all four
-        |   device dimensions."""]
+        names = ["--device"],
+        split = ",",
+        description = ["A list of DIMENSION=VALUE pairs which specify a target " +
+            "device to test against. This flag may be repeated to specify multiple devices. The four device dimensions are: " +
+            "model, version, locale, and orientation. If any dimensions are omitted, they will use a default value. Omitting " +
+            "all of the preceding dimension-related flags will run tests against a single device using defaults for all four " +
+            "device dimensions."]
     )
     fun deviceMap(map: Map<String, String>?) {
         if (map.isNullOrEmpty()) return
@@ -117,45 +162,76 @@ class AndroidRunCommand : Runnable {
 
     var device: MutableList<Device>? = null
 
-    @Option(names = ["--results-bucket"], description = ["""The name of a Google Cloud Storage bucket where raw test
-        |results will be stored (default: "test-lab-<random-UUID>"). Note that the bucket must be owned by a
-        |billing-enabled project, and that using a non-default bucket will result in billing charges for the
-        |storage used."""])
+    @Option(
+        names = ["--results-bucket"],
+        description = ["The name of a Google Cloud Storage bucket where raw test " +
+            "results will be stored (default: \"test-lab-<random-UUID>\"). Note that the bucket must be owned by a " +
+            "billing-enabled project, and that using a non-default bucket will result in billing charges for the " +
+            "storage used."]
+    )
     var resultsBucket: String? = null
 
-    @Option(names = ["--record-video"], description = ["""Enable video recording during the test.
-        |Enabled by default, use --no-record-video to disable."""])
+    @Option(
+        names = ["--record-video"],
+        description = ["Enable video recording during the test. " +
+            "Enabled by default, use --no-record-video to disable."]
+    )
     var recordVideo: Boolean? = null
 
-    @Option(names = ["--no-record-video"], description = ["""Disable video recording during the test. See --record-video to enable."""])
+    @Option(
+        names = ["--no-record-video"],
+        description = ["Disable video recording during the test. See --record-video to enable."]
+    )
     var noRecordVideo: Boolean? = null
 
-    @Option(names = ["--timeout"], description = ["""The max time this test execution can run before it is cancelled
-        |(default: 15m). It does not include any time necessary to prepare and clean up the target device. The maximum
-        |possible testing time is 30m on physical devices and 60m on virtual devices. The TIMEOUT units can be h, m,
-        | or s. If no unit is given, seconds are assumed. """])
+    @Option(
+        names = ["--timeout"],
+        description = ["The max time this test execution can run before it is cancelled " +
+            "(default: 15m). It does not include any time necessary to prepare and clean up the target device. The maximum " +
+            "possible testing time is 30m on physical devices and 60m on virtual devices. The TIMEOUT units can be h, m, " +
+            "or s. If no unit is given, seconds are assumed. "]
+    )
     var timeout: String? = null
 
-    @Option(names = ["--async"], description = ["""Invoke a test asynchronously without waiting for test results."""])
+    @Option(
+        names = ["--async"],
+        description = ["Invoke a test asynchronously without waiting for test results."]
+    )
     var async: Boolean? = null
 
-    @Option(names = ["--project"], description = ["""The Google Cloud Platform project name to use for this invocation.
-         If omitted, then the project from the service account credential is used"""])
+    @Option(
+        names = ["--project"],
+        description = ["The Google Cloud Platform project name to use for this invocation. " +
+            "If omitted, then the project from the service account credential is used"]
+    )
     var project: String? = null
 
-    @Option(names = ["--results-history-name"], description = ["""The history name for your test results
-        (an arbitrary string label; default: the application's label from the APK manifest). All tests which use the
-        same history name will have their results grouped together in the Firebase console in a time-ordered test
-         history list."""])
+    @Option(
+        names = ["--results-history-name"],
+        description = ["The history name for your test results " +
+            "(an arbitrary string label; default: the application's label from the APK manifest). All tests which use the " +
+            "same history name will have their results grouped together in the Firebase console in a time-ordered test " +
+            "history list."]
+    )
     var resultsHistoryName: String? = null
 
-    @Option(names = ["--test-shards"], description = ["""The amount of matrices to split the tests across."""])
+    @Option(
+        names = ["--test-shards"],
+        description = ["The amount of matrices to split the tests across."]
+    )
     var testShards: Int? = null
 
-    @Option(names = ["--repeat-tests"], description = ["""The amount of times to repeat the test executions."""])
+    @Option(
+        names = ["--repeat-tests"],
+        description = ["The amount of times to repeat the test executions."]
+    )
     var repeatTests: Int? = null
 
-    @Option(names = ["--test-targets-always-run"], split = ",", description = ["""A list of one or more test methods to always run
-        |first in every shard."""])
+    @Option(
+        names = ["--test-targets-always-run"],
+        split = ",",
+        description = [
+            "A list of one or more test methods to always run first in every shard."]
+    )
     var testTargetsAlwaysRun: List<String>? = null
 }
