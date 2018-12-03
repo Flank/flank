@@ -281,4 +281,19 @@ IosArgs
         assertThat(IosArgs.load(yaml).recordVideo).isTrue()
         assertThat(IosArgs.load(yaml, cli).recordVideo).isFalse()
     }
+
+    @Test
+    fun cli_timeout() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--timeout=1m")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $xctestrunFile
+          timeout: 2m
+      """
+        assertThat(IosArgs.load(yaml).testTimeout).isEqualTo("2m")
+        assertThat(IosArgs.load(yaml, cli).testTimeout).isEqualTo("1m")
+    }
 }
