@@ -638,4 +638,21 @@ AndroidArgs
         assertThat(AndroidArgs.load(yaml).testShards).isEqualTo(2)
         assertThat(AndroidArgs.load(yaml, cli).testShards).isEqualTo(3)
     }
+
+    @Test
+    fun cli_repeatTests() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--repeat-tests=3")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+
+        flank:
+          repeatTests: 2
+      """
+        assertThat(AndroidArgs.load(yaml).repeatTests).isEqualTo(2)
+        assertThat(AndroidArgs.load(yaml, cli).repeatTests).isEqualTo(3)
+    }
 }

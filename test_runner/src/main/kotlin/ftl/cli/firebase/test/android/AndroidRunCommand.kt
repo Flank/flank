@@ -151,4 +151,7 @@ class AndroidRunCommand : Runnable {
 
     @Option(names = ["--test-shards"], description = ["""The amount of matrices to split the tests across."""])
     var testShards: Int? = null
+
+    @Option(names = ["--repeat-tests"], description = ["""The amount of times to repeat the test executions."""])
+    var repeatTests: Int? = null
 }
