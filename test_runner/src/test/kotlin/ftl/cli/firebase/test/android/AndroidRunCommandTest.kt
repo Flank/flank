@@ -74,6 +74,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.recordVideo).isNull()
         assertThat(cmd.noRecordVideo).isNull()
         assertThat(cmd.timeout).isNull()
+        assertThat(cmd.async).isNull()
     }
 
     @Test
@@ -207,5 +208,13 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parse("--timeout=1m")
 
         assertThat(cmd.timeout).isEqualTo("1m")
+    }
+
+    @Test
+    fun async_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--async")
+
+        assertThat(cmd.async).isTrue()
     }
 }
