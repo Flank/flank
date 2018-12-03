@@ -76,6 +76,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.timeout).isNull()
         assertThat(cmd.async).isNull()
         assertThat(cmd.project).isNull()
+        assertThat(cmd.resultsHistoryName).isNull()
     }
 
     @Test
@@ -225,5 +226,13 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parse("--project=a")
 
         assertThat(cmd.project).isEqualTo("a")
+    }
+
+    @Test
+    fun resultsHistoryName_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--results-history-name=a")
+
+        assertThat(cmd.resultsHistoryName).isEqualTo("a")
     }
 }

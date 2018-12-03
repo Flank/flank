@@ -606,4 +606,19 @@ AndroidArgs
         assertThat(AndroidArgs.load(yaml).project).isEqualTo("a")
         assertThat(AndroidArgs.load(yaml, cli).project).isEqualTo("b")
     }
+
+    @Test
+    fun cli_resultsHistoryName() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--results-history-name=b")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          results-history-name: a
+      """
+        assertThat(AndroidArgs.load(yaml).resultsHistoryName).isEqualTo("a")
+        assertThat(AndroidArgs.load(yaml, cli).resultsHistoryName).isEqualTo("b")
+    }
 }
