@@ -14,6 +14,7 @@ import ftl.args.yml.FlankYml
 import ftl.args.yml.GcloudYml
 import ftl.args.yml.IosFlankYml
 import ftl.args.yml.IosGcloudYml
+import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.ios.IosCatalog
@@ -27,7 +28,8 @@ class IosArgs(
     iosGcloudYml: IosGcloudYml,
     flankYml: FlankYml,
     iosFlankYml: IosFlankYml,
-    override val data: String
+    override val data: String,
+    val cli: IosRunCommand? = null
 ) : IArgs {
 
     private val gcloud = gcloudYml.gcloud
@@ -67,7 +69,7 @@ class IosArgs(
     }
 
     init {
-        resultsBucket = createGcsBucket(projectId, gcloud.resultsBucket)
+        resultsBucket = createGcsBucket(projectId, cli?.resultsBucket ?: gcloud.resultsBucket)
         createJunitBucket(projectId, flank.smartFlankGcsPath)
 
         if (xctestrunZip.startsWith(FtlConstants.GCS_PREFIX)) {
@@ -130,9 +132,9 @@ ${listToString(testTargets)}
             mergeYmlMaps(GcloudYml, IosGcloudYml, FlankYml, IosFlankYml)
         }
 
-        fun load(data: Path): IosArgs = IosArgs.load(String(Files.readAllBytes(data)))
+        fun load(data: Path, cli: IosRunCommand? = null): IosArgs = IosArgs.load(String(Files.readAllBytes(data)), cli)
 
-        fun load(data: String): IosArgs {
+        fun load(data: String, cli: IosRunCommand? = null): IosArgs {
             val flankYml = yamlMapper.readValue(data, FlankYml::class.java)
             val iosFlankYml = yamlMapper.readValue(data, IosFlankYml::class.java)
             val gcloudYml = yamlMapper.readValue(data, GcloudYml::class.java)
@@ -143,7 +145,8 @@ ${listToString(testTargets)}
                 iosGcloudYml,
                 flankYml,
                 iosFlankYml,
-                data
+                data,
+                cli
             )
         }
     }

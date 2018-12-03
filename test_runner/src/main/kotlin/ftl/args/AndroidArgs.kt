@@ -38,7 +38,7 @@ class AndroidArgs(
     androidGcloudYml: AndroidGcloudYml,
     flankYml: FlankYml,
     override val data: String,
-    val cli: AndroidRunCommand = AndroidRunCommand()
+    val cli: AndroidRunCommand? = null
 ) : IArgs {
     private val gcloud = gcloudYml.gcloud
     override val resultsBucket: String
@@ -49,17 +49,17 @@ class AndroidArgs(
     override val resultsHistoryName = gcloud.resultsHistoryName
 
     private val androidGcloud = androidGcloudYml.gcloud
-    var appApk = cli.app ?: androidGcloud.app
-    var testApk = cli.test ?: androidGcloud.test
-    val autoGoogleLogin = cli.autoGoogleLogin ?: cli.noAutoGoogleLogin?.not() ?: androidGcloud.autoGoogleLogin
+    var appApk = cli?.app ?: androidGcloud.app
+    var testApk = cli?.test ?: androidGcloud.test
+    val autoGoogleLogin = cli?.autoGoogleLogin ?: cli?.noAutoGoogleLogin?.not() ?: androidGcloud.autoGoogleLogin
 
     // We use not() on noUseOrchestrator because if the flag is on, useOrchestrator needs to be false
-    val useOrchestrator = cli.useOrchestrator ?: cli.noUseOrchestrator?.not() ?: androidGcloud.useOrchestrator
-    val environmentVariables = cli.environmentVariables ?: androidGcloud.environmentVariables
-    val directoriesToPull = cli.directoriesToPull ?: androidGcloud.directoriesToPull
-    val performanceMetrics = cli.performanceMetrics ?: cli.noPerformanceMetrics?.not() ?: androidGcloud.performanceMetrics
-    val testTargets = cli.testTargets ?: androidGcloud.testTargets
-    val devices = cli.device ?: androidGcloud.device
+    val useOrchestrator = cli?.useOrchestrator ?: cli?.noUseOrchestrator?.not() ?: androidGcloud.useOrchestrator
+    val environmentVariables = cli?.environmentVariables ?: androidGcloud.environmentVariables
+    val directoriesToPull = cli?.directoriesToPull ?: androidGcloud.directoriesToPull
+    val performanceMetrics = cli?.performanceMetrics ?: cli?.noPerformanceMetrics?.not() ?: androidGcloud.performanceMetrics
+    val testTargets = cli?.testTargets ?: androidGcloud.testTargets
+    val devices = cli?.device ?: androidGcloud.device
 
     private val flank = flankYml.flank
     override val testShards = flank.testShards
@@ -82,7 +82,7 @@ class AndroidArgs(
     }
 
     init {
-        resultsBucket = createGcsBucket(projectId, gcloud.resultsBucket)
+        resultsBucket = createGcsBucket(projectId, cli?.resultsBucket ?: gcloud.resultsBucket)
         createJunitBucket(projectId, flank.smartFlankGcsPath)
 
         if (appApk.startsWith(FtlConstants.GCS_PREFIX)) {
@@ -167,10 +167,10 @@ ${listToString(testTargetsAlwaysRun)}
             mergeYmlMaps(GcloudYml, AndroidGcloudYml, FlankYml)
         }
 
-        fun load(data: Path, cli: AndroidRunCommand = AndroidRunCommand()): AndroidArgs =
+        fun load(data: Path, cli: AndroidRunCommand? = null): AndroidArgs =
             load(String(Files.readAllBytes(data)), cli)
 
-        fun load(data: String, cli: AndroidRunCommand = AndroidRunCommand()): AndroidArgs {
+        fun load(data: String, cli: AndroidRunCommand? = null): AndroidArgs {
             val flankYml = yamlMapper.readValue(data, FlankYml::class.java)
             val gcloudYml = yamlMapper.readValue(data, GcloudYml::class.java)
             val androidGcloudYml = yamlMapper.readValue(data, AndroidGcloudYml::class.java)

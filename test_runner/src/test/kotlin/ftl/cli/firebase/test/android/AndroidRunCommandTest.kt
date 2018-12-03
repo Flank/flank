@@ -70,6 +70,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.environmentVariables).isNull()
         assertThat(cmd.directoriesToPull).isNull()
         assertThat(cmd.device).isNull()
+        assertThat(cmd.resultsBucket).isNull()
     }
 
     @Test
@@ -171,5 +172,13 @@ class AndroidRunCommandTest {
         val expectedDevice = Device("shamu", "22", "zh_CN", "default")
         assertThat(cmd.device?.size).isEqualTo(1)
         assertThat(cmd.device?.first()).isEqualTo(expectedDevice)
+    }
+
+    @Test
+    fun resultsBucket_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--results-bucket=a")
+
+        assertThat(cmd.resultsBucket).isEqualTo("a")
     }
 }

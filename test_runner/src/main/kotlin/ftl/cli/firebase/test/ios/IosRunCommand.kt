@@ -35,4 +35,10 @@ class IosRunCommand : Runnable {
 
     @Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
     var usageHelpRequested: Boolean = false
+
+    @Option(names = ["--results-bucket"], description = ["""The name of a Google Cloud Storage bucket where raw test
+        |results will be stored (default: "test-lab-<random-UUID>"). Note that the bucket must be owned by a
+        |billing-enabled project, and that using a non-default bucket will result in billing charges for the
+        |storage used."""])
+    var resultsBucket: String? = null
 }

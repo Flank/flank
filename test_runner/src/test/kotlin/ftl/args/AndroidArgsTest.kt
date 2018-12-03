@@ -514,4 +514,19 @@ AndroidArgs
         assertThat(actualDevices[0]).isEqualTo(expectedDevice)
         assertThat(actualDevices[1]).isEqualTo(expectedDevice)
     }
+
+    @Test
+    fun cli_resultsBucket() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--results-bucket=a")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          results-bucket: b
+      """
+        assertThat(AndroidArgs.load(yaml).resultsBucket).isEqualTo("b")
+        assertThat(AndroidArgs.load(yaml, cli).resultsBucket).isEqualTo("a")
+    }
 }
