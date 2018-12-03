@@ -64,6 +64,7 @@ class IosRunCommandTest {
         assertThat(cmd.async).isNull()
         assertThat(cmd.project).isNull()
         assertThat(cmd.resultsHistoryName).isNull()
+        assertThat(cmd.testShards).isNull()
     }
 
     @Test
@@ -120,5 +121,15 @@ class IosRunCommandTest {
         CommandLine(cmd).parse("--results-history-name=a")
 
         assertThat(cmd.resultsHistoryName).isEqualTo("a")
+    }
+
+    // flankYml
+
+    @Test
+    fun testShards_parse() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parse("--test-shards=3")
+
+        assertThat(cmd.testShards).isEqualTo(3)
     }
 }
