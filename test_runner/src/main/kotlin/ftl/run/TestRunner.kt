@@ -36,9 +36,6 @@ import kotlinx.coroutines.runBlocking
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
 
 object TestRunner {
     private val gson = GsonBuilder().setPrettyPrinting().create()!!
@@ -137,20 +134,15 @@ object TestRunner {
     private fun lastGcsPath(): String? {
         val resultsFile = Paths.get(FtlConstants.localResultsDir).toFile()
         if (!resultsFile.exists()) return null
-        val scheduledRuns = resultsFile.listFiles().filter { it.isDirectory }.map { it.name }
+
+        val scheduledRuns = resultsFile.listFiles().filter { it.isDirectory }.sortedBy { it.lastModified() }
         if (scheduledRuns.isEmpty()) return null
 
-        val fileTimePairs = scheduledRuns.map {
-            val dateTimePair = it.split('.')[0].split('_')
-            val date = LocalDate.parse(dateTimePair[0])
-            val time = LocalTime.parse(dateTimePair[1])
-            Pair(it, LocalDateTime.of(date, time))
-        }.sortedByDescending { it.second }
-        return fileTimePairs.first().first
+        return scheduledRuns.first().name
     }
 
     /** Reads in the last matrices from the localResultsDir folder **/
-    private fun lastConfig(): IArgs {
+    private fun lastArgs(): IArgs {
         val lastRun = lastGcsPath()
 
         if (lastRun == null) {
@@ -329,23 +321,23 @@ object TestRunner {
     // used to update and poll the results from an async run
     suspend fun refreshLastRun() {
         val matrixMap = lastMatrices()
-        val config = lastConfig()
+        val args = lastArgs()
 
-        refreshMatrices(matrixMap, config)
-        pollMatrices(matrixMap, config)
+        refreshMatrices(matrixMap, args)
+        pollMatrices(matrixMap, args)
         fetchArtifacts(matrixMap)
 
         // Must generate reports *after* fetching xml artifacts since reports require xml
-        val exitCode = ReportManager.generate(matrixMap, config)
+        val exitCode = ReportManager.generate(matrixMap, args)
         System.exit(exitCode)
     }
 
     // used to cancel and update results from an async run
     fun cancelLastRun() {
         val matrixMap = lastMatrices()
-        val config = lastConfig()
+        val args = lastArgs()
 
-        cancelMatrices(matrixMap, config)
+        cancelMatrices(matrixMap, args)
     }
 
     suspend fun newRun(args: IArgs) {

@@ -132,6 +132,7 @@ class IosArgsTest {
 IosArgs
     gcloud:
       results-bucket: mockBucket
+      results-dir: null
       record-video: false
       timeout: 70m
       async: true

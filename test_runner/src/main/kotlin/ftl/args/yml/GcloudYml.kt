@@ -19,7 +19,7 @@ class GcloudYmlParams(
     var resultsBucket: String = "",
 
     @field:JsonProperty("results-dir")
-    var resultsDir: String = "",
+    var resultsDir: String? = null,
 
     @field:JsonProperty("record-video")
     val recordVideo: Boolean = true,
