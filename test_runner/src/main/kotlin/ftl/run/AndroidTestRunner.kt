@@ -17,7 +17,7 @@ import kotlinx.coroutines.coroutineScope
 object AndroidTestRunner {
 
     suspend fun runTests(androidArgs: AndroidArgs): MatrixMap = coroutineScope {
-        val (stopwatch, runGcsPath) = GenericTestRunner.beforeRunTests()
+        val (stopwatch, runGcsPath) = GenericTestRunner.beforeRunTests(androidArgs)
 
         // GcAndroidMatrix => GcAndroidTestMatrix
         // GcAndroidTestMatrix.execute() 3x retry => matrix id (string)

@@ -21,7 +21,7 @@ object IosTestRunner {
     // https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/run
     // https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/
     suspend fun runTests(iosArgs: IosArgs): MatrixMap = coroutineScope {
-        val (stopwatch, runGcsPath) = GenericTestRunner.beforeRunTests()
+        val (stopwatch, runGcsPath) = GenericTestRunner.beforeRunTests(iosArgs)
 
         val xcTestGcsPath = if (iosArgs.xctestrunZip.startsWith(FtlConstants.GCS_PREFIX)) {
             iosArgs.xctestrunZip

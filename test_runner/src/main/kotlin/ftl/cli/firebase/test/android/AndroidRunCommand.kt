@@ -234,4 +234,14 @@ class AndroidRunCommand : Runnable {
             "A list of one or more test methods to always run first in every shard."]
     )
     var testTargetsAlwaysRun: List<String>? = null
+
+    @Option(
+        names = ["--results-dir"],
+        description = [
+            "The name of a unique Google Cloud Storage object within the results bucket where raw test results will be " +
+                "stored (default: a timestamp with a random suffix). Caution: if specified, this argument must be unique for " +
+                "each test matrix you create, otherwise results from multiple test matrices will be overwritten or " +
+                "intermingled."]
+    )
+    var resultsDir: String? = null
 }

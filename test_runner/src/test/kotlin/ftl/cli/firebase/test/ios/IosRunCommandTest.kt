@@ -73,6 +73,7 @@ class IosRunCommandTest {
         assertThat(cmd.xctestrunFile).isNull()
         assertThat(cmd.xcodeVersion).isNull()
         assertThat(cmd.device).isNull()
+        assertThat(cmd.resultsDir).isNull()
     }
 
     @Test
@@ -197,5 +198,13 @@ class IosRunCommandTest {
         val expectedDevice = Device("iphone8", "11.2", "zh_CN", "default")
         assertThat(cmd.device?.size).isEqualTo(1)
         assertThat(cmd.device?.first()).isEqualTo(expectedDevice)
+    }
+
+    @Test
+    fun resultsDir_parse() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parse("--results-dir=a")
+
+        assertThat(cmd.resultsDir).isEqualTo("a")
     }
 }
