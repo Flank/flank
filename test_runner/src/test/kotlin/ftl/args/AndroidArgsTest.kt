@@ -171,6 +171,7 @@ class AndroidArgsTest {
 AndroidArgs
     gcloud:
       results-bucket: mockBucket
+      results-dir: null
       record-video: false
       timeout: 70m
       async: true
@@ -668,5 +669,21 @@ AndroidArgs
           test: $testApk
       """
         assertThat(AndroidArgs.load(yaml, cli).testTargetsAlwaysRun).isEqualTo(arrayListOf("com.A", "com.B"))
+    }
+
+    @Test
+    fun cli_resultsDir() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--results-dir=b")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          results-dir: a
+      """
+
+        assertThat(AndroidArgs.load(yaml).resultsDir).isEqualTo("a")
+        assertThat(AndroidArgs.load(yaml, cli).resultsDir).isEqualTo("b")
     }
 }

@@ -175,4 +175,14 @@ class IosRunCommand : Runnable {
     }
 
     var device: MutableList<Device>? = null
+
+    @Option(
+        names = ["--results-dir"],
+        description = [
+            "The name of a unique Google Cloud Storage object within the results bucket where raw test results will be " +
+                "stored (default: a timestamp with a random suffix). Caution: if specified, this argument must be unique for " +
+                "each test matrix you create, otherwise results from multiple test matrices will be overwritten or " +
+                "intermingled."]
+    )
+    var resultsDir: String? = null
 }

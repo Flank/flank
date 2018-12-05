@@ -80,6 +80,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.testShards).isNull()
         assertThat(cmd.repeatTests).isNull()
         assertThat(cmd.testTargetsAlwaysRun).isNull()
+        assertThat(cmd.resultsDir).isNull()
     }
 
     @Test
@@ -263,5 +264,13 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parse("--test-targets-always-run=a,b,c")
 
         assertThat(cmd.testTargetsAlwaysRun).isEqualTo(arrayListOf("a", "b", "c"))
+    }
+
+    @Test
+    fun resultsDir_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--results-dir=a")
+
+        assertThat(cmd.resultsDir).isEqualTo("a")
     }
 }

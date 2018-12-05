@@ -18,6 +18,9 @@ class GcloudYmlParams(
     @field:JsonProperty("results-bucket")
     var resultsBucket: String = "",
 
+    @field:JsonProperty("results-dir")
+    var resultsDir: String? = null,
+
     @field:JsonProperty("record-video")
     val recordVideo: Boolean = true,
 
@@ -32,7 +35,7 @@ class GcloudYmlParams(
 ) {
     companion object : IYmlKeys {
         override val keys =
-            listOf("results-bucket", "record-video", "timeout", "async", "project", "results-history-name")
+            listOf("results-bucket", "record-video", "timeout", "async", "project", "results-history-name", "results-dir")
     }
 
     init {

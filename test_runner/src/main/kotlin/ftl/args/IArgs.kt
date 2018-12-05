@@ -6,6 +6,7 @@ interface IArgs {
 
     // GcloudYml
     val resultsBucket: String
+    val resultsDir: String?
     val recordVideo: Boolean
     val testTimeout: String
     val async: Boolean

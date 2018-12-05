@@ -9,12 +9,13 @@ import ftl.util.StopWatch
 import ftl.util.Utils
 
 object GenericTestRunner {
-    fun beforeRunTests(): Pair<StopWatch, String> {
+    fun beforeRunTests(args: IArgs): Pair<StopWatch, String> {
         println("RunTests")
         val stopwatch = StopWatch().start()
         TestRunner.assertMockUrl()
 
-        return Pair(stopwatch, Utils.uniqueObjectName())
+        val resultsDir = args.resultsDir ?: Utils.uniqueObjectName()
+        return Pair(stopwatch, resultsDir)
     }
 
     fun afterRunTests(

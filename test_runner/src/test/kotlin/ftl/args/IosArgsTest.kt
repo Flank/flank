@@ -132,6 +132,7 @@ class IosArgsTest {
 IosArgs
     gcloud:
       results-bucket: mockBucket
+      results-dir: null
       record-video: false
       timeout: 70m
       async: true
@@ -489,5 +490,21 @@ IosArgs
         assertThat(actualDevices.size).isEqualTo(2)
         assertThat(actualDevices[0]).isEqualTo(expectedDevice)
         assertThat(actualDevices[1]).isEqualTo(expectedDevice)
+    }
+
+    @Test
+    fun cli_resultsDir() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--results-dir=b")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+          results-dir: a
+      """
+
+        assertThat(IosArgs.load(yaml).resultsDir).isEqualTo("a")
+        assertThat(IosArgs.load(yaml, cli).resultsDir).isEqualTo("b")
     }
 }
