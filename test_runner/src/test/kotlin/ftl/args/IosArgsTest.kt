@@ -188,7 +188,7 @@ IosArgs
             // IosGcloudYml
             assert(xctestrunZip, testAbsolutePath)
             assert(xctestrunFile, xctestrunFileAbsolutePath)
-            assert(devices, listOf(Device("iphone8", "11.2")))
+            assert(devices, listOf(Device("iphone8", "12.0")))
 
             // FlankYml
             assert(testShards, 1)
