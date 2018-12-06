@@ -1,7 +1,9 @@
-## v4.2 (unreleased)
+## v4.2.0 (unreleased)
+
 - TODO
 
-## v4.1 (unreleased)
+## v4.1.0
+
 - `app`, `test`, and `xctestrun-file` now support `~`, environment variables, and globs (`*`, `**`) when resolving paths. [#386](https://github.com/TestArmada/flank/pull/386)
 - Add CLI support for `flank android run` and `flank ios run`
 - Add experimental `smartFlankGcsPath` to shard iOS and Android tests by time using historical run data. The amount of shards used is set by `testShards`. [#385](https://github.com/TestArmada/flank/pull/385)
