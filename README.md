@@ -14,7 +14,7 @@ Flank is a [massively parallel Android and iOS test runner](https://medium.com/w
 ### Features
 
 Available now | 2019
- --           |
+ --           | --
 Test sharding | Client/Server refactor
 Cost reporting
 Stability testing
