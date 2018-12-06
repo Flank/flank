@@ -4,6 +4,7 @@
 - Add `smartFlankGcsPath` to shard iOS and Android tests by time using historical run data. The amount of shards used is set by `testShards`. [#385](https://github.com/TestArmada/flank/pull/385)
 - Fix parsing empty testcase [#402](https://github.com/TestArmada/flank/pull/402)
 - Add progress bar when uploading files. [#403](https://github.com/TestArmada/flank/pull/403)
+- iOS iPhone 8 default device has been updated from 11.2 to 12.0.
 
 ## v4.0.0
 

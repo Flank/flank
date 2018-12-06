@@ -14,7 +14,7 @@ gcloud:
   xcode-version: 10.1
   device:
     - model: iphone8
-      version: 11.2
+      version: 12.0
       locale: en
       orientation: portrait
 
