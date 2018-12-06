@@ -1,7 +1,10 @@
+## v4.2 (unreleased)
+- TODO
+
 ## v4.1 (unreleased)
 - `app`, `test`, and `xctestrun-file` now support `~`, environment variables, and globs (`*`, `**`) when resolving paths. [#386](https://github.com/TestArmada/flank/pull/386)
-- Update `flank android run` to support `--app`, `--test`, `--test-targets`, `--use-orchestrator` and `--no-use-orchestrator`.
-- Add `smartFlankGcsPath` to shard iOS and Android tests by time using historical run data. The amount of shards used is set by `testShards`. [#385](https://github.com/TestArmada/flank/pull/385)
+- Added CLI support for `flank android run` and `flank ios run`
+- Added experimental `smartFlankGcsPath` to shard iOS and Android tests by time using historical run data. The amount of shards used is set by `testShards`. [#385](https://github.com/TestArmada/flank/pull/385)
 - Fix parsing empty testcase [#402](https://github.com/TestArmada/flank/pull/402)
 - Add progress bar when uploading files. [#403](https://github.com/TestArmada/flank/pull/403)
 - iOS iPhone 8 default device has been updated from 11.2 to 12.0.
