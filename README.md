@@ -30,6 +30,10 @@ Exit code | Description
 1         | At least one test failed or inconclusive and all matrices finished.
 2         | At least one matrix not finished, usually a FTL error.
 
+### Flank configuration
+
+app, test, and xctestrun-file support `~`, environment variables, and globs (*, **) when resolving paths
+
 ### iOS example
 
 Run `test_runner/flank.ios.yml` with flank to verify iOS execution is working.
