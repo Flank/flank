@@ -106,8 +106,12 @@ object Xctestrun {
             setOnlyTestIdentifiers(testDictionary, methods)
         }
 
+        return rootClone.toByteArray()
+    }
+
+    fun NSDictionary.toByteArray(): ByteArray {
         val out = ByteArrayOutputStream()
-        PropertyListParser.saveAsXML(rootClone, out)
+        PropertyListParser.saveAsXML(this, out)
         return out.toByteArray()
     }
 }

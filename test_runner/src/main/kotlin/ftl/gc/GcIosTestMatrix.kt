@@ -15,6 +15,7 @@ import com.google.api.services.testing.model.TestSpecification
 import com.google.api.services.testing.model.ToolResultsHistory
 import ftl.args.IosArgs
 import ftl.ios.Xctestrun
+import ftl.ios.Xctestrun.toByteArray
 import ftl.util.ShardCounter
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
@@ -41,7 +42,13 @@ object GcIosTestMatrix {
         val matrixGcsPath = join(gcsBucket, matrixGcsSuffix)
         val methods = args.testShardChunks.elementAt(testShardsIndex)
 
-        val generatedXctestrun = Xctestrun.rewrite(xcTestParsed, methods)
+        // Parameterized tests on iOS don't shard correctly.
+        // Avoid changing Xctestrun file when test shards is 1.
+        val generatedXctestrun = if (args.testShards == 1) {
+            xcTestParsed.toByteArray()
+        } else {
+            Xctestrun.rewrite(xcTestParsed, methods)
+        }
         val xctestrunFileGcsPath = GcStorage.uploadXCTestFile(args, gcsBucket, matrixGcsSuffix, generatedXctestrun)
 
         val iOSXCTest = IosXcTest()

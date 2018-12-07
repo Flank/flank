@@ -35,13 +35,13 @@ object IosTestRunner {
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
         val runCount = iosArgs.repeatTests
-        val deviceCount = iosArgs.testShardChunks.size
+        val shardCount = iosArgs.testShardChunks.size
         val shardCounter = ShardCounter()
         val history = GcToolResults.createToolResultsHistory(iosArgs)
 
         println(beforeRunMessage(iosArgs))
         repeat(runCount) {
-            repeat(deviceCount) { testShardsIndex ->
+            repeat(shardCount) { testShardsIndex ->
                 jobs += async {
                     GcIosTestMatrix.build(
                         iosDeviceList = iosDeviceList,
