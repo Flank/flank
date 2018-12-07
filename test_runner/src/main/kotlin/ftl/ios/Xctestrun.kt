@@ -2,6 +2,7 @@ package ftl.ios
 
 import com.dd.plist.NSArray
 import com.dd.plist.NSDictionary
+import com.dd.plist.NSString
 import com.dd.plist.PropertyListParser
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -16,7 +17,8 @@ object Xctestrun {
     // Parses all tests for a given target
     private fun testsForTarget(testDictionary: NSDictionary, testTarget: String, testRoot: String): List<String> {
         if (testTarget.isMetadata()) return emptyList()
-        val productPaths = (testDictionary["DependentProductPaths"] as NSArray)
+        val skipTests: List<String> = (testDictionary["SkipTestIdentifiers"] as NSArray).array.map { (it as NSString).content }
+        val productPaths = testDictionary["DependentProductPaths"] as NSArray
         for (product in productPaths.array) {
             val productString = product.toString()
             if (productString.contains("/$testTarget.xctest")) {
@@ -27,11 +29,13 @@ object Xctestrun {
                 val binaryName = File(binaryRoot).nameWithoutExtension
                 val binaryPath = Paths.get(binaryRoot, binaryName).toString()
 
-                return if (isSwift) {
+                val tests = if (isSwift) {
                     (Parse.parseObjcTests(binaryPath) + Parse.parseSwiftTests(binaryPath)).distinct()
                 } else {
                     Parse.parseObjcTests(binaryPath)
                 }
+
+                return tests.minus(skipTests)
             }
         }
 

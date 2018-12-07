@@ -6,6 +6,8 @@ import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestArtifact.fixturesPath
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.nio.file.Files
+import java.nio.file.Paths
 
 @RunWith(FlankTestRunner::class)
 class XctestrunTest {
@@ -135,5 +137,51 @@ class XctestrunTest {
         val rewrittenXml = String(Xctestrun.rewrite(root, listOf("testOne", "testTwo")))
 
         assertThat(inputXml).isEqualTo(rewrittenXml)
+    }
+
+    @Test
+    fun findTestNames_respects_skip() {
+        val inputXml = """
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>EarlGreyExampleSwiftTests</key>
+	<dict>
+        <key>DependentProductPaths</key>
+		<array>
+			<string>__TESTROOT__/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest</string>
+			<string>__TESTROOT__/Debug-iphoneos/EarlGreyExampleSwift.app</string>
+		</array>
+		<key>SkipTestIdentifiers</key>
+		<array>
+            <string>EarlGreyExampleSwiftTests/testBasicSelectionActionAssert</string>
+            <string>EarlGreyExampleSwiftTests/testBasicSelectionAndAction</string>
+            <string>EarlGreyExampleSwiftTests/testBasicSelectionAndAssert</string>
+            <string>EarlGreyExampleSwiftTests/testCatchErrorOnFailure</string>
+            <string>EarlGreyExampleSwiftTests/testCollectionMatchers</string>
+            <string>EarlGreyExampleSwiftTests/testCustomAction</string>
+            <string>EarlGreyExampleSwiftTests/testLayout</string>
+            <string>EarlGreyExampleSwiftTests/testSelectionOnMultipleElements</string>
+            <string>EarlGreyExampleSwiftTests/testTableCellOutOfScreen</string>
+            <string>EarlGreyExampleSwiftTests/testThatThrows</string>
+            <string>EarlGreyExampleSwiftTests/testWithCondition</string>
+            <string>EarlGreyExampleSwiftTests/testWithCustomAssertion</string>
+            <string>EarlGreyExampleSwiftTests/testWithCustomFailureHandler</string>
+            <string>EarlGreyExampleSwiftTests/testWithCustomMatcher</string>
+            <string>EarlGreyExampleSwiftTests/testWithGreyAssertions</string>
+            <string>EarlGreyExampleSwiftTests/testWithInRoot</string>
+		</array>
+	</dict>
+</dict>
+</plist>
+        """.trimIndent()
+
+        val tmpXml = Paths.get(fixturesPath, "skip.xctestrun")
+        Files.write(tmpXml, inputXml.toByteArray())
+        tmpXml.toFile().deleteOnExit()
+
+        val actualTests = Xctestrun.findTestNames(tmpXml.toString()).sorted()
+        assertThat(actualTests).isEqualTo(listOf("EarlGreyExampleSwiftTests/testBasicSelection"))
     }
 }
