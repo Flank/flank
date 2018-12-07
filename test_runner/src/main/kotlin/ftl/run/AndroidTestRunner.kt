@@ -26,13 +26,13 @@ object AndroidTestRunner {
         val apks = resolveApks(androidArgs, runGcsPath)
         val jobs = arrayListOf<Deferred<TestMatrix>>()
         val runCount = androidArgs.repeatTests
-        val deviceCount = androidArgs.testShardChunks.size
+        val shardCount = androidArgs.testShardChunks.size
         val shardCounter = ShardCounter()
         val history = GcToolResults.createToolResultsHistory(androidArgs)
 
         println(GenericTestRunner.beforeRunMessage(androidArgs))
         repeat(runCount) {
-            repeat(deviceCount) { testShardsIndex ->
+            repeat(shardCount) { testShardsIndex ->
                 jobs += async {
                     GcAndroidTestMatrix.build(
                         appApkGcsPath = apks.first,
