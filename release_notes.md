@@ -2,6 +2,11 @@
 
 - TODO
 
+## v4.1.1
+
+- Add support for parameterized iOS tests when shard count is 1. [#435](https://github.com/TestArmada/flank/pull/435)
+- Add support for `SkipTestIdentifiers` when parsing iOS `.xctestrun` files. [#435](https://github.com/TestArmada/flank/pull/435)
+
 ## v4.1.0
 
 - `app`, `test`, and `xctestrun-file` now support `~`, environment variables, and globs (`*`, `**`) when resolving paths. [#386](https://github.com/TestArmada/flank/pull/386)
