@@ -65,6 +65,10 @@ object Xctestrun {
         return PropertyListParser.parse(testrun) as NSDictionary
     }
 
+    fun parse(xctestrun: ByteArray): NSDictionary {
+        return PropertyListParser.parse(xctestrun) as NSDictionary
+    }
+
     fun findTestNames(xctestrun: String): List<String> {
         return findTestNames(File(xctestrun))
     }

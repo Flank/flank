@@ -107,4 +107,33 @@ class XctestrunTest {
 </plist>"""
         assertThat(expected).isEqualTo(String(result))
     }
+
+    @Test
+    fun rewrite_preserves_skip() {
+        val inputXml = """
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>EarlGreyExampleSwiftTests</key>
+	<dict>
+		<key>SkipTestIdentifiers</key>
+		<array>
+			<string>testTwo</string>
+		</array>
+		<key>OnlyTestIdentifiers</key>
+		<array>
+			<string>testOne</string>
+			<string>testTwo</string>
+		</array>
+	</dict>
+</dict>
+</plist>
+        """.trimIndent()
+        val root = Xctestrun.parse(inputXml.toByteArray())
+
+        val rewrittenXml = String(Xctestrun.rewrite(root, listOf("testOne", "testTwo")))
+
+        assertThat(inputXml).isEqualTo(rewrittenXml)
+    }
 }
