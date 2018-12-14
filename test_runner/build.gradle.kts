@@ -89,7 +89,7 @@ dependencies {
     compile("com.google.apis:google-api-services-toolresults:v1beta3-rev20181015-1.26.0")
 
     // https://github.com/linkedin/dex-test-parser/releases
-    compile("com.linkedin.dextestparser:parser:2.0.0")
+    compile("com.linkedin.dextestparser:parser:2.0.1")
 
     // NOTE: iOS support isn't in the public artifact. Use testing jar generated from the private gcloud CLI json
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-testing%22
