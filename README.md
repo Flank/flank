@@ -127,6 +127,9 @@ flank:
   # useful if you need to grant permissions or login before other tests run
   test-targets-always-run:
     - class com.example.app.ExampleUiTest#testPasses
+  # directories to download after the test runs from the result bucket
+  directories-to-download:
+    - /sdcard/screenshots
 ```
 
 ### CI integration

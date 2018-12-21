@@ -200,16 +200,20 @@ object TestRunner {
             finished && notDownloaded
         }
 
+        val lastAndroidArgs = lastArgs() as? AndroidArgs
+        val directoriesToDownload = lastAndroidArgs?.directoriesToDownload ?: emptyList()
+
         print(indent)
         runBlocking {
             filtered.forEach { matrix ->
                 launch {
                     val prefix = Storage.BlobListOption.prefix(matrix.gcsPathWithoutRootBucket)
                     val result = GcStorage.storage.list(matrix.gcsRootBucket, prefix, fields)
+                    val artifactsToDownload = ArtifactRegex.artifactsToDownload(matrix, directoriesToDownload)
 
                     result.iterateAll().forEach { blob ->
                         val blobPath = blob.blobId.name
-                        if (blobPath.matches(ArtifactRegex.testResultRgx)) {
+                        if (artifactsToDownload.find { blobPath.matches(it) } != null) {
                             val downloadFile = Paths.get(FtlConstants.localResultsDir, blobPath)
                             print(".")
                             if (!downloadFile.toFile().exists()) {
