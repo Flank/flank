@@ -59,6 +59,9 @@ class AndroidArgsTest {
         flank:
           testShards: 7
           repeatTests: 8
+          directories-to-download:
+            - /sdcard/screenshots
+            - /sdcard/screenshots2
           test-targets-always-run:
             - class example.Test#grantPermission
             - class example.Test#grantPermission2
@@ -154,6 +157,7 @@ class AndroidArgsTest {
             // FlankYml
             assert(testShards, 7)
             assert(repeatTests, 8)
+            assert(directoriesToDownload, listOf("/sdcard/screenshots", "/sdcard/screenshots2"))
             assert(
                 testTargetsAlwaysRun, listOf(
                     "class example.Test#grantPermission",
@@ -206,6 +210,9 @@ AndroidArgs
       testShards: 7
       repeatTests: 8
       smartFlankGcsPath:${' '}
+      directories-to-download:
+        - /sdcard/screenshots
+        - /sdcard/screenshots2
       test-targets-always-run:
         - class example.Test#grantPermission
         - class example.Test#grantPermission2
@@ -245,6 +252,7 @@ AndroidArgs
             // FlankYml
             assert(testShards, 1)
             assert(repeatTests, 1)
+            assert(directoriesToDownload, empty)
             assert(testTargetsAlwaysRun, empty)
         }
     }
@@ -474,6 +482,22 @@ AndroidArgs
 
         val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.directoriesToPull).isEqualTo(listOf("a", "b"))
+    }
+
+    @Test
+    fun cli_directoriesToDownload() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--directories-to-download=a,b")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+      """
+        assertThat(AndroidArgs.load(yaml).directoriesToDownload).isEmpty()
+
+        val androidArgs = AndroidArgs.load(yaml, cli)
+        assertThat(androidArgs.directoriesToDownload).isEqualTo(listOf("a", "b"))
     }
 
     @Test
