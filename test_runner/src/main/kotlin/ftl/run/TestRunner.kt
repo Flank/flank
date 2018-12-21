@@ -209,7 +209,8 @@ object TestRunner {
 
                     result.iterateAll().forEach { blob ->
                         val blobPath = blob.blobId.name
-                        if (blobPath.matches(ArtifactRegex.testResultRgx)) {
+                        if (blobPath.matches(ArtifactRegex.testResultRgx) ||
+                            blobPath.matches(ArtifactRegex.screenshotRgx)) {
                             val downloadFile = Paths.get(FtlConstants.localResultsDir, blobPath)
                             print(".")
                             if (!downloadFile.toFile().exists()) {
