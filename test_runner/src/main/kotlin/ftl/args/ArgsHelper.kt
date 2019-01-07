@@ -121,7 +121,7 @@ object ArgsHelper {
         if (targetBucket != null) return targetBucket
 
         return storage.create(
-            BucketInfo.newBuilder(targetBucket)
+            BucketInfo.newBuilder(bucket)
                 .setStorageClass(StorageClass.REGIONAL)
                 .setLocation(storageLocation)
                 .setLabels(bucketLabel)
