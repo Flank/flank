@@ -1,6 +1,6 @@
 ## v4.2.0 (unreleased)
 
-- TODO
+- Fix create Gcs bucket [#444](https://github.com/TestArmada/flank/pull/444)
 
 ## v4.1.1
 

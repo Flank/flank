@@ -117,8 +117,7 @@ object ArgsHelper {
 
         val bucketListOption = Storage.BucketListOption.prefix(bucket)
         val storageList = storage.list(bucketListOption).values?.map { it.name } ?: emptyList()
-        val targetBucket = storageList.find { it == bucket }
-        if (targetBucket != null) return targetBucket
+        if (storageList.contains(bucket)) return bucket
 
         return storage.create(
             BucketInfo.newBuilder(bucket)
