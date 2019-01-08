@@ -80,6 +80,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.testShards).isNull()
         assertThat(cmd.repeatTests).isNull()
         assertThat(cmd.testTargetsAlwaysRun).isNull()
+        assertThat(cmd.filesToDownload).isNull()
         assertThat(cmd.resultsDir).isNull()
     }
 
@@ -272,5 +273,13 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parse("--results-dir=a")
 
         assertThat(cmd.resultsDir).isEqualTo("a")
+    }
+
+    @Test
+    fun filesToDownload_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--files-to-download=a,b")
+
+        assertThat(cmd.filesToDownload).isEqualTo(arrayListOf("a", "b"))
     }
 }

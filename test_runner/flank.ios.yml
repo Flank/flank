@@ -41,3 +41,7 @@ flank:
   #
   # test-targets:
   #   - b/testBasicSelection
+
+  # # regex is matched against bucket paths, for example: 2019-01-09_00:18:07.314000_hCMY/shard_0/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun
+  # files-to-download:
+  #   - .*\.png$

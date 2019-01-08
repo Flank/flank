@@ -52,6 +52,7 @@ class IosArgs(
     override val repeatTests = cli?.repeatTests ?: flank.repeatTests
     override val smartFlankGcsPath = flank.smartFlankGcsPath
     override val testTargetsAlwaysRun = cli?.testTargetsAlwaysRun ?: flank.testTargetsAlwaysRun
+    override val filesToDownload = cli?.filesToDownload ?: flank.filesToDownload
 
     private val iosFlank = iosFlankYml.flank
     val testTargets = cli?.testTargets ?: iosFlank.testTargets
@@ -123,6 +124,8 @@ ${devicesToString(devices)}
       smartFlankGcsPath: $smartFlankGcsPath
       test-targets-always-run:
 ${listToString(testTargetsAlwaysRun)}
+      files-to-download:
+${listToString(filesToDownload)}
       # iOS flank
       test-targets:
 ${listToString(testTargets)}

@@ -11,7 +11,7 @@ import ftl.reports.MatrixResultsReport
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseOneSuiteXml
 import ftl.reports.xml.parseAllSuitesXml
-import ftl.util.ArtifactRegex
+import ftl.util.Artifacts
 import ftl.util.resolveLocalRunPath
 import java.io.File
 import java.nio.file.Paths
@@ -23,7 +23,7 @@ object ReportManager {
         val rootFolder = File(resolveLocalRunPath(matrices))
 
         rootFolder.walk().forEach {
-            if (it.name.matches(ArtifactRegex.testResultRgx)) {
+            if (it.name.matches(Artifacts.testResultRgx)) {
                 xmlFiles.add(it)
             }
         }

@@ -46,3 +46,7 @@ flank:
   #
   # test-targets-always-run:
   #   - class com.example.app.ExampleUiTest#testPasses
+
+  # # regex is matched against bucket paths, for example: 2019-01-09_00:13:06.106000_YCKl/shard_0/NexusLowRes-28-en-portrait/bugreport.txt
+  # files-to-download:
+  #   - .*\.mp4$

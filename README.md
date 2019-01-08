@@ -77,6 +77,9 @@ flank:
   # test targets - a list of tests to run. omit to run all tests.
   test-targets:
     - b/testBasicSelection
+  # regex is matched against bucket paths, for example: 2019-01-09_00:18:07.314000_hCMY/shard_0/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun
+  files-to-download:
+    - .*\.png$
 ```
 
 ### Android example
@@ -127,9 +130,9 @@ flank:
   # useful if you need to grant permissions or login before other tests run
   test-targets-always-run:
     - class com.example.app.ExampleUiTest#testPasses
-  # directories to download after the test runs from the result bucket
-  directories-to-download:
-    - /sdcard/screenshots
+ # regex is matched against bucket paths, for example: 2019-01-09_00:13:06.106000_YCKl/shard_0/NexusLowRes-28-en-portrait/bugreport.txt
+  files-to-download:
+    - .*\.mp4$
 ```
 
 ### CI integration

@@ -69,6 +69,7 @@ class IosRunCommandTest {
         assertThat(cmd.repeatTests).isNull()
         assertThat(cmd.testTargetsAlwaysRun).isNull()
         assertThat(cmd.testTargets).isNull()
+        assertThat(cmd.filesToDownload).isNull()
         assertThat(cmd.test).isNull()
         assertThat(cmd.xctestrunFile).isNull()
         assertThat(cmd.xcodeVersion).isNull()
@@ -206,5 +207,13 @@ class IosRunCommandTest {
         CommandLine(cmd).parse("--results-dir=a")
 
         assertThat(cmd.resultsDir).isEqualTo("a")
+    }
+
+    @Test
+    fun filesToDownload_parse() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parse("--files-to-download=a,b")
+
+        assertThat(cmd.filesToDownload).isEqualTo(arrayListOf("a", "b"))
     }
 }

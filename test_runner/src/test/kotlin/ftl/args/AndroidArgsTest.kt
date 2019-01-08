@@ -59,7 +59,7 @@ class AndroidArgsTest {
         flank:
           testShards: 7
           repeatTests: 8
-          directories-to-download:
+          files-to-download:
             - /sdcard/screenshots
             - /sdcard/screenshots2
           test-targets-always-run:
@@ -157,7 +157,7 @@ class AndroidArgsTest {
             // FlankYml
             assert(testShards, 7)
             assert(repeatTests, 8)
-            assert(directoriesToDownload, listOf("/sdcard/screenshots", "/sdcard/screenshots2"))
+            assert(filesToDownload, listOf("/sdcard/screenshots", "/sdcard/screenshots2"))
             assert(
                 testTargetsAlwaysRun, listOf(
                     "class example.Test#grantPermission",
@@ -210,7 +210,7 @@ AndroidArgs
       testShards: 7
       repeatTests: 8
       smartFlankGcsPath:${' '}
-      directories-to-download:
+      files-to-download:
         - /sdcard/screenshots
         - /sdcard/screenshots2
       test-targets-always-run:
@@ -252,7 +252,7 @@ AndroidArgs
             // FlankYml
             assert(testShards, 1)
             assert(repeatTests, 1)
-            assert(directoriesToDownload, empty)
+            assert(filesToDownload, empty)
             assert(testTargetsAlwaysRun, empty)
         }
     }
@@ -485,19 +485,19 @@ AndroidArgs
     }
 
     @Test
-    fun cli_directoriesToDownload() {
+    fun cli_filesToDownload() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--directories-to-download=a,b")
+        CommandLine(cli).parse("--files-to-download=a,b")
 
         val yaml = """
         gcloud:
           app: $appApk
           test: $testApk
       """
-        assertThat(AndroidArgs.load(yaml).directoriesToDownload).isEmpty()
+        assertThat(AndroidArgs.load(yaml).filesToDownload).isEmpty()
 
         val androidArgs = AndroidArgs.load(yaml, cli)
-        assertThat(androidArgs.directoriesToDownload).isEqualTo(listOf("a", "b"))
+        assertThat(androidArgs.filesToDownload).isEqualTo(listOf("a", "b"))
     }
 
     @Test
