@@ -22,7 +22,7 @@ import ftl.gc.GcToolResults
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
 import ftl.reports.util.ReportManager
-import ftl.util.ArtifactRegex
+import ftl.util.Artifacts
 import ftl.util.MatrixState
 import ftl.util.StopWatch
 import ftl.util.Utils
@@ -188,8 +188,7 @@ object TestRunner {
         return MatrixMap(map, path)
     }
 
-    /** fetch test_result_0.xml & *.png **/
-    private fun fetchArtifacts(matrixMap: MatrixMap) {
+    private fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) {
         println("FetchArtifacts")
         val fields = Storage.BlobListOption.fields(Storage.BlobField.NAME)
 
@@ -200,20 +199,17 @@ object TestRunner {
             finished && notDownloaded
         }
 
-        val lastAndroidArgs = lastArgs() as? AndroidArgs
-        val directoriesToDownload = lastAndroidArgs?.directoriesToDownload ?: emptyList()
-
         print(indent)
         runBlocking {
             filtered.forEach { matrix ->
                 launch {
                     val prefix = Storage.BlobListOption.prefix(matrix.gcsPathWithoutRootBucket)
                     val result = GcStorage.storage.list(matrix.gcsRootBucket, prefix, fields)
-                    val artifactsToDownload = ArtifactRegex.artifactsToDownload(matrix, directoriesToDownload)
+                    val artifactsList = Artifacts.regexList(args)
 
                     result.iterateAll().forEach { blob ->
                         val blobPath = blob.blobId.name
-                        if (artifactsToDownload.find { blobPath.matches(it) } != null) {
+                        if (artifactsList.any { blobPath.matches(it) }) {
                             val downloadFile = Paths.get(FtlConstants.localResultsDir, blobPath)
                             print(".")
                             if (!downloadFile.toFile().exists()) {
@@ -329,7 +325,7 @@ object TestRunner {
 
         refreshMatrices(matrixMap, args)
         pollMatrices(matrixMap, args)
-        fetchArtifacts(matrixMap)
+        fetchArtifacts(matrixMap, args)
 
         // Must generate reports *after* fetching xml artifacts since reports require xml
         val exitCode = ReportManager.generate(matrixMap, args)
@@ -350,7 +346,7 @@ object TestRunner {
 
         if (!args.async) {
             pollMatrices(matrixMap, args)
-            fetchArtifacts(matrixMap)
+            fetchArtifacts(matrixMap, args)
 
             val exitCode = ReportManager.generate(matrixMap, args)
             System.exit(exitCode)

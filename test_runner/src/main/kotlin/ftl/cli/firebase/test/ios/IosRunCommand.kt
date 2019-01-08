@@ -127,6 +127,16 @@ class IosRunCommand : Runnable {
     var testTargets: List<String>? = null
 
     @Option(
+        names = ["--files-to-download"],
+        split = ",",
+        description = ["A list of paths that will be downloaded from the resulting bucket " +
+                "to the local results folder after the test is complete. These must be absolute paths " +
+                "(for example, --files-to-download /images/tempDir1,/data/local/tmp/tempDir2). " +
+                "Path names are restricted to the characters a-zA-Z0-9_-./+."]
+    )
+    var filesToDownload: List<String>? = null
+
+    @Option(
         names = ["--test"],
         description = ["The path to the test package (a zip file containing the iOS app " +
             "and XCTest files). The given path may be in the local filesystem or in Google Cloud Storage using a URL " +

@@ -139,16 +139,6 @@ class AndroidRunCommand : Runnable {
     var directoriesToPull: List<String>? = null
 
     @Option(
-        names = ["--directories-to-download"],
-        split = ",",
-        description = ["A list of paths that will be downloaded from the resulting bucket " +
-            "to the designated local results folder after the test is complete. These must be absolute paths " +
-            "(for example, --directories-to-download /images/tempDir1,/data/local/tmp/tempDir2). " +
-            "Path names are restricted to the characters a-zA-Z0-9_-./+."]
-    )
-    var directoriesToDownload: List<String>? = null
-
-    @Option(
         names = ["--device"],
         split = ",",
         description = ["A list of DIMENSION=VALUE pairs which specify a target " +
@@ -244,6 +234,16 @@ class AndroidRunCommand : Runnable {
             "A list of one or more test methods to always run first in every shard."]
     )
     var testTargetsAlwaysRun: List<String>? = null
+
+    @Option(
+        names = ["--files-to-download"],
+        split = ",",
+        description = ["A list of paths that will be downloaded from the resulting bucket " +
+                "to the local results folder after the test is complete. These must be absolute paths " +
+                "(for example, --files-to-download /images/tempDir1,/data/local/tmp/tempDir2). " +
+                "Path names are restricted to the characters a-zA-Z0-9_-./+."]
+    )
+    var filesToDownload: List<String>? = null
 
     @Option(
         names = ["--results-dir"],
