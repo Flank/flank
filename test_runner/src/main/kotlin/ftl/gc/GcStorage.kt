@@ -1,5 +1,6 @@
 package ftl.gc
 
+import com.google.api.client.http.GoogleApiLogger
 import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageOptions
@@ -26,10 +27,14 @@ object GcStorage {
     val storageOptions: StorageOptions by lazy {
         val builder = StorageOptions.newBuilder()
         if (FtlConstants.useMock) builder.setHost(FtlConstants.localhost)
+
+        builder.setCredentials(FtlConstants.googleCredentials).build().service
+
         builder.build()
     }
 
     val storage: Storage by lazy {
+        GoogleApiLogger.silenceComputeEngine()
         if (FtlConstants.useMock) {
             LocalStorageHelper.getOptions().service
         } else {

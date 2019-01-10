@@ -169,6 +169,11 @@ EOF
 
 [fladle]: https://github.com/runningcode/fladle
 
+### Authenticate with a Google account
+
+Run `flank auth login`. Flank will save the credential to `~/.flank`. Google account authentication allows each person
+to have a unique non-shared credential. A service account is still recommended for CI.
+
 ### Authenticate with a service account
 
 Follow the [test lab docs](https://firebase.google.com/docs/test-lab/android/continuous) to create a service account.
