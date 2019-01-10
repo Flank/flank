@@ -2,6 +2,7 @@
 
 - Fix create Gcs bucket [#444](https://github.com/TestArmada/flank/pull/444)
 - Add `files-to-download` to Android and iOS. Specify a list of regular expressions to download files from the Google Cloud Storage bucket. [#441](https://github.com/TestArmada/flank/pull/441)
+- Add `flank auth login` to authorize with a user account instead of a service account. [#446](https://github.com/TestArmada/flank/pull/436)
 
 ## v4.1.1
 

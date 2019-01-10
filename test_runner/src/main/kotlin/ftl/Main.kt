@@ -1,5 +1,6 @@
 package ftl
 
+import ftl.cli.AuthCommand
 import ftl.cli.FirebaseCommand
 import ftl.cli.firebase.CancelCommand
 import ftl.cli.firebase.RefreshCommand
@@ -16,7 +17,8 @@ import picocli.CommandLine
         IosCommand::class,
         AndroidCommand::class,
         RefreshCommand::class,
-        CancelCommand::class
+        CancelCommand::class,
+        AuthCommand::class
     ]
 )
 class Main : Runnable {
@@ -36,6 +38,10 @@ class Main : Runnable {
     private var printVersion = false
 
     companion object {
+        init {
+//            GoogleApiLogger.logAllToStdout()
+        }
+
         @JvmStatic
         fun main(args: Array<String>) {
             // val args = arrayOf("firebase", "test", "android", "run") // for debugging. run test from IntelliJ IDEA

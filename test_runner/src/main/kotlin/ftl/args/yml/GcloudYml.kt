@@ -40,7 +40,7 @@ class GcloudYmlParams(
 
     init {
         assertNotEmpty(
-            project, "project is not set. Define GOOGLE_CLOUD_PROJECT, set project in flank.yml\n" +
+            project, "The project is not set. Define GOOGLE_CLOUD_PROJECT, set project in flank.yml\n" +
                 "or save service account credential to $defaultCredentialPath\n" +
                 " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
         )
