@@ -17,7 +17,9 @@
 package com.google.api.services.testing.model;
 
 /**
- * The currently provided software environment on the devices under test.
+ * An Android App Bundle file format, containing a BundleConfig.pb file, a base module directory,
+ * zero or more dynamic feature module directories. See https://developer.android.com/guide/app-
+ * bundle/build for guidance on building App Bundles.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the Cloud Testing API. For a detailed explanation see:
@@ -27,43 +29,40 @@ package com.google.api.services.testing.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class ProvidedSoftwareCatalog extends com.google.api.client.json.GenericJson {
+public final class AppBundle extends com.google.api.client.json.GenericJson {
 
   /**
-   * A string representing the current version of Android Test Orchestrator that is provided by
-   * TestExecutionService. Example: "1.0.2 beta".
+   * .aab file representing the app bundle under test.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.String orchestratorVersion;
+  private FileReference bundleLocation;
 
   /**
-   * A string representing the current version of Android Test Orchestrator that is provided by
-   * TestExecutionService. Example: "1.0.2 beta".
+   * .aab file representing the app bundle under test.
    * @return value or {@code null} for none
    */
-  public java.lang.String getOrchestratorVersion() {
-    return orchestratorVersion;
+  public FileReference getBundleLocation() {
+    return bundleLocation;
   }
 
   /**
-   * A string representing the current version of Android Test Orchestrator that is provided by
-   * TestExecutionService. Example: "1.0.2 beta".
-   * @param orchestratorVersion orchestratorVersion or {@code null} for none
+   * .aab file representing the app bundle under test.
+   * @param bundleLocation bundleLocation or {@code null} for none
    */
-  public ProvidedSoftwareCatalog setOrchestratorVersion(java.lang.String orchestratorVersion) {
-    this.orchestratorVersion = orchestratorVersion;
+  public AppBundle setBundleLocation(FileReference bundleLocation) {
+    this.bundleLocation = bundleLocation;
     return this;
   }
 
   @Override
-  public ProvidedSoftwareCatalog set(String fieldName, Object value) {
-    return (ProvidedSoftwareCatalog) super.set(fieldName, value);
+  public AppBundle set(String fieldName, Object value) {
+    return (AppBundle) super.set(fieldName, value);
   }
 
   @Override
-  public ProvidedSoftwareCatalog clone() {
-    return (ProvidedSoftwareCatalog) super.clone();
+  public AppBundle clone() {
+    return (AppBundle) super.clone();
   }
 
 }

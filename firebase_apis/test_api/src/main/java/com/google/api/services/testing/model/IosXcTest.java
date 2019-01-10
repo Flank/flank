@@ -34,6 +34,13 @@ package com.google.api.services.testing.model;
 public final class IosXcTest extends com.google.api.client.json.GenericJson {
 
   /**
+   * Output only. The bundle id for the application under test.
+   * The value may be {@code null}.
+   */
+  @com.google.api.client.util.Key
+  private java.lang.String appBundleId;
+
+  /**
    * Required. The .zip containing the .xctestrun file and the contents of the
    * DerivedData/Build/Products directory. The .xctestrun file in this zip is ignored if the
    * xctestrun field is specified.
@@ -43,22 +50,38 @@ public final class IosXcTest extends com.google.api.client.json.GenericJson {
   private FileReference testsZip;
 
   /**
-   * Optional. The Xcode version that should be used for the test. Use the
-   * EnvironmentDiscoveryService to get supported options. Defaults to the latest Xcode version
-   * Firebase Test Lab supports.
+   * The Xcode version that should be used for the test. Use the EnvironmentDiscoveryService to get
+   * supported options. Defaults to the latest Xcode version Firebase Test Lab supports.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private java.lang.String xcodeVersion;
 
   /**
-   * Optional. An .xctestrun file that will override the .xctestrun file in the tests zip. Because
-   * the .xctestrun file contains environment variables along with test methods to run and/or
-   * ignore, this can be useful for sharding tests. Default is taken from the tests zip.
+   * An .xctestrun file that will override the .xctestrun file in the tests zip. Because the
+   * .xctestrun file contains environment variables along with test methods to run and/or ignore,
+   * this can be useful for sharding tests. Default is taken from the tests zip.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private FileReference xctestrun;
+
+  /**
+   * Output only. The bundle id for the application under test.
+   * @return value or {@code null} for none
+   */
+  public java.lang.String getAppBundleId() {
+    return appBundleId;
+  }
+
+  /**
+   * Output only. The bundle id for the application under test.
+   * @param appBundleId appBundleId or {@code null} for none
+   */
+  public IosXcTest setAppBundleId(java.lang.String appBundleId) {
+    this.appBundleId = appBundleId;
+    return this;
+  }
 
   /**
    * Required. The .zip containing the .xctestrun file and the contents of the
@@ -82,9 +105,8 @@ public final class IosXcTest extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Optional. The Xcode version that should be used for the test. Use the
-   * EnvironmentDiscoveryService to get supported options. Defaults to the latest Xcode version
-   * Firebase Test Lab supports.
+   * The Xcode version that should be used for the test. Use the EnvironmentDiscoveryService to get
+   * supported options. Defaults to the latest Xcode version Firebase Test Lab supports.
    * @return value or {@code null} for none
    */
   public java.lang.String getXcodeVersion() {
@@ -92,9 +114,8 @@ public final class IosXcTest extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Optional. The Xcode version that should be used for the test. Use the
-   * EnvironmentDiscoveryService to get supported options. Defaults to the latest Xcode version
-   * Firebase Test Lab supports.
+   * The Xcode version that should be used for the test. Use the EnvironmentDiscoveryService to get
+   * supported options. Defaults to the latest Xcode version Firebase Test Lab supports.
    * @param xcodeVersion xcodeVersion or {@code null} for none
    */
   public IosXcTest setXcodeVersion(java.lang.String xcodeVersion) {
@@ -103,9 +124,9 @@ public final class IosXcTest extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Optional. An .xctestrun file that will override the .xctestrun file in the tests zip. Because
-   * the .xctestrun file contains environment variables along with test methods to run and/or
-   * ignore, this can be useful for sharding tests. Default is taken from the tests zip.
+   * An .xctestrun file that will override the .xctestrun file in the tests zip. Because the
+   * .xctestrun file contains environment variables along with test methods to run and/or ignore,
+   * this can be useful for sharding tests. Default is taken from the tests zip.
    * @return value or {@code null} for none
    */
   public FileReference getXctestrun() {
@@ -113,9 +134,9 @@ public final class IosXcTest extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Optional. An .xctestrun file that will override the .xctestrun file in the tests zip. Because
-   * the .xctestrun file contains environment variables along with test methods to run and/or
-   * ignore, this can be useful for sharding tests. Default is taken from the tests zip.
+   * An .xctestrun file that will override the .xctestrun file in the tests zip. Because the
+   * .xctestrun file contains environment variables along with test methods to run and/or ignore,
+   * this can be useful for sharding tests. Default is taken from the tests zip.
    * @param xctestrun xctestrun or {@code null} for none
    */
   public IosXcTest setXctestrun(FileReference xctestrun) {
