@@ -31,50 +31,60 @@ package com.google.api.services.testing.model;
 public final class TestMatrix extends com.google.api.client.json.GenericJson {
 
   /**
-   * Information about the client which invoked the test. Optional
+   * Information about the client which invoked the test.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private ClientInfo clientInfo;
 
   /**
-   * How the host machine(s) are configured. Required
+   * Required. How the host machine(s) are configured.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private EnvironmentMatrix environmentMatrix;
 
   /**
-   * Describes why the matrix is considered invalid. Only useful for matrices in the INVALID state.
-   * @OutputOnly
+   * The number of times a TestExecution should be re-attempted if one or more of its test cases
+   * fail for any reason. The maximum number of reruns allowed is 10.
+   *
+   * Default is 0, which implies no reruns.
+   * The value may be {@code null}.
+   */
+  @com.google.api.client.util.Key
+  private java.lang.Integer flakyTestAttempts;
+
+  /**
+   * Output only. Describes why the matrix is considered invalid. Only useful for matrices in the
+   * INVALID state.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private java.lang.String invalidMatrixDetails;
 
   /**
-   * The cloud project that owns the test matrix. @OutputOnly
+   * The cloud project that owns the test matrix.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private java.lang.String projectId;
 
   /**
-   * Where the results for the matrix are written. Required
+   * Required. Where the results for the matrix are written.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private ResultStorage resultStorage;
 
   /**
-   * Indicates the current progress of the test matrix (e.g., FINISHED) @OutputOnly
+   * Output only. Indicates the current progress of the test matrix (e.g., FINISHED).
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private java.lang.String state;
 
   /**
-   * The list of test executions that the service creates for this matrix. @OutputOnly
+   * Output only. The list of test executions that the service creates for this matrix.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
@@ -87,28 +97,28 @@ public final class TestMatrix extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Unique id set by the service. @OutputOnly
+   * Output only. Unique id set by the service.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private java.lang.String testMatrixId;
 
   /**
-   * How to run the test. Required
+   * Required. How to run the test.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private TestSpecification testSpecification;
 
   /**
-   * The time this test matrix was initially created. @OutputOnly
+   * Output only. The time this test matrix was initially created.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private String timestamp;
 
   /**
-   * Information about the client which invoked the test. Optional
+   * Information about the client which invoked the test.
    * @return value or {@code null} for none
    */
   public ClientInfo getClientInfo() {
@@ -116,7 +126,7 @@ public final class TestMatrix extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Information about the client which invoked the test. Optional
+   * Information about the client which invoked the test.
    * @param clientInfo clientInfo or {@code null} for none
    */
   public TestMatrix setClientInfo(ClientInfo clientInfo) {
@@ -125,7 +135,7 @@ public final class TestMatrix extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * How the host machine(s) are configured. Required
+   * Required. How the host machine(s) are configured.
    * @return value or {@code null} for none
    */
   public EnvironmentMatrix getEnvironmentMatrix() {
@@ -133,7 +143,7 @@ public final class TestMatrix extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * How the host machine(s) are configured. Required
+   * Required. How the host machine(s) are configured.
    * @param environmentMatrix environmentMatrix or {@code null} for none
    */
   public TestMatrix setEnvironmentMatrix(EnvironmentMatrix environmentMatrix) {
@@ -142,8 +152,31 @@ public final class TestMatrix extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Describes why the matrix is considered invalid. Only useful for matrices in the INVALID state.
-   * @OutputOnly
+   * The number of times a TestExecution should be re-attempted if one or more of its test cases
+   * fail for any reason. The maximum number of reruns allowed is 10.
+   *
+   * Default is 0, which implies no reruns.
+   * @return value or {@code null} for none
+   */
+  public java.lang.Integer getFlakyTestAttempts() {
+    return flakyTestAttempts;
+  }
+
+  /**
+   * The number of times a TestExecution should be re-attempted if one or more of its test cases
+   * fail for any reason. The maximum number of reruns allowed is 10.
+   *
+   * Default is 0, which implies no reruns.
+   * @param flakyTestAttempts flakyTestAttempts or {@code null} for none
+   */
+  public TestMatrix setFlakyTestAttempts(java.lang.Integer flakyTestAttempts) {
+    this.flakyTestAttempts = flakyTestAttempts;
+    return this;
+  }
+
+  /**
+   * Output only. Describes why the matrix is considered invalid. Only useful for matrices in the
+   * INVALID state.
    * @return value or {@code null} for none
    */
   public java.lang.String getInvalidMatrixDetails() {
@@ -151,8 +184,8 @@ public final class TestMatrix extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Describes why the matrix is considered invalid. Only useful for matrices in the INVALID state.
-   * @OutputOnly
+   * Output only. Describes why the matrix is considered invalid. Only useful for matrices in the
+   * INVALID state.
    * @param invalidMatrixDetails invalidMatrixDetails or {@code null} for none
    */
   public TestMatrix setInvalidMatrixDetails(java.lang.String invalidMatrixDetails) {
@@ -161,7 +194,7 @@ public final class TestMatrix extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * The cloud project that owns the test matrix. @OutputOnly
+   * The cloud project that owns the test matrix.
    * @return value or {@code null} for none
    */
   public java.lang.String getProjectId() {
@@ -169,7 +202,7 @@ public final class TestMatrix extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * The cloud project that owns the test matrix. @OutputOnly
+   * The cloud project that owns the test matrix.
    * @param projectId projectId or {@code null} for none
    */
   public TestMatrix setProjectId(java.lang.String projectId) {
@@ -178,7 +211,7 @@ public final class TestMatrix extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Where the results for the matrix are written. Required
+   * Required. Where the results for the matrix are written.
    * @return value or {@code null} for none
    */
   public ResultStorage getResultStorage() {
@@ -186,7 +219,7 @@ public final class TestMatrix extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Where the results for the matrix are written. Required
+   * Required. Where the results for the matrix are written.
    * @param resultStorage resultStorage or {@code null} for none
    */
   public TestMatrix setResultStorage(ResultStorage resultStorage) {
@@ -195,7 +228,7 @@ public final class TestMatrix extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Indicates the current progress of the test matrix (e.g., FINISHED) @OutputOnly
+   * Output only. Indicates the current progress of the test matrix (e.g., FINISHED).
    * @return value or {@code null} for none
    */
   public java.lang.String getState() {
@@ -203,7 +236,7 @@ public final class TestMatrix extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Indicates the current progress of the test matrix (e.g., FINISHED) @OutputOnly
+   * Output only. Indicates the current progress of the test matrix (e.g., FINISHED).
    * @param state state or {@code null} for none
    */
   public TestMatrix setState(java.lang.String state) {
@@ -212,7 +245,7 @@ public final class TestMatrix extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * The list of test executions that the service creates for this matrix. @OutputOnly
+   * Output only. The list of test executions that the service creates for this matrix.
    * @return value or {@code null} for none
    */
   public java.util.List<TestExecution> getTestExecutions() {
@@ -220,7 +253,7 @@ public final class TestMatrix extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * The list of test executions that the service creates for this matrix. @OutputOnly
+   * Output only. The list of test executions that the service creates for this matrix.
    * @param testExecutions testExecutions or {@code null} for none
    */
   public TestMatrix setTestExecutions(java.util.List<TestExecution> testExecutions) {
@@ -229,7 +262,7 @@ public final class TestMatrix extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Unique id set by the service. @OutputOnly
+   * Output only. Unique id set by the service.
    * @return value or {@code null} for none
    */
   public java.lang.String getTestMatrixId() {
@@ -237,7 +270,7 @@ public final class TestMatrix extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Unique id set by the service. @OutputOnly
+   * Output only. Unique id set by the service.
    * @param testMatrixId testMatrixId or {@code null} for none
    */
   public TestMatrix setTestMatrixId(java.lang.String testMatrixId) {
@@ -246,7 +279,7 @@ public final class TestMatrix extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * How to run the test. Required
+   * Required. How to run the test.
    * @return value or {@code null} for none
    */
   public TestSpecification getTestSpecification() {
@@ -254,7 +287,7 @@ public final class TestMatrix extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * How to run the test. Required
+   * Required. How to run the test.
    * @param testSpecification testSpecification or {@code null} for none
    */
   public TestMatrix setTestSpecification(TestSpecification testSpecification) {
@@ -263,7 +296,7 @@ public final class TestMatrix extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * The time this test matrix was initially created. @OutputOnly
+   * Output only. The time this test matrix was initially created.
    * @return value or {@code null} for none
    */
   public String getTimestamp() {
@@ -271,7 +304,7 @@ public final class TestMatrix extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * The time this test matrix was initially created. @OutputOnly
+   * Output only. The time this test matrix was initially created.
    * @param timestamp timestamp or {@code null} for none
    */
   public TestMatrix setTimestamp(String timestamp) {

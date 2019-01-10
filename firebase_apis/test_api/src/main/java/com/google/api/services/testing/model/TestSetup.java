@@ -30,14 +30,14 @@ package com.google.api.services.testing.model;
 public final class TestSetup extends com.google.api.client.json.GenericJson {
 
   /**
-   * The device will be logged in on this account for the duration of the test. Optional
+   * The device will be logged in on this account for the duration of the test.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private Account account;
 
   /**
-   * APKs to install in addition to those being directly tested. Currently capped at 100. Optional
+   * APKs to install in addition to those being directly tested. Currently capped at 100.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
@@ -57,8 +57,6 @@ public final class TestSetup extends com.google.api.client.json.GenericJson {
    * Note: The paths /sdcard and /data will be made available and treated as implicit path
    * substitutions. E.g. if /sdcard on a particular device does not map to external storage, the
    * system will replace it with the external storage path prefix for that device.
-   *
-   * Optional
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
@@ -79,8 +77,6 @@ public final class TestSetup extends com.google.api.client.json.GenericJson {
 
   /**
    * List of files to push to the device before starting the test.
-   *
-   * Optional
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
@@ -93,8 +89,8 @@ public final class TestSetup extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Optional. The network traffic profile used for running the test. Available network profiles can
-   * be queried by using the NETWORK_CONFIGURATION environment type when calling
+   * The network traffic profile used for running the test. Available network profiles can be
+   * queried by using the NETWORK_CONFIGURATION environment type when calling
    * TestEnvironmentDiscoveryService.GetTestEnvironmentCatalog.
    * The value may be {@code null}.
    */
@@ -102,7 +98,7 @@ public final class TestSetup extends com.google.api.client.json.GenericJson {
   private java.lang.String networkProfile;
 
   /**
-   * The device will be logged in on this account for the duration of the test. Optional
+   * The device will be logged in on this account for the duration of the test.
    * @return value or {@code null} for none
    */
   public Account getAccount() {
@@ -110,7 +106,7 @@ public final class TestSetup extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * The device will be logged in on this account for the duration of the test. Optional
+   * The device will be logged in on this account for the duration of the test.
    * @param account account or {@code null} for none
    */
   public TestSetup setAccount(Account account) {
@@ -119,7 +115,7 @@ public final class TestSetup extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * APKs to install in addition to those being directly tested. Currently capped at 100. Optional
+   * APKs to install in addition to those being directly tested. Currently capped at 100.
    * @return value or {@code null} for none
    */
   public java.util.List<Apk> getAdditionalApks() {
@@ -127,7 +123,7 @@ public final class TestSetup extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * APKs to install in addition to those being directly tested. Currently capped at 100. Optional
+   * APKs to install in addition to those being directly tested. Currently capped at 100.
    * @param additionalApks additionalApks or {@code null} for none
    */
   public TestSetup setAdditionalApks(java.util.List<Apk> additionalApks) {
@@ -143,8 +139,6 @@ public final class TestSetup extends com.google.api.client.json.GenericJson {
    * Note: The paths /sdcard and /data will be made available and treated as implicit path
    * substitutions. E.g. if /sdcard on a particular device does not map to external storage, the
    * system will replace it with the external storage path prefix for that device.
-   *
-   * Optional
    * @return value or {@code null} for none
    */
   public java.util.List<java.lang.String> getDirectoriesToPull() {
@@ -159,8 +153,6 @@ public final class TestSetup extends com.google.api.client.json.GenericJson {
    * Note: The paths /sdcard and /data will be made available and treated as implicit path
    * substitutions. E.g. if /sdcard on a particular device does not map to external storage, the
    * system will replace it with the external storage path prefix for that device.
-   *
-   * Optional
    * @param directoriesToPull directoriesToPull or {@code null} for none
    */
   public TestSetup setDirectoriesToPull(java.util.List<java.lang.String> directoriesToPull) {
@@ -187,8 +179,6 @@ public final class TestSetup extends com.google.api.client.json.GenericJson {
 
   /**
    * List of files to push to the device before starting the test.
-   *
-   * Optional
    * @return value or {@code null} for none
    */
   public java.util.List<DeviceFile> getFilesToPush() {
@@ -197,8 +187,6 @@ public final class TestSetup extends com.google.api.client.json.GenericJson {
 
   /**
    * List of files to push to the device before starting the test.
-   *
-   * Optional
    * @param filesToPush filesToPush or {@code null} for none
    */
   public TestSetup setFilesToPush(java.util.List<DeviceFile> filesToPush) {
@@ -207,8 +195,8 @@ public final class TestSetup extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Optional. The network traffic profile used for running the test. Available network profiles can
-   * be queried by using the NETWORK_CONFIGURATION environment type when calling
+   * The network traffic profile used for running the test. Available network profiles can be
+   * queried by using the NETWORK_CONFIGURATION environment type when calling
    * TestEnvironmentDiscoveryService.GetTestEnvironmentCatalog.
    * @return value or {@code null} for none
    */
@@ -217,8 +205,8 @@ public final class TestSetup extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Optional. The network traffic profile used for running the test. Available network profiles can
-   * be queried by using the NETWORK_CONFIGURATION environment type when calling
+   * The network traffic profile used for running the test. Available network profiles can be
+   * queried by using the NETWORK_CONFIGURATION environment type when calling
    * TestEnvironmentDiscoveryService.GetTestEnvironmentCatalog.
    * @param networkProfile networkProfile or {@code null} for none
    */

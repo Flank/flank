@@ -30,36 +30,26 @@ package com.google.api.services.testing.model;
 public final class TestDetails extends com.google.api.client.json.GenericJson {
 
   /**
-   * If the TestState is ERROR, then this string will contain human-readable details about the
-   * error. @OutputOnly
+   * Output only. If the TestState is ERROR, then this string will contain human-readable details
+   * about the error.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private java.lang.String errorMessage;
 
   /**
-   * Human-readable, detailed descriptions of the test's progress. For example: "Provisioning a
-   * device", "Starting Test".
+   * Output only. Human-readable, detailed descriptions of the test's progress. For example:
+   * "Provisioning a device", "Starting Test".
    *
    * During the course of execution new data may be appended to the end of progress_messages.
-   * @OutputOnly
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private java.util.List<java.lang.String> progressMessages;
 
   /**
-   * Indicates that video will not be recorded for this execution either because the user chose to
-   * disable it or the device does not support it. See AndroidModel.video_recording_not_supported
-   * @OutputOnly
-   * The value may be {@code null}.
-   */
-  @com.google.api.client.util.Key
-  private java.lang.Boolean videoRecordingDisabled;
-
-  /**
-   * If the TestState is ERROR, then this string will contain human-readable details about the
-   * error. @OutputOnly
+   * Output only. If the TestState is ERROR, then this string will contain human-readable details
+   * about the error.
    * @return value or {@code null} for none
    */
   public java.lang.String getErrorMessage() {
@@ -67,8 +57,8 @@ public final class TestDetails extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * If the TestState is ERROR, then this string will contain human-readable details about the
-   * error. @OutputOnly
+   * Output only. If the TestState is ERROR, then this string will contain human-readable details
+   * about the error.
    * @param errorMessage errorMessage or {@code null} for none
    */
   public TestDetails setErrorMessage(java.lang.String errorMessage) {
@@ -77,11 +67,10 @@ public final class TestDetails extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Human-readable, detailed descriptions of the test's progress. For example: "Provisioning a
-   * device", "Starting Test".
+   * Output only. Human-readable, detailed descriptions of the test's progress. For example:
+   * "Provisioning a device", "Starting Test".
    *
    * During the course of execution new data may be appended to the end of progress_messages.
-   * @OutputOnly
    * @return value or {@code null} for none
    */
   public java.util.List<java.lang.String> getProgressMessages() {
@@ -89,36 +78,14 @@ public final class TestDetails extends com.google.api.client.json.GenericJson {
   }
 
   /**
-   * Human-readable, detailed descriptions of the test's progress. For example: "Provisioning a
-   * device", "Starting Test".
+   * Output only. Human-readable, detailed descriptions of the test's progress. For example:
+   * "Provisioning a device", "Starting Test".
    *
    * During the course of execution new data may be appended to the end of progress_messages.
-   * @OutputOnly
    * @param progressMessages progressMessages or {@code null} for none
    */
   public TestDetails setProgressMessages(java.util.List<java.lang.String> progressMessages) {
     this.progressMessages = progressMessages;
-    return this;
-  }
-
-  /**
-   * Indicates that video will not be recorded for this execution either because the user chose to
-   * disable it or the device does not support it. See AndroidModel.video_recording_not_supported
-   * @OutputOnly
-   * @return value or {@code null} for none
-   */
-  public java.lang.Boolean getVideoRecordingDisabled() {
-    return videoRecordingDisabled;
-  }
-
-  /**
-   * Indicates that video will not be recorded for this execution either because the user chose to
-   * disable it or the device does not support it. See AndroidModel.video_recording_not_supported
-   * @OutputOnly
-   * @param videoRecordingDisabled videoRecordingDisabled or {@code null} for none
-   */
-  public TestDetails setVideoRecordingDisabled(java.lang.Boolean videoRecordingDisabled) {
-    this.videoRecordingDisabled = videoRecordingDisabled;
     return this;
   }
 

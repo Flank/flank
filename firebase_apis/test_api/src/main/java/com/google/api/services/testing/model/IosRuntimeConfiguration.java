@@ -30,21 +30,21 @@ package com.google.api.services.testing.model;
 public final class IosRuntimeConfiguration extends com.google.api.client.json.GenericJson {
 
   /**
-   * Output only. The set of available locales.
+   * The set of available locales.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private java.util.List<Locale> locales;
 
   /**
-   * Output only. The set of available orientations.
+   * The set of available orientations.
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
   private java.util.List<Orientation> orientations;
 
   /**
-   * Output only. The set of available locales.
+   * The set of available locales.
    * @return value or {@code null} for none
    */
   public java.util.List<Locale> getLocales() {
@@ -52,7 +52,7 @@ public final class IosRuntimeConfiguration extends com.google.api.client.json.Ge
   }
 
   /**
-   * Output only. The set of available locales.
+   * The set of available locales.
    * @param locales locales or {@code null} for none
    */
   public IosRuntimeConfiguration setLocales(java.util.List<Locale> locales) {
@@ -61,7 +61,7 @@ public final class IosRuntimeConfiguration extends com.google.api.client.json.Ge
   }
 
   /**
-   * Output only. The set of available orientations.
+   * The set of available orientations.
    * @return value or {@code null} for none
    */
   public java.util.List<Orientation> getOrientations() {
@@ -69,7 +69,7 @@ public final class IosRuntimeConfiguration extends com.google.api.client.json.Ge
   }
 
   /**
-   * Output only. The set of available orientations.
+   * The set of available orientations.
    * @param orientations orientations or {@code null} for none
    */
   public IosRuntimeConfiguration setOrientations(java.util.List<Orientation> orientations) {
