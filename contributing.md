@@ -1,4 +1,5 @@
 ## Setup
+
 - Install [Oracle JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
   - JDK 9 or later will not work
 - [IntelliJ Toolbox](https://www.jetbrains.com/toolbox/app/)
@@ -21,6 +22,11 @@ See the main readme for instructions on how to run the iOS and Android samples.
 - Update `IArgs` with new property
 - Update `AndroidArgs` to reference the propery and update `toString`
 - Update `IosArgs` to reference the propery and `toString`
+- Add test to `IosArgsTest`
+- Add test to `IosRunCommandTest` and update `empty_params_parse_null` test
+- Add test to `AndroidArgsTest`
+- Add test to `AndroidRunCommandTest` and update `empty_params_parse_null` test
+- Update Android/iOS example config in README.md, `flank.yml` and `flank.ios.yml`
 
 ## CLA
 

@@ -72,7 +72,7 @@ dependencies {
     compile(Libs.KOTLIN_COROUTINES_CORE)
 
     // https://github.com/remkop/picocli/releases
-    compile("info.picocli:picocli:3.7.0")
+    compile("info.picocli:picocli:3.9.0")
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.6")
     compile("com.fasterxml.woodstox:woodstox-core:5.1.0")
 
@@ -83,13 +83,13 @@ dependencies {
     compile("com.googlecode.plist:dd-plist:1.21")
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    compile("com.google.cloud:google-cloud-storage:1.49.0")
+    compile("com.google.cloud:google-cloud-storage:1.57.0")
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
-    compile("com.google.apis:google-api-services-toolresults:v1beta3-rev20181015-1.26.0")
+    compile("com.google.apis:google-api-services-toolresults:v1beta3-rev20181112-1.27.0")
 
     // https://github.com/linkedin/dex-test-parser/releases
-    compile("com.linkedin.dextestparser:parser:2.0.0")
+    compile("com.linkedin.dextestparser:parser:2.0.1")
 
     // NOTE: iOS support isn't in the public artifact. Use testing jar generated from the private gcloud CLI json
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-testing%22
@@ -110,10 +110,10 @@ dependencies {
     // https://github.com/google/truth/releases
     testImplementation("com.google.truth:truth:0.42")
     // https://github.com/stefanbirkner/system-rules/releases
-    testImplementation("com.github.stefanbirkner:system-rules:1.18.0")
+    testImplementation("com.github.stefanbirkner:system-rules:1.19.0")
 
     // https://github.com/ktorio/ktor/releases
-    val ktorVersion = "1.0.0-beta-4"
+    val ktorVersion = "1.1.1"
     testImplementation("io.ktor:ktor-server-core:$ktorVersion")
     testImplementation("io.ktor:ktor-server-netty:$ktorVersion")
     testImplementation("io.ktor:ktor-gson:$ktorVersion")
@@ -122,20 +122,20 @@ dependencies {
     testImplementation("ch.qos.logback:logback-classic:1.2.3")
     // mockito-inline is used to mock final classes
     // https://github.com/mockito/mockito/releases
-    testImplementation("org.mockito:mockito-inline:2.23.0")
+    testImplementation("org.mockito:mockito-inline:2.23.4")
     // https://github.com/square/okhttp/releases
-    testImplementation("com.squareup.okhttp3:okhttp:3.11.0")
+    testImplementation("com.squareup.okhttp3:okhttp:3.12.1")
 
     // todo: move to testImplementation once DI is implemented https://github.com/TestArmada/flank/issues/248
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    compile("com.google.cloud:google-cloud-nio:0.67.0-alpha")
+    compile("com.google.cloud:google-cloud-nio:0.75.0-alpha")
 }
 
 // Fix Exception in thread "main" java.lang.NoSuchMethodError: com.google.common.hash.Hashing.crc32c()Lcom/google/common/hash/HashFunction;
 // https://stackoverflow.com/a/45286710
 configurations.all {
     resolutionStrategy {
-        force("com.google.guava:guava:23.6-jre")
+        force("com.google.guava:guava:25.1-jre")
         force(Libs.KOTLIN_REFLECT)
         exclude(group = "com.google.guava", module = "guava-jdk5")
     }

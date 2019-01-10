@@ -18,6 +18,7 @@ interface IArgs {
     val repeatTests: Int
     val smartFlankGcsPath: String
     val testTargetsAlwaysRun: List<String>
+    val filesToDownload: List<String>
 
     // computed property
     val testShardChunks: List<List<String>>

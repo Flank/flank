@@ -53,6 +53,8 @@ class IosArgsTest {
         flank:
           testShards: 7
           repeatTests: 8
+          files-to-download:
+            - /sdcard/screenshots
           test-targets-always-run:
             - a/testGrantPermissions
             - a/testGrantPermissions2
@@ -159,6 +161,8 @@ IosArgs
       test-targets-always-run:
         - a/testGrantPermissions
         - a/testGrantPermissions2
+      files-to-download:
+        - /sdcard/screenshots
       # iOS flank
       test-targets:
         - b/testBasicSelection
@@ -194,6 +198,7 @@ IosArgs
             assert(testShards, 1)
             assert(repeatTests, 1)
             assert(testTargetsAlwaysRun, emptyList<String>())
+            assert(filesToDownload, emptyList<String>())
 
             // IosFlankYml
             assert(testTargets, empty)
@@ -506,5 +511,21 @@ IosArgs
 
         assertThat(IosArgs.load(yaml).resultsDir).isEqualTo("a")
         assertThat(IosArgs.load(yaml, cli).resultsDir).isEqualTo("b")
+    }
+
+    @Test
+    fun cli_filesToDownload() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--files-to-download=a,b")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+      """
+        assertThat(IosArgs.load(yaml).filesToDownload).isEmpty()
+
+        val androidArgs = IosArgs.load(yaml, cli)
+        assertThat(androidArgs.filesToDownload).isEqualTo(listOf("a", "b"))
     }
 }

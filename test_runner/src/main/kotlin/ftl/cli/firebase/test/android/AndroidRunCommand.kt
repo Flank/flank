@@ -236,6 +236,16 @@ class AndroidRunCommand : Runnable {
     var testTargetsAlwaysRun: List<String>? = null
 
     @Option(
+        names = ["--files-to-download"],
+        split = ",",
+        description = ["A list of paths that will be downloaded from the resulting bucket " +
+                "to the local results folder after the test is complete. These must be absolute paths " +
+                "(for example, --files-to-download /images/tempDir1,/data/local/tmp/tempDir2). " +
+                "Path names are restricted to the characters a-zA-Z0-9_-./+."]
+    )
+    var filesToDownload: List<String>? = null
+
+    @Option(
         names = ["--results-dir"],
         description = [
             "The name of a unique Google Cloud Storage object within the results bucket where raw test results will be " +

@@ -67,6 +67,7 @@ class AndroidArgs(
     override val repeatTests = cli?.repeatTests ?: flank.repeatTests
     override val smartFlankGcsPath = flank.smartFlankGcsPath
     override val testTargetsAlwaysRun = cli?.testTargetsAlwaysRun ?: flank.testTargetsAlwaysRun
+    override val filesToDownload = cli?.filesToDownload ?: flank.filesToDownload
 
     // computed properties not specified in yaml
     override val testShardChunks: List<List<String>> by lazy {
@@ -159,6 +160,8 @@ ${devicesToString(devices)}
       testShards: $testShards
       repeatTests: $repeatTests
       smartFlankGcsPath: $smartFlankGcsPath
+      files-to-download:
+${listToString(filesToDownload)}
       test-targets-always-run:
 ${listToString(testTargetsAlwaysRun)}
    """.trimIndent()

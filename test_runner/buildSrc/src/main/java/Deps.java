@@ -1,11 +1,11 @@
 @SuppressWarnings("unused")
 abstract class Versions {
     // match to Tools -> Kotlin -> Configure Kotlin Plugin Updates -> Update Channel: Stable
-    public static final String KOTLIN = "1.3.10";
+    public static final String KOTLIN = "1.3.11";
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    public static final String KOTLIN_COROUTINES = "1.0.1";
+    public static final String KOTLIN_COROUTINES = "1.1.0";
     // https://github.com/FasterXML/jackson-core/releases
-    public static final String JACKSON = "2.9.7";
+    public static final String JACKSON = "2.9.8";
 }
 
 @SuppressWarnings("unused")
