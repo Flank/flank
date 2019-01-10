@@ -2,8 +2,8 @@ package ftl.reports
 
 import com.google.common.truth.Truth.assertThat
 import ftl.reports.xml.JUnitXmlTest
-import ftl.reports.xml.parseOneSuiteXml
 import ftl.reports.xml.parseAllSuitesXml
+import ftl.reports.xml.parseOneSuiteXml
 import org.junit.Test
 
 class HtmlErrorReportTest {

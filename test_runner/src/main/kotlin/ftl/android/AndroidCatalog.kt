@@ -1,8 +1,8 @@
 package ftl.android
 
 import com.google.api.services.testing.model.AndroidDevice
-import ftl.http.executeWithRetry
 import ftl.gc.GcTesting
+import ftl.http.executeWithRetry
 
 /**
  * Contains lists of possible Android device and version ids, as well as checks

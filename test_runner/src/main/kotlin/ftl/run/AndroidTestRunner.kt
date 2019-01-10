@@ -76,6 +76,6 @@ object AndroidTestRunner {
             }
         }
 
-        Pair(appApkGcsPath.await(), testApkGcsPath.await())
+        appApkGcsPath.await() to testApkGcsPath.await()
     }
 }

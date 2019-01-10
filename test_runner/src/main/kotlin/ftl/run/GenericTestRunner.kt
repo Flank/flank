@@ -15,7 +15,7 @@ object GenericTestRunner {
         TestRunner.assertMockUrl()
 
         val resultsDir = args.resultsDir ?: Utils.uniqueObjectName()
-        return Pair(stopwatch, resultsDir)
+        return stopwatch to resultsDir
     }
 
     fun afterRunTests(

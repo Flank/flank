@@ -1,12 +1,6 @@
 package ftl.test.util
 
 import ftl.util.Bash
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.ResponseBody
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
-import org.jsoup.nodes.Element
 import java.io.File
 import java.net.InetAddress
 import java.net.InetSocketAddress
@@ -15,6 +9,12 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.concurrent.TimeUnit
 import kotlin.math.pow
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.ResponseBody
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
 
 object TestArtifact {
     const val fixturesPath = "./src/test/kotlin/ftl/fixtures/tmp"

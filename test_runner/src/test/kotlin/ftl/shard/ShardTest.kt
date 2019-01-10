@@ -7,12 +7,12 @@ import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
 import ftl.test.util.FlankTestRunner
+import java.util.concurrent.TimeUnit
+import kotlin.system.measureNanoTime
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
-import java.util.concurrent.TimeUnit
-import kotlin.system.measureNanoTime
 
 @RunWith(FlankTestRunner::class)
 class ShardTest {

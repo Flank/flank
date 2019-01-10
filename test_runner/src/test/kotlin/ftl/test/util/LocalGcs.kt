@@ -1,14 +1,11 @@
 package ftl.test.util
 
-import com.google.auth.oauth2.ComputeEngineCredentials
 import com.google.cloud.storage.BlobInfo
 import ftl.gc.GcStorage
-import org.junit.Assert
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.util.logging.Level
-import java.util.logging.Logger
+import org.junit.Assert
 
 object LocalGcs {
 
@@ -29,13 +26,6 @@ object LocalGcs {
                 .map { it.name }
                 .any { fileName == it }
         )
-    }
-
-    private fun silenceComputeEngine() {
-        // Set log level then access the storage var to lazy load it.
-        // Silence info log about "Failed to detect whether we are running on Google Compute Engine."
-        Logger.getLogger(ComputeEngineCredentials::class.java.name).level = Level.OFF
-        GcStorage.storage
     }
 
     fun uploadFiles() {

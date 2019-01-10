@@ -37,8 +37,8 @@ class SavedMatrixTest {
             return testExecution
         }
 
-        private val mockFileName = "mockFileName"
-        private val mockBucket = "mockBucket"
+        private const val mockFileName = "mockFileName"
+        private const val mockBucket = "mockBucket"
         private val mockGcsPath = "$mockBucket/$mockFileName"
 
         fun createResultsStorage(): ResultStorage {

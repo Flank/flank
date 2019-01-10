@@ -66,7 +66,7 @@ object HtmlErrorReport : IReport {
             }
         }
 
-        return Pair(groupList, itemList)
+        return groupList to itemList
     }
 
     private fun reactJson(testSuites: JUnitTestResult): Pair<String, String>? {
@@ -74,7 +74,7 @@ object HtmlErrorReport : IReport {
 
         val groupJson = gson.toJson(groupItemList.first)
         val itemJson = gson.toJson(groupItemList.second)
-        return Pair(groupJson, itemJson)
+        return groupJson to itemJson
     }
 
     override fun run(matrices: MatrixMap, testSuite: JUnitTestResult?, printToStdout: Boolean) {

@@ -6,10 +6,10 @@ import ftl.config.FtlConstants
 import ftl.config.FtlConstants.defaultIosModel
 import ftl.config.FtlConstants.defaultIosVersion
 import ftl.run.TestRunner
+import java.nio.file.Paths
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
-import java.nio.file.Paths
 
 @Command(
     name = "run",

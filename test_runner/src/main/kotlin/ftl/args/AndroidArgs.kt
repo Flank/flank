@@ -28,9 +28,9 @@ import ftl.config.FtlConstants.useMock
 import ftl.filter.TestFilters
 import ftl.gc.GcStorage
 import ftl.util.Utils
-import kotlinx.coroutines.runBlocking
 import java.nio.file.Files
 import java.nio.file.Path
+import kotlinx.coroutines.runBlocking
 
 // set default values, init properties, etc.
 class AndroidArgs(

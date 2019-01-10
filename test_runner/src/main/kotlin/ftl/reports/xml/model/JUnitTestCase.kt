@@ -3,6 +3,7 @@ package ftl.reports.xml.model
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 
+@Suppress("UnusedPrivateClass")
 private class FilterNotNull {
     override fun equals(other: Any?): Boolean {
         // other is null     = present

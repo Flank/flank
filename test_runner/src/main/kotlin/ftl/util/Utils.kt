@@ -34,6 +34,7 @@ object Utils {
         try {
             Thread.sleep(ofSeconds(seconds).toMillis())
         } catch (e: Exception) {
+            System.err.println(e)
         }
     }
 
@@ -86,7 +87,7 @@ object Utils {
         val random = Random()
         // a-z: 97 - 122
         // A-Z: 65 - 90
-        for (i in 0..3) {
+        repeat(4) {
             val ascii = random.nextInt(26)
             var letter = (ascii + 'a'.toInt()).toChar()
 

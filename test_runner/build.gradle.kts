@@ -9,11 +9,21 @@ plugins {
     application
     jacoco
     kotlin("jvm") version Versions.KOTLIN
-    // https://github.com/JLLeitschuh/ktlint-gradle/releases
-    // ./gradlew ktlintFormat
-    // ./gradlew ktlintCheck
-    // ./gradlew ktlintApplyToIdea
-    id("org.jlleitschuh.gradle.ktlint") version "6.3.1"
+
+    id("io.gitlab.arturbosch.detekt") version Versions.DETEKT
+}
+
+detekt {
+    input = files("src/main/kotlin", "src/test/kotlin")
+    config = files("../config/detekt.yml")
+    reports {
+        xml {
+            enabled = false
+        }
+        html {
+            enabled = true
+        }
+    }
 }
 
 // http://www.eclemma.org/jacoco/
@@ -129,6 +139,8 @@ dependencies {
     // todo: move to testImplementation once DI is implemented https://github.com/TestArmada/flank/issues/248
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
     compile("com.google.cloud:google-cloud-nio:0.75.0-alpha")
+
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.DETEKT}")
 }
 
 // Fix Exception in thread "main" java.lang.NoSuchMethodError: com.google.common.hash.Hashing.crc32c()Lcom/google/common/hash/HashFunction;
@@ -161,4 +173,4 @@ tasks.withType<KotlinCompile> {
 
 // https://github.com/gradle/kotlin-dsl/blob/master/samples/task-dependencies/build.gradle.kts#L41
 // https://github.com/codecov/example-gradle/blob/master/build.gradle#L25
-tasks["check"].dependsOn(tasks["jacocoTestReport"])
+tasks["check"].dependsOn(tasks["jacocoTestReport"], tasks["detekt"])

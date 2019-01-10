@@ -8,6 +8,7 @@ import ftl.args.yml.GcloudYml
 import ftl.args.yml.GcloudYmlParams
 import ftl.config.Device
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
 import ftl.test.util.TestHelper.getString
@@ -17,7 +18,6 @@ import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
-import ftl.test.util.TestHelper.absolutePath
 
 @RunWith(FlankTestRunner::class)
 class AndroidArgsFileTest {
@@ -69,7 +69,7 @@ class AndroidArgsFileTest {
 
             assert(autoGoogleLogin, true)
             assert(useOrchestrator, true)
-            assert(environmentVariables, mapOf(Pair("clearPackageData", "true")))
+            assert(environmentVariables, mapOf("clearPackageData" to "true"))
             assert(directoriesToPull, listOf(directoryToPull))
             assert(resultsBucket, "tmp_bucket_2")
             assert(performanceMetrics, true)
