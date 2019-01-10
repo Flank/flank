@@ -2,8 +2,8 @@ package ftl.test.util
 
 import ftl.config.FtlConstants
 import ftl.util.Bash
-import org.junit.runners.BlockJUnit4ClassRunner
 import java.net.BindException
+import org.junit.runners.BlockJUnit4ClassRunner
 
 class FlankTestRunner(klass: Class<*>) : BlockJUnit4ClassRunner(klass) {
 

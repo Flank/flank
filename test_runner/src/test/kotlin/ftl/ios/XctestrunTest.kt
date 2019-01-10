@@ -4,10 +4,10 @@ import com.dd.plist.NSDictionary
 import com.google.common.truth.Truth.assertThat
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestArtifact.fixturesPath
-import org.junit.Test
-import org.junit.runner.RunWith
 import java.nio.file.Files
 import java.nio.file.Paths
+import org.junit.Test
+import org.junit.runner.RunWith
 
 @RunWith(FlankTestRunner::class)
 class XctestrunTest {

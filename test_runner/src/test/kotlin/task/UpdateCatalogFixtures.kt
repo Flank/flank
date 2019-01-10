@@ -13,6 +13,7 @@ object UpdateCatalogFixtures {
     }
 
     @JvmStatic
+    @Suppress("UnusedPrivateMember")
     fun main(args: Array<String>) {
         val androidCatalog = GcTesting.get.testEnvironmentCatalog().get("android").execute().androidDeviceCatalog
         write("android_catalog.json", androidCatalog)

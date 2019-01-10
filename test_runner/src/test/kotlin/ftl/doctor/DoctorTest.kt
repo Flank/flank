@@ -4,9 +4,9 @@ import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
 import ftl.test.util.FlankTestRunner
+import java.nio.file.Paths
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.nio.file.Paths
 
 @RunWith(FlankTestRunner::class)
 class DoctorTest {

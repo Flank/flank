@@ -1,7 +1,7 @@
 package ftl.ios
 
-import ftl.http.executeWithRetry
 import ftl.gc.GcTesting
+import ftl.http.executeWithRetry
 
 /**
  * Validates iOS device model and version

@@ -112,7 +112,7 @@ object ArgsHelper {
         if (bucket.startsWith("test-lab-")) return bucket
 
         val storage = StorageOptions.newBuilder().setProjectId(projectId).build().service
-        val bucketLabel = mapOf(Pair("flank", ""))
+        val bucketLabel = mapOf("flank" to "")
         val storageLocation = "us-central1"
 
         val bucketListOption = Storage.BucketListOption.prefix(bucket)

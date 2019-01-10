@@ -6,6 +6,8 @@ abstract class Versions {
     public static final String KOTLIN_COROUTINES = "1.1.0";
     // https://github.com/FasterXML/jackson-core/releases
     public static final String JACKSON = "2.9.8";
+    // https://github.com/arturbosch/detekt
+    public static final String DETEKT = "1.0.0-RC12";
 }
 
 @SuppressWarnings("unused")

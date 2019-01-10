@@ -1,8 +1,8 @@
 package ftl.reports.xml
 
 import com.google.common.truth.Truth.assertThat
-import org.junit.Test
 import java.nio.file.Paths
+import org.junit.Test
 
 class JUnitXmlTest {
 
