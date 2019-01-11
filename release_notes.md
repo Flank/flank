@@ -1,4 +1,8 @@
-## v4.2.0 (unreleased)
+## v4.3.0
+
+- 
+
+## v4.2.0
 
 - Fix create Gcs bucket [#444](https://github.com/TestArmada/flank/pull/444)
 - Add `files-to-download` to Android and iOS. Specify a list of regular expressions to download files from the Google Cloud Storage bucket. [#441](https://github.com/TestArmada/flank/pull/441)
