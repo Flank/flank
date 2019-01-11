@@ -48,6 +48,7 @@ class AndroidArgs(
     override val async = cli?.async ?: gcloud.async
     override val project = cli?.project ?: gcloud.project
     override val resultsHistoryName = cli?.resultsHistoryName ?: gcloud.resultsHistoryName
+    override val flakyTestAttempts = cli?.flakyTestAttempts ?: gcloud.flakyTestAttempts
 
     private val androidGcloud = androidGcloudYml.gcloud
     var appApk = cli?.app ?: androidGcloud.app
@@ -155,6 +156,7 @@ ${listToString(directoriesToPull)}
 ${listToString(testTargets)}
       device:
 ${devicesToString(devices)}
+      flaky-test-attempts: $flakyTestAttempts
 
     flank:
       testShards: $testShards

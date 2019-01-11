@@ -31,11 +31,14 @@ class GcloudYmlParams(
     val project: String = getDefaultProjectId() ?: "",
 
     @field:JsonProperty("results-history-name")
-    val resultsHistoryName: String? = null
+    val resultsHistoryName: String? = null,
+
+    @field:JsonProperty("flaky-test-attempts")
+    val flakyTestAttempts: Int = 0
 ) {
     companion object : IYmlKeys {
         override val keys =
-            listOf("results-bucket", "record-video", "timeout", "async", "project", "results-history-name", "results-dir")
+            listOf("results-bucket", "results-dir", "record-video", "timeout", "async", "project", "results-history-name", "flaky-test-attempts")
     }
 
     init {

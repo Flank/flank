@@ -293,6 +293,11 @@ object TestRunner {
                 break
             }
 
+            // flaky-test-attempts restarts progress array at size 1
+            if (lastProgressLen > progress.size) {
+                lastProgressLen = 0
+            }
+
             // Progress contains all messages. only print new updates
             for (msg in progress.listIterator(lastProgressLen)) {
                 puts(msg)

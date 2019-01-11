@@ -17,6 +17,8 @@ gcloud:
       version: 12.0
       locale: en
       orientation: portrait
+  # The number of times to retry failed tests. Default is 0. Max is 10.
+  flaky-test-attempts: 0
 
 flank:
   # # Google cloud storage path to store the JUnit XML results from the last run.

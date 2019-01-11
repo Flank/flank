@@ -40,6 +40,7 @@ class IosArgs(
     override val async = cli?.async ?: gcloud.async
     override val project = cli?.project ?: gcloud.project
     override val resultsHistoryName = cli?.resultsHistoryName ?: gcloud.resultsHistoryName
+    override val flakyTestAttempts = cli?.flakyTestAttempts ?: gcloud.flakyTestAttempts
 
     private val iosGcloud = iosGcloudYml.gcloud
     var xctestrunZip = cli?.test ?: iosGcloud.test
@@ -117,6 +118,7 @@ IosArgs
       xcode-version: $xcodeVersion
       device:
 ${devicesToString(devices)}
+      flaky-test-attempts: $flakyTestAttempts
 
     flank:
       testShards: $testShards

@@ -49,6 +49,7 @@ class IosArgsTest {
             version: 11.2
             locale: c
             orientation: d
+          flaky-test-attempts: 4
 
         flank:
           testShards: 7
@@ -123,6 +124,8 @@ class IosArgsTest {
 
             // IosFlankYml
             assert(testTargets, listOf("b/testBasicSelection", "b/testBasicSelection2"))
+
+            assert(flakyTestAttempts, 4)
         }
     }
 
@@ -153,6 +156,7 @@ IosArgs
           version: 11.2
           locale: c
           orientation: d
+      flaky-test-attempts: 4
 
     flank:
       testShards: 7
@@ -193,6 +197,7 @@ IosArgs
             assert(xctestrunZip, testAbsolutePath)
             assert(xctestrunFile, xctestrunFileAbsolutePath)
             assert(devices, listOf(Device("iphone8", "12.0")))
+            assert(flakyTestAttempts, 0)
 
             // FlankYml
             assert(testShards, 1)
@@ -527,5 +532,21 @@ IosArgs
 
         val androidArgs = IosArgs.load(yaml, cli)
         assertThat(androidArgs.filesToDownload).isEqualTo(listOf("a", "b"))
+    }
+
+    @Test
+    fun cli_flakyTestAttempts() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--flaky-test-attempts=3")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+      """
+        assertThat(IosArgs.load(yaml).flakyTestAttempts).isEqualTo(0)
+
+        val androidArgs = IosArgs.load(yaml, cli)
+        assertThat(androidArgs.flakyTestAttempts).isEqualTo(3)
     }
 }

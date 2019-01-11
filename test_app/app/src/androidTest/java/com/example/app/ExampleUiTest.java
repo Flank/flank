@@ -1,6 +1,7 @@
 package com.example.app;
 
 import android.Manifest;
+import android.os.SystemClock;
 import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
 import com.instructure.espresso.ScreenshotTestRule;
@@ -9,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class ExampleUiTest {
@@ -29,5 +31,12 @@ public class ExampleUiTest {
     @Test
     public void testFails() {
         assertEquals(true, false);
+    }
+
+    @Test
+    public void testIsFlaky() {
+        if ((SystemClock.uptimeMillis() %2) == 0) {
+            fail();
+        }
     }
 }

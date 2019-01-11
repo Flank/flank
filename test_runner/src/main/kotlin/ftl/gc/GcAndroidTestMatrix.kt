@@ -95,6 +95,7 @@ object GcAndroidTestMatrix {
             .setTestSpecification(testSpecification)
             .setResultStorage(resultsStorage)
             .setEnvironmentMatrix(environmentMatrix)
+            .setFlakyTestAttempts(args.flakyTestAttempts)
         try {
             return GcTesting.get.projects().testMatrices().create(args.project, testMatrix)
         } catch (e: Exception) {

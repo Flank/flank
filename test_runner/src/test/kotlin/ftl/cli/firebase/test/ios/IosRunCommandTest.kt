@@ -75,6 +75,7 @@ class IosRunCommandTest {
         assertThat(cmd.xcodeVersion).isNull()
         assertThat(cmd.device).isNull()
         assertThat(cmd.resultsDir).isNull()
+        assertThat(cmd.flakyTestAttempts).isNull()
     }
 
     @Test
@@ -215,5 +216,13 @@ class IosRunCommandTest {
         CommandLine(cmd).parse("--files-to-download=a,b")
 
         assertThat(cmd.filesToDownload).isEqualTo(arrayListOf("a", "b"))
+    }
+
+    @Test
+    fun flakyTestAttempts_parse() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parse("--flaky-test-attempts=10")
+
+        assertThat(cmd.flakyTestAttempts).isEqualTo(10)
     }
 }

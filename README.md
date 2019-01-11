@@ -62,6 +62,8 @@ gcloud:
       version: 11.2
       locale: en
       orientation: portrait
+  # The number of times to retry failed tests. Default is 0. Max is 10.
+  flaky-test-attempts: 0
 
 flank:
   # test shards - the amount of groups to split the test suite into
@@ -118,6 +120,8 @@ gcloud:
   device:
     - model: NexusLowRes
       version: 28
+  # The number of times to retry failed tests. Default is 0. Max is 10.
+  flaky-test-attempts: 0
 
 flank:
   # test shards - the amount of groups to split the test suite into

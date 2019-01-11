@@ -25,6 +25,7 @@ gcloud:
   device:
     - model: NexusLowRes
       version: 28
+  flaky-test-attempts: 1 # default is 0
 
 flank:
   # # Google cloud storage path to store the JUnit XML results from the last run.

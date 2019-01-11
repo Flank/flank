@@ -254,4 +254,11 @@ class AndroidRunCommand : Runnable {
                 "intermingled."]
     )
     var resultsDir: String? = null
+
+    @Option(
+        names = ["--flaky-test-attempts"],
+        description = ["The number of times a TestExecution should be re-attempted if one or more of its test cases " +
+                "fail for any reason. The maximum number of reruns allowed is 10. Default is 0, which implies no reruns."]
+    )
+    var flakyTestAttempts: Int? = null
 }
