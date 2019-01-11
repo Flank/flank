@@ -55,6 +55,7 @@ class AndroidArgsTest {
             version: 24
             locale: en
             orientation: portrait
+          flaky-test-attempts: 3
 
         flank:
           testShards: 7
@@ -153,6 +154,7 @@ class AndroidArgsTest {
                     Device("NexusLowRes", "24", "en", "portrait")
                 )
             )
+            assert(flakyTestAttempts, 3)
 
             // FlankYml
             assert(testShards, 7)
@@ -205,6 +207,7 @@ AndroidArgs
           version: 24
           locale: en
           orientation: portrait
+      flaky-test-attempts: 3
 
     flank:
       testShards: 7
@@ -248,6 +251,7 @@ AndroidArgs
             assert(performanceMetrics, true)
             assert(testTargets, empty)
             assert(devices, listOf(Device("NexusLowRes", "28")))
+            assert(flakyTestAttempts, 0)
 
             // FlankYml
             assert(testShards, 1)

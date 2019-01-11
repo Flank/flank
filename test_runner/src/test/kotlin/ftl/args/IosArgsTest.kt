@@ -49,6 +49,7 @@ class IosArgsTest {
             version: 11.2
             locale: c
             orientation: d
+          flaky-test-attempts: 4
 
         flank:
           testShards: 7
@@ -123,6 +124,8 @@ class IosArgsTest {
 
             // IosFlankYml
             assert(testTargets, listOf("b/testBasicSelection", "b/testBasicSelection2"))
+
+            assert(flakyTestAttempts, 4)
         }
     }
 
@@ -153,6 +156,7 @@ IosArgs
           version: 11.2
           locale: c
           orientation: d
+      flaky-test-attempts: 4
 
     flank:
       testShards: 7
@@ -193,6 +197,7 @@ IosArgs
             assert(xctestrunZip, testAbsolutePath)
             assert(xctestrunFile, xctestrunFileAbsolutePath)
             assert(devices, listOf(Device("iphone8", "12.0")))
+            assert(flakyTestAttempts, 0)
 
             // FlankYml
             assert(testShards, 1)

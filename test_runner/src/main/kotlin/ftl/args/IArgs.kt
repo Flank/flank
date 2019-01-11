@@ -12,6 +12,7 @@ interface IArgs {
     val async: Boolean
     val project: String
     val resultsHistoryName: String?
+    val flakyTestAttempts: Int
 
     // FlankYml
     val testShards: Int

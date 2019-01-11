@@ -78,6 +78,7 @@ object GcIosTestMatrix {
             .setTestSpecification(testSpecification)
             .setEnvironmentMatrix(environmentMatrix)
             .setResultStorage(resultStorage)
+            .setFlakyTestAttempts(args.flakyTestAttempts)
 
         try {
             return GcTesting.get.projects().testMatrices().create(args.project, testMatrix)
