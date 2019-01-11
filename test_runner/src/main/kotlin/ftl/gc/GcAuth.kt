@@ -1,6 +1,7 @@
 package ftl.gc
 
 import com.google.api.client.auth.oauth2.Credential
+import com.google.api.client.auth.oauth2.StoredCredential
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow
@@ -27,33 +28,47 @@ object GcAuth {
     private const val CLIENT_ID = "32555940559.apps.googleusercontent.com"
     private const val CLIENT_SECRET = "ZmssLNjJy2998hD4CTg2ejr2"
 
+    private val flow by lazy {
+        // https://github.com/bootstraponline/gcloud_cli/blob/e4b5e01610abad2e31d8a6edb20b17b2f84c5395/google-cloud-sdk/lib/googlecloudsdk/core/config.py#L167
+        val scopes = listOf("https://www.googleapis.com/auth/cloud-platform")
+
+        GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, CLIENT_ID, CLIENT_SECRET, scopes)
+            .setDataStoreFactory(DATA_STORE_FACTORY)
+            .setAccessType("offline")
+            .build()
+    }
+    private const val DATA_STORE_KEY = "default"
+
     fun hasUserAuth(): Boolean {
-        return CRED.exists()
+        return defaultCredential() != null
     }
 
-    private fun Credential.toGoogleCredential(): GoogleCredential {
+    private fun createGoogleCredential(accessToken: String): GoogleCredential {
         return GoogleCredential.Builder()
             .setTransport(HTTP_TRANSPORT)
             .setJsonFactory(JSON_FACTORY)
             .setClientSecrets(CLIENT_ID, CLIENT_SECRET)
             .build()
-            .setAccessToken(this.accessToken)
+            .setAccessToken(accessToken)
+    }
+
+    private fun Credential.toGoogleCredential(): GoogleCredential {
+        return createGoogleCredential(this.accessToken)
+    }
+
+    private fun StoredCredential.toGoogleCredential(): GoogleCredential {
+        return createGoogleCredential(this.accessToken)
+    }
+
+    private fun defaultCredential(): GoogleCredential? {
+        return flow.credentialDataStore[DATA_STORE_KEY]?.toGoogleCredential()
     }
 
     @Throws(IOException::class)
     fun authorizeUser(): GoogleCredential {
         if (FtlConstants.useMock) return GoogleCredential()
-        // https://github.com/bootstraponline/gcloud_cli/blob/e4b5e01610abad2e31d8a6edb20b17b2f84c5395/google-cloud-sdk/lib/googlecloudsdk/core/config.py#L167
-        val scopes = listOf("https://www.googleapis.com/auth/cloud-platform")
-
-        val flow = GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, CLIENT_ID, CLIENT_SECRET, scopes)
-            .setDataStoreFactory(DATA_STORE_FACTORY)
-            .setAccessType("offline")
-            .build()
 
         val authCode = AuthorizationCodeInstalledApp(flow, LocalServerReceiver())
-        val dataStoreKey = "default"
-
-        return authCode.authorize(dataStoreKey).toGoogleCredential()
+        return defaultCredential() ?: authCode.authorize(DATA_STORE_KEY).toGoogleCredential()
     }
 }
