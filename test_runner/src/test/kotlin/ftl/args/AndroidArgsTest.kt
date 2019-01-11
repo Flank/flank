@@ -726,7 +726,7 @@ AndroidArgs
           test: $testApk
           results-dir: a
       """
-        assertThat(IosArgs.load(yaml).flakyTestAttempts).isEqualTo(0)
+        assertThat(AndroidArgs.load(yaml).flakyTestAttempts).isEqualTo(0)
 
         val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.flakyTestAttempts).isEqualTo(3)

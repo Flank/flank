@@ -38,7 +38,7 @@ class GcloudYmlParams(
 ) {
     companion object : IYmlKeys {
         override val keys =
-            listOf("results-bucket",  "results-dir", "record-video", "timeout", "async", "project", "results-history-name", "flaky-test-attempts")
+            listOf("results-bucket", "results-dir", "record-video", "timeout", "async", "project", "results-history-name", "flaky-test-attempts")
     }
 
     init {
