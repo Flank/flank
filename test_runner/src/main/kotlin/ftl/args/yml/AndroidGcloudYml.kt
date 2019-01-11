@@ -40,7 +40,7 @@ class AndroidGcloudYmlParams(
     companion object : IYmlKeys {
         override val keys = listOf(
             "app", "test", "auto-google-login", "use-orchestrator", "environment-variables",
-            "directories-to-pull", "performance-metrics", "test-targets", "device", "flaky-test-attempts"
+            "directories-to-pull", "performance-metrics", "test-targets", "device"
         )
     }
 

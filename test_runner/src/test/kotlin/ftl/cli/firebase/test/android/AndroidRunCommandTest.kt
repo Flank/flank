@@ -82,6 +82,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.testTargetsAlwaysRun).isNull()
         assertThat(cmd.filesToDownload).isNull()
         assertThat(cmd.resultsDir).isNull()
+        assertThat(cmd.flakyTestAttempts).isNull()
     }
 
     @Test
@@ -281,5 +282,13 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parse("--files-to-download=a,b")
 
         assertThat(cmd.filesToDownload).isEqualTo(arrayListOf("a", "b"))
+    }
+
+    @Test
+    fun flakyTestAttempts_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--flaky-test-attempts=10")
+
+        assertThat(cmd.flakyTestAttempts).isEqualTo(10)
     }
 }

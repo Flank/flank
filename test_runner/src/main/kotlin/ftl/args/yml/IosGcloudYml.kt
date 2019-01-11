@@ -26,7 +26,7 @@ class IosGcloudYmlParams(
     val device: List<Device> = listOf(Device(defaultIosModel, defaultIosVersion))
 ) {
     companion object : IYmlKeys {
-        override val keys = listOf("test", "xctestrun-file", "xcode-version", "device", "flaky-test-attempts")
+        override val keys = listOf("test", "xctestrun-file", "xcode-version", "device")
     }
 
     init {

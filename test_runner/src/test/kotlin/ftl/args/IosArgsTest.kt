@@ -533,4 +533,20 @@ IosArgs
         val androidArgs = IosArgs.load(yaml, cli)
         assertThat(androidArgs.filesToDownload).isEqualTo(listOf("a", "b"))
     }
+
+    @Test
+    fun cli_flakyTestAttempts() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--flaky-test-attempts=3")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+      """
+        assertThat(IosArgs.load(yaml).flakyTestAttempts).isEqualTo(0)
+
+        val androidArgs = IosArgs.load(yaml, cli)
+        assertThat(androidArgs.flakyTestAttempts).isEqualTo(3)
+    }
 }
