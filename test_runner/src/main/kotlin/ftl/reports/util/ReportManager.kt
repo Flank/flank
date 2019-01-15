@@ -11,10 +11,12 @@ import ftl.reports.MatrixResultsReport
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.parseOneSuiteXml
+import ftl.shard.Shard
 import ftl.util.Artifacts
 import ftl.util.resolveLocalRunPath
 import java.io.File
 import java.nio.file.Paths
+import kotlin.math.roundToInt
 
 object ReportManager {
 
@@ -96,12 +98,53 @@ object ReportManager {
         return matrices.exitCode()
     }
 
+    data class ShardEfficiency(
+        val shard: String,
+        val expectedTime: Double,
+        val finalTime: Double,
+        val timeDiff: Double
+    )
+
+    fun createShardEfficiencyList(oldResult: JUnitTestResult, newResult: JUnitTestResult, args: IArgs):
+            List<ShardEfficiency> {
+        val oldJunitMap = Shard.createJunitMap(oldResult, args)
+        val newJunitMap = Shard.createJunitMap(newResult, args)
+
+        val timeList = mutableListOf<ShardEfficiency>()
+        args.testShardChunks.forEachIndexed { index, testSuite ->
+
+            var expectedTime = 0.0
+            var finalTime = 0.0
+            testSuite.forEach { testCase ->
+                expectedTime += oldJunitMap[testCase] ?: 0.0
+                finalTime += newJunitMap[testCase] ?: 0.0
+            }
+
+            val timeDiff = (finalTime - expectedTime)
+            timeList.add(ShardEfficiency("Shard $index", expectedTime, finalTime, timeDiff))
+        }
+
+        return timeList
+    }
+
+    private fun printActual(oldResult: JUnitTestResult, newResult: JUnitTestResult, args: IArgs) {
+        val list = createShardEfficiencyList(oldResult, newResult, args)
+
+        println("Actual shard times:\n" + list.joinToString("\n") {
+            "  ${it.shard}: Expected: ${it.expectedTime.roundToInt()}s, Actual: ${it.finalTime.roundToInt()}s, Diff: ${it.timeDiff.roundToInt()}s"
+        } + "\n")
+    }
+
     private fun processJunitXml(newTestResult: JUnitTestResult?, args: IArgs) {
         if (newTestResult == null) return
 
         val oldTestResult = GcStorage.downloadJunitXml(args)
 
         newTestResult.mergeTestTimes(oldTestResult)
+
+        if (oldTestResult != null) {
+            printActual(oldTestResult, newTestResult, args)
+        }
 
         GcStorage.uploadJunitXml(newTestResult, args)
     }

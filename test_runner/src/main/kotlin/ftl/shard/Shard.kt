@@ -59,21 +59,9 @@ object Shard {
         args: IArgs
     ): List<TestShard> {
         val maxShards = args.testShards
-        val android = args is AndroidArgs
-        val junitMap = mutableMapOf<String, Double>()
-
-        // Create a map with information from previous junit run
-        oldTestResult.testsuites?.forEach { testsuite ->
-            testsuite.testcases?.forEach { testcase ->
-                if (!testcase.empty() && testcase.time != null) {
-                    val key = if (android) testcase.androidKey() else testcase.iosKey()
-                    junitMap[key] = testcase.time.toDouble()
-                }
-            }
-        }
+        val junitMap = createJunitMap(oldTestResult, args)
 
         var cacheMiss = 0
-        // junitMap doesn't include `class `, we remove it to search in the map
         val testcases = mutableListOf<TestMethod>()
 
         testsToRun.forEach { key ->
@@ -116,5 +104,21 @@ object Shard {
         println("  Shard times: " + shards.joinToString(", ") { "${it.time.roundToInt()}s" } + "\n")
 
         return shards
+    }
+
+    fun createJunitMap(junitResult: JUnitTestResult, args: IArgs): Map<String, Double> {
+        val junitMap = mutableMapOf<String, Double>()
+
+        // Create a map with information from previous junit run
+        junitResult.testsuites?.forEach { testsuite ->
+            testsuite.testcases?.forEach { testcase ->
+                if (!testcase.empty() && testcase.time != null) {
+                    val key = if (args is AndroidArgs) testcase.androidKey() else testcase.iosKey()
+                    junitMap[key] = testcase.time.toDouble()
+                }
+            }
+        }
+
+        return junitMap
     }
 }
