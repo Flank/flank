@@ -26,15 +26,10 @@ object Xctestrun {
                 val binaryRoot = productString.replace("__TESTROOT__/", testRoot)
                 println("Found xctest: $binaryRoot")
 
-                val isSwift = Paths.get(binaryRoot, "libswiftRemoteMirror.dylib").toFile().exists()
                 val binaryName = File(binaryRoot).nameWithoutExtension
                 val binaryPath = Paths.get(binaryRoot, binaryName).toString()
 
-                val tests = if (isSwift) {
-                    (Parse.parseObjcTests(binaryPath) + Parse.parseSwiftTests(binaryPath)).distinct()
-                } else {
-                    Parse.parseObjcTests(binaryPath)
-                }
+                val tests = (Parse.parseObjcTests(binaryPath) + Parse.parseSwiftTests(binaryPath)).distinct()
 
                 return tests.minus(skipTests)
             }
