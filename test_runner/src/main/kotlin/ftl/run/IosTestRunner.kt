@@ -23,12 +23,6 @@ object IosTestRunner {
     suspend fun runTests(iosArgs: IosArgs): MatrixMap = coroutineScope {
         val (stopwatch, runGcsPath) = GenericTestRunner.beforeRunTests(iosArgs)
 
-        val xcTestGcsPath = if (iosArgs.xctestrunZip.startsWith(FtlConstants.GCS_PREFIX)) {
-            iosArgs.xctestrunZip
-        } else {
-            GcStorage.uploadXCTestZip(iosArgs, runGcsPath)
-        }
-
         val iosDeviceList = GcIosMatrix.build(iosArgs.devices)
 
         val xcTestParsed = Xctestrun.parse(iosArgs.xctestrunFile)
@@ -38,6 +32,13 @@ object IosTestRunner {
         val shardCount = iosArgs.testShardChunks.size
         val shardCounter = ShardCounter()
         val history = GcToolResults.createToolResultsHistory(iosArgs)
+
+        // Upload only after parsing shards to detect missing methods early.
+        val xcTestGcsPath = if (iosArgs.xctestrunZip.startsWith(FtlConstants.GCS_PREFIX)) {
+            iosArgs.xctestrunZip
+        } else {
+            GcStorage.uploadXCTestZip(iosArgs, runGcsPath)
+        }
 
         println(beforeRunMessage(iosArgs))
         repeat(runCount) {
