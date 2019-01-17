@@ -28,7 +28,9 @@ object GcStorage {
         val builder = StorageOptions.newBuilder()
         if (FtlConstants.useMock) builder.setHost(FtlConstants.localhost)
 
-        builder.setCredentials(FtlConstants.googleCredentials).build().service
+        // The oauth lib for user auth needs to be replaced
+        // https://github.com/TestArmada/flank/issues/464#issuecomment-455227703
+        // builder.setCredentials(FtlConstants.googleCredentials)
 
         builder.build()
     }
