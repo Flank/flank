@@ -673,6 +673,23 @@ AndroidArgs
     }
 
     @Test
+    fun `cli shardTime`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--shard-time=3")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+
+        flank:
+          shardTime: 2
+      """
+        assertThat(AndroidArgs.load(yaml).shardTime).isEqualTo(2)
+        assertThat(AndroidArgs.load(yaml, cli).shardTime).isEqualTo(3)
+    }
+
+    @Test
     fun cli_repeatTests() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--repeat-tests=3")

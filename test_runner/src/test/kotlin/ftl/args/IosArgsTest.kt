@@ -377,6 +377,23 @@ IosArgs
     }
 
     @Test
+    fun `cli shardTime`() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--shard-time=3")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $xctestrunFile
+
+        flank:
+          shardTime: 2
+      """
+        assertThat(IosArgs.load(yaml).shardTime).isEqualTo(2)
+        assertThat(IosArgs.load(yaml, cli).shardTime).isEqualTo(3)
+    }
+
+    @Test
     fun cli_repeatTests() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--repeat-tests=3")

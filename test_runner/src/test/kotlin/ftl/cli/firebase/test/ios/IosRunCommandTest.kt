@@ -66,6 +66,7 @@ class IosRunCommandTest {
         assertThat(cmd.project).isNull()
         assertThat(cmd.resultsHistoryName).isNull()
         assertThat(cmd.testShards).isNull()
+        assertThat(cmd.shardTime).isNull()
         assertThat(cmd.repeatTests).isNull()
         assertThat(cmd.testTargetsAlwaysRun).isNull()
         assertThat(cmd.testTargets).isNull()
@@ -224,5 +225,13 @@ class IosRunCommandTest {
         CommandLine(cmd).parse("--flaky-test-attempts=10")
 
         assertThat(cmd.flakyTestAttempts).isEqualTo(10)
+    }
+
+    @Test
+    fun `shardTime parse`() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parse("--shard-time=99")
+
+        assertThat(cmd.shardTime).isEqualTo(99)
     }
 }
