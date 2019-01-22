@@ -61,7 +61,10 @@ object Shard {
         val junitMap = createJunitMap(oldTestResult, args)
         val testsTotalTime = testsToRun.sumByDouble { junitMap[it] ?: 10.0 }
 
-        return Math.ceil(testsTotalTime / args.shardTime).toInt()
+        val shardsByTime = Math.ceil(testsTotalTime / args.shardTime).toInt()
+
+        // We need to respect the testShards
+        return Math.min(shardsByTime, args.testShards)
     }
 
     // take in the XML with timing info then return list of shards based on the amount of shards to use

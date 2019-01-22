@@ -129,8 +129,17 @@ class ShardTest {
     fun createShardsByShardTime_workingSample() {
         val testsToRun = listOf("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g")
         val suite = sample()
-        val result = Shard.shardCountByTime(testsToRun, suite, mockArgs(3, 7))
+        val result = Shard.shardCountByTime(testsToRun, suite, mockArgs(20, 7))
 
         assertThat(result).isEqualTo(3)
+    }
+
+    @Test
+    fun createShardsByShardTime_countShouldNeverBeHigherThanMaxAvailable() {
+        val testsToRun = listOf("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g")
+        val suite = sample()
+        val result = Shard.shardCountByTime(testsToRun, suite, mockArgs(2, 7))
+
+        assertThat(result).isEqualTo(2)
     }
 }
