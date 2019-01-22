@@ -58,7 +58,7 @@ object Shard {
         oldTestResult: JUnitTestResult,
         args: IArgs
     ): Int {
-        if (args.testShards == -1) return -1
+        if (args.shardTime == -1) return -1
 
         val junitMap = createJunitMap(oldTestResult, args)
         val testsTotalTime = testsToRun.sumByDouble { junitMap[it] ?: 10.0 }
