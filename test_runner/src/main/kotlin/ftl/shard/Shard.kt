@@ -4,6 +4,7 @@ import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
+import java.lang.IllegalStateException
 import kotlin.math.roundToInt
 
 data class TestMethod(
@@ -52,8 +53,72 @@ object Shard {
         return "$classname/$testName"
     }
 
-    // take in the XML with timing info then return list of shards
-    fun calculateShardsByTime(
+    data class Bucket(var remaining: Double, val tests: MutableList<String>)
+
+    // take in the XML with timing info then return list of shards based on the time per shard
+    fun createShardsByShardTime(
+        testsToRun: List<String>,
+        oldTestResult: JUnitTestResult,
+        args: IArgs
+    ): MutableList<MutableList<String>> {
+        if (args.shardTime == -1) {
+            throw IllegalStateException("shardTime == -1")
+        }
+
+        val junitMap = createJunitMap(oldTestResult, args)
+        val testsTotalTime = testsToRun.sumByDouble { junitMap[it] ?: 0.0 }
+
+        val minShards = Math.ceil(testsTotalTime / args.shardTime)
+
+        if (minShards > args.testShards) {
+            throw IllegalStateException(
+                "Total test time is: $testsTotalTime and max number of shards is ${args.testShards}. " +
+                        "Min amount of shards needed is ${minShards.roundToInt()}")
+        }
+
+        // Start with one bucket
+        val buckets = mutableListOf(Bucket(args.shardTime.toDouble(), mutableListOf()))
+
+        testsToRun.forEach testForEach@{ test ->
+
+            var added = false
+            val testTime = junitMap[test] ?: 10.0
+
+            // We sort to make sure we try first the most empty bucket
+            buckets.sortByDescending { it.remaining }
+
+            // Find a bucket where to fit the test
+            buckets.forEach { bucket ->
+                if (bucket.remaining >= testTime) {
+                    bucket.remaining -= testTime
+                    bucket.tests.add(test)
+                    added = true
+
+                    return@testForEach
+                }
+            }
+
+            // If we couldn't fit the test in a bucket, add to a new one
+            if (!added) {
+
+                if (args.shardTime - testTime < 0) {
+                    throw IllegalStateException("Test $test takes longer than the max time per shard: ${args.shardTime}")
+                }
+
+                buckets.add(Bucket(args.shardTime - testTime, mutableListOf(test)))
+            }
+        }
+
+        println()
+        println("  Shard times: " + buckets.joinToString(", ") {
+            "${(args.shardTime - it.remaining).roundToInt()}s"
+        } + "\n")
+
+        return buckets.map { it.tests }.toMutableList()
+    }
+
+    // take in the XML with timing info then return list of shards based on the amount of shards to use
+    fun createShardsByShardCount(
         testsToRun: List<String>,
         oldTestResult: JUnitTestResult,
         args: IArgs

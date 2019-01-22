@@ -9,13 +9,18 @@ import ftl.reports.xml.model.JUnitTestSuite
 import ftl.test.util.FlankTestRunner
 import java.util.concurrent.TimeUnit
 import kotlin.system.measureNanoTime
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
 @RunWith(FlankTestRunner::class)
 class ShardTest {
+
+    @Rule @JvmField
+    val exceptionRule = ExpectedException.none()!!
 
     private fun sample(): JUnitTestResult {
 
@@ -35,9 +40,10 @@ class ShardTest {
         return JUnitTestResult(mutableListOf(suite1, suite2))
     }
 
-    private fun mockArgs(testShards: Int): IArgs {
+    private fun mockArgs(testShards: Int, shardTime: Int = 0): IArgs {
         val mockArgs = mock(IosArgs::class.java)
         `when`(mockArgs.testShards).thenReturn(testShards)
+        `when`(mockArgs.shardTime).thenReturn(shardTime)
         return mockArgs
     }
 
@@ -46,7 +52,7 @@ class ShardTest {
         val reRunTestsToRun = listOf("a", "b", "c", "d", "e", "f", "g")
         val suite = sample()
 
-        val result = Shard.calculateShardsByTime(reRunTestsToRun, suite, mockArgs(100))
+        val result = Shard.createShardsByShardCount(reRunTestsToRun, suite, mockArgs(100))
 
         assertThat(result.size).isEqualTo(7)
         result.forEach {
@@ -58,7 +64,7 @@ class ShardTest {
     fun sampleTest() {
         val reRunTestsToRun = listOf("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g")
         val suite = sample()
-        val result = Shard.calculateShardsByTime(reRunTestsToRun, suite, mockArgs(3))
+        val result = Shard.createShardsByShardCount(reRunTestsToRun, suite, mockArgs(3))
 
         assertThat(result.size).isEqualTo(3)
         result.forEach {
@@ -81,7 +87,7 @@ class ShardTest {
     @Test
     fun firstRun() {
         val testsToRun = listOf("a", "b", "c")
-        val result = Shard.calculateShardsByTime(testsToRun, JUnitTestResult(null), mockArgs(2))
+        val result = Shard.createShardsByShardCount(testsToRun, JUnitTestResult(null), mockArgs(2))
 
         assertThat(result.size).isEqualTo(2)
         assertThat(result.sumByDouble { it.time }).isEqualTo(30.0)
@@ -94,7 +100,7 @@ class ShardTest {
     @Test
     fun mixedNewAndOld() {
         val testsToRun = listOf("a/a", "b/b", "c/c", "w", "y", "z")
-        val result = Shard.calculateShardsByTime(testsToRun, sample(), mockArgs(4))
+        val result = Shard.createShardsByShardCount(testsToRun, sample(), mockArgs(4))
         assertThat(result.size).isEqualTo(4)
         assertThat(result.sumByDouble { it.time }).isEqualTo(37.0)
 
@@ -111,11 +117,38 @@ class ShardTest {
         repeat(1_000_000) { index -> testsToRun.add("$index/$index") }
 
         val nano = measureNanoTime {
-            Shard.calculateShardsByTime(testsToRun, JUnitTestResult(null), mockArgs(4))
+            Shard.createShardsByShardCount(testsToRun, JUnitTestResult(null), mockArgs(4))
         }
 
         val ms = TimeUnit.NANOSECONDS.toMillis(nano)
         println("Shards calculated in $ms ms")
         assertThat(ms).isLessThan(5000)
+    }
+
+    @Test
+    fun createShardsByShardTime_shardTimeNotSet() {
+        exceptionRule.expectMessage("shardTime == -1")
+        Shard.createShardsByShardTime(emptyList(), JUnitTestResult(null), mockArgs(2, -1))
+    }
+
+    @Test
+    fun createShardsByShardTime_notEnoughShards() {
+        exceptionRule.expectMessage("Total test time is: 16.5 and max number of shards is 2. " +
+                "Min amount of shards needed is 3")
+
+        val testsToRun = listOf("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g")
+        val suite = sample()
+        Shard.createShardsByShardTime(testsToRun, suite, mockArgs(2, 7))
+    }
+
+    @Test
+    fun createShardsByShardTime_workingSample() {
+        val testsToRun = listOf("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g")
+        val suite = sample()
+        val result = Shard.createShardsByShardTime(testsToRun, suite, mockArgs(3, 7))
+
+        assertThat(result[0]).isEqualTo(listOf("f/f", "g/g"))
+        assertThat(result[1]).isEqualTo(listOf("d/d", "e/e"))
+        assertThat(result[2]).isEqualTo(listOf("a/a", "b/b", "c/c"))
     }
 }

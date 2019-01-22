@@ -178,9 +178,17 @@ object ArgsHelper {
 
     fun calculateShards(filteredTests: List<String>, args: IArgs): List<List<String>> {
         val oldTestResult = GcStorage.downloadJunitXml(args) ?: JUnitTestResult(mutableListOf())
-        val shardsByTime = Shard.calculateShardsByTime(filteredTests, oldTestResult, args)
 
-        return testMethodsAlwaysRun(shardsByTime.stringShards(), args)
+        var shards: MutableList<MutableList<String>>
+
+        try {
+            shards = Shard.createShardsByShardTime(filteredTests, oldTestResult, args)
+        } catch (ex: IllegalStateException) {
+            println("Couldn't shard by Shard time")
+            shards = Shard.createShardsByShardCount(filteredTests, oldTestResult, args).stringShards()
+        }
+
+        return testMethodsAlwaysRun(shards, args)
     }
 
     private fun testMethodsAlwaysRun(shards: StringShards, args: IArgs): StringShards {
