@@ -59,6 +59,7 @@ class AndroidArgsTest {
 
         flank:
           testShards: 7
+          shardTime: 60
           repeatTests: 8
           files-to-download:
             - /sdcard/screenshots
@@ -158,6 +159,7 @@ class AndroidArgsTest {
 
             // FlankYml
             assert(testShards, 7)
+            assert(shardTime, 60)
             assert(repeatTests, 8)
             assert(filesToDownload, listOf("/sdcard/screenshots", "/sdcard/screenshots2"))
             assert(
@@ -211,6 +213,7 @@ AndroidArgs
 
     flank:
       testShards: 7
+      shardTime: 60
       repeatTests: 8
       smartFlankGcsPath:${' '}
       files-to-download:

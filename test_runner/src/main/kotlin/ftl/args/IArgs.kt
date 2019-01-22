@@ -16,6 +16,7 @@ interface IArgs {
 
     // FlankYml
     val testShards: Int
+    val shardTime: Int
     val repeatTests: Int
     val smartFlankGcsPath: String
     val testTargetsAlwaysRun: List<String>

@@ -65,6 +65,7 @@ class AndroidArgs(
 
     private val flank = flankYml.flank
     override val testShards = cli?.testShards ?: flank.testShards
+    override val shardTime = cli?.shardTime ?: flank.shardTime
     override val repeatTests = cli?.repeatTests ?: flank.repeatTests
     override val smartFlankGcsPath = flank.smartFlankGcsPath
     override val testTargetsAlwaysRun = cli?.testTargetsAlwaysRun ?: flank.testTargetsAlwaysRun
@@ -160,6 +161,7 @@ ${devicesToString(devices)}
 
     flank:
       testShards: $testShards
+      shardTime: $shardTime
       repeatTests: $repeatTests
       smartFlankGcsPath: $smartFlankGcsPath
       files-to-download:
