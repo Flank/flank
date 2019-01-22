@@ -59,6 +59,7 @@ class AndroidArgsTest {
 
         flank:
           testShards: 7
+          shardTime: 60
           repeatTests: 8
           files-to-download:
             - /sdcard/screenshots
@@ -158,6 +159,7 @@ class AndroidArgsTest {
 
             // FlankYml
             assert(testShards, 7)
+            assert(shardTime, 60)
             assert(repeatTests, 8)
             assert(filesToDownload, listOf("/sdcard/screenshots", "/sdcard/screenshots2"))
             assert(
@@ -211,6 +213,7 @@ AndroidArgs
 
     flank:
       testShards: 7
+      shardTime: 60
       repeatTests: 8
       smartFlankGcsPath:${' '}
       files-to-download:
@@ -667,6 +670,23 @@ AndroidArgs
       """
         assertThat(AndroidArgs.load(yaml).testShards).isEqualTo(2)
         assertThat(AndroidArgs.load(yaml, cli).testShards).isEqualTo(3)
+    }
+
+    @Test
+    fun `cli shardTime`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--shard-time=3")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+
+        flank:
+          shardTime: 2
+      """
+        assertThat(AndroidArgs.load(yaml).shardTime).isEqualTo(2)
+        assertThat(AndroidArgs.load(yaml, cli).shardTime).isEqualTo(3)
     }
 
     @Test

@@ -106,6 +106,12 @@ class IosRunCommand : Runnable {
     var testShards: Int? = null
 
     @Option(
+        names = ["--shard-time"],
+        description = ["The max amount of seconds each shard should run."]
+    )
+    var shardTime: Int? = null
+
+    @Option(
         names = ["--repeat-tests"],
         description = ["The amount of times to repeat the test executions."]
     )

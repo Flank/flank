@@ -53,6 +53,7 @@ class IosArgsTest {
 
         flank:
           testShards: 7
+          shardTime: 60
           repeatTests: 8
           files-to-download:
             - /sdcard/screenshots
@@ -119,6 +120,7 @@ class IosArgsTest {
 
             // FlankYml
             assert(testShards, 7)
+            assert(shardTime, 60)
             assert(repeatTests, 8)
             assert(testTargetsAlwaysRun, listOf("a/testGrantPermissions", "a/testGrantPermissions2"))
 
@@ -160,6 +162,7 @@ IosArgs
 
     flank:
       testShards: 7
+      shardTime: 60
       repeatTests: 8
       smartFlankGcsPath:${' '}
       test-targets-always-run:
@@ -201,6 +204,7 @@ IosArgs
 
             // FlankYml
             assert(testShards, 1)
+            assert(shardTime, -1)
             assert(repeatTests, 1)
             assert(testTargetsAlwaysRun, emptyList<String>())
             assert(filesToDownload, emptyList<String>())
@@ -370,6 +374,23 @@ IosArgs
       """
         assertThat(IosArgs.load(yaml).testShards).isEqualTo(2)
         assertThat(IosArgs.load(yaml, cli).testShards).isEqualTo(3)
+    }
+
+    @Test
+    fun `cli shardTime`() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--shard-time=3")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $xctestrunFile
+
+        flank:
+          shardTime: 2
+      """
+        assertThat(IosArgs.load(yaml).shardTime).isEqualTo(2)
+        assertThat(IosArgs.load(yaml, cli).shardTime).isEqualTo(3)
     }
 
     @Test

@@ -52,13 +52,31 @@ object Shard {
         return "$classname/$testName"
     }
 
-    // take in the XML with timing info then return list of shards
-    fun calculateShardsByTime(
+    // take in the XML with timing info then return the shard count based on execution time
+    fun shardCountByTime(
         testsToRun: List<String>,
         oldTestResult: JUnitTestResult,
         args: IArgs
+    ): Int {
+        if (args.shardTime == -1) return -1
+
+        val junitMap = createJunitMap(oldTestResult, args)
+        val testsTotalTime = testsToRun.sumByDouble { junitMap[it] ?: 10.0 }
+
+        val shardsByTime = Math.ceil(testsTotalTime / args.shardTime).toInt()
+
+        // We need to respect the testShards
+        return Math.min(shardsByTime, args.testShards)
+    }
+
+    // take in the XML with timing info then return list of shards based on the amount of shards to use
+    fun createShardsByShardCount(
+        testsToRun: List<String>,
+        oldTestResult: JUnitTestResult,
+        args: IArgs,
+        forcedShardCount: Int = -1
     ): List<TestShard> {
-        val maxShards = args.testShards
+        val maxShards = if (forcedShardCount == -1) args.testShards else forcedShardCount
         val junitMap = createJunitMap(oldTestResult, args)
 
         var cacheMiss = 0
