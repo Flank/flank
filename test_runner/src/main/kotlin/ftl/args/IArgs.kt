@@ -21,6 +21,7 @@ interface IArgs {
     val smartFlankGcsPath: String
     val testTargetsAlwaysRun: List<String>
     val filesToDownload: List<String>
+    val disableSharding: Boolean
 
     // computed property
     val testShardChunks: List<List<String>>

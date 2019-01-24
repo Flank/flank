@@ -55,6 +55,7 @@ class IosArgs(
     override val smartFlankGcsPath = flank.smartFlankGcsPath
     override val testTargetsAlwaysRun = cli?.testTargetsAlwaysRun ?: flank.testTargetsAlwaysRun
     override val filesToDownload = cli?.filesToDownload ?: flank.filesToDownload
+    override val disableSharding = cli?.disableSharding ?: flank.disableSharding
 
     private val iosFlank = iosFlankYml.flank
     val testTargets = cli?.testTargets ?: iosFlank.testTargets
@@ -133,6 +134,7 @@ ${listToString(filesToDownload)}
       # iOS flank
       test-targets:
 ${listToString(testTargets)}
+      disableSharding: $disableSharding
     """.trimIndent()
     }
 

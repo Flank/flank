@@ -71,6 +71,7 @@ class IosRunCommandTest {
         assertThat(cmd.testTargetsAlwaysRun).isNull()
         assertThat(cmd.testTargets).isNull()
         assertThat(cmd.filesToDownload).isNull()
+        assertThat(cmd.disableSharding).isNull()
         assertThat(cmd.test).isNull()
         assertThat(cmd.xctestrunFile).isNull()
         assertThat(cmd.xcodeVersion).isNull()
@@ -233,5 +234,13 @@ class IosRunCommandTest {
         CommandLine(cmd).parse("--shard-time=99")
 
         assertThat(cmd.shardTime).isEqualTo(99)
+    }
+
+    @Test
+    fun `disableShard parse`() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parse("--disable-sharding")
+
+        assertThat(cmd.disableSharding).isEqualTo(true)
     }
 }

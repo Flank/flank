@@ -252,6 +252,12 @@ class AndroidRunCommand : Runnable {
     var filesToDownload: List<String>? = null
 
     @Option(
+        names = ["--disable-sharding"],
+        description = ["Disable sharding."]
+    )
+    var disableSharding: Boolean? = null
+
+    @Option(
         names = ["--results-dir"],
         description = [
             "The name of a unique Google Cloud Storage object within the results bucket where raw test results will be " +

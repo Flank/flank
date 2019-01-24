@@ -70,9 +70,12 @@ class AndroidArgs(
     override val smartFlankGcsPath = flank.smartFlankGcsPath
     override val testTargetsAlwaysRun = cli?.testTargetsAlwaysRun ?: flank.testTargetsAlwaysRun
     override val filesToDownload = cli?.filesToDownload ?: flank.filesToDownload
+    override val disableSharding = cli?.disableSharding ?: flank.disableSharding
 
     // computed properties not specified in yaml
     override val testShardChunks: List<List<String>> by lazy {
+        if (disableSharding) return@lazy listOf(emptyList<String>())
+
         // Download test APK if necessary so it can be used to validate test methods
         var testLocalApk = testApk
         if (testApk.startsWith(FtlConstants.GCS_PREFIX)) {
@@ -168,6 +171,7 @@ ${devicesToString(devices)}
 ${listToString(filesToDownload)}
       test-targets-always-run:
 ${listToString(testTargetsAlwaysRun)}
+      disableSharding: $disableSharding
    """.trimIndent()
     }
 

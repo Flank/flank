@@ -43,8 +43,8 @@ object GcIosTestMatrix {
         val methods = args.testShardChunks.elementAt(testShardsIndex)
 
         // Parameterized tests on iOS don't shard correctly.
-        // Avoid changing Xctestrun file when test shards is 1.
-        val generatedXctestrun = if (args.testShards == 1) {
+        // Avoid changing Xctestrun file when disableSharding is on.
+        val generatedXctestrun = if (args.disableSharding) {
             xcTestParsed.toByteArray()
         } else {
             Xctestrun.rewrite(xcTestParsed, methods)

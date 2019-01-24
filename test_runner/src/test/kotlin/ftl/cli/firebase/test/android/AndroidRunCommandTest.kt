@@ -84,6 +84,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.filesToDownload).isNull()
         assertThat(cmd.resultsDir).isNull()
         assertThat(cmd.flakyTestAttempts).isNull()
+        assertThat(cmd.disableSharding).isNull()
     }
 
     @Test
@@ -299,5 +300,13 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parse("--shard-time=99")
 
         assertThat(cmd.shardTime).isEqualTo(99)
+    }
+
+    @Test
+    fun `disableSharding parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--disable-sharding")
+
+        assertThat(cmd.disableSharding).isEqualTo(true)
     }
 }
