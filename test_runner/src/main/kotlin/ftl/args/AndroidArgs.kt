@@ -74,6 +74,8 @@ class AndroidArgs(
 
     // computed properties not specified in yaml
     override val testShardChunks: List<List<String>> by lazy {
+        if (disableSharding) return@lazy listOf(emptyList<String>())
+
         // Download test APK if necessary so it can be used to validate test methods
         var testLocalApk = testApk
         if (testApk.startsWith(FtlConstants.GCS_PREFIX)) {
@@ -82,7 +84,7 @@ class AndroidArgs(
             }
         }
 
-        val filteredTests = if (disableSharding) emptyList() else getTestMethods(testLocalApk)
+        val filteredTests = getTestMethods(testLocalApk)
         calculateShards(filteredTests, this)
     }
 

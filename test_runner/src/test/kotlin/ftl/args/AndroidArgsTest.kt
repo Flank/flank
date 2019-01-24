@@ -18,6 +18,7 @@ import picocli.CommandLine
 class AndroidArgsTest {
     private val empty = emptyList<String>()
     private val appApk = "../test_app/apks/app-debug.apk"
+    private val invalidApk = "../test_app/apks/invalid.apk"
     private val testApk = "../test_app/apks/app-debug-androidTest.apk"
     private val testErrorApk = "../test_app/apks/error-androidTest.apk"
     private val appApkAbsolutePath = appApk.absolutePath()
@@ -302,6 +303,28 @@ AndroidArgs
 
         assertThat(androidArgs.appApk).isEqualTo(appApkAbsolutePath)
         assertThat(androidArgs.testApk).isEqualTo(testApkAbsolutePath)
+    }
+
+    @Test
+    fun `disableSharding allows using invalid apk`() {
+        val yaml = """
+        gcloud:
+          app: $invalidApk
+          test: $invalidApk
+        flank:
+          disableSharding: true
+      """
+        AndroidArgs.load(yaml).testShardChunks
+    }
+
+    @Test(expected = RuntimeException::class)
+    fun `Invalid apk throws`() {
+        val yaml = """
+        gcloud:
+          app: $invalidApk
+          test: $invalidApk
+      """
+        AndroidArgs.load(yaml).testShardChunks
     }
 
     @Test
