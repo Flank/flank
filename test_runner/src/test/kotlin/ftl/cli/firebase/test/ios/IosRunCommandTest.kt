@@ -235,4 +235,12 @@ class IosRunCommandTest {
 
         assertThat(cmd.shardTime).isEqualTo(99)
     }
+
+    @Test
+    fun `disableShard parse`() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parse("--disable-sharding")
+
+        assertThat(cmd.disableSharding).isEqualTo(true)
+    }
 }

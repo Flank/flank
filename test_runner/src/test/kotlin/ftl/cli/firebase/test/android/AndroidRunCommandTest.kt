@@ -301,4 +301,12 @@ class AndroidRunCommandTest {
 
         assertThat(cmd.shardTime).isEqualTo(99)
     }
+
+    @Test
+    fun `disableSharding parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--disable-sharding")
+
+        assertThat(cmd.disableSharding).isEqualTo(true)
+    }
 }
