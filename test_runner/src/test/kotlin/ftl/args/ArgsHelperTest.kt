@@ -39,7 +39,7 @@ class ArgsHelperTest {
     fun mergeYmlMaps_succeeds() {
         val merged = mergeYmlMaps(GcloudYml, IosGcloudYml)
         assertThat(merged.keys.size).isEqualTo(1)
-        assertThat(merged["gcloud"]?.size).isEqualTo(13)
+        assertThat(merged["gcloud"]?.size).isEqualTo(12)
     }
 
     @Test
