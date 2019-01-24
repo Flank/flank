@@ -71,6 +71,7 @@ class IosRunCommandTest {
         assertThat(cmd.testTargetsAlwaysRun).isNull()
         assertThat(cmd.testTargets).isNull()
         assertThat(cmd.filesToDownload).isNull()
+        assertThat(cmd.disableSharding).isNull()
         assertThat(cmd.test).isNull()
         assertThat(cmd.xctestrunFile).isNull()
         assertThat(cmd.xcodeVersion).isNull()

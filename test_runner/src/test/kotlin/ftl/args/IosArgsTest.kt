@@ -63,6 +63,7 @@ class IosArgsTest {
           test-targets:
             - b/testBasicSelection
             - b/testBasicSelection2
+          disableSharding: true
         """
 
     @Rule
@@ -128,6 +129,7 @@ class IosArgsTest {
             assert(testTargets, listOf("b/testBasicSelection", "b/testBasicSelection2"))
 
             assert(flakyTestAttempts, 4)
+            assert(disableSharding, true)
         }
     }
 
@@ -174,6 +176,7 @@ IosArgs
       test-targets:
         - b/testBasicSelection
         - b/testBasicSelection2
+      disableSharding: true
 """.trimIndent()
         )
     }
@@ -208,6 +211,7 @@ IosArgs
             assert(repeatTests, 1)
             assert(testTargetsAlwaysRun, emptyList<String>())
             assert(filesToDownload, emptyList<String>())
+            assert(disableSharding, false)
 
             // IosFlankYml
             assert(testTargets, empty)
@@ -377,7 +381,7 @@ IosArgs
     }
 
     @Test
-    fun `cli shardTime`() {
+    fun cli_shardTime() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--shard-time=3")
 
@@ -391,6 +395,23 @@ IosArgs
       """
         assertThat(IosArgs.load(yaml).shardTime).isEqualTo(2)
         assertThat(IosArgs.load(yaml, cli).shardTime).isEqualTo(3)
+    }
+
+    @Test
+    fun cli_disableSharding() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--disable-sharding")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $xctestrunFile
+
+        flank:
+          disableSharding: false
+      """
+        assertThat(IosArgs.load(yaml).disableSharding).isEqualTo(false)
+        assertThat(IosArgs.load(yaml, cli).disableSharding).isEqualTo(true)
     }
 
     @Test

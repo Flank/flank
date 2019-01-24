@@ -12,6 +12,7 @@ class FlankYmlParams(
     val shardTime: Int = -1,
     val repeatTests: Int = 1,
     val smartFlankGcsPath: String = "",
+    val disableSharding: Boolean = false,
 
     @field:JsonProperty("test-targets-always-run")
     val testTargetsAlwaysRun: List<String> = emptyList(),

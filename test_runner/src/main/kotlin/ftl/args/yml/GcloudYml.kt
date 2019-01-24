@@ -24,6 +24,9 @@ class GcloudYmlParams(
     @field:JsonProperty("record-video")
     val recordVideo: Boolean = true,
 
+    @field:JsonProperty("disable-sharding")
+    val disableSharding: Boolean = false,
+
     val timeout: String = "15m",
 
     val async: Boolean = false,
@@ -38,7 +41,8 @@ class GcloudYmlParams(
 ) {
     companion object : IYmlKeys {
         override val keys =
-            listOf("results-bucket", "results-dir", "record-video", "timeout", "async", "project", "results-history-name", "flaky-test-attempts")
+            listOf("results-bucket", "results-dir", "record-video", "disable-sharding", "timeout", "async", "project",
+                "results-history-name", "flaky-test-attempts")
     }
 
     init {

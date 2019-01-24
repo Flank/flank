@@ -67,6 +67,7 @@ class AndroidArgsTest {
           test-targets-always-run:
             - class example.Test#grantPermission
             - class example.Test#grantPermission2
+          disableSharding: true
       """
 
     @Rule
@@ -168,6 +169,7 @@ class AndroidArgsTest {
                     "class example.Test#grantPermission2"
                 )
             )
+            assert(disableSharding, true)
         }
     }
 
@@ -222,6 +224,7 @@ AndroidArgs
       test-targets-always-run:
         - class example.Test#grantPermission
         - class example.Test#grantPermission2
+      disableSharding: true
 """.trimIndent()
         )
     }
@@ -261,6 +264,7 @@ AndroidArgs
             assert(repeatTests, 1)
             assert(filesToDownload, empty)
             assert(testTargetsAlwaysRun, empty)
+            assert(disableSharding, false)
         }
     }
 
@@ -673,7 +677,7 @@ AndroidArgs
     }
 
     @Test
-    fun `cli shardTime`() {
+    fun cli_shardTime() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--shard-time=3")
 
@@ -687,6 +691,23 @@ AndroidArgs
       """
         assertThat(AndroidArgs.load(yaml).shardTime).isEqualTo(2)
         assertThat(AndroidArgs.load(yaml, cli).shardTime).isEqualTo(3)
+    }
+
+    @Test
+    fun cli_disableSharding() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--disable-sharding")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+
+        flank:
+          disableSharding: false
+      """
+        assertThat(AndroidArgs.load(yaml).disableSharding).isEqualTo(false)
+        assertThat(AndroidArgs.load(yaml, cli).disableSharding).isEqualTo(true)
     }
 
     @Test

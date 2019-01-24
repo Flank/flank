@@ -143,6 +143,12 @@ class IosRunCommand : Runnable {
     var filesToDownload: List<String>? = null
 
     @Option(
+        names = ["--disable-sharding"],
+        description = ["Disable sharding."]
+    )
+    var disableSharding: Boolean? = null
+
+    @Option(
         names = ["--test"],
         description = ["The path to the test package (a zip file containing the iOS app " +
             "and XCTest files). The given path may be in the local filesystem or in Google Cloud Storage using a URL " +

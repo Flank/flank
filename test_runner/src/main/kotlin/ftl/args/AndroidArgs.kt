@@ -70,6 +70,7 @@ class AndroidArgs(
     override val smartFlankGcsPath = flank.smartFlankGcsPath
     override val testTargetsAlwaysRun = cli?.testTargetsAlwaysRun ?: flank.testTargetsAlwaysRun
     override val filesToDownload = cli?.filesToDownload ?: flank.filesToDownload
+    override val disableSharding = cli?.disableSharding ?: flank.disableSharding
 
     // computed properties not specified in yaml
     override val testShardChunks: List<List<String>> by lazy {
@@ -81,7 +82,7 @@ class AndroidArgs(
             }
         }
 
-        val filteredTests = getTestMethods(testLocalApk)
+        val filteredTests = if (disableSharding) emptyList() else getTestMethods(testLocalApk)
         calculateShards(filteredTests, this)
     }
 
@@ -168,6 +169,7 @@ ${devicesToString(devices)}
 ${listToString(filesToDownload)}
       test-targets-always-run:
 ${listToString(testTargetsAlwaysRun)}
+      disableSharding: $disableSharding
    """.trimIndent()
     }
 

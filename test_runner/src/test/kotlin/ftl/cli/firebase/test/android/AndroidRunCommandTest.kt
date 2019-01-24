@@ -84,6 +84,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.filesToDownload).isNull()
         assertThat(cmd.resultsDir).isNull()
         assertThat(cmd.flakyTestAttempts).isNull()
+        assertThat(cmd.disableSharding).isNull()
     }
 
     @Test
