@@ -7,6 +7,7 @@ import ftl.gc.GcIosMatrix
 import ftl.gc.GcIosTestMatrix
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
+import ftl.http.executeWithRetry
 import ftl.ios.Xctestrun
 import ftl.json.MatrixMap
 import ftl.run.GenericTestRunner.beforeRunMessage
@@ -53,7 +54,7 @@ object IosTestRunner {
                         args = iosArgs,
                         shardCounter = shardCounter,
                         toolResultsHistory = history
-                    ).execute()
+                    ).executeWithRetry()
                 }
             }
         }

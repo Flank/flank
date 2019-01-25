@@ -7,6 +7,7 @@ import ftl.gc.GcAndroidDevice
 import ftl.gc.GcAndroidTestMatrix
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
+import ftl.http.executeWithRetry
 import ftl.json.MatrixMap
 import ftl.util.ShardCounter
 import kotlinx.coroutines.Deferred
@@ -43,7 +44,7 @@ object AndroidTestRunner {
                         args = androidArgs,
                         shardCounter = shardCounter,
                         toolResultsHistory = history
-                    ).execute()
+                    ).executeWithRetry()
                 }
             }
         }
