@@ -12,6 +12,7 @@ class JUnitXmlTest {
         val androidFailXml = Paths.get("$xmlRoot/android_fail.xml")!!
         val iosPassXml = Paths.get("$xmlRoot/ios_pass.xml")!!
         val iosFailXml = Paths.get("$xmlRoot/ios_fail.xml")!!
+        val iosLargeNum = Paths.get("$xmlRoot/ios_large_num.xml")!!
         val androidSkipped = """
 <testsuite name="" tests="2" failures="0" errors="0" skipped="1" time="0.026" timestamp="2018-10-26T19:57:28" hostname="localhost">
     <properties/>
@@ -90,6 +91,23 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
     }
 
     @Test
+    fun `Merge iOS large time`() {
+        val merged = parseAllSuitesXml(iosLargeNum).merge(parseAllSuitesXml(iosLargeNum)).xmlToString()
+
+        val expected = """
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites>
+  <testsuite name="EarlGreyExampleSwiftTests" tests="199998" failures="199998" errors="199998" skipped="0" time="199999.762" hostname="localhost">
+    <testcase name="testBasicSelectionActionAssert()" classname="EarlGreyExampleSwiftTests" time="0"/>
+    <testcase name="testBasicSelectionActionAssert()" classname="EarlGreyExampleSwiftTests" time="0"/>
+  </testsuite>
+</testsuites>
+
+        """.trimIndent()
+        assertThat(merged).isEqualTo(expected)
+    }
+
+    @Test
     fun parse_androidSkipped() {
         val parsed = parseOneSuiteXml(androidSkipped)
         assertThat(parsed.testsuites?.first()?.testcases?.first()?.skipped).isNull()
@@ -101,7 +119,8 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
         merged.merge(merged)
         val actual = merged.xmlToString()
 
-        assertThat(actual).isEqualTo("""
+        assertThat(actual).isEqualTo(
+            """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
   <testsuite name="" tests="4" failures="0" errors="0" skipped="2" time="0.052" timestamp="2018-10-26T19:57:28" hostname="localhost">
@@ -116,7 +135,8 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
   </testsuite>
 </testsuites>
 
-        """.trimIndent())
+        """.trimIndent()
+        )
     }
 
     @Test
