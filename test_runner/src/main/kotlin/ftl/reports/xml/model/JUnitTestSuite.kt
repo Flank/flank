@@ -46,12 +46,22 @@ data class JUnitTestSuite(
     val systemErr: Any? // <system-err />
 ) {
 
+    /**
+     * Strips all characters except numbers and a period
+     * Returns 0 when the string is null
+     *
+     * Example: z1,23.45 => 123.45 */
+    private fun String?.clean(): String {
+        if (this == null) return "0"
+        return this.replace(Regex("""[^0-9\\.]"""), "")
+    }
+
     private fun mergeInt(a: String?, b: String?): String {
-        return ((a ?: "0").toInt() + (b ?: "0").toInt()).toString()
+        return (a.clean().toInt() + b.clean().toInt()).toString()
     }
 
     private fun mergeDouble(a: String?, b: String?): String {
-        return "%.3f".format(((a ?: "0").toDouble() + (b ?: "0").toDouble()))
+        return "%.3f".format((a.clean().toDouble() + b.clean().toDouble()))
     }
 
     fun merge(other: JUnitTestSuite): JUnitTestSuite {

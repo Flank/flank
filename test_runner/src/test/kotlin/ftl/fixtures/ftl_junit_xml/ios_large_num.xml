@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites>
+  <testsuite name='EarlGreyExampleSwiftTests' hostname='localhost' tests='a99,999' failures='z99,999' errors='t99,999' time='o99,999.881'>
+    <properties />
+    <testcase name='testBasicSelectionActionAssert()' classname='EarlGreyExampleSwiftTests' time='0' />
+    <system-out />
+    <system-err />
+  </testsuite>
+</testsuites>
