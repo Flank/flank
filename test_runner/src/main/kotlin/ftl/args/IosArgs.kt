@@ -6,7 +6,6 @@ import ftl.args.ArgsHelper.createGcsBucket
 import ftl.args.ArgsHelper.createJunitBucket
 import ftl.args.ArgsHelper.evaluateFilePath
 import ftl.args.ArgsHelper.mergeYmlMaps
-import ftl.args.ArgsHelper.validateTestMethods
 import ftl.args.ArgsHelper.yamlMapper
 import ftl.args.ArgsToString.devicesToString
 import ftl.args.ArgsToString.listToString
@@ -62,13 +61,10 @@ class IosArgs(
 
     // computed properties not specified in yaml
     override val testShardChunks: List<List<String>> by lazy {
+        if (disableSharding) return@lazy listOf(emptyList<String>())
+
         val validTestMethods = Xctestrun.findTestNames(xctestrunFile)
-        validateTestMethods(testTargets, validTestMethods, "xctest binary")
-        val testsToShard = if (testTargets.isEmpty()) {
-            validTestMethods
-        } else {
-            testTargets
-        }.distinct()
+        val testsToShard = filterTests(validTestMethods, testTargets).distinct()
 
         ArgsHelper.calculateShards(testsToShard, this)
     }
@@ -160,5 +156,21 @@ ${listToString(testTargets)}
                 cli
             )
         }
+    }
+}
+
+fun filterTests(validTestMethods: List<String>, testTargets: List<String>): List<String> {
+    if (testTargets.isEmpty()) {
+        return validTestMethods
+    }
+
+    return validTestMethods.filter { test ->
+        testTargets.forEach { target ->
+            if (test.matches(target.toRegex())) {
+                return@filter true
+            }
+        }
+
+        return@filter false
     }
 }

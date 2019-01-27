@@ -27,7 +27,7 @@ class IosArgsFileTest {
     private val xctestrunZip = getPath("src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip")
     private val xctestrunFile =
         getPath("src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun")
-    private val testName = "EarlGreyExampleMixedTests/testBasicSelection"
+    private val testName = "EarlGreyExampleSwiftTests/testLayout"
     // NOTE: Change working dir to '%MODULE_WORKING_DIR%' in IntelliJ to match gradle for this test to pass.
     @Test
     fun configLoadsSuccessfully() {
@@ -69,17 +69,16 @@ class IosArgsFileTest {
         val config = IosArgs.load(yamlFile2)
 
         val chunk0 = arrayListOf(
-            "EarlGreyExampleMixedTests/testGrantCameraPermission",
-            "EarlGreyExampleMixedTests/testGrantMicrophonePermission",
-            "EarlGreyExampleMixedTests/testBasicSelection1",
-            "EarlGreyExampleMixedTests/testBasicSelection4"
+            "EarlGreyExampleSwiftTests/testWithGreyAssertions",
+            "EarlGreyExampleSwiftTests/testWithInRoot",
+            "EarlGreyExampleSwiftTests/testWithCondition",
+            "EarlGreyExampleSwiftTests/testWithCustomFailureHandler"
         )
 
         val chunk1 = arrayListOf(
-            "EarlGreyExampleMixedTests/testGrantCameraPermission",
-            "EarlGreyExampleMixedTests/testGrantMicrophonePermission",
-            "EarlGreyExampleMixedTests/testBasicSelection2",
-            "EarlGreyExampleMixedTests/testBasicSelection3"
+            "EarlGreyExampleSwiftTests/testWithGreyAssertions",
+            "EarlGreyExampleSwiftTests/testWithCustomMatcher",
+            "EarlGreyExampleSwiftTests/testWithCustomAssertion"
         )
 
         val testShardChunks = config.testShardChunks
