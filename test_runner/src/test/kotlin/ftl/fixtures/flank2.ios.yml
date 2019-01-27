@@ -15,12 +15,6 @@ flank:
   testShards: 2
   repeatTests: 1
   test-targets:
-  - EarlGreyExampleMixedTests/testGrantCameraPermission
-  - EarlGreyExampleMixedTests/testGrantMicrophonePermission
-  - EarlGreyExampleMixedTests/testBasicSelection1
-  - EarlGreyExampleMixedTests/testBasicSelection2
-  - EarlGreyExampleMixedTests/testBasicSelection3
-  - EarlGreyExampleMixedTests/testBasicSelection4
+    - EarlGreyExampleSwiftTests/testWith.*$
   test-targets-always-run:
-  - EarlGreyExampleMixedTests/testGrantCameraPermission
-  - EarlGreyExampleMixedTests/testGrantMicrophonePermission
+  - EarlGreyExampleSwiftTests/testWithGreyAssertions

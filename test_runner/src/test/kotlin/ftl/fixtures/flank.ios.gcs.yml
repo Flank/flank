@@ -16,6 +16,6 @@ gcloud:
 
 flank:
   test-targets:
-  - EarlGreyExampleMixedTests/testBasicSelection
+  - EarlGreyExampleSwiftTests/testLayout
   testShards: 1
   repeatTests: 1

@@ -40,15 +40,16 @@ object GcIosTestMatrix {
         val gcsBucket = args.resultsBucket
         val matrixGcsSuffix = join(runGcsPath, shardCounter.next())
         val matrixGcsPath = join(gcsBucket, matrixGcsSuffix)
-        val methods = args.testShardChunks.elementAt(testShardsIndex)
 
         // Parameterized tests on iOS don't shard correctly.
         // Avoid changing Xctestrun file when disableSharding is on.
         val generatedXctestrun = if (args.disableSharding) {
             xcTestParsed.toByteArray()
         } else {
+            val methods = args.testShardChunks.elementAt(testShardsIndex)
             Xctestrun.rewrite(xcTestParsed, methods)
         }
+
         val xctestrunFileGcsPath = GcStorage.uploadXCTestFile(args, gcsBucket, matrixGcsSuffix, generatedXctestrun)
 
         val iOSXCTest = IosXcTest()

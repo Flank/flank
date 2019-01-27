@@ -26,6 +26,7 @@ class IosArgsTest {
     private val testPath = "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip"
     private val xctestrunFile =
         "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun"
+    private val invalidApp = "../test_app/apks/invalid.apk"
     private val xctestrunFileAbsolutePath = xctestrunFile.absolutePath()
     private val testAbsolutePath = testPath.absolutePath()
     private val iosNonDefault = """
@@ -91,10 +92,10 @@ class IosArgsTest {
     fun iosArgs_invalidXcodeExits() {
         exceptionRule.expectMessage("Xcode 99.9 is not a supported Xcode version")
         IosArgs(
-                GcloudYml(),
-                IosGcloudYml(IosGcloudYmlParams(test = testPath, xctestrunFile = xctestrunFile, xcodeVersion = "99.9")),
-                FlankYml(),
-                IosFlankYml(),
+            GcloudYml(),
+            IosGcloudYml(IosGcloudYmlParams(test = testPath, xctestrunFile = xctestrunFile, xcodeVersion = "99.9")),
+            FlankYml(),
+            IosFlankYml(),
             ""
         )
     }
@@ -254,6 +255,30 @@ IosArgs
             assertThat(xctestrunZip).isEqualTo(testAbsolutePath)
             assertThat(xctestrunFile).isEqualTo(xctestrunFileAbsolutePath)
         }
+    }
+
+    @Test
+    fun `disableSharding allows using invalid app`() {
+        val yaml = """
+        gcloud:
+          test: $invalidApp
+          xctestrun-file: $invalidApp
+        flank:
+          disableSharding: true
+      """
+        IosArgs.load(yaml).testShardChunks
+    }
+
+    @Test(expected = RuntimeException::class)
+    fun `Invalid app throws`() {
+        val yaml = """
+        gcloud:
+          test: $invalidApp
+          xctestrun-file: $invalidApp
+        flank:
+          disableSharding: false
+      """
+        IosArgs.load(yaml).testShardChunks
     }
 
     // gcloudYml
@@ -590,5 +615,61 @@ IosArgs
 
         val androidArgs = IosArgs.load(yaml, cli)
         assertThat(androidArgs.flakyTestAttempts).isEqualTo(3)
+    }
+
+    private fun getValidTestsSample() = listOf(
+        "ClassOneTest/testOne",
+        "ClassOneTest/testTwo",
+        "ClassOneScreenshots/testOne",
+        "ClassTwoScreenshots/testTwo",
+        "ClassThreeTest/testName",
+        "ClassFourTest/testFour"
+    )
+
+    @Test
+    fun filterTests_emptyFilter() {
+        val tests = getValidTestsSample()
+        val actual = filterTests(tests, emptyList())
+
+        assertThat(actual).containsExactlyElementsIn(tests)
+    }
+
+    @Test
+    fun filterTests_regularFilter() {
+        val tests = getValidTestsSample()
+        val filter = listOf("ClassOneTest/testOne", "ClassFourTest/testFour")
+        val actual = filterTests(tests, filter)
+
+        val expected = listOf("ClassOneTest/testOne", "ClassFourTest/testFour")
+
+        assertThat(actual).containsExactlyElementsIn(expected)
+    }
+
+    @Test
+    fun filterTests_starFilter() {
+        val tests = getValidTestsSample()
+        val filter = listOf(".*?Test/testOne", ".*?/testFour")
+        val actual = filterTests(tests, filter)
+
+        val expected = listOf(
+            "ClassOneTest/testOne",
+            "ClassFourTest/testFour"
+        )
+
+        assertThat(actual).containsExactlyElementsIn(expected)
+    }
+
+    @Test
+    fun filterTests_starAndRegularFilter() {
+        val tests = getValidTestsSample()
+        val filter = listOf(".*?Screenshots/testTwo", "ClassOneTest/testOne")
+        val actual = filterTests(tests, filter)
+
+        val expected = listOf(
+            "ClassTwoScreenshots/testTwo",
+            "ClassOneTest/testOne"
+        )
+
+        assertThat(actual).containsExactlyElementsIn(expected)
     }
 }
