@@ -1,0 +1,16 @@
+gcloud:
+  app: ./app/build/outputs/apk/debug/app-debug.apk
+  test: ./app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+  environment-variables: 
+    coverage: true
+    coverageFilePath: /sdcard/
+    clearPackageData: true
+  directories-to-pull: 
+    - /sdcard/
+  # use a named results dir that's used by the gradle task
+  results-dir: coverage_ec
+
+flank:
+  disableSharding: true
+  files-to-download:
+    - .*/sdcard/[^/]+\.ec$

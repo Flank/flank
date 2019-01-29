@@ -139,6 +139,47 @@ flank:
     - .*\.mp4$
 ```
 
+### Android code coverage
+
+Update your app's build.gradle to build with coverage and use orchestrator.
+
+```gradle
+android {
+
+  defaultConfig {
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    // runs pm clear after each test invocation
+    testInstrumentationRunnerArguments clearPackageData: 'true'
+  }
+
+  buildTypes {
+    debug {
+      testCoverageEnabled true
+    }
+  }
+ 
+  // https://google.github.io/android-gradle-dsl/current/com.android.build.gradle.internal.dsl.TestOptions.html#com.android.build.gradle.internal.dsl.TestOptions:animationsDisabled
+  testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        animationsDisabled = true
+    }
+}
+
+dependencies {
+  androidTestImplementation 'androidx.test:runner:1.1.1'
+  androidTestUtil 'androidx.test:orchestrator:1.1.1'
+}
+```
+
+In flank.yml add:
+
+```yaml
+environment-variables:
+  clearPackageData: true # Runs pm clear after each test invocation. Required for code coverage.
+  coverage: true         # Enables coverage collection
+  coverageFile: /sdcard/coverage.ec # Binary file that contains coverage data
+```
+
 ### CI integration
 
 Download Flank from GitHub releases.
