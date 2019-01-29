@@ -159,15 +159,19 @@ ${listToString(testTargets)}
     }
 }
 
-fun filterTests(validTestMethods: List<String>, testTargets: List<String>): List<String> {
-    if (testTargets.isEmpty()) {
+fun filterTests(validTestMethods: List<String>, testTargetsRgx: List<String>): List<String> {
+    if (testTargetsRgx.isEmpty()) {
         return validTestMethods
     }
 
     return validTestMethods.filter { test ->
-        testTargets.forEach { target ->
-            if (test.matches(target.toRegex())) {
-                return@filter true
+        testTargetsRgx.forEach { target ->
+            try {
+                if (test.matches(target.toRegex())) {
+                    return@filter true
+                }
+            } catch (e: Exception) {
+                throw IllegalArgumentException("Invalid regex: $target", e)
             }
         }
 
