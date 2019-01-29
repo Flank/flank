@@ -11,8 +11,8 @@ object GcIosMatrix {
             IosDevice()
                 .setIosModelId(it.model)
                 .setIosVersionId(it.version)
-                .setLocale("en_US") // FTL iOS doesn't currently support other locales or orientations
-                .setOrientation("portrait")
+                .setLocale(it.locale)
+                .setOrientation(it.orientation)
         }
     )
 }
