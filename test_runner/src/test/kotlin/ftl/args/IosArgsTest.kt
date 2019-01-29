@@ -626,6 +626,11 @@ IosArgs
         "ClassFourTest/testFour"
     )
 
+    @Test(expected = IllegalArgumentException::class)
+    fun `invalid regex filter throws custom exception`() {
+        filterTests(listOf("test"), testTargetsRgx = listOf("*."))
+    }
+
     @Test
     fun filterTests_emptyFilter() {
         val tests = getValidTestsSample()
