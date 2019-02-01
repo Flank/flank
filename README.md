@@ -141,8 +141,9 @@ flank:
 
 ### Android code coverage
 
-Update your app's build.gradle to build with coverage and use orchestrator.
-A custom gradle task is defined to generate the coverage report.
+<details>
+<summary>Update your app's build.gradle to build with coverage and use orchestrator.
+A custom gradle task is defined to generate the coverage report.</summary>
 
 ```gradle
 def coverageEnabled = project.hasProperty('coverage')
@@ -243,6 +244,7 @@ flank:
 - Run flank `flank android run`
 - Generate the report `./gradlew -Pcoverage firebaseJacoco`
 - Open the report in `./build/reports/jacoco/firebaseJacoco/html/index.html`
+</details>
 
 ### CI integration
 
