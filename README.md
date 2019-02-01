@@ -142,8 +142,11 @@ flank:
 ### Android code coverage
 
 Update your app's build.gradle to build with coverage and use orchestrator.
+A custom gradle task is defined to generate the coverage report.
 
 ```gradle
+def coverageEnabled = project.hasProperty('coverage')
+
 android {
 
   defaultConfig {
@@ -166,19 +169,80 @@ android {
 }
 
 dependencies {
-  androidTestImplementation 'androidx.test:runner:1.1.1'
   androidTestUtil 'androidx.test:orchestrator:1.1.1'
+
+  androidTestImplementation("androidx.test:runner:1.1.1")
+  androidTestImplementation("androidx.test.ext:junit:1.1.0")
+  androidTestImplementation("androidx.test.ext:junit-ktx:1.1.0")
+  androidTestImplementation("androidx.test.ext:truth:1.1.0")
+  androidTestImplementation("androidx.test.espresso.idling:idling-concurrent:3.1.1")
+  androidTestImplementation("androidx.test.espresso.idling:idling-net:3.1.1")
+  androidTestImplementation("androidx.test.espresso:espresso-accessibility:3.1.1")
+  androidTestImplementation("androidx.test:rules:1.1.1")
+  androidTestImplementation("androidx.test.espresso:espresso-core:3.1.1")
+  androidTestImplementation("androidx.test.espresso:espresso-contrib:3.1.1")
+  androidTestImplementation("androidx.test.espresso:espresso-idling-resource:3.1.1")
+  androidTestImplementation("androidx.test.espresso:espresso-intents:3.1.1")
+  androidTestImplementation("androidx.test.espresso:espresso-web:3.1.1")
+}
+
+if (coverageEnabled) {
+    // gradle -Pcoverage firebaseJacoco
+    task firebaseJacoco(type: JacocoReport) {
+        group = "Reporting"
+        description = "Generate Jacoco coverage reports for Firebase test lab."
+
+        def excludes = [
+                '**/R.class',
+                '**/R$*.class',
+                '**/BuildConfig.*',
+                "**/androidx"]
+        def javaClasses = fileTree(dir: "${project.buildDir}/intermediates/javac/debug/compileDebugJavaWithJavac/classes", excludes: excludes)
+        def kotlinClasses = fileTree(dir: "${project.buildDir}/tmp/kotlin-classes/debug", excludes: excludes)
+        getClassDirectories().setFrom(files([javaClasses, kotlinClasses]))
+
+        getSourceDirectories().setFrom(files([
+                'src/main/java', 'src/main/kotlin',
+                'src/androidTest/java', 'src/androidTest/kotlin']))
+
+        def ecFiles = project.fileTree(dir: '..', include: 'results/coverage_ec/**/sdcard/*.ec')
+        ecFiles.forEach { println("Reading in $it") }
+        getExecutionData().setFrom(ecFiles)
+
+        reports {
+            html { enabled true }
+            xml { enabled false }
+        }
+    }
 }
 ```
 
-In flank.yml add:
+Here's an example flank.yml. Note that `coverage` and `coverageFilePath` must be set when using orchestrator with coverage.
+`coverageFile` is not used. Orchestrator will generate one coverage file per test. `coverageFilePath` must be a directory, not a file.
 
 ```yaml
-environment-variables:
-  clearPackageData: true # Runs pm clear after each test invocation. Required for code coverage.
-  coverage: true         # Enables coverage collection
-  coverageFile: /sdcard/coverage.ec # Binary file that contains coverage data
+gcloud:
+  app: ./app/build/outputs/apk/debug/app-debug.apk
+  test: ./app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+  environment-variables: 
+    coverage: true
+    coverageFilePath: /sdcard/
+    clearPackageData: true
+  directories-to-pull: 
+    - /sdcard/
+  # use a named results dir that's used by the gradle task
+  results-dir: coverage_ec
+
+flank:
+  disableSharding: true
+  files-to-download:
+    - .*/sdcard/[^/]+\.ec$
 ```
+
+- Build the app with coverage: `./gradlew -Pcoverage build`
+- Run flank `flank android run`
+- Generate the report `./gradlew -Pcoverage firebaseJacoco`
+- Open the report in `./build/reports/jacoco/firebaseJacoco/html/index.html`
 
 ### CI integration
 
