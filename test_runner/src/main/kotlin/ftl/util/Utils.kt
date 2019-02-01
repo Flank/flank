@@ -69,7 +69,7 @@ object Utils {
         val instant = Instant.now()
 
         bucketName.append(
-            DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss.")
+            DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss.")
                 .withZone(ZoneOffset.UTC)
                 .format(instant)
         )
