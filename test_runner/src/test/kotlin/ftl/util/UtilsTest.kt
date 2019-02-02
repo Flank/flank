@@ -24,6 +24,19 @@ class UtilsTest {
     }
 
     @Test
+    fun uniqueObjectName_verifyPattern() {
+        val randomName = Utils.uniqueObjectName()
+        assertThat(randomName.length).isEqualTo(32)
+        assertThat(randomName[4]).isEqualTo('-')
+        assertThat(randomName[7]).isEqualTo('-')
+        assertThat(randomName[10]).isEqualTo('_')
+        assertThat(randomName[13]).isEqualTo('-')
+        assertThat(randomName[16]).isEqualTo('-')
+        assertThat(randomName[19]).isEqualTo('.')
+        assertThat(randomName[26]).isEqualTo('_')
+    }
+
+    @Test
     fun testExitCodeForFailed() {
         val testExecutions = listOf(
             createStepExecution(1, "Success"),
