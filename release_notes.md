@@ -14,7 +14,7 @@
 - [#479](https://github.com/TestArmada/flank/pull/479) Improve invalid iOS regex error message ([bootstraponline](https://github.com/bootstraponline))
 - [#481](https://github.com/TestArmada/flank/pull/481) Add iOS support for locale and orientation ([Macarse](https://github.com/Macarse))
 - [#482](https://github.com/TestArmada/flank/pull/482) Document Android code coverage with orchestrator on FTL ([bootstraponline](https://github.com/bootstraponline))
-- [#485](https://github.com/TestArmada/flank/pull/482) Replace : in folder name to improve Windows support. ([Sunil-plsr](https://github.com/Sunil-plsr))
+- [#485](https://github.com/TestArmada/flank/pull/485) Replace : in folder name to improve Windows support. ([Sunil-plsr](https://github.com/Sunil-plsr))
 - [#487](https://github.com/TestArmada/flank/pull/487) Document all Flank YAML properties in README ([bootstraponline](https://github.com/bootstraponline))
 
 ## v4.2.0
