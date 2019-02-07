@@ -12,7 +12,7 @@
 - Fix large number merging on iOS [#477](https://github.com/TestArmada/flank/pull/477) ([bootstraponline](https://github.com/bootstraponline))
 - Add iOS regular expression filtering for `test-targets` [#478](https://github.com/TestArmada/flank/pull/478) ([Macarse](https://github.com/Macarse))
 - Improve invalid iOS regex error message [#479](https://github.com/TestArmada/flank/pull/479) ([bootstraponline](https://github.com/bootstraponline))
-- Add iOS support for locale and orientation [#481](https://github.com/TestArmada/flank/pull/481) ([Macarse](https://github.com/Macarse)
+- Add iOS support for locale and orientation [#481](https://github.com/TestArmada/flank/pull/481) ([Macarse](https://github.com/Macarse))
 - Document Android code coverage with orchestrator on FTL [#482](https://github.com/TestArmada/flank/pull/482) ([bootstraponline](https://github.com/bootstraponline))
 - Replace : in folder name to improve Windows support. [#485](https://github.com/TestArmada/flank/pull/482) ([Sunil-plsr](https://github.com/Sunil-plsr))
 - Document all Flank YAML properties in README  [#487](https://github.com/TestArmada/flank/pull/487) ([bootstraponline](https://github.com/bootstraponline))
