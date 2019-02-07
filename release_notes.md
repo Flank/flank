@@ -1,6 +1,21 @@
+## v4.4.0 (unreleased)
+- 
+- 
+
 ## v4.3.0
 
-- 
+- [#436](https://github.com/TestArmada/flank/pull/436) Print how accurate test times are when using smart flank ([Macarse](https://github.com/Macarse))
+- [#462](https://github.com/TestArmada/flank/pull/462) Always find all iOS tests when sharding. ([bootstraponline](https://github.com/bootstraponline))
+- [#471](https://github.com/TestArmada/flank/pull/471) Add dynamic bucket counts for Smart Flank via `shardTime` ([Macarse](https://github.com/Macarse))
+- [#473](https://github.com/TestArmada/flank/pull/473) Add `disableSharding` flag ([Macarse](https://github.com/Macarse))
+- [#476](https://github.com/TestArmada/flank/pull/476) Retry matrix creation when FTL API errors. ([bootstraponline](https://github.com/bootstraponline))
+- [#477](https://github.com/TestArmada/flank/pull/477) Fix large number merging on iOS ([bootstraponline](https://github.com/bootstraponline))
+- [#478](https://github.com/TestArmada/flank/pull/478) Add iOS regular expression filtering for `test-targets` ([Macarse](https://github.com/Macarse))
+- [#479](https://github.com/TestArmada/flank/pull/479) Improve invalid iOS regex error message ([bootstraponline](https://github.com/bootstraponline))
+- [#481](https://github.com/TestArmada/flank/pull/481) Add iOS support for locale and orientation ([Macarse](https://github.com/Macarse))
+- [#482](https://github.com/TestArmada/flank/pull/482) Document Android code coverage with orchestrator on FTL ([bootstraponline](https://github.com/bootstraponline))
+- [#485](https://github.com/TestArmada/flank/pull/485) Replace : in folder name to improve Windows support. ([Sunil-plsr](https://github.com/Sunil-plsr))
+- [#487](https://github.com/TestArmada/flank/pull/487) Document all Flank YAML properties in README ([bootstraponline](https://github.com/bootstraponline))
 
 ## v4.2.0
 
