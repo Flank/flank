@@ -46,42 +46,107 @@ Run `test_runner/flank.ios.yml` with flank to verify iOS execution is working.
 # gcloud args match the official gcloud cli
 # https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/run
 gcloud:
-  # results-bucket: tmp_flank
-  record-video: true
-  timeout: 30m
-  async: false
-  # project: delta-essence-114723
-  # results-history-name: ios-history
+  # -- GcloudYml --
 
-  # test and xctestrun-file are the only required args
+  ## The name of a Google Cloud Storage bucket where raw test results will be stored
+  # results-bucket: tmp_flank
+
+  ## The name of a unique Google Cloud Storage object within the results bucket where raw test results will be stored
+  ## (default: a timestamp with a random suffix).
+  # results-dir: tmp
+
+  ## Enable video recording during the test. Enabled by default, use --no-record-video to disable.
+  # record-video: true
+
+  ## The max time this test execution can run before it is cancelled (default: 15m).
+  ## It does not include any time necessary to prepare and clean up the target device.
+  ## The maximum possible testing time is 30m on physical devices and 60m on virtual devices.
+  ## The TIMEOUT units can be h, m, or s. If no unit is given, seconds are assumed.
+  # timeout: 30m
+
+  ## Invoke a test asynchronously without waiting for test results.
+  # async: false
+
+  ## The billing enabled Google Cloud Platform project name to use
+  # project: delta-essence-114723
+
+  ## The history name for your test results (an arbitrary string label; default: the application's label from the APK manifest).
+  ## All tests which use the same history name will have their results grouped together in the Firebase console in a time-ordered test history list.
+  # results-history-name: android-history
+
+  ## Experimental!
+  ## The number of times a TestExecution should be re-attempted if one or more\nof its test cases fail for any reason.
+  ## The maximum number of reruns allowed is 10. Default is 0, which implies no reruns.
+  # flaky-test-attempts: 0
+
+  # -- IosGcloudYml --
+
+  ## The path to the test package (a zip file containing the iOS app and XCTest files).
+  ## The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://.
+  ## Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file is specified.
   test: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip
+
+  ## The path to an .xctestrun file that will override any .xctestrun file contained in the --test package.
+  ## Because the .xctestrun file contains environment variables along with test methods to run and/or ignore,
+  ## this can be useful for customizing or sharding test suites. The given path should be in the local filesystem.
+  ## Note: this path should usually be pointing to the xctestrun file within the derived data folder
   xctestrun-file: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun
-  xcode-version: 9.2
-  device:
-    - model: iphone8
-      version: 11.2
-      locale: en
-      orientation: portrait
-  # The number of times to retry failed tests. Default is 0. Max is 10.
-  flaky-test-attempts: 0
+
+  ## The version of Xcode that should be used to run an XCTest.
+  ## Defaults to the latest Xcode version supported in Firebase Test Lab.
+  ## This Xcode version must be supported by all iOS versions selected in the test matrix.
+  # xcode-version: 10.1
+
+  ## A list of DIMENSION=VALUE pairs which specify a target device to test against.
+  ## This flag may be repeated to specify multiple devices.
+  ## The four device dimensions are: model, version, locale, and orientation.
+  # device:
+  #  - model: iphone8
+  #   version: 12.0
+  #   locale: en
+  #   orientation: portrait
+  # - model: iphonex
+  #   version: 12.0
+  #   locale: es_ES
+  #   orientation: landscape
 
 flank:
-  # test shards - the amount of groups to split the test suite into
-  # set to -1 to use one shard per test.
-  testShards: 1
-  # repeat tests - the amount of times to run the tests.
-  # 1 runs the tests once. 10 runs all the tests 10x
-  repeatTests: 1
-  # always run - these tests are inserted at the beginning of every shard
-  # useful if you need to grant permissions or login before other tests run
-  test-targets-always-run:
-    - a/testGrantPermissions
-  # test targets - a list of tests to run. omit to run all tests.
-  test-targets:
-    - b/testBasicSelection
-  # regex is matched against bucket paths, for example: 2019-01-09_00:18:07.314000_hCMY/shard_0/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun
-  files-to-download:
-    - .*\.png$
+  # -- FlankYml --
+
+  ## test shards - the amount of groups to split the test suite into
+  ## set to -1 to use one shard per test. default: 1
+  # testShards: 1
+
+  ## shard time - the amount of time tests within a shard should take
+  ## default: -1 (unlimited)
+  ## when testShards is -1 and shardTime is > 0, the shard count will
+  ## be set dynamically based on time.
+  # shardTime: -1
+
+  ## repeat tests - the amount of times to run the tests.
+  ## 1 runs the tests once. 10 runs all the tests 10x
+  # repeatTests: 1
+
+  ## Google cloud storage path to store the JUnit XML results from the last run.
+  # smartFlankGcsPath: gs://tmp_flank/flank/test_app_ios.xml
+
+  ## Disables sharding. Useful for parameterized tests.
+  # disableSharding: false
+
+  ## always run - these tests are inserted at the beginning of every shard
+  ## useful if you need to grant permissions or login before other tests run
+  # test-targets-always-run:
+  #   - className/testName
+
+  ## regex is matched against bucket paths, for example: 2019-01-09_00:18:07.314000_hCMY/shard_0/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun
+  # files-to-download:
+  #   - .*\.mp4$
+
+  # -- IosFlankYml --
+
+  ## test targets - a list of tests to run. omit to run all tests.
+  # test-targets:
+  #   - className/testName
 ```
 
 ### Android example
@@ -94,49 +159,128 @@ Run `test_runner/flank.yml` with flank to verify Android execution is working.
 
 ```yaml
 # gcloud args match the official gcloud cli
-# https://cloud.google.com/sdk/gcloud/reference/firebase/test/android/run
+# See the docs for full gcloud details https://cloud.google.com/sdk/gcloud/reference/firebase/test/android/run
 gcloud:
-  results-bucket: tmp_flank
-  record-video: true
-  timeout: 30m
-  async: false
-  project: delta-essence-114723
-  results-history-name: android-history
+  # -- GcloudYml --
 
-  # test and app are the only required args
+  ## The name of a Google Cloud Storage bucket where raw test results will be stored
+  # results-bucket: tmp_flank
+
+  ## The name of a unique Google Cloud Storage object within the results bucket where raw test results will be stored
+  ## (default: a timestamp with a random suffix).
+  # results-dir: tmp
+
+  ## Enable video recording during the test. Enabled by default, use --no-record-video to disable.
+  # record-video: true
+
+  ## The max time this test execution can run before it is cancelled (default: 15m).
+  ## It does not include any time necessary to prepare and clean up the target device.
+  ## The maximum possible testing time is 30m on physical devices and 60m on virtual devices.
+  ## The TIMEOUT units can be h, m, or s. If no unit is given, seconds are assumed.
+  # timeout: 30m
+
+  ## Invoke a test asynchronously without waiting for test results.
+  # async: false
+
+  ## The billing enabled Google Cloud Platform project name to use
+  # project: delta-essence-114723
+
+  ## The history name for your test results (an arbitrary string label; default: the application's label from the APK manifest).
+  ## All tests which use the same history name will have their results grouped together in the Firebase console in a time-ordered test history list.
+  # results-history-name: android-history
+
+  ## Experimental!
+  ## The number of times a TestExecution should be re-attempted if one or more\nof its test cases fail for any reason.
+  ## The maximum number of reruns allowed is 10. Default is 0, which implies no reruns.
+  # flaky-test-attempts: 0
+
+  # -- AndroidGcloudYml --
+
+  ## The path to the application binary file.
+  ## The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.
+  ## Android App Bundles are specified as .aab, all other files are assumed to be APKs.
   app: ../test_app/apks/app-debug.apk
+
+  ## The path to the binary file containing instrumentation tests.
+  ## The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://.
   test: ../test_app/apks/app-debug-androidTest.apk
-  auto-google-login: true
-  use-orchestrator: true
-  environment-variables:
-    clearPackageData: true
-  directories-to-pull:
-    - /sdcard/screenshots
-  performance-metrics: true
-  test-targets:
-    # supported are class, notClass, size, annotation, notAnnotation, package, notPackage, testFile, notTestFile
-    # as described in https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner
-    - class com.example.app.ExampleUiTest#testPasses
-  device:
-    - model: NexusLowRes
-      version: 28
-  # The number of times to retry failed tests. Default is 0. Max is 10.
-  flaky-test-attempts: 0
+
+  ## Automatically log into the test device using a preconfigured Google account before beginning the test.
+  ## Enabled by default, use --no-auto-google-login to disable.
+  # auto-google-login: true
+
+  ## Whether each test runs in its own Instrumentation instance with the Android Test Orchestrator
+  ## (default: Orchestrator is used). Disable with --no-use-orchestrator.
+  ## See https://developer.android.com/training/testing/junit-runner.html#using-android-test-orchestrator
+  # use-orchestrator: true
+
+  ## A comma-separated, key=value map of environment variables and their desired values. This flag is repeatable.
+  ## The environment variables are mirrored as extra options to the am instrument -e KEY1 VALUE1 … command and
+  ## passed to your test runner (typically AndroidJUnitRunner)
+  # environment-variables:
+  #  coverage: true
+  #  coverageFilePath: /sdcard/
+  #  clearPackageData: true
+
+  ## A list of paths that will be copied from the device's storage to the designated results bucket after the test
+  ## is complete. These must be absolute paths under /sdcard or /data/local/tmp
+  # directories-to-pull:
+  #   - /sdcard/
+
+  ## Monitor and record performance metrics: CPU, memory, network usage, and FPS (game-loop only).
+  ## Enabled by default, use --no-performance-metrics to disable.
+  # performance-metrics: true
+
+  ## A list of one or more test target filters to apply (default: run all test targets).
+  ## Each target filter must be fully qualified with the package name, class name, or test annotation desired.
+  ## Supported test filters by am instrument -e … include:
+  ## class, notClass, size, annotation, notAnnotation, package, notPackage, testFile, notTestFile
+  ## See https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner for more information.
+  # test-targets:
+  #  - class com.example.app.ExampleUiTest#testPasses
+
+  ## A list of DIMENSION=VALUE pairs which specify a target device to test against.
+  ## This flag may be repeated to specify multiple devices.
+  ## The four device dimensions are: model, version, locale, and orientation.
+  # device:
+  # - model: NexusLowRes
+  #   version: 28
+  #   locale: en
+  #   orientation: portrait
+  # - model: NexusLowRes
+  #   version: 27
 
 flank:
-  # test shards - the amount of groups to split the test suite into
-  # set to -1 to use one shard per test.
-  testShards: 1
-  # repeat tests - the amount of times to run the tests.
-  # 1 runs the tests once. 10 runs all the tests 10x
-  repeatTests: 1
-  # always run - these tests are inserted at the beginning of every shard
-  # useful if you need to grant permissions or login before other tests run
-  test-targets-always-run:
-    - class com.example.app.ExampleUiTest#testPasses
- # regex is matched against bucket paths, for example: 2019-01-09_00:13:06.106000_YCKl/shard_0/NexusLowRes-28-en-portrait/bugreport.txt
-  files-to-download:
-    - .*\.mp4$
+  # -- FlankYml --
+
+  ## test shards - the amount of groups to split the test suite into
+  ## set to -1 to use one shard per test. default: 1
+  # testShards: 1
+
+  ## shard time - the amount of time tests within a shard should take
+  ## default: -1 (unlimited)
+  ## when testShards is -1 and shardTime is > 0, the shard count will
+  ## be set dynamically based on time.
+  # shardTime: -1
+
+  ## repeat tests - the amount of times to run the tests.
+  ## 1 runs the tests once. 10 runs all the tests 10x
+  # repeatTests: 1
+
+  ## Google cloud storage path to store the JUnit XML results from the last run.
+  # smartFlankGcsPath: gs://tmp_flank/flank/test_app_android.xml
+
+  ## Disables sharding. Useful for parameterized tests.
+  # disableSharding: false
+
+  ## always run - these tests are inserted at the beginning of every shard
+  ## useful if you need to grant permissions or login before other tests run
+  # test-targets-always-run:
+  #   - class com.example.app.ExampleUiTest#testPasses
+
+  ## regex is matched against bucket paths, for example: 2019-01-09_00:13:06.106000_YCKl/shard_0/NexusLowRes-28-en-portrait/bugreport.txt
+  # files-to-download:
+  #   - .*\.mp4$
 ```
 
 ### Android code coverage
