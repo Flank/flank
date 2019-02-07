@@ -87,6 +87,8 @@ gcloud:
   #   version: 28
   #   locale: en
   #   orientation: portrait
+  # - model: NexusLowRes
+  #   version: 27
 
 flank:
   # -- FlankYml --

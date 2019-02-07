@@ -89,6 +89,7 @@ gcloud:
   ## The path to an .xctestrun file that will override any .xctestrun file contained in the --test package.
   ## Because the .xctestrun file contains environment variables along with test methods to run and/or ignore,
   ## this can be useful for customizing or sharding test suites. The given path should be in the local filesystem.
+  ## Note: this path should usually be pointing to the xctestrun file within the derived data folder
   xctestrun-file: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun
 
   ## The version of Xcode that should be used to run an XCTest.
@@ -104,6 +105,10 @@ gcloud:
   #   version: 12.0
   #   locale: en
   #   orientation: portrait
+  # - model: iphonex
+  #   version: 12.0
+  #   locale: es_ES
+  #   orientation: landscape
 
 flank:
   # -- FlankYml --
@@ -242,6 +247,8 @@ gcloud:
   #   version: 28
   #   locale: en
   #   orientation: portrait
+  # - model: NexusLowRes
+  #   version: 27
 
 flank:
   # -- FlankYml --
