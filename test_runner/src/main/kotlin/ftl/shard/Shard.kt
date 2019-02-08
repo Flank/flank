@@ -65,6 +65,11 @@ object Shard {
 
         val shardsByTime = Math.ceil(testsTotalTime / args.shardTime).toInt()
 
+        // If there is no limit, use the calculated amount
+        if (args.testShards == -1) {
+            return shardsByTime
+        }
+
         // We need to respect the testShards
         return Math.min(shardsByTime, args.testShards)
     }

@@ -142,4 +142,13 @@ class ShardTest {
 
         assertThat(result).isEqualTo(2)
     }
+
+    @Test
+    fun createShardsByShardTime_unlimitedShardsShouldReturnTheRightAmount() {
+        val testsToRun = listOf("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g")
+        val suite = sample()
+        val result = Shard.shardCountByTime(testsToRun, suite, mockArgs(-1, 7))
+
+        assertThat(result).isEqualTo(3)
+    }
 }
