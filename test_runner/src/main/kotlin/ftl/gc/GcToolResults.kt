@@ -76,7 +76,7 @@ object GcToolResults {
     }
 
     fun getDefaultBucket(projectId: String): String? {
-        val response = GcToolResults.service.Projects().initializeSettings(projectId).execute()
+        val response = GcToolResults.service.Projects().initializeSettings(projectId).executeWithRetry()
         return response.defaultBucket
     }
 }
