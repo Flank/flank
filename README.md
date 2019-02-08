@@ -113,14 +113,14 @@ gcloud:
 flank:
   # -- FlankYml --
 
-  ## test shards - the amount of groups to split the test suite into
+  ## test shards - the maxmimum amount of groups to split the test suite into
   ## set to -1 to use one shard per test. default: 1
   # testShards: 1
 
   ## shard time - the amount of time tests within a shard should take
+  ## when set to > 0, the shard count is dynamically set based on time up to the maxmimum limit defined by testShards
+  ## 2 minutes (120) is recommended.
   ## default: -1 (unlimited)
-  ## when testShards is -1 and shardTime is > 0, the shard count will
-  ## be set dynamically based on time.
   # shardTime: -1
 
   ## repeat tests - the amount of times to run the tests.
@@ -258,9 +258,9 @@ flank:
   # testShards: 1
 
   ## shard time - the amount of time tests within a shard should take
+  ## when set to > 0, the shard count is dynamically set based on time up to the maxmimum limit defined by testShards
+  ## 2 minutes (120) is recommended.
   ## default: -1 (unlimited)
-  ## when testShards is -1 and shardTime is > 0, the shard count will
-  ## be set dynamically based on time.
   # shardTime: -1
 
   ## repeat tests - the amount of times to run the tests.

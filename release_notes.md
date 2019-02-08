@@ -1,6 +1,9 @@
 ## v4.4.0 (unreleased)
 - 
-- 
+
+## v4.3.1
+
+- [#491](https://github.com/TestArmada/flank/pull/491) Fix `shardTime` when `testShards` is `-1` ([Macarse](https://github.com/Macarse))
 
 ## v4.3.0
 
