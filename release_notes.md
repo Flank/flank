@@ -1,5 +1,6 @@
 ## v4.4.0 (unreleased)
-- 
+
+- [#493](https://github.com/TestArmada/flank/pull/493) Fix getDefaultBucket timeout. ([bootstraponline](https://github.com/bootstraponline))
 
 ## v4.3.1
 
