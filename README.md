@@ -394,10 +394,10 @@ flank:
 
 Download Flank from GitHub releases.
 
-Stable
+Stable. Get the latest [stable version number](https://github.com/TestArmada/flank/releases/latest) and replace the `XXX` with the version number.
 
 ```
-wget --quiet https://github.com/TestArmada/flank/releases/download/v3.0.0/flank.jar -O ./flank.jar
+wget --quiet https://github.com/TestArmada/flank/releases/download/vXXX/flank.jar -O ./flank.jar
 java -jar ./flank.jar android run
 ```
 
