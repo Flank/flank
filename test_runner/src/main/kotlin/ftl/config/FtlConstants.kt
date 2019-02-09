@@ -57,7 +57,11 @@ object FtlConstants {
                     .build()
             )
         } else {
-            // https://github.com/googleapis/google-auth-library-java
+            // Authenticate with https://github.com/googleapis/google-auth-library-java
+            // Scope is required.
+            // https://developers.google.com/identity/protocols/googlescopes
+            // https://developers.google.com/identity/protocols/application-default-credentials
+            // https://cloud.google.com/sdk/gcloud/reference/alpha/compute/instances/set-scopes
             HttpCredentialsAdapter(
                 ServiceAccountCredentials.getApplicationDefault()
                     .createScoped(listOf("https://www.googleapis.com/auth/cloud-platform"))
