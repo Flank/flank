@@ -1,15 +1,19 @@
 package ftl.config
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
+import com.google.api.client.googleapis.testing.auth.oauth2.MockGoogleCredential
 import com.google.api.client.googleapis.util.Utils
+import com.google.api.client.http.HttpRequestInitializer
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.JsonFactory
 import com.google.auth.http.HttpCredentialsAdapter
 import com.google.auth.oauth2.AccessToken
 import com.google.auth.oauth2.GoogleCredentials
+import com.google.auth.oauth2.ServiceAccountCredentials
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
+import ftl.http.TimeoutHttpRequestInitializer
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.Date
@@ -45,15 +49,20 @@ object FtlConstants {
         Paths.get(System.getProperty("user.home"), ".config/gcloud/application_default_credentials.json")
     }
 
-    val credential by lazy {
-        val cred = if (useMock) {
-            GoogleCredentials.newBuilder().setAccessToken(AccessToken("ss", Date(9999))).build()
+    val credential: HttpRequestInitializer by lazy {
+        if (useMock) {
+            TimeoutHttpRequestInitializer(
+                MockGoogleCredential.Builder()
+                    .setTransport(MockGoogleCredential.newMockHttpTransportWithSampleTokenResponse())
+                    .build()
+            )
         } else {
-            GoogleCredentials.getApplicationDefault()
+            // https://github.com/googleapis/google-auth-library-java
+            HttpCredentialsAdapter(
+                ServiceAccountCredentials.getApplicationDefault()
+                    .createScoped(listOf("https://www.googleapis.com/auth/cloud-platform"))
+            )
         }
-
-        // https://github.com/googleapis/google-auth-library-java
-        HttpCredentialsAdapter(cred)
     }
 
     const val localResultsDir = "results"
