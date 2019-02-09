@@ -1,17 +1,12 @@
 package ftl.gc
 
-import com.google.api.client.auth.oauth2.Credential
 import com.google.api.client.auth.oauth2.StoredCredential
-import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp
-import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
 import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.client.util.store.FileDataStoreFactory
-import ftl.config.FtlConstants
 import java.io.File
-import java.io.IOException
 
 // https://github.com/googleapis/google-oauth-java-client
 // GoogleAuthorizationCodeFlow usage based on https://developers.google.com/sheets/api/quickstart/java
@@ -52,23 +47,11 @@ object GcAuth {
             .setAccessToken(accessToken)
     }
 
-    private fun Credential.toGoogleCredential(): GoogleCredential {
-        return createGoogleCredential(this.accessToken)
-    }
-
     private fun StoredCredential.toGoogleCredential(): GoogleCredential {
         return createGoogleCredential(this.accessToken)
     }
 
     private fun defaultCredential(): GoogleCredential? {
         return flow.credentialDataStore[DATA_STORE_KEY]?.toGoogleCredential()
-    }
-
-    @Throws(IOException::class)
-    fun authorizeUser(): GoogleCredential {
-        if (FtlConstants.useMock) return GoogleCredential()
-
-        val authCode = AuthorizationCodeInstalledApp(flow, LocalServerReceiver())
-        return defaultCredential() ?: authCode.authorize(DATA_STORE_KEY).toGoogleCredential()
     }
 }

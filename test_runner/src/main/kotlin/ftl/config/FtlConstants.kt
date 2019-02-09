@@ -1,21 +1,18 @@
 package ftl.config
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
-import com.google.api.client.googleapis.testing.auth.oauth2.MockGoogleCredential
 import com.google.api.client.googleapis.util.Utils
-import com.google.api.client.http.HttpRequestInitializer
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.JsonFactory
+import com.google.auth.http.HttpCredentialsAdapter
 import com.google.auth.oauth2.AccessToken
 import com.google.auth.oauth2.GoogleCredentials
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
-import ftl.gc.GcAuth
-import ftl.http.TimeoutHttpRequestInitializer
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.util.Date
 
 object FtlConstants {
     var useMock = false
@@ -48,35 +45,15 @@ object FtlConstants {
         Paths.get(System.getProperty("user.home"), ".config/gcloud/application_default_credentials.json")
     }
 
-    private val credentialObj: GoogleCredential by lazy {
-        try {
-            // Scope is required.
-            // https://developers.google.com/identity/protocols/googlescopes
-            // https://developers.google.com/identity/protocols/application-default-credentials
-            // https://cloud.google.com/sdk/gcloud/reference/alpha/compute/instances/set-scopes
-            return@lazy if (useMock) {
-                MockGoogleCredential.Builder()
-                    .setTransport(MockGoogleCredential.newMockHttpTransportWithSampleTokenResponse())
-                    .build()
-            } else {
-                if (GcAuth.hasUserAuth()) {
-                    GcAuth.authorizeUser()
-                } else {
-                    GoogleCredential.getApplicationDefault()
-                        .createScoped(listOf("https://www.googleapis.com/auth/cloud-platform"))
-                }
-            }
-        } catch (e: Exception) {
-            throw RuntimeException(e)
+    val credential by lazy {
+        val cred = if (useMock) {
+            GoogleCredentials.newBuilder().setAccessToken(AccessToken("ss", Date(9999))).build()
+        } else {
+            GoogleCredentials.getApplicationDefault()
         }
-    }
 
-    val credential: HttpRequestInitializer by lazy {
-        return@lazy TimeoutHttpRequestInitializer(credentialObj)
-    }
-
-    val googleCredentials: GoogleCredentials by lazy {
-        GoogleCredentials.create(AccessToken(credentialObj.accessToken, null))
+        // https://github.com/googleapis/google-auth-library-java
+        HttpCredentialsAdapter(cred)
     }
 
     const val localResultsDir = "results"

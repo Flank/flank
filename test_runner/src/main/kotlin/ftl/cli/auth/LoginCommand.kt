@@ -1,6 +1,5 @@
 package ftl.cli.auth
 
-import ftl.gc.GcAuth
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -16,8 +15,6 @@ import picocli.CommandLine
 )
 class LoginCommand : Runnable {
     override fun run() {
-        GcAuth.authorizeUser()
-        println("Saving credential to ${GcAuth.CRED.absolutePath}")
     }
 
     @CommandLine.Option(

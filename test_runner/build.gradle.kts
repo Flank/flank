@@ -114,8 +114,9 @@ dependencies {
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${Versions.JACKSON}")
     compile("com.fasterxml.woodstox:woodstox-core:5.1.0")
 
-    // https://github.com/googleapis/google-oauth-java-client
-    compile("com.google.oauth-client:google-oauth-client-jetty:1.23.0")
+    // End of Life https://github.com/googleapis/google-oauth-java-client
+    // Use https://github.com/googleapis/google-auth-library-java instead
+    compile("com.google.auth:google-auth-library-oauth2-http:0.13.0")
 
     // https://github.com/jhy/jsoup/releases
     testImplementation("org.jsoup:jsoup:1.11.3")
