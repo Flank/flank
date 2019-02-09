@@ -1,18 +1,16 @@
 package ftl.config
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
 import com.google.api.client.googleapis.testing.auth.oauth2.MockGoogleCredential
 import com.google.api.client.googleapis.util.Utils
 import com.google.api.client.http.HttpRequestInitializer
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.JsonFactory
-import com.google.auth.oauth2.AccessToken
-import com.google.auth.oauth2.GoogleCredentials
+import com.google.auth.http.HttpCredentialsAdapter
+import com.google.auth.oauth2.ServiceAccountCredentials
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
-import ftl.gc.GcAuth
 import ftl.http.TimeoutHttpRequestInitializer
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -48,35 +46,24 @@ object FtlConstants {
         Paths.get(System.getProperty("user.home"), ".config/gcloud/application_default_credentials.json")
     }
 
-    private val credentialObj: GoogleCredential by lazy {
-        try {
+    val credential: HttpRequestInitializer by lazy {
+        if (useMock) {
+            TimeoutHttpRequestInitializer(
+                MockGoogleCredential.Builder()
+                    .setTransport(MockGoogleCredential.newMockHttpTransportWithSampleTokenResponse())
+                    .build()
+            )
+        } else {
+            // Authenticate with https://github.com/googleapis/google-auth-library-java
             // Scope is required.
             // https://developers.google.com/identity/protocols/googlescopes
             // https://developers.google.com/identity/protocols/application-default-credentials
             // https://cloud.google.com/sdk/gcloud/reference/alpha/compute/instances/set-scopes
-            return@lazy if (useMock) {
-                MockGoogleCredential.Builder()
-                    .setTransport(MockGoogleCredential.newMockHttpTransportWithSampleTokenResponse())
-                    .build()
-            } else {
-                if (GcAuth.hasUserAuth()) {
-                    GcAuth.authorizeUser()
-                } else {
-                    GoogleCredential.getApplicationDefault()
-                        .createScoped(listOf("https://www.googleapis.com/auth/cloud-platform"))
-                }
-            }
-        } catch (e: Exception) {
-            throw RuntimeException(e)
+            HttpCredentialsAdapter(
+                ServiceAccountCredentials.getApplicationDefault()
+                    .createScoped(listOf("https://www.googleapis.com/auth/cloud-platform"))
+            )
         }
-    }
-
-    val credential: HttpRequestInitializer by lazy {
-        return@lazy TimeoutHttpRequestInitializer(credentialObj)
-    }
-
-    val googleCredentials: GoogleCredentials by lazy {
-        GoogleCredentials.create(AccessToken(credentialObj.accessToken, null))
     }
 
     const val localResultsDir = "results"
