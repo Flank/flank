@@ -39,7 +39,7 @@ app, test, and xctestrun-file support `~`, environment variables, and globs (*, 
 Run `test_runner/flank.ios.yml` with flank to verify iOS execution is working.
 
 - `cd test_runner/`
-- `./gradlew clean assemble fatJar`
+- `./gradlew clean build fatJar`
 - `java -jar ./build/libs/flank-*.jar firebase test ios run`
 
 ```yaml
@@ -154,7 +154,7 @@ flank:
 Run `test_runner/flank.yml` with flank to verify Android execution is working.
 
 - `cd test_runner/`
-- `./gradlew clean assemble fatJar`
+- `./gradlew clean build fatJar`
 - `java -jar ./build/libs/flank-*.jar firebase test android run`
 
 ```yaml
