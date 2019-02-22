@@ -74,9 +74,11 @@ object TestArtifact {
 
     private fun remoteAssetLink(): Element {
         val doc = getHtml()
-        val downloadLinks = doc.select("li.d-block > a")
+        val downloadLinks = doc.select("a")
+        // /Flank/test_artifacts/releases/download/latest/2552E672A1366D1B3A06452AA7256ABC.zip
+        val zipRegex = Regex(".*releases/download/latest/\\H{32}\\.zip$")
         return downloadLinks.find {
-            it.attr("href").endsWith(".zip") && it.attr("href").contains("releases/download")
+            it.attr("href").matches(zipRegex)
         } ?: throw RuntimeException("Download link not found in html!")
     }
 
