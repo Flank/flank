@@ -4,6 +4,7 @@ import picocli.CommandLine
 object Debug {
 
     @JvmStatic
+    @Suppress("UnusedPrivateMember") // Suppress detekt rule
     fun main(args: Array<String>) {
         // GoogleApiLogger.logAllToStdout()
 

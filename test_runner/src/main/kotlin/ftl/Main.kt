@@ -38,7 +38,7 @@ class Main : Runnable {
     private var printVersion = false
 
     companion object {
-       @JvmStatic
+        @JvmStatic
         fun main(args: Array<String>) {
             CommandLine.run<Runnable>(Main(), System.out, *args)
         }
