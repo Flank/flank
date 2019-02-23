@@ -127,13 +127,13 @@ dependencies {
     testImplementation("com.github.stefanbirkner:system-rules:1.19.0")
 
     // https://github.com/ktorio/ktor/releases
-    val ktorVersion = "1.1.1"
-    testImplementation("io.ktor:ktor-server-core:$ktorVersion")
-    testImplementation("io.ktor:ktor-server-netty:$ktorVersion")
-    testImplementation("io.ktor:ktor-gson:$ktorVersion")
+    val ktorVersion = "1.1.3"
+    compile("io.ktor:ktor-server-core:$ktorVersion")
+    compile("io.ktor:ktor-server-netty:$ktorVersion")
+    compile("io.ktor:ktor-gson:$ktorVersion")
 
     // https://github.com/qos-ch/logback/releases
-    testImplementation("ch.qos.logback:logback-classic:1.2.3")
+    compile("ch.qos.logback:logback-classic:1.2.3")
     // mockito-inline is used to mock final classes
     // https://github.com/mockito/mockito/releases
     testImplementation("org.mockito:mockito-inline:2.23.4")

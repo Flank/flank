@@ -1,5 +1,8 @@
-## v4.4.0 (unreleased)
+## v?
 
+## v4.4.0
+
+- [#505](https://github.com/TestArmada/flank/pull/505) Fix `flank auth login` by using `google-auth-library-java`. ([bootstraponline](https://github.com/bootstraponline))
 - [#501](https://github.com/TestArmada/flank/pull/501) Fix nullability check in SavedMatrix. ([bootstraponline](https://github.com/bootstraponline))
 - [#493](https://github.com/TestArmada/flank/pull/493) Fix getDefaultBucket timeout. ([bootstraponline](https://github.com/bootstraponline))
 

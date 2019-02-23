@@ -1,5 +1,6 @@
 package ftl.cli.auth
 
+import ftl.gc.UserAuth
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -15,6 +16,7 @@ import picocli.CommandLine
 )
 class LoginCommand : Runnable {
     override fun run() {
+        UserAuth().request()
     }
 
     @CommandLine.Option(

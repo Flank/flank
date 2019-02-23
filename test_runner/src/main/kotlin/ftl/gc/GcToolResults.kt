@@ -9,14 +9,14 @@ import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.config.FtlConstants.applicationName
-import ftl.config.FtlConstants.credential
+import ftl.config.FtlConstants.httpCredential
 import ftl.config.FtlConstants.httpTransport
 import ftl.http.executeWithRetry
 
 object GcToolResults {
 
     val service: ToolResults by lazy {
-        val builder = ToolResults.Builder(httpTransport, JSON_FACTORY, credential)
+        val builder = ToolResults.Builder(httpTransport, JSON_FACTORY, httpCredential)
 
         if (FtlConstants.useMock) builder.rootUrl = FtlConstants.localhost
 

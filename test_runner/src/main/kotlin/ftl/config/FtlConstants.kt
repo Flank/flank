@@ -5,13 +5,17 @@ import com.google.api.client.googleapis.util.Utils
 import com.google.api.client.http.HttpRequestInitializer
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.JsonFactory
+import com.google.auth.oauth2.AccessToken
+import com.google.auth.oauth2.GoogleCredentials
 import com.google.auth.oauth2.ServiceAccountCredentials
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
+import ftl.gc.UserAuth
 import ftl.http.HttpTimeoutIncrease
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.util.Date
 
 object FtlConstants {
     var useMock = false
@@ -44,7 +48,15 @@ object FtlConstants {
         Paths.get(System.getProperty("user.home"), ".config/gcloud/application_default_credentials.json")
     }
 
-    val credential: HttpRequestInitializer by lazy {
+    val credential: GoogleCredentials by lazy {
+        when {
+            useMock -> GoogleCredentials.create(AccessToken("mock", Date()))
+            UserAuth.exists() -> UserAuth.load()
+            else -> ServiceAccountCredentials.getApplicationDefault()
+        }
+    }
+
+    val httpCredential: HttpRequestInitializer by lazy {
         if (useMock) {
             HttpRequestInitializer {}
         } else {
@@ -53,10 +65,7 @@ object FtlConstants {
             // https://developers.google.com/identity/protocols/googlescopes
             // https://developers.google.com/identity/protocols/application-default-credentials
             // https://cloud.google.com/sdk/gcloud/reference/alpha/compute/instances/set-scopes
-            HttpTimeoutIncrease(
-                ServiceAccountCredentials.getApplicationDefault()
-                    .createScoped(listOf("https://www.googleapis.com/auth/cloud-platform"))
-            )
+            HttpTimeoutIncrease(credential.createScoped(listOf("https://www.googleapis.com/auth/cloud-platform")))
         }
     }
 
