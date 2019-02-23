@@ -1,5 +1,7 @@
 ## v?
 
+- Add bugsnag reporting to detect Flank crashes.
+
 ## v4.4.0
 
 - [#505](https://github.com/TestArmada/flank/pull/505) Fix `flank auth login` by using `google-auth-library-java`. ([bootstraponline](https://github.com/bootstraponline))

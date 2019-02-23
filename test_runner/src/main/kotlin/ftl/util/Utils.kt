@@ -110,6 +110,16 @@ object Utils {
             ?: throw RuntimeException("Unable to find resource: $name")
     }
 
+    // app version: flank_snapshot
+    fun readVersion(): String {
+        return readTextResource("version.txt").trim()
+    }
+
+    // git commit name: 5b0d23215e3bd90e5f9c1c57149320634aad8008
+    fun readRevision(): String {
+        return readTextResource("revision.txt").trim()
+    }
+
     fun readTextResource(name: String): String {
         return getResource(name).bufferedReader().use { it.readText() }
     }
