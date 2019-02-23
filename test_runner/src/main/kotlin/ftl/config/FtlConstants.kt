@@ -1,7 +1,6 @@
 package ftl.config
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
-import com.google.api.client.googleapis.testing.auth.oauth2.MockGoogleCredential
 import com.google.api.client.googleapis.util.Utils
 import com.google.api.client.http.HttpRequestInitializer
 import com.google.api.client.http.javanet.NetHttpTransport
@@ -11,7 +10,6 @@ import com.google.auth.oauth2.ServiceAccountCredentials
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
-import ftl.http.TimeoutHttpRequestInitializer
 import java.nio.file.Path
 import java.nio.file.Paths
 
@@ -48,11 +46,7 @@ object FtlConstants {
 
     val credential: HttpRequestInitializer by lazy {
         if (useMock) {
-            TimeoutHttpRequestInitializer(
-                MockGoogleCredential.Builder()
-                    .setTransport(MockGoogleCredential.newMockHttpTransportWithSampleTokenResponse())
-                    .build()
-            )
+            HttpRequestInitializer {}
         } else {
             // Authenticate with https://github.com/googleapis/google-auth-library-java
             // Scope is required.
