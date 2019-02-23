@@ -11,15 +11,11 @@ import com.google.auth.oauth2.ServiceAccountCredentials
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
-import ftl.config.FtlConstants.credential
-import ftl.config.FtlConstants.defaultAndroidConfig
-import ftl.config.FtlConstants.defaultIosConfig
-import ftl.config.FtlConstants.useMock
 import ftl.gc.UserAuth
 import ftl.http.HttpTimeoutIncrease
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.util.*
+import java.util.Date
 
 object FtlConstants {
     var useMock = false
