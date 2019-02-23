@@ -5,6 +5,7 @@ import com.google.api.client.googleapis.util.Utils
 import com.google.api.client.http.HttpRequestInitializer
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.JsonFactory
+import com.google.auth.oauth2.AccessToken
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.auth.oauth2.ServiceAccountCredentials
 import ftl.args.AndroidArgs
@@ -18,6 +19,7 @@ import ftl.gc.UserAuth
 import ftl.http.HttpTimeoutIncrease
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.util.*
 
 object FtlConstants {
     var useMock = false
@@ -51,10 +53,10 @@ object FtlConstants {
     }
 
     val credential: GoogleCredentials by lazy {
-        if (UserAuth.exists()) {
-            UserAuth.load()
-        } else {
-            ServiceAccountCredentials.getApplicationDefault()
+        when {
+            useMock -> GoogleCredentials.create(AccessToken("mock", Date()))
+            UserAuth.exists() -> UserAuth.load()
+            else -> ServiceAccountCredentials.getApplicationDefault()
         }
     }
 
