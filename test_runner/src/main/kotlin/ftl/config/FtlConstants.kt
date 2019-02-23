@@ -10,6 +10,7 @@ import com.google.auth.oauth2.ServiceAccountCredentials
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
+import ftl.http.HttpTimeoutIncrease
 import java.nio.file.Path
 import java.nio.file.Paths
 
@@ -53,7 +54,7 @@ object FtlConstants {
             // https://developers.google.com/identity/protocols/googlescopes
             // https://developers.google.com/identity/protocols/application-default-credentials
             // https://cloud.google.com/sdk/gcloud/reference/alpha/compute/instances/set-scopes
-            HttpCredentialsAdapter(
+            HttpTimeoutIncrease(
                 ServiceAccountCredentials.getApplicationDefault()
                     .createScoped(listOf("https://www.googleapis.com/auth/cloud-platform"))
             )
