@@ -81,6 +81,8 @@ dependencies {
     compile(Libs.KOTLIN_STD_LIB)
     compile(Libs.KOTLIN_COROUTINES_CORE)
 
+    compile("com.bugsnag:bugsnag:3.+")
+
     // https://github.com/remkop/picocli/releases
     compile("info.picocli:picocli:3.9.0")
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.6")

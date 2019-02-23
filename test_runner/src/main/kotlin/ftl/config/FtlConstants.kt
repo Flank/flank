@@ -1,5 +1,8 @@
 package ftl.config
 
+import ch.qos.logback.classic.Level
+import ch.qos.logback.classic.Logger
+import com.bugsnag.Bugsnag
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
 import com.google.api.client.googleapis.util.Utils
 import com.google.api.client.http.HttpRequestInitializer
@@ -13,9 +16,11 @@ import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.gc.UserAuth
 import ftl.http.HttpTimeoutIncrease
+import ftl.util.Utils.readRevision
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.Date
+import org.slf4j.LoggerFactory
 
 object FtlConstants {
     var useMock = false
@@ -35,6 +40,13 @@ object FtlConstants {
     const val applicationName = "Flank"
     const val GCS_PREFIX = "gs://"
     val JSON_FACTORY: JsonFactory by lazy { Utils.getDefaultJsonFactory() }
+
+    val bugsnag = Bugsnag(if (useMock) null else "3d5f8ba4ee847d6bb51cb9c347eda74f")
+
+    init {
+        bugsnag.setAppVersion(readRevision())
+        (LoggerFactory.getLogger(Bugsnag::class.java) as Logger).level = Level.OFF
+    }
 
     val httpTransport: NetHttpTransport by lazy {
         try {
