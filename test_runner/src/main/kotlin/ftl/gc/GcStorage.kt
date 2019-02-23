@@ -27,6 +27,7 @@ object GcStorage {
     val storageOptions: StorageOptions by lazy {
         val builder = StorageOptions.newBuilder()
         if (FtlConstants.useMock) builder.setHost(FtlConstants.localhost)
+        builder.setCredentials(FtlConstants.credential)
 
         // The oauth lib for user auth needs to be replaced
         // https://github.com/TestArmada/flank/issues/464#issuecomment-455227703
