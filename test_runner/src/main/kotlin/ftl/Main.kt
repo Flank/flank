@@ -38,13 +38,8 @@ class Main : Runnable {
     private var printVersion = false
 
     companion object {
-        init {
-//            GoogleApiLogger.logAllToStdout()
-        }
-
-        @JvmStatic
+       @JvmStatic
         fun main(args: Array<String>) {
-            // val args = arrayOf("firebase", "test", "android", "run") // for debugging. run test from IntelliJ IDEA
             CommandLine.run<Runnable>(Main(), System.out, *args)
         }
     }
