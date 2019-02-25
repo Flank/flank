@@ -19,11 +19,11 @@ import ftl.gc.UserAuth
 import ftl.http.HttpTimeoutIncrease
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.readRevision
+import java.io.IOException
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.Date
 import org.slf4j.LoggerFactory
-import java.io.IOException
 
 object FtlConstants {
     var useMock = false
