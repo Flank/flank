@@ -161,7 +161,7 @@ class ArgsHelperTest {
         assertThat(actual).isEqualTo(expected)
     }
 
-    @Test(expected = java.nio.file.NoSuchFileException::class)
+    @Test(expected = RuntimeException::class)
     fun evaluateInvalidFilePath() {
         val testApkPath = "~/flank_test_app/invalid_path/app-debug-*.xctestrun"
         ArgsHelper.evaluateFilePath(testApkPath)
