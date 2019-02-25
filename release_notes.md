@@ -1,6 +1,7 @@
 ## v?
 
-- Add bugsnag reporting to detect Flank crashes.
+- [#506](https://github.com/TestArmada/flank/pull/506) Add bugsnag reporting to detect Flank crashes. ([bootstraponline](https://github.com/bootstraponline))
+- [#507](https://github.com/TestArmada/flank/pull/507) Improve error message when credentials fail to load, folder doesn't exist, and on bucket creation failure. Properly pass through user credential when checking the storage bucket. ([bootstraponline](https://github.com/bootstraponline))
 
 ## v4.4.0
 

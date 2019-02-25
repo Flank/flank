@@ -5,6 +5,7 @@ import ch.qos.logback.classic.Logger
 import com.bugsnag.Bugsnag
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
 import com.google.api.client.googleapis.util.Utils
+import com.google.api.client.http.GoogleApiLogger
 import com.google.api.client.http.HttpRequestInitializer
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.JsonFactory
@@ -16,7 +17,9 @@ import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.gc.UserAuth
 import ftl.http.HttpTimeoutIncrease
+import ftl.util.Utils.fatalError
 import ftl.util.Utils.readRevision
+import java.io.IOException
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.Date
@@ -64,7 +67,13 @@ object FtlConstants {
         when {
             useMock -> GoogleCredentials.create(AccessToken("mock", Date()))
             UserAuth.exists() -> UserAuth.load()
-            else -> ServiceAccountCredentials.getApplicationDefault()
+            else -> try {
+                GoogleApiLogger.silenceComputeEngine()
+                ServiceAccountCredentials.getApplicationDefault()
+            } catch (e: IOException) {
+                fatalError("Error: Failed to read service account credential.\n${e.message}")
+                throw RuntimeException("never thrown")
+            }
         }
     }
 

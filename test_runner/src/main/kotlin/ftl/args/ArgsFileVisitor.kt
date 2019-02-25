@@ -1,6 +1,8 @@
 package ftl.args
 
+import ftl.util.Utils.fatalError
 import java.io.IOException
+import java.lang.RuntimeException
 import java.nio.file.FileSystems
 import java.nio.file.FileVisitOption
 import java.nio.file.FileVisitResult
@@ -42,7 +44,13 @@ class ArgsFileVisitor(glob: String) : SimpleFileVisitor<Path>() {
         // /Users/tmp/code/*                 => /Users/tmp/code/
         val beforeGlob = Paths.get(searchString.substringBefore(SINGLE_GLOB))
         // must not follow links when resolving paths or /tmp turns into /private/tmp
-        val realPath = beforeGlob.toRealPath(LinkOption.NOFOLLOW_LINKS)
+        val realPath = try {
+            beforeGlob.toRealPath(LinkOption.NOFOLLOW_LINKS)
+        } catch (e: java.nio.file.NoSuchFileException) {
+            fatalError("Failed to resolve path $searchPath")
+            throw RuntimeException("never thrown")
+        }
+
         val searchDepth = if (searchString.contains(RECURSE)) Integer.MAX_VALUE else 1
 
         Files.walkFileTree(realPath, EnumSet.of(FileVisitOption.FOLLOW_LINKS), searchDepth, this)
