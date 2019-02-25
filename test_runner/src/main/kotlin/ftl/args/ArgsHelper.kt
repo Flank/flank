@@ -22,6 +22,7 @@ import ftl.shard.Shard
 import ftl.shard.StringShards
 import ftl.shard.stringShards
 import ftl.util.Utils
+import ftl.util.Utils.fatalError
 import java.io.File
 import java.net.URI
 import java.nio.file.Files
@@ -111,7 +112,10 @@ object ArgsHelper {
         // because we don't have access to the root account, it won't show up in the storage list.
         if (bucket.startsWith("test-lab-")) return bucket
 
-        val storage = StorageOptions.newBuilder().setProjectId(projectId).build().service
+        val storage = StorageOptions.newBuilder()
+            .setCredentials(FtlConstants.credential)
+            .setProjectId(projectId)
+            .build().service
         val bucketLabel = mapOf("flank" to "")
         val storageLocation = "us-central1"
 
@@ -119,13 +123,18 @@ object ArgsHelper {
         val storageList = storage.list(bucketListOption).values?.map { it.name } ?: emptyList()
         if (storageList.contains(bucket)) return bucket
 
-        return storage.create(
-            BucketInfo.newBuilder(bucket)
-                .setStorageClass(StorageClass.REGIONAL)
-                .setLocation(storageLocation)
-                .setLabels(bucketLabel)
-                .build()
-        ).name
+        try {
+            return storage.create(
+                BucketInfo.newBuilder(bucket)
+                    .setStorageClass(StorageClass.REGIONAL)
+                    .setLocation(storageLocation)
+                    .setLabels(bucketLabel)
+                    .build()
+            ).name
+        } catch (e: com.google.cloud.storage.StorageException) {
+            fatalError("Failed to create bucket $bucket\n${e.message}")
+            throw RuntimeException("will not throw")
+        }
     }
 
     private fun serviceAccountProjectId(): String? {
