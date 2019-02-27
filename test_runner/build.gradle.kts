@@ -1,7 +1,8 @@
 import com.jfrog.bintray.gradle.BintrayExtension
+import groovy.util.Node
+import groovy.util.NodeList
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.kotlin.gradle.dsl.Coroutines
 import java.util.Date
 
 group = "test_runner"
@@ -47,6 +48,17 @@ publishing {
             groupId = "flank"
             artifactId = "flank"
             version = System.getenv("MVN_VERSION")
+
+            setArtifacts(listOf("build/libs/flank-SNAPSHOT.jar"))
+
+            pom.withXml {
+                // Remove deps since we're publishing a fat jar
+                val pom = asNode()
+                val depNode: NodeList = pom.get("dependencies") as NodeList
+                for (child in depNode) {
+                    pom.remove(child as Node)
+                }
+            }
         }
     }
 }
@@ -116,47 +128,47 @@ tasks.withType<Test> {
 }
 
 dependencies {
-    compile(Libs.KOTLIN_STD_LIB)
-    compile(Libs.KOTLIN_COROUTINES_CORE)
+    implementation(Libs.KOTLIN_STD_LIB)
+    implementation(Libs.KOTLIN_COROUTINES_CORE)
 
-    compile("com.bugsnag:bugsnag:3.+")
+    implementation("com.bugsnag:bugsnag:3.+")
 
     // https://github.com/remkop/picocli/releases
-    compile("info.picocli:picocli:3.9.0")
-    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.6")
-    compile("com.fasterxml.woodstox:woodstox-core:5.1.0")
+    implementation("info.picocli:picocli:3.9.0")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.6")
+    implementation("com.fasterxml.woodstox:woodstox-core:5.1.0")
 
     // https://github.com/google/gson/releases
-    compile("com.google.code.gson:gson:2.8.5")
+    implementation("com.google.code.gson:gson:2.8.5")
 
     // https://github.com/3breadt/dd-plist/releases
-    compile("com.googlecode.plist:dd-plist:1.21")
+    implementation("com.googlecode.plist:dd-plist:1.21")
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    compile("com.google.cloud:google-cloud-storage:1.57.0")
+    implementation("com.google.cloud:google-cloud-storage:1.57.0")
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
-    compile("com.google.apis:google-api-services-toolresults:v1beta3-rev20181112-1.27.0")
+    implementation("com.google.apis:google-api-services-toolresults:v1beta3-rev20181112-1.27.0")
 
     // https://github.com/linkedin/dex-test-parser/releases
-    compile("com.linkedin.dextestparser:parser:2.0.1")
+    implementation("com.linkedin.dextestparser:parser:2.0.1")
 
     // NOTE: iOS support isn't in the public artifact. Use testing jar generated from the private gcloud CLI json
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-testing%22
     // compile("com.google.apis:google-api-services-testing:v1-rev30-1.23.0")
-    compile(project("test_api"))
+    implementation(project("test_api"))
 
     // yaml config
     // https://search.maven.org/search?q=a:jackson-databind%20g:com.fasterxml.jackson.core
-    compile("com.fasterxml.jackson.core:jackson-databind:${Versions.JACKSON}")
-    compile("com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.JACKSON}")
-    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${Versions.JACKSON}")
-    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${Versions.JACKSON}")
-    compile("com.fasterxml.woodstox:woodstox-core:5.1.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:${Versions.JACKSON}")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.JACKSON}")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${Versions.JACKSON}")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${Versions.JACKSON}")
+    implementation("com.fasterxml.woodstox:woodstox-core:5.1.0")
 
     // End of Life https://github.com/googleapis/google-oauth-java-client
     // Use https://github.com/googleapis/google-auth-library-java instead
-    compile("com.google.auth:google-auth-library-oauth2-http:0.13.0")
+    implementation("com.google.auth:google-auth-library-oauth2-http:0.13.0")
 
     // https://github.com/jhy/jsoup/releases
     testImplementation("org.jsoup:jsoup:1.11.3")
@@ -168,12 +180,12 @@ dependencies {
 
     // https://github.com/ktorio/ktor/releases
     val ktorVersion = "1.1.3"
-    compile("io.ktor:ktor-server-core:$ktorVersion")
-    compile("io.ktor:ktor-server-netty:$ktorVersion")
-    compile("io.ktor:ktor-gson:$ktorVersion")
+    implementation("io.ktor:ktor-server-core:$ktorVersion")
+    implementation("io.ktor:ktor-server-netty:$ktorVersion")
+    implementation("io.ktor:ktor-gson:$ktorVersion")
 
     // https://github.com/qos-ch/logback/releases
-    compile("ch.qos.logback:logback-classic:1.2.3")
+    implementation("ch.qos.logback:logback-classic:1.2.3")
     // mockito-inline is used to mock final classes
     // https://github.com/mockito/mockito/releases
     testImplementation("org.mockito:mockito-inline:2.23.4")
@@ -182,7 +194,7 @@ dependencies {
 
     // todo: move to testImplementation once DI is implemented https://github.com/TestArmada/flank/issues/248
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    compile("com.google.cloud:google-cloud-nio:0.75.0-alpha")
+    implementation("com.google.cloud:google-cloud-nio:0.75.0-alpha")
 
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.DETEKT}")
 }
@@ -204,8 +216,7 @@ val fatJar by tasks.registering(Jar::class) {
             put("Main-Class", "ftl.Main")
         }
     }
-    // https://github.com/gradle/kotlin-dsl/issues/1082#issuecomment-433035138
-    from(configurations.runtime.get().map { file ->
+    from(configurations.compileClasspath.get().map { file ->
         if (file.isDirectory) file else zipTree(file)
     })
     with(tasks["jar"] as CopySpec)

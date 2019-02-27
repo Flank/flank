@@ -476,6 +476,20 @@ $ flank -v
 v3.0-SNAPSHOT
 ```
 
+### Maven
+
+You can consume Flank via maven. Replace X.X.X with the version number such as `4.4.0`.
+
+```
+repositories {
+    maven(url = "https://dl.bintray.com/flank/maven")
+}
+
+dependencies {
+    compile("flank:flank:X.X.X")
+}
+```
+
 ### FAQ
 
 > Access Not Configured. Cloud Tool Results API has not been used in project 764086051850 before or it is disabled.
