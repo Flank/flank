@@ -209,7 +209,7 @@ configurations.all {
     }
 }
 
-val fatJar by tasks.registering(Jar::class) {
+task("fatJar", type = Jar::class) {
     baseName = "flank"
     manifest {
         attributes.apply {
