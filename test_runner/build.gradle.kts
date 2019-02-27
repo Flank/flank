@@ -216,7 +216,7 @@ task("fatJar", type = Jar::class) {
             put("Main-Class", "ftl.Main")
         }
     }
-    from(configurations.compileClasspath.get().map { file ->
+    from(configurations.runtimeClasspath.get().map { file ->
         if (file.isDirectory) file else zipTree(file)
     })
     with(tasks["jar"] as CopySpec)
