@@ -1,6 +1,8 @@
+import com.jfrog.bintray.gradle.BintrayExtension
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.Coroutines
+import java.util.Date
 
 group = "test_runner"
 version = "SNAPSHOT"
@@ -11,6 +13,42 @@ plugins {
     kotlin("jvm") version Versions.KOTLIN
 
     id("io.gitlab.arturbosch.detekt") version Versions.DETEKT
+    id("com.jfrog.bintray") version "1.8.4"
+    id("maven-publish")
+}
+
+// https://bintray.com/flank/maven
+// https://github.com/bintray/gradle-bintray-plugin#readme
+bintray {
+    user = System.getenv("MVN_USER")
+    key = System.getenv("MVN_KEY")
+    publish = true
+    setPublications("mavenJava")
+    pkg(closureOf<BintrayExtension.PackageConfig> {
+        repo = "maven"
+        name = "flank"
+        userOrg = "flank"
+        setLicenses("Apache-2.0")
+        vcsUrl = "https://github.com/TestArmada/flank.git"
+        version(closureOf<BintrayExtension.VersionConfig>{
+            name = System.getenv("MVN_VERSION")
+            vcsTag = System.getenv("MVN_REVISION")
+            released = Date().toString()
+
+        })
+    })
+}
+
+publishing {
+    publications {
+        register("mavenJava", MavenPublication::class) {
+            from(components["java"])
+
+            groupId = "flank"
+            artifactId = "flank"
+            version = System.getenv("MVN_VERSION")
+        }
+    }
 }
 
 detekt {
@@ -159,7 +197,7 @@ configurations.all {
     }
 }
 
-task("fatJar", type = Jar::class) {
+val fatJar by tasks.registering(Jar::class) {
     baseName = "flank"
     manifest {
         attributes.apply {
