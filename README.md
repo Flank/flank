@@ -478,7 +478,7 @@ v3.0-SNAPSHOT
 
 ### Maven
 
-You can consume Flank via maven. Replace X.X.X with the version number such as `4.4.0`.
+You can consume Flank via maven. See the [maven repo](https://bintray.com/flank/maven/flank) for all supported versions.
 
 ```
 repositories {
@@ -486,7 +486,7 @@ repositories {
 }
 
 dependencies {
-    compile("flank:flank:X.X.X")
+    compile("flank:flank:flank_snapshot")
 }
 ```
 
