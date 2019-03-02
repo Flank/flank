@@ -2,6 +2,11 @@
 
 Flank is a [massively parallel Android and iOS test runner](https://medium.com/walmartlabs/flank-smart-test-runner-for-firebase-cf65e1b1eca7) for [Firebase Test Lab](https://firebase.google.com/docs/test-lab/).
 
+#### Sponspors
+
+- [bugsnag](https://www.bugsnag.com/)
+![](./docs/bugsnag-logo-dark.png)
+
 ### Contributing
 
 - Install [Oracle JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
