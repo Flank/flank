@@ -2,10 +2,9 @@
 
 Flank is a [massively parallel Android and iOS test runner](https://medium.com/walmartlabs/flank-smart-test-runner-for-firebase-cf65e1b1eca7) for [Firebase Test Lab](https://firebase.google.com/docs/test-lab/).
 
-#### Sponspors
+### Sponsors
 
-- [bugsnag](https://www.bugsnag.com/)
-![](./docs/bugsnag-logo-dark.png)
+[<img src="./docs/bugsnag-logo-dark.png" width="50%" />](https://www.bugsnag.com/)
 
 ### Contributing
 
