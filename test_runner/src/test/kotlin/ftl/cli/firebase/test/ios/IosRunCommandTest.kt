@@ -65,7 +65,7 @@ class IosRunCommandTest {
         assertThat(cmd.async).isNull()
         assertThat(cmd.project).isNull()
         assertThat(cmd.resultsHistoryName).isNull()
-        assertThat(cmd.testShards).isNull()
+        assertThat(cmd.maxTestShards).isNull()
         assertThat(cmd.shardTime).isNull()
         assertThat(cmd.repeatTests).isNull()
         assertThat(cmd.testTargetsAlwaysRun).isNull()
@@ -139,11 +139,11 @@ class IosRunCommandTest {
     // flankYml
 
     @Test
-    fun testShards_parse() {
+    fun maxTestShards_parse() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--test-shards=3")
 
-        assertThat(cmd.testShards).isEqualTo(3)
+        assertThat(cmd.maxTestShards).isEqualTo(3)
     }
 
     @Test

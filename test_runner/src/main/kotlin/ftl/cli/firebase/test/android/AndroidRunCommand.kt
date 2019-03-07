@@ -219,7 +219,7 @@ class AndroidRunCommand : Runnable {
         names = ["--test-shards"],
         description = ["The amount of matrices to split the tests across."]
     )
-    var testShards: Int? = null
+    var maxTestShards: Int? = null
 
     @Option(
         names = ["--shard-time"],

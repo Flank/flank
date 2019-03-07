@@ -47,7 +47,7 @@ class IosArgsFileTest {
                     Device("iphone8", "11.2", "en_US", "portrait")
                 )
             )
-            assert(testShards, 1)
+            assert(maxTestShards, 1)
             assert(repeatTests, 1)
         }
     }

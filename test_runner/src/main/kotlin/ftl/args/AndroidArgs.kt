@@ -64,7 +64,7 @@ class AndroidArgs(
     val devices = cli?.device ?: androidGcloud.device
 
     private val flank = flankYml.flank
-    override val testShards = cli?.testShards ?: flank.testShards
+    override val maxTestShards = cli?.maxTestShards ?: flank.maxTestShards
     override val shardTime = cli?.shardTime ?: flank.shardTime
     override val repeatTests = cli?.repeatTests ?: flank.repeatTests
     override val smartFlankGcsPath = flank.smartFlankGcsPath
@@ -163,7 +163,7 @@ ${devicesToString(devices)}
       flaky-test-attempts: $flakyTestAttempts
 
     flank:
-      testShards: $testShards
+      maxTestShards: $maxTestShards
       shardTime: $shardTime
       repeatTests: $repeatTests
       smartFlankGcsPath: $smartFlankGcsPath

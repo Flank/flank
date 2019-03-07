@@ -8,7 +8,7 @@ import ftl.util.Utils.fatalError
 /** Flank specific parameters for both iOS and Android */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class FlankYmlParams(
-    val testShards: Int = 1,
+    val maxTestShards: Int = 1,
     val shardTime: Int = -1,
     val repeatTests: Int = 1,
     val smartFlankGcsPath: String = "",
@@ -22,12 +22,12 @@ class FlankYmlParams(
 ) {
     companion object : IYmlKeys {
         override val keys = listOf(
-            "testShards", "shardTime", "repeatTests", "smartFlankGcsPath", "disableSharding", "test-targets-always-run", "files-to-download"
+            "maxTestShards", "shardTime", "repeatTests", "smartFlankGcsPath", "disableSharding", "test-targets-always-run", "files-to-download"
         )
     }
 
     init {
-        if (testShards <= 0 && testShards != -1) fatalError("testShards must be >= 1 or -1")
+        if (maxTestShards <= 0 && maxTestShards != -1) fatalError("maxTestShards must be >= 1 or -1")
         if (shardTime <= 0 && shardTime != -1) fatalError("shardTime must be >= 1 or -1")
         if (repeatTests < 1) fatalError("repeatTests must be >= 1")
 

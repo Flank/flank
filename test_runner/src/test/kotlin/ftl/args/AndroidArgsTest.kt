@@ -59,7 +59,7 @@ class AndroidArgsTest {
           flaky-test-attempts: 3
 
         flank:
-          testShards: 7
+          maxTestShards: 7
           shardTime: 60
           repeatTests: 8
           files-to-download:
@@ -160,7 +160,7 @@ class AndroidArgsTest {
             assert(flakyTestAttempts, 3)
 
             // FlankYml
-            assert(testShards, 7)
+            assert(maxTestShards, 7)
             assert(shardTime, 60)
             assert(repeatTests, 8)
             assert(filesToDownload, listOf("/sdcard/screenshots", "/sdcard/screenshots2"))
@@ -215,7 +215,7 @@ AndroidArgs
       flaky-test-attempts: 3
 
     flank:
-      testShards: 7
+      maxTestShards: 7
       shardTime: 60
       repeatTests: 8
       smartFlankGcsPath:${' '}
@@ -261,7 +261,7 @@ AndroidArgs
             assert(flakyTestAttempts, 0)
 
             // FlankYml
-            assert(testShards, 1)
+            assert(maxTestShards, 1)
             assert(repeatTests, 1)
             assert(filesToDownload, empty)
             assert(testTargetsAlwaysRun, empty)
@@ -278,12 +278,12 @@ AndroidArgs
           test: $testErrorApk
 
         flank:
-          testShards: -1
+          maxTestShards: -1
       """
         )
 
         with(androidArgs) {
-            assert(testShards, -1)
+            assert(maxTestShards, -1)
             assert(testShardChunks.size, 2)
             testShardChunks.forEach { chunk -> assert(chunk.size, 1) }
         }
@@ -683,7 +683,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_testShards() {
+    fun cli_maxTestShards() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--test-shards=3")
 
@@ -693,10 +693,10 @@ AndroidArgs
           test: $testApk
 
         flank:
-          testShards: 2
+          maxTestShards: 2
       """
-        assertThat(AndroidArgs.load(yaml).testShards).isEqualTo(2)
-        assertThat(AndroidArgs.load(yaml, cli).testShards).isEqualTo(3)
+        assertThat(AndroidArgs.load(yaml).maxTestShards).isEqualTo(2)
+        assertThat(AndroidArgs.load(yaml, cli).maxTestShards).isEqualTo(3)
     }
 
     @Test
