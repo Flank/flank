@@ -78,7 +78,7 @@ detekt {
 
 // http://www.eclemma.org/jacoco/
 jacoco {
-    toolVersion = "0.8.2"
+    toolVersion = "0.8.3"
 }
 
 // Html report created in ./build/reports/jacoco/test/html/index.html
@@ -134,7 +134,7 @@ dependencies {
     implementation("com.bugsnag:bugsnag:3.+")
 
     // https://github.com/remkop/picocli/releases
-    implementation("info.picocli:picocli:3.9.0")
+    implementation("info.picocli:picocli:3.9.5")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.6")
     implementation("com.fasterxml.woodstox:woodstox-core:5.1.0")
 
@@ -145,10 +145,10 @@ dependencies {
     implementation("com.googlecode.plist:dd-plist:1.21")
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    implementation("com.google.cloud:google-cloud-storage:1.57.0")
+    implementation("com.google.cloud:google-cloud-storage:1.64.0")
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
-    implementation("com.google.apis:google-api-services-toolresults:v1beta3-rev20181112-1.27.0")
+    implementation("com.google.apis:google-api-services-toolresults:v1beta3-rev20190207-1.28.0")
 
     // https://github.com/linkedin/dex-test-parser/releases
     implementation("com.linkedin.dextestparser:parser:2.0.1")

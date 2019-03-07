@@ -1,16 +1,12 @@
 object Versions {
     // match to Tools -> Kotlin -> Configure Kotlin Plugin Updates -> Update Channel: Stable
-    val KOTLIN = "1.3.11"
+    val KOTLIN = "1.3.21"
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    val KOTLIN_COROUTINES = "1.1.0"
+    val KOTLIN_COROUTINES = "1.1.1"
     // https://github.com/FasterXML/jackson-core/releases
     val JACKSON = "2.9.8"
     // https://github.com/arturbosch/detekt
-    val DETEKT = "1.0.0-RC12"
-}
-
-object Plugins {
-    val KOTLIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:" + Versions.KOTLIN
+    val DETEKT = "1.0.0-RC14"
 }
 
 object Libs {
