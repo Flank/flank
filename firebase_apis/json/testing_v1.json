@@ -272,7 +272,7 @@
       }
     }
   },
-  "revision": "20190107",
+  "revision": "20190305",
   "rootUrl": "https://testing.googleapis.com/",
   "schemas": {
     "Account": {
@@ -291,19 +291,19 @@
       "id": "AndroidDevice",
       "properties": {
         "androidModelId": {
-          "description": "Required. The id of the Android device to be used.\nUse the EnvironmentDiscoveryService to get supported options.",
+          "description": "Required. The id of the Android device to be used.\nUse the TestEnvironmentDiscoveryService to get supported options.",
           "type": "string"
         },
         "androidVersionId": {
-          "description": "Required. The id of the Android OS version to be used.\nUse the EnvironmentDiscoveryService to get supported options.",
+          "description": "Required. The id of the Android OS version to be used.\nUse the TestEnvironmentDiscoveryService to get supported options.",
           "type": "string"
         },
         "locale": {
-          "description": "Required. The locale the test device used for testing.\nUse the EnvironmentDiscoveryService to get supported options.",
+          "description": "Required. The locale the test device used for testing.\nUse the TestEnvironmentDiscoveryService to get supported options.",
           "type": "string"
         },
         "orientation": {
-          "description": "Required. How the device is oriented during the test.\nUse the EnvironmentDiscoveryService to get supported options.",
+          "description": "Required. How the device is oriented during the test.\nUse the TestEnvironmentDiscoveryService to get supported options.",
           "type": "string"
         }
       },
@@ -405,28 +405,28 @@
       "id": "AndroidMatrix",
       "properties": {
         "androidModelIds": {
-          "description": "Required. The ids of the set of Android device to be used.\nUse the EnvironmentDiscoveryService to get supported options.",
+          "description": "Required. The ids of the set of Android device to be used.\nUse the TestEnvironmentDiscoveryService to get supported options.",
           "items": {
             "type": "string"
           },
           "type": "array"
         },
         "androidVersionIds": {
-          "description": "Required. The ids of the set of Android OS version to be used.\nUse the EnvironmentDiscoveryService to get supported options.",
+          "description": "Required. The ids of the set of Android OS version to be used.\nUse the TestEnvironmentDiscoveryService to get supported options.",
           "items": {
             "type": "string"
           },
           "type": "array"
         },
         "locales": {
-          "description": "Required. The set of locales the test device will enable for testing.\nUse the EnvironmentDiscoveryService to get supported options.",
+          "description": "Required. The set of locales the test device will enable for testing.\nUse the TestEnvironmentDiscoveryService to get supported options.",
           "items": {
             "type": "string"
           },
           "type": "array"
         },
         "orientations": {
-          "description": "Required. The set of orientations to test with.\nUse the EnvironmentDiscoveryService to get supported options.",
+          "description": "Required. The set of orientations to test with.\nUse the TestEnvironmentDiscoveryService to get supported options.",
           "items": {
             "type": "string"
           },
@@ -986,19 +986,19 @@
       "id": "IosDevice",
       "properties": {
         "iosModelId": {
-          "description": "Required. The id of the iOS device to be used.\nUse the EnvironmentDiscoveryService to get supported options.",
+          "description": "Required. The id of the iOS device to be used.\nUse the TestEnvironmentDiscoveryService to get supported options.",
           "type": "string"
         },
         "iosVersionId": {
-          "description": "Required. The id of the iOS major software version to be used.\nUse the EnvironmentDiscoveryService to get supported options.",
+          "description": "Required. The id of the iOS major software version to be used.\nUse the TestEnvironmentDiscoveryService to get supported options.",
           "type": "string"
         },
         "locale": {
-          "description": "Required. The locale the test device used for testing.\nUse the EnvironmentDiscoveryService to get supported options.",
+          "description": "Required. The locale the test device used for testing.\nUse the TestEnvironmentDiscoveryService to get supported options.",
           "type": "string"
         },
         "orientation": {
-          "description": "Required. How the device is oriented during the test.\nUse the EnvironmentDiscoveryService to get supported options.",
+          "description": "Required. How the device is oriented during the test.\nUse the TestEnvironmentDiscoveryService to get supported options.",
           "type": "string"
         }
       },
@@ -1182,7 +1182,7 @@
           "description": "Required. The .zip containing the .xctestrun file and the contents of the\nDerivedData/Build/Products directory.\nThe .xctestrun file in this zip is ignored if the xctestrun field is\nspecified."
         },
         "xcodeVersion": {
-          "description": "The Xcode version that should be used for the test.\nUse the EnvironmentDiscoveryService to get supported options.\nDefaults to the latest Xcode version Firebase Test Lab supports.",
+          "description": "The Xcode version that should be used for the test.\nUse the TestEnvironmentDiscoveryService to get supported options.\nDefaults to the latest Xcode version Firebase Test Lab supports.",
           "type": "string"
         },
         "xctestrun": {
@@ -1345,12 +1345,14 @@
           "enum": [
             "ACTION_TYPE_UNSPECIFIED",
             "SINGLE_CLICK",
-            "ENTER_TEXT"
+            "ENTER_TEXT",
+            "IGNORE"
           ],
           "enumDescriptions": [
             "DO NOT USE. For proto versioning only.",
             "Direct Robo to click on the specified element. No-op if specified element\nis not clickable.",
-            "Direct Robo to enter text on the specified element. No-op if specified\nelement is not enabled or does not allow text entry."
+            "Direct Robo to enter text on the specified element. No-op if specified\nelement is not enabled or does not allow text entry.",
+            "Direct Robo to ignore interactions with a specific element."
           ],
           "type": "string"
         },
@@ -1374,6 +1376,11 @@
         },
         "startActivity": {
           "$ref": "StartActivityIntent"
+        },
+        "timeout": {
+          "description": "Timeout in seconds for each intent.",
+          "format": "google-duration",
+          "type": "string"
         }
       },
       "type": "object"
@@ -1537,6 +1544,7 @@
             "MALFORMED_TEST_APK",
             "NO_MANIFEST",
             "NO_PACKAGE_NAME",
+            "INVALID_PACKAGE_NAME",
             "TEST_SAME_AS_APP",
             "NO_INSTRUMENTATION",
             "NO_SIGNATURE",
@@ -1545,6 +1553,8 @@
             "NO_LAUNCHER_ACTIVITY",
             "FORBIDDEN_PERMISSIONS",
             "INVALID_ROBO_DIRECTIVES",
+            "INVALID_RESOURCE_NAME",
+            "INVALID_DIRECTIVE_ACTION",
             "TEST_LOOP_INTENT_FILTER_NOT_FOUND",
             "SCENARIO_LABEL_NOT_DECLARED",
             "SCENARIO_LABEL_MALFORMED",
@@ -1569,6 +1579,7 @@
             "The input test APK could not be parsed.",
             "The AndroidManifest.xml could not be found.",
             "The APK manifest does not declare a package name.",
+            "The APK application ID (aka package name) is invalid.\nSee also\nhttps://developer.android.com/studio/build/application-id",
             "The test package and app package are the same.",
             "The test apk does not declare an instrumentation.",
             "The input app apk does not have a signature.",
@@ -1577,6 +1588,8 @@
             "A main launcher activity could not be found.",
             "The app declares one or more permissions that are not allowed.",
             "There is a conflict in the provided robo_directives.",
+            "There is at least one invalid resource name in the provided\nrobo directives",
+            "Invalid definition of action in the robo directives\n(e.g. a click or ignore action includes an input text field)",
             "There there is no test loop intent filter, or the one that is given is\nnot formatted correctly.",
             "The request contains a scenario label that was not declared in the\nmanifest.",
             "There was an error when parsing a label's value.",
