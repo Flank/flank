@@ -146,7 +146,6 @@ IosArgs
       record-video: false
       timeout: 70m
       async: true
-      project: projectFoo
       results-history-name: ios-history
       # iOS gcloud
       test: $testAbsolutePath
@@ -178,6 +177,7 @@ IosArgs
         - b/testBasicSelection
         - b/testBasicSelection2
       disable-sharding: true
+      project: projectFoo
 """.trimIndent()
         )
     }

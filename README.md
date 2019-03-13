@@ -71,9 +71,6 @@ gcloud:
   ## Invoke a test asynchronously without waiting for test results.
   # async: false
 
-  ## The billing enabled Google Cloud Platform project name to use
-  # project: delta-essence-114723
-
   ## The history name for your test results (an arbitrary string label; default: the application's label from the APK manifest).
   ## All tests which use the same history name will have their results grouped together in the Firebase console in a time-ordered test history list.
   # results-history-name: android-history
@@ -151,6 +148,9 @@ flank:
   ## test targets - a list of tests to run. omit to run all tests.
   # test-targets:
   #   - className/testName
+
+  ## The billing enabled Google Cloud Platform project name to use
+  # project: delta-essence-114723
 ```
 
 ### Android example
@@ -185,9 +185,6 @@ gcloud:
 
   ## Invoke a test asynchronously without waiting for test results.
   # async: false
-
-  ## The billing enabled Google Cloud Platform project name to use
-  # project: delta-essence-114723
 
   ## The history name for your test results (an arbitrary string label; default: the application's label from the APK manifest).
   ## All tests which use the same history name will have their results grouped together in the Firebase console in a time-ordered test history list.
@@ -285,6 +282,9 @@ flank:
   ## regex is matched against bucket paths, for example: 2019-01-09_00:13:06.106000_YCKl/shard_0/NexusLowRes-28-en-portrait/bugreport.txt
   # files-to-download:
   #   - .*\.mp4$
+
+  ## The billing enabled Google Cloud Platform project name to use
+  # project: delta-essence-114723
 ```
 
 ### Android code coverage

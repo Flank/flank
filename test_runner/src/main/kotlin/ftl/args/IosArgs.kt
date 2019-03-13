@@ -38,7 +38,6 @@ class IosArgs(
     override val recordVideo = cli?.recordVideo ?: cli?.noRecordVideo?.not() ?: gcloud.recordVideo
     override val testTimeout = cli?.timeout ?: gcloud.timeout
     override val async = cli?.async ?: gcloud.async
-    override val project = cli?.project ?: gcloud.project
     override val resultsHistoryName = cli?.resultsHistoryName ?: gcloud.resultsHistoryName
     override val flakyTestAttempts = cli?.flakyTestAttempts ?: gcloud.flakyTestAttempts
 
@@ -56,6 +55,7 @@ class IosArgs(
     override val testTargetsAlwaysRun = cli?.testTargetsAlwaysRun ?: flank.testTargetsAlwaysRun
     override val filesToDownload = cli?.filesToDownload ?: flank.filesToDownload
     override val disableSharding = cli?.disableSharding ?: flank.disableSharding
+    override val project = cli?.project ?: flank.project
 
     private val iosFlank = iosFlankYml.flank
     val testTargets = cli?.testTargets ?: iosFlank.testTargets
@@ -109,7 +109,6 @@ IosArgs
       record-video: $recordVideo
       timeout: $testTimeout
       async: $async
-      project: $project
       results-history-name: $resultsHistoryName
       # iOS gcloud
       test: $xctestrunZip
@@ -132,6 +131,7 @@ ${listToString(filesToDownload)}
       test-targets:
 ${listToString(testTargets)}
       disable-sharding: $disableSharding
+      project: $project
     """.trimIndent()
     }
 

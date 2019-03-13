@@ -16,7 +16,9 @@ import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.config.FtlConstants.defaultCredentialPath
+import ftl.config.FtlConstants.useMock
 import ftl.gc.GcStorage
+import ftl.gc.GcToolResults
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.shard.Shard
 import ftl.shard.StringShards
@@ -105,9 +107,9 @@ object ArgsHelper {
     }
 
     fun createGcsBucket(projectId: String, bucket: String): String {
-        // com.google.cloud.storage.contrib.nio.testing.FakeStorageRpc doesn't support list
-        // when testing, use a hard coded results bucket instead.
-        if (FtlConstants.useMock) return bucket
+        if (bucket.isEmpty()) return GcToolResults.getDefaultBucket(projectId) ?: throw RuntimeException("Failed to make bucket for $projectId")
+        if (useMock) return bucket
+
         // test lab supports using a special free storage bucket
         // because we don't have access to the root account, it won't show up in the storage list.
         if (bucket.startsWith("test-lab-")) return bucket

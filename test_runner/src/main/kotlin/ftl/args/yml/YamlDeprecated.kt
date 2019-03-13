@@ -1,6 +1,7 @@
 package ftl.args.yml
 
 import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.fasterxml.jackson.databind.node.ObjectNode
 import ftl.args.ArgsHelper.yamlMapper
 import ftl.util.Utils
@@ -52,6 +53,11 @@ object YamlDeprecated {
             Key(Parent.flank, "disableSharding"),
             Key(Parent.flank, "disable-sharding"),
             Level.Warning
+        ),
+        ModifiedKey(
+            Key(Parent.gcloud, "project"),
+            Key(Parent.flank, "project"),
+            Level.Warning
         )
     )
 
@@ -65,7 +71,10 @@ object YamlDeprecated {
     }
 
     private fun JsonNode.replace(parent: Parent, child: String, value: JsonNode) {
-        (this[parent.toString()] as ObjectNode).replace(child, value)
+        val parentKey = parent.toString()
+        // if the parent node ('flank:') doesn't exist then add it ('flank: {}') to the YAML
+        if (this[parentKey] == null) (this as ObjectNode).set(parentKey, JsonNodeFactory.instance.objectNode())
+        (this[parentKey] as ObjectNode).replace(child, value)
     }
 
     private fun mutate(parsed: JsonNode, changes: List<Transform>) {

@@ -12,6 +12,7 @@ class GcloudYmlTest {
     @Test
     fun gcloudYml() {
         val gcloud = GcloudYml().gcloud
+        gcloud.resultsBucket = "mockBucket"
         assertThat(gcloud.resultsBucket)
             .isEqualTo("mockBucket")
 

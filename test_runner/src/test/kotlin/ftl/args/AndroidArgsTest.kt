@@ -186,7 +186,6 @@ AndroidArgs
       record-video: false
       timeout: 70m
       async: true
-      project: projectFoo
       results-history-name: android-history
       # Android gcloud
       app: $appApkAbsolutePath
@@ -226,6 +225,7 @@ AndroidArgs
         - class example.Test#grantPermission
         - class example.Test#grantPermission2
       disable-sharding: true
+      project: projectFoo
 """.trimIndent()
         )
     }

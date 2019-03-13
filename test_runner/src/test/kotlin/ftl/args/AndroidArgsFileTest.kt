@@ -162,8 +162,7 @@ class AndroidArgsFileTest {
         val config = AndroidArgs(
             GcloudYml(
                 GcloudYmlParams(
-                    resultsBucket = oldConfig.resultsBucket,
-                    project = "delta-essence-114723"
+                    resultsBucket = oldConfig.resultsBucket
                 )
             ),
             AndroidGcloudYml(
@@ -172,7 +171,11 @@ class AndroidArgsFileTest {
                     test = oldConfig.testApk
                 )
             ),
-            FlankYml(),
+            FlankYml(
+                FlankYmlParams(
+                    project = "delta-essence-114723"
+                )
+            ),
             ""
         )
 

@@ -2,10 +2,6 @@ package ftl.args.yml
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import ftl.args.ArgsHelper.getDefaultProjectId
-import ftl.config.FtlConstants.defaultCredentialPath
-import ftl.gc.GcToolResults
-import ftl.util.Utils.assertNotEmpty
 
 /**
  * Common Gcloud parameters shared between iOS and Android
@@ -28,8 +24,6 @@ class GcloudYmlParams(
 
     val async: Boolean = false,
 
-    val project: String = getDefaultProjectId() ?: "",
-
     @field:JsonProperty("results-history-name")
     val resultsHistoryName: String? = null,
 
@@ -38,19 +32,8 @@ class GcloudYmlParams(
 ) {
     companion object : IYmlKeys {
         override val keys =
-            listOf("results-bucket", "results-dir", "record-video", "timeout", "async", "project",
+            listOf("results-bucket", "results-dir", "record-video", "timeout", "async",
                 "results-history-name", "flaky-test-attempts")
-    }
-
-    init {
-        assertNotEmpty(
-            project, "The project is not set. Define GOOGLE_CLOUD_PROJECT, set project in flank.yml\n" +
-                "or save service account credential to $defaultCredentialPath\n" +
-                " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
-        )
-
-        if (resultsBucket.isEmpty()) resultsBucket = GcToolResults.getDefaultBucket(project) ?: ""
-        assertNotEmpty(resultsBucket, "results-bucket is not set")
     }
 }
 

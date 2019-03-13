@@ -47,7 +47,6 @@ class AndroidArgs(
     override val recordVideo = cli?.recordVideo ?: cli?.noRecordVideo?.not() ?: gcloud.recordVideo
     override val testTimeout = cli?.timeout ?: gcloud.timeout
     override val async = cli?.async ?: gcloud.async
-    override val project = cli?.project ?: gcloud.project
     override val resultsHistoryName = cli?.resultsHistoryName ?: gcloud.resultsHistoryName
     override val flakyTestAttempts = cli?.flakyTestAttempts ?: gcloud.flakyTestAttempts
 
@@ -72,6 +71,7 @@ class AndroidArgs(
     override val testTargetsAlwaysRun = cli?.testTargetsAlwaysRun ?: flank.testTargetsAlwaysRun
     override val filesToDownload = cli?.filesToDownload ?: flank.filesToDownload
     override val disableSharding = cli?.disableSharding ?: flank.disableSharding
+    override val project = cli?.project ?: flank.project
 
     // computed properties not specified in yaml
     override val testShardChunks: List<List<String>> by lazy {
@@ -145,7 +145,6 @@ AndroidArgs
       record-video: $recordVideo
       timeout: $testTimeout
       async: $async
-      project: $project
       results-history-name: $resultsHistoryName
       # Android gcloud
       app: $appApk
@@ -173,6 +172,7 @@ ${listToString(filesToDownload)}
       test-targets-always-run:
 ${listToString(testTargetsAlwaysRun)}
       disable-sharding: $disableSharding
+      project: $project
    """.trimIndent()
     }
 
