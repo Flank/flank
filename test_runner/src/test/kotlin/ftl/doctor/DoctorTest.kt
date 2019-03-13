@@ -50,7 +50,7 @@ gcloud:
   two: .
 
 flank:
-  testShards: 7
+  maxTestShards: 7
   repeatTests: 8
   test-targets-always-run:
     - .
@@ -112,7 +112,7 @@ gcloud:
   two: .
 
 flank:
-  testShards: .
+  maxTestShards: .
   repeatTests: .
   test-targets-always-run:
     - .

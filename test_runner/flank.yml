@@ -95,10 +95,10 @@ flank:
 
   ## test shards - the amount of groups to split the test suite into
   ## set to -1 to use one shard per test. default: 1
-  # testShards: 1
+  # maxTestShards: 1
 
   ## shard time - the amount of time tests within a shard should take
-  ## when set to > 0, the shard count is dynamically set based on time up to the maxmimum limit defined by testShards
+  ## when set to > 0, the shard count is dynamically set based on time up to the maxmimum limit defined by maxTestShards
   ## 2 minutes (120) is recommended.
   ## default: -1 (unlimited)
   # shardTime: -1

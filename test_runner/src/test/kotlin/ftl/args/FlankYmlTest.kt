@@ -24,10 +24,10 @@ class FlankYmlTest {
     @Test
     fun testValidArgs() {
         FlankYml()
-        FlankYml(FlankYmlParams(testShards = -1))
-        val yml = FlankYml(FlankYmlParams(testShards = 1, repeatTests = 1, shardTime = 58))
+        FlankYml(FlankYmlParams(maxTestShards = -1))
+        val yml = FlankYml(FlankYmlParams(maxTestShards = 1, repeatTests = 1, shardTime = 58))
         assertThat(yml.flank.repeatTests).isEqualTo(1)
-        assertThat(yml.flank.testShards).isEqualTo(1)
+        assertThat(yml.flank.maxTestShards).isEqualTo(1)
         assertThat(yml.flank.shardTime).isEqualTo(58)
         assertThat(yml.flank.testTargetsAlwaysRun).isEqualTo(emptyList<String>())
         assertThat(FlankYml.map).isNotEmpty()
@@ -35,8 +35,8 @@ class FlankYmlTest {
 
     @Test
     fun testInvalidTestShards() {
-        exceptionRule.expectMessage("testShards must be >= 1 or -1")
-        FlankYml(FlankYmlParams(testShards = -2))
+        exceptionRule.expectMessage("maxTestShards must be >= 1 or -1")
+        FlankYml(FlankYmlParams(maxTestShards = -2))
     }
 
     @Test

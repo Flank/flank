@@ -15,7 +15,7 @@ interface IArgs {
     val flakyTestAttempts: Int
 
     // FlankYml
-    val testShards: Int
+    val maxTestShards: Int
     val shardTime: Int
     val repeatTests: Int
     val smartFlankGcsPath: String

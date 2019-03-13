@@ -87,12 +87,12 @@ class AndroidArgsFileTest {
         }
 
         with(args) {
-            assert(testShards, 1)
+            assert(maxTestShards, 1)
             assert(repeatTests, 1)
         }
     }
 
-    private fun configWithTestMethods(amount: Int, testShards: Int = 1): AndroidArgs {
+    private fun configWithTestMethods(amount: Int, maxTestShards: Int = 1): AndroidArgs {
 
         return AndroidArgs(
             GcloudYml(GcloudYmlParams()),
@@ -104,7 +104,7 @@ class AndroidArgsFileTest {
             ),
             FlankYml(
                 FlankYmlParams(
-                    testShards = testShards
+                    maxTestShards = maxTestShards
                 )
             ),
             ""
@@ -122,7 +122,7 @@ class AndroidArgsFileTest {
     fun calculateShards_1() {
         val config = configWithTestMethods(1)
         with(config) {
-            assert(testShards, 1)
+            assert(maxTestShards, 1)
             assert(testShardChunks.size, 1)
             assert(testShardChunks.first().size, 1)
         }
@@ -132,7 +132,7 @@ class AndroidArgsFileTest {
     fun calculateShards_155() {
         val config = configWithTestMethods(155)
         with(config) {
-            assert(testShards, 1)
+            assert(maxTestShards, 1)
             assert(testShardChunks.size, 1)
             assert(testShardChunks.first().size, 155)
         }
@@ -140,9 +140,9 @@ class AndroidArgsFileTest {
 
     @Test
     fun calculateShards_155_40() {
-        val config = configWithTestMethods(155, testShards = 40)
+        val config = configWithTestMethods(155, maxTestShards = 40)
         with(config) {
-            assert(testShards, 40)
+            assert(maxTestShards, 40)
             assert(testShardChunks.size, 40)
             assert(testShardChunks.first().size, 3)
         }

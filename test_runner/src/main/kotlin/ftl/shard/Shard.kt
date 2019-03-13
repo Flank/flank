@@ -66,12 +66,12 @@ object Shard {
         val shardsByTime = Math.ceil(testsTotalTime / args.shardTime).toInt()
 
         // If there is no limit, use the calculated amount
-        if (args.testShards == -1) {
+        if (args.maxTestShards == -1) {
             return shardsByTime
         }
 
-        // We need to respect the testShards
-        return Math.min(shardsByTime, args.testShards)
+        // We need to respect the maxTestShards
+        return Math.min(shardsByTime, args.maxTestShards)
     }
 
     // take in the XML with timing info then return list of shards based on the amount of shards to use
@@ -81,7 +81,7 @@ object Shard {
         args: IArgs,
         forcedShardCount: Int = -1
     ): List<TestShard> {
-        val maxShards = if (forcedShardCount == -1) args.testShards else forcedShardCount
+        val maxShards = if (forcedShardCount == -1) args.maxTestShards else forcedShardCount
         val junitMap = createJunitMap(oldTestResult, args)
 
         var cacheMiss = 0

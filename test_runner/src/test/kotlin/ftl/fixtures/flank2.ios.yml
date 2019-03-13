@@ -12,7 +12,7 @@ gcloud:
     locale: en_US
 
 flank:
-  testShards: 2
+  maxTestShards: 2
   repeatTests: 1
   test-targets:
     - EarlGreyExampleSwiftTests/testWith.*$

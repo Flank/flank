@@ -40,9 +40,9 @@ class ShardTest {
         return JUnitTestResult(mutableListOf(suite1, suite2))
     }
 
-    private fun mockArgs(testShards: Int, shardTime: Int = 0): IArgs {
+    private fun mockArgs(maxTestShards: Int, shardTime: Int = 0): IArgs {
         val mockArgs = mock(IosArgs::class.java)
-        `when`(mockArgs.testShards).thenReturn(testShards)
+        `when`(mockArgs.maxTestShards).thenReturn(maxTestShards)
         `when`(mockArgs.shardTime).thenReturn(shardTime)
         return mockArgs
     }

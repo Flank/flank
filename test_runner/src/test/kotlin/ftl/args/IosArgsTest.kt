@@ -53,7 +53,7 @@ class IosArgsTest {
           flaky-test-attempts: 4
 
         flank:
-          testShards: 7
+          maxTestShards: 7
           shardTime: 60
           repeatTests: 8
           files-to-download:
@@ -121,7 +121,7 @@ class IosArgsTest {
             assert(devices, listOf(device, device))
 
             // FlankYml
-            assert(testShards, 7)
+            assert(maxTestShards, 7)
             assert(shardTime, 60)
             assert(repeatTests, 8)
             assert(testTargetsAlwaysRun, listOf("a/testGrantPermissions", "a/testGrantPermissions2"))
@@ -164,7 +164,7 @@ IosArgs
       flaky-test-attempts: 4
 
     flank:
-      testShards: 7
+      maxTestShards: 7
       shardTime: 60
       repeatTests: 8
       smartFlankGcsPath:${' '}
@@ -207,7 +207,7 @@ IosArgs
             assert(flakyTestAttempts, 0)
 
             // FlankYml
-            assert(testShards, 1)
+            assert(maxTestShards, 1)
             assert(shardTime, -1)
             assert(repeatTests, 1)
             assert(testTargetsAlwaysRun, emptyList<String>())
@@ -228,12 +228,12 @@ IosArgs
       xctestrun-file: $xctestrunFile
 
     flank:
-      testShards: -1
+      maxTestShards: -1
 """
         )
 
         with(iosArgs) {
-            assert(testShards, -1)
+            assert(maxTestShards, -1)
             assert(testShardChunks.size, 17)
             testShardChunks.forEach { chunk -> assert(chunk.size, 1) }
         }
@@ -389,7 +389,7 @@ IosArgs
     }
 
     @Test
-    fun cli_testShards() {
+    fun cli_maxTestShards() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--test-shards=3")
 
@@ -399,10 +399,10 @@ IosArgs
           xctestrun-file: $xctestrunFile
 
         flank:
-          testShards: 2
+          maxTestShards: 2
       """
-        assertThat(IosArgs.load(yaml).testShards).isEqualTo(2)
-        assertThat(IosArgs.load(yaml, cli).testShards).isEqualTo(3)
+        assertThat(IosArgs.load(yaml).maxTestShards).isEqualTo(2)
+        assertThat(IosArgs.load(yaml, cli).maxTestShards).isEqualTo(3)
     }
 
     @Test
