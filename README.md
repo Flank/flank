@@ -117,25 +117,25 @@ gcloud:
 flank:
   # -- FlankYml --
 
-  ## test shards - the maxmimum amount of groups to split the test suite into
+  ## test shards - the amount of groups to split the test suite into
   ## set to -1 to use one shard per test. default: 1
-  # maxTestShards: 1
+  # max-test-shards: 1
 
   ## shard time - the amount of time tests within a shard should take
-  ## when set to > 0, the shard count is dynamically set based on time up to the maxmimum limit defined by maxTestShards
+  ## when set to > 0, the shard count is dynamically set based on time up to the maxmimum limit defined by max-test-shards
   ## 2 minutes (120) is recommended.
   ## default: -1 (unlimited)
-  # shardTime: -1
+  # shard-time: -1
 
   ## repeat tests - the amount of times to run the tests.
   ## 1 runs the tests once. 10 runs all the tests 10x
-  # repeatTests: 1
+  # repeat-tests: 1
 
   ## Google cloud storage path to store the JUnit XML results from the last run.
-  # smartFlankGcsPath: gs://tmp_flank/flank/test_app_ios.xml
+  # smart-flank-gcs-path: gs://tmp_flank/flank/test_app_ios.xml
 
   ## Disables sharding. Useful for parameterized tests.
-  # disableSharding: false
+  # disable-sharding: false
 
   ## always run - these tests are inserted at the beginning of every shard
   ## useful if you need to grant permissions or login before other tests run
@@ -259,23 +259,23 @@ flank:
 
   ## test shards - the amount of groups to split the test suite into
   ## set to -1 to use one shard per test. default: 1
-  # maxTestShards: 1
+  # max-test-shards: 1
 
   ## shard time - the amount of time tests within a shard should take
-  ## when set to > 0, the shard count is dynamically set based on time up to the maxmimum limit defined by maxTestShards
+  ## when set to > 0, the shard count is dynamically set based on time up to the maxmimum limit defined by max-test-shards
   ## 2 minutes (120) is recommended.
   ## default: -1 (unlimited)
-  # shardTime: -1
+  # shard-time: -1
 
   ## repeat tests - the amount of times to run the tests.
   ## 1 runs the tests once. 10 runs all the tests 10x
-  # repeatTests: 1
+  # repeat-tests: 1
 
   ## Google cloud storage path to store the JUnit XML results from the last run.
-  # smartFlankGcsPath: gs://tmp_flank/flank/test_app_android.xml
+  # smart-flank-gcs-path: gs://tmp_flank/flank/test_app_android.xml
 
   ## Disables sharding. Useful for parameterized tests.
-  # disableSharding: false
+  # disable-sharding: false
 
   ## always run - these tests are inserted at the beginning of every shard
   ## useful if you need to grant permissions or login before other tests run

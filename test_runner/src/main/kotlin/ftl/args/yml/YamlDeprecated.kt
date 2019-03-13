@@ -29,8 +29,28 @@ object YamlDeprecated {
     private val transforms = listOf(
         // flank: testShards -> flank: maxTestShards
         ModifiedKey(
-            Key(YamlDeprecated.Parent.flank, "testShards"),
-            Key(YamlDeprecated.Parent.flank, "maxTestShards"),
+            Key(Parent.flank, "testShards"),
+            Key(Parent.flank, "max-test-shards"),
+            Level.Warning
+        ),
+        ModifiedKey(
+            Key(Parent.flank, "shardTime"),
+            Key(Parent.flank, "shard-time"),
+            Level.Warning
+        ),
+        ModifiedKey(
+            Key(Parent.flank, "repeatTests"),
+            Key(Parent.flank, "repeat-tests"),
+            Level.Warning
+        ),
+        ModifiedKey(
+            Key(Parent.flank, "smartFlankGcsPath"),
+            Key(Parent.flank, "smart-flank-gcs-path"),
+            Level.Warning
+        ),
+        ModifiedKey(
+            Key(Parent.flank, "disableSharding"),
+            Key(Parent.flank, "disable-sharding"),
             Level.Warning
         )
     )

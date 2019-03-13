@@ -17,5 +17,5 @@ gcloud:
 flank:
   test-targets:
   - EarlGreyExampleSwiftTests/testLayout
-  maxTestShards: 1
+  max-test-shards: 1
   repeatTests: 1

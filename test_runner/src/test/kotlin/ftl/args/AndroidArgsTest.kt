@@ -59,16 +59,16 @@ class AndroidArgsTest {
           flaky-test-attempts: 3
 
         flank:
-          maxTestShards: 7
-          shardTime: 60
-          repeatTests: 8
+          max-test-shards: 7
+          shard-time: 60
+          repeat-tests: 8
           files-to-download:
             - /sdcard/screenshots
             - /sdcard/screenshots2
           test-targets-always-run:
             - class example.Test#grantPermission
             - class example.Test#grantPermission2
-          disableSharding: true
+          disable-sharding: true
       """
 
     @Rule
@@ -215,17 +215,17 @@ AndroidArgs
       flaky-test-attempts: 3
 
     flank:
-      maxTestShards: 7
-      shardTime: 60
-      repeatTests: 8
-      smartFlankGcsPath:${' '}
+      max-test-shards: 7
+      shard-time: 60
+      repeat-tests: 8
+      smart-flank-gcs-path:${' '}
       files-to-download:
         - /sdcard/screenshots
         - /sdcard/screenshots2
       test-targets-always-run:
         - class example.Test#grantPermission
         - class example.Test#grantPermission2
-      disableSharding: true
+      disable-sharding: true
 """.trimIndent()
         )
     }
@@ -278,7 +278,7 @@ AndroidArgs
           test: $testErrorApk
 
         flank:
-          maxTestShards: -1
+          max-test-shards: -1
       """
         )
 
@@ -312,7 +312,7 @@ AndroidArgs
           app: $invalidApk
           test: $invalidApk
         flank:
-          disableSharding: true
+          disable-sharding: true
       """
         AndroidArgs.load(yaml).testShardChunks
     }
@@ -693,7 +693,7 @@ AndroidArgs
           test: $testApk
 
         flank:
-          maxTestShards: 2
+          max-test-shards: 2
       """
         assertThat(AndroidArgs.load(yaml).maxTestShards).isEqualTo(2)
         assertThat(AndroidArgs.load(yaml, cli).maxTestShards).isEqualTo(3)
@@ -710,7 +710,7 @@ AndroidArgs
           test: $testApk
 
         flank:
-          shardTime: 2
+          shard-time: 2
       """
         assertThat(AndroidArgs.load(yaml).shardTime).isEqualTo(2)
         assertThat(AndroidArgs.load(yaml, cli).shardTime).isEqualTo(3)
@@ -727,7 +727,7 @@ AndroidArgs
           test: $testApk
 
         flank:
-          disableSharding: false
+          disable-sharding: false
       """
         assertThat(AndroidArgs.load(yaml).disableSharding).isEqualTo(false)
         assertThat(AndroidArgs.load(yaml, cli).disableSharding).isEqualTo(true)
@@ -744,7 +744,7 @@ AndroidArgs
           test: $testApk
 
         flank:
-          repeatTests: 2
+          repeat-tests: 2
       """
         assertThat(AndroidArgs.load(yaml).repeatTests).isEqualTo(2)
         assertThat(AndroidArgs.load(yaml, cli).repeatTests).isEqualTo(3)

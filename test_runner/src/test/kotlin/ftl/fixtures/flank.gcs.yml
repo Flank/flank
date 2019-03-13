@@ -27,5 +27,5 @@ gcloud:
   - /sdcard/screenshots
 
 flank:
-  maxTestShards: 1
+  max-test-shards: 1
   repeatTests: 1

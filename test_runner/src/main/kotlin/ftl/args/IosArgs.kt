@@ -120,10 +120,10 @@ ${devicesToString(devices)}
       flaky-test-attempts: $flakyTestAttempts
 
     flank:
-      maxTestShards: $maxTestShards
-      shardTime: $shardTime
-      repeatTests: $repeatTests
-      smartFlankGcsPath: $smartFlankGcsPath
+      max-test-shards: $maxTestShards
+      shard-time: $shardTime
+      repeat-tests: $repeatTests
+      smart-flank-gcs-path: $smartFlankGcsPath
       test-targets-always-run:
 ${listToString(testTargetsAlwaysRun)}
       files-to-download:
@@ -131,7 +131,7 @@ ${listToString(filesToDownload)}
       # iOS flank
       test-targets:
 ${listToString(testTargets)}
-      disableSharding: $disableSharding
+      disable-sharding: $disableSharding
     """.trimIndent()
     }
 
