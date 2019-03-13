@@ -35,19 +35,19 @@ class FlankYmlTest {
 
     @Test
     fun testInvalidTestShards() {
-        exceptionRule.expectMessage("maxTestShards must be >= 1 or -1")
+        exceptionRule.expectMessage("max-test-shards must be >= 1 or -1")
         FlankYml(FlankYmlParams(maxTestShards = -2))
     }
 
     @Test
     fun testInvalidShardTime() {
-        exceptionRule.expectMessage("shardTime must be >= 1 or -1")
+        exceptionRule.expectMessage("shard-time must be >= 1 or -1")
         FlankYml(FlankYmlParams(shardTime = -2))
     }
 
     @Test
     fun testInvalidrepeatTests() {
-        exceptionRule.expectMessage("repeatTests must be >= 1")
+        exceptionRule.expectMessage("repeat-tests must be >= 1")
         FlankYml(FlankYmlParams(repeatTests = 0))
     }
 }

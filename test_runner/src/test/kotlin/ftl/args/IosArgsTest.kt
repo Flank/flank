@@ -53,9 +53,9 @@ class IosArgsTest {
           flaky-test-attempts: 4
 
         flank:
-          maxTestShards: 7
-          shardTime: 60
-          repeatTests: 8
+          max-test-shards: 7
+          shard-time: 60
+          repeat-tests: 8
           files-to-download:
             - /sdcard/screenshots
           test-targets-always-run:
@@ -64,7 +64,7 @@ class IosArgsTest {
           test-targets:
             - b/testBasicSelection
             - b/testBasicSelection2
-          disableSharding: true
+          disable-sharding: true
         """
 
     @Rule
@@ -146,7 +146,6 @@ IosArgs
       record-video: false
       timeout: 70m
       async: true
-      project: projectFoo
       results-history-name: ios-history
       # iOS gcloud
       test: $testAbsolutePath
@@ -164,10 +163,10 @@ IosArgs
       flaky-test-attempts: 4
 
     flank:
-      maxTestShards: 7
-      shardTime: 60
-      repeatTests: 8
-      smartFlankGcsPath:${' '}
+      max-test-shards: 7
+      shard-time: 60
+      repeat-tests: 8
+      smart-flank-gcs-path:${' '}
       test-targets-always-run:
         - a/testGrantPermissions
         - a/testGrantPermissions2
@@ -177,7 +176,8 @@ IosArgs
       test-targets:
         - b/testBasicSelection
         - b/testBasicSelection2
-      disableSharding: true
+      disable-sharding: true
+      project: projectFoo
 """.trimIndent()
         )
     }
@@ -228,7 +228,7 @@ IosArgs
       xctestrun-file: $xctestrunFile
 
     flank:
-      maxTestShards: -1
+      max-test-shards: -1
 """
         )
 
@@ -264,7 +264,7 @@ IosArgs
           test: $invalidApp
           xctestrun-file: $invalidApp
         flank:
-          disableSharding: true
+          disable-sharding: true
       """
         IosArgs.load(yaml).testShardChunks
     }
@@ -276,7 +276,7 @@ IosArgs
           test: $invalidApp
           xctestrun-file: $invalidApp
         flank:
-          disableSharding: false
+          disable-sharding: false
       """
         IosArgs.load(yaml).testShardChunks
     }
@@ -399,7 +399,7 @@ IosArgs
           xctestrun-file: $xctestrunFile
 
         flank:
-          maxTestShards: 2
+          max-test-shards: 2
       """
         assertThat(IosArgs.load(yaml).maxTestShards).isEqualTo(2)
         assertThat(IosArgs.load(yaml, cli).maxTestShards).isEqualTo(3)
@@ -416,7 +416,7 @@ IosArgs
           xctestrun-file: $xctestrunFile
 
         flank:
-          shardTime: 2
+          shard-time: 2
       """
         assertThat(IosArgs.load(yaml).shardTime).isEqualTo(2)
         assertThat(IosArgs.load(yaml, cli).shardTime).isEqualTo(3)
@@ -433,7 +433,7 @@ IosArgs
           xctestrun-file: $xctestrunFile
 
         flank:
-          disableSharding: false
+          disable-sharding: false
       """
         assertThat(IosArgs.load(yaml).disableSharding).isEqualTo(false)
         assertThat(IosArgs.load(yaml, cli).disableSharding).isEqualTo(true)
@@ -450,7 +450,7 @@ IosArgs
           xctestrun-file: $xctestrunFile
 
         flank:
-          repeatTests: 2
+          repeat-tests: 2
       """
         assertThat(IosArgs.load(yaml).repeatTests).isEqualTo(2)
         assertThat(IosArgs.load(yaml, cli).repeatTests).isEqualTo(3)

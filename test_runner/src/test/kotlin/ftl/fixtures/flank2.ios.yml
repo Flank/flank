@@ -12,8 +12,8 @@ gcloud:
     locale: en_US
 
 flank:
-  maxTestShards: 2
-  repeatTests: 1
+  max-test-shards: 2
+  repeat-tests: 1
   test-targets:
     - EarlGreyExampleSwiftTests/testWith.*$
   test-targets-always-run:

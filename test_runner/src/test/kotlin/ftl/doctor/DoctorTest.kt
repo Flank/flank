@@ -28,7 +28,6 @@ gcloud:
   record-video: .
   timeout: .
   async: .
-  project: .
   results-history-name: .
 
   app: .
@@ -50,11 +49,12 @@ gcloud:
   two: .
 
 flank:
-  maxTestShards: 7
-  repeatTests: 8
+  max-test-shards: 7
+  repeat-tests: 8
   test-targets-always-run:
     - .
   three: .
+  project: .
         """.trimIndent()
         )
         assertThat(lint).isEqualTo(
@@ -74,6 +74,7 @@ Unknown keys in flank -> [three]
 gcloud:
   app: .
   test: .
+flank:
   project: .
         """.trimIndent()
         )
@@ -98,7 +99,6 @@ gcloud:
   record-video: .
   timeout: .
   async: .
-  project: .
   results-history-name: .
 
   test: .
@@ -111,13 +111,14 @@ gcloud:
   two: .
 
 flank:
-  maxTestShards: .
-  repeatTests: .
+  max-test-shards: .
+  repeat-tests: .
   test-targets-always-run:
     - .
   test-targets:
     - .
   three: .
+  project: .
 """.trimIndent()
         )
         assertThat(lint).isEqualTo(
@@ -135,9 +136,10 @@ Unknown keys in flank -> [three]
         val lint = Doctor.validateYaml(
             IosArgs, """
 gcloud:
-  project: .
   test: .
   xctestrun-file: .
+flank:
+  project: .
 """.trimIndent()
         )
         assertThat(lint).isEqualTo("")
