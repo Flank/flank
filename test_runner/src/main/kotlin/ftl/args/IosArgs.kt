@@ -13,6 +13,7 @@ import ftl.args.yml.FlankYml
 import ftl.args.yml.GcloudYml
 import ftl.args.yml.IosFlankYml
 import ftl.args.yml.IosGcloudYml
+import ftl.args.yml.YamlDeprecated
 import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
@@ -141,7 +142,9 @@ ${listToString(testTargets)}
 
         fun load(data: Path, cli: IosRunCommand? = null): IosArgs = IosArgs.load(String(Files.readAllBytes(data)), cli)
 
-        fun load(data: String, cli: IosRunCommand? = null): IosArgs {
+        fun load(yamlData: String, cli: IosRunCommand? = null): IosArgs {
+            val data = YamlDeprecated.modifyAndThrow(yamlData, android = false)
+
             val flankYml = yamlMapper.readValue(data, FlankYml::class.java)
             val iosFlankYml = yamlMapper.readValue(data, IosFlankYml::class.java)
             val gcloudYml = yamlMapper.readValue(data, GcloudYml::class.java)
