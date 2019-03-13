@@ -82,7 +82,6 @@ gcloud:
 
     @Test
     fun iosDoctorTest() {
-        Doctor.checkIosCatalog()
         val lint = Doctor.validateYaml(IosArgs, Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.yml"))
         assertThat(lint).isEmpty()
     }

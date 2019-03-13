@@ -2,18 +2,10 @@ package ftl.doctor
 
 import ftl.args.ArgsHelper
 import ftl.args.IArgsCompanion
-import ftl.ios.IosCatalog
 import java.nio.file.Files
 import java.nio.file.Path
 
 object Doctor {
-    fun checkIosCatalog() {
-        if (!IosCatalog.supportedDevice("iphone8", "11.2")) {
-            throw RuntimeException("iPhone 8 with iOS 11.2 is unexpectedly unsupported")
-        }
-        println("Flank successfully connected to iOS catalog")
-    }
-
     fun validateYaml(args: IArgsCompanion, data: Path): String {
         if (!data.toFile().exists()) return "Skipping yaml validation. No file at path $data"
         return validateYaml(args, String(Files.readAllBytes(data)))

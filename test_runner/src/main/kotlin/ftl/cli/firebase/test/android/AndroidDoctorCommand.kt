@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.android
 
 import ftl.args.AndroidArgs
+import ftl.args.yml.YamlDeprecated
 import ftl.doctor.Doctor.validateYaml
 import java.nio.file.Paths
 import picocli.CommandLine.Command
@@ -20,7 +21,10 @@ import picocli.CommandLine.Option
 )
 class AndroidDoctorCommand : Runnable {
     override fun run() {
-        println(validateYaml(AndroidArgs, Paths.get(configPath)))
+        val ymlPath = Paths.get(configPath)
+        println(validateYaml(AndroidArgs, ymlPath))
+
+        YamlDeprecated.modify(ymlPath, fix)
     }
 
     @Option(names = ["-c", "--config"], description = ["YAML config file path"])
@@ -28,4 +32,7 @@ class AndroidDoctorCommand : Runnable {
 
     @Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
     var usageHelpRequested: Boolean = false
+
+    @Option(names = ["-f", "--fix"], description = ["Auto fix flank YAML file"])
+    var fix: Boolean = false
 }

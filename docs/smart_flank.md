@@ -4,7 +4,7 @@ Smart Flank is a sharding algorithm that groups tests into equally sized buckets
 
 ## Current implementation
 
-At the start of a run, Flank checks to see if there's a JUnit XML with timing info from the previous run. If there's no previous test time recorded, then the test is estimated to be 10 seconds. The tests are then grouped into equally timed buckets. The bucket count is set by the user provided `testShards` count.
+At the start of a run, Flank checks to see if there's a JUnit XML with timing info from the previous run. If there's no previous test time recorded, then the test is estimated to be 10 seconds. The tests are then grouped into equally timed buckets. The bucket count is set by the user provided `maxTestShards` count.
 
 After each test run, the aggregated JUnit XML from the new run is merged with the old run. Any tests not in the new run are discarded. Tests that were skipped, errored, failed, or empty are discarded. The test time value of successful tests is set using the time from the latest run. If a test failed in the new run and passed in the old run, the timing info from the old run is carried over.
 

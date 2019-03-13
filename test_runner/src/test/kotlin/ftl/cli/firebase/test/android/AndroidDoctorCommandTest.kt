@@ -26,7 +26,7 @@ class AndroidDoctorCommandTest {
         Truth.assertThat(output).startsWith(
             "Verifies flank firebase is setup correctly\n" +
                 "\n" +
-                "doctor [-h] [-c=<configPath>]\n" +
+                "doctor [-fh] [-c=<configPath>]\n" +
                 "\n" +
                 "Description:\n" +
                 "\n" +
@@ -60,5 +60,9 @@ class AndroidDoctorCommandTest {
         assertThat(cmd.usageHelpRequested).isFalse()
         cmd.usageHelpRequested = true
         assertThat(cmd.usageHelpRequested).isTrue()
+
+        assertThat(cmd.fix).isFalse()
+        cmd.fix = true
+        assertThat(cmd.fix).isTrue()
     }
 }
