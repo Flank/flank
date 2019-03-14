@@ -21,6 +21,7 @@ class YamlDeprecatedTest {
             gcloud:
               app: "a"
               test: "b"
+            flank: {}
 
         """.trimIndent()
 
@@ -28,6 +29,23 @@ class YamlDeprecatedTest {
 
         assertThat(error).isFalse()
         assertThat(output).isEqualTo(input)
+    }
+
+    @Test
+    fun `Inserts missing parents`() {
+        val input = ""
+
+        val expected = """
+            ---
+            gcloud: {}
+            flank: {}
+
+        """.trimIndent()
+
+        val (error, output) = YamlDeprecated.modify(input)
+
+        assertThat(error).isFalse()
+        assertThat(output).isEqualTo(expected)
     }
 
     @Test

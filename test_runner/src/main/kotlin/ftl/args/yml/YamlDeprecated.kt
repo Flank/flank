@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.fasterxml.jackson.databind.node.ObjectNode
 import ftl.args.ArgsHelper.yamlMapper
+import ftl.args.yml.YamlDeprecated.replace
 import ftl.util.Utils
 import ftl.util.Utils.fatalError
 import java.nio.file.Files
@@ -72,9 +73,18 @@ object YamlDeprecated {
 
     private fun JsonNode.replace(parent: Parent, child: String, value: JsonNode) {
         val parentKey = parent.toString()
-        // if the parent node ('flank:') doesn't exist then add it ('flank: {}') to the YAML
-        if (this[parentKey] == null) (this as ObjectNode).set(parentKey, JsonNodeFactory.instance.objectNode())
+
         (this[parentKey] as ObjectNode).replace(child, value)
+    }
+
+    private fun JsonNode.createParents() {
+        Parent.values().forEach { parent ->
+            val parentKey = parent.toString()
+            val parentValue = this[parentKey]
+            // if the parent node ('flank:') doesn't exist then add it ('flank: {}') to the YAML
+            val nullParent = parentValue == null || parentValue.toString() == "null"
+            if (nullParent) (this as ObjectNode).set(parentKey, JsonNodeFactory.instance.objectNode())
+        }
     }
 
     private fun mutate(parsed: JsonNode, changes: List<Transform>) {
@@ -127,7 +137,9 @@ object YamlDeprecated {
     }
 
     fun modify(yamlData: String): Pair<Boolean, String> {
-        val parsed = yamlMapper.readTree(yamlData)
+        val parsed = yamlMapper.readTree(yamlData) ?: JsonNodeFactory.instance.objectNode()
+        parsed.createParents()
+
         yamlMapper.writerWithDefaultPrettyPrinter()
         var errorDetected = false
         val changes = mutableListOf<Transform>()
