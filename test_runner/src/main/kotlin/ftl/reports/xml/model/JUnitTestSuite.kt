@@ -46,6 +46,14 @@ data class JUnitTestSuite(
     val systemErr: Any? // <system-err />
 ) {
 
+    fun successful(): Boolean {
+        return failures == "0" && errors == "0"
+    }
+
+    fun failed(): Boolean {
+        return successful().not()
+    }
+
     /** Call after setting testcases manually to update the statistics (error count, skip count, etc.) */
     fun updateTestStats() {
         this.tests = testcases?.size.toString()

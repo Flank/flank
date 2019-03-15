@@ -11,6 +11,15 @@ data class JUnitTestResult(
     @JacksonXmlProperty(localName = "testsuite")
     var testsuites: MutableList<JUnitTestSuite>?
 ) {
+    fun successful(): Boolean {
+        var successful = true
+        testsuites?.forEach { suite ->
+            if (suite.failed()) successful = false
+        }
+
+        return successful
+    }
+
     fun mergeTestTimes(other: JUnitTestResult?): JUnitTestResult {
         if (other == null) return this
         if (this.testsuites == null) this.testsuites = mutableListOf()
