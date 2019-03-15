@@ -1,6 +1,7 @@
 package ftl.util
 
 import com.google.common.truth.Truth.assertThat
+import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.json.MatrixMap
 import org.junit.Test
@@ -30,14 +31,14 @@ class MatrixUtilTest {
     fun resolveLocalRunPath_validInput() {
         val matrixMap = mock(MatrixMap::class.java)
         `when`(matrixMap.runPath).thenReturn("a/b")
-        assertThat(resolveLocalRunPath(matrixMap)).isEqualTo("results/b")
+        assertThat(resolveLocalRunPath(matrixMap, AndroidArgs.default())).isEqualTo("results/b")
     }
 
     @Test
     fun resolveLocalRunPath_pathExists() {
         val matrixMap = mock(MatrixMap::class.java)
         `when`(matrixMap.runPath).thenReturn("/tmp")
-        assertThat(resolveLocalRunPath(matrixMap)).isEqualTo("/tmp")
+        assertThat(resolveLocalRunPath(matrixMap, AndroidArgs.default())).isEqualTo("/tmp")
     }
 
     @Test

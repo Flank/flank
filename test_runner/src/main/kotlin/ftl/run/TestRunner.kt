@@ -12,7 +12,6 @@ import ftl.config.FtlConstants
 import ftl.config.FtlConstants.defaultAndroidConfig
 import ftl.config.FtlConstants.defaultIosConfig
 import ftl.config.FtlConstants.indent
-import ftl.config.FtlConstants.localResultsDir
 import ftl.config.FtlConstants.localhost
 import ftl.config.FtlConstants.matrixIdsFile
 import ftl.gc.GcStorage
@@ -55,8 +54,8 @@ object TestRunner {
         }
     }
 
-    fun updateMatrixFile(matrixMap: MatrixMap): Path {
-        val matrixIdsPath = Paths.get(FtlConstants.localResultsDir, matrixMap.runPath, FtlConstants.matrixIdsFile)
+    fun updateMatrixFile(matrixMap: MatrixMap, args: IArgs): Path {
+        val matrixIdsPath = Paths.get(args.localResultDir, matrixMap.runPath, FtlConstants.matrixIdsFile)
         matrixIdsPath.parent.toFile().mkdirs()
         Files.write(matrixIdsPath, gson.toJson(matrixMap.map).toByteArray())
         return matrixIdsPath
@@ -64,7 +63,7 @@ object TestRunner {
 
     fun saveConfigFile(matrixRunPath: String, args: IArgs): Path? {
         val configFilePath =
-            Paths.get(FtlConstants.localResultsDir, matrixRunPath, FtlConstants.configFileName(args))
+            Paths.get(args.localResultDir, matrixRunPath, FtlConstants.configFileName(args))
         configFilePath.parent.toFile().mkdirs()
         Files.write(configFilePath, args.data.toByteArray())
         return configFilePath
@@ -100,7 +99,7 @@ object TestRunner {
 
         if (dirty) {
             println(FtlConstants.indent + "Updating matrix file")
-            updateMatrixFile(matrixMap)
+            updateMatrixFile(matrixMap, args)
         }
         println()
     }
@@ -131,8 +130,8 @@ object TestRunner {
         println()
     }
 
-    private fun lastGcsPath(): String? {
-        val resultsFile = Paths.get(FtlConstants.localResultsDir).toFile()
+    private fun lastGcsPath(args: IArgs): String? {
+        val resultsFile = Paths.get(args.localResultDir).toFile()
         if (!resultsFile.exists()) return null
 
         val scheduledRuns = resultsFile.listFiles().filter { it.isDirectory }.sortedBy { it.lastModified() }
@@ -141,16 +140,16 @@ object TestRunner {
         return scheduledRuns.first().name
     }
 
-    /** Reads in the last matrices from the localResultsDir folder **/
-    private fun lastArgs(): IArgs {
-        val lastRun = lastGcsPath()
+    /** Reads in the last matrices from the localResultDir folder **/
+    private fun lastArgs(args: IArgs): IArgs {
+        val lastRun = lastGcsPath(args)
 
         if (lastRun == null) {
             fatalError("no runs found in results/ folder")
         }
 
-        val iosConfig = Paths.get(localResultsDir, lastRun, defaultIosConfig)
-        val androidConfig = Paths.get(localResultsDir, lastRun, defaultAndroidConfig)
+        val iosConfig = Paths.get(args.localResultDir, lastRun, defaultIosConfig)
+        val androidConfig = Paths.get(args.localResultDir, lastRun, defaultAndroidConfig)
 
         when {
             iosConfig.toFile().exists() -> return IosArgs.load(iosConfig)
@@ -161,9 +160,9 @@ object TestRunner {
         throw RuntimeException("should not happen")
     }
 
-    /** Reads in the last matrices from the localResultsDir folder **/
-    private fun lastMatrices(): MatrixMap {
-        val lastRun = lastGcsPath()
+    /** Reads in the last matrices from the localResultDir folder **/
+    private fun lastMatrices(args: IArgs): MatrixMap {
+        val lastRun = lastGcsPath(args)
 
         if (lastRun == null) {
             fatalError("no runs found in results/ folder")
@@ -171,14 +170,14 @@ object TestRunner {
         }
 
         println("Loading run $lastRun")
-        return matrixPathToObj(lastRun)
+        return matrixPathToObj(lastRun, args)
     }
 
     /** Creates MatrixMap from matrix_ids.json file */
-    fun matrixPathToObj(path: String): MatrixMap {
+    fun matrixPathToObj(path: String, args: IArgs): MatrixMap {
         var filePath = Paths.get(path, matrixIdsFile).toFile()
         if (!filePath.exists()) {
-            filePath = Paths.get(localResultsDir, path, matrixIdsFile).toFile()
+            filePath = Paths.get(args.localResultDir, path, matrixIdsFile).toFile()
         }
         val json = filePath.readText()
 
@@ -210,7 +209,7 @@ object TestRunner {
                     result.iterateAll().forEach { blob ->
                         val blobPath = blob.blobId.name
                         if (artifactsList.any { blobPath.matches(it) }) {
-                            val downloadFile = Paths.get(FtlConstants.localResultsDir, blobPath)
+                            val downloadFile = Paths.get(args.localResultDir, blobPath)
                             print(".")
                             if (!downloadFile.toFile().exists()) {
                                 downloadFile.parent.toFile().mkdirs()
@@ -228,7 +227,7 @@ object TestRunner {
 
         if (dirty) {
             println(FtlConstants.indent + "Updating matrix file")
-            updateMatrixFile(matrixMap)
+            updateMatrixFile(matrixMap, args)
             println()
         }
     }
@@ -250,7 +249,7 @@ object TestRunner {
         }
         println()
 
-        updateMatrixFile(matrices)
+        updateMatrixFile(matrices, args)
     }
 
     // Used for when the matrix has exactly one test. Polls for detailed progress
@@ -324,25 +323,25 @@ object TestRunner {
     }
 
     // used to update and poll the results from an async run
-    suspend fun refreshLastRun() {
-        val matrixMap = lastMatrices()
-        val args = lastArgs()
+    suspend fun refreshLastRun(currentArgs: IArgs) {
+        val matrixMap = lastMatrices(currentArgs)
+        val lastArgs = lastArgs(currentArgs)
 
-        refreshMatrices(matrixMap, args)
-        pollMatrices(matrixMap, args)
-        fetchArtifacts(matrixMap, args)
+        refreshMatrices(matrixMap, lastArgs)
+        pollMatrices(matrixMap, lastArgs)
+        fetchArtifacts(matrixMap, lastArgs)
 
         // Must generate reports *after* fetching xml artifacts since reports require xml
-        val exitCode = ReportManager.generate(matrixMap, args)
+        val exitCode = ReportManager.generate(matrixMap, lastArgs)
         System.exit(exitCode)
     }
 
     // used to cancel and update results from an async run
-    fun cancelLastRun() {
-        val matrixMap = lastMatrices()
-        val args = lastArgs()
+    fun cancelLastRun(args: IArgs) {
+        val matrixMap = lastMatrices(args)
+        val lastArgs = lastArgs(args)
 
-        cancelMatrices(matrixMap, args)
+        cancelMatrices(matrixMap, lastArgs)
     }
 
     suspend fun newRun(args: IArgs) {

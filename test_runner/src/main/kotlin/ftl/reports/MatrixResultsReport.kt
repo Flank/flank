@@ -1,5 +1,6 @@
 package ftl.reports
 
+import ftl.args.IArgs
 import ftl.config.FtlConstants.indent
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
@@ -62,14 +63,14 @@ object MatrixResultsReport : IReport {
         }
     }
 
-    private fun write(matrices: MatrixMap, output: String) {
-        val reportPath = reportPath(matrices)
+    private fun write(matrices: MatrixMap, output: String, args: IArgs) {
+        val reportPath = reportPath(matrices, args)
         reportPath.write(output)
     }
 
-    override fun run(matrices: MatrixMap, testSuite: JUnitTestResult?, printToStdout: Boolean) {
+    override fun run(matrices: MatrixMap, testSuite: JUnitTestResult?, printToStdout: Boolean, args: IArgs) {
         val output = generate(matrices)
         if (printToStdout) print(output)
-        write(matrices, output)
+        write(matrices, output, args)
     }
 }

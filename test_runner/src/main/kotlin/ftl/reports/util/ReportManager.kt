@@ -20,9 +20,9 @@ import kotlin.math.roundToInt
 
 object ReportManager {
 
-    private fun findXmlFiles(matrices: MatrixMap): List<File> {
+    private fun findXmlFiles(matrices: MatrixMap, args: IArgs): List<File> {
         val xmlFiles = mutableListOf<File>()
-        val rootFolder = File(resolveLocalRunPath(matrices))
+        val rootFolder = File(resolveLocalRunPath(matrices, args))
 
         rootFolder.walk().forEach {
             if (it.name.matches(Artifacts.testResultRgx)) {
@@ -53,10 +53,10 @@ object ReportManager {
         return matchResult?.groupValues?.last().orEmpty()
     }
 
-    private fun processXml(matrices: MatrixMap, process: (file: File) -> JUnitTestResult): JUnitTestResult? {
+    private fun processXml(matrices: MatrixMap, args: IArgs, process: (file: File) -> JUnitTestResult): JUnitTestResult? {
         var mergedXml: JUnitTestResult? = null
 
-        findXmlFiles(matrices).forEach { xmlFile ->
+        findXmlFiles(matrices, args).forEach { xmlFile ->
             val parsedXml = process(xmlFile)
             val webLink = getWebLink(matrices, xmlFile)
             val suiteName = getDeviceString(xmlFile.parentFile.name)
@@ -77,9 +77,9 @@ object ReportManager {
     private fun parseTestSuite(matrices: MatrixMap, args: IArgs): JUnitTestResult? {
         val iosXml = args is IosArgs
         return if (iosXml) {
-            processXml(matrices, ::parseAllSuitesXml)
+            processXml(matrices, args, ::parseAllSuitesXml)
         } else {
-            processXml(matrices, ::parseOneSuiteXml)
+            processXml(matrices, args, ::parseOneSuiteXml)
         }
     }
 
@@ -96,16 +96,16 @@ object ReportManager {
             CostReport,
             MatrixResultsReport
         ).map {
-            it.run(matrices, testSuite, printToStdout = true)
+            it.run(matrices, testSuite, printToStdout = true, args = args)
         }
 
         if (!testSuccessful) {
             listOf(
                 HtmlErrorReport
-            ).map { it.run(matrices, testSuite) }
+            ).map { it.run(matrices, testSuite, printToStdout = false, args = args) }
         }
 
-        JUnitReport.run(matrices, testSuite)
+        JUnitReport.run(matrices, testSuite, printToStdout = false, args = args)
         processJunitXml(testSuite, args)
 
         // FTL has a bug with matrix roll-up when using flakyTestAttempts

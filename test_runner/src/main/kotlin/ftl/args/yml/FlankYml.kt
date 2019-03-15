@@ -32,13 +32,18 @@ class FlankYmlParams(
     @field:JsonProperty("files-to-download")
     val filesToDownload: List<String> = emptyList(),
 
-    val project: String = ArgsHelper.getDefaultProjectId() ?: ""
+    val project: String = ArgsHelper.getDefaultProjectId() ?: "",
+
+    @field:JsonProperty("local-result-dir")
+    val localResultDir: String = defaultLocalResultDir
 ) {
     companion object : IYmlKeys {
         override val keys = listOf(
             "max-test-shards", "shard-time", "repeat-tests", "smart-flank-gcs-path", "disable-sharding",
-            "test-targets-always-run", "files-to-download", "project"
+            "test-targets-always-run", "files-to-download", "project", "local-result-dir"
         )
+
+        const val defaultLocalResultDir = "results"
     }
 
     init {

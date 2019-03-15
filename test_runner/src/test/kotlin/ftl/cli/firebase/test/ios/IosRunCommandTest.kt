@@ -37,7 +37,10 @@ class IosRunCommandTest {
     @Test
     fun iosRunCommandRuns() {
         exit.expectSystemExit()
-        IosRunCommand().run()
+        val runCmd = IosRunCommand()
+        runCmd.configPath = "./src/test/kotlin/ftl/fixtures/ios.yml"
+        runCmd.run()
+
         val output = systemOutRule.log
         Truth.assertThat(output).contains("1 / 1 (100.00%)")
     }
@@ -78,6 +81,7 @@ class IosRunCommandTest {
         assertThat(cmd.device).isNull()
         assertThat(cmd.resultsDir).isNull()
         assertThat(cmd.flakyTestAttempts).isNull()
+        assertThat(cmd.localResultsDir).isNull()
     }
 
     @Test
@@ -242,5 +246,13 @@ class IosRunCommandTest {
         CommandLine(cmd).parse("--disable-sharding")
 
         assertThat(cmd.disableSharding).isEqualTo(true)
+    }
+
+    @Test
+    fun `local-results-dir parse`() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parse("--local-result-dir=a")
+
+        assertThat(cmd.localResultsDir).isEqualTo("a")
     }
 }

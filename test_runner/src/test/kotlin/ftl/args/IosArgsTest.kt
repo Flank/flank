@@ -178,6 +178,7 @@ IosArgs
         - b/testBasicSelection2
       disable-sharding: true
       project: projectFoo
+      local-result-dir: results
 """.trimIndent()
         )
     }
@@ -615,6 +616,22 @@ IosArgs
 
         val androidArgs = IosArgs.load(yaml, cli)
         assertThat(androidArgs.flakyTestAttempts).isEqualTo(3)
+    }
+
+    @Test
+    fun `cli local-results-dir`() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--local-result-dir=a")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+      """
+        assertThat(IosArgs.load(yaml).localResultDir).isEqualTo("results")
+
+        val androidArgs = IosArgs.load(yaml, cli)
+        assertThat(androidArgs.localResultDir).isEqualTo("a")
     }
 
     private fun getValidTestsSample() = listOf(

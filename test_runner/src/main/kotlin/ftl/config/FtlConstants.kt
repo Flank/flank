@@ -90,8 +90,6 @@ object FtlConstants {
         }
     }
 
-    const val localResultsDir = "results"
-
     fun configFileName(args: IArgs): String {
         return when (args) {
             is IosArgs -> defaultIosConfig

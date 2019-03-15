@@ -19,6 +19,7 @@ import ftl.args.ArgsToString.devicesToString
 import ftl.args.ArgsToString.listToString
 import ftl.args.ArgsToString.mapToString
 import ftl.args.yml.AndroidGcloudYml
+import ftl.args.yml.AndroidGcloudYmlParams
 import ftl.args.yml.FlankYml
 import ftl.args.yml.GcloudYml
 import ftl.args.yml.YamlDeprecated
@@ -72,6 +73,7 @@ class AndroidArgs(
     override val filesToDownload = cli?.filesToDownload ?: flank.filesToDownload
     override val disableSharding = cli?.disableSharding ?: flank.disableSharding
     override val project = cli?.project ?: flank.project
+    override val localResultDir = cli?.localResultDir ?: flank.localResultDir
 
     // computed properties not specified in yaml
     override val testShardChunks: List<List<String>> by lazy {
@@ -173,6 +175,7 @@ ${listToString(filesToDownload)}
 ${listToString(testTargetsAlwaysRun)}
       disable-sharding: $disableSharding
       project: $project
+      local-result-dir: $localResultDir
    """.trimIndent()
     }
 
@@ -198,6 +201,10 @@ ${listToString(testTargetsAlwaysRun)}
                 data,
                 cli
             )
+        }
+
+        fun default(): AndroidArgs {
+            return AndroidArgs(GcloudYml(), AndroidGcloudYml(AndroidGcloudYmlParams(app = ".", test = ".")), FlankYml(), "", AndroidRunCommand())
         }
     }
 }

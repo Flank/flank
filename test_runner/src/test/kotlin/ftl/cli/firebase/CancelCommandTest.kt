@@ -48,7 +48,9 @@ class CancelCommandTest {
     @Test
     fun cancelCommandRuns() {
         exit.expectSystemExit()
-        AndroidRunCommand().run()
+        val runCmd = AndroidRunCommand()
+        runCmd.configPath = "./src/test/kotlin/ftl/fixtures/android.yml"
+        runCmd.run()
         CancelCommand().run()
         val output = systemOutRule.log
         Truth.assertThat(output).contains("No matrices to cancel")

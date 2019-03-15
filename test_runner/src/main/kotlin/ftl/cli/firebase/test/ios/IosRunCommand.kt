@@ -214,4 +214,10 @@ class IosRunCommand : Runnable {
                 "fail for any reason. The maximum number of reruns allowed is 10. Default is 0, which implies no reruns."]
     )
     var flakyTestAttempts: Int? = null
+
+    @Option(
+        names = ["--local-result-dir"],
+        description = ["Saves test result to this local folder. Deleted before each run."]
+    )
+    var localResultsDir: String? = null
 }

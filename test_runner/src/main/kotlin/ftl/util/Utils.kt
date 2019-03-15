@@ -50,7 +50,7 @@ object Utils {
             throw RuntimeException(e)
         }
         System.err.println(e)
-        exitProcess(-1)
+        exitProcess(3)
     }
 
     fun assertNotEmpty(str: String, e: String) {
