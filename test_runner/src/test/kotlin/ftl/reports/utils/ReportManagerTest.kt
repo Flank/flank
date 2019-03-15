@@ -74,4 +74,16 @@ class ReportManagerTest {
 
         assertThat(result).isEqualTo(expected)
     }
+
+    @Test
+    fun `Test getDeviceString`() {
+        assertThat(ReportManager.getDeviceString("NexusLowRes-28-en-portrait-rerun_1"))
+            .isEqualTo("NexusLowRes-28-en-portrait")
+
+        assertThat(ReportManager.getDeviceString("NexusLowRes-28-en-portrait"))
+            .isEqualTo("NexusLowRes-28-en-portrait")
+
+        assertThat(ReportManager.getDeviceString(""))
+            .isEqualTo("")
+    }
 }

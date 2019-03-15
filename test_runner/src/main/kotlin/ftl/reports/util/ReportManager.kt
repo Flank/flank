@@ -46,14 +46,23 @@ object ReportManager {
         return webLink
     }
 
+    private val deviceStringRgx = Regex("([^-]+-[^-]+-[^-]+-[^-]+).*")
+    // NexusLowRes-28-en-portrait-rerun_1 =>  NexusLowRes-28-en-portrait
+    fun getDeviceString(deviceString: String): String {
+        val matchResult = deviceStringRgx.find(deviceString)
+        return matchResult?.groupValues?.last().orEmpty()
+    }
+
     private fun processXml(matrices: MatrixMap, process: (file: File) -> JUnitTestResult): JUnitTestResult? {
         var mergedXml: JUnitTestResult? = null
 
         findXmlFiles(matrices).forEach { xmlFile ->
             val parsedXml = process(xmlFile)
             val webLink = getWebLink(matrices, xmlFile)
+            val suiteName = getDeviceString(xmlFile.parentFile.name)
 
             parsedXml.testsuites?.forEach { testSuite ->
+                testSuite.name = suiteName
                 testSuite.testcases?.forEach { testCase ->
                     testCase.webLink = webLink
                 }

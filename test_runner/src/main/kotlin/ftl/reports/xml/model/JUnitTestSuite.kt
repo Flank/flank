@@ -5,7 +5,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 
 data class JUnitTestSuite(
     @JacksonXmlProperty(isAttribute = true)
-    val name: String,
+    var name: String,
 
     @JacksonXmlProperty(isAttribute = true)
     var tests: String, // Int
