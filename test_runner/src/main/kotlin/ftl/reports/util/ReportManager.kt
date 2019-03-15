@@ -77,6 +77,8 @@ object ReportManager {
     /** Returns true if there were no test failures */
     fun generate(matrices: MatrixMap, args: IArgs): Int {
         val testSuite = parseTestSuite(matrices, args)
+        if (args.flakyTestAttempts > 0) JUnitDedupe.modify(testSuite)
+
         val testSuccessful = matrices.allSuccessful()
 
         listOf(
