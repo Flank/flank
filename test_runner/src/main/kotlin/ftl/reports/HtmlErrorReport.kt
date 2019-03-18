@@ -1,6 +1,7 @@
 package ftl.reports
 
 import com.google.gson.Gson
+import ftl.args.IArgs
 import ftl.json.MatrixMap
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestCase
@@ -77,7 +78,7 @@ object HtmlErrorReport : IReport {
         return groupJson to itemJson
     }
 
-    override fun run(matrices: MatrixMap, testSuite: JUnitTestResult?, printToStdout: Boolean) {
+    override fun run(matrices: MatrixMap, testSuite: JUnitTestResult?, printToStdout: Boolean, args: IArgs) {
         if (testSuite == null) return
         val reactJson = reactJson(testSuite) ?: return
         val newGroupJson = reactJson.first
@@ -88,7 +89,7 @@ object HtmlErrorReport : IReport {
         templateData = replaceRange(templateData, findGroupRange(templateData), newGroupJson)
         templateData = replaceRange(templateData, findItemRange(templateData), newItemsJson)
 
-        val writePath = Paths.get(reportPath(matrices))
+        val writePath = Paths.get(reportPath(matrices, args))
         Files.write(writePath, templateData.toByteArray())
     }
 

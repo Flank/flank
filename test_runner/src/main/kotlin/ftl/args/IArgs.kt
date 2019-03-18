@@ -22,6 +22,7 @@ interface IArgs {
     val testTargetsAlwaysRun: List<String>
     val filesToDownload: List<String>
     val disableSharding: Boolean
+    val localResultDir: String?
 
     // computed property
     val testShardChunks: List<List<String>>

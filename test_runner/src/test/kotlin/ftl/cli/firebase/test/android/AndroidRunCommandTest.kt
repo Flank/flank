@@ -37,7 +37,9 @@ class AndroidRunCommandTest {
     @Test
     fun androidRunCommandRuns() {
         exit.expectSystemExit()
-        AndroidRunCommand().run()
+        val runCmd = AndroidRunCommand()
+        runCmd.configPath = "./src/test/kotlin/ftl/fixtures/android.yml"
+        runCmd.run()
         val output = systemOutRule.log
         assertThat(output).contains("1 / 1 (100.00%)")
     }
@@ -85,6 +87,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.resultsDir).isNull()
         assertThat(cmd.flakyTestAttempts).isNull()
         assertThat(cmd.disableSharding).isNull()
+        assertThat(cmd.localResultDir).isNull()
     }
 
     @Test
@@ -308,5 +311,13 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parse("--disable-sharding")
 
         assertThat(cmd.disableSharding).isEqualTo(true)
+    }
+
+    @Test
+    fun `localResultsDir parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--local-result-dir=a")
+
+        assertThat(cmd.localResultDir).isEqualTo("a")
     }
 }

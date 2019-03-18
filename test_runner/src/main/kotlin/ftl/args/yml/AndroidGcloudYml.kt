@@ -52,7 +52,7 @@ class AndroidGcloudYmlParams(
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class AndroidGcloudYml(
-    val gcloud: AndroidGcloudYmlParams
+    val gcloud: AndroidGcloudYmlParams = AndroidGcloudYmlParams()
 
 ) {
     companion object : IYmlMap {

@@ -1,15 +1,14 @@
 package ftl.util
 
 import ftl.args.IArgs
-import ftl.config.FtlConstants
 import ftl.json.MatrixMap
 import java.io.File
 import java.nio.file.Paths
 import java.util.concurrent.TimeUnit
 
-fun resolveLocalRunPath(matrices: MatrixMap): String {
+fun resolveLocalRunPath(matrices: MatrixMap, args: IArgs): String {
     var runPath = File(matrices.runPath)
-    if (!runPath.exists()) runPath = Paths.get(FtlConstants.localResultsDir, runPath.name).toFile()
+    if (!runPath.exists()) runPath = Paths.get(args.localResultDir, runPath.name).toFile()
 
     return runPath.toString()
 }

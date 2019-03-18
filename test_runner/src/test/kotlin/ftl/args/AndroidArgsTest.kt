@@ -226,6 +226,7 @@ AndroidArgs
         - class example.Test#grantPermission2
       disable-sharding: true
       project: projectFoo
+      local-result-dir: results
 """.trimIndent()
         )
     }
@@ -788,11 +789,28 @@ AndroidArgs
         gcloud:
           app: $appApk
           test: $testApk
-          results-dir: a
       """
         assertThat(AndroidArgs.load(yaml).flakyTestAttempts).isEqualTo(0)
 
         val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.flakyTestAttempts).isEqualTo(3)
+    }
+
+    @Test
+    fun `cli local-result-dir`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--local-result-dir=b")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          local-result-dir: a
+      """
+        assertThat(AndroidArgs.load(yaml).localResultDir).isEqualTo("a")
+
+        val androidArgs = AndroidArgs.load(yaml, cli)
+        assertThat(androidArgs.localResultDir).isEqualTo("b")
     }
 }

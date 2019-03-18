@@ -3,6 +3,7 @@ package ftl.cli.firebase
 import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import ftl.test.util.FlankTestRunner
+import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 import org.junit.Rule
@@ -28,6 +29,10 @@ class RefreshCommandTest {
         val yamlCfg = Paths.get(parent, "flank.yml")
         matrixIds.parent.toFile().mkdirs()
 
+        Runtime.getRuntime().addShutdownHook(Thread {
+            File(parent).deleteRecursively()
+        })
+
         if (matrixIds.toFile().exists() && yamlCfg.toFile().exists()) return
 
         Files.write(
@@ -43,14 +48,16 @@ class RefreshCommandTest {
                 "billablePhysicalMinutes": 0,
                 "outcome": "success" }
             }
-            """.trimIndent().toByteArray())
+            """.trimIndent().toByteArray()
+        )
 
         Files.write(
             yamlCfg, """
              gcloud:
                app: ../test_app/apks/app-debug.apk
                test: ../test_app/apks/app-debug-androidTest.apk
-            """.trimIndent().toByteArray())
+            """.trimIndent().toByteArray()
+        )
     }
 
     @Test
@@ -82,7 +89,9 @@ class RefreshCommandTest {
     fun refreshCommandRuns() {
         exit.expectSystemExit()
         setupResultsDir()
-        RefreshCommand().run()
+        val cmd = RefreshCommand()
+        cmd.usageHelpRequested
+        cmd.run()
         val output = systemOutRule.log
         Truth.assertThat(output).contains("1 / 1 (100.00%)")
     }

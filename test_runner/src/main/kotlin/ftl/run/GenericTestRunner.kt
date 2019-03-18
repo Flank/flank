@@ -2,11 +2,14 @@ package ftl.run
 
 import com.google.api.services.testing.model.TestMatrix
 import ftl.args.IArgs
+import ftl.args.yml.FlankYmlParams
 import ftl.config.FtlConstants
+import ftl.config.FtlConstants.useMock
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
 import ftl.util.StopWatch
 import ftl.util.Utils
+import java.io.File
 
 object GenericTestRunner {
     fun beforeRunTests(args: IArgs): Pair<StopWatch, String> {
@@ -14,7 +17,22 @@ object GenericTestRunner {
         val stopwatch = StopWatch().start()
         TestRunner.assertMockUrl()
 
-        val resultsDir = args.resultsDir ?: Utils.uniqueObjectName()
+        val resultsDir = if (args.localResultDir != FlankYmlParams.defaultLocalResultDir) {
+            // Only one result is stored when using --local-result-dir
+            // Delete any old results if they exist before storing new ones.
+            File(args.localResultDir).deleteRecursively()
+            "../${args.localResultDir}"
+        } else {
+            args.resultsDir ?: Utils.uniqueObjectName()
+        }
+
+        // Avoid spamming the results/ dir with temporary files from running the test suite.
+        if (useMock) {
+            Runtime.getRuntime().addShutdownHook(Thread {
+                File(args.localResultDir, resultsDir).deleteRecursively()
+            })
+        }
+
         return stopwatch to resultsDir
     }
 
@@ -32,13 +50,13 @@ object GenericTestRunner {
         }
 
         val matrixMap = MatrixMap(savedMatrices, runGcsPath)
-        TestRunner.updateMatrixFile(matrixMap)
+        TestRunner.updateMatrixFile(matrixMap, config)
 
         TestRunner.saveConfigFile(matrixMap.runPath, config)
 
         println(FtlConstants.indent + "${savedMatrices.size} matrix ids created in ${stopwatch.check()}")
         val gcsBucket = "https://console.developers.google.com/storage/browser/" +
-            config.resultsBucket + "/" + matrixMap.runPath
+                config.resultsBucket + "/" + matrixMap.runPath
         println(FtlConstants.indent + gcsBucket)
         println()
 

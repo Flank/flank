@@ -151,6 +151,9 @@ flank:
 
   ## The billing enabled Google Cloud Platform project name to use
   # project: delta-essence-114723
+
+  ## Local folder to store the test result. Folder is DELETED before each run to ensure only artifacts from the new run are saved.
+  # local-result-dir: flank
 ```
 
 ### Android example
@@ -285,6 +288,9 @@ flank:
 
   ## The billing enabled Google Cloud Platform project name to use
   # project: delta-essence-114723
+
+  ## Local folder to store the test result. Folder is DELETED before each run to ensure only artifacts from the new run are saved.
+  # local-result-dir: flank
 ```
 
 ### Android code coverage

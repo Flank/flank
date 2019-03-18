@@ -56,6 +56,7 @@ class IosArgs(
     override val filesToDownload = cli?.filesToDownload ?: flank.filesToDownload
     override val disableSharding = cli?.disableSharding ?: flank.disableSharding
     override val project = cli?.project ?: flank.project
+    override val localResultDir = cli?.localResultsDir ?: flank.localResultDir
 
     private val iosFlank = iosFlankYml.flank
     val testTargets = cli?.testTargets ?: iosFlank.testTargets
@@ -132,6 +133,7 @@ ${listToString(filesToDownload)}
 ${listToString(testTargets)}
       disable-sharding: $disableSharding
       project: $project
+      local-result-dir: $localResultDir
     """.trimIndent()
     }
 
