@@ -31,13 +31,18 @@ object Parse {
             .replace(' ', '/')
     }
 
+    private fun String.quote(): String {
+        return "\"$this\""
+    }
+
     internal fun parseObjcTests(binary: String): List<String> {
         installBinaries
         validateFile(binary)
 
         val results = mutableListOf<String>()
         // https://github.com/linkedin/bluepill/blob/37e7efa42472222b81adaa0e88f2bd82aa289b44/Source/Shared/BPXCTestFile.m#L18
-        var cmd = "nm -U $binary"
+        // must quote binary path in case there are spaces
+        var cmd = "nm -U ${binary.quote()}"
         if (!macOS) cmd = "PATH=~/.flank $cmd"
         val output = Bash.execute(cmd)
 
@@ -63,9 +68,9 @@ object Parse {
         val argMax = 262_144
 
         val cmd = if (macOS) {
-            "nm -gU $binary | xargs -s $argMax xcrun swift-demangle"
+            "nm -gU ${binary.quote()} | xargs -s $argMax xcrun swift-demangle"
         } else {
-            "export LD_LIBRARY_PATH=~/.flank; export PATH=~/.flank:\$PATH; nm -gU $binary | xargs -s $argMax swift-demangle"
+            "export LD_LIBRARY_PATH=~/.flank; export PATH=~/.flank:\$PATH; nm -gU ${binary.quote()} | xargs -s $argMax swift-demangle"
         }
 
         // https://github.com/linkedin/bluepill/blob/37e7efa42472222b81adaa0e88f2bd82aa289b44/Source/Shared/BPXCTestFile.m#L17-18
