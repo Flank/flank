@@ -5,7 +5,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 
 data class JUnitTestSuite(
     @JacksonXmlProperty(isAttribute = true)
-    val name: String,
+    var name: String,
 
     @JacksonXmlProperty(isAttribute = true)
     var tests: String, // Int
@@ -31,7 +31,7 @@ data class JUnitTestSuite(
     val hostname: String, // String.
 
     @JacksonXmlProperty(localName = "testcase")
-    var testcases: MutableList<JUnitTestCase>?,
+    var testcases: MutableCollection<JUnitTestCase>?,
 
     // not used
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -45,6 +45,23 @@ data class JUnitTestSuite(
     @JacksonXmlProperty(localName = "system-err")
     val systemErr: Any? // <system-err />
 ) {
+
+    fun successful(): Boolean {
+        return failures == "0" && errors == "0"
+    }
+
+    fun failed(): Boolean {
+        return successful().not()
+    }
+
+    /** Call after setting testcases manually to update the statistics (error count, skip count, etc.) */
+    fun updateTestStats() {
+        this.tests = testcases?.size.toString()
+        this.failures = testcases?.count { it.failures?.isNotEmpty() == true }.toString()
+        this.errors = testcases?.count { it.errors?.isNotEmpty() == true }.toString()
+        this.skipped = testcases?.count { it.skipped() }.toString()
+        this.time = testcases?.fold("0") { acc, test -> mergeDouble(acc, test.time) } ?: "0"
+    }
 
     /**
      * Strips all characters except numbers and a period

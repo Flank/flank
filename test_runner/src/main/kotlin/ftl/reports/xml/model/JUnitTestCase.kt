@@ -10,6 +10,10 @@ private class FilterNotNull {
         // other is not null = absent (default value)
         return other != null
     }
+
+    override fun hashCode(): Int {
+        return javaClass.hashCode()
+    }
 }
 
 // https://android.googlesource.com/platform/tools/base/+/tools_r22/ddmlib/src/main/java/com/android/ddmlib/testrunner/XmlTestRunListener.java#256
@@ -17,8 +21,10 @@ data class JUnitTestCase(
     // name, classname, and time are always present except for empty test cases <testcase/>
     @JacksonXmlProperty(isAttribute = true)
     val name: String?,
+
     @JacksonXmlProperty(isAttribute = true)
     val classname: String?,
+
     @JacksonXmlProperty(isAttribute = true)
     val time: String?,
 
@@ -43,6 +49,7 @@ data class JUnitTestCase(
         return name == null || classname == null || time == null
     }
 
+    /** Failed means there was a failure or an error. */
     fun failed(): Boolean {
         return failures?.isNotEmpty() == true || errors?.isNotEmpty() == true
     }

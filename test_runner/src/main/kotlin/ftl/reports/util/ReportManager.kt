@@ -46,14 +46,23 @@ object ReportManager {
         return webLink
     }
 
+    private val deviceStringRgx = Regex("([^-]+-[^-]+-[^-]+-[^-]+).*")
+    // NexusLowRes-28-en-portrait-rerun_1 =>  NexusLowRes-28-en-portrait
+    fun getDeviceString(deviceString: String): String {
+        val matchResult = deviceStringRgx.find(deviceString)
+        return matchResult?.groupValues?.last().orEmpty()
+    }
+
     private fun processXml(matrices: MatrixMap, process: (file: File) -> JUnitTestResult): JUnitTestResult? {
         var mergedXml: JUnitTestResult? = null
 
         findXmlFiles(matrices).forEach { xmlFile ->
             val parsedXml = process(xmlFile)
             val webLink = getWebLink(matrices, xmlFile)
+            val suiteName = getDeviceString(xmlFile.parentFile.name)
 
             parsedXml.testsuites?.forEach { testSuite ->
+                testSuite.name = suiteName
                 testSuite.testcases?.forEach { testCase ->
                     testCase.webLink = webLink
                 }
@@ -77,7 +86,11 @@ object ReportManager {
     /** Returns true if there were no test failures */
     fun generate(matrices: MatrixMap, args: IArgs): Int {
         val testSuite = parseTestSuite(matrices, args)
-        val testSuccessful = matrices.allSuccessful()
+
+        val useFlakyTests = args.flakyTestAttempts > 0
+        if (useFlakyTests) JUnitDedupe.modify(testSuite)
+
+        val testSuccessful = if (useFlakyTests) testSuite?.successful() ?: false else matrices.allSuccessful()
 
         listOf(
             CostReport,
@@ -95,7 +108,14 @@ object ReportManager {
         JUnitReport.run(matrices, testSuite)
         processJunitXml(testSuite, args)
 
-        return matrices.exitCode()
+        // FTL has a bug with matrix roll-up when using flakyTestAttempts
+        // as a work around, we calculate the success based on JUnit XML results.
+        val exitCode = if (useFlakyTests) {
+            if (testSuccessful) 0 else 1
+        } else {
+            matrices.exitCode()
+        }
+        return exitCode
     }
 
     data class ShardEfficiency(
