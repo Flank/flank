@@ -50,15 +50,35 @@ class ParseTest {
         "EarlGreyExampleSwiftTests/testWithInRoot"
     )
 
-    @Test
-    fun parseObjcTests() {
-        val results = Parse.parseObjcTests(objcBinary).sorted()
-
-        results.forEachIndexed { index, result ->
+    private fun checkObjcTests(actual: List<String>) {
+        actual.forEachIndexed { index, result ->
             assertThat(objcTests[index]).isEqualTo(result)
         }
 
-        assertThat(objcTests.size).isEqualTo(results.size)
+        assertThat(objcTests.size).isEqualTo(actual.size)
+    }
+
+    private fun checkSwiftTests(actual: List<String>) {
+        actual.forEachIndexed { index, result ->
+            assertThat(result).isEqualTo(swiftTests[index])
+        }
+
+        assertThat(actual.size).isEqualTo(swiftTests.size)
+    }
+
+    @Test
+    fun `Parse ObjC and Swift with space in path`() {
+        var results = Parse.parseObjcTests("$fixturesPath/sp ace/objc/EarlGreyExampleTests").sorted()
+        checkObjcTests(results)
+
+        results = Parse.parseSwiftTests("$fixturesPath/sp ace/swift/EarlGreyExampleSwiftTests").sorted()
+        checkSwiftTests(results)
+    }
+
+    @Test
+    fun parseObjcTests() {
+        val results = Parse.parseObjcTests(objcBinary).sorted()
+        checkObjcTests(results)
     }
 
     @Test(expected = RuntimeException::class)
@@ -69,12 +89,7 @@ class ParseTest {
     @Test
     fun parseSwiftTests() {
         val results = Parse.parseSwiftTests(swiftBinary).sorted()
-
-        results.forEachIndexed { index, result ->
-            assertThat(result).isEqualTo(swiftTests[index])
-        }
-
-        assertThat(results.size).isEqualTo(swiftTests.size)
+        checkSwiftTests(results)
     }
 
     @Test(expected = RuntimeException::class)
