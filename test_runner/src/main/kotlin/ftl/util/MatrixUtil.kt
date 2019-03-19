@@ -7,6 +7,8 @@ import java.nio.file.Paths
 import java.util.concurrent.TimeUnit
 
 fun resolveLocalRunPath(matrices: MatrixMap, args: IArgs): String {
+    if (args.useLocalResultDir()) return args.localResultDir
+
     var runPath = File(matrices.runPath)
     if (!runPath.exists()) runPath = Paths.get(args.localResultDir, runPath.name).toFile()
 

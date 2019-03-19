@@ -1,5 +1,7 @@
 package ftl.args
 
+import ftl.args.yml.FlankYmlParams
+
 interface IArgs {
     // original YAML data
     val data: String
@@ -22,8 +24,10 @@ interface IArgs {
     val testTargetsAlwaysRun: List<String>
     val filesToDownload: List<String>
     val disableSharding: Boolean
-    val localResultDir: String?
+    val localResultDir: String
 
     // computed property
     val testShardChunks: List<List<String>>
+
+    fun useLocalResultDir() = localResultDir != FlankYmlParams.defaultLocalResultDir
 }

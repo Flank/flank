@@ -55,15 +55,23 @@ object TestRunner {
     }
 
     fun updateMatrixFile(matrixMap: MatrixMap, args: IArgs): Path {
-        val matrixIdsPath = Paths.get(args.localResultDir, matrixMap.runPath, FtlConstants.matrixIdsFile)
+        val matrixIdsPath = if (args.useLocalResultDir()) {
+            Paths.get(args.localResultDir, FtlConstants.matrixIdsFile)
+        } else {
+            Paths.get(args.localResultDir, matrixMap.runPath, FtlConstants.matrixIdsFile)
+        }
         matrixIdsPath.parent.toFile().mkdirs()
         Files.write(matrixIdsPath, gson.toJson(matrixMap.map).toByteArray())
         return matrixIdsPath
     }
 
-    fun saveConfigFile(matrixRunPath: String, args: IArgs): Path? {
-        val configFilePath =
-            Paths.get(args.localResultDir, matrixRunPath, FtlConstants.configFileName(args))
+    fun saveConfigFile(matrixMap: MatrixMap, args: IArgs): Path? {
+        val configFilePath = if (args.useLocalResultDir()) {
+            Paths.get(args.localResultDir, FtlConstants.configFileName(args))
+        } else {
+            Paths.get(args.localResultDir, matrixMap.runPath, FtlConstants.configFileName(args))
+        }
+
         configFilePath.parent.toFile().mkdirs()
         Files.write(configFilePath, args.data.toByteArray())
         return configFilePath
@@ -209,7 +217,11 @@ object TestRunner {
                     result.iterateAll().forEach { blob ->
                         val blobPath = blob.blobId.name
                         if (artifactsList.any { blobPath.matches(it) }) {
-                            val downloadFile = Paths.get(args.localResultDir, blobPath)
+                            val downloadFile = if (args.useLocalResultDir()) {
+                                Paths.get(args.localResultDir, blobPath.substringAfter("/"))
+                            } else {
+                                Paths.get(args.localResultDir, blobPath)
+                            }
                             print(".")
                             if (!downloadFile.toFile().exists()) {
                                 downloadFile.parent.toFile().mkdirs()

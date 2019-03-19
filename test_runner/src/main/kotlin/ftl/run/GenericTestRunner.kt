@@ -2,7 +2,6 @@ package ftl.run
 
 import com.google.api.services.testing.model.TestMatrix
 import ftl.args.IArgs
-import ftl.args.yml.FlankYmlParams
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.useMock
 import ftl.json.MatrixMap
@@ -17,23 +16,22 @@ object GenericTestRunner {
         val stopwatch = StopWatch().start()
         TestRunner.assertMockUrl()
 
-        val resultsDir = if (args.localResultDir != FlankYmlParams.defaultLocalResultDir) {
-            // Only one result is stored when using --local-result-dir
-            // Delete any old results if they exist before storing new ones.
-            File(args.localResultDir).deleteRecursively()
-            "../${args.localResultDir}"
-        } else {
-            args.resultsDir ?: Utils.uniqueObjectName()
-        }
+        val runGcsPath = args.resultsDir ?: Utils.uniqueObjectName()
 
         // Avoid spamming the results/ dir with temporary files from running the test suite.
         if (useMock) {
             Runtime.getRuntime().addShutdownHook(Thread {
-                File(args.localResultDir, resultsDir).deleteRecursively()
+                File(args.localResultDir, runGcsPath).deleteRecursively()
             })
         }
 
-        return stopwatch to resultsDir
+        if (args.useLocalResultDir()) {
+            // Only one result is stored when using --local-result-dir
+            // Delete any old results if they exist before storing new ones.
+            File(args.localResultDir).deleteRecursively()
+        }
+
+        return stopwatch to runGcsPath
     }
 
     fun afterRunTests(
@@ -51,8 +49,7 @@ object GenericTestRunner {
 
         val matrixMap = MatrixMap(savedMatrices, runGcsPath)
         TestRunner.updateMatrixFile(matrixMap, config)
-
-        TestRunner.saveConfigFile(matrixMap.runPath, config)
+        TestRunner.saveConfigFile(matrixMap, config)
 
         println(FtlConstants.indent + "${savedMatrices.size} matrix ids created in ${stopwatch.check()}")
         val gcsBucket = "https://console.developers.google.com/storage/browser/" +
