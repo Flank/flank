@@ -27,15 +27,15 @@ import ftl.util.ObjPath
 import ftl.util.StopWatch
 import ftl.util.Utils
 import ftl.util.Utils.fatalError
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
 
 object TestRunner {
     private val gson = GsonBuilder().setPrettyPrinting().create()!!
