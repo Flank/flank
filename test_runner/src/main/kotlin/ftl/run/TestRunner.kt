@@ -196,18 +196,9 @@ object TestRunner {
         return MatrixMap(map, path)
     }
 
-    fun getDownloadPaths(args: IArgs, blobPath: String): Path {
+    fun getDownloadPath(args: IArgs, blobPath: String): Path {
         val localDir = args.localResultDir
         val p = ObjPath.parse(blobPath)
-
-        // results/2019-03-22_15-39-20.400000_ESdl/shard_0/NexusLowRes-28-en-portrait/b.txt
-        //
-        // blobPath = 2019-03-22_15-39-20.400000_ESdl/shard_0/NexusLowRes-28-en-portrait/b.txt
-        // localDir = results
-        // afterObjName = /shard_0/NexusLowRes-28-en-portrait/b.txt
-        // shardName = shard_0
-        // fileName = b.txt
-        // objName = 2019-03-22_15-39-20.400000_ESdl
 
         // Store downloaded artifacts at device root.
         return if (args.useLocalResultDir()) {
@@ -240,7 +231,7 @@ object TestRunner {
                         val blobPath = blob.blobId.name
                         val matched = artifactsList.any { blobPath.matches(it) }
                         if (matched) {
-                            val downloadFile = getDownloadPaths(args, blobPath)
+                            val downloadFile = getDownloadPath(args, blobPath)
 
                             print(".")
                             if (!downloadFile.toFile().exists()) {

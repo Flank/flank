@@ -21,13 +21,13 @@ class TestRunnerTest {
     private val args = mock(AndroidArgs::class.java)
 
     @Test
-    fun `Verify getDownloadPaths localResultDir false`() {
+    fun `Verify getDownloadPath localResultDir false`() {
         val parsed = ObjPath.parse(gcsPath)
 
         `when`(args.localResultDir).thenReturn(localResultDir)
         `when`(args.useLocalResultDir()).thenReturn(false)
 
-        val downloadFile = TestRunner.getDownloadPaths(args, gcsPath)
+        val downloadFile = TestRunner.getDownloadPath(args, gcsPath)
         assertThat(downloadFile).isEqualTo(
             Paths.get(
                 localResultDir,
@@ -40,13 +40,13 @@ class TestRunnerTest {
     }
 
     @Test
-    fun `Verify getDownloadPaths localResultDir true`() {
+    fun `Verify getDownloadPath localResultDir true`() {
         val parsed = ObjPath.parse(gcsPath)
 
         `when`(args.localResultDir).thenReturn(localResultDir)
         `when`(args.useLocalResultDir()).thenReturn(true)
 
-        val downloadFile = TestRunner.getDownloadPaths(args, gcsPath)
+        val downloadFile = TestRunner.getDownloadPath(args, gcsPath)
         assertThat(downloadFile).isEqualTo(
             Paths.get(
                 localResultDir,
