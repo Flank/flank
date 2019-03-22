@@ -34,8 +34,13 @@ object ReportManager {
     }
 
     private fun getWebLink(matrices: MatrixMap, xmlFile: File): String {
-        val matrixFolder = xmlFile.parentFile.parentFile.name
-        val matrixPath = Paths.get(matrices.runPath).fileName.resolve(matrixFolder).toString()
+        // xmlFile path changes based on if local-result-dir is used. may or may not contain objName
+        // 2019-03-22_17-20-53.594000_ftrh/shard_0/test_result_1.xml or shard_0/test_result_1.xml
+        val xmlPath = xmlFile.toPath()
+        val objName = matrices.runPath // 2019-03-22_17-20-53.594000_ftrh
+        val shardName = xmlPath.parent.fileName.toString() // shard_0
+        val matrixPath = Paths.get(objName, shardName).toString() // 2019-03-22_17-20-53.594000_ftrh/shard_0
+
         var webLink = ""
         val savedMatrix = matrices.map.values.firstOrNull { it.gcsPath.endsWith(matrixPath) }
         if (savedMatrix != null) {

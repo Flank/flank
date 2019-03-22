@@ -23,6 +23,7 @@ import ftl.json.SavedMatrix
 import ftl.reports.util.ReportManager
 import ftl.util.Artifacts
 import ftl.util.MatrixState
+import ftl.util.ObjPath
 import ftl.util.StopWatch
 import ftl.util.Utils
 import ftl.util.Utils.fatalError
@@ -241,7 +242,6 @@ object TestRunner {
                     result.iterateAll().forEach { blob ->
                         val blobPath = blob.blobId.name
                         val matched = artifactsList.any { blobPath.matches(it) }
-                        if (matched) println("$matched - $blobPath")
                         if (matched) {
                             val (downloadFile, fallbackFile) = getDownloadPaths(args, blobPath)
 
@@ -253,11 +253,9 @@ object TestRunner {
                                 // Most iOS artifacts fail to download using the original path.
                                 val failed = parentFile.exists()
                                 if (failed) {
-                                    println("Failed... falling back to $fallbackFile")
                                     fallbackFile.parent.toFile().mkdirs()
                                     blob.downloadTo(fallbackFile)
                                 } else {
-                                    println("Downloading to $downloadFile")
                                     blob.downloadTo(downloadFile)
                                 }
                             }
