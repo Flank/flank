@@ -23,6 +23,7 @@ import ftl.json.SavedMatrix
 import ftl.reports.util.ReportManager
 import ftl.util.Artifacts
 import ftl.util.MatrixState
+import ftl.util.ObjPath
 import ftl.util.StopWatch
 import ftl.util.Utils
 import ftl.util.Utils.fatalError
@@ -195,6 +196,18 @@ object TestRunner {
         return MatrixMap(map, path)
     }
 
+    fun getDownloadPath(args: IArgs, blobPath: String): Path {
+        val localDir = args.localResultDir
+        val p = ObjPath.parse(blobPath)
+
+        // Store downloaded artifacts at device root.
+        return if (args.useLocalResultDir()) {
+            Paths.get(localDir, p.shardName, p.deviceName, p.fileName)
+        } else {
+            Paths.get(localDir, p.objName, p.shardName, p.deviceName, p.fileName)
+        }
+    }
+
     private fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) {
         println("FetchArtifacts")
         val fields = Storage.BlobListOption.fields(Storage.BlobField.NAME)
@@ -216,15 +229,14 @@ object TestRunner {
 
                     result.iterateAll().forEach { blob ->
                         val blobPath = blob.blobId.name
-                        if (artifactsList.any { blobPath.matches(it) }) {
-                            val downloadFile = if (args.useLocalResultDir()) {
-                                Paths.get(args.localResultDir, blobPath.substringAfter("/"))
-                            } else {
-                                Paths.get(args.localResultDir, blobPath)
-                            }
+                        val matched = artifactsList.any { blobPath.matches(it) }
+                        if (matched) {
+                            val downloadFile = getDownloadPath(args, blobPath)
+
                             print(".")
                             if (!downloadFile.toFile().exists()) {
-                                downloadFile.parent.toFile().mkdirs()
+                                val parentFile = downloadFile.parent.toFile()
+                                parentFile.mkdirs()
                                 blob.downloadTo(downloadFile)
                             }
                         }
