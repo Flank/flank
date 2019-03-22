@@ -36,7 +36,7 @@ gcloud:
   ## The path to the test package (a zip file containing the iOS app and XCTest files).
   ## The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://.
   ## Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file is specified.
-  test: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip
+  test: ./src/test/kotlin/ftl/fixtures/tmp/ios_earlgrey2.zip
 
   ## The path to an .xctestrun file that will override any .xctestrun file contained in the --test package.
   ## Because the .xctestrun file contains environment variables along with test methods to run and/or ignore,

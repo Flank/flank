@@ -23,7 +23,7 @@ import picocli.CommandLine
 @RunWith(FlankTestRunner::class)
 class IosArgsTest {
     private val empty = emptyList<String>()
-    private val testPath = "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip"
+    private val testPath = "./src/test/kotlin/ftl/fixtures/tmp/ios_earlgrey2.zip"
     private val xctestrunFile =
         "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun"
     private val invalidApp = "../test_app/apks/invalid.apk"

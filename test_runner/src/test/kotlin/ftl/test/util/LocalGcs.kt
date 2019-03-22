@@ -31,7 +31,7 @@ object LocalGcs {
     fun uploadFiles() {
         val appApk = "../test_app/apks/app-debug.apk"
         val testApk = "../test_app/apks/app-debug-androidTest.apk"
-        val ipaZip = "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip"
+        val ipaZip = "./src/test/kotlin/ftl/fixtures/tmp/ios_earlgrey2.zip"
         val xctestrun = "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun"
 
         listOf(appApk, testApk, ipaZip, xctestrun).forEach { file ->

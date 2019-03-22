@@ -24,7 +24,7 @@ class IosArgsFileTest {
 
     private val yamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.ios.yml")
     private val yamlFile2 = getPath("src/test/kotlin/ftl/fixtures/flank2.ios.yml")
-    private val xctestrunZip = getPath("src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip")
+    private val xctestrunZip = getPath("src/test/kotlin/ftl/fixtures/tmp/ios_earlgrey2.zip")
     private val xctestrunFile =
         getPath("src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun")
     private val testName = "EarlGreyExampleSwiftTests/testLayout"

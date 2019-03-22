@@ -195,6 +195,30 @@ object TestRunner {
         return MatrixMap(map, path)
     }
 
+    fun getDownloadPaths(args: IArgs, blobPath: String): Pair<Path, Path> {
+        val localDir = args.localResultDir
+        val p = ObjPath.parse(blobPath)
+
+        // results/2019-03-22_15-39-20.400000_ESdl/shard_0/a/b.txt
+        //
+        // blobPath = 2019-03-22_15-39-20.400000_ESdl/shard_0/a/b.txt
+        // localDir = results
+        // afterObjName = /shard_0/a/b.txt
+        // shardName = shard_0
+        // fileName = b.txt
+        // objName = 2019-03-22_15-39-20.400000_ESdl
+
+        return if (args.useLocalResultDir()) {
+            // results/shard_0/iphone8-12.0-en-portrait/a/b.txt or results/shard_0/b.txt
+            Paths.get(localDir, p.afterObjName) to
+                    Paths.get(localDir, p.shardName, p.fileName)
+        } else {
+            // results/2019-03-22_15-39-20.400000_ESdl/shard_0/a/b.txt or results/2019-03-22_15-39-20.400000_ESdl/shard_0/b.txt
+            Paths.get(localDir, blobPath) to
+                    Paths.get(localDir, p.objName, p.shardName, p.fileName)
+        }
+    }
+
     private fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) {
         println("FetchArtifacts")
         val fields = Storage.BlobListOption.fields(Storage.BlobField.NAME)
@@ -216,16 +240,26 @@ object TestRunner {
 
                     result.iterateAll().forEach { blob ->
                         val blobPath = blob.blobId.name
-                        if (artifactsList.any { blobPath.matches(it) }) {
-                            val downloadFile = if (args.useLocalResultDir()) {
-                                Paths.get(args.localResultDir, blobPath.substringAfter("/"))
-                            } else {
-                                Paths.get(args.localResultDir, blobPath)
-                            }
+                        val matched = artifactsList.any { blobPath.matches(it) }
+                        if (matched) println("$matched - $blobPath")
+                        if (matched) {
+                            val (downloadFile, fallbackFile) = getDownloadPaths(args, blobPath)
+
                             print(".")
                             if (!downloadFile.toFile().exists()) {
-                                downloadFile.parent.toFile().mkdirs()
-                                blob.downloadTo(downloadFile)
+                                val parentFile = downloadFile.parent.toFile()
+                                parentFile.mkdirs()
+                                // Not all paths can be recreated successfully locally.
+                                // Most iOS artifacts fail to download using the original path.
+                                val failed = parentFile.exists()
+                                if (failed) {
+                                    println("Failed... falling back to $fallbackFile")
+                                    fallbackFile.parent.toFile().mkdirs()
+                                    blob.downloadTo(fallbackFile)
+                                } else {
+                                    println("Downloading to $downloadFile")
+                                    blob.downloadTo(downloadFile)
+                                }
                             }
                         }
                     }
