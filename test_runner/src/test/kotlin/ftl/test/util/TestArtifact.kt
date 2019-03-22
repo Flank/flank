@@ -114,7 +114,6 @@ object TestArtifact {
 
         val unzip = "unzip \"$zipPath\" -d \"${fixtures.path}\""
         Bash.execute(unzip)
-        File(zipPath).copyTo(File("${fixtures.path}/ios_earlgrey2.zip"))
     }
 }
 
