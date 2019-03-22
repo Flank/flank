@@ -251,7 +251,7 @@ object TestRunner {
                                 parentFile.mkdirs()
                                 // Not all paths can be recreated successfully locally.
                                 // Most iOS artifacts fail to download using the original path.
-                                val failed = parentFile.exists()
+                                val failed = parentFile.exists().not()
                                 if (failed) {
                                     fallbackFile.parent.toFile().mkdirs()
                                     blob.downloadTo(fallbackFile)
