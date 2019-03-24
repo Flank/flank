@@ -24,7 +24,6 @@ import ftl.shard.Shard
 import ftl.shard.StringShards
 import ftl.shard.stringShards
 import ftl.util.Utils
-import ftl.util.Utils.fatalError
 import java.io.File
 import java.net.URI
 import java.nio.file.Files
@@ -103,11 +102,14 @@ object ArgsHelper {
     fun createJunitBucket(projectId: String, junitGcsPath: String) {
         if (FtlConstants.useMock || junitGcsPath.isEmpty()) return
         val bucket = junitGcsPath.drop(GCS_PREFIX.length).substringBefore('/')
-            createGcsBucket(projectId, bucket)
+        createGcsBucket(projectId, bucket)
     }
 
+    // Make best effort to list/create the bucket.
+    // Due to permission issues, the user may not be able to list or create buckets.
     fun createGcsBucket(projectId: String, bucket: String): String {
-        if (bucket.isEmpty()) return GcToolResults.getDefaultBucket(projectId) ?: throw RuntimeException("Failed to make bucket for $projectId")
+        if (bucket.isEmpty()) return GcToolResults.getDefaultBucket(projectId)
+            ?: throw RuntimeException("Failed to make bucket for $projectId")
         if (useMock) return bucket
 
         // test lab supports using a special free storage bucket
@@ -122,21 +124,29 @@ object ArgsHelper {
         val storageLocation = "us-central1"
 
         val bucketListOption = Storage.BucketListOption.prefix(bucket)
-        val storageList = storage.list(bucketListOption).values?.map { it.name } ?: emptyList()
+        val storageList = emptyList<String>()
+
+        try {
+            storage.list(bucketListOption).values?.map { it.name }
+        } catch (e: Exception) {
+            // User may not have list permission
+        }
+
         if (storageList.contains(bucket)) return bucket
 
         try {
-            return storage.create(
+            storage.create(
                 BucketInfo.newBuilder(bucket)
                     .setStorageClass(StorageClass.REGIONAL)
                     .setLocation(storageLocation)
                     .setLabels(bucketLabel)
                     .build()
-            ).name
-        } catch (e: com.google.cloud.storage.StorageException) {
-            fatalError("Failed to create bucket $bucket\n${e.message}")
-            throw RuntimeException("will not throw")
+            )
+        } catch (e: Exception) {
+            // User may not have create permission
         }
+
+        return bucket
     }
 
     private fun serviceAccountProjectId(): String? {
