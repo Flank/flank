@@ -2,6 +2,10 @@
 
 - 
 
+## v5.0.1
+
+- [#534](https://github.com/TestArmada/flank/pull/534) Fix updateMatrixFile not saving `matrix_ids.json`. ([bootstraponline](https://github.com/bootstraponline))
+
 ## v5.0.0
 
 - [#506](https://github.com/TestArmada/flank/pull/506) Add bugsnag reporting to detect Flank crashes. ([bootstraponline](https://github.com/bootstraponline))
