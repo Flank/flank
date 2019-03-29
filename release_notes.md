@@ -9,6 +9,7 @@
 - [#524](https://github.com/TestArmada/flank/pull/524) Fix iOS test sharding when there's a space in the path ([bootstraponline](https://github.com/bootstraponline))
 - [#522](https://github.com/TestArmada/flank/pull/522) Correctly report test results and exit code when using `flaky-test-attempts` ([bootstraponline](https://github.com/bootstraponline))
 - [#530](https://github.com/TestArmada/flank/pull/530) Save files downloaded with `files-to-download` to device root folder. Fix web links in HTML report. ([bootstraponline](https://github.com/bootstraponline))
+- [#533](https://github.com/TestArmada/flank/pull/533) Update matrix_ids.json on every matrix change. Useful for debugging runs that crashed. ([jschear](https://github.com/jschear))
 
 ## v4.4.0
 
