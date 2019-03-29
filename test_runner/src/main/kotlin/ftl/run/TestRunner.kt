@@ -259,7 +259,6 @@ object TestRunner {
     /** Synchronously poll all matrix ids until they complete. Returns true if test run passed. **/
     private fun pollMatrices(matrices: MatrixMap, args: IArgs) {
         println("PollMatrices")
-        val map = matrices.map
         val poll = matrices.map.values.filter {
             MatrixState.inProgress(it.state)
         }
@@ -267,9 +266,7 @@ object TestRunner {
         val stopwatch = StopWatch().start()
         poll.forEach {
             val matrixId = it.matrixId
-            val completedMatrix = pollMatrix(matrixId, stopwatch, args)
-
-            map[matrixId]?.update(completedMatrix)
+            pollMatrix(matrixId, stopwatch, args, matrices)
         }
         println()
 
@@ -280,7 +277,7 @@ object TestRunner {
     //
     // Port of MonitorTestExecutionProgress
     // gcloud-cli/googlecloudsdk/api_lib/firebase/test/matrix_ops.py
-    private fun pollMatrix(matrixId: String, stopwatch: StopWatch, args: IArgs): TestMatrix {
+    private fun pollMatrix(matrixId: String, stopwatch: StopWatch, args: IArgs, matrices: MatrixMap) {
         var lastState = ""
         var lastError = ""
         var progress = listOf<String>()
@@ -336,6 +333,12 @@ object TestRunner {
                 puts(lastState)
             }
 
+            // Update the matrix file if the matrix has changed.
+            val changed = matrices.map[matrixId]?.update(refreshedMatrix) ?: false
+            if (changed) {
+                updateMatrixFile(matrices, args)
+            }
+
             // GetTestMatrix is not designed to handle many requests per second.
             // Sleep 15s to avoid overloading the system.
             Utils.sleep(15)
@@ -343,7 +346,6 @@ object TestRunner {
 
         // Print final matrix state with timestamp. May be many minutes after the 'Done.' progress message.
         puts(refreshedMatrix.state)
-        return refreshedMatrix
     }
 
     // used to update and poll the results from an async run
