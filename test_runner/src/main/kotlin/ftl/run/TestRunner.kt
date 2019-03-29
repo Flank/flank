@@ -291,6 +291,8 @@ object TestRunner {
 
         while (true) {
             refreshedMatrix = GcTestMatrix.refresh(matrixId, args)
+            // Update the matrix file when the matrix is updated
+            if (matrices.map[matrixId]?.update(refreshedMatrix) == true) updateMatrixFile(matrices, args)
 
             val firstTestStatus = refreshedMatrix.testExecutions.first()
 
@@ -331,12 +333,6 @@ object TestRunner {
             if (firstTestStatus.state != lastState) {
                 lastState = firstTestStatus.state
                 puts(lastState)
-            }
-
-            // Update the matrix file if the matrix has changed.
-            val changed = matrices.map[matrixId]?.update(refreshedMatrix) ?: false
-            if (changed) {
-                updateMatrixFile(matrices, args)
             }
 
             // GetTestMatrix is not designed to handle many requests per second.
