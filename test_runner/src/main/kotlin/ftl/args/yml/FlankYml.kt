@@ -23,6 +23,9 @@ class FlankYmlParams(
     @field:JsonProperty("smart-flank-gcs-path")
     val smartFlankGcsPath: String = "",
 
+    @field:JsonProperty("smart-flank-upload-enabled")
+    val smartFlankUploadEnabled: Boolean = true,
+
     @field:JsonProperty("disable-sharding")
     val disableSharding: Boolean = false,
 
@@ -39,8 +42,8 @@ class FlankYmlParams(
 ) {
     companion object : IYmlKeys {
         override val keys = listOf(
-            "max-test-shards", "shard-time", "repeat-tests", "smart-flank-gcs-path", "disable-sharding",
-            "test-targets-always-run", "files-to-download", "project", "local-result-dir"
+            "max-test-shards", "shard-time", "repeat-tests", "smart-flank-gcs-path", "smart-flank-upload-enabled",
+            "disable-sharding", "test-targets-always-run", "files-to-download", "project", "local-result-dir"
         )
 
         const val defaultLocalResultDir = "results"

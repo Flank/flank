@@ -227,6 +227,7 @@ AndroidArgs
       disable-sharding: true
       project: projectFoo
       local-result-dir: results
+      smart-flank-upload-enabled: true
 """.trimIndent()
         )
     }
@@ -812,5 +813,23 @@ AndroidArgs
 
         val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.localResultDir).isEqualTo("b")
+    }
+
+    @Test
+    fun `cli smart-flank-upload-enabled`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--smart-flank-upload-enabled=false")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          smart-flank-upload-enabled: true
+      """
+        assertThat(AndroidArgs.load(yaml).smartFlankUploadEnabled).isEqualTo(true)
+
+        val androidArgs = AndroidArgs.load(yaml, cli)
+        assertThat(androidArgs.smartFlankUploadEnabled).isEqualTo(false)
     }
 }

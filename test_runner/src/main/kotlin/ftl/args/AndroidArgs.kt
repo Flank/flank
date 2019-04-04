@@ -69,6 +69,7 @@ class AndroidArgs(
     override val shardTime = cli?.shardTime ?: flank.shardTime
     override val repeatTests = cli?.repeatTests ?: flank.repeatTests
     override val smartFlankGcsPath = flank.smartFlankGcsPath
+    override val smartFlankUploadEnabled = cli?.smartFlankUploadEnabled ?: flank.smartFlankUploadEnabled
     override val testTargetsAlwaysRun = cli?.testTargetsAlwaysRun ?: flank.testTargetsAlwaysRun
     override val filesToDownload = cli?.filesToDownload ?: flank.filesToDownload
     override val disableSharding = cli?.disableSharding ?: flank.disableSharding
@@ -169,6 +170,7 @@ ${devicesToString(devices)}
       shard-time: $shardTime
       repeat-tests: $repeatTests
       smart-flank-gcs-path: $smartFlankGcsPath
+      smart-flank-upload-enabled: $smartFlankUploadEnabled
       files-to-download:
 ${listToString(filesToDownload)}
       test-targets-always-run:

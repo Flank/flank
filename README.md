@@ -131,6 +131,11 @@ flank:
   ## Google cloud storage path to store the JUnit XML results from the last run.
   # smart-flank-gcs-path: gs://tmp_flank/flank/test_app_ios.xml
 
+  ## Whether the JUnit XML results should be uploaded for Smart Flank.
+  ## This can be disabled to prevent new results from overriding previous results.
+  ## Default: true
+  # smart-flank-upload-enabled: true
+
   ## Disables sharding. Useful for parameterized tests.
   # disable-sharding: false
 
@@ -273,6 +278,11 @@ flank:
 
   ## Google cloud storage path to store the JUnit XML results from the last run.
   # smart-flank-gcs-path: gs://tmp_flank/flank/test_app_android.xml
+
+  ## Whether the JUnit XML results should be uploaded for Smart Flank.
+  ## This can be disabled to prevent new results from overriding previous results.
+  ## Default: true
+  # smart-flank-upload-enabled: true
 
   ## Disables sharding. Useful for parameterized tests.
   # disable-sharding: false

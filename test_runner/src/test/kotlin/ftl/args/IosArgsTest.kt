@@ -6,6 +6,7 @@ import ftl.args.yml.GcloudYml
 import ftl.args.yml.IosFlankYml
 import ftl.args.yml.IosGcloudYml
 import ftl.args.yml.IosGcloudYmlParams
+import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants.defaultIosModel
@@ -179,6 +180,7 @@ IosArgs
       disable-sharding: true
       project: projectFoo
       local-result-dir: results
+      smart-flank-upload-enabled: true
 """.trimIndent()
         )
     }
@@ -632,6 +634,22 @@ IosArgs
 
         val androidArgs = IosArgs.load(yaml, cli)
         assertThat(androidArgs.localResultDir).isEqualTo("a")
+    }
+
+    @Test
+    fun `cli smart-flank-upload-enabled`() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--smart-flank-upload-enabled=false")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+      """
+        assertThat(IosArgs.load(yaml).smartFlankUploadEnabled).isEqualTo(true)
+
+        val androidArgs = IosArgs.load(yaml, cli)
+        assertThat(androidArgs.smartFlankUploadEnabled).isEqualTo(false)
     }
 
     private fun getValidTestsSample() = listOf(

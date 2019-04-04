@@ -65,4 +65,3 @@ Example:
 
 * Keep a user configurable rolling number of aggregated xmls (1.xml, 2.xml, 3.xml) and shard based on the average time. Average time is expected to be more reliable than always using the last time in isolation.
 * Identify a way of translating app binary to a default xml name (bundle id/package name) so that smart flank works out of the box for users. Talk with Firebase on how to do this locally and/or expose an API.
-* Provide an option to disable uploading so that local runs don't update time information for CI/pull request runs.

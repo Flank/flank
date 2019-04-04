@@ -279,4 +279,10 @@ class AndroidRunCommand : Runnable {
         description = ["Saves test result to this local folder. Deleted before each run."]
     )
     var localResultDir: String? = null
+
+    @Option(
+        names = ["--smart-flank-upload-enabled"],
+        description = ["Whether the JUnit XML results should be uploaded to the Smart Flank cloud storage."]
+    )
+    var smartFlankUploadEnabled: Boolean? = null
 }
