@@ -167,6 +167,7 @@ IosArgs
       shard-time: 60
       repeat-tests: 8
       smart-flank-gcs-path:${' '}
+      smart-flank-upload-enabled: true
       test-targets-always-run:
         - a/testGrantPermissions
         - a/testGrantPermissions2
@@ -179,7 +180,6 @@ IosArgs
       disable-sharding: true
       project: projectFoo
       local-result-dir: results
-      smart-flank-upload-enabled: true
 """.trimIndent()
         )
     }

@@ -218,6 +218,7 @@ AndroidArgs
       shard-time: 60
       repeat-tests: 8
       smart-flank-gcs-path:${' '}
+      smart-flank-upload-enabled: true
       files-to-download:
         - /sdcard/screenshots
         - /sdcard/screenshots2
@@ -227,7 +228,6 @@ AndroidArgs
       disable-sharding: true
       project: projectFoo
       local-result-dir: results
-      smart-flank-upload-enabled: true
 """.trimIndent()
         )
     }
