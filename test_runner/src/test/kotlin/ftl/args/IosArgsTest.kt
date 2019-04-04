@@ -6,7 +6,6 @@ import ftl.args.yml.GcloudYml
 import ftl.args.yml.IosFlankYml
 import ftl.args.yml.IosGcloudYml
 import ftl.args.yml.IosGcloudYmlParams
-import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants.defaultIosModel
