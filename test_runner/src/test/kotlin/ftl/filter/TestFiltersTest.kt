@@ -14,14 +14,14 @@ val BAR_PACKAGE = TestMethod("bar.ClassName#testName", emptyList())
 val FOO_CLASSNAME = TestMethod("whatever.Foo#testName", emptyList())
 val BAR_CLASSNAME = TestMethod("whatever.Bar#testName", emptyList())
 val WITHOUT_IGNORE_ANNOTATION = TestMethod("whatever.Foo#testName", emptyList())
-val WITH_IGNORE_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnotation("org.junit.Ignore", emptyMap())))
-val WITH_FOO_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnotation("Foo", emptyMap())))
-val WITH_BAR_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnotation("Bar", emptyMap())))
+val WITH_IGNORE_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnotation("org.junit.Ignore", emptyMap(), false)))
+val WITH_FOO_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnotation("Foo", emptyMap(), false)))
+val WITH_BAR_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnotation("Bar", emptyMap(), false)))
 val WITHOUT_FOO_ANNOTATION = TestMethod("whatever.Foo#testName", emptyList())
-val WITH_FOO_ANNOTATION_AND_PACKAGE = TestMethod("foo.Bar#testName", listOf(TestAnnotation("Foo", emptyMap())))
-val WITH_LARGE_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnotation("LargeTest", emptyMap())))
-val WITH_MEDIUM_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnotation("MediumTest", emptyMap())))
-val WITH_SMALL_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnotation("SmallTest", emptyMap())))
+val WITH_FOO_ANNOTATION_AND_PACKAGE = TestMethod("foo.Bar#testName", listOf(TestAnnotation("Foo", emptyMap(), false)))
+val WITH_LARGE_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnotation("LargeTest", emptyMap(), false)))
+val WITH_MEDIUM_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnotation("MediumTest", emptyMap(), false)))
+val WITH_SMALL_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnotation("SmallTest", emptyMap(), false)))
 val WITHOUT_LARGE_ANNOTATION = TestMethod("whatever.Foo#testName", emptyList())
 val WITHOUT_MEDIUM_ANNOTATION = TestMethod("whatever.Foo#testName", emptyList())
 val WITHOUT_SMALL_ANNOTATION = TestMethod("whatever.Foo#testName", emptyList())
@@ -33,9 +33,9 @@ class TestFiltersTest {
     @Test
     fun testIgnoreMultipleAnnotations() {
         val m1 = TestMethod("com.example.app.ExampleUiTest#testFails", listOf(
-            TestAnnotation("org.junit.runner.RunWith", emptyMap()),
-            TestAnnotation("org.junit.Ignore", emptyMap()),
-            TestAnnotation("org.junit.Test", emptyMap())
+            TestAnnotation("org.junit.runner.RunWith", emptyMap(), false),
+            TestAnnotation("org.junit.Ignore", emptyMap(), false),
+            TestAnnotation("org.junit.Test", emptyMap(), false)
         ))
 
         val filter = fromTestTargets(listOf("class com.example.app.ExampleUiTest#testFails"))
@@ -206,9 +206,9 @@ class TestFiltersTest {
     }
 
     private fun getTestMethodSet(): List<TestMethod> {
-        val m1 = TestMethod("a.b#c", listOf(TestAnnotation("org.junit.Ignore", emptyMap())))
-        val m2 = TestMethod("d.e#f", listOf(TestAnnotation("Foo", emptyMap())))
-        val m3 = TestMethod("h.i#j", listOf(TestAnnotation("Bar", emptyMap())))
+        val m1 = TestMethod("a.b#c", listOf(TestAnnotation("org.junit.Ignore", emptyMap(), false)))
+        val m2 = TestMethod("d.e#f", listOf(TestAnnotation("Foo", emptyMap(), false)))
+        val m3 = TestMethod("h.i#j", listOf(TestAnnotation("Bar", emptyMap(), false)))
         return listOf(m1, m2, m3)
     }
 
