@@ -36,6 +36,8 @@ class AndroidRunCommand : Runnable {
         }
     }
 
+    // Flank specific
+
     @Option(
         names = ["-c", "--config"],
         description = ["YAML config file path"]
@@ -48,6 +50,8 @@ class AndroidRunCommand : Runnable {
         description = ["Prints this help message"]
     )
     var usageHelpRequested: Boolean = false
+
+    // AndroidGcloudYml.kt
 
     @Option(
         names = ["--app"],
@@ -64,36 +68,9 @@ class AndroidRunCommand : Runnable {
     var test: String? = null
 
     @Option(
-        names = ["--test-targets"],
-        split = ",",
-        description = ["A list of one or more test target filters to apply " +
-            "(default: run all test targets). Each target filter must be fully qualified with the package name, class name, " +
-            "or test annotation desired. Any test filter supported by am instrument -e … is supported. " +
-            "See https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner for more " +
-            "information."]
-    )
-    var testTargets: List<String>? = null
-
-    @Option(
-        names = ["--use-orchestrator"],
-        description = ["Whether each test runs in its own Instrumentation instance " +
-            "with the Android Test Orchestrator (default: Orchestrator is used. To disable, use --no-use-orchestrator). " +
-            "Orchestrator is only compatible with AndroidJUnitRunner v1.0 or higher. See " +
-            "https://developer.android.com/training/testing/junit-runner.html#using-android-test-orchestrator for more " +
-            "information about Android Test Orchestrator."]
-    )
-    var useOrchestrator: Boolean? = null
-
-    @Option(
-        names = ["--no-use-orchestrator"],
-        description = ["Orchestrator is not used. See --use-orchestrator."]
-    )
-    var noUseOrchestrator: Boolean? = null
-
-    @Option(
         names = ["--auto-google-login"],
         description = ["Automatically log into the test device using a preconfigured " +
-            "Google account before beginning the test. Enabled by default, use --no-auto-google-login to disable."]
+                "Google account before beginning the test. Enabled by default, use --no-auto-google-login to disable."]
     )
     var autoGoogleLogin: Boolean? = null
 
@@ -104,9 +81,47 @@ class AndroidRunCommand : Runnable {
     var noAutoGoogleLogin: Boolean? = null
 
     @Option(
+        names = ["--use-orchestrator"],
+        description = ["Whether each test runs in its own Instrumentation instance " +
+                "with the Android Test Orchestrator (default: Orchestrator is used. To disable, use --no-use-orchestrator). " +
+                "Orchestrator is only compatible with AndroidJUnitRunner v1.0 or higher. See " +
+                "https://developer.android.com/training/testing/junit-runner.html#using-android-test-orchestrator for more " +
+                "information about Android Test Orchestrator."]
+    )
+    var useOrchestrator: Boolean? = null
+
+    @Option(
+        names = ["--no-use-orchestrator"],
+        description = ["Orchestrator is not used. See --use-orchestrator."]
+    )
+    var noUseOrchestrator: Boolean? = null
+
+    @Option(
+        names = ["--environment-variables"],
+        split = ",",
+        description = ["A comma-separated, key=value map of environment variables " +
+                "and their desired values. --environment-variables=coverage=true,coverageFile=/sdcard/coverage.ec " +
+                "The environment variables are mirrored as extra options to the am instrument -e KEY1 VALUE1 … command and " +
+                "passed to your test runner (typically AndroidJUnitRunner)"]
+    )
+    var environmentVariables: Map<String, String>? = null
+
+    @Option(
+        names = ["--directories-to-pull"],
+        split = ",",
+        description = ["A list of paths that will be copied from the device's " +
+                "storage to the designated results bucket after the test is complete. These must be absolute paths under " +
+                "/sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2). " +
+                "Path names are restricted to the characters a-zA-Z0-9_-./+. The paths /sdcard and /data will be made available " +
+                "and treated as implicit path substitutions. E.g. if /sdcard on a particular device does not map to external " +
+                "storage, the system will replace it with the external storage path prefix for that device."]
+    )
+    var directoriesToPull: List<String>? = null
+
+    @Option(
         names = ["--performance-metrics"],
         description = ["Monitor and record performance metrics: CPU, memory, " +
-            "network usage, and FPS (game-loop only). Enabled by default, use --no-performance-metrics to disable."]
+                "network usage, and FPS (game-loop only). Enabled by default, use --no-performance-metrics to disable."]
     )
     var performanceMetrics: Boolean? = null
 
@@ -117,26 +132,15 @@ class AndroidRunCommand : Runnable {
     var noPerformanceMetrics: Boolean? = null
 
     @Option(
-        names = ["--environment-variables"],
+        names = ["--test-targets"],
         split = ",",
-        description = ["A comma-separated, key=value map of environment variables " +
-            "and their desired values. --environment-variables=coverage=true,coverageFile=/sdcard/coverage.ec " +
-            "The environment variables are mirrored as extra options to the am instrument -e KEY1 VALUE1 … command and " +
-            "passed to your test runner (typically AndroidJUnitRunner)"]
+        description = ["A list of one or more test target filters to apply " +
+            "(default: run all test targets). Each target filter must be fully qualified with the package name, class name, " +
+            "or test annotation desired. Any test filter supported by am instrument -e … is supported. " +
+            "See https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner for more " +
+            "information."]
     )
-    var environmentVariables: Map<String, String>? = null
-
-    @Option(
-        names = ["--directories-to-pull"],
-        split = ",",
-        description = ["A list of paths that will be copied from the device's " +
-            "storage to the designated results bucket after the test is complete. These must be absolute paths under " +
-            "/sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2). " +
-            "Path names are restricted to the characters a-zA-Z0-9_-./+. The paths /sdcard and /data will be made available " +
-            "and treated as implicit path substitutions. E.g. if /sdcard on a particular device does not map to external " +
-            "storage, the system will replace it with the external storage path prefix for that device."]
-    )
-    var directoriesToPull: List<String>? = null
+    var testTargets: List<String>? = null
 
     @Option(
         names = ["--device"],
@@ -162,6 +166,8 @@ class AndroidRunCommand : Runnable {
 
     var device: MutableList<Device>? = null
 
+    // GcloudYml.kt
+
     @Option(
         names = ["--results-bucket"],
         description = ["The name of a Google Cloud Storage bucket where raw test " +
@@ -170,6 +176,16 @@ class AndroidRunCommand : Runnable {
             "storage used."]
     )
     var resultsBucket: String? = null
+
+    @Option(
+        names = ["--results-dir"],
+        description = [
+            "The name of a unique Google Cloud Storage object within the results bucket where raw test results will be " +
+                    "stored (default: a timestamp with a random suffix). Caution: if specified, this argument must be unique for " +
+                    "each test matrix you create, otherwise results from multiple test matrices will be overwritten or " +
+                    "intermingled."]
+    )
+    var resultsDir: String? = null
 
     @Option(
         names = ["--record-video"],
@@ -187,9 +203,9 @@ class AndroidRunCommand : Runnable {
     @Option(
         names = ["--timeout"],
         description = ["The max time this test execution can run before it is cancelled " +
-            "(default: 15m). It does not include any time necessary to prepare and clean up the target device. The maximum " +
-            "possible testing time is 30m on physical devices and 60m on virtual devices. The TIMEOUT units can be h, m, " +
-            "or s. If no unit is given, seconds are assumed. "]
+                "(default: 15m). It does not include any time necessary to prepare and clean up the target device. The maximum " +
+                "possible testing time is 30m on physical devices and 60m on virtual devices. The TIMEOUT units can be h, m, " +
+                "or s. If no unit is given, seconds are assumed. "]
     )
     var timeout: String? = null
 
@@ -200,23 +216,25 @@ class AndroidRunCommand : Runnable {
     var async: Boolean? = null
 
     @Option(
-        names = ["--project"],
-        description = ["The Google Cloud Platform project name to use for this invocation. " +
-            "If omitted, then the project from the service account credential is used"]
-    )
-    var project: String? = null
-
-    @Option(
         names = ["--results-history-name"],
         description = ["The history name for your test results " +
-            "(an arbitrary string label; default: the application's label from the APK manifest). All tests which use the " +
-            "same history name will have their results grouped together in the Firebase console in a time-ordered test " +
-            "history list."]
+                "(an arbitrary string label; default: the application's label from the APK manifest). All tests which use the " +
+                "same history name will have their results grouped together in the Firebase console in a time-ordered test " +
+                "history list."]
     )
     var resultsHistoryName: String? = null
 
     @Option(
-        names = ["--test-shards"],
+        names = ["--flaky-test-attempts"],
+        description = ["The number of times a TestExecution should be re-attempted if one or more of its test cases " +
+                "fail for any reason. The maximum number of reruns allowed is 10. Default is 0, which implies no reruns."]
+    )
+    var flakyTestAttempts: Int? = null
+
+    // FlankYml.kt
+
+    @Option(
+        names = ["--max-test-shards"],
         description = ["The amount of matrices to split the tests across."]
     )
     var maxTestShards: Int? = null
@@ -232,6 +250,25 @@ class AndroidRunCommand : Runnable {
         description = ["The amount of times to repeat the test executions."]
     )
     var repeatTests: Int? = null
+
+    @Option(
+        names = ["--smart-flank-gcs-path"],
+        split = ",",
+        description = ["Google cloud storage path to save test timing data used by smart flank."]
+    )
+    var smartFlankGcsPath: String? = null
+
+    @Option(
+        names = ["--smart-flank-disable-upload"],
+        description = ["Disables smart flank JUnit XML uploading. Useful for preventing timing data from being updated."]
+    )
+    var smartFlankDisableUpload: Boolean? = null
+
+    @Option(
+        names = ["--disable-sharding"],
+        description = ["Disable sharding."]
+    )
+    var disableSharding: Boolean? = null
 
     @Option(
         names = ["--test-targets-always-run"],
@@ -252,37 +289,15 @@ class AndroidRunCommand : Runnable {
     var filesToDownload: List<String>? = null
 
     @Option(
-        names = ["--disable-sharding"],
-        description = ["Disable sharding."]
+        names = ["--project"],
+        description = ["The Google Cloud Platform project name to use for this invocation. " +
+                "If omitted, then the project from the service account credential is used"]
     )
-    var disableSharding: Boolean? = null
-
-    @Option(
-        names = ["--results-dir"],
-        description = [
-            "The name of a unique Google Cloud Storage object within the results bucket where raw test results will be " +
-                "stored (default: a timestamp with a random suffix). Caution: if specified, this argument must be unique for " +
-                "each test matrix you create, otherwise results from multiple test matrices will be overwritten or " +
-                "intermingled."]
-    )
-    var resultsDir: String? = null
-
-    @Option(
-        names = ["--flaky-test-attempts"],
-        description = ["The number of times a TestExecution should be re-attempted if one or more of its test cases " +
-                "fail for any reason. The maximum number of reruns allowed is 10. Default is 0, which implies no reruns."]
-    )
-    var flakyTestAttempts: Int? = null
+    var project: String? = null
 
     @Option(
         names = ["--local-result-dir"],
         description = ["Saves test result to this local folder. Deleted before each run."]
     )
     var localResultDir: String? = null
-
-    @Option(
-        names = ["--smart-flank-disable-upload"],
-        description = ["Disables smart flank JUnit XML uploading. Useful for preventing timing data from being updated."]
-    )
-    var smartFlankDisableUpload: Boolean? = null
 }

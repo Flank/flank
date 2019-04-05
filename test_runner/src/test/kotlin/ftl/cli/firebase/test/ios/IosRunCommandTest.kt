@@ -83,6 +83,7 @@ class IosRunCommandTest {
         assertThat(cmd.flakyTestAttempts).isNull()
         assertThat(cmd.localResultsDir).isNull()
         assertThat(cmd.smartFlankDisableUpload).isNull()
+        assertThat(cmd.smartFlankGcsPath).isNull()
     }
 
     @Test
@@ -146,7 +147,7 @@ class IosRunCommandTest {
     @Test
     fun maxTestShards_parse() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--test-shards=3")
+        CommandLine(cmd).parse("--max-test-shards=3")
 
         assertThat(cmd.maxTestShards).isEqualTo(3)
     }
@@ -263,5 +264,13 @@ class IosRunCommandTest {
         CommandLine(cmd).parse("--smart-flank-disable-upload=true")
 
         assertThat(cmd.smartFlankDisableUpload).isEqualTo(true)
+    }
+
+    @Test
+    fun `smart-flank-gcs-path parse`() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parse("--smart-flank-gcs-path=foo")
+
+        assertThat(cmd.smartFlankGcsPath).isEqualTo("foo")
     }
 }
