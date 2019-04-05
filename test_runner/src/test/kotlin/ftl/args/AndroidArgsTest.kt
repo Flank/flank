@@ -218,6 +218,7 @@ AndroidArgs
       shard-time: 60
       repeat-tests: 8
       smart-flank-gcs-path:${' '}
+      smart-flank-disable-upload: false
       files-to-download:
         - /sdcard/screenshots
         - /sdcard/screenshots2
@@ -812,5 +813,23 @@ AndroidArgs
 
         val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.localResultDir).isEqualTo("b")
+    }
+
+    @Test
+    fun `cli smart-flank-disable-upload`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--smart-flank-disable-upload=true")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          smart-flank-disable-upload: false
+      """
+        assertThat(AndroidArgs.load(yaml).smartFlankDisableUpload).isEqualTo(false)
+
+        val androidArgs = AndroidArgs.load(yaml, cli)
+        assertThat(androidArgs.smartFlankDisableUpload).isEqualTo(true)
     }
 }

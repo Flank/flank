@@ -279,4 +279,10 @@ class AndroidRunCommand : Runnable {
         description = ["Saves test result to this local folder. Deleted before each run."]
     )
     var localResultDir: String? = null
+
+    @Option(
+        names = ["--smart-flank-disable-upload"],
+        description = ["Disables smart flank JUnit XML uploading. Useful for preventing timing data from being updated."]
+    )
+    var smartFlankDisableUpload: Boolean? = null
 }

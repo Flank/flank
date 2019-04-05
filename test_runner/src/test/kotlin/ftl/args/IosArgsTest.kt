@@ -167,6 +167,7 @@ IosArgs
       shard-time: 60
       repeat-tests: 8
       smart-flank-gcs-path:${' '}
+      smart-flank-disable-upload: false
       test-targets-always-run:
         - a/testGrantPermissions
         - a/testGrantPermissions2
@@ -632,6 +633,22 @@ IosArgs
 
         val androidArgs = IosArgs.load(yaml, cli)
         assertThat(androidArgs.localResultDir).isEqualTo("a")
+    }
+
+    @Test
+    fun `cli smart-flank-disable-upload`() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--smart-flank-disable-upload=true")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+      """
+        assertThat(IosArgs.load(yaml).smartFlankDisableUpload).isEqualTo(false)
+
+        val androidArgs = IosArgs.load(yaml, cli)
+        assertThat(androidArgs.smartFlankDisableUpload).isEqualTo(true)
     }
 
     private fun getValidTestsSample() = listOf(

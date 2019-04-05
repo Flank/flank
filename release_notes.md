@@ -1,5 +1,7 @@
 ## next (unreleased)
 
+
+- [#537](https://github.com/TestArmada/flank/pull/537) Add `smart-flank-disable-upload` yml option to prevent new results from overriding previous results. ([elihart](https://github.com/elihart))
 -
 
 ## v5.0.2

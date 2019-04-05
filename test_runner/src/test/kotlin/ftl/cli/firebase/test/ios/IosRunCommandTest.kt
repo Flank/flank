@@ -82,6 +82,7 @@ class IosRunCommandTest {
         assertThat(cmd.resultsDir).isNull()
         assertThat(cmd.flakyTestAttempts).isNull()
         assertThat(cmd.localResultsDir).isNull()
+        assertThat(cmd.smartFlankDisableUpload).isNull()
     }
 
     @Test
@@ -254,5 +255,13 @@ class IosRunCommandTest {
         CommandLine(cmd).parse("--local-result-dir=a")
 
         assertThat(cmd.localResultsDir).isEqualTo("a")
+    }
+
+    @Test
+    fun `smart-flank-disable-upload parse`() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parse("--smart-flank-disable-upload=true")
+
+        assertThat(cmd.smartFlankDisableUpload).isEqualTo(true)
     }
 }

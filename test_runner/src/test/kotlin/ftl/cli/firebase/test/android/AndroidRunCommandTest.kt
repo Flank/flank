@@ -88,6 +88,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.flakyTestAttempts).isNull()
         assertThat(cmd.disableSharding).isNull()
         assertThat(cmd.localResultDir).isNull()
+        assertThat(cmd.smartFlankDisableUpload).isNull()
     }
 
     @Test
@@ -319,5 +320,13 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parse("--local-result-dir=a")
 
         assertThat(cmd.localResultDir).isEqualTo("a")
+    }
+
+    @Test
+    fun `smartFlankDisableUpload parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--smart-flank-disable-upload=true")
+
+        assertThat(cmd.smartFlankDisableUpload).isEqualTo(true)
     }
 }
