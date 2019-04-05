@@ -1,8 +1,11 @@
 ## next (unreleased)
 
+-
+
+## v5.0.2
+
 - [#538](https://github.com/TestArmada/flank/pull/538) Update `dextestparser`. Fixes APK parsing crash. ([bootstraponline](https://github.com/bootstraponline))
 - [#536](https://github.com/TestArmada/flank/pull/536) Always calculate exit code from matrix status instead of JUnit XML. ([bootstraponline](https://github.com/bootstraponline))
-- 
 
 ## v5.0.1
 
