@@ -222,8 +222,8 @@ class IosRunCommand : Runnable {
     var localResultsDir: String? = null
 
     @Option(
-        names = ["--smart-flank-upload-enabled"],
-        description = ["Whether the JUnit XML results should be uploaded to the Smart Flank cloud storage."]
+        names = ["--smart-flank-disable-upload"],
+        description = ["Disables smart flank JUnit XML uploading. Useful for preventing timing data from being updated."]
     )
-    var smartFlankUploadEnabled: Boolean? = null
+    var smartFlankDisableUpload: Boolean? = null
 }

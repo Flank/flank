@@ -82,7 +82,7 @@ class IosRunCommandTest {
         assertThat(cmd.resultsDir).isNull()
         assertThat(cmd.flakyTestAttempts).isNull()
         assertThat(cmd.localResultsDir).isNull()
-        assertThat(cmd.smartFlankUploadEnabled).isNull()
+        assertThat(cmd.smartFlankDisableUpload).isNull()
     }
 
     @Test
@@ -258,10 +258,10 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun `smart-flank-upload-enabled parse`() {
+    fun `smart-flank-disable-upload parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--smart-flank-upload-enabled=false")
+        CommandLine(cmd).parse("--smart-flank-disable-upload=true")
 
-        assertThat(cmd.smartFlankUploadEnabled).isEqualTo(false)
+        assertThat(cmd.smartFlankDisableUpload).isEqualTo(true)
     }
 }

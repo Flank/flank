@@ -21,7 +21,7 @@ interface IArgs {
     val shardTime: Int
     val repeatTests: Int
     val smartFlankGcsPath: String
-    val smartFlankUploadEnabled: Boolean
+    val smartFlankDisableUpload: Boolean
     val testTargetsAlwaysRun: List<String>
     val filesToDownload: List<String>
     val disableSharding: Boolean
