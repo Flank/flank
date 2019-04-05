@@ -11,8 +11,7 @@
 
 - Open `test_runner/build.gradle.kts` with `IntelliJ IDEA Community`
 - There's an [issue tracker](https://github.com/TestArmada/flank/issues) and [project board]( https://github.com/TestArmada/flank/projects/1)
-- Run `./gradlew ktlintFormat` to fix lint issues
-- Run `./gralew ktlintApplyToIdea` to update Idea to use the [ktlint](https://github.com/shyiko/ktlint) settings
+- Run `./gradlew check` to fix lint issues
 
 See the main readme for instructions on how to run the iOS and Android samples.
 
