@@ -34,6 +34,14 @@ Exit code | Description
 1         | At least one test failed or inconclusive and all matrices finished.
 2         | At least one matrix not finished, usually a FTL error.
 
+## CLI
+
+Flank supports CLI flags for each YAML parameter. The CLI flags are useful to selectively override YAML file values. Pass the `--help` flag to see the full documentation. For example: `flank android run --help`
+
+CLI flags work well with environment variables. You can override a value like this:
+
+> flank android run --local-result-dir=$APP_NAME
+
 ### Flank configuration
 
 app, test, and xctestrun-file support `~`, environment variables, and globs (*, **) when resolving paths
