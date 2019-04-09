@@ -242,5 +242,4 @@ class IosRunCommand : Runnable {
                 "names to run (default: run all test targets)."]
     )
     var testTargets: List<String>? = null
-
 }
