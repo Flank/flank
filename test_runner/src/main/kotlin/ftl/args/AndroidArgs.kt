@@ -15,9 +15,11 @@ import ftl.args.ArgsHelper.createJunitBucket
 import ftl.args.ArgsHelper.evaluateFilePath
 import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.yamlMapper
+import ftl.args.ArgsToString.apksToString
 import ftl.args.ArgsToString.devicesToString
 import ftl.args.ArgsToString.listToString
 import ftl.args.ArgsToString.mapToString
+import ftl.args.yml.AndroidFlankYml
 import ftl.args.yml.AndroidGcloudYml
 import ftl.args.yml.AndroidGcloudYmlParams
 import ftl.args.yml.FlankYml
@@ -39,6 +41,7 @@ class AndroidArgs(
     gcloudYml: GcloudYml,
     androidGcloudYml: AndroidGcloudYml,
     flankYml: FlankYml,
+    androidFlankYml: AndroidFlankYml,
     override val data: String,
     val cli: AndroidRunCommand? = null
 ) : IArgs {
@@ -75,6 +78,9 @@ class AndroidArgs(
     override val disableSharding = cli?.disableSharding ?: flank.disableSharding
     override val project = cli?.project ?: flank.project
     override val localResultDir = cli?.localResultDir ?: flank.localResultDir
+
+    private val androidFlank = androidFlankYml.flank
+    val additionalAppTestApks = cli?.additionalAppTestApks ?: androidFlank.additionalAppTestApks
 
     // computed properties not specified in yaml
     override val testShardChunks: List<List<String>> by lazy {
@@ -178,12 +184,15 @@ ${listToString(testTargetsAlwaysRun)}
       disable-sharding: $disableSharding
       project: $project
       local-result-dir: $localResultDir
+      # Android Flank Yml
+      additional-app-test-apks:
+${apksToString(additionalAppTestApks)}
    """.trimIndent()
     }
 
     companion object : IArgsCompanion {
         override val validArgs by lazy {
-            mergeYmlMaps(GcloudYml, AndroidGcloudYml, FlankYml)
+            mergeYmlMaps(GcloudYml, AndroidGcloudYml, FlankYml, AndroidFlankYml)
         }
 
         fun load(data: Path, cli: AndroidRunCommand? = null): AndroidArgs =
@@ -195,18 +204,26 @@ ${listToString(testTargetsAlwaysRun)}
             val flankYml = yamlMapper.readValue(data, FlankYml::class.java)
             val gcloudYml = yamlMapper.readValue(data, GcloudYml::class.java)
             val androidGcloudYml = yamlMapper.readValue(data, AndroidGcloudYml::class.java)
+            val androidFlankYml = yamlMapper.readValue(data, AndroidFlankYml::class.java)
 
             return AndroidArgs(
                 gcloudYml,
                 androidGcloudYml,
                 flankYml,
+                androidFlankYml,
                 data,
                 cli
             )
         }
 
         fun default(): AndroidArgs {
-            return AndroidArgs(GcloudYml(), AndroidGcloudYml(AndroidGcloudYmlParams(app = ".", test = ".")), FlankYml(), "", AndroidRunCommand())
+            return AndroidArgs(
+                GcloudYml(),
+                AndroidGcloudYml(AndroidGcloudYmlParams(app = ".", test = ".")),
+                FlankYml(),
+                AndroidFlankYml(),
+                "",
+                AndroidRunCommand())
         }
     }
 }

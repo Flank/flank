@@ -2,6 +2,7 @@ package ftl.cli.firebase.test.android
 
 import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
+import ftl.args.yml.AppTestPair
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
@@ -90,6 +91,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.localResultDir).isNull()
         assertThat(cmd.smartFlankDisableUpload).isNull()
         assertThat(cmd.smartFlankGcsPath).isNull()
+        assertThat(cmd.additionalAppTestApks).isNull()
     }
 
     @Test
@@ -337,5 +339,14 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parse("--smart-flank-gcs-path=foo")
 
         assertThat(cmd.smartFlankGcsPath).isEqualTo("foo")
+    }
+
+    @Test
+    fun `additionalAppTestApks parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--additional-app-test-apks=app=a,test=b")
+
+        val expected = AppTestPair(app = "a", test = "b")
+        assertThat(cmd.additionalAppTestApks).isEqualTo(listOf(expected))
     }
 }

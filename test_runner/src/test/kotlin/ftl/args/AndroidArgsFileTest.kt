@@ -1,5 +1,6 @@
 package ftl.args
 
+import ftl.args.yml.AndroidFlankYml
 import ftl.args.yml.AndroidGcloudYml
 import ftl.args.yml.AndroidGcloudYmlParams
 import ftl.args.yml.FlankYml
@@ -107,6 +108,7 @@ class AndroidArgsFileTest {
                     maxTestShards = maxTestShards
                 )
             ),
+            AndroidFlankYml(),
             ""
         )
     }
@@ -176,6 +178,7 @@ class AndroidArgsFileTest {
                     project = "delta-essence-114723"
                 )
             ),
+            AndroidFlankYml(),
             ""
         )
 

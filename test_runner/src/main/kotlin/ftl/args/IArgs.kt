@@ -2,6 +2,7 @@ package ftl.args
 
 import ftl.args.yml.FlankYmlParams
 
+// Properties common to both Android and iOS
 interface IArgs {
     // original YAML data
     val data: String

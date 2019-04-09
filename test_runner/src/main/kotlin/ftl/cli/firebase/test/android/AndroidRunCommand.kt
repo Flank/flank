@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.android
 
 import ftl.args.AndroidArgs
+import ftl.args.yml.AppTestPair
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.defaultAndroidModel
@@ -8,10 +9,10 @@ import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.config.FtlConstants.defaultLocale
 import ftl.config.FtlConstants.defaultOrientation
 import ftl.run.TestRunner
-import java.nio.file.Paths
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
+import java.nio.file.Paths
 
 @Command(
     name = "run",
@@ -56,14 +57,14 @@ class AndroidRunCommand : Runnable {
     @Option(
         names = ["--app"],
         description = ["The path to the application binary file. " +
-            "The path may be in the local filesystem or in Google Cloud Storage using gs:// notation."]
+                "The path may be in the local filesystem or in Google Cloud Storage using gs:// notation."]
     )
     var app: String? = null
 
     @Option(
         names = ["--test"],
         description = ["The path to the binary file containing instrumentation tests. " +
-            "The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://."]
+                "The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://."]
     )
     var test: String? = null
 
@@ -135,10 +136,10 @@ class AndroidRunCommand : Runnable {
         names = ["--test-targets"],
         split = ",",
         description = ["A list of one or more test target filters to apply " +
-            "(default: run all test targets). Each target filter must be fully qualified with the package name, class name, " +
-            "or test annotation desired. Any test filter supported by am instrument -e … is supported. " +
-            "See https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner for more " +
-            "information."]
+                "(default: run all test targets). Each target filter must be fully qualified with the package name, class name, " +
+                "or test annotation desired. Any test filter supported by am instrument -e … is supported. " +
+                "See https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner for more " +
+                "information."]
     )
     var testTargets: List<String>? = null
 
@@ -146,10 +147,10 @@ class AndroidRunCommand : Runnable {
         names = ["--device"],
         split = ",",
         description = ["A list of DIMENSION=VALUE pairs which specify a target " +
-            "device to test against. This flag may be repeated to specify multiple devices. The four device dimensions are: " +
-            "model, version, locale, and orientation. If any dimensions are omitted, they will use a default value. Omitting " +
-            "all of the preceding dimension-related flags will run tests against a single device using defaults for all four " +
-            "device dimensions."]
+                "device to test against. This flag may be repeated to specify multiple devices. The four device dimensions are: " +
+                "model, version, locale, and orientation. If any dimensions are omitted, they will use a default value. Omitting " +
+                "all of the preceding dimension-related flags will run tests against a single device using defaults for all four " +
+                "device dimensions."]
     )
     fun deviceMap(map: Map<String, String>?) {
         if (map.isNullOrEmpty()) return
@@ -171,9 +172,9 @@ class AndroidRunCommand : Runnable {
     @Option(
         names = ["--results-bucket"],
         description = ["The name of a Google Cloud Storage bucket where raw test " +
-            "results will be stored (default: \"test-lab-<random-UUID>\"). Note that the bucket must be owned by a " +
-            "billing-enabled project, and that using a non-default bucket will result in billing charges for the " +
-            "storage used."]
+                "results will be stored (default: \"test-lab-<random-UUID>\"). Note that the bucket must be owned by a " +
+                "billing-enabled project, and that using a non-default bucket will result in billing charges for the " +
+                "storage used."]
     )
     var resultsBucket: String? = null
 
@@ -190,7 +191,7 @@ class AndroidRunCommand : Runnable {
     @Option(
         names = ["--record-video"],
         description = ["Enable video recording during the test. " +
-            "Enabled by default, use --no-record-video to disable."]
+                "Enabled by default, use --no-record-video to disable."]
     )
     var recordVideo: Boolean? = null
 
@@ -300,4 +301,31 @@ class AndroidRunCommand : Runnable {
         description = ["Saves test result to this local folder. Deleted before each run."]
     )
     var localResultDir: String? = null
+
+    // AndroidFlankYml
+
+    @Option(
+        names = ["--additional-app-test-apks"],
+        split = ",",
+        description = ["A list of app & test apks to include in the run. " +
+                "Useful for running multiple module tests within a single Flank run."]
+    )
+    fun apkMap(map: Map<String, String>?) {
+        if (map.isNullOrEmpty()) return
+        if (additionalAppTestApks == null) additionalAppTestApks = mutableListOf()
+
+        val appApk = map["app"]
+        val testApk = map["test"]
+
+        if (appApk != null && testApk != null) {
+            additionalAppTestApks?.add(
+                AppTestPair(
+                    app = appApk,
+                    test = testApk
+                )
+            )
+        }
+    }
+
+    var additionalAppTestApks: MutableList<AppTestPair>? = null
 }
