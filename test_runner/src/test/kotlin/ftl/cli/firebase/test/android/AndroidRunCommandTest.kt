@@ -89,6 +89,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.disableSharding).isNull()
         assertThat(cmd.localResultDir).isNull()
         assertThat(cmd.smartFlankDisableUpload).isNull()
+        assertThat(cmd.smartFlankGcsPath).isNull()
     }
 
     @Test
