@@ -33,6 +33,8 @@ class IosRunCommand : Runnable {
         }
     }
 
+    // Flank specific
+
     @Option(
         names = ["-c", "--config"],
         description = ["YAML config file path"]
@@ -46,6 +48,60 @@ class IosRunCommand : Runnable {
     )
     var usageHelpRequested: Boolean = false
 
+    // IosGcloudYml.kt
+
+    @Option(
+        names = ["--test"],
+        description = ["The path to the test package (a zip file containing the iOS app " +
+                "and XCTest files). The given path may be in the local filesystem or in Google Cloud Storage using a URL " +
+                "beginning with gs://. Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file " +
+                "is specified."]
+    )
+    var test: String? = null
+
+    @Option(
+        names = ["--xctestrun-file"],
+        description = ["The path to an .xctestrun file that will override any " +
+                ".xctestrun file contained in the --test package. Because the .xctestrun file contains environment variables " +
+                "along with test methods to run and/or ignore, this can be useful for customizing or sharding test suites. The " +
+                "given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://."]
+    )
+    var xctestrunFile: String? = null
+
+    @Option(
+        names = ["--xcode-version"],
+        description = ["The version of Xcode that should be used to run an XCTest. " +
+                "Defaults to the latest Xcode version supported in Firebase Test Lab. This Xcode version must be supported by " +
+                "all iOS versions selected in the test matrix."]
+    )
+    var xcodeVersion: String? = null
+
+    @Option(
+        names = ["--device"],
+        split = ",",
+        description = ["A list of DIMENSION=VALUE pairs which specify a target " +
+                "device to test against. This flag may be repeated to specify multiple devices. The four device dimensions are: " +
+                "model, version, locale, and orientation. If any dimensions are omitted, they will use a default value. Omitting " +
+                "all of the preceding dimension-related flags will run tests against a single device using defaults for all four " +
+                "device dimensions."]
+    )
+    fun deviceMap(map: Map<String, String>?) {
+        if (map.isNullOrEmpty()) return
+        val androidDevice = Device(
+            model = map.getOrDefault("model", defaultIosModel),
+            version = map.getOrDefault("version", defaultIosVersion),
+            locale = map.getOrDefault("locale", FtlConstants.defaultLocale),
+            orientation = map.getOrDefault("orientation", FtlConstants.defaultOrientation)
+        )
+
+        if (device == null) device = mutableListOf()
+        device?.add(androidDevice)
+    }
+
+    var device: MutableList<Device>? = null
+
+    // GcloudYml
+
     @Option(
         names = ["--results-bucket"],
         description = ["The name of a Google Cloud Storage bucket where raw test " +
@@ -54,6 +110,16 @@ class IosRunCommand : Runnable {
             "storage used."]
     )
     var resultsBucket: String? = null
+
+    @Option(
+        names = ["--results-dir"],
+        description = [
+            "The name of a unique Google Cloud Storage object within the results bucket where raw test results will be " +
+                    "stored (default: a timestamp with a random suffix). Caution: if specified, this argument must be unique for " +
+                    "each test matrix you create, otherwise results from multiple test matrices will be overwritten or " +
+                    "intermingled."]
+    )
+    var resultsDir: String? = null
 
     @Option(
         names = ["--record-video"],
@@ -84,13 +150,6 @@ class IosRunCommand : Runnable {
     var async: Boolean? = null
 
     @Option(
-        names = ["--project"],
-        description = ["The Google Cloud Platform project name to use for this invocation. " +
-            "If omitted, then the project from the service account credential is used"]
-    )
-    var project: String? = null
-
-    @Option(
         names = ["--results-history-name"],
         description = ["The history name for your test results " +
             "(an arbitrary string label; default: the application's label from the APK manifest). All tests which use the " +
@@ -100,7 +159,15 @@ class IosRunCommand : Runnable {
     var resultsHistoryName: String? = null
 
     @Option(
-        names = ["--test-shards"],
+        names = ["--flaky-test-attempts"],
+        description = ["The number of times a TestExecution should be re-attempted if one or more of its test cases " +
+                "fail for any reason. The maximum number of reruns allowed is 10. Default is 0, which implies no reruns."]
+    )
+    var flakyTestAttempts: Int? = null
+
+    // FlankYml.kt
+    @Option(
+        names = ["--max-test-shards"],
         description = ["The amount of matrices to split the tests across."]
     )
     var maxTestShards: Int? = null
@@ -118,19 +185,30 @@ class IosRunCommand : Runnable {
     var repeatTests: Int? = null
 
     @Option(
+        names = ["--smart-flank-gcs-path"],
+        split = ",",
+        description = ["Google cloud storage path to save test timing data used by smart flank."]
+    )
+    var smartFlankGcsPath: String? = null
+
+    @Option(
+        names = ["--smart-flank-disable-upload"],
+        description = ["Disables smart flank JUnit XML uploading. Useful for preventing timing data from being updated."]
+    )
+    var smartFlankDisableUpload: Boolean? = null
+
+    @Option(
+        names = ["--disable-sharding"],
+        description = ["Disable sharding."]
+    )
+    var disableSharding: Boolean? = null
+
+    @Option(
         names = ["--test-targets-always-run"],
         split = ",",
         description = ["A list of one or more test methods to always run first in every shard."]
     )
     var testTargetsAlwaysRun: List<String>? = null
-
-    @Option(
-        names = ["--test-targets"],
-        split = ",",
-        description = ["A list of one or more test method " +
-            "names to run (default: run all test targets)."]
-    )
-    var testTargets: List<String>? = null
 
     @Option(
         names = ["--files-to-download"],
@@ -143,77 +221,11 @@ class IosRunCommand : Runnable {
     var filesToDownload: List<String>? = null
 
     @Option(
-        names = ["--disable-sharding"],
-        description = ["Disable sharding."]
+        names = ["--project"],
+        description = ["The Google Cloud Platform project name to use for this invocation. " +
+                "If omitted, then the project from the service account credential is used"]
     )
-    var disableSharding: Boolean? = null
-
-    @Option(
-        names = ["--test"],
-        description = ["The path to the test package (a zip file containing the iOS app " +
-            "and XCTest files). The given path may be in the local filesystem or in Google Cloud Storage using a URL " +
-            "beginning with gs://. Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file " +
-            "is specified."]
-    )
-    var test: String? = null
-
-    @Option(
-        names = ["--xctestrun-file"],
-        description = ["The path to an .xctestrun file that will override any " +
-            ".xctestrun file contained in the --test package. Because the .xctestrun file contains environment variables " +
-            "along with test methods to run and/or ignore, this can be useful for customizing or sharding test suites. The " +
-            "given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://."]
-    )
-    var xctestrunFile: String? = null
-
-    @Option(
-        names = ["--xcode-version"],
-        description = ["The version of Xcode that should be used to run an XCTest. " +
-            "Defaults to the latest Xcode version supported in Firebase Test Lab. This Xcode version must be supported by " +
-            "all iOS versions selected in the test matrix."]
-    )
-    var xcodeVersion: String? = null
-
-    @Option(
-        names = ["--device"],
-        split = ",",
-        description = ["A list of DIMENSION=VALUE pairs which specify a target " +
-            "device to test against. This flag may be repeated to specify multiple devices. The four device dimensions are: " +
-            "model, version, locale, and orientation. If any dimensions are omitted, they will use a default value. Omitting " +
-            "all of the preceding dimension-related flags will run tests against a single device using defaults for all four " +
-            "device dimensions."]
-    )
-    fun deviceMap(map: Map<String, String>?) {
-        if (map.isNullOrEmpty()) return
-        val androidDevice = Device(
-            model = map.getOrDefault("model", defaultIosModel),
-            version = map.getOrDefault("version", defaultIosVersion),
-            locale = map.getOrDefault("locale", FtlConstants.defaultLocale),
-            orientation = map.getOrDefault("orientation", FtlConstants.defaultOrientation)
-        )
-
-        if (device == null) device = mutableListOf()
-        device?.add(androidDevice)
-    }
-
-    var device: MutableList<Device>? = null
-
-    @Option(
-        names = ["--results-dir"],
-        description = [
-            "The name of a unique Google Cloud Storage object within the results bucket where raw test results will be " +
-                "stored (default: a timestamp with a random suffix). Caution: if specified, this argument must be unique for " +
-                "each test matrix you create, otherwise results from multiple test matrices will be overwritten or " +
-                "intermingled."]
-    )
-    var resultsDir: String? = null
-
-    @Option(
-        names = ["--flaky-test-attempts"],
-        description = ["The number of times a TestExecution should be re-attempted if one or more of its test cases " +
-                "fail for any reason. The maximum number of reruns allowed is 10. Default is 0, which implies no reruns."]
-    )
-    var flakyTestAttempts: Int? = null
+    var project: String? = null
 
     @Option(
         names = ["--local-result-dir"],
@@ -221,9 +233,13 @@ class IosRunCommand : Runnable {
     )
     var localResultsDir: String? = null
 
+    // IosFlankYml.kt
+
     @Option(
-        names = ["--smart-flank-disable-upload"],
-        description = ["Disables smart flank JUnit XML uploading. Useful for preventing timing data from being updated."]
+        names = ["--test-targets"],
+        split = ",",
+        description = ["A list of one or more test method " +
+                "names to run (default: run all test targets)."]
     )
-    var smartFlankDisableUpload: Boolean? = null
+    var testTargets: List<String>? = null
 }

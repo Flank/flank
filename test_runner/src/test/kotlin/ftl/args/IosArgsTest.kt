@@ -76,7 +76,7 @@ class IosArgsTest {
     val systemErrRule = SystemErrRule().muteForSuccessfulTests()!!
 
     @Test
-    fun iosArgs_invalidDeviceExits() {
+    fun args_invalidDeviceExits() {
         exceptionRule.expectMessage("iOS 99.9 on iphoneZ is not a supported device")
         val invalidDevice = listOf(Device("iphoneZ", "99.9"))
         IosArgs(
@@ -89,7 +89,7 @@ class IosArgsTest {
     }
 
     @Test
-    fun iosArgs_invalidXcodeExits() {
+    fun args_invalidXcodeExits() {
         exceptionRule.expectMessage("Xcode 99.9 is not a supported Xcode version")
         IosArgs(
             GcloudYml(),
@@ -101,10 +101,10 @@ class IosArgsTest {
     }
 
     @Test
-    fun iosArgs() {
-        val iosArgs = IosArgs.load(iosNonDefault)
+    fun args() {
+        val args = IosArgs.load(iosNonDefault)
 
-        with(iosArgs) {
+        with(args) {
             // GcloudYml
             assert(resultsBucket, "mockBucket")
             assert(recordVideo, false)
@@ -135,10 +135,10 @@ class IosArgsTest {
     }
 
     @Test
-    fun iosArgs_toString() {
-        val iosArgs = IosArgs.load(iosNonDefault)
+    fun args_toString() {
+        val args = IosArgs.load(iosNonDefault)
         assert(
-            iosArgs.toString(), """
+            args.toString(), """
 IosArgs
     gcloud:
       results-bucket: mockBucket
@@ -185,8 +185,8 @@ IosArgs
     }
 
     @Test
-    fun iosArgsDefault() {
-        val iosArgs = IosArgs.load(
+    fun argsDefault() {
+        val args = IosArgs.load(
             """
         gcloud:
           test: $testPath
@@ -194,7 +194,7 @@ IosArgs
         """
         )
 
-        with(iosArgs) {
+        with(args) {
             // GcloudYml
             assert(resultsBucket, "mockBucket")
             assert(recordVideo, true)
@@ -223,7 +223,7 @@ IosArgs
 
     @Test
     fun negativeOneTestShards() {
-        val iosArgs = IosArgs.load(
+        val args = IosArgs.load(
             """
     gcloud:
       test: $testPath
@@ -234,7 +234,7 @@ IosArgs
 """
         )
 
-        with(iosArgs) {
+        with(args) {
             assert(maxTestShards, -1)
             assert(testShardChunks.size, 17)
             testShardChunks.forEach { chunk -> assert(chunk.size, 1) }
@@ -242,8 +242,8 @@ IosArgs
     }
 
     @Test
-    fun iosArgs_emptyFlank() {
-        val iosArgs = IosArgs.load(
+    fun args_emptyFlank() {
+        val args = IosArgs.load(
             """
     gcloud:
       test: $testPath
@@ -253,7 +253,7 @@ IosArgs
 """
         )
 
-        with(iosArgs) {
+        with(args) {
             assertThat(xctestrunZip).isEqualTo(testAbsolutePath)
             assertThat(xctestrunFile).isEqualTo(xctestrunFileAbsolutePath)
         }
@@ -393,7 +393,7 @@ IosArgs
     @Test
     fun cli_maxTestShards() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--test-shards=3")
+        CommandLine(cli).parse("--max-test-shards=3")
 
         val yaml = """
         gcloud:
@@ -545,9 +545,9 @@ IosArgs
         assertThat(defaultDevices.first()).isEqualTo(expectedDefaultDevice)
         assertThat(defaultDevices.size).isEqualTo(1)
 
-        val iosArgs = IosArgs.load(yaml, cli)
+        val args = IosArgs.load(yaml, cli)
         val expectedDevice = Device("iphone8", "12.0", "zh_CN", "default")
-        val actualDevices = iosArgs.devices
+        val actualDevices = args.devices
         assertThat(actualDevices.first()).isEqualTo(expectedDevice)
         assertThat(actualDevices.size).isEqualTo(1)
     }
@@ -563,9 +563,9 @@ IosArgs
           test: $testPath
           xctestrun-file: $testPath
       """
-        val iosArgs = IosArgs.load(yaml, cli)
+        val args = IosArgs.load(yaml, cli)
         val expectedDevice = Device("iphone8", "12.0", "zh_CN", "default")
-        val actualDevices = iosArgs.devices
+        val actualDevices = args.devices
         assertThat(actualDevices.size).isEqualTo(2)
         assertThat(actualDevices[0]).isEqualTo(expectedDevice)
         assertThat(actualDevices[1]).isEqualTo(expectedDevice)
@@ -599,8 +599,8 @@ IosArgs
       """
         assertThat(IosArgs.load(yaml).filesToDownload).isEmpty()
 
-        val androidArgs = IosArgs.load(yaml, cli)
-        assertThat(androidArgs.filesToDownload).isEqualTo(listOf("a", "b"))
+        val args = IosArgs.load(yaml, cli)
+        assertThat(args.filesToDownload).isEqualTo(listOf("a", "b"))
     }
 
     @Test
@@ -615,8 +615,8 @@ IosArgs
       """
         assertThat(IosArgs.load(yaml).flakyTestAttempts).isEqualTo(0)
 
-        val androidArgs = IosArgs.load(yaml, cli)
-        assertThat(androidArgs.flakyTestAttempts).isEqualTo(3)
+        val args = IosArgs.load(yaml, cli)
+        assertThat(args.flakyTestAttempts).isEqualTo(3)
     }
 
     @Test
@@ -631,8 +631,24 @@ IosArgs
       """
         assertThat(IosArgs.load(yaml).localResultDir).isEqualTo("results")
 
-        val androidArgs = IosArgs.load(yaml, cli)
-        assertThat(androidArgs.localResultDir).isEqualTo("a")
+        val args = IosArgs.load(yaml, cli)
+        assertThat(args.localResultDir).isEqualTo("a")
+    }
+
+    @Test
+    fun `cli smart-flank-gcs-path`() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parse("--smart-flank-gcs-path=foo")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+      """
+        assertThat(IosArgs.load(yaml).smartFlankGcsPath).isEqualTo("")
+
+        val args = IosArgs.load(yaml, cli)
+        assertThat(args.smartFlankGcsPath).isEqualTo("foo")
     }
 
     @Test
@@ -647,8 +663,8 @@ IosArgs
       """
         assertThat(IosArgs.load(yaml).smartFlankDisableUpload).isEqualTo(false)
 
-        val androidArgs = IosArgs.load(yaml, cli)
-        assertThat(androidArgs.smartFlankDisableUpload).isEqualTo(true)
+        val args = IosArgs.load(yaml, cli)
+        assertThat(args.smartFlankDisableUpload).isEqualTo(true)
     }
 
     private fun getValidTestsSample() = listOf(

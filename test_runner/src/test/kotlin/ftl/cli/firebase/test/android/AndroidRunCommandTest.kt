@@ -89,6 +89,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.disableSharding).isNull()
         assertThat(cmd.localResultDir).isNull()
         assertThat(cmd.smartFlankDisableUpload).isNull()
+        assertThat(cmd.smartFlankGcsPath).isNull()
     }
 
     @Test
@@ -253,7 +254,7 @@ class AndroidRunCommandTest {
     @Test
     fun maxTestShards_parse() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--test-shards=3")
+        CommandLine(cmd).parse("--max-test-shards=3")
 
         assertThat(cmd.maxTestShards).isEqualTo(3)
     }
@@ -328,5 +329,13 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parse("--smart-flank-disable-upload=true")
 
         assertThat(cmd.smartFlankDisableUpload).isEqualTo(true)
+    }
+
+    @Test
+    fun `smartFlankGcsPath parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--smart-flank-gcs-path=foo")
+
+        assertThat(cmd.smartFlankGcsPath).isEqualTo("foo")
     }
 }

@@ -1,5 +1,5 @@
 ## next (unreleased)
-- 
+- [#541](https://github.com/TestArmada/flank/pull/541) Rename `--test-shards` CLI flag to `--max-test-shards`. Add `--smart-flank-gcs-path` CLI flag. ([bootstraponline](https://github.com/bootstraponline))
 
 ## v5.1.0
 - [#537](https://github.com/TestArmada/flank/pull/537) Add `smart-flank-disable-upload` yml option to prevent new results from overriding previous results. ([elihart](https://github.com/elihart))

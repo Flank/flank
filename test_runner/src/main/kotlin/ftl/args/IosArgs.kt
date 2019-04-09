@@ -51,7 +51,7 @@ class IosArgs(
     override val maxTestShards = cli?.maxTestShards ?: flank.maxTestShards
     override val shardTime = cli?.shardTime ?: flank.shardTime
     override val repeatTests = cli?.repeatTests ?: flank.repeatTests
-    override val smartFlankGcsPath = flank.smartFlankGcsPath
+    override val smartFlankGcsPath = cli?.smartFlankGcsPath ?: flank.smartFlankGcsPath
     override val smartFlankDisableUpload = cli?.smartFlankDisableUpload ?: flank.smartFlankDisableUpload
     override val testTargetsAlwaysRun = cli?.testTargetsAlwaysRun ?: flank.testTargetsAlwaysRun
     override val filesToDownload = cli?.filesToDownload ?: flank.filesToDownload
