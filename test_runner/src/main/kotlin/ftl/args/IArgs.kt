@@ -28,8 +28,5 @@ interface IArgs {
     val disableSharding: Boolean
     val localResultDir: String
 
-    // computed property
-    val testShardChunks: List<List<String>>
-
     fun useLocalResultDir() = localResultDir != FlankYmlParams.defaultLocalResultDir
 }

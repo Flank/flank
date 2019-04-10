@@ -20,7 +20,6 @@ import ftl.util.ShardCounter
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
 import ftl.util.testTimeoutToSeconds
-import ftl.util.validateTestShardIndex
 
 object GcAndroidTestMatrix {
 
@@ -34,12 +33,11 @@ object GcAndroidTestMatrix {
         testApkGcsPath: String,
         runGcsPath: String,
         androidDeviceList: AndroidDeviceList,
-        testShardsIndex: Int = -1,
+        testTargets: List<String>,
         args: AndroidArgs,
         shardCounter: ShardCounter,
         toolResultsHistory: ToolResultsHistory
     ): Testing.Projects.TestMatrices.Create {
-        validateTestShardIndex(testShardsIndex, args)
 
         // https://github.com/bootstraponline/studio-google-cloud-testing/blob/203ed2890c27a8078cd1b8f7ae12cf77527f426b/firebase-testing/src/com/google/gct/testing/launcher/CloudTestsLauncher.java#L120
         val clientInfo = ClientInfo().setName("Flank")
@@ -54,7 +52,7 @@ object GcAndroidTestMatrix {
             androidInstrumentation.orchestratorOption = "USE_ORCHESTRATOR"
         }
 
-        androidInstrumentation.testTargets = args.testShardChunks.elementAt(testShardsIndex).toList()
+        androidInstrumentation.testTargets = testTargets
 
         // --auto-google-login
         // https://cloud.google.com/sdk/gcloud/reference/firebase/test/android/run

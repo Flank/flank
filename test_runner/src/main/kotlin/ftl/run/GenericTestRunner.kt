@@ -68,10 +68,10 @@ object GenericTestRunner {
         }
     }
 
-    fun beforeRunMessage(args: IArgs): String {
+    fun beforeRunMessage(args: IArgs, testShardChunks: List<List<String>>): String {
         val runCount = args.repeatTests
-        val shardCount = args.testShardChunks.size
-        val testsCount = args.testShardChunks.sumBy { it.size }
+        val shardCount = testShardChunks.size
+        val testsCount = testShardChunks.sumBy { it.size }
 
         val result = StringBuilder()
         result.appendln(

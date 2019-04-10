@@ -5,7 +5,6 @@ import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageOptions
 import com.google.cloud.storage.contrib.nio.testing.LocalStorageHelper
-import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
@@ -45,13 +44,16 @@ object GcStorage {
         }
     }
 
-    private fun upload(file: String, rootGcsBucket: String, runGcsPath: String): String =
-        upload(
+    fun upload(file: String, rootGcsBucket: String, runGcsPath: String): String {
+        if (file.startsWith(FtlConstants.GCS_PREFIX)) return file
+
+        return upload(
             file = file,
             fileBytes = Files.readAllBytes(Paths.get(file)),
             rootGcsBucket = rootGcsBucket,
             runGcsPath = runGcsPath
         )
+    }
 
     fun uploadJunitXml(testResult: JUnitTestResult, args: IArgs) {
         if (args.smartFlankGcsPath.isEmpty() || args.smartFlankDisableUpload) return
@@ -74,12 +76,6 @@ object GcStorage {
         }
     }
 
-    fun uploadAppApk(args: AndroidArgs, gcsBucket: String, runGcsPath: String): String =
-        upload(args.appApk, gcsBucket, runGcsPath)
-
-    fun uploadTestApk(args: AndroidArgs, gcsBucket: String, runGcsPath: String): String =
-        upload(args.testApk, gcsBucket, runGcsPath)
-
     fun uploadXCTestZip(args: IosArgs, runGcsPath: String): String =
         upload(args.xctestrunZip, args.resultsBucket, runGcsPath)
 
@@ -90,9 +86,6 @@ object GcStorage {
             rootGcsBucket = gcsBucket,
             runGcsPath = runGcsPath
         )
-
-    fun downloadTestApk(args: AndroidArgs): String =
-        download(args.testApk)
 
     // junit xml may not exist. ignore error if it doesn't exist
     fun downloadJunitXml(args: IArgs): JUnitTestResult? {
@@ -124,7 +117,7 @@ object GcStorage {
         return gcsFilePath
     }
 
-    private fun download(gcsUriString: String, ignoreError: Boolean = false): String {
+    fun download(gcsUriString: String, ignoreError: Boolean = false): String {
         val gcsURI = URI.create(gcsUriString)
         val bucket = gcsURI.authority
         val path = gcsURI.path.drop(1) // Drop leading slash

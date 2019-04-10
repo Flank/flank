@@ -17,9 +17,16 @@ class GcIosTestMatrixTest {
     fun build_negativeShardErrors() {
         val iosArgs = mock(IosArgs::class.java)
         `when`(iosArgs.testShardChunks).thenReturn(listOf(listOf("")))
+
         GcIosTestMatrix.build(
-            IosDeviceList(), "", "", -1, NSDictionary(), iosArgs, ShardCounter(),
-            GcToolResults.createToolResultsHistory(iosArgs)
+            iosDeviceList = IosDeviceList(),
+            testZipGcsPath = "",
+            runGcsPath = "",
+            xcTestParsed = NSDictionary(),
+            args = iosArgs,
+            testTargets = emptyList(),
+            shardCounter = ShardCounter(),
+            toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs)
         )
     }
 
@@ -27,8 +34,14 @@ class GcIosTestMatrixTest {
     fun build_invalidShardErrors() {
         val iosArgs = mock(IosArgs::class.java)
         GcIosTestMatrix.build(
-            IosDeviceList(), "", "", 1, NSDictionary(), iosArgs, ShardCounter(),
-            GcToolResults.createToolResultsHistory(iosArgs)
+            iosDeviceList = IosDeviceList(),
+            testZipGcsPath = "",
+            runGcsPath = "",
+            xcTestParsed = NSDictionary(),
+            args = iosArgs,
+            testTargets = listOf(""),
+            shardCounter = ShardCounter(),
+            toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs)
         )
     }
 
@@ -42,8 +55,14 @@ class GcIosTestMatrixTest {
         `when`(iosArgs.xctestrunFile).thenReturn("456")
 
         GcIosTestMatrix.build(
-            IosDeviceList(), "", "", 0, NSDictionary(), iosArgs, ShardCounter(),
-            GcToolResults.createToolResultsHistory(iosArgs)
+            iosDeviceList = IosDeviceList(),
+            testZipGcsPath = "",
+            runGcsPath = "",
+            xcTestParsed = NSDictionary(),
+            args = iosArgs,
+            testTargets = emptyList(),
+            shardCounter = ShardCounter(),
+            toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs)
         )
     }
 }

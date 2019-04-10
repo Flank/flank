@@ -307,6 +307,7 @@ AndroidArgs
       """
         )
 
+        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk)
         with(androidArgs) {
             assert(maxTestShards, -1)
             assert(testShardChunks.size, 2)
@@ -339,7 +340,9 @@ AndroidArgs
         flank:
           disable-sharding: true
       """
-        AndroidArgs.load(yaml).testShardChunks
+        val androidArgs = AndroidArgs.load(yaml)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk)
+        assertThat(testShardChunks).hasSize(1)
     }
 
     @Test(expected = RuntimeException::class)
@@ -349,7 +352,8 @@ AndroidArgs
           app: $invalidApk
           test: $invalidApk
       """
-        AndroidArgs.load(yaml).testShardChunks
+        val androidArgs = AndroidArgs.load(yaml)
+        AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk)
     }
 
     @Test

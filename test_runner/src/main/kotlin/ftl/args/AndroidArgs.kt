@@ -1,7 +1,5 @@
 package ftl.args
 
-import com.linkedin.dex.parser.DexParser
-import com.linkedin.dex.parser.TestMethod
 import ftl.android.AndroidCatalog
 import ftl.android.IncompatibleModelVersion
 import ftl.android.SupportedDeviceConfig
@@ -9,7 +7,6 @@ import ftl.android.UnsupportedModelId
 import ftl.android.UnsupportedVersionId
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
-import ftl.args.ArgsHelper.calculateShards
 import ftl.args.ArgsHelper.createGcsBucket
 import ftl.args.ArgsHelper.createJunitBucket
 import ftl.args.ArgsHelper.evaluateFilePath
@@ -28,13 +25,8 @@ import ftl.args.yml.YamlDeprecated
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
-import ftl.config.FtlConstants.useMock
-import ftl.filter.TestFilters
-import ftl.gc.GcStorage
-import ftl.util.Utils
 import java.nio.file.Files
 import java.nio.file.Path
-import kotlinx.coroutines.runBlocking
 
 // set default values, init properties, etc.
 class AndroidArgs(
@@ -82,22 +74,6 @@ class AndroidArgs(
     private val androidFlank = androidFlankYml.flank
     val additionalAppTestApks = cli?.additionalAppTestApks ?: androidFlank.additionalAppTestApks
 
-    // computed properties not specified in yaml
-    override val testShardChunks: List<List<String>> by lazy {
-        if (disableSharding) return@lazy listOf(emptyList<String>())
-
-        // Download test APK if necessary so it can be used to validate test methods
-        var testLocalApk = testApk
-        if (testApk.startsWith(FtlConstants.GCS_PREFIX)) {
-            runBlocking {
-                testLocalApk = GcStorage.downloadTestApk(this@AndroidArgs)
-            }
-        }
-
-        val filteredTests = getTestMethods(testLocalApk)
-        calculateShards(filteredTests, this)
-    }
-
     init {
         resultsBucket = createGcsBucket(project, cli?.resultsBucket ?: gcloud.resultsBucket)
         createJunitBucket(project, flank.smartFlankGcsPath)
@@ -117,21 +93,6 @@ class AndroidArgs(
         }
 
         devices.forEach { device -> assertDeviceSupported(device) }
-    }
-
-    private fun getTestMethods(testLocalApk: String): List<String> {
-        val allTestMethods = DexParser.findTestMethods(testLocalApk)
-        require(allTestMethods.isNotEmpty()) { Utils.fatalError("Test APK has no tests") }
-        val testFilter = TestFilters.fromTestTargets(testTargets)
-        val filteredTests = allTestMethods
-            .asSequence()
-            .distinct()
-            .filter(testFilter.shouldRun)
-            .map(TestMethod::testName)
-            .map { "class $it" }
-            .toList()
-        require(useMock || filteredTests.isNotEmpty()) { Utils.fatalError("All tests filtered out") }
-        return filteredTests
     }
 
     private fun assertDeviceSupported(device: Device) {

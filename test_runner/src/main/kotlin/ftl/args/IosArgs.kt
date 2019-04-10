@@ -63,7 +63,7 @@ class IosArgs(
     val testTargets = cli?.testTargets ?: iosFlank.testTargets.filterNotNull()
 
     // computed properties not specified in yaml
-    override val testShardChunks: List<List<String>> by lazy {
+    val testShardChunks: List<List<String>> by lazy {
         if (disableSharding) return@lazy listOf(emptyList<String>())
 
         val validTestMethods = Xctestrun.findTestNames(xctestrunFile)

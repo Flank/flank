@@ -20,7 +20,6 @@ import ftl.util.ShardCounter
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
 import ftl.util.testTimeoutToSeconds
-import ftl.util.validateTestShardIndex
 
 object GcIosTestMatrix {
 
@@ -28,13 +27,12 @@ object GcIosTestMatrix {
         iosDeviceList: IosDeviceList,
         testZipGcsPath: String,
         runGcsPath: String,
-        testShardsIndex: Int,
         xcTestParsed: NSDictionary,
         args: IosArgs,
+        testTargets: List<String>,
         shardCounter: ShardCounter,
         toolResultsHistory: ToolResultsHistory
     ): Testing.Projects.TestMatrices.Create {
-        validateTestShardIndex(testShardsIndex, args)
         val clientInfo = ClientInfo().setName("Flank")
 
         val gcsBucket = args.resultsBucket
@@ -46,8 +44,7 @@ object GcIosTestMatrix {
         val generatedXctestrun = if (args.disableSharding) {
             xcTestParsed.toByteArray()
         } else {
-            val methods = args.testShardChunks.elementAt(testShardsIndex)
-            Xctestrun.rewrite(xcTestParsed, methods)
+            Xctestrun.rewrite(xcTestParsed, testTargets)
         }
 
         val xctestrunFileGcsPath = GcStorage.uploadXCTestFile(args, gcsBucket, matrixGcsSuffix, generatedXctestrun)

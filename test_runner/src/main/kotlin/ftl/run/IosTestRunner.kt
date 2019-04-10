@@ -21,7 +21,7 @@ object IosTestRunner {
     // https://github.com/bootstraponline/gcloud_cli/blob/5bcba57e825fc98e690281cf69484b7ba4eb668a/google-cloud-sdk/lib/googlecloudsdk/api_lib/firebase/test/ios/matrix_creator.py#L109
     // https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/run
     // https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/
-    suspend fun runTests(iosArgs: IosArgs): MatrixMap = coroutineScope {
+    suspend fun runTests(iosArgs: IosArgs): Pair<MatrixMap, List<List<String>>> = coroutineScope {
         val (stopwatch, runGcsPath) = GenericTestRunner.beforeRunTests(iosArgs)
 
         val iosDeviceList = GcIosMatrix.build(iosArgs.devices)
@@ -30,7 +30,6 @@ object IosTestRunner {
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
         val runCount = iosArgs.repeatTests
-        val shardCount = iosArgs.testShardChunks.size
         val shardCounter = ShardCounter()
         val history = GcToolResults.createToolResultsHistory(iosArgs)
 
@@ -41,15 +40,15 @@ object IosTestRunner {
             GcStorage.uploadXCTestZip(iosArgs, runGcsPath)
         }
 
-        println(beforeRunMessage(iosArgs))
+        println(beforeRunMessage(iosArgs, iosArgs.testShardChunks))
         repeat(runCount) {
-            repeat(shardCount) { testShardsIndex ->
+            iosArgs.testShardChunks.forEach { testTargets ->
                 jobs += async {
                     GcIosTestMatrix.build(
                         iosDeviceList = iosDeviceList,
                         testZipGcsPath = xcTestGcsPath,
                         runGcsPath = runGcsPath,
-                        testShardsIndex = testShardsIndex,
+                        testTargets = testTargets,
                         xcTestParsed = xcTestParsed,
                         args = iosArgs,
                         shardCounter = shardCounter,
@@ -59,6 +58,7 @@ object IosTestRunner {
             }
         }
 
-        GenericTestRunner.afterRunTests(jobs.awaitAll(), runGcsPath, stopwatch, iosArgs)
+        val matrixMap = GenericTestRunner.afterRunTests(jobs.awaitAll(), runGcsPath, stopwatch, iosArgs)
+        matrixMap to iosArgs.testShardChunks
     }
 }

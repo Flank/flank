@@ -47,7 +47,7 @@ object TestRunner {
         if (!GcToolResults.service.rootUrl.contains(localhost)) throw RuntimeException("expected localhost in GcToolResults")
     }
 
-    private suspend fun runTests(args: IArgs): MatrixMap {
+    private suspend fun runTests(args: IArgs): Pair<MatrixMap, List<List<String>>> {
         return when (args) {
             is AndroidArgs -> AndroidTestRunner.runTests(args)
             is IosArgs -> IosTestRunner.runTests(args)
@@ -347,7 +347,7 @@ object TestRunner {
     }
 
     // used to update and poll the results from an async run
-    suspend fun refreshLastRun(currentArgs: IArgs) {
+    suspend fun refreshLastRun(currentArgs: IArgs, testShardChunks: List<List<String>>) {
         val matrixMap = lastMatrices(currentArgs)
         val lastArgs = lastArgs(currentArgs)
 
@@ -356,7 +356,7 @@ object TestRunner {
         fetchArtifacts(matrixMap, lastArgs)
 
         // Must generate reports *after* fetching xml artifacts since reports require xml
-        val exitCode = ReportManager.generate(matrixMap, lastArgs)
+        val exitCode = ReportManager.generate(matrixMap, lastArgs, testShardChunks)
         System.exit(exitCode)
     }
 
@@ -370,13 +370,13 @@ object TestRunner {
 
     suspend fun newRun(args: IArgs) {
         println(args)
-        val matrixMap = runTests(args)
+        val (matrixMap, testShardChunks) = runTests(args)
 
         if (!args.async) {
             pollMatrices(matrixMap, args)
             fetchArtifacts(matrixMap, args)
 
-            val exitCode = ReportManager.generate(matrixMap, args)
+            val exitCode = ReportManager.generate(matrixMap, args, testShardChunks)
             System.exit(exitCode)
         }
     }

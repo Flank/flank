@@ -9,10 +9,10 @@ import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.config.FtlConstants.defaultLocale
 import ftl.config.FtlConstants.defaultOrientation
 import ftl.run.TestRunner
+import java.nio.file.Paths
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
-import java.nio.file.Paths
 
 @Command(
     name = "run",

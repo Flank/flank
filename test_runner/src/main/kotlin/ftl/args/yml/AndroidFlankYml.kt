@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class AppTestPair(
-    val app: String,
+    val app: String?,
     val test: String
 )
 
