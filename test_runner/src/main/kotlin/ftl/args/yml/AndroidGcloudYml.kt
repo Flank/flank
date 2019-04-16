@@ -33,7 +33,7 @@ class AndroidGcloudYmlParams(
     val performanceMetrics: Boolean = true,
 
     @field:JsonProperty("test-targets")
-    val testTargets: List<String> = emptyList(),
+    val testTargets: List<String?> = emptyList(),
 
     val device: List<Device> = listOf(Device(defaultAndroidModel, defaultAndroidVersion))
 ) {

@@ -76,6 +76,21 @@ class AndroidArgsTest {
     var expectedException = ExpectedException.none()!!
 
     @Test
+    fun empty_testTargets() {
+        val emptyTestTargets = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          test-targets:
+          - 
+
+        """.trimIndent()
+
+        val args = AndroidArgs.load(emptyTestTargets)
+        assertThat(args.testTargets.size).isEqualTo(0)
+    }
+
+    @Test
     fun androidArgs_invalidModel() {
         expectedException.expect(RuntimeException::class.java)
         expectedException.expectMessage("Unsupported model id")

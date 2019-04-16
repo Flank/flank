@@ -119,9 +119,9 @@ object Shard {
             shards = shards.sortedBy { it.time }
         }
 
-        val allTests = testsToRun.size
+        val allTests = testsToRun.size // zero when test targets is empty
         val cacheHit = allTests - cacheMiss
-        val cachePercent = cacheHit.toDouble() / allTests * 100.0
+        val cachePercent = if (allTests == 0) 0.0 else cacheHit.toDouble() / allTests * 100.0
         println()
         println("  Smart Flank cache hit: ${cachePercent.roundToInt()}% ($cacheHit / $allTests)")
         println("  Shard times: " + shards.joinToString(", ") { "${it.time.roundToInt()}s" } + "\n")

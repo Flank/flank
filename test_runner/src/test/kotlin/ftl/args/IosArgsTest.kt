@@ -76,6 +76,22 @@ class IosArgsTest {
     val systemErrRule = SystemErrRule().muteForSuccessfulTests()!!
 
     @Test
+    fun empty_testTargets() {
+        val emptyTestTargets = """
+gcloud:
+  test: "./src/test/kotlin/ftl/fixtures/tmp/ios_earlgrey2.zip"
+  xctestrun-file: "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun"
+flank:
+  test-targets:
+  -
+
+        """.trimIndent()
+
+        val args = IosArgs.load(emptyTestTargets)
+        assertThat(args.testTargets.size).isEqualTo(0)
+    }
+
+    @Test
     fun args_invalidDeviceExits() {
         exceptionRule.expectMessage("iOS 99.9 on iphoneZ is not a supported device")
         val invalidDevice = listOf(Device("iphoneZ", "99.9"))
