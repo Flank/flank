@@ -119,7 +119,7 @@ object YamlDeprecated {
 
         if (fix) {
             Files.write(yamlPath, string.toByteArray())
-            println("\nUpdated flank.yml file")
+            println("\nUpdated ${yamlPath.fileName} file")
         }
         return errorDetected
     }

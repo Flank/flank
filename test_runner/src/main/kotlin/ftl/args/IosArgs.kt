@@ -60,7 +60,7 @@ class IosArgs(
     override val localResultDir = cli?.localResultsDir ?: flank.localResultDir
 
     private val iosFlank = iosFlankYml.flank
-    val testTargets = cli?.testTargets ?: iosFlank.testTargets
+    val testTargets = cli?.testTargets ?: iosFlank.testTargets.filterNotNull()
 
     // computed properties not specified in yaml
     override val testShardChunks: List<List<String>> by lazy {
@@ -166,13 +166,13 @@ ${listToString(testTargets)}
     }
 }
 
-fun filterTests(validTestMethods: List<String>, testTargetsRgx: List<String>): List<String> {
+fun filterTests(validTestMethods: List<String>, testTargetsRgx: List<String?>): List<String> {
     if (testTargetsRgx.isEmpty()) {
         return validTestMethods
     }
 
     return validTestMethods.filter { test ->
-        testTargetsRgx.forEach { target ->
+        testTargetsRgx.filterNotNull().forEach { target ->
             try {
                 if (test.matches(target.toRegex())) {
                     return@filter true

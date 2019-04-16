@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @JsonIgnoreProperties(ignoreUnknown = true)
 class IosFlankYmlParams(
     @field:JsonProperty("test-targets")
-    val testTargets: List<String> = emptyList()
+    val testTargets: List<String?> = emptyList()
 ) {
     companion object : IYmlKeys {
         override val keys = listOf("test-targets")
