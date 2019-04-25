@@ -27,7 +27,8 @@ import org.slf4j.LoggerFactory
 
 object FtlConstants {
     var useMock = false
-    val macOS = System.getProperty("os.name") == "Mac OS X"
+    // depending on environment, it's not always "Mac OS X"
+    val macOS: Boolean = (System.getProperty("os.name") ?: "").toLowerCase().indexOf("mac") >= 0
     const val localhost = "http://localhost:8080"
 
     const val defaultLocale = "en"
