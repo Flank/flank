@@ -2,6 +2,10 @@
 
 - 
 
+## v6.0.1
+
+- [#550](https://github.com/TestArmada/flank/pull/550) Update dex-test-parser to fix Inherited crash. ([bootstraponline](https://github.com/bootstraponline))
+
 ## v6.0.0
 - [#541](https://github.com/TestArmada/flank/pull/541) Rename `--test-shards` CLI flag to `--max-test-shards`. Add `--smart-flank-gcs-path` CLI flag. ([bootstraponline](https://github.com/bootstraponline))
 - [#544](https://github.com/TestArmada/flank/pull/544) Fix empty test targets crash. ([bootstraponline](https://github.com/bootstraponline))
