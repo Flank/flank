@@ -30,9 +30,9 @@ object FtlConstants {
 
     val macOS: Boolean by lazy {
         val osName = System.getProperty("os.name") ?: ""
-        val isMac = osName.toLowerCase().indexOf("mac") >= 0
-        println("isMacOS = $isMac ($osName)")
-        isMac
+        val isMacOS = osName.toLowerCase().indexOf("mac") >= 0
+        println("isMacOS = $isMacOS ($osName)")
+        isMacOS
     }
     const val localhost = "http://localhost:8080"
 
