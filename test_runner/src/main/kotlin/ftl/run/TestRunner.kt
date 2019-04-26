@@ -143,7 +143,9 @@ object TestRunner {
         val resultsFile = Paths.get(args.localResultDir).toFile()
         if (!resultsFile.exists()) return null
 
-        val scheduledRuns = resultsFile.listFiles().filter { it.isDirectory }.sortedBy { it.lastModified() }
+        val scheduledRuns = resultsFile.listFiles()
+            .filter { it.isDirectory }
+            .sortedByDescending { it.lastModified() }
         if (scheduledRuns.isEmpty()) return null
 
         return scheduledRuns.first().name
