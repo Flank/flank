@@ -151,7 +151,7 @@ dependencies {
     implementation("com.google.apis:google-api-services-toolresults:v1beta3-rev20190207-1.28.0")
 
     // https://github.com/linkedin/dex-test-parser/releases
-    implementation("com.linkedin.dextestparser:parser:2.1.0")
+    implementation("com.linkedin.dextestparser:parser:2.1.1")
 
     // NOTE: iOS support isn't in the public artifact. Use testing jar generated from the private gcloud CLI json
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-testing%22
