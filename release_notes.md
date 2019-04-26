@@ -1,4 +1,8 @@
 ## next (unreleased)
+
+- 
+
+## v6.0.0
 - [#541](https://github.com/TestArmada/flank/pull/541) Rename `--test-shards` CLI flag to `--max-test-shards`. Add `--smart-flank-gcs-path` CLI flag. ([bootstraponline](https://github.com/bootstraponline))
 - [#544](https://github.com/TestArmada/flank/pull/544) Fix empty test targets crash. ([bootstraponline](https://github.com/bootstraponline))
 - [#548](https://github.com/TestArmada/flank/pull/548) Fix flank cancel. Print os name when sharding iOS tests. ([bootstraponline](https://github.com/bootstraponline))
