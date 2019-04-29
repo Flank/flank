@@ -289,7 +289,7 @@ object TestRunner {
 
         fun puts(msg: String) {
             val timestamp = stopwatch.check(indent = true)
-            println("${indent}$timestamp $matrixId $msg")
+            println("$indent$timestamp $matrixId $msg")
         }
 
         while (true) {
