@@ -31,6 +31,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -57,9 +58,9 @@ object TestRunner {
 
     fun updateMatrixFile(matrixMap: MatrixMap, args: IArgs): Path {
         val matrixIdsPath = if (args.useLocalResultDir()) {
-            Paths.get(args.localResultDir, FtlConstants.matrixIdsFile)
+            Paths.get(args.localResultDir, matrixIdsFile)
         } else {
-            Paths.get(args.localResultDir, matrixMap.runPath, FtlConstants.matrixIdsFile)
+            Paths.get(args.localResultDir, matrixMap.runPath, matrixIdsFile)
         }
         matrixIdsPath.parent.toFile().mkdirs()
         Files.write(matrixIdsPath, gson.toJson(matrixMap.map).toByteArray())
@@ -89,7 +90,7 @@ object TestRunner {
             // Only refresh unfinished
             if (MatrixState.inProgress(matrix.value.state)) {
                 matrixCount += 1
-                jobs += async { GcTestMatrix.refresh(matrix.key, args) }
+                jobs += async(Dispatchers.Default) { GcTestMatrix.refresh(matrix.key, args) }
             }
         }
 
@@ -107,7 +108,7 @@ object TestRunner {
         }
 
         if (dirty) {
-            println(FtlConstants.indent + "Updating matrix file")
+            println(indent + "Updating matrix file")
             updateMatrixFile(matrixMap, args)
         }
         println()
@@ -252,7 +253,7 @@ object TestRunner {
         println()
 
         if (dirty) {
-            println(FtlConstants.indent + "Updating matrix file")
+            println(indent + "Updating matrix file")
             updateMatrixFile(matrixMap, args)
             println()
         }
@@ -288,7 +289,7 @@ object TestRunner {
 
         fun puts(msg: String) {
             val timestamp = stopwatch.check(indent = true)
-            println("${FtlConstants.indent}$timestamp $matrixId $msg")
+            println("${indent}$timestamp $matrixId $msg")
         }
 
         while (true) {
