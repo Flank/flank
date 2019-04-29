@@ -30,13 +30,12 @@ object AndroidTestRunner {
         val shardCounter = ShardCounter()
         val history = GcToolResults.createToolResultsHistory(androidArgs)
         val apks = resolveApks(androidArgs, runGcsPath)
-        val testShardChunks: MutableList<List<String>> = mutableListOf()
+        val allTestShardChunks: MutableList<List<String>> = mutableListOf()
 
         apks.forEach { apk ->
-            testShardChunks += AndroidTestShard.getTestShardChunks(androidArgs, apk.test)
-        }
-
-        apks.forEach { apk ->
+            // ensure we only shard tests that are part of the test apk
+            val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, apk.test)
+            allTestShardChunks += testShardChunks
             repeat(runCount) {
                 testShardChunks.forEach { testTargets ->
                     jobs += async {
@@ -55,9 +54,9 @@ object AndroidTestRunner {
             }
         }
 
-        println(GenericTestRunner.beforeRunMessage(androidArgs, testShardChunks))
+        println(GenericTestRunner.beforeRunMessage(androidArgs, allTestShardChunks))
         val matrixMap = GenericTestRunner.afterRunTests(jobs.awaitAll(), runGcsPath, stopwatch, androidArgs)
-        matrixMap to testShardChunks
+        matrixMap to allTestShardChunks
     }
 
     /**
