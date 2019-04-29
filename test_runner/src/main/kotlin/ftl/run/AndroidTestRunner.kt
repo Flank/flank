@@ -12,6 +12,7 @@ import ftl.http.executeWithRetry
 import ftl.json.MatrixMap
 import ftl.util.ShardCounter
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -38,7 +39,9 @@ object AndroidTestRunner {
             allTestShardChunks += testShardChunks
             repeat(runCount) {
                 testShardChunks.forEach { testTargets ->
-                    jobs += async {
+                    // specify dispatcher to avoid inheriting main runBlocking context that runs in the main thread
+                    // https://kotlinlang.org/docs/reference/coroutines/coroutine-context-and-dispatchers.html
+                    jobs += async(Dispatchers.Default) {
                         GcAndroidTestMatrix.build(
                             appApkGcsPath = apk.app ?: androidArgs.appApk,
                             testApkGcsPath = apk.test,
@@ -70,8 +73,8 @@ object AndroidTestRunner {
         val result = mutableListOf<AppTestPair>()
 
         appTestApks.forEach { apks ->
-            val appApkGcsPath = async { GcStorage.upload(apks.app ?: args.appApk, gcsBucket, runGcsPath) }
-            val testApkGcsPath = async { GcStorage.upload(apks.test, gcsBucket, runGcsPath) }
+            val appApkGcsPath = async(Dispatchers.Default) { GcStorage.upload(apks.app ?: args.appApk, gcsBucket, runGcsPath) }
+            val testApkGcsPath = async(Dispatchers.Default) { GcStorage.upload(apks.test, gcsBucket, runGcsPath) }
 
             result.add(
                 AppTestPair(
