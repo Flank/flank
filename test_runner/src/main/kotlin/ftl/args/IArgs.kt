@@ -2,6 +2,7 @@ package ftl.args
 
 import ftl.args.yml.FlankYmlParams
 
+// Properties common to both Android and iOS
 interface IArgs {
     // original YAML data
     val data: String
@@ -26,9 +27,6 @@ interface IArgs {
     val filesToDownload: List<String>
     val disableSharding: Boolean
     val localResultDir: String
-
-    // computed property
-    val testShardChunks: List<List<String>>
 
     fun useLocalResultDir() = localResultDir != FlankYmlParams.defaultLocalResultDir
 }

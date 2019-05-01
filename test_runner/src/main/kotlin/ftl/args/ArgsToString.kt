@@ -1,5 +1,6 @@
 package ftl.args
 
+import ftl.args.yml.AppTestPair
 import ftl.config.Device
 
 object ArgsToString {
@@ -20,5 +21,9 @@ object ArgsToString {
         if (devices.isNullOrEmpty()) return ""
         return devices.filterNotNull()
             .joinToString("\n") { "$it" }
+    }
+
+    fun apksToString(devices: List<AppTestPair>): String {
+        return devices.joinToString("\n") { (app, test) -> "        - app: $app\n          test: $test" }
     }
 }

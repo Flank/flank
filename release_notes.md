@@ -1,6 +1,6 @@
 ## next (unreleased)
 
-- 
+- [#542](https://github.com/TestArmada/flank/pull/542) Add `additional-app-test-apks` to include multiple app/test apk pairs in a single run. ([bootstraponline](https://github.com/bootstraponline))
 
 ## v6.0.1
 

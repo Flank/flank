@@ -23,14 +23,3 @@ fun testTimeoutToSeconds(timeout: String): Long {
         else -> timeout.removeSuffix("s").toLong() // Seconds
     }
 }
-
-fun validateTestShardIndex(testShardsIndex: Int, args: IArgs) {
-    val testShardsTotal = args.testShardChunks.size
-    if (testShardsIndex >= testShardsTotal) {
-        throw IllegalArgumentException("Invalid test shard index $testShardsIndex not < $testShardsTotal")
-    }
-
-    if (testShardsIndex < 0) {
-        throw IllegalArgumentException("Invalid test shard index $testShardsIndex not >= 0")
-    }
-}

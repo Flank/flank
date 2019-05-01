@@ -32,7 +32,7 @@ class ReportManagerTest {
         val matrix = TestRunner.matrixPathToObj("./src/test/kotlin/ftl/fixtures/error_result", AndroidArgs.default())
         val mockArgs = mock(AndroidArgs::class.java)
         `when`(mockArgs.smartFlankGcsPath).thenReturn("")
-        ReportManager.generate(matrix, mockArgs)
+        ReportManager.generate(matrix, mockArgs, emptyList())
     }
 
     @Test
@@ -40,7 +40,7 @@ class ReportManagerTest {
         val matrix = TestRunner.matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result", AndroidArgs.default())
         val mockArgs = mock(AndroidArgs::class.java)
         `when`(mockArgs.smartFlankGcsPath).thenReturn("")
-        ReportManager.generate(matrix, mockArgs)
+        ReportManager.generate(matrix, mockArgs, emptyList())
     }
 
     @Test
@@ -63,8 +63,8 @@ class ReportManagerTest {
 
         val mockArgs = mock(AndroidArgs::class.java)
 
-        `when`(mockArgs.testShardChunks).thenReturn(listOf(listOf("class a#a"), listOf("class b#b"), listOf("class c#c")))
-        val result = ReportManager.createShardEfficiencyList(oldTestResult, newTestResult, mockArgs)
+        val testShardChunks = listOf(listOf("class a#a"), listOf("class b#b"), listOf("class c#c"))
+        val result = ReportManager.createShardEfficiencyList(oldTestResult, newTestResult, mockArgs, testShardChunks)
 
         val expected = listOf(
             ReportManager.ShardEfficiency("Shard 0", 10.0, 9.0, -1.0),

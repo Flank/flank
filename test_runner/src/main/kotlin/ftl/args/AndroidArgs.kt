@@ -1,7 +1,5 @@
 package ftl.args
 
-import com.linkedin.dex.parser.DexParser
-import com.linkedin.dex.parser.TestMethod
 import ftl.android.AndroidCatalog
 import ftl.android.IncompatibleModelVersion
 import ftl.android.SupportedDeviceConfig
@@ -9,15 +7,16 @@ import ftl.android.UnsupportedModelId
 import ftl.android.UnsupportedVersionId
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
-import ftl.args.ArgsHelper.calculateShards
 import ftl.args.ArgsHelper.createGcsBucket
 import ftl.args.ArgsHelper.createJunitBucket
 import ftl.args.ArgsHelper.evaluateFilePath
 import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.yamlMapper
+import ftl.args.ArgsToString.apksToString
 import ftl.args.ArgsToString.devicesToString
 import ftl.args.ArgsToString.listToString
 import ftl.args.ArgsToString.mapToString
+import ftl.args.yml.AndroidFlankYml
 import ftl.args.yml.AndroidGcloudYml
 import ftl.args.yml.AndroidGcloudYmlParams
 import ftl.args.yml.FlankYml
@@ -26,19 +25,15 @@ import ftl.args.yml.YamlDeprecated
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
-import ftl.config.FtlConstants.useMock
-import ftl.filter.TestFilters
-import ftl.gc.GcStorage
-import ftl.util.Utils
 import java.nio.file.Files
 import java.nio.file.Path
-import kotlinx.coroutines.runBlocking
 
 // set default values, init properties, etc.
 class AndroidArgs(
     gcloudYml: GcloudYml,
     androidGcloudYml: AndroidGcloudYml,
     flankYml: FlankYml,
+    androidFlankYml: AndroidFlankYml,
     override val data: String,
     val cli: AndroidRunCommand? = null
 ) : IArgs {
@@ -76,21 +71,8 @@ class AndroidArgs(
     override val project = cli?.project ?: flank.project
     override val localResultDir = cli?.localResultDir ?: flank.localResultDir
 
-    // computed properties not specified in yaml
-    override val testShardChunks: List<List<String>> by lazy {
-        if (disableSharding) return@lazy listOf(emptyList<String>())
-
-        // Download test APK if necessary so it can be used to validate test methods
-        var testLocalApk = testApk
-        if (testApk.startsWith(FtlConstants.GCS_PREFIX)) {
-            runBlocking {
-                testLocalApk = GcStorage.downloadTestApk(this@AndroidArgs)
-            }
-        }
-
-        val filteredTests = getTestMethods(testLocalApk)
-        calculateShards(filteredTests, this)
-    }
+    private val androidFlank = androidFlankYml.flank
+    val additionalAppTestApks = cli?.additionalAppTestApks ?: androidFlank.additionalAppTestApks
 
     init {
         resultsBucket = createGcsBucket(project, cli?.resultsBucket ?: gcloud.resultsBucket)
@@ -111,21 +93,6 @@ class AndroidArgs(
         }
 
         devices.forEach { device -> assertDeviceSupported(device) }
-    }
-
-    private fun getTestMethods(testLocalApk: String): List<String> {
-        val allTestMethods = DexParser.findTestMethods(testLocalApk)
-        require(allTestMethods.isNotEmpty()) { Utils.fatalError("Test APK has no tests") }
-        val testFilter = TestFilters.fromTestTargets(testTargets)
-        val filteredTests = allTestMethods
-            .asSequence()
-            .distinct()
-            .filter(testFilter.shouldRun)
-            .map(TestMethod::testName)
-            .map { "class $it" }
-            .toList()
-        require(useMock || filteredTests.isNotEmpty()) { Utils.fatalError("All tests filtered out") }
-        return filteredTests
     }
 
     private fun assertDeviceSupported(device: Device) {
@@ -178,12 +145,15 @@ ${listToString(testTargetsAlwaysRun)}
       disable-sharding: $disableSharding
       project: $project
       local-result-dir: $localResultDir
+      # Android Flank Yml
+      additional-app-test-apks:
+${apksToString(additionalAppTestApks)}
    """.trimIndent()
     }
 
     companion object : IArgsCompanion {
         override val validArgs by lazy {
-            mergeYmlMaps(GcloudYml, AndroidGcloudYml, FlankYml)
+            mergeYmlMaps(GcloudYml, AndroidGcloudYml, FlankYml, AndroidFlankYml)
         }
 
         fun load(data: Path, cli: AndroidRunCommand? = null): AndroidArgs =
@@ -195,18 +165,26 @@ ${listToString(testTargetsAlwaysRun)}
             val flankYml = yamlMapper.readValue(data, FlankYml::class.java)
             val gcloudYml = yamlMapper.readValue(data, GcloudYml::class.java)
             val androidGcloudYml = yamlMapper.readValue(data, AndroidGcloudYml::class.java)
+            val androidFlankYml = yamlMapper.readValue(data, AndroidFlankYml::class.java)
 
             return AndroidArgs(
                 gcloudYml,
                 androidGcloudYml,
                 flankYml,
+                androidFlankYml,
                 data,
                 cli
             )
         }
 
         fun default(): AndroidArgs {
-            return AndroidArgs(GcloudYml(), AndroidGcloudYml(AndroidGcloudYmlParams(app = ".", test = ".")), FlankYml(), "", AndroidRunCommand())
+            return AndroidArgs(
+                GcloudYml(),
+                AndroidGcloudYml(AndroidGcloudYmlParams(app = ".", test = ".")),
+                FlankYml(),
+                AndroidFlankYml(),
+                "",
+                AndroidRunCommand())
         }
     }
 }

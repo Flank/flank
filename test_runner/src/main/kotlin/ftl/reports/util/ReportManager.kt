@@ -91,7 +91,7 @@ object ReportManager {
     }
 
     /** Returns true if there were no test failures */
-    fun generate(matrices: MatrixMap, args: IArgs): Int {
+    fun generate(matrices: MatrixMap, args: IArgs, testShardChunks: List<List<String>>): Int {
         val testSuite = parseTestSuite(matrices, args)
 
         val useFlakyTests = args.flakyTestAttempts > 0
@@ -111,7 +111,7 @@ object ReportManager {
         }
 
         JUnitReport.run(matrices, testSuite, printToStdout = false, args = args)
-        processJunitXml(testSuite, args)
+        processJunitXml(testSuite, args, testShardChunks)
 
         return matrices.exitCode()
     }
@@ -123,13 +123,18 @@ object ReportManager {
         val timeDiff: Double
     )
 
-    fun createShardEfficiencyList(oldResult: JUnitTestResult, newResult: JUnitTestResult, args: IArgs):
+    fun createShardEfficiencyList(
+        oldResult: JUnitTestResult,
+        newResult: JUnitTestResult,
+        args: IArgs,
+        testShardChunks: List<List<String>>
+    ):
             List<ShardEfficiency> {
         val oldJunitMap = Shard.createJunitMap(oldResult, args)
         val newJunitMap = Shard.createJunitMap(newResult, args)
 
         val timeList = mutableListOf<ShardEfficiency>()
-        args.testShardChunks.forEachIndexed { index, testSuite ->
+        testShardChunks.forEachIndexed { index, testSuite ->
 
             var expectedTime = 0.0
             var finalTime = 0.0
@@ -145,15 +150,24 @@ object ReportManager {
         return timeList
     }
 
-    private fun printActual(oldResult: JUnitTestResult, newResult: JUnitTestResult, args: IArgs) {
-        val list = createShardEfficiencyList(oldResult, newResult, args)
+    private fun printActual(
+        oldResult: JUnitTestResult,
+        newResult: JUnitTestResult,
+        args: IArgs,
+        testShardChunks: List<List<String>>
+    ) {
+        val list = createShardEfficiencyList(oldResult, newResult, args, testShardChunks)
 
         println("Actual shard times:\n" + list.joinToString("\n") {
             "  ${it.shard}: Expected: ${it.expectedTime.roundToInt()}s, Actual: ${it.finalTime.roundToInt()}s, Diff: ${it.timeDiff.roundToInt()}s"
         } + "\n")
     }
 
-    private fun processJunitXml(newTestResult: JUnitTestResult?, args: IArgs) {
+    private fun processJunitXml(
+        newTestResult: JUnitTestResult?,
+        args: IArgs,
+        testShardChunks: List<List<String>>
+    ) {
         if (newTestResult == null) return
 
         val oldTestResult = GcStorage.downloadJunitXml(args)
@@ -161,7 +175,7 @@ object ReportManager {
         newTestResult.mergeTestTimes(oldTestResult)
 
         if (oldTestResult != null) {
-            printActual(oldTestResult, newTestResult, args)
+            printActual(oldTestResult, newTestResult, args, testShardChunks)
         }
 
         GcStorage.uploadJunitXml(newTestResult, args)

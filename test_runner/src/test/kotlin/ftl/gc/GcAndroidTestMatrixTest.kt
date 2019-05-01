@@ -16,9 +16,16 @@ class GcAndroidTestMatrixTest {
     @Test(expected = IllegalArgumentException::class)
     fun build_negativeShardErrors() {
         val androidArgs = mock(AndroidArgs::class.java)
+
         GcAndroidTestMatrix.build(
-            "", "", "",
-            AndroidDeviceList(), -2, androidArgs, ShardCounter(), createToolResultsHistory(androidArgs)
+            appApkGcsPath = "",
+            testApkGcsPath = "",
+            runGcsPath = "",
+            androidDeviceList = AndroidDeviceList(),
+            testTargets = emptyList(),
+            args = androidArgs,
+            shardCounter = ShardCounter(),
+            toolResultsHistory = createToolResultsHistory(androidArgs)
         )
     }
 
@@ -26,22 +33,33 @@ class GcAndroidTestMatrixTest {
     fun build_invalidShardErrors() {
         val androidArgs = mock(AndroidArgs::class.java)
         GcAndroidTestMatrix.build(
-            "", "", "",
-            AndroidDeviceList(), 1, androidArgs, ShardCounter(), createToolResultsHistory(androidArgs)
+            appApkGcsPath = "",
+            testApkGcsPath = "",
+            runGcsPath = "",
+            androidDeviceList = AndroidDeviceList(),
+            testTargets = listOf(""),
+            args = androidArgs,
+            shardCounter = ShardCounter(),
+            toolResultsHistory = createToolResultsHistory(androidArgs)
         )
     }
 
     @Test
     fun build_validArgs() {
         val androidArgs = mock(AndroidArgs::class.java)
-        `when`(androidArgs.testShardChunks).thenReturn(listOf(listOf("")))
         `when`(androidArgs.testTimeout).thenReturn("3m")
         `when`(androidArgs.resultsBucket).thenReturn("/hi")
         `when`(androidArgs.project).thenReturn("123")
 
         GcAndroidTestMatrix.build(
-            "", "", "",
-            AndroidDeviceList(), 0, androidArgs, ShardCounter(), createToolResultsHistory(androidArgs)
+            appApkGcsPath = "",
+            testApkGcsPath = "",
+            runGcsPath = "",
+            androidDeviceList = AndroidDeviceList(),
+            testTargets = emptyList(),
+            args = androidArgs,
+            shardCounter = ShardCounter(),
+            toolResultsHistory = createToolResultsHistory(androidArgs)
         )
     }
 }

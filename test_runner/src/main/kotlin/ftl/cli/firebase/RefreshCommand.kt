@@ -22,7 +22,7 @@ Reads in the matrix_ids.json file. Refreshes any incomplete matrices.
 class RefreshCommand : Runnable {
     override fun run() {
         runBlocking {
-            TestRunner.refreshLastRun(AndroidArgs.default())
+            TestRunner.refreshLastRun(AndroidArgs.default(), emptyList())
         }
     }
 

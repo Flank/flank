@@ -14,6 +14,6 @@ class GcStorageTest {
     fun upload_missingBucket() {
         val androidArgs = mock(AndroidArgs::class.java)
         `when`(androidArgs.appApk).thenReturn("../test_app/apks/app-debug.apk")
-        GcStorage.uploadAppApk(androidArgs, "does-not-exist", "nope")
+        GcStorage.upload(androidArgs.appApk, "does-not-exist", "nope")
     }
 }

@@ -1,5 +1,6 @@
 package ftl.args
 
+import ftl.args.yml.AndroidFlankYml
 import ftl.args.yml.AndroidGcloudYml
 import ftl.args.yml.AndroidGcloudYmlParams
 import ftl.args.yml.FlankYml
@@ -107,6 +108,7 @@ class AndroidArgsFileTest {
                     maxTestShards = maxTestShards
                 )
             ),
+            AndroidFlankYml(),
             ""
         )
     }
@@ -115,12 +117,13 @@ class AndroidArgsFileTest {
     fun calculateShards_0() {
         exceptionRule.expectMessage("Test APK has no tests")
         val args = configWithTestMethods(0)
-        args.testShardChunks
+        AndroidTestShard.getTestShardChunks(args, args.testApk)
     }
 
     @Test
     fun calculateShards_1() {
         val config = configWithTestMethods(1)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk)
         with(config) {
             assert(maxTestShards, 1)
             assert(testShardChunks.size, 1)
@@ -131,6 +134,7 @@ class AndroidArgsFileTest {
     @Test
     fun calculateShards_155() {
         val config = configWithTestMethods(155)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk)
         with(config) {
             assert(maxTestShards, 1)
             assert(testShardChunks.size, 1)
@@ -141,6 +145,7 @@ class AndroidArgsFileTest {
     @Test
     fun calculateShards_155_40() {
         val config = configWithTestMethods(155, maxTestShards = 40)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk)
         with(config) {
             assert(maxTestShards, 40)
             assert(testShardChunks.size, 40)
@@ -176,6 +181,7 @@ class AndroidArgsFileTest {
                     project = "delta-essence-114723"
                 )
             ),
+            AndroidFlankYml(),
             ""
         )
 

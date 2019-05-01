@@ -2,7 +2,6 @@ package ftl.util
 
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
-import ftl.args.IArgs
 import ftl.json.MatrixMap
 import org.junit.Test
 import org.mockito.Mockito.`when`
@@ -39,26 +38,5 @@ class MatrixUtilTest {
         val matrixMap = mock(MatrixMap::class.java)
         `when`(matrixMap.runPath).thenReturn("/tmp")
         assertThat(resolveLocalRunPath(matrixMap, AndroidArgs.default())).isEqualTo("/tmp")
-    }
-
-    @Test
-    fun validateTestShardIndex_valid() {
-        val args = mock(IArgs::class.java)
-        `when`(args.testShardChunks).thenReturn(listOf(listOf("")))
-        validateTestShardIndex(0, args)
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun validateTestShardIndex_invalidGreater() {
-        val args = mock(IArgs::class.java)
-        `when`(args.testShardChunks).thenReturn(listOf(listOf("")))
-        validateTestShardIndex(99, args)
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun validateTestShardIndex_invalidNegative() {
-        val args = mock(IArgs::class.java)
-        `when`(args.testShardChunks).thenReturn(listOf(listOf("")))
-        validateTestShardIndex(99, args)
     }
 }

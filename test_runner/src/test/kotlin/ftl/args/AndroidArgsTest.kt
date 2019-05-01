@@ -1,6 +1,7 @@
 package ftl.args
 
 import com.google.common.truth.Truth.assertThat
+import ftl.args.yml.AppTestPair
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants.defaultAndroidModel
@@ -69,6 +70,9 @@ class AndroidArgsTest {
             - class example.Test#grantPermission
             - class example.Test#grantPermission2
           disable-sharding: true
+          additional-app-test-apks:
+            - app: foo
+              test: bar
       """
 
     @Rule
@@ -243,6 +247,10 @@ AndroidArgs
       disable-sharding: true
       project: projectFoo
       local-result-dir: results
+      # Android Flank Yml
+      additional-app-test-apks:
+        - app: foo
+          test: bar
 """.trimIndent()
         )
     }
@@ -299,6 +307,7 @@ AndroidArgs
       """
         )
 
+        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk)
         with(androidArgs) {
             assert(maxTestShards, -1)
             assert(testShardChunks.size, 2)
@@ -331,7 +340,9 @@ AndroidArgs
         flank:
           disable-sharding: true
       """
-        AndroidArgs.load(yaml).testShardChunks
+        val androidArgs = AndroidArgs.load(yaml)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk)
+        assertThat(testShardChunks).hasSize(1)
     }
 
     @Test(expected = RuntimeException::class)
@@ -341,7 +352,8 @@ AndroidArgs
           app: $invalidApk
           test: $invalidApk
       """
-        AndroidArgs.load(yaml).testShardChunks
+        val androidArgs = AndroidArgs.load(yaml)
+        AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk)
     }
 
     @Test
@@ -862,5 +874,27 @@ AndroidArgs
 
         val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.smartFlankDisableUpload).isEqualTo(true)
+    }
+
+    @Test
+    fun `cli additional-app-test-apks`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--additional-app-test-apks=app=a,test=b")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          additional-app-test-apks:
+          - app: 1
+            test: 2
+      """
+        assertThat(AndroidArgs.load(yaml).additionalAppTestApks).isEqualTo(
+            listOf(AppTestPair("1", "2")))
+
+        val androidArgs = AndroidArgs.load(yaml, cli)
+        assertThat(androidArgs.additionalAppTestApks).isEqualTo(
+            listOf(AppTestPair("a", "b")))
     }
 }
