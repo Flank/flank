@@ -272,7 +272,7 @@
       }
     }
   },
-  "revision": "20190305",
+  "revision": "20190430",
   "rootUrl": "https://testing.googleapis.com/",
   "schemas": {
     "Account": {
@@ -729,6 +729,11 @@
         "packageName": {
           "description": "Full Java-style package name for this application, e.g.\n\"com.example.foo\".",
           "type": "string"
+        },
+        "targetSdkVersion": {
+          "description": "Specifies the API Level on which the application is designed to run.",
+          "format": "int32",
+          "type": "integer"
         }
       },
       "type": "object"
@@ -1728,10 +1733,6 @@
         "androidTestLoop": {
           "$ref": "AndroidTestLoop",
           "description": "An Android Application with a Test Loop."
-        },
-        "autoGoogleLogin": {
-          "description": "Enables automatic Google account login.\nIf set, the service will automatically generate a Google test account and\nadd it to the device, before executing the test. Note that test accounts\nmight be reused.\nMany applications show their full set of functionalities when an account is\npresent on the device. Logging into the device with these generated\naccounts allows testing more functionalities.\nDefault is false.",
-          "type": "boolean"
         },
         "disablePerformanceMetrics": {
           "description": "Disables performance metrics recording; may reduce test latency.",
