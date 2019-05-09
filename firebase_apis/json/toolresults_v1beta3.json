@@ -15,7 +15,7 @@
  "description": "Reads and publishes results from Firebase Test Lab.",
  "discoveryVersion": "v1",
  "documentationLink": "https://firebase.google.com/docs/test-lab/",
- "etag": "\"J3WqvAcMk4eQjJXvfSI4Yr8VouA/D2_BvqUxZMQTTdzRf5Uh95B4iIY\"",
+ "etag": "\"VPK3KBfpaEgZ16pozGOoMYfKc0U/L2NlhyPOGzwB1sm_TzrKH1MPv5M\"",
  "icons": {
   "x16": "https://www.gstatic.com/images/branding/product/1x/googleg_16dp.png",
   "x32": "https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png"
@@ -1093,6 +1093,116 @@
             }
            }
           },
+          "testCases": {
+           "methods": {
+            "get": {
+             "description": "Gets details of a Test Case for a Step. Experimental test cases API. Still in active development.\n\nMay return any of the following canonical error codes:\n\n- PERMISSION_DENIED - if the user is not authorized to write to project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the containing Test Case does not exist",
+             "httpMethod": "GET",
+             "id": "toolresults.projects.histories.executions.steps.testCases.get",
+             "parameterOrder": [
+              "projectId",
+              "historyId",
+              "executionId",
+              "stepId",
+              "testCaseId"
+             ],
+             "parameters": {
+              "executionId": {
+               "description": "A Execution id\n\nRequired.",
+               "location": "path",
+               "required": true,
+               "type": "string"
+              },
+              "historyId": {
+               "description": "A History id.\n\nRequired.",
+               "location": "path",
+               "required": true,
+               "type": "string"
+              },
+              "projectId": {
+               "description": "A Project id.\n\nRequired.",
+               "location": "path",
+               "required": true,
+               "type": "string"
+              },
+              "stepId": {
+               "description": "A Step id. Note: This step must include a TestExecutionStep.\n\nRequired.",
+               "location": "path",
+               "required": true,
+               "type": "string"
+              },
+              "testCaseId": {
+               "description": "A Test Case id.\n\nRequired.",
+               "location": "path",
+               "required": true,
+               "type": "string"
+              }
+             },
+             "path": "{projectId}/histories/{historyId}/executions/{executionId}/steps/{stepId}/testCases/{testCaseId}",
+             "response": {
+              "$ref": "TestCase"
+             },
+             "scopes": [
+              "https://www.googleapis.com/auth/cloud-platform"
+             ]
+            },
+            "list": {
+             "description": "Lists Test Cases attached to a Step. Experimental test cases API. Still in active development.\n\nMay return any of the following canonical error codes:\n\n- PERMISSION_DENIED - if the user is not authorized to write to project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the containing Step does not exist",
+             "httpMethod": "GET",
+             "id": "toolresults.projects.histories.executions.steps.testCases.list",
+             "parameterOrder": [
+              "projectId",
+              "historyId",
+              "executionId",
+              "stepId"
+             ],
+             "parameters": {
+              "executionId": {
+               "description": "A Execution id\n\nRequired.",
+               "location": "path",
+               "required": true,
+               "type": "string"
+              },
+              "historyId": {
+               "description": "A History id.\n\nRequired.",
+               "location": "path",
+               "required": true,
+               "type": "string"
+              },
+              "pageSize": {
+               "description": "The maximum number of TestCases to fetch.\n\nDefault value: 100. The server will use this default if the field is not set or has a value of 0.\n\nOptional.",
+               "format": "int32",
+               "location": "query",
+               "type": "integer"
+              },
+              "pageToken": {
+               "description": "A continuation token to resume the query at the next item.\n\nOptional.",
+               "location": "query",
+               "type": "string"
+              },
+              "projectId": {
+               "description": "A Project id.\n\nRequired.",
+               "location": "path",
+               "required": true,
+               "type": "string"
+              },
+              "stepId": {
+               "description": "A Step id. Note: This step must include a TestExecutionStep.\n\nRequired.",
+               "location": "path",
+               "required": true,
+               "type": "string"
+              }
+             },
+             "path": "{projectId}/histories/{historyId}/executions/{executionId}/steps/{stepId}/testCases",
+             "response": {
+              "$ref": "ListTestCasesResponse"
+             },
+             "scopes": [
+              "https://www.googleapis.com/auth/cloud-platform"
+             ]
+            }
+           }
+          },
           "thumbnails": {
            "methods": {
             "list": {
@@ -1161,7 +1271,7 @@
    }
   }
  },
- "revision": "20190306",
+ "revision": "20190508",
  "rootUrl": "https://www.googleapis.com/",
  "schemas": {
   "AndroidAppInfo": {
@@ -1482,6 +1592,7 @@
    "type": "object"
   },
   "FailureDetail": {
+   "description": "Details for an outcome with a FAILURE outcome summary.",
    "id": "FailureDetail",
    "properties": {
     "crashed": {
@@ -1646,6 +1757,7 @@
    "type": "object"
   },
   "InconclusiveDetail": {
+   "description": "Details for an outcome with an INCONCLUSIVE outcome summary.",
    "id": "InconclusiveDetail",
    "properties": {
     "abortedByUser": {
@@ -1663,6 +1775,11 @@
    "description": "Step Id and outcome of each individual step that was run as a group with other steps with the same configuration.",
    "id": "IndividualOutcome",
    "properties": {
+    "multistepNumber": {
+     "description": "Unique int given to each step. Ranges from 0(inclusive) to total number of steps(exclusive). The primary step is 0.",
+     "format": "int32",
+     "type": "integer"
+    },
     "outcomeSummary": {
      "enum": [
       "failure",
@@ -1681,6 +1798,10 @@
       ""
      ],
      "type": "string"
+    },
+    "runDuration": {
+     "$ref": "Duration",
+     "description": "How long it took for this step to run."
     },
     "stepId": {
      "type": "string"
@@ -1795,6 +1916,23 @@
      "description": "Steps.",
      "items": {
       "$ref": "Step"
+     },
+     "type": "array"
+    }
+   },
+   "type": "object"
+  },
+  "ListTestCasesResponse": {
+   "description": "Response message for StepService.ListTestCases.",
+   "id": "ListTestCasesResponse",
+   "properties": {
+    "nextPageToken": {
+     "type": "string"
+    },
+    "testCases": {
+     "description": "List of test cases.",
+     "items": {
+      "$ref": "TestCase"
      },
      "type": "array"
     }
@@ -2108,6 +2246,7 @@
    "type": "object"
   },
   "SkippedDetail": {
+   "description": "Details for an outcome with a SKIPPED outcome summary.",
    "id": "SkippedDetail",
    "properties": {
     "incompatibleAppVersion": {
@@ -2280,11 +2419,68 @@
    "type": "object"
   },
   "SuccessDetail": {
+   "description": "Details for an outcome with a SUCCESS outcome summary.",
    "id": "SuccessDetail",
    "properties": {
     "otherNativeCrash": {
      "description": "If a native process other than the app crashed.",
      "type": "boolean"
+    }
+   },
+   "type": "object"
+  },
+  "TestCase": {
+   "id": "TestCase",
+   "properties": {
+    "endTime": {
+     "$ref": "Timestamp",
+     "description": "The end time of the test case.\n\nOptional."
+    },
+    "skippedMessage": {
+     "description": "Why the test case was skipped.\n\nPresent only for skipped test case",
+     "type": "string"
+    },
+    "stackTraces": {
+     "description": "The stack trace details if the test case failed or encountered an error.\n\nThe maximum size of the stack traces is 100KiB, beyond which the stack track will be truncated.\n\nZero if the test case passed.",
+     "items": {
+      "$ref": "StackTrace"
+     },
+     "type": "array"
+    },
+    "startTime": {
+     "$ref": "Timestamp",
+     "description": "The start time of the test case.\n\nOptional."
+    },
+    "status": {
+     "description": "The status of the test case.\n\nRequired.",
+     "enum": [
+      "error",
+      "failed",
+      "passed",
+      "skipped"
+     ],
+     "enumDescriptions": [
+      "",
+      "",
+      "",
+      ""
+     ],
+     "type": "string"
+    },
+    "testCaseId": {
+     "description": "A unique identifier within a Step for this Test Case.",
+     "type": "string"
+    },
+    "testCaseReference": {
+     "$ref": "TestCaseReference",
+     "description": "Test case reference, e.g. name, class name and test suite name.\n\nRequired."
+    },
+    "toolOutputs": {
+     "description": "References to opaque files of any format output by the tool execution.",
+     "items": {
+      "$ref": "ToolOutputReference"
+     },
+     "type": "array"
     }
    },
    "type": "object"
@@ -2399,15 +2595,19 @@
       "iosException",
       "launcherActivityNotFound",
       "nativeCrash",
+      "nonSdkApiUsageReport",
       "nonSdkApiUsageViolation",
       "performedGoogleLogin",
       "performedMonkeyActions",
       "startActivityNotFound",
       "unspecifiedType",
       "unusedRoboDirective",
-      "usedRoboDirective"
+      "usedRoboDirective",
+      "usedRoboIgnoreDirective"
      ],
      "enumDescriptions": [
+      "",
+      "",
       "",
       "",
       "",
