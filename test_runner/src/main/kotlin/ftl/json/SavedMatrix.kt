@@ -8,6 +8,7 @@ import ftl.gc.GcToolResults
 import ftl.util.Billing
 import ftl.util.MatrixState.FINISHED
 import ftl.util.StepOutcome.failure
+import ftl.util.StepOutcome.flaky
 import ftl.util.StepOutcome.inconclusive
 import ftl.util.StepOutcome.skipped
 import ftl.util.StepOutcome.success
@@ -98,6 +99,9 @@ class SavedMatrix(matrix: TestMatrix) {
         if (outcome == failure || outcome == inconclusive) return
 
         outcome = stepOutcome.summary
+
+        // Treat flaky outcome as a success
+        if (outcome == flaky) outcome = success
 
         outcomeDetails = when (outcome) {
             failure -> stepOutcome.failureDetail.keysToString()
