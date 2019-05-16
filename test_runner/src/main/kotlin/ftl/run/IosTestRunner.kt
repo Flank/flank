@@ -44,7 +44,7 @@ object IosTestRunner {
         println(beforeRunMessage(iosArgs, iosArgs.testShardChunks))
         repeat(runCount) {
             iosArgs.testShardChunks.forEach { testTargets ->
-                jobs += async(Dispatchers.Default) {
+                jobs += async(Dispatchers.IO) {
                     GcIosTestMatrix.build(
                         iosDeviceList = iosDeviceList,
                         testZipGcsPath = xcTestGcsPath,

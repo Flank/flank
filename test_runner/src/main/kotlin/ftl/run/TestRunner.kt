@@ -90,7 +90,7 @@ object TestRunner {
             // Only refresh unfinished
             if (MatrixState.inProgress(matrix.value.state)) {
                 matrixCount += 1
-                jobs += async(Dispatchers.Default) { GcTestMatrix.refresh(matrix.key, args) }
+                jobs += async(Dispatchers.IO) { GcTestMatrix.refresh(matrix.key, args) }
             }
         }
 
