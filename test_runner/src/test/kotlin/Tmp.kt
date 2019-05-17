@@ -1,7 +1,5 @@
 import com.google.api.services.testing.model.ToolResultsStep
-import com.google.api.services.toolresults.ToolResults
 import com.google.api.services.toolresults.model.Step
-import com.google.api.services.toolresults.model.TestCase
 import com.google.api.services.toolresults.model.TestSuiteOverview
 import com.google.gson.GsonBuilder
 import ftl.gc.GcToolResults
@@ -11,7 +9,6 @@ import ftl.reports.xml.model.JUnitTestSuite
 import ftl.reports.xml.xmlToString
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.concurrent.TimeUnit
 
 object Tmp {
 
@@ -37,12 +34,21 @@ object Tmp {
         return (this.skippedCount ?: 0).toString()
     }
 
+    private fun ToolResultsStep.webLink(): String {
+        return "https://console.firebase.google.com/project/${this.projectId}/" +
+                "testlab/histories/${this.historyId}/" +
+                "matrices/${this.executionId}/" +
+                "executions/${this.stepId}"
+    }
+
     @JvmStatic
     fun main(args: Array<String>) {
         val gson = GsonBuilder().setPrettyPrinting().create()!!
-//        Files.write(Paths.get("/tmp/tool_results_step${it.matrixId}.json"), gson.toJson(it.toolResultsStep).toByteArray())
+//        Files.write(Paths.get("./tool_results_step${it.matrixId}.json"), gson.toJson(it.toolResultsStep).toByteArray())
 
-        val content = String(Files.readAllBytes(Paths.get("../tool_results_stepmatrix-3l3x3k8qzjmgg.json")))
+        val failedStep = "./tool_results_step_matrix-14eytaygn7sis_fail.json"
+//        val successStep = "./tool_results_stepmatrix-3l3x3k8qzjmgg_success.json"
+        val content = String(Files.readAllBytes(Paths.get(failedStep)))
         val toolResult = gson.fromJson<ToolResultsStep>(content, ToolResultsStep::class.java)
         val tests = GcToolResults.listTestCases(toolResult)
         val result = GcToolResults.getResults(toolResult)
@@ -51,20 +57,35 @@ object Tmp {
         val overview = result.testExecutionStep.testSuiteOverviews.first()
 
         val testCases = mutableListOf<JUnitTestCase>()
-        tests.testCases.forEach {
+        tests.testCases.forEach { testCase ->
             // TODO: time doesn't match real JUnit XML
-            // TODO: fetch failures, errors, skipped, etc.
+            var failures: List<String>? = null
+            var errors: List<String>? = null
+            // skipped = true is represented by null. skipped = false is "absent"
+            var skipped: String? = "absent"
+
+            when (testCase.status) {
+                "error" -> errors = testCase.stackTraces?.map { it.exception }
+                "failed" -> failures = testCase.stackTraces?.map { it.exception }
+                "passed" -> {
+                }
+                null -> {} // null status == passed
+                "skipped" -> skipped = null
+                else -> throw RuntimeException("Unknown TestCase status ${testCase.status}")
+            }
 
             // manually divide to keep fractional precision
-            val timeSeconds= (it.endTime.nanos - it.startTime.nanos) / 1E9
-            testCases.add(JUnitTestCase(
-                name =  it.testCaseReference.name,
-                classname = it.testCaseReference.className,
-                time = timeSeconds.toString(),
-                failures = null,
-                errors = null,
-                skipped = "absent"
-            ))
+            val timeSeconds = (testCase.endTime.nanos - testCase.startTime.nanos) / 1E9
+            testCases.add(
+                JUnitTestCase(
+                    name = testCase.testCaseReference.name,
+                    classname = testCase.testCaseReference.className,
+                    time = timeSeconds.toString(),
+                    failures = failures,
+                    errors = errors,
+                    skipped = skipped
+                )
+            )
         }
 
         val testSuite = JUnitTestSuite(
@@ -76,10 +97,13 @@ object Tmp {
             time = "",
             timestamp = "",
             hostname = "localhost",
-            testcases = testCases)
+            testcases = testCases
+        )
 
         val xmlTestResult = JUnitTestResult(mutableListOf(testSuite))
         println(xmlTestResult.xmlToString())
+
+        print(toolResult.webLink())
 
         // result.testExecutionStep.testTiming.testProcessDuration // 5 seconds
         // result.runDuration // 190 seconds
@@ -104,13 +128,31 @@ XML from API:
 </testsuites>
 
 
-// /tmp/tool_results_stepmatrix-3l3x3k8qzjmgg.json
-{
-  "executionId": "6759853542268185970",
-  "historyId": "bh.58317d9cd7ab9ba2",
-  "projectId": "delta-essence-114723",
-  "stepId": "bs.e00d74d95caed746"
-}
+---- Failed Example
+
+
+Real JUnit XML:
+<testsuite name="" tests="2" failures="1" errors="0" skipped="0" time="3.14" timestamp="2019-05-18T04:11:51" hostname="localhost">
+  <properties/>
+  <testcase name="testFails" classname="com.example.app.ExampleUiTest" time="0.655">
+    <failure>
+    junit.framework.AssertionFailedError: expected:<true> but was:<false>...
+    </failure>
+  </testcase>
+  <testcase name="testPasses" classname="com.example.app.ExampleUiTest" time="0.0"/>
+</testsuite>
+
+XML from API:
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites>
+  <testsuite name="NexusLowRes-28-en-portrait" tests="2" failures="1" errors="0" skipped="0" time="" timestamp="" hostname="localhost">
+    <testcase name="testFails" classname="com.example.app.ExampleUiTest" time="0.685">
+      <failure>junit.framework.AssertionFailedError: expected:&lt;true> but was:&lt;false>...
+      </failure>
+    </testcase>
+    <testcase name="testPasses" classname="com.example.app.ExampleUiTest" time="0.027"/>
+  </testsuite>
+</testsuites>
         */
     }
 }

@@ -4,7 +4,6 @@ import com.google.api.services.testing.model.ToolResultsHistory
 import com.google.api.services.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.ToolResults
 import com.google.api.services.toolresults.model.History
-import com.google.api.services.toolresults.model.ListStepsResponse
 import com.google.api.services.toolresults.model.ListTestCasesResponse
 import com.google.api.services.toolresults.model.Step
 import ftl.args.IArgs
