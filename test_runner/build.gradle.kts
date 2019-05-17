@@ -148,7 +148,7 @@ dependencies {
     implementation("com.google.cloud:google-cloud-storage:1.64.0")
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
-    implementation("com.google.apis:google-api-services-toolresults:v1beta3-rev20190207-1.28.0")
+    implementation("com.google.apis:google-api-services-toolresults:v1beta3-rev20190508-1.28.0")
 
     // https://github.com/linkedin/dex-test-parser/releases
     implementation("com.linkedin.dextestparser:parser:2.1.1")

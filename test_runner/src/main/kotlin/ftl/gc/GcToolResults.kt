@@ -4,6 +4,7 @@ import com.google.api.services.testing.model.ToolResultsHistory
 import com.google.api.services.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.ToolResults
 import com.google.api.services.toolresults.model.History
+import com.google.api.services.toolresults.model.ListStepsResponse
 import com.google.api.services.toolresults.model.Step
 import ftl.args.IArgs
 import ftl.config.FtlConstants
@@ -71,6 +72,21 @@ object GcToolResults {
                 toolResultsStep.historyId,
                 toolResultsStep.executionId,
                 toolResultsStep.stepId
+            )
+            .executeWithRetry()
+    }
+
+    // Lists Test Cases attached to a Step
+    fun listTestCases(toolResultsStep: ToolResultsStep): ListStepsResponse {
+        return GcToolResults.service
+            .projects()
+            .histories()
+            .executions()
+            .steps()
+            .list(
+                toolResultsStep.projectId,
+                toolResultsStep.historyId,
+                toolResultsStep.executionId
             )
             .executeWithRetry()
     }
