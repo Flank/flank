@@ -11,6 +11,7 @@ import ftl.reports.xml.model.JUnitTestSuite
 import ftl.reports.xml.xmlToString
 import java.nio.file.Files
 import java.nio.file.Paths
+import java.util.concurrent.TimeUnit
 
 object Tmp {
 
@@ -51,10 +52,15 @@ object Tmp {
 
         val testCases = mutableListOf<JUnitTestCase>()
         tests.testCases.forEach {
+            // TODO: time doesn't match real JUnit XML
+            // TODO: fetch failures, errors, skipped, etc.
+
+            // manually divide to keep fractional precision
+            val timeSeconds= (it.endTime.nanos - it.startTime.nanos) / 1E9
             testCases.add(JUnitTestCase(
                 name =  it.testCaseReference.name,
                 classname = it.testCaseReference.className,
-                time = (it.endTime.nanos - it.startTime.nanos).toString(),
+                time = timeSeconds.toString(),
                 failures = null,
                 errors = null,
                 skipped = "absent"
@@ -93,7 +99,7 @@ XML from API:
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
   <testsuite name="NexusLowRes-28-en-portrait" tests="1" failures="0" errors="0" skipped="0" time="" timestamp="" hostname="localhost">
-    <testcase name="testPasses" classname="com.example.app.ExampleUiTest" time="18000000"/>
+    <testcase name="testPasses" classname="com.example.app.ExampleUiTest" time="0.018"/>
   </testsuite>
 </testsuites>
 
