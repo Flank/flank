@@ -246,6 +246,10 @@ gcloud:
   ## Monitor and record performance metrics: CPU, memory, network usage, and FPS (game-loop only).
   ## Enabled by default, use --no-performance-metrics to disable.
   # performance-metrics: true
+  
+  ## The fully-qualified Java class name of the instrumentation test runner 
+  ## (default: the last name extracted from the APK manifest).
+  # test-runner-class: com.foo.TestRunner
 
   ## A list of one or more test target filters to apply (default: run all test targets).
   ## Each target filter must be fully qualified with the package name, class name, or test annotation desired.
