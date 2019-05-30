@@ -1,6 +1,8 @@
 ## next (unreleased)
 
-- 
+## v6.2.0
+
+- [#560](https://github.com/TestArmada/flank/pull/560) Add `--test-runner-class` support for Android. ([jschear](https://github.com/jschear))
 
 ## v6.1.0
 
