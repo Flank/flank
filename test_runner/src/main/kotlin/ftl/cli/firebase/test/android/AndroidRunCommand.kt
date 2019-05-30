@@ -133,6 +133,13 @@ class AndroidRunCommand : Runnable {
     var noPerformanceMetrics: Boolean? = null
 
     @Option(
+        names = ["--test-runner-class"],
+        description = ["The fully-qualified Java class name of the instrumentation test runner (default: the last name extracted " +
+                "from the APK manifest)."]
+    )
+    var testRunnerClass: String? = null
+
+    @Option(
         names = ["--test-targets"],
         split = ",",
         description = ["A list of one or more test target filters to apply " +

@@ -45,6 +45,7 @@ class AndroidArgsTest {
           - /sdcard/screenshots
           - /sdcard/screenshots2
           performance-metrics: false
+          test-runner-class: com.foo.TestRunner
           test-targets:
           - class com.example.app.ExampleUiTest#testPasses
           - class com.example.app.ExampleUiTest#testFails
@@ -163,6 +164,7 @@ class AndroidArgsTest {
             assert(environmentVariables, linkedMapOf("clearPackageData" to "true", "randomEnvVar" to "false"))
             assert(directoriesToPull, listOf("/sdcard/screenshots", "/sdcard/screenshots2"))
             assert(performanceMetrics, false)
+            assert(testRunnerClass, "com.foo.TestRunner")
             assert(
                 testTargets,
                 listOf(
@@ -218,6 +220,7 @@ AndroidArgs
         - /sdcard/screenshots
         - /sdcard/screenshots2
       performance-metrics: false
+      test-runner-class: com.foo.TestRunner
       test-targets:
         - class com.example.app.ExampleUiTest#testPasses
         - class com.example.app.ExampleUiTest#testFails
@@ -281,6 +284,7 @@ AndroidArgs
             assert(environmentVariables, emptyMap<String, String>())
             assert(directoriesToPull, empty)
             assert(performanceMetrics, true)
+            assert(testRunnerClass, null)
             assert(testTargets, empty)
             assert(devices, listOf(Device("NexusLowRes", "28")))
             assert(flakyTestAttempts, 0)
@@ -512,6 +516,22 @@ AndroidArgs
 
         val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.performanceMetrics).isFalse()
+    }
+
+    @Test
+    fun cli_testRunnerClass() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parse("--test-runner-class=com.foo.bar.TestRunner")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+      """
+        assertThat(AndroidArgs.load(yaml).testRunnerClass).isNull()
+
+        val androidArgs = AndroidArgs.load(yaml, cli)
+        assertThat(androidArgs.testRunnerClass).isEqualTo("com.foo.bar.TestRunner")
     }
 
     @Test

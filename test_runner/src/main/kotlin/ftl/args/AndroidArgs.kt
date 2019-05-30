@@ -56,6 +56,7 @@ class AndroidArgs(
     val environmentVariables = cli?.environmentVariables ?: androidGcloud.environmentVariables
     val directoriesToPull = cli?.directoriesToPull ?: androidGcloud.directoriesToPull
     val performanceMetrics = cli?.performanceMetrics ?: cli?.noPerformanceMetrics?.not() ?: androidGcloud.performanceMetrics
+    val testRunnerClass = cli?.testRunnerClass ?: androidGcloud.testRunnerClass
     val testTargets = cli?.testTargets ?: androidGcloud.testTargets.filterNotNull()
     val devices = cli?.device ?: androidGcloud.device
 
@@ -126,6 +127,7 @@ ${mapToString(environmentVariables)}
       directories-to-pull:
 ${listToString(directoriesToPull)}
       performance-metrics: $performanceMetrics
+      test-runner-class: $testRunnerClass
       test-targets:
 ${listToString(testTargets)}
       device:

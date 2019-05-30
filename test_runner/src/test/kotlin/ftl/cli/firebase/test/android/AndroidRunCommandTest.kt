@@ -70,6 +70,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.noUseOrchestrator).isNull()
         assertThat(cmd.performanceMetrics).isNull()
         assertThat(cmd.noPerformanceMetrics).isNull()
+        assertThat(cmd.testRunnerClass).isNull()
         assertThat(cmd.environmentVariables).isNull()
         assertThat(cmd.directoriesToPull).isNull()
         assertThat(cmd.device).isNull()
@@ -167,6 +168,14 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parse("--no-performance-metrics")
 
         assertThat(cmd.noPerformanceMetrics).isTrue()
+    }
+
+    @Test
+    fun testRunnerClass_parse() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--test-runner-class=com.foo.bar.TestRunner")
+
+        assertThat(cmd.testRunnerClass).isEqualTo("com.foo.bar.TestRunner")
     }
 
     @Test

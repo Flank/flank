@@ -48,6 +48,10 @@ object GcAndroidTestMatrix {
             .setAppApk(FileReference().setGcsPath(appApkGcsPath))
             .setTestApk(FileReference().setGcsPath(testApkGcsPath))
 
+        if (args.testRunnerClass != null) {
+            androidInstrumentation.testRunnerClass = args.testRunnerClass
+        }
+
         if (args.useOrchestrator) {
             androidInstrumentation.orchestratorOption = "USE_ORCHESTRATOR"
         }

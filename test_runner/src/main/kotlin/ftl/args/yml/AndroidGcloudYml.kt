@@ -32,6 +32,9 @@ class AndroidGcloudYmlParams(
     @field:JsonProperty("performance-metrics")
     val performanceMetrics: Boolean = true,
 
+    @field:JsonProperty("test-runner-class")
+    val testRunnerClass: String? = null,
+
     @field:JsonProperty("test-targets")
     val testTargets: List<String?> = emptyList(),
 
@@ -40,7 +43,7 @@ class AndroidGcloudYmlParams(
     companion object : IYmlKeys {
         override val keys = listOf(
             "app", "test", "auto-google-login", "use-orchestrator", "environment-variables",
-            "directories-to-pull", "performance-metrics", "test-targets", "device"
+            "directories-to-pull", "performance-metrics", "test-runner-class", "test-targets", "device"
         )
     }
 
