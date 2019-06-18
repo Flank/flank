@@ -31,7 +31,7 @@ Configuration is read from flank.yml
 class AndroidRunCommand : Runnable {
 
     override fun run() {
-        val config = AndroidArgs.load(Paths.get(configPath), this)
+        val config = AndroidArgs.load(Paths.get(configPath), cli = this)
         runBlocking {
             TestRunner.newRun(config)
         }

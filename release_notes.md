@@ -1,5 +1,9 @@
 ## next (unreleased)
 
+## v6.2.1
+
+- [#563](https://github.com/TestArmada/flank/pull/563) Fix CLI support for iOS. ([bootstraponline](https://github.com/bootstraponline))
+
 ## v6.2.0
 
 - [#560](https://github.com/TestArmada/flank/pull/560) Add `--test-runner-class` support for Android. ([jschear](https://github.com/jschear))
