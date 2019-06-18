@@ -144,7 +144,7 @@ ${listToString(testTargets)}
             mergeYmlMaps(GcloudYml, IosGcloudYml, FlankYml, IosFlankYml)
         }
 
-        fun load(data: Path, cli: IosRunCommand? = null): IosArgs = IosArgs.load(String(Files.readAllBytes(data)), cli)
+        fun load(data: Path, cli: IosRunCommand? = null): IosArgs = load(String(Files.readAllBytes(data)), cli)
 
         fun load(yamlData: String, cli: IosRunCommand? = null): IosArgs {
             val data = YamlDeprecated.modifyAndThrow(yamlData, android = false)

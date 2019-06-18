@@ -27,7 +27,7 @@ Configuration is read from flank.yml
 )
 class IosRunCommand : Runnable {
     override fun run() {
-        val config = IosArgs.load(Paths.get(configPath))
+        val config = IosArgs.load(Paths.get(configPath), cli = this)
         runBlocking {
             TestRunner.newRun(config)
         }
