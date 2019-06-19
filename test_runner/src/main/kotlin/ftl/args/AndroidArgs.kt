@@ -25,6 +25,7 @@ import ftl.args.yml.YamlDeprecated
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
+import ftl.util.Utils.fatalError
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -47,8 +48,8 @@ class AndroidArgs(
     override val flakyTestAttempts = cli?.flakyTestAttempts ?: gcloud.flakyTestAttempts
 
     private val androidGcloud = androidGcloudYml.gcloud
-    var appApk = cli?.app ?: androidGcloud.app
-    var testApk = cli?.test ?: androidGcloud.test
+    var appApk = cli?.app ?: androidGcloud.app ?: fatalError("app is not set")
+    var testApk = cli?.test ?: androidGcloud.test ?: fatalError("test is not set")
     val autoGoogleLogin = cli?.autoGoogleLogin ?: cli?.noAutoGoogleLogin?.not() ?: androidGcloud.autoGoogleLogin
 
     // We use not() on noUseOrchestrator because if the flag is on, useOrchestrator needs to be false
