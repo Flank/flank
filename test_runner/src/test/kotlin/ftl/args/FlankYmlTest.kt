@@ -32,22 +32,4 @@ class FlankYmlTest {
         assertThat(yml.flank.testTargetsAlwaysRun).isEqualTo(emptyList<String>())
         assertThat(FlankYml.map).isNotEmpty()
     }
-
-    @Test
-    fun testInvalidTestShards() {
-        exceptionRule.expectMessage("max-test-shards must be >= 1 or -1")
-        FlankYml(FlankYmlParams(maxTestShards = -2))
-    }
-
-    @Test
-    fun testInvalidShardTime() {
-        exceptionRule.expectMessage("shard-time must be >= 1 or -1")
-        FlankYml(FlankYmlParams(shardTime = -2))
-    }
-
-    @Test
-    fun testInvalidrepeatTests() {
-        exceptionRule.expectMessage("repeat-tests must be >= 1")
-        FlankYml(FlankYmlParams(repeatTests = 0))
-    }
 }

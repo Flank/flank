@@ -5,6 +5,7 @@ import ftl.android.IncompatibleModelVersion
 import ftl.android.SupportedDeviceConfig
 import ftl.android.UnsupportedModelId
 import ftl.android.UnsupportedVersionId
+import ftl.args.ArgsHelper.assertCommonProps
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
 import ftl.args.ArgsHelper.createGcsBucket
@@ -95,11 +96,12 @@ class AndroidArgs(
         }
 
         devices.forEach { device -> assertDeviceSupported(device) }
+
+        assertCommonProps(this)
     }
 
     private fun assertDeviceSupported(device: Device) {
-        val deviceConfigTest = AndroidCatalog.supportedDeviceConfig(device.model, device.version)
-        when (deviceConfigTest) {
+        when (val deviceConfigTest = AndroidCatalog.supportedDeviceConfig(device.model, device.version)) {
             SupportedDeviceConfig -> {
             }
             UnsupportedModelId -> throw RuntimeException("Unsupported model id, '${device.model}'\nSupported model ids: ${AndroidCatalog.androidModelIds}")

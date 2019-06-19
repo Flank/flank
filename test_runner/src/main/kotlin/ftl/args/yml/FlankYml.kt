@@ -3,10 +3,6 @@ package ftl.args.yml
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.args.ArgsHelper
-import ftl.config.FtlConstants
-import ftl.config.FtlConstants.GCS_PREFIX
-import ftl.util.Utils
-import ftl.util.Utils.fatalError
 
 /** Flank specific parameters for both iOS and Android */
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -47,27 +43,6 @@ class FlankYmlParams(
         )
 
         const val defaultLocalResultDir = "results"
-    }
-
-    init {
-        Utils.assertNotEmpty(
-            project, "The project is not set. Define GOOGLE_CLOUD_PROJECT, set project in flank.yml\n" +
-                    "or save service account credential to ${FtlConstants.defaultCredentialPath}\n" +
-                    " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
-        )
-
-        if (maxTestShards <= 0 && maxTestShards != -1) fatalError("max-test-shards must be >= 1 or -1")
-        if (shardTime <= 0 && shardTime != -1) fatalError("shard-time must be >= 1 or -1")
-        if (repeatTests < 1) fatalError("repeat-tests must be >= 1")
-
-        if (smartFlankGcsPath.isNotEmpty()) {
-            if (!smartFlankGcsPath.startsWith(GCS_PREFIX)) {
-                fatalError("smart-flank-gcs-path must start with gs://")
-            }
-            if (smartFlankGcsPath.count { it == '/' } <= 2 || !smartFlankGcsPath.endsWith(".xml")) {
-                fatalError("smart-flank-gcs-path must be in the format gs://bucket/foo.xml")
-            }
-        }
     }
 }
 

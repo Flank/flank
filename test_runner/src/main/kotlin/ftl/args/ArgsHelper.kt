@@ -52,6 +52,27 @@ object ArgsHelper {
         }
     }
 
+    fun assertCommonProps(args: IArgs) {
+        Utils.assertNotEmpty(
+            args.project, "The project is not set. Define GOOGLE_CLOUD_PROJECT, set project in flank.yml\n" +
+                    "or save service account credential to ${FtlConstants.defaultCredentialPath}\n" +
+                    " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
+        )
+
+        if (args.maxTestShards <= 0 && args.maxTestShards != -1) Utils.fatalError("max-test-shards must be >= 1 or -1")
+        if (args.shardTime <= 0 && args.shardTime != -1) Utils.fatalError("shard-time must be >= 1 or -1")
+        if (args.repeatTests < 1) Utils.fatalError("repeat-tests must be >= 1")
+
+        if (args.smartFlankGcsPath.isNotEmpty()) {
+            if (!args.smartFlankGcsPath.startsWith(GCS_PREFIX)) {
+                Utils.fatalError("smart-flank-gcs-path must start with gs://")
+            }
+            if (args.smartFlankGcsPath.count { it == '/' } <= 2 || !args.smartFlankGcsPath.endsWith(".xml")) {
+                Utils.fatalError("smart-flank-gcs-path must be in the format gs://bucket/foo.xml")
+            }
+        }
+    }
+
     fun evaluateFilePath(filePath: String): String {
         var file = filePath.trim().replaceFirst(Regex("^~"), System.getProperty("user.home"))
         file = evaluateEnvVars(file)

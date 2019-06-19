@@ -1,5 +1,6 @@
 package ftl.args
 
+import ftl.args.ArgsHelper.assertCommonProps
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
 import ftl.args.ArgsHelper.createGcsBucket
@@ -88,6 +89,8 @@ class IosArgs(
 
         devices.forEach { device -> assertDeviceSupported(device) }
         assertXcodeSupported(xcodeVersion)
+
+        assertCommonProps(this)
     }
 
     private fun assertXcodeSupported(xcodeVersion: String?) {
