@@ -1,6 +1,7 @@
 package ftl.args
 
 import com.google.common.truth.Truth.assertThat
+import ftl.args.ArgsHelper.assertCommonProps
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
 import ftl.args.ArgsHelper.createGcsBucket
@@ -20,6 +21,8 @@ import org.junit.contrib.java.lang.system.EnvironmentVariables
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.spy
 
 @RunWith(FlankTestRunner::class)
 class ArgsHelperTest {
@@ -182,5 +185,32 @@ class ArgsHelperTest {
         )
 
         assertThat(shards.stringShards()).isEqualTo(expected)
+    }
+
+    @Test
+    fun testInvalidTestShards() {
+        exceptionRule.expectMessage("max-test-shards must be >= 1 or -1")
+
+        val args = spy(AndroidArgs.default())
+        `when`(args.maxTestShards).thenReturn(-2)
+        assertCommonProps(args)
+    }
+
+    @Test
+    fun testInvalidShardTime() {
+        exceptionRule.expectMessage("shard-time must be >= 1 or -1")
+
+        val args = spy(AndroidArgs.default())
+        `when`(args.shardTime).thenReturn(-2)
+        assertCommonProps(args)
+    }
+
+    @Test
+    fun testInvalidrepeatTests() {
+        exceptionRule.expectMessage("repeat-tests must be >= 1")
+
+        val args = spy(AndroidArgs.default())
+        `when`(args.repeatTests).thenReturn(0)
+        assertCommonProps(args)
     }
 }

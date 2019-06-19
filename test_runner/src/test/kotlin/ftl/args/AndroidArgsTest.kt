@@ -847,7 +847,8 @@ AndroidArgs
     @Test
     fun `cli smart-flank-gcs-path`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--smart-flank-gcs-path=foo")
+        val xml = "gs://bucket/foo.xml"
+        CommandLine(cli).parse("--smart-flank-gcs-path=$xml")
 
         val yaml = """
         gcloud:
@@ -857,7 +858,7 @@ AndroidArgs
         assertThat(AndroidArgs.load(yaml).smartFlankGcsPath).isEqualTo("")
 
         val args = AndroidArgs.load(yaml, cli)
-        assertThat(args.smartFlankGcsPath).isEqualTo("foo")
+        assertThat(args.smartFlankGcsPath).isEqualTo(xml)
     }
 
     @Test
