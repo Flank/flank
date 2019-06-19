@@ -45,7 +45,7 @@ object Utils {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    inline fun fatalError(e: String) {
+    inline fun fatalError(e: String): String {
         if (FtlConstants.useMock) {
             throw RuntimeException(e)
         }

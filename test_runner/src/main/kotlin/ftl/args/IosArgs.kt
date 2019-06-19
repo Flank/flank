@@ -20,6 +20,7 @@ import ftl.config.FtlConstants
 import ftl.ios.IosCatalog
 import ftl.ios.Xctestrun
 import ftl.util.Utils
+import ftl.util.Utils.fatalError
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -42,8 +43,8 @@ class IosArgs(
     override val flakyTestAttempts = cli?.flakyTestAttempts ?: gcloud.flakyTestAttempts
 
     private val iosGcloud = iosGcloudYml.gcloud
-    var xctestrunZip = cli?.test ?: iosGcloud.test
-    var xctestrunFile = cli?.xctestrunFile ?: iosGcloud.xctestrunFile
+    var xctestrunZip = cli?.test ?: iosGcloud.test ?: fatalError("test is not set")
+    var xctestrunFile = cli?.xctestrunFile ?: iosGcloud.xctestrunFile ?: fatalError("xctestrun-file is not set")
     val xcodeVersion = cli?.xcodeVersion ?: iosGcloud.xcodeVersion
     val devices = cli?.device ?: iosGcloud.device
 
