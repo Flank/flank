@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.config.Device
 import ftl.config.FtlConstants.defaultIosModel
 import ftl.config.FtlConstants.defaultIosVersion
-import ftl.util.Utils.assertNotEmpty
 
 /**
  * iOS specific gcloud parameters
@@ -15,10 +14,10 @@ import ftl.util.Utils.assertNotEmpty
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class IosGcloudYmlParams(
-    val test: String = "",
+    val test: String? = null,
 
     @field:JsonProperty("xctestrun-file")
-    val xctestrunFile: String = "",
+    val xctestrunFile: String? = null,
 
     @field:JsonProperty("xcode-version")
     val xcodeVersion: String? = null,
@@ -27,11 +26,6 @@ class IosGcloudYmlParams(
 ) {
     companion object : IYmlKeys {
         override val keys = listOf("test", "xctestrun-file", "xcode-version", "device")
-    }
-
-    init {
-        assertNotEmpty(test, "test is not set")
-        assertNotEmpty(xctestrunFile, "xctestrun-file is not set")
     }
 }
 

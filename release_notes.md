@@ -1,5 +1,9 @@
 ## next (unreleased)
 
+## v6.2.2
+
+- [#566](https://github.com/TestArmada/flank/pull/566) Fix `--test` & `--xctestrun-file` on iOS CLI. ([bootstraponline](https://github.com/bootstraponline))
+
 ## v6.2.1
 
 - [#563](https://github.com/TestArmada/flank/pull/563) Fix CLI support for iOS. ([bootstraponline](https://github.com/bootstraponline))
