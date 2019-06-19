@@ -1,5 +1,7 @@
 ## next (unreleased)
 
+- [#567](https://github.com/TestArmada/flank/pull/567) Fix `--app` & `--test` on Android CLI. ([bootstraponline](https://github.com/bootstraponline))
+
 ## v6.2.2
 
 - [#566](https://github.com/TestArmada/flank/pull/566) Fix `--test` & `--xctestrun-file` on iOS CLI. ([bootstraponline](https://github.com/bootstraponline))

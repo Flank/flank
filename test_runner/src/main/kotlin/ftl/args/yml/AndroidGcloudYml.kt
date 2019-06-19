@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.config.Device
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
-import ftl.util.Utils.assertNotEmpty
 
 /**
  * Android specific gcloud parameters
@@ -14,8 +13,8 @@ import ftl.util.Utils.assertNotEmpty
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class AndroidGcloudYmlParams(
-    val app: String = "",
-    val test: String = "",
+    val app: String? = null,
+    val test: String? = null,
 
     @field:JsonProperty("auto-google-login")
     val autoGoogleLogin: Boolean = true,
@@ -45,11 +44,6 @@ class AndroidGcloudYmlParams(
             "app", "test", "auto-google-login", "use-orchestrator", "environment-variables",
             "directories-to-pull", "performance-metrics", "test-runner-class", "test-targets", "device"
         )
-    }
-
-    init {
-        assertNotEmpty(app, "app is not set")
-        assertNotEmpty(test, "test is not set")
     }
 }
 
