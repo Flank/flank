@@ -23,8 +23,7 @@
     "screenDensity" : 424,
     "screenX" : 1080,
     "screenY" : 1920,
-    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "21" ]
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ]
   }, {
     "brand" : "Sony",
     "codename" : "D6603",
@@ -36,9 +35,7 @@
     "screenDensity" : 424,
     "screenX" : 1080,
     "screenY" : 1920,
-    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "21" ],
-    "tags" : [ "deprecated" ]
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ]
   }, {
     "brand" : "Sony",
     "codename" : "E5803",
@@ -50,8 +47,7 @@
     "screenDensity" : 323,
     "screenX" : 720,
     "screenY" : 1280,
-    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ]
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ]
   }, {
     "brand" : "Sony",
     "codename" : "F5121",
@@ -63,8 +59,20 @@
     "screenDensity" : 480,
     "screenX" : 1080,
     "screenY" : 1920,
-    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ]
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ]
+  }, {
+    "brand" : "Nokia",
+    "codename" : "FRT",
+    "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
+    "id" : "FRT",
+    "manufacturer" : "HMD Global",
+    "name" : "Nokia 1 (Android GO)",
+    "screenDensity" : 240,
+    "screenX" : 480,
+    "screenY" : 854,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "27" ]
   }, {
     "brand" : "Sony",
     "codename" : "G8142",
@@ -233,7 +241,7 @@
     "screenDensity" : 160,
     "screenX" : 360,
     "screenY" : 640,
-    "supportedAbis" : [ "x86", "23:armeabi", "23:armeabi-v7a", "24:armeabi", "24:armeabi-v7a", "25:armeabi", "25:armeabi-v7a", "26:armeabi", "26:armeabi-v7a", "27:armeabi", "27:armeabi-v7a", "28:armeabi", "28:armeabi-v7a" ],
+    "supportedAbis" : [ "x86", "23:armeabi", "23:armeabi-v7a", "24:armeabi", "24:armeabi-v7a", "25:armeabi", "25:armeabi-v7a", "26:armeabi", "26:armeabi-v7a", "27:armeabi", "27:armeabi-v7a", "28:armeabi", "28:armeabi-v7a", "29:armeabi", "29:armeabi-v7a" ],
     "supportedVersionIds" : [ "23", "24", "25", "26", "27", "28" ]
   }, {
     "brand" : "OnePlus",
@@ -247,7 +255,8 @@
     "screenX" : 1080,
     "screenY" : 1920,
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "26" ]
+    "supportedVersionIds" : [ "26" ],
+    "tags" : [ "deprecated=26" ]
   }, {
     "brand" : "Google",
     "codename" : "Pixel2",
@@ -259,7 +268,7 @@
     "screenDensity" : 441,
     "screenX" : 1080,
     "screenY" : 1920,
-    "supportedAbis" : [ "x86", "26:armeabi", "26:armeabi-v7a", "27:armeabi", "27:armeabi-v7a", "28:armeabi", "28:armeabi-v7a" ],
+    "supportedAbis" : [ "x86", "26:armeabi", "26:armeabi-v7a", "27:armeabi", "27:armeabi-v7a", "28:armeabi", "28:armeabi-v7a", "29:armeabi", "29:armeabi-v7a" ],
     "supportedVersionIds" : [ "26", "27", "28" ]
   }, {
     "brand" : "DOCOMO",
@@ -272,9 +281,7 @@
     "screenDensity" : 480,
     "screenX" : 1080,
     "screenY" : 1920,
-    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "23" ],
-    "tags" : [ "deprecated" ]
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ]
   }, {
     "brand" : "samsung",
     "codename" : "a5y17lte",
@@ -315,6 +322,19 @@
     "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
     "supportedVersionIds" : [ "23" ]
   }, {
+    "brand" : "google",
+    "codename" : "blueline",
+    "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
+    "id" : "blueline",
+    "manufacturer" : "Google",
+    "name" : "Pixel 3",
+    "screenDensity" : 440,
+    "screenX" : 1080,
+    "screenY" : 2160,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "28", "Q-beta-3" ]
+  }, {
     "brand" : "razer",
     "codename" : "cheryl",
     "form" : "PHYSICAL",
@@ -338,8 +358,20 @@
     "screenDensity" : 240,
     "screenX" : 540,
     "screenY" : 960,
-    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ]
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ]
+  }, {
+    "brand" : "samsung",
+    "codename" : "crownqlteue",
+    "form" : "PHYSICAL",
+    "formFactor" : "PHONE",
+    "id" : "crownqlteue",
+    "manufacturer" : "Samsung",
+    "name" : "Galaxy Note 9 USA",
+    "screenDensity" : 420,
+    "screenX" : 1080,
+    "screenY" : 2220,
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "27" ]
   }, {
     "brand" : "Motorola",
     "codename" : "falcon_umts",
@@ -351,8 +383,7 @@
     "screenDensity" : 320,
     "screenX" : 720,
     "screenY" : 1280,
-    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ]
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ]
   }, {
     "brand" : "ASUS",
     "codename" : "flo",
@@ -455,8 +486,7 @@
     "screenDensity" : 577,
     "screenX" : 2560,
     "screenY" : 1440,
-    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "supportedVersionIds" : [ "23", "24" ]
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ]
   }, {
     "brand" : "Samsung",
     "codename" : "hlte",
@@ -520,8 +550,7 @@
     "screenDensity" : 294,
     "screenX" : 720,
     "screenY" : 1280,
-    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ]
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ]
   }, {
     "brand" : "Samsung",
     "codename" : "j7xelte",
@@ -598,8 +627,7 @@
     "screenDensity" : 320,
     "screenX" : 768,
     "screenY" : 1280,
-    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ]
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ]
   }, {
     "brand" : "essential",
     "codename" : "mata",
@@ -637,8 +665,7 @@
     "screenDensity" : 320,
     "screenX" : 720,
     "screenY" : 1280,
-    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ]
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ]
   }, {
     "brand" : "LG",
     "codename" : "p1",
@@ -650,8 +677,7 @@
     "screenDensity" : 538,
     "screenX" : 2560,
     "screenY" : 1440,
-    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ]
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ]
   }, {
     "brand" : "motorola",
     "codename" : "potter",
@@ -679,6 +705,20 @@
     "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
     "supportedVersionIds" : [ "25", "26", "27", "28" ]
   }, {
+    "brand" : "huawei",
+    "codename" : "sawfish",
+    "form" : "PHYSICAL",
+    "formFactor" : "WEARABLE",
+    "id" : "sawfish",
+    "manufacturer" : "Huawei",
+    "name" : "Huawei Watch 2",
+    "screenDensity" : 320,
+    "screenX" : 390,
+    "screenY" : 390,
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
+    "supportedVersionIds" : [ "26" ],
+    "tags" : [ "beta" ]
+  }, {
     "brand" : "Samsung",
     "codename" : "serranolte",
     "form" : "PHYSICAL",
@@ -689,8 +729,7 @@
     "screenDensity" : 240,
     "screenX" : 540,
     "screenY" : 960,
-    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ]
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ]
   }, {
     "brand" : "Motorola",
     "codename" : "shamu",
@@ -741,8 +780,7 @@
     "screenDensity" : 320,
     "screenX" : 720,
     "screenY" : 1280,
-    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ]
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ]
   }, {
     "brand" : "Google",
     "codename" : "taimen",
@@ -767,8 +805,7 @@
     "screenDensity" : 320,
     "screenX" : 720,
     "screenY" : 1280,
-    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ]
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ]
   }, {
     "brand" : "Samsung",
     "codename" : "trelte",
@@ -780,8 +817,7 @@
     "screenDensity" : 386,
     "screenX" : 1080,
     "screenY" : 1920,
-    "supportedAbis" : [ "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ]
+    "supportedAbis" : [ "armeabi-v7a", "armeabi" ]
   }, {
     "brand" : "Motorola",
     "codename" : "victara",
@@ -833,8 +869,7 @@
     "screenDensity" : 640,
     "screenX" : 1440,
     "screenY" : 2560,
-    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ],
-    "tags" : [ "deprecated" ]
+    "supportedAbis" : [ "arm64-v8a", "armeabi-v7a", "armeabi" ]
   } ],
   "runtimeConfiguration" : {
     "locales" : [ {
@@ -3212,5 +3247,25 @@
       "year" : 2018
     },
     "versionString" : "9.x"
+  }, {
+    "apiLevel" : 28,
+    "codeName" : "Q",
+    "id" : "Q",
+    "releaseDate" : {
+      "day" : 13,
+      "month" : 3,
+      "year" : 2019
+    },
+    "versionString" : "Q beta"
+  }, {
+    "apiLevel" : 28,
+    "codeName" : "Q",
+    "id" : "Q-beta-3",
+    "releaseDate" : {
+      "day" : 7,
+      "month" : 5,
+      "year" : 2019
+    },
+    "versionString" : "Q"
   } ]
 }

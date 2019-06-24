@@ -4,19 +4,22 @@
     "formFactor" : "TABLET",
     "id" : "ipad5",
     "name" : "iPad (5th generation)",
-    "supportedVersionIds" : [ "11.2", "12.0" ]
+    "supportedVersionIds" : [ "11.2", "12.0" ],
+    "tags" : [ "deprecated=11.2" ]
   }, {
     "deviceCapabilities" : [ "accelerometer", "armv6", "armv7", "arm64", "auto-focus-camera", "bluetooth-le", "front-facing-camera", "gamekit", "gyroscope", "location-services", "magnetometer", "metal", "microphone", "opengles-1", "opengles-2", "opengles-3", "peer-peer", "still-camera", "video-camera", "wifi" ],
     "formFactor" : "TABLET",
     "id" : "ipadmini4",
     "name" : "iPad mini 4",
-    "supportedVersionIds" : [ "11.2", "12.0" ]
+    "supportedVersionIds" : [ "11.2", "12.0" ],
+    "tags" : [ "deprecated=11.2" ]
   }, {
     "deviceCapabilities" : [ "accelerometer", "armv6", "armv7", "arm64", "auto-focus-camera", "bluetooth-le", "front-facing-camera", "gamekit", "gyroscope", "location-services", "magnetometer", "metal", "microphone", "opengles-1", "opengles-2", "opengles-3", "peer-peer", "still-camera", "video-camera", "wifi", "arkit", "camera-flash" ],
     "formFactor" : "TABLET",
     "id" : "ipadpro_105",
     "name" : "iPad Pro (10.5-inch)",
-    "supportedVersionIds" : [ "11.2" ]
+    "supportedVersionIds" : [ "11.2" ],
+    "tags" : [ "deprecated=11.2" ]
   }, {
     "deviceCapabilities" : [ "accelerometer", "armv6", "armv7", "arm64", "auto-focus-camera", "bluetooth-le", "front-facing-camera", "gamekit", "gyroscope", "location-services", "magnetometer", "metal", "microphone", "opengles-1", "opengles-2", "opengles-3", "peer-peer", "still-camera", "video-camera", "wifi", "camera-flash", "gps", "healthkit", "sms", "telephony" ],
     "formFactor" : "PHONE",
@@ -28,50 +31,62 @@
     "formFactor" : "PHONE",
     "id" : "iphone6s",
     "name" : "iPhone 6s",
-    "supportedVersionIds" : [ "10.3", "11.2", "11.4", "12.0" ]
-  }, {
-    "deviceCapabilities" : [ "accelerometer", "armv6", "armv7", "arm64", "auto-focus-camera", "bluetooth-le", "front-facing-camera", "gamekit", "gyroscope", "location-services", "magnetometer", "metal", "microphone", "opengles-1", "opengles-2", "opengles-3", "peer-peer", "still-camera", "video-camera", "wifi", "arkit", "camera-flash", "gps", "healthkit", "sms", "telephony" ],
-    "formFactor" : "PHONE",
-    "id" : "iphone6splus",
-    "name" : "iPhone 6s Plus",
-    "supportedVersionIds" : [ "9.0", "9.1" ]
+    "supportedVersionIds" : [ "10.3", "11.2", "11.4", "12.0" ],
+    "tags" : [ "deprecated=10.3,11.2" ]
   }, {
     "deviceCapabilities" : [ "accelerometer", "armv6", "armv7", "arm64", "auto-focus-camera", "bluetooth-le", "front-facing-camera", "gamekit", "gyroscope", "location-services", "magnetometer", "metal", "microphone", "opengles-1", "opengles-2", "opengles-3", "peer-peer", "still-camera", "video-camera", "wifi", "arkit", "camera-flash", "gps", "healthkit", "nfc", "sms", "telephony" ],
     "formFactor" : "PHONE",
     "id" : "iphone7",
     "name" : "iPhone 7",
-    "supportedVersionIds" : [ "11.2", "11.4", "12.0" ]
+    "supportedVersionIds" : [ "11.2", "11.4", "12.0" ],
+    "tags" : [ "deprecated=11.2" ]
   }, {
     "deviceCapabilities" : [ "accelerometer", "armv6", "armv7", "arm64", "auto-focus-camera", "bluetooth-le", "front-facing-camera", "gamekit", "gyroscope", "location-services", "magnetometer", "metal", "microphone", "opengles-1", "opengles-2", "opengles-3", "peer-peer", "still-camera", "video-camera", "wifi", "arkit", "camera-flash", "gps", "healthkit", "nfc", "sms", "telephony" ],
     "formFactor" : "PHONE",
     "id" : "iphone7plus",
     "name" : "iPhone 7 Plus",
-    "supportedVersionIds" : [ "11.2", "11.4", "12.0" ]
+    "supportedVersionIds" : [ "11.2", "11.4", "12.0" ],
+    "tags" : [ "deprecated=11.2" ]
   }, {
     "deviceCapabilities" : [ "accelerometer", "armv6", "armv7", "arm64", "auto-focus-camera", "bluetooth-le", "front-facing-camera", "gamekit", "gyroscope", "location-services", "magnetometer", "metal", "microphone", "opengles-1", "opengles-2", "opengles-3", "peer-peer", "still-camera", "video-camera", "wifi", "arkit", "camera-flash", "gps", "healthkit", "nfc", "sms", "telephony" ],
     "formFactor" : "PHONE",
     "id" : "iphone8",
     "name" : "iPhone 8",
     "supportedVersionIds" : [ "11.2", "11.4", "12.0" ],
-    "tags" : [ "default" ]
+    "tags" : [ "default", "deprecated=11.2" ]
   }, {
     "deviceCapabilities" : [ "accelerometer", "armv6", "armv7", "arm64", "auto-focus-camera", "bluetooth-le", "front-facing-camera", "gamekit", "gyroscope", "location-services", "magnetometer", "metal", "microphone", "opengles-1", "opengles-2", "opengles-3", "peer-peer", "still-camera", "video-camera", "wifi", "arkit", "camera-flash", "gps", "healthkit", "nfc", "sms", "telephony" ],
     "formFactor" : "PHONE",
     "id" : "iphone8plus",
     "name" : "iPhone 8 Plus",
-    "supportedVersionIds" : [ "11.2", "11.4", "12.0" ]
+    "supportedVersionIds" : [ "11.2", "11.4", "12.0" ],
+    "tags" : [ "deprecated=11.2" ]
   }, {
     "deviceCapabilities" : [ "accelerometer", "armv6", "armv7", "arm64", "auto-focus-camera", "bluetooth-le", "front-facing-camera", "gamekit", "gyroscope", "location-services", "magnetometer", "metal", "microphone", "opengles-1", "opengles-2", "opengles-3", "peer-peer", "still-camera", "video-camera", "wifi", "arkit", "camera-flash", "gps", "healthkit", "sms", "telephony" ],
     "formFactor" : "PHONE",
     "id" : "iphonese",
     "name" : "iPhone SE",
-    "supportedVersionIds" : [ "11.2", "11.4", "12.0" ]
+    "supportedVersionIds" : [ "11.2", "11.4", "12.0" ],
+    "tags" : [ "deprecated=11.2" ]
   }, {
     "deviceCapabilities" : [ "accelerometer", "armv6", "armv7", "arm64", "auto-focus-camera", "bluetooth-le", "front-facing-camera", "gamekit", "gyroscope", "location-services", "magnetometer", "metal", "microphone", "opengles-1", "opengles-2", "opengles-3", "peer-peer", "still-camera", "video-camera", "wifi", "arkit", "camera-flash", "gps", "healthkit", "nfc", "sms", "telephony" ],
     "formFactor" : "PHONE",
     "id" : "iphonex",
     "name" : "iPhone X",
-    "supportedVersionIds" : [ "11.2", "11.4", "12.0" ]
+    "supportedVersionIds" : [ "11.2", "11.4", "12.0" ],
+    "tags" : [ "deprecated=11.2" ]
+  }, {
+    "deviceCapabilities" : [ "accelerometer", "armv6", "armv7", "arm64", "auto-focus-camera", "bluetooth-le", "front-facing-camera", "gamekit", "gyroscope", "location-services", "magnetometer", "metal", "microphone", "opengles-1", "opengles-2", "opengles-3", "peer-peer", "still-camera", "video-camera", "wifi", "arkit", "camera-flash", "gps", "healthkit", "nfc", "sms", "telephony" ],
+    "formFactor" : "PHONE",
+    "id" : "iphonexs",
+    "name" : "iPhone XS",
+    "supportedVersionIds" : [ "12.0", "12.1" ]
+  }, {
+    "deviceCapabilities" : [ "accelerometer", "armv6", "armv7", "arm64", "auto-focus-camera", "bluetooth-le", "front-facing-camera", "gamekit", "gyroscope", "location-services", "magnetometer", "metal", "microphone", "opengles-1", "opengles-2", "opengles-3", "peer-peer", "still-camera", "video-camera", "wifi", "arkit", "camera-flash", "gps", "healthkit", "nfc", "sms", "telephony" ],
+    "formFactor" : "PHONE",
+    "id" : "iphonexsmax",
+    "name" : "iPhone XS Max",
+    "supportedVersionIds" : [ "12.0", "12.1" ]
   } ],
   "runtimeConfiguration" : {
     "locales" : [ {
@@ -2351,32 +2366,37 @@
   "versions" : [ {
     "id" : "9.0",
     "majorVersion" : 9,
-    "supportedXcodeVersionIds" : [ "9.2", "9.4.1", "10.0", "10.1" ]
+    "supportedXcodeVersionIds" : [ "9.2", "9.4.1", "10.0", "10.1", "10.2" ]
   }, {
     "id" : "9.1",
     "majorVersion" : 9,
     "minorVersion" : 1,
-    "supportedXcodeVersionIds" : [ "9.2", "9.4.1", "10.0", "10.1" ]
+    "supportedXcodeVersionIds" : [ "9.2", "9.4.1", "10.0", "10.1", "10.2" ]
   }, {
     "id" : "10.3",
     "majorVersion" : 10,
     "minorVersion" : 3,
-    "supportedXcodeVersionIds" : [ "9.2", "9.4.1", "10.0", "10.1" ]
+    "supportedXcodeVersionIds" : [ "9.2", "9.4.1", "10.0", "10.1", "10.2" ]
   }, {
     "id" : "11.2",
     "majorVersion" : 11,
     "minorVersion" : 2,
-    "supportedXcodeVersionIds" : [ "9.2", "9.4.1", "10.0", "10.1" ],
+    "supportedXcodeVersionIds" : [ "9.2", "9.4.1", "10.0", "10.1", "10.2" ],
     "tags" : [ "default" ]
   }, {
     "id" : "11.4",
     "majorVersion" : 11,
     "minorVersion" : 4,
-    "supportedXcodeVersionIds" : [ "9.4.1", "10.0", "10.1" ]
+    "supportedXcodeVersionIds" : [ "9.4.1", "10.0", "10.1", "10.2" ]
   }, {
     "id" : "12.0",
     "majorVersion" : 12,
-    "supportedXcodeVersionIds" : [ "10.0", "10.1" ]
+    "supportedXcodeVersionIds" : [ "10.0", "10.1", "10.2" ]
+  }, {
+    "id" : "12.1",
+    "majorVersion" : 12,
+    "minorVersion" : 1,
+    "supportedXcodeVersionIds" : [ "10.1", "10.2" ]
   } ],
   "xcodeVersions" : [ {
     "version" : "9.2"
@@ -2385,7 +2405,9 @@
   }, {
     "version" : "10.0"
   }, {
-    "tags" : [ "default" ],
     "version" : "10.1"
+  }, {
+    "tags" : [ "default" ],
+    "version" : "10.2"
   } ]
 }
