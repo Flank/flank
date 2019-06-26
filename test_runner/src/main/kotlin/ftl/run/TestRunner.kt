@@ -39,7 +39,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 object TestRunner {
-    private val gson = GsonBuilder().setPrettyPrinting().create()!!
+    val gson = GsonBuilder().setPrettyPrinting().create()!!
 
     fun assertMockUrl() {
         if (!FtlConstants.useMock) return

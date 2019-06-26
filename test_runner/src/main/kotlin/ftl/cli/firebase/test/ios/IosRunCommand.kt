@@ -6,7 +6,9 @@ import ftl.config.FtlConstants
 import ftl.config.FtlConstants.defaultIosModel
 import ftl.config.FtlConstants.defaultIosVersion
 import ftl.run.TestRunner
+import java.nio.file.Files
 import java.nio.file.Paths
+import kotlin.system.exitProcess
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
@@ -28,10 +30,27 @@ Configuration is read from flank.yml
 class IosRunCommand : Runnable {
     override fun run() {
         val config = IosArgs.load(Paths.get(configPath), cli = this)
+
+        if (dumpShards) {
+            val testShardChunksJson = TestRunner.gson.toJson(config.testShardChunks)
+            Files.write(Paths.get(shardFile), testShardChunksJson.toByteArray())
+            println("Saved shards to $shardFile")
+            exitProcess(0)
+        }
+
         runBlocking {
             TestRunner.newRun(config)
         }
     }
+
+    companion object {
+        private const val shardFile = "ios_shards.json"
+    }
+
+    // Flank debug
+
+    @Option(names = ["--dump-shards"], description = ["Dumps the shards to ios_shards.json for debugging"])
+    var dumpShards: Boolean = false
 
     // Flank specific
 

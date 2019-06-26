@@ -1,6 +1,7 @@
 ## next (unreleased)
 
 - [#567](https://github.com/TestArmada/flank/pull/567) Fix `--app` & `--test` on Android CLI. ([bootstraponline](https://github.com/bootstraponline))
+- [#571](https://github.com/TestArmada/flank/pull/571) Add `flank ios run --dump-shards` and `flank android run --dump-shards` for debugging ([bootstraponline](https://github.com/bootstraponline))
 
 ## v6.2.2
 
