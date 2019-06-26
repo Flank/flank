@@ -76,7 +76,7 @@ object Xctestrun {
     // Finds tests in a xctestrun file
     private fun findTestNames(xctestrun: File): List<String> {
         val root = parse(xctestrun)
-        var result = listOf<String>()
+        val result = mutableListOf<String>()
         // EarlGreyExampleSwiftTests_iphoneos11.3-arm64.xctestrun => EarlGreyExampleSwiftTests
         val testRoot = xctestrun.parent + "/"
 

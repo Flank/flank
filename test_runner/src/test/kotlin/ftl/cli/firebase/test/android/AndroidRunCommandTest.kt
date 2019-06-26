@@ -61,6 +61,7 @@ class AndroidRunCommandTest {
     fun empty_params_parse_null() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse()
+        assertThat(cmd.dumpShards).isFalse()
         assertThat(cmd.app).isNull()
         assertThat(cmd.test).isNull()
         assertThat(cmd.testTargets).isNull()
@@ -357,5 +358,13 @@ class AndroidRunCommandTest {
 
         val expected = AppTestPair(app = "a", test = "b")
         assertThat(cmd.additionalAppTestApks).isEqualTo(listOf(expected))
+    }
+
+    @Test
+    fun `dump-shards parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parse("--dump-shards=true")
+
+        assertThat(cmd.dumpShards).isEqualTo(true)
     }
 }

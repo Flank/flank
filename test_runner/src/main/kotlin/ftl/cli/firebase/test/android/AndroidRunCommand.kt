@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.android
 
 import ftl.args.AndroidArgs
+import ftl.args.AndroidTestShard
 import ftl.args.yml.AppTestPair
 import ftl.config.Device
 import ftl.config.FtlConstants
@@ -9,7 +10,9 @@ import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.config.FtlConstants.defaultLocale
 import ftl.config.FtlConstants.defaultOrientation
 import ftl.run.TestRunner
+import java.nio.file.Files
 import java.nio.file.Paths
+import kotlin.system.exitProcess
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
@@ -32,10 +35,29 @@ class AndroidRunCommand : Runnable {
 
     override fun run() {
         val config = AndroidArgs.load(Paths.get(configPath), cli = this)
+
+        if (dumpShards) {
+            val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk)
+            val testShardChunksJson = TestRunner.gson.toJson(testShardChunks)
+
+            Files.write(Paths.get(shardFile), testShardChunksJson.toByteArray())
+            println("Saved shards to $shardFile")
+            exitProcess(0)
+        }
+
         runBlocking {
             TestRunner.newRun(config)
         }
     }
+
+    companion object {
+        private const val shardFile = "android_shards.json"
+    }
+
+    // Flank debug
+
+    @Option(names = ["--dump-shards"], description = ["Dumps the shards to $shardFile for debugging"])
+    var dumpShards: Boolean = false
 
     // Flank specific
 

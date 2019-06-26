@@ -61,6 +61,7 @@ class IosRunCommandTest {
     fun empty_params_parse_null() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse()
+        assertThat(cmd.dumpShards).isFalse()
         assertThat(cmd.resultsBucket).isNull()
         assertThat(cmd.recordVideo).isNull()
         assertThat(cmd.noRecordVideo).isNull()
@@ -272,5 +273,13 @@ class IosRunCommandTest {
         CommandLine(cmd).parse("--smart-flank-gcs-path=foo")
 
         assertThat(cmd.smartFlankGcsPath).isEqualTo("foo")
+    }
+
+    @Test
+    fun `dump-shards parse`() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parse("--dump-shards=true")
+
+        assertThat(cmd.dumpShards).isEqualTo(true)
     }
 }
