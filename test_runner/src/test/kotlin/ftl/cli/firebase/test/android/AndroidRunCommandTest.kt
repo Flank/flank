@@ -27,7 +27,7 @@ class AndroidRunCommandTest {
     fun androidRunCommandPrintsHelp() {
         val android = AndroidRunCommand()
         assertThat(android.usageHelpRequested).isFalse()
-        CommandLine.run<Runnable>(android, System.out, "-h")
+        CommandLine(android).execute("-h")
 
         val output = systemOutRule.log
         Truth.assertThat(output).startsWith("Run tests on Firebase Test Lab")
