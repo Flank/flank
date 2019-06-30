@@ -15,7 +15,8 @@ import picocli.CommandLine
     header = ["Cancels the last Firebase Test Lab run"],
     description = ["""Selects the most recent run in the results/ folder.
 Reads in the matrix_ids.json file. Cancels any incomplete matrices.
-"""]
+"""],
+    usageHelpAutoWidth = true
 )
 class CancelCommand : Runnable {
     override fun run() {

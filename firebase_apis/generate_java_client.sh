@@ -6,6 +6,7 @@
 # xcode-select --install
 # brew install python@2
 # export PATH="/usr/local/opt/python@2/libexec/bin:$PATH"
+# pip install --upgrade pip setuptools
 # pip install .
 
 # Generate only the testing library since the others are published officially already.

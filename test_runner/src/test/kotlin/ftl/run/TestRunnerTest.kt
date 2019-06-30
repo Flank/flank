@@ -58,7 +58,7 @@ class TestRunnerTest {
     }
 
     @Test
-    fun mockedAndroidTestRun_local() {
+    fun `mockedAndroidTestRun local`() {
         val localConfig = AndroidArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.local.yml"))
         runBlocking {
             TestRunner.newRun(localConfig)
@@ -66,7 +66,7 @@ class TestRunnerTest {
     }
 
     @Test
-    fun mockedAndroidTestRun_gcsAndHistoryName() {
+    fun `mockedAndroidTestRun gcsAndHistoryName`() {
         val gcsConfig = AndroidArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.gcs.yml"))
         runBlocking {
             TestRunner.newRun(gcsConfig)
@@ -74,7 +74,7 @@ class TestRunnerTest {
     }
 
     @Test
-    fun mockedIosTestRun_local() {
+    fun `mockedIosTestRun local`() {
         val config = IosArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.yml"))
         runBlocking {
             TestRunner.newRun(config)
@@ -82,7 +82,7 @@ class TestRunnerTest {
     }
 
     @Test
-    fun mockedIosTestRun_gcsAndHistoryName() {
+    fun `mockedIosTestRun gcsAndHistoryName`() {
         val config = IosArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.gcs.yml"))
         runBlocking {
             TestRunner.newRun(config)

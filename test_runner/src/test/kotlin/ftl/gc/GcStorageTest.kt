@@ -11,7 +11,7 @@ import org.mockito.Mockito.mock
 class GcStorageTest {
 
     @Test
-    fun upload_missingBucket() {
+    fun `upload missingBucket`() {
         val androidArgs = mock(AndroidArgs::class.java)
         `when`(androidArgs.appApk).thenReturn("../test_app/apks/app-debug.apk")
         GcStorage.upload(androidArgs.appApk, "does-not-exist", "nope")

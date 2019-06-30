@@ -17,7 +17,8 @@ import picocli.CommandLine.Option
     header = ["Downloads results for the last Firebase Test Lab run"],
     description = ["""Selects the most recent run in the results/ folder.
 Reads in the matrix_ids.json file. Refreshes any incomplete matrices.
-"""]
+"""],
+    usageHelpAutoWidth = true
 )
 class RefreshCommand : Runnable {
     override fun run() {

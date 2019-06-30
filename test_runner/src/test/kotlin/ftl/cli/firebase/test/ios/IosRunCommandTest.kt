@@ -25,7 +25,7 @@ class IosRunCommandTest {
     fun iosRunCommandPrintsHelp() {
         val iosRun = IosRunCommand()
         assertThat(iosRun.usageHelpRequested).isFalse()
-        CommandLine.run<Runnable>(iosRun, System.out, "-h")
+        CommandLine(iosRun).execute("-h")
 
         val output = systemOutRule.log
         Truth.assertThat(output).startsWith("Run tests on Firebase Test Lab")
@@ -58,9 +58,9 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun empty_params_parse_null() {
+    fun `empty params parse null`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse()
+        CommandLine(cmd).parseArgs()
         assertThat(cmd.dumpShards).isFalse()
         assertThat(cmd.resultsBucket).isNull()
         assertThat(cmd.recordVideo).isNull()
@@ -88,57 +88,57 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun resultsBucket_parse() {
+    fun `resultsBucket parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--results-bucket=a")
+        CommandLine(cmd).parseArgs("--results-bucket=a")
 
         assertThat(cmd.resultsBucket).isEqualTo("a")
     }
 
     @Test
-    fun recordVideo_parse() {
+    fun `recordVideo parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--record-video")
+        CommandLine(cmd).parseArgs("--record-video")
 
         assertThat(cmd.recordVideo).isTrue()
     }
 
     @Test
-    fun noRecordVideo_parse() {
+    fun `noRecordVideo parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--no-record-video")
+        CommandLine(cmd).parseArgs("--no-record-video")
 
         assertThat(cmd.noRecordVideo).isTrue()
     }
 
     @Test
-    fun timeout_parse() {
+    fun `timeout parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--timeout=1m")
+        CommandLine(cmd).parseArgs("--timeout=1m")
 
         assertThat(cmd.timeout).isEqualTo("1m")
     }
 
     @Test
-    fun async_parse() {
+    fun `async parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--async")
+        CommandLine(cmd).parseArgs("--async")
 
         assertThat(cmd.async).isTrue()
     }
 
     @Test
-    fun project_parse() {
+    fun `project parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--project=a")
+        CommandLine(cmd).parseArgs("--project=a")
 
         assertThat(cmd.project).isEqualTo("a")
     }
 
     @Test
-    fun resultsHistoryName_parse() {
+    fun `resultsHistoryName parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--results-history-name=a")
+        CommandLine(cmd).parseArgs("--results-history-name=a")
 
         assertThat(cmd.resultsHistoryName).isEqualTo("a")
     }
@@ -146,65 +146,65 @@ class IosRunCommandTest {
     // flankYml
 
     @Test
-    fun maxTestShards_parse() {
+    fun `maxTestShards parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--max-test-shards=3")
+        CommandLine(cmd).parseArgs("--max-test-shards=3")
 
         assertThat(cmd.maxTestShards).isEqualTo(3)
     }
 
     @Test
-    fun repeatTests_parse() {
+    fun `repeatTests parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--repeat-tests=3")
+        CommandLine(cmd).parseArgs("--repeat-tests=3")
 
         assertThat(cmd.repeatTests).isEqualTo(3)
     }
 
     @Test
-    fun testTargetsAlwaysRun_parse() {
+    fun `testTargetsAlwaysRun parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--test-targets-always-run=a,b,c")
+        CommandLine(cmd).parseArgs("--test-targets-always-run=a,b,c")
 
         assertThat(cmd.testTargetsAlwaysRun).isEqualTo(arrayListOf("a", "b", "c"))
     }
 
     @Test
-    fun testTargets_parse() {
+    fun `testTargets parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--test-targets=a,b,c")
+        CommandLine(cmd).parseArgs("--test-targets=a,b,c")
 
         assertThat(cmd.testTargets).isEqualTo(arrayListOf("a", "b", "c"))
     }
 
     @Test
-    fun test_parse() {
+    fun `test parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--test=a")
+        CommandLine(cmd).parseArgs("--test=a")
 
         assertThat(cmd.test).isEqualTo("a")
     }
 
     @Test
-    fun xctestrunFile_parse() {
+    fun `xctestrunFile parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--xctestrun-file=a")
+        CommandLine(cmd).parseArgs("--xctestrun-file=a")
 
         assertThat(cmd.xctestrunFile).isEqualTo("a")
     }
 
     @Test
-    fun xcodeVersion_parse() {
+    fun `xcodeVersion parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--xcode-version=999")
+        CommandLine(cmd).parseArgs("--xcode-version=999")
 
         assertThat(cmd.xcodeVersion).isEqualTo("999")
     }
 
     @Test
-    fun device_parse() {
+    fun `device parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--device=model=iphone8,version=11.2,locale=zh_CN,orientation=default")
+        CommandLine(cmd).parseArgs("--device=model=iphone8,version=11.2,locale=zh_CN,orientation=default")
 
         val expectedDevice = Device("iphone8", "11.2", "zh_CN", "default")
         assertThat(cmd.device?.size).isEqualTo(1)
@@ -212,25 +212,25 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun resultsDir_parse() {
+    fun `resultsDir parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--results-dir=a")
+        CommandLine(cmd).parseArgs("--results-dir=a")
 
         assertThat(cmd.resultsDir).isEqualTo("a")
     }
 
     @Test
-    fun filesToDownload_parse() {
+    fun `filesToDownload parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--files-to-download=a,b")
+        CommandLine(cmd).parseArgs("--files-to-download=a,b")
 
         assertThat(cmd.filesToDownload).isEqualTo(arrayListOf("a", "b"))
     }
 
     @Test
-    fun flakyTestAttempts_parse() {
+    fun `flakyTestAttempts parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--flaky-test-attempts=10")
+        CommandLine(cmd).parseArgs("--flaky-test-attempts=10")
 
         assertThat(cmd.flakyTestAttempts).isEqualTo(10)
     }
@@ -238,7 +238,7 @@ class IosRunCommandTest {
     @Test
     fun `shardTime parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--shard-time=99")
+        CommandLine(cmd).parseArgs("--shard-time=99")
 
         assertThat(cmd.shardTime).isEqualTo(99)
     }
@@ -246,7 +246,7 @@ class IosRunCommandTest {
     @Test
     fun `disableShard parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--disable-sharding")
+        CommandLine(cmd).parseArgs("--disable-sharding")
 
         assertThat(cmd.disableSharding).isEqualTo(true)
     }
@@ -254,7 +254,7 @@ class IosRunCommandTest {
     @Test
     fun `local-results-dir parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--local-result-dir=a")
+        CommandLine(cmd).parseArgs("--local-result-dir=a")
 
         assertThat(cmd.localResultsDir).isEqualTo("a")
     }
@@ -262,7 +262,7 @@ class IosRunCommandTest {
     @Test
     fun `smart-flank-disable-upload parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--smart-flank-disable-upload=true")
+        CommandLine(cmd).parseArgs("--smart-flank-disable-upload=true")
 
         assertThat(cmd.smartFlankDisableUpload).isEqualTo(true)
     }
@@ -270,7 +270,7 @@ class IosRunCommandTest {
     @Test
     fun `smart-flank-gcs-path parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--smart-flank-gcs-path=foo")
+        CommandLine(cmd).parseArgs("--smart-flank-gcs-path=foo")
 
         assertThat(cmd.smartFlankGcsPath).isEqualTo("foo")
     }
@@ -278,7 +278,7 @@ class IosRunCommandTest {
     @Test
     fun `dump-shards parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parse("--dump-shards=true")
+        CommandLine(cmd).parseArgs("--dump-shards=true")
 
         assertThat(cmd.dumpShards).isEqualTo(true)
     }

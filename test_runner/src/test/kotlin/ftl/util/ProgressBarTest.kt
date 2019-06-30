@@ -12,7 +12,7 @@ class ProgressBarTest {
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
 
     @Test
-    fun progress_start_stop() {
+    fun `progress start stop`() {
         val progress = ProgressBar()
 
         progress.start("hi")

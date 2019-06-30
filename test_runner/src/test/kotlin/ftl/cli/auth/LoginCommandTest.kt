@@ -23,7 +23,7 @@ class LoginCommandTest {
     fun cancelCommandPrintsHelp() {
         val command = LoginCommand()
         assertThat(command.usageHelpRequested).isFalse()
-        CommandLine.run<Runnable>(command, System.out, "-h")
+        CommandLine(command).execute("-h")
 
         val output = systemOutRule.log
         Truth.assertThat(output).startsWith(

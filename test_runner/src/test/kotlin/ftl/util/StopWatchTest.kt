@@ -6,12 +6,12 @@ import org.junit.Test
 class StopWatchTest {
 
     @Test(expected = RuntimeException::class)
-    fun stopWatch_errorOnCheckWithoutStart() {
+    fun `stopWatch errorOnCheckWithoutStart`() {
         StopWatch().check()
     }
 
     @Test
-    fun stopWatch_recordTime() {
+    fun `stopWatch recordTime`() {
         val watch = StopWatch().start()
         assertThat(watch.check(indent = true)).isNotEmpty()
         assertThat(watch.check()).isNotEmpty()

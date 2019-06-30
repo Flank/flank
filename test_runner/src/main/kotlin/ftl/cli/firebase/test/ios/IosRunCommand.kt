@@ -25,7 +25,8 @@ import picocli.CommandLine.Option
     description = ["""Uploads the app and tests to GCS.
 Runs the XCTests and XCUITests.
 Configuration is read from flank.yml
-"""]
+"""],
+    usageHelpAutoWidth = true
 )
 class IosRunCommand : Runnable {
     override fun run() {

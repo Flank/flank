@@ -112,7 +112,7 @@ class ShardTest {
     }
 
     @Test
-    fun performance_calculateShardsByTime() {
+    fun `performance calculateShardsByTime`() {
         val testsToRun = mutableListOf<String>()
         repeat(1_000_000) { index -> testsToRun.add("$index/$index") }
 
@@ -126,7 +126,7 @@ class ShardTest {
     }
 
     @Test
-    fun createShardsByShardTime_workingSample() {
+    fun `createShardsByShardTime workingSample`() {
         val testsToRun = listOf("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g")
         val suite = sample()
         val result = Shard.shardCountByTime(testsToRun, suite, mockArgs(20, 7))
@@ -135,7 +135,7 @@ class ShardTest {
     }
 
     @Test
-    fun createShardsByShardTime_countShouldNeverBeHigherThanMaxAvailable() {
+    fun `createShardsByShardTime countShouldNeverBeHigherThanMaxAvailable`() {
         val testsToRun = listOf("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g")
         val suite = sample()
         val result = Shard.shardCountByTime(testsToRun, suite, mockArgs(2, 7))
@@ -144,7 +144,7 @@ class ShardTest {
     }
 
     @Test
-    fun createShardsByShardTime_unlimitedShardsShouldReturnTheRightAmount() {
+    fun `createShardsByShardTime unlimitedShardsShouldReturnTheRightAmount`() {
         val testsToRun = listOf("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g")
         val suite = sample()
         val result = Shard.shardCountByTime(testsToRun, suite, mockArgs(-1, 7))

@@ -39,41 +39,41 @@ class ArgsHelperTest {
     val environmentVariables = EnvironmentVariables()
 
     @Test
-    fun mergeYmlMaps_succeeds() {
+    fun `mergeYmlMaps succeeds`() {
         val merged = mergeYmlMaps(GcloudYml, IosGcloudYml)
         assertThat(merged.keys.size).isEqualTo(1)
         assertThat(merged["gcloud"]?.size).isEqualTo(11)
     }
 
     @Test
-    fun assertFileExists_succeeds() {
+    fun `assertFileExists succeeds`() {
         assertFileExists("/tmp", "temp folder")
     }
 
     @Test
-    fun assertFileExists_fails() {
+    fun `assertFileExists fails`() {
         exceptionRule.expectMessage("'/tmp/1/2/3/fake'  doesn't exist")
         assertFileExists("/tmp/1/2/3/fake", "")
     }
 
     @Test
-    fun assertGcsFileExists_succeeds() {
+    fun `assertGcsFileExists succeeds`() {
         assertGcsFileExists("gs://tmp_bucket_2/app-debug.apk")
     }
 
     @Test
-    fun assertGcsFileExists_fails() {
+    fun `assertGcsFileExists fails`() {
         exceptionRule.expectMessage("The file at 'gs://does-not-exist' does not exist")
         assertGcsFileExists("gs://does-not-exist")
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun assertGcsFileExists_failsOnMissingPrefix() {
+    fun `assertGcsFileExists failsOnMissingPrefix`() {
         assertGcsFileExists("does-not-exist")
     }
 
     @Test
-    fun validateTestMethods_succeeds() {
+    fun `validateTestMethods succeeds`() {
         val testTargets = listOf("a")
         val validTestMethods = listOf("a", "b", "c")
         val from = "Test APK"
@@ -81,14 +81,14 @@ class ArgsHelperTest {
     }
 
     @Test
-    fun validateTestMethods_validationOffWhenUseMock() {
+    fun `validateTestMethods validationOffWhenUseMock`() {
         val testTargets = listOf("d")
         val validTestMethods = listOf("a", "b", "c")
         validateTestMethods(testTargets, validTestMethods, "")
     }
 
     @Test
-    fun validateTestMethods_validationOn() {
+    fun `validateTestMethods validationOn`() {
         exceptionRule.expectMessage(" is missing methods: [d].")
         val testTargets = listOf("d")
         val validTestMethods = listOf("a", "b", "c")
@@ -97,7 +97,7 @@ class ArgsHelperTest {
     }
 
     @Test
-    fun validateTestMethods_validationOn_Empty() {
+    fun `validateTestMethods validationOn Empty`() {
         exceptionRule.expectMessage("has no tests")
         val testTargets = emptyList<String>()
         val validTestMethods = emptyList<String>()
@@ -106,17 +106,17 @@ class ArgsHelperTest {
     }
 
     @Test
-    fun yamlMapper_exists() {
+    fun `yamlMapper exists`() {
         assertThat(ArgsHelper.yamlMapper).isNotNull()
     }
 
     @Test
-    fun createGcsBucket_succeeds() {
+    fun `createGcsBucket succeeds`() {
         createGcsBucket("123", "results_bucket")
     }
 
     @Test
-    fun getDefaultProjectId_succeeds() {
+    fun `getDefaultProjectId succeeds`() {
         assertThat(ArgsHelper.getDefaultProjectId())
             .isEqualTo("mockProjectId")
     }

@@ -13,7 +13,7 @@ import org.mockito.Mockito.mock
 class GcToolResultsTest {
 
     @Test
-    fun createToolResultsHistory_null_succeeds() {
+    fun `createToolResultsHistory null succeeds`() {
         val args = mock(AndroidArgs::class.java)
         `when`(args.project).thenReturn("123")
 
@@ -23,7 +23,7 @@ class GcToolResultsTest {
     }
 
     @Test
-    fun createToolResultsHistory_succeeds() {
+    fun `createToolResultsHistory succeeds`() {
         val args = mock(AndroidArgs::class.java)
         `when`(args.project).thenReturn("123")
         `when`(args.resultsHistoryName).thenReturn("custom history")

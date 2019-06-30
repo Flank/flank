@@ -35,15 +35,15 @@ data class JUnitTestSuite(
 
     // not used
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    val properties: Any?, // <properties />
+    val properties: Any? = null, // <properties />
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JacksonXmlProperty(localName = "system-out")
-    val systemOut: Any?, // <system-out />
+    val systemOut: Any? = null, // <system-out />
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JacksonXmlProperty(localName = "system-err")
-    val systemErr: Any? // <system-err />
+    val systemErr: Any? = null // <system-err />
 ) {
 
     fun successful(): Boolean {

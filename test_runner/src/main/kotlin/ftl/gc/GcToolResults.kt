@@ -4,7 +4,7 @@ import com.google.api.services.testing.model.ToolResultsHistory
 import com.google.api.services.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.ToolResults
 import com.google.api.services.toolresults.model.History
-import com.google.api.services.toolresults.model.ListStepsResponse
+import com.google.api.services.toolresults.model.ListTestCasesResponse
 import com.google.api.services.toolresults.model.Step
 import ftl.args.IArgs
 import ftl.config.FtlConstants
@@ -77,18 +77,19 @@ object GcToolResults {
     }
 
     // Lists Test Cases attached to a Step
-    fun listTestCases(toolResultsStep: ToolResultsStep): ListStepsResponse {
+    fun listTestCases(toolResultsStep: ToolResultsStep): ListTestCasesResponse {
         return GcToolResults.service
             .projects()
             .histories()
             .executions()
             .steps()
+            .testCases()
             .list(
                 toolResultsStep.projectId,
                 toolResultsStep.historyId,
-                toolResultsStep.executionId
-            )
-            .executeWithRetry()
+                toolResultsStep.executionId,
+                toolResultsStep.stepId
+            ).executeWithRetry()
     }
 
     fun getDefaultBucket(projectId: String): String? {

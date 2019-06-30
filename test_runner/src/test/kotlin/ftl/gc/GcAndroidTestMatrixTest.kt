@@ -14,7 +14,7 @@ import org.mockito.Mockito.mock
 class GcAndroidTestMatrixTest {
 
     @Test(expected = IllegalArgumentException::class)
-    fun build_negativeShardErrors() {
+    fun `build negativeShardErrors`() {
         val androidArgs = mock(AndroidArgs::class.java)
 
         GcAndroidTestMatrix.build(
@@ -30,7 +30,7 @@ class GcAndroidTestMatrixTest {
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun build_invalidShardErrors() {
+    fun `build invalidShardErrors`() {
         val androidArgs = mock(AndroidArgs::class.java)
         GcAndroidTestMatrix.build(
             appApkGcsPath = "",
@@ -45,7 +45,7 @@ class GcAndroidTestMatrixTest {
     }
 
     @Test
-    fun build_validArgs() {
+    fun `build validArgs`() {
         val androidArgs = mock(AndroidArgs::class.java)
         `when`(androidArgs.testTimeout).thenReturn("3m")
         `when`(androidArgs.resultsBucket).thenReturn("/hi")

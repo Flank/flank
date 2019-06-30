@@ -14,7 +14,7 @@ import org.mockito.Mockito.mock
 class GcIosTestMatrixTest {
 
     @Test(expected = IllegalArgumentException::class)
-    fun build_negativeShardErrors() {
+    fun `build negativeShardErrors`() {
         val iosArgs = mock(IosArgs::class.java)
         `when`(iosArgs.testShardChunks).thenReturn(listOf(listOf("")))
 
@@ -31,7 +31,7 @@ class GcIosTestMatrixTest {
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun build_invalidShardErrors() {
+    fun `build invalidShardErrors`() {
         val iosArgs = mock(IosArgs::class.java)
         GcIosTestMatrix.build(
             iosDeviceList = IosDeviceList(),
@@ -46,7 +46,7 @@ class GcIosTestMatrixTest {
     }
 
     @Test
-    fun build_validArgs() {
+    fun `build validArgs`() {
         val iosArgs = mock(IosArgs::class.java)
         `when`(iosArgs.testShardChunks).thenReturn(listOf(listOf("")))
         `when`(iosArgs.testTimeout).thenReturn("3m")

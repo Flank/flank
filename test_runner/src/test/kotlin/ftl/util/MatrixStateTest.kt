@@ -6,7 +6,7 @@ import org.junit.Test
 class MatrixStateTest {
 
     @Test
-    fun matrixState_validStates() {
+    fun `matrixState validStates`() {
         listOf(MatrixState.VALIDATING, MatrixState.PENDING, MatrixState.RUNNING).forEach { state ->
             assertThat(MatrixState.completed(state)).isFalse()
         }

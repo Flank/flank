@@ -35,7 +35,7 @@ class MainTest {
     private fun runCommand(vararg args: String): String {
         systemErrRule.clearLog()
         systemOutRule.clearLog()
-        CommandLine.run<Runnable>(Main(), System.out, *args)
+        CommandLine(Main()).execute(*args)
         return systemOutRule.log + systemErrRule.log
     }
 
@@ -54,7 +54,7 @@ class MainTest {
     @Test
     fun mainCLIErrorsOnUnknownFlag() {
         val output = runCommand("-unknown-flag")
-        assertThat(output).contains("Unknown option: -unknown-flag")
+        assertThat(output).contains("Unknown option: '-unknown-flag'")
         assertMainHelpStrings(output)
     }
 

@@ -14,17 +14,17 @@ import org.junit.runner.RunWith
 class UtilsTest {
 
     @Test(expected = RuntimeException::class)
-    fun readTextResource_errors() {
+    fun `readTextResource errors`() {
         Utils.readTextResource("does not exist")
     }
 
     @Test
-    fun readTextResource_succeeds() {
+    fun `readTextResource succeeds`() {
         assertThat(Utils.readTextResource("version.txt")).isNotNull()
     }
 
     @Test
-    fun uniqueObjectName_verifyPattern() {
+    fun `uniqueObjectName verifyPattern`() {
         val randomName = Utils.uniqueObjectName()
         assertThat(randomName.length).isEqualTo(32)
         assertThat(randomName[4]).isEqualTo('-')

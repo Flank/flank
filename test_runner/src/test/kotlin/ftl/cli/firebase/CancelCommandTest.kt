@@ -24,7 +24,7 @@ class CancelCommandTest {
     fun cancelCommandPrintsHelp() {
         val command = CancelCommand()
         assertThat(command.usageHelpRequested).isFalse()
-        CommandLine.run<Runnable>(command, System.out, "-h")
+        CommandLine(command).execute("-h")
 
         val output = systemOutRule.log
         Truth.assertThat(output).startsWith(

@@ -11,7 +11,8 @@ import picocli.CommandLine.Command
     subcommands = [
         IosRunCommand::class,
         IosDoctorCommand::class
-    ]
+    ],
+    usageHelpAutoWidth = true
 )
 class IosCommand : Runnable {
     override fun run() {

@@ -97,7 +97,7 @@ object TestArtifact {
     private fun download(src: String, dst: String) {
         val request = Request.Builder().url(src).build()
         val response = httpClient.newCall(request).execute()
-        val body: ResponseBody = response.body() ?: throw RuntimeException("null response body downloading $src")
+        val body: ResponseBody = response.body ?: throw RuntimeException("null response body downloading $src")
 
         Files.write(Paths.get(dst), body.bytes())
     }

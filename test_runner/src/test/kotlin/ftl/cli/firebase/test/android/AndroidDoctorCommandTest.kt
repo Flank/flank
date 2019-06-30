@@ -20,7 +20,7 @@ class AndroidDoctorCommandTest {
     fun androidDoctorCommandPrintsHelp() {
         val doctor = AndroidDoctorCommand()
         assertThat(doctor.usageHelpRequested).isFalse()
-        CommandLine.run<Runnable>(doctor, System.out, "-h")
+        CommandLine(doctor).execute("-h")
 
         val output = systemOutRule.log
         Truth.assertThat(output).startsWith(
