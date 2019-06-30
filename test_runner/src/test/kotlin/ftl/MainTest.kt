@@ -54,7 +54,7 @@ class MainTest {
     @Test
     fun mainCLIErrorsOnUnknownFlag() {
         val output = runCommand("-unknown-flag")
-        assertThat(output).contains("Unknown option: -unknown-flag")
+        assertThat(output).contains("Unknown option: '-unknown-flag'")
         assertMainHelpStrings(output)
     }
 
