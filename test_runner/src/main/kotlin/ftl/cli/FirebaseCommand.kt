@@ -13,7 +13,8 @@ import picocli.CommandLine.Command
         TestCommand::class,
         RefreshCommand::class,
         CancelCommand::class
-    ]
+    ],
+    usageHelpAutoWidth = true
 )
 class FirebaseCommand : Runnable {
     override fun run() {

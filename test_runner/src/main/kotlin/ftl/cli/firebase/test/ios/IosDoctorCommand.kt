@@ -17,7 +17,8 @@ import picocli.CommandLine.Option
     optionListHeading = "%n@|bold,underline Options:|@%n",
     header = ["Verifies flank firebase is setup correctly"],
     description = ["""Validates iOS YAML and connection to iOS catalog.
-"""]
+"""],
+    usageHelpAutoWidth = true
 )
 class IosDoctorCommand : Runnable {
     override fun run() {

@@ -10,7 +10,8 @@ import picocli.CommandLine.Command
     header = ["Manage oauth2 credentials for Google Cloud"],
     subcommands = [
         LoginCommand::class
-    ]
+    ],
+    usageHelpAutoWidth = true
 )
 class AuthCommand : Runnable {
     override fun run() {

@@ -29,7 +29,8 @@ import picocli.CommandLine.Option
     description = ["""Uploads the app and test apk to GCS.
 Runs the espresso tests using orchestrator.
 Configuration is read from flank.yml
-"""]
+"""],
+    usageHelpAutoWidth = true
 )
 class AndroidRunCommand : Runnable {
 

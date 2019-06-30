@@ -11,7 +11,8 @@ import picocli.CommandLine.Command
     subcommands = [
         AndroidCommand::class,
         IosCommand::class
-    ]
+    ],
+    usageHelpAutoWidth = true
 )
 class TestCommand : Runnable {
     override fun run() {

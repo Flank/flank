@@ -17,7 +17,8 @@ import picocli.CommandLine.Option
     optionListHeading = "%n@|bold,underline Options:|@%n",
     header = ["Verifies flank firebase is setup correctly"],
     description = ["""Validates Android Flank YAML.
-"""]
+"""],
+    usageHelpAutoWidth = true
 )
 class AndroidDoctorCommand : Runnable {
     override fun run() {

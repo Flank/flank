@@ -134,7 +134,7 @@ dependencies {
     implementation("com.bugsnag:bugsnag:3.+")
 
     // https://github.com/remkop/picocli/releases
-    implementation("info.picocli:picocli:3.9.5")
+    implementation("info.picocli:picocli:4.0.0-beta-2")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.6")
     implementation("com.fasterxml.woodstox:woodstox-core:5.1.0")
 
