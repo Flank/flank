@@ -38,7 +38,7 @@ class Main : Runnable {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            CommandLine.run<Runnable>(Main(), System.out, *args)
+            CommandLine(Main()).execute(*args)
         }
     }
 }

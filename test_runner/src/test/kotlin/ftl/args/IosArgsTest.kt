@@ -305,7 +305,7 @@ IosArgs
     @Test
     fun `cli resultsBucket`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--results-bucket=a")
+        CommandLine(cli).parseArgs("--results-bucket=a")
 
         val yaml = """
         gcloud:
@@ -320,7 +320,7 @@ IosArgs
     @Test
     fun `cli recordVideo`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--record-video")
+        CommandLine(cli).parseArgs("--record-video")
 
         val yaml = """
         gcloud:
@@ -335,7 +335,7 @@ IosArgs
     @Test
     fun `cli noRecordVideo`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--no-record-video")
+        CommandLine(cli).parseArgs("--no-record-video")
 
         val yaml = """
         gcloud:
@@ -350,7 +350,7 @@ IosArgs
     @Test
     fun `cli timeout`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--timeout=1m")
+        CommandLine(cli).parseArgs("--timeout=1m")
 
         val yaml = """
         gcloud:
@@ -365,7 +365,7 @@ IosArgs
     @Test
     fun `cli async`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--async")
+        CommandLine(cli).parseArgs("--async")
 
         val yaml = """
         gcloud:
@@ -380,7 +380,7 @@ IosArgs
     @Test
     fun `cli project`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--project=b")
+        CommandLine(cli).parseArgs("--project=b")
 
         val yaml = """
         gcloud:
@@ -395,7 +395,7 @@ IosArgs
     @Test
     fun `cli resultsHistoryName`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--results-history-name=b")
+        CommandLine(cli).parseArgs("--results-history-name=b")
 
         val yaml = """
         gcloud:
@@ -410,7 +410,7 @@ IosArgs
     @Test
     fun `cli maxTestShards`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--max-test-shards=3")
+        CommandLine(cli).parseArgs("--max-test-shards=3")
 
         val yaml = """
         gcloud:
@@ -427,7 +427,7 @@ IosArgs
     @Test
     fun `cli shardTime`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--shard-time=3")
+        CommandLine(cli).parseArgs("--shard-time=3")
 
         val yaml = """
         gcloud:
@@ -444,7 +444,7 @@ IosArgs
     @Test
     fun `cli disableSharding`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--disable-sharding")
+        CommandLine(cli).parseArgs("--disable-sharding")
 
         val yaml = """
         gcloud:
@@ -461,7 +461,7 @@ IosArgs
     @Test
     fun `cli repeatTests`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--repeat-tests=3")
+        CommandLine(cli).parseArgs("--repeat-tests=3")
 
         val yaml = """
         gcloud:
@@ -478,7 +478,7 @@ IosArgs
     @Test
     fun `cli testTargetsAlwaysRun`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--test-targets-always-run=com.A,com.B")
+        CommandLine(cli).parseArgs("--test-targets-always-run=com.A,com.B")
 
         val yaml = """
         gcloud:
@@ -491,7 +491,7 @@ IosArgs
     @Test
     fun `cli testTargets`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--test-targets=com.A,com.B")
+        CommandLine(cli).parseArgs("--test-targets=com.A,com.B")
 
         val yaml = """
         gcloud:
@@ -504,7 +504,7 @@ IosArgs
     @Test
     fun `cli test`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--test=$testPath")
+        CommandLine(cli).parseArgs("--test=$testPath")
 
         val yaml = """
         gcloud:
@@ -519,7 +519,7 @@ IosArgs
     @Test
     fun `cli xctestrunFile`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--xctestrun-file=$xctestrunFile")
+        CommandLine(cli).parseArgs("--xctestrun-file=$xctestrunFile")
 
         val yaml = """
         gcloud:
@@ -534,7 +534,7 @@ IosArgs
     @Test
     fun `cli xcodeVersion`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--xcode-version=10.1")
+        CommandLine(cli).parseArgs("--xcode-version=10.1")
 
         val yaml = """
         gcloud:
@@ -550,7 +550,7 @@ IosArgs
     @Test
     fun `cli device`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--device=model=iphone8,version=12.0,locale=zh_CN,orientation=default")
+        CommandLine(cli).parseArgs("--device=model=iphone8,version=12.0,locale=zh_CN,orientation=default")
 
         val yaml = """
         gcloud:
@@ -573,7 +573,7 @@ IosArgs
     fun `cli device repeat`() {
         val cli = IosRunCommand()
         val deviceCmd = "--device=model=iphone8,version=12.0,locale=zh_CN,orientation=default"
-        CommandLine(cli).parse(deviceCmd, deviceCmd)
+        CommandLine(cli).parseArgs(deviceCmd, deviceCmd)
 
         val yaml = """
         gcloud:
@@ -591,7 +591,7 @@ IosArgs
     @Test
     fun `cli resultsDir`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--results-dir=b")
+        CommandLine(cli).parseArgs("--results-dir=b")
 
         val yaml = """
         gcloud:
@@ -607,7 +607,7 @@ IosArgs
     @Test
     fun `cli filesToDownload`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--files-to-download=a,b")
+        CommandLine(cli).parseArgs("--files-to-download=a,b")
 
         val yaml = """
         gcloud:
@@ -623,7 +623,7 @@ IosArgs
     @Test
     fun `cli flakyTestAttempts`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--flaky-test-attempts=3")
+        CommandLine(cli).parseArgs("--flaky-test-attempts=3")
 
         val yaml = """
         gcloud:
@@ -639,7 +639,7 @@ IosArgs
     @Test
     fun `cli local-results-dir`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--local-result-dir=a")
+        CommandLine(cli).parseArgs("--local-result-dir=a")
 
         val yaml = """
         gcloud:
@@ -656,7 +656,7 @@ IosArgs
     fun `cli smart-flank-gcs-path`() {
         val cli = IosRunCommand()
         val xml = "gs://bucket/foo.xml"
-        CommandLine(cli).parse("--smart-flank-gcs-path=$xml")
+        CommandLine(cli).parseArgs("--smart-flank-gcs-path=$xml")
 
         val yaml = """
         gcloud:
@@ -672,7 +672,7 @@ IosArgs
     @Test
     fun `cli smart-flank-disable-upload`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parse("--smart-flank-disable-upload=true")
+        CommandLine(cli).parseArgs("--smart-flank-disable-upload=true")
 
         val yaml = """
         gcloud:

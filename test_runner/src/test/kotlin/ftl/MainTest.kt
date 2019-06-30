@@ -35,7 +35,7 @@ class MainTest {
     private fun runCommand(vararg args: String): String {
         systemErrRule.clearLog()
         systemOutRule.clearLog()
-        CommandLine.run<Runnable>(Main(), System.out, *args)
+        CommandLine(Main()).execute(*args)
         return systemOutRule.log + systemErrRule.log
     }
 

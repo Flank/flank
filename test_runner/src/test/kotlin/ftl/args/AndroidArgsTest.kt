@@ -364,7 +364,7 @@ AndroidArgs
     @Test
     fun `cli app`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--app", testApk)
+        CommandLine(cli).parseArgs("--app", testApk)
 
         val yaml = """
         gcloud:
@@ -380,7 +380,7 @@ AndroidArgs
     @Test
     fun `cli test`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--test", appApk)
+        CommandLine(cli).parseArgs("--test", appApk)
 
         val yaml = """
         gcloud:
@@ -399,7 +399,7 @@ AndroidArgs
         val cli = AndroidRunCommand()
         val testTarget = "class com.foo.ClassName"
 
-        CommandLine(cli).parse("--test-targets=$testTarget,$testTarget")
+        CommandLine(cli).parseArgs("--test-targets=$testTarget,$testTarget")
 
         val yaml = """
         gcloud:
@@ -420,7 +420,7 @@ AndroidArgs
     @Test
     fun `cli useOrchestrator`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--use-orchestrator")
+        CommandLine(cli).parseArgs("--use-orchestrator")
 
         val yaml = """
         gcloud:
@@ -437,7 +437,7 @@ AndroidArgs
     @Test
     fun `cli noUseOrchestrator`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--no-use-orchestrator")
+        CommandLine(cli).parseArgs("--no-use-orchestrator")
 
         val yaml = """
         gcloud:
@@ -454,7 +454,7 @@ AndroidArgs
     @Test
     fun `cli autoGoogleLogin`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--auto-google-login")
+        CommandLine(cli).parseArgs("--auto-google-login")
 
         val yaml = """
         gcloud:
@@ -471,7 +471,7 @@ AndroidArgs
     @Test
     fun `cli noAutoGoogleLogin`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--no-auto-google-login")
+        CommandLine(cli).parseArgs("--no-auto-google-login")
 
         val yaml = """
         gcloud:
@@ -488,7 +488,7 @@ AndroidArgs
     @Test
     fun `cli performanceMetrics`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--performance-metrics")
+        CommandLine(cli).parseArgs("--performance-metrics")
 
         val yaml = """
         gcloud:
@@ -505,7 +505,7 @@ AndroidArgs
     @Test
     fun `cli noPerformanceMetrics`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--no-performance-metrics")
+        CommandLine(cli).parseArgs("--no-performance-metrics")
 
         val yaml = """
         gcloud:
@@ -522,7 +522,7 @@ AndroidArgs
     @Test
     fun `cli testRunnerClass`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--test-runner-class=com.foo.bar.TestRunner")
+        CommandLine(cli).parseArgs("--test-runner-class=com.foo.bar.TestRunner")
 
         val yaml = """
         gcloud:
@@ -538,7 +538,7 @@ AndroidArgs
     @Test
     fun `cli environmentVariables`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--environment-variables=a=1,b=2")
+        CommandLine(cli).parseArgs("--environment-variables=a=1,b=2")
 
         val yaml = """
         gcloud:
@@ -555,7 +555,7 @@ AndroidArgs
     @Test
     fun `cli directoriesToPull`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--directories-to-pull=a,b")
+        CommandLine(cli).parseArgs("--directories-to-pull=a,b")
 
         val yaml = """
         gcloud:
@@ -571,7 +571,7 @@ AndroidArgs
     @Test
     fun `cli filesToDownload`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--files-to-download=a,b")
+        CommandLine(cli).parseArgs("--files-to-download=a,b")
 
         val yaml = """
         gcloud:
@@ -587,7 +587,7 @@ AndroidArgs
     @Test
     fun `cli device`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--device=model=shamu,version=22,locale=zh_CN,orientation=default")
+        CommandLine(cli).parseArgs("--device=model=shamu,version=22,locale=zh_CN,orientation=default")
 
         val yaml = """
         gcloud:
@@ -610,7 +610,7 @@ AndroidArgs
     fun `cli device repeat`() {
         val cli = AndroidRunCommand()
         val deviceCmd = "--device=model=shamu,version=22,locale=zh_CN,orientation=default"
-        CommandLine(cli).parse(deviceCmd, deviceCmd)
+        CommandLine(cli).parseArgs(deviceCmd, deviceCmd)
 
         val yaml = """
         gcloud:
@@ -630,7 +630,7 @@ AndroidArgs
     @Test
     fun `cli resultsBucket`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--results-bucket=a")
+        CommandLine(cli).parseArgs("--results-bucket=a")
 
         val yaml = """
         gcloud:
@@ -645,7 +645,7 @@ AndroidArgs
     @Test
     fun `cli recordVideo`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--record-video")
+        CommandLine(cli).parseArgs("--record-video")
 
         val yaml = """
         gcloud:
@@ -660,7 +660,7 @@ AndroidArgs
     @Test
     fun `cli noRecordVideo`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--no-record-video")
+        CommandLine(cli).parseArgs("--no-record-video")
 
         val yaml = """
         gcloud:
@@ -675,7 +675,7 @@ AndroidArgs
     @Test
     fun `cli timeout`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--timeout=1m")
+        CommandLine(cli).parseArgs("--timeout=1m")
 
         val yaml = """
         gcloud:
@@ -690,7 +690,7 @@ AndroidArgs
     @Test
     fun `cli async`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--async")
+        CommandLine(cli).parseArgs("--async")
 
         val yaml = """
         gcloud:
@@ -705,7 +705,7 @@ AndroidArgs
     @Test
     fun `cli project`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--project=b")
+        CommandLine(cli).parseArgs("--project=b")
 
         val yaml = """
         gcloud:
@@ -720,7 +720,7 @@ AndroidArgs
     @Test
     fun `cli resultsHistoryName`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--results-history-name=b")
+        CommandLine(cli).parseArgs("--results-history-name=b")
 
         val yaml = """
         gcloud:
@@ -735,7 +735,7 @@ AndroidArgs
     @Test
     fun `cli maxTestShards`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--max-test-shards=3")
+        CommandLine(cli).parseArgs("--max-test-shards=3")
 
         val yaml = """
         gcloud:
@@ -752,7 +752,7 @@ AndroidArgs
     @Test
     fun `cli shardTime`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--shard-time=3")
+        CommandLine(cli).parseArgs("--shard-time=3")
 
         val yaml = """
         gcloud:
@@ -769,7 +769,7 @@ AndroidArgs
     @Test
     fun `cli disableSharding`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--disable-sharding")
+        CommandLine(cli).parseArgs("--disable-sharding")
 
         val yaml = """
         gcloud:
@@ -786,7 +786,7 @@ AndroidArgs
     @Test
     fun `cli repeatTests`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--repeat-tests=3")
+        CommandLine(cli).parseArgs("--repeat-tests=3")
 
         val yaml = """
         gcloud:
@@ -803,7 +803,7 @@ AndroidArgs
     @Test
     fun `cli testTargetsAlwaysRun`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--test-targets-always-run=com.A,com.B")
+        CommandLine(cli).parseArgs("--test-targets-always-run=com.A,com.B")
 
         val yaml = """
         gcloud:
@@ -816,7 +816,7 @@ AndroidArgs
     @Test
     fun `cli resultsDir`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--results-dir=b")
+        CommandLine(cli).parseArgs("--results-dir=b")
 
         val yaml = """
         gcloud:
@@ -832,7 +832,7 @@ AndroidArgs
     @Test
     fun `cli flakyTestAttempts`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--flaky-test-attempts=3")
+        CommandLine(cli).parseArgs("--flaky-test-attempts=3")
 
         val yaml = """
         gcloud:
@@ -849,7 +849,7 @@ AndroidArgs
     fun `cli smart-flank-gcs-path`() {
         val cli = AndroidRunCommand()
         val xml = "gs://bucket/foo.xml"
-        CommandLine(cli).parse("--smart-flank-gcs-path=$xml")
+        CommandLine(cli).parseArgs("--smart-flank-gcs-path=$xml")
 
         val yaml = """
         gcloud:
@@ -865,7 +865,7 @@ AndroidArgs
     @Test
     fun `cli local-result-dir`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--local-result-dir=b")
+        CommandLine(cli).parseArgs("--local-result-dir=b")
 
         val yaml = """
         gcloud:
@@ -883,7 +883,7 @@ AndroidArgs
     @Test
     fun `cli smart-flank-disable-upload`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--smart-flank-disable-upload=true")
+        CommandLine(cli).parseArgs("--smart-flank-disable-upload=true")
 
         val yaml = """
         gcloud:
@@ -901,7 +901,7 @@ AndroidArgs
     @Test
     fun `cli additional-app-test-apks`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parse("--additional-app-test-apks=app=a,test=b")
+        CommandLine(cli).parseArgs("--additional-app-test-apks=app=a,test=b")
 
         val yaml = """
         gcloud:
