@@ -1,12 +1,12 @@
 object Versions {
     // match to Tools -> Kotlin -> Configure Kotlin Plugin Updates -> Update Channel: Stable
-    val KOTLIN = "1.3.21"
+    val KOTLIN = "1.3.40"
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    val KOTLIN_COROUTINES = "1.1.1"
+    val KOTLIN_COROUTINES = "1.3.0-M2"
     // https://github.com/FasterXML/jackson-core/releases
-    val JACKSON = "2.9.8"
-    // https://github.com/arturbosch/detekt
-    val DETEKT = "1.0.0-RC14"
+    val JACKSON = "2.9.9"
+    // https://github.com/arturbosch/detekt/releases
+    val DETEKT = "1.0.0-RC15"
 }
 
 object Libs {
