@@ -64,7 +64,7 @@ class RefreshCommandTest {
     fun refreshCommandPrintsHelp() {
         val refresh = RefreshCommand()
         assertThat(refresh.usageHelpRequested).isFalse()
-        CommandLine.run<Runnable>(refresh, System.out, "-h")
+        CommandLine(refresh).execute("-h")
 
         val output = systemOutRule.log
         Truth.assertThat(output).startsWith(

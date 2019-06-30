@@ -61,7 +61,7 @@ class AndroidRunCommandTest {
     @Test
     fun `empty params parse null`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse()
+        CommandLine(cmd).parseArgs()
         assertThat(cmd.dumpShards).isFalse()
         assertThat(cmd.app).isNull()
         assertThat(cmd.test).isNull()
@@ -100,14 +100,14 @@ class AndroidRunCommandTest {
     @Test
     fun `app parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--app", "myApp.apk")
+        CommandLine(cmd).parseArgs("--app", "myApp.apk")
         assertThat(cmd.app).isEqualTo("myApp.apk")
     }
 
     @Test
     fun `test parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--test", "myTestApp.apk")
+        CommandLine(cmd).parseArgs("--test", "myTestApp.apk")
         assertThat(cmd.test).isEqualTo("myTestApp.apk")
     }
 
@@ -117,7 +117,7 @@ class AndroidRunCommandTest {
         val params = arrayOf(testTargets, "class com.foo.Clazz", testTargets, "package com.my.package")
         val cmd = AndroidRunCommand()
 
-        CommandLine(cmd).parse(*params)
+        CommandLine(cmd).parseArgs(*params)
 
         assertThat(cmd.testTargets).isNotNull()
         assertThat(cmd.testTargets?.size).isEqualTo(2)
@@ -127,7 +127,7 @@ class AndroidRunCommandTest {
     @Test
     fun `useOrchestrator parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--use-orchestrator")
+        CommandLine(cmd).parseArgs("--use-orchestrator")
 
         assertThat(cmd.useOrchestrator).isTrue()
     }
@@ -135,7 +135,7 @@ class AndroidRunCommandTest {
     @Test
     fun `noUseOrchestrator parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--no-use-orchestrator")
+        CommandLine(cmd).parseArgs("--no-use-orchestrator")
 
         assertThat(cmd.noUseOrchestrator).isTrue()
     }
@@ -143,7 +143,7 @@ class AndroidRunCommandTest {
     @Test
     fun `autoGoogleLogin parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--auto-google-login")
+        CommandLine(cmd).parseArgs("--auto-google-login")
 
         assertThat(cmd.autoGoogleLogin).isTrue()
     }
@@ -151,7 +151,7 @@ class AndroidRunCommandTest {
     @Test
     fun `noAutoGoogleLogin parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--no-auto-google-login")
+        CommandLine(cmd).parseArgs("--no-auto-google-login")
 
         assertThat(cmd.noAutoGoogleLogin).isTrue()
     }
@@ -159,7 +159,7 @@ class AndroidRunCommandTest {
     @Test
     fun `performanceMetrics parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--performance-metrics")
+        CommandLine(cmd).parseArgs("--performance-metrics")
 
         assertThat(cmd.performanceMetrics).isTrue()
     }
@@ -167,7 +167,7 @@ class AndroidRunCommandTest {
     @Test
     fun `noPerformanceMetrics parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--no-performance-metrics")
+        CommandLine(cmd).parseArgs("--no-performance-metrics")
 
         assertThat(cmd.noPerformanceMetrics).isTrue()
     }
@@ -175,7 +175,7 @@ class AndroidRunCommandTest {
     @Test
     fun `testRunnerClass parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--test-runner-class=com.foo.bar.TestRunner")
+        CommandLine(cmd).parseArgs("--test-runner-class=com.foo.bar.TestRunner")
 
         assertThat(cmd.testRunnerClass).isEqualTo("com.foo.bar.TestRunner")
     }
@@ -183,7 +183,7 @@ class AndroidRunCommandTest {
     @Test
     fun `environmentVariables parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--environment-variables=a=1,b=2")
+        CommandLine(cmd).parseArgs("--environment-variables=a=1,b=2")
 
         assertThat(cmd.environmentVariables).hasSize(2)
     }
@@ -191,7 +191,7 @@ class AndroidRunCommandTest {
     @Test
     fun `directoriesToPull parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--directories-to-pull=a,b")
+        CommandLine(cmd).parseArgs("--directories-to-pull=a,b")
 
         assertThat(cmd.directoriesToPull).hasSize(2)
     }
@@ -199,7 +199,7 @@ class AndroidRunCommandTest {
     @Test
     fun `device parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--device=model=shamu,version=22,locale=zh_CN,orientation=default")
+        CommandLine(cmd).parseArgs("--device=model=shamu,version=22,locale=zh_CN,orientation=default")
 
         val expectedDevice = Device("shamu", "22", "zh_CN", "default")
         assertThat(cmd.device?.size).isEqualTo(1)
@@ -209,7 +209,7 @@ class AndroidRunCommandTest {
     @Test
     fun `resultsBucket parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--results-bucket=a")
+        CommandLine(cmd).parseArgs("--results-bucket=a")
 
         assertThat(cmd.resultsBucket).isEqualTo("a")
     }
@@ -217,7 +217,7 @@ class AndroidRunCommandTest {
     @Test
     fun `recordVideo parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--record-video")
+        CommandLine(cmd).parseArgs("--record-video")
 
         assertThat(cmd.recordVideo).isTrue()
     }
@@ -225,7 +225,7 @@ class AndroidRunCommandTest {
     @Test
     fun `noRecordVideo parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--no-record-video")
+        CommandLine(cmd).parseArgs("--no-record-video")
 
         assertThat(cmd.noRecordVideo).isTrue()
     }
@@ -233,7 +233,7 @@ class AndroidRunCommandTest {
     @Test
     fun `timeout parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--timeout=1m")
+        CommandLine(cmd).parseArgs("--timeout=1m")
 
         assertThat(cmd.timeout).isEqualTo("1m")
     }
@@ -241,7 +241,7 @@ class AndroidRunCommandTest {
     @Test
     fun `async parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--async")
+        CommandLine(cmd).parseArgs("--async")
 
         assertThat(cmd.async).isTrue()
     }
@@ -249,7 +249,7 @@ class AndroidRunCommandTest {
     @Test
     fun `project parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--project=a")
+        CommandLine(cmd).parseArgs("--project=a")
 
         assertThat(cmd.project).isEqualTo("a")
     }
@@ -257,7 +257,7 @@ class AndroidRunCommandTest {
     @Test
     fun `resultsHistoryName parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--results-history-name=a")
+        CommandLine(cmd).parseArgs("--results-history-name=a")
 
         assertThat(cmd.resultsHistoryName).isEqualTo("a")
     }
@@ -267,7 +267,7 @@ class AndroidRunCommandTest {
     @Test
     fun `maxTestShards parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--max-test-shards=3")
+        CommandLine(cmd).parseArgs("--max-test-shards=3")
 
         assertThat(cmd.maxTestShards).isEqualTo(3)
     }
@@ -275,7 +275,7 @@ class AndroidRunCommandTest {
     @Test
     fun `repeatTests parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--repeat-tests=3")
+        CommandLine(cmd).parseArgs("--repeat-tests=3")
 
         assertThat(cmd.repeatTests).isEqualTo(3)
     }
@@ -283,7 +283,7 @@ class AndroidRunCommandTest {
     @Test
     fun `testTargetsAlwaysRun parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--test-targets-always-run=a,b,c")
+        CommandLine(cmd).parseArgs("--test-targets-always-run=a,b,c")
 
         assertThat(cmd.testTargetsAlwaysRun).isEqualTo(arrayListOf("a", "b", "c"))
     }
@@ -291,7 +291,7 @@ class AndroidRunCommandTest {
     @Test
     fun `resultsDir parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--results-dir=a")
+        CommandLine(cmd).parseArgs("--results-dir=a")
 
         assertThat(cmd.resultsDir).isEqualTo("a")
     }
@@ -299,7 +299,7 @@ class AndroidRunCommandTest {
     @Test
     fun `filesToDownload parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--files-to-download=a,b")
+        CommandLine(cmd).parseArgs("--files-to-download=a,b")
 
         assertThat(cmd.filesToDownload).isEqualTo(arrayListOf("a", "b"))
     }
@@ -307,7 +307,7 @@ class AndroidRunCommandTest {
     @Test
     fun `flakyTestAttempts parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--flaky-test-attempts=10")
+        CommandLine(cmd).parseArgs("--flaky-test-attempts=10")
 
         assertThat(cmd.flakyTestAttempts).isEqualTo(10)
     }
@@ -315,7 +315,7 @@ class AndroidRunCommandTest {
     @Test
     fun `shardTime parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--shard-time=99")
+        CommandLine(cmd).parseArgs("--shard-time=99")
 
         assertThat(cmd.shardTime).isEqualTo(99)
     }
@@ -323,7 +323,7 @@ class AndroidRunCommandTest {
     @Test
     fun `disableSharding parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--disable-sharding")
+        CommandLine(cmd).parseArgs("--disable-sharding")
 
         assertThat(cmd.disableSharding).isEqualTo(true)
     }
@@ -331,7 +331,7 @@ class AndroidRunCommandTest {
     @Test
     fun `localResultsDir parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--local-result-dir=a")
+        CommandLine(cmd).parseArgs("--local-result-dir=a")
 
         assertThat(cmd.localResultDir).isEqualTo("a")
     }
@@ -339,7 +339,7 @@ class AndroidRunCommandTest {
     @Test
     fun `smartFlankDisableUpload parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--smart-flank-disable-upload=true")
+        CommandLine(cmd).parseArgs("--smart-flank-disable-upload=true")
 
         assertThat(cmd.smartFlankDisableUpload).isEqualTo(true)
     }
@@ -347,7 +347,7 @@ class AndroidRunCommandTest {
     @Test
     fun `smartFlankGcsPath parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--smart-flank-gcs-path=foo")
+        CommandLine(cmd).parseArgs("--smart-flank-gcs-path=foo")
 
         assertThat(cmd.smartFlankGcsPath).isEqualTo("foo")
     }
@@ -355,7 +355,7 @@ class AndroidRunCommandTest {
     @Test
     fun `additionalAppTestApks parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--additional-app-test-apks=app=a,test=b")
+        CommandLine(cmd).parseArgs("--additional-app-test-apks=app=a,test=b")
 
         val expected = AppTestPair(app = "a", test = "b")
         assertThat(cmd.additionalAppTestApks).isEqualTo(listOf(expected))
@@ -364,7 +364,7 @@ class AndroidRunCommandTest {
     @Test
     fun `dump-shards parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parse("--dump-shards=true")
+        CommandLine(cmd).parseArgs("--dump-shards=true")
 
         assertThat(cmd.dumpShards).isEqualTo(true)
     }
