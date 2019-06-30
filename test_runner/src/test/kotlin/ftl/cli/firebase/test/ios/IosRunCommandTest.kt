@@ -58,7 +58,7 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun empty_params_parse_null() {
+    fun `empty params parse null`() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse()
         assertThat(cmd.dumpShards).isFalse()
@@ -88,7 +88,7 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun resultsBucket_parse() {
+    fun `resultsBucket parse`() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--results-bucket=a")
 
@@ -96,7 +96,7 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun recordVideo_parse() {
+    fun `recordVideo parse`() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--record-video")
 
@@ -104,7 +104,7 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun noRecordVideo_parse() {
+    fun `noRecordVideo parse`() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--no-record-video")
 
@@ -112,7 +112,7 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun timeout_parse() {
+    fun `timeout parse`() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--timeout=1m")
 
@@ -120,7 +120,7 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun async_parse() {
+    fun `async parse`() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--async")
 
@@ -128,7 +128,7 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun project_parse() {
+    fun `project parse`() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--project=a")
 
@@ -136,7 +136,7 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun resultsHistoryName_parse() {
+    fun `resultsHistoryName parse`() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--results-history-name=a")
 
@@ -146,7 +146,7 @@ class IosRunCommandTest {
     // flankYml
 
     @Test
-    fun maxTestShards_parse() {
+    fun `maxTestShards parse`() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--max-test-shards=3")
 
@@ -154,7 +154,7 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun repeatTests_parse() {
+    fun `repeatTests parse`() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--repeat-tests=3")
 
@@ -162,7 +162,7 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun testTargetsAlwaysRun_parse() {
+    fun `testTargetsAlwaysRun parse`() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--test-targets-always-run=a,b,c")
 
@@ -170,7 +170,7 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun testTargets_parse() {
+    fun `testTargets parse`() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--test-targets=a,b,c")
 
@@ -178,7 +178,7 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun test_parse() {
+    fun `test parse`() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--test=a")
 
@@ -186,7 +186,7 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun xctestrunFile_parse() {
+    fun `xctestrunFile parse`() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--xctestrun-file=a")
 
@@ -194,7 +194,7 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun xcodeVersion_parse() {
+    fun `xcodeVersion parse`() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--xcode-version=999")
 
@@ -202,7 +202,7 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun device_parse() {
+    fun `device parse`() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--device=model=iphone8,version=11.2,locale=zh_CN,orientation=default")
 
@@ -212,7 +212,7 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun resultsDir_parse() {
+    fun `resultsDir parse`() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--results-dir=a")
 
@@ -220,7 +220,7 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun filesToDownload_parse() {
+    fun `filesToDownload parse`() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--files-to-download=a,b")
 
@@ -228,7 +228,7 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun flakyTestAttempts_parse() {
+    fun `flakyTestAttempts parse`() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parse("--flaky-test-attempts=10")
 

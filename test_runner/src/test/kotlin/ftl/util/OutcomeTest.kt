@@ -6,7 +6,7 @@ import org.junit.Test
 class OutcomeTest {
 
     @Test
-    fun outcome_isNotEmpty() {
+    fun `outcome isNotEmpty`() {
         assertThat(StepOutcome.failure).isNotEmpty()
         assertThat(StepOutcome.success).isNotEmpty()
         assertThat(StepOutcome).isNotNull()

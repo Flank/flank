@@ -14,7 +14,7 @@ class BillingTest {
     }
 
     @Test
-    fun estimateCosts_physicalAndVirtual() {
+    fun `estimateCosts physicalAndVirtual`() {
         val expectedReport = """
 Physical devices
   $10.25 for 2h 3m
@@ -29,7 +29,7 @@ Total
     }
 
     @Test
-    fun estimateCosts_physical() {
+    fun `estimateCosts physical`() {
         val expectedReport = """
 Physical devices
   $10.25 for 2h 3m
@@ -39,7 +39,7 @@ Physical devices
     }
 
     @Test
-    fun estimateCosts_virtual() {
+    fun `estimateCosts virtual`() {
         val expectedReport = """
 Virtual devices
   $7.60 for 7h 36m
@@ -49,7 +49,7 @@ Virtual devices
     }
 
     @Test
-    fun estimateCosts_1m() {
+    fun `estimateCosts 1m`() {
         val expectedReport = """
 Virtual devices
   $0.02 for 1m
@@ -59,7 +59,7 @@ Virtual devices
     }
 
     @Test
-    fun estimateCosts_0m() {
+    fun `estimateCosts 0m`() {
         val expectedReport = """
 No cost. 0m
 """.trim()

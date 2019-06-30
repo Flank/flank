@@ -82,7 +82,7 @@ class ParseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun parseObjcTests_fileNotFound() {
+    fun `parseObjcTests fileNotFound`() {
         Parse.parseObjcTests("./BinaryThatDoesNotExist")
     }
 
@@ -93,12 +93,12 @@ class ParseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun parseSwiftTests_fileNotFound() {
+    fun `parseSwiftTests fileNotFound`() {
         Parse.parseSwiftTests("./BinaryThatDoesNotExist")
     }
 
     @Test(expected = RuntimeException::class)
-    fun parseSwiftTests_tmpFolder() {
+    fun `parseSwiftTests tmpFolder`() {
         Parse.parseSwiftTests("/tmp")
     }
 }

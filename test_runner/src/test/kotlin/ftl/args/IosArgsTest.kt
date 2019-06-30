@@ -20,6 +20,7 @@ import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import picocli.CommandLine
 
+@Suppress("TooManyFunctions")
 @RunWith(FlankTestRunner::class)
 class IosArgsTest {
     private val empty = emptyList<String>()
@@ -76,7 +77,7 @@ class IosArgsTest {
     val systemErrRule = SystemErrRule().muteForSuccessfulTests()!!
 
     @Test
-    fun empty_testTargets() {
+    fun `empty testTargets`() {
         val emptyTestTargets = """
 gcloud:
   test: "./src/test/kotlin/ftl/fixtures/tmp/ios_earlgrey2.zip"
@@ -92,7 +93,7 @@ flank:
     }
 
     @Test
-    fun args_invalidDeviceExits() {
+    fun `args invalidDeviceExits`() {
         exceptionRule.expectMessage("iOS 99.9 on iphoneZ is not a supported device")
         val invalidDevice = listOf(Device("iphoneZ", "99.9"))
         IosArgs(
@@ -105,7 +106,7 @@ flank:
     }
 
     @Test
-    fun args_invalidXcodeExits() {
+    fun `args invalidXcodeExits`() {
         exceptionRule.expectMessage("Xcode 99.9 is not a supported Xcode version")
         IosArgs(
             GcloudYml(),
@@ -151,7 +152,7 @@ flank:
     }
 
     @Test
-    fun args_toString() {
+    fun `args toString`() {
         val args = IosArgs.load(iosNonDefault)
         assert(
             args.toString(), """
@@ -258,7 +259,7 @@ IosArgs
     }
 
     @Test
-    fun args_emptyFlank() {
+    fun `args emptyFlank`() {
         val args = IosArgs.load(
             """
     gcloud:
@@ -302,7 +303,7 @@ IosArgs
     // gcloudYml
 
     @Test
-    fun cli_resultsBucket() {
+    fun `cli resultsBucket`() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--results-bucket=a")
 
@@ -317,7 +318,7 @@ IosArgs
     }
 
     @Test
-    fun cli_recordVideo() {
+    fun `cli recordVideo`() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--record-video")
 
@@ -332,7 +333,7 @@ IosArgs
     }
 
     @Test
-    fun cli_noRecordVideo() {
+    fun `cli noRecordVideo`() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--no-record-video")
 
@@ -347,7 +348,7 @@ IosArgs
     }
 
     @Test
-    fun cli_timeout() {
+    fun `cli timeout`() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--timeout=1m")
 
@@ -362,7 +363,7 @@ IosArgs
     }
 
     @Test
-    fun cli_async() {
+    fun `cli async`() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--async")
 
@@ -377,7 +378,7 @@ IosArgs
     }
 
     @Test
-    fun cli_project() {
+    fun `cli project`() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--project=b")
 
@@ -392,7 +393,7 @@ IosArgs
     }
 
     @Test
-    fun cli_resultsHistoryName() {
+    fun `cli resultsHistoryName`() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--results-history-name=b")
 
@@ -407,7 +408,7 @@ IosArgs
     }
 
     @Test
-    fun cli_maxTestShards() {
+    fun `cli maxTestShards`() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--max-test-shards=3")
 
@@ -424,7 +425,7 @@ IosArgs
     }
 
     @Test
-    fun cli_shardTime() {
+    fun `cli shardTime`() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--shard-time=3")
 
@@ -441,7 +442,7 @@ IosArgs
     }
 
     @Test
-    fun cli_disableSharding() {
+    fun `cli disableSharding`() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--disable-sharding")
 
@@ -458,7 +459,7 @@ IosArgs
     }
 
     @Test
-    fun cli_repeatTests() {
+    fun `cli repeatTests`() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--repeat-tests=3")
 
@@ -475,7 +476,7 @@ IosArgs
     }
 
     @Test
-    fun cli_testTargetsAlwaysRun() {
+    fun `cli testTargetsAlwaysRun`() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--test-targets-always-run=com.A,com.B")
 
@@ -488,7 +489,7 @@ IosArgs
     }
 
     @Test
-    fun cli_testTargets() {
+    fun `cli testTargets`() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--test-targets=com.A,com.B")
 
@@ -501,7 +502,7 @@ IosArgs
     }
 
     @Test
-    fun cli_test() {
+    fun `cli test`() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--test=$testPath")
 
@@ -516,7 +517,7 @@ IosArgs
     }
 
     @Test
-    fun cli_xctestrunFile() {
+    fun `cli xctestrunFile`() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--xctestrun-file=$xctestrunFile")
 
@@ -531,7 +532,7 @@ IosArgs
     }
 
     @Test
-    fun cli_xcodeVersion() {
+    fun `cli xcodeVersion`() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--xcode-version=10.1")
 
@@ -547,7 +548,7 @@ IosArgs
     }
 
     @Test
-    fun cli_device() {
+    fun `cli device`() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--device=model=iphone8,version=12.0,locale=zh_CN,orientation=default")
 
@@ -569,7 +570,7 @@ IosArgs
     }
 
     @Test
-    fun cli_device_repeat() {
+    fun `cli device repeat`() {
         val cli = IosRunCommand()
         val deviceCmd = "--device=model=iphone8,version=12.0,locale=zh_CN,orientation=default"
         CommandLine(cli).parse(deviceCmd, deviceCmd)
@@ -588,7 +589,7 @@ IosArgs
     }
 
     @Test
-    fun cli_resultsDir() {
+    fun `cli resultsDir`() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--results-dir=b")
 
@@ -604,7 +605,7 @@ IosArgs
     }
 
     @Test
-    fun cli_filesToDownload() {
+    fun `cli filesToDownload`() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--files-to-download=a,b")
 
@@ -620,7 +621,7 @@ IosArgs
     }
 
     @Test
-    fun cli_flakyTestAttempts() {
+    fun `cli flakyTestAttempts`() {
         val cli = IosRunCommand()
         CommandLine(cli).parse("--flaky-test-attempts=3")
 
@@ -699,7 +700,7 @@ IosArgs
     }
 
     @Test
-    fun filterTests_emptyFilter() {
+    fun `filterTests emptyFilter`() {
         val tests = getValidTestsSample()
         val actual = filterTests(tests, emptyList())
 
@@ -707,7 +708,7 @@ IosArgs
     }
 
     @Test
-    fun filterTests_regularFilter() {
+    fun `filterTests regularFilter`() {
         val tests = getValidTestsSample()
         val filter = listOf("ClassOneTest/testOne", "ClassFourTest/testFour")
         val actual = filterTests(tests, filter)
@@ -718,7 +719,7 @@ IosArgs
     }
 
     @Test
-    fun filterTests_starFilter() {
+    fun `filterTests starFilter`() {
         val tests = getValidTestsSample()
         val filter = listOf(".*?Test/testOne", ".*?/testFour")
         val actual = filterTests(tests, filter)
@@ -732,7 +733,7 @@ IosArgs
     }
 
     @Test
-    fun filterTests_starAndRegularFilter() {
+    fun `filterTests starAndRegularFilter`() {
         val tests = getValidTestsSample()
         val filter = listOf(".*?Screenshots/testTwo", "ClassOneTest/testOne")
         val actual = filterTests(tests, filter)

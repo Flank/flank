@@ -10,7 +10,7 @@ import org.mockito.Mockito.mock
 class MatrixUtilTest {
 
     @Test
-    fun testTimeoutToSeconds_validInput() {
+    fun `testTimeoutToSeconds validInput`() {
         assertThat(testTimeoutToSeconds("0")).isEqualTo(0)
         assertThat(testTimeoutToSeconds("0s")).isEqualTo(0)
         assertThat(testTimeoutToSeconds("0m")).isEqualTo(0)
@@ -22,19 +22,19 @@ class MatrixUtilTest {
     }
 
     @Test(expected = NumberFormatException::class)
-    fun testTimeoutToSeconds_rejectsInvalid() {
+    fun `testTimeoutToSeconds rejectsInvalid`() {
         testTimeoutToSeconds("1d")
     }
 
     @Test
-    fun resolveLocalRunPath_validInput() {
+    fun `resolveLocalRunPath validInput`() {
         val matrixMap = mock(MatrixMap::class.java)
         `when`(matrixMap.runPath).thenReturn("a/b")
         assertThat(resolveLocalRunPath(matrixMap, AndroidArgs.default())).isEqualTo("results/b")
     }
 
     @Test
-    fun resolveLocalRunPath_pathExists() {
+    fun `resolveLocalRunPath pathExists`() {
         val matrixMap = mock(MatrixMap::class.java)
         `when`(matrixMap.runPath).thenReturn("/tmp")
         assertThat(resolveLocalRunPath(matrixMap, AndroidArgs.default())).isEqualTo("/tmp")

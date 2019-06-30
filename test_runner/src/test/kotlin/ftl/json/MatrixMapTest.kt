@@ -13,7 +13,7 @@ import org.junit.runner.RunWith
 class MatrixMapTest {
 
     @Test
-    fun matrixMap_successful() {
+    fun `matrixMap successful`() {
         val successMatrix1 = matrixForExecution(0)
         val successMatrix2 = matrixForExecution(0)
         val matrixMap = MatrixMap(mutableMapOf("a" to successMatrix1, "b" to successMatrix2), "")
@@ -38,7 +38,7 @@ class MatrixMapTest {
     }
 
     @Test
-    fun matrixMap_failure() {
+    fun `matrixMap failure`() {
         val successMatrix = matrixForExecution(0) // 0 = success
         val failureMatrix = matrixForExecution(-1) // -1 = failure
         val matrixMap = MatrixMap(mutableMapOf("a" to failureMatrix, "b" to successMatrix), "")

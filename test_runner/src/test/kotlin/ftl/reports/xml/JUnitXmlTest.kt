@@ -25,7 +25,7 @@ class JUnitXmlTest {
     }
 
     @Test
-    fun empty_testcase() {
+    fun `empty testcase`() {
         val xml = """
 <testsuites>
   <testsuite name="" tests="0" failures="0" errors="0" skipped="0" time="0.0" timestamp="2018-11-22T00:56:07" hostname="localhost">
@@ -38,7 +38,7 @@ class JUnitXmlTest {
     }
 
     @Test
-    fun merge_android() {
+    fun `merge android`() {
         val mergedXml = parseOneSuiteXml(androidPassXml).merge(parseOneSuiteXml(androidFailXml))
         val merged = mergedXml.xmlToString()
 
@@ -70,7 +70,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
     }
 
     @Test
-    fun merge_ios() {
+    fun `merge ios`() {
         val merged = parseAllSuitesXml(iosPassXml).merge(parseAllSuitesXml(iosFailXml)).xmlToString()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
@@ -108,13 +108,13 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
     }
 
     @Test
-    fun parse_androidSkipped() {
+    fun `parse androidSkipped`() {
         val parsed = parseOneSuiteXml(androidSkipped)
         assertThat(parsed.testsuites?.first()?.testcases?.first()?.skipped).isNull()
     }
 
     @Test
-    fun merge_androidSkipped() {
+    fun `merge androidSkipped`() {
         val merged = parseOneSuiteXml(androidSkipped)
         merged.merge(merged)
         val actual = merged.xmlToString()
@@ -140,7 +140,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
     }
 
     @Test
-    fun junitXmlToString_androidPassXml() {
+    fun `junitXmlToString androidPassXml`() {
         val parsed = parseOneSuiteXml(androidPassXml).xmlToString()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
@@ -156,7 +156,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
     }
 
     @Test
-    fun junitXmlToString_androidFailXml() {
+    fun `junitXmlToString androidFailXml`() {
         val parsed = parseOneSuiteXml(androidFailXml).xmlToString()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
@@ -176,7 +176,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
     }
 
     @Test
-    fun junitXmlToString_iosPassXml() {
+    fun `junitXmlToString iosPassXml`() {
         val parsed = parseAllSuitesXml(iosPassXml).xmlToString()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
@@ -193,7 +193,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
     }
 
     @Test
-    fun junitXmlToString_iosFailXml() {
+    fun `junitXmlToString iosFailXml`() {
         val parsed = parseAllSuitesXml(iosFailXml).xmlToString()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
@@ -213,7 +213,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
     }
 
     @Test
-    fun parse_androidPassXml() {
+    fun `parse androidPassXml`() {
         val testSuite = parseOneSuiteXml(androidPassXml)
             .testsuites?.first() ?: throw RuntimeException("Missing test suite")
 
@@ -242,7 +242,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
     }
 
     @Test
-    fun parse_androidFailXml() {
+    fun `parse androidFailXml`() {
         val testSuite = parseOneSuiteXml(androidFailXml)
             .testsuites?.first() ?: throw RuntimeException("Missing test suite")
 
@@ -277,7 +277,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
     }
 
     @Test
-    fun parse_iosPassXml() {
+    fun `parse iosPassXml`() {
         val testSuites = parseAllSuitesXml(iosPassXml)
         val testSuite = testSuites.testsuites?.first()
         assertThat(testSuite).isNotNull()
@@ -309,7 +309,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
     }
 
     @Test
-    fun parse_iosFailXml() {
+    fun `parse iosFailXml`() {
         val testSuites = parseAllSuitesXml(iosFailXml)
         val testSuite = testSuites.testsuites?.first()
         assertThat(testSuite).isNotNull()
@@ -347,7 +347,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
     }
 
     @Test
-    fun merge_testTimes() {
+    fun `merge testTimes`() {
 
         /**
          * 1. First run generates local merged JUnit XML

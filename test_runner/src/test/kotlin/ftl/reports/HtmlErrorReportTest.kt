@@ -9,13 +9,13 @@ import org.junit.Test
 class HtmlErrorReportTest {
 
     @Test
-    fun reactJson_androidPassXml() {
+    fun `reactJson androidPassXml`() {
         val results = HtmlErrorReport.groupItemList(parseOneSuiteXml(JUnitXmlTest.androidPassXml))
         assertThat(results).isNull()
     }
 
     @Test
-    fun reactJson_androidFailXml() {
+    fun `reactJson androidFailXml`() {
         val results = HtmlErrorReport.groupItemList(parseOneSuiteXml(JUnitXmlTest.androidFailXml))
             ?: throw RuntimeException("null")
 
@@ -39,7 +39,7 @@ class HtmlErrorReportTest {
     }
 
     @Test
-    fun reactJson_androidFailXml_merged() {
+    fun `reactJson androidFailXml merged`() {
         // 4 tests - 2 pass, 2 fail. we should have 2 failures in the report
         val mergedXml = parseOneSuiteXml(JUnitXmlTest.androidFailXml)
         mergedXml.merge(mergedXml)
@@ -71,13 +71,13 @@ class HtmlErrorReportTest {
     }
 
     @Test
-    fun reactJson_iosPassXml() {
+    fun `reactJson iosPassXml`() {
         val results = HtmlErrorReport.groupItemList(parseAllSuitesXml(JUnitXmlTest.iosPassXml))
         assertThat(results).isNull()
     }
 
     @Test
-    fun reactJson_iosFailXml() {
+    fun `reactJson iosFailXml`() {
         val results =
             HtmlErrorReport.groupItemList(parseAllSuitesXml(JUnitXmlTest.iosFailXml)) ?: throw RuntimeException("null")
 

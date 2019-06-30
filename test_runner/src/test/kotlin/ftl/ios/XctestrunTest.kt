@@ -43,7 +43,7 @@ class XctestrunTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun parse_fileNotFound() {
+    fun `parse fileNotFound`() {
         Xctestrun.parse("./XctestrunThatDoesNotExist")
     }
 
@@ -77,7 +77,7 @@ class XctestrunTest {
     }
 
     @Test
-    fun rewrite_idempotent() {
+    fun `rewrite idempotent`() {
         val root = NSDictionary()
         root["EarlGreyExampleSwiftTests"] = NSDictionary()
         root["EarlGreyExampleTests"] = NSDictionary()
@@ -111,7 +111,7 @@ class XctestrunTest {
     }
 
     @Test
-    fun rewrite_preserves_skip() {
+    fun `rewrite preserves skip`() {
         val inputXml = """
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -140,7 +140,7 @@ class XctestrunTest {
     }
 
     @Test
-    fun findTestNames_respects_skip() {
+    fun `findTestNames respects skip`() {
         val inputXml = """
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">

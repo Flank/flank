@@ -15,6 +15,7 @@ import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import picocli.CommandLine
 
+@Suppress("TooManyFunctions")
 @RunWith(FlankTestRunner::class)
 class AndroidArgsTest {
     private val empty = emptyList<String>()
@@ -81,7 +82,7 @@ class AndroidArgsTest {
     var expectedException = ExpectedException.none()!!
 
     @Test
-    fun empty_testTargets() {
+    fun `empty testTargets`() {
         val emptyTestTargets = """
         gcloud:
           app: $appApk
@@ -96,7 +97,7 @@ class AndroidArgsTest {
     }
 
     @Test
-    fun androidArgs_invalidModel() {
+    fun `androidArgs invalidModel`() {
         expectedException.expect(RuntimeException::class.java)
         expectedException.expectMessage("Unsupported model id")
         AndroidArgs.load(
@@ -112,7 +113,7 @@ class AndroidArgsTest {
     }
 
     @Test
-    fun androidArgs_invalidVersion() {
+    fun `androidArgs invalidVersion`() {
         expectedException.expect(RuntimeException::class.java)
         expectedException.expectMessage("Unsupported version id")
         AndroidArgs.load(
@@ -128,7 +129,7 @@ class AndroidArgsTest {
     }
 
     @Test
-    fun androidArgs_incompatibleModel() {
+    fun `androidArgs incompatibleModel`() {
         expectedException.expect(RuntimeException::class.java)
         expectedException.expectMessage("Incompatible model")
         AndroidArgs.load(
@@ -320,7 +321,7 @@ AndroidArgs
     }
 
     @Test
-    fun androidArgs_emptyFlank() {
+    fun `androidArgs emptyFlank`() {
         val androidArgs = AndroidArgs.load(
             """
         gcloud:
@@ -361,7 +362,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_app() {
+    fun `cli app`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--app", testApk)
 
@@ -377,7 +378,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_test() {
+    fun `cli test`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--test", appApk)
 
@@ -394,7 +395,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_testTargets() {
+    fun `cli testTargets`() {
         val cli = AndroidRunCommand()
         val testTarget = "class com.foo.ClassName"
 
@@ -417,7 +418,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_useOrchestrator() {
+    fun `cli useOrchestrator`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--use-orchestrator")
 
@@ -434,7 +435,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_noUseOrchestrator() {
+    fun `cli noUseOrchestrator`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--no-use-orchestrator")
 
@@ -451,7 +452,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_autoGoogleLogin() {
+    fun `cli autoGoogleLogin`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--auto-google-login")
 
@@ -468,7 +469,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_noAutoGoogleLogin() {
+    fun `cli noAutoGoogleLogin`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--no-auto-google-login")
 
@@ -485,7 +486,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_performanceMetrics() {
+    fun `cli performanceMetrics`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--performance-metrics")
 
@@ -502,7 +503,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_noPerformanceMetrics() {
+    fun `cli noPerformanceMetrics`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--no-performance-metrics")
 
@@ -519,7 +520,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_testRunnerClass() {
+    fun `cli testRunnerClass`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--test-runner-class=com.foo.bar.TestRunner")
 
@@ -535,7 +536,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_environmentVariables() {
+    fun `cli environmentVariables`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--environment-variables=a=1,b=2")
 
@@ -552,7 +553,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_directoriesToPull() {
+    fun `cli directoriesToPull`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--directories-to-pull=a,b")
 
@@ -568,7 +569,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_filesToDownload() {
+    fun `cli filesToDownload`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--files-to-download=a,b")
 
@@ -584,7 +585,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_device() {
+    fun `cli device`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--device=model=shamu,version=22,locale=zh_CN,orientation=default")
 
@@ -606,7 +607,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_device_repeat() {
+    fun `cli device repeat`() {
         val cli = AndroidRunCommand()
         val deviceCmd = "--device=model=shamu,version=22,locale=zh_CN,orientation=default"
         CommandLine(cli).parse(deviceCmd, deviceCmd)
@@ -627,7 +628,7 @@ AndroidArgs
     // gcloudYml
 
     @Test
-    fun cli_resultsBucket() {
+    fun `cli resultsBucket`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--results-bucket=a")
 
@@ -642,7 +643,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_recordVideo() {
+    fun `cli recordVideo`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--record-video")
 
@@ -657,7 +658,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_noRecordVideo() {
+    fun `cli noRecordVideo`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--no-record-video")
 
@@ -672,7 +673,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_timeout() {
+    fun `cli timeout`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--timeout=1m")
 
@@ -687,7 +688,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_async() {
+    fun `cli async`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--async")
 
@@ -702,7 +703,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_project() {
+    fun `cli project`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--project=b")
 
@@ -717,7 +718,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_resultsHistoryName() {
+    fun `cli resultsHistoryName`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--results-history-name=b")
 
@@ -732,7 +733,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_maxTestShards() {
+    fun `cli maxTestShards`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--max-test-shards=3")
 
@@ -749,7 +750,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_shardTime() {
+    fun `cli shardTime`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--shard-time=3")
 
@@ -766,7 +767,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_disableSharding() {
+    fun `cli disableSharding`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--disable-sharding")
 
@@ -783,7 +784,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_repeatTests() {
+    fun `cli repeatTests`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--repeat-tests=3")
 
@@ -800,7 +801,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_testTargetsAlwaysRun() {
+    fun `cli testTargetsAlwaysRun`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--test-targets-always-run=com.A,com.B")
 
@@ -813,7 +814,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_resultsDir() {
+    fun `cli resultsDir`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--results-dir=b")
 
@@ -829,7 +830,7 @@ AndroidArgs
     }
 
     @Test
-    fun cli_flakyTestAttempts() {
+    fun `cli flakyTestAttempts`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parse("--flaky-test-attempts=3")
 

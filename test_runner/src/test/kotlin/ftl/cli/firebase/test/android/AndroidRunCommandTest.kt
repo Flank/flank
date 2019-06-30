@@ -13,6 +13,7 @@ import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
 
+@Suppress("TooManyFunctions")
 @RunWith(FlankTestRunner::class)
 class AndroidRunCommandTest {
     @Rule
@@ -58,7 +59,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun empty_params_parse_null() {
+    fun `empty params parse null`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse()
         assertThat(cmd.dumpShards).isFalse()
@@ -97,21 +98,21 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun app_parse() {
+    fun `app parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--app", "myApp.apk")
         assertThat(cmd.app).isEqualTo("myApp.apk")
     }
 
     @Test
-    fun test_parse() {
+    fun `test parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--test", "myTestApp.apk")
         assertThat(cmd.test).isEqualTo("myTestApp.apk")
     }
 
     @Test
-    fun testTargets_parse() {
+    fun `testTargets parse`() {
         val testTargets = "--test-targets"
         val params = arrayOf(testTargets, "class com.foo.Clazz", testTargets, "package com.my.package")
         val cmd = AndroidRunCommand()
@@ -124,7 +125,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun useOrchestrator_parse() {
+    fun `useOrchestrator parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--use-orchestrator")
 
@@ -132,7 +133,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun noUseOrchestrator_parse() {
+    fun `noUseOrchestrator parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--no-use-orchestrator")
 
@@ -140,7 +141,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun autoGoogleLogin_parse() {
+    fun `autoGoogleLogin parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--auto-google-login")
 
@@ -148,7 +149,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun noAutoGoogleLogin_parse() {
+    fun `noAutoGoogleLogin parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--no-auto-google-login")
 
@@ -156,7 +157,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun performanceMetrics_parse() {
+    fun `performanceMetrics parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--performance-metrics")
 
@@ -164,7 +165,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun noPerformanceMetrics_parse() {
+    fun `noPerformanceMetrics parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--no-performance-metrics")
 
@@ -172,7 +173,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun testRunnerClass_parse() {
+    fun `testRunnerClass parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--test-runner-class=com.foo.bar.TestRunner")
 
@@ -180,7 +181,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun environmentVariables_parse() {
+    fun `environmentVariables parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--environment-variables=a=1,b=2")
 
@@ -188,7 +189,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun directoriesToPull_parse() {
+    fun `directoriesToPull parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--directories-to-pull=a,b")
 
@@ -196,7 +197,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun device_parse() {
+    fun `device parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--device=model=shamu,version=22,locale=zh_CN,orientation=default")
 
@@ -206,7 +207,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun resultsBucket_parse() {
+    fun `resultsBucket parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--results-bucket=a")
 
@@ -214,7 +215,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun recordVideo_parse() {
+    fun `recordVideo parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--record-video")
 
@@ -222,7 +223,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun noRecordVideo_parse() {
+    fun `noRecordVideo parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--no-record-video")
 
@@ -230,7 +231,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun timeout_parse() {
+    fun `timeout parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--timeout=1m")
 
@@ -238,7 +239,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun async_parse() {
+    fun `async parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--async")
 
@@ -246,7 +247,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun project_parse() {
+    fun `project parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--project=a")
 
@@ -254,7 +255,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun resultsHistoryName_parse() {
+    fun `resultsHistoryName parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--results-history-name=a")
 
@@ -264,7 +265,7 @@ class AndroidRunCommandTest {
     // flankYml
 
     @Test
-    fun maxTestShards_parse() {
+    fun `maxTestShards parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--max-test-shards=3")
 
@@ -272,7 +273,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun repeatTests_parse() {
+    fun `repeatTests parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--repeat-tests=3")
 
@@ -280,7 +281,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun testTargetsAlwaysRun_parse() {
+    fun `testTargetsAlwaysRun parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--test-targets-always-run=a,b,c")
 
@@ -288,7 +289,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun resultsDir_parse() {
+    fun `resultsDir parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--results-dir=a")
 
@@ -296,7 +297,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun filesToDownload_parse() {
+    fun `filesToDownload parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--files-to-download=a,b")
 
@@ -304,7 +305,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun flakyTestAttempts_parse() {
+    fun `flakyTestAttempts parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parse("--flaky-test-attempts=10")
 

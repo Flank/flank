@@ -11,7 +11,7 @@ import org.mockito.Mockito.mock
 class GcTestMatrixTest {
 
     @Test
-    fun refresh_succeeds() {
+    fun `refresh succeeds`() {
         val args = mock(IArgs::class.java)
         `when`(args.project).thenReturn("789")
         GcTestMatrix.refresh("123", args)

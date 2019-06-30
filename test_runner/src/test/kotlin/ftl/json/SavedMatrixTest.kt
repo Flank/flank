@@ -52,7 +52,7 @@ class SavedMatrixTest {
     }
 
     @Test
-    fun savedMatrix_failureOutcome() {
+    fun `savedMatrix failureOutcome`() {
         // Verify that if we have two executions: failure then success
         // the SavedMatrix outcome is correctly recorded as failure
         val testExecutions = listOf(
@@ -85,7 +85,7 @@ class SavedMatrixTest {
     }
 
     @Test
-    fun savedMatrix_skippedOutcome() {
+    fun `savedMatrix skippedOutcome`() {
         // Verify that if we have two executions: skipped
         // the SavedMatrix outcome is correctly recorded as skipped
         val testExecutions = listOf(
@@ -117,7 +117,7 @@ class SavedMatrixTest {
     }
 
     @Test
-    fun savedMatrix_update() {
+    fun `savedMatrix update`() {
         val testExecutions = listOf(
             createStepExecution(1, "shamu"),
             createStepExecution(1, "NexusLowRes")
