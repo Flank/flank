@@ -50,7 +50,7 @@ object Tmp {
         val failedStep = "./tool_results_step_matrix-14eytaygn7sis_fail.json"
 //        val successStep = "./tool_results_stepmatrix-3l3x3k8qzjmgg_success.json"
         val content = String(Files.readAllBytes(Paths.get(failedStep)))
-        val toolResult = gson.fromJson<ToolResultsStep>(content, ToolResultsStep::class.java)
+        val toolResult = gson.fromJson(content, ToolResultsStep::class.java)
         val tests = GcToolResults.listTestCases(toolResult)
         val result = GcToolResults.getResults(toolResult)
 

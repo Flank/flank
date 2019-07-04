@@ -1,6 +1,6 @@
 object Versions {
     // match to Tools -> Kotlin -> Configure Kotlin Plugin Updates -> Update Channel: Stable
-    val KOTLIN = "1.3.40"
+    val KOTLIN = "1.3.41"
     // https://github.com/Kotlin/kotlinx.coroutines/releases
     val KOTLIN_COROUTINES = "1.3.0-M2"
     // https://github.com/FasterXML/jackson-core/releases
