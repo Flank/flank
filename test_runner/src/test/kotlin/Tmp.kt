@@ -56,7 +56,8 @@ object Tmp {
     }
 
     private val gson = GsonBuilder().setPrettyPrinting().create()!!
-    private const val successStep = "tool_results_step_matrix-27s4d0h0p53da_success.json"
+    private const val androidSuccessStep = "android_matrix-27s4d0h0p53da_success.json"
+    private const val iosSuccessStep = "ios_matrix-3vg7fnfansppa_success.json"
 
     private fun stepFromMatrixId(matrixId: String) {
         val matrix = GcTestMatrix.refresh(matrixId, AndroidArgs.default())
@@ -68,9 +69,10 @@ object Tmp {
 
     @JvmStatic
     fun main(args: Array<String>) {
-//        stepFromMatrixId("matrix-27s4d0h0p53da")
+//        stepFromMatrixId("matrix-3vg7fnfansppa")
 
-        resultToXml(successStep)
+        resultToXml(iosSuccessStep)
+//        resultToXml(androidSuccessStep)
         exitProcess(0)
     }
 
@@ -83,14 +85,19 @@ object Tmp {
     private fun resultToXml(step: String) {
         val content = String(Files.readAllBytes(Paths.get(step)))
         val toolResult = gson.fromJson(content, ToolResultsStep::class.java)
+
         val tests = GcToolResults.listTestCases(toolResult)
         val result = GcToolResults.getResults(toolResult)
 
-        // todo: handle multiple overviews
+        // todo: handle multiple overviews (iOS only)
         val overview = result.testExecutionStep.testSuiteOverviews.first()
+        println("overview name: ${overview.name}") // null on android
+
 
         val testCases = mutableListOf<JUnitTestCase>()
         tests.testCases.forEach { testCase ->
+            // null on android, EarlGreyExampleSwiftTests on iOS
+            println("test case suite name: ${testCase.testCaseReference.testSuiteName}")
             // TODO: time doesn't match real JUnit XML
             var failures: List<String>? = null
             var errors: List<String>? = null
@@ -108,7 +115,8 @@ object Tmp {
                 else -> throw RuntimeException("Unknown TestCase status ${testCase.status}")
             }
 
-
+            // TODO: On iOS testCase.endTime & testCase.startTime are always null.
+            // TODO: On iOS map test cases back to test suites testCase.testCaseReference.testSuiteName
             val timeSeconds = nanosToSeconds(testCase.endTime.nanos - testCase.startTime.nanos)
             testCases.add(
                 JUnitTestCase(
