@@ -2,14 +2,19 @@ import com.google.api.services.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.model.Step
 import com.google.api.services.toolresults.model.TestSuiteOverview
 import com.google.gson.GsonBuilder
+import ftl.args.AndroidArgs
+import ftl.gc.GcTestMatrix
 import ftl.gc.GcToolResults
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
 import ftl.reports.xml.xmlToString
+import ftl.util.firstToolResults
 import java.nio.file.Files
 import java.nio.file.Paths
+import kotlin.system.exitProcess
 
+@Suppress("UnusedPrivateMember")
 object Tmp {
 
     fun Step.testSuiteName(): String {
@@ -34,6 +39,14 @@ object Tmp {
         return (this.skippedCount ?: 0).toString()
     }
 
+    fun TestSuiteOverview.time(): String {
+        val time = this.elapsedTime ?: return "0"
+        val seconds = time.seconds ?: 0
+        val nanos = nanosToSeconds(time.nanos)
+
+        return (seconds + nanos).toString()
+    }
+
     // TODO: TestMatrix.ResultStorage.resultsUrl -- link to web console
     private fun ToolResultsStep.webLink(): String {
         return "https://console.firebase.google.com/project/${this.projectId}/" +
@@ -42,23 +55,48 @@ object Tmp {
                 "executions/${this.stepId}"
     }
 
+    private val gson = GsonBuilder().setPrettyPrinting().create()!!
+    private const val androidSuccessStep = "android_matrix-27s4d0h0p53da_success.json"
+    private const val iosSuccessStep = "ios_matrix-3vg7fnfansppa_success.json"
+
+    private fun stepFromMatrixId(matrixId: String) {
+        val matrix = GcTestMatrix.refresh(matrixId, AndroidArgs.default())
+        val toolResult = matrix.firstToolResults()
+        println(toolResult?.webLink())
+
+        Files.write(Paths.get("tool_results_step_${matrix.testMatrixId}.json"), gson.toJson(toolResult).toByteArray())
+    }
+
     @JvmStatic
     fun main(args: Array<String>) {
-        val gson = GsonBuilder().setPrettyPrinting().create()!!
-//        Files.write(Paths.get("./tool_results_step${it.matrixId}.json"), gson.toJson(it.toolResultsStep).toByteArray())
+//        stepFromMatrixId("matrix-3vg7fnfansppa")
 
-        val failedStep = "./tool_results_step_matrix-14eytaygn7sis_fail.json"
-//        val successStep = "./tool_results_stepmatrix-3l3x3k8qzjmgg_success.json"
-        val content = String(Files.readAllBytes(Paths.get(failedStep)))
-        val toolResult = gson.fromJson<ToolResultsStep>(content, ToolResultsStep::class.java)
+        resultToXml(iosSuccessStep)
+//        resultToXml(androidSuccessStep)
+        exitProcess(0)
+    }
+
+    fun nanosToSeconds(seconds: Int?): Double {
+        // manually divide to keep fractional precision
+        if (seconds == null) return 0.0
+        return seconds / 1E9
+    }
+
+    private fun resultToXml(step: String) {
+        val content = String(Files.readAllBytes(Paths.get(step)))
+        val toolResult = gson.fromJson(content, ToolResultsStep::class.java)
+
         val tests = GcToolResults.listTestCases(toolResult)
         val result = GcToolResults.getResults(toolResult)
 
-        // todo: handle multiple overviews
+        // todo: handle multiple overviews (iOS only)
         val overview = result.testExecutionStep.testSuiteOverviews.first()
+        println("overview name: ${overview.name}") // null on android
 
         val testCases = mutableListOf<JUnitTestCase>()
         tests.testCases.forEach { testCase ->
+            // null on android, EarlGreyExampleSwiftTests on iOS
+            println("test case suite name: ${testCase.testCaseReference.testSuiteName}")
             // TODO: time doesn't match real JUnit XML
             var failures: List<String>? = null
             var errors: List<String>? = null
@@ -70,13 +108,15 @@ object Tmp {
                 "failed" -> failures = testCase.stackTraces?.map { it.exception }
                 "passed" -> {
                 }
-                null -> {} // null status == passed
+                null -> {
+                } // null status == passed
                 "skipped" -> skipped = null
                 else -> throw RuntimeException("Unknown TestCase status ${testCase.status}")
             }
 
-            // manually divide to keep fractional precision
-            val timeSeconds = (testCase.endTime.nanos - testCase.startTime.nanos) / 1E9
+            // TODO: On iOS testCase.endTime & testCase.startTime are always null.
+            // TODO: On iOS map test cases back to test suites testCase.testCaseReference.testSuiteName
+            val timeSeconds = nanosToSeconds(testCase.endTime.nanos - testCase.startTime.nanos)
             testCases.add(
                 JUnitTestCase(
                     name = testCase.testCaseReference.name,
@@ -95,7 +135,7 @@ object Tmp {
             failures = overview.failures(),
             errors = overview.errors(),
             skipped = overview.skipped(),
-            time = "",
+            time = overview.time(),
             timestamp = "",
             hostname = "localhost",
             testcases = testCases

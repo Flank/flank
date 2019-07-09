@@ -84,7 +84,7 @@ class SavedMatrix(matrix: TestMatrix) {
 
             val billableMinutes = Billing.billableMinutes(testTimeSeconds)
 
-            if (AndroidCatalog.isVirtualDevice(it.environment?.androidDevice)) {
+            if (AndroidCatalog.isVirtualDevice(it.environment?.androidDevice, matrix.projectId ?: "")) {
                 billableVirtualMinutes += billableMinutes
             } else {
                 billablePhysicalMinutes += billableMinutes

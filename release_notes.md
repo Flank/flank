@@ -1,6 +1,6 @@
 ## next (unreleased)
 
-- 
+- [#574](https://github.com/TestArmada/flank/pull/574) Improve test shard error reporting. Update device catalog to use projectId. ([bootstraponline](https://github.com/bootstraponline))
 
 ## v6.2.3
 

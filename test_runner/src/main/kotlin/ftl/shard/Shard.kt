@@ -2,8 +2,10 @@ package ftl.shard
 
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
+import ftl.args.IosArgs
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
+import ftl.util.Utils.fatalError
 import kotlin.math.roundToInt
 
 data class TestMethod(
@@ -104,6 +106,17 @@ object Shard {
         val shardsCount = if (maxShards == -1 || maxShards > testCount) testCount else maxShards
 
         // Create the list of shards we will return
+        if (shardsCount <= 0) {
+            val platform = if (args is IosArgs) "ios" else "android"
+            fatalError(
+                """Invalid shard count. To debug try: flank $platform run --dump-shards
+                    | args.maxTestShards: ${args.maxTestShards}
+                    | forcedShardCount: $forcedShardCount 
+                    | testCount: $testCount 
+                    | maxShards: $maxShards 
+                    | shardsCount: $shardsCount""".trimMargin()
+            )
+        }
         var shards = List(shardsCount) { TestShard(0.0, mutableListOf()) }
 
         // We want to iterate over testcase going from slowest to fastest
