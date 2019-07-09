@@ -1,4 +1,3 @@
-import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.model.Step
 import com.google.api.services.toolresults.model.TestSuiteOverview
@@ -15,6 +14,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import kotlin.system.exitProcess
 
+@Suppress("UnusedPrivateMember")
 object Tmp {
 
     fun Step.testSuiteName(): String {
@@ -92,7 +92,6 @@ object Tmp {
         // todo: handle multiple overviews (iOS only)
         val overview = result.testExecutionStep.testSuiteOverviews.first()
         println("overview name: ${overview.name}") // null on android
-
 
         val testCases = mutableListOf<JUnitTestCase>()
         tests.testCases.forEach { testCase ->

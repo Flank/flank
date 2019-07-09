@@ -20,7 +20,6 @@ import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.ios.IosCatalog
 import ftl.ios.Xctestrun
-import ftl.util.Utils
 import ftl.util.Utils.fatalError
 import java.nio.file.Files
 import java.nio.file.Path
@@ -95,14 +94,14 @@ class IosArgs(
 
     private fun assertXcodeSupported(xcodeVersion: String?) {
         if (xcodeVersion == null) return
-        if (!IosCatalog.supportedXcode(xcodeVersion)) {
-            Utils.fatalError(("Xcode $xcodeVersion is not a supported Xcode version"))
+        if (!IosCatalog.supportedXcode(xcodeVersion, this.project)) {
+            fatalError(("Xcode $xcodeVersion is not a supported Xcode version"))
         }
     }
 
     private fun assertDeviceSupported(device: Device) {
-        if (!IosCatalog.supportedDevice(device.model, device.version)) {
-            Utils.fatalError("iOS ${device.version} on ${device.model} is not a supported device")
+        if (!IosCatalog.supportedDevice(device.model, device.version, this.project)) {
+            fatalError("iOS ${device.version} on ${device.model} is not a supported device")
         }
     }
 
