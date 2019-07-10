@@ -6,6 +6,8 @@ import ftl.args.IosArgs
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.util.Utils.fatalError
+import kotlin.math.ceil
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 data class TestMethod(
@@ -65,7 +67,7 @@ object Shard {
         val junitMap = createJunitMap(oldTestResult, args)
         val testsTotalTime = testsToRun.sumByDouble { junitMap[it] ?: 10.0 }
 
-        val shardsByTime = Math.ceil(testsTotalTime / args.shardTime).toInt()
+        val shardsByTime = ceil(testsTotalTime / args.shardTime).toInt()
 
         // If there is no limit, use the calculated amount
         if (args.maxTestShards == -1) {
@@ -73,7 +75,7 @@ object Shard {
         }
 
         // We need to respect the maxTestShards
-        return Math.min(shardsByTime, args.maxTestShards)
+        return min(shardsByTime, args.maxTestShards)
     }
 
     // take in the XML with timing info then return list of shards based on the amount of shards to use
@@ -83,6 +85,8 @@ object Shard {
         args: IArgs,
         forcedShardCount: Int = -1
     ): List<TestShard> {
+        if (forcedShardCount < -1) fatalError("Invalid forcedShardCount value $forcedShardCount")
+
         val maxShards = if (forcedShardCount == -1) args.maxTestShards else forcedShardCount
         val junitMap = createJunitMap(oldTestResult, args)
 
@@ -150,7 +154,8 @@ object Shard {
             testsuite.testcases?.forEach { testcase ->
                 if (!testcase.empty() && testcase.time != null) {
                     val key = if (args is AndroidArgs) testcase.androidKey() else testcase.iosKey()
-                    junitMap[key] = testcase.time.toDouble()
+                    val time = testcase.time.toDouble()
+                    if (time >= 0) junitMap[key] = time
                 }
             }
         }
