@@ -154,7 +154,8 @@ object Shard {
             testsuite.testcases?.forEach { testcase ->
                 if (!testcase.empty() && testcase.time != null) {
                     val key = if (args is AndroidArgs) testcase.androidKey() else testcase.iosKey()
-                    junitMap[key] = testcase.time.toDouble()
+                    val time = testcase.time.toDouble()
+                    if (time >= 0) junitMap[key] = time
                 }
             }
         }
