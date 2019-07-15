@@ -5,3 +5,4 @@ out/
 .DS_Store
 .gradle/
 test_runner/flank/
+local.properties
