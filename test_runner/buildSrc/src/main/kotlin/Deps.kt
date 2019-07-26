@@ -6,7 +6,7 @@ object Versions {
     // https://github.com/FasterXML/jackson-core/releases
     val JACKSON = "2.9.9"
     // https://github.com/arturbosch/detekt/releases
-    val DETEKT = "1.0.0-RC15"
+    val DETEKT = "1.0.0-RC16"
 }
 
 object Libs {

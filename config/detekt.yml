@@ -213,8 +213,10 @@ formatting:
   FinalNewline:
     active: true
     autoCorrect: true
+  # Conflicts with IntelliJ import ordering. Disabled for now.
+  # see https://github.com/pinterest/ktlint/issues/527
   ImportOrdering:
-    active: true
+    active: false
     autoCorrect: true
   Indentation:
     active: true

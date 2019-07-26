@@ -16,7 +16,6 @@ import ftl.args.ArgsHelper.yamlMapper
 import ftl.args.ArgsToString.apksToString
 import ftl.args.ArgsToString.devicesToString
 import ftl.args.ArgsToString.listToString
-import ftl.args.ArgsToString.mapToString
 import ftl.args.yml.AndroidFlankYml
 import ftl.args.yml.AndroidGcloudYml
 import ftl.args.yml.AndroidGcloudYmlParams
