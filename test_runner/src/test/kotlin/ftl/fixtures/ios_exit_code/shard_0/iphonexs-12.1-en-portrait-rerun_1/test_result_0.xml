@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites>
+  <testsuite name='TrackSeafoodTest' hostname='localhost' tests='2' failures='0' errors='0' time='170.303'>
+    <properties />
+    <testcase name='testMultipleSeafoodAtOnce()' classname='TrackSeafoodTest' time='113.663' />
+    <testcase name='testOneSeafood()' classname='TrackSeafoodTest' time='56.638' />
+    <system-out />
+    <system-err />
+  </testsuite>
+  <testsuite name='EmailSigninMethodTest' hostname='localhost' tests='1' failures='0' errors='0' time='40.057'>
+    <properties />
+    <testcase name='testExistingUser()' classname='EmailSigninMethodTest' time='40.056' />
+    <system-out />
+    <system-err />
+  </testsuite>
+</testsuites>
