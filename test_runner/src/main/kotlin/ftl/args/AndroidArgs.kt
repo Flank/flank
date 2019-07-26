@@ -110,6 +110,7 @@ class AndroidArgs(
         }
     }
 
+    // Note: environmentVariables may contain secrets and are not printed for security reasons.
     override fun toString(): String {
         return """
 AndroidArgs
@@ -125,8 +126,6 @@ AndroidArgs
       test: $testApk
       auto-google-login: $autoGoogleLogin
       use-orchestrator: $useOrchestrator
-      environment-variables:
-${mapToString(environmentVariables)}
       directories-to-pull:
 ${listToString(directoriesToPull)}
       performance-metrics: $performanceMetrics
