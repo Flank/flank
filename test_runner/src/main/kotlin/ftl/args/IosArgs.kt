@@ -14,6 +14,7 @@ import ftl.args.yml.FlankYml
 import ftl.args.yml.GcloudYml
 import ftl.args.yml.IosFlankYml
 import ftl.args.yml.IosGcloudYml
+import ftl.args.yml.IosGcloudYmlParams
 import ftl.args.yml.YamlDeprecated
 import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.config.Device
@@ -165,6 +166,16 @@ ${listToString(testTargets)}
                 data,
                 cli
             )
+        }
+
+        fun default(): IosArgs {
+            return IosArgs(
+                GcloudYml(),
+                IosGcloudYml(IosGcloudYmlParams(test = ".", xctestrunFile = ".")),
+                FlankYml(),
+                IosFlankYml(),
+                "",
+                IosRunCommand())
         }
     }
 }

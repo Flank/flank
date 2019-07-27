@@ -16,7 +16,6 @@ import ftl.args.ArgsHelper.yamlMapper
 import ftl.args.ArgsToString.apksToString
 import ftl.args.ArgsToString.devicesToString
 import ftl.args.ArgsToString.listToString
-import ftl.args.ArgsToString.mapToString
 import ftl.args.yml.AndroidFlankYml
 import ftl.args.yml.AndroidGcloudYml
 import ftl.args.yml.AndroidGcloudYmlParams
@@ -110,6 +109,7 @@ class AndroidArgs(
         }
     }
 
+    // Note: environmentVariables may contain secrets and are not printed for security reasons.
     override fun toString(): String {
         return """
 AndroidArgs
@@ -125,8 +125,6 @@ AndroidArgs
       test: $testApk
       auto-google-login: $autoGoogleLogin
       use-orchestrator: $useOrchestrator
-      environment-variables:
-${mapToString(environmentVariables)}
       directories-to-pull:
 ${listToString(directoriesToPull)}
       performance-metrics: $performanceMetrics

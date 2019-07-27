@@ -214,9 +214,6 @@ AndroidArgs
       test: $testApkAbsolutePath
       auto-google-login: false
       use-orchestrator: false
-      environment-variables:
-        clearPackageData: true
-        randomEnvVar: false
       directories-to-pull:
         - /sdcard/screenshots
         - /sdcard/screenshots2

@@ -121,17 +121,6 @@ class ArgsHelperTest {
             .isEqualTo("mockProjectId")
     }
 
-    @Test
-    fun evaluateBlobInFilePath() {
-        val testApkRelativePath = "../test_app/apks/app-debug-androidTest.apk"
-        val testApkBlobPath = "../test_app/**/app-debug-*.apk"
-
-        val actual = ArgsHelper.evaluateFilePath(testApkBlobPath)
-        val expected = testApkRelativePath.absolutePath()
-
-        assertThat(actual).isEqualTo(expected)
-    }
-
     private fun makeTmpFile(filePath: String): String {
         val file = File(filePath)
         file.parentFile.mkdirs()

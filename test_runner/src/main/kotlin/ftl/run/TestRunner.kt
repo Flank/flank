@@ -37,6 +37,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlin.system.exitProcess
 
 object TestRunner {
     val gson = GsonBuilder().setPrettyPrinting().create()!!
@@ -358,7 +359,7 @@ object TestRunner {
 
         // Must generate reports *after* fetching xml artifacts since reports require xml
         val exitCode = ReportManager.generate(matrixMap, lastArgs, testShardChunks)
-        System.exit(exitCode)
+        exitProcess(exitCode)
     }
 
     // used to cancel and update results from an async run

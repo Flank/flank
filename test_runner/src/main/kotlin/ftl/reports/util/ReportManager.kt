@@ -66,10 +66,10 @@ object ReportManager {
         findXmlFiles(matrices, args).forEach { xmlFile ->
             val parsedXml = process(xmlFile)
             val webLink = getWebLink(matrices, xmlFile)
-            val suiteName = getDeviceString(xmlFile.parentFile.name)
+            val deviceName = getDeviceString(xmlFile.parentFile.name)
 
             parsedXml.testsuites?.forEach { testSuite ->
-                testSuite.name = suiteName
+                testSuite.name = "$deviceName#${testSuite.name}"
                 testSuite.testcases?.forEach { testCase ->
                     testCase.webLink = webLink
                 }
