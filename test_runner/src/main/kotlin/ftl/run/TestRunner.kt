@@ -1,6 +1,5 @@
 package ftl.run
 
-import com.google.api.services.testing.model.TestDetails
 import com.google.api.services.testing.model.TestMatrix
 import com.google.cloud.storage.Storage
 import com.google.gson.GsonBuilder
@@ -25,6 +24,7 @@ import ftl.util.Artifacts
 import ftl.util.MatrixState
 import ftl.util.ObjPath
 import ftl.util.StopWatch
+import ftl.util.StopWatchMatrix
 import ftl.util.Utils
 import ftl.util.Utils.fatalError
 import java.nio.file.Files
@@ -146,8 +146,8 @@ object TestRunner {
         if (!resultsFile.exists()) return null
 
         val scheduledRuns = resultsFile.listFiles()
-            .filter { it.isDirectory }
-            .sortedByDescending { it.lastModified() }
+                .filter { it.isDirectory }
+                .sortedByDescending { it.lastModified() }
         if (scheduledRuns.isEmpty()) return null
 
         return scheduledRuns.first().name
@@ -282,70 +282,29 @@ object TestRunner {
     // Port of MonitorTestExecutionProgress
     // gcloud-cli/googlecloudsdk/api_lib/firebase/test/matrix_ops.py
     private fun pollMatrix(matrixId: String, stopwatch: StopWatch, args: IArgs, matrices: MatrixMap) {
-        var lastState = ""
-        var lastError = ""
-        var progress = listOf<String>()
-        var lastProgressLen = 0
-        var refreshedMatrix: TestMatrix
-
-        fun puts(msg: String) {
-            val timestamp = stopwatch.check(indent = true)
-            println("$indent$timestamp $matrixId $msg")
-        }
+        var refreshedMatrix = GcTestMatrix.refresh(matrixId, args)
+        val watch = StopWatchMatrix(stopwatch, matrixId)
+        val runningDevices = RunningDevices(stopwatch, refreshedMatrix.testExecutions)
 
         while (true) {
-            refreshedMatrix = GcTestMatrix.refresh(matrixId, args)
-            // Update the matrix file when the matrix is updated
             if (matrices.map[matrixId]?.update(refreshedMatrix) == true) updateMatrixFile(matrices, args)
 
-            val firstTestStatus = refreshedMatrix.testExecutions.first()
+            val nextDevice = runningDevices.next() ?: return
+            nextDevice.poll(refreshedMatrix)
 
-            val details: TestDetails? = firstTestStatus.testDetails
-            if (details != null) {
-                // Error message is never reset. Track last error to only print new messages.
-                val errorMessage = details.errorMessage
-                if (
-                    errorMessage != null &&
-                    errorMessage != lastError
-                ) {
-                    // Note: After an error (infrastructure failure), FTL will retry 3x
-                    lastError = errorMessage
-                    puts("Error: $lastError")
-                }
-                progress = details.progressMessages ?: progress
-            }
-
-            if (MatrixState.completed(refreshedMatrix.state)) {
+            // Matrix has 0 or more devices (test executions)
+            if (runningDevices.allComplete()) {
                 break
             }
 
-            // flaky-test-attempts restarts progress array at size 1
-            if (lastProgressLen > progress.size) {
-                lastProgressLen = 0
-            }
-
-            // Progress contains all messages. only print new updates
-            for (msg in progress.listIterator(lastProgressLen)) {
-                puts(msg)
-                // There may be significant time lag between 'Done' and the matrix actually finishing.
-                if (msg.contains("Done. Test time=")) {
-                    puts("Waiting for post-processing service to finish")
-                }
-            }
-            lastProgressLen = progress.size
-
-            if (firstTestStatus.state != lastState) {
-                lastState = firstTestStatus.state
-                puts(lastState)
-            }
-
             // GetTestMatrix is not designed to handle many requests per second.
-            // Sleep 15s to avoid overloading the system.
+            // Sleep to avoid overloading the system.
             Utils.sleep(15)
+            refreshedMatrix = GcTestMatrix.refresh(matrixId, args)
         }
 
         // Print final matrix state with timestamp. May be many minutes after the 'Done.' progress message.
-        puts(refreshedMatrix.state)
+        watch.puts(refreshedMatrix.state)
     }
 
     // used to update and poll the results from an async run
@@ -379,7 +338,7 @@ object TestRunner {
             fetchArtifacts(matrixMap, args)
 
             val exitCode = ReportManager.generate(matrixMap, args, testShardChunks)
-            System.exit(exitCode)
+            exitProcess(exitCode)
         }
     }
 }
