@@ -151,4 +151,68 @@ class ShardTest {
 
         assertThat(result).isEqualTo(3)
     }
+
+    @Test(expected = RuntimeException::class)
+    fun `createShardsByShardCount throws on forcedShardCount = 0`() {
+        Shard.createShardsByShardCount(
+                listOf(),
+                sample(),
+                mockArgs(-1, 7),
+                0)
+    }
+
+    private fun newSuite(testCases: MutableList<JUnitTestCase>): JUnitTestResult {
+        return JUnitTestResult(mutableListOf(
+                JUnitTestSuite("",
+                        "3",
+                        "0",
+                        "0",
+                        "0",
+                        "12.032",
+                        "2019-07-27T08:15:04",
+                        "localhost",
+                        testCases,
+                        null,
+                        null,
+                        null)))
+    }
+
+    private fun shardCountByTime(shardTime: Int): Int {
+        val testsToRun = listOf("a/a", "b/b", "c/c")
+        val testCases = mutableListOf(
+                JUnitTestCase("a", "a", "0.001"),
+                JUnitTestCase("b", "b", "0.0"),
+                JUnitTestCase("c", "c", "0.0")
+        )
+
+        val oldTestResult = newSuite(testCases)
+
+        return Shard.shardCountByTime(
+                testsToRun,
+                oldTestResult,
+                mockArgs(-1, shardTime))
+    }
+
+    @Test(expected = RuntimeException::class)
+    fun `shardCountByTime throws on invalid shard time -3`() {
+        shardCountByTime(-3)
+    }
+
+    @Test(expected = RuntimeException::class)
+    fun `shardCountByTime throws on invalid shard time -2`() {
+        shardCountByTime(-2)
+    }
+
+    @Test(expected = RuntimeException::class)
+    fun `shardCountByTime throws on invalid shard time 0`() {
+        shardCountByTime(0)
+    }
+
+    @Test
+    fun `shardCountByTime shards valid times`() {
+        assertThat(shardCountByTime(-1)).isEqualTo(-1)
+        assertThat(shardCountByTime(1)).isEqualTo(1)
+        assertThat(shardCountByTime(2)).isEqualTo(1)
+        assertThat(shardCountByTime(3)).isEqualTo(1)
+    }
 }

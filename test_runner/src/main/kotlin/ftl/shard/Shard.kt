@@ -63,11 +63,17 @@ object Shard {
         args: IArgs
     ): Int {
         if (args.shardTime == -1) return -1
+        if (args.shardTime < -1 || args.shardTime == 0) fatalError("Invalid shard time ${args.shardTime}")
 
         val junitMap = createJunitMap(oldTestResult, args)
         val testsTotalTime = testsToRun.sumByDouble { junitMap[it] ?: 10.0 }
 
         val shardsByTime = ceil(testsTotalTime / args.shardTime).toInt()
+
+        // Use a single shard unless total test time is greater than shardTime.
+        if (testsTotalTime <= args.shardTime) {
+            return 1
+        }
 
         // If there is no limit, use the calculated amount
         if (args.maxTestShards == -1) {
@@ -75,7 +81,10 @@ object Shard {
         }
 
         // We need to respect the maxTestShards
-        return min(shardsByTime, args.maxTestShards)
+        val shardCount = min(shardsByTime, args.maxTestShards)
+
+        if (shardCount <= 0) fatalError("Invalid shard count $shardCount")
+        return shardCount
     }
 
     // take in the XML with timing info then return list of shards based on the amount of shards to use
@@ -85,7 +94,7 @@ object Shard {
         args: IArgs,
         forcedShardCount: Int = -1
     ): List<TestShard> {
-        if (forcedShardCount < -1) fatalError("Invalid forcedShardCount value $forcedShardCount")
+        if (forcedShardCount < -1 || forcedShardCount == 0) fatalError("Invalid forcedShardCount value $forcedShardCount")
 
         val maxShards = if (forcedShardCount == -1) args.maxTestShards else forcedShardCount
         val junitMap = createJunitMap(oldTestResult, args)
