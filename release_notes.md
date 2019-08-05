@@ -1,5 +1,9 @@
 ## next (unreleased)
 
+- 
+
+## v7.0.0
+
 - [#574](https://github.com/TestArmada/flank/pull/574) Improve test shard error reporting. Update device catalog to use projectId. ([bootstraponline](https://github.com/bootstraponline))
 - [#582](https://github.com/TestArmada/flank/pull/582) Fix iOS exit code when using flaky-test-attempts. Don't print environment-variables to stdout for security. ([bootstraponline](https://github.com/bootstraponline))
 - [#584](https://github.com/TestArmada/flank/pull/584) Poll all test executions instead of only the first per matrix. ([bootstraponline](https://github.com/bootstraponline))
