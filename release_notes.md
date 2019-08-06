@@ -1,6 +1,10 @@
 ## next (unreleased)
 
-- 
+-
+
+## v7.0.1
+
+- [#586](https://github.com/TestArmada/flank/pull/586) Poll devices in parallel. Fixes performance regression in Flank v7. ([bootstraponline](https://github.com/bootstraponline))
 
 ## v7.0.0
 
