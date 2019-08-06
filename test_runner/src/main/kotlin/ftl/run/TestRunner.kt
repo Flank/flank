@@ -289,8 +289,9 @@ object TestRunner {
         while (true) {
             if (matrices.map[matrixId]?.update(refreshedMatrix) == true) updateMatrixFile(matrices, args)
 
-            val nextDevice = runningDevices.next() ?: return
-            nextDevice.poll(refreshedMatrix)
+            runningDevices.allRunning().forEach { nextDevice ->
+                nextDevice.poll(refreshedMatrix)
+            }
 
             // Matrix has 0 or more devices (test executions)
             if (runningDevices.allComplete()) {

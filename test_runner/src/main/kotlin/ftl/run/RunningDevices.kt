@@ -70,5 +70,7 @@ class RunningDevices(stopwatch: StopWatch, testExecutions: List<TestExecution>) 
 
     fun next(): RunningDevice? = devices.firstOrNull { it.complete.not() }
 
+    fun allRunning(): List<RunningDevice> = devices.filter { it.complete.not() }
+
     fun allComplete(): Boolean = devices.all { it.complete }
 }
