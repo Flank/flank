@@ -60,16 +60,16 @@ data class JUnitTestSuite(
         this.failures = testcases?.count { it.failures?.isNotEmpty() == true }.toString()
         this.errors = testcases?.count { it.errors?.isNotEmpty() == true }.toString()
         this.skipped = testcases?.count { it.skipped() }.toString()
-        this.time = testcases?.fold("0") { acc, test -> mergeDouble(acc, test.time) } ?: "0"
+        this.time = testcases?.fold("0") { acc, test -> mergeDouble(acc, test.time.clean()) } ?: "0"
     }
 
     /**
      * Strips all characters except numbers and a period
-     * Returns 0 when the string is null
+     * Returns 0 when the string is null or blank
      *
      * Example: z1,23.45 => 123.45 */
     private fun String?.clean(): String {
-        if (this == null) return "0"
+        if (this.isNullOrBlank()) return "0"
         return this.replace(Regex("""[^0-9\\.]"""), "")
     }
 
@@ -115,15 +115,16 @@ data class JUnitTestSuite(
         this.testcases?.forEach { testcase ->
             // if test was skipped or empty, then continue to skip it.
             if (testcase.skipped() || testcase.empty()) return@forEach
+            val testcaseTime = testcase.time.clean()
 
             // if the test succeeded, use the new time value
             if (testcase.successful() && testcase.time != null) {
-                mergedTime += testcase.time.toDouble()
+                mergedTime += testcaseTime.toDouble()
                 mergedTestCases.add(
                     JUnitTestCase(
                         name = testcase.name,
                         classname = testcase.classname,
-                        time = testcase.time
+                        time = testcaseTime
                     )
                 )
                 return@forEach
@@ -134,12 +135,13 @@ data class JUnitTestSuite(
                 it.successful() && it.name == testcase.name && it.classname == testcase.classname
             } ?: return@forEach
 
-            if (lastSuccessfulRun.time != null) mergedTime += lastSuccessfulRun.time.toDouble()
+            val lastSuccessfulRunTime = lastSuccessfulRun.time.clean()
+            if (lastSuccessfulRun.time != null) mergedTime += lastSuccessfulRunTime.toDouble()
             mergedTestCases.add(
                 JUnitTestCase(
                     name = testcase.name,
                     classname = testcase.classname,
-                    time = lastSuccessfulRun.time
+                    time = lastSuccessfulRunTime
                 )
             )
         }
