@@ -27,6 +27,7 @@ import ftl.util.StopWatch
 import ftl.util.StopWatchMatrix
 import ftl.util.Utils
 import ftl.util.Utils.fatalError
+import ftl.util.completed
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -294,13 +295,14 @@ object TestRunner {
             }
 
             // Matrix has 0 or more devices (test executions)
-            if (runningDevices.allComplete()) {
+            // Verify all executions are complete & the matrix itself is marked as complete.
+            if (runningDevices.allComplete() && refreshedMatrix.completed()) {
                 break
             }
 
             // GetTestMatrix is not designed to handle many requests per second.
             // Sleep to avoid overloading the system.
-            Utils.sleep(15)
+            Utils.sleep(5)
             refreshedMatrix = GcTestMatrix.refresh(matrixId, args)
         }
 
