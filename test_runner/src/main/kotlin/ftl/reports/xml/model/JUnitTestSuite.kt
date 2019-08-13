@@ -2,6 +2,7 @@ package ftl.reports.xml.model
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
+import java.util.Locale
 
 data class JUnitTestSuite(
     @JacksonXmlProperty(isAttribute = true)
@@ -78,7 +79,7 @@ data class JUnitTestSuite(
     }
 
     private fun mergeDouble(a: String?, b: String?): String {
-        return "%.3f".format((a.clean().toDouble() + b.clean().toDouble()))
+        return "%.3f".format(Locale.ROOT, (a.clean().toDouble() + b.clean().toDouble()))
     }
 
     fun merge(other: JUnitTestSuite): JUnitTestSuite {
