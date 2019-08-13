@@ -1,6 +1,11 @@
 ## next (unreleased)
 
-- [#587](https://github.com/TestArmada/flank/pull/587) Fix NumberFormatException crash. Optimize polling. ([bootstraponline](https://github.com/bootstraponline))
+- 
+
+## v7.0.2
+
+- [#589](https://github.com/TestArmada/flank/pull/589) Fix java.lang.NumberFormatException: empty String. ([vfadc](https://github.com/vfadc))
+- [#587](https://github.com/TestArmada/flank/pull/587) Optimize polling. ([bootstraponline](https://github.com/bootstraponline))
 
 ## v7.0.1
 
