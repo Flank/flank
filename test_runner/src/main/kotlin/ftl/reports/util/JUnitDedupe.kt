@@ -3,7 +3,7 @@ package ftl.reports.util
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 
-// Read in JUnitReport.xml and remove duplicate results when `flaky-test-attempts` is > 0
+// Read in JUnitReport.xml and remove duplicate results when `num-flaky-test-attempts` is > 0
 // for each test `name="testFails" classname="com.example.app.ExampleUiTest"`
 // Keep first result. If next result for the same test is successful, keep last successful result.
 object JUnitDedupe {

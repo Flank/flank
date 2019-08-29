@@ -230,7 +230,7 @@ class IosRunCommandTest {
     @Test
     fun `flakyTestAttempts parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parseArgs("--flaky-test-attempts=10")
+        CommandLine(cmd).parseArgs("--num-flaky-test-attempts=10")
 
         assertThat(cmd.flakyTestAttempts).isEqualTo(10)
     }

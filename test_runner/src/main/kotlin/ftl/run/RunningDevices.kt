@@ -42,7 +42,7 @@ class RunningDevice(private val stopwatch: StopWatch, val id: String) {
             progress = details.progressMessages ?: progress
         }
 
-        // flaky-test-attempts restarts progress array at size 1
+        // num-flaky-test-attempts restarts progress array at size 1
         if (lastProgressLen > progress.size) {
             lastProgressLen = 0
         }

@@ -307,7 +307,7 @@ class AndroidRunCommandTest {
     @Test
     fun `flakyTestAttempts parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parseArgs("--flaky-test-attempts=10")
+        CommandLine(cmd).parseArgs("--num-flaky-test-attempts=10")
 
         assertThat(cmd.flakyTestAttempts).isEqualTo(10)
     }

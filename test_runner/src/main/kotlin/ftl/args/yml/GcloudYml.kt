@@ -27,13 +27,13 @@ class GcloudYmlParams(
     @field:JsonProperty("results-history-name")
     val resultsHistoryName: String? = null,
 
-    @field:JsonProperty("flaky-test-attempts")
+    @field:JsonProperty("num-flaky-test-attempts")
     val flakyTestAttempts: Int = 0
 ) {
     companion object : IYmlKeys {
         override val keys =
             listOf("results-bucket", "results-dir", "record-video", "timeout", "async",
-                "results-history-name", "flaky-test-attempts")
+                "results-history-name", "num-flaky-test-attempts")
     }
 }
 

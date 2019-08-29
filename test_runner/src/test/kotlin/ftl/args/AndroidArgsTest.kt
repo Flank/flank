@@ -59,7 +59,7 @@ class AndroidArgsTest {
             version: 24
             locale: en
             orientation: portrait
-          flaky-test-attempts: 3
+          num-flaky-test-attempts: 3
 
         flank:
           max-test-shards: 7
@@ -231,7 +231,7 @@ AndroidArgs
           version: 24
           locale: en
           orientation: portrait
-      flaky-test-attempts: 3
+      num-flaky-test-attempts: 3
 
     flank:
       max-test-shards: 7
@@ -829,7 +829,7 @@ AndroidArgs
     @Test
     fun `cli flakyTestAttempts`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parseArgs("--flaky-test-attempts=3")
+        CommandLine(cli).parseArgs("--num-flaky-test-attempts=3")
 
         val yaml = """
         gcloud:
