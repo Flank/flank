@@ -86,6 +86,7 @@ class YamlDeprecatedTest {
               repeatTests: 3
               smartFlankGcsPath: 4
               disableSharding: 5
+              test-runs: 6
 
         """.trimIndent()
 
@@ -97,9 +98,33 @@ class YamlDeprecatedTest {
               project: 0
               max-test-shards: 1
               shard-time: 2
-              repeat-tests: 3
+              num-test-runs: 3
               smart-flank-gcs-path: 4
               disable-sharding: 5
+
+        """.trimIndent()
+
+        val (error, output) = YamlDeprecated.modify(input)
+
+        assertThat(error).isFalse()
+        assertThat(output).isEqualTo(expected)
+    }
+
+    @Test
+    fun `repeat-tests is renamed`() {
+        val input = """
+            ---
+            gcloud: {}
+            flank:
+              repeat-tests: 3
+
+        """.trimIndent()
+
+        val expected = """
+            ---
+            gcloud: {}
+            flank:
+              num-test-runs: 3
 
         """.trimIndent()
 

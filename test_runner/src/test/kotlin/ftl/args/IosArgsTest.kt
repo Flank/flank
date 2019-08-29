@@ -56,7 +56,7 @@ class IosArgsTest {
         flank:
           max-test-shards: 7
           shard-time: 60
-          repeat-tests: 8
+          num-test-runs: 8
           files-to-download:
             - /sdcard/screenshots
           test-targets-always-run:
@@ -182,7 +182,7 @@ IosArgs
     flank:
       max-test-shards: 7
       shard-time: 60
-      repeat-tests: 8
+      num-test-runs: 8
       smart-flank-gcs-path:${' '}
       smart-flank-disable-upload: false
       test-targets-always-run:
@@ -461,7 +461,7 @@ IosArgs
     @Test
     fun `cli repeatTests`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parseArgs("--repeat-tests=3")
+        CommandLine(cli).parseArgs("--num-test-runs=3")
 
         val yaml = """
         gcloud:
@@ -469,7 +469,7 @@ IosArgs
           xctestrun-file: $xctestrunFile
 
         flank:
-          repeat-tests: 2
+          num-test-runs: 2
       """
         assertThat(IosArgs.load(yaml).repeatTests).isEqualTo(2)
         assertThat(IosArgs.load(yaml, cli).repeatTests).isEqualTo(3)

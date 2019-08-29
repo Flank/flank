@@ -156,7 +156,7 @@ class IosRunCommandTest {
     @Test
     fun `repeatTests parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parseArgs("--repeat-tests=3")
+        CommandLine(cmd).parseArgs("--num-test-runs=3")
 
         assertThat(cmd.repeatTests).isEqualTo(3)
     }

@@ -13,7 +13,7 @@ gcloud:
 
 flank:
   max-test-shards: 2
-  repeat-tests: 1
+  num-test-runs: 1
   test-targets:
     - EarlGreyExampleSwiftTests/testWith.*$
   test-targets-always-run:

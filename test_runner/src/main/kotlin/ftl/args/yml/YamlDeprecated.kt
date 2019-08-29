@@ -47,7 +47,12 @@ object YamlDeprecated {
         ),
         ModifiedKey(
             Key(Parent.flank, "repeatTests"),
+            Key(Parent.flank, "num-test-runs"),
+            Level.Warning
+        ),
+        ModifiedKey(
             Key(Parent.flank, "repeat-tests"),
+            Key(Parent.flank, "num-test-runs"),
             Level.Warning
         ),
         ModifiedKey(

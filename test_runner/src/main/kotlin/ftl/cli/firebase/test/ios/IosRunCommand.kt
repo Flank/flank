@@ -199,8 +199,8 @@ class IosRunCommand : Runnable {
     var shardTime: Int? = null
 
     @Option(
-        names = ["--repeat-tests"],
-        description = ["The amount of times to repeat the test executions."]
+        names = ["--num-test-runs"],
+        description = ["The amount of times to run the test executions."]
     )
     var repeatTests: Int? = null
 

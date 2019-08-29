@@ -196,7 +196,7 @@ class ArgsHelperTest {
 
     @Test
     fun testInvalidrepeatTests() {
-        exceptionRule.expectMessage("repeat-tests must be >= 1")
+        exceptionRule.expectMessage("num-test-runs must be >= 1")
 
         val args = spy(AndroidArgs.default())
         `when`(args.repeatTests).thenReturn(0)
