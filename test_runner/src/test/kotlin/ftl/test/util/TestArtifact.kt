@@ -1,6 +1,5 @@
 package ftl.test.util
 
-import ftl.util.Bash
 import java.io.File
 import java.net.InetAddress
 import java.net.InetSocketAddress
