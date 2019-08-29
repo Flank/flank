@@ -73,11 +73,12 @@ class YamlDeprecatedTest {
     }
 
     @Test
-    fun `Flank old keys renamed to new keys`() {
+    fun `Old keys renamed to new keys`() {
         val input = """
             ---
             gcloud:
               project: 0
+              flaky-test-attempts: 1
 
             flank:
               testShards: 1
@@ -90,7 +91,8 @@ class YamlDeprecatedTest {
 
         val expected = """
             ---
-            gcloud: {}
+            gcloud:
+              num-flaky-test-attempts: 1
             flank:
               project: 0
               max-test-shards: 1

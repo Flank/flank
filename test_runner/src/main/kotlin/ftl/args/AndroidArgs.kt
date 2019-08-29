@@ -133,7 +133,7 @@ ${listToString(directoriesToPull)}
 ${listToString(testTargets)}
       device:
 ${devicesToString(devices)}
-      flaky-test-attempts: $flakyTestAttempts
+      num-flaky-test-attempts: $flakyTestAttempts
 
     flank:
       max-test-shards: $maxTestShards

@@ -51,7 +51,7 @@ class IosArgsTest {
             version: 11.2
             locale: c
             orientation: d
-          flaky-test-attempts: 4
+          num-flaky-test-attempts: 4
 
         flank:
           max-test-shards: 7
@@ -177,7 +177,7 @@ IosArgs
           version: 11.2
           locale: c
           orientation: d
-      flaky-test-attempts: 4
+      num-flaky-test-attempts: 4
 
     flank:
       max-test-shards: 7
@@ -623,7 +623,7 @@ IosArgs
     @Test
     fun `cli flakyTestAttempts`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parseArgs("--flaky-test-attempts=3")
+        CommandLine(cli).parseArgs("--num-flaky-test-attempts=3")
 
         val yaml = """
         gcloud:

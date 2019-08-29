@@ -29,6 +29,11 @@ object YamlDeprecated {
     )
 
     private val transforms = listOf(
+        ModifiedKey(
+            Key(Parent.gcloud, "flaky-test-attempts"),
+            Key(Parent.gcloud, "num-flaky-test-attempts"),
+            Level.Warning
+        ),
         // flank: testShards -> flank: maxTestShards
         ModifiedKey(
             Key(Parent.flank, "testShards"),
