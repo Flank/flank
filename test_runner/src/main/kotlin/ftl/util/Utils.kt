@@ -27,7 +27,11 @@ object Utils {
     }
 
     fun join(first: String, vararg more: String): String {
-        return Paths.get(first, *more).toString()
+        // Note: Paths.get(...) does not work for joining because the path separator
+        // will be '\' on Windows which is invalid for a URI
+        return listOf(first, *more)
+            .joinToString("/")
+            .replace(regex = Regex("/+"), replacement = "/")
     }
 
     fun sleep(seconds: Long) {
