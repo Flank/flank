@@ -8,6 +8,7 @@ import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
+import ftl.test.util.TestHelper.normalizeLineEnding
 
 @RunWith(FlankTestRunner::class)
 class MainTest {
@@ -30,11 +31,6 @@ class MainTest {
                 "  ios\n" +
                 "  android\n"
         )
-    }
-
-    private fun String.normalizeLineEnding(): String  {
-        // required for tests to pass on Windows
-        return this.replace("\r\n", "\n")
     }
 
     private fun runCommand(vararg args: String): String {
