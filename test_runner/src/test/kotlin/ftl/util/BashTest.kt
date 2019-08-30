@@ -1,7 +1,7 @@
 package ftl.util
 
 import com.google.common.truth.Truth.assertThat
-import ftl.config.FtlConstants.macOS
+import ftl.config.FtlConstants.isMacOS
 import ftl.test.util.FlankTestRunner
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,7 +32,7 @@ class BashTest {
     @Test
     fun executeLargeOutput() {
         // gohello is a binary that outputs 100k 'hi' to stdout
-        val os = if (macOS) {
+        val os = if (isMacOS) {
             "mac"
         } else {
             "linux"

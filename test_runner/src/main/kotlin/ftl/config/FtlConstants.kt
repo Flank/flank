@@ -28,12 +28,18 @@ import org.slf4j.LoggerFactory
 object FtlConstants {
     var useMock = false
 
-    val macOS: Boolean by lazy {
-        val osName = System.getProperty("os.name") ?: ""
-        val isMacOS = osName.toLowerCase().indexOf("mac") >= 0
+    private val osName = System.getProperty("os.name")?.toLowerCase() ?: ""
+
+    val isMacOS: Boolean by lazy {
+        val isMacOS = osName.indexOf("mac") >= 0
         println("isMacOS = $isMacOS ($osName)")
         isMacOS
     }
+
+    val isWindows: Boolean by lazy {
+       osName.indexOf("win") >= 0
+    }
+
     const val localhost = "http://localhost:8080"
 
     const val defaultLocale = "en"

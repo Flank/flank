@@ -1,6 +1,6 @@
 package ftl.ios
 
-import ftl.config.FtlConstants.macOS
+import ftl.config.FtlConstants.isMacOS
 import ftl.util.Bash
 import ftl.util.Utils.copyBinaryResource
 import java.io.File
@@ -8,7 +8,7 @@ import java.io.File
 object Parse {
 
     private val installBinaries by lazy {
-        if (!macOS) {
+        if (!isMacOS) {
             copyBinaryResource("nm")
             copyBinaryResource("swift-demangle")
             copyBinaryResource("libatomic.so.1") // swift-demangle dependency
@@ -43,7 +43,7 @@ object Parse {
         // https://github.com/linkedin/bluepill/blob/37e7efa42472222b81adaa0e88f2bd82aa289b44/Source/Shared/BPXCTestFile.m#L18
         // must quote binary path in case there are spaces
         var cmd = "nm -U ${binary.quote()}"
-        if (!macOS) cmd = "PATH=~/.flank $cmd"
+        if (!isMacOS) cmd = "PATH=~/.flank $cmd"
         val output = Bash.execute(cmd)
 
         output.lines().forEach { line ->
@@ -67,7 +67,7 @@ object Parse {
         // getconf ARG_MAX
         val argMax = 262_144
 
-        val cmd = if (macOS) {
+        val cmd = if (isMacOS) {
             "nm -gU ${binary.quote()} | xargs -s $argMax xcrun swift-demangle"
         } else {
             "export LD_LIBRARY_PATH=~/.flank; export PATH=~/.flank:\$PATH; nm -gU ${binary.quote()} | xargs -s $argMax swift-demangle"

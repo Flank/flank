@@ -1,5 +1,6 @@
 package ftl.util
 
+import ftl.config.FtlConstants
 import java.lang.ProcessBuilder.Redirect.PIPE
 
 object Bash {
@@ -7,7 +8,9 @@ object Bash {
     fun execute(cmd: String): String {
         println(cmd)
 
-        val process = ProcessBuilder("/bin/bash", "-c", cmd)
+        val bashPath = if (FtlConstants.isWindows) "bash.exe" else "/bin/bash"
+
+        val process = ProcessBuilder(bashPath, "-c", cmd)
             .redirectOutput(PIPE)
             .redirectError(PIPE)
             .start()
