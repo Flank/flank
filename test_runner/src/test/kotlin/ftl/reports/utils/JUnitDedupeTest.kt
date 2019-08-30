@@ -5,6 +5,7 @@ import ftl.reports.util.JUnitDedupe
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.xmlToString
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.TestHelper.normalizeLineEnding
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -65,6 +66,6 @@ class JUnitDedupeTest {
         val suites = parseAllSuitesXml(inputXml)
         JUnitDedupe.modify(suites)
 
-        assertThat(suites.xmlToString()).isEqualTo(expectedXml)
+        assertThat(suites.xmlToString().normalizeLineEnding()).isEqualTo(expectedXml)
     }
 }

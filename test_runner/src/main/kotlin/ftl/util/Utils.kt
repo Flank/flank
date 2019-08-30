@@ -31,6 +31,7 @@ object Utils {
         // will be '\' on Windows which is invalid for a URI
         return listOf(first, *more)
             .joinToString("/")
+            .replace("\\", "/")
             .replace(regex = Regex("/+"), replacement = "/")
     }
 

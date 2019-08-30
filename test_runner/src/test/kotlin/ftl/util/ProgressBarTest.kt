@@ -1,6 +1,7 @@
 package ftl.util
 
 import com.google.common.truth.Truth.assertThat
+import ftl.test.util.TestHelper.normalizeLineEnding
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
@@ -17,9 +18,9 @@ class ProgressBarTest {
 
         progress.start("hi")
         Thread.sleep(300)
-        assertThat(systemOutRule.log).isEqualTo("  hi .")
+        assertThat(systemOutRule.log.normalizeLineEnding()).isEqualTo("  hi .")
 
         progress.stop()
-        assertThat(systemOutRule.log).isEqualTo("  hi .\n")
+        assertThat(systemOutRule.log.normalizeLineEnding()).isEqualTo("  hi .\n")
     }
 }

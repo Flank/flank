@@ -8,11 +8,13 @@ import ftl.args.yml.IosGcloudYml
 import ftl.args.yml.IosGcloudYmlParams
 import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.config.Device
+import ftl.config.FtlConstants
 import ftl.config.FtlConstants.defaultIosModel
 import ftl.config.FtlConstants.defaultIosVersion
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
+import org.junit.Assume
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
@@ -240,6 +242,8 @@ IosArgs
 
     @Test
     fun negativeOneTestShards() {
+        Assume.assumeFalse(FtlConstants.isWindows)
+
         val args = IosArgs.load(
             """
     gcloud:

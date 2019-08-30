@@ -3,10 +3,13 @@ package ftl.util
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.json.MatrixMap
+import ftl.test.util.FlankTestRunner
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
+@RunWith(FlankTestRunner::class)
 class MatrixUtilTest {
 
     @Test

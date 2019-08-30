@@ -4,7 +4,9 @@ import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import ftl.config.Device
 import ftl.config.FtlConstants
+import ftl.config.FtlConstants.isWindows
 import ftl.test.util.FlankTestRunner
+import org.junit.Assume.assumeFalse
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.ExpectedSystemExit
@@ -36,6 +38,8 @@ class IosRunCommandTest {
 
     @Test
     fun iosRunCommandRuns() {
+        assumeFalse(isWindows)
+
         exit.expectSystemExit()
         val runCmd = IosRunCommand()
         runCmd.configPath = "./src/test/kotlin/ftl/fixtures/ios.yml"

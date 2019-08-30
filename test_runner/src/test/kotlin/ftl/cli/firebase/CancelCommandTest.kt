@@ -4,6 +4,7 @@ import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.TestHelper.normalizeLineEnding
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.ExpectedSystemExit
@@ -26,7 +27,7 @@ class CancelCommandTest {
         assertThat(command.usageHelpRequested).isFalse()
         CommandLine(command).execute("-h")
 
-        val output = systemOutRule.log
+        val output = systemOutRule.log.normalizeLineEnding()
         Truth.assertThat(output).startsWith(
                 "Cancels the last Firebase Test Lab run\n" +
                         "\n" +

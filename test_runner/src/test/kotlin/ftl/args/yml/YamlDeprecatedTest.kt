@@ -86,7 +86,7 @@ class YamlDeprecatedTest {
               repeatTests: 3
               smartFlankGcsPath: 4
               disableSharding: 5
-              test-runs: 6
+              
 
         """.trimIndent()
 

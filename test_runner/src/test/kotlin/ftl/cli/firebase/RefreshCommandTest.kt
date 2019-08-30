@@ -12,6 +12,7 @@ import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
+import ftl.test.util.TestHelper.normalizeLineEnding
 
 @RunWith(FlankTestRunner::class)
 class RefreshCommandTest {
@@ -66,7 +67,7 @@ class RefreshCommandTest {
         assertThat(refresh.usageHelpRequested).isFalse()
         CommandLine(refresh).execute("-h")
 
-        val output = systemOutRule.log
+        val output = systemOutRule.log.normalizeLineEnding()
         Truth.assertThat(output).startsWith(
             "Downloads results for the last Firebase Test Lab run\n" +
                     "\n" +
@@ -87,6 +88,7 @@ class RefreshCommandTest {
 
     @Test
     fun refreshCommandRuns() {
+        // TODO: ':' is an illegal character on windows
         exit.expectSystemExit()
         setupResultsDir()
         val cmd = RefreshCommand()

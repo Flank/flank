@@ -21,7 +21,7 @@ class BashTest {
 
     @Test
     fun executeNoOutput() {
-        assertThat(Bash.execute("")).isEmpty()
+        assertThat(Bash.execute(" ")).isEmpty()
     }
 
     @Test

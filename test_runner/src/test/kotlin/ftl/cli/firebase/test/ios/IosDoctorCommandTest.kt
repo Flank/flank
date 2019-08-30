@@ -4,6 +4,7 @@ import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.TestHelper.normalizeLineEnding
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
@@ -22,7 +23,7 @@ class IosDoctorCommandTest {
         assertThat(doctor.usageHelpRequested).isFalse()
         CommandLine(doctor).execute("-h")
 
-        val output = systemOutRule.log
+        val output = systemOutRule.log.normalizeLineEnding()
         Truth.assertThat(output).startsWith(
             "Verifies flank firebase is setup correctly\n" +
                 "\n" +

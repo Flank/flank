@@ -9,6 +9,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
+import ftl.test.util.TestHelper.normalizeLineEnding
 
 @RunWith(FlankTestRunner::class)
 class GenericTestRunnerTest {
@@ -21,13 +22,13 @@ class GenericTestRunnerTest {
 
     @Test
     fun testBeforeRunMessage1() {
-        val result = beforeRunMessage(createMock(1), listOf(listOf("")))
+        val result = beforeRunMessage(createMock(1), listOf(listOf(""))).normalizeLineEnding()
         assert(result, "  1 test / 1 shard\n")
     }
 
     @Test
     fun testBeforeRunMessage2() {
-        val result = beforeRunMessage(createMock(2), listOf(listOf("")))
+        val result = beforeRunMessage(createMock(2), listOf(listOf(""))).normalizeLineEnding()
         assert(
             result, """
   1 test / 1 shard
@@ -43,7 +44,7 @@ class GenericTestRunnerTest {
         val result = beforeRunMessage(
             createMock(2),
                 listOf(listOf(""), listOf(""), listOf(""), listOf(""), listOf(""), listOf(""))
-            )
+            ).normalizeLineEnding()
         assert(
             result, """
   6 tests / 6 shards
@@ -56,7 +57,9 @@ class GenericTestRunnerTest {
 
     @Test
     fun testBeforeRunMessage4() {
-        val result = beforeRunMessage(createMock(100), listOf(listOf("", "", "", "", ""), listOf("", "", "", "", "")))
+        val result = beforeRunMessage(createMock(100),
+            listOf(listOf("", "", "", "", ""),
+            listOf("", "", "", "", ""))).normalizeLineEnding()
         assert(
             result, """
   10 tests / 2 shards
