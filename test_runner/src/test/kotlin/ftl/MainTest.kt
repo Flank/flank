@@ -21,7 +21,7 @@ class MainTest {
     val systemErrRule: SystemErrRule = SystemErrRule().enableLog().muteForSuccessfulTests()
 
     private fun assertMainHelpStrings(output: String) {
-        assertThat(output).contains(
+        assertThat(output.normalizeLineEnding()).contains(
             "flank.jar\n" +
                 " [-v] [COMMAND]\n" +
                 "  -v, --version   Prints the version\n" +
@@ -32,11 +32,16 @@ class MainTest {
         )
     }
 
+    private fun String.normalizeLineEnding(): String  {
+        // required for tests to pass on Windows
+        return this.replace("\r\n", "\n")
+    }
+
     private fun runCommand(vararg args: String): String {
         systemErrRule.clearLog()
         systemOutRule.clearLog()
         CommandLine(Main()).execute(*args)
-        return systemOutRule.log + systemErrRule.log
+        return systemOutRule.log.normalizeLineEnding() + systemErrRule.log.normalizeLineEnding()
     }
 
     @Test
