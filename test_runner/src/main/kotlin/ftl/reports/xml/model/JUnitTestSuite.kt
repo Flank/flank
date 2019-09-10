@@ -31,6 +31,10 @@ data class JUnitTestSuite(
     @JacksonXmlProperty(isAttribute = true)
     val hostname: String, // String.
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JacksonXmlProperty(isAttribute = true)
+    val testLabExecutionId: String?, // String.
+
     @JacksonXmlProperty(localName = "testcase")
     var testcases: MutableCollection<JUnitTestCase>?,
 
