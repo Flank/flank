@@ -13,7 +13,7 @@ import java.nio.file.Path
 private val xmlModule = JacksonXmlModule().apply { setDefaultUseWrapper(false) }
 private val xmlMapper = XmlMapper(xmlModule)
     .registerModules(KotlinModule())
-    .configure(FAIL_ON_UNKNOWN_PROPERTIES, true)
+    .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 private val xmlPrettyWriter = xmlMapper.writerWithDefaultPrettyPrinter()
 
