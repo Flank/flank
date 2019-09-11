@@ -138,6 +138,7 @@ object Tmp {
             time = overview.time(),
             timestamp = "",
             hostname = "localhost",
+            testLabExecutionId = "",
             testcases = testCases
         )
 

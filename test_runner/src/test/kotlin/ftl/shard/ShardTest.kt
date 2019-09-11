@@ -7,14 +7,14 @@ import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
 import ftl.test.util.FlankTestRunner
-import java.util.concurrent.TimeUnit
-import kotlin.system.measureNanoTime
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
+import java.util.concurrent.TimeUnit
+import kotlin.system.measureNanoTime
 
 @RunWith(FlankTestRunner::class)
 class ShardTest {
@@ -34,8 +34,9 @@ class ShardTest {
             JUnitTestCase("g", "g", "1.0")
         )
 
-        val suite1 = JUnitTestSuite("", "-1", "-1", "-1", "-1", "-1", "-1", "-1", testCases, null, null, null)
-        val suite2 = JUnitTestSuite("", "-1", "-1", "-1", "-1", "-1", "-1", "-1", mutableListOf(), null, null, null)
+        val suite1 = JUnitTestSuite("", "-1", "-1", "-1", "-1", "-1", "-1", "-1", "-1", testCases, null, null, null)
+        val suite2 =
+            JUnitTestSuite("", "-1", "-1", "-1", "-1", "-1", "-1", "-1", "-1", mutableListOf(), null, null, null)
 
         return JUnitTestResult(mutableListOf(suite1, suite2))
     }
@@ -171,6 +172,7 @@ class ShardTest {
                         "12.032",
                         "2019-07-27T08:15:04",
                         "localhost",
+                        "matrix-1234_execution-asdf",
                         testCases,
                         null,
                         null,
