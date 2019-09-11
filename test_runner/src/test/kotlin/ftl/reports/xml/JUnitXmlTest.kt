@@ -51,11 +51,12 @@ class JUnitXmlTest {
         assertThat(testSuite.time).isEqualTo((3.87 + 2.278).toString())
         assertThat(testSuite.timestamp).isEqualTo("2018-09-14T20:45:55")
         assertThat(testSuite.hostname).isEqualTo("localhost")
+        assertThat(testSuite.testLabExecutionId).isEqualTo("matrix-1234_execution-asdf")
 
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
-  <testsuite name="" tests="3" failures="1" errors="0" skipped="0" time="6.148" timestamp="2018-09-14T20:45:55" hostname="localhost">
+  <testsuite name="" tests="3" failures="1" errors="0" skipped="0" time="6.148" timestamp="2018-09-14T20:45:55" hostname="localhost" testLabExecutionId="matrix-1234_execution-asdf">
     <testcase name="testPasses" classname="com.example.app.ExampleUiTest" time="0.328"/>
     <testcase name="testFails" classname="com.example.app.ExampleUiTest" time="0.857">
       <failure>junit.framework.AssertionFailedError: expected:&lt;true> but was:&lt;false>
@@ -145,7 +146,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
-  <testsuite name="" tests="1" failures="0" errors="0" skipped="0" time="2.278" timestamp="2018-09-14T20:45:55" hostname="localhost">
+  <testsuite name="" tests="1" failures="0" errors="0" skipped="0" time="2.278" timestamp="2018-09-14T20:45:55" hostname="localhost" testLabExecutionId="matrix-1234_execution-asdf">
     <testcase name="testPasses" classname="com.example.app.ExampleUiTest" time="0.328"/>
   </testsuite>
 </testsuites>
