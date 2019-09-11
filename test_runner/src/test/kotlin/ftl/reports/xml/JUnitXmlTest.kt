@@ -142,7 +142,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun `unknown xml property`() {
-        val unknownXml= """
+        val unknownXml = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
   <testsuite random="prop" name="EarlGreyExampleSwiftTests" tests="4" failures="1" errors="0" skipped="0" time="51.773" hostname="localhost">
