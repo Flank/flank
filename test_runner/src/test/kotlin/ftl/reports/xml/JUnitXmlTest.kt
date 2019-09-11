@@ -141,6 +141,32 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
     }
 
     @Test
+    fun `unknown xml property`() {
+        val unknownXml= """
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites>
+  <testsuite random="prop" name="EarlGreyExampleSwiftTests" tests="4" failures="1" errors="0" skipped="0" time="51.773" hostname="localhost">
+    <testcase name="a()" classname="a" time="1.0" random="prop"/>
+  </testsuite>
+</testsuites>
+        """.trimIndent()
+
+        val expected = """
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites>
+  <testsuite name="EarlGreyExampleSwiftTests" tests="4" failures="1" errors="0" skipped="0" time="51.773" hostname="localhost">
+    <testcase name="a()" classname="a" time="1.0"/>
+  </testsuite>
+</testsuites>
+
+        """.trimIndent()
+
+        val parsed = parseAllSuitesXml(unknownXml).xmlToString()
+
+        assertThat(parsed).isEqualTo(expected)
+    }
+
+    @Test
     fun `junitXmlToString androidPassXml`() {
         val parsed = parseOneSuiteXml(androidPassXml).xmlToString()
         val expected = """
