@@ -5,6 +5,7 @@ import ftl.config.FtlConstants.isMacOS
 import ftl.test.util.FlankTestRunner
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.File
 
 @RunWith(FlankTestRunner::class)
 class BashTest {
@@ -38,6 +39,8 @@ class BashTest {
             "linux"
         }
         val cmd = "./src/test/kotlin/ftl/fixtures/tmp/gohello/bin/$os/gohello"
+        // ensure binary is marked executable. unzip may have removed the executable bit.
+        File(cmd).setExecutable(true)
         assertThat(Bash.execute(cmd).length).isEqualTo(200_000)
     }
 }
