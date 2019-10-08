@@ -8,6 +8,7 @@ import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
+import ftl.test.util.TestHelper.normalizeLineEnding
 
 @RunWith(FlankTestRunner::class)
 class MainTest {
@@ -21,7 +22,7 @@ class MainTest {
     val systemErrRule: SystemErrRule = SystemErrRule().enableLog().muteForSuccessfulTests()
 
     private fun assertMainHelpStrings(output: String) {
-        assertThat(output).contains(
+        assertThat(output.normalizeLineEnding()).contains(
             "flank.jar\n" +
                 " [-v] [COMMAND]\n" +
                 "  -v, --version   Prints the version\n" +
@@ -36,7 +37,7 @@ class MainTest {
         systemErrRule.clearLog()
         systemOutRule.clearLog()
         CommandLine(Main()).execute(*args)
-        return systemOutRule.log + systemErrRule.log
+        return systemOutRule.log.normalizeLineEnding() + systemErrRule.log.normalizeLineEnding()
     }
 
     @Test

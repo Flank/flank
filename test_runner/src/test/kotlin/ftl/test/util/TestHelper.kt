@@ -16,4 +16,9 @@ object TestHelper {
         getPath(path).toString()
 
     fun String.absolutePath(): String = Paths.get(this).toAbsolutePath().normalize().toString()
+
+    fun String.normalizeLineEnding(): String {
+        // required for tests to pass on Windows
+        return this.replace("\r\n", "\n")
+    }
 }

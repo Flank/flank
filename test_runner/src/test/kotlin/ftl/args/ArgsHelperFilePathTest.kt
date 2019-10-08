@@ -1,8 +1,10 @@
 package ftl.args
 
 import com.google.common.truth.Truth
+import ftl.config.FtlConstants.isWindows
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
+import org.junit.Assume.assumeFalse
 import java.io.File
 import org.junit.Rule
 import org.junit.Test
@@ -17,6 +19,8 @@ class ArgsHelperFilePathTest {
 
     @Test
     fun `check apk glob path resolves correctly`() {
+        assumeFalse(isWindows)
+
         val testApkRelativePath = "../test_app/apks/nested/app-debug-androidTest.apk"
         val testApkBlobPath = "../test_app/apks/**/app-debug-*.apk"
 
@@ -40,6 +44,8 @@ class ArgsHelperFilePathTest {
 
     @Test
     fun evaluateTildeInFilePath() {
+        assumeFalse(isWindows)
+
         val expected = makeTmpFile("/tmp/random.xctestrun")
 
         val inputPath = "~/../../tmp/random.xctestrun"
@@ -70,6 +76,8 @@ class ArgsHelperFilePathTest {
 
     @Test
     fun evaluateSingleGlobBeforeDouble() {
+        assumeFalse(isWindows)
+
         val expected = makeTmpFile("/tmp/tmp1/tmp2/singleglob/app-debug.apk")
         val inputPath = "/tmp/*/**/singleglob/app-debug.apk"
         val actual = ArgsHelper.evaluateFilePath(inputPath)
@@ -79,6 +87,8 @@ class ArgsHelperFilePathTest {
 
     @Test
     fun evaluateRelativeAndWildCardsInFilePath() {
+        assumeFalse(isWindows)
+
         makeTmpFile("/tmp/tmp1/tmp2/tmp3/tmp4/tmp5/tmp6/tmp7/tmp8/tmp9/app-debug.apk")
         val expected = makeTmpFile("/tmp/tmp1/tmp2/tmp3/tmp4/tmp5/tmp6/tmp7/tmp8/tmp9/tmp10/app-debug.apk")
         val inputPath = "~/../../../../../../../../../tmp/tmp1/**/tmp4/**/tmp7/*/tmp9/*/app*debug.apk"
@@ -89,6 +99,8 @@ class ArgsHelperFilePathTest {
 
     @Test
     fun evaluateWildCardsInFilePath() {
+        assumeFalse(isWindows)
+
         val expected = makeTmpFile("/tmp/tmp1/tmp2/tmp3/tmp4/tmp5/tmp6/tmp7/tmp8/tmp9/app-debug.apk")
         makeTmpFile("/tmp/tmp1/tmp2/tmp3/tmp4/tmp5/tmp6/tmp7/tmp8/tmp9/tmp10/app-debug.apk")
         val inputPath = "/tmp/**/tmp4/**/tmp8/*/app*debug.apk"

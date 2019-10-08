@@ -9,11 +9,13 @@ import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.validateTestMethods
 import ftl.args.yml.GcloudYml
 import ftl.args.yml.IosGcloudYml
+import ftl.config.FtlConstants
 import ftl.shard.TestMethod
 import ftl.shard.TestShard
 import ftl.shard.stringShards
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
+import org.junit.Assume
 import java.io.File
 import org.junit.Rule
 import org.junit.Test
@@ -135,6 +137,8 @@ class ArgsHelperTest {
 
     @Test
     fun evaluateTildeInFilePath() {
+        Assume.assumeFalse(FtlConstants.isWindows)
+
         val expected = makeTmpFile("/tmp/random.xctestrun")
 
         val inputPath = "~/../../tmp/random.xctestrun"
@@ -196,7 +200,7 @@ class ArgsHelperTest {
 
     @Test
     fun testInvalidrepeatTests() {
-        exceptionRule.expectMessage("repeat-tests must be >= 1")
+        exceptionRule.expectMessage("num-test-runs must be >= 1")
 
         val args = spy(AndroidArgs.default())
         `when`(args.repeatTests).thenReturn(0)

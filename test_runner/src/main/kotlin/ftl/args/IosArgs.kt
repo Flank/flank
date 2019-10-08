@@ -127,7 +127,7 @@ ${devicesToString(devices)}
     flank:
       max-test-shards: $maxTestShards
       shard-time: $shardTime
-      repeat-tests: $repeatTests
+      num-test-runs: $repeatTests
       smart-flank-gcs-path: $smartFlankGcsPath
       smart-flank-disable-upload: $smartFlankDisableUpload
       test-targets-always-run:

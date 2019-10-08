@@ -2,12 +2,15 @@ package ftl.ios
 
 import com.dd.plist.NSDictionary
 import com.google.common.truth.Truth.assertThat
+import ftl.config.FtlConstants.isWindows
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestArtifact.fixturesPath
+import org.junit.Assume.assumeFalse
 import java.nio.file.Files
 import java.nio.file.Paths
 import org.junit.Test
 import org.junit.runner.RunWith
+import ftl.test.util.TestHelper.normalizeLineEnding
 
 @RunWith(FlankTestRunner::class)
 class XctestrunTest {
@@ -49,12 +52,16 @@ class XctestrunTest {
 
     @Test
     fun findTestNames() {
+        assumeFalse(isWindows)
+
         val names = Xctestrun.findTestNames(swiftXctestrun).sorted()
         assertThat(swiftTests).isEqualTo(names)
     }
 
     @Test
     fun rewrite() {
+        assumeFalse(isWindows)
+
         val root = Xctestrun.parse(swiftXctestrun)
         val methods = Xctestrun.findTestNames(swiftXctestrun)
         val results = String(Xctestrun.rewrite(root, methods))
@@ -63,6 +70,8 @@ class XctestrunTest {
 
     @Test
     fun rewriteImmutable() {
+        assumeFalse(isWindows)
+
         val root = Xctestrun.parse(swiftXctestrun)
         val methods = Xctestrun.findTestNames(swiftXctestrun)
 
@@ -107,7 +116,7 @@ class XctestrunTest {
 	</dict>
 </dict>
 </plist>"""
-        assertThat(expected).isEqualTo(String(result))
+        assertThat(expected).isEqualTo(String(result).normalizeLineEnding())
     }
 
     @Test
@@ -136,11 +145,13 @@ class XctestrunTest {
 
         val rewrittenXml = String(Xctestrun.rewrite(root, listOf("testOne", "testTwo")))
 
-        assertThat(inputXml).isEqualTo(rewrittenXml)
+        assertThat(inputXml).isEqualTo(rewrittenXml.normalizeLineEnding())
     }
 
     @Test
     fun `findTestNames respects skip`() {
+        assumeFalse(isWindows)
+
         val inputXml = """
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">

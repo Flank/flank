@@ -13,7 +13,7 @@ class FlankYmlParams(
     @field:JsonProperty("shard-time")
     val shardTime: Int = -1,
 
-    @field:JsonProperty("repeat-tests")
+    @field:JsonProperty("num-test-runs")
     val repeatTests: Int = 1,
 
     @field:JsonProperty("smart-flank-gcs-path")
@@ -38,7 +38,7 @@ class FlankYmlParams(
 ) {
     companion object : IYmlKeys {
         override val keys = listOf(
-            "max-test-shards", "shard-time", "repeat-tests", "smart-flank-gcs-path", "smart-flank-disable-upload",
+            "max-test-shards", "shard-time", "num-test-runs", "smart-flank-gcs-path", "smart-flank-disable-upload",
             "disable-sharding", "test-targets-always-run", "files-to-download", "project", "local-result-dir"
         )
 

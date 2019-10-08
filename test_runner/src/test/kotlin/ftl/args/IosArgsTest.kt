@@ -8,11 +8,13 @@ import ftl.args.yml.IosGcloudYml
 import ftl.args.yml.IosGcloudYmlParams
 import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.config.Device
+import ftl.config.FtlConstants
 import ftl.config.FtlConstants.defaultIosModel
 import ftl.config.FtlConstants.defaultIosVersion
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
+import org.junit.Assume
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
@@ -56,7 +58,7 @@ class IosArgsTest {
         flank:
           max-test-shards: 7
           shard-time: 60
-          repeat-tests: 8
+          num-test-runs: 8
           files-to-download:
             - /sdcard/screenshots
           test-targets-always-run:
@@ -182,7 +184,7 @@ IosArgs
     flank:
       max-test-shards: 7
       shard-time: 60
-      repeat-tests: 8
+      num-test-runs: 8
       smart-flank-gcs-path:${' '}
       smart-flank-disable-upload: false
       test-targets-always-run:
@@ -240,6 +242,8 @@ IosArgs
 
     @Test
     fun negativeOneTestShards() {
+        Assume.assumeFalse(FtlConstants.isWindows)
+
         val args = IosArgs.load(
             """
     gcloud:
@@ -461,7 +465,7 @@ IosArgs
     @Test
     fun `cli repeatTests`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parseArgs("--repeat-tests=3")
+        CommandLine(cli).parseArgs("--num-test-runs=3")
 
         val yaml = """
         gcloud:
@@ -469,7 +473,7 @@ IosArgs
           xctestrun-file: $xctestrunFile
 
         flank:
-          repeat-tests: 2
+          num-test-runs: 2
       """
         assertThat(IosArgs.load(yaml).repeatTests).isEqualTo(2)
         assertThat(IosArgs.load(yaml, cli).repeatTests).isEqualTo(3)

@@ -1,6 +1,7 @@
 package ftl.reports.xml
 
 import com.google.common.truth.Truth.assertThat
+import ftl.test.util.TestHelper.normalizeLineEnding
 import java.nio.file.Paths
 import org.junit.Test
 
@@ -40,7 +41,7 @@ class JUnitXmlTest {
     @Test
     fun `merge android`() {
         val mergedXml = parseOneSuiteXml(androidPassXml).merge(parseOneSuiteXml(androidFailXml))
-        val merged = mergedXml.xmlToString()
+        val merged = mergedXml.xmlToString().normalizeLineEnding()
 
         val testSuite = mergedXml.testsuites?.first() ?: throw java.lang.RuntimeException("no test suite")
         assertThat(testSuite.name).isEqualTo("")
@@ -72,7 +73,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun `merge ios`() {
-        val merged = parseAllSuitesXml(iosPassXml).merge(parseAllSuitesXml(iosFailXml)).xmlToString()
+        val merged = parseAllSuitesXml(iosPassXml).merge(parseAllSuitesXml(iosFailXml)).xmlToString().normalizeLineEnding()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
@@ -93,7 +94,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun `Merge iOS large time`() {
-        val merged = parseAllSuitesXml(iosLargeNum).merge(parseAllSuitesXml(iosLargeNum)).xmlToString()
+        val merged = parseAllSuitesXml(iosLargeNum).merge(parseAllSuitesXml(iosLargeNum)).xmlToString().normalizeLineEnding()
 
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
@@ -118,7 +119,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
     fun `merge androidSkipped`() {
         val merged = parseOneSuiteXml(androidSkipped)
         merged.merge(merged)
-        val actual = merged.xmlToString()
+        val actual = merged.xmlToString().normalizeLineEnding()
 
         assertThat(actual).isEqualTo(
             """
@@ -168,7 +169,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun `junitXmlToString androidPassXml`() {
-        val parsed = parseOneSuiteXml(androidPassXml).xmlToString()
+        val parsed = parseOneSuiteXml(androidPassXml).xmlToString().normalizeLineEnding()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
@@ -184,7 +185,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun `junitXmlToString androidFailXml`() {
-        val parsed = parseOneSuiteXml(androidFailXml).xmlToString()
+        val parsed = parseOneSuiteXml(androidFailXml).xmlToString().normalizeLineEnding()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
@@ -204,7 +205,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun `junitXmlToString iosPassXml`() {
-        val parsed = parseAllSuitesXml(iosPassXml).xmlToString()
+        val parsed = parseAllSuitesXml(iosPassXml).xmlToString().normalizeLineEnding()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
@@ -221,7 +222,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun `junitXmlToString iosFailXml`() {
-        val parsed = parseAllSuitesXml(iosFailXml).xmlToString()
+        val parsed = parseAllSuitesXml(iosFailXml).xmlToString().normalizeLineEnding()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
@@ -422,7 +423,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
         // * c() failed in newRun and passed in oldRun. timing info copied over from oldRun
         // * d() was skipped in newRun and successful in oldRun. d() is excluded from the merged result
 
-        val merged = parseAllSuitesXml(newRun).mergeTestTimes(parseAllSuitesXml(oldRun)).xmlToString()
+        val merged = parseAllSuitesXml(newRun).mergeTestTimes(parseAllSuitesXml(oldRun)).xmlToString().normalizeLineEnding()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>

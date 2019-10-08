@@ -2,9 +2,11 @@ package ftl.args
 
 import com.google.common.truth.Truth.assertThat
 import ftl.config.Device
+import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
+import org.junit.Assume
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
@@ -66,6 +68,8 @@ class IosArgsFileTest {
 
     @Test
     fun testMethodsAlwaysRun() {
+        Assume.assumeFalse(FtlConstants.isWindows)
+
         val config = IosArgs.load(yamlFile2)
 
         val chunk0 = arrayListOf(

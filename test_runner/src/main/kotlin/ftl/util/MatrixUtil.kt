@@ -2,17 +2,18 @@ package ftl.util
 
 import ftl.args.IArgs
 import ftl.json.MatrixMap
+import ftl.util.Utils.join
 import java.io.File
-import java.nio.file.Paths
 import java.util.concurrent.TimeUnit
 
 fun resolveLocalRunPath(matrices: MatrixMap, args: IArgs): String {
     if (args.useLocalResultDir()) return args.localResultDir
 
-    var runPath = File(matrices.runPath)
-    if (!runPath.exists()) runPath = Paths.get(args.localResultDir, runPath.name).toFile()
+    val runPath = File(matrices.runPath)
+    if (!runPath.exists()) return join(args.localResultDir, runPath.name)
 
-    return runPath.toString()
+    // avoid File().toString() as that will use a '\' path separator.
+    return matrices.runPath
 }
 
 fun testTimeoutToSeconds(timeout: String): Long {

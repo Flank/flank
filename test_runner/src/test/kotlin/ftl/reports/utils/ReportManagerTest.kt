@@ -30,6 +30,7 @@ class ReportManagerTest {
 
     @Test
     fun `generate fromErrorResult`() {
+        // TODO: NPE on Windows
         val matrix = TestRunner.matrixPathToObj("./src/test/kotlin/ftl/fixtures/error_result", AndroidArgs.default())
         val mockArgs = mock(AndroidArgs::class.java)
         `when`(mockArgs.smartFlankGcsPath).thenReturn("")
@@ -46,6 +47,7 @@ class ReportManagerTest {
 
     @Test
     fun `generate correct exit code from multi-suite ios result`() {
+        // TODO: NPE on Windows
         val matrix = TestRunner.matrixPathToObj("./src/test/kotlin/ftl/fixtures/ios_exit_code", IosArgs.default())
         val mockArgs = mock(IosArgs::class.java)
         `when`(mockArgs.smartFlankGcsPath).thenReturn("")

@@ -61,7 +61,7 @@ object ArgsHelper {
 
         if (args.maxTestShards <= 0 && args.maxTestShards != -1) Utils.fatalError("max-test-shards must be >= 1 or -1")
         if (args.shardTime <= 0 && args.shardTime != -1) Utils.fatalError("shard-time must be >= 1 or -1")
-        if (args.repeatTests < 1) Utils.fatalError("repeat-tests must be >= 1")
+        if (args.repeatTests < 1) Utils.fatalError("num-test-runs must be >= 1")
 
         if (args.smartFlankGcsPath.isNotEmpty()) {
             if (!args.smartFlankGcsPath.startsWith(GCS_PREFIX)) {

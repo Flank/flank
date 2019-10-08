@@ -15,4 +15,4 @@ flank:
   test-targets:
   - EarlGreyExampleSwiftTests/testLayout
   max-test-shards: 1
-  repeat-tests: 1
+  num-test-runs: 1

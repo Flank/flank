@@ -1,6 +1,5 @@
 package ftl.test.util
 
-import ftl.util.Bash
 import java.io.File
 import java.net.InetAddress
 import java.net.InetSocketAddress
@@ -15,6 +14,7 @@ import okhttp3.ResponseBody
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
+import java.util.zip.ZipFile
 
 object TestArtifact {
     const val fixturesPath = "./src/test/kotlin/ftl/fixtures/tmp"
@@ -112,8 +112,29 @@ object TestArtifact {
         val zipPath = "${fixtures.path}/$assetName"
         download(downloadUrl, zipPath)
 
-        val unzip = "unzip \"$zipPath\" -d \"${fixtures.path}\""
-        Bash.execute(unzip)
+        unzipFile(zipPath, fixtures.path)
+    }
+}
+
+private fun unzipFile(fileName: String, unzipPath: String) {
+    println("Unzipping: $fileName to $unzipPath")
+    ZipFile(fileName).use { zipFile ->
+        zipFile.entries().asSequence().forEach { zipEntry ->
+            val outputFile = File(unzipPath, zipEntry.name)
+
+            if (zipEntry.isDirectory) {
+                outputFile.mkdirs()
+                return@forEach
+            }
+
+            outputFile.parentFile.mkdirs()
+
+            zipFile.getInputStream(zipEntry).use { zipEntryInput ->
+                outputFile.outputStream().use { output ->
+                    zipEntryInput.copyTo(output)
+                }
+            }
+        }
     }
 }
 

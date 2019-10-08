@@ -3,10 +3,12 @@ package ftl.run
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
+import ftl.config.FtlConstants.isWindows
 import ftl.test.util.FlankTestRunner
 import ftl.util.ObjPath
 import java.nio.file.Paths
 import kotlinx.coroutines.runBlocking
+import org.junit.Assume.assumeFalse
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
@@ -75,6 +77,8 @@ class TestRunnerTest {
 
     @Test
     fun `mockedIosTestRun local`() {
+        assumeFalse(isWindows)
+
         val config = IosArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.yml"))
         runBlocking {
             TestRunner.newRun(config)
@@ -83,6 +87,8 @@ class TestRunnerTest {
 
     @Test
     fun `mockedIosTestRun gcsAndHistoryName`() {
+        assumeFalse(isWindows)
+
         val config = IosArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.gcs.yml"))
         runBlocking {
             TestRunner.newRun(config)
