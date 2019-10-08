@@ -37,7 +37,7 @@ object FtlConstants {
     }
 
     val isWindows: Boolean by lazy {
-       osName.indexOf("win") >= 0
+        osName.indexOf("win") >= 0
     }
 
     const val localhost = "http://localhost:8080"

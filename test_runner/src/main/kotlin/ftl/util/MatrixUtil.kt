@@ -4,7 +4,6 @@ import ftl.args.IArgs
 import ftl.json.MatrixMap
 import ftl.util.Utils.join
 import java.io.File
-import java.nio.file.Paths
 import java.util.concurrent.TimeUnit
 
 fun resolveLocalRunPath(matrices: MatrixMap, args: IArgs): String {
