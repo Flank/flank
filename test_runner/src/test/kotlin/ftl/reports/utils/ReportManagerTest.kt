@@ -2,7 +2,6 @@ package ftl.reports.utils
 
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
-import ftl.args.IosArgs
 import ftl.reports.util.ReportManager
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
@@ -43,18 +42,6 @@ class ReportManagerTest {
         val mockArgs = mock(AndroidArgs::class.java)
         `when`(mockArgs.smartFlankGcsPath).thenReturn("")
         ReportManager.generate(matrix, mockArgs, emptyList())
-    }
-
-    @Test
-    fun `generate correct exit code from multi-suite ios result`() {
-        // TODO: NPE on Windows
-        val matrix = TestRunner.matrixPathToObj("./src/test/kotlin/ftl/fixtures/ios_exit_code", IosArgs.default())
-        val mockArgs = mock(IosArgs::class.java)
-        `when`(mockArgs.smartFlankGcsPath).thenReturn("")
-        // Must set flaky test attempts > 0 for exit code to be based on JUnit XML results.
-        `when`(mockArgs.flakyTestAttempts).thenReturn(1)
-        val exitCode = ReportManager.generate(matrix, mockArgs, emptyList())
-        assertThat(exitCode).isEqualTo(0)
     }
 
     @Test
