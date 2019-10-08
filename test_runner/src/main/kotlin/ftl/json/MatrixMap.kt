@@ -36,8 +36,14 @@ class MatrixMap(
         var exitCode = 0
 
         map.values.forEach { matrix ->
-            if (matrix.state != MatrixState.FINISHED) return 2
-            if (matrix.failed()) exitCode = 1
+            if (matrix.state != MatrixState.FINISHED)  {
+                println("Error: Matrix not finished: ${matrix.matrixId} ${matrix.state}")
+                return 2
+            }
+            if (matrix.failed()) {
+                println("Error: Matrix failed: ${matrix.matrixId} ${matrix.state}")
+                exitCode = 1
+            }
         }
 
         return exitCode
