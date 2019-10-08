@@ -97,8 +97,6 @@ object ReportManager {
         val useFlakyTests = args.flakyTestAttempts > 0
         if (useFlakyTests) JUnitDedupe.modify(testSuite)
 
-        val testSuccessful = if (useFlakyTests) testSuite?.successful() ?: false else matrices.allSuccessful()
-
         listOf(
             CostReport,
             MatrixResultsReport
@@ -106,7 +104,7 @@ object ReportManager {
             it.run(matrices, testSuite, printToStdout = true, args = args)
         }
 
-        if (!testSuccessful) {
+        if (!matrices.allSuccessful()) {
             listOf(
                 HtmlErrorReport
             ).map { it.run(matrices, testSuite, printToStdout = false, args = args) }
@@ -115,14 +113,7 @@ object ReportManager {
         JUnitReport.run(matrices, testSuite, printToStdout = false, args = args)
         processJunitXml(testSuite, args, testShardChunks)
 
-        // FTL has a bug with matrix roll-up when using flakyTestAttempts
-        // as a work around, we calculate the success based on JUnit XML results.
-        val exitCode = if (useFlakyTests) {
-            if (testSuccessful) 0 else 1
-        } else {
-            matrices.exitCode()
-        }
-        return exitCode
+        return matrices.exitCode()
     }
 
     data class ShardEfficiency(

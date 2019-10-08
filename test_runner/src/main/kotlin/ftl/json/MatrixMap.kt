@@ -36,16 +36,20 @@ class MatrixMap(
         var exitCode = 0
 
         map.values.forEach { matrix ->
-            if (matrix.state != MatrixState.FINISHED)  {
-                println("Error: Matrix not finished: ${matrix.matrixId} ${matrix.state}")
+            if (matrix.state != MatrixState.FINISHED) {
+                matrix.logError("not finished")
                 return 2
             }
             if (matrix.failed()) {
-                println("Error: Matrix failed: ${matrix.matrixId} ${matrix.state}")
+                matrix.logError("failed")
                 exitCode = 1
             }
         }
 
         return exitCode
+    }
+
+    private fun SavedMatrix.logError(message: String) {
+        println("Error: Matrix $message: ${this.matrixId} ${this.state} ${this.webLink}")
     }
 }

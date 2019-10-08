@@ -1,6 +1,9 @@
 ## next (unreleased)
 
 - [#595](https://github.com/TestArmada/flank/pull/595) Rename `flaky-test-attempts` to `num-flaky-test-attempts`. Rename `repeat-tests` to `num-test-runs`. ([bootstraponline](https://github.com/bootstraponline))
+- [#605](https://github.com/TestArmada/flank/pull/605) Improve exit code logging. Use matrix outcome to set exit code. ([bootstraponline](https://github.com/bootstraponline))
+- [#597](https://github.com/TestArmada/flank/pull/597) Support parsing testLabExecutionId. ([yogurtearl](https://github.com/yogurtearl))
+- [#599](https://github.com/TestArmada/flank/pull/599) Disable FAIL_ON_UNKNOWN_PROPERTIES for forward compatibility. ([narenkmanoharan](https://github.com/narenkmanoharan))
 
 ## v7.0.2
 
