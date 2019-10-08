@@ -1,6 +1,6 @@
 ## next (unreleased)
 
-- [#595](https://github.com/TestArmada/flank/pull/595) Rename `flaky-test-attempts` to `num-flaky-test-attempts`. ([bootstraponline](https://github.com/bootstraponline))
+- [#595](https://github.com/TestArmada/flank/pull/595) Rename `flaky-test-attempts` to `num-flaky-test-attempts`. Rename `repeat-tests` to `num-test-runs`. ([bootstraponline](https://github.com/bootstraponline))
 
 ## v7.0.2
 
