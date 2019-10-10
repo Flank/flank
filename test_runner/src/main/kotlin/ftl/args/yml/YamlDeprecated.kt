@@ -93,7 +93,7 @@ object YamlDeprecated {
             val parentValue = this[parentKey]
             // if the parent node ('flank:') doesn't exist then add it ('flank: {}') to the YAML
             val nullParent = parentValue == null || parentValue.toString() == "null"
-            if (nullParent) (this as ObjectNode).set(parentKey, JsonNodeFactory.instance.objectNode())
+            if (nullParent) (this as ObjectNode).set(parentKey, JsonNodeFactory.instance.objectNode()) as JsonNode
         }
     }
 
