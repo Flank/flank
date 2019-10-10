@@ -87,7 +87,7 @@ object Tmp {
         val toolResult = gson.fromJson(content, ToolResultsStep::class.java)
 
         val tests = GcToolResults.listTestCases(toolResult)
-        val result = GcToolResults.getResults(toolResult)
+        val result = GcToolResults.getStepResult(toolResult)
 
         // todo: handle multiple overviews (iOS only)
         val overview = result.testExecutionStep.testSuiteOverviews.first()

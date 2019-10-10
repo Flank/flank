@@ -3,7 +3,6 @@ package ftl.reports
 import ftl.args.IArgs
 import ftl.config.FtlConstants.indent
 import ftl.json.MatrixMap
-import ftl.json.SavedMatrix
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.util.Utils.println
@@ -29,13 +28,11 @@ object MatrixResultsReport : IReport {
     private fun generate(matrices: MatrixMap): String {
         var total = 0
         var success = 0
-        val failedMatrices = mutableListOf<SavedMatrix>()
         matrices.map.values.forEach { matrix ->
             total += 1
 
-            if (matrix.failed()) {
-                failedMatrices.add(matrix)
-            } else {
+            // unfinished matrix will not be reported as failed since it's still running
+            if (matrix.failed().not()) {
                 success += 1
             }
         }
@@ -52,11 +49,6 @@ object MatrixResultsReport : IReport {
             if (failed > 0) {
                 writer.println("$indent$failed matrices failed")
                 writer.println()
-                failedMatrices.forEach {
-                    writer.println("$indent${it.matrixId} ${it.outcomeDetails}")
-                    writer.println("$indent${it.webLink}")
-                    writer.println()
-                }
             }
 
             return writer.toString()
