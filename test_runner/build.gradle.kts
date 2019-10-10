@@ -192,7 +192,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.2.3")
     // mockito-inline is used to mock final classes
     // https://github.com/mockito/mockito/releases
-    testImplementation("org.mockito:mockito-inline:3.1.2")
+    testImplementation("org.mockito:mockito-inline:3.1.0")
     // https://github.com/square/okhttp/releases
     testImplementation("com.squareup.okhttp3:okhttp:4.2.2")
 
