@@ -2,6 +2,7 @@ package ftl.args.yml
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
+import com.fasterxml.jackson.databind.node.MissingNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import ftl.args.ArgsHelper.yamlMapper
 import ftl.args.yml.YamlDeprecated.replace
@@ -147,7 +148,13 @@ object YamlDeprecated {
     }
 
     fun modify(yamlData: String): Pair<Boolean, String> {
-        val parsed = yamlMapper.readTree(yamlData) ?: JsonNodeFactory.instance.objectNode()
+        val mappedYaml = yamlMapper.readTree(yamlData)
+
+        val parsed = if (mappedYaml == null || mappedYaml is MissingNode) {
+            JsonNodeFactory.instance.objectNode()
+        } else {
+            mappedYaml
+        }
         parsed.createParents()
 
         yamlMapper.writerWithDefaultPrettyPrinter()
