@@ -134,19 +134,19 @@ dependencies {
     implementation("com.bugsnag:bugsnag:3.+")
 
     // https://github.com/remkop/picocli/releases
-    implementation("info.picocli:picocli:4.0.0-beta-2")
+    implementation("info.picocli:picocli:4.0.4")
 
     // https://github.com/google/gson/releases
-    implementation("com.google.code.gson:gson:2.8.5")
+    implementation("com.google.code.gson:gson:2.8.6")
 
     // https://github.com/3breadt/dd-plist/releases
-    implementation("com.googlecode.plist:dd-plist:1.21")
+    implementation("com.googlecode.plist:dd-plist:1.22")
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    implementation("com.google.cloud:google-cloud-storage:1.80.0")
+    implementation("com.google.cloud:google-cloud-storage:1.96.0")
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
-    implementation("com.google.apis:google-api-services-toolresults:v1beta3-rev20190617-1.30.1")
+    implementation("com.google.apis:google-api-services-toolresults:v1beta3-rev20190923-1.30.3")
 
     // https://github.com/linkedin/dex-test-parser/releases
     implementation("com.linkedin.dextestparser:parser:2.1.1")
@@ -162,29 +162,28 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.JACKSON}")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${Versions.JACKSON}")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${Versions.JACKSON}")
-    implementation("com.fasterxml.woodstox:woodstox-core:5.1.0")
 
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${Versions.JACKSON}")
 
     // https://github.com/FasterXML/woodstox/releases
-    implementation("com.fasterxml.woodstox:woodstox-core:5.2.1")
+    implementation("com.fasterxml.woodstox:woodstox-core:6.0.1")
 
-    // https://github.com/googleapis/google-auth-library-java
+    // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
     // https://github.com/googleapis/google-oauth-java-client/issues/251#issuecomment-504565533
-    implementation("com.google.auth:google-auth-library-oauth2-http:0.16.2")
+    implementation("com.google.auth:google-auth-library-oauth2-http:0.18.0")
 
     // https://github.com/jhy/jsoup/releases
     testImplementation("org.jsoup:jsoup:1.12.1")
     testImplementation(Libs.JUNIT)
     // https://github.com/google/truth/releases
-    testImplementation("com.google.truth:truth:1.0-rc1")
+    testImplementation("com.google.truth:truth:1.0")
     // https://github.com/stefanbirkner/system-rules/releases
     testImplementation("com.github.stefanbirkner:system-rules:1.19.0")
 
     // https://github.com/ktorio/ktor/releases
-    val ktorVersion = "1.2.2"
+    val ktorVersion = "1.2.5"
     implementation("io.ktor:ktor-server-core:$ktorVersion")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
     implementation("io.ktor:ktor-gson:$ktorVersion")
@@ -193,13 +192,13 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.2.3")
     // mockito-inline is used to mock final classes
     // https://github.com/mockito/mockito/releases
-    testImplementation("org.mockito:mockito-inline:2.28.2")
+    testImplementation("org.mockito:mockito-inline:3.1.0")
     // https://github.com/square/okhttp/releases
-    testImplementation("com.squareup.okhttp3:okhttp:4.0.0")
+    testImplementation("com.squareup.okhttp3:okhttp:4.2.2")
 
     // todo: move to testImplementation once DI is implemented https://github.com/TestArmada/flank/issues/248
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    implementation("com.google.cloud:google-cloud-nio:0.98.0-alpha")
+    implementation("com.google.cloud:google-cloud-nio:0.114.0-alpha")
 
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.DETEKT}")
 }

@@ -206,7 +206,6 @@ class IosRunCommand : Runnable {
 
     @Option(
         names = ["--smart-flank-gcs-path"],
-        split = ",",
         description = ["Google cloud storage path to save test timing data used by smart flank."]
     )
     var smartFlankGcsPath: String? = null
