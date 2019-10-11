@@ -38,9 +38,13 @@ class SavedMatrix(matrix: TestMatrix) {
         if (this.state == FINISHED) finished(matrix)
     }
 
+    // ExitCodeFromRollupOutcome - https://github.com/bootstraponline/gcloud_cli/blob/137d864acd5928baf25434cf59b0225c4d1f9319/google-cloud-sdk/lib/googlecloudsdk/api_lib/firebase/test/exit_code.py#L46
     fun failed(): Boolean {
+        // outcome of the test execution.
+        // skipped means unsupported environment
         return when (outcome) {
             failure -> true
+            skipped -> true
             inconclusive -> true
             else -> false
         }
