@@ -44,7 +44,7 @@ object HtmlErrorReport : IReport {
 
         if (failures.isEmpty()) return null
 
-        failures.forEach { testName, testResults ->
+        failures.forEach { (testName, testResults) ->
             groupList.add(
                 Group(
                     "group-$groupId",
@@ -90,12 +90,13 @@ object HtmlErrorReport : IReport {
         templateData = replaceRange(templateData, findItemRange(templateData), newItemsJson)
 
         val writePath = Paths.get(reportPath(matrices, args))
+        println("${this.javaClass.simpleName} written to $writePath")
         Files.write(writePath, templateData.toByteArray())
     }
 
     private fun replaceRange(data: String, deleteRange: IntRange, insert: String): String {
-        val before = data.substring(0, deleteRange.start)
-        val after = data.substring(deleteRange.endInclusive)
+        val before = data.substring(0, deleteRange.first)
+        val after = data.substring(deleteRange.last)
 
         return before + insert + after
     }
