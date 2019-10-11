@@ -90,7 +90,8 @@ object HtmlErrorReport : IReport {
         templateData = replaceRange(templateData, findItemRange(templateData), newItemsJson)
 
         val writePath = Paths.get(reportPath(matrices, args))
-        println("${this.javaClass.simpleName} written to $writePath")
+        // Print out full path so you can click into the report from the terminal
+        println("${this.javaClass.simpleName} written to ${writePath.toAbsolutePath()}")
         Files.write(writePath, templateData.toByteArray())
     }
 
