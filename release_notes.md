@@ -1,5 +1,9 @@
 ## next (unreleased)
 
+- 
+
+## v8.0.1
+
 - [#608](https://github.com/TestArmada/flank/pull/608) Use MatrixRollupOutcome to set exit code value. ([bootstraponline](https://github.com/bootstraponline))
 
 ## v8.0.0
