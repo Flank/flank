@@ -1,6 +1,7 @@
 ## next (unreleased)
 
-- 
+- [#612](https://github.com/TestArmada/flank/pull/612) Print HtmlErrorReport location. ([bootstraponline](https://github.com/bootstraponline))
+-
 
 ## v8.0.1
 
