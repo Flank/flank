@@ -50,6 +50,6 @@ class MatrixMap(
     }
 
     private fun SavedMatrix.logError(message: String) {
-        println("Error: Matrix $message: ${this.matrixId} ${this.state} ${this.webLink}")
+        println("Error: Matrix $message: ${this.matrixId} ${this.state} ${this.outcome} ${this.outcomeDetails} ${this.webLink}")
     }
 }

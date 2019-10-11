@@ -67,6 +67,44 @@ object MockServer {
     private val androidCatalog by lazy { loadCatalog<AndroidDeviceCatalog>("android_catalog.json") }
     private val iosCatalog by lazy { loadCatalog<IosDeviceCatalog>("ios_catalog.json") }
 
+    private fun fakeStep(stringId: String): Step {
+        val oneSecond = Duration().setSeconds(1)
+
+        val testTiming = TestTiming()
+            .setTestProcessDuration(oneSecond)
+
+        val testExecutionStep = TestExecutionStep()
+            .setTestTiming(testTiming)
+
+        val outcome = Outcome()
+        when (stringId) {
+            "-1" -> {
+                outcome.summary = failure
+                val failureDetail = FailureDetail()
+                failureDetail.timedOut = true
+                outcome.failureDetail = failureDetail
+            }
+            "-2" -> {
+                outcome.summary = inconclusive
+                val inconclusiveDetail = InconclusiveDetail()
+                inconclusiveDetail.abortedByUser = true
+                outcome.inconclusiveDetail = inconclusiveDetail
+            }
+            "-3" -> {
+                outcome.summary = skipped
+                val skippedDetail = SkippedDetail()
+                skippedDetail.incompatibleAppVersion = true
+                outcome.skippedDetail = skippedDetail
+            }
+            else -> outcome.summary = success
+        }
+
+        return Step()
+            .setTestExecutionStep(testExecutionStep)
+            .setRunDuration(oneSecond)
+            .setOutcome(outcome)
+    }
+
     val application by lazy {
         embeddedServer(Netty, port) {
             install(ContentNegotiation) {
@@ -144,49 +182,20 @@ object MockServer {
                     call.respond(matrix)
                 }
 
-                // GcToolResults.getResults(toolResultsStep)
+                // GcToolResults.getStepResult(toolResultsStep)
                 // GET /toolresults/v1beta3/projects/delta-essence-114723/histories/1/executions/1/steps/1
                 get("/toolresults/v1beta3/projects/{project}/histories/{historyId}/executions/{executionId}/steps/{stepId}") {
                     println("Responding to GET ${call.request.uri}")
                     val stepId = call.parameters["stepId"] ?: ""
+                    call.respond(fakeStep(stepId))
+                }
 
-                    val oneSecond = Duration().setSeconds(1)
-
-                    val testTiming = TestTiming()
-                        .setTestProcessDuration(oneSecond)
-
-                    val testExecutionStep = TestExecutionStep()
-                        .setTestTiming(testTiming)
-
-                    val outcome = Outcome()
-                    when (stepId) {
-                        "-1" -> {
-                            outcome.summary = failure
-                            val failureDetail = FailureDetail()
-                            failureDetail.timedOut = true
-                            outcome.failureDetail = failureDetail
-                        }
-                        "-2" -> {
-                        outcome.summary = inconclusive
-                        val inconclusiveDetail = InconclusiveDetail()
-                        inconclusiveDetail.abortedByUser = true
-                        outcome.inconclusiveDetail = inconclusiveDetail
-                        }
-                        "-3" -> {
-                            outcome.summary = skipped
-                            val skippedDetail = SkippedDetail()
-                            skippedDetail.incompatibleAppVersion = true
-                            outcome.skippedDetail = skippedDetail
-                        }
-                        else -> outcome.summary = success
-                    }
-
-                    val step = Step()
-                        .setTestExecutionStep(testExecutionStep)
-                        .setRunDuration(oneSecond)
-                        .setOutcome(outcome)
-
-                    call.respond(step)
+                // GcToolResults.getExecutionResult(toolResultsStep)
+                // GET /toolresults/v1beta3/projects/delta-essence-114723/histories/1/executions/1
+                get("/toolresults/v1beta3/projects/{project}/histories/{historyId}/executions/{executionId}") {
+                    println("Responding to GET ${call.request.uri}")
+                    val executionId = call.parameters["executionId"] ?: ""
+                    call.respond(fakeStep(executionId))
                 }
 
                 // GcToolResults.getDefaultBucket(project)

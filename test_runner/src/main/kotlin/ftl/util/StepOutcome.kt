@@ -2,7 +2,7 @@ package ftl.util
 
 // ToolResults API step outcome values
 object StepOutcome {
-    // https://github.com/bootstraponline/gcloud_cli/blob/master/google-cloud-sdk/lib/googlecloudsdk/third_party/apis/toolresults_v1beta3.json#L755
+    // https://github.com/bootstraponline/gcloud_cli/blob/137d864acd5928baf25434cf59b0225c4d1f9319/google-cloud-sdk/lib/googlecloudsdk/third_party/apis/toolresults_v1beta3.json#L610
     const val failure = "failure"
     const val flaky = "flaky"
     const val inconclusive = "inconclusive"

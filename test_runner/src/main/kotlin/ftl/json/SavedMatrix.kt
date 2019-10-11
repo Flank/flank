@@ -75,12 +75,13 @@ class SavedMatrix(matrix: TestMatrix) {
         if (matrix.testExecutions == null) return
 
         matrix.testExecutions.forEach {
-            val step = GcToolResults.getResults(it.toolResultsStep)
-            updateOutcome(step.outcome)
+            val executionResult = GcToolResults.getExecutionResult(it)
+            updateOutcome(executionResult.outcome)
 
             // testExecutionStep, testTiming, etc. can all be null.
             // sometimes testExecutionStep is present and testTiming is null
-            val testTimeSeconds = step.testExecutionStep?.testTiming?.testProcessDuration?.seconds ?: return
+            val stepResult = GcToolResults.getStepResult(it.toolResultsStep)
+            val testTimeSeconds = stepResult.testExecutionStep?.testTiming?.testProcessDuration?.seconds ?: return
 
             val billableMinutes = Billing.billableMinutes(testTimeSeconds)
 

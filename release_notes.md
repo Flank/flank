@@ -1,5 +1,7 @@
 ## next (unreleased)
 
+- [#608](https://github.com/TestArmada/flank/pull/608) Use MatrixRollupOutcome to set exit code value. ([bootstraponline](https://github.com/bootstraponline))
+
 ## v8.0.0
 
 - [#595](https://github.com/TestArmada/flank/pull/595) Rename `flaky-test-attempts` to `num-flaky-test-attempts`. Rename `repeat-tests` to `num-test-runs`. ([bootstraponline](https://github.com/bootstraponline))
