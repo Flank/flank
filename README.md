@@ -134,7 +134,7 @@ flank:
 
   ## repeat tests - the amount of times to run the tests.
   ## 1 runs the tests once. 10 runs all the tests 10x
-  # repeat-tests: 1
+  # num-test-runs: 1
 
   ## Google cloud storage path to store the JUnit XML results from the last run.
   # smart-flank-gcs-path: gs://tmp_flank/flank/test_app_ios.xml
@@ -285,7 +285,7 @@ flank:
 
   ## repeat tests - the amount of times to run the tests.
   ## 1 runs the tests once. 10 runs all the tests 10x
-  # repeat-tests: 1
+  # num-test-runs: 1
 
   ## Google cloud storage path to store the JUnit XML results from the last run.
   # smart-flank-gcs-path: gs://tmp_flank/flank/test_app_android.xml
