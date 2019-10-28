@@ -357,4 +357,11 @@ class AndroidRunCommand : Runnable {
     }
 
     var additionalAppTestApks: MutableList<AppTestPair>? = null
+
+    @Option(
+            names = ["--preserve-original-path"],
+            description = ["Downloaded files preserves the original path of file. " +
+                    "Required when file names are not unique."]
+    )
+    var preserveOriginalPath: Boolean? = null
 }

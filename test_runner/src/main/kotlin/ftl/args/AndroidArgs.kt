@@ -75,6 +75,7 @@ class AndroidArgs(
 
     private val androidFlank = androidFlankYml.flank
     val additionalAppTestApks = cli?.additionalAppTestApks ?: androidFlank.additionalAppTestApks
+    val preserveOriginalPath = cli?.preserveOriginalPath ?: androidFlank.preserveOriginalPath
 
     init {
         resultsBucket = createGcsBucket(project, cli?.resultsBucket ?: gcloud.resultsBucket)
@@ -149,6 +150,7 @@ ${listToString(testTargetsAlwaysRun)}
       project: $project
       local-result-dir: $localResultDir
       # Android Flank Yml
+      preserve-original-path: $preserveOriginalPath
       additional-app-test-apks:
 ${apksToString(additionalAppTestApks)}
    """.trimIndent()

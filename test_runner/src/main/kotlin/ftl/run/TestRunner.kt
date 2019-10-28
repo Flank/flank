@@ -207,9 +207,15 @@ object TestRunner {
 
         // Store downloaded artifacts at device root.
         return if (args.useLocalResultDir()) {
-            Paths.get(localDir, p.shardName, p.deviceName, p.fileName)
+            if (args is AndroidArgs && args.preserveOriginalPath)
+                Paths.get(localDir, p.shardName, p.deviceName, p.filePathName, p.fileName)
+            else
+                Paths.get(localDir, p.shardName, p.deviceName, p.fileName)
         } else {
-            Paths.get(localDir, p.objName, p.shardName, p.deviceName, p.fileName)
+            if (args is AndroidArgs && args.preserveOriginalPath)
+                Paths.get(localDir, p.objName, p.shardName, p.deviceName, p.filePathName, p.fileName)
+            else
+                Paths.get(localDir, p.objName, p.shardName, p.deviceName, p.fileName)
         }
     }
 

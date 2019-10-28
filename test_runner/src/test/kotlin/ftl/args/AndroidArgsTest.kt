@@ -72,6 +72,7 @@ class AndroidArgsTest {
             - class example.Test#grantPermission
             - class example.Test#grantPermission2
           disable-sharding: true
+          preserve-original-path: true
           additional-app-test-apks:
             - app: foo
               test: bar
@@ -249,6 +250,7 @@ AndroidArgs
       project: projectFoo
       local-result-dir: results
       # Android Flank Yml
+      preserve-original-path: true
       additional-app-test-apks:
         - app: foo
           test: bar
@@ -915,5 +917,23 @@ AndroidArgs
         val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.additionalAppTestApks).isEqualTo(
             listOf(AppTestPair("a", "b")))
+    }
+
+    @Test
+    fun `cli preserve-original-path`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parseArgs("--preserve-original-path=true")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          preserve-original-path: false
+      """
+        assertThat(AndroidArgs.load(yaml).preserveOriginalPath).isEqualTo(false)
+
+        val androidArgs = AndroidArgs.load(yaml, cli)
+        assertThat(androidArgs.preserveOriginalPath).isEqualTo(true)
     }
 }
