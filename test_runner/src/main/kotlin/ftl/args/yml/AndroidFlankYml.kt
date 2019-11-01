@@ -14,11 +14,11 @@ class AndroidFlankYmlParams(
     @field:JsonProperty("additional-app-test-apks")
     val additionalAppTestApks: List<AppTestPair> = emptyList(),
 
-    @field:JsonProperty("preserve-original-path")
-    val preserveOriginalPath: Boolean = false
+    @field:JsonProperty("keep-file-path")
+    val keepFilePath: Boolean = false
 ) {
     companion object : IYmlKeys {
-        override val keys = listOf("additional-app-test-apks", "preserve-original-path")
+        override val keys = listOf("additional-app-test-apks", "keep-file-path")
     }
 }
 

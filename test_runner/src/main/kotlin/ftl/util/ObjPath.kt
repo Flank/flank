@@ -18,7 +18,7 @@ data class ObjPath(
             val shardName = parsed.getName(1).toString()
             val deviceName = parsed.getName(2).toString()
             val filePathName = if (parsed.nameCount > 4) {
-                parsed.subpath(3, parsed.nameCount - 1).toString()
+                parsed.parent.drop(3).joinToString("/")
             } else { "" }
 
             return ObjPath(

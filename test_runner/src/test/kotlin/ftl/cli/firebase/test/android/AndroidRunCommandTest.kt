@@ -95,7 +95,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.smartFlankDisableUpload).isNull()
         assertThat(cmd.smartFlankGcsPath).isNull()
         assertThat(cmd.additionalAppTestApks).isNull()
-        assertThat(cmd.preserveOriginalPath).isNull()
+        assertThat(cmd.keepFilePath).isNull()
     }
 
     @Test
@@ -354,11 +354,11 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun `preserveOriginalPath parse`() {
+    fun `keepFilePath parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parseArgs("--preserve-original-path=true")
+        CommandLine(cmd).parseArgs("--keep-file-path=true")
 
-        assertThat(cmd.preserveOriginalPath).isEqualTo(true)
+        assertThat(cmd.keepFilePath).isEqualTo(true)
     }
 
     @Test
