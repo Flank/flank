@@ -72,6 +72,7 @@ class AndroidArgsTest {
             - class example.Test#grantPermission
             - class example.Test#grantPermission2
           disable-sharding: true
+          keep-file-path: true
           additional-app-test-apks:
             - app: foo
               test: bar
@@ -249,6 +250,7 @@ AndroidArgs
       project: projectFoo
       local-result-dir: results
       # Android Flank Yml
+      keep-file-path: true
       additional-app-test-apks:
         - app: foo
           test: bar
@@ -915,5 +917,23 @@ AndroidArgs
         val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.additionalAppTestApks).isEqualTo(
             listOf(AppTestPair("a", "b")))
+    }
+
+    @Test
+    fun `cli keep-file-path`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parseArgs("--keep-file-path=true")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          keep-file-path: false
+      """
+        assertThat(AndroidArgs.load(yaml).keepFilePath).isEqualTo(false)
+
+        val androidArgs = AndroidArgs.load(yaml, cli)
+        assertThat(androidArgs.keepFilePath).isEqualTo(true)
     }
 }

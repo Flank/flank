@@ -23,7 +23,7 @@ class TestRunnerTest {
     private val args = mock(AndroidArgs::class.java)
 
     @Test
-    fun `Verify getDownloadPath localResultDir false`() {
+    fun `Verify getDownloadPath localResultDir false and keepFilePath false`() {
         val parsed = ObjPath.parse(gcsPath)
 
         `when`(args.localResultDir).thenReturn(localResultDir)
@@ -42,7 +42,7 @@ class TestRunnerTest {
     }
 
     @Test
-    fun `Verify getDownloadPath localResultDir true`() {
+    fun `Verify getDownloadPath localResultDir true and keepFilePath false`() {
         val parsed = ObjPath.parse(gcsPath)
 
         `when`(args.localResultDir).thenReturn(localResultDir)
@@ -56,6 +56,47 @@ class TestRunnerTest {
                 parsed.deviceName,
                 parsed.fileName
             )
+        )
+    }
+
+    @Test
+    fun `Verify getDownloadPath localResultDir true and keepFilePath true`() {
+        val parsed = ObjPath.parse(gcsPath)
+
+        `when`(args.localResultDir).thenReturn(localResultDir)
+        `when`(args.useLocalResultDir()).thenReturn(true)
+        `when`(args.keepFilePath).thenReturn(true)
+
+        val downloadFile = TestRunner.getDownloadPath(args, gcsPath)
+        assertThat(downloadFile).isEqualTo(
+                Paths.get(
+                        localResultDir,
+                        parsed.shardName,
+                        parsed.deviceName,
+                        parsed.filePathName,
+                        parsed.fileName
+                )
+        )
+    }
+
+    @Test
+    fun `Verify getDownloadPath localResultDir false and keepFilePath true`() {
+        val parsed = ObjPath.parse(gcsPath)
+
+        `when`(args.localResultDir).thenReturn(localResultDir)
+        `when`(args.useLocalResultDir()).thenReturn(false)
+        `when`(args.keepFilePath).thenReturn(true)
+
+        val downloadFile = TestRunner.getDownloadPath(args, gcsPath)
+        assertThat(downloadFile).isEqualTo(
+                Paths.get(
+                        localResultDir,
+                        parsed.objName,
+                        parsed.shardName,
+                        parsed.deviceName,
+                        parsed.filePathName,
+                        parsed.fileName
+                )
         )
     }
 

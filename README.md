@@ -311,6 +311,10 @@ flank:
 
   ## Local folder to store the test result. Folder is DELETED before each run to ensure only artifacts from the new run are saved.
   # local-result-dir: flank
+
+  ## Keeps the full path of downloaded files. Required when file names are not unique.
+  ## Default: false  
+  # keep-file-path: false
     
   ## Include additional app/test apk pairs in the run. If app is omitted, then the top level app is used for that pair.
   # additional-app-test-apks:
