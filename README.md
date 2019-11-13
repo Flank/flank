@@ -382,7 +382,7 @@ if (coverageEnabled) {
                 '**/R$*.class',
                 '**/BuildConfig.*',
                 "**/androidx"]
-        def javaClasses = fileTree(dir: "${project.buildDir}/intermediates/javac/debug/compileDebugJavaWithJavac/classes", excludes: excludes)
+        def javaClasses = fileTree(dir: "${project.buildDir}/intermediates/javac/debug/classes", excludes: excludes)
         def kotlinClasses = fileTree(dir: "${project.buildDir}/tmp/kotlin-classes/debug", excludes: excludes)
         getClassDirectories().setFrom(files([javaClasses, kotlinClasses]))
 
@@ -399,6 +399,22 @@ if (coverageEnabled) {
             xml { enabled false }
         }
     }
+}
+```
+Starting from Android Marshmallow we must grant runtime permissions to write to external storage. Following snippet in test class solves that issue
+
+```java
+import androidx.test.rule.GrantPermissionRule;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+class MyEspressoTest {
+  
+  @Rule
+  GrantPermissionRule grantPermissionRule = GrantPermissionRule.grant(
+          READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE);
+
+  // other configuration and tests
 }
 ```
 
