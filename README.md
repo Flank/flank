@@ -401,7 +401,8 @@ if (coverageEnabled) {
     }
 }
 ```
-Starting from Android Marshmallow we must grant runtime permissions to write to external storage. Following snippet in test class solves that issue
+Starting from Android Marshmallow we must grant runtime permissions to write to external storage. Following snippet in test class solves that issue.
+If you want to get coverage files when using orchestrator, you must set this Rule for each test class.
 
 ```java
 import androidx.test.rule.GrantPermissionRule;
