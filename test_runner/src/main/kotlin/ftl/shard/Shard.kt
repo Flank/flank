@@ -140,7 +140,8 @@ object Shard {
         testcases.sortByDescending { it.time }
 
         testcases.forEach { testMethod ->
-            val shard = shards.first()
+            // num_shards must be > 1, and <= 50
+            val shard = shards.first { it.testMethods.size + args.testTargetsAlwaysRun.size < 50 }
 
             shard.testMethods.add(testMethod)
             shard.time += testMethod.time
