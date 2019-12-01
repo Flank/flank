@@ -37,7 +37,7 @@ class GcAndroidTestMatrixTest {
             testApkGcsPath = "",
             runGcsPath = "",
             androidDeviceList = AndroidDeviceList(),
-            testTargets = listOf(""),
+            testTargets = listOf(listOf("")),
             args = androidArgs,
             shardCounter = ShardCounter(),
             toolResultsHistory = createToolResultsHistory(androidArgs)

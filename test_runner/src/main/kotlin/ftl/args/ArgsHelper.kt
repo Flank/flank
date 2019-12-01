@@ -223,6 +223,7 @@ object ArgsHelper {
 
         val shardCount = Shard.shardCountByTime(filteredTests, oldTestResult, args)
 
+        // TODO: manual sharding must be limited to 1..50 tests per shard
         val shards = Shard.createShardsByShardCount(filteredTests, oldTestResult, args, shardCount)
 
         return testMethodsAlwaysRun(shards.stringShards(), args)

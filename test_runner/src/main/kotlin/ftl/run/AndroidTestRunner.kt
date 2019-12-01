@@ -37,21 +37,19 @@ object AndroidTestRunner {
             // we don't re-download an apk it is on the local file system.
             val testShards = AndroidTestShard.getTestShardChunks(args, unresolvedApkPair.test)
             repeat(runCount) {
-                testShards.forEach { testTargets ->
-                    // specify dispatcher to avoid inheriting main runBlocking context that runs in the main thread
-                    // https://kotlinlang.org/docs/reference/coroutines/coroutine-context-and-dispatchers.html
-                    jobs += async(Dispatchers.IO) {
-                        GcAndroidTestMatrix.build(
-                            appApkGcsPath = resolvedApkPair.app,
-                            testApkGcsPath = resolvedApkPair.test,
-                            runGcsPath = runGcsPath,
-                            androidDeviceList = androidDeviceList,
-                            testTargets = testTargets,
-                            args = args,
-                            shardCounter = shardCounter,
-                            toolResultsHistory = history
-                        ).executeWithRetry()
-                    }
+                // specify dispatcher to avoid inheriting main runBlocking context that runs in the main thread
+                // https://kotlinlang.org/docs/reference/coroutines/coroutine-context-and-dispatchers.html
+                jobs += async(Dispatchers.IO) {
+                    GcAndroidTestMatrix.build(
+                        appApkGcsPath = resolvedApkPair.app,
+                        testApkGcsPath = resolvedApkPair.test,
+                        runGcsPath = runGcsPath,
+                        androidDeviceList = androidDeviceList,
+                        testTargets = testShards,
+                        args = args,
+                        shardCounter = shardCounter,
+                        toolResultsHistory = history
+                    ).executeWithRetry()
                 }
             }
             testShards
