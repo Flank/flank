@@ -127,7 +127,7 @@ flank:
   # max-test-shards: 1
 
   ## shard time - the amount of time tests within a shard should take
-  ## when set to > 0, the shard count is dynamically set based on time up to the maxmimum limit defined by max-test-shards
+  ## when set to > 0, the shard count is dynamically set based on time up to the maximum limit defined by max-test-shards
   ## 2 minutes (120) is recommended.
   ## default: -1 (unlimited)
   # shard-time: -1
@@ -278,7 +278,9 @@ flank:
   # max-test-shards: 1
 
   ## shard time - the amount of time tests within a shard should take
-  ## when set to > 0, the shard count is dynamically set based on time up to the maxmimum limit defined by max-test-shards
+  ## when set to > 0, the shard count is dynamically set based on time up to the max
+  
+  imum limit defined by max-test-shards
   ## 2 minutes (120) is recommended.
   ## default: -1 (unlimited)
   # shard-time: -1
