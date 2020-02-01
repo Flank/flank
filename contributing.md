@@ -7,13 +7,21 @@
   - PyCharm (also installed via toolbox) is useful for working with [gcloud CLI](https://github.com/bootstraponline/gcloud_cli)
 - [GitHub Desktop](https://desktop.github.com/)
 
-## Working on the code
+# Debugging Flank
 
-- Open `test_runner/build.gradle.kts` with `IntelliJ IDEA Community`
-- There's an [issue tracker](https://github.com/TestArmada/flank/issues) and [project board]( https://github.com/TestArmada/flank/projects/1)
-- Run `./gradlew check` to fix lint issues
+## Importing into IntelliJ IDEA
 
-See the main readme for instructions on how to run the iOS and Android samples.
+When opening the project in IntelliJ IDEA, select the "Import from Existing Sources" option and open the `test_runner` folder.
+
+## Debugging Flank Commands
+
+There is a [`Debug.kt`](https://github.com/Flank/flank/blob/master/test_runner/src/test/kotlin/Debug.kt#L8) which is your entry point. You can start a debug session here and set breakpoints wherever you need them.
+
+Note: The breakpoints will only hit for the actual command being run. For example, for `firebase test android run`, the debugger will directly enter [`AndroidRunCommand`](https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidRunCommand.kt).
+
+The yml file being read is located [here](https://github.com/Flank/flank/blob/master/test_runner/flank.yml).
+
+Run `./gradlew check` to fix lint issues
 
 ## Adding new gcloud property common to iOS and Android
 
