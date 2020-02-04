@@ -91,7 +91,7 @@ class ShardTest {
         val result = Shard.createShardsByShardCount(testsToRun, JUnitTestResult(null), mockArgs(2))
 
         assertThat(result.size).isEqualTo(2)
-        assertThat(result.sumByDouble { it.time }).isEqualTo(30.0)
+        assertThat(result.sumByDouble { it.time }).isEqualTo(3 * Shard.DEFAULT_TEST_TIME_SEC)
 
         val ordered = result.sortedBy { it.testMethods.size }
         assertThat(ordered[0].testMethods.size).isEqualTo(1)
@@ -103,9 +103,10 @@ class ShardTest {
         val testsToRun = listOf("a/a", "b/b", "c/c", "w", "y", "z")
         val result = Shard.createShardsByShardCount(testsToRun, sample(), mockArgs(4))
         assertThat(result.size).isEqualTo(4)
-        assertThat(result.sumByDouble { it.time }).isEqualTo(37.0)
+        assertThat(result.sumByDouble { it.time }).isEqualTo(7.0 + 3 * Shard.DEFAULT_TEST_TIME_SEC)
 
         val ordered = result.sortedBy { it.testMethods.size }
+        // Expect a/a, b/b, c/c to be in one shard, and w, y, z to each be in their own shards.
         assertThat(ordered[0].testMethods.size).isEqualTo(1)
         assertThat(ordered[1].testMethods.size).isEqualTo(1)
         assertThat(ordered[2].testMethods.size).isEqualTo(1)
@@ -151,6 +152,43 @@ class ShardTest {
         val result = Shard.shardCountByTime(testsToRun, suite, mockArgs(-1, 7))
 
         assertThat(result).isEqualTo(3)
+    }
+
+    @Test
+    fun `createShardsByShardTime uncachedTestResultsUseDefaultTime`() {
+        val testsToRun = listOf("h/h", "i/i", "j/j")
+        val suite = sample()
+        val result = Shard.shardCountByTime(
+            testsToRun,
+            suite,
+            mockArgs(maxTestShards = -1, shardTime = Shard.DEFAULT_TEST_TIME_SEC.toInt()))
+
+        assertThat(result).isEqualTo(3)
+    }
+
+    @Test
+    fun `createShardsByShardTime mixedCachedAndUncachedTestResultsUseDefaultTime`() {
+        // Test "a/a" is hard-coded to have 1.0 second run time in test suite results.
+        val testsToRun = listOf("a/a", "i/i", "j/j")
+        val suite = sample()
+        val result = Shard.shardCountByTime(
+            testsToRun,
+            suite,
+            mockArgs(maxTestShards = -1, shardTime = Shard.DEFAULT_TEST_TIME_SEC.toInt() + 1))
+
+        assertThat(result).isEqualTo(2)
+    }
+
+    @Test
+    fun `createShardsByShardTime uncachedTestResultsAllInOneShard`() {
+        val testsToRun = listOf("i/i", "j/j")
+        val suite = sample()
+        val result = Shard.shardCountByTime(
+            testsToRun,
+            suite,
+            mockArgs(maxTestShards = -1, shardTime = (Shard.DEFAULT_TEST_TIME_SEC * 2).toInt()))
+
+        assertThat(result).isEqualTo(1)
     }
 
     @Test(expected = RuntimeException::class)

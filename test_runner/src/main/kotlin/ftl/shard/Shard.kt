@@ -1,5 +1,6 @@
 package ftl.shard
 
+import com.google.common.annotations.VisibleForTesting
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
@@ -44,6 +45,9 @@ class com.foo.ClassName#testMethodToSkip
 */
 
 object Shard {
+    // When a test does not have previous results to reference, fall back to this run time.
+    @VisibleForTesting
+    const val DEFAULT_TEST_TIME_SEC: Double = 120.0
 
     private fun JUnitTestCase.androidKey(): String {
         return "class $classname#$name"
@@ -66,7 +70,7 @@ object Shard {
         if (args.shardTime < -1 || args.shardTime == 0) fatalError("Invalid shard time ${args.shardTime}")
 
         val junitMap = createJunitMap(oldTestResult, args)
-        val testsTotalTime = testsToRun.sumByDouble { junitMap[it] ?: 10.0 }
+        val testsTotalTime = testsToRun.sumByDouble { junitMap[it] ?: DEFAULT_TEST_TIME_SEC }
 
         val shardsByTime = ceil(testsTotalTime / args.shardTime).toInt()
 
@@ -104,7 +108,7 @@ object Shard {
 
         testsToRun.forEach { key ->
             val previousTime = junitMap[key]
-            val time = previousTime ?: 10.0
+            val time = previousTime ?: DEFAULT_TEST_TIME_SEC
 
             if (previousTime == null) {
                 cacheMiss += 1
