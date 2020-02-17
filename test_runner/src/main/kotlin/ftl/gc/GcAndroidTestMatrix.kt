@@ -1,7 +1,23 @@
 package ftl.gc
 
 import com.google.api.services.testing.Testing
-import com.google.api.services.testing.model.*
+import com.google.api.services.testing.model.Account
+import com.google.api.services.testing.model.AndroidDeviceList
+import com.google.api.services.testing.model.AndroidInstrumentationTest
+import com.google.api.services.testing.model.ClientInfo
+import com.google.api.services.testing.model.EnvironmentMatrix
+import com.google.api.services.testing.model.EnvironmentVariable
+import com.google.api.services.testing.model.FileReference
+import com.google.api.services.testing.model.GoogleAuto
+import com.google.api.services.testing.model.GoogleCloudStorage
+import com.google.api.services.testing.model.ManualSharding
+import com.google.api.services.testing.model.ResultStorage
+import com.google.api.services.testing.model.ShardingOption
+import com.google.api.services.testing.model.TestMatrix
+import com.google.api.services.testing.model.TestSetup
+import com.google.api.services.testing.model.TestSpecification
+import com.google.api.services.testing.model.TestTargetsForShard
+import com.google.api.services.testing.model.ToolResultsHistory
 import ftl.args.AndroidArgs
 import ftl.util.ShardCounter
 import ftl.util.Utils.fatalError
