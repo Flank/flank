@@ -182,10 +182,11 @@ class ArgsHelperTest {
 
     @Test
     fun testInvalidTestShards() {
-        exceptionRule.expectMessage("max-test-shards must be >= 1 or -1")
+        val maxTestShards = -2
+        exceptionRule.expectMessage("max-test-shards must be >= 1 and <= 50, or -1. But current is $maxTestShards")
 
         val args = spy(AndroidArgs.default())
-        `when`(args.maxTestShards).thenReturn(-2)
+        `when`(args.maxTestShards).thenReturn(maxTestShards)
         assertCommonProps(args)
     }
 

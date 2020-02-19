@@ -130,8 +130,8 @@ object ReportManager {
         testShardChunks: List<List<String>>
     ):
             List<ShardEfficiency> {
-        val oldJunitMap = Shard.createJunitMap(oldResult, args)
-        val newJunitMap = Shard.createJunitMap(newResult, args)
+        val oldDurations = Shard.createTestMethodDurationMap(oldResult, args)
+        val newDurations = Shard.createTestMethodDurationMap(newResult, args)
 
         val timeList = mutableListOf<ShardEfficiency>()
         testShardChunks.forEachIndexed { index, testSuite ->
@@ -139,8 +139,8 @@ object ReportManager {
             var expectedTime = 0.0
             var finalTime = 0.0
             testSuite.forEach { testCase ->
-                expectedTime += oldJunitMap[testCase] ?: 0.0
-                finalTime += newJunitMap[testCase] ?: 0.0
+                expectedTime += oldDurations[testCase] ?: 0.0
+                finalTime += newDurations[testCase] ?: 0.0
             }
 
             val timeDiff = (finalTime - expectedTime)

@@ -69,8 +69,8 @@ object Shard {
         if (args.shardTime == -1) return -1
         if (args.shardTime < -1 || args.shardTime == 0) fatalError("Invalid shard time ${args.shardTime}")
 
-        val junitMap = createJunitMap(oldTestResult, args)
-        val testsTotalTime = testsToRun.sumByDouble { junitMap[it] ?: DEFAULT_TEST_TIME_SEC }
+        val oldDurations = createTestMethodDurationMap(oldTestResult, args)
+        val testsTotalTime = testsToRun.sumByDouble { oldDurations[it] ?: DEFAULT_TEST_TIME_SEC }
 
         val shardsByTime = ceil(testsTotalTime / args.shardTime).toInt()
 
@@ -101,21 +101,20 @@ object Shard {
         if (forcedShardCount < -1 || forcedShardCount == 0) fatalError("Invalid forcedShardCount value $forcedShardCount")
 
         val maxShards = if (forcedShardCount == -1) args.maxTestShards else forcedShardCount
-        val junitMap = createJunitMap(oldTestResult, args)
+        val previousMethodDurations = createTestMethodDurationMap(oldTestResult, args)
 
         var cacheMiss = 0
-        val testcases = mutableListOf<TestMethod>()
-
-        testsToRun.forEach { key ->
-            val previousTime = junitMap[key]
-            val time = previousTime ?: DEFAULT_TEST_TIME_SEC
-
-            if (previousTime == null) {
-                cacheMiss += 1
+        val testcases: List<TestMethod> = testsToRun
+            .map { methodName ->
+                TestMethod(
+                    name = methodName,
+                    time = previousMethodDurations[methodName] ?: DEFAULT_TEST_TIME_SEC.also {
+                        cacheMiss += 1
+                    }
+                )
             }
-
-            testcases.add(TestMethod(key, time))
-        }
+            // We want to iterate over testcase going from slowest to fastest
+            .sortedByDescending(TestMethod::time)
 
         val testCount = testcases.size
 
@@ -136,12 +135,8 @@ object Shard {
         }
         var shards = List(shardsCount) { TestShard(0.0, mutableListOf()) }
 
-        // We want to iterate over testcase going from slowest to fastest
-        testcases.sortByDescending { it.time }
-
         testcases.forEach { testMethod ->
-            // num_shards must be > 1, and <= 50
-            val shard = shards.first { it.testMethods.size + args.testTargetsAlwaysRun.size < 50 }
+            val shard = shards.first()
 
             shard.testMethods.add(testMethod)
             shard.time += testMethod.time
@@ -160,7 +155,7 @@ object Shard {
         return shards
     }
 
-    fun createJunitMap(junitResult: JUnitTestResult, args: IArgs): Map<String, Double> {
+    fun createTestMethodDurationMap(junitResult: JUnitTestResult, args: IArgs): Map<String, Double> {
         val junitMap = mutableMapOf<String, Double>()
 
         // Create a map with information from previous junit run
