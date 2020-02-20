@@ -31,7 +31,7 @@ interface IArgs {
     fun useLocalResultDir() = localResultDir != FlankYmlParams.defaultLocalResultDir
 
     companion object {
-        // num_shards must be > 1, and <= 50
+        // num_shards must be >= 1, and <= 50
         val AVAILABLE_SHARD_COUNT_RANGE = 1..50
     }
 }
