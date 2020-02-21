@@ -1,0 +1,18 @@
+gcloud:
+  app: ./app/test/apk/app-debug.apk
+  test: ./app/test/apk/app-multiple-flaky-debug-androidTest.apk
+  environment-variables: 
+    coverage: true
+    coverageFilePath: /sdcard/
+    clearPackageData: true
+  directories-to-pull: 
+    - /sdcard/
+  # use a named results dir that's used by the gradle task
+  results-dir: coverage_ec
+  num-flaky-test-attempts: 3
+
+flank:
+  disableSharding: false
+  max-test-shards: 2
+  files-to-download:
+    - .*/sdcard/[^/]+\.ec$
