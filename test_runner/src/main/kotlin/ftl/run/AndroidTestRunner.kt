@@ -30,19 +30,20 @@ object AndroidTestRunner {
         val runCount = args.repeatTests
         val shardCounter = ShardCounter()
         val history = GcToolResults.createToolResultsHistory(args)
-        val appTestApks = listOf(AppTestPair(app = args.appApk, test = args.testApk)) + args.additionalAppTestApks
-        val allTestShardChunks: List<List<String>> = appTestApks.map { localApk ->
-            val apk = resolveApk(localApk, args, runGcsPath)
-            // ensure we only shard tests that are part of the test apk
-            val testShards = AndroidTestShard.getTestShardChunks(args, localApk.test)
+        val apkPairsInArgs = listOf(AppTestPair(app = args.appApk, test = args.testApk)) + args.additionalAppTestApks
+        val allTestShardChunks: List<List<String>> = apkPairsInArgs.map { unresolvedApkPair ->
+            val resolvedApkPair = resolveApkPair(unresolvedApkPair, args, runGcsPath)
+            // Ensure we only shard tests that are part of the test apk. Use the unresolved test apk path to make sure
+            // we don't re-download an apk it is on the local file system.
+            val testShards = AndroidTestShard.getTestShardChunks(args, unresolvedApkPair.test)
             repeat(runCount) {
                 testShards.forEach { testTargets ->
                     // specify dispatcher to avoid inheriting main runBlocking context that runs in the main thread
                     // https://kotlinlang.org/docs/reference/coroutines/coroutine-context-and-dispatchers.html
                     jobs += async(Dispatchers.IO) {
                         GcAndroidTestMatrix.build(
-                            appApkGcsPath = apk.app,
-                            testApkGcsPath = apk.test,
+                            appApkGcsPath = resolvedApkPair.app,
+                            testApkGcsPath = resolvedApkPair.test,
                             runGcsPath = runGcsPath,
                             androidDeviceList = androidDeviceList,
                             testTargets = testTargets,
@@ -66,7 +67,7 @@ object AndroidTestRunner {
      *
      * @return AppTestPair with their GCS paths
      */
-    private suspend fun resolveApk(
+    private suspend fun resolveApkPair(
         apk: AppTestPair,
         args: AndroidArgs,
         runGcsPath: String

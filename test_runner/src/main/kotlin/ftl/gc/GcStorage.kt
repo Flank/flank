@@ -132,10 +132,11 @@ object GcStorage {
 
             try {
                 val blob = storage.get(bucket, path)
-                val readChannel = blob.reader()
-                val output = FileOutputStream(outputFile)
-                output.channel.transferFrom(readChannel, 0, Long.MAX_VALUE)
-                output.close()
+                blob.reader().use { readChannel ->
+                    FileOutputStream(outputFile).use {
+                        it.channel.transferFrom(readChannel, 0, Long.MAX_VALUE)
+                    }
+                }
             } catch (e: Exception) {
                 if (ignoreError) return@computeIfAbsent ""
                 fatalError(e)
