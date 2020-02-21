@@ -19,7 +19,6 @@ import com.google.api.services.testing.model.TestSpecification
 import com.google.api.services.testing.model.TestTargetsForShard
 import com.google.api.services.testing.model.ToolResultsHistory
 import ftl.args.AndroidArgs
-import ftl.util.ShardCounter
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
 import ftl.util.testTimeoutToSeconds
@@ -38,14 +37,13 @@ object GcAndroidTestMatrix {
         androidDeviceList: AndroidDeviceList,
         testTargets: List<List<String>>,
         args: AndroidArgs,
-        shardCounter: ShardCounter,
         toolResultsHistory: ToolResultsHistory
     ): Testing.Projects.TestMatrices.Create {
 
         // https://github.com/bootstraponline/studio-google-cloud-testing/blob/203ed2890c27a8078cd1b8f7ae12cf77527f426b/firebase-testing/src/com/google/gct/testing/launcher/CloudTestsLauncher.java#L120
         val clientInfo = ClientInfo().setName("Flank")
 
-        val matrixGcsPath = join(args.resultsBucket, runGcsPath, shardCounter.next())
+        val matrixGcsPath = join(args.resultsBucket, runGcsPath)
 
         // ShardingOption().setUniformSharding(UniformSharding().setNumShards())
         val testTargetsForShard: List<TestTargetsForShard> = testTargets.map {

@@ -10,7 +10,6 @@ import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
 import ftl.json.MatrixMap
-import ftl.util.ShardCounter
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -28,31 +27,29 @@ object AndroidTestRunner {
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
         val runCount = args.repeatTests
-        val shardCounter = ShardCounter()
         val history = GcToolResults.createToolResultsHistory(args)
         val apkPairsInArgs = listOf(AppTestPair(app = args.appApk, test = args.testApk)) + args.additionalAppTestApks
         val allTestShardChunks: List<List<String>> = apkPairsInArgs.map { unresolvedApkPair ->
             val resolvedApkPair = resolveApkPair(unresolvedApkPair, args, runGcsPath)
             // Ensure we only shard tests that are part of the test apk. Use the unresolved test apk path to make sure
             // we don't re-download an apk it is on the local file system.
-            val testShards = AndroidTestShard.getTestShardChunks(args, unresolvedApkPair.test)
-            repeat(runCount) {
-                // specify dispatcher to avoid inheriting main runBlocking context that runs in the main thread
-                // https://kotlinlang.org/docs/reference/coroutines/coroutine-context-and-dispatchers.html
-                jobs += async(Dispatchers.IO) {
-                    GcAndroidTestMatrix.build(
-                        appApkGcsPath = resolvedApkPair.app,
-                        testApkGcsPath = resolvedApkPair.test,
-                        runGcsPath = runGcsPath,
-                        androidDeviceList = androidDeviceList,
-                        testTargets = testShards,
-                        args = args,
-                        shardCounter = shardCounter,
-                        toolResultsHistory = history
-                    ).executeWithRetry()
+            AndroidTestShard.getTestShardChunks(args, unresolvedApkPair.test).also { testShards ->
+                repeat(runCount) {
+                    // specify dispatcher to avoid inheriting main runBlocking context that runs in the main thread
+                    // https://kotlinlang.org/docs/reference/coroutines/coroutine-context-and-dispatchers.html
+                    jobs += async(Dispatchers.IO) {
+                        GcAndroidTestMatrix.build(
+                            appApkGcsPath = resolvedApkPair.app,
+                            testApkGcsPath = resolvedApkPair.test,
+                            runGcsPath = runGcsPath,
+                            androidDeviceList = androidDeviceList,
+                            testTargets = testShards,
+                            args = args,
+                            toolResultsHistory = history
+                        ).executeWithRetry()
+                    }
                 }
             }
-            testShards
         }.flatten()
 
         println(GenericTestRunner.beforeRunMessage(args, allTestShardChunks))
