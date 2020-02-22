@@ -1,6 +1,6 @@
 gcloud:
-  app: ./app/test/apk/app-debug.apk
-  test: ./app/test/apk/app-single-flaky-debug-androidTest.apk
+  app: ./apk/app-debug.apk
+  test: ./apk/app-single-flaky-debug-androidTest.apk
   environment-variables: 
     coverage: true
     coverageFilePath: /sdcard/
