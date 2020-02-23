@@ -12,6 +12,6 @@ gcloud:
   num-flaky-test-attempts: 3
 
 flank:
-  disableSharding: true
+  disable-sharding: true
   files-to-download:
     - .*/sdcard/[^/]+\.ec$

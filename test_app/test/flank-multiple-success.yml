@@ -11,7 +11,7 @@ gcloud:
   results-dir: coverage_ec
 
 flank:
-  disableSharding: false
+  disable-sharding: false
   max-test-shards: 2
   files-to-download:
     - .*/sdcard/[^/]+\.ec$
