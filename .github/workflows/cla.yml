@@ -17,7 +17,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with: 
         path-to-signatures: 'signatures/version1/cla.json'
-        path-To-cladocument: 'https://github.com/ibakshay/test-action-workflow/blob/master/cla.md'
+        path-To-cladocument: 'https://github.com/Flank/flank/blob/master/cla.md'
         branch: 'master'
         whitelist: user1,user2,bot*
         empty-commit-flag: false
