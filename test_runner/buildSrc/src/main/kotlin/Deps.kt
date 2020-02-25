@@ -90,12 +90,11 @@ object Libs {
 
     const val KOTLIN_COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.KOTLIN_COROUTINES}"
     const val KOTLIN_REFLECT = "org.jetbrains.kotlin:kotlin-reflect:${Versions.KOTLIN}"
-
     const val KOTLIN_STD_LIB = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.KOTLIN}"
-    const val KTOR_GSON = "io.ktor:ktor-server-core:${Versions.KTOR}"
 
+    const val KTOR_GSON = "io.ktor:ktor-gson:${Versions.KTOR}"
     const val KTOR_SERVER_CORE = "io.ktor:ktor-server-core:${Versions.KTOR}"
-    const val KTOR_SERVER_NETTY = "io.ktor:ktor-server-core:${Versions.KTOR}"
+    const val KTOR_SERVER_NETTY = "io.ktor:ktor-server-netty:${Versions.KTOR}"
     const val LOGBACK = "ch.qos.logback:logback-classic:${Versions.LOGBACK}"
 
     const val WOODSTOX = "com.fasterxml.woodstox:woodstox-core:${Versions.WOODSTOX}"
