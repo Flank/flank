@@ -214,7 +214,8 @@ configurations.all {
 }
 
 task("fatJar", type = Jar::class) {
-    baseName = "flank"
+    archiveBaseName.set("flank")
+    @Suppress("UnstableApiUsage")
     manifest {
         attributes.apply {
             put("Main-Class", "ftl.Main")
