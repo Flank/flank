@@ -1,14 +1,12 @@
 gcloud:
-  app: ./apk/app-debug.apk
-  test: ./apk/app-multiple-success-debug-androidTest.apk
+  app: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk
+  test: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-error-debug-androidTest.apk
   environment-variables: 
     coverage: true
     coverageFilePath: /sdcard/
     clearPackageData: true
   directories-to-pull: 
     - /sdcard/
-  # use a named results dir that's used by the gradle task
-  results-dir: coverage_ec
 
 flank:
   disable-sharding: false
