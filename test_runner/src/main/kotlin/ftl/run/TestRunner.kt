@@ -203,7 +203,9 @@ object TestRunner {
 
     fun getDownloadPath(args: IArgs, blobPath: String): Path {
         val localDir = args.localResultDir
-        val p = ObjPath.parse(blobPath)
+        val p = if (args is AndroidArgs)
+            ObjPath.parse(blobPath) else
+            ObjPath.legacyParse(blobPath)
 
         // Store downloaded artifacts at device root.
         return if (args.useLocalResultDir()) {
