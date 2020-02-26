@@ -78,23 +78,18 @@ detekt {
 
 // http://www.eclemma.org/jacoco/
 jacoco {
-    toolVersion = "0.8.3"
+    toolVersion = "0.8.5"
 }
 
-// Html report created in ./build/reports/jacoco/test/html/index.html
-// ./gradlew clean check jacocoTestReport
-tasks.withType<JacocoReport> {
-    doFirst {
-        // runBlocking {} produces generated Kotlin code. Ignore that.
-        classDirectories.setFrom(
-            fileTree("build/classes/kotlin/main").apply {
-                exclude("**/*\$run$1.class")
-            })
+tasks.jacocoTestReport {
+    classDirectories.setFrom(
+        fileTree("build/classes/kotlin/main").apply {
+            exclude("**/*\$run$1.class")
+        })
 
-        reports {
-            html.isEnabled = true
-            xml.isEnabled = true
-        }
+    reports {
+        xml.isEnabled = true
+        html.isEnabled = true
     }
 }
 
@@ -184,7 +179,8 @@ configurations.all {
 }
 
 task("fatJar", type = Jar::class) {
-    baseName = "flank"
+    archiveBaseName.set("flank")
+    @Suppress("UnstableApiUsage")
     manifest {
         attributes.apply {
             put("Main-Class", "ftl.Main")
