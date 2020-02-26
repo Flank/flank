@@ -4,7 +4,6 @@ import com.google.api.services.testing.model.AndroidDeviceList
 import ftl.args.AndroidArgs
 import ftl.gc.GcToolResults.createToolResultsHistory
 import ftl.test.util.FlankTestRunner
-import ftl.util.ShardCounter
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
@@ -24,7 +23,6 @@ class GcAndroidTestMatrixTest {
             androidDeviceList = AndroidDeviceList(),
             testTargets = emptyList(),
             args = androidArgs,
-            shardCounter = ShardCounter(),
             toolResultsHistory = createToolResultsHistory(androidArgs)
         )
     }
@@ -37,9 +35,8 @@ class GcAndroidTestMatrixTest {
             testApkGcsPath = "",
             runGcsPath = "",
             androidDeviceList = AndroidDeviceList(),
-            testTargets = listOf(""),
+            testTargets = listOf(listOf("")),
             args = androidArgs,
-            shardCounter = ShardCounter(),
             toolResultsHistory = createToolResultsHistory(androidArgs)
         )
     }
@@ -58,7 +55,6 @@ class GcAndroidTestMatrixTest {
             androidDeviceList = AndroidDeviceList(),
             testTargets = emptyList(),
             args = androidArgs,
-            shardCounter = ShardCounter(),
             toolResultsHistory = createToolResultsHistory(androidArgs)
         )
     }

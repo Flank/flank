@@ -17,19 +17,20 @@ import org.mockito.Mockito.mock
 @RunWith(FlankTestRunner::class)
 class TestRunnerTest {
 
-    private val gcsPath =
-        "2019-03-22_15-30-02.189000_frjt/shard_0/iphone8-12.0-en-portrait/TestLogs/Test-Transient Testing-2019.03.22_08-29-41--0700.xcresult/1_Test/Diagnostics/EarlGreyExampleSwiftTests-C6803D8C-4BDB-4C84-8945-9AC64056FBA4/EarlGreyExampleSwiftTests-EDBFF942-A88A-46A5-87CA-A1E29555C2CA/StandardOutputAndStandardError.txt"
+    private val gcsIosPath = "2019-03-22_15-30-02.189000_frjt/shard_0/iphone8-12.0-en-portrait/TestLogs/Test-Transient Testing-2019.03.22_08-29-41--0700.xcresult/1_Test/Diagnostics/EarlGreyExampleSwiftTests-C6803D8C-4BDB-4C84-8945-9AC64056FBA4/EarlGreyExampleSwiftTests-EDBFF942-A88A-46A5-87CA-A1E29555C2CA/StandardOutputAndStandardError.txt"
+    private val gcsAndroidPath = "2019-03-22_15-30-02.189000_frjt/iphone8-12.0-en-portrait-shard_0/StandardOutputAndStandardError.txt"
     private val localResultDir = "results"
-    private val args = mock(AndroidArgs::class.java)
+    private val iosArgs = mock(IosArgs::class.java)
+    private val androidArgs = mock(AndroidArgs::class.java)
 
     @Test
     fun `Verify getDownloadPath localResultDir false and keepFilePath false`() {
-        val parsed = ObjPath.parse(gcsPath)
+        val parsed = ObjPath.legacyParse(gcsIosPath)
 
-        `when`(args.localResultDir).thenReturn(localResultDir)
-        `when`(args.useLocalResultDir()).thenReturn(false)
+        `when`(iosArgs.localResultDir).thenReturn(localResultDir)
+        `when`(iosArgs.useLocalResultDir()).thenReturn(false)
 
-        val downloadFile = TestRunner.getDownloadPath(args, gcsPath)
+        val downloadFile = TestRunner.getDownloadPath(iosArgs, gcsIosPath)
         assertThat(downloadFile).isEqualTo(
             Paths.get(
                 localResultDir,
@@ -43,12 +44,12 @@ class TestRunnerTest {
 
     @Test
     fun `Verify getDownloadPath localResultDir true and keepFilePath false`() {
-        val parsed = ObjPath.parse(gcsPath)
+        val parsed = ObjPath.legacyParse(gcsIosPath)
 
-        `when`(args.localResultDir).thenReturn(localResultDir)
-        `when`(args.useLocalResultDir()).thenReturn(true)
+        `when`(iosArgs.localResultDir).thenReturn(localResultDir)
+        `when`(iosArgs.useLocalResultDir()).thenReturn(true)
 
-        val downloadFile = TestRunner.getDownloadPath(args, gcsPath)
+        val downloadFile = TestRunner.getDownloadPath(iosArgs, gcsIosPath)
         assertThat(downloadFile).isEqualTo(
             Paths.get(
                 localResultDir,
@@ -61,13 +62,13 @@ class TestRunnerTest {
 
     @Test
     fun `Verify getDownloadPath localResultDir true and keepFilePath true`() {
-        val parsed = ObjPath.parse(gcsPath)
+        val parsed = ObjPath.parse(gcsAndroidPath)
 
-        `when`(args.localResultDir).thenReturn(localResultDir)
-        `when`(args.useLocalResultDir()).thenReturn(true)
-        `when`(args.keepFilePath).thenReturn(true)
+        `when`(androidArgs.localResultDir).thenReturn(localResultDir)
+        `when`(androidArgs.useLocalResultDir()).thenReturn(true)
+        `when`(androidArgs.keepFilePath).thenReturn(true)
 
-        val downloadFile = TestRunner.getDownloadPath(args, gcsPath)
+        val downloadFile = TestRunner.getDownloadPath(androidArgs, gcsAndroidPath)
         assertThat(downloadFile).isEqualTo(
                 Paths.get(
                         localResultDir,
@@ -81,13 +82,13 @@ class TestRunnerTest {
 
     @Test
     fun `Verify getDownloadPath localResultDir false and keepFilePath true`() {
-        val parsed = ObjPath.parse(gcsPath)
+        val parsed = ObjPath.parse(gcsAndroidPath)
 
-        `when`(args.localResultDir).thenReturn(localResultDir)
-        `when`(args.useLocalResultDir()).thenReturn(false)
-        `when`(args.keepFilePath).thenReturn(true)
+        `when`(androidArgs.localResultDir).thenReturn(localResultDir)
+        `when`(androidArgs.useLocalResultDir()).thenReturn(false)
+        `when`(androidArgs.keepFilePath).thenReturn(true)
 
-        val downloadFile = TestRunner.getDownloadPath(args, gcsPath)
+        val downloadFile = TestRunner.getDownloadPath(androidArgs, gcsAndroidPath)
         assertThat(downloadFile).isEqualTo(
                 Paths.get(
                         localResultDir,

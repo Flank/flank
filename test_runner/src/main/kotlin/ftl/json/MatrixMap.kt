@@ -3,7 +3,7 @@ package ftl.json
 import ftl.util.MatrixState
 
 class MatrixMap(
-    val map: MutableMap<String, SavedMatrix>,
+    val map: Map<String, SavedMatrix>,
     val runPath: String
 ) {
     // determine success by FTL API, not junit xml.

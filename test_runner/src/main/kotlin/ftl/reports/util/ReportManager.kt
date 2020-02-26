@@ -39,8 +39,8 @@ object ReportManager {
         val objName = matrices.runPath // 2019-03-22_17-20-53.594000_ftrh
 
         // shard location in path changes based on iOS or Android.
-        val matchResult = Regex("/(shard_\\d+)/").find(xmlFile.toString())
-        val shardName = matchResult?.groupValues?.get(1) // shard_0
+        val matchResult = Regex("/(shard_\\d+)(-rerun_\\d+)?/").find(xmlFile.toString())
+        val shardName = matchResult?.value?.removePrefix("/")?.removeSuffix("/") // shard_0 || shard_0-rerun_1
         val matrixPath = Paths.get(objName, shardName).toString() // 2019-03-22_17-20-53.594000_ftrh/shard_0
 
         var webLink = ""
@@ -130,8 +130,8 @@ object ReportManager {
         testShardChunks: List<List<String>>
     ):
             List<ShardEfficiency> {
-        val oldJunitMap = Shard.createJunitMap(oldResult, args)
-        val newJunitMap = Shard.createJunitMap(newResult, args)
+        val oldDurations = Shard.createTestMethodDurationMap(oldResult, args)
+        val newDurations = Shard.createTestMethodDurationMap(newResult, args)
 
         val timeList = mutableListOf<ShardEfficiency>()
         testShardChunks.forEachIndexed { index, testSuite ->
@@ -139,8 +139,8 @@ object ReportManager {
             var expectedTime = 0.0
             var finalTime = 0.0
             testSuite.forEach { testCase ->
-                expectedTime += oldJunitMap[testCase] ?: 0.0
-                finalTime += newJunitMap[testCase] ?: 0.0
+                expectedTime += oldDurations[testCase] ?: 0.0
+                finalTime += newDurations[testCase] ?: 0.0
             }
 
             val timeDiff = (finalTime - expectedTime)

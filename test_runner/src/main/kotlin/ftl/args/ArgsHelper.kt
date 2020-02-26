@@ -59,7 +59,9 @@ object ArgsHelper {
                     " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
         )
 
-        if (args.maxTestShards <= 0 && args.maxTestShards != -1) Utils.fatalError("max-test-shards must be >= 1 or -1")
+        if (args.maxTestShards !in IArgs.AVAILABLE_SHARD_COUNT_RANGE && args.maxTestShards != -1)
+            Utils.fatalError("max-test-shards must be >= 1 and <= 50, or -1. But current is ${args.maxTestShards}")
+
         if (args.shardTime <= 0 && args.shardTime != -1) Utils.fatalError("shard-time must be >= 1 or -1")
         if (args.repeatTests < 1) Utils.fatalError("num-test-runs must be >= 1")
 
@@ -219,13 +221,15 @@ object ArgsHelper {
     }
 
     fun calculateShards(filteredTests: List<String>, args: IArgs): List<List<String>> {
-        val oldTestResult = GcStorage.downloadJunitXml(args) ?: JUnitTestResult(mutableListOf())
+        val shards = if (args.disableSharding) {
+            mutableListOf(filteredTests as MutableList<String>)
+        } else {
+            val oldTestResult = GcStorage.downloadJunitXml(args) ?: JUnitTestResult(mutableListOf())
+            val shardCount = Shard.shardCountByTime(filteredTests, oldTestResult, args)
+            Shard.createShardsByShardCount(filteredTests, oldTestResult, args, shardCount).stringShards()
+        }
 
-        val shardCount = Shard.shardCountByTime(filteredTests, oldTestResult, args)
-
-        val shards = Shard.createShardsByShardCount(filteredTests, oldTestResult, args, shardCount)
-
-        return testMethodsAlwaysRun(shards.stringShards(), args)
+        return testMethodsAlwaysRun(shards, args)
     }
 
     private fun testMethodsAlwaysRun(shards: StringShards, args: IArgs): StringShards {

@@ -1,14 +1,13 @@
 gcloud:
-  app: ./app/build/outputs/apk/debug/app-debug.apk
-  test: ./app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+  app: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk
+  test: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-single-flaky-debug-androidTest.apk
   environment-variables: 
     coverage: true
     coverageFilePath: /sdcard/
     clearPackageData: true
   directories-to-pull: 
     - /sdcard/
-  # use a named results dir that's used by the gradle task
-  results-dir: coverage_ec
+  num-flaky-test-attempts: 3
 
 flank:
   disable-sharding: true

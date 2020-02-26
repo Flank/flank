@@ -10,13 +10,15 @@ import com.google.api.services.testing.model.EnvironmentVariable
 import com.google.api.services.testing.model.FileReference
 import com.google.api.services.testing.model.GoogleAuto
 import com.google.api.services.testing.model.GoogleCloudStorage
+import com.google.api.services.testing.model.ManualSharding
 import com.google.api.services.testing.model.ResultStorage
+import com.google.api.services.testing.model.ShardingOption
 import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.testing.model.TestSetup
 import com.google.api.services.testing.model.TestSpecification
+import com.google.api.services.testing.model.TestTargetsForShard
 import com.google.api.services.testing.model.ToolResultsHistory
 import ftl.args.AndroidArgs
-import ftl.util.ShardCounter
 import ftl.util.Utils.fatalError
 import ftl.util.Utils.join
 import ftl.util.testTimeoutToSeconds
@@ -33,20 +35,27 @@ object GcAndroidTestMatrix {
         testApkGcsPath: String,
         runGcsPath: String,
         androidDeviceList: AndroidDeviceList,
-        testTargets: List<String>,
+        testTargets: List<List<String>>,
         args: AndroidArgs,
-        shardCounter: ShardCounter,
         toolResultsHistory: ToolResultsHistory
     ): Testing.Projects.TestMatrices.Create {
 
         // https://github.com/bootstraponline/studio-google-cloud-testing/blob/203ed2890c27a8078cd1b8f7ae12cf77527f426b/firebase-testing/src/com/google/gct/testing/launcher/CloudTestsLauncher.java#L120
         val clientInfo = ClientInfo().setName("Flank")
 
-        val matrixGcsPath = join(args.resultsBucket, runGcsPath, shardCounter.next())
+        val matrixGcsPath = join(args.resultsBucket, runGcsPath)
+
+        // ShardingOption().setUniformSharding(UniformSharding().setNumShards())
+        val testTargetsForShard: List<TestTargetsForShard> = testTargets.map {
+            TestTargetsForShard().setTestTargets(it)
+        }
+        val manualSharding = ManualSharding().setTestTargetsForShard(testTargetsForShard)
+        val shardingOption = ShardingOption().setManualSharding(manualSharding)
 
         val androidInstrumentation = AndroidInstrumentationTest()
             .setAppApk(FileReference().setGcsPath(appApkGcsPath))
             .setTestApk(FileReference().setGcsPath(testApkGcsPath))
+            .setShardingOption(shardingOption)
 
         if (args.testRunnerClass != null) {
             androidInstrumentation.testRunnerClass = args.testRunnerClass
@@ -55,8 +64,6 @@ object GcAndroidTestMatrix {
         if (args.useOrchestrator) {
             androidInstrumentation.orchestratorOption = "USE_ORCHESTRATOR"
         }
-
-        androidInstrumentation.testTargets = testTargets
 
         // --auto-google-login
         // https://cloud.google.com/sdk/gcloud/reference/firebase/test/android/run

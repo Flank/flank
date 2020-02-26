@@ -12,8 +12,6 @@ object AndroidTestShard {
 
     // computed properties not specified in yaml
     fun getTestShardChunks(args: AndroidArgs, testApk: String): List<List<String>> {
-        if (args.disableSharding) return listOf(emptyList())
-
         // Download test APK if necessary so it can be used to validate test methods
         var testLocalApk = testApk
         if (testApk.startsWith(FtlConstants.GCS_PREFIX)) {
@@ -28,7 +26,12 @@ object AndroidTestShard {
 
     private fun getTestMethods(args: AndroidArgs, testLocalApk: String): List<String> {
         val allTestMethods = DexParser.findTestMethods(testLocalApk)
-        require(allTestMethods.isNotEmpty()) { Utils.fatalError("Test APK has no tests") }
+        val shouldIgnoreMissingTests = allTestMethods.isEmpty() && args.disableSharding
+        val shouldThrowErrorIfMissingTests = allTestMethods.isEmpty() && !args.disableSharding
+        when {
+            shouldIgnoreMissingTests -> return mutableListOf()
+            shouldThrowErrorIfMissingTests -> throw IllegalStateException(Utils.fatalError("Test APK has no tests"))
+        }
         val testFilter = TestFilters.fromTestTargets(args.testTargets)
         val filteredTests = allTestMethods
             .asSequence()
