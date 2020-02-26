@@ -39,8 +39,8 @@ object ReportManager {
         val objName = matrices.runPath // 2019-03-22_17-20-53.594000_ftrh
 
         // shard location in path changes based on iOS or Android.
-        val matchResult = Regex("/(shard_\\d+)/").find(xmlFile.toString())
-        val shardName = matchResult?.groupValues?.get(1) // shard_0
+        val matchResult = Regex("/(shard_\\d+)(-rerun_\\d+)?/").find(xmlFile.toString())
+        val shardName = matchResult?.value?.removePrefix("/")?.removeSuffix("/") // shard_0 || shard_0-rerun_1
         val matrixPath = Paths.get(objName, shardName).toString() // 2019-03-22_17-20-53.594000_ftrh/shard_0
 
         var webLink = ""
