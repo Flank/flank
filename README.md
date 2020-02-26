@@ -316,11 +316,12 @@ flank:
   ## Default: false  
   # keep-file-path: false
     
-  ## Include additional app/test apk pairs in the run. If app is omitted, then the top level app is used for that pair.
+  ## Include additional app/test apk pairs in the run. Apks are unique by just filename and not by path!
+  ## If app is omitted, then the top level app is used for that pair.
   # additional-app-test-apks:
   #  - app: ../test_app/apks/app-debug.apk
-  #    test: ../test_app/apks/app-debug-androidTest.apk
-  #  - test: ../test_app/apks/app-debug-androidTest.apk
+  #    test: ../test_app/apks/app1-debug-androidTest.apk
+  #  - test: ../test_app/apks/app2-debug-androidTest.apk
 ```
 
 ### Android code coverage

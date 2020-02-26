@@ -19,71 +19,67 @@ import kotlinx.coroutines.coroutineScope
 
 object AndroidTestRunner {
 
-    suspend fun runTests(androidArgs: AndroidArgs): Pair<MatrixMap, List<List<String>>> = coroutineScope {
-        val (stopwatch, runGcsPath) = GenericTestRunner.beforeRunTests(androidArgs)
+    suspend fun runTests(args: AndroidArgs): Pair<MatrixMap, List<List<String>>> = coroutineScope {
+        val (stopwatch, runGcsPath) = GenericTestRunner.beforeRunTests(args)
 
         // GcAndroidMatrix => GcAndroidTestMatrix
         // GcAndroidTestMatrix.execute() 3x retry => matrix id (string)
-        val androidDeviceList = GcAndroidDevice.build(androidArgs.devices)
+        val androidDeviceList = GcAndroidDevice.build(args.devices)
 
         val jobs = arrayListOf<Deferred<TestMatrix>>()
-        val runCount = androidArgs.repeatTests
+        val runCount = args.repeatTests
         val shardCounter = ShardCounter()
-        val history = GcToolResults.createToolResultsHistory(androidArgs)
-        val apks = resolveApks(androidArgs, runGcsPath)
-        val allTestShardChunks: MutableList<List<String>> = mutableListOf()
-
-        apks.forEach { apk ->
-            // ensure we only shard tests that are part of the test apk
-            val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, apk.test)
-            allTestShardChunks += testShardChunks
+        val history = GcToolResults.createToolResultsHistory(args)
+        val apkPairsInArgs = listOf(AppTestPair(app = args.appApk, test = args.testApk)) + args.additionalAppTestApks
+        val allTestShardChunks: List<List<String>> = apkPairsInArgs.map { unresolvedApkPair ->
+            val resolvedApkPair = resolveApkPair(unresolvedApkPair, args, runGcsPath)
+            // Ensure we only shard tests that are part of the test apk. Use the unresolved test apk path to make sure
+            // we don't re-download an apk it is on the local file system.
+            val testShards = AndroidTestShard.getTestShardChunks(args, unresolvedApkPair.test)
             repeat(runCount) {
-                testShardChunks.forEach { testTargets ->
+                testShards.forEach { testTargets ->
                     // specify dispatcher to avoid inheriting main runBlocking context that runs in the main thread
                     // https://kotlinlang.org/docs/reference/coroutines/coroutine-context-and-dispatchers.html
                     jobs += async(Dispatchers.IO) {
                         GcAndroidTestMatrix.build(
-                            appApkGcsPath = apk.app ?: androidArgs.appApk,
-                            testApkGcsPath = apk.test,
+                            appApkGcsPath = resolvedApkPair.app,
+                            testApkGcsPath = resolvedApkPair.test,
                             runGcsPath = runGcsPath,
                             androidDeviceList = androidDeviceList,
                             testTargets = testTargets,
-                            args = androidArgs,
+                            args = args,
                             shardCounter = shardCounter,
                             toolResultsHistory = history
                         ).executeWithRetry()
                     }
                 }
             }
-        }
+            testShards
+        }.flatten()
 
-        println(GenericTestRunner.beforeRunMessage(androidArgs, allTestShardChunks))
-        val matrixMap = GenericTestRunner.afterRunTests(jobs.awaitAll(), runGcsPath, stopwatch, androidArgs)
+        println(GenericTestRunner.beforeRunMessage(args, allTestShardChunks))
+        val matrixMap = GenericTestRunner.afterRunTests(jobs.awaitAll(), runGcsPath, stopwatch, args)
         matrixMap to allTestShardChunks
     }
 
     /**
-     * Upload APKs if the path given is local
+     * Upload an APK pair if the path given is local
      *
-     * @return Pair(gcs uri for app apk, gcs uri for test apk)
+     * @return AppTestPair with their GCS paths
      */
-    private suspend fun resolveApks(args: AndroidArgs, runGcsPath: String): List<AppTestPair> = coroutineScope {
+    private suspend fun resolveApkPair(
+        apk: AppTestPair,
+        args: AndroidArgs,
+        runGcsPath: String
+    ): AppTestPair = coroutineScope {
         val gcsBucket = args.resultsBucket
-        val appTestApks = listOf(AppTestPair(app = args.appApk, test = args.testApk)) + args.additionalAppTestApks
-        val result = mutableListOf<AppTestPair>()
 
-        appTestApks.forEach { apks ->
-            val appApkGcsPath = async(Dispatchers.IO) { GcStorage.upload(apks.app ?: args.appApk, gcsBucket, runGcsPath) }
-            val testApkGcsPath = async(Dispatchers.IO) { GcStorage.upload(apks.test, gcsBucket, runGcsPath) }
+        val appApkGcsPath = async(Dispatchers.IO) { GcStorage.upload(apk.app, gcsBucket, runGcsPath) }
+        val testApkGcsPath = async(Dispatchers.IO) { GcStorage.upload(apk.test, gcsBucket, runGcsPath) }
 
-            result.add(
-                AppTestPair(
-                    app = appApkGcsPath.await(),
-                    test = testApkGcsPath.await()
-                )
-            )
-        }
-
-        result
+        AppTestPair(
+            app = appApkGcsPath.await(),
+            test = testApkGcsPath.await()
+        )
     }
 }

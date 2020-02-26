@@ -20,8 +20,12 @@ import java.io.FileOutputStream
 import java.net.URI
 import java.nio.file.Files
 import java.nio.file.Paths
+import java.util.concurrent.ConcurrentHashMap
 
 object GcStorage {
+
+    private val uploadCache: ConcurrentHashMap<String, String> = ConcurrentHashMap()
+    private val downloadCache: ConcurrentHashMap<String, String> = ConcurrentHashMap()
 
     val storageOptions: StorageOptions by lazy {
         val builder = StorageOptions.newBuilder()
@@ -99,43 +103,45 @@ object GcStorage {
 
     private fun upload(file: String, fileBytes: ByteArray, rootGcsBucket: String, runGcsPath: String): String {
         val fileName = Paths.get(file).fileName.toString()
-        val gcsFilePath = GCS_PREFIX + join(rootGcsBucket, runGcsPath, fileName)
+        return uploadCache[fileName] ?: uploadCache.computeIfAbsent(fileName) {
+            val gcsFilePath = GCS_PREFIX + join(rootGcsBucket, runGcsPath, fileName)
 
-        // 404 Not Found error when rootGcsBucket does not exist
-        val fileBlob = BlobInfo.newBuilder(rootGcsBucket, join(runGcsPath, fileName)).build()
+            // 404 Not Found error when rootGcsBucket does not exist
+            val fileBlob = BlobInfo.newBuilder(rootGcsBucket, join(runGcsPath, fileName)).build()
 
-        val progress = ProgressBar()
-        try {
-            progress.start("Uploading $fileName")
-            storage.create(fileBlob, fileBytes)
-        } catch (e: Exception) {
-            fatalError(e)
-        } finally {
-            progress.stop()
+            val progress = ProgressBar()
+            try {
+                progress.start("Uploading $fileName")
+                storage.create(fileBlob, fileBytes)
+            } catch (e: Exception) {
+                fatalError(e)
+            } finally {
+                progress.stop()
+            }
+            gcsFilePath
         }
-
-        return gcsFilePath
     }
 
     fun download(gcsUriString: String, ignoreError: Boolean = false): String {
         val gcsURI = URI.create(gcsUriString)
         val bucket = gcsURI.authority
         val path = gcsURI.path.drop(1) // Drop leading slash
+        return downloadCache[path] ?: downloadCache.computeIfAbsent(path) {
+            val outputFile = File.createTempFile("tmp", null)
+            outputFile.deleteOnExit()
 
-        val outputFile = File.createTempFile("tmp", null)
-        outputFile.deleteOnExit()
-
-        try {
-            val blob = storage.get(bucket, path)
-            val readChannel = blob.reader()
-            val output = FileOutputStream(outputFile)
-            output.channel.transferFrom(readChannel, 0, Long.MAX_VALUE)
-            output.close()
-        } catch (e: Exception) {
-            if (ignoreError) return ""
-            fatalError(e)
+            try {
+                val blob = storage.get(bucket, path)
+                blob.reader().use { readChannel ->
+                    FileOutputStream(outputFile).use {
+                        it.channel.transferFrom(readChannel, 0, Long.MAX_VALUE)
+                    }
+                }
+            } catch (e: Exception) {
+                if (ignoreError) return@computeIfAbsent ""
+                fatalError(e)
+            }
+            outputFile.path
         }
-
-        return outputFile.path
     }
 }
