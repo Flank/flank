@@ -122,16 +122,15 @@ object YamlDeprecated {
 
     private val yamlWriter by lazy { yamlMapper.writerWithDefaultPrettyPrinter() }
 
-    fun modify(yamlPath: Path, fix: Boolean = false): Boolean {
+    fun modify(yamlPath: Path): Boolean {
         if (yamlPath.toFile().exists().not()) fatalError("Flank yml doesn't exist at path $yamlPath")
-        val data = String(Files.readAllBytes(yamlPath))
 
+        val data = String(Files.readAllBytes(yamlPath))
         val (errorDetected, string) = modify(data)
 
-        if (fix) {
-            Files.write(yamlPath, string.toByteArray())
-            println("\nUpdated ${yamlPath.fileName} file")
-        }
+        Files.write(yamlPath, string.toByteArray())
+        println("\nUpdated ${yamlPath.fileName} file")
+
         return errorDetected
     }
 

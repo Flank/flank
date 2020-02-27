@@ -1,12 +1,14 @@
 package ftl.cli.firebase.test.android
 
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
+import ftl.cli.firebase.test.INVALID_YML_PATH
+import ftl.cli.firebase.test.SUCCESS_VALIDATION_MESSAGE
 import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.normalizeLineEnding
 import org.junit.Rule
 import org.junit.Test
+import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
@@ -17,6 +19,10 @@ class AndroidDoctorCommandTest {
     @JvmField
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
 
+    @Rule
+    @JvmField
+    val exit = ExpectedSystemExit.none()
+
     @Test
     fun androidDoctorCommandPrintsHelp() {
         val doctor = AndroidDoctorCommand()
@@ -24,7 +30,7 @@ class AndroidDoctorCommandTest {
         CommandLine(doctor).execute("-h")
 
         val output = systemOutRule.log.normalizeLineEnding()
-        Truth.assertThat(output).startsWith(
+        assertThat(output).startsWith(
             "Verifies flank firebase is setup correctly\n" +
                 "\n" +
                 "doctor [-fh] [-c=<configPath>]\n" +
@@ -48,7 +54,7 @@ class AndroidDoctorCommandTest {
         AndroidDoctorCommand().run()
         // When there are no lint errors, output is a newline.
         val output = systemOutRule.log.normalizeLineEnding()
-        Truth.assertThat(output).isEqualTo("\n")
+        assertThat(output).isEqualTo(SUCCESS_VALIDATION_MESSAGE)
     }
 
     @Test
@@ -65,5 +71,14 @@ class AndroidDoctorCommandTest {
         assertThat(cmd.fix).isFalse()
         cmd.fix = true
         assertThat(cmd.fix).isTrue()
+    }
+
+    @Test
+    fun `should terminate with exit code 1 when yml validation fails`() {
+        exit.expectSystemExitWithStatus(1)
+        AndroidDoctorCommand().run {
+            configPath = INVALID_YML_PATH
+            run()
+        }
     }
 }
