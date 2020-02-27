@@ -1,4 +1,4 @@
-package ftl.test.util
+package ftl.mock
 
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.Logger
@@ -25,7 +25,9 @@ import com.google.api.services.toolresults.model.TestExecutionStep
 import com.google.api.services.toolresults.model.TestTiming
 import com.google.gson.GsonBuilder
 import com.google.gson.LongSerializationPolicy
+import ftl.config.FtlConstants
 import ftl.config.FtlConstants.JSON_FACTORY
+import ftl.util.Bash
 import ftl.util.StepOutcome.failure
 import ftl.util.StepOutcome.inconclusive
 import ftl.util.StepOutcome.skipped
@@ -46,12 +48,14 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.concurrent.atomic.AtomicInteger
 import org.slf4j.LoggerFactory.getLogger
+import java.net.BindException
 
 object MockServer {
 
     private val matrixIdCounter: AtomicInteger = AtomicInteger(0)
     const val port = 8080
     private val logger = getLogger(Logger.ROOT_LOGGER_NAME) as Logger
+    private var isStarted: Boolean = false
 
     init {
         logger.level = Level.OFF
@@ -105,7 +109,7 @@ object MockServer {
             .setOutcome(outcome)
     }
 
-    val application by lazy {
+    private val application by lazy {
         embeddedServer(Netty, port) {
             install(ContentNegotiation) {
                 // Fix: IllegalArgumentException: number type formatted as a JSON number cannot use @JsonString annotation
@@ -238,5 +242,22 @@ object MockServer {
                 }
             }
         }
+    }
+
+    fun start() {
+        if (isStarted) return
+        val server = application
+        try {
+            server.start(wait = false)
+        } catch (e: BindException) {
+            val lsofOutput = Bash.execute("lsof -i :$port")
+            val pid = lsofOutput.split("\n").last().split(Regex("\\s+"))[1]
+            Bash.execute("kill -9 $pid")
+            Thread.sleep(2000)
+            server.start(wait = false)
+        }
+        isStarted = true
+        FtlConstants.useMock = true
+        TestArtifact.checkFixtures
     }
 }

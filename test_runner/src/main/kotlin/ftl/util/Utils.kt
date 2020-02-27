@@ -45,8 +45,8 @@ object Utils {
 
     // marked as inline to make JaCoCo happy
     @Suppress("NOTHING_TO_INLINE")
-    inline fun fatalError(e: Exception) {
-        throw RuntimeException(e)
+    inline fun fatalError(e: Exception, message: String? = null) {
+        throw RuntimeException(message ?: e.toString(), e)
     }
 
     @Suppress("NOTHING_TO_INLINE")

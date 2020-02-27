@@ -158,13 +158,14 @@ dependencies {
     // compile("com.google.apis:google-api-services-testing:v1-rev30-1.23.0")
     implementation(project("test_api"))
 
+    implementation(Libs.JSOUP)
+    implementation(Libs.OKHTTP)
+
     detektPlugins(Libs.DETEKT_FORMATTING)
 
-    testImplementation(Libs.JSOUP)
     testImplementation(Libs.JUNIT)
     testImplementation(Libs.MOCKITO_INLINE)
-    testImplementation(Libs.OKHTTP)
-    testImplementation(Libs.SYSTEM_RULES)
+    implementation(Libs.SYSTEM_RULES)
     testImplementation(Libs.TRUTH)
 }
 

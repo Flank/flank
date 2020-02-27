@@ -15,6 +15,7 @@ fun main() {
     CommandLine(Main()).execute(
         "firebase", "test",
         "android", "run",
+        "--dry",
         "-c=src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type.yml",
         "--project=$projectId"
     )

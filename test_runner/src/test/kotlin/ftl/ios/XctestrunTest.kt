@@ -3,8 +3,8 @@ package ftl.ios
 import com.dd.plist.NSDictionary
 import com.google.common.truth.Truth.assertThat
 import ftl.config.FtlConstants.isWindows
+import ftl.mock.TestArtifact.fixturesPath
 import ftl.test.util.FlankTestRunner
-import ftl.test.util.TestArtifact.fixturesPath
 import org.junit.Assume.assumeFalse
 import java.nio.file.Files
 import java.nio.file.Paths

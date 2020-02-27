@@ -1,6 +1,5 @@
 package ftl.cli.firebase.test.android
 
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import ftl.args.yml.AppTestPair
 import ftl.config.Device
@@ -30,8 +29,8 @@ class AndroidRunCommandTest {
         CommandLine(android).execute("-h")
 
         val output = systemOutRule.log
-        Truth.assertThat(output).startsWith("Run tests on Firebase Test Lab")
-        Truth.assertThat(output).contains("run [-h]")
+        assertThat(output).startsWith("Run tests on Firebase Test Lab")
+        assertThat(output).contains("run [-h]")
 
         assertThat(android.usageHelpRequested).isTrue()
     }
@@ -63,6 +62,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs()
         assertThat(cmd.dumpShards).isFalse()
+        assertThat(cmd.dryRun).isFalse()
         assertThat(cmd.app).isNull()
         assertThat(cmd.test).isNull()
         assertThat(cmd.testTargets).isNull()
@@ -376,5 +376,13 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parseArgs("--dump-shards=true")
 
         assertThat(cmd.dumpShards).isEqualTo(true)
+    }
+
+    @Test
+    fun `dryRun parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--dry")
+
+        assertThat(cmd.dryRun).isEqualTo(true)
     }
 }

@@ -49,7 +49,7 @@ object GcStorage {
     }
 
     fun upload(file: String, rootGcsBucket: String, runGcsPath: String): String {
-        if (file.startsWith(FtlConstants.GCS_PREFIX)) return file
+        if (file.startsWith(GCS_PREFIX)) return file
 
         return upload(
             file = file,
@@ -139,7 +139,7 @@ object GcStorage {
                 }
             } catch (e: Exception) {
                 if (ignoreError) return@computeIfAbsent ""
-                fatalError(e)
+                fatalError(e, "Cannot download $gcsUriString")
             }
             outputFile.path
         }
