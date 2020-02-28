@@ -132,7 +132,7 @@ flank:
 
   ## Local folder to store the test result. Folder is DELETED before each run to ensure only artifacts from the new run are saved.
   # local-result-dir: flank
-  
+
   ## Downloaded files preserves the original path of file. Required when file names are not unique.
   ## Default: false
   # keep-file-path: false
