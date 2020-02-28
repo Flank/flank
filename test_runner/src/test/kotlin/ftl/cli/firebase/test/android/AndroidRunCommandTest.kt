@@ -40,7 +40,7 @@ class AndroidRunCommandTest {
     fun androidRunCommandRuns() {
         exit.expectSystemExit()
         val runCmd = AndroidRunCommand()
-        runCmd.configPath = "./src/test/kotlin/ftl/fixtures/android.yml"
+        runCmd.configPath = "./src/test/kotlin/ftl/fixtures/simple-android-flank.yml"
         runCmd.run()
         val output = systemOutRule.log
         assertThat(output).contains("1 / 1 (100.00%)")

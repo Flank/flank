@@ -67,7 +67,7 @@ gcloud:
   ## (default: a timestamp with a random suffix).
   # results-dir: tmp
 
-  ## Enable video recording during the test. Enabled by default, use --no-record-video to disable.
+  ## Enable video recording during the test. Disabled by default. Use --record-video to enable.
   # record-video: true
 
   ## The max time this test execution can run before it is cancelled (default: 15m).
@@ -189,7 +189,7 @@ gcloud:
   ## (default: a timestamp with a random suffix).
   # results-dir: tmp
 
-  ## Enable video recording during the test. Enabled by default, use --no-record-video to disable.
+  ## Enable video recording during the test. Disabled by default. Use --record-video to enable.
   # record-video: true
 
   ## The max time this test execution can run before it is cancelled (default: 15m).
@@ -222,7 +222,7 @@ gcloud:
   test: ../test_app/apks/app-debug-androidTest.apk
 
   ## Automatically log into the test device using a preconfigured Google account before beginning the test.
-  ## Enabled by default, use --no-auto-google-login to disable.
+  ## Disabled by default. Use --auto-google-login to enable.
   # auto-google-login: true
 
   ## Whether each test runs in its own Instrumentation instance with the Android Test Orchestrator
@@ -244,10 +244,10 @@ gcloud:
   #   - /sdcard/
 
   ## Monitor and record performance metrics: CPU, memory, network usage, and FPS (game-loop only).
-  ## Enabled by default, use --no-performance-metrics to disable.
+  ## Disabled by default. Use --performance-metrics to enable.
   # performance-metrics: true
-  
-  ## The fully-qualified Java class name of the instrumentation test runner 
+
+  ## The fully-qualified Java class name of the instrumentation test runner
   ## (default: the last name extracted from the APK manifest).
   # test-runner-class: com.foo.TestRunner
 
@@ -315,7 +315,7 @@ flank:
   ## Keeps the full path of downloaded files. Required when file names are not unique.
   ## Default: false  
   # keep-file-path: false
-    
+
   ## Include additional app/test apk pairs in the run. Apks are unique by just filename and not by path!
   ## If app is omitted, then the top level app is used for that pair.
   # additional-app-test-apks:
@@ -346,7 +346,7 @@ android {
       testCoverageEnabled true
     }
   }
- 
+
   // https://google.github.io/android-gradle-dsl/current/com.android.build.gradle.internal.dsl.TestOptions.html#com.android.build.gradle.internal.dsl.TestOptions:animationsDisabled
   testOptions {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
@@ -411,7 +411,7 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 class MyEspressoTest {
-  
+
   @Rule
   GrantPermissionRule grantPermissionRule = GrantPermissionRule.grant(
           READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE);
@@ -427,11 +427,11 @@ Here's an example flank.yml. Note that `coverage` and `coverageFilePath` must be
 gcloud:
   app: ./app/build/outputs/apk/debug/app-debug.apk
   test: ./app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
-  environment-variables: 
+  environment-variables:
     coverage: true
     coverageFilePath: /sdcard/
     clearPackageData: true
-  directories-to-pull: 
+  directories-to-pull:
     - /sdcard/
   # use a named results dir that's used by the gradle task
   results-dir: coverage_ec

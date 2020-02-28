@@ -144,13 +144,13 @@ class IosRunCommand : Runnable {
     @Option(
         names = ["--record-video"],
         description = ["Enable video recording during the test. " +
-            "Enabled by default, use --no-record-video to disable."]
+            "Disabled by default."]
     )
     var recordVideo: Boolean? = null
 
     @Option(
         names = ["--no-record-video"],
-        description = ["Disable video recording during the test. See --record-video to enable."]
+        description = ["Disable video recording during the test (default behavior). Use --record-video to enable."]
     )
     var noRecordVideo: Boolean? = null
 

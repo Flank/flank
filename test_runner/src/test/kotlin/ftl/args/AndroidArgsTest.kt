@@ -271,7 +271,7 @@ AndroidArgs
         with(androidArgs) {
             // GcloudYml
             assert(resultsBucket, "mockBucket")
-            assert(recordVideo, true)
+            assert(recordVideo, false)
             assert(testTimeout, "15m")
             assert(async, false)
             assert(project, "mockProjectId")
@@ -279,11 +279,11 @@ AndroidArgs
             // AndroidGcloudYml
             assert(appApk, appApkAbsolutePath)
             assert(testApk, testApkAbsolutePath)
-            assert(autoGoogleLogin, true)
+            assert(autoGoogleLogin, false)
             assert(useOrchestrator, true)
             assert(environmentVariables, emptyMap<String, String>())
             assert(directoriesToPull, empty)
-            assert(performanceMetrics, true)
+            assert(performanceMetrics, false)
             assert(testRunnerClass, null)
             assert(testTargets, empty)
             assert(devices, listOf(Device("NexusLowRes", "28")))
