@@ -94,13 +94,13 @@ class AndroidRunCommand : Runnable {
     @Option(
         names = ["--auto-google-login"],
         description = ["Automatically log into the test device using a preconfigured " +
-                "Google account before beginning the test. Enabled by default, use --no-auto-google-login to disable."]
+                "Google account before beginning the test. Disabled by default."]
     )
     var autoGoogleLogin: Boolean? = null
 
     @Option(
         names = ["--no-auto-google-login"],
-        description = ["Google account not logged in. See --auto-google-login."]
+        description = ["Google account not logged in (default behavior). Use --auto-google-login to enable"]
     )
     var noAutoGoogleLogin: Boolean? = null
 
@@ -145,13 +145,13 @@ class AndroidRunCommand : Runnable {
     @Option(
         names = ["--performance-metrics"],
         description = ["Monitor and record performance metrics: CPU, memory, " +
-                "network usage, and FPS (game-loop only). Enabled by default, use --no-performance-metrics to disable."]
+                "network usage, and FPS (game-loop only). Disabled by default."]
     )
     var performanceMetrics: Boolean? = null
 
     @Option(
         names = ["--no-performance-metrics"],
-        description = ["Disables performance metrics. See --performance-metrics"]
+        description = ["Disables performance metrics (default behavior). Use --performance-metrics to enable."]
     )
     var noPerformanceMetrics: Boolean? = null
 
@@ -221,13 +221,13 @@ class AndroidRunCommand : Runnable {
     @Option(
         names = ["--record-video"],
         description = ["Enable video recording during the test. " +
-                "Enabled by default, use --no-record-video to disable."]
+                "Disabled by default."]
     )
     var recordVideo: Boolean? = null
 
     @Option(
         names = ["--no-record-video"],
-        description = ["Disable video recording during the test. See --record-video to enable."]
+        description = ["Disable video recording during the test (default behavior). Use --record-video to enable."]
     )
     var noRecordVideo: Boolean? = null
 

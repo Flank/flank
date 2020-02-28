@@ -14,6 +14,8 @@ import ftl.config.FtlConstants.defaultIosVersion
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
+import ftl.test.util.TestHelper.getPath
+import org.junit.Assert.assertFalse
 import org.junit.Assume
 import org.junit.Rule
 import org.junit.Test
@@ -26,6 +28,7 @@ import picocli.CommandLine
 @RunWith(FlankTestRunner::class)
 class IosArgsTest {
     private val empty = emptyList<String>()
+    private val simpleFlankPath = getPath("src/test/kotlin/ftl/fixtures/simple-ios-flank.yml")
     private val testPath = "./src/test/kotlin/ftl/fixtures/tmp/ios_earlgrey2.zip"
     private val xctestrunFile =
         "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun"
@@ -216,7 +219,7 @@ IosArgs
         with(args) {
             // GcloudYml
             assert(resultsBucket, "mockBucket")
-            assert(recordVideo, true)
+            assert(recordVideo, false)
             assert(testTimeout, "15m")
             assert(async, false)
             assert(project, "mockProjectId")
@@ -748,5 +751,11 @@ IosArgs
         )
 
         assertThat(actual).containsExactlyElementsIn(expected)
+    }
+
+    @Test
+    fun `verify flank default settings for ios`() {
+        val args = IosArgs.load(simpleFlankPath)
+        assertFalse(args.recordVideo)
     }
 }

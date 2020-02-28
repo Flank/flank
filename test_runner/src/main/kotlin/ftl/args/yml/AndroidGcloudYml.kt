@@ -3,6 +3,7 @@ package ftl.args.yml
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.config.Device
+import ftl.config.FlankDefaults
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
 
@@ -17,7 +18,7 @@ class AndroidGcloudYmlParams(
     val test: String? = null,
 
     @field:JsonProperty("auto-google-login")
-    val autoGoogleLogin: Boolean = true,
+    val autoGoogleLogin: Boolean = FlankDefaults.DISABLE_AUTO_LOGIN,
 
     @field:JsonProperty("use-orchestrator")
     val useOrchestrator: Boolean = true,
@@ -29,7 +30,7 @@ class AndroidGcloudYmlParams(
     val directoriesToPull: List<String> = emptyList(),
 
     @field:JsonProperty("performance-metrics")
-    val performanceMetrics: Boolean = true,
+    val performanceMetrics: Boolean = FlankDefaults.DISABLE_PERFORMANCE_METRICS,
 
     @field:JsonProperty("test-runner-class")
     val testRunnerClass: String? = null,

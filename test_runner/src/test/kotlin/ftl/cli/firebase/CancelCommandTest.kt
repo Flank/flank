@@ -50,7 +50,7 @@ class CancelCommandTest {
     fun cancelCommandRuns() {
         exit.expectSystemExit()
         val runCmd = AndroidRunCommand()
-        runCmd.configPath = "./src/test/kotlin/ftl/fixtures/android.yml"
+        runCmd.configPath = "./src/test/kotlin/ftl/fixtures/simple-android-flank.yml"
         runCmd.run()
         CancelCommand().run()
         val output = systemOutRule.log

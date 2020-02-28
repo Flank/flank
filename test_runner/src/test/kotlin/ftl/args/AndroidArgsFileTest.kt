@@ -85,9 +85,6 @@ class AndroidArgsFileTest {
                     Device("shamu", "22", "zh_CN", "default")
                 )
             )
-        }
-
-        with(args) {
             assert(maxTestShards, 1)
             assert(repeatTests, 1)
         }
