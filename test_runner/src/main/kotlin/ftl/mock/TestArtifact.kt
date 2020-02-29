@@ -1,4 +1,4 @@
-package ftl.test.util
+package ftl.mock
 
 import java.io.File
 import java.net.InetAddress
@@ -86,7 +86,7 @@ object TestArtifact {
         val remoteAssetName = remoteAssetLink.attr("href").split("/").last()
         val fixtures = File(fixturesPath)
         if (!fixtures.exists()) return true
-        fixtures.listFiles().find {
+        fixtures.listFiles()?.find {
             it.name == remoteAssetName
         } ?: return true
         return false

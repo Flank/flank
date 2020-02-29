@@ -9,6 +9,7 @@ import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.config.FtlConstants.defaultLocale
 import ftl.config.FtlConstants.defaultOrientation
+import ftl.mock.MockServer
 import ftl.run.TestRunner
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -35,6 +36,10 @@ Configuration is read from flank.yml
 class AndroidRunCommand : Runnable {
 
     override fun run() {
+        if (dryRun) {
+            MockServer.start()
+        }
+
         val config = AndroidArgs.load(Paths.get(configPath), cli = this)
 
         if (dumpShards) {
@@ -59,6 +64,9 @@ class AndroidRunCommand : Runnable {
 
     @Option(names = ["--dump-shards"], description = ["Dumps the shards to $shardFile for debugging"])
     var dumpShards: Boolean = false
+
+    @Option(names = ["--dry"], description = ["Dry run on mock server"])
+    var dryRun: Boolean = false
 
     // Flank specific
 

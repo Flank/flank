@@ -5,6 +5,7 @@ import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.defaultIosModel
 import ftl.config.FtlConstants.defaultIosVersion
+import ftl.mock.MockServer
 import ftl.run.TestRunner
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -30,6 +31,10 @@ Configuration is read from flank.yml
 )
 class IosRunCommand : Runnable {
     override fun run() {
+        if (dryRun) {
+            MockServer.start()
+        }
+
         val config = IosArgs.load(Paths.get(configPath), cli = this)
 
         if (dumpShards) {
@@ -52,6 +57,9 @@ class IosRunCommand : Runnable {
 
     @Option(names = ["--dump-shards"], description = ["Dumps the shards to ios_shards.json for debugging"])
     var dumpShards: Boolean = false
+
+    @Option(names = ["--dry"], description = ["Dry run on mock server"])
+    var dryRun: Boolean = false
 
     // Flank specific
 
