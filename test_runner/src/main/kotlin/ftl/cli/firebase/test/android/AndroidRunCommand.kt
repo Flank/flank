@@ -68,6 +68,12 @@ class AndroidRunCommand : Runnable {
     @Option(names = ["--dry"], description = ["Dry run on mock server"])
     var dryRun: Boolean = false
 
+    @Option(
+        names = ["--debug"],
+        description = ["Enable debug logging. Will print additional debugging output to console if enabled"]
+    )
+    var debug: Boolean? = null
+
     // Flank specific
 
     @Option(
