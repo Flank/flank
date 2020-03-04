@@ -24,7 +24,8 @@ class MainTest {
     private fun assertMainHelpStrings(output: String) {
         assertThat(output.normalizeLineEnding()).contains(
             "flank.jar\n" +
-                " [-v] [COMMAND]\n" +
+                " [-v] [--debug] [COMMAND]\n" +
+                "      --debug     Enables debug logging\n" +
                 "  -v, --version   Prints the version\n" +
                 "Commands:\n" +
                 "  firebase\n" +
@@ -40,11 +41,26 @@ class MainTest {
         return systemOutRule.log.normalizeLineEnding() + systemErrRule.log.normalizeLineEnding()
     }
 
+    private fun unknownOption(option: String) = "Unknown option: '$option'"
+
     @Test
-    fun mainCLIVersionCommand() {
+    fun mainCLIVersionOption() {
+        val option = "-v"
         assertThat(
-            runCommand("-v")
-        ).isNotEmpty()
+            runCommand(option)
+        ).doesNotContain(
+            unknownOption(option)
+        )
+    }
+
+    @Test
+    fun mainCLIDebugOption() {
+        val option = "--debug"
+        assertThat(
+            runCommand(option)
+        ).doesNotContain(
+            unknownOption(option)
+        )
     }
 
     @Test
@@ -54,8 +70,9 @@ class MainTest {
 
     @Test
     fun mainCLIErrorsOnUnknownFlag() {
-        val output = runCommand("-unknown-flag")
-        assertThat(output).contains("Unknown option: '-unknown-flag'")
+        val option = "-unknown-flag"
+        val output = runCommand(option)
+        assertThat(output).contains(unknownOption(option))
         assertMainHelpStrings(output)
     }
 

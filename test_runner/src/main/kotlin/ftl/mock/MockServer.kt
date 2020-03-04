@@ -1,7 +1,5 @@
 package ftl.mock
 
-import ch.qos.logback.classic.Level
-import ch.qos.logback.classic.Logger
 import com.google.api.services.testing.model.AndroidDevice
 import com.google.api.services.testing.model.AndroidDeviceCatalog
 import com.google.api.services.testing.model.Environment
@@ -27,6 +25,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.LongSerializationPolicy
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.JSON_FACTORY
+import ftl.log.LogbackLogger
 import ftl.util.Bash
 import ftl.util.StepOutcome.failure
 import ftl.util.StepOutcome.inconclusive
@@ -47,19 +46,13 @@ import io.ktor.server.netty.Netty
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.concurrent.atomic.AtomicInteger
-import org.slf4j.LoggerFactory.getLogger
 import java.net.BindException
 
 object MockServer {
 
     private val matrixIdCounter: AtomicInteger = AtomicInteger(0)
     const val port = 8080
-    private val logger = getLogger(Logger.ROOT_LOGGER_NAME) as Logger
     private var isStarted: Boolean = false
-
-    init {
-        logger.level = Level.OFF
-    }
 
     private inline fun <reified T> loadCatalog(fileName: String): T {
         val jsonPath = Paths.get("./src/test/kotlin/ftl/fixtures/$fileName")
@@ -246,6 +239,9 @@ object MockServer {
 
     fun start() {
         if (isStarted) return
+        val loggingEnabled = LogbackLogger.Root.isEnabled
+        // Disable mock server initialization logs
+        LogbackLogger.Root.isEnabled = false
         val server = application
         try {
             server.start(wait = false)
@@ -256,6 +252,7 @@ object MockServer {
             Thread.sleep(2000)
             server.start(wait = false)
         }
+        LogbackLogger.Root.isEnabled = loggingEnabled
         isStarted = true
         FtlConstants.useMock = true
         TestArtifact.checkFixtures

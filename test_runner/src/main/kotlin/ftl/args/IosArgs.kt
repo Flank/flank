@@ -60,7 +60,6 @@ class IosArgs(
     override val disableSharding = cli?.disableSharding ?: flank.disableSharding
     override val project = cli?.project ?: flank.project
     override val localResultDir = cli?.localResultsDir ?: flank.localResultDir
-    override val debug = cli?.debug ?: flank.debug
 
     private val iosFlank = iosFlankYml.flank
     val testTargets = cli?.testTargets ?: iosFlank.testTargets.filterNotNull()

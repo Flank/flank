@@ -34,10 +34,7 @@ class FlankYmlParams(
     val project: String = ArgsHelper.getDefaultProjectId() ?: "",
 
     @field:JsonProperty("local-result-dir")
-    val localResultDir: String = defaultLocalResultDir,
-
-    @field:JsonProperty("debug")
-    val debug: Boolean = false
+    val localResultDir: String = defaultLocalResultDir
 ) {
     companion object : IYmlKeys {
         override val keys = listOf(

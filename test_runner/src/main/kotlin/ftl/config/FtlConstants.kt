@@ -1,7 +1,5 @@
 package ftl.config
 
-import ch.qos.logback.classic.Level
-import ch.qos.logback.classic.Logger
 import com.bugsnag.Bugsnag
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
 import com.google.api.client.googleapis.util.Utils
@@ -23,7 +21,6 @@ import java.io.IOException
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.Date
-import org.slf4j.LoggerFactory
 
 object FtlConstants {
     var useMock = false
@@ -60,7 +57,6 @@ object FtlConstants {
 
     init {
         bugsnag.setAppVersion(readRevision())
-        (LoggerFactory.getLogger(Bugsnag::class.java) as Logger).level = Level.OFF
     }
 
     val httpTransport: NetHttpTransport by lazy {

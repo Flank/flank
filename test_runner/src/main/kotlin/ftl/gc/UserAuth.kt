@@ -1,7 +1,5 @@
 package ftl.gc
 
-import ch.qos.logback.classic.Level
-import ch.qos.logback.classic.Logger
 import com.google.auth.oauth2.ClientId
 import com.google.auth.oauth2.MemoryTokensStorage
 import com.google.auth.oauth2.UserAuthorizer
@@ -23,13 +21,12 @@ import java.nio.file.Paths
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import org.slf4j.LoggerFactory
 
 class UserAuth {
 
     companion object {
         private val home = System.getProperty("user.home")!!
-        private val dotFlank = Paths.get(home, ".flank/")!!
+        private val dotFlank = Paths.get(home, ".flank/")
         val userToken: Path = Paths.get(dotFlank.toString(), "UserToken")
 
         fun exists() = userToken.toFile().exists()
@@ -38,13 +35,6 @@ class UserAuth {
                 it.readObject() as UserCredentials
             }
         }
-    }
-
-    // Silence Jetty logging.
-    private val logger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME) as Logger
-
-    init {
-        logger.level = Level.OFF
     }
 
     private var waitingForUserAuth = true

@@ -27,7 +27,6 @@ interface IArgs {
     val filesToDownload: List<String>
     val disableSharding: Boolean
     val localResultDir: String
-    val debug: Boolean
 
     fun useLocalResultDir() = localResultDir != FlankYmlParams.defaultLocalResultDir
 

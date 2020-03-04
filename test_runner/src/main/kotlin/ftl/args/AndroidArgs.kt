@@ -72,7 +72,6 @@ class AndroidArgs(
     override val disableSharding = cli?.disableSharding ?: flank.disableSharding
     override val project = cli?.project ?: flank.project
     override val localResultDir = cli?.localResultDir ?: flank.localResultDir
-    override val debug = cli?.debug ?: flank.debug
 
     private val androidFlank = androidFlankYml.flank
     val additionalAppTestApks = cli?.additionalAppTestApks ?: androidFlank.additionalAppTestApks
