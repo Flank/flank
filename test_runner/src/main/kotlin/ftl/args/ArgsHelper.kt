@@ -23,6 +23,7 @@ import ftl.reports.xml.model.JUnitTestResult
 import ftl.shard.Shard
 import ftl.shard.StringShards
 import ftl.shard.stringShards
+import ftl.util.FlankTestMethod
 import ftl.util.Utils
 import java.io.File
 import java.net.URI
@@ -55,7 +56,7 @@ object ArgsHelper {
     fun assertCommonProps(args: IArgs) {
         Utils.assertNotEmpty(
             args.project, "The project is not set. Define GOOGLE_CLOUD_PROJECT, set project in flank.yml\n" +
-                    "or save service account credential to ${FtlConstants.defaultCredentialPath}\n" +
+                    "or save service account credential to ${defaultCredentialPath}\n" +
                     " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
         )
 
@@ -114,7 +115,7 @@ object ArgsHelper {
         testTargets: List<String>,
         validTestMethods: Collection<String>,
         from: String,
-        skipValidation: Boolean = FtlConstants.useMock
+        skipValidation: Boolean = useMock
     ) {
         val missingMethods = testTargets - validTestMethods
 
@@ -123,7 +124,7 @@ object ArgsHelper {
     }
 
     fun createJunitBucket(projectId: String, junitGcsPath: String) {
-        if (FtlConstants.useMock || junitGcsPath.isEmpty()) return
+        if (useMock || junitGcsPath.isEmpty()) return
         val bucket = junitGcsPath.drop(GCS_PREFIX.length).substringBefore('/')
         createGcsBucket(projectId, bucket)
     }
@@ -190,7 +191,7 @@ object ArgsHelper {
     }
 
     fun getDefaultProjectId(): String? {
-        if (FtlConstants.useMock) return "mockProjectId"
+        if (useMock) return "mockProjectId"
 
         // Allow users control over project by checking using Google's logic first before falling back to JSON.
         return ServiceOptions.getDefaultProjectId() ?: serviceAccountProjectId()
@@ -220,9 +221,9 @@ object ArgsHelper {
         return ArgsFileVisitor("glob:$filePath").walk(searchDir)
     }
 
-    fun calculateShards(filteredTests: List<String>, args: IArgs): List<List<String>> {
+    fun calculateShards(filteredTests: List<FlankTestMethod>, args: IArgs): List<List<String>> {
         val shards = if (args.disableSharding) {
-            mutableListOf(filteredTests as MutableList<String>)
+            mutableListOf(filteredTests.map { it.testName } as MutableList<String>)
         } else {
             val oldTestResult = GcStorage.downloadJunitXml(args) ?: JUnitTestResult(mutableListOf())
             val shardCount = Shard.shardCountByTime(filteredTests, oldTestResult, args)

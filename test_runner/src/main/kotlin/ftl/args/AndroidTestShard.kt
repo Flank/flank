@@ -3,8 +3,10 @@ package ftl.args
 import com.linkedin.dex.parser.DexParser
 import com.linkedin.dex.parser.TestMethod
 import ftl.config.FtlConstants
+import ftl.filter.TestFilter
 import ftl.filter.TestFilters
 import ftl.gc.GcStorage
+import ftl.util.FlankTestMethod
 import ftl.util.Utils
 import kotlinx.coroutines.runBlocking
 
@@ -24,7 +26,7 @@ object AndroidTestShard {
         return ArgsHelper.calculateShards(filteredTests, args)
     }
 
-    private fun getTestMethods(args: AndroidArgs, testLocalApk: String): List<String> {
+    private fun getTestMethods(args: AndroidArgs, testLocalApk: String): List<FlankTestMethod> {
         val allTestMethods = DexParser.findTestMethods(testLocalApk)
         val shouldIgnoreMissingTests = allTestMethods.isEmpty() && args.disableSharding
         val shouldThrowErrorIfMissingTests = allTestMethods.isEmpty() && !args.disableSharding
@@ -33,14 +35,18 @@ object AndroidTestShard {
             shouldThrowErrorIfMissingTests -> throw IllegalStateException(Utils.fatalError("Test APK has no tests"))
         }
         val testFilter = TestFilters.fromTestTargets(args.testTargets)
-        val filteredTests = allTestMethods
-            .asSequence()
-            .distinct()
-            .filter(testFilter.shouldRun)
-            .map(TestMethod::testName)
-            .map { "class $it" }
-            .toList()
-        require(FtlConstants.useMock || filteredTests.isNotEmpty()) { Utils.fatalError("All tests filtered out") }
-        return filteredTests
+        return allTestMethods filterWith testFilter
     }
+
+    private infix fun List<TestMethod>.filterWith(filter: TestFilter) = asSequence()
+        .distinct()
+        .filter(filter.shouldRun)
+        .map { FlankTestMethod("class ${it.testName}", it.isIgnored) }
+        .toList()
+        .also {
+            require(FtlConstants.useMock || it.isNotEmpty()) { Utils.fatalError("All tests filtered out") }
+        }
 }
+
+private val TestMethod.isIgnored: Boolean
+    get() = annotations.map { it.name }.contains("org.junit.Ignore")

@@ -6,6 +6,7 @@ import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
+import ftl.util.FlankTestMethod
 import ftl.util.Utils.fatalError
 import kotlin.math.ceil
 import kotlin.math.min
@@ -47,7 +48,8 @@ class com.foo.ClassName#testMethodToSkip
 object Shard {
     // When a test does not have previous results to reference, fall back to this run time.
     @VisibleForTesting
-    const val DEFAULT_TEST_TIME_SEC: Double = 120.0
+    const val DEFAULT_TEST_TIME_SEC = 120.0
+    private const val IGNORE_TEST_TIME = 0.0
 
     private fun JUnitTestCase.androidKey(): String {
         return "class $classname#$name"
@@ -62,7 +64,7 @@ object Shard {
 
     // take in the XML with timing info then return the shard count based on execution time
     fun shardCountByTime(
-        testsToRun: List<String>,
+        testsToRun: List<FlankTestMethod>,
         oldTestResult: JUnitTestResult,
         args: IArgs
     ): Int {
@@ -70,7 +72,7 @@ object Shard {
         if (args.shardTime < -1 || args.shardTime == 0) fatalError("Invalid shard time ${args.shardTime}")
 
         val oldDurations = createTestMethodDurationMap(oldTestResult, args)
-        val testsTotalTime = testsToRun.sumByDouble { oldDurations[it] ?: DEFAULT_TEST_TIME_SEC }
+        val testsTotalTime = testsToRun.sumByDouble { if (it.ignored) IGNORE_TEST_TIME else oldDurations[it.testName] ?: DEFAULT_TEST_TIME_SEC }
 
         val shardsByTime = ceil(testsTotalTime / args.shardTime).toInt()
 
@@ -93,7 +95,7 @@ object Shard {
 
     // take in the XML with timing info then return list of shards based on the amount of shards to use
     fun createShardsByShardCount(
-        testsToRun: List<String>,
+        testsToRun: List<FlankTestMethod>,
         oldTestResult: JUnitTestResult,
         args: IArgs,
         forcedShardCount: Int = -1
@@ -104,11 +106,11 @@ object Shard {
         val previousMethodDurations = createTestMethodDurationMap(oldTestResult, args)
 
         var cacheMiss = 0
-        val testcases: List<TestMethod> = testsToRun
-            .map { methodName ->
+        val testCases: List<TestMethod> = testsToRun
+            .map {
                 TestMethod(
-                    name = methodName,
-                    time = previousMethodDurations[methodName] ?: DEFAULT_TEST_TIME_SEC.also {
+                    name = it.testName,
+                    time = if (it.ignored) IGNORE_TEST_TIME else previousMethodDurations[it.testName] ?: DEFAULT_TEST_TIME_SEC.also {
                         cacheMiss += 1
                     }
                 )
@@ -116,7 +118,7 @@ object Shard {
             // We want to iterate over testcase going from slowest to fastest
             .sortedByDescending(TestMethod::time)
 
-        val testCount = testcases.size
+        val testCount = testCases.size
 
         // If maxShards is infinite or we have more shards than tests, let's match it
         val shardsCount = if (maxShards == -1 || maxShards > testCount) testCount else maxShards
@@ -135,7 +137,7 @@ object Shard {
         }
         var shards = List(shardsCount) { TestShard(0.0, mutableListOf()) }
 
-        testcases.forEach { testMethod ->
+        testCases.forEach { testMethod ->
             val shard = shards.first()
 
             shard.testMethods.add(testMethod)

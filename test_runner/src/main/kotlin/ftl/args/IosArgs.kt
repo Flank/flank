@@ -21,6 +21,7 @@ import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.ios.IosCatalog
 import ftl.ios.Xctestrun
+import ftl.util.FlankTestMethod
 import ftl.util.Utils.fatalError
 import java.nio.file.Files
 import java.nio.file.Path
@@ -69,7 +70,7 @@ class IosArgs(
         if (disableSharding) return@lazy listOf(emptyList<String>())
 
         val validTestMethods = Xctestrun.findTestNames(xctestrunFile)
-        val testsToShard = filterTests(validTestMethods, testTargets).distinct()
+        val testsToShard = filterTests(validTestMethods, testTargets).distinct().map { FlankTestMethod(it, ignored = false) }
 
         ArgsHelper.calculateShards(testsToShard, this)
     }
