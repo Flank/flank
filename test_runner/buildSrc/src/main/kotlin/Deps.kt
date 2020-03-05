@@ -66,6 +66,8 @@ object Versions {
 
     // https://github.com/FasterXML/woodstox/releases
     const val WOODSTOX = "6.0.1"
+
+    const val KOTLIN_LOGGING = "1.7.8"
 }
 
 object Libs {
@@ -98,6 +100,8 @@ object Libs {
     const val LOGBACK = "ch.qos.logback:logback-classic:${Versions.LOGBACK}"
 
     const val WOODSTOX = "com.fasterxml.woodstox:woodstox-core:${Versions.WOODSTOX}"
+
+    const val KOTLIN_LOGGING = "io.github.microutils:kotlin-logging:${Versions.KOTLIN_LOGGING}"
 
     //region Plugins
     const val DETEKT_FORMATTING  ="io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.DETEKT}"

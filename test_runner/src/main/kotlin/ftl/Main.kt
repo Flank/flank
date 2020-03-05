@@ -6,6 +6,7 @@ import ftl.cli.firebase.CancelCommand
 import ftl.cli.firebase.RefreshCommand
 import ftl.cli.firebase.test.AndroidCommand
 import ftl.cli.firebase.test.IosCommand
+import ftl.log.setDebugLogging
 import ftl.util.Utils.readRevision
 import ftl.util.Utils.readVersion
 import picocli.CommandLine
@@ -34,6 +35,12 @@ class Main : Runnable {
 
     @CommandLine.Option(names = ["-v", "--version"], description = ["Prints the version"])
     private var printVersion = false
+
+    @CommandLine.Option(
+        names = ["--debug"],
+        description = ["Enables debug logging"]
+    )
+    fun debug(enabled: Boolean) = setDebugLogging(enabled)
 
     companion object {
         @JvmStatic

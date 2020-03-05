@@ -9,13 +9,14 @@ fun main() {
     // run "gradle check" to generate required fixtures
     val projectId = System.getenv("FLANK_PROJECT_ID")
         ?: "YOUR PROJECT ID"
-    val quantity = "multiple"
+    val quantity = "single"
     val type = "success"
 
     CommandLine(Main()).execute(
+        "--debug",
         "firebase", "test",
         "android", "run",
-        "--dry",
+//        "--dry",
         "-c=src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type.yml",
         "--project=$projectId"
     )
