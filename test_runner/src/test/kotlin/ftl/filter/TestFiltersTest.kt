@@ -29,8 +29,10 @@ val WITHOUT_LARGE_ANNOTATION = TestMethod("whatever.Foo#testName", emptyList())
 val WITHOUT_MEDIUM_ANNOTATION = TestMethod("whatever.Foo#testName", emptyList())
 val WITHOUT_SMALL_ANNOTATION = TestMethod("whatever.Foo#testName", emptyList())
 const val TEST_FILE = "src/test/kotlin/ftl/filter/fixtures/dummy-tests-file.txt"
+const val TEST_FILE_2 = "src/test/kotlin/ftl/filter/fixtures/exclude-tests.txt"
 private const val IGNORE_ANNOTATION = "org.junit.Ignore"
 
+@Suppress("TooManyFunctions")
 @RunWith(FlankTestRunner::class)
 class TestFiltersTest {
 
@@ -321,6 +323,27 @@ class TestFiltersTest {
         val expected = targets.filterNot { it.annotation == IGNORE_ANNOTATION }.map { it.fullView }
 
         assertEquals(byNotAnnotation, expected)
+    }
+
+    @Test
+    fun testFilteringClassAndPackageNegative() {
+        val filter = fromTestTargets(listOf("notPackage foo", "notClass whatever.Bar"))
+
+        assertThat(filter.shouldRun(FOO_PACKAGE)).isFalse()
+        assertThat(filter.shouldRun(BAR_CLASSNAME)).isFalse()
+        assertThat(filter.shouldRun(BAR_PACKAGE)).isTrue()
+    }
+
+    @Test
+    fun testFilteringClassAndPackageNegativeFromFile() {
+        val file = TestHelper.getPath(TEST_FILE_2) // contents: foo whatever.Bar
+        val filePath = file.toString()
+
+        val filter = fromTestTargets(listOf("notTestFile $filePath"))
+
+        assertThat(filter.shouldRun(FOO_PACKAGE)).isFalse()
+        assertThat(filter.shouldRun(BAR_CLASSNAME)).isFalse()
+        assertThat(filter.shouldRun(BAR_PACKAGE)).isTrue()
     }
 }
 
