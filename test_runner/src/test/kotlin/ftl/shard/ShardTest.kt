@@ -7,6 +7,9 @@ import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
 import ftl.test.util.FlankTestRunner
+import ftl.util.FlankTestMethod
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
@@ -19,7 +22,8 @@ import kotlin.system.measureNanoTime
 @RunWith(FlankTestRunner::class)
 class ShardTest {
 
-    @Rule @JvmField
+    @Rule
+    @JvmField
     val exceptionRule = ExpectedException.none()!!
 
     private fun sample(): JUnitTestResult {
@@ -50,7 +54,7 @@ class ShardTest {
 
     @Test
     fun oneTestPerShard() {
-        val reRunTestsToRun = listOf("a", "b", "c", "d", "e", "f", "g")
+        val reRunTestsToRun = listOfFlankTestMethod("a", "b", "c", "d", "e", "f", "g")
         val suite = sample()
 
         val result = Shard.createShardsByShardCount(reRunTestsToRun, suite, mockArgs(100))
@@ -63,7 +67,7 @@ class ShardTest {
 
     @Test
     fun sampleTest() {
-        val reRunTestsToRun = listOf("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g")
+        val reRunTestsToRun = listOfFlankTestMethod("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g")
         val suite = sample()
         val result = Shard.createShardsByShardCount(reRunTestsToRun, suite, mockArgs(3))
 
@@ -87,7 +91,7 @@ class ShardTest {
 
     @Test
     fun firstRun() {
-        val testsToRun = listOf("a", "b", "c")
+        val testsToRun = listOfFlankTestMethod("a", "b", "c")
         val result = Shard.createShardsByShardCount(testsToRun, JUnitTestResult(null), mockArgs(2))
 
         assertThat(result.size).isEqualTo(2)
@@ -100,7 +104,7 @@ class ShardTest {
 
     @Test
     fun mixedNewAndOld() {
-        val testsToRun = listOf("a/a", "b/b", "c/c", "w", "y", "z")
+        val testsToRun = listOfFlankTestMethod("a/a", "b/b", "c/c", "w", "y", "z")
         val result = Shard.createShardsByShardCount(testsToRun, sample(), mockArgs(4))
         assertThat(result.size).isEqualTo(4)
         assertThat(result.sumByDouble { it.time }).isEqualTo(7.0 + 3 * Shard.DEFAULT_TEST_TIME_SEC)
@@ -115,8 +119,8 @@ class ShardTest {
 
     @Test
     fun `performance calculateShardsByTime`() {
-        val testsToRun = mutableListOf<String>()
-        repeat(1_000_000) { index -> testsToRun.add("$index/$index") }
+        val testsToRun = mutableListOf<FlankTestMethod>()
+        repeat(1_000_000) { index -> testsToRun.add(FlankTestMethod("$index/$index")) }
 
         val nano = measureNanoTime {
             Shard.createShardsByShardCount(testsToRun, JUnitTestResult(null), mockArgs(4))
@@ -129,7 +133,7 @@ class ShardTest {
 
     @Test
     fun `createShardsByShardTime workingSample`() {
-        val testsToRun = listOf("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g")
+        val testsToRun = listOfFlankTestMethod("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g")
         val suite = sample()
         val result = Shard.shardCountByTime(testsToRun, suite, mockArgs(20, 7))
 
@@ -138,7 +142,7 @@ class ShardTest {
 
     @Test
     fun `createShardsByShardTime countShouldNeverBeHigherThanMaxAvailable`() {
-        val testsToRun = listOf("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g")
+        val testsToRun = listOfFlankTestMethod("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g")
         val suite = sample()
         val result = Shard.shardCountByTime(testsToRun, suite, mockArgs(2, 7))
 
@@ -147,7 +151,7 @@ class ShardTest {
 
     @Test
     fun `createShardsByShardTime unlimitedShardsShouldReturnTheRightAmount`() {
-        val testsToRun = listOf("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g")
+        val testsToRun = listOfFlankTestMethod("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g")
         val suite = sample()
         val result = Shard.shardCountByTime(testsToRun, suite, mockArgs(-1, 7))
 
@@ -156,7 +160,7 @@ class ShardTest {
 
     @Test
     fun `createShardsByShardTime uncachedTestResultsUseDefaultTime`() {
-        val testsToRun = listOf("h/h", "i/i", "j/j")
+        val testsToRun = listOfFlankTestMethod("h/h", "i/i", "j/j")
         val suite = sample()
         val result = Shard.shardCountByTime(
             testsToRun,
@@ -169,7 +173,7 @@ class ShardTest {
     @Test
     fun `createShardsByShardTime mixedCachedAndUncachedTestResultsUseDefaultTime`() {
         // Test "a/a" is hard-coded to have 1.0 second run time in test suite results.
-        val testsToRun = listOf("a/a", "i/i", "j/j")
+        val testsToRun = listOfFlankTestMethod("a/a", "i/i", "j/j")
         val suite = sample()
         val result = Shard.shardCountByTime(
             testsToRun,
@@ -181,7 +185,7 @@ class ShardTest {
 
     @Test
     fun `createShardsByShardTime uncachedTestResultsAllInOneShard`() {
-        val testsToRun = listOf("i/i", "j/j")
+        val testsToRun = listOfFlankTestMethod("i/i", "j/j")
         val suite = sample()
         val result = Shard.shardCountByTime(
             testsToRun,
@@ -218,7 +222,7 @@ class ShardTest {
     }
 
     private fun shardCountByTime(shardTime: Int): Int {
-        val testsToRun = listOf("a/a", "b/b", "c/c")
+        val testsToRun = listOfFlankTestMethod("a/a", "b/b", "c/c")
         val testCases = mutableListOf(
                 JUnitTestCase("a", "a", "0.001"),
                 JUnitTestCase("b", "b", "0.0"),
@@ -255,4 +259,38 @@ class ShardTest {
         assertThat(shardCountByTime(2)).isEqualTo(1)
         assertThat(shardCountByTime(3)).isEqualTo(1)
     }
+
+    @Test(expected = RuntimeException::class)
+    fun `should terminate with exit status == 3 test targets is 0 and maxTestShards == -1`() {
+        Shard.createShardsByShardCount(emptyList(), JUnitTestResult(mutableListOf()), mockArgs(-1))
+    }
+
+    @Test
+    fun `tests annotated with @Ignore should have time 0 and do not hav impact on sharding`() {
+        val androidMockedArgs = mock(IosArgs::class.java)
+        `when`(androidMockedArgs.maxTestShards).thenReturn(2)
+        `when`(androidMockedArgs.shardTime).thenReturn(10)
+
+        val testsToRun = listOf(
+            FlankTestMethod("a/a", ignored = true),
+            FlankTestMethod("b/b"),
+            FlankTestMethod("c/c")
+        )
+
+        val oldTestResult = newSuite(mutableListOf(
+            JUnitTestCase("a", "a", "5.0"),
+            JUnitTestCase("b", "b", "10.0"),
+            JUnitTestCase("c", "c", "10.0")
+        ))
+
+        val shardCount = Shard.shardCountByTime(testsToRun, oldTestResult, androidMockedArgs)
+        assertEquals(2, shardCount)
+
+        val shards = Shard.createShardsByShardCount(testsToRun, oldTestResult, androidMockedArgs, shardCount)
+        assertEquals(2, shards.size)
+        assertTrue(shards.flatMap { it.testMethods }.map { it.time }.filter { it == 0.0 }.count() == 1)
+        shards.forEach { assertEquals(10.0, it.time, 0.0) }
+    }
 }
+
+private fun listOfFlankTestMethod(vararg args: String) = listOf(*args).map { FlankTestMethod(it) }
