@@ -345,6 +345,15 @@ class TestFiltersTest {
         assertThat(filter.shouldRun(BAR_CLASSNAME)).isFalse()
         assertThat(filter.shouldRun(BAR_PACKAGE)).isTrue()
     }
+
+    @Test
+    fun `inclusion filter should override exclusion filter`() {
+        val filter = fromTestTargets(listOf("notPackage foo", "class whatever.Bar"))
+
+        assertThat(filter.shouldRun(FOO_PACKAGE)).isFalse()
+        assertThat(filter.shouldRun(BAR_PACKAGE)).isFalse()
+        assertThat(filter.shouldRun(BAR_CLASSNAME)).isTrue()
+    }
 }
 
 private fun getDefaultTestMethod(testName: String, annotation: String) =
