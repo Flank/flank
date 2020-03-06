@@ -130,7 +130,7 @@ object TestFilters {
     }
 
     private fun withPackageName(packageNames: List<String>): TestFilter = TestFilter(
-        describe = "withPackageName ${packageNames.joinToString(", ")}",
+        describe = "withPackageName (${packageNames.joinToString(", ")})",
         shouldRun = { testMethod ->
             packageNames.any { packageName ->
                 testMethod.testName.startsWith(packageName)
@@ -139,14 +139,14 @@ object TestFilters {
     )
 
     private fun withClassName(classNames: List<String>): TestFilter = TestFilter(
-        describe = "withClassName ${classNames.joinToString(", ")}",
+        describe = "withClassName (${classNames.joinToString(", ")})",
         shouldRun = { testMethod ->
             withPackageName(classNames).shouldRun(testMethod)
         }
     )
 
     private fun withAnnotation(annotations: List<String>): TestFilter = TestFilter(
-        describe = "withAnnotation ${annotations.joinToString(", ")}",
+        describe = "withAnnotation (${annotations.joinToString(", ")})",
         shouldRun = { testMethod ->
             testMethod.annotationNames.any { annotations.contains(it) }
         },
@@ -154,7 +154,7 @@ object TestFilters {
     )
 
     private fun not(filter: TestFilter): TestFilter = TestFilter(
-        describe = "not ${filter.describe}",
+        describe = "not (${filter.describe})",
         shouldRun = { testMethod ->
             filter.shouldRun(testMethod).not()
         },

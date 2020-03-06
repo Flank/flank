@@ -251,10 +251,10 @@ class TestFiltersTest {
         }.map { "class ${it.testName}" }.toList()
 
         val expected = listOf(
-            "false anyPackage_1.anyClass_1#anyMethod_1 [allOf [not withAnnotation Foo, anyOf [withClassName anyPackage_2.anyClass_2#anyMethod_2, withClassName anyPackage_3.anyClass_3#anyMethod_3]]]",
-            "false anyPackage_2.anyClass_2#anyMethod_2 [allOf [not withAnnotation Foo, anyOf [withClassName anyPackage_2.anyClass_2#anyMethod_2, withClassName anyPackage_3.anyClass_3#anyMethod_3]]]",
-            "true anyPackage_3.anyClass_3#anyMethod_3 [allOf [not withAnnotation Foo, anyOf [withClassName anyPackage_2.anyClass_2#anyMethod_2, withClassName anyPackage_3.anyClass_3#anyMethod_3]]]",
-            "false anyPackage_4.anyClass_4#anyMethod_4 [allOf [not withAnnotation Foo, anyOf [withClassName anyPackage_2.anyClass_2#anyMethod_2, withClassName anyPackage_3.anyClass_3#anyMethod_3]]]"
+            "false anyPackage_1.anyClass_1#anyMethod_1 [allOf [not (withAnnotation (Foo)), anyOf [withClassName (anyPackage_2.anyClass_2#anyMethod_2), withClassName (anyPackage_3.anyClass_3#anyMethod_3)]]]",
+            "false anyPackage_2.anyClass_2#anyMethod_2 [allOf [not (withAnnotation (Foo)), anyOf [withClassName (anyPackage_2.anyClass_2#anyMethod_2), withClassName (anyPackage_3.anyClass_3#anyMethod_3)]]]",
+            "true anyPackage_3.anyClass_3#anyMethod_3 [allOf [not (withAnnotation (Foo)), anyOf [withClassName (anyPackage_2.anyClass_2#anyMethod_2), withClassName (anyPackage_3.anyClass_3#anyMethod_3)]]]",
+            "false anyPackage_4.anyClass_4#anyMethod_4 [allOf [not (withAnnotation (Foo)), anyOf [withClassName (anyPackage_2.anyClass_2#anyMethod_2), withClassName (anyPackage_3.anyClass_3#anyMethod_3)]]]"
         )
 
         assertThat(output).isEqualTo(expected)
