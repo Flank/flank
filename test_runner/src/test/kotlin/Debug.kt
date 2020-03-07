@@ -16,7 +16,7 @@ fun main() {
         "--debug",
         "firebase", "test",
         "android", "run",
-//        "--dry",
+        "--dry",
         "-c=src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type.yml",
         "--project=$projectId"
     )

@@ -22,7 +22,7 @@ import ftl.config.FtlConstants
 import ftl.ios.IosCatalog
 import ftl.ios.Xctestrun
 import ftl.util.FlankTestMethod
-import ftl.util.Utils.fatalError
+import ftl.util.fatalError
 import java.nio.file.Files
 import java.nio.file.Path
 

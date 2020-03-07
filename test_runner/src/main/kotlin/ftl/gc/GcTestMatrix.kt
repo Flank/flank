@@ -4,7 +4,7 @@ import com.google.api.services.testing.model.CancelTestMatrixResponse
 import com.google.api.services.testing.model.TestMatrix
 import ftl.args.IArgs
 import ftl.http.executeWithRetry
-import ftl.util.Utils.sleep
+import ftl.util.sleep
 import java.time.Duration.ofHours
 
 object GcTestMatrix {

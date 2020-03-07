@@ -1,6 +1,6 @@
 package ftl.args
 
-import ftl.util.Utils.fatalError
+import ftl.util.fatalError
 import java.io.IOException
 import java.lang.RuntimeException
 import java.nio.file.FileSystems

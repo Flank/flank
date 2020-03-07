@@ -7,7 +7,7 @@ import ftl.args.IosArgs
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.util.FlankTestMethod
-import ftl.util.Utils.fatalError
+import ftl.util.fatalError
 import kotlin.math.ceil
 import kotlin.math.min
 import kotlin.math.roundToInt

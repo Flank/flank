@@ -2,7 +2,7 @@ package ftl.ios
 
 import ftl.config.FtlConstants.isMacOS
 import ftl.util.Bash
-import ftl.util.Utils.copyBinaryResource
+import ftl.util.copyBinaryResource
 import java.io.File
 
 object Parse {

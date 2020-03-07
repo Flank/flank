@@ -7,8 +7,8 @@ import ftl.cli.firebase.RefreshCommand
 import ftl.cli.firebase.test.AndroidCommand
 import ftl.cli.firebase.test.IosCommand
 import ftl.log.setDebugLogging
-import ftl.util.Utils.readRevision
-import ftl.util.Utils.readVersion
+import ftl.util.readRevision
+import ftl.util.readVersion
 import picocli.CommandLine
 
 @CommandLine.Command(

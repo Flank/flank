@@ -6,7 +6,7 @@ import ftl.json.MatrixMap
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
-import ftl.util.Utils.readTextResource
+import ftl.util.readTextResource
 import java.nio.file.Files
 import java.nio.file.Paths
 

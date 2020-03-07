@@ -25,7 +25,7 @@ import ftl.args.yml.YamlDeprecated
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
-import ftl.util.Utils.fatalError
+import ftl.util.fatalError
 import java.nio.file.Files
 import java.nio.file.Path
 

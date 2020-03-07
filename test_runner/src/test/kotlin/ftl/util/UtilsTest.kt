@@ -15,17 +15,17 @@ class UtilsTest {
 
     @Test(expected = RuntimeException::class)
     fun `readTextResource errors`() {
-        Utils.readTextResource("does not exist")
+        readTextResource("does not exist")
     }
 
     @Test
     fun `readTextResource succeeds`() {
-        assertThat(Utils.readTextResource("version.txt")).isNotNull()
+        assertThat(readTextResource("version.txt")).isNotNull()
     }
 
     @Test
     fun `uniqueObjectName verifyPattern`() {
-        val randomName = Utils.uniqueObjectName()
+        val randomName = uniqueObjectName()
         assertThat(randomName.length).isEqualTo(32)
         assertThat(randomName[4]).isEqualTo('-')
         assertThat(randomName[7]).isEqualTo('-')

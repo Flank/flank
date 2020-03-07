@@ -17,8 +17,8 @@ import ftl.args.IosArgs
 import ftl.ios.Xctestrun
 import ftl.ios.Xctestrun.toByteArray
 import ftl.util.ShardCounter
-import ftl.util.Utils.fatalError
-import ftl.util.Utils.join
+import ftl.util.fatalError
+import ftl.util.join
 import ftl.util.testTimeoutToSeconds
 
 object GcIosTestMatrix {
