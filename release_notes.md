@@ -1,6 +1,16 @@
 ## next (unreleased)
 
-- 
+- [#654](https://github.com/Flank/flank/pull/654) Fix test filters when using both notPackage and notClass. ([jan-gogo](https://github.com/jan-gogo)) 
+- [#648](https://github.com/Flank/flank/pull/648) Include @Ignore JUnit tests in JUnit XML. ([pawelpasterz](https://github.com/pawelpasterz)) 
+- [#646](https://github.com/Flank/flank/pull/646) Adopt kotlin-logging as a logging framework. ([jan-gogo](https://github.com/jan-gogo))
+- [#644](https://github.com/Flank/flank/pull/644) Use high performance options by default. Video, login, and perf metrics are now disabled by default. ([pawelpasterz](https://github.com/pawelpasterz))
+- [#643](https://github.com/Flank/flank/pull/643) Add --dry option to android run & ios run. ([jan-gogo](https://github.com/jan-gogo))
+- [#642](https://github.com/Flank/flank/pull/642) Flank doctor should exit 1 on validation issues. ([pawelpasterz](https://github.com/pawelpasterz))
+- [#641](https://github.com/Flank/flank/pull/641) Move all deps to Deps.kt ([doodla](https://github.com/doodla))
+- [#640](https://github.com/Flank/flank/pull/640) Update gradle to 6.2.1 and JaCoCo to 0.8.5. ([doodla](https://github.com/doodla))
+- [#639](https://github.com/Flank/flank/pull/639) Cache all uploads and downloads to GCS. ([Kurt-Bonatz](https://github.com/Kurt-Bonatz))
+- [#635](https://github.com/Flank/flank/pull/635) Default to 2m time estimate for unknown tests when sharding. ([RainNapper](https://github.com/RainNapper))
+- [#621](https://github.com/Flank/flank/pull/621) Adopt server side sharding. Max shard count is 50. ([bootstraponline](https://github.com/bootstraponline))
 
 ## v8.1.0
 
