@@ -46,6 +46,9 @@ class Main : Runnable {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
+            // BugSnag opens a non-daemon thread which will keep the JVM process alive.
+            // Flank must invoke exitProcess to exit cleanly.
+            // https://github.com/bugsnag/bugsnag-java/issues/151
             exitProcess(CommandLine(Main()).execute(*args))
         }
     }
