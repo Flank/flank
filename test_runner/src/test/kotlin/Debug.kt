@@ -1,5 +1,6 @@
 import ftl.Main
 import picocli.CommandLine
+import kotlin.system.exitProcess
 
 fun main() {
     // GoogleApiLogger.logAllToStdout()
@@ -12,12 +13,12 @@ fun main() {
     val quantity = "single"
     val type = "success"
 
-    CommandLine(Main()).execute(
+    exitProcess(CommandLine(Main()).execute(
         "--debug",
         "firebase", "test",
         "android", "run",
         "--dry",
         "-c=src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type.yml",
         "--project=$projectId"
-    )
+    ))
 }

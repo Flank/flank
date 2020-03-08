@@ -9,6 +9,7 @@ import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
 import ftl.test.util.TestHelper.normalizeLineEnding
+import org.junit.contrib.java.lang.system.ExpectedSystemExit
 
 @RunWith(FlankTestRunner::class)
 class MainTest {
@@ -20,6 +21,10 @@ class MainTest {
     @Rule
     @JvmField
     val systemErrRule: SystemErrRule = SystemErrRule().enableLog().muteForSuccessfulTests()
+
+    @Rule
+    @JvmField
+    val systemExit = ExpectedSystemExit.none()!!
 
     private fun assertMainHelpStrings(output: String) {
         assertThat(output.normalizeLineEnding()).contains(
@@ -77,8 +82,22 @@ class MainTest {
     }
 
     @Test
-    fun mainStaticEntrypoint() {
+    fun `should exit with status code 0 if no args provided`() {
+        systemExit.expectSystemExitWithStatus(0)
         Main.main(emptyArray())
         assertMainHelpStrings(systemOutRule.log)
+    }
+
+    @Test
+    fun `should terminate jvm with exit status 1 if yml parsing error occurs`() {
+        systemExit.expectSystemExitWithStatus(1)
+        Main.main(arrayOf(
+            "firebase",
+            "test",
+            "android",
+            "run",
+            "--dry",
+            "-c=./src/test/kotlin/ftl/fixtures/invalid.yml"
+        ))
     }
 }

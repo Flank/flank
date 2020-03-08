@@ -10,6 +10,7 @@ import ftl.log.setDebugLogging
 import ftl.util.readRevision
 import ftl.util.readVersion
 import picocli.CommandLine
+import kotlin.system.exitProcess
 
 @CommandLine.Command(
     name = "flank.jar\n",
@@ -45,7 +46,7 @@ class Main : Runnable {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            CommandLine(Main()).execute(*args)
+            exitProcess(CommandLine(Main()).execute(*args))
         }
     }
 }
