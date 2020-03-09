@@ -7,7 +7,7 @@ import ftl.config.FtlConstants.useMock
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
 import ftl.util.StopWatch
-import ftl.util.Utils
+import ftl.util.uniqueObjectName
 import java.io.File
 
 object GenericTestRunner {
@@ -16,7 +16,7 @@ object GenericTestRunner {
         val stopwatch = StopWatch().start()
         TestRunner.assertMockUrl()
 
-        val runGcsPath = args.resultsDir ?: Utils.uniqueObjectName()
+        val runGcsPath = args.resultsDir ?: uniqueObjectName()
 
         // Avoid spamming the results/ dir with temporary files from running the test suite.
         if (useMock) {

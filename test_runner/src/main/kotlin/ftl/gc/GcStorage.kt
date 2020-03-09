@@ -13,8 +13,8 @@ import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.xmlToString
 import ftl.util.ProgressBar
-import ftl.util.Utils.fatalError
-import ftl.util.Utils.join
+import ftl.util.fatalError
+import ftl.util.join
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URI

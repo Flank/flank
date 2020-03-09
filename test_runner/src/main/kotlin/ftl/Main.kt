@@ -7,8 +7,9 @@ import ftl.cli.firebase.RefreshCommand
 import ftl.cli.firebase.test.AndroidCommand
 import ftl.cli.firebase.test.IosCommand
 import ftl.log.setDebugLogging
-import ftl.util.Utils.readRevision
-import ftl.util.Utils.readVersion
+import ftl.util.readRevision
+import ftl.util.readVersion
+import ftl.util.jvmHangingSafe
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -45,7 +46,10 @@ class Main : Runnable {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            CommandLine(Main()).execute(*args)
+            // BugSnag opens a non-daemon thread which will keep the JVM process alive.
+            // Flank must invoke exitProcess to exit cleanly.
+            // https://github.com/bugsnag/bugsnag-java/issues/151
+            jvmHangingSafe { CommandLine(Main()).execute(*args) }
         }
     }
 }

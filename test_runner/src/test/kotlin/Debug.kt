@@ -1,4 +1,5 @@
 import ftl.Main
+import ftl.util.jvmHangingSafe
 import picocli.CommandLine
 
 fun main() {
@@ -12,12 +13,14 @@ fun main() {
     val quantity = "single"
     val type = "success"
 
-    CommandLine(Main()).execute(
+    // Bugsnag keeps the process alive so we must call exitProcess
+    // https://github.com/bugsnag/bugsnag-java/issues/151
+    jvmHangingSafe { CommandLine(Main()).execute(
         "--debug",
         "firebase", "test",
         "android", "run",
-//        "--dry",
+        "--dry",
         "-c=src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type.yml",
         "--project=$projectId"
-    )
+    ) }
 }

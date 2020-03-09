@@ -5,9 +5,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.fasterxml.jackson.databind.node.MissingNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import ftl.args.ArgsHelper.yamlMapper
-import ftl.args.yml.YamlDeprecated.replace
-import ftl.util.Utils
-import ftl.util.Utils.fatalError
+import ftl.util.fatalError
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -140,7 +138,7 @@ object YamlDeprecated {
 
         if (error) {
             val platform = if (android) "android" else "ios"
-            Utils.fatalError("Invalid keys detected! Auto fix with: flank $platform doctor --fix")
+            fatalError("Invalid keys detected! Auto fix with: flank $platform doctor --fix")
         }
 
         return data

@@ -19,8 +19,8 @@ import com.google.api.services.testing.model.TestSpecification
 import com.google.api.services.testing.model.TestTargetsForShard
 import com.google.api.services.testing.model.ToolResultsHistory
 import ftl.args.AndroidArgs
-import ftl.util.Utils.fatalError
-import ftl.util.Utils.join
+import ftl.util.fatalError
+import ftl.util.join
 import ftl.util.testTimeoutToSeconds
 
 object GcAndroidTestMatrix {

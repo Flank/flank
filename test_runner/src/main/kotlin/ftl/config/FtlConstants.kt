@@ -15,8 +15,8 @@ import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.gc.UserAuth
 import ftl.http.HttpTimeoutIncrease
-import ftl.util.Utils.fatalError
-import ftl.util.Utils.readRevision
+import ftl.util.fatalError
+import ftl.util.readRevision
 import java.io.IOException
 import java.nio.file.Path
 import java.nio.file.Paths

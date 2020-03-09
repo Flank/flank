@@ -24,7 +24,8 @@ import ftl.shard.Shard
 import ftl.shard.StringShards
 import ftl.shard.stringShards
 import ftl.util.FlankTestMethod
-import ftl.util.Utils
+import ftl.util.assertNotEmpty
+import ftl.util.fatalError
 import java.io.File
 import java.net.URI
 import java.nio.file.Files
@@ -49,29 +50,29 @@ object ArgsHelper {
 
     fun assertFileExists(file: String, name: String) {
         if (!File(file).exists()) {
-            Utils.fatalError("'$file' $name doesn't exist")
+            fatalError("'$file' $name doesn't exist")
         }
     }
 
     fun assertCommonProps(args: IArgs) {
-        Utils.assertNotEmpty(
+        assertNotEmpty(
             args.project, "The project is not set. Define GOOGLE_CLOUD_PROJECT, set project in flank.yml\n" +
                     "or save service account credential to ${defaultCredentialPath}\n" +
                     " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
         )
 
         if (args.maxTestShards !in IArgs.AVAILABLE_SHARD_COUNT_RANGE && args.maxTestShards != -1)
-            Utils.fatalError("max-test-shards must be >= 1 and <= 50, or -1. But current is ${args.maxTestShards}")
+            fatalError("max-test-shards must be >= 1 and <= 50, or -1. But current is ${args.maxTestShards}")
 
-        if (args.shardTime <= 0 && args.shardTime != -1) Utils.fatalError("shard-time must be >= 1 or -1")
-        if (args.repeatTests < 1) Utils.fatalError("num-test-runs must be >= 1")
+        if (args.shardTime <= 0 && args.shardTime != -1) fatalError("shard-time must be >= 1 or -1")
+        if (args.repeatTests < 1) fatalError("num-test-runs must be >= 1")
 
         if (args.smartFlankGcsPath.isNotEmpty()) {
             if (!args.smartFlankGcsPath.startsWith(GCS_PREFIX)) {
-                Utils.fatalError("smart-flank-gcs-path must start with gs://")
+                fatalError("smart-flank-gcs-path must start with gs://")
             }
             if (args.smartFlankGcsPath.count { it == '/' } <= 2 || !args.smartFlankGcsPath.endsWith(".xml")) {
-                Utils.fatalError("smart-flank-gcs-path must be in the format gs://bucket/foo.xml")
+                fatalError("smart-flank-gcs-path must be in the format gs://bucket/foo.xml")
             }
         }
     }
@@ -87,9 +88,9 @@ object ArgsHelper {
 
         val filePaths = walkFileTree(file)
         if (filePaths.size > 1) {
-            Utils.fatalError("'$file' ($filePath) matches multiple files: $filePaths")
+            fatalError("'$file' ($filePath) matches multiple files: $filePaths")
         } else if (filePaths.isEmpty()) {
-            Utils.fatalError("'$file' not found ($filePath)")
+            fatalError("'$file' not found ($filePath)")
         }
 
         return filePaths.first().toAbsolutePath().normalize().toString()
@@ -107,7 +108,7 @@ object ArgsHelper {
         val blob = GcStorage.storage.get(bucket, path)
 
         if (blob == null) {
-            Utils.fatalError("The file at '$uri' does not exist")
+            fatalError("The file at '$uri' does not exist")
         }
     }
 
@@ -119,8 +120,8 @@ object ArgsHelper {
     ) {
         val missingMethods = testTargets - validTestMethods
 
-        if (!skipValidation && missingMethods.isNotEmpty()) Utils.fatalError("$from is missing methods: $missingMethods.\nValid methods:\n$validTestMethods")
-        if (validTestMethods.isEmpty()) Utils.fatalError("$from has no tests")
+        if (!skipValidation && missingMethods.isNotEmpty()) fatalError("$from is missing methods: $missingMethods.\nValid methods:\n$validTestMethods")
+        if (validTestMethods.isEmpty()) fatalError("$from has no tests")
     }
 
     fun createJunitBucket(projectId: String, junitGcsPath: String) {
