@@ -9,8 +9,8 @@ import ftl.cli.firebase.test.IosCommand
 import ftl.log.setDebugLogging
 import ftl.util.readRevision
 import ftl.util.readVersion
+import ftl.util.jvmHangingSafe
 import picocli.CommandLine
-import kotlin.system.exitProcess
 
 @CommandLine.Command(
     name = "flank.jar\n",
@@ -49,12 +49,7 @@ class Main : Runnable {
             // BugSnag opens a non-daemon thread which will keep the JVM process alive.
             // Flank must invoke exitProcess to exit cleanly.
             // https://github.com/bugsnag/bugsnag-java/issues/151
-            try {
-                exitProcess(CommandLine(Main()).execute(*args))
-            } catch (t: Throwable) {
-                t.printStackTrace()
-                exitProcess(CommandLine.ExitCode.SOFTWARE)
-            }
+            jvmHangingSafe { CommandLine(Main()).execute(*args) }
         }
     }
 }

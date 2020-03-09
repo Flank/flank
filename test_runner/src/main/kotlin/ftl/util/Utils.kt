@@ -3,6 +3,7 @@
 package ftl.util
 
 import ftl.config.FtlConstants
+import picocli.CommandLine
 import java.io.InputStream
 import java.io.StringWriter
 import java.nio.file.Files
@@ -142,4 +143,15 @@ fun copyBinaryResource(name: String) {
     val bytes = getResource("binaries/$name").use { it.readBytes() }
     Files.write(destinationPath, bytes)
     destinationFile.setExecutable(true)
+}
+
+// We need to cover the case where some component in the call stack starts a non-daemon
+// thread, and then throws an Error that kills the main thread. This is extra safe implementation
+fun jvmHangingSafe(block: () -> Int) {
+    try {
+        exitProcess(block())
+    } catch (t: Throwable) {
+        t.printStackTrace()
+        exitProcess(CommandLine.ExitCode.SOFTWARE)
+    }
 }

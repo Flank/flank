@@ -2,14 +2,14 @@ package ftl
 
 import com.google.common.truth.Truth.assertThat
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.TestHelper.normalizeLineEnding
 import org.junit.Rule
 import org.junit.Test
+import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
-import ftl.test.util.TestHelper.normalizeLineEnding
-import org.junit.contrib.java.lang.system.ExpectedSystemExit
 
 @RunWith(FlankTestRunner::class)
 class MainTest {
