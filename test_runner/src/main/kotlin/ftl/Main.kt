@@ -49,7 +49,12 @@ class Main : Runnable {
             // BugSnag opens a non-daemon thread which will keep the JVM process alive.
             // Flank must invoke exitProcess to exit cleanly.
             // https://github.com/bugsnag/bugsnag-java/issues/151
-            exitProcess(CommandLine(Main()).execute(*args))
+            try {
+                exitProcess(CommandLine(Main()).execute(*args))
+            } catch (t: Throwable) {
+                t.printStackTrace()
+                exitProcess(CommandLine.ExitCode.SOFTWARE)
+            }
         }
     }
 }

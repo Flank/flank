@@ -15,12 +15,19 @@ fun main() {
 
     // Bugsnag keeps the process alive so we must call exitProcess
     // https://github.com/bugsnag/bugsnag-java/issues/151
-    exitProcess(CommandLine(Main()).execute(
-        "--debug",
-        "firebase", "test",
-        "android", "run",
-        "--dry",
-        "-c=src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type.yml",
-        "--project=$projectId"
-    ))
+    try {
+        exitProcess(
+            CommandLine(Main()).execute(
+                "--debug",
+                "firebase", "test",
+                "android", "run",
+                "--dry",
+                "-c=src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type.yml",
+                "--project=$projectId"
+            )
+        )
+    } catch (t: Throwable) {
+        t.printStackTrace()
+        exitProcess(CommandLine.ExitCode.SOFTWARE)
+    }
 }
