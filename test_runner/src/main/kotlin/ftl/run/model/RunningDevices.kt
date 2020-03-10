@@ -1,4 +1,4 @@
-package ftl.run
+package ftl.run.model
 
 import com.google.api.services.testing.model.Environment
 import com.google.api.services.testing.model.TestDetails

@@ -2,6 +2,7 @@ package ftl.reports.util
 
 import ftl.args.IArgs
 import ftl.args.IosArgs
+import ftl.args.ShardChunks
 import ftl.gc.GcStorage
 import ftl.json.MatrixMap
 import ftl.reports.CostReport
@@ -91,7 +92,7 @@ object ReportManager {
     }
 
     /** Returns true if there were no test failures */
-    fun generate(matrices: MatrixMap, args: IArgs, testShardChunks: List<List<String>>): Int {
+    fun generate(matrices: MatrixMap, args: IArgs, testShardChunks: ShardChunks): Int {
         val testSuite = parseTestSuite(matrices, args)
 
         val useFlakyTests = args.flakyTestAttempts > 0
@@ -127,7 +128,7 @@ object ReportManager {
         oldResult: JUnitTestResult,
         newResult: JUnitTestResult,
         args: IArgs,
-        testShardChunks: List<List<String>>
+        testShardChunks: ShardChunks
     ):
             List<ShardEfficiency> {
         val oldDurations = Shard.createTestMethodDurationMap(oldResult, args)
@@ -154,7 +155,7 @@ object ReportManager {
         oldResult: JUnitTestResult,
         newResult: JUnitTestResult,
         args: IArgs,
-        testShardChunks: List<List<String>>
+        testShardChunks: ShardChunks
     ) {
         val list = createShardEfficiencyList(oldResult, newResult, args, testShardChunks)
 
@@ -166,7 +167,7 @@ object ReportManager {
     private fun processJunitXml(
         newTestResult: JUnitTestResult?,
         args: IArgs,
-        testShardChunks: List<List<String>>
+        testShardChunks: ShardChunks
     ) {
         if (newTestResult == null) return
 

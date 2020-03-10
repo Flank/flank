@@ -13,7 +13,7 @@ import kotlinx.coroutines.runBlocking
 object AndroidTestShard {
 
     // computed properties not specified in yaml
-    fun getTestShardChunks(args: AndroidArgs, testApk: String): List<List<String>> {
+    fun getTestShardChunks(args: AndroidArgs, testApk: String): ShardChunks {
         // Download test APK if necessary so it can be used to validate test methods
         var testLocalApk = testApk
         if (testApk.startsWith(FtlConstants.GCS_PREFIX)) {

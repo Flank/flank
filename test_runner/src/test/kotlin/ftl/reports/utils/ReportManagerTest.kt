@@ -6,7 +6,7 @@ import ftl.reports.util.ReportManager
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
-import ftl.run.TestRunner
+import ftl.run.common.matrixPathToObj
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
@@ -30,7 +30,7 @@ class ReportManagerTest {
     @Test
     fun `generate fromErrorResult`() {
         // TODO: NPE on Windows
-        val matrix = TestRunner.matrixPathToObj("./src/test/kotlin/ftl/fixtures/error_result", AndroidArgs.default())
+        val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/error_result", AndroidArgs.default())
         val mockArgs = mock(AndroidArgs::class.java)
         `when`(mockArgs.smartFlankGcsPath).thenReturn("")
         ReportManager.generate(matrix, mockArgs, emptyList())
@@ -38,7 +38,7 @@ class ReportManagerTest {
 
     @Test
     fun `generate fromSuccessResult`() {
-        val matrix = TestRunner.matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result", AndroidArgs.default())
+        val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result", AndroidArgs.default())
         val mockArgs = mock(AndroidArgs::class.java)
         `when`(mockArgs.smartFlankGcsPath).thenReturn("")
         ReportManager.generate(matrix, mockArgs, emptyList())
