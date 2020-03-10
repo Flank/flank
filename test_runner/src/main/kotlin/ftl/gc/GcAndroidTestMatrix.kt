@@ -19,6 +19,7 @@ import com.google.api.services.testing.model.TestSpecification
 import com.google.api.services.testing.model.TestTargetsForShard
 import com.google.api.services.testing.model.ToolResultsHistory
 import ftl.args.AndroidArgs
+import ftl.args.ShardChunks
 import ftl.util.fatalError
 import ftl.util.join
 import ftl.util.testTimeoutToSeconds
@@ -35,7 +36,7 @@ object GcAndroidTestMatrix {
         testApkGcsPath: String,
         runGcsPath: String,
         androidDeviceList: AndroidDeviceList,
-        testTargets: List<List<String>>,
+        testShards: ShardChunks,
         args: AndroidArgs,
         toolResultsHistory: ToolResultsHistory
     ): Testing.Projects.TestMatrices.Create {
@@ -46,7 +47,7 @@ object GcAndroidTestMatrix {
         val matrixGcsPath = join(args.resultsBucket, runGcsPath)
 
         // ShardingOption().setUniformSharding(UniformSharding().setNumShards())
-        val testTargetsForShard: List<TestTargetsForShard> = testTargets.map {
+        val testTargetsForShard: List<TestTargetsForShard> = testShards.map {
             TestTargetsForShard().setTestTargets(it)
         }
         val manualSharding = ManualSharding().setTestTargetsForShard(testTargetsForShard)

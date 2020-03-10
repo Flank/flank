@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
 import ftl.config.FtlConstants.isWindows
+import ftl.run.common.getDownloadPath
 import ftl.test.util.FlankTestRunner
 import ftl.util.ObjPath
 import java.nio.file.Paths
@@ -30,7 +31,7 @@ class TestRunnerTest {
         `when`(iosArgs.localResultDir).thenReturn(localResultDir)
         `when`(iosArgs.useLocalResultDir()).thenReturn(false)
 
-        val downloadFile = TestRunner.getDownloadPath(iosArgs, gcsIosPath)
+        val downloadFile = getDownloadPath(iosArgs, gcsIosPath)
         assertThat(downloadFile).isEqualTo(
             Paths.get(
                 localResultDir,
@@ -49,7 +50,7 @@ class TestRunnerTest {
         `when`(iosArgs.localResultDir).thenReturn(localResultDir)
         `when`(iosArgs.useLocalResultDir()).thenReturn(true)
 
-        val downloadFile = TestRunner.getDownloadPath(iosArgs, gcsIosPath)
+        val downloadFile = getDownloadPath(iosArgs, gcsIosPath)
         assertThat(downloadFile).isEqualTo(
             Paths.get(
                 localResultDir,
@@ -68,7 +69,7 @@ class TestRunnerTest {
         `when`(androidArgs.useLocalResultDir()).thenReturn(true)
         `when`(androidArgs.keepFilePath).thenReturn(true)
 
-        val downloadFile = TestRunner.getDownloadPath(androidArgs, gcsAndroidPath)
+        val downloadFile = getDownloadPath(androidArgs, gcsAndroidPath)
         assertThat(downloadFile).isEqualTo(
                 Paths.get(
                         localResultDir,
@@ -88,7 +89,7 @@ class TestRunnerTest {
         `when`(androidArgs.useLocalResultDir()).thenReturn(false)
         `when`(androidArgs.keepFilePath).thenReturn(true)
 
-        val downloadFile = TestRunner.getDownloadPath(androidArgs, gcsAndroidPath)
+        val downloadFile = getDownloadPath(androidArgs, gcsAndroidPath)
         assertThat(downloadFile).isEqualTo(
                 Paths.get(
                         localResultDir,
@@ -105,7 +106,7 @@ class TestRunnerTest {
     fun `mockedAndroidTestRun local`() {
         val localConfig = AndroidArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.local.yml"))
         runBlocking {
-            TestRunner.newRun(localConfig)
+            newTestRun(localConfig)
         }
     }
 
@@ -113,7 +114,7 @@ class TestRunnerTest {
     fun `mockedAndroidTestRun gcsAndHistoryName`() {
         val gcsConfig = AndroidArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.gcs.yml"))
         runBlocking {
-            TestRunner.newRun(gcsConfig)
+            newTestRun(gcsConfig)
         }
     }
 
@@ -123,7 +124,7 @@ class TestRunnerTest {
 
         val config = IosArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.yml"))
         runBlocking {
-            TestRunner.newRun(config)
+            newTestRun(config)
         }
     }
 
@@ -133,7 +134,7 @@ class TestRunnerTest {
 
         val config = IosArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.gcs.yml"))
         runBlocking {
-            TestRunner.newRun(config)
+            newTestRun(config)
         }
     }
 }

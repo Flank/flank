@@ -222,7 +222,7 @@ object ArgsHelper {
         return ArgsFileVisitor("glob:$filePath").walk(searchDir)
     }
 
-    fun calculateShards(filteredTests: List<FlankTestMethod>, args: IArgs): List<List<String>> {
+    fun calculateShards(filteredTests: List<FlankTestMethod>, args: IArgs): ShardChunks {
         val shards = if (args.disableSharding) {
             mutableListOf(filteredTests.map { it.testName } as MutableList<String>)
         } else {

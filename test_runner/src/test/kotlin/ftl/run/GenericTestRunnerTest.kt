@@ -1,7 +1,7 @@
 package ftl.run
 
 import ftl.args.IArgs
-import ftl.run.GenericTestRunner.beforeRunMessage
+import ftl.run.platform.common.beforeRunMessage
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
 import org.junit.Test
@@ -43,8 +43,8 @@ class GenericTestRunnerTest {
     fun testBeforeRunMessage3() {
         val result = beforeRunMessage(
             createMock(2),
-                listOf(listOf(""), listOf(""), listOf(""), listOf(""), listOf(""), listOf(""))
-            ).normalizeLineEnding()
+            listOf(listOf(""), listOf(""), listOf(""), listOf(""), listOf(""), listOf(""))
+        ).normalizeLineEnding()
         assert(
             result, """
   6 tests / 6 shards
@@ -57,9 +57,13 @@ class GenericTestRunnerTest {
 
     @Test
     fun testBeforeRunMessage4() {
-        val result = beforeRunMessage(createMock(100),
-            listOf(listOf("", "", "", "", ""),
-            listOf("", "", "", "", ""))).normalizeLineEnding()
+        val result = beforeRunMessage(
+            createMock(100),
+            listOf(
+                listOf("", "", "", "", ""),
+                listOf("", "", "", "", "")
+            )
+        ).normalizeLineEnding()
         assert(
             result, """
   10 tests / 2 shards

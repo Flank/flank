@@ -2,6 +2,7 @@ package ftl.cli.firebase.test.android
 
 import ftl.args.AndroidArgs
 import ftl.args.AndroidTestShard
+import ftl.args.ShardChunks
 import ftl.args.yml.AppTestPair
 import ftl.config.Device
 import ftl.config.FtlConstants
@@ -10,13 +11,14 @@ import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.config.FtlConstants.defaultLocale
 import ftl.config.FtlConstants.defaultOrientation
 import ftl.mock.MockServer
-import ftl.run.TestRunner
-import java.nio.file.Files
-import java.nio.file.Paths
-import kotlin.system.exitProcess
+import ftl.run.common.prettyPrint
+import ftl.run.newTestRun
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
+import java.nio.file.Files
+import java.nio.file.Paths
+import kotlin.system.exitProcess
 
 @Command(
     name = "run",
@@ -43,8 +45,8 @@ class AndroidRunCommand : Runnable {
         val config = AndroidArgs.load(Paths.get(configPath), cli = this)
 
         if (dumpShards) {
-            val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk)
-            val testShardChunksJson = TestRunner.gson.toJson(testShardChunks)
+            val testShardChunks: ShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk)
+            val testShardChunksJson: String = prettyPrint.toJson(testShardChunks)
 
             Files.write(Paths.get(shardFile), testShardChunksJson.toByteArray())
             println("Saved shards to $shardFile")
@@ -52,7 +54,7 @@ class AndroidRunCommand : Runnable {
         }
 
         runBlocking {
-            TestRunner.newRun(config)
+            newTestRun(config)
         }
     }
 

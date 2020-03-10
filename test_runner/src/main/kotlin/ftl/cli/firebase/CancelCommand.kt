@@ -1,7 +1,7 @@
 package ftl.cli.firebase
 
 import ftl.args.AndroidArgs
-import ftl.run.TestRunner
+import ftl.run.cancelLastRun
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -20,7 +20,7 @@ Reads in the matrix_ids.json file. Cancels any incomplete matrices.
 )
 class CancelCommand : Runnable {
     override fun run() {
-        TestRunner.cancelLastRun(AndroidArgs.default())
+        cancelLastRun(AndroidArgs.default())
     }
 
     @CommandLine.Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])

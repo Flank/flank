@@ -6,13 +6,14 @@ import ftl.config.FtlConstants
 import ftl.config.FtlConstants.defaultIosModel
 import ftl.config.FtlConstants.defaultIosVersion
 import ftl.mock.MockServer
-import ftl.run.TestRunner
-import java.nio.file.Files
-import java.nio.file.Paths
-import kotlin.system.exitProcess
+import ftl.run.common.prettyPrint
+import ftl.run.newTestRun
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
+import java.nio.file.Files
+import java.nio.file.Paths
+import kotlin.system.exitProcess
 
 @Command(
     name = "run",
@@ -38,14 +39,14 @@ class IosRunCommand : Runnable {
         val config = IosArgs.load(Paths.get(configPath), cli = this)
 
         if (dumpShards) {
-            val testShardChunksJson = TestRunner.gson.toJson(config.testShardChunks)
+            val testShardChunksJson: String = prettyPrint.toJson(config.testShardChunks)
             Files.write(Paths.get(shardFile), testShardChunksJson.toByteArray())
             println("Saved shards to $shardFile")
             exitProcess(0)
         }
 
         runBlocking {
-            TestRunner.newRun(config)
+            newTestRun(config)
         }
     }
 
