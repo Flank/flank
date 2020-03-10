@@ -7,13 +7,19 @@ import ftl.json.SavedMatrix
 import ftl.json.SavedMatrixTest.Companion.createResultsStorage
 import ftl.json.SavedMatrixTest.Companion.createStepExecution
 import ftl.test.util.FlankTestRunner
-import org.junit.Assert
+import org.junit.AfterClass
+import org.junit.Assert.assertTrue
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import picocli.CommandLine
+import java.io.File
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
+
+private const val VERIFICATION_FILE = "./should_exists.txt"
+private const val VERIFICATION_MESSAGE = "Killing thread intentionally"
 
 @RunWith(FlankTestRunner::class)
 class UtilsTest {
@@ -122,7 +128,7 @@ class UtilsTest {
                 isThreadRunning.await()
             } catch (ignored: InterruptedException) {
             }
-            throw Error("Killing the calling thread...")
+            throw Error(VERIFICATION_MESSAGE)
         }
     }
 
@@ -142,8 +148,8 @@ class UtilsTest {
         val simulatedMain: Thread = object : Thread("simulated-main") {
             override fun run() {
                 val pb = ProcessBuilder(
-                    "java", "-cp", "classpath...picocli-4.2.0.jar", "ftl.util.UtilsTest\$HangingApp"
-                )
+                    "java", "-cp", System.getProperty("java.class.path"), HangingApp::class.java.name
+                ).redirectError(File(VERIFICATION_FILE))
                 try {
                     val process = pb.start()
                     processStarted.countDown()
@@ -157,7 +163,21 @@ class UtilsTest {
         simulatedMain.start()
         processStarted.await()
         simulatedMain.join(3 * 1000L)
-        Assert.assertTrue("Our simulated main thread should have completed but instead it hung...", completed.get())
-        Assert.assertEquals(CommandLine.ExitCode.SOFTWARE, exitCode.get())
+        assertTrue("Our simulated main thread should have completed but instead it hung...", completed.get())
+        assertEquals(CommandLine.ExitCode.SOFTWARE, exitCode.get())
+        File(VERIFICATION_FILE).also {
+            assertTrue("Verification file should exists, process might not have started", it.exists())
+            assertTrue(it.inputStream().readBytes().toString(Charsets.UTF_8).contains(VERIFICATION_MESSAGE))
+        }.delete()
+    }
+
+    companion object {
+        @JvmStatic
+        @AfterClass
+        fun removeVerificationFile() {
+            File(VERIFICATION_FILE).run {
+                if (exists()) delete()
+            }
+        }
     }
 }
