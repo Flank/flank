@@ -4,6 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class AppTestPair(
+    val app: String?,
+    val test: String
+)
+
+data class ResolvedTestPair(
+    val app: String,
+    val test: String
+)
+
+data class UploadedTestPair(
     val app: String,
     val test: String
 )
