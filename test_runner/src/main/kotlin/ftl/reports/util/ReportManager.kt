@@ -9,9 +9,9 @@ import ftl.reports.CostReport
 import ftl.reports.HtmlErrorReport
 import ftl.reports.JUnitReport
 import ftl.reports.MatrixResultsReport
+import ftl.reports.api.processXmlFromApi
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
-import ftl.reports.xml.parseOneSuiteXml
 import ftl.shard.Shard
 import ftl.util.Artifacts
 import ftl.util.resolveLocalRunPath
@@ -61,7 +61,7 @@ object ReportManager {
         return matchResult?.groupValues?.last().orEmpty()
     }
 
-    private fun processXml(matrices: MatrixMap, args: IArgs, process: (file: File) -> JUnitTestResult): JUnitTestResult? {
+    private fun processXmlFromFile(matrices: MatrixMap, args: IArgs, process: (file: File) -> JUnitTestResult): JUnitTestResult? {
         var mergedXml: JUnitTestResult? = null
 
         findXmlFiles(matrices, args).forEach { xmlFile ->
@@ -85,15 +85,16 @@ object ReportManager {
     private fun parseTestSuite(matrices: MatrixMap, args: IArgs): JUnitTestResult? {
         val iosXml = args is IosArgs
         return if (iosXml) {
-            processXml(matrices, args, ::parseAllSuitesXml)
+            // Legacy way to parse xml files instead of fetching data from api
+            processXmlFromFile(matrices, args, ::parseAllSuitesXml)
         } else {
-            processXml(matrices, args, ::parseOneSuiteXml)
+            processXmlFromApi(matrices, args)
         }
     }
 
     /** Returns true if there were no test failures */
     fun generate(matrices: MatrixMap, args: IArgs, testShardChunks: ShardChunks): Int {
-        val testSuite = parseTestSuite(matrices, args)
+        val testSuite: JUnitTestResult? = parseTestSuite(matrices, args)
 
         val useFlakyTests = args.flakyTestAttempts > 0
         if (useFlakyTests) JUnitDedupe.modify(testSuite)

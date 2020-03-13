@@ -8,16 +8,7 @@ class MatrixMap(
 ) {
     // determine success by FTL API, not junit xml.
     // FTL sometimes generates empty XML reports (0 failures) for a failed matrix
-    fun allSuccessful(): Boolean {
-        val savedMatrices = map.values
-        var successful = true
-
-        savedMatrices.forEach { matrix ->
-            if (matrix.failed()) successful = false
-        }
-
-        return successful
-    }
+    fun allSuccessful(): Boolean = map.values.any(SavedMatrix::failed).not()
 
     /**
      * There are two sources of information for detecting the exit code
