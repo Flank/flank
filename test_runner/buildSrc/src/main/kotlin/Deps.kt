@@ -1,5 +1,6 @@
 object Versions {
-    const val BUGSNAG = "3.+"
+    // https://github.com/bugsnag/bugsnag-java/releases
+    const val BUGSNAG = "3.6.1"
 
     // https://github.com/3breadt/dd-plist/releases
     const val DD_PLIST = "1.22"
