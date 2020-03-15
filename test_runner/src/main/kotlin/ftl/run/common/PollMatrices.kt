@@ -8,10 +8,11 @@ import ftl.util.MatrixState
 import ftl.util.StopWatch
 import ftl.util.StopWatchMatrix
 import ftl.util.completed
-import ftl.util.sleep
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 
 /** Synchronously poll all matrix ids until they complete. Returns true if test run passed. **/
-internal fun pollMatrices(matrices: MatrixMap, args: IArgs) {
+internal suspend fun pollMatrices(matrices: MatrixMap, args: IArgs) = coroutineScope {
     println("PollMatrices")
     val poll = matrices.map.values.filter {
         MatrixState.inProgress(it.state)
@@ -31,7 +32,7 @@ internal fun pollMatrices(matrices: MatrixMap, args: IArgs) {
 //
 // Port of MonitorTestExecutionProgress
 // gcloud-cli/googlecloudsdk/api_lib/firebase/test/matrix_ops.py
-private fun pollMatrix(matrixId: String, stopwatch: StopWatch, args: IArgs, matrices: MatrixMap) {
+private suspend fun pollMatrix(matrixId: String, stopwatch: StopWatch, args: IArgs, matrices: MatrixMap) = coroutineScope {
     var refreshedMatrix = GcTestMatrix.refresh(matrixId, args)
     val watch = StopWatchMatrix(stopwatch, matrixId)
     val runningDevices = RunningDevices(stopwatch, refreshedMatrix.testExecutions)
@@ -54,7 +55,7 @@ private fun pollMatrix(matrixId: String, stopwatch: StopWatch, args: IArgs, matr
 
         // GetTestMatrix is not designed to handle many requests per second.
         // Sleep to avoid overloading the system.
-        sleep(5)
+        delay(5_000)
         refreshedMatrix = GcTestMatrix.refresh(matrixId, args)
     }
 

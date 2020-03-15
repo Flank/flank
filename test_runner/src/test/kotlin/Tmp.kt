@@ -59,7 +59,7 @@ object Tmp {
     private const val androidSuccessStep = "android_matrix-27s4d0h0p53da_success.json"
     private const val iosSuccessStep = "ios_matrix-3vg7fnfansppa_success.json"
 
-    private fun stepFromMatrixId(matrixId: String) {
+    private suspend fun stepFromMatrixId(matrixId: String) {
         val matrix = GcTestMatrix.refresh(matrixId, AndroidArgs.default())
         val toolResult = matrix.firstToolResults()
         println(toolResult?.webLink())

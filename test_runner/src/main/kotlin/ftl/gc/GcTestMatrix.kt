@@ -4,7 +4,7 @@ import com.google.api.services.testing.model.CancelTestMatrixResponse
 import com.google.api.services.testing.model.TestMatrix
 import ftl.args.IArgs
 import ftl.http.executeWithRetry
-import ftl.util.sleep
+import kotlinx.coroutines.delay
 import java.time.Duration.ofHours
 
 object GcTestMatrix {
@@ -33,7 +33,7 @@ object GcTestMatrix {
     //        "message" : "The service is currently unavailable.",
     //        "status" : "UNAVAILABLE"
     //    }
-    fun refresh(testMatrixId: String, args: IArgs): TestMatrix {
+    suspend fun refresh(testMatrixId: String, args: IArgs): TestMatrix {
         val getMatrix = GcTesting.get.projects().testMatrices().get(args.project, testMatrixId)
         var failed = 0
         val maxWait = ofHours(1).seconds
@@ -42,7 +42,7 @@ object GcTestMatrix {
             try {
                 return getMatrix.executeWithRetry()
             } catch (e: Exception) {
-                sleep(1)
+                delay(1_000)
                 failed += 1
             }
         }
@@ -50,8 +50,8 @@ object GcTestMatrix {
         throw RuntimeException("Failed to refresh matrix")
     }
 
-    fun cancel(testMatrixId: String, args: IArgs): CancelTestMatrixResponse {
-        val cancelMatrix = GcTesting.get.projects().testMatrices().cancel(args.project, testMatrixId)
+    suspend fun cancel(testMatrixId: String, project: String): CancelTestMatrixResponse {
+        val cancelMatrix = GcTesting.get.projects().testMatrices().cancel(project, testMatrixId)
         var failed = 0
         val maxTries = 3
 
@@ -60,7 +60,7 @@ object GcTestMatrix {
                 return cancelMatrix.executeWithRetry()
             } catch (e: Exception) {
                 System.err.println("Error cancelling $testMatrixId; Attempt ${failed + 1} of $maxTries; Exception: ${e.localizedMessage}")
-                sleep(2)
+                delay(2_000)
                 failed += 1
             }
         }
