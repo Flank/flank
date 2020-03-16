@@ -11,7 +11,7 @@ import kotlin.system.exitProcess
 
 object TmpV2 {
     private const val PREFIX = "REPORT_API_TEST"
-    private const val MATRIX_ID = "matrix-2ut05apux3ugd"
+    private const val MATRIX_ID = "matrix-1bdven1jbq4pt"
     private const val JUNIT_REPORT_FILE = "$PREFIX-JUnitReport.xml"
     private const val API_JSON_FILE = "$PREFIX-api-result.json"
 

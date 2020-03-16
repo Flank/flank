@@ -1,7 +1,7 @@
 package ftl.reports.api
 
 import com.google.api.services.toolresults.model.Duration
-import java.util.*
+import java.util.Locale
 
 internal fun Double.format(): String = "%.3f".format(Locale.ROOT, this)
 

@@ -5,6 +5,7 @@ import ftl.gc.GcToolResults
 import ftl.reports.api.data.TestExecutionData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 
 internal fun List<TestExecution>.createTestExecutionDataListAsync(): List<TestExecutionData> = runBlocking {
@@ -14,9 +15,7 @@ internal fun List<TestExecution>.createTestExecutionDataListAsync(): List<TestEx
             // it is making api calls under the hood
             testExecution.createTestExecutionData()
         }
-    }.map { deferred ->
-        deferred.await()
-    }
+    }.awaitAll()
 }
 
 private fun TestExecution.createTestExecutionData() = TestExecutionData(
