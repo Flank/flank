@@ -9,12 +9,14 @@ import ftl.json.MatrixMap
 import ftl.util.Artifacts
 import ftl.util.MatrixState
 import ftl.util.ObjPath
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.nio.file.Path
 import java.nio.file.Paths
 
-internal fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) {
+internal suspend fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) = coroutineScope {
     println("FetchArtifacts")
     val fields = Storage.BlobListOption.fields(Storage.BlobField.NAME)
 
@@ -26,33 +28,31 @@ internal fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) {
     }
 
     print(FtlConstants.indent)
-    runBlocking {
-        filtered.forEach { matrix ->
-            launch {
-                val prefix = Storage.BlobListOption.prefix(matrix.gcsPathWithoutRootBucket)
-                val result = GcStorage.storage.list(matrix.gcsRootBucket, prefix, fields)
-                val artifactsList = Artifacts.regexList(args)
+    filtered.map { matrix ->
+        launch(Dispatchers.IO) {
+            val prefix = Storage.BlobListOption.prefix(matrix.gcsPathWithoutRootBucket)
+            val result = GcStorage.storage.list(matrix.gcsRootBucket, prefix, fields)
+            val artifactsList = Artifacts.regexList(args)
 
-                result.iterateAll().forEach { blob ->
-                    val blobPath = blob.blobId.name
-                    val matched = artifactsList.any { blobPath.matches(it) }
-                    if (matched) {
-                        val downloadFile = getDownloadPath(args, blobPath)
+            result.iterateAll().forEach { blob ->
+                val blobPath = blob.blobId.name
+                val matched = artifactsList.any { blobPath.matches(it) }
+                if (matched) {
+                    val downloadFile = getDownloadPath(args, blobPath)
 
-                        print(".")
-                        if (!downloadFile.toFile().exists()) {
-                            val parentFile = downloadFile.parent.toFile()
-                            parentFile.mkdirs()
-                            blob.downloadTo(downloadFile)
-                        }
+                    print(".")
+                    if (!downloadFile.toFile().exists()) {
+                        val parentFile = downloadFile.parent.toFile()
+                        parentFile.mkdirs()
+                        blob.downloadTo(downloadFile)
                     }
                 }
-
-                dirty = true
-                matrix.downloaded = true
             }
+
+            dirty = true
+            matrix.downloaded = true
         }
-    }
+    }.joinAll()
     println()
 
     if (dirty) {

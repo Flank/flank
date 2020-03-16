@@ -8,7 +8,6 @@ import ftl.filter.TestFilters
 import ftl.gc.GcStorage
 import ftl.util.FlankTestMethod
 import ftl.util.fatalError
-import kotlinx.coroutines.runBlocking
 
 object AndroidTestShard {
 
@@ -17,9 +16,7 @@ object AndroidTestShard {
         // Download test APK if necessary so it can be used to validate test methods
         var testLocalApk = testApk
         if (testApk.startsWith(FtlConstants.GCS_PREFIX)) {
-            runBlocking {
-                testLocalApk = GcStorage.download(testApk)
-            }
+            testLocalApk = GcStorage.download(testApk)
         }
 
         val filteredTests = getTestMethods(args, testLocalApk)

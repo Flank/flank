@@ -2,6 +2,7 @@ package ftl.gc
 
 import ftl.args.IArgs
 import ftl.test.util.FlankTestRunner
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
@@ -14,6 +15,6 @@ class GcTestMatrixTest {
     fun `refresh succeeds`() {
         val args = mock(IArgs::class.java)
         `when`(args.project).thenReturn("789")
-        GcTestMatrix.refresh("123", args)
+        runBlocking { GcTestMatrix.refresh("123", args.project) }
     }
 }

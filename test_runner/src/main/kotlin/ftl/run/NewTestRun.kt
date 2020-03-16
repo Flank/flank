@@ -9,9 +9,10 @@ import ftl.run.common.fetchArtifacts
 import ftl.run.common.pollMatrices
 import ftl.run.platform.runAndroidTests
 import ftl.run.platform.runIosTests
+import kotlinx.coroutines.coroutineScope
 import kotlin.system.exitProcess
 
-suspend fun newTestRun(args: IArgs) {
+suspend fun newTestRun(args: IArgs) = coroutineScope {
     println(args)
     val (matrixMap, testShardChunks) = runTests(args)
 
