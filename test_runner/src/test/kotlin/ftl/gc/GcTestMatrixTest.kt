@@ -15,6 +15,6 @@ class GcTestMatrixTest {
     fun `refresh succeeds`() {
         val args = mock(IArgs::class.java)
         `when`(args.project).thenReturn("789")
-        runBlocking { GcTestMatrix.refresh("123", args) }
+        runBlocking { GcTestMatrix.refresh("123", args.project) }
     }
 }

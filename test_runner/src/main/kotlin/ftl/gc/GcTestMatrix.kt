@@ -2,7 +2,6 @@ package ftl.gc
 
 import com.google.api.services.testing.model.CancelTestMatrixResponse
 import com.google.api.services.testing.model.TestMatrix
-import ftl.args.IArgs
 import ftl.http.executeWithRetry
 import kotlinx.coroutines.delay
 import java.time.Duration.ofHours
@@ -33,8 +32,8 @@ object GcTestMatrix {
     //        "message" : "The service is currently unavailable.",
     //        "status" : "UNAVAILABLE"
     //    }
-    suspend fun refresh(testMatrixId: String, args: IArgs): TestMatrix {
-        val getMatrix = GcTesting.get.projects().testMatrices().get(args.project, testMatrixId)
+    suspend fun refresh(testMatrixId: String, projectId: String): TestMatrix {
+        val getMatrix = GcTesting.get.projects().testMatrices().get(projectId, testMatrixId)
         var failed = 0
         val maxWait = ofHours(1).seconds
 
@@ -50,8 +49,8 @@ object GcTestMatrix {
         throw RuntimeException("Failed to refresh matrix")
     }
 
-    suspend fun cancel(testMatrixId: String, project: String): CancelTestMatrixResponse {
-        val cancelMatrix = GcTesting.get.projects().testMatrices().cancel(project, testMatrixId)
+    suspend fun cancel(testMatrixId: String, projectId: String): CancelTestMatrixResponse {
+        val cancelMatrix = GcTesting.get.projects().testMatrices().cancel(projectId, testMatrixId)
         var failed = 0
         val maxTries = 3
 

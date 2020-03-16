@@ -33,7 +33,7 @@ internal suspend fun pollMatrices(matrices: MatrixMap, args: IArgs) = coroutineS
 // Port of MonitorTestExecutionProgress
 // gcloud-cli/googlecloudsdk/api_lib/firebase/test/matrix_ops.py
 private suspend fun pollMatrix(matrixId: String, stopwatch: StopWatch, args: IArgs, matrices: MatrixMap) = coroutineScope {
-    var refreshedMatrix = GcTestMatrix.refresh(matrixId, args)
+    var refreshedMatrix = GcTestMatrix.refresh(matrixId, args.project)
     val watch = StopWatchMatrix(stopwatch, matrixId)
     val runningDevices = RunningDevices(stopwatch, refreshedMatrix.testExecutions)
 
@@ -56,7 +56,7 @@ private suspend fun pollMatrix(matrixId: String, stopwatch: StopWatch, args: IAr
         // GetTestMatrix is not designed to handle many requests per second.
         // Sleep to avoid overloading the system.
         delay(5_000)
-        refreshedMatrix = GcTestMatrix.refresh(matrixId, args)
+        refreshedMatrix = GcTestMatrix.refresh(matrixId, args.project)
     }
 
     // Print final matrix state with timestamp. May be many minutes after the 'Done.' progress message.
