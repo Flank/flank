@@ -6,9 +6,12 @@ import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
+import ftl.run.platform.runAndroidTests
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
+import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
@@ -935,5 +938,26 @@ AndroidArgs
 
         val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.keepFilePath).isEqualTo(true)
+    }
+
+    @Test
+    fun `additional test apks without app specified should have top level app provided -- yml file`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          additional-app-test-apks:
+          - test: $testErrorApk
+          - app: null
+            test: $testErrorApk
+          - app: $invalidApk
+            test: $testApk
+        """.trimIndent()
+
+        val parsedYml = AndroidArgs.load(yaml)
+        val (matrixMap, chunks) = runBlocking { runAndroidTests(parsedYml) }
+        assertEquals(4, matrixMap.map.size)
+        assertEquals(4, chunks.size)
     }
 }
