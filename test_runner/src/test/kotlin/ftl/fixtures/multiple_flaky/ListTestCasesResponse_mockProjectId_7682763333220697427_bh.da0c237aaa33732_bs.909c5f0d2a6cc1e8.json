@@ -1,0 +1,26 @@
+{
+  "testCases" : [ {
+    "elapsedTime" : {
+      "nanos" : 111000000,
+      "seconds" : "1"
+    },
+    "endTime" : {
+      "nanos" : 312000000,
+      "seconds" : "1583860343"
+    },
+    "startTime" : {
+      "nanos" : 201000000,
+      "seconds" : "1583860342"
+    },
+    "testCaseId" : "1",
+    "testCaseReference" : {
+      "className" : "com.example.test_app.InstrumentedTest",
+      "name" : "test0"
+    },
+    "toolOutputs" : [ {
+      "output" : {
+        "fileUri" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/NexusLowRes-28-en-portrait-shard_0-rerun_2/test_cases/0000_logcat"
+      }
+    } ]
+  } ]
+}

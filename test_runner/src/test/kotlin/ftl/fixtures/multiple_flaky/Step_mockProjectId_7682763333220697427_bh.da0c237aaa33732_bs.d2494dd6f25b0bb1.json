@@ -1,0 +1,141 @@
+{
+  "completionTime" : {
+    "nanos" : 773000000,
+    "seconds" : "1583860239"
+  },
+  "creationTime" : {
+    "nanos" : 396000000,
+    "seconds" : "1583860078"
+  },
+  "description" : "all targets",
+  "dimensionValue" : [ {
+    "key" : "Model",
+    "value" : "NexusLowRes"
+  }, {
+    "key" : "Version",
+    "value" : "28"
+  }, {
+    "key" : "Locale",
+    "value" : "en"
+  }, {
+    "key" : "Orientation",
+    "value" : "portrait"
+  } ],
+  "hasImages" : true,
+  "multiStep" : {
+    "primaryStep" : {
+      "individualOutcome" : [ {
+        "outcomeSummary" : "failure",
+        "runDuration" : {
+          "nanos" : 377000000,
+          "seconds" : "161"
+        },
+        "stepId" : "bs.d2494dd6f25b0bb1"
+      }, {
+        "multistepNumber" : 1,
+        "outcomeSummary" : "success",
+        "runDuration" : {
+          "nanos" : 650000000,
+          "seconds" : "151"
+        },
+        "stepId" : "bs.5a6d0474ef3da7b"
+      }, {
+        "multistepNumber" : 2,
+        "outcomeSummary" : "success",
+        "runDuration" : {
+          "nanos" : 701000000,
+          "seconds" : "152"
+        },
+        "stepId" : "bs.909c5f0d2a6cc1e8"
+      }, {
+        "multistepNumber" : 3,
+        "outcomeSummary" : "success",
+        "runDuration" : {
+          "nanos" : 767000000,
+          "seconds" : "141"
+        },
+        "stepId" : "bs.ba3d3198c88dcd54"
+      } ],
+      "rollUp" : "flaky"
+    },
+    "primaryStepId" : "bs.d2494dd6f25b0bb1"
+  },
+  "name" : "Instrumentation test",
+  "outcome" : {
+    "summary" : "failure"
+  },
+  "runDuration" : {
+    "nanos" : 377000000,
+    "seconds" : "161"
+  },
+  "state" : "complete",
+  "stepId" : "bs.d2494dd6f25b0bb1",
+  "testExecutionStep" : {
+    "testSuiteOverviews" : [ {
+      "elapsedTime" : {
+        "nanos" : 274000000,
+        "seconds" : "3"
+      },
+      "failureCount" : 1,
+      "totalCount" : 1,
+      "xmlSource" : {
+        "fileUri" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/NexusLowRes-28-en-portrait-shard_0/test_result_1.xml"
+      }
+    } ],
+    "testTiming" : {
+      "testProcessDuration" : {
+        "seconds" : "7"
+      }
+    },
+    "toolExecution" : {
+      "toolLogs" : [ {
+        "fileUri" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/NexusLowRes-28-en-portrait-shard_0/logcat"
+      } ],
+      "toolOutputs" : [ {
+        "output" : {
+          "fileUri" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/NexusLowRes-28-en-portrait-shard_0/test_cases/0000_logcat"
+        },
+        "testCase" : {
+          "className" : "com.example.test_app.InstrumentedTest",
+          "name" : "test0"
+        }
+      }, {
+        "output" : {
+          "fileUri" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/NexusLowRes-28-en-portrait-shard_0/test_result_1.xml"
+        }
+      }, {
+        "output" : {
+          "fileUri" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/NexusLowRes-28-en-portrait-shard_0/instrumentation.results"
+        }
+      }, {
+        "output" : {
+          "fileUri" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/NexusLowRes-28-en-portrait-shard_0/bugreport.txt"
+        }
+      }, {
+        "output" : {
+          "fileUri" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/NexusLowRes-28-en-portrait-shard_0/artifacts/sdcard/Android/media/com.google.android.talk/Notifications/hangouts_message.ogg"
+        }
+      }, {
+        "output" : {
+          "fileUri" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/NexusLowRes-28-en-portrait-shard_0/artifacts/sdcard/Android/media/com.google.android.talk/Ringtones/hangouts_incoming_call.ogg"
+        }
+      }, {
+        "output" : {
+          "fileUri" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/NexusLowRes-28-en-portrait-shard_0/artifacts/sdcard/screenshots/com.example.test_app.InstrumentedTest_test0_01.png"
+        }
+      }, {
+        "output" : {
+          "fileUri" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/NexusLowRes-28-en-portrait-shard_0/artifacts/hangouts_message.ogg"
+        }
+      }, {
+        "output" : {
+          "fileUri" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/NexusLowRes-28-en-portrait-shard_0/artifacts/hangouts_incoming_call.ogg"
+        }
+      }, {
+        "output" : {
+          "fileUri" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/NexusLowRes-28-en-portrait-shard_0/artifacts/com.example.test_app.InstrumentedTest_test0_01.png"
+        }
+      } ]
+    }
+  }
+}

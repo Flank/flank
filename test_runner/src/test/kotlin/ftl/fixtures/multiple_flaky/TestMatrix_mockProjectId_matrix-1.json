@@ -1,0 +1,417 @@
+{
+  "clientInfo" : {
+    "name" : "Flank"
+  },
+  "environmentMatrix" : {
+    "androidDeviceList" : {
+      "androidDevices" : [ {
+        "androidModelId" : "NexusLowRes",
+        "androidVersionId" : "28",
+        "locale" : "en",
+        "orientation" : "portrait"
+      } ]
+    }
+  },
+  "flakyTestAttempts" : 3,
+  "outcomeSummary" : "SUCCESS",
+  "projectId" : "mockProjectId",
+  "resultStorage" : {
+    "googleCloudStorage" : {
+      "gcsPath" : "test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/"
+    },
+    "resultsUrl" : "https://console.firebase.google.com/project/mockProjectId/testlab/histories/bh.da0c237aaa33732/matrices/7682763333220697427",
+    "toolResultsExecution" : {
+      "executionId" : "7682763333220697427",
+      "historyId" : "bh.da0c237aaa33732",
+      "projectId" : "mockProjectId"
+    },
+    "toolResultsHistory" : {
+      "historyId" : "bh.da0c237aaa33732",
+      "projectId" : "mockProjectId"
+    }
+  },
+  "state" : "FINISHED",
+  "testExecutions" : [ {
+    "environment" : {
+      "androidDevice" : {
+        "androidModelId" : "NexusLowRes",
+        "androidVersionId" : "28",
+        "locale" : "en",
+        "orientation" : "portrait"
+      }
+    },
+    "id" : "matrix-1_execution-1hnx43n8tucwa",
+    "matrixId" : "matrix-1",
+    "projectId" : "mockProjectId",
+    "shard" : {
+      "numShards" : 2,
+      "testTargetsForShard" : {
+        "testTargets" : [ "class com.example.test_app.InstrumentedTest#test0" ]
+      }
+    },
+    "state" : "FINISHED",
+    "testDetails" : {
+      "progressMessages" : [ "Starting attempt 1.", "Started logcat recording.", "Preparing device.", "Installing apps.", "Retrieving Pre-Test Package Stats information from the device.", "Retrieving Performance Environment information from the device.", "Started crash detection.", "Started crash monitoring.", "Starting instrumentation test.", "Completed instrumentation test.", "Stopped crash monitoring.", "Retrieving Post-test Package Stats information from the device.", "Stopped logcat recording.", "Done. Test time = 7 (secs)", "Starting results processing. Attempt: 1", "Completed results processing. Time taken = 2 (secs)" ]
+    },
+    "testSpecification" : {
+      "androidInstrumentationTest" : {
+        "appApk" : {
+          "gcsPath" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/app-debug.apk"
+        },
+        "appPackageId" : "com.example.test_app",
+        "orchestratorOption" : "USE_ORCHESTRATOR",
+        "shardingOption" : {
+          "manualSharding" : {
+            "testTargetsForShard" : [ {
+              "testTargets" : [ "class com.example.test_app.InstrumentedTest#test0" ]
+            }, {
+              "testTargets" : [ "class com.example.test_app.InstrumentedTest#test1", "class com.example.test_app.InstrumentedTest#test2" ]
+            } ]
+          }
+        },
+        "testApk" : {
+          "gcsPath" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/app-multiple-flaky-debug-androidTest.apk"
+        },
+        "testPackageId" : "com.example.test_app.test",
+        "testRunnerClass" : "androidx.test.runner.AndroidJUnitRunner"
+      },
+      "disablePerformanceMetrics" : true,
+      "disableVideoRecording" : true,
+      "testSetup" : {
+        "directoriesToPull" : [ "/sdcard/" ],
+        "environmentVariables" : [ {
+          "key" : "coverage",
+          "value" : "true"
+        }, {
+          "key" : "coverageFilePath",
+          "value" : "/sdcard/"
+        }, {
+          "key" : "clearPackageData",
+          "value" : "true"
+        } ]
+      },
+      "testTimeout" : "900s"
+    },
+    "timestamp" : "2020-03-10T17:07:54.422Z",
+    "toolResultsStep" : {
+      "executionId" : "7682763333220697427",
+      "historyId" : "bh.da0c237aaa33732",
+      "projectId" : "mockProjectId",
+      "stepId" : "bs.5a6d0474ef3da7b"
+    }
+  }, {
+    "environment" : {
+      "androidDevice" : {
+        "androidModelId" : "NexusLowRes",
+        "androidVersionId" : "28",
+        "locale" : "en",
+        "orientation" : "portrait"
+      }
+    },
+    "id" : "matrix-1_execution-1m42w58taq2xi",
+    "matrixId" : "matrix-1",
+    "projectId" : "mockProjectId",
+    "shard" : {
+      "numShards" : 2,
+      "testTargetsForShard" : {
+        "testTargets" : [ "class com.example.test_app.InstrumentedTest#test0" ]
+      }
+    },
+    "state" : "FINISHED",
+    "testDetails" : {
+      "progressMessages" : [ "Starting attempt 1.", "Started logcat recording.", "Preparing device.", "Installing apps.", "Retrieving Pre-Test Package Stats information from the device.", "Retrieving Performance Environment information from the device.", "Started crash detection.", "Started crash monitoring.", "Starting instrumentation test.", "Completed instrumentation test.", "Stopped crash monitoring.", "Retrieving Post-test Package Stats information from the device.", "Stopped logcat recording.", "Done. Test time = 8 (secs)", "Starting results processing. Attempt: 1", "Completed results processing. Time taken = 2 (secs)" ]
+    },
+    "testSpecification" : {
+      "androidInstrumentationTest" : {
+        "appApk" : {
+          "gcsPath" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/app-debug.apk"
+        },
+        "appPackageId" : "com.example.test_app",
+        "orchestratorOption" : "USE_ORCHESTRATOR",
+        "shardingOption" : {
+          "manualSharding" : {
+            "testTargetsForShard" : [ {
+              "testTargets" : [ "class com.example.test_app.InstrumentedTest#test0" ]
+            }, {
+              "testTargets" : [ "class com.example.test_app.InstrumentedTest#test1", "class com.example.test_app.InstrumentedTest#test2" ]
+            } ]
+          }
+        },
+        "testApk" : {
+          "gcsPath" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/app-multiple-flaky-debug-androidTest.apk"
+        },
+        "testPackageId" : "com.example.test_app.test",
+        "testRunnerClass" : "androidx.test.runner.AndroidJUnitRunner"
+      },
+      "disablePerformanceMetrics" : true,
+      "disableVideoRecording" : true,
+      "testSetup" : {
+        "directoriesToPull" : [ "/sdcard/" ],
+        "environmentVariables" : [ {
+          "key" : "coverage",
+          "value" : "true"
+        }, {
+          "key" : "coverageFilePath",
+          "value" : "/sdcard/"
+        }, {
+          "key" : "clearPackageData",
+          "value" : "true"
+        } ]
+      },
+      "testTimeout" : "900s"
+    },
+    "timestamp" : "2020-03-10T17:07:54.422Z",
+    "toolResultsStep" : {
+      "executionId" : "7682763333220697427",
+      "historyId" : "bh.da0c237aaa33732",
+      "projectId" : "mockProjectId",
+      "stepId" : "bs.909c5f0d2a6cc1e8"
+    }
+  }, {
+    "environment" : {
+      "androidDevice" : {
+        "androidModelId" : "NexusLowRes",
+        "androidVersionId" : "28",
+        "locale" : "en",
+        "orientation" : "portrait"
+      }
+    },
+    "id" : "matrix-1_execution-2qusetrx2n5ug",
+    "matrixId" : "matrix-1",
+    "projectId" : "mockProjectId",
+    "shard" : {
+      "numShards" : 2,
+      "shardIndex" : 1,
+      "testTargetsForShard" : {
+        "testTargets" : [ "class com.example.test_app.InstrumentedTest#test1", "class com.example.test_app.InstrumentedTest#test2" ]
+      }
+    },
+    "state" : "FINISHED",
+    "testDetails" : {
+      "progressMessages" : [ "Starting attempt 1.", "Started logcat recording.", "Preparing device.", "Installing apps.", "Retrieving Pre-Test Package Stats information from the device.", "Retrieving Performance Environment information from the device.", "Started crash detection.", "Started crash monitoring.", "Starting instrumentation test.", "Completed instrumentation test.", "Stopped crash monitoring.", "Retrieving Post-test Package Stats information from the device.", "Stopped logcat recording.", "Done. Test time = 10 (secs)", "Starting results processing. Attempt: 1", "Completed results processing. Time taken = 2 (secs)" ]
+    },
+    "testSpecification" : {
+      "androidInstrumentationTest" : {
+        "appApk" : {
+          "gcsPath" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/app-debug.apk"
+        },
+        "appPackageId" : "com.example.test_app",
+        "orchestratorOption" : "USE_ORCHESTRATOR",
+        "shardingOption" : {
+          "manualSharding" : {
+            "testTargetsForShard" : [ {
+              "testTargets" : [ "class com.example.test_app.InstrumentedTest#test0" ]
+            }, {
+              "testTargets" : [ "class com.example.test_app.InstrumentedTest#test1", "class com.example.test_app.InstrumentedTest#test2" ]
+            } ]
+          }
+        },
+        "testApk" : {
+          "gcsPath" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/app-multiple-flaky-debug-androidTest.apk"
+        },
+        "testPackageId" : "com.example.test_app.test",
+        "testRunnerClass" : "androidx.test.runner.AndroidJUnitRunner"
+      },
+      "disablePerformanceMetrics" : true,
+      "disableVideoRecording" : true,
+      "testSetup" : {
+        "directoriesToPull" : [ "/sdcard/" ],
+        "environmentVariables" : [ {
+          "key" : "coverage",
+          "value" : "true"
+        }, {
+          "key" : "coverageFilePath",
+          "value" : "/sdcard/"
+        }, {
+          "key" : "clearPackageData",
+          "value" : "true"
+        } ]
+      },
+      "testTimeout" : "900s"
+    },
+    "timestamp" : "2020-03-10T17:07:54.422Z",
+    "toolResultsStep" : {
+      "executionId" : "7682763333220697427",
+      "historyId" : "bh.da0c237aaa33732",
+      "projectId" : "mockProjectId",
+      "stepId" : "bs.73956f15c91224fc"
+    }
+  }, {
+    "environment" : {
+      "androidDevice" : {
+        "androidModelId" : "NexusLowRes",
+        "androidVersionId" : "28",
+        "locale" : "en",
+        "orientation" : "portrait"
+      }
+    },
+    "id" : "matrix-1_execution-3qako5xc56v4l",
+    "matrixId" : "matrix-1",
+    "projectId" : "mockProjectId",
+    "shard" : {
+      "numShards" : 2,
+      "testTargetsForShard" : {
+        "testTargets" : [ "class com.example.test_app.InstrumentedTest#test0" ]
+      }
+    },
+    "state" : "FINISHED",
+    "testDetails" : {
+      "progressMessages" : [ "Starting attempt 1.", "Started logcat recording.", "Preparing device.", "Installing apps.", "Retrieving Pre-Test Package Stats information from the device.", "Retrieving Performance Environment information from the device.", "Started crash detection.", "Started crash monitoring.", "Starting instrumentation test.", "Completed instrumentation test.", "Stopped crash monitoring.", "Retrieving Post-test Package Stats information from the device.", "Stopped logcat recording.", "Done. Test time = 7 (secs)", "Starting results processing. Attempt: 1", "Completed results processing. Time taken = 2 (secs)" ]
+    },
+    "testSpecification" : {
+      "androidInstrumentationTest" : {
+        "appApk" : {
+          "gcsPath" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/app-debug.apk"
+        },
+        "appPackageId" : "com.example.test_app",
+        "orchestratorOption" : "USE_ORCHESTRATOR",
+        "shardingOption" : {
+          "manualSharding" : {
+            "testTargetsForShard" : [ {
+              "testTargets" : [ "class com.example.test_app.InstrumentedTest#test0" ]
+            }, {
+              "testTargets" : [ "class com.example.test_app.InstrumentedTest#test1", "class com.example.test_app.InstrumentedTest#test2" ]
+            } ]
+          }
+        },
+        "testApk" : {
+          "gcsPath" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/app-multiple-flaky-debug-androidTest.apk"
+        },
+        "testPackageId" : "com.example.test_app.test",
+        "testRunnerClass" : "androidx.test.runner.AndroidJUnitRunner"
+      },
+      "disablePerformanceMetrics" : true,
+      "disableVideoRecording" : true,
+      "testSetup" : {
+        "directoriesToPull" : [ "/sdcard/" ],
+        "environmentVariables" : [ {
+          "key" : "coverage",
+          "value" : "true"
+        }, {
+          "key" : "coverageFilePath",
+          "value" : "/sdcard/"
+        }, {
+          "key" : "clearPackageData",
+          "value" : "true"
+        } ]
+      },
+      "testTimeout" : "900s"
+    },
+    "timestamp" : "2020-03-10T17:07:54.422Z",
+    "toolResultsStep" : {
+      "executionId" : "7682763333220697427",
+      "historyId" : "bh.da0c237aaa33732",
+      "projectId" : "mockProjectId",
+      "stepId" : "bs.ba3d3198c88dcd54"
+    }
+  }, {
+    "environment" : {
+      "androidDevice" : {
+        "androidModelId" : "NexusLowRes",
+        "androidVersionId" : "28",
+        "locale" : "en",
+        "orientation" : "portrait"
+      }
+    },
+    "id" : "matrix-1_execution-pz2u7vom6rcha",
+    "matrixId" : "matrix-1",
+    "projectId" : "mockProjectId",
+    "shard" : {
+      "numShards" : 2,
+      "testTargetsForShard" : {
+        "testTargets" : [ "class com.example.test_app.InstrumentedTest#test0" ]
+      }
+    },
+    "state" : "FINISHED",
+    "testDetails" : {
+      "progressMessages" : [ "Starting attempt 1.", "Started logcat recording.", "Preparing device.", "Installing apps.", "Retrieving Pre-Test Package Stats information from the device.", "Retrieving Performance Environment information from the device.", "Started crash detection.", "Started crash monitoring.", "Starting instrumentation test.", "Completed instrumentation test.", "Stopped crash monitoring.", "Retrieving Post-test Package Stats information from the device.", "Stopped logcat recording.", "Done. Test time = 7 (secs)", "Starting results processing. Attempt: 1", "Completed results processing. Time taken = 2 (secs)" ]
+    },
+    "testSpecification" : {
+      "androidInstrumentationTest" : {
+        "appApk" : {
+          "gcsPath" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/app-debug.apk"
+        },
+        "appPackageId" : "com.example.test_app",
+        "orchestratorOption" : "USE_ORCHESTRATOR",
+        "shardingOption" : {
+          "manualSharding" : {
+            "testTargetsForShard" : [ {
+              "testTargets" : [ "class com.example.test_app.InstrumentedTest#test0" ]
+            }, {
+              "testTargets" : [ "class com.example.test_app.InstrumentedTest#test1", "class com.example.test_app.InstrumentedTest#test2" ]
+            } ]
+          }
+        },
+        "testApk" : {
+          "gcsPath" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/app-multiple-flaky-debug-androidTest.apk"
+        },
+        "testPackageId" : "com.example.test_app.test",
+        "testRunnerClass" : "androidx.test.runner.AndroidJUnitRunner"
+      },
+      "disablePerformanceMetrics" : true,
+      "disableVideoRecording" : true,
+      "testSetup" : {
+        "directoriesToPull" : [ "/sdcard/" ],
+        "environmentVariables" : [ {
+          "key" : "coverage",
+          "value" : "true"
+        }, {
+          "key" : "coverageFilePath",
+          "value" : "/sdcard/"
+        }, {
+          "key" : "clearPackageData",
+          "value" : "true"
+        } ]
+      },
+      "testTimeout" : "900s"
+    },
+    "timestamp" : "2020-03-10T17:07:54.422Z",
+    "toolResultsStep" : {
+      "executionId" : "7682763333220697427",
+      "historyId" : "bh.da0c237aaa33732",
+      "projectId" : "mockProjectId",
+      "stepId" : "bs.d2494dd6f25b0bb1"
+    }
+  } ],
+  "testMatrixId" : "matrix-1",
+  "testSpecification" : {
+    "androidInstrumentationTest" : {
+      "appApk" : {
+        "gcsPath" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/app-debug.apk"
+      },
+      "appPackageId" : "com.example.test_app",
+      "orchestratorOption" : "USE_ORCHESTRATOR",
+      "shardingOption" : {
+        "manualSharding" : {
+          "testTargetsForShard" : [ {
+            "testTargets" : [ "class com.example.test_app.InstrumentedTest#test0" ]
+          }, {
+            "testTargets" : [ "class com.example.test_app.InstrumentedTest#test1", "class com.example.test_app.InstrumentedTest#test2" ]
+          } ]
+        }
+      },
+      "testApk" : {
+        "gcsPath" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/app-multiple-flaky-debug-androidTest.apk"
+      },
+      "testPackageId" : "com.example.test_app.test",
+      "testRunnerClass" : "androidx.test.runner.AndroidJUnitRunner"
+    },
+    "disablePerformanceMetrics" : true,
+    "disableVideoRecording" : true,
+    "testSetup" : {
+      "directoriesToPull" : [ "/sdcard/" ],
+      "environmentVariables" : [ {
+        "key" : "coverage",
+        "value" : "true"
+      }, {
+        "key" : "coverageFilePath",
+        "value" : "/sdcard/"
+      }, {
+        "key" : "clearPackageData",
+        "value" : "true"
+      } ]
+    },
+    "testTimeout" : "900s"
+  },
+  "timestamp" : "2020-03-10T17:07:54.422Z"
+}

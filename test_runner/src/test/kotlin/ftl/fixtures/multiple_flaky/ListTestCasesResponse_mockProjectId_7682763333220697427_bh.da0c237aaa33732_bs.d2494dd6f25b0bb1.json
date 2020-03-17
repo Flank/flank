@@ -1,0 +1,30 @@
+{
+  "testCases" : [ {
+    "elapsedTime" : {
+      "nanos" : 791000000,
+      "seconds" : "1"
+    },
+    "endTime" : {
+      "nanos" : 972000000,
+      "seconds" : "1583860195"
+    },
+    "stackTraces" : [ {
+      "exception" : "java.lang.AssertionError\nat org.junit.Assert.fail(Assert.java:86)\nat org.junit.Assert.assertTrue(Assert.java:41)\nat org.junit.Assert.assertTrue(Assert.java:52)\nat com.example.test_app.BaseInstrumentedTest.testMethod(BaseInstrumentedTest.kt:35)\nat com.example.test_app.InstrumentedTest.test0(InstrumentedTest.kt:11)\nat java.lang.reflect.Method.invoke(Native Method)\nat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)\nat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\nat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)\nat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\nat androidx.test.rule.GrantPermissionRule$RequestPermissionStatement.evaluate(GrantPermissionRule.java:134)\nat androidx.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:531)\nat com.example.test_app.screenshot.ScreenshotTestRule$apply$1.evaluate(ScreenshotTestRule.kt:58)\nat org.junit.rules.RunRules.evaluate(RunRules.java:20)\nat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)\nat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)\nat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)\nat org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)\nat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)\nat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)\nat org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)\nat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)\nat org.junit.runners.ParentRunner.run(ParentRunner.java:363)\nat androidx.test.ext.junit.runners.AndroidJUnit4.run(AndroidJUnit4.java:104)\nat org.junit.runners.Suite.runChild(Suite.java:128)\nat org.junit.runners.Suite.runChild(Suite.java:27)\nat org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)\nat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)\nat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)\nat org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)\nat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)\nat org.junit.runners.ParentRunner.run(ParentRunner.java:363)\nat org.junit.runner.JUnitCore.run(JUnitCore.java:137)\nat org.junit.runner.JUnitCore.run(JUnitCore.java:115)\nat androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:56)\nat androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:392)\nat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2145)\n"
+    } ],
+    "startTime" : {
+      "nanos" : 181000000,
+      "seconds" : "1583860194"
+    },
+    "status" : "failed",
+    "testCaseId" : "1",
+    "testCaseReference" : {
+      "className" : "com.example.test_app.InstrumentedTest",
+      "name" : "test0"
+    },
+    "toolOutputs" : [ {
+      "output" : {
+        "fileUri" : "gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-03-10_17-07-51.772000_pbdI/NexusLowRes-28-en-portrait-shard_0/test_cases/0000_logcat"
+      }
+    } ]
+  } ]
+}

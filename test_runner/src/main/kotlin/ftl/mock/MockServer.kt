@@ -43,14 +43,12 @@ import io.ktor.routing.post
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import java.net.BindException
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.concurrent.atomic.AtomicInteger
-import java.net.BindException
 
 object MockServer {
 
-    private val matrixIdCounter: AtomicInteger = AtomicInteger(0)
     const val port = 8080
     private var isStarted: Boolean = false
 
@@ -130,13 +128,14 @@ object MockServer {
 
                 get("/v1/projects/{project}/testMatrices/{matrixIdCounter}") {
                     println("Responding to GET ${call.request.uri}")
-                    val projectId = call.parameters["project"]
-                    val matrixId = call.parameters["matrixIdCounter"]
+                    val projectId = call.parameters["project"]!!
+                    val matrixId = call.parameters["matrixIdCounter"]!!
 
-                    val testMatrix = TestMatrix()
-                        .setProjectId(projectId)
-                        .setTestMatrixId(matrixId)
-                        .setState("FINISHED")
+                    val testMatrix = MockGoogleApiRepository.getMatrix(projectId, matrixId)
+                        ?: TestMatrix()
+                            .setProjectId(projectId)
+                            .setTestMatrixId(matrixId)
+                            .setState("FINISHED")
 
                     call.respond(testMatrix)
                 }
@@ -147,7 +146,7 @@ object MockServer {
                     println("Responding to POST ${call.request.uri}")
                     val projectId = call.parameters["project"]
 
-                    val matrixId = matrixIdCounter.incrementAndGet().toString()
+                    val matrixId = "1"
 
                     val resultStorage = ResultStorage()
                     resultStorage.googleCloudStorage = GoogleCloudStorage()
@@ -181,10 +180,42 @@ object MockServer {
 
                 // GcToolResults.getStepResult(toolResultsStep)
                 // GET /toolresults/v1beta3/projects/delta-essence-114723/histories/1/executions/1/steps/1
+                get("/toolresults/v1beta3/projects/{project}/histories/{historyId}/executions/{executionId}/steps/{stepId}/testCases") {
+                    println("Responding to GET ${call.request.uri}")
+
+                    val projectId = call.parameters["project"]!!
+                    val historyId = call.parameters["historyId"]!!
+                    val executionId = call.parameters["executionId"]!!
+                    val stepId = call.parameters["stepId"]!!
+
+                    val testCases = MockGoogleApiRepository.getListTestCasesResponse(
+                        projectId = projectId,
+                        historyId = historyId,
+                        executionId = executionId,
+                        stepId = stepId
+                    )!!
+
+                    call.respond(testCases)
+                }
+
+                // GcToolResults.getStepResult(toolResultsStep)
+                // GET /toolresults/v1beta3/projects/delta-essence-114723/histories/1/executions/1/steps/1
                 get("/toolresults/v1beta3/projects/{project}/histories/{historyId}/executions/{executionId}/steps/{stepId}") {
                     println("Responding to GET ${call.request.uri}")
-                    val stepId = call.parameters["stepId"] ?: ""
-                    call.respond(fakeStep(stepId))
+
+                    val projectId = call.parameters["project"]!!
+                    val historyId = call.parameters["historyId"]!!
+                    val executionId = call.parameters["executionId"]!!
+                    val stepId = call.parameters["stepId"]!!
+
+                    val step = MockGoogleApiRepository.getStep(
+                        projectId = projectId,
+                        historyId = historyId,
+                        executionId = executionId,
+                        stepId = stepId
+                    ) ?: fakeStep(stepId)
+
+                    call.respond(step)
                 }
 
                 // GcToolResults.getExecutionResult(toolResultsStep)
