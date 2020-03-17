@@ -11,11 +11,10 @@ import ftl.run.common.pollMatrices
 import ftl.run.platform.runAndroidTests
 import ftl.run.platform.runIosTests
 import kotlinx.coroutines.TimeoutCancellationException
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlin.system.exitProcess
 
-suspend fun newTestRun(args: IArgs) = coroutineScope {
+suspend fun newTestRun(args: IArgs) {
     withTimeoutOrNull(args.parsedTimeout) {
         println(args)
         val (matrixMap, testShardChunks) = cancelTestsOnTimeout(args.project) { runTests(args) }
@@ -23,9 +22,10 @@ suspend fun newTestRun(args: IArgs) = coroutineScope {
         if (!args.async) {
             cancelTestsOnTimeout(args.project, matrixMap.map) { pollMatrices(matrixMap, args) }
             cancelTestsOnTimeout(args.project, matrixMap.map) { fetchArtifacts(matrixMap, args) }
+
+            val exitCode = ReportManager.generate(matrixMap, args, testShardChunks)
+            exitProcess(exitCode)
         }
-        val exitCode = ReportManager.generate(matrixMap, args, testShardChunks)
-        exitProcess(exitCode)
     }
 }
 
@@ -41,14 +41,12 @@ private suspend fun <T> cancelTestsOnTimeout(
     projectId: String,
     savedMatrix: Map<String, SavedMatrix>? = null,
     block: suspend () -> T
-): T = coroutineScope {
-    try {
+) = try {
         block()
     } catch (_: TimeoutCancellationException) {
-        println("Canceling flank due to timeout")
+        println("\nCanceling flank due to timeout")
         savedMatrix?.run {
             cancelMatrices(savedMatrix, projectId)
         }
         exitProcess(1)
     }
-}
