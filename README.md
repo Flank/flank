@@ -166,6 +166,9 @@ flank:
 
   ## Local folder to store the test result. Folder is DELETED before each run to ensure only artifacts from the new run are saved.
   # local-result-dir: flank
+
+  ## The max time this test run can execute before it is cancelled (default: unlimited).
+  # run-timeout: 60m
 ```
 
 ### Android example
@@ -322,6 +325,9 @@ flank:
   #  - app: ../test_app/apks/app-debug.apk
   #    test: ../test_app/apks/app1-debug-androidTest.apk
   #  - test: ../test_app/apks/app2-debug-androidTest.apk
+
+  ## The max time this test run can execute before it is cancelled (default: unlimited).
+  # run-timeout: 60m
 ```
 
 ### Android code coverage

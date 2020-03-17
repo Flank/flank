@@ -16,7 +16,7 @@ import kotlinx.coroutines.withTimeoutOrNull
 import kotlin.system.exitProcess
 
 suspend fun newTestRun(args: IArgs) = coroutineScope {
-    withTimeoutOrNull(Long.MAX_VALUE) {
+    withTimeoutOrNull(args.parsedTimeout) {
         println(args)
         val (matrixMap, testShardChunks) = cancelTestsOnTimeout(args.project) { runTests(args) }
 

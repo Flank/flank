@@ -374,4 +374,10 @@ class AndroidRunCommand : Runnable {
                     "Required when file names are not unique."]
     )
     var keepFilePath: Boolean? = null
+
+    @Option(
+        names = ["--run-timeout"],
+        description = ["The max time this test run can execute before it is cancelled (default: unlimited)."]
+    )
+    var runTimeout: String? = null
 }

@@ -19,7 +19,7 @@ import ftl.ios.Xctestrun.toByteArray
 import ftl.util.ShardCounter
 import ftl.util.fatalError
 import ftl.util.join
-import ftl.util.testTimeoutToSeconds
+import ftl.util.timeoutToSeconds
 
 object GcIosTestMatrix {
 
@@ -57,7 +57,7 @@ object GcIosTestMatrix {
         val iOSTestSetup = IosTestSetup()
             .setNetworkProfile(null)
 
-        val testTimeoutSeconds = testTimeoutToSeconds(args.testTimeout)
+        val testTimeoutSeconds = timeoutToSeconds(args.testTimeout)
 
         val testSpecification = TestSpecification()
             .setDisableVideoRecording(!args.recordVideo)

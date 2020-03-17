@@ -3,6 +3,7 @@ package ftl.args.yml
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.args.ArgsHelper
+import ftl.config.FtlConstants
 
 /** Flank specific parameters for both iOS and Android */
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -34,12 +35,15 @@ class FlankYmlParams(
     val project: String = ArgsHelper.getDefaultProjectId() ?: "",
 
     @field:JsonProperty("local-result-dir")
-    val localResultDir: String = defaultLocalResultDir
+    val localResultDir: String = defaultLocalResultDir,
+
+    @field:JsonProperty("run-timeout")
+    val runTimeout: String = FtlConstants.runTimeout
 ) {
     companion object : IYmlKeys {
         override val keys = listOf(
             "max-test-shards", "shard-time", "num-test-runs", "smart-flank-gcs-path", "smart-flank-disable-upload",
-            "disable-sharding", "test-targets-always-run", "files-to-download", "project", "local-result-dir"
+            "disable-sharding", "test-targets-always-run", "files-to-download", "project", "local-result-dir", "run-timeout"
         )
 
         const val defaultLocalResultDir = "results"

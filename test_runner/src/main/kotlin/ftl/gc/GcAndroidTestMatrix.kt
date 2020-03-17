@@ -22,7 +22,7 @@ import ftl.args.AndroidArgs
 import ftl.args.ShardChunks
 import ftl.util.fatalError
 import ftl.util.join
-import ftl.util.testTimeoutToSeconds
+import ftl.util.timeoutToSeconds
 
 object GcAndroidTestMatrix {
 
@@ -84,7 +84,7 @@ object GcAndroidTestMatrix {
                 args.environmentVariables.map { it.toEnvironmentVariable() }
         }
 
-        val testTimeoutSeconds = testTimeoutToSeconds(args.testTimeout)
+        val testTimeoutSeconds = timeoutToSeconds(args.testTimeout)
 
         val testSpecification = TestSpecification()
             .setAndroidInstrumentationTest(androidInstrumentation)

@@ -71,6 +71,7 @@ class IosArgsTest {
             - b/testBasicSelection
             - b/testBasicSelection2
           disable-sharding: true
+          run-timeout: 15m
         """
 
     @Rule
@@ -153,6 +154,7 @@ flank:
 
             assert(flakyTestAttempts, 4)
             assert(disableSharding, true)
+            assert(runTimeout, "15m")
         }
     }
 
@@ -202,6 +204,7 @@ IosArgs
       disable-sharding: true
       project: projectFoo
       local-result-dir: results
+      run-timeout: 15m
 """.trimIndent()
         )
     }
@@ -240,6 +243,7 @@ IosArgs
 
             // IosFlankYml
             assert(testTargets, empty)
+            assert(runTimeout, "-1")
         }
     }
 

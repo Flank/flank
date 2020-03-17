@@ -10,7 +10,7 @@ import ftl.util.uniqueObjectName
 import java.io.File
 
 internal fun beforeRunTests(args: IArgs): Pair<StopWatch, String> {
-    println("RunTests")
+    println("\nRunTests")
     assertMockUrl()
 
     val stopwatch = StopWatch().start()

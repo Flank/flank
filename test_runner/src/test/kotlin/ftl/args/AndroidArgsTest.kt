@@ -79,6 +79,7 @@ class AndroidArgsTest {
           additional-app-test-apks:
             - app: foo
               test: bar
+          run-timeout: 20m
       """
 
     @Rule
@@ -197,6 +198,7 @@ class AndroidArgsTest {
                 )
             )
             assert(disableSharding, true)
+            assert(runTimeout, "20m")
         }
     }
 
@@ -257,6 +259,7 @@ AndroidArgs
       additional-app-test-apks:
         - app: foo
           test: bar
+      run-timeout: 20m
 """.trimIndent()
         )
     }
@@ -298,6 +301,7 @@ AndroidArgs
             assert(filesToDownload, empty)
             assert(testTargetsAlwaysRun, empty)
             assert(disableSharding, false)
+            assert(runTimeout, "-1")
         }
     }
 

@@ -61,6 +61,7 @@ class IosArgs(
     override val disableSharding = cli?.disableSharding ?: flank.disableSharding
     override val project = cli?.project ?: flank.project
     override val localResultDir = cli?.localResultsDir ?: flank.localResultDir
+    override val runTimeout = cli?.runTimeout ?: flank.runTimeout
 
     private val iosFlank = iosFlankYml.flank
     val testTargets = cli?.testTargets ?: iosFlank.testTargets.filterNotNull()
@@ -121,8 +122,7 @@ IosArgs
       test: $xctestrunZip
       xctestrun-file: $xctestrunFile
       xcode-version: $xcodeVersion
-      device:
-${devicesToString(devices)}
+      device:${devicesToString(devices)}
       num-flaky-test-attempts: $flakyTestAttempts
 
     flank:
@@ -131,16 +131,14 @@ ${devicesToString(devices)}
       num-test-runs: $repeatTests
       smart-flank-gcs-path: $smartFlankGcsPath
       smart-flank-disable-upload: $smartFlankDisableUpload
-      test-targets-always-run:
-${listToString(testTargetsAlwaysRun)}
-      files-to-download:
-${listToString(filesToDownload)}
+      test-targets-always-run:${listToString(testTargetsAlwaysRun)}
+      files-to-download:${listToString(filesToDownload)}
       # iOS flank
-      test-targets:
-${listToString(testTargets)}
+      test-targets:${listToString(testTargets)}
       disable-sharding: $disableSharding
       project: $project
       local-result-dir: $localResultDir
+      run-timeout: $runTimeout
     """.trimIndent()
     }
 

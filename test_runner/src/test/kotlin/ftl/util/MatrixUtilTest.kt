@@ -14,19 +14,19 @@ class MatrixUtilTest {
 
     @Test
     fun `testTimeoutToSeconds validInput`() {
-        assertThat(testTimeoutToSeconds("0")).isEqualTo(0)
-        assertThat(testTimeoutToSeconds("0s")).isEqualTo(0)
-        assertThat(testTimeoutToSeconds("0m")).isEqualTo(0)
-        assertThat(testTimeoutToSeconds("0h")).isEqualTo(0)
-        assertThat(testTimeoutToSeconds("1")).isEqualTo(1)
-        assertThat(testTimeoutToSeconds("1s")).isEqualTo(1)
-        assertThat(testTimeoutToSeconds("1m")).isEqualTo(60)
-        assertThat(testTimeoutToSeconds("1h")).isEqualTo(60 * 60)
+        assertThat(timeoutToSeconds("0")).isEqualTo(0)
+        assertThat(timeoutToSeconds("0s")).isEqualTo(0)
+        assertThat(timeoutToSeconds("0m")).isEqualTo(0)
+        assertThat(timeoutToSeconds("0h")).isEqualTo(0)
+        assertThat(timeoutToSeconds("1")).isEqualTo(1)
+        assertThat(timeoutToSeconds("1s")).isEqualTo(1)
+        assertThat(timeoutToSeconds("1m")).isEqualTo(60)
+        assertThat(timeoutToSeconds("1h")).isEqualTo(60 * 60)
     }
 
     @Test(expected = NumberFormatException::class)
     fun `testTimeoutToSeconds rejectsInvalid`() {
-        testTimeoutToSeconds("1d")
+        timeoutToSeconds("1d")
     }
 
     @Test

@@ -1,6 +1,5 @@
 package ftl.cli.firebase.test.ios
 
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import ftl.config.Device
 import ftl.config.FtlConstants
@@ -30,8 +29,8 @@ class IosRunCommandTest {
         CommandLine(iosRun).execute("-h")
 
         val output = systemOutRule.log
-        Truth.assertThat(output).startsWith("Run tests on Firebase Test Lab")
-        Truth.assertThat(output).contains("run [-h]")
+        assertThat(output).startsWith("Run tests on Firebase Test Lab")
+        assertThat(output).contains("run [-h]")
 
         assertThat(iosRun.usageHelpRequested).isTrue()
     }
@@ -46,7 +45,7 @@ class IosRunCommandTest {
         runCmd.run()
 
         val output = systemOutRule.log
-        Truth.assertThat(output).contains("1 / 1 (100.00%)")
+        assertThat(output).contains("1 / 1 (100.00%)")
     }
 
     @Test
@@ -89,6 +88,7 @@ class IosRunCommandTest {
         assertThat(cmd.localResultsDir).isNull()
         assertThat(cmd.smartFlankDisableUpload).isNull()
         assertThat(cmd.smartFlankGcsPath).isNull()
+        assertThat(cmd.runTimeout).isNull()
     }
 
     @Test
@@ -285,5 +285,13 @@ class IosRunCommandTest {
         CommandLine(cmd).parseArgs("--dump-shards=true")
 
         assertThat(cmd.dumpShards).isEqualTo(true)
+    }
+
+    @Test
+    fun `run-test parse`() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parseArgs("--run-timeout=20s")
+
+        assertThat(cmd.runTimeout).isEqualTo("20s")
     }
 }
