@@ -13,6 +13,7 @@ import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
 import ftl.test.util.TestHelper.getString
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
@@ -183,5 +184,11 @@ class AndroidArgsFileTest {
         )
 
         assert(config.resultsBucket, "tmp_bucket_2")
+    }
+
+    @Test
+    fun `verify run timeout value from yml file`() {
+        val args = AndroidArgs.load(localYamlFile)
+        assertEquals(60 * 60 * 1000L, args.parsedTimeout)
     }
 }

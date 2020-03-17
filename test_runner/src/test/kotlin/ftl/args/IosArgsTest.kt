@@ -15,6 +15,7 @@ import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assume
 import org.junit.Rule
@@ -207,6 +208,46 @@ IosArgs
       run-timeout: 15m
 """.trimIndent()
         )
+    }
+
+    @Test
+    fun `verify default yml toString`() {
+        val args = IosArgs.load(simpleFlankPath)
+        assertEquals("""
+IosArgs
+    gcloud:
+      results-bucket: mockBucket
+      results-dir: null
+      record-video: false
+      timeout: 15m
+      async: false
+      results-history-name: null
+      # iOS gcloud
+      test: $testAbsolutePath
+      xctestrun-file: $xctestrunFileAbsolutePath
+      xcode-version: null
+      device:
+        - model: iphone8
+          version: 12.0
+          locale: en
+          orientation: portrait
+      num-flaky-test-attempts: 0
+
+    flank:
+      max-test-shards: 1
+      shard-time: -1
+      num-test-runs: 1
+      smart-flank-gcs-path: 
+      smart-flank-disable-upload: false
+      test-targets-always-run:
+      files-to-download:
+      # iOS flank
+      test-targets:
+      disable-sharding: false
+      project: mockProjectId
+      local-result-dir: results
+      run-timeout: -1
+        """.trimIndent(), args.toString())
     }
 
     @Test
@@ -761,5 +802,11 @@ IosArgs
     fun `verify flank default settings for ios`() {
         val args = IosArgs.load(simpleFlankPath)
         assertFalse(args.recordVideo)
+    }
+
+    @Test
+    fun `verify run timeout default value - ios`() {
+        val iosArgs = IosArgs.load(simpleFlankPath)
+        assertEquals(Long.MAX_VALUE, iosArgs.parsedTimeout)
     }
 }

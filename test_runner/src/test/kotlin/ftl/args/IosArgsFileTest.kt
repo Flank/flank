@@ -6,6 +6,7 @@ import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
+import org.junit.Assert.assertEquals
 import org.junit.Assume
 import org.junit.Rule
 import org.junit.Test
@@ -90,5 +91,11 @@ class IosArgsFileTest {
         assertThat(testShardChunks.size).isEqualTo(2)
         assertThat(testShardChunks[0]).isEqualTo(chunk0)
         assertThat(testShardChunks[1]).isEqualTo(chunk1)
+    }
+
+    @Test
+    fun `verify run timeout value from yml file`() {
+        val args = IosArgs.load(yamlFile)
+        assertEquals(60 * 60 * 1000L, args.parsedTimeout)
     }
 }

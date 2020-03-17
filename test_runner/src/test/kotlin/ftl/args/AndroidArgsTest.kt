@@ -8,6 +8,7 @@ import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.run.platform.runAndroidTests
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.TestHelper.getPath
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import kotlinx.coroutines.runBlocking
@@ -28,6 +29,7 @@ class AndroidArgsTest {
     private val testErrorApk = "../test_app/apks/error-androidTest.apk"
     private val appApkAbsolutePath = appApk.absolutePath()
     private val testApkAbsolutePath = testApk.absolutePath()
+    private val simpleFlankPath = getPath("src/test/kotlin/ftl/fixtures/simple-android-flank.yml")
 
     private val androidNonDefault = """
         gcloud:
@@ -262,6 +264,52 @@ AndroidArgs
       run-timeout: 20m
 """.trimIndent()
         )
+    }
+
+    @Test
+    fun `verify default yml toString`() {
+        val args = AndroidArgs.load(simpleFlankPath)
+        assertEquals("""
+AndroidArgs
+    gcloud:
+      results-bucket: mockBucket
+      results-dir: null
+      record-video: false
+      timeout: 15m
+      async: false
+      results-history-name: null
+      # Android gcloud
+      app: $appApkAbsolutePath
+      test: $testApkAbsolutePath
+      auto-google-login: false
+      use-orchestrator: true
+      directories-to-pull:
+      performance-metrics: false
+      test-runner-class: null
+      test-targets:
+      device:
+        - model: NexusLowRes
+          version: 28
+          locale: en
+          orientation: portrait
+      num-flaky-test-attempts: 0
+
+    flank:
+      max-test-shards: 1
+      shard-time: -1
+      num-test-runs: 1
+      smart-flank-gcs-path: 
+      smart-flank-disable-upload: false
+      files-to-download:
+      test-targets-always-run:
+      disable-sharding: false
+      project: mockProjectId
+      local-result-dir: results
+      # Android Flank Yml
+      keep-file-path: false
+      additional-app-test-apks:
+      run-timeout: -1
+        """.trimIndent(), args.toString())
     }
 
     @Test
@@ -963,5 +1011,11 @@ AndroidArgs
         val (matrixMap, chunks) = runBlocking { runAndroidTests(parsedYml) }
         assertEquals(4, matrixMap.map.size)
         assertEquals(4, chunks.size)
+    }
+
+    @Test
+    fun `verify run timeout default value - android`() {
+        val args = AndroidArgs.load(simpleFlankPath)
+        assertEquals(Long.MAX_VALUE, args.parsedTimeout)
     }
 }
