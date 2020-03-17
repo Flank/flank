@@ -1,6 +1,7 @@
 ## next (unreleased)
 
-- [#657](https://github.com/Flank/flank/pull/657) Fix execution hangs. ([pawelpasterz](https://github.com/pawelpasterz)) 
+- [#672](https://github.com/Flank/flank/pull/672) Flank timeout feature. ([pawelpasterz](https://github.com/pawelpasterz)) 
+- [#657](https://github.com/Flank/flank/pull/657) Fix execution hangs. ([pawelpasterz](https://github.com/pawelpasterz))
 - [#654](https://github.com/Flank/flank/pull/654) Fix test filters when using both notPackage and notClass. ([jan-gogo](https://github.com/jan-gogo))
 - [#648](https://github.com/Flank/flank/pull/648) Include @Ignore JUnit tests in JUnit XML. ([pawelpasterz](https://github.com/pawelpasterz))
 - [#646](https://github.com/Flank/flank/pull/646) Adopt kotlin-logging as a logging framework. ([jan-gogo](https://github.com/jan-gogo))
