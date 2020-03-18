@@ -4,6 +4,7 @@ import groovy.util.NodeList
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Date
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 group = "test_runner"
 version = "SNAPSHOT"
@@ -16,6 +17,19 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version Versions.DETEKT
     id("com.jfrog.bintray") version "1.8.4"
     id("maven-publish")
+    id("com.github.johnrengelman.shadow") version "5.2.0"
+}
+
+val artifactID = "flank"
+
+val shadowJar: ShadowJar by tasks
+shadowJar.apply {
+    archiveBaseName.set(artifactID)
+    mergeServiceFiles()
+    @Suppress("UnstableApiUsage")
+    manifest {
+        attributes(mapOf("Main-Class" to "ftl.Main"))
+    }
 }
 
 // https://bintray.com/flank/maven
@@ -31,11 +45,10 @@ bintray {
         userOrg = "flank"
         setLicenses("Apache-2.0")
         vcsUrl = "https://github.com/Flank/flank.git"
-        version(closureOf<BintrayExtension.VersionConfig>{
+        version(closureOf<BintrayExtension.VersionConfig> {
             name = System.getenv("MVN_VERSION")
             vcsTag = System.getenv("MVN_REVISION")
             released = Date().toString()
-
         })
     })
 }
@@ -49,7 +62,7 @@ publishing {
             artifactId = "flank"
             version = System.getenv("MVN_VERSION")
 
-            setArtifacts(listOf("build/libs/flank-SNAPSHOT.jar"))
+            artifact(shadowJar)
 
             pom.withXml {
                 // Remove deps since we're publishing a fat jar
