@@ -30,7 +30,7 @@ bintray {
         name = "flank"
         userOrg = "flank"
         setLicenses("Apache-2.0")
-        vcsUrl = "https://github.com/TestArmada/flank.git"
+        vcsUrl = "https://github.com/Flank/flank.git"
         version(closureOf<BintrayExtension.VersionConfig>{
             name = System.getenv("MVN_VERSION")
             vcsTag = System.getenv("MVN_REVISION")
