@@ -96,6 +96,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.smartFlankGcsPath).isNull()
         assertThat(cmd.additionalAppTestApks).isNull()
         assertThat(cmd.keepFilePath).isNull()
+        assertThat(cmd.runTimeout).isNull()
     }
 
     @Test
@@ -384,5 +385,13 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parseArgs("--dry")
 
         assertThat(cmd.dryRun).isEqualTo(true)
+    }
+
+    @Test
+    fun `run-timeout parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--run-timeout=20s")
+
+        assertThat(cmd.runTimeout).isEqualTo("20s")
     }
 }

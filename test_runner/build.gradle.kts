@@ -85,6 +85,7 @@ tasks.jacocoTestReport {
     classDirectories.setFrom(
         fileTree("build/classes/kotlin/main").apply {
             exclude("**/*\$run$1.class")
+            exclude("**/ftl/mock/*")
         })
 
     reports {

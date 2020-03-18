@@ -15,7 +15,7 @@ fun resolveLocalRunPath(matrices: MatrixMap, args: IArgs): String {
     return matrices.runPath
 }
 
-fun testTimeoutToSeconds(timeout: String): Long {
+fun timeoutToSeconds(timeout: String): Long {
     return when {
         timeout.contains("h") -> TimeUnit.HOURS.toSeconds(timeout.removeSuffix("h").toLong()) // Hours
         timeout.contains("m") -> TimeUnit.MINUTES.toSeconds(timeout.removeSuffix("m").toLong()) // Minutes
@@ -23,3 +23,5 @@ fun testTimeoutToSeconds(timeout: String): Long {
         else -> timeout.removeSuffix("s").toLong() // Seconds
     }
 }
+
+fun timeoutToMils(timeout: String): Long = timeoutToSeconds(timeout) * 1_000L

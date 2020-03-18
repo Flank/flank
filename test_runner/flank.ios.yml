@@ -109,3 +109,6 @@ flank:
 
   ## Local folder to store the test result. Folder is DELETED before each run to ensure only artifacts from the new run are saved.
   # local-result-dir: flank
+
+  ## The max time this test run can execute before it is cancelled (default: unlimited).
+  # run-timeout: 60m

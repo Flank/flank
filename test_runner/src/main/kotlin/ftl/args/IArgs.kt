@@ -1,6 +1,7 @@
 package ftl.args
 
 import ftl.args.yml.FlankYmlParams
+import ftl.util.timeoutToMils
 
 // Properties common to both Android and iOS
 interface IArgs {
@@ -27,6 +28,12 @@ interface IArgs {
     val filesToDownload: List<String>
     val disableSharding: Boolean
     val localResultDir: String
+    val runTimeout: String
+    val parsedTimeout: Long
+        get() = timeoutToMils(runTimeout).let {
+            if (it < 0) Long.MAX_VALUE
+            else it
+        }
 
     fun useLocalResultDir() = localResultDir != FlankYmlParams.defaultLocalResultDir
 

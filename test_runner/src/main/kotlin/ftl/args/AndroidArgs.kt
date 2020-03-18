@@ -72,6 +72,7 @@ class AndroidArgs(
     override val disableSharding = cli?.disableSharding ?: flank.disableSharding
     override val project = cli?.project ?: flank.project
     override val localResultDir = cli?.localResultDir ?: flank.localResultDir
+    override val runTimeout = cli?.runTimeout ?: flank.runTimeout
 
     private val androidFlank = androidFlankYml.flank
     val additionalAppTestApks = cli?.additionalAppTestApks ?: androidFlank.additionalAppTestApks
@@ -126,14 +127,11 @@ AndroidArgs
       test: $testApk
       auto-google-login: $autoGoogleLogin
       use-orchestrator: $useOrchestrator
-      directories-to-pull:
-${listToString(directoriesToPull)}
+      directories-to-pull:${listToString(directoriesToPull)}
       performance-metrics: $performanceMetrics
       test-runner-class: $testRunnerClass
-      test-targets:
-${listToString(testTargets)}
-      device:
-${devicesToString(devices)}
+      test-targets:${listToString(testTargets)}
+      device:${devicesToString(devices)}
       num-flaky-test-attempts: $flakyTestAttempts
 
     flank:
@@ -142,17 +140,15 @@ ${devicesToString(devices)}
       num-test-runs: $repeatTests
       smart-flank-gcs-path: $smartFlankGcsPath
       smart-flank-disable-upload: $smartFlankDisableUpload
-      files-to-download:
-${listToString(filesToDownload)}
-      test-targets-always-run:
-${listToString(testTargetsAlwaysRun)}
+      files-to-download:${listToString(filesToDownload)}
+      test-targets-always-run:${listToString(testTargetsAlwaysRun)}
       disable-sharding: $disableSharding
       project: $project
       local-result-dir: $localResultDir
       # Android Flank Yml
       keep-file-path: $keepFilePath
-      additional-app-test-apks:
-${apksToString(additionalAppTestApks)}
+      additional-app-test-apks:${apksToString(additionalAppTestApks)}
+      run-timeout: $runTimeout
    """.trimIndent()
     }
 

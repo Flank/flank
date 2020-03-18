@@ -270,4 +270,10 @@ class IosRunCommand : Runnable {
                 "names to run (default: run all test targets)."]
     )
     var testTargets: List<String>? = null
+
+    @Option(
+        names = ["--run-timeout"],
+        description = ["The max time this test run can execute before it is cancelled (default: unlimited)."]
+    )
+    var runTimeout: String? = null
 }

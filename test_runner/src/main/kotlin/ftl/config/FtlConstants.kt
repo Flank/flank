@@ -51,6 +51,7 @@ object FtlConstants {
     const val matrixIdsFile = "matrix_ids.json"
     const val applicationName = "Flank"
     const val GCS_PREFIX = "gs://"
+    const val runTimeout = "-1"
     val JSON_FACTORY: JsonFactory by lazy { Utils.getDefaultJsonFactory() }
 
     val bugsnag = Bugsnag(if (useMock) null else "3d5f8ba4ee847d6bb51cb9c347eda74f")
