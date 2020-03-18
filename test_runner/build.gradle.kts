@@ -118,7 +118,7 @@ apply {
 }
 
 application {
-    mainClassName = "main"
+    mainClassName = "ftl.Main"
 }
 
 repositories {
