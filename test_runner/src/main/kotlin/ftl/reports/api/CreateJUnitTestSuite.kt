@@ -32,7 +32,7 @@ private fun createJUnitTestSuite(
     errors = overview.errorCount.format(),
     skipped = overview.skippedCount.format(),
     time = testCases.sumTime().format(),
-    timestamp = data.testExecution.timestamp
+    timestamp = data.timestamp.asUnixTimestamp().formatUtcDate()
 )
 
 private fun Step.testSuiteName(): String {
