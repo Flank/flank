@@ -195,20 +195,6 @@ configurations.all {
     }
 }
 
-task("fatJar", type = Jar::class) {
-    archiveBaseName.set("flank")
-    @Suppress("UnstableApiUsage")
-    manifest {
-        attributes.apply {
-            put("Main-Class", "ftl.Main")
-        }
-    }
-    from(configurations.runtimeClasspath.get().map { file ->
-        if (file.isDirectory) file else zipTree(file)
-    })
-    with(tasks["jar"] as CopySpec)
-}
-
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
