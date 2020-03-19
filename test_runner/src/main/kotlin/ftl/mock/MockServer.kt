@@ -46,9 +46,12 @@ import io.ktor.server.netty.Netty
 import java.net.BindException
 import java.nio.file.Files
 import java.nio.file.Paths
+import java.util.concurrent.atomic.AtomicInteger
 
 object MockServer {
 
+    // FIXME incrementing matrixIdCounter during test may cause non deterministic behavior
+    private val matrixIdCounter: AtomicInteger = AtomicInteger(0)
     const val port = 8080
     private var isStarted: Boolean = false
 
@@ -146,7 +149,7 @@ object MockServer {
                     println("Responding to POST ${call.request.uri}")
                     val projectId = call.parameters["project"]
 
-                    val matrixId = "1"
+                    val matrixId = matrixIdCounter.incrementAndGet().toString()
 
                     val resultStorage = ResultStorage()
                     resultStorage.googleCloudStorage = GoogleCloudStorage()
@@ -179,7 +182,7 @@ object MockServer {
                 }
 
                 // GcToolResults.getStepResult(toolResultsStep)
-                // GET /toolresults/v1beta3/projects/delta-essence-114723/histories/1/executions/1/steps/1
+                // GET /toolresults/v1beta3/projects/delta-essence-114723/histories/1/executions/1/steps/1/testCases
                 get("/toolresults/v1beta3/projects/{project}/histories/{historyId}/executions/{executionId}/steps/{stepId}/testCases") {
                     println("Responding to GET ${call.request.uri}")
 

@@ -6,6 +6,7 @@ import ftl.reports.api.createTestExecutionDataListAsync
 import ftl.reports.api.data.TestExecutionData
 import ftl.reports.api.filterForJUnitResult
 import ftl.reports.xml.xmlToString
+import kotlinx.coroutines.runBlocking
 import java.io.File
 import kotlin.system.exitProcess
 
@@ -19,7 +20,7 @@ object TmpV2 {
     fun main(args: Array<String>) {
 
         print("fetching matrix")
-        val matrix = GcTestMatrix.refresh(MATRIX_ID, AndroidArgs.default())
+        val matrix = runBlocking { GcTestMatrix.refresh(MATRIX_ID, AndroidArgs.default().project) }
         println(" - OK")
 
         print("generating api results")

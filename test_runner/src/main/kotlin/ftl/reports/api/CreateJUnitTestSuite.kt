@@ -13,9 +13,10 @@ internal fun List<TestExecutionData>.createJUnitTestSuites() = map { data: TestE
             .testExecutionStep
             .testSuiteOverviews
             .merge(),
-        testCases = data.response
-            .testCases
-            .createJUnitTestCases()
+        testCases = createJUnitTestCases(
+            testCases = data.response.testCases,
+            toolResultsStep = data.toolResultsStep
+        )
     )
 }
 
@@ -47,12 +48,14 @@ private fun List<JUnitTestCase>.sumTime() = this
 private fun List<TestSuiteOverview>.merge(): TestSuiteOverview = if (isNotEmpty()) fold(
     // Use clone of first element as accumulator
     initial = first().clone().apply {
+        totalCount = 0
         errorCount = 0
         failureCount = 0
         skippedCount = 0
     }
 ) { accumulator, next ->
     accumulator.apply {
+        totalCount += next.totalCount ?: 0
         errorCount += next.errorCount ?: 0
         failureCount += next.failureCount ?: 0
         skippedCount += next.skippedCount ?: 0

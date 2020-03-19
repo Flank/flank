@@ -34,6 +34,7 @@ interface IArgs {
             if (it < 0) Long.MAX_VALUE
             else it
         }
+    val useLegacyResults: Boolean get() = false // TODO consider to allow legacy xml parsing fallback
 
     fun useLocalResultDir() = localResultDir != FlankYmlParams.defaultLocalResultsDir
 

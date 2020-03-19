@@ -12,6 +12,7 @@ import ftl.reports.MatrixResultsReport
 import ftl.reports.api.processXmlFromApi
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
+import ftl.reports.xml.parseOneSuiteXml
 import ftl.shard.Shard
 import ftl.util.Artifacts
 import ftl.util.resolveLocalRunPath
@@ -83,12 +84,11 @@ object ReportManager {
     }
 
     private fun parseTestSuite(matrices: MatrixMap, args: IArgs): JUnitTestResult? {
-        val iosXml = args is IosArgs
-        return if (iosXml) {
-            // Legacy way to parse xml files instead of fetching data from api
-            processXmlFromFile(matrices, args, ::parseAllSuitesXml)
-        } else {
-            processXmlFromApi(matrices, args)
+        return when {
+            // ios supports only legacy parsing
+            args is IosArgs -> processXmlFromFile(matrices, args, ::parseAllSuitesXml)
+            args.useLegacyResults -> processXmlFromFile(matrices, args, ::parseOneSuiteXml)
+            else -> processXmlFromApi(matrices, args)
         }
     }
 

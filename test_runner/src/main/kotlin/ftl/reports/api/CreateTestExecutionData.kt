@@ -20,6 +20,7 @@ internal fun List<TestExecution>.createTestExecutionDataListAsync(): List<TestEx
 
 private fun TestExecution.createTestExecutionData() = TestExecutionData(
     testExecution = this,
+    toolResultsStep = toolResultsStep,
     response = GcToolResults.listTestCases(toolResultsStep),
     step = GcToolResults.getStepResult(toolResultsStep)
 )
