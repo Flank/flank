@@ -26,8 +26,7 @@ private fun TestExecution.createTestExecutionData(): TestExecutionData {
     val step: Step = GcToolResults.getStepResult(toolResultsStep)
     return TestExecutionData(
         testExecution = this,
-        toolResultsStep = toolResultsStep,
-        response = response,
+        testCases = response.testCases,
         step = step,
         timestamp = response.getStartTimestamp()
     )

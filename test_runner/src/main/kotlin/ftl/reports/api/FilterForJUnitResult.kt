@@ -1,17 +1,37 @@
 package ftl.reports.api
 
+import com.google.api.services.toolresults.model.Step
+import com.google.api.services.toolresults.model.TestCase
 import ftl.reports.api.data.TestExecutionData
 
-//    Filter elements that will be used to JUnitResult generation
+// List of TestExecutionData can contains also secondary steps from flaky tests reruns.
+// We need only primary steps, but we also prefer to display failed tests over successful,
+// so we overrides successful test cases with failed from secondary steps
 internal fun List<TestExecutionData>.filterForJUnitResult(): List<TestExecutionData> = groupBy { data ->
-    // Group multi steps of flaky test by primaryStepId
-    data.step.multiStep?.primaryStepId ?: data.step.stepId
+    data.step.primaryStepId
 }.mapNotNull { (_, list: List<TestExecutionData>) ->
-    // TODO consider if failure result is more important than successful for flaky test
-    // get first first successful rerun of flaky test
-    list.first()
-    // get first successful rerun of flaky test
-//    list.minBy { it.step.multiStep.multistepNumber ?: Integer.MAX_VALUE }?.copy(
-//        timestamp = list.first().timestamp
-//    )
+    // sort by multistepNumber, primary step on first position will be used as accumulator for merged test cases
+    list.sortedBy { testExecutionData ->
+        testExecutionData.step.multistepNumber
+    }.reduce { primary, next ->
+        primary.copy(testCases = mergeFlaky(primary.testCases, next.testCases))
+    }
 }
+
+// For primary step return stepId instead of primaryStepId
+private val Step.primaryStepId get() = multiStep?.primaryStepId ?: stepId
+
+// Primary step doesn't have multistepNumber so use 0
+private val Step.multistepNumber get() = multiStep?.multistepNumber ?: 0
+
+// For the same test cases from different steps, prefer failed one with stacktrace over successful
+private fun mergeFlaky(
+    primaryStepTestCases: List<TestCase>,
+    nextStepTestCases: List<TestCase>
+): List<TestCase> = (primaryStepTestCases + nextStepTestCases)
+    .groupBy { testCase: TestCase ->
+        testCase.testCaseReference
+    }
+    .map { (_, list: List<TestCase>) ->
+        list.firstOrNull { it.stackTraces  != null } ?: list.first()
+    }

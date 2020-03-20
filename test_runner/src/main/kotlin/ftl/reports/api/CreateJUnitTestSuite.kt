@@ -14,8 +14,8 @@ internal fun List<TestExecutionData>.createJUnitTestSuites() = map { data: TestE
             .testSuiteOverviews
             .merge(),
         testCases = createJUnitTestCases(
-            testCases = data.response.testCases,
-            toolResultsStep = data.toolResultsStep
+            testCases = data.testCases,
+            toolResultsStep = data.testExecution.toolResultsStep
         )
     )
 }
