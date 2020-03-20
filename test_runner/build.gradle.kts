@@ -183,6 +183,7 @@ dependencies {
     testImplementation(Libs.MOCKITO_INLINE)
     implementation(Libs.SYSTEM_RULES)
     testImplementation(Libs.TRUTH)
+    testImplementation(Libs.MOCKK)
 }
 
 // Fix Exception in thread "main" java.lang.NoSuchMethodError: com.google.common.hash.Hashing.crc32c()Lcom/google/common/hash/HashFunction;
@@ -202,3 +203,8 @@ tasks.withType<KotlinCompile> {
 // https://github.com/gradle/kotlin-dsl/blob/master/samples/task-dependencies/build.gradle.kts#L41
 // https://github.com/codecov/example-gradle/blob/master/build.gradle#L25
 tasks["check"].dependsOn(tasks["jacocoTestReport"], tasks["detekt"])
+
+tasks.create("updateFlank", Exec::class.java) {
+    description = "Update flank jar"
+    commandLine = listOf("./bash/update_flank.sh")
+}
