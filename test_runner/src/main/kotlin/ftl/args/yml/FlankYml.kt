@@ -35,7 +35,7 @@ class FlankYmlParams(
     val project: String = ArgsHelper.getDefaultProjectId() ?: "",
 
     @field:JsonProperty("local-result-dir")
-    val localResultDir: String = defaultLocalResultDir,
+    val localResultsDir: String = defaultLocalResultsDir,
 
     @field:JsonProperty("run-timeout")
     val runTimeout: String = FtlConstants.runTimeout
@@ -46,7 +46,7 @@ class FlankYmlParams(
             "disable-sharding", "test-targets-always-run", "files-to-download", "project", "local-result-dir", "run-timeout"
         )
 
-        const val defaultLocalResultDir = "results"
+        const val defaultLocalResultsDir = "results"
     }
 }
 

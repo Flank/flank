@@ -91,7 +91,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.resultsDir).isNull()
         assertThat(cmd.flakyTestAttempts).isNull()
         assertThat(cmd.disableSharding).isNull()
-        assertThat(cmd.localResultDir).isNull()
+        assertThat(cmd.localResultsDir).isNull()
         assertThat(cmd.smartFlankDisableUpload).isNull()
         assertThat(cmd.smartFlankGcsPath).isNull()
         assertThat(cmd.additionalAppTestApks).isNull()
@@ -335,7 +335,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--local-result-dir=a")
 
-        assertThat(cmd.localResultDir).isEqualTo("a")
+        assertThat(cmd.localResultsDir).isEqualTo("a")
     }
 
     @Test

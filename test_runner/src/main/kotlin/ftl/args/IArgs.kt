@@ -35,7 +35,7 @@ interface IArgs {
             else it
         }
 
-    fun useLocalResultDir() = localResultDir != FlankYmlParams.defaultLocalResultDir
+    fun useLocalResultDir() = localResultDir != FlankYmlParams.defaultLocalResultsDir
 
     companion object {
         // num_shards must be >= 1, and <= 50

@@ -71,7 +71,7 @@ class AndroidArgs(
     override val filesToDownload = cli?.filesToDownload ?: flank.filesToDownload
     override val disableSharding = cli?.disableSharding ?: flank.disableSharding
     override val project = cli?.project ?: flank.project
-    override val localResultDir = cli?.localResultDir ?: flank.localResultDir
+    override val localResultDir = cli?.localResultsDir ?: flank.localResultsDir
     override val runTimeout = cli?.runTimeout ?: flank.runTimeout
 
     private val androidFlank = androidFlankYml.flank
