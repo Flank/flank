@@ -31,6 +31,9 @@ private fun createJUnitTestCase(
         if (errors != null || failures != null) {
             webLink = getWebLink(toolResultsStep, testCase.testCaseId)
         }
+        if (testCase.flaky) {
+            flaky = true
+        }
     }
 }
 

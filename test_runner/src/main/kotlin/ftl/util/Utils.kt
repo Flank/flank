@@ -13,6 +13,8 @@ import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Random
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 import kotlin.system.exitProcess
 
 fun String.trimStartLine(): String {
@@ -154,4 +156,13 @@ fun jvmHangingSafe(block: () -> Int) {
         t.printStackTrace()
         exitProcess(CommandLine.ExitCode.SOFTWARE)
     }
+}
+
+fun <R : MutableMap<String, Any>, T> mutableMapProperty(
+    name: String? = null,
+    defaultValue: () -> T
+) = object : ReadWriteProperty<R, T> {
+    @Suppress("UNCHECKED_CAST")
+    override fun getValue(thisRef: R, property: KProperty<*>): T = thisRef.getOrElse(name ?: property.name, defaultValue) as T
+    override fun setValue(thisRef: R, property: KProperty<*>, value: T) = thisRef.set(name ?: property.name, value as Any)
 }

@@ -56,7 +56,7 @@ class ReportManagerTest {
             JUnitTestCase("b", "b", "20.0"),
             JUnitTestCase("c", "c", "30.0")
         )
-        val oldRunSuite = JUnitTestSuite("", "-1", "-1", "-1", "-1", "-1", "-1", "-1", "-1", oldRunTestCases, null, null, null)
+        val oldRunSuite = JUnitTestSuite("", "-1", "-1", -1, "-1", "-1", "-1", "-1", "-1", "-1", oldRunTestCases, null, null, null)
         val oldTestResult = JUnitTestResult(mutableListOf(oldRunSuite))
 
         val newRunTestCases = mutableListOf(
@@ -64,7 +64,7 @@ class ReportManagerTest {
             JUnitTestCase("b", "b", "21.0"),
             JUnitTestCase("c", "c", "30.0")
         )
-        val newRunSuite = JUnitTestSuite("", "-1", "-1", "-1", "-1", "-1", "-1", "-1", "-1", newRunTestCases, null, null, null)
+        val newRunSuite = JUnitTestSuite("", "-1", "-1", -1, "-1", "-1", "-1", "-1", "-1", "-1", newRunTestCases, null, null, null)
         val newTestResult = JUnitTestResult(mutableListOf(newRunSuite))
 
         val mockArgs = mockk<AndroidArgs>()

@@ -10,8 +10,8 @@ fun main() {
     // run "gradle check" to generate required fixtures
     val projectId = System.getenv("FLANK_PROJECT_ID")
         ?: "YOUR PROJECT ID"
-    val quantity = "single"
-    val type = "errorFlaky"
+    val quantity = "multiple"
+    val type = "flaky"
 
     // Bugsnag keeps the process alive so we must call exitProcess
     // https://github.com/bugsnag/bugsnag-java/issues/151

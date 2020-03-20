@@ -1,18 +1,15 @@
 package ftl.reports.api
 
 import com.google.api.services.toolresults.model.Step
-import com.google.api.services.toolresults.model.TestSuiteOverview
 import ftl.reports.api.data.TestExecutionData
+import ftl.reports.api.data.TestSuiteOverviewData
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestSuite
 
 internal fun List<TestExecutionData>.createJUnitTestSuites() = map { data: TestExecutionData ->
     createJUnitTestSuite(
         data = data,
-        overview = data.step
-            .testExecutionStep
-            .testSuiteOverviews
-            .merge(),
+        overview = data.createTestSuitOverviewData(),
         testCases = createJUnitTestCases(
             testCases = data.testCases,
             toolResultsStep = data.testExecution.toolResultsStep
@@ -22,16 +19,17 @@ internal fun List<TestExecutionData>.createJUnitTestSuites() = map { data: TestE
 
 private fun createJUnitTestSuite(
     data: TestExecutionData,
-    overview: TestSuiteOverview,
+    overview: TestSuiteOverviewData,
     testCases: List<JUnitTestCase>
 ) = JUnitTestSuite(
     name = data.step.testSuiteName(),
     testcases = testCases.toMutableList(),
-    tests = overview.totalCount.format(),
-    failures = overview.failureCount.format(),
-    errors = overview.errorCount.format(),
-    skipped = overview.skippedCount.format(),
-    time = testCases.sumTime().format(),
+    tests = overview.total.toString(),
+    failures = overview.failures.toString(),
+    errors = overview.errors.toString(),
+    skipped = overview.skipped.toString(),
+    flakes = overview.flakes,
+    time = testCases.sumTime().format(), // FIXME include also setup and teardown duration
     timestamp = data.timestamp.asUnixTimestamp().formatUtcDate()
 )
 
@@ -44,20 +42,3 @@ private fun Step.testSuiteName(): String {
 private fun List<JUnitTestCase>.sumTime() = this
     .map { it.time?.toDouble() ?: 0.0 }
     .reduce { acc, d -> acc + d }
-
-private fun List<TestSuiteOverview>.merge(): TestSuiteOverview = if (isNotEmpty()) fold(
-    // Use clone of first element as accumulator
-    initial = first().clone().apply {
-        totalCount = 0
-        errorCount = 0
-        failureCount = 0
-        skippedCount = 0
-    }
-) { accumulator, next ->
-    accumulator.apply {
-        totalCount += next.totalCount ?: 0
-        errorCount += next.errorCount ?: 0
-        failureCount += next.failureCount ?: 0
-        skippedCount += next.skippedCount ?: 0
-    }
-} else throw IllegalArgumentException("List<TestSuiteOverview> cannot be empty.")

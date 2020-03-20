@@ -6,7 +6,7 @@ import ftl.reports.xml.model.JUnitTestResult
 internal fun TestMatrix.createJUnitTestResult() = JUnitTestResult(
     testsuites = testExecutions
         .createTestExecutionDataListAsync()
-        .filterForJUnitResult()
+        .prepareForJUnitResult()
         .createJUnitTestSuites()
         .toMutableList()
 )

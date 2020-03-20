@@ -15,6 +15,9 @@ data class JUnitTestSuite(
     var failures: String, // Int
 
     @JacksonXmlProperty(isAttribute = true)
+    var flakes: Int? = null,
+
+    @JacksonXmlProperty(isAttribute = true)
     var errors: String, // Int
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
