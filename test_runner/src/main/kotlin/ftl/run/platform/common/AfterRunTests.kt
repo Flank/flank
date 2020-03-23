@@ -29,6 +29,10 @@ internal fun afterRunTests(
     println()
 }
 
+private fun List<TestMatrix>.toSavedMatrixMap() = this
+    .map { matrix -> matrix.testMatrixId to SavedMatrix(matrix) }
+    .toMap()
+
 private fun saveConfigFile(matrixMap: MatrixMap, args: IArgs) {
     val configFilePath = if (args.useLocalResultDir())
         Paths.get(args.localResultDir, FtlConstants.configFileName(args)) else
@@ -37,7 +41,3 @@ private fun saveConfigFile(matrixMap: MatrixMap, args: IArgs) {
     configFilePath.parent.toFile().mkdirs()
     Files.write(configFilePath, args.data.toByteArray())
 }
-
-fun List<TestMatrix>.toSavedMatrixMap() = this
-    .map { matrix -> matrix.testMatrixId to SavedMatrix(matrix) }
-    .toMap()

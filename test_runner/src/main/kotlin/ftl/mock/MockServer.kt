@@ -135,9 +135,9 @@ object MockServer {
                     val matrixId = call.parameters["matrixIdCounter"]
 
                     val testMatrix = TestMatrix()
-                            .setProjectId(projectId)
-                            .setTestMatrixId(matrixId)
-                            .setState("FINISHED")
+                        .setProjectId(projectId)
+                        .setTestMatrixId(matrixId)
+                        .setState("FINISHED")
 
                     call.respond(testMatrix)
                 }

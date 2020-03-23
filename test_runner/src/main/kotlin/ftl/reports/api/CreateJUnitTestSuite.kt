@@ -30,7 +30,7 @@ private fun createJUnitTestSuite(
     skipped = overview.skipped.toString(),
     flakes = overview.flakes,
     testcases = testCases.toMutableList(),
-    time = testCases.sumTime().format() // FIXME include also setup and teardown duration
+    time = testCases.sumTime().format() // FIXME include also setup and teardown duration https://github.com/Flank/flank/issues/557
 )
 
 private fun Step.testSuiteName(): String {
