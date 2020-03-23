@@ -1,6 +1,5 @@
 package ftl.config
 
-import com.bugsnag.Bugsnag
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
 import com.google.api.client.googleapis.util.Utils
 import com.google.api.client.http.GoogleApiLogger
@@ -13,6 +12,7 @@ import com.google.auth.oauth2.ServiceAccountCredentials
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
+import ftl.config.BugsnagInitHelper.initBugsnag
 import ftl.gc.UserAuth
 import ftl.http.HttpTimeoutIncrease
 import ftl.util.fatalError
@@ -38,7 +38,6 @@ object FtlConstants {
     }
 
     const val localhost = "http://localhost:8080"
-
     const val defaultLocale = "en"
     const val defaultOrientation = "portrait"
     const val defaultIosModel = "iphone8"
@@ -52,12 +51,13 @@ object FtlConstants {
     const val applicationName = "Flank"
     const val GCS_PREFIX = "gs://"
     const val runTimeout = "-1"
+
     val JSON_FACTORY: JsonFactory by lazy { Utils.getDefaultJsonFactory() }
 
-    val bugsnag = Bugsnag(if (useMock) null else "3d5f8ba4ee847d6bb51cb9c347eda74f")
+    val bugsnag = initBugsnag(useMock)
 
     init {
-        bugsnag.setAppVersion(readRevision())
+        bugsnag?.setAppVersion(readRevision())
     }
 
     val httpTransport: NetHttpTransport by lazy {

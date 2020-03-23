@@ -47,7 +47,7 @@ object Versions {
     const val JSOUP = "1.12.1"
 
     // https://github.com/ktorio/ktor/releases
-    const val KTOR ="1.2.5"
+    const val KTOR = "1.2.5"
 
     // https://github.com/qos-ch/logback/releases
     const val LOGBACK = "1.2.3"
@@ -69,6 +69,9 @@ object Versions {
     const val WOODSTOX = "6.0.1"
 
     const val KOTLIN_LOGGING = "1.7.8"
+
+    // https://github.com/mockk/mockk
+    const val MOCKK = "1.9.3"
 }
 
 object Libs {
@@ -89,7 +92,7 @@ object Libs {
 
     const val JACKSON_KOTLIN = "com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.JACKSON}"
     const val JACKSON_YAML = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${Versions.JACKSON}"
-    const val JACKSON_XML ="com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${Versions.JACKSON}"
+    const val JACKSON_XML = "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${Versions.JACKSON}"
 
     const val KOTLIN_COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.KOTLIN_COROUTINES}"
     const val KOTLIN_REFLECT = "org.jetbrains.kotlin:kotlin-reflect:${Versions.KOTLIN}"
@@ -105,7 +108,7 @@ object Libs {
     const val KOTLIN_LOGGING = "io.github.microutils:kotlin-logging:${Versions.KOTLIN_LOGGING}"
 
     //region Plugins
-    const val DETEKT_FORMATTING  ="io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.DETEKT}"
+    const val DETEKT_FORMATTING = "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.DETEKT}"
     //endregion
 
     //region Test Dependencies
@@ -116,5 +119,6 @@ object Libs {
     const val PICOCLI = "info.picocli:picocli:${Versions.PICOCLI}"
     const val SYSTEM_RULES = "com.github.stefanbirkner:system-rules:${Versions.SYSTEM_RULES}"
     const val TRUTH = "com.google.truth:truth:${Versions.TRUTH}"
+    const val MOCKK = "io.mockk:mockk:${Versions.MOCKK}"
     //endregion
 }
