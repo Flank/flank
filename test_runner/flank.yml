@@ -145,3 +145,9 @@ flank:
 
   ## The max time this test run can execute before it is cancelled (default: unlimited).
   # run-timeout: 60m
+
+  ## Flank provides two ways for parsing junit xml results.
+  ## New way uses google api instead of merging xml files, but can generate slightly different output format.
+  ## This flag allows fallback for legacy xml junit results parsing
+  ## Currently available for android, iOS still uses only legacy way.
+  # legacy-junit-result: false

@@ -21,7 +21,6 @@ fun processXmlFromApi(
     .getTestExecutions()
     .createJUnitTestResult()
 
-
 internal fun refreshTestMatrices(
     matrixIds: List<String>,
     projectId: String

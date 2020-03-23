@@ -262,6 +262,7 @@ AndroidArgs
         - app: foo
           test: bar
       run-timeout: 20m
+      legacy-junit-result: false
 """.trimIndent()
         )
     }
@@ -309,6 +310,7 @@ AndroidArgs
       keep-file-path: false
       additional-app-test-apks:
       run-timeout: -1
+      legacy-junit-result: true
         """.trimIndent(), args.toString())
     }
 

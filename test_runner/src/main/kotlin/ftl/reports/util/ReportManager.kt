@@ -87,7 +87,7 @@ object ReportManager {
         return when {
             // ios supports only legacy parsing
             args is IosArgs -> processXmlFromFile(matrices, args, ::parseAllSuitesXml)
-            args.useLegacyResults -> processXmlFromFile(matrices, args, ::parseOneSuiteXml)
+            args.useLegacyJUnitResult -> processXmlFromFile(matrices, args, ::parseOneSuiteXml)
             else -> processXmlFromApi(matrices, args)
         }
     }
@@ -96,7 +96,7 @@ object ReportManager {
     fun generate(matrices: MatrixMap, args: IArgs, testShardChunks: ShardChunks): Int {
         val testSuite: JUnitTestResult? = parseTestSuite(matrices, args)
 
-        if (args.useLegacyResults) {
+        if (args.useLegacyJUnitResult) {
             val useFlakyTests = args.flakyTestAttempts > 0
             if (useFlakyTests) JUnitDedupe.modify(testSuite)
         }

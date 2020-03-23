@@ -38,6 +38,7 @@ class ReportManagerTest {
         val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/error_result", AndroidArgs.default())
         val mockArgs = mockk<AndroidArgs>(relaxed = true)
         every { mockArgs.smartFlankGcsPath } returns ""
+        every { mockArgs.useLegacyJUnitResult } returns true
         ReportManager.generate(matrix, mockArgs, emptyList())
     }
 
@@ -46,6 +47,7 @@ class ReportManagerTest {
         val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result", AndroidArgs.default())
         val mockArgs = mockk<AndroidArgs>(relaxed = true)
         every { mockArgs.smartFlankGcsPath } returns ""
+        every { mockArgs.useLegacyJUnitResult } returns true
         ReportManager.generate(matrix, mockArgs, emptyList())
     }
 
