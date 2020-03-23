@@ -3,14 +3,22 @@ package ftl.android
 import com.google.api.services.testing.model.AndroidDevice
 import com.google.common.truth.Truth.assertThat
 import ftl.test.util.FlankTestRunner
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.unmockkAll
+import org.junit.After
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 
 @RunWith(FlankTestRunner::class)
 class AndroidCatalogTest {
 
     private val projectId = ""
+
+    @After
+    fun tearDown() = unmockkAll()
 
     @Test
     fun androidModelIds() {
@@ -34,29 +42,29 @@ class AndroidCatalogTest {
         val shamu = AndroidDevice()
         shamu.androidModelId = "shamu"
 
-        assertThat(AndroidCatalog.isVirtualDevice(nexus, projectId)).isEqualTo(true)
-        assertThat(AndroidCatalog.isVirtualDevice(shamu, projectId)).isEqualTo(false)
-        assertThat(AndroidCatalog.isVirtualDevice(null, projectId)).isEqualTo(false)
+        assertTrue(AndroidCatalog.isVirtualDevice(nexus, projectId))
+        assertFalse(AndroidCatalog.isVirtualDevice(shamu, projectId))
+        assertFalse(AndroidCatalog.isVirtualDevice(null, projectId))
     }
 
     @Test
     fun isVirtualDeviceNullModel() {
-        val mockDevice = Mockito.mock(AndroidDevice::class.java)
-        Mockito.`when`(mockDevice.androidModelId).thenReturn(null)
-        assertThat(AndroidCatalog.isVirtualDevice(mockDevice, projectId)).isEqualTo(false)
+        val mockDevice = mockk<AndroidDevice>()
+        every { mockDevice.androidModelId } returns null
+        assertFalse(AndroidCatalog.isVirtualDevice(mockDevice, projectId))
     }
 
     @Test
     fun isVirtualDeviceUnknownModel() {
-        val mockDevice = Mockito.mock(AndroidDevice::class.java)
-        Mockito.`when`(mockDevice.androidModelId).thenReturn("zz")
-        assertThat(AndroidCatalog.isVirtualDevice(mockDevice, projectId)).isEqualTo(false)
+        val mockDevice = mockk<AndroidDevice>()
+        every { mockDevice.androidModelId } returns "zz"
+        assertFalse(AndroidCatalog.isVirtualDevice(mockDevice, projectId))
     }
 
     @Test
     fun isVirtualDeviceBrokenModel() {
         val brokenModel = AndroidDevice()
         brokenModel.androidModelId = "brokenModel"
-        assertThat(AndroidCatalog.isVirtualDevice(brokenModel, projectId)).isEqualTo(false)
+        assertFalse(AndroidCatalog.isVirtualDevice(brokenModel, projectId))
     }
 }

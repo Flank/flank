@@ -5,18 +5,24 @@ import com.google.api.services.testing.model.IosDeviceList
 import ftl.args.IosArgs
 import ftl.test.util.FlankTestRunner
 import ftl.util.ShardCounter
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.unmockkAll
+import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
 
 @RunWith(FlankTestRunner::class)
 class GcIosTestMatrixTest {
 
+    @After
+    fun tearDown() = unmockkAll()
+
     @Test(expected = IllegalArgumentException::class)
     fun `build negativeShardErrors`() {
-        val iosArgs = mock(IosArgs::class.java)
-        `when`(iosArgs.testShardChunks).thenReturn(listOf(listOf("")))
+        val iosArgs = mockk<IosArgs>(relaxed = true)
+
+        every { iosArgs.testShardChunks } returns listOf(listOf(""))
 
         GcIosTestMatrix.build(
             iosDeviceList = IosDeviceList(),
@@ -32,7 +38,7 @@ class GcIosTestMatrixTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun `build invalidShardErrors`() {
-        val iosArgs = mock(IosArgs::class.java)
+        val iosArgs = mockk<IosArgs>(relaxed = true)
         GcIosTestMatrix.build(
             iosDeviceList = IosDeviceList(),
             testZipGcsPath = "",
@@ -47,12 +53,12 @@ class GcIosTestMatrixTest {
 
     @Test
     fun `build validArgs`() {
-        val iosArgs = mock(IosArgs::class.java)
-        `when`(iosArgs.testShardChunks).thenReturn(listOf(listOf("")))
-        `when`(iosArgs.testTimeout).thenReturn("3m")
-        `when`(iosArgs.resultsBucket).thenReturn("/hi")
-        `when`(iosArgs.project).thenReturn("123")
-        `when`(iosArgs.xctestrunFile).thenReturn("456")
+        val iosArgs = mockk<IosArgs>(relaxed = true)
+        every { iosArgs.testShardChunks } returns listOf(listOf(""))
+        every { iosArgs.testTimeout } returns "3m"
+        every { iosArgs.resultsBucket } returns "/hi"
+        every { iosArgs.project } returns "123"
+        every { iosArgs.xctestrunFile } returns "456"
 
         GcIosTestMatrix.build(
             iosDeviceList = IosDeviceList(),

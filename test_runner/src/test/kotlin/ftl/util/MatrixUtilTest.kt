@@ -4,13 +4,18 @@ import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.json.MatrixMap
 import ftl.test.util.FlankTestRunner
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.unmockkAll
+import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
 
 @RunWith(FlankTestRunner::class)
 class MatrixUtilTest {
+
+    @After
+    fun tearDown() = unmockkAll()
 
     @Test
     fun `testTimeoutToSeconds validInput`() {
@@ -31,15 +36,17 @@ class MatrixUtilTest {
 
     @Test
     fun `resolveLocalRunPath validInput`() {
-        val matrixMap = mock(MatrixMap::class.java)
-        `when`(matrixMap.runPath).thenReturn("a/b")
+        val matrixMap = mockk<MatrixMap>()
+        every { matrixMap.runPath } returns "a/b"
+
         assertThat(resolveLocalRunPath(matrixMap, AndroidArgs.default())).isEqualTo("results/b")
     }
 
     @Test
     fun `resolveLocalRunPath pathExists`() {
-        val matrixMap = mock(MatrixMap::class.java)
-        `when`(matrixMap.runPath).thenReturn("/tmp")
+        val matrixMap = mockk<MatrixMap>()
+        every { matrixMap.runPath } returns "/tmp"
+
         assertThat(resolveLocalRunPath(matrixMap, AndroidArgs.default())).isEqualTo("/tmp")
     }
 }

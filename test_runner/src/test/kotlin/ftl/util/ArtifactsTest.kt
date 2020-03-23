@@ -3,10 +3,10 @@ package ftl.util
 import com.google.common.truth.Truth.assertThat
 import ftl.args.IArgs
 import ftl.test.util.FlankTestRunner
+import io.mockk.every
+import io.mockk.mockk
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
 
 @RunWith(FlankTestRunner::class)
 class ArtifactsTest {
@@ -18,10 +18,8 @@ class ArtifactsTest {
         val sdcardTestRgx = Regex("/sdcard/test")
     }
 
-    private fun createDirs(dirsToDownload: List<String> = emptyList()): IArgs {
-        val mock = mock(IArgs::class.java)
-        `when`(mock.filesToDownload).thenReturn(dirsToDownload)
-        return mock
+    private fun createDirs(dirsToDownload: List<String> = emptyList()) = mockk<IArgs>().apply {
+        every { this@apply.filesToDownload } returns dirsToDownload
     }
 
     @Test
