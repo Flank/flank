@@ -8,14 +8,16 @@ import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
 import ftl.test.util.FlankTestRunner
 import ftl.util.FlankTestMethod
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.unmockkAll
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
 import java.util.concurrent.TimeUnit
 import kotlin.system.measureNanoTime
 
@@ -46,11 +48,14 @@ class ShardTest {
     }
 
     private fun mockArgs(maxTestShards: Int, shardTime: Int = 0): IArgs {
-        val mockArgs = mock(IosArgs::class.java)
-        `when`(mockArgs.maxTestShards).thenReturn(maxTestShards)
-        `when`(mockArgs.shardTime).thenReturn(shardTime)
+        val mockArgs = mockk<IosArgs>()
+        every { mockArgs.maxTestShards } returns maxTestShards
+        every { mockArgs.shardTime } returns shardTime
         return mockArgs
     }
+
+    @After
+    fun tearDown() = unmockkAll()
 
     @Test
     fun oneTestPerShard() {
@@ -267,9 +272,9 @@ class ShardTest {
 
     @Test
     fun `tests annotated with @Ignore should have time 0 and do not hav impact on sharding`() {
-        val androidMockedArgs = mock(IosArgs::class.java)
-        `when`(androidMockedArgs.maxTestShards).thenReturn(2)
-        `when`(androidMockedArgs.shardTime).thenReturn(10)
+        val androidMockedArgs = mockk<IosArgs>()
+        every { androidMockedArgs.maxTestShards } returns 2
+        every { androidMockedArgs.shardTime } returns 10
 
         val testsToRun = listOf(
             FlankTestMethod("a/a", ignored = true),

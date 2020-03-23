@@ -8,13 +8,15 @@ import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
 import ftl.run.common.matrixPathToObj
 import ftl.test.util.FlankTestRunner
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.unmockkAll
+import org.junit.After
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
 
 @RunWith(FlankTestRunner::class)
 class ReportManagerTest {
@@ -27,20 +29,23 @@ class ReportManagerTest {
     @JvmField
     val systemOutRule = SystemOutRule().muteForSuccessfulTests()!!
 
+    @After
+    fun tearDown() = unmockkAll()
+
     @Test
     fun `generate fromErrorResult`() {
         // TODO: NPE on Windows
         val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/error_result", AndroidArgs.default())
-        val mockArgs = mock(AndroidArgs::class.java)
-        `when`(mockArgs.smartFlankGcsPath).thenReturn("")
+        val mockArgs = mockk<AndroidArgs>(relaxed = true)
+        every { mockArgs.smartFlankGcsPath } returns ""
         ReportManager.generate(matrix, mockArgs, emptyList())
     }
 
     @Test
     fun `generate fromSuccessResult`() {
         val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result", AndroidArgs.default())
-        val mockArgs = mock(AndroidArgs::class.java)
-        `when`(mockArgs.smartFlankGcsPath).thenReturn("")
+        val mockArgs = mockk<AndroidArgs>(relaxed = true)
+        every { mockArgs.smartFlankGcsPath } returns ""
         ReportManager.generate(matrix, mockArgs, emptyList())
     }
 
@@ -62,7 +67,7 @@ class ReportManagerTest {
         val newRunSuite = JUnitTestSuite("", "-1", "-1", "-1", "-1", "-1", "-1", "-1", "-1", newRunTestCases, null, null, null)
         val newTestResult = JUnitTestResult(mutableListOf(newRunSuite))
 
-        val mockArgs = mock(AndroidArgs::class.java)
+        val mockArgs = mockk<AndroidArgs>()
 
         val testShardChunks = listOf(listOf("class a#a"), listOf("class b#b"), listOf("class c#c"))
         val result = ReportManager.createShardEfficiencyList(oldTestResult, newTestResult, mockArgs, testShardChunks)

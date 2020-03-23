@@ -4,17 +4,22 @@ import com.google.api.services.testing.model.AndroidDeviceList
 import ftl.args.AndroidArgs
 import ftl.gc.GcToolResults.createToolResultsHistory
 import ftl.test.util.FlankTestRunner
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.unmockkAll
+import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
 
 @RunWith(FlankTestRunner::class)
 class GcAndroidTestMatrixTest {
 
+    @After
+    fun tearDown() = unmockkAll()
+
     @Test(expected = IllegalArgumentException::class)
     fun `build negativeShardErrors`() {
-        val androidArgs = mock(AndroidArgs::class.java)
+        val androidArgs = mockk<AndroidArgs>(relaxed = true)
 
         GcAndroidTestMatrix.build(
             appApkGcsPath = "",
@@ -29,7 +34,8 @@ class GcAndroidTestMatrixTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun `build invalidShardErrors`() {
-        val androidArgs = mock(AndroidArgs::class.java)
+        val androidArgs = mockk<AndroidArgs>(relaxed = true)
+
         GcAndroidTestMatrix.build(
             appApkGcsPath = "",
             testApkGcsPath = "",
@@ -43,10 +49,11 @@ class GcAndroidTestMatrixTest {
 
     @Test
     fun `build validArgs`() {
-        val androidArgs = mock(AndroidArgs::class.java)
-        `when`(androidArgs.testTimeout).thenReturn("3m")
-        `when`(androidArgs.resultsBucket).thenReturn("/hi")
-        `when`(androidArgs.project).thenReturn("123")
+        val androidArgs = mockk<AndroidArgs>(relaxed = true)
+
+        every { androidArgs.testTimeout } returns "3m"
+        every { androidArgs.resultsBucket } returns "/hi"
+        every { androidArgs.project } returns "123"
 
         GcAndroidTestMatrix.build(
             appApkGcsPath = "",

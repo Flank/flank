@@ -9,11 +9,10 @@ import ftl.util.StopWatch
 import ftl.util.StopWatchMatrix
 
 class RunningDevice(private val stopwatch: StopWatch, val id: String) {
-    var lastState = ""
-    var lastError = ""
-    var progress = listOf<String>()
-    var lastProgressLen = 0
-    val details: TestDetails? = null
+    private var lastState = ""
+    private var lastError = ""
+    private var progress = listOf<String>()
+    private var lastProgressLen = 0
     var complete = false
 
     private fun device(testExecution: TestExecution): String {
@@ -67,8 +66,6 @@ class RunningDevice(private val stopwatch: StopWatch, val id: String) {
 
 class RunningDevices(stopwatch: StopWatch, testExecutions: List<TestExecution>) {
     private val devices = testExecutions.map { RunningDevice(stopwatch, it.id) }
-
-    fun next(): RunningDevice? = devices.firstOrNull { it.complete.not() }
 
     fun allRunning(): List<RunningDevice> = devices.filter { it.complete.not() }
 

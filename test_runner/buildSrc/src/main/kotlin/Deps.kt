@@ -52,10 +52,6 @@ object Versions {
     // https://github.com/qos-ch/logback/releases
     const val LOGBACK = "1.2.3"
 
-    // mockito-inline is used to mock final classes
-    // https://github.com/mockito/mockito/releases
-    const val MOCKITO_INLINE = "3.1.0"
-
     // https://github.com/square/okhttp/releases
     const val OKHTTP = "4.2.2"
 
@@ -114,7 +110,6 @@ object Libs {
     //region Test Dependencies
     const val JSOUP = "org.jsoup:jsoup:${Versions.JSOUP}"
     const val JUNIT = "junit:junit:${Versions.JUNIT}"
-    const val MOCKITO_INLINE = "org.mockito:mockito-inline:${Versions.MOCKITO_INLINE}"
     const val OKHTTP = "com.squareup.okhttp3:okhttp:${Versions.OKHTTP}"
     const val PICOCLI = "info.picocli:picocli:${Versions.PICOCLI}"
     const val SYSTEM_RULES = "com.github.stefanbirkner:system-rules:${Versions.SYSTEM_RULES}"

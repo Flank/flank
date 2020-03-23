@@ -180,7 +180,6 @@ dependencies {
     detektPlugins(Libs.DETEKT_FORMATTING)
 
     testImplementation(Libs.JUNIT)
-    testImplementation(Libs.MOCKITO_INLINE)
     implementation(Libs.SYSTEM_RULES)
     testImplementation(Libs.TRUTH)
     testImplementation(Libs.MOCKK)
