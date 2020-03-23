@@ -57,6 +57,8 @@ class RefreshCommandTest {
              gcloud:
                app: ../test_app/apks/app-debug.apk
                test: ../test_app/apks/app-debug-androidTest.apk
+             flank:
+               legacy-junit-result: true
             """.trimIndent().toByteArray()
         )
     }
