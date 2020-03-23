@@ -96,8 +96,10 @@ object ReportManager {
     fun generate(matrices: MatrixMap, args: IArgs, testShardChunks: ShardChunks): Int {
         val testSuite: JUnitTestResult? = parseTestSuite(matrices, args)
 
-        val useFlakyTests = args.flakyTestAttempts > 0
-        if (useFlakyTests) JUnitDedupe.modify(testSuite)
+        if (args.useLegacyResults) {
+            val useFlakyTests = args.flakyTestAttempts > 0
+            if (useFlakyTests) JUnitDedupe.modify(testSuite)
+        }
 
         listOf(
             CostReport,

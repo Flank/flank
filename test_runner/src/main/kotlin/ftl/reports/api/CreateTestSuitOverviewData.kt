@@ -16,5 +16,5 @@ internal fun TestExecutionData.createTestSuitOverviewData(): TestSuiteOverviewDa
 }
 
 private fun List<TestCase>.countErrors() = count { !it.flaky && it.status == "error" }
-private fun List<TestCase>.countFailures() = count { !it.flaky && it.status == "failure" }
+private fun List<TestCase>.countFailures() = count { !it.flaky && it.status == "failed" }
 private fun List<TestCase>.countFlakes() = count { it.flaky }
