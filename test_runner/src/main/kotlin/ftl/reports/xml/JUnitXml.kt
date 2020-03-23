@@ -15,7 +15,7 @@ private val xmlMapper = XmlMapper(xmlModule)
     .registerModules(KotlinModule())
     .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
 
-private val xmlPrettyWriter = xmlMapper.writerWithDefaultPrettyPrinter()
+internal val xmlPrettyWriter = xmlMapper.writerWithDefaultPrettyPrinter()
 
 private fun xmlBytes(path: Path): ByteArray {
     if (!path.toFile().exists()) RuntimeException("$path doesn't exist!")
