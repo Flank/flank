@@ -23,19 +23,18 @@ private fun createJUnitTestSuite(
     testCases: List<JUnitTestCase>
 ) = JUnitTestSuite(
     name = data.step.testSuiteName(),
-    testcases = testCases.toMutableList(),
+    timestamp = data.timestamp.asUnixTimestamp().formatUtcDate(),
     tests = overview.total.toString(),
     failures = overview.failures.toString(),
     errors = overview.errors.toString(),
     skipped = overview.skipped.toString(),
     flakes = overview.flakes,
-    time = testCases.sumTime().format(), // FIXME include also setup and teardown duration
-    timestamp = data.timestamp.asUnixTimestamp().formatUtcDate()
+    testcases = testCases.toMutableList(),
+    time = testCases.sumTime().format() // FIXME include also setup and teardown duration
 )
 
 private fun Step.testSuiteName(): String {
-    val map = mutableMapOf<String, String>()
-    this.dimensionValue.map { map[it.key] = it.value }
+    val map = dimensionValue.map { it.key to it.value }.toMap()
     return listOf(map["Model"], map["Version"], map["Locale"], map["Orientation"]).joinToString("-")
 }
 
