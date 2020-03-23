@@ -14,8 +14,8 @@ internal fun List<TestExecutionData>.prepareForJUnitResult(): List<TestExecution
 private fun List<TestExecutionData>.reduceToPrimarySteps(): List<TestExecutionData> = groupBy { data ->
     data.step.primaryStepId
 }.mapNotNull { (_, list: List<TestExecutionData>) ->
-    list.sortedBy { testExecutionData ->
-        testExecutionData.step.multistepNumber
+    list.sortedBy { data ->
+        data.step.multistepNumber
     }.reduce { primary, next ->
         primary.copy(testCases = primary.testCases + next.testCases)
     }
@@ -25,8 +25,8 @@ private fun List<TestExecutionData>.reduceTestCases() = map(TestExecutionData::r
 
 private fun TestExecutionData.reduceTestCases() = copy(
     testCases = testCases.groupBy(TestCase::getTestCaseId).map { (_, testCases) ->
-        testCases.sortedBy {
-            it.startTime.asUnixTimestamp()
+        testCases.sortedBy { testCase: TestCase ->
+            testCase.startTime.asUnixTimestamp()
         }.run {
             firstOrNull { it.stackTraces != null } ?: first()
         }.apply {
