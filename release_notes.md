@@ -1,5 +1,5 @@
 ## next (unreleased)
-
+- [#666](https://github.com/Flank/flank/pull/666) Use API instead of XML for result parsing for android. ([jan-gogo](https://github.com/jan-gogo))
 - [#678](https://github.com/Flank/flank/pull/678) Skip Bugsnag initialization if user disabled gcloud analytics. ([pawelpasterz](https://github.com/pawelpasterz)) 
 - [#672](https://github.com/Flank/flank/pull/672) Flank timeout feature. ([pawelpasterz](https://github.com/pawelpasterz))
 - [#657](https://github.com/Flank/flank/pull/657) Fix execution hangs. ([pawelpasterz](https://github.com/pawelpasterz))
