@@ -18,7 +18,7 @@ private val xmlMapper = XmlMapper(xmlModule)
 internal val xmlPrettyWriter = xmlMapper.writerWithDefaultPrettyPrinter()
 
 private fun xmlBytes(path: Path): ByteArray {
-    if (!path.toFile().exists()) RuntimeException("$path doesn't exist!")
+    if (!path.toFile().exists()) throw RuntimeException("$path doesn't exist!")
     return Files.readAllBytes(path)
 }
 

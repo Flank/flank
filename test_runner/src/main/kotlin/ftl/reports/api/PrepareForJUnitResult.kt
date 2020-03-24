@@ -28,9 +28,8 @@ private fun TestExecutionData.reduceTestCases() = copy(
         testCases.sortedBy { testCase: TestCase ->
             testCase.startTime.asUnixTimestamp()
         }.run {
-            firstOrNull { it.stackTraces != null } ?: first()
-        }.apply {
-            flaky = testCases.isFlaky()
+            if (!isFlaky()) first()
+            else first { it.stackTraces != null }.apply { flaky = true }
         }
     }
 )

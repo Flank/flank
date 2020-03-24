@@ -21,7 +21,7 @@ fun processXmlFromApi(
     .getTestExecutions()
     .createJUnitTestResult()
 
-internal fun refreshTestMatrices(
+private fun refreshTestMatrices(
     matrixIds: List<String>,
     projectId: String
 ): List<TestMatrix> = runBlocking {
@@ -35,6 +35,6 @@ internal fun refreshTestMatrices(
     }.awaitAll()
 }
 
-internal fun List<TestMatrix>.getTestExecutions(): List<TestExecution> = this
+private fun List<TestMatrix>.getTestExecutions(): List<TestExecution> = this
     .map(TestMatrix::getTestExecutions)
     .flatten()

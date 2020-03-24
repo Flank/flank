@@ -38,6 +38,6 @@ private fun Step.testSuiteName(): String {
     return listOf(map["Model"], map["Version"], map["Locale"], map["Orientation"]).joinToString("-")
 }
 
-private fun List<JUnitTestCase>.sumTime() = this
+private fun List<JUnitTestCase>.sumTime(): Double = this
     .map { it.time?.toDouble() ?: 0.0 }
     .reduce { acc, d -> acc + d }
