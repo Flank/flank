@@ -9,6 +9,7 @@ import ftl.reports.CostReport
 import ftl.reports.HtmlErrorReport
 import ftl.reports.JUnitReport
 import ftl.reports.MatrixResultsReport
+import ftl.reports.api.processXmlFromApi
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.parseOneSuiteXml
@@ -61,7 +62,7 @@ object ReportManager {
         return matchResult?.groupValues?.last().orEmpty()
     }
 
-    private fun processXml(matrices: MatrixMap, args: IArgs, process: (file: File) -> JUnitTestResult): JUnitTestResult? {
+    private fun processXmlFromFile(matrices: MatrixMap, args: IArgs, process: (file: File) -> JUnitTestResult): JUnitTestResult? {
         var mergedXml: JUnitTestResult? = null
 
         findXmlFiles(matrices, args).forEach { xmlFile ->
@@ -83,20 +84,22 @@ object ReportManager {
     }
 
     private fun parseTestSuite(matrices: MatrixMap, args: IArgs): JUnitTestResult? {
-        val iosXml = args is IosArgs
-        return if (iosXml) {
-            processXml(matrices, args, ::parseAllSuitesXml)
-        } else {
-            processXml(matrices, args, ::parseOneSuiteXml)
+        return when {
+            // ios supports only legacy parsing
+            args is IosArgs -> processXmlFromFile(matrices, args, ::parseAllSuitesXml)
+            args.useLegacyJUnitResult -> processXmlFromFile(matrices, args, ::parseOneSuiteXml)
+            else -> processXmlFromApi(matrices, args)
         }
     }
 
     /** Returns true if there were no test failures */
     fun generate(matrices: MatrixMap, args: IArgs, testShardChunks: ShardChunks): Int {
-        val testSuite = parseTestSuite(matrices, args)
+        val testSuite: JUnitTestResult? = parseTestSuite(matrices, args)
 
-        val useFlakyTests = args.flakyTestAttempts > 0
-        if (useFlakyTests) JUnitDedupe.modify(testSuite)
+        if (args.useLegacyJUnitResult) {
+            val useFlakyTests = args.flakyTestAttempts > 0
+            if (useFlakyTests) JUnitDedupe.modify(testSuite)
+        }
 
         listOf(
             CostReport,

@@ -73,6 +73,7 @@ class AndroidArgs(
     override val project = cli?.project ?: flank.project
     override val localResultDir = cli?.localResultsDir ?: flank.localResultsDir
     override val runTimeout = cli?.runTimeout ?: flank.runTimeout
+    override val useLegacyJUnitResult = cli?.useLegacyJUnitResult ?: flank.useLegacyJUnitResult
 
     private val androidFlank = androidFlankYml.flank
     val additionalAppTestApks = cli?.additionalAppTestApks ?: androidFlank.additionalAppTestApks
@@ -149,6 +150,7 @@ AndroidArgs
       keep-file-path: $keepFilePath
       additional-app-test-apks:${apksToString(additionalAppTestApks)}
       run-timeout: $runTimeout
+      legacy-junit-result: $useLegacyJUnitResult
    """.trimIndent()
     }
 

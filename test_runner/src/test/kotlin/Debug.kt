@@ -11,7 +11,7 @@ fun main() {
     val projectId = System.getenv("FLANK_PROJECT_ID")
         ?: "YOUR PROJECT ID"
     val quantity = "multiple"
-    val type = "flaky"
+    val type = "apk"
 
     // Bugsnag keeps the process alive so we must call exitProcess
     // https://github.com/bugsnag/bugsnag-java/issues/151

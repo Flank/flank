@@ -231,4 +231,10 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
                 "Required when file names are not unique."]
     )
     var keepFilePath: Boolean? = null
+
+    @Option(
+        names = ["--legacy-junit-result"],
+        description = ["Fallback for legacy xml junit results parsing."]
+    )
+    var useLegacyJUnitResult: Boolean? = null
 }

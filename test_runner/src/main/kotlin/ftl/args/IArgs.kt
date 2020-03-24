@@ -34,6 +34,7 @@ interface IArgs {
             if (it < 0) Long.MAX_VALUE
             else it
         }
+    val useLegacyJUnitResult: Boolean get() = false
 
     fun useLocalResultDir() = localResultDir != FlankYmlParams.defaultLocalResultsDir
 

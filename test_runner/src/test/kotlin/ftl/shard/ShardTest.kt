@@ -40,9 +40,8 @@ class ShardTest {
             JUnitTestCase("g", "g", "1.0")
         )
 
-        val suite1 = JUnitTestSuite("", "-1", "-1", "-1", "-1", "-1", "-1", "-1", "-1", testCases, null, null, null)
-        val suite2 =
-            JUnitTestSuite("", "-1", "-1", "-1", "-1", "-1", "-1", "-1", "-1", mutableListOf(), null, null, null)
+        val suite1 = JUnitTestSuite("", "-1", "-1", -1, "-1", "-1", "-1", "-1", "-1", "-1", testCases, null, null, null)
+        val suite2 = JUnitTestSuite("", "-1", "-1", -1, "-1", "-1", "-1", "-1", "-1", "-1", mutableListOf(), null, null, null)
 
         return JUnitTestResult(mutableListOf(suite1, suite2))
     }
@@ -214,6 +213,7 @@ class ShardTest {
                 JUnitTestSuite("",
                         "3",
                         "0",
+                        -1,
                         "0",
                         "0",
                         "12.032",

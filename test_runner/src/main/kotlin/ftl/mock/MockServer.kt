@@ -43,13 +43,14 @@ import io.ktor.routing.post
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import java.net.BindException
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.concurrent.atomic.AtomicInteger
-import java.net.BindException
 
 object MockServer {
 
+    // FIXME incrementing matrixIdCounter during test may cause non deterministic behavior
     private val matrixIdCounter: AtomicInteger = AtomicInteger(0)
     const val port = 8080
     private var isStarted: Boolean = false
