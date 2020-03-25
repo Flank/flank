@@ -8,6 +8,7 @@ import ftl.util.MatrixState
 import ftl.util.StopWatch
 import ftl.util.StopWatchMatrix
 import ftl.util.completed
+import ftl.util.webLink
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 
@@ -36,8 +37,15 @@ private suspend fun pollMatrix(matrixId: String, stopwatch: StopWatch, args: IAr
     var refreshedMatrix = GcTestMatrix.refresh(matrixId, args.project)
     val watch = StopWatchMatrix(stopwatch, matrixId)
     val runningDevices = RunningDevices(stopwatch, refreshedMatrix.testExecutions)
+    var printWebLink = true
 
     while (true) {
+        val webLink = refreshedMatrix.webLink()
+        if (printWebLink && webLink.isNotBlank()) {
+            printWebLink = false
+            println(webLink)
+        }
+
         if (matrices.map[matrixId]?.update(refreshedMatrix) == true) updateMatrixFile(
             matrices,
             args
