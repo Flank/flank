@@ -12,10 +12,10 @@ internal fun Double.format(): String = "%.3f".format(Locale.ROOT, this)
 
 internal fun Int?.format() = (this ?: 0).toString()
 
-internal fun Duration?.format(): String =
+internal fun Duration?.millis(): Double =
     if (this == null)
-        "0.0" else
-        ((seconds ?: 0) + nanosToSeconds(nanos)).format()
+        0.0 else
+        ((seconds ?: 0) + nanosToSeconds(nanos))
 
 //   manually divide to keep fractional precision
 private fun nanosToSeconds(nanos: Int?): Double =
