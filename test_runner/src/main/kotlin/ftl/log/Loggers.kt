@@ -4,7 +4,7 @@ import com.google.api.client.http.GoogleApiLogger
 
 private val LOGGERS = listOf(
     LogbackLogger.Root,
-    LogbackLogger.Bugsnag,
+    LogbackLogger.FlankBugsnag,
     GoogleApiLogger
 )
 
