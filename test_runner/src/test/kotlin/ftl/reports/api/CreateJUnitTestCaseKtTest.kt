@@ -48,18 +48,18 @@ class CreateJUnitTestCaseKtTest {
             JUnitTestCase(
                 name = "test1",
                 classname = "TestClassName",
-                time = "1.100"
+                time = "2.200"
             ),
             JUnitTestCase(
                 name = "test2",
                 classname = "TestClassName",
-                time = "1.100",
+                time = "2.200",
                 skipped = null
             ),
             JUnitTestCase(
                 name = "test3",
                 classname = "TestClassName",
-                time = "1.100",
+                time = "2.200",
                 errors = listOf("exception")
             ).apply {
                 webLink = "https://console.firebase.google.com/project/projectId/testlab/histories/historyId/matrices/executionId/executions/stepId/testcases/test3"
@@ -67,7 +67,7 @@ class CreateJUnitTestCaseKtTest {
             JUnitTestCase(
                 name = "test4",
                 classname = "TestClassName",
-                time = "1.100",
+                time = "2.200",
                 failures = listOf("exception")
             ).apply {
                 webLink = "https://console.firebase.google.com/project/projectId/testlab/histories/historyId/matrices/executionId/executions/stepId/testcases/test4"
@@ -75,7 +75,7 @@ class CreateJUnitTestCaseKtTest {
             JUnitTestCase(
                 name = "test5",
                 classname = "TestClassName",
-                time = "1.100",
+                time = "2.200",
                 failures = listOf("exception")
             ).apply {
                 webLink = "https://console.firebase.google.com/project/projectId/testlab/histories/historyId/matrices/executionId/executions/stepId/testcases/test5"
@@ -85,7 +85,8 @@ class CreateJUnitTestCaseKtTest {
 
         val actual = createJUnitTestCases(
             testCases = testCases,
-            toolResultsStep = toolResultsStep
+            toolResultsStep = toolResultsStep,
+            overheadTime = 1.1
         )
 
         // then

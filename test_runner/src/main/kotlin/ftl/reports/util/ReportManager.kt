@@ -62,7 +62,11 @@ object ReportManager {
         return matchResult?.groupValues?.last().orEmpty()
     }
 
-    private fun processXmlFromFile(matrices: MatrixMap, args: IArgs, process: (file: File) -> JUnitTestResult): JUnitTestResult? {
+    private fun processXmlFromFile(
+        matrices: MatrixMap,
+        args: IArgs,
+        process: (file: File) -> JUnitTestResult
+    ): JUnitTestResult? {
         var mergedXml: JUnitTestResult? = null
 
         findXmlFiles(matrices, args).forEach { xmlFile ->
@@ -132,13 +136,11 @@ object ReportManager {
         newResult: JUnitTestResult,
         args: IArgs,
         testShardChunks: ShardChunks
-    ):
-            List<ShardEfficiency> {
+    ): List<ShardEfficiency> {
         val oldDurations = Shard.createTestMethodDurationMap(oldResult, args)
         val newDurations = Shard.createTestMethodDurationMap(newResult, args)
 
-        val timeList = mutableListOf<ShardEfficiency>()
-        testShardChunks.forEachIndexed { index, testSuite ->
+        return testShardChunks.mapIndexed { index, testSuite ->
 
             var expectedTime = 0.0
             var finalTime = 0.0
@@ -148,10 +150,8 @@ object ReportManager {
             }
 
             val timeDiff = (finalTime - expectedTime)
-            timeList.add(ShardEfficiency("Shard $index", expectedTime, finalTime, timeDiff))
+            ShardEfficiency("Shard $index", expectedTime, finalTime, timeDiff)
         }
-
-        return timeList
     }
 
     private fun printActual(
@@ -176,7 +176,9 @@ object ReportManager {
 
         val oldTestResult = GcStorage.downloadJunitXml(args)
 
-        newTestResult.mergeTestTimes(oldTestResult)
+        if (args.useLegacyJUnitResult) {
+            newTestResult.mergeTestTimes(oldTestResult)
+        }
 
         if (oldTestResult != null) {
             printActual(oldTestResult, newTestResult, args, testShardChunks)

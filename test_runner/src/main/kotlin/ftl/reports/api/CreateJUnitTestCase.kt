@@ -7,14 +7,20 @@ import ftl.reports.xml.model.JUnitTestCase
 
 internal fun createJUnitTestCases(
     testCases: List<TestCase>,
-    toolResultsStep: ToolResultsStep
+    toolResultsStep: ToolResultsStep,
+    overheadTime: Double
 ): List<JUnitTestCase> = testCases.map { testCase ->
-    createJUnitTestCase(testCase, toolResultsStep)
+    createJUnitTestCase(
+        testCase = testCase,
+        toolResultsStep = toolResultsStep,
+        overheadTime = overheadTime
+    )
 }
 
 private fun createJUnitTestCase(
     testCase: TestCase,
-    toolResultsStep: ToolResultsStep
+    toolResultsStep: ToolResultsStep,
+    overheadTime: Double
 ): JUnitTestCase {
     val stackTraces = mapOf(
         testCase.status to testCase.stackTraces?.map(StackTrace::getException)
@@ -22,7 +28,7 @@ private fun createJUnitTestCase(
     return JUnitTestCase(
         name = testCase.testCaseReference.name,
         classname = testCase.testCaseReference.className,
-        time = testCase.elapsedTime.format(),
+        time = (testCase.elapsedTime.millis() + overheadTime).format(),
         failures = stackTraces["failed"],
         errors = stackTraces["error"],
         // skipped = true is represented by null. skipped = false is "absent"

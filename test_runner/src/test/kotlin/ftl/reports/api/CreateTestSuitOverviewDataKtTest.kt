@@ -1,6 +1,7 @@
 package ftl.reports.api
 
 import com.google.api.services.testing.model.TestExecution
+import com.google.api.services.toolresults.model.Duration
 import com.google.api.services.toolresults.model.Step
 import com.google.api.services.toolresults.model.TestCase
 import com.google.api.services.toolresults.model.TestExecutionStep
@@ -24,12 +25,21 @@ class CreateTestSuitOverviewDataKtTest {
                 TestCase().apply { status = "error" },
                 TestCase().apply { status = "failed" },
                 TestCase().apply { flaky = true }
-            ),
+            ).apply {
+                forEach {
+                    it.elapsedTime = Duration().apply {
+                        seconds = 1
+                    }
+                }
+            },
             step = Step().apply {
                 testExecutionStep = TestExecutionStep().apply {
                     testSuiteOverviews = listOf(
                         TestSuiteOverview().apply {
                             skippedCount = 1
+                            elapsedTime = Duration().apply {
+                                seconds = 8
+                            }
                         }
                     )
                 }
@@ -42,7 +52,9 @@ class CreateTestSuitOverviewDataKtTest {
             errors = 1,
             failures = 1,
             skipped = 1,
-            flakes = 1
+            flakes = 1,
+            elapsedTime = 8.0,
+            overheadTime = 1.0
         )
         val actual = testExecutionData.createTestSuitOverviewData()
 
