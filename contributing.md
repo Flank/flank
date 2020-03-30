@@ -15,7 +15,7 @@ When opening the project in IntelliJ IDEA, select the "Import from Existing Sour
 
 ## Debugging Flank Commands
 
-There is a [`Debug.kt`](https://github.com/Flank/flank/blob/master/test_runner/src/test/kotlin/Debug.kt#L8) which is your entry point. You can start a debug session here and set breakpoints wherever you need them.
+There is a [`Debug.kt`](https://github.com/Flank/flank/blob/master/test_runner/src/test/kotlin/Debug.kt#L8) which is your entry point. You can start a debug session here and set breakpoints wherever you need them. TIP: while debugging use `gs://...` links to avoid uploading apk/zip files
 
 Note: The breakpoints will only hit for the actual command being run. For example, for `firebase test android run`, the debugger will directly enter [`AndroidRunCommand`](https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidRunCommand.kt).
 

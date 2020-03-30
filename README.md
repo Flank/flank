@@ -1,4 +1,4 @@
-# Flank [![Build Status](https://app.bitrise.io/app/9767f3e19047d4db/status.svg?token=uDM3wCumR2xTd0axh4bjDQ&branch=master)](https://app.bitrise.io/app/9767f3e19047d4db) [![codecov](https://codecov.io/gh/TestArmada/flank/branch/master/graph/badge.svg)](https://codecov.io/gh/TestArmada/flank) [![pullreminders](https://pullreminders.com/badge.svg)](https://pullreminders.com?ref=badge)
+# Flank [![Build Status](https://app.bitrise.io/app/9767f3e19047d4db/status.svg?token=uDM3wCumR2xTd0axh4bjDQ&branch=master)](https://app.bitrise.io/app/9767f3e19047d4db) [![codecov](https://codecov.io/gh/Flank/flank/branch/master/graph/badge.svg)](https://codecov.io/gh/Flank/flank) [![pullreminders](https://pullreminders.com/badge.svg)](https://pullreminders.com?ref=badge)
 
 Flank is a [massively parallel Android and iOS test runner](https://docs.google.com/presentation/d/1goan9cXpimSJsS3L60WjljnFA_seUyaWb2e-bezm084/edit#slide=id.p1) for [Firebase Test Lab](https://firebase.google.com/docs/test-lab/).
 
@@ -458,17 +458,17 @@ flank:
 
 Download Flank from GitHub releases.
 
-Stable. Get the latest [stable version number](https://github.com/TestArmada/flank/releases/latest) and replace the `XXX` with the version number.
+Stable. Get the latest [stable version number](https://github.com/Flank/flank/releases/latest) and replace the `XXX` with the version number.
 
 ```
-wget --quiet https://github.com/TestArmada/flank/releases/download/vXXX/flank.jar -O ./flank.jar
+wget --quiet https://github.com/Flank/flank/releases/download/vXXX/flank.jar -O ./flank.jar
 java -jar ./flank.jar android run
 ```
 
 Snapshot (published after every commit)
 
 ```
-wget --quiet https://github.com/TestArmada/flank/releases/download/flank_snapshot/flank.jar -O ./flank.jar
+wget --quiet https://github.com/Flank/flank/releases/download/flank_snapshot/flank.jar -O ./flank.jar
 java -jar ./flank.jar android run
 ```
 
@@ -556,28 +556,28 @@ dependencies {
 
 ### FAQ
 
-> Access Not Configured. Cloud Tool Results API has not been used in project 764086051850 before or it is disabled.
+1) > Access Not Configured. Cloud Tool Results API has not been used in project 764086051850 before or it is disabled.
 
-This error means authentication hasn't been setup properly. See `Authenticate with a service account` in this readme.
+    This error means authentication hasn't been setup properly. See `Authenticate with a service account` in this readme.
 
-> How do I use Flank without typing long commands?
+2)  > How do I use Flank without typing long commands?
 
-Add Flank's [bash helper folder](https://github.com/TestArmada/flank/blob/master/test_runner/bash/) to your $PATH environment variable. This will allow you to call the shell scripts in that helper folder from anywhere.
+    Add Flank's [bash helper folder](https://github.com/Flank/flank/blob/master/test_runner/bash/) to your $PATH environment variable. This will allow you to call the shell scripts in that helper folder from anywhere.
 
-With the [flank](https://github.com/TestArmada/flank/blob/master/test_runner/bash/flank) shell script, you can use `flank` instead of `java -jar flank.jar`. Examples:
+    With the [flank](https://github.com/Flank/flank/blob/master/test_runner/bash/flank) shell script, you can use `flank` instead of `java -jar flank.jar`. Examples:
 
-- `flank android run`
-- `flank ios run`
+    - `flank android run`
+    - `flank ios run`
 
-With the [update_flank.sh](https://github.com/TestArmada/flank/blob/master/test_runner/bash/update_flank.sh) shell script, you can rebuild `flank.jar`.
+    With the [update_flank.sh](https://github.com/Flank/flank/blob/master/test_runner/bash/update_flank.sh) shell script, you can rebuild `flank.jar`.
 
-> Symbol is declared in module 'java.xml' which does not export package 'com.sun.org.apache.xerces.internal.dom'
+3)  > Symbol is declared in module 'java.xml' which does not export package 'com.sun.org.apache.xerces.internal.dom'
 
-Make sure you're using JDK 8 to compile Flank.
+    Make sure you're using JDK 8 to compile Flank.
 
-> Test run failed to complete. Expected 786 tests, received 660
+4)  > Test run failed to complete. Expected 786 tests, received 660
 
-Try setting `use-orchestrator: false`. Parameterized tests [are not compatible with orchestrator](https://stackoverflow.com/questions/48735268/unable-to-run-parameterized-tests-with-android-test-orchestrator). Flank uses [orchestrator by default on Android.](https://developer.android.com/training/testing/junit-runner)
+    Try setting `use-orchestrator: false`. Parameterized tests [are not compatible with orchestrator](https://stackoverflow.com/questions/48735268/unable-to-run-parameterized-tests-with-android-test-orchestrator). Flank uses [orchestrator by default on Android.](https://developer.android.com/training/testing/junit-runner)
 
 # Resources
 

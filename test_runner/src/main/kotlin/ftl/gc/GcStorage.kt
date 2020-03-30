@@ -33,7 +33,7 @@ object GcStorage {
         builder.setCredentials(FtlConstants.credential)
 
         // The oauth lib for user auth needs to be replaced
-        // https://github.com/TestArmada/flank/issues/464#issuecomment-455227703
+        // https://github.com/Flank/flank/issues/464#issuecomment-455227703
         // builder.setCredentials(FtlConstants.googleCredentials)
 
         builder.build()
