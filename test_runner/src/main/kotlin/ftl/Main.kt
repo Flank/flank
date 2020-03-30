@@ -39,7 +39,8 @@ class Main : Runnable {
 
     @CommandLine.Option(
         names = ["--debug"],
-        description = ["Enables debug logging"]
+        description = ["Enables debug logging"],
+        defaultValue = "false"
     )
     fun debug(enabled: Boolean) = setDebugLogging(enabled)
 

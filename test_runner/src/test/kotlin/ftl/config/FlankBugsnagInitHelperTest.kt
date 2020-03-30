@@ -18,7 +18,7 @@ private const val GSUTIL_FOLDER = ".gsutil"
 private const val ANALYTICS_FILE = "analytics-uuid"
 private const val DISABLED = "DISABLED\n"
 
-class BugsnagInitHelperTest {
+class FlankBugsnagInitHelperTest {
 
     private val helper = BugsnagInitHelper
 
@@ -27,7 +27,7 @@ class BugsnagInitHelperTest {
 
     @Before
     fun setUp() {
-        LogbackLogger.Bugsnag.isEnabled = false
+        LogbackLogger.FlankBugsnag.isEnabled = false
     }
 
     @After
