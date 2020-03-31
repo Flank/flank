@@ -8,12 +8,11 @@ import java.io.IOException
 fun <T> AbstractGoogleJsonClientRequest<T>.executeWithRetry(): T {
     var lastErr: IOException? = null
 
-    for (i in 1..10) {
+    repeat(10) {
         try {
             return this.execute()
         } catch (err: IOException) {
             lastErr = err
-            System.err.println("Request failed, retrying ${i}x $err")
         }
     }
 
