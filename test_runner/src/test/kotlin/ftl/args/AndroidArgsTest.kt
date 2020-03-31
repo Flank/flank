@@ -37,6 +37,9 @@ class AndroidArgsTest {
           record-video: false
           timeout: 70m
           async: true
+          client-details:
+            key1: value1
+            key2: value2
           project: projectFoo
           results-history-name: android-history
 
@@ -161,6 +164,13 @@ class AndroidArgsTest {
             assert(recordVideo, false)
             assert(testTimeout, "70m")
             assert(async, true)
+            assert(
+                clientDetails,
+                mapOf(
+                    "key1" to "value1",
+                    "key2" to "value2"
+                )
+            )
             assert(project, "projectFoo")
             assert(resultsHistoryName ?: "", "android-history")
 
@@ -216,6 +226,9 @@ AndroidArgs
       record-video: false
       timeout: 70m
       async: true
+      client-details: 
+        key1: value1
+        key2: value2
       results-history-name: android-history
       # Android gcloud
       app: $appApkAbsolutePath
@@ -278,6 +291,7 @@ AndroidArgs
       record-video: false
       timeout: 15m
       async: false
+      client-details: 
       results-history-name: null
       # Android gcloud
       app: $appApkAbsolutePath

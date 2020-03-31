@@ -10,6 +10,7 @@ import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.yamlMapper
 import ftl.args.ArgsToString.devicesToString
 import ftl.args.ArgsToString.listToString
+import ftl.args.ArgsToString.mapToString
 import ftl.args.yml.FlankYml
 import ftl.args.yml.GcloudYml
 import ftl.args.yml.IosFlankYml
@@ -62,6 +63,7 @@ class IosArgs(
     override val project = cli?.project ?: flank.project
     override val localResultDir = cli?.localResultsDir ?: flank.localResultsDir
     override val runTimeout = cli?.runTimeout ?: flank.runTimeout
+    override val clientDetails = cli?.clientDetails ?: gcloud.clientDetails
 
     private val iosFlank = iosFlankYml.flank
     val testTargets = cli?.testTargets ?: iosFlank.testTargets.filterNotNull()
@@ -117,6 +119,7 @@ IosArgs
       record-video: $recordVideo
       timeout: $testTimeout
       async: $async
+      client-details: ${mapToString(clientDetails)}
       results-history-name: $resultsHistoryName
       # iOS gcloud
       test: $xctestrunZip

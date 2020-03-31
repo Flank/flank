@@ -33,6 +33,9 @@ class SavedMatrix(matrix: TestMatrix) {
         private set
     var outcomeDetails: String = ""
         private set
+    val clientDetails = matrix.clientInfo?.clientInfoDetails
+        ?.map { it.key to it.value }
+        ?.toMap()
 
     init {
         if (this.state == FINISHED) finished(matrix)

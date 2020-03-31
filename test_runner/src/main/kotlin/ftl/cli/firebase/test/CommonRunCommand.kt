@@ -74,6 +74,17 @@ abstract class CommonRunCommand {
     var async: Boolean? = null
 
     @CommandLine.Option(
+        names = ["--client-details"],
+        split = ",",
+        description = [
+            "Comma-separated, KEY=VALUE map of additional details to attach to the test matrix.",
+            "Arbitrary KEY=VALUE pairs may be attached to a test matrix to provide additional context about the tests being run.",
+            "When consuming the test results, such as in Cloud Functions or a CI system,",
+            "these details can add additional context such as a link to the corresponding pull request."]
+    )
+    var clientDetails: Map<String, String>? = null
+
+    @CommandLine.Option(
         names = ["--results-history-name"],
         description = ["The history name for your test results " +
                 "(an arbitrary string label; default: the application's label from the APK manifest). All tests which use the " +

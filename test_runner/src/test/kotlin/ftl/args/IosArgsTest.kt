@@ -42,6 +42,9 @@ class IosArgsTest {
           record-video: false
           timeout: 70m
           async: true
+          client-details:
+            key1: value1
+            key2: value2
           project: projectFoo
           results-history-name: ios-history
 
@@ -134,6 +137,13 @@ flank:
             assert(recordVideo, false)
             assert(testTimeout, "70m")
             assert(async, true)
+            assert(
+                clientDetails,
+                mapOf(
+                    "key1" to "value1",
+                    "key2" to "value2"
+                )
+            )
             assert(project, "projectFoo")
             assert(resultsHistoryName ?: "", "ios-history")
 
@@ -171,6 +181,9 @@ IosArgs
       record-video: false
       timeout: 70m
       async: true
+      client-details: 
+        key1: value1
+        key2: value2
       results-history-name: ios-history
       # iOS gcloud
       test: $testAbsolutePath
@@ -221,6 +234,7 @@ IosArgs
       record-video: false
       timeout: 15m
       async: false
+      client-details: 
       results-history-name: null
       # iOS gcloud
       test: $testAbsolutePath

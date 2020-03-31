@@ -1,4 +1,5 @@
 ## next (unreleased)
+- [#689](https://github.com/Flank/flank/pull/689) Add support for client-details option. ([jan-gogo](https://github.com/jan-gogo))
 - [#687](https://github.com/Flank/flank/pull/687) Debug message printed after every command. ([pawelpasterz](https://github.com/pawelpasterz))
 - [#684](https://github.com/Flank/flank/pull/684) Add overhead time to junit test case report. ([jan-gogo](https://github.com/jan-gogo))
 - [#666](https://github.com/Flank/flank/pull/666) Use API instead of XML for result parsing for android. ([jan-gogo](https://github.com/jan-gogo))

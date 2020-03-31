@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.ios
 
 import com.google.common.truth.Truth.assertThat
+import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.isWindows
@@ -13,6 +14,7 @@ import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
 
+@Suppress("TooManyFunctions")
 @RunWith(FlankTestRunner::class)
 class IosRunCommandTest {
     @Rule
@@ -129,6 +131,19 @@ class IosRunCommandTest {
         CommandLine(cmd).parseArgs("--async")
 
         assertThat(cmd.async).isTrue()
+    }
+
+    @Test
+    fun `clientDetails parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--client-details=key1=value1,key2=value2")
+
+        assertThat(cmd.clientDetails).isEqualTo(
+            mapOf(
+                "key1" to "value1",
+                "key2" to "value2"
+            )
+        )
     }
 
     @Test
