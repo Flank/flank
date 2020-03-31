@@ -25,6 +25,9 @@ class GcloudYmlParams(
 
     val async: Boolean = false,
 
+    @field:JsonProperty("client-details")
+    val clientDetails: Map<String, String>? = null,
+
     @field:JsonProperty("results-history-name")
     val resultsHistoryName: String? = null,
 

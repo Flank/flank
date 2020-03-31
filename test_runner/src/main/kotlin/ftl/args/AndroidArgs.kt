@@ -16,6 +16,7 @@ import ftl.args.ArgsHelper.yamlMapper
 import ftl.args.ArgsToString.apksToString
 import ftl.args.ArgsToString.devicesToString
 import ftl.args.ArgsToString.listToString
+import ftl.args.ArgsToString.mapToString
 import ftl.args.yml.AndroidFlankYml
 import ftl.args.yml.AndroidGcloudYml
 import ftl.args.yml.AndroidGcloudYmlParams
@@ -74,6 +75,7 @@ class AndroidArgs(
     override val localResultDir = cli?.localResultsDir ?: flank.localResultsDir
     override val runTimeout = cli?.runTimeout ?: flank.runTimeout
     override val useLegacyJUnitResult = cli?.useLegacyJUnitResult ?: flank.useLegacyJUnitResult
+    override val clientDetails = cli?.clientDetails ?: gcloud.clientDetails
 
     private val androidFlank = androidFlankYml.flank
     val additionalAppTestApks = cli?.additionalAppTestApks ?: androidFlank.additionalAppTestApks
@@ -122,6 +124,7 @@ AndroidArgs
       record-video: $recordVideo
       timeout: $testTimeout
       async: $async
+      client-details: ${mapToString(clientDetails)}
       results-history-name: $resultsHistoryName
       # Android gcloud
       app: $appApk

@@ -81,6 +81,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.noRecordVideo).isNull()
         assertThat(cmd.timeout).isNull()
         assertThat(cmd.async).isNull()
+        assertThat(cmd.clientDetails).isNull()
         assertThat(cmd.project).isNull()
         assertThat(cmd.resultsHistoryName).isNull()
         assertThat(cmd.maxTestShards).isNull()
@@ -246,6 +247,19 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parseArgs("--async")
 
         assertThat(cmd.async).isTrue()
+    }
+
+    @Test
+    fun `clientDetails parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--client-details=key1=value1,key2=value2")
+
+        assertThat(cmd.clientDetails).isEqualTo(
+            mapOf(
+                "key1" to "value1",
+                "key2" to "value2"
+            )
+        )
     }
 
     @Test

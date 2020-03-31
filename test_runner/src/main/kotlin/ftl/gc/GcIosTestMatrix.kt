@@ -33,7 +33,9 @@ object GcIosTestMatrix {
         shardCounter: ShardCounter,
         toolResultsHistory: ToolResultsHistory
     ): Testing.Projects.TestMatrices.Create {
-        val clientInfo = ClientInfo().setName("Flank")
+        val clientInfo = ClientInfo()
+            .setName("Flank")
+            .setClientInfoDetails(args.clientDetails?.toClientInfoDetailList())
 
         val gcsBucket = args.resultsBucket
         val matrixGcsSuffix = join(runGcsPath, shardCounter.next())
