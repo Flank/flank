@@ -1,18 +1,27 @@
 package ftl.run
 
+import com.google.api.services.testing.Testing
+import com.google.api.services.testing.model.GoogleCloudStorage
+import com.google.api.services.testing.model.ResultStorage
+import com.google.api.services.testing.model.TestExecution
+import com.google.api.services.testing.model.TestMatrix
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
 import ftl.config.FtlConstants.isWindows
+import ftl.http.executeWithRetry
 import ftl.run.common.getDownloadPath
 import ftl.test.util.FlankTestRunner
 import ftl.util.ObjPath
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import io.mockk.unmockkAll
+import io.mockk.verify
 import java.nio.file.Paths
 import kotlinx.coroutines.runBlocking
 import org.junit.After
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Assume.assumeFalse
 import org.junit.Rule
@@ -158,9 +167,45 @@ class TestRunnerTest {
             newTestRun(localConfig)
         }
         val matrixWebLinkHeader = "Matrices webLink"
-        val matrixLink = Regex("(matrix-\\d+: https://console\\.firebase\\.google\\.com/project/.*/testlab/histories/.*/matrices/.*)(/executions/.*)?")
+        val matrixLink = Regex("(matrix-\\d+ https://console\\.firebase\\.google\\.com/project/.*/testlab/histories/.*/matrices/.*)(/executions/.*)?")
         val output = systemOutRule.log
         assertTrue(output.contains(matrixWebLinkHeader))
         assertTrue(output.contains(matrixLink))
+    }
+
+    @Test
+    fun `flank should stop updating web link if matrix has invalid state`() {
+        val localConfig = AndroidArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.local.yml"))
+        mockkStatic("ftl.http.ExecuteWithRetryKt")
+        every {
+            any<Testing.Projects.TestMatrices.Get>().executeWithRetry()
+        } returnsMany listOf(
+            getMockedTestMatrix().apply { state = "RUNNING" },
+            getMockedTestMatrix().apply { state = "RUNNING" },
+            getMockedTestMatrix()
+        )
+        runBlocking {
+            newTestRun(localConfig)
+        }
+        val matrixWebLinkHeader = "Matrices webLink"
+        val message = "Unable to get web link"
+        val matrixLink = Regex("(matrix-\\d+ https://console\\.firebase\\.google\\.com/project/.*/testlab/histories/.*/matrices/.*)(/executions/.*)?")
+        val output = systemOutRule.log
+        assertTrue(output.contains(matrixWebLinkHeader))
+        assertTrue(output.contains(message))
+        assertFalse(output.contains(matrixLink))
+        verify(exactly = 3) { any<Testing.Projects.TestMatrices.Get>().executeWithRetry() }
+    }
+
+    private fun getMockedTestMatrix() = TestMatrix().apply {
+        state = "INVALID"
+        testMatrixId = "matrix-12345"
+        testExecutions = listOf(TestExecution().apply {
+            resultStorage = ResultStorage().apply {
+                googleCloudStorage = GoogleCloudStorage().apply {
+                    gcsPath = "any/Path"
+                }
+            }
+        })
     }
 }

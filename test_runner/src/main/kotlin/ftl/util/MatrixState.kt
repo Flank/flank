@@ -18,6 +18,13 @@ object MatrixState {
     const val CANCELLED = "CANCELLED"
     const val INVALID = "INVALID"
 
+    private val validStates = listOf(
+        VALIDATING,
+        PENDING,
+        RUNNING,
+        FINISHED
+    )
+
     fun inProgress(state: String): Boolean {
         return when (state) {
             VALIDATING -> true
@@ -32,8 +39,18 @@ object MatrixState {
     fun completed(state: String): Boolean {
         return !inProgress(state)
     }
+
+    private fun isValid(state: String): Boolean {
+        return validStates.contains(state)
+    }
+
+    fun isInvalid(state: String): Boolean {
+        return !isValid(state)
+    }
 }
 
 fun TestMatrix.completed(): Boolean {
     return MatrixState.completed(this.state)
 }
+
+fun TestMatrix.isInvalid() = MatrixState.isInvalid(this.state)
