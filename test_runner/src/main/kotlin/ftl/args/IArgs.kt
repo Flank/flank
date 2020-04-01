@@ -15,6 +15,7 @@ interface IArgs {
     val testTimeout: String
     val async: Boolean
     val clientDetails: Map<String, String>?
+    val networkProfile: String?
     val project: String
     val resultsHistoryName: String?
     val flakyTestAttempts: Int

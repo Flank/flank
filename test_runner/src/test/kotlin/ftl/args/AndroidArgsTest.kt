@@ -40,6 +40,7 @@ class AndroidArgsTest {
           client-details:
             key1: value1
             key2: value2
+          network-profile: LTE
           project: projectFoo
           results-history-name: android-history
 
@@ -171,6 +172,7 @@ class AndroidArgsTest {
                     "key2" to "value2"
                 )
             )
+            assert(networkProfile, "LTE")
             assert(project, "projectFoo")
             assert(resultsHistoryName ?: "", "android-history")
 
@@ -229,6 +231,7 @@ AndroidArgs
       client-details: 
         key1: value1
         key2: value2
+      network-profile: LTE
       results-history-name: android-history
       # Android gcloud
       app: $appApkAbsolutePath
@@ -292,6 +295,7 @@ AndroidArgs
       timeout: 15m
       async: false
       client-details: 
+      network-profile: null
       results-history-name: null
       # Android gcloud
       app: $appApkAbsolutePath
@@ -345,6 +349,8 @@ AndroidArgs
             assert(testTimeout, "15m")
             assert(async, false)
             assert(project, "mockProjectId")
+            assert(clientDetails, null)
+            assert(networkProfile, null)
 
             // AndroidGcloudYml
             assert(appApk, appApkAbsolutePath)

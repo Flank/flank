@@ -45,6 +45,7 @@ class IosArgsTest {
           client-details:
             key1: value1
             key2: value2
+          network-profile: LTE
           project: projectFoo
           results-history-name: ios-history
 
@@ -144,6 +145,7 @@ flank:
                     "key2" to "value2"
                 )
             )
+            assert(networkProfile, "LTE")
             assert(project, "projectFoo")
             assert(resultsHistoryName ?: "", "ios-history")
 
@@ -184,6 +186,7 @@ IosArgs
       client-details: 
         key1: value1
         key2: value2
+      network-profile: LTE
       results-history-name: ios-history
       # iOS gcloud
       test: $testAbsolutePath
@@ -235,6 +238,7 @@ IosArgs
       timeout: 15m
       async: false
       client-details: 
+      network-profile: null
       results-history-name: null
       # iOS gcloud
       test: $testAbsolutePath
@@ -281,6 +285,8 @@ IosArgs
             assert(testTimeout, "15m")
             assert(async, false)
             assert(project, "mockProjectId")
+            assert(clientDetails, null)
+            assert(networkProfile, null)
 
             // IosGcloudYml
             assert(xctestrunZip, testAbsolutePath)

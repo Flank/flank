@@ -76,6 +76,7 @@ class AndroidArgs(
     override val runTimeout = cli?.runTimeout ?: flank.runTimeout
     override val useLegacyJUnitResult = cli?.useLegacyJUnitResult ?: flank.useLegacyJUnitResult
     override val clientDetails = cli?.clientDetails ?: gcloud.clientDetails
+    override val networkProfile = cli?.networkProfile ?: gcloud.networkProfile
 
     private val androidFlank = androidFlankYml.flank
     val additionalAppTestApks = cli?.additionalAppTestApks ?: androidFlank.additionalAppTestApks
@@ -125,6 +126,7 @@ AndroidArgs
       timeout: $testTimeout
       async: $async
       client-details: ${mapToString(clientDetails)}
+      network-profile: $networkProfile
       results-history-name: $resultsHistoryName
       # Android gcloud
       app: $appApk
