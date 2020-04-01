@@ -8,6 +8,7 @@ import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
 import ftl.run.common.updateMatrixFile
 import ftl.util.StopWatch
+import ftl.util.isInvalid
 import ftl.util.webLink
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.joinAll
@@ -51,13 +52,18 @@ private fun saveConfigFile(matrixMap: MatrixMap, args: IArgs) {
 
 private suspend inline fun MatrixMap.printMatricesWebLinks(project: String) = coroutineScope {
     println("Matrices webLink")
-    map.values.map { launch { it.printWebLink(project) } }.joinAll()
+    map.values.map {
+        launch {
+            println("${FtlConstants.indent}${it.matrixId} ${getOrUpdateWebLink(it.webLink, project, it.matrixId)}")
+        }
+    }.joinAll()
     println()
 }
 
-private suspend inline fun SavedMatrix.printWebLink(project: String) =
-    println("${FtlConstants.indent}$matrixId: ${getOrUpdateWebLink(webLink, project, matrixId)}")
-
 private tailrec suspend fun getOrUpdateWebLink(link: String, project: String, matrixId: String): String =
     if (link.isNotBlank()) link
-    else getOrUpdateWebLink(GcTestMatrix.refresh(matrixId, project).webLink(), project, matrixId)
+    else getOrUpdateWebLink(
+        link = GcTestMatrix.refresh(matrixId, project).run { if (isInvalid()) "Unable to get web link" else webLink() },
+        project = project,
+        matrixId = matrixId
+    )
