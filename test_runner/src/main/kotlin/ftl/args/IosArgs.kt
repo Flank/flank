@@ -64,6 +64,7 @@ class IosArgs(
     override val localResultDir = cli?.localResultsDir ?: flank.localResultsDir
     override val runTimeout = cli?.runTimeout ?: flank.runTimeout
     override val clientDetails = cli?.clientDetails ?: gcloud.clientDetails
+    override val networkProfile = cli?.networkProfile ?: gcloud.networkProfile
 
     private val iosFlank = iosFlankYml.flank
     val testTargets = cli?.testTargets ?: iosFlank.testTargets.filterNotNull()
@@ -120,6 +121,7 @@ IosArgs
       timeout: $testTimeout
       async: $async
       client-details: ${mapToString(clientDetails)}
+      network-profile: $networkProfile
       results-history-name: $resultsHistoryName
       # iOS gcloud
       test: $xctestrunZip

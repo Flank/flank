@@ -28,6 +28,9 @@ class GcloudYmlParams(
     @field:JsonProperty("client-details")
     val clientDetails: Map<String, String>? = null,
 
+    @field:JsonProperty("network-profile")
+    val networkProfile: String? = null,
+
     @field:JsonProperty("results-history-name")
     val resultsHistoryName: String? = null,
 

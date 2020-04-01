@@ -72,6 +72,8 @@ class IosRunCommandTest {
         assertThat(cmd.noRecordVideo).isNull()
         assertThat(cmd.timeout).isNull()
         assertThat(cmd.async).isNull()
+        assertThat(cmd.clientDetails).isNull()
+        assertThat(cmd.networkProfile).isNull()
         assertThat(cmd.project).isNull()
         assertThat(cmd.resultsHistoryName).isNull()
         assertThat(cmd.maxTestShards).isNull()
@@ -144,6 +146,14 @@ class IosRunCommandTest {
                 "key2" to "value2"
             )
         )
+    }
+
+    @Test
+    fun `networkProfile parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--network-profile=a")
+
+        assertThat(cmd.networkProfile).isEqualTo("a")
     }
 
     @Test

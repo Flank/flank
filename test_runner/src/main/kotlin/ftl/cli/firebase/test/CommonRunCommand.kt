@@ -85,6 +85,17 @@ abstract class CommonRunCommand {
     var clientDetails: Map<String, String>? = null
 
     @CommandLine.Option(
+        names = ["--network-profile"],
+        description = [
+            "The name of the network traffic profile, for example --network-profile=LTE, ",
+            "which consists of a set of parameters to emulate network conditions when running the test ",
+            "(default: no network shaping; see available profiles listed by the `flank test network-profiles list` command). ",
+            "This feature only works on physical devices. "
+        ]
+    )
+    var networkProfile: String? = null
+
+    @CommandLine.Option(
         names = ["--results-history-name"],
         description = ["The history name for your test results " +
                 "(an arbitrary string label; default: the application's label from the APK manifest). All tests which use the " +

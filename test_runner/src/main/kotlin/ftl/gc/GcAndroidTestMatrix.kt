@@ -79,6 +79,7 @@ object GcAndroidTestMatrix {
 
         val testSetup = TestSetup()
             .setAccount(account)
+            .setNetworkProfile(args.networkProfile)
             .setDirectoriesToPull(args.directoriesToPull)
 
         if (args.environmentVariables.isNotEmpty()) {

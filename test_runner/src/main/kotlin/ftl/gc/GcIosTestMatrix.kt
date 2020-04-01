@@ -57,7 +57,7 @@ object GcIosTestMatrix {
             .setXcodeVersion(args.xcodeVersion)
 
         val iOSTestSetup = IosTestSetup()
-            .setNetworkProfile(null)
+            .setNetworkProfile(args.networkProfile)
 
         val testTimeoutSeconds = timeoutToSeconds(args.testTimeout)
 

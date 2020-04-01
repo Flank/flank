@@ -30,6 +30,12 @@ gcloud:
   #   key1: value1
   #   key2: value2
 
+  ## The name of the network traffic profile, for example LTE, HSPA, etc,
+  ## which consists of a set of parameters to emulate network conditions when running the test
+  ## (default: no network shaping; see available profiles listed by the `flank test network-profiles list` command).
+  ## This feature only works on physical devices.
+  # network-profile: LTE
+
   ## The history name for your test results (an arbitrary string label; default: the application's label from the APK manifest).
   ## All tests which use the same history name will have their results grouped together in the Firebase console in a time-ordered test history list.
   # results-history-name: android-history
