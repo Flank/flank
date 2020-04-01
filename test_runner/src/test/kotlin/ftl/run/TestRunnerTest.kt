@@ -13,8 +13,11 @@ import io.mockk.unmockkAll
 import java.nio.file.Paths
 import kotlinx.coroutines.runBlocking
 import org.junit.After
+import org.junit.Assert.assertTrue
 import org.junit.Assume.assumeFalse
+import org.junit.Rule
 import org.junit.Test
+import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 
 @RunWith(FlankTestRunner::class)
@@ -28,7 +31,10 @@ class TestRunnerTest {
     private val iosArgs = mockk<IosArgs>()
     private val androidArgs = mockk<AndroidArgs>()
 
-        @After
+    @get:Rule
+    val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
+
+    @After
     fun tearDown() = unmockkAll()
 
     @Test
@@ -143,5 +149,18 @@ class TestRunnerTest {
         runBlocking {
             newTestRun(config)
         }
+    }
+
+    @Test
+    fun `matrix webLink should be printed before polling matrices`() {
+        val localConfig = AndroidArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.local.yml"))
+        runBlocking {
+            newTestRun(localConfig)
+        }
+        val matrixWebLinkHeader = "Matrices webLink"
+        val matrixLink = Regex("(matrix-\\d+: https://console\\.firebase\\.google\\.com/project/.*/testlab/histories/.*/matrices/.*)(/executions/.*)?")
+        val output = systemOutRule.log
+        assertTrue(output.contains(matrixWebLinkHeader))
+        assertTrue(output.contains(matrixLink))
     }
 }

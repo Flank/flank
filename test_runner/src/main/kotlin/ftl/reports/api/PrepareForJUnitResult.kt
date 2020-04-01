@@ -21,7 +21,7 @@ private fun List<TestExecutionData>.reduceToPrimarySteps(): List<TestExecutionDa
     }
 }
 
-private fun List<TestExecutionData>.reduceTestCases() = map(TestExecutionData::reduceTestCases)
+private fun List<TestExecutionData>.reduceTestCases(): List<TestExecutionData> = map(TestExecutionData::reduceTestCases)
 
 private fun TestExecutionData.reduceTestCases() = copy(
     testCases = testCases.groupBy(TestCase::getTestCaseId).map { (_, testCases) ->
