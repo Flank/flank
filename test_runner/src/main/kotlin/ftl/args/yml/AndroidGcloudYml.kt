@@ -17,6 +17,9 @@ class AndroidGcloudYmlParams(
     val app: String? = null,
     val test: String? = null,
 
+    @field:JsonProperty("additional-apks")
+    val additionalApks: List<String> = emptyList(),
+
     @field:JsonProperty("auto-google-login")
     val autoGoogleLogin: Boolean = FlankDefaults.DISABLE_AUTO_LOGIN,
 
@@ -42,8 +45,17 @@ class AndroidGcloudYmlParams(
 ) {
     companion object : IYmlKeys {
         override val keys = listOf(
-            "app", "test", "auto-google-login", "use-orchestrator", "environment-variables",
-            "directories-to-pull", "performance-metrics", "test-runner-class", "test-targets", "device"
+            "app",
+            "test",
+            "additionalApks",
+            "auto-google-login",
+            "use-orchestrator",
+            "environment-variables",
+            "directories-to-pull",
+            "performance-metrics",
+            "test-runner-class",
+            "test-targets",
+            "device"
         )
     }
 }

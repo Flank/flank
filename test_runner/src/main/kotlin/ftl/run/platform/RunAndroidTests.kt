@@ -1,17 +1,19 @@
 package ftl.run.platform
 
+import com.google.api.services.testing.model.AndroidDeviceList
 import com.google.api.services.testing.model.TestMatrix
+import com.google.api.services.testing.model.ToolResultsHistory
 import ftl.args.AndroidArgs
 import ftl.args.AndroidTestShard
+import ftl.args.ShardChunks
 import ftl.args.yml.AppTestPair
+import ftl.args.yml.ResolvedTestApks
+import ftl.args.yml.UploadedTestApks
 import ftl.gc.GcAndroidDevice
 import ftl.gc.GcAndroidTestMatrix
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
-import ftl.args.ShardChunks
-import ftl.args.yml.ResolvedTestPair
-import ftl.args.yml.UploadedTestPair
 import ftl.run.model.TestResult
 import ftl.run.platform.common.afterRunTests
 import ftl.run.platform.common.beforeRunMessage
@@ -29,60 +31,92 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     // GcAndroidTestMatrix.execute() 3x retry => matrix id (string)
     val androidDeviceList = GcAndroidDevice.build(args.devices)
 
-    val jobs = arrayListOf<Deferred<TestMatrix>>()
+    val testMatrices = arrayListOf<Deferred<TestMatrix>>()
     val runCount = args.repeatTests
     val history = GcToolResults.createToolResultsHistory(args)
-    val apkPairsInArgs = listOf(AppTestPair(app = args.appApk, test = args.testApk)) + args.additionalAppTestApks
-    val allTestShardChunks: ShardChunks = apkPairsInArgs
-        .provideMissingApps(withFallbackApp = args.appApk)
-        .map { resolvedApkPair ->
-            val uploadedApkPair = resolveApkPair(resolvedApkPair, args, runGcsPath)
-            // Ensure we only shard tests that are part of the test apk. Use the resolved test apk path to make sure
-            // we don't re-download an apk it is on the local file system.
-            AndroidTestShard.getTestShardChunks(args, resolvedApkPair.test).also { testShards ->
-                repeat(runCount) {
-                    // specify dispatcher to avoid inheriting main runBlocking context that runs in the main thread
-                    // https://kotlinlang.org/docs/reference/coroutines/coroutine-context-and-dispatchers.html
-                    jobs += async(Dispatchers.IO) {
-                        GcAndroidTestMatrix.build(
-                            appApkGcsPath = uploadedApkPair.app,
-                            testApkGcsPath = uploadedApkPair.test,
-                            runGcsPath = runGcsPath,
-                            androidDeviceList = androidDeviceList,
-                            testShards = testShards,
-                            args = args,
-                            toolResultsHistory = history
-                        ).executeWithRetry()
-                    }
-                }
-            }
-        }.flatten()
+    val resolvedTestApks = listOf(
+        element = ResolvedTestApks(
+            app = args.appApk,
+            test = args.testApk,
+            additionalTests = args.additionalTestApks
+        )
+    ).plus(
+        elements = args.additionalAppTestApks
+            .provideMissingApps(args.appApk)
+    )
+
+    val allTestShardChunks: ShardChunks = resolvedTestApks.map { apks: ResolvedTestApks ->
+        // Ensure we only shard tests that are part of the test apk. Use the resolved test apk path to make sure
+        // we don't re-download an apk it is on the local file system.
+        AndroidTestShard.getTestShardChunks(args, apks).also { testShards ->
+            testMatrices += executeAndroidTestMatrix(
+                uploadedTestApks = uploadTestApks(
+                    apks = apks,
+                    args = args,
+                    runGcsPath = runGcsPath
+                ),
+                runGcsPath = runGcsPath,
+                androidDeviceList = androidDeviceList,
+                testShards = testShards,
+                args = args,
+                history = history,
+                runCount = runCount
+            )
+        }
+    }.flatten()
 
     println(beforeRunMessage(args, allTestShardChunks))
-    val matrixMap = afterRunTests(jobs.awaitAll(), runGcsPath, stopwatch, args)
+    val matrixMap = afterRunTests(testMatrices.awaitAll(), runGcsPath, stopwatch, args)
     matrixMap to allTestShardChunks
 }
 
 private fun List<AppTestPair>.provideMissingApps(withFallbackApp: String) =
-    map { ResolvedTestPair(app = it.app ?: withFallbackApp, test = it.test) }
+    map { ResolvedTestApks(app = it.app ?: withFallbackApp, test = it.test) }
+
+private suspend fun executeAndroidTestMatrix(
+    runGcsPath: String,
+    args: AndroidArgs,
+    testShards: ShardChunks,
+    uploadedTestApks: UploadedTestApks,
+    androidDeviceList: AndroidDeviceList,
+    history: ToolResultsHistory,
+    runCount: Int
+): List<Deferred<TestMatrix>> = coroutineScope {
+    (0 until runCount).map {
+        async(Dispatchers.IO) {
+            GcAndroidTestMatrix.build(
+                appApkGcsPath = uploadedTestApks.app,
+                testApkGcsPath = uploadedTestApks.test,
+                runGcsPath = runGcsPath,
+                androidDeviceList = androidDeviceList,
+                testShards = testShards,
+                args = args,
+                toolResultsHistory = history,
+                additionalTestGcsPaths = uploadedTestApks.additionalTests
+            ).executeWithRetry()
+        }
+    }
+}
 
 /**
  * Upload an APK pair if the path given is local
  *
  * @return AppTestPair with their GCS paths
  */
-private suspend fun resolveApkPair(
-    apk: ResolvedTestPair,
+private suspend fun uploadTestApks(
+    apks: ResolvedTestApks,
     args: AndroidArgs,
     runGcsPath: String
-): UploadedTestPair = coroutineScope {
+): UploadedTestApks = coroutineScope {
     val gcsBucket = args.resultsBucket
 
-    val appApkGcsPath = async(Dispatchers.IO) { GcStorage.upload(apk.app, gcsBucket, runGcsPath) }
-    val testApkGcsPath = async(Dispatchers.IO) { GcStorage.upload(apk.test, gcsBucket, runGcsPath) }
+    val appApkGcsPath = async(Dispatchers.IO) { GcStorage.upload(apks.app, gcsBucket, runGcsPath) }
+    val testApkGcsPath = async(Dispatchers.IO) { GcStorage.upload(apks.test, gcsBucket, runGcsPath) }
+    val additionalTestApkGcsPaths = apks.additionalTests.map { async(Dispatchers.IO) { GcStorage.upload(it, gcsBucket, runGcsPath) } }
 
-    UploadedTestPair(
+    UploadedTestApks(
         app = appApkGcsPath.await(),
-        test = testApkGcsPath.await()
+        test = testApkGcsPath.await(),
+        additionalTests = additionalTestApkGcsPaths.awaitAll()
     )
 }

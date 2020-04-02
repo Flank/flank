@@ -2,6 +2,7 @@ package ftl.args
 
 import com.linkedin.dex.parser.DexParser
 import com.linkedin.dex.parser.TestMethod
+import ftl.args.yml.ResolvedTestApks
 import ftl.config.FtlConstants
 import ftl.filter.TestFilter
 import ftl.filter.TestFilters
@@ -10,6 +11,17 @@ import ftl.util.FlankTestMethod
 import ftl.util.fatalError
 
 object AndroidTestShard {
+
+    fun getTestShardChunks(args: AndroidArgs, apks: ResolvedTestApks): ShardChunks =
+        sequenceOf(apks.test).plus(apks.additionalTests).map { apk ->
+            // Download test APK if necessary so it can be used to validate test methods
+            if (!apk.startsWith(FtlConstants.GCS_PREFIX)) apk
+            else GcStorage.download(apk)
+        }.map { testLocalApk: String ->
+            getTestMethods(args, testLocalApk)
+        }.map { filteredTests: List<FlankTestMethod> ->
+            ArgsHelper.calculateShards(filteredTests, args)
+        }.toList().flatten()
 
     // computed properties not specified in yaml
     fun getTestShardChunks(args: AndroidArgs, testApk: String): ShardChunks {
