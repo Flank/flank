@@ -6,11 +6,25 @@ import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
 import ftl.json.SavedMatrixTest.Companion.createResultsStorage
 import ftl.json.SavedMatrixTest.Companion.createStepExecution
+import ftl.run.cancelMatrices
 import ftl.test.util.FlankTestRunner
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkStatic
+import io.mockk.runs
+import io.mockk.unmockkAll
+import org.junit.After
 import org.junit.AfterClass
 import org.junit.Assert.assertTrue
 import org.junit.Assert.assertEquals
+import org.junit.Rule
 import org.junit.Test
+import org.junit.contrib.java.lang.system.ExpectedSystemExit
+import org.junit.contrib.java.lang.system.SystemErrRule
+import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
 import java.io.File
@@ -23,6 +37,18 @@ private const val VERIFICATION_MESSAGE = "Killing thread intentionally"
 
 @RunWith(FlankTestRunner::class)
 class UtilsTest {
+
+    @get:Rule
+    val exit = ExpectedSystemExit.none()!!
+
+    @get:Rule
+    val output = SystemOutRule().enableLog().muteForSuccessfulTests()!!
+
+    @get:Rule
+    val err = SystemErrRule().enableLog().muteForSuccessfulTests()!!
+
+    @After
+    fun tearDown() = unmockkAll()
 
     @Test(expected = RuntimeException::class)
     fun `readTextResource errors`() {
@@ -47,7 +73,7 @@ class UtilsTest {
         assertThat(randomName[26]).isEqualTo('_')
     }
 
-    @Test
+    @Test(expected = FailedMatrix::class)
     fun testExitCodeForFailed() {
         val testExecutions = listOf(
             createStepExecution(1, "Success"),
@@ -59,8 +85,7 @@ class UtilsTest {
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
         val finishedMatrix = SavedMatrix(testMatrix)
-        val matrixMap = MatrixMap(mutableMapOf("finishedMatrix" to finishedMatrix), "MockPath")
-        assertThat(matrixMap.exitCode()).isEqualTo(1)
+        MatrixMap(mutableMapOf("finishedMatrix" to finishedMatrix), "MockPath").validateMatrices()
     }
 
     @Test
@@ -74,11 +99,10 @@ class UtilsTest {
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
         val finishedMatrix = SavedMatrix(testMatrix)
-        val matrixMap = MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath")
-        assertThat(matrixMap.exitCode()).isEqualTo(0)
+        MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath").validateMatrices()
     }
 
-    @Test
+    @Test(expected = FailedMatrix::class)
     fun testExitCodeForInconclusive() { // inconclusive is treated as a failure
         val testExecutions = listOf(
             createStepExecution(-2, "Inconclusive")
@@ -89,11 +113,10 @@ class UtilsTest {
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
         val finishedMatrix = SavedMatrix(testMatrix)
-        val matrixMap = MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath")
-        assertThat(matrixMap.exitCode()).isEqualTo(1)
+        MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath").validateMatrices()
     }
 
-    @Test
+    @Test(expected = FTLError::class)
     fun testExitCodeForError() {
         val testExecutions = listOf(
             createStepExecution(-2, "Inconclusive"),
@@ -105,8 +128,68 @@ class UtilsTest {
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
         val errorMatrix = SavedMatrix(testMatrix)
-        val matrixMap = MatrixMap(mutableMapOf("errorMatrix" to errorMatrix), "MockPath")
-        assertThat(matrixMap.exitCode()).isEqualTo(2)
+        MatrixMap(mutableMapOf("errorMatrix" to errorMatrix), "MockPath").validateMatrices()
+    }
+
+    @Test
+    fun `should terminate process with exit code 1 if FailedMatrix exception is thrown`() {
+        // given
+        exit.expectSystemExitWithStatus(1)
+        val block = {
+            throw FailedMatrix(
+                listOf(
+                    mockk(relaxed = true) { every { matrixId } returns "1" },
+                    mockk(relaxed = true) { every { matrixId } returns "2" }
+                )
+            )
+        }
+        // when
+        withGlobalExceptionHandling(block)
+        // then
+        assertTrue(output.log.contains("Error: Matrix failed: 1"))
+        assertTrue(output.log.contains("Error: Matrix failed: 2"))
+    }
+
+    @Test
+    fun `should terminate process with exit code 1 if YmlValidationError is thrown`() {
+        exit.expectSystemExitWithStatus(1)
+        val block = { throw YmlValidationError() }
+        withGlobalExceptionHandling(block)
+    }
+
+    @Test
+    fun `should terminate process with exit code 1 and cancel running matrices if FlankTimeoutError is thrown`() {
+        // given
+        mockkStatic("ftl.run.CancelLastRunKt")
+        coEvery { cancelMatrices(any(), any()) } just runs
+        exit.expectSystemExitWithStatus(1)
+        val block = { throw FlankTimeoutError(mapOf("anyMatrix" to mockk(relaxed = true)), "anyProject") }
+        // when
+        withGlobalExceptionHandling(block)
+        // then
+        coVerify(exactly = 1) { cancelMatrices(any(), any()) }
+    }
+
+    @Test
+    fun `should terminate process with exit code 2 if FTLError is thrown`() {
+        // given
+        exit.expectSystemExitWithStatus(2)
+        val block = { throw FTLError(mockk(relaxed = true)) }
+        // when
+        withGlobalExceptionHandling(block)
+        // then
+        assertTrue(output.log.contains("Error: Matrix not finished:"))
+    }
+
+    @Test
+    fun `should terminate process with exit code 3 if FlankFatalError is thrown`() {
+        // given
+        exit.expectSystemExitWithStatus(3)
+        val block = { throw FlankFatalError("test error thrown") }
+        // when
+        withGlobalExceptionHandling(block)
+        // then
+        assertTrue(err.log.contains("test error thrown"))
     }
 
     @CommandLine.Command(name = "whosbad")
@@ -135,7 +218,7 @@ class UtilsTest {
     internal object HangingApp {
         @JvmStatic
         fun main(args: Array<String>) {
-            jvmHangingSafe { CommandLine(Malicious()).execute(*args) }
+            withGlobalExceptionHandling { CommandLine(Malicious()).execute(*args) }
         }
     }
 

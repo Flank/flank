@@ -8,6 +8,7 @@ import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
 import ftl.run.common.matrixPathToObj
 import ftl.test.util.FlankTestRunner
+import ftl.util.FTLError
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
@@ -32,7 +33,7 @@ class ReportManagerTest {
     @After
     fun tearDown() = unmockkAll()
 
-    @Test
+    @Test(expected = FTLError::class)
     fun `generate fromErrorResult`() {
         // TODO: NPE on Windows
         val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/error_result", AndroidArgs.default())

@@ -1,5 +1,7 @@
 package ftl.json
 
+import ftl.util.FTLError
+import ftl.util.FailedMatrix
 import ftl.util.MatrixState
 
 class MatrixMap(
@@ -19,28 +21,15 @@ class MatrixMap(
      * A matrix state of error means FTL had an infrastructure failure
      * A step outcome of failure means at least one test failed.
      *
-     * exit code 0 - all tests passed
-     * exit code 1 - at least one test failed/inconclusive & all matrices finished
-     * exit code 2 - at least one matrix not finished (usually FTL error)
+     * @throws [FailedMatrix]
+     *         at least one test failed/inconclusive & all matrices finished
+     * @throws [FTLError]
+     *         at least one matrix not finished (usually FTL error)
      */
-    fun exitCode(): Int {
-        var exitCode = 0
-
-        map.values.forEach { matrix ->
-            if (matrix.state != MatrixState.FINISHED) {
-                matrix.logError("not finished")
-                return 2
-            }
-            if (matrix.failed()) {
-                matrix.logError("failed")
-                exitCode = 1
-            }
+    fun validateMatrices() {
+        map.values.run {
+            firstOrNull { it.state != MatrixState.FINISHED }?.let { throw FTLError(it) }
+            filter { it.failed() }.let { if (it.isNotEmpty()) throw FailedMatrix(it) }
         }
-
-        return exitCode
-    }
-
-    private fun SavedMatrix.logError(message: String) {
-        println("Error: Matrix $message: ${this.matrixId} ${this.state} ${this.outcome} ${this.outcomeDetails} ${this.webLink}")
     }
 }

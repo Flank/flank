@@ -7,7 +7,7 @@ import ftl.args.IosArgs
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.util.FlankTestMethod
-import ftl.util.fatalError
+import ftl.util.flankFatalError
 import kotlin.math.ceil
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -69,7 +69,7 @@ object Shard {
         args: IArgs
     ): Int {
         if (args.shardTime == -1) return -1
-        if (args.shardTime < -1 || args.shardTime == 0) fatalError("Invalid shard time ${args.shardTime}")
+        if (args.shardTime < -1 || args.shardTime == 0) flankFatalError("Invalid shard time ${args.shardTime}")
 
         val oldDurations = createTestMethodDurationMap(oldTestResult, args)
         val testsTotalTime = testsToRun.sumByDouble { if (it.ignored) IGNORE_TEST_TIME else oldDurations[it.testName] ?: DEFAULT_TEST_TIME_SEC }
@@ -89,7 +89,7 @@ object Shard {
         // We need to respect the maxTestShards
         val shardCount = min(shardsByTime, args.maxTestShards)
 
-        if (shardCount <= 0) fatalError("Invalid shard count $shardCount")
+        if (shardCount <= 0) flankFatalError("Invalid shard count $shardCount")
         return shardCount
     }
 
@@ -100,7 +100,7 @@ object Shard {
         args: IArgs,
         forcedShardCount: Int = -1
     ): List<TestShard> {
-        if (forcedShardCount < -1 || forcedShardCount == 0) fatalError("Invalid forcedShardCount value $forcedShardCount")
+        if (forcedShardCount < -1 || forcedShardCount == 0) flankFatalError("Invalid forcedShardCount value $forcedShardCount")
 
         val maxShards = if (forcedShardCount == -1) args.maxTestShards else forcedShardCount
         val previousMethodDurations = createTestMethodDurationMap(oldTestResult, args)
@@ -126,7 +126,7 @@ object Shard {
         // Create the list of shards we will return
         if (shardsCount <= 0) {
             val platform = if (args is IosArgs) "ios" else "android"
-            fatalError(
+            flankFatalError(
                 """Invalid shard count. To debug try: flank $platform run --dump-shards
                     | args.maxTestShards: ${args.maxTestShards}
                     | forcedShardCount: $forcedShardCount 

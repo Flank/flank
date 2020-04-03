@@ -7,7 +7,6 @@ import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
-import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
@@ -18,9 +17,6 @@ class AndroidRunCommandTest {
     @Rule
     @JvmField
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
-
-    @get:Rule
-    val exit = ExpectedSystemExit.none()
 
     @Test
     fun androidRunCommandPrintsHelp() {
@@ -37,7 +33,6 @@ class AndroidRunCommandTest {
 
     @Test
     fun androidRunCommandRuns() {
-        exit.expectSystemExit()
         val runCmd = AndroidRunCommand()
         runCmd.configPath = "./src/test/kotlin/ftl/fixtures/simple-android-flank.yml"
         runCmd.run()

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.fasterxml.jackson.databind.node.MissingNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import ftl.args.ArgsHelper.yamlMapper
-import ftl.util.fatalError
+import ftl.util.flankFatalError
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -121,7 +121,7 @@ object YamlDeprecated {
     private val yamlWriter by lazy { yamlMapper.writerWithDefaultPrettyPrinter() }
 
     fun modify(yamlPath: Path): Boolean {
-        if (yamlPath.toFile().exists().not()) fatalError("Flank yml doesn't exist at path $yamlPath")
+        if (yamlPath.toFile().exists().not()) flankFatalError("Flank yml doesn't exist at path $yamlPath")
 
         val data = String(Files.readAllBytes(yamlPath))
         val (errorDetected, string) = modify(data)
@@ -138,7 +138,7 @@ object YamlDeprecated {
 
         if (error) {
             val platform = if (android) "android" else "ios"
-            fatalError("Invalid keys detected! Auto fix with: flank $platform doctor --fix")
+            flankFatalError("Invalid keys detected! Auto fix with: flank $platform doctor --fix")
         }
 
         return data

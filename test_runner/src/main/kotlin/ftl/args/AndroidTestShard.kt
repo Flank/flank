@@ -7,7 +7,7 @@ import ftl.filter.TestFilter
 import ftl.filter.TestFilters
 import ftl.gc.GcStorage
 import ftl.util.FlankTestMethod
-import ftl.util.fatalError
+import ftl.util.flankFatalError
 
 object AndroidTestShard {
 
@@ -29,7 +29,7 @@ object AndroidTestShard {
         val shouldThrowErrorIfMissingTests = allTestMethods.isEmpty() && !args.disableSharding
         when {
             shouldIgnoreMissingTests -> return mutableListOf()
-            shouldThrowErrorIfMissingTests -> throw IllegalStateException(fatalError("Test APK has no tests"))
+            shouldThrowErrorIfMissingTests -> throw IllegalStateException(flankFatalError("Test APK has no tests"))
         }
         val testFilter = TestFilters.fromTestTargets(args.testTargets)
         return allTestMethods filterWith testFilter
@@ -41,7 +41,7 @@ object AndroidTestShard {
         .map { FlankTestMethod("class ${it.testName}", it.isIgnored) }
         .toList()
         .also {
-            require(FtlConstants.useMock || it.isNotEmpty()) { fatalError("All tests filtered out") }
+            require(FtlConstants.useMock || it.isNotEmpty()) { flankFatalError("All tests filtered out") }
         }
 }
 

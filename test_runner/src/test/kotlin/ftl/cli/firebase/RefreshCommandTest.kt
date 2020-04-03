@@ -1,6 +1,5 @@
 package ftl.cli.firebase
 
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import ftl.test.util.FlankTestRunner
 import java.io.File
@@ -8,7 +7,6 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import org.junit.Rule
 import org.junit.Test
-import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
@@ -19,9 +17,6 @@ class RefreshCommandTest {
     @Rule
     @JvmField
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
-
-    @get:Rule
-    val exit = ExpectedSystemExit.none()!!
 
     /** Create one result dir with matrix_ids.json for refresh command tests */
     private fun setupResultsDir() {
@@ -70,7 +65,7 @@ class RefreshCommandTest {
         CommandLine(refresh).execute("-h")
 
         val output = systemOutRule.log.normalizeLineEnding()
-        Truth.assertThat(output).startsWith(
+        assertThat(output).startsWith(
             "Downloads results for the last Firebase Test Lab run\n" +
                     "\n" +
                     "refresh [-h]\n" +
@@ -91,13 +86,12 @@ class RefreshCommandTest {
     @Test
     fun refreshCommandRuns() {
         // TODO: ':' is an illegal character on windows
-        exit.expectSystemExit()
         setupResultsDir()
         val cmd = RefreshCommand()
         cmd.usageHelpRequested
         cmd.run()
         val output = systemOutRule.log
-        Truth.assertThat(output).contains("1 / 1 (100.00%)")
+        assertThat(output).contains("1 / 1 (100.00%)")
     }
 
     @Test

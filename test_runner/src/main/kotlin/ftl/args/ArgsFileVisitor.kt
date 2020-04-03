@@ -1,6 +1,6 @@
 package ftl.args
 
-import ftl.util.fatalError
+import ftl.util.flankFatalError
 import java.io.IOException
 import java.lang.RuntimeException
 import java.nio.file.FileSystems
@@ -47,7 +47,7 @@ class ArgsFileVisitor(glob: String) : SimpleFileVisitor<Path>() {
         val realPath = try {
             beforeGlob.toRealPath(LinkOption.NOFOLLOW_LINKS)
         } catch (e: java.nio.file.NoSuchFileException) {
-            fatalError("Failed to resolve path $searchPath")
+            flankFatalError("Failed to resolve path $searchPath")
             throw RuntimeException("never thrown")
         }
 

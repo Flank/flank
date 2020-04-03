@@ -10,9 +10,9 @@ import ftl.run.common.fetchArtifacts
 import ftl.run.common.pollMatrices
 import ftl.run.platform.runAndroidTests
 import ftl.run.platform.runIosTests
+import ftl.util.FlankTimeoutError
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withTimeoutOrNull
-import kotlin.system.exitProcess
 
 suspend fun newTestRun(args: IArgs) {
     withTimeoutOrNull(args.parsedTimeout) {
@@ -23,8 +23,7 @@ suspend fun newTestRun(args: IArgs) {
             cancelTestsOnTimeout(args.project, matrixMap.map) { pollMatrices(matrixMap, args) }
             cancelTestsOnTimeout(args.project, matrixMap.map) { fetchArtifacts(matrixMap, args) }
 
-            val exitCode = ReportManager.generate(matrixMap, args, testShardChunks)
-            exitProcess(exitCode)
+            ReportManager.generate(matrixMap, args, testShardChunks)
         }
     }
 }
@@ -42,11 +41,7 @@ private suspend fun <T> cancelTestsOnTimeout(
     savedMatrix: Map<String, SavedMatrix>? = null,
     block: suspend () -> T
 ) = try {
-        block()
-    } catch (_: TimeoutCancellationException) {
-        println("\nCanceling flank due to timeout")
-        savedMatrix?.run {
-            cancelMatrices(savedMatrix, projectId)
-        }
-        exitProcess(1)
-    }
+    block()
+} catch (_: TimeoutCancellationException) {
+    throw FlankTimeoutError(savedMatrix, projectId)
+}

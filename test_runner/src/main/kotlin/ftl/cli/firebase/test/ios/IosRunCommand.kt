@@ -14,7 +14,6 @@ import picocli.CommandLine.Command
 import picocli.CommandLine.Option
 import java.nio.file.Files
 import java.nio.file.Paths
-import kotlin.system.exitProcess
 
 @Command(
     name = "run",
@@ -43,11 +42,10 @@ class IosRunCommand : CommonRunCommand(), Runnable {
             val testShardChunksJson: String = prettyPrint.toJson(config.testShardChunks)
             Files.write(Paths.get(shardFile), testShardChunksJson.toByteArray())
             println("Saved shards to $shardFile")
-            exitProcess(0)
-        }
-
-        runBlocking {
-            newTestRun(config)
+        } else {
+            runBlocking {
+                newTestRun(config)
+            }
         }
     }
 
