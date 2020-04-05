@@ -40,7 +40,7 @@ object GcAndroidTestMatrix {
         testShards: ShardChunks,
         args: AndroidArgs,
         toolResultsHistory: ToolResultsHistory,
-        additionalTestGcsPaths: List<String>
+        additionalApkGcsPaths: List<String>
     ): Testing.Projects.TestMatrices.Create {
 
         // https://github.com/bootstraponline/studio-google-cloud-testing/blob/203ed2890c27a8078cd1b8f7ae12cf77527f426b/firebase-testing/src/com/google/gct/testing/launcher/CloudTestsLauncher.java#L120
@@ -83,7 +83,7 @@ object GcAndroidTestMatrix {
             .setAccount(account)
             .setNetworkProfile(args.networkProfile)
             .setDirectoriesToPull(args.directoriesToPull)
-            .setAdditionalApks(additionalTestGcsPaths.mapGcsPathsToApks())
+            .setAdditionalApks(additionalApkGcsPaths.mapGcsPathsToApks())
 
         if (args.environmentVariables.isNotEmpty()) {
             testSetup.environmentVariables =

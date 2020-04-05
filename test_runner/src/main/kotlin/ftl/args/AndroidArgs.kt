@@ -52,7 +52,7 @@ class AndroidArgs(
     private val androidGcloud = androidGcloudYml.gcloud
     val appApk = (cli?.app ?: androidGcloud.app ?: fatalError("app is not set")).processApkPath("from app")
     val testApk = (cli?.test ?: androidGcloud.test ?: fatalError("test is not set")).processApkPath("from test")
-    val additionalTestApks = (cli?.additionalApks ?: androidGcloud.additionalApks).map { it.processApkPath("from additional-apks") }
+    val additionalApks = (cli?.additionalApks ?: androidGcloud.additionalApks).map { it.processApkPath("from additional-apks") }
     val autoGoogleLogin = cli?.autoGoogleLogin ?: cli?.noAutoGoogleLogin?.not() ?: androidGcloud.autoGoogleLogin
 
     // We use not() on noUseOrchestrator because if the flag is on, useOrchestrator needs to be false
@@ -124,7 +124,7 @@ AndroidArgs
       # Android gcloud
       app: $appApk
       test: $testApk
-      additional-apks: ${listToString(additionalTestApks)}
+      additional-apks: ${listToString(additionalApks)}
       auto-google-login: $autoGoogleLogin
       use-orchestrator: $useOrchestrator
       directories-to-pull:${listToString(directoriesToPull)}

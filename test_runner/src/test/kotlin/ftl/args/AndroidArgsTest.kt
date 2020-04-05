@@ -185,7 +185,7 @@ class AndroidArgsTest {
             // AndroidGcloudYml
             assert(appApk, appApkAbsolutePath)
             assert(testApk, testApkAbsolutePath)
-            assert(additionalTestApks, listOf(testErrorApkAbsolutePath, testFlakyApkAbsolutePath))
+            assert(additionalApks, listOf(testErrorApkAbsolutePath, testFlakyApkAbsolutePath))
             assert(autoGoogleLogin, false)
             assert(useOrchestrator, false)
             assert(environmentVariables, linkedMapOf("clearPackageData" to "true", "randomEnvVar" to "false"))
