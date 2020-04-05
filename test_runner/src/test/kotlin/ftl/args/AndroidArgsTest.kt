@@ -244,8 +244,8 @@ AndroidArgs
       app: $appApkAbsolutePath
       test: $testApkAbsolutePath
       additional-apks: 
-        - /Users/janek/projects/flank-project/flank/test_app/apks/error-androidTest.apk
-        - /Users/janek/projects/flank-project/flank/test_app/apks/flaky-androidTest.apk
+        - $testErrorApkAbsolutePath
+        - $testFlakyApkAbsolutePath
       auto-google-login: false
       use-orchestrator: false
       directories-to-pull:
