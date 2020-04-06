@@ -47,7 +47,7 @@ class AndroidGcloudYmlParams(
         override val keys = listOf(
             "app",
             "test",
-            "additionalApks",
+            "additional-apks",
             "auto-google-login",
             "use-orchestrator",
             "environment-variables",
