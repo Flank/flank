@@ -10,6 +10,7 @@ import ftl.run.common.updateMatrixFile
 import ftl.util.StopWatch
 import ftl.util.isInvalid
 import ftl.util.webLink
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
@@ -53,7 +54,7 @@ private fun saveConfigFile(matrixMap: MatrixMap, args: IArgs) {
 private suspend inline fun MatrixMap.printMatricesWebLinks(project: String) = coroutineScope {
     println("Matrices webLink")
     map.values.map {
-        launch {
+        launch(Dispatchers.IO) {
             println("${FtlConstants.indent}${it.matrixId} ${getOrUpdateWebLink(it.webLink, project, it.matrixId)}")
         }
     }.joinAll()
