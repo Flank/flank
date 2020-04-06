@@ -31,8 +31,9 @@ Smart Flank
 Exit code | Description
  --       |         -- |
 0         | All tests passed
-1         | At least one test failed or inconclusive and all matrices finished.
-2         | At least one matrix not finished, usually a FTL error.
+1         | All matrices finished but at least one test failed or inconclusive.
+2         | Usually indicates missing or wrong usage of flags, incorrect parameters, errors in config files.
+3         | At least one matrix not finished (usually a FTL internal error) or unexpected error occurred.
 
 ## CLI
 

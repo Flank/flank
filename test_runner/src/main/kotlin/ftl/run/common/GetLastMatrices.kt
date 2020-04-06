@@ -10,12 +10,7 @@ import java.nio.file.Paths
 
 /** Reads in the last matrices from the localResultDir folder **/
 internal fun getLastMatrices(args: IArgs): MatrixMap {
-    val lastRun = args.getLastGcsPath()
-
-    if (lastRun == null) {
-        flankFatalError("no runs found in results/ folder")
-        throw RuntimeException("fatalError failed to exit the process")
-    }
+    val lastRun = args.getLastGcsPath() ?: flankFatalError("no runs found in results/ folder")
 
     println("Loading run $lastRun")
     return matrixPathToObj(lastRun, args)

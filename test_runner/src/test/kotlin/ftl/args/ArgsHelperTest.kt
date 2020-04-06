@@ -15,6 +15,7 @@ import ftl.shard.TestShard
 import ftl.shard.stringShards
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
+import ftl.util.FlankFatalError
 import io.mockk.every
 import io.mockk.spyk
 import io.mockk.unmockkAll
@@ -162,7 +163,7 @@ class ArgsHelperTest {
         assertThat(actual).isEqualTo(expected)
     }
 
-    @Test(expected = RuntimeException::class)
+    @Test(expected = FlankFatalError::class)
     fun evaluateInvalidFilePath() {
         val testApkPath = "~/flank_test_app/invalid_path/app-debug-*.xctestrun"
         ArgsHelper.evaluateFilePath(testApkPath)

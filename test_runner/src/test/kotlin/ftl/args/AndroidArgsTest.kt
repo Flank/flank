@@ -11,6 +11,7 @@ import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.getPath
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
+import ftl.util.FlankFatalError
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -450,7 +451,7 @@ AndroidArgs
         assertThat(testShardChunks).hasSize(1)
     }
 
-    @Test(expected = RuntimeException::class)
+    @Test(expected = FlankFatalError::class)
     fun `Invalid apk throws`() {
         val yaml = """
         gcloud:

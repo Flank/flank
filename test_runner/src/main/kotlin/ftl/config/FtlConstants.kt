@@ -81,7 +81,6 @@ object FtlConstants {
                 ServiceAccountCredentials.getApplicationDefault()
             } catch (e: IOException) {
                 flankFatalError("Error: Failed to read service account credential.\n${e.message}")
-                throw RuntimeException("never thrown")
             }
         }
     }

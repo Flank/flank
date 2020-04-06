@@ -29,7 +29,7 @@ object AndroidTestShard {
         val shouldThrowErrorIfMissingTests = allTestMethods.isEmpty() && !args.disableSharding
         when {
             shouldIgnoreMissingTests -> return mutableListOf()
-            shouldThrowErrorIfMissingTests -> throw IllegalStateException(flankFatalError("Test APK has no tests"))
+            shouldThrowErrorIfMissingTests -> flankFatalError("Test APK has no tests")
         }
         val testFilter = TestFilters.fromTestTargets(args.testTargets)
         return allTestMethods filterWith testFilter

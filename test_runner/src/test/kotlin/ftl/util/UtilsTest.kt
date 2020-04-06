@@ -2,20 +2,25 @@ package ftl.util
 
 import com.google.api.services.testing.model.TestMatrix
 import com.google.common.truth.Truth.assertThat
+import ftl.config.FtlConstants
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
 import ftl.json.SavedMatrixTest.Companion.createResultsStorage
 import ftl.json.SavedMatrixTest.Companion.createStepExecution
 import ftl.run.cancelMatrices
 import ftl.test.util.FlankTestRunner
+import io.mockk.called
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.runs
+import io.mockk.spyk
 import io.mockk.unmockkAll
+import io.mockk.verify
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.Assert.assertTrue
@@ -171,9 +176,9 @@ class UtilsTest {
     }
 
     @Test
-    fun `should terminate process with exit code 2 if FTLError is thrown`() {
+    fun `should terminate process with exit code 3 if FTLError is thrown`() {
         // given
-        exit.expectSystemExitWithStatus(2)
+        exit.expectSystemExitWithStatus(3)
         val block = { throw FTLError(mockk(relaxed = true)) }
         // when
         withGlobalExceptionHandling(block)
@@ -182,14 +187,52 @@ class UtilsTest {
     }
 
     @Test
-    fun `should terminate process with exit code 3 if FlankFatalError is thrown`() {
+    fun `should terminate process with exit code 2 if FlankFatalError is thrown`() {
         // given
-        exit.expectSystemExitWithStatus(3)
-        val block = { throw FlankFatalError("test error thrown") }
+        val message = "test error was thrown"
+        exit.expectSystemExitWithStatus(2)
+        val block = { throw FlankFatalError(message) }
         // when
         withGlobalExceptionHandling(block)
         // then
-        assertTrue(err.log.contains("test error thrown"))
+        assertTrue(err.log.contains(message))
+    }
+
+    @Test
+    fun `should terminate process with exit code 3 if not flank related exception is thrown`() {
+        // given
+        val message = "not flank related error thrown"
+        val spy = spyk<FtlConstants>()
+        exit.expectSystemExitWithStatus(3)
+        val block = { throw RuntimeException(message) }
+        // when
+        withGlobalExceptionHandling(block)
+        // then
+        assertTrue(err.log.contains(message))
+
+        // this is extra check to verify if test errors are not reported to Bugsnag
+        // should be removed or changed when https://github.com/Flank/flank/issues/699 is resolved
+        verify { spy.bugsnag?.wasNot(called) }
+    }
+
+    @Test
+    fun `should notify bugsnag if non related flak error occurred`() {
+        // given
+        val message = "not flank related error thrown"
+        mockkObject(FtlConstants)
+        every { FtlConstants.useMock } returns false
+        every { FtlConstants.bugsnag } returns mockk() {
+            every { notify(any<Throwable>()) } returns true
+        }
+        exit.expectSystemExitWithStatus(3)
+        val block = { throw RuntimeException(message) }
+        // when
+        withGlobalExceptionHandling(block)
+        // then
+        assertTrue(err.log.contains(message))
+
+        verify(exactly = 1) { FtlConstants.useMock }
+        verify(exactly = 1) { FtlConstants.bugsnag?.notify(any<Throwable>()) }
     }
 
     @CommandLine.Command(name = "whosbad")
@@ -218,12 +261,12 @@ class UtilsTest {
     internal object HangingApp {
         @JvmStatic
         fun main(args: Array<String>) {
+            FtlConstants.useMock = true
             withGlobalExceptionHandling { CommandLine(Malicious()).execute(*args) }
         }
     }
 
     @Test
-    @Throws(Exception::class)
     fun `should terminate if non-daemon thread launched from main thread throws an error`() {
         val processStarted = CountDownLatch(1)
         val completed = AtomicBoolean(false)
@@ -247,7 +290,7 @@ class UtilsTest {
         processStarted.await()
         simulatedMain.join(3 * 1000L)
         assertTrue("Our simulated main thread should have completed but instead it hung...", completed.get())
-        assertEquals(CommandLine.ExitCode.SOFTWARE, exitCode.get())
+        assertEquals(3, exitCode.get())
         File(VERIFICATION_FILE).also {
             assertTrue("Verification file should exists, process might not have started", it.exists())
             assertTrue(it.inputStream().readBytes().toString(Charsets.UTF_8).contains(VERIFICATION_MESSAGE))

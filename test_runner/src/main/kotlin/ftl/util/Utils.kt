@@ -6,7 +6,6 @@ import ftl.config.FtlConstants
 import ftl.json.SavedMatrix
 import ftl.run.cancelMatrices
 import kotlinx.coroutines.runBlocking
-import picocli.CommandLine
 import java.io.InputStream
 import java.io.StringWriter
 import java.nio.file.Files
@@ -47,10 +46,7 @@ inline fun fatalError(e: Exception, message: String? = null) {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-inline fun flankFatalError(e: String): String {
-    if (FtlConstants.useMock) throw RuntimeException(e)
-    else throw FlankFatalError(e)
-}
+inline fun flankFatalError(e: String): Nothing = throw FlankFatalError(e)
 
 fun assertNotEmpty(str: String, e: String) {
     if (str.isEmpty()) {
@@ -138,8 +134,6 @@ fun copyBinaryResource(name: String) {
     destinationFile.setExecutable(true)
 }
 
-// We need to cover the case where some component in the call stack starts a non-daemon
-// thread, and then throws an Error that kills the main thread. This is extra safe implementation
 fun withGlobalExceptionHandling(block: () -> Int) {
     try {
         exitProcess(block())
@@ -161,15 +155,22 @@ fun withGlobalExceptionHandling(block: () -> Int) {
             }
             is FTLError -> {
                 t.matrix.logError("not finished")
-                exitProcess(2)
+                exitProcess(3)
             }
             is FlankFatalError -> {
                 System.err.println(t.message)
-                exitProcess(3)
+                exitProcess(2)
             }
+            // We need to cover the case where some component in the call stack starts a non-daemon
+            // thread, and then throws an Error that kills the main thread. This is extra safe implementation
             else -> {
+                // this is workaround for Bugsnag initialization bug, should be removed when resolved
+                // https://github.com/Flank/flank/issues/699
+                if (FtlConstants.useMock.not()) {
+                    FtlConstants.bugsnag?.notify(t)
+                }
                 t.printStackTrace()
-                exitProcess(CommandLine.ExitCode.SOFTWARE)
+                exitProcess(3)
             }
         }
     }
