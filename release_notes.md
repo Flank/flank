@@ -1,4 +1,5 @@
 ## next (unreleased)
+- [#692](https://github.com/Flank/flank/pull/698) Add support for other-files option. ([jan-gogo](https://github.com/jan-gogo))
 - [#695](https://github.com/Flank/flank/pull/695) Add support for additional-apks option. ([jan-gogo](https://github.com/jan-gogo))
 - [#683](https://github.com/Flank/flank/pull/683) Print web link. ([pawelpasterz](https://github.com/pawelpasterz))
 - [#692](https://github.com/Flank/flank/pull/692) Add support for network-profiles list command & --network-profile option. ([jan-gogo](https://github.com/jan-gogo))
