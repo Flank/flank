@@ -60,6 +60,9 @@ class AndroidArgsTest {
           directories-to-pull:
           - /sdcard/screenshots
           - /sdcard/screenshots2
+          other-files:
+            /sdcard/dir1/file1.txt: $appApk
+            /sdcard/dir2/file2.jpg: $testApk
           performance-metrics: false
           test-runner-class: com.foo.TestRunner
           test-targets:
@@ -190,6 +193,12 @@ class AndroidArgsTest {
             assert(useOrchestrator, false)
             assert(environmentVariables, linkedMapOf("clearPackageData" to "true", "randomEnvVar" to "false"))
             assert(directoriesToPull, listOf("/sdcard/screenshots", "/sdcard/screenshots2"))
+            assert(
+                otherFiles, mapOf(
+                    "/sdcard/dir1/file1.txt" to appApkAbsolutePath,
+                    "/sdcard/dir2/file2.jpg" to testApkAbsolutePath
+                )
+            )
             assert(performanceMetrics, false)
             assert(testRunnerClass, "com.foo.TestRunner")
             assert(
@@ -251,6 +260,9 @@ AndroidArgs
       directories-to-pull:
         - /sdcard/screenshots
         - /sdcard/screenshots2
+      other-files:
+        /sdcard/dir1/file1.txt: $appApkAbsolutePath
+        /sdcard/dir2/file2.jpg: $testApkAbsolutePath
       performance-metrics: false
       test-runner-class: com.foo.TestRunner
       test-targets:
@@ -314,6 +326,7 @@ AndroidArgs
       auto-google-login: false
       use-orchestrator: true
       directories-to-pull:
+      other-files:
       performance-metrics: false
       test-runner-class: null
       test-targets:

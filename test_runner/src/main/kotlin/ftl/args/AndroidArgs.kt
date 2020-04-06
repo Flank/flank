@@ -59,6 +59,7 @@ class AndroidArgs(
     val useOrchestrator = cli?.useOrchestrator ?: cli?.noUseOrchestrator?.not() ?: androidGcloud.useOrchestrator
     val environmentVariables = cli?.environmentVariables ?: androidGcloud.environmentVariables
     val directoriesToPull = cli?.directoriesToPull ?: androidGcloud.directoriesToPull
+    val otherFiles = cli?.otherFiles ?: androidGcloud.otherFiles // TODO assert gcs file or evaluate path
     val performanceMetrics = cli?.performanceMetrics ?: cli?.noPerformanceMetrics?.not() ?: androidGcloud.performanceMetrics
     val testRunnerClass = cli?.testRunnerClass ?: androidGcloud.testRunnerClass
     val testTargets = cli?.testTargets ?: androidGcloud.testTargets.filterNotNull()
@@ -128,6 +129,7 @@ AndroidArgs
       auto-google-login: $autoGoogleLogin
       use-orchestrator: $useOrchestrator
       directories-to-pull:${listToString(directoriesToPull)}
+      other-files:${mapToString(otherFiles)}
       performance-metrics: $performanceMetrics
       test-runner-class: $testRunnerClass
       test-targets:${listToString(testTargets)}

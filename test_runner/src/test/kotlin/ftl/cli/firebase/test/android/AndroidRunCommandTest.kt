@@ -76,6 +76,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.testRunnerClass).isNull()
         assertThat(cmd.environmentVariables).isNull()
         assertThat(cmd.directoriesToPull).isNull()
+        assertThat(cmd.otherFiles).isNull()
         assertThat(cmd.device).isNull()
         assertThat(cmd.resultsBucket).isNull()
         assertThat(cmd.recordVideo).isNull()
@@ -206,6 +207,14 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parseArgs("--directories-to-pull=a,b")
 
         assertThat(cmd.directoriesToPull).hasSize(2)
+    }
+
+    @Test
+    fun `otherFiles parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--other-files=a=1,b=2")
+
+        assertThat(cmd.otherFiles).hasSize(2)
     }
 
     @Test

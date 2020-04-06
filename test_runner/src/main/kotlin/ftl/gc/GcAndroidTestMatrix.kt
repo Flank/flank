@@ -6,12 +6,14 @@ import com.google.api.services.testing.model.AndroidDeviceList
 import com.google.api.services.testing.model.AndroidInstrumentationTest
 import com.google.api.services.testing.model.Apk
 import com.google.api.services.testing.model.ClientInfo
+import com.google.api.services.testing.model.DeviceFile
 import com.google.api.services.testing.model.EnvironmentMatrix
 import com.google.api.services.testing.model.EnvironmentVariable
 import com.google.api.services.testing.model.FileReference
 import com.google.api.services.testing.model.GoogleAuto
 import com.google.api.services.testing.model.GoogleCloudStorage
 import com.google.api.services.testing.model.ManualSharding
+import com.google.api.services.testing.model.RegularFile
 import com.google.api.services.testing.model.ResultStorage
 import com.google.api.services.testing.model.ShardingOption
 import com.google.api.services.testing.model.TestMatrix
@@ -35,6 +37,7 @@ object GcAndroidTestMatrix {
     fun build(
         appApkGcsPath: String,
         testApkGcsPath: String,
+        otherFiles: Map<String, String>,
         runGcsPath: String,
         androidDeviceList: AndroidDeviceList,
         testShards: ShardChunks,
@@ -84,6 +87,7 @@ object GcAndroidTestMatrix {
             .setNetworkProfile(args.networkProfile)
             .setDirectoriesToPull(args.directoriesToPull)
             .setAdditionalApks(additionalApkGcsPaths.mapGcsPathsToApks())
+            .setFilesToPush(otherFiles.mapToDeviceFiles())
 
         if (args.environmentVariables.isNotEmpty()) {
             testSetup.environmentVariables =
@@ -125,3 +129,11 @@ object GcAndroidTestMatrix {
 private fun List<String>?.mapGcsPathsToApks(): List<Apk>? = this
     ?.takeIf { it.isNotEmpty() }
     ?.map { gcsPath -> Apk().setLocation(FileReference().setGcsPath(gcsPath)) }
+
+private fun Map<String, String>.mapToDeviceFiles() = map { (devicePath: String, gcsFilePath: String) ->
+    DeviceFile().setRegularFile(
+        RegularFile()
+            .setDevicePath(devicePath)
+            .setContent(FileReference().setGcsPath(gcsFilePath))
+    )
+}

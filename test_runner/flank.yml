@@ -78,6 +78,13 @@ gcloud:
   # directories-to-pull:
   #   - /sdcard/
 
+  ## A list of device-path: file-path pairs that indicate the device paths to push files to the device before starting tests, and the paths of files to push.
+  ## Device paths must be under absolute, whitelisted paths (${EXTERNAL_STORAGE}, or ${ANDROID_DATA}/local/tmp).
+  ## Source file paths may be in the local filesystem or in Google Cloud Storage (gs://…).
+  # other-files
+  #   - /sdcard/dir1/file1.txt: local/file.txt
+  #   - /sdcard/dir2/file2.jpg: gs://bucket/file.jpg
+
   ## Monitor and record performance metrics: CPU, memory, network usage, and FPS (game-loop only).
   ## Enabled by default, use --no-performance-metrics to disable.
   # performance-metrics: true

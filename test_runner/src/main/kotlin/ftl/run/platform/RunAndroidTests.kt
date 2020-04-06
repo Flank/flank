@@ -34,6 +34,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     val runCount = args.repeatTests
     val history = GcToolResults.createToolResultsHistory(args)
     val resolvedTestApks = args.getResolvedTestApks()
+    val otherGcsFiles = args.otherFiles.uploadOtherFiles(args.resultsBucket, runGcsPath)
 
     val allTestShardChunks: ShardChunks = resolvedTestApks.map { apks: ResolvedTestApks ->
         // Ensure we only shard tests that are part of the test apk. Use the resolved test apk path to make sure
@@ -45,6 +46,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
                     args = args,
                     runGcsPath = runGcsPath
                 ),
+                            otherFiles = otherGcsFiles,
                 runGcsPath = runGcsPath,
                 androidDeviceList = androidDeviceList,
                 testShards = testShards,
@@ -81,6 +83,7 @@ private suspend fun executeAndroidTestMatrix(
     args: AndroidArgs,
     testShards: ShardChunks,
     uploadedTestApks: UploadedTestApks,
+    otherFiles: Map<String, String>,
     androidDeviceList: AndroidDeviceList,
     history: ToolResultsHistory,
     runCount: Int
@@ -94,6 +97,7 @@ private suspend fun executeAndroidTestMatrix(
                 androidDeviceList = androidDeviceList,
                 testShards = testShards,
                 args = args,
+                otherFiles = otherFiles,
                 toolResultsHistory = history,
                 additionalApkGcsPaths = uploadedTestApks.additionalApks
             ).executeWithRetry()
@@ -122,4 +126,13 @@ private suspend fun uploadTestApks(
         test = testApkGcsPath.await(),
         additionalApks = additionalApkGcsPaths.awaitAll()
     )
+}
+
+private suspend fun Map<String, String>.uploadOtherFiles(
+    gcsBucket: String,
+    runGcsPath: String
+): Map<String, String> = coroutineScope {
+    map { (devicePath: String, filePath: String) ->
+        async(Dispatchers.IO) { devicePath to GcStorage.upload(filePath, gcsBucket, runGcsPath) }
+    }.awaitAll().toMap()
 }
