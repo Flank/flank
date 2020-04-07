@@ -27,8 +27,11 @@ class AndroidArgsTest {
     private val invalidApk = "../test_app/apks/invalid.apk"
     private val testApk = "../test_app/apks/app-debug-androidTest.apk"
     private val testErrorApk = "../test_app/apks/error-androidTest.apk"
+    private val testFlakyApk = "../test_app/apks/flaky-androidTest.apk"
     private val appApkAbsolutePath = appApk.absolutePath()
     private val testApkAbsolutePath = testApk.absolutePath()
+    private val testErrorApkAbsolutePath = testErrorApk.absolutePath()
+    private val testFlakyApkAbsolutePath = testFlakyApk.absolutePath()
     private val simpleFlankPath = getPath("src/test/kotlin/ftl/fixtures/simple-android-flank.yml")
 
     private val androidNonDefault = """
@@ -46,6 +49,9 @@ class AndroidArgsTest {
 
           app: $appApk
           test: $testApk
+          additional-apks:
+            - $testErrorApk
+            - $testFlakyApk
           auto-google-login: false
           use-orchestrator: false
           environment-variables:
@@ -83,8 +89,8 @@ class AndroidArgsTest {
           disable-sharding: true
           keep-file-path: true
           additional-app-test-apks:
-            - app: foo
-              test: bar
+            - app: $appApk
+              test: $testErrorApk
           run-timeout: 20m
       """
 
@@ -179,6 +185,7 @@ class AndroidArgsTest {
             // AndroidGcloudYml
             assert(appApk, appApkAbsolutePath)
             assert(testApk, testApkAbsolutePath)
+            assert(additionalApks, listOf(testErrorApkAbsolutePath, testFlakyApkAbsolutePath))
             assert(autoGoogleLogin, false)
             assert(useOrchestrator, false)
             assert(environmentVariables, linkedMapOf("clearPackageData" to "true", "randomEnvVar" to "false"))
@@ -236,6 +243,9 @@ AndroidArgs
       # Android gcloud
       app: $appApkAbsolutePath
       test: $testApkAbsolutePath
+      additional-apks: 
+        - $testErrorApkAbsolutePath
+        - $testFlakyApkAbsolutePath
       auto-google-login: false
       use-orchestrator: false
       directories-to-pull:
@@ -275,8 +285,8 @@ AndroidArgs
       # Android Flank Yml
       keep-file-path: true
       additional-app-test-apks:
-        - app: foo
-          test: bar
+        - app: $appApkAbsolutePath
+          test: $testErrorApkAbsolutePath
       run-timeout: 20m
       legacy-junit-result: false
 """.trimIndent()
@@ -300,6 +310,7 @@ AndroidArgs
       # Android gcloud
       app: $appApkAbsolutePath
       test: $testApkAbsolutePath
+      additional-apks: 
       auto-google-login: false
       use-orchestrator: true
       directories-to-pull:
@@ -977,7 +988,7 @@ AndroidArgs
     @Test
     fun `cli additional-app-test-apks`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parseArgs("--additional-app-test-apks=app=a,test=b")
+        CommandLine(cli).parseArgs("--additional-app-test-apks=app=$appApk,test=$testFlakyApk")
 
         val yaml = """
         gcloud:
@@ -985,15 +996,18 @@ AndroidArgs
           test: $testApk
         flank:
           additional-app-test-apks:
-          - app: 1
-            test: 2
+          - app: $appApk
+            test: $testErrorApk
       """
-        assertThat(AndroidArgs.load(yaml).additionalAppTestApks).isEqualTo(
-            listOf(AppTestPair("1", "2")))
+        assertEquals(
+            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath)),
+            AndroidArgs.load(yaml).additionalAppTestApks
+        )
 
-        val androidArgs = AndroidArgs.load(yaml, cli)
-        assertThat(androidArgs.additionalAppTestApks).isEqualTo(
-            listOf(AppTestPair("a", "b")))
+        assertEquals(
+            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath)),
+            AndroidArgs.load(yaml, cli).additionalAppTestApks
+        )
     }
 
     @Test

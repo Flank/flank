@@ -65,6 +65,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.dryRun).isFalse()
         assertThat(cmd.app).isNull()
         assertThat(cmd.test).isNull()
+        assertThat(cmd.additionalApks).isNull()
         assertThat(cmd.testTargets).isNull()
         assertThat(cmd.useOrchestrator).isNull()
         assertThat(cmd.noUseOrchestrator).isNull()
@@ -113,6 +114,13 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--test", "myTestApp.apk")
         assertThat(cmd.test).isEqualTo("myTestApp.apk")
+    }
+
+    @Test
+    fun `additionalApks parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--additional-apks=a.apk,b.apk")
+        assertThat(cmd.additionalApks).isEqualTo(listOf("a.apk", "b.apk"))
     }
 
     @Test

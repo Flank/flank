@@ -8,14 +8,16 @@ data class AppTestPair(
     val test: String
 )
 
-data class ResolvedTestPair(
+data class ResolvedTestApks(
     val app: String,
-    val test: String
+    val test: String,
+    val additionalApks: List<String> = emptyList()
 )
 
-data class UploadedTestPair(
+data class UploadedTestApks(
     val app: String,
-    val test: String
+    val test: String,
+    val additionalApks: List<String> = emptyList()
 )
 
 /** Flank specific parameters for Android */

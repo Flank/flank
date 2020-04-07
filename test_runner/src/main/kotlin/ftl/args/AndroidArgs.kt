@@ -20,6 +20,7 @@ import ftl.args.ArgsToString.mapToString
 import ftl.args.yml.AndroidFlankYml
 import ftl.args.yml.AndroidGcloudYml
 import ftl.args.yml.AndroidGcloudYmlParams
+import ftl.args.yml.AppTestPair
 import ftl.args.yml.FlankYml
 import ftl.args.yml.GcloudYml
 import ftl.args.yml.YamlDeprecated
@@ -49,8 +50,9 @@ class AndroidArgs(
     override val flakyTestAttempts = cli?.flakyTestAttempts ?: gcloud.flakyTestAttempts
 
     private val androidGcloud = androidGcloudYml.gcloud
-    var appApk = cli?.app ?: androidGcloud.app ?: fatalError("app is not set")
-    var testApk = cli?.test ?: androidGcloud.test ?: fatalError("test is not set")
+    val appApk = (cli?.app ?: androidGcloud.app ?: fatalError("app is not set")).processApkPath("from app")
+    val testApk = (cli?.test ?: androidGcloud.test ?: fatalError("test is not set")).processApkPath("from test")
+    val additionalApks = (cli?.additionalApks ?: androidGcloud.additionalApks).map { it.processApkPath("from additional-apks") }
     val autoGoogleLogin = cli?.autoGoogleLogin ?: cli?.noAutoGoogleLogin?.not() ?: androidGcloud.autoGoogleLogin
 
     // We use not() on noUseOrchestrator because if the flag is on, useOrchestrator needs to be false
@@ -79,26 +81,17 @@ class AndroidArgs(
     override val networkProfile = cli?.networkProfile ?: gcloud.networkProfile
 
     private val androidFlank = androidFlankYml.flank
-    val additionalAppTestApks = cli?.additionalAppTestApks ?: androidFlank.additionalAppTestApks
+    val additionalAppTestApks = (cli?.additionalAppTestApks ?: androidFlank.additionalAppTestApks).map { (app, test) ->
+        AppTestPair(
+            app = app?.processApkPath("from additional-app-test-apks.app"),
+            test = test.processApkPath("from additional-app-test-apks.test")
+        )
+    }
     val keepFilePath = cli?.keepFilePath ?: androidFlank.keepFilePath
 
     init {
         resultsBucket = createGcsBucket(project, cli?.resultsBucket ?: gcloud.resultsBucket)
         createJunitBucket(project, flank.smartFlankGcsPath)
-
-        if (appApk.startsWith(FtlConstants.GCS_PREFIX)) {
-            assertGcsFileExists(appApk)
-        } else {
-            appApk = evaluateFilePath(appApk)
-            assertFileExists(appApk, "appApk")
-        }
-
-        if (testApk.startsWith(FtlConstants.GCS_PREFIX)) {
-            assertGcsFileExists(testApk)
-        } else {
-            testApk = evaluateFilePath(testApk)
-            assertFileExists(testApk, "testApk")
-        }
 
         devices.forEach { device -> assertDeviceSupported(device) }
 
@@ -131,6 +124,7 @@ AndroidArgs
       # Android gcloud
       app: $appApk
       test: $testApk
+      additional-apks: ${listToString(additionalApks)}
       auto-google-login: $autoGoogleLogin
       use-orchestrator: $useOrchestrator
       directories-to-pull:${listToString(directoriesToPull)}
@@ -196,3 +190,8 @@ AndroidArgs
         }
     }
 }
+
+private fun String.processApkPath(name: String): String =
+    if (startsWith(FtlConstants.GCS_PREFIX))
+        this.also { assertGcsFileExists(it) } else
+        evaluateFilePath(this).also { assertFileExists(it, name) }

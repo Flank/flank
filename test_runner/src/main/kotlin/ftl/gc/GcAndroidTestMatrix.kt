@@ -4,6 +4,7 @@ import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.Account
 import com.google.api.services.testing.model.AndroidDeviceList
 import com.google.api.services.testing.model.AndroidInstrumentationTest
+import com.google.api.services.testing.model.Apk
 import com.google.api.services.testing.model.ClientInfo
 import com.google.api.services.testing.model.EnvironmentMatrix
 import com.google.api.services.testing.model.EnvironmentVariable
@@ -38,7 +39,8 @@ object GcAndroidTestMatrix {
         androidDeviceList: AndroidDeviceList,
         testShards: ShardChunks,
         args: AndroidArgs,
-        toolResultsHistory: ToolResultsHistory
+        toolResultsHistory: ToolResultsHistory,
+        additionalApkGcsPaths: List<String>
     ): Testing.Projects.TestMatrices.Create {
 
         // https://github.com/bootstraponline/studio-google-cloud-testing/blob/203ed2890c27a8078cd1b8f7ae12cf77527f426b/firebase-testing/src/com/google/gct/testing/launcher/CloudTestsLauncher.java#L120
@@ -81,6 +83,7 @@ object GcAndroidTestMatrix {
             .setAccount(account)
             .setNetworkProfile(args.networkProfile)
             .setDirectoriesToPull(args.directoriesToPull)
+            .setAdditionalApks(additionalApkGcsPaths.mapGcsPathsToApks())
 
         if (args.environmentVariables.isNotEmpty()) {
             testSetup.environmentVariables =
@@ -118,3 +121,7 @@ object GcAndroidTestMatrix {
         throw RuntimeException("Failed to create test matrix")
     }
 }
+
+private fun List<String>?.mapGcsPathsToApks(): List<Apk>? = this
+    ?.takeIf { it.isNotEmpty() }
+    ?.map { gcsPath -> Apk().setLocation(FileReference().setGcsPath(gcsPath)) }

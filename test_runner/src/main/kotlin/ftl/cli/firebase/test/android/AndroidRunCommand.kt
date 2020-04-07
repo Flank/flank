@@ -93,6 +93,16 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
     var test: String? = null
 
     @Option(
+        names = ["--additional-apks"],
+        split = ",",
+        description = [
+            "A list of up to 100 additional APKs to install, in addition to those being directly tested.",
+            "The path may be in the local filesystem or in Google Cloud Storage using gs:// notation. "
+        ]
+    )
+    var additionalApks: List<String>? = null
+
+    @Option(
         names = ["--auto-google-login"],
         description = ["Automatically log into the test device using a preconfigured " +
                 "Google account before beginning the test. Disabled by default."]
