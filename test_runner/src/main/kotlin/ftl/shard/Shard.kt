@@ -118,7 +118,12 @@ object Shard {
             // We want to iterate over testcase going from slowest to fastest
             .sortedByDescending(TestMethod::time)
 
-        val testCount = testCases.size
+        // Ugly hotfix for case when all test cases are annotated with @Ignore
+        // we need to filter them because they have time == 0.0 which cause empty shards creation, few lines later
+        // and we don't need additional shards for ignored tests.
+        val testCount =
+            if (testCases.isEmpty()) 0
+            else testCases.filter { it.time > 0.0 }.takeIf { it.isNotEmpty() }?.size ?: 1
 
         // If maxShards is infinite or we have more shards than tests, let's match it
         val shardsCount = if (maxShards == -1 || maxShards > testCount) testCount else maxShards
