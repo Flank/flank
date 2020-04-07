@@ -17,7 +17,6 @@ import ftl.args.IosArgs
 import ftl.ios.Xctestrun
 import ftl.ios.Xctestrun.toByteArray
 import ftl.util.ShardCounter
-import ftl.util.fatalError
 import ftl.util.join
 import ftl.util.timeoutToSeconds
 
@@ -83,9 +82,7 @@ object GcIosTestMatrix {
         try {
             return GcTesting.get.projects().testMatrices().create(args.project, testMatrix)
         } catch (e: Exception) {
-            fatalError(e)
+            throw RuntimeException(e)
         }
-
-        throw RuntimeException("Failed to create test matrix")
     }
 }

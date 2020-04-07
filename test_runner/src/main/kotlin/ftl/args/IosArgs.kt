@@ -23,7 +23,7 @@ import ftl.config.FtlConstants
 import ftl.ios.IosCatalog
 import ftl.ios.Xctestrun
 import ftl.util.FlankTestMethod
-import ftl.util.flankFatalError
+import ftl.util.FlankFatalError
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -46,8 +46,8 @@ class IosArgs(
     override val flakyTestAttempts = cli?.flakyTestAttempts ?: gcloud.flakyTestAttempts
 
     private val iosGcloud = iosGcloudYml.gcloud
-    var xctestrunZip = cli?.test ?: iosGcloud.test ?: flankFatalError("test is not set")
-    var xctestrunFile = cli?.xctestrunFile ?: iosGcloud.xctestrunFile ?: flankFatalError("xctestrun-file is not set")
+    var xctestrunZip = cli?.test ?: iosGcloud.test ?: throw FlankFatalError("test is not set")
+    var xctestrunFile = cli?.xctestrunFile ?: iosGcloud.xctestrunFile ?: throw FlankFatalError("xctestrun-file is not set")
     val xcodeVersion = cli?.xcodeVersion ?: iosGcloud.xcodeVersion
     val devices = cli?.device ?: iosGcloud.device
 
@@ -101,13 +101,13 @@ class IosArgs(
     private fun assertXcodeSupported(xcodeVersion: String?) {
         if (xcodeVersion == null) return
         if (!IosCatalog.supportedXcode(xcodeVersion, this.project)) {
-            flankFatalError(("Xcode $xcodeVersion is not a supported Xcode version"))
+            throw FlankFatalError(("Xcode $xcodeVersion is not a supported Xcode version"))
         }
     }
 
     private fun assertDeviceSupported(device: Device) {
         if (!IosCatalog.supportedDevice(device.model, device.version, this.project)) {
-            flankFatalError("iOS ${device.version} on ${device.model} is not a supported device")
+            throw FlankFatalError("iOS ${device.version} on ${device.model} is not a supported device")
         }
     }
 

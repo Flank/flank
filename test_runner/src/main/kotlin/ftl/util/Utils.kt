@@ -39,18 +39,9 @@ fun join(first: String, vararg more: String): String {
         .replace(regex = Regex("/+"), replacement = "/")
 }
 
-// marked as inline to make JaCoCo happy
-@Suppress("NOTHING_TO_INLINE")
-inline fun fatalError(e: Exception, message: String? = null) {
-    throw RuntimeException(message ?: e.toString(), e)
-}
-
-@Suppress("NOTHING_TO_INLINE")
-inline fun flankFatalError(e: String): Nothing = throw FlankFatalError(e)
-
 fun assertNotEmpty(str: String, e: String) {
     if (str.isEmpty()) {
-        flankFatalError(e)
+        throw FlankFatalError(e)
     }
 }
 

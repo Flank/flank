@@ -25,7 +25,7 @@ import ftl.shard.StringShards
 import ftl.shard.stringShards
 import ftl.util.FlankTestMethod
 import ftl.util.assertNotEmpty
-import ftl.util.flankFatalError
+import ftl.util.FlankFatalError
 import java.io.File
 import java.net.URI
 import java.nio.file.Files
@@ -50,7 +50,7 @@ object ArgsHelper {
 
     fun assertFileExists(file: String, name: String) {
         if (!File(file).exists()) {
-            flankFatalError("'$file' $name doesn't exist")
+            throw FlankFatalError("'$file' $name doesn't exist")
         }
     }
 
@@ -62,17 +62,17 @@ object ArgsHelper {
         )
 
         if (args.maxTestShards !in IArgs.AVAILABLE_SHARD_COUNT_RANGE && args.maxTestShards != -1)
-            flankFatalError("max-test-shards must be >= 1 and <= 50, or -1. But current is ${args.maxTestShards}")
+            throw FlankFatalError("max-test-shards must be >= 1 and <= 50, or -1. But current is ${args.maxTestShards}")
 
-        if (args.shardTime <= 0 && args.shardTime != -1) flankFatalError("shard-time must be >= 1 or -1")
-        if (args.repeatTests < 1) flankFatalError("num-test-runs must be >= 1")
+        if (args.shardTime <= 0 && args.shardTime != -1) throw FlankFatalError("shard-time must be >= 1 or -1")
+        if (args.repeatTests < 1) throw FlankFatalError("num-test-runs must be >= 1")
 
         if (args.smartFlankGcsPath.isNotEmpty()) {
             if (!args.smartFlankGcsPath.startsWith(GCS_PREFIX)) {
-                flankFatalError("smart-flank-gcs-path must start with gs://")
+                throw FlankFatalError("smart-flank-gcs-path must start with gs://")
             }
             if (args.smartFlankGcsPath.count { it == '/' } <= 2 || !args.smartFlankGcsPath.endsWith(".xml")) {
-                flankFatalError("smart-flank-gcs-path must be in the format gs://bucket/foo.xml")
+                throw FlankFatalError("smart-flank-gcs-path must be in the format gs://bucket/foo.xml")
             }
         }
     }
@@ -88,9 +88,9 @@ object ArgsHelper {
 
         val filePaths = walkFileTree(file)
         if (filePaths.size > 1) {
-            flankFatalError("'$file' ($filePath) matches multiple files: $filePaths")
+            throw FlankFatalError("'$file' ($filePath) matches multiple files: $filePaths")
         } else if (filePaths.isEmpty()) {
-            flankFatalError("'$file' not found ($filePath)")
+            throw FlankFatalError("'$file' not found ($filePath)")
         }
 
         return filePaths.first().toAbsolutePath().normalize().toString()
@@ -108,7 +108,7 @@ object ArgsHelper {
         val blob = GcStorage.storage.get(bucket, path)
 
         if (blob == null) {
-            flankFatalError("The file at '$uri' does not exist")
+            throw FlankFatalError("The file at '$uri' does not exist")
         }
     }
 
@@ -120,8 +120,8 @@ object ArgsHelper {
     ) {
         val missingMethods = testTargets - validTestMethods
 
-        if (!skipValidation && missingMethods.isNotEmpty()) flankFatalError("$from is missing methods: $missingMethods.\nValid methods:\n$validTestMethods")
-        if (validTestMethods.isEmpty()) flankFatalError("$from has no tests")
+        if (!skipValidation && missingMethods.isNotEmpty()) throw FlankFatalError("$from is missing methods: $missingMethods.\nValid methods:\n$validTestMethods")
+        if (validTestMethods.isEmpty()) throw FlankFatalError("$from has no tests")
     }
 
     fun createJunitBucket(projectId: String, junitGcsPath: String) {

@@ -288,7 +288,7 @@ class UtilsTest {
         }
         simulatedMain.start()
         processStarted.await()
-        simulatedMain.join(3 * 1000L)
+        simulatedMain.join(10 * 1000L)
         assertTrue("Our simulated main thread should have completed but instead it hung...", completed.get())
         assertEquals(3, exitCode.get())
         File(VERIFICATION_FILE).also {

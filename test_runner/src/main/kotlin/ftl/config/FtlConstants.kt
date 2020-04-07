@@ -15,7 +15,7 @@ import ftl.args.IosArgs
 import ftl.config.BugsnagInitHelper.initBugsnag
 import ftl.gc.UserAuth
 import ftl.http.HttpTimeoutIncrease
-import ftl.util.flankFatalError
+import ftl.util.FlankFatalError
 import ftl.util.readRevision
 import java.io.IOException
 import java.nio.file.Path
@@ -80,7 +80,7 @@ object FtlConstants {
                 GoogleApiLogger.silenceComputeEngine()
                 ServiceAccountCredentials.getApplicationDefault()
             } catch (e: IOException) {
-                flankFatalError("Error: Failed to read service account credential.\n${e.message}")
+                throw FlankFatalError("Error: Failed to read service account credential.\n${e.message}")
             }
         }
     }
