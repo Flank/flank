@@ -32,6 +32,9 @@ class AndroidGcloudYmlParams(
     @field:JsonProperty("directories-to-pull")
     val directoriesToPull: List<String> = emptyList(),
 
+    @field:JsonProperty("other-files")
+    val otherFiles: Map<String, String> = emptyMap(),
+
     @field:JsonProperty("performance-metrics")
     val performanceMetrics: Boolean = FlankDefaults.DISABLE_PERFORMANCE_METRICS,
 
@@ -52,6 +55,7 @@ class AndroidGcloudYmlParams(
             "use-orchestrator",
             "environment-variables",
             "directories-to-pull",
+            "other-files",
             "performance-metrics",
             "test-runner-class",
             "test-targets",
