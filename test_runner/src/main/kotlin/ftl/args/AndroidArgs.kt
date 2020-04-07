@@ -50,16 +50,18 @@ class AndroidArgs(
     override val flakyTestAttempts = cli?.flakyTestAttempts ?: gcloud.flakyTestAttempts
 
     private val androidGcloud = androidGcloudYml.gcloud
-    val appApk = (cli?.app ?: androidGcloud.app ?: fatalError("app is not set")).processApkPath("from app")
-    val testApk = (cli?.test ?: androidGcloud.test ?: fatalError("test is not set")).processApkPath("from test")
-    val additionalApks = (cli?.additionalApks ?: androidGcloud.additionalApks).map { it.processApkPath("from additional-apks") }
+    val appApk = (cli?.app ?: androidGcloud.app ?: fatalError("app is not set")).processFilePath("from app")
+    val testApk = (cli?.test ?: androidGcloud.test ?: fatalError("test is not set")).processFilePath("from test")
+    val additionalApks = (cli?.additionalApks ?: androidGcloud.additionalApks).map { it.processFilePath("from additional-apks") }
     val autoGoogleLogin = cli?.autoGoogleLogin ?: cli?.noAutoGoogleLogin?.not() ?: androidGcloud.autoGoogleLogin
 
     // We use not() on noUseOrchestrator because if the flag is on, useOrchestrator needs to be false
     val useOrchestrator = cli?.useOrchestrator ?: cli?.noUseOrchestrator?.not() ?: androidGcloud.useOrchestrator
     val environmentVariables = cli?.environmentVariables ?: androidGcloud.environmentVariables
     val directoriesToPull = cli?.directoriesToPull ?: androidGcloud.directoriesToPull
-    val otherFiles = cli?.otherFiles ?: androidGcloud.otherFiles // TODO assert gcs file or evaluate path
+    val otherFiles = (cli?.otherFiles ?: androidGcloud.otherFiles).map { (devicePath, filePath) ->
+        devicePath to filePath.processFilePath("from otherFiles")
+    }.toMap()
     val performanceMetrics = cli?.performanceMetrics ?: cli?.noPerformanceMetrics?.not() ?: androidGcloud.performanceMetrics
     val testRunnerClass = cli?.testRunnerClass ?: androidGcloud.testRunnerClass
     val testTargets = cli?.testTargets ?: androidGcloud.testTargets.filterNotNull()
@@ -84,8 +86,8 @@ class AndroidArgs(
     private val androidFlank = androidFlankYml.flank
     val additionalAppTestApks = (cli?.additionalAppTestApks ?: androidFlank.additionalAppTestApks).map { (app, test) ->
         AppTestPair(
-            app = app?.processApkPath("from additional-app-test-apks.app"),
-            test = test.processApkPath("from additional-app-test-apks.test")
+            app = app?.processFilePath("from additional-app-test-apks.app"),
+            test = test.processFilePath("from additional-app-test-apks.test")
         )
     }
     val keepFilePath = cli?.keepFilePath ?: androidFlank.keepFilePath
@@ -193,7 +195,7 @@ AndroidArgs
     }
 }
 
-private fun String.processApkPath(name: String): String =
+private fun String.processFilePath(name: String): String =
     if (startsWith(FtlConstants.GCS_PREFIX))
         this.also { assertGcsFileExists(it) } else
         evaluateFilePath(this).also { assertFileExists(it, name) }

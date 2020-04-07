@@ -46,7 +46,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
                     args = args,
                     runGcsPath = runGcsPath
                 ),
-                            otherFiles = otherGcsFiles,
+                otherFiles = otherGcsFiles,
                 runGcsPath = runGcsPath,
                 androidDeviceList = androidDeviceList,
                 testShards = testShards,
