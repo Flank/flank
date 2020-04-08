@@ -77,6 +77,7 @@ class IosArgsTest {
             - b/testBasicSelection2
           disable-sharding: true
           run-timeout: 15m
+          ignore-failed-tests: true
         """
 
     @Rule
@@ -222,6 +223,7 @@ IosArgs
       project: projectFoo
       local-result-dir: results
       run-timeout: 15m
+      ignore-failed-tests: true
 """.trimIndent()
         )
     }
@@ -265,6 +267,7 @@ IosArgs
       project: mockProjectId
       local-result-dir: results
       run-timeout: -1
+      ignore-failed-tests: false
         """.trimIndent(), args.toString())
     }
 

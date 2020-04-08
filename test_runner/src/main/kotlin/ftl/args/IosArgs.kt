@@ -65,6 +65,7 @@ class IosArgs(
     override val runTimeout = cli?.runTimeout ?: flank.runTimeout
     override val clientDetails = cli?.clientDetails ?: gcloud.clientDetails
     override val networkProfile = cli?.networkProfile ?: gcloud.networkProfile
+    override val ignoreFailedTests = cli?.ignoreFailedTests ?: flank.ignoreFailedTests
 
     private val iosFlank = iosFlankYml.flank
     val testTargets = cli?.testTargets ?: iosFlank.testTargets.filterNotNull()
@@ -144,6 +145,7 @@ IosArgs
       project: $project
       local-result-dir: $localResultDir
       run-timeout: $runTimeout
+      ignore-failed-tests: $ignoreFailedTests
     """.trimIndent()
     }
 

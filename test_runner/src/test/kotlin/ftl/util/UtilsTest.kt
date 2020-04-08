@@ -136,6 +136,22 @@ class UtilsTest {
         MatrixMap(mutableMapOf("errorMatrix" to errorMatrix), "MockPath").validateMatrices()
     }
 
+    @Test(expected = FailedMatrix::class)
+    fun `should throw FailedMatrix error if on o`() { // inconclusive is treated as a failure
+        val shouldIgnore = true
+        val testExecutions = listOf(
+            createStepExecution(1, "Success"),
+            createStepExecution(-1, "Failed")
+        )
+        val testMatrix = TestMatrix()
+        testMatrix.testMatrixId = "123"
+        testMatrix.state = MatrixState.FINISHED
+        testMatrix.resultStorage = createResultsStorage()
+        testMatrix.testExecutions = testExecutions
+        val finishedMatrix = SavedMatrix(testMatrix)
+        MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath").validateMatrices(shouldIgnore)
+    }
+
     @Test
     fun `should terminate process with exit code 1 if FailedMatrix exception is thrown`() {
         // given
@@ -233,6 +249,26 @@ class UtilsTest {
 
         verify(exactly = 1) { FtlConstants.useMock }
         verify(exactly = 1) { FtlConstants.bugsnag?.notify(any<Throwable>()) }
+    }
+
+    @Test
+    fun `should terminate process with exit code 0 if at least one matrix failed and ignore-failed-tests flag is true`() {
+        // given
+        exit.expectSystemExitWithStatus(0)
+        val block = {
+            throw FailedMatrix(
+                matrices = listOf(
+                    mockk(relaxed = true) { every { matrixId } returns "1" },
+                    mockk(relaxed = true) { every { matrixId } returns "2" }
+                ),
+                ignoreFailed = true
+            )
+        }
+        // when
+        withGlobalExceptionHandling(block)
+        // then
+        assertTrue(output.log.contains("Error: Matrix failed: 1"))
+        assertTrue(output.log.contains("Error: Matrix failed: 2"))
     }
 
     @CommandLine.Command(name = "whosbad")

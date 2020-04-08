@@ -96,6 +96,7 @@ class AndroidArgsTest {
             - app: $appApk
               test: $testErrorApk
           run-timeout: 20m
+          ignore-failed-tests: true
       """
 
     @Rule
@@ -302,6 +303,7 @@ AndroidArgs
           test: $testErrorApkAbsolutePath
       run-timeout: 20m
       legacy-junit-result: false
+      ignore-failed-tests: true
 """.trimIndent()
         )
     }
@@ -354,6 +356,7 @@ AndroidArgs
       additional-app-test-apks:
       run-timeout: -1
       legacy-junit-result: true
+      ignore-failed-tests: false
         """.trimIndent(), args.toString())
     }
 

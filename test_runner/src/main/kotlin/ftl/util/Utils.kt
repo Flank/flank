@@ -132,7 +132,8 @@ fun withGlobalExceptionHandling(block: () -> Int) {
         when (t) {
             is FailedMatrix -> {
                 t.matrices.forEach { it.logError("failed") }
-                exitProcess(1)
+                if (t.ignoreFailed) exitProcess(0)
+                else exitProcess(1)
             }
             is YmlValidationError -> exitProcess(1)
             is FlankTimeoutError -> {

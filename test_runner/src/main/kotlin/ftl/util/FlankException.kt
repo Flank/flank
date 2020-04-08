@@ -14,7 +14,7 @@ sealed class FlankException(message: String? = null) : Throwable(message)
  *
  * @param matrices [List]<[SavedMatrix]> List of failed matrices
  */
-class FailedMatrix(val matrices: List<SavedMatrix>) : FlankException()
+class FailedMatrix(val matrices: List<SavedMatrix>, val ignoreFailed: Boolean = false) : FlankException()
 
 /**
  * Thrown when at least one matrix is not finished.

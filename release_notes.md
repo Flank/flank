@@ -1,4 +1,5 @@
 ## next (unreleased)
+- [#705](https://github.com/Flank/flank/pull/705) Add ignore failed tests option to Flank. ([pawelpasterz](https://github.com/pawelpasterz))
 - [#704](https://github.com/Flank/flank/pull/704) Fix shards calculation when there are ignored tests and shardTime is -1. ([jan-gogo](https://github.com/jan-gogo))
 - [#692](https://github.com/Flank/flank/pull/698) Add support for other-files option. ([jan-gogo](https://github.com/jan-gogo))
 - [#695](https://github.com/Flank/flank/pull/695) Add support for additional-apks option. ([jan-gogo](https://github.com/jan-gogo))

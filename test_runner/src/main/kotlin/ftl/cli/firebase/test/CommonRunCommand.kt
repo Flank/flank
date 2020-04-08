@@ -179,4 +179,10 @@ abstract class CommonRunCommand {
         description = ["Saves test result to this local folder. Deleted before each run."]
     )
     var localResultsDir: String? = null
+
+    @CommandLine.Option(
+        names = ["--ignore-failed-tests"],
+        description = ["Set true to end with exit code 0 despite of failed matrices. False by default."]
+    )
+    var ignoreFailedTests: Boolean? = null
 }

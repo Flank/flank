@@ -82,6 +82,7 @@ class AndroidArgs(
     override val useLegacyJUnitResult = cli?.useLegacyJUnitResult ?: flank.useLegacyJUnitResult
     override val clientDetails = cli?.clientDetails ?: gcloud.clientDetails
     override val networkProfile = cli?.networkProfile ?: gcloud.networkProfile
+    override val ignoreFailedTests = cli?.ignoreFailedTests ?: flank.ignoreFailedTests
 
     private val androidFlank = androidFlankYml.flank
     val additionalAppTestApks = (cli?.additionalAppTestApks ?: androidFlank.additionalAppTestApks).map { (app, test) ->
@@ -154,6 +155,7 @@ AndroidArgs
       additional-app-test-apks:${apksToString(additionalAppTestApks)}
       run-timeout: $runTimeout
       legacy-junit-result: $useLegacyJUnitResult
+      ignore-failed-tests: $ignoreFailedTests
    """.trimIndent()
     }
 

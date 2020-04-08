@@ -170,6 +170,9 @@ flank:
 
   ## The max time this test run can execute before it is cancelled (default: unlimited).
   # run-timeout: 60m
+
+  ## Set true to end with exit code 0 despite of failed matrices. False by default.
+  # ignore-failed-tests: true
 ```
 
 ### Android example
@@ -329,6 +332,9 @@ flank:
 
   ## The max time this test run can execute before it is cancelled (default: unlimited).
   # run-timeout: 60m
+  
+  ## Set true to end with exit code 0 despite of failed matrices. False by default.
+  # ignore-failed-tests: true
 ```
 
 ### Android code coverage
