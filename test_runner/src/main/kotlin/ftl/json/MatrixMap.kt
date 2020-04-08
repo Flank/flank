@@ -21,15 +21,23 @@ class MatrixMap(
      * A matrix state of error means FTL had an infrastructure failure
      * A step outcome of failure means at least one test failed.
      *
-     * @throws [FailedMatrix]
+     * @param shouldIgnore [Boolean]
+     *        set {true} to ignore failed matrices and exit with status code 0
+     *
+     * @throws FailedMatrix [FailedMatrix]
      *         at least one test failed/inconclusive & all matrices finished
-     * @throws [FTLError]
+     * @throws FTLError [FTLError]
      *         at least one matrix not finished (usually FTL error)
      */
-    fun validateMatrices() {
+    fun validateMatrices(shouldIgnore: Boolean = false) {
         map.values.run {
             firstOrNull { it.state != MatrixState.FINISHED }?.let { throw FTLError(it) }
-            filter { it.failed() }.let { if (it.isNotEmpty()) throw FailedMatrix(it) }
+            filter { it.failed() }.let {
+                if (it.isNotEmpty()) throw FailedMatrix(
+                    matrices = it,
+                    ignoreFailed = shouldIgnore
+                )
+            }
         }
     }
 }

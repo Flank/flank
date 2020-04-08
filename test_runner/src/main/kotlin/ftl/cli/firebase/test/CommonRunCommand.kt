@@ -179,4 +179,12 @@ abstract class CommonRunCommand {
         description = ["Saves test result to this local folder. Deleted before each run."]
     )
     var localResultsDir: String? = null
+
+    @CommandLine.Option(
+        names = ["--ignore-failed-tests"],
+        description = ["Terminate with exit code 0 when there are failed tests. " +
+                "Useful for Fladle and other gradle plugins that don't expect the process to have a non-zero exit code. " +
+                "The JUnit XML is used to determine failure. (default: false)"]
+    )
+    var ignoreFailedTests: Boolean? = null
 }

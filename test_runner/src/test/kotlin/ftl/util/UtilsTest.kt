@@ -23,8 +23,9 @@ import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.After
 import org.junit.AfterClass
-import org.junit.Assert.assertTrue
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.ExpectedSystemExit
@@ -137,6 +138,28 @@ class UtilsTest {
     }
 
     @Test
+    fun `should throw FailedMatrix with ignore set to true`() {
+        val shouldIgnore = true
+        val testExecutions = listOf(
+            createStepExecution(1, "Success"),
+            createStepExecution(-1, "Failed")
+        )
+        val testMatrix = TestMatrix()
+        testMatrix.testMatrixId = "123"
+        testMatrix.state = MatrixState.FINISHED
+        testMatrix.resultStorage = createResultsStorage()
+        testMatrix.testExecutions = testExecutions
+        val finishedMatrix = SavedMatrix(testMatrix)
+        try {
+            MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath").validateMatrices(shouldIgnore)
+        } catch (t: FailedMatrix) {
+            assertTrue(t.ignoreFailed)
+        } catch (_: Throwable) {
+            fail()
+        }
+    }
+
+    @Test
     fun `should terminate process with exit code 1 if FailedMatrix exception is thrown`() {
         // given
         exit.expectSystemExitWithStatus(1)
@@ -233,6 +256,26 @@ class UtilsTest {
 
         verify(exactly = 1) { FtlConstants.useMock }
         verify(exactly = 1) { FtlConstants.bugsnag?.notify(any<Throwable>()) }
+    }
+
+    @Test
+    fun `should terminate process with exit code 0 if at least one matrix failed and ignore-failed-tests flag is true`() {
+        // given
+        exit.expectSystemExitWithStatus(0)
+        val block = {
+            throw FailedMatrix(
+                matrices = listOf(
+                    mockk(relaxed = true) { every { matrixId } returns "1" },
+                    mockk(relaxed = true) { every { matrixId } returns "2" }
+                ),
+                ignoreFailed = true
+            )
+        }
+        // when
+        withGlobalExceptionHandling(block)
+        // then
+        assertTrue(output.log.contains("Error: Matrix failed: 1"))
+        assertTrue(output.log.contains("Error: Matrix failed: 2"))
     }
 
     @CommandLine.Command(name = "whosbad")

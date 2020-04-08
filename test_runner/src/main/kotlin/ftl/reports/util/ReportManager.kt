@@ -121,7 +121,7 @@ object ReportManager {
         JUnitReport.run(matrices, testSuite, printToStdout = false, args = args)
         processJunitXml(testSuite, args, testShardChunks)
 
-        matrices.validateMatrices()
+        matrices.validateMatrices(args.ignoreFailedTests)
     }
 
     data class ShardEfficiency(
