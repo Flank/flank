@@ -23,8 +23,9 @@ import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.After
 import org.junit.AfterClass
-import org.junit.Assert.assertTrue
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.ExpectedSystemExit
@@ -136,8 +137,8 @@ class UtilsTest {
         MatrixMap(mutableMapOf("errorMatrix" to errorMatrix), "MockPath").validateMatrices()
     }
 
-    @Test(expected = FailedMatrix::class)
-    fun `should throw FailedMatrix error if on o`() { // inconclusive is treated as a failure
+    @Test
+    fun `should throw FailedMatrix with ignore set to true`() {
         val shouldIgnore = true
         val testExecutions = listOf(
             createStepExecution(1, "Success"),
@@ -149,7 +150,13 @@ class UtilsTest {
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
         val finishedMatrix = SavedMatrix(testMatrix)
-        MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath").validateMatrices(shouldIgnore)
+        try {
+            MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath").validateMatrices(shouldIgnore)
+        } catch (t: FailedMatrix) {
+            assertTrue(t.ignoreFailed)
+        } catch (_: Throwable) {
+            fail()
+        }
     }
 
     @Test
