@@ -30,7 +30,8 @@ class GcAndroidTestMatrixTest {
             testShards = emptyList(),
             args = androidArgs,
             toolResultsHistory = createToolResultsHistory(androidArgs),
-            additionalApkGcsPaths = emptyList()
+            additionalApkGcsPaths = emptyList(),
+            roboScriptGcsPath = null
         )
     }
 
@@ -47,7 +48,8 @@ class GcAndroidTestMatrixTest {
             testShards = listOf(listOf("")),
             args = androidArgs,
             toolResultsHistory = createToolResultsHistory(androidArgs),
-            additionalApkGcsPaths = emptyList()
+            additionalApkGcsPaths = emptyList(),
+            roboScriptGcsPath = null
         )
     }
 
@@ -68,7 +70,8 @@ class GcAndroidTestMatrixTest {
             testShards = emptyList(),
             args = androidArgs,
             toolResultsHistory = createToolResultsHistory(androidArgs),
-            additionalApkGcsPaths = emptyList()
+            additionalApkGcsPaths = emptyList(),
+            roboScriptGcsPath = null
         )
     }
 }

@@ -1,8 +1,7 @@
 package ftl.run.platform
 
-import com.google.api.services.testing.model.AndroidDeviceList
+import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.TestMatrix
-import com.google.api.services.testing.model.ToolResultsHistory
 import ftl.args.AndroidArgs
 import ftl.args.AndroidTestShard
 import ftl.args.ShardChunks
@@ -35,25 +34,31 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     val history = GcToolResults.createToolResultsHistory(args)
     val resolvedTestApks = args.getResolvedTestApks()
     val otherGcsFiles = args.uploadOtherFiles(runGcsPath)
+    val roboScriptGcsPath = args.roboScript?.let { GcStorage.upload(it, args.resultsBucket, runGcsPath) }
 
     val allTestShardChunks: ShardChunks = resolvedTestApks.map { apks: ResolvedTestApks ->
         // Ensure we only shard tests that are part of the test apk. Use the resolved test apk path to make sure
         // we don't re-download an apk it is on the local file system.
         AndroidTestShard.getTestShardChunks(args, apks.test).also { testShards ->
-            testMatrices += executeAndroidTestMatrix(
-                uploadedTestApks = uploadTestApks(
-                    apks = apks,
-                    args = args,
-                    runGcsPath = runGcsPath
-                ),
-                otherFiles = otherGcsFiles,
-                runGcsPath = runGcsPath,
-                androidDeviceList = androidDeviceList,
-                testShards = testShards,
+            val uploadedTestApks = uploadTestApks(
+                apks = apks,
                 args = args,
-                history = history,
-                runCount = runCount
+                runGcsPath = runGcsPath
             )
+            testMatrices += executeAndroidTestMatrix(runCount) {
+                GcAndroidTestMatrix.build(
+                    appApkGcsPath = uploadedTestApks.app,
+                    testApkGcsPath = uploadedTestApks.test,
+                    runGcsPath = runGcsPath,
+                    additionalApkGcsPaths = uploadedTestApks.additionalApks,
+                    roboScriptGcsPath = roboScriptGcsPath,
+                    androidDeviceList = androidDeviceList,
+                    testShards = testShards,
+                    args = args,
+                    otherFiles = otherGcsFiles,
+                    toolResultsHistory = history
+                )
+            }
         }
     }.flatten()
 
@@ -79,28 +84,12 @@ private fun AndroidArgs.getResolvedTestApks() = listOf(
 )
 
 private suspend fun executeAndroidTestMatrix(
-    runGcsPath: String,
-    args: AndroidArgs,
-    testShards: ShardChunks,
-    uploadedTestApks: UploadedTestApks,
-    otherFiles: Map<String, String>,
-    androidDeviceList: AndroidDeviceList,
-    history: ToolResultsHistory,
-    runCount: Int
+    runCount: Int,
+    createTestMatrix: () -> Testing.Projects.TestMatrices.Create
 ): List<Deferred<TestMatrix>> = coroutineScope {
     (0 until runCount).map {
         async(Dispatchers.IO) {
-            GcAndroidTestMatrix.build(
-                appApkGcsPath = uploadedTestApks.app,
-                testApkGcsPath = uploadedTestApks.test,
-                runGcsPath = runGcsPath,
-                androidDeviceList = androidDeviceList,
-                testShards = testShards,
-                args = args,
-                otherFiles = otherFiles,
-                toolResultsHistory = history,
-                additionalApkGcsPaths = uploadedTestApks.additionalApks
-            ).executeWithRetry()
+            createTestMatrix().executeWithRetry()
         }
     }
 }

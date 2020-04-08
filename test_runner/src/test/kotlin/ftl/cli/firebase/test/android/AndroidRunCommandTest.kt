@@ -439,4 +439,20 @@ class AndroidRunCommandTest {
 
         assertThat(cmd.runTimeout).isEqualTo("20s")
     }
+
+    @Test
+    fun `robo-directives parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--robo-directives=text:a=b,click=c")
+
+        assertThat(cmd.roboDirectives).hasSize(2)
+    }
+
+    @Test
+    fun `robo-script parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--robo-script=a")
+
+        assertThat(cmd.roboScript).isEqualTo("a")
+    }
 }

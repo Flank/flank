@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import ftl.args.yml.AppTestPair
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
+import ftl.config.FlankRoboDirective
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.run.platform.runAndroidTests
@@ -72,6 +73,13 @@ class AndroidArgsTest {
           test-targets:
           - class com.example.app.ExampleUiTest#testPasses
           - class com.example.app.ExampleUiTest#testFails
+          robo-directives:
+            - type: text
+              name: resource_name_1
+              input: some_text
+            - type: click
+              name: resource_name_2
+          robo-script: $appApk
           device:
           - model: NexusLowRes
             version: 23
@@ -214,6 +222,13 @@ class AndroidArgsTest {
                 )
             )
             assert(
+                roboDirectives, listOf(
+                    FlankRoboDirective(type = "text", name = "resource_name_1", input = "some_text"),
+                    FlankRoboDirective(type = "click", name = "resource_name_2")
+                )
+            )
+            assert(roboScript, appApkAbsolutePath)
+            assert(
                 devices, listOf(
                     Device("NexusLowRes", "23", "en", "portrait"),
                     Device("NexusLowRes", "24", "en", "portrait")
@@ -274,6 +289,14 @@ AndroidArgs
       test-targets:
         - class com.example.app.ExampleUiTest#testPasses
         - class com.example.app.ExampleUiTest#testFails
+      robo-directives:
+        - type: text
+          name: resource_name_1
+          input: some_text
+        - type: click
+          name: resource_name_2
+          input: null
+      robo-script: $appApkAbsolutePath
       device:
         - model: NexusLowRes
           version: 23
@@ -339,6 +362,8 @@ AndroidArgs
       num-uniform-shards: null
       test-runner-class: null
       test-targets:
+      robo-directives:
+      robo-script: null
       device:
         - model: NexusLowRes
           version: 28

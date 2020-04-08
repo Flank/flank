@@ -14,9 +14,9 @@ import ftl.args.ArgsHelper.evaluateFilePath
 import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.yamlMapper
 import ftl.args.ArgsToString.apksToString
-import ftl.args.ArgsToString.devicesToString
 import ftl.args.ArgsToString.listToString
 import ftl.args.ArgsToString.mapToString
+import ftl.args.ArgsToString.objectsToString
 import ftl.args.yml.AndroidFlankYml
 import ftl.args.yml.AndroidGcloudYml
 import ftl.args.yml.AndroidGcloudYmlParams
@@ -27,6 +27,7 @@ import ftl.args.yml.YamlDeprecated
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
+import ftl.config.parseRoboDirectives
 import ftl.util.FlankFatalError
 import java.nio.file.Files
 import java.nio.file.Path
@@ -57,6 +58,8 @@ class AndroidArgs(
 
     // We use not() on noUseOrchestrator because if the flag is on, useOrchestrator needs to be false
     val useOrchestrator = cli?.useOrchestrator ?: cli?.noUseOrchestrator?.not() ?: androidGcloud.useOrchestrator
+    val roboDirectives = cli?.roboDirectives?.parseRoboDirectives() ?: androidGcloud.roboDirectives
+    val roboScript = (cli?.roboScript ?: androidGcloud.roboScript)?.processFilePath("from roboScript")
     val environmentVariables = cli?.environmentVariables ?: androidGcloud.environmentVariables
     val directoriesToPull = cli?.directoriesToPull ?: androidGcloud.directoriesToPull
     val otherFiles = (cli?.otherFiles ?: androidGcloud.otherFiles).map { (devicePath, filePath) ->
@@ -142,7 +145,9 @@ AndroidArgs
       num-uniform-shards: $numUniformShards
       test-runner-class: $testRunnerClass
       test-targets:${listToString(testTargets)}
-      device:${devicesToString(devices)}
+      robo-directives:${objectsToString(roboDirectives)}
+      robo-script: $roboScript
+      device:${objectsToString(devices)}
       num-flaky-test-attempts: $flakyTestAttempts
 
     flank:

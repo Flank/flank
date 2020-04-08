@@ -4,6 +4,7 @@ import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.Account
 import com.google.api.services.testing.model.AndroidDeviceList
 import com.google.api.services.testing.model.AndroidInstrumentationTest
+import com.google.api.services.testing.model.AndroidRoboTest
 import com.google.api.services.testing.model.Apk
 import com.google.api.services.testing.model.ClientInfo
 import com.google.api.services.testing.model.DeviceFile
@@ -14,12 +15,14 @@ import com.google.api.services.testing.model.GoogleAuto
 import com.google.api.services.testing.model.GoogleCloudStorage
 import com.google.api.services.testing.model.RegularFile
 import com.google.api.services.testing.model.ResultStorage
+import com.google.api.services.testing.model.RoboDirective
 import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.testing.model.TestSetup
 import com.google.api.services.testing.model.TestSpecification
 import com.google.api.services.testing.model.ToolResultsHistory
 import ftl.args.AndroidArgs
 import ftl.args.ShardChunks
+import ftl.config.FlankRoboDirective
 import ftl.util.join
 import ftl.util.timeoutToSeconds
 
@@ -30,6 +33,7 @@ object GcAndroidTestMatrix {
         value = this@toEnvironmentVariable.value
     }
 
+    @Suppress("LongParameterList")
     fun build(
         appApkGcsPath: String,
         testApkGcsPath: String,
@@ -39,7 +43,8 @@ object GcAndroidTestMatrix {
         testShards: ShardChunks,
         args: AndroidArgs,
         toolResultsHistory: ToolResultsHistory,
-        additionalApkGcsPaths: List<String>
+        additionalApkGcsPaths: List<String>,
+        roboScriptGcsPath: String?
     ): Testing.Projects.TestMatrices.Create {
 
         // https://github.com/bootstraponline/studio-google-cloud-testing/blob/203ed2890c27a8078cd1b8f7ae12cf77527f426b/firebase-testing/src/com/google/gct/testing/launcher/CloudTestsLauncher.java#L120
@@ -91,6 +96,11 @@ object GcAndroidTestMatrix {
             .setDisableVideoRecording(!args.recordVideo)
             .setTestTimeout("${testTimeoutSeconds}s")
             .setTestSetup(testSetup)
+            .setAndroidRoboTest(
+                AndroidRoboTest()
+                    .setRoboDirectives(args.roboDirectives.mapToApiRoboDirectives())
+                    .setRoboScript(FileReference().setGcsPath(roboScriptGcsPath))
+            )
 
         val resultsStorage = ResultStorage()
             .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
@@ -123,4 +133,12 @@ private fun Map<String, String>.mapToDeviceFiles() = map { (devicePath: String, 
             .setDevicePath(devicePath)
             .setContent(FileReference().setGcsPath(gcsFilePath))
     )
+}
+
+private fun List<FlankRoboDirective>.mapToApiRoboDirectives() = map {
+    RoboDirective().apply {
+        actionType = it.type
+        resourceName = it.name
+        inputText = it.input
+    }
 }

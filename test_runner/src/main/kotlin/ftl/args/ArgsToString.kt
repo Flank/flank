@@ -13,7 +13,7 @@ object ArgsToString {
             .joinToString("\n")
     }
 
-    fun listToString(list: List<String?>?): String {
+    fun listToString(list: List<Any?>?): String {
         if (list.isNullOrEmpty()) return ""
         return NEW_LINE + list.filterNotNull()
             .joinToString("\n") { dir -> "        - $dir" }
@@ -22,6 +22,12 @@ object ArgsToString {
     fun devicesToString(devices: List<Device?>?): String {
         if (devices.isNullOrEmpty()) return ""
         return NEW_LINE + devices.filterNotNull()
+            .joinToString("\n") { "$it" }
+    }
+
+    fun objectsToString(objects: List<Any?>?): String {
+        if (objects.isNullOrEmpty()) return ""
+        return NEW_LINE + objects.filterNotNull()
             .joinToString("\n") { "$it" }
     }
 
