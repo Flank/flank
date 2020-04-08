@@ -2,7 +2,6 @@
 .GroupedList-name {
   display: flex;
   overflow: visible;
-  height: 24px;
   cursor: default;
   padding: 8px;
   box-sizing: border-box;
