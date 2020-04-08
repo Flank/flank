@@ -60,7 +60,7 @@ class FlankYmlParams(
             "local-result-dir",
             "run-timeout",
             "legacy-junit-result",
-            "ignoreFailedTests"
+            "ignore-failed-tests"
         )
 
         const val defaultLocalResultsDir = "results"

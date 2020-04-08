@@ -171,7 +171,9 @@ flank:
   ## The max time this test run can execute before it is cancelled (default: unlimited).
   # run-timeout: 60m
 
-  ## Set true to end with exit code 0 despite of failed matrices. False by default.
+  ## Terminate with exit code 0 when there are failed tests.
+  ## Useful for Fladle and other gradle plugins that don't expect the process to have a non-zero exit code.
+  ## The JUnit XML is used to determine failure. (default: false)
   # ignore-failed-tests: true
 ```
 
@@ -332,8 +334,10 @@ flank:
 
   ## The max time this test run can execute before it is cancelled (default: unlimited).
   # run-timeout: 60m
-  
-  ## Set true to end with exit code 0 despite of failed matrices. False by default.
+
+  ## Terminate with exit code 0 when there are failed tests.
+  ## Useful for Fladle and other gradle plugins that don't expect the process to have a non-zero exit code.
+  ## The JUnit XML is used to determine failure. (default: false)
   # ignore-failed-tests: true
 ```
 
