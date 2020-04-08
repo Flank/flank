@@ -23,7 +23,6 @@ import com.google.api.services.testing.model.TestTargetsForShard
 import com.google.api.services.testing.model.ToolResultsHistory
 import ftl.args.AndroidArgs
 import ftl.args.ShardChunks
-import ftl.util.fatalError
 import ftl.util.join
 import ftl.util.timeoutToSeconds
 
@@ -119,10 +118,8 @@ object GcAndroidTestMatrix {
         try {
             return GcTesting.get.projects().testMatrices().create(args.project, testMatrix)
         } catch (e: Exception) {
-            fatalError(e)
+            throw RuntimeException(e)
         }
-
-        throw RuntimeException("Failed to create test matrix")
     }
 }
 

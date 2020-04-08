@@ -18,7 +18,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import kotlin.system.exitProcess
 
 // used to update and poll the results from an async run
 suspend fun refreshLastRun(currentArgs: IArgs, testShardChunks: ShardChunks) {
@@ -30,8 +29,7 @@ suspend fun refreshLastRun(currentArgs: IArgs, testShardChunks: ShardChunks) {
     fetchArtifacts(matrixMap, lastArgs)
 
     // Must generate reports *after* fetching xml artifacts since reports require xml
-    val exitCode = ReportManager.generate(matrixMap, lastArgs, testShardChunks)
-    exitProcess(exitCode)
+    ReportManager.generate(matrixMap, lastArgs, testShardChunks)
 }
 
 /** Refresh all in progress matrices in parallel **/

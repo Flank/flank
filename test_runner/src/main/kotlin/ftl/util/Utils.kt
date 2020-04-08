@@ -3,12 +3,13 @@
 package ftl.util
 
 import ftl.config.FtlConstants
-import picocli.CommandLine
+import ftl.json.SavedMatrix
+import ftl.run.cancelMatrices
+import kotlinx.coroutines.runBlocking
 import java.io.InputStream
 import java.io.StringWriter
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.time.Duration.ofSeconds
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -38,32 +39,9 @@ fun join(first: String, vararg more: String): String {
         .replace(regex = Regex("/+"), replacement = "/")
 }
 
-fun sleep(seconds: Long) {
-    try {
-        Thread.sleep(ofSeconds(seconds).toMillis())
-    } catch (e: Exception) {
-        System.err.println(e)
-    }
-}
-
-// marked as inline to make JaCoCo happy
-@Suppress("NOTHING_TO_INLINE")
-inline fun fatalError(e: Exception, message: String? = null) {
-    throw RuntimeException(message ?: e.toString(), e)
-}
-
-@Suppress("NOTHING_TO_INLINE")
-inline fun fatalError(e: String): String {
-    if (FtlConstants.useMock) {
-        throw RuntimeException(e)
-    }
-    System.err.println(e)
-    exitProcess(3)
-}
-
 fun assertNotEmpty(str: String, e: String) {
     if (str.isEmpty()) {
-        fatalError(e)
+        throw FlankFatalError(e)
     }
 }
 
@@ -147,15 +125,50 @@ fun copyBinaryResource(name: String) {
     destinationFile.setExecutable(true)
 }
 
-// We need to cover the case where some component in the call stack starts a non-daemon
-// thread, and then throws an Error that kills the main thread. This is extra safe implementation
-fun jvmHangingSafe(block: () -> Int) {
+fun withGlobalExceptionHandling(block: () -> Int) {
     try {
         exitProcess(block())
     } catch (t: Throwable) {
-        t.printStackTrace()
-        exitProcess(CommandLine.ExitCode.SOFTWARE)
+        when (t) {
+            is FailedMatrix -> {
+                t.matrices.forEach { it.logError("failed") }
+                exitProcess(1)
+            }
+            is YmlValidationError -> exitProcess(1)
+            is FlankTimeoutError -> {
+                println("\nCanceling flank due to timeout")
+                runBlocking {
+                    t.map?.run {
+                        cancelMatrices(t.map, t.projectId)
+                    }
+                }
+                exitProcess(1)
+            }
+            is FTLError -> {
+                t.matrix.logError("not finished")
+                exitProcess(3)
+            }
+            is FlankFatalError -> {
+                System.err.println(t.message)
+                exitProcess(2)
+            }
+            // We need to cover the case where some component in the call stack starts a non-daemon
+            // thread, and then throws an Error that kills the main thread. This is extra safe implementation
+            else -> {
+                // this is workaround for Bugsnag initialization bug, should be removed when resolved
+                // https://github.com/Flank/flank/issues/699
+                if (FtlConstants.useMock.not()) {
+                    FtlConstants.bugsnag?.notify(t)
+                }
+                t.printStackTrace()
+                exitProcess(3)
+            }
+        }
     }
+}
+
+private fun SavedMatrix.logError(message: String) {
+    println("Error: Matrix $message: ${this.matrixId} ${this.state} ${this.outcome} ${this.outcomeDetails} ${this.webLink}")
 }
 
 fun <R : MutableMap<String, Any>, T> mutableMapProperty(

@@ -7,9 +7,9 @@ import ftl.cli.firebase.test.android.AndroidDoctorCommand
 import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.normalizeLineEnding
+import ftl.util.YmlValidationError
 import org.junit.Rule
 import org.junit.Test
-import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
@@ -19,10 +19,6 @@ class IosDoctorCommandTest {
     @Rule
     @JvmField
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
-
-    @Rule
-    @JvmField
-    val exit = ExpectedSystemExit.none()
 
     @Test
     fun iosDoctorCommandPrintsHelp() {
@@ -73,9 +69,8 @@ class IosDoctorCommandTest {
         assertThat(cmd.fix).isTrue()
     }
 
-    @Test
+    @Test(expected = YmlValidationError::class)
     fun `should terminate with exit code 1 when yml validation fails`() {
-        exit.expectSystemExitWithStatus(1)
         AndroidDoctorCommand().run {
             configPath = INVALID_YML_PATH
             run()

@@ -9,7 +9,7 @@ import ftl.cli.firebase.test.IosCommand
 import ftl.log.setDebugLogging
 import ftl.util.readRevision
 import ftl.util.readVersion
-import ftl.util.jvmHangingSafe
+import ftl.util.withGlobalExceptionHandling
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -50,7 +50,7 @@ class Main : Runnable {
             // BugSnag opens a non-daemon thread which will keep the JVM process alive.
             // Flank must invoke exitProcess to exit cleanly.
             // https://github.com/bugsnag/bugsnag-java/issues/151
-            jvmHangingSafe { CommandLine(Main()).execute(*args) }
+            withGlobalExceptionHandling { CommandLine(Main()).execute(*args) }
         }
     }
 }

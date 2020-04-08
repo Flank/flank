@@ -6,10 +6,10 @@ import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.isWindows
 import ftl.test.util.FlankTestRunner
+import org.junit.Assert.fail
 import org.junit.Assume.assumeFalse
 import org.junit.Rule
 import org.junit.Test
-import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
@@ -20,9 +20,6 @@ class IosRunCommandTest {
     @Rule
     @JvmField
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
-
-    @get:Rule
-    val exit = ExpectedSystemExit.none()!!
 
     @Test
     fun iosRunCommandPrintsHelp() {
@@ -41,13 +38,16 @@ class IosRunCommandTest {
     fun iosRunCommandRuns() {
         assumeFalse(isWindows)
 
-        exit.expectSystemExit()
-        val runCmd = IosRunCommand()
-        runCmd.configPath = "./src/test/kotlin/ftl/fixtures/ios.yml"
-        runCmd.run()
+        try {
+            val runCmd = IosRunCommand()
+            runCmd.configPath = "./src/test/kotlin/ftl/fixtures/ios.yml"
+            runCmd.run()
 
-        val output = systemOutRule.log
-        assertThat(output).contains("1 / 1 (100.00%)")
+            val output = systemOutRule.log
+            assertThat(output).contains("1 / 1 (100.00%)")
+        } catch (_: Throwable) {
+            fail()
+        }
     }
 
     @Test

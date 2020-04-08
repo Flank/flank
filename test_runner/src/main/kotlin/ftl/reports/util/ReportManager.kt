@@ -97,7 +97,7 @@ object ReportManager {
     }
 
     /** Returns true if there were no test failures */
-    fun generate(matrices: MatrixMap, args: IArgs, testShardChunks: ShardChunks): Int {
+    fun generate(matrices: MatrixMap, args: IArgs, testShardChunks: ShardChunks) {
         val testSuite: JUnitTestResult? = parseTestSuite(matrices, args)
 
         if (args.useLegacyJUnitResult) {
@@ -121,7 +121,7 @@ object ReportManager {
         JUnitReport.run(matrices, testSuite, printToStdout = false, args = args)
         processJunitXml(testSuite, args, testShardChunks)
 
-        return matrices.exitCode()
+        matrices.validateMatrices()
     }
 
     data class ShardEfficiency(

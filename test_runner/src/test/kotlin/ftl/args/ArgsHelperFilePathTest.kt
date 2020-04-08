@@ -4,6 +4,7 @@ import com.google.common.truth.Truth
 import ftl.config.FtlConstants.isWindows
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
+import ftl.util.FlankFatalError
 import org.junit.Assume.assumeFalse
 import java.io.File
 import org.junit.Rule
@@ -109,7 +110,7 @@ class ArgsHelperFilePathTest {
         Truth.assertThat(actual).isEqualTo(expected)
     }
 
-    @Test(expected = RuntimeException::class)
+    @Test(expected = FlankFatalError::class)
     fun wildCardsInFileNameWithMultipleMatches() {
         makeTmpFile("/tmp/tmp1/app-debug.apk")
         makeTmpFile("/tmp/tmp1/app---debug.apk")
@@ -117,7 +118,7 @@ class ArgsHelperFilePathTest {
         ArgsHelper.evaluateFilePath(inputPath)
     }
 
-    @Test(expected = RuntimeException::class)
+    @Test(expected = FlankFatalError::class)
     fun wildCardsInFilePathWithMultipleMatches() {
         makeTmpFile("/tmp/tmp1/tmp2/tmp3/app-debug.apk")
         makeTmpFile("/tmp/tmp1/tmp2/tmp3/tmp4/app-debug.apk")
@@ -136,13 +137,13 @@ class ArgsHelperFilePathTest {
         Truth.assertThat(actual).isEqualTo(expected)
     }
 
-    @Test(expected = RuntimeException::class)
+    @Test(expected = FlankFatalError::class)
     fun evaluateInvalidFilePath() {
         val testApkPath = "~/flank_test_app/invalid_path/app-debug-*.xctestrun"
         ArgsHelper.evaluateFilePath(testApkPath)
     }
 
-    @Test(expected = RuntimeException::class)
+    @Test(expected = FlankFatalError::class)
     fun evaluateInvalidFilePathWithTilde() {
         val testApkPath = "~/flank_test_app/~/invalid_path/app-debug-*.xctestrun"
         ArgsHelper.evaluateFilePath(testApkPath)

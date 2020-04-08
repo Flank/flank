@@ -1,5 +1,5 @@
 import ftl.Main
-import ftl.util.jvmHangingSafe
+import ftl.util.withGlobalExceptionHandling
 import picocli.CommandLine
 
 fun main() {
@@ -15,7 +15,7 @@ fun main() {
 
     // Bugsnag keeps the process alive so we must call exitProcess
     // https://github.com/bugsnag/bugsnag-java/issues/151
-    jvmHangingSafe {
+    withGlobalExceptionHandling {
         CommandLine(Main()).execute(
 //            "--debug",
             "firebase", "test",

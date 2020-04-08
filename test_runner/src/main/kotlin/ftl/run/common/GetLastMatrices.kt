@@ -5,17 +5,12 @@ import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
-import ftl.util.fatalError
+import ftl.util.FlankFatalError
 import java.nio.file.Paths
 
 /** Reads in the last matrices from the localResultDir folder **/
 internal fun getLastMatrices(args: IArgs): MatrixMap {
-    val lastRun = args.getLastGcsPath()
-
-    if (lastRun == null) {
-        fatalError("no runs found in results/ folder")
-        throw RuntimeException("fatalError failed to exit the process")
-    }
+    val lastRun = args.getLastGcsPath() ?: throw FlankFatalError("no runs found in results/ folder")
 
     println("Loading run $lastRun")
     return matrixPathToObj(lastRun, args)

@@ -27,7 +27,7 @@ import ftl.args.yml.YamlDeprecated
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
-import ftl.util.fatalError
+import ftl.util.FlankFatalError
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -50,8 +50,8 @@ class AndroidArgs(
     override val flakyTestAttempts = cli?.flakyTestAttempts ?: gcloud.flakyTestAttempts
 
     private val androidGcloud = androidGcloudYml.gcloud
-    val appApk = (cli?.app ?: androidGcloud.app ?: fatalError("app is not set")).processFilePath("from app")
-    val testApk = (cli?.test ?: androidGcloud.test ?: fatalError("test is not set")).processFilePath("from test")
+    var appApk = (cli?.app ?: androidGcloud.app ?: throw FlankFatalError("app is not set")).processFilePath("from app")
+    var testApk = (cli?.test ?: androidGcloud.test ?: throw FlankFatalError("test is not set")).processFilePath("from test")
     val additionalApks = (cli?.additionalApks ?: androidGcloud.additionalApks).map { it.processFilePath("from additional-apks") }
     val autoGoogleLogin = cli?.autoGoogleLogin ?: cli?.noAutoGoogleLogin?.not() ?: androidGcloud.autoGoogleLogin
 
