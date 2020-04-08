@@ -296,6 +296,27 @@ class ShardTest {
         assertTrue(shards.flatMap { it.testMethods }.map { it.time }.filter { it == 0.0 }.count() == 1)
         shards.forEach { assertEquals(10.0, it.time, 0.0) }
     }
+
+    @Test
+    fun `tests annotated with @Ignore should not produce additional shards`() {
+        val androidMockedArgs = mockk<IosArgs>()
+        every { androidMockedArgs.maxTestShards } returns 50
+        every { androidMockedArgs.shardTime } returns -1
+
+        val testsToRun = listOf(
+            FlankTestMethod("a/a", ignored = true),
+            FlankTestMethod("b/b", ignored = true),
+            FlankTestMethod("c/c", ignored = true)
+        )
+
+        val oldTestResult = newSuite(mutableListOf())
+
+        val shardCount = Shard.shardCountByTime(testsToRun, oldTestResult, androidMockedArgs)
+        assertEquals(-1, shardCount)
+
+        val shards = Shard.createShardsByShardCount(testsToRun, oldTestResult, androidMockedArgs, shardCount)
+        assertEquals(1, shards.size)
+    }
 }
 
 private fun listOfFlankTestMethod(vararg args: String) = listOf(*args).map { FlankTestMethod(it) }
