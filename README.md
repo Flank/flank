@@ -493,6 +493,14 @@ gcloud:
 EOF
 ```
 
+### Circle CI
+
+Circle CI has a [firebase testlab orb](https://circleci.com/orbs/registry/orb/freeletics/firebase-testlab) that supports Flank.
+
+### Bitrise
+
+Bitrise has an official [flank step](https://github.com/bitrise-steplib/bitrise-step-flank).
+
 ### Gradle Plugin
 
 [Fladle][fladle] is a Gradle plugin for Flank that provides DSL configuration and task based execution.
