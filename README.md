@@ -168,6 +168,10 @@ flank:
   ## Local folder to store the test result. Folder is DELETED before each run to ensure only artifacts from the new run are saved.
   # local-result-dir: flank
 
+  ## Keeps the full path of downloaded files. Required when file names are not unique.
+  ## Default: false  
+  # keep-file-path: false
+
   ## The max time this test run can execute before it is cancelled (default: unlimited).
   # run-timeout: 60m
 

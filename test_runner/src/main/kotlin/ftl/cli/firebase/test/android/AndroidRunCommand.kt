@@ -245,13 +245,6 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
     var additionalAppTestApks: MutableList<AppTestPair>? = null
 
     @Option(
-        names = ["--keep-file-path"],
-        description = ["Keeps the full path of downloaded files. " +
-                "Required when file names are not unique."]
-    )
-    var keepFilePath: Boolean? = null
-
-    @Option(
         names = ["--legacy-junit-result"],
         description = ["Fallback for legacy xml junit results parsing."]
     )

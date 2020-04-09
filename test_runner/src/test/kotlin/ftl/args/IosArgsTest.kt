@@ -78,6 +78,7 @@ class IosArgsTest {
           disable-sharding: true
           run-timeout: 15m
           ignore-failed-tests: true
+          keep-file-path: true
         """
 
     @Rule
@@ -215,6 +216,7 @@ IosArgs
         - a/testGrantPermissions2
       files-to-download:
         - /sdcard/screenshots
+      keep-file-path: true
       # iOS flank
       test-targets:
         - b/testBasicSelection
@@ -231,7 +233,8 @@ IosArgs
     @Test
     fun `verify default yml toString`() {
         val args = IosArgs.load(simpleFlankPath)
-        assertEquals("""
+        assertEquals(
+            """
 IosArgs
     gcloud:
       results-bucket: mockBucket
@@ -261,6 +264,7 @@ IosArgs
       smart-flank-disable-upload: false
       test-targets-always-run:
       files-to-download:
+      keep-file-path: false
       # iOS flank
       test-targets:
       disable-sharding: false
@@ -268,7 +272,8 @@ IosArgs
       local-result-dir: results
       run-timeout: -1
       ignore-failed-tests: false
-        """.trimIndent(), args.toString())
+        """.trimIndent(), args.toString()
+        )
     }
 
     @Test
@@ -760,6 +765,38 @@ IosArgs
         assertThat(args.smartFlankDisableUpload).isEqualTo(true)
     }
 
+    @Test
+    fun `cli keep-file-path`() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parseArgs("--keep-file-path=true")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+      """
+        assertThat(IosArgs.load(yaml).keepFilePath).isEqualTo(false)
+
+        val args = IosArgs.load(yaml, cli)
+        assertThat(args.keepFilePath).isEqualTo(true)
+    }
+
+    @Test
+    fun `cli run-timeout`() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parseArgs("--run-timeout=20m")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+      """
+        assertThat(IosArgs.load(yaml).parsedTimeout).isEqualTo(Long.MAX_VALUE)
+
+        val args = IosArgs.load(yaml, cli)
+        assertThat(args.parsedTimeout).isEqualTo(20 * 60 * 1000L)
+    }
+
     private fun getValidTestsSample() = listOf(
         "ClassOneTest/testOne",
         "ClassOneTest/testTwo",
@@ -831,5 +868,11 @@ IosArgs
     fun `verify run timeout default value - ios`() {
         val iosArgs = IosArgs.load(simpleFlankPath)
         assertEquals(Long.MAX_VALUE, iosArgs.parsedTimeout)
+    }
+
+    @Test
+    fun `verify keep file path default value - ios`() {
+        val iosArgs = IosArgs.load(simpleFlankPath)
+        assertFalse(iosArgs.keepFilePath)
     }
 }

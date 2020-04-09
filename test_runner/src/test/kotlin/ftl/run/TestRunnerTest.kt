@@ -47,11 +47,12 @@ class TestRunnerTest {
     fun tearDown() = unmockkAll()
 
     @Test
-    fun `Verify getDownloadPath localResultDir false and keepFilePath false`() {
+    fun `Verify getDownloadPath localResultDir false and keepFilePath false - ios`() {
         val parsed = ObjPath.legacyParse(gcsIosPath)
 
         every { iosArgs.localResultDir } returns localResultDir
         every { iosArgs.useLocalResultDir() } returns false
+        every { iosArgs.keepFilePath } returns false
 
         val downloadFile = getDownloadPath(iosArgs, gcsIosPath)
         assertThat(downloadFile).isEqualTo(
@@ -66,11 +67,33 @@ class TestRunnerTest {
     }
 
     @Test
-    fun `Verify getDownloadPath localResultDir true and keepFilePath false`() {
+    fun `Verify getDownloadPath localResultDir false and keepFilePath true - ios`() {
+        val parsed = ObjPath.legacyParse(gcsIosPath)
+
+        every { iosArgs.localResultDir } returns localResultDir
+        every { iosArgs.useLocalResultDir() } returns false
+        every { iosArgs.keepFilePath } returns true
+
+        val downloadFile = getDownloadPath(iosArgs, gcsIosPath)
+        assertThat(downloadFile).isEqualTo(
+            Paths.get(
+                localResultDir,
+                parsed.objName,
+                parsed.shardName,
+                parsed.deviceName,
+                parsed.filePathName,
+                parsed.fileName
+            )
+        )
+    }
+
+    @Test
+    fun `Verify getDownloadPath localResultDir true and keepFilePath false - ios`() {
         val parsed = ObjPath.legacyParse(gcsIosPath)
 
         every { iosArgs.localResultDir } returns localResultDir
         every { iosArgs.useLocalResultDir() } returns true
+        every { iosArgs.keepFilePath } returns false
 
         val downloadFile = getDownloadPath(iosArgs, gcsIosPath)
         assertThat(downloadFile).isEqualTo(
@@ -84,7 +107,27 @@ class TestRunnerTest {
     }
 
     @Test
-    fun `Verify getDownloadPath localResultDir true and keepFilePath true`() {
+    fun `Verify getDownloadPath localResultDir true and keepFilePath true - ios`() {
+        val parsed = ObjPath.legacyParse(gcsIosPath)
+
+        every { iosArgs.localResultDir } returns localResultDir
+        every { iosArgs.useLocalResultDir() } returns true
+        every { iosArgs.keepFilePath } returns true
+
+        val downloadFile = getDownloadPath(iosArgs, gcsIosPath)
+        assertThat(downloadFile).isEqualTo(
+            Paths.get(
+                localResultDir,
+                parsed.shardName,
+                parsed.deviceName,
+                parsed.filePathName,
+                parsed.fileName
+            )
+        )
+    }
+
+    @Test
+    fun `Verify getDownloadPath localResultDir true and keepFilePath true - android`() {
         val parsed = ObjPath.parse(gcsAndroidPath)
 
         every { androidArgs.localResultDir } returns localResultDir

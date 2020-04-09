@@ -187,4 +187,11 @@ abstract class CommonRunCommand {
                 "The JUnit XML is used to determine failure. (default: false)"]
     )
     var ignoreFailedTests: Boolean? = null
+
+    @CommandLine.Option(
+        names = ["--keep-file-path"],
+        description = ["Keeps the full path of downloaded files. " +
+                "Required when file names are not unique."]
+    )
+    var keepFilePath: Boolean? = null
 }

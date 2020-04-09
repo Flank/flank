@@ -66,6 +66,7 @@ class IosArgs(
     override val clientDetails = cli?.clientDetails ?: gcloud.clientDetails
     override val networkProfile = cli?.networkProfile ?: gcloud.networkProfile
     override val ignoreFailedTests = cli?.ignoreFailedTests ?: flank.ignoreFailedTests
+    override val keepFilePath = cli?.keepFilePath ?: flank.keepFilePath
 
     private val iosFlank = iosFlankYml.flank
     val testTargets = cli?.testTargets ?: iosFlank.testTargets.filterNotNull()
@@ -139,6 +140,7 @@ IosArgs
       smart-flank-disable-upload: $smartFlankDisableUpload
       test-targets-always-run:${listToString(testTargetsAlwaysRun)}
       files-to-download:${listToString(filesToDownload)}
+      keep-file-path: $keepFilePath
       # iOS flank
       test-targets:${listToString(testTargets)}
       disable-sharding: $disableSharding
