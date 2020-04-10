@@ -67,6 +67,7 @@ class AndroidArgsTest {
             /sdcard/dir1/file1.txt: $appApk
             /sdcard/dir2/file2.jpg: $testApk
           performance-metrics: false
+          num-uniform-shards: null
           test-runner-class: com.foo.TestRunner
           test-targets:
           - class com.example.app.ExampleUiTest#testPasses
@@ -268,6 +269,7 @@ AndroidArgs
         /sdcard/dir1/file1.txt: $appApkAbsolutePath
         /sdcard/dir2/file2.jpg: $testApkAbsolutePath
       performance-metrics: false
+      num-uniform-shards: null
       test-runner-class: com.foo.TestRunner
       test-targets:
         - class com.example.app.ExampleUiTest#testPasses
@@ -334,6 +336,7 @@ AndroidArgs
       directories-to-pull:
       other-files:
       performance-metrics: false
+      num-uniform-shards: null
       test-runner-class: null
       test-targets:
       device:
@@ -625,6 +628,36 @@ AndroidArgs
 
         val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.performanceMetrics).isFalse()
+    }
+
+    @Test
+    fun `cli numUniformShards`() {
+        val expected = 50
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parseArgs("--num-uniform-shards=$expected")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+      """
+        assertThat(AndroidArgs.load(yaml).numUniformShards).isNull()
+
+        val androidArgs = AndroidArgs.load(yaml, cli)
+        assertThat(androidArgs.numUniformShards).isEqualTo(expected)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun `should throw if numUniformShards is specified along with maxTestShards`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          num-uniform-shards: 50
+        flank:
+          max-test-shards: 50
+      """
+        AndroidArgs.load(yaml)
     }
 
     @Test

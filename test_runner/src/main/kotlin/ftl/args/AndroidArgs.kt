@@ -63,6 +63,7 @@ class AndroidArgs(
         devicePath to filePath.processFilePath("from otherFiles")
     }.toMap()
     val performanceMetrics = cli?.performanceMetrics ?: cli?.noPerformanceMetrics?.not() ?: androidGcloud.performanceMetrics
+    val numUniformShards = cli?.numUniformShards ?: androidGcloud.numUniformShards
     val testRunnerClass = cli?.testRunnerClass ?: androidGcloud.testRunnerClass
     val testTargets = cli?.testTargets ?: androidGcloud.testTargets.filterNotNull()
     val devices = cli?.device ?: androidGcloud.device
@@ -99,6 +100,10 @@ class AndroidArgs(
 
         devices.forEach { device -> assertDeviceSupported(device) }
 
+        require((numUniformShards != null && maxTestShards > 1).not()) {
+            "Option num-uniform-shards cannot be specified along with max-test-shards. Use only one of them"
+        }
+
         assertCommonProps(this)
     }
 
@@ -134,6 +139,7 @@ AndroidArgs
       directories-to-pull:${listToString(directoriesToPull)}
       other-files:${mapToString(otherFiles)}
       performance-metrics: $performanceMetrics
+      num-uniform-shards: $numUniformShards
       test-runner-class: $testRunnerClass
       test-targets:${listToString(testTargets)}
       device:${devicesToString(devices)}

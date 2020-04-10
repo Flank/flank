@@ -34,7 +34,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     val runCount = args.repeatTests
     val history = GcToolResults.createToolResultsHistory(args)
     val resolvedTestApks = args.getResolvedTestApks()
-    val otherGcsFiles = args.otherFiles.uploadOtherFiles(args.resultsBucket, runGcsPath)
+    val otherGcsFiles = args.uploadOtherFiles(runGcsPath)
 
     val allTestShardChunks: ShardChunks = resolvedTestApks.map { apks: ResolvedTestApks ->
         // Ensure we only shard tests that are part of the test apk. Use the resolved test apk path to make sure
@@ -128,11 +128,10 @@ private suspend fun uploadTestApks(
     )
 }
 
-private suspend fun Map<String, String>.uploadOtherFiles(
-    gcsBucket: String,
+private suspend fun AndroidArgs.uploadOtherFiles(
     runGcsPath: String
 ): Map<String, String> = coroutineScope {
-    map { (devicePath: String, filePath: String) ->
-        async(Dispatchers.IO) { devicePath to GcStorage.upload(filePath, gcsBucket, runGcsPath) }
+    otherFiles.map { (devicePath: String, filePath: String) ->
+        async(Dispatchers.IO) { devicePath to GcStorage.upload(filePath, resultsBucket, runGcsPath) }
     }.awaitAll().toMap()
 }
