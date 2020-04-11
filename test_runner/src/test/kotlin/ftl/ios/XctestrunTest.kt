@@ -15,7 +15,7 @@ import ftl.test.util.TestHelper.normalizeLineEnding
 @RunWith(FlankTestRunner::class)
 class XctestrunTest {
 
-    private val swiftXctestrun = "$fixturesPath/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun"
+    private val swiftXctestrun = "$fixturesPath/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun"
     private val swiftTests = listOf(
         "EarlGreyExampleSwiftTests/testBasicSelection",
         "EarlGreyExampleSwiftTests/testBasicSelectionActionAssert",
@@ -41,7 +41,7 @@ class XctestrunTest {
         val result = Xctestrun.parse(swiftXctestrun)
         assertThat(arrayOf("EarlGreyExampleSwiftTests", "__xctestrun_metadata__")).isEqualTo(result.allKeys())
         val dict = result["EarlGreyExampleSwiftTests"] as NSDictionary
-        assertThat(dict.count()).isEqualTo(15)
+        assertThat(dict.count()).isEqualTo(19)
         assertThat(dict.containsKey("OnlyTestIdentifiers")).isFalse()
     }
 
