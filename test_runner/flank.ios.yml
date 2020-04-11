@@ -50,13 +50,13 @@ gcloud:
   ## The path to the test package (a zip file containing the iOS app and XCTest files).
   ## The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://.
   ## Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file is specified.
-  test: ./src/test/kotlin/ftl/fixtures/tmp/ios_earlgrey2.zip
+  test: ./src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
 
   ## The path to an .xctestrun file that will override any .xctestrun file contained in the --test package.
   ## Because the .xctestrun file contains environment variables along with test methods to run and/or ignore,
   ## this can be useful for customizing or sharding test suites. The given path should be in the local filesystem.
   ## Note: this path should usually be pointing to the xctestrun file within the derived data folder
-  xctestrun-file: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun
+  xctestrun-file: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
 
   ## The version of Xcode that should be used to run an XCTest.
   ## Defaults to the latest Xcode version supported in Firebase Test Lab.

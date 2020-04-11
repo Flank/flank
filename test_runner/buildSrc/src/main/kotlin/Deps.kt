@@ -12,7 +12,7 @@ object Versions {
     const val DEX_TEST_PARSER = "2.1.1"
 
     // match to Tools -> Kotlin -> Configure Kotlin Plugin Updates -> Update Channel: Stable
-    const val KOTLIN = "1.3.70"
+    const val KOTLIN = "1.3.71"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
     const val KOTLIN_COROUTINES = "1.3.2"

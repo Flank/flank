@@ -1,8 +1,8 @@
 gcloud:
   # only test is supported on gcs
-  test: gs://tmp_bucket_2/ios_earlgrey2.zip
+  test: gs://tmp_bucket_2/earlgrey_example.zip
   # testrun & the app itself must exist locally for analysis and sharding.
-  xctestrun-file: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun
+  xctestrun-file: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
   results-history-name: android-gcs
   results-bucket: tmp_bucket_2
   record-video: true
