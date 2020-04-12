@@ -100,6 +100,7 @@ gcloud:
   ## Because the .xctestrun file contains environment variables along with test methods to run and/or ignore,
   ## this can be useful for customizing or sharding test suites. The given path should be in the local filesystem.
   ## Note: this path should usually be pointing to the xctestrun file within the derived data folder
+  ## For example ./derivedDataPath/Build/Products/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
   xctestrun-file: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun
 
   ## The version of Xcode that should be used to run an XCTest.
