@@ -126,3 +126,7 @@ flank:
 
   ## The max time this test run can execute before it is cancelled (default: unlimited).
   # run-timeout: 60m
+
+  ## Keeps the full path of downloaded files. Required when file names are not unique.
+  ## Default: false
+  # keep-file-path: false
