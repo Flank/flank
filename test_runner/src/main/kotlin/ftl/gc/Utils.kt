@@ -22,7 +22,14 @@ internal fun AndroidInstrumentationTest.setupTestTargets(args: AndroidArgs, test
         shardingOption = ShardingOption().apply {
             if (args.numUniformShards != null) {
                 testTargets = testShards.flatten()
-                uniformSharding = UniformSharding().setNumShards(args.numUniformShards)
+                val numUniformShards =
+                    if (testTargets.size > args.numUniformShards) {
+                        args.numUniformShards
+                    } else {
+                        println("WARNING: num-uniform-shards (${args.numUniformShards}) is higher than number of test cases (${testTargets.size}) from ${testApk.gcsPath}")
+                        testTargets.size
+                    }
+                uniformSharding = UniformSharding().setNumShards(numUniformShards)
             } else {
                 manualSharding = ManualSharding().setTestTargetsForShard(testShards.map {
                     TestTargetsForShard().setTestTargets(it)

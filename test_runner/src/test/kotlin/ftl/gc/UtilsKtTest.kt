@@ -1,6 +1,7 @@
 package ftl.gc
 
 import com.google.api.services.testing.model.AndroidInstrumentationTest
+import com.google.api.services.testing.model.FileReference
 import ftl.args.AndroidArgs
 import ftl.args.ShardChunks
 import io.mockk.every
@@ -30,19 +31,20 @@ class UtilsKtTest {
     @Test
     fun `setupTestTargets should setup uniformSharding`() {
         // given
-        val expectedNumShards = 50
-        val expectedTestTargets = emptyList<String>()
+       val expectedTestTargets = emptyList<String>()
         val args = mockk<AndroidArgs> {
             every { disableSharding } returns false
-            every { numUniformShards } returns expectedNumShards
+            every { numUniformShards } returns 50
         }
         val testShards: ShardChunks = listOf(expectedTestTargets)
 
         // when
-        val actual = AndroidInstrumentationTest().setupTestTargets(args, testShards)
+        val actual = AndroidInstrumentationTest()
+            .setTestApk(FileReference().setGcsPath("testApk"))
+            .setupTestTargets(args, testShards)
 
         // then
-        assertEquals(expectedNumShards, actual.shardingOption.uniformSharding.numShards)
+        assertEquals(0, actual.shardingOption.uniformSharding.numShards)
         assertEquals(expectedTestTargets, actual.testTargets)
     }
 
