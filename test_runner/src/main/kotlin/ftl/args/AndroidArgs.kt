@@ -100,9 +100,9 @@ class AndroidArgs(
 
         devices.forEach { device -> assertDeviceSupported(device) }
 
-        require((numUniformShards != null && maxTestShards > 1).not()) {
+        if (numUniformShards != null && maxTestShards > 1) throw FlankFatalError(
             "Option num-uniform-shards cannot be specified along with max-test-shards. Use only one of them"
-        }
+        )
 
         assertCommonProps(this)
     }
