@@ -12,14 +12,11 @@ import com.google.api.services.testing.model.EnvironmentVariable
 import com.google.api.services.testing.model.FileReference
 import com.google.api.services.testing.model.GoogleAuto
 import com.google.api.services.testing.model.GoogleCloudStorage
-import com.google.api.services.testing.model.ManualSharding
 import com.google.api.services.testing.model.RegularFile
 import com.google.api.services.testing.model.ResultStorage
-import com.google.api.services.testing.model.ShardingOption
 import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.testing.model.TestSetup
 import com.google.api.services.testing.model.TestSpecification
-import com.google.api.services.testing.model.TestTargetsForShard
 import com.google.api.services.testing.model.ToolResultsHistory
 import ftl.args.AndroidArgs
 import ftl.args.ShardChunks
@@ -52,17 +49,10 @@ object GcAndroidTestMatrix {
 
         val matrixGcsPath = join(args.resultsBucket, runGcsPath)
 
-        // ShardingOption().setUniformSharding(UniformSharding().setNumShards())
-        val testTargetsForShard: List<TestTargetsForShard> = testShards.map {
-            TestTargetsForShard().setTestTargets(it)
-        }
-        val manualSharding = ManualSharding().setTestTargetsForShard(testTargetsForShard)
-        val shardingOption = ShardingOption().setManualSharding(manualSharding)
-
         val androidInstrumentation = AndroidInstrumentationTest()
             .setAppApk(FileReference().setGcsPath(appApkGcsPath))
             .setTestApk(FileReference().setGcsPath(testApkGcsPath))
-            .setShardingOption(shardingOption)
+            .setupTestTargets(args, testShards)
 
         if (args.testRunnerClass != null) {
             androidInstrumentation.testRunnerClass = args.testRunnerClass

@@ -68,6 +68,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.noUseOrchestrator).isNull()
         assertThat(cmd.performanceMetrics).isNull()
         assertThat(cmd.noPerformanceMetrics).isNull()
+        assertThat(cmd.numUniformShards).isNull()
         assertThat(cmd.testRunnerClass).isNull()
         assertThat(cmd.environmentVariables).isNull()
         assertThat(cmd.directoriesToPull).isNull()
@@ -178,6 +179,15 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parseArgs("--no-performance-metrics")
 
         assertThat(cmd.noPerformanceMetrics).isTrue()
+    }
+
+    @Test
+    fun `numUniformShards parse`() {
+        val expected = 50
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--num-uniform-shards=$expected")
+
+        assertThat(cmd.numUniformShards).isEqualTo(expected)
     }
 
     @Test

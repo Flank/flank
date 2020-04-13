@@ -176,6 +176,20 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
     var noPerformanceMetrics: Boolean? = null
 
     @Option(
+        names = ["--num-uniform-shards"],
+        description = [
+            "Specifies the number of shards into which you want to evenly distribute test cases.",
+            "The shards are run in parallel on separate devices. For example,",
+            "if your test execution contains 20 test cases and you specify four shards, each shard executes five test cases.",
+            "The number of shards should be less than the total number of test cases.",
+            "The number of shards specified must be >= 1 and <= 50.",
+            "This option cannot be used along max-test-shards and is not compatible with smart sharding.",
+            "If you want to take benefits of smart sharding use max-test-shards."
+        ]
+    )
+    var numUniformShards: Int? = null
+
+    @Option(
         names = ["--test-runner-class"],
         description = ["The fully-qualified Java class name of the instrumentation test runner (default: the last name extracted " +
                 "from the APK manifest)."]

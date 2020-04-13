@@ -14,13 +14,15 @@ object AndroidTestShard {
     // computed properties not specified in yaml
     fun getTestShardChunks(args: AndroidArgs, testApk: String): ShardChunks {
         // Download test APK if necessary so it can be used to validate test methods
-        var testLocalApk = testApk
-        if (testApk.startsWith(FtlConstants.GCS_PREFIX)) {
-            testLocalApk = GcStorage.download(testApk)
-        }
+        val testLocalApk = if (testApk.startsWith(FtlConstants.GCS_PREFIX))
+            GcStorage.download(testApk) else
+            testApk
 
         val filteredTests = getTestMethods(args, testLocalApk)
-        return ArgsHelper.calculateShards(filteredTests, args)
+
+        return if (args.numUniformShards == null)
+            ArgsHelper.calculateShards(filteredTests, args) else
+            listOf(filteredTests.map(FlankTestMethod::testName))
     }
 
     private fun getTestMethods(args: AndroidArgs, testLocalApk: String): List<FlankTestMethod> {

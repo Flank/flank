@@ -38,6 +38,9 @@ class AndroidGcloudYmlParams(
     @field:JsonProperty("performance-metrics")
     val performanceMetrics: Boolean = FlankDefaults.DISABLE_PERFORMANCE_METRICS,
 
+    @field:JsonProperty("num-uniform-shards")
+    val numUniformShards: Int? = null,
+
     @field:JsonProperty("test-runner-class")
     val testRunnerClass: String? = null,
 
@@ -57,6 +60,7 @@ class AndroidGcloudYmlParams(
             "directories-to-pull",
             "other-files",
             "performance-metrics",
+            "num-uniform-shards",
             "test-runner-class",
             "test-targets",
             "device"
