@@ -31,7 +31,7 @@ class UtilsKtTest {
     @Test
     fun `setupTestTargets should setup uniformSharding`() {
         // given
-       val expectedTestTargets = emptyList<String>()
+        val expectedTestTargets = emptyList<String>()
         val args = mockk<AndroidArgs> {
             every { disableSharding } returns false
             every { numUniformShards } returns 50
