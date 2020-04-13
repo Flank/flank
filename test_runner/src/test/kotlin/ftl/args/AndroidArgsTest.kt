@@ -647,7 +647,7 @@ AndroidArgs
         assertThat(androidArgs.numUniformShards).isEqualTo(expected)
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test(expected = FlankFatalError::class)
     fun `should throw if numUniformShards is specified along with maxTestShards`() {
         val yaml = """
         gcloud:
