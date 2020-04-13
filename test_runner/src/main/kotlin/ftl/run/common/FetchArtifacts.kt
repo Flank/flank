@@ -69,15 +69,12 @@ internal fun getDownloadPath(args: IArgs, blobPath: String): Path {
         ObjPath.legacyParse(blobPath)
 
     // Store downloaded artifacts at device root.
-    return if (args.useLocalResultDir()) {
-        if (args is AndroidArgs && args.keepFilePath)
-            Paths.get(localDir, p.shardName, p.deviceName, p.filePathName, p.fileName)
-        else
-            Paths.get(localDir, p.shardName, p.deviceName, p.fileName)
-    } else {
-        if (args is AndroidArgs && args.keepFilePath)
-            Paths.get(localDir, p.objName, p.shardName, p.deviceName, p.filePathName, p.fileName)
-        else
-            Paths.get(localDir, p.objName, p.shardName, p.deviceName, p.fileName)
-    }
+    return Paths.get(
+        localDir,
+        if (args.useLocalResultDir().not()) p.objName else "",
+        p.shardName,
+        p.deviceName,
+        if (args.keepFilePath) p.filePathName else "",
+        p.fileName
+    )
 }

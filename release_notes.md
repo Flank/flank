@@ -1,4 +1,5 @@
 ## next (unreleased)
+- [#712](https://github.com/Flank/flank/pull/712) Add keep file path for ios. ([pawelpasterz](https://github.com/pawelpasterz))
 - [#711](https://github.com/Flank/flank/pull/711) Remove hardcoded height. ([pawelpasterz](https://github.com/pawelpasterz))
 - [#708](https://github.com/Flank/flank/pull/708) Add ignore failed tests option to Flank. ([pawelpasterz](https://github.com/pawelpasterz))
 - [#704](https://github.com/Flank/flank/pull/704) Fix shards calculation when there are ignored tests and shardTime is -1. ([jan-gogo](https://github.com/jan-gogo))

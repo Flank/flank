@@ -83,6 +83,7 @@ class AndroidArgs(
     override val clientDetails = cli?.clientDetails ?: gcloud.clientDetails
     override val networkProfile = cli?.networkProfile ?: gcloud.networkProfile
     override val ignoreFailedTests = cli?.ignoreFailedTests ?: flank.ignoreFailedTests
+    override val keepFilePath = cli?.keepFilePath ?: flank.keepFilePath
 
     private val androidFlank = androidFlankYml.flank
     val additionalAppTestApks = (cli?.additionalAppTestApks ?: androidFlank.additionalAppTestApks).map { (app, test) ->
@@ -91,7 +92,6 @@ class AndroidArgs(
             test = test.processFilePath("from additional-app-test-apks.test")
         )
     }
-    val keepFilePath = cli?.keepFilePath ?: androidFlank.keepFilePath
 
     init {
         resultsBucket = createGcsBucket(project, cli?.resultsBucket ?: gcloud.resultsBucket)

@@ -14,6 +14,7 @@ import ftl.test.util.TestHelper.assert
 import ftl.util.FlankFatalError
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
@@ -34,6 +35,7 @@ class AndroidArgsTest {
     private val testErrorApkAbsolutePath = testErrorApk.absolutePath()
     private val testFlakyApkAbsolutePath = testFlakyApk.absolutePath()
     private val simpleFlankPath = getPath("src/test/kotlin/ftl/fixtures/simple-android-flank.yml")
+    private val flankLocal = getPath("src/test/kotlin/ftl/fixtures/flank.local.yml")
 
     private val androidNonDefault = """
         gcloud:
@@ -311,7 +313,8 @@ AndroidArgs
     @Test
     fun `verify default yml toString`() {
         val args = AndroidArgs.load(simpleFlankPath)
-        assertEquals("""
+        assertEquals(
+            """
 AndroidArgs
     gcloud:
       results-bucket: mockBucket
@@ -357,7 +360,8 @@ AndroidArgs
       run-timeout: -1
       legacy-junit-result: true
       ignore-failed-tests: false
-        """.trimIndent(), args.toString())
+        """.trimIndent(), args.toString()
+        )
     }
 
     @Test
@@ -1046,6 +1050,22 @@ AndroidArgs
     }
 
     @Test
+    fun `cli run-timeout`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parseArgs("--run-timeout=20m")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+      """
+        assertThat(AndroidArgs.load(yaml).parsedTimeout).isEqualTo(Long.MAX_VALUE)
+
+        val args = AndroidArgs.load(yaml, cli)
+        assertThat(args.parsedTimeout).isEqualTo(20 * 60 * 1000L)
+    }
+
+    @Test
     fun `additional test apks without app specified should have top level app provided -- yml file`() {
         val yaml = """
         gcloud:
@@ -1070,5 +1090,17 @@ AndroidArgs
     fun `verify run timeout default value - android`() {
         val args = AndroidArgs.load(simpleFlankPath)
         assertEquals(Long.MAX_VALUE, args.parsedTimeout)
+    }
+
+    @Test
+    fun `verify legacy junit result default value - android`() {
+        val args = AndroidArgs.load(flankLocal)
+        assertFalse(args.useLegacyJUnitResult)
+    }
+
+    @Test
+    fun `verify ignore failed tests default value - android`() {
+        val args = AndroidArgs.load(flankLocal)
+        assertFalse(args.ignoreFailedTests)
     }
 }

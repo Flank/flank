@@ -38,6 +38,7 @@ interface IArgs {
         }
     val useLegacyJUnitResult: Boolean get() = false
     val ignoreFailedTests: Boolean
+    val keepFilePath: Boolean
 
     fun useLocalResultDir() = localResultDir != FlankYmlParams.defaultLocalResultsDir
 
