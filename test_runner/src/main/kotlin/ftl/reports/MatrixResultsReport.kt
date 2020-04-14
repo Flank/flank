@@ -9,6 +9,8 @@ import ftl.util.println
 import ftl.util.write
 import java.io.StringWriter
 import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.Locale
 
 /**
 
@@ -23,7 +25,7 @@ Example:
 object MatrixResultsReport : IReport {
     override val extension = ".txt"
 
-    private val percentFormat by lazy { DecimalFormat("#0.00") }
+    private val percentFormat by lazy { DecimalFormat("#0.00", DecimalFormatSymbols(Locale.US)) }
 
     private fun generate(matrices: MatrixMap): String {
         var total = 0
