@@ -10,7 +10,7 @@ gcloud:
   ## (default: a timestamp with a random suffix).
   # results-dir: tmp
 
-  ## Enable video recording during the test. Enabled by default, use --no-record-video to disable.
+  ## Enable video recording during the test. Disabled by default. Use --record-video to enable.
   # record-video: true
 
   ## The max time this test execution can run before it is cancelled (default: 15m).
@@ -57,7 +57,7 @@ gcloud:
   test: ../test_app/apks/app-debug-androidTest.apk
 
   ## Automatically log into the test device using a preconfigured Google account before beginning the test.
-  ## Enabled by default, use --no-auto-google-login to disable.
+  ## Disabled by default. Use --auto-google-login to enable.
   # auto-google-login: true
 
   ## Whether each test runs in its own Instrumentation instance with the Android Test Orchestrator
@@ -86,7 +86,7 @@ gcloud:
   #   - /sdcard/dir2/file2.jpg: gs://bucket/file.jpg
 
   ## Monitor and record performance metrics: CPU, memory, network usage, and FPS (game-loop only).
-  ## Enabled by default, use --no-performance-metrics to disable.
+  ## Disabled by default. Use --performance-metrics to enable.
   # performance-metrics: true
 
   ## Specifies the number of shards into which you want to evenly distribute test cases.
@@ -148,7 +148,7 @@ flank:
   # max-test-shards: 1
 
   ## shard time - the amount of time tests within a shard should take
-  ## when set to > 0, the shard count is dynamically set based on time up to the maxmimum limit defined by max-test-shards
+  ## when set to > 0, the shard count is dynamically set based on time up to the maximum limit defined by max-test-shards
   ## 2 minutes (120) is recommended.
   ## default: -1 (unlimited)
   # shard-time: -1
@@ -182,18 +182,24 @@ flank:
   ## Local folder to store the test result. Folder is DELETED before each run to ensure only artifacts from the new run are saved.
   # local-result-dir: flank
 
-  ## Downloaded files preserves the original path of file. Required when file names are not unique.
+  ## Keeps the full path of downloaded files. Required when file names are not unique.
   ## Default: false
   # keep-file-path: false
 
-  ## Include additional app/test apk pairs in the run. If app is omitted, then the top level app is used for that pair.
+  ## Include additional app/test apk pairs in the run. Apks are unique by just filename and not by path!
+  ## If app is omitted, then the top level app is used for that pair.
   # additional-app-test-apks:
   #  - app: ../test_app/apks/app-debug.apk
-  #    test: ../test_app/apks/app-debug-androidTest.apk
-  #  - test: ../test_app/apks/app-debug-androidTest.apk
+  #    test: ../test_app/apks/app1-debug-androidTest.apk
+  #  - test: ../test_app/apks/app2-debug-androidTest.apk
 
   ## The max time this test run can execute before it is cancelled (default: unlimited).
   # run-timeout: 60m
+
+  ## Terminate with exit code 0 when there are failed tests.
+  ## Useful for Fladle and other gradle plugins that don't expect the process to have a non-zero exit code.
+  ## The JUnit XML is used to determine failure. (default: false)
+  # ignore-failed-tests: true
 
   ## Flank provides two ways for parsing junit xml results.
   ## New way uses google api instead of merging xml files, but can generate slightly different output format.
