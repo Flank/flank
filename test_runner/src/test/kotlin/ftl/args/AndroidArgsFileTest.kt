@@ -63,7 +63,7 @@ class AndroidArgsFileTest {
     private fun checkConfig(args: AndroidArgs, local: Boolean) {
 
         with(args) {
-            if (local) assert(getString(testApk), getString(testApkAbsolutePath))
+            if (local) assert(getString(testApk!!), getString(testApkAbsolutePath))
             else assert(testApk, testApkGcs)
 
             if (local) assert(getString(appApk), getString(appApkAbsolutePath))
@@ -115,13 +115,13 @@ class AndroidArgsFileTest {
     fun `calculateShards 0`() {
         exceptionRule.expectMessage("Test APK has no tests")
         val args = configWithTestMethods(0)
-        AndroidTestShard.getTestShardChunks(args, args.testApk)
+        AndroidTestShard.getTestShardChunks(args, args.testApk!!)
     }
 
     @Test
     fun `calculateShards 1`() {
         val config = configWithTestMethods(1)
-        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk!!)
         with(config) {
             assert(maxTestShards, 1)
             assert(testShardChunks.size, 1)
@@ -132,7 +132,7 @@ class AndroidArgsFileTest {
     @Test
     fun `calculateShards 155`() {
         val config = configWithTestMethods(155)
-        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk!!)
         with(config) {
             assert(maxTestShards, 1)
             assert(testShardChunks.size, 1)
@@ -143,7 +143,7 @@ class AndroidArgsFileTest {
     @Test
     fun `calculateShards 155 40`() {
         val config = configWithTestMethods(155, maxTestShards = 40)
-        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk!!)
         with(config) {
             assert(maxTestShards, 40)
             assert(testShardChunks.size, 40)

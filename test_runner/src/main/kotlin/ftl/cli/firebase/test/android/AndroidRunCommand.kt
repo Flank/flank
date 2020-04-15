@@ -45,7 +45,7 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
         val config = AndroidArgs.load(Paths.get(configPath), cli = this)
 
         if (dumpShards) {
-            val testShardChunks: ShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk)
+            val testShardChunks: ShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk!!)
             val testShardChunksJson: String = prettyPrint.toJson(testShardChunks)
 
             Files.write(Paths.get(shardFile), testShardChunksJson.toByteArray())

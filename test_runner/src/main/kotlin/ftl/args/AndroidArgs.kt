@@ -52,7 +52,7 @@ class AndroidArgs(
 
     private val androidGcloud = androidGcloudYml.gcloud
     var appApk = (cli?.app ?: androidGcloud.app ?: throw FlankFatalError("app is not set")).processFilePath("from app")
-    var testApk = (cli?.test ?: androidGcloud.test ?: throw FlankFatalError("test is not set")).processFilePath("from test")
+    var testApk = (cli?.test ?: androidGcloud.test)?.processFilePath("from test")
     val additionalApks = (cli?.additionalApks ?: androidGcloud.additionalApks).map { it.processFilePath("from additional-apks") }
     val autoGoogleLogin = cli?.autoGoogleLogin ?: cli?.noAutoGoogleLogin?.not() ?: androidGcloud.autoGoogleLogin
 
@@ -107,8 +107,15 @@ class AndroidArgs(
             "Option num-uniform-shards cannot be specified along with max-test-shards. Use only one of them"
         )
 
+        if (!(isRoboTest xor isInstrumentationTest)) throw FlankFatalError(
+            "Option test xor (robo-directives or robo-script) must be specified"
+        )
+
         assertCommonProps(this)
     }
+
+    val isInstrumentationTest get() = testApk != null
+    val isRoboTest get() = roboDirectives.isNotEmpty() || roboScript != null
 
     private fun assertDeviceSupported(device: Device) {
         when (val deviceConfigTest = AndroidCatalog.supportedDeviceConfig(device.model, device.version, this.project)) {

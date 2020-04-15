@@ -8,15 +8,15 @@ data class AppTestPair(
     val test: String
 )
 
-data class ResolvedTestApks(
+data class ResolvedApks(
     val app: String,
-    val test: String,
+    val test: String?,
     val additionalApks: List<String> = emptyList()
 )
 
-data class UploadedTestApks(
+data class UploadedApks(
     val app: String,
-    val test: String,
+    val test: String?,
     val additionalApks: List<String> = emptyList()
 )
 
