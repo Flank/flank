@@ -24,6 +24,7 @@ val artifactID = "flank"
 
 val shadowJar: ShadowJar by tasks
 shadowJar.apply {
+    archiveClassifier.set("")
     archiveBaseName.set(artifactID)
     mergeServiceFiles()
     @Suppress("UnstableApiUsage")
@@ -56,8 +57,6 @@ bintray {
 publishing {
     publications {
         register("mavenJava", MavenPublication::class) {
-            from(components["java"])
-
             groupId = "flank"
             artifactId = "flank"
             version = System.getenv("MVN_VERSION")
