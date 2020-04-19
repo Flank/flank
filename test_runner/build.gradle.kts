@@ -6,11 +6,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Date
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
-val flankGroup = "flank"
-val flankVersion = "SNAPSHOT"
-group = flankGroup
-version = flankVersion
-
 plugins {
     application
     jacoco
