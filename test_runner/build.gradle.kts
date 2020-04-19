@@ -6,8 +6,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Date
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
-group = "flank"
-version = "SNAPSHOT"
+val flankGroup = "flank"
+val flankVersion = "SNAPSHOT"
+group = flankGroup
+version = flankVersion
 
 plugins {
     application
@@ -67,6 +69,9 @@ publishing {
             version = System.getenv("MVN_VERSION")
 
             artifact(shadowJar)
+            // TODO: Is there a better way to fetch these paths?
+            artifact("./build/libs/${flankGroup}-${flankVersion}-javadoc.jar")
+            artifact("./build/libs/${flankGroup}-${flankVersion}-sources.jar")
 
             pom {
                 name.set("Flank")
