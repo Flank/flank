@@ -56,12 +56,39 @@ bintray {
 
 publishing {
     publications {
-        register("mavenJava", MavenPublication::class) {
+        create<MavenPublication>("mavenJava") {
             groupId = "com.github.flank"
             artifactId = "flank"
             version = System.getenv("MVN_VERSION")
 
             artifact(shadowJar)
+
+            pom {
+                name.set("Flank")
+                description.set("Massively parallel Android and iOS test runner for Firebase Test Lab")
+                url.set("https://github.com/flank/flank")
+
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
+                }
+
+                developers {
+                    developer {
+                        id.set("bootstraponline")
+                        name.set("bootstrap online")
+                        email.set("code@bootstraponline.com")
+                    }
+                }
+
+                scm {
+                    connection.set("scm:git:git://github.com/flank/flank.git")
+                    developerConnection.set("scm:git:ssh://github.com:flank/flank.git")
+                    url.set("https://github.com/flank/flank")
+                }
+            }
 
             pom.withXml {
                 // Remove deps since we're publishing a fat jar
