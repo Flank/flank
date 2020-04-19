@@ -6,7 +6,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Date
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
-group = "test_runner"
+group = "flank"
 version = "SNAPSHOT"
 
 plugins {
