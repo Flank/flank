@@ -6,18 +6,15 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Date
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
-group = "test_runner"
-version = "SNAPSHOT"
-
 plugins {
     application
     jacoco
     kotlin("jvm") version Versions.KOTLIN
 
     id("io.gitlab.arturbosch.detekt") version Versions.DETEKT
-    id("com.jfrog.bintray") version "1.8.4"
+    id("com.jfrog.bintray") version Versions.BINTRAY
     id("maven-publish")
-    id("com.github.johnrengelman.shadow") version "5.2.0"
+    id("com.github.johnrengelman.shadow") version Versions.SHADOW
 }
 
 val artifactID = "flank"
@@ -54,14 +51,48 @@ bintray {
     })
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 publishing {
     publications {
-        register("mavenJava", MavenPublication::class) {
-            groupId = "flank"
-            artifactId = "flank"
+        create<MavenPublication>("mavenJava") {
+            groupId = "com.github.flank"
+            artifactId = artifactID
             version = System.getenv("MVN_VERSION")
 
             artifact(shadowJar)
+            artifact(tasks["javadocJar"])
+            artifact(tasks["sourcesJar"])
+
+            pom {
+                name.set("Flank")
+                description.set("Massively parallel Android and iOS test runner for Firebase Test Lab")
+                url.set("https://github.com/flank/flank")
+
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
+                }
+
+                developers {
+                    developer {
+                        id.set("bootstraponline")
+                        name.set("bootstrap online")
+                        email.set("code@bootstraponline.com")
+                    }
+                }
+
+                scm {
+                    connection.set("scm:git:git://github.com/flank/flank.git")
+                    developerConnection.set("scm:git:ssh://github.com:flank/flank.git")
+                    url.set("https://github.com/flank/flank")
+                }
+            }
 
             pom.withXml {
                 // Remove deps since we're publishing a fat jar
