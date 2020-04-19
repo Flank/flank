@@ -57,7 +57,7 @@ bintray {
 publishing {
     publications {
         register("mavenJava", MavenPublication::class) {
-            groupId = "flank"
+            groupId = "com.github.flank"
             artifactId = "flank"
             version = System.getenv("MVN_VERSION")
 
