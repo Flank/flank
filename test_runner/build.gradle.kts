@@ -69,9 +69,8 @@ publishing {
             version = System.getenv("MVN_VERSION")
 
             artifact(shadowJar)
-            // TODO: Is there a better way to fetch these paths?
-            artifact("./build/libs/${flankGroup}-${flankVersion}-javadoc.jar")
-            artifact("./build/libs/${flankGroup}-${flankVersion}-sources.jar")
+            artifact(tasks["javadocJar"])
+            artifact(tasks["sourcesJar"])
 
             pom {
                 name.set("Flank")
