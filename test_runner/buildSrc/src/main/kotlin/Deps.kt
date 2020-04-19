@@ -8,11 +8,17 @@ object Versions {
     // https://github.com/arturbosch/detekt/releases
     const val DETEKT = "1.1.0"
 
+    // https://github.com/bintray/gradle-bintray-plugin/releases
+    const val BINTRAY = "1.8.5"
+
+    // https://github.com/johnrengelman/shadow/releases
+    const val SHADOW = "5.2.0"
+
     // https://github.com/linkedin/dex-test-parser/releases
     const val DEX_TEST_PARSER = "2.1.1"
 
     // match to Tools -> Kotlin -> Configure Kotlin Plugin Updates -> Update Channel: Stable
-    const val KOTLIN = "1.3.71"
+    const val KOTLIN = "1.3.72"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
     const val KOTLIN_COROUTINES = "1.3.2"

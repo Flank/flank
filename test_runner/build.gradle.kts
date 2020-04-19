@@ -12,9 +12,9 @@ plugins {
     kotlin("jvm") version Versions.KOTLIN
 
     id("io.gitlab.arturbosch.detekt") version Versions.DETEKT
-    id("com.jfrog.bintray") version "1.8.4"
+    id("com.jfrog.bintray") version Versions.BINTRAY
     id("maven-publish")
-    id("com.github.johnrengelman.shadow") version "5.2.0"
+    id("com.github.johnrengelman.shadow") version Versions.SHADOW
 }
 
 val artifactID = "flank"
@@ -60,7 +60,7 @@ publishing {
     publications {
         create<MavenPublication>("mavenJava") {
             groupId = "com.github.flank"
-            artifactId = "flank"
+            artifactId = artifactID
             version = System.getenv("MVN_VERSION")
 
             artifact(shadowJar)
