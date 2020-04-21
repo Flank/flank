@@ -2,6 +2,7 @@ package ftl.http
 
 import com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest
 import com.google.api.client.http.HttpResponseException
+import ftl.config.FtlConstants
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import java.io.IOException
@@ -19,6 +20,10 @@ private inline fun <T> withRetry(crossinline block: () -> T): T = runBlocking {
         try {
             return@runBlocking block()
         } catch (err: IOException) {
+            // We want to send every occurrence of Google API error for statistic purposes
+            // https://github.com/Flank/flank/issues/701
+            FtlConstants.bugsnag?.notify(FlankGoogleApiError(err))
+
             lastErr = err
             // HttpStatusCodes from google api client does not have 429 code
             if (err is HttpResponseException && err.statusCode == 429) {
@@ -30,3 +35,5 @@ private inline fun <T> withRetry(crossinline block: () -> T): T = runBlocking {
 
     throw IOException("Request failed", lastErr)
 }
+
+private class FlankGoogleApiError(exception: Throwable) : Error(exception)
