@@ -117,11 +117,8 @@ gcloud:
   ## Each key should be the Android resource name of a target UI element and each value should be the text input for that element.
   ## Values are only permitted for text type elements, so no value should be specified for click and ignore type elements.
   # robo-directives:
-  # - type: text
-  #   name: input_resource_name
-  #   input: message
-  # - type: click
-  #   name: button_resource_name
+  #   "text:input_resource_name": message
+  #   "click:button_resource_name": ""
 
   ## The path to a Robo Script JSON file.
   ## The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.
