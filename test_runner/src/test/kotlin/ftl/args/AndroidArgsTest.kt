@@ -1149,28 +1149,19 @@ AndroidArgs
           app: $appApk
           test: $testApk
           robo-directives:
-            - type: text
-              name: resource_name_1
-              input: some_text
-            - type: click
-              name: resource_name_2
+            text:resource_name_1: some_text
+            click:resource_name_2: ""
           robo-script: $appApk
         """.trimIndent()
 
         AndroidArgs.load(yaml)
     }
 
-    fun `should load robo-script & robo directives from yaml`() {
+    @Test
+    fun `should load robo-script from yaml`() {
         val yaml = """
         gcloud:
           app: $appApk
-          test: $testApk
-          robo-directives:
-            - type: text
-              name: resource_name_1
-              input: some_text
-            - type: click
-              name: resource_name_2
           robo-script: $appApk
         """.trimIndent()
 
@@ -1180,6 +1171,20 @@ AndroidArgs
             args.roboScript,
             appApkAbsolutePath
         )
+    }
+
+    @Test
+    fun `should load robo-directives from yaml`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          robo-directives:
+            text:resource_name_1: some_text
+            click:resource_name_2: ""
+        """.trimIndent()
+
+        val args = AndroidArgs.load(yaml)
+
         assertEquals(
             args.roboDirectives,
             listOf(

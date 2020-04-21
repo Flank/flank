@@ -16,8 +16,18 @@ internal fun createAndroidRoboTest(
 
 private fun List<FlankRoboDirective>.mapToApiRoboDirectives() = map {
     RoboDirective().apply {
-        actionType = it.type
+        actionType = actionTypeMap[it.type]
         resourceName = it.name
-        inputText = it.input
+        inputText = it.input.takeIf(String::isNotBlank)
     }
+}
+
+// The Firebase API uses different actionType names than those specified in https://cloud.google.com/sdk/gcloud/reference/beta/firebase/test/android/run#--robo-directives
+// https://github.com/bitrise-steplib/steps-virtual-device-testing-for-android/issues/20#issuecomment-384323077
+private val actionTypeMap = mapOf(
+    "click" to "SINGLE_CLICK",
+    "text" to "ENTER_TEXT",
+    "ignore" to "IGNORE"
+).withDefault {
+    "ACTION_TYPE_UNSPECIFIED"
 }

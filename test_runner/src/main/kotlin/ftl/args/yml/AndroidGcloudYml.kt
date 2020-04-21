@@ -6,7 +6,6 @@ import ftl.config.Device
 import ftl.config.FlankDefaults
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
-import ftl.config.FlankRoboDirective
 
 /**
  * Android specific gcloud parameters
@@ -49,7 +48,7 @@ class AndroidGcloudYmlParams(
     val testTargets: List<String?> = emptyList(),
 
     @field:JsonProperty("robo-directives")
-    val roboDirectives: List<FlankRoboDirective> = emptyList(),
+    val roboDirectives: Map<String, String> = emptyMap(),
 
     @field:JsonProperty("robo-script")
     val roboScript: String? = null,

@@ -58,7 +58,7 @@ class AndroidArgs(
 
     // We use not() on noUseOrchestrator because if the flag is on, useOrchestrator needs to be false
     val useOrchestrator = cli?.useOrchestrator ?: cli?.noUseOrchestrator?.not() ?: androidGcloud.useOrchestrator
-    val roboDirectives = cli?.roboDirectives?.parseRoboDirectives() ?: androidGcloud.roboDirectives
+    val roboDirectives = cli?.roboDirectives?.parseRoboDirectives() ?: androidGcloud.roboDirectives.parseRoboDirectives()
     val roboScript = (cli?.roboScript ?: androidGcloud.roboScript)?.processFilePath("from roboScript")
     val environmentVariables = cli?.environmentVariables ?: androidGcloud.environmentVariables
     val directoriesToPull = cli?.directoriesToPull ?: androidGcloud.directoriesToPull
@@ -108,7 +108,12 @@ class AndroidArgs(
         )
 
         if (!(isRoboTest xor isInstrumentationTest)) throw FlankFatalError(
-            "Option test xor (robo-directives or robo-script) must be specified"
+            "Option test xor robo-directives xor robo-script must be specified"
+        )
+
+        // Using both roboDirectives and roboScript may hang test execution on FTL
+        if (roboDirectives.isNotEmpty() && roboScript != null) throw FlankFatalError(
+            "Options robo-directives and robo-script are mutually exclusive, use only one of them."
         )
 
         assertCommonProps(this)

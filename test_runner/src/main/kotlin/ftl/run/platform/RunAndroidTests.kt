@@ -66,8 +66,6 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
                 toolResultsHistory = history
             )
         }
-
-        testShards ?: emptyList()
     }
 
     println(beforeRunMessage(args, allTestShardChunks))

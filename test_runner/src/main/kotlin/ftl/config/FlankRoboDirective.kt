@@ -1,29 +1,22 @@
 package ftl.config
 
-import ftl.util.trimStartLine
-
 data class FlankRoboDirective(
     val type: String,
     val name: String,
-    val input: String? = null // Input is only permitted for text type elements
+    val input: String = "" // Input is only permitted for text type elements
 ) {
-    override fun toString() = """
-        - type: $type
-          name: $name
-          input: $input""".trimStartLine()
+    override fun toString() = "        \"$type:$name\": $formattedInput"
+
+    private val formattedInput
+        get() = if (input.isNotBlank()) input else "\"\""
 }
 
-fun List<String>.parseRoboDirectives() = map(String::parseRoboDirective)
+fun List<String>.parseRoboDirectives() = map {
+    val (type, name, input) = it.split(Regex("([:=])"))
+    FlankRoboDirective(type, name, input)
+}
 
-fun String.parseRoboDirective(): FlankRoboDirective = split(
-    Regex("([:=])")
-).let { chunks ->
-    require(chunks.size == 3) {
-        "Cannot parse robo directive `$this`, use following format `\$TYPE:\$RESOURCE_NAME=\$INPUT`"
-    }
-    FlankRoboDirective(
-        type = chunks[0],
-        name = chunks[1],
-        input = chunks[2]
-    )
+fun Map<String, String>.parseRoboDirectives() = map { (key, input) ->
+    val (type, name) = key.split(":")
+    FlankRoboDirective(type, name, input)
 }
