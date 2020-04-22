@@ -55,7 +55,7 @@ module.exports = {
       cache: false,
       template: 'index.ejs',
       filename: isProduction ? 'inline.html' : 'index.html',
-      title: 'report 001',
+      title: 'JUnit Report',
       minify: true,
       inlineBundle: isProduction,
     }),
