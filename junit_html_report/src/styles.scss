@@ -1,5 +1,8 @@
+$listIndentation: 30px;
+$groupHeaderPadding: 5px;
+
 * {
-  font-family: "Roboto", sans-serif;
+  font-family: "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
   box-sizing: border-box;
 }
 
@@ -16,28 +19,35 @@ ul {
   margin-bottom: 3px;
 
   > a {
-    display: flex;
+    align-items: center;
     color: inherit;
-    text-decoration: none;
-    font-weight: 100;
+    display: flex;
     font-size: 22px;
+    font-weight: 100;
+    text-decoration: none;
+    padding: 5px;
+
+    &:hover {
+      background-color: #f6f6f6;
+    }
 
     > svg {
-      transition: all .2s ease-in-out;
-      flex-basis: 24px;
-      height: 24px;
-      flex-shrink: 0;
+      fill: none;
+      flex-basis: 15px;
       flex-grow: 0;
+      flex-shrink: 0;
+      margin-right: $listIndentation - 15px - $groupHeaderPadding;
+      height: 20px;
       stroke: currentColor;
-      fill: currentColor;
+      transition: all .2s ease-in-out;
     }
   }
 
   > ul {
-    padding-left: 24px;
     display: none;
-    font-weight: 400;
     font-size: 16px;
+    font-weight: 400;
+    padding-left: $listIndentation;
   }
 
   &.isOpen {
@@ -50,7 +60,11 @@ ul {
       margin-bottom: 10px;
 
       a {
-        color: deepskyblue;
+        -webkit-font-smoothing: antialiased;
+        color: #0078D4;
+        font-size: 14px;
+        font-weight: 400;
+        outline: none;
         text-decoration: none;
 
         &:hover {
