@@ -15,6 +15,7 @@ plugins {
     id("com.jfrog.bintray") version Versions.BINTRAY
     id("maven-publish")
     id("com.github.johnrengelman.shadow") version Versions.SHADOW
+    id("org.asciidoctor.convert") version "1.6.1"
 }
 
 val artifactID = "flank"
@@ -143,9 +144,6 @@ tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions.allWarningsAsErrors = runningOnBitrise
 }
 
-apply {
-    plugin("kotlin")
-}
 
 application {
     mainClassName = "ftl.Main"
@@ -194,6 +192,7 @@ dependencies {
     implementation(Libs.LOGBACK)
 
     implementation(Libs.PICOCLI)
+    annotationProcessor(Libs.PICOCLI_CODEGEN)
 
     implementation(Libs.WOODSTOX)
 
@@ -237,3 +236,35 @@ tasks.create("updateFlank", Exec::class.java) {
     description = "Update flank jar"
     commandLine = listOf("./bash/update_flank.sh")
 }
+
+// begin --- ASCII doc generation ---
+val generateManpageAsciiDoc by tasks.registering(JavaExec::class) {
+    dependsOn(tasks.classes)
+    classpath(
+        configurations.compile,
+        configurations.annotationProcessor,
+        sourceSets["main"].runtimeClasspath
+    )
+    group = "Documentation"
+    description = "Generate AsciiDoc manpage"
+    main = "picocli.codegen.docgen.manpage.ManPageGenerator"
+    args = listOf(
+        application.mainClassName,
+        "--outdir=${project.buildDir}/generated-picocli-docs",
+        "-v"
+//        "--template-dir=src/docs/mantemplates"
+    )
+}
+
+tasks.asciidoctor {
+    dependsOn(generateManpageAsciiDoc)
+    setBackends("manpage", "html5")
+    sourceDir = file("${project.buildDir}/generated-picocli-docs")
+    outputDir = file("${project.buildDir}/docs")
+    logDocuments = true
+}
+
+tasks.assemble {
+    dependsOn(tasks.asciidoctor)
+}
+// end --- ASCII doc generation ---
