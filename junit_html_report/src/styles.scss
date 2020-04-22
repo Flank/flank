@@ -1,0 +1,66 @@
+* {
+  font-family: "Roboto", sans-serif;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-weight: 100;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.group {
+  margin-bottom: 3px;
+
+  > a {
+    display: flex;
+    color: inherit;
+    text-decoration: none;
+    font-weight: 100;
+    font-size: 22px;
+
+    > svg {
+      transition: all .2s ease-in-out;
+      flex-basis: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      flex-grow: 0;
+      stroke: currentColor;
+      fill: currentColor;
+    }
+  }
+
+  > ul {
+    padding-left: 24px;
+    display: none;
+    font-weight: 400;
+    font-size: 16px;
+  }
+
+  &.isOpen {
+    > a > svg {
+      transform: rotate(90deg);
+    }
+
+    > ul {
+      display: block;
+      margin-bottom: 10px;
+
+      a {
+        color: deepskyblue;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      > li {
+        margin-top: 3px;
+      }
+    }
+  }
+}
