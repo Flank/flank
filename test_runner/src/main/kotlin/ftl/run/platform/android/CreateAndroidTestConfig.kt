@@ -12,11 +12,11 @@ internal fun AndroidArgs.createAndroidTestConfig(
 ): AndroidTestConfig = when {
     isInstrumentationTest -> createInstrumentationConfig(
         uploadedApks = uploadedApks,
-        testShards = testShards!!
+        testShards = testShards ?: throw FlankFatalError("Arg testShards is required for instrumentation test.")
     )
     isRoboTest -> createRoboConfig(
         uploadedApks = uploadedApks,
-        runGcsPath = runGcsPath!!
+        runGcsPath = runGcsPath ?: throw FlankFatalError("Arg runGcsPath is required for robo test.")
     )
-    else -> throw FlankFatalError("No testShards xor runGcsPath are specified")
+    else -> throw FlankFatalError("Cannot create AndroidTestConfig, invalid AndroidArgs.")
 }

@@ -108,7 +108,7 @@ class AndroidArgs(
         )
 
         if (!(isRoboTest xor isInstrumentationTest)) throw FlankFatalError(
-            "Option test xor robo-directives xor robo-script must be specified"
+            "One of following options must be specified [test, robo-directives, robo-script]."
         )
 
         // Using both roboDirectives and roboScript may hang test execution on FTL
