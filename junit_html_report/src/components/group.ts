@@ -11,21 +11,17 @@ function handleGroupClick(ev: MouseEvent) {
   target.parentElement!.classList.toggle('isOpen');
 }
 
-function createGroupLabel(group: IResultGroup) {
-  return createElement(
-    'a',
-    `${chevron}<span>${group.label} (${group.items.length})</span>`,
-    { href: '#' },
-    { click: handleGroupClick },
-  );
-}
+const createGroupLabel = (group: IResultGroup) => createElement(
+  'a',
+  `${chevron}<span>${group.label} (${group.items.length})</span>`,
+  { href: '#' },
+  { click: handleGroupClick },
+);
 
-function createGroupItem(item: IResult) {
-  return createElement(
-    'li',
-    `<a target="_blank" href="${item.url}">${item.label}</a>`,
-  );
-}
+const createGroupItem = (item: IResult) => createElement(
+  'li',
+  `<a target="_blank" href="${item.url}">${item.label}</a>`,
+);
 
 export function createGroupNode(group: IResultGroup) {
   const groupLabel = createGroupLabel(group);
