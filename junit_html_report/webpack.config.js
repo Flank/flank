@@ -45,6 +45,9 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'build'),
+    // path: isProduction
+    //   ? path.resolve(__dirname, 'test_runner', 'src', 'main', 'resources')
+    //   : path.resolve(__dirname, 'build'),
   },
   devServer: {
     contentBase: './build',
@@ -54,7 +57,7 @@ module.exports = {
       inject: false,
       cache: false,
       template: 'index.ejs',
-      filename: isProduction ? 'inline.html' : 'index.html',
+      filename: isProduction ? path.resolve(__dirname, '..', 'test_runner', 'src', 'main', 'resources', 'inline.html') : 'index.html',
       title: 'JUnit Report',
       minify: true,
       inlineBundle: isProduction,
