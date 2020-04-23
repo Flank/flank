@@ -3,6 +3,7 @@ package ftl.gc
 import com.google.api.services.testing.model.AndroidDeviceList
 import ftl.args.AndroidArgs
 import ftl.gc.GcToolResults.createToolResultsHistory
+import ftl.run.platform.android.AndroidTestConfig
 import ftl.test.util.FlankTestRunner
 import io.mockk.every
 import io.mockk.mockk
@@ -22,12 +23,18 @@ class GcAndroidTestMatrixTest {
         val androidArgs = mockk<AndroidArgs>(relaxed = true)
 
         GcAndroidTestMatrix.build(
-            appApkGcsPath = "",
-            testApkGcsPath = "",
+            androidTestConfig = AndroidTestConfig.Instrumentation(
+                appApkGcsPath = "",
+                testApkGcsPath = "",
+                testShards = emptyList(),
+                orchestratorOption = null,
+                numUniformShards = null,
+                disableSharding = false,
+                testRunnerClass = ""
+            ),
             runGcsPath = "",
             otherFiles = emptyMap(),
             androidDeviceList = AndroidDeviceList(),
-            testShards = emptyList(),
             args = androidArgs,
             toolResultsHistory = createToolResultsHistory(androidArgs),
             additionalApkGcsPaths = emptyList()
@@ -39,12 +46,18 @@ class GcAndroidTestMatrixTest {
         val androidArgs = mockk<AndroidArgs>(relaxed = true)
 
         GcAndroidTestMatrix.build(
-            appApkGcsPath = "",
-            testApkGcsPath = "",
+            androidTestConfig = AndroidTestConfig.Instrumentation(
+                appApkGcsPath = "",
+                testApkGcsPath = "",
+                testShards = listOf(listOf("")),
+                orchestratorOption = null,
+                numUniformShards = null,
+                disableSharding = false,
+                testRunnerClass = ""
+            ),
             runGcsPath = "",
             otherFiles = emptyMap(),
             androidDeviceList = AndroidDeviceList(),
-            testShards = listOf(listOf("")),
             args = androidArgs,
             toolResultsHistory = createToolResultsHistory(androidArgs),
             additionalApkGcsPaths = emptyList()
@@ -60,12 +73,18 @@ class GcAndroidTestMatrixTest {
         every { androidArgs.project } returns "123"
 
         GcAndroidTestMatrix.build(
-            appApkGcsPath = "",
-            testApkGcsPath = "",
+            androidTestConfig = AndroidTestConfig.Instrumentation(
+                appApkGcsPath = "",
+                testApkGcsPath = "",
+                testShards = emptyList(),
+                orchestratorOption = null,
+                numUniformShards = null,
+                disableSharding = false,
+                testRunnerClass = ""
+            ),
             runGcsPath = "",
             otherFiles = emptyMap(),
             androidDeviceList = AndroidDeviceList(),
-            testShards = emptyList(),
             args = androidArgs,
             toolResultsHistory = createToolResultsHistory(androidArgs),
             additionalApkGcsPaths = emptyList()

@@ -1,12 +1,12 @@
 package com.example.test_app
 
 import android.Manifest
-import android.os.SystemClock
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.rule.GrantPermissionRule
 import com.example.test_app.screenshot.ScreenshotTestRule
 import org.junit.Assert.assertTrue
 import org.junit.Rule
+import kotlin.random.Random
 
 abstract class BaseInstrumentedTest {
 
@@ -29,7 +29,7 @@ abstract class BaseInstrumentedTest {
         val result: Boolean = when (BuildConfig.FLAVOR_type) {
             "success" -> true
             "error" -> false
-            "flaky" -> SystemClock.uptimeMillis() % 2 == 0L
+            "flaky" -> Random.nextBoolean()
             else -> throw Error("Invalid flavour type")
         }
         assertTrue(result)

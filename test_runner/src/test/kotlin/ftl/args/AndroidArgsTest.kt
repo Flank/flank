@@ -4,13 +4,14 @@ import com.google.common.truth.Truth.assertThat
 import ftl.args.yml.AppTestPair
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
+import ftl.config.FlankRoboDirective
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.run.platform.runAndroidTests
 import ftl.test.util.FlankTestRunner
-import ftl.test.util.TestHelper.getPath
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
+import ftl.test.util.TestHelper.getPath
 import ftl.util.FlankFatalError
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -274,6 +275,8 @@ AndroidArgs
       test-targets:
         - class com.example.app.ExampleUiTest#testPasses
         - class com.example.app.ExampleUiTest#testFails
+      robo-directives:
+      robo-script: null
       device:
         - model: NexusLowRes
           version: 23
@@ -339,6 +342,8 @@ AndroidArgs
       num-uniform-shards: null
       test-runner-class: null
       test-targets:
+      robo-directives:
+      robo-script: null
       device:
         - model: NexusLowRes
           version: 28
@@ -423,7 +428,7 @@ AndroidArgs
       """
         )
 
-        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk!!)
         with(androidArgs) {
             assert(maxTestShards, -1)
             assert(testShardChunks.size, 2)
@@ -457,7 +462,7 @@ AndroidArgs
           disable-sharding: true
       """
         val androidArgs = AndroidArgs.load(yaml)
-        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk!!)
         assertThat(testShardChunks).hasSize(1)
     }
 
@@ -469,7 +474,7 @@ AndroidArgs
           test: $invalidApk
       """
         val androidArgs = AndroidArgs.load(yaml)
-        AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk)
+        AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk!!)
     }
 
     @Test
@@ -1135,5 +1140,81 @@ AndroidArgs
     fun `verify ignore failed tests default value - android`() {
         val args = AndroidArgs.load(flankLocal)
         assertFalse(args.ignoreFailedTests)
+    }
+
+    @Test(expected = FlankFatalError::class)
+    fun `should throw if both instrumentation and robo tests are specified`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          robo-directives:
+            text:resource_name_1: some_text
+            click:resource_name_2: ""
+          robo-script: $appApk
+        """.trimIndent()
+
+        AndroidArgs.load(yaml)
+    }
+
+    @Test
+    fun `should load robo-script from yaml`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          robo-script: $appApk
+        """.trimIndent()
+
+        val args = AndroidArgs.load(yaml)
+
+        assertEquals(
+            args.roboScript,
+            appApkAbsolutePath
+        )
+    }
+
+    @Test
+    fun `should load robo-directives from yaml`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          robo-directives:
+            text:resource_name_1: some_text
+            click:resource_name_2: ""
+        """.trimIndent()
+
+        val args = AndroidArgs.load(yaml)
+
+        assertEquals(
+            args.roboDirectives,
+            listOf(
+                FlankRoboDirective(type = "text", name = "resource_name_1", input = "some_text"),
+                FlankRoboDirective(type = "click", name = "resource_name_2")
+            )
+        )
+    }
+
+    fun `should load robo-script & robo directives from cli`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parseArgs("--robo-script=$appApk, --robo-directives=text:a=b,click=c")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+        """.trimIndent()
+
+        val args = AndroidArgs.load(yaml, cli)
+
+        assertEquals(
+            args.roboScript,
+            appApkAbsolutePath
+        )
+        assertEquals(
+            args.roboDirectives,
+            listOf(
+                FlankRoboDirective(type = "text", name = "a", input = "b"),
+                FlankRoboDirective(type = "click", name = "c")
+            )
+        )
     }
 }

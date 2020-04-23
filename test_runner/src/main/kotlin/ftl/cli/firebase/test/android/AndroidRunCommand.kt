@@ -45,7 +45,7 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
         val config = AndroidArgs.load(Paths.get(configPath), cli = this)
 
         if (dumpShards) {
-            val testShardChunks: ShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk)
+            val testShardChunks: ShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk!!)
             val testShardChunksJson: String = prettyPrint.toJson(testShardChunks)
 
             Files.write(Paths.get(shardFile), testShardChunksJson.toByteArray())
@@ -128,6 +128,30 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
         description = ["Orchestrator is not used. See --use-orchestrator."]
     )
     var noUseOrchestrator: Boolean? = null
+
+    @Option(
+        names = ["--robo-directives"],
+        split = ",",
+        description = [
+            "A comma-separated (<type>:<key>=<value>) map of robo_directives that you can use to customize the behavior of Robo test.",
+            "The type specifies the action type of the directive, which may take on values click, text or ignore.",
+            "If no type is provided, text will be used by default.",
+            "Each key should be the Android resource name of a target UI element and each value should be the text input for that element.",
+            "Values are only permitted for text type elements, so no value should be specified for click and ignore type elements."
+        ]
+    )
+    var roboDirectives: List<String>? = null
+
+    @Option(
+        names = ["--robo-script"],
+        description = [
+            "The path to a Robo Script JSON file.",
+            "The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.",
+            "You can guide the Robo test to perform specific actions by recording a Robo Script in Android Studio and then specifying this argument.",
+            "Learn more at https://firebase.google.com/docs/test-lab/robo-ux-test#scripting. "
+        ]
+    )
+    var roboScript: String? = null
 
     @Option(
         names = ["--environment-variables"],

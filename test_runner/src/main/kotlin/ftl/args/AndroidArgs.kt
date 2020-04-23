@@ -14,9 +14,9 @@ import ftl.args.ArgsHelper.evaluateFilePath
 import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.yamlMapper
 import ftl.args.ArgsToString.apksToString
-import ftl.args.ArgsToString.devicesToString
 import ftl.args.ArgsToString.listToString
 import ftl.args.ArgsToString.mapToString
+import ftl.args.ArgsToString.objectsToString
 import ftl.args.yml.AndroidFlankYml
 import ftl.args.yml.AndroidGcloudYml
 import ftl.args.yml.AndroidGcloudYmlParams
@@ -27,6 +27,7 @@ import ftl.args.yml.YamlDeprecated
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
+import ftl.config.parseRoboDirectives
 import ftl.util.FlankFatalError
 import java.nio.file.Files
 import java.nio.file.Path
@@ -51,12 +52,14 @@ class AndroidArgs(
 
     private val androidGcloud = androidGcloudYml.gcloud
     var appApk = (cli?.app ?: androidGcloud.app ?: throw FlankFatalError("app is not set")).processFilePath("from app")
-    var testApk = (cli?.test ?: androidGcloud.test ?: throw FlankFatalError("test is not set")).processFilePath("from test")
+    var testApk = (cli?.test ?: androidGcloud.test)?.processFilePath("from test")
     val additionalApks = (cli?.additionalApks ?: androidGcloud.additionalApks).map { it.processFilePath("from additional-apks") }
     val autoGoogleLogin = cli?.autoGoogleLogin ?: cli?.noAutoGoogleLogin?.not() ?: androidGcloud.autoGoogleLogin
 
     // We use not() on noUseOrchestrator because if the flag is on, useOrchestrator needs to be false
     val useOrchestrator = cli?.useOrchestrator ?: cli?.noUseOrchestrator?.not() ?: androidGcloud.useOrchestrator
+    val roboDirectives = cli?.roboDirectives?.parseRoboDirectives() ?: androidGcloud.roboDirectives.parseRoboDirectives()
+    val roboScript = (cli?.roboScript ?: androidGcloud.roboScript)?.processFilePath("from roboScript")
     val environmentVariables = cli?.environmentVariables ?: androidGcloud.environmentVariables
     val directoriesToPull = cli?.directoriesToPull ?: androidGcloud.directoriesToPull
     val otherFiles = (cli?.otherFiles ?: androidGcloud.otherFiles).map { (devicePath, filePath) ->
@@ -104,8 +107,20 @@ class AndroidArgs(
             "Option num-uniform-shards cannot be specified along with max-test-shards. Use only one of them"
         )
 
+        if (!(isRoboTest xor isInstrumentationTest)) throw FlankFatalError(
+            "One of following options must be specified [test, robo-directives, robo-script]."
+        )
+
+        // Using both roboDirectives and roboScript may hang test execution on FTL
+        if (roboDirectives.isNotEmpty() && roboScript != null) throw FlankFatalError(
+            "Options robo-directives and robo-script are mutually exclusive, use only one of them."
+        )
+
         assertCommonProps(this)
     }
+
+    val isInstrumentationTest get() = testApk != null
+    val isRoboTest get() = roboDirectives.isNotEmpty() || roboScript != null
 
     private fun assertDeviceSupported(device: Device) {
         when (val deviceConfigTest = AndroidCatalog.supportedDeviceConfig(device.model, device.version, this.project)) {
@@ -142,7 +157,9 @@ AndroidArgs
       num-uniform-shards: $numUniformShards
       test-runner-class: $testRunnerClass
       test-targets:${listToString(testTargets)}
-      device:${devicesToString(devices)}
+      robo-directives:${objectsToString(roboDirectives)}
+      robo-script: $roboScript
+      device:${objectsToString(devices)}
       num-flaky-test-attempts: $flakyTestAttempts
 
     flank:

@@ -5,11 +5,13 @@ import ftl.reports.api.data.TestExecutionData
 import ftl.reports.api.data.TestSuiteOverviewData
 import ftl.reports.xml.model.JUnitTestSuite
 
-internal fun List<TestExecutionData>.createJUnitTestSuites() = map { data: TestExecutionData ->
-    createJUnitTestSuite(
-        data = data,
-        overview = data.createTestSuitOverviewData()
-    )
+internal fun List<TestExecutionData>.createJUnitTestSuites() = mapNotNull { data: TestExecutionData ->
+    data.createTestSuitOverviewData()?.let { overviewData ->
+        createJUnitTestSuite(
+            data = data,
+            overview = overviewData
+        )
+    }
 }
 
 private fun createJUnitTestSuite(

@@ -8,9 +8,9 @@ import ftl.args.ArgsHelper.createJunitBucket
 import ftl.args.ArgsHelper.evaluateFilePath
 import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.yamlMapper
-import ftl.args.ArgsToString.devicesToString
 import ftl.args.ArgsToString.listToString
 import ftl.args.ArgsToString.mapToString
+import ftl.args.ArgsToString.objectsToString
 import ftl.args.yml.FlankYml
 import ftl.args.yml.GcloudYml
 import ftl.args.yml.IosFlankYml
@@ -129,7 +129,7 @@ IosArgs
       test: $xctestrunZip
       xctestrun-file: $xctestrunFile
       xcode-version: $xcodeVersion
-      device:${devicesToString(devices)}
+      device:${objectsToString(devices)}
       num-flaky-test-attempts: $flakyTestAttempts
 
     flank:

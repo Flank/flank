@@ -1,7 +1,6 @@
 package ftl.args
 
 import ftl.args.yml.AppTestPair
-import ftl.config.Device
 
 private const val NEW_LINE = '\n'
 
@@ -19,9 +18,9 @@ object ArgsToString {
             .joinToString("\n") { dir -> "        - $dir" }
     }
 
-    fun devicesToString(devices: List<Device?>?): String {
-        if (devices.isNullOrEmpty()) return ""
-        return NEW_LINE + devices.filterNotNull()
+    fun objectsToString(objects: List<Any?>?): String {
+        if (objects.isNullOrEmpty()) return ""
+        return NEW_LINE + objects.filterNotNull()
             .joinToString("\n") { "$it" }
     }
 

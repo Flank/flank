@@ -47,6 +47,12 @@ class AndroidGcloudYmlParams(
     @field:JsonProperty("test-targets")
     val testTargets: List<String?> = emptyList(),
 
+    @field:JsonProperty("robo-directives")
+    val roboDirectives: Map<String, String> = emptyMap(),
+
+    @field:JsonProperty("robo-script")
+    val roboScript: String? = null,
+
     val device: List<Device> = listOf(Device(defaultAndroidModel, defaultAndroidVersion))
 ) {
     companion object : IYmlKeys {
@@ -63,6 +69,8 @@ class AndroidGcloudYmlParams(
             "num-uniform-shards",
             "test-runner-class",
             "test-targets",
+            "robo-directives",
+            "robo-script",
             "device"
         )
     }
