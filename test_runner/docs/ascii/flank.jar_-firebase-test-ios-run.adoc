@@ -98,22 +98,10 @@ Configuration is read from flank.yml
   Invoke a test asynchronously without waiting for test results.
 
 *--client-details*=_<String=String>_[,_<String=String>_...]::
-  Comma-separated, KEY=VALUE map of additional details to attach to the test matrix.
-+
-Arbitrary KEY=VALUE pairs may be attached to a test matrix to provide additional context about the tests being run.
-+
-When consuming the test results, such as in Cloud Functions or a CI system,
-+
-these details can add additional context such as a link to the corresponding pull request.
+  Comma-separated, KEY=VALUE map of additional details to attach to the test matrix.Arbitrary KEY=VALUE pairs may be attached to a test matrix to provide additional context about the tests being run.When consuming the test results, such as in Cloud Functions or a CI system,these details can add additional context such as a link to the corresponding pull request.
 
 *--network-profile*=_<networkProfile>_::
-  The name of the network traffic profile, for example --network-profile=LTE, 
-+
-which consists of a set of parameters to emulate network conditions when running the test 
-+
-(default: no network shaping; see available profiles listed by the `flank test network-profiles list` command). 
-+
-This feature only works on physical devices. 
+  The name of the network traffic profile, for example --network-profile=LTE, which consists of a set of parameters to emulate network conditions when running the test (default: no network shaping; see available profiles listed by the `flank test network-profiles list` command). This feature only works on physical devices. 
 
 *--results-history-name*=_<resultsHistoryName>_::
   The history name for your test results (an arbitrary string label; default: the application's label from the APK manifest). All tests which use the same history name will have their results grouped together in the Firebase console in a time-ordered test history list.

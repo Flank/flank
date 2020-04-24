@@ -115,22 +115,10 @@ Configuration is read from flank.yml
   Invoke a test asynchronously without waiting for test results.
 
 *--client-details*=_<String=String>_[,_<String=String>_...]::
-  Comma-separated, KEY=VALUE map of additional details to attach to the test matrix.
-+
-Arbitrary KEY=VALUE pairs may be attached to a test matrix to provide additional context about the tests being run.
-+
-When consuming the test results, such as in Cloud Functions or a CI system,
-+
-these details can add additional context such as a link to the corresponding pull request.
+  Comma-separated, KEY=VALUE map of additional details to attach to the test matrix.Arbitrary KEY=VALUE pairs may be attached to a test matrix to provide additional context about the tests being run.When consuming the test results, such as in Cloud Functions or a CI system,these details can add additional context such as a link to the corresponding pull request.
 
 *--network-profile*=_<networkProfile>_::
-  The name of the network traffic profile, for example --network-profile=LTE, 
-+
-which consists of a set of parameters to emulate network conditions when running the test 
-+
-(default: no network shaping; see available profiles listed by the `flank test network-profiles list` command). 
-+
-This feature only works on physical devices. 
+  The name of the network traffic profile, for example --network-profile=LTE, which consists of a set of parameters to emulate network conditions when running the test (default: no network shaping; see available profiles listed by the `flank test network-profiles list` command). This feature only works on physical devices. 
 
 *--results-history-name*=_<resultsHistoryName>_::
   The history name for your test results (an arbitrary string label; default: the application's label from the APK manifest). All tests which use the same history name will have their results grouped together in the Firebase console in a time-ordered test history list.
@@ -187,9 +175,7 @@ This feature only works on physical devices.
   The path to the binary file containing instrumentation tests. The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://.
 
 *--additional-apks*=_<additionalApks>_[,_<additionalApks>_...]::
-  A list of up to 100 additional APKs to install, in addition to those being directly tested.
-+
-The path may be in the local filesystem or in Google Cloud Storage using gs:// notation. 
+  A list of up to 100 additional APKs to install, in addition to those being directly tested.The path may be in the local filesystem or in Google Cloud Storage using gs:// notation. 
 
 *--auto-google-login*::
   Automatically log into the test device using a preconfigured Google account before beginning the test. Disabled by default.
@@ -210,11 +196,7 @@ The path may be in the local filesystem or in Google Cloud Storage using gs:// n
   A list of paths that will be copied from the device's storage to the designated results bucket after the test is complete. These must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2). Path names are restricted to the characters a-zA-Z0-9_-./+. The paths /sdcard and /data will be made available and treated as implicit path substitutions. E.g. if /sdcard on a particular device does not map to external storage, the system will replace it with the external storage path prefix for that device.
 
 *--other-files*=_<String=String>_[,_<String=String>_...]::
-  A list of device-path=file-path pairs that indicate the device paths to push files to the device before starting tests, and the paths of files to push.
-+
-Device paths must be under absolute, whitelisted paths (null, or null/local/tmp).
-+
-Source file paths may be in the local filesystem or in Google Cloud Storage (gs://…). 
+  A list of device-path=file-path pairs that indicate the device paths to push files to the device before starting tests, and the paths of files to push.Device paths must be under absolute, whitelisted paths (null, or null/local/tmp).Source file paths may be in the local filesystem or in Google Cloud Storage (gs://…). 
 
 *--performance-metrics*::
   Monitor and record performance metrics: CPU, memory, network usage, and FPS (game-loop only). Disabled by default.
@@ -223,19 +205,7 @@ Source file paths may be in the local filesystem or in Google Cloud Storage (gs:
   Disables performance metrics (default behavior). Use --performance-metrics to enable.
 
 *--num-uniform-shards*=_<numUniformShards>_::
-  Specifies the number of shards into which you want to evenly distribute test cases.
-+
-The shards are run in parallel on separate devices. For example,
-+
-if your test execution contains 20 test cases and you specify four shards, each shard executes five test cases.
-+
-The number of shards should be less than the total number of test cases.
-+
-The number of shards specified must be >= 1 and <= 50.
-+
-This option cannot be used along max-test-shards and is not compatible with smart sharding.
-+
-If you want to take benefits of smart sharding use max-test-shards.
+  Specifies the number of shards into which you want to evenly distribute test cases.The shards are run in parallel on separate devices. For example,if your test execution contains 20 test cases and you specify four shards, each shard executes five test cases.The number of shards should be less than the total number of test cases.The number of shards specified must be >= 1 and <= 50.This option cannot be used along max-test-shards and is not compatible with smart sharding.If you want to take benefits of smart sharding use max-test-shards.
 
 *--test-runner-class*=_<testRunnerClass>_::
   The fully-qualified Java class name of the instrumentation test runner (default: the last name extracted from the APK manifest).

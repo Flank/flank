@@ -37,11 +37,10 @@ abstract class CommonRunCommand {
 
     @CommandLine.Option(
         names = ["--results-dir"],
-        description = [
-            "The name of a unique Google Cloud Storage object within the results bucket where raw test results will be " +
-                    "stored (default: a timestamp with a random suffix). Caution: if specified, this argument must be unique for " +
-                    "each test matrix you create, otherwise results from multiple test matrices will be overwritten or " +
-                    "intermingled."]
+        description = ["The name of a unique Google Cloud Storage object within the results bucket where raw test results will be " +
+                "stored (default: a timestamp with a random suffix). Caution: if specified, this argument must be unique for " +
+                "each test matrix you create, otherwise results from multiple test matrices will be overwritten or " +
+                "intermingled."]
     )
     var resultsDir: String? = null
 
@@ -76,22 +75,19 @@ abstract class CommonRunCommand {
     @CommandLine.Option(
         names = ["--client-details"],
         split = ",",
-        description = [
-            "Comma-separated, KEY=VALUE map of additional details to attach to the test matrix.",
-            "Arbitrary KEY=VALUE pairs may be attached to a test matrix to provide additional context about the tests being run.",
-            "When consuming the test results, such as in Cloud Functions or a CI system,",
-            "these details can add additional context such as a link to the corresponding pull request."]
+        description = ["Comma-separated, KEY=VALUE map of additional details to attach to the test matrix." +
+                "Arbitrary KEY=VALUE pairs may be attached to a test matrix to provide additional context about the tests being run." +
+                "When consuming the test results, such as in Cloud Functions or a CI system," +
+                "these details can add additional context such as a link to the corresponding pull request."]
     )
     var clientDetails: Map<String, String>? = null
 
     @CommandLine.Option(
         names = ["--network-profile"],
-        description = [
-            "The name of the network traffic profile, for example --network-profile=LTE, ",
-            "which consists of a set of parameters to emulate network conditions when running the test ",
-            "(default: no network shaping; see available profiles listed by the `flank test network-profiles list` command). ",
-            "This feature only works on physical devices. "
-        ]
+        description = ["The name of the network traffic profile, for example --network-profile=LTE, " +
+                "which consists of a set of parameters to emulate network conditions when running the test " +
+                "(default: no network shaping; see available profiles listed by the `flank test network-profiles list` command). " +
+                "This feature only works on physical devices. "]
     )
     var networkProfile: String? = null
 
