@@ -15,7 +15,6 @@ plugins {
     id("com.jfrog.bintray") version Versions.BINTRAY
     id("maven-publish")
     id("com.github.johnrengelman.shadow") version Versions.SHADOW
-    id("org.asciidoctor.convert") version "1.6.1"
 }
 
 val artifactID = "flank"
@@ -255,15 +254,7 @@ val generateManpageAsciiDoc by tasks.registering(JavaExec::class) {
     )
 }
 
-tasks.asciidoctor {
-    dependsOn(generateManpageAsciiDoc)
-    setBackends("html5")
-    sourceDir = file("${project.rootDir}/docs/ascii/")
-    outputDir = file("${project.rootDir}/docs")
-    logDocuments = true
-}
-
 tasks.assemble {
-    dependsOn(tasks.asciidoctor)
+    dependsOn(generateManpageAsciiDoc)
 }
 // end --- ASCII doc generation ---
