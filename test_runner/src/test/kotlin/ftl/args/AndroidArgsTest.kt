@@ -466,15 +466,16 @@ AndroidArgs
         assertThat(testShardChunks).hasSize(1)
     }
 
-    @Test(expected = FlankFatalError::class)
-    fun `Invalid apk throws`() {
+    @Test
+    fun `enable sharding allows using invalid apk`() {
         val yaml = """
         gcloud:
           app: $invalidApk
           test: $invalidApk
       """
         val androidArgs = AndroidArgs.load(yaml)
-        AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk!!)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk!!)
+        assertThat(testShardChunks).hasSize(1)
     }
 
     @Test

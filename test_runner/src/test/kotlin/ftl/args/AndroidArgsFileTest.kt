@@ -18,15 +18,10 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
-import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 
 @RunWith(FlankTestRunner::class)
 class AndroidArgsFileTest {
-
-    @Rule
-    @JvmField
-    val exceptionRule = ExpectedException.none()!!
 
     @Rule
     @JvmField
@@ -47,6 +42,7 @@ class AndroidArgsFileTest {
 
     private val appApkAbsolutePath = appApkLocal.absolutePath()
     private val testApkAbsolutePath = testApkLocal.absolutePath()
+
     // NOTE: Change working dir to '%MODULE_WORKING_DIR%' in IntelliJ to match gradle for this test to pass.
     @Test
     fun localConfigLoadsSuccessfully() {
@@ -113,9 +109,13 @@ class AndroidArgsFileTest {
 
     @Test
     fun `calculateShards 0`() {
-        exceptionRule.expectMessage("Test APK has no tests")
-        val args = configWithTestMethods(0)
-        AndroidTestShard.getTestShardChunks(args, args.testApk!!)
+        val config = configWithTestMethods(0)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk!!)
+        with(config) {
+            assert(maxTestShards, 1)
+            assert(testShardChunks.size, 1)
+            assert(testShardChunks.first().size, 0)
+        }
     }
 
     @Test

@@ -4,6 +4,7 @@ import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.TestMatrix
 import ftl.args.AndroidArgs
 import ftl.args.AndroidTestShard
+import ftl.args.ShardChunks
 import ftl.args.yml.ResolvedApks
 import ftl.gc.GcAndroidDevice
 import ftl.gc.GcAndroidTestMatrix
@@ -12,8 +13,8 @@ import ftl.http.executeWithRetry
 import ftl.run.model.TestResult
 import ftl.run.platform.android.createAndroidTestConfig
 import ftl.run.platform.android.resolveApks
-import ftl.run.platform.android.uploadOtherFiles
 import ftl.run.platform.android.uploadApks
+import ftl.run.platform.android.uploadOtherFiles
 import ftl.run.platform.common.afterRunTests
 import ftl.run.platform.common.beforeRunMessage
 import ftl.run.platform.common.beforeRunTests
@@ -38,9 +39,15 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
 
     args.resolveApks().forEach { apks: ResolvedApks ->
         val testShards = apks.test?.let { test ->
-            AndroidTestShard.getTestShardChunks(args, test).also {
-                allTestShardChunks += it
+            AndroidTestShard.getTestShardChunks(args, test)
+        }
+        // We can't return if testShards is null since it can be a robo test.
+        if (testShards != null) {
+            if (!testShards.haveAtLeastOneTest) {
+                // No tests to run, skipping the execution.
+                return@forEach
             }
+            allTestShardChunks += testShards
         }
 
         val uploadedApks = uploadApks(
@@ -67,7 +74,6 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
             )
         }
     }
-
     println(beforeRunMessage(args, allTestShardChunks))
     val matrixMap = afterRunTests(testMatrices.awaitAll(), runGcsPath, stopwatch, args)
     matrixMap to allTestShardChunks
@@ -83,3 +89,6 @@ private suspend fun executeAndroidTestMatrix(
         }
     }
 }
+
+private val ShardChunks.haveAtLeastOneTest: Boolean
+    get() = any { chunk -> chunk.isNotEmpty() }
