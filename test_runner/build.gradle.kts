@@ -252,15 +252,14 @@ val generateManpageAsciiDoc by tasks.registering(JavaExec::class) {
         application.mainClassName,
         "--outdir=${project.buildDir}/generated-picocli-docs",
         "-v"
-//        "--template-dir=src/docs/mantemplates"
     )
 }
 
 tasks.asciidoctor {
     dependsOn(generateManpageAsciiDoc)
-    setBackends("manpage", "html5")
+    setBackends("html5")
     sourceDir = file("${project.buildDir}/generated-picocli-docs")
-    outputDir = file("${project.buildDir}/docs")
+    outputDir = file("${project.rootDir}/docs")
     logDocuments = true
 }
 
