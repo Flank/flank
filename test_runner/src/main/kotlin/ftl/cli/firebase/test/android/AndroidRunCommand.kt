@@ -93,10 +93,8 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
     @Option(
         names = ["--additional-apks"],
         split = ",",
-        description = [
-            "A list of up to 100 additional APKs to install, in addition to those being directly tested.",
-            "The path may be in the local filesystem or in Google Cloud Storage using gs:// notation. "
-        ]
+        description = ["A list of up to 100 additional APKs to install, in addition to those being directly tested." +
+                "The path may be in the local filesystem or in Google Cloud Storage using gs:// notation. "]
     )
     var additionalApks: List<String>? = null
 
@@ -178,11 +176,9 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
     @Option(
         names = ["--other-files"],
         split = ",",
-        description = [
-            "A list of device-path=file-path pairs that indicate the device paths to push files to the device before starting tests, and the paths of files to push.",
-            "Device paths must be under absolute, whitelisted paths (\${EXTERNAL_STORAGE}, or \${ANDROID_DATA}/local/tmp).",
-            "Source file paths may be in the local filesystem or in Google Cloud Storage (gs://…). "
-        ]
+        description = ["A list of device-path=file-path pairs that indicate the device paths to push files to the device before starting tests, and the paths of files to push." +
+                "Device paths must be under absolute, whitelisted paths (\${EXTERNAL_STORAGE}, or \${ANDROID_DATA}/local/tmp)." +
+                "Source file paths may be in the local filesystem or in Google Cloud Storage (gs://…). "]
     )
     var otherFiles: Map<String, String>? = null
 
@@ -201,15 +197,13 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
 
     @Option(
         names = ["--num-uniform-shards"],
-        description = [
-            "Specifies the number of shards into which you want to evenly distribute test cases.",
-            "The shards are run in parallel on separate devices. For example,",
-            "if your test execution contains 20 test cases and you specify four shards, each shard executes five test cases.",
-            "The number of shards should be less than the total number of test cases.",
-            "The number of shards specified must be >= 1 and <= 50.",
-            "This option cannot be used along max-test-shards and is not compatible with smart sharding.",
-            "If you want to take benefits of smart sharding use max-test-shards."
-        ]
+        description = ["Specifies the number of shards into which you want to evenly distribute test cases." +
+                "The shards are run in parallel on separate devices. For example," +
+                "if your test execution contains 20 test cases and you specify four shards, each shard executes five test cases." +
+                "The number of shards should be less than the total number of test cases." +
+                "The number of shards specified must be >= 1 and <= 50." +
+                "This option cannot be used along max-test-shards and is not compatible with smart sharding." +
+                "If you want to take benefits of smart sharding use max-test-shards."]
     )
     var numUniformShards: Int? = null
 

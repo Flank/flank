@@ -24,7 +24,7 @@ object Versions {
     const val KOTLIN_COROUTINES = "1.3.2"
 
     // https://github.com/remkop/picocli/releases
-    const val PICOCLI = "4.0.4"
+    const val PICOCLI = "4.2.0"
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
     const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20190923-1.30.3"
@@ -118,6 +118,7 @@ object Libs {
     const val JUNIT = "junit:junit:${Versions.JUNIT}"
     const val OKHTTP = "com.squareup.okhttp3:okhttp:${Versions.OKHTTP}"
     const val PICOCLI = "info.picocli:picocli:${Versions.PICOCLI}"
+    const val PICOCLI_CODEGEN = "info.picocli:picocli-codegen:${Versions.PICOCLI}"
     const val SYSTEM_RULES = "com.github.stefanbirkner:system-rules:${Versions.SYSTEM_RULES}"
     const val TRUTH = "com.google.truth:truth:${Versions.TRUTH}"
     const val MOCKK = "io.mockk:mockk:${Versions.MOCKK}"
