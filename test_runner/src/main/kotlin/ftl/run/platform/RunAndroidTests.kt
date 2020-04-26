@@ -43,11 +43,12 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
         }
         // We can't return if testShards is null since it can be a robo test.
         testShards?.let {
-            if (!testShards.haveAtLeastOneTest) {
+            val shardsWithAtLeastOneTest = testShards.filterAtLeastOneTest()
+            if (shardsWithAtLeastOneTest.isEmpty()) {
                 // No tests to run, skipping the execution.
                 return@forEach
             }
-            allTestShardChunks += testShards
+            allTestShardChunks += shardsWithAtLeastOneTest
         }
 
         val uploadedApks = uploadApks(
@@ -90,5 +91,4 @@ private suspend fun executeAndroidTestMatrix(
     }
 }
 
-private val ShardChunks.haveAtLeastOneTest: Boolean
-    get() = any { chunk -> chunk.isNotEmpty() }
+private fun ShardChunks.filterAtLeastOneTest(): ShardChunks = filter { chunk -> chunk.isNotEmpty() }
