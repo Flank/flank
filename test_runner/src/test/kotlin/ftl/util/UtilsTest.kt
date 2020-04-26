@@ -244,7 +244,7 @@ class UtilsTest {
         val message = "not flank related error thrown"
         mockkObject(FtlConstants)
         every { FtlConstants.useMock } returns false
-        every { FtlConstants.bugsnag } returns mockk() {
+        every { FtlConstants.bugsnag } returns mockk {
             every { notify(any<Throwable>()) } returns true
         }
         exit.expectSystemExitWithStatus(3)
@@ -283,7 +283,7 @@ class UtilsTest {
         // given
         val message = "No tests to run"
         exit.expectSystemExitWithStatus(1)
-        val block = {throw FlankCommonException(message)}
+        val block = { throw FlankCommonException(message) }
         // when
         withGlobalExceptionHandling(block)
         // then
