@@ -42,7 +42,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
             AndroidTestShard.getTestShardChunks(args, test)
         }
         // We can't return if testShards is null since it can be a robo test.
-        if (testShards != null) {
+        testShards?.let {
             if (!testShards.haveAtLeastOneTest) {
                 // No tests to run, skipping the execution.
                 return@forEach
