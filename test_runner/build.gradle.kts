@@ -143,9 +143,6 @@ tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions.allWarningsAsErrors = runningOnBitrise
 }
 
-apply {
-    plugin("kotlin")
-}
 
 application {
     mainClassName = "ftl.Main"
@@ -194,6 +191,7 @@ dependencies {
     implementation(Libs.LOGBACK)
 
     implementation(Libs.PICOCLI)
+    annotationProcessor(Libs.PICOCLI_CODEGEN)
 
     implementation(Libs.WOODSTOX)
 
@@ -237,3 +235,26 @@ tasks.create("updateFlank", Exec::class.java) {
     description = "Update flank jar"
     commandLine = listOf("./bash/update_flank.sh")
 }
+
+// begin --- ASCII doc generation ---
+val generateManpageAsciiDoc by tasks.registering(JavaExec::class) {
+    dependsOn(tasks.classes)
+    classpath(
+        configurations.compile,
+        configurations.annotationProcessor,
+        sourceSets["main"].runtimeClasspath
+    )
+    group = "Documentation"
+    description = "Generate AsciiDoc manpage"
+    main = "picocli.codegen.docgen.manpage.ManPageGenerator"
+    args = listOf(
+        application.mainClassName,
+        "--outdir=${project.rootDir}/docs/ascii/",
+        "-v"
+    )
+}
+
+tasks.assemble {
+    dependsOn(generateManpageAsciiDoc)
+}
+// end --- ASCII doc generation ---
