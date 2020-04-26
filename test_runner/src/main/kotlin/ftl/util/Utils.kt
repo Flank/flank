@@ -130,6 +130,10 @@ fun withGlobalExceptionHandling(block: () -> Int) {
         exitProcess(block())
     } catch (t: Throwable) {
         when (t) {
+            is FlankCommonException -> {
+                println("\n${t.message}")
+                exitProcess(1)
+            }
             is FailedMatrix -> {
                 t.matrices.forEach { it.logError("failed") }
                 if (t.ignoreFailed) exitProcess(0)

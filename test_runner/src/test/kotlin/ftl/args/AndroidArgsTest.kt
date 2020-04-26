@@ -12,7 +12,10 @@ import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
+import ftl.util.FlankCommonException
 import ftl.util.FlankFatalError
+import io.mockk.every
+import io.mockk.mockkObject
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -1217,5 +1220,20 @@ AndroidArgs
                 FlankRoboDirective(type = "click", name = "c")
             )
         )
+    }
+
+    @Test(expected = FlankCommonException::class)
+    fun `should throw FlankCommonException if not tests to be run overall`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        """.trimIndent()
+
+        mockkObject(AndroidTestShard)
+        every { AndroidTestShard.getTestShardChunks(any(), any()) } returns listOf()
+
+        val parsedYml = AndroidArgs.load(yaml)
+        runBlocking { runAndroidTests(parsedYml) }
     }
 }
