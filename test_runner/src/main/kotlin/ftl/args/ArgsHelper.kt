@@ -223,8 +223,13 @@ object ArgsHelper {
     }
 
     fun calculateShards(filteredTests: List<FlankTestMethod>, args: IArgs): ShardChunks {
+        if (filteredTests.isEmpty()) {
+            // Avoid unnecessary computing if we already know there aren't tests to run.
+            return listOf(emptyList())
+        }
         val shards = if (args.disableSharding) {
-            mutableListOf(filteredTests.map { it.testName } as MutableList<String>)
+            // Avoid to cast it to MutableList<String> to be agnostic from the caller.
+            listOf(filteredTests.map { it.testName }.toMutableList())
         } else {
             val oldTestResult = GcStorage.downloadJunitXml(args) ?: JUnitTestResult(mutableListOf())
             val shardCount = Shard.shardCountByTime(filteredTests, oldTestResult, args)

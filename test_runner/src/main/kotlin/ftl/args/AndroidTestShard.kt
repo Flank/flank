@@ -27,11 +27,9 @@ object AndroidTestShard {
 
     private fun getTestMethods(args: AndroidArgs, testLocalApk: String): List<FlankTestMethod> {
         val allTestMethods = DexParser.findTestMethods(testLocalApk)
-        val shouldIgnoreMissingTests = allTestMethods.isEmpty() && args.disableSharding
-        val shouldThrowErrorIfMissingTests = allTestMethods.isEmpty() && !args.disableSharding
-        when {
-            shouldIgnoreMissingTests -> return mutableListOf()
-            shouldThrowErrorIfMissingTests -> throw FlankFatalError("Test APK has no tests")
+        if (allTestMethods.isEmpty()) {
+            // Avoid unnecessary computation if we already know there aren't tests.
+            return emptyList()
         }
         val testFilter = TestFilters.fromTestTargets(args.testTargets)
         return allTestMethods filterWith testFilter
@@ -43,6 +41,8 @@ object AndroidTestShard {
         .map { FlankTestMethod("class ${it.testName}", it.isIgnored) }
         .toList()
         .also {
+            // Since filtering tests is a manual configuration, to avoid silent errors for an incorrect configuration,
+            // an exception is thrown when all tests are filtered by the user.
             require(FtlConstants.useMock || it.isNotEmpty()) { throw FlankFatalError("All tests filtered out") }
         }
 }

@@ -1,4 +1,5 @@
 ## next (unreleased)
+- [#741](https://github.com/Flank/flank/pull/741) Allow APKs with zero tests. ([fondesa](https://github.com/fondesa))
 - [#737](https://github.com/Flank/flank/pull/737) Generate ascii doc. ([jan-gogo](https://github.com/jan-gogo))
 - [#720](https://github.com/Flank/flank/pull/720) Update group id from `flank` to `com.github.flank` ([bootstraponline](https://github.com/bootstraponline))
 - [#714](https://github.com/Flank/flank/pull/714) Add support for num-uniform-shards option. ([jan-gogo](https://github.com/jan-gogo))
