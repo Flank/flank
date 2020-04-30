@@ -137,9 +137,10 @@ tasks.jacocoTestReport {
     }
 }
 
+val runningOnBitrise get() = System.getenv("BITRISE_IO") != null
+
 tasks.withType<KotlinCompile>().configureEach {
     // https://devcenter.bitrise.io/builds/available-environment-variables/
-    val runningOnBitrise = System.getenv("BITRISE_IO") != null
     kotlinOptions.allWarningsAsErrors = runningOnBitrise
 }
 
@@ -261,7 +262,7 @@ tasks.assemble {
 
 val updateVersion by tasks.registering {
     shouldRunAfter(tasks.processResources)
-    doLast {
+    if (!runningOnBitrise) doLast {
         File("${project.buildDir}/resources/main/version.txt").writeText("local_snapshot")
         File("${project.buildDir}/resources/main/revision.txt").writeText(
             String(Runtime.getRuntime().exec("git rev-parse HEAD").inputStream.readBytes())
