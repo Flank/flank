@@ -258,3 +258,17 @@ tasks.assemble {
     dependsOn(generateManpageAsciiDoc)
 }
 // end --- ASCII doc generation ---
+
+val updateVersion by tasks.registering {
+    shouldRunAfter(tasks.processResources)
+    doLast {
+        File("${project.buildDir}/resources/main/version.txt").writeText("local_snapshot")
+        File("${project.buildDir}/resources/main/revision.txt").writeText(
+            String(Runtime.getRuntime().exec("git rev-parse HEAD").inputStream.readBytes())
+        )
+    }
+}
+
+tasks.classes {
+    dependsOn(updateVersion)
+}

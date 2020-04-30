@@ -26,12 +26,8 @@ import picocli.CommandLine
 )
 class Main : Runnable {
     override fun run() {
-        if (printVersion) {
-            println(readVersion())
-            println(readRevision())
-        } else {
-            CommandLine.usage(Main::class.java, System.out)
-        }
+        if (printVersion) return
+        CommandLine.usage(Main::class.java, System.out)
     }
 
     @CommandLine.Option(names = ["-v", "--version"], description = ["Prints the version"])
@@ -50,7 +46,12 @@ class Main : Runnable {
             // BugSnag opens a non-daemon thread which will keep the JVM process alive.
             // Flank must invoke exitProcess to exit cleanly.
             // https://github.com/bugsnag/bugsnag-java/issues/151
-            withGlobalExceptionHandling { CommandLine(Main()).execute(*args) }
+            withGlobalExceptionHandling {
+                println("version: " + readVersion())
+                println("revision: " + readRevision())
+                println()
+                CommandLine(Main()).execute(*args)
+            }
         }
     }
 }
