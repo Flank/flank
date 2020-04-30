@@ -1,0 +1,52 @@
+<!doctype html>
+<meta charset="UTF-8">
+<title><%= htmlWebpackPlugin.options.title %></title>
+<svg style="display: none">
+  <defs>
+    <symbol id="icon-chevron" viewBox="0 0 7 12">
+      <path d="M0.756683 0.675335L6.03278 5.95143L0.756683 11.2275" stroke-width="0.5" />
+    </symbol>
+  </defs>
+</svg>
+<div id="results"></div>
+
+<% if (htmlWebpackPlugin.options.inlineBundle) { %>
+<script>
+  window.resultData = "INJECT-DATA-HERE";
+</script>
+<script>
+  <%= compilation.getAsset('bundle.js').source._value %>
+</script>
+<% } else { %>
+<script>
+  // NOTE: Test data - does not get inlined.
+  window.resultData = `
+  [
+    {
+      "label": "First group",
+      "items": [
+        {
+          "label": "First item",
+          "url": "foo"
+        },
+        {
+          "label": "Second item",
+          "url": "bar"
+        }
+      ]
+    },
+    {
+      "label": "Second group",
+      "items": [
+        {
+          "label": "First item of the second group",
+          "url": "baz"
+        }
+      ]
+    }
+  ]
+  `;
+</script>
+<script src="bundle.js"></script>
+<% } %>
+
