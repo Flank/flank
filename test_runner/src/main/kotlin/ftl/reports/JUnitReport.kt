@@ -16,8 +16,8 @@ object JUnitReport : IReport {
         reportPath.write(output)
     }
 
-    override fun run(matrices: MatrixMap, testSuite: JUnitTestResult?, printToStdout: Boolean, args: IArgs) {
-        val output = testSuite.xmlToString()
+    override fun run(matrices: MatrixMap, result: JUnitTestResult?, printToStdout: Boolean, args: IArgs) {
+        val output = result.xmlToString()
 
         if (printToStdout) {
             print(output)

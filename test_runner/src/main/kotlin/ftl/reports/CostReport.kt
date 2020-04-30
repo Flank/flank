@@ -42,7 +42,7 @@ object CostReport : IReport {
         reportPath.write(output)
     }
 
-    override fun run(matrices: MatrixMap, testSuite: JUnitTestResult?, printToStdout: Boolean, args: IArgs) {
+    override fun run(matrices: MatrixMap, result: JUnitTestResult?, printToStdout: Boolean, args: IArgs) {
         val output = generate(matrices)
         if (printToStdout) print(output)
         write(matrices, output, args)

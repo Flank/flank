@@ -80,6 +80,20 @@ gcloud:
   ## Invoke a test asynchronously without waiting for test results.
   # async: false
 
+  ## A key-value map of additional details to attach to the test matrix.
+  ## Arbitrary key-value pairs may be attached to a test matrix to provide additional context about the tests being run.
+  ## When consuming the test results, such as in Cloud Functions or a CI system,
+  ## these details can add additional context such as a link to the corresponding pull request.
+  # client-details
+  #   key1: value1
+  #   key2: value2
+
+  ## The name of the network traffic profile, for example LTE, HSPA, etc,
+  ## which consists of a set of parameters to emulate network conditions when running the test
+  ## (default: no network shaping; see available profiles listed by the `flank test network-profiles list` command).
+  ## This feature only works on physical devices.
+  # network-profile: LTE
+
   ## The history name for your test results (an arbitrary string label; default: the application's label from the APK manifest).
   ## All tests which use the same history name will have their results grouped together in the Firebase console in a time-ordered test history list.
   # results-history-name: android-history
@@ -94,14 +108,14 @@ gcloud:
   ## The path to the test package (a zip file containing the iOS app and XCTest files).
   ## The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://.
   ## Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file is specified.
-  test: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip
+  test: ./src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
 
   ## The path to an .xctestrun file that will override any .xctestrun file contained in the --test package.
   ## Because the .xctestrun file contains environment variables along with test methods to run and/or ignore,
   ## this can be useful for customizing or sharding test suites. The given path should be in the local filesystem.
   ## Note: this path should usually be pointing to the xctestrun file within the derived data folder
   ## For example ./derivedDataPath/Build/Products/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
-  xctestrun-file: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun
+  xctestrun-file: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
 
   ## The version of Xcode that should be used to run an XCTest.
   ## Defaults to the latest Xcode version supported in Firebase Test Lab.
@@ -134,7 +148,7 @@ flank:
   ## default: -1 (unlimited)
   # shard-time: -1
 
-  ## repeat tests - the amount of times to run the tests.
+  ## test runs - the amount of times to run the tests.
   ## 1 runs the tests once. 10 runs all the tests 10x
   # num-test-runs: 1
 
@@ -169,8 +183,11 @@ flank:
   ## Local folder to store the test result. Folder is DELETED before each run to ensure only artifacts from the new run are saved.
   # local-result-dir: flank
 
+  ## The max time this test run can execute before it is cancelled (default: unlimited).
+  # run-timeout: 60m
+
   ## Keeps the full path of downloaded files. Required when file names are not unique.
-  ## Default: false  
+  ## Default: false
   # keep-file-path: false
 
   ## The max time this test run can execute before it is cancelled (default: unlimited).
@@ -343,7 +360,7 @@ flank:
   ## default: -1 (unlimited)
   # shard-time: -1
 
-  ## The amount of times to run the tests.
+  ## test runs - the amount of times to run the tests.
   ## 1 runs the tests once. 10 runs all the tests 10x
   # num-test-runs: 1
 
@@ -373,7 +390,7 @@ flank:
   # local-result-dir: flank
 
   ## Keeps the full path of downloaded files. Required when file names are not unique.
-  ## Default: false  
+  ## Default: false
   # keep-file-path: false
 
   ## Include additional app/test apk pairs in the run. Apks are unique by just filename and not by path!
