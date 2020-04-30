@@ -1,4 +1,5 @@
 ## next (unreleased)
+- [#757](https://github.com/Flank/flank/pull/757) Print version and revision before each command. ([jan-gogo](https://github.com/jan-gogo))
 - [#731](https://github.com/Flank/flank/pull/731) Refactor jUnit HTML report. ([Writhe](https://github.com/Writhe))
 - [#754](https://github.com/Flank/flank/pull/754) Sync README.md flank.yml flank.ios.yml. ([jan-gogo](https://github.com/jan-gogo))
 - [#746](https://github.com/Flank/flank/pull/746) Ignore apk with filtered out tests instead of failing. ([pawelpasterz](https://github.com/pawelpasterz))
