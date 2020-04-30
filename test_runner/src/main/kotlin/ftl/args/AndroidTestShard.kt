@@ -7,7 +7,7 @@ import ftl.filter.TestFilter
 import ftl.filter.TestFilters
 import ftl.gc.GcStorage
 import ftl.util.FlankTestMethod
-import ftl.util.FlankFatalError
+import java.io.File
 
 object AndroidTestShard {
 
@@ -19,6 +19,8 @@ object AndroidTestShard {
             testApk
 
         val filteredTests = getTestMethods(args, testLocalApk)
+
+        if (filteredTests.isEmpty()) println("${FtlConstants.indent}No tests for ${testLocalApk.apkFileName}")
 
         return if (args.numUniformShards == null)
             ArgsHelper.calculateShards(filteredTests, args) else
@@ -40,12 +42,10 @@ object AndroidTestShard {
         .filter(filter.shouldRun)
         .map { FlankTestMethod("class ${it.testName}", it.isIgnored) }
         .toList()
-        .also {
-            // Since filtering tests is a manual configuration, to avoid silent errors for an incorrect configuration,
-            // an exception is thrown when all tests are filtered by the user.
-            require(FtlConstants.useMock || it.isNotEmpty()) { throw FlankFatalError("All tests filtered out") }
-        }
 }
 
 private val TestMethod.isIgnored: Boolean
     get() = annotations.map { it.name }.contains("org.junit.Ignore")
+
+private inline val String.apkFileName: String
+    get() = File(this).name

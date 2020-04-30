@@ -244,7 +244,7 @@ class UtilsTest {
         val message = "not flank related error thrown"
         mockkObject(FtlConstants)
         every { FtlConstants.useMock } returns false
-        every { FtlConstants.bugsnag } returns mockk() {
+        every { FtlConstants.bugsnag } returns mockk {
             every { notify(any<Throwable>()) } returns true
         }
         exit.expectSystemExitWithStatus(3)
@@ -276,6 +276,18 @@ class UtilsTest {
         // then
         assertTrue(output.log.contains("Error: Matrix failed: 1"))
         assertTrue(output.log.contains("Error: Matrix failed: 2"))
+    }
+
+    @Test
+    fun `should terminate process with exit code 1 if there is not tests to run overall`() {
+        // given
+        val message = "No tests to run"
+        exit.expectSystemExitWithStatus(1)
+        val block = { throw FlankCommonException(message) }
+        // when
+        withGlobalExceptionHandling(block)
+        // then
+        assertTrue(output.log.contains(message))
     }
 
     @CommandLine.Command(name = "whosbad")

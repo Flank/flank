@@ -18,6 +18,7 @@ import ftl.run.platform.android.uploadOtherFiles
 import ftl.run.platform.common.afterRunTests
 import ftl.run.platform.common.beforeRunMessage
 import ftl.run.platform.common.beforeRunTests
+import ftl.util.FlankCommonException
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -75,6 +76,9 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
             )
         }
     }
+
+    if (testMatrices.isEmpty()) throw FlankCommonException("There are no tests to run.")
+
     println(beforeRunMessage(args, allTestShardChunks))
     val matrixMap = afterRunTests(testMatrices.awaitAll(), runGcsPath, stopwatch, args)
     matrixMap to allTestShardChunks

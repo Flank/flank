@@ -51,3 +51,12 @@ class FlankTimeoutError(val map: Map<String, SavedMatrix>?, val projectId: Strin
  * @param message [String] message to be printed to [System.err]
  */
 class FlankFatalError(message: String) : FlankException(message)
+
+/**
+ * Common flank exception
+ *
+ * Exit code: 1
+ *
+ * @param message [String] message to be printed to [System.err]
+ */
+class FlankCommonException(message: String) : FlankException(message)
