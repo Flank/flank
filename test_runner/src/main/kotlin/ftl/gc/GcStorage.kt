@@ -82,9 +82,9 @@ object GcStorage {
     fun uploadXCTestZip(args: IosArgs, runGcsPath: String): String =
         upload(args.xctestrunZip, args.resultsBucket, runGcsPath)
 
-    fun uploadXCTestFile(args: IosArgs, gcsBucket: String, runGcsPath: String, fileBytes: ByteArray): String =
+    fun uploadXCTestFile(fileName: String, gcsBucket: String, runGcsPath: String, fileBytes: ByteArray): String =
         upload(
-            file = args.xctestrunFile,
+            file = fileName,
             fileBytes = fileBytes,
             rootGcsBucket = gcsBucket,
             runGcsPath = runGcsPath

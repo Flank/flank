@@ -37,7 +37,8 @@ object GcIosTestMatrix {
             .setClientInfoDetails(args.clientDetails?.toClientInfoDetailList())
 
         val gcsBucket = args.resultsBucket
-        val matrixGcsSuffix = join(runGcsPath, shardCounter.next())
+        val shardName = shardCounter.next()
+        val matrixGcsSuffix = join(runGcsPath, shardName)
         val matrixGcsPath = join(gcsBucket, matrixGcsSuffix)
 
         // Parameterized tests on iOS don't shard correctly.
@@ -48,7 +49,10 @@ object GcIosTestMatrix {
             Xctestrun.rewrite(xcTestParsed, testTargets)
         }
 
-        val xctestrunFileGcsPath = GcStorage.uploadXCTestFile(args, gcsBucket, matrixGcsSuffix, generatedXctestrun)
+        // Add shard number to file name
+        val xctestrunNewFileName = StringBuilder(args.xctestrunFile).insert(args.xctestrunFile.lastIndexOf("."), "_$shardName").toString()
+
+        val xctestrunFileGcsPath = GcStorage.uploadXCTestFile(xctestrunNewFileName, gcsBucket, matrixGcsSuffix, generatedXctestrun)
 
         val iOSXCTest = IosXcTest()
             .setTestsZip(FileReference().setGcsPath(testZipGcsPath))
