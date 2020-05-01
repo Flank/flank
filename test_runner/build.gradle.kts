@@ -5,6 +5,7 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Date
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import java.io.ByteArrayOutputStream
 
 plugins {
     application
@@ -263,13 +264,21 @@ tasks.assemble {
 val updateVersion by tasks.registering {
     shouldRunAfter(tasks.processResources)
     if (!runningOnBitrise) doLast {
-        File("${project.buildDir}/resources/main/version.txt").writeText("local_snapshot")
-        File("${project.buildDir}/resources/main/revision.txt").writeText(
-            String(Runtime.getRuntime().exec("git rev-parse HEAD").inputStream.readBytes())
-        )
+        File("$buildDir/resources/main/version.txt").writeText("local_snapshot")
+        File("$buildDir/resources/main/revision.txt").writeText(execAndGetStdout("git", "rev-parse", "HEAD"))
     }
 }
 
 tasks.classes {
     dependsOn(updateVersion)
+}
+
+fun execAndGetStdout(vararg args: String): String {
+    val stdout = ByteArrayOutputStream()
+    exec {
+        commandLine(*args)
+        standardOutput = stdout
+        workingDir = projectDir
+    }
+    return stdout.toString().trimEnd()
 }
