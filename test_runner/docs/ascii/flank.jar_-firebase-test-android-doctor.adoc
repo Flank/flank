@@ -1,15 +1,4 @@
 // tag::picocli-generated-full-manpage[]
-// tag::picocli-generated-man-section-header[]
-:doctype: manpage
-:revnumber: 
-:manmanual: Flank.jar
- Manual
-:mansource: 
-:man-linkstyle: pass:[blue R < >]
-= flank.jar
--firebase-test-android-doctor(1)
-
-// end::picocli-generated-man-section-header[]
 
 // tag::picocli-generated-man-section-name[]
 == Name

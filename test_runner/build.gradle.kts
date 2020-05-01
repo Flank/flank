@@ -239,7 +239,7 @@ tasks.create("updateFlank", Exec::class.java) {
 }
 
 // begin --- ASCII doc generation ---
-val generateManpageAsciiDoc by tasks.registering(JavaExec::class) {
+val generateCliAsciiDoc by tasks.registering(JavaExec::class) {
     dependsOn(tasks.classes)
     classpath(
         configurations.compile,
@@ -256,8 +256,28 @@ val generateManpageAsciiDoc by tasks.registering(JavaExec::class) {
     )
 }
 
+val processCliAsciiDoc by tasks.registering {
+    dependsOn(generateCliAsciiDoc)
+    group = "Documentation"
+    doLast {
+        File("${project.rootDir}/docs/ascii").listFiles()?.forEach { file ->
+            file.apply {
+                readLines().run {
+                    val toRemove = IntRange(
+                        indexOf("// tag::picocli-generated-man-section-header[]"),
+                        indexOf("// end::picocli-generated-man-section-header[]")
+                    )
+                    filterIndexed { index, _ -> index !in toRemove }
+                }.joinToString("\n").let { text ->
+                    writeText(text)
+                }
+            }
+        }
+    }
+}
+
 tasks.assemble {
-    dependsOn(generateManpageAsciiDoc)
+    dependsOn(processCliAsciiDoc)
 }
 // end --- ASCII doc generation ---
 
