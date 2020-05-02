@@ -5,6 +5,7 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Date
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import java.io.ByteArrayOutputStream
 
 plugins {
     application
@@ -137,9 +138,10 @@ tasks.jacocoTestReport {
     }
 }
 
+val runningOnBitrise get() = System.getenv("BITRISE_IO") != null
+
 tasks.withType<KotlinCompile>().configureEach {
     // https://devcenter.bitrise.io/builds/available-environment-variables/
-    val runningOnBitrise = System.getenv("BITRISE_IO") != null
     kotlinOptions.allWarningsAsErrors = runningOnBitrise
 }
 
@@ -278,3 +280,25 @@ tasks.assemble {
     dependsOn(processCliAsciiDoc)
 }
 // end --- ASCII doc generation ---
+
+val updateVersion by tasks.registering {
+    shouldRunAfter(tasks.processResources)
+    if (!runningOnBitrise) doLast {
+        File("$buildDir/resources/main/version.txt").writeText("local_snapshot")
+        File("$buildDir/resources/main/revision.txt").writeText(execAndGetStdout("git", "rev-parse", "HEAD"))
+    }
+}
+
+tasks.classes {
+    dependsOn(updateVersion)
+}
+
+fun execAndGetStdout(vararg args: String): String {
+    val stdout = ByteArrayOutputStream()
+    exec {
+        commandLine(*args)
+        standardOutput = stdout
+        workingDir = projectDir
+    }
+    return stdout.toString().trimEnd()
+}
