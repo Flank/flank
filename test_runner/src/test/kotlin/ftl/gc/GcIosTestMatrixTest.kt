@@ -58,7 +58,7 @@ class GcIosTestMatrixTest {
         every { iosArgs.testTimeout } returns "3m"
         every { iosArgs.resultsBucket } returns "/hi"
         every { iosArgs.project } returns "123"
-        every { iosArgs.xctestrunFile } returns "456"
+        every { iosArgs.xctestrunFile } returns "any/path/to/test/file.xctestrun"
 
         GcIosTestMatrix.build(
             iosDeviceList = IosDeviceList(),
