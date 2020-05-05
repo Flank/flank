@@ -2,6 +2,7 @@ package ftl
 
 import ftl.cli.AuthCommand
 import ftl.cli.FirebaseCommand
+import ftl.cli.HypershardCommand
 import ftl.cli.firebase.CancelCommand
 import ftl.cli.firebase.RefreshCommand
 import ftl.cli.firebase.test.AndroidCommand
@@ -21,7 +22,8 @@ import picocli.CommandLine
         AndroidCommand::class,
         RefreshCommand::class,
         CancelCommand::class,
-        AuthCommand::class
+        AuthCommand::class,
+        HypershardCommand::class
     ]
 )
 class Main : Runnable {

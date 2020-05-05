@@ -72,8 +72,11 @@ object Versions {
 
     const val KOTLIN_LOGGING = "1.7.8"
 
-    // https://github.com/mockk/mockk
+    // https://github.com/mockk/mockk/releases
     const val MOCKK = "1.9.3"
+
+    // https://github.com/dropbox/hypershard-android/releases
+    const val HYPERSHARD_ANDROID = "1.1.1"
 }
 
 object Libs {
@@ -122,5 +125,9 @@ object Libs {
     const val SYSTEM_RULES = "com.github.stefanbirkner:system-rules:${Versions.SYSTEM_RULES}"
     const val TRUTH = "com.google.truth:truth:${Versions.TRUTH}"
     const val MOCKK = "io.mockk:mockk:${Versions.MOCKK}"
+    //endregion
+
+    //hypershard region
+    const val HYPERSHARD_ANDROID = "com.dropbox.mobile.hypershard:hypershard:${Versions.HYPERSHARD_ANDROID}"
     //endregion
 }
