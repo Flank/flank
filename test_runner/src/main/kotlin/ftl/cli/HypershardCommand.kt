@@ -9,7 +9,8 @@ import picocli.CommandLine.Command
     synopsisHeading = "",
     subcommands = [
         HyperAndroidCommand::class
-    ]
+    ],
+    usageHelpAutoWidth = true
 )
 class HypershardCommand : Runnable {
     override fun run() {

@@ -127,7 +127,5 @@ object Libs {
     const val MOCKK = "io.mockk:mockk:${Versions.MOCKK}"
     //endregion
 
-    //hypershard region
     const val HYPERSHARD_ANDROID = "com.dropbox.mobile.hypershard:hypershard:${Versions.HYPERSHARD_ANDROID}"
-    //endregion
 }

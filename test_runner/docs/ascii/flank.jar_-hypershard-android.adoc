@@ -1,0 +1,44 @@
+// tag::picocli-generated-full-manpage[]
+
+// tag::picocli-generated-man-section-name[]
+== Name
+
+flank.jar
+-hypershard-android - Run hypershard-android against test classes
+
+// end::picocli-generated-man-section-name[]
+
+// tag::picocli-generated-man-section-synopsis[]
+== Synopsis
+
+*flank.jar
+ hypershard android* [*-h*] [*--annotation-name*=_<annotationName>_]
+                              [*-o*=_<outputPath>_] [*--dirs*=_<dirs>_[,_<dirs>_...]]...
+
+// end::picocli-generated-man-section-synopsis[]
+
+// tag::picocli-generated-man-section-description[]
+== Description
+
+Hypershard is a fast and simple test collector that uses the Kotlin and Java ASTs. Flank will save to file full qualified test names found in dir(s) that can be used later as input for --test-targets option.
+
+// end::picocli-generated-man-section-description[]
+
+// tag::picocli-generated-man-section-options[]
+== Options
+
+*--annotation-name*=_<annotationName>_::
+  Class annotation name to process. For example, if this was set to 'UiTest',then Hypershard will only process classes annotated with @UiTest.
+
+*--dirs*=_<dirs>_[,_<dirs>_...]::
+  Dir(s) to process. The location of the test classes to parse
+
+*-h*, *--help*::
+  Prints this help message
+
+*-o*, *--output*=_<outputPath>_::
+  Location where result file will be written
+
+// end::picocli-generated-man-section-options[]
+
+// end::picocli-generated-full-manpage[]
