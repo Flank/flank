@@ -3,11 +3,7 @@ package ftl.cli.hypershard.android
 import com.dropbox.mobile.hypershard.ClassAnnotationValue
 import com.dropbox.mobile.hypershard.RealHyperShard
 import ftl.util.FlankFatalError
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
 import java.io.File
@@ -50,9 +46,8 @@ class HyperAndroidCommand : Runnable {
                     out.write(it)
                     out.newLine()
                 }
-                spinner.cancel()
-                println("\rDone!")
-                println("Results file writen to $resultPath")
+                spinner.stopSpinner()
+                println("${tests.size} tests written to $resultPath")
             }
         }
     }
@@ -92,12 +87,14 @@ private fun <T> Sequence<T>.repeat() = sequence {
 }
 
 private fun CoroutineScope.launchSpinner() = launch(Dispatchers.IO) {
-    print("Working:   ")
+    print("Working:  ")
     listOf("\u28f7", "\u28ef", "\u28df", "\u287f", "\u28bf", "\u28fb", "\u28fd", "\u28fe")
         .asSequence()
         .repeat()
         .forEach {
-            print("\b\b$it ")
+            print("\b$it")
             delay(250)
         }
-}
+}.apply { invokeOnCompletion { println("\rDone!      ") } }
+
+private suspend inline fun Job.stopSpinner() = cancelAndJoin()
