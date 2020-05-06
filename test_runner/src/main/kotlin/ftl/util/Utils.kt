@@ -122,15 +122,11 @@ fun copyBinaryResource(name: String) {
     destinationPath.parent.toFile().mkdirs()
 
     // "binaries/" folder prefix is required for Linux to find the resource.
-    copyAndClose(
-        from = getResource("binaries/$name").bufferedReader(),
-        to = Files.newBufferedWriter(destinationPath)
+    Files.copy(
+        getResource("binaries/$name"),
+        destinationPath
     )
     destinationFile.setExecutable(true)
-}
-
-fun copyAndClose(from: Reader, to: Writer) {
-    from.use { reader -> to.use { writer -> reader.copyTo(writer) } }
 }
 
 fun withGlobalExceptionHandling(block: () -> Int) {

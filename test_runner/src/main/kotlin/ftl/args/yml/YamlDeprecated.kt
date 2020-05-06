@@ -7,9 +7,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode
 import com.google.common.annotations.VisibleForTesting
 import ftl.args.ArgsHelper.yamlMapper
 import ftl.util.FlankFatalError
-import ftl.util.copyAndClose
 import java.io.Reader
-import java.io.StringReader
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -129,10 +127,7 @@ object YamlDeprecated {
 
         val (errorDetected, string) = modify(Files.newBufferedReader(yamlPath))
 
-        copyAndClose(
-            from = StringReader(string),
-            to = Files.newBufferedWriter(yamlPath)
-        )
+        Files.write(yamlPath, string.toByteArray())
         println("\nUpdated ${yamlPath.fileName} file")
 
         return errorDetected
