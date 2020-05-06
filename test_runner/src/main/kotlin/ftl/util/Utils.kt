@@ -7,9 +7,7 @@ import ftl.json.SavedMatrix
 import ftl.run.cancelMatrices
 import kotlinx.coroutines.runBlocking
 import java.io.InputStream
-import java.io.Reader
 import java.io.StringWriter
-import java.io.Writer
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.time.Instant
