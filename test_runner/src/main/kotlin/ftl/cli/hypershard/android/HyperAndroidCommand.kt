@@ -3,7 +3,13 @@ package ftl.cli.hypershard.android
 import com.dropbox.mobile.hypershard.ClassAnnotationValue
 import com.dropbox.mobile.hypershard.RealHyperShard
 import ftl.util.FlankFatalError
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
 import java.io.File
@@ -38,7 +44,7 @@ class HyperAndroidCommand : Runnable {
             val resultPath = Paths.get(outputPath, RESULT_FILE).toAbsolutePath().toString()
             val hyperShard = RealHyperShard(annotationValue, dirs ?: throw FlankFatalError("Missing --dirs parameter"))
 
-            val spinner = launchSpinner()
+            val spinner = startSpinner()
             val tests = hyperShard.gatherTests().map { it.replace(regex, "#") }
 
             File(resultPath).bufferedWriter().use { out ->
@@ -86,7 +92,7 @@ private fun <T> Sequence<T>.repeat() = sequence {
     }
 }
 
-private fun CoroutineScope.launchSpinner() = launch(Dispatchers.IO) {
+private fun CoroutineScope.startSpinner() = launch(Dispatchers.IO) {
     print("Working:  ")
     listOf("\u28f7", "\u28ef", "\u28df", "\u287f", "\u28bf", "\u28fb", "\u28fd", "\u28fe")
         .asSequence()
