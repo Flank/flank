@@ -24,6 +24,7 @@ import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import picocli.CommandLine
+import java.io.StringReader
 
 @Suppress("TooManyFunctions")
 @RunWith(FlankTestRunner::class)
@@ -876,3 +877,5 @@ IosArgs
         assertFalse(iosArgs.keepFilePath)
     }
 }
+
+private fun IosArgs.Companion.load(yamlData: String, cli: IosRunCommand? = null): IosArgs = load(StringReader(yamlData), cli)

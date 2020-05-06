@@ -1,17 +1,20 @@
 package ftl.doctor
 
+import com.google.common.annotations.VisibleForTesting
 import ftl.args.ArgsHelper
 import ftl.args.IArgsCompanion
+import java.io.Reader
 import java.nio.file.Files
 import java.nio.file.Path
 
 object Doctor {
     fun validateYaml(args: IArgsCompanion, data: Path): String {
         if (!data.toFile().exists()) return "Skipping yaml validation. No file at path $data"
-        return validateYaml(args, String(Files.readAllBytes(data)))
+        return validateYaml(args, Files.newBufferedReader(data))
     }
 
-    fun validateYaml(args: IArgsCompanion, data: String): String {
+    @VisibleForTesting
+    internal fun validateYaml(args: IArgsCompanion, data: Reader): String {
         var result = ""
         val parsed = ArgsHelper.yamlMapper.readTree(data)
 

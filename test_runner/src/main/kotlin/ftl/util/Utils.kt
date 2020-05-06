@@ -7,7 +7,9 @@ import ftl.json.SavedMatrix
 import ftl.run.cancelMatrices
 import kotlinx.coroutines.runBlocking
 import java.io.InputStream
+import java.io.Reader
 import java.io.StringWriter
+import java.io.Writer
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.time.Instant
@@ -120,9 +122,15 @@ fun copyBinaryResource(name: String) {
     destinationPath.parent.toFile().mkdirs()
 
     // "binaries/" folder prefix is required for Linux to find the resource.
-    val bytes = getResource("binaries/$name").use { it.readBytes() }
-    Files.write(destinationPath, bytes)
+    copyAndClose(
+        from = getResource("binaries/$name").bufferedReader(),
+        to = Files.newBufferedWriter(destinationPath)
+    )
     destinationFile.setExecutable(true)
+}
+
+fun copyAndClose(from: Reader, to: Writer) {
+    from.use { reader -> to.use { writer -> reader.copyTo(writer) } }
 }
 
 fun withGlobalExceptionHandling(block: () -> Int) {

@@ -4,8 +4,12 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.fasterxml.jackson.databind.node.MissingNode
 import com.fasterxml.jackson.databind.node.ObjectNode
+import com.google.common.annotations.VisibleForTesting
 import ftl.args.ArgsHelper.yamlMapper
 import ftl.util.FlankFatalError
+import ftl.util.copyAndClose
+import java.io.Reader
+import java.io.StringReader
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -123,18 +127,20 @@ object YamlDeprecated {
     fun modify(yamlPath: Path): Boolean {
         if (yamlPath.toFile().exists().not()) throw FlankFatalError("Flank yml doesn't exist at path $yamlPath")
 
-        val data = String(Files.readAllBytes(yamlPath))
-        val (errorDetected, string) = modify(data)
+        val (errorDetected, string) = modify(Files.newBufferedReader(yamlPath))
 
-        Files.write(yamlPath, string.toByteArray())
+        copyAndClose(
+            from = StringReader(string),
+            to = Files.newBufferedWriter(yamlPath)
+        )
         println("\nUpdated ${yamlPath.fileName} file")
 
         return errorDetected
     }
 
     // Throw exception when Level.Error modified key is found.
-    fun modifyAndThrow(yamlData: String, android: Boolean): String {
-        val (error, data) = YamlDeprecated.modify(yamlData)
+    fun modifyAndThrow(yamlReader: Reader, android: Boolean): String {
+        val (error, data) = modify(yamlReader)
 
         if (error) {
             val platform = if (android) "android" else "ios"
@@ -144,7 +150,8 @@ object YamlDeprecated {
         return data
     }
 
-    fun modify(yamlData: String): Pair<Boolean, String> {
+    @VisibleForTesting
+    internal fun modify(yamlData: Reader): Pair<Boolean, String> {
         val mappedYaml = yamlMapper.readTree(yamlData)
 
         val parsed = if (mappedYaml == null || mappedYaml is MissingNode) {
