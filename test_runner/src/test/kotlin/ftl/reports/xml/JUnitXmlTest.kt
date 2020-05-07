@@ -441,10 +441,9 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
         """.trimIndent()
         assertThat(merged).isEqualTo(expected)
     }
+
     @Test
     fun `parse ftl quirks in all suites`() {
-
-
         val crashingAllSuitesMessage = """
             <?xml version='1.0' encoding='UTF-8' ?>
             <testsuites>
@@ -457,7 +456,6 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
               </testsuite>
             </testsuites>
         """.trimIndent()
-
 
         val expectedAllSuitesMessage = """
             <?xml version='1.0' encoding='UTF-8' ?>
