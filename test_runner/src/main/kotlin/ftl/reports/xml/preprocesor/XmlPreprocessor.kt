@@ -14,4 +14,3 @@ fun fixHtmlCodes(data: String): String {
     }
     return fixedStr
 }
-

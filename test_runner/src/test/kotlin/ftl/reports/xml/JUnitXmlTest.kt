@@ -6,7 +6,6 @@ import org.junit.Assert
 import java.nio.file.Paths
 import org.junit.Test
 
-
 class JUnitXmlTest {
 
     companion object {
@@ -442,8 +441,6 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
         """.trimIndent()
         assertThat(merged).isEqualTo(expected)
     }
-
-
     @Test
     fun `parse ftl quirks in all suites`() {
 
@@ -491,7 +488,6 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
               </testsuite>
         """.trimIndent()
 
-
         val expectedOneSuiteMessage = """
             <?xml version='1.0' encoding='UTF-8' ?>
             <testsuites>
@@ -506,6 +502,6 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
         """.trimIndent()
         val oneSuiteXml = parseOneSuiteXml(crashingOneSuiteMessage).xmlToString().trimIndent()
         Assert.assertEquals("One Suite Messages should be the same!", expectedOneSuiteMessage, oneSuiteXml)
+
     }
 }
-
