@@ -1,4 +1,5 @@
 ## next (unreleased)
+- [#772](https://github.com/Flank/flank/pull/772) Fail fast when results-dir is incorrect. ([jan-gogo](https://github.com/jan-gogo))
 - [#757](https://github.com/Flank/flank/pull/757) Print version and revision before each command. ([jan-gogo](https://github.com/jan-gogo))
 - [#759](https://github.com/Flank/flank/pull/759) Add shard name for uploaded xctestrun files. ([pawelpasterz](https://github.com/pawelpasterz))
 - [#755](https://github.com/Flank/flank/pull/755) Remove ascii doc generated section header. ([jan-gogo](https://github.com/jan-gogo))
