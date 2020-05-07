@@ -32,7 +32,7 @@ data class JUnitTestSuite(
     val timestamp: String?, // String. Android only
 
     @JacksonXmlProperty(isAttribute = true)
-    val hostname: String? = null, // String.
+    val hostname: String? = "localhost", // String.
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JacksonXmlProperty(isAttribute = true)
