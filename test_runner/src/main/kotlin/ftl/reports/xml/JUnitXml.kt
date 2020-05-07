@@ -11,6 +11,7 @@ import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 
+
 private val xmlModule = JacksonXmlModule().apply { setDefaultUseWrapper(false) }
 
 private val xmlMapper = XmlMapper(xmlModule)
@@ -18,6 +19,7 @@ private val xmlMapper = XmlMapper(xmlModule)
     .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 internal val xmlPrettyWriter = xmlMapper.writerWithDefaultPrettyPrinter()
+
 
 private fun xmlText(path: Path): String {
     if (!path.toFile().exists()) throw RuntimeException("$path doesn't exist!")
@@ -43,6 +45,7 @@ fun parseOneSuiteXml(data: String): JUnitTestResult {
 }
 
 // --
+
 
 fun parseAllSuitesXml(path: Path): JUnitTestResult {
     return parseAllSuitesXml(xmlText(path))
