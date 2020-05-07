@@ -45,7 +45,7 @@ class AndroidArgs(
 ) : IArgs {
     private val gcloud = gcloudYml.gcloud
     override val resultsBucket: String
-    override val resultsDir = cli?.resultsDir ?: gcloud.resultsDir
+    override val resultsDir = (cli?.resultsDir ?: gcloud.resultsDir)?.also { assertFileExists(it, "from results-dir") }
     override val recordVideo = cli?.recordVideo ?: cli?.noRecordVideo?.not() ?: gcloud.recordVideo
     override val testTimeout = cli?.timeout ?: gcloud.timeout
     override val async = cli?.async ?: gcloud.async
