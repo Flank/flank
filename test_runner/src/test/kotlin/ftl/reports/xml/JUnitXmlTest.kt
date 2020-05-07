@@ -5,7 +5,6 @@ import ftl.test.util.TestHelper.normalizeLineEnding
 import java.nio.file.Paths
 import org.junit.Test
 
-
 class JUnitXmlTest {
 
     companion object {
@@ -441,8 +440,6 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
         """.trimIndent()
         assertThat(merged).isEqualTo(expected)
     }
-
-
     @Test
     fun `parse ftl quirks`() {
         val crashingAllSuitesMessage = """
@@ -470,8 +467,5 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
         parseAllSuitesXml(crashingAllSuitesMessage)
         parseOneSuiteXml(crashingOneSuiteMessage)
-
     }
-
 }
-
