@@ -206,12 +206,14 @@ dependencies {
     implementation(Libs.JSOUP)
     implementation(Libs.OKHTTP)
 
-    implementation(Libs.HYPERSHARD_ANDROID)
+    implementation(Libs.HYPERSHARD_ANDROID) {
+        exclude(group = "org.jetbrains.kotlin", module = "kotlin-compiler")
+    }
 
     detektPlugins(Libs.DETEKT_FORMATTING)
 
     testImplementation(Libs.JUNIT)
-    testImplementation(Libs.SYSTEM_RULES)
+    implementation(Libs.SYSTEM_RULES)
     testImplementation(Libs.TRUTH)
     testImplementation(Libs.MOCKK)
 }
