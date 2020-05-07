@@ -1,5 +1,6 @@
 package ftl.args
 
+import com.google.common.annotations.VisibleForTesting
 import ftl.args.ArgsHelper.assertCommonProps
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
@@ -24,6 +25,7 @@ import ftl.ios.IosCatalog
 import ftl.ios.Xctestrun
 import ftl.util.FlankTestMethod
 import ftl.util.FlankFatalError
+import java.io.Reader
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -156,10 +158,11 @@ IosArgs
             mergeYmlMaps(GcloudYml, IosGcloudYml, FlankYml, IosFlankYml)
         }
 
-        fun load(data: Path, cli: IosRunCommand? = null): IosArgs = load(String(Files.readAllBytes(data)), cli)
+        fun load(yamlPath: Path, cli: IosRunCommand? = null): IosArgs = load(Files.newBufferedReader(yamlPath), cli)
 
-        fun load(yamlData: String, cli: IosRunCommand? = null): IosArgs {
-            val data = YamlDeprecated.modifyAndThrow(yamlData, android = false)
+        @VisibleForTesting
+        internal fun load(yamlReader: Reader, cli: IosRunCommand? = null): IosArgs {
+            val data = YamlDeprecated.modifyAndThrow(yamlReader, android = false)
 
             val flankYml = yamlMapper.readValue(data, FlankYml::class.java)
             val iosFlankYml = yamlMapper.readValue(data, IosFlankYml::class.java)
@@ -183,7 +186,8 @@ IosArgs
                 FlankYml(),
                 IosFlankYml(),
                 "",
-                IosRunCommand())
+                IosRunCommand()
+            )
         }
     }
 }

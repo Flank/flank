@@ -57,9 +57,8 @@ object MockServer {
 
     private inline fun <reified T> loadCatalog(fileName: String): T {
         val jsonPath = Paths.get("./src/test/kotlin/ftl/fixtures/$fileName")
-        if (!jsonPath.toFile().exists()) throw RuntimeException("Path doesn't exist: $fileName")
-        val jsonString = String(Files.readAllBytes(jsonPath))
-        return JSON_FACTORY.fromString(jsonString, T::class.java)
+        if (!Files.exists(jsonPath)) throw RuntimeException("Path doesn't exist: $fileName")
+        return JSON_FACTORY.fromReader(Files.newBufferedReader(jsonPath), T::class.java)
     }
 
     private val androidCatalog by lazy { loadCatalog<AndroidDeviceCatalog>("android_catalog.json") }

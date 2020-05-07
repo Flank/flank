@@ -120,8 +120,10 @@ fun copyBinaryResource(name: String) {
     destinationPath.parent.toFile().mkdirs()
 
     // "binaries/" folder prefix is required for Linux to find the resource.
-    val bytes = getResource("binaries/$name").use { it.readBytes() }
-    Files.write(destinationPath, bytes)
+    Files.copy(
+        getResource("binaries/$name"),
+        destinationPath
+    )
     destinationFile.setExecutable(true)
 }
 

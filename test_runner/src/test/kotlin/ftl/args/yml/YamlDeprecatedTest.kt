@@ -6,6 +6,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
+import java.io.StringReader
 
 @RunWith(FlankTestRunner::class)
 class YamlDeprecatedTest {
@@ -134,3 +135,5 @@ class YamlDeprecatedTest {
         assertThat(output).isEqualTo(expected)
     }
 }
+
+private fun YamlDeprecated.modify(yamlData: String): Pair<Boolean, String> = modify(StringReader(yamlData))

@@ -1,4 +1,5 @@
 ## next (unreleased)
+- [#757](https://github.com/Flank/flank/pull/767) Reduce memory usage by using Reader and Writer instead of ByteArrays. ([jan-gogo](https://github.com/jan-gogo))
 - [#763](https://github.com/Flank/flank/pull/763) Use "localhost" as default for hostname to fix backward compatibility. ([jan-gogo](https://github.com/jan-gogo))
 - [#757](https://github.com/Flank/flank/pull/757) Print version and revision before each command. ([jan-gogo](https://github.com/jan-gogo))
 - [#759](https://github.com/Flank/flank/pull/759) Add shard name for uploaded xctestrun files. ([pawelpasterz](https://github.com/pawelpasterz))
