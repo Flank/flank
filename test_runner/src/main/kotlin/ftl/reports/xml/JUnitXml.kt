@@ -21,7 +21,7 @@ internal val xmlPrettyWriter = xmlMapper.writerWithDefaultPrettyPrinter()
 
 private fun xmlText(path: Path): String {
     if (!path.toFile().exists()) throw RuntimeException("$path doesn't exist!")
-    return Files.readString(path)
+    return String(Files.readAllBytes(path))
 }
 
 fun JUnitTestResult?.xmlToString(): String {
