@@ -207,6 +207,7 @@ dependencies {
     implementation(Libs.OKHTTP)
 
     implementation(Libs.HYPERSHARD_ANDROID) {
+        // Exclude kotlin-compiler from hypershard because it overwrites guava classes
         exclude(group = "org.jetbrains.kotlin", module = "kotlin-compiler")
     }
 
