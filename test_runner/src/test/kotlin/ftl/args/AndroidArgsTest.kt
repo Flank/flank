@@ -26,6 +26,7 @@ import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import picocli.CommandLine
+import java.io.StringReader
 
 @Suppress("TooManyFunctions")
 @RunWith(FlankTestRunner::class)
@@ -1252,3 +1253,5 @@ AndroidArgs
         runBlocking { runAndroidTests(parsedYml) }
     }
 }
+
+private fun AndroidArgs.Companion.load(yamlData: String, cli: AndroidRunCommand? = null): AndroidArgs = load(StringReader(yamlData), cli)

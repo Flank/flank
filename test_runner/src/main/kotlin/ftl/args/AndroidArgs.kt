@@ -1,5 +1,6 @@
 package ftl.args
 
+import com.google.common.annotations.VisibleForTesting
 import ftl.android.AndroidCatalog
 import ftl.android.IncompatibleModelVersion
 import ftl.android.SupportedDeviceConfig
@@ -29,6 +30,7 @@ import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.parseRoboDirectives
 import ftl.util.FlankFatalError
+import java.io.Reader
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -187,11 +189,11 @@ AndroidArgs
             mergeYmlMaps(GcloudYml, AndroidGcloudYml, FlankYml, AndroidFlankYml)
         }
 
-        fun load(data: Path, cli: AndroidRunCommand? = null): AndroidArgs =
-            load(String(Files.readAllBytes(data)), cli)
+        fun load(yamlPath: Path, cli: AndroidRunCommand? = null): AndroidArgs = load(Files.newBufferedReader(yamlPath), cli)
 
-        fun load(yamlData: String, cli: AndroidRunCommand? = null): AndroidArgs {
-            val data = YamlDeprecated.modifyAndThrow(yamlData, android = true)
+        @VisibleForTesting
+        internal fun load(yamlReader: Reader, cli: AndroidRunCommand? = null): AndroidArgs {
+            val data = YamlDeprecated.modifyAndThrow(yamlReader, android = true)
 
             val flankYml = yamlMapper.readValue(data, FlankYml::class.java)
             val gcloudYml = yamlMapper.readValue(data, GcloudYml::class.java)
@@ -215,7 +217,8 @@ AndroidArgs
                 FlankYml(),
                 AndroidFlankYml(),
                 "",
-                AndroidRunCommand())
+                AndroidRunCommand()
+            )
         }
     }
 }
