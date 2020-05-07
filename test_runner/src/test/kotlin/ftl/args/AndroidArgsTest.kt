@@ -968,20 +968,30 @@ AndroidArgs
         assertThat(AndroidArgs.load(yaml, cli).testTargetsAlwaysRun).isEqualTo(arrayListOf("com.A", "com.B"))
     }
 
+    @Test(expected = FlankFatalError::class)
+    fun `cli resultsDir fail if not exist`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          results-dir: not_exist
+      """
+        AndroidArgs.load(yaml)
+    }
     @Test
     fun `cli resultsDir`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parseArgs("--results-dir=b")
+        CommandLine(cli).parseArgs("--results-dir=build")
 
         val yaml = """
         gcloud:
           app: $appApk
           test: $testApk
-          results-dir: a
+          results-dir: results
       """
 
-        assertThat(AndroidArgs.load(yaml).resultsDir).isEqualTo("a")
-        assertThat(AndroidArgs.load(yaml, cli).resultsDir).isEqualTo("b")
+        assertThat(AndroidArgs.load(yaml).resultsDir).isEqualTo("results")
+        assertThat(AndroidArgs.load(yaml, cli).resultsDir).isEqualTo("build")
     }
 
     @Test

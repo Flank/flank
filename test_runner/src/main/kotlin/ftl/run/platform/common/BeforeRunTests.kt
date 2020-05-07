@@ -18,7 +18,7 @@ internal fun beforeRunTests(args: IArgs): Pair<StopWatch, String> {
 
     // Avoid spamming the results/ dir with temporary files from running the test suite.
     if (FtlConstants.useMock)
-        deleteMockResultDirOnShotDown(args, runGcsPath)
+        deleteMockResultDirOnShutDown(args, runGcsPath)
 
     if (args.useLocalResultDir()) {
         // Only one result is stored when using --local-result-dir
@@ -36,7 +36,7 @@ private fun assertMockUrl() {
     if (!GcToolResults.service.rootUrl.contains(FtlConstants.localhost)) throw RuntimeException("expected localhost in GcToolResults")
 }
 
-private fun deleteMockResultDirOnShotDown(args: IArgs, runGcsPath: String) {
+private fun deleteMockResultDirOnShutDown(args: IArgs, runGcsPath: String) {
     Runtime.getRuntime().addShutdownHook(Thread {
         File(args.localResultDir, runGcsPath).deleteRecursively()
     })
