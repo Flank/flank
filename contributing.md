@@ -7,6 +7,14 @@
   - PyCharm (also installed via toolbox) is useful for working with [gcloud CLI](https://github.com/bootstraponline/gcloud_cli)
 - [GitHub Desktop](https://desktop.github.com/)
 
+## Version Numbers
+
+Flank follows date based releases.
+
+- `YY.MM.#`
+- `20.05.0` - First release in 2020/05
+- `20.05.1` - Second release in 2020/05
+
 # Debugging Flank
 
 ## Importing into IntelliJ IDEA
