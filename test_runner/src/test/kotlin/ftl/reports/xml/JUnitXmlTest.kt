@@ -2,6 +2,7 @@ package ftl.reports.xml
 
 import com.google.common.truth.Truth.assertThat
 import ftl.test.util.TestHelper.normalizeLineEnding
+import org.junit.Assert
 import java.nio.file.Paths
 import org.junit.Test
 
@@ -73,7 +74,8 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun `merge ios`() {
-        val merged = parseAllSuitesXml(iosPassXml).merge(parseAllSuitesXml(iosFailXml)).xmlToString().normalizeLineEnding()
+        val merged =
+            parseAllSuitesXml(iosPassXml).merge(parseAllSuitesXml(iosFailXml)).xmlToString().normalizeLineEnding()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
@@ -94,7 +96,8 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun `Merge iOS large time`() {
-        val merged = parseAllSuitesXml(iosLargeNum).merge(parseAllSuitesXml(iosLargeNum)).xmlToString().normalizeLineEnding()
+        val merged =
+            parseAllSuitesXml(iosLargeNum).merge(parseAllSuitesXml(iosLargeNum)).xmlToString().normalizeLineEnding()
 
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
@@ -423,7 +426,8 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
         // * c() failed in newRun and passed in oldRun. timing info copied over from oldRun
         // * d() was skipped in newRun and successful in oldRun. d() is excluded from the merged result
 
-        val merged = parseAllSuitesXml(newRun).mergeTestTimes(parseAllSuitesXml(oldRun)).xmlToString().normalizeLineEnding()
+        val merged =
+            parseAllSuitesXml(newRun).mergeTestTimes(parseAllSuitesXml(oldRun)).xmlToString().normalizeLineEnding()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
@@ -436,5 +440,65 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
         """.trimIndent()
         assertThat(merged).isEqualTo(expected)
+    }
+
+    @Test
+    fun `parse ftl quirks in all suites`() {
+        val crashingAllSuitesMessage = """
+            <?xml version='1.0' encoding='UTF-8' ?>
+            <testsuites>
+              <testsuite name="EarlGreyExampleSwiftTests" tests="3" failures="0" errors="0" skipped="0" time="10.0" hostname="localhost">
+                <testcase name="a()" classname="a" time="1.0">
+                <failure> java.net.ConnectException: Failed to connect to ... at &#8;&#8;&#8;(Coroutine boundary.&#8;(&#8;)</failure>
+                </testcase>
+                <testcase name="b()" classname="b" time="2.0"/>
+                <testcase name="c()" classname="c" time="7.0"/>
+              </testsuite>
+            </testsuites>
+        """.trimIndent()
+
+        val expectedAllSuitesMessage = """
+            <?xml version='1.0' encoding='UTF-8' ?>
+            <testsuites>
+              <testsuite name="EarlGreyExampleSwiftTests" tests="3" failures="0" errors="0" skipped="0" time="10.0" hostname="localhost">
+                <testcase name="a()" classname="a" time="1.0">
+                  <failure> java.net.ConnectException: Failed to connect to ... at (Coroutine boundary.()</failure>
+                </testcase>
+                <testcase name="b()" classname="b" time="2.0"/>
+                <testcase name="c()" classname="c" time="7.0"/>
+              </testsuite>
+            </testsuites>
+        """.trimIndent()
+        val allSuitesXml = parseAllSuitesXml(crashingAllSuitesMessage).xmlToString().trimIndent()
+        Assert.assertEquals("All Suite Messages should be the same!", expectedAllSuitesMessage, allSuitesXml)
+    }
+
+    @Test
+    fun `parse ftl quirks in on suite`() {
+        val crashingOneSuiteMessage = """
+            <?xml version='1.0' encoding='UTF-8' ?>
+              <testsuite name="EarlGreyExampleSwiftTests" tests="3" failures="0" errors="0" skipped="0" time="10.0" hostname="localhost">
+                <testcase name="a()" classname="a" time="1.0">
+                <failure> java.net.ConnectException: Failed to connect to ... at &#8;&#8;&#8;(Coroutine boundary.&#8;(&#8;)</failure>
+                </testcase>
+                <testcase name="b()" classname="b" time="2.0"/>
+                <testcase name="c()" classname="c" time="7.0"/>
+              </testsuite>
+        """.trimIndent()
+
+        val expectedOneSuiteMessage = """
+            <?xml version='1.0' encoding='UTF-8' ?>
+            <testsuites>
+              <testsuite name="EarlGreyExampleSwiftTests" tests="3" failures="0" errors="0" skipped="0" time="10.0" hostname="localhost">
+                <testcase name="a()" classname="a" time="1.0">
+                  <failure> java.net.ConnectException: Failed to connect to ... at (Coroutine boundary.()</failure>
+                </testcase>
+                <testcase name="b()" classname="b" time="2.0"/>
+                <testcase name="c()" classname="c" time="7.0"/>
+              </testsuite>
+            </testsuites>
+        """.trimIndent()
+        val oneSuiteXml = parseOneSuiteXml(crashingOneSuiteMessage).xmlToString().trimIndent()
+        Assert.assertEquals("One Suite Messages should be the same!", expectedOneSuiteMessage, oneSuiteXml)
     }
 }

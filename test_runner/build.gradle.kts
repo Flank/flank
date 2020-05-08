@@ -213,6 +213,8 @@ dependencies {
     implementation(Libs.SYSTEM_RULES)
     testImplementation(Libs.TRUTH)
     testImplementation(Libs.MOCKK)
+
+    implementation(Libs.COMMON_TEXT)
 }
 
 // Fix Exception in thread "main" java.lang.NoSuchMethodError: com.google.common.hash.Hashing.crc32c()Lcom/google/common/hash/HashFunction;
