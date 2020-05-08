@@ -176,7 +176,7 @@ class AndroidArgsFileTest {
             ),
             FlankYml(
                 FlankYmlParams(
-                    project = "delta-essence-114723"
+                    project = "flank-open-source"
                 )
             ),
             AndroidFlankYml(),

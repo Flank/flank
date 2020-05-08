@@ -178,7 +178,7 @@ flank:
   #   - className/testName
 
   ## The billing enabled Google Cloud Platform project name to use
-  # project: delta-essence-114723
+  # project: flank-open-source
 
   ## Local folder to store the test result. Folder is DELETED before each run to ensure only artifacts from the new run are saved.
   # local-result-dir: flank
@@ -384,7 +384,7 @@ flank:
   #   - .*\.mp4$
 
   ## The billing enabled Google Cloud Platform project name to use
-  # project: delta-essence-114723
+  # project: flank-open-source
 
   ## Local folder to store the test result. Folder is DELETED before each run to ensure only artifacts from the new run are saved.
   # local-result-dir: flank
