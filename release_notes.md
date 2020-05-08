@@ -1,4 +1,7 @@
 ## next (unreleased)
+
+## v20.05.0
+
 - [#764](https://github.com/Flank/flank/pull/771) Fix crash on parse some control chars. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#772](https://github.com/Flank/flank/pull/772) Fail fast when results-dir is incorrect. ([jan-gogo](https://github.com/jan-gogo))
 - [#757](https://github.com/Flank/flank/pull/767) Reduce memory usage by using Reader and Writer instead of ByteArrays. ([jan-gogo](https://github.com/jan-gogo))
