@@ -75,7 +75,8 @@ object Versions {
     // https://github.com/mockk/mockk
     const val MOCKK = "1.9.3"
 
-    const val COMMON_TEXT = "1.7"
+    //https://commons.apache.org/proper/commons-text/
+    const val COMMON_TEXT = "1.8"
 }
 
 object Libs {

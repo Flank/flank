@@ -500,6 +500,5 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
         """.trimIndent()
         val oneSuiteXml = parseOneSuiteXml(crashingOneSuiteMessage).xmlToString().trimIndent()
         Assert.assertEquals("One Suite Messages should be the same!", expectedOneSuiteMessage, oneSuiteXml)
-
     }
 }
