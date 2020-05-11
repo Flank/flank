@@ -1,4 +1,5 @@
 ## next (unreleased)
+- [#775](https://github.com/Flank/flank/issues/775) Fix exception thrown for null start time. ([pawelpasterz](https://github.com/pawelpasterz))
 
 ## v20.05.0
 
