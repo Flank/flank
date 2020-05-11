@@ -2,6 +2,10 @@
 
 Flank is a [massively parallel Android and iOS test runner](https://docs.google.com/presentation/d/1goan9cXpimSJsS3L60WjljnFA_seUyaWb2e-bezm084/edit#slide=id.p1) for [Firebase Test Lab](https://firebase.google.com/docs/test-lab/).
 
+## Download
+
+https://github.com/Flank/flank/releases/latest/download/flank.jar
+
 ### Sponsors
 
 [<img src="./docs/bugsnag-logo-dark.png" width="50%" />](https://www.bugsnag.com/)
