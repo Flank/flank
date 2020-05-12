@@ -1,6 +1,6 @@
 package ftl.util
 
-import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeUnit.MILLISECONDS
 
 class StopWatch {
 
@@ -11,16 +11,6 @@ class StopWatch {
         return this
     }
 
-    /** ms to minutes  */
-    private fun minutes(duration: Long): Long {
-        return TimeUnit.MILLISECONDS.toMinutes(duration)
-    }
-
-    /** ms to seconds  */
-    private fun seconds(duration: Long): Long {
-        return TimeUnit.MILLISECONDS.toSeconds(duration)
-    }
-
     fun check(indent: Boolean = false): String {
         if (startTime == 0L) {
             throw RuntimeException("startTime is zero. start not called")
@@ -28,8 +18,8 @@ class StopWatch {
         val endTime = System.currentTimeMillis()
         val duration = endTime - startTime
 
-        val minutes = minutes(duration)
-        val seconds = seconds(duration) % 60
+        val minutes = MILLISECONDS.toMinutes(duration)
+        val seconds = MILLISECONDS.toSeconds(duration) % 60
 
         // align seconds
         // 3m  0s
