@@ -151,6 +151,10 @@ fun withGlobalExceptionHandling(block: () -> Int) {
                 }
                 exitProcess(1)
             }
+            is FlankConfigurationException -> {
+                System.err.println(t)
+                exitProcess(1)
+            }
             is FTLError -> {
                 t.matrix.logError("not finished")
                 exitProcess(3)
@@ -159,6 +163,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
                 System.err.println(t.message)
                 exitProcess(2)
             }
+
             // We need to cover the case where some component in the call stack starts a non-daemon
             // thread, and then throws an Error that kills the main thread. This is extra safe implementation
             else -> {
@@ -183,6 +188,9 @@ fun <R : MutableMap<String, Any>, T> mutableMapProperty(
     defaultValue: () -> T
 ) = object : ReadWriteProperty<R, T> {
     @Suppress("UNCHECKED_CAST")
-    override fun getValue(thisRef: R, property: KProperty<*>): T = thisRef.getOrElse(name ?: property.name, defaultValue) as T
-    override fun setValue(thisRef: R, property: KProperty<*>, value: T) = thisRef.set(name ?: property.name, value as Any)
+    override fun getValue(thisRef: R, property: KProperty<*>): T =
+        thisRef.getOrElse(name ?: property.name, defaultValue) as T
+
+    override fun setValue(thisRef: R, property: KProperty<*>, value: T) =
+        thisRef.set(name ?: property.name, value as Any)
 }

@@ -1,4 +1,7 @@
 ## next (unreleased)
+
+- [#656](https://github.com/Flank/flank/issues/656) Improve error message reporting. ([adamfilipow92](https://github.com/adamfilipow92))
+
 - 
 
 ## v20.05.1
