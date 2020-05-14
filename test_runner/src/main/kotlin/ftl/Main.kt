@@ -52,6 +52,17 @@ class Main : Runnable {
                 println()
                 CommandLine(Main()).execute(*args)
             }
+//            runBlocking {
+//                AnsiConsole.systemInstall()
+//                println("1")
+//                println("2")
+//                delay(500)
+//                print(Ansi.ansi().cursorUpLine().eraseLine())
+//                print(Ansi.ansi().cursorUpLine().eraseLine())
+//                delay(500)
+//                println("3")
+//                delay(500)
+//            }
         }
     }
 }
