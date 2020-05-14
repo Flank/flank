@@ -13,7 +13,7 @@ class StopWatchTest {
     @Test
     fun `stopWatch recordTime`() {
         val watch = StopWatch().start()
-        assertThat(watch.check(indent = true)).isNotEmpty()
+        assertThat(watch.check(alignSeconds = true)).isNotEmpty()
         assertThat(watch.check()).isNotEmpty()
     }
 }

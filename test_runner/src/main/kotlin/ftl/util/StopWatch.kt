@@ -1,5 +1,6 @@
 package ftl.util
 
+import ftl.config.FtlConstants
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
 class StopWatch {
@@ -11,12 +12,10 @@ class StopWatch {
         return this
     }
 
-    fun check(indent: Boolean = false): String {
-        if (startTime == 0L) {
-            throw RuntimeException("startTime is zero. start not called")
-        }
-        val endTime = System.currentTimeMillis()
-        val duration = endTime - startTime
+    fun check(alignSeconds: Boolean = false): String {
+        if (startTime == 0L) throw RuntimeException("startTime is zero. start not called")
+
+        val duration = System.currentTimeMillis() - startTime
 
         val minutes = MILLISECONDS.toMinutes(duration)
         val seconds = MILLISECONDS.toSeconds(duration) % 60
@@ -24,9 +23,21 @@ class StopWatch {
         // align seconds
         // 3m  0s
         // 2m 23s
-        var space = " "
-        if (indent && seconds < 10) space = "  "
+        val space = if (alignSeconds && seconds < 10)
+            "  " else
+            " "
 
         return String.format("%dm$space%ds", minutes, seconds)
+    }
+
+    fun println(any: Any, indents: Int = 0) {
+        print(any, indents)
+        println()
+    }
+
+    fun print(any: Any, indents: Int = 0) {
+        repeat(indents) { kotlin.io.print(FtlConstants.indent) }
+        val timestamp = check(alignSeconds = true)
+        kotlin.io.print("$timestamp $any")
     }
 }

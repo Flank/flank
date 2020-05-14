@@ -43,6 +43,6 @@ class MatrixMap(
     }
 }
 
-fun List<TestMatrix>.update(matrixMap: MatrixMap) = forEach { matrix ->
+fun Iterable<TestMatrix>.update(matrixMap: MatrixMap) = forEach { matrix ->
     matrixMap.map[matrix.testMatrixId]?.update(matrix)
 }

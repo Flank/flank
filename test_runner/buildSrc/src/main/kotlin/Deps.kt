@@ -77,6 +77,9 @@ object Versions {
 
     //https://commons.apache.org/proper/commons-text/
     const val COMMON_TEXT = "1.8"
+
+    //https://github.com/fusesource/jansi/releases
+    const val JANSI = "1.18"
 }
 
 object Libs {
@@ -111,6 +114,8 @@ object Libs {
     const val WOODSTOX = "com.fasterxml.woodstox:woodstox-core:${Versions.WOODSTOX}"
 
     const val KOTLIN_LOGGING = "io.github.microutils:kotlin-logging:${Versions.KOTLIN_LOGGING}"
+
+    const val JANSI = "org.fusesource.jansi:jansi:${Versions.JANSI}"
 
     //region Plugins
     const val DETEKT_FORMATTING = "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.DETEKT}"
