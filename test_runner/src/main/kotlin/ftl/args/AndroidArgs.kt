@@ -9,7 +9,6 @@ import ftl.android.UnsupportedVersionId
 import ftl.args.ArgsHelper.assertCommonProps
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
-import ftl.args.ArgsHelper.createDirectoryIfNeed
 import ftl.args.ArgsHelper.createGcsBucket
 import ftl.args.ArgsHelper.createJunitBucket
 import ftl.args.ArgsHelper.evaluateFilePath
@@ -46,7 +45,7 @@ class AndroidArgs(
 ) : IArgs {
     private val gcloud = gcloudYml.gcloud
     override val resultsBucket: String
-    override val resultsDir = (cli?.resultsDir ?: gcloud.resultsDir)?.also { createDirectoryIfNeed(it) }
+    override val resultsDir = (cli?.resultsDir ?: gcloud.resultsDir)
     override val recordVideo = cli?.recordVideo ?: cli?.noRecordVideo?.not() ?: gcloud.recordVideo
     override val testTimeout = cli?.timeout ?: gcloud.timeout
     override val async = cli?.async ?: gcloud.async

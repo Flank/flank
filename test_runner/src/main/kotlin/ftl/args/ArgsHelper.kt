@@ -54,13 +54,6 @@ object ArgsHelper {
         }
     }
 
-    fun createDirectoryIfNeed(filePath: String) {
-        val file = File(filePath)
-        if (!file.exists()) {
-            file.mkdirs()
-            file.createNewFile()
-        }
-    }
 
     fun assertCommonProps(args: IArgs) {
         assertNotEmpty(

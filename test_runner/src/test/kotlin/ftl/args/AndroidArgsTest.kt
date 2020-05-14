@@ -1255,31 +1255,7 @@ AndroidArgs
         val parsedYml = AndroidArgs.load(yaml)
         runBlocking { runAndroidTests(parsedYml) }
     }
-
-
-    @Test
-    fun `should create file with path when not exists`() {
-        val resultsDir = "1/2/3/4/5test_results_test1"
-        val yaml = """
-        gcloud:
-          app: $appApk
-          test: $testApk
-          results-bucket: sdk_test_results
-          results-dir: $resultsDir
-        """.trimIndent()
-
-        AndroidArgs.load(yaml)
-        val file = File(resultsDir)
-        if (!file.exists()) {
-            Assert.fail("Directory should be created!")
-        }
-        file.delete()
-        if (file.exists()) {
-            Assert.fail("Directory should be removed after test!")
-        }
-    }
-
-
+    
 }
 
 private fun AndroidArgs.Companion.load(yamlData: String, cli: AndroidRunCommand? = null): AndroidArgs =
