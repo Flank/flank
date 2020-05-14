@@ -13,7 +13,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "cucumber.api.android.CucumberAndroidJUnitRunner"
         testInstrumentationRunnerArguments(clearPackageData: 'true')
 
     }
@@ -58,6 +58,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-idling-resource:3.3.0-alpha02")
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.3.0-alpha02")
     androidTestImplementation("androidx.test.espresso:espresso-web:3.3.0-alpha02")
+    androidTestImplementation("io.cucumber:cucumber-android:4.4.1")
 }
 
 if (coverageEnabled) {

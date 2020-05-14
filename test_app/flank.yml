@@ -8,7 +8,7 @@ gcloud:
   directories-to-pull: 
     - /sdcard/
   # use a named results dir that's used by the gradle task
-  results-dir: coverage_ec
+#  results-dir: coverage_ec
 
 flank:
   disableSharding: true
