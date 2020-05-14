@@ -69,6 +69,8 @@ class IosArgs(
     override val networkProfile = cli?.networkProfile ?: gcloud.networkProfile
     override val ignoreFailedTests = cli?.ignoreFailedTests ?: flank.ignoreFailedTests
     override val keepFilePath = cli?.keepFilePath ?: flank.keepFilePath
+    // currently, FTL does not provide API based results for iOS
+    override val useLegacyJUnitResult = true
 
     private val iosFlank = iosFlankYml.flank
     val testTargets = cli?.testTargets ?: iosFlank.testTargets.filterNotNull()

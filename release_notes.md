@@ -1,5 +1,5 @@
 ## next (unreleased)
-- 
+- [#783](https://github.com/Flank/flank/pull/783) Use legacy results for iOS by default. ([pawelpasterz](https://github.com/pawelpasterz))
 
 ## v20.05.1
 
