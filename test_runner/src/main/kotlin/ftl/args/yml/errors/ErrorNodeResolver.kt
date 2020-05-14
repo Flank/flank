@@ -2,7 +2,7 @@ package ftl.args.yml.errors
 
 import com.fasterxml.jackson.databind.JsonNode
 
-internal class ErrorNodeResolver {
+internal object ErrorNodeResolver {
     operator fun invoke(treeNode: JsonNode, errorModel: ConfigurationErrorModel): String {
         var currentNode: JsonNode = treeNode
 

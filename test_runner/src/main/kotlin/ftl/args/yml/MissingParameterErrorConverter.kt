@@ -5,7 +5,7 @@ import ftl.args.yml.errors.ConfigurationErrorMessageBuilder
 import ftl.util.FlankConfigurationException
 
 fun convertConfigurationErrorExceptions(missingParameterError: Exception, yaml: JsonNode): Throwable {
-    val errorMessageBuilder = ConfigurationErrorMessageBuilder()
+    val errorMessageBuilder = ConfigurationErrorMessageBuilder
     val errorMessage = missingParameterError.message
     return if (errorMessage != null) {
         FlankConfigurationException(errorMessageBuilder(errorMessage, yaml))

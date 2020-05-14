@@ -27,7 +27,7 @@ Error on parse config: gcloud->device[4]->version
 Missing element or value for: 'version'
 At line: 23, column: 3
 """.trimIndent()
-        val buildErrorMessage = ConfigurationErrorMessageBuilder()
+        val buildErrorMessage = ConfigurationErrorMessageBuilder
         Assert.assertEquals(expected, buildErrorMessage(instantionError))
     }
 
@@ -36,7 +36,7 @@ At line: 23, column: 3
         val instantionError =
             "Instantiation oflParams[\"device\"]->java.util.A"
         val expected = "Parse message error: Instantiation oflParams[\"device\"]->java.util.A".trimIndent()
-        val buildErrorMessage = ConfigurationErrorMessageBuilder()
+        val buildErrorMessage = ConfigurationErrorMessageBuilder
 
         Assert.assertEquals(expected, buildErrorMessage(instantionError))
     }

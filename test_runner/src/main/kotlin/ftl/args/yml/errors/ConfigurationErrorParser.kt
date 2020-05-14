@@ -1,6 +1,6 @@
 package ftl.args.yml.errors
 
-internal class ConfigurationErrorParser {
+internal object ConfigurationErrorParser {
 
     //region regex patterns
     private val propertyNameRegex = "(?<=property\\s)[a-z]*".toRegex()

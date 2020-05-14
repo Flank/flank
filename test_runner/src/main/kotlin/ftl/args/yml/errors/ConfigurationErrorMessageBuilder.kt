@@ -3,19 +3,19 @@ package ftl.args.yml.errors
 import com.fasterxml.jackson.databind.JsonNode
 import java.lang.Exception
 
-class ConfigurationErrorMessageBuilder {
+object ConfigurationErrorMessageBuilder {
 
-    private val parseMessage = ConfigurationErrorParser()
-    private val resolveErrorNode = ErrorNodeResolver()
+    private val parseMessage = ConfigurationErrorParser
+    private val resolveErrorNode = ErrorNodeResolver
 
     //region error message elements
-    private val messageHeader = "Error on parse config: "
-    private val missingElementMessage = "Missing element or value for: '%s'"
-    private val atMessage = "At line: %s, column: %s"
-    private val errorNodeMessage = "Error node: %s"
+    private const val messageHeader = "Error on parse config: "
+    private const val missingElementMessage = "Missing element or value for: '%s'"
+    private const val atMessage = "At line: %s, column: %s"
+    private const val errorNodeMessage = "Error node: %s"
     //endregion
 
-    private val exceptionTemplate = "Parse message error: %s"
+    private const val exceptionTemplate = "Parse message error: %s"
 
     operator fun invoke(errorMessage: String, yamlTreeNode: JsonNode? = null) =
         try {
