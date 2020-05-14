@@ -12,7 +12,7 @@ class TestMatrixStatusPrinter(
     private val args: IArgs,
     testMatricesIds: Iterable<String>,
     private val stopWatch: StopWatch = StopWatch(),
-    private val printExecutionStatusList: (String, List<TestExecution>) -> Unit = ExecutionStatusListPrinter(args)
+    private val printExecutionStatusList: (String, List<TestExecution>?) -> Unit = ExecutionStatusListPrinter(args)
 ) : (TestMatrix) -> Unit {
     init {
         stopWatch.start()
