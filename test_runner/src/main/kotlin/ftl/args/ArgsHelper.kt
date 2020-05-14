@@ -54,6 +54,14 @@ object ArgsHelper {
         }
     }
 
+    fun createDirectoryIfNeed(filePath: String) {
+        val file = File(filePath)
+        if (!file.exists()) {
+            file.mkdirs()
+            file.createNewFile()
+        }
+    }
+
     fun assertCommonProps(args: IArgs) {
         assertNotEmpty(
             args.project, "The project is not set. Define GOOGLE_CLOUD_PROJECT, set project in flank.yml\n" +

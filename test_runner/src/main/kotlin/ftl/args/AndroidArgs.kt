@@ -9,6 +9,7 @@ import ftl.android.UnsupportedVersionId
 import ftl.args.ArgsHelper.assertCommonProps
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
+import ftl.args.ArgsHelper.createDirectoryIfNeed
 import ftl.args.ArgsHelper.createGcsBucket
 import ftl.args.ArgsHelper.createJunitBucket
 import ftl.args.ArgsHelper.evaluateFilePath
@@ -45,7 +46,7 @@ class AndroidArgs(
 ) : IArgs {
     private val gcloud = gcloudYml.gcloud
     override val resultsBucket: String
-    override val resultsDir = (cli?.resultsDir ?: gcloud.resultsDir)?.also { assertFileExists(it, "from results-dir") }
+    override val resultsDir = (cli?.resultsDir ?: gcloud.resultsDir)?.also { createDirectoryIfNeed(it) }
     override val recordVideo = cli?.recordVideo ?: cli?.noRecordVideo?.not() ?: gcloud.recordVideo
     override val testTimeout = cli?.timeout ?: gcloud.timeout
     override val async = cli?.async ?: gcloud.async
@@ -55,19 +56,22 @@ class AndroidArgs(
     private val androidGcloud = androidGcloudYml.gcloud
     var appApk = (cli?.app ?: androidGcloud.app ?: throw FlankFatalError("app is not set")).processFilePath("from app")
     var testApk = (cli?.test ?: androidGcloud.test)?.processFilePath("from test")
-    val additionalApks = (cli?.additionalApks ?: androidGcloud.additionalApks).map { it.processFilePath("from additional-apks") }
+    val additionalApks =
+        (cli?.additionalApks ?: androidGcloud.additionalApks).map { it.processFilePath("from additional-apks") }
     val autoGoogleLogin = cli?.autoGoogleLogin ?: cli?.noAutoGoogleLogin?.not() ?: androidGcloud.autoGoogleLogin
 
     // We use not() on noUseOrchestrator because if the flag is on, useOrchestrator needs to be false
     val useOrchestrator = cli?.useOrchestrator ?: cli?.noUseOrchestrator?.not() ?: androidGcloud.useOrchestrator
-    val roboDirectives = cli?.roboDirectives?.parseRoboDirectives() ?: androidGcloud.roboDirectives.parseRoboDirectives()
+    val roboDirectives =
+        cli?.roboDirectives?.parseRoboDirectives() ?: androidGcloud.roboDirectives.parseRoboDirectives()
     val roboScript = (cli?.roboScript ?: androidGcloud.roboScript)?.processFilePath("from roboScript")
     val environmentVariables = cli?.environmentVariables ?: androidGcloud.environmentVariables
     val directoriesToPull = cli?.directoriesToPull ?: androidGcloud.directoriesToPull
     val otherFiles = (cli?.otherFiles ?: androidGcloud.otherFiles).map { (devicePath, filePath) ->
         devicePath to filePath.processFilePath("from otherFiles")
     }.toMap()
-    val performanceMetrics = cli?.performanceMetrics ?: cli?.noPerformanceMetrics?.not() ?: androidGcloud.performanceMetrics
+    val performanceMetrics =
+        cli?.performanceMetrics ?: cli?.noPerformanceMetrics?.not() ?: androidGcloud.performanceMetrics
     val numUniformShards = cli?.numUniformShards ?: androidGcloud.numUniformShards
     val testRunnerClass = cli?.testRunnerClass ?: androidGcloud.testRunnerClass
     val testTargets = cli?.testTargets ?: androidGcloud.testTargets.filterNotNull()
@@ -128,8 +132,16 @@ class AndroidArgs(
         when (val deviceConfigTest = AndroidCatalog.supportedDeviceConfig(device.model, device.version, this.project)) {
             SupportedDeviceConfig -> {
             }
-            UnsupportedModelId -> throw RuntimeException("Unsupported model id, '${device.model}'\nSupported model ids: ${AndroidCatalog.androidModelIds(this.project)}")
-            UnsupportedVersionId -> throw RuntimeException("Unsupported version id, '${device.version}'\nSupported Version ids: ${AndroidCatalog.androidVersionIds(this.project)}")
+            UnsupportedModelId -> throw RuntimeException(
+                "Unsupported model id, '${device.model}'\nSupported model ids: ${AndroidCatalog.androidModelIds(
+                    this.project
+                )}"
+            )
+            UnsupportedVersionId -> throw RuntimeException(
+                "Unsupported version id, '${device.version}'\nSupported Version ids: ${AndroidCatalog.androidVersionIds(
+                    this.project
+                )}"
+            )
             is IncompatibleModelVersion -> throw RuntimeException("Incompatible model, '${device.model}', and version, '${device.version}'\nSupported version ids for '${device.model}': $deviceConfigTest")
         }
     }
@@ -189,7 +201,8 @@ AndroidArgs
             mergeYmlMaps(GcloudYml, AndroidGcloudYml, FlankYml, AndroidFlankYml)
         }
 
-        fun load(yamlPath: Path, cli: AndroidRunCommand? = null): AndroidArgs = load(Files.newBufferedReader(yamlPath), cli)
+        fun load(yamlPath: Path, cli: AndroidRunCommand? = null): AndroidArgs =
+            load(Files.newBufferedReader(yamlPath), cli)
 
         @VisibleForTesting
         internal fun load(yamlReader: Reader, cli: AndroidRunCommand? = null): AndroidArgs {
