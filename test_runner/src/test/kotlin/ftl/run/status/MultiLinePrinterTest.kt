@@ -20,7 +20,7 @@ class MultiLinePrinterTest {
     fun test() {
         // given
         val ansi = spyk(Ansi.ansi()) { every { this@spyk.toString() } returns "" }
-        val printChanges = MultiLinePrinter(ansi)
+        val printChanges = MultiLinePrinter { ansi }
 
         // when
         printChanges(changes1)

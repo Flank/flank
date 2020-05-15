@@ -38,7 +38,7 @@ internal class SingleLinePrinter : (List<ExecutionStatus.Change>) -> Unit {
 
 @VisibleForTesting
 internal class MultiLinePrinter(
-    private val ansi: Ansi = Ansi.ansi()
+    private val ansi: () -> Ansi = { Ansi.ansi() }
 ) : (List<ExecutionStatus.Change>) -> Unit {
     init {
         AnsiConsole.systemInstall()
@@ -47,7 +47,7 @@ internal class MultiLinePrinter(
     private val output = LinkedHashMap<String, ExecutionStatus.View>()
     override fun invoke(changes: List<ExecutionStatus.Change>) {
         repeat(output.size) {
-            print(ansi.cursorUpLine().eraseLine().toString())
+            print(ansi().cursorUpLine().eraseLine().toString())
         }
         output += changes.map { change ->
             listExecutionStatusView(change).takeLast(1)
