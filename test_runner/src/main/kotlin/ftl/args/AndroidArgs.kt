@@ -20,10 +20,10 @@ import ftl.args.ArgsToString.mapToString
 import ftl.args.ArgsToString.objectsToString
 import ftl.args.yml.AndroidFlankYml
 import ftl.args.yml.AndroidGcloudYml
-import ftl.args.yml.AndroidGcloudYmlParams
-import ftl.args.yml.AppTestPair
 import ftl.args.yml.FlankYml
 import ftl.args.yml.GcloudYml
+import ftl.args.yml.AppTestPair
+import ftl.args.yml.AndroidGcloudYmlParams
 import ftl.args.yml.YamlDeprecated
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
@@ -43,6 +43,7 @@ class AndroidArgs(
     override val data: String,
     val cli: AndroidRunCommand? = null
 ) : IArgs {
+
     private val gcloud = gcloudYml.gcloud
     override val resultsBucket: String
     override val resultsDir = (cli?.resultsDir ?: gcloud.resultsDir)
@@ -193,8 +194,8 @@ AndroidArgs
 
         @VisibleForTesting
         internal fun load(yamlReader: Reader, cli: AndroidRunCommand? = null): AndroidArgs {
-            val data = YamlDeprecated.modifyAndThrow(yamlReader, android = true)
 
+            val data = YamlDeprecated.modifyAndThrow(yamlReader, android = true)
             val flankYml = yamlMapper.readValue(data, FlankYml::class.java)
             val gcloudYml = yamlMapper.readValue(data, GcloudYml::class.java)
             val androidGcloudYml = yamlMapper.readValue(data, AndroidGcloudYml::class.java)
