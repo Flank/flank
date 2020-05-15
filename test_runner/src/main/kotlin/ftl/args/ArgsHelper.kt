@@ -54,7 +54,6 @@ object ArgsHelper {
         }
     }
 
-
     fun assertCommonProps(args: IArgs) {
         assertNotEmpty(
             args.project, "The project is not set. Define GOOGLE_CLOUD_PROJECT, set project in flank.yml\n" +

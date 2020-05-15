@@ -27,8 +27,10 @@ import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import picocli.CommandLine
-import java.io.File
 import java.io.StringReader
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.util.UUID
 
 @Suppress("TooManyFunctions")
 @RunWith(FlankTestRunner::class)
@@ -971,17 +973,6 @@ AndroidArgs
         assertThat(AndroidArgs.load(yaml, cli).testTargetsAlwaysRun).isEqualTo(arrayListOf("com.A", "com.B"))
     }
 
-    @Test(expected = FlankFatalError::class)
-    fun `cli resultsDir fail if not exist`() {
-        val yaml = """
-        gcloud:
-          app: $appApk
-          test: $testApk
-          results-dir: not_exist
-      """
-        AndroidArgs.load(yaml)
-    }
-
     @Test
     fun `cli resultsDir`() {
         val cli = AndroidRunCommand()
@@ -1255,7 +1246,31 @@ AndroidArgs
         val parsedYml = AndroidArgs.load(yaml)
         runBlocking { runAndroidTests(parsedYml) }
     }
-    
+
+    /**
+     * Double directory check for regressive issue protect, first to check directory
+     * really not exist on disk (when issue come back and directory exists, assert not throws),
+     * second for checking directory not created after load args
+     * it's should be enough
+     */
+    @Test
+    fun `should not throw if directory not exists`() {
+        val resultsDir = UUID.randomUUID().toString()
+        val directoryPath = Paths.get(resultsDir)
+        if (Files.exists(directoryPath)) {
+            Assert.fail("Test directory ($resultsDir) shouldn't exists! It's remote directory.")
+        }
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          results-dir: $resultsDir
+        """.trimIndent()
+        AndroidArgs.load(yaml)
+        if (Files.exists(directoryPath)) {
+            Assert.fail("Test directory ($resultsDir) shouldn't be created! It's remote directory on cloud!")
+        }
+    }
 }
 
 private fun AndroidArgs.Companion.load(yamlData: String, cli: AndroidRunCommand? = null): AndroidArgs =
