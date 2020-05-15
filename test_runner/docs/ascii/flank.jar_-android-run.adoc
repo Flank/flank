@@ -26,7 +26,8 @@ flank.jar
                        [*--num-flaky-test-attempts*=_<flakyTestAttempts>_]
                        [*--num-test-runs*=_<repeatTests>_]
                        [*--num-uniform-shards*=_<numUniformShards>_]
-                       [*--project*=_<project>_] [*--results-bucket*=_<resultsBucket>_]
+                       [*--output-style*=_<outputStyle>_] [*--project*=_<project>_]
+                       [*--results-bucket*=_<resultsBucket>_]
                        [*--results-dir*=_<resultsDir>_]
                        [*--results-history-name*=_<resultsHistoryName>_]
                        [*--robo-script*=_<roboScript>_]
@@ -141,6 +142,9 @@ Configuration is read from flank.yml
 
 *--keep-file-path*::
   Keeps the full path of downloaded files. Required when file names are not unique.
+
+*--output-style*=_<outputStyle>_::
+  Output style of execution status. Maybe be one of [verbose, multi, single]For runs with only one test execution default value is 'verbose', in other cases'multi' is used as default. Output style 'multi' is not displayed correctly on consoleswhich not supports ansi codes, to avoid corrupted output use `single` or `verbose`.
 
 *--dump-shards*::
   Dumps the shards to android_shards.json for debugging

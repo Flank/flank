@@ -47,7 +47,10 @@ class FlankYmlParams(
     val ignoreFailedTests: Boolean = false,
 
     @field:JsonProperty("keep-file-path")
-    val keepFilePath: Boolean = false
+    val keepFilePath: Boolean = false,
+
+    @field:JsonProperty("output-style")
+    val outputStyle: String? = null
 ) {
     companion object : IYmlKeys {
         override val keys = listOf(
@@ -64,7 +67,8 @@ class FlankYmlParams(
             "run-timeout",
             "legacy-junit-result",
             "ignore-failed-tests",
-            "keep-file-path"
+            "keep-file-path",
+            "output-style"
         )
 
         const val defaultLocalResultsDir = "results"

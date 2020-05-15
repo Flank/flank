@@ -8,6 +8,7 @@ import ftl.config.FlankRoboDirective
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.run.platform.runAndroidTests
+import ftl.run.status.OutputStyle
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
@@ -111,6 +112,7 @@ class AndroidArgsTest {
               test: $testErrorApk
           run-timeout: 20m
           ignore-failed-tests: true
+          output-style: single
       """
 
     @Rule
@@ -248,6 +250,7 @@ class AndroidArgsTest {
             )
             assert(disableSharding, true)
             assert(runTimeout, "20m")
+            assert(outputStyle, OutputStyle.Single)
         }
     }
 
@@ -324,6 +327,7 @@ AndroidArgs
       run-timeout: 20m
       legacy-junit-result: false
       ignore-failed-tests: true
+      output-style: single
 """.trimIndent()
         )
     }
@@ -381,6 +385,7 @@ AndroidArgs
       run-timeout: -1
       legacy-junit-result: true
       ignore-failed-tests: false
+      output-style: multi
         """.trimIndent(), args.toString()
         )
     }
@@ -425,6 +430,7 @@ AndroidArgs
             assert(testTargetsAlwaysRun, empty)
             assert(disableSharding, false)
             assert(runTimeout, "-1")
+            assert(outputStyle, OutputStyle.Multi)
         }
     }
 
@@ -1115,6 +1121,34 @@ AndroidArgs
 
         val args = AndroidArgs.load(yaml, cli)
         assertThat(args.parsedTimeout).isEqualTo(20 * 60 * 1000L)
+    }
+
+    @Test
+    fun `cli output-style`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parseArgs("--output-style=verbose")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+      """
+        assertThat(AndroidArgs.load(yaml).outputStyle).isEqualTo(OutputStyle.Multi)
+
+        val args = AndroidArgs.load(yaml, cli)
+        assertThat(args.outputStyle).isEqualTo(OutputStyle.Verbose)
+    }
+
+    @Test(expected = FlankFatalError::class)
+    fun `cli output-style fail on parse`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          output-style: unknown
+      """
+        AndroidArgs.load(yaml)
     }
 
     @Test

@@ -8,6 +8,7 @@ import ftl.args.yml.FlankYmlParams
 import ftl.args.yml.GcloudYml
 import ftl.args.yml.GcloudYmlParams
 import ftl.config.Device
+import ftl.run.status.OutputStyle
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
@@ -190,5 +191,11 @@ class AndroidArgsFileTest {
     fun `verify run timeout value from yml file`() {
         val args = AndroidArgs.load(localYamlFile)
         assertEquals(60 * 60 * 1000L, args.parsedTimeout)
+    }
+
+    @Test
+    fun `verify output style value from uml file`() {
+        val args = AndroidArgs.load(localYamlFile)
+        assertEquals(OutputStyle.Single, args.outputStyle)
     }
 }

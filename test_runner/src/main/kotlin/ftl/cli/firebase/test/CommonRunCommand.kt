@@ -190,4 +190,13 @@ abstract class CommonRunCommand {
                 "Required when file names are not unique."]
     )
     var keepFilePath: Boolean? = null
+
+    @CommandLine.Option(
+        names = ["--output-style"],
+        description = ["Output style of execution status. Maybe be one of [verbose, multi, single]" +
+                "For runs with only one test execution default value is 'verbose', in other cases" +
+                "'multi' is used as default. Output style 'multi' is not displayed correctly on consoles" +
+                "which not supports ansi codes, to avoid corrupted output use `single` or `verbose`."]
+    )
+    var outputStyle: String? = null
 }

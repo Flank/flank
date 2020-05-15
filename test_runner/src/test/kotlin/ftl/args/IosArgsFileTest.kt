@@ -3,6 +3,7 @@ package ftl.args
 import com.google.common.truth.Truth.assertThat
 import ftl.config.Device
 import ftl.config.FtlConstants
+import ftl.run.status.OutputStyle
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
@@ -97,5 +98,11 @@ class IosArgsFileTest {
     fun `verify run timeout value from yml file`() {
         val args = IosArgs.load(yamlFile)
         assertEquals(60 * 60 * 1000L, args.parsedTimeout)
+    }
+
+    @Test
+    fun `verify output style value from uml file`() {
+        val args = IosArgs.load(yamlFile)
+        assertEquals(OutputStyle.Single, args.outputStyle)
     }
 }

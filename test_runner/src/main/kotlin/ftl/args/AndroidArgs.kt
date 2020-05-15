@@ -29,6 +29,7 @@ import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.parseRoboDirectives
+import ftl.run.status.asOutputStyle
 import ftl.util.FlankFatalError
 import java.io.Reader
 import java.nio.file.Files
@@ -91,6 +92,7 @@ class AndroidArgs(
     override val networkProfile = cli?.networkProfile ?: gcloud.networkProfile
     override val ignoreFailedTests = cli?.ignoreFailedTests ?: flank.ignoreFailedTests
     override val keepFilePath = cli?.keepFilePath ?: flank.keepFilePath
+    override val outputStyle = (cli?.outputStyle ?: flank.outputStyle)?.asOutputStyle() ?: defaultOutputStyle
 
     private val androidFlank = androidFlankYml.flank
     val additionalAppTestApks = (cli?.additionalAppTestApks ?: androidFlank.additionalAppTestApks).map { (app, test) ->
@@ -182,6 +184,7 @@ AndroidArgs
       run-timeout: $runTimeout
       legacy-junit-result: $useLegacyJUnitResult
       ignore-failed-tests: $ignoreFailedTests
+      output-style: ${outputStyle.name.toLowerCase()}
    """.trimIndent()
     }
 
