@@ -1,6 +1,6 @@
 ## next (unreleased)
 
--- [#781](https://github.com/Flank/flank/pull/781) Create results-dir. ([adamfilipow92](https://github.com/adamfilipow92)) 
+- [#781](https://github.com/Flank/flank/pull/781) Create results-dir. ([adamfilipow92](https://github.com/adamfilipow92)) 
 
 ## v20.05.1
 
