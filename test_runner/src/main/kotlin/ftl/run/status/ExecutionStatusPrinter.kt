@@ -50,7 +50,7 @@ internal class MultiLinePrinter(
             print(ansi().cursorUpLine().eraseLine().toString())
         }
         output += changes.map { change ->
-            listExecutionStatusView(change).takeLast(1)
+            change.views.takeLast(1)
         }.flatten().map { view ->
             view.id to view
         }
@@ -61,26 +61,19 @@ internal class MultiLinePrinter(
 @VisibleForTesting
 internal object VerbosePrinter : (List<ExecutionStatus.Change>) -> Unit {
     override fun invoke(changes: List<ExecutionStatus.Change>) {
-        changes.map(listExecutionStatusView).flatten().forEach(::println)
+        changes.map(ExecutionStatus.Change::views).flatten().forEach(::println)
     }
 }
 
-private val listExecutionStatusView: (ExecutionStatus.Change) -> List<ExecutionStatus.View>
-    get() = { (name, previous, current, time) ->
-        emptyList<ExecutionStatus.View>()
-            .plus(
-                current.progress.minus(previous.progress).map { message ->
-                    ExecutionStatus.View(time, name, message)
-                }
-            )
-            .let { list ->
-                if (current.error != previous.error && current.error != null)
-                    list + ExecutionStatus.View(time, name, "Error: ${current.error}")
-                else list
-            }
-            .let { list ->
-                if (current.state != previous.state)
-                    list + ExecutionStatus.View(time, name, current.state)
-                else list
-            }
+private val ExecutionStatus.Change.views
+    get() = emptyList<ExecutionStatus.View>().plus(
+        current.progress.minus(previous.progress).map { message ->
+            ExecutionStatus.View(time, name, message)
+        }
+    ).let { list ->
+        if (current.error == null || current.error == previous.error) list
+        else list + ExecutionStatus.View(time, name, "Error: ${current.error}")
+    }.let { list ->
+        if (current.state == previous.state) list
+        else list + ExecutionStatus.View(time, name, current.state)
     }

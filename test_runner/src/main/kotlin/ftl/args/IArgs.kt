@@ -50,8 +50,9 @@ interface IArgs {
     }
 }
 
-fun IArgs.outputStyle() = outputStyle ?: let {
-    if (flakyTestAttempts > 0 || (!disableSharding && maxTestShards > 0))
-        OutputStyle.Multi else
-        OutputStyle.Verbose
-}
+fun IArgs.outputStyle() = outputStyle ?: if (
+    flakyTestAttempts > 0 ||
+    !disableSharding && maxTestShards > 0
+)
+    OutputStyle.Multi else
+    OutputStyle.Verbose

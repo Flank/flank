@@ -30,9 +30,9 @@ class ExecutionStatusListPrinter(
 }
 
 private fun TestExecution.formatName(args: IArgs): String {
-    val matrixExecutionId = id.split("_")
-    val matrixId = matrixExecutionId.first()
-    val executionId = matrixExecutionId.takeIf { args.flakyTestAttempts > 0 }?.getOrNull(1)?.let { " $it" } ?: ""
+    val matrixExecutionId = id?.split("_")
+    val matrixId = matrixExecutionId?.first()
+    val executionId = matrixExecutionId?.takeIf { args.flakyTestAttempts > 0 }?.getOrNull(1)?.let { " $it" } ?: ""
     val env: Environment? = environment
     val device = env?.androidDevice?.androidModelId ?: env?.iosDevice?.iosModelId
     val deviceVersion = env?.androidDevice?.androidVersionId ?: env?.iosDevice?.iosVersionId
@@ -41,7 +41,7 @@ private fun TestExecution.formatName(args: IArgs): String {
 }
 
 private fun TestExecution.executionStatus() = ExecutionStatus(
-    state = state,
+    state = state ?: "UNKNOWN",
     error = testDetails?.errorMessage,
     progress = testDetails?.progressMessages ?: emptyList()
 )
