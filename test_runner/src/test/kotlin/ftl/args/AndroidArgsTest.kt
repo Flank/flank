@@ -1247,18 +1247,12 @@ AndroidArgs
         runBlocking { runAndroidTests(parsedYml) }
     }
 
-    /**
-     * Double directory check for regressive issue protect, first to check directory
-     * really not exist on disk (when issue come back and directory exists, assert not throws),
-     * second for checking directory not created after load args
-     * it's should be enough
-     */
     @Test
-    fun `should not throw if directory not exists`() {
+    fun `results-dir (cloud directory) should not throw if it doesn't exist locally`() {
         val resultsDir = UUID.randomUUID().toString()
         val directoryPath = Paths.get(resultsDir)
         if (Files.exists(directoryPath)) {
-            Assert.fail("Test directory ($resultsDir) shouldn't exists! It's remote directory.")
+            Assert.fail("Test directory ($resultsDir) shouldn't exists! It's a remote directory.")
         }
         val yaml = """
         gcloud:
@@ -1268,10 +1262,9 @@ AndroidArgs
         """.trimIndent()
         AndroidArgs.load(yaml)
         if (Files.exists(directoryPath)) {
-            Assert.fail("Test directory ($resultsDir) shouldn't be created! It's remote directory on cloud!")
+            Assert.fail("Test directory ($resultsDir) shouldn't be created! It's a remote directory on the cloud!")
         }
     }
 }
 
-private fun AndroidArgs.Companion.load(yamlData: String, cli: AndroidRunCommand? = null): AndroidArgs =
-    load(StringReader(yamlData), cli)
+private fun AndroidArgs.Companion.load(yamlData: String, cli: AndroidRunCommand? = null): AndroidArgs = load(StringReader(yamlData), cli)
