@@ -13,8 +13,6 @@ fun createExecutionStatusPrinter(
     OutputStyle.Multi -> MultiLinePrinter()
     OutputStyle.Single -> SingleLinePrinter()
     OutputStyle.Verbose -> VerbosePrinter
-}.also {
-    AnsiConsole.systemInstall()
 }
 
 @VisibleForTesting
@@ -31,18 +29,25 @@ internal class SingleLinePrinter : (List<ExecutionStatus.Change>) -> Unit {
             "$status:$count"
         }.let { statusCounts ->
             print("\r" + (0..previousLineSize).joinToString("") { " " })
-            previousLineSize = statusCounts.length
-            print("\r${FtlConstants.indent}$time Test executions status: $statusCounts")
+            val output = "${FtlConstants.indent}$time Test executions status: $statusCounts"
+            previousLineSize = output.length
+            print("\r$output")
         }
     }
 }
 
 @VisibleForTesting
-internal class MultiLinePrinter : (List<ExecutionStatus.Change>) -> Unit {
+internal class MultiLinePrinter(
+    private val ansi: Ansi = Ansi.ansi()
+) : (List<ExecutionStatus.Change>) -> Unit {
+    init {
+        AnsiConsole.systemInstall()
+    }
+
     private val output = LinkedHashMap<String, ExecutionStatus.View>()
     override fun invoke(changes: List<ExecutionStatus.Change>) {
         repeat(output.size) {
-            print(Ansi.ansi().cursorUpLine().eraseLine())
+            print(ansi.cursorUpLine().eraseLine().toString())
         }
         output += changes.map { change ->
             listExecutionStatusView(change).takeLast(1)

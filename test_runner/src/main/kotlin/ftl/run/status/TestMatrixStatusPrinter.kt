@@ -18,7 +18,7 @@ class TestMatrixStatusPrinter(
         stopWatch.start()
     }
 
-    private val cache = testMatricesIds.map { it to "" }.toMap().toMutableMap()
+    private val cache = testMatricesIds.map { it to MatrixState.PENDING }.toMap().toMutableMap()
     private val allMatricesCompleted get() = cache.values.all(MatrixState::completed)
 
     override fun invoke(matrix: TestMatrix) {
