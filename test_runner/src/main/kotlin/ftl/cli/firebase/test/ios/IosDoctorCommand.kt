@@ -1,7 +1,7 @@
 package ftl.cli.firebase.test.ios
 
 import ftl.args.IosArgs
-import ftl.args.yml.YamlDeprecated
+import ftl.cli.firebase.test.processValidation
 import ftl.doctor.Doctor.validateYaml
 import java.nio.file.Paths
 import picocli.CommandLine.Command
@@ -23,9 +23,8 @@ import picocli.CommandLine.Option
 class IosDoctorCommand : Runnable {
     override fun run() {
         val ymlPath = Paths.get(configPath)
-        println(validateYaml(IosArgs, Paths.get(configPath)))
-
-        YamlDeprecated.modify(ymlPath, fix)
+        val validationResult = validateYaml(IosArgs, Paths.get(configPath))
+        processValidation(validationResult, fix, ymlPath)
     }
 
     @Option(names = ["-c", "--config"], description = ["YAML config file path"])

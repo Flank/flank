@@ -8,25 +8,32 @@ import ftl.args.yml.IosGcloudYml
 import ftl.args.yml.IosGcloudYmlParams
 import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.config.Device
+import ftl.config.FtlConstants
 import ftl.config.FtlConstants.defaultIosModel
 import ftl.config.FtlConstants.defaultIosVersion
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
+import ftl.test.util.TestHelper.getPath
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assume
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import picocli.CommandLine
+import java.io.StringReader
 
 @Suppress("TooManyFunctions")
 @RunWith(FlankTestRunner::class)
 class IosArgsTest {
     private val empty = emptyList<String>()
-    private val testPath = "./src/test/kotlin/ftl/fixtures/tmp/ios_earlgrey2.zip"
+    private val simpleFlankPath = getPath("src/test/kotlin/ftl/fixtures/simple-ios-flank.yml")
+    private val testPath = "./src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip"
     private val xctestrunFile =
-        "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun"
+        "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun"
     private val invalidApp = "../test_app/apks/invalid.apk"
     private val xctestrunFileAbsolutePath = xctestrunFile.absolutePath()
     private val testAbsolutePath = testPath.absolutePath()
@@ -36,6 +43,10 @@ class IosArgsTest {
           record-video: false
           timeout: 70m
           async: true
+          client-details:
+            key1: value1
+            key2: value2
+          network-profile: LTE
           project: projectFoo
           results-history-name: ios-history
 
@@ -56,7 +67,7 @@ class IosArgsTest {
         flank:
           max-test-shards: 7
           shard-time: 60
-          repeat-tests: 8
+          num-test-runs: 8
           files-to-download:
             - /sdcard/screenshots
           test-targets-always-run:
@@ -66,6 +77,9 @@ class IosArgsTest {
             - b/testBasicSelection
             - b/testBasicSelection2
           disable-sharding: true
+          run-timeout: 15m
+          ignore-failed-tests: true
+          keep-file-path: true
         """
 
     @Rule
@@ -80,8 +94,8 @@ class IosArgsTest {
     fun `empty testTargets`() {
         val emptyTestTargets = """
 gcloud:
-  test: "./src/test/kotlin/ftl/fixtures/tmp/ios_earlgrey2.zip"
-  xctestrun-file: "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun"
+  test: "./src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip"
+  xctestrun-file: "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun"
 flank:
   test-targets:
   -
@@ -127,6 +141,14 @@ flank:
             assert(recordVideo, false)
             assert(testTimeout, "70m")
             assert(async, true)
+            assert(
+                clientDetails,
+                mapOf(
+                    "key1" to "value1",
+                    "key2" to "value2"
+                )
+            )
+            assert(networkProfile, "LTE")
             assert(project, "projectFoo")
             assert(resultsHistoryName ?: "", "ios-history")
 
@@ -148,6 +170,8 @@ flank:
 
             assert(flakyTestAttempts, 4)
             assert(disableSharding, true)
+            assert(runTimeout, "15m")
+            assert(useLegacyJUnitResult, true)
         }
     }
 
@@ -163,6 +187,10 @@ IosArgs
       record-video: false
       timeout: 70m
       async: true
+      client-details: 
+        key1: value1
+        key2: value2
+      network-profile: LTE
       results-history-name: ios-history
       # iOS gcloud
       test: $testAbsolutePath
@@ -182,7 +210,7 @@ IosArgs
     flank:
       max-test-shards: 7
       shard-time: 60
-      repeat-tests: 8
+      num-test-runs: 8
       smart-flank-gcs-path:${' '}
       smart-flank-disable-upload: false
       test-targets-always-run:
@@ -190,6 +218,7 @@ IosArgs
         - a/testGrantPermissions2
       files-to-download:
         - /sdcard/screenshots
+      keep-file-path: true
       # iOS flank
       test-targets:
         - b/testBasicSelection
@@ -197,7 +226,55 @@ IosArgs
       disable-sharding: true
       project: projectFoo
       local-result-dir: results
+      run-timeout: 15m
+      ignore-failed-tests: true
 """.trimIndent()
+        )
+    }
+
+    @Test
+    fun `verify default yml toString`() {
+        val args = IosArgs.load(simpleFlankPath)
+        assertEquals(
+            """
+IosArgs
+    gcloud:
+      results-bucket: mockBucket
+      results-dir: null
+      record-video: false
+      timeout: 15m
+      async: false
+      client-details: 
+      network-profile: null
+      results-history-name: null
+      # iOS gcloud
+      test: $testAbsolutePath
+      xctestrun-file: $xctestrunFileAbsolutePath
+      xcode-version: null
+      device:
+        - model: iphone8
+          version: 12.0
+          locale: en
+          orientation: portrait
+      num-flaky-test-attempts: 0
+
+    flank:
+      max-test-shards: 1
+      shard-time: -1
+      num-test-runs: 1
+      smart-flank-gcs-path: 
+      smart-flank-disable-upload: false
+      test-targets-always-run:
+      files-to-download:
+      keep-file-path: false
+      # iOS flank
+      test-targets:
+      disable-sharding: false
+      project: mockProjectId
+      local-result-dir: results
+      run-timeout: -1
+      ignore-failed-tests: false
+        """.trimIndent(), args.toString()
         )
     }
 
@@ -214,10 +291,12 @@ IosArgs
         with(args) {
             // GcloudYml
             assert(resultsBucket, "mockBucket")
-            assert(recordVideo, true)
+            assert(recordVideo, false)
             assert(testTimeout, "15m")
             assert(async, false)
             assert(project, "mockProjectId")
+            assert(clientDetails, null)
+            assert(networkProfile, null)
 
             // IosGcloudYml
             assert(xctestrunZip, testAbsolutePath)
@@ -235,11 +314,14 @@ IosArgs
 
             // IosFlankYml
             assert(testTargets, empty)
+            assert(runTimeout, "-1")
         }
     }
 
     @Test
     fun negativeOneTestShards() {
+        Assume.assumeFalse(FtlConstants.isWindows)
+
         val args = IosArgs.load(
             """
     gcloud:
@@ -461,7 +543,7 @@ IosArgs
     @Test
     fun `cli repeatTests`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parseArgs("--repeat-tests=3")
+        CommandLine(cli).parseArgs("--num-test-runs=3")
 
         val yaml = """
         gcloud:
@@ -469,7 +551,7 @@ IosArgs
           xctestrun-file: $xctestrunFile
 
         flank:
-          repeat-tests: 2
+          num-test-runs: 2
       """
         assertThat(IosArgs.load(yaml).repeatTests).isEqualTo(2)
         assertThat(IosArgs.load(yaml, cli).repeatTests).isEqualTo(3)
@@ -685,6 +767,38 @@ IosArgs
         assertThat(args.smartFlankDisableUpload).isEqualTo(true)
     }
 
+    @Test
+    fun `cli keep-file-path`() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parseArgs("--keep-file-path=true")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+      """
+        assertThat(IosArgs.load(yaml).keepFilePath).isEqualTo(false)
+
+        val args = IosArgs.load(yaml, cli)
+        assertThat(args.keepFilePath).isEqualTo(true)
+    }
+
+    @Test
+    fun `cli run-timeout`() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parseArgs("--run-timeout=20m")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+      """
+        assertThat(IosArgs.load(yaml).parsedTimeout).isEqualTo(Long.MAX_VALUE)
+
+        val args = IosArgs.load(yaml, cli)
+        assertThat(args.parsedTimeout).isEqualTo(20 * 60 * 1000L)
+    }
+
     private fun getValidTestsSample() = listOf(
         "ClassOneTest/testOne",
         "ClassOneTest/testTwo",
@@ -745,4 +859,24 @@ IosArgs
 
         assertThat(actual).containsExactlyElementsIn(expected)
     }
+
+    @Test
+    fun `verify flank default settings for ios`() {
+        val args = IosArgs.load(simpleFlankPath)
+        assertFalse(args.recordVideo)
+    }
+
+    @Test
+    fun `verify run timeout default value - ios`() {
+        val iosArgs = IosArgs.load(simpleFlankPath)
+        assertEquals(Long.MAX_VALUE, iosArgs.parsedTimeout)
+    }
+
+    @Test
+    fun `verify keep file path default value - ios`() {
+        val iosArgs = IosArgs.load(simpleFlankPath)
+        assertFalse(iosArgs.keepFilePath)
+    }
 }
+
+private fun IosArgs.Companion.load(yamlData: String, cli: IosRunCommand? = null): IosArgs = load(StringReader(yamlData), cli)

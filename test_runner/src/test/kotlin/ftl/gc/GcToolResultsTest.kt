@@ -4,18 +4,24 @@ import com.google.api.services.testing.model.ToolResultsHistory
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.test.util.FlankTestRunner
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.unmockkAll
+import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
 
 @RunWith(FlankTestRunner::class)
 class GcToolResultsTest {
 
+    @After
+    fun tearDown() = unmockkAll()
+
     @Test
     fun `createToolResultsHistory null succeeds`() {
-        val args = mock(AndroidArgs::class.java)
-        `when`(args.project).thenReturn("123")
+        val args = mockk<AndroidArgs>()
+        every { args.project } returns "123"
+        every { args.resultsHistoryName } returns null
 
         val expected = ToolResultsHistory().setProjectId("123")
 
@@ -24,9 +30,9 @@ class GcToolResultsTest {
 
     @Test
     fun `createToolResultsHistory succeeds`() {
-        val args = mock(AndroidArgs::class.java)
-        `when`(args.project).thenReturn("123")
-        `when`(args.resultsHistoryName).thenReturn("custom history")
+        val args = mockk<AndroidArgs>()
+        every { args.project } returns "123"
+        every { args.resultsHistoryName } returns "custom history"
 
         val expected = ToolResultsHistory()
             .setProjectId("123")

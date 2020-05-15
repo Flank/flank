@@ -1,6 +1,6 @@
 gcloud:
-  test: ./src/test/kotlin/ftl/fixtures/tmp/ios_earlgrey2.zip
-  xctestrun-file: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun
+  test: ./src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
+  xctestrun-file: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
   results-bucket: tmp_bucket_2
   record-video: true
   timeout: 60m
@@ -13,7 +13,7 @@ gcloud:
 
 flank:
   max-test-shards: 2
-  repeat-tests: 1
+  num-test-runs: 1
   test-targets:
     - EarlGreyExampleSwiftTests/testWith.*$
   test-targets-always-run:

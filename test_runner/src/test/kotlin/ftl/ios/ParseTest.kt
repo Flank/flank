@@ -1,8 +1,10 @@
 package ftl.ios
 
 import com.google.common.truth.Truth.assertThat
+import ftl.config.FtlConstants.isWindows
+import ftl.mock.TestArtifact.fixturesPath
 import ftl.test.util.FlankTestRunner
-import ftl.test.util.TestArtifact.fixturesPath
+import org.junit.Assume.assumeFalse
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -68,6 +70,8 @@ class ParseTest {
 
     @Test
     fun `Parse ObjC and Swift with space in path`() {
+        assumeFalse(isWindows)
+
         var results = Parse.parseObjcTests("$fixturesPath/sp ace/objc/EarlGreyExampleTests").sorted()
         checkObjcTests(results)
 
@@ -77,6 +81,8 @@ class ParseTest {
 
     @Test
     fun parseObjcTests() {
+        assumeFalse(isWindows)
+
         val results = Parse.parseObjcTests(objcBinary).sorted()
         checkObjcTests(results)
     }
@@ -88,6 +94,8 @@ class ParseTest {
 
     @Test
     fun parseSwiftTests() {
+        assumeFalse(isWindows)
+
         val results = Parse.parseSwiftTests(swiftBinary).sorted()
         checkSwiftTests(results)
     }

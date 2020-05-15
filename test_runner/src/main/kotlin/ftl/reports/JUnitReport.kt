@@ -5,7 +5,7 @@ import ftl.json.MatrixMap
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.xmlToString
-import ftl.util.Utils.write
+import ftl.util.write
 
 /** Calculates cost based on the matrix map. Always run. */
 object JUnitReport : IReport {
@@ -16,8 +16,8 @@ object JUnitReport : IReport {
         reportPath.write(output)
     }
 
-    override fun run(matrices: MatrixMap, testSuite: JUnitTestResult?, printToStdout: Boolean, args: IArgs) {
-        val output = testSuite.xmlToString()
+    override fun run(matrices: MatrixMap, result: JUnitTestResult?, printToStdout: Boolean, args: IArgs) {
+        val output = result.xmlToString()
 
         if (printToStdout) {
             print(output)

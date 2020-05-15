@@ -1,0 +1,37 @@
+// tag::picocli-generated-full-manpage[]
+
+// tag::picocli-generated-man-section-name[]
+== Name
+
+flank.jar
+-android - 
+
+// end::picocli-generated-man-section-name[]
+
+// tag::picocli-generated-man-section-synopsis[]
+== Synopsis
+
+*flank.jar
+ android* [COMMAND]
+
+// end::picocli-generated-man-section-synopsis[]
+
+// tag::picocli-generated-man-section-description[]
+== Description
+
+
+
+// end::picocli-generated-man-section-description[]
+
+// tag::picocli-generated-man-section-commands[]
+== Commands
+
+*run*::
+  Run tests on Firebase Test Lab
+
+*doctor*::
+  Verifies flank firebase is setup correctly
+
+// end::picocli-generated-man-section-commands[]
+
+// end::picocli-generated-full-manpage[]

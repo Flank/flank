@@ -3,13 +3,14 @@ package ftl.reports
 import ftl.args.IArgs
 import ftl.config.FtlConstants.indent
 import ftl.json.MatrixMap
-import ftl.json.SavedMatrix
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
-import ftl.util.Utils.println
-import ftl.util.Utils.write
+import ftl.util.println
+import ftl.util.write
 import java.io.StringWriter
 import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.Locale
 
 /**
 
@@ -24,18 +25,16 @@ Example:
 object MatrixResultsReport : IReport {
     override val extension = ".txt"
 
-    private val percentFormat by lazy { DecimalFormat("#0.00") }
+    private val percentFormat by lazy { DecimalFormat("#0.00", DecimalFormatSymbols(Locale.US)) }
 
     private fun generate(matrices: MatrixMap): String {
         var total = 0
         var success = 0
-        val failedMatrices = mutableListOf<SavedMatrix>()
         matrices.map.values.forEach { matrix ->
             total += 1
 
-            if (matrix.failed()) {
-                failedMatrices.add(matrix)
-            } else {
+            // unfinished matrix will not be reported as failed since it's still running
+            if (matrix.failed().not()) {
                 success += 1
             }
         }
@@ -52,11 +51,6 @@ object MatrixResultsReport : IReport {
             if (failed > 0) {
                 writer.println("$indent$failed matrices failed")
                 writer.println()
-                failedMatrices.forEach {
-                    writer.println("$indent${it.matrixId} ${it.outcomeDetails}")
-                    writer.println("$indent${it.webLink}")
-                    writer.println()
-                }
             }
 
             return writer.toString()
@@ -68,7 +62,7 @@ object MatrixResultsReport : IReport {
         reportPath.write(output)
     }
 
-    override fun run(matrices: MatrixMap, testSuite: JUnitTestResult?, printToStdout: Boolean, args: IArgs) {
+    override fun run(matrices: MatrixMap, result: JUnitTestResult?, printToStdout: Boolean, args: IArgs) {
         val output = generate(matrices)
         if (printToStdout) print(output)
         write(matrices, output, args)

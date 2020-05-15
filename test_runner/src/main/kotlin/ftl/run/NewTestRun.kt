@@ -1,0 +1,47 @@
+package ftl.run
+
+import ftl.args.AndroidArgs
+import ftl.args.IArgs
+import ftl.args.IosArgs
+import ftl.json.SavedMatrix
+import ftl.reports.util.ReportManager
+import ftl.run.model.TestResult
+import ftl.run.common.fetchArtifacts
+import ftl.run.common.pollMatrices
+import ftl.run.platform.runAndroidTests
+import ftl.run.platform.runIosTests
+import ftl.util.FlankTimeoutError
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.withTimeoutOrNull
+
+suspend fun newTestRun(args: IArgs) {
+    withTimeoutOrNull(args.parsedTimeout) {
+        println(args)
+        val (matrixMap, testShardChunks) = cancelTestsOnTimeout(args.project) { runTests(args) }
+
+        if (!args.async) {
+            cancelTestsOnTimeout(args.project, matrixMap.map) { pollMatrices(matrixMap, args) }
+            cancelTestsOnTimeout(args.project, matrixMap.map) { fetchArtifacts(matrixMap, args) }
+
+            ReportManager.generate(matrixMap, args, testShardChunks)
+        }
+    }
+}
+
+private suspend fun runTests(args: IArgs): TestResult {
+    return when (args) {
+        is AndroidArgs -> runAndroidTests(args)
+        is IosArgs -> runIosTests(args)
+        else -> throw RuntimeException("Unknown config type")
+    }
+}
+
+private suspend fun <T> cancelTestsOnTimeout(
+    projectId: String,
+    savedMatrix: Map<String, SavedMatrix>? = null,
+    block: suspend () -> T
+) = try {
+    block()
+} catch (_: TimeoutCancellationException) {
+    throw FlankTimeoutError(savedMatrix, projectId)
+}

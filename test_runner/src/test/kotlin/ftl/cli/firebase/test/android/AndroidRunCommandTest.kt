@@ -1,6 +1,5 @@
 package ftl.cli.firebase.test.android
 
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import ftl.args.yml.AppTestPair
 import ftl.config.Device
@@ -8,7 +7,6 @@ import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
-import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
@@ -20,9 +18,6 @@ class AndroidRunCommandTest {
     @JvmField
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
 
-    @get:Rule
-    val exit = ExpectedSystemExit.none()
-
     @Test
     fun androidRunCommandPrintsHelp() {
         val android = AndroidRunCommand()
@@ -30,17 +25,16 @@ class AndroidRunCommandTest {
         CommandLine(android).execute("-h")
 
         val output = systemOutRule.log
-        Truth.assertThat(output).startsWith("Run tests on Firebase Test Lab")
-        Truth.assertThat(output).contains("run [-h]")
+        assertThat(output).startsWith("Run tests on Firebase Test Lab")
+        assertThat(output).contains("run [-h]")
 
         assertThat(android.usageHelpRequested).isTrue()
     }
 
     @Test
     fun androidRunCommandRuns() {
-        exit.expectSystemExit()
         val runCmd = AndroidRunCommand()
-        runCmd.configPath = "./src/test/kotlin/ftl/fixtures/android.yml"
+        runCmd.configPath = "./src/test/kotlin/ftl/fixtures/simple-android-flank.yml"
         runCmd.run()
         val output = systemOutRule.log
         assertThat(output).contains("1 / 1 (100.00%)")
@@ -63,8 +57,10 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs()
         assertThat(cmd.dumpShards).isFalse()
+        assertThat(cmd.dryRun).isFalse()
         assertThat(cmd.app).isNull()
         assertThat(cmd.test).isNull()
+        assertThat(cmd.additionalApks).isNull()
         assertThat(cmd.testTargets).isNull()
         assertThat(cmd.useOrchestrator).isNull()
         assertThat(cmd.noUseOrchestrator).isNull()
@@ -72,15 +68,19 @@ class AndroidRunCommandTest {
         assertThat(cmd.noUseOrchestrator).isNull()
         assertThat(cmd.performanceMetrics).isNull()
         assertThat(cmd.noPerformanceMetrics).isNull()
+        assertThat(cmd.numUniformShards).isNull()
         assertThat(cmd.testRunnerClass).isNull()
         assertThat(cmd.environmentVariables).isNull()
         assertThat(cmd.directoriesToPull).isNull()
+        assertThat(cmd.otherFiles).isNull()
         assertThat(cmd.device).isNull()
         assertThat(cmd.resultsBucket).isNull()
         assertThat(cmd.recordVideo).isNull()
         assertThat(cmd.noRecordVideo).isNull()
         assertThat(cmd.timeout).isNull()
         assertThat(cmd.async).isNull()
+        assertThat(cmd.clientDetails).isNull()
+        assertThat(cmd.networkProfile).isNull()
         assertThat(cmd.project).isNull()
         assertThat(cmd.resultsHistoryName).isNull()
         assertThat(cmd.maxTestShards).isNull()
@@ -91,10 +91,12 @@ class AndroidRunCommandTest {
         assertThat(cmd.resultsDir).isNull()
         assertThat(cmd.flakyTestAttempts).isNull()
         assertThat(cmd.disableSharding).isNull()
-        assertThat(cmd.localResultDir).isNull()
+        assertThat(cmd.localResultsDir).isNull()
         assertThat(cmd.smartFlankDisableUpload).isNull()
         assertThat(cmd.smartFlankGcsPath).isNull()
         assertThat(cmd.additionalAppTestApks).isNull()
+        assertThat(cmd.keepFilePath).isNull()
+        assertThat(cmd.runTimeout).isNull()
     }
 
     @Test
@@ -109,6 +111,13 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--test", "myTestApp.apk")
         assertThat(cmd.test).isEqualTo("myTestApp.apk")
+    }
+
+    @Test
+    fun `additionalApks parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--additional-apks=a.apk,b.apk")
+        assertThat(cmd.additionalApks).isEqualTo(listOf("a.apk", "b.apk"))
     }
 
     @Test
@@ -173,6 +182,15 @@ class AndroidRunCommandTest {
     }
 
     @Test
+    fun `numUniformShards parse`() {
+        val expected = 50
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--num-uniform-shards=$expected")
+
+        assertThat(cmd.numUniformShards).isEqualTo(expected)
+    }
+
+    @Test
     fun `testRunnerClass parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--test-runner-class=com.foo.bar.TestRunner")
@@ -194,6 +212,14 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parseArgs("--directories-to-pull=a,b")
 
         assertThat(cmd.directoriesToPull).hasSize(2)
+    }
+
+    @Test
+    fun `otherFiles parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--other-files=a=1,b=2")
+
+        assertThat(cmd.otherFiles).hasSize(2)
     }
 
     @Test
@@ -247,6 +273,27 @@ class AndroidRunCommandTest {
     }
 
     @Test
+    fun `clientDetails parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--client-details=key1=value1,key2=value2")
+
+        assertThat(cmd.clientDetails).isEqualTo(
+            mapOf(
+                "key1" to "value1",
+                "key2" to "value2"
+            )
+        )
+    }
+
+    @Test
+    fun `networkProfile parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--network-profile=a")
+
+        assertThat(cmd.networkProfile).isEqualTo("a")
+    }
+
+    @Test
     fun `project parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--project=a")
@@ -275,7 +322,7 @@ class AndroidRunCommandTest {
     @Test
     fun `repeatTests parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parseArgs("--repeat-tests=3")
+        CommandLine(cmd).parseArgs("--num-test-runs=3")
 
         assertThat(cmd.repeatTests).isEqualTo(3)
     }
@@ -333,7 +380,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--local-result-dir=a")
 
-        assertThat(cmd.localResultDir).isEqualTo("a")
+        assertThat(cmd.localResultsDir).isEqualTo("a")
     }
 
     @Test
@@ -353,6 +400,14 @@ class AndroidRunCommandTest {
     }
 
     @Test
+    fun `keepFilePath parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--keep-file-path=true")
+
+        assertThat(cmd.keepFilePath).isEqualTo(true)
+    }
+
+    @Test
     fun `additionalAppTestApks parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--additional-app-test-apks=app=a,test=b")
@@ -367,5 +422,37 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parseArgs("--dump-shards=true")
 
         assertThat(cmd.dumpShards).isEqualTo(true)
+    }
+
+    @Test
+    fun `dryRun parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--dry")
+
+        assertThat(cmd.dryRun).isEqualTo(true)
+    }
+
+    @Test
+    fun `run-timeout parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--run-timeout=20s")
+
+        assertThat(cmd.runTimeout).isEqualTo("20s")
+    }
+
+    @Test
+    fun `robo-directives parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--robo-directives=text:a=b,click=c")
+
+        assertThat(cmd.roboDirectives).hasSize(2)
+    }
+
+    @Test
+    fun `robo-script parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--robo-script=a")
+
+        assertThat(cmd.roboScript).isEqualTo("a")
     }
 }

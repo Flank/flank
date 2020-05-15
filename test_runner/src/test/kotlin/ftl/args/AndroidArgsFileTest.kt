@@ -13,19 +13,15 @@ import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
 import ftl.test.util.TestHelper.getString
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
-import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 
 @RunWith(FlankTestRunner::class)
 class AndroidArgsFileTest {
-
-    @Rule
-    @JvmField
-    val exceptionRule = ExpectedException.none()!!
 
     @Rule
     @JvmField
@@ -46,6 +42,7 @@ class AndroidArgsFileTest {
 
     private val appApkAbsolutePath = appApkLocal.absolutePath()
     private val testApkAbsolutePath = testApkLocal.absolutePath()
+
     // NOTE: Change working dir to '%MODULE_WORKING_DIR%' in IntelliJ to match gradle for this test to pass.
     @Test
     fun localConfigLoadsSuccessfully() {
@@ -62,7 +59,7 @@ class AndroidArgsFileTest {
     private fun checkConfig(args: AndroidArgs, local: Boolean) {
 
         with(args) {
-            if (local) assert(getString(testApk), getString(testApkAbsolutePath))
+            if (local) assert(getString(testApk!!), getString(testApkAbsolutePath))
             else assert(testApk, testApkGcs)
 
             if (local) assert(getString(appApk), getString(appApkAbsolutePath))
@@ -85,9 +82,6 @@ class AndroidArgsFileTest {
                     Device("shamu", "22", "zh_CN", "default")
                 )
             )
-        }
-
-        with(args) {
             assert(maxTestShards, 1)
             assert(repeatTests, 1)
         }
@@ -115,15 +109,19 @@ class AndroidArgsFileTest {
 
     @Test
     fun `calculateShards 0`() {
-        exceptionRule.expectMessage("Test APK has no tests")
-        val args = configWithTestMethods(0)
-        AndroidTestShard.getTestShardChunks(args, args.testApk)
+        val config = configWithTestMethods(0)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk!!)
+        with(config) {
+            assert(maxTestShards, 1)
+            assert(testShardChunks.size, 1)
+            assert(testShardChunks.first().size, 0)
+        }
     }
 
     @Test
     fun `calculateShards 1`() {
         val config = configWithTestMethods(1)
-        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk!!)
         with(config) {
             assert(maxTestShards, 1)
             assert(testShardChunks.size, 1)
@@ -134,7 +132,7 @@ class AndroidArgsFileTest {
     @Test
     fun `calculateShards 155`() {
         val config = configWithTestMethods(155)
-        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk!!)
         with(config) {
             assert(maxTestShards, 1)
             assert(testShardChunks.size, 1)
@@ -145,7 +143,7 @@ class AndroidArgsFileTest {
     @Test
     fun `calculateShards 155 40`() {
         val config = configWithTestMethods(155, maxTestShards = 40)
-        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk!!)
         with(config) {
             assert(maxTestShards, 40)
             assert(testShardChunks.size, 40)
@@ -178,7 +176,7 @@ class AndroidArgsFileTest {
             ),
             FlankYml(
                 FlankYmlParams(
-                    project = "delta-essence-114723"
+                    project = "flank-open-source"
                 )
             ),
             AndroidFlankYml(),
@@ -186,5 +184,11 @@ class AndroidArgsFileTest {
         )
 
         assert(config.resultsBucket, "tmp_bucket_2")
+    }
+
+    @Test
+    fun `verify run timeout value from yml file`() {
+        val args = AndroidArgs.load(localYamlFile)
+        assertEquals(60 * 60 * 1000L, args.parsedTimeout)
     }
 }

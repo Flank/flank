@@ -43,9 +43,6 @@ object TestFilters {
     private const val ARGUMENT_TEST_FILE = "testFile"
     private const val ARGUMENT_NOT_TEST_FILE = "notTestFile"
 
-    // JUnit @Ignore tests are removed.
-    private const val ANNOTATION_IGNORE = "org.junit.Ignore"
-
     private val FILTER_ARGUMENT by lazy {
 
         val pattern = listOf(
@@ -75,24 +72,22 @@ object TestFilters {
     }
 
     fun fromTestTargets(targets: List<String>): TestFilter {
-        return if (targets.isEmpty()) {
-            notIgnored()
-        } else {
-            val parsedFilters =
-                targets
-                    .asSequence()
-                    .map(String::trim)
-                    .map(TestFilters::parseSingleFilter)
-                    .toList()
+        val parsedFilters =
+            targets
+                .asSequence()
+                .map(String::trim)
+                .map(TestFilters::parseSingleFilter)
+                .toList()
 
-            // select test method name filters and short circuit if they match ex: class a.b#c
-            val annotationFilters = parsedFilters.filter { it.isAnnotation }.toTypedArray()
-            val otherFilters = parsedFilters.filterNot { it.isAnnotation }.toTypedArray()
+        // select test method name filters and short circuit if they match ex: class a.b#c
+        val annotationFilters = parsedFilters.filter { it.isAnnotation }.toTypedArray()
+        val otherFilters = parsedFilters.filterNot { it.isAnnotation }
+        val exclude = otherFilters.filter { it.describe.startsWith("not") }.toTypedArray()
+        val include = otherFilters.filterNot { it.describe.startsWith("not") }.toTypedArray()
 
-            val result = allOf(notIgnored(), *annotationFilters, anyOf(*otherFilters))
-            if (FtlConstants.useMock) println(result.describe)
-            result
-        }
+        val result = allOf(*annotationFilters, *exclude, anyOf(*include))
+        if (FtlConstants.useMock) println(result.describe)
+        return result
     }
 
     private fun parseSingleFilter(target: String): TestFilter {
@@ -135,37 +130,31 @@ object TestFilters {
     }
 
     private fun withPackageName(packageNames: List<String>): TestFilter = TestFilter(
-        describe = "withPackageName ${packageNames.joinToString(", ")}",
+        describe = "withPackageName (${packageNames.joinToString(", ")})",
         shouldRun = { testMethod ->
-            packageNames.any { packageName -> testMethod.testName.startsWith(packageName) }
+            packageNames.any { packageName ->
+                testMethod.testName.startsWith(packageName)
+            }
         }
     )
 
     private fun withClassName(classNames: List<String>): TestFilter = TestFilter(
-        describe = "withClassName ${classNames.joinToString(", ")}",
+        describe = "withClassName (${classNames.joinToString(", ")})",
         shouldRun = { testMethod ->
             withPackageName(classNames).shouldRun(testMethod)
         }
     )
 
     private fun withAnnotation(annotations: List<String>): TestFilter = TestFilter(
-        describe = "withAnnotation ${annotations.joinToString(", ")}",
+        describe = "withAnnotation (${annotations.joinToString(", ")})",
         shouldRun = { testMethod ->
             testMethod.annotationNames.any { annotations.contains(it) }
         },
         isAnnotation = true
     )
 
-    private fun notIgnored(): TestFilter = TestFilter(
-        describe = "notIgnored",
-        shouldRun = { testMethod ->
-            withAnnotation(listOf(ANNOTATION_IGNORE)).shouldRun(testMethod).not()
-        },
-        isAnnotation = true
-    )
-
     private fun not(filter: TestFilter): TestFilter = TestFilter(
-        describe = "not ${filter.describe}",
+        describe = "not (${filter.describe})",
         shouldRun = { testMethod ->
             filter.shouldRun(testMethod).not()
         },
@@ -184,9 +173,9 @@ object TestFilters {
         shouldRun = { testMethod ->
             if (FtlConstants.useMock) println(":: ${testMethod.testName} @${testMethod.annotations.firstOrNull()}")
             filters.isEmpty() || filters.all { filter ->
-                val result = filter.shouldRun(testMethod)
-                if (FtlConstants.useMock) println("  $result ${filter.describe}")
-                result
+                filter.shouldRun(testMethod).also { result ->
+                    if (FtlConstants.useMock) println("  $result ${filter.describe}")
+                }
             }
         }
     )

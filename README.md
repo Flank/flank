@@ -1,6 +1,10 @@
-# Flank [![Build Status](https://app.bitrise.io/app/9767f3e19047d4db/status.svg?token=uDM3wCumR2xTd0axh4bjDQ&branch=master)](https://app.bitrise.io/app/9767f3e19047d4db) [![codecov](https://codecov.io/gh/TestArmada/flank/branch/master/graph/badge.svg)](https://codecov.io/gh/TestArmada/flank) [![pullreminders](https://pullreminders.com/badge.svg)](https://pullreminders.com?ref=badge)
+# Flank [![Build Status](https://app.bitrise.io/app/9767f3e19047d4db/status.svg?token=uDM3wCumR2xTd0axh4bjDQ&branch=master)](https://app.bitrise.io/app/9767f3e19047d4db) [![codecov](https://codecov.io/gh/Flank/flank/branch/master/graph/badge.svg)](https://codecov.io/gh/Flank/flank) [![pullreminders](https://pullreminders.com/badge.svg)](https://pullreminders.com?ref=badge)
 
-Flank is a [massively parallel Android and iOS test runner](https://medium.com/walmartlabs/flank-smart-test-runner-for-firebase-cf65e1b1eca7) for [Firebase Test Lab](https://firebase.google.com/docs/test-lab/).
+Flank is a [massively parallel Android and iOS test runner](https://docs.google.com/presentation/d/1goan9cXpimSJsS3L60WjljnFA_seUyaWb2e-bezm084/edit#slide=id.p1) for [Firebase Test Lab](https://firebase.google.com/docs/test-lab/).
+
+## Download
+
+https://github.com/Flank/flank/releases/latest/download/flank.jar
 
 ### Sponsors
 
@@ -11,7 +15,7 @@ Flank is a [massively parallel Android and iOS test runner](https://medium.com/w
 - Install [Oracle JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
   - JDK 9 or later will not work
 - Use [JetBrains Toolbox](https://www.jetbrains.com/toolbox/app/) to install `IntelliJ IDEA Community`
-- Clone the repo `git clone --recursive https://github.com/TestArmada/flank.git`
+- Clone the repo `git clone --recursive https://github.com/Flank/flank.git`
   - `git submodule update --init --recursive` updates the submodules
 - Open `test_runner/build.gradle.kts` with `IntelliJ IDEA Community`
 
@@ -31,8 +35,9 @@ Smart Flank
 Exit code | Description
  --       |         -- |
 0         | All tests passed
-1         | At least one test failed or inconclusive and all matrices finished.
-2         | At least one matrix not finished, usually a FTL error.
+1         | All matrices finished but at least one test failed or inconclusive.
+2         | Usually indicates missing or wrong usage of flags, incorrect parameters, errors in config files.
+3         | At least one matrix not finished (usually a FTL internal error) or unexpected error occurred.
 
 ## CLI
 
@@ -51,7 +56,7 @@ app, test, and xctestrun-file support `~`, environment variables, and globs (*, 
 Run `test_runner/flank.ios.yml` with flank to verify iOS execution is working.
 
 - `cd test_runner/`
-- `./gradlew clean build fatJar`
+- `./gradlew clean build shadowJar`
 - `java -jar ./build/libs/flank-*.jar firebase test ios run`
 
 ```yaml
@@ -67,7 +72,7 @@ gcloud:
   ## (default: a timestamp with a random suffix).
   # results-dir: tmp
 
-  ## Enable video recording during the test. Enabled by default, use --no-record-video to disable.
+  ## Enable video recording during the test. Disabled by default. Use --record-video to enable.
   # record-video: true
 
   ## The max time this test execution can run before it is cancelled (default: 15m).
@@ -79,6 +84,20 @@ gcloud:
   ## Invoke a test asynchronously without waiting for test results.
   # async: false
 
+  ## A key-value map of additional details to attach to the test matrix.
+  ## Arbitrary key-value pairs may be attached to a test matrix to provide additional context about the tests being run.
+  ## When consuming the test results, such as in Cloud Functions or a CI system,
+  ## these details can add additional context such as a link to the corresponding pull request.
+  # client-details
+  #   key1: value1
+  #   key2: value2
+
+  ## The name of the network traffic profile, for example LTE, HSPA, etc,
+  ## which consists of a set of parameters to emulate network conditions when running the test
+  ## (default: no network shaping; see available profiles listed by the `flank test network-profiles list` command).
+  ## This feature only works on physical devices.
+  # network-profile: LTE
+
   ## The history name for your test results (an arbitrary string label; default: the application's label from the APK manifest).
   ## All tests which use the same history name will have their results grouped together in the Firebase console in a time-ordered test history list.
   # results-history-name: android-history
@@ -86,20 +105,21 @@ gcloud:
   ## Experimental!
   ## The number of times a TestExecution should be re-attempted if one or more\nof its test cases fail for any reason.
   ## The maximum number of reruns allowed is 10. Default is 0, which implies no reruns.
-  # flaky-test-attempts: 0
+  # num-flaky-test-attempts: 0
 
   # -- IosGcloudYml --
 
   ## The path to the test package (a zip file containing the iOS app and XCTest files).
   ## The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://.
   ## Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file is specified.
-  test: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExample.zip
+  test: ./src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
 
   ## The path to an .xctestrun file that will override any .xctestrun file contained in the --test package.
   ## Because the .xctestrun file contains environment variables along with test methods to run and/or ignore,
   ## this can be useful for customizing or sharding test suites. The given path should be in the local filesystem.
   ## Note: this path should usually be pointing to the xctestrun file within the derived data folder
-  xctestrun-file: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun
+  ## For example ./derivedDataPath/Build/Products/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
+  xctestrun-file: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
 
   ## The version of Xcode that should be used to run an XCTest.
   ## Defaults to the latest Xcode version supported in Firebase Test Lab.
@@ -127,14 +147,14 @@ flank:
   # max-test-shards: 1
 
   ## shard time - the amount of time tests within a shard should take
-  ## when set to > 0, the shard count is dynamically set based on time up to the maxmimum limit defined by max-test-shards
+  ## when set to > 0, the shard count is dynamically set based on time up to the maximum limit defined by max-test-shards
   ## 2 minutes (120) is recommended.
   ## default: -1 (unlimited)
   # shard-time: -1
 
-  ## repeat tests - the amount of times to run the tests.
+  ## test runs - the amount of times to run the tests.
   ## 1 runs the tests once. 10 runs all the tests 10x
-  # repeat-tests: 1
+  # num-test-runs: 1
 
   ## Google cloud storage path to store the JUnit XML results from the last run.
   # smart-flank-gcs-path: gs://tmp_flank/flank/test_app_ios.xml
@@ -162,10 +182,25 @@ flank:
   #   - className/testName
 
   ## The billing enabled Google Cloud Platform project name to use
-  # project: delta-essence-114723
+  # project: flank-open-source
 
   ## Local folder to store the test result. Folder is DELETED before each run to ensure only artifacts from the new run are saved.
   # local-result-dir: flank
+
+  ## The max time this test run can execute before it is cancelled (default: unlimited).
+  # run-timeout: 60m
+
+  ## Keeps the full path of downloaded files. Required when file names are not unique.
+  ## Default: false
+  # keep-file-path: false
+
+  ## The max time this test run can execute before it is cancelled (default: unlimited).
+  # run-timeout: 60m
+
+  ## Terminate with exit code 0 when there are failed tests.
+  ## Useful for Fladle and other gradle plugins that don't expect the process to have a non-zero exit code.
+  ## The JUnit XML is used to determine failure. (default: false)
+  # ignore-failed-tests: true
 ```
 
 ### Android example
@@ -173,7 +208,7 @@ flank:
 Run `test_runner/flank.yml` with flank to verify Android execution is working.
 
 - `cd test_runner/`
-- `./gradlew clean build fatJar`
+- `./gradlew clean build shadowJar`
 - `java -jar ./build/libs/flank-*.jar firebase test android run`
 
 ```yaml
@@ -189,7 +224,7 @@ gcloud:
   ## (default: a timestamp with a random suffix).
   # results-dir: tmp
 
-  ## Enable video recording during the test. Enabled by default, use --no-record-video to disable.
+  ## Enable video recording during the test. Disabled by default. Use --record-video to enable.
   # record-video: true
 
   ## The max time this test execution can run before it is cancelled (default: 15m).
@@ -201,6 +236,20 @@ gcloud:
   ## Invoke a test asynchronously without waiting for test results.
   # async: false
 
+  ## A key-value map of additional details to attach to the test matrix.
+  ## Arbitrary key-value pairs may be attached to a test matrix to provide additional context about the tests being run.
+  ## When consuming the test results, such as in Cloud Functions or a CI system,
+  ## these details can add additional context such as a link to the corresponding pull request.
+  # client-details
+  #   key1: value1
+  #   key2: value2
+
+  ## The name of the network traffic profile, for example LTE, HSPA, etc,
+  ## which consists of a set of parameters to emulate network conditions when running the test
+  ## (default: no network shaping; see available profiles listed by the `flank test network-profiles list` command).
+  ## This feature only works on physical devices.
+  # network-profile: LTE
+
   ## The history name for your test results (an arbitrary string label; default: the application's label from the APK manifest).
   ## All tests which use the same history name will have their results grouped together in the Firebase console in a time-ordered test history list.
   # results-history-name: android-history
@@ -208,7 +257,7 @@ gcloud:
   ## Experimental!
   ## The number of times a TestExecution should be re-attempted if one or more\nof its test cases fail for any reason.
   ## The maximum number of reruns allowed is 10. Default is 0, which implies no reruns.
-  # flaky-test-attempts: 0
+  # num-flaky-test-attempts: 0
 
   # -- AndroidGcloudYml --
 
@@ -222,7 +271,7 @@ gcloud:
   test: ../test_app/apks/app-debug-androidTest.apk
 
   ## Automatically log into the test device using a preconfigured Google account before beginning the test.
-  ## Enabled by default, use --no-auto-google-login to disable.
+  ## Disabled by default. Use --auto-google-login to enable.
   # auto-google-login: true
 
   ## Whether each test runs in its own Instrumentation instance with the Android Test Orchestrator
@@ -243,11 +292,28 @@ gcloud:
   # directories-to-pull:
   #   - /sdcard/
 
+  ## A list of device-path: file-path pairs that indicate the device paths to push files to the device before starting tests, and the paths of files to push.
+  ## Device paths must be under absolute, whitelisted paths (${EXTERNAL_STORAGE}, or ${ANDROID_DATA}/local/tmp).
+  ## Source file paths may be in the local filesystem or in Google Cloud Storage (gs://…).
+  # other-files
+  #   - /sdcard/dir1/file1.txt: local/file.txt
+  #   - /sdcard/dir2/file2.jpg: gs://bucket/file.jpg
+
   ## Monitor and record performance metrics: CPU, memory, network usage, and FPS (game-loop only).
-  ## Enabled by default, use --no-performance-metrics to disable.
+  ## Disabled by default. Use --performance-metrics to enable.
   # performance-metrics: true
-  
-  ## The fully-qualified Java class name of the instrumentation test runner 
+
+  ## Specifies the number of shards into which you want to evenly distribute test cases.
+  ## The shards are run in parallel on separate devices. For example,
+  ## if your test execution contains 20 test cases and you specify four shards, each shard executes five test cases.
+  ## The number of shards should be less than the total number of test cases.
+  ## The number of shards specified must be >= 1 and <= 50.
+  ## This option cannot be used along max-test-shards and is not compatible with smart sharding.
+  ## If you want to take benefits of smart sharding use max-test-shards instead.
+  ## default: null
+  # num-uniform-shards: 50
+
+  ## The fully-qualified Java class name of the instrumentation test runner
   ## (default: the last name extracted from the APK manifest).
   # test-runner-class: com.foo.TestRunner
 
@@ -258,6 +324,21 @@ gcloud:
   ## See https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner for more information.
   # test-targets:
   #  - class com.example.app.ExampleUiTest#testPasses
+
+  ## A map of robo_directives that you can use to customize the behavior of Robo test.
+  ## The type specifies the action type of the directive, which may take on values click, text or ignore.
+  ## If no type is provided, text will be used by default.
+  ## Each key should be the Android resource name of a target UI element and each value should be the text input for that element.
+  ## Values are only permitted for text type elements, so no value should be specified for click and ignore type elements.
+  # robo-directives:
+  #   "text:input_resource_name": message
+  #   "click:button_resource_name": ""
+
+  ## The path to a Robo Script JSON file.
+  ## The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.
+  ## You can guide the Robo test to perform specific actions by recording a Robo Script in Android Studio and then specifying this argument.
+  ## Learn more at https://firebase.google.com/docs/test-lab/robo-ux-test#scripting.
+  # robo-script: path_to_robo_script
 
   ## A list of DIMENSION=VALUE pairs which specify a target device to test against.
   ## This flag may be repeated to specify multiple devices.
@@ -278,14 +359,14 @@ flank:
   # max-test-shards: 1
 
   ## shard time - the amount of time tests within a shard should take
-  ## when set to > 0, the shard count is dynamically set based on time up to the maxmimum limit defined by max-test-shards
+  ## when set to > 0, the shard count is dynamically set based on time up to the maximum limit defined by max-test-shards
   ## 2 minutes (120) is recommended.
   ## default: -1 (unlimited)
   # shard-time: -1
 
-  ## repeat tests - the amount of times to run the tests.
+  ## test runs - the amount of times to run the tests.
   ## 1 runs the tests once. 10 runs all the tests 10x
-  # repeat-tests: 1
+  # num-test-runs: 1
 
   ## Google cloud storage path to store the JUnit XML results from the last run.
   # smart-flank-gcs-path: gs://tmp_flank/flank/test_app_android.xml
@@ -307,16 +388,35 @@ flank:
   #   - .*\.mp4$
 
   ## The billing enabled Google Cloud Platform project name to use
-  # project: delta-essence-114723
+  # project: flank-open-source
 
   ## Local folder to store the test result. Folder is DELETED before each run to ensure only artifacts from the new run are saved.
   # local-result-dir: flank
-    
-  ## Include additional app/test apk pairs in the run. If app is omitted, then the top level app is used for that pair.
+
+  ## Keeps the full path of downloaded files. Required when file names are not unique.
+  ## Default: false
+  # keep-file-path: false
+
+  ## Include additional app/test apk pairs in the run. Apks are unique by just filename and not by path!
+  ## If app is omitted, then the top level app is used for that pair.
   # additional-app-test-apks:
   #  - app: ../test_app/apks/app-debug.apk
-  #    test: ../test_app/apks/app-debug-androidTest.apk
-  #  - test: ../test_app/apks/app-debug-androidTest.apk
+  #    test: ../test_app/apks/app1-debug-androidTest.apk
+  #  - test: ../test_app/apks/app2-debug-androidTest.apk
+
+  ## The max time this test run can execute before it is cancelled (default: unlimited).
+  # run-timeout: 60m
+
+  ## Terminate with exit code 0 when there are failed tests.
+  ## Useful for Fladle and other gradle plugins that don't expect the process to have a non-zero exit code.
+  ## The JUnit XML is used to determine failure. (default: false)
+  # ignore-failed-tests: true
+
+  ## Flank provides two ways for parsing junit xml results.
+  ## New way uses google api instead of merging xml files, but can generate slightly different output format.
+  ## This flag allows fallback for legacy xml junit results parsing
+  ## Currently available for android, iOS still uses only legacy way.
+  # legacy-junit-result: false
 ```
 
 ### Android code coverage
@@ -341,7 +441,7 @@ android {
       testCoverageEnabled true
     }
   }
- 
+
   // https://google.github.io/android-gradle-dsl/current/com.android.build.gradle.internal.dsl.TestOptions.html#com.android.build.gradle.internal.dsl.TestOptions:animationsDisabled
   testOptions {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
@@ -378,7 +478,7 @@ if (coverageEnabled) {
                 '**/R$*.class',
                 '**/BuildConfig.*',
                 "**/androidx"]
-        def javaClasses = fileTree(dir: "${project.buildDir}/intermediates/javac/debug/compileDebugJavaWithJavac/classes", excludes: excludes)
+        def javaClasses = fileTree(dir: "${project.buildDir}/intermediates/javac/debug/classes", excludes: excludes)
         def kotlinClasses = fileTree(dir: "${project.buildDir}/tmp/kotlin-classes/debug", excludes: excludes)
         getClassDirectories().setFrom(files([javaClasses, kotlinClasses]))
 
@@ -397,6 +497,23 @@ if (coverageEnabled) {
     }
 }
 ```
+Starting from Android Marshmallow we must grant runtime permissions to write to external storage. Following snippet in test class solves that issue.
+If you want to get coverage files when using orchestrator, you must set this Rule for each test class.
+
+```java
+import androidx.test.rule.GrantPermissionRule;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+class MyEspressoTest {
+
+  @Rule
+  GrantPermissionRule grantPermissionRule = GrantPermissionRule.grant(
+          READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE);
+
+  // other configuration and tests
+}
+```
 
 Here's an example flank.yml. Note that `coverage` and `coverageFilePath` must be set when using orchestrator with coverage.
 `coverageFile` is not used. Orchestrator will generate one coverage file per test. `coverageFilePath` must be a directory, not a file.
@@ -405,11 +522,11 @@ Here's an example flank.yml. Note that `coverage` and `coverageFilePath` must be
 gcloud:
   app: ./app/build/outputs/apk/debug/app-debug.apk
   test: ./app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
-  environment-variables: 
+  environment-variables:
     coverage: true
     coverageFilePath: /sdcard/
     clearPackageData: true
-  directories-to-pull: 
+  directories-to-pull:
     - /sdcard/
   # use a named results dir that's used by the gradle task
   results-dir: coverage_ec
@@ -430,17 +547,17 @@ flank:
 
 Download Flank from GitHub releases.
 
-Stable. Get the latest [stable version number](https://github.com/TestArmada/flank/releases/latest) and replace the `XXX` with the version number.
+Stable. Get the latest [stable version number](https://github.com/Flank/flank/releases/latest) and replace the `XXX` with the version number.
 
 ```
-wget --quiet https://github.com/TestArmada/flank/releases/download/vXXX/flank.jar -O ./flank.jar
+wget --quiet https://github.com/Flank/flank/releases/download/vXXX/flank.jar -O ./flank.jar
 java -jar ./flank.jar android run
 ```
 
 Snapshot (published after every commit)
 
 ```
-wget --quiet https://github.com/TestArmada/flank/releases/download/flank_snapshot/flank.jar -O ./flank.jar
+wget --quiet https://github.com/Flank/flank/releases/download/flank_snapshot/flank.jar -O ./flank.jar
 java -jar ./flank.jar android run
 ```
 
@@ -453,6 +570,14 @@ gcloud:
   test: ../../test_app/apks/app-debug-androidTest.apk
 EOF
 ```
+
+### Circle CI
+
+Circle CI has a [firebase testlab orb](https://circleci.com/orbs/registry/orb/freeletics/firebase-testlab) that supports Flank.
+
+### Bitrise
+
+Bitrise has an official [flank step](https://github.com/bitrise-steplib/bitrise-step-flank).
 
 ### Gradle Plugin
 
@@ -528,25 +653,29 @@ dependencies {
 
 ### FAQ
 
-> Access Not Configured. Cloud Tool Results API has not been used in project 764086051850 before or it is disabled.
+1) > Access Not Configured. Cloud Tool Results API has not been used in project 764086051850 before or it is disabled.
 
-This error means authentication hasn't been setup properly. See `Authenticate with a service account` in this readme.
+    This error means authentication hasn't been setup properly. See `Authenticate with a service account` in this readme.
 
-> How do I use Flank without typing long commands?
+2)  > How do I use Flank without typing long commands?
 
-Add Flank's [bash helper folder](https://github.com/TestArmada/flank/blob/master/test_runner/bash/) to your $PATH environment variable. This will allow you to call the shell scripts in that helper folder from anywhere.
+    Add Flank's [bash helper folder](https://github.com/Flank/flank/blob/master/test_runner/bash/) to your $PATH environment variable. This will allow you to call the shell scripts in that helper folder from anywhere.
 
-With the [flank](https://github.com/TestArmada/flank/blob/master/test_runner/bash/flank) shell script, you can use `flank` instead of `java -jar flank.jar`. Examples:
+    With the [flank](https://github.com/Flank/flank/blob/master/test_runner/bash/flank) shell script, you can use `flank` instead of `java -jar flank.jar`. Examples:
 
-- `flank android run`
-- `flank ios run`
+    - `flank android run`
+    - `flank ios run`
 
-With the [update_flank.sh](https://github.com/TestArmada/flank/blob/master/test_runner/bash/update_flank.sh) shell script, you can rebuild `flank.jar`.
+    With the [update_flank.sh](https://github.com/Flank/flank/blob/master/test_runner/bash/update_flank.sh) shell script, you can rebuild `flank.jar`.
 
-> Symbol is declared in module 'java.xml' which does not export package 'com.sun.org.apache.xerces.internal.dom'
+3)  > Symbol is declared in module 'java.xml' which does not export package 'com.sun.org.apache.xerces.internal.dom'
 
-Make sure you're using JDK 8 to compile Flank.
+    Make sure you're using JDK 8 to compile Flank.
 
-> Test run failed to complete. Expected 786 tests, received 660
+4)  > Test run failed to complete. Expected 786 tests, received 660
 
-Try setting `use-orchestrator: false`. Parameterized tests [are not compatible with orchestrator](https://stackoverflow.com/questions/48735268/unable-to-run-parameterized-tests-with-android-test-orchestrator). Flank uses [orchestrator by default on Android.](https://developer.android.com/training/testing/junit-runner)
+    Try setting `use-orchestrator: false`. Parameterized tests [are not compatible with orchestrator](https://stackoverflow.com/questions/48735268/unable-to-run-parameterized-tests-with-android-test-orchestrator). Flank uses [orchestrator by default on Android.](https://developer.android.com/training/testing/junit-runner)
+
+# Resources
+
+- [Instrumenting Firebase Test Lab](https://developer.squareup.com/blog/instrumenting-firebase-test-lab/)

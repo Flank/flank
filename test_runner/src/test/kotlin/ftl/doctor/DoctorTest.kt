@@ -2,11 +2,13 @@ package ftl.doctor
 
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
+import ftl.args.IArgsCompanion
 import ftl.args.IosArgs
 import ftl.test.util.FlankTestRunner
 import java.nio.file.Paths
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.StringReader
 
 @RunWith(FlankTestRunner::class)
 class DoctorTest {
@@ -50,7 +52,7 @@ gcloud:
 
 flank:
   max-test-shards: 7
-  repeat-tests: 8
+  num-test-runs: 8
   test-targets-always-run:
     - .
   three: .
@@ -112,7 +114,7 @@ gcloud:
 
 flank:
   max-test-shards: .
-  repeat-tests: .
+  num-test-runs: .
   test-targets-always-run:
     - .
   test-targets:
@@ -145,3 +147,5 @@ flank:
         assertThat(lint).isEqualTo("")
     }
 }
+
+private fun Doctor.validateYaml(args: IArgsCompanion, data: String): String = validateYaml(args, StringReader(data))

@@ -3,11 +3,9 @@ package ftl.gc
 import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.Account
 import com.google.api.services.testing.model.AndroidDeviceList
-import com.google.api.services.testing.model.AndroidInstrumentationTest
 import com.google.api.services.testing.model.ClientInfo
 import com.google.api.services.testing.model.EnvironmentMatrix
 import com.google.api.services.testing.model.EnvironmentVariable
-import com.google.api.services.testing.model.FileReference
 import com.google.api.services.testing.model.GoogleAuto
 import com.google.api.services.testing.model.GoogleCloudStorage
 import com.google.api.services.testing.model.ResultStorage
@@ -16,10 +14,12 @@ import com.google.api.services.testing.model.TestSetup
 import com.google.api.services.testing.model.TestSpecification
 import com.google.api.services.testing.model.ToolResultsHistory
 import ftl.args.AndroidArgs
-import ftl.util.ShardCounter
-import ftl.util.Utils.fatalError
-import ftl.util.Utils.join
-import ftl.util.testTimeoutToSeconds
+import ftl.gc.android.mapGcsPathsToApks
+import ftl.gc.android.mapToDeviceFiles
+import ftl.gc.android.setupAndroidTest
+import ftl.run.platform.android.AndroidTestConfig
+import ftl.util.join
+import ftl.util.timeoutToSeconds
 
 object GcAndroidTestMatrix {
 
@@ -28,35 +28,23 @@ object GcAndroidTestMatrix {
         value = this@toEnvironmentVariable.value
     }
 
+    @Suppress("LongParameterList")
     fun build(
-        appApkGcsPath: String,
-        testApkGcsPath: String,
+        androidTestConfig: AndroidTestConfig,
+        otherFiles: Map<String, String>,
         runGcsPath: String,
         androidDeviceList: AndroidDeviceList,
-        testTargets: List<String>,
         args: AndroidArgs,
-        shardCounter: ShardCounter,
-        toolResultsHistory: ToolResultsHistory
+        toolResultsHistory: ToolResultsHistory,
+        additionalApkGcsPaths: List<String>
     ): Testing.Projects.TestMatrices.Create {
 
         // https://github.com/bootstraponline/studio-google-cloud-testing/blob/203ed2890c27a8078cd1b8f7ae12cf77527f426b/firebase-testing/src/com/google/gct/testing/launcher/CloudTestsLauncher.java#L120
-        val clientInfo = ClientInfo().setName("Flank")
+        val clientInfo = ClientInfo()
+            .setName("Flank")
+            .setClientInfoDetails(args.clientDetails?.toClientInfoDetailList())
 
-        val matrixGcsPath = join(args.resultsBucket, runGcsPath, shardCounter.next())
-
-        val androidInstrumentation = AndroidInstrumentationTest()
-            .setAppApk(FileReference().setGcsPath(appApkGcsPath))
-            .setTestApk(FileReference().setGcsPath(testApkGcsPath))
-
-        if (args.testRunnerClass != null) {
-            androidInstrumentation.testRunnerClass = args.testRunnerClass
-        }
-
-        if (args.useOrchestrator) {
-            androidInstrumentation.orchestratorOption = "USE_ORCHESTRATOR"
-        }
-
-        androidInstrumentation.testTargets = testTargets
+        val matrixGcsPath = join(args.resultsBucket, runGcsPath)
 
         // --auto-google-login
         // https://cloud.google.com/sdk/gcloud/reference/firebase/test/android/run
@@ -69,21 +57,24 @@ object GcAndroidTestMatrix {
 
         val testSetup = TestSetup()
             .setAccount(account)
+            .setNetworkProfile(args.networkProfile)
             .setDirectoriesToPull(args.directoriesToPull)
+            .setAdditionalApks(additionalApkGcsPaths.mapGcsPathsToApks())
+            .setFilesToPush(otherFiles.mapToDeviceFiles())
 
         if (args.environmentVariables.isNotEmpty()) {
             testSetup.environmentVariables =
                 args.environmentVariables.map { it.toEnvironmentVariable() }
         }
 
-        val testTimeoutSeconds = testTimeoutToSeconds(args.testTimeout)
+        val testTimeoutSeconds = timeoutToSeconds(args.testTimeout)
 
         val testSpecification = TestSpecification()
-            .setAndroidInstrumentationTest(androidInstrumentation)
             .setDisablePerformanceMetrics(!args.performanceMetrics)
             .setDisableVideoRecording(!args.recordVideo)
             .setTestTimeout("${testTimeoutSeconds}s")
             .setTestSetup(testSetup)
+            .setupAndroidTest(androidTestConfig)
 
         val resultsStorage = ResultStorage()
             .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
@@ -101,9 +92,7 @@ object GcAndroidTestMatrix {
         try {
             return GcTesting.get.projects().testMatrices().create(args.project, testMatrix)
         } catch (e: Exception) {
-            fatalError(e)
+            throw RuntimeException(e)
         }
-
-        throw RuntimeException("Failed to create test matrix")
     }
 }

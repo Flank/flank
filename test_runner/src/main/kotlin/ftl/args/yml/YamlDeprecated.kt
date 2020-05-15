@@ -2,11 +2,12 @@ package ftl.args.yml
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
+import com.fasterxml.jackson.databind.node.MissingNode
 import com.fasterxml.jackson.databind.node.ObjectNode
+import com.google.common.annotations.VisibleForTesting
 import ftl.args.ArgsHelper.yamlMapper
-import ftl.args.yml.YamlDeprecated.replace
-import ftl.util.Utils
-import ftl.util.Utils.fatalError
+import ftl.util.FlankFatalError
+import java.io.Reader
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -47,7 +48,12 @@ object YamlDeprecated {
         ),
         ModifiedKey(
             Key(Parent.flank, "repeatTests"),
+            Key(Parent.flank, "num-test-runs"),
+            Level.Warning
+        ),
+        ModifiedKey(
             Key(Parent.flank, "repeat-tests"),
+            Key(Parent.flank, "num-test-runs"),
             Level.Warning
         ),
         ModifiedKey(
@@ -88,7 +94,7 @@ object YamlDeprecated {
             val parentValue = this[parentKey]
             // if the parent node ('flank:') doesn't exist then add it ('flank: {}') to the YAML
             val nullParent = parentValue == null || parentValue.toString() == "null"
-            if (nullParent) (this as ObjectNode).set(parentKey, JsonNodeFactory.instance.objectNode())
+            if (nullParent) (this as ObjectNode).set(parentKey, JsonNodeFactory.instance.objectNode()) as JsonNode
         }
     }
 
@@ -116,33 +122,38 @@ object YamlDeprecated {
 
     private val yamlWriter by lazy { yamlMapper.writerWithDefaultPrettyPrinter() }
 
-    fun modify(yamlPath: Path, fix: Boolean = false): Boolean {
-        if (yamlPath.toFile().exists().not()) fatalError("Flank yml doesn't exist at path $yamlPath")
-        val data = String(Files.readAllBytes(yamlPath))
+    fun modify(yamlPath: Path): Boolean {
+        if (yamlPath.toFile().exists().not()) throw FlankFatalError("Flank yml doesn't exist at path $yamlPath")
 
-        val (errorDetected, string) = modify(data)
+        val (errorDetected, string) = modify(Files.newBufferedReader(yamlPath))
 
-        if (fix) {
-            Files.write(yamlPath, string.toByteArray())
-            println("\nUpdated ${yamlPath.fileName} file")
-        }
+        Files.write(yamlPath, string.toByteArray())
+        println("\nUpdated ${yamlPath.fileName} file")
+
         return errorDetected
     }
 
     // Throw exception when Level.Error modified key is found.
-    fun modifyAndThrow(yamlData: String, android: Boolean): String {
-        val (error, data) = YamlDeprecated.modify(yamlData)
+    fun modifyAndThrow(yamlReader: Reader, android: Boolean): String {
+        val (error, data) = modify(yamlReader)
 
         if (error) {
             val platform = if (android) "android" else "ios"
-            Utils.fatalError("Invalid keys detected! Auto fix with: flank $platform doctor --fix")
+            throw FlankFatalError("Invalid keys detected! Auto fix with: flank $platform doctor --fix")
         }
 
         return data
     }
 
-    fun modify(yamlData: String): Pair<Boolean, String> {
-        val parsed = yamlMapper.readTree(yamlData) ?: JsonNodeFactory.instance.objectNode()
+    @VisibleForTesting
+    internal fun modify(yamlData: Reader): Pair<Boolean, String> {
+        val mappedYaml = yamlMapper.readTree(yamlData)
+
+        val parsed = if (mappedYaml == null || mappedYaml is MissingNode) {
+            JsonNodeFactory.instance.objectNode()
+        } else {
+            mappedYaml
+        }
         parsed.createParents()
 
         yamlMapper.writerWithDefaultPrettyPrinter()

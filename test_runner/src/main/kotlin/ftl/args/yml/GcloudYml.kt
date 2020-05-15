@@ -2,6 +2,7 @@ package ftl.args.yml
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import ftl.config.FlankDefaults
 
 /**
  * Common Gcloud parameters shared between iOS and Android
@@ -18,11 +19,17 @@ class GcloudYmlParams(
     var resultsDir: String? = null,
 
     @field:JsonProperty("record-video")
-    val recordVideo: Boolean = true,
+    val recordVideo: Boolean = FlankDefaults.DISABLE_VIDEO_RECORDING,
 
     val timeout: String = "15m",
 
     val async: Boolean = false,
+
+    @field:JsonProperty("client-details")
+    val clientDetails: Map<String, String>? = null,
+
+    @field:JsonProperty("network-profile")
+    val networkProfile: String? = null,
 
     @field:JsonProperty("results-history-name")
     val resultsHistoryName: String? = null,

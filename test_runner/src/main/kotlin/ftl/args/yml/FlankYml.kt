@@ -3,6 +3,7 @@ package ftl.args.yml
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.args.ArgsHelper
+import ftl.config.FtlConstants
 
 /** Flank specific parameters for both iOS and Android */
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -13,7 +14,7 @@ class FlankYmlParams(
     @field:JsonProperty("shard-time")
     val shardTime: Int = -1,
 
-    @field:JsonProperty("repeat-tests")
+    @field:JsonProperty("num-test-runs")
     val repeatTests: Int = 1,
 
     @field:JsonProperty("smart-flank-gcs-path")
@@ -34,15 +35,39 @@ class FlankYmlParams(
     val project: String = ArgsHelper.getDefaultProjectId() ?: "",
 
     @field:JsonProperty("local-result-dir")
-    val localResultDir: String = defaultLocalResultDir
+    val localResultsDir: String = defaultLocalResultsDir,
+
+    @field:JsonProperty("run-timeout")
+    val runTimeout: String = FtlConstants.runTimeout,
+
+    @field:JsonProperty("legacy-junit-result")
+    val useLegacyJUnitResult: Boolean = false,
+
+    @field:JsonProperty("ignore-failed-tests")
+    val ignoreFailedTests: Boolean = false,
+
+    @field:JsonProperty("keep-file-path")
+    val keepFilePath: Boolean = false
 ) {
     companion object : IYmlKeys {
         override val keys = listOf(
-            "max-test-shards", "shard-time", "repeat-tests", "smart-flank-gcs-path", "smart-flank-disable-upload",
-            "disable-sharding", "test-targets-always-run", "files-to-download", "project", "local-result-dir"
+            "max-test-shards",
+            "shard-time",
+            "num-test-runs",
+            "smart-flank-gcs-path",
+            "smart-flank-disable-upload",
+            "disable-sharding",
+            "test-targets-always-run",
+            "files-to-download",
+            "project",
+            "local-result-dir",
+            "run-timeout",
+            "legacy-junit-result",
+            "ignore-failed-tests",
+            "keep-file-path"
         )
 
-        const val defaultLocalResultDir = "results"
+        const val defaultLocalResultsDir = "results"
     }
 }
 

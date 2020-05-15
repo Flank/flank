@@ -4,16 +4,29 @@ import com.google.common.truth.Truth.assertThat
 import ftl.args.yml.AppTestPair
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
+import ftl.config.FlankRoboDirective
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
+import ftl.run.platform.runAndroidTests
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
+import ftl.test.util.TestHelper.getPath
+import ftl.util.FlankCommonException
+import ftl.util.FlankFatalError
+import io.mockk.every
+import io.mockk.mockkObject
+import io.mockk.unmockkAll
+import kotlinx.coroutines.runBlocking
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import picocli.CommandLine
+import java.io.StringReader
 
 @Suppress("TooManyFunctions")
 @RunWith(FlankTestRunner::class)
@@ -23,8 +36,13 @@ class AndroidArgsTest {
     private val invalidApk = "../test_app/apks/invalid.apk"
     private val testApk = "../test_app/apks/app-debug-androidTest.apk"
     private val testErrorApk = "../test_app/apks/error-androidTest.apk"
+    private val testFlakyApk = "../test_app/apks/flaky-androidTest.apk"
     private val appApkAbsolutePath = appApk.absolutePath()
     private val testApkAbsolutePath = testApk.absolutePath()
+    private val testErrorApkAbsolutePath = testErrorApk.absolutePath()
+    private val testFlakyApkAbsolutePath = testFlakyApk.absolutePath()
+    private val simpleFlankPath = getPath("src/test/kotlin/ftl/fixtures/simple-android-flank.yml")
+    private val flankLocal = getPath("src/test/kotlin/ftl/fixtures/flank.local.yml")
 
     private val androidNonDefault = """
         gcloud:
@@ -32,11 +50,18 @@ class AndroidArgsTest {
           record-video: false
           timeout: 70m
           async: true
+          client-details:
+            key1: value1
+            key2: value2
+          network-profile: LTE
           project: projectFoo
           results-history-name: android-history
 
           app: $appApk
           test: $testApk
+          additional-apks:
+            - $testErrorApk
+            - $testFlakyApk
           auto-google-login: false
           use-orchestrator: false
           environment-variables:
@@ -45,7 +70,11 @@ class AndroidArgsTest {
           directories-to-pull:
           - /sdcard/screenshots
           - /sdcard/screenshots2
+          other-files:
+            /sdcard/dir1/file1.txt: $appApk
+            /sdcard/dir2/file2.jpg: $testApk
           performance-metrics: false
+          num-uniform-shards: null
           test-runner-class: com.foo.TestRunner
           test-targets:
           - class com.example.app.ExampleUiTest#testPasses
@@ -64,7 +93,7 @@ class AndroidArgsTest {
         flank:
           max-test-shards: 7
           shard-time: 60
-          repeat-tests: 8
+          num-test-runs: 8
           files-to-download:
             - /sdcard/screenshots
             - /sdcard/screenshots2
@@ -72,14 +101,20 @@ class AndroidArgsTest {
             - class example.Test#grantPermission
             - class example.Test#grantPermission2
           disable-sharding: true
+          keep-file-path: true
           additional-app-test-apks:
-            - app: foo
-              test: bar
+            - app: $appApk
+              test: $testErrorApk
+          run-timeout: 20m
+          ignore-failed-tests: true
       """
 
     @Rule
     @JvmField
     var expectedException = ExpectedException.none()!!
+
+    @After
+    fun tearDown() = unmockkAll()
 
     @Test
     fun `empty testTargets`() {
@@ -154,16 +189,31 @@ class AndroidArgsTest {
             assert(recordVideo, false)
             assert(testTimeout, "70m")
             assert(async, true)
+            assert(
+                clientDetails,
+                mapOf(
+                    "key1" to "value1",
+                    "key2" to "value2"
+                )
+            )
+            assert(networkProfile, "LTE")
             assert(project, "projectFoo")
             assert(resultsHistoryName ?: "", "android-history")
 
             // AndroidGcloudYml
             assert(appApk, appApkAbsolutePath)
             assert(testApk, testApkAbsolutePath)
+            assert(additionalApks, listOf(testErrorApkAbsolutePath, testFlakyApkAbsolutePath))
             assert(autoGoogleLogin, false)
             assert(useOrchestrator, false)
             assert(environmentVariables, linkedMapOf("clearPackageData" to "true", "randomEnvVar" to "false"))
             assert(directoriesToPull, listOf("/sdcard/screenshots", "/sdcard/screenshots2"))
+            assert(
+                otherFiles, mapOf(
+                    "/sdcard/dir1/file1.txt" to appApkAbsolutePath,
+                    "/sdcard/dir2/file2.jpg" to testApkAbsolutePath
+                )
+            )
             assert(performanceMetrics, false)
             assert(testRunnerClass, "com.foo.TestRunner")
             assert(
@@ -193,6 +243,7 @@ class AndroidArgsTest {
                 )
             )
             assert(disableSharding, true)
+            assert(runTimeout, "20m")
         }
     }
 
@@ -208,20 +259,33 @@ AndroidArgs
       record-video: false
       timeout: 70m
       async: true
+      client-details: 
+        key1: value1
+        key2: value2
+      network-profile: LTE
       results-history-name: android-history
       # Android gcloud
       app: $appApkAbsolutePath
       test: $testApkAbsolutePath
+      additional-apks: 
+        - $testErrorApkAbsolutePath
+        - $testFlakyApkAbsolutePath
       auto-google-login: false
       use-orchestrator: false
       directories-to-pull:
         - /sdcard/screenshots
         - /sdcard/screenshots2
+      other-files:
+        /sdcard/dir1/file1.txt: $appApkAbsolutePath
+        /sdcard/dir2/file2.jpg: $testApkAbsolutePath
       performance-metrics: false
+      num-uniform-shards: null
       test-runner-class: com.foo.TestRunner
       test-targets:
         - class com.example.app.ExampleUiTest#testPasses
         - class com.example.app.ExampleUiTest#testFails
+      robo-directives:
+      robo-script: null
       device:
         - model: NexusLowRes
           version: 23
@@ -236,7 +300,7 @@ AndroidArgs
     flank:
       max-test-shards: 7
       shard-time: 60
-      repeat-tests: 8
+      num-test-runs: 8
       smart-flank-gcs-path:${' '}
       smart-flank-disable-upload: false
       files-to-download:
@@ -249,10 +313,71 @@ AndroidArgs
       project: projectFoo
       local-result-dir: results
       # Android Flank Yml
+      keep-file-path: true
       additional-app-test-apks:
-        - app: foo
-          test: bar
+        - app: $appApkAbsolutePath
+          test: $testErrorApkAbsolutePath
+      run-timeout: 20m
+      legacy-junit-result: false
+      ignore-failed-tests: true
 """.trimIndent()
+        )
+    }
+
+    @Test
+    fun `verify default yml toString`() {
+        val args = AndroidArgs.load(simpleFlankPath)
+        assertEquals(
+            """
+AndroidArgs
+    gcloud:
+      results-bucket: mockBucket
+      results-dir: null
+      record-video: false
+      timeout: 15m
+      async: false
+      client-details: 
+      network-profile: null
+      results-history-name: null
+      # Android gcloud
+      app: $appApkAbsolutePath
+      test: $testApkAbsolutePath
+      additional-apks: 
+      auto-google-login: false
+      use-orchestrator: true
+      directories-to-pull:
+      other-files:
+      performance-metrics: false
+      num-uniform-shards: null
+      test-runner-class: null
+      test-targets:
+      robo-directives:
+      robo-script: null
+      device:
+        - model: NexusLowRes
+          version: 28
+          locale: en
+          orientation: portrait
+      num-flaky-test-attempts: 0
+
+    flank:
+      max-test-shards: 1
+      shard-time: -1
+      num-test-runs: 1
+      smart-flank-gcs-path: 
+      smart-flank-disable-upload: false
+      files-to-download:
+      test-targets-always-run:
+      disable-sharding: false
+      project: mockProjectId
+      local-result-dir: results
+      # Android Flank Yml
+      keep-file-path: false
+      additional-app-test-apks:
+      run-timeout: -1
+      legacy-junit-result: true
+      ignore-failed-tests: false
+        """.trimIndent(), args.toString()
         )
     }
 
@@ -269,19 +394,21 @@ AndroidArgs
         with(androidArgs) {
             // GcloudYml
             assert(resultsBucket, "mockBucket")
-            assert(recordVideo, true)
+            assert(recordVideo, false)
             assert(testTimeout, "15m")
             assert(async, false)
             assert(project, "mockProjectId")
+            assert(clientDetails, null)
+            assert(networkProfile, null)
 
             // AndroidGcloudYml
             assert(appApk, appApkAbsolutePath)
             assert(testApk, testApkAbsolutePath)
-            assert(autoGoogleLogin, true)
+            assert(autoGoogleLogin, false)
             assert(useOrchestrator, true)
             assert(environmentVariables, emptyMap<String, String>())
             assert(directoriesToPull, empty)
-            assert(performanceMetrics, true)
+            assert(performanceMetrics, false)
             assert(testRunnerClass, null)
             assert(testTargets, empty)
             assert(devices, listOf(Device("NexusLowRes", "28")))
@@ -293,6 +420,7 @@ AndroidArgs
             assert(filesToDownload, empty)
             assert(testTargetsAlwaysRun, empty)
             assert(disableSharding, false)
+            assert(runTimeout, "-1")
         }
     }
 
@@ -309,7 +437,7 @@ AndroidArgs
       """
         )
 
-        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk!!)
         with(androidArgs) {
             assert(maxTestShards, -1)
             assert(testShardChunks.size, 2)
@@ -343,19 +471,20 @@ AndroidArgs
           disable-sharding: true
       """
         val androidArgs = AndroidArgs.load(yaml)
-        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk!!)
         assertThat(testShardChunks).hasSize(1)
     }
 
-    @Test(expected = RuntimeException::class)
-    fun `Invalid apk throws`() {
+    @Test
+    fun `enable sharding allows using invalid apk`() {
         val yaml = """
         gcloud:
           app: $invalidApk
           test: $invalidApk
       """
         val androidArgs = AndroidArgs.load(yaml)
-        AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk!!)
+        assertThat(testShardChunks).hasSize(1)
     }
 
     @Test
@@ -514,6 +643,36 @@ AndroidArgs
 
         val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.performanceMetrics).isFalse()
+    }
+
+    @Test
+    fun `cli numUniformShards`() {
+        val expected = 50
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parseArgs("--num-uniform-shards=$expected")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+      """
+        assertThat(AndroidArgs.load(yaml).numUniformShards).isNull()
+
+        val androidArgs = AndroidArgs.load(yaml, cli)
+        assertThat(androidArgs.numUniformShards).isEqualTo(expected)
+    }
+
+    @Test(expected = FlankFatalError::class)
+    fun `should throw if numUniformShards is specified along with maxTestShards`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          num-uniform-shards: 50
+        flank:
+          max-test-shards: 50
+      """
+        AndroidArgs.load(yaml)
     }
 
     @Test
@@ -783,7 +942,7 @@ AndroidArgs
     @Test
     fun `cli repeatTests`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parseArgs("--repeat-tests=3")
+        CommandLine(cli).parseArgs("--num-test-runs=3")
 
         val yaml = """
         gcloud:
@@ -791,7 +950,7 @@ AndroidArgs
           test: $testApk
 
         flank:
-          repeat-tests: 2
+          num-test-runs: 2
       """
         assertThat(AndroidArgs.load(yaml).repeatTests).isEqualTo(2)
         assertThat(AndroidArgs.load(yaml, cli).repeatTests).isEqualTo(3)
@@ -810,20 +969,30 @@ AndroidArgs
         assertThat(AndroidArgs.load(yaml, cli).testTargetsAlwaysRun).isEqualTo(arrayListOf("com.A", "com.B"))
     }
 
+    @Test(expected = FlankFatalError::class)
+    fun `cli resultsDir fail if not exist`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          results-dir: not_exist
+      """
+        AndroidArgs.load(yaml)
+    }
     @Test
     fun `cli resultsDir`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parseArgs("--results-dir=b")
+        CommandLine(cli).parseArgs("--results-dir=build")
 
         val yaml = """
         gcloud:
           app: $appApk
           test: $testApk
-          results-dir: a
+          results-dir: results
       """
 
-        assertThat(AndroidArgs.load(yaml).resultsDir).isEqualTo("a")
-        assertThat(AndroidArgs.load(yaml, cli).resultsDir).isEqualTo("b")
+        assertThat(AndroidArgs.load(yaml).resultsDir).isEqualTo("results")
+        assertThat(AndroidArgs.load(yaml, cli).resultsDir).isEqualTo("build")
     }
 
     @Test
@@ -898,7 +1067,7 @@ AndroidArgs
     @Test
     fun `cli additional-app-test-apks`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parseArgs("--additional-app-test-apks=app=a,test=b")
+        CommandLine(cli).parseArgs("--additional-app-test-apks=app=$appApk,test=$testFlakyApk")
 
         val yaml = """
         gcloud:
@@ -906,14 +1075,183 @@ AndroidArgs
           test: $testApk
         flank:
           additional-app-test-apks:
-          - app: 1
-            test: 2
+          - app: $appApk
+            test: $testErrorApk
       """
-        assertThat(AndroidArgs.load(yaml).additionalAppTestApks).isEqualTo(
-            listOf(AppTestPair("1", "2")))
+        assertEquals(
+            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath)),
+            AndroidArgs.load(yaml).additionalAppTestApks
+        )
+
+        assertEquals(
+            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath)),
+            AndroidArgs.load(yaml, cli).additionalAppTestApks
+        )
+    }
+
+    @Test
+    fun `cli keep-file-path`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parseArgs("--keep-file-path=true")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          keep-file-path: false
+      """
+        assertThat(AndroidArgs.load(yaml).keepFilePath).isEqualTo(false)
 
         val androidArgs = AndroidArgs.load(yaml, cli)
-        assertThat(androidArgs.additionalAppTestApks).isEqualTo(
-            listOf(AppTestPair("a", "b")))
+        assertThat(androidArgs.keepFilePath).isEqualTo(true)
+    }
+
+    @Test
+    fun `cli run-timeout`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parseArgs("--run-timeout=20m")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+      """
+        assertThat(AndroidArgs.load(yaml).parsedTimeout).isEqualTo(Long.MAX_VALUE)
+
+        val args = AndroidArgs.load(yaml, cli)
+        assertThat(args.parsedTimeout).isEqualTo(20 * 60 * 1000L)
+    }
+
+    @Test
+    fun `additional test apks without app specified should have top level app provided -- yml file`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          additional-app-test-apks:
+          - test: $testErrorApk
+          - app: null
+            test: $testErrorApk
+          - app: $invalidApk
+            test: $testApk
+        """.trimIndent()
+
+        val parsedYml = AndroidArgs.load(yaml)
+        val (matrixMap, chunks) = runBlocking { runAndroidTests(parsedYml) }
+        assertEquals(4, matrixMap.map.size)
+        assertEquals(4, chunks.size)
+    }
+
+    @Test
+    fun `verify run timeout default value - android`() {
+        val args = AndroidArgs.load(simpleFlankPath)
+        assertEquals(Long.MAX_VALUE, args.parsedTimeout)
+    }
+
+    @Test
+    fun `verify legacy junit result default value - android`() {
+        val args = AndroidArgs.load(flankLocal)
+        assertFalse(args.useLegacyJUnitResult)
+    }
+
+    @Test
+    fun `verify ignore failed tests default value - android`() {
+        val args = AndroidArgs.load(flankLocal)
+        assertFalse(args.ignoreFailedTests)
+    }
+
+    @Test(expected = FlankFatalError::class)
+    fun `should throw if both instrumentation and robo tests are specified`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          robo-directives:
+            text:resource_name_1: some_text
+            click:resource_name_2: ""
+          robo-script: $appApk
+        """.trimIndent()
+
+        AndroidArgs.load(yaml)
+    }
+
+    @Test
+    fun `should load robo-script from yaml`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          robo-script: $appApk
+        """.trimIndent()
+
+        val args = AndroidArgs.load(yaml)
+
+        assertEquals(
+            args.roboScript,
+            appApkAbsolutePath
+        )
+    }
+
+    @Test
+    fun `should load robo-directives from yaml`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          robo-directives:
+            text:resource_name_1: some_text
+            click:resource_name_2: ""
+        """.trimIndent()
+
+        val args = AndroidArgs.load(yaml)
+
+        assertEquals(
+            args.roboDirectives,
+            listOf(
+                FlankRoboDirective(type = "text", name = "resource_name_1", input = "some_text"),
+                FlankRoboDirective(type = "click", name = "resource_name_2")
+            )
+        )
+    }
+
+    fun `should load robo-script & robo directives from cli`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parseArgs("--robo-script=$appApk, --robo-directives=text:a=b,click=c")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+        """.trimIndent()
+
+        val args = AndroidArgs.load(yaml, cli)
+
+        assertEquals(
+            args.roboScript,
+            appApkAbsolutePath
+        )
+        assertEquals(
+            args.roboDirectives,
+            listOf(
+                FlankRoboDirective(type = "text", name = "a", input = "b"),
+                FlankRoboDirective(type = "click", name = "c")
+            )
+        )
+    }
+
+    @Test(expected = FlankCommonException::class)
+    fun `should throw FlankCommonException if not tests to be run overall`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        """.trimIndent()
+
+        mockkObject(AndroidTestShard)
+        every { AndroidTestShard.getTestShardChunks(any(), any()) } returns listOf()
+
+        val parsedYml = AndroidArgs.load(yaml)
+        runBlocking { runAndroidTests(parsedYml) }
     }
 }
+
+private fun AndroidArgs.Companion.load(yamlData: String, cli: AndroidRunCommand? = null): AndroidArgs = load(StringReader(yamlData), cli)

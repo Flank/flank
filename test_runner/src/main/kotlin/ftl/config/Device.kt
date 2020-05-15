@@ -2,7 +2,7 @@ package ftl.config
 
 import ftl.config.FtlConstants.defaultLocale
 import ftl.config.FtlConstants.defaultOrientation
-import ftl.util.Utils.trimStartLine
+import ftl.util.trimStartLine
 
 data class Device(
     val model: String,

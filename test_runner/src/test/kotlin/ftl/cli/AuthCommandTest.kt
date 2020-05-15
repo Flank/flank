@@ -6,6 +6,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
+import ftl.test.util.TestHelper.normalizeLineEnding
 
 @RunWith(FlankTestRunner::class)
 class AuthCommandTest {
@@ -16,7 +17,7 @@ class AuthCommandTest {
     @Test
     fun firebaseCommandPrintsHelp() {
         AuthCommand().run()
-        val output = systemOutRule.log
+        val output = systemOutRule.log.normalizeLineEnding()
         assertThat(output).startsWith(
             "Manage oauth2 credentials for Google Cloud\n\n" +
             "auth [COMMAND]\n" +

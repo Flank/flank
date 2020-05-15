@@ -1,23 +1,16 @@
 package ftl.json
 
+import ftl.util.FTLError
+import ftl.util.FailedMatrix
 import ftl.util.MatrixState
 
 class MatrixMap(
-    val map: MutableMap<String, SavedMatrix>,
+    val map: Map<String, SavedMatrix>,
     val runPath: String
 ) {
     // determine success by FTL API, not junit xml.
     // FTL sometimes generates empty XML reports (0 failures) for a failed matrix
-    fun allSuccessful(): Boolean {
-        val savedMatrices = map.values
-        var successful = true
-
-        savedMatrices.forEach { matrix ->
-            if (matrix.failed()) successful = false
-        }
-
-        return successful
-    }
+    fun allSuccessful(): Boolean = map.values.any(SavedMatrix::failed).not()
 
     /**
      * There are two sources of information for detecting the exit code
@@ -28,18 +21,23 @@ class MatrixMap(
      * A matrix state of error means FTL had an infrastructure failure
      * A step outcome of failure means at least one test failed.
      *
-     * exit code 0 - all tests passed
-     * exit code 1 - at least one test failed/inconclusive & all matrices finished
-     * exit code 2 - at least one matrix not finished (usually FTL error)
+     * @param shouldIgnore [Boolean]
+     *        set {true} to ignore failed matrices and exit with status code 0
+     *
+     * @throws FailedMatrix [FailedMatrix]
+     *         at least one test failed/inconclusive & all matrices finished
+     * @throws FTLError [FTLError]
+     *         at least one matrix not finished (usually FTL error)
      */
-    fun exitCode(): Int {
-        var exitCode = 0
-
-        map.values.forEach { matrix ->
-            if (matrix.state != MatrixState.FINISHED) return 2
-            if (matrix.failed()) exitCode = 1
+    fun validateMatrices(shouldIgnore: Boolean = false) {
+        map.values.run {
+            firstOrNull { it.state != MatrixState.FINISHED }?.let { throw FTLError(it) }
+            filter { it.failed() }.let {
+                if (it.isNotEmpty()) throw FailedMatrix(
+                    matrices = it,
+                    ignoreFailed = shouldIgnore
+                )
+            }
         }
-
-        return exitCode
     }
 }

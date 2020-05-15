@@ -1,0 +1,8 @@
+gcloud:
+  app: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk
+  test: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-single-error-debug-androidTest.apk
+  num-flaky-test-attempts: 1
+
+flank:
+  disable-sharding: false
+  max-test-shards: 2

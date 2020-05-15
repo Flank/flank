@@ -1,33 +1,37 @@
 package ftl.run
 
 import ftl.args.IArgs
-import ftl.run.GenericTestRunner.beforeRunMessage
+import ftl.run.platform.common.beforeRunMessage
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
-import ftl.util.Utils.trimStartLine
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
+import ftl.test.util.TestHelper.normalizeLineEnding
+import ftl.util.trimStartLine
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.unmockkAll
+import org.junit.After
 
 @RunWith(FlankTestRunner::class)
 class GenericTestRunnerTest {
 
-    private fun createMock(repeatTests: Int): IArgs {
-        val args = mock(IArgs::class.java)
-        `when`(args.repeatTests).thenReturn(repeatTests)
-        return args
+    private fun createMock(repeatTests: Int) = mockk<IArgs>().apply {
+        every { this@apply.repeatTests } returns repeatTests
     }
+
+    @After
+    fun tearDown() = unmockkAll()
 
     @Test
     fun testBeforeRunMessage1() {
-        val result = beforeRunMessage(createMock(1), listOf(listOf("")))
+        val result = beforeRunMessage(createMock(1), listOf(listOf(""))).normalizeLineEnding()
         assert(result, "  1 test / 1 shard\n")
     }
 
     @Test
     fun testBeforeRunMessage2() {
-        val result = beforeRunMessage(createMock(2), listOf(listOf("")))
+        val result = beforeRunMessage(createMock(2), listOf(listOf(""))).normalizeLineEnding()
         assert(
             result, """
   1 test / 1 shard
@@ -42,8 +46,8 @@ class GenericTestRunnerTest {
     fun testBeforeRunMessage3() {
         val result = beforeRunMessage(
             createMock(2),
-                listOf(listOf(""), listOf(""), listOf(""), listOf(""), listOf(""), listOf(""))
-            )
+            listOf(listOf(""), listOf(""), listOf(""), listOf(""), listOf(""), listOf(""))
+        ).normalizeLineEnding()
         assert(
             result, """
   6 tests / 6 shards
@@ -56,7 +60,13 @@ class GenericTestRunnerTest {
 
     @Test
     fun testBeforeRunMessage4() {
-        val result = beforeRunMessage(createMock(100), listOf(listOf("", "", "", "", ""), listOf("", "", "", "", "")))
+        val result = beforeRunMessage(
+            createMock(100),
+            listOf(
+                listOf("", "", "", "", ""),
+                listOf("", "", "", "", "")
+            )
+        ).normalizeLineEnding()
         assert(
             result, """
   10 tests / 2 shards

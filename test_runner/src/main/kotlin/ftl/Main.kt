@@ -6,8 +6,10 @@ import ftl.cli.firebase.CancelCommand
 import ftl.cli.firebase.RefreshCommand
 import ftl.cli.firebase.test.AndroidCommand
 import ftl.cli.firebase.test.IosCommand
-import ftl.util.Utils.readRevision
-import ftl.util.Utils.readVersion
+import ftl.log.setDebugLogging
+import ftl.util.readRevision
+import ftl.util.readVersion
+import ftl.util.withGlobalExceptionHandling
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -24,21 +26,32 @@ import picocli.CommandLine
 )
 class Main : Runnable {
     override fun run() {
-        if (printVersion) {
-            println(readVersion())
-            println(readRevision())
-        } else {
-            CommandLine.usage(Main::class.java, System.out)
-        }
+        if (printVersion) return
+        CommandLine.usage(Main::class.java, System.out)
     }
 
     @CommandLine.Option(names = ["-v", "--version"], description = ["Prints the version"])
     private var printVersion = false
 
+    @CommandLine.Option(
+        names = ["--debug"],
+        description = ["Enables debug logging"],
+        defaultValue = "false"
+    )
+    fun debug(enabled: Boolean) = setDebugLogging(enabled)
+
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            CommandLine(Main()).execute(*args)
+            // BugSnag opens a non-daemon thread which will keep the JVM process alive.
+            // Flank must invoke exitProcess to exit cleanly.
+            // https://github.com/bugsnag/bugsnag-java/issues/151
+            withGlobalExceptionHandling {
+                println("version: " + readVersion())
+                println("revision: " + readRevision())
+                println()
+                CommandLine(Main()).execute(*args)
+            }
         }
     }
 }

@@ -2,20 +2,23 @@ package ftl.cli.firebase.test.android
 
 import ftl.args.AndroidArgs
 import ftl.args.AndroidTestShard
+import ftl.args.ShardChunks
 import ftl.args.yml.AppTestPair
+import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.config.FtlConstants.defaultLocale
 import ftl.config.FtlConstants.defaultOrientation
-import ftl.run.TestRunner
-import java.nio.file.Files
-import java.nio.file.Paths
-import kotlin.system.exitProcess
+import ftl.mock.MockServer
+import ftl.run.common.prettyPrint
+import ftl.run.newTestRun
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
+import java.nio.file.Files
+import java.nio.file.Paths
 
 @Command(
     name = "run",
@@ -32,22 +35,25 @@ Configuration is read from flank.yml
 """],
     usageHelpAutoWidth = true
 )
-class AndroidRunCommand : Runnable {
+class AndroidRunCommand : CommonRunCommand(), Runnable {
 
     override fun run() {
+        if (dryRun) {
+            MockServer.start()
+        }
+
         val config = AndroidArgs.load(Paths.get(configPath), cli = this)
 
         if (dumpShards) {
-            val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk)
-            val testShardChunksJson = TestRunner.gson.toJson(testShardChunks)
+            val testShardChunks: ShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk!!)
+            val testShardChunksJson: String = prettyPrint.toJson(testShardChunks)
 
             Files.write(Paths.get(shardFile), testShardChunksJson.toByteArray())
             println("Saved shards to $shardFile")
-            exitProcess(0)
-        }
-
-        runBlocking {
-            TestRunner.newRun(config)
+        } else {
+            runBlocking {
+                newTestRun(config)
+            }
         }
     }
 
@@ -68,13 +74,6 @@ class AndroidRunCommand : Runnable {
     )
     var configPath: String = FtlConstants.defaultAndroidConfig
 
-    @Option(
-        names = ["-h", "--help"],
-        usageHelp = true,
-        description = ["Prints this help message"]
-    )
-    var usageHelpRequested: Boolean = false
-
     // AndroidGcloudYml.kt
 
     @Option(
@@ -92,15 +91,23 @@ class AndroidRunCommand : Runnable {
     var test: String? = null
 
     @Option(
+        names = ["--additional-apks"],
+        split = ",",
+        description = ["A list of up to 100 additional APKs to install, in addition to those being directly tested." +
+                "The path may be in the local filesystem or in Google Cloud Storage using gs:// notation. "]
+    )
+    var additionalApks: List<String>? = null
+
+    @Option(
         names = ["--auto-google-login"],
         description = ["Automatically log into the test device using a preconfigured " +
-                "Google account before beginning the test. Enabled by default, use --no-auto-google-login to disable."]
+                "Google account before beginning the test. Disabled by default."]
     )
     var autoGoogleLogin: Boolean? = null
 
     @Option(
         names = ["--no-auto-google-login"],
-        description = ["Google account not logged in. See --auto-google-login."]
+        description = ["Google account not logged in (default behavior). Use --auto-google-login to enable"]
     )
     var noAutoGoogleLogin: Boolean? = null
 
@@ -119,6 +126,30 @@ class AndroidRunCommand : Runnable {
         description = ["Orchestrator is not used. See --use-orchestrator."]
     )
     var noUseOrchestrator: Boolean? = null
+
+    @Option(
+        names = ["--robo-directives"],
+        split = ",",
+        description = [
+            "A comma-separated (<type>:<key>=<value>) map of robo_directives that you can use to customize the behavior of Robo test.",
+            "The type specifies the action type of the directive, which may take on values click, text or ignore.",
+            "If no type is provided, text will be used by default.",
+            "Each key should be the Android resource name of a target UI element and each value should be the text input for that element.",
+            "Values are only permitted for text type elements, so no value should be specified for click and ignore type elements."
+        ]
+    )
+    var roboDirectives: List<String>? = null
+
+    @Option(
+        names = ["--robo-script"],
+        description = [
+            "The path to a Robo Script JSON file.",
+            "The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.",
+            "You can guide the Robo test to perform specific actions by recording a Robo Script in Android Studio and then specifying this argument.",
+            "Learn more at https://firebase.google.com/docs/test-lab/robo-ux-test#scripting. "
+        ]
+    )
+    var roboScript: String? = null
 
     @Option(
         names = ["--environment-variables"],
@@ -143,17 +174,38 @@ class AndroidRunCommand : Runnable {
     var directoriesToPull: List<String>? = null
 
     @Option(
+        names = ["--other-files"],
+        split = ",",
+        description = ["A list of device-path=file-path pairs that indicate the device paths to push files to the device before starting tests, and the paths of files to push." +
+                "Device paths must be under absolute, whitelisted paths (\${EXTERNAL_STORAGE}, or \${ANDROID_DATA}/local/tmp)." +
+                "Source file paths may be in the local filesystem or in Google Cloud Storage (gs://…). "]
+    )
+    var otherFiles: Map<String, String>? = null
+
+    @Option(
         names = ["--performance-metrics"],
         description = ["Monitor and record performance metrics: CPU, memory, " +
-                "network usage, and FPS (game-loop only). Enabled by default, use --no-performance-metrics to disable."]
+                "network usage, and FPS (game-loop only). Disabled by default."]
     )
     var performanceMetrics: Boolean? = null
 
     @Option(
         names = ["--no-performance-metrics"],
-        description = ["Disables performance metrics. See --performance-metrics"]
+        description = ["Disables performance metrics (default behavior). Use --performance-metrics to enable."]
     )
     var noPerformanceMetrics: Boolean? = null
+
+    @Option(
+        names = ["--num-uniform-shards"],
+        description = ["Specifies the number of shards into which you want to evenly distribute test cases." +
+                "The shards are run in parallel on separate devices. For example," +
+                "if your test execution contains 20 test cases and you specify four shards, each shard executes five test cases." +
+                "The number of shards should be less than the total number of test cases." +
+                "The number of shards specified must be >= 1 and <= 50." +
+                "This option cannot be used along max-test-shards and is not compatible with smart sharding." +
+                "If you want to take benefits of smart sharding use max-test-shards."]
+    )
+    var numUniformShards: Int? = null
 
     @Option(
         names = ["--test-runner-class"],
@@ -197,141 +249,6 @@ class AndroidRunCommand : Runnable {
 
     var device: MutableList<Device>? = null
 
-    // GcloudYml.kt
-
-    @Option(
-        names = ["--results-bucket"],
-        description = ["The name of a Google Cloud Storage bucket where raw test " +
-                "results will be stored (default: \"test-lab-<random-UUID>\"). Note that the bucket must be owned by a " +
-                "billing-enabled project, and that using a non-default bucket will result in billing charges for the " +
-                "storage used."]
-    )
-    var resultsBucket: String? = null
-
-    @Option(
-        names = ["--results-dir"],
-        description = [
-            "The name of a unique Google Cloud Storage object within the results bucket where raw test results will be " +
-                    "stored (default: a timestamp with a random suffix). Caution: if specified, this argument must be unique for " +
-                    "each test matrix you create, otherwise results from multiple test matrices will be overwritten or " +
-                    "intermingled."]
-    )
-    var resultsDir: String? = null
-
-    @Option(
-        names = ["--record-video"],
-        description = ["Enable video recording during the test. " +
-                "Enabled by default, use --no-record-video to disable."]
-    )
-    var recordVideo: Boolean? = null
-
-    @Option(
-        names = ["--no-record-video"],
-        description = ["Disable video recording during the test. See --record-video to enable."]
-    )
-    var noRecordVideo: Boolean? = null
-
-    @Option(
-        names = ["--timeout"],
-        description = ["The max time this test execution can run before it is cancelled " +
-                "(default: 15m). It does not include any time necessary to prepare and clean up the target device. The maximum " +
-                "possible testing time is 30m on physical devices and 60m on virtual devices. The TIMEOUT units can be h, m, " +
-                "or s. If no unit is given, seconds are assumed. "]
-    )
-    var timeout: String? = null
-
-    @Option(
-        names = ["--async"],
-        description = ["Invoke a test asynchronously without waiting for test results."]
-    )
-    var async: Boolean? = null
-
-    @Option(
-        names = ["--results-history-name"],
-        description = ["The history name for your test results " +
-                "(an arbitrary string label; default: the application's label from the APK manifest). All tests which use the " +
-                "same history name will have their results grouped together in the Firebase console in a time-ordered test " +
-                "history list."]
-    )
-    var resultsHistoryName: String? = null
-
-    @Option(
-        names = ["--num-flaky-test-attempts"],
-        description = ["The number of times a TestExecution should be re-attempted if one or more of its test cases " +
-                "fail for any reason. The maximum number of reruns allowed is 10. Default is 0, which implies no reruns."]
-    )
-    var flakyTestAttempts: Int? = null
-
-    // FlankYml.kt
-
-    @Option(
-        names = ["--max-test-shards"],
-        description = ["The amount of matrices to split the tests across."]
-    )
-    var maxTestShards: Int? = null
-
-    @Option(
-        names = ["--shard-time"],
-        description = ["The max amount of seconds each shard should run."]
-    )
-    var shardTime: Int? = null
-
-    @Option(
-        names = ["--repeat-tests"],
-        description = ["The amount of times to repeat the test executions."]
-    )
-    var repeatTests: Int? = null
-
-    @Option(
-        names = ["--smart-flank-gcs-path"],
-        split = ",",
-        description = ["Google cloud storage path to save test timing data used by smart flank."]
-    )
-    var smartFlankGcsPath: String? = null
-
-    @Option(
-        names = ["--smart-flank-disable-upload"],
-        description = ["Disables smart flank JUnit XML uploading. Useful for preventing timing data from being updated."]
-    )
-    var smartFlankDisableUpload: Boolean? = null
-
-    @Option(
-        names = ["--disable-sharding"],
-        description = ["Disable sharding."]
-    )
-    var disableSharding: Boolean? = null
-
-    @Option(
-        names = ["--test-targets-always-run"],
-        split = ",",
-        description = [
-            "A list of one or more test methods to always run first in every shard."]
-    )
-    var testTargetsAlwaysRun: List<String>? = null
-
-    @Option(
-        names = ["--files-to-download"],
-        split = ",",
-        description = ["A list of paths that will be downloaded from the resulting bucket " +
-                "to the local results folder after the test is complete. These must be absolute paths " +
-                "(for example, --files-to-download /images/tempDir1,/data/local/tmp/tempDir2). " +
-                "Path names are restricted to the characters a-zA-Z0-9_-./+."]
-    )
-    var filesToDownload: List<String>? = null
-
-    @Option(
-        names = ["--project"],
-        description = ["The Google Cloud Platform project name to use for this invocation. " +
-                "If omitted, then the project from the service account credential is used"]
-    )
-    var project: String? = null
-
-    @Option(
-        names = ["--local-result-dir"],
-        description = ["Saves test result to this local folder. Deleted before each run."]
-    )
-    var localResultDir: String? = null
-
     // AndroidFlankYml
 
     @Option(
@@ -358,4 +275,10 @@ class AndroidRunCommand : Runnable {
     }
 
     var additionalAppTestApks: MutableList<AppTestPair>? = null
+
+    @Option(
+        names = ["--legacy-junit-result"],
+        description = ["Fallback for legacy xml junit results parsing."]
+    )
+    var useLegacyJUnitResult: Boolean? = null
 }

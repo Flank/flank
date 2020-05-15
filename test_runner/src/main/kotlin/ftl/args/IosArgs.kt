@@ -1,5 +1,6 @@
 package ftl.args
 
+import com.google.common.annotations.VisibleForTesting
 import ftl.args.ArgsHelper.assertCommonProps
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
@@ -8,8 +9,9 @@ import ftl.args.ArgsHelper.createJunitBucket
 import ftl.args.ArgsHelper.evaluateFilePath
 import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.yamlMapper
-import ftl.args.ArgsToString.devicesToString
 import ftl.args.ArgsToString.listToString
+import ftl.args.ArgsToString.mapToString
+import ftl.args.ArgsToString.objectsToString
 import ftl.args.yml.FlankYml
 import ftl.args.yml.GcloudYml
 import ftl.args.yml.IosFlankYml
@@ -21,7 +23,9 @@ import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.ios.IosCatalog
 import ftl.ios.Xctestrun
-import ftl.util.Utils.fatalError
+import ftl.util.FlankTestMethod
+import ftl.util.FlankFatalError
+import java.io.Reader
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -44,8 +48,8 @@ class IosArgs(
     override val flakyTestAttempts = cli?.flakyTestAttempts ?: gcloud.flakyTestAttempts
 
     private val iosGcloud = iosGcloudYml.gcloud
-    var xctestrunZip = cli?.test ?: iosGcloud.test ?: fatalError("test is not set")
-    var xctestrunFile = cli?.xctestrunFile ?: iosGcloud.xctestrunFile ?: fatalError("xctestrun-file is not set")
+    var xctestrunZip = cli?.test ?: iosGcloud.test ?: throw FlankFatalError("test is not set")
+    var xctestrunFile = cli?.xctestrunFile ?: iosGcloud.xctestrunFile ?: throw FlankFatalError("xctestrun-file is not set")
     val xcodeVersion = cli?.xcodeVersion ?: iosGcloud.xcodeVersion
     val devices = cli?.device ?: iosGcloud.device
 
@@ -59,17 +63,24 @@ class IosArgs(
     override val filesToDownload = cli?.filesToDownload ?: flank.filesToDownload
     override val disableSharding = cli?.disableSharding ?: flank.disableSharding
     override val project = cli?.project ?: flank.project
-    override val localResultDir = cli?.localResultsDir ?: flank.localResultDir
+    override val localResultDir = cli?.localResultsDir ?: flank.localResultsDir
+    override val runTimeout = cli?.runTimeout ?: flank.runTimeout
+    override val clientDetails = cli?.clientDetails ?: gcloud.clientDetails
+    override val networkProfile = cli?.networkProfile ?: gcloud.networkProfile
+    override val ignoreFailedTests = cli?.ignoreFailedTests ?: flank.ignoreFailedTests
+    override val keepFilePath = cli?.keepFilePath ?: flank.keepFilePath
+    // currently, FTL does not provide API based results for iOS
+    override val useLegacyJUnitResult = true
 
     private val iosFlank = iosFlankYml.flank
     val testTargets = cli?.testTargets ?: iosFlank.testTargets.filterNotNull()
 
     // computed properties not specified in yaml
-    val testShardChunks: List<List<String>> by lazy {
+    val testShardChunks: ShardChunks by lazy {
         if (disableSharding) return@lazy listOf(emptyList<String>())
 
         val validTestMethods = Xctestrun.findTestNames(xctestrunFile)
-        val testsToShard = filterTests(validTestMethods, testTargets).distinct()
+        val testsToShard = filterTests(validTestMethods, testTargets).distinct().map { FlankTestMethod(it, ignored = false) }
 
         ArgsHelper.calculateShards(testsToShard, this)
     }
@@ -96,13 +107,13 @@ class IosArgs(
     private fun assertXcodeSupported(xcodeVersion: String?) {
         if (xcodeVersion == null) return
         if (!IosCatalog.supportedXcode(xcodeVersion, this.project)) {
-            fatalError(("Xcode $xcodeVersion is not a supported Xcode version"))
+            throw FlankFatalError(("Xcode $xcodeVersion is not a supported Xcode version"))
         }
     }
 
     private fun assertDeviceSupported(device: Device) {
         if (!IosCatalog.supportedDevice(device.model, device.version, this.project)) {
-            fatalError("iOS ${device.version} on ${device.model} is not a supported device")
+            throw FlankFatalError("iOS ${device.version} on ${device.model} is not a supported device")
         }
     }
 
@@ -115,31 +126,32 @@ IosArgs
       record-video: $recordVideo
       timeout: $testTimeout
       async: $async
+      client-details: ${mapToString(clientDetails)}
+      network-profile: $networkProfile
       results-history-name: $resultsHistoryName
       # iOS gcloud
       test: $xctestrunZip
       xctestrun-file: $xctestrunFile
       xcode-version: $xcodeVersion
-      device:
-${devicesToString(devices)}
+      device:${objectsToString(devices)}
       num-flaky-test-attempts: $flakyTestAttempts
 
     flank:
       max-test-shards: $maxTestShards
       shard-time: $shardTime
-      repeat-tests: $repeatTests
+      num-test-runs: $repeatTests
       smart-flank-gcs-path: $smartFlankGcsPath
       smart-flank-disable-upload: $smartFlankDisableUpload
-      test-targets-always-run:
-${listToString(testTargetsAlwaysRun)}
-      files-to-download:
-${listToString(filesToDownload)}
+      test-targets-always-run:${listToString(testTargetsAlwaysRun)}
+      files-to-download:${listToString(filesToDownload)}
+      keep-file-path: $keepFilePath
       # iOS flank
-      test-targets:
-${listToString(testTargets)}
+      test-targets:${listToString(testTargets)}
       disable-sharding: $disableSharding
       project: $project
       local-result-dir: $localResultDir
+      run-timeout: $runTimeout
+      ignore-failed-tests: $ignoreFailedTests
     """.trimIndent()
     }
 
@@ -148,10 +160,11 @@ ${listToString(testTargets)}
             mergeYmlMaps(GcloudYml, IosGcloudYml, FlankYml, IosFlankYml)
         }
 
-        fun load(data: Path, cli: IosRunCommand? = null): IosArgs = load(String(Files.readAllBytes(data)), cli)
+        fun load(yamlPath: Path, cli: IosRunCommand? = null): IosArgs = load(Files.newBufferedReader(yamlPath), cli)
 
-        fun load(yamlData: String, cli: IosRunCommand? = null): IosArgs {
-            val data = YamlDeprecated.modifyAndThrow(yamlData, android = false)
+        @VisibleForTesting
+        internal fun load(yamlReader: Reader, cli: IosRunCommand? = null): IosArgs {
+            val data = YamlDeprecated.modifyAndThrow(yamlReader, android = false)
 
             val flankYml = yamlMapper.readValue(data, FlankYml::class.java)
             val iosFlankYml = yamlMapper.readValue(data, IosFlankYml::class.java)
@@ -175,7 +188,8 @@ ${listToString(testTargets)}
                 FlankYml(),
                 IosFlankYml(),
                 "",
-                IosRunCommand())
+                IosRunCommand()
+            )
         }
     }
 }

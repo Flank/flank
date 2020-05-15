@@ -1,20 +1,22 @@
 {
   "compilerOptions": {
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "module": "es6",
     "target": "es5",
+    "jsx": "react",
     "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
+    "esModuleInterop": true,
+    "lib": ["es5", "es6", "dom"],
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
     "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "preserve"
+    "rootDir": ".",
+    "baseUrl": "src"
   },
   "include": [
-    "src"
+    "src/**/*"
   ]
 }

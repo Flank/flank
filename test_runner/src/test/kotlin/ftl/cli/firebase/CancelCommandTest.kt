@@ -1,12 +1,11 @@
 package ftl.cli.firebase
 
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.TestHelper.normalizeLineEnding
 import org.junit.Rule
 import org.junit.Test
-import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
@@ -17,17 +16,14 @@ class CancelCommandTest {
     @JvmField
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
 
-    @get:Rule
-    val exit = ExpectedSystemExit.none()
-
     @Test
     fun cancelCommandPrintsHelp() {
         val command = CancelCommand()
         assertThat(command.usageHelpRequested).isFalse()
         CommandLine(command).execute("-h")
 
-        val output = systemOutRule.log
-        Truth.assertThat(output).startsWith(
+        val output = systemOutRule.log.normalizeLineEnding()
+        assertThat(output).startsWith(
                 "Cancels the last Firebase Test Lab run\n" +
                         "\n" +
                         "cancel [-h]\n" +
@@ -47,13 +43,12 @@ class CancelCommandTest {
 
     @Test
     fun cancelCommandRuns() {
-        exit.expectSystemExit()
         val runCmd = AndroidRunCommand()
-        runCmd.configPath = "./src/test/kotlin/ftl/fixtures/android.yml"
+        runCmd.configPath = "./src/test/kotlin/ftl/fixtures/simple-android-flank.yml"
         runCmd.run()
         CancelCommand().run()
         val output = systemOutRule.log
-        Truth.assertThat(output).contains("No matrices to cancel")
+        assertThat(output).contains("No matrices to cancel")
     }
 
     @Test

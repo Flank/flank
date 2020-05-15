@@ -17,9 +17,8 @@ import ftl.args.IosArgs
 import ftl.ios.Xctestrun
 import ftl.ios.Xctestrun.toByteArray
 import ftl.util.ShardCounter
-import ftl.util.Utils.fatalError
-import ftl.util.Utils.join
-import ftl.util.testTimeoutToSeconds
+import ftl.util.join
+import ftl.util.timeoutToSeconds
 
 object GcIosTestMatrix {
 
@@ -33,10 +32,13 @@ object GcIosTestMatrix {
         shardCounter: ShardCounter,
         toolResultsHistory: ToolResultsHistory
     ): Testing.Projects.TestMatrices.Create {
-        val clientInfo = ClientInfo().setName("Flank")
+        val clientInfo = ClientInfo()
+            .setName("Flank")
+            .setClientInfoDetails(args.clientDetails?.toClientInfoDetailList())
 
         val gcsBucket = args.resultsBucket
-        val matrixGcsSuffix = join(runGcsPath, shardCounter.next())
+        val shardName = shardCounter.next()
+        val matrixGcsSuffix = join(runGcsPath, shardName)
         val matrixGcsPath = join(gcsBucket, matrixGcsSuffix)
 
         // Parameterized tests on iOS don't shard correctly.
@@ -47,7 +49,10 @@ object GcIosTestMatrix {
             Xctestrun.rewrite(xcTestParsed, testTargets)
         }
 
-        val xctestrunFileGcsPath = GcStorage.uploadXCTestFile(args, gcsBucket, matrixGcsSuffix, generatedXctestrun)
+        // Add shard number to file name
+        val xctestrunNewFileName = StringBuilder(args.xctestrunFile).insert(args.xctestrunFile.lastIndexOf("."), "_$shardName").toString()
+
+        val xctestrunFileGcsPath = GcStorage.uploadXCTestFile(xctestrunNewFileName, gcsBucket, matrixGcsSuffix, generatedXctestrun)
 
         val iOSXCTest = IosXcTest()
             .setTestsZip(FileReference().setGcsPath(testZipGcsPath))
@@ -55,9 +60,9 @@ object GcIosTestMatrix {
             .setXcodeVersion(args.xcodeVersion)
 
         val iOSTestSetup = IosTestSetup()
-            .setNetworkProfile(null)
+            .setNetworkProfile(args.networkProfile)
 
-        val testTimeoutSeconds = testTimeoutToSeconds(args.testTimeout)
+        val testTimeoutSeconds = timeoutToSeconds(args.testTimeout)
 
         val testSpecification = TestSpecification()
             .setDisableVideoRecording(!args.recordVideo)
@@ -81,9 +86,7 @@ object GcIosTestMatrix {
         try {
             return GcTesting.get.projects().testMatrices().create(args.project, testMatrix)
         } catch (e: Exception) {
-            fatalError(e)
+            throw RuntimeException(e)
         }
-
-        throw RuntimeException("Failed to create test matrix")
     }
 }

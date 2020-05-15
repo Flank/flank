@@ -1,6 +1,5 @@
 package ftl.cli.firebase
 
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import ftl.test.util.FlankTestRunner
 import java.io.File
@@ -8,19 +7,16 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import org.junit.Rule
 import org.junit.Test
-import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
+import ftl.test.util.TestHelper.normalizeLineEnding
 
 @RunWith(FlankTestRunner::class)
 class RefreshCommandTest {
     @Rule
     @JvmField
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
-
-    @get:Rule
-    val exit = ExpectedSystemExit.none()!!
 
     /** Create one result dir with matrix_ids.json for refresh command tests */
     private fun setupResultsDir() {
@@ -56,6 +52,8 @@ class RefreshCommandTest {
              gcloud:
                app: ../test_app/apks/app-debug.apk
                test: ../test_app/apks/app-debug-androidTest.apk
+             flank:
+               legacy-junit-result: true
             """.trimIndent().toByteArray()
         )
     }
@@ -66,8 +64,8 @@ class RefreshCommandTest {
         assertThat(refresh.usageHelpRequested).isFalse()
         CommandLine(refresh).execute("-h")
 
-        val output = systemOutRule.log
-        Truth.assertThat(output).startsWith(
+        val output = systemOutRule.log.normalizeLineEnding()
+        assertThat(output).startsWith(
             "Downloads results for the last Firebase Test Lab run\n" +
                     "\n" +
                     "refresh [-h]\n" +
@@ -87,13 +85,13 @@ class RefreshCommandTest {
 
     @Test
     fun refreshCommandRuns() {
-        exit.expectSystemExit()
+        // TODO: ':' is an illegal character on windows
         setupResultsDir()
         val cmd = RefreshCommand()
         cmd.usageHelpRequested
         cmd.run()
         val output = systemOutRule.log
-        Truth.assertThat(output).contains("1 / 1 (100.00%)")
+        assertThat(output).contains("1 / 1 (100.00%)")
     }
 
     @Test

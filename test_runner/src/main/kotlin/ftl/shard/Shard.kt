@@ -1,11 +1,13 @@
 package ftl.shard
 
+import com.google.common.annotations.VisibleForTesting
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
-import ftl.util.Utils.fatalError
+import ftl.util.FlankTestMethod
+import ftl.util.FlankFatalError
 import kotlin.math.ceil
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -21,12 +23,12 @@ data class TestShard(
 )
 
 /** List of shards containing test names as a string. */
-typealias StringShards = MutableList<MutableList<String>>
+typealias StringShards = List<MutableList<String>>
 
 fun List<TestShard>.stringShards(): StringShards {
     return this.map { shard ->
         shard.testMethods.map { it.name }.toMutableList()
-    }.toMutableList()
+    }.toList()
 }
 
 /*
@@ -44,6 +46,10 @@ class com.foo.ClassName#testMethodToSkip
 */
 
 object Shard {
+    // When a test does not have previous results to reference, fall back to this run time.
+    @VisibleForTesting
+    const val DEFAULT_TEST_TIME_SEC = 120.0
+    private const val IGNORE_TEST_TIME = 0.0
 
     private fun JUnitTestCase.androidKey(): String {
         return "class $classname#$name"
@@ -58,15 +64,15 @@ object Shard {
 
     // take in the XML with timing info then return the shard count based on execution time
     fun shardCountByTime(
-        testsToRun: List<String>,
+        testsToRun: List<FlankTestMethod>,
         oldTestResult: JUnitTestResult,
         args: IArgs
     ): Int {
         if (args.shardTime == -1) return -1
-        if (args.shardTime < -1 || args.shardTime == 0) fatalError("Invalid shard time ${args.shardTime}")
+        if (args.shardTime < -1 || args.shardTime == 0) throw FlankFatalError("Invalid shard time ${args.shardTime}")
 
-        val junitMap = createJunitMap(oldTestResult, args)
-        val testsTotalTime = testsToRun.sumByDouble { junitMap[it] ?: 10.0 }
+        val oldDurations = createTestMethodDurationMap(oldTestResult, args)
+        val testsTotalTime = testsToRun.sumByDouble { if (it.ignored) IGNORE_TEST_TIME else oldDurations[it.testName] ?: DEFAULT_TEST_TIME_SEC }
 
         val shardsByTime = ceil(testsTotalTime / args.shardTime).toInt()
 
@@ -83,37 +89,41 @@ object Shard {
         // We need to respect the maxTestShards
         val shardCount = min(shardsByTime, args.maxTestShards)
 
-        if (shardCount <= 0) fatalError("Invalid shard count $shardCount")
+        if (shardCount <= 0) throw FlankFatalError("Invalid shard count $shardCount")
         return shardCount
     }
 
     // take in the XML with timing info then return list of shards based on the amount of shards to use
     fun createShardsByShardCount(
-        testsToRun: List<String>,
+        testsToRun: List<FlankTestMethod>,
         oldTestResult: JUnitTestResult,
         args: IArgs,
         forcedShardCount: Int = -1
     ): List<TestShard> {
-        if (forcedShardCount < -1 || forcedShardCount == 0) fatalError("Invalid forcedShardCount value $forcedShardCount")
+        if (forcedShardCount < -1 || forcedShardCount == 0) throw FlankFatalError("Invalid forcedShardCount value $forcedShardCount")
 
         val maxShards = if (forcedShardCount == -1) args.maxTestShards else forcedShardCount
-        val junitMap = createJunitMap(oldTestResult, args)
+        val previousMethodDurations = createTestMethodDurationMap(oldTestResult, args)
 
         var cacheMiss = 0
-        val testcases = mutableListOf<TestMethod>()
-
-        testsToRun.forEach { key ->
-            val previousTime = junitMap[key]
-            val time = previousTime ?: 10.0
-
-            if (previousTime == null) {
-                cacheMiss += 1
+        val testCases: List<TestMethod> = testsToRun
+            .map {
+                TestMethod(
+                    name = it.testName,
+                    time = if (it.ignored) IGNORE_TEST_TIME else previousMethodDurations[it.testName] ?: DEFAULT_TEST_TIME_SEC.also {
+                        cacheMiss += 1
+                    }
+                )
             }
+            // We want to iterate over testcase going from slowest to fastest
+            .sortedByDescending(TestMethod::time)
 
-            testcases.add(TestMethod(key, time))
-        }
-
-        val testCount = testcases.size
+        // Ugly hotfix for case when all test cases are annotated with @Ignore
+        // we need to filter them because they have time == 0.0 which cause empty shards creation, few lines later
+        // and we don't need additional shards for ignored tests.
+        val testCount =
+            if (testCases.isEmpty()) 0
+            else testCases.filter { it.time > 0.0 }.takeIf { it.isNotEmpty() }?.size ?: 1
 
         // If maxShards is infinite or we have more shards than tests, let's match it
         val shardsCount = if (maxShards == -1 || maxShards > testCount) testCount else maxShards
@@ -121,7 +131,7 @@ object Shard {
         // Create the list of shards we will return
         if (shardsCount <= 0) {
             val platform = if (args is IosArgs) "ios" else "android"
-            fatalError(
+            throw FlankFatalError(
                 """Invalid shard count. To debug try: flank $platform run --dump-shards
                     | args.maxTestShards: ${args.maxTestShards}
                     | forcedShardCount: $forcedShardCount 
@@ -132,10 +142,7 @@ object Shard {
         }
         var shards = List(shardsCount) { TestShard(0.0, mutableListOf()) }
 
-        // We want to iterate over testcase going from slowest to fastest
-        testcases.sortByDescending { it.time }
-
-        testcases.forEach { testMethod ->
+        testCases.forEach { testMethod ->
             val shard = shards.first()
 
             shard.testMethods.add(testMethod)
@@ -155,7 +162,7 @@ object Shard {
         return shards
     }
 
-    fun createJunitMap(junitResult: JUnitTestResult, args: IArgs): Map<String, Double> {
+    fun createTestMethodDurationMap(junitResult: JUnitTestResult, args: IArgs): Map<String, Double> {
         val junitMap = mutableMapOf<String, Double>()
 
         // Create a map with information from previous junit run

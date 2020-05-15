@@ -9,11 +9,18 @@ import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.validateTestMethods
 import ftl.args.yml.GcloudYml
 import ftl.args.yml.IosGcloudYml
+import ftl.config.FtlConstants
 import ftl.shard.TestMethod
 import ftl.shard.TestShard
 import ftl.shard.stringShards
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
+import ftl.util.FlankFatalError
+import io.mockk.every
+import io.mockk.spyk
+import io.mockk.unmockkAll
+import org.junit.After
+import org.junit.Assume
 import java.io.File
 import org.junit.Rule
 import org.junit.Test
@@ -21,8 +28,6 @@ import org.junit.contrib.java.lang.system.EnvironmentVariables
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.spy
 
 @RunWith(FlankTestRunner::class)
 class ArgsHelperTest {
@@ -37,6 +42,9 @@ class ArgsHelperTest {
 
     @get:Rule
     val environmentVariables = EnvironmentVariables()
+
+    @After
+    fun tearDown() = unmockkAll()
 
     @Test
     fun `mergeYmlMaps succeeds`() {
@@ -135,6 +143,8 @@ class ArgsHelperTest {
 
     @Test
     fun evaluateTildeInFilePath() {
+        Assume.assumeFalse(FtlConstants.isWindows)
+
         val expected = makeTmpFile("/tmp/random.xctestrun")
 
         val inputPath = "~/../../tmp/random.xctestrun"
@@ -153,7 +163,7 @@ class ArgsHelperTest {
         assertThat(actual).isEqualTo(expected)
     }
 
-    @Test(expected = RuntimeException::class)
+    @Test(expected = FlankFatalError::class)
     fun evaluateInvalidFilePath() {
         val testApkPath = "~/flank_test_app/invalid_path/app-debug-*.xctestrun"
         ArgsHelper.evaluateFilePath(testApkPath)
@@ -178,10 +188,11 @@ class ArgsHelperTest {
 
     @Test
     fun testInvalidTestShards() {
-        exceptionRule.expectMessage("max-test-shards must be >= 1 or -1")
+        val maxTestShards = -2
+        exceptionRule.expectMessage("max-test-shards must be >= 1 and <= 50, or -1. But current is $maxTestShards")
 
-        val args = spy(AndroidArgs.default())
-        `when`(args.maxTestShards).thenReturn(-2)
+        val args = spyk(AndroidArgs.default())
+        every { args.maxTestShards } returns maxTestShards
         assertCommonProps(args)
     }
 
@@ -189,17 +200,17 @@ class ArgsHelperTest {
     fun testInvalidShardTime() {
         exceptionRule.expectMessage("shard-time must be >= 1 or -1")
 
-        val args = spy(AndroidArgs.default())
-        `when`(args.shardTime).thenReturn(-2)
+        val args = spyk(AndroidArgs.default())
+        every { args.shardTime } returns -2
         assertCommonProps(args)
     }
 
     @Test
-    fun testInvalidrepeatTests() {
-        exceptionRule.expectMessage("repeat-tests must be >= 1")
+    fun testInvalidRepeatTests() {
+        exceptionRule.expectMessage("num-test-runs must be >= 1")
 
-        val args = spy(AndroidArgs.default())
-        `when`(args.repeatTests).thenReturn(0)
+        val args = spyk(AndroidArgs.default())
+        every { args.repeatTests } returns 0
         assertCommonProps(args)
     }
 }

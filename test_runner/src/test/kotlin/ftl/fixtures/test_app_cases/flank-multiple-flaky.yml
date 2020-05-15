@@ -1,0 +1,16 @@
+gcloud:
+  app: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk
+  test: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-flaky-debug-androidTest.apk
+  environment-variables: 
+    coverage: true
+    coverageFilePath: /sdcard/
+    clearPackageData: true
+  directories-to-pull: 
+    - /sdcard/
+  num-flaky-test-attempts: 3
+
+flank:
+  disable-sharding: false
+  max-test-shards: 2
+  files-to-download:
+    - .*/sdcard/[^/]+\.ec$

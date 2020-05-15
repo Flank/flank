@@ -1,9 +1,13 @@
 package ftl.cli.firebase.test.ios
 
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
+import ftl.cli.firebase.test.INVALID_YML_PATH
+import ftl.cli.firebase.test.SUCCESS_VALIDATION_MESSAGE
+import ftl.cli.firebase.test.android.AndroidDoctorCommand
 import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.TestHelper.normalizeLineEnding
+import ftl.util.YmlValidationError
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
@@ -22,8 +26,8 @@ class IosDoctorCommandTest {
         assertThat(doctor.usageHelpRequested).isFalse()
         CommandLine(doctor).execute("-h")
 
-        val output = systemOutRule.log
-        Truth.assertThat(output).startsWith(
+        val output = systemOutRule.log.normalizeLineEnding()
+        assertThat(output).startsWith(
             "Verifies flank firebase is setup correctly\n" +
                 "\n" +
                 "doctor [-fh] [-c=<configPath>]\n" +
@@ -45,6 +49,8 @@ class IosDoctorCommandTest {
     @Test
     fun iosDoctorCommandRuns() {
         IosDoctorCommand().run()
+        val output = systemOutRule.log.normalizeLineEnding()
+        assertThat(output).isEqualTo(SUCCESS_VALIDATION_MESSAGE)
     }
 
     @Test
@@ -61,5 +67,13 @@ class IosDoctorCommandTest {
         assertThat(cmd.fix).isFalse()
         cmd.fix = true
         assertThat(cmd.fix).isTrue()
+    }
+
+    @Test(expected = YmlValidationError::class)
+    fun `should terminate with exit code 1 when yml validation fails`() {
+        AndroidDoctorCommand().run {
+            configPath = INVALID_YML_PATH
+            run()
+        }
     }
 }

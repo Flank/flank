@@ -30,6 +30,7 @@ class FlankYmlTest {
         assertThat(yml.flank.maxTestShards).isEqualTo(1)
         assertThat(yml.flank.shardTime).isEqualTo(58)
         assertThat(yml.flank.testTargetsAlwaysRun).isEqualTo(emptyList<String>())
+        assertThat(yml.flank.runTimeout).isEqualTo("-1")
         assertThat(FlankYml.map).isNotEmpty()
     }
 }

@@ -1,0 +1,10 @@
+gcloud:
+  app: "../test_app/apks/app-debug.apk"
+  test: "../test_app/apks/app-debug-androidTest.apk"
+  um-flaky-test-attempts: 1
+
+flank:
+  disable-sharding: false
+  max-test-shards: 2
+  additional-app-test-apks:
+    - test: "../test_app/apks/error-androidTest.apk"

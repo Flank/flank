@@ -45,6 +45,9 @@ data class JUnitTestCase(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var webLink: String? = null
 
+    @JacksonXmlProperty(isAttribute = true)
+    var flaky: Boolean? = null // use null instead of false
+
     fun empty(): Boolean {
         return name == null || classname == null || time == null
     }

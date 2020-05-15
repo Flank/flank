@@ -2,9 +2,12 @@ package ftl.args
 
 import com.google.common.truth.Truth.assertThat
 import ftl.config.Device
+import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
+import org.junit.Assert.assertEquals
+import org.junit.Assume
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
@@ -24,9 +27,9 @@ class IosArgsFileTest {
 
     private val yamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.ios.yml")
     private val yamlFile2 = getPath("src/test/kotlin/ftl/fixtures/flank2.ios.yml")
-    private val xctestrunZip = getPath("src/test/kotlin/ftl/fixtures/tmp/ios_earlgrey2.zip")
+    private val xctestrunZip = getPath("src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip")
     private val xctestrunFile =
-        getPath("src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos12.1-arm64e.xctestrun")
+        getPath("src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun")
     private val testName = "EarlGreyExampleSwiftTests/testLayout"
     // NOTE: Change working dir to '%MODULE_WORKING_DIR%' in IntelliJ to match gradle for this test to pass.
     @Test
@@ -66,6 +69,8 @@ class IosArgsFileTest {
 
     @Test
     fun testMethodsAlwaysRun() {
+        Assume.assumeFalse(FtlConstants.isWindows)
+
         val config = IosArgs.load(yamlFile2)
 
         val chunk0 = arrayListOf(
@@ -86,5 +91,11 @@ class IosArgsFileTest {
         assertThat(testShardChunks.size).isEqualTo(2)
         assertThat(testShardChunks[0]).isEqualTo(chunk0)
         assertThat(testShardChunks[1]).isEqualTo(chunk1)
+    }
+
+    @Test
+    fun `verify run timeout value from yml file`() {
+        val args = IosArgs.load(yamlFile)
+        assertEquals(60 * 60 * 1000L, args.parsedTimeout)
     }
 }

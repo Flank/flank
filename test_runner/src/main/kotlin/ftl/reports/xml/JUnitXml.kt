@@ -6,20 +6,22 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
+import ftl.reports.xml.preprocesor.fixHtmlCodes
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 
 private val xmlModule = JacksonXmlModule().apply { setDefaultUseWrapper(false) }
+
 private val xmlMapper = XmlMapper(xmlModule)
     .registerModules(KotlinModule())
     .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
 
-private val xmlPrettyWriter = xmlMapper.writerWithDefaultPrettyPrinter()
+internal val xmlPrettyWriter = xmlMapper.writerWithDefaultPrettyPrinter()
 
-private fun xmlBytes(path: Path): ByteArray {
-    if (!path.toFile().exists()) RuntimeException("$path doesn't exist!")
-    return Files.readAllBytes(path)
+private fun xmlText(path: Path): String {
+    if (!path.toFile().exists()) throw RuntimeException("$path doesn't exist!")
+    return String(Files.readAllBytes(path))
 }
 
 fun JUnitTestResult?.xmlToString(): String {
@@ -28,30 +30,22 @@ fun JUnitTestResult?.xmlToString(): String {
     return prefix + xmlPrettyWriter.writeValueAsString(this)
 }
 
-fun parseOneSuiteXml(bytes: ByteArray): JUnitTestResult {
-    return JUnitTestResult(mutableListOf(xmlMapper.readValue(bytes, JUnitTestSuite::class.java)))
-}
-
 fun parseOneSuiteXml(path: Path): JUnitTestResult {
-    return parseOneSuiteXml(xmlBytes(path))
+    return parseOneSuiteXml(xmlText(path))
 }
 
 fun parseOneSuiteXml(path: File): JUnitTestResult {
-    return parseOneSuiteXml(xmlBytes(path.toPath()))
+    return parseOneSuiteXml(xmlText(path.toPath()))
 }
 
 fun parseOneSuiteXml(data: String): JUnitTestResult {
-    return parseOneSuiteXml(data.toByteArray())
+    return JUnitTestResult(mutableListOf(xmlMapper.readValue(fixHtmlCodes(data), JUnitTestSuite::class.java)))
 }
 
 // --
 
-fun parseAllSuitesXml(bytes: ByteArray): JUnitTestResult {
-    return xmlMapper.readValue(bytes, JUnitTestResult::class.java)
-}
-
 fun parseAllSuitesXml(path: Path): JUnitTestResult {
-    return parseAllSuitesXml(xmlBytes(path))
+    return parseAllSuitesXml(xmlText(path))
 }
 
 fun parseAllSuitesXml(path: File): JUnitTestResult {
@@ -59,5 +53,5 @@ fun parseAllSuitesXml(path: File): JUnitTestResult {
 }
 
 fun parseAllSuitesXml(data: String): JUnitTestResult {
-    return parseAllSuitesXml(data.toByteArray())
+    return xmlMapper.readValue(fixHtmlCodes(data), JUnitTestResult::class.java)
 }

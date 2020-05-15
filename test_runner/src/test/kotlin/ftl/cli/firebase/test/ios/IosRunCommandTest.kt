@@ -1,25 +1,25 @@
 package ftl.cli.firebase.test.ios
 
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
+import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
+import ftl.config.FtlConstants.isWindows
 import ftl.test.util.FlankTestRunner
+import org.junit.Assert.fail
+import org.junit.Assume.assumeFalse
 import org.junit.Rule
 import org.junit.Test
-import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
 
+@Suppress("TooManyFunctions")
 @RunWith(FlankTestRunner::class)
 class IosRunCommandTest {
     @Rule
     @JvmField
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
-
-    @get:Rule
-    val exit = ExpectedSystemExit.none()!!
 
     @Test
     fun iosRunCommandPrintsHelp() {
@@ -28,21 +28,26 @@ class IosRunCommandTest {
         CommandLine(iosRun).execute("-h")
 
         val output = systemOutRule.log
-        Truth.assertThat(output).startsWith("Run tests on Firebase Test Lab")
-        Truth.assertThat(output).contains("run [-h]")
+        assertThat(output).startsWith("Run tests on Firebase Test Lab")
+        assertThat(output).contains("run [-h]")
 
         assertThat(iosRun.usageHelpRequested).isTrue()
     }
 
     @Test
     fun iosRunCommandRuns() {
-        exit.expectSystemExit()
-        val runCmd = IosRunCommand()
-        runCmd.configPath = "./src/test/kotlin/ftl/fixtures/ios.yml"
-        runCmd.run()
+        assumeFalse(isWindows)
 
-        val output = systemOutRule.log
-        Truth.assertThat(output).contains("1 / 1 (100.00%)")
+        try {
+            val runCmd = IosRunCommand()
+            runCmd.configPath = "./src/test/kotlin/ftl/fixtures/ios.yml"
+            runCmd.run()
+
+            val output = systemOutRule.log
+            assertThat(output).contains("1 / 1 (100.00%)")
+        } catch (_: Throwable) {
+            fail()
+        }
     }
 
     @Test
@@ -67,6 +72,8 @@ class IosRunCommandTest {
         assertThat(cmd.noRecordVideo).isNull()
         assertThat(cmd.timeout).isNull()
         assertThat(cmd.async).isNull()
+        assertThat(cmd.clientDetails).isNull()
+        assertThat(cmd.networkProfile).isNull()
         assertThat(cmd.project).isNull()
         assertThat(cmd.resultsHistoryName).isNull()
         assertThat(cmd.maxTestShards).isNull()
@@ -85,6 +92,7 @@ class IosRunCommandTest {
         assertThat(cmd.localResultsDir).isNull()
         assertThat(cmd.smartFlankDisableUpload).isNull()
         assertThat(cmd.smartFlankGcsPath).isNull()
+        assertThat(cmd.runTimeout).isNull()
     }
 
     @Test
@@ -128,6 +136,27 @@ class IosRunCommandTest {
     }
 
     @Test
+    fun `clientDetails parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--client-details=key1=value1,key2=value2")
+
+        assertThat(cmd.clientDetails).isEqualTo(
+            mapOf(
+                "key1" to "value1",
+                "key2" to "value2"
+            )
+        )
+    }
+
+    @Test
+    fun `networkProfile parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--network-profile=a")
+
+        assertThat(cmd.networkProfile).isEqualTo("a")
+    }
+
+    @Test
     fun `project parse`() {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--project=a")
@@ -156,7 +185,7 @@ class IosRunCommandTest {
     @Test
     fun `repeatTests parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parseArgs("--repeat-tests=3")
+        CommandLine(cmd).parseArgs("--num-test-runs=3")
 
         assertThat(cmd.repeatTests).isEqualTo(3)
     }
@@ -281,5 +310,13 @@ class IosRunCommandTest {
         CommandLine(cmd).parseArgs("--dump-shards=true")
 
         assertThat(cmd.dumpShards).isEqualTo(true)
+    }
+
+    @Test
+    fun `run-test parse`() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parseArgs("--run-timeout=20s")
+
+        assertThat(cmd.runTimeout).isEqualTo("20s")
     }
 }

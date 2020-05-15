@@ -22,4 +22,4 @@ flank:
 
 To always shard each test on a new device, omit `shard-time`.
 
-[1]: https://github.com/TestArmada/flank/blob/6d128ce949247ea3b5066677a220b93b028ae77f/test_runner/src/main/kotlin/ftl/shard/Shard.kt#L92
+[1]: https://github.com/Flank/flank/blob/6d128ce949247ea3b5066677a220b93b028ae77f/test_runner/src/main/kotlin/ftl/shard/Shard.kt#L92

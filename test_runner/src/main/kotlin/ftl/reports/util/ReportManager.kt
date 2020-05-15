@@ -2,12 +2,14 @@ package ftl.reports.util
 
 import ftl.args.IArgs
 import ftl.args.IosArgs
+import ftl.args.ShardChunks
 import ftl.gc.GcStorage
 import ftl.json.MatrixMap
 import ftl.reports.CostReport
 import ftl.reports.HtmlErrorReport
 import ftl.reports.JUnitReport
 import ftl.reports.MatrixResultsReport
+import ftl.reports.api.processXmlFromApi
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.parseOneSuiteXml
@@ -39,8 +41,8 @@ object ReportManager {
         val objName = matrices.runPath // 2019-03-22_17-20-53.594000_ftrh
 
         // shard location in path changes based on iOS or Android.
-        val matchResult = Regex("/(shard_\\d+)/").find(xmlFile.toString())
-        val shardName = matchResult?.groupValues?.get(1) // shard_0
+        val matchResult = Regex("/(shard_\\d+)(-rerun_\\d+)?/").find(xmlFile.toString())
+        val shardName = matchResult?.value?.removePrefix("/")?.removeSuffix("/") // shard_0 || shard_0-rerun_1
         val matrixPath = Paths.get(objName, shardName).toString() // 2019-03-22_17-20-53.594000_ftrh/shard_0
 
         var webLink = ""
@@ -60,7 +62,11 @@ object ReportManager {
         return matchResult?.groupValues?.last().orEmpty()
     }
 
-    private fun processXml(matrices: MatrixMap, args: IArgs, process: (file: File) -> JUnitTestResult): JUnitTestResult? {
+    private fun processXmlFromFile(
+        matrices: MatrixMap,
+        args: IArgs,
+        process: (file: File) -> JUnitTestResult
+    ): JUnitTestResult? {
         var mergedXml: JUnitTestResult? = null
 
         findXmlFiles(matrices, args).forEach { xmlFile ->
@@ -82,22 +88,22 @@ object ReportManager {
     }
 
     private fun parseTestSuite(matrices: MatrixMap, args: IArgs): JUnitTestResult? {
-        val iosXml = args is IosArgs
-        return if (iosXml) {
-            processXml(matrices, args, ::parseAllSuitesXml)
-        } else {
-            processXml(matrices, args, ::parseOneSuiteXml)
+        return when {
+            // ios supports only legacy parsing
+            args is IosArgs -> processXmlFromFile(matrices, args, ::parseAllSuitesXml)
+            args.useLegacyJUnitResult -> processXmlFromFile(matrices, args, ::parseOneSuiteXml)
+            else -> processXmlFromApi(matrices, args)
         }
     }
 
     /** Returns true if there were no test failures */
-    fun generate(matrices: MatrixMap, args: IArgs, testShardChunks: List<List<String>>): Int {
-        val testSuite = parseTestSuite(matrices, args)
+    fun generate(matrices: MatrixMap, args: IArgs, testShardChunks: ShardChunks) {
+        val testSuite: JUnitTestResult? = parseTestSuite(matrices, args)
 
-        val useFlakyTests = args.flakyTestAttempts > 0
-        if (useFlakyTests) JUnitDedupe.modify(testSuite)
-
-        val testSuccessful = if (useFlakyTests) testSuite?.successful() ?: false else matrices.allSuccessful()
+        if (args.useLegacyJUnitResult) {
+            val useFlakyTests = args.flakyTestAttempts > 0
+            if (useFlakyTests) JUnitDedupe.modify(testSuite)
+        }
 
         listOf(
             CostReport,
@@ -106,7 +112,7 @@ object ReportManager {
             it.run(matrices, testSuite, printToStdout = true, args = args)
         }
 
-        if (!testSuccessful) {
+        if (!matrices.allSuccessful()) {
             listOf(
                 HtmlErrorReport
             ).map { it.run(matrices, testSuite, printToStdout = false, args = args) }
@@ -115,14 +121,7 @@ object ReportManager {
         JUnitReport.run(matrices, testSuite, printToStdout = false, args = args)
         processJunitXml(testSuite, args, testShardChunks)
 
-        // FTL has a bug with matrix roll-up when using flakyTestAttempts
-        // as a work around, we calculate the success based on JUnit XML results.
-        val exitCode = if (useFlakyTests) {
-            if (testSuccessful) 0 else 1
-        } else {
-            matrices.exitCode()
-        }
-        return exitCode
+        matrices.validateMatrices(args.ignoreFailedTests)
     }
 
     data class ShardEfficiency(
@@ -136,34 +135,30 @@ object ReportManager {
         oldResult: JUnitTestResult,
         newResult: JUnitTestResult,
         args: IArgs,
-        testShardChunks: List<List<String>>
-    ):
-            List<ShardEfficiency> {
-        val oldJunitMap = Shard.createJunitMap(oldResult, args)
-        val newJunitMap = Shard.createJunitMap(newResult, args)
+        testShardChunks: ShardChunks
+    ): List<ShardEfficiency> {
+        val oldDurations = Shard.createTestMethodDurationMap(oldResult, args)
+        val newDurations = Shard.createTestMethodDurationMap(newResult, args)
 
-        val timeList = mutableListOf<ShardEfficiency>()
-        testShardChunks.forEachIndexed { index, testSuite ->
+        return testShardChunks.mapIndexed { index, testSuite ->
 
             var expectedTime = 0.0
             var finalTime = 0.0
             testSuite.forEach { testCase ->
-                expectedTime += oldJunitMap[testCase] ?: 0.0
-                finalTime += newJunitMap[testCase] ?: 0.0
+                expectedTime += oldDurations[testCase] ?: 0.0
+                finalTime += newDurations[testCase] ?: 0.0
             }
 
             val timeDiff = (finalTime - expectedTime)
-            timeList.add(ShardEfficiency("Shard $index", expectedTime, finalTime, timeDiff))
+            ShardEfficiency("Shard $index", expectedTime, finalTime, timeDiff)
         }
-
-        return timeList
     }
 
     private fun printActual(
         oldResult: JUnitTestResult,
         newResult: JUnitTestResult,
         args: IArgs,
-        testShardChunks: List<List<String>>
+        testShardChunks: ShardChunks
     ) {
         val list = createShardEfficiencyList(oldResult, newResult, args, testShardChunks)
 
@@ -175,13 +170,15 @@ object ReportManager {
     private fun processJunitXml(
         newTestResult: JUnitTestResult?,
         args: IArgs,
-        testShardChunks: List<List<String>>
+        testShardChunks: ShardChunks
     ) {
         if (newTestResult == null) return
 
         val oldTestResult = GcStorage.downloadJunitXml(args)
 
-        newTestResult.mergeTestTimes(oldTestResult)
+        if (args.useLegacyJUnitResult) {
+            newTestResult.mergeTestTimes(oldTestResult)
+        }
 
         if (oldTestResult != null) {
             printActual(oldTestResult, newTestResult, args, testShardChunks)

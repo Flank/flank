@@ -1,8 +1,5 @@
 package ftl.config
 
-import ch.qos.logback.classic.Level
-import ch.qos.logback.classic.Logger
-import com.bugsnag.Bugsnag
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
 import com.google.api.client.googleapis.util.Utils
 import com.google.api.client.http.GoogleApiLogger
@@ -15,27 +12,32 @@ import com.google.auth.oauth2.ServiceAccountCredentials
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
+import ftl.config.BugsnagInitHelper.initBugsnag
 import ftl.gc.UserAuth
 import ftl.http.HttpTimeoutIncrease
-import ftl.util.Utils.fatalError
-import ftl.util.Utils.readRevision
+import ftl.util.FlankFatalError
+import ftl.util.readRevision
 import java.io.IOException
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.Date
-import org.slf4j.LoggerFactory
 
 object FtlConstants {
     var useMock = false
 
-    val macOS: Boolean by lazy {
-        val osName = System.getProperty("os.name") ?: ""
-        val isMacOS = osName.toLowerCase().indexOf("mac") >= 0
+    private val osName = System.getProperty("os.name")?.toLowerCase() ?: ""
+
+    val isMacOS: Boolean by lazy {
+        val isMacOS = osName.indexOf("mac") >= 0
         println("isMacOS = $isMacOS ($osName)")
         isMacOS
     }
-    const val localhost = "http://localhost:8080"
 
+    val isWindows: Boolean by lazy {
+        osName.indexOf("win") >= 0
+    }
+
+    const val localhost = "http://localhost:8080"
     const val defaultLocale = "en"
     const val defaultOrientation = "portrait"
     const val defaultIosModel = "iphone8"
@@ -48,13 +50,14 @@ object FtlConstants {
     const val matrixIdsFile = "matrix_ids.json"
     const val applicationName = "Flank"
     const val GCS_PREFIX = "gs://"
+    const val runTimeout = "-1"
+
     val JSON_FACTORY: JsonFactory by lazy { Utils.getDefaultJsonFactory() }
 
-    val bugsnag = Bugsnag(if (useMock) null else "3d5f8ba4ee847d6bb51cb9c347eda74f")
+    val bugsnag = initBugsnag(useMock)
 
     init {
-        bugsnag.setAppVersion(readRevision())
-        (LoggerFactory.getLogger(Bugsnag::class.java) as Logger).level = Level.OFF
+        bugsnag?.setAppVersion(readRevision())
     }
 
     val httpTransport: NetHttpTransport by lazy {
@@ -77,8 +80,7 @@ object FtlConstants {
                 GoogleApiLogger.silenceComputeEngine()
                 ServiceAccountCredentials.getApplicationDefault()
             } catch (e: IOException) {
-                fatalError("Error: Failed to read service account credential.\n${e.message}")
-                throw RuntimeException("never thrown")
+                throw FlankFatalError("Error: Failed to read service account credential.\n${e.message}")
             }
         }
     }

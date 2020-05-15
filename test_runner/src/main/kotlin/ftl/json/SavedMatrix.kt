@@ -33,14 +33,21 @@ class SavedMatrix(matrix: TestMatrix) {
         private set
     var outcomeDetails: String = ""
         private set
+    val clientDetails = matrix.clientInfo?.clientInfoDetails
+        ?.map { it.key to it.value }
+        ?.toMap()
 
     init {
         if (this.state == FINISHED) finished(matrix)
     }
 
+    // ExitCodeFromRollupOutcome - https://github.com/bootstraponline/gcloud_cli/blob/137d864acd5928baf25434cf59b0225c4d1f9319/google-cloud-sdk/lib/googlecloudsdk/api_lib/firebase/test/exit_code.py#L46
     fun failed(): Boolean {
+        // outcome of the test execution.
+        // skipped means unsupported environment
         return when (outcome) {
             failure -> true
+            skipped -> true
             inconclusive -> true
             else -> false
         }
@@ -75,12 +82,13 @@ class SavedMatrix(matrix: TestMatrix) {
         if (matrix.testExecutions == null) return
 
         matrix.testExecutions.forEach {
-            val step = GcToolResults.getResults(it.toolResultsStep)
-            updateOutcome(step.outcome)
+            val executionResult = GcToolResults.getExecutionResult(it)
+            updateOutcome(executionResult.outcome)
 
             // testExecutionStep, testTiming, etc. can all be null.
             // sometimes testExecutionStep is present and testTiming is null
-            val testTimeSeconds = step.testExecutionStep?.testTiming?.testProcessDuration?.seconds ?: return
+            val stepResult = GcToolResults.getStepResult(it.toolResultsStep)
+            val testTimeSeconds = stepResult.testExecutionStep?.testTiming?.testProcessDuration?.seconds ?: return
 
             val billableMinutes = Billing.billableMinutes(testTimeSeconds)
 

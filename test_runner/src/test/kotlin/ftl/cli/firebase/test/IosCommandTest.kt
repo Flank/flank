@@ -2,6 +2,7 @@ package ftl.cli.firebase.test
 
 import com.google.common.truth.Truth
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.TestHelper.normalizeLineEnding
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
@@ -16,7 +17,7 @@ class IosCommandTest {
     @Test
     fun androidCommandPrintsHelp() {
         IosCommand().run()
-        val output = systemOutRule.log
+        val output = systemOutRule.log.normalizeLineEnding()
         Truth.assertThat(output).startsWith(
             "ios [COMMAND]\n" +
                 "Commands:\n" +
