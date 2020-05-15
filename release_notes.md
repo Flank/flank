@@ -1,7 +1,7 @@
 ## next (unreleased)
 
+- [#784](https://github.com/Flank/flank/pull/784) Add output-style option. ([jan-gogo](https://github.com/jan-gogo)) 
 - [#779](https://github.com/Flank/flank/pull/779) Print retries & display additional info. ([jan-gogo](https://github.com/jan-gogo))
-- 
 - 
 - 
 
