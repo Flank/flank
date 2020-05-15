@@ -171,6 +171,7 @@ flank:
             assert(flakyTestAttempts, 4)
             assert(disableSharding, true)
             assert(runTimeout, "15m")
+            assert(useLegacyJUnitResult, true)
         }
     }
 
