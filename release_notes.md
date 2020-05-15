@@ -1,4 +1,5 @@
 ## next (unreleased)
+- [#779](https://github.com/Flank/flank/pull/779) Print retires & display additional info. ([jan-gogo](https://github.com/jan-gogo))
 - [#783](https://github.com/Flank/flank/pull/783) Use legacy results for iOS by default. ([pawelpasterz](https://github.com/pawelpasterz))
 
 ## v20.05.1
