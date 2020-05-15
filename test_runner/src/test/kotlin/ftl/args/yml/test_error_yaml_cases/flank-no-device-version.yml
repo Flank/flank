@@ -1,0 +1,31 @@
+gcloud:
+  app: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk
+  test: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-single-success-debug-androidTest.apk
+  device:
+    - model: NexusLowRes
+      version: 23
+    - model: NexusLowRes
+      version: 23
+      orientation: landscape
+    - model: shamu
+      version: 22
+      locale: zh_CN
+      orientation: default
+      # Google Pixel 3
+    - model: blueline
+      version: 28
+      locale: en
+      orientation: portrait
+      # Samsung Galaxy S9 SM-G9600
+    - model: starqltechn
+      versxion: 28
+      locale: en
+      orientation: portrait
+      # LG Nexus 5
+    - model: hammerhead
+      version: 21
+      locale: en
+      orientation: portrait
+flank:
+  disable-sharding: true
+
