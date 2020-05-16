@@ -11,9 +11,23 @@ import java.io.File
 
 object AndroidTestShard {
 
-    // Output the test shards from all the local test apks (including addtional test apks)
-    fun getTestShardChunks(args: AndroidArgs): ShardChunks {
+    // computed properties not specified in yaml
+    fun getTestShardChunks(args: AndroidArgs, testApk: String): ShardChunks {
         // Download test APK if necessary so it can be used to validate test methods
+        val testLocalApk = if (testApk.startsWith(FtlConstants.GCS_PREFIX))
+            GcStorage.download(testApk) else
+            testApk
+
+        val filteredTests = getTestMethods(args, testLocalApk)
+
+        if (filteredTests.isEmpty()) println("${FtlConstants.indent}No tests for ${testLocalApk.apkFileName}")
+
+        return if (args.numUniformShards == null)
+            ArgsHelper.calculateShards(filteredTests, args) else
+            listOf(filteredTests.map(FlankTestMethod::testName))
+    }
+
+    fun getAllLocalTestShardChunks(args: AndroidArgs): ShardChunks {
         val testApks = mutableListOf<String>()
         val mainTestApk = args.testApk
         if (mainTestApk != null) testApks.add(mainTestApk)
