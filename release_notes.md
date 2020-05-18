@@ -1,5 +1,6 @@
 ## next (unreleased)
 
+- [#779](https://github.com/Flank/flank/pull/779) Print retries & display additional info. ([jan-gogo](https://github.com/jan-gogo))
 - 
 - 
 - 

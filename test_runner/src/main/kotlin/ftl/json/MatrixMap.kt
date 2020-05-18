@@ -1,5 +1,6 @@
 package ftl.json
 
+import com.google.api.services.testing.model.TestMatrix
 import ftl.util.FTLError
 import ftl.util.FailedMatrix
 import ftl.util.MatrixState
@@ -40,4 +41,8 @@ class MatrixMap(
             }
         }
     }
+}
+
+fun Iterable<TestMatrix>.update(matrixMap: MatrixMap) = forEach { matrix ->
+    matrixMap.map[matrix.testMatrixId]?.update(matrix)
 }

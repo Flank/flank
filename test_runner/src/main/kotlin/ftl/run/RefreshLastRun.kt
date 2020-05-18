@@ -12,6 +12,7 @@ import ftl.run.common.getLastMatrices
 import ftl.run.common.pollMatrices
 import ftl.run.common.updateMatrixFile
 import ftl.args.ShardChunks
+import ftl.json.update
 import ftl.util.MatrixState
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +26,7 @@ suspend fun refreshLastRun(currentArgs: IArgs, testShardChunks: ShardChunks) {
     val lastArgs = getLastArgs(currentArgs)
 
     refreshMatrices(matrixMap, lastArgs)
-    pollMatrices(matrixMap, lastArgs)
+    pollMatrices(matrixMap.map.keys, lastArgs).update(matrixMap)
     fetchArtifacts(matrixMap, lastArgs)
 
     // Must generate reports *after* fetching xml artifacts since reports require xml

@@ -49,8 +49,4 @@ object MatrixState {
     }
 }
 
-fun TestMatrix.completed(): Boolean {
-    return MatrixState.completed(this.state)
-}
-
 fun TestMatrix.isInvalid() = MatrixState.isInvalid(this.state)

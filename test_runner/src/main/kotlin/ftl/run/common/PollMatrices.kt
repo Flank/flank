@@ -1,64 +1,54 @@
+@file:Suppress("EXPERIMENTAL_API_USAGE")
+
 package ftl.run.common
 
+import com.google.api.services.testing.model.TestMatrix
 import ftl.args.IArgs
 import ftl.gc.GcTestMatrix
-import ftl.json.MatrixMap
-import ftl.run.model.RunningDevices
+import ftl.run.status.TestMatrixStatusPrinter
 import ftl.util.MatrixState
-import ftl.util.StopWatch
-import ftl.util.StopWatchMatrix
-import ftl.util.completed
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.fold
+import kotlinx.coroutines.flow.onEach
 
-/** Synchronously poll all matrix ids until they complete. Returns true if test run passed. **/
-internal suspend fun pollMatrices(matrices: MatrixMap, args: IArgs) = coroutineScope {
-    println("PollMatrices")
-    val poll = matrices.map.values.filter {
-        MatrixState.inProgress(it.state)
-    }
-
-    val stopwatch = StopWatch().start()
-    poll.forEach {
-        val matrixId = it.matrixId
-        pollMatrix(matrixId, stopwatch, args, matrices)
-    }
-    println()
-
-    updateMatrixFile(matrices, args)
-}
-
-// Used for when the matrix has exactly one test. Polls for detailed progress
-//
-// Port of MonitorTestExecutionProgress
-// gcloud-cli/googlecloudsdk/api_lib/firebase/test/matrix_ops.py
-private suspend fun pollMatrix(matrixId: String, stopwatch: StopWatch, args: IArgs, matrices: MatrixMap) = coroutineScope {
-    var refreshedMatrix = GcTestMatrix.refresh(matrixId, args.project)
-    val watch = StopWatchMatrix(stopwatch, matrixId)
-    val runningDevices = RunningDevices(stopwatch, refreshedMatrix.testExecutions)
-
-    while (true) {
-        if (matrices.map[matrixId]?.update(refreshedMatrix) == true) updateMatrixFile(
-            matrices,
-            args
+suspend fun pollMatrices(
+    testMatricesIds: Iterable<String>,
+    args: IArgs,
+    printMatrixStatus: (TestMatrix) -> Unit = TestMatrixStatusPrinter(
+        args = args,
+        testMatricesIds = testMatricesIds
+    )
+): Collection<TestMatrix> = coroutineScope {
+    testMatricesIds.asFlow().flatMapMerge { testMatrixId ->
+        matrixChangesFlow(
+            testMatrixId = testMatrixId,
+            projectId = args.project
         )
-
-        runningDevices.allRunning().forEach { nextDevice ->
-            nextDevice.poll(refreshedMatrix)
-        }
-
-        // Matrix has 0 or more devices (test executions)
-        // Verify all executions are complete & the matrix itself is marked as complete.
-        if (runningDevices.allComplete() && refreshedMatrix.completed()) {
-            break
-        }
-
-        // GetTestMatrix is not designed to handle many requests per second.
-        // Sleep to avoid overloading the system.
-        delay(5_000)
-        refreshedMatrix = GcTestMatrix.refresh(matrixId, args.project)
+    }.onEach {
+        printMatrixStatus(it)
+    }.fold(emptyMap<String, TestMatrix>()) { matrices, next ->
+        matrices + (next.testMatrixId to next)
+    }.values.also {
+        println()
     }
-
-    // Print final matrix state with timestamp. May be many minutes after the 'Done.' progress message.
-    watch.puts(refreshedMatrix.state)
 }
+
+private fun matrixChangesFlow(
+    testMatrixId: String,
+    projectId: String
+): Flow<TestMatrix> = flow {
+    while (true) {
+        val matrix = GcTestMatrix.refresh(testMatrixId, projectId)
+        emit(matrix)
+        if (matrix.isCompleted) break else delay(5_000)
+    }
+}
+
+private val TestMatrix.isCompleted: Boolean
+    get() = MatrixState.completed(state) &&
+            testExecutions?.all { MatrixState.completed(it.state) } ?: true

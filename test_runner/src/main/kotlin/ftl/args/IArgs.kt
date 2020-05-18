@@ -1,6 +1,7 @@
 package ftl.args
 
 import ftl.args.yml.FlankYmlParams
+import ftl.run.status.OutputStyle
 import ftl.util.timeoutToMils
 
 // Properties common to both Android and iOS
@@ -39,6 +40,7 @@ interface IArgs {
     val useLegacyJUnitResult: Boolean get() = false
     val ignoreFailedTests: Boolean
     val keepFilePath: Boolean
+    val outputStyle: OutputStyle? get() = null
 
     fun useLocalResultDir() = localResultDir != FlankYmlParams.defaultLocalResultsDir
 
@@ -47,3 +49,10 @@ interface IArgs {
         val AVAILABLE_SHARD_COUNT_RANGE = 1..50
     }
 }
+
+fun IArgs.outputStyle() = outputStyle ?: if (
+    flakyTestAttempts > 0 ||
+    !disableSharding && maxTestShards > 0
+)
+    OutputStyle.Multi else
+    OutputStyle.Verbose
