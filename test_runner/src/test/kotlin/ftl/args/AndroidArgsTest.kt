@@ -1299,6 +1299,35 @@ AndroidArgs
             Assert.fail("Test directory ($resultsDir) shouldn't be created! It's a remote directory on the cloud!")
         }
     }
+
+    @Test
+    fun `default output should be multi`() {
+        listOf(
+            "  num-flaky-test-attempts: 3",
+            """
+            flank:
+              max-test-shards: 50
+            """.trimIndent(),
+            """
+            flank:
+              additional-app-test-apks:
+                - app: ../test_app/apks/app-debug.apk
+                  test: ../test_app/apks/app1-debug-androidTest.apk
+            """.trimIndent()
+        ).map { inject ->
+            """
+            gcloud:
+              app: $appApk
+              test: $testApk
+            $inject
+            """.trimIndent()
+        }.forEach { yaml ->
+            assertEquals(
+                OutputStyle.Multi,
+                AndroidArgs.load(yaml).defaultOutputStyle
+            )
+        }
+    }
 }
 
 private fun AndroidArgs.Companion.load(yamlData: String, cli: AndroidRunCommand? = null): AndroidArgs = load(StringReader(yamlData), cli)
