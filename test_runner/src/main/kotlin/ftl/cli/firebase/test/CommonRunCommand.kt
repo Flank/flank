@@ -193,10 +193,10 @@ abstract class CommonRunCommand {
 
     @CommandLine.Option(
         names = ["--output-style"],
-        description = ["Output style of execution status. Maybe be one of [verbose, multi, single]" +
-                "For runs with only one test execution default value is 'verbose', in other cases" +
-                "'multi' is used as default. Output style 'multi' is not displayed correctly on consoles" +
-                "which not supports ansi codes, to avoid corrupted output use `single` or `verbose`."]
+        description = ["Output style of execution status. May be one of [verbose, multi, single]. " +
+                "For runs with only one test execution the default value is 'verbose', in other cases " +
+                "'multi' is used as the default. The output style 'multi' is not displayed correctly on consoles " +
+                "which don't support ansi codes, to avoid corrupted output use `single` or `verbose`."]
     )
     var outputStyle: String? = null
 }
