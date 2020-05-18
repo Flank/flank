@@ -3,14 +3,14 @@ package ftl.doctor
 import com.google.common.annotations.VisibleForTesting
 import ftl.args.ArgsHelper
 import ftl.args.IArgsCompanion
-import ftl.args.yml.loader.loadYamlFile
+import ftl.util.loadFile
 import java.io.Reader
 import java.nio.file.Path
 
 object Doctor {
     fun validateYaml(args: IArgsCompanion, data: Path): String {
         if (!data.toFile().exists()) return "Skipping yaml validation. No file at path $data"
-        return validateYaml(args, loadYamlFile(data))
+        return validateYaml(args, loadFile(data))
     }
 
     @VisibleForTesting

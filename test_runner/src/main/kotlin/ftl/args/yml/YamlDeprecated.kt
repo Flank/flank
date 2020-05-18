@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.node.MissingNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.google.common.annotations.VisibleForTesting
 import ftl.args.ArgsHelper.yamlMapper
-import ftl.args.yml.loader.loadYamlFile
+import ftl.util.loadFile
 import ftl.util.FlankFatalError
 import java.io.Reader
 import java.nio.file.Files
@@ -126,7 +126,7 @@ object YamlDeprecated {
     fun modify(yamlPath: Path): Boolean {
         if (yamlPath.toFile().exists().not()) throw FlankFatalError("Flank yml doesn't exist at path $yamlPath")
 
-        val (errorDetected, string) = modify(loadYamlFile(yamlPath))
+        val (errorDetected, string) = modify(loadFile(yamlPath))
 
         Files.write(yamlPath, string.toByteArray())
         println("\nUpdated ${yamlPath.fileName} file")

@@ -18,7 +18,7 @@ import ftl.args.yml.IosFlankYml
 import ftl.args.yml.IosGcloudYml
 import ftl.args.yml.IosGcloudYmlParams
 import ftl.args.yml.YamlDeprecated
-import ftl.args.yml.loader.loadYamlFile
+import ftl.util.loadFile
 import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
@@ -162,7 +162,7 @@ IosArgs
             mergeYmlMaps(GcloudYml, IosGcloudYml, FlankYml, IosFlankYml)
         }
 
-        fun load(yamlPath: Path, cli: IosRunCommand? = null): IosArgs = load(loadYamlFile(yamlPath), cli)
+        fun load(yamlPath: Path, cli: IosRunCommand? = null): IosArgs = load(loadFile(yamlPath), cli)
 
         @VisibleForTesting
         internal fun load(yamlReader: Reader, cli: IosRunCommand? = null): IosArgs {
