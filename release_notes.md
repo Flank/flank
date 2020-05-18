@@ -1,6 +1,6 @@
 ## next (unreleased)
 
-- [#779](https://github.com/Flank/flank/pull/779) Print retires & display additional info. ([jan-gogo](https://github.com/jan-gogo))
+- [#779](https://github.com/Flank/flank/pull/779) Print retries & display additional info. ([jan-gogo](https://github.com/jan-gogo))
 - [#656](https://github.com/Flank/flank/issues/656) Improve error message reporting. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#783](https://github.com/Flank/flank/pull/783) Use legacy results for iOS by default. ([pawelpasterz](https://github.com/pawelpasterz))
 
