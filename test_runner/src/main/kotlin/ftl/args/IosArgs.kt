@@ -18,6 +18,7 @@ import ftl.args.yml.IosFlankYml
 import ftl.args.yml.IosGcloudYml
 import ftl.args.yml.IosGcloudYmlParams
 import ftl.args.yml.YamlDeprecated
+import ftl.args.yml.loader.loadYamlFile
 import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
@@ -27,7 +28,6 @@ import ftl.run.status.asOutputStyle
 import ftl.util.FlankFatalError
 import ftl.util.FlankTestMethod
 import java.io.Reader
-import java.nio.file.Files
 import java.nio.file.Path
 
 class IosArgs(
@@ -162,7 +162,7 @@ IosArgs
             mergeYmlMaps(GcloudYml, IosGcloudYml, FlankYml, IosFlankYml)
         }
 
-        fun load(yamlPath: Path, cli: IosRunCommand? = null): IosArgs = load(Files.newBufferedReader(yamlPath), cli)
+        fun load(yamlPath: Path, cli: IosRunCommand? = null): IosArgs = load(loadYamlFile(yamlPath), cli)
 
         @VisibleForTesting
         internal fun load(yamlReader: Reader, cli: IosRunCommand? = null): IosArgs {

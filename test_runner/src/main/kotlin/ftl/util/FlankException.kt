@@ -69,3 +69,12 @@ class FlankCommonException(message: String) : FlankException(message)
  *  @param message [String] message to be printed to [System.err]
  */
 class FlankConfigurationException(message: String) : FlankException(message)
+
+/**
+ *  Exception throws when required yaml file not found
+ *
+ *  Exit code: 1
+ *
+ *  @param message [String] message to be printed to [System.err]
+ */
+class FlankNoSuchFileException(message: String) : FlankException(message)

@@ -25,6 +25,7 @@ import ftl.args.yml.GcloudYml
 import ftl.args.yml.AppTestPair
 import ftl.args.yml.AndroidGcloudYmlParams
 import ftl.args.yml.YamlDeprecated
+import ftl.args.yml.loader.loadYamlFile
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
@@ -32,7 +33,6 @@ import ftl.config.parseRoboDirectives
 import ftl.run.status.asOutputStyle
 import ftl.util.FlankFatalError
 import java.io.Reader
-import java.nio.file.Files
 import java.nio.file.Path
 
 // set default values, init properties, etc.
@@ -197,7 +197,7 @@ AndroidArgs
             mergeYmlMaps(GcloudYml, AndroidGcloudYml, FlankYml, AndroidFlankYml)
         }
 
-        fun load(yamlPath: Path, cli: AndroidRunCommand? = null): AndroidArgs = load(Files.newBufferedReader(yamlPath), cli)
+        fun load(yamlPath: Path, cli: AndroidRunCommand? = null): AndroidArgs = load(loadYamlFile(yamlPath), cli)
 
         @VisibleForTesting
         internal fun load(yamlReader: Reader, cli: AndroidRunCommand? = null): AndroidArgs {

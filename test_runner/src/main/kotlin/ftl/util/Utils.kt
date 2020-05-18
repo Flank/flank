@@ -155,6 +155,10 @@ fun withGlobalExceptionHandling(block: () -> Int) {
                 System.err.println(t)
                 exitProcess(1)
             }
+            is FlankNoSuchFileException -> {
+                System.err.println(t)
+                exitProcess(1)
+            }
             is FTLError -> {
                 t.matrix.logError("not finished")
                 exitProcess(3)
