@@ -19,6 +19,7 @@ import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
 import org.junit.After
+import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Rule
@@ -27,6 +28,9 @@ import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import picocli.CommandLine
 import java.io.StringReader
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.util.UUID
 
 @Suppress("TooManyFunctions")
 @RunWith(FlankTestRunner::class)
@@ -969,16 +973,6 @@ AndroidArgs
         assertThat(AndroidArgs.load(yaml, cli).testTargetsAlwaysRun).isEqualTo(arrayListOf("com.A", "com.B"))
     }
 
-    @Test(expected = FlankFatalError::class)
-    fun `cli resultsDir fail if not exist`() {
-        val yaml = """
-        gcloud:
-          app: $appApk
-          test: $testApk
-          results-dir: not_exist
-      """
-        AndroidArgs.load(yaml)
-    }
     @Test
     fun `cli resultsDir`() {
         val cli = AndroidRunCommand()
@@ -1251,6 +1245,25 @@ AndroidArgs
 
         val parsedYml = AndroidArgs.load(yaml)
         runBlocking { runAndroidTests(parsedYml) }
+    }
+
+    @Test
+    fun `results-dir (cloud directory) should not throw if it doesn't exist locally`() {
+        val resultsDir = UUID.randomUUID().toString()
+        val directoryPath = Paths.get(resultsDir)
+        if (Files.exists(directoryPath)) {
+            Assert.fail("Test directory ($resultsDir) shouldn't exists! It's a remote directory.")
+        }
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          results-dir: $resultsDir
+        """.trimIndent()
+        AndroidArgs.load(yaml)
+        if (Files.exists(directoryPath)) {
+            Assert.fail("Test directory ($resultsDir) shouldn't be created! It's a remote directory on the cloud!")
+        }
     }
 }
 
