@@ -1,6 +1,7 @@
 ## next (unreleased)
 
 - [#779](https://github.com/Flank/flank/pull/779) Print retries & display additional info. ([jan-gogo](https://github.com/jan-gogo))
+- [#799](https://github.com/Flank/flank/pull/799) Refactor Shared object by splitting it into smaller functions. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - 
 - 
 - 
