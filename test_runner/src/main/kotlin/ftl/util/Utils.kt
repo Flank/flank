@@ -151,14 +151,6 @@ fun withGlobalExceptionHandling(block: () -> Int) {
                 }
                 exitProcess(1)
             }
-            is FlankConfigurationException -> {
-                System.err.println(t)
-                exitProcess(1)
-            }
-            is FlankNoSuchFileException -> {
-                System.err.println(t)
-                exitProcess(1)
-            }
             is FTLError -> {
                 t.matrix.logError("not finished")
                 exitProcess(3)
