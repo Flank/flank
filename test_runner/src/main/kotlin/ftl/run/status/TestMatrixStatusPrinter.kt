@@ -3,7 +3,6 @@ package ftl.run.status
 import com.google.api.services.testing.model.TestExecution
 import com.google.api.services.testing.model.TestMatrix
 import ftl.args.IArgs
-import ftl.args.outputStyle
 import ftl.config.FtlConstants
 import ftl.util.MatrixState
 import ftl.util.StopWatch
@@ -29,7 +28,7 @@ class TestMatrixStatusPrinter(
     }
 
     private fun printTestMatrixStatusList(time: String) {
-        if (args.outputStyle() == OutputStyle.Single) {
+        if (args.outputStyle == OutputStyle.Single) {
             println()
         }
         cache.forEach { (id, state) ->

@@ -40,7 +40,13 @@ interface IArgs {
     val useLegacyJUnitResult: Boolean get() = false
     val ignoreFailedTests: Boolean
     val keepFilePath: Boolean
-    val outputStyle: OutputStyle? get() = null
+    val outputStyle: OutputStyle
+    val defaultOutputStyle
+        get() = if (hasMultipleExecutions)
+            OutputStyle.Multi else
+            OutputStyle.Verbose
+    val hasMultipleExecutions
+        get() = flakyTestAttempts > 0 || (!disableSharding && maxTestShards > 0)
 
     fun useLocalResultDir() = localResultDir != FlankYmlParams.defaultLocalResultsDir
 
@@ -49,10 +55,3 @@ interface IArgs {
         val AVAILABLE_SHARD_COUNT_RANGE = 1..50
     }
 }
-
-fun IArgs.outputStyle() = outputStyle ?: if (
-    flakyTestAttempts > 0 ||
-    !disableSharding && maxTestShards > 0
-)
-    OutputStyle.Multi else
-    OutputStyle.Verbose

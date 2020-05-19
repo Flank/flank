@@ -29,6 +29,7 @@ import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.parseRoboDirectives
+import ftl.run.status.asOutputStyle
 import ftl.util.FlankFatalError
 import java.io.Reader
 import java.nio.file.Files
@@ -91,6 +92,7 @@ class AndroidArgs(
     override val networkProfile = cli?.networkProfile ?: gcloud.networkProfile
     override val ignoreFailedTests = cli?.ignoreFailedTests ?: flank.ignoreFailedTests
     override val keepFilePath = cli?.keepFilePath ?: flank.keepFilePath
+    override val outputStyle by lazy { (cli?.outputStyle ?: flank.outputStyle)?.asOutputStyle() ?: defaultOutputStyle }
 
     private val androidFlank = androidFlankYml.flank
     val additionalAppTestApks = (cli?.additionalAppTestApks ?: androidFlank.additionalAppTestApks).map { (app, test) ->
@@ -99,6 +101,7 @@ class AndroidArgs(
             test = test.processFilePath("from additional-app-test-apks.test")
         )
     }
+    override val hasMultipleExecutions: Boolean get() = super.hasMultipleExecutions || additionalAppTestApks.isNotEmpty()
 
     init {
         resultsBucket = createGcsBucket(project, cli?.resultsBucket ?: gcloud.resultsBucket)
@@ -120,6 +123,9 @@ class AndroidArgs(
         )
 
         assertCommonProps(this)
+
+        // Call lazy outputStyle inside init to get possible error ASAP
+        outputStyle
     }
 
     val isInstrumentationTest get() = testApk != null
@@ -182,6 +188,7 @@ AndroidArgs
       run-timeout: $runTimeout
       legacy-junit-result: $useLegacyJUnitResult
       ignore-failed-tests: $ignoreFailedTests
+      output-style: ${outputStyle.name.toLowerCase()}
    """.trimIndent()
     }
 

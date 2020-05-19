@@ -2,14 +2,13 @@ package ftl.run.status
 
 import com.google.common.annotations.VisibleForTesting
 import ftl.args.IArgs
-import ftl.args.outputStyle
 import ftl.config.FtlConstants
 import org.fusesource.jansi.Ansi
 import org.fusesource.jansi.AnsiConsole
 
 fun createExecutionStatusPrinter(
     args: IArgs
-): (List<ExecutionStatus.Change>) -> Unit = when (args.outputStyle()) {
+): (List<ExecutionStatus.Change>) -> Unit = when (args.outputStyle) {
     OutputStyle.Multi -> MultiLinePrinter()
     OutputStyle.Single -> SingleLinePrinter()
     OutputStyle.Verbose -> VerbosePrinter
