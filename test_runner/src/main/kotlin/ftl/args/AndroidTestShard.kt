@@ -32,7 +32,8 @@ object AndroidTestShard {
         val filteredTests = resolvedApks.map { getTestMethods(args, it) }.flatten()
 
         if (filteredTests.isEmpty()) {
-            println("${FtlConstants.indent}No tests for ${testApks.joinToString(", ")}")
+            val testApkNames = testApks.joinToString(", ") { it.apkFileName }
+            println("${FtlConstants.indent}No tests for $testApkNames")
             return emptyList()
         }
 
