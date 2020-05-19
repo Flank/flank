@@ -22,6 +22,15 @@ data class TestShard(
     val testMethods: MutableList<TestMethod>
 )
 
+data class CacheTestCounter(
+    val allTestCount: Int,
+    private val cacheMiss: Int
+) {
+    val cacheHit = allTestCount - cacheMiss
+    val cachePercent: Double
+        get() = if (allTestCount == 0) 0.0 else cacheHit.toDouble() / allTestCount * 100.0
+}
+
 /** List of shards containing test names as a string. */
 typealias StringShards = List<MutableList<String>>
 
@@ -69,10 +78,12 @@ object Shard {
         args: IArgs
     ): Int {
         if (args.shardTime == -1) return -1
-        if (args.shardTime < -1 || args.shardTime == 0) throw FlankFatalError("Invalid shard time ${args.shardTime}")
+        assertNotTrue(args.shardTime < -1 || args.shardTime == 0) { FlankFatalError("Invalid shard time ${args.shardTime}") }
 
         val oldDurations = createTestMethodDurationMap(oldTestResult, args)
-        val testsTotalTime = testsToRun.sumByDouble { if (it.ignored) IGNORE_TEST_TIME else oldDurations[it.testName] ?: DEFAULT_TEST_TIME_SEC }
+        val testsTotalTime = testsToRun.sumByDouble {
+            if (it.ignored) IGNORE_TEST_TIME else oldDurations[it.testName] ?: DEFAULT_TEST_TIME_SEC
+        }
 
         val shardsByTime = ceil(testsTotalTime / args.shardTime).toInt()
 
@@ -89,7 +100,7 @@ object Shard {
         // We need to respect the maxTestShards
         val shardCount = min(shardsByTime, args.maxTestShards)
 
-        if (shardCount <= 0) throw FlankFatalError("Invalid shard count $shardCount")
+        assertNotTrue(shardCount <= 0) { FlankFatalError("Invalid shard count $shardCount") }
         return shardCount
     }
 
@@ -100,39 +111,36 @@ object Shard {
         args: IArgs,
         forcedShardCount: Int = -1
     ): List<TestShard> {
-        if (forcedShardCount < -1 || forcedShardCount == 0) throw FlankFatalError("Invalid forcedShardCount value $forcedShardCount")
-
+        assertNotTrue((forcedShardCount < -1 || forcedShardCount == 0)) {
+            FlankFatalError("Invalid forcedShardCount value $forcedShardCount")
+        }
         val maxShards = if (forcedShardCount == -1) args.maxTestShards else forcedShardCount
-        val previousMethodDurations = createTestMethodDurationMap(oldTestResult, args)
 
+        val previousMethodDurations = createTestMethodDurationMap(oldTestResult, args)
         var cacheMiss = 0
         val testCases: List<TestMethod> = testsToRun
             .map {
                 TestMethod(
                     name = it.testName,
-                    time = if (it.ignored) IGNORE_TEST_TIME else previousMethodDurations[it.testName] ?: DEFAULT_TEST_TIME_SEC.also {
-                        cacheMiss += 1
+                    time = if (it.ignored) {
+                        IGNORE_TEST_TIME
+                    } else {
+                        previousMethodDurations.getOrElse(it.testName) { DEFAULT_TEST_TIME_SEC.also { cacheMiss++ } }
                     }
                 )
             }
             // We want to iterate over testcase going from slowest to fastest
             .sortedByDescending(TestMethod::time)
 
-        // Ugly hotfix for case when all test cases are annotated with @Ignore
-        // we need to filter them because they have time == 0.0 which cause empty shards creation, few lines later
-        // and we don't need additional shards for ignored tests.
-        val testCount =
-            if (testCases.isEmpty()) 0
-            else testCases.filter { it.time > 0.0 }.takeIf { it.isNotEmpty() }?.size ?: 1
+        val testCount = getNumberOfNotIgnoredTestCases(testCases)
 
         // If maxShards is infinite or we have more shards than tests, let's match it
-        val shardsCount = if (maxShards == -1 || maxShards > testCount) testCount else maxShards
+        val shardsCount = matchNumberOfShardsWithTestCount(maxShards, testCount)
 
         // Create the list of shards we will return
-        if (shardsCount <= 0) {
-            val platform = if (args is IosArgs) "ios" else "android"
-            throw FlankFatalError(
-                """Invalid shard count. To debug try: flank $platform run --dump-shards
+        assertNotTrue(shardsCount <= 0) {
+            FlankFatalError(
+                """Invalid shard count. To debug try: flank ${args.platformName} run --dump-shards
                     | args.maxTestShards: ${args.maxTestShards}
                     | forcedShardCount: $forcedShardCount 
                     | testCount: $testCount 
@@ -140,27 +148,49 @@ object Shard {
                     | shardsCount: $shardsCount""".trimMargin()
             )
         }
-        var shards = List(shardsCount) { TestShard(0.0, mutableListOf()) }
+        var shards = createListOfShards(shardsCount)
 
         testCases.forEach { testMethod ->
-            val shard = shards.first()
-
-            shard.testMethods.add(testMethod)
-            shard.time += testMethod.time
-
-            // Sort the shards to keep the most empty shard first
-            shards = shards.sortedBy { it.time }
+            addTestMethodToMostEmptyShard(shards, testMethod)
+            shards = shards.mostEmptyFirst()
         }
 
-        val allTests = testsToRun.size // zero when test targets is empty
-        val cacheHit = allTests - cacheMiss
-        val cachePercent = if (allTests == 0) 0.0 else cacheHit.toDouble() / allTests * 100.0
+        val cacheTestCounter = CacheTestCounter(testsToRun.size, cacheMiss)
         println()
-        println("  Smart Flank cache hit: ${cachePercent.roundToInt()}% ($cacheHit / $allTests)")
+        println("  Smart Flank cache hit: ${cacheTestCounter.cachePercent.roundToInt()}% (${cacheTestCounter.cacheHit} / ${cacheTestCounter.allTestCount})")
         println("  Shard times: " + shards.joinToString(", ") { "${it.time.roundToInt()}s" } + "\n")
 
         return shards
     }
+
+    private fun addTestMethodToMostEmptyShard(shards: List<TestShard>, testMethod: TestMethod) {
+        val mostEmptyShard = shards.first()
+        mostEmptyShard.testMethods.add(testMethod)
+        mostEmptyShard.time += testMethod.time
+    }
+
+    private val IArgs.platformName
+        get() = if (this is IosArgs) "ios" else "android"
+
+    private fun assertNotTrue(condition: Boolean, lazyException: () -> Throwable) {
+        if (condition) {
+            throw lazyException()
+        }
+    }
+
+    private fun List<TestShard>.mostEmptyFirst() = sortedBy { it.time }
+
+    private fun getNumberOfNotIgnoredTestCases(testCases: List<TestMethod>): Int {
+        // Ugly hotfix for case when all test cases are annotated with @Ignore
+        // we need to filter them because they have time == 0.0 which cause empty shards creation, few lines later
+        // and we don't need additional shards for ignored tests.
+        return if (testCases.isEmpty()) 0 else testCases.filter { it.time > 0.0 }.takeIf { it.isNotEmpty() }?.size ?: 1
+    }
+
+    private fun matchNumberOfShardsWithTestCount(maxShards: Int, testCount: Int) =
+        if (maxShards == -1 || maxShards > testCount) testCount else maxShards
+
+    private fun createListOfShards(shardsCount: Int) = List(shardsCount) { TestShard(0.0, mutableListOf()) }
 
     fun createTestMethodDurationMap(junitResult: JUnitTestResult, args: IArgs): Map<String, Double> {
         val junitMap = mutableMapOf<String, Double>()
