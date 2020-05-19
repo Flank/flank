@@ -44,6 +44,8 @@ object AndroidTestShard {
         }
     }
 
+    fun getTestShardChunks(args: AndroidArgs, testApk: String) = getTestShardChunks(args, listOf(testApk))
+
     private fun getTestMethods(args: AndroidArgs, testLocalApk: String): List<FlankTestMethod> {
         val allTestMethods = DexParser.findTestMethods(testLocalApk)
         if (allTestMethods.isEmpty()) {

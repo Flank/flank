@@ -40,7 +40,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
 
     args.resolveApks().forEachIndexed { index: Int, apks: ResolvedApks ->
         val testShards = apks.test?.let { test ->
-            AndroidTestShard.getTestShardChunks(args, listOf(test))
+            AndroidTestShard.getTestShardChunks(args, test)
         }
         // We can't return if testShards is null since it can be a robo test.
         testShards?.let {

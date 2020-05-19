@@ -153,7 +153,7 @@ class AndroidArgsFileTest {
     @Test
     fun `calculateShards 0`() {
         val config = configWithTestMethods(0)
-        val testShardChunks = AndroidTestShard.getTestShardChunks(config, listOf(config.testApk!!))
+        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk!!)
         with(config) {
             assert(maxTestShards, 1)
             assert(testShardChunks.size, 0)
@@ -163,7 +163,7 @@ class AndroidArgsFileTest {
     @Test
     fun `calculateShards 1`() {
         val config = configWithTestMethods(1)
-        val testShardChunks = AndroidTestShard.getTestShardChunks(config, listOf(config.testApk!!))
+        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk!!)
         with(config) {
             assert(maxTestShards, 1)
             assert(testShardChunks.size, 1)
@@ -174,7 +174,7 @@ class AndroidArgsFileTest {
     @Test
     fun `calculateShards 155`() {
         val config = configWithTestMethods(155)
-        val testShardChunks = AndroidTestShard.getTestShardChunks(config, listOf(config.testApk!!))
+        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk!!)
         with(config) {
             assert(maxTestShards, 1)
             assert(testShardChunks.size, 1)
@@ -185,7 +185,7 @@ class AndroidArgsFileTest {
     @Test
     fun `calculateShards 155 40`() {
         val config = configWithTestMethods(155, maxTestShards = 40)
-        val testShardChunks = AndroidTestShard.getTestShardChunks(config, listOf(config.testApk!!))
+        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk!!)
         with(config) {
             assert(maxTestShards, 40)
             assert(testShardChunks.size, 40)
