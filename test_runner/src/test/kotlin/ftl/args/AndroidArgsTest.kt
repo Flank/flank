@@ -447,7 +447,7 @@ AndroidArgs
       """
         )
 
-        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk!!)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, listOf(androidArgs.testApk ?: ""))
         with(androidArgs) {
             assert(maxTestShards, -1)
             assert(testShardChunks.size, 2)
@@ -481,8 +481,8 @@ AndroidArgs
           disable-sharding: true
       """
         val androidArgs = AndroidArgs.load(yaml)
-        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk!!)
-        assertThat(testShardChunks).hasSize(1)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, listOf(androidArgs.testApk ?: ""))
+        assertThat(testShardChunks).hasSize(0)
     }
 
     @Test
@@ -493,8 +493,8 @@ AndroidArgs
           test: $invalidApk
       """
         val androidArgs = AndroidArgs.load(yaml)
-        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk!!)
-        assertThat(testShardChunks).hasSize(1)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, listOf(androidArgs.testApk ?: ""))
+        assertThat(testShardChunks).hasSize(0)
     }
 
     @Test

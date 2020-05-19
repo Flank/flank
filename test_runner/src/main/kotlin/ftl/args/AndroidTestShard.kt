@@ -10,32 +10,31 @@ import ftl.util.FlankTestMethod
 import java.io.File
 
 object AndroidTestShard {
+    private fun getTestApks(args: AndroidArgs, origTestApks: List<String>): List<String> {
+        val testApks = if (origTestApks.isNotEmpty()) {
+            origTestApks
+        } else {
+            val allTestApks = mutableListOf<String>()
+            val mainTestApk = args.testApk
+            if (mainTestApk != null) allTestApks.add(mainTestApk)
+            allTestApks.addAll(args.additionalAppTestApks.map { it.test })
+            allTestApks
+        }
 
-    // computed properties not specified in yaml
-    fun getTestShardChunks(args: AndroidArgs, testApk: String): ShardChunks {
-        // Download test APK if necessary so it can be used to validate test methods
-        val testLocalApk = if (testApk.startsWith(FtlConstants.GCS_PREFIX))
-            GcStorage.download(testApk) else
-            testApk
-
-        val filteredTests = getTestMethods(args, testLocalApk)
-
-        if (filteredTests.isEmpty()) println("${FtlConstants.indent}No tests for ${testLocalApk.apkFileName}")
-
-        return if (args.numUniformShards == null)
-            ArgsHelper.calculateShards(filteredTests, args) else
-            listOf(filteredTests.map(FlankTestMethod::testName))
+        return testApks.map { testApk ->
+            if (testApk.startsWith(FtlConstants.GCS_PREFIX)) GcStorage.download(testApk) else
+                testApk
+        }
     }
 
-    fun getAllLocalTestShardChunks(args: AndroidArgs): ShardChunks {
-        val testApks = mutableListOf<String>()
-        val mainTestApk = args.testApk
-        if (mainTestApk != null) testApks.add(mainTestApk)
-        testApks.addAll(args.additionalAppTestApks.map { it.test })
+    fun getTestShardChunks(args: AndroidArgs, testApks: List<String> = listOf()): ShardChunks {
+        val resolvedApks = getTestApks(args, testApks)
+        val filteredTests = resolvedApks.map { getTestMethods(args, it) }.flatten()
 
-        val filteredTests = testApks.map { getTestMethods(args, it) }.flatten()
-
-        if (filteredTests.isEmpty()) println("${FtlConstants.indent}No tests for ${testApks.joinToString(", ")}")
+        if (filteredTests.isEmpty()) {
+            println("${FtlConstants.indent}No tests for ${testApks.joinToString(", ")}")
+            return emptyList()
+        }
 
         return if (args.numUniformShards == null) {
             ArgsHelper.calculateShards(filteredTests, args)
