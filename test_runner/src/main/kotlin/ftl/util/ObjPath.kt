@@ -7,7 +7,8 @@ data class ObjPath(
     val objName: String,
     val shardName: String,
     val deviceName: String,
-    val filePathName: String
+    val filePathName: String,
+    val matrixName: String
 ) {
     companion object {
         fun parse(path: String): ObjPath {
@@ -15,12 +16,13 @@ data class ObjPath(
 
             val fileName = parsed.fileName.toString()
             val objName = parsed.getName(0).toString()
-            val (deviceName, shardNumber) = parsed.getName(1).toString().split("-shard_").run {
+            val matrixName = parsed.getName(1).toString()
+            val (deviceName, shardNumber) = parsed.getName(2).toString().split("-shard_").run {
                 first() to getOrElse(1) { "0" }
             }
             val shardName = "shard_$shardNumber"
-            val filePathName = if (parsed.nameCount > 3) {
-                parsed.parent.drop(2).joinToString("/")
+            val filePathName = if (parsed.nameCount > 4) {
+                parsed.parent.drop(3).joinToString("/")
             } else { "" }
 
             return ObjPath(
@@ -28,7 +30,8 @@ data class ObjPath(
                 objName = objName,
                 shardName = shardName,
                 deviceName = deviceName,
-                filePathName = filePathName
+                filePathName = filePathName,
+                matrixName = matrixName
             )
         }
 
@@ -48,7 +51,8 @@ data class ObjPath(
                 objName = objName,
                 shardName = shardName,
                 deviceName = deviceName,
-                filePathName = filePathName
+                filePathName = filePathName,
+                matrixName = ""
             )
         }
     }

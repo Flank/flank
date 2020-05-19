@@ -35,7 +35,7 @@ class TestRunnerTest {
     private val gcsIosPath =
         "2019-03-22_15-30-02.189000_frjt/shard_0/iphone8-12.0-en-portrait/TestLogs/Test-Transient Testing-2019.03.22_08-29-41--0700.xcresult/1_Test/Diagnostics/EarlGreyExampleSwiftTests-C6803D8C-4BDB-4C84-8945-9AC64056FBA4/EarlGreyExampleSwiftTests-EDBFF942-A88A-46A5-87CA-A1E29555C2CA/StandardOutputAndStandardError.txt"
     private val gcsAndroidPath =
-        "2019-03-22_15-30-02.189000_frjt/iphone8-12.0-en-portrait-shard_0/StandardOutputAndStandardError.txt"
+        "2019-03-22_15-30-02.189000_frjt/matrix_1/iphone8-12.0-en-portrait-shard_0/StandardOutputAndStandardError.txt"
     private val localResultDir = "results"
     private val iosArgs = mockk<IosArgs>()
     private val androidArgs = mockk<AndroidArgs>()
@@ -138,6 +138,7 @@ class TestRunnerTest {
         assertThat(downloadFile).isEqualTo(
             Paths.get(
                 localResultDir,
+                parsed.matrixName,
                 parsed.shardName,
                 parsed.deviceName,
                 parsed.filePathName,
@@ -159,6 +160,7 @@ class TestRunnerTest {
             Paths.get(
                 localResultDir,
                 parsed.objName,
+                parsed.matrixName,
                 parsed.shardName,
                 parsed.deviceName,
                 parsed.filePathName,

@@ -72,6 +72,7 @@ internal fun getDownloadPath(args: IArgs, blobPath: String): Path {
     return Paths.get(
         localDir,
         if (args.useLocalResultDir().not()) p.objName else "",
+        p.matrixName,
         p.shardName,
         p.deviceName,
         if (args.keepFilePath) p.filePathName else "",

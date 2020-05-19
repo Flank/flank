@@ -69,7 +69,7 @@ class UtilsTest {
     @Test
     fun `uniqueObjectName verifyPattern`() {
         val randomName = uniqueObjectName()
-        assertThat(randomName.length).isEqualTo(32)
+        assertThat(randomName.length).isEqualTo(31)
         assertThat(randomName[4]).isEqualTo('-')
         assertThat(randomName[7]).isEqualTo('-')
         assertThat(randomName[10]).isEqualTo('_')
