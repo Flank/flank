@@ -123,6 +123,9 @@ class AndroidArgs(
         )
 
         assertCommonProps(this)
+
+        // Call lazy outputStyle inside init to get possible error ASAP
+        outputStyle
     }
 
     val isInstrumentationTest get() = testApk != null
