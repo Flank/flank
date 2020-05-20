@@ -503,32 +503,5 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
         val oneSuiteXml = parseOneSuiteXml(crashingOneSuiteMessage).xmlToString().trimIndent()
         Assert.assertEquals("One Suite Messages should be the same!", expectedOneSuiteMessage, oneSuiteXml)
     }
-
-    @Test
-    fun `merge only passed nodes`() {
-        val testSuiteWithError = """
-         <testsuite name="" tests="1" failures="1" errors="0" skipped="0" time="2.676" timestamp="2020-05-19T14:40:18" hostname="localhost">
-<properties/>
-<testcase name="test" classname="com.example.test_app.InstrumentedTest" time="1.516">
-<failure>
-java.lang.AssertionError at org.junit.Assert.fail(Assert.java:86) 
-</failure>
-</testcase>
-</testsuite>
-        """.trimIndent()
-        val testSuiteWithoutError = """
-       <testsuite name="" tests="1" failures="1" errors="0" skipped="0" time="2.68" timestamp="2020-05-19T14:40:18" hostname="localhost">
-<properties/>
-<testcase name="test" classname="com.example.test_app.InstrumentedTest" time="1.488">
-<failure>
-java.lang.AssertionError at org.junit.Assert.fail(Assert.java:86)
-</failure>
-</testcase>
-</testsuite>
-        """.trimIndent()
-        val mergedSuite = parseOneSuiteXml(testSuiteWithError).merge(parseOneSuiteXml(testSuiteWithoutError))
-        Assert.assertTrue(mergedSuite.successful())
-
-    }
 }
 

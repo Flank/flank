@@ -11,6 +11,8 @@ internal fun List<TestExecutionData>.prepareForJUnitResult(): List<TestExecution
     .reduceToPrimarySteps()
     .reduceTestCases()
 
+internal fun List<TestExecutionData>.prepareForJUnitResultForCli() = this.prepareForJUnitResult().removeStackTraces()
+
 private fun List<TestExecutionData>.reduceToPrimarySteps(): List<TestExecutionData> = groupBy { data ->
     data.step.primaryStepId
 }.mapNotNull { (_, list: List<TestExecutionData>) ->
@@ -28,11 +30,22 @@ private fun TestExecutionData.reduceTestCases() = copy(
         testCases.sortedBy { testCase: TestCase ->
             testCase.startTime.asUnixTimestamp()
         }.run {
-            if (!isFlaky()) first()
-            else first { it.stackTraces != null }.apply { flaky = true }
+            val passedCases = testCases.any { it.stackTraces.isNullOrEmpty() }
+            if (!isFlaky()) first().apply { this.passed = passedCases }
+            else first { it.stackTraces != null }.apply {
+                flaky = true
+                passed = passedCases
+            }
         }
     }
 )
+
+private fun List<TestExecutionData>.removeStackTraces(): List<TestExecutionData> = map(TestExecutionData::removeStackTraces)
+private fun TestExecutionData.removeStackTraces() = copy(testCases = testCases.onEach {
+    if (it.passed && it.stackTraces.isNotEmpty()) {
+        it.stackTraces = emptyList()
+    }
+})
 
 // For primary step return stepId instead of primaryStepId
 private val Step.primaryStepId get() = multiStep?.primaryStepId ?: stepId

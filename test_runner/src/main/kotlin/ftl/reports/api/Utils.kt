@@ -32,3 +32,4 @@ fun Timestamp.asUnixTimestamp() = (seconds ?: 0) * 1_000 + (nanos ?: 0) / 1_000_
 fun Long.formatUtcDate() = utcDateFormat.format(this)!!
 
 var TestCase.flaky: Boolean by mutableMapProperty { false }
+var TestCase.passed: Boolean by mutableMapProperty { false }
