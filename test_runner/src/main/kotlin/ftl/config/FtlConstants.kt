@@ -1,5 +1,6 @@
 package ftl.config
 
+import com.bugsnag.Bugsnag
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
 import com.google.api.client.googleapis.util.Utils
 import com.google.api.client.http.GoogleApiLogger
@@ -54,10 +55,8 @@ object FtlConstants {
 
     val JSON_FACTORY: JsonFactory by lazy { Utils.getDefaultJsonFactory() }
 
-    val bugsnag = initBugsnag(useMock)
-
-    init {
-        bugsnag?.setAppVersion(readRevision())
+    val bugsnag: Bugsnag? by lazy {
+        initBugsnag(useMock)?.apply { setAppVersion(readRevision()) }
     }
 
     val httpTransport: NetHttpTransport by lazy {

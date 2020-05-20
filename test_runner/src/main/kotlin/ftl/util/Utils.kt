@@ -163,11 +163,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
             // We need to cover the case where some component in the call stack starts a non-daemon
             // thread, and then throws an Error that kills the main thread. This is extra safe implementation
             else -> {
-                // this is workaround for Bugsnag initialization bug, should be removed when resolved
-                // https://github.com/Flank/flank/issues/699
-                if (FtlConstants.useMock.not()) {
-                    FtlConstants.bugsnag?.notify(t)
-                }
+                FtlConstants.bugsnag?.notify(t)
                 t.printStackTrace()
                 exitProcess(3)
             }
