@@ -1,6 +1,7 @@
 package ftl.shard
 
 import ftl.args.IArgs
+import ftl.args.IArgs.Companion.AVAILABLE_SHARD_COUNT_RANGE
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.shard.TestMethodDuration.createTestMethodDurationMap
 import ftl.shard.TestMethodDuration.testTotalTime
@@ -28,7 +29,7 @@ object ShardCount {
         testsToRun: List<FlankTestMethod>,
         oldTestResult: JUnitTestResult,
         args: IArgs
-    ) : Int {
+    ): Int {
         val oldDurations = createTestMethodDurationMap(oldTestResult, args)
         val testsTotalTime = testTotalTime(testsToRun, oldDurations)
 
@@ -40,7 +41,7 @@ object ShardCount {
 
         // If there is no limit, use the calculated amount
         if (args.maxTestShards == NO_LIMIT) {
-            return shardsByTime
+            return AVAILABLE_SHARD_COUNT_RANGE.last
         }
 
         // We need to respect the maxTestShards

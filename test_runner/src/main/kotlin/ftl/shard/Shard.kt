@@ -1,18 +1,13 @@
 package ftl.shard
 
-import com.google.common.annotations.VisibleForTesting
-import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
-import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.shard.CacheReport.printCacheInfo
 import ftl.shard.TestCasesCreator.createTestCases
 import ftl.shard.TestMethodDuration.createTestMethodDurationMap
-import ftl.util.FlankTestMethod
 import ftl.util.FlankFatalError
-import kotlin.math.ceil
-import kotlin.math.min
+import ftl.util.FlankTestMethod
 import kotlin.math.roundToInt
 
 data class TestShard(
@@ -55,8 +50,7 @@ object Shard {
         val maxShards = if (forcedShardCount == -1) args.maxTestShards else forcedShardCount
 
         val previousMethodDurations = createTestMethodDurationMap(oldTestResult, args)
-        val testCases: List<TestMethod> = createTestCases(testsToRun, previousMethodDurations)
-            .sortedByDescending(TestMethod::time)  // We want to iterate over testcase going from slowest to fastest
+        val testCases = createTestCases(testsToRun, previousMethodDurations).sortedByDescending(TestMethod::time) // We want to iterate over testcase going from slowest to fastest
 
         val testCount = getNumberOfNotIgnoredTestCases(testCases)
 
@@ -72,21 +66,21 @@ object Shard {
                     | maxShards: $maxShards 
                     | shardsCount: $shardsCount""".trimMargin()
         )
-        
+
         val shards = createShardsForTestCases(testCases, shardsCount)
-        
+
         printCacheInfo(testsToRun, previousMethodDurations)
         printShardsInfo(shards)
         return shards
     }
-    
+
     private fun createShardsForTestCases(testCases: List<TestMethod>, shardsCount: Int): List<TestShard> {
         var shards = createListOfShards(shardsCount)
         testCases.forEach { testMethod ->
             addTestMethodToMostEmptyShard(shards, testMethod)
             shards = shards.mostEmptyFirst()
         }
-        
+
         return shards
     }
 
