@@ -1,6 +1,7 @@
 package ftl.shard
 
 import com.google.common.truth.Truth.assertThat
+import ftl.args.IArgs
 import ftl.test.util.FlankTestRunner
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -28,15 +29,17 @@ class ShardCountTest {
 
     @Test
     fun `createShardsByShardTime unlimitedShardsShouldReturnTheRightAmount`() {
+        val expectedShardCount = IArgs.AVAILABLE_SHARD_COUNT_RANGE.last
         val testsToRun = listOfFlankTestMethod("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g")
         val suite = sample()
         val result = ShardCount.shardCountByTime(testsToRun, suite, mockArgs(-1, 7))
 
-        assertThat(result).isEqualTo(3)
+        assertThat(result).isEqualTo(expectedShardCount)
     }
 
     @Test
     fun `createShardsByShardTime uncachedTestResultsUseDefaultTime`() {
+        val expectedShardCount = IArgs.AVAILABLE_SHARD_COUNT_RANGE.last
         val testsToRun = listOfFlankTestMethod("h/h", "i/i", "j/j")
         val suite = sample()
         val result = ShardCount.shardCountByTime(
@@ -44,12 +47,13 @@ class ShardCountTest {
             suite,
             mockArgs(maxTestShards = -1, shardTime = DEFAULT_TEST_TIME_SEC.toInt()))
 
-        assertThat(result).isEqualTo(3)
+        assertThat(result).isEqualTo(expectedShardCount)
     }
 
     @Test
     fun `createShardsByShardTime mixedCachedAndUncachedTestResultsUseDefaultTime`() {
         // Test "a/a" is hard-coded to have 1.0 second run time in test suite results.
+        val expectedShardCount = IArgs.AVAILABLE_SHARD_COUNT_RANGE.last
         val testsToRun = listOfFlankTestMethod("a/a", "i/i", "j/j")
         val suite = sample()
         val result = ShardCount.shardCountByTime(
@@ -57,7 +61,7 @@ class ShardCountTest {
             suite,
             mockArgs(maxTestShards = -1, shardTime = DEFAULT_TEST_TIME_SEC.toInt() + 1))
 
-        assertThat(result).isEqualTo(2)
+        assertThat(result).isEqualTo(expectedShardCount)
     }
 
     @Test
