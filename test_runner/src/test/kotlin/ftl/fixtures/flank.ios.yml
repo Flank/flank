@@ -17,3 +17,4 @@ flank:
   max-test-shards: 1
   num-test-runs: 1
   run-timeout: 60m
+  output-style: single

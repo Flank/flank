@@ -18,15 +18,16 @@ import ftl.args.yml.IosFlankYml
 import ftl.args.yml.IosGcloudYml
 import ftl.args.yml.IosGcloudYmlParams
 import ftl.args.yml.YamlDeprecated
+import ftl.util.loadFile
 import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.ios.IosCatalog
 import ftl.ios.Xctestrun
-import ftl.util.FlankTestMethod
+import ftl.run.status.asOutputStyle
 import ftl.util.FlankFatalError
+import ftl.util.FlankTestMethod
 import java.io.Reader
-import java.nio.file.Files
 import java.nio.file.Path
 
 class IosArgs(
@@ -65,12 +66,12 @@ class IosArgs(
     override val project = cli?.project ?: flank.project
     override val localResultDir = cli?.localResultsDir ?: flank.localResultsDir
     override val runTimeout = cli?.runTimeout ?: flank.runTimeout
+    override val useLegacyJUnitResult = true // currently, FTL does not provide API based results for iOS
     override val clientDetails = cli?.clientDetails ?: gcloud.clientDetails
     override val networkProfile = cli?.networkProfile ?: gcloud.networkProfile
     override val ignoreFailedTests = cli?.ignoreFailedTests ?: flank.ignoreFailedTests
     override val keepFilePath = cli?.keepFilePath ?: flank.keepFilePath
-    // currently, FTL does not provide API based results for iOS
-    override val useLegacyJUnitResult = true
+    override val outputStyle = (cli?.outputStyle ?: flank.outputStyle)?.asOutputStyle() ?: defaultOutputStyle
 
     private val iosFlank = iosFlankYml.flank
     val testTargets = cli?.testTargets ?: iosFlank.testTargets.filterNotNull()
@@ -152,6 +153,7 @@ IosArgs
       local-result-dir: $localResultDir
       run-timeout: $runTimeout
       ignore-failed-tests: $ignoreFailedTests
+      output-style: ${outputStyle.name.toLowerCase()}
     """.trimIndent()
     }
 
@@ -160,7 +162,7 @@ IosArgs
             mergeYmlMaps(GcloudYml, IosGcloudYml, FlankYml, IosFlankYml)
         }
 
-        fun load(yamlPath: Path, cli: IosRunCommand? = null): IosArgs = load(Files.newBufferedReader(yamlPath), cli)
+        fun load(yamlPath: Path, cli: IosRunCommand? = null): IosArgs = load(loadFile(yamlPath), cli)
 
         @VisibleForTesting
         internal fun load(yamlReader: Reader, cli: IosRunCommand? = null): IosArgs {

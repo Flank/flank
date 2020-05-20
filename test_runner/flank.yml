@@ -203,3 +203,9 @@ flank:
   ## This flag allows fallback for legacy xml junit results parsing
   ## Currently available for android, iOS still uses only legacy way.
   # legacy-junit-result: false
+
+  ## Output style of execution status. May be one of [verbose, multi, single].
+  ## For runs with only one test execution the default value is 'verbose', in other cases
+  ## 'multi' is used as the default. The output style 'multi' is not displayed correctly on consoles
+  ## which don't support ansi codes, to avoid corrupted output use single or verbose.
+  # output-style: single

@@ -4,7 +4,7 @@ import ftl.args.AndroidArgs
 import ftl.args.yml.errors.ConfigurationErrorMessageBuilder
 import ftl.test.util.TestHelper
 import ftl.test.util.TestHelper.getThrowable
-import ftl.util.FlankConfigurationException
+import ftl.util.FlankFatalError
 import org.junit.Assert
 import org.junit.Test
 
@@ -41,8 +41,8 @@ At line: 23, column: 3
         Assert.assertEquals(expected, buildErrorMessage(instantionError))
     }
 
-    @Test(expected = FlankConfigurationException::class)
-    fun `should throw FlankConfigException without device version`() {
+    @Test(expected = FlankFatalError::class)
+    fun `should throw FlankFatalError without device version`() {
         AndroidArgs.load(yamlWithoutDeviceVersion)
     }
 
@@ -78,13 +78,13 @@ Error node: {
         Assert.assertEquals(exceptedMessage, actualMessage)
     }
 
-    @Test(expected = FlankConfigurationException::class)
-    fun `should throw FlankConfigException without model name`() {
+    @Test(expected = FlankFatalError::class)
+    fun `should throw FlankFatalError without model name`() {
         AndroidArgs.load(yamlNoModelName)
     }
 
-    @Test(expected = FlankConfigurationException::class)
-    fun `should throw FlankConfigException without model node`() {
+    @Test(expected = FlankFatalError::class)
+    fun `should throw FlankFatalError without model node`() {
         AndroidArgs.load(yamlNoModelNode)
     }
 }

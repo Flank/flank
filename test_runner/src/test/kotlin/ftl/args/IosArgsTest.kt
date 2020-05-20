@@ -11,6 +11,7 @@ import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.defaultIosModel
 import ftl.config.FtlConstants.defaultIosVersion
+import ftl.run.status.OutputStyle
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
@@ -80,6 +81,7 @@ class IosArgsTest {
           run-timeout: 15m
           ignore-failed-tests: true
           keep-file-path: true
+          output-style: single
         """
 
     @Rule
@@ -172,6 +174,7 @@ flank:
             assert(disableSharding, true)
             assert(runTimeout, "15m")
             assert(useLegacyJUnitResult, true)
+            assert(outputStyle, OutputStyle.Single)
         }
     }
 
@@ -228,6 +231,7 @@ IosArgs
       local-result-dir: results
       run-timeout: 15m
       ignore-failed-tests: true
+      output-style: single
 """.trimIndent()
         )
     }
@@ -274,6 +278,7 @@ IosArgs
       local-result-dir: results
       run-timeout: -1
       ignore-failed-tests: false
+      output-style: multi
         """.trimIndent(), args.toString()
         )
     }
@@ -797,6 +802,22 @@ IosArgs
 
         val args = IosArgs.load(yaml, cli)
         assertThat(args.parsedTimeout).isEqualTo(20 * 60 * 1000L)
+    }
+
+    @Test
+    fun `cli output-style`() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parseArgs("--output-style=verbose")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+      """
+        assertThat(IosArgs.load(yaml).outputStyle).isEqualTo(OutputStyle.Multi)
+
+        val args = IosArgs.load(yaml, cli)
+        assertThat(args.outputStyle).isEqualTo(OutputStyle.Verbose)
     }
 
     private fun getValidTestsSample() = listOf(
