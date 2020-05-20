@@ -21,6 +21,7 @@ import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.shard.Shard
+import ftl.shard.ShardCount.shardCountByTime
 import ftl.shard.StringShards
 import ftl.shard.stringShards
 import ftl.util.FlankFatalError
@@ -234,7 +235,7 @@ object ArgsHelper {
             listOf(filteredTests.map { it.testName }.toMutableList())
         } else {
             val oldTestResult = GcStorage.downloadJunitXml(args) ?: JUnitTestResult(mutableListOf())
-            val shardCount = Shard.shardCountByTime(filteredTests, oldTestResult, args)
+            val shardCount = shardCountByTime(filteredTests, oldTestResult, args)
             Shard.createShardsByShardCount(filteredTests, oldTestResult, args, shardCount).stringShards()
         }
 
