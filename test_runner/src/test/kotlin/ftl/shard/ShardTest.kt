@@ -36,7 +36,7 @@ class ShardTest {
         val reRunTestsToRun = listOfFlankTestMethod("a", "b", "c", "d", "e", "f", "g")
         val suite = sample()
 
-        val result = Shard.createShardsByShardCount(reRunTestsToRun, suite, mockArgs(100))
+        val result = createShardsByShardCount(reRunTestsToRun, suite, mockArgs(100))
 
         assertThat(result.size).isEqualTo(7)
         result.forEach {
@@ -48,7 +48,7 @@ class ShardTest {
     fun sampleTest() {
         val reRunTestsToRun = listOfFlankTestMethod("a/a", "b/b", "c/c", "d/d", "e/e", "f/f", "g/g")
         val suite = sample()
-        val result = Shard.createShardsByShardCount(reRunTestsToRun, suite, mockArgs(3))
+        val result = createShardsByShardCount(reRunTestsToRun, suite, mockArgs(3))
 
         assertThat(result.size).isEqualTo(3)
         result.forEach {
@@ -71,7 +71,7 @@ class ShardTest {
     @Test
     fun firstRun() {
         val testsToRun = listOfFlankTestMethod("a", "b", "c")
-        val result = Shard.createShardsByShardCount(testsToRun, JUnitTestResult(null), mockArgs(2))
+        val result = createShardsByShardCount(testsToRun, JUnitTestResult(null), mockArgs(2))
 
         assertThat(result.size).isEqualTo(2)
         assertThat(result.sumByDouble { it.time }).isEqualTo(3 * DEFAULT_TEST_TIME_SEC)
@@ -84,7 +84,7 @@ class ShardTest {
     @Test
     fun mixedNewAndOld() {
         val testsToRun = listOfFlankTestMethod("a/a", "b/b", "c/c", "w", "y", "z")
-        val result = Shard.createShardsByShardCount(testsToRun, sample(), mockArgs(4))
+        val result = createShardsByShardCount(testsToRun, sample(), mockArgs(4))
         assertThat(result.size).isEqualTo(4)
         assertThat(result.sumByDouble { it.time }).isEqualTo(7.0 + 3 * DEFAULT_TEST_TIME_SEC)
 
@@ -102,7 +102,7 @@ class ShardTest {
         repeat(1_000_000) { index -> testsToRun.add(FlankTestMethod("$index/$index")) }
 
         val nano = measureNanoTime {
-            Shard.createShardsByShardCount(testsToRun, JUnitTestResult(null), mockArgs(4))
+            createShardsByShardCount(testsToRun, JUnitTestResult(null), mockArgs(4))
         }
 
         val ms = TimeUnit.NANOSECONDS.toMillis(nano)
@@ -112,7 +112,7 @@ class ShardTest {
 
     @Test(expected = FlankFatalError::class)
     fun `createShardsByShardCount throws on forcedShardCount = 0`() {
-        Shard.createShardsByShardCount(
+        createShardsByShardCount(
                 listOf(),
                 sample(),
                 mockArgs(-1, 7),
@@ -147,7 +147,7 @@ class ShardTest {
 
         val oldTestResult = newSuite(testCases)
 
-        return ShardCount.shardCountByTime(
+        return shardCountByTime(
                 testsToRun,
                 oldTestResult,
                 mockArgs(-1, shardTime))
@@ -178,7 +178,7 @@ class ShardTest {
 
     @Test(expected = FlankFatalError::class)
     fun `should terminate with exit status == 3 test targets is 0 and maxTestShards == -1`() {
-        Shard.createShardsByShardCount(emptyList(), JUnitTestResult(mutableListOf()), mockArgs(-1))
+        createShardsByShardCount(emptyList(), JUnitTestResult(mutableListOf()), mockArgs(-1))
     }
 
     @Test
@@ -199,10 +199,10 @@ class ShardTest {
             JUnitTestCase("c", "c", "10.0")
         ))
 
-        val shardCount = ShardCount.shardCountByTime(testsToRun, oldTestResult, androidMockedArgs)
+        val shardCount = shardCountByTime(testsToRun, oldTestResult, androidMockedArgs)
         assertEquals(2, shardCount)
 
-        val shards = Shard.createShardsByShardCount(testsToRun, oldTestResult, androidMockedArgs, shardCount)
+        val shards = createShardsByShardCount(testsToRun, oldTestResult, androidMockedArgs, shardCount)
         assertEquals(2, shards.size)
         assertTrue(shards.flatMap { it.testMethods }.map { it.time }.filter { it == 0.0 }.count() == 1)
         shards.forEach { assertEquals(10.0, it.time, 0.0) }
@@ -222,10 +222,10 @@ class ShardTest {
 
         val oldTestResult = newSuite(mutableListOf())
 
-        val shardCount = ShardCount.shardCountByTime(testsToRun, oldTestResult, androidMockedArgs)
+        val shardCount = shardCountByTime(testsToRun, oldTestResult, androidMockedArgs)
         assertEquals(-1, shardCount)
 
-        val shards = Shard.createShardsByShardCount(testsToRun, oldTestResult, androidMockedArgs, shardCount)
+        val shards = createShardsByShardCount(testsToRun, oldTestResult, androidMockedArgs, shardCount)
         assertEquals(1, shards.size)
     }
 }

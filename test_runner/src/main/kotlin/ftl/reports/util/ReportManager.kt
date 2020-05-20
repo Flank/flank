@@ -13,7 +13,7 @@ import ftl.reports.api.processXmlFromApi
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.parseOneSuiteXml
-import ftl.shard.TestMethodDuration.createTestMethodDurationMap
+import ftl.shard.createTestMethodDurationMap
 import ftl.util.Artifacts
 import ftl.util.resolveLocalRunPath
 import java.io.File

@@ -4,42 +4,32 @@ import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
-import ftl.util.FlankTestMethod
 
-object TestMethodDuration {
+fun createTestMethodDurationMap(junitResult: JUnitTestResult, args: IArgs): Map<String, Double> {
+    val junitMap = mutableMapOf<String, Double>()
 
-    private fun JUnitTestCase.androidKey(): String {
-        return "class $classname#$name"
-    }
+    // Create a map with information from previous junit run
 
-    private fun JUnitTestCase.iosKey(): String {
-        // FTL iOS XML appends `()` to each test name. ex: `testBasicSelection()`
-        // xctestrun file requires classname/name with no `()`
-        val testName = name?.substringBefore('(')
-        return "$classname/$testName"
-    }
-
-    fun createTestMethodDurationMap(junitResult: JUnitTestResult, args: IArgs): Map<String, Double> {
-        val junitMap = mutableMapOf<String, Double>()
-
-        // Create a map with information from previous junit run
-
-        junitResult.testsuites?.forEach { testsuite ->
-            testsuite.testcases?.forEach { testcase ->
-                if (!testcase.empty() && testcase.time != null) {
-                    val key = if (args is AndroidArgs) testcase.androidKey() else testcase.iosKey()
-                    val time = testcase.time.toDouble()
-                    if (time >= 0) junitMap[key] = time
-                }
+    junitResult.testsuites?.forEach { testsuite ->
+        testsuite.testcases?.forEach { testcase ->
+            if (!testcase.empty() && testcase.time != null) {
+                val key = if (args is AndroidArgs) testcase.androidKey() else testcase.iosKey()
+                val time = testcase.time.toDouble()
+                if (time >= 0) junitMap[key] = time
             }
         }
-
-        return junitMap
     }
 
-    fun testTotalTime(testsToRun: List<FlankTestMethod>, previousMethodDurations: Map<String, Double>): Double {
-        return testsToRun.sumByDouble {
-            if (it.ignored) IGNORE_TEST_TIME else previousMethodDurations[it.testName] ?: DEFAULT_TEST_TIME_SEC
-        }
-    }
+    return junitMap
+}
+
+private fun JUnitTestCase.androidKey(): String {
+    return "class $classname#$name"
+}
+
+private fun JUnitTestCase.iosKey(): String {
+    // FTL iOS XML appends `()` to each test name. ex: `testBasicSelection()`
+    // xctestrun file requires classname/name with no `()`
+    val testName = name?.substringBefore('(')
+    return "$classname/$testName"
 }

@@ -23,7 +23,7 @@ internal class TestCasesCreatorTest {
         val expectedTestTime = IGNORE_TEST_TIME
 
         // when
-        val createdTestCases = TestCasesCreator.createTestCases(ignoredTestMethods, mapOf())
+        val createdTestCases = createTestCases(ignoredTestMethods, mapOf())
 
         // then
         createdTestCases.forEach {
@@ -37,7 +37,7 @@ internal class TestCasesCreatorTest {
         val expectedTestTime = DEFAULT_TEST_TIME_SEC
 
         // when
-        val createdTestCases = TestCasesCreator.createTestCases(testMethods, mapOf())
+        val createdTestCases = createTestCases(testMethods, mapOf())
 
         // then
         createdTestCases.forEach {
@@ -52,7 +52,7 @@ internal class TestCasesCreatorTest {
         val previousMapDuration = testMethods.associate { it.testName to previousTestTimeSeconds }
 
         // when
-        val createdTestCases = TestCasesCreator.createTestCases(testMethods, previousMapDuration)
+        val createdTestCases = createTestCases(testMethods, previousMapDuration)
 
         // then
         createdTestCases.forEach {
