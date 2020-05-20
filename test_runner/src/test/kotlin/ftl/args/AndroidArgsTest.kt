@@ -1173,6 +1173,33 @@ AndroidArgs
         assertEquals(4, chunks.size)
     }
 
+    @Test(expected = FlankFatalError::class)
+    fun `should fail on missing app apk -- yml file`() {
+        val yaml = """
+        flank:
+          additional-app-test-apks:
+          - app: $appApk
+            test: $testApk
+          - app: null
+            test: $testErrorApk
+        """.trimIndent()
+
+        AndroidArgs.load(yaml)
+    }
+
+    @Test
+    fun `should omit global app apk if any additional-app-test-apks specified -- yml file`() {
+        val yaml = """
+        gcloud:
+        flank:
+          additional-app-test-apks:
+          - app: $appApk
+            test: $testApk
+        """.trimIndent()
+
+        AndroidArgs.load(yaml)
+    }
+
     @Test
     fun `verify run timeout default value - android`() {
         val args = AndroidArgs.load(simpleFlankPath)
