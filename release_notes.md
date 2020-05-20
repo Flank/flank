@@ -3,7 +3,7 @@
 - [#784](https://github.com/Flank/flank/pull/784) Add output-style option. ([jan-gogo](https://github.com/jan-gogo)) 
 - [#779](https://github.com/Flank/flank/pull/779) Print retries & display additional info. ([jan-gogo](https://github.com/jan-gogo))
 - [#793](https://github.com/Flank/flank/issues/793) Better error message on file not found. ([adamfilipow92](https://github.com/adamfilipow92)) 
-- 
+- [#807](https://github.com/Flank/flank/issues/807) Fix Bugsnag being initialized during tests. ([piotradamczyk5](https://github.com/piotradamczyk5)) 
 - 
 
 ## v20.05.2
