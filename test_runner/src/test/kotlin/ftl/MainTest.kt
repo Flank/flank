@@ -89,8 +89,8 @@ class MainTest {
     }
 
     @Test
-    fun `should terminate jvm with exit status 1 if yml parsing error occurs`() {
-        systemExit.expectSystemExitWithStatus(1)
+    fun `should terminate jvm with exit status 2 if yml parsing error occurs`() {
+        systemExit.expectSystemExitWithStatus(2)
         Main.main(arrayOf(
             "firebase",
             "test",
