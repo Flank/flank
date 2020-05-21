@@ -1,15 +1,15 @@
 ## next (unreleased)
 
-- [#784](https://github.com/Flank/flank/pull/784) Add output-style option. ([jan-gogo](https://github.com/jan-gogo)) 
+- [#784](https://github.com/Flank/flank/pull/784) Add output-style option. ([jan-gogo](https://github.com/jan-gogo))
 - [#779](https://github.com/Flank/flank/pull/779) Print retries & display additional info. ([jan-gogo](https://github.com/jan-gogo))
-- [#793](https://github.com/Flank/flank/issues/793) Better error message on file not found. ([adamfilipow92](https://github.com/adamfilipow92)) 
-- [#808](https://github.com/Flank/flank/issues/808) Fixed dry run crashes. ([piotradamczyk5](https://github.com/piotradamczyk5)) 
-- [#807](https://github.com/Flank/flank/issues/807) Fix Bugsnag being initialized during tests. ([piotradamczyk5](https://github.com/piotradamczyk5)) 
-- 
+- [#793](https://github.com/Flank/flank/issues/793) Better error message on file not found. ([adamfilipow92](https://github.com/adamfilipow92))
+- [#808](https://github.com/Flank/flank/issues/808) Fixed dry run crashes. ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#807](https://github.com/Flank/flank/issues/807) Fix Bugsnag being initialized during tests. ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#805](https://github.com/Flank/flank/pull/805) Fix overlapping results. ([pawelpasterz](https://github.com/pawelpasterz))
 
 ## v20.05.2
 
-- [#781](https://github.com/Flank/flank/pull/781) Remove local exists check on cloud results-dir. Fixes crash when results-dir is set by the user. ([adamfilipow92](https://github.com/adamfilipow92)) 
+- [#781](https://github.com/Flank/flank/pull/781) Remove local exists check on cloud results-dir. Fixes crash when results-dir is set by the user. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#656](https://github.com/Flank/flank/issues/656) Improve error message reporting. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#783](https://github.com/Flank/flank/pull/783) Use legacy results for iOS by default. ([pawelpasterz](https://github.com/pawelpasterz))
 

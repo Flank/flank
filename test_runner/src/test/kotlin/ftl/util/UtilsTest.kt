@@ -77,6 +77,7 @@ class UtilsTest {
         assertThat(randomName[16]).isEqualTo('-')
         assertThat(randomName[19]).isEqualTo('.')
         assertThat(randomName[26]).isEqualTo('_')
+        assertThat(randomName.last()).isNotEqualTo('/')
     }
 
     @Test(expected = FailedMatrix::class)
