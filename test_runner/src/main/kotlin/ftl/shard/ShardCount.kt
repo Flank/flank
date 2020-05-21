@@ -26,18 +26,14 @@ private fun calculateShardCount(
     testsToRun: List<FlankTestMethod>,
     oldTestResult: JUnitTestResult,
     args: IArgs
-): Int {
-    val oldDurations = createTestMethodDurationMap(oldTestResult, args)
-    val testsTotalTime = testTotalTime(testsToRun, oldDurations)
+): Int = calculateShardCount(
+    args = args,
+    testsTotalTime = testTotalTime(testsToRun, createTestMethodDurationMap(oldTestResult, args)),
+    testsToRunCount = testsToRun.size
+)
 
-    return calculateShardCount(args, testsTotalTime, testsToRun.size)
-}
-
-private fun testTotalTime(testsToRun: List<FlankTestMethod>, previousMethodDurations: Map<String, Double>): Double {
-    return testsToRun.sumByDouble {
-        if (it.ignored) IGNORE_TEST_TIME else previousMethodDurations[it.testName] ?: DEFAULT_TEST_TIME_SEC
-    }
-}
+private fun testTotalTime(testsToRun: List<FlankTestMethod>, previousMethodDurations: Map<String, Double>): Double =
+    testsToRun.sumByDouble { flankTestMethod -> getTestMethodTime(flankTestMethod, previousMethodDurations) }
 
 private fun calculateShardCount(
     args: IArgs,

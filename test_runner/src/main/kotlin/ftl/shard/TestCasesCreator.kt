@@ -8,15 +8,5 @@ data class TestMethod(
 )
 
 fun createTestCases(testsToRun: List<FlankTestMethod>, previousMethodDurations: Map<String, Double>): List<TestMethod> {
-    return testsToRun
-        .map {
-            TestMethod(
-                name = it.testName,
-                time = if (it.ignored) {
-                    IGNORE_TEST_TIME
-                } else {
-                    previousMethodDurations[it.testName] ?: DEFAULT_TEST_TIME_SEC
-                }
-            )
-        }
+    return testsToRun.map { TestMethod(it.testName, getTestMethodTime(it, previousMethodDurations)) }
 }

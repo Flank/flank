@@ -6,21 +6,21 @@ import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 
 fun createTestMethodDurationMap(junitResult: JUnitTestResult, args: IArgs): Map<String, Double> {
-    val junitMap = mutableMapOf<String, Double>()
-
     // Create a map with information from previous junit run
-
-    junitResult.testsuites?.forEach { testsuite ->
-        testsuite.testcases?.forEach { testcase ->
-            if (!testcase.empty() && testcase.time != null) {
-                val key = if (args is AndroidArgs) testcase.androidKey() else testcase.iosKey()
-                val time = testcase.time.toDouble()
-                if (time >= 0) junitMap[key] = time
-            }
+    return mutableMapOf<String, Double>().apply {
+        junitResult.testsuites?.forEach { testsuite ->
+            testsuite.testcases
+                ?.asSequence()
+                ?.filter { testcase -> !testcase.empty() && testcase.time != null }
+                ?.map { testcase ->
+                    val key = if (args is AndroidArgs) testcase.androidKey() else testcase.iosKey()
+                    val time = testcase.time!!.toDouble()
+                    key to time
+                }
+                ?.filter { (_, time) -> time >= 0 }
+                ?.forEach { (key, time) -> this[key] = time }
         }
     }
-
-    return junitMap
 }
 
 private fun JUnitTestCase.androidKey(): String {

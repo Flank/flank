@@ -42,13 +42,11 @@ fun createShardsByShardCount(
     forcedShardCount: Int = -1
 ): List<TestShard> {
     if (forcedShardCount < -1 || forcedShardCount == 0) throw FlankFatalError("Invalid forcedShardCount value $forcedShardCount")
-    val maxShards = if (forcedShardCount == -1) args.maxTestShards else forcedShardCount
+    val maxShards = maxShards(args.maxTestShards, forcedShardCount)
 
     val previousMethodDurations = createTestMethodDurationMap(oldTestResult, args)
-    val testCases = createTestCases(
-        testsToRun,
-        previousMethodDurations
-    ).sortedByDescending(TestMethod::time) // We want to iterate over testcase going from slowest to fastest
+    val testCases = createTestCases(testsToRun, previousMethodDurations)
+        .sortedByDescending(TestMethod::time) // We want to iterate over testcase going from slowest to fastest
 
     val testCount = getNumberOfNotIgnoredTestCases(testCases)
 
@@ -72,39 +70,38 @@ fun createShardsByShardCount(
     return shards
 }
 
-private fun createShardsForTestCases(testCases: List<TestMethod>, shardsCount: Int): List<TestShard> {
-    var shards = createListOfShards(shardsCount)
-    testCases.forEach { testMethod ->
-        addTestMethodToMostEmptyShard(shards, testMethod)
-        shards = shards.mostEmptyFirst()
-    }
-
-    return shards
-}
-
-private fun printShardsInfo(shards: List<TestShard>) {
-    println("  Shard times: " + shards.joinToString(", ") { "${it.time.roundToInt()}s" } + "\n")
-}
-
-private fun addTestMethodToMostEmptyShard(shards: List<TestShard>, testMethod: TestMethod) {
-    val mostEmptyShard = shards.first()
-    mostEmptyShard.testMethods.add(testMethod)
-    mostEmptyShard.time += testMethod.time
-}
-
-private val IArgs.platformName
-    get() = if (this is IosArgs) "ios" else "android"
-
-private fun List<TestShard>.mostEmptyFirst() = sortedBy { it.time }
+private fun maxShards(maxShardsCount: Int, forcedShardCount: Int) =
+    if (forcedShardCount == -1) maxShardsCount else forcedShardCount
 
 private fun getNumberOfNotIgnoredTestCases(testCases: List<TestMethod>): Int {
     // Ugly hotfix for case when all test cases are annotated with @Ignore
     // we need to filter them because they have time == 0.0 which cause empty shards creation, few lines later
     // and we don't need additional shards for ignored tests.
-    return if (testCases.isEmpty()) 0 else testCases.filter { it.time > 0.0 }.takeIf { it.isNotEmpty() }?.size ?: 1
+    return if (testCases.isEmpty()) 0 else testCases.filter { it.time > IGNORE_TEST_TIME }
+        .takeIf { it.isNotEmpty() }?.size ?: 1
 }
 
 private fun matchNumberOfShardsWithTestCount(maxShards: Int, testCount: Int) =
     if (maxShards == -1 || maxShards > testCount) testCount else maxShards
+
+private val IArgs.platformName get() = if (this is IosArgs) "ios" else "android"
+
+private fun printShardsInfo(shards: List<TestShard>) {
+    println("  Shard times: " + shards.joinToString(", ") { "${it.time.roundToInt()}s" } + "\n")
+}
+
+private fun createShardsForTestCases(
+    testCases: List<TestMethod>,
+    shardsCount: Int
+): List<TestShard> = testCases.fold(
+    initial = createListOfShards(shardsCount)
+) { shards, testMethod ->
+    shards.sortedBy(TestShard::time).apply {
+        first().apply {
+            testMethods += testMethod
+            time += testMethod.time
+        }
+    }
+}
 
 private fun createListOfShards(shardsCount: Int) = List(shardsCount) { TestShard(0.0, mutableListOf()) }
