@@ -36,5 +36,5 @@ private fun refreshTestMatrices(
 }
 
 private fun List<TestMatrix>.getTestExecutions(): List<TestExecution> = this
-    .map(TestMatrix::getTestExecutions)
+    .mapNotNull(TestMatrix::getTestExecutions)
     .flatten()
