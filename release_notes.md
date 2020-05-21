@@ -5,7 +5,7 @@
 - [#793](https://github.com/Flank/flank/issues/793) Better error message on file not found. ([adamfilipow92](https://github.com/adamfilipow92)) 
 - [#808](https://github.com/Flank/flank/issues/808) Fixed dry run crashes. ([piotradamczyk5](https://github.com/piotradamczyk5)) 
 - [#807](https://github.com/Flank/flank/issues/807) Fix Bugsnag being initialized during tests. ([piotradamczyk5](https://github.com/piotradamczyk5)) 
-- 
+- [#811](https://github.com/Flank/flank/issues/811) Convert bitrise macos workflow to github action. ([piotradamczyk5](https://github.com/piotradamczyk5)) 
 
 ## v20.05.2
 
