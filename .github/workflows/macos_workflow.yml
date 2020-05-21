@@ -1,0 +1,39 @@
+# This is a basic workflow to help you get started with Actions
+
+name: macOS-workflow
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches:
+      - '*'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: macos-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    - name: Gradle Command
+      uses: eskatos/gradle-command-action@v1
+      with:
+        # Path to the Gradle executable
+        gradle-executable: "./test_runner/gradlew"
+        # Gradle command line arguments, see gradle --help
+        arguments: "-p test_runner check"
+        
+    - name: Codecov
+      uses: codecov/codecov-action@v1.0s.7
+      with:
+        codecov_token: ${{secrets.CODECOV_TOKEN}}
+        # Repository upload token - get it from codecov.io. Required only for private repositories
+        token: <secure_token> 
