@@ -19,6 +19,7 @@ import java.io.FileOutputStream
 import java.net.URI
 import java.nio.file.Files
 import java.nio.file.Paths
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 object GcStorage {
@@ -72,6 +73,24 @@ object GcStorage {
         try {
             progress.start("Uploading smart flank XML")
             storage.create(fileBlob, testResult.xmlToString().toByteArray())
+        } catch (e: Exception) {
+            throw RuntimeException(e)
+        } finally {
+            progress.stop()
+        }
+    }
+
+    fun uploadClearedJunitXml(testResult: JUnitTestResult, args: IArgs) {
+        if (args.resultsBucket.isEmpty() || args.resultsDir.isNullOrEmpty() ) return
+        val progress = ProgressBar()
+        try {
+            progress.start("Uploading cleared xml")
+            upload(
+                file = "${UUID.randomUUID()}.xml",
+                fileBytes = testResult.xmlToString().toByteArray(),
+                rootGcsBucket = args.resultsBucket,
+                runGcsPath =  args.resultsDir!!
+            )
         } catch (e: Exception) {
             throw RuntimeException(e)
         } finally {

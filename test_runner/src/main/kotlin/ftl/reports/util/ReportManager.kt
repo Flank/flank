@@ -10,6 +10,7 @@ import ftl.reports.HtmlErrorReport
 import ftl.reports.JUnitReport
 import ftl.reports.MatrixResultsReport
 import ftl.reports.api.processXmlFromApi
+import ftl.reports.api.processXmlFromApiWithoutFails
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.parseOneSuiteXml
@@ -120,7 +121,10 @@ object ReportManager {
 
         JUnitReport.run(matrices, testSuite, printToStdout = false, args = args)
         processJunitXml(testSuite, args, testShardChunks)
-
+        //    if (args.removeFailsFromPassedTests) {
+        GcStorage.uploadClearedJunitXml(processXmlFromApi(matrices, args), args)
+        GcStorage.uploadClearedJunitXml(processXmlFromApiWithoutFails(matrices, args), args)
+        //  }
         matrices.validateMatrices(args.ignoreFailedTests)
     }
 

@@ -272,4 +272,10 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
         description = ["Fallback for legacy xml junit results parsing."]
     )
     var useLegacyJUnitResult: Boolean? = null
+
+    @Option(
+        names = ["--remove-fails-from-passed"],
+        description = ["Fallback for legacy xml junit results parsing."]
+    )
+    var removeFailsFromPassedTests: Boolean? = null
 }

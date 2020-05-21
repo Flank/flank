@@ -27,6 +27,7 @@ import ftl.ios.Xctestrun
 import ftl.run.status.asOutputStyle
 import ftl.util.FlankFatalError
 import ftl.util.FlankTestMethod
+import ftl.util.uniqueObjectName
 import java.io.Reader
 import java.nio.file.Path
 
@@ -41,7 +42,7 @@ class IosArgs(
 
     private val gcloud = gcloudYml.gcloud
     override val resultsBucket: String
-    override val resultsDir = cli?.resultsDir ?: gcloud.resultsDir
+    override val resultsDir = (cli?.resultsDir ?: gcloud.resultsDir) ?: uniqueObjectName()
     override val recordVideo = cli?.recordVideo ?: cli?.noRecordVideo?.not() ?: gcloud.recordVideo
     override val testTimeout = cli?.timeout ?: gcloud.timeout
     override val async = cli?.async ?: gcloud.async
