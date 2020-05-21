@@ -94,14 +94,12 @@ private fun createShardsForTestCases(
     testCases: List<TestMethod>,
     shardsCount: Int
 ): List<TestShard> = testCases.fold(
-    initial = createListOfShards(shardsCount)
+    initial = List(shardsCount) { TestShard(0.0, mutableListOf()) }
 ) { shards, testMethod ->
-    shards.sortedBy(TestShard::time).apply {
+    shards.apply {
         first().apply {
             testMethods += testMethod
             time += testMethod.time
         }
-    }
+    }.sortedBy(TestShard::time)
 }
-
-private fun createListOfShards(shardsCount: Int) = List(shardsCount) { TestShard(0.0, mutableListOf()) }
