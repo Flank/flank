@@ -1,12 +1,7 @@
 package ftl.args
 
-import ftl.args.yml.AndroidFlankYml
-import ftl.args.yml.AndroidGcloudYml
-import ftl.args.yml.AndroidGcloudYmlParams
-import ftl.args.yml.FlankYml
-import ftl.args.yml.FlankYmlParams
-import ftl.args.yml.GcloudYml
-import ftl.args.yml.GcloudYmlParams
+import com.google.common.truth.Truth.assertThat
+import ftl.args.yml.*
 import ftl.config.Device
 import ftl.run.status.OutputStyle
 import ftl.test.util.FlankTestRunner
@@ -149,6 +144,17 @@ class AndroidArgsFileTest {
             assert(maxTestShards, 40)
             assert(testShardChunks.size, 40)
             assert(testShardChunks.first().size, 3)
+        }
+    }
+
+    @Test
+    fun `should distribute equally to shards`() {
+        val config = configWithTestMethods(155, maxTestShards = 40)
+        val testShardChunks = AndroidTestShard.getTestShardChunks(config, config.testApk!!)
+        with(config) {
+            assert(maxTestShards, 40)
+            assert(testShardChunks.size, 40)
+            testShardChunks.forEach { assertThat(it.size).isIn(3..4) }
         }
     }
 
