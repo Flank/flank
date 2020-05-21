@@ -67,7 +67,7 @@ internal fun getDownloadPath(args: IArgs, blobPath: String): Path {
     // for iOS it is shardName, remove this comment after FTL introduce server side sharding for iOS
     val matrixName = parsed.getName(1).toString()
     val deviceName = parsed.getName(2).toString()
-    val filePathName = if (parsed.nameCount > 4 && args.keepFilePath) parsed.parent.drop(3).joinToString("/") else ""
+    val filePathName = if (args.keepFilePath) parsed.parent.drop(3).joinToString("/") else ""
     val fileName = parsed.fileName.toString()
 
     return Paths.get("$localDir/$objName/$matrixName/$deviceName/$filePathName/$fileName")
