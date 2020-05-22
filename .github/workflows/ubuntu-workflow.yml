@@ -35,4 +35,4 @@ jobs:
         # Path to the Gradle executable
         gradle-executable: "./test_runner/gradlew"
         # Gradle command line arguments, see gradle --help
-        arguments: "-p test_runner check"
+        arguments: "-p test_runner clean build"
