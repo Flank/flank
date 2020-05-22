@@ -7,7 +7,6 @@ import com.google.api.services.toolresults.model.Step
 import com.google.api.services.toolresults.model.TestCase
 import com.google.api.services.toolresults.model.Timestamp
 import ftl.reports.api.data.TestExecutionData
-import ftl.reports.xml.model.JUnitTestResult
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -112,7 +111,41 @@ class PrepareForJUnitResultKtTest {
             )
         )
 
-        val preparedTestCase = testExecutionDataList.prepareForJUnitResultForCli()
+        val preparedTestCase = testExecutionDataList.prepareJUnitResultForCi()
+        assertEquals(preparedTestCase.count(),1)
+        assertEquals(preparedTestCase.first().testCases.count(),1)
+        assertTrue(preparedTestCase.first().testCases.first().stackTraces.isNullOrEmpty())
+    }
+
+    @Test
+    fun `should not throws when stack traces is null`() {
+        val testCases = listOf(
+            TestCase().apply {
+                startTime = Timestamp().apply {
+                    seconds = 1
+                }
+            },
+            TestCase().apply {
+                startTime = Timestamp().apply {
+                    seconds = 2
+                }
+                stackTraces = null
+            }
+        )
+        val primaryStep = Step().apply {
+            stepId = "1"
+        }
+
+        val testExecutionDataList = listOf(
+            TestExecutionData(
+                testExecution = TestExecution(),
+                timestamp = Timestamp(),
+                testCases = testCases,
+                step = primaryStep
+            )
+        )
+
+        val preparedTestCase = testExecutionDataList.prepareJUnitResultForCi()
         assertEquals(preparedTestCase.count(),1)
         assertEquals(preparedTestCase.first().testCases.count(),1)
         assertTrue(preparedTestCase.first().testCases.first().stackTraces.isNullOrEmpty())

@@ -38,7 +38,8 @@ interface IArgs {
             else it
         }
     val useLegacyJUnitResult: Boolean get() = false
-    val removeFailsFromPassedTests: Boolean get() = false
+    val ciJUnitResult: Boolean get() = false
+    val ciJUnitResultFile: String?
     val ignoreFailedTests: Boolean
     val keepFilePath: Boolean
     val outputStyle: OutputStyle

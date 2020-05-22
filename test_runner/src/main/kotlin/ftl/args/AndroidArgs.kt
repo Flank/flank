@@ -90,7 +90,8 @@ class AndroidArgs(
     override val localResultDir = cli?.localResultsDir ?: flank.localResultsDir
     override val runTimeout = cli?.runTimeout ?: flank.runTimeout
     override val useLegacyJUnitResult = cli?.useLegacyJUnitResult ?: flank.useLegacyJUnitResult
-    override val removeFailsFromPassedTests = cli?.removeFailsFromPassedTests ?: flank.removeFailsFromPassedTests
+    override val ciJUnitResult = cli?.ciJUnitResult ?: flank.ciJUnitResult
+    override val ciJUnitResultFile = cli?.ciJUnitResultFile ?: flank.ciJUnitResultFile
     override val clientDetails = cli?.clientDetails ?: gcloud.clientDetails
     override val networkProfile = cli?.networkProfile ?: gcloud.networkProfile
     override val ignoreFailedTests = cli?.ignoreFailedTests ?: flank.ignoreFailedTests
@@ -197,7 +198,7 @@ AndroidArgs
       additional-app-test-apks:${apksToString(additionalAppTestApks)}
       run-timeout: $runTimeout
       legacy-junit-result: $useLegacyJUnitResult
-      remove-junit--fails-results: $removeFailsFromPassedTests
+      ci-junit-result: $ciJUnitResult
       ignore-failed-tests: $ignoreFailedTests
       output-style: ${outputStyle.name.toLowerCase()}
    """.trimIndent()

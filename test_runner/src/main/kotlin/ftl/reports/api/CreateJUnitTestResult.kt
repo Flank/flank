@@ -11,10 +11,10 @@ internal fun List<TestExecution>.createJUnitTestResult() = JUnitTestResult(
         .toMutableList()
 )
 
-internal fun List<TestExecution>.createJUnitTestResultWithoutFails() = JUnitTestResult(
+internal fun List<TestExecution>.createJUnitTestResultForCi() = JUnitTestResult(
     testsuites = this
         .createTestExecutionDataListAsync()
-        .prepareForJUnitResultForCli()
+        .prepareJUnitResultForCi()
         .createJUnitTestSuites()
         .toMutableList()
 )

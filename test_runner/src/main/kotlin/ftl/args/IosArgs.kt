@@ -18,16 +18,13 @@ import ftl.args.yml.IosFlankYml
 import ftl.args.yml.IosGcloudYml
 import ftl.args.yml.IosGcloudYmlParams
 import ftl.args.yml.YamlDeprecated
-import ftl.util.loadFile
 import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.ios.IosCatalog
 import ftl.ios.Xctestrun
 import ftl.run.status.asOutputStyle
-import ftl.util.FlankFatalError
-import ftl.util.FlankTestMethod
-import ftl.util.uniqueObjectName
+import ftl.util.*
 import java.io.Reader
 import java.nio.file.Path
 
@@ -68,6 +65,8 @@ class IosArgs(
     override val localResultDir = cli?.localResultsDir ?: flank.localResultsDir
     override val runTimeout = cli?.runTimeout ?: flank.runTimeout
     override val useLegacyJUnitResult = true // currently, FTL does not provide API based results for iOS
+    override val ciJUnitResult = cli?.ciJUnitResult ?: flank.ciJUnitResult
+    override val ciJUnitResultFile = cli?.ciJUnitResultFile ?: flank.ciJUnitResultFile
     override val clientDetails = cli?.clientDetails ?: gcloud.clientDetails
     override val networkProfile = cli?.networkProfile ?: gcloud.networkProfile
     override val ignoreFailedTests = cli?.ignoreFailedTests ?: flank.ignoreFailedTests

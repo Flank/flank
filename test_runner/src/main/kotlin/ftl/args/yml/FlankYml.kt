@@ -43,8 +43,11 @@ class FlankYmlParams(
     @field:JsonProperty("legacy-junit-result")
     val useLegacyJUnitResult: Boolean = false,
 
-    @field:JsonProperty("remove-fails-from-passed")
-    val removeFailsFromPassedTests: Boolean = false,
+    @field:JsonProperty("ci-junit-result")
+    val ciJUnitResult: Boolean = false,
+
+    @field:JsonProperty("ci-junit-result-file")
+    val ciJUnitResultFile: String? = null,
 
     @field:JsonProperty("ignore-failed-tests")
     val ignoreFailedTests: Boolean = false,

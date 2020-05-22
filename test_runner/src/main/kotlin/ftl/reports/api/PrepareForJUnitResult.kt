@@ -11,7 +11,7 @@ internal fun List<TestExecutionData>.prepareForJUnitResult(): List<TestExecution
     .reduceToPrimarySteps()
     .reduceTestCases()
 
-internal fun List<TestExecutionData>.prepareForJUnitResultForCli() = this
+internal fun List<TestExecutionData>.prepareJUnitResultForCi() = this
     .prepareForJUnitResult()
     .removeStackTraces()
 
@@ -44,7 +44,7 @@ private fun TestExecutionData.reduceTestCases() = copy(
 
 private fun List<TestExecutionData>.removeStackTraces(): List<TestExecutionData> = map(TestExecutionData::removeStackTraces)
 private fun TestExecutionData.removeStackTraces() = copy(testCases = testCases.onEach {
-    if (it.passed && it.stackTraces.isNotEmpty()) {
+    if (it.passed) {
         it.stackTraces = emptyList()
     }
 })

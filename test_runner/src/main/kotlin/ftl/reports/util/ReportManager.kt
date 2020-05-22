@@ -5,12 +5,9 @@ import ftl.args.IosArgs
 import ftl.args.ShardChunks
 import ftl.gc.GcStorage
 import ftl.json.MatrixMap
-import ftl.reports.CostReport
-import ftl.reports.HtmlErrorReport
-import ftl.reports.JUnitReport
-import ftl.reports.MatrixResultsReport
+import ftl.reports.*
 import ftl.reports.api.processXmlFromApi
-import ftl.reports.api.processXmlFromApiWithoutFails
+import ftl.reports.api.processXmlFromApiForCi
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.parseOneSuiteXml
@@ -121,12 +118,20 @@ object ReportManager {
 
         JUnitReport.run(matrices, testSuite, printToStdout = false, args = args)
         processJunitXml(testSuite, args, testShardChunks)
-        //    if (args.removeFailsFromPassedTests) {
-        GcStorage.uploadClearedJunitXml(processXmlFromApi(matrices, args), args)
-        GcStorage.uploadClearedJunitXml(processXmlFromApiWithoutFails(matrices, args), args)
-        //  }
+
+        processCiJunitResult(matrices, args)
+
         matrices.validateMatrices(args.ignoreFailedTests)
     }
+
+    private fun processCiJunitResult(matrices: MatrixMap, args: IArgs) {
+        if (!args.ciJUnitResult) {
+            return
+        }
+        val ciJUnit = processXmlFromApiForCi(matrices, args)
+        CiJUnitReport.run(matrices, ciJUnit, printToStdout = false, args = args)
+    }
+
 
     data class ShardEfficiency(
         val shard: String,

@@ -80,16 +80,16 @@ object GcStorage {
         }
     }
 
-    fun uploadClearedJunitXml(testResult: JUnitTestResult, args: IArgs) {
-        if (args.resultsBucket.isEmpty() || args.resultsDir.isNullOrEmpty() ) return
+    fun uploadCiJUnitXml(testResult: JUnitTestResult, args: IArgs) {
+        if (args.resultsBucket.isEmpty() || args.resultsDir.isNullOrEmpty()) return
         val progress = ProgressBar()
         try {
-            progress.start("Uploading cleared xml")
+            progress.start("Uploading JUnit for CI")
             upload(
-                file = "${UUID.randomUUID()}.xml",
+                file = args.ciJUnitResultFile!!,
                 fileBytes = testResult.xmlToString().toByteArray(),
                 rootGcsBucket = args.resultsBucket,
-                runGcsPath =  args.resultsDir!!
+                runGcsPath = args.resultsDir!!
             )
         } catch (e: Exception) {
             throw RuntimeException(e)

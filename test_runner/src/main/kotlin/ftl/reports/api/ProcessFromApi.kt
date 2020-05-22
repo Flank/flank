@@ -17,11 +17,11 @@ fun processXmlFromApi(
 ): JUnitTestResult = refreshMatricesAndGetExecutions(matrices, args)
     .createJUnitTestResult()
 
-fun processXmlFromApiWithoutFails(
+fun processXmlFromApiForCi(
     matrices: MatrixMap,
     args: IArgs
 ): JUnitTestResult = refreshMatricesAndGetExecutions(matrices, args)
-    .createJUnitTestResultWithoutFails()
+    .createJUnitTestResultForCi()
 
 private fun refreshMatricesAndGetExecutions(matrices: MatrixMap, args: IArgs): List<TestExecution> = refreshTestMatrices(
     matrixIds = matrices.map.values.map { it.matrixId },

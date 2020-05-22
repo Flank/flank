@@ -199,4 +199,17 @@ abstract class CommonRunCommand {
                 "which don't support ansi codes, to avoid corrupted output use `single` or `verbose`."]
     )
     var outputStyle: String? = null
+
+
+    @CommandLine.Option(
+        names = ["--ci-junit-result"],
+        description = ["Prepare results file for CI - removes fails nodes from passed test cases."]
+    )
+    var ciJUnitResult: Boolean = false
+
+    @CommandLine.Option(
+        names = ["--ci-junit-result-file"],
+        description = ["File name for CI JUnit Report."]
+    )
+    var ciJUnitResultFile: String? = null
 }
