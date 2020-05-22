@@ -38,7 +38,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     val history = GcToolResults.createToolResultsHistory(args)
     val otherGcsFiles = args.uploadOtherFiles(runGcsPath)
 
-    args.resolveApks().forEach { apks: ResolvedApks ->
+    args.resolveApks().forEachIndexed { index: Int, apks: ResolvedApks ->
         val testShards = apks.test?.let { test ->
             AndroidTestShard.getTestShardChunks(args, test)
         }
@@ -47,7 +47,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
             val shardsWithAtLeastOneTest = testShards.filterAtLeastOneTest()
             if (shardsWithAtLeastOneTest.isEmpty()) {
                 // No tests to run, skipping the execution.
-                return@forEach
+                return@forEachIndexed
             }
             allTestShardChunks += shardsWithAtLeastOneTest
         }
@@ -67,7 +67,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
         testMatrices += executeAndroidTestMatrix(runCount = args.repeatTests) {
             GcAndroidTestMatrix.build(
                 androidTestConfig = androidTestConfig,
-                runGcsPath = runGcsPath,
+                runGcsPath = "$runGcsPath/matrix_$index/",
                 additionalApkGcsPaths = uploadedApks.additionalApks,
                 androidDeviceList = androidDeviceList,
                 args = args,
