@@ -1,20 +1,18 @@
 package ftl.run.common
 
 import com.google.cloud.storage.Storage
-import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.config.FtlConstants
-import ftl.gc.GcStorage
 import ftl.json.MatrixMap
+import ftl.gc.GcStorage
 import ftl.util.Artifacts
 import ftl.util.MatrixState
-import ftl.util.ObjPath
+import java.nio.file.Path
+import java.nio.file.Paths
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
-import java.nio.file.Path
-import java.nio.file.Paths
 
 internal suspend fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) = coroutineScope {
     println("FetchArtifacts")
@@ -64,17 +62,13 @@ internal suspend fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) = corouti
 
 internal fun getDownloadPath(args: IArgs, blobPath: String): Path {
     val localDir = args.localResultDir
-    val p = if (args is AndroidArgs)
-        ObjPath.parse(blobPath) else
-        ObjPath.legacyParse(blobPath)
+    val parsed = Paths.get(blobPath)
+    val objName = if (args.useLocalResultDir()) "" else parsed.getName(0).toString()
+    // for iOS it is shardName, remove this comment after FTL introduce server side sharding for iOS
+    val matrixName = parsed.getName(1).toString()
+    val deviceName = parsed.getName(2).toString()
+    val filePathName = if (args.keepFilePath) parsed.parent.drop(3).joinToString("/") else ""
+    val fileName = parsed.fileName.toString()
 
-    // Store downloaded artifacts at device root.
-    return Paths.get(
-        localDir,
-        if (args.useLocalResultDir().not()) p.objName else "",
-        p.shardName,
-        p.deviceName,
-        if (args.keepFilePath) p.filePathName else "",
-        p.fileName
-    )
+    return Paths.get("$localDir/$objName/$matrixName/$deviceName/$filePathName/$fileName")
 }
