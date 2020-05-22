@@ -1,8 +1,6 @@
 package ftl.cli.firebase.test.android
 
 import ftl.args.AndroidArgs
-import ftl.args.AndroidTestShard
-import ftl.args.ShardChunks
 import ftl.args.yml.AppTestPair
 import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.Device
@@ -12,12 +10,12 @@ import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.config.FtlConstants.defaultLocale
 import ftl.config.FtlConstants.defaultOrientation
 import ftl.mock.MockServer
-import ftl.run.common.prettyPrint
+import ftl.run.IOS_SHARD_FILE
+import ftl.run.dumpShards
 import ftl.run.newTestRun
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
-import java.nio.file.Files
 import java.nio.file.Paths
 
 @Command(
@@ -45,25 +43,15 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
         val config = AndroidArgs.load(Paths.get(configPath), cli = this)
 
         if (dumpShards) {
-            val testShardChunks: ShardChunks = AndroidTestShard.getTestShardChunks(config)
-            val testShardChunksJson: String = prettyPrint.toJson(testShardChunks)
-
-            Files.write(Paths.get(shardFile), testShardChunksJson.toByteArray())
-            println("Saved ${testShardChunks.size} shards to $shardFile")
-        } else {
-            runBlocking {
-                newTestRun(config)
-            }
+            dumpShards(config)
+        } else runBlocking {
+            newTestRun(config)
         }
-    }
-
-    companion object {
-        private const val shardFile = "android_shards.json"
     }
 
     // Flank debug
 
-    @Option(names = ["--dump-shards"], description = ["Dumps the shards to $shardFile for debugging"])
+    @Option(names = ["--dump-shards"], description = ["Dumps the shards to $IOS_SHARD_FILE for debugging"])
     var dumpShards: Boolean = false
 
     // Flank specific

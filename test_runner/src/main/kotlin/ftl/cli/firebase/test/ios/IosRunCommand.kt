@@ -7,12 +7,12 @@ import ftl.config.FtlConstants
 import ftl.config.FtlConstants.defaultIosModel
 import ftl.config.FtlConstants.defaultIosVersion
 import ftl.mock.MockServer
-import ftl.run.common.prettyPrint
+import ftl.run.ANDROID_SHARD_FILE
+import ftl.run.dumpShards
 import ftl.run.newTestRun
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
-import java.nio.file.Files
 import java.nio.file.Paths
 
 @Command(
@@ -39,23 +39,15 @@ class IosRunCommand : CommonRunCommand(), Runnable {
         val config = IosArgs.load(Paths.get(configPath), cli = this)
 
         if (dumpShards) {
-            val testShardChunksJson: String = prettyPrint.toJson(config.testShardChunks)
-            Files.write(Paths.get(shardFile), testShardChunksJson.toByteArray())
-            println("Saved shards to $shardFile")
-        } else {
-            runBlocking {
-                newTestRun(config)
-            }
+            dumpShards(config)
+        } else runBlocking {
+            newTestRun(config)
         }
-    }
-
-    companion object {
-        private const val shardFile = "ios_shards.json"
     }
 
     // Flank debug
 
-    @Option(names = ["--dump-shards"], description = ["Dumps the shards to $shardFile for debugging"])
+    @Option(names = ["--dump-shards"], description = ["Dumps the shards to $ANDROID_SHARD_FILE for debugging"])
     var dumpShards: Boolean = false
 
     // Flank specific
