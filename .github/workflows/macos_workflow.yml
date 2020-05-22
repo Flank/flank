@@ -1,0 +1,38 @@
+name: macOS-workflow
+
+on:
+  push:
+    branches: 
+      - master
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    # The type of runner that the job will run on
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/cache@v1
+      with:
+        path: ~/.gradle/caches
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: Gradle check
+      uses: eskatos/gradle-command-action@v1
+      with:
+        # Path to the Gradle executable
+        gradle-executable: "./test_runner/gradlew"
+        # Gradle command line arguments, see gradle --help
+        arguments: "-p test_runner check"
+        
+    - name: Codecov
+      uses: codecov/codecov-action@v1.0.7
+      with:
+        # Repository upload token - get it from codecov.io. Required only for private repositories
+        token: ${{secrets.CODECOV_TOKEN}}
