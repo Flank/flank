@@ -12,7 +12,6 @@ import ftl.config.FtlConstants.isWindows
 import ftl.http.executeWithRetry
 import ftl.run.common.getDownloadPath
 import ftl.test.util.FlankTestRunner
-import ftl.util.ObjPath
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
@@ -29,14 +28,19 @@ import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 
+private const val OBJECT_NAME = "2019-03-22_15-30-02.189000_frjt"
+private const val FILE_NAME = "StandardOutputAndStandardError.txt"
+private const val SHARD = "shard_0"
+private const val MATRIX = "matrix_1"
+private const val ANDROID_DEVICE = "NexusLowRes-27-en-portrait-shard_0-rerun_1"
+private const val IOS_DEVICE = "iphone8-12.0-en-portrait"
+private const val LOCAL_DIR = "results"
+private const val TEST_FILE_PATH = "any/path/that/is/possible"
+private const val FULL_IOS_PATH = "$OBJECT_NAME/$SHARD/$IOS_DEVICE/$TEST_FILE_PATH/$FILE_NAME"
+private const val FULL_ANDROID_PATH = "$OBJECT_NAME/$MATRIX/$ANDROID_DEVICE/$TEST_FILE_PATH/$FILE_NAME"
+
 @RunWith(FlankTestRunner::class)
 class TestRunnerTest {
-
-    private val gcsIosPath =
-        "2019-03-22_15-30-02.189000_frjt/shard_0/iphone8-12.0-en-portrait/TestLogs/Test-Transient Testing-2019.03.22_08-29-41--0700.xcresult/1_Test/Diagnostics/EarlGreyExampleSwiftTests-C6803D8C-4BDB-4C84-8945-9AC64056FBA4/EarlGreyExampleSwiftTests-EDBFF942-A88A-46A5-87CA-A1E29555C2CA/StandardOutputAndStandardError.txt"
-    private val gcsAndroidPath =
-        "2019-03-22_15-30-02.189000_frjt/iphone8-12.0-en-portrait-shard_0/StandardOutputAndStandardError.txt"
-    private val localResultDir = "results"
     private val iosArgs = mockk<IosArgs>()
     private val androidArgs = mockk<AndroidArgs>()
 
@@ -48,123 +52,62 @@ class TestRunnerTest {
 
     @Test
     fun `Verify getDownloadPath localResultDir false and keepFilePath false - ios`() {
-        val parsed = ObjPath.legacyParse(gcsIosPath)
-
-        every { iosArgs.localResultDir } returns localResultDir
+        every { iosArgs.localResultDir } returns LOCAL_DIR
         every { iosArgs.useLocalResultDir() } returns false
         every { iosArgs.keepFilePath } returns false
 
-        val downloadFile = getDownloadPath(iosArgs, gcsIosPath)
-        assertThat(downloadFile).isEqualTo(
-            Paths.get(
-                localResultDir,
-                parsed.objName,
-                parsed.shardName,
-                parsed.deviceName,
-                parsed.fileName
-            )
-        )
+        val downloadFile = getDownloadPath(iosArgs, FULL_IOS_PATH)
+        assertThat(downloadFile).isEqualTo(Paths.get("$LOCAL_DIR/$OBJECT_NAME/$SHARD/$IOS_DEVICE/$FILE_NAME"))
     }
 
     @Test
     fun `Verify getDownloadPath localResultDir false and keepFilePath true - ios`() {
-        val parsed = ObjPath.legacyParse(gcsIosPath)
-
-        every { iosArgs.localResultDir } returns localResultDir
+        every { iosArgs.localResultDir } returns LOCAL_DIR
         every { iosArgs.useLocalResultDir() } returns false
         every { iosArgs.keepFilePath } returns true
 
-        val downloadFile = getDownloadPath(iosArgs, gcsIosPath)
-        assertThat(downloadFile).isEqualTo(
-            Paths.get(
-                localResultDir,
-                parsed.objName,
-                parsed.shardName,
-                parsed.deviceName,
-                parsed.filePathName,
-                parsed.fileName
-            )
-        )
+        val downloadFile = getDownloadPath(iosArgs, FULL_IOS_PATH)
+        assertThat(downloadFile).isEqualTo(Paths.get("$LOCAL_DIR/$FULL_IOS_PATH"))
     }
 
     @Test
     fun `Verify getDownloadPath localResultDir true and keepFilePath false - ios`() {
-        val parsed = ObjPath.legacyParse(gcsIosPath)
-
-        every { iosArgs.localResultDir } returns localResultDir
+        every { iosArgs.localResultDir } returns LOCAL_DIR
         every { iosArgs.useLocalResultDir() } returns true
         every { iosArgs.keepFilePath } returns false
 
-        val downloadFile = getDownloadPath(iosArgs, gcsIosPath)
-        assertThat(downloadFile).isEqualTo(
-            Paths.get(
-                localResultDir,
-                parsed.shardName,
-                parsed.deviceName,
-                parsed.fileName
-            )
-        )
+        val downloadFile = getDownloadPath(iosArgs, FULL_IOS_PATH)
+        assertThat(downloadFile).isEqualTo(Paths.get("$LOCAL_DIR/$SHARD/$IOS_DEVICE/$FILE_NAME"))
     }
 
     @Test
     fun `Verify getDownloadPath localResultDir true and keepFilePath true - ios`() {
-        val parsed = ObjPath.legacyParse(gcsIosPath)
-
-        every { iosArgs.localResultDir } returns localResultDir
+        every { iosArgs.localResultDir } returns LOCAL_DIR
         every { iosArgs.useLocalResultDir() } returns true
         every { iosArgs.keepFilePath } returns true
 
-        val downloadFile = getDownloadPath(iosArgs, gcsIosPath)
-        assertThat(downloadFile).isEqualTo(
-            Paths.get(
-                localResultDir,
-                parsed.shardName,
-                parsed.deviceName,
-                parsed.filePathName,
-                parsed.fileName
-            )
-        )
+        val downloadFile = getDownloadPath(iosArgs, FULL_IOS_PATH)
+        assertThat(downloadFile).isEqualTo(Paths.get("$LOCAL_DIR/$SHARD/$IOS_DEVICE/$TEST_FILE_PATH/$FILE_NAME"))
     }
 
     @Test
     fun `Verify getDownloadPath localResultDir true and keepFilePath true - android`() {
-        val parsed = ObjPath.parse(gcsAndroidPath)
-
-        every { androidArgs.localResultDir } returns localResultDir
+        every { androidArgs.localResultDir } returns LOCAL_DIR
         every { androidArgs.useLocalResultDir() } returns true
         every { androidArgs.keepFilePath } returns true
 
-        val downloadFile = getDownloadPath(androidArgs, gcsAndroidPath)
-        assertThat(downloadFile).isEqualTo(
-            Paths.get(
-                localResultDir,
-                parsed.shardName,
-                parsed.deviceName,
-                parsed.filePathName,
-                parsed.fileName
-            )
-        )
+        val downloadFile = getDownloadPath(androidArgs, FULL_ANDROID_PATH)
+        assertThat(downloadFile).isEqualTo(Paths.get("$LOCAL_DIR/$MATRIX/$ANDROID_DEVICE/$TEST_FILE_PATH/$FILE_NAME"))
     }
 
     @Test
     fun `Verify getDownloadPath localResultDir false and keepFilePath true`() {
-        val parsed = ObjPath.parse(gcsAndroidPath)
-
-        every { androidArgs.localResultDir } returns localResultDir
+        every { androidArgs.localResultDir } returns LOCAL_DIR
         every { androidArgs.useLocalResultDir() } returns false
         every { androidArgs.keepFilePath } returns true
 
-        val downloadFile = getDownloadPath(androidArgs, gcsAndroidPath)
-        assertThat(downloadFile).isEqualTo(
-            Paths.get(
-                localResultDir,
-                parsed.objName,
-                parsed.shardName,
-                parsed.deviceName,
-                parsed.filePathName,
-                parsed.fileName
-            )
-        )
+        val downloadFile = getDownloadPath(androidArgs, FULL_ANDROID_PATH)
+        assertThat(downloadFile).isEqualTo(Paths.get("$LOCAL_DIR/$FULL_ANDROID_PATH"))
     }
 
     @Test

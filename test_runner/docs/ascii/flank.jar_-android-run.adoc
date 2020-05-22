@@ -144,7 +144,7 @@ Configuration is read from flank.yml
   Keeps the full path of downloaded files. Required when file names are not unique.
 
 *--output-style*=_<outputStyle>_::
-  Output style of execution status. Maybe be one of [verbose, multi, single]For runs with only one test execution default value is 'verbose', in other cases'multi' is used as default. Output style 'multi' is not displayed correctly on consoleswhich not supports ansi codes, to avoid corrupted output use `single` or `verbose`.
+  Output style of execution status. May be one of [verbose, multi, single]. For runs with only one test execution the default value is 'verbose', in other cases 'multi' is used as the default. The output style 'multi' is not displayed correctly on consoles which don't support ansi codes, to avoid corrupted output use `single` or `verbose`.
 
 *--dump-shards*::
   Dumps the shards to android_shards.json for debugging

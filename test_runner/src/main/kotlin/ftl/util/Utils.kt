@@ -84,8 +84,6 @@ fun uniqueObjectName(): String {
         bucketName.append(letter)
     }
 
-    bucketName.append("/")
-
     return bucketName.toString()
 }
 
