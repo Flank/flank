@@ -7,7 +7,7 @@ import ftl.config.FtlConstants
 import ftl.config.FtlConstants.defaultIosModel
 import ftl.config.FtlConstants.defaultIosVersion
 import ftl.mock.MockServer
-import ftl.run.ANDROID_SHARD_FILE
+import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards
 import ftl.run.newTestRun
 import kotlinx.coroutines.runBlocking
@@ -47,7 +47,10 @@ class IosRunCommand : CommonRunCommand(), Runnable {
 
     // Flank debug
 
-    @Option(names = ["--dump-shards"], description = ["Dumps the shards to $ANDROID_SHARD_FILE for debugging"])
+    @Option(
+        names = ["--dump-shards"],
+        description = ["Measures test shards from given test apks and writes them into $IOS_SHARD_FILE file instead of executing."]
+    )
     var dumpShards: Boolean = false
 
     // Flank specific

@@ -10,7 +10,7 @@ import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.config.FtlConstants.defaultLocale
 import ftl.config.FtlConstants.defaultOrientation
 import ftl.mock.MockServer
-import ftl.run.IOS_SHARD_FILE
+import ftl.run.ANDROID_SHARD_FILE
 import ftl.run.dumpShards
 import ftl.run.newTestRun
 import kotlinx.coroutines.runBlocking
@@ -51,7 +51,10 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
 
     // Flank debug
 
-    @Option(names = ["--dump-shards"], description = ["Dumps the shards to $IOS_SHARD_FILE for debugging"])
+    @Option(
+        names = ["--dump-shards"],
+        description = ["Measures test shards from given test apks and writes them into $ANDROID_SHARD_FILE file instead of executing."]
+    )
     var dumpShards: Boolean = false
 
     // Flank specific

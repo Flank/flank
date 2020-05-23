@@ -20,11 +20,9 @@ fun getInstrumentationShardChunks(
         testApks = testApks.download(),
         testFilter = TestFilters.fromTestTargets(args.testTargets)
     ).mapValues { (_, testMethods: List<FlankTestMethod>) ->
-        when {
-            testMethods.isEmpty() -> emptyList<List<String>>().also { printNoTests(testApks) }
-            args.numUniformShards == null -> ArgsHelper.calculateShards(testMethods, args)
-            else -> listOf(testMethods.map(FlankTestMethod::testName))
-        }
+        if (testMethods.isEmpty())
+            emptyList<List<String>>().also { printNoTests(testApks) } else
+            ArgsHelper.calculateShards(testMethods, args, args.numUniformShards)
     }
 
 private fun getFlankTestMethods(
