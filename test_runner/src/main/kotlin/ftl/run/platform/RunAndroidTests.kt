@@ -3,8 +3,8 @@ package ftl.run.platform
 import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.TestMatrix
 import ftl.args.AndroidArgs
-import ftl.args.AndroidTestShard
 import ftl.args.ShardChunks
+import ftl.run.platform.android.getAndroidShardChunks
 import ftl.args.yml.ResolvedApks
 import ftl.gc.GcAndroidDevice
 import ftl.gc.GcAndroidTestMatrix
@@ -40,7 +40,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
 
     args.resolveApks().forEachIndexed { index: Int, apks: ResolvedApks ->
         val testShards = apks.test?.let { test ->
-            AndroidTestShard.getTestShardChunks(args, test)
+            getAndroidShardChunks(args, test)
         }
         // We can't return if testShards is null since it can be a robo test.
         testShards?.let {

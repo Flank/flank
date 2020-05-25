@@ -5,7 +5,7 @@ internal object ConfigurationErrorParser {
     //region regex patterns
     private val propertyNameRegex = "(?<=property\\s)[a-z]*".toRegex()
     private val referenceChainRegex = "(?<=chain:\\s).*(?=[)])".toRegex()
-    private val referenceChainCleanUpRegex = "(?<=[\\[])\"?[\\w]*\"?(?=])".toRegex()
+    private val referenceChainCleanUpRegex = "(?<=[\\[])\"?(\\w|-)*\"?(?=])".toRegex()
     private val lineAndColumnRegex = "((?<=line:\\s)\\d*), column:\\s(\\d*)".toRegex()
     //endregion
 
