@@ -2,11 +2,16 @@ package ftl.shard
 
 import com.google.common.truth.Truth.assertThat
 import ftl.test.util.FlankTestRunner
+import io.mockk.unmockkAll
+import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(FlankTestRunner::class)
 class ShardCountTest {
+
+    @After
+    fun tearDown() = unmockkAll()
 
     @Test
     fun `createShardsByShardTime workingSample`() {
