@@ -20,8 +20,9 @@ import ftl.config.FtlConstants.useMock
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.reports.xml.model.JUnitTestResult
-import ftl.shard.Shard
 import ftl.shard.StringShards
+import ftl.shard.createShardsByShardCount
+import ftl.shard.shardCountByTime
 import ftl.shard.stringShards
 import ftl.util.FlankFatalError
 import ftl.util.FlankTestMethod
@@ -238,8 +239,8 @@ object ArgsHelper {
             listOf(filteredTests.map { it.testName }.toMutableList())
         } else {
             val oldTestResult = GcStorage.downloadJunitXml(args) ?: JUnitTestResult(mutableListOf())
-            val shardCount = forcedShardCount ?: Shard.shardCountByTime(filteredTests, oldTestResult, args)
-            Shard.createShardsByShardCount(filteredTests, oldTestResult, args, shardCount).stringShards()
+            val shardCount = forcedShardCount ?: shardCountByTime(filteredTests, oldTestResult, args)
+            createShardsByShardCount(filteredTests, oldTestResult, args, shardCount).stringShards()
         }
 
         return testMethodsAlwaysRun(shards, args)

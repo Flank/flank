@@ -13,7 +13,7 @@ import ftl.reports.api.processXmlFromApi
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.parseOneSuiteXml
-import ftl.shard.Shard
+import ftl.shard.createTestMethodDurationMap
 import ftl.util.Artifacts
 import ftl.util.resolveLocalRunPath
 import java.io.File
@@ -137,8 +137,8 @@ object ReportManager {
         args: IArgs,
         testShardChunks: ShardChunks
     ): List<ShardEfficiency> {
-        val oldDurations = Shard.createTestMethodDurationMap(oldResult, args)
-        val newDurations = Shard.createTestMethodDurationMap(newResult, args)
+        val oldDurations = createTestMethodDurationMap(oldResult, args)
+        val newDurations = createTestMethodDurationMap(newResult, args)
 
         return testShardChunks.mapIndexed { index, testSuite ->
 
