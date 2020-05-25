@@ -224,7 +224,11 @@ object ArgsHelper {
         return ArgsFileVisitor("glob:$filePath").walk(searchDir)
     }
 
-    fun calculateShards(filteredTests: List<FlankTestMethod>, args: IArgs): ShardChunks {
+    fun calculateShards(
+        filteredTests: List<FlankTestMethod>,
+        args: IArgs,
+        forcedShardCount: Int? = null
+    ): ShardChunks {
         if (filteredTests.isEmpty()) {
             // Avoid unnecessary computing if we already know there aren't tests to run.
             return listOf(emptyList())
@@ -234,7 +238,7 @@ object ArgsHelper {
             listOf(filteredTests.map { it.testName }.toMutableList())
         } else {
             val oldTestResult = GcStorage.downloadJunitXml(args) ?: JUnitTestResult(mutableListOf())
-            val shardCount = Shard.shardCountByTime(filteredTests, oldTestResult, args)
+            val shardCount = forcedShardCount ?: Shard.shardCountByTime(filteredTests, oldTestResult, args)
             Shard.createShardsByShardCount(filteredTests, oldTestResult, args, shardCount).stringShards()
         }
 

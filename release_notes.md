@@ -12,6 +12,7 @@
 - [#781](https://github.com/Flank/flank/pull/781) Remove local exists check on cloud results-dir. Fixes crash when results-dir is set by the user. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#656](https://github.com/Flank/flank/issues/656) Improve error message reporting. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#783](https://github.com/Flank/flank/pull/783) Use legacy results for iOS by default. ([pawelpasterz](https://github.com/pawelpasterz))
+- [#794](https://github.com/Flank/flank/pull/794) Enhance `--dump-shards` to dump shards from all test apks ([bootstraponline](https://github.com/bootstraponline), [jan-gogo](https://github.com/jan-gogo))
 
 ## v20.05.1
 

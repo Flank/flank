@@ -8,6 +8,7 @@ import ftl.config.FlankRoboDirective
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.run.platform.runAndroidTests
+import ftl.run.platform.android.getAndroidShardChunks
 import ftl.run.status.OutputStyle
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
@@ -16,7 +17,7 @@ import ftl.test.util.TestHelper.getPath
 import ftl.util.FlankCommonException
 import ftl.util.FlankFatalError
 import io.mockk.every
-import io.mockk.mockkObject
+import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -447,7 +448,7 @@ AndroidArgs
       """
         )
 
-        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk!!)
+        val testShardChunks = getAndroidShardChunks(androidArgs, androidArgs.testApk!!)
         with(androidArgs) {
             assert(maxTestShards, -1)
             assert(testShardChunks.size, 2)
@@ -481,8 +482,8 @@ AndroidArgs
           disable-sharding: true
       """
         val androidArgs = AndroidArgs.load(yaml)
-        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk!!)
-        assertThat(testShardChunks).hasSize(1)
+        val testShardChunks = getAndroidShardChunks(androidArgs, androidArgs.testApk!!)
+        assertThat(testShardChunks).hasSize(0)
     }
 
     @Test
@@ -493,8 +494,8 @@ AndroidArgs
           test: $invalidApk
       """
         val androidArgs = AndroidArgs.load(yaml)
-        val testShardChunks = AndroidTestShard.getTestShardChunks(androidArgs, androidArgs.testApk!!)
-        assertThat(testShardChunks).hasSize(1)
+        val testShardChunks = getAndroidShardChunks(androidArgs, androidArgs.testApk!!)
+        assertThat(testShardChunks).hasSize(0)
     }
 
     @Test
@@ -1274,8 +1275,8 @@ AndroidArgs
           test: $testApk
         """.trimIndent()
 
-        mockkObject(AndroidTestShard)
-        every { AndroidTestShard.getTestShardChunks(any(), any()) } returns listOf()
+        mockkStatic("ftl.run.platform.android.GetAndroidShardChunksKt")
+        every { getAndroidShardChunks(any(), any()) } returns listOf()
 
         val parsedYml = AndroidArgs.load(yaml)
         runBlocking { runAndroidTests(parsedYml) }
