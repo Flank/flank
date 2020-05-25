@@ -24,7 +24,10 @@ import ftl.config.FtlConstants
 import ftl.ios.IosCatalog
 import ftl.ios.Xctestrun
 import ftl.run.status.asOutputStyle
-import ftl.util.*
+import ftl.util.FlankFatalError
+import ftl.util.FlankTestMethod
+import ftl.util.loadFile
+import ftl.util.uniqueObjectName
 import java.io.Reader
 import java.nio.file.Path
 
@@ -65,8 +68,7 @@ class IosArgs(
     override val localResultDir = cli?.localResultsDir ?: flank.localResultsDir
     override val runTimeout = cli?.runTimeout ?: flank.runTimeout
     override val useLegacyJUnitResult = true // currently, FTL does not provide API based results for iOS
-    override val ciJUnitResult = cli?.ciJUnitResult ?: flank.ciJUnitResult
-    override val ciJUnitResultFile = cli?.ciJUnitResultFile ?: flank.ciJUnitResultFile
+    override val fullJUnitResult: Boolean = cli?.fullJUnitResult ?: flank.fullJUnitResult
     override val clientDetails = cli?.clientDetails ?: gcloud.clientDetails
     override val networkProfile = cli?.networkProfile ?: gcloud.networkProfile
     override val ignoreFailedTests = cli?.ignoreFailedTests ?: flank.ignoreFailedTests
@@ -146,6 +148,7 @@ IosArgs
       test-targets-always-run:${listToString(testTargetsAlwaysRun)}
       files-to-download:${listToString(filesToDownload)}
       keep-file-path: $keepFilePath
+      full-junit-result: $fullJUnitResult
       # iOS flank
       test-targets:${listToString(testTargets)}
       disable-sharding: $disableSharding

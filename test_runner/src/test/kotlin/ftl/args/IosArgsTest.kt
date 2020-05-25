@@ -38,9 +38,11 @@ class IosArgsTest {
     private val invalidApp = "../test_app/apks/invalid.apk"
     private val xctestrunFileAbsolutePath = xctestrunFile.absolutePath()
     private val testAbsolutePath = testPath.absolutePath()
+    private val resultDir = "test_dir"
     private val iosNonDefault = """
         gcloud:
           results-bucket: mockBucket
+          results-dir: $resultDir
           record-video: false
           timeout: 70m
           async: true
@@ -186,7 +188,7 @@ flank:
 IosArgs
     gcloud:
       results-bucket: mockBucket
-      results-dir: null
+      results-dir: $resultDir
       record-video: false
       timeout: 70m
       async: true
@@ -222,6 +224,7 @@ IosArgs
       files-to-download:
         - /sdcard/screenshots
       keep-file-path: true
+      full-junit-result: false
       # iOS flank
       test-targets:
         - b/testBasicSelection
@@ -244,7 +247,7 @@ IosArgs
 IosArgs
     gcloud:
       results-bucket: mockBucket
-      results-dir: null
+      results-dir: $resultDir
       record-video: false
       timeout: 15m
       async: false
@@ -271,6 +274,7 @@ IosArgs
       test-targets-always-run:
       files-to-download:
       keep-file-path: false
+      full-junit-result: false
       # iOS flank
       test-targets:
       disable-sharding: false

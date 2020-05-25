@@ -5,8 +5,6 @@ import ftl.test.util.TestHelper.normalizeLineEnding
 import org.junit.Assert
 import java.nio.file.Paths
 import org.junit.Test
-import java.nio.file.Files
-import java.nio.file.Path
 
 class JUnitXmlTest {
 
@@ -504,4 +502,3 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
         Assert.assertEquals("One Suite Messages should be the same!", expectedOneSuiteMessage, oneSuiteXml)
     }
 }
-

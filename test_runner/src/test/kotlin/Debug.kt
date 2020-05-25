@@ -21,8 +21,7 @@ fun main() {
             "firebase", "test",
             "android", "run",
 //            "--dry",
-            "--ci-junit-result",
-            "--ci-junit-result-file=ciTest.xml",
+            "--full-junit-result",
             "-c=src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type.yml",
             "--project=$projectId"
 //            "--client-details=key1=value1,key2=value2"

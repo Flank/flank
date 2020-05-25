@@ -5,10 +5,18 @@ import ftl.args.IosArgs
 import ftl.args.ShardChunks
 import ftl.gc.GcStorage
 import ftl.json.MatrixMap
-import ftl.reports.*
+import ftl.reports.CostReport
+import ftl.reports.FullJUnitReport
+import ftl.reports.HtmlErrorReport
+import ftl.reports.JUnitReport
+import ftl.reports.MatrixResultsReport
+import ftl.reports.api.createJUnitTestResult
+import ftl.reports.api.createJUnitTestResultForCi
 import ftl.reports.api.processXmlFromApi
 import ftl.reports.api.processXmlFromApiForCi
+import ftl.reports.api.refreshMatricesAndGetExecutions
 import ftl.reports.xml.model.JUnitTestResult
+import ftl.reports.xml.model.JUnitTestSuite
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.parseOneSuiteXml
 import ftl.shard.createTestMethodDurationMap
@@ -85,19 +93,25 @@ object ReportManager {
         return mergedXml
     }
 
-    private fun parseTestSuite(matrices: MatrixMap, args: IArgs): JUnitTestResult? {
-        return when {
-            // ios supports only legacy parsing
-            args is IosArgs -> processXmlFromFile(matrices, args, ::parseAllSuitesXml)
-            args.useLegacyJUnitResult -> processXmlFromFile(matrices, args, ::parseOneSuiteXml)
-            else -> processXmlFromApi(matrices, args)
-        }
+    private fun parseTestSuite(matrices: MatrixMap, args: IArgs): JUnitTestResult? = when {
+        // ios supports only legacy parsing
+        args is IosArgs -> processXmlFromFile(matrices, args, ::parseAllSuitesXml)
+        args.useLegacyJUnitResult -> processXmlFromFile(matrices, args, ::parseOneSuiteXml)
+        else -> processXmlFromApiForCi(matrices, args)
     }
 
     /** Returns true if there were no test failures */
     fun generate(matrices: MatrixMap, args: IArgs, testShardChunks: ShardChunks) {
-        val testSuite: JUnitTestResult? = parseTestSuite(matrices, args)
-
+        var fullTestSuite: JUnitTestResult? = null
+        val testSuite: JUnitTestResult? = when {
+            args is IosArgs -> processXmlFromFile(matrices, args, ::parseAllSuitesXml)
+            args.useLegacyJUnitResult -> processXmlFromFile(matrices, args, ::parseOneSuiteXml)
+            else -> {
+                val refreshedMatrices = refreshMatricesAndGetExecutions(matrices, args)
+                fullTestSuite = refreshedMatrices.createJUnitTestResult()
+                refreshedMatrices.createJUnitTestResultForCi()
+            }
+        }
         if (args.useLegacyJUnitResult) {
             val useFlakyTests = args.flakyTestAttempts > 0
             if (useFlakyTests) JUnitDedupe.modify(testSuite)
@@ -115,23 +129,18 @@ object ReportManager {
                 HtmlErrorReport
             ).map { it.run(matrices, testSuite, printToStdout = false, args = args) }
         }
-
         JUnitReport.run(matrices, testSuite, printToStdout = false, args = args)
-        processJunitXml(testSuite, args, testShardChunks)
-
-        processCiJunitResult(matrices, args)
-
+        when {
+            args.fullJUnitResult -> processFullJunitResult(args, matrices, fullTestSuite, testShardChunks)
+            args.useLegacyJUnitResult -> processJunitXml(testSuite, args, testShardChunks)
+        }
         matrices.validateMatrices(args.ignoreFailedTests)
     }
 
-    private fun processCiJunitResult(matrices: MatrixMap, args: IArgs) {
-        if (!args.ciJUnitResult) {
-            return
-        }
-        val ciJUnit = processXmlFromApiForCi(matrices, args)
-        CiJUnitReport.run(matrices, ciJUnit, printToStdout = false, args = args)
+    private fun processFullJunitResult(args: IArgs, matrices: MatrixMap, testSuite: JUnitTestResult?, testShardChunks: ShardChunks) {
+        FullJUnitReport.run(matrices, testSuite, printToStdout = false, args = args)
+        processJunitXml(testSuite, args, testShardChunks)
     }
-
 
     data class ShardEfficiency(
         val shard: String,

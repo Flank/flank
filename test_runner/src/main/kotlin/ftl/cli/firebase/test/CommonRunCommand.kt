@@ -200,16 +200,9 @@ abstract class CommonRunCommand {
     )
     var outputStyle: String? = null
 
-
     @CommandLine.Option(
-        names = ["--ci-junit-result"],
-        description = ["Prepare results file for CI - removes fails nodes from passed test cases."]
+        names = ["--full-junit-result"],
+        description = ["Enable create additional local junit result on local storage with failure nodes on passed flaky tests."]
     )
-    var ciJUnitResult: Boolean = false
-
-    @CommandLine.Option(
-        names = ["--ci-junit-result-file"],
-        description = ["File name for CI JUnit Report."]
-    )
-    var ciJUnitResultFile: String? = null
+    var fullJUnitResult: Boolean = false
 }

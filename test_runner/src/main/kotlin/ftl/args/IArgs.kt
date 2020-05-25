@@ -11,7 +11,7 @@ interface IArgs {
 
     // GcloudYml
     val resultsBucket: String
-    val resultsDir: String?
+    val resultsDir: String
     val recordVideo: Boolean
     val testTimeout: String
     val async: Boolean
@@ -38,8 +38,7 @@ interface IArgs {
             else it
         }
     val useLegacyJUnitResult: Boolean get() = false
-    val ciJUnitResult: Boolean get() = false
-    val ciJUnitResultFile: String?
+    val fullJUnitResult: Boolean get() = false
     val ignoreFailedTests: Boolean
     val keepFilePath: Boolean
     val outputStyle: OutputStyle

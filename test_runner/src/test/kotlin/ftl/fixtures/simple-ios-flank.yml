@@ -1,3 +1,4 @@
 gcloud:
   test: ./src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
   xctestrun-file: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
+  results-dir: test_dir

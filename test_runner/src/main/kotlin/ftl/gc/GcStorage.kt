@@ -14,12 +14,12 @@ import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.xmlToString
 import ftl.util.ProgressBar
 import ftl.util.join
+import ftl.util.uniqueObjectName
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URI
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 object GcStorage {
@@ -80,16 +80,16 @@ object GcStorage {
         }
     }
 
-    fun uploadCiJUnitXml(testResult: JUnitTestResult, args: IArgs) {
-        if (args.resultsBucket.isEmpty() || args.resultsDir.isNullOrEmpty()) return
+    fun uploadCiJUnitXml(testResult: JUnitTestResult, args: IArgs, fileName: String) {
+        if (args.resultsBucket.isBlank() || args.resultsDir.isBlank()) return
         val progress = ProgressBar()
         try {
             progress.start("Uploading JUnit for CI")
             upload(
-                file = args.ciJUnitResultFile!!,
+                file = fileName,
                 fileBytes = testResult.xmlToString().toByteArray(),
                 rootGcsBucket = args.resultsBucket,
-                runGcsPath = args.resultsDir!!
+                runGcsPath = args.resultsDir
             )
         } catch (e: Exception) {
             throw RuntimeException(e)

@@ -32,11 +32,12 @@ private fun TestExecutionData.reduceTestCases() = copy(
         testCases.sortedBy { testCase: TestCase ->
             testCase.startTime.asUnixTimestamp()
         }.run {
-            val passedCases = testCases.any { it.stackTraces.isNullOrEmpty() }
-            if (!isFlaky()) first().apply { this.passed = passedCases }
+            if (!isFlaky()) first().apply {
+                stackTraces = testCases.filter { it.stackTraces != null }.flatMap { it.stackTraces }
+            }
             else first { it.stackTraces != null }.apply {
                 flaky = true
-                passed = passedCases
+                stackTraces = testCases.filter { it.stackTraces != null }.flatMap { it.stackTraces }
             }
         }
     }
@@ -44,7 +45,7 @@ private fun TestExecutionData.reduceTestCases() = copy(
 
 private fun List<TestExecutionData>.removeStackTraces(): List<TestExecutionData> = map(TestExecutionData::removeStackTraces)
 private fun TestExecutionData.removeStackTraces() = copy(testCases = testCases.onEach {
-    if (it.passed) {
+    if (it.flaky) {
         it.stackTraces = emptyList()
     }
 })

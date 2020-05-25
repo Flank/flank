@@ -23,11 +23,10 @@ fun processXmlFromApiForCi(
 ): JUnitTestResult = refreshMatricesAndGetExecutions(matrices, args)
     .createJUnitTestResultForCi()
 
-private fun refreshMatricesAndGetExecutions(matrices: MatrixMap, args: IArgs): List<TestExecution> = refreshTestMatrices(
+fun refreshMatricesAndGetExecutions(matrices: MatrixMap, args: IArgs): List<TestExecution> = refreshTestMatrices(
     matrixIds = matrices.map.values.map { it.matrixId },
     projectId = args.project
 ).getTestExecutions()
-
 
 private fun refreshTestMatrices(
     matrixIds: List<String>,

@@ -90,8 +90,7 @@ class AndroidArgs(
     override val localResultDir = cli?.localResultsDir ?: flank.localResultsDir
     override val runTimeout = cli?.runTimeout ?: flank.runTimeout
     override val useLegacyJUnitResult = cli?.useLegacyJUnitResult ?: flank.useLegacyJUnitResult
-    override val ciJUnitResult = cli?.ciJUnitResult ?: flank.ciJUnitResult
-    override val ciJUnitResultFile = cli?.ciJUnitResultFile ?: flank.ciJUnitResultFile
+    override val fullJUnitResult = cli?.fullJUnitResult ?: flank.fullJUnitResult
     override val clientDetails = cli?.clientDetails ?: gcloud.clientDetails
     override val networkProfile = cli?.networkProfile ?: gcloud.networkProfile
     override val ignoreFailedTests = cli?.ignoreFailedTests ?: flank.ignoreFailedTests
@@ -193,12 +192,12 @@ AndroidArgs
       disable-sharding: $disableSharding
       project: $project
       local-result-dir: $localResultDir
+      full-junit-result: $fullJUnitResult
       # Android Flank Yml
       keep-file-path: $keepFilePath
       additional-app-test-apks:${apksToString(additionalAppTestApks)}
       run-timeout: $runTimeout
       legacy-junit-result: $useLegacyJUnitResult
-      ci-junit-result: $ciJUnitResult
       ignore-failed-tests: $ignoreFailedTests
       output-style: ${outputStyle.name.toLowerCase()}
    """.trimIndent()
