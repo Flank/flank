@@ -6,7 +6,6 @@ import ftl.gc.GcStorage
 import ftl.gc.GcTesting
 import ftl.gc.GcToolResults
 import ftl.util.StopWatch
-import ftl.util.uniqueObjectName
 import java.io.File
 
 internal fun beforeRunTests(args: IArgs): Pair<StopWatch, String> {
