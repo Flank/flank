@@ -3,6 +3,7 @@ package ftl.run.platform.android
 import ftl.args.AndroidArgs
 import ftl.args.yml.AppTestPair
 import ftl.args.yml.ResolvedApks
+import ftl.util.FlankFatalError
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert.assertArrayEquals
@@ -51,7 +52,7 @@ class ResolveApksKtTest {
         )
     }
 
-    @Test(expected = Exception::class)
+    @Test(expected = FlankFatalError::class)
     fun `should fail on missing app apk`() {
         mockk<AndroidArgs> {
             every { appApk } returns null

@@ -32,6 +32,7 @@ import ftl.config.FtlConstants
 import ftl.config.parseRoboDirectives
 import ftl.run.status.asOutputStyle
 import ftl.util.FlankFatalError
+import java.io.File
 import java.io.Reader
 import java.nio.file.Path
 
@@ -104,9 +105,12 @@ class AndroidArgs(
     override val hasMultipleExecutions: Boolean get() = super.hasMultipleExecutions || additionalAppTestApks.isNotEmpty()
 
     init {
-        if (appApk == null) additionalAppTestApks.filter { (app, _) -> app == null }.let { missingApks ->
-            if (missingApks.isNotEmpty()) throw FlankFatalError("Cannot resolve app apk pair for ${missingApks.map { it.test }}")
-        }
+        if (appApk == null) additionalAppTestApks
+            .filter { (app, _) -> app == null }
+            .map { File(it.test).name }
+            .run {
+                if (isNotEmpty()) throw FlankFatalError("Cannot resolve app apk pair for $this")
+            }
 
         resultsBucket = createGcsBucket(project, cli?.resultsBucket ?: gcloud.resultsBucket)
         createJunitBucket(project, flank.smartFlankGcsPath)
