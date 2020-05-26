@@ -3,7 +3,7 @@ package ftl.reports.api
 import com.google.api.services.testing.model.TestExecution
 import ftl.reports.xml.model.JUnitTestResult
 
-fun List<TestExecution>.createJUnitTestResult() = JUnitTestResult(
+internal fun List<TestExecution>.createJUnitTestResult() = JUnitTestResult(
     testsuites = this
         .createTestExecutionDataListAsync()
         .prepareForJUnitResult()
@@ -11,7 +11,7 @@ fun List<TestExecution>.createJUnitTestResult() = JUnitTestResult(
         .toMutableList()
 )
 
-fun List<TestExecution>.createJUnitTestResultForCi() = JUnitTestResult(
+internal fun List<TestExecution>.createJUnitTestResultForCi() = JUnitTestResult(
     testsuites = this
         .createTestExecutionDataListAsync()
         .prepareJUnitResultForCi()

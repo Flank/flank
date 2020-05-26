@@ -14,7 +14,6 @@ import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.xmlToString
 import ftl.util.ProgressBar
 import ftl.util.join
-import ftl.util.uniqueObjectName
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URI
