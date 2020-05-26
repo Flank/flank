@@ -14,7 +14,7 @@ internal fun beforeRunTests(args: IArgs): Pair<StopWatch, String> {
     assertMockUrl()
 
     val stopwatch = StopWatch().start()
-    val runGcsPath = args.resultsDir ?: uniqueObjectName()
+    val runGcsPath = args.resultsDir
 
     // Avoid spamming the results/ dir with temporary files from running the test suite.
     if (FtlConstants.useMock)
