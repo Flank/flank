@@ -243,7 +243,7 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
     // AndroidFlankYml
 
     @Option(
-        names = ["--app-test-apks", "--additional-app-test-apks"],
+        names = ["--additional-app-test-apks"],
         split = ",",
         description = ["A list of app & test apks to include in the run. " +
                 "Useful for running multiple module tests within a single Flank run."]
