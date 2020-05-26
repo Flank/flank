@@ -1,42 +1,21 @@
 package ftl.run.platform.android
 
 import ftl.args.AndroidArgs
-import ftl.args.ShardChunks
 import ftl.run.model.AndroidMatrixTestShards
 import ftl.run.model.AndroidTestShards
-import ftl.run.model.InstrumentationTestApk
-import ftl.util.FlankFatalError
-import ftl.util.asFileReference
+import ftl.run.model.InstrumentationTestContext
 
-fun getAndroidMatrixShards(
-    args: AndroidArgs
-): AndroidMatrixTestShards =
-    getInstrumentationShardChunks(
-        args = args,
-        testApks = args.createInstrumentationTestApks()
-    ).asMatrixTestShards()
+suspend fun AndroidArgs.getAndroidMatrixShards(): AndroidMatrixTestShards = this
+    .createAndroidTestContexts()
+    .filterIsInstance<InstrumentationTestContext>()
+    .asMatrixTestShards()
 
-private fun AndroidArgs.createInstrumentationTestApks(): List<InstrumentationTestApk> =
-    listOfNotNull(
-        testApk?.let { testApk ->
-            InstrumentationTestApk(
-                app = appApk?.asFileReference() ?: throw FlankFatalError("Cannot resolve app apk for $testApk"),
-                test = testApk.asFileReference()
-            )
-        }
-    ) + additionalAppTestApks.map {
-        InstrumentationTestApk(
-            app = (it.app ?: appApk)?.asFileReference() ?: throw FlankFatalError("Cannot resolve app apk for $testApk"),
-            test = it.test.asFileReference()
-        )
-    }
-
-private fun Map<InstrumentationTestApk, ShardChunks>.asMatrixTestShards(): AndroidMatrixTestShards =
-    map { (testApks, shards: List<List<String>>) ->
+private fun List<InstrumentationTestContext>.asMatrixTestShards(): AndroidMatrixTestShards =
+    map { testApks ->
         AndroidTestShards(
             app = testApks.app.local,
             test = testApks.test.local,
-            shards = shards.mapIndexed { index, testCases ->
+            shards = testApks.shards.mapIndexed { index, testCases ->
                 "shard-$index" to testCases
             }.toMap()
         )

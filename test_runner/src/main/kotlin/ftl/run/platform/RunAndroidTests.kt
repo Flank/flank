@@ -3,17 +3,16 @@ package ftl.run.platform
 import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.TestMatrix
 import ftl.args.AndroidArgs
-import ftl.args.ShardChunks
-import ftl.run.platform.android.getAndroidShardChunks
-import ftl.args.yml.ResolvedApks
 import ftl.gc.GcAndroidDevice
 import ftl.gc.GcAndroidTestMatrix
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
+import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.TestResult
 import ftl.run.platform.android.createAndroidTestConfig
-import ftl.run.platform.android.resolveApks
-import ftl.run.platform.android.uploadApks
+import ftl.run.platform.android.createAndroidTestContexts
+import ftl.run.platform.android.upload
+import ftl.run.platform.android.uploadAdditionalApks
 import ftl.run.platform.android.uploadOtherFiles
 import ftl.run.platform.common.afterRunTests
 import ftl.run.platform.common.beforeRunMessage
@@ -37,46 +36,25 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
 
     val history = GcToolResults.createToolResultsHistory(args)
     val otherGcsFiles = args.uploadOtherFiles(runGcsPath)
+    val additionalApks = args.uploadAdditionalApks(runGcsPath)
 
-    args.resolveApks().forEachIndexed { index: Int, apks: ResolvedApks ->
-        val testShards = apks.test?.let { test ->
-            getAndroidShardChunks(args, test)
-        }
-        // We can't return if testShards is null since it can be a robo test.
-        testShards?.let {
-            val shardsWithAtLeastOneTest = testShards.filterAtLeastOneTest()
-            if (shardsWithAtLeastOneTest.isEmpty()) {
-                // No tests to run, skipping the execution.
-                return@forEachIndexed
+    args.createAndroidTestContexts()
+        .upload(args.resultsBucket, runGcsPath)
+        .forEachIndexed { index, context ->
+            if (context is InstrumentationTestContext) allTestShardChunks += context.shards
+            val androidTestConfig = args.createAndroidTestConfig(context)
+            testMatrices += executeAndroidTestMatrix(runCount = args.repeatTests) {
+                GcAndroidTestMatrix.build(
+                    androidTestConfig = androidTestConfig,
+                    runGcsPath = "$runGcsPath/matrix_$index/",
+                    additionalApkGcsPaths = additionalApks,
+                    androidDeviceList = androidDeviceList,
+                    args = args,
+                    otherFiles = otherGcsFiles,
+                    toolResultsHistory = history
+                )
             }
-            allTestShardChunks += shardsWithAtLeastOneTest
         }
-
-        val uploadedApks = uploadApks(
-            apks = apks,
-            args = args,
-            runGcsPath = runGcsPath
-        )
-
-        val androidTestConfig = args.createAndroidTestConfig(
-            uploadedApks = uploadedApks,
-            testShards = testShards,
-            runGcsPath = runGcsPath,
-            keepTestTargetsEmpty = args.disableSharding && args.testTargets.isEmpty()
-        )
-
-        testMatrices += executeAndroidTestMatrix(runCount = args.repeatTests) {
-            GcAndroidTestMatrix.build(
-                androidTestConfig = androidTestConfig,
-                runGcsPath = "$runGcsPath/matrix_$index/",
-                additionalApkGcsPaths = uploadedApks.additionalApks,
-                androidDeviceList = androidDeviceList,
-                args = args,
-                otherFiles = otherGcsFiles,
-                toolResultsHistory = history
-            )
-        }
-    }
 
     if (testMatrices.isEmpty()) throw FlankCommonException("There are no tests to run.")
 
@@ -95,5 +73,3 @@ private suspend fun executeAndroidTestMatrix(
         }
     }
 }
-
-private fun ShardChunks.filterAtLeastOneTest(): ShardChunks = filter { chunk -> chunk.isNotEmpty() }

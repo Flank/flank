@@ -2,8 +2,9 @@ package ftl.run.platform.android
 
 import ftl.args.AndroidArgs
 import ftl.args.yml.AppTestPair
-import ftl.args.yml.ResolvedApks
+import ftl.run.model.InstrumentationTestContext
 import ftl.util.FlankFatalError
+import ftl.util.asFileReference
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert.assertArrayEquals
@@ -15,9 +16,9 @@ class ResolveApksKtTest {
     fun `should resolve apks from global app and test`() {
         assertArrayEquals(
             arrayOf(
-                ResolvedApks(
-                    app = "app",
-                    test = "test"
+                InstrumentationTestContext(
+                    app = "app".asFileReference(),
+                    test = "test".asFileReference()
                 )
             ),
             mockk<AndroidArgs> {
@@ -33,9 +34,9 @@ class ResolveApksKtTest {
     fun `should resolve apks from additionalAppTestApks`() {
         assertArrayEquals(
             arrayOf(
-                ResolvedApks(
-                    app = "app",
-                    test = "test"
+                InstrumentationTestContext(
+                    app = "app".asFileReference(),
+                    test = "test".asFileReference()
                 )
             ),
             mockk<AndroidArgs> {

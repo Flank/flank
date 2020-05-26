@@ -42,10 +42,10 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
 
         val config = AndroidArgs.load(Paths.get(configPath), cli = this)
 
-        if (dumpShards) {
-            dumpShards(config)
-        } else runBlocking {
-            newTestRun(config)
+        runBlocking {
+            if (dumpShards)
+                dumpShards(config) else
+                newTestRun(config)
         }
     }
 

@@ -1,16 +1,12 @@
 package ftl.run.platform.android
 
 import ftl.args.AndroidArgs
-import ftl.args.yml.UploadedApks
-import ftl.gc.GcStorage
+import ftl.run.model.RoboTestContext
 
 internal fun AndroidArgs.createRoboConfig(
-    uploadedApks: UploadedApks,
-    runGcsPath: String
+    testApk: RoboTestContext
 ) = AndroidTestConfig.Robo(
-    appApkGcsPath = uploadedApks.app,
+    appApkGcsPath = testApk.app.gcs,
     flankRoboDirectives = roboDirectives,
-    roboScriptGcsPath = roboScript?.let {
-        GcStorage.upload(it, resultsBucket, runGcsPath)
-    }
+    roboScriptGcsPath = testApk.roboScript.gcs
 )

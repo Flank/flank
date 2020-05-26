@@ -1,20 +1,17 @@
 package ftl.run.platform.android
 
 import ftl.args.AndroidArgs
-import ftl.args.ShardChunks
-import ftl.args.yml.UploadedApks
+import ftl.run.model.InstrumentationTestContext
 
 internal fun AndroidArgs.createInstrumentationConfig(
-    uploadedApks: UploadedApks,
-    keepTestTargetsEmpty: Boolean,
-    testShards: ShardChunks
+    testApk: InstrumentationTestContext
 ) = AndroidTestConfig.Instrumentation(
-    appApkGcsPath = uploadedApks.app,
-    testApkGcsPath = uploadedApks.test!!,
+    appApkGcsPath = testApk.app.gcs,
+    testApkGcsPath = testApk.test.gcs,
     testRunnerClass = testRunnerClass,
     orchestratorOption = "USE_ORCHESTRATOR".takeIf { useOrchestrator },
     disableSharding = disableSharding,
     numUniformShards = numUniformShards,
-    testShards = testShards,
-    keepTestTargetsEmpty = keepTestTargetsEmpty
+    testShards = testApk.shards,
+    keepTestTargetsEmpty = disableSharding && testTargets.isEmpty()
 )
