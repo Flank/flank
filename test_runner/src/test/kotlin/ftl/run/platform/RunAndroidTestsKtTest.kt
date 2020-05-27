@@ -2,12 +2,15 @@ package ftl.run.platform
 
 import ftl.args.AndroidArgs
 import ftl.json.MatrixMap
+import ftl.test.util.FlankTestRunner
 import ftl.test.util.mixedConfigYaml
 import ftl.test.util.should
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(FlankTestRunner::class)
 class RunAndroidTestsKtTest {
 
     @Test
