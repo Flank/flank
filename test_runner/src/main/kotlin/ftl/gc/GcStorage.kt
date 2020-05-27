@@ -81,20 +81,12 @@ object GcStorage {
 
     fun uploadCiJUnitXml(testResult: JUnitTestResult, args: IArgs, fileName: String) {
         if (args.resultsBucket.isBlank() || args.resultsDir.isBlank()) return
-        val progress = ProgressBar()
-        try {
-            progress.start("Uploading JUnit for CI")
-            upload(
-                file = fileName,
-                fileBytes = testResult.xmlToString().toByteArray(),
-                rootGcsBucket = args.resultsBucket,
-                runGcsPath = args.resultsDir
-            )
-        } catch (e: Exception) {
-            throw RuntimeException(e)
-        } finally {
-            progress.stop()
-        }
+        upload(
+            file = fileName,
+            fileBytes = testResult.xmlToString().toByteArray(),
+            rootGcsBucket = args.resultsBucket,
+            runGcsPath = args.resultsDir
+        )
     }
 
     fun uploadXCTestZip(args: IosArgs, runGcsPath: String): String =

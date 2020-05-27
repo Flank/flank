@@ -6,14 +6,15 @@ import ftl.json.MatrixMap
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.xmlToString
-import ftl.util.resolveLocalRunPath
 import ftl.util.write
-import java.nio.file.Paths
 
 object JUnitReport : IReport {
     override val extension = ".xml"
-    private val fileName = "${JUnitReport::class.simpleName}$extension"
+    private val fileName = "${reportName()}$extension"
     override fun run(matrices: MatrixMap, result: JUnitTestResult?, printToStdout: Boolean, args: IArgs) {
+        if (result == null) {
+            return
+        }
         val output = result.xmlToString()
 
         if (printToStdout) {
@@ -22,22 +23,11 @@ object JUnitReport : IReport {
             write(matrices, output, args)
         }
 
-        result?.let {
-            uploadToGcStorage(it, args)
-        }
-    }
-
-    override fun reportPath(matrices: MatrixMap, args: IArgs): String {
-        val path = resolveLocalRunPath(matrices, args)
-        return Paths.get(path, fileName).toString()
+        GcStorage.uploadCiJUnitXml(result, args, fileName)
     }
 
     private fun write(matrices: MatrixMap, output: String, args: IArgs) {
         val reportPath = reportPath(matrices, args)
         reportPath.write(output)
-    }
-
-    private fun uploadToGcStorage(ciTestResult: JUnitTestResult, args: IArgs) {
-        GcStorage.uploadCiJUnitXml(ciTestResult, args, fileName)
     }
 }

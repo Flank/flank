@@ -196,4 +196,21 @@ class PrepareForJUnitResultKtTest {
         assertEquals(preparedTestCase.first().testCases.count(), 1)
         assertTrue(preparedTestCase.first().testCases.first().stackTraces.isNullOrEmpty())
     }
+
+    @Test
+    fun `should not throws when StartTime is null`() {
+        val testCases = listOf(TestCase())
+        val primaryStep = Step().apply {
+            stepId = "1"
+        }
+        val testExecutionDataList = listOf(
+            TestExecutionData(
+                testExecution = TestExecution(),
+                timestamp = Timestamp(),
+                testCases = testCases,
+                step = primaryStep
+            )
+        )
+        testExecutionDataList.prepareForJUnitResult()
+    }
 }

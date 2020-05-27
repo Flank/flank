@@ -81,6 +81,7 @@ class IosArgsTest {
             - b/testBasicSelection2
           disable-sharding: true
           run-timeout: 15m
+          full-junit-result: true
           ignore-failed-tests: true
           keep-file-path: true
           output-style: single
@@ -176,6 +177,7 @@ flank:
             assert(disableSharding, true)
             assert(runTimeout, "15m")
             assert(useLegacyJUnitResult, true)
+            assert(fullJUnitResult, true)
             assert(outputStyle, OutputStyle.Single)
         }
     }
@@ -224,7 +226,7 @@ IosArgs
       files-to-download:
         - /sdcard/screenshots
       keep-file-path: true
-      full-junit-result: false
+      full-junit-result: true
       # iOS flank
       test-targets:
         - b/testBasicSelection

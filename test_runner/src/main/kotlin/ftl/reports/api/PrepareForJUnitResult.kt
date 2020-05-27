@@ -30,14 +30,14 @@ private fun List<TestExecutionData>.reduceTestCases(): List<TestExecutionData> =
 private fun TestExecutionData.reduceTestCases() = copy(
     testCases = testCases.groupBy(TestCase::getTestCaseId).map { (_, testCases) ->
         testCases.sortedBy { testCase: TestCase ->
-            testCase.startTime.asUnixTimestamp()
+            testCase.startTime?.asUnixTimestamp()
         }.run {
             if (!isFlaky()) first().apply {
-                stackTraces = testCases.filter { it.stackTraces != null }.flatMap { it.stackTraces }
+                stackTraces = testCases.mapNotNull { it.stackTraces }.flatten()
             }
             else first { it.stackTraces != null }.apply {
                 flaky = true
-                stackTraces = testCases.filter { it.stackTraces != null }.flatMap { it.stackTraces }
+                stackTraces = testCases.mapNotNull { it.stackTraces }.flatten()
             }
         }
     }

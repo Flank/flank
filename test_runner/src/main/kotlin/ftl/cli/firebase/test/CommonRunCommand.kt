@@ -204,5 +204,5 @@ abstract class CommonRunCommand {
         names = ["--full-junit-result"],
         description = ["Enable create additional local junit result on local storage with failure nodes on passed flaky tests."]
     )
-    var fullJUnitResult: Boolean = false
+    var fullJUnitResult: Boolean? = null
 }

@@ -109,6 +109,7 @@ class AndroidArgsTest {
             - class example.Test#grantPermission2
           disable-sharding: true
           keep-file-path: true
+          full-junit-result: true
           additional-app-test-apks:
             - app: $appApk
               test: $testErrorApk
@@ -250,6 +251,7 @@ class AndroidArgsTest {
                     "class example.Test#grantPermission2"
                 )
             )
+            assert(fullJUnitResult, true)
             assert(disableSharding, true)
             assert(runTimeout, "20m")
             assert(outputStyle, OutputStyle.Single)
@@ -321,7 +323,7 @@ AndroidArgs
       disable-sharding: true
       project: projectFoo
       local-result-dir: results
-      full-junit-result: false
+      full-junit-result: true
       # Android Flank Yml
       keep-file-path: true
       additional-app-test-apks:
@@ -435,6 +437,7 @@ AndroidArgs
             assert(disableSharding, false)
             assert(runTimeout, "-1")
             assert(outputStyle, OutputStyle.Multi)
+            assert(fullJUnitResult, false)
         }
     }
 

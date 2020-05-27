@@ -271,5 +271,5 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
         names = ["--legacy-junit-result"],
         description = ["Fallback for legacy xml junit results parsing."]
     )
-    var useLegacyJUnitResult: Boolean = false
+    var useLegacyJUnitResult: Boolean? = null
 }

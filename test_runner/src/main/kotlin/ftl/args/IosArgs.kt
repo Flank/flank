@@ -68,7 +68,7 @@ class IosArgs(
     override val localResultDir = cli?.localResultsDir ?: flank.localResultsDir
     override val runTimeout = cli?.runTimeout ?: flank.runTimeout
     override val useLegacyJUnitResult = true // currently, FTL does not provide API based results for iOS
-    override val fullJUnitResult: Boolean = cli?.fullJUnitResult ?: flank.fullJUnitResult
+    override val fullJUnitResult = cli?.fullJUnitResult ?: flank.fullJUnitResult
     override val clientDetails = cli?.clientDetails ?: gcloud.clientDetails
     override val networkProfile = cli?.networkProfile ?: gcloud.networkProfile
     override val ignoreFailedTests = cli?.ignoreFailedTests ?: flank.ignoreFailedTests
