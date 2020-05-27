@@ -142,7 +142,7 @@ class AndroidArgs(
         get() = appApk != null && testApk != null ||
                 additionalAppTestApks.isNotEmpty() &&
                 (appApk != null || additionalAppTestApks.all { (app, _) -> app != null })
-    val isRoboTest
+    private val isRoboTest
         get() = appApk != null &&
                 (roboDirectives.isNotEmpty() || roboScript != null)
 
