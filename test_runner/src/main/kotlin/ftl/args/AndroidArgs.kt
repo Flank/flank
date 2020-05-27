@@ -32,6 +32,7 @@ import ftl.config.FtlConstants
 import ftl.config.parseRoboDirectives
 import ftl.run.status.asOutputStyle
 import ftl.util.FlankFatalError
+import java.io.File
 import java.io.Reader
 import java.nio.file.Path
 
@@ -55,8 +56,8 @@ class AndroidArgs(
     override val flakyTestAttempts = cli?.flakyTestAttempts ?: gcloud.flakyTestAttempts
 
     private val androidGcloud = androidGcloudYml.gcloud
-    var appApk = (cli?.app ?: androidGcloud.app ?: throw FlankFatalError("app is not set")).processFilePath("from app")
-    var testApk = (cli?.test ?: androidGcloud.test)?.processFilePath("from test")
+    var appApk: String? = (cli?.app ?: androidGcloud.app)?.processFilePath("from app")
+    var testApk: String? = (cli?.test ?: androidGcloud.test)?.processFilePath("from test")
     val additionalApks = (cli?.additionalApks ?: androidGcloud.additionalApks).map { it.processFilePath("from additional-apks") }
     val autoGoogleLogin = cli?.autoGoogleLogin ?: cli?.noAutoGoogleLogin?.not() ?: androidGcloud.autoGoogleLogin
 
@@ -104,13 +105,20 @@ class AndroidArgs(
     override val hasMultipleExecutions: Boolean get() = super.hasMultipleExecutions || additionalAppTestApks.isNotEmpty()
 
     init {
+        if (appApk == null) additionalAppTestApks
+            .filter { (app, _) -> app == null }
+            .map { File(it.test).name }
+            .run {
+                if (isNotEmpty()) throw FlankFatalError("Cannot resolve app apk pair for $this")
+            }
+
         resultsBucket = createGcsBucket(project, cli?.resultsBucket ?: gcloud.resultsBucket)
         createJunitBucket(project, flank.smartFlankGcsPath)
 
         devices.forEach { device -> assertDeviceSupported(device) }
 
         if (numUniformShards != null && maxTestShards > 1) throw FlankFatalError(
-            "Option num-uniform-shards cannot be specified along with max-test-shards. Use only one of them"
+            "Option num-uniform-shards cannot be specified along with max-test-shards. Use only one of them."
         )
 
         if (!(isRoboTest xor isInstrumentationTest)) throw FlankFatalError(
@@ -128,7 +136,7 @@ class AndroidArgs(
         outputStyle
     }
 
-    val isInstrumentationTest get() = testApk != null
+    val isInstrumentationTest get() = testApk != null || additionalAppTestApks.run { isNotEmpty() && all { (app, _) -> app != null } }
     val isRoboTest get() = roboDirectives.isNotEmpty() || roboScript != null
 
     private fun assertDeviceSupported(device: Device) {

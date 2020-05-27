@@ -5,6 +5,7 @@ import ftl.args.ShardChunks
 import ftl.run.model.AndroidMatrixTestShards
 import ftl.run.model.AndroidTestShards
 import ftl.run.model.InstrumentationTestApk
+import ftl.util.FlankFatalError
 import ftl.util.asFileReference
 
 fun getAndroidMatrixShards(
@@ -19,13 +20,13 @@ private fun AndroidArgs.createInstrumentationTestApks(): List<InstrumentationTes
     listOfNotNull(
         testApk?.let { testApk ->
             InstrumentationTestApk(
-                app = appApk.asFileReference(),
+                app = appApk?.asFileReference() ?: throw FlankFatalError("Cannot resolve app apk for $testApk"),
                 test = testApk.asFileReference()
             )
         }
     ) + additionalAppTestApks.map {
         InstrumentationTestApk(
-            app = (it.app ?: appApk).asFileReference(),
+            app = (it.app ?: appApk)?.asFileReference() ?: throw FlankFatalError("Cannot resolve app apk for $testApk"),
             test = it.test.asFileReference()
         )
     }

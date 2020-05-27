@@ -68,7 +68,7 @@ class AndroidArgsFileTest {
             if (local) assert(getString(testApk!!), getString(testApkAbsolutePath))
             else assert(testApk, testApkGcs)
 
-            if (local) assert(getString(appApk), getString(appApkAbsolutePath))
+            if (local) assert(getString(appApk!!), getString(appApkAbsolutePath))
             else assert(appApk, appApkGcs)
 
             assert(autoGoogleLogin, true)
