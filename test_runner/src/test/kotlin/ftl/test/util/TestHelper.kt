@@ -1,3 +1,5 @@
+@file:Suppress("RemoveCurlyBracesFromTemplate")
+
 package ftl.test.util
 
 import io.mockk.every
@@ -36,7 +38,7 @@ object TestHelper {
 inline fun <reified T : Any> ignore(): T = mockk(relaxed = true) {
     val slot = slot<Any>()
     every { this@mockk == capture(slot) } answers {
-        println("match ignored: ${slot.captured}")
+        println("${this@mockk} match ignored: ${slot.captured}")
         true
     }
 }
@@ -47,8 +49,8 @@ inline fun <reified T : Any> should(crossinline match: T.() -> Boolean): T = moc
         val value = slot.captured
         value.match().also { matches ->
             if (matches)
-                println("match success: $value") else
-                println("match failed: $value")
+                println("${this@mockk} match succeed: $value") else
+                println("${this@mockk} match failed: $value")
         }
     }
 }
