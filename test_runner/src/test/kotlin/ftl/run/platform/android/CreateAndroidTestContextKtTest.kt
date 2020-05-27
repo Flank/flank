@@ -4,7 +4,7 @@ import ftl.args.AndroidArgs
 import ftl.run.model.AndroidTestContext
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.RoboTestContext
-import ftl.test.util.TestHelper
+import ftl.test.util.mixedConfigYaml
 import ftl.test.util.should
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -12,10 +12,8 @@ import org.junit.Test
 
 class CreateAndroidTestContextKtTest {
 
-    private val mixedYamlFile = TestHelper.getPath("src/test/kotlin/ftl/fixtures/test_app_cases/flank-multiple-mixed.yml")
-
     @Test
-    fun `create AndroidTestConfig for robo and instrumentation tests`() {
+    fun `create AndroidTestConfig for mixed tests`() {
         // given
         val expected = listOf(
             RoboTestContext(
@@ -41,7 +39,7 @@ class CreateAndroidTestContextKtTest {
 
         // when
         val actual: List<AndroidTestContext> = runBlocking {
-            AndroidArgs.load(mixedYamlFile).createAndroidTestContexts()
+            AndroidArgs.load(mixedConfigYaml).createAndroidTestContexts()
         }
 
         // then
