@@ -135,7 +135,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
                 exitProcess(1)
             }
             is FailedMatrix -> {
-                t.matrices.forEach { it.logError("failed") }
+                t.matrices.forEach { it.logError() }
                 if (t.ignoreFailed) exitProcess(0)
                 else exitProcess(1)
             }
@@ -150,7 +150,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
                 exitProcess(1)
             }
             is FTLError -> {
-                t.matrix.logError("not finished")
+                t.matrix.logError()
                 exitProcess(3)
             }
             is FlankFatalError -> {
@@ -169,9 +169,25 @@ fun withGlobalExceptionHandling(block: () -> Int) {
     }
 }
 
-private fun SavedMatrix.logError(message: String) {
-    println("Error: Matrix $message: ${this.matrixId} ${this.state} ${this.outcome} ${this.outcomeDetails} ${this.webLink}")
+private fun SavedMatrix.logError() {
+    println("More details are available at [${this.webLink}]")
+    println(this.asPrintableTable())
 }
+
+private fun SavedMatrix.asPrintableTable(): String {
+    return buildTable(
+        TableColumn(OUTCOME_COLUMN_HEADER, outcome, OUTCOME_COLUMN_SIZE),
+        TableColumn(MATRIX_ID_COLUMN_HEADER, matrixId, MATRIX_ID_COLUMN_SIZE),
+        TableColumn(OUTCOME_DETAILS_COLUMN_HEADER, outcomeDetails, OUTCOME_DETAILS_COLUMN_SIZE)
+    )
+}
+
+private const val OUTCOME_COLUMN_HEADER = "OUTCOME"
+private const val OUTCOME_COLUMN_SIZE = 10
+private const val MATRIX_ID_COLUMN_HEADER = "TEST_AXIS_VALUE"
+private const val MATRIX_ID_COLUMN_SIZE = 25
+private const val OUTCOME_DETAILS_COLUMN_HEADER = "TEST_DETAILS"
+private const val OUTCOME_DETAILS_COLUMN_SIZE = 20
 
 fun <R : MutableMap<String, Any>, T> mutableMapProperty(
     name: String? = null,
