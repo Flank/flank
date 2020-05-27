@@ -13,15 +13,10 @@ import kotlinx.coroutines.runBlocking
 
 fun processXmlFromApi(
     matrices: MatrixMap,
-    args: IArgs
+    args: IArgs,
+    withStackTraces: Boolean = false
 ): JUnitTestResult = refreshMatricesAndGetExecutions(matrices, args)
-    .createJUnitTestResult()
-
-fun processXmlFromApiForCi(
-    matrices: MatrixMap,
-    args: IArgs
-): JUnitTestResult = refreshMatricesAndGetExecutions(matrices, args)
-    .createJUnitTestResultForCi()
+    .createJUnitTestResult(withStackTraces)
 
 private fun refreshMatricesAndGetExecutions(matrices: MatrixMap, args: IArgs): List<TestExecution> = refreshTestMatrices(
     matrixIds = matrices.map.values.map { it.matrixId },

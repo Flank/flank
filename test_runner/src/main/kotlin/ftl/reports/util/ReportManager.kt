@@ -11,7 +11,6 @@ import ftl.reports.HtmlErrorReport
 import ftl.reports.JUnitReport
 import ftl.reports.MatrixResultsReport
 import ftl.reports.api.processXmlFromApi
-import ftl.reports.api.processXmlFromApiForCi
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.parseOneSuiteXml
@@ -93,7 +92,7 @@ object ReportManager {
         // ios supports only legacy parsing
         args is IosArgs -> processXmlFromFile(matrices, args, ::parseAllSuitesXml)
         args.useLegacyJUnitResult -> processXmlFromFile(matrices, args, ::parseOneSuiteXml)
-        else -> processXmlFromApiForCi(matrices, args)
+        else -> processXmlFromApi(matrices, args)
     }
 
     /** Returns true if there were no test failures */
@@ -124,7 +123,7 @@ object ReportManager {
     }
 
     private fun processFullJunitResult(args: IArgs, matrices: MatrixMap, testShardChunks: ShardChunks) {
-        val testSuite = processXmlFromApi(matrices, args)
+        val testSuite = processXmlFromApi(matrices, args, withStackTraces = true)
         FullJUnitReport.run(matrices, testSuite, printToStdout = false, args = args)
         processJunitXml(testSuite, args, testShardChunks)
     }

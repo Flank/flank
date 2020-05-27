@@ -43,7 +43,7 @@ private fun TestExecutionData.reduceTestCases() = copy(
     }
 )
 
-private fun List<TestExecutionData>.removeStackTraces(): List<TestExecutionData> = map(TestExecutionData::removeStackTraces)
+internal fun List<TestExecutionData>.removeStackTraces(): List<TestExecutionData> = map(TestExecutionData::removeStackTraces)
 private fun TestExecutionData.removeStackTraces() = copy(testCases = testCases.onEach {
     if (it.flaky) {
         it.stackTraces = emptyList()
