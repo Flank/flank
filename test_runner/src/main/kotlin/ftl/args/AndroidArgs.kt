@@ -123,7 +123,7 @@ class AndroidArgs(
             "Option num-uniform-shards cannot be specified along with max-test-shards. Use only one of them."
         )
 
-        if (!(isRoboTest xor isInstrumentationTest)) throw FlankFatalError(
+        if (!(isRoboTest or isInstrumentationTest)) throw FlankFatalError(
             "One of following options must be specified [test, robo-directives, robo-script]."
         )
 
@@ -138,8 +138,13 @@ class AndroidArgs(
         outputStyle
     }
 
-    val isInstrumentationTest get() = testApk != null || additionalAppTestApks.run { isNotEmpty() && all { (app, _) -> app != null } }
-    val isRoboTest get() = roboDirectives.isNotEmpty() || roboScript != null
+    val isInstrumentationTest
+        get() = appApk != null && testApk != null ||
+                additionalAppTestApks.isNotEmpty() &&
+                (appApk != null || additionalAppTestApks.all { (app, _) -> app != null })
+    val isRoboTest
+        get() = appApk != null &&
+                (roboDirectives.isNotEmpty() || roboScript != null)
 
     private fun assertDeviceSupported(device: Device) {
         when (val deviceConfigTest = AndroidCatalog.supportedDeviceConfig(device.model, device.version, this.project)) {

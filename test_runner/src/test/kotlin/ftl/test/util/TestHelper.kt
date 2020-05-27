@@ -1,5 +1,8 @@
 package ftl.test.util
 
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.slot
 import org.junit.Assert
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -27,5 +30,25 @@ object TestHelper {
         throw FlankTestNotFoundException("Action not throwing exception")
     } catch (exception: Throwable) {
         exception
+    }
+}
+
+inline fun <reified T : Any> ignore(): T = mockk(relaxed = true) {
+    val slot = slot<Any>()
+    every { this@mockk == capture(slot) } answers {
+        println("match ignored: ${slot.captured}")
+        true
+    }
+}
+
+inline fun <reified T : Any> should(crossinline match: T.() -> Boolean): T = mockk(relaxed = true) {
+    val slot = slot<T>()
+    every { this@mockk == capture(slot) } answers {
+        val value = slot.captured
+        value.match().also { matches ->
+            if (matches)
+                println("match success: $value") else
+                println("match failed: $value")
+        }
     }
 }
