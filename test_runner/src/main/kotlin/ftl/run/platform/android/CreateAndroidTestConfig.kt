@@ -12,7 +12,10 @@ internal fun AndroidArgs.createAndroidTestConfig(
 ): AndroidTestConfig = when {
     isInstrumentationTest -> createInstrumentationConfig(
         uploadedApks = uploadedApks,
-        testShards = testShards ?: throw FlankFatalError("Arg testShards is required for instrumentation test.")
+        testShards = when {
+            disableSharding && testTargets.isNullOrEmpty() -> emptyList()
+            else -> testShards ?: throw FlankFatalError("Arg testShards is required for instrumentation test.")
+        }
     )
     isRoboTest -> createRoboConfig(
         uploadedApks = uploadedApks,
