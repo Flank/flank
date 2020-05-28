@@ -183,9 +183,9 @@ private fun SavedMatrix.asPrintableTable(): String {
 }
 
 private const val OUTCOME_COLUMN_HEADER = "OUTCOME"
-private const val OUTCOME_COLUMN_SIZE = 10
+private const val OUTCOME_COLUMN_SIZE = 9
 private const val MATRIX_ID_COLUMN_HEADER = "TEST_AXIS_VALUE"
-private const val MATRIX_ID_COLUMN_SIZE = 25
+private const val MATRIX_ID_COLUMN_SIZE = 24
 private const val OUTCOME_DETAILS_COLUMN_HEADER = "TEST_DETAILS"
 private const val OUTCOME_DETAILS_COLUMN_SIZE = 20
 

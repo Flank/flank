@@ -18,7 +18,6 @@ import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.runs
 import io.mockk.unmockkAll
-import io.mockk.verify
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.Assert.assertEquals
@@ -161,20 +160,15 @@ class UtilsTest {
     @Test
     fun `should terminate process with exit code 1 if FailedMatrix exception is thrown`() {
         // given
-        val block = {
-            throw FailedMatrix(
-                listOf(
-                    mockk(relaxed = true) { every { matrixId } returns "1" },
-                    mockk(relaxed = true) { every { matrixId } returns "2" }
-                )
-            )
-        }
+        val block = { throw FailedMatrix(listOf(testMatrix1, testMatrix2)) }
 
         // will
         exit.expectSystemExitWithStatus(1)
         exit.checkAssertionAfterwards {
-            assertTrue(output.log.contains("1"))
-            assertTrue(output.log.contains("Error: Matrix failed: 2"))
+            assertTrue(output.log.contains("More details are available at [www.flank.com/1]"))
+            assertOutputIsEqualReferenceTable(output.log, "1")
+            assertTrue(output.log.contains("More details are available at [www.flank.com/2]"))
+            assertOutputIsEqualReferenceTable(output.log, "2")
         }
 
         // when
@@ -204,12 +198,13 @@ class UtilsTest {
     @Test
     fun `should terminate process with exit code 3 if FTLError is thrown`() {
         // given
-        val block = { throw FTLError(mockk(relaxed = true)) }
+        val block = { throw FTLError(testMatrix1) }
 
         // will
         exit.expectSystemExitWithStatus(3)
         exit.checkAssertionAfterwards {
-            assertTrue(output.log.contains("Error: Matrix not finished:"))
+            assertTrue(output.log.contains("More details are available at [${testMatrix1.webLink}]"))
+            assertOutputIsEqualReferenceTable(output.log, testMatrix1.matrixId)
         }
 
         // when
@@ -264,9 +259,6 @@ class UtilsTest {
         exit.expectSystemExitWithStatus(3)
         exit.checkAssertionAfterwards {
             assertTrue(err.log.contains(message))
-
-            verify(exactly = 1) { FtlConstants.useMock }
-            verify(exactly = 1) { FtlConstants.bugsnag?.notify(any<Throwable>()) }
         }
 
         // when
@@ -278,10 +270,7 @@ class UtilsTest {
         // given
         val block = {
             throw FailedMatrix(
-                matrices = listOf(
-                    mockk(relaxed = true) { every { matrixId } returns "1" },
-                    mockk(relaxed = true) { every { matrixId } returns "2" }
-                ),
+                matrices = listOf(testMatrix1, testMatrix2),
                 ignoreFailed = true
             )
         }
@@ -289,12 +278,28 @@ class UtilsTest {
         // will
         exit.expectSystemExitWithStatus(0)
         exit.checkAssertionAfterwards {
-            assertTrue(output.log.contains("Error: Matrix failed: 1"))
-            assertTrue(output.log.contains("Error: Matrix failed: 2"))
+            assertTrue(output.log.contains("More details are available at [www.flank.com/1]"))
+            assertOutputIsEqualReferenceTable(output.log, testMatrix1.matrixId)
+            assertTrue(output.log.contains("More details are available at [www.flank.com/2]"))
+            assertOutputIsEqualReferenceTable(output.log, testMatrix2.matrixId)
         }
 
         // when
         withGlobalExceptionHandling(block)
+    }
+
+    private fun assertOutputIsEqualReferenceTable(outputLog: String, matrixId: String) {
+        val referenceTable =
+            "┌─────────┬────────────────────────┬────────────────────┐\n" +
+            "│ OUTCOME │    TEST_AXIS_VALUE     │    TEST_DETAILS    │\n" +
+            "├─────────┼────────────────────────┼────────────────────┤\n" +
+            "│ Failed  │           $matrixId            │ Test failed to run │\n" +
+            "└─────────┴────────────────────────┴────────────────────┘"
+        referenceTable.split("\n")
+            .forEach {
+                println(it)
+                assertTrue(outputLog.contains(it))
+            }
     }
 
     @Test
@@ -384,4 +389,17 @@ class UtilsTest {
             }
         }
     }
+}
+
+private val testMatrix1 = mockk<SavedMatrix>(relaxed = true) {
+    every { matrixId } returns "1"
+    every { webLink } returns "www.flank.com/1"
+    every { outcome } returns "Failed"
+    every { outcomeDetails } returns "Test failed to run"
+}
+private val testMatrix2 = mockk<SavedMatrix>(relaxed = true) {
+    every { matrixId } returns "2"
+    every { webLink } returns "www.flank.com/2"
+    every { outcome } returns "Failed"
+    every { outcomeDetails } returns "Test failed to run"
 }

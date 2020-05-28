@@ -1,28 +1,30 @@
 package ftl.util
 
+import com.google.common.annotations.VisibleForTesting
+
 data class TableColumn(
     val header: String,
     val data: String,
     val columnSize: Int = header.length + DEFAULT_COLUMN_PADDING
 )
 
-data class DataWithSize(
+private data class DataWithSize(
     val data: String,
     val columnSize: Int
 )
 
 private const val DEFAULT_COLUMN_PADDING = 2
-const val TABLE_HORIZONTAL_LINE = '─'
-const val TABLE_VERTICAL_LINE = '│'
-const val START_TABLE_START_CHAR = '┌'
-const val START_TABLE_MIDDLE_CHAR = '┬'
-const val START_TABLE_END_CHAR = '┐'
-const val MIDDLE_TABLE_START_CHAR = '├'
-const val MIDDLE_TABLE_MIDDLE_CHAR = '┼'
-const val MIDDLE_TABLE_END_CHAR = '┤'
-const val END_TABLE_START_CHAR = '└'
-const val END_TABLE_MIDDLE_CHAR = '┴'
-const val END_TABLE_END_CHAR = '┘'
+@VisibleForTesting const val TABLE_HORIZONTAL_LINE = '─'
+@VisibleForTesting const val TABLE_VERTICAL_LINE = '│'
+@VisibleForTesting const val START_TABLE_START_CHAR = '┌'
+@VisibleForTesting const val START_TABLE_MIDDLE_CHAR = '┬'
+@VisibleForTesting const val START_TABLE_END_CHAR = '┐'
+@VisibleForTesting const val MIDDLE_TABLE_START_CHAR = '├'
+@VisibleForTesting const val MIDDLE_TABLE_MIDDLE_CHAR = '┼'
+@VisibleForTesting const val MIDDLE_TABLE_END_CHAR = '┤'
+@VisibleForTesting const val END_TABLE_START_CHAR = '└'
+@VisibleForTesting const val END_TABLE_MIDDLE_CHAR = '┴'
+@VisibleForTesting const val END_TABLE_END_CHAR = '┘'
 
 fun buildTable(vararg tableColumns: TableColumn): String {
     val rowSizes = tableColumns.map { it.columnSize }
