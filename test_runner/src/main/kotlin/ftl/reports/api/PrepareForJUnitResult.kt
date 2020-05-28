@@ -11,10 +11,6 @@ internal fun List<TestExecutionData>.prepareForJUnitResult(): List<TestExecution
     .reduceToPrimarySteps()
     .reduceTestCases()
 
-internal fun List<TestExecutionData>.prepareJUnitResultForCi() = this
-    .prepareForJUnitResult()
-    .removeStackTraces()
-
 private fun List<TestExecutionData>.reduceToPrimarySteps(): List<TestExecutionData> = groupBy { data ->
     data.step.primaryStepId
 }.mapNotNull { (_, list: List<TestExecutionData>) ->

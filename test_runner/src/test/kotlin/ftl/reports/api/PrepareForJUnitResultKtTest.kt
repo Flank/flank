@@ -160,7 +160,7 @@ class PrepareForJUnitResultKtTest {
                 step = primaryStep
             )
         )
-        val preparedTestCase = testExecutionDataList.prepareJUnitResultForCi()
+        val preparedTestCase = testExecutionDataList.prepareForJUnitResult().removeStackTraces()
         assertEquals(preparedTestCase.count(), 1)
         assertEquals(preparedTestCase.first().testCases.count(), 1)
         assertTrue(preparedTestCase.first().testCases.first().stackTraces.isNullOrEmpty())
@@ -191,7 +191,7 @@ class PrepareForJUnitResultKtTest {
                 step = primaryStep
             )
         )
-        val preparedTestCase = testExecutionDataList.prepareJUnitResultForCi()
+        val preparedTestCase = testExecutionDataList.prepareForJUnitResult()
         assertEquals(preparedTestCase.count(), 1)
         assertEquals(preparedTestCase.first().testCases.count(), 1)
         assertTrue(preparedTestCase.first().testCases.first().stackTraces.isNullOrEmpty())

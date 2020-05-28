@@ -209,3 +209,6 @@ flank:
   ## 'multi' is used as the default. The output style 'multi' is not displayed correctly on consoles
   ## which don't support ansi codes, to avoid corrupted output use single or verbose.
   # output-style: single
+
+  ## Enable create additional local junit result on local storage with failure nodes on passed flaky tests.
+  # full-junit-result: false
