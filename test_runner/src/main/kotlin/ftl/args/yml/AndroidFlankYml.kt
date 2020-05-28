@@ -12,10 +12,16 @@ data class AppTestPair(
 @JsonIgnoreProperties(ignoreUnknown = true)
 class AndroidFlankYmlParams(
     @field:JsonProperty("additional-app-test-apks")
-    val additionalAppTestApks: List<AppTestPair> = emptyList()
+    val additionalAppTestApks: List<AppTestPair> = emptyList(),
+
+    @field:JsonProperty("legacy-junit-result")
+    val useLegacyJUnitResult: Boolean = false
 ) {
     companion object : IYmlKeys {
-        override val keys = listOf("additional-app-test-apks")
+        override val keys = listOf(
+            "additional-app-test-apks",
+            "legacy-junit-result"
+        )
     }
 }
 
