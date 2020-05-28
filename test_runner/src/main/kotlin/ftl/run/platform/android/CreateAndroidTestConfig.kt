@@ -12,14 +12,18 @@ internal fun AndroidArgs.createAndroidTestConfig(
 ): AndroidTestConfig = when {
     isInstrumentationTest -> createInstrumentationConfig(
         uploadedApks = uploadedApks,
-        testShards = when {
-            disableSharding && testTargets.isNullOrEmpty() -> emptyList()
-            else -> testShards ?: throw FlankFatalError("Arg testShards is required for instrumentation test.")
-        }
+        testShards = getTestShards(testShards)
     )
-    isRoboTest -> createRoboConfig(
+    isRoboTest
+    -> createRoboConfig(
         uploadedApks = uploadedApks,
         runGcsPath = runGcsPath ?: throw FlankFatalError("Arg runGcsPath is required for robo test.")
     )
     else -> throw FlankFatalError("Cannot create AndroidTestConfig, invalid AndroidArgs.")
 }
+
+private fun AndroidArgs.getTestShards(testShards: ShardChunks?): ShardChunks =
+    if (disableSharding && testTargets.isNullOrEmpty())
+        emptyList()
+    else
+        testShards ?: throw FlankFatalError("Arg testShards is required for instrumentation test.")

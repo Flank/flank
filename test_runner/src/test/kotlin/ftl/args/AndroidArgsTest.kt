@@ -1,12 +1,16 @@
 package ftl.args
 
+import com.google.api.services.testing.model.TestSpecification
 import com.google.common.truth.Truth.assertThat
 import ftl.args.yml.AppTestPair
+import ftl.args.yml.UploadedApks
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FlankRoboDirective
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
+import ftl.gc.android.setupAndroidTest
+import ftl.run.platform.android.createAndroidTestConfig
 import ftl.run.platform.runAndroidTests
 import ftl.run.platform.android.getAndroidShardChunks
 import ftl.run.status.OutputStyle
@@ -24,6 +28,7 @@ import org.junit.After
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
@@ -1361,6 +1366,40 @@ AndroidArgs
                 AndroidArgs.load(yaml).defaultOutputStyle
             )
         }
+    }
+
+    @Test
+    fun `should return AndroidTestConfig without testTargets`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          use-orchestrator: false
+        flank:
+          disable-sharding: true
+        """.trimIndent()
+        val args = AndroidArgs.load(yaml)
+        val androidTestConfig = args.createAndroidTestConfig(UploadedApks("", ""), listOf(listOf("test")))
+        val testSpecification = TestSpecification().setupAndroidTest(androidTestConfig)
+        assertTrue(testSpecification.androidInstrumentationTest.testTargets.isEmpty())
+    }
+
+    @Test
+    fun `should return AndroidTestConfig with testTargets`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          use-orchestrator: false
+          test-targets:
+          - EarlGreyExampleSwiftTests/testWith.*${'$'}
+        flank:
+          disable-sharding: true
+        """.trimIndent()
+        val args = AndroidArgs.load(yaml)
+        val androidTestConfig = args.createAndroidTestConfig(UploadedApks("", ""), listOf(listOf("test"), listOf("test")))
+        val testSpecification = TestSpecification().setupAndroidTest(androidTestConfig)
+        assertTrue(testSpecification.androidInstrumentationTest.testTargets.isNotEmpty())
     }
 }
 
