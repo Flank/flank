@@ -201,6 +201,9 @@ flank:
   ## Useful for Fladle and other gradle plugins that don't expect the process to have a non-zero exit code.
   ## The JUnit XML is used to determine failure. (default: false)
   # ignore-failed-tests: true
+
+  ## Enable create additional local junit result on local storage with failure nodes on passed flaky tests.
+  # full-junit-result: false
 ```
 
 ### Android example
@@ -417,6 +420,9 @@ flank:
   ## This flag allows fallback for legacy xml junit results parsing
   ## Currently available for android, iOS still uses only legacy way.
   # legacy-junit-result: false
+
+  ## Enable create additional local junit result on local storage with failure nodes on passed flaky tests.
+  # full-junit-result: false
 ```
 
 ### Android code coverage

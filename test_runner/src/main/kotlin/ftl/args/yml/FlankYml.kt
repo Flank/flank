@@ -43,6 +43,9 @@ class FlankYmlParams(
     @field:JsonProperty("legacy-junit-result")
     val useLegacyJUnitResult: Boolean = false,
 
+    @field:JsonProperty("full-junit-result")
+    val fullJUnitResult: Boolean = false,
+
     @field:JsonProperty("ignore-failed-tests")
     val ignoreFailedTests: Boolean = false,
 
