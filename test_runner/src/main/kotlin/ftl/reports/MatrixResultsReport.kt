@@ -29,16 +29,9 @@ object MatrixResultsReport : IReport {
     private val percentFormat by lazy { DecimalFormat("#0.00", DecimalFormatSymbols(Locale.US)) }
 
     private fun generate(matrices: MatrixMap): String {
-        var total = 0
-        var success = 0
-        matrices.map.values.forEach { matrix ->
-            total += 1
-
-            // unfinished matrix will not be reported as failed since it's still running
-            if (matrix.failed().not()) {
-                success += 1
-            }
-        }
+        val total = matrices.map.size
+        // unfinished matrix will not be reported as failed since it's still running
+        val success = matrices.map.values.count { it.failed().not() }
         val failed = total - success
         val successDouble: Double = success.toDouble() / total.toDouble() * 100.0
         val successPercent = percentFormat.format(successDouble)
