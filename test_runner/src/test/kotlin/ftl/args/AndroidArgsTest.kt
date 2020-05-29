@@ -462,7 +462,7 @@ AndroidArgs
 
         val testShardChunks = getAndroidShardChunks(androidArgs)
         with(androidArgs) {
-            assert(maxTestShards, AVAILABLE_SHARD_COUNT_RANGE.last)
+            assert(maxTestShards, -1)
             assert(testShardChunks.size, 2)
             testShardChunks.forEach { chunk -> assert(chunk.size, 1) }
         }
@@ -494,7 +494,7 @@ AndroidArgs
           disable-sharding: true
       """
         val androidArgs = AndroidArgs.load(yaml)
-        val testShardChunks = runBlocking { androidArgs.createAndroidTestContexts() }
+        val testShardChunks = getAndroidShardChunks(androidArgs)
         assertThat(testShardChunks).hasSize(0)
     }
 
@@ -506,7 +506,7 @@ AndroidArgs
           test: $invalidApk
       """
         val androidArgs = AndroidArgs.load(yaml)
-        val testShardChunks = runBlocking { androidArgs.createAndroidTestContexts() }
+        val testShardChunks = getAndroidShardChunks(androidArgs)
         assertThat(testShardChunks).hasSize(0)
     }
 
@@ -669,7 +669,7 @@ AndroidArgs
 
     @Test
     fun `cli numUniformShards`() {
-        val expected = AVAILABLE_SHARD_COUNT_RANGE.last
+        val expected = 50
         val cli = AndroidRunCommand()
         CommandLine(cli).parseArgs("--num-uniform-shards=$expected")
 
@@ -690,9 +690,9 @@ AndroidArgs
         gcloud:
           app: $appApk
           test: $testApk
-          num-uniform-shards: ${AVAILABLE_SHARD_COUNT_RANGE.last}
+          num-uniform-shards: 50
         flank:
-          max-test-shards: ${AVAILABLE_SHARD_COUNT_RANGE.last}
+          max-test-shards: 50
       """
         AndroidArgs.load(yaml)
     }
@@ -1313,8 +1313,8 @@ AndroidArgs
           test: $testApk
         """.trimIndent()
 
-        mockkStatic("ftl.run.platform.android.CreateAndroidTestContextKt")
-        every { runBlocking { any<AndroidArgs>().createAndroidTestContexts() } } returns listOf()
+        mockkStatic("ftl.run.platform.android.GetAndroidShardChunksKt")
+        every { getAndroidShardChunks(any()) } returns listOf()
 
         val parsedYml = AndroidArgs.load(yaml)
         runBlocking { runAndroidTests(parsedYml) }
@@ -1345,7 +1345,7 @@ AndroidArgs
             "  num-flaky-test-attempts: 3",
             """
             flank:
-              max-test-shards: ${AVAILABLE_SHARD_COUNT_RANGE.last}
+              max-test-shards: 50
             """.trimIndent(),
             """
             flank:
@@ -1425,6 +1425,23 @@ AndroidArgs
         """.trimIndent()
         val args = AndroidArgs.load(yaml)
         assertEquals(AVAILABLE_SHARD_COUNT_RANGE.last, args.maxTestShards)
+    }
+    @Test(expected = FlankFatalError::class)
+    fun `should fast fail when the robo test has env variables set`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          robo-directives:
+            "click:button3": ""
+            "ignore:button1": ""
+            "ignore:button2": ""
+          environment-variables:
+            coverage: true
+            coverageFilePath: /sdcard/
+            clearPackageData: true
+        """.trimIndent()
+        AndroidArgs.load(yaml)
     }
 }
 

@@ -5,3 +5,7 @@ gcloud:
     "click:button3": ""
     "ignore:button1": ""
     "ignore:button2": ""
+  environment-variables:
+    coverage: true
+    coverageFilePath: /sdcard/
+    clearPackageData: true

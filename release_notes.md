@@ -17,6 +17,8 @@
 - [#825](https://github.com/Flank/flank/pull/825) Automatically convert -1 in maximum-test-shards to the maximum shard amount. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#833](https://github.com/Flank/flank/pull/833) More error messages improvements. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - 
+- [#826](https://github.com/Flank/flank/pull/826) Fast fail when using `environment-variables` in a robo test. ([adamfilipow92](https://github.com/adamfilipow92))
+-
 -
 
 ## v20.05.2

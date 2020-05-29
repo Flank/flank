@@ -11,7 +11,7 @@ fun main() {
     val projectId = System.getenv("GOOGLE_CLOUD_PROJECT")
         ?: "YOUR PROJECT ID"
     val quantity = "single"
-    val type = "success-disable-sharding"
+    val type = "robo"
 
     // Bugsnag keeps the process alive so we must call exitProcess
     // https://github.com/bugsnag/bugsnag-java/issues/151
