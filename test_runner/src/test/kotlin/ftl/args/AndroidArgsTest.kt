@@ -669,7 +669,7 @@ AndroidArgs
 
     @Test
     fun `cli numUniformShards`() {
-        val expected = 50
+        val expected = AVAILABLE_SHARD_COUNT_RANGE.last
         val cli = AndroidRunCommand()
         CommandLine(cli).parseArgs("--num-uniform-shards=$expected")
 
@@ -690,9 +690,9 @@ AndroidArgs
         gcloud:
           app: $appApk
           test: $testApk
-          num-uniform-shards: 50
+          num-uniform-shards: ${AVAILABLE_SHARD_COUNT_RANGE.last}
         flank:
-          max-test-shards: 50
+          max-test-shards: ${AVAILABLE_SHARD_COUNT_RANGE.last}
       """
         AndroidArgs.load(yaml)
     }
@@ -1345,7 +1345,7 @@ AndroidArgs
             "  num-flaky-test-attempts: 3",
             """
             flank:
-              max-test-shards: 50
+              max-test-shards: ${AVAILABLE_SHARD_COUNT_RANGE.last}
             """.trimIndent(),
             """
             flank:

@@ -1,6 +1,7 @@
 package ftl.shard
 
 import com.google.common.truth.Truth.assertThat
+import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
@@ -211,7 +212,7 @@ class ShardTest {
     @Test
     fun `tests annotated with @Ignore should not produce additional shards`() {
         val androidMockedArgs = mockk<IosArgs>()
-        every { androidMockedArgs.maxTestShards } returns 50
+        every { androidMockedArgs.maxTestShards } returns IArgs.AVAILABLE_SHARD_COUNT_RANGE.last
         every { androidMockedArgs.shardTime } returns -1
 
         val testsToRun = listOf(

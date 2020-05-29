@@ -189,7 +189,7 @@ class ArgsHelperTest {
     @Test
     fun testInvalidTestShards() {
         val maxTestShards = -2
-        exceptionRule.expectMessage("max-test-shards must be >= 1 and <= 50, or -1. But current is $maxTestShards")
+        exceptionRule.expectMessage("max-test-shards must be >= ${IArgs.AVAILABLE_SHARD_COUNT_RANGE.first} and <= ${IArgs.AVAILABLE_SHARD_COUNT_RANGE.last}, or -1. But current is $maxTestShards")
 
         val args = spyk(AndroidArgs.default())
         every { args.maxTestShards } returns maxTestShards

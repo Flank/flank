@@ -2,6 +2,7 @@ package ftl.gc.android
 
 import com.google.api.services.testing.model.AndroidInstrumentationTest
 import com.google.api.services.testing.model.FileReference
+import ftl.args.IArgs
 import ftl.args.ShardChunks
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -40,8 +41,7 @@ class UtilsKtTest {
             .setupTestTargets(
                 disableSharding = false,
                 testShards = testShards,
-                numUniformShards = 50,
-                keepTestTargetsEmpty = false
+                numUniformShards = IArgs.AVAILABLE_SHARD_COUNT_RANGE.last
             )
 
         // then
