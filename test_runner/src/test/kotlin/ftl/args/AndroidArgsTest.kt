@@ -49,10 +49,11 @@ class AndroidArgsTest {
     private val testFlakyApkAbsolutePath = testFlakyApk.absolutePath()
     private val simpleFlankPath = getPath("src/test/kotlin/ftl/fixtures/simple-android-flank.yml")
     private val flankLocal = getPath("src/test/kotlin/ftl/fixtures/flank.local.yml")
-
+    private val resultDir = "test_dir"
     private val androidNonDefault = """
         gcloud:
           results-bucket: mockBucket
+          results-dir: $resultDir
           record-video: false
           timeout: 70m
           async: true
@@ -108,6 +109,7 @@ class AndroidArgsTest {
             - class example.Test#grantPermission2
           disable-sharding: true
           keep-file-path: true
+          full-junit-result: true
           additional-app-test-apks:
             - app: $appApk
               test: $testErrorApk
@@ -249,6 +251,7 @@ class AndroidArgsTest {
                     "class example.Test#grantPermission2"
                 )
             )
+            assert(fullJUnitResult, true)
             assert(disableSharding, true)
             assert(runTimeout, "20m")
             assert(outputStyle, OutputStyle.Single)
@@ -263,7 +266,7 @@ class AndroidArgsTest {
 AndroidArgs
     gcloud:
       results-bucket: mockBucket
-      results-dir: null
+      results-dir: $resultDir
       record-video: false
       timeout: 70m
       async: true
@@ -320,6 +323,7 @@ AndroidArgs
       disable-sharding: true
       project: projectFoo
       local-result-dir: results
+      full-junit-result: true
       # Android Flank Yml
       keep-file-path: true
       additional-app-test-apks:
@@ -341,7 +345,7 @@ AndroidArgs
 AndroidArgs
     gcloud:
       results-bucket: mockBucket
-      results-dir: null
+      results-dir: $resultDir
       record-video: false
       timeout: 15m
       async: false
@@ -380,6 +384,7 @@ AndroidArgs
       disable-sharding: false
       project: mockProjectId
       local-result-dir: results
+      full-junit-result: false
       # Android Flank Yml
       keep-file-path: false
       additional-app-test-apks:
@@ -432,6 +437,7 @@ AndroidArgs
             assert(disableSharding, false)
             assert(runTimeout, "-1")
             assert(outputStyle, OutputStyle.Multi)
+            assert(fullJUnitResult, false)
         }
     }
 

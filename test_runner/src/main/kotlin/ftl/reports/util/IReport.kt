@@ -2,8 +2,10 @@ package ftl.reports.util
 
 import ftl.args.IArgs
 import ftl.json.MatrixMap
+import ftl.reports.JUnitReport
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.util.resolveLocalRunPath
+import ftl.util.write
 import java.nio.file.Paths
 
 interface IReport {
@@ -12,11 +14,15 @@ interface IReport {
     fun reportName(): String {
         return this::class.java.simpleName
     }
-
+    fun fileName() = reportName() + extension
     val extension: String
 
     fun reportPath(matrices: MatrixMap, args: IArgs): String {
         val path = resolveLocalRunPath(matrices, args)
-        return Paths.get(path, reportName() + extension).toString()
+        return Paths.get(path, fileName()).toString()
+    }
+    fun write(matrices: MatrixMap, output: String, args: IArgs) {
+        val reportPath = JUnitReport.reportPath(matrices, args)
+        reportPath.write(output)
     }
 }

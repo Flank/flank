@@ -199,4 +199,10 @@ abstract class CommonRunCommand {
                 "which don't support ansi codes, to avoid corrupted output use `single` or `verbose`."]
     )
     var outputStyle: String? = null
+
+    @CommandLine.Option(
+        names = ["--full-junit-result"],
+        description = ["Enable create additional local junit result on local storage with failure nodes on passed flaky tests."]
+    )
+    var fullJUnitResult: Boolean? = null
 }
