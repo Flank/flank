@@ -1,6 +1,7 @@
 package ftl.args
 
 import com.google.common.truth.Truth.assertThat
+import ftl.args.IArgs.Companion.AVAILABLE_SHARD_COUNT_RANGE
 import ftl.args.yml.AppTestPair
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
@@ -460,7 +461,7 @@ AndroidArgs
 
         val testShardChunks = getAndroidShardChunks(androidArgs)
         with(androidArgs) {
-            assert(maxTestShards, -1)
+            assert(maxTestShards, AVAILABLE_SHARD_COUNT_RANGE.last)
             assert(testShardChunks.size, 2)
             testShardChunks.forEach { chunk -> assert(chunk.size, 1) }
         }
@@ -1423,7 +1424,7 @@ AndroidArgs
           max-test-shards: -1
         """.trimIndent()
         val args = AndroidArgs.load(yaml)
-        assertEquals(50, args.maxTestShards)
+        assertEquals(AVAILABLE_SHARD_COUNT_RANGE.last, args.maxTestShards)
     }
 }
 

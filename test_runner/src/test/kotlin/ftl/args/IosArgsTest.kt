@@ -345,7 +345,7 @@ IosArgs
         )
 
         with(args) {
-            assert(maxTestShards, -1)
+            assert(maxTestShards, IArgs.AVAILABLE_SHARD_COUNT_RANGE.last)
             assert(testShardChunks.size, 17)
             testShardChunks.forEach { chunk -> assert(chunk.size, 1) }
         }
@@ -903,6 +903,19 @@ IosArgs
     fun `verify keep file path default value - ios`() {
         val iosArgs = IosArgs.load(simpleFlankPath)
         assertFalse(iosArgs.keepFilePath)
+    }
+
+    @Test
+    fun `if set max-test-shards to -1 should give maximum amount`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+        flank:
+          max-test-shards: -1
+        """.trimIndent()
+        val args = IosArgs.load(yaml)
+        assertEquals(IArgs.AVAILABLE_SHARD_COUNT_RANGE.last, args.maxTestShards)
     }
 }
 

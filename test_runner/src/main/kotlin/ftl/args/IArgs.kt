@@ -51,6 +51,12 @@ interface IArgs {
 
     fun useLocalResultDir() = localResultDir != FlankYmlParams.defaultLocalResultsDir
 
+    fun fixMaxTestShardsValue(inputValue: Int): Int = if (inputValue == -1) {
+        AVAILABLE_SHARD_COUNT_RANGE.last
+    } else {
+        inputValue
+    }
+
     companion object {
         // num_shards must be >= 1, and <= 50
         val AVAILABLE_SHARD_COUNT_RANGE = 1..50
