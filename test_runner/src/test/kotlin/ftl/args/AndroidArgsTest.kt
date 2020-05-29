@@ -1,6 +1,5 @@
 package ftl.args
 
-import com.google.api.services.testing.model.TestSpecification
 import com.google.common.truth.Truth.assertThat
 import ftl.args.yml.AppTestPair
 import ftl.cli.firebase.test.android.AndroidRunCommand
@@ -29,7 +28,6 @@ import org.junit.After
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
@@ -1413,6 +1411,19 @@ AndroidArgs
         )
         val testSpecification = TestSpecification().setupAndroidTest(androidTestConfig)
         assertTrue(testSpecification.androidInstrumentationTest.testTargets.isNotEmpty())
+    }
+
+    @Test
+    fun `if set max-test-shards to -1 should give maximum amount`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          max-test-shards: -1
+        """.trimIndent()
+        val args = AndroidArgs.load(yaml)
+        assertEquals(50, args.maxTestShards)
     }
 }
 
