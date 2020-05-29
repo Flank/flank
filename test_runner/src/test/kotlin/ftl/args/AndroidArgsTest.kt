@@ -1379,7 +1379,7 @@ AndroidArgs
           disable-sharding: true
         """.trimIndent()
         val args = AndroidArgs.load(yaml)
-        val androidTestConfig = args.createAndroidTestConfig(UploadedApks("", ""), listOf(listOf("test")))
+        val androidTestConfig = args.createAndroidTestConfig(UploadedApks("", ""), listOf(listOf("test")), null, true)
         val testSpecification = TestSpecification().setupAndroidTest(androidTestConfig)
         assertTrue(testSpecification.androidInstrumentationTest.testTargets.isEmpty())
     }

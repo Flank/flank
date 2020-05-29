@@ -8,11 +8,13 @@ import ftl.util.FlankFatalError
 internal fun AndroidArgs.createAndroidTestConfig(
     uploadedApks: UploadedApks,
     testShards: ShardChunks? = null,
-    runGcsPath: String? = null
+    runGcsPath: String? = null,
+    keepTestTargetsEmpty: Boolean = false
 ): AndroidTestConfig = when {
     isInstrumentationTest -> createInstrumentationConfig(
         uploadedApks = uploadedApks,
-        testShards = getTestShards(testShards)
+        keepTestTargetsEmpty = keepTestTargetsEmpty,
+        testShards = testShards ?: throw FlankFatalError("Arg testShards is required for instrumentation test.")
     )
     isRoboTest
     -> createRoboConfig(
@@ -21,9 +23,3 @@ internal fun AndroidArgs.createAndroidTestConfig(
     )
     else -> throw FlankFatalError("Cannot create AndroidTestConfig, invalid AndroidArgs.")
 }
-
-private fun AndroidArgs.getTestShards(testShards: ShardChunks?): ShardChunks =
-    if (disableSharding && testTargets.isNullOrEmpty())
-        emptyList()
-    else
-        testShards ?: throw FlankFatalError("Arg testShards is required for instrumentation test.")

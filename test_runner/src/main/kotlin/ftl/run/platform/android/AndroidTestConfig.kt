@@ -13,7 +13,8 @@ sealed class AndroidTestConfig {
         // sharding
         val disableSharding: Boolean,
         val testShards: ShardChunks,
-        val numUniformShards: Int?
+        val numUniformShards: Int?,
+        val keepTestTargetsEmpty: Boolean
     ) : AndroidTestConfig()
 
     data class Robo(
