@@ -6,10 +6,10 @@ import org.junit.Test
 internal class LogTableBuilderTest {
 
     private val sampleColumns = arrayOf(
-        TableColumn("header1", "value1", 10),
-        TableColumn("header2", "value2", 15),
-        TableColumn("header3", "value3", 20),
-        TableColumn("header4", "value4", 21)
+        TableColumn("header1", listOf("value1"), 10),
+        TableColumn("header2", listOf("value2"), 15),
+        TableColumn("header3", listOf("value3"), 20),
+        TableColumn("header4", listOf("value4"), 21)
     )
 
     @Test

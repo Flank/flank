@@ -5,6 +5,7 @@ import ftl.config.FtlConstants.indent
 import ftl.json.MatrixMap
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
+import ftl.util.asPrintableTable
 import ftl.util.println
 import ftl.util.write
 import java.io.StringWriter
@@ -52,6 +53,7 @@ object MatrixResultsReport : IReport {
                 writer.println("$indent$failed matrices failed")
                 writer.println()
             }
+            writer.println(matrices.map.values.toList().asPrintableTable())
 
             return writer.toString()
         }

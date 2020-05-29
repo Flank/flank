@@ -174,21 +174,6 @@ private fun SavedMatrix.logError() {
     println(this.asPrintableTable())
 }
 
-private fun SavedMatrix.asPrintableTable(): String {
-    return buildTable(
-        TableColumn(OUTCOME_COLUMN_HEADER, outcome, OUTCOME_COLUMN_SIZE),
-        TableColumn(MATRIX_ID_COLUMN_HEADER, matrixId, MATRIX_ID_COLUMN_SIZE),
-        TableColumn(OUTCOME_DETAILS_COLUMN_HEADER, outcomeDetails, OUTCOME_DETAILS_COLUMN_SIZE)
-    )
-}
-
-private const val OUTCOME_COLUMN_HEADER = "OUTCOME"
-private const val OUTCOME_COLUMN_SIZE = 9
-private const val MATRIX_ID_COLUMN_HEADER = "TEST_AXIS_VALUE"
-private const val MATRIX_ID_COLUMN_SIZE = 24
-private const val OUTCOME_DETAILS_COLUMN_HEADER = "TEST_DETAILS"
-private const val OUTCOME_DETAILS_COLUMN_SIZE = 20
-
 fun <R : MutableMap<String, Any>, T> mutableMapProperty(
     name: String? = null,
     defaultValue: () -> T

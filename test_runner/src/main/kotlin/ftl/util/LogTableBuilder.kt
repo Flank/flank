@@ -4,7 +4,7 @@ import com.google.common.annotations.VisibleForTesting
 
 data class TableColumn(
     val header: String,
-    val data: String,
+    val data: List<String>,
     val columnSize: Int = header.length + DEFAULT_COLUMN_PADDING
 )
 
@@ -30,9 +30,9 @@ fun buildTable(vararg tableColumns: TableColumn): String {
     val rowSizes = tableColumns.map { it.columnSize }
     val builder = StringBuilder().apply {
         startTable(rowSizes)
-        tableColumns.map { DataWithSize(it.header, it.columnSize) }.apply { appendData(this) }
+        tableColumns.map { DataWithSize(it.header, it.columnSize) }.apply { appendDataRow(this) }
         rowSeparator(rowSizes)
-        tableColumns.map { DataWithSize(it.data, it.columnSize) }.apply { appendData(this) }
+        appendData(tableColumns)
         endTable(rowSizes)
     }
 
@@ -59,6 +59,16 @@ private fun StringBuilder.rowSeparator(rowSizes: List<Int>) {
     newLine()
 }
 
+private fun StringBuilder.appendData(tableColumns: Array<out TableColumn>) {
+    val rowCount = (tableColumns.maxBy { it.data.size } ?: tableColumns.first()).data.size
+
+    (0 until rowCount)
+        .map { rowNumber -> tableColumns.map { it.data.getOrNull(rowNumber).orEmpty() to it.columnSize } }
+        .forEach {
+            it.map { (data, size) -> DataWithSize(data, size) }.apply { appendDataRow(this) }
+        }
+}
+
 private fun StringBuilder.endTable(rowSizes: List<Int>) {
     appendTableSeparator(
         startChar = END_TABLE_START_CHAR,
@@ -76,7 +86,7 @@ private fun StringBuilder.appendTableSeparator(startChar: Char, middleChar: Char
     }
 }
 
-private fun StringBuilder.appendData(data: List<DataWithSize>) {
+private fun StringBuilder.appendDataRow(data: List<DataWithSize>) {
     append(TABLE_VERTICAL_LINE)
     data.forEach { (data, size) ->
         append(data.center(size))
