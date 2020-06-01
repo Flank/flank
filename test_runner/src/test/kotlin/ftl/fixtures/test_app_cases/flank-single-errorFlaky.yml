@@ -5,4 +5,4 @@ gcloud:
 
 flank:
   disable-sharding: false
-  max-test-shards: -1
+  max-test-shards: 1
