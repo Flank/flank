@@ -164,12 +164,6 @@ class UtilsTest {
 
         // will
         exit.expectSystemExitWithStatus(1)
-        exit.checkAssertionAfterwards {
-            assertTrue(output.log.contains("More details are available at [www.flank.com/1]"))
-            assertOutputIsEqualReferenceTable(output.log, "1")
-            assertTrue(output.log.contains("More details are available at [www.flank.com/2]"))
-            assertOutputIsEqualReferenceTable(output.log, "2")
-        }
 
         // when
         withGlobalExceptionHandling(block)
@@ -277,12 +271,6 @@ class UtilsTest {
 
         // will
         exit.expectSystemExitWithStatus(0)
-        exit.checkAssertionAfterwards {
-            assertTrue(output.log.contains("More details are available at [www.flank.com/1]"))
-            assertOutputIsEqualReferenceTable(output.log, testMatrix1.matrixId)
-            assertTrue(output.log.contains("More details are available at [www.flank.com/2]"))
-            assertOutputIsEqualReferenceTable(output.log, testMatrix2.matrixId)
-        }
 
         // when
         withGlobalExceptionHandling(block)

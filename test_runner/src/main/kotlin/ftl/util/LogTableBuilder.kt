@@ -5,7 +5,8 @@ import com.google.common.annotations.VisibleForTesting
 data class TableColumn(
     val header: String,
     val data: List<String>,
-    val columnSize: Int = header.length + DEFAULT_COLUMN_PADDING
+    val columnSize: Int = header.length + DEFAULT_COLUMN_PADDING,
+    val dataColor: List<SystemOutColor> = listOf()
 )
 
 private data class DataWithSize(
@@ -63,10 +64,16 @@ private fun StringBuilder.appendData(tableColumns: Array<out TableColumn>) {
     val rowCount = (tableColumns.maxBy { it.data.size } ?: tableColumns.first()).data.size
 
     (0 until rowCount)
-        .map { rowNumber -> tableColumns.map { it.data.getOrNull(rowNumber).orEmpty() to it.columnSize } }
-        .forEach {
-            it.map { (data, size) -> DataWithSize(data, size) }.apply { appendDataRow(this) }
+        .map { rowNumber ->
+            tableColumns.map {
+                val color = it.dataColor.getOrNull(rowNumber) ?: SystemOutColor.DEFAULT
+                val data = it.data.getOrNull(rowNumber).orEmpty()
+                val columnSize = it.columnSize
+                if (color == SystemOutColor.DEFAULT) DataWithSize(data, columnSize)
+                else DataWithSize(color.applyTo(data), columnSize + color.additionalLengthWhenApplied)
+            }
         }
+        .forEach { appendDataRow(it) }
 }
 
 private fun StringBuilder.endTable(rowSizes: List<Int>) {

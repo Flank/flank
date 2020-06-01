@@ -127,4 +127,14 @@ class SavedMatrix(matrix: TestMatrix) {
 
     val gcsPathWithoutRootBucket get() = gcsPath.substringAfter('/')
     val gcsRootBucket get() = gcsPath.substringBefore('/')
+    val webLinkWithoutExecutionDetails: String
+        get() {
+            return if (webLink.isEmpty()) {
+                webLink
+            } else {
+                val executionsRegex = "/executions/.+".toRegex()
+                val foundValue = executionsRegex.find(webLink)?.value.orEmpty()
+                webLink.removeSuffix(foundValue)
+            }
+        }
 }

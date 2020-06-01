@@ -7,7 +7,6 @@ import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.util.asPrintableTable
 import ftl.util.println
-import ftl.util.write
 import java.io.StringWriter
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -46,11 +45,15 @@ object MatrixResultsReport : IReport {
                 writer.println("$indent$failed matrices failed")
                 writer.println()
             }
-            writer.println(matrices.map.values.toList().asPrintableTable())
+            if (matrices.map.isNotEmpty()) {
+                writer.println("More details are available at [${matrices.map.values.first().webLinkWithoutExecutionDetails}]")
+                writer.println(matrices.map.values.toList().asPrintableTable())
+            }
 
             return writer.toString()
         }
     }
+
     override fun run(matrices: MatrixMap, result: JUnitTestResult?, printToStdout: Boolean, args: IArgs) {
         val output = generate(matrices)
         if (printToStdout) print(output)

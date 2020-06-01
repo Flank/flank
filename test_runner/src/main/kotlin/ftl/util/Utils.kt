@@ -135,7 +135,6 @@ fun withGlobalExceptionHandling(block: () -> Int) {
                 exitProcess(1)
             }
             is FailedMatrix -> {
-                t.matrices.forEach { it.logError() }
                 if (t.ignoreFailed) exitProcess(0)
                 else exitProcess(1)
             }
