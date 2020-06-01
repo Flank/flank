@@ -75,11 +75,14 @@ object Versions {
     // https://github.com/mockk/mockk
     const val MOCKK = "1.9.3"
 
-    //https://commons.apache.org/proper/commons-text/
+    // https://commons.apache.org/proper/commons-text/
     const val COMMON_TEXT = "1.8"
 
-    //https://github.com/fusesource/jansi/releases
+    // https://github.com/fusesource/jansi/releases
     const val JANSI = "1.18"
+
+    // https://github.com/ben-manes/gradle-versions-plugin/releases
+    const val BEN_MANES = "0.28.0"
 }
 
 object Libs {

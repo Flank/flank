@@ -6,6 +6,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Date
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import java.io.ByteArrayOutputStream
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 plugins {
     application
@@ -16,6 +17,7 @@ plugins {
     id("com.jfrog.bintray") version Versions.BINTRAY
     id("maven-publish")
     id("com.github.johnrengelman.shadow") version Versions.SHADOW
+    id("com.github.ben-manes.versions") version Versions.BEN_MANES
 }
 
 val artifactID = "flank"
@@ -144,7 +146,6 @@ tasks.withType<KotlinCompile>().configureEach {
     // https://devcenter.bitrise.io/builds/available-environment-variables/
     kotlinOptions.allWarningsAsErrors = runningOnBitrise
 }
-
 
 application {
     mainClassName = "ftl.Main"
@@ -305,4 +306,24 @@ fun execAndGetStdout(vararg args: String): String {
         workingDir = projectDir
     }
     return stdout.toString().trimEnd()
+}
+
+tasks.withType<DependencyUpdatesTask> {
+
+    fun isStable(version: String): Boolean {
+        return listOf("RELEASE", "FINAL", "GA")
+            .any { version.toUpperCase().contains(it) } || "^[0-9,.v-]+(-r)?$".toRegex().matches(version)
+    }
+
+    fun isNonStable(version: String) = isStable(version).not()
+
+    resolutionStrategy {
+        componentSelection {
+            all {
+                if (isNonStable(candidate.version) && isStable(currentVersion)) {
+                    reject("Release candidate")
+                }
+            }
+        }
+    }
 }
