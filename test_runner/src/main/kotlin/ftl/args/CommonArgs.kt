@@ -4,6 +4,7 @@ import ftl.run.status.OutputStyle
 
 data class CommonArgs(
     override val data: String,
+
     // Gcloud
     override val resultsBucket: String,
     override val resultsDir: String?,
@@ -14,6 +15,8 @@ data class CommonArgs(
     override val flakyTestAttempts: Int,
     override val clientDetails: Map<String, String>?,
     override val networkProfile: String?,
+
+    // flank
     override val project: String,
     override val maxTestShards: Int,
     override val shardTime: Int,

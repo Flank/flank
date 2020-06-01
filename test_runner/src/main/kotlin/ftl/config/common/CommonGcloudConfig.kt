@@ -132,10 +132,10 @@ data class CommonGcloudConfig @JsonIgnore constructor(
             recordVideo = FlankDefaults.DISABLE_VIDEO_RECORDING
             timeout = "15m"
             async = false
-            clientDetails = null
-            flakyTestAttempts = 0
-            networkProfile = null
             resultsHistoryName = null
+            flakyTestAttempts = 0
+            clientDetails = null
+            networkProfile = null
         }
     }
 }

@@ -149,15 +149,15 @@ data class CommonFlankConfig @JsonIgnore constructor(
         const val defaultLocalResultsDir = "results"
 
         fun default() = CommonFlankConfig().apply {
+            project = ArgsHelper.getDefaultProjectId() ?: ""
             maxTestShards = 1
             shardTime = -1
             repeatTests = 1
             smartFlankGcsPath = ""
             smartFlankDisableUpload = false
-            disableSharding = false
             testTargetsAlwaysRun = emptyList()
             filesToDownload = emptyList()
-            project = ArgsHelper.getDefaultProjectId() ?: ""
+            disableSharding = false
             localResultsDir = defaultLocalResultsDir
             runTimeout = FtlConstants.runTimeout
             ignoreFailedTests = false
