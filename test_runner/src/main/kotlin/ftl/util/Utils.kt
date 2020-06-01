@@ -135,7 +135,6 @@ fun withGlobalExceptionHandling(block: () -> Int) {
                 exitProcess(1)
             }
             is FailedMatrix -> {
-                t.matrices.forEach { it.logError("failed") }
                 if (t.ignoreFailed) exitProcess(0)
                 else exitProcess(1)
             }
@@ -150,7 +149,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
                 exitProcess(1)
             }
             is FTLError -> {
-                t.matrix.logError("not finished")
+                t.matrix.logError()
                 exitProcess(3)
             }
             is FlankFatalError -> {
@@ -169,8 +168,9 @@ fun withGlobalExceptionHandling(block: () -> Int) {
     }
 }
 
-private fun SavedMatrix.logError(message: String) {
-    println("Error: Matrix $message: ${this.matrixId} ${this.state} ${this.outcome} ${this.outcomeDetails} ${this.webLink}")
+private fun SavedMatrix.logError() {
+    println("More details are available at [${this.webLink}]")
+    println(this.asPrintableTable())
 }
 
 fun <R : MutableMap<String, Any>, T> mutableMapProperty(

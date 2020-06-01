@@ -5,8 +5,8 @@ import ftl.config.FtlConstants.indent
 import ftl.json.MatrixMap
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
+import ftl.util.asPrintableTable
 import ftl.util.println
-import ftl.util.write
 import java.io.StringWriter
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -28,16 +28,9 @@ object MatrixResultsReport : IReport {
     private val percentFormat by lazy { DecimalFormat("#0.00", DecimalFormatSymbols(Locale.US)) }
 
     private fun generate(matrices: MatrixMap): String {
-        var total = 0
-        var success = 0
-        matrices.map.values.forEach { matrix ->
-            total += 1
-
-            // unfinished matrix will not be reported as failed since it's still running
-            if (matrix.failed().not()) {
-                success += 1
-            }
-        }
+        val total = matrices.map.size
+        // unfinished matrix will not be reported as failed since it's still running
+        val success = matrices.map.values.count { it.failed().not() }
         val failed = total - success
         val successDouble: Double = success.toDouble() / total.toDouble() * 100.0
         val successPercent = percentFormat.format(successDouble)
@@ -52,10 +45,15 @@ object MatrixResultsReport : IReport {
                 writer.println("$indent$failed matrices failed")
                 writer.println()
             }
+            if (matrices.map.isNotEmpty()) {
+                writer.println("More details are available at [${matrices.map.values.first().webLinkWithoutExecutionDetails}]")
+                writer.println(matrices.map.values.toList().asPrintableTable())
+            }
 
             return writer.toString()
         }
     }
+
     override fun run(matrices: MatrixMap, result: JUnitTestResult?, printToStdout: Boolean, args: IArgs) {
         val output = generate(matrices)
         if (printToStdout) print(output)

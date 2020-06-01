@@ -12,6 +12,10 @@
 - [#799](https://github.com/Flank/flank/pull/799) Refactor Shared object by splitting it into smaller functions. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#798](https://github.com/Flank/flank/pull/798) Remove failure nodes from tests that passed on retry so that Jenkins JUnit plugin marks them as successful. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#822](https://github.com/Flank/flank/pull/822) Allow runtime test discovery when sharding is disabled by not setting test-targets. This unblocks cucumber testing. ([adamfilipow92](https://github.com/adamfilipow92))
+- [#819](https://github.com/Flank/flank/pull/819) Display matrix results in a table format. ([piotradamczyk5](https://github.com/piotradamczyk5))
+- 
+- 
+-
 
 ## v20.05.2
 

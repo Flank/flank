@@ -9,7 +9,6 @@ import ftl.json.SavedMatrixTest.Companion.createResultsStorage
 import ftl.json.SavedMatrixTest.Companion.createStepExecution
 import ftl.run.cancelMatrices
 import ftl.test.util.FlankTestRunner
-import io.mockk.called
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -18,9 +17,7 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.runs
-import io.mockk.spyk
 import io.mockk.unmockkAll
-import io.mockk.verify
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.Assert.assertEquals
@@ -163,20 +160,13 @@ class UtilsTest {
     @Test
     fun `should terminate process with exit code 1 if FailedMatrix exception is thrown`() {
         // given
+        val block = { throw FailedMatrix(listOf(testMatrix1, testMatrix2)) }
+
+        // will
         exit.expectSystemExitWithStatus(1)
-        val block = {
-            throw FailedMatrix(
-                listOf(
-                    mockk(relaxed = true) { every { matrixId } returns "1" },
-                    mockk(relaxed = true) { every { matrixId } returns "2" }
-                )
-            )
-        }
+
         // when
         withGlobalExceptionHandling(block)
-        // then
-        assertTrue(output.log.contains("Error: Matrix failed: 1"))
-        assertTrue(output.log.contains("Error: Matrix failed: 2"))
     }
 
     @Test
@@ -202,41 +192,50 @@ class UtilsTest {
     @Test
     fun `should terminate process with exit code 3 if FTLError is thrown`() {
         // given
+        val block = { throw FTLError(testMatrix1) }
+
+        // will
         exit.expectSystemExitWithStatus(3)
-        val block = { throw FTLError(mockk(relaxed = true)) }
+        exit.checkAssertionAfterwards {
+            assertTrue(output.log.contains("More details are available at [${testMatrix1.webLink}]"))
+            assertOutputIsEqualReferenceTable(output.log, testMatrix1.matrixId)
+        }
+
         // when
         withGlobalExceptionHandling(block)
-        // then
-        assertTrue(output.log.contains("Error: Matrix not finished:"))
     }
 
     @Test
     fun `should terminate process with exit code 2 if FlankFatalError is thrown`() {
         // given
         val message = "test error was thrown"
-        exit.expectSystemExitWithStatus(2)
         val block = { throw FlankFatalError(message) }
+
+        // will
+        exit.expectSystemExitWithStatus(2)
+        exit.checkAssertionAfterwards {
+            assertTrue(err.log.contains(message))
+        }
+
         // when
         withGlobalExceptionHandling(block)
-        // then
-        assertTrue(err.log.contains(message))
     }
 
     @Test
     fun `should terminate process with exit code 3 if not flank related exception is thrown`() {
         // given
         val message = "not flank related error thrown"
-        val spy = spyk<FtlConstants>()
-        exit.expectSystemExitWithStatus(3)
+
         val block = { throw RuntimeException(message) }
+
+        // will
+        exit.expectSystemExitWithStatus(3)
+        exit.checkAssertionAfterwards {
+            assertTrue(err.log.contains(message))
+        }
+
         // when
         withGlobalExceptionHandling(block)
-        // then
-        assertTrue(err.log.contains(message))
-
-        // this is extra check to verify if test errors are not reported to Bugsnag
-        // should be removed or changed when https://github.com/Flank/flank/issues/699 is resolved
-        verify { spy.bugsnag?.wasNot(called) }
     }
 
     @Test
@@ -248,47 +247,63 @@ class UtilsTest {
         every { FtlConstants.bugsnag } returns mockk {
             every { notify(any<Throwable>()) } returns true
         }
-        exit.expectSystemExitWithStatus(3)
         val block = { throw RuntimeException(message) }
+
+        // will
+        exit.expectSystemExitWithStatus(3)
+        exit.checkAssertionAfterwards {
+            assertTrue(err.log.contains(message))
+        }
+
         // when
         withGlobalExceptionHandling(block)
-        // then
-        assertTrue(err.log.contains(message))
-
-        verify(exactly = 1) { FtlConstants.useMock }
-        verify(exactly = 1) { FtlConstants.bugsnag?.notify(any<Throwable>()) }
     }
 
     @Test
     fun `should terminate process with exit code 0 if at least one matrix failed and ignore-failed-tests flag is true`() {
         // given
-        exit.expectSystemExitWithStatus(0)
         val block = {
             throw FailedMatrix(
-                matrices = listOf(
-                    mockk(relaxed = true) { every { matrixId } returns "1" },
-                    mockk(relaxed = true) { every { matrixId } returns "2" }
-                ),
+                matrices = listOf(testMatrix1, testMatrix2),
                 ignoreFailed = true
             )
         }
+
+        // will
+        exit.expectSystemExitWithStatus(0)
+
         // when
         withGlobalExceptionHandling(block)
-        // then
-        assertTrue(output.log.contains("Error: Matrix failed: 1"))
-        assertTrue(output.log.contains("Error: Matrix failed: 2"))
+    }
+
+    private fun assertOutputIsEqualReferenceTable(outputLog: String, matrixId: String) {
+        val referenceTable =
+            "┌─────────┬────────────────────────┬────────────────────┐\n" +
+            "│ OUTCOME │    TEST_AXIS_VALUE     │    TEST_DETAILS    │\n" +
+            "├─────────┼────────────────────────┼────────────────────┤\n" +
+            "│ Failed  │           $matrixId            │ Test failed to run │\n" +
+            "└─────────┴────────────────────────┴────────────────────┘"
+        referenceTable.split("\n")
+            .forEach {
+                println(it)
+                assertTrue(outputLog.contains(it))
+            }
     }
 
     @Test
     fun `should terminate process with exit code 1 if there is not tests to run overall`() {
         // given
         val message = "No tests to run"
-        exit.expectSystemExitWithStatus(1)
         val block = { throw FlankCommonException(message) }
+
+        // will
+        exit.expectSystemExitWithStatus(1)
+        exit.checkAssertionAfterwards {
+            assertTrue(output.log.contains(message))
+        }
+
         // when
         withGlobalExceptionHandling(block)
-        // then
-        assertTrue(output.log.contains(message))
     }
 
     @CommandLine.Command(name = "whosbad")
@@ -362,4 +377,17 @@ class UtilsTest {
             }
         }
     }
+}
+
+private val testMatrix1 = mockk<SavedMatrix>(relaxed = true) {
+    every { matrixId } returns "1"
+    every { webLink } returns "www.flank.com/1"
+    every { outcome } returns "Failed"
+    every { outcomeDetails } returns "Test failed to run"
+}
+private val testMatrix2 = mockk<SavedMatrix>(relaxed = true) {
+    every { matrixId } returns "2"
+    every { webLink } returns "www.flank.com/2"
+    every { outcome } returns "Failed"
+    every { outcomeDetails } returns "Test failed to run"
 }
