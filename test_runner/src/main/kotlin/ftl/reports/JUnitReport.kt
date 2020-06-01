@@ -6,7 +6,6 @@ import ftl.json.MatrixMap
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.xmlToString
-import java.io.File
 
 object JUnitReport : IReport {
     override val extension = ".xml"
@@ -21,6 +20,6 @@ object JUnitReport : IReport {
         } else {
             write(matrices, output, args)
         }
-        GcStorage.uploadCiJUnitXml(result, args, reportPath(matrices, args).let(::File).name)
+        GcStorage.uploadReportResult(result.xmlToString(), args, fileName())
     }
 }

@@ -1,7 +1,9 @@
 package ftl.reports
 
+import com.google.api.services.testing.model.GoogleCloudStorage
 import ftl.args.IArgs
 import ftl.config.FtlConstants.indent
+import ftl.gc.GcStorage
 import ftl.json.MatrixMap
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
@@ -45,11 +47,12 @@ object MatrixResultsReport : IReport {
                 writer.println("$indent$failed matrices failed")
                 writer.println()
             }
+
             if (matrices.map.isNotEmpty()) {
                 writer.println("More details are available at [${matrices.map.values.first().webLinkWithoutExecutionDetails}]")
                 writer.println(matrices.map.values.toList().asPrintableTable())
             }
-
+            
             return writer.toString()
         }
     }
@@ -58,5 +61,6 @@ object MatrixResultsReport : IReport {
         val output = generate(matrices)
         if (printToStdout) print(output)
         write(matrices, output, args)
+        GcStorage.uploadReportResult(output, args, CostReport.fileName())
     }
 }

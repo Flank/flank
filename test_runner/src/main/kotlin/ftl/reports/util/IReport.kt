@@ -22,7 +22,7 @@ interface IReport {
         return Paths.get(path, fileName()).toString()
     }
     fun write(matrices: MatrixMap, output: String, args: IArgs) {
-        val reportPath = JUnitReport.reportPath(matrices, args)
+        val reportPath = reportPath(matrices, args)
         reportPath.write(output)
     }
 }
