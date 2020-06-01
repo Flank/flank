@@ -17,9 +17,11 @@ fun createExecutionStatusPrinter(
 @VisibleForTesting
 internal class SingleLinePrinter : (List<ExecutionStatus.Change>) -> Unit {
     private var previousLineSize = 0
+    private val cache = mutableMapOf<String, ExecutionStatus.Change>()
     override fun invoke(changes: List<ExecutionStatus.Change>) {
+        cache += changes.associateBy(ExecutionStatus.Change::name)
         val time = changes.firstOrNull()?.time ?: return
-        changes.fold(emptyMap<String, Int>()) { acc, (_, _, current: ExecutionStatus) ->
+        cache.values.fold(emptyMap<String, Int>()) { acc, (_, _, current: ExecutionStatus) ->
             acc + Pair(
                 first = current.state,
                 second = acc.getOrDefault(current.state, 0) + 1

@@ -1,23 +1,35 @@
 package ftl.run.platform.android
 
+import com.google.common.annotations.VisibleForTesting
 import ftl.args.AndroidArgs
-import ftl.args.yml.ResolvedApks
+import ftl.run.model.AndroidTestContext
+import ftl.run.model.InstrumentationTestContext
+import ftl.run.model.RoboTestContext
 import ftl.util.FlankFatalError
+import ftl.util.asFileReference
 
-internal fun AndroidArgs.resolveApks() = listOfNotNull(
-    element = appApk?.let { appApk ->
-        ResolvedApks(
-            app = appApk,
-            test = testApk,
-            additionalApks = additionalApks
-        )
+@VisibleForTesting
+internal fun AndroidArgs.resolveApks(): List<AndroidTestContext> = listOfNotNull(
+    appApk?.let { appApk ->
+        testApk?.let { testApk ->
+            InstrumentationTestContext(
+                app = appApk.asFileReference(),
+                test = testApk.asFileReference()
+            )
+        } ?: roboScript?.let { roboScript ->
+            RoboTestContext(
+                app = appApk.asFileReference(),
+                roboScript = roboScript.asFileReference()
+            )
+        }
     }
 ).plus(
     elements = additionalAppTestApks.map {
-        ResolvedApks(
-            app = it.app ?: appApk ?: throw FlankFatalError("Cannot resolve app apk for ${it.test}"),
-            test = it.test,
-            additionalApks = additionalApks
+        InstrumentationTestContext(
+            app = (it.app ?: appApk)
+                ?.asFileReference()
+                ?: throw FlankFatalError("Cannot create app-test apks pair for instrumentation tests, missing app apk for test ${it.test}"),
+            test = it.test.asFileReference()
         )
     }
 )

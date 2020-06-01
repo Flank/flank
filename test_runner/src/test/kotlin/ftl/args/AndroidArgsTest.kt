@@ -3,16 +3,16 @@ package ftl.args
 import com.google.api.services.testing.model.TestSpecification
 import com.google.common.truth.Truth.assertThat
 import ftl.args.yml.AppTestPair
-import ftl.args.yml.UploadedApks
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FlankRoboDirective
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.gc.android.setupAndroidTest
+import ftl.run.model.InstrumentationTestContext
 import ftl.run.platform.android.createAndroidTestConfig
+import ftl.run.platform.android.createAndroidTestContexts
 import ftl.run.platform.runAndroidTests
-import ftl.run.platform.android.getAndroidShardChunks
 import ftl.run.status.OutputStyle
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
@@ -20,6 +20,7 @@ import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
 import ftl.util.FlankCommonException
 import ftl.util.FlankFatalError
+import ftl.util.asFileReference
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
@@ -459,7 +460,7 @@ AndroidArgs
       """
         )
 
-        val testShardChunks = getAndroidShardChunks(androidArgs, androidArgs.testApk!!)
+        val testShardChunks = getAndroidShardChunks(androidArgs)
         with(androidArgs) {
             assert(maxTestShards, -1)
             assert(testShardChunks.size, 2)
@@ -493,7 +494,7 @@ AndroidArgs
           disable-sharding: true
       """
         val androidArgs = AndroidArgs.load(yaml)
-        val testShardChunks = getAndroidShardChunks(androidArgs, androidArgs.testApk!!)
+        val testShardChunks = runBlocking { androidArgs.createAndroidTestContexts() }
         assertThat(testShardChunks).hasSize(0)
     }
 
@@ -505,7 +506,7 @@ AndroidArgs
           test: $invalidApk
       """
         val androidArgs = AndroidArgs.load(yaml)
-        val testShardChunks = getAndroidShardChunks(androidArgs, androidArgs.testApk!!)
+        val testShardChunks = runBlocking { androidArgs.createAndroidTestContexts() }
         assertThat(testShardChunks).hasSize(0)
     }
 
@@ -1313,8 +1314,8 @@ AndroidArgs
           test: $testApk
         """.trimIndent()
 
-        mockkStatic("ftl.run.platform.android.GetAndroidShardChunksKt")
-        every { getAndroidShardChunks(any(), any()) } returns listOf()
+        mockkStatic("ftl.run.platform.android.CreateAndroidTestContextKt")
+        every { runBlocking { any<AndroidArgs>().createAndroidTestContexts() } } returns listOf()
 
         val parsedYml = AndroidArgs.load(yaml)
         runBlocking { runAndroidTests(parsedYml) }
@@ -1379,7 +1380,13 @@ AndroidArgs
           disable-sharding: true
         """.trimIndent()
         val args = AndroidArgs.load(yaml)
-        val androidTestConfig = args.createAndroidTestConfig(UploadedApks("", ""), listOf(listOf("test")), null, true)
+        val androidTestConfig = args.createAndroidTestConfig(
+            InstrumentationTestContext(
+                app = "app".asFileReference(),
+                test = "test".asFileReference(),
+                shards = listOf(listOf("test"), listOf("test"))
+            )
+        )
         val testSpecification = TestSpecification().setupAndroidTest(androidTestConfig)
         assertTrue(testSpecification.androidInstrumentationTest.testTargets.isEmpty())
     }
@@ -1397,10 +1404,18 @@ AndroidArgs
           disable-sharding: true
         """.trimIndent()
         val args = AndroidArgs.load(yaml)
-        val androidTestConfig = args.createAndroidTestConfig(UploadedApks("", ""), listOf(listOf("test"), listOf("test")))
+        val androidTestConfig = args.createAndroidTestConfig(
+            InstrumentationTestContext(
+                app = "app".asFileReference(),
+                test = "test".asFileReference(),
+                shards = listOf(listOf("test"), listOf("test"))
+            )
+        )
         val testSpecification = TestSpecification().setupAndroidTest(androidTestConfig)
         assertTrue(testSpecification.androidInstrumentationTest.testTargets.isNotEmpty())
     }
 }
 
 private fun AndroidArgs.Companion.load(yamlData: String, cli: AndroidRunCommand? = null): AndroidArgs = load(StringReader(yamlData), cli)
+
+fun getAndroidShardChunks(args: AndroidArgs): ShardChunks = runBlocking { (args.createAndroidTestContexts().first() as InstrumentationTestContext).shards }

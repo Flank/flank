@@ -1,9 +1,11 @@
 package ftl.run.platform.android
 
 import ftl.args.AndroidArgs
-import ftl.args.yml.ResolvedApks
-import ftl.args.yml.UploadedApks
-import ftl.gc.GcStorage
+import ftl.run.model.AndroidTestContext
+import ftl.run.model.InstrumentationTestContext
+import ftl.run.model.RoboTestContext
+import ftl.util.asFileReference
+import ftl.util.uploadIfNeeded
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -14,21 +16,27 @@ import kotlinx.coroutines.coroutineScope
  *
  * @return AppTestPair with their GCS paths
  */
-internal suspend fun uploadApks(
-    apks: ResolvedApks,
-    args: AndroidArgs,
-    runGcsPath: String
-): UploadedApks = coroutineScope {
-    val gcsBucket = args.resultsBucket
+suspend fun List<AndroidTestContext>.upload(rootGcsBucket: String, runGcsPath: String) = coroutineScope {
+    map { context -> async(Dispatchers.IO) { context.upload(rootGcsBucket, runGcsPath) } }.awaitAll()
+}
 
-    val appApkGcsPath = async(Dispatchers.IO) { GcStorage.upload(apks.app, gcsBucket, runGcsPath) }
-    val testApkGcsPath = apks.test?.let { async(Dispatchers.IO) { GcStorage.upload(it, gcsBucket, runGcsPath) } }
-    val additionalApkGcsPaths =
-        apks.additionalApks.map { async(Dispatchers.IO) { GcStorage.upload(it, gcsBucket, runGcsPath) } }
+private fun AndroidTestContext.upload(rootGcsBucket: String, runGcsPath: String) = when (this) {
+    is InstrumentationTestContext -> upload(rootGcsBucket, runGcsPath)
+    is RoboTestContext -> upload(rootGcsBucket, runGcsPath)
+}
 
-    UploadedApks(
-        app = appApkGcsPath.await(),
-        test = testApkGcsPath?.await(),
-        additionalApks = additionalApkGcsPaths.awaitAll()
-    )
+private fun InstrumentationTestContext.upload(rootGcsBucket: String, runGcsPath: String) = copy(
+    app = app.uploadIfNeeded(rootGcsBucket, runGcsPath),
+    test = test.uploadIfNeeded(rootGcsBucket, runGcsPath)
+)
+
+private fun RoboTestContext.upload(rootGcsBucket: String, runGcsPath: String) = copy(
+    app = app.uploadIfNeeded(rootGcsBucket, runGcsPath),
+    roboScript = roboScript.uploadIfNeeded(rootGcsBucket, runGcsPath)
+)
+
+suspend fun AndroidArgs.uploadAdditionalApks(runGcsPath: String) = coroutineScope {
+    additionalApks.map {
+        async { it.asFileReference().uploadIfNeeded(resultsBucket, runGcsPath).gcs }
+    }.awaitAll()
 }

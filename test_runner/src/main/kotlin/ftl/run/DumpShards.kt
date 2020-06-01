@@ -9,21 +9,27 @@ import ftl.util.FlankFatalError
 import java.nio.file.Files
 import java.nio.file.Paths
 
-fun dumpShards(args: AndroidArgs) {
+suspend fun dumpShards(
+    args: AndroidArgs,
+    shardFilePath: String = ANDROID_SHARD_FILE
+) {
     if (!args.isInstrumentationTest) throw FlankFatalError(
         "Cannot dump shards for non instrumentation test, ensure test apk has been set."
     )
-    val shards: AndroidMatrixTestShards = getAndroidMatrixShards(args)
+    val shards: AndroidMatrixTestShards = args.getAndroidMatrixShards()
     saveShardChunks(
-        shardFilePath = ANDROID_SHARD_FILE,
+        shardFilePath = shardFilePath,
         shards = shards,
         size = shards.size
     )
 }
 
-fun dumpShards(args: IosArgs) {
+fun dumpShards(
+    args: IosArgs,
+    shardFilePath: String = IOS_SHARD_FILE
+) {
     saveShardChunks(
-        shardFilePath = IOS_SHARD_FILE,
+        shardFilePath = shardFilePath,
         shards = args.testShardChunks,
         size = args.testShardChunks.size
     )

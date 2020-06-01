@@ -1,5 +1,10 @@
+@file:Suppress("RemoveCurlyBracesFromTemplate")
+
 package ftl.test.util
 
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.slot
 import org.junit.Assert
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -27,5 +32,32 @@ object TestHelper {
         throw FlankTestNotFoundException("Action not throwing exception")
     } catch (exception: Throwable) {
         exception
+    }
+}
+
+inline fun <reified T : Any> ignore(): T = mockk(relaxed = true) {
+    val slot = slot<Any>()
+    every { this@mockk == capture(slot) } answers {
+        println("${this@mockk} match ignored: ${slot.captured}")
+        true
+    }
+}
+
+inline fun <reified T : Any> should(crossinline match: T.() -> Boolean): T = mockk(relaxed = true) {
+    val slot = slot<T>()
+    var matched = false
+    every { this@mockk == capture(slot) } answers {
+        val value = slot.captured
+        value.match().also { matches ->
+            matched = matches
+            if (matches)
+                println("${this@mockk} match succeed: $value") else
+                println("${this@mockk} match failed: $value")
+        }
+    }
+    every { this@mockk.toString() } answers {
+        if (matched && slot.isCaptured)
+            slot.captured.toString() else
+            callOriginal()
     }
 }
