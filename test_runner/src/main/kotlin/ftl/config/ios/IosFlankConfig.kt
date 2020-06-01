@@ -23,7 +23,7 @@ data class IosFlankConfig @JsonIgnore constructor(
     @set:JsonProperty("test-targets")
     var testTargets: List<String?>? by data
 
-    constructor() : this(mutableMapOf())
+    constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {
         override val keys = listOf("test-targets")

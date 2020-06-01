@@ -18,9 +18,9 @@ fun createAndroidArgs(
     appApk = gcloud.app?.processFilePath("from app"),
     testApk = gcloud.test?.processFilePath("from test"),
     useOrchestrator = gcloud.useOrchestrator!!,
-    testTargets = gcloud.testTargets?.filterNotNull() ?: emptyList(),
+    testTargets = gcloud.testTargets!!.filterNotNull(),
     testRunnerClass = gcloud.testRunnerClass,
-    roboDirectives = gcloud.roboDirectives?.parseRoboDirectives() ?: emptyList(),
+    roboDirectives = gcloud.roboDirectives!!.parseRoboDirectives(),
     performanceMetrics = gcloud.performanceMetrics!!,
     otherFiles = gcloud.otherFiles!!.mapValues { (_, path) -> path.processFilePath("from otherFiles") },
     numUniformShards = gcloud.numUniformShards,
@@ -37,7 +37,8 @@ fun createAndroidArgs(
             app = app?.processFilePath("from additional-app-test-apks.app"),
             test = test.processFilePath("from additional-app-test-apks.test")
         )
-    } ?: emptyList()
+    } ?: emptyList(),
+    useLegacyJUnitResult = flank.useLegacyJUnitResult!!
 )
 
 private fun String.processFilePath(name: String): String =

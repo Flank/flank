@@ -126,7 +126,7 @@ data class CommonFlankConfig @JsonIgnore constructor(
     @set:JsonProperty("output-style")
     var outputStyle: String? by data
 
-    constructor() : this(mutableMapOf())
+    constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {
         override val keys = listOf(

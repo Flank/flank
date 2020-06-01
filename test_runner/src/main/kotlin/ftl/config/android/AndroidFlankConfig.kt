@@ -48,7 +48,7 @@ data class AndroidFlankConfig @JsonIgnore constructor(
     @set:JsonProperty("legacy-junit-result")
     var useLegacyJUnitResult: Boolean? by data
 
-    constructor() : this(mutableMapOf())
+    constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {
         override val keys = listOf(

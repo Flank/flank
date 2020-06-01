@@ -72,7 +72,7 @@ data class IosGcloudConfig @JsonIgnore constructor(
     }
     var device: MutableList<Device>? by data
 
-    constructor() : this(mutableMapOf())
+    constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {
         override val keys = listOf(

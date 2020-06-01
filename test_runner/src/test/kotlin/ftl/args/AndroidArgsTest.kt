@@ -148,7 +148,7 @@ class AndroidArgsTest {
 
     @Test
     fun `androidArgs invalidModel`() {
-        expectedException.expect(RuntimeException::class.java)
+        expectedException.expect(FlankFatalError::class.java)
         expectedException.expectMessage("Unsupported model id")
         AndroidArgs.load(
             """
@@ -164,7 +164,7 @@ class AndroidArgsTest {
 
     @Test
     fun `androidArgs invalidVersion`() {
-        expectedException.expect(RuntimeException::class.java)
+        expectedException.expect(FlankFatalError::class.java)
         expectedException.expectMessage("Unsupported version id")
         AndroidArgs.load(
             """
@@ -180,7 +180,7 @@ class AndroidArgsTest {
 
     @Test
     fun `androidArgs incompatibleModel`() {
-        expectedException.expect(RuntimeException::class.java)
+        expectedException.expect(FlankFatalError::class.java)
         expectedException.expectMessage("Incompatible model")
         AndroidArgs.load(
             """
@@ -276,7 +276,7 @@ AndroidArgs
       record-video: false
       timeout: 70m
       async: true
-      client-details:
+      client-details: 
         key1: value1
         key2: value2
       network-profile: LTE
@@ -284,7 +284,7 @@ AndroidArgs
       # Android gcloud
       app: $appApkAbsolutePath
       test: $testApkAbsolutePath
-      additional-apks:
+      additional-apks: 
         - $testErrorApkAbsolutePath
         - $testFlakyApkAbsolutePath
       auto-google-login: false
@@ -355,13 +355,13 @@ AndroidArgs
       record-video: false
       timeout: 15m
       async: false
-      client-details:
+      client-details: 
       network-profile: null
       results-history-name: null
       # Android gcloud
       app: $appApkAbsolutePath
       test: $testApkAbsolutePath
-      additional-apks:
+      additional-apks: 
       auto-google-login: false
       use-orchestrator: true
       directories-to-pull:
@@ -383,7 +383,7 @@ AndroidArgs
       max-test-shards: 1
       shard-time: -1
       num-test-runs: 1
-      smart-flank-gcs-path:
+      smart-flank-gcs-path: 
       smart-flank-disable-upload: false
       files-to-download:
       test-targets-always-run:

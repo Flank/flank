@@ -20,9 +20,60 @@ data class AndroidArgs(
     val testRunnerClass: String?,
     val testTargets: List<String>,
     val devices: List<Device>,
-    val additionalAppTestApks: List<AppTestPair>
+    val additionalAppTestApks: List<AppTestPair>,
+    override val useLegacyJUnitResult: Boolean
 ) : IArgs by commonArgs {
     companion object : AndroidArgsCompanion()
+
+    override fun toString(): String {
+        return """
+AndroidArgs
+    gcloud:
+      results-bucket: $resultsBucket
+      results-dir: $resultsDir
+      record-video: $recordVideo
+      timeout: $testTimeout
+      async: $async
+      client-details: ${ArgsToString.mapToString(clientDetails)}
+      network-profile: $networkProfile
+      results-history-name: $resultsHistoryName
+      # Android gcloud
+      app: $appApk
+      test: $testApk
+      additional-apks: ${ArgsToString.listToString(additionalApks)}
+      auto-google-login: $autoGoogleLogin
+      use-orchestrator: $useOrchestrator
+      directories-to-pull:${ArgsToString.listToString(directoriesToPull)}
+      other-files:${ArgsToString.mapToString(otherFiles)}
+      performance-metrics: $performanceMetrics
+      num-uniform-shards: $numUniformShards
+      test-runner-class: $testRunnerClass
+      test-targets:${ArgsToString.listToString(testTargets)}
+      robo-directives:${ArgsToString.objectsToString(roboDirectives)}
+      robo-script: $roboScript
+      device:${ArgsToString.objectsToString(devices)}
+      num-flaky-test-attempts: $flakyTestAttempts
+
+    flank:
+      max-test-shards: $maxTestShards
+      shard-time: $shardTime
+      num-test-runs: $repeatTests
+      smart-flank-gcs-path: $smartFlankGcsPath
+      smart-flank-disable-upload: $smartFlankDisableUpload
+      files-to-download:${ArgsToString.listToString(filesToDownload)}
+      test-targets-always-run:${ArgsToString.listToString(testTargetsAlwaysRun)}
+      disable-sharding: $disableSharding
+      project: $project
+      local-result-dir: $localResultDir
+      # Android Flank Yml
+      keep-file-path: $keepFilePath
+      additional-app-test-apks:${ArgsToString.apksToString(additionalAppTestApks)}
+      run-timeout: $runTimeout
+      legacy-junit-result: $useLegacyJUnitResult
+      ignore-failed-tests: $ignoreFailedTests
+      output-style: ${outputStyle.name.toLowerCase()}
+   """.trimIndent()
+    }
 }
 
 val AndroidArgs.isInstrumentationTest

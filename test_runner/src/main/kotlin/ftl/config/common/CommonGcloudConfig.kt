@@ -49,6 +49,14 @@ data class CommonGcloudConfig @JsonIgnore constructor(
     @set:JsonProperty("record-video")
     var recordVideo: Boolean? by data
 
+    @CommandLine.Option(
+        names = ["--no-record-video"],
+        description = ["Disable video recording during the test (default behavior). Use --record-video to enable."]
+    )
+    fun noRecordVideo(value: Boolean) {
+        recordVideo = !value
+    }
+
     @set:CommandLine.Option(
         names = ["--timeout"],
         description = ["The max time this test execution can run before it is cancelled " +
@@ -103,7 +111,7 @@ data class CommonGcloudConfig @JsonIgnore constructor(
     @set:JsonProperty("num-flaky-test-attempts")
     var flakyTestAttempts: Int? by data
 
-    constructor() : this(mutableMapOf())
+    constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {
         override val keys = listOf(
