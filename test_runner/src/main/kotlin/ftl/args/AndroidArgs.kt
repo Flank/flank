@@ -65,6 +65,7 @@ AndroidArgs
       disable-sharding: $disableSharding
       project: $project
       local-result-dir: $localResultDir
+      full-junit-result: $fullJUnitResult
       # Android Flank Yml
       keep-file-path: $keepFilePath
       additional-app-test-apks:${ArgsToString.apksToString(additionalAppTestApks)}

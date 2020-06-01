@@ -3,6 +3,7 @@ package ftl.args
 import ftl.config.CommonConfig
 import ftl.run.status.OutputStyle
 import ftl.run.status.asOutputStyle
+import ftl.util.uniqueObjectName
 
 fun CommonConfig.createCommonArgs(
     data: String
@@ -14,7 +15,7 @@ fun CommonConfig.createCommonArgs(
         projectId = flank.project!!,
         bucket = gcloud.resultsBucket!!
     ),
-    resultsDir = gcloud.resultsDir,
+    resultsDir = gcloud.resultsDir ?: uniqueObjectName(),
     recordVideo = gcloud.recordVideo!!,
     testTimeout = gcloud.timeout!!,
     async = gcloud.async!!,
@@ -31,6 +32,7 @@ fun CommonConfig.createCommonArgs(
     smartFlankDisableUpload = flank.smartFlankDisableUpload!!,
     testTargetsAlwaysRun = flank.testTargetsAlwaysRun!!,
     runTimeout = flank.runTimeout!!,
+    fullJUnitResult = flank.fullJUnitResult!!,
     project = flank.project!!,
     outputStyle = outputStyle,
     keepFilePath = flank.keepFilePath!!,

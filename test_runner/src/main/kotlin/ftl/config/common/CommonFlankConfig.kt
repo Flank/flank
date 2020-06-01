@@ -100,6 +100,13 @@ data class CommonFlankConfig @JsonIgnore constructor(
     var runTimeout: String? by data
 
     @set:CommandLine.Option(
+        names = ["--full-junit-result"],
+        description = ["Enable create additional local junit result on local storage with failure nodes on passed flaky tests."]
+    )
+    @set:JsonProperty("full-junit-result")
+    var fullJUnitResult: Boolean? by data
+
+    @set:CommandLine.Option(
         names = ["--ignore-failed-tests"],
         description = ["Terminate with exit code 0 when there are failed tests. " +
                 "Useful for Fladle and other gradle plugins that don't expect the process to have a non-zero exit code. " +
@@ -160,6 +167,7 @@ data class CommonFlankConfig @JsonIgnore constructor(
             disableSharding = false
             localResultsDir = defaultLocalResultsDir
             runTimeout = FtlConstants.runTimeout
+            fullJUnitResult = false
             ignoreFailedTests = false
             keepFilePath = false
             outputStyle = null

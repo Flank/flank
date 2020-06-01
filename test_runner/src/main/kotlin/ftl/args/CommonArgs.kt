@@ -7,7 +7,7 @@ data class CommonArgs(
 
     // Gcloud
     override val resultsBucket: String,
-    override val resultsDir: String?,
+    override val resultsDir: String,
     override val recordVideo: Boolean,
     override val testTimeout: String,
     override val async: Boolean,
@@ -28,6 +28,7 @@ data class CommonArgs(
     override val disableSharding: Boolean,
     override val localResultDir: String,
     override val runTimeout: String,
+    override val fullJUnitResult: Boolean,
     override val ignoreFailedTests: Boolean,
     override val keepFilePath: Boolean,
     override val outputStyle: OutputStyle
