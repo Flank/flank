@@ -6,7 +6,6 @@ import ftl.args.IArgs.Companion.AVAILABLE_SHARD_COUNT_RANGE
 import ftl.args.yml.AppTestPair
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
-import ftl.config.FlankRoboDirective
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.gc.android.setupAndroidTest
@@ -139,7 +138,7 @@ class AndroidArgsTest {
           app: $appApk
           test: $testApk
           test-targets:
-          - 
+          -
 
         """.trimIndent()
 
@@ -277,7 +276,7 @@ AndroidArgs
       record-video: false
       timeout: 70m
       async: true
-      client-details: 
+      client-details:
         key1: value1
         key2: value2
       network-profile: LTE
@@ -285,7 +284,7 @@ AndroidArgs
       # Android gcloud
       app: $appApkAbsolutePath
       test: $testApkAbsolutePath
-      additional-apks: 
+      additional-apks:
         - $testErrorApkAbsolutePath
         - $testFlakyApkAbsolutePath
       auto-google-login: false
@@ -356,13 +355,13 @@ AndroidArgs
       record-video: false
       timeout: 15m
       async: false
-      client-details: 
+      client-details:
       network-profile: null
       results-history-name: null
       # Android gcloud
       app: $appApkAbsolutePath
       test: $testApkAbsolutePath
-      additional-apks: 
+      additional-apks:
       auto-google-login: false
       use-orchestrator: true
       directories-to-pull:
@@ -384,7 +383,7 @@ AndroidArgs
       max-test-shards: 1
       shard-time: -1
       num-test-runs: 1
-      smart-flank-gcs-path: 
+      smart-flank-gcs-path:
       smart-flank-disable-upload: false
       files-to-download:
       test-targets-always-run:
@@ -541,7 +540,6 @@ AndroidArgs
 
         val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.testApk).isEqualTo(appApkAbsolutePath)
-        assertThat(androidArgs.cli).isEqualTo(cli)
     }
 
     @Test
@@ -1257,8 +1255,8 @@ AndroidArgs
         val args = AndroidArgs.load(yaml)
 
         assertEquals(
-            args.roboScript,
-            appApkAbsolutePath
+            appApkAbsolutePath,
+            args.roboScript
         )
     }
 

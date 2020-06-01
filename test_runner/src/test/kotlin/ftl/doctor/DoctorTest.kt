@@ -2,13 +2,13 @@ package ftl.doctor
 
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
-import ftl.args.IArgsCompanion
+import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.test.util.FlankTestRunner
-import java.nio.file.Paths
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.StringReader
+import java.nio.file.Paths
 
 @RunWith(FlankTestRunner::class)
 class DoctorTest {
@@ -148,4 +148,4 @@ flank:
     }
 }
 
-private fun Doctor.validateYaml(args: IArgsCompanion, data: String): String = validateYaml(args, StringReader(data))
+private fun Doctor.validateYaml(args: IArgs.ICompanion, data: String): String = validateYaml(args, StringReader(data))

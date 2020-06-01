@@ -55,7 +55,9 @@ abstract class CommonRunCommand {
         names = ["--no-record-video"],
         description = ["Disable video recording during the test (default behavior). Use --record-video to enable."]
     )
-    var noRecordVideo: Boolean? = null
+    fun noRecordVideo(value: Boolean) {
+        recordVideo = !value
+    }
 
     @CommandLine.Option(
         names = ["--timeout"],

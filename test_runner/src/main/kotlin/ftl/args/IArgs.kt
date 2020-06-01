@@ -61,4 +61,8 @@ interface IArgs {
         // num_shards must be >= 1, and <= 50
         val AVAILABLE_SHARD_COUNT_RANGE = 1..50
     }
+
+    interface ICompanion {
+        val validArgs: Map<String, List<String>>
+    }
 }

@@ -1,7 +1,6 @@
 package ftl.cli.firebase.test.ios
 
 import com.google.common.truth.Truth.assertThat
-import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.isWindows
@@ -69,7 +68,6 @@ class IosRunCommandTest {
         assertThat(cmd.dumpShards).isFalse()
         assertThat(cmd.resultsBucket).isNull()
         assertThat(cmd.recordVideo).isNull()
-        assertThat(cmd.noRecordVideo).isNull()
         assertThat(cmd.timeout).isNull()
         assertThat(cmd.async).isNull()
         assertThat(cmd.clientDetails).isNull()
@@ -116,7 +114,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--no-record-video")
 
-        assertThat(cmd.noRecordVideo).isTrue()
+        assertThat(cmd.recordVideo).isFalse()
     }
 
     @Test
@@ -137,7 +135,7 @@ class IosRunCommandTest {
 
     @Test
     fun `clientDetails parse`() {
-        val cmd = AndroidRunCommand()
+        val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--client-details=key1=value1,key2=value2")
 
         assertThat(cmd.clientDetails).isEqualTo(
@@ -150,7 +148,7 @@ class IosRunCommandTest {
 
     @Test
     fun `networkProfile parse`() {
-        val cmd = AndroidRunCommand()
+        val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--network-profile=a")
 
         assertThat(cmd.networkProfile).isEqualTo("a")

@@ -1,4 +1,4 @@
-package ftl.config
+package ftl.util
 
 import ftl.log.LogbackLogger
 import io.mockk.every

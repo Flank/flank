@@ -43,7 +43,7 @@ class IosArgs(
     private val gcloud = gcloudYml.gcloud
     override val resultsBucket: String
     override val resultsDir = (cli?.resultsDir ?: gcloud.resultsDir) ?: uniqueObjectName()
-    override val recordVideo = cli?.recordVideo ?: cli?.noRecordVideo?.not() ?: gcloud.recordVideo
+    override val recordVideo = cli?.recordVideo ?: gcloud.recordVideo
     override val testTimeout = cli?.timeout ?: gcloud.timeout
     override val async = cli?.async ?: gcloud.async
     override val resultsHistoryName = cli?.resultsHistoryName ?: gcloud.resultsHistoryName
@@ -160,7 +160,7 @@ IosArgs
     """.trimIndent()
     }
 
-    companion object : IArgsCompanion {
+    companion object : IArgs.ICompanion {
         override val validArgs by lazy {
             mergeYmlMaps(GcloudYml, IosGcloudYml, FlankYml, IosFlankYml)
         }

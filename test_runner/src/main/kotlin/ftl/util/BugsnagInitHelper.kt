@@ -1,4 +1,4 @@
-package ftl.config
+package ftl.util
 
 import com.bugsnag.Bugsnag
 import java.nio.file.Paths

@@ -1,4 +1,4 @@
-package ftl.config
+package ftl.args
 
 data class FlankRoboDirective(
     val type: String,
