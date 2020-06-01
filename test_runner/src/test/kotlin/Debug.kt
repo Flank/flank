@@ -9,7 +9,7 @@ fun main() {
 
     // run "gradle check" to generate required fixtures
     val projectId = System.getenv("GOOGLE_CLOUD_PROJECT")
-        ?: "flank-open-source"
+        ?: "YOUR PROJECT ID"
     val quantity = "single"
     val type = "success-disable-sharding"
 
