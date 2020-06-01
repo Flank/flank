@@ -19,29 +19,37 @@ internal fun createAndroidInstrumentationTest(
 }.setupTestTargets(
     disableSharding = config.disableSharding,
     testShards = config.testShards,
-    numUniformShards = config.numUniformShards
+    numUniformShards = config.numUniformShards,
+    keepTestTargetsEmpty = config.keepTestTargetsEmpty
 )
 
 internal fun AndroidInstrumentationTest.setupTestTargets(
     disableSharding: Boolean,
     testShards: ShardChunks,
-    numUniformShards: Int?
+    numUniformShards: Int?,
+    keepTestTargetsEmpty: Boolean
 ) = apply {
-    if (disableSharding) {
-        testTargets = testShards.flatten()
-    } else {
-        shardingOption = ShardingOption().apply {
-            if (numUniformShards != null) {
-                testTargets = testShards.flatten()
-                val safeNumUniformShards = if (testTargets.size > numUniformShards) numUniformShards else {
-                    println("WARNING: num-uniform-shards ($numUniformShards) is higher than number of test cases (${testTargets.size}) from ${testApk.gcsPath}")
-                    testTargets.size
+    when {
+        keepTestTargetsEmpty -> {
+            testTargets = emptyList()
+        }
+        disableSharding -> {
+            testTargets = testShards.flatten()
+        }
+        else -> {
+            shardingOption = ShardingOption().apply {
+                if (numUniformShards != null) {
+                    testTargets = testShards.flatten()
+                    val safeNumUniformShards = if (testTargets.size > numUniformShards) numUniformShards else {
+                        println("WARNING: num-uniform-shards ($numUniformShards) is higher than number of test cases (${testTargets.size}) from ${testApk.gcsPath}")
+                        testTargets.size
+                    }
+                    uniformSharding = UniformSharding().setNumShards(safeNumUniformShards)
+                } else {
+                    manualSharding = ManualSharding().setTestTargetsForShard(testShards.map {
+                        TestTargetsForShard().setTestTargets(it)
+                    })
                 }
-                uniformSharding = UniformSharding().setNumShards(safeNumUniformShards)
-            } else {
-                manualSharding = ManualSharding().setTestTargetsForShard(testShards.map {
-                    TestTargetsForShard().setTestTargets(it)
-                })
             }
         }
     }

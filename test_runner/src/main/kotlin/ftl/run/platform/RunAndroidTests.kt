@@ -61,7 +61,8 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
         val androidTestConfig = args.createAndroidTestConfig(
             uploadedApks = uploadedApks,
             testShards = testShards,
-            runGcsPath = runGcsPath
+            runGcsPath = runGcsPath,
+            keepTestTargetsEmpty = args.disableSharding && args.testTargets.isEmpty()
         )
 
         testMatrices += executeAndroidTestMatrix(runCount = args.repeatTests) {
