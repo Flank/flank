@@ -11,7 +11,7 @@ fun main() {
     val projectId = System.getenv("GOOGLE_CLOUD_PROJECT")
         ?: "flank-open-source"
     val quantity = "single"
-    val type = "error"
+    val type = "success-disable-sharding"
 
     // Bugsnag keeps the process alive so we must call exitProcess
     // https://github.com/bugsnag/bugsnag-java/issues/151

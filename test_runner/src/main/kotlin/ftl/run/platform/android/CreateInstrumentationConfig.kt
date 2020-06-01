@@ -6,6 +6,7 @@ import ftl.args.yml.UploadedApks
 
 internal fun AndroidArgs.createInstrumentationConfig(
     uploadedApks: UploadedApks,
+    keepTestTargetsEmpty: Boolean,
     testShards: ShardChunks
 ) = AndroidTestConfig.Instrumentation(
     appApkGcsPath = uploadedApks.app,
@@ -14,5 +15,6 @@ internal fun AndroidArgs.createInstrumentationConfig(
     orchestratorOption = "USE_ORCHESTRATOR".takeIf { useOrchestrator },
     disableSharding = disableSharding,
     numUniformShards = numUniformShards,
-    testShards = testShards
+    testShards = testShards,
+    keepTestTargetsEmpty = keepTestTargetsEmpty
 )

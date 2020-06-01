@@ -19,7 +19,8 @@ class UtilsKtTest {
             .setupTestTargets(
                 disableSharding = true,
                 testShards = testShards,
-                numUniformShards = null
+                numUniformShards = null,
+                keepTestTargetsEmpty = false
             )
             .testTargets
 
@@ -39,7 +40,8 @@ class UtilsKtTest {
             .setupTestTargets(
                 disableSharding = false,
                 testShards = testShards,
-                numUniformShards = 50
+                numUniformShards = 50,
+                keepTestTargetsEmpty = false
             )
 
         // then
@@ -57,7 +59,8 @@ class UtilsKtTest {
             .setupTestTargets(
                 disableSharding = false,
                 testShards = shardChunks,
-                numUniformShards = null
+                numUniformShards = null,
+                keepTestTargetsEmpty = false
             )
             .shardingOption
             .manualSharding

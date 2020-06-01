@@ -30,7 +30,8 @@ class GcAndroidTestMatrixTest {
                 orchestratorOption = null,
                 numUniformShards = null,
                 disableSharding = false,
-                testRunnerClass = ""
+                testRunnerClass = "",
+                keepTestTargetsEmpty = false
             ),
             runGcsPath = "",
             otherFiles = emptyMap(),
@@ -53,7 +54,8 @@ class GcAndroidTestMatrixTest {
                 orchestratorOption = null,
                 numUniformShards = null,
                 disableSharding = false,
-                testRunnerClass = ""
+                testRunnerClass = "",
+                keepTestTargetsEmpty = false
             ),
             runGcsPath = "",
             otherFiles = emptyMap(),
@@ -80,7 +82,8 @@ class GcAndroidTestMatrixTest {
                 orchestratorOption = null,
                 numUniformShards = null,
                 disableSharding = false,
-                testRunnerClass = ""
+                testRunnerClass = "",
+                keepTestTargetsEmpty = false
             ),
             runGcsPath = "",
             otherFiles = emptyMap(),
