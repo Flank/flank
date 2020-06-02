@@ -258,3 +258,8 @@ object ArgsHelper {
         return shards
     }
 }
+
+fun String.processFilePath(name: String): String =
+    if (startsWith(GCS_PREFIX))
+        this.also { ArgsHelper.assertGcsFileExists(it) } else
+        ArgsHelper.evaluateFilePath(this).also { ArgsHelper.assertFileExists(it, name) }

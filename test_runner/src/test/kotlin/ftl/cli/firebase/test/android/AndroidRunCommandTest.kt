@@ -5,6 +5,7 @@ import ftl.args.yml.AppTestPair
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
@@ -439,9 +440,15 @@ class AndroidRunCommandTest {
     @Test
     fun `robo-directives parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parseArgs("--robo-directives=text:a=b,click=c")
+        CommandLine(cmd).parseArgs("--robo-directives=text:a=b,click:c=")
 
-        assertThat(cmd.config.platform.gcloud.roboDirectives).hasSize(2)
+        assertEquals(
+            mapOf(
+                "text:a" to "b",
+                "click:c" to ""
+            ),
+            cmd.config.platform.gcloud.roboDirectives
+        )
     }
 
     @Test

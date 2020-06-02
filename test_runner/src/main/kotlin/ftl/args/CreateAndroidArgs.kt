@@ -2,7 +2,6 @@ package ftl.args
 
 import ftl.args.yml.AppTestPair
 import ftl.config.AndroidConfig
-import ftl.config.FtlConstants
 import ftl.config.android.AndroidFlankConfig
 import ftl.config.android.AndroidGcloudConfig
 
@@ -40,8 +39,3 @@ fun createAndroidArgs(
     } ?: emptyList(),
     useLegacyJUnitResult = flank.useLegacyJUnitResult!!
 )
-
-private fun String.processFilePath(name: String): String =
-    if (startsWith(FtlConstants.GCS_PREFIX))
-        this.also { ArgsHelper.assertGcsFileExists(it) } else
-        ArgsHelper.evaluateFilePath(this).also { ArgsHelper.assertFileExists(it, name) }

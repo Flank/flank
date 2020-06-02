@@ -66,31 +66,31 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs()
         assertThat(cmd.dumpShards).isFalse()
-        assertThat(cmd.resultsBucket).isNull()
-        assertThat(cmd.recordVideo).isNull()
-        assertThat(cmd.timeout).isNull()
-        assertThat(cmd.async).isNull()
-        assertThat(cmd.clientDetails).isNull()
-        assertThat(cmd.networkProfile).isNull()
-        assertThat(cmd.project).isNull()
-        assertThat(cmd.resultsHistoryName).isNull()
-        assertThat(cmd.maxTestShards).isNull()
-        assertThat(cmd.shardTime).isNull()
-        assertThat(cmd.repeatTests).isNull()
-        assertThat(cmd.testTargetsAlwaysRun).isNull()
-        assertThat(cmd.testTargets).isNull()
-        assertThat(cmd.filesToDownload).isNull()
-        assertThat(cmd.disableSharding).isNull()
-        assertThat(cmd.test).isNull()
-        assertThat(cmd.xctestrunFile).isNull()
-        assertThat(cmd.xcodeVersion).isNull()
-        assertThat(cmd.device).isNull()
-        assertThat(cmd.resultsDir).isNull()
-        assertThat(cmd.flakyTestAttempts).isNull()
-        assertThat(cmd.localResultsDir).isNull()
-        assertThat(cmd.smartFlankDisableUpload).isNull()
-        assertThat(cmd.smartFlankGcsPath).isNull()
-        assertThat(cmd.runTimeout).isNull()
+        assertThat(cmd.config.common.gcloud.resultsBucket).isNull()
+        assertThat(cmd.config.common.gcloud.recordVideo).isNull()
+        assertThat(cmd.config.common.gcloud.timeout).isNull()
+        assertThat(cmd.config.common.gcloud.async).isNull()
+        assertThat(cmd.config.common.gcloud.clientDetails).isNull()
+        assertThat(cmd.config.common.gcloud.networkProfile).isNull()
+        assertThat(cmd.config.common.flank.project).isNull()
+        assertThat(cmd.config.common.gcloud.resultsHistoryName).isNull()
+        assertThat(cmd.config.common.flank.maxTestShards).isNull()
+        assertThat(cmd.config.common.flank.shardTime).isNull()
+        assertThat(cmd.config.common.flank.repeatTests).isNull()
+        assertThat(cmd.config.common.flank.testTargetsAlwaysRun).isNull()
+        assertThat(cmd.config.platform.flank.testTargets).isNull()
+        assertThat(cmd.config.common.flank.filesToDownload).isNull()
+        assertThat(cmd.config.common.flank.disableSharding).isNull()
+        assertThat(cmd.config.platform.gcloud.test).isNull()
+        assertThat(cmd.config.platform.gcloud.xctestrunFile).isNull()
+        assertThat(cmd.config.platform.gcloud.xcodeVersion).isNull()
+        assertThat(cmd.config.platform.gcloud.device).isNull()
+        assertThat(cmd.config.common.gcloud.resultsDir).isNull()
+        assertThat(cmd.config.common.gcloud.flakyTestAttempts).isNull()
+        assertThat(cmd.config.common.flank.localResultsDir).isNull()
+        assertThat(cmd.config.common.flank.smartFlankDisableUpload).isNull()
+        assertThat(cmd.config.common.flank.smartFlankGcsPath).isNull()
+        assertThat(cmd.config.common.flank.runTimeout).isNull()
     }
 
     @Test
@@ -98,7 +98,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--results-bucket=a")
 
-        assertThat(cmd.resultsBucket).isEqualTo("a")
+        assertThat(cmd.config.common.gcloud.resultsBucket).isEqualTo("a")
     }
 
     @Test
@@ -106,7 +106,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--record-video")
 
-        assertThat(cmd.recordVideo).isTrue()
+        assertThat(cmd.config.common.gcloud.recordVideo).isTrue()
     }
 
     @Test
@@ -114,7 +114,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--no-record-video")
 
-        assertThat(cmd.recordVideo).isFalse()
+        assertThat(cmd.config.common.gcloud.recordVideo).isFalse()
     }
 
     @Test
@@ -122,7 +122,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--timeout=1m")
 
-        assertThat(cmd.timeout).isEqualTo("1m")
+        assertThat(cmd.config.common.gcloud.timeout).isEqualTo("1m")
     }
 
     @Test
@@ -130,7 +130,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--async")
 
-        assertThat(cmd.async).isTrue()
+        assertThat(cmd.config.common.gcloud.async).isTrue()
     }
 
     @Test
@@ -138,7 +138,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--client-details=key1=value1,key2=value2")
 
-        assertThat(cmd.clientDetails).isEqualTo(
+        assertThat(cmd.config.common.gcloud.clientDetails).isEqualTo(
             mapOf(
                 "key1" to "value1",
                 "key2" to "value2"
@@ -151,7 +151,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--network-profile=a")
 
-        assertThat(cmd.networkProfile).isEqualTo("a")
+        assertThat(cmd.config.common.gcloud.networkProfile).isEqualTo("a")
     }
 
     @Test
@@ -159,7 +159,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--project=a")
 
-        assertThat(cmd.project).isEqualTo("a")
+        assertThat(cmd.config.common.flank.project).isEqualTo("a")
     }
 
     @Test
@@ -167,7 +167,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--results-history-name=a")
 
-        assertThat(cmd.resultsHistoryName).isEqualTo("a")
+        assertThat(cmd.config.common.gcloud.resultsHistoryName).isEqualTo("a")
     }
 
     // flankYml
@@ -177,7 +177,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--max-test-shards=3")
 
-        assertThat(cmd.maxTestShards).isEqualTo(3)
+        assertThat(cmd.config.common.flank.maxTestShards).isEqualTo(3)
     }
 
     @Test
@@ -185,7 +185,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--num-test-runs=3")
 
-        assertThat(cmd.repeatTests).isEqualTo(3)
+        assertThat(cmd.config.common.flank.repeatTests).isEqualTo(3)
     }
 
     @Test
@@ -193,7 +193,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--test-targets-always-run=a,b,c")
 
-        assertThat(cmd.testTargetsAlwaysRun).isEqualTo(arrayListOf("a", "b", "c"))
+        assertThat(cmd.config.common.flank.testTargetsAlwaysRun).isEqualTo(arrayListOf("a", "b", "c"))
     }
 
     @Test
@@ -201,7 +201,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--test-targets=a,b,c")
 
-        assertThat(cmd.testTargets).isEqualTo(arrayListOf("a", "b", "c"))
+        assertThat(cmd.config.platform.flank.testTargets).isEqualTo(arrayListOf("a", "b", "c"))
     }
 
     @Test
@@ -209,7 +209,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--test=a")
 
-        assertThat(cmd.test).isEqualTo("a")
+        assertThat(cmd.config.platform.gcloud.test).isEqualTo("a")
     }
 
     @Test
@@ -217,7 +217,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--xctestrun-file=a")
 
-        assertThat(cmd.xctestrunFile).isEqualTo("a")
+        assertThat(cmd.config.platform.gcloud.xctestrunFile).isEqualTo("a")
     }
 
     @Test
@@ -225,7 +225,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--xcode-version=999")
 
-        assertThat(cmd.xcodeVersion).isEqualTo("999")
+        assertThat(cmd.config.platform.gcloud.xcodeVersion).isEqualTo("999")
     }
 
     @Test
@@ -234,8 +234,8 @@ class IosRunCommandTest {
         CommandLine(cmd).parseArgs("--device=model=iphone8,version=11.2,locale=zh_CN,orientation=default")
 
         val expectedDevice = Device("iphone8", "11.2", "zh_CN", "default")
-        assertThat(cmd.device?.size).isEqualTo(1)
-        assertThat(cmd.device?.first()).isEqualTo(expectedDevice)
+        assertThat(cmd.config.platform.gcloud.device?.size).isEqualTo(1)
+        assertThat(cmd.config.platform.gcloud.device?.first()).isEqualTo(expectedDevice)
     }
 
     @Test
@@ -243,7 +243,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--results-dir=a")
 
-        assertThat(cmd.resultsDir).isEqualTo("a")
+        assertThat(cmd.config.common.gcloud.resultsDir).isEqualTo("a")
     }
 
     @Test
@@ -251,7 +251,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--files-to-download=a,b")
 
-        assertThat(cmd.filesToDownload).isEqualTo(arrayListOf("a", "b"))
+        assertThat(cmd.config.common.flank.filesToDownload).isEqualTo(arrayListOf("a", "b"))
     }
 
     @Test
@@ -259,7 +259,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--num-flaky-test-attempts=10")
 
-        assertThat(cmd.flakyTestAttempts).isEqualTo(10)
+        assertThat(cmd.config.common.gcloud.flakyTestAttempts).isEqualTo(10)
     }
 
     @Test
@@ -267,7 +267,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--shard-time=99")
 
-        assertThat(cmd.shardTime).isEqualTo(99)
+        assertThat(cmd.config.common.flank.shardTime).isEqualTo(99)
     }
 
     @Test
@@ -275,7 +275,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--disable-sharding")
 
-        assertThat(cmd.disableSharding).isEqualTo(true)
+        assertThat(cmd.config.common.flank.disableSharding).isEqualTo(true)
     }
 
     @Test
@@ -283,7 +283,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--local-result-dir=a")
 
-        assertThat(cmd.localResultsDir).isEqualTo("a")
+        assertThat(cmd.config.common.flank.localResultsDir).isEqualTo("a")
     }
 
     @Test
@@ -291,7 +291,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--smart-flank-disable-upload=true")
 
-        assertThat(cmd.smartFlankDisableUpload).isEqualTo(true)
+        assertThat(cmd.config.common.flank.smartFlankDisableUpload).isEqualTo(true)
     }
 
     @Test
@@ -299,7 +299,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--smart-flank-gcs-path=foo")
 
-        assertThat(cmd.smartFlankGcsPath).isEqualTo("foo")
+        assertThat(cmd.config.common.flank.smartFlankGcsPath).isEqualTo("foo")
     }
 
     @Test
@@ -315,6 +315,6 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--run-timeout=20s")
 
-        assertThat(cmd.runTimeout).isEqualTo("20s")
+        assertThat(cmd.config.common.flank.runTimeout).isEqualTo("20s")
     }
 }

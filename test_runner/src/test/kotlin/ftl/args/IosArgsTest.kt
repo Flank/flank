@@ -1,16 +1,12 @@
 package ftl.args
 
 import com.google.common.truth.Truth.assertThat
-import ftl.args.yml.FlankYml
-import ftl.args.yml.GcloudYml
-import ftl.args.yml.IosFlankYml
-import ftl.args.yml.IosGcloudYml
-import ftl.args.yml.IosGcloudYmlParams
 import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.defaultIosModel
 import ftl.config.FtlConstants.defaultIosVersion
+import ftl.config.defaultIosConfig
 import ftl.run.status.OutputStyle
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
@@ -114,26 +110,30 @@ flank:
     @Test
     fun `args invalidDeviceExits`() {
         exceptionRule.expectMessage("iOS 99.9 on iphoneZ is not a supported device")
-        val invalidDevice = listOf(Device("iphoneZ", "99.9"))
-        IosArgs(
-            GcloudYml(),
-            IosGcloudYml(IosGcloudYmlParams(test = testPath, xctestrunFile = xctestrunFile, device = invalidDevice)),
-            FlankYml(),
-            IosFlankYml(),
-            ""
-        )
+        val invalidDevice = mutableListOf(Device("iphoneZ", "99.9"))
+        createIosArgs(
+            config = defaultIosConfig().apply {
+                platform.gcloud.also {
+                    it.test = testPath
+                    it.xctestrunFile = xctestrunFile
+                    it.device = invalidDevice
+                }
+            }
+        ).validate()
     }
 
     @Test
     fun `args invalidXcodeExits`() {
         exceptionRule.expectMessage("Xcode 99.9 is not a supported Xcode version")
-        IosArgs(
-            GcloudYml(),
-            IosGcloudYml(IosGcloudYmlParams(test = testPath, xctestrunFile = xctestrunFile, xcodeVersion = "99.9")),
-            FlankYml(),
-            IosFlankYml(),
-            ""
-        )
+        createIosArgs(
+            config = defaultIosConfig().apply {
+                platform.gcloud.also {
+                    it.test = testPath
+                    it.xctestrunFile = xctestrunFile
+                    it.xcodeVersion = "99.9"
+                }
+            }
+        ).validate()
     }
 
     @Test

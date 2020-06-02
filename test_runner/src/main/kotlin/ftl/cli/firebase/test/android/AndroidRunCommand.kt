@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.android
 
 import ftl.args.AndroidArgs
+import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
 import ftl.config.emptyAndroidConfig
 import ftl.mock.MockServer
@@ -28,10 +29,14 @@ Configuration is read from flank.yml
 """],
     usageHelpAutoWidth = true
 )
-class AndroidRunCommand : Runnable {
+class AndroidRunCommand : CommonRunCommand(), Runnable {
 
     @CommandLine.Mixin
     val config = emptyAndroidConfig()
+
+    init {
+        configPath = FtlConstants.defaultAndroidConfig
+    }
 
     override fun run() {
         if (dryRun) {
@@ -47,28 +52,9 @@ class AndroidRunCommand : Runnable {
         }
     }
 
-    @CommandLine.Option(
-        names = ["-h", "--help"],
-        usageHelp = true,
-        description = ["Prints this help message"]
-    )
-    var usageHelpRequested: Boolean = false
-
-    // Flank debug
-    @CommandLine.Option(names = ["--dry"], description = ["Dry run on mock server"])
-    var dryRun: Boolean = false
-
     @Option(
         names = ["--dump-shards"],
         description = ["Measures test shards from given test apks and writes them into $ANDROID_SHARD_FILE file instead of executing."]
     )
     var dumpShards: Boolean = false
-
-    // Flank specific
-
-    @Option(
-        names = ["-c", "--config"],
-        description = ["YAML config file path"]
-    )
-    var configPath: String = FtlConstants.defaultAndroidConfig
 }
