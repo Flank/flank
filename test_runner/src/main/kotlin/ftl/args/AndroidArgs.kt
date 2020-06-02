@@ -1,7 +1,6 @@
 package ftl.args
 
 import ftl.args.yml.AppTestPair
-import ftl.config.Device
 
 data class AndroidArgs(
     val commonArgs: CommonArgs,
@@ -19,7 +18,6 @@ data class AndroidArgs(
     val numUniformShards: Int?,
     val testRunnerClass: String?,
     val testTargets: List<String>,
-    val devices: List<Device>,
     val additionalAppTestApks: List<AppTestPair>,
     override val useLegacyJUnitResult: Boolean
 ) : IArgs by commonArgs {

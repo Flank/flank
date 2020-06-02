@@ -1,6 +1,7 @@
 package ftl.args
 
 import com.google.common.annotations.VisibleForTesting
+import ftl.args.yml.mergeYmlKeys
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.android.AndroidFlankConfig
 import ftl.config.android.AndroidGcloudConfig
@@ -15,7 +16,7 @@ import java.nio.file.Path
 
 open class AndroidArgsCompanion : IArgs.ICompanion {
     override val validArgs by lazy {
-        ArgsHelper.mergeYmlMaps(
+        mergeYmlKeys(
             CommonGcloudConfig,
             AndroidGcloudConfig,
             CommonFlankConfig,

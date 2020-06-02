@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.args.yml.IYmlKeys
-import ftl.args.yml.IYmlMap
 import ftl.config.Config
 import picocli.CommandLine
 
@@ -26,11 +25,11 @@ data class IosFlankConfig @JsonIgnore constructor(
 
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
-    companion object : IYmlKeys, IYmlMap {
+    companion object : IYmlKeys {
+
+        override val group = IYmlKeys.Group.FLANK
 
         override val keys = listOf("test-targets")
-
-        override val map = mapOf("flank" to keys)
 
         fun default() = IosFlankConfig().apply {
             testTargets = emptyList()

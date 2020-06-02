@@ -11,7 +11,6 @@ import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageClass
 import com.google.cloud.storage.StorageOptions
 import ftl.args.IArgs.Companion.AVAILABLE_SHARD_COUNT_RANGE
-import ftl.args.yml.IYmlMap
 import ftl.args.yml.YamlObjectMapper
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
@@ -39,17 +38,6 @@ object ArgsHelper {
 
     val yamlMapper: ObjectMapper by lazy {
         YamlObjectMapper().registerKotlinModule()
-    }
-
-    fun mergeYmlMaps(vararg ymlMaps: IYmlMap): Map<String, List<String>> {
-        val result = mutableMapOf<String, List<String>>()
-        ymlMaps.map { it.map }
-            .forEach { map ->
-                map.forEach { (k, v) ->
-                    result.merge(k, v) { a, b -> a + b }
-                }
-            }
-        return result
     }
 
     fun assertFileExists(file: String, name: String) {
@@ -109,11 +97,7 @@ object ArgsHelper {
         val bucket = gcsURI.authority
         val path = gcsURI.path.drop(1) // Drop leading slash
 
-        val blob = GcStorage.storage.get(bucket, path)
-
-        if (blob == null) {
-            throw FlankFatalError("The file at '$uri' does not exist")
-        }
+        GcStorage.storage.get(bucket, path) ?: throw FlankFatalError("The file at '$uri' does not exist")
     }
 
     fun validateTestMethods(

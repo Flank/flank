@@ -40,13 +40,16 @@ private fun CommonArgs.assertRepeatTests() {
     )
 }
 
-private fun CommonArgs.assertSmartFlankGcsPath() {
-    if (smartFlankGcsPath.isNotEmpty()) {
-        if (!smartFlankGcsPath.startsWith(FtlConstants.GCS_PREFIX)) {
-            throw FlankFatalError("smart-flank-gcs-path must start with gs://")
-        }
-        if (smartFlankGcsPath.count { it == '/' } <= 2 || !smartFlankGcsPath.endsWith(".xml")) {
-            throw FlankFatalError("smart-flank-gcs-path must be in the format gs://bucket/foo.xml")
-        }
+private fun CommonArgs.assertSmartFlankGcsPath() = with(smartFlankGcsPath) {
+    when {
+        isEmpty() -> Unit
+
+        startsWith(FtlConstants.GCS_PREFIX).not() -> throw FlankFatalError(
+            "smart-flank-gcs-path must start with gs://"
+        )
+
+        count { it == '/' } <= 2 || endsWith(".xml").not() -> throw FlankFatalError(
+            "smart-flank-gcs-path must be in the format gs://bucket/foo.xml"
+        )
     }
 }

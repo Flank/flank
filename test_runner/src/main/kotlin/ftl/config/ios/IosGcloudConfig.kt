@@ -5,9 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.config.Config
 import ftl.args.yml.IYmlKeys
-import ftl.args.yml.IYmlMap
-import ftl.config.Device
-import ftl.config.FtlConstants
 import picocli.CommandLine
 
 /**
@@ -50,33 +47,11 @@ data class IosGcloudConfig @JsonIgnore constructor(
     @set:JsonProperty("xcode-version")
     var xcodeVersion: String? by data
 
-    @CommandLine.Option(
-        names = ["--device"],
-        split = ",",
-        description = ["A list of DIMENSION=VALUE pairs which specify a target " +
-                "device to test against. This flag may be repeated to specify multiple devices. The four device dimensions are: " +
-                "model, version, locale, and orientation. If any dimensions are omitted, they will use a default value. Omitting " +
-                "all of the preceding dimension-related flags will run tests against a single device using defaults for all four " +
-                "device dimensions."]
-    )
-    fun device(map: Map<String, String>?) {
-        if (map.isNullOrEmpty()) return
-        val androidDevice = Device(
-            model = map.getOrDefault("model", FtlConstants.defaultIosModel),
-            version = map.getOrDefault("version", FtlConstants.defaultIosVersion),
-            locale = map.getOrDefault("locale", FtlConstants.defaultLocale),
-            orientation = map.getOrDefault("orientation", FtlConstants.defaultOrientation)
-        )
-
-        if (device == null) device = mutableListOf()
-        device?.add(androidDevice)
-    }
-
-    var device: MutableList<Device>? by data
-
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
-    companion object : IYmlKeys, IYmlMap {
+    companion object : IYmlKeys {
+
+        override val group = IYmlKeys.Group.GCLOUD
 
         override val keys = listOf(
             "test",
@@ -85,15 +60,10 @@ data class IosGcloudConfig @JsonIgnore constructor(
             "device"
         )
 
-        override val map = mapOf(
-            "gcloud" to keys
-        )
-
         fun default() = IosGcloudConfig().apply {
             test = null
             xctestrunFile = null
             xcodeVersion = null
-            device = mutableListOf(Device(FtlConstants.defaultIosModel, FtlConstants.defaultIosVersion))
         }
     }
 }

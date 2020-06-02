@@ -32,7 +32,7 @@ Configuration is read from flank.yml
 class IosRunCommand : CommonRunCommand(), Runnable {
 
     @CommandLine.Mixin
-    val config = emptyIosConfig()
+    override val config = emptyIosConfig()
 
     init {
         configPath = FtlConstants.defaultIosConfig

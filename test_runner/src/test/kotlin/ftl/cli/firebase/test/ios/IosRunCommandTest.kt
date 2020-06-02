@@ -84,7 +84,7 @@ class IosRunCommandTest {
         assertThat(cmd.config.platform.gcloud.test).isNull()
         assertThat(cmd.config.platform.gcloud.xctestrunFile).isNull()
         assertThat(cmd.config.platform.gcloud.xcodeVersion).isNull()
-        assertThat(cmd.config.platform.gcloud.device).isNull()
+        assertThat(cmd.config.common.gcloud.devices).isNull()
         assertThat(cmd.config.common.gcloud.resultsDir).isNull()
         assertThat(cmd.config.common.gcloud.flakyTestAttempts).isNull()
         assertThat(cmd.config.common.flank.localResultsDir).isNull()
@@ -234,8 +234,8 @@ class IosRunCommandTest {
         CommandLine(cmd).parseArgs("--device=model=iphone8,version=11.2,locale=zh_CN,orientation=default")
 
         val expectedDevice = Device("iphone8", "11.2", "zh_CN", "default")
-        assertThat(cmd.config.platform.gcloud.device?.size).isEqualTo(1)
-        assertThat(cmd.config.platform.gcloud.device?.first()).isEqualTo(expectedDevice)
+        assertThat(cmd.config.common.gcloud.devices?.size).isEqualTo(1)
+        assertThat(cmd.config.common.gcloud.devices?.first()).isEqualTo(expectedDevice)
     }
 
     @Test

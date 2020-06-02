@@ -1,8 +1,14 @@
 package ftl.cli.firebase.test
 
+import ftl.config.Config
+import ftl.config.android.AndroidGcloudConfig
+import ftl.config.asDevice
+import ftl.config.common.addDevice
 import picocli.CommandLine
 
 abstract class CommonRunCommand {
+
+    abstract val config: Config.Platform<*, *>
 
     @CommandLine.Option(
         names = ["-h", "--help"],
@@ -11,12 +17,29 @@ abstract class CommonRunCommand {
     )
     var usageHelpRequested: Boolean = false
 
+    // Gcloud
+    @CommandLine.Option(
+        names = ["--device"],
+        split = ",",
+        description = ["A list of DIMENSION=VALUE pairs which specify a target " +
+                "device to test against. This flag may be repeated to specify multiple devices. The four device dimensions are: " +
+                "model, version, locale, and orientation. If any dimensions are omitted, they will use a default value. Omitting " +
+                "all of the preceding dimension-related flags will run tests against a single device using defaults for all four " +
+                "device dimensions."]
+    )
+    fun device(map: Map<String, String>?) {
+        config.common.gcloud.addDevice(
+            device = map?.asDevice(
+                android = config.platform.gcloud is AndroidGcloudConfig
+            )
+        )
+    }
+
     // Flank debug
     @CommandLine.Option(names = ["--dry"], description = ["Dry run on mock server"])
     var dryRun: Boolean = false
 
     // Flank specific
-
     @CommandLine.Option(
         names = ["-c", "--config"],
         description = ["YAML config file path"]

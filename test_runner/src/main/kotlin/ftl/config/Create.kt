@@ -9,7 +9,7 @@ import ftl.config.ios.IosGcloudConfig
 
 fun defaultAndroidConfig() = AndroidConfig(
     common = Config.Partial(
-        gcloud = CommonGcloudConfig.default(),
+        gcloud = CommonGcloudConfig.default(android = true),
         flank = CommonFlankConfig.default()
     ),
     platform = Config.Partial(
@@ -20,7 +20,7 @@ fun defaultAndroidConfig() = AndroidConfig(
 
 fun defaultIosConfig() = IosConfig(
     common = Config.Partial(
-        gcloud = CommonGcloudConfig.default(),
+        gcloud = CommonGcloudConfig.default(android = false),
         flank = CommonFlankConfig.default()
     ),
     platform = Config.Partial(

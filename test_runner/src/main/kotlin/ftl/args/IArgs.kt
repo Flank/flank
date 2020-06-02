@@ -1,5 +1,6 @@
 package ftl.args
 
+import ftl.config.Device
 import ftl.config.common.CommonFlankConfig.Companion.defaultLocalResultsDir
 import ftl.run.status.OutputStyle
 import ftl.util.timeoutToMils
@@ -10,6 +11,7 @@ interface IArgs {
     val data: String
 
     // GcloudYml
+    val devices: List<Device>
     val resultsBucket: String
     val resultsDir: String
     val recordVideo: Boolean

@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.args.ArgsHelper
-import ftl.config.Config
 import ftl.args.yml.IYmlKeys
-import ftl.args.yml.IYmlMap
+import ftl.config.Config
+import ftl.config.Device
 import ftl.config.FlankDefaults
+import ftl.config.defaultDevice
 import picocli.CommandLine
 
 /**
@@ -22,6 +23,10 @@ data class CommonGcloudConfig @JsonIgnore constructor(
     @JsonIgnore
     override val data: MutableMap<String, Any?>
 ) : Config {
+
+    @set:JsonProperty("device")
+    var devices: List<Device>? by data
+
     @set:CommandLine.Option(
         names = ["--results-bucket"],
         description = ["The name of a Google Cloud Storage bucket where raw test " +
@@ -114,7 +119,9 @@ data class CommonGcloudConfig @JsonIgnore constructor(
 
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
-    companion object : IYmlKeys, IYmlMap {
+    companion object : IYmlKeys {
+
+        override val group = IYmlKeys.Group.GCLOUD
 
         override val keys = listOf(
             "results-bucket",
@@ -126,11 +133,7 @@ data class CommonGcloudConfig @JsonIgnore constructor(
             "num-flaky-test-attempts"
         )
 
-        override val map = mapOf(
-            "gcloud" to keys
-        )
-
-        fun default() = CommonGcloudConfig().apply {
+        fun default(android: Boolean) = CommonGcloudConfig().apply {
             ArgsHelper.yamlMapper.readerFor(CommonGcloudConfig::class.java)
 
             resultsBucket = ""
@@ -142,6 +145,11 @@ data class CommonGcloudConfig @JsonIgnore constructor(
             flakyTestAttempts = 0
             clientDetails = null
             networkProfile = null
+            devices = listOf(defaultDevice(android))
         }
     }
+}
+
+fun CommonGcloudConfig.addDevice(device: Device?) {
+    device?.let { devices = (devices ?: emptyList()) + device }
 }

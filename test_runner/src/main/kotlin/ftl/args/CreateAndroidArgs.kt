@@ -28,7 +28,6 @@ fun createAndroidArgs(
     autoGoogleLogin = gcloud.autoGoogleLogin!!,
     additionalApks = gcloud.additionalApks!!.map { it.processFilePath("from additional-apks") },
     roboScript = gcloud.roboScript?.processFilePath("from roboScript"),
-    devices = gcloud.device!!,
 
     // flank
     additionalAppTestApks = flank.additionalAppTestApks?.map { (app, test) ->

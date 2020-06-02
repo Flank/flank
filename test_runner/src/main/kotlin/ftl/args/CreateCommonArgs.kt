@@ -11,6 +11,7 @@ fun CommonConfig.createCommonArgs(
     data = data,
 
     // gcloud
+    devices = gcloud.devices!!,
     resultsBucket = ArgsHelper.createGcsBucket(
         projectId = flank.project!!,
         bucket = gcloud.resultsBucket!!

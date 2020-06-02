@@ -71,7 +71,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.config.platform.gcloud.environmentVariables).isNull()
         assertThat(cmd.config.platform.gcloud.directoriesToPull).isNull()
         assertThat(cmd.config.platform.gcloud.otherFiles).isNull()
-        assertThat(cmd.config.platform.gcloud.device).isNull()
+        assertThat(cmd.config.common.gcloud.devices).isNull()
         assertThat(cmd.config.common.gcloud.resultsBucket).isNull()
         assertThat(cmd.config.common.gcloud.recordVideo).isNull()
         assertThat(cmd.config.common.gcloud.timeout).isNull()
@@ -225,8 +225,8 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parseArgs("--device=model=shamu,version=22,locale=zh_CN,orientation=default")
 
         val expectedDevice = Device("shamu", "22", "zh_CN", "default")
-        assertThat(cmd.config.platform.gcloud.device?.size).isEqualTo(1)
-        assertThat(cmd.config.platform.gcloud.device?.first()).isEqualTo(expectedDevice)
+        assertThat(cmd.config.common.gcloud.devices?.size).isEqualTo(1)
+        assertThat(cmd.config.common.gcloud.devices?.first()).isEqualTo(expectedDevice)
     }
 
     @Test

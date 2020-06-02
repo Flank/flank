@@ -1,11 +1,13 @@
 package ftl.args
 
+import ftl.config.Device
 import ftl.run.status.OutputStyle
 
 data class CommonArgs(
     override val data: String,
 
     // Gcloud
+    override val devices: List<Device>,
     override val resultsBucket: String,
     override val resultsDir: String,
     override val recordVideo: Boolean,

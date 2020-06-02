@@ -26,7 +26,7 @@ class ConfigTest(
         fun parameters() = listOf(
             param(
                 new = ::CommonGcloudConfig,
-                default = { CommonGcloudConfig.default() }
+                default = { CommonGcloudConfig.default(true) }
             ),
             param(
                 new = ::CommonFlankConfig,

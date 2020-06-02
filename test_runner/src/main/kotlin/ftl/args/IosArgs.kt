@@ -1,7 +1,6 @@
 package ftl.args
 
 import com.google.common.annotations.VisibleForTesting
-import ftl.config.Device
 import ftl.ios.Xctestrun
 import ftl.util.FlankTestMethod
 
@@ -10,7 +9,6 @@ data class IosArgs(
     val xctestrunZip: String,
     val xctestrunFile: String,
     val xcodeVersion: String?,
-    val devices: List<Device>,
     val testTargets: List<String>
 ) : IArgs by commonArgs {
 

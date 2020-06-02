@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.config.Config
 import ftl.args.yml.AppTestPair
 import ftl.args.yml.IYmlKeys
-import ftl.args.yml.IYmlMap
 import picocli.CommandLine
 
 /** Flank specific parameters for Android */
@@ -51,15 +50,13 @@ data class AndroidFlankConfig @JsonIgnore constructor(
 
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
-    companion object : IYmlKeys, IYmlMap {
+    companion object : IYmlKeys {
+
+        override val group = IYmlKeys.Group.FLANK
 
         override val keys = listOf(
             "additional-app-test-apks",
             "legacy-junit-result"
-        )
-
-        override val map = mapOf(
-            "flank" to keys
         )
 
         fun default() = AndroidFlankConfig().apply {

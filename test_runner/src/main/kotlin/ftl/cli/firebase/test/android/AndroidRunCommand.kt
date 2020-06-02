@@ -32,7 +32,7 @@ Configuration is read from flank.yml
 class AndroidRunCommand : CommonRunCommand(), Runnable {
 
     @CommandLine.Mixin
-    val config = emptyAndroidConfig()
+    override val config = emptyAndroidConfig()
 
     init {
         configPath = FtlConstants.defaultAndroidConfig

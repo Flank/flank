@@ -113,10 +113,10 @@ flank:
         val invalidDevice = mutableListOf(Device("iphoneZ", "99.9"))
         createIosArgs(
             config = defaultIosConfig().apply {
+                common.gcloud.devices = invalidDevice
                 platform.gcloud.also {
                     it.test = testPath
                     it.xctestrunFile = xctestrunFile
-                    it.device = invalidDevice
                 }
             }
         ).validate()
