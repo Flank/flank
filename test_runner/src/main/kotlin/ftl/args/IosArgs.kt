@@ -2,6 +2,7 @@ package ftl.args
 
 import com.google.common.annotations.VisibleForTesting
 import ftl.ios.Xctestrun
+import ftl.ios.Xctestrun.findTestNames
 import ftl.util.FlankTestMethod
 
 data class IosArgs(
@@ -61,13 +62,10 @@ IosArgs
 private fun IosArgs.calculateShardChunks() = if (disableSharding)
     listOf(emptyList()) else
     ArgsHelper.calculateShards(
-        filterTests(
-            Xctestrun.findTestNames(xctestrunFile),
-            testTargets
-        ).distinct().map {
-            FlankTestMethod(it, ignored = false)
-        },
-        this
+        filteredTests = filterTests(findTestNames(xctestrunFile), testTargets)
+            .distinct()
+            .map { FlankTestMethod(it, ignored = false) },
+        args = this
     )
 
 @VisibleForTesting
