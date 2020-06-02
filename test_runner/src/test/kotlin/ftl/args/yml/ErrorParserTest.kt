@@ -1,5 +1,8 @@
 package ftl.args.yml
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+import com.fasterxml.jackson.dataformat.yaml.snakeyaml.error.MarkedYAMLException
 import ftl.args.AndroidArgs
 import ftl.args.yml.errors.ConfigurationErrorMessageBuilder
 import ftl.test.util.TestHelper
@@ -76,6 +79,34 @@ Error node: {
 }
         """.trimIndent()
         Assert.assertEquals(exceptedMessage, actualMessage)
+    }
+
+    @Test
+    fun `Should properly build error message from MarkedYAMLException`() {
+        // given
+        val testYaml = """
+            flank: 
+              disable-sharding: false
+              project: flank-open-source
+            gcloud: 
+              app: ../test_app/apks/app-debug.apk
+                test: ../test_app/apks/app-debug-androidTest.apk
+        """.trimIndent()
+        val expectedMessage = """
+Error on parse config: mapping values are not allowed here
+At line: 5, column: 8
+Error node: 
+        test: ../test_app/apks/app-debug-and ... 
+            ^
+            """.trimIndent()
+        val exception = getThrowable { ObjectMapper(YAMLFactory()).readTree(testYaml) } as MarkedYAMLException
+        val buildErrorMessage = ConfigurationErrorMessageBuilder
+
+        // when
+        val actualMessage = buildErrorMessage(exception)
+
+        // then
+        Assert.assertEquals(expectedMessage, actualMessage)
     }
 
     @Test(expected = FlankFatalError::class)

@@ -1,6 +1,7 @@
 package ftl.args.yml.errors
 
 import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.dataformat.yaml.snakeyaml.error.MarkedYAMLException
 import java.lang.Exception
 
 object ConfigurationErrorMessageBuilder {
@@ -33,6 +34,15 @@ object ConfigurationErrorMessageBuilder {
         } catch (error: Exception) {
             exceptionTemplate.format(errorMessage)
         }
+
+    operator fun invoke(yamlException: MarkedYAMLException): String {
+        val problemMark = yamlException.problemMark
+        return StringBuilder(messageHeader + yamlException.problem).apply {
+            appendln()
+            appendln(atMessage.format(problemMark.line, problemMark.column))
+            appendln(errorNodeMessage.format(System.lineSeparator() + problemMark._snippet))
+        }.toString().trim()
+    }
 
     private fun createReferenceChain(referenceChain: List<String>): String {
         val chainBuilder = StringBuilder()
