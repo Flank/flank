@@ -56,7 +56,7 @@ class IosArgs(
     val devices = cli?.device ?: iosGcloud.device
 
     private val flank = flankYml.flank
-    override val maxTestShards = fixMaxTestShardsValue(cli?.maxTestShards ?: flank.maxTestShards)
+    override val maxTestShards = convertToShardCount(cli?.maxTestShards ?: flank.maxTestShards)
     override val shardTime = cli?.shardTime ?: flank.shardTime
     override val repeatTests = cli?.repeatTests ?: flank.repeatTests
     override val smartFlankGcsPath = cli?.smartFlankGcsPath ?: flank.smartFlankGcsPath
