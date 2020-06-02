@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.args.ArgsHelper
 import ftl.config.Config
 import ftl.args.yml.IYmlKeys
+import ftl.args.yml.IYmlMap
 import ftl.config.FlankDefaults
 import picocli.CommandLine
 
@@ -113,7 +114,8 @@ data class CommonGcloudConfig @JsonIgnore constructor(
 
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
-    companion object : IYmlKeys {
+    companion object : IYmlKeys, IYmlMap {
+
         override val keys = listOf(
             "results-bucket",
             "results-dir",
@@ -122,6 +124,10 @@ data class CommonGcloudConfig @JsonIgnore constructor(
             "async",
             "results-history-name",
             "num-flaky-test-attempts"
+        )
+
+        override val map = mapOf(
+            "gcloud" to keys
         )
 
         fun default() = CommonGcloudConfig().apply {

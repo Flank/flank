@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.args.ArgsHelper
 import ftl.config.Config
 import ftl.args.yml.IYmlKeys
+import ftl.args.yml.IYmlMap
 import ftl.config.FtlConstants
 import picocli.CommandLine
 
@@ -135,7 +136,8 @@ data class CommonFlankConfig @JsonIgnore constructor(
 
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
-    companion object : IYmlKeys {
+    companion object : IYmlKeys, IYmlMap {
+
         override val keys = listOf(
             "max-test-shards",
             "shard-time",
@@ -151,6 +153,10 @@ data class CommonFlankConfig @JsonIgnore constructor(
             "ignore-failed-tests",
             "keep-file-path",
             "output-style"
+        )
+
+        override val map = mapOf(
+            "flank" to keys
         )
 
         const val defaultLocalResultsDir = "results"

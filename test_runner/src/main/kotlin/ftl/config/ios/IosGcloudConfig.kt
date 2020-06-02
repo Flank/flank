@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.config.Config
 import ftl.args.yml.IYmlKeys
+import ftl.args.yml.IYmlMap
 import ftl.config.Device
 import ftl.config.FtlConstants
 import picocli.CommandLine
@@ -70,16 +71,22 @@ data class IosGcloudConfig @JsonIgnore constructor(
         if (device == null) device = mutableListOf()
         device?.add(androidDevice)
     }
+
     var device: MutableList<Device>? by data
 
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
-    companion object : IYmlKeys {
+    companion object : IYmlKeys, IYmlMap {
+
         override val keys = listOf(
             "test",
             "xctestrun-file",
             "xcode-version",
             "device"
+        )
+
+        override val map = mapOf(
+            "gcloud" to keys
         )
 
         fun default() = IosGcloudConfig().apply {

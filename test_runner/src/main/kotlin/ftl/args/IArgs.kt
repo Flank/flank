@@ -1,6 +1,6 @@
 package ftl.args
 
-import ftl.args.yml.FlankYmlParams
+import ftl.config.common.CommonFlankConfig.Companion.defaultLocalResultsDir
 import ftl.run.status.OutputStyle
 import ftl.util.timeoutToMils
 
@@ -49,7 +49,7 @@ interface IArgs {
     val hasMultipleExecutions
         get() = flakyTestAttempts > 0 || (!disableSharding && maxTestShards > 0)
 
-    fun useLocalResultDir() = localResultDir != FlankYmlParams.defaultLocalResultsDir
+    fun useLocalResultDir() = localResultDir != defaultLocalResultsDir
 
     fun convertToShardCount(inputValue: Int): Int = if (inputValue == -1) {
         AVAILABLE_SHARD_COUNT_RANGE.last

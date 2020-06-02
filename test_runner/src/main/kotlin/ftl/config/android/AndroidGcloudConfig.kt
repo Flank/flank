@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.args.yml.IYmlKeys
+import ftl.args.yml.IYmlMap
 import ftl.config.Config
 import ftl.config.Device
 import ftl.config.FlankDefaults
@@ -217,7 +218,8 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
 
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
-    companion object : IYmlKeys {
+    companion object : IYmlKeys, IYmlMap {
+
         override val keys = listOf(
             "app",
             "test",
@@ -234,6 +236,10 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
             "robo-directives",
             "robo-script",
             "device"
+        )
+
+        override val map = mapOf(
+            "gcloud" to keys
         )
 
         fun default() = AndroidGcloudConfig().apply {
