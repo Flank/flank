@@ -1,5 +1,6 @@
 ## next (unreleased)
 
+- [#831](https://github.com/Flank/flank/pull/831) Refactor config entities and arguments. ([jan-gogo](https://github.com/jan-gogo))
 - [#817](https://github.com/Flank/flank/pull/817) Add AndroidTestContext as base data for dump shards & test execution. ([jan-gogo](https://github.com/jan-gogo))
 - [#801](https://github.com/Flank/flank/pull/801) Omit missing app apk if additional-app-test-apks specified. ([jan-gogo](https://github.com/jan-gogo)) 
 - [#784](https://github.com/Flank/flank/pull/784) Add output-style option. ([jan-gogo](https://github.com/jan-gogo))
