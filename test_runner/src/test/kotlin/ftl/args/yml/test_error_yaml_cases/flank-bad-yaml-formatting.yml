@@ -3,4 +3,4 @@ flank:
   project: flank-open-source
 gcloud:
   app: ../test_app/apks/app-debug.apk
-  test: ../test_app/apks/app-debug-androidTest.apk
+    test: ../test_app/apks/app-debug-androidTest.apk
