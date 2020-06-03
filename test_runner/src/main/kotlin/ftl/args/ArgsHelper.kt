@@ -10,6 +10,7 @@ import com.google.cloud.storage.BucketInfo
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageClass
 import com.google.cloud.storage.StorageOptions
+import ftl.args.IArgs.Companion.AVAILABLE_SHARD_COUNT_RANGE
 import ftl.args.yml.IYmlMap
 import ftl.args.yml.YamlObjectMapper
 import ftl.config.FtlConstants
@@ -64,8 +65,8 @@ object ArgsHelper {
                     " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
         )
 
-        if (args.maxTestShards !in IArgs.AVAILABLE_SHARD_COUNT_RANGE && args.maxTestShards != -1)
-            throw FlankFatalError("max-test-shards must be >= 1 and <= 50, or -1. But current is ${args.maxTestShards}")
+        if (args.maxTestShards !in AVAILABLE_SHARD_COUNT_RANGE && args.maxTestShards != -1)
+            throw FlankFatalError("max-test-shards must be >= ${AVAILABLE_SHARD_COUNT_RANGE.first} and <= ${AVAILABLE_SHARD_COUNT_RANGE.last}. But current is ${args.maxTestShards}")
 
         if (args.shardTime <= 0 && args.shardTime != -1) throw FlankFatalError("shard-time must be >= 1 or -1")
         if (args.repeatTests < 1) throw FlankFatalError("num-test-runs must be >= 1")
