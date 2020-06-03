@@ -6,7 +6,6 @@ import ftl.args.IArgs.Companion.AVAILABLE_SHARD_COUNT_RANGE
 import ftl.args.yml.AppTestPair
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
-import ftl.config.FlankRoboDirective
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.gc.android.setupAndroidTest
@@ -139,7 +138,7 @@ class AndroidArgsTest {
           app: $appApk
           test: $testApk
           test-targets:
-          - 
+          -
 
         """.trimIndent()
 
@@ -149,7 +148,7 @@ class AndroidArgsTest {
 
     @Test
     fun `androidArgs invalidModel`() {
-        expectedException.expect(RuntimeException::class.java)
+        expectedException.expect(FlankFatalError::class.java)
         expectedException.expectMessage("Unsupported model id")
         AndroidArgs.load(
             """
@@ -165,7 +164,7 @@ class AndroidArgsTest {
 
     @Test
     fun `androidArgs invalidVersion`() {
-        expectedException.expect(RuntimeException::class.java)
+        expectedException.expect(FlankFatalError::class.java)
         expectedException.expectMessage("Unsupported version id")
         AndroidArgs.load(
             """
@@ -181,7 +180,7 @@ class AndroidArgsTest {
 
     @Test
     fun `androidArgs incompatibleModel`() {
-        expectedException.expect(RuntimeException::class.java)
+        expectedException.expect(FlankFatalError::class.java)
         expectedException.expectMessage("Incompatible model")
         AndroidArgs.load(
             """
@@ -541,7 +540,6 @@ AndroidArgs
 
         val androidArgs = AndroidArgs.load(yaml, cli)
         assertThat(androidArgs.testApk).isEqualTo(appApkAbsolutePath)
-        assertThat(androidArgs.cli).isEqualTo(cli)
     }
 
     @Test
@@ -1257,8 +1255,8 @@ AndroidArgs
         val args = AndroidArgs.load(yaml)
 
         assertEquals(
-            args.roboScript,
-            appApkAbsolutePath
+            appApkAbsolutePath,
+            args.roboScript
         )
     }
 

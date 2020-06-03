@@ -5,6 +5,7 @@ import ftl.args.yml.AppTestPair
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
@@ -58,66 +59,62 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parseArgs()
         assertThat(cmd.dumpShards).isFalse()
         assertThat(cmd.dryRun).isFalse()
-        assertThat(cmd.app).isNull()
-        assertThat(cmd.test).isNull()
-        assertThat(cmd.additionalApks).isNull()
-        assertThat(cmd.testTargets).isNull()
-        assertThat(cmd.useOrchestrator).isNull()
-        assertThat(cmd.noUseOrchestrator).isNull()
-        assertThat(cmd.autoGoogleLogin).isNull()
-        assertThat(cmd.noUseOrchestrator).isNull()
-        assertThat(cmd.performanceMetrics).isNull()
-        assertThat(cmd.noPerformanceMetrics).isNull()
-        assertThat(cmd.numUniformShards).isNull()
-        assertThat(cmd.testRunnerClass).isNull()
-        assertThat(cmd.environmentVariables).isNull()
-        assertThat(cmd.directoriesToPull).isNull()
-        assertThat(cmd.otherFiles).isNull()
-        assertThat(cmd.device).isNull()
-        assertThat(cmd.resultsBucket).isNull()
-        assertThat(cmd.recordVideo).isNull()
-        assertThat(cmd.noRecordVideo).isNull()
-        assertThat(cmd.timeout).isNull()
-        assertThat(cmd.async).isNull()
-        assertThat(cmd.clientDetails).isNull()
-        assertThat(cmd.networkProfile).isNull()
-        assertThat(cmd.project).isNull()
-        assertThat(cmd.resultsHistoryName).isNull()
-        assertThat(cmd.maxTestShards).isNull()
-        assertThat(cmd.shardTime).isNull()
-        assertThat(cmd.repeatTests).isNull()
-        assertThat(cmd.testTargetsAlwaysRun).isNull()
-        assertThat(cmd.filesToDownload).isNull()
-        assertThat(cmd.resultsDir).isNull()
-        assertThat(cmd.flakyTestAttempts).isNull()
-        assertThat(cmd.disableSharding).isNull()
-        assertThat(cmd.localResultsDir).isNull()
-        assertThat(cmd.smartFlankDisableUpload).isNull()
-        assertThat(cmd.smartFlankGcsPath).isNull()
-        assertThat(cmd.additionalAppTestApks).isNull()
-        assertThat(cmd.keepFilePath).isNull()
-        assertThat(cmd.runTimeout).isNull()
+        assertThat(cmd.config.platform.gcloud.app).isNull()
+        assertThat(cmd.config.platform.gcloud.test).isNull()
+        assertThat(cmd.config.platform.gcloud.additionalApks).isNull()
+        assertThat(cmd.config.platform.gcloud.testTargets).isNull()
+        assertThat(cmd.config.platform.gcloud.useOrchestrator).isNull()
+        assertThat(cmd.config.platform.gcloud.autoGoogleLogin).isNull()
+        assertThat(cmd.config.platform.gcloud.performanceMetrics).isNull()
+        assertThat(cmd.config.platform.gcloud.numUniformShards).isNull()
+        assertThat(cmd.config.platform.gcloud.testRunnerClass).isNull()
+        assertThat(cmd.config.platform.gcloud.environmentVariables).isNull()
+        assertThat(cmd.config.platform.gcloud.directoriesToPull).isNull()
+        assertThat(cmd.config.platform.gcloud.otherFiles).isNull()
+        assertThat(cmd.config.common.gcloud.devices).isNull()
+        assertThat(cmd.config.common.gcloud.resultsBucket).isNull()
+        assertThat(cmd.config.common.gcloud.recordVideo).isNull()
+        assertThat(cmd.config.common.gcloud.timeout).isNull()
+        assertThat(cmd.config.common.gcloud.async).isNull()
+        assertThat(cmd.config.common.gcloud.clientDetails).isNull()
+        assertThat(cmd.config.common.gcloud.networkProfile).isNull()
+        assertThat(cmd.config.common.flank.project).isNull()
+        assertThat(cmd.config.common.gcloud.resultsHistoryName).isNull()
+        assertThat(cmd.config.common.flank.maxTestShards).isNull()
+        assertThat(cmd.config.common.flank.shardTime).isNull()
+        assertThat(cmd.config.common.flank.repeatTests).isNull()
+        assertThat(cmd.config.common.flank.testTargetsAlwaysRun).isNull()
+        assertThat(cmd.config.common.flank.filesToDownload).isNull()
+        assertThat(cmd.config.common.gcloud.resultsDir).isNull()
+        assertThat(cmd.config.common.gcloud.flakyTestAttempts).isNull()
+        assertThat(cmd.config.common.flank.disableSharding).isNull()
+        assertThat(cmd.config.common.flank.localResultsDir).isNull()
+        assertThat(cmd.config.common.flank.smartFlankDisableUpload).isNull()
+        assertThat(cmd.config.common.flank.smartFlankGcsPath).isNull()
+        assertThat(cmd.config.platform.flank.additionalAppTestApks).isNull()
+        assertThat(cmd.config.common.flank.keepFilePath).isNull()
+        assertThat(cmd.config.common.flank.runTimeout).isNull()
     }
 
     @Test
     fun `app parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--app", "myApp.apk")
-        assertThat(cmd.app).isEqualTo("myApp.apk")
+        assertThat(cmd.config.platform.gcloud.app).isEqualTo("myApp.apk")
     }
 
     @Test
     fun `test parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--test", "myTestApp.apk")
-        assertThat(cmd.test).isEqualTo("myTestApp.apk")
+        assertThat(cmd.config.platform.gcloud.test).isEqualTo("myTestApp.apk")
     }
 
     @Test
     fun `additionalApks parse`() {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--additional-apks=a.apk,b.apk")
-        assertThat(cmd.additionalApks).isEqualTo(listOf("a.apk", "b.apk"))
+        assertThat(cmd.config.platform.gcloud.additionalApks).isEqualTo(listOf("a.apk", "b.apk"))
     }
 
     @Test
@@ -128,9 +125,9 @@ class AndroidRunCommandTest {
 
         CommandLine(cmd).parseArgs(*params)
 
-        assertThat(cmd.testTargets).isNotNull()
-        assertThat(cmd.testTargets?.size).isEqualTo(2)
-        assertThat(cmd.testTargets).isEqualTo(params.filter { it != testTargets })
+        assertThat(cmd.config.platform.gcloud.testTargets).isNotNull()
+        assertThat(cmd.config.platform.gcloud.testTargets?.size).isEqualTo(2)
+        assertThat(cmd.config.platform.gcloud.testTargets).isEqualTo(params.filter { it != testTargets })
     }
 
     @Test
@@ -138,7 +135,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--use-orchestrator")
 
-        assertThat(cmd.useOrchestrator).isTrue()
+        assertThat(cmd.config.platform.gcloud.useOrchestrator).isTrue()
     }
 
     @Test
@@ -146,7 +143,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--no-use-orchestrator")
 
-        assertThat(cmd.noUseOrchestrator).isTrue()
+        assertThat(cmd.config.platform.gcloud.useOrchestrator).isFalse()
     }
 
     @Test
@@ -154,7 +151,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--auto-google-login")
 
-        assertThat(cmd.autoGoogleLogin).isTrue()
+        assertThat(cmd.config.platform.gcloud.autoGoogleLogin).isTrue()
     }
 
     @Test
@@ -162,7 +159,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--no-auto-google-login")
 
-        assertThat(cmd.noAutoGoogleLogin).isTrue()
+        assertThat(cmd.config.platform.gcloud.autoGoogleLogin).isFalse()
     }
 
     @Test
@@ -170,7 +167,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--performance-metrics")
 
-        assertThat(cmd.performanceMetrics).isTrue()
+        assertThat(cmd.config.platform.gcloud.performanceMetrics).isTrue()
     }
 
     @Test
@@ -178,7 +175,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--no-performance-metrics")
 
-        assertThat(cmd.noPerformanceMetrics).isTrue()
+        assertThat(cmd.config.platform.gcloud.performanceMetrics).isFalse()
     }
 
     @Test
@@ -187,7 +184,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--num-uniform-shards=$expected")
 
-        assertThat(cmd.numUniformShards).isEqualTo(expected)
+        assertThat(cmd.config.platform.gcloud.numUniformShards).isEqualTo(expected)
     }
 
     @Test
@@ -195,7 +192,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--test-runner-class=com.foo.bar.TestRunner")
 
-        assertThat(cmd.testRunnerClass).isEqualTo("com.foo.bar.TestRunner")
+        assertThat(cmd.config.platform.gcloud.testRunnerClass).isEqualTo("com.foo.bar.TestRunner")
     }
 
     @Test
@@ -203,7 +200,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--environment-variables=a=1,b=2")
 
-        assertThat(cmd.environmentVariables).hasSize(2)
+        assertThat(cmd.config.platform.gcloud.environmentVariables).hasSize(2)
     }
 
     @Test
@@ -211,7 +208,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--directories-to-pull=a,b")
 
-        assertThat(cmd.directoriesToPull).hasSize(2)
+        assertThat(cmd.config.platform.gcloud.directoriesToPull).hasSize(2)
     }
 
     @Test
@@ -219,7 +216,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--other-files=a=1,b=2")
 
-        assertThat(cmd.otherFiles).hasSize(2)
+        assertThat(cmd.config.platform.gcloud.otherFiles).hasSize(2)
     }
 
     @Test
@@ -228,8 +225,8 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parseArgs("--device=model=shamu,version=22,locale=zh_CN,orientation=default")
 
         val expectedDevice = Device("shamu", "22", "zh_CN", "default")
-        assertThat(cmd.device?.size).isEqualTo(1)
-        assertThat(cmd.device?.first()).isEqualTo(expectedDevice)
+        assertThat(cmd.config.common.gcloud.devices?.size).isEqualTo(1)
+        assertThat(cmd.config.common.gcloud.devices?.first()).isEqualTo(expectedDevice)
     }
 
     @Test
@@ -237,7 +234,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--results-bucket=a")
 
-        assertThat(cmd.resultsBucket).isEqualTo("a")
+        assertThat(cmd.config.common.gcloud.resultsBucket).isEqualTo("a")
     }
 
     @Test
@@ -245,7 +242,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--record-video")
 
-        assertThat(cmd.recordVideo).isTrue()
+        assertThat(cmd.config.common.gcloud.recordVideo).isTrue()
     }
 
     @Test
@@ -253,7 +250,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--no-record-video")
 
-        assertThat(cmd.noRecordVideo).isTrue()
+        assertThat(cmd.config.common.gcloud.recordVideo).isFalse()
     }
 
     @Test
@@ -261,7 +258,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--timeout=1m")
 
-        assertThat(cmd.timeout).isEqualTo("1m")
+        assertThat(cmd.config.common.gcloud.timeout).isEqualTo("1m")
     }
 
     @Test
@@ -269,7 +266,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--async")
 
-        assertThat(cmd.async).isTrue()
+        assertThat(cmd.config.common.gcloud.async).isTrue()
     }
 
     @Test
@@ -277,7 +274,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--client-details=key1=value1,key2=value2")
 
-        assertThat(cmd.clientDetails).isEqualTo(
+        assertThat(cmd.config.common.gcloud.clientDetails).isEqualTo(
             mapOf(
                 "key1" to "value1",
                 "key2" to "value2"
@@ -290,7 +287,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--network-profile=a")
 
-        assertThat(cmd.networkProfile).isEqualTo("a")
+        assertThat(cmd.config.common.gcloud.networkProfile).isEqualTo("a")
     }
 
     @Test
@@ -298,7 +295,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--project=a")
 
-        assertThat(cmd.project).isEqualTo("a")
+        assertThat(cmd.config.common.flank.project).isEqualTo("a")
     }
 
     @Test
@@ -306,7 +303,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--results-history-name=a")
 
-        assertThat(cmd.resultsHistoryName).isEqualTo("a")
+        assertThat(cmd.config.common.gcloud.resultsHistoryName).isEqualTo("a")
     }
 
     // flankYml
@@ -316,7 +313,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--max-test-shards=3")
 
-        assertThat(cmd.maxTestShards).isEqualTo(3)
+        assertThat(cmd.config.common.flank.maxTestShards).isEqualTo(3)
     }
 
     @Test
@@ -324,7 +321,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--num-test-runs=3")
 
-        assertThat(cmd.repeatTests).isEqualTo(3)
+        assertThat(cmd.config.common.flank.repeatTests).isEqualTo(3)
     }
 
     @Test
@@ -332,7 +329,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--test-targets-always-run=a,b,c")
 
-        assertThat(cmd.testTargetsAlwaysRun).isEqualTo(arrayListOf("a", "b", "c"))
+        assertThat(cmd.config.common.flank.testTargetsAlwaysRun).isEqualTo(arrayListOf("a", "b", "c"))
     }
 
     @Test
@@ -340,7 +337,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--results-dir=a")
 
-        assertThat(cmd.resultsDir).isEqualTo("a")
+        assertThat(cmd.config.common.gcloud.resultsDir).isEqualTo("a")
     }
 
     @Test
@@ -348,7 +345,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--files-to-download=a,b")
 
-        assertThat(cmd.filesToDownload).isEqualTo(arrayListOf("a", "b"))
+        assertThat(cmd.config.common.flank.filesToDownload).isEqualTo(arrayListOf("a", "b"))
     }
 
     @Test
@@ -356,7 +353,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--num-flaky-test-attempts=10")
 
-        assertThat(cmd.flakyTestAttempts).isEqualTo(10)
+        assertThat(cmd.config.common.gcloud.flakyTestAttempts).isEqualTo(10)
     }
 
     @Test
@@ -364,7 +361,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--shard-time=99")
 
-        assertThat(cmd.shardTime).isEqualTo(99)
+        assertThat(cmd.config.common.flank.shardTime).isEqualTo(99)
     }
 
     @Test
@@ -372,7 +369,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--disable-sharding")
 
-        assertThat(cmd.disableSharding).isEqualTo(true)
+        assertThat(cmd.config.common.flank.disableSharding).isEqualTo(true)
     }
 
     @Test
@@ -380,7 +377,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--local-result-dir=a")
 
-        assertThat(cmd.localResultsDir).isEqualTo("a")
+        assertThat(cmd.config.common.flank.localResultsDir).isEqualTo("a")
     }
 
     @Test
@@ -388,7 +385,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--smart-flank-disable-upload=true")
 
-        assertThat(cmd.smartFlankDisableUpload).isEqualTo(true)
+        assertThat(cmd.config.common.flank.smartFlankDisableUpload).isEqualTo(true)
     }
 
     @Test
@@ -396,7 +393,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--smart-flank-gcs-path=foo")
 
-        assertThat(cmd.smartFlankGcsPath).isEqualTo("foo")
+        assertThat(cmd.config.common.flank.smartFlankGcsPath).isEqualTo("foo")
     }
 
     @Test
@@ -404,7 +401,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--keep-file-path=true")
 
-        assertThat(cmd.keepFilePath).isEqualTo(true)
+        assertThat(cmd.config.common.flank.keepFilePath).isEqualTo(true)
     }
 
     @Test
@@ -413,7 +410,7 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parseArgs("--additional-app-test-apks=app=a,test=b")
 
         val expected = AppTestPair(app = "a", test = "b")
-        assertThat(cmd.additionalAppTestApks).isEqualTo(listOf(expected))
+        assertThat(cmd.config.platform.flank.additionalAppTestApks).isEqualTo(listOf(expected))
     }
 
     @Test
@@ -437,15 +434,21 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--run-timeout=20s")
 
-        assertThat(cmd.runTimeout).isEqualTo("20s")
+        assertThat(cmd.config.common.flank.runTimeout).isEqualTo("20s")
     }
 
     @Test
     fun `robo-directives parse`() {
         val cmd = AndroidRunCommand()
-        CommandLine(cmd).parseArgs("--robo-directives=text:a=b,click=c")
+        CommandLine(cmd).parseArgs("--robo-directives=text:a=b,click:c=")
 
-        assertThat(cmd.roboDirectives).hasSize(2)
+        assertEquals(
+            mapOf(
+                "text:a" to "b",
+                "click:c" to ""
+            ),
+            cmd.config.platform.gcloud.roboDirectives
+        )
     }
 
     @Test
@@ -453,6 +456,6 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--robo-script=a")
 
-        assertThat(cmd.roboScript).isEqualTo("a")
+        assertThat(cmd.config.platform.gcloud.roboScript).isEqualTo("a")
     }
 }

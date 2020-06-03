@@ -1,6 +1,7 @@
 package ftl.args
 
-import ftl.args.yml.FlankYmlParams
+import ftl.config.Device
+import ftl.config.common.CommonFlankConfig.Companion.defaultLocalResultsDir
 import ftl.run.status.OutputStyle
 import ftl.util.timeoutToMils
 
@@ -10,6 +11,7 @@ interface IArgs {
     val data: String
 
     // GcloudYml
+    val devices: List<Device>
     val resultsBucket: String
     val resultsDir: String
     val recordVideo: Boolean
@@ -49,16 +51,14 @@ interface IArgs {
     val hasMultipleExecutions
         get() = flakyTestAttempts > 0 || (!disableSharding && maxTestShards > 0)
 
-    fun useLocalResultDir() = localResultDir != FlankYmlParams.defaultLocalResultsDir
-
-    fun convertToShardCount(inputValue: Int): Int = if (inputValue == -1) {
-        AVAILABLE_SHARD_COUNT_RANGE.last
-    } else {
-        inputValue
-    }
+    fun useLocalResultDir() = localResultDir != defaultLocalResultsDir
 
     companion object {
         // num_shards must be >= 1, and <= 50
         val AVAILABLE_SHARD_COUNT_RANGE = 1..50
+    }
+
+    interface ICompanion {
+        val validArgs: Map<String, List<String>>
     }
 }

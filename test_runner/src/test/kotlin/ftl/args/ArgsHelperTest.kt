@@ -5,11 +5,11 @@ import ftl.args.ArgsHelper.assertCommonProps
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
 import ftl.args.ArgsHelper.createGcsBucket
-import ftl.args.ArgsHelper.mergeYmlMaps
 import ftl.args.ArgsHelper.validateTestMethods
-import ftl.args.yml.GcloudYml
-import ftl.args.yml.IosGcloudYml
+import ftl.args.yml.mergeYmlKeys
 import ftl.config.FtlConstants
+import ftl.config.common.CommonGcloudConfig
+import ftl.config.ios.IosGcloudConfig
 import ftl.shard.TestMethod
 import ftl.shard.TestShard
 import ftl.shard.stringShards
@@ -48,7 +48,7 @@ class ArgsHelperTest {
 
     @Test
     fun `mergeYmlMaps succeeds`() {
-        val merged = mergeYmlMaps(GcloudYml, IosGcloudYml)
+        val merged = mergeYmlKeys(CommonGcloudConfig, IosGcloudConfig)
         assertThat(merged.keys.size).isEqualTo(1)
         assertThat(merged["gcloud"]?.size).isEqualTo(11)
     }

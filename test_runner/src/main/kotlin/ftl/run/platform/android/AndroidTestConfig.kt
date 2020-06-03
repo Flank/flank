@@ -1,7 +1,7 @@
 package ftl.run.platform.android
 
 import ftl.args.ShardChunks
-import ftl.config.FlankRoboDirective
+import ftl.args.FlankRoboDirective
 
 sealed class AndroidTestConfig {
 

@@ -2,6 +2,7 @@ package ftl.run
 
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
+import ftl.args.isInstrumentationTest
 import ftl.run.common.prettyPrint
 import ftl.run.model.AndroidMatrixTestShards
 import ftl.run.platform.android.getAndroidMatrixShards

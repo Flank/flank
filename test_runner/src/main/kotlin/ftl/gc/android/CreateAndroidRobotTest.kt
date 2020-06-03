@@ -3,7 +3,7 @@ package ftl.gc.android
 import com.google.api.services.testing.model.AndroidRoboTest
 import com.google.api.services.testing.model.FileReference
 import com.google.api.services.testing.model.RoboDirective
-import ftl.config.FlankRoboDirective
+import ftl.args.FlankRoboDirective
 import ftl.run.platform.android.AndroidTestConfig
 
 internal fun createAndroidRoboTest(

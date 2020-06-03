@@ -1,16 +1,9 @@
 package ftl.args
 
 import com.google.common.truth.Truth.assertThat
-import ftl.args.yml.AndroidFlankYml
-import ftl.args.yml.AndroidFlankYmlParams
-import ftl.args.yml.AndroidGcloudYml
-import ftl.args.yml.AndroidGcloudYmlParams
 import ftl.args.yml.AppTestPair
-import ftl.args.yml.FlankYml
-import ftl.args.yml.FlankYmlParams
-import ftl.args.yml.GcloudYml
-import ftl.args.yml.GcloudYmlParams
 import ftl.config.Device
+import ftl.config.defaultAndroidConfig
 import ftl.run.platform.android.createAndroidTestContexts
 import ftl.run.platform.android.getAndroidMatrixShards
 import ftl.run.status.OutputStyle
@@ -94,54 +87,43 @@ class AndroidArgsFileTest {
         }
     }
 
-    private fun configWithTestMethods(amount: Int, maxTestShards: Int = 1): AndroidArgs {
-
-        return AndroidArgs(
-            GcloudYml(GcloudYmlParams()),
-            AndroidGcloudYml(
-                AndroidGcloudYmlParams(
-                    app = appApkLocal,
+    private fun configWithTestMethods(
+        amount: Int,
+        maxTestShards: Int = 1
+    ): AndroidArgs = createAndroidArgs(
+        defaultAndroidConfig().apply {
+            platform.apply {
+                gcloud.apply {
+                    app = appApkLocal
                     test = getString("src/test/kotlin/ftl/fixtures/tmp/apk/app-debug-androidTest_$amount.apk")
-                )
-            ),
-            FlankYml(
-                FlankYmlParams(
-                    maxTestShards = maxTestShards
-                )
-            ),
-            AndroidFlankYml(),
-            ""
-        )
-    }
+                }
+            }
+            common.flank.maxTestShards = maxTestShards
+        }
+    )
 
     @Test
     fun `calculateShards additionalAppTestApks`() {
         val test1 = "src/test/kotlin/ftl/fixtures/tmp/apk/app-debug-androidTest_1.apk"
         val test155 = "src/test/kotlin/ftl/fixtures/tmp/apk/app-debug-androidTest_155.apk"
-        val config = AndroidArgs(
-            GcloudYml(GcloudYmlParams()),
-            AndroidGcloudYml(
-                AndroidGcloudYmlParams(
-                    app = appApkLocal,
-                    test = getString(test1)
-                )
-            ),
-            FlankYml(
-                FlankYmlParams(
-                    maxTestShards = 3
-                )
-            ),
-            AndroidFlankYml(
-                AndroidFlankYmlParams(
-                    additionalAppTestApks = listOf(
-                        AppTestPair(
-                            app = appApkLocal,
-                            test = getString(test155)
+        val config = createAndroidArgs(
+            defaultAndroidConfig().apply {
+                platform.apply {
+                    gcloud.apply {
+                        app = appApkLocal
+                        test = getString(test1)
+                    }
+                    flank.apply {
+                        additionalAppTestApks = mutableListOf(
+                            AppTestPair(
+                                app = appApkLocal,
+                                test = getString(test155)
+                            )
                         )
-                    )
-                )
-            ),
-            ""
+                    }
+                }
+                common.flank.maxTestShards = 3
+            }
         )
         with(runBlocking { config.getAndroidMatrixShards() }) {
             assertEquals(1, get("matrix-0")!!.shards["shard-0"]!!.size)
@@ -216,27 +198,18 @@ class AndroidArgsFileTest {
     fun assertGcsBucket() {
         val oldConfig = AndroidArgs.load(localYamlFile)
         // Need to set the project id to get the bucket info from StorageOptions
-        val config = AndroidArgs(
-            GcloudYml(
-                GcloudYmlParams(
-                    resultsBucket = oldConfig.resultsBucket
-                )
-            ),
-            AndroidGcloudYml(
-                AndroidGcloudYmlParams(
-                    app = oldConfig.appApk,
+        val config = createAndroidArgs(
+            defaultAndroidConfig().apply {
+                common.apply {
+                    gcloud.resultsBucket = oldConfig.resultsBucket
+                    flank.project = "flank-open-source"
+                }
+                platform.gcloud.apply {
+                    app = oldConfig.appApk
                     test = oldConfig.testApk
-                )
-            ),
-            FlankYml(
-                FlankYmlParams(
-                    project = "flank-open-source"
-                )
-            ),
-            AndroidFlankYml(),
-            ""
+                }
+            }
         )
-
         assert(config.resultsBucket, "tmp_bucket_2")
     }
 
