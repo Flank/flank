@@ -16,6 +16,5 @@ fun convertConfigurationErrorExceptions(missingParameterError: Exception, yaml: 
 }
 
 fun convertConfigurationErrorExceptions(treeParsingException: MarkedYAMLException): Throwable {
-    val errorMessageBuilder = ConfigurationErrorMessageBuilder
-    return FlankFatalError(errorMessageBuilder(treeParsingException))
+    return FlankFatalError(ConfigurationErrorMessageBuilder(treeParsingException))
 }
