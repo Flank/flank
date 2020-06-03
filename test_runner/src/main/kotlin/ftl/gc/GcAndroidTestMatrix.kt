@@ -3,6 +3,7 @@ package ftl.gc
 import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.Account
 import com.google.api.services.testing.model.AndroidDeviceList
+import com.google.api.services.testing.model.AndroidInstrumentationTest
 import com.google.api.services.testing.model.ClientInfo
 import com.google.api.services.testing.model.EnvironmentMatrix
 import com.google.api.services.testing.model.EnvironmentVariable
@@ -62,7 +63,7 @@ object GcAndroidTestMatrix {
             .setAdditionalApks(additionalApkGcsPaths.mapGcsPathsToApks())
             .setFilesToPush(otherFiles.mapToDeviceFiles())
 
-        if (args.environmentVariables.isNotEmpty()) {
+        if (args.environmentVariables.isNotEmpty() && androidTestConfig is AndroidTestConfig.Instrumentation) {
             testSetup.environmentVariables =
                 args.environmentVariables.map { it.toEnvironmentVariable() }
         }
