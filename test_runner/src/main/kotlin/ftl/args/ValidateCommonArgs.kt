@@ -24,7 +24,7 @@ private fun CommonArgs.assertMaxTestShards() {
         maxTestShards !in IArgs.AVAILABLE_SHARD_COUNT_RANGE &&
         maxTestShards != -1
     ) throw FlankFatalError(
-        "max-test-shards must be >= 1 and <= 50, or -1. But current is $maxTestShards"
+        "max-test-shards must be >= ${IArgs.AVAILABLE_SHARD_COUNT_RANGE.first} and <= ${IArgs.AVAILABLE_SHARD_COUNT_RANGE.last}, or -1. But current is $maxTestShards"
     )
 }
 
