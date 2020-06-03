@@ -84,7 +84,7 @@ Error node: {
     }
 
     @Test
-    fun `Should properly build error message from MarkedYAMLException`() {
+    fun `should properly build error message from MarkedYAMLException`() {
         // given
         val testYaml = """
             flank: 
