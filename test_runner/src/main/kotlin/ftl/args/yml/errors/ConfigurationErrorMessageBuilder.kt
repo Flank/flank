@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package ftl.args.yml.errors
 
 import com.fasterxml.jackson.databind.JsonNode

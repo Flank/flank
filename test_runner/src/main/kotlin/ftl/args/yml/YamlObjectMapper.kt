@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package ftl.args.yml
 
 import com.fasterxml.jackson.databind.JsonNode
@@ -22,8 +24,8 @@ class YamlObjectMapper : ObjectMapper(YAMLFactory()) {
     override fun readTree(r: Reader?): JsonNode {
         try {
             return super.readTree(r)
-        } catch (e: MarkedYAMLException) {
-            throw convertConfigurationErrorExceptions(e)
+        } catch (yamlParseException: MarkedYAMLException) {
+            throw convertConfigurationErrorExceptions(yamlParseException)
         }
     }
 }
