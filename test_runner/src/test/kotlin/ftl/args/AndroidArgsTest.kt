@@ -2,6 +2,7 @@ package ftl.args
 
 import com.google.api.services.testing.model.TestSpecification
 import com.google.common.truth.Truth.assertThat
+import ftl.args.IArgs.Companion.AVAILABLE_SHARD_COUNT_RANGE
 import ftl.args.yml.AppTestPair
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
@@ -462,7 +463,7 @@ AndroidArgs
 
         val testShardChunks = getAndroidShardChunks(androidArgs)
         with(androidArgs) {
-            assert(maxTestShards, -1)
+            assert(maxTestShards, AVAILABLE_SHARD_COUNT_RANGE.last)
             assert(testShardChunks.size, 2)
             testShardChunks.forEach { chunk -> assert(chunk.size, 1) }
         }
@@ -670,7 +671,7 @@ AndroidArgs
 
     @Test
     fun `cli numUniformShards`() {
-        val expected = 50
+        val expected = AVAILABLE_SHARD_COUNT_RANGE.last
         val cli = AndroidRunCommand()
         CommandLine(cli).parseArgs("--num-uniform-shards=$expected")
 
@@ -691,9 +692,9 @@ AndroidArgs
         gcloud:
           app: $appApk
           test: $testApk
-          num-uniform-shards: 50
+          num-uniform-shards: ${AVAILABLE_SHARD_COUNT_RANGE.last}
         flank:
-          max-test-shards: 50
+          max-test-shards: ${AVAILABLE_SHARD_COUNT_RANGE.last}
       """
         AndroidArgs.load(yaml)
     }
@@ -1346,7 +1347,7 @@ AndroidArgs
             "  num-flaky-test-attempts: 3",
             """
             flank:
-              max-test-shards: 50
+              max-test-shards: ${AVAILABLE_SHARD_COUNT_RANGE.last}
             """.trimIndent(),
             """
             flank:
@@ -1413,6 +1414,19 @@ AndroidArgs
         )
         val testSpecification = TestSpecification().setupAndroidTest(androidTestConfig)
         assertTrue(testSpecification.androidInstrumentationTest.testTargets.isNotEmpty())
+    }
+
+    @Test
+    fun `if set max-test-shards to -1 should give maximum amount`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          max-test-shards: -1
+        """.trimIndent()
+        val args = AndroidArgs.load(yaml)
+        assertEquals(AVAILABLE_SHARD_COUNT_RANGE.last, args.maxTestShards)
     }
 }
 
