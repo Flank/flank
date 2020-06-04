@@ -2,7 +2,6 @@ package ftl.reports.util
 
 import ftl.args.IArgs
 import ftl.json.MatrixMap
-import ftl.reports.JUnitReport
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.util.resolveLocalRunPath
 import ftl.util.write
@@ -14,7 +13,9 @@ interface IReport {
     fun reportName(): String {
         return this::class.java.simpleName
     }
+
     fun fileName() = reportName() + extension
+
     val extension: String
 
     fun reportPath(matrices: MatrixMap, args: IArgs): String {

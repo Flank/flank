@@ -81,7 +81,7 @@ object GcStorage {
     }
 
     fun uploadReportResult(testResult: String, args: IArgs, fileName: String) {
-        if (args.resultsBucket.isBlank() || args.resultsDir.isBlank()) return
+        if (args.resultsBucket.isBlank() || args.resultsDir.isBlank() || args.disableResultsUpload) return
         upload(
             file = fileName,
             fileBytes = testResult.toByteArray(),

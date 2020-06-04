@@ -1,6 +1,5 @@
 package ftl.reports
 
-import com.google.api.services.testing.model.GoogleCloudStorage
 import ftl.args.IArgs
 import ftl.config.FtlConstants.indent
 import ftl.gc.GcStorage
@@ -52,7 +51,7 @@ object MatrixResultsReport : IReport {
                 writer.println("More details are available at [${matrices.map.values.first().webLinkWithoutExecutionDetails}]")
                 writer.println(matrices.map.values.toList().asPrintableTable())
             }
-            
+
             return writer.toString()
         }
     }

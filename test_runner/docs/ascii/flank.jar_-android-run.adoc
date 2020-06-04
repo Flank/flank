@@ -162,6 +162,9 @@ Configuration is read from flank.yml
 *--app*=_<app>_::
   The path to the application binary file. The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.
 
+*--disable-results-upload*::
+  Disables flank results.
+
 *--test*=_<test>_::
   The path to the binary file containing instrumentation tests. The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://.
 
@@ -173,6 +176,9 @@ Configuration is read from flank.yml
 
 *--no-auto-google-login*::
   Google account not logged in (default behavior). Use --auto-google-login to enable
+
+*--app*=_<app>_::
+  The path to the application binary file. The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.
 
 *--use-orchestrator*::
   Whether each test runs in its own Instrumentation instance with the Android Test Orchestrator (default: Orchestrator is used. To disable, use --no-use-orchestrator). Orchestrator is only compatible with AndroidJUnitRunner v1.0 or higher. See https://developer.android.com/training/testing/junit-runner.html#using-android-test-orchestrator for more information about Android Test Orchestrator.

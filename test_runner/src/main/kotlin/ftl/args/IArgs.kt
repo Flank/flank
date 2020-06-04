@@ -51,6 +51,8 @@ interface IArgs {
     val hasMultipleExecutions
         get() = flakyTestAttempts > 0 || (!disableSharding && maxTestShards > 0)
 
+    val disableResultsUpload: Boolean get() = false
+
     fun useLocalResultDir() = localResultDir != defaultLocalResultsDir
 
     companion object {
