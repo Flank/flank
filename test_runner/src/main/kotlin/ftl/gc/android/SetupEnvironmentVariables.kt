@@ -14,7 +14,6 @@ internal fun TestSetup.setEnvironmentVariables(args: AndroidArgs, testConfig: An
     }
 }
 
-
 private fun Map.Entry<String, String>.toEnvironmentVariable() = EnvironmentVariable().apply {
     key = this@toEnvironmentVariable.key
     value = this@toEnvironmentVariable.value
