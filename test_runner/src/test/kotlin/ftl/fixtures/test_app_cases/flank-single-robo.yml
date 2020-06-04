@@ -1,7 +1,7 @@
 gcloud:
   app: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk
-#  robo-script: ./src/test/kotlin/ftl/fixtures/test_app_cases/MainActivity_robo_script.json
-  robo-directives:
-    "click:button3": ""
-    "ignore:button1": ""
-    "ignore:button2": ""
+  robo-script: ./src/test/kotlin/ftl/fixtures/test_app_cases/MainActivity_robo_script.json
+  environment-variables:
+    coverage: true
+    coverageFilePath: /sdcard/
+    clearPackageData: true

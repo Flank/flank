@@ -5,7 +5,7 @@ import com.google.api.services.testing.model.Account
 import com.google.api.services.testing.model.AndroidDeviceList
 import com.google.api.services.testing.model.ClientInfo
 import com.google.api.services.testing.model.EnvironmentMatrix
-import com.google.api.services.testing.model.EnvironmentVariable
+import ftl.gc.android.setEnvironmentVariables
 import com.google.api.services.testing.model.GoogleAuto
 import com.google.api.services.testing.model.GoogleCloudStorage
 import com.google.api.services.testing.model.ResultStorage
@@ -22,11 +22,6 @@ import ftl.util.join
 import ftl.util.timeoutToSeconds
 
 object GcAndroidTestMatrix {
-
-    private fun Map.Entry<String, String>.toEnvironmentVariable() = EnvironmentVariable().apply {
-        key = this@toEnvironmentVariable.key
-        value = this@toEnvironmentVariable.value
-    }
 
     @Suppress("LongParameterList")
     fun build(
@@ -61,11 +56,7 @@ object GcAndroidTestMatrix {
             .setDirectoriesToPull(args.directoriesToPull)
             .setAdditionalApks(additionalApkGcsPaths.mapGcsPathsToApks())
             .setFilesToPush(otherFiles.mapToDeviceFiles())
-
-        if (args.environmentVariables.isNotEmpty()) {
-            testSetup.environmentVariables =
-                args.environmentVariables.map { it.toEnvironmentVariable() }
-        }
+            .setEnvironmentVariables(args, androidTestConfig)
 
         val testTimeoutSeconds = timeoutToSeconds(args.testTimeout)
 
