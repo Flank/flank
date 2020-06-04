@@ -5,7 +5,7 @@ import com.google.api.services.testing.model.Account
 import com.google.api.services.testing.model.AndroidDeviceList
 import com.google.api.services.testing.model.ClientInfo
 import com.google.api.services.testing.model.EnvironmentMatrix
-import com.google.api.services.testing.model.EnvironmentVariable
+import ftl.gc.android.setEnvironmentVariables
 import com.google.api.services.testing.model.GoogleAuto
 import com.google.api.services.testing.model.GoogleCloudStorage
 import com.google.api.services.testing.model.ResultStorage
@@ -13,7 +13,6 @@ import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.testing.model.TestSetup
 import com.google.api.services.testing.model.TestSpecification
 import com.google.api.services.testing.model.ToolResultsHistory
-import com.google.common.annotations.VisibleForTesting
 import ftl.args.AndroidArgs
 import ftl.gc.android.mapGcsPathsToApks
 import ftl.gc.android.mapToDeviceFiles
@@ -23,20 +22,6 @@ import ftl.util.join
 import ftl.util.timeoutToSeconds
 
 object GcAndroidTestMatrix {
-
-    private fun Map.Entry<String, String>.toEnvironmentVariable() = EnvironmentVariable().apply {
-        key = this@toEnvironmentVariable.key
-        value = this@toEnvironmentVariable.value
-    }
-
-    @VisibleForTesting
-    internal fun TestSetup.setEnvironmentVariables(args: AndroidArgs, testConfig: AndroidTestConfig) = this.apply {
-        environmentVariables = if (args.environmentVariables.isNotEmpty() && testConfig is AndroidTestConfig.Instrumentation) {
-            args.environmentVariables.map { it.toEnvironmentVariable() }
-        } else {
-            emptyList()
-        }
-    }
 
     @Suppress("LongParameterList")
     fun build(
