@@ -3,7 +3,7 @@ package ftl.gc
 import com.google.api.services.testing.model.AndroidDeviceList
 import com.google.api.services.testing.model.TestSetup
 import ftl.args.AndroidArgs
-import ftl.gc.GcAndroidTestMatrix.setEnvironmentVariables
+import ftl.gc.android.setEnvironmentVariables
 import ftl.gc.GcToolResults.createToolResultsHistory
 import ftl.run.platform.android.AndroidTestConfig
 import ftl.test.util.FlankTestRunner
