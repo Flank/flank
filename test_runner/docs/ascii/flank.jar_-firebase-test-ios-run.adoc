@@ -157,9 +157,6 @@ Configuration is read from flank.yml
 *--xcode-version*=_<xcodeVersion>_::
   The version of Xcode that should be used to run an XCTest. Defaults to the latest Xcode version supported in Firebase Test Lab. This Xcode version must be supported by all iOS versions selected in the test matrix.
 
-*--test*=_<test>_::
-  The path to the test package (a zip file containing the iOS app and XCTest files). The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://. Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file is specified.
-
 *--test-targets*=_<testTargets>_[,_<testTargets>_...]::
   A list of one or more test method names to run (default: run all test targets).
 

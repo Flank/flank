@@ -135,7 +135,7 @@ data class CommonFlankConfig @JsonIgnore constructor(
 
     @set:CommandLine.Option(
         names = ["--disable-results-upload"],
-        description = ["Disables flank results."]
+        description = ["Disables flank results upload on gcloud storage."]
     )
     @set:JsonProperty("disable-results-upload")
     var disableResultsUpload: Boolean? by data
