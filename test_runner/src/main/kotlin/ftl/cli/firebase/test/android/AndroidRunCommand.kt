@@ -47,7 +47,7 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
 
         runBlocking {
             if (dumpShards)
-                dumpShards(config) else
+                dumpShards(args = config, obfuscatedOutput = obfuscate) else
                 newTestRun(config)
         }
     }
