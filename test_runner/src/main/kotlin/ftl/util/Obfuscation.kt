@@ -53,6 +53,4 @@ private fun nextSymbol(key: String, context: Map<String, String>): String {
     return possibleSymbols[currentContextItemCount % possibleSymbols.length].toString().repeat(repeatSymbol)
 }
 
-private fun obfuscateMethodName(methodName: String, context: MutableMap<String, String>) =
-    context.getOrPut(methodName) { nextSymbol(methodName, context) }
-
+private fun obfuscateMethodName(methodName: String, context: MutableMap<String, String>) = context.getOrPut(methodName) { nextSymbol(methodName, context) }

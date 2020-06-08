@@ -3,7 +3,6 @@ package ftl.util
 import com.google.common.annotations.VisibleForTesting
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
-import com.google.gson.JsonElement
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import com.google.gson.reflect.TypeToken
@@ -37,7 +36,6 @@ private object ObfuscatedAndroidJsonSerializer : JsonSerializer<List<String>> {
     }
 }
 
-
 private object ObfuscatedIosJsonSerializer : JsonSerializer<List<List<String>>> {
     private val obfuscationContext by lazy { mutableMapOf<String, MutableMap<String, String>>() }
 
@@ -53,4 +51,3 @@ private object ObfuscatedIosJsonSerializer : JsonSerializer<List<List<String>>> 
         }
     }
 }
-
