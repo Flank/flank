@@ -2,56 +2,43 @@ package ftl.util
 
 private const val LOWER_CASE_CHARS = "abcdefghijklmnopqrstuvwxyz"
 private const val UPPER_CASE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-private const val START_CONTEXT_KEY = ""
+private const val ANDROID_TEST_METHOD_SEPARATOR = '#'
+private const val ANDROID_PACKAGE_SEPARATOR = '.'
+private const val IOS_TEST_METHOD_SEPARATOR = '/'
+typealias ObfuscationContext = MutableMap<String, MutableMap<String, String>>
 
-interface Obfuscation {
-    fun obfuscate(input: String): String
+fun ObfuscationContext.obfuscateAndroidTestName(input: String): String {
+    val obfuscatedPackageNameWithClass =
+        obfuscateAndroidPackageAndClass(input.split(ANDROID_TEST_METHOD_SEPARATOR).first())
+
+    val obfuscatedMethodName = obfuscateMethodName(
+        methodName = input.split(ANDROID_TEST_METHOD_SEPARATOR).last(),
+        context = getOrPut(obfuscatedPackageNameWithClass) { mutableMapOf() }
+    )
+
+    return "$obfuscatedPackageNameWithClass$ANDROID_TEST_METHOD_SEPARATOR$obfuscatedMethodName"
 }
 
-class AndroidObfuscation : Obfuscation {
-    private val contextMapAndroid = mutableMapOf<String, MutableMap<String, String>>()
-    private val androidTestMethodSeparator = '#'
-    private val androidPackageSeparator = '.'
-
-    override fun obfuscate(input: String): String {
-        val obfuscatedPackageNameWithClass =
-            obfuscateAndroidPackageAndClass(input.split(androidTestMethodSeparator).first())
-
-        val obfuscatedMethodName = obfuscateMethodName(
-            methodName = input.split(androidTestMethodSeparator).last(),
-            context = contextMapAndroid.getOrPut(obfuscatedPackageNameWithClass) { mutableMapOf() }
-        )
-
-        return "$obfuscatedPackageNameWithClass$androidTestMethodSeparator$obfuscatedMethodName"
-    }
-
-    private fun obfuscateAndroidPackageAndClass(packageNameWithClass: String): String {
-        return packageNameWithClass
-            .split(androidPackageSeparator)
-            .fold(START_CONTEXT_KEY) { previous, next ->
-                val classChunk = contextMapAndroid.getOrPut(previous) { linkedMapOf() }
-                val obfuscatedPart = classChunk.getOrPut(next) { nextSymbol(next, classChunk) }
-                if (previous.isEmpty()) obfuscatedPart else "$previous$androidPackageSeparator$obfuscatedPart"
-            }
-    }
-}
-
-class IosObfuscation : Obfuscation {
-    private val contextMapIos = mutableMapOf<String, MutableMap<String, String>>()
-    private val iOsTestMethodSeparator = '/'
-
-    override fun obfuscate(input: String): String {
-        val className = input.split(iOsTestMethodSeparator).first()
-        val obfuscatedClassName = contextMapIos.getOrPut(START_CONTEXT_KEY) { mutableMapOf() }.run {
-            getOrPut(className) { nextSymbol(className, this) }
+private fun ObfuscationContext.obfuscateAndroidPackageAndClass(packageNameWithClass: String) =
+    packageNameWithClass
+        .split(ANDROID_PACKAGE_SEPARATOR)
+        .fold("") { previous, next ->
+            val classChunk = getOrPut(previous) { linkedMapOf() }
+            val obfuscatedPart = classChunk.getOrPut(next) { nextSymbol(next, classChunk) }
+            if (previous.isEmpty()) obfuscatedPart else "$previous$ANDROID_PACKAGE_SEPARATOR$obfuscatedPart"
         }
-        return obfuscatedClassName +
-                iOsTestMethodSeparator +
-                obfuscateMethodName(
-                    methodName = input.split(iOsTestMethodSeparator).last(),
-                    context = contextMapIos.getOrPut(obfuscatedClassName) { linkedMapOf() }
-                )
+
+fun ObfuscationContext.obfuscateIosTestName(input: String): String {
+    val className = input.split(IOS_TEST_METHOD_SEPARATOR).first()
+    val obfuscatedClassName = getOrPut("") { mutableMapOf() }.run {
+        getOrPut(className) { nextSymbol(className, this) }
     }
+    return obfuscatedClassName +
+            IOS_TEST_METHOD_SEPARATOR +
+            obfuscateMethodName(
+                methodName = input.split(IOS_TEST_METHOD_SEPARATOR).last(),
+                context = getOrPut(obfuscatedClassName) { linkedMapOf() }
+            )
 }
 
 private fun nextSymbol(key: String, context: Map<String, String>): String {
@@ -66,6 +53,6 @@ private fun nextSymbol(key: String, context: Map<String, String>): String {
     return possibleSymbols[currentContextItemCount % possibleSymbols.length].toString().repeat(repeatSymbol)
 }
 
-private fun obfuscateMethodName(methodName: String, context: MutableMap<String, String>): String {
-    return context.getOrPut(methodName) { nextSymbol(methodName, context) }
-}
+private fun obfuscateMethodName(methodName: String, context: MutableMap<String, String>) =
+    context.getOrPut(methodName) { nextSymbol(methodName, context) }
+

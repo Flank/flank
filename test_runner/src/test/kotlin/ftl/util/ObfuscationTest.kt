@@ -10,9 +10,10 @@ internal class ObfuscationTest {
     fun `Should obfuscate android like test method string`() {
         // given
         val testString = "com.flank.Super#Test"
+        val obfuscationContext: ObfuscationContext = mutableMapOf()
 
         // when
-        val obfuscated = AndroidObfuscation().obfuscate(testString)
+        val obfuscated = obfuscationContext.obfuscateAndroidTestName(testString)
 
         // then
         assertNotEquals(testString, obfuscated)
@@ -21,10 +22,11 @@ internal class ObfuscationTest {
     @Test
     fun `Should obfuscate ios like test method string`() {
         // given
+        val obfuscationContext: ObfuscationContext = mutableMapOf()
         val testString = "Flank/SuperTest"
 
         // when
-        val obfuscated = IosObfuscation().obfuscate(testString)
+        val obfuscated = obfuscationContext.obfuscateIosTestName(testString)
 
         // then
         assertNotEquals(testString, obfuscated)
@@ -49,10 +51,10 @@ internal class ObfuscationTest {
             "b.a.A#a",
             "b.b.A#a"
         )
-        val obfuscation = AndroidObfuscation()
+        val obfuscationContext: ObfuscationContext = mutableMapOf()
 
         // when
-        val testResults = testMethods.map { obfuscation.obfuscate(it) }
+        val testResults = testMethods.map { obfuscationContext.obfuscateAndroidTestName(it) }
 
         // then
         testResults.forEachIndexed { index, obfuscatedMethodName ->
@@ -79,10 +81,10 @@ internal class ObfuscationTest {
             "B/a",
             "B/b"
         )
-        val obfuscation = IosObfuscation()
+        val obfuscationContext: ObfuscationContext = mutableMapOf()
 
         // when
-        val testResults = testMethods.map { obfuscation.obfuscate(it) }
+        val testResults = testMethods.map { obfuscationContext.obfuscateIosTestName(it) }
 
         // then
         testResults.forEachIndexed { index, obfuscatedMethodName ->
