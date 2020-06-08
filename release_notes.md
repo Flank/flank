@@ -1,5 +1,11 @@
 ## next (unreleased)
 
+- [#837](https://github.com/Flank/flank/pull/837) Added obfuscate option to dump shards. ([piotradamczyk5](https://github.com/piotradamczyk5))
+- 
+- 
+
+## v20.06.0
+
 - [#831](https://github.com/Flank/flank/pull/831) Refactor config entities and arguments. ([jan-gogo](https://github.com/jan-gogo))
 - [#817](https://github.com/Flank/flank/pull/817) Add AndroidTestContext as base data for dump shards & test execution. ([jan-gogo](https://github.com/jan-gogo))
 - [#801](https://github.com/Flank/flank/pull/801) Omit missing app apk if additional-app-test-apks specified. ([jan-gogo](https://github.com/jan-gogo)) 
@@ -17,8 +23,6 @@
 - [#825](https://github.com/Flank/flank/pull/825) Automatically convert -1 in maximum-test-shards to the maximum shard amount. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#833](https://github.com/Flank/flank/pull/833) More error messages improvements. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#826](https://github.com/Flank/flank/pull/826) Omit `environment-variables` for robo test executions instead of throwing exception. ([adamfilipow92](https://github.com/adamfilipow92))
-- [#837](https://github.com/Flank/flank/pull/837) Added obfuscate option to dump shards. ([piotradamczyk5](https://github.com/piotradamczyk5))
--
 
 ## v20.05.2
 
