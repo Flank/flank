@@ -7,7 +7,7 @@ import org.junit.Test
 internal class ObfuscationTest {
 
     @Test
-    fun `Should obfuscate android like test method string`() {
+    fun `should obfuscate android like test method string`() {
         // given
         val testString = "com.flank.Super#Test"
         val obfuscationContext: ObfuscationContext = mutableMapOf()
@@ -20,7 +20,7 @@ internal class ObfuscationTest {
     }
 
     @Test
-    fun `Should obfuscate ios like test method string`() {
+    fun `should obfuscate ios like test method string`() {
         // given
         val obfuscationContext: ObfuscationContext = mutableMapOf()
         val testString = "Flank/SuperTest"
@@ -33,7 +33,7 @@ internal class ObfuscationTest {
     }
 
     @Test
-    fun `Should obfuscate android method name and assign unique symbols to package and method`() {
+    fun `should obfuscate android method name and assign unique symbols to package and method`() {
         // given
         val testMethods = listOf(
             "com.example.Class1#method1",
@@ -63,7 +63,7 @@ internal class ObfuscationTest {
     }
 
     @Test
-    fun `Should obfuscate ios method name and assign unique symbols to class and method`() {
+    fun `should obfuscate ios method name and assign unique symbols to class and method`() {
         // given
         val testMethods = listOf(
             "SampleIOS/test",

@@ -6,7 +6,7 @@ import org.junit.Test
 class ObfuscationGsonTest {
 
     @Test
-    fun `Should return gson with correct type adapters registered`() {
+    fun `should return gson with correct type adapters registered`() {
         // given
         val expectedTypeTokenForAndroid = ListOfStringTypeToken
         val expectedTypeTokenForIos = ListOfStringListTypeToken
