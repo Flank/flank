@@ -1,6 +1,10 @@
 package ftl.run.platform.android
 
-import com.linkedin.dex.parser.*
+import com.linkedin.dex.parser.DecodedValue
+import com.linkedin.dex.parser.DexParser
+import com.linkedin.dex.parser.formatClassName
+import com.linkedin.dex.parser.getAnnotationsDirectory
+import com.linkedin.dex.parser.getClassAnnotationValues
 import com.linkedin.dex.spec.AnnotationsDirectoryItem
 import com.linkedin.dex.spec.DexFile
 import ftl.args.AndroidArgs

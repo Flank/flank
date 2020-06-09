@@ -49,7 +49,7 @@ class CreateAndroidTestContextKtTest {
 
     @Test
     fun `should contains parametrized test`() {
-        //given
+        // given
         val expected = "class com.example.test_app.KotlinParameterizedTest"
 
         // when
@@ -61,4 +61,3 @@ class CreateAndroidTestContextKtTest {
         Assert.assertTrue(actual.contains(expected))
     }
 }
-
