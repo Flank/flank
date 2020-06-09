@@ -1,6 +1,7 @@
 package ftl.run.platform.android
 
 import com.linkedin.dex.parser.*
+import com.linkedin.dex.spec.AnnotationsDirectoryItem
 import com.linkedin.dex.spec.DexFile
 import ftl.args.AndroidArgs
 import ftl.args.ArgsHelper
@@ -52,33 +53,47 @@ private fun InstrumentationTestContext.calculateShards(
 private fun InstrumentationTestContext.getFlankTestMethods(
     testFilter: TestFilter
 ): List<FlankTestMethod> {
-    val parameterizedClasses = mutableListOf<String>()
-    DexParser.readDexFiles(test.local).forEach { file ->
-        file.classDefs.forEach { classDef ->
-            val directory = file.getAnnotationsDirectory(classDef)
-            val className = file.formatClassName(classDef).dropLast(1)
-            val classAnnotations = file.getClassAnnotationValues(directory).map { it.name }
-            if (classAnnotations.any { it.toLowerCase().contains("RunWith".toLowerCase()) } && // sprawdzamy czy klasa ma adnotacje RunWith
-                file.getClassAnnotationValues(directory)
-                    .flatMap { annotations -> annotations.values.values }
-                    .filterIsInstance<DecodedValue.DecodedType>()
-                    .map { it.value }
-                    .any { it.toLowerCase().contains("Parameterized".toLowerCase()) }) {  // sprawdzamy czy klasa zadana jako parametr  adnotacji to Parameterized
-                parameterizedClasses += className
-            }
-        }
-    }
-    return DexParser.findTestMethods(test.local).asSequence()
-        .distinct()
-        .filter(testFilter.shouldRun)
-        .filter { method -> parameterizedClasses.none { method.testName.contains(it) } } // wywal metody z klas parameterized
-        .map { testMethod ->
-            FlankTestMethod(
-                testName = "class ${testMethod.testName}",
-                ignored = testMethod.annotations.any { it.name == "org.junit.Ignore" }
-            )
-        }.toList() + parameterizedClasses.map { FlankTestMethod("class $it", false) }
+    val parameterizedClasses = getParametrizedClasses()
+    return getNonParametrizedClassesTests(testFilter, parameterizedClasses) + parameterizedClasses.toFlankTestMethods()
 }
+
+private fun InstrumentationTestContext.getParametrizedClasses() =
+    DexParser.readDexFiles(test.local)
+        .fold(mutableListOf<String>()) { parameterizedClasses, file ->
+            file.classDefs.forEach { classDef ->
+                val directory = file.getAnnotationsDirectory(classDef)
+                if (file.hasRunWithAnnotation(directory) && file.isAnnotationParameterIsParametrized(directory)) {
+                    parameterizedClasses += file.formatClassName(classDef).dropLast(1)
+                }
+            }
+            parameterizedClasses
+        }
+
+private fun DexFile.hasRunWithAnnotation(directory: AnnotationsDirectoryItem?) =
+    getClassAnnotationValues(directory).map { it.name }.any { it.toLowerCase().contains("RunWith".toLowerCase()) }
+
+private fun DexFile.isAnnotationParameterIsParametrized(directory: AnnotationsDirectoryItem?) =
+    getClassAnnotationValues(directory)
+        .flatMap { annotations -> annotations.values.values }
+        .filterIsInstance<DecodedValue.DecodedType>()
+        .map { it.value }
+        .any { it.toLowerCase().contains("Parameterized".toLowerCase()) }
+
+private fun InstrumentationTestContext.getNonParametrizedClassesTests(
+    testFilter: TestFilter,
+    parameterizedClasses: List<String>
+) = DexParser.findTestMethods(test.local).asSequence()
+    .distinct()
+    .filter(testFilter.shouldRun)
+    .filter { method -> parameterizedClasses.none { method.testName.contains(it) } }
+    .map { testMethod ->
+        FlankTestMethod(
+            testName = "class ${testMethod.testName}",
+            ignored = testMethod.annotations.any { it.name == "org.junit.Ignore" }
+        )
+    }.toList()
+
+private fun List<String>.toFlankTestMethods() = map { FlankTestMethod("class $it", false) }
 
 private fun List<AndroidTestContext>.dropEmptyInstrumentationTest(): List<AndroidTestContext> =
     filterIsInstance<InstrumentationTestContext>().filter { it.shards.isEmpty() }.let { withoutTests ->
