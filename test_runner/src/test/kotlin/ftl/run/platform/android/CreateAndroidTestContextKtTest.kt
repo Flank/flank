@@ -50,7 +50,7 @@ class CreateAndroidTestContextKtTest {
     @Test
     fun `should contains parametrized test`() {
         // given
-        val expected = "class com.example.test_app.KotlinParameterizedTest"
+        val expected = "class com.example.test_app.ParameterizedTest"
 
         // when
         val actual = runBlocking {
