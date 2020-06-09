@@ -31,7 +31,7 @@ class CreateAndroidTestContextKtTest {
                 app = should { local.endsWith("app-debug.apk") },
                 test = should { local.endsWith("app-multiple-flaky-debug-androidTest.apk") },
                 shards = listOf(
-                    should { size == 2 },
+                    should { size == 3 },
                     should { size == 3 }
                 )
             )

@@ -32,7 +32,8 @@ class DumpShardsKtTest {
     "shards": {
       "shard-0": [
         "class com.example.test_app.InstrumentedTest#test1",
-        "class com.example.test_app.InstrumentedTest#test2"
+        "class com.example.test_app.InstrumentedTest#test2",
+        "class com.example.test_app.KotlinParameterizedTest"
       ],
       "shard-1": [
         "class com.example.test_app.InstrumentedTest#test0",
