@@ -5,17 +5,16 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
-
 @RunWith(Parameterized::class)
-class KotlinParameterizedTest(private val paramOne: Int, private val paramTwo: String) {
+class ParameterizedTest(private val paramOne: Int, private val paramTwo: String) {
 
     companion object {
         @JvmStatic
         @Parameterized.Parameters
         fun data() = listOf(
-            arrayOf(1, "1"),
-            arrayOf(666, "666") ,
-            arrayOf(54321, "54321")
+                arrayOf(1, "1"),
+                arrayOf(666, "666"),
+                arrayOf(54321, "54321")
         )
     }
 
