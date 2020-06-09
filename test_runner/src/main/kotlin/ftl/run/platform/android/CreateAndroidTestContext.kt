@@ -2,10 +2,12 @@ package ftl.run.platform.android
 
 import com.linkedin.dex.parser.DecodedValue
 import com.linkedin.dex.parser.DexParser
+import com.linkedin.dex.parser.TestAnnotation
+import com.linkedin.dex.parser.TestMethod
 import com.linkedin.dex.parser.formatClassName
 import com.linkedin.dex.parser.getAnnotationsDirectory
 import com.linkedin.dex.parser.getClassAnnotationValues
-import com.linkedin.dex.spec.AnnotationsDirectoryItem
+import com.linkedin.dex.spec.ClassDefItem
 import com.linkedin.dex.spec.DexFile
 import ftl.args.AndroidArgs
 import ftl.args.ArgsHelper
@@ -56,48 +58,37 @@ private fun InstrumentationTestContext.calculateShards(
 
 private fun InstrumentationTestContext.getFlankTestMethods(
     testFilter: TestFilter
-): List<FlankTestMethod> {
-    val parameterizedClasses = getParametrizedClasses()
-    return getNonParametrizedClassesTests(testFilter, parameterizedClasses) + parameterizedClasses.toFlankTestMethods()
-}
+): List<FlankTestMethod> =
+    getParametrizedClasses().let { parameterizedClasses: List<String> ->
+        DexParser.findTestMethods(test.local).asSequence()
+            .distinct()
+            .filter(testFilter.shouldRun)
+            .filterNot(parameterizedClasses::belong)
+            .map(TestMethod::toFlankTestMethod).toList()
+            .plus(parameterizedClasses.map(String::toFlankTestMethod))
+    }
 
-private fun InstrumentationTestContext.getParametrizedClasses() =
-    DexParser.readDexFiles(test.local)
-        .fold(mutableListOf<String>()) { parameterizedClasses, file ->
-            file.classDefs.forEach { classDef ->
-                val directory = file.getAnnotationsDirectory(classDef)
-                if (file.hasRunWithAnnotation(directory) && file.isAnnotationParameterIsParametrized(directory)) {
-                    parameterizedClasses += file.formatClassName(classDef).dropLast(1)
-                }
-            }
-            parameterizedClasses
-        }
+private fun List<String>.belong(method: TestMethod) = any { className -> method.testName.startsWith(className) }
 
-private fun DexFile.hasRunWithAnnotation(directory: AnnotationsDirectoryItem?) =
-    getClassAnnotationValues(directory).map { it.name }.any { it.toLowerCase().contains("RunWith".toLowerCase()) }
+private fun TestMethod.toFlankTestMethod() = FlankTestMethod("class $testName", ignored = annotations.any { it.name == "org.junit.Ignore" })
 
-private fun DexFile.isAnnotationParameterIsParametrized(directory: AnnotationsDirectoryItem?) =
-    getClassAnnotationValues(directory)
-        .flatMap { annotations -> annotations.values.values }
-        .filterIsInstance<DecodedValue.DecodedType>()
-        .map { it.value }
-        .any { it.toLowerCase().contains("Parameterized".toLowerCase()) }
+private fun String.toFlankTestMethod() = FlankTestMethod("class $this", ignored = false)
 
-private fun InstrumentationTestContext.getNonParametrizedClassesTests(
-    testFilter: TestFilter,
-    parameterizedClasses: List<String>
-) = DexParser.findTestMethods(test.local).asSequence()
-    .distinct()
-    .filter(testFilter.shouldRun)
-    .filter { method -> parameterizedClasses.none { method.testName.contains(it) } }
-    .map { testMethod ->
-        FlankTestMethod(
-            testName = "class ${testMethod.testName}",
-            ignored = testMethod.annotations.any { it.name == "org.junit.Ignore" }
-        )
-    }.toList()
+private fun InstrumentationTestContext.getParametrizedClasses(): List<String> =
+    DexParser.readDexFiles(test.local).fold(emptyList()) { accumulator, file: DexFile ->
+        accumulator + file.classDefs
+            .filter(file::isParametrizedClass)
+            .map(file::formatClassName) // returns class name + '#'
+            .map { it.dropLast(1) } // so drop '#'
+    }
 
-private fun List<String>.toFlankTestMethods() = map { FlankTestMethod("class $it", false) }
+private fun DexFile.isParametrizedClass(classDef: ClassDefItem): Boolean =
+    getClassAnnotationValues(getAnnotationsDirectory(classDef)).let { annotations: List<TestAnnotation> ->
+        annotations.any { it.name.contains("RunWith", ignoreCase = true) } && annotations
+            .flatMap { it.values.values }
+            .filterIsInstance<DecodedValue.DecodedType>()
+            .any { it.value.contains("Parameterized", ignoreCase = true) }
+    }
 
 private fun List<AndroidTestContext>.dropEmptyInstrumentationTest(): List<AndroidTestContext> =
     filterIsInstance<InstrumentationTestContext>().filter { it.shards.isEmpty() }.let { withoutTests ->
