@@ -87,8 +87,15 @@ private fun DexFile.isParametrizedClass(classDef: ClassDefItem): Boolean =
         annotations.any { it.name.contains("RunWith", ignoreCase = true) } && annotations
             .flatMap { it.values.values }
             .filterIsInstance<DecodedValue.DecodedType>()
-            .any { it.value.contains("Parameterized", ignoreCase = true) }
+            .any { it.isParameterizedAnnotation() }
     }
+
+private fun DecodedValue.DecodedType.isParameterizedAnnotation(): Boolean =
+    parameterizedTestRunners.any { runner ->
+        value.contains(runner, ignoreCase = true)
+    }
+
+private val parameterizedTestRunners = listOf("JUnitParamsRunner")
 
 private fun List<AndroidTestContext>.dropEmptyInstrumentationTest(): List<AndroidTestContext> =
     filterIsInstance<InstrumentationTestContext>().filter { it.shards.isEmpty() }.let { withoutTests ->
