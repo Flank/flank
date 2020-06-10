@@ -7,7 +7,6 @@ import ftl.run.model.RoboTestContext
 import ftl.test.util.mixedConfigYaml
 import ftl.test.util.should
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -32,7 +31,7 @@ class CreateAndroidTestContextKtTest {
                 app = should { local.endsWith("app-debug.apk") },
                 test = should { local.endsWith("app-multiple-flaky-debug-androidTest.apk") },
                 shards = listOf(
-                    should { size == 3 },
+                    should { size == 3 && contains("class com.example.test_app.ParameterizedTest") },
                     should { size == 3 }
                 )
             )
@@ -45,19 +44,5 @@ class CreateAndroidTestContextKtTest {
 
         // then
         assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should contains parametrized test`() {
-        // given
-        val expected = "class com.example.test_app.ParameterizedTest"
-
-        // when
-        val actual = runBlocking {
-            AndroidArgs.load(mixedConfigYaml).createAndroidTestContexts()
-        }.map { it as? InstrumentationTestContext }.filterNotNull().flatMap { it.shards.flatten() }
-
-        // then
-        Assert.assertTrue(actual.contains(expected))
     }
 }
