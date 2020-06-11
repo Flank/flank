@@ -95,7 +95,7 @@ private fun DecodedValue.DecodedType.isParameterizedAnnotation(): Boolean =
         value.contains(runner, ignoreCase = true)
     }
 
-private val parameterizedTestRunners = listOf("JUnitParamsRunner")
+private val parameterizedTestRunners = listOf("JUnitParamsRunner", "Parameterized")
 
 private fun List<AndroidTestContext>.dropEmptyInstrumentationTest(): List<AndroidTestContext> =
     filterIsInstance<InstrumentationTestContext>().filter { it.shards.isEmpty() }.let { withoutTests ->
