@@ -16,9 +16,9 @@ Orchestrator is **enabled by default in Flank** and disabled by default in gclou
 
 Local execution will use the version of Orchestrator defined in your gradle file. Firebase Test Lab currently uses Orchestrator v1.2.0. Firebase must manually upgrade Orchestrator on their devices for customers to use the new version.
 
-orchestrator: https://developer.android.com/training/testing/junit-runner#using-android-test-orchestrator
-instrumentation: https://developer.android.com/reference/android/app/Instrumentation
-androidx_test: https://github.com/android/android-test/releases/tag/androidx-test-1.3.0-beta02
+[orchestrator]: https://developer.android.com/training/testing/junit-runner#using-android-test-orchestrator
+[instrumentation]: https://developer.android.com/reference/android/app/Instrumentation
+[androidx_test]: https://github.com/android/android-test/releases/tag/androidx-test-1.3.0-beta02
 
 # GCloud Sharding
 
@@ -34,10 +34,10 @@ On FTL `--test-targets` or `--test-targets-for-shard` are passed as arguments to
 
 > adb shell am instrument -r -w -e class com.example.test_app.ParameterizedTest#shouldHopefullyPass com.example.test_app.test/androidx.test.runner.AndroidJUnitRunner
 
-gcloud_cli: https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/run
-uniform_shards: https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/run#--num-uniform-shards
-test_targets_for_shards: https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/run#--test-targets-for-shard
-ajur: https://developer.android.com/training/testing/junit-runner
+[gcloud_cli]: https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/run
+[uniform_shards]: https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/run#--num-uniform-shards
+[test_targets_for_shards]: https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/run#--test-targets-for-shard
+[ajur]: https://developer.android.com/training/testing/junit-runner
 
 
 # Flank
