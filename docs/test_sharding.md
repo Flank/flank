@@ -8,11 +8,16 @@ Orchestrator ensures each tests runs Each test runs in a new [Instrumentation][i
 
 When a test crashes, only that tests instrumentation instance crashes which enables other tests in the suite to continue execution. Without orchestrator, a test crash will break the entire test suite.
 
+```yaml
+gcloud:
+  use-orchestrator: true
+```
+
 ## Orchestrator + Firebase Test lab
 
 Orchestrator is **enabled by default in Flank** and disabled by default in gcloud CLI.
 
-[AndroidX Test 1.3.0 Beta02][androidx_test] or later is required to run parameterized tests with orchestrator Both the runner and orchestrator must be updated.
+[AndroidX Test 1.3.0 Beta02][androidx_test] or later is required to run parameterized tests with orchestrator. Both the runner and orchestrator must be updated.
 
 Local execution will use the version of Orchestrator defined in your gradle file. Firebase Test Lab currently uses Orchestrator v1.2.0. Firebase must manually upgrade Orchestrator on their devices for customers to use the new version.
 
@@ -42,10 +47,20 @@ On FTL `--test-targets` or `--test-targets-for-shard` are passed as arguments to
 
 # Flank
 
-disable-sharding
-orchestrator: false
+Parameterized tests can be run with Flank by disabling orchestrator and sharding. Flank will omit test targets causing the FTL server to run all available tests.
 
+```
+gcloud:
+  use-orchestrator: false
+  app: ../test_app/apks/app-debug.apk
+  test: ../test_app/apks/app-debug-androidTest.apk
+  - model: NexusLowRes
+    version: 28
+    locale: en
+    orientation: portrait
 
+flank:
+  disable-sharding: false
+```
 
-
-
+When test targets are specified or sharding is used, then Flank will be limited by tests that are discoverable by [dex-test-parser](https://github.com/linkedin/dex-test-parser).
