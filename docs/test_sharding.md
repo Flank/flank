@@ -42,7 +42,7 @@ On FTL `--test-targets` or `--test-targets-for-shard` are passed as arguments to
 [gcloud_cli]: https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/run
 [uniform_shards]: https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/run#--num-uniform-shards
 [test_targets_for_shards]: https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/run#--test-targets-for-shard
-[ajur]: https://developer.android.com/training/testing/junit-runner
+[ajur]: https://developer.android.com/training/testing/junit-runner#sharding-tests
 
 
 # Flank
