@@ -1,8 +1,9 @@
 ## next (unreleased)
 
-- - [#840](https://github.com/Flank/flank/pull/840) Fix parametrized tests. ([jan-gogo](https://github.com/jan-gogo), [adamfilipow92](https://github.com/adamfilipow92), [pawelpasterz](https://github.com/pawelpasterz), [piotradamczyk5](https://github.com/piotradamczyk5))
 - 
-- 
+
+## v20.06.1
+- [#840](https://github.com/Flank/flank/pull/840) Fix parametrized tests. ([jan-gogo](https://github.com/jan-gogo), [adamfilipow92](https://github.com/adamfilipow92), [pawelpasterz](https://github.com/pawelpasterz), [piotradamczyk5](https://github.com/piotradamczyk5))
 
 ## v20.06.0
 
