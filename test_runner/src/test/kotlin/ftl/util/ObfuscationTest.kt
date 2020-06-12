@@ -9,7 +9,7 @@ internal class ObfuscationTest {
     @Test
     fun `should obfuscate android like test method string`() {
         // given
-        val testString = "com.flank.Super#Test"
+        val testString = "com.flank.Super#test"
         val obfuscationContext: ObfuscationContext = mutableMapOf()
 
         // when
@@ -50,6 +50,36 @@ internal class ObfuscationTest {
             "a.a.a.A#a",
             "b.a.A#a",
             "b.b.A#a"
+        )
+        val obfuscationContext: ObfuscationContext = mutableMapOf()
+
+        // when
+        val testResults = testMethods.map { obfuscationContext.obfuscateAndroidTestName(it) }
+
+        // then
+        testResults.forEachIndexed { index, obfuscatedMethodName ->
+            assertThat(obfuscatedMethodName).isEqualTo(expectedObfuscationResult[index])
+        }
+    }
+
+    @Test
+    fun `should obfuscate android only package and class if method not present`() {
+        // given
+        val testMethods = listOf(
+            "com.example.Class1",
+            "com.example.Class1",
+            "com.example.Class2#method1",
+            "com.example.foo.Class1",
+            "flank.support.Test",
+            "flank.test.Test"
+        )
+        val expectedObfuscationResult = listOf(
+            "a.a.A",
+            "a.a.A",
+            "a.a.B#a",
+            "a.a.a.A",
+            "b.a.A",
+            "b.b.A"
         )
         val obfuscationContext: ObfuscationContext = mutableMapOf()
 

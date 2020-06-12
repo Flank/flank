@@ -11,12 +11,7 @@ fun ObfuscationContext.obfuscateAndroidTestName(input: String): String {
     val obfuscatedPackageNameWithClass =
         obfuscateAndroidPackageAndClass(input.split(ANDROID_TEST_METHOD_SEPARATOR).first())
 
-    val obfuscatedMethodName = obfuscateMethodName(
-        methodName = input.split(ANDROID_TEST_METHOD_SEPARATOR).last(),
-        context = getOrPut(obfuscatedPackageNameWithClass) { mutableMapOf() }
-    )
-
-    return "$obfuscatedPackageNameWithClass$ANDROID_TEST_METHOD_SEPARATOR$obfuscatedMethodName"
+    return obfuscatedPackageNameWithClass + obfuscateAndroidMethodIfPresent(input, obfuscatedPackageNameWithClass)
 }
 
 private fun ObfuscationContext.obfuscateAndroidPackageAndClass(packageNameWithClass: String) =
@@ -27,6 +22,16 @@ private fun ObfuscationContext.obfuscateAndroidPackageAndClass(packageNameWithCl
             val obfuscatedPart = classChunk.getOrPut(next) { nextSymbol(next, classChunk) }
             if (previous.isEmpty()) obfuscatedPart else "$previous$ANDROID_PACKAGE_SEPARATOR$obfuscatedPart"
         }
+
+private fun ObfuscationContext.obfuscateAndroidMethodIfPresent(
+    input: String,
+    obfuscatedPackageNameWithClass: String
+) = if (input.contains(ANDROID_TEST_METHOD_SEPARATOR))
+    ANDROID_TEST_METHOD_SEPARATOR + obfuscateMethodName(
+        methodName = input.split(ANDROID_TEST_METHOD_SEPARATOR).last(),
+        context = getOrPut(obfuscatedPackageNameWithClass) { mutableMapOf() }
+    )
+else ""
 
 fun ObfuscationContext.obfuscateIosTestName(input: String): String {
     val className = input.split(IOS_TEST_METHOD_SEPARATOR).first()
@@ -53,4 +58,5 @@ private fun nextSymbol(key: String, context: Map<String, String>): String {
     return possibleSymbols[currentContextItemCount % possibleSymbols.length].toString().repeat(repeatSymbol)
 }
 
-private fun obfuscateMethodName(methodName: String, context: MutableMap<String, String>) = context.getOrPut(methodName) { nextSymbol(methodName, context) }
+private fun obfuscateMethodName(methodName: String, context: MutableMap<String, String>) =
+    context.getOrPut(methodName) { nextSymbol(methodName, context) }
