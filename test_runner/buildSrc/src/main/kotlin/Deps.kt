@@ -15,7 +15,7 @@ object Versions {
     const val SHADOW = "5.2.0"
 
     // https://github.com/linkedin/dex-test-parser/releases
-    const val DEX_TEST_PARSER = "2.1.1"
+    const val DEX_TEST_PARSER = "2.2.1"
 
     // match to Tools -> Kotlin -> Configure Kotlin Plugin Updates -> Update Channel: Stable
     const val KOTLIN = "1.3.72"
