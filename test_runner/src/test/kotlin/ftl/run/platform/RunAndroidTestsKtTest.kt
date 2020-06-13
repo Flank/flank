@@ -20,8 +20,8 @@ class RunAndroidTestsKtTest {
             map.size == 3
         } to listOf<List<String>>(
             should { size == 1 },
-            should { size == 3 },
-            should { size == 3 }
+            should { size == 4 },
+            should { size == 5 }
         )
 
         // when

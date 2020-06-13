@@ -126,11 +126,11 @@ Configuration is read from flank.yml
 *--shard-time*=_<shardTime>_::
   The max amount of seconds each shard should run.
 
-*--num-test-runs*=_<repeatTests>_::
-  The amount of times to run the test executions.
-
 *--max-test-shards*=_<maxTestShards>_::
   The amount of matrices to split the tests across.
+
+*--num-test-runs*=_<repeatTests>_::
+  The amount of times to run the test executions.
 
 *--smart-flank-gcs-path*=_<smartFlankGcsPath>_::
   Google cloud storage path to save test timing data used by smart flank.
