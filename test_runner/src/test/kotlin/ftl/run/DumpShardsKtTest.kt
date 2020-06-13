@@ -33,12 +33,15 @@ class DumpShardsKtTest {
       "shard-0": [
         "class com.example.test_app.InstrumentedTest#test1",
         "class com.example.test_app.InstrumentedTest#test2",
-        "class com.example.test_app.ParameterizedTest"
+        "class com.example.test_app.ParameterizedTest",
+        "class com.example.test_app.parametrized.EspressoParametrizedClassParameterizedNamed"
       ],
       "shard-1": [
         "class com.example.test_app.InstrumentedTest#test0",
         "class com.example.test_app.bar.BarInstrumentedTest#testBar",
-        "class com.example.test_app.foo.FooInstrumentedTest#testFoo"
+        "class com.example.test_app.foo.FooInstrumentedTest#testFoo",
+        "class com.example.test_app.parametrized.EspressoParametrizedClassTestParameterized",
+        "class com.example.test_app.parametrized.EspressoParametrizedMethodTestJUnitParamsRunner"
       ]
     }
   }
