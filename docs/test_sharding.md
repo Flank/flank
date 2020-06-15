@@ -25,6 +25,7 @@ Local execution will use the version of Orchestrator defined in your gradle file
 [instrumentation]: https://developer.android.com/reference/android/app/Instrumentation
 [androidx_test]: https://github.com/android/android-test/releases/tag/androidx-test-1.3.0-beta02
 
+
 # GCloud Sharding
 
 The [gcloud CLI][gcloud_cli] supports two types of sharding, uniform sharding and manual sharding via test targets for shard.
@@ -46,21 +47,38 @@ On FTL `--test-targets` or `--test-targets-for-shard` are passed as arguments to
 
 
 # Flank
+The Flank supports two types of sharding, automatic sharding and uniform sharding.
 
-Parameterized tests can be run with Flank by disabling orchestrator and sharding. Flank will omit test targets causing the FTL server to run all available tests.
+Automatic sharding is enabled by default and can be disabled by `--disable-sharding=true`. Under the hood automatic sharding uses same API as gcloud's `--test-targets-for-shard` but in difference to gcloud it creates shards automatically. 
+`--dump-shards` can help with verifying if calculates shards are correct. Automated sharding can work with `--test-targets` option. 
 
-```
-gcloud:
-  use-orchestrator: false
-  app: ../test_app/apks/app-debug.apk
-  test: ../test_app/apks/app-debug-androidTest.apk
-  - model: NexusLowRes
-    version: 28
-    locale: en
-    orientation: portrait
+`--num-uniform-shards` provides same functionality as gcloud's option. Is not compatible with automatic sharding.
 
-flank:
-  disable-sharding: false
-```
 
-When test targets are specified or sharding is used, then Flank will be limited by tests that are discoverable by [dex-test-parser](https://github.com/linkedin/dex-test-parser).
+# Parameterized tests
+
+
+Flank [v20.06.1](https://github.com/Flank/flank/releases/tag/v20.06.1) fix some compatibility issues with named parameterized tests, when running with sharding. \
+[Table](https://github.com/Flank/flank_parametrized_tests/tree/master/test_apk) below bases on [report](https://github.com/Flank/flank_parametrized_tests/tree/master/test_apk/report) from running parameterized tests with different configurations.
+Flank uses same API as gcloud so everything supported by gcloud should be also supported by flank. 
+
+|                   | orchestrator                              | disabled  | disabled  | 1.3.0-rc01 | 1.3.0-rc01 |
+| ---               | ---:                                      | ---       | ---       | ---        | ---        |					
+|                   | sharding                                  | disabled  | enabled   | disabled   | enabled    |
+| local             | @RunWith(Parameterized::class)            | OK        | OK        | OK         | OK         |
+| local             | @RunWith(Parameterized::class) {named}    | OK        | OK        | OK         | OK         |
+| local             | @RunWith(JUnitParamsRunner::class)        | OK        | OK        | OK         | OK         |
+| gcloud            | @RunWith(Parameterized::class)            | OK        | OK        | OK         | OK	      |		
+| gcloud            | @RunWith(Parameterized::class) {named}    | OK        | OK        | OK         | OK         |
+| gcloud            | @RunWith(JUnitParamsRunner::class)        | OK        | OK        | null       | null       |
+| flank v20.06.0    | @RunWith(Parameterized::class)            | OK        | OK        | OK         | OK         |
+| flank v20.06.0    | @RunWith(Parameterized::class) {named}	| OK        | missing   | OK         | missing    |
+| flank v20.06.0    | @RunWith(JUnitParamsRunner::class)        | OK        | missing   | null       | missing    |
+| flank v20.06.1    | @RunWith(Parameterized::class)            | OK        | OK        | OK         | OK         |
+| flank v20.06.1    | @RunWith(Parameterized::class) {named}	| OK        | OK        | OK         | OK         |
+| flank v20.06.1    | @RunWith(JUnitParamsRunner::class)        | OK        | OK        | null       | null       |
+
+
+
+# JUnit5
+Android instrumented tests has no official support for JUnit5. [There is third-party support](https://github.com/mannodermaus/android-junit5)
