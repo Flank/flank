@@ -137,7 +137,7 @@ object ReportManager {
 
     private fun IgnoredTestCases.toJunitTestsResults() = getSkippedJUnitTestSuite(map {
         JUnitTestCase(
-            classname = it.split("#").first(),
+            classname = it.split("#").first().replace("class ", ""),
             name = it.split("#").last(),
             time = "0.0"
         )
