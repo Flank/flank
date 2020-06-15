@@ -1,3 +1,3 @@
 package ftl.args
 
-typealias  IgnoredTestCases = List<String>
+typealias IgnoredTestCases = List<String>
