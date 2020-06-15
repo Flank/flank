@@ -1,7 +1,6 @@
 package ftl.run.platform
 
 import ftl.args.AndroidArgs
-import ftl.json.MatrixMap
 import ftl.run.model.TestResult
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.mixedConfigYaml
