@@ -127,7 +127,7 @@ object ReportManager {
             if (ignoredTestCases.isNotEmpty()) {
                 this?.testsuites?.add(ignoredTestCases.toJunitTestsResults())
             }
-        }, printToStdout = true, args = args)
+        }, printToStdout = false, args = args)
         when {
             args.fullJUnitResult -> processFullJunitResult(args, matrices, testShardChunks)
             args.useLegacyJUnitResult -> processJunitXml(testSuite, args, testShardChunks)
@@ -137,7 +137,7 @@ object ReportManager {
 
     private fun IgnoredTestCases.toJunitTestsResults() = getSkippedJUnitTestSuite(map {
         JUnitTestCase(
-            classname = it.split("#").first(),
+            classname = it.split("#").first().replace("class ", ""),
             name = it.split("#").last(),
             time = "0.0"
         )
