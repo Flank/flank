@@ -25,7 +25,10 @@ class DumpShardsKtTest {
         "class com.example.test_app.InstrumentedTest#test"
       ]
     },
-    "junit-ignored": []
+    "junit-ignored": [
+      "class com.example.test_app.InstrumentedTest#ignoredTest",
+      "class com.example.test_app.InstrumentedTest#ignoredTest2"
+    ]
   },
   "matrix-1": {
     "app": "$path/src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk",
@@ -45,7 +48,12 @@ class DumpShardsKtTest {
         "class com.example.test_app.parametrized.EspressoParametrizedMethodTestJUnitParamsRunner"
       ]
     },
-    "junit-ignored": []
+    "junit-ignored": [
+      "class com.example.test_app.InstrumentedTest#ignoredTest1",
+      "class com.example.test_app.InstrumentedTest#ignoredTest2",
+      "class com.example.test_app.bar.BarInstrumentedTest#ignoredTestBar",
+      "class com.example.test_app.foo.FooInstrumentedTest#ignoredTestFoo"
+    ]
   }
 }
         """.trimIndent()

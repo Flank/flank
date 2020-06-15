@@ -25,7 +25,8 @@ class CreateAndroidTestContextKtTest {
                 test = should { local.endsWith("app-single-success-debug-androidTest.apk") },
                 shards = listOf(
                     should { size == 1 }
-                )
+                ),
+                ignoredTestCases = should { size == 2 }
             ),
             InstrumentationTestContext(
                 app = should { local.endsWith("app-debug.apk") },
@@ -33,7 +34,8 @@ class CreateAndroidTestContextKtTest {
                 shards = listOf(
                     should { size == 4 && contains("class com.example.test_app.ParameterizedTest") },
                     should { size == 5 }
-                )
+                ),
+                ignoredTestCases = should { size == 4 }
             )
         )
 
