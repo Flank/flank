@@ -139,7 +139,8 @@ object ReportManager {
         JUnitTestCase(
             classname = it.split("#").first().replace("class ", ""),
             name = it.split("#").last(),
-            time = "0.0"
+            time = "0.0",
+            skipped = null
         )
     })
 

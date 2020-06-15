@@ -9,7 +9,7 @@ internal class SkippedTestJUnitTestSuiteTest {
     @Test
     fun `should created JUnitTestSuite with constant fields for skipped junit test case`() {
         // given
-        val testsList = listOf<JUnitTestCase>(mockk() )
+        val testsList = listOf<JUnitTestCase>(mockk())
 
         // when
         val actual = getSkippedJUnitTestSuite(testsList)
