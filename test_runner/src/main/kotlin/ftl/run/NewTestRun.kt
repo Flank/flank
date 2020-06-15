@@ -18,13 +18,13 @@ import kotlinx.coroutines.withTimeoutOrNull
 suspend fun newTestRun(args: IArgs) {
     withTimeoutOrNull(args.parsedTimeout) {
         println(args)
-        val (matrixMap, testShardChunks) = cancelTestsOnTimeout(args.project) { runTests(args) }
+        val (matrixMap, testShardChunks, ignoredTests) = cancelTestsOnTimeout(args.project) { runTests(args) }
 
         if (!args.async) {
             cancelTestsOnTimeout(args.project, matrixMap.map) { pollMatrices(matrixMap.map.keys, args).update(matrixMap) }
             cancelTestsOnTimeout(args.project, matrixMap.map) { fetchArtifacts(matrixMap, args) }
 
-            ReportManager.generate(matrixMap, args, testShardChunks)
+            ReportManager.generate(matrixMap, args, testShardChunks, ignoredTests)
         }
     }
 }
