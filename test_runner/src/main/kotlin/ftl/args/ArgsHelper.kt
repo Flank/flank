@@ -214,21 +214,22 @@ object ArgsHelper {
         filteredTests: List<FlankTestMethod>,
         args: IArgs,
         forcedShardCount: Int? = null
-    ): ShardChunks {
+    ): CalculateShardsResult {
         if (filteredTests.isEmpty()) {
             // Avoid unnecessary computing if we already know there aren't tests to run.
-            return listOf(emptyList())
+            return CalculateShardsResult(listOf(emptyList()), emptyList())
         }
+        val (ignoredTests, testsToExecute) = filteredTests.partition { it.ignored }
         val shards = if (args.disableSharding) {
             // Avoid to cast it to MutableList<String> to be agnostic from the caller.
-            listOf(filteredTests.map { it.testName }.toMutableList())
+            listOf(testsToExecute.map { it.testName }.toMutableList())
         } else {
             val oldTestResult = GcStorage.downloadJunitXml(args) ?: JUnitTestResult(mutableListOf())
-            val shardCount = forcedShardCount ?: shardCountByTime(filteredTests, oldTestResult, args)
-            createShardsByShardCount(filteredTests, oldTestResult, args, shardCount).stringShards()
+            val shardCount = forcedShardCount ?: shardCountByTime(testsToExecute, oldTestResult, args)
+            createShardsByShardCount(testsToExecute, oldTestResult, args, shardCount).stringShards()
         }
 
-        return testMethodsAlwaysRun(shards, args)
+        return CalculateShardsResult(testMethodsAlwaysRun(shards, args), ignoredTestCases = ignoredTests.map { it.testName })
     }
 
     private fun testMethodsAlwaysRun(shards: StringShards, args: IArgs): StringShards {

@@ -17,7 +17,8 @@ private fun List<InstrumentationTestContext>.asMatrixTestShards(): AndroidMatrix
             test = testApks.test.local,
             shards = testApks.shards.mapIndexed { index, testCases ->
                 "shard-$index" to testCases
-            }.toMap()
+            }.toMap(),
+            junitIgnored = testApks.ignoredTestCases
         )
     }.mapIndexed { index, androidTestShards ->
         "matrix-$index" to androidTestShards

@@ -65,7 +65,7 @@ private fun IosArgs.calculateShardChunks() = if (disableSharding)
             .distinct()
             .map { FlankTestMethod(it, ignored = false) },
         args = this
-    )
+    ).shardChunks
 
 @VisibleForTesting
 internal fun filterTests(validTestMethods: List<String>, testTargetsRgx: List<String?>): List<String> {
