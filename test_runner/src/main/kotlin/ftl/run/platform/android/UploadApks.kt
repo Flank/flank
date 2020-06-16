@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * Upload an APK pair if the path given is local
@@ -27,7 +28,7 @@ private fun AndroidTestContext.upload(rootGcsBucket: String, runGcsPath: String)
 
 private fun InstrumentationTestContext.upload(rootGcsBucket: String, runGcsPath: String) = copy(
     app = app.uploadIfNeeded(rootGcsBucket, runGcsPath),
-    test = test.uploadIfNeeded(rootGcsBucket, runGcsPath)
+    test = test.uploadIfNeeded(rootGcsBucket, runGcsPath, testApkCounter.getAndIncrement())
 )
 
 private fun RoboTestContext.upload(rootGcsBucket: String, runGcsPath: String) = copy(
@@ -40,3 +41,5 @@ suspend fun AndroidArgs.uploadAdditionalApks(runGcsPath: String) = coroutineScop
         async { it.asFileReference().uploadIfNeeded(resultsBucket, runGcsPath).gcs }
     }.awaitAll()
 }
+
+private val testApkCounter = AtomicInteger(0)

@@ -47,14 +47,15 @@ object GcStorage {
         }
     }
 
-    fun upload(file: String, rootGcsBucket: String, runGcsPath: String): String {
+    fun upload(file: String, rootGcsBucket: String, runGcsPath: String, counter: Int? = null): String {
         if (file.startsWith(GCS_PREFIX)) return file
 
         return upload(
             file = file,
             fileBytes = Files.readAllBytes(Paths.get(file)),
             rootGcsBucket = rootGcsBucket,
-            runGcsPath = runGcsPath
+            runGcsPath = runGcsPath,
+            counter = counter
         )
     }
 
@@ -110,9 +111,11 @@ object GcStorage {
         return null
     }
 
-    private fun upload(file: String, fileBytes: ByteArray, rootGcsBucket: String, runGcsPath: String): String {
-        val fileName = Paths.get(file).fileName.toString()
-        return uploadCache[fileName] ?: uploadCache.computeIfAbsent(fileName) {
+    private fun upload(file: String, fileBytes: ByteArray, rootGcsBucket: String, runGcsPath: String, counter: Int? = null): String {
+        val filePath = Paths.get(file)
+        val fileName = filePath.fileName.toString().run { counter?.let { replace(".apk", "_$counter.apk") } ?: this }
+        val absolutePath = filePath.toAbsolutePath().toString()
+        return uploadCache[absolutePath] ?: uploadCache.computeIfAbsent(absolutePath) {
             val gcsFilePath = GCS_PREFIX + join(rootGcsBucket, runGcsPath, fileName)
 
             // 404 Not Found error when rootGcsBucket does not exist

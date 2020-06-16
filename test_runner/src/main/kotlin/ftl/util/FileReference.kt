@@ -26,6 +26,6 @@ fun FileReference.downloadIfNeeded() =
     if (local.isNotBlank()) this
     else copy(local = GcStorage.download(gcs))
 
-fun FileReference.uploadIfNeeded(rootGcsBucket: String, runGcsPath: String) =
+fun FileReference.uploadIfNeeded(rootGcsBucket: String, runGcsPath: String, counter: Int? = null) =
     if (gcs.isNotBlank()) this
-    else copy(gcs = GcStorage.upload(local, rootGcsBucket, runGcsPath))
+    else copy(gcs = GcStorage.upload(local, rootGcsBucket, runGcsPath, counter))
