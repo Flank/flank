@@ -53,9 +53,9 @@ private fun InstrumentationTestContext.calculateShards(
     args = args,
     forcedShardCount = args.numUniformShards
 ).run {
-    return@run copy(
-        shards = this.shardChunks.filter { it.isNotEmpty() },
-        ignoredTestCases = this.ignoredTestCases
+    copy(
+        shards = shardChunks.filter { it.isNotEmpty() },
+        ignoredTestCases = ignoredTestCases
     )
 }
 

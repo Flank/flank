@@ -123,9 +123,9 @@ object ReportManager {
                 HtmlErrorReport
             ).map { it.run(matrices, testSuite, printToStdout = false, args = args) }
         }
-        JUnitReport.run(matrices, testSuite.apply {
+        JUnitReport.run(matrices, testSuite?.apply {
             if (ignoredTestCases.isNotEmpty()) {
-                this?.testsuites?.add(ignoredTestCases.toJunitTestsResults())
+                testsuites?.add(ignoredTestCases.toJunitTestsResults())
             }
         }, printToStdout = false, args = args)
         when {

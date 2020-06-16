@@ -1,6 +1,9 @@
 ## next (unreleased)
 
+- [#853](https://github.com/Flank/flank/pull/853) Skip @Ignore tests before send it to ftl and reapply to local JUnit Xml. ([piotradamczyk5](https://github.com/piotradamczyk5), [adamfilipow92](https://github.com/adamfilipow92))
 - 
+-
+-
 
 ## v20.06.1
 - [#840](https://github.com/Flank/flank/pull/840) Fix parametrized tests. ([jan-gogo](https://github.com/jan-gogo), [adamfilipow92](https://github.com/adamfilipow92), [pawelpasterz](https://github.com/pawelpasterz), [piotradamczyk5](https://github.com/piotradamczyk5))
