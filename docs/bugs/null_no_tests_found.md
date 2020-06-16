@@ -12,8 +12,14 @@ at androidx.test.internal.runner.TestRequestBuilder.build(TestRequestBuilder.jav
 at androidx.test.runner.AndroidJUnitRunner.buildRequest(AndroidJUnitRunner.java:547)
 at androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:390)
 at com.work.android.test.view.ViewTestRunner.onStart(ViewTestRunner.kt:25)
-at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1879) 
+at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1879)
 ```
+
+## Firebase screens
+![firebase1](https://user-images.githubusercontent.com/1173057/83044337-e4f21e80-9ff8-11ea-908a-b742f0431ab8.png)
+![firebase2](https://user-images.githubusercontent.com/74583/83170210-0a4e5d80-a0c9-11ea-8011-08513ad281d8.png)
+![firebase3](https://user-images.githubusercontent.com/74583/83170254-1b976a00-a0c9-11ea-8b7b-d689e9c086c1.png)
+![firebase4](https://user-images.githubusercontent.com/74583/83170280-25b96880-a0c9-11ea-8296-12d7c9ad28cf.png)
 
 ## References
 * github issue https://github.com/Flank/flank/issues/818
@@ -100,7 +106,7 @@ fladle {
 2. Same error occurs with and without `test-targets: - notAnnotation org.junit.Ignore`
 3. With `test-targets: - notAnnotation org.junit.Ignore` firebase additionally shows `One or more shards failed because there are no test cases inside. Please check your sharding configuration.`
 4. Occurs with custom annotation-based filter.
-5. It was noticed only with the submodule tests.
+5. It was noticed only with the multi-module tests.
 6. If number of `shards > 2`, there is a high chance one of the shards will have no tests.
 7. `test-targets-always-run` is not the case.
 8. Duplicated apk names probably are not the case, but we should ensure.
