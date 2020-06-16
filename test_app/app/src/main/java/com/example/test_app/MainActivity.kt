@@ -1,5 +1,6 @@
 package com.example.test_app
 
+import ModuleClass
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -27,5 +28,6 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.button3).setOnClickListener {
             throw Exception()
         }
+
     }
 }
