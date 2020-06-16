@@ -1,5 +1,5 @@
 # The problem
-One or more shards failed because there are no test cases inside. This problem encounter a couple times on submodule tests which use a lot of additional test apks. It was noticed only with the submodule tests.
+One or more shards failed because there are no test cases inside. This problem encounter a couple times on multi-module tests which use a lot of additional test apks. It was noticed only with the submodule tests.
 
 ## Stack trace
 ```
@@ -106,9 +106,10 @@ fladle {
 8. Duplicated apk names probably are not the case, but we should ensure.
 
 ## How to reproduce it
-* Currently, we have no idea.
+* Use `additional-test-app-apk` option and set different apks with same names from different directories. Apks will overlap on bucket because of names collision. This should give similar result to reported.  
 
 ## Proposals
 * Drop ignored tests before shard calculation and use them only for results. https://github.com/Flank/flank/pull/853
+* Apks uploaded to bucket could overlap if has same names, fixing this could help. https://github.com/Flank/flank/pull/854
 * Create multi-module project which will provide many test apks and try to reproduce issue.
 * Ensure that our knowledge about issue in `What we know from report issue` is correct.
