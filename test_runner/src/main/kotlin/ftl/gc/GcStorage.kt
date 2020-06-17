@@ -5,6 +5,7 @@ import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageOptions
 import com.google.cloud.storage.contrib.nio.testing.LocalStorageHelper
+import com.google.common.annotations.VisibleForTesting
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
@@ -51,7 +52,7 @@ object GcStorage {
         if (file.startsWith(GCS_PREFIX)) return file
 
         return upload(
-            file = file,
+            filePath = file,
             fileBytes = Files.readAllBytes(Paths.get(file)),
             rootGcsBucket = rootGcsBucket,
             runGcsPath = runGcsPath
@@ -82,7 +83,7 @@ object GcStorage {
     fun uploadCiJUnitXml(testResult: JUnitTestResult, args: IArgs, fileName: String) {
         if (args.resultsBucket.isBlank() || args.resultsDir.isBlank()) return
         upload(
-            file = fileName,
+            filePath = fileName,
             fileBytes = testResult.xmlToString().toByteArray(),
             rootGcsBucket = args.resultsBucket,
             runGcsPath = args.resultsDir
@@ -94,7 +95,7 @@ object GcStorage {
 
     fun uploadXCTestFile(fileName: String, gcsBucket: String, runGcsPath: String, fileBytes: ByteArray): String =
         upload(
-            file = fileName,
+            filePath = fileName,
             fileBytes = fileBytes,
             rootGcsBucket = gcsBucket,
             runGcsPath = runGcsPath
@@ -110,13 +111,30 @@ object GcStorage {
         return null
     }
 
-    private fun upload(file: String, fileBytes: ByteArray, rootGcsBucket: String, runGcsPath: String): String {
-        val fileName = Paths.get(file).fileName.toString()
-        return uploadCache[fileName] ?: uploadCache.computeIfAbsent(fileName) {
-            val gcsFilePath = GCS_PREFIX + join(rootGcsBucket, runGcsPath, fileName)
+    private val duplicatedGcsPathCounter = ConcurrentHashMap<String, Int>()
+
+    @VisibleForTesting
+    internal fun upload(
+        filePath: String,
+        fileBytes: ByteArray,
+        rootGcsBucket: String,
+        runGcsPath: String,
+        storage: Storage = GcStorage.storage
+    ): String {
+        val file = File(filePath)
+        val absolutePath = file.absolutePath
+        val fileName = file.name
+        return uploadCache[absolutePath] ?: uploadCache.computeIfAbsent(absolutePath) {
+            val gcsPath = join(runGcsPath, fileName)
+            val index = duplicatedGcsPathCounter.merge(gcsPath, 0) { old, _ -> old + 1 }
+            val validGcsPath = when {
+                index == 0 -> gcsPath
+                file.extension.isBlank() -> "${gcsPath}_$index"
+                else -> gcsPath.replace(".${file.extension}", "_$index.${file.extension}")
+            }
 
             // 404 Not Found error when rootGcsBucket does not exist
-            val fileBlob = BlobInfo.newBuilder(rootGcsBucket, join(runGcsPath, fileName)).build()
+            val fileBlob = BlobInfo.newBuilder(rootGcsBucket, validGcsPath).build()
 
             val progress = ProgressBar()
             try {
@@ -127,7 +145,7 @@ object GcStorage {
             } finally {
                 progress.stop()
             }
-            gcsFilePath
+            GCS_PREFIX + join(rootGcsBucket, validGcsPath)
         }
     }
 
