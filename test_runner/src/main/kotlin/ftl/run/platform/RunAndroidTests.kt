@@ -7,12 +7,12 @@ import ftl.gc.GcAndroidDevice
 import ftl.gc.GcAndroidTestMatrix
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
+import ftl.run.model.AndroidTestContext
 import ftl.run.model.InstrumentationTestContext
+import ftl.run.model.RoboTestContext
 import ftl.run.model.TestResult
+import ftl.run.platform.android.*
 import ftl.run.platform.android.createAndroidTestConfig
-import ftl.run.platform.android.createAndroidTestContexts
-import ftl.run.platform.android.upload
-import ftl.run.platform.android.uploadAdditionalApks
 import ftl.run.platform.android.uploadOtherFiles
 import ftl.run.platform.common.afterRunTests
 import ftl.run.platform.common.beforeRunMessage
@@ -23,6 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import java.util.concurrent.atomic.AtomicInteger
 
 internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineScope {
     val (stopwatch, runGcsPath) = beforeRunTests(args)
@@ -40,13 +41,13 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
 
     args.createAndroidTestContexts()
         .upload(args.resultsBucket, runGcsPath)
-        .forEachIndexed { index, context ->
+        .forEach { context ->
             if (context is InstrumentationTestContext) allTestShardChunks += context.shards
             val androidTestConfig = args.createAndroidTestConfig(context)
             testMatrices += executeAndroidTestMatrix(runCount = args.repeatTests) {
                 GcAndroidTestMatrix.build(
                     androidTestConfig = androidTestConfig,
-                    runGcsPath = "$runGcsPath/matrix_$index/",
+                    runGcsPath = "$runGcsPath/matrix_${context.index}/",
                     additionalApkGcsPaths = additionalApks,
                     androidDeviceList = androidDeviceList,
                     args = args,
@@ -73,3 +74,13 @@ private suspend fun executeAndroidTestMatrix(
         }
     }
 }
+
+private val regex = ".*_(\\d)\\.apk".toRegex()
+
+private val AndroidTestContext.index
+    get() = when (this) {
+        is InstrumentationTestContext -> getAppendedNumber(test.gcs) ?: testApkCounter.getAndIncrement()
+        is RoboTestContext -> "robo_${roboCounter.getAndIncrement()}"
+    }
+private inline fun getAppendedNumber(gcsPath: String) = regex.find(gcsPath)?.let { it.groups[1]?.value }
+private val roboCounter = AtomicInteger(0)

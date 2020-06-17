@@ -42,4 +42,4 @@ suspend fun AndroidArgs.uploadAdditionalApks(runGcsPath: String) = coroutineScop
     }.awaitAll()
 }
 
-private val testApkCounter = AtomicInteger(0)
+val testApkCounter = AtomicInteger(0)
