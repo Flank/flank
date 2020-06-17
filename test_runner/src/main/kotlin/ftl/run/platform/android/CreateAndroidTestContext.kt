@@ -1,6 +1,14 @@
 package ftl.run.platform.android
 
+import com.linkedin.dex.parser.DecodedValue
 import com.linkedin.dex.parser.DexParser
+import com.linkedin.dex.parser.TestAnnotation
+import com.linkedin.dex.parser.TestMethod
+import com.linkedin.dex.parser.formatClassName
+import com.linkedin.dex.parser.getAnnotationsDirectory
+import com.linkedin.dex.parser.getClassAnnotationValues
+import com.linkedin.dex.spec.ClassDefItem
+import com.linkedin.dex.spec.DexFile
 import ftl.args.AndroidArgs
 import ftl.args.ArgsHelper
 import ftl.config.FtlConstants
@@ -40,23 +48,57 @@ private fun InstrumentationTestContext.downloadApks(): InstrumentationTestContex
 private fun InstrumentationTestContext.calculateShards(
     args: AndroidArgs,
     testFilter: TestFilter = TestFilters.fromTestTargets(args.testTargets)
-): InstrumentationTestContext = copy(
-    shards = ArgsHelper.calculateShards(
-        filteredTests = getFlankTestMethods(testFilter),
-        args = args,
-        forcedShardCount = args.numUniformShards
-    ).filter { it.isNotEmpty() }
-)
+): InstrumentationTestContext = ArgsHelper.calculateShards(
+    filteredTests = getFlankTestMethods(testFilter),
+    args = args,
+    forcedShardCount = args.numUniformShards
+).run {
+    copy(
+        shards = shardChunks.filter { it.isNotEmpty() },
+        ignoredTestCases = ignoredTestCases
+    )
+}
 
 private fun InstrumentationTestContext.getFlankTestMethods(
     testFilter: TestFilter
 ): List<FlankTestMethod> =
-    DexParser.findTestMethods(test.local).asSequence().distinct().filter(testFilter.shouldRun).map { testMethod ->
-        FlankTestMethod(
-            testName = "class ${testMethod.testName}",
-            ignored = testMethod.annotations.any { it.name == "org.junit.Ignore" }
-        )
-    }.toList()
+    getParametrizedClasses().let { parameterizedClasses: List<String> ->
+        DexParser.findTestMethods(test.local).asSequence()
+            .distinct()
+            .filter(testFilter.shouldRun)
+            .filterNot(parameterizedClasses::belong)
+            .map(TestMethod::toFlankTestMethod).toList()
+            .plus(parameterizedClasses.map(String::toFlankTestMethod))
+    }
+
+private fun List<String>.belong(method: TestMethod) = any { className -> method.testName.startsWith(className) }
+
+private fun TestMethod.toFlankTestMethod() = FlankTestMethod("class $testName", ignored = annotations.any { it.name == "org.junit.Ignore" })
+
+private fun String.toFlankTestMethod() = FlankTestMethod("class $this", ignored = false)
+
+private fun InstrumentationTestContext.getParametrizedClasses(): List<String> =
+    DexParser.readDexFiles(test.local).fold(emptyList()) { accumulator, file: DexFile ->
+        accumulator + file.classDefs
+            .filter(file::isParametrizedClass)
+            .map(file::formatClassName) // returns class name + '#'
+            .map { it.dropLast(1) } // so drop '#'
+    }
+
+private fun DexFile.isParametrizedClass(classDef: ClassDefItem): Boolean =
+    getClassAnnotationValues(getAnnotationsDirectory(classDef)).let { annotations: List<TestAnnotation> ->
+        annotations.any { it.name.contains("RunWith", ignoreCase = true) } && annotations
+            .flatMap { it.values.values }
+            .filterIsInstance<DecodedValue.DecodedType>()
+            .any { it.isParameterizedAnnotation() }
+    }
+
+private fun DecodedValue.DecodedType.isParameterizedAnnotation(): Boolean =
+    parameterizedTestRunners.any { runner ->
+        value.contains(runner, ignoreCase = true)
+    }
+
+private val parameterizedTestRunners = listOf("JUnitParamsRunner", "Parameterized")
 
 private fun List<AndroidTestContext>.dropEmptyInstrumentationTest(): List<AndroidTestContext> =
     filterIsInstance<InstrumentationTestContext>().filter { it.shards.isEmpty() }.let { withoutTests ->

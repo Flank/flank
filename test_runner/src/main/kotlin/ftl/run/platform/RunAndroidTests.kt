@@ -33,6 +33,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
 
     val testMatrices = mutableListOf<Deferred<TestMatrix>>()
     val allTestShardChunks = mutableListOf<List<String>>()
+    val ignoredTestsShardChunks = mutableListOf<List<String>>()
 
     val history = GcToolResults.createToolResultsHistory(args)
     val otherGcsFiles = args.uploadOtherFiles(runGcsPath)
@@ -41,7 +42,10 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     args.createAndroidTestContexts()
         .upload(args.resultsBucket, runGcsPath)
         .forEachIndexed { index, context ->
-            if (context is InstrumentationTestContext) allTestShardChunks += context.shards
+            if (context is InstrumentationTestContext) {
+                ignoredTestsShardChunks += context.ignoredTestCases
+                allTestShardChunks += context.shards
+            }
             val androidTestConfig = args.createAndroidTestConfig(context)
             testMatrices += executeAndroidTestMatrix(runCount = args.repeatTests) {
                 GcAndroidTestMatrix.build(
@@ -59,8 +63,11 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     if (testMatrices.isEmpty()) throw FlankCommonException("There are no tests to run.")
 
     println(beforeRunMessage(args, allTestShardChunks))
-    val matrixMap = afterRunTests(testMatrices.awaitAll(), runGcsPath, stopwatch, args)
-    matrixMap to allTestShardChunks
+    TestResult(
+        matrixMap = afterRunTests(testMatrices.awaitAll(), runGcsPath, stopwatch, args),
+        shardChunks = allTestShardChunks,
+        ignoredTests = ignoredTestsShardChunks.flatten()
+    )
 }
 
 private suspend fun executeAndroidTestMatrix(

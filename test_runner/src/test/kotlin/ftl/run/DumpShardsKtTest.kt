@@ -26,7 +26,11 @@ class DumpShardsKtTest {
       "shard-0": [
         "class com.example.test_app.InstrumentedTest#test"
       ]
-    }
+    },
+    "junit-ignored": [
+      "class com.example.test_app.InstrumentedTest#ignoredTest",
+      "class com.example.test_app.InstrumentedTest#ignoredTest2"
+    ]
   },
   "matrix-1": {
     "app": "$path/src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk",
@@ -34,14 +38,24 @@ class DumpShardsKtTest {
     "shards": {
       "shard-0": [
         "class com.example.test_app.InstrumentedTest#test1",
-        "class com.example.test_app.InstrumentedTest#test2"
+        "class com.example.test_app.InstrumentedTest#test2",
+        "class com.example.test_app.ParameterizedTest",
+        "class com.example.test_app.parametrized.EspressoParametrizedClassParameterizedNamed"
       ],
       "shard-1": [
         "class com.example.test_app.InstrumentedTest#test0",
         "class com.example.test_app.bar.BarInstrumentedTest#testBar",
-        "class com.example.test_app.foo.FooInstrumentedTest#testFoo"
+        "class com.example.test_app.foo.FooInstrumentedTest#testFoo",
+        "class com.example.test_app.parametrized.EspressoParametrizedClassTestParameterized",
+        "class com.example.test_app.parametrized.EspressoParametrizedMethodTestJUnitParamsRunner"
       ]
-    }
+    },
+    "junit-ignored": [
+      "class com.example.test_app.InstrumentedTest#ignoredTest1",
+      "class com.example.test_app.InstrumentedTest#ignoredTest2",
+      "class com.example.test_app.bar.BarInstrumentedTest#ignoredTestBar",
+      "class com.example.test_app.foo.FooInstrumentedTest#ignoredTestFoo"
+    ]
   }
 }
         """.trimIndent()

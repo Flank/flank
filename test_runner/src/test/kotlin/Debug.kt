@@ -11,7 +11,7 @@ fun main() {
     val projectId = System.getenv("GOOGLE_CLOUD_PROJECT")
         ?: "YOUR PROJECT ID"
     val quantity = "multiple"
-    val type = "mixed"
+    val type = "success"
 
     // Bugsnag keeps the process alive so we must call exitProcess
     // https://github.com/bugsnag/bugsnag-java/issues/151
@@ -20,7 +20,6 @@ fun main() {
 //            "--debug",
             "firebase", "test",
             "android", "run",
-            "--results-dir=asd",
 //            "--dry",
             "--dump-shards",
             "--output-style=single",
