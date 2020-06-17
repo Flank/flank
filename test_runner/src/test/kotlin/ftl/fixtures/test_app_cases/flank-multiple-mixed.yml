@@ -1,16 +1,41 @@
 gcloud:
-  app: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk
-  robo-script: ./src/test/kotlin/ftl/fixtures/test_app_cases/MainActivity_robo_script.json
+  app: apk/818/app-multiple-error-debug.apk
+  test: apk/818/app-multiple-error-debug-androidTest.apk
   num-flaky-test-attempts: 2
+  async: false
   environment-variables:
-    coverage: true
-    coverageFilePath: /sdcard/
     clearPackageData: true
+  performance-metrics: false
+  record-video: false
+  test-targets:
+    - notAnnotation org.junit.Ignore
+  use-orchestrator: true
 flank:
-  disable-sharding: false
-  max-test-shards: 2
-  num-test-runs: 1
+  run-timeout: 20m
+  max-test-shards: 5
+  legacy-junit-result: 'false'
   additional-app-test-apks:
-    - test: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-single-success-debug-androidTest.apk
-    - test: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-flaky-debug-androidTest.apk
-    - test: ../test_app/apks/invalid.apk
+    - test: apk/818/app-multiple-error-debug-androidTest.apk
+    - test: apk/818/app-multiple-success-debug-androidTest.apk
+    - test: apk/818/fullyIgnoredModule-debug-androidTest.apk
+    - test: apk/818/testModule-debug-androidTest.apk
+    - test: apk/818/testModule1-debug-androidTest.apk
+    - test: apk/818/testModule10-debug-androidTest.apk
+    - test: apk/818/testModule11-debug-androidTest.apk
+    - test: apk/818/testModule12-debug-androidTest.apk
+    - test: apk/818/testModule13-debug-androidTest.apk
+    - test: apk/818/testModule14-debug-androidTest.apk
+    - test: apk/818/testModule15-debug-androidTest.apk
+    - test: apk/818/testModule16-debug-androidTest.apk
+    - test: apk/818/testModule17-debug-androidTest.apk
+    - test: apk/818/testModule18-debug-androidTest.apk
+    - test: apk/818/testModule19-debug-androidTest.apk
+    - test: apk/818/testModule2-debug-androidTest.apk
+    - test: apk/818/testModule3-debug-androidTest.apk
+    - test: apk/818/testModule4-debug-androidTest.apk
+    - test: apk/818/testModule5-debug-androidTest.apk
+    - test: apk/818/testModule6-debug-androidTest.apk
+    - test: apk/818/testModule7-debug-androidTest.apk
+    - test: apk/818/testModule8-debug-androidTest.apk
+    - test: apk/818/testModule9-debug-androidTest.apk
+    - test: apk/818/testModuleCommon-debug-androidTest.apk

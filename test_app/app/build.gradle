@@ -56,11 +56,33 @@ android {
 }
 
 dependencies {
-    api project(path: ':testModule1')
     implementation project(path: ':testModule')
+    implementation project(path: ':fullyIgnoredModule')
+    api project(path: ':testModule')
+    implementation project(path: ':testModule1')
+    implementation project(path: ':testModule2')
+    implementation project(path: ':testModule3')
+    api project(path: ':testModule4')
+    implementation project(path: ':testModule5')
+    implementation project(path: ':testModule6')
+    implementation project(path: ':testModule7')
+    implementation project(path: ':testModule8')
+    api project(path: ':testModule9')
+    implementation project(path: ':testModule10')
+    implementation project(path: ':testModule11')
+    implementation project(path: ':testModule12')
+    implementation project(path: ':testModule13')
+    implementation project(path: ':testModule14')
+    implementation project(path: ':testModule15')
+    implementation project(path: ':testModule16')
+    implementation project(path: ':testModule17')
+    api project(path: ':testModule18')
+    implementation project(path: ':testModule19')
+    implementation project(path: ':testModule20')
+    implementation project(path: ':testModuleCommon')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.3.0-alpha01'
-    implementation 'androidx.core:core-ktx:1.4.0-alpha01'
+    implementation 'androidx.core:core-ktx:1.5.0-alpha01'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
     // Espresso.
