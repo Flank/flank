@@ -5,6 +5,7 @@ import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageOptions
 import com.google.cloud.storage.contrib.nio.testing.LocalStorageHelper
+import com.google.common.annotations.VisibleForTesting
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
@@ -22,7 +23,7 @@ import java.nio.file.Paths
 import java.util.concurrent.ConcurrentHashMap
 
 object GcStorage {
-
+    @VisibleForTesting
     private val uploadCache: ConcurrentHashMap<String, String> = ConcurrentHashMap()
     private val downloadCache: ConcurrentHashMap<String, String> = ConcurrentHashMap()
 
@@ -113,7 +114,7 @@ object GcStorage {
 
     private fun upload(file: String, fileBytes: ByteArray, rootGcsBucket: String, runGcsPath: String, counter: Int? = null): String {
         val filePath = Paths.get(file)
-        val fileName = filePath.fileName.toString().run { counter?.let { replace(".apk", "_$counter.apk") } ?: this }
+        val fileName = generateApkFileName(filePath.fileName.toString(), counter)
         val absolutePath = filePath.toAbsolutePath().toString()
         return uploadCache[absolutePath] ?: uploadCache.computeIfAbsent(absolutePath) {
             val gcsFilePath = GCS_PREFIX + join(rootGcsBucket, runGcsPath, fileName)
