@@ -1,6 +1,7 @@
 package ftl.reports.util
 
 import ftl.args.IArgs
+import ftl.args.IgnoredTestCases
 import ftl.args.IosArgs
 import ftl.args.ShardChunks
 import ftl.gc.GcStorage
@@ -11,7 +12,9 @@ import ftl.reports.HtmlErrorReport
 import ftl.reports.JUnitReport
 import ftl.reports.MatrixResultsReport
 import ftl.reports.api.processXmlFromApi
+import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
+import ftl.reports.xml.model.getSkippedJUnitTestSuite
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.parseOneSuiteXml
 import ftl.shard.createTestMethodDurationMap
@@ -57,6 +60,7 @@ object ReportManager {
     }
 
     private val deviceStringRgx = Regex("([^-]+-[^-]+-[^-]+-[^-]+).*")
+
     // NexusLowRes-28-en-portrait-rerun_1 =>  NexusLowRes-28-en-portrait
     fun getDeviceString(deviceString: String): String {
         val matchResult = deviceStringRgx.find(deviceString)
@@ -96,7 +100,12 @@ object ReportManager {
     }
 
     /** Returns true if there were no test failures */
-    fun generate(matrices: MatrixMap, args: IArgs, testShardChunks: ShardChunks) {
+    fun generate(
+        matrices: MatrixMap,
+        args: IArgs,
+        testShardChunks: ShardChunks,
+        ignoredTestCases: IgnoredTestCases = listOf()
+    ) {
         val testSuite: JUnitTestResult? = parseTestSuite(matrices, args)
         if (args.useLegacyJUnitResult) {
             val useFlakyTests = args.flakyTestAttempts > 0
@@ -114,13 +123,26 @@ object ReportManager {
                 HtmlErrorReport
             ).map { it.run(matrices, testSuite, printToStdout = false, args = args) }
         }
-        JUnitReport.run(matrices, testSuite, printToStdout = false, args = args)
+        JUnitReport.run(matrices, testSuite?.apply {
+            if (ignoredTestCases.isNotEmpty()) {
+                testsuites?.add(ignoredTestCases.toJunitTestsResults())
+            }
+        }, printToStdout = false, args = args)
         when {
             args.fullJUnitResult -> processFullJunitResult(args, matrices, testShardChunks)
             args.useLegacyJUnitResult -> processJunitXml(testSuite, args, testShardChunks)
         }
         matrices.validateMatrices(args.ignoreFailedTests)
     }
+
+    private fun IgnoredTestCases.toJunitTestsResults() = getSkippedJUnitTestSuite(map {
+        JUnitTestCase(
+            classname = it.split("#").first().replace("class ", ""),
+            name = it.split("#").last(),
+            time = "0.0",
+            skipped = null
+        )
+    })
 
     private fun processFullJunitResult(args: IArgs, matrices: MatrixMap, testShardChunks: ShardChunks) {
         val testSuite = processXmlFromApi(matrices, args, withStackTraces = true)

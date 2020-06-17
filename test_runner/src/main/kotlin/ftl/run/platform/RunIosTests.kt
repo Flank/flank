@@ -57,8 +57,10 @@ internal suspend fun runIosTests(iosArgs: IosArgs): TestResult = coroutineScope 
         }
     }
 
-    val matrixMap = afterRunTests(jobs.awaitAll(), runGcsPath, stopwatch, iosArgs)
-    matrixMap to iosArgs.testShardChunks
+    TestResult(
+        matrixMap = afterRunTests(jobs.awaitAll(), runGcsPath, stopwatch, iosArgs),
+        shardChunks = iosArgs.testShardChunks
+    )
 }
 
 private fun getXcTestGcPath(

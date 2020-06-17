@@ -48,13 +48,16 @@ private fun InstrumentationTestContext.downloadApks(): InstrumentationTestContex
 private fun InstrumentationTestContext.calculateShards(
     args: AndroidArgs,
     testFilter: TestFilter = TestFilters.fromTestTargets(args.testTargets)
-): InstrumentationTestContext = copy(
-    shards = ArgsHelper.calculateShards(
-        filteredTests = getFlankTestMethods(testFilter),
-        args = args,
-        forcedShardCount = args.numUniformShards
-    ).filter { it.isNotEmpty() }
-)
+): InstrumentationTestContext = ArgsHelper.calculateShards(
+    filteredTests = getFlankTestMethods(testFilter),
+    args = args,
+    forcedShardCount = args.numUniformShards
+).run {
+    copy(
+        shards = shardChunks.filter { it.isNotEmpty() },
+        ignoredTestCases = ignoredTestCases
+    )
+}
 
 private fun InstrumentationTestContext.getFlankTestMethods(
     testFilter: TestFilter

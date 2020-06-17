@@ -23,7 +23,7 @@ private fun nanosToSeconds(nanos: Int?): Double =
         0.0 else
         nanos / 1E9
 
-private val utcDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").apply {
+val utcDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").apply {
     timeZone = TimeZone.getTimeZone("UTC")
 }
 
