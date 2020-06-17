@@ -19,10 +19,10 @@ package com.example.test_app.screenshot
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.base.DefaultFailureHandler
 import androidx.test.platform.app.InstrumentationRegistry
+import java.util.concurrent.atomic.AtomicBoolean
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
-import java.util.concurrent.atomic.AtomicBoolean
 
 class ScreenshotTestRule : TestRule {
     // Note: Data seeding must happen before we run a test. As a result, retrying failed tests
@@ -63,7 +63,6 @@ class ScreenshotTestRule : TestRule {
                         }
                         error = t
                     }
-
                 }
 
                 if (error != null) throw error

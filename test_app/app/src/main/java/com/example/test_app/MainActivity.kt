@@ -27,6 +27,5 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.button3).setOnClickListener {
             throw Exception()
         }
-
     }
 }
