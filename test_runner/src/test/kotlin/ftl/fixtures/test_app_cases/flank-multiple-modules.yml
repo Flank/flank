@@ -1,0 +1,41 @@
+gcloud:
+  app: src/test/kotlin/ftl/fixtures/tmp/apks/app-multiple-error-debug.apk
+  test: src/test/kotlin/ftl/fixtures/tmp/apks/app-multiple-error-debug-androidTest.apk
+  num-flaky-test-attempts: 2
+  async: false
+  environment-variables:
+    clearPackageData: true
+  performance-metrics: false
+  record-video: false
+  test-targets:
+    - notAnnotation org.junit.Ignore
+  use-orchestrator: true
+flank:
+  run-timeout: 20m
+  max-test-shards: 5
+  legacy-junit-result: 'false'
+  additional-app-test-apks:
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/app-multiple-error-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/app-multiple-success-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/fullyIgnoredModule-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModule-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModule1-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModule10-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModule11-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModule12-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModule13-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModule14-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModule15-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModule16-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModule17-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModule18-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModule19-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModule2-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModule3-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModule4-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModule5-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModule6-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModule7-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModule8-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModule9-debug-androidTest.apk
+    - test: src/test/kotlin/ftl/fixtures/tmp/apks/testModuleCommon-debug-androidTest.apk
