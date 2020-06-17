@@ -22,7 +22,9 @@ class DumpShardsKtTest {
     "test": "$path/src/test/kotlin/ftl/fixtures/tmp/apk/app-single-success-debug-androidTest.apk",
     "shards": {
       "shard-0": [
-        "class com.example.test_app.InstrumentedTest#test"
+        "class com.example.test_app.InstrumentedTest#test",
+        "class com.example.test_app.InstrumentedTest#ignoredTest",
+        "class com.example.test_app.InstrumentedTest#ignoredTest2"
       ]
     }
   },
@@ -34,7 +36,11 @@ class DumpShardsKtTest {
         "class com.example.test_app.InstrumentedTest#test1",
         "class com.example.test_app.InstrumentedTest#test2",
         "class com.example.test_app.ParameterizedTest",
-        "class com.example.test_app.parametrized.EspressoParametrizedClassParameterizedNamed"
+        "class com.example.test_app.parametrized.EspressoParametrizedClassParameterizedNamed",
+        "class com.example.test_app.InstrumentedTest#ignoredTest1",
+        "class com.example.test_app.InstrumentedTest#ignoredTest2",
+        "class com.example.test_app.bar.BarInstrumentedTest#ignoredTestBar",
+        "class com.example.test_app.foo.FooInstrumentedTest#ignoredTestFoo"
       ],
       "shard-1": [
         "class com.example.test_app.InstrumentedTest#test0",

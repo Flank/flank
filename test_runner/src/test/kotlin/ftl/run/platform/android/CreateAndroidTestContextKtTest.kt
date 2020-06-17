@@ -24,14 +24,14 @@ class CreateAndroidTestContextKtTest {
                 app = should { local.endsWith("app-debug.apk") },
                 test = should { local.endsWith("app-single-success-debug-androidTest.apk") },
                 shards = listOf(
-                    should { size == 1 }
+                    should { size == 3 }
                 )
             ),
             InstrumentationTestContext(
                 app = should { local.endsWith("app-debug.apk") },
                 test = should { local.endsWith("app-multiple-flaky-debug-androidTest.apk") },
                 shards = listOf(
-                    should { size == 4 && contains("class com.example.test_app.ParameterizedTest") },
+                    should { size == 8 && contains("class com.example.test_app.ParameterizedTest") },
                     should { size == 5 }
                 )
             )
