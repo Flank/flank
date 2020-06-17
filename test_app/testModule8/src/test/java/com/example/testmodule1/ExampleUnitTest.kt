@@ -1,6 +1,6 @@
 package com.example.testmodule1
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 /**
