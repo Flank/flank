@@ -21,7 +21,7 @@ include ':app',
         ':testModule18',
         ':testModule19',
         ':testModule20',
-        ':testModuleCommon'
+        ':testModuleCommon',
         ':dir0:testModule',
         ':dir1:testModule',
         ':dir2:testModule',
