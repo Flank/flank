@@ -1,9 +1,11 @@
 ## next (unreleased)
 
+-
+-
+
+## v20.06.2
 - [#853](https://github.com/Flank/flank/pull/853) Store @Ignore tests in the JUnit XML without sending ignored tests to FTL. ([piotradamczyk5](https://github.com/piotradamczyk5), [adamfilipow92](https://github.com/adamfilipow92))
 - [#853](https://github.com/Flank/flank/pull/858) Handle duplicated apk names. ([jan-gogo](https://github.com/jan-gogo))
--
--
 
 ## v20.06.1
 - [#840](https://github.com/Flank/flank/pull/840) Fix parametrized tests. ([jan-gogo](https://github.com/jan-gogo), [adamfilipow92](https://github.com/adamfilipow92), [pawelpasterz](https://github.com/pawelpasterz), [piotradamczyk5](https://github.com/piotradamczyk5))
