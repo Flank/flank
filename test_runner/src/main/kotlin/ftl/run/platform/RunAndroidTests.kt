@@ -78,12 +78,12 @@ private suspend fun executeAndroidTestMatrix(
     }
 }
 
-private val regex = ".*_(\\d)\\.apk".toRegex()
+private val apkFileRegex = ".*_(\\d)\\.apk".toRegex()
 
 private val AndroidTestContext.index
     get() = when (this) {
         is InstrumentationTestContext -> getAppendedNumber(test.gcs) ?: testApkCounter.getAndIncrement()
         is RoboTestContext -> "robo_${roboCounter.getAndIncrement()}"
     }
-private fun getAppendedNumber(gcsPath: String) = regex.find(gcsPath)?.let { it.groups[1]?.value }
+private fun getAppendedNumber(gcsPath: String) = apkFileRegex.find(gcsPath)?.let { it.groups[1]?.value }
 private val roboCounter = AtomicInteger(0)
