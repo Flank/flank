@@ -22,3 +22,7 @@ include ':app',
         ':testModule19',
         ':testModule20',
         ':testModuleCommon'
+        ':dir0:testModule',
+        ':dir1:testModule',
+        ':dir2:testModule',
+        ':dir3:testModule'
