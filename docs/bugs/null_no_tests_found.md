@@ -119,3 +119,5 @@ fladle {
 * Apks uploaded to bucket could overlap if has same names, fixing this could help. https://github.com/Flank/flank/pull/854
 * Create multi-module project which will provide many test apks and try to reproduce issue.
 * Ensure that our knowledge about issue in `What we know from report issue` is correct.
+* Based on: https://stackoverflow.com/questions/39241640/android-instrumented-test-no-tests-found try to make real multi dex app and try trun tests on it
+* Play with @BefeoreClass and @Before annotations (exception on @BeforeClass produce null without test cases on test-lab).
