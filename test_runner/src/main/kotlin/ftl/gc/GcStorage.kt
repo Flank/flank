@@ -5,7 +5,6 @@ import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageOptions
 import com.google.cloud.storage.contrib.nio.testing.LocalStorageHelper
-import com.google.common.annotations.VisibleForTesting
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
@@ -23,7 +22,7 @@ import java.nio.file.Paths
 import java.util.concurrent.ConcurrentHashMap
 
 object GcStorage {
-    @VisibleForTesting
+
     private val uploadCache: ConcurrentHashMap<String, String> = ConcurrentHashMap()
     private val downloadCache: ConcurrentHashMap<String, String> = ConcurrentHashMap()
 
