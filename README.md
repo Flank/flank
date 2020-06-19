@@ -371,8 +371,8 @@ flank:
   ## 1 runs the tests once. 10 runs all the tests 10x
   # num-test-runs: 1
 
-  ## Google cloud storage path to store the JUnit XML results from the last run.
-  # smart-flank-gcs-path: gs://tmp_flank/flank/test_app_android.xml
+  ## Google cloud storage path where the JUnit XML results from the last run is stored.
+  # smart-flank-gcs-path: gs://tmp_flank/tmp/JUnitReport.xml
 
   ## Disables smart flank JUnit XML uploading. Useful for preventing timing data from being updated.
   ## Default: false
