@@ -45,4 +45,10 @@ abstract class CommonRunCommand {
         description = ["YAML config file path"]
     )
     var configPath: String = ""
+
+    @CommandLine.Option(
+        names = ["--obfuscate"],
+        description = ["Replacing internal test names with unique identifiers when using --dump-shards option " +
+                "to avoid exposing internal details"])
+    var obfuscate: Boolean = false
 }
