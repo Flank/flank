@@ -58,6 +58,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs()
         assertThat(cmd.dumpShards).isFalse()
+        assertThat(cmd.obfuscate).isFalse()
         assertThat(cmd.dryRun).isFalse()
         assertThat(cmd.config.platform.gcloud.app).isNull()
         assertThat(cmd.config.platform.gcloud.test).isNull()
@@ -457,5 +458,13 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parseArgs("--robo-script=a")
 
         assertThat(cmd.config.platform.gcloud.roboScript).isEqualTo("a")
+    }
+
+    @Test
+    fun `obfuscate parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--obfuscate")
+
+        assertThat(cmd.obfuscate).isTrue()
     }
 }

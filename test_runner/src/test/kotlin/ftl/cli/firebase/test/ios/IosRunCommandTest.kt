@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.ios
 
 import com.google.common.truth.Truth.assertThat
+import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.isWindows
@@ -66,6 +67,7 @@ class IosRunCommandTest {
         val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs()
         assertThat(cmd.dumpShards).isFalse()
+        assertThat(cmd.obfuscate).isFalse()
         assertThat(cmd.config.common.gcloud.resultsBucket).isNull()
         assertThat(cmd.config.common.gcloud.recordVideo).isNull()
         assertThat(cmd.config.common.gcloud.timeout).isNull()
@@ -316,5 +318,13 @@ class IosRunCommandTest {
         CommandLine(cmd).parseArgs("--run-timeout=20s")
 
         assertThat(cmd.config.common.flank.runTimeout).isEqualTo("20s")
+    }
+
+    @Test
+    fun `obfuscate parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--obfuscate")
+
+        assertThat(cmd.obfuscate).isTrue()
     }
 }
