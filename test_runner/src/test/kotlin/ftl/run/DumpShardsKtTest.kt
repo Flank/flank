@@ -73,13 +73,11 @@ class DumpShardsKtTest {
     @Test
     fun `dump shards obfuscated android`() {
         // given
-        val path = File("").absolutePath
-
         val notExpected = """
 {
   "matrix-0": {
-    "app": "/Users/piotr/Projekty/gogo/flank/test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk",
-    "test": "/Users/piotr/Projekty/gogo/flank/test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-single-success-debug-androidTest.apk",
+    "app": "/pathToApk/app-debug.apk",
+    "test": "/pathToApk/app-single-success-debug-androidTest.apk",
     "shards": {
       "shard-0": [
         "class com.example.test_app.InstrumentedTest#test"
@@ -91,8 +89,8 @@ class DumpShardsKtTest {
     ]
   },
   "matrix-1": {
-    "app": "/Users/piotr/Projekty/gogo/flank/test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk",
-    "test": "/Users/piotr/Projekty/gogo/flank/test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-flaky-debug-androidTest.apk",
+    "app": "/pathToApk/app-debug.apk",
+    "test": "/pathToApk/app-multiple-flaky-debug-androidTest.apk",
     "shards": {
       "shard-0": [
         "class com.example.test_app.InstrumentedTest#test1",
