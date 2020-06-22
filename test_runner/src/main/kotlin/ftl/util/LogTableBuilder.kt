@@ -5,7 +5,7 @@ import com.google.common.annotations.VisibleForTesting
 data class TableColumn(
     val header: String,
     val data: List<String>,
-    val columnSize: Int = header.length + DEFAULT_COLUMN_PADDING,
+    val columnSize: Int = (data + header).maxBy { it.length }!!.length + DEFAULT_COLUMN_PADDING,
     val dataColor: List<SystemOutColor> = listOf()
 )
 
