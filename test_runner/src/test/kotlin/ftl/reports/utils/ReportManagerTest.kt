@@ -2,6 +2,8 @@ package ftl.reports.utils
 
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
+import ftl.gc.GcStorage
+import ftl.reports.CostReport
 import ftl.reports.util.ReportManager
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
@@ -11,7 +13,9 @@ import ftl.test.util.FlankTestRunner
 import ftl.util.FTLError
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.unmockkAll
+import io.mockk.verify
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
@@ -33,6 +37,7 @@ class ReportManagerTest {
     @After
     fun tearDown() = unmockkAll()
 
+
     @Test(expected = FTLError::class)
     fun `generate fromErrorResult`() {
         // TODO: NPE on Windows
@@ -50,6 +55,45 @@ class ReportManagerTest {
         every { mockArgs.smartFlankGcsPath } returns ""
         every { mockArgs.useLegacyJUnitResult } returns true
         ReportManager.generate(matrix, mockArgs, emptyList())
+    }
+
+    private fun prepareMockAndroidArgs(): AndroidArgs {
+        val mockArgs = mockk<AndroidArgs>()
+        every { mockArgs.smartFlankGcsPath } returns "test"
+        every { mockArgs.resultsBucket } returns "test"
+        every { mockArgs.resultsDir } returns "test"
+        every { mockArgs.useLegacyJUnitResult } returns true
+        every { mockArgs.useLocalResultDir() } returns true
+        every { mockArgs.localResultDir } returns "./src/test/kotlin/ftl/fixtures/success_result"
+        every { mockArgs.flakyTestAttempts } returns 0
+        every { mockArgs.disableResultsUpload } returns false
+        every { mockArgs.fullJUnitResult } returns false
+        every { mockArgs.ignoreFailedTests } returns false
+        every { mockArgs.smartFlankDisableUpload } returns true
+        return mockArgs
+    }
+
+    @Test
+    fun `uploadJunitXml should be called`() {
+        val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result", AndroidArgs.default())
+        val mockArgs = prepareMockAndroidArgs()
+        ReportManager.generate(matrix, mockArgs, emptyList())
+        verify { GcStorage.uploadJunitXml(any(), mockArgs) }
+    }
+
+    @Test
+    fun `uploadResults should be called`() {
+        val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result", AndroidArgs.default())
+        val mockArgs = prepareMockAndroidArgs()
+        mockkObject(GcStorage) {
+            every {
+                GcStorage.uploadReportResult(any(), any(), any())
+            } returns Unit
+            ReportManager.generate(matrix, mockArgs, emptyList())
+            verify {
+                GcStorage.uploadReportResult(any(), mockArgs, CostReport.fileName())
+            }
+        }
     }
 
     @Test

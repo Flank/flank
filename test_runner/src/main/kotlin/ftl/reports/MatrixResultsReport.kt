@@ -60,6 +60,6 @@ object MatrixResultsReport : IReport {
         val output = generate(matrices)
         if (printToStdout) print(output)
         write(matrices, output, args)
-        GcStorage.uploadReportResult(output, args, CostReport.fileName())
+        GcStorage.uploadReportResult(output, args, fileName())
     }
 }
