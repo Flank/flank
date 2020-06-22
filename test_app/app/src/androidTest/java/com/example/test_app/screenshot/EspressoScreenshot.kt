@@ -18,12 +18,12 @@ package com.example.test_app.screenshot
 
 import android.util.Log
 import androidx.test.runner.screenshot.Screenshot
-import org.junit.runner.Description
 import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.concurrent.atomic.AtomicInteger
+import org.junit.runner.Description
 
 /**
  * Used to automatically capture screenshots of failed tests.
@@ -68,7 +68,6 @@ object EspressoScreenshot {
         } catch (ignored: Exception) {
             Log.e(TAG, "Failed to make screenshot folder $screenshotFolder")
         }
-
     }
 
     fun takeScreenshot(description: Description) {

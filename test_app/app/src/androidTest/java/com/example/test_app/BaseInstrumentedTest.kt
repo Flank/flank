@@ -4,9 +4,9 @@ import android.Manifest
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.rule.GrantPermissionRule
 import com.example.test_app.screenshot.ScreenshotTestRule
+import kotlin.random.Random
 import org.junit.Assert.assertTrue
 import org.junit.Rule
-import kotlin.random.Random
 
 abstract class BaseInstrumentedTest {
 

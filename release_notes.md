@@ -1,4 +1,5 @@
 ## next (unreleased)
+- [#857](https://github.com/Flank/flank/pull/857) Added multimodule setup for test app. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#837](https://github.com/Flank/flank/pull/837) Added obfuscate option to dump shards. ([piotradamczyk5](https://github.com/piotradamczyk5))
 -
 -
