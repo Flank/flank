@@ -5,7 +5,6 @@ import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.toolresults.model.Outcome
 import ftl.android.AndroidCatalog
 import ftl.gc.GcToolResults
-import ftl.util.Billing
 import ftl.util.MatrixState.FINISHED
 import ftl.util.StepOutcome.failure
 import ftl.util.StepOutcome.flaky
@@ -25,9 +24,9 @@ class SavedMatrix(matrix: TestMatrix) {
         private set
     var downloaded = false
 
-    var billableVirtualMinutes: Long = 0
+    var billableVirtualSeconds: Long = 0
         private set
-    var billablePhysicalMinutes: Long = 0
+    var billablePhysicalSeconds: Long = 0
         private set
     var outcome: String = ""
         private set
@@ -76,8 +75,8 @@ class SavedMatrix(matrix: TestMatrix) {
         if (matrix.state != FINISHED) {
             throw RuntimeException("Matrix ${matrix.testMatrixId} ${matrix.state} != $FINISHED")
         }
-        billableVirtualMinutes = 0
-        billablePhysicalMinutes = 0
+        billableVirtualSeconds = 0
+        billablePhysicalSeconds = 0
         outcome = success
         if (matrix.testExecutions == null) return
 
@@ -90,12 +89,10 @@ class SavedMatrix(matrix: TestMatrix) {
             val stepResult = GcToolResults.getStepResult(it.toolResultsStep)
             val testTimeSeconds = stepResult.testExecutionStep?.testTiming?.testProcessDuration?.seconds ?: return
 
-            val billableMinutes = testTimeSeconds
-
             if (AndroidCatalog.isVirtualDevice(it.environment?.androidDevice, matrix.projectId ?: "")) {
-                billableVirtualMinutes += billableMinutes
+                billableVirtualSeconds += testTimeSeconds
             } else {
-                billablePhysicalMinutes += billableMinutes
+                billablePhysicalSeconds += testTimeSeconds
             }
         }
     }

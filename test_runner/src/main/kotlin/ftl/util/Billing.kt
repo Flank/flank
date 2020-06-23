@@ -14,43 +14,26 @@ object Billing {
         return value.divide(BigDecimal(60), 10, RoundingMode.HALF_UP)
     }
 
-    private var PHYSICAL_COST_PER_MIN = divBy60(divBy60(5)) // $5/hr
-    private var VIRTUAL_COST_PER_MIN = divBy60(divBy60(1))// $1/hr
+    private var PHYSICAL_COST_PER_SECOND = divBy60(divBy60(5)) // $5/hr
+    private var VIRTUAL_COST_PER_SECOND = divBy60(divBy60(1))// $1/hr
 
-    fun billableMinutes(testDurationSeconds: Long): Long {
-        return billableMinutes(BigDecimal(testDurationSeconds))
+
+
+    fun estimateCosts(billableVirtualSeconds: Long, billablePhysicalSeconds: Long): String {
+        return estimateCosts(BigDecimal(billableVirtualSeconds), BigDecimal(billablePhysicalSeconds))
     }
 
-    private fun billableMinutes(testDurationSeconds: BigDecimal): Long {
-        val billableMinutes = divBy60(checkForZero(testDurationSeconds))
-        // round decimals up.  0.01 minutes is billable at 1 minute.
-        return billableMinutes.setScale(0, RoundingMode.HALF_UP).longValueExact()
-    }
-
-    private fun checkForZero(testDurationSeconds: BigDecimal): BigDecimal {
-        // 0s duration => 1s
-        if (testDurationSeconds.compareTo(BigDecimal(0)) == 0) {
-            return BigDecimal(1)
-        }
-
-        return testDurationSeconds
-    }
-
-    fun estimateCosts(billableVirtualMinutes: Long, billablePhysicalMinutes: Long): String {
-        return estimateCosts(BigDecimal(billableVirtualMinutes), BigDecimal(billablePhysicalMinutes))
-    }
-
-    private fun estimateCosts(billableVirtualMinutes: BigDecimal, billablePhysicalMinutes: BigDecimal): String {
-        val virtualCost = billableVirtualMinutes.multiply(VIRTUAL_COST_PER_MIN).setScale(2, RoundingMode.HALF_UP)
-        val physicalCost = billablePhysicalMinutes.multiply(PHYSICAL_COST_PER_MIN).setScale(2, RoundingMode.HALF_UP)
+    private fun estimateCosts(billableVirtualSeconds: BigDecimal, billablePhysicalSeconds: BigDecimal): String {
+        val virtualCost = billableVirtualSeconds.multiply(VIRTUAL_COST_PER_SECOND).setScale(2, RoundingMode.HALF_UP)
+        val physicalCost = billablePhysicalSeconds.multiply(PHYSICAL_COST_PER_SECOND).setScale(2, RoundingMode.HALF_UP)
         val totalCost = (virtualCost + physicalCost).setScale(2, RoundingMode.HALF_UP)
 
-        val billableVirtualTime = prettyTime(billableVirtualMinutes)
-        val billablePhysicalTime = prettyTime(billablePhysicalMinutes)
-        val totalTime = prettyTime(billableVirtualMinutes + billablePhysicalMinutes)
+        val billableVirtualTime = prettyTime(billableVirtualSeconds)
+        val billablePhysicalTime = prettyTime(billablePhysicalSeconds)
+        val totalTime = prettyTime(billableVirtualSeconds + billablePhysicalSeconds)
 
-        val displayPhysical = billablePhysicalMinutes.signum() == 1
-        val displayVirtual = billableVirtualMinutes.signum() == 1 // 1 = positive number > 0
+        val displayPhysical = billablePhysicalSeconds.signum() == 1
+        val displayVirtual = billableVirtualSeconds.signum() == 1 // 1 = positive number > 0
         val displayTotal = displayPhysical && displayVirtual
         var result = ""
 

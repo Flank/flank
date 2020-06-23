@@ -8,7 +8,6 @@ import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.util.Billing
 import ftl.util.println
-import ftl.util.write
 import java.io.StringWriter
 
 /** Calculates cost based on the matrix map. Always run. */
@@ -21,8 +20,8 @@ object CostReport : IReport {
         var totalBillablePhysicalMinutes = 0L
 
         matrices.map.values.forEach {
-            totalBillableVirtualMinutes += it.billableVirtualMinutes
-            totalBillablePhysicalMinutes += it.billablePhysicalMinutes
+            totalBillableVirtualMinutes += it.billableVirtualSeconds
+            totalBillablePhysicalMinutes += it.billablePhysicalSeconds
         }
 
         return Billing.estimateCosts(totalBillableVirtualMinutes, totalBillablePhysicalMinutes)
