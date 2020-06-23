@@ -284,7 +284,7 @@ IosArgs
       local-result-dir: results
       run-timeout: -1
       ignore-failed-tests: false
-      output-style: multi
+      output-style: single
         """.trimIndent(), args.toString()
         )
     }
@@ -820,7 +820,7 @@ IosArgs
           test: $testPath
           xctestrun-file: $testPath
       """
-        assertThat(IosArgs.load(yaml).outputStyle).isEqualTo(OutputStyle.Multi)
+        assertThat(IosArgs.load(yaml).outputStyle).isEqualTo(OutputStyle.Single)
 
         val args = IosArgs.load(yaml, cli)
         assertThat(args.outputStyle).isEqualTo(OutputStyle.Verbose)

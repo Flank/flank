@@ -397,7 +397,7 @@ AndroidArgs
       run-timeout: -1
       legacy-junit-result: true
       ignore-failed-tests: false
-      output-style: multi
+      output-style: single
         """.trimIndent(), args.toString()
         )
     }
@@ -442,7 +442,7 @@ AndroidArgs
             assert(testTargetsAlwaysRun, empty)
             assert(disableSharding, false)
             assert(runTimeout, "-1")
-            assert(outputStyle, OutputStyle.Multi)
+            assert(outputStyle, OutputStyle.Single)
             assert(fullJUnitResult, false)
         }
     }
@@ -1145,7 +1145,7 @@ AndroidArgs
           app: $appApk
           test: $testApk
       """
-        assertThat(AndroidArgs.load(yaml).outputStyle).isEqualTo(OutputStyle.Multi)
+        assertThat(AndroidArgs.load(yaml).outputStyle).isEqualTo(OutputStyle.Single)
 
         val args = AndroidArgs.load(yaml, cli)
         assertThat(args.outputStyle).isEqualTo(OutputStyle.Verbose)
@@ -1340,7 +1340,7 @@ AndroidArgs
     }
 
     @Test
-    fun `default output should be multi`() {
+    fun `default output should be single`() {
         listOf(
             "  num-flaky-test-attempts: 3",
             """
@@ -1362,8 +1362,8 @@ AndroidArgs
             """.trimIndent()
         }.forEach { yaml ->
             assertEquals(
-                OutputStyle.Multi,
-                AndroidArgs.load(yaml).defaultOutputStyle
+                OutputStyle.Single,
+                AndroidArgs.load(yaml).outputStyle
             )
         }
     }

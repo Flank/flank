@@ -44,12 +44,6 @@ interface IArgs {
     val ignoreFailedTests: Boolean
     val keepFilePath: Boolean
     val outputStyle: OutputStyle
-    val defaultOutputStyle
-        get() = if (hasMultipleExecutions)
-            OutputStyle.Multi else
-            OutputStyle.Verbose
-    val hasMultipleExecutions
-        get() = flakyTestAttempts > 0 || (!disableSharding && maxTestShards > 0)
 
     fun useLocalResultDir() = localResultDir != defaultLocalResultsDir
 

@@ -4,19 +4,17 @@ import ftl.args.yml.AppTestPair
 import ftl.config.AndroidConfig
 import ftl.config.android.AndroidFlankConfig
 import ftl.config.android.AndroidGcloudConfig
-import ftl.run.status.OutputStyle
 
 fun createAndroidArgs(
     config: AndroidConfig? = null,
     gcloud: AndroidGcloudConfig = config!!.platform.gcloud,
     flank: AndroidFlankConfig = config!!.platform.flank,
-    commonArgs: CommonArgs = config!!.common.createCommonArgs(config.data)
+    commonArgs: CommonArgs = config!!.common.createCommonArgs(
+        data = config.data,
+        hasMultipleExecutions = config.hasMultipleExecutions()
+    )
 ) = AndroidArgs(
-    commonArgs = commonArgs.copy(
-        outputStyle = if (flank.hasAdditionalTestAppApk)
-            OutputStyle.Single else
-            commonArgs.outputStyle
-    ),
+    commonArgs = commonArgs,
 
     // gcloud
     appApk = gcloud.app?.processFilePath("from app"),
@@ -44,4 +42,5 @@ fun createAndroidArgs(
     useLegacyJUnitResult = flank.useLegacyJUnitResult!!
 )
 
+private fun AndroidConfig.hasMultipleExecutions() = platform.flank.hasAdditionalTestAppApk || common.hasMultipleExecutions()
 private val AndroidFlankConfig.hasAdditionalTestAppApk get() = additionalAppTestApks?.size ?: 0 > 0
