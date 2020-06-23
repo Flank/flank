@@ -15,9 +15,7 @@ object Billing {
     }
 
     private var PHYSICAL_COST_PER_SECOND = divBy60(divBy60(5)) // $5/hr
-    private var VIRTUAL_COST_PER_SECOND = divBy60(divBy60(1))// $1/hr
-
-
+    private var VIRTUAL_COST_PER_SECOND = divBy60(divBy60(1)) // $1/hr
 
     fun estimateCosts(billableVirtualSeconds: Long, billablePhysicalSeconds: Long): String {
         return estimateCosts(BigDecimal(billableVirtualSeconds), BigDecimal(billablePhysicalSeconds))
@@ -68,15 +66,13 @@ Total
     private fun prettyTime(billableMinutes: BigDecimal): String {
         val remainder = billableMinutes.toLong()
         val hours = TimeUnit.SECONDS.toHours(remainder)
-        val minutes = TimeUnit.SECONDS.toMinutes(remainder)
-        val secons = remainder % 60
+        val minutes = TimeUnit.SECONDS.toMinutes(remainder) % 60
+        val seconds = remainder % 60
 
-        return if (hours > 0) {
-            "${hours}h ${minutes}m ${secons}s"
-        } else if(minutes > 0) {
-            "${minutes}m ${secons}s"
-        } else {
-            "${secons}s"
+        return when {
+            hours > 0 -> "${hours}h ${minutes}m ${seconds}s"
+            minutes > 0 -> "${minutes}m ${seconds}s"
+            else -> "${seconds}s"
         }
     }
 }
