@@ -1,7 +1,7 @@
 ## next (unreleased)
 - [#857](https://github.com/Flank/flank/pull/857) Added multimodule setup for test app. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#837](https://github.com/Flank/flank/pull/837) Added obfuscate option to dump shards. ([piotradamczyk5](https://github.com/piotradamczyk5))
-- [#864](https://github.com/Flank/flank/pull/864) Change default output style for multiple
+- [#864](https://github.com/Flank/flank/pull/864) Change default output style for multiple. ([jan-gogo](https://github.com/jan-gogo))
 -
 -
 
