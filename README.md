@@ -206,6 +206,7 @@ flank:
   # full-junit-result: false
 
   ## Disables flank results upload on gcloud storage.
+  ## Default: false
   # disable-results-upload: false
 ```
 
@@ -428,6 +429,7 @@ flank:
   # full-junit-result: false
 
   ## Disables flank results upload on gcloud storage.
+  ## Default: false
   # disable-results-upload: false
 ```
 

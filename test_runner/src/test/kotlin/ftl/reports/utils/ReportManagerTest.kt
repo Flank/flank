@@ -4,10 +4,14 @@ import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.gc.GcStorage
 import ftl.reports.CostReport
+import ftl.reports.FullJUnitReport
+import ftl.reports.JUnitReport
+import ftl.reports.MatrixResultsReport
 import ftl.reports.util.ReportManager
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
+import ftl.reports.xml.parseOneSuiteXml
 import ftl.run.common.matrixPathToObj
 import ftl.test.util.FlankTestRunner
 import ftl.util.FTLError
@@ -36,7 +40,6 @@ class ReportManagerTest {
 
     @After
     fun tearDown() = unmockkAll()
-
 
     @Test(expected = FTLError::class)
     fun `generate fromErrorResult`() {
@@ -77,8 +80,9 @@ class ReportManagerTest {
     fun `uploadJunitXml should be called`() {
         val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result", AndroidArgs.default())
         val mockArgs = prepareMockAndroidArgs()
+        val junitTestResult = ReportManager.processXmlFromFile(matrix, mockArgs, ::parseOneSuiteXml)
         ReportManager.generate(matrix, mockArgs, emptyList())
-        verify { GcStorage.uploadJunitXml(any(), mockArgs) }
+        verify { GcStorage.uploadJunitXml(junitTestResult!!, mockArgs) }
     }
 
     @Test
@@ -92,6 +96,59 @@ class ReportManagerTest {
             ReportManager.generate(matrix, mockArgs, emptyList())
             verify {
                 GcStorage.uploadReportResult(any(), mockArgs, CostReport.fileName())
+                GcStorage.uploadReportResult(any(), mockArgs, MatrixResultsReport.fileName())
+                GcStorage.uploadReportResult(any(), mockArgs, JUnitReport.fileName())
+            }
+        }
+    }
+
+    @Test
+    fun `uploadResults should't be called when disable-results-upload set`() {
+        val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result", AndroidArgs.default())
+        val mockArgs = prepareMockAndroidArgs()
+        every { mockArgs.disableResultsUpload } returns true
+        mockkObject(GcStorage) {
+            every {
+                GcStorage.uploadReportResult(any(), any(), any())
+            } returns Unit
+            ReportManager.generate(matrix, mockArgs, emptyList())
+            verify(inverse = true) {
+                GcStorage.uploadReportResult(any(), mockArgs, CostReport.fileName())
+                GcStorage.uploadReportResult(any(), mockArgs, MatrixResultsReport.fileName())
+                GcStorage.uploadReportResult(any(), mockArgs, JUnitReport.fileName())
+                GcStorage.uploadReportResult(any(), mockArgs, FullJUnitReport.fileName())
+            }
+        }
+    }
+
+    @Test
+    fun `uploadResults with FullJUnit should't be called`() {
+        val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result", AndroidArgs.default())
+        val mockArgs = prepareMockAndroidArgs()
+        mockkObject(GcStorage) {
+            every {
+                GcStorage.uploadReportResult(any(), any(), any())
+            } returns Unit
+            ReportManager.generate(matrix, mockArgs, emptyList())
+            verify(inverse = true) {
+                GcStorage.uploadReportResult(any(), mockArgs, FullJUnitReport.fileName())
+            }
+        }
+    }
+
+    @Test
+    fun `uploadResults with FullJUnit should be called`() {
+        val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result", AndroidArgs.default())
+        val mockArgs = prepareMockAndroidArgs()
+        every { mockArgs.fullJUnitResult } returns true
+        every { mockArgs.project } returns "test"
+        mockkObject(GcStorage) {
+            every {
+                GcStorage.uploadReportResult(any(), any(), any())
+            } returns Unit
+            ReportManager.generate(matrix, mockArgs, emptyList())
+            verify {
+                GcStorage.uploadReportResult(any(), mockArgs, FullJUnitReport.fileName())
             }
         }
     }
