@@ -59,8 +59,14 @@ object MatrixResultsReport : IReport {
     }
 
     private fun Collection<SavedMatrix>.printMatricesLinks(writer: StringWriter) {
-        writer.println("More details are available at:")
-        map { it.webLinkWithoutExecutionDetails }.forEach { writer.println(it) }
+        filter { it.failed() }
+            .takeIf { it.isNotEmpty() }
+            ?.let { failedMatrices ->
+                writer.println("More details are available at:")
+                failedMatrices
+                    .map { it.webLinkWithoutExecutionDetails }
+                    .forEach { writer.println(it) }
+            }
     }
 
     override fun run(matrices: MatrixMap, result: JUnitTestResult?, printToStdout: Boolean, args: IArgs) {
