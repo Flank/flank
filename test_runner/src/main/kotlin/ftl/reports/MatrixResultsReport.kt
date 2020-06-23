@@ -1,9 +1,11 @@
 package ftl.reports
 
+import com.google.api.services.testing.model.TestMatrix
 import ftl.args.IArgs
 import ftl.config.FtlConstants.indent
 import ftl.gc.GcStorage
 import ftl.json.MatrixMap
+import ftl.json.SavedMatrix
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.util.asPrintableTable
@@ -48,12 +50,18 @@ object MatrixResultsReport : IReport {
             }
 
             if (matrices.map.isNotEmpty()) {
-                writer.println("More details are available at [${matrices.map.values.first().webLinkWithoutExecutionDetails}]")
-                writer.println(matrices.map.values.toList().asPrintableTable())
+                val savedMatrices = matrices.map.values
+                writer.println(savedMatrices.toList().asPrintableTable())
+                savedMatrices.printMatricesLinks(writer)
             }
 
             return writer.toString()
         }
+    }
+
+    private fun Collection<SavedMatrix>.printMatricesLinks(writer: StringWriter) {
+        writer.println("More details are available at:")
+        map { it.webLinkWithoutExecutionDetails }.forEach { writer.println(it) }
     }
 
     override fun run(matrices: MatrixMap, result: JUnitTestResult?, printToStdout: Boolean, args: IArgs) {
