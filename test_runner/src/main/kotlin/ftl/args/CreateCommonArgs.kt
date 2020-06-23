@@ -52,7 +52,7 @@ private val CommonConfig.outputStyle
 
 private val CommonConfig.defaultOutputStyle
     get() = if (hasMultipleExecutions)
-        OutputStyle.Multi else
+        OutputStyle.Single else
         OutputStyle.Verbose
 
 private val CommonConfig.hasMultipleExecutions
