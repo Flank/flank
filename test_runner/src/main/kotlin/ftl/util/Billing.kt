@@ -14,8 +14,8 @@ object Billing {
         return value.divide(BigDecimal(60), 10, RoundingMode.HALF_UP)
     }
 
-    private var PHYSICAL_COST_PER_MIN = divBy60(5) // $5/hr
-    private var VIRTUAL_COST_PER_MIN = divBy60(1) // $1/hr
+    private var PHYSICAL_COST_PER_MIN = divBy60(divBy60(5)) // $5/hr
+    private var VIRTUAL_COST_PER_MIN = divBy60(divBy60(1))// $1/hr
 
     fun billableMinutes(testDurationSeconds: Long): Long {
         return billableMinutes(BigDecimal(testDurationSeconds))
@@ -24,7 +24,7 @@ object Billing {
     private fun billableMinutes(testDurationSeconds: BigDecimal): Long {
         val billableMinutes = divBy60(checkForZero(testDurationSeconds))
         // round decimals up.  0.01 minutes is billable at 1 minute.
-        return billableMinutes.setScale(0, RoundingMode.UP).longValueExact()
+        return billableMinutes.setScale(0, RoundingMode.HALF_UP).longValueExact()
     }
 
     private fun checkForZero(testDurationSeconds: BigDecimal): BigDecimal {
@@ -84,13 +84,16 @@ Total
 
     private fun prettyTime(billableMinutes: BigDecimal): String {
         val remainder = billableMinutes.toLong()
-        val hours = TimeUnit.MINUTES.toHours(remainder)
-        val minutes = remainder % 60
+        val hours = TimeUnit.SECONDS.toHours(remainder)
+        val minutes = TimeUnit.SECONDS.toMinutes(remainder)
+        val secons = remainder % 60
 
         return if (hours > 0) {
-            "${hours}h ${minutes}m"
+            "${hours}h ${minutes}m ${secons}s"
+        } else if(minutes > 0) {
+            "${minutes}m ${secons}s"
         } else {
-            "${minutes}m"
+            "${secons}s"
         }
     }
 }
