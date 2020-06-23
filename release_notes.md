@@ -5,7 +5,7 @@
 - [#828](https://github.com/Flank/flank/pull/828) Store test results in gcloud bucket. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#865](https://github.com/Flank/flank/pull/865) Flank needs to respect the timeout value as that's a cap for billing purposes. ([adamfilipow92](https://github.com/adamfilipow92), [pawelpasterz](https://github.com/pawelpasterz))
 - [#866](https://github.com/Flank/flank/pull/866) Fix printing all matrix links. ([piotradamczyk5](https://github.com/piotradamczyk5))
--
+- [#862](https://github.com/Flank/flank/pull/862) Added printing outcome details. ([piotradamczyk5](https://github.com/piotradamczyk5))
 -
 -
 
