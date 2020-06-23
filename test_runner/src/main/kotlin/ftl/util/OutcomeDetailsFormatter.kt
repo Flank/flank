@@ -46,7 +46,7 @@ private fun FailureDetail?.getFailureOutcomeDetails(testSuiteOverviewData: TestS
 private fun TestSuiteOverviewData.buildFailureOutcomeDetailsSummary(): String {
     return StringBuilder("$failures test casess failed").apply {
         if (errors > 0) append(errorMessage(errors))
-        successCount.takeIf { it > 0 }?.let(successMessage)
+        successCount.takeIf { it > 0 }?.let { append(successMessage(it)) }
         if (skipped > 0) append(skippedMessage(skipped))
         if (flakes > 0) append(flakesMessage(flakes))
     }.toString()
@@ -60,8 +60,8 @@ private fun InconclusiveDetail?.formatOutcomeDetails() = when {
 }
 
 private fun SkippedDetail?.formatOutcomeDetails(): String = when {
-    this == null  -> "Unknown reason"
-    incompatibleAppVersion == true -> "Incompatible device/OS combination"
+    this == null -> "Unknown reason"
+    incompatibleDevice == true -> "Incompatible device/OS combination"
     incompatibleArchitecture == true -> "App does not support the device architecture"
     incompatibleAppVersion == true -> "App does not support the OS version"
     else -> "Unknown reason"

@@ -278,11 +278,11 @@ class UtilsTest {
 
     private fun assertOutputIsEqualReferenceTable(outputLog: String, matrixId: String) {
         val referenceTable =
-            "┌─────────┬────────────────────────┬────────────────────┐\n" +
-            "│ OUTCOME │    TEST_AXIS_VALUE     │    TEST_DETAILS    │\n" +
-            "├─────────┼────────────────────────┼────────────────────┤\n" +
-            "│ Failed  │           $matrixId            │ Test failed to run │\n" +
-            "└─────────┴────────────────────────┴────────────────────┘"
+            "┌─────────┬───────────┬────────────────────┐\n" +
+            "│ OUTCOME │ MATRIX ID │    TEST DETAILS    │\n" +
+            "├─────────┼───────────┼────────────────────┤\n" +
+            "│ Failed  │     $matrixId     │ Test failed to run │\n" +
+            "└─────────┴───────────┴────────────────────┘"
         referenceTable.split("\n")
             .forEach {
                 println(it)

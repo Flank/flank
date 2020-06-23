@@ -9,7 +9,7 @@ fun SavedMatrix.asPrintableTable(): String = listOf(this).asPrintableTable()
 fun List<SavedMatrix>.asPrintableTable(): String = buildTable(
     TableColumn(OUTCOME_COLUMN_HEADER, map { it.outcome }, dataColor = map { getOutcomeColor(it.outcome) }),
     TableColumn(MATRIX_ID_COLUMN_HEADER, map { it.matrixId }),
-    TableColumn(OUTCOME_DETAILS_COLUMN_HEADER, map { it.outcomeDetails })
+    TableColumn(OUTCOME_DETAILS_COLUMN_HEADER, mapNotNull { it.outcomeDetails })
 )
 
 private fun getOutcomeColor(outcome: String): SystemOutColor {
