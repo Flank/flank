@@ -34,9 +34,7 @@ private fun createJUnitTestCase(
         // skipped = true is represented by null. skipped = false is "absent"
         skipped = if (testCase.status == "skipped") null else "absent"
     ).apply {
-        if (errors != null || failures != null) {
-            webLink = getWebLink(toolResultsStep, testCase.testCaseId)
-        }
+        webLink = getWebLink(toolResultsStep, testCase.testCaseId)
         if (testCase.flaky) {
             flaky = true
         }
