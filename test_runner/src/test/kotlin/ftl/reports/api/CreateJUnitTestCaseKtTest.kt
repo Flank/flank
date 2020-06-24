@@ -49,20 +49,27 @@ class CreateJUnitTestCaseKtTest {
                 name = "test1",
                 classname = "TestClassName",
                 time = "2.200"
-            ),
+            ).apply {
+                webLink =
+                    "https://console.firebase.google.com/project/projectId/testlab/histories/historyId/matrices/executionId/executions/stepId/testcases/test1"
+            },
             JUnitTestCase(
                 name = "test2",
                 classname = "TestClassName",
                 time = "2.200",
                 skipped = null
-            ),
+            ).apply {
+                webLink =
+                    "https://console.firebase.google.com/project/projectId/testlab/histories/historyId/matrices/executionId/executions/stepId/testcases/test2"
+            },
             JUnitTestCase(
                 name = "test3",
                 classname = "TestClassName",
                 time = "2.200",
                 errors = listOf("exception")
             ).apply {
-                webLink = "https://console.firebase.google.com/project/projectId/testlab/histories/historyId/matrices/executionId/executions/stepId/testcases/test3"
+                webLink =
+                    "https://console.firebase.google.com/project/projectId/testlab/histories/historyId/matrices/executionId/executions/stepId/testcases/test3"
             },
             JUnitTestCase(
                 name = "test4",
@@ -70,7 +77,8 @@ class CreateJUnitTestCaseKtTest {
                 time = "2.200",
                 failures = listOf("exception")
             ).apply {
-                webLink = "https://console.firebase.google.com/project/projectId/testlab/histories/historyId/matrices/executionId/executions/stepId/testcases/test4"
+                webLink =
+                    "https://console.firebase.google.com/project/projectId/testlab/histories/historyId/matrices/executionId/executions/stepId/testcases/test4"
             },
             JUnitTestCase(
                 name = "test5",
@@ -78,7 +86,8 @@ class CreateJUnitTestCaseKtTest {
                 time = "2.200",
                 failures = listOf("exception")
             ).apply {
-                webLink = "https://console.firebase.google.com/project/projectId/testlab/histories/historyId/matrices/executionId/executions/stepId/testcases/test5"
+                webLink =
+                    "https://console.firebase.google.com/project/projectId/testlab/histories/historyId/matrices/executionId/executions/stepId/testcases/test5"
                 flaky = true
             }
         )
