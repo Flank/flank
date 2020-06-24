@@ -161,7 +161,7 @@ repositories {
 // Avoids having to read the HTML report
 tasks.withType<Test> {
     testLogging {
-        events("passed", "skipped", "failed")
+        events("skipped", "failed")
         exceptionFormat = TestExceptionFormat.FULL
     }
 }
