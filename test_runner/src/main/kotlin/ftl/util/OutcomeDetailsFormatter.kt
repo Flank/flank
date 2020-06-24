@@ -37,9 +37,9 @@ private val TestSuiteOverviewData.successCount
 
 private fun FailureDetail?.getFailureOutcomeDetails(testSuiteOverviewData: TestSuiteOverviewData?) = when {
     this == null -> testSuiteOverviewData?.buildFailureOutcomeDetailsSummary()
-    crashed -> "Application crashed"
-    timedOut -> "Test timed out"
-    notInstalled -> "App failed to install"
+    crashed == true -> "Application crashed"
+    timedOut == true -> "Test timed out"
+    notInstalled == true -> "App failed to install"
     else -> testSuiteOverviewData?.buildFailureOutcomeDetailsSummary()
 } + this?.takeIf { it.otherNativeCrash }?.let { NATIVE_CRASH_MESSAGE }.orEmpty()
 
@@ -54,8 +54,8 @@ private fun TestSuiteOverviewData.buildFailureOutcomeDetailsSummary(): String {
 
 private fun InconclusiveDetail?.formatOutcomeDetails() = when {
     this == null -> "Unknown reason"
-    infrastructureFailure -> "Infrastructure failure"
-    abortedByUser -> "Test run aborted by user"
+    infrastructureFailure == true -> "Infrastructure failure"
+    abortedByUser == true -> "Test run aborted by user"
     else -> "Unknown reason"
 }
 
