@@ -23,7 +23,7 @@ internal suspend fun afterRunTests(
     stopwatch: StopWatch,
     config: IArgs
 ) = MatrixMap(
-    map = testMatrices.toSavedMatrixMap(),
+    map = testMatrices.toSavedMatrixMap(config.testTimeout),
     runPath = runGcsPath
 ).also { matrixMap ->
     updateMatrixFile(matrixMap, config)
@@ -34,12 +34,11 @@ internal suspend fun afterRunTests(
             config.resultsBucket + "/" + matrixMap.runPath
     println(FtlConstants.indent + gcsBucket)
     println()
-
     matrixMap.printMatricesWebLinks(config.project)
 }
 
-private fun List<TestMatrix>.toSavedMatrixMap() = this
-    .map { matrix -> matrix.testMatrixId to SavedMatrix(matrix) }
+private fun List<TestMatrix>.toSavedMatrixMap(testTimeout: String) = this
+    .map { matrix -> matrix.testMatrixId to SavedMatrix(matrix, testTimeout) }
     .toMap()
 
 private fun saveConfigFile(matrixMap: MatrixMap, args: IArgs) {

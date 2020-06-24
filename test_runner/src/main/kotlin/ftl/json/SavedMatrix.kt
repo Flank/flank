@@ -5,6 +5,7 @@ import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.toolresults.model.Outcome
 import ftl.android.AndroidCatalog
 import ftl.gc.GcToolResults
+import ftl.util.Billing
 import ftl.util.MatrixState.FINISHED
 import ftl.util.StepOutcome.failure
 import ftl.util.StepOutcome.flaky
@@ -12,10 +13,12 @@ import ftl.util.StepOutcome.inconclusive
 import ftl.util.StepOutcome.skipped
 import ftl.util.StepOutcome.success
 import ftl.util.StepOutcome.unset
+import ftl.util.timeoutToSeconds
 import ftl.util.webLink
 
 // execution gcs paths aren't API accessible.
-class SavedMatrix(matrix: TestMatrix) {
+class SavedMatrix(matrix: TestMatrix, testTimeout: String = "0s") {
+    private val testTimeoutSeconds = timeoutToSeconds(testTimeout)
     val matrixId: String = matrix.testMatrixId
     var state: String = matrix.state
         private set
@@ -24,9 +27,9 @@ class SavedMatrix(matrix: TestMatrix) {
         private set
     var downloaded = false
 
-    var billableVirtualSeconds: Long = 0
+    var billableVirtualMinutes: Long = 0
         private set
-    var billablePhysicalSeconds: Long = 0
+    var billablePhysicalSecondsMinutes: Long = 0
         private set
     var outcome: String = ""
         private set
@@ -75,8 +78,8 @@ class SavedMatrix(matrix: TestMatrix) {
         if (matrix.state != FINISHED) {
             throw RuntimeException("Matrix ${matrix.testMatrixId} ${matrix.state} != $FINISHED")
         }
-        billableVirtualSeconds = 0
-        billablePhysicalSeconds = 0
+        billableVirtualMinutes = 0
+        billablePhysicalSecondsMinutes = 0
         outcome = success
         if (matrix.testExecutions == null) return
 
@@ -89,10 +92,12 @@ class SavedMatrix(matrix: TestMatrix) {
             val stepResult = GcToolResults.getStepResult(it.toolResultsStep)
             val testTimeSeconds = stepResult.testExecutionStep?.testTiming?.testProcessDuration?.seconds ?: return
 
+            val billableMinutes = Billing.billableMinutes(testTimeSeconds, testTimeoutSeconds)
+
             if (AndroidCatalog.isVirtualDevice(it.environment?.androidDevice, matrix.projectId ?: "")) {
-                billableVirtualSeconds += testTimeSeconds
+                billableVirtualMinutes += billableMinutes
             } else {
-                billablePhysicalSeconds += testTimeSeconds
+                billablePhysicalSecondsMinutes += billableMinutes
             }
         }
     }

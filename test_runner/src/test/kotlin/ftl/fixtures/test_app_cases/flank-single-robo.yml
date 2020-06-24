@@ -5,3 +5,4 @@ gcloud:
     coverage: true
     coverageFilePath: /sdcard/
     clearPackageData: true
+  timeout: 5m
