@@ -1,5 +1,6 @@
 package ftl.reports.util
 
+import com.google.common.annotations.VisibleForTesting
 import ftl.args.IArgs
 import ftl.args.IgnoredTestCases
 import ftl.args.IosArgs
@@ -67,7 +68,8 @@ object ReportManager {
         return matchResult?.groupValues?.last().orEmpty()
     }
 
-    private fun processXmlFromFile(
+    @VisibleForTesting
+    internal fun processXmlFromFile(
         matrices: MatrixMap,
         args: IArgs,
         process: (file: File) -> JUnitTestResult

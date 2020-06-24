@@ -1,12 +1,12 @@
 package ftl.reports
 
 import ftl.args.IArgs
+import ftl.gc.GcStorage
 import ftl.json.MatrixMap
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.xmlToString
 
-/** Calculates cost based on the matrix map. Always run. */
 object FullJUnitReport : IReport {
     override val extension = ".xml"
 
@@ -17,5 +17,6 @@ object FullJUnitReport : IReport {
         } else {
             write(matrices, output, args)
         }
+        GcStorage.uploadReportResult(output, args, fileName())
     }
 }

@@ -2,6 +2,7 @@ package ftl.reports
 
 import com.google.gson.Gson
 import ftl.args.IArgs
+import ftl.gc.GcStorage
 import ftl.json.MatrixMap
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestCase
@@ -28,10 +29,11 @@ object HtmlErrorReport : IReport {
         args: IArgs
     ) {
         val suites = result?.testsuites?.process()?.takeIf { it.isNotEmpty() } ?: return
-        Files.write(
-            Paths.get(reportPath(matrices, args)),
-            suites.createHtmlReport().toByteArray()
-        )
+        Paths.get(reportPath(matrices, args)).let {
+            val htmlReport = suites.createHtmlReport()
+            Files.write(it, htmlReport.toByteArray())
+            GcStorage.uploadReportResult(htmlReport, args, it.fileName.toString())
+        }
     }
 }
 

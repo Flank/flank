@@ -33,5 +33,6 @@ data class CommonArgs(
     override val fullJUnitResult: Boolean,
     override val ignoreFailedTests: Boolean,
     override val keepFilePath: Boolean,
-    override val outputStyle: OutputStyle
+    override val outputStyle: OutputStyle,
+    override val disableResultsUpload: Boolean
 ) : IArgs

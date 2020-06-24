@@ -133,6 +133,13 @@ data class CommonFlankConfig @JsonIgnore constructor(
     @set:JsonProperty("output-style")
     var outputStyle: String? by data
 
+    @set:CommandLine.Option(
+        names = ["--disable-results-upload"],
+        description = ["Disables flank results upload on gcloud storage."]
+    )
+    @set:JsonProperty("disable-results-upload")
+    var disableResultsUpload: Boolean? by data
+
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {
@@ -153,7 +160,8 @@ data class CommonFlankConfig @JsonIgnore constructor(
             "legacy-junit-result",
             "ignore-failed-tests",
             "keep-file-path",
-            "output-style"
+            "output-style",
+            "disable-results-upload"
         )
 
         const val defaultLocalResultsDir = "results"
@@ -174,6 +182,7 @@ data class CommonFlankConfig @JsonIgnore constructor(
             ignoreFailedTests = false
             keepFilePath = false
             outputStyle = null
+            disableResultsUpload = false
         }
     }
 }
