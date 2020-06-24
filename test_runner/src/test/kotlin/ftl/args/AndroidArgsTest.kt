@@ -1426,6 +1426,33 @@ AndroidArgs
         val args = AndroidArgs.load(yaml)
         assertEquals(AVAILABLE_SHARD_COUNT_RANGE.last, args.maxTestShards)
     }
+
+    @Test
+    fun `should set disableResultsUpload to true`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          max-test-shards: -1
+          disable-results-upload: true
+        """.trimIndent()
+        val args = AndroidArgs.load(yaml)
+        assertTrue(args.disableResultsUpload)
+    }
+
+    @Test
+    fun `should disableResultsUpload set to false`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          max-test-shards: -1
+        """.trimIndent()
+        val args = AndroidArgs.load(yaml)
+        assertFalse(args.disableResultsUpload)
+    }
 }
 
 private fun AndroidArgs.Companion.load(yamlData: String, cli: AndroidRunCommand? = null): AndroidArgs = load(StringReader(yamlData), cli)

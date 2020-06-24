@@ -201,6 +201,10 @@ flank:
 
   ## Enable create additional local junit result on local storage with failure nodes on passed flaky tests.
   # full-junit-result: false
+
+  ## Disables flank results upload on gcloud storage.
+  ## Default: false
+  # disable-results-upload: false
 ```
 
 ### Android example
@@ -420,6 +424,10 @@ flank:
 
   ## Enable create additional local junit result on local storage with failure nodes on passed flaky tests.
   # full-junit-result: false
+
+  ## Disables flank results upload on gcloud storage.
+  ## Default: false
+  # disable-results-upload: false
 ```
 
 ### Android code coverage
