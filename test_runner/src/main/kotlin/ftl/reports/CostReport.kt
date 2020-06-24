@@ -6,7 +6,7 @@ import ftl.gc.GcStorage
 import ftl.json.MatrixMap
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
-import ftl.util.Billing
+import ftl.util.estimateCosts
 import ftl.util.println
 import java.io.StringWriter
 
@@ -24,7 +24,7 @@ object CostReport : IReport {
             totalBillablePhysicalMinutes += it.billablePhysicalSecondsMinutes
         }
 
-        return Billing.estimateCosts(totalBillableVirtualMinutes, totalBillablePhysicalMinutes)
+        return estimateCosts(totalBillableVirtualMinutes, totalBillablePhysicalMinutes)
     }
 
     private fun generate(matrices: MatrixMap): String {

@@ -10,6 +10,7 @@ import com.google.common.truth.Truth.assertThat
 import ftl.config.Device
 import ftl.gc.GcAndroidDevice
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.defaultTestTimeout
 import ftl.util.MatrixState.FINISHED
 import ftl.util.MatrixState.PENDING
 import ftl.util.webLink
@@ -68,7 +69,7 @@ class SavedMatrixTest {
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
 
-        val savedMatrix = SavedMatrix(testMatrix)
+        val savedMatrix = SavedMatrix(testMatrix, defaultTestTimeout)
         assertThat(savedMatrix.outcome).isEqualTo("failure")
 
         // assert other properties
@@ -100,7 +101,7 @@ class SavedMatrixTest {
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
 
-        val savedMatrix = SavedMatrix(testMatrix)
+        val savedMatrix = SavedMatrix(testMatrix, defaultTestTimeout)
         assertThat(savedMatrix.outcome).isEqualTo("skipped")
 
         // assert other properties
@@ -130,7 +131,7 @@ class SavedMatrixTest {
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
 
-        val savedMatrix = SavedMatrix(testMatrix)
+        val savedMatrix = SavedMatrix(testMatrix, defaultTestTimeout)
         savedMatrix.update(testMatrix)
         testMatrix.state = FINISHED
         testMatrix.webLink()

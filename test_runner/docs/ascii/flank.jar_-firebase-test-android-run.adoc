@@ -172,6 +172,9 @@ Configuration is read from flank.yml
 *--output-style*=_<outputStyle>_::
   Output style of execution status. May be one of [verbose, multi, single]. For runs with only one test execution the default value is 'verbose', in other cases 'multi' is used as the default. The output style 'multi' is not displayed correctly on consoles which don't support ansi codes, to avoid corrupted output use `single` or `verbose`.
 
+*--disable-results-upload*::
+  Disables flank results upload on gcloud storage.
+
 *--app*=_<app>_::
   The path to the application binary file. The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.
 
@@ -186,9 +189,6 @@ Configuration is read from flank.yml
 
 *--no-auto-google-login*::
   Google account not logged in (default behavior). Use --auto-google-login to enable
-
-*--app*=_<app>_::
-  The path to the application binary file. The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.
 
 *--use-orchestrator*::
   Whether each test runs in its own Instrumentation instance with the Android Test Orchestrator (default: Orchestrator is used. To disable, use --no-use-orchestrator). Orchestrator is only compatible with AndroidJUnitRunner v1.0 or higher. See https://developer.android.com/training/testing/junit-runner.html#using-android-test-orchestrator for more information about Android Test Orchestrator.

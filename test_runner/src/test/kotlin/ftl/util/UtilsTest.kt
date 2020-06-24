@@ -9,6 +9,7 @@ import ftl.json.SavedMatrixTest.Companion.createResultsStorage
 import ftl.json.SavedMatrixTest.Companion.createStepExecution
 import ftl.run.cancelMatrices
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.defaultTestTimeout
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -88,7 +89,7 @@ class UtilsTest {
         testMatrix.state = MatrixState.FINISHED
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
-        val finishedMatrix = SavedMatrix(testMatrix)
+        val finishedMatrix = SavedMatrix(testMatrix, defaultTestTimeout)
         MatrixMap(mutableMapOf("finishedMatrix" to finishedMatrix), "MockPath").validateMatrices()
     }
 
@@ -102,7 +103,7 @@ class UtilsTest {
         testMatrix.state = MatrixState.FINISHED
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
-        val finishedMatrix = SavedMatrix(testMatrix)
+        val finishedMatrix = SavedMatrix(testMatrix, defaultTestTimeout)
         MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath").validateMatrices()
     }
 
@@ -116,7 +117,7 @@ class UtilsTest {
         testMatrix.state = MatrixState.FINISHED
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
-        val finishedMatrix = SavedMatrix(testMatrix)
+        val finishedMatrix = SavedMatrix(testMatrix, defaultTestTimeout)
         MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath").validateMatrices()
     }
 
@@ -131,7 +132,7 @@ class UtilsTest {
         testMatrix.state = MatrixState.ERROR
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
-        val errorMatrix = SavedMatrix(testMatrix)
+        val errorMatrix = SavedMatrix(testMatrix, defaultTestTimeout)
         MatrixMap(mutableMapOf("errorMatrix" to errorMatrix), "MockPath").validateMatrices()
     }
 
@@ -147,7 +148,7 @@ class UtilsTest {
         testMatrix.state = MatrixState.FINISHED
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
-        val finishedMatrix = SavedMatrix(testMatrix)
+        val finishedMatrix = SavedMatrix(testMatrix, defaultTestTimeout)
         try {
             MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath").validateMatrices(shouldIgnore)
         } catch (t: FailedMatrix) {
