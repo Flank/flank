@@ -63,7 +63,7 @@ internal class OutcomeDetailsFormatterTest {
             }
         }
         val testSuiteOverviewData = TestSuiteOverviewData(12, 3, 3, 3, 2, 0.0, 0.0)
-        val expectedMessage = "${testSuiteOverviewData.failures} test casess failed, " +
+        val expectedMessage = "${testSuiteOverviewData.failures} test cases failed, " +
                 "${testSuiteOverviewData.errors} errors, " +
                 "1 passed, " +
                 "${testSuiteOverviewData.skipped} skipped, " +
@@ -131,6 +131,43 @@ internal class OutcomeDetailsFormatterTest {
             }
         }
         val expectedMessage = "App failed to install"
+
+        // when
+        val result = mockedOutcome.getDetails(null)
+
+        // then
+        assertEquals(expectedMessage, result)
+    }
+
+    @Test
+    fun `Should return unknown failure message for failed-null testSuiteOverviewData`() {
+        // given
+        val mockedOutcome = mockk<Outcome> {
+            every { summary } returns StepOutcome.failure
+            every { failureDetail } returns mockk {
+                every { crashed } returns false
+                every { timedOut } returns false
+                every { notInstalled } returns false
+                every { otherNativeCrash } returns false
+            }
+        }
+        val expectedMessage = "Unknown failure"
+
+        // when
+        val result = mockedOutcome.getDetails(null)
+
+        // then
+        assertEquals(expectedMessage, result)
+    }
+
+    @Test
+    fun `Should return unknown failure message for failed-null testSuiteOverviewData and failure details present`() {
+        // given
+        val mockedOutcome = mockk<Outcome> {
+            every { summary } returns StepOutcome.failure
+            every { failureDetail } returns null
+        }
+        val expectedMessage = "Unknown failure"
 
         // when
         val result = mockedOutcome.getDetails(null)
