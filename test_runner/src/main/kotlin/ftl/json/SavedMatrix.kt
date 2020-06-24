@@ -14,15 +14,9 @@ import ftl.util.StepOutcome.flaky
 import ftl.util.StepOutcome.inconclusive
 import ftl.util.StepOutcome.skipped
 import ftl.util.StepOutcome.success
+import ftl.util.StepOutcome.unset
 import ftl.util.getDetails
 import ftl.util.webLink
-
-private data class FinishedTestMatrixData(
-    val stepOutcome: Outcome,
-    val isVirtualDevice: Boolean,
-    val testSuiteOverviewData: TestSuiteOverviewData?,
-    val billableMinutes: Long?
-)
 
 // execution gcs paths aren't API accessible.
 class SavedMatrix(matrix: TestMatrix) {
@@ -95,36 +89,45 @@ class SavedMatrix(matrix: TestMatrix) {
 
     private fun updateFinishedMatrixData(matrix: TestMatrix) {
         matrix.testExecutions.createTestExecutionDataListAsync()
-            .map {
-                FinishedTestMatrixData(
+            .forEach {
+                updatedFinishedInfo(
                     stepOutcome = GcToolResults.getExecutionResult(it.testExecution).outcome,
-                    isVirtualDevice = AndroidCatalog.isVirtualDevice(it.testExecution.environment.androidDevice, matrix.projectId.orEmpty()),
+                    isVirtualDevice = AndroidCatalog.isVirtualDevice(
+                        it.testExecution.environment.androidDevice,
+                        matrix.projectId.orEmpty()
+                    ),
                     testSuiteOverviewData = it.createTestSuitOverviewData(),
                     billableMinutes = it.step.testExecutionStep?.testTiming?.testProcessDuration?.seconds
                         ?.let { testTimeSeconds -> Billing.billableMinutes(testTimeSeconds) }
                 )
             }
-            .forEach { (stepOutcome, isVirtualDevice, testSuiteOverviewData, billableMinutes) ->
-                updateOutcome(stepOutcome)
-                updateOutcomeDetails(stepOutcome, testSuiteOverviewData)
-                billableMinutes?.let { updateBillableMinutes(it, isVirtualDevice) }
-            }
     }
 
-    private fun updateOutcome(stepOutcome: Outcome) {
-        // the matrix outcome is failure if any step fails
-        // if the matrix outcome is already set to failure then we can ignore the other step outcomes.
-        // inconclusive is treated as a failure
-        if (outcome == failure || outcome == inconclusive) return
-
-        outcome = stepOutcome.summary
-
-        // Treat flaky outcome as a success
-        if (outcome == flaky) outcome = success
+    private fun updatedFinishedInfo(
+        stepOutcome: Outcome?,
+        isVirtualDevice: Boolean,
+        testSuiteOverviewData: TestSuiteOverviewData?,
+        billableMinutes: Long?
+    ) {
+        updateOutcome(stepOutcome)
+        updateOutcomeDetails(stepOutcome, testSuiteOverviewData)
+        billableMinutes?.let { updateBillableMinutes(it, isVirtualDevice) }
     }
 
-    private fun updateOutcomeDetails(stepOutcome: Outcome, testSuiteOverviewData: TestSuiteOverviewData?) {
-        outcomeDetails = stepOutcome.getDetails(testSuiteOverviewData) ?: "---"
+    private fun updateOutcome(stepOutcome: Outcome?) {
+        outcome = when {
+            stepOutcome == null -> unset
+            // the matrix outcome is failure if any step fails
+            // if the matrix outcome is already set to failure then we can ignore the other step outcomes.
+            // inconclusive is treated as a failure
+            outcome == failure || outcome == inconclusive -> return
+            stepOutcome.summary == flaky -> success
+            else -> stepOutcome.summary
+        }
+    }
+
+    private fun updateOutcomeDetails(stepOutcome: Outcome?, testSuiteOverviewData: TestSuiteOverviewData?) {
+        outcomeDetails = stepOutcome?.getDetails(testSuiteOverviewData) ?: "---"
     }
 
     private fun updateBillableMinutes(billableMinutes: Long, isVirtualDevice: Boolean) {
