@@ -337,7 +337,7 @@ internal class OutcomeDetailsFormatterTest {
         val mockedOutcome = mockk<Outcome> {
             every { summary } returns StepOutcome.unset
         }
-        val expectedMessage = "unset"
+        val expectedMessage = "Unset outcome"
 
         // when
         val result = mockedOutcome.getDetails(null)
