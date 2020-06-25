@@ -13,25 +13,19 @@ import ftl.util.StepOutcome.success
 import ftl.util.StepOutcome.unset
 
 fun Outcome.getDetails(testSuiteOverviewData: TestSuiteOverviewData?) = when (summary) {
-    success, flaky -> testSuiteOverviewData?.let {
-        getSuccessOutcomeDetails(
-            testSuiteOverviewData = it,
-            otherNativeCrash = successDetail?.otherNativeCrash ?: false
-        )
-    }
+    success, flaky -> testSuiteOverviewData?.getSuccessOutcomeDetails(successDetail?.otherNativeCrash ?: false)
     failure -> failureDetail.getFailureOutcomeDetails(testSuiteOverviewData)
     inconclusive -> inconclusiveDetail.formatOutcomeDetails()
     skipped -> skippedDetail.formatOutcomeDetails()
-    unset -> "unset"
-    else -> "unknown"
+    unset -> "Unset outcome"
+    else -> "Unknown outcome"
 }
 
-private fun getSuccessOutcomeDetails(
-    testSuiteOverviewData: TestSuiteOverviewData,
+private fun TestSuiteOverviewData.getSuccessOutcomeDetails(
     otherNativeCrash: Boolean
-) = StringBuilder("${testSuiteOverviewData.successCount} test cases passed").apply {
-    if (testSuiteOverviewData.skipped > 0) append(skippedMessage(testSuiteOverviewData.skipped))
-    if (testSuiteOverviewData.flakes > 0) append(flakesMessage(testSuiteOverviewData.flakes))
+) = StringBuilder("$successCount test cases passed").apply {
+    if (skipped > 0) append(skippedMessage(skipped))
+    if (flakes > 0) append(flakesMessage(flakes))
     if (otherNativeCrash) append(NATIVE_CRASH_MESSAGE)
 }.toString()
 
