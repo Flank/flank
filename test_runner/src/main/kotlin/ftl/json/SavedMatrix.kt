@@ -15,7 +15,6 @@ import ftl.util.StepOutcome.inconclusive
 import ftl.util.StepOutcome.skipped
 import ftl.util.StepOutcome.success
 import ftl.util.StepOutcome.unset
-import ftl.util.getDetails
 import ftl.util.webLink
 
 // execution gcs paths aren't API accessible.

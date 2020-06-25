@@ -1,7 +1,8 @@
-package ftl.util
+package ftl.json
 
 import com.google.api.services.toolresults.model.Outcome
 import ftl.reports.api.data.TestSuiteOverviewData
+import ftl.util.StepOutcome
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert.assertEquals

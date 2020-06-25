@@ -1,4 +1,4 @@
-package ftl.util
+package ftl.json
 
 import com.google.api.services.toolresults.model.FailureDetail
 import com.google.api.services.toolresults.model.InconclusiveDetail
