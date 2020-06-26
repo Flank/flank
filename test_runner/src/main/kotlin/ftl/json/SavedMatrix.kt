@@ -13,12 +13,10 @@ import ftl.util.StepOutcome.skipped
 import ftl.util.StepOutcome.success
 import ftl.util.StepOutcome.unset
 import ftl.util.billableMinutes
-import ftl.util.timeoutToSeconds
 import ftl.util.webLink
 
 // execution gcs paths aren't API accessible.
-class SavedMatrix(matrix: TestMatrix, testTimeout: String) {
-    private val testTimeoutSeconds = timeoutToSeconds(testTimeout)
+class SavedMatrix(matrix: TestMatrix) {
     val matrixId: String = matrix.testMatrixId
     var state: String = matrix.state
         private set
@@ -85,14 +83,14 @@ class SavedMatrix(matrix: TestMatrix, testTimeout: String) {
 
         matrix.testExecutions.forEach {
             val executionResult = GcToolResults.getExecutionResult(it)
+
             updateOutcome(executionResult.outcome)
 
             // testExecutionStep, testTiming, etc. can all be null.
             // sometimes testExecutionStep is present and testTiming is null
             val stepResult = GcToolResults.getStepResult(it.toolResultsStep)
             val testTimeSeconds = stepResult.testExecutionStep?.testTiming?.testProcessDuration?.seconds ?: return
-
-            val billableMinutes = billableMinutes(testTimeSeconds, testTimeoutSeconds)
+            val billableMinutes = billableMinutes(testTimeSeconds, executionResult.specification?.testTimeoutSeconds() ?: 0L)
 
             if (AndroidCatalog.isVirtualDevice(it.environment?.androidDevice, matrix.projectId ?: "")) {
                 billableVirtualMinutes += billableMinutes

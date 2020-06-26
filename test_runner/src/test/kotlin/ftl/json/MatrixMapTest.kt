@@ -5,7 +5,6 @@ import com.google.common.truth.Truth.assertThat
 import ftl.json.SavedMatrixTest.Companion.createResultsStorage
 import ftl.json.SavedMatrixTest.Companion.createStepExecution
 import ftl.test.util.FlankTestRunner
-import ftl.test.util.defaultTestTimeout
 import ftl.util.MatrixState
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,8 +33,7 @@ class MatrixMapTest {
                     listOf(
                         createStepExecution(executionId, "")
                     )
-                ),
-            testTimeout = defaultTestTimeout
+                )
         )
     }
 
