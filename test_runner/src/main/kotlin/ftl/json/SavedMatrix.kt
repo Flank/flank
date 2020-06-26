@@ -7,10 +7,10 @@ import ftl.gc.GcToolResults
 import ftl.reports.api.createTestExecutionDataListAsync
 import ftl.reports.api.createTestSuitOverviewData
 import ftl.reports.api.data.TestSuiteOverviewData
+import ftl.reports.api.prepareForJUnitResult
 import ftl.util.Billing
 import ftl.util.MatrixState.FINISHED
 import ftl.util.StepOutcome.failure
-import ftl.util.StepOutcome.flaky
 import ftl.util.StepOutcome.inconclusive
 import ftl.util.StepOutcome.skipped
 import ftl.util.StepOutcome.success
@@ -88,6 +88,7 @@ class SavedMatrix(matrix: TestMatrix) {
 
     private fun updateFinishedMatrixData(matrix: TestMatrix) {
         matrix.testExecutions.createTestExecutionDataListAsync()
+            .prepareForJUnitResult()
             .forEach {
                 updatedFinishedInfo(
                     stepOutcome = GcToolResults.getExecutionResult(it.testExecution).outcome,
@@ -115,13 +116,11 @@ class SavedMatrix(matrix: TestMatrix) {
 
     private fun updateOutcome(stepOutcome: Outcome?) {
         outcome = when {
-            stepOutcome == null -> unset
             // the matrix outcome is failure if any step fails
             // if the matrix outcome is already set to failure then we can ignore the other step outcomes.
             // inconclusive is treated as a failure
             outcome == failure || outcome == inconclusive -> return
-            stepOutcome.summary == flaky -> success
-            else -> stepOutcome.summary
+            else -> stepOutcome?.summary ?: outcome
         }
     }
 

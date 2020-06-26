@@ -8,9 +8,11 @@ gcloud:
   directories-to-pull: 
     - /sdcard/
   num-flaky-test-attempts: 3
+  use-orchestrator: false
+#  num-uniform-shards: 3
 
 flank:
   disable-sharding: false
-  max-test-shards: 2
+  max-test-shards: 4
   files-to-download:
     - .*/sdcard/[^/]+\.ec$
