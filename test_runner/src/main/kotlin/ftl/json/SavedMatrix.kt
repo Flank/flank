@@ -27,7 +27,7 @@ class SavedMatrix(matrix: TestMatrix) {
 
     var billableVirtualMinutes: Long = 0
         private set
-    var billablePhysicalSecondsMinutes: Long = 0
+    var billablePhysicalMinutes: Long = 0
         private set
     var outcome: String = ""
         private set
@@ -77,7 +77,7 @@ class SavedMatrix(matrix: TestMatrix) {
             throw RuntimeException("Matrix ${matrix.testMatrixId} ${matrix.state} != $FINISHED")
         }
         billableVirtualMinutes = 0
-        billablePhysicalSecondsMinutes = 0
+        billablePhysicalMinutes = 0
         outcome = success
         if (matrix.testExecutions == null) return
 
@@ -95,7 +95,7 @@ class SavedMatrix(matrix: TestMatrix) {
             if (AndroidCatalog.isVirtualDevice(it.environment?.androidDevice, matrix.projectId ?: "")) {
                 billableVirtualMinutes += billableMinutes
             } else {
-                billablePhysicalSecondsMinutes += billableMinutes
+                billablePhysicalMinutes += billableMinutes
             }
         }
     }

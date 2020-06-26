@@ -21,7 +21,7 @@ object CostReport : IReport {
 
         matrices.map.values.forEach {
             totalBillableVirtualMinutes += it.billableVirtualMinutes
-            totalBillablePhysicalMinutes += it.billablePhysicalSecondsMinutes
+            totalBillablePhysicalMinutes += it.billablePhysicalMinutes
         }
 
         return estimateCosts(totalBillableVirtualMinutes, totalBillablePhysicalMinutes)
