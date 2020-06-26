@@ -5,6 +5,7 @@ import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.toolresults.model.Outcome
 import ftl.android.AndroidCatalog
 import ftl.gc.GcToolResults
+import ftl.util.MatrixState.ERROR
 import ftl.util.MatrixState.FINISHED
 import ftl.util.StepOutcome.failure
 import ftl.util.StepOutcome.flaky
@@ -13,6 +14,7 @@ import ftl.util.StepOutcome.skipped
 import ftl.util.StepOutcome.success
 import ftl.util.StepOutcome.unset
 import ftl.util.billableMinutes
+import ftl.util.timeoutToSeconds
 import ftl.util.webLink
 
 // execution gcs paths aren't API accessible.
@@ -86,11 +88,14 @@ class SavedMatrix(matrix: TestMatrix) {
 
             updateOutcome(executionResult.outcome)
 
+            if (it.state == ERROR) return
+
             // testExecutionStep, testTiming, etc. can all be null.
             // sometimes testExecutionStep is present and testTiming is null
             val stepResult = GcToolResults.getStepResult(it.toolResultsStep)
             val testTimeSeconds = stepResult.testExecutionStep?.testTiming?.testProcessDuration?.seconds ?: return
-            val billableMinutes = billableMinutes(testTimeSeconds, executionResult.specification?.testTimeoutSeconds() ?: 0L)
+            val testTimeout = timeoutToSeconds(it.testSpecification?.testTimeout ?: "0s")
+            val billableMinutes = billableMinutes(testTimeSeconds, testTimeout)
 
             if (AndroidCatalog.isVirtualDevice(it.environment?.androidDevice, matrix.projectId ?: "")) {
                 billableVirtualMinutes += billableMinutes
