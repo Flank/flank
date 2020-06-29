@@ -2,7 +2,7 @@ package ftl.json
 
 import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.toolresults.model.Outcome
-import ftl.android.AndroidCatalog
+import ftl.android.AndroidCatalog.isVirtualDevice
 import ftl.gc.GcToolResults
 import ftl.reports.api.createTestExecutionDataListAsync
 import ftl.reports.api.createTestSuitOverviewData
@@ -86,67 +86,53 @@ class SavedMatrix(matrix: TestMatrix) {
     }
 
     private fun updateFinishedMatrixData(matrix: TestMatrix) {
-        val testExecutionData = matrix.testExecutions.createTestExecutionDataListAsync()
-        val initial = TestSuiteOverviewData(0, 0, 0, 0, 0, 0.0, 0.0)
-        // details
+        val testExecutionsData = matrix.testExecutions.createTestExecutionDataListAsync().prepareForJUnitResult()
         val summedTestSuiteOverviewData =
-            testExecutionData.prepareForJUnitResult().fold(initial) { sum, test -> sum + test.createTestSuitOverviewData() }
+            testExecutionsData.fold(TestSuiteOverviewData(0, 0, 0, 0, 0, 0.0, 0.0)) { sum, test ->
+                sum + test.createTestSuitOverviewData()
+            }
 
-        testExecutionData
-            .prepareForJUnitResult()
+        testExecutionsData
             .forEach {
                 updatedFinishedInfo(
                     stepOutcome = GcToolResults.getExecutionResult(it.testExecution).outcome,
-                    isVirtualDevice = AndroidCatalog.isVirtualDevice(
-                        it.testExecution.environment.androidDevice,
-                        matrix.projectId.orEmpty()
-                    ),
                     testSuiteOverviewData = summedTestSuiteOverviewData,
+                    isRoboTests = it.testExecution.testSpecification.androidRoboTest != null,
+                    isVirtualDevice = isVirtualDevice(
+                        device = it.testExecution.environment.androidDevice,
+                        projectId = matrix.projectId.orEmpty()
+                    ),
                     billableMinutes = it.step.testExecutionStep?.testTiming?.testProcessDuration?.seconds
                         ?.let { testTimeSeconds -> Billing.billableMinutes(testTimeSeconds) }
                 )
             }
-
-                // old method
-/*        data
-            .prepareForJUnitResult()
-            .forEach {
-                updatedFinishedInfo(
-                    stepOutcome = GcToolResults.getExecutionResult(it.testExecution).outcome,
-                    isVirtualDevice = AndroidCatalog.isVirtualDevice(
-                        it.testExecution.environment.androidDevice,
-                        matrix.projectId.orEmpty()
-                    ),
-                    testSuiteOverviewData = it.createTestSuitOverviewData(),
-                    billableMinutes = it.step.testExecutionStep?.testTiming?.testProcessDuration?.seconds
-                        ?.let { testTimeSeconds -> Billing.billableMinutes(testTimeSeconds) }
-                )
-            }*/
     }
 
     private fun updatedFinishedInfo(
         stepOutcome: Outcome?,
-        isVirtualDevice: Boolean,
         testSuiteOverviewData: TestSuiteOverviewData?,
+        isRoboTests: Boolean,
+        isVirtualDevice: Boolean,
         billableMinutes: Long?
     ) {
         updateOutcome(stepOutcome)
-        updateOutcomeDetails(stepOutcome, testSuiteOverviewData)
+        updateOutcomeDetails(stepOutcome, testSuiteOverviewData, isRoboTests)
         billableMinutes?.let { updateBillableMinutes(it, isVirtualDevice) }
     }
 
     private fun updateOutcome(stepOutcome: Outcome?) {
-        outcome = when {
-            // the matrix outcome is failure if any step fails
-            // if the matrix outcome is already set to failure then we can ignore the other step outcomes.
-            // inconclusive is treated as a failure
-            outcome == failure || outcome == inconclusive -> return
-            else -> stepOutcome?.summary ?: outcome
-        }
+        // the matrix outcome is failure if any step fails
+        // if the matrix outcome is already set to failure then we can ignore the other step outcomes.
+        // inconclusive is treated as a failure
+        if (outcome != failure && outcome != inconclusive) outcome = stepOutcome?.summary ?: outcome
     }
 
-    private fun updateOutcomeDetails(stepOutcome: Outcome?, testSuiteOverviewData: TestSuiteOverviewData?) {
-        outcomeDetails = stepOutcome?.getDetails(testSuiteOverviewData) ?: "---"
+    private fun updateOutcomeDetails(
+        stepOutcome: Outcome?,
+        testSuiteOverviewData: TestSuiteOverviewData?,
+        isRoboTests: Boolean
+    ) {
+        outcomeDetails = if (isRoboTests) "Robo test" else (stepOutcome?.getDetails(testSuiteOverviewData) ?: "---")
     }
 
     private fun updateBillableMinutes(billableMinutes: Long, isVirtualDevice: Boolean) {
