@@ -2,6 +2,7 @@ package ftl.util
 
 import com.google.common.truth.Truth.assertThat
 import ftl.test.util.defaultTestTimeout
+import kotlin.math.min
 import org.junit.Test
 
 private val timeoutSeconds = timeoutToSeconds(defaultTestTimeout)
@@ -10,24 +11,24 @@ class BillingTest {
 
     @Test
     fun billableMinutes() {
-        assertThat(billableMinutes(0L, timeoutSeconds)).isEqualTo(1L)
-        assertThat(billableMinutes(60L, timeoutSeconds)).isEqualTo(1L)
-        assertThat(billableMinutes(61L, timeoutSeconds)).isEqualTo(2L)
-        assertThat(billableMinutes(3_555L, timeoutSeconds)).isEqualTo(15L)
+        assertThat(billableMinutes(min(0L, timeoutSeconds))).isEqualTo(1L)
+        assertThat(billableMinutes(min(60L, timeoutSeconds))).isEqualTo(1L)
+        assertThat(billableMinutes(min(61L, timeoutSeconds))).isEqualTo(2L)
+        assertThat(billableMinutes(min(3_555L, timeoutSeconds))).isEqualTo(15L)
     }
 
     @Test
     fun `when timeout lower then test execution time, billable minutes should fit to timeout minute`() {
-        assertThat(billableMinutes(120L, 40)).isEqualTo(1L)
-        assertThat(billableMinutes(60L, 30)).isEqualTo(1L)
-        assertThat(billableMinutes(61L, 20)).isEqualTo(1L)
-        assertThat(billableMinutes(3_555L, 120)).isEqualTo(2L)
+        assertThat(billableMinutes(min(120L, 40))).isEqualTo(1L)
+        assertThat(billableMinutes(min(60L, 30))).isEqualTo(1L)
+        assertThat(billableMinutes(min(61L, 20))).isEqualTo(1L)
+        assertThat(billableMinutes(min(3_555L, 120))).isEqualTo(2L)
     }
 
     @Test
     fun `when timeout higher then test execution time, billable minutes should fit to duration minute`() {
-        assertThat(billableMinutes(60L, 120L)).isEqualTo(1L)
-        assertThat(billableMinutes(360, 1000L)).isEqualTo(6L)
+        assertThat(billableMinutes(min(60L, 120L))).isEqualTo(1L)
+        assertThat(billableMinutes(min(360, 1000L))).isEqualTo(6L)
     }
 
     @Test

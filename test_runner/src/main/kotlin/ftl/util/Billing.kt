@@ -3,7 +3,6 @@ package ftl.util
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.concurrent.TimeUnit
-import kotlin.math.min
 
 private val physicalCostPerMinute = divBy60(5) // $5/hr
 private val virtualCostPerMinute = divBy60(1) // $1/hr
@@ -12,11 +11,8 @@ private fun divBy60(value: Long) = BigDecimal(value).divide(BigDecimal(60), 10, 
 
 private fun divBy60(value: BigDecimal) = value.divide(BigDecimal(60), 10, RoundingMode.HALF_UP)
 
-fun billableMinutes(testDurationSeconds: Long, testTimeoutSeconds: Long): Long =
-    billableMinutes(min(testDurationSeconds, testTimeoutSeconds))
-
 // round decimals up. 0.01 minutes is billable at 1 minute.
-private fun billableMinutes(testDurationSeconds: Long) = divBy60(checkForZero(BigDecimal(testDurationSeconds)))
+fun billableMinutes(testDurationSeconds: Long) = divBy60(checkForZero(BigDecimal(testDurationSeconds)))
     .setScale(0, RoundingMode.UP)
     .longValueExact()
 
