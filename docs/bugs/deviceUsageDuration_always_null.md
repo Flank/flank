@@ -1,6 +1,6 @@
 # deviceUsageDuration always null
 
-## deviceUsageDuration description on docs
+## deviceUsageDuration description
 
 > How much the device resource is used to perform the test.
 >  
