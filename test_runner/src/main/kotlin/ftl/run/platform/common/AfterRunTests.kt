@@ -34,7 +34,6 @@ internal suspend fun afterRunTests(
             config.resultsBucket + "/" + matrixMap.runPath
     println(FtlConstants.indent + gcsBucket)
     println()
-
     matrixMap.printMatricesWebLinks(config.project)
 }
 

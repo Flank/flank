@@ -12,7 +12,8 @@ flank.jar
 == Synopsis
 
 *flank.jar
- ios run* [*-h*] [*--async*] [*--disable-sharding*] [*--dry*] [*--dump-shards*]
+ ios run* [*-h*] [*--async*] [*--disable-results-upload*]
+                   [*--disable-sharding*] [*--dry*] [*--dump-shards*]
                    [*--full-junit-result*] [*--ignore-failed-tests*]
                    [*--keep-file-path*] [*--no-record-video*] [*--obfuscate*]
                    [*--record-video*] [*--smart-flank-disable-upload*]
@@ -141,6 +142,9 @@ Configuration is read from flank.yml
 
 *--output-style*=_<outputStyle>_::
   Output style of execution status. May be one of [verbose, multi, single]. For runs with only one test execution the default value is 'verbose', in other cases 'multi' is used as the default. The output style 'multi' is not displayed correctly on consoles which don't support ansi codes, to avoid corrupted output use `single` or `verbose`.
+
+*--disable-results-upload*::
+  Disables flank results upload on gcloud storage.
 
 *--test*=_<test>_::
   The path to the test package (a zip file containing the iOS app and XCTest files). The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://. Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file is specified.

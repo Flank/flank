@@ -5,7 +5,7 @@ import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.toolresults.model.Outcome
 import ftl.android.AndroidCatalog
 import ftl.gc.GcToolResults
-import ftl.util.Billing
+import ftl.util.MatrixState.ERROR
 import ftl.util.MatrixState.FINISHED
 import ftl.util.StepOutcome.failure
 import ftl.util.StepOutcome.flaky
@@ -13,7 +13,10 @@ import ftl.util.StepOutcome.inconclusive
 import ftl.util.StepOutcome.skipped
 import ftl.util.StepOutcome.success
 import ftl.util.StepOutcome.unset
+import ftl.util.billableMinutes
+import ftl.util.timeoutToSeconds
 import ftl.util.webLink
+import kotlin.math.min
 
 // execution gcs paths aren't API accessible.
 class SavedMatrix(matrix: TestMatrix) {
@@ -83,14 +86,21 @@ class SavedMatrix(matrix: TestMatrix) {
 
         matrix.testExecutions.forEach {
             val executionResult = GcToolResults.getExecutionResult(it)
+
             updateOutcome(executionResult.outcome)
+
+            // flank should not calculate billable minutes if an infrastructure error occurred
+            if (it.state == ERROR) return
 
             // testExecutionStep, testTiming, etc. can all be null.
             // sometimes testExecutionStep is present and testTiming is null
             val stepResult = GcToolResults.getStepResult(it.toolResultsStep)
             val testTimeSeconds = stepResult.testExecutionStep?.testTiming?.testProcessDuration?.seconds ?: return
+            val testTimeout = timeoutToSeconds(it.testSpecification?.testTimeout ?: "0s")
 
-            val billableMinutes = Billing.billableMinutes(testTimeSeconds)
+            // if overall test duration time is higher then testTimeout flank should calculate billable minutes for testTimeout
+            val timeToBill = min(testTimeSeconds, testTimeout)
+            val billableMinutes = billableMinutes(timeToBill)
 
             if (AndroidCatalog.isVirtualDevice(it.environment?.androidDevice, matrix.projectId ?: "")) {
                 billableVirtualMinutes += billableMinutes

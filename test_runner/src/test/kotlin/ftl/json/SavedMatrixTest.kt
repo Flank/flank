@@ -10,9 +10,11 @@ import com.google.common.truth.Truth.assertThat
 import ftl.config.Device
 import ftl.gc.GcAndroidDevice
 import ftl.test.util.FlankTestRunner
+import ftl.util.MatrixState.ERROR
 import ftl.util.MatrixState.FINISHED
 import ftl.util.MatrixState.PENDING
 import ftl.util.webLink
+import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -135,5 +137,50 @@ class SavedMatrixTest {
         testMatrix.state = FINISHED
         testMatrix.webLink()
         savedMatrix.update(testMatrix)
+    }
+
+    @Test
+    fun `savedMatrix on finish should not calculate cost on error`() {
+        val testExecutions = listOf(
+            createStepExecution(1, "shamu"),
+            createStepExecution(1, "NexusLowRes")
+        )
+
+        val matrixId = "123"
+        val testMatrix = TestMatrix()
+        testMatrix.testMatrixId = matrixId
+        testMatrix.state = PENDING
+        testMatrix.resultStorage = createResultsStorage()
+        testMatrix.testExecutions = testExecutions
+
+        val savedMatrix = SavedMatrix(testMatrix)
+        savedMatrix.update(testMatrix)
+
+        testMatrix.state = FINISHED
+        testMatrix.webLink()
+        testExecutions.forEach { it.state = ERROR }
+        savedMatrix.update(testMatrix)
+        Assert.assertEquals(0, savedMatrix.billableVirtualMinutes)
+    }
+
+    @Test
+    fun `savedMatrix on finish should calculate cost when state != ERROR`() {
+        val testExecutions = listOf(
+            createStepExecution(1, "shamu"),
+            createStepExecution(1, "NexusLowRes")
+        )
+        val testMatrix = TestMatrix()
+        testMatrix.testMatrixId = "123"
+        testMatrix.state = PENDING
+        testMatrix.resultStorage = createResultsStorage()
+        testMatrix.testExecutions = testExecutions
+
+        val savedMatrix = SavedMatrix(testMatrix)
+        savedMatrix.update(testMatrix)
+
+        testMatrix.state = FINISHED
+        testMatrix.webLink()
+        savedMatrix.update(testMatrix)
+        Assert.assertEquals(1, savedMatrix.billableVirtualMinutes)
     }
 }
