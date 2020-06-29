@@ -14,7 +14,6 @@ import ftl.util.StepOutcome.failure
 import ftl.util.StepOutcome.inconclusive
 import ftl.util.StepOutcome.skipped
 import ftl.util.StepOutcome.success
-import ftl.util.StepOutcome.unset
 import ftl.util.webLink
 
 // execution gcs paths aren't API accessible.
@@ -87,7 +86,29 @@ class SavedMatrix(matrix: TestMatrix) {
     }
 
     private fun updateFinishedMatrixData(matrix: TestMatrix) {
-        matrix.testExecutions.createTestExecutionDataListAsync()
+        val testExecutionData = matrix.testExecutions.createTestExecutionDataListAsync()
+        val initial = TestSuiteOverviewData(0, 0, 0, 0, 0, 0.0, 0.0)
+        // details
+        val summedTestSuiteOverviewData =
+            testExecutionData.prepareForJUnitResult().fold(initial) { sum, test -> sum + test.createTestSuitOverviewData() }
+
+        testExecutionData
+            .prepareForJUnitResult()
+            .forEach {
+                updatedFinishedInfo(
+                    stepOutcome = GcToolResults.getExecutionResult(it.testExecution).outcome,
+                    isVirtualDevice = AndroidCatalog.isVirtualDevice(
+                        it.testExecution.environment.androidDevice,
+                        matrix.projectId.orEmpty()
+                    ),
+                    testSuiteOverviewData = summedTestSuiteOverviewData,
+                    billableMinutes = it.step.testExecutionStep?.testTiming?.testProcessDuration?.seconds
+                        ?.let { testTimeSeconds -> Billing.billableMinutes(testTimeSeconds) }
+                )
+            }
+
+                // old method
+/*        data
             .prepareForJUnitResult()
             .forEach {
                 updatedFinishedInfo(
@@ -100,7 +121,7 @@ class SavedMatrix(matrix: TestMatrix) {
                     billableMinutes = it.step.testExecutionStep?.testTiming?.testProcessDuration?.seconds
                         ?.let { testTimeSeconds -> Billing.billableMinutes(testTimeSeconds) }
                 )
-            }
+            }*/
     }
 
     private fun updatedFinishedInfo(
