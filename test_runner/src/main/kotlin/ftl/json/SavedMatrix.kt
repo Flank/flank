@@ -11,6 +11,7 @@ import ftl.reports.api.prepareForJUnitResult
 import ftl.util.Billing
 import ftl.util.MatrixState.FINISHED
 import ftl.util.StepOutcome.failure
+import ftl.util.StepOutcome.flaky
 import ftl.util.StepOutcome.inconclusive
 import ftl.util.StepOutcome.skipped
 import ftl.util.StepOutcome.success
@@ -96,6 +97,7 @@ class SavedMatrix(matrix: TestMatrix) {
             .forEach {
                 updatedFinishedInfo(
                     stepOutcome = GcToolResults.getExecutionResult(it.testExecution).outcome,
+                    flakyOutcome = GcToolResults.getExecutionResult(it.testExecution).outcome.summary != it.step.outcome.summary,
                     testSuiteOverviewData = summedTestSuiteOverviewData,
                     isRoboTests = it.testExecution.testSpecification.androidRoboTest != null,
                     isVirtualDevice = isVirtualDevice(
@@ -110,21 +112,29 @@ class SavedMatrix(matrix: TestMatrix) {
 
     private fun updatedFinishedInfo(
         stepOutcome: Outcome?,
+        flakyOutcome: Boolean,
         testSuiteOverviewData: TestSuiteOverviewData?,
         isRoboTests: Boolean,
         isVirtualDevice: Boolean,
         billableMinutes: Long?
     ) {
-        updateOutcome(stepOutcome)
+        updateOutcome(stepOutcome, flakyOutcome)
         updateOutcomeDetails(stepOutcome, testSuiteOverviewData, isRoboTests)
         billableMinutes?.let { updateBillableMinutes(it, isVirtualDevice) }
     }
 
-    private fun updateOutcome(stepOutcome: Outcome?) {
-        // the matrix outcome is failure if any step fails
-        // if the matrix outcome is already set to failure then we can ignore the other step outcomes.
-        // inconclusive is treated as a failure
-        if (outcome != failure && outcome != inconclusive) outcome = stepOutcome?.summary ?: outcome
+    private fun updateOutcome(
+        stepOutcome: Outcome?,
+        flakyOutcome: Boolean
+    ) {
+        outcome = when {
+            // the matrix outcome is failure if any step fails
+            // if the matrix outcome is already set to failure then we can ignore the other step outcomes.
+            // inconclusive is treated as a failure
+            outcome == failure || outcome == inconclusive -> return
+            flakyOutcome -> flaky
+            else -> stepOutcome?.summary ?: outcome
+        }
     }
 
     private fun updateOutcomeDetails(

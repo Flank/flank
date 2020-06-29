@@ -2,6 +2,7 @@ package ftl.util
 
 import ftl.json.SavedMatrix
 import ftl.util.StepOutcome.failure
+import ftl.util.StepOutcome.flaky
 import ftl.util.StepOutcome.success
 
 fun SavedMatrix.asPrintableTable(): String = listOf(this).asPrintableTable()
@@ -17,6 +18,7 @@ private fun getOutcomeColor(outcome: String): SystemOutColor {
     return when (outcome) {
         failure -> SystemOutColor.RED
         success -> SystemOutColor.GREEN
+        flaky -> SystemOutColor.BLUE
         else -> SystemOutColor.DEFAULT
     }
 }
