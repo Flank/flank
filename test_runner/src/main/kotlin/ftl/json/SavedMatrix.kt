@@ -1,5 +1,6 @@
 package ftl.json
 
+import com.google.api.services.testing.model.TestExecution
 import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.toolresults.model.Outcome
 import ftl.android.AndroidCatalog.isVirtualDevice
@@ -8,14 +9,17 @@ import ftl.reports.api.createTestExecutionDataListAsync
 import ftl.reports.api.createTestSuitOverviewData
 import ftl.reports.api.data.TestSuiteOverviewData
 import ftl.reports.api.prepareForJUnitResult
-import ftl.util.Billing
+import ftl.util.MatrixState.ERROR
 import ftl.util.MatrixState.FINISHED
 import ftl.util.StepOutcome.failure
 import ftl.util.StepOutcome.flaky
 import ftl.util.StepOutcome.inconclusive
 import ftl.util.StepOutcome.skipped
 import ftl.util.StepOutcome.success
+import ftl.util.billableMinutes
+import ftl.util.timeoutToSeconds
 import ftl.util.webLink
+import kotlin.math.min
 
 // execution gcs paths aren't API accessible.
 class SavedMatrix(matrix: TestMatrix) {
@@ -107,11 +111,24 @@ class SavedMatrix(matrix: TestMatrix) {
                         device = it.testExecution.environment.androidDevice,
                         projectId = matrix.projectId.orEmpty()
                     ),
-                    billableMinutes = it.step.testExecutionStep?.testTiming?.testProcessDuration?.seconds
-                        ?.let { testTimeSeconds -> Billing.billableMinutes(testTimeSeconds) }
+                    billableMinutes = it.testExecution.getBillableMinutes()
                 )
             }
     }
+
+    private fun TestExecution.getBillableMinutes() =
+        takeIf { testExecution -> testExecution.state != ERROR }
+            ?.run {
+                // testExecutionStep, testTiming, etc. can all be null.
+                // sometimes testExecutionStep is present and testTiming is null
+                val testTimeSeconds =
+                    GcToolResults.getStepResult(toolResultsStep).testExecutionStep?.testTiming?.testProcessDuration?.seconds
+                        ?: return@run null
+                val testTimeout = timeoutToSeconds(testSpecification?.testTimeout ?: "0s")
+
+                // if overall test duration time is higher then testTimeout flank should calculate billable minutes for testTimeout
+                billableMinutes(min(testTimeSeconds, testTimeout))
+            }
 
     private fun updatedFinishedInfo(
         stepOutcome: Outcome?,
@@ -131,14 +148,14 @@ class SavedMatrix(matrix: TestMatrix) {
         flakyOutcome: Boolean
     ) {
         outcome = when {
+            flakyOutcome -> flaky
             // the matrix outcome is failure if any step fails
             // if the matrix outcome is already set to failure then we can ignore the other step outcomes.
             // inconclusive is treated as a failure
-            flakyOutcome -> flaky
             outcome == failure || outcome == inconclusive -> return
-            outcome == flaky -> stepOutcome?.summary?.takeIf { it == failure || it == inconclusive } ?: outcome
-            else -> stepOutcome?.summary ?: outcome
-        }
+            outcome == flaky -> stepOutcome?.summary?.takeIf { it == failure || it == inconclusive }
+            else -> stepOutcome?.summary
+        } ?: outcome
     }
 
     private fun updateOutcomeDetails(
