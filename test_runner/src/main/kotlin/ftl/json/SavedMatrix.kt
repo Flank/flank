@@ -87,19 +87,22 @@ class SavedMatrix(matrix: TestMatrix) {
     }
 
     private fun updateFinishedMatrixData(matrix: TestMatrix) {
-        val testExecutionsData = matrix.testExecutions.createTestExecutionDataListAsync().prepareForJUnitResult()
+        val testExecutionsData = matrix.testExecutions.createTestExecutionDataListAsync()
         val summedTestSuiteOverviewData =
-            testExecutionsData.fold(TestSuiteOverviewData(0, 0, 0, 0, 0, 0.0, 0.0)) { sum, test ->
-                sum + test.createTestSuitOverviewData()
-            }
+            testExecutionsData
+                .prepareForJUnitResult()
+                .fold(TestSuiteOverviewData(0, 0, 0, 0, 0, 0.0, 0.0)) { sum, test ->
+                    sum + test.createTestSuitOverviewData()
+                }
 
         testExecutionsData
             .forEach {
+                val stepOutcome = GcToolResults.getExecutionResult(it.testExecution).outcome
                 updatedFinishedInfo(
-                    stepOutcome = GcToolResults.getExecutionResult(it.testExecution).outcome,
-                    flakyOutcome = GcToolResults.getExecutionResult(it.testExecution).outcome.summary != it.step.outcome.summary,
+                    stepOutcome = stepOutcome,
+                    flakyOutcome = stepOutcome.summary != it.step.outcome.summary,
                     testSuiteOverviewData = summedTestSuiteOverviewData,
-                    isRoboTests = it.testExecution.testSpecification.androidRoboTest != null,
+                    isRoboTests = it.testExecution.testSpecification?.androidRoboTest != null,
                     isVirtualDevice = isVirtualDevice(
                         device = it.testExecution.environment.androidDevice,
                         projectId = matrix.projectId.orEmpty()
@@ -131,8 +134,9 @@ class SavedMatrix(matrix: TestMatrix) {
             // the matrix outcome is failure if any step fails
             // if the matrix outcome is already set to failure then we can ignore the other step outcomes.
             // inconclusive is treated as a failure
-            outcome == failure || outcome == inconclusive -> return
             flakyOutcome -> flaky
+            outcome == failure || outcome == inconclusive -> return
+            outcome == flaky -> stepOutcome?.summary?.takeIf { it == failure || it == inconclusive } ?: outcome
             else -> stepOutcome?.summary ?: outcome
         }
     }
