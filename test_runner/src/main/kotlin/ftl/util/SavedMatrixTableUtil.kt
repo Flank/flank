@@ -13,14 +13,11 @@ fun List<SavedMatrix>.asPrintableTable(): String = buildTable(
     TableColumn(OUTCOME_DETAILS_COLUMN_HEADER, mapNotNull { it.outcomeDetails })
 )
 
-private fun getOutcomeColor(outcome: String): SystemOutColor {
-    // inconclusive is treated as a failure, flaky as a success
-    return when (outcome) {
-        failure -> SystemOutColor.RED
-        success -> SystemOutColor.GREEN
-        flaky -> SystemOutColor.BLUE
-        else -> SystemOutColor.DEFAULT
-    }
+private fun getOutcomeColor(outcome: String) = when (outcome) {
+    failure -> SystemOutColor.RED
+    success -> SystemOutColor.GREEN
+    flaky -> SystemOutColor.BLUE
+    else -> SystemOutColor.DEFAULT
 }
 
 private const val OUTCOME_COLUMN_HEADER = "OUTCOME"
