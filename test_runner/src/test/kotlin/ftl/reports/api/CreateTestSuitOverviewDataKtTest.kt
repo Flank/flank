@@ -48,7 +48,7 @@ class CreateTestSuitOverviewDataKtTest {
 
         // when
         val expected = TestSuiteOverviewData(
-            total = 5,
+            total = 4,
             errors = 1,
             failures = 1,
             skipped = 1,
