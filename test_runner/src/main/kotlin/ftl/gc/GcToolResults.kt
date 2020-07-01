@@ -121,7 +121,7 @@ object GcToolResults {
     fun getDefaultBucket(projectId: String): String? = try {
         service.Projects().initializeSettings(projectId).executeWithRetry().defaultBucket
     } catch (ftlProjectError: FTLProjectError) {
-        // flank need to rewrap exception with additional info about project
+        // flank needs to rewrap the exception with additional info about project
         when (ftlProjectError) {
             is PermissionDenied -> throw FlankCommonException(permissionDeniedErrorMessage(projectId, ftlProjectError.message))
             is ProjectNotFound -> throw FlankCommonException(projectNotFoundErrorMessage(projectId, ftlProjectError.message))
@@ -131,14 +131,14 @@ object GcToolResults {
 
 private val permissionDeniedErrorMessage = { projectId: String, message: String? ->
     """Flank encountered a 403 error when running on project $projectId. Please verify this credential is authorized for the project.
-Consider authentication with Service Account https://github.com/Flank/flank#authenticate-with-a-service-account
-or with Google account https://github.com/Flank/flank#authenticate-with-a-google-account
+Consider authentication with a Service Account https://github.com/Flank/flank#authenticate-with-a-service-account
+or with a Google account https://github.com/Flank/flank#authenticate-with-a-google-account
 
 $message""".trimIndent()
 }
 
 private val projectNotFoundErrorMessage = { projectId: String, message: String? ->
-    """Flank was unable to find project $projectId. Please verify project id.
+    """Flank was unable to find project $projectId. Please verify the project id.
 
 $message""".trimIndent()
 }
