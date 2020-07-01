@@ -60,3 +60,11 @@ class FlankFatalError(message: String) : FlankException(message)
  * @param message [String] message to be printed to [System.err]
  */
 class FlankCommonException(message: String) : FlankException(message)
+
+/**
+ * Custom exception to handle only permission denied errors.
+ * Should be caught and rewrap to FlankCommonException with project id info attached.
+ *
+ * @param message [String] message to be printed
+ */
+class ProjectPermissionDeniedError(message: String) : FlankException(message)

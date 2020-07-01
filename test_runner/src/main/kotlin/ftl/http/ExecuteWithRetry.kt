@@ -3,6 +3,7 @@ package ftl.http
 import com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest
 import com.google.api.client.http.HttpResponseException
 import ftl.config.FtlConstants
+import ftl.util.ProjectPermissionDeniedError
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import java.io.IOException
@@ -25,9 +26,11 @@ private inline fun <T> withRetry(crossinline block: () -> T): T = runBlocking {
             FtlConstants.bugsnag?.notify(FlankGoogleApiError(err))
 
             lastErr = err
-            // HttpStatusCodes from google api client does not have 429 code
-            if (err is HttpResponseException && err.statusCode == 429) {
-                return@repeat
+            if (err is HttpResponseException) {
+                when (err.statusCode) {
+                    429 -> return@repeat
+                    403 -> throw ProjectPermissionDeniedError("Caused by: $err")
+                }
             }
             delay(exp(it - 1.0).roundToInt().toLong())
         }

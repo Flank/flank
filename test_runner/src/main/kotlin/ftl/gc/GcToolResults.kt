@@ -15,6 +15,8 @@ import ftl.config.FtlConstants.applicationName
 import ftl.config.FtlConstants.httpCredential
 import ftl.config.FtlConstants.httpTransport
 import ftl.http.executeWithRetry
+import ftl.util.FlankCommonException
+import ftl.util.ProjectPermissionDeniedError
 
 object GcToolResults {
 
@@ -114,8 +116,18 @@ object GcToolResults {
             ).executeWithRetry()
     }
 
-    fun getDefaultBucket(projectId: String): String? {
-        val response = service.Projects().initializeSettings(projectId).executeWithRetry()
-        return response.defaultBucket
+    fun getDefaultBucket(projectId: String): String? = try {
+        service.Projects().initializeSettings(projectId).executeWithRetry().defaultBucket
+    } catch (ex: ProjectPermissionDeniedError) {
+        // flank need to rewrap exception with additional info about project
+        throw FlankCommonException(enhancedErrorMessage(projectId, ex.message))
     }
+}
+
+private val enhancedErrorMessage = { projectId: String, message: String? ->
+    """Flank encountered a 403 error when running on project $projectId. Please verify this credential is authorized for the project.
+Consider authentication with Service Account https://github.com/Flank/flank#authenticate-with-a-service-account
+or with Google account https://github.com/Flank/flank#authenticate-with-a-google-account
+
+$message""".trimIndent()
 }
