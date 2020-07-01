@@ -58,13 +58,14 @@ object MatrixResultsReport : IReport {
         }
     }
 
-    private fun Collection<SavedMatrix>.printMatricesLinks(writer: StringWriter) {
-        filter { it.failed() }
-            .takeIf { it.isNotEmpty() }
-            ?.also { writer.println("More details are available at:") }
-            ?.map { it.webLinkWithoutExecutionDetails }
-            ?.forEach { writer.println(it) }
-    }
+private fun Collection<SavedMatrix>.printMatricesLinks(writer: StringWriter) = this
+        .filter { it.failed() }
+        .takeIf { it.isNotEmpty() }
+        ?.run {
+            writer.println("More details are available at:")
+            forEach { writer.println(it.webLinkWithoutExecutionDetails) }
+            writer.println()
+        }
 
     override fun run(matrices: MatrixMap, result: JUnitTestResult?, printToStdout: Boolean, args: IArgs) {
         val output = generate(matrices)
