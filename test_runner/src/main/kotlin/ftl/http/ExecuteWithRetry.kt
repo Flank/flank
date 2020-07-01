@@ -18,7 +18,7 @@ fun <T> AbstractGoogleJsonClientRequest<T>.executeWithRetry(): T = withRetry { t
 
 private inline fun <T> withRetry(crossinline block: () -> T): T = runBlocking {
     var lastError: IOException? = null
-    repeat(maxTries) { repeatCounter ->
+    repeat(MAX_TRIES) { repeatCounter ->
         val executionResult = tryExecuteBlock(block)
         if (executionResult.isSuccess()) return@runBlocking executionResult.success()
 
@@ -32,7 +32,7 @@ private inline fun <T> withRetry(crossinline block: () -> T): T = runBlocking {
     }
     throw IOException("Request failed", lastError)
 }
-private const val maxTries = 4
+private const val MAX_TRIES = 4
 
 private inline fun <T> tryExecuteBlock(block: () -> T): ExecutionBlockResult<T> = try {
     ExecutionBlockResult(block(), null)
