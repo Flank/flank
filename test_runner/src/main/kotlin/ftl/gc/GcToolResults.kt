@@ -120,11 +120,11 @@ object GcToolResults {
 
     fun getDefaultBucket(projectId: String): String? = try {
         service.Projects().initializeSettings(projectId).executeWithRetry().defaultBucket
-    } catch (ex: FTLProjectError) {
+    } catch (ftlProjectError: FTLProjectError) {
         // flank need to rewrap exception with additional info about project
-        when (ex) {
-            is PermissionDenied -> throw FlankCommonException(permissionDeniedErrorMessage(projectId, ex.message))
-            is ProjectNotFound -> throw FlankCommonException(projectNotFoundErrorMessage(projectId, ex.message))
+        when (ftlProjectError) {
+            is PermissionDenied -> throw FlankCommonException(permissionDeniedErrorMessage(projectId, ftlProjectError.message))
+            is ProjectNotFound -> throw FlankCommonException(projectNotFoundErrorMessage(projectId, ftlProjectError.message))
         }
     }
 }
