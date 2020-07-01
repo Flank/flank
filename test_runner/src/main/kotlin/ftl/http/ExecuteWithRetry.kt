@@ -3,7 +3,8 @@ package ftl.http
 import com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest
 import com.google.api.client.http.HttpResponseException
 import ftl.config.FtlConstants
-import ftl.util.ProjectPermissionDeniedError
+import ftl.util.PermissionDenied
+import ftl.util.ProjectNotFound
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import java.io.IOException
@@ -27,9 +28,11 @@ private inline fun <T> withRetry(crossinline block: () -> T): T = runBlocking {
 
             lastErr = err
             if (err is HttpResponseException) {
+                // we want to handle some FTL errors with special care
                 when (err.statusCode) {
                     429 -> return@repeat
-                    403 -> throw ProjectPermissionDeniedError("Caused by: $err")
+                    403 -> throw PermissionDenied(err)
+                    404 -> throw ProjectNotFound(err)
                 }
             }
             delay(exp(it - 1.0).roundToInt().toLong())

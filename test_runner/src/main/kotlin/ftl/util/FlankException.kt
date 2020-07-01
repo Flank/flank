@@ -1,6 +1,7 @@
 package ftl.util
 
 import ftl.json.SavedMatrix
+import java.io.IOException
 
 /**
  * Base class for all custom flank's exceptions
@@ -62,9 +63,11 @@ class FlankFatalError(message: String) : FlankException(message)
 class FlankCommonException(message: String) : FlankException(message)
 
 /**
- * Custom exception to handle only permission denied errors.
+ * Base class for project related exceptions.
  * Should be caught and rewrap to FlankCommonException with project id info attached.
  *
- * @param message [String] message to be printed
+ * @param exc [IOException]
  */
-class ProjectPermissionDeniedError(message: String) : FlankException(message)
+sealed class FTLProjectError(exc: IOException) : FlankException("Caused by: $exc")
+class PermissionDenied(exc: IOException) : FTLProjectError(exc)
+class ProjectNotFound(exc: IOException) : FTLProjectError(exc)
