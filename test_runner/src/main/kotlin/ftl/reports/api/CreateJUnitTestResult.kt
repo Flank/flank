@@ -7,6 +7,7 @@ internal fun List<TestExecution>.createJUnitTestResult(
     withStackTraces: Boolean = false
 ) = JUnitTestResult(
     testsuites = this
+        .filterNullToolResultsStep()
         .createTestExecutionDataListAsync()
         .prepareForJUnitResult()
         .let { executionDataList ->
@@ -16,3 +17,5 @@ internal fun List<TestExecution>.createJUnitTestResult(
         .createJUnitTestSuites()
         .toMutableList()
 )
+
+private fun List<TestExecution>.filterNullToolResultsStep() = filter { it.toolResultsStep != null }

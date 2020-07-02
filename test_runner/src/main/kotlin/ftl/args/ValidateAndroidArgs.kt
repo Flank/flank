@@ -14,6 +14,7 @@ fun AndroidArgs.validate() {
     assertShards()
     assertTestTypes()
     assertRoboTest()
+    assertDirectoriesToPull()
 }
 
 private fun AndroidArgs.assertAdditionalAppTestApks() {
@@ -56,4 +57,19 @@ private fun AndroidArgs.assertRoboTest() {
     if (roboDirectives.isNotEmpty() && roboScript != null) throw FlankFatalError(
         "Options robo-directives and robo-script are mutually exclusive, use only one of them."
     )
+}
+
+// Validation is done according to https://cloud.google.com/sdk/gcloud/reference/firebase/test/android/run#--directories-to-pull
+private fun AndroidArgs.assertDirectoriesToPull() {
+    val correctNameRegex = "(/[a-zA-Z0-9_\\-.+]+)+".toRegex()
+    directoriesToPull
+        .filter { !it.startsWith("/sdcard") && !it.startsWith("/data/local/tmp") || !correctNameRegex.matches(it) }
+        .takeIf { it.isNotEmpty() }
+        ?.also {
+            throw FlankFatalError(
+                "Invalid value for [directories-to-pull]: Invalid path $it.\n" +
+                "Path must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2).\n" +
+                "Path names are restricted to the characters [a-zA-Z0-9_-./+]. "
+            )
+        }
 }
