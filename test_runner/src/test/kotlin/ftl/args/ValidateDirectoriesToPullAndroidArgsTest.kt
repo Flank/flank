@@ -68,7 +68,6 @@ class ValidateDirectoriesToPullAndroidArgsTest {
         assertEquals(expectedErrorMessage, exception.message)
     }
 
-
     @Test
     fun `should throw error with bad characters in paths in directoriesToPull`() {
         // given
@@ -96,5 +95,4 @@ class ValidateDirectoriesToPullAndroidArgsTest {
         "Invalid value for [directories-to-pull]: Invalid path $badPaths.\n" +
                 "Path must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2).\n" +
                 "Path names are restricted to the characters [a-zA-Z0-9_-./+]. "
-
 }
