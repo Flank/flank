@@ -28,6 +28,8 @@ Caused by: com.google.api.client.googleapis.json.GoogleJsonResponseException: 40
 
 ```
 
+You can reproduce it by set PROJECT_ID to project where your current firebase account doesn't have permission.
+
 ## 2. Project not found (404)
 
 When project not found on firebase Flank should return message like:
@@ -49,5 +51,7 @@ Caused by: com.google.api.client.googleapis.json.GoogleJsonResponseException: 40
 }
 
 ```
+
+You can reproduce it by set PROJECT_ID to not existing project.
 
 ## 3. On this two cases Flank throws FlankCommonException and exit with code: 1
