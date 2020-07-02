@@ -57,8 +57,8 @@ class GcToolResultsTest {
     fun `getDefaultBucket on 403 error should throw exception with specific message`() {
         val expected = """
             Flank encountered a 403 error when running on project $projectId. Please verify this credential is authorized for the project.
-            Consider authentication with Service Account https://github.com/Flank/flank#authenticate-with-a-service-account
-            or with Google account https://github.com/Flank/flank#authenticate-with-a-google-account
+            Consider authentication with a Service Account https://github.com/Flank/flank#authenticate-with-a-service-account
+            or with a Google account https://github.com/Flank/flank#authenticate-with-a-google-account
             
             Caused by: com.google.api.client.googleapis.json.GoogleJsonResponseException: 403 Forbidden
             {
@@ -117,7 +117,7 @@ class GcToolResultsTest {
     @Test
     fun `getDefaultBucket on 404 error should throw exception with specific message`() {
         val expected = """
-            Flank was unable to find project $projectId. Please verify project id.
+            Flank was unable to find project $projectId. Please verify the project id.
             
             Caused by: com.google.api.client.googleapis.json.GoogleJsonResponseException: 404 Not Found
             {
