@@ -85,13 +85,12 @@ class SavedMatrix(matrix: TestMatrix) {
         billableVirtualMinutes = 0
         billablePhysicalMinutes = 0
         outcome = success
-        if (matrix.testExecutions == null) return
 
         updateFinishedMatrixData(matrix)
     }
 
     private fun updateFinishedMatrixData(matrix: TestMatrix) {
-        val testExecutionsData = matrix.testExecutions.createTestExecutionDataListAsync()
+        val testExecutionsData = matrix.testExecutions?.createTestExecutionDataListAsync() ?: return
         val summedTestSuiteOverviewData =
             testExecutionsData
                 .prepareForJUnitResult()
@@ -101,18 +100,22 @@ class SavedMatrix(matrix: TestMatrix) {
 
         testExecutionsData
             .forEach {
-                val stepOutcome = GcToolResults.getExecutionResult(it.testExecution).outcome
-                updatedFinishedInfo(
-                    stepOutcome = stepOutcome,
-                    flakyOutcome = stepOutcome.summary != it.step.outcome.summary,
-                    testSuiteOverviewData = summedTestSuiteOverviewData,
-                    isRoboTests = it.testExecution.testSpecification?.androidRoboTest != null,
-                    isVirtualDevice = isVirtualDevice(
-                        device = it.testExecution.environment.androidDevice,
-                        projectId = matrix.projectId.orEmpty()
-                    ),
-                    billableMinutes = it.testExecution.getBillableMinutes()
-                )
+                with(GcToolResults.getExecutionResult(it.testExecution).outcome) {
+                    updateOutcome(it.step.outcome?.summary != this?.summary)
+                    updateOutcomeDetails(
+                        testSuiteOverviewData = summedTestSuiteOverviewData,
+                        isRoboTests = it.testExecution.testSpecification?.androidRoboTest != null
+                    )
+                }
+                it.testExecution.getBillableMinutes()?.let { billableMinutes ->
+                    updateBillableMinutes(
+                        billableMinutes = billableMinutes,
+                        isVirtualDevice = isVirtualDevice(
+                            it.testExecution.environment.androidDevice,
+                            matrix.projectId.orEmpty()
+                        )
+                    )
+                }
             }
     }
 
@@ -123,28 +126,14 @@ class SavedMatrix(matrix: TestMatrix) {
                 // sometimes testExecutionStep is present and testTiming is null
                 val testTimeSeconds =
                     GcToolResults.getStepResult(toolResultsStep).testExecutionStep?.testTiming?.testProcessDuration?.seconds
-                        ?: return@run null
+                        ?: return null
                 val testTimeout = timeoutToSeconds(testSpecification?.testTimeout ?: "0s")
 
                 // if overall test duration time is higher then testTimeout flank should calculate billable minutes for testTimeout
                 billableMinutes(min(testTimeSeconds, testTimeout))
             }
 
-    private fun updatedFinishedInfo(
-        stepOutcome: Outcome?,
-        flakyOutcome: Boolean,
-        testSuiteOverviewData: TestSuiteOverviewData?,
-        isRoboTests: Boolean,
-        isVirtualDevice: Boolean,
-        billableMinutes: Long?
-    ) {
-        updateOutcome(stepOutcome, flakyOutcome)
-        updateOutcomeDetails(stepOutcome, testSuiteOverviewData, isRoboTests)
-        billableMinutes?.let { updateBillableMinutes(it, isVirtualDevice) }
-    }
-
-    private fun updateOutcome(
-        stepOutcome: Outcome?,
+    private fun Outcome?.updateOutcome(
         flakyOutcome: Boolean
     ) {
         outcome = when {
@@ -153,17 +142,16 @@ class SavedMatrix(matrix: TestMatrix) {
             // if the matrix outcome is already set to failure then we can ignore the other step outcomes.
             // inconclusive is treated as a failure
             outcome == failure || outcome == inconclusive -> return
-            outcome == flaky -> stepOutcome?.summary?.takeIf { it == failure || it == inconclusive }
-            else -> stepOutcome?.summary
+            outcome == flaky -> this?.summary?.takeIf { it == failure || it == inconclusive }
+            else -> this?.summary
         } ?: outcome
     }
 
-    private fun updateOutcomeDetails(
-        stepOutcome: Outcome?,
+    private fun Outcome?.updateOutcomeDetails(
         testSuiteOverviewData: TestSuiteOverviewData?,
         isRoboTests: Boolean
     ) {
-        outcomeDetails = if (isRoboTests) "Robo test" else (stepOutcome?.getDetails(testSuiteOverviewData) ?: "---")
+        outcomeDetails = if (isRoboTests) "Robo test" else (this?.getDetails(testSuiteOverviewData) ?: "---")
     }
 
     private fun updateBillableMinutes(billableMinutes: Long, isVirtualDevice: Boolean) {
