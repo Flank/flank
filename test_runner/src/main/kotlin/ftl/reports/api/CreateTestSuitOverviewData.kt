@@ -12,7 +12,7 @@ internal fun TestExecutionData.createTestSuitOverviewData(): TestSuiteOverviewDa
     ?.let { overview ->
         val skipped: Int = overview.skippedCount ?: 0
         TestSuiteOverviewData(
-            total = testCases.size + skipped,
+            total = testCases.size,
             errors = testCases.countErrors(),
             failures = testCases.countFailures(),
             flakes = testCases.countFlakes(),

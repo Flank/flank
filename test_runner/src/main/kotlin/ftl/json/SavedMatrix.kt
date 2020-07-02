@@ -1,10 +1,14 @@
 package ftl.json
 
-import com.google.api.client.json.GenericJson
+import com.google.api.services.testing.model.TestExecution
 import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.toolresults.model.Outcome
-import ftl.android.AndroidCatalog
+import ftl.android.AndroidCatalog.isVirtualDevice
 import ftl.gc.GcToolResults
+import ftl.reports.api.createTestExecutionDataListAsync
+import ftl.reports.api.createTestSuitOverviewData
+import ftl.reports.api.data.TestSuiteOverviewData
+import ftl.reports.api.prepareForJUnitResult
 import ftl.util.MatrixState.ERROR
 import ftl.util.MatrixState.FINISHED
 import ftl.util.StepOutcome.failure
@@ -12,7 +16,6 @@ import ftl.util.StepOutcome.flaky
 import ftl.util.StepOutcome.inconclusive
 import ftl.util.StepOutcome.skipped
 import ftl.util.StepOutcome.success
-import ftl.util.StepOutcome.unset
 import ftl.util.billableMinutes
 import ftl.util.timeoutToSeconds
 import ftl.util.webLink
@@ -82,57 +85,81 @@ class SavedMatrix(matrix: TestMatrix) {
         billableVirtualMinutes = 0
         billablePhysicalMinutes = 0
         outcome = success
-        if (matrix.testExecutions == null) return
 
-        matrix.testExecutions.forEach {
-            val executionResult = GcToolResults.getExecutionResult(it)
+        updateFinishedMatrixData(matrix)
+    }
 
-            updateOutcome(executionResult.outcome)
+    private fun updateFinishedMatrixData(matrix: TestMatrix) {
+        val testExecutionsData = matrix.testExecutions?.createTestExecutionDataListAsync() ?: return
+        val summedTestSuiteOverviewData =
+            testExecutionsData
+                .prepareForJUnitResult()
+                .fold(TestSuiteOverviewData(0, 0, 0, 0, 0, 0.0, 0.0)) { sum, test ->
+                    sum + test.createTestSuitOverviewData()
+                }
 
-            // flank should not calculate billable minutes if an infrastructure error occurred
-            if (it.state == ERROR) return
-
-            // testExecutionStep, testTiming, etc. can all be null.
-            // sometimes testExecutionStep is present and testTiming is null
-            val stepResult = GcToolResults.getStepResult(it.toolResultsStep)
-            val testTimeSeconds = stepResult.testExecutionStep?.testTiming?.testProcessDuration?.seconds ?: return
-            val testTimeout = timeoutToSeconds(it.testSpecification?.testTimeout ?: "0s")
-
-            // if overall test duration time is higher then testTimeout flank should calculate billable minutes for testTimeout
-            val timeToBill = min(testTimeSeconds, testTimeout)
-            val billableMinutes = billableMinutes(timeToBill)
-
-            if (AndroidCatalog.isVirtualDevice(it.environment?.androidDevice, matrix.projectId ?: "")) {
-                billableVirtualMinutes += billableMinutes
-            } else {
-                billablePhysicalMinutes += billableMinutes
+        testExecutionsData
+            .forEach {
+                with(GcToolResults.getExecutionResult(it.testExecution).outcome) {
+                    updateOutcome(it.step.outcome?.summary != this?.summary)
+                    updateOutcomeDetails(
+                        testSuiteOverviewData = summedTestSuiteOverviewData,
+                        isRoboTests = it.testExecution.testSpecification?.androidRoboTest != null
+                    )
+                }
+                it.testExecution.getBillableMinutes()?.let { billableMinutes ->
+                    updateBillableMinutes(
+                        billableMinutes = billableMinutes,
+                        isVirtualDevice = isVirtualDevice(
+                            it.testExecution.environment.androidDevice,
+                            matrix.projectId.orEmpty()
+                        )
+                    )
+                }
             }
-        }
     }
 
-    private fun updateOutcome(stepOutcome: Outcome) {
-        // the matrix outcome is failure if any step fails
-        // if the matrix outcome is already set to failure then we can ignore the other step outcomes.
-        // inconclusive is treated as a failure
-        if (outcome == failure || outcome == inconclusive) return
+    private fun TestExecution.getBillableMinutes() =
+        takeIf { testExecution -> testExecution.state != ERROR }
+            ?.run {
+                // testExecutionStep, testTiming, etc. can all be null.
+                // sometimes testExecutionStep is present and testTiming is null
+                val testTimeSeconds =
+                    GcToolResults.getStepResult(toolResultsStep).testExecutionStep?.testTiming?.testProcessDuration?.seconds
+                        ?: return null
+                val testTimeout = timeoutToSeconds(testSpecification?.testTimeout ?: "0s")
 
-        outcome = stepOutcome.summary
+                // if overall test duration time is higher then testTimeout flank should calculate billable minutes for testTimeout
+                billableMinutes(min(testTimeSeconds, testTimeout))
+            }
 
-        // Treat flaky outcome as a success
-        if (outcome == flaky) outcome = success
-
-        outcomeDetails = when (outcome) {
-            failure -> stepOutcome.failureDetail.keysToString()
-            success -> stepOutcome.successDetail.keysToString()
-            inconclusive -> stepOutcome.inconclusiveDetail.keysToString()
-            skipped -> stepOutcome.skippedDetail.keysToString()
-            unset -> "unset"
-            else -> "unknown"
-        }
+    private fun Outcome?.updateOutcome(
+        flakyOutcome: Boolean
+    ) {
+        outcome = when {
+            flakyOutcome -> flaky
+            // the matrix outcome is failure if any step fails
+            // if the matrix outcome is already set to failure then we can ignore the other step outcomes.
+            // inconclusive is treated as a failure
+            outcome == failure || outcome == inconclusive -> return
+            outcome == flaky -> this?.summary?.takeIf { it == failure || it == inconclusive }
+            else -> this?.summary
+        } ?: outcome
     }
 
-    private fun GenericJson?.keysToString(): String {
-        return this?.keys?.joinToString(",") ?: ""
+    private fun Outcome?.updateOutcomeDetails(
+        testSuiteOverviewData: TestSuiteOverviewData?,
+        isRoboTests: Boolean
+    ) {
+        outcomeDetails = if (isRoboTests) "Robo test" else (this?.getDetails(testSuiteOverviewData) ?: "---")
+    }
+
+    private fun updateBillableMinutes(billableMinutes: Long, isVirtualDevice: Boolean) {
+        if (isVirtualDevice) {
+            billableVirtualMinutes += billableMinutes
+        } else {
+            billablePhysicalMinutes += billableMinutes
+        }
     }
 
     val gcsPathWithoutRootBucket get() = gcsPath.substringAfter('/')

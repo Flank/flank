@@ -79,12 +79,15 @@ object MockServer {
                 outcome.summary = failure
                 val failureDetail = FailureDetail()
                 failureDetail.timedOut = true
+                failureDetail.crashed = false
+                failureDetail.otherNativeCrash = false
                 outcome.failureDetail = failureDetail
             }
             "-2" -> {
                 outcome.summary = inconclusive
                 val inconclusiveDetail = InconclusiveDetail()
                 inconclusiveDetail.abortedByUser = true
+                inconclusiveDetail.infrastructureFailure = false
                 outcome.inconclusiveDetail = inconclusiveDetail
             }
             "-3" -> {
@@ -190,6 +193,13 @@ object MockServer {
                 // GcToolResults.getExecutionResult(toolResultsStep)
                 // GET /toolresults/v1beta3/projects/flank-open-source/histories/1/executions/1
                 get("/toolresults/v1beta3/projects/{project}/histories/{historyId}/executions/{executionId}") {
+                    println("Responding to GET ${call.request.uri}")
+                    val executionId = call.parameters["executionId"] ?: ""
+                    call.respond(fakeStep(executionId))
+                }
+                // GcToolResults.listTestCases(toolResultsStep)
+                // GET /toolresults/v1beta3/projects/flank-open-source/histories/1/executions/1/steps/1/testCases
+                get("/toolresults/v1beta3/projects/{project}/histories/{historyId}/executions/{executionId}/steps/{stepId}/testCases") {
                     println("Responding to GET ${call.request.uri}")
                     val executionId = call.parameters["executionId"] ?: ""
                     call.respond(fakeStep(executionId))
