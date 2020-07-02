@@ -52,6 +52,6 @@ Caused by: com.google.api.client.googleapis.json.GoogleJsonResponseException: 40
 
 ```
 
-You can reproduce it by set PROJECT_ID to not existing project.
+You can reproduce the error by setting PROJECT_ID to a project that doesn't exist.
 
 ## 3. On this two cases Flank throws FlankCommonException and exit with code: 1
