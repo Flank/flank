@@ -28,7 +28,7 @@ Caused by: com.google.api.client.googleapis.json.GoogleJsonResponseException: 40
 
 ```
 
-You can reproduce it by set PROJECT_ID to project where your current firebase account doesn't have permission.
+You can reproduce the error by setting PROJECT_ID to a project that the firebase account doesn't have permission to access.
 
 ## 2. Project not found (404)
 
