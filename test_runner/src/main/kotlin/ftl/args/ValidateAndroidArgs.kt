@@ -61,7 +61,7 @@ private fun AndroidArgs.assertRoboTest() {
 
 // Validation is done according to https://cloud.google.com/sdk/gcloud/reference/firebase/test/android/run#--directories-to-pull
 private fun AndroidArgs.assertDirectoriesToPull() {
-    val correctNameRegex = "(/[a-zA-Z0-9_\\-.+]+)+".toRegex()
+    val correctNameRegex = "(/[a-zA-Z0-9_\\-.+]+)+/?".toRegex()
     directoriesToPull
         .filter { !it.startsWith("/sdcard") && !it.startsWith("/data/local/tmp") || !correctNameRegex.matches(it) }
         .takeIf { it.isNotEmpty() }

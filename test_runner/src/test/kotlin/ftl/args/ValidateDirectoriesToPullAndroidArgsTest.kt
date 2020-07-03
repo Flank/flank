@@ -17,6 +17,7 @@ class ValidateDirectoriesToPullAndroidArgsTest {
               directories-to-pull:
                 - /sdcard/data/sample
                 - /data/local/tmp/sample
+                - /sdcard/
             flank:
               disable-sharding: true
         """.trimIndent()
@@ -29,7 +30,7 @@ class ValidateDirectoriesToPullAndroidArgsTest {
     }
 
     @Test
-    fun `should not throw any error without directoriesToPull specifiec`() {
+    fun `should not throw any error without directoriesToPull specific`() {
         // given
         val testYaml = """
             gcloud:
