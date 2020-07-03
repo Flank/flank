@@ -56,7 +56,7 @@ class GcToolResultsTest {
     @Test
     fun `getDefaultBucket on 403 error should throw exception with specific message`() {
         val expected = """
-            Flank encountered a 403 error when running on project $projectId. Please verify this credential is authorized for the project.
+            Flank encountered a 403 error when running on project $projectId. Please verify this credential is authorized for the project and has the required permissions.
             Consider authentication with a Service Account https://github.com/Flank/flank#authenticate-with-a-service-account
             or with a Google account https://github.com/Flank/flank#authenticate-with-a-google-account
             
