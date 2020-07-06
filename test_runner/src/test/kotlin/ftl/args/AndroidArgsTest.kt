@@ -733,7 +733,7 @@ AndroidArgs
     @Test
     fun `cli directoriesToPull`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parseArgs("--directories-to-pull=a,b")
+        CommandLine(cli).parseArgs("--directories-to-pull=/sdcard/test,/data/local/tmp/test")
 
         val yaml = """
         gcloud:
@@ -743,7 +743,22 @@ AndroidArgs
         assertThat(AndroidArgs.load(yaml).directoriesToPull).isEmpty()
 
         val androidArgs = AndroidArgs.load(yaml, cli)
-        assertThat(androidArgs.directoriesToPull).isEqualTo(listOf("a", "b"))
+        assertThat(androidArgs.directoriesToPull).isEqualTo(listOf("/sdcard/test", "/data/local/tmp/test"))
+    }
+
+    @Test(expected = FlankFatalError::class)
+    fun `should throw FlankFatalError when invalid cli directoriesToPull`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parseArgs("--directories-to-pull=a,b")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+      """
+        assertThat(AndroidArgs.load(yaml).directoriesToPull).isEmpty()
+
+        AndroidArgs.load(yaml, cli)
     }
 
     @Test
@@ -1455,6 +1470,8 @@ AndroidArgs
     }
 }
 
-private fun AndroidArgs.Companion.load(yamlData: String, cli: AndroidRunCommand? = null): AndroidArgs = load(StringReader(yamlData), cli)
+private fun AndroidArgs.Companion.load(yamlData: String, cli: AndroidRunCommand? = null): AndroidArgs =
+    load(StringReader(yamlData), cli)
 
-fun getAndroidShardChunks(args: AndroidArgs): ShardChunks = runBlocking { (args.createAndroidTestContexts().first() as InstrumentationTestContext).shards }
+fun getAndroidShardChunks(args: AndroidArgs): ShardChunks =
+    runBlocking { (args.createAndroidTestContexts().first() as InstrumentationTestContext).shards }

@@ -11,6 +11,7 @@ import ftl.reports.api.data.TestSuiteOverviewData
 import ftl.reports.api.prepareForJUnitResult
 import ftl.util.MatrixState.ERROR
 import ftl.util.MatrixState.FINISHED
+import ftl.util.MatrixState.INVALID
 import ftl.util.StepOutcome.failure
 import ftl.util.StepOutcome.flaky
 import ftl.util.StepOutcome.inconclusive
@@ -67,8 +68,7 @@ class SavedMatrix(matrix: TestMatrix) {
         val changedLink = webLink != newLink
 
         if (changedState) {
-            this.state = newState
-            if (this.state == FINISHED) finished(matrix)
+            updateState(newState, matrix)
         }
 
         if (changedLink) {
@@ -76,6 +76,17 @@ class SavedMatrix(matrix: TestMatrix) {
         }
 
         return changedState || changedLink
+    }
+
+    private fun updateState(newState: String, testMatrix: TestMatrix) {
+        state = newState
+        when (state) {
+            FINISHED -> finished(testMatrix)
+            INVALID -> {
+                outcomeDetails = "Matrix is invalid"
+                outcome = "---"
+            }
+        }
     }
 
     private fun finished(matrix: TestMatrix) {

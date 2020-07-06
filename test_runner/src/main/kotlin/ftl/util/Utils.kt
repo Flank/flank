@@ -169,8 +169,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
 }
 
 private fun SavedMatrix.logError() {
-    println("More details are available at [${this.webLink}]")
-    println(this.asPrintableTable())
+    println("Matrix is $state")
 }
 
 fun <R : MutableMap<String, Any>, T> mutableMapProperty(
