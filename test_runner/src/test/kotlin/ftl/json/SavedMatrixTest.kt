@@ -12,6 +12,7 @@ import ftl.gc.GcAndroidDevice
 import ftl.test.util.FlankTestRunner
 import ftl.util.MatrixState.ERROR
 import ftl.util.MatrixState.FINISHED
+import ftl.util.MatrixState.INVALID
 import ftl.util.MatrixState.PENDING
 import ftl.util.webLink
 import org.junit.Assert
@@ -182,5 +183,24 @@ class SavedMatrixTest {
         testMatrix.webLink()
         savedMatrix.update(testMatrix)
         Assert.assertEquals(1, savedMatrix.billableVirtualMinutes)
+    }
+
+    @Test
+    fun `savedMatrix should have outcome and outcome details properly filled when state is INVALID`() {
+        val expectedOutcome = "---"
+        val expectedOutcomeDetails = "Matrix is invalid"
+        val testMatrix = TestMatrix()
+        testMatrix.testMatrixId = "123"
+        testMatrix.state = PENDING
+        testMatrix.resultStorage = createResultsStorage()
+
+        val savedMatrix = SavedMatrix(testMatrix)
+        savedMatrix.update(testMatrix)
+
+        testMatrix.state = INVALID
+        savedMatrix.update(testMatrix)
+        Assert.assertEquals(expectedOutcome, savedMatrix.outcome)
+        Assert.assertEquals(expectedOutcomeDetails, savedMatrix.outcomeDetails)
+        Assert.assertEquals(INVALID, savedMatrix.state)
     }
 }

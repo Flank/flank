@@ -197,8 +197,7 @@ class UtilsTest {
         // will
         exit.expectSystemExitWithStatus(3)
         exit.checkAssertionAfterwards {
-            assertTrue(output.log.contains("More details are available at [${testMatrix1.webLink}]"))
-            assertOutputIsEqualReferenceTable(output.log, testMatrix1.matrixId)
+            assertTrue(output.log.contains("Matrix is ${testMatrix1.state}"))
         }
 
         // when
@@ -274,20 +273,6 @@ class UtilsTest {
 
         // when
         withGlobalExceptionHandling(block)
-    }
-
-    private fun assertOutputIsEqualReferenceTable(outputLog: String, matrixId: String) {
-        val referenceTable =
-            "┌─────────┬───────────┬────────────────────┐\n" +
-            "│ OUTCOME │ MATRIX ID │    TEST DETAILS    │\n" +
-            "├─────────┼───────────┼────────────────────┤\n" +
-            "│ Failed  │     $matrixId     │ Test failed to run │\n" +
-            "└─────────┴───────────┴────────────────────┘"
-        referenceTable.split("\n")
-            .forEach {
-                println(it)
-                assertTrue(outputLog.contains(it))
-            }
     }
 
     @Test
