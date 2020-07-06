@@ -7,7 +7,7 @@
 - [#866](https://github.com/Flank/flank/pull/866) Fix printing all matrix links. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#862](https://github.com/Flank/flank/pull/862) Added printing outcome details. ([piotradamczyk5](https://github.com/piotradamczyk5), [jan-gogo](https://github.com/jan-gogo))
 - [#876](https://github.com/Flank/flank/pull/876) Added --directories-to-pull validation and avoid making request with empty toolStepResult. ([piotradamczyk5](https://github.com/piotradamczyk5))
--
+- [#875](https://github.com/Flank/flank/pull/875) Enhance permission denied exception logs. ([adamfilipow92](https://github.com/adamfilipow92), [pawelpasterz](https://github.com/pawelpasterz))
 -
 
 ## v20.06.2
@@ -21,7 +21,7 @@
 
 - [#831](https://github.com/Flank/flank/pull/831) Refactor config entities and arguments. ([jan-gogo](https://github.com/jan-gogo))
 - [#817](https://github.com/Flank/flank/pull/817) Add AndroidTestContext as base data for dump shards & test execution. ([jan-gogo](https://github.com/jan-gogo))
-- [#801](https://github.com/Flank/flank/pull/801) Omit missing app apk if additional-app-test-apks specified. ([jan-gogo](https://github.com/jan-gogo)) 
+- [#801](https://github.com/Flank/flank/pull/801) Omit missing app apk if additional-app-test-apks specified. ([jan-gogo](https://github.com/jan-gogo))
 - [#784](https://github.com/Flank/flank/pull/784) Add output-style option. ([jan-gogo](https://github.com/jan-gogo))
 - [#779](https://github.com/Flank/flank/pull/779) Print retries & display additional info. ([jan-gogo](https://github.com/jan-gogo))
 - [#793](https://github.com/Flank/flank/issues/793) Better error message on file not found. ([adamfilipow92](https://github.com/adamfilipow92))
