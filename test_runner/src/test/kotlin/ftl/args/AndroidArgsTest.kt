@@ -18,6 +18,7 @@ import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
+import ftl.test.util.assertThrowsWithMessage
 import ftl.util.FlankCommonException
 import ftl.util.FlankFatalError
 import ftl.util.asFileReference
@@ -26,13 +27,11 @@ import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert
+import org.junit.Assert.fail
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import picocli.CommandLine
 import java.io.StringReader
@@ -124,10 +123,6 @@ class AndroidArgsTest {
           output-style: single
       """
 
-    @Rule
-    @JvmField
-    var expectedException = ExpectedException.none()!!
-
     @After
     fun tearDown() = unmockkAll()
 
@@ -148,26 +143,25 @@ class AndroidArgsTest {
 
     @Test
     fun `androidArgs invalidModel`() {
-        expectedException.expect(FlankFatalError::class.java)
-        expectedException.expectMessage("Unsupported model id")
-        AndroidArgs.load(
-            """
-        gcloud:
-          app: $appApk
-          test: $testApk
-          device:
-          - model: no
-            version: nope
-      """
-        )
+        assertThrowsWithMessage(FlankFatalError::class, "Unsupported model id") {
+            AndroidArgs.load(
+                """
+            gcloud:
+              app: $appApk
+              test: $testApk
+              device:
+              - model: no
+                version: nope
+          """
+            )
+        }
     }
 
     @Test
     fun `androidArgs invalidVersion`() {
-        expectedException.expect(FlankFatalError::class.java)
-        expectedException.expectMessage("Unsupported version id")
-        AndroidArgs.load(
-            """
+        assertThrowsWithMessage(FlankFatalError::class, "Unsupported version id") {
+            AndroidArgs.load(
+                """
         gcloud:
           app: $appApk
           test: $testApk
@@ -175,15 +169,15 @@ class AndroidArgsTest {
           - model: NexusLowRes
             version: nope
       """
-        )
+            )
+        }
     }
 
     @Test
     fun `androidArgs incompatibleModel`() {
-        expectedException.expect(FlankFatalError::class.java)
-        expectedException.expectMessage("Incompatible model")
-        AndroidArgs.load(
-            """
+        assertThrowsWithMessage(FlankFatalError::class, "Incompatible model") {
+            AndroidArgs.load(
+                """
         gcloud:
           app: $appApk
           test: $testApk
@@ -191,7 +185,8 @@ class AndroidArgsTest {
           - model: shamu
             version: 18
       """
-        )
+            )
+        }
     }
 
     @Test
@@ -1340,7 +1335,7 @@ AndroidArgs
         val resultsDir = UUID.randomUUID().toString()
         val directoryPath = Paths.get(resultsDir)
         if (Files.exists(directoryPath)) {
-            Assert.fail("Test directory ($resultsDir) shouldn't exists! It's a remote directory.")
+            fail("Test directory ($resultsDir) shouldn't exists! It's a remote directory.")
         }
         val yaml = """
         gcloud:
@@ -1350,7 +1345,7 @@ AndroidArgs
         """.trimIndent()
         AndroidArgs.load(yaml)
         if (Files.exists(directoryPath)) {
-            Assert.fail("Test directory ($resultsDir) shouldn't be created! It's a remote directory on the cloud!")
+            fail("Test directory ($resultsDir) shouldn't be created! It's a remote directory on the cloud!")
         }
     }
 
