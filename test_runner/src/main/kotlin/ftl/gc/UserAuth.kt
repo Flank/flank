@@ -18,7 +18,6 @@ import java.io.ObjectOutputStream
 import java.net.URI
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
@@ -92,7 +91,7 @@ class UserAuth {
         // https://developers.google.com/gdata/docs/auth/oauth#NoLibrary
         authorizer.getAndStoreCredentialsFromCode(userId, authCode, uri)
 
-        server.stop(0, 0, TimeUnit.SECONDS)
+        server.stop(0, 0)
 
         val userCredential = authorizer.getCredentials(userId)
 
