@@ -148,11 +148,10 @@ Checked git history of XML reporting code.
 
 No breaking changes were introduced between Flank 8.0.1 and 20.06.2
 
+## Current situation
 
+#### Issue reported to TeamCity https://youtrack.jetbrains.com/issue/TW-66753
 
 ## Next steps
 
 #### Ask about TeamCity configuration
-
-#### Ask for raising an issue to TeamCity support
-
