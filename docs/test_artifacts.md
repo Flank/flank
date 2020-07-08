@@ -9,7 +9,7 @@ Working on different issues sometimes requires different implementations of test
 - Updating test artifacts is not convenient as could be. Currently, it requires few manual steps:
 ```
 1. Generate new artifacts
-2. Download zip with lastest artifacts
+2. Download zip with lastest artifacts from https://github.com/Flank/test_artifacts/releases/tag/latest
 3. Upack lastest artifacts
 4. Copy new artifacts to proper directory
 5. Create proper zip with updated artifacts (on mac it may be tricky) 
@@ -25,7 +25,7 @@ Sometimes downloading may fail, but this not aborting test run.
 
 ### Requirements
 1. Source code for test artifacts should be kept on the single repository for easier manage. 
-2. Generating new artifacts coping to proper directory for local work purpose should be easy as single command run.
+2. Generating new artifacts and coping to proper directory for local work purpose should be easy as single command run.
 3. CI should be able to use dedicated test artifacts for each branch.
 4. Updating remote copy of test artifacts should be easy as possible.
 
