@@ -15,7 +15,7 @@ Working on different issues sometimes requires different implementations of test
 5. Create proper zip with updated artifacts (on mac it may be tricky) 
 6. Upload new bundle using https://github.com/Flank/test_artifacts
 ```
-- Current test artifacts design doesn't fit well with asynchronous work on many branches, 
+- Current test artifacts design doesn't fit well with asynchronous work on multiple branches, 
 because we are sharing single bundle of artifacts between CI on remote branches and local working copies.
 - Test artifacts download mechanism is embedded in mock-server initialization and typically performed before tests run. 
 Sometimes downloading may fail, but this not aborting test run.
