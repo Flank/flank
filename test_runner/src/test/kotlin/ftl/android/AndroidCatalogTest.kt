@@ -67,4 +67,24 @@ class AndroidCatalogTest {
         brokenModel.androidModelId = "brokenModel"
         assertFalse(AndroidCatalog.isVirtualDevice(brokenModel, projectId))
     }
+
+    @Test
+    fun `should print available devices as table`() {
+        // given
+        val expectedHeaders =
+            arrayOf("MODEL_ID", "MAKE", "MODEL_NAME", "FORM", "RESOLUTION", "OS_VERSION_IDS", "TAGS")
+        val expectedSeparatorCount = expectedHeaders.size + 1
+
+        // when
+        val devicesTable = AndroidCatalog.devicesCatalogAsTable(projectId)
+        val headers = devicesTable.lines()[1]
+
+        // then
+        // has all necessary headers
+        expectedHeaders.forEach {
+            assertThat(headers.contains(it)).isTrue()
+        }
+        // number of separators match
+        assertThat(headers.count { it == '│' }).isEqualTo(expectedSeparatorCount)
+    }
 }

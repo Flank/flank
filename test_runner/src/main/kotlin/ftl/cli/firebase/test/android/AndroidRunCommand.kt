@@ -1,5 +1,6 @@
 package ftl.cli.firebase.test.android
 
+import ftl.android.AndroidCatalog.devicesCatalogAsTable
 import ftl.args.AndroidArgs
 import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
@@ -46,9 +47,11 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
         val config = AndroidArgs.load(Paths.get(configPath), cli = this)
 
         runBlocking {
-            if (dumpShards)
-                dumpShards(args = config, obfuscatedOutput = obfuscate) else
-                newTestRun(config)
+            when {
+                dumpShards -> dumpShards(args = config, obfuscatedOutput = obfuscate)
+                printAvailableDevices -> println(devicesCatalogAsTable(config.project))
+                else -> newTestRun(config)
+            }
         }
     }
 

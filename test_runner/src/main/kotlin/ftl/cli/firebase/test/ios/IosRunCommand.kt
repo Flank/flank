@@ -4,6 +4,7 @@ import ftl.args.IosArgs
 import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
 import ftl.config.emptyIosConfig
+import ftl.ios.IosCatalog.devicesCatalogAsTable
 import ftl.mock.MockServer
 import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards
@@ -45,10 +46,10 @@ class IosRunCommand : CommonRunCommand(), Runnable {
 
         val config = IosArgs.load(Paths.get(configPath), cli = this)
 
-        if (dumpShards) {
-            dumpShards(args = config, obfuscatedOutput = obfuscate)
-        } else runBlocking {
-            newTestRun(config)
+        when {
+            dumpShards -> dumpShards(args = config, obfuscatedOutput = obfuscate)
+            printAvailableDevices -> println(devicesCatalogAsTable(config.project))
+            else -> runBlocking { newTestRun(config) }
         }
     }
 

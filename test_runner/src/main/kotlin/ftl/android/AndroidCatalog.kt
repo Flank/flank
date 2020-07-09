@@ -2,6 +2,7 @@ package ftl.android
 
 import com.google.api.services.testing.model.AndroidDevice
 import com.google.api.services.testing.model.AndroidDeviceCatalog
+import ftl.environment.asPrintableTable
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
 
@@ -14,42 +15,28 @@ object AndroidCatalog {
     private val modelMap: MutableMap<String, List<String>> = mutableMapOf()
     private val versionMap: MutableMap<String, List<String>> = mutableMapOf()
 
-    private fun androidDeviceCatalog(projectId: String): AndroidDeviceCatalog {
-        val cached = catalogMap[projectId]
-        if (cached != null) return cached
-
-        val newCatalog = GcTesting.get.testEnvironmentCatalog()
+    private fun deviceCatalog(projectId: String) = catalogMap.getOrPut(projectId) {
+        GcTesting.get.testEnvironmentCatalog()
             .get("android")
             .setProjectId(projectId)
-            .executeWithRetry().androidDeviceCatalog
-        catalogMap[projectId] = newCatalog
-        return newCatalog
+            .executeWithRetry()
+            .androidDeviceCatalog
     }
 
-    fun androidModelIds(projectId: String): List<String> {
-        val cached = modelMap[projectId]
-        if (cached != null) return cached
+    fun devicesCatalogAsTable(projectId: String) = deviceCatalog(projectId).asPrintableTable()
 
-        val newModels = androidDeviceCatalog(projectId).models.map { it.id }
-        modelMap[projectId] = newModels
-        return newModels
-    }
+    fun androidModelIds(projectId: String) =
+        modelMap.getOrPut(projectId) { deviceCatalog(projectId).models.map { it.id } }
 
-    fun androidVersionIds(projectId: String): List<String> {
-        val cached = versionMap[projectId]
-        if (cached != null) return cached
-
-        val newVersions = androidDeviceCatalog(projectId).versions.map { it.id }
-        versionMap[projectId] = newVersions
-        return newVersions
-    }
+    fun androidVersionIds(projectId: String) =
+        versionMap.getOrPut(projectId) { deviceCatalog(projectId).versions.map { it.id } }
 
     fun supportedDeviceConfig(modelId: String, versionId: String, projectId: String): DeviceConfigCheck {
-        val foundModel = androidDeviceCatalog(projectId).models.find { it.id == modelId } ?: return UnsupportedModelId
+
+        val foundModel = deviceCatalog(projectId).models.find { it.id == modelId } ?: return UnsupportedModelId
         if (!androidVersionIds(projectId).contains(versionId)) return UnsupportedVersionId
 
-        val supportedVersionIds = foundModel.supportedVersionIds
-        supportedVersionIds?.let {
+        foundModel.supportedVersionIds?.let {
             if (!it.contains(versionId)) return IncompatibleModelVersion
         } ?: return UnsupportedModelId
 
@@ -58,7 +45,7 @@ object AndroidCatalog {
 
     fun isVirtualDevice(device: AndroidDevice?, projectId: String): Boolean {
         val modelId = device?.androidModelId ?: return false
-        val form = androidDeviceCatalog(projectId).models.find { it.id == modelId }?.form ?: "PHYSICAL"
+        val form = deviceCatalog(projectId).models.find { it.id == modelId }?.form ?: "PHYSICAL"
         return form == "VIRTUAL"
     }
 }

@@ -51,4 +51,9 @@ abstract class CommonRunCommand {
         description = ["Replacing internal test names with unique identifiers when using --dump-shards option " +
                 "to avoid exposing internal details"])
     var obfuscate: Boolean = false
+
+    @CommandLine.Option(
+        names = ["--available-devices"],
+        description = ["Print available devices list"])
+    var printAvailableDevices: Boolean = false
 }

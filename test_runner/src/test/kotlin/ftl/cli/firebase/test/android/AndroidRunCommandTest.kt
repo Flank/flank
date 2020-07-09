@@ -467,4 +467,12 @@ class AndroidRunCommandTest {
 
         assertThat(cmd.obfuscate).isTrue()
     }
+
+    @Test
+    fun `available devices parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--available-devices")
+
+        assertThat(cmd.printAvailableDevices).isTrue()
+    }
 }
