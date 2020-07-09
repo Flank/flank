@@ -4,6 +4,10 @@
 
 Docs can be found [here](https://git-lfs.github.com)
 
+### Costs
+
+[about-storage-and-bandwidth-usage](https://docs.github.com/en/github/managing-large-files/about-storage-and-bandwidth-usage)
+
 ### Is git lfs versioning files?
 
 Yes. Git LFS versioning files and show changed md5 sum and size.
@@ -107,4 +111,88 @@ Sub-modules are not on a branch. They are just a pointer to a particular commit 
 Docs can be found [here](https://git-annex.branchable.com/git-annex/)
 Docs for github [here](https://git-annex.branchable.com/tips/centralized_git_repository_tutorial/on_GitHub/)
 
-We can configure git-annex to store files in places like ftp, amazon s3 etc. Probably it can reduce cost on many large files. https://git-annex.branchable.com/special_remotes/ 
+We can configure git-annex to store files in places like ftp, amazon s3 etc. Probably it can reduce cost on many large files. [link](https://git-annex.branchable.com/special_remotes/)
+
+### Is git annext versioning files?
+
+Git-annex like git lfs versioning control sum
+
+Git diff looks like:
+
+```git
+
+@ -1 +1 @@
+../../../../../.git/annex/objects/QJ/ZX/SHA256E-s1938733--a5bd978c2a6a9ff32bdf0ad5bd94c1362d6904c80c8f6d7890a40303a5d1d703.apk/SHA256E-s1938733--a5bd978c2a6a9ff32bdf0ad5bd94c1362d6904c80c8f6d7890a40303a5d1d703.apk
+../../../../../.git/annex/objects/xG/5q/SHA256E-s1938761--038902c65338873f5936f7c5d764fc98839746036a9fffb46223bb742fd1556f.apk/SHA256E-s1938761--038902c65338873f5936f7c5d764fc98839746036a9fffb46223bb742fd1556f.apk
+
+```
+
+### How to configure git annex?
+
+1. First you need to install git annex
+
+```bash
+
+brew install git-annex
+
+```
+
+If you don't have brew installed. Install it from [this page](https://brew.sh)
+
+Installing on other systems can be found [here](https://git-annex.branchable.com/install/)
+
+2. Initialize
+
+On root repository
+
+```bash
+
+git annext init
+
+```
+
+### How to add file
+
+```git
+
+git annex add app-debug.apk
+git commit -m "Add apk file"
+git push origin master
+
+```
+
+### How ovveride file
+
+1. Unlock file
+
+```git
+
+git annex unlock app-debug.apk
+
+```
+
+2. Change file
+   
+3. Add file to annex
+   
+```git
+
+git annex add app-debug.apk
+
+```
+
+### Where to host
+
+Git-annex allow to host binary files in deffrent locations, after little discussion with @yanek we choosed top 3:
+
+1. Google Drive
+2. Droplet/VPS
+3. FTP/SFTP
+   
+This list is only our idea feel free to suggest another one.
+
+All of supported storage types can be [here](https://git-annex.branchable.com/special_remotes/)
+
+### How to play with branches
+
+When you change branch you can override file and commit changes (remember unlock file first). File will be uploaded on configured storage.
