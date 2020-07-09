@@ -148,10 +148,38 @@ Checked git history of XML reporting code.
 
 No breaking changes were introduced between Flank 8.0.1 and 20.06.2
 
+
+
+### Ask user about TeamCity configuration
+
+#### Description
+
+User was asked about agents count and configuration 
+
+#### Results
+
+All agents are docker's containers so they are always the same and the problem isn't here. 
+
+User have 2 types of tests
+
+1. Using MockWebServer and have ~140 tests executed on multiple shards
+2. Using real backend, not many tests executed on single shards - this type of tests sometime falling
+
+When user back to old configuration, he can still reproduce problem
+
+Between versions user changed config from:
+`num-uniform-shards: 1`
+to
+`num-test-runs: 1`
+
+But when user back to old configuration, he can still reproduce problem.
+
 ## Current situation
 
 #### Issue reported to TeamCity https://youtrack.jetbrains.com/issue/TW-66753
 
-## Next steps
+TeamCity team cannot reproduce the problem, thay asked about additional logs, but User could deliver them in next week (starting 13-07-2020), until that we must wait.
 
-#### Ask about TeamCity configuration
+
+
+#### User is testing TeamCity CI with Flank 8 to make sure that the problem is related to Flank
