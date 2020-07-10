@@ -1,5 +1,21 @@
 # Host binaries solutions comparison
 
+## tl;dr
+
+|                   |           GIT LFS             | GIT SUBMODULES | GIT ANNEX                    |
+|:-----------------:|:-----------------------------:|:--------------:|:----------------------------:|
+|       Costs       |   5$/month per pack (50gb)    |   Cannot find clear answer            | Depend on storage provider   |
+| Versioning Files  |           Yes                 |   Yes          |  Yes                         |
+| Branch support    |           Yes                                             |   No, they are just a pointer to a particular commit of the submodules repository. It's can be harder to manage than git lfs and git annex. We shouldn't store binary files in git because it's not designed for it. This is purpose why git-annex and git-lfs exists. Some about it [here](https://robinwinslow.uk/2013/06/11/dont-ever-commit-binary-files-to-git/#:~:text=It%27s%20important%20to%20never%20commit,size%20will%20still%20be%20large.) |  Yes |
+| Flexibility       | Can set own lfs server only on github enterpiece plan  |   No | Yes, can use different storage providers. |
+
+By comparing this three solutions and talk with @yanek in our opinion the best solution is git-annex because:
+
+- potentially low costs, we can use any type of storage (gcloud, droplet, sftp, ftp) here is list of supported storages: [link](https://git-annex.branchable.com/special_remotes/)
+- supporting branches
+- easy way to manage files
+- easy to install and configure
+
 ## git-lfs
 
 Docs can be found [here](https://git-lfs.github.com)
@@ -7,6 +23,11 @@ Docs can be found [here](https://git-lfs.github.com)
 ### Costs
 
 [about-storage-and-bandwidth-usage](https://docs.github.com/en/github/managing-large-files/about-storage-and-bandwidth-usage)
+
+Each data pack cost is $5 per month. It's contains:
+
+1. 50gb bandwitch
+2. 50gb storage
 
 ### Is git lfs versioning files?
 
@@ -65,7 +86,7 @@ Docs can be found [here](https://gist.github.com/gitaarik/8735255)
 
 Git submodule is other git repository linked to main repository. On main repository git diff looks like:
 
-```
+```txt
 
 diff --git a/apks b/apks
 --- a/apks
@@ -113,6 +134,20 @@ Docs for github [here](https://git-annex.branchable.com/tips/centralized_git_rep
 
 We can configure git-annex to store files in places like ftp, amazon s3 etc. Probably it can reduce cost on many large files. [link](https://git-annex.branchable.com/special_remotes/)
 
+### Costs
+
+Depends on choosed storage provider
+
+1. Google drive
+   1. Limitation to 15gb (free quota)
+   2. After 15gb need to switch to google one or use Gsuite (10$/month and quota 100gb per user)
+2. OneDrive
+   1. Pricing table: https://www.opendrive.com/pricing
+   2. Free quota 5gb
+   3. From table: Custom Plan: 500gb storage and 25gb daily bandwith : 5$/month 50$/year
+3. Droplet/VPS - depend on provider
+4. FTP/SFTP - depend on provider
+
 ### Is git annext versioning files?
 
 Git-annex like git lfs versioning control sum
@@ -131,25 +166,25 @@ Git diff looks like:
 
 1. First you need to install git annex
 
-```bash
+    ```bash
 
-brew install git-annex
+    brew install git-annex
 
-```
+    ```
 
-If you don't have brew installed. Install it from [this page](https://brew.sh)
+    If you don't have brew installed. Install it from [this page](https://brew.sh)
 
-Installing on other systems can be found [here](https://git-annex.branchable.com/install/)
+    Installing on other systems can be found [here](https://git-annex.branchable.com/install/)
 
 2. Initialize
 
-On root repository
+    On root repository
 
-```bash
+    ```bash
 
-git annext init
+    git annext init
 
-```
+    ```
 
 ### How to add file
 
@@ -165,30 +200,31 @@ git push origin master
 
 1. Unlock file
 
-```git
+    ```git
 
-git annex unlock app-debug.apk
+    git annex unlock app-debug.apk
 
-```
+    ```
 
 2. Change file
-   
+
 3. Add file to annex
-   
-```git
 
-git annex add app-debug.apk
+    ```git
 
-```
+    git annex add app-debug.apk
+
+    ```
 
 ### Where to host
 
 Git-annex allow to host binary files in deffrent locations, after little discussion with @yanek we choosed top 3:
 
 1. Google Drive
-2. Droplet/VPS
-3. FTP/SFTP
-   
+2. OneDrive
+3. Droplet/VPS
+4. FTP/SFTP
+
 This list is only our idea feel free to suggest another one.
 
 All of supported storage types can be [here](https://git-annex.branchable.com/special_remotes/)
