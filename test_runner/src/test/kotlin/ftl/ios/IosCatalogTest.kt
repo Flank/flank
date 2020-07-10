@@ -41,4 +41,23 @@ class IosCatalogTest {
         // number of separators match
         assertThat(headers.count { it == '│' }).isEqualTo(expectedSeparatorCount)
     }
+
+    @Test
+    fun `should print available software versions as table`() {
+        // given
+        val expectedHeaders = arrayOf("OS_VERSION_ID", "MAJOR_VERSION", "MINOR_VERSION", "TAGS", "SUPPORTED_XCODE_VERSION_IDS")
+        val expectedSeparatorCount = expectedHeaders.size + 1
+
+        // when
+        val devicesTable = IosCatalog.softwareVersionsAsTable(projectId)
+        val headers = devicesTable.lines()[1]
+
+        // then
+        // has all necessary headers
+        expectedHeaders.forEach {
+            assertThat(headers.contains(it)).isTrue()
+        }
+        // number of separators match
+        assertThat(headers.count { it == '│' }).isEqualTo(expectedSeparatorCount)
+    }
 }

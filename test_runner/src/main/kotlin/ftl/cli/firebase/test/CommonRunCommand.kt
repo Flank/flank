@@ -56,4 +56,14 @@ abstract class CommonRunCommand {
         names = ["--available-devices"],
         description = ["Print available devices list"])
     var printAvailableDevices: Boolean = false
+
+    @CommandLine.Option(
+        names = ["--available-software-versions"],
+        description = ["Print available software versions list"])
+    var printAvailableSoftwareVersions: Boolean = false
+
+    @CommandLine.Option(
+        names = ["--available-environment"],
+        description = ["Print available devices and software versions list"])
+    var printAvailableEnvironment: Boolean = false
 }

@@ -23,7 +23,9 @@ object AndroidCatalog {
             .androidDeviceCatalog
     }
 
-    fun devicesCatalogAsTable(projectId: String) = deviceCatalog(projectId).asPrintableTable()
+    fun devicesCatalogAsTable(projectId: String) = deviceCatalog(projectId).models.asPrintableTable()
+
+    fun supportedVersionsAsTable(projectId: String) = deviceCatalog(projectId).versions.asPrintableTable()
 
     fun androidModelIds(projectId: String) =
         modelMap.getOrPut(projectId) { deviceCatalog(projectId).models.map { it.id } }

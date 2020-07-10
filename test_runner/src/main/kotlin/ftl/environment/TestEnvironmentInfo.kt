@@ -3,11 +3,11 @@ package ftl.environment
 import ftl.util.SystemOutColor
 import ftl.util.TableColumn
 
-typealias DevicesInfo = MutableMap<String, MutableList<String>>
+typealias TestEnvironmentInfo = MutableMap<String, MutableList<String>>
 
-internal fun DevicesInfo.getOrCreateList(key: String) = getOrPut(key) { mutableListOf() }
+internal fun TestEnvironmentInfo.getOrCreateList(key: String) = getOrPut(key) { mutableListOf() }
 
-internal fun DevicesInfo.createTableColumnFor(key: String) = TableColumn(key, getValue(key))
+internal fun TestEnvironmentInfo.createTableColumnFor(key: String) = TableColumn(key, getValue(key))
 
 internal val tagToSystemOutColorMapper: (String) -> SystemOutColor = {
     when {
@@ -26,3 +26,5 @@ const val RESOLUTION = "RESOLUTION"
 const val OS_VERSION_IDS = "OS_VERSION_IDS"
 const val TAGS = "TAGS"
 const val PHYSICAL_DEVICE = "PHYSICAL"
+
+const val OS_VERSION_ID = "OS_VERSION_ID"

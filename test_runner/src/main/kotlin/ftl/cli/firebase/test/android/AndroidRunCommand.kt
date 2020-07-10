@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.android
 
 import ftl.android.AndroidCatalog.devicesCatalogAsTable
+import ftl.android.AndroidCatalog.supportedVersionsAsTable
 import ftl.args.AndroidArgs
 import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
@@ -49,7 +50,12 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
         runBlocking {
             when {
                 dumpShards -> dumpShards(args = config, obfuscatedOutput = obfuscate)
+                printAvailableEnvironment -> {
+                    println(devicesCatalogAsTable(config.project))
+                    println(supportedVersionsAsTable(config.project))
+                }
                 printAvailableDevices -> println(devicesCatalogAsTable(config.project))
+                printAvailableSoftwareVersions -> println(supportedVersionsAsTable(config.project))
                 else -> newTestRun(config)
             }
         }

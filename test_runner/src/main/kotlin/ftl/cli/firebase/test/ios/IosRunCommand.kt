@@ -5,6 +5,7 @@ import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
 import ftl.config.emptyIosConfig
 import ftl.ios.IosCatalog.devicesCatalogAsTable
+import ftl.ios.IosCatalog.softwareVersionsAsTable
 import ftl.mock.MockServer
 import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards
@@ -48,7 +49,12 @@ class IosRunCommand : CommonRunCommand(), Runnable {
 
         when {
             dumpShards -> dumpShards(args = config, obfuscatedOutput = obfuscate)
+            printAvailableEnvironment -> {
+                println(devicesCatalogAsTable(config.project))
+                println(softwareVersionsAsTable(config.project))
+            }
             printAvailableDevices -> println(devicesCatalogAsTable(config.project))
+            printAvailableSoftwareVersions -> println(softwareVersionsAsTable(config.project))
             else -> runBlocking { newTestRun(config) }
         }
     }

@@ -12,6 +12,8 @@ internal fun Double.format(): String = "%.3f".format(Locale.ROOT, this)
 
 internal fun Int?.format() = (this ?: 0).toString()
 
+internal fun Int.twoDigitString() = toString().padStart(2, '0')
+
 internal fun Duration?.millis(): Double =
     if (this == null)
         0.0 else
