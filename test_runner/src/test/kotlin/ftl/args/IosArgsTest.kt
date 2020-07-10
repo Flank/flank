@@ -12,13 +12,13 @@ import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
+import ftl.test.util.assertThrowsWithMessage
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assume
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
-import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import picocli.CommandLine
 import java.io.StringReader
@@ -85,10 +85,6 @@ class IosArgsTest {
 
     @Rule
     @JvmField
-    val exceptionRule = ExpectedException.none()!!
-
-    @Rule
-    @JvmField
     val systemErrRule = SystemErrRule().muteForSuccessfulTests()!!
 
     @Test
@@ -109,31 +105,33 @@ flank:
 
     @Test
     fun `args invalidDeviceExits`() {
-        exceptionRule.expectMessage("iOS 99.9 on iphoneZ is not a supported device")
-        val invalidDevice = mutableListOf(Device("iphoneZ", "99.9"))
-        createIosArgs(
-            config = defaultIosConfig().apply {
-                common.gcloud.devices = invalidDevice
-                platform.gcloud.also {
-                    it.test = testPath
-                    it.xctestrunFile = xctestrunFile
+        assertThrowsWithMessage(Throwable::class, "iOS 99.9 on iphoneZ is not a supported device") {
+            val invalidDevice = mutableListOf(Device("iphoneZ", "99.9"))
+            createIosArgs(
+                config = defaultIosConfig().apply {
+                    common.gcloud.devices = invalidDevice
+                    platform.gcloud.also {
+                        it.test = testPath
+                        it.xctestrunFile = xctestrunFile
+                    }
                 }
-            }
-        ).validate()
+            ).validate()
+        }
     }
 
     @Test
     fun `args invalidXcodeExits`() {
-        exceptionRule.expectMessage("Xcode 99.9 is not a supported Xcode version")
-        createIosArgs(
-            config = defaultIosConfig().apply {
-                platform.gcloud.also {
-                    it.test = testPath
-                    it.xctestrunFile = xctestrunFile
-                    it.xcodeVersion = "99.9"
+        assertThrowsWithMessage(Throwable::class, "Xcode 99.9 is not a supported Xcode version") {
+            createIosArgs(
+                config = defaultIosConfig().apply {
+                    platform.gcloud.also {
+                        it.test = testPath
+                        it.xctestrunFile = xctestrunFile
+                        it.xcodeVersion = "99.9"
+                    }
                 }
-            }
-        ).validate()
+            ).validate()
+        }
     }
 
     @Test

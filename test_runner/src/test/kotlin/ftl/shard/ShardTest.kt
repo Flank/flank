@@ -15,19 +15,13 @@ import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
 import kotlin.system.measureNanoTime
 
 @RunWith(FlankTestRunner::class)
 class ShardTest {
-
-    @Rule
-    @JvmField
-    val exceptionRule = ExpectedException.none()!!
 
     @After
     fun tearDown() = unmockkAll()

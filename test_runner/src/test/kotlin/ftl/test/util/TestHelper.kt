@@ -6,8 +6,11 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import org.junit.Assert
+import org.junit.Assert.assertThrows
+import org.junit.Assert.assertTrue
 import java.nio.file.Path
 import java.nio.file.Paths
+import kotlin.reflect.KClass
 
 object TestHelper {
 
@@ -60,4 +63,8 @@ inline fun <reified T : Any> should(crossinline match: T.() -> Boolean): T = moc
             slot.captured.toString() else
             callOriginal()
     }
+}
+
+internal fun <T : Throwable> assertThrowsWithMessage(clazz: KClass<T>, message: String, block: () -> Unit) {
+    assertThrows(clazz.java) { block() }.also { assertTrue(it.message?.contains(message) ?: false) }
 }

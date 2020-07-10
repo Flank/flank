@@ -3,7 +3,7 @@ object Versions {
     const val BUGSNAG = "3.6.1"
 
     // https://github.com/3breadt/dd-plist/releases
-    const val DD_PLIST = "1.22"
+    const val DD_PLIST = "1.23"
 
     // https://github.com/arturbosch/detekt/releases
     const val DETEKT = "1.1.0"
@@ -12,7 +12,7 @@ object Versions {
     const val BINTRAY = "1.8.5"
 
     // https://github.com/johnrengelman/shadow/releases
-    const val SHADOW = "5.2.0"
+    const val SHADOW = "6.0.0"
 
     // https://github.com/linkedin/dex-test-parser/releases
     const val DEX_TEST_PARSER = "2.2.1"
@@ -21,10 +21,10 @@ object Versions {
     const val KOTLIN = "1.3.72"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    const val KOTLIN_COROUTINES = "1.3.2"
+    const val KOTLIN_COROUTINES = "1.3.7"
 
     // https://github.com/remkop/picocli/releases
-    const val PICOCLI = "4.2.0"
+    const val PICOCLI = "4.4.0"
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
     const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20190923-1.30.3"
@@ -45,21 +45,21 @@ object Versions {
 
     // https://github.com/FasterXML/jackson-core/releases
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
-    const val JACKSON = "2.10.0"
+    const val JACKSON = "2.11.0"
 
-    const val JUNIT = "4.12"
+    const val JUNIT = "4.13"
 
     // https://github.com/jhy/jsoup/releases
-    const val JSOUP = "1.12.1"
+    const val JSOUP = "1.13.1"
 
     // https://github.com/ktorio/ktor/releases
-    const val KTOR = "1.2.5"
+    const val KTOR = "1.3.2"
 
     // https://github.com/qos-ch/logback/releases
     const val LOGBACK = "1.2.3"
 
     // https://github.com/square/okhttp/releases
-    const val OKHTTP = "4.2.2"
+    const val OKHTTP = "4.7.2"
 
     // https://github.com/stefanbirkner/system-rules/releases
     const val SYSTEM_RULES = "1.19.0"
@@ -68,12 +68,12 @@ object Versions {
     const val TRUTH = "1.0"
 
     // https://github.com/FasterXML/woodstox/releases
-    const val WOODSTOX = "6.0.1"
+    const val WOODSTOX = "6.2.1"
 
-    const val KOTLIN_LOGGING = "1.7.8"
+    const val KOTLIN_LOGGING = "1.8.0.1"
 
     // https://github.com/mockk/mockk
-    const val MOCKK = "1.9.3"
+    const val MOCKK = "1.10.0"
 
     // https://commons.apache.org/proper/commons-text/
     const val COMMON_TEXT = "1.8"
