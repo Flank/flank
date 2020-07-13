@@ -7,9 +7,9 @@
 |       Costs       |   5$/month per pack (50gb)    |   Cannot find clear answer            | Depend on storage provider   |
 | Versioning Files  |           Yes                 |   Yes          |  Yes                         |
 | Branch support    |           Yes                                             |   No, they are just a pointer to a particular commit of the submodules repository. It's can be harder to manage than git lfs and git annex. We shouldn't store binary files in git because it's not designed for it. This is purpose why git-annex and git-lfs exists. Some about it [here](https://robinwinslow.uk/2013/06/11/dont-ever-commit-binary-files-to-git/#:~:text=It%27s%20important%20to%20never%20commit,size%20will%20still%20be%20large.) |  Yes |
-| Flexibility       | Can set own lfs server only on github enterpiece plan  |   No | Yes, can use different storage providers. |
+| Flexibility       |  Yes, you can set own lfs server. [Check here](https://github.com/git-lfs/git-lfs/wiki/Implementations)   |   No | Yes, can use different storage providers. |
 
-By comparing this three solutions and talk with @yanek in our opinion the best solution is git-annex because:
+By comparing this three solutions and talk with @jan-gogo  in our opinion the best solution is git-annex because:
 
 - potentially low costs, we can use any type of storage (gcloud, droplet, sftp, ftp) here is list of supported storages: [link](https://git-annex.branchable.com/special_remotes/)
 - supporting branches
@@ -218,7 +218,7 @@ git push origin master
 
 ### Where to host
 
-Git-annex allow to host binary files in deffrent locations, after little discussion with @yanek we choosed top 3:
+Git-annex allow to host binary files in deffrent locations, after little discussion with @jan-gogo we choosed top 3:
 
 1. Google Drive
 2. OneDrive
