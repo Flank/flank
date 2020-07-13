@@ -32,6 +32,15 @@ flank.jar
 *doctor*::
   Verifies flank firebase is setup correctly
 
+*models*::
+  Information about available models
+
+*versions*::
+  Information about available software versions
+
+*test-environment*::
+  Print available devices and OS versions list to test against
+
 // end::picocli-generated-man-section-commands[]
 
 // end::picocli-generated-full-manpage[]

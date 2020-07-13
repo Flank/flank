@@ -467,28 +467,4 @@ class AndroidRunCommandTest {
 
         assertThat(cmd.obfuscate).isTrue()
     }
-
-    @Test
-    fun `available devices parse`() {
-        val cmd = AndroidRunCommand()
-        CommandLine(cmd).parseArgs("--available-devices")
-
-        assertThat(cmd.printAvailableDevices).isTrue()
-    }
-
-    @Test
-    fun `available software versions parse`() {
-        val cmd = AndroidRunCommand()
-        CommandLine(cmd).parseArgs("--available-software-versions")
-
-        assertThat(cmd.printAvailableSoftwareVersions).isTrue()
-    }
-
-    @Test
-    fun `available environment parse`() {
-        val cmd = AndroidRunCommand()
-        CommandLine(cmd).parseArgs("--available-environment")
-
-        assertThat(cmd.printAvailableEnvironment).isTrue()
-    }
 }

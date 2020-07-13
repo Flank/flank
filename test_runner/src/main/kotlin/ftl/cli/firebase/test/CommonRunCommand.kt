@@ -49,21 +49,7 @@ abstract class CommonRunCommand {
     @CommandLine.Option(
         names = ["--obfuscate"],
         description = ["Replacing internal test names with unique identifiers when using --dump-shards option " +
-                "to avoid exposing internal details"])
+                "to avoid exposing internal details"]
+    )
     var obfuscate: Boolean = false
-
-    @CommandLine.Option(
-        names = ["--available-devices"],
-        description = ["Print current list of devices available to test against"])
-    var printAvailableDevices: Boolean = false
-
-    @CommandLine.Option(
-        names = ["--available-software-versions"],
-        description = ["Print current list of OS versions available to test against"])
-    var printAvailableSoftwareVersions: Boolean = false
-
-    @CommandLine.Option(
-        names = ["--available-environment"],
-        description = ["Print available devices and OS versions list to test against"])
-    var printAvailableEnvironment: Boolean = false
 }
