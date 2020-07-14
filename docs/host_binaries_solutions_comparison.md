@@ -6,12 +6,12 @@
 |:-----------------:|:-----------------------------:|:--------------:|:----------------------------:|
 |       Costs       |   5$/month per pack (50gb)    |   Cannot find clear answer            | Depend on storage provider   |
 | Versioning Files  |           Yes                 |   Yes          |  Yes                         |
-| Branch support    |           Yes                                             |   No, they are just a pointer to a particular commit of the submodules repository. It's can be harder to manage than git lfs and git annex. We shouldn't store binary files in git because it's not designed for it. This is a purpose why git-annex and git-lfs exists. Some about it [here](https://robinwinslow.uk/2013/06/11/dont-ever-commit-binary-files-to-git/#:~:text=It%27s%20important%20to%20never%20commit,size%20will%20still%20be%20large.) |  Yes |
-| Flexibility       |  Yes, you can set your own lfs server. [Check here](https://github.com/git-lfs/git-lfs/wiki/Implementations)   |   No | Yes, can use different storage providers. |
+| Branch support    |           Yes                                             |   No, they are just a pointer to a particular commit of the submodules repository. It's can be harder to manage than git lfs and git-annex. We shouldn't store binary files in git because it's not designed for it. This is a purpose why git-annex and git-lfs exists. Some about it [here](https://robinwinslow.uk/2013/06/11/dont-ever-commit-binary-files-to-git/#:~:text=It%27s%20important%20to%20never%20commit,size%20will%20still%20be%20large.) |  Yes |
+| Flexibility       |  Yes, you can set your lfs server. [Check here](https://github.com/git-lfs/git-lfs/wiki/Implementations)   |   No | Yes, can use different storage providers. |
 
 By comparing these three solutions and talk with @jan-gogo  in our opinion the best solution is git-annex because:
 
-- potentially low costs, we can use any type of storage (gcloud, droplet, sftp, ftp) here is list of supported storages: [link](https://git-annex.branchable.com/special_remotes/)
+- potentially low costs, we can use any type of storage (gcloud, droplet, sftp, ftp) here is a list of supported storages: [link](https://git-annex.branchable.com/special_remotes/)
 - supporting branches
 - easy way to manage files
 - easy to install and configure
@@ -52,7 +52,7 @@ index bba31d0..d165ca1 100644
 
 ### How to configure git lfs?
 
-To add a file extension to git lfs you should execute following command:
+To add a file extension to git lfs you should execute the following command:
 
 ```bash
 
@@ -64,7 +64,7 @@ Now all files with ``` .apk ``` extensions will be added to git lfs
 
 ### How to add file
 
-File should be added in `normal` way to git
+The file should be added in `normal` way to git
 
 ```git
 
@@ -76,7 +76,7 @@ git push origin master
 
 ### How to play with branches
 
-There is nothing to configure. When you modify files on branch changes not shown on master.
+There is nothing to configure. When you modify files on branch changes not shown on the master.
 
 ## git-submodules
 
@@ -84,7 +84,7 @@ Docs can be found [here](https://gist.github.com/gitaarik/8735255)
 
 ### Is git submodules versioning files?
 
-Git submodule is another git repository linked to main repository. On main repository git diff looks like:
+Git submodule is another git repository linked to the main repository. On main repository git diff looks like:
 
 ```txt
 
@@ -132,7 +132,7 @@ Sub-modules are not on a branch. They are just a pointer to a particular commit 
 Docs can be found [here](https://git-annex.branchable.com/git-annex/)
 Docs for github [here](https://git-annex.branchable.com/tips/centralized_git_repository_tutorial/on_GitHub/)
 
-We can configure git-annex to store files in places like ftp, amazon s3 etc. Probably it can reduce costs on many large files. [link](https://git-annex.branchable.com/special_remotes/)
+We can configure git-annex to store files in places like ftp, amazon s3, etc. Probably it can reduce costs on many large files. [link](https://git-annex.branchable.com/special_remotes/)
 
 ### Costs
 
@@ -164,7 +164,7 @@ Git diff looks like:
 
 ### How to configure git annex?
 
-1. First, you need to install git annex
+1. First, you need to install git-annex
 
     ```bash
 
@@ -196,7 +196,7 @@ git push origin master
 
 ```
 
-### How ovveride file
+### How to override file
 
 1. Unlock file
 
@@ -243,7 +243,7 @@ When you change branch you can override file and commit changes (remember to unl
 
 ### How to push changes to remote
 
-1. Unlock file `git annex unlock file_name`
+1. Unlock file `git-annex unlock file_name`
 
 2. Modify file
 
@@ -255,4 +255,4 @@ When you change branch you can override file and commit changes (remember to unl
 
 1. If you don't have configured rclone, configure this first.
 
-2. After clone repo sync with git annex `git annex sync file_name --content`
+2. After clone repo sync with git-annex `git annex sync file_name --content`
