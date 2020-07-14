@@ -32,6 +32,9 @@ flank.jar
 *doctor*::
   Verifies flank firebase is setup correctly
 
+*models*::
+  Information about available models
+
 // end::picocli-generated-man-section-commands[]
 
 // end::picocli-generated-full-manpage[]

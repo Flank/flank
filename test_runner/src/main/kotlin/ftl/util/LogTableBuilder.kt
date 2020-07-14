@@ -5,8 +5,8 @@ import com.google.common.annotations.VisibleForTesting
 data class TableColumn(
     val header: String,
     val data: List<String>,
-    val columnSize: Int = ((data + header).maxBy { it.length }?.length ?: 0) + DEFAULT_COLUMN_PADDING,
-    val dataColor: List<SystemOutColor> = listOf()
+    val dataColor: List<SystemOutColor> = listOf(),
+    val columnSize: Int = ((data + header).maxBy { it.length }?.length ?: 0) + DEFAULT_COLUMN_PADDING
 )
 
 private data class DataWithSize(
@@ -47,7 +47,7 @@ private fun StringBuilder.startTable(rowSizes: List<Int>) {
         endChar = START_TABLE_END_CHAR,
         rowSizes = rowSizes
     )
-    newLine()
+    appendln()
 }
 
 private fun StringBuilder.rowSeparator(rowSizes: List<Int>) {
@@ -57,7 +57,7 @@ private fun StringBuilder.rowSeparator(rowSizes: List<Int>) {
         endChar = MIDDLE_TABLE_END_CHAR,
         rowSizes = rowSizes
     )
-    newLine()
+    appendln()
 }
 
 private fun StringBuilder.appendData(tableColumns: Array<out TableColumn>) {
@@ -99,7 +99,7 @@ private fun StringBuilder.appendDataRow(data: List<DataWithSize>) {
         append(data.center(size))
         append(TABLE_VERTICAL_LINE)
     }
-    newLine()
+    appendln()
 }
 
 private fun String.center(columnSize: Int): String? {
@@ -109,6 +109,4 @@ private fun String.center(columnSize: Int): String? {
     )
 }
 
-private fun StringBuilder.newLine() {
-    append(System.lineSeparator())
-}
+inline fun TableColumn.applyColorsUsing(mapper: (String) -> SystemOutColor) = copy(dataColor = data.map(mapper))

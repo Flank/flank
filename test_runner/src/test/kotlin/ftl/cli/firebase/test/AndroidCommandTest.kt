@@ -20,9 +20,10 @@ class AndroidCommandTest {
         val output = systemOutRule.log.normalizeLineEnding()
         Truth.assertThat(output).startsWith(
             "android [COMMAND]\n" +
-                "Commands:\n" +
-                "  run     Run tests on Firebase Test Lab\n" +
-                "  doctor  Verifies flank firebase is setup correctly\n"
+                    "Commands:\n" +
+                    "  run     Run tests on Firebase Test Lab\n" +
+                    "  doctor  Verifies flank firebase is setup correctly\n" +
+                    "  models  Information about available models"
         )
     }
 }
