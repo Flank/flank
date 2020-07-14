@@ -253,6 +253,8 @@ When you change branch you can override file and commit changes (remember to unl
 
 ### How to sync changes from remote
 
-1. If you don't have configured rclone, configure this first.
+1. If you don't have configured git clone and git-annex with rclone check 1 to 3 points from `How to configure new git-annex repository with google drive` section
 
-2. After clone repo sync with git-annex `git annex sync file_name --content`
+2. execute command `git annex enableremote CONFIG_NAME`
+
+3. After clone repo sync with git-annex `git annex sync --content`
