@@ -1,4 +1,9 @@
 ## next (unreleased)
+- 
+- 
+- 
+
+## v20.07.0
 - [#857](https://github.com/Flank/flank/pull/857) Added multimodule setup for test app. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#837](https://github.com/Flank/flank/pull/837) Added obfuscate option to dump shards. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#868](https://github.com/Flank/flank/pull/868) Restored weblinks to all test results, not just failures. ([rainnapper](https://github.com/rainnapper))
