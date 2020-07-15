@@ -6,16 +6,16 @@ name: ubuntu-workflow
 # events but only for the master branch
 on:
   push:
-    branches:
-      - '#768-bitrise-ubuntu-workflow-into-github-actions'
+    branches: 
+      - master
   pull_request:
     branches:
-      - 'noone/*'
+      - '*'
 
 jobs:
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
