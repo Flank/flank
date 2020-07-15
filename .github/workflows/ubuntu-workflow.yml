@@ -1,9 +1,5 @@
-# This is a basic workflow to help you get started with Actions
-
 name: ubuntu-workflow
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
 on:
   push:
     branches: 
@@ -14,12 +10,8 @@ on:
 
 jobs:
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - name: Display the java version
         run: java -version 
@@ -35,7 +27,5 @@ jobs:
       - name: Gradle clean build
         uses: eskatos/gradle-command-action@v1
         with:
-          # Path to the Gradle executable
           gradle-executable: "./test_runner/gradlew"
-          # Gradle command line arguments, see gradle --help
           arguments: "-p test_runner clean build"
