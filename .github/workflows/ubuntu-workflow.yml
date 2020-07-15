@@ -15,14 +15,24 @@ on:
 jobs:
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      - uses: sormuras/download-jdk@v1
+      - uses: actions/setup-java@v1
+        with:
+          java-version: ${{ env.JDK_VERSION }}
+          jdkFile: ${{ env.JDK_FILE }}
+      - run: java --version
+    
+      - name: Display the java version
+        run: java -version 
+        shell: bash
 
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
