@@ -35,6 +35,9 @@ flank.jar
 *models*::
   Information about available models
 
+*versions*::
+  Information about available software versions
+
 // end::picocli-generated-man-section-commands[]
 
 // end::picocli-generated-full-manpage[]
