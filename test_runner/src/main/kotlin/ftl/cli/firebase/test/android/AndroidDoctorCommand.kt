@@ -2,6 +2,7 @@ package ftl.cli.firebase.test.android
 
 import ftl.args.AndroidArgs
 import ftl.cli.firebase.test.processValidation
+import ftl.config.FtlConstants
 import ftl.doctor.Doctor.validateYaml
 import java.nio.file.Paths
 import picocli.CommandLine.Command
@@ -28,7 +29,7 @@ class AndroidDoctorCommand : Runnable {
     }
 
     @Option(names = ["-c", "--config"], description = ["YAML config file path"])
-    var configPath: String = "./flank.yml"
+    var configPath: String = FtlConstants.defaultAndroidConfig
 
     @Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
     var usageHelpRequested: Boolean = false

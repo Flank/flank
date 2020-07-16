@@ -6,10 +6,10 @@ import org.junit.Test
 internal class LogTableBuilderTest {
 
     private val sampleColumns = arrayOf(
-        TableColumn("header1", listOf("value1"), 10),
-        TableColumn("header2", listOf("value2"), 15),
-        TableColumn("header3", listOf("value3"), 20),
-        TableColumn("header4", listOf("value4"), 21)
+        TableColumn("header1", listOf("value1"), columnSize = 10),
+        TableColumn("header2", listOf("value2"), columnSize = 15),
+        TableColumn("header3", listOf("value3"), columnSize = 20),
+        TableColumn("header4", listOf("value4"), columnSize = 21)
     )
 
     @Test
@@ -111,7 +111,7 @@ internal class LogTableBuilderTest {
     }
 
     @Test
-    fun `Should not contains middle separator when having just 1 column`() {
+    fun `should not contains middle separator when having just 1 column`() {
         // when
         val table = buildTable(sampleColumns.first())
 
@@ -119,5 +119,17 @@ internal class LogTableBuilderTest {
         assertThat(
             table.contains(START_TABLE_MIDDLE_CHAR) || table.contains(MIDDLE_TABLE_MIDDLE_CHAR) || table.contains(END_TABLE_MIDDLE_CHAR)
         ).isFalse()
+    }
+
+    @Test
+    fun `should apply colors`() {
+        // given
+        val expectedColor = SystemOutColor.GREEN
+
+        // when
+        val actual = sampleColumns.map { it.applyColorsUsing { expectedColor } }
+
+        // then
+        actual.forEach { tableColumn -> assertThat(tableColumn.dataColor.all { it == expectedColor }).isTrue() }
     }
 }

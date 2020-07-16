@@ -2,6 +2,7 @@ package ftl.cli.firebase.test
 
 import ftl.cli.firebase.test.android.AndroidDoctorCommand
 import ftl.cli.firebase.test.android.AndroidRunCommand
+import ftl.cli.firebase.test.android.models.AndroidModelsCommand
 import picocli.CommandLine
 import picocli.CommandLine.Command
 
@@ -10,7 +11,8 @@ import picocli.CommandLine.Command
     synopsisHeading = "",
     subcommands = [
         AndroidRunCommand::class,
-        AndroidDoctorCommand::class
+        AndroidDoctorCommand::class,
+        AndroidModelsCommand::class
     ],
     usageHelpAutoWidth = true
 )
