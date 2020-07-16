@@ -2,6 +2,7 @@ package ftl.cli.firebase.test
 
 import ftl.cli.firebase.test.ios.IosDoctorCommand
 import ftl.cli.firebase.test.ios.IosRunCommand
+import ftl.cli.firebase.test.ios.models.IosModelsCommand
 import picocli.CommandLine
 import picocli.CommandLine.Command
 
@@ -10,7 +11,8 @@ import picocli.CommandLine.Command
     synopsisHeading = "",
     subcommands = [
         IosRunCommand::class,
-        IosDoctorCommand::class
+        IosDoctorCommand::class,
+        IosModelsCommand::class
     ],
     usageHelpAutoWidth = true
 )
