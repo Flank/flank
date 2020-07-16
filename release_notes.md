@@ -13,6 +13,7 @@
 - [#862](https://github.com/Flank/flank/pull/862) Added printing outcome details. ([piotradamczyk5](https://github.com/piotradamczyk5), [jan-gogo](https://github.com/jan-gogo))
 - [#876](https://github.com/Flank/flank/pull/876) Added --directories-to-pull validation and avoid making request with empty toolStepResult. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#875](https://github.com/Flank/flank/pull/875) Enhance permission denied exception logs. ([adamfilipow92](https://github.com/adamfilipow92), [pawelpasterz](https://github.com/pawelpasterz))
+- [#890](https://github.com/Flank/flank/pull/890) Convert bitrise ubuntu workflow into GitHub actions. ([piotradamczyk5](https://github.com/piotradamczyk5))
 -
 
 ## v20.06.2

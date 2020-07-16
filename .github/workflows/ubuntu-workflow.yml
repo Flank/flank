@@ -1,0 +1,31 @@
+name: ubuntu-workflow
+
+on:
+  push:
+    branches: 
+      - master
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Display the java version
+        run: java -version 
+        shell: bash
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Gradle clean build
+        uses: eskatos/gradle-command-action@v1
+        with:
+          gradle-executable: "./test_runner/gradlew"
+          arguments: "-p test_runner clean build"
