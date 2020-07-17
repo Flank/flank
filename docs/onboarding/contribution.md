@@ -1,4 +1,4 @@
-# Contribution process (WIP)
+# Contribution process
 This document describes contribution details for full-time contributors.
 
 ### Daily community monitoring
@@ -15,7 +15,7 @@ Typically, the most important issues are prioritized descending in the `Ranked` 
 
 ## Estimating tasks
 In the flank, we are using 3 points scale for estimates tasks complexity (snake, tiger, dragon). 
-For more details see [estimation.md](./estimation.md)
+For more details see [estimation.md](estimation.md)
 
 ## Working on a new task
 Perform estimation if needed. If the task looks complex it's good practice asking a team for help.
@@ -28,7 +28,7 @@ pull request with proper description and some tests. After you finished don't fo
 
 #### Tigers
 If you are starting work on a tiger, always consider sharing some work with someone from the team, for more details see `Buddy system` section.
-Typically, every tiger brings some common tasks like:
+Typically, every tiger brings some common things to do like:
 * Pull request with proper description which typically may contain the following information:
     * description
     * user story
@@ -52,4 +52,4 @@ Be aware, some tasks sometimes couldn't be resolved for many reasons, so it's re
 Having documentation up to date gives the ability to drop work at any moment and back to in the future without loss of any information. 
 
 ### Buddy system
-See [buddy_system.md](./buddy_system.md) to read about team work in a flank.
+See [buddy_system.md](buddy_system.md) to read about team work in a flank.

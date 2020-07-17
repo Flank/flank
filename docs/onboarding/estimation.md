@@ -1,8 +1,14 @@
 # Estimating Eng Work: Snakes, Tigers, Dragons
 
 ## Introduction
-This document describes a model for estimating the amount of work an engineering task requires. It is not about estimating how long that work will take — that is a different discussion for a different time. It is not about how to arrive at these estimates — that is also a different discussion for a different time.
-The primary aim of estimating size is to increase the velocity of those doing the work, i.e. engineering team. These estimates might give some amount of signal to other stakeholders, e.g. product management or eng leadership, but that is not the goal. Those stakeholders must be informed by different means. Because these estimates serve the needs of the team, they need to be arrived at by the engineers who are going to be doing the work. Any observer who wishes to adjust the team-arrived estimates needs to sign up for executing those tasks.
+This document describes a model for estimating the amount of work an engineering task requires. 
+It is not about estimating how long that work will take — that is a different discussion for a different time. 
+It is not about how to arrive at these estimates — that is also a different discussion for a different time.
+The primary aim of estimating size is to increase the velocity of those doing the work, i.e. engineering team. 
+These estimates might give some amount of signal to other stakeholders, e.g. product management or eng leadership, but that is not the goal. 
+Those stakeholders must be informed by different means. Because these estimates serve the needs of the team, 
+they need to be arrived at by the engineers who are going to be doing the work. 
+Any observer who wishes to adjust the team-arrived estimates needs to sign up for executing those tasks.
 
 ## Snakes
 A “snake” is a small task that can be executed without interrupting or requiring attention from any other member of the team. 
@@ -14,7 +20,9 @@ As a corollary, there is no task that is 2 snakes or 7 snakes. It’s either a s
 The idea of a “snake” comes from US Army Ranger training. 
 They’re told that if, when moving through an area, they see a snake that presents a danger, they should just kill the snake. 
 They should not yell “check this out, SNAKE!” 
-[Jim Barksdale](https://en.wikipedia.org/wiki/James_L._Barksdale), who [created](https://en.wikipedia.org/wiki/AT%26T_Wireless_Services#McCaw_Cellular) two [industries](https://en.wikipedia.org/wiki/Netscape), making our jobs today possible, also used the analogy. 
+[Jim Barksdale](https://en.wikipedia.org/wiki/James_L._Barksdale), 
+who [created](https://en.wikipedia.org/wiki/AT%26T_Wireless_Services#McCaw_Cellular) two [industries](https://en.wikipedia.org/wiki/Netscape), 
+making our jobs today possible, also used the analogy. 
 “Do not have a meeting about a snake. Do not form a committee to discuss a snake. Do not send out a survey about a snake. Just kill it.”
 
 ## Tigers
