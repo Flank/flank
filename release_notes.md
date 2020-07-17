@@ -2,6 +2,7 @@
 - [#890](https://github.com/Flank/flank/pull/890) Convert bitrise ubuntu workflow into GitHub actions. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#876](https://github.com/Flank/flank/pull/876) Added option to print Android available devices to test against. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#895](https://github.com/Flank/flank/pull/895) Added option to print iOS available devices to test against. ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#894](https://github.com/Flank/flank/pull/894) Added option to print Android available versions to test against. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#897](https://github.com/Flank/flank/pull/897) Added option to print iOS available versions to test against. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - 
 - 
