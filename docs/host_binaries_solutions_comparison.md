@@ -2,6 +2,8 @@
 
 ## tl;dr
 
+After research and test git-annex, we think it's not suitable for our purposes. We try to use GitHub Releases, documentation and automating process.
+
 |                   |           GIT LFS             | GIT SUBMODULES | GIT ANNEX                    |
 |:-----------------:|:-----------------------------:|:--------------:|:----------------------------:|
 |       Costs       |   5$/month per pack (50gb)    |   Cannot find clear answer            | Depend on storage provider   |
