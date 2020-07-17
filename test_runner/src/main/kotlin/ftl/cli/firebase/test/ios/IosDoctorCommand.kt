@@ -2,6 +2,7 @@ package ftl.cli.firebase.test.ios
 
 import ftl.args.IosArgs
 import ftl.cli.firebase.test.processValidation
+import ftl.config.FtlConstants
 import ftl.doctor.Doctor.validateYaml
 import java.nio.file.Paths
 import picocli.CommandLine.Command
@@ -28,7 +29,7 @@ class IosDoctorCommand : Runnable {
     }
 
     @Option(names = ["-c", "--config"], description = ["YAML config file path"])
-    var configPath: String = "./flank.ios.yml"
+    var configPath: String = FtlConstants.defaultIosConfig
 
     @Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
     var usageHelpRequested: Boolean = false

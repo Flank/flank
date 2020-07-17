@@ -1,7 +1,6 @@
 package ftl.cli.firebase.test.ios
 
 import com.google.common.truth.Truth.assertThat
-import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.isWindows
@@ -322,7 +321,7 @@ class IosRunCommandTest {
 
     @Test
     fun `obfuscate parse`() {
-        val cmd = AndroidRunCommand()
+        val cmd = IosRunCommand()
         CommandLine(cmd).parseArgs("--obfuscate")
 
         assertThat(cmd.obfuscate).isTrue()
