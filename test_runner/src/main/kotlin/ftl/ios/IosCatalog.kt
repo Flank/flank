@@ -16,6 +16,8 @@ object IosCatalog {
 
     fun devicesCatalogAsTable(projectId: String) = iosDeviceCatalog(projectId).models.asPrintableTable()
 
+    fun softwareVersionsAsTable(projectId: String) = iosDeviceCatalog(projectId).versions.asPrintableTable()
+
     fun supportedXcode(version: String, projectId: String) = xcodeVersions(projectId).contains(version)
 
     private fun xcodeVersions(projectId: String) =

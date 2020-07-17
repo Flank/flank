@@ -1,14 +1,14 @@
-package ftl.cli.firebase.test.ios.models
+package ftl.cli.firebase.test.ios.versions
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import picocli.CommandLine
 
-class IosModelsListCommandTest {
+class IosVersionsListCommandTest {
 
     @Test
-    fun iosModelsListCommandShouldParseConfig() {
-        val cmd = IosModelsListCommand()
+    fun iosVersionsListCommandShouldParseConfig() {
+        val cmd = IosVersionsListCommand()
         CommandLine(cmd).parseArgs("--config=a")
 
         assertThat(cmd.configPath).isEqualTo("a")
