@@ -3,6 +3,8 @@ package ftl.cli.firebase.test.ios
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.environment.providedSoftwareAsTable
+import ftl.environment.asPrintableTable
+import ftl.gc.GcTesting
 import ftl.ios.IosCatalog.devicesCatalogAsTable
 import ftl.ios.IosCatalog.softwareVersionsAsTable
 import picocli.CommandLine
@@ -24,6 +26,7 @@ class IosTestEnvironmentCommand : Runnable {
         println(devicesCatalogAsTable(IosArgs.load(Paths.get(configPath)).project))
         println(softwareVersionsAsTable(IosArgs.load(Paths.get(configPath)).project))
         println(providedSoftwareAsTable())
+        GcTesting.networkConfiguration().asPrintableTable().forEach { println(it) }
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

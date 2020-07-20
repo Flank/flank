@@ -29,6 +29,7 @@ object IosCatalog {
         projectId: String
     ) = iosDeviceCatalog(projectId).models.find { it.id == modelId }?.supportedVersionIds?.contains(versionId) ?: false
 
+
     // Device catalogMap is different depending on the project id
     private fun iosDeviceCatalog(
         projectId: String

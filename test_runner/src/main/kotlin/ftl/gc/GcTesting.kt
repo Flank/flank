@@ -6,6 +6,7 @@ import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.config.FtlConstants.applicationName
 import ftl.config.FtlConstants.httpCredential
 import ftl.config.FtlConstants.httpTransport
+import ftl.http.executeWithRetry
 
 object GcTesting {
 
@@ -17,4 +18,11 @@ object GcTesting {
 
         builder.build()
     }
+
+    fun networkConfiguration() = get.testEnvironmentCatalog()
+        .get("NETWORK_CONFIGURATION")
+        .executeWithRetry()
+        ?.networkConfigurationCatalog
+        ?.configurations
+        .orEmpty()
 }
