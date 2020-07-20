@@ -20,6 +20,6 @@ import picocli.CommandLine
 class NetworkProfilesListCommand : Runnable {
     override fun run() {
         println("fetching available network profiles...")
-        GcTesting.networkConfiguration().asPrintableTable().forEach { println(it) }
+        println(GcTesting.networkConfiguration().asPrintableTable())
     }
 }

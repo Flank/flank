@@ -49,11 +49,7 @@ const val END_TABLE_MIDDLE_CHAR = '┴'
 @VisibleForTesting
 const val END_TABLE_END_CHAR = '┘'
 
-@VisibleForTesting
-const val PAD_CHAR = ' '
-fun buildTable(vararg tableColumns: TableColumn): String = buildTableWithPad(0, *tableColumns)
-
-fun buildTableWithPad(padStart: Int, vararg tableColumns: TableColumn): String {
+fun buildTable(vararg tableColumns: TableColumn): String {
     val rowSizes = tableColumns.map { it.columnSize }
     val builder = StringBuilder().apply {
         startTable(rowSizes)
@@ -61,7 +57,7 @@ fun buildTableWithPad(padStart: Int, vararg tableColumns: TableColumn): String {
         rowSeparator(rowSizes)
         appendData(tableColumns)
         endTable(rowSizes)
-    }.appendPadToEveryRow(padStart)
+    }
     return builder.toString()
 }
 
@@ -87,7 +83,7 @@ private fun StringBuilder.rowSeparator(rowSizes: List<Int>) {
 
 private fun StringBuilder.appendData(tableColumns: Array<out TableColumn>) {
     val rowCount = (tableColumns.maxBy { it.data.size } ?: tableColumns.first()).data.size
-
+    val rowSizes = tableColumns.map { it.columnSize }
     (0 until rowCount)
         .map { rowNumber ->
             tableColumns.map {
@@ -98,7 +94,10 @@ private fun StringBuilder.appendData(tableColumns: Array<out TableColumn>) {
                 else DataWithSize(color.applyTo(data), columnSize + color.additionalLengthWhenApplied)
             }
         }
-        .forEach { appendDataRow(it) }
+        .forEachIndexed { index, list ->
+            appendDataRow(list)
+            if (index < rowCount -1 && index % 2 != 0) rowSeparator(rowSizes)
+        }
 }
 
 private fun StringBuilder.endTable(rowSizes: List<Int>) {
@@ -135,9 +134,3 @@ private fun String.center(columnSize: Int): String? {
 }
 
 inline fun TableColumn.applyColorsUsing(mapper: (String) -> SystemOutColor) = copy(dataColor = data.map(mapper))
-
-private fun StringBuilder.appendPadToEveryRow(pad: Int) : StringBuilder = StringBuilder().also { builder ->
-    this.lines().forEach { line ->
-        builder.appendln(line.padStart(pad + line.length, PAD_CHAR))
-    }
-}
