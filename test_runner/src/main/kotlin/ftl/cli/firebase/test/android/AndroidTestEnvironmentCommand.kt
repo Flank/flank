@@ -4,6 +4,7 @@ import ftl.android.AndroidCatalog.devicesCatalogAsTable
 import ftl.android.AndroidCatalog.supportedVersionsAsTable
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
+import ftl.environment.providedSoftwareAsTable
 import picocli.CommandLine
 import java.nio.file.Paths
 
@@ -22,6 +23,7 @@ class AndroidTestEnvironmentCommand : Runnable {
     override fun run() {
         println(devicesCatalogAsTable(AndroidArgs.load(Paths.get(configPath)).project))
         println(supportedVersionsAsTable(AndroidArgs.load(Paths.get(configPath)).project))
+        println(providedSoftwareAsTable())
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

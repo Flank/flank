@@ -5,6 +5,7 @@ import com.google.api.services.testing.model.AndroidDeviceCatalog
 import com.google.api.services.testing.model.Environment
 import com.google.api.services.testing.model.GoogleCloudStorage
 import com.google.api.services.testing.model.IosDeviceCatalog
+import com.google.api.services.testing.model.ProvidedSoftwareCatalog
 import com.google.api.services.testing.model.ResultStorage
 import com.google.api.services.testing.model.TestEnvironmentCatalog
 import com.google.api.services.testing.model.TestExecution
@@ -119,6 +120,14 @@ object MockServer {
                     val catalog = TestEnvironmentCatalog()
                     catalog.androidDeviceCatalog = androidCatalog
 
+                    call.respond(catalog)
+                }
+
+                get("/v1/testEnvironmentCatalog/provided_software") {
+                    println("Responding to GET ${call.request.uri}")
+                    val catalog = TestEnvironmentCatalog().apply {
+                        softwareCatalog = ProvidedSoftwareCatalog().apply { orchestratorVersion = "1.0.0" }
+                    }
                     call.respond(catalog)
                 }
 

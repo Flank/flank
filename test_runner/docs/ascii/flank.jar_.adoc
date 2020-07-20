@@ -55,6 +55,9 @@ flank.jar
 *auth*::
   Manage oauth2 credentials for Google Cloud
 
+*provided-software*::
+  
+
 // end::picocli-generated-man-section-commands[]
 
 // end::picocli-generated-full-manpage[]
