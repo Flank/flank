@@ -2,6 +2,11 @@ package ftl.util
 
 import com.google.common.annotations.VisibleForTesting
 
+enum class TableStyle {
+    DEFAULT,
+    ROW_SEPARATOR
+}
+
 data class TableColumn(
     val header: String,
     val data: List<String>,
@@ -49,13 +54,13 @@ const val END_TABLE_MIDDLE_CHAR = '┴'
 @VisibleForTesting
 const val END_TABLE_END_CHAR = '┘'
 
-fun buildTable(vararg tableColumns: TableColumn): String {
+fun buildTable(vararg tableColumns: TableColumn, tableStyle: TableStyle = TableStyle.DEFAULT): String {
     val rowSizes = tableColumns.map { it.columnSize }
     val builder = StringBuilder().apply {
         startTable(rowSizes)
         tableColumns.map { DataWithSize(it.header, it.columnSize) }.apply { appendDataRow(this) }
         rowSeparator(rowSizes)
-        appendData(tableColumns, rowSizes)
+        appendData(tableColumns, rowSizes, tableStyle)
         endTable(rowSizes)
     }
     return builder.toString()
@@ -81,7 +86,7 @@ private fun StringBuilder.rowSeparator(rowSizes: List<Int>) {
     appendln()
 }
 
-private fun StringBuilder.appendData(tableColumns: Array<out TableColumn>, rowSizes: List<Int>) {
+private fun StringBuilder.appendData(tableColumns: Array<out TableColumn>, rowSizes: List<Int>, tableStyle: TableStyle) {
     val rowCount = (tableColumns.maxBy { it.data.size } ?: tableColumns.first()).data.size
     (0 until rowCount)
         .map { rowNumber ->
@@ -95,7 +100,8 @@ private fun StringBuilder.appendData(tableColumns: Array<out TableColumn>, rowSi
         }
         .forEachIndexed { index, list ->
             appendDataRow(list)
-            if (index < rowCount - 1 && list.first().data.isNotBlank()) rowSeparator(rowSizes)
+            if (tableStyle == TableStyle.ROW_SEPARATOR && index < rowCount - 1 && list.first().data.isNotBlank())
+                rowSeparator(rowSizes)
         }
 }
 

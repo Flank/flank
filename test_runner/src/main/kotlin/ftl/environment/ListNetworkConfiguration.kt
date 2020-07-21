@@ -1,6 +1,7 @@
 package ftl.environment
 
 import com.google.api.services.testing.model.NetworkConfiguration
+import ftl.util.TableStyle
 import ftl.util.buildTable
 
 fun List<NetworkConfiguration>.asPrintableTable() = createConfigurationDetails().createConfigurationsTable()
@@ -37,7 +38,8 @@ private fun TestEnvironmentInfo.createConfigurationsTable() = buildTable(
     createTableColumnFor(LOSS_RATION),
     createTableColumnFor(DUPLICATION_RATION),
     createTableColumnFor(BANDWIDTH),
-    createTableColumnFor(BURST)
+    createTableColumnFor(BURST),
+    tableStyle = TableStyle.ROW_SEPARATOR
 )
 
 private const val PROFILE_ID = "PROFILE_ID"

@@ -3,6 +3,7 @@ package ftl.cli.firebase.test.networkprofiles
 import com.google.api.services.testing.model.NetworkConfiguration
 import com.google.api.services.testing.model.TrafficRule
 import ftl.environment.asPrintableTable
+import ftl.environment.networkConfigurationAsTable
 import ftl.gc.GcTesting
 import io.mockk.every
 import io.mockk.mockkObject
@@ -33,17 +34,11 @@ class NetworkProfilesListCommandTest {
     @Test
     fun run() {
         mockkObject(GcTesting) {
-            val configurationsMock = listOf(NetworkConfiguration().apply {
-                id = "test"
-                upRule = TrafficRule()
-                downRule = TrafficRule()
-            })
             every {
-                GcTesting.networkConfiguration()
-            } returns configurationsMock
-            every { configurationsMock.asPrintableTable() } returns ""
+                networkConfigurationAsTable()
+            } returns ""
             CommandLine(NetworkProfilesListCommand()).execute()
-            verify { configurationsMock.asPrintableTable() }
+            verify { networkConfigurationAsTable() }
         }
     }
 }

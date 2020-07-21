@@ -4,7 +4,7 @@
 == Name
 
 flank.jar
- - 
+-provided-software - 
 
 // end::picocli-generated-man-section-name[]
 
@@ -12,7 +12,7 @@ flank.jar
 == Synopsis
 
 *flank.jar
-* [*-v*] [*--debug*] [COMMAND]
+ provided-software* [COMMAND]
 
 // end::picocli-generated-man-section-synopsis[]
 
@@ -23,40 +23,11 @@ flank.jar
 
 // end::picocli-generated-man-section-description[]
 
-// tag::picocli-generated-man-section-options[]
-== Options
-
-*--debug*::
-  Enables debug logging
-
-*-v*, *--version*::
-  Prints the version
-
-// end::picocli-generated-man-section-options[]
-
 // tag::picocli-generated-man-section-commands[]
 == Commands
 
-*firebase*::
-  
-
-*ios*::
-  
-
-*android*::
-  
-
-*refresh*::
-  Downloads results for the last Firebase Test Lab run
-
-*cancel*::
-  Cancels the last Firebase Test Lab run
-
-*auth*::
-  Manage oauth2 credentials for Google Cloud
-
-*provided-software*::
-  
+*list*::
+  The software environment provided by TestExecutionService.
 
 // end::picocli-generated-man-section-commands[]
 
