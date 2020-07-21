@@ -1,14 +1,12 @@
 package ftl.cli.firebase.test.networkprofiles
 
-import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.NetworkConfiguration
-import com.google.api.services.testing.model.NetworkConfigurationCatalog
-import com.google.api.services.testing.model.TestEnvironmentCatalog
-import ftl.http.executeWithRetry
-import ftl.run.common.prettyPrint
+import com.google.api.services.testing.model.TrafficRule
+import ftl.environment.asPrintableTable
+import ftl.gc.GcTesting
 import io.mockk.every
+import io.mockk.mockkObject
 import io.mockk.mockkStatic
-import io.mockk.spyk
 import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.After
@@ -22,7 +20,8 @@ class NetworkProfilesListCommandTest {
     fun setUp() {
         mockkStatic(
             "ftl.http.ExecuteWithRetryKt",
-            "ftl.run.common.PrettyPrintKt"
+            "ftl.run.common.PrettyPrintKt",
+            "ftl.environment.ListNetworkConfigurationKt"
         )
     }
 
@@ -33,19 +32,18 @@ class NetworkProfilesListCommandTest {
 
     @Test
     fun run() {
-        val configurationsMock = emptyList<NetworkConfiguration>()
-        val prettyPrintSpy = spyk(prettyPrint)
-        every { prettyPrint } returns prettyPrintSpy
-        every {
-            any<Testing.TestEnvironmentCatalog.Get>().executeWithRetry()
-        } returns TestEnvironmentCatalog().apply {
-            networkConfigurationCatalog = NetworkConfigurationCatalog().apply {
-                configurations = configurationsMock
-            }
+        mockkObject(GcTesting) {
+            val configurationsMock = listOf(NetworkConfiguration().apply {
+                id = "test"
+                upRule = TrafficRule()
+                downRule = TrafficRule()
+            })
+            every {
+                GcTesting.networkConfiguration()
+            } returns configurationsMock
+            every { configurationsMock.asPrintableTable() } returns ""
+            CommandLine(NetworkProfilesListCommand()).execute()
+            verify { configurationsMock.asPrintableTable() }
         }
-
-        CommandLine(NetworkProfilesListCommand()).execute()
-
-        verify { prettyPrintSpy.toJson(configurationsMock) }
     }
 }

@@ -10,7 +10,6 @@ private fun List<NetworkConfiguration>.createConfigurationDetails() = fold(mutab
         getOrCreateList(PROFILE_ID).add(" ")
         getOrCreateList(PROFILE_ID).add(networkConfiguration.id)
 
-
         getOrCreateList(RULE).add(RULE_UP)
         getOrCreateList(RULE).add(RULE_DOWN)
 
@@ -31,7 +30,6 @@ private fun List<NetworkConfiguration>.createConfigurationDetails() = fold(mutab
     }
 }
 
-
 private fun TestEnvironmentInfo.createConfigurationsTable() = buildTable(
     createTableColumnFor(PROFILE_ID),
     createTableColumnFor(RULE),
@@ -42,9 +40,7 @@ private fun TestEnvironmentInfo.createConfigurationsTable() = buildTable(
     createTableColumnFor(BURST)
 )
 
-
 private const val PROFILE_ID = "PROFILE_ID"
-
 private const val RULE = "RULE"
 private const val RULE_UP = "up"
 private const val RULE_DOWN = "down"

@@ -55,7 +55,7 @@ fun buildTable(vararg tableColumns: TableColumn): String {
         startTable(rowSizes)
         tableColumns.map { DataWithSize(it.header, it.columnSize) }.apply { appendDataRow(this) }
         rowSeparator(rowSizes)
-        appendData(tableColumns,rowSizes)
+        appendData(tableColumns, rowSizes)
         endTable(rowSizes)
     }
     return builder.toString()
@@ -95,7 +95,7 @@ private fun StringBuilder.appendData(tableColumns: Array<out TableColumn>, rowSi
         }
         .forEachIndexed { index, list ->
             appendDataRow(list)
-            if (index < rowCount -1 && list.first().data.isNotBlank()) rowSeparator(rowSizes)
+            if (index < rowCount - 1 && list.first().data.isNotBlank()) rowSeparator(rowSizes)
         }
 }
 

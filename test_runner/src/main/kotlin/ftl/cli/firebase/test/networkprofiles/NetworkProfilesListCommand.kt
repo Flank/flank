@@ -2,8 +2,6 @@ package ftl.cli.firebase.test.networkprofiles
 
 import ftl.environment.asPrintableTable
 import ftl.gc.GcTesting
-import ftl.http.executeWithRetry
-import ftl.run.common.prettyPrint
 import picocli.CommandLine
 
 @CommandLine.Command(
