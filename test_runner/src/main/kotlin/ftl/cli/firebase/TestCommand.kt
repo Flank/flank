@@ -3,6 +3,7 @@ package ftl.cli.firebase
 import ftl.cli.firebase.test.AndroidCommand
 import ftl.cli.firebase.test.IosCommand
 import ftl.cli.firebase.test.NetworkProfilesCommand
+import ftl.cli.firebase.test.ProvidedSoftwareCommand
 import picocli.CommandLine
 import picocli.CommandLine.Command
 
@@ -12,7 +13,8 @@ import picocli.CommandLine.Command
     subcommands = [
         AndroidCommand::class,
         IosCommand::class,
-        NetworkProfilesCommand::class
+        NetworkProfilesCommand::class,
+        ProvidedSoftwareCommand::class
     ],
     usageHelpAutoWidth = true
 )
