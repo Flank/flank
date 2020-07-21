@@ -29,6 +29,8 @@ object AndroidCatalog {
     fun supportedVersionsAsTable(projectId: String) = deviceCatalog(projectId).versions.asPrintableTable()
 
     fun supportedOrientationsAsTable(projectId: String) = deviceCatalog(projectId).runtimeConfiguration.orientations.asPrintableTable()
+    
+    fun localesAsTable(projectId: String) = deviceCatalog(projectId).runtimeConfiguration.locales.asPrintableTable()
 
     fun androidModelIds(projectId: String) =
         modelMap.getOrPut(projectId) { deviceCatalog(projectId).models.map { it.id } }
