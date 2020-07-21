@@ -5,7 +5,7 @@
 - [#894](https://github.com/Flank/flank/pull/894) Added option to print Android available versions to test against. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#897](https://github.com/Flank/flank/pull/897) Added option to print iOS available versions to test against. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#901](https://github.com/Flank/flank/pull/901) Added option to print Android and iOS available test-environment. ([piotradamczyk5](https://github.com/piotradamczyk5))
-- [#901](https://github.com/Flank/flank/pull/901) Added option to print provided software. ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#904](https://github.com/Flank/flank/pull/904) Added option to print provided software. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - 
 - 
 -
