@@ -4,7 +4,7 @@
 == Name
 
 flank.jar
--firebase-test - 
+-firebase-test-android-versions-list - List of OS versions available to test against
 
 // end::picocli-generated-man-section-name[]
 
@@ -12,32 +12,26 @@ flank.jar
 == Synopsis
 
 *flank.jar
- firebase test* [COMMAND]
+ firebase test android versions list* [*-h*] [*-c*=_<configPath>_]
 
 // end::picocli-generated-man-section-synopsis[]
 
 // tag::picocli-generated-man-section-description[]
 == Description
 
-
+Print current list of Android OS versions available to test against
 
 // end::picocli-generated-man-section-description[]
 
-// tag::picocli-generated-man-section-commands[]
-== Commands
+// tag::picocli-generated-man-section-options[]
+== Options
 
-*android*::
-  
+*-c*, *--config*=_<configPath>_::
+  YAML config file path
 
-*ios*::
-  
+*-h*, *--help*::
+  Prints this help message
 
-*network-profiles*::
-  
-
-*provided-software*::
-  
-
-// end::picocli-generated-man-section-commands[]
+// end::picocli-generated-man-section-options[]
 
 // end::picocli-generated-full-manpage[]

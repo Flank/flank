@@ -5,6 +5,7 @@ import ftl.android.AndroidCatalog.supportedVersionsAsTable
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
 import ftl.environment.providedSoftwareAsTable
+import ftl.environment.networkConfigurationAsTable
 import picocli.CommandLine
 import java.nio.file.Paths
 
@@ -15,8 +16,8 @@ import java.nio.file.Paths
     descriptionHeading = "%n@|bold,underline Description:|@%n%n",
     parameterListHeading = "%n@|bold,underline Parameters:|@%n",
     optionListHeading = "%n@|bold,underline Options:|@%n",
-    header = ["Print available devices and OS versions list to test against"],
-    description = ["Print available Android devices and Android OS versions list to test against"],
+    header = ["Print available devices, OS versions, provided software list and network configuration to test against"],
+    description = ["Print available Android devices, Android OS versions list, provided software and network configuration to test against"],
     usageHelpAutoWidth = true
 )
 class AndroidTestEnvironmentCommand : Runnable {
@@ -24,6 +25,7 @@ class AndroidTestEnvironmentCommand : Runnable {
         println(devicesCatalogAsTable(AndroidArgs.load(Paths.get(configPath)).project))
         println(supportedVersionsAsTable(AndroidArgs.load(Paths.get(configPath)).project))
         println(providedSoftwareAsTable())
+        println(networkConfigurationAsTable())
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

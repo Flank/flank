@@ -8,7 +8,6 @@ import ftl.config.FtlConstants.httpCredential
 import ftl.config.FtlConstants.httpTransport
 
 object GcTesting {
-
     val get: Testing by lazy {
         val builder = Testing.Builder(httpTransport, JSON_FACTORY, httpCredential)
             .setApplicationName(applicationName)

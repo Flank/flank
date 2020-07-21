@@ -104,6 +104,9 @@ Configuration is read from flank.yml
 *--shard-time*=_<shardTime>_::
   The max amount of seconds each shard should run.
 
+*--project*=_<project>_::
+  The Google Cloud Platform project name to use for this invocation. If omitted, then the project from the service account credential is used
+
 *--num-test-runs*=_<repeatTests>_::
   The amount of times to run the test executions.
 
@@ -121,9 +124,6 @@ Configuration is read from flank.yml
 
 *--files-to-download*=_<filesToDownload>_[,_<filesToDownload>_...]::
   A list of paths that will be downloaded from the resulting bucket to the local results folder after the test is complete. These must be absolute paths (for example, --files-to-download /images/tempDir1,/data/local/tmp/tempDir2). Path names are restricted to the characters a-zA-Z0-9_-./+.
-
-*--project*=_<project>_::
-  The Google Cloud Platform project name to use for this invocation. If omitted, then the project from the service account credential is used
 
 *--local-result-dir*=_<localResultsDir>_::
   Saves test result to this local folder. Deleted before each run.
@@ -146,14 +146,14 @@ Configuration is read from flank.yml
 *--disable-results-upload*::
   Disables flank results upload on gcloud storage.
 
-*--test*=_<test>_::
-  The path to the test package (a zip file containing the iOS app and XCTest files). The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://. Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file is specified.
-
 *--xctestrun-file*=_<xctestrunFile>_::
   The path to an .xctestrun file that will override any .xctestrun file contained in the --test package. Because the .xctestrun file contains environment variables along with test methods to run and/or ignore, this can be useful for customizing or sharding test suites. The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://.
 
 *--xcode-version*=_<xcodeVersion>_::
   The version of Xcode that should be used to run an XCTest. Defaults to the latest Xcode version supported in Firebase Test Lab. This Xcode version must be supported by all iOS versions selected in the test matrix.
+
+*--test*=_<test>_::
+  The path to the test package (a zip file containing the iOS app and XCTest files). The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://. Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file is specified.
 
 *--test-targets*=_<testTargets>_[,_<testTargets>_...]::
   A list of one or more test method names to run (default: run all test targets).

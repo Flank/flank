@@ -4,7 +4,7 @@
 == Name
 
 flank.jar
- - 
+-firebase-test-android-test-environment - Print available devices, OS versions, provided software list and network configuration to test against
 
 // end::picocli-generated-man-section-name[]
 
@@ -12,55 +12,26 @@ flank.jar
 == Synopsis
 
 *flank.jar
-* [*-v*] [*--debug*] [COMMAND]
+ firebase test android test-environment* [*-h*] [*-c*=_<configPath>_]
 
 // end::picocli-generated-man-section-synopsis[]
 
 // tag::picocli-generated-man-section-description[]
 == Description
 
-
+Print available Android devices, Android OS versions list, provided software and network configuration to test against
 
 // end::picocli-generated-man-section-description[]
 
 // tag::picocli-generated-man-section-options[]
 == Options
 
-*--debug*::
-  Enables debug logging
+*-c*, *--config*=_<configPath>_::
+  YAML config file path
 
-*-v*, *--version*::
-  Prints the version
+*-h*, *--help*::
+  Prints this help message
 
 // end::picocli-generated-man-section-options[]
-
-// tag::picocli-generated-man-section-commands[]
-== Commands
-
-*firebase*::
-  
-
-*ios*::
-  
-
-*android*::
-  
-
-*refresh*::
-  Downloads results for the last Firebase Test Lab run
-
-*cancel*::
-  Cancels the last Firebase Test Lab run
-
-*auth*::
-  Manage oauth2 credentials for Google Cloud
-
-*provided-software*::
-  
-
-*network-profiles*::
-  
-
-// end::picocli-generated-man-section-commands[]
 
 // end::picocli-generated-full-manpage[]

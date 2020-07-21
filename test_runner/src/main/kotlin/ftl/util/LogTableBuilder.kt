@@ -2,6 +2,11 @@ package ftl.util
 
 import com.google.common.annotations.VisibleForTesting
 
+enum class TableStyle {
+    DEFAULT,
+    ROW_SEPARATOR
+}
+
 data class TableColumn(
     val header: String,
     val data: List<String>,
@@ -15,28 +20,49 @@ private data class DataWithSize(
 )
 
 private const val DEFAULT_COLUMN_PADDING = 2
-@VisibleForTesting const val TABLE_HORIZONTAL_LINE = '─'
-@VisibleForTesting const val TABLE_VERTICAL_LINE = '│'
-@VisibleForTesting const val START_TABLE_START_CHAR = '┌'
-@VisibleForTesting const val START_TABLE_MIDDLE_CHAR = '┬'
-@VisibleForTesting const val START_TABLE_END_CHAR = '┐'
-@VisibleForTesting const val MIDDLE_TABLE_START_CHAR = '├'
-@VisibleForTesting const val MIDDLE_TABLE_MIDDLE_CHAR = '┼'
-@VisibleForTesting const val MIDDLE_TABLE_END_CHAR = '┤'
-@VisibleForTesting const val END_TABLE_START_CHAR = '└'
-@VisibleForTesting const val END_TABLE_MIDDLE_CHAR = '┴'
-@VisibleForTesting const val END_TABLE_END_CHAR = '┘'
 
-fun buildTable(vararg tableColumns: TableColumn): String {
+@VisibleForTesting
+const val TABLE_HORIZONTAL_LINE = '─'
+
+@VisibleForTesting
+const val TABLE_VERTICAL_LINE = '│'
+
+@VisibleForTesting
+const val START_TABLE_START_CHAR = '┌'
+
+@VisibleForTesting
+const val START_TABLE_MIDDLE_CHAR = '┬'
+
+@VisibleForTesting
+const val START_TABLE_END_CHAR = '┐'
+
+@VisibleForTesting
+const val MIDDLE_TABLE_START_CHAR = '├'
+
+@VisibleForTesting
+const val MIDDLE_TABLE_MIDDLE_CHAR = '┼'
+
+@VisibleForTesting
+const val MIDDLE_TABLE_END_CHAR = '┤'
+
+@VisibleForTesting
+const val END_TABLE_START_CHAR = '└'
+
+@VisibleForTesting
+const val END_TABLE_MIDDLE_CHAR = '┴'
+
+@VisibleForTesting
+const val END_TABLE_END_CHAR = '┘'
+
+fun buildTable(vararg tableColumns: TableColumn, tableStyle: TableStyle = TableStyle.DEFAULT): String {
     val rowSizes = tableColumns.map { it.columnSize }
     val builder = StringBuilder().apply {
         startTable(rowSizes)
         tableColumns.map { DataWithSize(it.header, it.columnSize) }.apply { appendDataRow(this) }
         rowSeparator(rowSizes)
-        appendData(tableColumns)
+        appendData(tableColumns, rowSizes, tableStyle)
         endTable(rowSizes)
     }
-
     return builder.toString()
 }
 
@@ -60,9 +86,8 @@ private fun StringBuilder.rowSeparator(rowSizes: List<Int>) {
     appendln()
 }
 
-private fun StringBuilder.appendData(tableColumns: Array<out TableColumn>) {
+private fun StringBuilder.appendData(tableColumns: Array<out TableColumn>, rowSizes: List<Int>, tableStyle: TableStyle) {
     val rowCount = (tableColumns.maxBy { it.data.size } ?: tableColumns.first()).data.size
-
     (0 until rowCount)
         .map { rowNumber ->
             tableColumns.map {
@@ -73,7 +98,11 @@ private fun StringBuilder.appendData(tableColumns: Array<out TableColumn>) {
                 else DataWithSize(color.applyTo(data), columnSize + color.additionalLengthWhenApplied)
             }
         }
-        .forEach { appendDataRow(it) }
+        .forEachIndexed { index, list ->
+            appendDataRow(list)
+            if (tableStyle == TableStyle.ROW_SEPARATOR && index < rowCount - 1 && list.first().data.isNotBlank())
+                rowSeparator(rowSizes)
+        }
 }
 
 private fun StringBuilder.endTable(rowSizes: List<Int>) {

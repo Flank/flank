@@ -6,6 +6,7 @@ import ftl.cli.firebase.CancelCommand
 import ftl.cli.firebase.RefreshCommand
 import ftl.cli.firebase.test.AndroidCommand
 import ftl.cli.firebase.test.IosCommand
+import ftl.cli.firebase.test.NetworkProfilesCommand
 import ftl.cli.firebase.test.ProvidedSoftwareCommand
 import ftl.log.setDebugLogging
 import ftl.util.readRevision
@@ -23,7 +24,8 @@ import picocli.CommandLine
         RefreshCommand::class,
         CancelCommand::class,
         AuthCommand::class,
-        ProvidedSoftwareCommand::class
+        ProvidedSoftwareCommand::class,
+        NetworkProfilesCommand::class
     ]
 )
 class Main : Runnable {

@@ -1,8 +1,6 @@
 package ftl.cli.firebase.test.networkprofiles
 
-import ftl.gc.GcTesting
-import ftl.http.executeWithRetry
-import ftl.run.common.prettyPrint
+import ftl.environment.networkConfigurationAsTable
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -19,13 +17,6 @@ import picocli.CommandLine
 class NetworkProfilesListCommand : Runnable {
     override fun run() {
         println("fetching available network profiles...")
-        val configurations = GcTesting.get.testEnvironmentCatalog()
-            .get("NETWORK_CONFIGURATION")
-            .executeWithRetry()
-            ?.networkConfigurationCatalog
-            ?.configurations
-            ?: emptyList()
-        println()
-        println(prettyPrint.toJson(configurations))
+        println(networkConfigurationAsTable())
     }
 }

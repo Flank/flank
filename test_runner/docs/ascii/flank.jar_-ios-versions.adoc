@@ -4,7 +4,7 @@
 == Name
 
 flank.jar
--android - 
+-ios-versions - Information about available software versions
 
 // end::picocli-generated-man-section-name[]
 
@@ -12,34 +12,22 @@ flank.jar
 == Synopsis
 
 *flank.jar
- android* [COMMAND]
+ ios versions* [COMMAND]
 
 // end::picocli-generated-man-section-synopsis[]
 
 // tag::picocli-generated-man-section-description[]
 == Description
 
-
+Information about available software versions. For example prints list of available software versions
 
 // end::picocli-generated-man-section-description[]
 
 // tag::picocli-generated-man-section-commands[]
 == Commands
 
-*run*::
-  Run tests on Firebase Test Lab
-
-*doctor*::
-  Verifies flank firebase is setup correctly
-
-*models*::
-  Information about available models
-
-*versions*::
-  Information about available software versions
-
-*test-environment*::
-  Print available devices, OS versions, provided software list and network configuration to test against
+*list*::
+  List of OS versions available to test against
 
 // end::picocli-generated-man-section-commands[]
 

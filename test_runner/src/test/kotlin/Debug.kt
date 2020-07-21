@@ -12,17 +12,16 @@ fun main() {
         ?: "YOUR PROJECT ID"
     val quantity = "multiple"
     val type = "success"
-
     // Bugsnag keeps the process alive so we must call exitProcess
     // https://github.com/bugsnag/bugsnag-java/issues/151
     withGlobalExceptionHandling {
         CommandLine(Main()).execute(
 //            "--debug",
-            "firebase", "test",
-            "android", "run",
+            "firebase", "test", "android",
+            "test-environment",
 //            "--dry",
 //            "--dump-shards",
-            "--output-style=single",
+//            "--output-style=single",
             "--full-junit-result",
             "-c=src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type.yml",
             "--project=$projectId"

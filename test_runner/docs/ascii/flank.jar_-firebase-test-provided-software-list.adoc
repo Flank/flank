@@ -4,7 +4,7 @@
 == Name
 
 flank.jar
--firebase-test - 
+-firebase-test-provided-software-list - The software environment provided by TestExecutionService.
 
 // end::picocli-generated-man-section-name[]
 
@@ -12,7 +12,7 @@ flank.jar
 == Synopsis
 
 *flank.jar
- firebase test* [COMMAND]
+ firebase test provided-software list*
 
 // end::picocli-generated-man-section-synopsis[]
 
@@ -22,22 +22,5 @@ flank.jar
 
 
 // end::picocli-generated-man-section-description[]
-
-// tag::picocli-generated-man-section-commands[]
-== Commands
-
-*android*::
-  
-
-*ios*::
-  
-
-*network-profiles*::
-  
-
-*provided-software*::
-  
-
-// end::picocli-generated-man-section-commands[]
 
 // end::picocli-generated-full-manpage[]
