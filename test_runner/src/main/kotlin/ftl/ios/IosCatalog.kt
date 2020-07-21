@@ -18,6 +18,8 @@ object IosCatalog {
 
     fun softwareVersionsAsTable(projectId: String) = iosDeviceCatalog(projectId).versions.asPrintableTable()
 
+    fun localesAsTable(projectId: String) = iosDeviceCatalog(projectId).runtimeConfiguration.locales.asPrintableTable()
+
     fun supportedXcode(version: String, projectId: String) = xcodeVersions(projectId).contains(version)
 
     private fun xcodeVersions(projectId: String) =
