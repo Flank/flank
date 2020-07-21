@@ -12,7 +12,6 @@ fun main() {
         ?: "YOUR PROJECT ID"
     val quantity = "multiple"
     val type = "success"
-
     // Bugsnag keeps the process alive so we must call exitProcess
     // https://github.com/bugsnag/bugsnag-java/issues/151
     withGlobalExceptionHandling {

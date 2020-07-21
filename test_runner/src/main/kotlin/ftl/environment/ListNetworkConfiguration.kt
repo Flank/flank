@@ -3,10 +3,10 @@ package ftl.environment
 import com.google.api.services.testing.model.NetworkConfiguration
 import ftl.util.buildTable
 
-fun List<NetworkConfiguration>.asPrintableTable() = createProfileDetails().createNetworkProfileTable()
+fun List<NetworkConfiguration>.asPrintableTable() = createConfigurationDetails().createConfigurationsTable()
 
-private fun List<NetworkConfiguration>.createProfileDetails() = fold(mutableMapOf<String, MutableList<String>>()) { table, networkConfiguration ->
-    table.apply {
+private fun List<NetworkConfiguration>.createConfigurationDetails() = fold(mutableMapOf<String, MutableList<String>>()) { networkInfo, networkConfiguration ->
+    networkInfo.apply {
         getOrCreateList(PROFILE_ID).add(" ")
         getOrCreateList(PROFILE_ID).add(networkConfiguration.id)
 
@@ -32,7 +32,7 @@ private fun List<NetworkConfiguration>.createProfileDetails() = fold(mutableMapO
 }
 
 
-private fun TestEnvironmentInfo.createNetworkProfileTable() = buildTable(
+private fun TestEnvironmentInfo.createConfigurationsTable() = buildTable(
     createTableColumnFor(PROFILE_ID),
     createTableColumnFor(RULE),
     createTableColumnFor(DELAY),

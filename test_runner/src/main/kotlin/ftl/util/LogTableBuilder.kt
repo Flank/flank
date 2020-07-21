@@ -55,7 +55,7 @@ fun buildTable(vararg tableColumns: TableColumn): String {
         startTable(rowSizes)
         tableColumns.map { DataWithSize(it.header, it.columnSize) }.apply { appendDataRow(this) }
         rowSeparator(rowSizes)
-        appendData(tableColumns)
+        appendData(tableColumns,rowSizes)
         endTable(rowSizes)
     }
     return builder.toString()
@@ -81,9 +81,8 @@ private fun StringBuilder.rowSeparator(rowSizes: List<Int>) {
     appendln()
 }
 
-private fun StringBuilder.appendData(tableColumns: Array<out TableColumn>) {
+private fun StringBuilder.appendData(tableColumns: Array<out TableColumn>, rowSizes: List<Int>) {
     val rowCount = (tableColumns.maxBy { it.data.size } ?: tableColumns.first()).data.size
-    val rowSizes = tableColumns.map { it.columnSize }
     (0 until rowCount)
         .map { rowNumber ->
             tableColumns.map {
@@ -96,7 +95,7 @@ private fun StringBuilder.appendData(tableColumns: Array<out TableColumn>) {
         }
         .forEachIndexed { index, list ->
             appendDataRow(list)
-            if (index < rowCount -1 && index % 2 != 0) rowSeparator(rowSizes)
+            if (index < rowCount -1 && list.first().data.isNotBlank()) rowSeparator(rowSizes)
         }
 }
 
