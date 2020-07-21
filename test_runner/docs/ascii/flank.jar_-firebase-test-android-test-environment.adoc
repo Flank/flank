@@ -4,7 +4,7 @@
 == Name
 
 flank.jar
--firebase-test-android-test-environment - Print available devices and OS versions list to test against
+-firebase-test-android-test-environment - Print available devices, OS versions, provided software list and network configuration to test against
 
 // end::picocli-generated-man-section-name[]
 
@@ -19,7 +19,7 @@ flank.jar
 // tag::picocli-generated-man-section-description[]
 == Description
 
-Print available Android devices and Android OS versions list to test against
+Print available Android devices, Android OS versions list, provided software and network configuration to test against
 
 // end::picocli-generated-man-section-description[]
 

@@ -39,7 +39,7 @@ flank.jar
   Information about available software versions
 
 *test-environment*::
-  Print available devices and OS versions list to test against
+  Print available devices, OS versions, provided software list and network configuration to test against
 
 // end::picocli-generated-man-section-commands[]
 

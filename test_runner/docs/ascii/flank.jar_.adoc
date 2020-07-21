@@ -58,6 +58,9 @@ flank.jar
 *provided-software*::
   
 
+*network-profiles*::
+  
+
 // end::picocli-generated-man-section-commands[]
 
 // end::picocli-generated-full-manpage[]
