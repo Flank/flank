@@ -5,6 +5,7 @@ import ftl.config.FtlConstants
 import ftl.environment.providedSoftwareAsTable
 import ftl.environment.networkConfigurationAsTable
 import ftl.ios.IosCatalog.devicesCatalogAsTable
+import ftl.ios.IosCatalog.localesAsTable
 import ftl.ios.IosCatalog.softwareVersionsAsTable
 import picocli.CommandLine
 import java.nio.file.Paths
@@ -16,14 +17,16 @@ import java.nio.file.Paths
     descriptionHeading = "%n@|bold,underline Description:|@%n%n",
     parameterListHeading = "%n@|bold,underline Parameters:|@%n",
     optionListHeading = "%n@|bold,underline Options:|@%n",
-    header = ["Print available devices, OS versions, provided software list and network configuration to test against"],
-    description = ["Print available iOS devices, iOS OS versions list, provided software and network configuration to test against"],
+    header = ["Print available devices, OS versions, locales, provided software list and network configuration to test against"],
+    description = ["Print available iOS devices, iOS OS versions list, locales, provided software and network configuration to test against"],
     usageHelpAutoWidth = true
 )
 class IosTestEnvironmentCommand : Runnable {
     override fun run() {
-        println(devicesCatalogAsTable(IosArgs.load(Paths.get(configPath)).project))
-        println(softwareVersionsAsTable(IosArgs.load(Paths.get(configPath)).project))
+        val projectId = IosArgs.load(Paths.get(configPath)).project
+        println(devicesCatalogAsTable(projectId))
+        println(softwareVersionsAsTable(projectId))
+        println(localesAsTable(projectId))
         println(providedSoftwareAsTable())
         println(networkConfigurationAsTable())
     }

@@ -60,4 +60,24 @@ class IosCatalogTest {
         // number of separators match
         assertThat(headers.count { it == '│' }).isEqualTo(expectedSeparatorCount)
     }
+
+    @Test
+    fun `should print available locales as table`() {
+        // given
+        val expectedHeaders =
+            arrayOf("LOCALE", "NAME", "REGION", "TAGS")
+        val expectedSeparatorCount = expectedHeaders.size + 1
+
+        // when
+        val devicesTable = IosCatalog.localesAsTable(projectId)
+        val headers = devicesTable.lines()[1]
+
+        // then
+        // has all necessary headers
+        expectedHeaders.forEach {
+            assertThat(headers.contains(it)).isTrue()
+        }
+        // number of separators match
+        assertThat(headers.count { it == '│' }).isEqualTo(expectedSeparatorCount)
+    }
 }
