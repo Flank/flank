@@ -8,7 +8,7 @@
 - [#904](https://github.com/Flank/flank/pull/904) Added option to print provided software. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#906](https://github.com/Flank/flank/pull/906) Added option to print network profiles. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#908](https://github.com/Flank/flank/pull/908) Added option to print iOS available locales to test against.  ([piotradamczyk5](https://github.com/piotradamczyk5))
-- 
+- [#906](https://github.com/Flank/flank/pull/909) Added option to print iOS and Android screen orientations. ([adamfilipow92](https://github.com/adamfilipow92))
 -
 
 ## v20.07.0
