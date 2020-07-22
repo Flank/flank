@@ -1,13 +1,10 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
+name: RELEASE
 
 # Run when push on master or create tag with version [v*]
 on:
   push:
     branches:
-      - master
-      - '*'
+      - '#892-release_on_github_actions' #TODO change to master
     tags: v*
 
 jobs:
@@ -18,15 +15,17 @@ jobs:
     - uses: actions/checkout@v2
   
     - name: Get tag
+      if: ${{ $GITHUB_REF == "refs/tags/*" }}
       id: tag
       uses: dawidd6/action-get-tag@v1
-      
-    - name: Use tag
-      run: echo ${{steps.tag.outputs.tag}}
     
-      env:
-        release_tag: ${GITHUB_REF:10}
-   
+    - name: Set Tag variable
+      run: |
+          if [ $GITHUB_REF == "refs/tags/*" ]; 
+            then echo "::set-env name=release_tag::${{steps.tag.outputs.tag}}"; 
+            else echo "::set-env name=release_tag::flank_snapshot"; 
+          fi;     
+
     - name: TEMPORARY print tag   
       run: echo $release_tag   
     
