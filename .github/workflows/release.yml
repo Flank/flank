@@ -1,0 +1,33 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Run when push on master or create tag with version [v*]
+on:
+  push:
+    branches:
+      - master
+      - '*'
+    tags: v*
+
+jobs:
+  release:
+    runs-on: macos-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+  
+    - name: Get tag
+      id: tag
+      uses: dawidd6/action-get-tag@v1
+      
+    - name: Use tag
+      run: echo ${{steps.tag.outputs.tag}}
+    
+    - name: Use tag
+      env:
+        release_tag: ${GITHUB_REF:10}
+   
+    - name: TEMPORARY print tag   
+      run: echo $release_tag   
+    
