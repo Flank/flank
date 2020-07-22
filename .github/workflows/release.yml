@@ -21,6 +21,44 @@ jobs:
             else echo "::set-env name=release_tag::flank_snapshot"; 
           fi;     
 
-    - name: TEMPORARY print tag   
-      run: echo $release_tag   
+    - name: TEMPORARY print tag   #TODO delete
+      run: echo $release_tag
     
+    - name: Update bugsnag
+      run: echo "TODO run update bugsnag script" 
+    
+    - name: Delete old snapshot
+      run: echo "TODO run Delete old snapshot script" 
+
+    - name: Gradle Build Flank
+      uses: eskatos/gradle-command-action@v1
+      with:
+        gradle-executable: "./test_runner/gradlew"
+        arguments: "-p test_runner clean build shadowJar"
+        
+    - name: Gradle upload to bintray
+      if: ${{ github.event_name == 'do not run until finished!' }}  #TODO when all finish all steps (end of PR)
+      uses: eskatos/gradle-command-action@v1
+      with:
+        gradle-executable: "./test_runner/gradlew"
+        arguments: "-p test_runner bintrayUpload"  
+      
+    - name: Rename flank.jar
+      run: echo "TODO run Rename flank.jar script"
+
+    - name: Remove old release
+      run: echo "TODO run Remove old release script"
+
+    - name: Rename old tag
+      run: echo "TODO run remove old tag script"
+
+    - name: Release snapshot
+      if: ${{ $release_tag -eq 'flank_snapshot' }}
+      run: echo "TODO run Rename flank.jar script"
+
+    - name: Release stable
+      if: ${{ $release_tag -ne 'flank_snapshot' }}
+      run: echo "TODO run Rename flank.jar script" 
+
+    - name: Sync bintray to maven central
+      run: echo "TODO run Sync bintray to maven central script" 
