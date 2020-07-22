@@ -3,7 +3,7 @@ package ftl.cli.firebase.test.ios.orientations
 import picocli.CommandLine
 
 @CommandLine.Command(
-    name = "orientations",
+    name = "screen-orientations",
     headerHeading = "",
     synopsisHeading = "%n",
     descriptionHeading = "%n@|bold,underline Description:|@%n%n",

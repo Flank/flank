@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.android
 
 import ftl.android.AndroidCatalog.devicesCatalogAsTable
+import ftl.android.AndroidCatalog.supportedOrientationsAsTable
 import ftl.android.AndroidCatalog.supportedVersionsAsTable
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
@@ -22,10 +23,12 @@ import java.nio.file.Paths
 )
 class AndroidTestEnvironmentCommand : Runnable {
     override fun run() {
-        println(devicesCatalogAsTable(AndroidArgs.load(Paths.get(configPath)).project))
-        println(supportedVersionsAsTable(AndroidArgs.load(Paths.get(configPath)).project))
+        val projectId = AndroidArgs.load(Paths.get(configPath)).project
+        println(devicesCatalogAsTable(projectId))
+        println(supportedVersionsAsTable(projectId))
         println(providedSoftwareAsTable())
         println(networkConfigurationAsTable())
+        println(supportedOrientationsAsTable(projectId))
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])
