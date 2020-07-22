@@ -53,7 +53,7 @@ jobs:
       run: echo "TODO run remove old tag script"
 
     - name: Release snapshot
-      if: ${{ 'release_tag -eq "flank_snapshot"' }}
+      if: ${{ '$release_tag -eq "flank_snapshot"' }}
       run: echo "TODO run Rename flank.jar script"
 
     - name: Release stable
