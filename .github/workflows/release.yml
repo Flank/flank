@@ -53,11 +53,11 @@ jobs:
       run: echo "TODO run remove old tag script"
 
     - name: Release snapshot
-      if: startsWith($release_tag, 'flank_snapshot')
+      if: ${{ env.release_tag == 'flank_snapshot' }} 
       run: echo "TODO run Rename flank.jar script"
 
     - name: Release stable
-      if: startsWith($release_tag, 'v')
+      if: ${{ env.release_tag == 'v*' }}
       run: echo "TODO run Rename flank.jar script" 
 
     - name: Sync bintray to maven central
