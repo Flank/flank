@@ -3,6 +3,7 @@ package ftl.android
 import com.google.api.services.testing.model.AndroidDevice
 import com.google.api.services.testing.model.AndroidDeviceCatalog
 import ftl.environment.android.asPrintableTable
+import ftl.environment.common.asPrintableTable
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
 

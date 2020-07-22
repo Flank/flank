@@ -18,7 +18,7 @@ import picocli.CommandLine.Command
         IosDoctorCommand::class,
         IosModelsCommand::class,
         IosVersionsCommand::class,
-        IosLocalesCommand::class,,
+        IosLocalesCommand::class,
         IosTestEnvironmentCommand::class,
         IosOrientationsCommand::class
     ],
