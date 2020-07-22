@@ -1,4 +1,4 @@
-package ftl.environment
+package ftl.environment.common
 
 import com.google.api.services.testing.model.ProvidedSoftwareCatalog
 import ftl.util.TableColumn

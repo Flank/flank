@@ -18,7 +18,7 @@ fun main() {
         CommandLine(Main()).execute(
 //            "--debug",
             "firebase", "test", "android",
-            "test-environment",
+            "orientations", "list",
 //            "--dry",
 //            "--dump-shards",
 //            "--output-style=single",

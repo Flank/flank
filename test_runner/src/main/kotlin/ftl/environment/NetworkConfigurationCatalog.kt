@@ -1,5 +1,6 @@
 package ftl.environment
 
+import ftl.environment.common.asPrintableTable
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
 

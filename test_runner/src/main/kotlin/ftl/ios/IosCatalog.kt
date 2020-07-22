@@ -1,7 +1,7 @@
 package ftl.ios
 
 import com.google.api.services.testing.model.IosDeviceCatalog
-import ftl.environment.asPrintableTable
+import ftl.environment.android.asPrintableTable
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
 
@@ -19,6 +19,8 @@ object IosCatalog {
     fun softwareVersionsAsTable(projectId: String) = iosDeviceCatalog(projectId).versions.asPrintableTable()
 
     fun localesAsTable(projectId: String) = iosDeviceCatalog(projectId).runtimeConfiguration.locales.asPrintableTable()
+    
+    fun supportedOrientationsAsTable(projectId: String) = iosDeviceCatalog(projectId).runtimeConfiguration.orientations.asPrintableTable()
 
     fun supportedXcode(version: String, projectId: String) = xcodeVersions(projectId).contains(version)
 
