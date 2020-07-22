@@ -24,7 +24,6 @@ jobs:
     - name: Use tag
       run: echo ${{steps.tag.outputs.tag}}
     
-    - name: Use tag
       env:
         release_tag: ${GITHUB_REF:10}
    
