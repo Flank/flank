@@ -13,16 +13,11 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
-  
-    - name: Get tag
-      if: ${{ $GITHUB_REF == "refs/tags/*" }}
-      id: tag
-      uses: dawidd6/action-get-tag@v1
     
     - name: Set Tag variable
       run: |
           if [ $GITHUB_REF == "refs/tags/*" ]; 
-            then echo "::set-env name=release_tag::${{steps.tag.outputs.tag}}"; 
+            then echo "::set-env name=release_tag::$(echo ${GITHUB_REF:10})"; 
             else echo "::set-env name=release_tag::flank_snapshot"; 
           fi;     
 
