@@ -10,7 +10,7 @@ import picocli.CommandLine
     parameterListHeading = "%n@|bold,underline Parameters:|@%n",
     optionListHeading = "%n@|bold,underline Options:|@%n",
     header = ["Information about available orientation versions"],
-    description = ["Information about available orientation versions. For example prints list of available orientation versions"],
+    description = ["Prints list of available orientations"],
     subcommands = [IosOrientationsListCommand::class],
     usageHelpAutoWidth = true
 )

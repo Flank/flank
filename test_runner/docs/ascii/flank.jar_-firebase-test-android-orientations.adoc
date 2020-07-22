@@ -4,7 +4,7 @@
 == Name
 
 flank.jar
--firebase-test-android-orientations - Information about available orientation versions
+-firebase-test-android-orientations - Information about available orientations
 
 // end::picocli-generated-man-section-name[]
 
@@ -19,7 +19,7 @@ flank.jar
 // tag::picocli-generated-man-section-description[]
 == Description
 
-Information about available orientation versions. For example prints list of available orientation versions
+Prints list of available orientations
 
 // end::picocli-generated-man-section-description[]
 

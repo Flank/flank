@@ -9,8 +9,8 @@ import picocli.CommandLine
     descriptionHeading = "%n@|bold,underline Description:|@%n%n",
     parameterListHeading = "%n@|bold,underline Parameters:|@%n",
     optionListHeading = "%n@|bold,underline Options:|@%n",
-    header = ["Information about available orientation versions"],
-    description = ["Information about available orientation versions. For example prints list of available orientation versions"],
+    header = ["Information about available orientations"],
+    description = ["Prints list of available orientations"],
     subcommands = [AndroidOrientationsListCommand::class],
     usageHelpAutoWidth = true
 )
