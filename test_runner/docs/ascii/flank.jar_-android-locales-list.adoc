@@ -4,7 +4,7 @@
 == Name
 
 flank.jar
--android-test-environment - Print available devices, OS versions, locales, provided software list and network configuration to test against
+-android-locales-list - Print current list of locales available to test against
 
 // end::picocli-generated-man-section-name[]
 
@@ -12,14 +12,14 @@ flank.jar
 == Synopsis
 
 *flank.jar
- android test-environment* [*-h*] [*-c*=_<configPath>_]
+ android locales list* [*-h*] [*-c*=_<configPath>_]
 
 // end::picocli-generated-man-section-synopsis[]
 
 // tag::picocli-generated-man-section-description[]
 == Description
 
-Print available Android devices, Android OS versions list, locales, provided software and network configuration to test against
+Print current list of Android locales available to test against
 
 // end::picocli-generated-man-section-description[]
 

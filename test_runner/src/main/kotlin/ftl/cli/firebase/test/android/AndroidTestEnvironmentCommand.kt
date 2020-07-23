@@ -2,6 +2,7 @@ package ftl.cli.firebase.test.android
 
 import ftl.android.AndroidCatalog.devicesCatalogAsTable
 import ftl.android.AndroidCatalog.supportedOrientationsAsTable
+import ftl.android.AndroidCatalog.localesAsTable
 import ftl.android.AndroidCatalog.supportedVersionsAsTable
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
@@ -17,8 +18,8 @@ import java.nio.file.Paths
     descriptionHeading = "%n@|bold,underline Description:|@%n%n",
     parameterListHeading = "%n@|bold,underline Parameters:|@%n",
     optionListHeading = "%n@|bold,underline Options:|@%n",
-    header = ["Print available devices, OS versions, provided software list and network configuration to test against"],
-    description = ["Print available Android devices, Android OS versions list, provided software and network configuration to test against"],
+    header = ["Print available devices, OS versions, locales, provided software list and network configuration to test against"],
+    description = ["Print available Android devices, Android OS versions list, locales, provided software and network configuration to test against"],
     usageHelpAutoWidth = true
 )
 class AndroidTestEnvironmentCommand : Runnable {
@@ -26,6 +27,7 @@ class AndroidTestEnvironmentCommand : Runnable {
         val projectId = AndroidArgs.load(Paths.get(configPath)).project
         println(devicesCatalogAsTable(projectId))
         println(supportedVersionsAsTable(projectId))
+        println(localesAsTable(projectId))
         println(providedSoftwareAsTable())
         println(networkConfigurationAsTable())
         println(supportedOrientationsAsTable(projectId))
