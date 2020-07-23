@@ -38,14 +38,14 @@ flank.jar
 *versions*::
   Information about available software versions
 
+*screen-orientations*::
+  Information about available orientations
+
 *locales*::
   Information about available locales on device
 
 *test-environment*::
   Print available devices, OS versions, locales, provided software list and network configuration to test against
-
-*orientations*::
-  Information about available orientations
 
 // end::picocli-generated-man-section-commands[]
 
