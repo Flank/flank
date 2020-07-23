@@ -18,7 +18,7 @@ import picocli.CommandLine.Command
         AndroidDoctorCommand::class,
         AndroidModelsCommand::class,
         AndroidVersionsCommand::class,
-        AndroidOrientationsCommand::class
+        AndroidOrientationsCommand::class,
         AndroidLocalesCommand::class,
         AndroidTestEnvironmentCommand::class
     ],
