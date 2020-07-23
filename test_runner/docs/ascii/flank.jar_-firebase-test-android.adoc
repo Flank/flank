@@ -41,6 +41,9 @@ flank.jar
 *test-environment*::
   Print available devices, OS versions, provided software list and network configuration to test against
 
+*orientations*::
+  Information about available orientations
+
 // end::picocli-generated-man-section-commands[]
 
 // end::picocli-generated-full-manpage[]

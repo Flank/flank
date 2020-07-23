@@ -7,6 +7,7 @@ import ftl.environment.networkConfigurationAsTable
 import ftl.ios.IosCatalog.devicesCatalogAsTable
 import ftl.ios.IosCatalog.localesAsTable
 import ftl.ios.IosCatalog.softwareVersionsAsTable
+import ftl.ios.IosCatalog.supportedOrientationsAsTable
 import picocli.CommandLine
 import java.nio.file.Paths
 
@@ -29,6 +30,7 @@ class IosTestEnvironmentCommand : Runnable {
         println(localesAsTable(projectId))
         println(providedSoftwareAsTable())
         println(networkConfigurationAsTable())
+        println(supportedOrientationsAsTable(projectId))
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

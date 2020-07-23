@@ -1,6 +1,19 @@
-package ftl.environment
+package ftl.environment.android
 
 import com.google.api.services.testing.model.AndroidModel
+import ftl.environment.FORM
+import ftl.environment.MAKE
+import ftl.environment.MODEL_ID
+import ftl.environment.MODEL_NAME
+import ftl.environment.OS_VERSION_IDS
+import ftl.environment.PHYSICAL_DEVICE
+import ftl.environment.RESOLUTION
+import ftl.environment.TAGS
+import ftl.environment.TestEnvironmentInfo
+import ftl.environment.createTableColumnFor
+import ftl.environment.getOrCreateList
+import ftl.environment.orUnknown
+import ftl.environment.tagToSystemOutColorMapper
 import ftl.util.SystemOutColor
 import ftl.util.applyColorsUsing
 import ftl.util.buildTable

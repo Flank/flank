@@ -2,7 +2,8 @@ package ftl.android
 
 import com.google.api.services.testing.model.AndroidDevice
 import com.google.api.services.testing.model.AndroidDeviceCatalog
-import ftl.environment.asPrintableTable
+import ftl.environment.android.asPrintableTable
+import ftl.environment.common.asPrintableTable
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
 
@@ -26,6 +27,8 @@ object AndroidCatalog {
     fun devicesCatalogAsTable(projectId: String) = deviceCatalog(projectId).models.asPrintableTable()
 
     fun supportedVersionsAsTable(projectId: String) = deviceCatalog(projectId).versions.asPrintableTable()
+
+    fun supportedOrientationsAsTable(projectId: String) = deviceCatalog(projectId).runtimeConfiguration.orientations.asPrintableTable()
 
     fun androidModelIds(projectId: String) =
         modelMap.getOrPut(projectId) { deviceCatalog(projectId).models.map { it.id } }
