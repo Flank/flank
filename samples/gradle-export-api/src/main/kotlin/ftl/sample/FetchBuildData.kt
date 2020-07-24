@@ -52,7 +52,7 @@ fun main() {
         }
 
         override fun onOpen(eventSource: EventSource, response: Response) {
-            println("Start listening for build events\n")
+            println("Start listening to build events\n")
             println("onOpen $response")
             super.onOpen(eventSource, response)
         }
