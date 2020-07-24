@@ -63,4 +63,4 @@ private val CommonConfig.hasMultipleExecutions
 private fun convertToShardCount(inputValue: Int): Int =
     if (inputValue != -1)
         inputValue else
-        IArgs.AVAILABLE_SHARD_COUNT_RANGE.last
+        IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last

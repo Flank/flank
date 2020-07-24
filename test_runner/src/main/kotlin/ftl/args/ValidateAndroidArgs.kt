@@ -5,6 +5,7 @@ import ftl.android.IncompatibleModelVersion
 import ftl.android.SupportedDeviceConfig
 import ftl.android.UnsupportedModelId
 import ftl.android.UnsupportedVersionId
+import ftl.config.isVirtual
 import ftl.util.FlankFatalError
 import java.io.File
 
@@ -15,6 +16,7 @@ fun AndroidArgs.validate() {
     assertTestTypes()
     assertRoboTest()
     assertDirectoriesToPull()
+    validateMaxTestShardsByDeviceType()
 }
 
 private fun AndroidArgs.assertAdditionalAppTestApks() {
@@ -68,8 +70,28 @@ private fun AndroidArgs.assertDirectoriesToPull() {
         ?.also {
             throw FlankFatalError(
                 "Invalid value for [directories-to-pull]: Invalid path $it.\n" +
-                "Path must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2).\n" +
-                "Path names are restricted to the characters [a-zA-Z0-9_-./+]. "
+                        "Path must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2).\n" +
+                        "Path names are restricted to the characters [a-zA-Z0-9_-./+]. "
             )
         }
+}
+
+private fun AndroidArgs.validateMaxTestShardsByDeviceType() =
+    if (containsPhysicalDevices() && containsVirtualDevices()) assertDevicesShards()
+    else if (containsPhysicalDevices() && !containsVirtualDevices() && !inPhysicalRange) throwMaxTestShardsLimitExceeded()
+    else assertVirtualDevicesShards()
+
+private fun AndroidArgs.assertDevicesShards() {
+    if (inVirtualRange && !inPhysicalRange) println("Physical devices configured, but max-test-shards limit set to $maxTestShards, for physical devices range is ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.first} to ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}, you additionally have configured virtual devices. In this case, the physical limit will be decreased to: ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}")
+    else if (!inVirtualRange && !inPhysicalRange) throwMaxTestShardsLimitExceeded()
+}
+
+private fun AndroidArgs.assertVirtualDevicesShards() {
+    if (!inVirtualRange) throwMaxTestShardsLimitExceeded()
+}
+
+private fun AndroidArgs.throwMaxTestShardsLimitExceeded() {
+    throw FlankFatalError(
+        "max-test-shards must be >= ${IArgs.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE.first} and <= ${IArgs.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE.last} for virtual devices, for physical devices max-test-shards must be >= ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.first} and <= ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}, or -1. But current is $maxTestShards"
+    )
 }

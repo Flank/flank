@@ -5,7 +5,6 @@ import ftl.util.FlankFatalError
 
 fun CommonArgs.validate() {
     assertProjectId()
-    assertMaxTestShards()
     assertShardTime()
     assertRepeatTests()
     assertSmartFlankGcsPath()
@@ -16,15 +15,6 @@ private fun CommonArgs.assertProjectId() {
         "The project is not set. Define GOOGLE_CLOUD_PROJECT, set project in flank.yml\n" +
                 "or save service account credential to ${FtlConstants.defaultCredentialPath}\n" +
                 " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
-    )
-}
-
-private fun CommonArgs.assertMaxTestShards() {
-    if (
-        maxTestShards !in IArgs.AVAILABLE_SHARD_COUNT_RANGE &&
-        maxTestShards != -1
-    ) throw FlankFatalError(
-        "max-test-shards must be >= ${IArgs.AVAILABLE_SHARD_COUNT_RANGE.first} and <= ${IArgs.AVAILABLE_SHARD_COUNT_RANGE.last}, or -1. But current is $maxTestShards"
     )
 }
 

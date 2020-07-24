@@ -1,5 +1,6 @@
 package ftl.config
 
+import ftl.android.AndroidCatalog
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.config.FtlConstants.defaultIosModel
@@ -39,3 +40,5 @@ fun Map<String, String>.asDevice(android: Boolean) =
             orientation = getOrDefault("orientation", version)
         )
     }
+
+fun Device.isVirtual(projectId: String) = AndroidCatalog.isVirtualDevice(model, projectId)

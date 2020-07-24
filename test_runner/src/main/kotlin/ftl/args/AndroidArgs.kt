@@ -1,6 +1,7 @@
 package ftl.args
 
 import ftl.args.yml.AppTestPair
+import ftl.config.isVirtual
 
 data class AndroidArgs(
     val commonArgs: CommonArgs,
@@ -83,3 +84,7 @@ val AndroidArgs.isInstrumentationTest
 val AndroidArgs.isRoboTest
     get() = appApk != null &&
             (roboDirectives.isNotEmpty() || roboScript != null)
+
+fun AndroidArgs.containsVirtualDevices() = devices.any { it.isVirtual(project) }
+
+fun AndroidArgs.containsPhysicalDevices() = devices.any { !it.isVirtual(project) }

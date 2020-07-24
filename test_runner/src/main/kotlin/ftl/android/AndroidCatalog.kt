@@ -2,6 +2,7 @@ package ftl.android
 
 import com.google.api.services.testing.model.AndroidDevice
 import com.google.api.services.testing.model.AndroidDeviceCatalog
+import ftl.config.Device
 import ftl.environment.android.asPrintableTable
 import ftl.environment.asPrintableTable
 import ftl.environment.common.asPrintableTable
@@ -51,8 +52,9 @@ object AndroidCatalog {
         return SupportedDeviceConfig
     }
 
-    fun isVirtualDevice(device: AndroidDevice?, projectId: String): Boolean {
-        val modelId = device?.androidModelId ?: return false
+    fun isVirtualDevice(device: AndroidDevice?, projectId: String): Boolean = device?.androidModelId?.let { isVirtualDevice(it, projectId) } ?: false
+
+    fun isVirtualDevice(modelId: String, projectId: String): Boolean {
         val form = deviceCatalog(projectId).models.find { it.id == modelId }?.form ?: "PHYSICAL"
         return form == "VIRTUAL"
     }

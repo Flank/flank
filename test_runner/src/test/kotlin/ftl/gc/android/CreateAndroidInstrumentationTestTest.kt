@@ -41,7 +41,7 @@ class UtilsKtTest {
             .setupTestTargets(
                 disableSharding = false,
                 testShards = testShards,
-                numUniformShards = IArgs.AVAILABLE_SHARD_COUNT_RANGE.last,
+                numUniformShards = IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last,
                 keepTestTargetsEmpty = false
             )
 

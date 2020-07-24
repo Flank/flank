@@ -53,11 +53,19 @@ interface IArgs {
 
     val disableResultsUpload: Boolean get() = false
 
+    val inPhysicalRange :Boolean
+        get() = maxTestShards in AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
+
+    val inVirtualRange :Boolean
+        get() = maxTestShards in AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE
+
     fun useLocalResultDir() = localResultDir != defaultLocalResultsDir
 
     companion object {
         // num_shards must be >= 1, and <= 50
-        val AVAILABLE_SHARD_COUNT_RANGE = 1..50
+        val AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE = 1..50
+
+        val AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE = 1..250
     }
 
     interface ICompanion {

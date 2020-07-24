@@ -206,7 +206,7 @@ class ShardTest {
     @Test
     fun `tests annotated with @Ignore should not produce additional shards`() {
         val androidMockedArgs = mockk<IosArgs>()
-        every { androidMockedArgs.maxTestShards } returns IArgs.AVAILABLE_SHARD_COUNT_RANGE.last
+        every { androidMockedArgs.maxTestShards } returns IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last
         every { androidMockedArgs.shardTime } returns -1
 
         val testsToRun = listOf(

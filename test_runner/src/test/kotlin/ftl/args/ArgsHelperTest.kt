@@ -192,7 +192,7 @@ class ArgsHelperTest {
 
         val args = spyk(AndroidArgs.default())
         every { args.maxTestShards } returns maxTestShards
-        assertThrowsWithMessage(Throwable::class, "max-test-shards must be >= ${IArgs.AVAILABLE_SHARD_COUNT_RANGE.first} and <= ${IArgs.AVAILABLE_SHARD_COUNT_RANGE.last}. But current is $maxTestShards") {
+        assertThrowsWithMessage(Throwable::class, "max-test-shards must be >= ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.first} and <= ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}. But current is $maxTestShards") {
             assertCommonProps(args)
         }
     }
