@@ -22,15 +22,18 @@ jobs:
           fi;     
 
     - name: TEMPORARY print tag   #TODO delete
-      run: echo $release_tag
+      run: |
+        hub version
+        echo $release_tag
     
     - name: Update bugsnag
       run: echo "TODO run update bugsnag script"
 
     - name: Get Jfrog CLI
+      #TODO provide credentials
       run: | 
         brew install jfrog-cli-go
-        jfrog bt config --user $MVN_USER --key $MVN_KEY --licenses Apache-2.0 //TODO provide credentials
+        jfrog bt config --user $MVN_USER --key $MVN_KEY --licenses Apache-2.0  
     
     - name: Delete old snapshot
       run: echo "TODO run Delete old snapshot script" 
@@ -52,7 +55,9 @@ jobs:
       run: echo "TODO run Rename flank.jar script"
 
     - name: Remove old release
-      run: echo "TODO run Remove old release script"
+      run: |
+        hub version
+        echo "TODO run Remove old release script"
 
     - name: Rename old tag
       run: echo "TODO run remove old tag script"
