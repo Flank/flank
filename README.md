@@ -662,6 +662,11 @@ dependencies {
 }
 ```
 
+### Gradle Enterprise Export API
+
+It is possible to fetch metrics from Gradle builds. For detailed info please visit [Gradle Export API](https://docs.gradle.com/enterprise/export-api/)
+and flank's example [gradle-export-api](https://github.com/Flank/flank/tree/master/samples/gradle-export-api).
+
 ### FAQ
 
 1) > Access Not Configured. Cloud Tool Results API has not been used in project 764086051850 before or it is disabled.
