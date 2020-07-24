@@ -28,10 +28,12 @@ jobs:
       run: echo "TODO run update bugsnag script"
 
     - name: Get Jfrog CLI
-      run: brew install jfrog-cli-go
+      run: | 
+        brew install jfrog-cli-go
+        jfrog bt config --user $MVN_USER --key $MVN_KEY --licenses Apache-2.0 //TODO provide credentials
     
     - name: Delete old snapshot
-      run: jfrog version; echo "TODO run Delete old snapshot script" 
+      run: echo "TODO run Delete old snapshot script" 
 
     - name: Gradle Build Flank
       uses: eskatos/gradle-command-action@v1
