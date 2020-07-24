@@ -25,10 +25,13 @@ jobs:
       run: echo $release_tag
     
     - name: Update bugsnag
-      run: echo "TODO run update bugsnag script" 
+      run: echo "TODO run update bugsnag script"
+
+    - name: Get Jfrog CLI
+      run: brew install jfrog-cli-go
     
     - name: Delete old snapshot
-      run: echo "TODO run Delete old snapshot script" 
+      run: jfrog version; echo "TODO run Delete old snapshot script" 
 
     - name: Gradle Build Flank
       uses: eskatos/gradle-command-action@v1
