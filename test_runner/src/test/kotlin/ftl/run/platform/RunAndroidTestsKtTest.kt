@@ -3,6 +3,8 @@ package ftl.run.platform
 import ftl.args.AndroidArgs
 import ftl.run.model.TestResult
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.differentDevicesTypesPhysicalLimitYaml
+import ftl.test.util.differentDevicesTypesYaml
 import ftl.test.util.mixedConfigYaml
 import ftl.test.util.should
 import kotlinx.coroutines.runBlocking
@@ -29,6 +31,47 @@ class RunAndroidTestsKtTest {
         // when
         val actual = runBlocking {
             runAndroidTests(AndroidArgs.load(mixedConfigYaml))
+        }
+
+        // then
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should split matrices by device type when physical limit exceed`() {
+        // given
+        val expected = TestResult(
+            should { map.size == 2 },
+            listOf(
+                should { size == 1 },
+                should { size == 1 }
+            ),
+            should { size == 4 }
+        )
+
+        // when
+        val actual = runBlocking {
+            runAndroidTests(AndroidArgs.load(differentDevicesTypesYaml))
+        }
+
+        // then
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should not split matrices by device type when in physical limit`() {
+        // given
+        val expected = TestResult(
+            should { map.size == 1 },
+            listOf(
+                should { size == 1 }
+            ),
+            should { size == 2 }
+        )
+
+        // when
+        val actual = runBlocking {
+            runAndroidTests(AndroidArgs.load(differentDevicesTypesPhysicalLimitYaml))
         }
 
         // then
