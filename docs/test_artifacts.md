@@ -1,4 +1,4 @@
-# Test artifacts (WIP)
+# Test artifacts
 This is proposal of test artifacts refactoring.
 
 ## Context
