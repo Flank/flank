@@ -1,3 +1,5 @@
+@file:JvmName("FetchBuildData")
+
 package ftl.sample
 
 import okhttp3.Authenticator
