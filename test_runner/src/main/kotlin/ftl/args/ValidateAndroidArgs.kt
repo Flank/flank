@@ -5,7 +5,6 @@ import ftl.android.IncompatibleModelVersion
 import ftl.android.SupportedDeviceConfig
 import ftl.android.UnsupportedModelId
 import ftl.android.UnsupportedVersionId
-import ftl.config.isVirtual
 import ftl.util.FlankFatalError
 import java.io.File
 

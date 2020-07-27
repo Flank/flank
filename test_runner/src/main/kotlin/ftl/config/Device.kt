@@ -15,7 +15,7 @@ data class Device(
     val locale: String = defaultLocale,
     val orientation: String = defaultOrientation
 ) {
-
+    var isVirtual: Boolean? = null
     override fun toString(): String {
         return """
         - model: $model
@@ -41,4 +41,9 @@ fun Map<String, String>.asDevice(android: Boolean) =
         )
     }
 
-fun Device.isVirtual(projectId: String) = AndroidCatalog.isVirtualDevice(model, projectId)
+fun Device.isVirtual(projectId: String) = if (this.isVirtual == null) AndroidCatalog.isVirtualDevice(model, projectId).takeIf { it }?.apply {
+    isVirtual = this
+} ?: false
+else this.isVirtual ?: false
+
+fun List<Device>.check(projectId: String) = forEach { it.isVirtual(projectId) }.let { this }

@@ -2,7 +2,6 @@ package ftl.android
 
 import com.google.api.services.testing.model.AndroidDevice
 import com.google.api.services.testing.model.AndroidDeviceCatalog
-import ftl.config.Device
 import ftl.environment.android.asPrintableTable
 import ftl.environment.asPrintableTable
 import ftl.environment.common.asPrintableTable

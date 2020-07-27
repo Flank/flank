@@ -53,10 +53,10 @@ interface IArgs {
 
     val disableResultsUpload: Boolean get() = false
 
-    val inPhysicalRange :Boolean
+    val inPhysicalRange: Boolean
         get() = maxTestShards in AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 
-    val inVirtualRange :Boolean
+    val inVirtualRange: Boolean
         get() = maxTestShards in AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE
 
     fun useLocalResultDir() = localResultDir != defaultLocalResultsDir

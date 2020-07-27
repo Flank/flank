@@ -8,13 +8,9 @@ gcloud:
   directories-to-pull:
     - /sdcard/
   use-orchestrator: false
-  device:
-    - model: HWNEO
-      version: 28
-      orientation: landscape
 
 flank:
   disable-sharding: false
-  max-test-shards: 220
+  max-test-shards: 2
   files-to-download:
     - .*/sdcard/[^/]+\.ec$
