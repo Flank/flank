@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
-class RemoveOldTagCommand : CliktCommand(name = "removeOldTag", help = "Remove old tag on GitHub") {
+class RemoveOldTagCommand : CliktCommand(name = ".", help = "Remove old tag on GitHub") {
 
     private val gitTag by option(help = "Git Tag").required()
     private val username by option(help = "Git User").required()

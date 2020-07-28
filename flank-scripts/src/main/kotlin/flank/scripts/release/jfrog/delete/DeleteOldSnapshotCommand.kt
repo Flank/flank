@@ -4,7 +4,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 
-class DeleteOldSnapshotCommand : CliktCommand(name = "jfrogDelete", help = "Delete old version on bintray") {
+class DeleteOldSnapshotCommand : CliktCommand(name = "jFrogDelete", help = "Delete old version on bintray") {
 
     private val version by option().required()
 

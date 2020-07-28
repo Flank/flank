@@ -2,4 +2,4 @@
 
 DIR=`dirname "$BASH_SOURCE"`
 
-/usr/bin/env java -jar "$DIR/flankScripts-1.0.jar" "$@"
+/usr/bin/env java -jar "$DIR/flankScripts.jar" "$@"

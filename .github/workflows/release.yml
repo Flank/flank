@@ -30,16 +30,18 @@ jobs:
           if [ $GITHUB_REF == "refs/tags/*" ]; 
             then 
               echo "::set-env name=MVN_VERSION::$(echo ${GITHUB_REF:11})";
-              echo "::set-env name=release_tag::$(echo ${GITHUB_REF:10})";
+              echo "::set-env name=RELEASE_TAG::$(echo ${GITHUB_REF:10})";
             else 
-              echo "::set-env name=release_tag::flank_snapshot"
+              echo "::set-env name=RELEASE_TAG::flank_snapshot"
               echo "::set-env name=MVN_VERSION::flank_snapshot"; 
           fi;     
+          echo "$GITHUB_SHA" > ./test_runner/src/main/resources/revision.txt
+          echo "$RELEASE_TAG" > ./test_runner/src/main/resources/version.txt
 
     - name: TEMPORARY print tag   #TODO delete
       run: |
         hub version
-        echo $release_tag
+        echo $RELEASE_TAG
     
     - name: Update bugsnag
       run: flankScripts release updateBugsnag --bugsnag-api-key=TODO_MATT --app-version=${GITHUB_SHA}
@@ -83,16 +85,16 @@ jobs:
         flankScripts release deleteOldRelease --git-tag=
 
     - name: Rename old tag
-      if: ${{ env.release_tag == 'flank_snapshot' }}
-      run: flankScripts release removeOldTag --git-tag=$release_tag
+      if: ${{ env.RELEASE_TAG == 'flank_snapshot' }}
+      run: flankScripts release removeOldTag --git-tag=$RELEASE_TAG
 
     - name: Release snapshot
-      if: ${{ env.release_tag == 'flank_snapshot' }} 
-      run: flankScripts release releaseFlank --input-file=./test_runner/build/libs/flank.jar --git-tag=$release_tag --commit-hash=$GIT_SHORT_HASH --snapshot
+      if: ${{ env.RELEASE_TAG == 'flank_snapshot' }} 
+      run: flankScripts release releaseFlank --input-file=./test_runner/build/libs/flank.jar --git-tag=$RELEASE_TAG --commit-hash=$GIT_SHORT_HASH --snapshot
 
     - name: Release stable
-      if: ${{ env.release_tag == 'v*' }}
-      run: flankScripts release releaseFlank --input-file=./test_runner/build/libs/flank.jar --git-tag=$release_tag --commit-hash=$GIT_SHORT_HASH 
+      if: ${{ env.RELEASE_TAG == 'v*' }}
+      run: flankScripts release releaseFlank --input-file=./test_runner/build/libs/flank.jar --git-tag=$RELEASE_TAG --commit-hash=$GIT_SHORT_HASH 
 
     - name: Sync bintray to maven central
-      run: flankScripts release jFrogSync --git-tag=$release_tag
+      run: flankScripts release jFrogSync --git-tag=$RELEASE_TAG
