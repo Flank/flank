@@ -1,23 +1,5 @@
 # Host binaries solutions comparison
 
-## tl;dr
-
-After research and test git-annex, we think it's not suitable for our purposes. We try to use GitHub Releases, documentation and automating process.
-
-|                   |           GIT LFS             | GIT SUBMODULES | GIT ANNEX                    |
-|:-----------------:|:-----------------------------:|:--------------:|:----------------------------:|
-|       Costs       |   5$/month per pack (50gb)    |   Cannot find clear answer            | Depend on storage provider   |
-| Versioning Files  |           Yes                 |   Yes          |  Yes                         |
-| Branch support    |           Yes                                             |   No, they are just a pointer to a particular commit of the submodules repository. It's can be harder to manage than git lfs and git-annex. We shouldn't store binary files in git because it's not designed for it. This is a purpose why git-annex and git-lfs exists. Some about it [here](https://robinwinslow.uk/2013/06/11/dont-ever-commit-binary-files-to-git/#:~:text=It%27s%20important%20to%20never%20commit,size%20will%20still%20be%20large.) |  Yes |
-| Flexibility       |  Yes, you can set your lfs server. [Check here](https://github.com/git-lfs/git-lfs/wiki/Implementations)   |   No | Yes, can use different storage providers. |
-
-By comparing these three solutions and talk with @jan-gogo  in our opinion the best solution is git-annex because:
-
-- potentially low costs, we can use any type of storage (gcloud, droplet, sftp, ftp) here is a list of supported storages: [link](https://git-annex.branchable.com/special_remotes/)
-- supporting branches
-- easy way to manage files
-- easy to install and configure
-
 ## git-lfs
 
 Docs can be found [here](https://git-lfs.github.com)
@@ -127,7 +109,8 @@ git push origin master
 
 ### How to play with branches
 
-Sub-modules are not on a branch. They are just a pointer to a particular commit of the sub-modules repository.
+Actually there is an option to track specific branch on submodule.
+https://stackoverflow.com/questions/9189575/git-submodule-tracking-latest
 
 ## git-annex
 
@@ -260,3 +243,15 @@ When you change branch you can override file and commit changes (remember to unl
 2. execute command `git annex enableremote CONFIG_NAME`
 
 3. After clone repo sync with git-annex `git annex sync --content`
+
+## conclusion
+
+|                   |           GIT LFS             | GIT SUBMODULES | GIT ANNEX                    |
+|:-----------------:|:-----------------------------:|:--------------:|:----------------------------:|
+|       Costs       |   5$/month per pack (50gb)    |   Cannot find clear answer            | Depend on storage provider   |
+| Versioning Files  |           Yes                 |   Yes          |  Yes                         |
+| Branch support    |           Yes                                             |   No, they are just a pointer to a particular commit of the submodules repository. It's can be harder to manage than git lfs and git-annex. We shouldn't store binary files in git because it's not designed for it. This is a purpose why git-annex and git-lfs exists. Some about it [here](https://robinwinslow.uk/2013/06/11/dont-ever-commit-binary-files-to-git/#:~:text=It%27s%20important%20to%20never%20commit,size%20will%20still%20be%20large.) |  Yes |
+| Flexibility       |  Yes, you can set your lfs server. [Check here](https://github.com/git-lfs/git-lfs/wiki/Implementations)   |   No | Yes, can use different storage providers. |
+
+By comparing these three solutions and talk with @jan-gogo and some ammount of test git-annex we staying with github releases and automate release process.
+
