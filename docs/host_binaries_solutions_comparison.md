@@ -253,4 +253,9 @@ When you change branch you can override file and commit changes (remember to unl
 | Branch support    |           Yes                                             |   Now there is an option to track specific branch on submodule. https://stackoverflow.com/questions/9189575/git-submodule-tracking-latest |  Yes |
 | Flexibility       |  Yes, you can set your lfs server. [Check here](https://github.com/git-lfs/git-lfs/wiki/Implementations)   |   No | Yes, can use different storage providers. |
 
-By comparing these three solutions, talk with @jan-gogo, and some amount of test git-annex we staying with GitHub releases and automated the release process.
+Our requirement is to have remote storage for test artifacts that should cover the following points:
+* Allow having dedicated artifacts for specific branches.
+* Free to use
+* Public read access and restricted write 
+Git annex was the most promising but we didn't find remote storage that will meet all our requirements.
+By comparing these three solutions, we decide to stay with GitHub releases and automate the release process using custom Gradle tasks.
