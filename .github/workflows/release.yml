@@ -14,8 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       
-    - name: Gradle build flankScripts and add it to PATH
-      if: ${{ github.event_name == 'do not run until finished!' }}  #TODO when all finish all steps (end of PR)
+    - name: [Gradle] Build flankScripts and add it to PATH
       uses: eskatos/gradle-command-action@v1
       with:
         gradle-executable: "./flank-scripts/gradlew"
@@ -44,24 +43,24 @@ jobs:
         echo $RELEASE_TAG
     
     - name: Update bugsnag
-      run: flankScripts release updateBugsnag --bugsnag-api-key=TODO_MATT --app-version=${GITHUB_SHA}
+      run: flankScripts release updateBugsnag --bugsnag-api-key=${{ secrets.BUGSNAG_API_KEY }} --app-version=${GITHUB_SHA}
 
     - name: Get Jfrog CLI
       #TODO provide credentials
-      run: | 
+      run: |
         brew install jfrog-cli-go
-        jfrog bt config --user $MVN_USER --key $MVN_KEY --licenses Apache-2.0  
+        jfrog bt config --user ${{ secrets.JFROG_USER }} --key ${{ secrets.JFROG_KEY }} --licenses Apache-2.0  
     
     - name: Delete old snapshot
       run: flankScripts release jFrogDelete --version=$MVN_VERSION
 
-    - name: Gradle Build Flank
+    - name: [Gradle] Build Flank
       uses: eskatos/gradle-command-action@v1
       with:
         gradle-executable: "./test_runner/gradlew"
         arguments: "-p test_runner clean build shadowJar"
         
-    - name: Gradle upload to bintray
+    - name: [Gradle] Upload to bintray
       if: ${{ github.event_name == 'do not run until finished!' }}  #TODO when all finish all steps (end of PR)
       uses: eskatos/gradle-command-action@v1
       with:
@@ -74,19 +73,19 @@ jobs:
 
             cat << EOF > ~/.config/hub
             github.com:
-            - user: bootstraponline
-              oauth_token: TODO_MATT
+            - user: $GITHUB_ACTOR
+              oauth_token: ${{ secrets.GITHUB_TOKEN }}
               protocol: https
             EOF
 
     - name: Remove old release
       run: |
         hub version
-        flankScripts release deleteOldRelease --git-tag=
+        flankScripts release deleteOldRelease --git-tag=$RELEASE_TAG
 
     - name: Rename old tag
       if: ${{ env.RELEASE_TAG == 'flank_snapshot' }}
-      run: flankScripts release removeOldTag --git-tag=$RELEASE_TAG
+      run: flankScripts release removeOldTag --git-tag=$RELEASE_TAG --username=$GITHUB_ACTOR --token=${{ secrets.GITHUB_TOKEN }}
 
     - name: Release snapshot
       if: ${{ env.RELEASE_TAG == 'flank_snapshot' }} 
