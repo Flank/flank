@@ -54,13 +54,13 @@ jobs:
     - name: Delete old snapshot
       run: flankScripts release jFrogDelete --version=$MVN_VERSION
 
-    - name: [Gradle] Build Flank
+    - name: Gradle Build Flank
       uses: eskatos/gradle-command-action@v1
       with:
         gradle-executable: "./test_runner/gradlew"
         arguments: "-p test_runner clean build shadowJar"
         
-    - name: [Gradle] Upload to bintray
+    - name: Gradle Upload to bintray
       if: ${{ github.event_name == 'do not run until finished!' }}  #TODO when all finish all steps (end of PR)
       uses: eskatos/gradle-command-action@v1
       with:
