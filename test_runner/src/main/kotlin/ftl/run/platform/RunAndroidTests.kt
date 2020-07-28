@@ -38,9 +38,9 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     val history = GcToolResults.createToolResultsHistory(args)
     val otherGcsFiles = args.uploadOtherFiles(runGcsPath)
     val additionalApks = args.uploadAdditionalApks(runGcsPath)
-    val argsList = if (args.shouldSplitRuns()) args.splitConfigurationByDeviceType() else listOf(args)
+    val deviceArgs = if (args.shouldSplitRuns()) args.splitConfigurationByDeviceType() else listOf(args)
 
-    argsList.forEach {
+    deviceArgs.forEach {
         it.createAndroidTestContexts()
             .upload(it.resultsBucket, runGcsPath)
             .forEachIndexed { index, context ->

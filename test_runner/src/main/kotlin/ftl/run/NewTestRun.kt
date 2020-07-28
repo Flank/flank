@@ -25,7 +25,6 @@ suspend fun newTestRun(args: IArgs) = withTimeoutOrNull(args.parsedTimeout) {
 
         ReportManager.generate(matrixMap, args, testShardChunks, ignoredTests)
     }
-    return@withTimeoutOrNull this
 }
 
 private suspend fun runTests(args: IArgs): TestResult {
