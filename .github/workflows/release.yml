@@ -19,10 +19,10 @@ jobs:
       with:
         gradle-executable: "./flank-scripts/gradlew"
         arguments: "-p flank_scripts clean assemble shadowJar"
-        run: echo "::add-path::./flank-scripts/bash"
     
     - name: Set env variables
       run: |
+        echo "::add-path::./flank-scripts/bash"
         git_short_hash=$(git rev-parse --short "$GITHUB_SHA")
         echo "::set-env name=GIT_SHORT_HASH::$(echo $git_short_hash)";
 
