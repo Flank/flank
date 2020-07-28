@@ -13,8 +13,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
-      
-    - name: [Gradle] Build flankScripts and add it to PATH
+
+    - name: Gradle Build flankScripts and add it to PATH
       uses: eskatos/gradle-command-action@v1
       with:
         gradle-executable: "./flank-scripts/gradlew"
