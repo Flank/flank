@@ -2,7 +2,7 @@
 
 set -euxo pipefail
 
-PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." >/dev/null 2>&1 && pwd )"
+PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." >/dev/null 2>&1 && pwd )"
 
 TEST_APP_DIR="$PROJECT_DIR/test_app"
 MULTI_MODULES_DIR="$PROJECT_DIR/test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/multi-modules/"

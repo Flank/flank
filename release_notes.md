@@ -11,7 +11,7 @@
 - [#906](https://github.com/Flank/flank/pull/909) Added option to print iOS and Android screen orientations. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#907](https://github.com/Flank/flank/pull/907) Added option to print Android available locales to test against. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#913](https://github.com/Flank/flank/pull/913) Add Gradle Enterprise API example. ([pawelpasterz](https://github.com/pawelpasterz))
--
+- [#916](https://github.com/Flank/flank/pull/916) Test artifacts monorepo. ([jan-gogo](https://github.com/jan-gogo))
 -
 
 ## v20.07.0
