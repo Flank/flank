@@ -13,12 +13,27 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
+      
+    - name: Gradle build flankScripts and add it to PATH
+      if: ${{ github.event_name == 'do not run until finished!' }}  #TODO when all finish all steps (end of PR)
+      uses: eskatos/gradle-command-action@v1
+      with:
+        gradle-executable: "./flank-scripts/gradlew"
+        arguments: "-p flank_scripts clean assemble shadowJar"
+        run: echo "::add-path::./flank-scripts/bash"
     
-    - name: Set Tag variable
+    - name: Set env variables
       run: |
+        git_short_hash=$(git rev-parse --short "$GITHUB_SHA")
+        echo "::set-env name=GIT_SHORT_HASH::$(echo $git_short_hash)";
+
           if [ $GITHUB_REF == "refs/tags/*" ]; 
-            then echo "::set-env name=release_tag::$(echo ${GITHUB_REF:10})"; 
-            else echo "::set-env name=release_tag::flank_snapshot"; 
+            then 
+              echo "::set-env name=MVN_VERSION::$(echo ${GITHUB_REF:11})";
+              echo "::set-env name=release_tag::$(echo ${GITHUB_REF:10})";
+            else 
+              echo "::set-env name=release_tag::flank_snapshot"
+              echo "::set-env name=MVN_VERSION::flank_snapshot"; 
           fi;     
 
     - name: TEMPORARY print tag   #TODO delete
@@ -27,7 +42,7 @@ jobs:
         echo $release_tag
     
     - name: Update bugsnag
-      run: echo "TODO run update bugsnag script"
+      run: flankScripts release updateBugsnag --bugsnag-api-key=TODO_MATT --app-version=${GITHUB_SHA}
 
     - name: Get Jfrog CLI
       #TODO provide credentials
@@ -36,7 +51,7 @@ jobs:
         jfrog bt config --user $MVN_USER --key $MVN_KEY --licenses Apache-2.0  
     
     - name: Delete old snapshot
-      run: echo "TODO run Delete old snapshot script" 
+      run: flankScripts release jFrogDelete --version=$MVN_VERSION
 
     - name: Gradle Build Flank
       uses: eskatos/gradle-command-action@v1
@@ -51,24 +66,33 @@ jobs:
         gradle-executable: "./test_runner/gradlew"
         arguments: "-p test_runner bintrayUpload"  
       
-    - name: Rename flank.jar
-      run: echo "TODO run Rename flank.jar script"
+    - name: Authenticate to hub
+      run: |
+            mkdir -p ~/.config/
+
+            cat << EOF > ~/.config/hub
+            github.com:
+            - user: bootstraponline
+              oauth_token: TODO_MATT
+              protocol: https
+            EOF
 
     - name: Remove old release
       run: |
         hub version
-        echo "TODO run Remove old release script"
+        flankScripts release deleteOldRelease --git-tag=
 
     - name: Rename old tag
-      run: echo "TODO run remove old tag script"
+      if: ${{ env.release_tag == 'flank_snapshot' }}
+      run: flankScripts release removeOldTag --git-tag=$release_tag
 
     - name: Release snapshot
       if: ${{ env.release_tag == 'flank_snapshot' }} 
-      run: echo "TODO run Rename flank.jar script"
+      run: flankScripts release releaseFlank --input-file=./test_runner/build/libs/flank.jar --git-tag=$release_tag --commit-hash=$GIT_SHORT_HASH --snapshot
 
     - name: Release stable
       if: ${{ env.release_tag == 'v*' }}
-      run: echo "TODO run Rename flank.jar script" 
+      run: flankScripts release releaseFlank --input-file=./test_runner/build/libs/flank.jar --git-tag=$release_tag --commit-hash=$GIT_SHORT_HASH 
 
     - name: Sync bintray to maven central
-      run: echo "TODO run Sync bintray to maven central script" 
+      run: flankScripts release jFrogSync --git-tag=$release_tag
