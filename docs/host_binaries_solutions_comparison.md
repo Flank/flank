@@ -253,5 +253,5 @@ When you change branch you can override file and commit changes (remember to unl
 | Branch support    |           Yes                                             |   Now there is an option to track specific branch on submodule. https://stackoverflow.com/questions/9189575/git-submodule-tracking-latest |  Yes |
 | Flexibility       |  Yes, you can set your lfs server. [Check here](https://github.com/git-lfs/git-lfs/wiki/Implementations)   |   No | Yes, can use different storage providers. |
 
-By comparing these three solutions and talk with @jan-gogo and some ammount of test git-annex we staying with github releases and automate release process.
+By comparing these three solutions, talk with @jan-gogo and some ammount of test git-annex we staying with github releases and automate release process.
 
