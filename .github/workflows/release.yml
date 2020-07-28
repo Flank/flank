@@ -14,8 +14,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Gradle Build flankScripts
-      run: ./flank-scripts/bash/buildFlankScripts.sh   
+    - name: Gradle Build flankScripts and add it to PATH
+      uses: eskatos/gradle-command-action@v1
+      with:
+        gradle-executable: "./flank-scripts/gradlew"
+        arguments: "-p flank_scripts clean assemble shadowJar"
     
     - name: Set env variables
       run: |
