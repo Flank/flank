@@ -13,6 +13,7 @@
 - [#913](https://github.com/Flank/flank/pull/913) Add Gradle Enterprise API example. ([pawelpasterz](https://github.com/pawelpasterz))
 - [#916](https://github.com/Flank/flank/pull/916) Test artifacts monorepo. ([jan-gogo](https://github.com/jan-gogo))
 - [#910](https://github.com/Flank/flank/pull/910) Migrate Bitrise release workflow into GitHub actions.  ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#915](https://github.com/Flank/flank/pull/915) Update virtual devices sharding limit. ([adamfilipow92](https://github.com/adamfilipow92))
 -
 -
 
