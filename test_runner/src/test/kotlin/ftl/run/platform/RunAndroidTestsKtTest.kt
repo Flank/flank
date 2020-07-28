@@ -4,9 +4,11 @@ import ftl.args.AndroidArgs
 import ftl.run.model.TestResult
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.differentDevicesTypesPhysicalLimitYaml
+import ftl.test.util.differentDevicesTypesVirtualLimitYaml
 import ftl.test.util.differentDevicesTypesYaml
 import ftl.test.util.mixedConfigYaml
 import ftl.test.util.should
+import ftl.util.FlankFatalError
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -53,7 +55,26 @@ class RunAndroidTestsKtTest {
         val actual = runBlocking {
             runAndroidTests(AndroidArgs.load(differentDevicesTypesYaml))
         }
+        // then
+        assertEquals(expected, actual)
+    }
 
+    @Test(expected = FlankFatalError::class)
+    fun `should throw when virtual limit exceed`() {
+        // given
+        val expected = TestResult(
+            should { map.size == 2 },
+            listOf(
+                should { size == 1 },
+                should { size == 1 }
+            ),
+            should { size == 4 }
+        )
+
+        // when
+        val actual = runBlocking {
+            runAndroidTests(AndroidArgs.load(differentDevicesTypesVirtualLimitYaml))
+        }
         // then
         assertEquals(expected, actual)
     }

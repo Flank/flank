@@ -25,6 +25,7 @@ data class AndroidArgs(
 ) : IArgs by commonArgs {
     companion object : AndroidArgsCompanion()
 
+    // override val maxTestShards: Int = calculateMaxTestShards(commonArgs.maxTestShards)
     override fun toString(): String {
         return """
 AndroidArgs
@@ -88,7 +89,7 @@ val AndroidArgs.isRoboTest
 
 fun AndroidArgs.containsVirtualDevices() = devices.check(project).any { it.isVirtual(project) }
 
-fun AndroidArgs.containsPhysicalDevices() = devices.any { !it.isVirtual(project) }
+fun AndroidArgs.containsPhysicalDevices() = devices.check(project).any { !it.isVirtual(project) }
 
 fun AndroidArgs.shouldSplitRuns() = containsPhysicalDevices() && maxTestShards > 50
 

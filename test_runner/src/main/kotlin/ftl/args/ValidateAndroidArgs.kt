@@ -15,7 +15,7 @@ fun AndroidArgs.validate() {
     assertTestTypes()
     assertRoboTest()
     assertDirectoriesToPull()
-    validateMaxTestShardsByDeviceType()
+    assertMaxTestShardsByDeviceType()
 }
 
 private fun AndroidArgs.assertAdditionalAppTestApks() {
@@ -75,7 +75,7 @@ private fun AndroidArgs.assertDirectoriesToPull() {
         }
 }
 
-private fun AndroidArgs.validateMaxTestShardsByDeviceType() =
+private fun AndroidArgs.assertMaxTestShardsByDeviceType() =
     if (containsPhysicalDevices() && containsVirtualDevices()) assertDevicesShards()
     else if (containsPhysicalDevices() && !containsVirtualDevices() && !inPhysicalRange) throwMaxTestShardsLimitExceeded()
     else assertVirtualDevicesShards()

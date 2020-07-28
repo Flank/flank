@@ -3,6 +3,7 @@ package ftl.args
 import com.google.api.services.testing.model.TestSpecification
 import com.google.common.truth.Truth.assertThat
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
+import ftl.args.IArgs.Companion.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE
 import ftl.args.yml.AppTestPair
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
@@ -457,7 +458,7 @@ AndroidArgs
 
         val testShardChunks = getAndroidShardChunks(androidArgs)
         with(androidArgs) {
-            assert(maxTestShards, AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last)
+            assert(maxTestShards, AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE.last)
             assert(testShardChunks.size, 2)
             testShardChunks.forEach { chunk -> assert(chunk.size, 1) }
         }
@@ -1434,7 +1435,7 @@ AndroidArgs
           max-test-shards: -1
         """.trimIndent()
         val args = AndroidArgs.load(yaml)
-        assertEquals(AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last, args.maxTestShards)
+        assertEquals(AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE.last, args.maxTestShards)
     }
 
     @Test
@@ -1462,6 +1463,84 @@ AndroidArgs
         """.trimIndent()
         val args = AndroidArgs.load(yaml)
         assertFalse(args.disableResultsUpload)
+    }
+
+    @Test
+    fun `should limit shards to virtual if only virtual device configured`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          max-test-shards: -1
+          disable-results-upload: true
+        """.trimIndent()
+        val args = AndroidArgs.load(yaml)
+        assertEquals(AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE.last, args.maxTestShards)
+    }
+
+    @Test
+    fun `should not set shards count when maxTestShards != -1`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          max-test-shards: 10
+          disable-results-upload: true
+        """.trimIndent()
+        val args = AndroidArgs.load(yaml)
+        assertEquals(10, args.maxTestShards)
+    }
+
+    @Test(expected = FlankFatalError::class)
+    fun `should throw when virtual devices and maximum test shards limit exceed`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          max-test-shards: 251
+          disable-results-upload: true
+        """.trimIndent()
+        AndroidArgs.load(yaml)
+    }
+
+    @Test(expected = FlankFatalError::class)
+    fun `should throw when physical devices and maximum test shards limit exceed`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: blueline
+              version: 28
+              locale: en
+              orientation: portrait
+        flank:
+          max-test-shards: 51
+          disable-results-upload: true
+        """.trimIndent()
+        AndroidArgs.load(yaml)
+    }
+
+    @Test
+    fun `should limit shards to physical if only physical device configured`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: blueline
+              version: 28
+              locale: en
+              orientation: portrait
+        flank:
+          max-test-shards: -1
+          disable-results-upload: true
+        """.trimIndent()
+        val args = AndroidArgs.load(yaml)
+        assertEquals(AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last, args.maxTestShards)
     }
 }
 

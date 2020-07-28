@@ -4,6 +4,7 @@ import ftl.args.yml.AppTestPair
 import ftl.config.AndroidConfig
 import ftl.config.android.AndroidFlankConfig
 import ftl.config.android.AndroidGcloudConfig
+import ftl.config.check
 
 fun createAndroidArgs(
     config: AndroidConfig? = null,
@@ -11,8 +12,7 @@ fun createAndroidArgs(
     flank: AndroidFlankConfig = config!!.platform.flank,
     commonArgs: CommonArgs = config!!.common.createCommonArgs(config.data)
 ) = AndroidArgs(
-    commonArgs = commonArgs,
-
+    commonArgs = commonArgs.copy(maxTestShards = commonArgs.calculateMaxTestShards()),
     // gcloud
     appApk = gcloud.app?.processFilePath("from app"),
     testApk = gcloud.test?.processFilePath("from test"),
@@ -38,3 +38,8 @@ fun createAndroidArgs(
     } ?: emptyList(),
     useLegacyJUnitResult = flank.useLegacyJUnitResult!!
 )
+
+private fun CommonArgs.calculateMaxTestShards(): Int = if (maxTestShards == -1) getMaxShardsByDevice() else maxTestShards
+
+private fun CommonArgs.getMaxShardsByDevice() = if (devices.check(project).any { it.isVirtual == false }) IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last
+else IArgs.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE.last
