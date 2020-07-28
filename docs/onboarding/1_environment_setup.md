@@ -3,14 +3,14 @@ This document may be incomplete now or in the future, so if you faced any proble
 
 ### Mac
 1. Install a brew, it's not mandatory but may be convenient for installing other software.
-1. Currently, the zsh is default shell on a mac. If you prefer bash use `chsh -s /bin/bash`.  
+1. Currently, the zsh is the default shell on a mac. If you prefer bash use `chsh -s /bin/bash`.  
 
 ### Env config
 Bunch of useful exports. You can paste them to your `.bashrc`
 ```bash
 FLANK_REPO="type path to your local flank repository"
 export PATH=$PATH:$HOME/$FLANK_REPO/flank/test_runner/bash
-export PATH=$PATH:$HOME/$FLANK_REPO/flank/test_app/bash
+export PATH=$PATH:$HOME/$FLANK_REPO/flank/test_projects/android/bash
 export PATH=$PATH:$HOME/Library/Android/sdk/platform-tools
 export PATH=$PATH:$HOME/Library/Python/2.7/bin
 #export PATH=$PATH:$HOME/"path to your local gcloud repository"/gcloud_cli/google-cloud-sdk/bin

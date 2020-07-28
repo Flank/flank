@@ -1,7 +1,7 @@
 # flank android run -c flank.error.yml
 gcloud:
-  app: ../test_app/apks/app-debug.apk
-  test: ../test_app/apks/error-androidTest.apk
+  app: ../test_projects/android/apks/app-debug.apk
+  test: ../test_projects/android/apks/error-androidTest.apk
   device:
     - model: NexusLowRes
       version: 28

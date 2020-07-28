@@ -19,7 +19,7 @@ class GcStorageTest {
     @Test
     fun `upload missingBucket`() {
         val androidArgs = mockk<AndroidArgs>()
-        every { androidArgs.appApk } returns "../test_app/apks/app-debug.apk"
+        every { androidArgs.appApk } returns "../test_projects/android/apks/app-debug.apk"
 
         GcStorage.upload(androidArgs.appApk!!, "does-not-exist", "nope")
     }

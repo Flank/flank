@@ -155,10 +155,10 @@ class ArgsHelperTest {
 
     @Test
     fun evaluateEnvVarInFilePath() {
-        environmentVariables.set("TEST_APK_DIR", "test_app/apks")
+        environmentVariables.set("TEST_APK_DIR", "test_projects/android/apks")
         val testApkPath = "../\$TEST_APK_DIR/app-debug-androidTest.apk"
         val actual = ArgsHelper.evaluateFilePath(testApkPath)
-        val expected = "../test_app/apks/app-debug-androidTest.apk".absolutePath()
+        val expected = "../test_projects/android/apks/app-debug-androidTest.apk".absolutePath()
 
         assertThat(actual).isEqualTo(expected)
     }

@@ -22,8 +22,8 @@ class ArgsHelperFilePathTest {
     fun `check apk glob path resolves correctly`() {
         assumeFalse(isWindows)
 
-        val testApkRelativePath = "../test_app/apks/nested/app-debug-androidTest.apk"
-        val testApkBlobPath = "../test_app/apks/**/app-debug-*.apk"
+        val testApkRelativePath = "../test_projects/android/apks/nested/app-debug-androidTest.apk"
+        val testApkBlobPath = "../test_projects/android/apks/**/app-debug-*.apk"
 
         val actual = ArgsHelper.evaluateFilePath(testApkBlobPath)
         val expected = testApkRelativePath.absolutePath()
@@ -57,11 +57,11 @@ class ArgsHelperFilePathTest {
 
     @Test
     fun evaluateEnvVarInFilePath() {
-        environmentVariables.set("TEST_APK_DIR", "test_app/apks")
+        environmentVariables.set("TEST_APK_DIR", "test_projects/android/apks")
         val testApkPath = "../\$TEST_APK_DIR/app-debug-androidTest.apk"
         val actual = ArgsHelper.evaluateFilePath(testApkPath)
 
-        val expected = "../test_app/apks/app-debug-androidTest.apk".absolutePath()
+        val expected = "../test_projects/android/apks/app-debug-androidTest.apk".absolutePath()
 
         Truth.assertThat(actual).isEqualTo(expected)
     }

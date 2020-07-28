@@ -50,8 +50,8 @@ class RefreshCommandTest {
         Files.write(
             yamlCfg, """
              gcloud:
-               app: ../test_app/apks/app-debug.apk
-               test: ../test_app/apks/app-debug-androidTest.apk
+               app: ../test_projects/android/apks/app-debug.apk
+               test: ../test_projects/android/apks/app-debug-androidTest.apk
              flank:
                legacy-junit-result: true
             """.trimIndent().toByteArray()

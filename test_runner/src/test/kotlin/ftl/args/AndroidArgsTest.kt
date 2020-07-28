@@ -43,11 +43,11 @@ import java.util.UUID
 @RunWith(FlankTestRunner::class)
 class AndroidArgsTest {
     private val empty = emptyList<String>()
-    private val appApk = "../test_app/apks/app-debug.apk"
-    private val invalidApk = "../test_app/apks/invalid.apk"
-    private val testApk = "../test_app/apks/app-debug-androidTest.apk"
-    private val testErrorApk = "../test_app/apks/error-androidTest.apk"
-    private val testFlakyApk = "../test_app/apks/flaky-androidTest.apk"
+    private val appApk = "../test_projects/android/apks/app-debug.apk"
+    private val invalidApk = "../test_projects/android/apks/invalid.apk"
+    private val testApk = "../test_projects/android/apks/app-debug-androidTest.apk"
+    private val testErrorApk = "../test_projects/android/apks/error-androidTest.apk"
+    private val testFlakyApk = "../test_projects/android/apks/flaky-androidTest.apk"
     private val appApkAbsolutePath = appApk.absolutePath()
     private val testApkAbsolutePath = testApk.absolutePath()
     private val testErrorApkAbsolutePath = testErrorApk.absolutePath()
@@ -1360,8 +1360,8 @@ AndroidArgs
             """
             flank:
               additional-app-test-apks:
-                - app: ../test_app/apks/app-debug.apk
-                  test: ../test_app/apks/app1-debug-androidTest.apk
+                - app: ../test_projects/android/apks/app-debug.apk
+                  test: ../test_projects/android/apks/app1-debug-androidTest.apk
             """.trimIndent()
         ).map { inject ->
             """

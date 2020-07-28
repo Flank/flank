@@ -18,8 +18,8 @@ import java.io.StringReader
 
 @RunWith(FlankTestRunner::class)
 class GcAndroidTestMatrixTest {
-    private val appApk = "../test_app/apks/app-debug.apk"
-    private val testApk = "../test_app/apks/app-debug-androidTest.apk"
+    private val appApk = "../test_projects/android/apks/app-debug.apk"
+    private val testApk = "../test_projects/android/apks/app-debug-androidTest.apk"
 
     @After
     fun tearDown() = unmockkAll()
