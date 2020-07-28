@@ -19,7 +19,7 @@ shadowJar.apply {
     manifest {
         attributes(mapOf("Main-Class" to "flank.scripts.MainKt"))
     }
-    copyJarFile("$buildDir/libs/${artifactID}.jar", "$rootDir/bash/${artifactID}.jar")
+    //copyJarFile("$buildDir/libs/${artifactID}.jar", "$rootDir/bash/${artifactID}.jar")
 }
 
 version = "1.0"
