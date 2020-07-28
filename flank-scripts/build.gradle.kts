@@ -12,13 +12,14 @@ val artifactID = "flankScripts"
 val shadowJar: ShadowJar by tasks
 shadowJar.apply {
     archiveClassifier.set("")
-    archiveBaseName.set(artifactID)
+    archiveFileName.set("${artifactID}.jar")
     mergeServiceFiles()
 
     @Suppress("UnstableApiUsage")
     manifest {
         attributes(mapOf("Main-Class" to "flank.scripts.MainKt"))
     }
+    copyJarFile("$buildDir/libs/${artifactID}.jar", "$rootDir/bash/${artifactID}.jar")
 }
 
 version = "1.0"
@@ -42,10 +43,4 @@ dependencies {
     implementation(Fuel.KOTLINX_SERIALIZATION)
     implementation(Fuel.COROUTINES)
     implementation(CLIKT)
-}
-
-tasks.withType<ShadowJar>() {
-    manifest {
-        attributes["Main-Class"] = "flank.scripts.MainKt"
-    }
 }
