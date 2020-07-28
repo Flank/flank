@@ -14,12 +14,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Gradle Build flankScripts
-      run: ./flank-scripts/bash/buildFlankScripts.sh
+    - name: Gradle Build flankScripts and add it to PATH
+      run: |
+        ./flank-scripts/bash/buildFlankScripts.sh
+        echo "::add-path::./flank-scripts/bash"
 
     - name: Set env variables
       run: |
-        echo "::add-path::./flank-scripts/bash"
         git_short_hash=$(git rev-parse --short "$GITHUB_SHA")
         echo "::set-env name=GIT_SHORT_HASH::$(echo $git_short_hash)";
 

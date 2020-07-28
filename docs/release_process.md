@@ -1,0 +1,32 @@
+# Release process
+
+## Requirements
+
+1. A release process should be run withing macOS environment
+2. The machine should contain:
+    `homebrew` - Package manager
+    `hub` - Github CLI tool
+
+## Current setup
+
+Current scripts run on GitHub actions environment with `macos-latest` os.
+Script could be found on [path](../.github/workflows/release.yml)
+
+Each push:
+- to `master` branch run Snapshot release
+- of tag `v*` run regular release
+
+## Steps
+1. Gradle Build flankScripts and add it to PATH
+2. Set environment variables
+3. Update bugsnag
+4. Get Jfrog CLI
+5. Delete old snapshot
+6. Gradle Build Flank
+7. Gradle Upload to bintray
+8. Authenticate to hub
+9. Remove old release
+10. Rename old tag
+11a. Release snapshot if snapshot flow
+11b. Release stable if the regular flow
+12. Sync bintray to maven central
