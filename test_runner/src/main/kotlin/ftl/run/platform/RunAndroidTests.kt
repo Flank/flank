@@ -40,22 +40,22 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     val additionalApks = args.uploadAdditionalApks(runGcsPath)
     val deviceArgs = if (args.shouldSplitRuns()) args.splitConfigurationByDeviceType() else listOf(args)
 
-    deviceArgs.forEach {
-        it.createAndroidTestContexts()
-            .upload(it.resultsBucket, runGcsPath)
+    deviceArgs.forEach { arg ->
+        arg.createAndroidTestContexts()
+            .upload(arg.resultsBucket, runGcsPath)
             .forEachIndexed { index, context ->
                 if (context is InstrumentationTestContext) {
                     ignoredTestsShardChunks += context.ignoredTestCases
                     allTestShardChunks += context.shards
                 }
-                val androidTestConfig = it.createAndroidTestConfig(context)
-                testMatrices += executeAndroidTestMatrix(runCount = it.repeatTests) {
+                val androidTestConfig = arg.createAndroidTestConfig(context)
+                testMatrices += executeAndroidTestMatrix(runCount = arg.repeatTests) {
                     GcAndroidTestMatrix.build(
                         androidTestConfig = androidTestConfig,
                         runGcsPath = "$runGcsPath/matrix_$index/",
                         additionalApkGcsPaths = additionalApks,
-                        androidDeviceList = GcAndroidDevice.build(it.devices),
-                        args = it,
+                        androidDeviceList = GcAndroidDevice.build(arg.devices),
+                        args = arg,
                         otherFiles = otherGcsFiles,
                         toolResultsHistory = history
                     )
