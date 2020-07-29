@@ -43,6 +43,6 @@ fun Map<String, String>.asDevice(android: Boolean) =
 
 fun Device.isVirtual(projectId: String) = if (this.isVirtual == null) AndroidCatalog.isVirtualDevice(model, projectId).also {
     isVirtual = it
-} else this.isVirtual ?: false
+} else isVirtual ?: false
 
 fun List<Device>.check(projectId: String) = apply { forEach { it.isVirtual(projectId) } }
