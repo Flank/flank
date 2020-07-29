@@ -35,44 +35,50 @@ Available commands are:
 #### `releaseFlank`
 Release Flank on GitHub 
 
-Options:  
-  `--input-file`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Path to release file  
-  `--snapshot `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Is Snapshot release. Default `false`  
-  `--git-tag`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Git Tag  
-  `--commit-hash`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Git Commit hash
+| Option          	| Description                          	|
+|-----------------	|--------------------------------------	|
+| `--input-file`  	| Path to release file                 	|
+| `--snapshot `   	| Is Snapshot release. Default `false` 	|
+| `--git-tag`     	| Git Tag                              	|
+| `--commit-hash` 	| Git Commit hash                      	|
 
 
 #### `updateBugsnag`
 Update Bugnsag  
 
-Options:  
-  `--bugsnag-api-key`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bugsnag api key  
-  `--app-version `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;App version to update  
-  `--github-workflow-url`&nbsp;GitHub workflow url 
+| Option                  	| Description                   	|
+|-------------------------	|-------------------------------	|
+| `--bugsnag-api-key`     	| Bugsnag api key               	|
+| `--app-version `        	| App version to update         	|
+| `--github-workflow-url` 	| GitHub workflow url. Optional 	|
 
 #### `jFrogDelete`
 Delete old version on bintray 
-
-Options:   
-`--app-version `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Maven version to delete  
+ 
+| Option          	| Description                          	|
+|-----------------	|--------------------------------------	|
+| --version       	| Maven version ( without leading `v`) 	|
 
 #### `jFrogSync` 
 Sync maven repository using jfrog
 
-Options:  
-  `--git-tag`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Git Tag 
+| Option          	| Description                          	|
+|-----------------	|--------------------------------------	|
+| `--git-tag`     	| Git Tag                              	|
 
 #### `deleteOldRelease` 
 Delete old release on github
 
-Options:  
-  `--git-tag`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Git Tag 
+| Option          	| Description                          	|
+|-----------------	|--------------------------------------	|
+| `--git-tag`     	| Git Tag                              	| 
 
 
 #### `removeOldTag` 
 Remove old tag on GitHub
 
-Options:  
-  `--git-tag`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Git Tag  
-  `--username`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Git User  
-  `--token`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Git Token  
+| Option          	| Description     	|
+|-----------------	|-----------------	|
+| --git-tag`      	| Git tag         	|
+| `--username`    	| Git username    	|
+| `--token`       	| Git token       	|
