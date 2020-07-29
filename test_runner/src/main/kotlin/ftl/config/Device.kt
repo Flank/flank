@@ -45,4 +45,4 @@ fun Device.isVirtual(projectId: String) = if (this.isVirtual == null) AndroidCat
     isVirtual = it
 } else isVirtual ?: false
 
-fun List<Device>.check(projectId: String) = apply { forEach { it.isVirtual(projectId) } }
+fun List<Device>.resolve(projectId: String) = apply { forEach { it.isVirtual(projectId) } }

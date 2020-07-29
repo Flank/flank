@@ -1494,7 +1494,7 @@ AndroidArgs
     }
 
     @Test(expected = FlankFatalError::class)
-    fun `should throw when virtual devices and maximum test shards limit exceed`() {
+    fun `should throw when maximum test shards for virtual devices limit exceeded`() {
         val yaml = """
         gcloud:
           app: $appApk
@@ -1507,7 +1507,7 @@ AndroidArgs
     }
 
     @Test(expected = FlankFatalError::class)
-    fun `should throw when physical devices and maximum test shards limit exceed`() {
+    fun `should throw when maximum test shards for physical devices  limit exceeded`() {
         val yaml = """
         gcloud:
           app: $appApk

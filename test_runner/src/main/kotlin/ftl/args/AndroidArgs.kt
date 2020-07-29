@@ -1,7 +1,7 @@
 package ftl.args
 
 import ftl.args.yml.AppTestPair
-import ftl.config.check
+import ftl.config.resolve
 import ftl.config.isVirtual
 
 data class AndroidArgs(
@@ -87,9 +87,9 @@ val AndroidArgs.isRoboTest
     get() = appApk != null &&
             (roboDirectives.isNotEmpty() || roboScript != null)
 
-fun AndroidArgs.containsVirtualDevices() = devices.check(project).any { it.isVirtual(project) }
+fun AndroidArgs.containsVirtualDevices() = devices.any { it.isVirtual!! }
 
-fun AndroidArgs.containsPhysicalDevices() = devices.check(project).any { !it.isVirtual(project) }
+fun AndroidArgs.containsPhysicalDevices() = devices.any { !it.isVirtual!! }
 
 fun AndroidArgs.shouldSplitRuns() = containsPhysicalDevices() && maxTestShards > 50
 
