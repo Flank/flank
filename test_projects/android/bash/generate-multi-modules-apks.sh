@@ -7,8 +7,7 @@ PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." >/dev/null 2>&1 &
 TEST_APP_DIR="$PROJECT_DIR/test_projects/android"
 MULTI_MODULES_DIR="$PROJECT_DIR/test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/multi-modules/"
 
-"$TEST_APP_DIR/gradlew" -p "$TEST_APP_DIR" \
-  :multi-modules:multiapp:assemble \
+"$TEST_APP_DIR/gradlew" :multi-modules:multiapp:assemble \
   :multi-modules:testModule1:assembleAndroidTest \
   :multi-modules:testModule2:assembleAndroidTest \
   :multi-modules:testModule3:assembleAndroidTest \
@@ -31,4 +30,4 @@ MULTI_MODULES_DIR="$PROJECT_DIR/test_runner/src/test/kotlin/ftl/fixtures/tmp/apk
   :multi-modules:testModule20:assembleAndroidTest \
 
 mkdir -p "$MULTI_MODULES_DIR"
-find "$TEST_APP_DIR/multi-modules" -type f -name "*.apk" -exec cp {} "$MULTI_MODULES_DIR" \;
+find multi-modules -type f -name "*.apk" -exec cp {} "$MULTI_MODULES_DIR" \;
