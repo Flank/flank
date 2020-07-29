@@ -4,14 +4,14 @@ import flank.scripts.utils.runCommand
 import java.io.File
 import java.nio.file.Path
 
-fun releaseFlank(path: Path, gitTag: String, commitHash: String, isSnapshotRelease: Boolean) {
+fun releaseFlank(path: Path, gitTag: String, commitHash: String, isSnapshotRelease: Boolean): Int {
     val releasePath = moveFlankToReleaseDirectory(path)
-    val releaseCommand = if(isSnapshotRelease) {
+    val releaseCommand = if (isSnapshotRelease) {
         hubStableSnapshotCommand(releasePath, gitTag, commitHash)
     } else {
         hubStableReleaseCommand(releasePath, gitTag, commitHash)
     }
-    releaseCommand.runCommand()
+    return releaseCommand.runCommand()
 }
 
 private fun hubStableReleaseCommand(path: String, gitTag: String, commitHash: String) =

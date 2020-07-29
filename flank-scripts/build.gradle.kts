@@ -12,14 +12,13 @@ val artifactID = "flankScripts"
 val shadowJar: ShadowJar by tasks
 shadowJar.apply {
     archiveClassifier.set("")
-    archiveFileName.set("${artifactID}.jar")
+    archiveFileName.set("$artifactID.jar")
     mergeServiceFiles()
 
     @Suppress("UnstableApiUsage")
     manifest {
         attributes(mapOf("Main-Class" to "flank.scripts.MainKt"))
     }
-    //copyJarFile("$buildDir/libs/${artifactID}.jar", "$rootDir/bash/${artifactID}.jar")
 }
 
 version = "1.0"
@@ -29,16 +28,15 @@ application {
     mainClassName = "flank.scripts.MainKt"
 }
 
-
 repositories {
     jcenter()
     mavenCentral()
-    maven(url =  "https://kotlin.bintray.com/kotlinx")
+    maven(url = "https://kotlin.bintray.com/kotlinx")
 }
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation(KOTLIN_SERIALIZATION)
+    implementation(Kotlin.KOTLIN_SERIALIZATION)
     implementation(Fuel.CORE)
     implementation(Fuel.KOTLINX_SERIALIZATION)
     implementation(Fuel.COROUTINES)

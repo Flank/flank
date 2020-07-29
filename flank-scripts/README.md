@@ -30,7 +30,7 @@ Available commands are:
   - `jFrogDelete`       Delete old version on bintray  
   - `jFrogSync`         Sync maven repository using jfrog  
   - `deleteOldRelease`  Delete old release on github  
-  - `removeOldTag`      Remove old tag on GitHub  
+  - `deleteOldTag`      Delete old tag on GitHub  
   
 #### `releaseFlank`
 Release Flank on GitHub 
@@ -74,8 +74,8 @@ Delete old release on github
 | `--git-tag`     	| Git Tag                              	| 
 
 
-#### `removeOldTag` 
-Remove old tag on GitHub
+#### `deleteOldTag` 
+Delete old tag on GitHub
 
 | Option          	| Description     	|
 |-----------------	|-----------------	|

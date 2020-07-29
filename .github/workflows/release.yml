@@ -77,14 +77,14 @@ jobs:
               protocol: https
             EOF
 
-    - name: Remove old release
+    - name: Delete old release
       run: |
         hub version
         flankScripts release deleteOldRelease --git-tag=$RELEASE_TAG
 
-    - name: Rename old tag
+    - name: Delete old tag
       if: ${{ env.RELEASE_TAG == 'flank_snapshot' }}
-      run: flankScripts release removeOldTag --git-tag=$RELEASE_TAG --username=$GITHUB_ACTOR --token=${{ secrets.GITHUB_TOKEN }}
+      run: flankScripts release deleteOldTag --git-tag=$RELEASE_TAG --username=$GITHUB_ACTOR --token=${{ secrets.GITHUB_TOKEN }}
 
     - name: Release snapshot
       if: ${{ env.RELEASE_TAG == 'flank_snapshot' }} 

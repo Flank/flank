@@ -22,4 +22,6 @@ private fun ProcessBuilder.startWithRetry(retryCount: Int): Int {
     return processResponse
 }
 
+const val SUCCESS = 0
+const val ERROR_WHEN_RUNNING = 1
 private const val EXCEPTION_WHEN_CALLING_COMMAND_CODE = -1

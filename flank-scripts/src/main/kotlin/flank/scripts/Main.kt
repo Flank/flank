@@ -4,7 +4,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
 import flank.scripts.release.ReleaseCommand
 
-class Main: CliktCommand(name = "flankScripts") {
+class Main : CliktCommand(name = "flankScripts") {
     override fun run() {}
 }
 
