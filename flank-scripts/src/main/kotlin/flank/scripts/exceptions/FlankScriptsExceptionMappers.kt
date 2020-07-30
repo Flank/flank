@@ -9,7 +9,7 @@ import flank.scripts.utils.toObject
 
 fun <V : Any, E : FuelError, E2 : Exception> Result<V, E>.mapClientError(transform: (E) -> E2) = when (this) {
     is Result.Success -> this
-    is Result.Failure -> if (error.response.isClientError) Result.Failure(transform(error)) else Result.Failure(error)
+    is Result.Failure -> if (error.response.isClientError) Result.Failure(transform(error)) else this
 }
 fun FuelError.toGithubException() =
         GitHubException(response.body().asString(APPLICATION_JSON_CONTENT_TYPE).toObject(GitHubErrorResponse.serializer()))
