@@ -120,12 +120,35 @@ RunTests
 Flank.jar firebase test android run --num-flaky-test-attempts=0 --full-junit-result=true
 ```
 
+## API usage outline
+Real examples simplified to pseudo code that outlines only API call usage 
+#### Gcloud
+Case for disabled sharding
+* [MonitorTestExecutionProgress](https://github.com/Flank/gcloud_cli/blob/137d864acd5928baf25434cf59b0225c4d1f9319/google-cloud-sdk/lib/googlecloudsdk/api_lib/firebase/test/matrix_ops.py#L164)
+```
+while (matrix status is not completed) {
+    _client.projects_testMatrices.Get(
+        TestingProjectsTestMatricesGetRequest(projectId, testMatrixId)
+    )
+    wait(6s)
+}
+```
+* [MonitorTestMatrixProgress](https://github.com/Flank/gcloud_cli/blob/137d864acd5928baf25434cf59b0225c4d1f9319/google-cloud-sdk/lib/googlecloudsdk/api_lib/firebase/test/matrix_ops.py#L248)
+Case for enabled sharding  
+```
+while (matrix status is not completed) {
+    _client.projects_testMatrices.Get(
+        TestingProjectsTestMatricesGetRequest(projectId, testMatrixId)
+    )
+    wait(6s)
+}
+```
 
-## API calls usage comparision
+## API calls usage comparision table
 Following table should compare API calls complexity.
 
-|                 |  Gcloud  |  20.06.2 | 20.05.2 |
-|:---------------:|:--------:|:--------:|:-------:|
-| poll matrices   |          |          |         |
-| fetch artifacts |          |          |         |
-| ...             |          |          |         |
+|                          |  Gcloud  |  20.06.2 | 20.05.2 |
+|:------------------------:|:--------:|:--------:|:-------:|
+| execution status updates |          |          |         |
+| fetch artifacts          |          |          |         |
+| ...                      |          |          |         |
