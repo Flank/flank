@@ -24,7 +24,7 @@ private fun createIosArgs(
     testTargets = flank.testTargets!!.filterNotNull()
 )
 
-private fun convertToShardCount(inputValue: Int): Int =
+private fun convertToShardCount(inputValue: Int) =
     if (inputValue != -1)
         inputValue else
         IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last

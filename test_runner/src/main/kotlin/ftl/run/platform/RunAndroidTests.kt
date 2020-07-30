@@ -3,8 +3,6 @@ package ftl.run.platform
 import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.TestMatrix
 import ftl.args.AndroidArgs
-import ftl.args.shouldSplitRuns
-import ftl.args.splitConfigurationByDeviceType
 import ftl.gc.GcAndroidDevice
 import ftl.gc.GcAndroidTestMatrix
 import ftl.gc.GcToolResults
@@ -31,6 +29,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
 
     // GcAndroidMatrix => GcAndroidTestMatrix
     // GcAndroidTestMatrix.execute() 3x retry => matrix id (string)
+    val devices = GcAndroidDevice.build(args.devices)
     val testMatrices = mutableListOf<Deferred<TestMatrix>>()
     val allTestShardChunks = mutableListOf<List<String>>()
     val ignoredTestsShardChunks = mutableListOf<List<String>>()
@@ -38,30 +37,27 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     val history = GcToolResults.createToolResultsHistory(args)
     val otherGcsFiles = args.uploadOtherFiles(runGcsPath)
     val additionalApks = args.uploadAdditionalApks(runGcsPath)
-    val deviceArgs = if (args.shouldSplitRuns()) args.splitConfigurationByDeviceType() else listOf(args)
 
-    deviceArgs.forEach { arg ->
-        arg.createAndroidTestContexts()
-            .upload(arg.resultsBucket, runGcsPath)
-            .forEachIndexed { index, context ->
-                if (context is InstrumentationTestContext) {
-                    ignoredTestsShardChunks += context.ignoredTestCases
-                    allTestShardChunks += context.shards
-                }
-                val androidTestConfig = arg.createAndroidTestConfig(context)
-                testMatrices += executeAndroidTestMatrix(runCount = arg.repeatTests) {
-                    GcAndroidTestMatrix.build(
-                        androidTestConfig = androidTestConfig,
-                        runGcsPath = "$runGcsPath/matrix_$index/",
-                        additionalApkGcsPaths = additionalApks,
-                        androidDeviceList = GcAndroidDevice.build(arg.devices),
-                        args = arg,
-                        otherFiles = otherGcsFiles,
-                        toolResultsHistory = history
-                    )
-                }
+    args.createAndroidTestContexts()
+        .upload(args.resultsBucket, runGcsPath)
+        .forEachIndexed { index, context ->
+            if (context is InstrumentationTestContext) {
+                ignoredTestsShardChunks += context.ignoredTestCases
+                allTestShardChunks += context.shards
             }
-    }
+            val androidTestConfig = args.createAndroidTestConfig(context)
+            testMatrices += executeAndroidTestMatrix(runCount = args.repeatTests) {
+                GcAndroidTestMatrix.build(
+                    androidTestConfig = androidTestConfig,
+                    runGcsPath = "$runGcsPath/matrix_$index/",
+                    additionalApkGcsPaths = additionalApks,
+                    androidDeviceList = devices,
+                    args = args,
+                    otherFiles = otherGcsFiles,
+                    toolResultsHistory = history
+                )
+            }
+        }
 
     if (testMatrices.isEmpty()) throw FlankCommonException("There are no tests to run.")
 

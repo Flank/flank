@@ -5,6 +5,8 @@ import ftl.android.IncompatibleModelVersion
 import ftl.android.SupportedDeviceConfig
 import ftl.android.UnsupportedModelId
 import ftl.android.UnsupportedVersionId
+import ftl.config.containsPhysicalDevices
+import ftl.config.containsVirtualDevices
 import ftl.util.FlankFatalError
 import java.io.File
 
@@ -76,9 +78,11 @@ private fun AndroidArgs.assertDirectoriesToPull() {
 }
 
 private fun AndroidArgs.assertMaxTestShardsByDeviceType() =
-    if (containsPhysicalDevices() && containsVirtualDevices()) assertDevicesShards()
-    else if (containsPhysicalDevices() && !containsVirtualDevices() && !inPhysicalRange) throwMaxTestShardsLimitExceeded()
-    else assertVirtualDevicesShards()
+    when {
+        devices.containsPhysicalDevices() && devices.containsVirtualDevices() -> assertDevicesShards()
+        devices.containsPhysicalDevices() && !devices.containsVirtualDevices() && !inPhysicalRange -> throwMaxTestShardsLimitExceeded()
+        else -> assertVirtualDevicesShards()
+    }
 
 private fun AndroidArgs.assertDevicesShards() {
     if (inVirtualRange && !inPhysicalRange) println("Physical devices configured, but max-test-shards limit set to $maxTestShards, for physical devices range is ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.first} to ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}, you additionally have configured virtual devices. In this case, the physical limit will be decreased to: ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}")
@@ -89,7 +93,7 @@ private fun AndroidArgs.assertVirtualDevicesShards() {
     if (!inVirtualRange) throwMaxTestShardsLimitExceeded()
 }
 
-private fun AndroidArgs.throwMaxTestShardsLimitExceeded() {
+private fun AndroidArgs.throwMaxTestShardsLimitExceeded(): Nothing {
     throw FlankFatalError(
         "max-test-shards must be >= ${IArgs.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE.first} and <= ${IArgs.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE.last} for virtual devices, for physical devices max-test-shards must be >= ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.first} and <= ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}, or -1. But current is $maxTestShards"
     )

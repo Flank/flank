@@ -1,8 +1,6 @@
 package ftl.args
 
 import ftl.args.yml.AppTestPair
-import ftl.config.resolve
-import ftl.config.isVirtual
 
 data class AndroidArgs(
     val commonArgs: CommonArgs,
@@ -25,7 +23,6 @@ data class AndroidArgs(
 ) : IArgs by commonArgs {
     companion object : AndroidArgsCompanion()
 
-    // override val maxTestShards: Int = calculateMaxTestShards(commonArgs.maxTestShards)
     override fun toString(): String {
         return """
 AndroidArgs
@@ -86,17 +83,3 @@ val AndroidArgs.isInstrumentationTest
 val AndroidArgs.isRoboTest
     get() = appApk != null &&
             (roboDirectives.isNotEmpty() || roboScript != null)
-
-fun AndroidArgs.containsVirtualDevices() = devices.any { it.isVirtual!! }
-
-fun AndroidArgs.containsPhysicalDevices() = devices.any { !it.isVirtual!! }
-
-fun AndroidArgs.shouldSplitRuns() = containsPhysicalDevices() && maxTestShards > 50
-
-fun AndroidArgs.splitConfigurationByDeviceType() = listOf(
-    this.copy(commonArgs = commonArgs.copy(devices = devices.filter { it.isVirtual ?: false }, maxTestShards = maxTestShards)),
-    this.copy(commonArgs = commonArgs.copy(devices = devices.filter { !(it.isVirtual ?: false) }, maxTestShards = maxTestShards.scaleToPhysicalShardsCount()))
-)
-
-private fun Int.scaleToPhysicalShardsCount() = if (this !in IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE)
-    IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last else this

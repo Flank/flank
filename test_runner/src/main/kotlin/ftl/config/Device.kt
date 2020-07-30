@@ -1,6 +1,5 @@
 package ftl.config
 
-import ftl.android.AndroidCatalog
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.config.FtlConstants.defaultIosModel
@@ -13,9 +12,9 @@ data class Device(
     val model: String,
     val version: String,
     val locale: String = defaultLocale,
-    val orientation: String = defaultOrientation
+    val orientation: String = defaultOrientation,
+    val isVirtual: Boolean? = null
 ) {
-    var isVirtual: Boolean? = null
     override fun toString(): String {
         return """
         - model: $model
@@ -41,8 +40,6 @@ fun Map<String, String>.asDevice(android: Boolean) =
         )
     }
 
-fun Device.isVirtual(projectId: String) = if (this.isVirtual == null) AndroidCatalog.isVirtualDevice(model, projectId).also {
-    isVirtual = it
-} else isVirtual ?: false
+fun List<Device>.containsVirtualDevices() = any { it.isVirtual ?: false }
 
-fun List<Device>.resolve(projectId: String) = apply { forEach { it.isVirtual(projectId) } }
+fun List<Device>.containsPhysicalDevices() = any { (it.isVirtual ?: false).not() }
