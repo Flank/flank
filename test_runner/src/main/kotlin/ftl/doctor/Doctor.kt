@@ -1,8 +1,11 @@
 package ftl.doctor
 
 import com.google.common.annotations.VisibleForTesting
+import ftl.args.AndroidArgsCompanion
 import ftl.args.ArgsHelper
 import ftl.args.IArgs
+import ftl.config.loadAndroidConfig
+import ftl.config.loadIosConfig
 import ftl.util.loadFile
 import java.io.Reader
 import java.nio.file.Path
@@ -10,7 +13,7 @@ import java.nio.file.Path
 object Doctor {
     fun validateYaml(args: IArgs.ICompanion, data: Path): String {
         if (!data.toFile().exists()) return "Skipping yaml validation. No file at path $data"
-        return validateYaml(args, loadFile(data))
+        return validateYaml(args, loadFile(data)) + preloadConfiguration(data, args is AndroidArgsCompanion)
     }
 
     @VisibleForTesting
@@ -40,5 +43,12 @@ object Doctor {
         }
 
         return result
+    }
+
+    private fun preloadConfiguration(data: Path, isAndroid: Boolean) = try {
+        if (isAndroid) loadAndroidConfig(data) else loadIosConfig(data)
+        ""
+    } catch (e: Exception) {
+        e.message
     }
 }
