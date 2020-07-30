@@ -1,0 +1,91 @@
+name: RELEASE
+
+# Run when push on master or create tag with version [v*]
+on:
+  push:
+    branches:
+      - 'master'
+    tags: v*
+
+jobs:
+  release:
+    runs-on: macos-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Gradle Build flankScripts and add it to PATH
+      run: |
+        ./flank-scripts/bash/buildFlankScripts.sh
+        echo "::add-path::./flank-scripts/bash"
+
+    - name: Set env variables
+      run: |
+        git_short_hash=$(git rev-parse --short "$GITHUB_SHA")
+        echo "::set-env name=GIT_SHORT_HASH::$(echo $git_short_hash)";
+
+          if [ $GITHUB_REF == "refs/tags/*" ]; 
+            then 
+              echo "::set-env name=MVN_VERSION::$(echo ${GITHUB_REF:11})";
+              echo "::set-env name=RELEASE_TAG::$(echo ${GITHUB_REF:10})";
+            else 
+              echo "::set-env name=RELEASE_TAG::flank_snapshot"
+              echo "::set-env name=MVN_VERSION::flank_snapshot"; 
+          fi;     
+          echo "$GITHUB_SHA" > ./test_runner/src/main/resources/revision.txt
+          echo "$RELEASE_TAG" > ./test_runner/src/main/resources/version.txt
+    
+    - name: Update bugsnag
+      run: flankScripts release updateBugsnag --bugsnag-api-key=${{ secrets.BUGSNAG_API_KEY }} --app-version=${GITHUB_SHA}
+
+    - name: Get Jfrog CLI
+      run: |
+        brew install jfrog-cli-go
+        jfrog bt config --user ${{ secrets.JFROG_USER }} --key ${{ secrets.JFROG_KEY }} --licenses Apache-2.0  
+    
+    - name: Delete old snapshot
+      run: flankScripts release jFrogDelete --version=$MVN_VERSION
+
+    - name: Gradle Build Flank
+      uses: eskatos/gradle-command-action@v1
+      with:
+        gradle-executable: "./test_runner/gradlew"
+        arguments: "-p test_runner clean build shadowJar"
+        
+    - name: Gradle Upload to bintray
+      uses: eskatos/gradle-command-action@v1
+      with:
+        gradle-executable: "./test_runner/gradlew"
+        arguments: "-p test_runner bintrayUpload"  
+        wrapper-cache-enabled: false
+      
+    - name: Authenticate to hub
+      run: |
+            mkdir -p ~/.config/
+
+            cat << EOF > ~/.config/hub
+            github.com:
+            - user: $GITHUB_ACTOR
+              oauth_token: ${{ secrets.GITHUB_TOKEN }}
+              protocol: https
+            EOF
+
+    - name: Delete old release
+      run: |
+        hub version
+        flankScripts release deleteOldRelease --git-tag=$RELEASE_TAG
+
+    - name: Delete old tag
+      if: ${{ env.RELEASE_TAG == 'flank_snapshot' }}
+      run: flankScripts release deleteOldTag --git-tag=$RELEASE_TAG --username=$GITHUB_ACTOR --token=${{ secrets.GITHUB_TOKEN }}
+
+    - name: Release snapshot
+      if: ${{ env.RELEASE_TAG == 'flank_snapshot' }} 
+      run: flankScripts release releaseFlank --input-file=./test_runner/build/libs/flank.jar --git-tag=$RELEASE_TAG --commit-hash=$GIT_SHORT_HASH --snapshot
+
+    - name: Release stable
+      if: ${{ env.RELEASE_TAG == 'v*' }}
+      run: flankScripts release releaseFlank --input-file=./test_runner/build/libs/flank.jar --git-tag=$RELEASE_TAG --commit-hash=$GIT_SHORT_HASH 
+
+    - name: Sync bintray to maven central
+      run: flankScripts release jFrogSync --git-tag=$RELEASE_TAG
