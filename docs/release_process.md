@@ -26,7 +26,8 @@ Each push:
 7. Gradle Upload to bintray
 8. Authenticate to hub
 9. Remove old release
-10. Rename old tag
-11a. Release snapshot if snapshot flow
-11b. Release stable if the regular flow
+10. Rename old tag  
+11. Release flank
+    1. Snapshot for snapshot flow (push to master)
+    2. Stable for regular flow (push tag `v*`)
 12. Sync bintray to maven central
