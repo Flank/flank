@@ -8,7 +8,7 @@ import flank.scripts.release.updatebugsnag.BugSnagResponse
 import flank.scripts.utils.toObject
 
 fun <V : Any, E : FuelError, E2 : Exception> Result<V, E>.mapClientError(transform: (E) -> E2) = when (this) {
-    is Result.Success -> Result.Success(value)
+    is Result.Success -> this
     is Result.Failure -> if (error.response.isClientError) Result.Failure(transform(error)) else Result.Failure(error)
 }
 fun FuelError.toGithubException() =

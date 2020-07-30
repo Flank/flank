@@ -6,10 +6,8 @@ import com.github.ajalt.clikt.parameters.options.required
 import com.github.kittinunf.result.Result
 import flank.scripts.utils.ERROR_WHEN_RUNNING
 import flank.scripts.utils.SUCCESS
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import kotlin.system.exitProcess
+import kotlinx.coroutines.runBlocking
 
 class UpdateBugSnagCommand : CliktCommand(name = "updateBugsnag", help = "Update Bugnsag") {
 
@@ -19,16 +17,14 @@ class UpdateBugSnagCommand : CliktCommand(name = "updateBugsnag", help = "Update
 
     override fun run() {
         runBlocking {
-            withContext(Dispatchers.IO) {
-                when (val response = updateBugsnag(bugsnagApiKey, appVersion, githubWorkflowUrl.orEmpty())) {
-                    is Result.Success -> {
-                        println("Bugsnag was updated")
-                        exitProcess(SUCCESS)
-                    }
-                    is Result.Failure -> {
-                        println(response.error)
-                        exitProcess(ERROR_WHEN_RUNNING)
-                    }
+            when (val response = updateBugsnag(bugsnagApiKey, appVersion, githubWorkflowUrl.orEmpty())) {
+                is Result.Success -> {
+                    println("Bugsnag was updated")
+                    exitProcess(SUCCESS)
+                }
+                is Result.Failure -> {
+                    println(response.error)
+                    exitProcess(ERROR_WHEN_RUNNING)
                 }
             }
         }

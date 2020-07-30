@@ -4,7 +4,7 @@ name: RELEASE
 on:
   push:
     branches:
-      - '#892-release_on_github_actions' #TODO change to master
+      - 'master'
     tags: v*
 
 jobs:
@@ -34,17 +34,11 @@ jobs:
           fi;     
           echo "$GITHUB_SHA" > ./test_runner/src/main/resources/revision.txt
           echo "$RELEASE_TAG" > ./test_runner/src/main/resources/version.txt
-
-    - name: TEMPORARY print tag   #TODO delete
-      run: |
-        hub version
-        echo $RELEASE_TAG
     
     - name: Update bugsnag
       run: flankScripts release updateBugsnag --bugsnag-api-key=${{ secrets.BUGSNAG_API_KEY }} --app-version=${GITHUB_SHA}
 
     - name: Get Jfrog CLI
-      #TODO provide credentials
       run: |
         brew install jfrog-cli-go
         jfrog bt config --user ${{ secrets.JFROG_USER }} --key ${{ secrets.JFROG_KEY }} --licenses Apache-2.0  
@@ -59,7 +53,6 @@ jobs:
         arguments: "-p test_runner clean build shadowJar"
         
     - name: Gradle Upload to bintray
-      if: ${{ github.event_name == 'do not run until finished!' }}  #TODO when all finish all steps (end of PR)
       uses: eskatos/gradle-command-action@v1
       with:
         gradle-executable: "./test_runner/gradlew"

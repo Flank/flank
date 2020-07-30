@@ -12,6 +12,8 @@
 - [#907](https://github.com/Flank/flank/pull/907) Added option to print Android available locales to test against. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#913](https://github.com/Flank/flank/pull/913) Add Gradle Enterprise API example. ([pawelpasterz](https://github.com/pawelpasterz))
 - [#916](https://github.com/Flank/flank/pull/916) Test artifacts monorepo. ([jan-gogo](https://github.com/jan-gogo))
+- [#910](https://github.com/Flank/flank/pull/910) Migrate Bitrise release workflow into GitHub actions.  ([piotradamczyk5](https://github.com/piotradamczyk5))
+-
 -
 
 ## v20.07.0
