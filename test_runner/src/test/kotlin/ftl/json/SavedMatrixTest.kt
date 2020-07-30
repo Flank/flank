@@ -15,7 +15,7 @@ import ftl.util.MatrixState.FINISHED
 import ftl.util.MatrixState.INVALID
 import ftl.util.MatrixState.PENDING
 import ftl.util.webLink
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -24,11 +24,11 @@ class SavedMatrixTest {
 
     companion object {
         // use -1 step id to get a failure outcome from the mock server
-        fun createStepExecution(stepId: Int, deviceModel: String = "shamu"): TestExecution {
+        fun createStepExecution(stepId: Int, deviceModel: String = "shamu", executionId: Int? = null): TestExecution {
             val toolResultsStep = ToolResultsStep()
             toolResultsStep.projectId = "1"
             toolResultsStep.historyId = "2"
-            toolResultsStep.executionId = stepId.toString()
+            toolResultsStep.executionId = executionId?.toString() ?: stepId.toString()
             toolResultsStep.stepId = stepId.toString()
 
             val testExecution = TestExecution()
@@ -161,7 +161,7 @@ class SavedMatrixTest {
         testMatrix.webLink()
         testExecutions.forEach { it.state = ERROR }
         savedMatrix.update(testMatrix)
-        Assert.assertEquals(0, savedMatrix.billableVirtualMinutes)
+        assertEquals(0, savedMatrix.billableVirtualMinutes)
     }
 
     @Test
@@ -182,7 +182,7 @@ class SavedMatrixTest {
         testMatrix.state = FINISHED
         testMatrix.webLink()
         savedMatrix.update(testMatrix)
-        Assert.assertEquals(1, savedMatrix.billableVirtualMinutes)
+        assertEquals(1, savedMatrix.billableVirtualMinutes)
     }
 
     @Test
@@ -199,8 +199,79 @@ class SavedMatrixTest {
 
         testMatrix.state = INVALID
         savedMatrix.update(testMatrix)
-        Assert.assertEquals(expectedOutcome, savedMatrix.outcome)
-        Assert.assertEquals(expectedOutcomeDetails, savedMatrix.outcomeDetails)
-        Assert.assertEquals(INVALID, savedMatrix.state)
+        assertEquals(expectedOutcome, savedMatrix.outcome)
+        assertEquals(expectedOutcomeDetails, savedMatrix.outcomeDetails)
+        assertEquals(INVALID, savedMatrix.state)
+    }
+
+    @Test
+    fun `savedMatrix should have failed outcome when at least one test is failed and the last one is flaky`() {
+        val expectedOutcome = "failure"
+        val successStepExecution = createStepExecution(1) // success
+        val failedStepExecution = createStepExecution(-1) //failure
+        val flakyStepExecution = createStepExecution(-4) //flaky
+        // https://github.com/Flank/flank/issues/914
+        // This test covers corner case where the last test execution to check is flaky
+        // based on different outcome from step (failed) and execution (success)
+        // step.outcome != execution.outcome => means flaky
+        val flakyOutcomeComparedStepExecution = createStepExecution(stepId = -1, executionId = 1) // flaky
+
+
+        // below order in the list matters!
+        val executions = listOf(
+            flakyStepExecution,
+            successStepExecution,
+            failedStepExecution,
+            flakyOutcomeComparedStepExecution
+        )
+
+        val testMatrix = TestMatrix().apply {
+            testMatrixId = "123"
+            state = FINISHED
+            resultStorage = createResultsStorage()
+            testExecutions = executions
+        }
+
+        val savedMatrix = SavedMatrix(testMatrix)
+
+        assertEquals(
+            "Does not return failed outcome when last execution is flaky",
+            expectedOutcome,
+            savedMatrix.outcome
+        )
+    }
+
+    @Test
+    fun `savedMatrix should have flaky outcome when at least one test is flaky`() {
+        val expectedOutcome = "flaky"
+        val successStepExecution = createStepExecution(1) // success
+        val flakyStepExecution = createStepExecution(-4) //flaky
+        val flakyOutcomeComparedStepExecution = createStepExecution(stepId = -1, executionId = 1) // flaky
+        val malformed = createStepExecution(stepId = -666, executionId = -666) // flaky
+
+
+        // below order in the list matters!
+        val executions = listOf(
+            successStepExecution,
+//            flakyStepExecution,
+            successStepExecution,
+            malformed
+//            flakyOutcomeComparedStepExecution
+        )
+
+        val testMatrix = TestMatrix().apply {
+            testMatrixId = "123"
+            state = FINISHED
+            resultStorage = createResultsStorage()
+            testExecutions = executions
+        }
+
+        val savedMatrix = SavedMatrix(testMatrix)
+
+        assertEquals(
+            "Does not return failed outcome when last execution is flaky",
+            expectedOutcome,
+            savedMatrix.outcome
+        )
     }
 }

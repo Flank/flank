@@ -11,6 +11,6 @@ gcloud:
   use-orchestrator: false
 flank:
   disable-sharding: false
-  max-test-shards: 4
+  max-test-shards: 10
   files-to-download:
     - .*/sdcard/[^/]+\.ec$

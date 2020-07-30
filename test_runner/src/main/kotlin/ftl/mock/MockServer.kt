@@ -30,6 +30,7 @@ import ftl.log.LogbackLogger
 import ftl.util.Bash
 import ftl.util.FlankGeneralError
 import ftl.util.StepOutcome.failure
+import ftl.util.StepOutcome.flaky
 import ftl.util.StepOutcome.inconclusive
 import ftl.util.StepOutcome.skipped
 import ftl.util.StepOutcome.success
@@ -97,6 +98,12 @@ object MockServer {
                 val skippedDetail = SkippedDetail()
                 skippedDetail.incompatibleAppVersion = true
                 outcome.skippedDetail = skippedDetail
+            }
+            "-4" -> {
+                outcome.summary = flaky
+            }
+            "-666" -> {
+                outcome.summary = null
             }
             else -> outcome.summary = success
         }
