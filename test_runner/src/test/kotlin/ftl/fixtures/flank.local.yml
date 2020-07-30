@@ -1,6 +1,6 @@
 gcloud:
-  app: ../test_app/apks/app-debug.apk
-  test: ../test_app/apks/app-debug-androidTest.apk
+  app: ../test_projects/android/apks/app-debug.apk
+  test: ../test_projects/android/apks/app-debug-androidTest.apk
   results-bucket: tmp_bucket_2
   auto-google-login: true
   use-orchestrator: true

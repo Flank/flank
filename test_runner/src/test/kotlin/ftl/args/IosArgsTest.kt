@@ -31,7 +31,7 @@ class IosArgsTest {
     private val testPath = "./src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip"
     private val xctestrunFile =
         "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun"
-    private val invalidApp = "../test_app/apks/invalid.apk"
+    private val invalidApp = "../test_projects/android/apks/invalid.apk"
     private val xctestrunFileAbsolutePath = xctestrunFile.absolutePath()
     private val testAbsolutePath = testPath.absolutePath()
     private val resultDir = "test_dir"

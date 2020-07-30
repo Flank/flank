@@ -39,7 +39,7 @@ class ArgsFileVisitor(glob: String) : SimpleFileVisitor<Path>() {
     @Throws(java.nio.file.NoSuchFileException::class)
     fun walk(searchPath: Path): List<Path> {
         val searchString = searchPath.toString()
-        // /Users/tmp/code/flank/test_app/** => /Users/tmp/code/flank/test_app/
+        // /Users/tmp/code/flank/test_projects/android/** => /Users/tmp/code/flank/test_projects/android/
         // /Users/tmp/code/*                 => /Users/tmp/code/
         val beforeGlob = Paths.get(searchString.substringBefore(SINGLE_GLOB))
         // must not follow links when resolving paths or /tmp turns into /private/tmp

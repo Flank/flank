@@ -268,11 +268,11 @@ gcloud:
   ## The path to the application binary file.
   ## The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.
   ## Android App Bundles are specified as .aab, all other files are assumed to be APKs.
-  app: ../test_app/apks/app-debug.apk
+  app: ../test_projects/android/apks/app-debug.apk
 
   ## The path to the binary file containing instrumentation tests.
   ## The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://.
-  test: ../test_app/apks/app-debug-androidTest.apk
+  test: ../test_projects/android/apks/app-debug-androidTest.apk
 
   ## Automatically log into the test device using a preconfigured Google account before beginning the test.
   ## Disabled by default. Use --auto-google-login to enable.
@@ -404,9 +404,9 @@ flank:
   ## Include additional app/test apk pairs in the run. Apks are unique by just filename and not by path!
   ## If app is omitted, then the top level app is used for that pair.
   # additional-app-test-apks:
-  #  - app: ../test_app/apks/app-debug.apk
-  #    test: ../test_app/apks/app1-debug-androidTest.apk
-  #  - test: ../test_app/apks/app2-debug-androidTest.apk
+  #  - app: ../test_projects/android/apks/app-debug.apk
+  #    test: ../test_projects/android/apks/app1-debug-androidTest.apk
+  #  - test: ../test_projects/android/apks/app2-debug-androidTest.apk
 
   ## The max time this test run can execute before it is cancelled (default: unlimited).
   # run-timeout: 60m
@@ -577,8 +577,8 @@ In CI, it may be useful to generate the file via a shell script:
 ```
 cat << 'EOF' > ./flank.yml
 gcloud:
-  app: ../../test_app/apks/app-debug.apk
-  test: ../../test_app/apks/app-debug-androidTest.apk
+  app: ../../test_projects/android/apks/app-debug.apk
+  test: ../../test_projects/android/apks/app-debug-androidTest.apk
 EOF
 ```
 

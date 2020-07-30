@@ -12,7 +12,7 @@ TEST_APP_DIR="$DIR/.."
   dir2:testModule:assembleAndroidTest \
   dir3:testModule:assembleAndroidTest \
 
-APKS_DIR="$TEST_APP_DIR/../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/duplicated_names"
+APKS_DIR="$TEST_APP_DIR/../../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/duplicated_names"
 for INDEX in 0 1 2 3
 do
   DIR_NAME="dir$INDEX"
