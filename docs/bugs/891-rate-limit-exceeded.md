@@ -144,6 +144,18 @@ while (matrix status is not completed) {
 }
 ```
 
+#### Flank v20.06.2
+* [pollMatrices](https://github.com/Flank/flank/blob/6ee6939263923953edf67afa7218cf2c496c2ef2/test_runner/src/main/kotlin/ftl/run/common/PollMatrices.kt#L19)
+```
+forEach(test matrix) {
+    while (matrix status is not completed) {
+        GcTestMatrix.refresh(testMatrixId, projectId)
+        wait(5s)
+    }
+}
+```
+
+
 ## API calls usage comparision table
 Following table should compare API calls complexity.
 
