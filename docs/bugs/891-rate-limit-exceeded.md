@@ -201,7 +201,7 @@ Because of single matrix run gives only 1 request per 6 seconds
 #### Flank v20.05.2
 Gets matrix status updates in synchronize way so only the first matrix is getting status updates,
 the others are blocked until the first is getting completed, so the amount of requests is reduced to 1 per 5 secs.
-Plus additional number requests for each execution in one matrix scope.
+Plus additional number of requests for each execution in one matrix scope.
 That is why this version of the flank is not getting a limit exceeded.
 
 #### Flank v20.06.2
