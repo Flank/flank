@@ -148,7 +148,7 @@ while (matrix status is not completed) {
 * [pollMatrices](https://github.com/Flank/flank/blob/6ee6939263923953edf67afa7218cf2c496c2ef2/test_runner/src/main/kotlin/ftl/run/common/PollMatrices.kt#L19)
 ```
 forEach(test matrix) {
-    while (matrix status is not completed) {
+    async while(matrix status is not completed) {
         GcTestMatrix.refresh(testMatrixId, projectId)
         wait(5s)
     }
@@ -157,17 +157,59 @@ forEach(test matrix) {
 * [SavedMatrix.finished](https://github.com/Flank/flank/blob/c88cb2786de67c0a114fc31a7b25917a035e145b/test_runner/src/main/kotlin/ftl/json/SavedMatrix.kt#L75)
 ```
 forEach(test matrix) {
-    forEach(matrix test execution) {
+    sync forEach(matrix test execution) {
         GcToolResults.getStepResult(toolResultsStep)
     }  
+}
+```
+
+#### Flank v20.05.2
+* [pollMatrices](https://github.com/Flank/flank/blob/accca3b941874e9556eea6616b34a9f4319c8746/test_runner/src/main/kotlin/ftl/run/common/PollMatrices.kt#L15)
+```
+// Only the first matrix is getting status updates
+// the others are blocked until the first is getting completed.
+// As a result, it reduces the amount of requests to 1 per 5 secs.
+// That is why this version of the flank is not getting limit exceeded.
+forEach(test matrix) {
+    sync while(matrix status is not completed) {
+        GcTestMatrix.refresh(testMatrixId, projectId)
+        wait(5s)
+    }
 }
 ```
 
 ## API calls usage comparision table
 Following table should compare API calls complexity.
 
-|                          |  Gcloud  |  20.06.2 | 20.05.2 |
-|:------------------------:|:--------:|:--------:|:-------:|
-| execution status updates |          |          |         |
-| fetch artifacts          |          |          |         |
-| ...                      |          |          |         |
+|         | execution status updates |
+|:-------:|:------------------------:|
+| Gcloud  | 1 * r / 6s               |
+| 20.05.2 | 1 * r / 5s + (E * r)     |
+| 20.06.2 | M * r / 5s + (M * E * r) |
+ 
+```
+r - request
+s - second
+M - count of matrixes
+E - count of test executions in matrix scope
+```
+
+## Conclusions
+#### Gclud
+Because of single matrix run gives only 1 request per 6 seconds
+
+#### Flank v20.05.2
+Gets matrix status updates in synchronize way so only the first matrix is getting status updates,
+the others are blocked until the first is getting completed, so the amount of requests is reduced to 1 per 5 secs.
+Plus additional number requests for each execution in one matrix scope.
+That is why this version of the flank is not getting a limit exceeded.
+
+#### Flank v20.06.2
+Is polling results asynchronously for each matrix. 
+At last, it is doing a request for each test execution for each matrix, 
+and this is the place where flank is getting a rate limit exceeded.
+It is visible on stack trace.
+```
+  at ftl.gc.GcToolResults.getStepResult(GcToolResults.kt:98)
+  at ftl.json.SavedMatrix.finished(SavedMatrix.kt:90)
+```
