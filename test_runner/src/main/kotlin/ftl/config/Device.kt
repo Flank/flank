@@ -13,7 +13,7 @@ data class Device(
     val version: String,
     val locale: String = defaultLocale,
     val orientation: String = defaultOrientation,
-    val isVirtual: Boolean? = null
+    val isVirtual: Boolean = false
 ) {
     override fun toString(): String {
         return """
@@ -40,6 +40,6 @@ fun Map<String, String>.asDevice(android: Boolean) =
         )
     }
 
-fun List<Device>.containsVirtualDevices() = any { it.isVirtual ?: false }
+fun List<Device>.containsVirtualDevices() = any { it.isVirtual }
 
-fun List<Device>.containsPhysicalDevices() = any { (it.isVirtual ?: false).not() }
+fun List<Device>.containsPhysicalDevices() = any { !it.isVirtual }
