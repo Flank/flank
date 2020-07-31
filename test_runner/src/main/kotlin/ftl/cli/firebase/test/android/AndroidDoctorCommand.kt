@@ -3,7 +3,7 @@ package ftl.cli.firebase.test.android
 import ftl.args.AndroidArgs
 import ftl.cli.firebase.test.processValidation
 import ftl.config.FtlConstants
-import ftl.doctor.Doctor.validateYaml
+import ftl.doctor.validateYaml
 import java.nio.file.Paths
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
