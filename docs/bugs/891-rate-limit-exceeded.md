@@ -154,7 +154,14 @@ forEach(test matrix) {
     }
 }
 ```
-
+* [SavedMatrix.finished](https://github.com/Flank/flank/blob/c88cb2786de67c0a114fc31a7b25917a035e145b/test_runner/src/main/kotlin/ftl/json/SavedMatrix.kt#L75)
+```
+forEach(test matrix) {
+    forEach(matrix test execution) {
+        GcToolResults.getStepResult(toolResultsStep)
+    }  
+}
+```
 
 ## API calls usage comparision table
 Following table should compare API calls complexity.
