@@ -206,7 +206,7 @@ class SavedMatrixTest {
     }
 
     @Test
-    fun `savedMatrix should have failed outcome when at least one test is failed and the last one is flaky`() {
+    fun `savedMatrix should have failed outcome when at least one test is failed`() {
         val expectedOutcome = "failure"
         val successStepExecution = createStepExecution(1) // success
         val failedStepExecution = createStepExecution(-1) // failure
