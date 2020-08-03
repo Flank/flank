@@ -17,4 +17,4 @@ The Flank release job requires secrets as part of continuous delivery. A [flankb
 - `GITHUB_TOKEN` - Provided by [GitHub Actions](https://docs.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token)
 - `BUGSNAG_API_KEY` - Notifier API key for Bugsnag used to report crashes.
 - `JFROG_USER` - Username for jfrog authentication
-- `JFROG_KEY` - Password for jfrog authentication
+- `JFROG_API_KEY` - API key for jfrog used to publish releases. The API key is found in https://bintray.com/profile/edit
