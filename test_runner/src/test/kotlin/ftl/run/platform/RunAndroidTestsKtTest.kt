@@ -23,7 +23,7 @@ class RunAndroidTestsKtTest {
                 should { size == 4 },
                 should { size == 5 }
             ),
-                should { size == 6 }
+            should { size == 6 }
         )
 
         // when

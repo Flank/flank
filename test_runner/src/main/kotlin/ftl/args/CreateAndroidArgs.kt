@@ -9,10 +9,9 @@ fun createAndroidArgs(
     config: AndroidConfig? = null,
     gcloud: AndroidGcloudConfig = config!!.platform.gcloud,
     flank: AndroidFlankConfig = config!!.platform.flank,
-    commonArgs: CommonArgs = config!!.common.createCommonArgs(config.data)
+    commonArgs: CommonArgs = config!!.prepareAndroidCommonConfig()
 ) = AndroidArgs(
     commonArgs = commonArgs,
-
     // gcloud
     appApk = gcloud.app?.processFilePath("from app"),
     testApk = gcloud.test?.processFilePath("from test"),

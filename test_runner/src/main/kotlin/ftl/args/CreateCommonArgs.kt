@@ -26,7 +26,7 @@ fun CommonConfig.createCommonArgs(
     clientDetails = gcloud.clientDetails,
 
     // flank
-    maxTestShards = convertToShardCount(flank.maxTestShards!!),
+    maxTestShards = flank.maxTestShards!!,
     shardTime = flank.shardTime!!,
     repeatTests = flank.repeatTests!!,
     smartFlankGcsPath = flank.smartFlankGcsPath!!,
@@ -59,8 +59,3 @@ private val CommonConfig.defaultOutputStyle
 private val CommonConfig.hasMultipleExecutions
     get() = gcloud.flakyTestAttempts!! > 0 ||
             (!flank.disableSharding!! && flank.maxTestShards!! > 0)
-
-private fun convertToShardCount(inputValue: Int): Int =
-    if (inputValue != -1)
-        inputValue else
-        IArgs.AVAILABLE_SHARD_COUNT_RANGE.last

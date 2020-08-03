@@ -12,9 +12,9 @@ data class Device(
     val model: String,
     val version: String,
     val locale: String = defaultLocale,
-    val orientation: String = defaultOrientation
+    val orientation: String = defaultOrientation,
+    val isVirtual: Boolean = false
 ) {
-
     override fun toString(): String {
         return """
         - model: $model
@@ -39,3 +39,7 @@ fun Map<String, String>.asDevice(android: Boolean) =
             orientation = getOrDefault("orientation", version)
         )
     }
+
+fun List<Device>.containsVirtualDevices() = any { it.isVirtual }
+
+fun List<Device>.containsPhysicalDevices() = any { !it.isVirtual }

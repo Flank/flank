@@ -29,8 +29,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
 
     // GcAndroidMatrix => GcAndroidTestMatrix
     // GcAndroidTestMatrix.execute() 3x retry => matrix id (string)
-    val androidDeviceList = GcAndroidDevice.build(args.devices)
-
+    val devices = GcAndroidDevice.build(args.devices)
     val testMatrices = mutableListOf<Deferred<TestMatrix>>()
     val allTestShardChunks = mutableListOf<List<String>>()
     val ignoredTestsShardChunks = mutableListOf<List<String>>()
@@ -52,7 +51,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
                     androidTestConfig = androidTestConfig,
                     runGcsPath = "$runGcsPath/matrix_$index/",
                     additionalApkGcsPaths = additionalApks,
-                    androidDeviceList = androidDeviceList,
+                    androidDeviceList = devices,
                     args = args,
                     otherFiles = otherGcsFiles,
                     toolResultsHistory = history

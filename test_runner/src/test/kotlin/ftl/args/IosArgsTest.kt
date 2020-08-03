@@ -343,7 +343,7 @@ IosArgs
         )
 
         with(args) {
-            assert(maxTestShards, IArgs.AVAILABLE_SHARD_COUNT_RANGE.last)
+            assert(maxTestShards, IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last)
             assert(testShardChunks.size, 17)
             testShardChunks.forEach { chunk -> assert(chunk.size, 1) }
         }
@@ -913,7 +913,7 @@ IosArgs
           max-test-shards: -1
         """.trimIndent()
         val args = IosArgs.load(yaml)
-        assertEquals(IArgs.AVAILABLE_SHARD_COUNT_RANGE.last, args.maxTestShards)
+        assertEquals(IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last, args.maxTestShards)
     }
 }
 

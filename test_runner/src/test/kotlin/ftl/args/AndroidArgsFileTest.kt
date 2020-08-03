@@ -77,9 +77,9 @@ class AndroidArgsFileTest {
             assert(testTargets, listOf(testName))
             assert(
                 devices, listOf(
-                    Device("NexusLowRes", "23", "en", "portrait"),
-                    Device("NexusLowRes", "23", "en", "landscape"),
-                    Device("shamu", "22", "zh_CN", "default")
+                    Device("NexusLowRes", "23", "en", "portrait", isVirtual = true),
+                    Device("NexusLowRes", "23", "en", "landscape", isVirtual = true),
+                    Device("shamu", "22", "zh_CN", "default", isVirtual = false)
                 )
             )
             assert(maxTestShards, 1)
