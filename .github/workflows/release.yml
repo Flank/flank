@@ -58,8 +58,7 @@ jobs:
       uses: eskatos/gradle-command-action@v1
       with:
         gradle-executable: "./test_runner/gradlew"
-        arguments: "-p test_runner bintrayUpload"  
-        wrapper-cache-enabled: false
+        arguments: "-p test_runner bintrayUpload -PJFROG_KEY=${{ secrets.JFROG_KEY }} -PJFROG_USER=${{ secrets.JFROG_USER }}"  
       
     - name: Authenticate to hub
       run: |
