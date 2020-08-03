@@ -140,7 +140,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
             }
             is FailedMatrix -> {
                 if (t.ignoreFailed) exitProcess(0)
-                else exitProcess(-1)
+                else exitProcess(10)
             }
             is YmlValidationError -> exitProcess(-1)
             is FlankTimeoutError -> {
