@@ -31,7 +31,7 @@ jobs:
               echo "::set-env name=MVN_VERSION::$(echo ${GITHUB_REF:11})";
               echo "::set-env name=RELEASE_TAG::$(echo ${GITHUB_REF:10})";
             else 
-              echo "::set-env name=RELEASE_TAG::flank_snapshot"
+              echo "::set-env name=RELEASE_TAG::flank_snapshot";
               echo "::set-env name=MVN_VERSION::flank_snapshot"; 
           fi;     
           echo "$GITHUB_SHA" > ./test_runner/src/main/resources/revision.txt
