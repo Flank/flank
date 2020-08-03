@@ -1,6 +1,5 @@
 package ftl.args
 
-import ftl.util.FlankFatalError
 import ftl.util.FlankGeneralFailure
 import java.io.IOException
 import java.nio.file.FileSystems

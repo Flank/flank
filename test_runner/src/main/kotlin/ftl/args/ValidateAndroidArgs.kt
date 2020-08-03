@@ -8,6 +8,7 @@ import ftl.android.UnsupportedVersionId
 import ftl.config.containsPhysicalDevices
 import ftl.config.containsVirtualDevices
 import ftl.util.FlankFatalError
+import ftl.util.IncompatibleTestDimension
 import java.io.File
 
 fun AndroidArgs.validate() {
@@ -37,9 +38,9 @@ private fun AndroidArgs.assertDevicesSupported() = devices
     .forEach { (device, check) ->
         when (check) {
             SupportedDeviceConfig -> Unit
-            UnsupportedModelId -> throw FlankFatalError("Unsupported model id, '${device.model}'\nSupported model ids: ${AndroidCatalog.androidModelIds(project)}")
-            UnsupportedVersionId -> throw FlankFatalError("Unsupported version id, '${device.version}'\nSupported Version ids: ${AndroidCatalog.androidVersionIds(project)}")
-            IncompatibleModelVersion -> throw FlankFatalError("Incompatible model, '${device.model}', and version, '${device.version}'\nSupported version ids for '${device.model}': $check")
+            UnsupportedModelId -> throw IncompatibleTestDimension("Unsupported model id, '${device.model}'\nSupported model ids: ${AndroidCatalog.androidModelIds(project)}")
+            UnsupportedVersionId -> throw IncompatibleTestDimension("Unsupported version id, '${device.version}'\nSupported Version ids: ${AndroidCatalog.androidVersionIds(project)}")
+            IncompatibleModelVersion -> throw IncompatibleTestDimension("Incompatible model, '${device.model}', and version, '${device.version}'\nSupported version ids for '${device.model}': $check")
         }
     }
 

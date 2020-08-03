@@ -49,19 +49,26 @@ private fun TestSuiteOverviewData.buildFailureOutcomeDetailsSummary() =
     }.toString()
 
 private fun InconclusiveDetail?.formatOutcomeDetails() = when {
-    this == null -> "Unknown reason"
-    infrastructureFailure == true -> "Infrastructure failure"
-    abortedByUser == true -> "Test run aborted by user"
-    else -> "Unknown reason"
+    this == null -> UNKNOWN_REASON_MESSAGE
+    infrastructureFailure == true -> INFRASTRUCTURE_FAILURE_MESSAGE
+    abortedByUser == true -> ABORTED_BY_USER_MESSAGE
+    else -> UNKNOWN_REASON_MESSAGE
 }
 
 private fun SkippedDetail?.formatOutcomeDetails(): String = when {
-    this == null -> "Unknown reason"
-    incompatibleDevice == true -> "Incompatible device/OS combination"
-    incompatibleArchitecture == true -> "App does not support the device architecture"
-    incompatibleAppVersion == true -> "App does not support the OS version"
-    else -> "Unknown reason"
+    this == null -> UNKNOWN_REASON_MESSAGE
+    incompatibleDevice == true -> INCOMPATIBLE_DEVICE_MESSAGE
+    incompatibleArchitecture == true -> INCOMPATIBLE_ARCHITECTURE_MESSAGE
+    incompatibleAppVersion == true -> INCOMPATIBLE_APP_VERSION_MESSAGE
+    else -> UNKNOWN_REASON_MESSAGE
 }
+
+private const val UNKNOWN_REASON_MESSAGE = "Unknown reason"
+const val INFRASTRUCTURE_FAILURE_MESSAGE = "Infrastructure failure"
+const val ABORTED_BY_USER_MESSAGE = "Test run aborted by user"
+const val INCOMPATIBLE_DEVICE_MESSAGE = "Incompatible device/OS combination"
+const val INCOMPATIBLE_ARCHITECTURE_MESSAGE = "App does not support the device architecture"
+const val INCOMPATIBLE_APP_VERSION_MESSAGE = "App does not support the device architecture"
 
 private const val NATIVE_CRASH_MESSAGE = " (Native crash)"
 private val flakesMessage: (Int) -> String = { ", $it flaky" }

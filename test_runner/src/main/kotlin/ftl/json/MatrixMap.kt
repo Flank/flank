@@ -3,6 +3,9 @@ package ftl.json
 import com.google.api.services.testing.model.TestMatrix
 import ftl.util.FTLError
 import ftl.util.FailedMatrix
+import ftl.util.IncompatibleTestDimension
+import ftl.util.InfrastructureError
+import ftl.util.MatrixCanceled
 import ftl.util.MatrixState
 
 class MatrixMap(
@@ -25,13 +28,20 @@ class MatrixMap(
      * @param shouldIgnore [Boolean]
      *        set {true} to ignore failed matrices and exit with status code 0
      *
-     * @throws FailedMatrix [FailedMatrix]
-     *         at least one test failed/inconclusive & all matrices finished
+     * @throws MatrixCanceled [MatrixCanceled]
+     *         at least one matrix canceled by user
+     * @throws InfrastructureError [InfrastructureError]
+     *         at least one matrix have a test infrastructure error
+     * @throws IncompatibleTestDimension [IncompatibleTestDimension]
+     *         at least one matrix have a incompatible test dimensions. This error might occur if the selected Android API level is not supported by the selected device type.
      * @throws FTLError [FTLError]
-     *         at least one matrix not finished (usually FTL error)
+     *         at least one matrix have unexpected error
      */
     fun validateMatrices(shouldIgnore: Boolean = false) {
         map.values.run {
+            firstOrNull { it.canceledByUser() }?.let { throw MatrixCanceled(it.outcomeDetails) }
+            firstOrNull { it.infrastructureFail() }?.let { throw InfrastructureError(it.outcomeDetails) }
+            firstOrNull { it.incompatibleFail() }?.let { throw IncompatibleTestDimension(it.outcomeDetails) }
             firstOrNull { it.state != MatrixState.FINISHED }?.let { throw FTLError(it) }
             filter { it.failed() }.let {
                 if (it.isNotEmpty()) throw FailedMatrix(

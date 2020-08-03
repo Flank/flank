@@ -2,6 +2,7 @@ package ftl.args
 
 import ftl.ios.IosCatalog
 import ftl.util.FlankFatalError
+import ftl.util.IncompatibleTestDimension
 
 fun IosArgs.validate() {
     assertXcodeSupported()
@@ -24,5 +25,5 @@ private fun IosArgs.assertXcodeSupported() = when {
 
 private fun IosArgs.assertDevicesSupported() = devices.forEach { device ->
     if (!IosCatalog.supportedDevice(device.model, device.version, this.project))
-        throw FlankFatalError("iOS ${device.version} on ${device.model} is not a supported device")
+        throw IncompatibleTestDimension("iOS ${device.version} on ${device.model} is not a supported device")
 }

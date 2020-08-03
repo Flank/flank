@@ -21,7 +21,7 @@ class FailedMatrix(val matrices: List<SavedMatrix>, val ignoreFailed: Boolean = 
  * Thrown when at least one matrix is not finished.
  * Usually indicates Firebase TestLab internal error
  *
- * Exit code: 3
+ * Exit code: 15
  *
  * @param matrix [SavedMatrix] Not finished matrix (with matrix state different then FINISHED)
  */
@@ -72,7 +72,6 @@ sealed class FTLProjectError(exc: IOException) : FlankException("Caused by: $exc
 class PermissionDenied(exc: IOException) : FTLProjectError(exc)
 class ProjectNotFound(exc: IOException) : FTLProjectError(exc)
 
-
 /**
  * A general failure occurred. Possible causes include: a filename that does not exist or an HTTP/network error.
  *
@@ -80,4 +79,31 @@ class ProjectNotFound(exc: IOException) : FTLProjectError(exc)
  *
  * @param message [String] message to be printed to [System.err]
  */
-class FlankGeneralFailure(message: String): FlankException(message)
+class FlankGeneralFailure(message: String) : FlankException(message)
+
+/**
+ * The test environment for this test execution is not supported because of incompatible test dimensions. This error might occur if the selected Android API level is not supported by the selected device type.
+ *
+ * Exit code: 18
+ *
+ * @param message [String] message to be printed to [System.err]
+ */
+class IncompatibleTestDimension(message: String) : FlankException(message)
+
+/**
+ * The test matrix was canceled by the user.
+ *
+ * Exit code: 19
+ *
+ * @param message [String] message to be printed to [System.err]
+ */
+class MatrixCanceled(message: String) : FlankException(message)
+
+/**
+ * A test infrastructure error occurred.
+ *
+ * Exit code: 20
+ *
+ * @param message [String] message to be printed to [System.err]
+ */
+class InfrastructureError(message: String) : FlankException(message)

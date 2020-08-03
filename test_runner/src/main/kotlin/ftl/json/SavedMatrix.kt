@@ -186,3 +186,9 @@ class SavedMatrix(matrix: TestMatrix) {
             }
         }
 }
+
+fun SavedMatrix.canceledByUser() = outcomeDetails == ABORTED_BY_USER_MESSAGE
+
+fun SavedMatrix.infrastructureFail() = outcomeDetails == INFRASTRUCTURE_FAILURE_MESSAGE
+
+fun SavedMatrix.incompatibleFail() = outcomeDetails in arrayOf(INCOMPATIBLE_APP_VERSION_MESSAGE, INCOMPATIBLE_ARCHITECTURE_MESSAGE, INCOMPATIBLE_DEVICE_MESSAGE)

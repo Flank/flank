@@ -132,17 +132,25 @@ fun withGlobalExceptionHandling(block: () -> Int) {
         when (t) {
             is FlankGeneralFailure -> {
                 System.err.println("\n${t.message}")
-                exitProcess(1)
+                exitProcess(GENERAL_FAILURE)
             }
             is FlankCommonException -> {
-                println("\n${t.message}")
-                exitProcess(-1)
+                System.err.println("\n${t.message}")
+                exitProcess(GENERAL_FAILURE)
             }
+            is IncompatibleTestDimension -> {
+                System.err.println("\n${t.message}")
+                exitProcess(INCOMPATIBLE_TEST_DIMENSION)
+            }
+            is MatrixCanceled -> exitProcess(CANCELED_BY_USER)
+
+            is InfrastructureError -> exitProcess(INFRASTRUCTURE_ERROR)
+
             is FailedMatrix -> {
-                if (t.ignoreFailed) exitProcess(0)
-                else exitProcess(10)
+                if (t.ignoreFailed) exitProcess(SUCCESS)
+                else exitProcess(NOT_PASSED)
             }
-            is YmlValidationError -> exitProcess(-1)
+            is YmlValidationError -> exitProcess(GENERAL_FAILURE)
             is FlankTimeoutError -> {
                 println("\nCanceling flank due to timeout")
                 runBlocking {
@@ -154,11 +162,11 @@ fun withGlobalExceptionHandling(block: () -> Int) {
             }
             is FTLError -> {
                 t.matrix.logError()
-                exitProcess(-3)
+                exitProcess(UNEXPECTED_ERROR)
             }
             is FlankFatalError -> {
                 System.err.println(t.message)
-                exitProcess(-2)
+                exitProcess(INFRASTRUCTURE_ERROR)
             }
 
             // We need to cover the case where some component in the call stack starts a non-daemon
@@ -166,7 +174,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
             else -> {
                 FtlConstants.bugsnag?.notify(t)
                 t.printStackTrace()
-                exitProcess(-3)
+                exitProcess(UNEXPECTED_ERROR)
             }
         }
     }
