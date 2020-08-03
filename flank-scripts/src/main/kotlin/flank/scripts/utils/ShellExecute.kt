@@ -11,16 +11,22 @@ private fun ProcessBuilder.startWithRetry(retryCount: Int): Int {
     var processResponse: Int
     do {
         processResponse = try {
-            start().exitValue()
+            start().waitFor()
         } catch (e: Exception) {
             println("Error when making shell command ${e.message}, cannot try again")
             EXCEPTION_WHEN_CALLING_COMMAND_CODE
         }
         retryTries++
-    } while (processResponse == 0 || processResponse == EXCEPTION_WHEN_CALLING_COMMAND_CODE || retryTries < retryCount)
+    } while (shouldRetry(processResponse, retryCount, retryTries))
 
     return processResponse
 }
+
+private fun shouldRetry(
+        processResponse: Int,
+        retryCount: Int,
+        retryTries: Int
+) = processResponse != 0 && processResponse != EXCEPTION_WHEN_CALLING_COMMAND_CODE && retryTries < retryCount
 
 const val SUCCESS = 0
 const val ERROR_WHEN_RUNNING = 1

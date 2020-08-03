@@ -15,9 +15,10 @@ fun releaseFlank(path: Path, gitTag: String, commitHash: String, isSnapshotRelea
 }
 
 private fun hubStableReleaseCommand(path: String, gitTag: String, commitHash: String) =
-        "hub release create -a $path -m \"Flank $gitTag\" -m \"Stable release for commit  $commitHash\" \"$gitTag\""
+        "hub release create -a $path -m 'Flank $gitTag' -m 'Stable release for commit $commitHash' $gitTag"
+
 private fun hubStableSnapshotCommand(path: String, gitTag: String, commitHash: String) =
-        "hub release create -p -a $path -m \"Flank $gitTag\" -m \"Snapshot release for commit $commitHash\" \"$gitTag\""
+        "hub release create -p -a $path -m 'Flank $gitTag' -m 'Snapshot release for commit $commitHash' $gitTag"
 
 private fun moveFlankToReleaseDirectory(inputPath: Path) =
         if (inputPath.toFile().renameTo(File(RELEASE_DIRECTORY))) RELEASE_DIRECTORY else inputPath.toAbsolutePath().toString()

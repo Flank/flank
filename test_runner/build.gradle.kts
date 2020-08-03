@@ -36,8 +36,8 @@ shadowJar.apply {
 // https://bintray.com/flank/maven
 // https://github.com/bintray/gradle-bintray-plugin#readme
 bintray {
-    user = System.getenv("MVN_USER")
-    key = System.getenv("MVN_KEY")
+    user = System.getenv("JFROG_USER") ?: properties["JFROG_USER"].toString()
+    key = System.getenv("JFROG_API_KEY") ?: properties["JFROG_API_KEY"].toString()
     publish = true
     setPublications("mavenJava")
     pkg(closureOf<BintrayExtension.PackageConfig> {

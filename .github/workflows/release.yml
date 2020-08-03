@@ -23,13 +23,14 @@ jobs:
       run: |
         git_short_hash=$(git rev-parse --short "$GITHUB_SHA")
         echo "::set-env name=GIT_SHORT_HASH::$(echo $git_short_hash)";
+        echo "::set-env name=MVN_REVISION::$(echo $GITHUB_SHA)";
 
           if [ $GITHUB_REF == "refs/tags/*" ]; 
             then 
               echo "::set-env name=MVN_VERSION::$(echo ${GITHUB_REF:11})";
               echo "::set-env name=RELEASE_TAG::$(echo ${GITHUB_REF:10})";
             else 
-              echo "::set-env name=RELEASE_TAG::flank_snapshot"
+              echo "::set-env name=RELEASE_TAG::flank_snapshot";
               echo "::set-env name=MVN_VERSION::flank_snapshot"; 
           fi;     
           echo "$GITHUB_SHA" > ./test_runner/src/main/resources/revision.txt
@@ -41,7 +42,7 @@ jobs:
     - name: Get Jfrog CLI
       run: |
         brew install jfrog-cli-go
-        jfrog bt config --user ${{ secrets.JFROG_USER }} --key ${{ secrets.JFROG_KEY }} --licenses Apache-2.0  
+        jfrog bt config --user ${{ secrets.JFROG_USER }} --key ${{ secrets.JFROG_API_KEY }} --licenses Apache-2.0  
     
     - name: Delete old snapshot
       run: flankScripts release jFrogDelete --version=$MVN_VERSION
@@ -56,8 +57,7 @@ jobs:
       uses: eskatos/gradle-command-action@v1
       with:
         gradle-executable: "./test_runner/gradlew"
-        arguments: "-p test_runner bintrayUpload"  
-        wrapper-cache-enabled: false
+        arguments: "-p test_runner bintrayUpload -PJFROG_API_KEY=${{ secrets.JFROG_API_KEY }} -PJFROG_USER=${{ secrets.JFROG_USER }}"  
       
     - name: Authenticate to hub
       run: |
