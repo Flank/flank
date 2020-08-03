@@ -71,3 +71,13 @@ class FlankCommonException(message: String) : FlankException(message)
 sealed class FTLProjectError(exc: IOException) : FlankException("Caused by: $exc")
 class PermissionDenied(exc: IOException) : FTLProjectError(exc)
 class ProjectNotFound(exc: IOException) : FTLProjectError(exc)
+
+
+/**
+ * A general failure occurred. Possible causes include: a filename that does not exist or an HTTP/network error.
+ *
+ * Exit code: 1
+ *
+ * @param message [String] message to be printed to [System.err]
+ */
+class FlankGeneralFailure(message: String): FlankException(message)

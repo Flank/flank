@@ -130,15 +130,19 @@ fun withGlobalExceptionHandling(block: () -> Int) {
         exitProcess(block())
     } catch (t: Throwable) {
         when (t) {
+            is FlankGeneralFailure -> {
+                System.err.println("\n${t.message}")
+                exitProcess(1)
+            }
             is FlankCommonException -> {
                 println("\n${t.message}")
-                exitProcess(1)
+                exitProcess(-1)
             }
             is FailedMatrix -> {
                 if (t.ignoreFailed) exitProcess(0)
-                else exitProcess(1)
+                else exitProcess(-1)
             }
-            is YmlValidationError -> exitProcess(1)
+            is YmlValidationError -> exitProcess(-1)
             is FlankTimeoutError -> {
                 println("\nCanceling flank due to timeout")
                 runBlocking {
@@ -146,15 +150,15 @@ fun withGlobalExceptionHandling(block: () -> Int) {
                         cancelMatrices(t.map, t.projectId)
                     }
                 }
-                exitProcess(1)
+                exitProcess(-1)
             }
             is FTLError -> {
                 t.matrix.logError()
-                exitProcess(3)
+                exitProcess(-3)
             }
             is FlankFatalError -> {
                 System.err.println(t.message)
-                exitProcess(2)
+                exitProcess(-2)
             }
 
             // We need to cover the case where some component in the call stack starts a non-daemon
@@ -162,7 +166,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
             else -> {
                 FtlConstants.bugsnag?.notify(t)
                 t.printStackTrace()
-                exitProcess(3)
+                exitProcess(-3)
             }
         }
     }

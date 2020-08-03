@@ -25,6 +25,7 @@ import ftl.shard.createShardsByShardCount
 import ftl.shard.shardCountByTime
 import ftl.shard.stringShards
 import ftl.util.FlankFatalError
+import ftl.util.FlankGeneralFailure
 import ftl.util.FlankTestMethod
 import ftl.util.assertNotEmpty
 import java.io.File
@@ -82,7 +83,7 @@ object ArgsHelper {
         if (filePaths.size > 1) {
             throw FlankFatalError("'$file' ($filePath) matches multiple files: $filePaths")
         } else if (filePaths.isEmpty()) {
-            throw FlankFatalError("'$file' not found ($filePath)")
+            throw FlankGeneralFailure("'$file' not found ($filePath)")
         }
 
         return filePaths.first().toAbsolutePath().normalize().toString()
