@@ -11,7 +11,7 @@ private fun ProcessBuilder.startWithRetry(retryCount: Int): Int {
     var processResponse: Int
     do {
         processResponse = try {
-            start().onExit().join().exitValue()
+            start().waitFor()
         } catch (e: Exception) {
             println("Error when making shell command ${e.message}, cannot try again")
             EXCEPTION_WHEN_CALLING_COMMAND_CODE
