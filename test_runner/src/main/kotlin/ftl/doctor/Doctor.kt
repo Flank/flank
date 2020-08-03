@@ -13,10 +13,9 @@ import java.io.Reader
 import java.lang.StringBuilder
 import java.nio.file.Path
 
-fun validateYaml(args: IArgs.ICompanion, data: Path): String {
-    if (!data.toFile().exists()) return "Skipping yaml validation. No file at path $data"
-    return validateYaml(args, loadFile(data)) + preloadConfiguration(data, args is AndroidArgsCompanion)
-}
+fun validateYaml(args: IArgs.ICompanion, data: Path) =
+    if (!data.toFile().exists()) "Skipping yaml validation. No file at path $data"
+    else validateYaml(args, loadFile(data)) + preloadConfiguration(data, args is AndroidArgsCompanion)
 
 @VisibleForTesting
 internal fun validateYaml(args: IArgs.ICompanion, data: Reader) =
