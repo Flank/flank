@@ -1,0 +1,24 @@
+gcloud:
+  app: /Users/no/workspace/fladle/sample/build/outputs/apk/debug/sample-debug.apk
+  test: /Users/no/workspace/fladle/sample/build/outputs/apk/androidTest/debug/sample-debug-androidTest.apk
+  device:
+    - model: Nexus5
+      version: 23
+  use-orchestrator: true
+  auto-google-login: false
+  record-video: true
+  performance-metrics: true
+  timeout: 15m
+  environment-variables:
+    clearPackageData: true
+  test-targets:
+    - class com.osacky.flank.gradle.sample.ExampleInstrumentedTest#seeView
+  num-flaky-test-attempts: 1
+flank:
+  additional-app-test-apks:
+    app: ../main/app/build/output/apk/debug/app.apk
+    test: ../main/app/build/output/apk/androidTest/debug/app-test.apk
+    app: ../sample/app/build/output/apk/debug/sample-app.apk
+    test: ../sample/app/build/output/apk/androidTest/debug/sample-app-test.apk
+    test: ../feature/room/build/output/apk/androidTest/debug/feature-room-test.apk
+    test: ../library/databases/build/output/apk/androidTest/debug/sample-databases-test.apk

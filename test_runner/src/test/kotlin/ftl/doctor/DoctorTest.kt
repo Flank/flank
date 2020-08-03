@@ -14,13 +14,13 @@ import java.nio.file.Paths
 class DoctorTest {
     @Test
     fun androidDoctorTest() {
-        val lint = Doctor.validateYaml(AndroidArgs, Paths.get("src/test/kotlin/ftl/fixtures/flank.local.yml"))
+        val lint = validateYaml(AndroidArgs, Paths.get("src/test/kotlin/ftl/fixtures/flank.local.yml"))
         assertThat(lint).isEmpty()
     }
 
     @Test
     fun androidDoctorTest2() {
-        val lint = Doctor.validateYaml(
+        val lint = validateYaml(
             AndroidArgs, """
 hi: .
 foo:
@@ -71,7 +71,7 @@ Unknown keys in flank -> [three]
 
     @Test
     fun androidDoctorTest3() {
-        val lint = Doctor.validateYaml(
+        val lint = validateYaml(
             AndroidArgs, """
 gcloud:
   app: .
@@ -84,14 +84,59 @@ flank:
     }
 
     @Test
+    fun androidDoctorTestWithFailedConfiguration() {
+        // given
+        val expectedErrorMessage = """
+Error on parse config: flank->additional-app-test-apks
+At line: 20, column: 5
+Error node: {
+  "additional-app-test-apks" : {
+    "app" : "../sample/app/build/output/apk/debug/sample-app.apk",
+    "test" : "../library/databases/build/output/apk/androidTest/debug/sample-databases-test.apk"
+  }
+}
+        """.trimIndent()
+
+        // when
+        val actual = validateYaml(
+            AndroidArgs,
+            Paths.get("src/test/kotlin/ftl/fixtures/flank_android_failed_configuration.yml")
+        )
+        assertThat(actual).isEqualTo(expectedErrorMessage)
+    }
+
+    @Test
+    fun androidDoctorTestWithFailedTree() {
+        // given
+        val expectedErrorMessage = """
+    Error on parse config: expected <block end>, but found '?'
+    At line: 19, column: 4
+    Error node: 
+            test: ../main/app/build/output/a ... 
+            ^Error on parse config: expected <block end>, but found '?'
+    At line: 19, column: 4
+    Error node: 
+            test: ../main/app/build/output/a ... 
+            ^
+        """.trimIndent()
+
+        // when
+        val actual = validateYaml(
+            AndroidArgs,
+            Paths.get("src/test/kotlin/ftl/fixtures/flank_android_failed_tree.yml")
+        )
+        assertThat(actual).isEqualTo(expectedErrorMessage)
+    }
+
+    @Test
     fun iosDoctorTest() {
-        val lint = Doctor.validateYaml(IosArgs, Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.yml"))
+        val lint = validateYaml(IosArgs, Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.yml"))
         assertThat(lint).isEmpty()
     }
 
     @Test
     fun iosDoctorTest2() {
-        val lint = Doctor.validateYaml(
+        val lint = validateYaml(
             IosArgs, """
 hi: .
 foo:
@@ -135,7 +180,7 @@ Unknown keys in flank -> [three]
 
     @Test
     fun iosDoctorTest3() {
-        val lint = Doctor.validateYaml(
+        val lint = validateYaml(
             IosArgs, """
 gcloud:
   test: .
@@ -148,4 +193,4 @@ flank:
     }
 }
 
-private fun Doctor.validateYaml(args: IArgs.ICompanion, data: String): String = validateYaml(args, StringReader(data))
+private fun validateYaml(args: IArgs.ICompanion, data: String): String = validateYaml(args, StringReader(data))
