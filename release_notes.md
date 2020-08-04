@@ -16,6 +16,8 @@
 - [#915](https://github.com/Flank/flank/pull/915) Update virtual devices sharding limit. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#920](https://github.com/Flank/flank/pull/920) Improve .yml validation on `doctor` command. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#934](https://github.com/Flank/flank/pull/934) Delete incorrect flank snapshot labels. ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#926](https://github.com/Flank/flank/pull/926) Flank should reflect gcloud exit codes. ([adamfilipow92](https://github.com/adamfilipow92))
+-
 -
 -
 
