@@ -16,6 +16,7 @@ import ftl.shard.stringShards
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.assertThrowsWithMessage
+import ftl.util.FlankCommonException
 import ftl.util.FlankFatalError
 import io.mockk.every
 import io.mockk.spyk
@@ -73,7 +74,7 @@ class ArgsHelperTest {
         }
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test(expected = FlankFatalError::class)
     fun `assertGcsFileExists failsOnMissingPrefix`() {
         assertGcsFileExists("does-not-exist")
     }
@@ -163,7 +164,7 @@ class ArgsHelperTest {
         assertThat(actual).isEqualTo(expected)
     }
 
-    @Test(expected = FlankFatalError::class)
+    @Test(expected = FlankCommonException::class)
     fun evaluateInvalidFilePath() {
         val testApkPath = "~/flank_test_app/invalid_path/app-debug-*.xctestrun"
         ArgsHelper.evaluateFilePath(testApkPath)

@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import ftl.config.FtlConstants.isWindows
 import ftl.mock.TestArtifact.fixturesPath
 import ftl.test.util.FlankTestRunner
+import ftl.util.FlankCommonException
 import org.junit.Assume.assumeFalse
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -87,7 +88,7 @@ class ParseTest {
         checkObjcTests(results)
     }
 
-    @Test(expected = RuntimeException::class)
+    @Test(expected = FlankCommonException::class)
     fun `parseObjcTests fileNotFound`() {
         Parse.parseObjcTests("./BinaryThatDoesNotExist")
     }
@@ -100,12 +101,12 @@ class ParseTest {
         checkSwiftTests(results)
     }
 
-    @Test(expected = RuntimeException::class)
+    @Test(expected = FlankCommonException::class)
     fun `parseSwiftTests fileNotFound`() {
         Parse.parseSwiftTests("./BinaryThatDoesNotExist")
     }
 
-    @Test(expected = RuntimeException::class)
+    @Test(expected = FlankCommonException::class)
     fun `parseSwiftTests tmpFolder`() {
         Parse.parseSwiftTests("/tmp")
     }

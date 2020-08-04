@@ -131,7 +131,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
     } catch (t: Throwable) {
         when (t) {
             is FlankCommonException -> {
-                System.err.println("\n${t.message}")
+                System.err.println(t.message)
                 exitProcess(GENERAL_FAILURE)
             }
             is IncompatibleTestDimension -> {

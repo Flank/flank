@@ -22,6 +22,7 @@ import ftl.test.util.TestHelper.getPath
 import ftl.test.util.assertThrowsWithMessage
 import ftl.util.FlankCommonException
 import ftl.util.FlankFatalError
+import ftl.util.IncompatibleTestDimension
 import ftl.util.asFileReference
 import io.mockk.every
 import io.mockk.mockkStatic
@@ -144,7 +145,7 @@ class AndroidArgsTest {
 
     @Test
     fun `androidArgs invalidModel`() {
-        assertThrowsWithMessage(FlankFatalError::class, "Unsupported model id") {
+        assertThrowsWithMessage(IncompatibleTestDimension::class, "Unsupported model id") {
             AndroidArgs.load(
                 """
             gcloud:
@@ -160,7 +161,7 @@ class AndroidArgsTest {
 
     @Test
     fun `androidArgs invalidVersion`() {
-        assertThrowsWithMessage(FlankFatalError::class, "Unsupported version id") {
+        assertThrowsWithMessage(IncompatibleTestDimension::class, "Unsupported version id") {
             AndroidArgs.load(
                 """
         gcloud:
@@ -176,7 +177,7 @@ class AndroidArgsTest {
 
     @Test
     fun `androidArgs incompatibleModel`() {
-        assertThrowsWithMessage(FlankFatalError::class, "Incompatible model") {
+        assertThrowsWithMessage(IncompatibleTestDimension::class, "Incompatible model") {
             AndroidArgs.load(
                 """
         gcloud:

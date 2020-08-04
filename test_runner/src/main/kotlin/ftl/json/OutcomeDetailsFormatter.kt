@@ -68,7 +68,7 @@ const val INFRASTRUCTURE_FAILURE_MESSAGE = "Infrastructure failure"
 const val ABORTED_BY_USER_MESSAGE = "Test run aborted by user"
 const val INCOMPATIBLE_DEVICE_MESSAGE = "Incompatible device/OS combination"
 const val INCOMPATIBLE_ARCHITECTURE_MESSAGE = "App does not support the device architecture"
-const val INCOMPATIBLE_APP_VERSION_MESSAGE = "App does not support the device architecture"
+const val INCOMPATIBLE_APP_VERSION_MESSAGE = "App does not support the OS version"
 
 private const val NATIVE_CRASH_MESSAGE = " (Native crash)"
 private val flakesMessage: (Int) -> String = { ", $it flaky" }

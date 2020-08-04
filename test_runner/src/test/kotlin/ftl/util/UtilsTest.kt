@@ -53,7 +53,7 @@ class UtilsTest {
     @After
     fun tearDown() = unmockkAll()
 
-    @Test(expected = RuntimeException::class)
+    @Test(expected = FlankCommonException::class)
     fun `readTextResource errors`() {
         readTextResource("does not exist")
     }
@@ -106,7 +106,7 @@ class UtilsTest {
         MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath").validateMatrices()
     }
 
-    @Test(expected = FailedMatrix::class)
+    @Test(expected = MatrixCanceled::class)
     fun testExitCodeForInconclusive() { // inconclusive is treated as a failure
         val testExecutions = listOf(
             createStepExecution(-2, "Inconclusive")
@@ -158,20 +158,20 @@ class UtilsTest {
     }
 
     @Test
-    fun `should terminate process with exit code 1 if FailedMatrix exception is thrown`() {
+    fun `should terminate process with exit code 10 if FailedMatrix exception is thrown`() {
         // given
         val block = { throw FailedMatrix(listOf(testMatrix1, testMatrix2)) }
 
         // will
-        exit.expectSystemExitWithStatus(1)
+        exit.expectSystemExitWithStatus(NOT_PASSED)
 
         // when
         withGlobalExceptionHandling(block)
     }
 
     @Test
-    fun `should terminate process with exit code 1 if YmlValidationError is thrown`() {
-        exit.expectSystemExitWithStatus(1)
+    fun `should terminate process with exit code 2 if YmlValidationError is thrown`() {
+        exit.expectSystemExitWithStatus(CONFIGURATION_FAIL)
         val block = { throw YmlValidationError() }
         withGlobalExceptionHandling(block)
     }
@@ -190,12 +190,12 @@ class UtilsTest {
     }
 
     @Test
-    fun `should terminate process with exit code 3 if FTLError is thrown`() {
+    fun `should terminate process with exit code 15 if FTLError is thrown`() {
         // given
         val block = { throw FTLError(testMatrix1) }
 
         // will
-        exit.expectSystemExitWithStatus(3)
+        exit.expectSystemExitWithStatus(UNEXPECTED_ERROR)
         exit.checkAssertionAfterwards {
             assertTrue(output.log.contains("Matrix is ${testMatrix1.state}"))
         }
@@ -221,14 +221,14 @@ class UtilsTest {
     }
 
     @Test
-    fun `should terminate process with exit code 3 if not flank related exception is thrown`() {
+    fun `should terminate process with exit code 1 if not flank related exception is thrown`() {
         // given
         val message = "not flank related error thrown"
 
         val block = { throw FlankCommonException(message) }
 
         // will
-        exit.expectSystemExitWithStatus(3)
+        exit.expectSystemExitWithStatus(GENERAL_FAILURE)
         exit.checkAssertionAfterwards {
             assertTrue(err.log.contains(message))
         }
@@ -249,7 +249,7 @@ class UtilsTest {
         val block = { throw FlankCommonException(message) }
 
         // will
-        exit.expectSystemExitWithStatus(3)
+        exit.expectSystemExitWithStatus(GENERAL_FAILURE)
         exit.checkAssertionAfterwards {
             assertTrue(err.log.contains(message))
         }
@@ -269,7 +269,7 @@ class UtilsTest {
         }
 
         // will
-        exit.expectSystemExitWithStatus(0)
+        exit.expectSystemExitWithStatus(SUCCESS)
 
         // when
         withGlobalExceptionHandling(block)
@@ -282,9 +282,9 @@ class UtilsTest {
         val block = { throw FlankCommonException(message) }
 
         // will
-        exit.expectSystemExitWithStatus(1)
+        exit.expectSystemExitWithStatus(GENERAL_FAILURE)
         exit.checkAssertionAfterwards {
-            assertTrue(output.log.contains(message))
+            assertTrue(err.log.contains(message))
         }
 
         // when
@@ -346,7 +346,7 @@ class UtilsTest {
         processStarted.await()
         simulatedMain.join(10 * 1000L)
         assertTrue("Our simulated main thread should have completed but instead it hung...", completed.get())
-        assertEquals(3, exitCode.get())
+        assertEquals(UNEXPECTED_ERROR, exitCode.get())
         File(VERIFICATION_FILE).also {
             assertTrue("Verification file should exists, process might not have started", it.exists())
             assertTrue(it.inputStream().readBytes().toString(Charsets.UTF_8).contains(VERIFICATION_MESSAGE))

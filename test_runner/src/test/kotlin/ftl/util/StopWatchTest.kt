@@ -5,7 +5,7 @@ import org.junit.Test
 
 class StopWatchTest {
 
-    @Test(expected = RuntimeException::class)
+    @Test(expected = FlankCommonException::class)
     fun `stopWatch errorOnCheckWithoutStart`() {
         StopWatch().check()
     }

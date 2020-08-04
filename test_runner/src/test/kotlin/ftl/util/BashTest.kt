@@ -15,7 +15,7 @@ class BashTest {
         assertThat(Bash.execute("echo a 1>&2")).isEqualTo("a")
     }
 
-    @Test(expected = RuntimeException::class)
+    @Test(expected = FlankCommonException::class)
     fun executeStderrExitCode1() {
         assertThat(Bash.execute("echo not an error 1>&2; exit 1")).isEmpty()
     }

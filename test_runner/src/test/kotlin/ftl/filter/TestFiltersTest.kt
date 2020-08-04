@@ -6,6 +6,7 @@ import com.linkedin.dex.parser.TestMethod
 import ftl.filter.TestFilters.fromTestTargets
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper
+import ftl.util.FlankFatalError
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -153,7 +154,7 @@ class TestFiltersTest {
         assertThat(filter.shouldRun(WITHOUT_SMALL_ANNOTATION)).isFalse()
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test(expected = FlankFatalError::class)
     fun testFilteringBySizeInvalidWillThrowException() {
         fromTestTargets(listOf("size foo"))
     }

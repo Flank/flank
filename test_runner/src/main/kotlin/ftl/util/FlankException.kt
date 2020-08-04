@@ -31,7 +31,7 @@ class FTLError(val matrix: SavedMatrix) : FlankException()
 /**
  * Thrown when doctor command found an error in yml fail and wa unable to fix it
  *
- * Exit code: 1
+ * Exit code: 2
  */
 class YmlValidationError : FlankException()
 
@@ -76,7 +76,6 @@ class FlankCommonException : FlankException {
 sealed class FTLProjectError(exc: IOException) : FlankException("Caused by: $exc")
 class PermissionDenied(exc: IOException) : FTLProjectError(exc)
 class ProjectNotFound(exc: IOException) : FTLProjectError(exc)
-
 
 /**
  * The test environment for this test execution is not supported because of incompatible test dimensions. This error might occur if the selected Android API level is not supported by the selected device type.
