@@ -81,7 +81,7 @@ internal fun filterTests(validTestMethods: List<String>, testTargetsRgx: List<St
                     return@filter true
                 }
             } catch (e: Exception) {
-                throw FlankConfigurationError("Invalid regex: $target")
+                throw FlankConfigurationError("Invalid regex: $target", e)
             }
         }
 

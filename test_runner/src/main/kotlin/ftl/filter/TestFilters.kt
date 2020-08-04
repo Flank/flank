@@ -127,7 +127,7 @@ object TestFilters {
             // the fully qualified class name or the fully qualified method name.
             return withPackageName(lines)
         } catch (e: IOException) {
-            throw FlankGeneralError("Unable to read testFile")
+            throw FlankGeneralError("Unable to read testFile", e)
         }
     }
 

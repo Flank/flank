@@ -52,7 +52,11 @@ class FlankTimeoutError(val map: Map<String, SavedMatrix>?, val projectId: Strin
  *
  * @param message [String] message to be printed to [System.err]
  */
-class FlankConfigurationError(message: String) : FlankException(message)
+class FlankConfigurationError : FlankException {
+    constructor(message: String) : super(message)
+    constructor(cause: Exception) : super(cause = cause)
+    constructor(message: String, cause: Exception) : super(message, cause)
+}
 
 /**
  * A general failure occurred. Possible causes include: a filename that does not exist or an HTTP/network error.
