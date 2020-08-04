@@ -134,6 +134,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
                 System.err.println("\n${t.message}")
                 exitProcess(GENERAL_FAILURE)
             }
+
             is FlankTimeoutError -> {
                 println("\nCanceling flank due to timeout")
                 runBlocking {
@@ -143,17 +144,20 @@ fun withGlobalExceptionHandling(block: () -> Int) {
                 }
                 exitProcess(GENERAL_FAILURE)
             }
+
             is IncompatibleTestDimensionError -> {
                 System.err.println("\n${t.message}")
                 exitProcess(INCOMPATIBLE_TEST_DIMENSION)
             }
+
             is MatrixCanceledError -> exitProcess(CANCELED_BY_USER)
+
             is InfrastructureError -> exitProcess(INFRASTRUCTURE_ERROR)
+
             is FailedMatrixError -> {
                 if (t.ignoreFailed) exitProcess(SUCCESS)
                 else exitProcess(NOT_PASSED)
             }
-
 
             is FTLError -> {
                 t.matrix.logError()
