@@ -8,8 +8,9 @@ fun main() {
     // for debugging. Run test from IntelliJ IDEA
 
     // run "gradle check" to generate required fixtures
-    val projectId = System.getenv("GOOGLE_CLOUD_PROJECT")
-        ?: "YOUR PROJECT ID"
+//    val projectId = System.getenv("GOOGLE_CLOUD_PROJECT")
+//        ?: "YOUR PROJECT ID"
+    val projectId = "kiwi22"
     val quantity = "single"
     val type = "error"
     // Bugsnag keeps the process alive so we must call exitProcess

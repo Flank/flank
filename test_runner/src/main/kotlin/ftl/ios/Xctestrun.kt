@@ -4,6 +4,7 @@ import com.dd.plist.NSArray
 import com.dd.plist.NSDictionary
 import com.dd.plist.NSString
 import com.dd.plist.PropertyListParser
+import ftl.util.FlankCommonException
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.nio.file.Paths
@@ -35,7 +36,7 @@ object Xctestrun {
             }
         }
 
-        throw RuntimeException("No tests found")
+        throw FlankCommonException("No tests found")
     }
 
     // https://github.com/google/xctestrunner/blob/51dbb6b7eb35f2ed55439459ca49e06992bc4da0/xctestrunner/test_runner/xctestrun.py#L129
@@ -60,7 +61,7 @@ object Xctestrun {
     // Parses xctestrun file into a dictonary
     fun parse(xctestrun: File): NSDictionary {
         val testrun = xctestrun.canonicalFile
-        if (!testrun.exists()) throw RuntimeException("$testrun doesn't exist")
+        if (!testrun.exists()) throw FlankCommonException("$testrun doesn't exist")
 
         return PropertyListParser.parse(testrun) as NSDictionary
     }

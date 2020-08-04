@@ -25,7 +25,7 @@ import ftl.shard.createShardsByShardCount
 import ftl.shard.shardCountByTime
 import ftl.shard.stringShards
 import ftl.util.FlankFatalError
-import ftl.util.FlankGeneralFailure
+import ftl.util.FlankCommonException
 import ftl.util.FlankTestMethod
 import ftl.util.assertNotEmpty
 import java.io.File
@@ -43,7 +43,7 @@ object ArgsHelper {
 
     fun assertFileExists(file: String, name: String) {
         if (!File(file).exists()) {
-            throw FlankFatalError("'$file' $name doesn't exist")
+            throw FlankCommonException("'$file' $name doesn't exist")
         }
     }
 
@@ -81,9 +81,9 @@ object ArgsHelper {
 
         val filePaths = walkFileTree(file)
         if (filePaths.size > 1) {
-            throw FlankFatalError("'$file' ($filePath) matches multiple files: $filePaths")
+            throw FlankCommonException("'$file' ($filePath) matches multiple files: $filePaths")
         } else if (filePaths.isEmpty()) {
-            throw FlankGeneralFailure("'$file' not found ($filePath)")
+            throw FlankCommonException("'$file' not found ($filePath)")
         }
 
         return filePaths.first().toAbsolutePath().normalize().toString()
@@ -91,14 +91,14 @@ object ArgsHelper {
 
     fun assertGcsFileExists(uri: String) {
         if (!uri.startsWith(GCS_PREFIX)) {
-            throw IllegalArgumentException("must start with $GCS_PREFIX uri: $uri")
+            throw FlankFatalError("must start with $GCS_PREFIX uri: $uri")
         }
 
         val gcsURI = URI.create(uri)
         val bucket = gcsURI.authority
         val path = gcsURI.path.drop(1) // Drop leading slash
 
-        GcStorage.storage.get(bucket, path) ?: throw FlankFatalError("The file at '$uri' does not exist")
+        GcStorage.storage.get(bucket, path) ?: throw FlankCommonException("The file at '$uri' does not exist")
     }
 
     fun validateTestMethods(
@@ -123,7 +123,7 @@ object ArgsHelper {
     // Due to permission issues, the user may not be able to list or create buckets.
     fun createGcsBucket(projectId: String, bucket: String): String {
         if (bucket.isEmpty()) return GcToolResults.getDefaultBucket(projectId)
-            ?: throw RuntimeException("Failed to make bucket for $projectId")
+            ?: throw FlankCommonException("Failed to make bucket for $projectId")
         if (useMock) return bucket
 
         // test lab supports using a special free storage bucket

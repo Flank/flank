@@ -8,6 +8,7 @@ import com.google.common.annotations.VisibleForTesting
 import ftl.args.ArgsHelper.yamlMapper
 import ftl.util.loadFile
 import ftl.util.FlankFatalError
+import ftl.util.FlankCommonException
 import java.io.Reader
 import java.nio.file.Files
 import java.nio.file.Path
@@ -124,7 +125,7 @@ object YamlDeprecated {
     private val yamlWriter by lazy { yamlMapper.writerWithDefaultPrettyPrinter() }
 
     fun modify(yamlPath: Path): Boolean {
-        if (yamlPath.toFile().exists().not()) throw FlankFatalError("Flank yml doesn't exist at path $yamlPath")
+        if (yamlPath.toFile().exists().not()) throw FlankCommonException("Flank yml doesn't exist at path $yamlPath")
 
         val (errorDetected, string) = modify(loadFile(yamlPath))
 

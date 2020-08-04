@@ -2,6 +2,7 @@ package ftl.args
 
 import com.google.common.annotations.VisibleForTesting
 import ftl.ios.Xctestrun.findTestNames
+import ftl.util.FlankFatalError
 import ftl.util.FlankTestMethod
 
 data class IosArgs(
@@ -80,7 +81,7 @@ internal fun filterTests(validTestMethods: List<String>, testTargetsRgx: List<St
                     return@filter true
                 }
             } catch (e: Exception) {
-                throw IllegalArgumentException("Invalid regex: $target", e)
+                throw FlankFatalError("Invalid regex: $target")
             }
         }
 

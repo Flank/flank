@@ -12,7 +12,7 @@ class StopWatch {
     }
 
     fun check(alignSeconds: Boolean = false): String {
-        if (startTime == 0L) throw RuntimeException("startTime is zero. start not called")
+        if (startTime == 0L) throw FlankCommonException("startTime is zero. start not called")
 
         val duration = System.currentTimeMillis() - startTime
 

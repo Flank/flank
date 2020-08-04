@@ -41,7 +41,7 @@ fun join(first: String, vararg more: String): String {
 
 fun assertNotEmpty(str: String, e: String) {
     if (str.isEmpty()) {
-        throw FlankFatalError(e)
+        throw FlankCommonException(e)
     }
 }
 
@@ -91,7 +91,7 @@ private val classLoader = Thread.currentThread().contextClassLoader
 
 private fun getResource(name: String): InputStream {
     return classLoader.getResourceAsStream(name)
-        ?: throw RuntimeException("Unable to find resource: $name")
+        ?: throw FlankCommonException("Unable to find resource: $name")
 }
 
 // app version: flank_snapshot
@@ -130,10 +130,6 @@ fun withGlobalExceptionHandling(block: () -> Int) {
         exitProcess(block())
     } catch (t: Throwable) {
         when (t) {
-            is FlankGeneralFailure -> {
-                System.err.println("\n${t.message}")
-                exitProcess(GENERAL_FAILURE)
-            }
             is FlankCommonException -> {
                 System.err.println("\n${t.message}")
                 exitProcess(GENERAL_FAILURE)
@@ -143,9 +139,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
                 exitProcess(INCOMPATIBLE_TEST_DIMENSION)
             }
             is MatrixCanceled -> exitProcess(CANCELED_BY_USER)
-
             is InfrastructureError -> exitProcess(INFRASTRUCTURE_ERROR)
-
             is FailedMatrix -> {
                 if (t.ignoreFailed) exitProcess(SUCCESS)
                 else exitProcess(NOT_PASSED)
@@ -158,7 +152,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
                         cancelMatrices(t.map, t.projectId)
                     }
                 }
-                exitProcess(-1)
+                exitProcess(GENERAL_FAILURE)
             }
             is FTLError -> {
                 t.matrix.logError()

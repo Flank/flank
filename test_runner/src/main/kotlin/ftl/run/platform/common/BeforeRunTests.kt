@@ -5,6 +5,7 @@ import ftl.config.FtlConstants
 import ftl.gc.GcStorage
 import ftl.gc.GcTesting
 import ftl.gc.GcToolResults
+import ftl.util.FlankCommonException
 import ftl.util.StopWatch
 import java.io.File
 
@@ -30,9 +31,9 @@ internal fun beforeRunTests(args: IArgs): Pair<StopWatch, String> {
 
 private fun assertMockUrl() {
     if (!FtlConstants.useMock) return
-    if (!GcTesting.get.rootUrl.contains(FtlConstants.localhost)) throw RuntimeException("expected localhost in GcTesting")
-    if (!GcStorage.storageOptions.host.contains(FtlConstants.localhost)) throw RuntimeException("expected localhost in GcStorage")
-    if (!GcToolResults.service.rootUrl.contains(FtlConstants.localhost)) throw RuntimeException("expected localhost in GcToolResults")
+    if (!GcTesting.get.rootUrl.contains(FtlConstants.localhost)) throw FlankCommonException("expected localhost in GcTesting")
+    if (!GcStorage.storageOptions.host.contains(FtlConstants.localhost)) throw FlankCommonException("expected localhost in GcStorage")
+    if (!GcToolResults.service.rootUrl.contains(FtlConstants.localhost)) throw FlankCommonException("expected localhost in GcToolResults")
 }
 
 private fun deleteMockResultDirOnShutDown(args: IArgs, runGcsPath: String) {

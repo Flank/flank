@@ -20,7 +20,7 @@ private fun IosArgs.assertMaxTestShards() { this.maxTestShards
 private fun IosArgs.assertXcodeSupported() = when {
     xcodeVersion == null -> Unit
     IosCatalog.supportedXcode(xcodeVersion, project) -> Unit
-    else -> throw FlankFatalError(("Xcode $xcodeVersion is not a supported Xcode version"))
+    else -> throw IncompatibleTestDimension(("Xcode $xcodeVersion is not a supported Xcode version"))
 }
 
 private fun IosArgs.assertDevicesSupported() = devices.forEach { device ->

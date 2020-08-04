@@ -8,5 +8,5 @@ import java.nio.file.Path
 fun loadFile(filePath: Path): Reader = try {
     Files.newBufferedReader(filePath)
 } catch (fileNotFound: NoSuchFileException) {
-    throw FlankGeneralFailure("File not found: ${fileNotFound.message}")
+    throw FlankCommonException("File not found: ${fileNotFound.message}")
 }

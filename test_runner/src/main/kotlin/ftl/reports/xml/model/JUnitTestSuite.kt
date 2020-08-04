@@ -2,6 +2,7 @@ package ftl.reports.xml.model
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
+import ftl.util.FlankCommonException
 import java.util.Locale
 
 data class JUnitTestSuite(
@@ -90,7 +91,7 @@ data class JUnitTestSuite(
     }
 
     fun merge(other: JUnitTestSuite): JUnitTestSuite {
-        if (this.name != other.name) throw RuntimeException("Attempted to merge ${other.name} into ${this.name}")
+        if (this.name != other.name) throw FlankCommonException("Attempted to merge ${other.name} into ${this.name}")
 
         // tests, failures, errors
         this.tests = mergeInt(this.tests, other.tests)
@@ -108,7 +109,7 @@ data class JUnitTestSuite(
     }
 
     fun mergeTestTimes(other: JUnitTestSuite): JUnitTestSuite {
-        if (this.name != other.name) throw RuntimeException("Attempted to merge ${other.name} into ${this.name}")
+        if (this.name != other.name) throw FlankCommonException("Attempted to merge ${other.name} into ${this.name}")
 
         // For each new JUnitTestCase:
         //  * if it failed then pull timing info from old

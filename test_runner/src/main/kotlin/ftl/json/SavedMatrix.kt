@@ -9,6 +9,7 @@ import ftl.reports.api.createTestExecutionDataListAsync
 import ftl.reports.api.createTestSuitOverviewData
 import ftl.reports.api.data.TestSuiteOverviewData
 import ftl.reports.api.prepareForJUnitResult
+import ftl.util.FlankCommonException
 import ftl.util.MatrixState.ERROR
 import ftl.util.MatrixState.FINISHED
 import ftl.util.MatrixState.INVALID
@@ -91,7 +92,7 @@ class SavedMatrix(matrix: TestMatrix) {
 
     private fun finished(matrix: TestMatrix) {
         if (matrix.state != FINISHED) {
-            throw RuntimeException("Matrix ${matrix.testMatrixId} ${matrix.state} != $FINISHED")
+            throw FlankCommonException("Matrix ${matrix.testMatrixId} ${matrix.state} != $FINISHED")
         }
         billableVirtualMinutes = 0
         billablePhysicalMinutes = 0

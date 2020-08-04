@@ -11,6 +11,7 @@ import ftl.run.common.fetchArtifacts
 import ftl.run.common.pollMatrices
 import ftl.run.platform.runAndroidTests
 import ftl.run.platform.runIosTests
+import ftl.util.FlankCommonException
 import ftl.util.FlankTimeoutError
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withTimeoutOrNull
@@ -31,7 +32,7 @@ private suspend fun runTests(args: IArgs): TestResult {
     return when (args) {
         is AndroidArgs -> runAndroidTests(args)
         is IosArgs -> runIosTests(args)
-        else -> throw RuntimeException("Unknown config type")
+        else -> throw FlankCommonException("Unknown config type")
     }
 }
 

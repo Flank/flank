@@ -225,7 +225,7 @@ class UtilsTest {
         // given
         val message = "not flank related error thrown"
 
-        val block = { throw RuntimeException(message) }
+        val block = { throw FlankCommonException(message) }
 
         // will
         exit.expectSystemExitWithStatus(3)
@@ -246,7 +246,7 @@ class UtilsTest {
         every { FtlConstants.bugsnag } returns mockk {
             every { notify(any<Throwable>()) } returns true
         }
-        val block = { throw RuntimeException(message) }
+        val block = { throw FlankCommonException(message) }
 
         // will
         exit.expectSystemExitWithStatus(3)
