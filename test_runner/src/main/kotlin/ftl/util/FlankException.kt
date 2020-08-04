@@ -12,7 +12,7 @@ sealed class FlankException(message: String? = null, cause: Throwable? = null) :
 /**
  * Thrown when all matrices are finished and at least one test failed/is inconclusive.
  *
- * Exit code: 1
+ * Exit code: 10
  *
  * @param matrices [List]<[SavedMatrix]> List of failed matrices
  */

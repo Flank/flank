@@ -144,7 +144,6 @@ fun withGlobalExceptionHandling(block: () -> Int) {
                 if (t.ignoreFailed) exitProcess(SUCCESS)
                 else exitProcess(NOT_PASSED)
             }
-            is YmlValidationError -> exitProcess(GENERAL_FAILURE)
             is FlankTimeoutError -> {
                 println("\nCanceling flank due to timeout")
                 runBlocking {
@@ -154,13 +153,16 @@ fun withGlobalExceptionHandling(block: () -> Int) {
                 }
                 exitProcess(GENERAL_FAILURE)
             }
+
             is FTLError -> {
                 t.matrix.logError()
                 exitProcess(UNEXPECTED_ERROR)
             }
+
+            is YmlValidationError,
             is FlankFatalError -> {
                 System.err.println(t.message)
-                exitProcess(INFRASTRUCTURE_ERROR)
+                exitProcess(CONFIGURATION_FAIL)
             }
 
             // We need to cover the case where some component in the call stack starts a non-daemon
