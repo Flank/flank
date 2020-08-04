@@ -20,9 +20,9 @@ import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
 import ftl.test.util.assertThrowsWithMessage
-import ftl.util.FlankCommonException
-import ftl.util.FlankFatalError
-import ftl.util.IncompatibleTestDimension
+import ftl.util.FlankGeneralError
+import ftl.util.FlankConfigurationError
+import ftl.util.IncompatibleTestDimensionError
 import ftl.util.asFileReference
 import io.mockk.every
 import io.mockk.mockkStatic
@@ -145,7 +145,7 @@ class AndroidArgsTest {
 
     @Test
     fun `androidArgs invalidModel`() {
-        assertThrowsWithMessage(IncompatibleTestDimension::class, "Unsupported model id") {
+        assertThrowsWithMessage(IncompatibleTestDimensionError::class, "Unsupported model id") {
             AndroidArgs.load(
                 """
             gcloud:
@@ -161,7 +161,7 @@ class AndroidArgsTest {
 
     @Test
     fun `androidArgs invalidVersion`() {
-        assertThrowsWithMessage(IncompatibleTestDimension::class, "Unsupported version id") {
+        assertThrowsWithMessage(IncompatibleTestDimensionError::class, "Unsupported version id") {
             AndroidArgs.load(
                 """
         gcloud:
@@ -177,7 +177,7 @@ class AndroidArgsTest {
 
     @Test
     fun `androidArgs incompatibleModel`() {
-        assertThrowsWithMessage(IncompatibleTestDimension::class, "Incompatible model") {
+        assertThrowsWithMessage(IncompatibleTestDimensionError::class, "Incompatible model") {
             AndroidArgs.load(
                 """
         gcloud:
@@ -681,7 +681,7 @@ AndroidArgs
         assertThat(androidArgs.numUniformShards).isEqualTo(expected)
     }
 
-    @Test(expected = FlankFatalError::class)
+    @Test(expected = FlankConfigurationError::class)
     fun `should throw if numUniformShards is specified along with maxTestShards`() {
         val yaml = """
         gcloud:
@@ -743,7 +743,7 @@ AndroidArgs
         assertThat(androidArgs.directoriesToPull).isEqualTo(listOf("/sdcard/test", "/data/local/tmp/test"))
     }
 
-    @Test(expected = FlankFatalError::class)
+    @Test(expected = FlankConfigurationError::class)
     fun `should throw FlankFatalError when invalid cli directoriesToPull`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parseArgs("--directories-to-pull=a,b")
@@ -1163,7 +1163,7 @@ AndroidArgs
         assertThat(args.outputStyle).isEqualTo(OutputStyle.Verbose)
     }
 
-    @Test(expected = FlankFatalError::class)
+    @Test(expected = FlankConfigurationError::class)
     fun `cli output-style fail on parse`() {
         val yaml = """
         gcloud:
@@ -1196,7 +1196,7 @@ AndroidArgs
         assertEquals(4, chunks.size)
     }
 
-    @Test(expected = FlankFatalError::class)
+    @Test(expected = FlankConfigurationError::class)
     fun `should fail on missing app apk -- yml file`() {
         val yaml = """
         flank:
@@ -1241,7 +1241,7 @@ AndroidArgs
         assertFalse(args.ignoreFailedTests)
     }
 
-    @Test(expected = FlankFatalError::class)
+    @Test(expected = FlankConfigurationError::class)
     fun `should throw if both instrumentation and robo tests are specified`() {
         val yaml = """
         gcloud:
@@ -1317,8 +1317,8 @@ AndroidArgs
         )
     }
 
-    @Test(expected = FlankCommonException::class)
-    fun `should throw FlankCommonException if not tests to be run overall`() {
+    @Test(expected = FlankGeneralError::class)
+    fun `should throw FlankGeneralError if not tests to be run overall`() {
         val yaml = """
         gcloud:
           app: $appApk
@@ -1494,7 +1494,7 @@ AndroidArgs
         assertEquals(10, args.maxTestShards)
     }
 
-    @Test(expected = FlankFatalError::class)
+    @Test(expected = FlankConfigurationError::class)
     fun `should throw when maximum test shards for virtual devices limit exceeded`() {
         val yaml = """
         gcloud:
@@ -1507,7 +1507,7 @@ AndroidArgs
         AndroidArgs.load(yaml)
     }
 
-    @Test(expected = FlankFatalError::class)
+    @Test(expected = FlankConfigurationError::class)
     fun `should throw when maximum test shards for physical devices limit exceeded`() {
         val yaml = """
         gcloud:

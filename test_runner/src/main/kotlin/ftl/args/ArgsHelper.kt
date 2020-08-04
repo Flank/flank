@@ -24,8 +24,8 @@ import ftl.shard.StringShards
 import ftl.shard.createShardsByShardCount
 import ftl.shard.shardCountByTime
 import ftl.shard.stringShards
-import ftl.util.FlankFatalError
-import ftl.util.FlankCommonException
+import ftl.util.FlankConfigurationError
+import ftl.util.FlankGeneralError
 import ftl.util.FlankTestMethod
 import ftl.util.assertNotEmpty
 import java.io.File
@@ -43,7 +43,7 @@ object ArgsHelper {
 
     fun assertFileExists(file: String, name: String) {
         if (!File(file).exists()) {
-            throw FlankCommonException("'$file' $name doesn't exist")
+            throw FlankGeneralError("'$file' $name doesn't exist")
         }
     }
 
@@ -55,17 +55,17 @@ object ArgsHelper {
         )
 
         if (args.maxTestShards !in AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE && args.maxTestShards != -1)
-            throw FlankFatalError("max-test-shards must be >= ${AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.first} and <= ${AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}. But current is ${args.maxTestShards}")
+            throw FlankConfigurationError("max-test-shards must be >= ${AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.first} and <= ${AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}. But current is ${args.maxTestShards}")
 
-        if (args.shardTime <= 0 && args.shardTime != -1) throw FlankFatalError("shard-time must be >= 1 or -1")
-        if (args.repeatTests < 1) throw FlankFatalError("num-test-runs must be >= 1")
+        if (args.shardTime <= 0 && args.shardTime != -1) throw FlankConfigurationError("shard-time must be >= 1 or -1")
+        if (args.repeatTests < 1) throw FlankConfigurationError("num-test-runs must be >= 1")
 
         if (args.smartFlankGcsPath.isNotEmpty()) {
             if (!args.smartFlankGcsPath.startsWith(GCS_PREFIX)) {
-                throw FlankFatalError("smart-flank-gcs-path must start with gs://")
+                throw FlankConfigurationError("smart-flank-gcs-path must start with gs://")
             }
             if (args.smartFlankGcsPath.count { it == '/' } <= 2 || !args.smartFlankGcsPath.endsWith(".xml")) {
-                throw FlankFatalError("smart-flank-gcs-path must be in the format gs://bucket/foo.xml")
+                throw FlankConfigurationError("smart-flank-gcs-path must be in the format gs://bucket/foo.xml")
             }
         }
     }
@@ -81,9 +81,9 @@ object ArgsHelper {
 
         val filePaths = walkFileTree(file)
         if (filePaths.size > 1) {
-            throw FlankCommonException("'$file' ($filePath) matches multiple files: $filePaths")
+            throw FlankGeneralError("'$file' ($filePath) matches multiple files: $filePaths")
         } else if (filePaths.isEmpty()) {
-            throw FlankCommonException("'$file' not found ($filePath)")
+            throw FlankGeneralError("'$file' not found ($filePath)")
         }
 
         return filePaths.first().toAbsolutePath().normalize().toString()
@@ -91,14 +91,14 @@ object ArgsHelper {
 
     fun assertGcsFileExists(uri: String) {
         if (!uri.startsWith(GCS_PREFIX)) {
-            throw FlankFatalError("must start with $GCS_PREFIX uri: $uri")
+            throw FlankConfigurationError("must start with $GCS_PREFIX uri: $uri")
         }
 
         val gcsURI = URI.create(uri)
         val bucket = gcsURI.authority
         val path = gcsURI.path.drop(1) // Drop leading slash
 
-        GcStorage.storage.get(bucket, path) ?: throw FlankCommonException("The file at '$uri' does not exist")
+        GcStorage.storage.get(bucket, path) ?: throw FlankGeneralError("The file at '$uri' does not exist")
     }
 
     fun validateTestMethods(
@@ -109,8 +109,8 @@ object ArgsHelper {
     ) {
         val missingMethods = testTargets - validTestMethods
 
-        if (!skipValidation && missingMethods.isNotEmpty()) throw FlankFatalError("$from is missing methods: $missingMethods.\nValid methods:\n$validTestMethods")
-        if (validTestMethods.isEmpty()) throw FlankFatalError("$from has no tests")
+        if (!skipValidation && missingMethods.isNotEmpty()) throw FlankConfigurationError("$from is missing methods: $missingMethods.\nValid methods:\n$validTestMethods")
+        if (validTestMethods.isEmpty()) throw FlankConfigurationError("$from has no tests")
     }
 
     fun createJunitBucket(projectId: String, junitGcsPath: String) {
@@ -123,7 +123,7 @@ object ArgsHelper {
     // Due to permission issues, the user may not be able to list or create buckets.
     fun createGcsBucket(projectId: String, bucket: String): String {
         if (bucket.isEmpty()) return GcToolResults.getDefaultBucket(projectId)
-            ?: throw FlankCommonException("Failed to make bucket for $projectId")
+            ?: throw FlankGeneralError("Failed to make bucket for $projectId")
         if (useMock) return bucket
 
         // test lab supports using a special free storage bucket

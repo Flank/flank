@@ -7,8 +7,8 @@ import ftl.android.UnsupportedModelId
 import ftl.android.UnsupportedVersionId
 import ftl.config.containsPhysicalDevices
 import ftl.config.containsVirtualDevices
-import ftl.util.FlankFatalError
-import ftl.util.IncompatibleTestDimension
+import ftl.util.FlankConfigurationError
+import ftl.util.IncompatibleTestDimensionError
 import java.io.File
 
 fun AndroidArgs.validate() {
@@ -27,7 +27,7 @@ private fun AndroidArgs.assertAdditionalAppTestApks() {
         .map { File(it.test).name }
         .run {
             if (isNotEmpty())
-                throw FlankFatalError("Cannot resolve app apk pair for $this")
+                throw FlankConfigurationError("Cannot resolve app apk pair for $this")
         }
 }
 
@@ -38,27 +38,27 @@ private fun AndroidArgs.assertDevicesSupported() = devices
     .forEach { (device, check) ->
         when (check) {
             SupportedDeviceConfig -> Unit
-            UnsupportedModelId -> throw IncompatibleTestDimension("Unsupported model id, '${device.model}'\nSupported model ids: ${AndroidCatalog.androidModelIds(project)}")
-            UnsupportedVersionId -> throw IncompatibleTestDimension("Unsupported version id, '${device.version}'\nSupported Version ids: ${AndroidCatalog.androidVersionIds(project)}")
-            IncompatibleModelVersion -> throw IncompatibleTestDimension("Incompatible model, '${device.model}', and version, '${device.version}'\nSupported version ids for '${device.model}': $check")
+            UnsupportedModelId -> throw IncompatibleTestDimensionError("Unsupported model id, '${device.model}'\nSupported model ids: ${AndroidCatalog.androidModelIds(project)}")
+            UnsupportedVersionId -> throw IncompatibleTestDimensionError("Unsupported version id, '${device.version}'\nSupported Version ids: ${AndroidCatalog.androidVersionIds(project)}")
+            IncompatibleModelVersion -> throw IncompatibleTestDimensionError("Incompatible model, '${device.model}', and version, '${device.version}'\nSupported version ids for '${device.model}': $check")
         }
     }
 
 private fun AndroidArgs.assertShards() {
-    if (numUniformShards != null && maxTestShards > 1) throw FlankFatalError(
+    if (numUniformShards != null && maxTestShards > 1) throw FlankConfigurationError(
         "Option num-uniform-shards cannot be specified along with max-test-shards. Use only one of them."
     )
 }
 
 private fun AndroidArgs.assertTestTypes() {
-    if (!(isRoboTest or isInstrumentationTest)) throw FlankFatalError(
+    if (!(isRoboTest or isInstrumentationTest)) throw FlankConfigurationError(
         "One of following options must be specified [test, robo-directives, robo-script]."
     )
 }
 
 private fun AndroidArgs.assertRoboTest() {
     // Using both roboDirectives and roboScript may hang test execution on FTL
-    if (roboDirectives.isNotEmpty() && roboScript != null) throw FlankFatalError(
+    if (roboDirectives.isNotEmpty() && roboScript != null) throw FlankConfigurationError(
         "Options robo-directives and robo-script are mutually exclusive, use only one of them."
     )
 }
@@ -70,7 +70,7 @@ private fun AndroidArgs.assertDirectoriesToPull() {
         .filter { !it.startsWith("/sdcard") && !it.startsWith("/data/local/tmp") || !correctNameRegex.matches(it) }
         .takeIf { it.isNotEmpty() }
         ?.also {
-            throw FlankFatalError(
+            throw FlankConfigurationError(
                 "Invalid value for [directories-to-pull]: Invalid path $it.\n" +
                         "Path must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2).\n" +
                         "Path names are restricted to the characters [a-zA-Z0-9_-./+]. "
@@ -95,7 +95,7 @@ private fun AndroidArgs.assertVirtualDevicesShards() {
 }
 
 private fun AndroidArgs.throwMaxTestShardsLimitExceeded(): Nothing {
-    throw FlankFatalError(
+    throw FlankConfigurationError(
         "max-test-shards must be >= ${IArgs.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE.first} and <= ${IArgs.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE.last} for virtual devices, for physical devices max-test-shards must be >= ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.first} and <= ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}, or -1. But current is $maxTestShards"
     )
 }

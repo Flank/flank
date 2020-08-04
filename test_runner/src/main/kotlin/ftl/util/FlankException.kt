@@ -16,7 +16,7 @@ sealed class FlankException(message: String? = null, cause: Throwable? = null) :
  *
  * @param matrices [List]<[SavedMatrix]> List of failed matrices
  */
-class FailedMatrix(val matrices: List<SavedMatrix>, val ignoreFailed: Boolean = false) : FlankException()
+class FailedMatrixError(val matrices: List<SavedMatrix>, val ignoreFailed: Boolean = false) : FlankException()
 
 /**
  * Thrown when at least one matrix is not finished.
@@ -52,7 +52,7 @@ class FlankTimeoutError(val map: Map<String, SavedMatrix>?, val projectId: Strin
  *
  * @param message [String] message to be printed to [System.err]
  */
-class FlankFatalError(message: String) : FlankException(message)
+class FlankConfigurationError(message: String) : FlankException(message)
 
 /**
  * A general failure occurred. Possible causes include: a filename that does not exist or an HTTP/network error.
@@ -61,7 +61,7 @@ class FlankFatalError(message: String) : FlankException(message)
  *
  * @param message [String] message to be printed to [System.err]
  */
-class FlankCommonException : FlankException {
+class FlankGeneralError : FlankException {
     constructor(message: String) : super(message)
     constructor(cause: Exception) : super(cause = cause)
     constructor(message: String, cause: Exception) : super(message, cause)
@@ -69,7 +69,7 @@ class FlankCommonException : FlankException {
 
 /**
  * Base class for project related exceptions.
- * Should be caught and rewrap to FlankCommonException with project id info attached.
+ * Should be caught and rewrap to FlankGeneralError with project id info attached.
  *
  * @param exc [IOException]
  */
@@ -84,7 +84,7 @@ class ProjectNotFound(exc: IOException) : FTLProjectError(exc)
  *
  * @param message [String] message to be printed to [System.err]
  */
-class IncompatibleTestDimension(message: String) : FlankException(message)
+class IncompatibleTestDimensionError(message: String) : FlankException(message)
 
 /**
  * The test matrix was canceled by the user.
@@ -93,7 +93,7 @@ class IncompatibleTestDimension(message: String) : FlankException(message)
  *
  * @param message [String] message to be printed to [System.err]
  */
-class MatrixCanceled(message: String) : FlankException(message)
+class MatrixCanceledError(message: String) : FlankException(message)
 
 /**
  * A test infrastructure error occurred.

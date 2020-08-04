@@ -2,7 +2,7 @@ package ftl.reports.xml
 
 import com.google.common.truth.Truth.assertThat
 import ftl.test.util.TestHelper.normalizeLineEnding
-import ftl.util.FlankCommonException
+import ftl.util.FlankGeneralError
 import org.junit.Assert
 import java.nio.file.Paths
 import org.junit.Test
@@ -247,7 +247,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
     @Test
     fun `parse androidPassXml`() {
         val testSuite = parseOneSuiteXml(androidPassXml)
-            .testsuites?.first() ?: throw FlankCommonException("Missing test suite")
+            .testsuites?.first() ?: throw FlankGeneralError("Missing test suite")
 
         with(testSuite) {
             assertThat(name).isEqualTo("")
@@ -276,7 +276,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
     @Test
     fun `parse androidFailXml`() {
         val testSuite = parseOneSuiteXml(androidFailXml)
-            .testsuites?.first() ?: throw FlankCommonException("Missing test suite")
+            .testsuites?.first() ?: throw FlankGeneralError("Missing test suite")
 
         with(testSuite) {
             assertThat(name).isEqualTo("")

@@ -6,7 +6,7 @@ import ftl.args.isInstrumentationTest
 import ftl.run.common.prettyPrint
 import ftl.run.model.AndroidMatrixTestShards
 import ftl.run.platform.android.getAndroidMatrixShards
-import ftl.util.FlankFatalError
+import ftl.util.FlankConfigurationError
 import ftl.util.obfuscatePrettyPrinter
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -16,7 +16,7 @@ suspend fun dumpShards(
     shardFilePath: String = ANDROID_SHARD_FILE,
     obfuscatedOutput: Boolean = false
 ) {
-    if (!args.isInstrumentationTest) throw FlankFatalError(
+    if (!args.isInstrumentationTest) throw FlankConfigurationError(
         "Cannot dump shards for non instrumentation test, ensure test apk has been set."
     )
     val shards: AndroidMatrixTestShards = args.getAndroidMatrixShards()

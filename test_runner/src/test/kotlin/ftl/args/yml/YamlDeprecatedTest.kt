@@ -3,7 +3,7 @@ package ftl.args.yml
 import com.google.common.truth.Truth.assertThat
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper
-import ftl.util.FlankFatalError
+import ftl.util.FlankConfigurationError
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
@@ -137,7 +137,7 @@ class YamlDeprecatedTest {
         assertThat(output).isEqualTo(expected)
     }
 
-    @Test(expected = FlankFatalError::class)
+    @Test(expected = FlankConfigurationError::class)
     fun `should throw FlankFatalError when yaml is bad formatted`() {
         YamlDeprecated.modify(
             TestHelper.getPath("src/test/kotlin/ftl/args/yml/test_error_yaml_cases/flank-bad-yaml-formatting.yml")

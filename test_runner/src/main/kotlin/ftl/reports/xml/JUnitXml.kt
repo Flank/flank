@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PRO
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
 import ftl.reports.xml.preprocesor.fixHtmlCodes
-import ftl.util.FlankCommonException
+import ftl.util.FlankGeneralError
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
@@ -21,7 +21,7 @@ private val xmlMapper = XmlMapper(xmlModule)
 internal val xmlPrettyWriter = xmlMapper.writerWithDefaultPrettyPrinter()
 
 private fun xmlText(path: Path): String {
-    if (!path.toFile().exists()) throw FlankCommonException("$path doesn't exist!")
+    if (!path.toFile().exists()) throw FlankGeneralError("$path doesn't exist!")
     return String(Files.readAllBytes(path))
 }
 

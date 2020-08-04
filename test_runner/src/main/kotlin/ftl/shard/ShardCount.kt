@@ -3,7 +3,7 @@ package ftl.shard
 import ftl.args.IArgs
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 import ftl.reports.xml.model.JUnitTestResult
-import ftl.util.FlankFatalError
+import ftl.util.FlankConfigurationError
 import ftl.util.FlankTestMethod
 import kotlin.math.ceil
 import kotlin.math.min
@@ -18,7 +18,7 @@ fun shardCountByTime(
     args: IArgs
 ): Int = when {
     args.shardTime == NO_LIMIT -> NO_LIMIT
-    args.shardTime < NO_LIMIT || args.shardTime == 0 -> throw FlankFatalError("Invalid shard time ${args.shardTime}")
+    args.shardTime < NO_LIMIT || args.shardTime == 0 -> throw FlankConfigurationError("Invalid shard time ${args.shardTime}")
     else -> calculateShardCount(testsToRun, oldTestResult, args)
 }
 
@@ -43,7 +43,7 @@ private fun calculateShardCount(
     testsTotalTime <= args.shardTime -> SINGLE_SHARD
     args.maxTestShards == NO_LIMIT -> min(AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last, testsToRunCount)
     else -> shardCount(testsTotalTime, args).also { count ->
-        if (count <= 0) throw FlankFatalError("Invalid shard count $count")
+        if (count <= 0) throw FlankConfigurationError("Invalid shard count $count")
     }
 }
 

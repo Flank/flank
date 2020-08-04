@@ -2,7 +2,7 @@ package ftl.test.util
 
 import com.google.cloud.storage.BlobInfo
 import ftl.gc.GcStorage
-import ftl.util.FlankCommonException
+import ftl.util.FlankGeneralError
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -14,7 +14,7 @@ object LocalGcs {
 
     private fun uploadToMockGcs(path: Path) {
         if (!path.toFile().exists()) {
-            throw FlankCommonException("File doesn't exist at path $path")
+            throw FlankGeneralError("File doesn't exist at path $path")
         }
 
         val fileName = path.fileName.toString()

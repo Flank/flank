@@ -19,7 +19,7 @@ object Bash {
 
         if (process.failed()) {
             System.err.println("Error: ${result.stderr}")
-            throw FlankCommonException("Command failed: $cmd")
+            throw FlankGeneralError("Command failed: $cmd")
         }
 
         return result.stdout.trim() + result.stderr.trim()

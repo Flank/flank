@@ -18,7 +18,7 @@ import ftl.gc.android.mapGcsPathsToApks
 import ftl.gc.android.mapToDeviceFiles
 import ftl.gc.android.setupAndroidTest
 import ftl.run.platform.android.AndroidTestConfig
-import ftl.util.FlankCommonException
+import ftl.util.FlankGeneralError
 import ftl.util.join
 import ftl.util.timeoutToSeconds
 
@@ -84,7 +84,7 @@ object GcAndroidTestMatrix {
         try {
             return GcTesting.get.projects().testMatrices().create(args.project, testMatrix)
         } catch (e: Exception) {
-            throw FlankCommonException(e)
+            throw FlankGeneralError(e)
         }
     }
 }

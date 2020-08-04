@@ -3,7 +3,7 @@ package ftl.gc
 import com.google.api.services.testing.model.CancelTestMatrixResponse
 import com.google.api.services.testing.model.TestMatrix
 import ftl.http.executeWithRetry
-import ftl.util.FlankCommonException
+import ftl.util.FlankGeneralError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -51,7 +51,7 @@ object GcTestMatrix {
             }
         }
 
-        throw FlankCommonException("Failed to refresh matrix")
+        throw FlankGeneralError("Failed to refresh matrix")
     }
 
     suspend fun cancel(testMatrixId: String, projectId: String): CancelTestMatrixResponse {
@@ -71,6 +71,6 @@ object GcTestMatrix {
             }
         }
 
-        throw FlankCommonException("Failed to cancel matrix")
+        throw FlankGeneralError("Failed to cancel matrix")
     }
 }

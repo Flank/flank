@@ -53,7 +53,7 @@ class UtilsTest {
     @After
     fun tearDown() = unmockkAll()
 
-    @Test(expected = FlankCommonException::class)
+    @Test(expected = FlankGeneralError::class)
     fun `readTextResource errors`() {
         readTextResource("does not exist")
     }
@@ -77,7 +77,7 @@ class UtilsTest {
         assertThat(randomName.last()).isNotEqualTo('/')
     }
 
-    @Test(expected = FailedMatrix::class)
+    @Test(expected = FailedMatrixError::class)
     fun testExitCodeForFailed() {
         val testExecutions = listOf(
             createStepExecution(1, "Success"),
@@ -106,7 +106,7 @@ class UtilsTest {
         MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath").validateMatrices()
     }
 
-    @Test(expected = MatrixCanceled::class)
+    @Test(expected = MatrixCanceledError::class)
     fun testExitCodeForInconclusive() { // inconclusive is treated as a failure
         val testExecutions = listOf(
             createStepExecution(-2, "Inconclusive")
@@ -150,7 +150,7 @@ class UtilsTest {
         val finishedMatrix = SavedMatrix(testMatrix)
         try {
             MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath").validateMatrices(shouldIgnore)
-        } catch (t: FailedMatrix) {
+        } catch (t: FailedMatrixError) {
             assertTrue(t.ignoreFailed)
         } catch (_: Throwable) {
             fail()
@@ -160,7 +160,7 @@ class UtilsTest {
     @Test
     fun `should terminate process with exit code 10 if FailedMatrix exception is thrown`() {
         // given
-        val block = { throw FailedMatrix(listOf(testMatrix1, testMatrix2)) }
+        val block = { throw FailedMatrixError(listOf(testMatrix1, testMatrix2)) }
 
         // will
         exit.expectSystemExitWithStatus(NOT_PASSED)
@@ -208,7 +208,7 @@ class UtilsTest {
     fun `should terminate process with exit code 2 if FlankFatalError is thrown`() {
         // given
         val message = "test error was thrown"
-        val block = { throw FlankFatalError(message) }
+        val block = { throw FlankConfigurationError(message) }
 
         // will
         exit.expectSystemExitWithStatus(2)
@@ -225,7 +225,7 @@ class UtilsTest {
         // given
         val message = "not flank related error thrown"
 
-        val block = { throw FlankCommonException(message) }
+        val block = { throw FlankGeneralError(message) }
 
         // will
         exit.expectSystemExitWithStatus(GENERAL_FAILURE)
@@ -246,7 +246,7 @@ class UtilsTest {
         every { FtlConstants.bugsnag } returns mockk {
             every { notify(any<Throwable>()) } returns true
         }
-        val block = { throw FlankCommonException(message) }
+        val block = { throw FlankGeneralError(message) }
 
         // will
         exit.expectSystemExitWithStatus(GENERAL_FAILURE)
@@ -262,7 +262,7 @@ class UtilsTest {
     fun `should terminate process with exit code 0 if at least one matrix failed and ignore-failed-tests flag is true`() {
         // given
         val block = {
-            throw FailedMatrix(
+            throw FailedMatrixError(
                 matrices = listOf(testMatrix1, testMatrix2),
                 ignoreFailed = true
             )
@@ -279,7 +279,7 @@ class UtilsTest {
     fun `should terminate process with exit code 1 if there is not tests to run overall`() {
         // given
         val message = "No tests to run"
-        val block = { throw FlankCommonException(message) }
+        val block = { throw FlankGeneralError(message) }
 
         // will
         exit.expectSystemExitWithStatus(GENERAL_FAILURE)

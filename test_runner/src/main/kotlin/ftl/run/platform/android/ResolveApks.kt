@@ -5,7 +5,7 @@ import ftl.args.AndroidArgs
 import ftl.run.model.AndroidTestContext
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.RoboTestContext
-import ftl.util.FlankCommonException
+import ftl.util.FlankGeneralError
 import ftl.util.asFileReference
 
 @VisibleForTesting
@@ -28,7 +28,7 @@ internal fun AndroidArgs.resolveApks(): List<AndroidTestContext> = listOfNotNull
         InstrumentationTestContext(
             app = (it.app ?: appApk)
                 ?.asFileReference()
-                ?: throw FlankCommonException("Cannot create app-test apks pair for instrumentation tests, missing app apk for test ${it.test}"),
+                ?: throw FlankGeneralError("Cannot create app-test apks pair for instrumentation tests, missing app apk for test ${it.test}"),
             test = it.test.asFileReference()
         )
     }

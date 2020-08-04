@@ -13,7 +13,7 @@ import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
 import ftl.test.util.assertThrowsWithMessage
-import ftl.util.FlankFatalError
+import ftl.util.FlankConfigurationError
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assume
@@ -834,7 +834,7 @@ IosArgs
         "ClassFourTest/testFour"
     )
 
-    @Test(expected = FlankFatalError::class)
+    @Test(expected = FlankConfigurationError::class)
     fun `invalid regex filter throws custom exception`() {
         filterTests(listOf("test"), testTargetsRgx = listOf("*."))
     }

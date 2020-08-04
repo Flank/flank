@@ -7,7 +7,7 @@ import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
 import ftl.test.util.FlankTestRunner
-import ftl.util.FlankFatalError
+import ftl.util.FlankConfigurationError
 import ftl.util.FlankTestMethod
 import io.mockk.every
 import io.mockk.mockk
@@ -105,7 +105,7 @@ class ShardTest {
         assertThat(ms).isLessThan(5000)
     }
 
-    @Test(expected = FlankFatalError::class)
+    @Test(expected = FlankConfigurationError::class)
     fun `createShardsByShardCount throws on forcedShardCount = 0`() {
         createShardsByShardCount(
                 listOf(),
@@ -148,17 +148,17 @@ class ShardTest {
                 mockArgs(-1, shardTime))
     }
 
-    @Test(expected = FlankFatalError::class)
+    @Test(expected = FlankConfigurationError::class)
     fun `shardCountByTime throws on invalid shard time -3`() {
         shardCountByTime(-3)
     }
 
-    @Test(expected = FlankFatalError::class)
+    @Test(expected = FlankConfigurationError::class)
     fun `shardCountByTime throws on invalid shard time -2`() {
         shardCountByTime(-2)
     }
 
-    @Test(expected = FlankFatalError::class)
+    @Test(expected = FlankConfigurationError::class)
     fun `shardCountByTime throws on invalid shard time 0`() {
         shardCountByTime(0)
     }
@@ -171,7 +171,7 @@ class ShardTest {
         assertThat(shardCountByTime(3)).isEqualTo(1)
     }
 
-    @Test(expected = FlankFatalError::class)
+    @Test(expected = FlankConfigurationError::class)
     fun `should terminate with exit status == 3 test targets is 0 and maxTestShards == -1`() {
         createShardsByShardCount(emptyList(), JUnitTestResult(mutableListOf()), mockArgs(-1))
     }

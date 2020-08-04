@@ -41,7 +41,7 @@ fun join(first: String, vararg more: String): String {
 
 fun assertNotEmpty(str: String, e: String) {
     if (str.isEmpty()) {
-        throw FlankCommonException(e)
+        throw FlankGeneralError(e)
     }
 }
 
@@ -91,7 +91,7 @@ private val classLoader = Thread.currentThread().contextClassLoader
 
 private fun getResource(name: String): InputStream {
     return classLoader.getResourceAsStream(name)
-        ?: throw FlankCommonException("Unable to find resource: $name")
+        ?: throw FlankGeneralError("Unable to find resource: $name")
 }
 
 // app version: flank_snapshot
@@ -130,19 +130,9 @@ fun withGlobalExceptionHandling(block: () -> Int) {
         exitProcess(block())
     } catch (t: Throwable) {
         when (t) {
-            is FlankCommonException -> {
-                System.err.println(t.message)
-                exitProcess(GENERAL_FAILURE)
-            }
-            is IncompatibleTestDimension -> {
+            is FlankGeneralError -> {
                 System.err.println("\n${t.message}")
-                exitProcess(INCOMPATIBLE_TEST_DIMENSION)
-            }
-            is MatrixCanceled -> exitProcess(CANCELED_BY_USER)
-            is InfrastructureError -> exitProcess(INFRASTRUCTURE_ERROR)
-            is FailedMatrix -> {
-                if (t.ignoreFailed) exitProcess(SUCCESS)
-                else exitProcess(NOT_PASSED)
+                exitProcess(GENERAL_FAILURE)
             }
             is FlankTimeoutError -> {
                 println("\nCanceling flank due to timeout")
@@ -153,6 +143,17 @@ fun withGlobalExceptionHandling(block: () -> Int) {
                 }
                 exitProcess(GENERAL_FAILURE)
             }
+            is IncompatibleTestDimensionError -> {
+                System.err.println("\n${t.message}")
+                exitProcess(INCOMPATIBLE_TEST_DIMENSION)
+            }
+            is MatrixCanceledError -> exitProcess(CANCELED_BY_USER)
+            is InfrastructureError -> exitProcess(INFRASTRUCTURE_ERROR)
+            is FailedMatrixError -> {
+                if (t.ignoreFailed) exitProcess(SUCCESS)
+                else exitProcess(NOT_PASSED)
+            }
+
 
             is FTLError -> {
                 t.matrix.logError()
@@ -160,7 +161,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
             }
 
             is YmlValidationError,
-            is FlankFatalError -> {
+            is FlankConfigurationError -> {
                 System.err.println(t.message)
                 exitProcess(CONFIGURATION_FAIL)
             }

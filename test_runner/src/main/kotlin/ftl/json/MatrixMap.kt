@@ -2,10 +2,10 @@ package ftl.json
 
 import com.google.api.services.testing.model.TestMatrix
 import ftl.util.FTLError
-import ftl.util.FailedMatrix
-import ftl.util.IncompatibleTestDimension
+import ftl.util.FailedMatrixError
+import ftl.util.IncompatibleTestDimensionError
 import ftl.util.InfrastructureError
-import ftl.util.MatrixCanceled
+import ftl.util.MatrixCanceledError
 import ftl.util.MatrixState
 
 class MatrixMap(
@@ -28,23 +28,23 @@ class MatrixMap(
      * @param shouldIgnore [Boolean]
      *        set {true} to ignore failed matrices and exit with status code 0
      *
-     * @throws MatrixCanceled [MatrixCanceled]
+     * @throws MatrixCanceledError [MatrixCanceledError]
      *         at least one matrix canceled by user
      * @throws InfrastructureError [InfrastructureError]
      *         at least one matrix have a test infrastructure error
-     * @throws IncompatibleTestDimension [IncompatibleTestDimension]
+     * @throws IncompatibleTestDimensionError [IncompatibleTestDimensionError]
      *         at least one matrix have a incompatible test dimensions. This error might occur if the selected Android API level is not supported by the selected device type.
      * @throws FTLError [FTLError]
      *         at least one matrix have unexpected error
      */
     fun validateMatrices(shouldIgnore: Boolean = false) {
         map.values.run {
-            firstOrNull { it.canceledByUser() }?.let { throw MatrixCanceled(it.outcomeDetails) }
+            firstOrNull { it.canceledByUser() }?.let { throw MatrixCanceledError(it.outcomeDetails) }
             firstOrNull { it.infrastructureFail() }?.let { throw InfrastructureError(it.outcomeDetails) }
-            firstOrNull { it.incompatibleFail() }?.let { throw IncompatibleTestDimension(it.outcomeDetails) }
+            firstOrNull { it.incompatibleFail() }?.let { throw IncompatibleTestDimensionError(it.outcomeDetails) }
             firstOrNull { it.state != MatrixState.FINISHED }?.let { throw FTLError(it) }
             filter { it.failed() }.let {
-                if (it.isNotEmpty()) throw FailedMatrix(
+                if (it.isNotEmpty()) throw FailedMatrixError(
                     matrices = it,
                     ignoreFailed = shouldIgnore
                 )

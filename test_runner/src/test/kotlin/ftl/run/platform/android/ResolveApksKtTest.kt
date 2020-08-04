@@ -3,7 +3,7 @@ package ftl.run.platform.android
 import ftl.args.AndroidArgs
 import ftl.args.yml.AppTestPair
 import ftl.run.model.InstrumentationTestContext
-import ftl.util.FlankCommonException
+import ftl.util.FlankGeneralError
 import ftl.util.asFileReference
 import io.mockk.every
 import io.mockk.mockk
@@ -53,7 +53,7 @@ class ResolveApksKtTest {
         )
     }
 
-    @Test(expected = FlankCommonException::class)
+    @Test(expected = FlankGeneralError::class)
     fun `should fail on missing app apk`() {
         mockk<AndroidArgs> {
             every { appApk } returns null
