@@ -1,10 +1,12 @@
 package flank.scripts.utils
 
-fun String.runCommand(retryCount: Int = 0) =
-        ProcessBuilder(*split(" ").toTypedArray())
+fun List<String>.runCommand(retryCount: Int = 0) =
+        ProcessBuilder(this)
                 .redirectOutput(ProcessBuilder.Redirect.INHERIT)
                 .redirectError(ProcessBuilder.Redirect.INHERIT)
                 .startWithRetry(retryCount)
+
+fun String.runCommand(retryCount: Int = 0) = split(" ").toList().runCommand(retryCount)
 
 private fun ProcessBuilder.startWithRetry(retryCount: Int): Int {
     var retryTries = 0
