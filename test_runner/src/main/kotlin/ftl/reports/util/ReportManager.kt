@@ -115,6 +115,7 @@ object ReportManager {
         when {
             args.fullJUnitResult -> processFullJunitResult(args, matrices, testShardChunks)
             args.useLegacyJUnitResult -> processJunitXml(testSuite, args, testShardChunks)
+            else -> processJunitXml(testSuite, args, testShardChunks)
         }
         matrices.validateMatrices(args.ignoreFailedTests)
     }

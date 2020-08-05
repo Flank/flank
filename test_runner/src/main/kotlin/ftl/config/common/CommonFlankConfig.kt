@@ -161,7 +161,8 @@ data class CommonFlankConfig @JsonIgnore constructor(
             "ignore-failed-tests",
             "keep-file-path",
             "output-style",
-            "disable-results-upload"
+            "disable-results-upload",
+            "full-junit-result"
         )
 
         const val defaultLocalResultsDir = "results"

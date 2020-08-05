@@ -89,6 +89,31 @@ class ReportManagerTest {
     }
 
     @Test
+    fun `uploadJunitXml should be called when legacy junit disabled`() {
+        val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result", AndroidArgs.default())
+        val mockArgs = prepareMockAndroidArgs()
+        every { mockArgs.useLegacyJUnitResult } returns false
+        every { mockArgs.project } returns "projecId"
+
+        val junitTestResult = ReportManager.processXmlFromFile(matrix, mockArgs, ::parseOneSuiteXml)
+        ReportManager.generate(matrix, mockArgs, emptyList())
+        verify { GcStorage.uploadJunitXml(junitTestResult!!, mockArgs) }
+    }
+
+    @Test
+    fun `uploadJunitXml should be called when full junit enabled`() {
+        val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result", AndroidArgs.default())
+        val mockArgs = prepareMockAndroidArgs()
+        every { mockArgs.useLegacyJUnitResult } returns false
+        every { mockArgs.fullJUnitResult } returns true
+        every { mockArgs.project } returns "projecId"
+
+        val junitTestResult = ReportManager.processXmlFromFile(matrix, mockArgs, ::parseOneSuiteXml)
+        ReportManager.generate(matrix, mockArgs, emptyList())
+        verify { GcStorage.uploadJunitXml(junitTestResult!!, mockArgs) }
+    }
+
+    @Test
     fun `uploadResults should be called`() {
         val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result", AndroidArgs.default())
         val mockArgs = prepareMockAndroidArgs()
@@ -106,7 +131,7 @@ class ReportManagerTest {
     }
 
     @Test
-    fun `uploadResults should't be called when disable-results-upload set`() {
+    fun `uploadResults shouldn't be called when disable-results-upload set`() {
         val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result", AndroidArgs.default())
         val mockArgs = prepareMockAndroidArgs()
         every { mockArgs.disableResultsUpload } returns true
@@ -125,7 +150,7 @@ class ReportManagerTest {
     }
 
     @Test
-    fun `uploadResults with FullJUnit should't be called`() {
+    fun `uploadResults without FullJUnit shouldn't be called`() {
         val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result", AndroidArgs.default())
         val mockArgs = prepareMockAndroidArgs()
         mockkObject(GcStorage) {
