@@ -25,7 +25,7 @@ jobs:
         echo "::set-env name=GIT_SHORT_HASH::$(echo $git_short_hash)";
         echo "::set-env name=MVN_REVISION::$(echo $GITHUB_SHA)";
 
-          if [ $GITHUB_REF == "refs/tags/*" ]; 
+          if [[ $GITHUB_REF == refs/tag/* ]]
             then 
               echo "::set-env name=MVN_VERSION::$(echo ${GITHUB_REF:11})";
               echo "::set-env name=RELEASE_TAG::$(echo ${GITHUB_REF:10})";
