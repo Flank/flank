@@ -281,9 +281,9 @@ val processCliAsciiDoc by tasks.registering {
     }
 }
 
-tasks.assemble {
-    dependsOn(processCliAsciiDoc)
-}
+//tasks.assemble {
+//dependsOn(processCliAsciiDoc)
+//}
 // end --- ASCII doc generation ---
 
 val updateVersion by tasks.registering {
