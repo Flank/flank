@@ -16,7 +16,14 @@ Each push:
 - to `master` branch run Snapshot release
 - of tag `v*` run regular release
 
-## Steps
+## Manual Steps
+1. Add the version number to [release notes](https://github.com/Flank/flank/blob/master/release_notes.md)
+2. Make a commit with the updated release notes and create PR for them.
+3. After merging, push a tag for the release
+4. Wait for CI job to finish
+5. Go to releases section on GitHub and add the release notes from the release_notes.md file
+
+## CI Steps
 1. Gradle Build flankScripts and add it to PATH
 2. Set environment variables
 3. Update bugsnag
