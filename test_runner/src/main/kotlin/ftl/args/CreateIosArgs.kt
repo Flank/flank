@@ -18,8 +18,8 @@ private fun createIosArgs(
     commonArgs: CommonArgs
 ) = IosArgs(
     commonArgs = commonArgs.copy(maxTestShards = convertToShardCount(commonArgs.maxTestShards)),
-    xctestrunZip = gcloud.test!!.processFilePath("from test"),
-    xctestrunFile = gcloud.xctestrunFile!!.processFilePath("from xctestrun-file"),
+    xctestrunZip = gcloud.test?.processFilePath("from test").orEmpty(),
+    xctestrunFile = gcloud.xctestrunFile?.processFilePath("from xctestrun-file").orEmpty(),
     xcodeVersion = gcloud.xcodeVersion,
     testTargets = flank.testTargets!!.filterNotNull()
 )

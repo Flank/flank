@@ -24,7 +24,7 @@ import java.nio.file.Paths
 )
 class AndroidTestEnvironmentCommand : Runnable {
     override fun run() {
-        val projectId = AndroidArgs.load(Paths.get(configPath)).project
+        val projectId = AndroidArgs.loadOrDefault(Paths.get(configPath)).project
         println(devicesCatalogAsTable(projectId))
         println(supportedVersionsAsTable(projectId))
         println(localesAsTable(projectId))

@@ -19,7 +19,7 @@ import java.nio.file.Paths
 )
 class AndroidLocalesListCommand : Runnable {
     override fun run() {
-        println(AndroidCatalog.localesAsTable(projectId = AndroidArgs.load(Paths.get(configPath)).project))
+        println(AndroidCatalog.localesAsTable(projectId = AndroidArgs.loadOrDefault(Paths.get(configPath)).project))
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

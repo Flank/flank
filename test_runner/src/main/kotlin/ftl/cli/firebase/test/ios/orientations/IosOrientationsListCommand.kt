@@ -19,7 +19,7 @@ import java.nio.file.Paths
 )
 class IosOrientationsListCommand : Runnable {
     override fun run() {
-        println(IosCatalog.supportedOrientationsAsTable(IosArgs.load(Paths.get(configPath)).project))
+        println(IosCatalog.supportedOrientationsAsTable(IosArgs.loadOrDefault(Paths.get(configPath)).project))
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

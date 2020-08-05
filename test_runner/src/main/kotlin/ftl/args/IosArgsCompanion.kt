@@ -12,6 +12,7 @@ import ftl.config.loadIosConfig
 import ftl.config.plus
 import ftl.util.loadFile
 import java.io.Reader
+import java.nio.file.Files
 import java.nio.file.Path
 
 open class IosArgsCompanion : IArgs.ICompanion {
@@ -24,11 +25,15 @@ open class IosArgsCompanion : IArgs.ICompanion {
         )
     }
 
-    fun default() =
-        createIosArgs(defaultIosConfig())
+    fun loadOrDefault(yamlPath: Path, cli: IosRunCommand? = null) =
+        if (Files.exists(yamlPath)) load(yamlPath, cli)
+        else default()
 
     fun load(yamlPath: Path, cli: IosRunCommand? = null) =
         load(loadFile(yamlPath), cli)
+
+    fun default() =
+        createIosArgs(defaultIosConfig())
 
     @VisibleForTesting
     internal fun load(yamlReader: Reader, cli: IosRunCommand? = null) =
