@@ -84,7 +84,7 @@ jobs:
       run: flankScripts release releaseFlank --input-file=./test_runner/build/libs/flank.jar --git-tag=$RELEASE_TAG --commit-hash=$GIT_SHORT_HASH --snapshot
 
     - name: Release stable
-      if: ${{ env.RELEASE_TAG == 'v*' }}
+      if: startsWith(github.ref, 'refs/tags/v')
       run: flankScripts release releaseFlank --input-file=./test_runner/build/libs/flank.jar --git-tag=$RELEASE_TAG --commit-hash=$GIT_SHORT_HASH 
 
     - name: Sync bintray to maven central
