@@ -32,8 +32,7 @@ open class AndroidArgsCompanion : IArgs.ICompanion {
     fun load(yamlPath: Path, cli: AndroidRunCommand? = null) =
         load(loadFile(yamlPath), cli)
 
-    fun default() =
-        createAndroidArgs(defaultAndroidConfig())
+    fun default() = createAndroidArgs(defaultAndroidConfig())
 
     @VisibleForTesting
     internal fun load(yamlReader: Reader, cli: AndroidRunCommand? = null) =

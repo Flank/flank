@@ -32,8 +32,7 @@ open class IosArgsCompanion : IArgs.ICompanion {
     fun load(yamlPath: Path, cli: IosRunCommand? = null) =
         load(loadFile(yamlPath), cli)
 
-    fun default() =
-        createIosArgs(defaultIosConfig())
+    fun default() = createIosArgs(defaultIosConfig())
 
     @VisibleForTesting
     internal fun load(yamlReader: Reader, cli: IosRunCommand? = null) =
