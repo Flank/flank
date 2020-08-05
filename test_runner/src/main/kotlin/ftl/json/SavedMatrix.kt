@@ -149,11 +149,13 @@ class SavedMatrix(matrix: TestMatrix) {
         flakyOutcome: Boolean
     ) {
         outcome = when {
-            flakyOutcome -> flaky
-            // the matrix outcome is failure if any step fails
-            // if the matrix outcome is already set to failure then we can ignore the other step outcomes.
-            // inconclusive is treated as a failure
+            // The matrix outcome is failure if any step fails
+            // If the matrix outcome is already set to failure then we can ignore the other step outcomes.
+            // Inconclusive is treated as a failure
+            // This particular conditions order should not be changed, for more details check:
+            // https://github.com/Flank/flank/issues/914
             outcome == failure || outcome == inconclusive -> return
+            flakyOutcome -> flaky
             outcome == flaky -> this?.summary?.takeIf { it == failure || it == inconclusive }
             else -> this?.summary
         } ?: outcome
