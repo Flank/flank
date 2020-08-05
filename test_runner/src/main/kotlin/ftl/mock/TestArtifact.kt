@@ -1,5 +1,6 @@
 package ftl.mock
 
+import ftl.util.FlankGeneralError
 import java.io.File
 import java.net.InetAddress
 import java.net.InetSocketAddress
@@ -58,7 +59,7 @@ object TestArtifact {
                 wait(attempt)
             }
         }
-        throw RuntimeException("Unable to connect to '$githubUrl' after $maxRetries attempts!")
+        throw FlankGeneralError("Unable to connect to '$githubUrl' after $maxRetries attempts!")
     }
 
     private fun wait(attempt: Int) {
@@ -79,7 +80,7 @@ object TestArtifact {
         val zipRegex = Regex(".*releases/download/latest/\\H{32}\\.zip$")
         return downloadLinks.find {
             it.attr("href").matches(zipRegex)
-        } ?: throw RuntimeException("Download link not found in html!")
+        } ?: throw FlankGeneralError("Download link not found in html!")
     }
 
     private fun updateRequired(remoteAssetLink: Element): Boolean {
@@ -97,7 +98,7 @@ object TestArtifact {
     private fun download(src: String, dst: String) {
         val request = Request.Builder().url(src).build()
         val response = httpClient.newCall(request).execute()
-        val body: ResponseBody = response.body ?: throw RuntimeException("null response body downloading $src")
+        val body: ResponseBody = response.body ?: throw FlankGeneralError("null response body downloading $src")
 
         Files.write(Paths.get(dst), body.bytes())
     }

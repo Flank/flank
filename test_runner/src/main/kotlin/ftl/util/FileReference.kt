@@ -14,7 +14,7 @@ data class FileReference(
 
 private fun FileReference.assertNotEmpty() {
     if (local.isBlank() && gcs.isBlank())
-        throw FlankFatalError("Cannot create empty FileReference")
+        throw FlankGeneralError("Cannot create empty FileReference")
 }
 
 fun String.asFileReference(): FileReference =

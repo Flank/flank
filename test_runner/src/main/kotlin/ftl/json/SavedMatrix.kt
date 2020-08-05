@@ -9,6 +9,7 @@ import ftl.reports.api.createTestExecutionDataListAsync
 import ftl.reports.api.createTestSuitOverviewData
 import ftl.reports.api.data.TestSuiteOverviewData
 import ftl.reports.api.prepareForJUnitResult
+import ftl.util.FlankGeneralError
 import ftl.util.MatrixState.ERROR
 import ftl.util.MatrixState.FINISHED
 import ftl.util.MatrixState.INVALID
@@ -91,7 +92,7 @@ class SavedMatrix(matrix: TestMatrix) {
 
     private fun finished(matrix: TestMatrix) {
         if (matrix.state != FINISHED) {
-            throw RuntimeException("Matrix ${matrix.testMatrixId} ${matrix.state} != $FINISHED")
+            throw FlankGeneralError("Matrix ${matrix.testMatrixId} ${matrix.state} != $FINISHED")
         }
         billableVirtualMinutes = 0
         billablePhysicalMinutes = 0
@@ -186,3 +187,9 @@ class SavedMatrix(matrix: TestMatrix) {
             }
         }
 }
+
+fun SavedMatrix.canceledByUser() = outcomeDetails == ABORTED_BY_USER_MESSAGE
+
+fun SavedMatrix.infrastructureFail() = outcomeDetails == INFRASTRUCTURE_FAILURE_MESSAGE
+
+fun SavedMatrix.incompatibleFail() = outcomeDetails in arrayOf(INCOMPATIBLE_APP_VERSION_MESSAGE, INCOMPATIBLE_ARCHITECTURE_MESSAGE, INCOMPATIBLE_DEVICE_MESSAGE)

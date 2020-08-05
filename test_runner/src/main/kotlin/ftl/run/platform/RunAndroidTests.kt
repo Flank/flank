@@ -17,7 +17,7 @@ import ftl.run.platform.android.uploadOtherFiles
 import ftl.run.platform.common.afterRunTests
 import ftl.run.platform.common.beforeRunMessage
 import ftl.run.platform.common.beforeRunTests
-import ftl.util.FlankCommonException
+import ftl.util.FlankGeneralError
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -59,7 +59,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
             }
         }
 
-    if (testMatrices.isEmpty()) throw FlankCommonException("There are no tests to run.")
+    if (testMatrices.isEmpty()) throw FlankGeneralError("There are no tests to run.")
 
     println(beforeRunMessage(args, allTestShardChunks))
     TestResult(

@@ -15,7 +15,7 @@ import ftl.config.FtlConstants.applicationName
 import ftl.config.FtlConstants.httpCredential
 import ftl.config.FtlConstants.httpTransport
 import ftl.http.executeWithRetry
-import ftl.util.FlankCommonException
+import ftl.util.FlankGeneralError
 import ftl.util.FTLProjectError
 import ftl.util.PermissionDenied
 import ftl.util.ProjectNotFound
@@ -123,8 +123,8 @@ object GcToolResults {
     } catch (ftlProjectError: FTLProjectError) {
         // flank needs to rewrap the exception with additional info about project
         when (ftlProjectError) {
-            is PermissionDenied -> throw FlankCommonException(permissionDeniedErrorMessage(projectId, ftlProjectError.message))
-            is ProjectNotFound -> throw FlankCommonException(projectNotFoundErrorMessage(projectId, ftlProjectError.message))
+            is PermissionDenied -> throw FlankGeneralError(permissionDeniedErrorMessage(projectId, ftlProjectError.message))
+            is ProjectNotFound -> throw FlankGeneralError(projectNotFoundErrorMessage(projectId, ftlProjectError.message))
         }
     }
 }

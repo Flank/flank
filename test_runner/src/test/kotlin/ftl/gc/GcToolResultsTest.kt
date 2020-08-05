@@ -8,7 +8,7 @@ import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.getThrowable
-import ftl.util.FlankCommonException
+import ftl.util.FlankGeneralError
 import ftl.util.PermissionDenied
 import ftl.util.ProjectNotFound
 import io.mockk.every
@@ -96,8 +96,8 @@ class GcToolResultsTest {
         }
     }
 
-    @Test(expected = FlankCommonException::class)
-    fun `getDefaultBucket on PermissionDenied error should throw FlankCommonException`() {
+    @Test(expected = FlankGeneralError::class)
+    fun `getDefaultBucket on PermissionDenied error should throw FlankGeneralError`() {
         mockkObject(GcToolResults) {
             every { GcToolResults.service.applicationName } returns projectId
             every { GcToolResults.service.Projects().initializeSettings(projectId) } throws PermissionDenied(IOException())
@@ -105,8 +105,8 @@ class GcToolResultsTest {
         }
     }
 
-    @Test(expected = FlankCommonException::class)
-    fun `getDefaultBucket on ProjectNotFound error should throw FlankCommonException`() {
+    @Test(expected = FlankGeneralError::class)
+    fun `getDefaultBucket on ProjectNotFound error should throw FlankGeneralError`() {
         mockkObject(GcToolResults) {
             every { GcToolResults.service.applicationName } returns projectId
             every { GcToolResults.service.Projects().initializeSettings(projectId) } throws ProjectNotFound(IOException())

@@ -3,7 +3,7 @@ package ftl.shard
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.reports.xml.model.JUnitTestResult
-import ftl.util.FlankFatalError
+import ftl.util.FlankConfigurationError
 import ftl.util.FlankTestMethod
 import kotlin.math.roundToInt
 
@@ -41,7 +41,7 @@ fun createShardsByShardCount(
     args: IArgs,
     forcedShardCount: Int = -1
 ): List<TestShard> {
-    if (forcedShardCount < -1 || forcedShardCount == 0) throw FlankFatalError("Invalid forcedShardCount value $forcedShardCount")
+    if (forcedShardCount < -1 || forcedShardCount == 0) throw FlankConfigurationError("Invalid forcedShardCount value $forcedShardCount")
     val maxShards = maxShards(args.maxTestShards, forcedShardCount)
 
     val previousMethodDurations = createTestMethodDurationMap(oldTestResult, args)
@@ -54,7 +54,7 @@ fun createShardsByShardCount(
     val shardsCount = matchNumberOfShardsWithTestCount(maxShards, testCount)
 
     // Create the list of shards we will return
-    if (shardsCount <= 0) throw FlankFatalError(
+    if (shardsCount <= 0) throw FlankConfigurationError(
         """Invalid shard count. To debug try: flank ${args.platformName} run --dump-shards
                     | args.maxTestShards: ${args.maxTestShards}
                     | forcedShardCount: $forcedShardCount 

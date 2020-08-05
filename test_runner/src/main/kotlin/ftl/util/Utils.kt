@@ -41,7 +41,7 @@ fun join(first: String, vararg more: String): String {
 
 fun assertNotEmpty(str: String, e: String) {
     if (str.isEmpty()) {
-        throw FlankFatalError(e)
+        throw FlankGeneralError(e)
     }
 }
 
@@ -91,7 +91,7 @@ private val classLoader = Thread.currentThread().contextClassLoader
 
 private fun getResource(name: String): InputStream {
     return classLoader.getResourceAsStream(name)
-        ?: throw RuntimeException("Unable to find resource: $name")
+        ?: throw FlankGeneralError("Unable to find resource: $name")
 }
 
 // app version: flank_snapshot
@@ -130,15 +130,11 @@ fun withGlobalExceptionHandling(block: () -> Int) {
         exitProcess(block())
     } catch (t: Throwable) {
         when (t) {
-            is FlankCommonException -> {
-                println("\n${t.message}")
-                exitProcess(1)
+            is FlankGeneralError -> {
+                System.err.println("\n${t.message}")
+                exitProcess(GENERAL_FAILURE)
             }
-            is FailedMatrix -> {
-                if (t.ignoreFailed) exitProcess(0)
-                else exitProcess(1)
-            }
-            is YmlValidationError -> exitProcess(1)
+
             is FlankTimeoutError -> {
                 println("\nCanceling flank due to timeout")
                 runBlocking {
@@ -146,15 +142,32 @@ fun withGlobalExceptionHandling(block: () -> Int) {
                         cancelMatrices(t.map, t.projectId)
                     }
                 }
-                exitProcess(1)
+                exitProcess(GENERAL_FAILURE)
             }
+
+            is IncompatibleTestDimensionError -> {
+                System.err.println("\n${t.message}")
+                exitProcess(INCOMPATIBLE_TEST_DIMENSION)
+            }
+
+            is MatrixCanceledError -> exitProcess(CANCELED_BY_USER)
+
+            is InfrastructureError -> exitProcess(INFRASTRUCTURE_ERROR)
+
+            is FailedMatrixError -> {
+                if (t.ignoreFailed) exitProcess(SUCCESS)
+                else exitProcess(NOT_PASSED)
+            }
+
             is FTLError -> {
                 t.matrix.logError()
-                exitProcess(3)
+                exitProcess(UNEXPECTED_ERROR)
             }
-            is FlankFatalError -> {
+
+            is YmlValidationError,
+            is FlankConfigurationError -> {
                 System.err.println(t.message)
-                exitProcess(2)
+                exitProcess(CONFIGURATION_FAIL)
             }
 
             // We need to cover the case where some component in the call stack starts a non-daemon
@@ -162,7 +175,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
             else -> {
                 FtlConstants.bugsnag?.notify(t)
                 t.printStackTrace()
-                exitProcess(3)
+                exitProcess(UNEXPECTED_ERROR)
             }
         }
     }

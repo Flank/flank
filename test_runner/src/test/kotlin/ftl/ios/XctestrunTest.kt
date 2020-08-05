@@ -11,6 +11,7 @@ import java.nio.file.Paths
 import org.junit.Test
 import org.junit.runner.RunWith
 import ftl.test.util.TestHelper.normalizeLineEnding
+import ftl.util.FlankGeneralError
 
 @RunWith(FlankTestRunner::class)
 class XctestrunTest {
@@ -45,7 +46,7 @@ class XctestrunTest {
         assertThat(dict.containsKey("OnlyTestIdentifiers")).isFalse()
     }
 
-    @Test(expected = RuntimeException::class)
+    @Test(expected = FlankGeneralError::class)
     fun `parse fileNotFound`() {
         Xctestrun.parse("./XctestrunThatDoesNotExist")
     }

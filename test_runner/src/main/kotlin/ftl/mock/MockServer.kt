@@ -28,6 +28,7 @@ import ftl.config.FtlConstants
 import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.log.LogbackLogger
 import ftl.util.Bash
+import ftl.util.FlankGeneralError
 import ftl.util.StepOutcome.failure
 import ftl.util.StepOutcome.inconclusive
 import ftl.util.StepOutcome.skipped
@@ -58,7 +59,7 @@ object MockServer {
 
     private inline fun <reified T> loadCatalog(fileName: String): T {
         val jsonPath = Paths.get("./src/test/kotlin/ftl/fixtures/$fileName")
-        if (!Files.exists(jsonPath)) throw RuntimeException("Path doesn't exist: $fileName")
+        if (!Files.exists(jsonPath)) throw FlankGeneralError("Path doesn't exist: $fileName")
         return JSON_FACTORY.fromReader(Files.newBufferedReader(jsonPath), T::class.java)
     }
 

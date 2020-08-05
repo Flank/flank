@@ -32,12 +32,16 @@ Smart Flank
 
 ### Exit Codes
 
-Exit code | Description
- --       |         -- |
-0         | All tests passed
-1         | All matrices finished but at least one test failed or inconclusive.
-2         | Usually indicates missing or wrong usage of flags, incorrect parameters, errors in config files.
-3         | At least one matrix not finished (usually a FTL internal error) or unexpected error occurred.
+Exit code  | Description
+ --        |         -- |
+0          | All tests passed
+1          | A general failure occurred. Possible causes include: a filename that does not exist or an HTTP/network error.
+2          | Usually indicates missing or wrong usage of flags, incorrect parameters, errors in config files.
+10         | At least one matrix not finished (usually a FTL internal error) or unexpected error occurred.
+15         | Firebase Test Lab could not determine if the test matrix passed or failed, because of an unexpected error.
+18         | The test environment for this test execution is not supported because of incompatible test dimensions. This error might occur if the selected Android API level is not supported by the selected device type.
+19         | The test matrix was canceled by the user.
+20         | A test infrastructure error occurred.
 
 ## CLI
 

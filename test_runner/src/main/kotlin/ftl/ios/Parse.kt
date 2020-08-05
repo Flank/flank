@@ -2,6 +2,7 @@ package ftl.ios
 
 import ftl.config.FtlConstants.isMacOS
 import ftl.util.Bash
+import ftl.util.FlankGeneralError
 import ftl.util.copyBinaryResource
 import java.io.File
 
@@ -19,10 +20,10 @@ object Parse {
     private fun validateFile(path: String) {
         val file = File(path)
         if (!file.exists()) {
-            throw RuntimeException("File $path does not exist!")
+            throw FlankGeneralError("File $path does not exist!")
         }
 
-        if (file.isDirectory) throw RuntimeException("$path is a directory!")
+        if (file.isDirectory) throw FlankGeneralError("$path is a directory!")
     }
 
     private fun methodName(matcher: MatchResult): String {

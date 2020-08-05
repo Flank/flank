@@ -16,7 +16,8 @@ import ftl.args.IosArgs
 import ftl.util.BugsnagInitHelper.initBugsnag
 import ftl.gc.UserAuth
 import ftl.http.HttpTimeoutIncrease
-import ftl.util.FlankFatalError
+import ftl.util.FlankConfigurationError
+import ftl.util.FlankGeneralError
 import ftl.util.readRevision
 import java.io.IOException
 import java.nio.file.Path
@@ -63,7 +64,7 @@ object FtlConstants {
         try {
             return@lazy GoogleNetHttpTransport.newTrustedTransport()
         } catch (e: Exception) {
-            throw RuntimeException(e)
+            throw FlankGeneralError(e)
         }
     }
 
@@ -79,7 +80,7 @@ object FtlConstants {
                 GoogleApiLogger.silenceComputeEngine()
                 ServiceAccountCredentials.getApplicationDefault()
             } catch (e: IOException) {
-                throw FlankFatalError("Error: Failed to read service account credential.\n${e.message}")
+                throw FlankGeneralError("Error: Failed to read service account credential.\n${e.message}")
             }
         }
     }
@@ -101,7 +102,7 @@ object FtlConstants {
         return when (args) {
             is IosArgs -> defaultIosConfig
             is AndroidArgs -> defaultAndroidConfig
-            else -> throw RuntimeException("Unknown config type")
+            else -> throw FlankConfigurationError("Unknown config type")
         }
     }
 }

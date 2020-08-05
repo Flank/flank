@@ -1,6 +1,6 @@
 package ftl.args
 
-import ftl.util.FlankFatalError
+import ftl.util.FlankGeneralError
 import java.io.IOException
 import java.nio.file.FileSystems
 import java.nio.file.FileVisitOption
@@ -46,7 +46,7 @@ class ArgsFileVisitor(glob: String) : SimpleFileVisitor<Path>() {
         val realPath = try {
             beforeGlob.toRealPath(LinkOption.NOFOLLOW_LINKS)
         } catch (e: java.nio.file.NoSuchFileException) {
-            throw FlankFatalError("Failed to resolve path $searchPath")
+            throw FlankGeneralError("Failed to resolve path $searchPath")
         }
 
         val searchDepth = if (searchString.contains(RECURSE)) Integer.MAX_VALUE else 1

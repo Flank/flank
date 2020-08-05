@@ -16,6 +16,7 @@ import com.google.api.services.testing.model.ToolResultsHistory
 import ftl.args.IosArgs
 import ftl.ios.Xctestrun
 import ftl.ios.Xctestrun.toByteArray
+import ftl.util.FlankGeneralError
 import ftl.util.ShardCounter
 import ftl.util.join
 import ftl.util.timeoutToSeconds
@@ -86,7 +87,7 @@ object GcIosTestMatrix {
         try {
             return GcTesting.get.projects().testMatrices().create(args.project, testMatrix)
         } catch (e: Exception) {
-            throw RuntimeException(e)
+            throw FlankGeneralError(e)
         }
     }
 }

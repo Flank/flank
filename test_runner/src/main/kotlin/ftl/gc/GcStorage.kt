@@ -13,6 +13,7 @@ import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.xmlToString
+import ftl.util.FlankGeneralError
 import ftl.util.ProgressBar
 import ftl.util.join
 import java.io.File
@@ -74,7 +75,7 @@ object GcStorage {
             progress.start("Uploading smart flank XML")
             storage.create(fileBlob, testResult.xmlToString().toByteArray())
         } catch (e: Exception) {
-            throw RuntimeException(e)
+            throw FlankGeneralError(e)
         } finally {
             progress.stop()
         }
@@ -141,7 +142,7 @@ object GcStorage {
                 progress.start("Uploading $fileName")
                 storage.create(fileBlob, fileBytes)
             } catch (e: Exception) {
-                throw RuntimeException(e)
+                throw FlankGeneralError(e)
             } finally {
                 progress.stop()
             }
@@ -166,7 +167,7 @@ object GcStorage {
                 }
             } catch (e: Exception) {
                 if (ignoreError) return@computeIfAbsent ""
-                throw RuntimeException("Cannot download $gcsUriString", e)
+                throw FlankGeneralError("Cannot download $gcsUriString", e)
             }
             outputFile.path
         }

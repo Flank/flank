@@ -7,7 +7,7 @@ import ftl.args.ArgsHelper
 import ftl.args.IArgs
 import ftl.config.loadAndroidConfig
 import ftl.config.loadIosConfig
-import ftl.util.FlankFatalError
+import ftl.util.FlankConfigurationError
 import ftl.util.loadFile
 import java.io.Reader
 import java.lang.StringBuilder
@@ -58,6 +58,6 @@ private fun preloadConfiguration(data: Path, isAndroid: Boolean) =
     try {
         if (isAndroid) loadAndroidConfig(data) else loadIosConfig(data)
         ""
-    } catch (e: FlankFatalError) {
+    } catch (e: FlankConfigurationError) {
         e.message
     }

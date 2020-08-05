@@ -2,6 +2,8 @@ package ftl.filter
 
 import com.linkedin.dex.parser.TestMethod
 import ftl.config.FtlConstants
+import ftl.util.FlankConfigurationError
+import ftl.util.FlankGeneralError
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -67,7 +69,7 @@ object TestFilters {
 
         companion object {
             fun from(name: String): Size =
-                values().find { it.name.equals(name, true) } ?: throw IllegalArgumentException("Unknown size $name")
+                values().find { it.name.equals(name, true) } ?: throw FlankConfigurationError("Unknown size $name")
         }
     }
 
@@ -108,7 +110,7 @@ object TestFilters {
             ARGUMENT_TEST_FILE -> fromTestFile(args)
             ARGUMENT_NOT_TEST_FILE -> not(fromTestFile(args))
             ARGUMENT_TEST_SIZE -> withSize(args)
-            else -> throw IllegalArgumentException("Filtering option $command not supported")
+            else -> throw FlankConfigurationError("Filtering option $command not supported")
         }
     }
 
@@ -125,7 +127,7 @@ object TestFilters {
             // the fully qualified class name or the fully qualified method name.
             return withPackageName(lines)
         } catch (e: IOException) {
-            throw RuntimeException("Unable to read testFile", e)
+            throw FlankGeneralError("Unable to read testFile", e)
         }
     }
 
