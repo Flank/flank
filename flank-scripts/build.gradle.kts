@@ -41,4 +41,9 @@ dependencies {
     implementation(Fuel.KOTLINX_SERIALIZATION)
     implementation(Fuel.COROUTINES)
     implementation(CLIKT)
+
+    testImplementation(JUNIT)
+    testImplementation(MOCKK)
+    testImplementation(TRUTH)
+    testImplementation(SYSTEM_RULES)
 }

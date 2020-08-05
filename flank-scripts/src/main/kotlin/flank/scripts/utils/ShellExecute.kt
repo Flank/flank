@@ -8,7 +8,7 @@ fun List<String>.runCommand(retryCount: Int = 0) =
 
 fun String.runCommand(retryCount: Int = 0) = split(" ").toList().runCommand(retryCount)
 
-private fun ProcessBuilder.startWithRetry(retryCount: Int): Int {
+internal fun ProcessBuilder.startWithRetry(retryCount: Int): Int {
     var retryTries = 0
     var processResponse: Int
     do {
