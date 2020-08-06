@@ -1,5 +1,6 @@
 ## next (unreleased)
 - [#952](https://github.com/Flank/flank/pull/952) Fix version printing on Flank release
+- [#950](https://github.com/Flank/flank/pull/950) Fix crash when --legacy-junit-result set. ([adamfilipow92](https://github.com/adamfilipow92))
 -
 -
 
