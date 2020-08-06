@@ -23,6 +23,9 @@
 - [#934](https://github.com/Flank/flank/pull/934) Delete incorrect flank snapshot labels. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#926](https://github.com/Flank/flank/pull/926) Flank should reflect gcloud exit codes. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#917](https://github.com/Flank/flank/pull/917) Fix an incorrect outcome. ([pawelpasterz](https://github.com/pawelpasterz))
+- [#939](https://github.com/Flank/flank/pull/939) Run *list commands when flank.yml not found should display right output. ([adamfilipow92](https://github.com/adamfilipow92))
+-
+-
 
 ## v20.07.0
 - [#857](https://github.com/Flank/flank/pull/857) Added multimodule setup for test app. ([piotradamczyk5](https://github.com/piotradamczyk5))

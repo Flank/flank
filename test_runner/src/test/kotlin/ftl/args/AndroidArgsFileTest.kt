@@ -12,6 +12,7 @@ import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
 import ftl.test.util.TestHelper.getString
+import ftl.util.FlankGeneralError
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -31,6 +32,7 @@ class AndroidArgsFileTest {
     @JvmField
     val systemOutRule = SystemOutRule().muteForSuccessfulTests()!!
 
+    private val ymlNotFound = getPath("not_found.yml")
     private val localYamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.local.yml")
     private val gcsYamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.gcs.yml")
     private val appApkLocal = getString("../test_projects/android/apks/app-debug.apk")
@@ -223,5 +225,15 @@ class AndroidArgsFileTest {
     fun `verify output style value from uml file`() {
         val args = AndroidArgs.load(localYamlFile)
         assertEquals(OutputStyle.Single, args.outputStyle)
+    }
+
+    @Test(expected = FlankGeneralError::class)
+    fun `should throw if load and yamlFile not found`() {
+        AndroidArgs.load(ymlNotFound)
+    }
+
+    @Test
+    fun `should not throw if loadOrDefault and yamlFile not found`() {
+        AndroidArgs.loadOrDefault(ymlNotFound)
     }
 }

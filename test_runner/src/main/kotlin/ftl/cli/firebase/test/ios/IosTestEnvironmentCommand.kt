@@ -24,7 +24,7 @@ import java.nio.file.Paths
 )
 class IosTestEnvironmentCommand : Runnable {
     override fun run() {
-        val projectId = IosArgs.load(Paths.get(configPath)).project
+        val projectId = IosArgs.loadOrDefault(Paths.get(configPath)).project
         println(devicesCatalogAsTable(projectId))
         println(softwareVersionsAsTable(projectId))
         println(localesAsTable(projectId))

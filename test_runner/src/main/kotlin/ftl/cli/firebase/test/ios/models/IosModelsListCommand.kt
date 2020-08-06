@@ -19,7 +19,7 @@ import java.nio.file.Paths
 )
 class IosModelsListCommand : Runnable {
     override fun run() {
-        println(devicesCatalogAsTable(IosArgs.load(Paths.get(configPath)).project))
+        println(devicesCatalogAsTable(IosArgs.loadOrDefault(Paths.get(configPath)).project))
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

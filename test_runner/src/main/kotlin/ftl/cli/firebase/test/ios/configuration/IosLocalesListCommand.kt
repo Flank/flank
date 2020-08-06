@@ -19,7 +19,7 @@ import java.nio.file.Paths
 )
 class IosLocalesListCommand : Runnable {
     override fun run() {
-        println(localesAsTable(projectId = IosArgs.load(Paths.get(configPath)).project))
+        println(localesAsTable(projectId = IosArgs.loadOrDefault(Paths.get(configPath)).project))
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

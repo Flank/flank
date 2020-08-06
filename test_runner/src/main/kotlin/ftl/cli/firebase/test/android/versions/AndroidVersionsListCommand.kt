@@ -19,7 +19,7 @@ import java.nio.file.Paths
 )
 class AndroidVersionsListCommand : Runnable {
     override fun run() {
-        println(supportedVersionsAsTable(AndroidArgs.load(Paths.get(configPath)).project))
+        println(supportedVersionsAsTable(AndroidArgs.loadOrDefault(Paths.get(configPath)).project))
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

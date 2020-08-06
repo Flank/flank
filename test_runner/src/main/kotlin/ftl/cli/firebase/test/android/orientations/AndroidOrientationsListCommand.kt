@@ -19,7 +19,7 @@ import java.nio.file.Paths
 )
 class AndroidOrientationsListCommand : Runnable {
     override fun run() {
-        println(AndroidCatalog.supportedOrientationsAsTable(AndroidArgs.load(Paths.get(configPath)).project))
+        println(AndroidCatalog.supportedOrientationsAsTable(AndroidArgs.loadOrDefault(Paths.get(configPath)).project))
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

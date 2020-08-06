@@ -12,6 +12,7 @@ import ftl.config.loadAndroidConfig
 import ftl.config.plus
 import ftl.util.loadFile
 import java.io.Reader
+import java.nio.file.Files
 import java.nio.file.Path
 
 open class AndroidArgsCompanion : IArgs.ICompanion {
@@ -24,11 +25,14 @@ open class AndroidArgsCompanion : IArgs.ICompanion {
         )
     }
 
-    fun default() =
-        createAndroidArgs(defaultAndroidConfig())
+    fun loadOrDefault(yamlPath: Path, cli: AndroidRunCommand? = null) =
+        if (Files.exists(yamlPath)) load(yamlPath, cli)
+        else default()
 
     fun load(yamlPath: Path, cli: AndroidRunCommand? = null) =
         load(loadFile(yamlPath), cli)
+
+    fun default() = createAndroidArgs(defaultAndroidConfig())
 
     @VisibleForTesting
     internal fun load(yamlReader: Reader, cli: AndroidRunCommand? = null) =

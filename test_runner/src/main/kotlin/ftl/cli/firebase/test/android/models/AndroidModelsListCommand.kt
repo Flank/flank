@@ -19,8 +19,7 @@ import java.nio.file.Paths
 )
 class AndroidModelsListCommand : Runnable {
     override fun run() {
-        val config = AndroidArgs.load(Paths.get(configPath))
-        println(AndroidCatalog.devicesCatalogAsTable(config.project))
+        println(AndroidCatalog.devicesCatalogAsTable(AndroidArgs.loadOrDefault(Paths.get(configPath)).project))
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

@@ -7,6 +7,7 @@ import ftl.run.status.OutputStyle
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
+import ftl.util.FlankGeneralError
 import org.junit.Assert.assertEquals
 import org.junit.Assume
 import org.junit.Rule
@@ -26,6 +27,7 @@ class IosArgsFileTest {
     @JvmField
     val systemOutRule = SystemOutRule().muteForSuccessfulTests()!!
 
+    private val ymlNotFound = getPath("not_found.yml")
     private val yamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.ios.yml")
     private val yamlFile2 = getPath("src/test/kotlin/ftl/fixtures/flank2.ios.yml")
     private val xctestrunZip = getPath("src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip")
@@ -104,5 +106,15 @@ class IosArgsFileTest {
     fun `verify output style value from uml file`() {
         val args = IosArgs.load(yamlFile)
         assertEquals(OutputStyle.Single, args.outputStyle)
+    }
+
+    @Test(expected = FlankGeneralError::class)
+    fun `should throw if load and yamlFile not found`() {
+        IosArgs.load(ymlNotFound)
+    }
+
+    @Test
+    fun `should not throw if loadOrDefault and yamlFile not found`() {
+        IosArgs.loadOrDefault(ymlNotFound)
     }
 }
