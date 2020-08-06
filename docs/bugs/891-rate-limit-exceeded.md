@@ -158,8 +158,13 @@ forEach(test matrix) {
 ```
 forEach(test matrix) {
     sync forEach(matrix test execution) {
+        GcToolResults.listTestCases(toolResultsStep)
         GcToolResults.getStepResult(toolResultsStep)
-    }  
+    }
+    sync forEach(matrix test execution) {
+        GcToolResults.getExecutionResult(testExecution)
+        GcToolResults.getStepResult(toolResultsStep)
+    }
 }
 ```
 
@@ -183,9 +188,9 @@ Following table should compare API calls complexity.
 
 |         | execution status updates |
 |:-------:|:------------------------:|
-| Gcloud  | 1 * r / 6s               |
+| Gcloud  | 1 * r / 6s + 1           |
 | 20.05.2 | 1 * r / 5s + (E * r)     |
-| 20.06.2 | M * r / 5s + (M * E * r) |
+| 20.06.2 | M * r / 5s + (M * E * 4 * r) |
  
 ```
 r - request

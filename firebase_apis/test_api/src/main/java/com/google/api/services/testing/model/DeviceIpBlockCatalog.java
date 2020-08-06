@@ -17,7 +17,7 @@
 package com.google.api.services.testing.model;
 
 /**
- * A reference to a file, used for user inputs.
+ * List of IP blocks used by the Firebase Test Lab
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the Cloud Testing API. For a detailed explanation see:
@@ -27,43 +27,46 @@ package com.google.api.services.testing.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class FileReference extends com.google.api.client.json.GenericJson {
+public final class DeviceIpBlockCatalog extends com.google.api.client.json.GenericJson {
 
   /**
-   * A path to a file in Google Cloud Storage. Example: gs://build-app-1414623860166/app%40debug-
-   * unaligned.apk These paths are expected to be url encoded (percent encoding)
+   * The device IP blocks used by Firebase Test Lab
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.String gcsPath;
+  private java.util.List<DeviceIpBlock> ipBlocks;
 
-  /**
-   * A path to a file in Google Cloud Storage. Example: gs://build-app-1414623860166/app%40debug-
-   * unaligned.apk These paths are expected to be url encoded (percent encoding)
-   * @return value or {@code null} for none
-   */
-  public java.lang.String getGcsPath() {
-    return gcsPath;
+  static {
+    // hack to force ProGuard to consider DeviceIpBlock used, since otherwise it would be stripped out
+    // see https://github.com/google/google-api-java-client/issues/543
+    com.google.api.client.util.Data.nullOf(DeviceIpBlock.class);
   }
 
   /**
-   * A path to a file in Google Cloud Storage. Example: gs://build-app-1414623860166/app%40debug-
-   * unaligned.apk These paths are expected to be url encoded (percent encoding)
-   * @param gcsPath gcsPath or {@code null} for none
+   * The device IP blocks used by Firebase Test Lab
+   * @return value or {@code null} for none
    */
-  public FileReference setGcsPath(java.lang.String gcsPath) {
-    this.gcsPath = gcsPath;
+  public java.util.List<DeviceIpBlock> getIpBlocks() {
+    return ipBlocks;
+  }
+
+  /**
+   * The device IP blocks used by Firebase Test Lab
+   * @param ipBlocks ipBlocks or {@code null} for none
+   */
+  public DeviceIpBlockCatalog setIpBlocks(java.util.List<DeviceIpBlock> ipBlocks) {
+    this.ipBlocks = ipBlocks;
     return this;
   }
 
   @Override
-  public FileReference set(String fieldName, Object value) {
-    return (FileReference) super.set(fieldName, value);
+  public DeviceIpBlockCatalog set(String fieldName, Object value) {
+    return (DeviceIpBlockCatalog) super.set(fieldName, value);
   }
 
   @Override
-  public FileReference clone() {
-    return (FileReference) super.clone();
+  public DeviceIpBlockCatalog clone() {
+    return (DeviceIpBlockCatalog) super.clone();
   }
 
 }
