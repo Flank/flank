@@ -9,11 +9,11 @@ import kotlin.system.exitProcess
 
 class SyncMavenCommand : CliktCommand(name = "jFrogSync", help = "Sync maven repository using jfrog") {
 
-    private val gitTag by option(help = "Git Tag").required()
+    private val mavenTag by option(help = "Maven Tag").required()
 
     override fun run() {
-        exitProcess(jFrogSync(gitTag))
+        exitProcess(jFrogSync(mavenTag))
     }
 }
 
-fun jFrogSync(gitTag: String) = "jfrog bt mcs ${flankMaven(gitTag)}".runCommand(retryCount = 3)
+fun jFrogSync(mavenTag: String) = "jfrog bt mcs ${flankMaven(mavenTag)}".runCommand(retryCount = 5)

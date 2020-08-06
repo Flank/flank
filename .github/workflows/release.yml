@@ -88,4 +88,4 @@ jobs:
       run: flankScripts release releaseFlank --input-file=./test_runner/build/libs/flank.jar --git-tag=$RELEASE_TAG --commit-hash=$GIT_SHORT_HASH 
 
     - name: Sync bintray to maven central
-      run: flankScripts release jFrogSync --git-tag=$RELEASE_TAG
+      run: flankScripts release jFrogSync --maven-tag=$MVN_VERSION
