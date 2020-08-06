@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.core.subcommands
 import flank.scripts.release.ReleaseCommand
 
 class Main : CliktCommand(name = "flankScripts") {
+    @Suppress("EmptyFunctionBlock")
     override fun run() {}
 }
 

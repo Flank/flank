@@ -24,10 +24,10 @@ class FuelTestRunner(klass: Class<*>) : BlockJUnit4ClassRunner(klass) {
             override fun executeRequest(request: Request): Response {
                 return when (request.url.toString()) {
                     "https://api.github.com/repos/Flank/flank/git/refs/tags/success" -> request.buildResponse("", 200)
-                    "https://api.github.com/repos/Flank/flank/git/refs/tags/failure" -> request.buildResponse(GITHUB_ERROR_BODY, 422)
+                    "https://api.github.com/repos/Flank/flank/git/refs/tags/failure" -> request.buildResponse(githubErrorBody, 422)
                     "https://build.bugsnag.com/" -> {
                         val body = request.body.asString("application/json").toObject(BugSnagRequest.serializer())
-                        if(body.apiKey == "success") {
+                        if (body.apiKey == "success") {
                             request.buildResponse(body = BugSnagResponse("success")
                                     .toJson(BugSnagResponse.serializer()), statusCode = 200)
                         } else {
@@ -49,10 +49,9 @@ class FuelTestRunner(klass: Class<*>) : BlockJUnit4ClassRunner(klass) {
                     { body.byteInputStream() },
                     { body.length.toLong() }
             ))
-
 }
 
-private val GITHUB_ERROR_BODY = """
+private val githubErrorBody = """
             {
               "message": "Bad credentials",
               "documentation_url": "https://developer.github.com/v3"

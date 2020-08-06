@@ -11,4 +11,7 @@ object Versions {
     const val JUNIT = "4.13"
     // https://github.com/stefanbirkner/system-rules/releases
     const val SYSTEM_RULES = "1.19.0"
+
+    // https://github.com/detekt/detekt/releases
+    const val DETEKT = "1.1.0" // version must be same as flank cause they share config with each other
 }

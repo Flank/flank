@@ -23,7 +23,6 @@ class FlankScriptsExceptionMappersTest {
         val (_, actualException) = result.mapClientError { expectedException }
 
         // then
-
         assertThat(actualException).isEqualTo(expectedException)
     }
 
@@ -107,7 +106,6 @@ class FlankScriptsExceptionMappersTest {
         assertThat(bugsnagException.body.status).isEqualTo(expectedStatus)
         assertThat(bugsnagException.toString()).isEqualTo(expectedMessage)
     }
-
 
     private fun String.toMockFuelError() = mockk<FuelError> {
         every { response.body().asString(any()) } returns this@toMockFuelError

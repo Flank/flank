@@ -1,12 +1,12 @@
 package flank.scripts.release.updatebugsnag
 
-import com.google.common.truth.Truth.assertThat
-import flank.scripts.FuelTestRunner
-import kotlinx.coroutines.runBlocking
-import org.junit.Test
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.failure
+import com.google.common.truth.Truth.assertThat
+import flank.scripts.FuelTestRunner
 import flank.scripts.exceptions.BugsnagException
+import kotlinx.coroutines.runBlocking
+import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(FuelTestRunner::class)

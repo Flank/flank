@@ -17,7 +17,7 @@ class DeleteOldTagCommandTest {
     @Test
     fun `Should return properly message when success`() {
         // when
-        DeleteOldTagCommand().main(arrayOf("--git-tag=success", "--username=1","--token=1"))
+        DeleteOldTagCommand().main(arrayOf("--git-tag=success", "--username=1", "--token=1"))
 
         // then
         assertThat(systemOutRule.log).contains("Tag success was deleted")
@@ -26,11 +26,9 @@ class DeleteOldTagCommandTest {
     @Test
     fun `Should return with exit code 1 when failure`() {
         // when
-        DeleteOldTagCommand().main(arrayOf("--git-tag=failure", "--username=1","--token=1"))
+        DeleteOldTagCommand().main(arrayOf("--git-tag=failure", "--username=1", "--token=1"))
 
         // then
         assertThat(systemOutRule.log).contains("Error while doing GitHub request")
     }
-
-
 }

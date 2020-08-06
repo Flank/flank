@@ -5,6 +5,7 @@ plugins {
     kotlin(Kotlin.PLUGIN_JVM) version Versions.KOTLIN_VERSION
     kotlin(Kotlin.PLUGIN_SERIALIZATION) version Versions.KOTLIN_VERSION
     id(PLUGIN_SHADOW_JAR) version Versions.SHADOW_JAR
+    id(DETEKT_PLUGIN) version Versions.DETEKT
 }
 
 val artifactID = "flankScripts"
@@ -34,6 +35,21 @@ repositories {
     maven(url = "https://kotlin.bintray.com/kotlinx")
 }
 
+detekt {
+    input = files("src/main/kotlin", "src/test/kotlin")
+    config = files("../config/detekt.yml")
+    reports {
+        xml {
+            enabled = false
+        }
+        html {
+            enabled = true
+        }
+    }
+}
+
+tasks["check"].dependsOn(tasks["detekt"])
+
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(Kotlin.KOTLIN_SERIALIZATION)
@@ -41,6 +57,8 @@ dependencies {
     implementation(Fuel.KOTLINX_SERIALIZATION)
     implementation(Fuel.COROUTINES)
     implementation(CLIKT)
+
+    detektPlugins(DETEKT_FORMATTING)
 
     testImplementation(JUNIT)
     testImplementation(MOCKK)
