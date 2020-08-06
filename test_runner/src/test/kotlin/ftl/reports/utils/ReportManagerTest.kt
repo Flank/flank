@@ -8,6 +8,7 @@ import ftl.reports.FullJUnitReport
 import ftl.reports.JUnitReport
 import ftl.reports.MatrixResultsReport
 import ftl.reports.util.ReportManager
+import ftl.reports.util.getWeblinkFromFile
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
@@ -21,11 +22,14 @@ import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
+import java.io.File
+import java.nio.file.Files
 
 @RunWith(FlankTestRunner::class)
 class ReportManagerTest {
@@ -195,5 +199,13 @@ class ReportManagerTest {
 
         assertThat(ReportManager.getDeviceString(""))
             .isEqualTo("")
+    }
+
+    @Test
+    fun `should get weblink from legacy path and ios path`() {
+        val legacyPath = File("results/2020-08-06_12-08-55.641213_jGpY/matrix_0/NexusLowRes-28-en-portrait/test_result_1.xml")
+        val iosPath = File("results/test_dir/shard_0/iphone8-12.0-en-portrait/test_result_0.xml")
+        assertEquals("/2020-08-06_12-08-55.641213_jGpY/matrix_0/", legacyPath.getWeblinkFromFile()?.value)
+        assertEquals("/test_dir/shard_0/", iosPath.getWeblinkFromFile()?.value)
     }
 }

@@ -44,9 +44,8 @@ object ReportManager {
         // xmlFile path changes based on if local-result-dir is used. may or may not contain objName
         // 2019-03-22_17-20-53.594000_ftrh/shard_0/test_result_1.xml or shard_0/test_result_1.xml
         val objName = matrices.runPath // 2019-03-22_17-20-53.594000_ftrh
-
         // shard location in path changes based on iOS or Android.
-        val matchResult = Regex("/.*(shard_\\d+)(-rerun_\\d+)?/").find(xmlFile.toString())
+        val matchResult = xmlFile.getWeblinkFromFile()
         val shardName = matchResult?.value?.removePrefix("/")?.removeSuffix("/") // shard_0 || shard_0-rerun_1
         val matrixPath = Paths.get(objName, shardName).toString() // 2019-03-22_17-20-53.594000_ftrh/shard_0
 
@@ -215,3 +214,5 @@ object ReportManager {
         GcStorage.uploadJunitXml(newTestResult, args)
     }
 }
+@VisibleForTesting
+internal fun File.getWeblinkFromFile() =  Regex("/.*(shard_|matrix_)\\d+(-rerun_\\d+)?/").find(toString())
