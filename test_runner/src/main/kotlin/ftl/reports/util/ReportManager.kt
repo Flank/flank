@@ -22,7 +22,6 @@ import ftl.shard.createTestMethodDurationMap
 import ftl.util.Artifacts
 import ftl.util.resolveLocalRunPath
 import java.io.File
-import java.nio.file.Paths
 import kotlin.math.roundToInt
 
 object ReportManager {
@@ -43,20 +42,13 @@ object ReportManager {
     private fun getWebLink(matrices: MatrixMap, xmlFile: File): String {
         // xmlFile path changes based on if local-result-dir is used. may or may not contain objName
         // 2019-03-22_17-20-53.594000_ftrh/shard_0/test_result_1.xml or shard_0/test_result_1.xml
-        val objName = matrices.runPath // 2019-03-22_17-20-53.594000_ftrh
-        // shard location in path changes based on iOS or Android.
-        val matchResult = xmlFile.getWeblinkFromFile()
-        val shardName = matchResult?.value?.removePrefix("/")?.removeSuffix("/") // shard_0 || shard_0-rerun_1
-        val matrixPath = Paths.get(objName, shardName).toString() // 2019-03-22_17-20-53.594000_ftrh/shard_0
-
-        var webLink = ""
-        val savedMatrix = matrices.map.values.firstOrNull { it.gcsPath.endsWith(matrixPath) }
-        if (savedMatrix != null) {
-            webLink = savedMatrix.webLink
-        } else {
-            println("WARNING: Matrix path not found in JSON. $matrixPath")
+        val matrixPath = xmlFile.getMatrixPath(matrices.runPath)
+        return matrixPath?.let { path ->
+            matrices.map.values.firstOrNull { it.gcsPath.endsWith(path) }
+        }.let { savedMatrix ->
+            if (savedMatrix == null) println("WARNING: Matrix path not found in JSON. $matrixPath")
+            savedMatrix?.webLink.orEmpty()
         }
-        return webLink
     }
 
     private val deviceStringRgx = Regex("([^-]+-[^-]+-[^-]+-[^-]+).*")
@@ -214,5 +206,3 @@ object ReportManager {
         GcStorage.uploadJunitXml(newTestResult, args)
     }
 }
-@VisibleForTesting
-internal fun File.getWeblinkFromFile() =  Regex("/.*(shard_|matrix_)\\d+(-rerun_\\d+)?/").find(toString())
