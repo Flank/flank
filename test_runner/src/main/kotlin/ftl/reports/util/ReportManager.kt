@@ -39,17 +39,11 @@ object ReportManager {
         return xmlFiles
     }
 
-    private fun getWebLink(matrices: MatrixMap, xmlFile: File): String {
-        // xmlFile path changes based on if local-result-dir is used. may or may not contain objName
-        // 2019-03-22_17-20-53.594000_ftrh/shard_0/test_result_1.xml or shard_0/test_result_1.xml
-        val matrixPath = xmlFile.getMatrixPath(matrices.runPath)
-        return matrixPath?.let { path ->
-            matrices.map.values.firstOrNull { it.gcsPath.endsWith(path) }
-        }.let { savedMatrix ->
-            if (savedMatrix == null) println("WARNING: Matrix path not found in JSON. $matrixPath")
-            savedMatrix?.webLink.orEmpty()
-        }
-    }
+    private fun getWebLink(matrices: MatrixMap, xmlFile: File): String = xmlFile.getMatrixPath(matrices.runPath)
+        ?.let { path ->
+            matrices.map.values.firstOrNull { savedMatrix -> savedMatrix.gcsPath.endsWith(path) }?.webLink
+                ?: "".also { println("WARNING: Matrix path not found in JSON. $path") }
+        } ?: "".also { println("WARNING: Matrix path not found in JSON.") }
 
     private val deviceStringRgx = Regex("([^-]+-[^-]+-[^-]+-[^-]+).*")
 
