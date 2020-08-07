@@ -1566,6 +1566,74 @@ AndroidArgs
         val args = AndroidArgs.load(yaml)
         assertEquals(AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last, args.maxTestShards)
     }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw when --legacy-junit-result and --full-junit-result set`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: blueline
+              version: 28
+              locale: en
+              orientation: portrait
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+        flank:
+          max-test-shards: -1
+          full-junit-result: true
+          legacy-junit-result: true
+        """.trimIndent()
+        AndroidArgs.load(yaml)
+    }
+    @Test
+    fun `should not throw when --legacy-junit-result set and --full-junit-result not set`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: blueline
+              version: 28
+              locale: en
+              orientation: portrait
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+        flank:
+          max-test-shards: -1
+          full-junit-result: false
+          legacy-junit-result: true
+        """.trimIndent()
+        AndroidArgs.load(yaml)
+    }
+
+    @Test
+    fun `should not throw when --legacy-junit-result not set and --full-junit-result set`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: blueline
+              version: 28
+              locale: en
+              orientation: portrait
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+        flank:
+          max-test-shards: -1
+          full-junit-result: true
+          legacy-junit-result: false
+        """.trimIndent()
+        AndroidArgs.load(yaml)
+    }
 }
 
 private fun AndroidArgs.Companion.load(yamlData: String, cli: AndroidRunCommand? = null): AndroidArgs =
