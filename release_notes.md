@@ -1,7 +1,7 @@
 ## next (unreleased)
 - [#952](https://github.com/Flank/flank/pull/952) Fix version printing on Flank release
+- [#950](https://github.com/Flank/flank/pull/950) Fix crash when --legacy-junit-result set. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#948](https://github.com/Flank/flank/pull/948) Increment retry tries and change sync tag for jfrogSync. ([piotradamczyk5](https://github.com/piotradamczyk5))
--
 -
 -
 
