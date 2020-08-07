@@ -40,10 +40,7 @@ object ReportManager {
     }
 
     private fun getWebLink(matrices: MatrixMap, xmlFile: File): String = xmlFile.getMatrixPath(matrices.runPath)
-        ?.let { path ->
-            matrices.map.values.firstOrNull { savedMatrix -> savedMatrix.gcsPath.endsWith(path) }?.webLink
-                ?: "".also { println("WARNING: Matrix path not found in JSON. $path") }
-        } ?: "".also { println("WARNING: Matrix path not found in JSON.") }
+        ?.findMatrixPath(matrices) ?: "".also { println("WARNING: Matrix path not found in JSON.") }
 
     private val deviceStringRgx = Regex("([^-]+-[^-]+-[^-]+-[^-]+).*")
 
@@ -200,3 +197,7 @@ object ReportManager {
         GcStorage.uploadJunitXml(newTestResult, args)
     }
 }
+
+private fun String.findMatrixPath(matrices: MatrixMap) =
+    matrices.map.values.firstOrNull { savedMatrix -> savedMatrix.gcsPath.endsWith(this) }?.webLink
+        ?: "".also { println("WARNING: Matrix path not found in JSON. $this") }
