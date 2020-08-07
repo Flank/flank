@@ -10,6 +10,12 @@ import flank.scripts.utils.toJson
 suspend fun updateBugsnag(bugsnagApiKey: String, appVersion: String, githubWorkflowUrl: String) =
         httpRequest(createRequestBody(bugsnagApiKey, appVersion, githubWorkflowUrl))
 
+private suspend fun httpRequest(jsonString: String) =
+        Fuel.post(BUGNSAG_URL)
+                .jsonBody(jsonString)
+                .awaitResult(BugSnagResponseDeserializer)
+                .mapClientError { it.toBugsnagException() }
+
 private fun createRequestBody(bugsnagApiKey: String, appVersion: String, githubWorkflowUrl: String) =
         BugSnagRequest(
                 apiKey = bugsnagApiKey,
@@ -19,12 +25,6 @@ private fun createRequestBody(bugsnagApiKey: String, appVersion: String, githubW
                 sourceControl = githubActionsSourceControl(appVersion),
                 metadata = mapOf("github_actions_build_url" to githubWorkflowUrl)
         ).toJson(BugSnagRequest.serializer())
-
-private suspend fun httpRequest(jsonString: String) =
-        Fuel.post(BUGNSAG_URL)
-                .jsonBody(jsonString)
-                .awaitResult(BugSnagResponseDeserializer)
-                .mapClientError { it.toBugsnagException() }
 
 private fun githubActionsSourceControl(appVersion: String) = SourceControl(
         "github",

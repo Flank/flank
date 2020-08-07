@@ -8,7 +8,7 @@ fun List<String>.runCommand(retryCount: Int = 0) =
 
 fun String.runCommand(retryCount: Int = 0) = split(" ").toList().runCommand(retryCount)
 
-private fun ProcessBuilder.startWithRetry(retryCount: Int): Int {
+internal fun ProcessBuilder.startWithRetry(retryCount: Int): Int {
     var retryTries = 0
     var processResponse: Int
     do {
@@ -25,9 +25,9 @@ private fun ProcessBuilder.startWithRetry(retryCount: Int): Int {
 }
 
 private fun shouldRetry(
-        processResponse: Int,
-        retryCount: Int,
-        retryTries: Int
+    processResponse: Int,
+    retryCount: Int,
+    retryTries: Int
 ) = processResponse != 0 && processResponse != EXCEPTION_WHEN_CALLING_COMMAND_CODE && retryTries < retryCount
 
 const val SUCCESS = 0

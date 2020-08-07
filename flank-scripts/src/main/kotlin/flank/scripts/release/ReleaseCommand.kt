@@ -22,5 +22,6 @@ class ReleaseCommand : CliktCommand(name = "release", help = "Contains all relea
         )
     }
 
+    @Suppress("EmptyFunctionBlock")
     override fun run() {}
 }
