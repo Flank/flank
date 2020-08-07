@@ -1,10 +1,11 @@
 ## next (unreleased)
 - [#952](https://github.com/Flank/flank/pull/952) Fix version printing on Flank release
 - [#950](https://github.com/Flank/flank/pull/950) Fix crash when --legacy-junit-result set. ([adamfilipow92](https://github.com/adamfilipow92))
+- [#948](https://github.com/Flank/flank/pull/948) Increment retry tries and change sync tag for jfrogSync. ([piotradamczyk5](https://github.com/piotradamczyk5))
 -
 -
 
-## v20.8.0
+## v20.08.0
 - [#890](https://github.com/Flank/flank/pull/890) Convert bitrise ubuntu workflow into GitHub actions. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#876](https://github.com/Flank/flank/pull/876) Added option to print Android available devices to test against. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#895](https://github.com/Flank/flank/pull/895) Added option to print iOS available devices to test against. ([piotradamczyk5](https://github.com/piotradamczyk5))
@@ -25,8 +26,6 @@
 - [#926](https://github.com/Flank/flank/pull/926) Flank should reflect gcloud exit codes. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#917](https://github.com/Flank/flank/pull/917) Fix an incorrect outcome. ([pawelpasterz](https://github.com/pawelpasterz))
 - [#939](https://github.com/Flank/flank/pull/939) Run *list commands when flank.yml not found should display right output. ([adamfilipow92](https://github.com/adamfilipow92))
--
--
 
 ## v20.07.0
 - [#857](https://github.com/Flank/flank/pull/857) Added multimodule setup for test app. ([piotradamczyk5](https://github.com/piotradamczyk5))
