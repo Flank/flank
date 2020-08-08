@@ -18,3 +18,4 @@ flank:
   num-test-runs: 1
   run-timeout: 60m
   output-style: single
+  full-junit-result: false
