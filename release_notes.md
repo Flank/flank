@@ -3,7 +3,7 @@
 - [#950](https://github.com/Flank/flank/pull/950) Fix crash when --legacy-junit-result set. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#948](https://github.com/Flank/flank/pull/948) Increment retry tries and change sync tag for jfrogSync. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#946](https://github.com/Flank/flank/pull/946) Added tests for flank scripts. ([piotradamczyk5](https://github.com/piotradamczyk5))
-- 
+- [#935](https://github.com/Flank/flank/pull/935) Process junit xml even when full junit is not enabled. ([kozaxinan](https://github.com/kozaxinan))
 -
 -
 
