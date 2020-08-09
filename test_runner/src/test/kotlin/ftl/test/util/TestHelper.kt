@@ -2,12 +2,14 @@
 
 package ftl.test.util
 
+import ftl.Main
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import org.junit.Assert
 import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
+import picocli.CommandLine
 import java.nio.file.Path
 import java.nio.file.Paths
 import kotlin.reflect.KClass
@@ -68,3 +70,5 @@ inline fun <reified T : Any> should(crossinline match: T.() -> Boolean): T = moc
 internal fun <T : Throwable> assertThrowsWithMessage(clazz: KClass<T>, message: String, block: () -> Unit) {
     assertThrows(clazz.java) { block() }.also { assertTrue(it.message?.contains(message) ?: false) }
 }
+
+internal fun runMainCommand(vararg args: String) = CommandLine(Main()).execute(*args)
