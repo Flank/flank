@@ -124,18 +124,13 @@ private fun StringBuilder.appendTableSeparator(startChar: Char, middleChar: Char
 
 private fun StringBuilder.appendDataRow(data: List<DataWithSize>) {
     append(TABLE_VERTICAL_LINE)
-    data.forEach { (data, size) ->
-        append(data.center(size))
+    data.forEach {
+        append(it.leftAligned())
         append(TABLE_VERTICAL_LINE)
     }
     appendln()
 }
 
-private fun String.center(columnSize: Int): String? {
-    return String.format(
-        "%-" + columnSize + "s",
-        String.format("%" + (length + (columnSize - length) / 2) + "s", this)
-    )
-}
+private fun DataWithSize.leftAligned() = String.format("%-${columnSize}s", " $data")
 
 inline fun TableColumn.applyColorsUsing(mapper: (String) -> SystemOutColor) = copy(dataColor = data.map(mapper))
