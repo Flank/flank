@@ -924,7 +924,7 @@ IosArgs
         flank:
           max-test-shards: -1
         """.trimIndent()
-        val args = IosArgs.load(yaml)
+        IosArgs.load(yaml)
     }
 
     @Test(expected = FlankConfigurationError::class)
@@ -935,7 +935,7 @@ IosArgs
         flank:
           max-test-shards: -1
         """.trimIndent()
-        val args = IosArgs.load(yaml)
+        IosArgs.load(yaml)
     }
 
     @Test(expected = FlankConfigurationError::class)
@@ -946,7 +946,7 @@ IosArgs
         flank:
           max-test-shards: -1
         """.trimIndent()
-        val args = IosArgs.load(yaml)
+        IosArgs.load(yaml)
     }
 
     @Test
@@ -958,7 +958,7 @@ IosArgs
         flank:
           max-test-shards: -1
         """.trimIndent()
-        val args = IosArgs.load(yaml)
+        IosArgs.load(yaml)
     }
 }
 
