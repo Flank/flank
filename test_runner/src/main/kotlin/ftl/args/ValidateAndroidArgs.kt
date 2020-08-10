@@ -103,5 +103,5 @@ private fun AndroidArgs.throwMaxTestShardsLimitExceeded(): Nothing {
 
 private fun AndroidArgs.assertParametersConflict() {
     if (useLegacyJUnitResult && fullJUnitResult)
-        throw FlankConfigurationError("Parameters conflict, you cannot set: `useLegacyJUnitResult` and `fullJUnitResult` at the same time")
+        throw FlankConfigurationError("Parameters conflict, you cannot set: `--legacy-junit-result` and `--full-junit-result` at the same time.")
 }
