@@ -2,10 +2,12 @@ package ftl.android
 
 import com.google.api.services.testing.model.AndroidDevice
 import com.google.api.services.testing.model.AndroidDeviceCatalog
+import com.google.api.services.testing.model.Locale
 import ftl.environment.android.asPrintableTable
 import ftl.environment.android.getDescription
 import ftl.environment.asPrintableTable
 import ftl.environment.common.asPrintableTable
+import ftl.environment.getLocaleDescription
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
 
@@ -36,7 +38,11 @@ object AndroidCatalog {
 
     fun supportedOrientationsAsTable(projectId: String) = deviceCatalog(projectId).runtimeConfiguration.orientations.asPrintableTable()
 
-    fun localesAsTable(projectId: String) = deviceCatalog(projectId).runtimeConfiguration.locales.asPrintableTable()
+    fun localesAsTable(projectId: String) = getLocales(projectId).asPrintableTable()
+
+    fun getLocaleDescription(projectId: String, locale: String) = getLocales(projectId).getLocaleDescription(locale)
+
+    private fun getLocales(projectId: String): List<Locale> = deviceCatalog(projectId).runtimeConfiguration.locales
 
     fun androidModelIds(projectId: String) =
         modelMap.getOrPut(projectId) { deviceCatalog(projectId).models.map { it.id } }
