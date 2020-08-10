@@ -916,6 +916,51 @@ IosArgs
         val args = IosArgs.load(yaml)
         assertEquals(IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last, args.maxTestShards)
     }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `verify appropriate error message when test and xctestrun not set`() {
+        val yaml = """
+        gcloud:
+        flank:
+          max-test-shards: -1
+        """.trimIndent()
+        val args = IosArgs.load(yaml)
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `verify appropriate error message when xctestrun not set`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+        flank:
+          max-test-shards: -1
+        """.trimIndent()
+        val args = IosArgs.load(yaml)
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `verify appropriate error message when test not set`() {
+        val yaml = """
+        gcloud:
+          xctestrun-file: $testPath
+        flank:
+          max-test-shards: -1
+        """.trimIndent()
+        val args = IosArgs.load(yaml)
+    }
+
+    @Test
+    fun `verify no error message when test and xctestrun-file set`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+        flank:
+          max-test-shards: -1
+        """.trimIndent()
+        val args = IosArgs.load(yaml)
+    }
 }
 
-private fun IosArgs.Companion.load(yamlData: String, cli: IosRunCommand? = null): IosArgs = load(StringReader(yamlData), cli)
+private fun IosArgs.Companion.load(yamlData: String, cli: IosRunCommand? = null): IosArgs =
+    load(StringReader(yamlData), cli)
