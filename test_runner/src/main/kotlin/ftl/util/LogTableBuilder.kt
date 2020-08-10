@@ -16,8 +16,11 @@ data class TableColumn(
 
 private data class DataWithSize(
     val data: String,
-    val columnSize: Int
-)
+    val columnSize: Int,
+    val centered: Boolean
+) {
+    constructor(data: String, columnSize: Int) : this(data, columnSize, data.matches("-?\\d+(\\.\\d+)?".toRegex()))
+}
 
 private const val DEFAULT_COLUMN_PADDING = 2
 
@@ -58,7 +61,9 @@ fun buildTable(vararg tableColumns: TableColumn, tableStyle: TableStyle = TableS
     val rowSizes = tableColumns.map { it.columnSize }
     val builder = StringBuilder().apply {
         startTable(rowSizes)
-        tableColumns.map { DataWithSize(it.header, it.columnSize) }.apply { appendDataRow(this) }
+        tableColumns
+                .map { DataWithSize(data = it.header, columnSize = it.columnSize, centered = true) }
+                .apply { appendDataRow(this) }
         rowSeparator(rowSizes)
         appendData(tableColumns, rowSizes, tableStyle)
         endTable(rowSizes)
@@ -124,18 +129,18 @@ private fun StringBuilder.appendTableSeparator(startChar: Char, middleChar: Char
 
 private fun StringBuilder.appendDataRow(data: List<DataWithSize>) {
     append(TABLE_VERTICAL_LINE)
-    data.forEach { (data, size) ->
-        append(data.center(size))
+    data.forEach {
+        if (it.centered) append(it.center()) else append(it.leftAligned())
         append(TABLE_VERTICAL_LINE)
     }
     appendln()
 }
 
-private fun String.center(columnSize: Int): String? {
-    return String.format(
+private fun DataWithSize.leftAligned() = String.format("%-${columnSize}s", " $data")
+
+private fun DataWithSize.center() = String.format(
         "%-" + columnSize + "s",
-        String.format("%" + (length + (columnSize - length) / 2) + "s", this)
-    )
-}
+        String.format("%" + (data.length + (columnSize - data.length) / 2) + "s", this.data)
+)
 
 inline fun TableColumn.applyColorsUsing(mapper: (String) -> SystemOutColor) = copy(dataColor = data.map(mapper))
