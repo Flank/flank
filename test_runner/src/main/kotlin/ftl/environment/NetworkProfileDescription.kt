@@ -13,21 +13,21 @@ private fun NetworkConfiguration?.toNullProof() = this?.run {
     NetworkConfigurationWrapper(
             downRule = wrappedOrEmpty(downRule),
             upRule = wrappedOrEmpty(upRule),
-            id = id.toStringOrEmpty()
+            id = id.toStringOrUnableToFetch()
     )
 }
 
 private fun wrappedOrEmpty(rule: TrafficRule?) = rule?.let {
     Rule(
-            bandwidth = it.bandwidth.toStringOrEmpty(),
-            delay = it.delay.toStringOrEmpty(),
-            packetLossRatio = it.packetLossRatio.toStringOrEmpty()
+            bandwidth = it.bandwidth.toStringOrUnableToFetch(),
+            delay = it.delay.toStringOrUnableToFetch(),
+            packetLossRatio = it.packetLossRatio.toStringOrUnableToFetch()
     )
 } ?: emptyRule
 
 private const val UNABLE = "[Unable to fetch]"
 
-private fun Any?.toStringOrEmpty() = this?.toString() ?: UNABLE
+private fun Any?.toStringOrUnableToFetch() = this?.toString() ?: UNABLE
 
 private val emptyRule: Rule
     get() = Rule(UNABLE, UNABLE, UNABLE)

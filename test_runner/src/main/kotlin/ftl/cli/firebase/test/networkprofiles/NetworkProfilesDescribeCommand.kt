@@ -17,8 +17,8 @@ import picocli.CommandLine
 )
 class NetworkProfilesDescribeCommand : Runnable {
     override fun run() {
-        if (profile.isBlank()) throw FlankConfigurationError("Argument PROFILE_ID must be specified.")
-        println(networkProfileDescription(profile))
+        if (profileId.isBlank()) throw FlankConfigurationError("Argument PROFILE_ID must be specified.")
+        println(networkProfileDescription(profileId))
     }
 
     @CommandLine.Parameters(
@@ -28,5 +28,5 @@ class NetworkProfilesDescribeCommand : Runnable {
             defaultValue = "",
             description = ["The network profile to describe, found" +
             " using \$ gcloud beta firebase test network-profiles list."])
-    var profile: String = ""
+    var profileId: String = ""
 }
