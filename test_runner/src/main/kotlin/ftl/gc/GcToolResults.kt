@@ -1,6 +1,7 @@
 package ftl.gc
 
 import com.google.api.services.testing.model.TestExecution
+import com.google.api.services.testing.model.ToolResultsExecution
 import com.google.api.services.testing.model.ToolResultsHistory
 import com.google.api.services.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.ToolResults
@@ -131,18 +132,18 @@ object GcToolResults {
         }
     }
 
-    fun listAllEnvironments(toolResultsStep: ToolResultsStep): List<Environment> {
-        var response = listEnvironments(toolResultsStep)
+    fun listAllEnvironments(results: ToolResultsExecution): List<Environment> {
+        var response = listEnvironments(results)
         val environments = response.environments.toMutableList()
         while (response.nextPageToken != null) {
-            response = listEnvironments(toolResultsStep, response.nextPageToken)
+            response = listEnvironments(results, response.nextPageToken)
             environments += response.environments ?: emptyList()
         }
         return environments
     }
 
     private fun listEnvironments(
-        toolResultsStep: ToolResultsStep,
+        results: ToolResultsExecution,
         pageToken: String? = null
     ): ListEnvironmentsResponse = service
         .projects()
@@ -150,26 +151,26 @@ object GcToolResults {
         .executions()
         .environments()
         .list(
-            toolResultsStep.projectId,
-            toolResultsStep.historyId,
-            toolResultsStep.executionId
+            results.projectId,
+            results.historyId,
+            results.executionId
         )
         .setPageToken(pageToken)
         .setPageSize(100)
         .executeWithRetry()
 
-    fun listAllSteps(toolResultsStep: ToolResultsStep): MutableList<Step> {
-        var response = listSteps(toolResultsStep)
+    fun listAllSteps(results: ToolResultsExecution): MutableList<Step> {
+        var response = listSteps(results)
         val steps = response.steps.toMutableList()
         while (response.nextPageToken != null) {
-            response = listSteps(toolResultsStep, response.nextPageToken)
+            response = listSteps(results, response.nextPageToken)
             steps += response.steps ?: emptyList()
         }
         return steps
     }
 
     private fun listSteps(
-        toolResultsStep: ToolResultsStep,
+        results: ToolResultsExecution,
         pageToken: String? = null
     ): ListStepsResponse = service
         .projects()
@@ -177,9 +178,9 @@ object GcToolResults {
         .executions()
         .steps()
         .list(
-            toolResultsStep.projectId,
-            toolResultsStep.historyId,
-            toolResultsStep.executionId
+            results.projectId,
+            results.historyId,
+            results.executionId
         )
         .setPageToken(pageToken)
         .setPageSize(100)

@@ -1,10 +1,14 @@
 package ftl.json
 
+import com.google.api.services.toolresults.model.Environment
 import com.google.api.services.toolresults.model.FailureDetail
 import com.google.api.services.toolresults.model.InconclusiveDetail
 import com.google.api.services.toolresults.model.Outcome
 import com.google.api.services.toolresults.model.SkippedDetail
+import com.google.api.services.toolresults.model.Step
+import ftl.reports.api.createTestSuitOverviewData
 import ftl.reports.api.data.TestSuiteOverviewData
+import ftl.util.StepOutcome
 import ftl.util.StepOutcome.failure
 import ftl.util.StepOutcome.flaky
 import ftl.util.StepOutcome.inconclusive
@@ -12,8 +16,23 @@ import ftl.util.StepOutcome.skipped
 import ftl.util.StepOutcome.success
 import ftl.util.StepOutcome.unset
 
-fun Outcome.getDetails(testSuiteOverviewData: TestSuiteOverviewData?) = when (summary) {
+fun Environment.getDetails(): String {
+    require(environmentResult?.outcome?.summary != null)
+    return environmentResult.outcome.getDetails(createTestSuitOverviewData())
+}
+
+fun List<Step>.getOutcome(): Outcome? = minBy {
+    StepOutcome.order.indexOf(it.outcome?.summary)
+}?.outcome
+
+fun List<Step>.getDetails(): String {
+    val outcome = getOutcome()
+    return outcome?.getDetails(createTestSuitOverviewData()) ?: "Unknown outcome"
+}
+
+internal fun Outcome.getDetails(testSuiteOverviewData: TestSuiteOverviewData?): String = when (summary) {
     success, flaky -> testSuiteOverviewData?.getSuccessOutcomeDetails(successDetail?.otherNativeCrash ?: false)
+        ?: "Unknown outcome"
     failure -> failureDetail.getFailureOutcomeDetails(testSuiteOverviewData)
     inconclusive -> inconclusiveDetail.formatOutcomeDetails()
     skipped -> skippedDetail.formatOutcomeDetails()

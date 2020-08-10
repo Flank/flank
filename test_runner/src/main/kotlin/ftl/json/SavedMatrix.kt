@@ -98,9 +98,17 @@ class SavedMatrix(matrix: TestMatrix) {
         billablePhysicalMinutes = 0
         outcome = success
 
-        updateFinishedMatrixData(matrix)
+        updateFinishedMatrixData2(matrix)
     }
 
+    private fun updateFinishedMatrixData2(matrix: TestMatrix) {
+        matrix.createMatrixOutcomeSummary()?.let { summary ->
+            outcome = summary.outcome
+            outcomeDetails = summary.testDetails
+        }
+    }
+
+    @Suppress("unused")
     private fun updateFinishedMatrixData(matrix: TestMatrix) {
         val testExecutionsData = matrix.testExecutions?.createTestExecutionDataListAsync() ?: return
         val summedTestSuiteOverviewData =
