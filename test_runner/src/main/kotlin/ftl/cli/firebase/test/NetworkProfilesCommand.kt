@@ -1,5 +1,6 @@
 package ftl.cli.firebase.test
 
+import ftl.cli.firebase.test.networkprofiles.NetworkProfilesDescribeCommand
 import ftl.cli.firebase.test.networkprofiles.NetworkProfilesListCommand
 import picocli.CommandLine
 
@@ -7,7 +8,8 @@ import picocli.CommandLine
     name = "network-profiles",
     synopsisHeading = "",
     subcommands = [
-        NetworkProfilesListCommand::class
+        NetworkProfilesListCommand::class,
+        NetworkProfilesDescribeCommand::class
     ],
     usageHelpAutoWidth = true
 )

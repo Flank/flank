@@ -8,6 +8,7 @@
 - [#965](https://github.com/Flank/flank/pull/965) Fast fail when full-junit-result and legacy-junit-result. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#970](https://github.com/Flank/flank/pull/970) Fixing Flood of snapshot  releases. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#972](https://github.com/Flank/flank/pull/972) Fix printing release version. ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#964](https://github.com/Flank/flank/pull/964) Implement network-profiles describe feature. ([pawelpasterz](https://github.com/pawelpasterz))
 -
 -
 
