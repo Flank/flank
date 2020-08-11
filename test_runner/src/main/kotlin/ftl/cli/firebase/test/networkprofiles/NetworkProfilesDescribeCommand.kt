@@ -22,11 +22,11 @@ class NetworkProfilesDescribeCommand : Runnable {
     }
 
     @CommandLine.Parameters(
-            index = "0",
-            arity = "1",
-            paramLabel = "PROFILE_ID",
-            defaultValue = "",
-            description = ["The network profile to describe, found" +
+        index = "0",
+        arity = "1",
+        paramLabel = "PROFILE_ID",
+        defaultValue = "",
+        description = ["The network profile to describe, found" +
             " using \$ gcloud beta firebase test network-profiles list."])
     var profileId: String = ""
 }

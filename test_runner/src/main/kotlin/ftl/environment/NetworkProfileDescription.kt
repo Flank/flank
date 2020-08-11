@@ -4,24 +4,24 @@ import com.google.api.services.testing.model.NetworkConfiguration
 import com.google.api.services.testing.model.TrafficRule
 
 fun networkProfileDescription(profile: String) = getNetworkConfiguration()
-        .find { it.id?.toUpperCase() == profile.toUpperCase() }
-        .toNullProof()
-        .prepareDescription()
-        ?: "Unable to fetch profile [$profile] description"
+    .find { it.id?.toUpperCase() == profile.toUpperCase() }
+    .toNullProof()
+    .prepareDescription()
+    ?: "Unable to fetch profile [$profile] description"
 
 private fun NetworkConfiguration?.toNullProof() = this?.run {
     NetworkConfigurationWrapper(
-            downRule = wrappedOrEmpty(downRule),
-            upRule = wrappedOrEmpty(upRule),
-            id = id.toStringOrUnableToFetch()
+        downRule = wrappedOrEmpty(downRule),
+        upRule = wrappedOrEmpty(upRule),
+        id = id.toStringOrUnableToFetch()
     )
 }
 
 private fun wrappedOrEmpty(rule: TrafficRule?) = rule?.let {
     Rule(
-            bandwidth = it.bandwidth.toStringOrUnableToFetch(),
-            delay = it.delay.toStringOrUnableToFetch(),
-            packetLossRatio = it.packetLossRatio.toStringOrUnableToFetch()
+        bandwidth = it.bandwidth.toStringOrUnableToFetch(),
+        delay = it.delay.toStringOrUnableToFetch(),
+        packetLossRatio = it.packetLossRatio.toStringOrUnableToFetch()
     )
 } ?: emptyRule
 
