@@ -19,7 +19,7 @@ private fun IosArgs.assertMaxTestShards() { this.maxTestShards
     )
 }
 private fun IosArgs.assertTestTypes() {
-    if (xctestrunFile.isNullOrBlank() or xctestrunZip.isNullOrBlank())
+    if (xctestrunFile.isBlank() or xctestrunZip.isBlank())
         throw FlankConfigurationError("Both of following options must be specified [test, xctestrun-file].")
 }
 private fun IosArgs.assertXcodeSupported() = when {
