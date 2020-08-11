@@ -15,3 +15,12 @@ jobs:
         if: github.event.pull_request.draft == false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pr details
+        env: 
+          PR_NUMBER: github.event.number
+          user: $GITHUB_ACTOR
+          message: github.event.pull_request.title
+        run: |
+          echo $PR_NUMBER $user $message
+      
