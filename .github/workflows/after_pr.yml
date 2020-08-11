@@ -12,6 +12,10 @@ jobs:
   afterPr:
     runs-on: macos-latest
     steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: master
+
       - name: Gradle Build flankScripts and add it to PATH
         run: |
           ls
