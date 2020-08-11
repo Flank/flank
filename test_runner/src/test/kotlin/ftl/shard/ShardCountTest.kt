@@ -1,6 +1,7 @@
 package ftl.shard
 
 import com.google.common.truth.Truth.assertThat
+import ftl.reports.xml.model.JUnitTestResult
 import ftl.test.util.FlankTestRunner
 import io.mockk.unmockkAll
 import org.junit.After
@@ -41,9 +42,9 @@ class ShardCountTest {
     }
 
     @Test
-    fun `createShardsByShardTime uncachedTestResultsUseDefaultTime`() {
+    fun `createShardsByShardTime firstBuildUseDefaultTime`() {
         val testsToRun = listOfFlankTestMethod("h/h", "i/i", "j/j")
-        val suite = sample()
+        val suite = JUnitTestResult(null)
         val result = shardCountByTime(
             testsToRun,
             suite,
@@ -53,14 +54,14 @@ class ShardCountTest {
     }
 
     @Test
-    fun `createShardsByShardTime mixedCachedAndUncachedTestResultsUseDefaultTime`() {
+    fun `createShardsByShardTime mixedCachedAndUncachedTestResultsUseAverageTime`() {
         // Test "a/a" is hard-coded to have 1.0 second run time in test suite results.
         val testsToRun = listOfFlankTestMethod("a/a", "i/i", "j/j")
         val suite = sample()
         val result = shardCountByTime(
             testsToRun,
             suite,
-            mockArgs(maxTestShards = -1, shardTime = DEFAULT_TEST_TIME_SEC.toInt() + 1))
+            mockArgs(maxTestShards = -1, shardTime = 1))
 
         assertThat(result).isEqualTo(3)
     }

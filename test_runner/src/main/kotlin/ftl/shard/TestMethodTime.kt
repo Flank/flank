@@ -11,8 +11,12 @@ const val DEFAULT_TEST_TIME_SEC = 120.0
 const val IGNORE_TEST_TIME = 0.0
 
 fun getTestMethodTime(flankTestMethod: FlankTestMethod, previousMethodDurations: Map<String, Double>): Double {
-    return if (flankTestMethod.ignored) IGNORE_TEST_TIME else previousMethodDurations.getOrDefault(
-        flankTestMethod.testName,
-        DEFAULT_TEST_TIME_SEC
-    )
+    return if (flankTestMethod.ignored) IGNORE_TEST_TIME else previousMethodDurations[flankTestMethod.testName] ?: avgTestTime(previousMethodDurations)
+}
+
+private fun avgTestTime(previousMethodDurations: Map<String, Double>): Double {
+    return previousMethodDurations.values
+        .filter { it > 0.01 }
+        .ifEmpty { listOf(DEFAULT_TEST_TIME_SEC) }
+        .average()
 }
