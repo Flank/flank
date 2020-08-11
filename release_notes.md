@@ -2,6 +2,7 @@
 - [#987](https://github.com/Flank/flank/pull/987) Flank Error Monitoring readme addition ([sloox](https://github.com/Sloox))
 - [#990](https://github.com/Flank/flank/pull/990) Fix: exclusion of @Suppress test. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#988](https://github.com/Flank/flank/pull/988) Add versions description command for ios and android. ([adamfilipow92](https://github.com/adamfilipow92))
+- [#969](https://github.com/Flank/flank/pull/969) Add locales description command for ios and android. ([adamfilipow92](https://github.com/adamfilipow92))
 -
 
 ## v20.08.1
@@ -17,6 +18,7 @@
 - [#970](https://github.com/Flank/flank/pull/970) Fixing Flood of snapshot  releases. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#972](https://github.com/Flank/flank/pull/972) Fix printing release version. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#964](https://github.com/Flank/flank/pull/964) Implement network-profiles describe feature. ([pawelpasterz](https://github.com/pawelpasterz))
+-
 
 ## v20.08.0
 - [#890](https://github.com/Flank/flank/pull/890) Convert bitrise ubuntu workflow into GitHub actions. ([piotradamczyk5](https://github.com/piotradamczyk5))
