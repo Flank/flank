@@ -11,7 +11,7 @@ on:
 jobs:
   afterPr:
     runs-on: macos-latest
-
+    steps:
       - name: Gradle Build flankScripts and add it to PATH
         run: |
           ./flank-scripts/bash/buildFlankScripts.sh
