@@ -1,0 +1,27 @@
+name: "After Pull request"
+on:
+  pull_request:
+    branches: test_pr_title #TODO master
+    types:
+      - closed
+      - opened #TODO delete
+      - edited #TODO delete
+      - synchronize #TODO delete
+
+jobs:
+  afterPr:
+    runs-on: macos-latest
+
+      - name: Gradle Build flankScripts and add it to PATH
+        run: |
+          ./flank-scripts/bash/buildFlankScripts.sh
+          echo "::add-path::./flank-scripts/bash"
+
+      - name: Append release note
+        if: github.event.pull_request.merged == false #TODO true
+        env: 
+          PR_NUMBER: ${{ github.event.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          echo $PR_NUMBER $GITHUB_ACTOR $PR_TITLE
+          flankScripts ci releaseNotesUpdate --pr-number=$PR_NUMBER --git-user=$GITHUB_ACTOR --merged-pr-title=$PR_TITLE
