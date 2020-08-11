@@ -37,7 +37,7 @@ jobs:
     - name: Store version variables to file
       run: |
           echo "$GITHUB_SHA" > ./test_runner/src/main/resources/revision.txt
-          echo "$MVN_VERSION" > ./test_runner/src/main/resources/version.txt
+          echo "$RELEASE_TAG" > ./test_runner/src/main/resources/version.txt
     
     - name: Update bugsnag
       run: flankScripts release updateBugsnag --bugsnag-api-key=${{ secrets.BUGSNAG_API_KEY }} --app-version=${GITHUB_SHA}
