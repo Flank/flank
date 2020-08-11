@@ -1,7 +1,7 @@
 name: "Check Pull Request"
 on:
   pull_request:
-    branches: master
+    branches: test_pr_title # TODO master
     types:
       - opened
       - edited

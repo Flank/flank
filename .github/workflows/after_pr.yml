@@ -14,6 +14,7 @@ jobs:
     steps:
       - name: Gradle Build flankScripts and add it to PATH
         run: |
+          ls
           ./flank-scripts/bash/buildFlankScripts.sh
           echo "::add-path::./flank-scripts/bash"
 
