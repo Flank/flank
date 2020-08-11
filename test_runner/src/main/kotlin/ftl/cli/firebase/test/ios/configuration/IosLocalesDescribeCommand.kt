@@ -29,10 +29,10 @@ class IosLocalesDescribeCommand : Runnable {
         paramLabel = "LOCALE",
         defaultValue = "",
         description = ["The locale to describe, found" +
-                " using \$ gcloud firebase test android locales list\n."]
+                " using \$ gcloud firebase test ios locales list\n."]
     )
     var locale: String = ""
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])
-    var configPath: String = FtlConstants.defaultAndroidConfig
+    var configPath: String = FtlConstants.defaultIosConfig
 }
