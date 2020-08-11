@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.ios.configuration
 
 import ftl.ios.IosCatalog
+import ftl.test.util.TestHelper
 import ftl.util.FlankConfigurationError
 import io.mockk.mockkObject
 import io.mockk.verify
@@ -14,10 +15,12 @@ class IosLocalesDescribeCommandTest {
     @get:Rule
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
 
+    private val simpleFlankPath = TestHelper.getPath("src/test/kotlin/ftl/fixtures/simple-ios-flank.yml")
+
     @Test
     fun `should execute IosCatalog getLocaleDescription when run IosLocalesDescribeCommand`() {
         mockkObject(IosCatalog) {
-            CommandLine(IosLocalesDescribeCommand()).execute("pl")
+            CommandLine(IosLocalesDescribeCommand()).execute("pl", "--config=$simpleFlankPath")
             verify { IosCatalog.getLocaleDescription(any(), any()) }
         }
     }
@@ -25,13 +28,13 @@ class IosLocalesDescribeCommandTest {
     @Test(expected = FlankConfigurationError::class)
     fun `should throw if locale not specified`() {
         systemOutRule.clearLog()
-        CommandLine(IosLocalesDescribeCommand()).execute()
+        CommandLine(IosLocalesDescribeCommand()).execute("--config=$simpleFlankPath")
     }
 
     @Test
     fun `should return error message if locale not exists`() {
         systemOutRule.clearLog()
-        CommandLine(IosLocalesDescribeCommand()).execute("test")
+        CommandLine(IosLocalesDescribeCommand()).execute("test", "--config=$simpleFlankPath")
         val result = systemOutRule.log.trim()
         assertEquals("ERROR: test is not a valid locale", result)
     }
