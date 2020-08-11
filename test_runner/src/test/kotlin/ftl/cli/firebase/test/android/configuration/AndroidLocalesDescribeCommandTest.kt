@@ -32,6 +32,6 @@ class AndroidLocalesDescribeCommandTest {
         systemOutRule.clearLog()
         CommandLine(AndroidLocalesDescribeCommand()).execute("test")
         val result = systemOutRule.log.trim()
-        assertEquals("ERROR: test is not a valid locale", result)
+        assertEquals("ERROR: 'test' is not a valid locale", result)
     }
 }

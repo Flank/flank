@@ -35,6 +35,6 @@ class IosLocalesDescribeCommandTest {
         systemOutRule.clearLog()
         CommandLine(IosLocalesDescribeCommand()).execute("test", "--config=$simpleFlankPath")
         val result = systemOutRule.log.trim()
-        assertEquals("ERROR: test is not a valid locale", result)
+        assertEquals("ERROR: 'test' is not a valid locale", result)
     }
 }

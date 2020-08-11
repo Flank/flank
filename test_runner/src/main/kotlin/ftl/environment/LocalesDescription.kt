@@ -19,4 +19,4 @@ private fun StringBuilder.appendTagsToList(locale: Locale) = apply {
     locale.tags.filterNotNull().forEach { tag -> appendln("- $tag") }
 }.toString().trim()
 
-private fun String?.orErrorMessage(locale: String) = this ?: "ERROR: $locale is not a valid locale".trimIndent()
+private fun String?.orErrorMessage(locale: String) = this ?: "ERROR: '$locale' is not a valid locale".trimIndent()
