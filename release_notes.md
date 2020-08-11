@@ -6,6 +6,7 @@
 - [#935](https://github.com/Flank/flank/pull/935) Process junit xml even when full junit is not enabled. ([kozaxinan](https://github.com/kozaxinan))
 - [#962](https://github.com/Flank/flank/pull/962) Make table text left aligned. ([pawelpasterz](https://github.com/pawelpasterz))
 - [#965](https://github.com/Flank/flank/pull/965) Fast fail when full-junit-result and legacy-junit-result. ([adamfilipow92](https://github.com/adamfilipow92))
+- [#970](https://github.com/Flank/flank/pull/970) Fixing Flood of snapshot  releases. ([piotradamczyk5](https://github.com/piotradamczyk5))
 -
 -
 
