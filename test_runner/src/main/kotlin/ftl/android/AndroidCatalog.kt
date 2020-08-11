@@ -2,7 +2,6 @@ package ftl.android
 
 import com.google.api.services.testing.model.AndroidDevice
 import com.google.api.services.testing.model.AndroidDeviceCatalog
-import com.google.api.services.testing.model.Locale
 import ftl.environment.android.asPrintableTable
 import ftl.environment.android.getDescription
 import ftl.environment.asPrintableTable
@@ -42,7 +41,7 @@ object AndroidCatalog {
 
     fun getLocaleDescription(projectId: String, locale: String) = getLocales(projectId).getLocaleDescription(locale)
 
-    private fun getLocales(projectId: String): List<Locale> = deviceCatalog(projectId).runtimeConfiguration.locales
+    private fun getLocales(projectId: String) = deviceCatalog(projectId).runtimeConfiguration.locales
 
     fun androidModelIds(projectId: String) =
         modelMap.getOrPut(projectId) { deviceCatalog(projectId).models.map { it.id } }
