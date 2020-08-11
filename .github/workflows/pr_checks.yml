@@ -18,9 +18,8 @@ jobs:
 
       - name: Pr details
         env: 
-          PR_NUMBER: github.event.number
-          user: $GITHUB_ACTOR
-          message: github.event.pull_request.title
+          PR_NUMBER: ${{ github.event.number }}
+          message: ${{ github.event.pull_request.title }}
         run: |
-          echo $PR_NUMBER $user $message
+          echo $PR_NUMBER $GITHUB_ACTOR $message
       
