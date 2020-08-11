@@ -1,0 +1,8 @@
+{
+    "name": "flank",
+    "platforms": ["Android", "iOS"],
+    "content": "README.md",
+    "pages" : ["faq.md", "contributing.md", "release_notes.md"],
+    "related": []
+  }
+  

@@ -1,4 +1,5 @@
 ## next (unreleased)
+- [#978](https://github.com/Flank/flank/pull/978) Firebaseopensource.com addition ([sloox](https://github.com/Sloox))
 - [#937](https://github.com/Flank/flank/pull/968) Improve error message on iOS when test or xctestrun-file not found ([sloox](https://github.com/Sloox))
 - [#952](https://github.com/Flank/flank/pull/952) Fix version printing on Flank release ([sloox](https://github.com/Sloox))
 - [#950](https://github.com/Flank/flank/pull/950) Fix crash when --legacy-junit-result set. ([adamfilipow92](https://github.com/adamfilipow92))
