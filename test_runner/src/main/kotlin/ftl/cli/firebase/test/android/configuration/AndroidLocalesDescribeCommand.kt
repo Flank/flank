@@ -29,7 +29,7 @@ class AndroidLocalesDescribeCommand : Runnable {
         paramLabel = "LOCALE",
         defaultValue = "",
         description = ["The locale to describe, found" +
-                " using \$ gcloud alpha firebase test android locales describe\n."]
+                " using \$ gcloud firebase test android locales list\n."]
     )
     var locale: String = ""
 
