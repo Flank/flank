@@ -27,7 +27,6 @@ class IosLocalesDescribeCommandTest {
 
     @Test(expected = FlankConfigurationError::class)
     fun `should throw if locale not specified`() {
-        systemOutRule.clearLog()
         CommandLine(IosLocalesDescribeCommand()).execute("--config=$simpleFlankPath")
     }
 

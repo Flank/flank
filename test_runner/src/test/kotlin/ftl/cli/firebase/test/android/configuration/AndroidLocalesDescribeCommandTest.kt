@@ -24,7 +24,6 @@ class AndroidLocalesDescribeCommandTest {
 
     @Test(expected = FlankConfigurationError::class)
     fun `should throw if locale not specified`() {
-        systemOutRule.clearLog()
         CommandLine(AndroidLocalesDescribeCommand()).execute()
     }
 
