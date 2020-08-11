@@ -15,7 +15,7 @@ class IosLocalesDescribeCommandTest {
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
 
     @Test
-    fun `should execute IosCatalog findLocale when run IosLocalesDescribeCommand`() {
+    fun `should execute IosCatalog getLocaleDescription when run IosLocalesDescribeCommand`() {
         mockkObject(IosCatalog) {
             CommandLine(IosLocalesDescribeCommand()).execute("pl")
             verify { IosCatalog.getLocaleDescription(any(), any()) }
