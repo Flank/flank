@@ -1,4 +1,8 @@
 ## next (unreleased)
+-
+-
+
+## v20.08.1
 - [#978](https://github.com/Flank/flank/pull/978) Firebaseopensource.com addition ([sloox](https://github.com/Sloox))
 - [#937](https://github.com/Flank/flank/pull/968) Improve error message on iOS when test or xctestrun-file not found ([sloox](https://github.com/Sloox))
 - [#952](https://github.com/Flank/flank/pull/952) Fix version printing on Flank release ([sloox](https://github.com/Sloox))
@@ -11,8 +15,6 @@
 - [#970](https://github.com/Flank/flank/pull/970) Fixing Flood of snapshot  releases. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#972](https://github.com/Flank/flank/pull/972) Fix printing release version. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#964](https://github.com/Flank/flank/pull/964) Implement network-profiles describe feature. ([pawelpasterz](https://github.com/pawelpasterz))
--
--
 
 ## v20.08.0
 - [#890](https://github.com/Flank/flank/pull/890) Convert bitrise ubuntu workflow into GitHub actions. ([piotradamczyk5](https://github.com/piotradamczyk5))
