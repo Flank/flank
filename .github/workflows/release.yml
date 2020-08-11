@@ -32,7 +32,10 @@ jobs:
             else 
               echo "::set-env name=RELEASE_TAG::flank_snapshot";
               echo "::set-env name=MVN_VERSION::flank_snapshot"; 
-          fi;     
+          fi;
+
+    - name: Store version variables to file
+      run: |
           echo "$GITHUB_SHA" > ./test_runner/src/main/resources/revision.txt
           echo "$RELEASE_TAG" > ./test_runner/src/main/resources/version.txt
     

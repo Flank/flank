@@ -7,6 +7,7 @@ import ftl.util.IncompatibleTestDimensionError
 fun IosArgs.validate() {
     assertXcodeSupported()
     assertDevicesSupported()
+    assertTestTypes()
     assertMaxTestShards()
 }
 private fun IosArgs.assertMaxTestShards() { this.maxTestShards
@@ -16,6 +17,10 @@ private fun IosArgs.assertMaxTestShards() { this.maxTestShards
     ) throw FlankConfigurationError(
         "max-test-shards must be >= ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.first} and <= ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}, or -1. But current is $maxTestShards"
     )
+}
+private fun IosArgs.assertTestTypes() {
+    if (xctestrunFile.isBlank() or xctestrunZip.isBlank())
+        throw FlankConfigurationError("Both of following options must be specified [test, xctestrun-file].")
 }
 private fun IosArgs.assertXcodeSupported() = when {
     xcodeVersion == null -> Unit
