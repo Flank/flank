@@ -28,7 +28,7 @@ Flank respects the same analytics opt out as gcloud CLI.
 
 `echo "DISABLED" > ~/.gsutil/analytics-uuid`
 
- ## More information
+## More information
 
 To see how Bugsnag is integrated within the Flank project please see the [Flank Bugsnag testcase](../test_runner/src/test/kotlin/ftl/util/FlankBugsnagInitHelperTest.kt) and [the actual Bugsnag implementation](../test_runner/src/main/kotlin/ftl/util/BugsnagInitHelper.kt)
 
