@@ -18,15 +18,15 @@ fun main() {
     withGlobalExceptionHandling {
         CommandLine(Main()).execute(
 //            "--debug",
-            "firebase", "test", "android",
-            "run",
+            "firebase", "test", "ios",
+            "versions", "describe", "11.2"
 //            "--dry",
 //            "--dump-shards",
 //            "--output-style=single",
 //            "--full-junit-result",
 //            "--legacy-junit-result",
-            "-c=src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type.yml",
-            "--project=$projectId"
+//            "-c=src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type.yml",
+//            "--project=$projectId"
 //            "--client-details=key1=value1,key2=value2"
         )
     }
