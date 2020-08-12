@@ -41,6 +41,6 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Update release notes for pull request \#${{ github.event.number }}
-          branch: test_pr_title #TODO master
+          #branch: test_pr_title #TODO master
           commit_options: '--no-verify --signoff'
           file_pattern: release_notes.md
