@@ -9,6 +9,11 @@ gcloud:
     - /sdcard/
   num-flaky-test-attempts: 3
   use-orchestrator: false
+  device:
+    - model: Nexus6P
+      version: 26
+    - model: greatqlte
+      version: 26
 flank:
   disable-sharding: false
   max-test-shards: 4

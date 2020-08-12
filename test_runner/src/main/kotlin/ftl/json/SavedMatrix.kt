@@ -9,10 +9,13 @@ import ftl.reports.api.createTestExecutionDataListAsync
 import ftl.reports.api.createTestSuitOverviewData
 import ftl.reports.api.data.TestSuiteOverviewData
 import ftl.reports.api.prepareForJUnitResult
+import ftl.reports.outcome.createMatrixOutcomeSummary
+import ftl.reports.outcome.fetchTestOutcomeContext
 import ftl.util.FlankGeneralError
 import ftl.util.MatrixState.ERROR
 import ftl.util.MatrixState.FINISHED
 import ftl.util.MatrixState.INVALID
+import ftl.util.StepOutcome
 import ftl.util.StepOutcome.failure
 import ftl.util.StepOutcome.flaky
 import ftl.util.StepOutcome.inconclusive
@@ -101,10 +104,15 @@ class SavedMatrix(matrix: TestMatrix) {
         updateFinishedMatrixData2(matrix)
     }
 
+    @Suppress("unused")
     private fun updateFinishedMatrixData2(matrix: TestMatrix) {
-        matrix.createMatrixOutcomeSummary()?.let { summary ->
-            outcome = summary.outcome
-            outcomeDetails = summary.testDetails
+        matrix.fetchTestOutcomeContext().createMatrixOutcomeSummary().let { (billableMinutes, summary) ->
+            summary.maxBy { StepOutcome.order.indexOf(it.outcome) }?.let {
+                outcome = it.outcome
+                outcomeDetails = it.testDetails
+            }
+            billableVirtualMinutes = billableMinutes.virtual
+            billablePhysicalMinutes = billableMinutes.physical
         }
     }
 

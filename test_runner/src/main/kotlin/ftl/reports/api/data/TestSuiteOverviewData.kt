@@ -1,13 +1,16 @@
 package ftl.reports.api.data
 
+import com.google.api.services.toolresults.model.TestSuiteOverview
+import ftl.reports.api.millis
+
 data class TestSuiteOverviewData(
-    val total: Int,
-    val errors: Int,
-    val failures: Int,
-    val flakes: Int,
-    val skipped: Int,
-    val elapsedTime: Double,
-    val overheadTime: Double
+    val total: Int = 0,
+    val errors: Int = 0,
+    val failures: Int = 0,
+    val flakes: Int = 0,
+    val skipped: Int = 0,
+    val elapsedTime: Double = 0.0,
+    val overheadTime: Double = 0.0
 ) {
     operator fun plus(nextData: TestSuiteOverviewData?) =
         if (nextData == null) this else copy(
@@ -19,4 +22,13 @@ data class TestSuiteOverviewData(
             elapsedTime = this.elapsedTime + nextData.elapsedTime,
             overheadTime = this.overheadTime + nextData.overheadTime
         )
+
+    operator fun plus(data: TestSuiteOverview) = copy(
+        total = total + (data.totalCount ?: 0),
+        errors = errors + (data.errorCount ?: 0),
+        failures = failures + (data.failureCount ?: 0),
+        flakes = flakes + (data.flakyCount ?: 0),
+        skipped = skipped + (data.skippedCount ?: 0),
+        elapsedTime = elapsedTime + data.elapsedTime.millis()
+    )
 }

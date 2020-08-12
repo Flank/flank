@@ -6,8 +6,8 @@ import com.google.api.services.toolresults.model.InconclusiveDetail
 import com.google.api.services.toolresults.model.Outcome
 import com.google.api.services.toolresults.model.SkippedDetail
 import com.google.api.services.toolresults.model.Step
-import ftl.reports.api.createTestSuitOverviewData
 import ftl.reports.api.data.TestSuiteOverviewData
+import ftl.reports.outcome.createTestSuitOverviewData
 import ftl.util.StepOutcome
 import ftl.util.StepOutcome.failure
 import ftl.util.StepOutcome.flaky
@@ -21,17 +21,17 @@ fun Environment.getDetails(): String {
     return environmentResult.outcome.getDetails(createTestSuitOverviewData())
 }
 
-fun List<Step>.getOutcome(): Outcome? = minBy {
+fun List<Step>.getDetails(): String = getOutcomeFromSteps()
+    ?.getDetails(createTestSuitOverviewData())
+    ?: "Unknown outcome"
+
+fun List<Step>.getOutcomeFromSteps(): Outcome? = maxBy {
     StepOutcome.order.indexOf(it.outcome?.summary)
 }?.outcome
 
-fun List<Step>.getDetails(): String {
-    val outcome = getOutcome()
-    return outcome?.getDetails(createTestSuitOverviewData()) ?: "Unknown outcome"
-}
-
 internal fun Outcome.getDetails(testSuiteOverviewData: TestSuiteOverviewData?): String = when (summary) {
-    success, flaky -> testSuiteOverviewData?.getSuccessOutcomeDetails(successDetail?.otherNativeCrash ?: false)
+    success, flaky -> testSuiteOverviewData
+        ?.getSuccessOutcomeDetails(successDetail?.otherNativeCrash ?: false)
         ?: "Unknown outcome"
     failure -> failureDetail.getFailureOutcomeDetails(testSuiteOverviewData)
     inconclusive -> inconclusiveDetail.formatOutcomeDetails()
