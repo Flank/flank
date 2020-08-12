@@ -29,4 +29,11 @@ jobs:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
           echo $PR_NUMBER $GITHUB_ACTOR $PR_TITLE
-          flankScripts ci releaseNotesUpdate --pr-number=$PR_NUMBER --git-user=$GITHUB_ACTOR --merged-pr-title=$PR_TITLE
+          flankScripts ci releaseNotesUpdate --pr-number=$PR_NUMBER --git-user=$GITHUB_ACTOR --merged-pr-title="$PR_TITLE"
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update release notes for pull request "#${{ github.event.number }}"
+          branch: test_pr_title #TODO master
+          commit_options: '--no-verify --signoff'
+          file_pattern: release_notes.md
