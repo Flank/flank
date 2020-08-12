@@ -1,10 +1,22 @@
 # Flank Analytics
 
-Flank makes use of various analytics, below contains a list of the analytics and how to enable/disable them from being sent to FTL.
+Flank makes use of Bugsnag as its only analytics platform. It uses Bugsnag as an error monitor and project stability tool.
 
-## Flank
+For more information about Bugsnag please visit its website [here](https://www.bugsnag.com/) and documentation [here](https://docs.bugsnag.com/)
 
- - BugSnag
-   - **Disable** - ADD "DISABLE" to the analytics_uuid for example: echo "DISABLED" > ~/.gsutil/analytics-uuid
-   - **Enable** - Remove "DISABLE" from the analytics_uuid file for example: echo "$(grep -v "DISABLED" ~/.gsutil/analytics-uuid)" > ~/.gsutil/analytics-uuid
-- 
+## Control
+
+It is possible to disable the Bugsnag analytics integration used by flank or to make use of custom Bugsnag key so that any analytics can be displayed for custom use.
+
+ - To disable, place the word ```DISABLED``` in the file ````~/.gsutil/analytics-uuid```` and Flank will no longer send any analytics data
+   - Or simply running the following code (make sure the file exists!) will disable: ```echo "DISABLED" > ~/.gsutil/analytics-uuid```
+
+ - To enable or reenable bugsnag simply remove the file ```~/.gsutil/analytics-uuid``` and the project will default to make use of the flanks Bugsnag key
+
+ - To make use of custom Bugsnag integration, place your bugsnag key/UUID in ```~/.gsutil/analytics-uuid``` and the flank project will make use of it instead of the default key.
+
+ ## More information
+
+ To see how Bugsnag integration is used within the project please see the Flank Bugsnag testcase [here](../test_runner/src/test/kotlin/ftl/util/FlankBugsnagInitHelperTest.kt)
+
+
