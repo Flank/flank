@@ -77,7 +77,7 @@ Client may be generated manually using `testing_v1.json` and the master branch o
 
 ## Analytics
 
-Flank makes use of various analytics. For more information on what they are and how to control them please see [analyitics.md](analytics.md)
+Flank makes use of Bugsnag for analytics. For more information about analytics and how to control them please see [analyitics.md](analytics.md)
 
 ## Mock Servers
 
