@@ -15,7 +15,6 @@ data class TestOutcomeContext(
     val testTimeout: Long
 )
 
-
 fun TestMatrix.fetchTestOutcomeContext() = getToolResultsIds().let { ids ->
     TestOutcomeContext(
         projectId = projectId,

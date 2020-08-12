@@ -18,7 +18,6 @@ internal fun Environment.createTestSuitOverviewData(): TestSuiteOverviewData =
         )
     }
 
-
 internal fun List<Step>.createTestSuitOverviewData(): TestSuiteOverviewData = this
     .also { require(isNotEmpty()) }
     .filter(Step::isPrimaryStep)
