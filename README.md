@@ -12,6 +12,8 @@ https://github.com/Flank/flank/releases/latest/download/flank.jar
 
 [<img src="./docs/bugsnag-logo-dark.png" width="50%" />](https://www.bugsnag.com/)
 
+See [docs/error_monitoring.md](./docs/error_monitoring.md) to disable Bugsnag error monitoring.
+
 ### Contributing
 
 - Install [Oracle JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
