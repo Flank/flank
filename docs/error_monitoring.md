@@ -1,4 +1,4 @@
-# Flank Analytics
+# Flank Error Monitoring
 
 Flank makes use of Bugsnag as an Error monitoring and project stability tool. 
 
@@ -6,7 +6,7 @@ For more information about Bugsnag please visit its website [here](https://www.b
 
 ## Control
 
-It is possible to disable the Bugsnag analytics integration used by Flank. Flank makes use of the same OPT-OUT approach as Gcloud CLI and can be disabled the same way.
+It is possible to disable the Bugsnag integration used by Flank. Flank makes use of the same OPT-OUT approach as Gcloud CLI and can be disabled the same way.
 
  - To disable, place ONLY the word ```DISABLED``` in the file ````~/.gsutil/analytics-uuid```` and Flank will no longer make use of Bugsnag integration.
    - It is recommended to backup the file ````~/.gsutil/analytics-uuid```` if it exists as it may contain your project specific UUID.
