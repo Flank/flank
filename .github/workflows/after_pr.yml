@@ -15,6 +15,13 @@ jobs:
       - uses: actions/checkout@v2
         #TODO uncomment with:
           #TODO uncomment  ref: master
+          
+      - uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Gradle Build flankScripts and add it to PATH
         run: |
