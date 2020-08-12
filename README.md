@@ -2,7 +2,7 @@
 
 Flank is a [massively parallel Android and iOS test runner](https://docs.google.com/presentation/d/1goan9cXpimSJsS3L60WjljnFA_seUyaWb2e-bezm084/edit#slide=id.p1) for [Firebase Test Lab](https://firebase.google.com/docs/test-lab/). 
 
-Flank is YAML compatible with the gcloud CLI and has extra features for performance and stability. Flank provides testing features to accelerate velocity and quality.
+Flank is YAML compatible with [the gcloud CLI](https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test). Flank provides extra features to accelerate velocity and increase quality.
 
 ## Download
 
@@ -23,14 +23,12 @@ https://github.com/Flank/flank/releases/latest/download/flank.jar
 
 ### Features
 
-Available now | 2019
- --           | --
-Test sharding | Client/Server refactor
-Cost reporting
-Stability testing
-HTML report
-JUnit XML report
-Smart Flank
+- Test sharding
+- Cost reporting
+- Stability testing
+- HTML report
+- JUnit XML report
+- Smart Flank
 
 ### Exit Codes
 
