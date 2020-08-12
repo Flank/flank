@@ -13,8 +13,8 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-        #TODO uncomment with:
-          #TODO uncomment  ref: master
+        with:
+          ref: ${{ github.head_ref }}
           
       - uses: actions/cache@v2
         with:
@@ -40,7 +40,7 @@ jobs:
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Update release notes for pull request "#${{ github.event.number }}"
+          commit_message: Update release notes for pull request \#${{ github.event.number }}
           branch: test_pr_title #TODO master
           commit_options: '--no-verify --signoff'
           file_pattern: release_notes.md
