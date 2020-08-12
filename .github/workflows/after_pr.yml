@@ -1,0 +1,43 @@
+name: "After Pull request"
+on:
+  pull_request:
+    branches: master
+    types:
+      - closed
+
+jobs:
+  afterPr:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: master
+          # update with provided token token: ${{ secrets.TOKEN_TO_PUSH }}
+          
+      - uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Gradle Build flankScripts and add it to PATH
+        run: |
+          ./flank-scripts/bash/buildFlankScripts.sh
+          echo "::add-path::./flank-scripts/bash"
+
+      - name: Append release note
+        if: github.event.pull_request.merged == true
+        env: 
+          PR_NUMBER: ${{ github.event.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          flankScripts ci releaseNotesUpdate --pr-number=$PR_NUMBER --git-user=$GITHUB_ACTOR --merged-pr-title="$PR_TITLE"
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        if: github.event.pull_request.merged == true
+        with:
+          commit_message: "Update release notes for pull request #${{ github.event.number }}"
+          branch: master
+          commit_options: '--no-verify --signoff'
+          file_pattern: release_notes.md
