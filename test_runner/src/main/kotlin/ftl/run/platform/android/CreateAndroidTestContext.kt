@@ -73,7 +73,16 @@ private fun InstrumentationTestContext.getFlankTestMethods(
 
 private fun List<String>.belong(method: TestMethod) = any { className -> method.testName.startsWith(className) }
 
-private fun TestMethod.toFlankTestMethod() = FlankTestMethod("class $testName", ignored = annotations.any { it.name == "org.junit.Ignore" })
+private fun TestMethod.toFlankTestMethod() = FlankTestMethod(
+    testName = "class $testName",
+    ignored = annotations.any { it.name in ignoredAnnotations }
+)
+
+private val ignoredAnnotations = listOf(
+    "org.junit.Ignore",
+    "androidx.test.filters.Suppress",
+    "android.support.test.filters.Suppress"
+)
 
 private fun String.toFlankTestMethod() = FlankTestMethod("class $this", ignored = false)
 

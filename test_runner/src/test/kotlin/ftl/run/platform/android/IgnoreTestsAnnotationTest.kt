@@ -11,8 +11,7 @@ class IgnoreTestsAnnotationTest {
     private val singleSuccessYaml = TestHelper.getPath("src/test/kotlin/ftl/fixtures/test_app_cases/flank-single-success.yml")
 
     @Test
-    fun `InstrumentationContext with @Ignore annotation should have items in ignoredTestCases`() {
-
+    fun `InstrumentationContext with @Ignore or @Suppress annotation should have items in ignoredTestCases`() {
         val testContext = runBlocking {
             AndroidArgs.load(singleSuccessYaml).createAndroidTestContexts()
         }.single() as InstrumentationTestContext
@@ -21,12 +20,21 @@ class IgnoreTestsAnnotationTest {
     }
 
     @Test
-    fun `InstrumentationContext with @Ignore annotation should't have ignoredTestCases in shards`() {
+    fun `InstrumentationContext with @Ignore annotation shouldn't have ignoredTestCases in shards`() {
+        val testContext = runBlocking {
+            AndroidArgs.load(singleSuccessYaml).createAndroidTestContexts()
+        }.single() as InstrumentationTestContext
+
+        Assert.assertFalse(testContext.shards.flatten().any { it.contains("#ignoredTestWithIgnore") })
+    }
+
+    @Test
+    fun `InstrumentationContext with @Supress annotation shouldn't have ignoredTestCases in shards`() {
 
         val testContext = runBlocking {
             AndroidArgs.load(singleSuccessYaml).createAndroidTestContexts()
         }.single() as InstrumentationTestContext
 
-        Assert.assertFalse(testContext.shards.flatten().any { it.contains("#ignoredTest") })
+        Assert.assertFalse(testContext.shards.flatten().any { it.contains("#ignoredTestWithSuppress") })
     }
 }
