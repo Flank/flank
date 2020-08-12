@@ -9,7 +9,7 @@ private fun List<IosVersion>.findVersion(versionId: String) = firstOrNull { it.i
 private fun IosVersion.prepareDescription() = """
     id: '$id'
     majorVersion: $majorVersion
-    minorVersion: $minorVersion.
+    minorVersion: $minorVersion
 """.trimIndent().addDataIfExists(SUPPORTED_VERSIONS_HEADER, supportedXcodeVersionIds).addDataIfExists(TAGS_HEADER, tags)
 
 private fun String.addDataIfExists(header: String, data: List<String?>?) =
