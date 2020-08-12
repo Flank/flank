@@ -8,13 +8,22 @@ fun CommonArgs.validate() {
     assertShardTime()
     assertRepeatTests()
     assertSmartFlankGcsPath()
+    assertOrientationCorrectness()
+}
+
+private fun CommonArgs.assertOrientationCorrectness() {
+    val orientationsList = listOf("portrait", "landscape", "default")
+    devices.map { it.orientation }.forEach { ori ->
+        if (orientationsList.filter { ori.toLowerCase().contentEquals(it) }.size != 1)
+            throw FlankConfigurationError("Orientation misspelled or incorrect, found $ori. Aborting.")
+    }
 }
 
 private fun CommonArgs.assertProjectId() {
     if (project.isEmpty()) throw FlankConfigurationError(
         "The project is not set. Define GOOGLE_CLOUD_PROJECT, set project in flank.yml\n" +
-                "or save service account credential to ${FtlConstants.defaultCredentialPath}\n" +
-                " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
+            "or save service account credential to ${FtlConstants.defaultCredentialPath}\n" +
+            " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
     )
 }
 
