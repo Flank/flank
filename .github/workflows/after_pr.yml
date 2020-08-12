@@ -13,8 +13,8 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: master
+        #TODO uncomment with:
+          #TODO uncomment  ref: master
 
       - name: Gradle Build flankScripts and add it to PATH
         run: |
