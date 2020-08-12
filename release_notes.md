@@ -1,5 +1,5 @@
 ## next (unreleased)
-- [#987](https://github.com/Flank/flank/pull/987) Analytics readme addition ([sloox](https://github.com/Sloox))
+- [#987](https://github.com/Flank/flank/pull/987) Flank Error Monitoring readme addition ([sloox](https://github.com/Sloox))
 -
 
 ## v20.08.1
