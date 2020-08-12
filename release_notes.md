@@ -1,6 +1,7 @@
 ## next (unreleased)
 -
 -
+- [#930](https://github.com/Flank/flank/pull/930) **New feature**: Auto generated release notes test[TEST PR FOR #814] [DO NOT MERGE]1 ([piotradamczyk5](https://github.com/piotradamczyk5))
 
 ## v20.08.1
 - [#978](https://github.com/Flank/flank/pull/978) Firebaseopensource.com addition ([sloox](https://github.com/Sloox))
