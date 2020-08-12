@@ -2,7 +2,7 @@ package ftl.environment
 
 import com.google.api.services.testing.model.Locale
 
-fun List<Locale>.getLocaleDescription(localeId: String) = findLocales(localeId)?.prepareDescription().orErrorMessage(localeId)
+fun List<Locale>.getLocaleDescription(localeId: String) = findLocales(localeId)?.prepareDescription().orErrorMessage(localeId).plus("\n")
 
 private fun List<Locale>.findLocales(localeId: String) = find { it.id == localeId }
 
@@ -12,7 +12,7 @@ private fun Locale.prepareDescription() = """
 """.trimIndent().addRegionIfExist(region).addTagsIfExists(this)
 
 private fun String.addRegionIfExist(region: String?) =
-    if (!region.isNullOrEmpty()) StringBuilder(this).appendln("\nregion: $region").toString()
+    if (!region.isNullOrEmpty()) StringBuilder(this).appendln("\nregion: $region").trim().toString()
     else this
 
 private fun String.addTagsIfExists(locale: Locale) =
@@ -21,6 +21,6 @@ private fun String.addTagsIfExists(locale: Locale) =
 
 private fun StringBuilder.appendTagsToList(locale: Locale) = apply {
     locale.tags.filterNotNull().forEach { tag -> appendln("- $tag") }
-}.toString().trim()
+}.trim().toString()
 
 private fun String?.orErrorMessage(locale: String) = this ?: "ERROR: '$locale' is not a valid locale"

@@ -14,7 +14,7 @@ class LocalesDescribeTest {
             tags = listOf("one", "second")
         })
 
-        val localesDescription = locales.getLocaleDescription("test")
+        val localesDescription = locales.getLocaleDescription("test").trim()
         val expected = """
                 id: test
                 name: name_test
@@ -32,7 +32,7 @@ class LocalesDescribeTest {
             name = "name_test"
         })
 
-        val localesDescription = locales.getLocaleDescription("test")
+        val localesDescription = locales.getLocaleDescription("test").trim()
         val expected = """
                 id: test
                 name: name_test
