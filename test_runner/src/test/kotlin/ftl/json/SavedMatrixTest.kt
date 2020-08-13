@@ -81,7 +81,9 @@ class SavedMatrixTest {
         val testMatrix = testMatrix()
         testMatrix.testMatrixId = matrixId
         testMatrix.state = matrixState
-        testMatrix.resultStorage = createResultsStorage()
+        testMatrix.resultStorage = createResultsStorage().apply {
+            toolResultsExecution.executionId = "-1"
+        }
         testMatrix.testExecutions = testExecutions
 
         val savedMatrix = SavedMatrix(testMatrix)
@@ -220,7 +222,9 @@ class SavedMatrixTest {
         val testMatrix = testMatrix().apply {
             testMatrixId = "123"
             state = FINISHED
-            resultStorage = createResultsStorage()
+            resultStorage = createResultsStorage().apply {
+                toolResultsExecution.executionId = "-1"
+            }
             testExecutions = executions
         }
 

@@ -1,9 +1,9 @@
 package ftl.json
 
-import com.google.api.services.testing.model.TestMatrix
 import com.google.common.truth.Truth.assertThat
 import ftl.json.SavedMatrixTest.Companion.createResultsStorage
 import ftl.json.SavedMatrixTest.Companion.createStepExecution
+import ftl.json.SavedMatrixTest.Companion.testMatrix
 import ftl.test.util.FlankTestRunner
 import ftl.util.MatrixState
 import org.junit.Test
@@ -25,8 +25,10 @@ class MatrixMapTest {
 
     private fun matrixForExecution(executionId: Int): SavedMatrix {
         return SavedMatrix(
-            matrix = TestMatrix()
-                .setResultStorage(createResultsStorage())
+            matrix = testMatrix()
+                .setResultStorage(createResultsStorage().apply {
+                    toolResultsExecution.executionId = executionId.toString()
+                })
                 .setState(MatrixState.FINISHED)
                 .setTestMatrixId("123")
                 .setTestExecutions(
