@@ -28,8 +28,8 @@ class DumpShardsKtTest {
       ]
     },
     "junit-ignored": [
-      "class com.example.test_app.InstrumentedTest#ignoredTest",
-      "class com.example.test_app.InstrumentedTest#ignoredTest2"
+      "class com.example.test_app.InstrumentedTest#ignoredTestWithIgnore",
+      "class com.example.test_app.InstrumentedTest#ignoredTestWithSuppress"
     ]
   },
   "matrix-1": {
@@ -84,8 +84,8 @@ class DumpShardsKtTest {
       ]
     },
     "junit-ignored": [
-      "class com.example.test_app.InstrumentedTest#ignoredTest",
-      "class com.example.test_app.InstrumentedTest#ignoredTest2"
+      "class com.example.test_app.InstrumentedTest#ignoredTestWithIgnore",
+      "class com.example.test_app.InstrumentedTest#ignoredTestWithSuppress"
     ]
   },
   "matrix-1": {
@@ -107,8 +107,8 @@ class DumpShardsKtTest {
       ]
     },
     "junit-ignored": [
-      "class com.example.test_app.InstrumentedTest#ignoredTest1",
-      "class com.example.test_app.InstrumentedTest#ignoredTest2",
+      "class com.example.test_app.InstrumentedTest#ignoredTestWithIgnore",
+      "class com.example.test_app.InstrumentedTest#ignoredTestWithSuppress",
       "class com.example.test_app.bar.BarInstrumentedTest#ignoredTestBar",
       "class com.example.test_app.foo.FooInstrumentedTest#ignoredTestFoo"
     ]
