@@ -2,6 +2,7 @@ package ftl.cli.firebase.test.ios.configuration
 
 import ftl.ios.IosCatalog
 import ftl.test.util.TestHelper
+import ftl.test.util.TestHelper.getThrowable
 import ftl.util.FlankConfigurationError
 import io.mockk.mockkObject
 import io.mockk.verify
@@ -32,9 +33,8 @@ class IosLocalesDescribeCommandTest {
 
     @Test
     fun `should return error message if locale not exists`() {
-        systemOutRule.clearLog()
-        CommandLine(IosLocalesDescribeCommand()).execute("test", "--config=$simpleFlankPath")
-        val result = systemOutRule.log.trim()
+        val exception = getThrowable { CommandLine(IosLocalesDescribeCommand()).execute("test", "--config=$simpleFlankPath") }
+        val result = exception.message
         assertEquals("ERROR: 'test' is not a valid locale", result)
     }
 }

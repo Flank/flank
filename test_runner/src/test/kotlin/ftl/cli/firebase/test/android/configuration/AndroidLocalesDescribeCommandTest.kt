@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.android.configuration
 
 import ftl.android.AndroidCatalog
+import ftl.test.util.TestHelper.getThrowable
 import ftl.util.FlankConfigurationError
 import io.mockk.mockkObject
 import io.mockk.verify
@@ -29,9 +30,7 @@ class AndroidLocalesDescribeCommandTest {
 
     @Test
     fun `should return error message if locale not exists`() {
-        systemOutRule.clearLog()
-        CommandLine(AndroidLocalesDescribeCommand()).execute("test")
-        val result = systemOutRule.log.trim()
-        assertEquals("ERROR: 'test' is not a valid locale", result)
+        val exception = getThrowable { CommandLine(AndroidLocalesDescribeCommand()).execute("test") }
+        assertEquals("ERROR: 'test' is not a valid locale", exception.message)
     }
 }

@@ -1,6 +1,7 @@
 package ftl.environment
 
 import com.google.api.services.testing.model.Locale
+import ftl.util.FlankGeneralError
 
 fun List<Locale>.getLocaleDescription(localeId: String) = findLocales(localeId)?.prepareDescription().orErrorMessage(localeId).plus("\n")
 
@@ -23,4 +24,4 @@ private fun StringBuilder.appendTagsToList(locale: Locale) = apply {
     locale.tags.filterNotNull().forEach { tag -> appendln("- $tag") }
 }.trim().toString()
 
-private fun String?.orErrorMessage(locale: String) = this ?: "ERROR: '$locale' is not a valid locale"
+private fun String?.orErrorMessage(locale: String) = this ?: throw FlankGeneralError("ERROR: '$locale' is not a valid locale")
