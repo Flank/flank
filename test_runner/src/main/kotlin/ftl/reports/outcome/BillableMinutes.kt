@@ -17,8 +17,8 @@ fun List<Step>.calculateAndroidBillableMinutes(
 ): BillableMinutes =
     groupByDeviceType(projectId).run {
         BillableMinutes(
-            virtual = getValue(true).sumBillableMinutes(timeoutValue),
-            physical = getValue(false).sumBillableMinutes(timeoutValue)
+            virtual = get(true)?.sumBillableMinutes(timeoutValue) ?: 0,
+            physical = get(false)?.sumBillableMinutes(timeoutValue) ?: 0
         )
     }
 
