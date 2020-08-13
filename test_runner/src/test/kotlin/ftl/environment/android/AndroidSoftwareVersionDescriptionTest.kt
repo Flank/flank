@@ -2,6 +2,7 @@ package ftl.environment.android
 
 import com.google.api.services.testing.model.AndroidVersion
 import com.google.api.services.testing.model.Date
+import ftl.test.util.TestHelper.getThrowable
 import org.junit.Assert
 import org.junit.Test
 
@@ -36,6 +37,7 @@ class AndroidSoftwareVersionDescriptionTest {
             """.trimIndent()
         Assert.assertEquals(expected, localesDescription)
     }
+
     @Test
     fun `should return software version without tag if no tags`() {
         val versions = listOf(AndroidVersion().apply {
@@ -68,8 +70,8 @@ class AndroidSoftwareVersionDescriptionTest {
     fun `should return error message if version not found`() {
         val versions = listOf<AndroidVersion>()
         val versionName = "test"
-        val localesDescription = versions.getDescription(versionName)
+        val localesDescription = getThrowable { versions.getDescription(versionName) }
         val expected = "ERROR: '$versionName' is not a valid OS version"
-        Assert.assertEquals(expected, localesDescription)
+        Assert.assertEquals(expected, localesDescription.message)
     }
 }

@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.ios.versions
 
 import ftl.ios.IosCatalog
+import ftl.test.util.TestHelper.getThrowable
 import ftl.util.FlankConfigurationError
 import io.mockk.mockkObject
 import io.mockk.verify
@@ -29,9 +30,7 @@ class IosVersionsDescribeCommandTest {
 
     @Test
     fun `should return error message if version not exists`() {
-        systemOutRule.clearLog()
-        CommandLine(IosVersionsDescribeCommand()).execute("test")
-        val result = systemOutRule.log.trim()
-        assertEquals("ERROR: 'test' is not a valid OS version", result)
+        val exception = getThrowable { CommandLine(IosVersionsDescribeCommand()).execute("test") }
+        assertEquals("ERROR: 'test' is not a valid OS version", exception.message)
     }
 }

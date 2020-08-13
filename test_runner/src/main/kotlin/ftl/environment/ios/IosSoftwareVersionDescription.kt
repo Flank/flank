@@ -1,6 +1,7 @@
 package ftl.environment.ios
 
 import com.google.api.services.testing.model.IosVersion
+import ftl.util.FlankGeneralError
 
 fun List<IosVersion>.getDescription(versionId: String) = findVersion(versionId)?.prepareDescription().orErrorMessage(versionId)
 
@@ -20,7 +21,7 @@ private fun StringBuilder.appendDataToList(data: List<String?>) = apply {
     data.filterNotNull().forEach { item -> appendln("- $item") }
 }.toString().trim()
 
-private fun String?.orErrorMessage(versionId: String) = this ?: "ERROR: '$versionId' is not a valid OS version"
+private fun String?.orErrorMessage(versionId: String) = this ?: throw FlankGeneralError("ERROR: '$versionId' is not a valid OS version")
 
 private const val TAGS_HEADER = "tags"
 private const val SUPPORTED_VERSIONS_HEADER = "supportedXcodeVersionIds"

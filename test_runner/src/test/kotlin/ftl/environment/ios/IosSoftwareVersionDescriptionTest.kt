@@ -1,6 +1,7 @@
 package ftl.environment.ios
 
 import com.google.api.services.testing.model.IosVersion
+import ftl.test.util.TestHelper.getThrowable
 import org.junit.Assert
 import org.junit.Test
 
@@ -65,8 +66,8 @@ class IosSoftwareVersionDescriptionTest {
     fun `should return error message if version not found`() {
         val versions = listOf<IosVersion>()
         val versionName = "test"
-        val localesDescription = versions.getDescription(versionName)
+        val localesDescription = getThrowable { versions.getDescription(versionName) }
         val expected = "ERROR: '$versionName' is not a valid OS version"
-        Assert.assertEquals(expected, localesDescription)
+        Assert.assertEquals(expected, localesDescription.message)
     }
 }

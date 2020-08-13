@@ -1,6 +1,7 @@
 package ftl.environment.android
 
 import com.google.api.services.testing.model.AndroidVersion
+import ftl.util.FlankGeneralError
 
 fun List<AndroidVersion>.getDescription(versionId: String) = findVersion(versionId)?.prepareDescription().orErrorMessage(versionId)
 
@@ -26,6 +27,6 @@ private fun StringBuilder.appendDataToList(data: List<String?>) = apply {
     data.filterNotNull().forEach { item -> appendln("- $item") }
 }.toString().trim()
 
-private fun String?.orErrorMessage(versionId: String) = this ?: "ERROR: '$versionId' is not a valid OS version"
+private fun String?.orErrorMessage(versionId: String) = this ?: throw FlankGeneralError("ERROR: '$versionId' is not a valid OS version")
 
 private const val TAGS_HEADER = "tags"
