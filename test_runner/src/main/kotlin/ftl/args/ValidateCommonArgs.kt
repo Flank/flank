@@ -13,10 +13,15 @@ fun CommonArgs.validate() {
 
 private fun CommonArgs.assertOrientationCorrectness() {
     val orientationsList = listOf("portrait", "landscape", "default")
-    devices.map { it.orientation }.forEach { ori ->
-        if (orientationsList.filter { ori.toLowerCase().contentEquals(it) }.size != 1)
-            throw FlankConfigurationError("Orientation misspelled or incorrect, found $ori. Aborting.")
+    val mispeltOrientations = mutableListOf<String>()
+    devices.map { it.orientation }.forEach {
+        if (it !in orientationsList)
+            mispeltOrientations.add(it)
     }
+    if (mispeltOrientations.isNotEmpty())
+        throw FlankConfigurationError(
+            "Orientation misspelled or incorrect, found ${mispeltOrientations.joinToString()}. Aborting."
+        )
 }
 
 private fun CommonArgs.assertProjectId() {
