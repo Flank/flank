@@ -5,7 +5,6 @@ import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.isWindows
 import ftl.test.util.FlankTestRunner
-import org.junit.Assert.fail
 import org.junit.Assume.assumeFalse
 import org.junit.Rule
 import org.junit.Test
@@ -37,16 +36,12 @@ class IosRunCommandTest {
     fun iosRunCommandRuns() {
         assumeFalse(isWindows)
 
-        try {
-            val runCmd = IosRunCommand()
-            runCmd.configPath = "./src/test/kotlin/ftl/fixtures/ios.yml"
-            runCmd.run()
+        val runCmd = IosRunCommand()
+        runCmd.configPath = "./src/test/kotlin/ftl/fixtures/ios.yml"
+        runCmd.run()
 
-            val output = systemOutRule.log
-            assertThat(output).contains("1 / 1 (100.00%)")
-        } catch (_: Throwable) {
-            fail()
-        }
+        val output = systemOutRule.log
+        assertThat(output).contains("1 / 1 (100.00%)")
     }
 
     @Test

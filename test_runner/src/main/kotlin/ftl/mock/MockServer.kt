@@ -10,6 +10,7 @@ import com.google.api.services.testing.model.ResultStorage
 import com.google.api.services.testing.model.TestEnvironmentCatalog
 import com.google.api.services.testing.model.TestExecution
 import com.google.api.services.testing.model.TestMatrix
+import com.google.api.services.testing.model.ToolResultsExecution
 import com.google.api.services.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.model.Duration
 import com.google.api.services.toolresults.model.EnvironmentDimensionValueEntry
@@ -174,7 +175,12 @@ object MockServer {
 
                     val matrixId = matrixIdCounter.incrementAndGet().toString()
 
-                    val resultStorage = ResultStorage()
+                    val resultStorage = ResultStorage().apply {
+                        toolResultsExecution = ToolResultsExecution()
+                            .setProjectId("1")
+                            .setHistoryId("2")
+                            .setExecutionId("1")
+                    }
                     resultStorage.googleCloudStorage = GoogleCloudStorage()
                     resultStorage.googleCloudStorage.gcsPath = matrixId
 
