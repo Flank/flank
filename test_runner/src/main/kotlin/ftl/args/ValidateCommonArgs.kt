@@ -1,5 +1,6 @@
 package ftl.args
 
+import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.util.FlankConfigurationError
 
@@ -11,18 +12,13 @@ fun CommonArgs.validate() {
     assertOrientationCorrectness()
 }
 
-private fun CommonArgs.assertOrientationCorrectness() {
-    val orientationsList = listOf("portrait", "landscape", "default")
-    val mispeltOrientations = mutableListOf<String>()
-    devices.map { it.orientation }.forEach {
-        if (it !in orientationsList)
-            mispeltOrientations.add(it)
-    }
-    if (mispeltOrientations.isNotEmpty())
-        throw FlankConfigurationError(
-            "Orientation misspelled or incorrect, found ${mispeltOrientations.joinToString()}. Aborting."
-        )
-}
+private fun CommonArgs.assertOrientationCorrectness() = devices.deviceWithMisspelledOrientation(listOf("portrait", "landscape", "default")).throwIfAnyMisspelled()
+
+private fun List<Device>.deviceWithMisspelledOrientation(availableOrientations: List<String>) = filter { it.orientation !in availableOrientations }.map { it.orientation }
+
+private fun List<String>.throwIfAnyMisspelled() =
+        if (isNotEmpty()) throw FlankConfigurationError("Orientation misspelled or incorrect, found ${joinToString()}. Aborting.")
+        else Unit
 
 private fun CommonArgs.assertProjectId() {
     if (project.isEmpty()) throw FlankConfigurationError(
