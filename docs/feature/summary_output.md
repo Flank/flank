@@ -36,7 +36,24 @@ Numbers are representing `OUTCOME` column, points are representing `TEST DETAILS
 
 ## Implementation details
 
-### Outcome calculation
+### Outcome calculation v2 [#919](https://github.com/Flank/flank/pull/919)
+Because of [rate limit issue](../bugs/891-rate-limit-exceeded.md), the new implementation of test details calculation is 
+based on gcloud's [CreateMatrixOutcomeSummaryUsingEnvironments](https://github.com/Flank/gcloud_cli/blob/3c30bb59d18fa68c5a6df7d115786bc23f5fc224/google-cloud-sdk/lib/googlecloudsdk/api_lib/firebase/test/results_summary.py#L161).
+which was already described in `Outcome calculation v1` section.
+
+* The activity diagram for [gcloud](../gcloud/firebase/test/results_summary.puml)
+* The activity diagram for [flank](../gcloud/firebase/test/results_summary.puml)
+
+The main difference between `gcloud` and `flank` is that the `flank` is calculating `billable minutes` in addition. 
+The `billable` minutes are able to calculate from list of `steps`, 
+so while `gcloud` is fetch list of `steps` only when `environments` are corrupted, the flank always required at least `steps`.
+
+#### Drawbacks
+* Calculating outcome details basing on `steps` may not return info about flaky tests.
+But it is possible to reuse data that is collecting for `JUnitReport` as alternative way for generating outcome details. It should be delivered in dedicated pull request.
+* Flank is not displaying info about the environment in outcome table this problem is described in [#983](https://github.com/Flank/flank/issues/983) issue.
+
+### Outcome calculation v1
 It should be mentioned there are some crucial differences how flank and gcloud calculates outcome value.
 
 Gcloud is using following API calls

@@ -1,0 +1,23 @@
+@startuml
+start
+:collect entry data based on TestMatrix;
+fork
+    :fetch all environments from FTL;
+fork again
+    :fetch all steps from FTL;
+end fork
+fork
+    :calculate billable minutes from steps;
+fork again
+    :calculate outcome summary (based on gcloud);
+    if (environments are correct) then (yes)
+        :calculate outcome using environments;
+    elseif (steps are not empty) then (yes)
+        :calculate outcome using steps;
+    else (no)
+        :return no outcome details;
+    endif
+end fork
+:updateSavedMatrix;
+end
+@enduml
