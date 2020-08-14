@@ -3,6 +3,7 @@ package ftl.args
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.util.FlankConfigurationError
+import ftl.util.FlankGeneralError
 
 fun CommonArgs.validate() {
     assertProjectId()
@@ -12,19 +13,21 @@ fun CommonArgs.validate() {
     assertOrientationCorrectness()
 }
 
-private fun CommonArgs.assertOrientationCorrectness() = devices.deviceWithMisspelledOrientation(listOf("portrait", "landscape", "default")).throwIfAnyMisspelled()
+private fun List<Device>.devicesWithMispeltOrientations(availableOrientations: List<String>) =
+    filter { it.orientation !in availableOrientations }
 
-private fun List<Device>.deviceWithMisspelledOrientation(availableOrientations: List<String>) = filter { it.orientation !in availableOrientations }.map { it.orientation }
+private fun CommonArgs.assertOrientationCorrectness() =
+    devices.devicesWithMispeltOrientations(listOf("portrait", "landscape", "default")).throwIfAnyMisspelt()
 
-private fun List<String>.throwIfAnyMisspelled() =
-        if (isNotEmpty()) throw FlankConfigurationError("Orientation misspelled or incorrect, found ${joinToString()}. Aborting.")
-        else Unit
+private fun List<Device>.throwIfAnyMisspelt() =
+    if (isNotEmpty()) throw FlankGeneralError("Orientation misspelled or incorrect, found ${joinToString(separator = "\n")} \nAborting.")
+    else Unit
 
 private fun CommonArgs.assertProjectId() {
     if (project.isEmpty()) throw FlankConfigurationError(
         "The project is not set. Define GOOGLE_CLOUD_PROJECT, set project in flank.yml\n" +
-            "or save service account credential to ${FtlConstants.defaultCredentialPath}\n" +
-            " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
+                "or save service account credential to ${FtlConstants.defaultCredentialPath}\n" +
+                " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
     )
 }
 
