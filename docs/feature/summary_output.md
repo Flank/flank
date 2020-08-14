@@ -42,9 +42,14 @@ based on gcloud's [CreateMatrixOutcomeSummaryUsingEnvironments](https://github.c
 which was already described in `Outcome calculation v1` section.
 
 * The activity diagram for [gcloud](../gcloud/firebase/test/results_summary.puml)
+
+![results_summary.puml](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/gcloud/firebase/test/results_summary.puml)
+
 * The activity diagram for [flank](../gcloud/firebase/test/results_summary.puml)
 
-The main difference between `gcloud` and `flank` is that the `flank` is calculating `billable minutes` in addition. 
+![outcome_details_billable_minutes_activity.puml](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/1fdd4b78a7c6db5cc31165d75816e6957aea86c1/docs/feature/outcome_details_billable_minutes_activity.puml)
+
+Both diagrams are showing slightly different aspects of flow but the main difference between `gcloud` and `flank` is that the `flank` is calculating `billable minutes` in addition.
 The `billable` minutes are able to calculate from list of `steps`, 
 so while `gcloud` is fetch list of `steps` only when `environments` are corrupted, the flank always required at least `steps`.
 
