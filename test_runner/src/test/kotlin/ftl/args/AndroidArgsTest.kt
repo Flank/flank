@@ -1634,6 +1634,48 @@ AndroidArgs
         """.trimIndent()
         AndroidArgs.load(yaml)
     }
+
+    @Test
+    fun `proceed on correct orientation`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: default
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: landscape
+        flank:
+          max-test-shards: -1
+        """.trimIndent()
+        AndroidArgs.load(yaml)
+    }
+
+    @Test(expected = FlankGeneralError::class)
+    fun `fail fast on orientation misspell`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: blueline
+              version: 28
+              locale: en
+              orientation: poortrait
+        flank:
+          max-test-shards: -1
+        """.trimIndent()
+        AndroidArgs.load(yaml)
+    }
 }
 
 private fun AndroidArgs.Companion.load(yamlData: String, cli: AndroidRunCommand? = null): AndroidArgs =

@@ -57,11 +57,11 @@ class IosArgsTest {
           - model: iphone8
             version: 11.2
             locale: c
-            orientation: d
+            orientation: default
           - model: iphone8
             version: 11.2
             locale: c
-            orientation: d
+            orientation: default
           num-flaky-test-attempts: 4
 
         flank:
@@ -159,7 +159,7 @@ flank:
             // IosGcloudYml
             assert(xctestrunZip, testAbsolutePath)
             assert(xctestrunFile, xctestrunFileAbsolutePath)
-            val device = Device("iphone8", "11.2", "c", "d")
+            val device = Device("iphone8", "11.2", "c", "default")
             assert(xcodeVersion ?: "", "9.2")
             assert(devices, listOf(device, device))
 
@@ -206,11 +206,11 @@ IosArgs
         - model: iphone8
           version: 11.2
           locale: c
-          orientation: d
+          orientation: default
         - model: iphone8
           version: 11.2
           locale: c
-          orientation: d
+          orientation: default
       num-flaky-test-attempts: 4
 
     flank:
