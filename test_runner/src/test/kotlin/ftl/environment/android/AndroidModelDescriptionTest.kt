@@ -1,8 +1,6 @@
 package ftl.environment.android
 
 import com.google.api.services.testing.model.AndroidModel
-import com.google.api.services.testing.model.AndroidVersion
-import com.google.api.services.testing.model.Date
 import ftl.test.util.TestHelper.getThrowable
 import ftl.util.FlankGeneralError
 import org.junit.Assert

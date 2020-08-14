@@ -1,7 +1,6 @@
 package ftl.environment.android
 
 import com.google.api.services.testing.model.AndroidModel
-import com.google.api.services.testing.model.IosModel
 import ftl.util.FlankGeneralError
 
 fun List<AndroidModel>.getDescription(modelId: String) = findModel(modelId)?.prepareDescription().orErrorMessage(modelId)

@@ -1,9 +1,6 @@
 package ftl.ios
 
 import com.google.api.services.testing.model.IosDeviceCatalog
-import ftl.android.AndroidCatalog
-import ftl.environment.android.asPrintableTable
-import ftl.environment.android.getDescription
 import ftl.environment.asPrintableTable
 import ftl.environment.common.asPrintableTable
 import ftl.environment.ios.asPrintableTable
