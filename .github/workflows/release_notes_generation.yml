@@ -30,7 +30,7 @@ jobs:
       with:
         commit-message: "[Automatic PR] Generate release notes"
         signoff: false
-        branch: release/${{ env.NEXT_RELEASE_TAG }}
+        branch: 'release/${{ env.NEXT_RELEASE_TAG }}'
         title: 'chore: release notes for ${{ env.NEXT_RELEASE_TAG }}'
         body: "Auto generated release notes for `${{ env.NEXT_RELEASE_TAG }}` by @${{ github.actor }}"
         labels: |

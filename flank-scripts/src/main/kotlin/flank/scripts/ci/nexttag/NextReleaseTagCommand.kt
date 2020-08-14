@@ -8,7 +8,7 @@ import flank.scripts.github.getLatestReleaseTag
 import kotlin.system.exitProcess
 import kotlinx.coroutines.runBlocking
 
-class NextReleaseTagCommand : CliktCommand(help = "Set next release tag variable", name = "nextReleaseTag") {
+class NextReleaseTagCommand : CliktCommand(help = "Print next release tag", name = "nextReleaseTag") {
 
     private val token by option(help = "Git Token").required()
 
