@@ -6,7 +6,7 @@ import ftl.reports.api.data.TestSuiteOverviewData
 import ftl.reports.api.millis
 
 internal fun Environment.createTestSuitOverviewData(): TestSuiteOverviewData =
-    environmentResult.testSuiteOverviews.fold(TestSuiteOverviewData()) { acc, overview ->
+    environmentResult?.testSuiteOverviews?.fold(TestSuiteOverviewData()) { acc, overview ->
         acc.copy(
             total = acc.total + (overview.totalCount ?: 0),
             failures = acc.failures + (overview.failureCount ?: 0),
@@ -15,7 +15,7 @@ internal fun Environment.createTestSuitOverviewData(): TestSuiteOverviewData =
             errors = acc.errors + (overview.errorCount ?: 0),
             elapsedTime = acc.elapsedTime + overview.elapsedTime.millis()
         )
-    }
+    } ?: TestSuiteOverviewData()
 
 internal fun List<Step>.createTestSuitOverviewData(): TestSuiteOverviewData = this
     .also { require(isNotEmpty()) }
@@ -29,7 +29,7 @@ private fun Step.isPrimaryStep() =
     multiStep?.primaryStep?.rollUp != null || multiStep == null
 
 private fun List<Step>.mapToTestSuiteOverviews() = mapNotNull {
-    it.testExecutionStep.testSuiteOverviews.firstOrNull()?.let { overview -> TestSuiteOverviewData() + overview }
+    it.testExecutionStep?.testSuiteOverviews?.firstOrNull()?.let { overview -> TestSuiteOverviewData() + overview }
 }
 
 internal fun List<TestSuiteOverviewData>.foldTestSuiteOverviewData() =
