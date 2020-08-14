@@ -11,7 +11,7 @@ import picocli.CommandLine
     optionListHeading = "%n@|bold,underline Options:|@%n",
     header = ["Information about available software versions"],
     description = ["Information about available software versions. For example prints list of available software versions"],
-    subcommands = [AndroidVersionsListCommand::class],
+    subcommands = [AndroidVersionsListCommand::class, AndroidVersionsDescribeCommand::class],
     usageHelpAutoWidth = true
 )
 class AndroidVersionsCommand : Runnable {

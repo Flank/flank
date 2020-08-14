@@ -5,6 +5,7 @@ import ftl.environment.android.asPrintableTable
 import ftl.environment.asPrintableTable
 import ftl.environment.common.asPrintableTable
 import ftl.environment.ios.asPrintableTable
+import ftl.environment.ios.getDescription
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
 
@@ -19,7 +20,11 @@ object IosCatalog {
 
     fun devicesCatalogAsTable(projectId: String) = iosDeviceCatalog(projectId).models.asPrintableTable()
 
-    fun softwareVersionsAsTable(projectId: String) = iosDeviceCatalog(projectId).versions.asPrintableTable()
+    fun softwareVersionsAsTable(projectId: String) = getVersionsList(projectId).asPrintableTable()
+
+    fun describeSoftwareVersion(projectId: String, versionId: String) = getVersionsList(projectId).getDescription(versionId)
+
+    private fun getVersionsList(projectId: String) = iosDeviceCatalog(projectId).versions
 
     fun localesAsTable(projectId: String) = iosDeviceCatalog(projectId).runtimeConfiguration.locales.asPrintableTable()
 

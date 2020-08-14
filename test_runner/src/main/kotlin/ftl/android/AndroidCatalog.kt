@@ -3,6 +3,7 @@ package ftl.android
 import com.google.api.services.testing.model.AndroidDevice
 import com.google.api.services.testing.model.AndroidDeviceCatalog
 import ftl.environment.android.asPrintableTable
+import ftl.environment.android.getDescription
 import ftl.environment.asPrintableTable
 import ftl.environment.common.asPrintableTable
 import ftl.gc.GcTesting
@@ -27,7 +28,11 @@ object AndroidCatalog {
 
     fun devicesCatalogAsTable(projectId: String) = deviceCatalog(projectId).models.asPrintableTable()
 
-    fun supportedVersionsAsTable(projectId: String) = deviceCatalog(projectId).versions.asPrintableTable()
+    fun supportedVersionsAsTable(projectId: String) = getVersionsList(projectId).asPrintableTable()
+
+    fun describeSoftwareVersion(projectId: String, versionId: String) = getVersionsList(projectId).getDescription(versionId)
+
+    private fun getVersionsList(projectId: String) = deviceCatalog(projectId).versions
 
     fun supportedOrientationsAsTable(projectId: String) = deviceCatalog(projectId).runtimeConfiguration.orientations.asPrintableTable()
 
