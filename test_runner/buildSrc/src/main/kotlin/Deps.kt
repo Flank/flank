@@ -5,8 +5,8 @@ object Versions {
     // https://github.com/3breadt/dd-plist/releases
     const val DD_PLIST = "1.23"
 
-    // https://github.com/arturbosch/detekt/releases
-    const val DETEKT = "1.1.0"
+    // https://github.com/detekt/detekt
+    const val DETEKT = "1.11.0"
 
     // https://github.com/bintray/gradle-bintray-plugin/releases
     const val BINTRAY = "1.8.5"
