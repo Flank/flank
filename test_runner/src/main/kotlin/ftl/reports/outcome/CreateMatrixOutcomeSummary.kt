@@ -2,19 +2,14 @@ package ftl.reports.outcome
 
 import com.google.api.services.toolresults.model.Environment
 
-fun TestOutcomeContext.createMatrixOutcomeSummary(): Pair<BillableMinutes, List<TestOutcome>> =
+fun TestOutcomeContext.createMatrixOutcomeSummary(): Pair<BillableMinutes, TestOutcome> =
     steps.calculateAndroidBillableMinutes(projectId, testTimeout) to when {
         environments.isNotEmpty() && environments.hasNoOutcome().not() ->
             environments.createMatrixOutcomeSummaryUsingEnvironments(matrixId)
 
-        steps.isNotEmpty() -> {
-            println("WARNING: Environment has no results, something went wrong. Displaying step outcomes instead.")
-            steps.createMatrixOutcomeSummaryUsingSteps(matrixId)
-        }
-
         else -> {
-            println("No test results found, something went wrong. Try re-running the tests.")
-            emptyList()
+            if (steps.isEmpty()) println("No test results found, something went wrong. Try re-running the tests.")
+            steps.createMatrixOutcomeSummaryUsingSteps(matrixId)
         }
     }
 

@@ -107,10 +107,8 @@ class SavedMatrix(matrix: TestMatrix) {
     @Suppress("unused")
     private fun updateFinishedMatrixData2(matrix: TestMatrix) {
         matrix.fetchTestOutcomeContext().createMatrixOutcomeSummary().let { (billableMinutes, summary) ->
-            summary.maxBy { StepOutcome.order.indexOf(it.outcome) }?.let {
-                outcome = it.outcome
-                outcomeDetails = it.testDetails
-            }
+            outcome = summary.outcome
+            outcomeDetails = summary.testDetails
             billableVirtualMinutes = billableMinutes.virtual
             billablePhysicalMinutes = billableMinutes.physical
         }

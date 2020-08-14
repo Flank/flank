@@ -2,7 +2,6 @@ package ftl.reports.outcome
 
 import com.google.api.services.toolresults.model.Environment
 import com.google.api.services.toolresults.model.Step
-import com.google.api.services.toolresults.model.TestSuiteOverview
 import ftl.reports.api.data.TestSuiteOverviewData
 import ftl.reports.api.millis
 
@@ -24,14 +23,14 @@ internal fun List<Step>.createTestSuitOverviewData(): TestSuiteOverviewData = th
     .groupBy(Step::deviceModel)
     .values
     .map { it.mapToTestSuiteOverviews().foldTestSuiteOverviewData() }
-    .maxBy { it.flakes + it.errors + it.failures }!!
+    .fold(TestSuiteOverviewData()) { acc, data -> acc + data } // Fixme https://github.com/Flank/flank/issues/983
 
 private fun Step.isPrimaryStep() =
     multiStep?.primaryStep?.rollUp != null || multiStep == null
 
 private fun List<Step>.mapToTestSuiteOverviews() = mapNotNull {
-    it.testExecutionStep.testSuiteOverviews.firstOrNull()
+    it.testExecutionStep.testSuiteOverviews.firstOrNull()?.let { overview -> TestSuiteOverviewData() + overview }
 }
 
-private fun List<TestSuiteOverview>.foldTestSuiteOverviewData() =
-    fold(TestSuiteOverviewData()) { acc, overview -> acc + overview }
+internal fun List<TestSuiteOverviewData>.foldTestSuiteOverviewData() =
+    fold(TestSuiteOverviewData()) { acc, data -> acc + data }
