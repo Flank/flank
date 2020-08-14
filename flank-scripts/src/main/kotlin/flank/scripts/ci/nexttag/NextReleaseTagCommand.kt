@@ -3,7 +3,9 @@ package flank.scripts.ci.nexttag
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
-import flank.scripts.ci.getLatestReleaseTag
+import com.github.kittinunf.result.Result
+import flank.scripts.github.getLatestReleaseTag
+import kotlin.system.exitProcess
 import kotlinx.coroutines.runBlocking
 
 class NextReleaseTagCommand : CliktCommand(help = "Set next release tag variable", name = "nextReleaseTag") {
@@ -18,5 +20,11 @@ class NextReleaseTagCommand : CliktCommand(help = "Set next release tag variable
 }
 
 private suspend fun getNextReleaseTagCommand(token: String) {
-    println(generateNextReleaseTag(getLatestReleaseTag(token)))
+    when (val result = getLatestReleaseTag(token)) {
+        is Result.Success -> println(generateNextReleaseTag(result.value.tag))
+        is Result.Failure -> {
+            println(result.error)
+            exitProcess(1)
+        }
+    }
 }

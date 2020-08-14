@@ -1,5 +1,6 @@
 package flank.scripts.ci.releasenotes
 
+import flank.scripts.utils.markdownH2
 import java.io.File
 
 fun File.appendReleaseNotes(messages: List<String>, releaseTag: String) {
@@ -12,7 +13,7 @@ fun File.appendReleaseNotes(messages: List<String>, releaseTag: String) {
 private fun File.appendToReleaseNotes(messages: List<String>, releaseTag: String) {
     val currentFileLines = readLines()
     val newLines = mutableListOf<String>().apply {
-        add(tagHeaderFormat(releaseTag))
+        add(releaseTag.markdownH2())
         addAll(messages)
         add("")
     }
@@ -21,5 +22,3 @@ private fun File.appendToReleaseNotes(messages: List<String>, releaseTag: String
 }
 
 private fun String.withNewLineAtTheEnd() = plus(System.lineSeparator())
-
-private val tagHeaderFormat: (String) -> String = { tag -> "## $tag" }

@@ -4,8 +4,9 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
-import flank.scripts.ci.getLatestReleaseTag
+import com.github.kittinunf.result.success
 import flank.scripts.ci.nexttag.generateNextReleaseTag
+import flank.scripts.github.getLatestReleaseTag
 import java.io.File
 import kotlinx.coroutines.runBlocking
 
@@ -17,11 +18,12 @@ class GenerateReleaseNotesCommand :
 
     override fun run() {
         runBlocking {
-            val latestReleaseTag = getLatestReleaseTag(token)
-            File(releaseNotesFile).appendReleaseNotes(
-                messages = generateReleaseNotes(latestReleaseTag, token),
-                releaseTag = generateNextReleaseTag(latestReleaseTag)
-            )
+            getLatestReleaseTag(token).success {
+                File(releaseNotesFile).appendReleaseNotes(
+                    messages = generateReleaseNotes(it.tag, token),
+                    releaseTag = generateNextReleaseTag(it.tag)
+                )
+            }
         }
     }
 }

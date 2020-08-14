@@ -32,8 +32,7 @@ jobs:
         signoff: false
         branch: release/${{ env.NEXT_RELEASE_TAG }}
         title: 'chore: release notes for ${{ env.NEXT_RELEASE_TAG }}'
-        body: |
-          Auto generated release notes for ${{ env.NEXT_RELEASE_TAG }} by ${{ env.GITHUB_ACTOR }}
+        body: "Auto generated release notes for `${{ env.NEXT_RELEASE_TAG }}` by @${{ github.actor }}"
         labels: |
           automated pr
           release

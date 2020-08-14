@@ -3,7 +3,7 @@ package flank.scripts.exceptions
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.isClientError
 import com.github.kittinunf.result.Result
-import flank.scripts.release.hub.GitHubErrorResponse
+import flank.scripts.github.GitHubErrorResponse
 import flank.scripts.release.updatebugsnag.BugSnagResponse
 import flank.scripts.utils.toObject
 
