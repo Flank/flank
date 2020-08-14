@@ -1,4 +1,5 @@
 ## next (unreleased)
+- [#992](https://github.com/Flank/flank/pull/992) Update google api. ([jan-gogo](https://github.com/jan-gogo))
 - [#987](https://github.com/Flank/flank/pull/987) Flank Error Monitoring readme addition ([sloox](https://github.com/Sloox))
 - [#990](https://github.com/Flank/flank/pull/990) Fix: exclusion of @Suppress test. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#988](https://github.com/Flank/flank/pull/988) Add versions description command for ios and android. ([adamfilipow92](https://github.com/adamfilipow92))
