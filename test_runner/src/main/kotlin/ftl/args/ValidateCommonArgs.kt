@@ -20,7 +20,7 @@ private fun CommonArgs.assertOrientationCorrectness() =
     devices.devicesWithMispeltOrientations(listOf("portrait", "landscape", "default")).throwIfAnyMisspelt()
 
 private fun List<Device>.throwIfAnyMisspelt() =
-    if (isNotEmpty()) throw FlankGeneralError("Orientation misspelled or incorrect, found ${joinToString(separator = "\n")} \nAborting.")
+    if (isNotEmpty()) throw FlankGeneralError("Orientation misspelled or incorrect, found\n${joinToString(separator = "\n")} \nAborting.")
     else Unit
 
 private fun CommonArgs.assertProjectId() {

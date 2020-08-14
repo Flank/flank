@@ -1660,7 +1660,7 @@ AndroidArgs
         AndroidArgs.load(yaml)
     }
 
-    @Test(expected = FlankConfigurationError::class)
+    @Test(expected = FlankGeneralError::class)
     fun `fail fast on orientation misspell`() {
         val yaml = """
         gcloud:
