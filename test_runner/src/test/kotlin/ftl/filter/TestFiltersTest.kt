@@ -22,10 +22,12 @@ val WITH_FOO_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnotat
 val WITH_BAR_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnotation("Bar", emptyMap(), false)))
 val WITHOUT_FOO_ANNOTATION = TestMethod("whatever.Foo#testName", emptyList())
 val WITH_FOO_ANNOTATION_AND_PACKAGE = TestMethod("foo.Bar#testName", listOf(TestAnnotation("Foo", emptyMap(), false)))
-val WITH_LARGE_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnotation("LargeTest", emptyMap(), false)))
+val WITH_LARGE_ANNOTATION =
+    TestMethod("whatever.Foo#testName", listOf(TestAnnotation("androidx.test.filters.LargeTest", emptyMap(), false)))
 val WITH_MEDIUM_ANNOTATION =
     TestMethod("whatever.Foo#testName", listOf(TestAnnotation("MediumTest", emptyMap(), false)))
-val WITH_SMALL_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnotation("SmallTest", emptyMap(), false)))
+val WITH_SMALL_ANNOTATION =
+    TestMethod("whatever.Foo#testName", listOf(TestAnnotation("androidx.test.filters.SmallTest", emptyMap(), false)))
 val WITHOUT_LARGE_ANNOTATION = TestMethod("whatever.Foo#testName", emptyList())
 val WITHOUT_MEDIUM_ANNOTATION = TestMethod("whatever.Foo#testName", emptyList())
 val WITHOUT_SMALL_ANNOTATION = TestMethod("whatever.Foo#testName", emptyList())
