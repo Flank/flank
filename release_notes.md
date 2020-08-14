@@ -3,6 +3,7 @@
 - [#987](https://github.com/Flank/flank/pull/987) Flank Error Monitoring readme addition ([sloox](https://github.com/Sloox))
 - [#990](https://github.com/Flank/flank/pull/990) Fix: exclusion of @Suppress test. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#988](https://github.com/Flank/flank/pull/988) Add versions description command for ios and android. ([adamfilipow92](https://github.com/adamfilipow92))
+- [#969](https://github.com/Flank/flank/pull/969) Add locales description command for ios and android. ([adamfilipow92](https://github.com/adamfilipow92))
 -
 
 ## v20.08.1
