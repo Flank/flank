@@ -51,7 +51,7 @@ which was already described in `Outcome calculation v1` section.
 
 Both diagrams are showing slightly different aspects of flow but the main difference between `gcloud` and `flank` is that the `flank` is calculating `billable minutes` in addition.
 The `billable` minutes are able to calculate from list of `steps`, 
-so while `gcloud` is fetch list of `steps` only when `environments` are corrupted, the flank always required at least `steps`.
+so while `gcloud` is fetching `steps` only when `environments` are corrupted, the flank always required at least `steps`.
 
 #### Drawbacks
 * Calculating outcome details basing on `steps` may not return info about flaky tests.
