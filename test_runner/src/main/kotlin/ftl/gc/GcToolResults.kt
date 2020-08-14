@@ -4,8 +4,11 @@ import com.google.api.services.testing.model.TestExecution
 import com.google.api.services.testing.model.ToolResultsHistory
 import com.google.api.services.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.ToolResults
+import com.google.api.services.toolresults.model.Environment
 import com.google.api.services.toolresults.model.Execution
 import com.google.api.services.toolresults.model.History
+import com.google.api.services.toolresults.model.ListEnvironmentsResponse
+import com.google.api.services.toolresults.model.ListStepsResponse
 import com.google.api.services.toolresults.model.ListTestCasesResponse
 import com.google.api.services.toolresults.model.Step
 import ftl.args.IArgs
@@ -127,6 +130,60 @@ object GcToolResults {
             is ProjectNotFound -> throw FlankGeneralError(projectNotFoundErrorMessage(projectId, ftlProjectError.message))
         }
     }
+
+    fun listAllEnvironments(toolResultsStep: ToolResultsStep): List<Environment> {
+        var response = listEnvironments(toolResultsStep)
+        val environments = response.environments.toMutableList()
+        while (response.nextPageToken != null) {
+            response = listEnvironments(toolResultsStep, response.nextPageToken)
+            environments += response.environments ?: emptyList()
+        }
+        return environments
+    }
+
+    private fun listEnvironments(
+        toolResultsStep: ToolResultsStep,
+        pageToken: String? = null
+    ): ListEnvironmentsResponse = service
+        .projects()
+        .histories()
+        .executions()
+        .environments()
+        .list(
+            toolResultsStep.projectId,
+            toolResultsStep.historyId,
+            toolResultsStep.executionId
+        )
+        .setPageToken(pageToken)
+        .setPageSize(100)
+        .executeWithRetry()
+
+    fun listAllSteps(toolResultsStep: ToolResultsStep): MutableList<Step> {
+        var response = listSteps(toolResultsStep)
+        val steps = response.steps.toMutableList()
+        while (response.nextPageToken != null) {
+            response = listSteps(toolResultsStep, response.nextPageToken)
+            steps += response.steps ?: emptyList()
+        }
+        return steps
+    }
+
+    private fun listSteps(
+        toolResultsStep: ToolResultsStep,
+        pageToken: String? = null
+    ): ListStepsResponse = service
+        .projects()
+        .histories()
+        .executions()
+        .steps()
+        .list(
+            toolResultsStep.projectId,
+            toolResultsStep.historyId,
+            toolResultsStep.executionId
+        )
+        .setPageToken(pageToken)
+        .setPageSize(100)
+        .executeWithRetry()
 }
 
 private val permissionDeniedErrorMessage = { projectId: String, message: String? ->
