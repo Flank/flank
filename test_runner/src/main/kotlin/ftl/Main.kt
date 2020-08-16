@@ -4,7 +4,11 @@ import ftl.cli.AuthCommand
 import ftl.cli.FirebaseCommand
 import ftl.cli.firebase.CancelCommand
 import ftl.cli.firebase.RefreshCommand
-import ftl.cli.firebase.test.*
+import ftl.cli.firebase.test.AndroidCommand
+import ftl.cli.firebase.test.IPBlocksCommand
+import ftl.cli.firebase.test.IosCommand
+import ftl.cli.firebase.test.NetworkProfilesCommand
+import ftl.cli.firebase.test.ProvidedSoftwareCommand
 import ftl.log.setDebugLogging
 import ftl.util.readRevision
 import ftl.util.readVersion
