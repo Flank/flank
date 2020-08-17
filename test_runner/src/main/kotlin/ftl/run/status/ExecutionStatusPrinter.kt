@@ -47,16 +47,27 @@ internal class MultiLinePrinter(
 
     private val output = LinkedHashMap<String, ExecutionStatus.View>()
     override fun invoke(changes: List<ExecutionStatus.Change>) {
+
         repeat(output.size) {
             print(ansi().cursorUpLine().eraseLine().toString())
         }
-        output += changes.map { change ->
+        val c = changes.map { change ->
             change.views.takeLast(1)
         }.flatten().map { view ->
             view.id to view
+        }.compareOutputs(output)
+
+        if (c.isNotEmpty()) {
+            output += c
+            c.map { it.second }.joinToString("\n").let(::println)
         }
-        output.values.joinToString("\n").let(::println)
+
     }
+
+    private fun List<Pair<String, ExecutionStatus.View>>.compareOutputs(out: LinkedHashMap<String, ExecutionStatus.View>) =
+        if (out.isEmpty()) this
+        else filter { out[it.first] != it.second }
+
 }
 
 @VisibleForTesting
