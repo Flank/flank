@@ -1,30 +1,3 @@
-autoCorrect: true
-failFast: false
-
-test-pattern: # Configure exclusions for test sources
-  active: true
-  patterns: # Test file regexes
-    - '.*/test/.*'
-    - '.*Tests?.kt'
-  exclude-rule-sets:
-    - 'comments'
-  exclude-rules:
-    - 'NamingRules'
-    - 'WildcardImport'
-    - 'MagicNumber'
-    - 'MaxLineLength'
-    - 'LateinitUsage'
-    - 'StringLiteralDuplication'
-    - 'SpreadOperator'
-    - 'TooManyFunctions'
-    - 'ForEachOnRange'
-    - 'FunctionMaxLength'
-    - 'TooGenericExceptionCaught'
-    - 'LongMethod'
-    - 'LargeClass'
-    - 'UnsafeCallOnNullableType'
-    - 'MaximumLineLength'
-
 build:
   maxIssues: 0
   weights:
@@ -52,22 +25,7 @@ console-reports:
   #  - 'BuildFailureReport'
 
 comments:
-  active: true
-  CommentOverPrivateFunction:
-    active: false
-  CommentOverPrivateProperty:
-    active: false
-  EndOfSentenceFormat:
-    active: false
-    endOfSentenceFormat: ([.?!][ \t\n\r\f<])|([.?!]$)
-  UndocumentedPublicClass:
-    active: false
-    searchInNestedClass: true
-    searchInInnerClass: true
-    searchInInnerObject: true
-    searchInInnerInterface: true
-  UndocumentedPublicFunction:
-    active: false
+  active: false
 
 complexity:
   active: true
@@ -76,8 +34,6 @@ complexity:
     threshold: 8
   ComplexInterface:
     active: false
-    threshold: 10
-    includeStaticDeclarations: false
   ComplexMethod:
     active: true
     threshold: 20
@@ -85,29 +41,22 @@ complexity:
     ignoreSimpleWhenEntries: false
   LabeledExpression:
     active: false
-    ignoredLabels: ""
   LargeClass:
     active: false
-    threshold: 150
   LongMethod:
     active: false
-    threshold: 20
   LongParameterList:
     active: true
-    threshold: 10
+    functionThreshold: 10
+    constructorThreshold: 10
     ignoreDefaultParameters: false
   MethodOverloading:
     active: false
     threshold: 6
   NestedBlockDepth:
     active: false
-    threshold: 4
   StringLiteralDuplication:
     active: false
-    threshold: 3
-    ignoreAnnotation: true
-    excludeStringsWithLessThan5Characters: true
-    ignoreStringsRegex: '$^'
   TooManyFunctions:
     active: true
     thresholdInFiles: 30
@@ -118,44 +67,16 @@ complexity:
     ignoreDeprecated: false
     ignorePrivate: false
 
+coroutines:
+  active: true
+
 empty-blocks:
   active: true
-  EmptyCatchBlock:
-    active: true
-    allowedExceptionNameRegex: "^(_|(ignore|expected).*)"
-  EmptyClassBlock:
-    active: true
-  EmptyDefaultConstructor:
-    active: true
-  EmptyDoWhileBlock:
-    active: true
-  EmptyElseBlock:
-    active: true
-  EmptyFinallyBlock:
-    active: true
-  EmptyForBlock:
-    active: true
-  EmptyFunctionBlock:
-    active: true
-    ignoreOverriddenFunctions: false
-  EmptyIfBlock:
-    active: true
-  EmptyInitBlock:
-    active: true
-  EmptyKtFile:
-    active: true
-  EmptySecondaryConstructor:
-    active: true
-  EmptyWhenBlock:
-    active: true
-  EmptyWhileBlock:
-    active: true
 
 exceptions:
   active: true
   ExceptionRaisedInUnexpectedLocation:
     active: false
-    methodNames: 'toString,hashCode,equals,finalize'
   InstanceOfCheckForException:
     active: false
   NotImplementedDeclaration:
@@ -168,35 +89,18 @@ exceptions:
     active: false
   SwallowedException:
     active: false
-    ignoredExceptionTypes: 'InterruptedException,NumberFormatException,ParseException,MalformedURLException'
   ThrowingExceptionFromFinally:
     active: false
   ThrowingExceptionInMain:
     active: false
   ThrowingExceptionsWithoutMessageOrCause:
     active: false
-    exceptions: 'IllegalArgumentException,IllegalStateException,IOException'
   ThrowingNewInstanceOfSameException:
     active: false
   TooGenericExceptionCaught:
     active: false
-    exceptionNames:
-     - ArrayIndexOutOfBoundsException
-     - Error
-     - Exception
-     - IllegalMonitorStateException
-     - NullPointerException
-     - IndexOutOfBoundsException
-     - RuntimeException
-     - Throwable
-    allowedExceptionNameRegex: "^(_|(ignore|expected).*)"
   TooGenericExceptionThrown:
     active: false
-    exceptionNames:
-     - Error
-     - Exception
-     - Throwable
-     - RuntimeException
 
 formatting:
   active: true
@@ -209,7 +113,7 @@ formatting:
     active: true
     autoCorrect: true
   Filename:
-    active: true
+    active: false
   FinalNewline:
     active: true
     autoCorrect: true
@@ -219,16 +123,17 @@ formatting:
     active: false
     autoCorrect: true
   Indentation:
-    active: true
+    active: false
     autoCorrect: true
     indentSize: 4
     continuationIndentSize: 4
   MaximumLineLength:
     active: false
-    maxLineLength: 120
   ModifierOrdering:
     active: true
     autoCorrect: true
+  MultiLineIfElse:
+    active: false
   NoBlankLineBeforeRbrace:
     active: true
     autoCorrect: true
@@ -311,7 +216,6 @@ naming:
     enumEntryPattern: '^[A-Z][_a-zA-Z0-9]*'
   ForbiddenClassName:
     active: false
-    forbiddenName: ''
   FunctionMaxLength:
     active: false
     maximumFunctionNameLength: 30
@@ -327,12 +231,12 @@ naming:
     active: true
     parameterPattern: '[a-z][A-Za-z0-9]*'
     excludeClassPattern: '$^'
-    ignoreOverriddenFunctions: true
+    ignoreOverridden: true
   MatchingDeclarationName:
     active: false
   MemberNameEqualsClassName:
     active: false
-    ignoreOverriddenFunction: true
+    ignoreOverridden: true
   ObjectPropertyNaming:
     active: true
     constantPattern: '[A-Za-z][_A-Za-z0-9]*'
@@ -388,8 +292,6 @@ potential-bugs:
     active: false
   LateinitUsage:
     active: false
-    excludeAnnotatedProperties: ""
-    ignoreOnClassesPattern: ""
   UnconditionalJumpStatementInLoop:
     active: true
   UnreachableCode:
@@ -406,14 +308,15 @@ potential-bugs:
 style:
   active: true
   CollapsibleIfStatements:
-    active: false
+    active: true
   DataClassContainsFunctions:
     active: false
-    conversionFunctionPrefix: 'to'
+  DataClassShouldBeImmutable:
+    active: false
   EqualsNullCall:
-    active: false
+    active: true
   EqualsOnSignatureLine:
-    active: false
+    active: true
   ExplicitItLambdaParameter:
     active: false
   ExpressionBodySyntax:
@@ -421,31 +324,21 @@ style:
     includeLineWrapping: false
   ForbiddenComment:
     active: false
-    values: 'TODO:,FIXME:,STOPSHIP:'
   ForbiddenImport:
     active: false
-    imports: ''
   ForbiddenVoid:
     active: false
   FunctionOnlyReturningConstant:
     active: false
-    ignoreOverridableFunction: true
-    excludedFunctions: 'describeContents'
   LoopWithTooManyJumpStatements:
     active: false
     maxJumpCount: 1
   MagicNumber:
     active: false
-    ignoreNumbers: '-1,0,1,2'
-    ignoreHashCodeFunction: true
-    ignorePropertyDeclaration: false
-    ignoreConstantDeclaration: true
-    ignoreCompanionObjectPropertyDeclaration: true
-    ignoreAnnotation: false
-    ignoreNamedArgument: true
-    ignoreEnums: false
   MandatoryBracesIfStatements:
     active: false
+  ForbiddenPublicDataClass:
+    active: true
   MaxLineLength:
     active: false
     maxLineLength: 120
@@ -457,9 +350,9 @@ style:
   ModifierOrder:
     active: true
   NestedClassesVisibility:
-    active: false
+    active: true
   NewLineAtEndOfFile:
-    active: false
+    active: true
   NoTabs:
     active: false
   OptionalAbstractKeyword:
@@ -477,47 +370,43 @@ style:
   ReturnCount:
     active: false
     max: 4
-    excludedFunctions: "equals"
     excludeLabeled: false
     excludeReturnFromLambda: true
   SafeCast:
     active: true
   SerialVersionUIDInSerializableClass:
-    active: false
+    active: true
   SpacingBetweenPackageAndImports:
-    active: false
+    active: true
   ThrowsCount:
     active: false
     max: 2
   TrailingWhitespace:
-    active: false
+    active: true
   UnnecessaryAbstractClass:
-    active: false
-    excludeAnnotatedClasses: "dagger.Module"
+    active: true
   UnnecessaryApply:
-    active: false
+    active: true
   UnnecessaryInheritance:
-    active: false
+    active: true
   UnnecessaryLet:
     active: false
   UnnecessaryParentheses:
     active: false
   UntilInsteadOfRangeTo:
-    active: false
+    active: true
   UnusedImports:
     active: true
   UnusedPrivateClass:
     active: true
   UnusedPrivateMember:
     active: true
-    allowedNames: "(_|ignored|expected|serialVersionUID)"
+    allowedNames: '(_|ignored|expected|serialVersionUID|plus)'
   UseDataClass:
     active: false
-    excludeAnnotatedClasses: ""
   UtilityClassWithPublicConstructor:
     active: false
   VarCouldBeVal:
     active: true
   WildcardImport:
     active: true
-    excludeImports: 'java.util.*,kotlinx.android.synthetic.*'
