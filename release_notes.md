@@ -7,7 +7,8 @@
 - [#988](https://github.com/Flank/flank/pull/988) Add versions description command for ios and android. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#969](https://github.com/Flank/flank/pull/969) Add locales description command for ios and android. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#989](https://github.com/Flank/flank/pull/989) CI changes: Check if valid title is used in PR. ([piotradamczyk5](https://github.com/piotradamczyk5))
--
+- [#995](https://github.com/Flank/flank/pull/995) Implement command `models describe` for ios/android. ([adamfilipow92](https://github.com/adamfilipow92))
+- 
 
 ## v20.08.1
 - [#978](https://github.com/Flank/flank/pull/978) Firebaseopensource.com addition ([sloox](https://github.com/Sloox))

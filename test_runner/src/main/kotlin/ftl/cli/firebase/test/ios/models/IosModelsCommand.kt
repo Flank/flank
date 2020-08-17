@@ -11,7 +11,7 @@ import picocli.CommandLine
     optionListHeading = "%n@|bold,underline Options:|@%n",
     header = ["Information about available models"],
     description = ["Information about available models. For example prints list of available models to test against"],
-    subcommands = [IosModelsListCommand::class],
+    subcommands = [IosModelsListCommand::class, IosModelDescribeCommand::class],
     usageHelpAutoWidth = true
 )
 class IosModelsCommand : Runnable {
