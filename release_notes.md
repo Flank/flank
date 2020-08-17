@@ -7,6 +7,7 @@
 - [#969](https://github.com/Flank/flank/pull/969) Add locales description command for ios and android. ([adamfilipow92](https://github.com/adamfilipow92))
 - [#989](https://github.com/Flank/flank/pull/989) CI changes: Check if valid title is used in PR. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#987](https://github.com/Flank/flank/pull/987) Flank Error Monitoring readme addition ([sloox](https://github.com/Sloox))
+- [#994](https://github.com/Flank/flank/pull/994) fix: Size annotations support ([pgreze](https://github.com/pgreze))
 -
 
 ## v20.08.1
