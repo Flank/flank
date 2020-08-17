@@ -1,14 +1,27 @@
 package ftl.args
 
+import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.util.FlankConfigurationError
+import ftl.util.FlankGeneralError
 
 fun CommonArgs.validate() {
     assertProjectId()
     assertShardTime()
     assertRepeatTests()
     assertSmartFlankGcsPath()
+    assertOrientationCorrectness()
 }
+
+private fun List<Device>.devicesWithMispeltOrientations(availableOrientations: List<String>) =
+    filter { it.orientation !in availableOrientations }
+
+private fun CommonArgs.assertOrientationCorrectness() =
+    devices.devicesWithMispeltOrientations(listOf("portrait", "landscape", "default")).throwIfAnyMisspelt()
+
+private fun List<Device>.throwIfAnyMisspelt() =
+    if (isNotEmpty()) throw FlankGeneralError("Orientation misspelled or incorrect, found\n${joinToString(separator = "\n")} \nAborting.")
+    else Unit
 
 private fun CommonArgs.assertProjectId() {
     if (project.isEmpty()) throw FlankConfigurationError(

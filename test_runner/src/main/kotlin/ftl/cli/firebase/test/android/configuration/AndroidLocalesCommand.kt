@@ -11,7 +11,7 @@ import picocli.CommandLine
     optionListHeading = "%n@|bold,underline Options:|@%n",
     header = ["Information about available locales on device"],
     description = ["Information about available locales on device. For example prints list of available locales to test against"],
-    subcommands = [AndroidLocalesListCommand::class],
+    subcommands = [AndroidLocalesListCommand::class, AndroidLocalesDescribeCommand::class],
     usageHelpAutoWidth = true
 )
 class AndroidLocalesCommand : Runnable {

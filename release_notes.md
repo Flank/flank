@@ -1,9 +1,12 @@
 ## next (unreleased)
 - [#1000](https://github.com/Flank/flank/pull/1000) Update detekt ([sloox](https://github.com/Sloox))
+- [#991](https://github.com/Flank/flank/pull/991) Fail fast on orientation mispell ([sloox](https://github.com/Sloox))
 - [#992](https://github.com/Flank/flank/pull/992) Update google api. ([jan-gogo](https://github.com/jan-gogo))
 - [#987](https://github.com/Flank/flank/pull/987) Flank Error Monitoring readme addition ([sloox](https://github.com/Sloox))
 - [#990](https://github.com/Flank/flank/pull/990) Fix: exclusion of @Suppress test. ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#988](https://github.com/Flank/flank/pull/988) Add versions description command for ios and android. ([adamfilipow92](https://github.com/adamfilipow92))
+- [#969](https://github.com/Flank/flank/pull/969) Add locales description command for ios and android. ([adamfilipow92](https://github.com/adamfilipow92))
+- [#989](https://github.com/Flank/flank/pull/989) CI changes: Check if valid title is used in PR. ([piotradamczyk5](https://github.com/piotradamczyk5))
 -
 
 ## v20.08.1
