@@ -8,6 +8,7 @@ import ftl.run.model.AndroidMatrixTestShards
 import ftl.run.platform.android.getAndroidMatrixShards
 import ftl.util.FlankConfigurationError
 import ftl.util.obfuscatePrettyPrinter
+import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -51,7 +52,7 @@ private fun saveShardChunks(
         Paths.get(shardFilePath),
         getGson(obfuscatedOutput).toJson(shards).toByteArray()
     )
-    println("Saved $size shards to $shardFilePath")
+    println("Saved $size shards to ${File(shardFilePath).absolutePath}")
 }
 
 private fun getGson(obfuscatedOutput: Boolean) = if (obfuscatedOutput) obfuscatePrettyPrinter else prettyPrint

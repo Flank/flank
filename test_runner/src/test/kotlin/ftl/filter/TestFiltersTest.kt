@@ -29,6 +29,8 @@ val WITH_SMALL_ANNOTATION = TestMethod("whatever.Foo#testName", listOf(TestAnnot
 val WITHOUT_LARGE_ANNOTATION = TestMethod("whatever.Foo#testName", emptyList())
 val WITHOUT_MEDIUM_ANNOTATION = TestMethod("whatever.Foo#testName", emptyList())
 val WITHOUT_SMALL_ANNOTATION = TestMethod("whatever.Foo#testName", emptyList())
+val QA_TEST = TestMethod("whatever.QAIntroTest", emptyList())
+val NON_QA_TEST = TestMethod("whatever.IntroTest", emptyList())
 const val TEST_FILE = "src/test/kotlin/ftl/filter/fixtures/dummy-tests-file.txt"
 const val TEST_FILE_2 = "src/test/kotlin/ftl/filter/fixtures/exclude-tests.txt"
 private const val IGNORE_ANNOTATION = "org.junit.Ignore"
@@ -128,6 +130,14 @@ class TestFiltersTest {
         assertThat(filter.shouldRun(WITH_FOO_ANNOTATION)).isTrue()
         assertThat(filter.shouldRun(WITH_BAR_ANNOTATION)).isTrue()
         assertThat(filter.shouldRun(WITHOUT_FOO_ANNOTATION)).isFalse()
+    }
+
+    @Test
+    fun testFilteringOnlyQA() {
+        val filter = fromTestTargets(listOf("filter_qa true"))
+
+        assertThat(filter.shouldRun(QA_TEST)).isTrue()
+        assertThat(filter.shouldRun(NON_QA_TEST)).isFalse()
     }
 
     @Test

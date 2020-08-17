@@ -45,6 +45,8 @@ object TestFilters {
     private const val ARGUMENT_TEST_FILE = "testFile"
     private const val ARGUMENT_NOT_TEST_FILE = "notTestFile"
 
+    private const val ARGUMENT_ONLY_QA = "filter_qa"
+
     private val FILTER_ARGUMENT by lazy {
 
         val pattern = listOf(
@@ -56,7 +58,8 @@ object TestFilters {
             ARGUMENT_TEST_PACKAGE,
             ARGUMENT_NOT_TEST_PACKAGE,
             ARGUMENT_TEST_FILE,
-            ARGUMENT_NOT_TEST_FILE
+            ARGUMENT_NOT_TEST_FILE,
+            ARGUMENT_ONLY_QA
         ).joinToString("|")
 
         Pattern.compile("""($pattern)\s+(.+)""")
@@ -110,6 +113,7 @@ object TestFilters {
             ARGUMENT_TEST_FILE -> fromTestFile(args)
             ARGUMENT_NOT_TEST_FILE -> not(fromTestFile(args))
             ARGUMENT_TEST_SIZE -> withSize(args)
+            ARGUMENT_ONLY_QA -> onlyQA()
             else -> throw FlankConfigurationError("Filtering option $command not supported")
         }
     }
@@ -153,6 +157,15 @@ object TestFilters {
             testMethod.annotationNames.any { annotations.contains(it) }
         },
         isAnnotation = true
+    )
+
+    private fun onlyQA(): TestFilter = TestFilter(
+        describe = "onlyQA",
+        shouldRun = { testMethod ->
+            val className = testMethod.testName.split("#").first()
+            val simpleName = className.split(".").last()
+            simpleName.startsWith("QA") && simpleName.endsWith("Test")
+        }
     )
 
     private fun not(filter: TestFilter): TestFilter = TestFilter(
