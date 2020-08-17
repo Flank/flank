@@ -29,7 +29,7 @@ private fun String.appendList(header: String, items: List<String>?) =
     else this
 
 private fun StringBuilder.appendItems(items: List<String>) = apply {
-    items.forEach { this.appendln("- $it") }
+    items.forEach { appendln("- $it") }
 }
 
 private fun String.appendThumbnail(thumbnailUrl: String?) =
