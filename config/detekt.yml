@@ -318,7 +318,7 @@ style:
   EqualsOnSignatureLine:
     active: true
   ExplicitItLambdaParameter:
-    active: true
+    active: false
   ExpressionBodySyntax:
     active: false
     includeLineWrapping: false
@@ -360,7 +360,7 @@ style:
   OptionalUnit:
     active: true
   OptionalWhenBraces:
-    active: true
+    active: false
   PreferToOverPairSyntax:
     active: true
   ProtectedMemberInFinalClass:
@@ -390,9 +390,9 @@ style:
   UnnecessaryInheritance:
     active: true
   UnnecessaryLet:
-    active: true
+    active: false
   UnnecessaryParentheses:
-    active: true
+    active: false
   UntilInsteadOfRangeTo:
     active: true
   UnusedImports:
