@@ -47,26 +47,27 @@ internal class MultiLinePrinter(
 
     private val output = LinkedHashMap<String, ExecutionStatus.View>()
     override fun invoke(changes: List<ExecutionStatus.Change>) {
-
-        repeat(output.size) {
-            print(ansi().cursorUpLine().eraseLine().toString())
-        }
-        val c = changes.map { change ->
-            change.views.takeLast(1)
-        }.flatten().map { view ->
-            view.id to view
-        }.compareOutputs(output)
-
-        if (c.isNotEmpty()) {
-            output += c
-            c.map { it.second }.joinToString("\n").let(::println)
-        }
-
+        output.eraseBySize()
+        changes.mapChanges().compareToOutput(output).appendToOutput()?.print()
     }
 
-    private fun List<Pair<String, ExecutionStatus.View>>.compareOutputs(out: LinkedHashMap<String, ExecutionStatus.View>) =
+    private fun LinkedHashMap<String, ExecutionStatus.View>.eraseBySize() = repeat(size) {
+        print(ansi().cursorUpLine().eraseLine().toString())
+    }
+
+    private fun List<ExecutionStatus.Change>.mapChanges() = map { change ->
+        change.views.takeLast(1)
+    }.flatten().map { view ->
+        view.id to view
+    }
+
+    private fun List<Pair<String, ExecutionStatus.View>>.compareToOutput(out: LinkedHashMap<String, ExecutionStatus.View>) =
         if (out.isEmpty()) this
         else filter { out[it.first] != it.second }
+
+    private fun List<Pair<String, ExecutionStatus.View>>.appendToOutput() = takeIf { isNotEmpty() }.also { output += this }
+
+    private fun List<Pair<String, ExecutionStatus.View>>.print() = map { it.second }.joinToString("\n").let(::println)
 
 }
 
