@@ -3,6 +3,7 @@ package ftl.environment
 import com.google.api.services.testing.model.Date
 import com.google.api.services.testing.model.DeviceIpBlock
 import ftl.gc.deviceIPBlocks
+import ftl.reports.api.twoDigitString
 import ftl.util.TableColumn
 import ftl.util.TableStyle
 import ftl.util.buildTable
@@ -33,16 +34,13 @@ private fun List<TableColumn>.buildTable() =
 
 // yyyy-mm-dd
 private val Date?.prettyDate
-    get() = this?.run { if (allNotNull(year, month, day)) "$year-${month.twoDigits}-${day.twoDigits}" else null }
+    get() = this?.run { if (allNotNull(year, month, day)) "$year-${month.twoDigitString()}-${day.twoDigitString()}" else null }
         ?: UNABLE
 
 private fun allNotNull(vararg nullable: Any?) = nullable.none { isNull(it) }
 
 private val String?.orUnable
     get() = this ?: UNABLE
-
-private val Int.twoDigits
-    get() = if (this > 9) "$this" else "0$this"
 
 private const val IP_BLOCK = "BLOCK"
 private const val IP_FORM = "FORM"
