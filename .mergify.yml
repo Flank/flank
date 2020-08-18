@@ -4,4 +4,6 @@ pull_request_rules:
       - base=master
     actions:
       merge:
+        strict: true
+        strict_method: rebase
         method: squash
