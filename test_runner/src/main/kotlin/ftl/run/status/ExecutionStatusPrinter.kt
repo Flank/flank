@@ -55,9 +55,9 @@ internal class MultiLinePrinter(
         print(ansi().cursorUpLine().eraseLine().toString())
     }
 
-    private fun List<ExecutionStatus.Change>.mapChanges() = map { change ->
+    private fun List<ExecutionStatus.Change>.mapChanges() = flatMap { change ->
         change.views.takeLast(1)
-    }.flatten().map { view ->
+    }.map { view ->
         view.id to view
     }
 
