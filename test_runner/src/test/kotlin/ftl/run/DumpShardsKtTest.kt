@@ -110,8 +110,8 @@ class DumpShardsKtTest {
       ]
     },
     "junit-ignored": [
+      "class com.example.test_app.InstrumentedTest#ignoredTestWitSuppress",
       "class com.example.test_app.InstrumentedTest#ignoredTestWithIgnore",
-      "class com.example.test_app.InstrumentedTest#ignoredTestWithSuppress",
       "class com.example.test_app.bar.BarInstrumentedTest#ignoredTestBar",
       "class com.example.test_app.foo.FooInstrumentedTest#ignoredTestFoo"
     ]

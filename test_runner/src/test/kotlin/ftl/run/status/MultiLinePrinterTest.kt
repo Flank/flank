@@ -31,7 +31,7 @@ class MultiLinePrinterTest {
             listOf(
                 "  time name1 state0",
                 "  time name2 state0",
-                "  time name1 state0",
+                "  time name1 state1",
                 "  time name2 state1"
             ).joinToString("\n", postfix = "\n"),
             systemOutRule.log.filterMockk()
