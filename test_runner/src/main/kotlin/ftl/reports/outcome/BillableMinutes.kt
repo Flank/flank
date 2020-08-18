@@ -42,5 +42,5 @@ private fun Step.getBillableSeconds(default: Long) =
         min(it, default)
     }
 
-operator fun List<StepDimensionValueEntry>.get(key: String) =
-    firstOrNull { it.key == key }
+operator fun List<StepDimensionValueEntry>?.get(key: String) =
+    this?.firstOrNull { it.key == key }
