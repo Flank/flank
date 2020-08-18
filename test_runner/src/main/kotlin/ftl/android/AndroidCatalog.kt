@@ -27,7 +27,11 @@ object AndroidCatalog {
             .androidDeviceCatalog
     }
 
-    fun devicesCatalogAsTable(projectId: String) = deviceCatalog(projectId).models.asPrintableTable()
+    fun devicesCatalogAsTable(projectId: String) = getModels(projectId).asPrintableTable()
+
+    fun describeModel(projectId: String, modelId: String) = getModels(projectId).getDescription(modelId)
+
+    private fun getModels(projectId: String) = deviceCatalog(projectId).models
 
     fun supportedVersionsAsTable(projectId: String) = getVersionsList(projectId).asPrintableTable()
 

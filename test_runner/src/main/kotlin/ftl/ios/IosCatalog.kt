@@ -18,7 +18,11 @@ object IosCatalog {
     private val catalogMap: MutableMap<String, IosDeviceCatalog> = mutableMapOf()
     private val xcodeMap: MutableMap<String, List<String>> = mutableMapOf()
 
-    fun devicesCatalogAsTable(projectId: String) = iosDeviceCatalog(projectId).models.asPrintableTable()
+    fun devicesCatalogAsTable(projectId: String) = getModels(projectId).asPrintableTable()
+
+    fun describeModel(projectId: String, modelId: String) = getModels(projectId).getDescription(modelId)
+
+    private fun getModels(projectId: String) = iosDeviceCatalog(projectId).models
 
     fun softwareVersionsAsTable(projectId: String) = getVersionsList(projectId).asPrintableTable()
 

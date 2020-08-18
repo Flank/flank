@@ -30,9 +30,7 @@ object MatrixState {
             VALIDATING -> true
             PENDING -> true
             RUNNING -> true
-            else -> {
-                false
-            }
+            else -> false
         }
     }
 

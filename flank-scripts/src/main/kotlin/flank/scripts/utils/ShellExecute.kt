@@ -1,12 +1,21 @@
 package flank.scripts.utils
 
-fun List<String>.runCommand(retryCount: Int = 0) =
-        ProcessBuilder(this)
-                .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                .redirectError(ProcessBuilder.Redirect.INHERIT)
-                .startWithRetry(retryCount)
+import java.io.File
 
-fun String.runCommand(retryCount: Int = 0) = split(" ").toList().runCommand(retryCount)
+fun List<String>.runCommand(retryCount: Int = 0, fileForOutput: File? = null) =
+    ProcessBuilder(this).apply {
+        if (fileForOutput != null) {
+            redirectOutput(fileForOutput)
+            redirectError(fileForOutput)
+        } else {
+            redirectOutput(ProcessBuilder.Redirect.INHERIT)
+            redirectError(ProcessBuilder.Redirect.INHERIT)
+        }
+    }
+
+        .startWithRetry(retryCount)
+
+fun String.runCommand(retryCount: Int = 0, fileForOutput: File? = null) = split(" ").toList().runCommand(retryCount, fileForOutput)
 
 internal fun ProcessBuilder.startWithRetry(retryCount: Int): Int {
     var retryTries = 0

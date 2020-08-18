@@ -19,6 +19,29 @@ If you need help with available commands or arguments you could always use optio
 
 ## Available commands and options
 
+### CI
+To show all available commands for ci use:
+`flankScripts ci`
+
+Available commands are:
+  - `generateReleaseNotes`  Command to generate release notes and append them to `release_notes.md`
+  - `nextReleaseTag`        Print next release tag
+  
+#### `generateReleaseNotes`
+Command to generate release notes and append them to `release_notes.md`
+
+| Option               	| Description                                             	|
+|----------------------	|---------------------------------------------------------	|
+| --token              	| Git token                                               	|
+| --release-notes-file 	| Path to release_notes.md (default `./release_notes.md`) 	|
+
+#### `nextReleaseTag`
+Print next release tag
+
+| Option          	| Description     	|
+|-----------------	|-----------------	|
+| `--token`       	| Git token       	|
+
 ### Release 
 The release process was described in [document](../docs/release_process.md).  
 To show all available commands for release use:
@@ -41,6 +64,7 @@ Release Flank on GitHub
 | `--snapshot `   	| Is Snapshot release. Default `false` 	|
 | `--git-tag`     	| Git Tag                              	|
 | `--commit-hash` 	| Git Commit hash                      	|
+|  `--token`        | Git token                             |
 
 
 #### `updateBugsnag`

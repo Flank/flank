@@ -110,15 +110,16 @@ publishing {
 }
 
 detekt {
+    failFast = true // fail build on any finding
     input = files("src/main/kotlin", "src/test/kotlin")
     config = files("../config/detekt.yml")
+
+    buildUponDefaultConfig = true // preconfigure defaults
+
     reports {
-        xml {
-            enabled = false
-        }
-        html {
-            enabled = true
-        }
+        html.enabled = true // observe findings in your browser with structure and code snippets
+        xml.enabled = true // checkstyle like format mainly for integrations like Jenkins
+        txt.enabled = true // similar to the console output, contains issue signature to manually edit baseline files
     }
 }
 

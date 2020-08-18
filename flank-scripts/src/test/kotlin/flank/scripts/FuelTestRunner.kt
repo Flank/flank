@@ -5,10 +5,13 @@ import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.core.requests.DefaultBody
+import flank.scripts.ci.releasenotes.GitHubRelease
+import flank.scripts.ci.releasenotes.GithubPullRequest
 import flank.scripts.release.updatebugsnag.BugSnagRequest
 import flank.scripts.release.updatebugsnag.BugSnagResponse
 import flank.scripts.utils.toJson
 import flank.scripts.utils.toObject
+import kotlinx.serialization.builtins.list
 import org.junit.runners.BlockJUnit4ClassRunner
 import org.junit.runners.model.Statement
 
@@ -22,34 +25,53 @@ class FuelTestRunner(klass: Class<*>) : BlockJUnit4ClassRunner(klass) {
     private fun startMockClient() {
         FuelManager.instance.client = object : Client {
             override fun executeRequest(request: Request): Response {
-                return when (request.url.toString()) {
-                    "https://api.github.com/repos/Flank/flank/git/refs/tags/success" -> request.buildResponse("", 200)
-                    "https://api.github.com/repos/Flank/flank/git/refs/tags/failure" -> request.buildResponse(githubErrorBody, 422)
-                    "https://build.bugsnag.com/" -> {
-                        val body = request.body.asString("application/json").toObject(BugSnagRequest.serializer())
-                        if (body.apiKey == "success") {
-                            request.buildResponse(body = BugSnagResponse("success")
-                                    .toJson(BugSnagResponse.serializer()), statusCode = 200)
-                        } else {
-                            request.buildResponse(
-                                    body = BugSnagResponse(
-                                            status = "failure",
-                                            errors = listOf("errors")
-                                    ).toJson(BugSnagResponse.serializer()), statusCode = 422)
-                        }
-                    }
+                val url = request.url.toString()
+                return when {
+                    url == "https://api.github.com/repos/Flank/flank/git/refs/tags/success" -> request.buildResponse("", 200)
+                    url == "https://api.github.com/repos/flank/flank/releases/latest" && request.headers["Authorization"].contains("token success") -> request.buildResponse(GitHubRelease("v20.08.0").toJson(GitHubRelease.serializer()), 200)
+                    url == "https://api.github.com/repos/flank/flank/commits/success/pulls" -> request.buildResponse(githubPullRequestTest.toJson(GithubPullRequest.serializer().list), 200)
+                    request.isFailedGithubRequest() -> request.buildResponse(githubErrorBody, 422)
+                    url == "https://build.bugsnag.com/" -> request.handleBugsnagResponse()
                     else -> Response(request.url)
                 }
             }
         }
     }
 
+    private fun Request.isFailedGithubRequest() =
+        url.toString() == "https://api.github.com/repos/Flank/flank/git/refs/tags/failure" ||
+            (url.toString()
+                .startsWith("https://api.github.com/") && request.headers["Authorization"].contains("token failure"))
+
     private fun Request.buildResponse(body: String, statusCode: Int) =
-            Response(url, statusCode = statusCode, responseMessage = body, body = DefaultBody(
-                    { body.byteInputStream() },
-                    { body.length.toLong() }
-            ))
+        Response(url, statusCode = statusCode, responseMessage = body, body = DefaultBody(
+            { body.byteInputStream() },
+            { body.length.toLong() }
+        ))
+
+    private fun Request.handleBugsnagResponse() =
+        if (body.asString("application/json").toObject(BugSnagRequest.serializer()).apiKey == "success") {
+            buildResponse(
+                body = BugSnagResponse("success")
+                    .toJson(BugSnagResponse.serializer()), statusCode = 200
+            )
+        } else {
+            buildResponse(
+                body = BugSnagResponse(
+                    status = "failure",
+                    errors = listOf("errors")
+                ).toJson(BugSnagResponse.serializer()), statusCode = 422
+            )
+        }
 }
+
+private val githubPullRequestTest = listOf(GithubPullRequest(
+    "www.pull.request",
+    "feat: new Feature",
+    5,
+    listOf()
+)
+)
 
 private val githubErrorBody = """
             {
