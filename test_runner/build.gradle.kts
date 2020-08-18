@@ -60,11 +60,21 @@ java {
 }
 
 publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/Flank/flank")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR") ?: properties["GITHUB_ACTOR"].toString()
+                password = System.getenv("GITHUB_TOKEN") ?: properties["GITHUB_TOKEN"].toString()
+            }
+        }
+    }
     publications {
         create<MavenPublication>("mavenJava") {
             groupId = "com.github.flank"
             artifactId = artifactID
-            version = System.getenv("MVN_VERSION")
+            version = System.getenv("MVN_VERSION") ?: "local_snapshot"
 
             artifact(shadowJar)
             artifact(tasks["javadocJar"])
