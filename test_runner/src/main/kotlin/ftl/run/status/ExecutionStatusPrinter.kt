@@ -62,7 +62,7 @@ internal class MultiLinePrinter(
     }
 
     private fun List<Pair<String, ExecutionStatus.View>>.compareToOutput(out: LinkedHashMap<String, ExecutionStatus.View>) =
-        if (out.isNotEmpty()) filter { out[it.first] != it.second }
+        if (out.isNotEmpty()) filter { (key, executionStatusView) -> out[key] != executionStatusView }
         else this
 
     private fun List<Pair<String, ExecutionStatus.View>>.appendToOutputIfNotEmpty() = takeIf { isNotEmpty() }.also { output += this }
