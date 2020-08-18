@@ -64,6 +64,7 @@ Release Flank on GitHub
 | `--snapshot `   	| Is Snapshot release. Default `false` 	|
 | `--git-tag`     	| Git Tag                              	|
 | `--commit-hash` 	| Git Commit hash                      	|
+|  `--token`        | Git token                             |
 
 
 #### `updateBugsnag`

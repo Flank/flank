@@ -1,15 +1,28 @@
 package flank.scripts.ci.releasenotes
 
 import com.github.kittinunf.result.Result
+import com.github.kittinunf.result.getOrElse
+import com.github.kittinunf.result.map
+import flank.scripts.github.getLatestReleaseTag
 import flank.scripts.github.getPrDetailsByCommit
 import flank.scripts.utils.markdownLink
 import flank.scripts.utils.runCommand
-import java.io.File
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
+import java.io.File
 
-fun generateReleaseNotes(latestReleaseTag: String, githubToken: String) = getCommitsSha(latestReleaseTag).getReleaseNotes(githubToken)
+fun generateReleaseNotes(githubToken: String) = runBlocking {
+    generateReleaseNotes(
+        latestReleaseTag = getLatestReleaseTag(githubToken).map { it.tag }.getOrElse(""),
+        githubToken = githubToken
+    )
+}
+
+fun generateReleaseNotes(
+    latestReleaseTag: String,
+    githubToken: String
+) = getCommitsSha(latestReleaseTag).getReleaseNotes(githubToken)
 
 internal fun getCommitsSha(fromTag: String): List<String> {
     val outputFile = File.createTempFile("sha", ".log")

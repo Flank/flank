@@ -14,6 +14,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Get all git tags
+      run: |
+        git fetch --prune --unshallow --tags
+        git tag
+
     - name: Gradle Build flankScripts and add it to PATH
       run: |
         ./flank-scripts/bash/buildFlankScripts.sh
@@ -21,8 +26,6 @@ jobs:
 
     - name: Set env variables
       run: |
-        git_short_hash=$(git rev-parse --short "$GITHUB_SHA")
-        echo "::set-env name=GIT_SHORT_HASH::$(echo $git_short_hash)";
         echo "::set-env name=MVN_REVISION::$(echo $GITHUB_SHA)";
 
           if [[ $GITHUB_REF == refs/tags/* ]]
@@ -31,7 +34,9 @@ jobs:
               echo "::set-env name=RELEASE_TAG::$(echo ${GITHUB_REF:10})";
             else 
               echo "::set-env name=RELEASE_TAG::flank_snapshot";
-              echo "::set-env name=MVN_VERSION::flank_snapshot"; 
+              echo "::set-env name=MVN_VERSION::flank_snapshot";
+              git_short_hash=$(git rev-parse --short "$GITHUB_SHA")
+              echo "::set-env name=GIT_SHORT_HASH::$(echo $git_short_hash)";
           fi;
 
     - name: Store version variables to file
@@ -88,7 +93,7 @@ jobs:
 
     - name: Release stable
       if: startsWith(github.ref, 'refs/tags/v')
-      run: flankScripts release releaseFlank --input-file=./test_runner/build/libs/flank.jar --git-tag=$RELEASE_TAG --commit-hash=$GIT_SHORT_HASH 
+      run: flankScripts release releaseFlank --input-file=./test_runner/build/libs/flank.jar --git-tag=$RELEASE_TAG --token=${{ secrets.GITHUB_TOKEN }}
 
     - name: Sync bintray to maven central
       run: flankScripts release jFrogSync --maven-tag=$MVN_VERSION
