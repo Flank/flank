@@ -1,3 +1,17 @@
+## v20.08.2
+- [1005](https://github.com/Flank/flank/pull/1005) **Fix**: generation of release notes ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [999](https://github.com/Flank/flank/pull/999) **New feature**: Implement ip-blocks list command ([pawelpasterz](https://github.com/pawelpasterz))
+- [1007](https://github.com/Flank/flank/pull/1007) **Fix**: failing tests ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [996](https://github.com/Flank/flank/pull/996) **New feature**: auto generate release notes for next release ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [995](https://github.com/Flank/flank/pull/995) **New feature**: Implement command `models describe` for ios/android ([adamfilipow92](https://github.com/adamfilipow92))
+- [989](https://github.com/Flank/flank/pull/989) **CI changes**: Check if valid title is used in PR ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [991](https://github.com/Flank/flank/pull/991) **New feature**: Validate orientation and fail fast ([Sloox](https://github.com/Sloox))
+- [969](https://github.com/Flank/flank/pull/969) **New feature**: add locales description command for ios and android ([adamfilipow92](https://github.com/adamfilipow92))
+- [992](https://github.com/Flank/flank/pull/992) **New feature**: Update google api ([jan-gogo](https://github.com/jan-gogo))
+- [988](https://github.com/Flank/flank/pull/988) **New feature**: add versions description command for ios and android ([adamfilipow92](https://github.com/adamfilipow92))
+- [990](https://github.com/Flank/flank/pull/990) **Fix**: exclusion of @Suppress test ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [987](https://github.com/Flank/flank/pull/987) **Documentation**: Analytics addition to readme ([Sloox](https://github.com/Sloox))
+
 ## v20.08.1
 - [#978](https://github.com/Flank/flank/pull/978) Firebaseopensource.com addition ([sloox](https://github.com/Sloox))
 - [#937](https://github.com/Flank/flank/pull/968) Improve error message on iOS when test or xctestrun-file not found ([sloox](https://github.com/Sloox))
