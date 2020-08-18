@@ -11,6 +11,7 @@ import picocli.CommandLine
         NetworkProfilesListCommand::class,
         NetworkProfilesDescribeCommand::class
     ],
+    header = ["Explore network profiles available for testing."],
     usageHelpAutoWidth = true
 )
 class NetworkProfilesCommand : Runnable {

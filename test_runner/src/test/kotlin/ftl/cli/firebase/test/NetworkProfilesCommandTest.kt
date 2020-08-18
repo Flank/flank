@@ -17,11 +17,12 @@ class NetworkProfilesCommandTest {
         NetworkProfilesCommand().run()
 
         val expected = listOf(
-                "network-profiles [COMMAND]",
-                "Commands:",
-                "  list      List all network profiles available for testing",
-                "  describe  Describe a network profile",
-                ""
+            "Explore network profiles available for testing.",
+            "network-profiles [COMMAND]",
+            "Commands:",
+            "  list      List all network profiles available for testing",
+            "  describe  Describe a network profile",
+            ""
         ).joinToString("\n")
 
         val actual = systemOutRule.log.normalizeLineEnding()
