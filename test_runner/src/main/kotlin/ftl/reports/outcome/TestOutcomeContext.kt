@@ -35,5 +35,9 @@ class BadMatrixError : Exception()
 private fun TestMatrix.testTimeout() = timeoutToSeconds(
     testExecutions.firstOrNull {
         it?.testSpecification?.testTimeout != null
-    }?.testSpecification?.testTimeout ?: "0s"
+    testExecutions
+         .firstOrNull { it?.testSpecification?.testTimeout != null }
+         ?.testSpecification
+         ?.testTimeout 
+         ?: "0s"
 )
