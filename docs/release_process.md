@@ -18,7 +18,7 @@ Each push:
 
 ## Manual Steps
 1. Navigate to [Github Actions](https://github.com/Flank/flank/actions)
-2. Run job [`Generate release notes for next commit`](https://github.com/Flank/flank/actions?query=workflow%3A%22Generate+release+notes+for+next+commit%22) by using `Run Workflow button`
+2. Run job [`Generate release notes for next commit`](https://github.com/Flank/flank/actions?query=workflow%3A%22Generate+release+notes+for+next+commit%22) by using `Run Workflow` button
 3. After merging, push a tag for the release
 4. Wait for CI job to finish
 
