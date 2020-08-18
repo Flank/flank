@@ -10,8 +10,6 @@ object StepOutcome {
     const val success = "success"
     const val unset = "unset"
 
-    val notErrors = listOf(failure, flaky, skipped, success)
-
     val order = linkedSetOf(
         failure,
         flaky,

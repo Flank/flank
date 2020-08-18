@@ -15,7 +15,7 @@ data class TestOutcome(
 fun List<Environment>.createMatrixOutcomeSummaryUsingEnvironments(
     testMatrixId: String,
     outcome: Outcome? = getOutcomeFromEnvironments(),
-    testDetails: String? = outcome?.getDetails(map { it.createTestSuitOverviewData() }.foldTestSuiteOverviewData())
+    testDetails: String? = outcome?.getDetails(map { it.createTestSuiteOverviewData() }.foldTestSuiteOverviewData())
 ) = TestOutcome(
     outcome = outcome?.summary ?: "Unknown",
     matrixId = testMatrixId,
@@ -29,7 +29,7 @@ private fun List<Environment>.getOutcomeFromEnvironments(): Outcome? = maxBy {
 fun List<Step>.createMatrixOutcomeSummaryUsingSteps(
     testMatrixId: String,
     outcome: Outcome? = getOutcomeFromSteps(),
-    testDetails: String? = outcome?.getDetails(createTestSuitOverviewData())
+    testDetails: String? = outcome?.getDetails(createTestSuiteOverviewData())
 ) = TestOutcome(
     outcome = outcome?.summary ?: "Unknown",
     matrixId = testMatrixId,

@@ -5,7 +5,7 @@ import com.google.api.services.toolresults.model.Step
 import ftl.reports.api.data.TestSuiteOverviewData
 import ftl.reports.api.millis
 
-internal fun Environment.createTestSuitOverviewData(): TestSuiteOverviewData =
+internal fun Environment.createTestSuiteOverviewData(): TestSuiteOverviewData =
     environmentResult?.testSuiteOverviews?.fold(TestSuiteOverviewData()) { acc, overview ->
         acc.copy(
             total = acc.total + (overview.totalCount ?: 0),
@@ -17,7 +17,7 @@ internal fun Environment.createTestSuitOverviewData(): TestSuiteOverviewData =
         )
     } ?: TestSuiteOverviewData()
 
-internal fun List<Step>.createTestSuitOverviewData(): TestSuiteOverviewData = this
+internal fun List<Step>.createTestSuiteOverviewData(): TestSuiteOverviewData = this
     .also { require(isNotEmpty()) }
     .filter(Step::isPrimaryStep)
     .groupBy(Step::deviceModel)

@@ -33,11 +33,9 @@ private fun TestMatrix.getToolResultsIds(): ToolResultsExecution = ToolResultsEx
 class BadMatrixError : Exception()
 
 private fun TestMatrix.testTimeout() = timeoutToSeconds(
-    testExecutions.firstOrNull {
-        it?.testSpecification?.testTimeout != null
     testExecutions
          .firstOrNull { it?.testSpecification?.testTimeout != null }
          ?.testSpecification
-         ?.testTimeout 
+         ?.testTimeout
          ?: "0s"
 )

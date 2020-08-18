@@ -5,7 +5,7 @@ import com.google.api.services.toolresults.model.TestSuiteOverview
 import ftl.reports.api.data.TestExecutionData
 import ftl.reports.api.data.TestSuiteOverviewData
 
-internal fun TestExecutionData.createTestSuitOverviewData(): TestSuiteOverviewData? = step
+internal fun TestExecutionData.createTestSuiteOverviewData(): TestSuiteOverviewData? = step
     .testExecutionStep
     .testSuiteOverviews
     ?.firstOrNull()

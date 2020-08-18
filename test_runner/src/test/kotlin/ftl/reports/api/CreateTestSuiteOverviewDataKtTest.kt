@@ -12,10 +12,10 @@ import ftl.reports.api.data.TestSuiteOverviewData
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class CreateTestSuitOverviewDataKtTest {
+class CreateTestSuiteOverviewDataKtTest {
 
     @Test
-    fun createTestSuitOverviewData() {
+    fun createTestSuiteOverviewData() {
         // given
         val testExecutionData = TestExecutionData(
             testExecution = TestExecution(),
@@ -56,7 +56,7 @@ class CreateTestSuitOverviewDataKtTest {
             elapsedTime = 8.0,
             overheadTime = 1.0
         )
-        val actual = testExecutionData.createTestSuitOverviewData()
+        val actual = testExecutionData.createTestSuiteOverviewData()
 
         // then
         assertEquals(expected, actual)

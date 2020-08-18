@@ -24,7 +24,7 @@ class CreateJUnitTestSuiteKtTest {
     @Before
     fun setUp() {
         mockkStatic(
-            "ftl.reports.api.CreateTestSuitOverviewDataKt",
+            "ftl.reports.api.CreateTestSuiteOverviewDataKt",
             "ftl.reports.api.CreateJUnitTestCaseKt"
         )
     }
@@ -38,7 +38,7 @@ class CreateJUnitTestSuiteKtTest {
     fun createJUnitTestSuites() {
         // given
         every {
-            any<TestExecutionData>().createTestSuitOverviewData()
+            any<TestExecutionData>().createTestSuiteOverviewData()
         } returns TestSuiteOverviewData(1, 1, 1, 1, 1, 1.1, 1.1)
 
         val jUnitTestCase = JUnitTestCase(null, null, "1.1")
