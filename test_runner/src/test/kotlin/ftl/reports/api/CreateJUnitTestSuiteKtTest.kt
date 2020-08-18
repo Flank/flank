@@ -5,6 +5,7 @@ import com.google.api.services.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.model.Step
 import com.google.api.services.toolresults.model.StepDimensionValueEntry
 import com.google.api.services.toolresults.model.TestCase
+import com.google.api.services.toolresults.model.TestExecutionStep
 import com.google.api.services.toolresults.model.Timestamp
 import ftl.reports.api.data.TestExecutionData
 import ftl.reports.api.data.TestSuiteOverviewData
@@ -60,6 +61,7 @@ class CreateJUnitTestSuiteKtTest {
                     dimensionValue = listOf("Model", "Version", "Locale", "Orientation").map {
                         StepDimensionValueEntry().apply { key = it; value = it }
                     }
+                    testExecutionStep = TestExecutionStep()
                 },
                 testCases = listOf(TestCase())
             )

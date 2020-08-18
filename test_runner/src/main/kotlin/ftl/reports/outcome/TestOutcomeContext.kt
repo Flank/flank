@@ -5,6 +5,8 @@ import com.google.api.services.testing.model.ToolResultsExecution
 import com.google.api.services.toolresults.model.Environment
 import com.google.api.services.toolresults.model.Step
 import ftl.gc.GcToolResults
+import ftl.json.SavedMatrix
+import ftl.util.FTLError
 import ftl.util.timeoutToSeconds
 
 data class TestOutcomeContext(
@@ -27,15 +29,17 @@ fun TestMatrix.fetchTestOutcomeContext() = getToolResultsIds().let { ids ->
 
 private fun TestMatrix.getToolResultsIds(): ToolResultsExecution = ToolResultsExecution()
     .setProjectId(projectId)
-    .setHistoryId(resultStorage?.toolResultsExecution?.historyId ?: throw BadMatrixError())
-    .setExecutionId(resultStorage?.toolResultsExecution?.executionId ?: throw BadMatrixError())
+    .setHistoryId(resultStorage?.toolResultsExecution?.historyId ?: throw badMatrixError())
+    .setExecutionId(resultStorage?.toolResultsExecution?.executionId ?: throw badMatrixError())
 
-class BadMatrixError : Exception()
+private fun TestMatrix.badMatrixError() = BadMatrixError(SavedMatrix(this))
+
+class BadMatrixError(matrix: SavedMatrix) : FTLError(matrix)
 
 private fun TestMatrix.testTimeout() = timeoutToSeconds(
     testExecutions
-         .firstOrNull { it?.testSpecification?.testTimeout != null }
-         ?.testSpecification
-         ?.testTimeout
-         ?: "0s"
+        .firstOrNull { it?.testSpecification?.testTimeout != null }
+        ?.testSpecification
+        ?.testTimeout
+        ?: "0s"
 )

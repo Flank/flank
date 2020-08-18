@@ -3,14 +3,17 @@ package ftl.run
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
+import ftl.test.util.FlankTestRunner
 import ftl.test.util.ios2ConfigYaml
 import ftl.test.util.mixedConfigYaml
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
+import org.junit.runner.RunWith
 import java.io.File
 
+@RunWith(FlankTestRunner::class)
 class DumpShardsKtTest {
 
     @Test
@@ -51,8 +54,8 @@ class DumpShardsKtTest {
       ]
     },
     "junit-ignored": [
-      "class com.example.test_app.InstrumentedTest#ignoredTest1",
-      "class com.example.test_app.InstrumentedTest#ignoredTest2",
+      "class com.example.test_app.InstrumentedTest#ignoredTestWitSuppress",
+      "class com.example.test_app.InstrumentedTest#ignoredTestWithIgnore",
       "class com.example.test_app.bar.BarInstrumentedTest#ignoredTestBar",
       "class com.example.test_app.foo.FooInstrumentedTest#ignoredTestFoo"
     ]
