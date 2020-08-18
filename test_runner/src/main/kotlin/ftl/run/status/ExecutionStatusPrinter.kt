@@ -3,7 +3,6 @@ package ftl.run.status
 import com.google.common.annotations.VisibleForTesting
 import ftl.args.IArgs
 import ftl.config.FtlConstants
-import org.fusesource.jansi.Ansi
 import org.fusesource.jansi.AnsiConsole
 
 fun createExecutionStatusPrinter(
@@ -38,21 +37,14 @@ internal class SingleLinePrinter : (List<ExecutionStatus.Change>) -> Unit {
 }
 
 @VisibleForTesting
-internal class MultiLinePrinter(
-    private val ansi: () -> Ansi = { Ansi.ansi() }
-) : (List<ExecutionStatus.Change>) -> Unit {
+internal class MultiLinePrinter : (List<ExecutionStatus.Change>) -> Unit {
     init {
         AnsiConsole.systemInstall()
     }
 
     private val output = LinkedHashMap<String, ExecutionStatus.View>()
     override fun invoke(changes: List<ExecutionStatus.Change>) {
-        output.eraseBySize()
         changes.mapChanges().compareToOutput(output).appendToOutputIfNotEmpty()?.print()
-    }
-
-    private fun LinkedHashMap<String, ExecutionStatus.View>.eraseBySize() = repeat(size) {
-        print(ansi().cursorUpLine().eraseLine().toString())
     }
 
     private fun List<ExecutionStatus.Change>.mapChanges() = flatMap { change ->
@@ -67,7 +59,7 @@ internal class MultiLinePrinter(
 
     private fun List<Pair<String, ExecutionStatus.View>>.appendToOutputIfNotEmpty() = takeIf { isNotEmpty() }.also { output += this }
 
-    private fun List<Pair<String, ExecutionStatus.View>>.print() = map { it.second }.joinToString(System.lineSeparator()).let(::println)
+    private fun List<Pair<String, ExecutionStatus.View>>.print() = map { it.second }.joinToString("\n").let(::println)
 }
 
 @VisibleForTesting
