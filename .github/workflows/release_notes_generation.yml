@@ -15,6 +15,12 @@ jobs:
         git fetch --prune --unshallow --tags
         git tag
 
+    - name: Generate documentation
+      uses: eskatos/gradle-command-action@v1
+      with:
+        gradle-executable: "./test_runner/gradlew"
+        arguments: "-p test_runner processCliAsciiDoc"
+
     - name: Gradle Build flankScripts and add it to PATH
       run: |
         ./flank-scripts/bash/buildFlankScripts.sh
