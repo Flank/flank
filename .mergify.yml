@@ -11,18 +11,3 @@ pull_request_rules:
       delete_head_branch: {}
       merge:
         method: squash
-  - name: automatic merge when GitHub branch protection passes on master (flank-scripts)
-    conditions:
-      - files=
-      - "#approved-reviews-by>=2"
-      - status-success=Check Pull Request / check_title (pull_request)
-      - status-success=Validate Gradle Wrapper / Validation (pull_request) 
-      - status-success=Validate Gradle Wrapper / Validation (push)
-      - status-success=macOS-workflow / build (pull_request)
-      - status-success=ubuntu-workflow / build (pull_request)
-      - status-success=flank-scripts-macos-workflow
-      - -files~=^(!?flank-scripts/)
-    actions:
-      delete_head_branch: {}
-      merge:
-        method: squash
