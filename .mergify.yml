@@ -2,6 +2,27 @@ pull_request_rules:
   - name: automatic merge when GitHub branch protection passes on master
     conditions:
       - base=master
+      - "#approved-reviews-by>=2"
+      - status-success=Check Pull Request / check_title (pull_request)
+      - status-success=Validate Gradle Wrapper / Validation (pull_request) 
+      - status-success=Validate Gradle Wrapper / Validation (push)
+      - status-success=macOS-workflow / build (pull_request)
+      - status-success=ubuntu-workflow / build (pull_request)  
     actions:
+      delete_head_branch: {}
+      merge:
+        method: squash
+  - name: automatic merge when GitHub branch protection passes on master (flank-scripts)
+    conditions:
+      - base=master
+      - "#approved-reviews-by>=2"
+      - status-success=Check Pull Request / check_title (pull_request)
+      - status-success=Validate Gradle Wrapper / Validation (pull_request) 
+      - status-success=Validate Gradle Wrapper / Validation (push)
+      - status-success=macOS-workflow / build (pull_request)
+      - status-success=ubuntu-workflow / build (pull_request)flank-scripts-macos-workflow
+      - status-success=flank-scripts-macos-workflow
+    actions:
+      delete_head_branch: {}
       merge:
         method: squash
