@@ -10,6 +10,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Get all git tags
+      run: |
+        git fetch --prune --unshallow --tags
+        git tag
+
     - name: Gradle Build flankScripts and add it to PATH
       run: |
         ./flank-scripts/bash/buildFlankScripts.sh
