@@ -2,6 +2,7 @@ package ftl.cli.firebase.test.ios
 
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
+import ftl.environment.ipBlocksListAsTable
 import ftl.environment.providedSoftwareAsTable
 import ftl.environment.networkConfigurationAsTable
 import ftl.ios.IosCatalog.devicesCatalogAsTable
@@ -18,8 +19,10 @@ import java.nio.file.Paths
     descriptionHeading = "%n@|bold,underline Description:|@%n%n",
     parameterListHeading = "%n@|bold,underline Parameters:|@%n",
     optionListHeading = "%n@|bold,underline Options:|@%n",
-    header = ["Print available devices, OS versions, locales, provided software list and network configuration to test against"],
-    description = ["Print available iOS devices, iOS OS versions list, locales, provided software and network configuration to test against"],
+    header = ["Print available iOS devices, OS versions list, locales, provided software, network configuration, " +
+        "orientation and IP blocks to test against"],
+    description = ["Print available iOS devices, OS versions list, locales, provided software, network configuration, " +
+        "orientation and IP blocks to test against"],
     usageHelpAutoWidth = true
 )
 class IosTestEnvironmentCommand : Runnable {
@@ -31,6 +34,7 @@ class IosTestEnvironmentCommand : Runnable {
         println(providedSoftwareAsTable())
         println(networkConfigurationAsTable())
         println(supportedOrientationsAsTable(projectId))
+        println(ipBlocksListAsTable())
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])
