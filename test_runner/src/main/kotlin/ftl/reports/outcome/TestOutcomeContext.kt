@@ -32,7 +32,7 @@ private fun TestMatrix.getToolResultsIds(): ToolResultsExecution = ToolResultsEx
     .setHistoryId(resultStorage?.toolResultsExecution?.historyId ?: throw badMatrixError())
     .setExecutionId(resultStorage?.toolResultsExecution?.executionId ?: throw badMatrixError())
 
-private fun TestMatrix.badMatrixError() = BadMatrixError(SavedMatrix(this))
+private fun TestMatrix.badMatrixError() = BadMatrixError(SavedMatrix.create(this))
 
 class BadMatrixError(matrix: SavedMatrix) : FTLError(matrix)
 

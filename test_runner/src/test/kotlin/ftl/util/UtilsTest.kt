@@ -90,7 +90,7 @@ class UtilsTest {
             toolResultsExecution.executionId = "-1"
         }
         testMatrix.testExecutions = testExecutions
-        val finishedMatrix = SavedMatrix(testMatrix)
+        val finishedMatrix = SavedMatrix.create(testMatrix)
         MatrixMap(mutableMapOf("finishedMatrix" to finishedMatrix), "MockPath").validateMatrices()
     }
 
@@ -104,7 +104,7 @@ class UtilsTest {
         testMatrix.state = MatrixState.FINISHED
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
-        val finishedMatrix = SavedMatrix(testMatrix)
+        val finishedMatrix = SavedMatrix.create(testMatrix)
         MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath").validateMatrices()
     }
 
@@ -120,7 +120,7 @@ class UtilsTest {
             toolResultsExecution.executionId = "-2"
         }
         testMatrix.testExecutions = testExecutions
-        val finishedMatrix = SavedMatrix(testMatrix)
+        val finishedMatrix = SavedMatrix.create(testMatrix)
         MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath").validateMatrices()
     }
 
@@ -135,7 +135,7 @@ class UtilsTest {
         testMatrix.state = MatrixState.ERROR
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
-        val errorMatrix = SavedMatrix(testMatrix)
+        val errorMatrix = SavedMatrix.create(testMatrix)
         MatrixMap(mutableMapOf("errorMatrix" to errorMatrix), "MockPath").validateMatrices()
     }
 
@@ -151,7 +151,7 @@ class UtilsTest {
         testMatrix.state = MatrixState.FINISHED
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
-        val finishedMatrix = SavedMatrix(testMatrix)
+        val finishedMatrix = SavedMatrix.create(testMatrix)
         try {
             MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath").validateMatrices(shouldIgnore)
         } catch (t: FailedMatrixError) {

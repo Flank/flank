@@ -12,7 +12,9 @@ import ftl.run.common.getLastMatrices
 import ftl.run.common.pollMatrices
 import ftl.run.common.updateMatrixFile
 import ftl.args.ShardChunks
+import ftl.json.needsUpdate
 import ftl.json.update
+import ftl.json.updateMatrix
 import ftl.util.MatrixState
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
@@ -58,7 +60,10 @@ private suspend fun refreshMatrices(matrixMap: MatrixMap, args: IArgs) = corouti
 
         println(FtlConstants.indent + "${matrix.state} $matrixId")
 
-        if (map[matrixId]?.update(matrix) == true) dirty = true
+        if (map[matrixId]?.needsUpdate(matrix) == true) {
+            map[matrixId] = map[matrixId]!!.updateMatrix(matrix)
+            dirty = true
+        }
     }
 
     if (dirty) {

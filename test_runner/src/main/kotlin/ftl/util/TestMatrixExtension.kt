@@ -21,3 +21,22 @@ fun TestMatrix.webLink(): String {
         baseUrl
     }
 }
+
+fun TestMatrix.getClientDetails(): Map<String, String>? {
+    return this.clientInfo?.clientInfoDetails?.map { it.key to it.value }?.toMap()
+}
+
+fun TestMatrix.webLinkWithoutExecutionDetails(): String {
+    val webLink = webLink()
+    return if (webLink.isEmpty()) {
+        webLink
+    } else {
+        val executionsRegex = "/executions/.+".toRegex()
+        val foundValue = executionsRegex.find(webLink)?.value.orEmpty()
+        webLink.removeSuffix(foundValue)
+    }
+}
+
+fun TestMatrix.getGcsPath() = this.resultStorage?.googleCloudStorage?.gcsPath ?: ""
+fun TestMatrix.getGcsPathWithoutRootBucket() = this.getGcsPath().substringAfter('/')
+fun TestMatrix.getGcsRootBucket() = this.getGcsPath().substringBefore('/')
