@@ -29,6 +29,9 @@ Information about available software versions. For example prints list of availa
 *list*::
   List of OS versions available to test against
 
+*describe*::
+  List of OS versions available to test against
+
 // end::picocli-generated-man-section-commands[]
 
 // end::picocli-generated-full-manpage[]

@@ -1,3 +1,29 @@
+## v20.08.2
+### Features
+- [#1020](https://github.com/Flank/flank/pull/1020) Make release notes more organized ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1013](https://github.com/Flank/flank/pull/1013) Generating docs before release ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1012](https://github.com/Flank/flank/pull/1012) Add ip-blocks command to test-environment command ([pawelpasterz](https://github.com/pawelpasterz))
+- [#999](https://github.com/Flank/flank/pull/999) Implement ip-blocks list command ([pawelpasterz](https://github.com/pawelpasterz))
+- [#996](https://github.com/Flank/flank/pull/996) Auto generate release notes for next release ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#995](https://github.com/Flank/flank/pull/995) Implement command `models describe` for ios/android ([adamfilipow92](https://github.com/adamfilipow92))
+- [#991](https://github.com/Flank/flank/pull/991) Validate orientation and fail fast ([Sloox](https://github.com/Sloox))
+- [#969](https://github.com/Flank/flank/pull/969) Add locales description command for ios and android ([adamfilipow92](https://github.com/adamfilipow92))
+- [#992](https://github.com/Flank/flank/pull/992) Update google api ([jan-gogo](https://github.com/jan-gogo))
+- [#988](https://github.com/Flank/flank/pull/988) Add versions description command for ios and android ([adamfilipow92](https://github.com/adamfilipow92))
+### Refactor
+- [#1018](https://github.com/Flank/flank/pull/1018) Fetch artifacts async ([pawelpasterz](https://github.com/pawelpasterz))
+### Bug Fixes
+- [#919](https://github.com/Flank/flank/pull/919) Rate limit exceeded ([pawelpasterz](https://github.com/pawelpasterz), [jan-gogo](https://github.com/jan-gogo))
+- [#1005](https://github.com/Flank/flank/pull/1005) Generation of release notes ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1007](https://github.com/Flank/flank/pull/1007) Failing tests ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#990](https://github.com/Flank/flank/pull/990) Exclusion of @Suppress test ([piotradamczyk5](https://github.com/piotradamczyk5))
+### CI Changes
+- [#1015](https://github.com/Flank/flank/pull/1015) Update mergify configuration ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1011](https://github.com/Flank/flank/pull/1011) Generate release notes for Github release description ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#989](https://github.com/Flank/flank/pull/989) Check if valid title is used in PR ([piotradamczyk5](https://github.com/piotradamczyk5))
+### Documentation
+- [#987](https://github.com/Flank/flank/pull/987) Analytics addition to readme ([Sloox](https://github.com/Sloox))
+
 ## v20.08.1
 - [#978](https://github.com/Flank/flank/pull/978) Firebaseopensource.com addition ([sloox](https://github.com/Sloox))
 - [#937](https://github.com/Flank/flank/pull/968) Improve error message on iOS when test or xctestrun-file not found ([sloox](https://github.com/Sloox))

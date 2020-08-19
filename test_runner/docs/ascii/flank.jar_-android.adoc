@@ -45,7 +45,7 @@ flank.jar
   Information about available locales on device
 
 *test-environment*::
-  Print available devices, OS versions, locales, provided software list and network configuration to test against
+  Print available Android devices, Android OS versions list, locales, provided software, network configuration, orientation and IP blocks to test against
 
 // end::picocli-generated-man-section-commands[]
 

@@ -29,6 +29,9 @@ Information about available models. For example prints list of available models 
 *list*::
   Print current list of devices available to test against
 
+*describe*::
+  Describe android model 
+
 // end::picocli-generated-man-section-commands[]
 
 // end::picocli-generated-full-manpage[]

@@ -4,7 +4,7 @@
 == Name
 
 flank.jar
--firebase-test-android-locales - Information about available locales on device
+-ip-blocks - Explore IP blocks used by Firebase Test Lab devices.
 
 // end::picocli-generated-man-section-name[]
 
@@ -12,14 +12,14 @@ flank.jar
 == Synopsis
 
 *flank.jar
- firebase test android locales* [COMMAND]
+ ip-blocks* [COMMAND]
 
 // end::picocli-generated-man-section-synopsis[]
 
 // tag::picocli-generated-man-section-description[]
 == Description
 
-Information about available locales on device. For example prints list of available locales to test against
+
 
 // end::picocli-generated-man-section-description[]
 
@@ -27,10 +27,7 @@ Information about available locales on device. For example prints list of availa
 == Commands
 
 *list*::
-  Print current list of locales available to test against
-
-*describe*::
-  Describe a locales 
+  List all IP address blocks used by Firebase Test Lab devices
 
 // end::picocli-generated-man-section-commands[]
 
