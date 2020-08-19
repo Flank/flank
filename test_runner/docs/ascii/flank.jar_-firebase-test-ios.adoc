@@ -36,13 +36,13 @@ flank.jar
   Information about available models
 
 *versions*::
-  Information about available software versions
+  Describe software versions
 
 *locales*::
   Information about available locales on device
 
 *test-environment*::
-  Print available devices, OS versions, locales, provided software list and network configuration to test against
+  Print available iOS devices, OS versions list, locales, provided software, network configuration, orientation and IP blocks to test against
 
 *screen-orientations*::
   Information about available orientation versions

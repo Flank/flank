@@ -4,7 +4,7 @@
 == Name
 
 flank.jar
--firebase-test-network-profiles - Explore network profiles available for testing.
+-firebase-test-ip-blocks-list - List all IP address blocks used by Firebase Test Lab devices
 
 // end::picocli-generated-man-section-name[]
 
@@ -12,7 +12,7 @@ flank.jar
 == Synopsis
 
 *flank.jar
- firebase test network-profiles* [COMMAND]
+ firebase test ip-blocks list*
 
 // end::picocli-generated-man-section-synopsis[]
 
@@ -22,16 +22,5 @@ flank.jar
 
 
 // end::picocli-generated-man-section-description[]
-
-// tag::picocli-generated-man-section-commands[]
-== Commands
-
-*list*::
-  List all network profiles available for testing 
-
-*describe*::
-  Describe a network profile 
-
-// end::picocli-generated-man-section-commands[]
 
 // end::picocli-generated-full-manpage[]

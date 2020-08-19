@@ -4,7 +4,7 @@
 == Name
 
 flank.jar
--network-profiles - 
+-network-profiles - Explore network profiles available for testing.
 
 // end::picocli-generated-man-section-name[]
 
@@ -28,6 +28,9 @@ flank.jar
 
 *list*::
   List all network profiles available for testing 
+
+*describe*::
+  Describe a network profile 
 
 // end::picocli-generated-man-section-commands[]
 

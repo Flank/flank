@@ -29,6 +29,9 @@ Information about available locales on device. For example prints list of availa
 *list*::
   Print current list of locales available to test against
 
+*describe*::
+  Describe a locales 
+
 // end::picocli-generated-man-section-commands[]
 
 // end::picocli-generated-full-manpage[]

@@ -4,7 +4,7 @@
 == Name
 
 flank.jar
--firebase-test-ios-versions - Information about available software versions
+-firebase-test-ios-versions - Describe software versions
 
 // end::picocli-generated-man-section-name[]
 
@@ -27,6 +27,9 @@ Information about available software versions. For example prints list of availa
 == Commands
 
 *list*::
+  List of OS versions available to test against
+
+*describe*::
   List of OS versions available to test against
 
 // end::picocli-generated-man-section-commands[]
