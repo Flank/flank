@@ -1,5 +1,6 @@
 package flank.scripts.release.hub
 
+import flank.scripts.ci.releasenotes.ReleaseNotesWithType
 import flank.scripts.ci.releasenotes.generateReleaseNotes
 import flank.scripts.utils.markdownH2
 import flank.scripts.utils.runCommand
@@ -38,7 +39,7 @@ private fun hubStableReleaseCommand(path: String, gitTag: String, token: String)
         gitTag
     )
 
-private fun List<String>.asReleaseBody(tag: String) =
+private fun ReleaseNotesWithType.asReleaseBody(tag: String) =
     StringBuilder(tag.markdownH2())
         .appendln()
         .apply { this@asReleaseBody.forEach { appendln(it) } }

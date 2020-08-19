@@ -22,7 +22,7 @@ fun generateReleaseNotes(githubToken: String) = runBlocking {
 fun generateReleaseNotes(
     latestReleaseTag: String,
     githubToken: String
-) = getCommitsSha(latestReleaseTag).getReleaseNotes(githubToken)
+) = getCommitsSha(latestReleaseTag).getNewReleaseNotes(githubToken)
 
 internal fun getCommitsSha(fromTag: String): List<String> {
     val outputFile = File.createTempFile("sha", ".log")
@@ -32,18 +32,27 @@ internal fun getCommitsSha(fromTag: String): List<String> {
     return outputFile.readLines()
 }
 
-private fun List<String>.getReleaseNotes(githubToken: String) = runBlocking {
+private fun List<String>.getNewReleaseNotes(githubToken: String) = runBlocking {
     map { sha -> async { getPrDetailsByCommit(sha, githubToken) } }
         .awaitAll()
         .filterIsInstance<Result.Success<List<GithubPullRequest>>>()
-        .map { it.value }
-        .filter { it.isNotEmpty() }
-        .mapNotNull { it.first().toReleaseNoteMessage() }
+        .mapNotNull { it.value.firstOrNull()?.toReleaseNoteMessage() }
+        .fold(mutableMapOf<String, MutableList<String>>()) { grouped, pr ->
+            grouped.apply {
+                val (type, message) = pr
+                appendToType(type, message)
+            }
+        }
 }
 
+private fun MutableMap<String, MutableList<String>>.appendToType(
+    type: String,
+    message: String
+) = apply { (getOrPut(type) { mutableListOf() }).add(message) }
+
 private fun GithubPullRequest.toReleaseNoteMessage() =
-    title.mapPrTitle()?.let { title ->
-        "- ${markdownLink(number.toString(), htmlUrl)} $title ${assignees.format()}"
+    title.mapPrTitleWithType()?.let { (type, title) ->
+        type to "- ${markdownLink("#$number", htmlUrl)} $title ${assignees.format()}"
     }
 
 private fun List<GithubUser>.format() = "(${joinToString { (login, url) -> markdownLink(login, url) }})"

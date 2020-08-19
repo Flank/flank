@@ -4,11 +4,12 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
+import com.github.kittinunf.result.map
 import com.github.kittinunf.result.success
 import flank.scripts.ci.nexttag.generateNextReleaseTag
 import flank.scripts.github.getLatestReleaseTag
-import java.io.File
 import kotlinx.coroutines.runBlocking
+import java.io.File
 
 class GenerateReleaseNotesCommand :
     CliktCommand("Command to append item to release notes", name = "generateReleaseNotes") {
@@ -18,12 +19,14 @@ class GenerateReleaseNotesCommand :
 
     override fun run() {
         runBlocking {
-            getLatestReleaseTag(token).success {
-                File(releaseNotesFile).appendReleaseNotes(
-                    messages = generateReleaseNotes(it.tag, token),
-                    releaseTag = generateNextReleaseTag(it.tag)
-                )
-            }
+            getLatestReleaseTag(token)
+                .map { it.tag }
+                .success { previousTag ->
+                    File(releaseNotesFile).appendReleaseNotes(
+                        releaseNotesWithType = generateReleaseNotes(previousTag, token),
+                        releaseTag = generateNextReleaseTag(previousTag)
+                    )
+                }
         }
     }
 }
