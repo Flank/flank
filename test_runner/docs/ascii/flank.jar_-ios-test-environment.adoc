@@ -4,7 +4,7 @@
 == Name
 
 flank.jar
--ios-test-environment - Print available devices, OS versions, locales, provided software list and network configuration to test against
+-ios-test-environment - Print available iOS devices, OS versions list, locales, provided software, network configuration, orientation and IP blocks to test against
 
 // end::picocli-generated-man-section-name[]
 
@@ -19,7 +19,7 @@ flank.jar
 // tag::picocli-generated-man-section-description[]
 == Description
 
-Print available iOS devices, iOS OS versions list, locales, provided software and network configuration to test against
+Print available iOS devices, OS versions list, locales, provided software, network configuration, orientation and IP blocks to test against
 
 // end::picocli-generated-man-section-description[]
 

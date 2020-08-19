@@ -59,7 +59,10 @@ flank.jar
   
 
 *network-profiles*::
-  
+  Explore network profiles available for testing.
+
+*ip-blocks*::
+  Explore IP blocks used by Firebase Test Lab devices.
 
 // end::picocli-generated-man-section-commands[]
 

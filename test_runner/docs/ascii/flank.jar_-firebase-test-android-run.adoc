@@ -133,9 +133,6 @@ Configuration is read from flank.yml
 *--shard-time*=_<shardTime>_::
   The max amount of seconds each shard should run.
 
-*--project*=_<project>_::
-  The Google Cloud Platform project name to use for this invocation. If omitted, then the project from the service account credential is used
-
 *--num-test-runs*=_<repeatTests>_::
   The amount of times to run the test executions.
 
@@ -153,6 +150,9 @@ Configuration is read from flank.yml
 
 *--files-to-download*=_<filesToDownload>_[,_<filesToDownload>_...]::
   A list of paths that will be downloaded from the resulting bucket to the local results folder after the test is complete. These must be absolute paths (for example, --files-to-download /images/tempDir1,/data/local/tmp/tempDir2). Path names are restricted to the characters a-zA-Z0-9_-./+.
+
+*--project*=_<project>_::
+  The Google Cloud Platform project name to use for this invocation. If omitted, then the project from the service account credential is used
 
 *--local-result-dir*=_<localResultsDir>_::
   Saves test result to this local folder. Deleted before each run.
@@ -175,6 +175,9 @@ Configuration is read from flank.yml
 *--disable-results-upload*::
   Disables flank results upload on gcloud storage.
 
+*--app*=_<app>_::
+  The path to the application binary file. The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.
+
 *--test*=_<test>_::
   The path to the binary file containing instrumentation tests. The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://.
 
@@ -186,9 +189,6 @@ Configuration is read from flank.yml
 
 *--no-auto-google-login*::
   Google account not logged in (default behavior). Use --auto-google-login to enable
-
-*--app*=_<app>_::
-  The path to the application binary file. The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.
 
 *--use-orchestrator*::
   Whether each test runs in its own Instrumentation instance with the Android Test Orchestrator (default: Orchestrator is used. To disable, use --no-use-orchestrator). Orchestrator is only compatible with AndroidJUnitRunner v1.0 or higher. See https://developer.android.com/training/testing/junit-runner.html#using-android-test-orchestrator for more information about Android Test Orchestrator.
@@ -240,11 +240,11 @@ You can guide the Robo test to perform specific actions by recording a Robo Scri
 +
 Learn more at https://firebase.google.com/docs/test-lab/robo-ux-test#scripting. 
 
-*--additional-app-test-apks*=_<String=String>_[,_<String=String>_...]::
-  A list of app & test apks to include in the run. Useful for running multiple module tests within a single Flank run.
-
 *--legacy-junit-result*::
   Fallback for legacy xml junit results parsing.
+
+*--additional-app-test-apks*=_<String=String>_[,_<String=String>_...]::
+  A list of app & test apks to include in the run. Useful for running multiple module tests within a single Flank run.
 
 *--dump-shards*::
   Measures test shards from given test apks and writes them into android_shards.json file instead of executing.
