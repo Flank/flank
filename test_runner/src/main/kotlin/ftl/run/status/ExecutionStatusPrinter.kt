@@ -3,6 +3,7 @@ package ftl.run.status
 import com.google.common.annotations.VisibleForTesting
 import ftl.args.IArgs
 import ftl.config.FtlConstants
+import org.fusesource.jansi.Ansi
 import org.fusesource.jansi.AnsiConsole
 
 fun createExecutionStatusPrinter(
@@ -37,29 +38,25 @@ internal class SingleLinePrinter : (List<ExecutionStatus.Change>) -> Unit {
 }
 
 @VisibleForTesting
-internal class MultiLinePrinter : (List<ExecutionStatus.Change>) -> Unit {
+internal class MultiLinePrinter(
+    private val ansi: () -> Ansi = { Ansi.ansi() }
+) : (List<ExecutionStatus.Change>) -> Unit {
     init {
         AnsiConsole.systemInstall()
     }
 
     private val output = LinkedHashMap<String, ExecutionStatus.View>()
     override fun invoke(changes: List<ExecutionStatus.Change>) {
-        changes.mapChanges().compareToOutput(output).appendToOutputIfNotEmpty()?.print()
+        repeat(output.size) {
+            print(ansi().cursorUpLine().eraseLine().toString())
+        }
+        output += changes.map { change ->
+            change.views.takeLast(1)
+        }.flatten().map { view ->
+            view.id to view
+        }
+        output.values.joinToString("\n").let(::println)
     }
-
-    private fun List<ExecutionStatus.Change>.mapChanges() = flatMap { change ->
-        change.views.takeLast(1)
-    }.map { view ->
-        view.id to view
-    }
-
-    private fun List<Pair<String, ExecutionStatus.View>>.compareToOutput(out: LinkedHashMap<String, ExecutionStatus.View>) =
-        if (out.isNotEmpty()) filter { (key, executionStatusView) -> out[key] != executionStatusView }
-        else this
-
-    private fun List<Pair<String, ExecutionStatus.View>>.appendToOutputIfNotEmpty() = takeIf { isNotEmpty() }.also { output += this }
-
-    private fun List<Pair<String, ExecutionStatus.View>>.print() = map { it.second }.joinToString("\n").let(::println)
 }
 
 @VisibleForTesting
