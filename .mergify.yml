@@ -4,4 +4,25 @@ pull_request_rules:
       - base=master
     actions:
       merge:
+        strict: true
+        strict_method: rebase
         method: squash
+  - name: ask to fix PR title
+    conditions:
+      - status-failure=check_title
+      - -closed
+    actions:
+        comment:
+          message: |
+            Title does not follow the guidelines of [Conventional Commits](https://www.conventionalcommits.org).
+            Please adjust title before merge and use one of following prefix:
+            - `build` - Changes that affect the build system or external dependencies (dependencies update)
+            - `ci` - Changes to our CI configuration files and scripts (basically directory `.github/workflows`)
+            - `docs` - Documentation only changes
+            - `feat` - A new feature
+            - `fix` - A bug fix
+            - `chore` - Changes which does not touch the code (ex. manual update of release notes). It will not generate release notes changes
+            - `refactor` - A code change that contains refactor
+            - `style` - Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+            - `test` - Adding missing tests or correcting existing tests and also changes for our test app
+            - `perf` - A code change that improves performance (I do not think we will use it)
