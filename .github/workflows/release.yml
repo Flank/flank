@@ -103,4 +103,3 @@ jobs:
       with:
         gradle-executable: "./test_runner/gradlew"
         arguments: "-p test_runner publish -PGITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
-
