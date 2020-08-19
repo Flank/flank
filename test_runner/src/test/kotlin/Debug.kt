@@ -12,7 +12,7 @@ fun main() {
         ?: "YOUR PROJECT ID"
 
     val quantity = "multiple"
-    val type = "success"
+    val type = "flaky"
     // Bugsnag keeps the process alive so we must call exitProcess
     // https://github.com/bugsnag/bugsnag-java/issues/151
     withGlobalExceptionHandling {
@@ -22,7 +22,7 @@ fun main() {
             "run",
 //            "--dry",
 //            "--dump-shards",
-//            "--output-style=single",
+            "--output-style=single",
 //            "--full-junit-result",
 //            "--legacy-junit-result",
             "-c=src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type.yml",

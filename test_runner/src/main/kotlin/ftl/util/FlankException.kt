@@ -26,7 +26,7 @@ class FailedMatrixError(val matrices: List<SavedMatrix>, val ignoreFailed: Boole
  *
  * @param matrix [SavedMatrix] Not finished matrix (with matrix state different then FINISHED)
  */
-class FTLError(val matrix: SavedMatrix) : FlankException()
+open class FTLError(val matrix: SavedMatrix) : FlankException()
 
 /**
  * Thrown when doctor command found an error in yml fail and wa unable to fix it

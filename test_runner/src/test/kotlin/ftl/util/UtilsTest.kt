@@ -1,12 +1,12 @@
 package ftl.util
 
-import com.google.api.services.testing.model.TestMatrix
 import com.google.common.truth.Truth.assertThat
 import ftl.config.FtlConstants
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
 import ftl.json.SavedMatrixTest.Companion.createResultsStorage
 import ftl.json.SavedMatrixTest.Companion.createStepExecution
+import ftl.json.SavedMatrixTest.Companion.testMatrix
 import ftl.run.cancelMatrices
 import ftl.test.util.FlankTestRunner
 import io.mockk.coEvery
@@ -83,10 +83,12 @@ class UtilsTest {
             createStepExecution(1, "Success"),
             createStepExecution(-1, "Failed")
         )
-        val testMatrix = TestMatrix()
+        val testMatrix = testMatrix()
         testMatrix.testMatrixId = "123"
         testMatrix.state = MatrixState.FINISHED
-        testMatrix.resultStorage = createResultsStorage()
+        testMatrix.resultStorage = createResultsStorage().apply {
+            toolResultsExecution.executionId = "-1"
+        }
         testMatrix.testExecutions = testExecutions
         val finishedMatrix = SavedMatrix(testMatrix)
         MatrixMap(mutableMapOf("finishedMatrix" to finishedMatrix), "MockPath").validateMatrices()
@@ -97,7 +99,7 @@ class UtilsTest {
         val testExecutions = listOf(
             createStepExecution(1, "Success")
         )
-        val testMatrix = TestMatrix()
+        val testMatrix = testMatrix()
         testMatrix.testMatrixId = "123"
         testMatrix.state = MatrixState.FINISHED
         testMatrix.resultStorage = createResultsStorage()
@@ -111,10 +113,12 @@ class UtilsTest {
         val testExecutions = listOf(
             createStepExecution(-2, "Inconclusive")
         )
-        val testMatrix = TestMatrix()
+        val testMatrix = testMatrix()
         testMatrix.testMatrixId = "123"
         testMatrix.state = MatrixState.FINISHED
-        testMatrix.resultStorage = createResultsStorage()
+        testMatrix.resultStorage = createResultsStorage().apply {
+            toolResultsExecution.executionId = "-2"
+        }
         testMatrix.testExecutions = testExecutions
         val finishedMatrix = SavedMatrix(testMatrix)
         MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath").validateMatrices()
@@ -126,7 +130,7 @@ class UtilsTest {
             createStepExecution(-2, "Inconclusive"),
             createStepExecution(-3, "Skipped")
         )
-        val testMatrix = TestMatrix()
+        val testMatrix = testMatrix()
         testMatrix.testMatrixId = "123"
         testMatrix.state = MatrixState.ERROR
         testMatrix.resultStorage = createResultsStorage()
@@ -142,7 +146,7 @@ class UtilsTest {
             createStepExecution(1, "Success"),
             createStepExecution(-1, "Failed")
         )
-        val testMatrix = TestMatrix()
+        val testMatrix = testMatrix()
         testMatrix.testMatrixId = "123"
         testMatrix.state = MatrixState.FINISHED
         testMatrix.resultStorage = createResultsStorage()

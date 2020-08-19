@@ -3,14 +3,17 @@ package ftl.run
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
+import ftl.test.util.FlankTestRunner
 import ftl.test.util.ios2ConfigYaml
 import ftl.test.util.mixedConfigYaml
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
+import org.junit.runner.RunWith
 import java.io.File
 
+@RunWith(FlankTestRunner::class)
 class DumpShardsKtTest {
 
     @Test

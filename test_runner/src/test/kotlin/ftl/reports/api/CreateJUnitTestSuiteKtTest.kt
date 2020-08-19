@@ -5,6 +5,7 @@ import com.google.api.services.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.model.Step
 import com.google.api.services.toolresults.model.StepDimensionValueEntry
 import com.google.api.services.toolresults.model.TestCase
+import com.google.api.services.toolresults.model.TestExecutionStep
 import com.google.api.services.toolresults.model.Timestamp
 import ftl.reports.api.data.TestExecutionData
 import ftl.reports.api.data.TestSuiteOverviewData
@@ -24,7 +25,7 @@ class CreateJUnitTestSuiteKtTest {
     @Before
     fun setUp() {
         mockkStatic(
-            "ftl.reports.api.CreateTestSuitOverviewDataKt",
+            "ftl.reports.api.CreateTestSuiteOverviewDataKt",
             "ftl.reports.api.CreateJUnitTestCaseKt"
         )
     }
@@ -38,7 +39,7 @@ class CreateJUnitTestSuiteKtTest {
     fun createJUnitTestSuites() {
         // given
         every {
-            any<TestExecutionData>().createTestSuitOverviewData()
+            any<TestExecutionData>().createTestSuiteOverviewData()
         } returns TestSuiteOverviewData(1, 1, 1, 1, 1, 1.1, 1.1)
 
         val jUnitTestCase = JUnitTestCase(null, null, "1.1")
@@ -60,6 +61,7 @@ class CreateJUnitTestSuiteKtTest {
                     dimensionValue = listOf("Model", "Version", "Locale", "Orientation").map {
                         StepDimensionValueEntry().apply { key = it; value = it }
                     }
+                    testExecutionStep = TestExecutionStep()
                 },
                 testCases = listOf(TestCase())
             )

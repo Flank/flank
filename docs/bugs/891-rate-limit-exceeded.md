@@ -183,6 +183,25 @@ forEach(test matrix) {
 }
 ```
 
+#### Flank v20.06.2
+* [pollMatrices](https://github.com/Flank/flank/blob/6ee6939263923953edf67afa7218cf2c496c2ef2/test_runner/src/main/kotlin/ftl/run/common/PollMatrices.kt#L19)
+```
+forEach(test matrix) {
+    async while(matrix status is not completed) {
+        GcTestMatrix.refresh(testMatrixId, projectId)
+        wait(5s)
+    }
+}
+```
+* [SavedMatrix.finished](https://github.com/Flank/flank/blob/c88cb2786de67c0a114fc31a7b25917a035e145b/test_runner/src/main/kotlin/ftl/json/SavedMatrix.kt#L75)
+```
+forEach(test matrix) {
+    sync forEach(matrix test execution) {
+        GcToolResults.getStepResult(toolResultsStep)
+    }  
+}
+```
+
 ## API calls usage comparision table
 Following table should compare API calls complexity.
 

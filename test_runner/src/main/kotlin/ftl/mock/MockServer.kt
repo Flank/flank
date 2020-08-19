@@ -10,17 +10,24 @@ import com.google.api.services.testing.model.ResultStorage
 import com.google.api.services.testing.model.TestEnvironmentCatalog
 import com.google.api.services.testing.model.TestExecution
 import com.google.api.services.testing.model.TestMatrix
+import com.google.api.services.testing.model.ToolResultsExecution
 import com.google.api.services.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.model.Duration
+import com.google.api.services.toolresults.model.EnvironmentDimensionValueEntry
 import com.google.api.services.toolresults.model.FailureDetail
 import com.google.api.services.toolresults.model.History
 import com.google.api.services.toolresults.model.InconclusiveDetail
+import com.google.api.services.toolresults.model.ListEnvironmentsResponse
 import com.google.api.services.toolresults.model.ListHistoriesResponse
+import com.google.api.services.toolresults.model.ListStepsResponse
+import com.google.api.services.toolresults.model.MergedResult
 import com.google.api.services.toolresults.model.Outcome
 import com.google.api.services.toolresults.model.ProjectSettings
 import com.google.api.services.toolresults.model.SkippedDetail
 import com.google.api.services.toolresults.model.Step
+import com.google.api.services.toolresults.model.StepDimensionValueEntry
 import com.google.api.services.toolresults.model.TestExecutionStep
+import com.google.api.services.toolresults.model.TestSuiteOverview
 import com.google.api.services.toolresults.model.TestTiming
 import com.google.gson.GsonBuilder
 import com.google.gson.LongSerializationPolicy
@@ -76,38 +83,41 @@ object MockServer {
         val testExecutionStep = TestExecutionStep()
             .setTestTiming(testTiming)
 
-        val outcome = Outcome()
-        when (stringId) {
-            "-1" -> {
-                outcome.summary = failure
-                val failureDetail = FailureDetail()
-                failureDetail.timedOut = true
-                failureDetail.crashed = false
-                failureDetail.otherNativeCrash = false
-                outcome.failureDetail = failureDetail
-            }
-            "-2" -> {
-                outcome.summary = inconclusive
-                val inconclusiveDetail = InconclusiveDetail()
-                inconclusiveDetail.abortedByUser = true
-                inconclusiveDetail.infrastructureFailure = false
-                outcome.inconclusiveDetail = inconclusiveDetail
-            }
-            "-3" -> {
-                outcome.summary = skipped
-                val skippedDetail = SkippedDetail()
-                skippedDetail.incompatibleAppVersion = true
-                outcome.skippedDetail = skippedDetail
-            }
-            "-4" -> outcome.summary = flaky
-            "-666" -> outcome.summary = null
-            else -> outcome.summary = success
-        }
+        val outcome = fakeOutcome(stringId)
 
         return Step()
             .setTestExecutionStep(testExecutionStep)
             .setRunDuration(oneSecond)
             .setOutcome(outcome)
+    }
+
+    private fun fakeOutcome(id: String) = Outcome().apply {
+        when (id) {
+            "-1" -> {
+                summary = failure
+                failureDetail = FailureDetail().apply {
+                    timedOut = true
+                    crashed = false
+                    otherNativeCrash = false
+                }
+            }
+            "-2" -> {
+                summary = inconclusive
+                inconclusiveDetail = InconclusiveDetail().apply {
+                    abortedByUser = true
+                    infrastructureFailure = false
+                }
+            }
+            "-3" -> {
+                summary = skipped
+                skippedDetail = SkippedDetail().apply {
+                    incompatibleAppVersion = true
+                }
+            }
+            "-4" -> summary = flaky
+            "-666" -> summary = null
+            else -> summary = success
+        }
     }
 
     private val application by lazy {
@@ -165,7 +175,12 @@ object MockServer {
 
                     val matrixId = matrixIdCounter.incrementAndGet().toString()
 
-                    val resultStorage = ResultStorage()
+                    val resultStorage = ResultStorage().apply {
+                        toolResultsExecution = ToolResultsExecution()
+                            .setProjectId("1")
+                            .setHistoryId("2")
+                            .setExecutionId("1")
+                    }
                     resultStorage.googleCloudStorage = GoogleCloudStorage()
                     resultStorage.googleCloudStorage.gcsPath = matrixId
 
@@ -240,6 +255,69 @@ object MockServer {
                             .setDisplayName("mockDisplayName")
                             .setName("mockName")
                     )
+                }
+
+                get("/toolresults/v1beta3/projects/{projectId}/histories/{historyId}/executions/{executionId}/environments") {
+                    val executionId = call.parameters["executionId"] ?: ""
+                    ListEnvironmentsResponse().apply {
+                        environments = listOf(
+                            com.google.api.services.toolresults.model.Environment().apply {
+                                environmentResult = MergedResult().apply {
+                                    outcome = fakeOutcome(executionId)
+                                    testSuiteOverviews = listOf(
+                                        TestSuiteOverview()
+                                    )
+                                }
+                                dimensionValue = listOf(
+                                    EnvironmentDimensionValueEntry().apply {
+                                        key = "Model"
+                                        value = "nexus5"
+                                    }
+                                )
+                            }
+                        )
+                    }.let {
+                        call.respond(it)
+                    }
+                }
+
+                get("/toolresults/v1beta3/projects/{projectId}/histories/{historyId}/executions/{executionId}/steps") {
+                    ListStepsResponse().apply {
+                        steps = listOf(
+                            Step().apply {
+                                dimensionValue = listOf(
+                                    StepDimensionValueEntry().apply {
+                                        key = "Model"
+                                        value = "shamu"
+                                    }
+                                )
+                                testExecutionStep = TestExecutionStep().apply {
+                                    testTiming = TestTiming().apply {
+                                        testProcessDuration = Duration().apply {
+                                            seconds = 1
+                                        }
+                                    }
+                                }
+                            },
+                            Step().apply {
+                                dimensionValue = listOf(
+                                    StepDimensionValueEntry().apply {
+                                        key = "Model"
+                                        value = "Nexus5"
+                                    }
+                                )
+                                testExecutionStep = TestExecutionStep().apply {
+                                    testTiming = TestTiming().apply {
+                                        testProcessDuration = Duration().apply {
+                                            seconds = 1
+                                        }
+                                    }
+                                }
+                            }
+                        )
+                    }.let {
+                        call.respond(it)
+                    }
                 }
 
                 // POST /upload/storage/v1/b/tmp_bucket_2/o?projection=full&uploadType=multipart

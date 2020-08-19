@@ -1,27 +1,16 @@
 package ftl.json
 
-import com.google.api.services.testing.model.TestExecution
 import com.google.api.services.testing.model.TestMatrix
-import com.google.api.services.toolresults.model.Outcome
-import ftl.android.AndroidCatalog.isVirtualDevice
-import ftl.gc.GcToolResults
-import ftl.reports.api.createTestExecutionDataListAsync
-import ftl.reports.api.createTestSuitOverviewData
-import ftl.reports.api.data.TestSuiteOverviewData
-import ftl.reports.api.prepareForJUnitResult
+import ftl.reports.outcome.createMatrixOutcomeSummary
+import ftl.reports.outcome.fetchTestOutcomeContext
 import ftl.util.FlankGeneralError
-import ftl.util.MatrixState.ERROR
 import ftl.util.MatrixState.FINISHED
 import ftl.util.MatrixState.INVALID
 import ftl.util.StepOutcome.failure
-import ftl.util.StepOutcome.flaky
 import ftl.util.StepOutcome.inconclusive
 import ftl.util.StepOutcome.skipped
 import ftl.util.StepOutcome.success
-import ftl.util.billableMinutes
-import ftl.util.timeoutToSeconds
 import ftl.util.webLink
-import kotlin.math.min
 
 // execution gcs paths aren't API accessible.
 class SavedMatrix(matrix: TestMatrix) {
@@ -102,77 +91,11 @@ class SavedMatrix(matrix: TestMatrix) {
     }
 
     private fun updateFinishedMatrixData(matrix: TestMatrix) {
-        val testExecutionsData = matrix.testExecutions?.createTestExecutionDataListAsync() ?: return
-        val summedTestSuiteOverviewData =
-            testExecutionsData
-                .prepareForJUnitResult()
-                .fold(TestSuiteOverviewData(0, 0, 0, 0, 0, 0.0, 0.0)) { sum, test ->
-                    sum + test.createTestSuitOverviewData()
-                }
-
-        testExecutionsData
-            .forEach {
-                with(GcToolResults.getExecutionResult(it.testExecution).outcome) {
-                    updateOutcome(it.step.outcome?.summary != this?.summary)
-                    updateOutcomeDetails(
-                        testSuiteOverviewData = summedTestSuiteOverviewData,
-                        isRoboTests = it.testExecution.testSpecification?.androidRoboTest != null
-                    )
-                }
-                it.testExecution.getBillableMinutes()?.let { billableMinutes ->
-                    updateBillableMinutes(
-                        billableMinutes = billableMinutes,
-                        isVirtualDevice = isVirtualDevice(
-                            it.testExecution.environment.androidDevice,
-                            matrix.projectId.orEmpty()
-                        )
-                    )
-                }
-            }
-    }
-
-    private fun TestExecution.getBillableMinutes() =
-        takeIf { testExecution -> testExecution.state != ERROR }
-            ?.run {
-                // testExecutionStep, testTiming, etc. can all be null.
-                // sometimes testExecutionStep is present and testTiming is null
-                val testTimeSeconds =
-                    GcToolResults.getStepResult(toolResultsStep).testExecutionStep?.testTiming?.testProcessDuration?.seconds
-                        ?: return null
-                val testTimeout = timeoutToSeconds(testSpecification?.testTimeout ?: "0s")
-
-                // if overall test duration time is higher then testTimeout flank should calculate billable minutes for testTimeout
-                billableMinutes(min(testTimeSeconds, testTimeout))
-            }
-
-    private fun Outcome?.updateOutcome(
-        flakyOutcome: Boolean
-    ) {
-        outcome = when {
-            // The matrix outcome is failure if any step fails
-            // If the matrix outcome is already set to failure then we can ignore the other step outcomes.
-            // Inconclusive is treated as a failure
-            // This particular conditions order should not be changed, for more details check:
-            // https://github.com/Flank/flank/issues/914
-            outcome == failure || outcome == inconclusive -> return
-            flakyOutcome -> flaky
-            outcome == flaky -> this?.summary?.takeIf { it == failure || it == inconclusive }
-            else -> this?.summary
-        } ?: outcome
-    }
-
-    private fun Outcome?.updateOutcomeDetails(
-        testSuiteOverviewData: TestSuiteOverviewData?,
-        isRoboTests: Boolean
-    ) {
-        outcomeDetails = if (isRoboTests) "Robo test" else (this?.getDetails(testSuiteOverviewData) ?: "---")
-    }
-
-    private fun updateBillableMinutes(billableMinutes: Long, isVirtualDevice: Boolean) {
-        if (isVirtualDevice) {
-            billableVirtualMinutes += billableMinutes
-        } else {
-            billablePhysicalMinutes += billableMinutes
+        matrix.fetchTestOutcomeContext().createMatrixOutcomeSummary().let { (billableMinutes, summary) ->
+            outcome = summary.outcome
+            outcomeDetails = summary.testDetails
+            billableVirtualMinutes = billableMinutes.virtual
+            billablePhysicalMinutes = billableMinutes.physical
         }
     }
 

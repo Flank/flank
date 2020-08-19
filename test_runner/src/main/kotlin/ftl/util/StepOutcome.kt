@@ -9,4 +9,13 @@ object StepOutcome {
     const val skipped = "skipped"
     const val success = "success"
     const val unset = "unset"
+
+    val order = linkedSetOf(
+        failure,
+        flaky,
+        success,
+        inconclusive,
+        skipped,
+        unset
+    ).reversed()
 }
