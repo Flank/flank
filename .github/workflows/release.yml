@@ -66,7 +66,7 @@ jobs:
       with:
         gradle-executable: "./test_runner/gradlew"
         arguments: "-p test_runner bintrayUpload -PJFROG_API_KEY=${{ secrets.JFROG_API_KEY }} -PJFROG_USER=${{ secrets.JFROG_USER }}"  
-      
+
     - name: Authenticate to hub
       run: |
             mkdir -p ~/.config/
@@ -97,3 +97,9 @@ jobs:
 
     - name: Sync bintray to maven central
       run: flankScripts release jFrogSync --maven-tag=$MVN_VERSION
+
+    - name: Gradle Upload to GitHub packages
+      uses: eskatos/gradle-command-action@v1
+      with:
+        gradle-executable: "./test_runner/gradlew"
+        arguments: "-p test_runner publish -PGITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"

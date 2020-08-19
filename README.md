@@ -656,7 +656,8 @@ v3.0-SNAPSHOT
 
 ### Maven
 
-You can consume Flank via maven. See the [maven repo](https://bintray.com/flank/maven/flank) for all supported versions.
+You can consume Flank via maven.  
+See the [maven repo](https://bintray.com/flank/maven/flank) for all supported versions.
 
 ```
 repositories {
@@ -667,6 +668,28 @@ dependencies {
     compile("flank:flank:flank_snapshot")
 }
 ```
+
+or [GitHub packages](https://github.com/Flank/flank/packages/)
+
+<details open>
+<summary>Groovy</summary>
+
+```groovy
+dependencies {
+    implementation "com.github.flank:flank:<latest version>"
+}
+```
+
+</details>
+<details>
+<summary>Kotlin</summary>
+
+```kotlin
+dependencies {
+    implementation("com.github.flank:flank:<latest version>")
+}
+```
+</details>
 
 ### Gradle Enterprise Export API
 
