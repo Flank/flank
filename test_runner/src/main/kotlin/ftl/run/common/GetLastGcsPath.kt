@@ -13,4 +13,4 @@ internal fun IArgs.getLastGcsPath(): String? = Paths
 
 private fun Array<File>.getLastModifiedDirectory(): File? = this
     .filter(File::isDirectory)
-    .maxBy(File::lastModified)
+    .maxByOrNull(File::lastModified)

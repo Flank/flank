@@ -22,7 +22,7 @@ fun List<Environment>.createMatrixOutcomeSummaryUsingEnvironments(
     testDetails = testDetails ?: "Unknown outcome"
 )
 
-private fun List<Environment>.getOutcomeFromEnvironments(): Outcome? = maxBy {
+private fun List<Environment>.getOutcomeFromEnvironments(): Outcome? = maxByOrNull {
     StepOutcome.order.indexOf(it.environmentResult?.outcome?.summary)
 }?.environmentResult?.outcome
 
@@ -36,6 +36,6 @@ fun List<Step>.createMatrixOutcomeSummaryUsingSteps(
     testDetails = testDetails ?: "Unknown outcome"
 )
 
-private fun List<Step>.getOutcomeFromSteps(): Outcome? = maxBy {
+private fun List<Step>.getOutcomeFromSteps(): Outcome? = maxByOrNull {
     StepOutcome.order.indexOf(it.outcome?.summary)
 }?.outcome

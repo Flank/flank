@@ -24,13 +24,13 @@ object ConfigurationErrorMessageBuilder {
         try {
             val errorModel = parseMessage(errorMessage)
             val errorMessageBuilder = StringBuilder(messageHeader)
-            errorMessageBuilder.appendln(createReferenceChain(errorModel.referenceChain))
+            errorMessageBuilder.appendLine(createReferenceChain(errorModel.referenceChain))
             if (errorModel.propertyName != "") {
-                errorMessageBuilder.appendln(missingElementMessage.format(errorModel.propertyName))
+                errorMessageBuilder.appendLine(missingElementMessage.format(errorModel.propertyName))
             }
-            errorMessageBuilder.appendln(atMessage.format(errorModel.line, errorModel.column))
+            errorMessageBuilder.appendLine(atMessage.format(errorModel.line, errorModel.column))
             yamlTreeNode?.let {
-                errorMessageBuilder.appendln(errorNodeMessage.format(resolveErrorNode(yamlTreeNode, errorModel)))
+                errorMessageBuilder.appendLine(errorNodeMessage.format(resolveErrorNode(yamlTreeNode, errorModel)))
             }
             errorMessageBuilder.toString().trim()
         } catch (error: Exception) {
@@ -40,9 +40,9 @@ object ConfigurationErrorMessageBuilder {
     operator fun invoke(yamlException: MarkedYAMLException): String {
         val problemMark = yamlException.problemMark
         return StringBuilder(messageHeader + yamlException.problem).apply {
-            appendln()
-            appendln(atMessage.format(problemMark.line, problemMark.column))
-            appendln(errorNodeMessage.format(System.lineSeparator() + problemMark._snippet))
+            appendLine()
+            appendLine(atMessage.format(problemMark.line, problemMark.column))
+            appendLine(errorNodeMessage.format(System.lineSeparator() + problemMark._snippet))
         }.toString().trim()
     }
 

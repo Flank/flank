@@ -50,5 +50,5 @@ private suspend fun getAsync(toolResultsStep: ToolResultsStep) = coroutineScope 
 // This one is a little bit lower but close as possible. The difference is around ~3 seconds.
 private fun List<TestCase>.getStartTimestamp(): Timestamp = this
     .mapNotNull { it.startTime }
-    .minBy { it.asUnixTimestamp() }
+    .minByOrNull { it.asUnixTimestamp() }
     ?: Timestamp()

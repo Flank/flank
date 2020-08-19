@@ -18,10 +18,10 @@ object Versions {
     const val DEX_TEST_PARSER = "2.2.1"
 
     // match to Tools -> Kotlin -> Configure Kotlin Plugin Updates -> Update Channel: Stable
-    const val KOTLIN = "1.3.72"
+    const val KOTLIN = "1.4.0"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    const val KOTLIN_COROUTINES = "1.3.7"
+    const val KOTLIN_COROUTINES = "1.3.9"
 
     // https://github.com/remkop/picocli/releases
     const val PICOCLI = "4.4.0"
@@ -53,7 +53,7 @@ object Versions {
     const val JSOUP = "1.13.1"
 
     // https://github.com/ktorio/ktor/releases
-    const val KTOR = "1.3.2"
+    const val KTOR = "1.4.0"
 
     // https://github.com/qos-ch/logback/releases
     const val LOGBACK = "1.2.3"

@@ -9,18 +9,16 @@ internal fun beforeRunMessage(args: IArgs, testShardChunks: ShardChunks): String
     val testsCount = testShardChunks.sumBy { it.size }
 
     val result = StringBuilder()
-    result.appendln(
-        "  $testsCount test${s(testsCount)} / $shardCount shard${s(
-            shardCount
-        )}"
+    result.appendLine(
+        "  $testsCount test${s(testsCount)} / $shardCount shard${s(shardCount)}"
     )
 
     if (runCount > 1) {
-        result.appendln("  Running ${runCount}x")
+        result.appendLine("  Running ${runCount}x")
         val runDevices = runCount * shardCount
         val runTests = runCount * testsCount
-        result.appendln("    $runDevices total shard${s(runDevices)}")
-        result.appendln("    $runTests total test${s(runTests)}")
+        result.appendLine("    $runDevices total shard${s(runDevices)}")
+        result.appendLine("    $runTests total test${s(runTests)}")
     }
 
     return result.toString()
