@@ -6,37 +6,40 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class ConventionalCommitFormatterTest(private val mapFrom: String, private val expected: String?) {
+class ConventionalCommitFormatterTest(
+    private val mapFrom: String,
+    private val expectedType: String?,
+    private val expectedTitle: String?
+) {
 
     companion object {
         @JvmStatic
         @Parameterized.Parameters(name = "{0} to {1}")
         fun data() = listOf(
-            arrayOf("feat: Sample", "New feature"),
-            arrayOf("fix: Bug", "Fix"),
-            arrayOf("docs: New", "Documentation"),
-            arrayOf("refactor: Eveerything", "Refactor"),
-            arrayOf("ci(cd): actions", "CI changes"),
-            arrayOf("test(ios): update", "Tests update"),
-            arrayOf("perf!: 10%", "Performance upgrade"),
-            arrayOf("style: dd", null),
-            arrayOf("build: passed", null),
-            arrayOf("chore: release", null),
-            arrayOf("nope: nbd", null)
+            arrayOf("feat: Sample", "Features", "Sample"),
+            arrayOf("fix: Bug", "Bug Fixes", "Bug"),
+            arrayOf("docs: New", "Documentation", "New"),
+            arrayOf("refactor: Eveerything", "Refactor", "Eveerything"),
+            arrayOf("ci(cd): actions", "CI Changes", "Actions"),
+            arrayOf("test(ios): update", "Tests update", "Update"),
+            arrayOf("perf!: 10%", "Performance upgrade", "10%"),
+            arrayOf("style: dd", null, null),
+            arrayOf("build: passed", null, null),
+            arrayOf("chore: release", null, null),
+            arrayOf("nope: nbd", null, null)
         )
     }
 
     @Test
     fun `Should properly map`() {
-        // given
-        val expected = expected?.let { "**$it**" }
-
         // when
-        val actual = mapFrom.mapPrTitle()
+        val actual = mapFrom.mapPrTitleWithType()
 
         // then
-        if (expected != null) {
-            assertThat(actual).startsWith(expected)
+        if (expectedType != null) {
+            val (type, title) = actual!!
+            assertThat(type).isEqualTo(expectedType)
+            assertThat(title).startsWith(expectedTitle)
         } else {
             assertThat(actual).isNull()
         }
