@@ -6,7 +6,7 @@ import com.google.api.services.toolresults.model.Environment
 import com.google.api.services.toolresults.model.Step
 import ftl.gc.GcToolResults
 import ftl.json.SavedMatrix
-import ftl.json.createDefaultSavedMatrix
+import ftl.json.createSavedMatrix
 import ftl.util.FTLError
 import ftl.util.timeoutToSeconds
 
@@ -33,7 +33,7 @@ private fun TestMatrix.getToolResultsIds(): ToolResultsExecution = ToolResultsEx
     .setHistoryId(resultStorage?.toolResultsExecution?.historyId ?: throw badMatrixError())
     .setExecutionId(resultStorage?.toolResultsExecution?.executionId ?: throw badMatrixError())
 
-private fun TestMatrix.badMatrixError() = BadMatrixError(createDefaultSavedMatrix(this))
+private fun TestMatrix.badMatrixError() = BadMatrixError(createSavedMatrix(this))
 
 class BadMatrixError(matrix: SavedMatrix) : FTLError(matrix)
 

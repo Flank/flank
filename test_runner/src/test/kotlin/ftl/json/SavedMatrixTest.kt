@@ -86,7 +86,7 @@ class SavedMatrixTest {
         }
         testMatrix.testExecutions = testExecutions
 
-        val savedMatrix = createUpdatedSavedMatrix(testMatrix)
+        val savedMatrix = createSavedMatrix(testMatrix)
         assertThat(savedMatrix.outcome).isEqualTo("failure")
 
         // assert other properties
@@ -120,7 +120,7 @@ class SavedMatrixTest {
         }
         testMatrix.testExecutions = testExecutions
 
-        val savedMatrix = createUpdatedSavedMatrix(testMatrix)
+        val savedMatrix = createSavedMatrix(testMatrix)
         assertThat(savedMatrix.outcome).isEqualTo("skipped")
 
         // assert other properties
@@ -150,12 +150,12 @@ class SavedMatrixTest {
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
 
-        var savedMatrix = createUpdatedSavedMatrix(testMatrix)
+        var savedMatrix = createSavedMatrix(testMatrix)
 
         assert(savedMatrix.state != FINISHED)
         testMatrix.state = FINISHED
         testMatrix.webLink()
-        savedMatrix = savedMatrix.updateMatrix(testMatrix)
+        savedMatrix = savedMatrix.updateWithMatrix(testMatrix)
         assert(savedMatrix.state == FINISHED)
     }
 
@@ -172,11 +172,11 @@ class SavedMatrixTest {
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
 
-        var savedMatrix = createUpdatedSavedMatrix(testMatrix)
+        var savedMatrix = createSavedMatrix(testMatrix)
 
         testMatrix.state = FINISHED
         testMatrix.webLink()
-        savedMatrix = savedMatrix.updateMatrix(testMatrix)
+        savedMatrix = savedMatrix.updateWithMatrix(testMatrix)
         assertEquals(1, savedMatrix.billableVirtualMinutes)
         assertEquals(1, savedMatrix.billablePhysicalMinutes)
     }
@@ -190,10 +190,10 @@ class SavedMatrixTest {
         testMatrix.state = PENDING
         testMatrix.resultStorage = createResultsStorage()
 
-        var savedMatrix = createUpdatedSavedMatrix(testMatrix)
+        var savedMatrix = createSavedMatrix(testMatrix)
 
         testMatrix.state = INVALID
-        savedMatrix = savedMatrix.updateMatrix(testMatrix)
+        savedMatrix = savedMatrix.updateWithMatrix(testMatrix)
         assertEquals(expectedOutcome, savedMatrix.outcome)
         assertEquals(expectedOutcomeDetails, savedMatrix.outcomeDetails)
         assertEquals(INVALID, savedMatrix.state)
@@ -228,7 +228,7 @@ class SavedMatrixTest {
             testExecutions = executions
         }
 
-        val savedMatrix = createUpdatedSavedMatrix(testMatrix)
+        val savedMatrix = createSavedMatrix(testMatrix)
 
         assertEquals(
             "Does not return failed outcome when last execution is flaky",
@@ -261,7 +261,7 @@ class SavedMatrixTest {
             testExecutions = executions
         }
 
-        val savedMatrix = createUpdatedSavedMatrix(testMatrix)
+        val savedMatrix = createSavedMatrix(testMatrix)
 
         assertEquals(expectedOutcome, savedMatrix.outcome)
     }

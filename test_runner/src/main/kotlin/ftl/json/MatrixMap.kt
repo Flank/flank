@@ -54,7 +54,7 @@ class MatrixMap(
 }
 
 fun Iterable<TestMatrix>.update(matrixMap: MatrixMap) = forEach { matrix ->
-    matrixMap.map[matrix.testMatrixId]?.updateMatrix(matrix)?.let {
+    matrixMap.map[matrix.testMatrixId]?.updateWithMatrix(matrix)?.let {
         matrixMap.map[matrix.testMatrixId] = it
     }
 }

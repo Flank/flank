@@ -33,9 +33,7 @@ data class SavedMatrix(
     val webLinkWithoutExecutionDetails: String?
 )
 
-fun createUpdatedSavedMatrix(testMatrix: TestMatrix) = updatedSavedMatrix(testMatrix)
-
-fun createDefaultSavedMatrix(testMatrix: TestMatrix) = defaultSavedMatrix(testMatrix)
+fun createSavedMatrix(testMatrix: TestMatrix) = defaultSavedMatrix(testMatrix).updateWithMatrix(testMatrix)
 
 fun SavedMatrix.canceledByUser() = outcomeDetails == ABORTED_BY_USER_MESSAGE
 
@@ -62,13 +60,13 @@ fun SavedMatrix.needsUpdate(newMatrix: TestMatrix): Boolean {
     return changedState || changedLink
 }
 
-internal fun SavedMatrix.updateMatrix(newMatrix: TestMatrix): SavedMatrix {
+internal fun SavedMatrix.updateWithMatrix(newMatrix: TestMatrix): SavedMatrix {
     return if (needsUpdate(newMatrix)) {
         return updatedSavedMatrix(newMatrix)
     } else this
 }
 
-private fun updatedSavedMatrix(newMatrix: TestMatrix): SavedMatrix {
+private fun SavedMatrix.updatedSavedMatrix(newMatrix: TestMatrix): SavedMatrix {
     var outcomeDetails = ""
     var outcome = ""
     var billableVirtualMinutes = 0L
@@ -90,7 +88,7 @@ private fun updatedSavedMatrix(newMatrix: TestMatrix): SavedMatrix {
             outcome = "---"
         }
     }
-    return defaultSavedMatrix(newMatrix).copy(
+    return copy(
         billableVirtualMinutes = billableVirtualMinutes,
         billablePhysicalMinutes = billablePhysicalMinutes,
         outcome = outcome,
