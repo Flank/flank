@@ -67,7 +67,7 @@ internal fun SavedMatrix.updateWithMatrix(newMatrix: TestMatrix): SavedMatrix {
 }
 
 private fun SavedMatrix.updatedSavedMatrix(newMatrix: TestMatrix): SavedMatrix {
-    var outcomeDetails = this.outcomeDetails ?: ""
+    var outcomeDetails = if (this.outcomeDetails.isNullOrEmpty()) "" else this.outcomeDetails
     var outcome = this.outcome
     var billableVirtualMinutes = this.billableVirtualMinutes
     var billablePhysicalMinutes = this.billablePhysicalMinutes
