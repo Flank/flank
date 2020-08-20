@@ -13,15 +13,15 @@ private fun Locale.prepareDescription() = """
 """.trimIndent().addRegionIfExist(region).addTagsIfExists(this)
 
 private fun String.addRegionIfExist(region: String?) =
-    if (!region.isNullOrEmpty()) StringBuilder(this).appendln("\nregion: $region").trim().toString()
+    if (!region.isNullOrEmpty()) StringBuilder(this).appendLine("\nregion: $region").trim().toString()
     else this
 
 private fun String.addTagsIfExists(locale: Locale) =
-    if (!locale.tags.isNullOrEmpty()) StringBuilder(this).appendln("\ntags:").appendTagsToList(locale)
+    if (!locale.tags.isNullOrEmpty()) StringBuilder(this).appendLine("\ntags:").appendTagsToList(locale)
     else this
 
 private fun StringBuilder.appendTagsToList(locale: Locale) = apply {
-    locale.tags.filterNotNull().forEach { tag -> appendln("- $tag") }
+    locale.tags.filterNotNull().forEach { tag -> appendLine("- $tag") }
 }.trim().toString()
 
 private fun String?.orErrorMessage(locale: String) = this ?: throw FlankGeneralError("ERROR: '$locale' is not a valid locale")

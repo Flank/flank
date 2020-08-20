@@ -11,21 +11,21 @@ private fun IosModel.prepareDescription() = "".appendList(DEVICE_CAPABILITIES_HE
     .appendModelBasicData(this).appendList(SUPPORTED_VERSIONS_HEADER, supportedVersionIds).appendList(TAGS_HEADER, tags).trim()
 
 private fun String.appendList(header: String, items: List<String>?) =
-    if (!items.isNullOrEmpty()) StringBuilder(this).appendln(header).appendItems(items).toString()
+    if (!items.isNullOrEmpty()) StringBuilder(this).appendLine(header).appendItems(items).toString()
     else this
 
 private fun StringBuilder.appendItems(items: List<String>) = apply {
-    items.forEach { appendln("- $it") }
+    items.forEach { appendLine("- $it") }
 }
 
-private fun String.appendModelBasicData(model: IosModel) = StringBuilder(this).appendln(
+private fun String.appendModelBasicData(model: IosModel) = StringBuilder(this).appendLine(
     """
-    formFactor: ${model.formFactor}
-    id: ${model.id}
-    name: ${model.name}
-    screenDensity: ${model.screenDensity}
-    screenX: ${model.screenX}
-    screenY: ${model.screenY}
+formFactor: ${model.formFactor}
+id: ${model.id}
+name: ${model.name}
+screenDensity: ${model.screenDensity}
+screenX: ${model.screenX}
+screenY: ${model.screenY}
 """.trimIndent()
 ).toString()
 

@@ -25,15 +25,15 @@ private fun AndroidModel.prepareDescription() = """
     .appendThumbnail(thumbnailUrl).trim()
 
 private fun String.appendList(header: String, items: List<String>?) =
-    if (!items.isNullOrEmpty()) StringBuilder(this).appendln().appendln(header).appendItems(items).toString().trim()
+    if (!items.isNullOrEmpty()) StringBuilder(this).appendLine().appendLine(header).appendItems(items).toString().trim()
     else this
 
 private fun StringBuilder.appendItems(items: List<String>) = apply {
-    items.forEach { appendln("- $it") }
+    items.forEach { appendLine("- $it") }
 }
 
 private fun String.appendThumbnail(thumbnailUrl: String?) =
-    if (!thumbnailUrl.isNullOrBlank()) StringBuilder(this).appendln("\n$THUBNAIL_URL_HEADER $thumbnailUrl").toString()
+    if (!thumbnailUrl.isNullOrBlank()) StringBuilder(this).appendLine("\n$THUBNAIL_URL_HEADER $thumbnailUrl").toString()
     else this
 
 private fun String?.orErrorMessage(modelId: String) = this ?: throw FlankGeneralError("ERROR: '$modelId' is not a valid model")
