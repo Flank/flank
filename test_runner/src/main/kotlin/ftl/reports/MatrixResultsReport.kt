@@ -59,12 +59,12 @@ object MatrixResultsReport : IReport {
         }
     }
 
-private fun Collection<SavedMatrix>.printMatricesLinks(writer: StringWriter) = this
+    private fun Collection<SavedMatrix>.printMatricesLinks(writer: StringWriter) = this
         .filter { it.isFailed() }
         .takeIf { it.isNotEmpty() }
         ?.run {
             writer.println("More details are available at:")
-            forEach { writer.println(it.webLinkWithoutExecutionDetails) }
+            forEach { writer.println(it.webLinkWithoutExecutionDetails ?: "") }
             writer.println()
         }
 

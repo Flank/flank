@@ -30,12 +30,12 @@ data class SavedMatrix(
     val clientDetails: Map<String, String>?,
     val gcsPathWithoutRootBucket: String,
     val gcsRootBucket: String,
-    val webLinkWithoutExecutionDetails: String
-) {
-    companion object {
-        fun create(testMatrix: TestMatrix) = updatedSavedMatrix(testMatrix)
-    }
-}
+    val webLinkWithoutExecutionDetails: String?
+)
+
+fun createUpdatedSavedMatrix(testMatrix: TestMatrix) = updatedSavedMatrix(testMatrix)
+
+fun createDefaultSavedMatrix(testMatrix: TestMatrix) = defaultSavedMatrix(testMatrix)
 
 fun SavedMatrix.canceledByUser() = outcomeDetails == ABORTED_BY_USER_MESSAGE
 

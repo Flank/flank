@@ -86,7 +86,7 @@ class SavedMatrixTest {
         }
         testMatrix.testExecutions = testExecutions
 
-        val savedMatrix = SavedMatrix.create(testMatrix)
+        val savedMatrix = createUpdatedSavedMatrix(testMatrix)
         assertThat(savedMatrix.outcome).isEqualTo("failure")
 
         // assert other properties
@@ -120,7 +120,7 @@ class SavedMatrixTest {
         }
         testMatrix.testExecutions = testExecutions
 
-        val savedMatrix = SavedMatrix.create(testMatrix)
+        val savedMatrix = createUpdatedSavedMatrix(testMatrix)
         assertThat(savedMatrix.outcome).isEqualTo("skipped")
 
         // assert other properties
@@ -150,7 +150,7 @@ class SavedMatrixTest {
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
 
-        var savedMatrix = SavedMatrix.create(testMatrix)
+        var savedMatrix = createUpdatedSavedMatrix(testMatrix)
 
         assert(savedMatrix.state != FINISHED)
         testMatrix.state = FINISHED
@@ -172,7 +172,7 @@ class SavedMatrixTest {
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
 
-        var savedMatrix = SavedMatrix.create(testMatrix)
+        var savedMatrix = createUpdatedSavedMatrix(testMatrix)
 
         testMatrix.state = FINISHED
         testMatrix.webLink()
@@ -190,7 +190,7 @@ class SavedMatrixTest {
         testMatrix.state = PENDING
         testMatrix.resultStorage = createResultsStorage()
 
-        var savedMatrix = SavedMatrix.create(testMatrix)
+        var savedMatrix = createUpdatedSavedMatrix(testMatrix)
 
         testMatrix.state = INVALID
         savedMatrix = savedMatrix.updateMatrix(testMatrix)
@@ -228,7 +228,7 @@ class SavedMatrixTest {
             testExecutions = executions
         }
 
-        val savedMatrix = SavedMatrix.create(testMatrix)
+        val savedMatrix = createUpdatedSavedMatrix(testMatrix)
 
         assertEquals(
             "Does not return failed outcome when last execution is flaky",
@@ -261,7 +261,7 @@ class SavedMatrixTest {
             testExecutions = executions
         }
 
-        val savedMatrix = SavedMatrix.create(testMatrix)
+        val savedMatrix = createUpdatedSavedMatrix(testMatrix)
 
         assertEquals(expectedOutcome, savedMatrix.outcome)
     }

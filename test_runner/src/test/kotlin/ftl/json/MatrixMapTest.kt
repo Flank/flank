@@ -24,7 +24,7 @@ class MatrixMapTest {
     }
 
     private fun matrixForExecution(executionId: Int): SavedMatrix {
-        return SavedMatrix.create(
+        return createUpdatedSavedMatrix(
             testMatrix = testMatrix()
                 .setResultStorage(createResultsStorage().apply {
                     toolResultsExecution.executionId = executionId.toString()
