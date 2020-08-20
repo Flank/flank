@@ -1,8 +1,7 @@
 package flank.scripts.release.hub
 
-import flank.scripts.ci.releasenotes.ReleaseNotesWithType
+import flank.scripts.ci.releasenotes.asString
 import flank.scripts.ci.releasenotes.generateReleaseNotes
-import flank.scripts.utils.markdownH2
 import flank.scripts.utils.runCommand
 import java.io.File
 import java.nio.file.Path
@@ -35,14 +34,8 @@ private fun hubStableReleaseCommand(path: String, gitTag: String, token: String)
         "hub", "release", "create",
         "-a", path,
         "-m", "Flank $gitTag",
-        "-m", generateReleaseNotes(token).asReleaseBody(gitTag),
+        "-m", generateReleaseNotes(token).asString(gitTag),
         gitTag
     )
-
-private fun ReleaseNotesWithType.asReleaseBody(tag: String) =
-    StringBuilder(tag.markdownH2())
-        .appendln()
-        .apply { this@asReleaseBody.forEach { appendln(it) } }
-        .toString()
 
 private const val RELEASE_DIRECTORY = "./RELEASE/flank.jar"
