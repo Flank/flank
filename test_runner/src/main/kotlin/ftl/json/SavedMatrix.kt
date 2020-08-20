@@ -33,7 +33,7 @@ data class SavedMatrix(
     val webLinkWithoutExecutionDetails: String?
 )
 
-fun createSavedMatrix(testMatrix: TestMatrix) = defaultSavedMatrix(testMatrix).updateWithMatrix(testMatrix)
+fun createSavedMatrix(testMatrix: TestMatrix) = defaultSavedMatrix().updateWithMatrix(testMatrix)
 
 fun SavedMatrix.canceledByUser() = outcomeDetails == ABORTED_BY_USER_MESSAGE
 
@@ -57,7 +57,7 @@ fun SavedMatrix.needsUpdate(newMatrix: TestMatrix): Boolean {
     val newLink = newMatrix.webLink()
     val changedState = state != newState
     val changedLink = webLink != newLink
-    return changedState || changedLink
+    return (changedState || changedLink)
 }
 
 internal fun SavedMatrix.updateWithMatrix(newMatrix: TestMatrix): SavedMatrix {
@@ -67,28 +67,39 @@ internal fun SavedMatrix.updateWithMatrix(newMatrix: TestMatrix): SavedMatrix {
 }
 
 private fun SavedMatrix.updatedSavedMatrix(newMatrix: TestMatrix): SavedMatrix {
-    var outcomeDetails = ""
-    var outcome = ""
-    var billableVirtualMinutes = 0L
-    var billablePhysicalMinutes = 0L
-    when (newMatrix.state) {
-        FINISHED -> {
-            billableVirtualMinutes = 0
-            billablePhysicalMinutes = 0
-            outcome = success
-            newMatrix.fetchTestOutcomeContext().createMatrixOutcomeSummary().let { (billableMinutes, summary) ->
-                outcome = summary.outcome
-                outcomeDetails = summary.testDetails
-                billableVirtualMinutes = billableMinutes.virtual
-                billablePhysicalMinutes = billableMinutes.physical
+    var outcomeDetails = this.outcomeDetails ?: ""
+    var outcome = this.outcome
+    var billableVirtualMinutes = this.billableVirtualMinutes
+    var billablePhysicalMinutes = this.billablePhysicalMinutes
+    if (this.state != newMatrix.state) {
+        when (newMatrix.state) {
+            FINISHED -> {
+                billableVirtualMinutes = 0
+                billablePhysicalMinutes = 0
+                outcome = success
+                newMatrix.fetchTestOutcomeContext().createMatrixOutcomeSummary().let { (billableMinutes, summary) ->
+                    outcome = summary.outcome
+                    outcomeDetails = summary.testDetails
+                    billableVirtualMinutes = billableMinutes.virtual
+                    billablePhysicalMinutes = billableMinutes.physical
+                }
             }
-        }
-        INVALID -> {
-            outcomeDetails = "Matrix is invalid"
-            outcome = "---"
+            INVALID -> {
+                outcomeDetails = "Matrix is invalid"
+                outcome = "---"
+            }
         }
     }
     return copy(
+        matrixId = newMatrix.testMatrixId,
+        state = newMatrix.state,
+        gcsPath = newMatrix.getGcsPath(),
+        webLink = newMatrix.webLink(),
+        downloaded = false,
+        clientDetails = newMatrix.getClientDetails(),
+        gcsPathWithoutRootBucket = newMatrix.getGcsPathWithoutRootBucket(),
+        gcsRootBucket = newMatrix.getGcsRootBucket(),
+        webLinkWithoutExecutionDetails = newMatrix.webLinkWithoutExecutionDetails(),
         billableVirtualMinutes = billableVirtualMinutes,
         billablePhysicalMinutes = billablePhysicalMinutes,
         outcome = outcome,
@@ -96,18 +107,18 @@ private fun SavedMatrix.updatedSavedMatrix(newMatrix: TestMatrix): SavedMatrix {
     )
 }
 
-private fun defaultSavedMatrix(testMatrix: TestMatrix) = SavedMatrix(
-    matrixId = testMatrix.testMatrixId,
-    state = testMatrix.state,
-    gcsPath = testMatrix.getGcsPath(),
-    webLink = testMatrix.webLink(),
+private fun defaultSavedMatrix() = SavedMatrix(
+    matrixId = "",
+    state = "",
+    gcsPath = "",
+    webLink = "",
     downloaded = false,
     billableVirtualMinutes = 0,
     billablePhysicalMinutes = 0,
     outcome = "",
     outcomeDetails = "",
-    clientDetails = testMatrix.getClientDetails(),
-    gcsPathWithoutRootBucket = testMatrix.getGcsPathWithoutRootBucket(),
-    gcsRootBucket = testMatrix.getGcsRootBucket(),
-    webLinkWithoutExecutionDetails = testMatrix.webLinkWithoutExecutionDetails()
+    clientDetails = null,
+    gcsPathWithoutRootBucket = "",
+    gcsRootBucket = "",
+    webLinkWithoutExecutionDetails = ""
 )
