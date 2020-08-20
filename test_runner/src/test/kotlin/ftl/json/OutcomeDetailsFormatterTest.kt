@@ -1,5 +1,6 @@
 package ftl.json
 
+import com.google.api.services.toolresults.model.FailureDetail
 import com.google.api.services.toolresults.model.Outcome
 import ftl.reports.api.data.TestSuiteOverviewData
 import ftl.util.StepOutcome
@@ -20,8 +21,8 @@ internal class OutcomeDetailsFormatterTest {
         val testSuiteOverviewData = TestSuiteOverviewData(12, 0, 0, 3, 2, 0.0, 0.0)
         val successCount = with(testSuiteOverviewData) { total - errors - failures - flakes - skipped }
         val expectedMessage = "$successCount test cases passed, " +
-                "${testSuiteOverviewData.skipped} skipped, " +
-                "${testSuiteOverviewData.flakes} flaky"
+            "${testSuiteOverviewData.skipped} skipped, " +
+            "${testSuiteOverviewData.flakes} flaky"
 
         // when
         val result = mockedOutcome.getDetails(testSuiteOverviewData)
@@ -40,9 +41,9 @@ internal class OutcomeDetailsFormatterTest {
         val testSuiteOverviewData = TestSuiteOverviewData(12, 0, 0, 3, 2, 0.0, 0.0)
         val successCount = with(testSuiteOverviewData) { total - errors - failures - flakes - skipped }
         val expectedMessage = "$successCount test cases passed, " +
-                "${testSuiteOverviewData.skipped} skipped, " +
-                "${testSuiteOverviewData.flakes} flaky" +
-                " (Native crash)"
+            "${testSuiteOverviewData.skipped} skipped, " +
+            "${testSuiteOverviewData.flakes} flaky" +
+            " (Native crash)"
 
         // when
         val result = mockedOutcome.getDetails(testSuiteOverviewData)
@@ -65,10 +66,10 @@ internal class OutcomeDetailsFormatterTest {
         }
         val testSuiteOverviewData = TestSuiteOverviewData(12, 3, 3, 3, 2, 0.0, 0.0)
         val expectedMessage = "${testSuiteOverviewData.failures} test cases failed, " +
-                "${testSuiteOverviewData.errors} errors, " +
-                "1 passed, " +
-                "${testSuiteOverviewData.skipped} skipped, " +
-                "${testSuiteOverviewData.flakes} flaky"
+            "${testSuiteOverviewData.errors} errors, " +
+            "1 passed, " +
+            "${testSuiteOverviewData.skipped} skipped, " +
+            "${testSuiteOverviewData.flakes} flaky"
 
         // when
         val result = mockedOutcome.getDetails(testSuiteOverviewData)
@@ -345,5 +346,12 @@ internal class OutcomeDetailsFormatterTest {
 
         // then
         assertEquals(expectedMessage, result)
+    }
+
+    @Test // https://github.com/flank/flank/issues/1026
+    fun `should not throw when otherNativeCrash is null`() {
+        FailureDetail().apply {
+            otherNativeCrash = null
+        }.getFailureOutcomeDetails(null)
     }
 }
