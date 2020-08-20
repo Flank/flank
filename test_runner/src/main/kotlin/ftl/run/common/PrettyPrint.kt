@@ -6,6 +6,4 @@ import com.google.gson.reflect.TypeToken
 
 val prettyPrint: Gson = GsonBuilder().setPrettyPrinting().create()
 
-inline fun <reified T> fromJson(json: String): T {
-    return prettyPrint.fromJson(json, object : TypeToken<T>() {}.type)
-}
+inline fun <reified T> fromJson(json: String): T = prettyPrint.fromJson(json, object : TypeToken<T>() {}.type)

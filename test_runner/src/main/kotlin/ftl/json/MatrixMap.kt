@@ -39,9 +39,9 @@ class MatrixMap(
      */
     fun validateMatrices(shouldIgnore: Boolean = false) {
         map.values.run {
-            firstOrNull { it.canceledByUser() }?.let { throw MatrixCanceledError(it.outcomeDetails) }
-            firstOrNull { it.infrastructureFail() }?.let { throw InfrastructureError(it.outcomeDetails) }
-            firstOrNull { it.incompatibleFail() }?.let { throw IncompatibleTestDimensionError(it.outcomeDetails) }
+            firstOrNull { it.canceledByUser() }?.let { throw MatrixCanceledError(it.outcomeDetails.orEmpty()) }
+            firstOrNull { it.infrastructureFail() }?.let { throw InfrastructureError(it.outcomeDetails.orEmpty()) }
+            firstOrNull { it.incompatibleFail() }?.let { throw IncompatibleTestDimensionError(it.outcomeDetails.orEmpty()) }
             firstOrNull { it.state != MatrixState.FINISHED }?.let { throw FTLError(it) }
             filter { it.isFailed() }.let {
                 if (it.isNotEmpty()) throw FailedMatrixError(

@@ -37,9 +37,8 @@ internal suspend fun afterRunTests(
     matrixMap.printMatricesWebLinks(config.project)
 }
 
-private fun List<TestMatrix>.toSavedMatrixMap() = this
-    .map { matrix -> matrix.testMatrixId to createSavedMatrix(matrix) }
-    .toMap().toMutableMap()
+private fun List<TestMatrix>.toSavedMatrixMap() =
+    this.associate { matrix -> matrix.testMatrixId to createSavedMatrix(matrix) }.toMutableMap()
 
 private fun saveConfigFile(matrixMap: MatrixMap, args: IArgs) {
     val configFilePath = if (args.useLocalResultDir())

@@ -8,7 +8,6 @@ import ftl.util.MatrixState.INVALID
 import ftl.util.StepOutcome.failure
 import ftl.util.StepOutcome.inconclusive
 import ftl.util.StepOutcome.skipped
-import ftl.util.StepOutcome.success
 import ftl.util.getClientDetails
 import ftl.util.getGcsPath
 import ftl.util.getGcsPathWithoutRootBucket
@@ -26,7 +25,7 @@ data class SavedMatrix(
     val billableVirtualMinutes: Long,
     val billablePhysicalMinutes: Long,
     val outcome: String,
-    val outcomeDetails: String,
+    val outcomeDetails: String?,
     val clientDetails: Map<String, String>?,
     val gcsPathWithoutRootBucket: String,
     val gcsRootBucket: String,
@@ -60,11 +59,9 @@ fun SavedMatrix.needsUpdate(newMatrix: TestMatrix): Boolean {
     return (changedState || changedLink)
 }
 
-internal fun SavedMatrix.updateWithMatrix(newMatrix: TestMatrix): SavedMatrix {
-    return if (needsUpdate(newMatrix)) {
-        return updatedSavedMatrix(newMatrix)
-    } else this
-}
+internal fun SavedMatrix.updateWithMatrix(newMatrix: TestMatrix): SavedMatrix =
+    if (needsUpdate(newMatrix)) updatedSavedMatrix(newMatrix)
+    else this
 
 private fun SavedMatrix.updatedSavedMatrix(newMatrix: TestMatrix): SavedMatrix {
     var outcomeDetails = if (this.outcomeDetails.isNullOrEmpty()) "" else this.outcomeDetails
@@ -74,9 +71,6 @@ private fun SavedMatrix.updatedSavedMatrix(newMatrix: TestMatrix): SavedMatrix {
     if (this.state != newMatrix.state) {
         when (newMatrix.state) {
             FINISHED -> {
-                billableVirtualMinutes = 0
-                billablePhysicalMinutes = 0
-                outcome = success
                 newMatrix.fetchTestOutcomeContext().createMatrixOutcomeSummary().let { (billableMinutes, summary) ->
                     outcome = summary.outcome
                     outcomeDetails = summary.testDetails

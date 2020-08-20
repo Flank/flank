@@ -22,9 +22,8 @@ fun TestMatrix.webLink(): String {
     }
 }
 
-fun TestMatrix.getClientDetails(): Map<String, String>? {
-    return this.clientInfo?.clientInfoDetails?.map { it.key to it.value }?.toMap()
-}
+fun TestMatrix.getClientDetails(): Map<String, String>? =
+    this.clientInfo?.clientInfoDetails?.associate { it.key to it.value }
 
 fun TestMatrix.webLinkWithoutExecutionDetails(): String {
     val webLink = webLink()
