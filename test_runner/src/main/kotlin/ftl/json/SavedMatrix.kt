@@ -64,11 +64,11 @@ internal fun SavedMatrix.updateWithMatrix(newMatrix: TestMatrix): SavedMatrix =
     else this
 
 private fun SavedMatrix.updatedSavedMatrix(newMatrix: TestMatrix): SavedMatrix {
-    var outcomeDetails = if (this.outcomeDetails.isNullOrEmpty()) "" else this.outcomeDetails
+    var outcomeDetails = outcomeDetails.takeUnless { it.isNullOrEmpty() }.orEmpty()
     var outcome = this.outcome
     var billableVirtualMinutes = this.billableVirtualMinutes
     var billablePhysicalMinutes = this.billablePhysicalMinutes
-    if (this.state != newMatrix.state) {
+    if (state != newMatrix.state) {
         when (newMatrix.state) {
             FINISHED -> {
                 newMatrix.fetchTestOutcomeContext().createMatrixOutcomeSummary().let { (billableMinutes, summary) ->

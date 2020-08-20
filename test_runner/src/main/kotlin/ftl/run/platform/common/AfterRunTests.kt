@@ -38,7 +38,7 @@ internal suspend fun afterRunTests(
 }
 
 private fun List<TestMatrix>.toSavedMatrixMap() =
-    this.associate { matrix -> matrix.testMatrixId to createSavedMatrix(matrix) }.toMutableMap()
+    associate { matrix -> matrix.testMatrixId to createSavedMatrix(matrix) }.toMutableMap()
 
 private fun saveConfigFile(matrixMap: MatrixMap, args: IArgs) {
     val configFilePath = if (args.useLocalResultDir())
