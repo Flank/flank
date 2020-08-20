@@ -1,3 +1,13 @@
+## v20.08.3
+### CI Changes
+- [#1031](https://github.com/Flank/flank/pull/1031) Disable publishing snapshot to Github Packages ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1022](https://github.com/Flank/flank/pull/1022) Publish to GitHub packages ([piotradamczyk5](https://github.com/piotradamczyk5))
+### Bug Fixes
+- [#1027](https://github.com/Flank/flank/pull/1027) OtherNativeCrash NPE ([jan-gogo](https://github.com/jan-gogo))
+- [#1023](https://github.com/Flank/flank/pull/1023) Release notes message at GitHub release ([piotradamczyk5](https://github.com/piotradamczyk5))
+### Refactor
+- [#1025](https://github.com/Flank/flank/pull/1025) Update kotlin version to 1.4 ([pawelpasterz](https://github.com/pawelpasterz))
+
 ## v20.08.2
 ### Features
 - [#1020](https://github.com/Flank/flank/pull/1020) Make release notes more organized ([piotradamczyk5](https://github.com/piotradamczyk5))
