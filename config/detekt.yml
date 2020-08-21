@@ -106,10 +106,16 @@ formatting:
   active: true
   android: false
   autoCorrect: true
+  AnnotationOnSeparateLine:
+    active: true
+    autoCorrect: true
   ChainWrapping:
     active: true
     autoCorrect: true
   CommentSpacing:
+    active: true
+    autoCorrect: true
+  EnumEntryNameCase: 
     active: true
     autoCorrect: true
   Filename:
@@ -120,13 +126,13 @@ formatting:
   # Conflicts with IntelliJ import ordering. Disabled for now.
   # see https://github.com/pinterest/ktlint/issues/527
   ImportOrdering:
-    active: false
+    active: true
     autoCorrect: true
   Indentation:
-    active: false
+    active: true
     autoCorrect: true
     indentSize: 4
-    continuationIndentSize: 4
+    continuationIndentSize: 8
   MaximumLineLength:
     active: false
   ModifierOrdering:

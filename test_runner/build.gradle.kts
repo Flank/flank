@@ -123,7 +123,7 @@ detekt {
     failFast = true // fail build on any finding
     input = files("src/main/kotlin", "src/test/kotlin")
     config = files("../config/detekt.yml")
-
+    autoCorrect = true //auto format for detekt via klint
     buildUponDefaultConfig = true // preconfigure defaults
 
     reports {
@@ -131,6 +131,12 @@ detekt {
         xml.enabled = true // checkstyle like format mainly for integrations like Jenkins
         txt.enabled = true // similar to the console output, contains issue signature to manually edit baseline files
     }
+}
+
+// Kotlin dsl
+tasks.withType<io.gitlab.arturbosch.detekt.Detekt> {
+        // Target version of the generated JVM bytecode. It is used for type resolution.
+        this.jvmTarget = "1.8"
 }
 
 // http://www.eclemma.org/jacoco/
