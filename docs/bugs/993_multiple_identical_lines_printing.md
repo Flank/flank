@@ -2,7 +2,7 @@
 
 Related to [#993](https://github.com/Flank/flank/issues/993)
 
-Sometimes Flank printing identical lines multiple times. This bug occur rarely, there is no clear way to reproduce or force this by code changes.
+Sometimes Flank prints identical lines multiple times. This bug occurs rarely, there is no clear way to reproduce or force this by code changes.
 
 What was checked:
 
@@ -15,9 +15,9 @@ What was checked:
     }
   ```
 
-  always executing on same thread so it's no concurrency issue
+It always executes on the same thread so it is not a concurrency issue
 
-- [X] on ```ExecutionStatusPrinter.kt``` -> ```MultiLinePrinter``` try to force remove less lines than ```output.size``` but in this case, this line not update status, so the behaviour is different than on screen
+- [X] on ```ExecutionStatusPrinter.kt``` -> ```MultiLinePrinter``` try to force remove less lines than ```output.size``` but in this case, this line does not update status, so the behaviour is different than on screen
   
 - [X] on ```ExecutionStatusPrinter.kt``` -> ```MultiLinePrinter``` try to force add to output two same ExecutionStatus but no effect
 
