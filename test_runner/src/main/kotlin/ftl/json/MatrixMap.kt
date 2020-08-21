@@ -9,12 +9,12 @@ import ftl.util.MatrixCanceledError
 import ftl.util.MatrixState
 
 class MatrixMap(
-    val map: Map<String, SavedMatrix>,
+    val map: MutableMap<String, SavedMatrix>,
     val runPath: String
 ) {
     // determine success by FTL API, not junit xml.
     // FTL sometimes generates empty XML reports (0 failures) for a failed matrix
-    fun allSuccessful(): Boolean = map.values.any(SavedMatrix::failed).not()
+    fun allSuccessful(): Boolean = map.values.any(SavedMatrix::isFailed).not()
 
     /**
      * There are two sources of information for detecting the exit code
@@ -39,11 +39,11 @@ class MatrixMap(
      */
     fun validateMatrices(shouldIgnore: Boolean = false) {
         map.values.run {
-            firstOrNull { it.canceledByUser() }?.let { throw MatrixCanceledError(it.outcomeDetails) }
-            firstOrNull { it.infrastructureFail() }?.let { throw InfrastructureError(it.outcomeDetails) }
-            firstOrNull { it.incompatibleFail() }?.let { throw IncompatibleTestDimensionError(it.outcomeDetails) }
+            firstOrNull { it.canceledByUser() }?.let { throw MatrixCanceledError(it.outcomeDetails.orEmpty()) }
+            firstOrNull { it.infrastructureFail() }?.let { throw InfrastructureError(it.outcomeDetails.orEmpty()) }
+            firstOrNull { it.incompatibleFail() }?.let { throw IncompatibleTestDimensionError(it.outcomeDetails.orEmpty()) }
             firstOrNull { it.state != MatrixState.FINISHED }?.let { throw FTLError(it) }
-            filter { it.failed() }.let {
+            filter { it.isFailed() }.let {
                 if (it.isNotEmpty()) throw FailedMatrixError(
                     matrices = it,
                     ignoreFailed = shouldIgnore
@@ -54,5 +54,7 @@ class MatrixMap(
 }
 
 fun Iterable<TestMatrix>.update(matrixMap: MatrixMap) = forEach { matrix ->
-    matrixMap.map[matrix.testMatrixId]?.update(matrix)
+    matrixMap.map[matrix.testMatrixId]?.updateWithMatrix(matrix)?.let {
+        matrixMap.map[matrix.testMatrixId] = it
+    }
 }

@@ -1,6 +1,5 @@
 package ftl.run.common
 
-import com.google.gson.reflect.TypeToken
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.json.MatrixMap
@@ -24,8 +23,7 @@ internal fun matrixPathToObj(path: String, args: IArgs): MatrixMap {
     }
     val json = filePath.readText()
 
-    val listOfSavedMatrix = object : TypeToken<MutableMap<String, SavedMatrix>>() {}.type
-    val map: MutableMap<String, SavedMatrix> = prettyPrint.fromJson(json, listOfSavedMatrix)
+    val map: MutableMap<String, SavedMatrix> = fromJson(json)
 
     return MatrixMap(map, path)
 }
