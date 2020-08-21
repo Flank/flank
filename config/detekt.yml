@@ -132,7 +132,7 @@ formatting:
     active: false
     autoCorrect: true
     indentSize: 4
-    continuationIndentSize: 8
+    continuationIndentSize: 4
   MaximumLineLength:
     active: false
     autoCorrect: false

@@ -2,7 +2,6 @@ package ftl.run
 
 import com.google.api.services.testing.model.TestMatrix
 import ftl.args.IArgs
-import ftl.args.ShardChunks
 import ftl.config.FtlConstants
 import ftl.gc.GcTestMatrix
 import ftl.json.MatrixMap
@@ -15,7 +14,6 @@ import ftl.run.common.pollMatrices
 import ftl.run.common.updateMatrixFile
 import ftl.args.ShardChunks
 import ftl.json.needsUpdate
-import ftl.json.update
 import ftl.json.updateWithMatrix
 import ftl.util.MatrixState
 import kotlinx.coroutines.Deferred
