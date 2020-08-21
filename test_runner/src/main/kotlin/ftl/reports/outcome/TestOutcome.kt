@@ -7,30 +7,37 @@ import ftl.json.getDetails
 import ftl.util.StepOutcome
 
 data class TestOutcome(
-    val outcome: String,
-    val testDetails: String
+    val device: String = "",
+    val outcome: String = "",
+    val details: String = "",
 )
 
-fun List<Environment>.createMatrixOutcomeSummaryUsingEnvironments(
-    outcome: Outcome? = getOutcomeFromEnvironments(),
-    testDetails: String? = outcome?.getDetails(map { it.createTestSuiteOverviewData() }.foldTestSuiteOverviewData())
+fun List<Environment>.createMatrixOutcomeSummaryUsingEnvironments(): List<TestOutcome> =
+    map(Environment::getTestOutcome)
+
+private fun Environment.getTestOutcome(
+    outcome: Outcome? = environmentResult?.outcome
 ) = TestOutcome(
-    outcome = outcome?.summary ?: "Unknown",
-    testDetails = testDetails ?: "Unknown outcome"
+    device = deviceModel(),
+    outcome = outcome?.summary ?: UNKNOWN_OUTCOME,
+    details = outcome.getDetails(createTestSuiteOverviewData()),
 )
 
-private fun List<Environment>.getOutcomeFromEnvironments(): Outcome? = maxByOrNull {
-    StepOutcome.order.indexOf(it.environmentResult?.outcome?.summary)
-}?.environmentResult?.outcome
+fun List<Step>.createMatrixOutcomeSummaryUsingSteps() = groupBy(Step::deviceModel).map { (device, steps) ->
+    steps.getTestOutcome(device)
+}
 
-fun List<Step>.createMatrixOutcomeSummaryUsingSteps(
+private fun List<Step>.getTestOutcome(
+    deviceModel: String,
     outcome: Outcome? = getOutcomeFromSteps(),
-    testDetails: String? = outcome?.getDetails(createTestSuiteOverviewData())
 ) = TestOutcome(
-    outcome = outcome?.summary ?: "Unknown",
-    testDetails = testDetails ?: "Unknown outcome"
+    device = deviceModel,
+    outcome = outcome?.summary ?: UNKNOWN_OUTCOME,
+    details = outcome.getDetails(createTestSuiteOverviewData())
 )
 
 private fun List<Step>.getOutcomeFromSteps(): Outcome? = maxByOrNull {
     StepOutcome.order.indexOf(it.outcome?.summary)
 }?.outcome
+
+private const val UNKNOWN_OUTCOME = "Unknown"

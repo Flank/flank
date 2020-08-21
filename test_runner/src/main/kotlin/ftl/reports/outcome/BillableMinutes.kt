@@ -1,7 +1,6 @@
 package ftl.reports.outcome
 
 import com.google.api.services.toolresults.model.Step
-import com.google.api.services.toolresults.model.StepDimensionValueEntry
 import ftl.android.AndroidCatalog
 import ftl.util.billableMinutes
 import kotlin.math.min
@@ -41,6 +40,3 @@ private fun Step.getBillableSeconds(default: Long) =
     testExecutionStep?.testTiming?.testProcessDuration?.seconds?.let {
         min(it, default)
     }
-
-operator fun List<StepDimensionValueEntry>?.get(key: String) =
-    this?.firstOrNull { it.key == key }
