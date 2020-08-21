@@ -61,8 +61,10 @@ private suspend fun refreshMatrices(matrixMap: MatrixMap, args: IArgs) = corouti
         println(FtlConstants.indent + "${matrix.state} $matrixId")
 
         if (map[matrixId]?.needsUpdate(matrix) == true) {
-            map[matrixId] = map[matrixId]!!.updateWithMatrix(matrix)
-            dirty = true
+            map[matrixId]?.updateWithMatrix(matrix)?.let {
+                map[matrixId] = it
+                dirty = true
+            }
         }
     }
 
