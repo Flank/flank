@@ -7,6 +7,7 @@ import ftl.args.ArgsHelper
 import ftl.args.yml.IYmlKeys
 import ftl.config.Config
 import ftl.config.FtlConstants
+import ftl.shard.DEFAULT_TEST_TIME_SEC
 import picocli.CommandLine
 
 /** Flank specific parameters for both iOS and Android */
@@ -140,6 +141,20 @@ data class CommonFlankConfig @JsonIgnore constructor(
     @set:JsonProperty("disable-results-upload")
     var disableResultsUpload: Boolean? by data
 
+    @set:CommandLine.Option(
+        names = ["--default-test-time"],
+        description = ["Set default test time used for calculating shards."]
+    )
+    @set:JsonProperty("default-test-time")
+    var defaultTestTime: Double? by data
+
+    @set:CommandLine.Option(
+        names = ["--use-average-test-time-for-new-tests"],
+        description = ["Enable using average time from previous tests duration when using SmartShard and tests did not run before."]
+    )
+    @set:JsonProperty("use-average-test-time-for-new-tests")
+    var useAverageTestTimeForNewTests: Boolean? by data
+
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {
@@ -184,6 +199,8 @@ data class CommonFlankConfig @JsonIgnore constructor(
             keepFilePath = false
             outputStyle = null
             disableResultsUpload = false
+            defaultTestTime = DEFAULT_TEST_TIME_SEC
+            useAverageTestTimeForNewTests = false
         }
     }
 }
