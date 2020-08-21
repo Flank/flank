@@ -8,17 +8,14 @@ import ftl.util.StepOutcome
 
 data class TestOutcome(
     val outcome: String,
-    val matrixId: String,
     val testDetails: String
 )
 
 fun List<Environment>.createMatrixOutcomeSummaryUsingEnvironments(
-    testMatrixId: String,
     outcome: Outcome? = getOutcomeFromEnvironments(),
     testDetails: String? = outcome?.getDetails(map { it.createTestSuiteOverviewData() }.foldTestSuiteOverviewData())
 ) = TestOutcome(
     outcome = outcome?.summary ?: "Unknown",
-    matrixId = testMatrixId,
     testDetails = testDetails ?: "Unknown outcome"
 )
 
@@ -27,12 +24,10 @@ private fun List<Environment>.getOutcomeFromEnvironments(): Outcome? = maxByOrNu
 }?.environmentResult?.outcome
 
 fun List<Step>.createMatrixOutcomeSummaryUsingSteps(
-    testMatrixId: String,
     outcome: Outcome? = getOutcomeFromSteps(),
     testDetails: String? = outcome?.getDetails(createTestSuiteOverviewData())
 ) = TestOutcome(
     outcome = outcome?.summary ?: "Unknown",
-    matrixId = testMatrixId,
     testDetails = testDetails ?: "Unknown outcome"
 )
 

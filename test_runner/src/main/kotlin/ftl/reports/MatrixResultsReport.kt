@@ -5,6 +5,7 @@ import ftl.config.FtlConstants.indent
 import ftl.gc.GcStorage
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
+import ftl.json.isFailed
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.util.asPrintableTable
@@ -32,7 +33,7 @@ object MatrixResultsReport : IReport {
     private fun generate(matrices: MatrixMap): String {
         val total = matrices.map.size
         // unfinished matrix will not be reported as failed since it's still running
-        val success = matrices.map.values.count { it.failed().not() }
+        val success = matrices.map.values.count { it.isFailed().not() }
         val failed = total - success
         val successDouble: Double = success.toDouble() / total.toDouble() * 100.0
         val successPercent = percentFormat.format(successDouble)
@@ -58,12 +59,12 @@ object MatrixResultsReport : IReport {
         }
     }
 
-private fun Collection<SavedMatrix>.printMatricesLinks(writer: StringWriter) = this
-        .filter { it.failed() }
+    private fun Collection<SavedMatrix>.printMatricesLinks(writer: StringWriter) = this
+        .filter { it.isFailed() }
         .takeIf { it.isNotEmpty() }
         ?.run {
             writer.println("More details are available at:")
-            forEach { writer.println(it.webLinkWithoutExecutionDetails) }
+            forEach { writer.println(it.webLinkWithoutExecutionDetails.orEmpty()) }
             writer.println()
         }
 

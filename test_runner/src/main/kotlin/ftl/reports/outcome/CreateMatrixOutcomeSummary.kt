@@ -5,10 +5,10 @@ import com.google.api.services.toolresults.model.Environment
 fun TestOutcomeContext.createMatrixOutcomeSummary(): Pair<BillableMinutes, TestOutcome> =
     steps.calculateAndroidBillableMinutes(projectId, testTimeout) to
         if (environments.hasOutcome())
-            environments.createMatrixOutcomeSummaryUsingEnvironments(matrixId)
+            environments.createMatrixOutcomeSummaryUsingEnvironments()
         else {
             if (steps.isEmpty()) println("No test results found, something went wrong. Try re-running the tests.")
-            steps.createMatrixOutcomeSummaryUsingSteps(matrixId)
+            steps.createMatrixOutcomeSummaryUsingSteps()
         }
 
 private fun List<Environment>.hasOutcome() = isNotEmpty() && any { env ->

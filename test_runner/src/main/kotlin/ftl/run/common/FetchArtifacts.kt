@@ -25,10 +25,10 @@ internal suspend fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) = corouti
         val finished = it.state == MatrixState.FINISHED
         val notDownloaded = !it.downloaded
         finished && notDownloaded
-    }
+    }.toMutableList()
 
     print(FtlConstants.indent)
-    filtered.flatMap { matrix ->
+    filtered.flatMapIndexed { index, matrix ->
         val prefix = Storage.BlobListOption.prefix(matrix.gcsPathWithoutRootBucket)
         val result = GcStorage.storage.list(matrix.gcsRootBucket, prefix, fields)
         val artifactsList = Artifacts.regexList(args)
@@ -50,7 +50,7 @@ internal suspend fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) = corouti
         }
 
         dirty = true
-        matrix.downloaded = true
+        filtered[index] = matrix.copy(downloaded = true)
         jobs
     }.joinAll()
     println()

@@ -5,7 +5,7 @@ import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.gc.GcTestMatrix
 import ftl.json.MatrixMap
-import ftl.json.SavedMatrix
+import ftl.json.createSavedMatrix
 import ftl.run.common.updateMatrixFile
 import ftl.util.StopWatch
 import ftl.util.isInvalid
@@ -37,9 +37,8 @@ internal suspend fun afterRunTests(
     matrixMap.printMatricesWebLinks(config.project)
 }
 
-private fun List<TestMatrix>.toSavedMatrixMap() = this
-    .map { matrix -> matrix.testMatrixId to SavedMatrix(matrix) }
-    .toMap()
+private fun List<TestMatrix>.toSavedMatrixMap() =
+    associate { matrix -> matrix.testMatrixId to createSavedMatrix(matrix) }.toMutableMap()
 
 private fun saveConfigFile(matrixMap: MatrixMap, args: IArgs) {
     val configFilePath = if (args.useLocalResultDir())
