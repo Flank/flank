@@ -1,8 +1,8 @@
 package ftl.run.model
 
 import ftl.args.IgnoredTestCases
-import ftl.json.MatrixMap
 import ftl.args.ShardChunks
+import ftl.json.MatrixMap
 
 data class TestResult(
     val matrixMap: MatrixMap,

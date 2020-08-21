@@ -2,11 +2,11 @@ package ftl.cli
 
 import com.google.common.truth.Truth.assertThat
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.TestHelper.normalizeLineEnding
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
-import ftl.test.util.TestHelper.normalizeLineEnding
 
 @RunWith(FlankTestRunner::class)
 class AuthCommandTest {

@@ -7,10 +7,10 @@ import com.google.api.services.toolresults.model.Step
 import com.google.api.services.toolresults.model.TestCase
 import com.google.api.services.toolresults.model.Timestamp
 import ftl.reports.api.data.TestExecutionData
+import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
-import org.junit.Assert.assertArrayEquals
 import org.junit.Test
 
 class PrepareForJUnitResultKtTest {

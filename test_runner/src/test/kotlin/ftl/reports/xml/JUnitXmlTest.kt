@@ -4,8 +4,8 @@ import com.google.common.truth.Truth.assertThat
 import ftl.test.util.TestHelper.normalizeLineEnding
 import ftl.util.FlankGeneralError
 import org.junit.Assert
-import java.nio.file.Paths
 import org.junit.Test
+import java.nio.file.Paths
 
 class JUnitXmlTest {
 

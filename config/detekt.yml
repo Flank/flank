@@ -117,7 +117,7 @@ formatting:
     autoCorrect: true
   EnumEntryNameCase: 
     active: true
-    autoCorrect: true
+    autoCorrect: false
   Filename:
     active: false
   FinalNewline:
@@ -126,15 +126,16 @@ formatting:
   # Conflicts with IntelliJ import ordering. Disabled for now.
   # see https://github.com/pinterest/ktlint/issues/527
   ImportOrdering:
-    active: true
-    autoCorrect: true
+    active: false
+    autoCorrect: false
   Indentation:
-    active: true
+    active: false
     autoCorrect: true
     indentSize: 4
     continuationIndentSize: 8
   MaximumLineLength:
     active: false
+    autoCorrect: false
   ModifierOrdering:
     active: true
     autoCorrect: true

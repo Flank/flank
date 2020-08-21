@@ -1,3 +1,5 @@
+@file:Suppress("EnumEntryNameCase")
+
 package ftl.args.yml
 
 import com.fasterxml.jackson.databind.JsonNode
@@ -15,8 +17,8 @@ import java.nio.file.Path
 
 object YamlDeprecated {
 
-    @Suppress("EnumEntryName", "EnumNaming")
-    enum class Parent { gcloud, flank }
+    @Suppress("EnumEntryNameCase", "EnumEntryName", "EnumNaming")
+    enum class Parent { gcloud, flank } // ktlint-disable
 
     enum class Level { Warning, Error }
 

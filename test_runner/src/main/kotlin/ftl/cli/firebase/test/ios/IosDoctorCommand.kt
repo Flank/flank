@@ -4,9 +4,9 @@ import ftl.args.IosArgs
 import ftl.cli.firebase.test.processValidation
 import ftl.config.FtlConstants
 import ftl.doctor.validateYaml
-import java.nio.file.Paths
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
+import java.nio.file.Paths
 
 @Command(
     name = "doctor",

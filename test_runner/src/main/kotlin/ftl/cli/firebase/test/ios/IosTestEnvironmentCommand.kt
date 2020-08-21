@@ -3,8 +3,8 @@ package ftl.cli.firebase.test.ios
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.environment.ipBlocksListAsTable
-import ftl.environment.providedSoftwareAsTable
 import ftl.environment.networkConfigurationAsTable
+import ftl.environment.providedSoftwareAsTable
 import ftl.ios.IosCatalog.devicesCatalogAsTable
 import ftl.ios.IosCatalog.localesAsTable
 import ftl.ios.IosCatalog.softwareVersionsAsTable

@@ -1,4 +1,5 @@
 @file:Suppress("UnusedPrivateClass")
+
 package ftl.config
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties

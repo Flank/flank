@@ -6,11 +6,11 @@ import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import ftl.util.FlankGeneralError
 import org.junit.Assume.assumeFalse
-import java.io.File
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.EnvironmentVariables
 import org.junit.runner.RunWith
+import java.io.File
 
 @RunWith(FlankTestRunner::class)
 class ArgsHelperFilePathTest {

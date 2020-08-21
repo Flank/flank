@@ -4,14 +4,14 @@ import ftl.args.IArgs
 import ftl.run.platform.common.beforeRunMessage
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
-import org.junit.Test
-import org.junit.runner.RunWith
 import ftl.test.util.TestHelper.normalizeLineEnding
 import ftl.util.trimStartLine
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
 import org.junit.After
+import org.junit.Test
+import org.junit.runner.RunWith
 
 @RunWith(FlankTestRunner::class)
 class GenericTestRunnerTest {
