@@ -19,10 +19,10 @@ import ftl.config.FtlConstants.applicationName
 import ftl.config.FtlConstants.httpCredential
 import ftl.config.FtlConstants.httpTransport
 import ftl.http.executeWithRetry
-import ftl.util.FTLProjectError
-import ftl.util.FlankGeneralError
-import ftl.util.PermissionDenied
-import ftl.util.ProjectNotFound
+import ftl.run.exception.FTLProjectError
+import ftl.run.exception.FlankGeneralError
+import ftl.run.exception.PermissionDenied
+import ftl.run.exception.ProjectNotFound
 
 object GcToolResults {
 

@@ -16,8 +16,8 @@ import ftl.args.IosArgs
 import ftl.gc.UserAuth
 import ftl.http.HttpTimeoutIncrease
 import ftl.util.BugsnagInitHelper.initBugsnag
-import ftl.util.FlankConfigurationError
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankConfigurationError
+import ftl.run.exception.FlankGeneralError
 import ftl.util.readRevision
 import java.io.IOException
 import java.nio.file.Path

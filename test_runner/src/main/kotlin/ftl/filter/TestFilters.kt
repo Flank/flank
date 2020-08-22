@@ -2,8 +2,8 @@ package ftl.filter
 
 import com.linkedin.dex.parser.TestMethod
 import ftl.config.FtlConstants
-import ftl.util.FlankConfigurationError
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankConfigurationError
+import ftl.run.exception.FlankGeneralError
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths

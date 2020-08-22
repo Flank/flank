@@ -1,7 +1,7 @@
 package ftl.args.yml
 
 import ftl.test.util.TestHelper.getThrowable
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankGeneralError
 import ftl.util.loadFile
 import org.junit.Assert
 import org.junit.Test

@@ -3,7 +3,7 @@ package ftl.cli.firebase.test.ios.configuration
 import ftl.ios.IosCatalog
 import ftl.test.util.TestHelper
 import ftl.test.util.TestHelper.getThrowable
-import ftl.util.FlankConfigurationError
+import ftl.run.exception.FlankConfigurationError
 import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.Assert.assertEquals

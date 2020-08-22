@@ -1,4 +1,4 @@
-package ftl.util
+package ftl.run.exception
 
 const val SUCCESS = 0
 const val GENERAL_FAILURE = 1

@@ -1,8 +1,8 @@
 package ftl.args
 
 import ftl.ios.IosCatalog
-import ftl.util.FlankConfigurationError
-import ftl.util.IncompatibleTestDimensionError
+import ftl.run.exception.FlankConfigurationError
+import ftl.run.exception.IncompatibleTestDimensionError
 
 fun IosArgs.validate() {
     assertXcodeSupported()

@@ -8,11 +8,11 @@ import ftl.json.update
 import ftl.reports.util.ReportManager
 import ftl.run.common.fetchArtifacts
 import ftl.run.common.pollMatrices
+import ftl.run.exception.FlankGeneralError
+import ftl.run.exception.FlankTimeoutError
 import ftl.run.model.TestResult
 import ftl.run.platform.runAndroidTests
 import ftl.run.platform.runIosTests
-import ftl.util.FlankGeneralError
-import ftl.util.FlankTimeoutError
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withTimeoutOrNull
 

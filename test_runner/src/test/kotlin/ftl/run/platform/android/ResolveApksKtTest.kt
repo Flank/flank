@@ -3,7 +3,7 @@ package ftl.run.platform.android
 import ftl.args.AndroidArgs
 import ftl.args.yml.AppTestPair
 import ftl.run.model.InstrumentationTestContext
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankGeneralError
 import ftl.util.asFileReference
 import io.mockk.every
 import io.mockk.mockk

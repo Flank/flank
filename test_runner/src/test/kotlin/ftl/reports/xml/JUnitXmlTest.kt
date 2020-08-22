@@ -2,7 +2,7 @@ package ftl.reports.xml
 
 import com.google.common.truth.Truth.assertThat
 import ftl.test.util.TestHelper.normalizeLineEnding
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankGeneralError
 import org.junit.Assert
 import org.junit.Test
 import java.nio.file.Paths

@@ -20,9 +20,9 @@ import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
 import ftl.test.util.assertThrowsWithMessage
-import ftl.util.FlankConfigurationError
-import ftl.util.FlankGeneralError
-import ftl.util.IncompatibleTestDimensionError
+import ftl.run.exception.FlankGeneralError
+import ftl.run.exception.FlankConfigurationError
+import ftl.run.exception.IncompatibleTestDimensionError
 import ftl.util.asFileReference
 import io.mockk.every
 import io.mockk.mockkStatic

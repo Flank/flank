@@ -1,7 +1,7 @@
 package ftl.environment.ios
 
 import com.google.api.services.testing.model.IosModel
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankGeneralError
 
 fun List<IosModel>.getDescription(modelId: String) = findModel(modelId)?.prepareDescription().orErrorMessage(modelId)
 

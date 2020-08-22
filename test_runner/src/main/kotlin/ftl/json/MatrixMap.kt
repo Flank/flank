@@ -1,11 +1,11 @@
 package ftl.json
 
 import com.google.api.services.testing.model.TestMatrix
-import ftl.util.FTLError
-import ftl.util.FailedMatrixError
-import ftl.util.IncompatibleTestDimensionError
-import ftl.util.InfrastructureError
-import ftl.util.MatrixCanceledError
+import ftl.run.exception.FTLError
+import ftl.run.exception.FailedMatrixError
+import ftl.run.exception.IncompatibleTestDimensionError
+import ftl.run.exception.InfrastructureError
+import ftl.run.exception.MatrixCanceledError
 import ftl.util.MatrixState
 
 class MatrixMap(

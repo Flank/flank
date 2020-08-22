@@ -16,8 +16,8 @@ import ftl.shard.stringShards
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.assertThrowsWithMessage
-import ftl.util.FlankConfigurationError
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankGeneralError
+import ftl.run.exception.FlankConfigurationError
 import io.mockk.every
 import io.mockk.spyk
 import io.mockk.unmockkAll

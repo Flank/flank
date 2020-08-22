@@ -2,7 +2,7 @@ package ftl.test.util
 
 import com.google.cloud.storage.BlobInfo
 import ftl.gc.GcStorage
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankGeneralError
 import org.junit.Assert
 import java.nio.file.Files
 import java.nio.file.Path

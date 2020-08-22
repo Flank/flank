@@ -15,7 +15,7 @@ import ftl.reports.xml.model.JUnitTestSuite
 import ftl.reports.xml.parseOneSuiteXml
 import ftl.run.common.matrixPathToObj
 import ftl.test.util.FlankTestRunner
-import ftl.util.FTLError
+import ftl.run.exception.FTLError
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject

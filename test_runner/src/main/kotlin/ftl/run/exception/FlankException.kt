@@ -1,4 +1,4 @@
-package ftl.util
+package ftl.run.exception
 
 import ftl.json.SavedMatrix
 import java.io.IOException

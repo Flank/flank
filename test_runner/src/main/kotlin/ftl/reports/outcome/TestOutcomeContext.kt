@@ -7,7 +7,7 @@ import com.google.api.services.toolresults.model.Step
 import ftl.gc.GcToolResults
 import ftl.json.SavedMatrix
 import ftl.json.createSavedMatrix
-import ftl.util.FTLError
+import ftl.run.exception.FTLError
 import ftl.util.timeoutToSeconds
 
 data class TestOutcomeContext(

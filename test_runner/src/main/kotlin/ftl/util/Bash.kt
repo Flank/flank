@@ -1,6 +1,7 @@
 package ftl.util
 
 import ftl.config.FtlConstants
+import ftl.run.exception.FlankGeneralError
 import java.lang.ProcessBuilder.Redirect.PIPE
 
 object Bash {

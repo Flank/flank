@@ -7,8 +7,8 @@ import ftl.android.UnsupportedModelId
 import ftl.android.UnsupportedVersionId
 import ftl.config.containsPhysicalDevices
 import ftl.config.containsVirtualDevices
-import ftl.util.FlankConfigurationError
-import ftl.util.IncompatibleTestDimensionError
+import ftl.run.exception.FlankConfigurationError
+import ftl.run.exception.IncompatibleTestDimensionError
 import java.io.File
 
 fun AndroidArgs.validate() {

@@ -5,7 +5,7 @@ import ftl.args.AndroidArgs
 import ftl.run.model.AndroidTestContext
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.RoboTestContext
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankGeneralError
 import ftl.util.asFileReference
 
 @VisibleForTesting

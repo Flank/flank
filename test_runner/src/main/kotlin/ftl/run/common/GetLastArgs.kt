@@ -4,7 +4,7 @@ import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankGeneralError
 import java.nio.file.Paths
 
 /** Reads in the last matrices from the localResultDir folder **/

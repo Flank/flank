@@ -3,7 +3,7 @@ package ftl.cli.firebase.test.ios.models
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.ios.IosCatalog
-import ftl.util.FlankConfigurationError
+import ftl.run.exception.FlankConfigurationError
 import picocli.CommandLine
 import java.nio.file.Paths
 
