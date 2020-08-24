@@ -13,9 +13,9 @@ import com.google.auth.oauth2.ServiceAccountCredentials
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
-import ftl.util.BugsnagInitHelper.initBugsnag
 import ftl.gc.UserAuth
 import ftl.http.HttpTimeoutIncrease
+import ftl.util.BugsnagInitHelper.initBugsnag
 import ftl.util.FlankConfigurationError
 import ftl.util.FlankGeneralError
 import ftl.util.readRevision

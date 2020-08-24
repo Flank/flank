@@ -20,8 +20,8 @@ import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
 import ftl.test.util.assertThrowsWithMessage
-import ftl.util.FlankGeneralError
 import ftl.util.FlankConfigurationError
+import ftl.util.FlankGeneralError
 import ftl.util.IncompatibleTestDimensionError
 import ftl.util.asFileReference
 import io.mockk.every
@@ -29,10 +29,10 @@ import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert.fail
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
 import org.junit.Test
 import org.junit.runner.RunWith
 import picocli.CommandLine

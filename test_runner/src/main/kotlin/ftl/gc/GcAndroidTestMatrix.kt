@@ -5,7 +5,6 @@ import com.google.api.services.testing.model.Account
 import com.google.api.services.testing.model.AndroidDeviceList
 import com.google.api.services.testing.model.ClientInfo
 import com.google.api.services.testing.model.EnvironmentMatrix
-import ftl.gc.android.setEnvironmentVariables
 import com.google.api.services.testing.model.GoogleAuto
 import com.google.api.services.testing.model.GoogleCloudStorage
 import com.google.api.services.testing.model.ResultStorage
@@ -16,6 +15,7 @@ import com.google.api.services.testing.model.ToolResultsHistory
 import ftl.args.AndroidArgs
 import ftl.gc.android.mapGcsPathsToApks
 import ftl.gc.android.mapToDeviceFiles
+import ftl.gc.android.setEnvironmentVariables
 import ftl.gc.android.setupAndroidTest
 import ftl.run.platform.android.AndroidTestConfig
 import ftl.util.FlankGeneralError

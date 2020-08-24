@@ -3,9 +3,9 @@ package ftl.ios
 import com.google.api.services.testing.model.IosDeviceCatalog
 import ftl.environment.asPrintableTable
 import ftl.environment.common.asPrintableTable
+import ftl.environment.getLocaleDescription
 import ftl.environment.ios.asPrintableTable
 import ftl.environment.ios.getDescription
-import ftl.environment.getLocaleDescription
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
 

@@ -5,6 +5,7 @@ import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.gc.GcTestMatrix
 import ftl.json.MatrixMap
+import ftl.json.update
 import ftl.reports.util.ReportManager
 import ftl.run.common.fetchArtifacts
 import ftl.run.common.getLastArgs
@@ -13,7 +14,6 @@ import ftl.run.common.pollMatrices
 import ftl.run.common.updateMatrixFile
 import ftl.args.ShardChunks
 import ftl.json.needsUpdate
-import ftl.json.update
 import ftl.json.updateWithMatrix
 import ftl.util.MatrixState
 import kotlinx.coroutines.Deferred

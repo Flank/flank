@@ -6,9 +6,9 @@ import ftl.args.IosArgs
 import ftl.json.SavedMatrix
 import ftl.json.update
 import ftl.reports.util.ReportManager
-import ftl.run.model.TestResult
 import ftl.run.common.fetchArtifacts
 import ftl.run.common.pollMatrices
+import ftl.run.model.TestResult
 import ftl.run.platform.runAndroidTests
 import ftl.run.platform.runIosTests
 import ftl.util.FlankGeneralError
