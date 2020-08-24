@@ -12,7 +12,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
     } catch (t: Throwable) {
         when (t) {
             is FlankGeneralError -> {
-                err("\n${t.message}")
+                printError("\n${t.message}")
                 exitProcess(GENERAL_FAILURE)
             }
 
@@ -27,19 +27,19 @@ fun withGlobalExceptionHandling(block: () -> Int) {
             }
 
             is IncompatibleTestDimensionError -> {
-                err("\n${t.message}")
+                printError("\n${t.message}")
                 exitProcess(INCOMPATIBLE_TEST_DIMENSION)
             }
 
             is MatrixCanceledError -> {
-                err("The matrix was cancelled by the user.")
-                err("Details: ${t.messageOrUnavailable}")
+                printError("The matrix was cancelled by the user.")
+                printError("Details: ${t.messageOrUnavailable}")
                 exitProcess(CANCELED_BY_USER)
             }
 
             is InfrastructureError -> {
-                err("An infrastructure error occurred.")
-                err("Details: ${t.messageOrUnavailable}")
+                printError("An infrastructure error occurred.")
+                printError("Details: ${t.messageOrUnavailable}")
                 exitProcess(INFRASTRUCTURE_ERROR)
             }
 
@@ -55,7 +55,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
 
             is YmlValidationError,
             is FlankConfigurationError -> {
-                err(t.message)
+                printError(t.message)
                 exitProcess(CONFIGURATION_FAIL)
             }
 
@@ -73,7 +73,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
 private val FlankException.messageOrUnavailable: String
     get() = if (message.isNullOrBlank()) "[Unavailable]" else message as String
 
-private fun err(string: String?) = System.err.println(string)
+private fun printError(string: String?) = System.err.println(string)
 
 private fun SavedMatrix.logError() {
     println("Matrix is $state")
