@@ -107,7 +107,7 @@ formatting:
   android: false
   autoCorrect: true
   AnnotationOnSeparateLine:
-    active: true
+    active: false
     autoCorrect: true
   ChainWrapping:
     active: true
@@ -130,12 +130,11 @@ formatting:
     autoCorrect: false
   Indentation:
     active: false
-    autoCorrect: true
+    autoCorrect: false
     indentSize: 4
     continuationIndentSize: 4
   MaximumLineLength:
     active: false
-    autoCorrect: false
   ModifierOrdering:
     active: true
     autoCorrect: true
