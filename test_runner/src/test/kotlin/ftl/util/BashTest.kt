@@ -2,6 +2,7 @@ package ftl.util
 
 import com.google.common.truth.Truth.assertThat
 import ftl.config.FtlConstants.isMacOS
+import ftl.run.exception.FlankGeneralError
 import ftl.test.util.FlankTestRunner
 import org.junit.Test
 import org.junit.runner.RunWith

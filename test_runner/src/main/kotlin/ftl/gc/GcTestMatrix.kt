@@ -3,7 +3,7 @@ package ftl.gc
 import com.google.api.services.testing.model.CancelTestMatrixResponse
 import com.google.api.services.testing.model.TestMatrix
 import ftl.http.executeWithRetry
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankGeneralError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext

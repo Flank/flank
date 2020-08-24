@@ -3,7 +3,7 @@ package ftl.shard
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.reports.xml.model.JUnitTestResult
-import ftl.util.FlankConfigurationError
+import ftl.run.exception.FlankConfigurationError
 import ftl.util.FlankTestMethod
 import kotlin.math.roundToInt
 

@@ -4,7 +4,7 @@ import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankGeneralError
 import java.nio.file.Paths
 
 /** Reads in the last matrices from the localResultDir folder **/

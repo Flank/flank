@@ -7,7 +7,7 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
 import ftl.reports.xml.preprocesor.fixHtmlCodes
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankGeneralError
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path

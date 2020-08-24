@@ -7,7 +7,7 @@ import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
 import ftl.test.util.FlankTestRunner
-import ftl.util.FlankConfigurationError
+import ftl.run.exception.FlankConfigurationError
 import ftl.util.FlankTestMethod
 import io.mockk.every
 import io.mockk.mockk

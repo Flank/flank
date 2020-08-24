@@ -5,7 +5,7 @@ package ftl.args.yml
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.dataformat.yaml.snakeyaml.error.MarkedYAMLException
 import ftl.args.yml.errors.ConfigurationErrorMessageBuilder
-import ftl.util.FlankConfigurationError
+import ftl.run.exception.FlankConfigurationError
 
 fun convertConfigurationErrorExceptions(missingParameterError: Exception, yaml: JsonNode?): Throwable {
     val errorMessageBuilder = ConfigurationErrorMessageBuilder

@@ -2,6 +2,7 @@ package ftl.util
 
 import ftl.config.FtlConstants
 import ftl.gc.GcStorage
+import ftl.run.exception.FlankGeneralError
 
 data class FileReference(
     val local: String = "",

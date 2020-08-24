@@ -1,8 +1,8 @@
 package ftl.ios
 
 import ftl.config.FtlConstants.isMacOS
+import ftl.run.exception.FlankGeneralError
 import ftl.util.Bash
-import ftl.util.FlankGeneralError
 import ftl.util.copyBinaryResource
 import java.io.File
 

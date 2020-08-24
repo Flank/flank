@@ -3,7 +3,7 @@ package ftl.args.yml
 import com.google.common.truth.Truth.assertThat
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper
-import ftl.util.FlankConfigurationError
+import ftl.run.exception.FlankConfigurationError
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule

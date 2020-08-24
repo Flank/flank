@@ -7,7 +7,7 @@ import ftl.args.ArgsHelper
 import ftl.args.IArgs
 import ftl.config.loadAndroidConfig
 import ftl.config.loadIosConfig
-import ftl.util.FlankConfigurationError
+import ftl.run.exception.FlankConfigurationError
 import ftl.util.loadFile
 import java.io.Reader
 import java.lang.StringBuilder

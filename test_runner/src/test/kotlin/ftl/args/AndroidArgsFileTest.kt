@@ -12,7 +12,7 @@ import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
 import ftl.test.util.TestHelper.getString
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankGeneralError
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Rule

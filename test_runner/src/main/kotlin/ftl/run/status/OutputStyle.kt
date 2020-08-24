@@ -1,6 +1,6 @@
 package ftl.run.status
 
-import ftl.util.FlankConfigurationError
+import ftl.run.exception.FlankConfigurationError
 
 enum class OutputStyle { Verbose, Single, Multi }
 

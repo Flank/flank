@@ -35,7 +35,7 @@ import ftl.config.FtlConstants
 import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.log.LogbackLogger
 import ftl.util.Bash
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankGeneralError
 import ftl.util.StepOutcome.failure
 import ftl.util.StepOutcome.flaky
 import ftl.util.StepOutcome.inconclusive

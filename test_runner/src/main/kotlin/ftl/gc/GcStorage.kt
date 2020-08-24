@@ -13,7 +13,7 @@ import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.xmlToString
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankGeneralError
 import ftl.util.ProgressBar
 import ftl.util.join
 import java.io.File

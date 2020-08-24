@@ -1,7 +1,7 @@
 package ftl.environment
 
 import com.google.api.services.testing.model.Locale
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankGeneralError
 
 fun List<Locale>.getLocaleDescription(localeId: String) = findLocales(localeId)?.prepareDescription().orErrorMessage(localeId).plus("\n")
 

@@ -8,9 +8,9 @@ import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.getThrowable
-import ftl.util.FlankGeneralError
-import ftl.util.PermissionDenied
-import ftl.util.ProjectNotFound
+import ftl.run.exception.FlankGeneralError
+import ftl.run.exception.PermissionDenied
+import ftl.run.exception.ProjectNotFound
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
