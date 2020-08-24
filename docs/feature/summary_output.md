@@ -1,11 +1,11 @@
 # Formatted summary output 
 ```
-┌─────────┬──────────────────────┬─────────────────┬─────────────────────────────────────────┐
-│ OUTCOME │      MATRIX ID       │ TEST AXIS VALUE │              TEST DETAILS               │
-├─────────┼──────────────────────┼─────────────────┼─────────────────────────────────────────┤
-│ success │ matrix-35czp85w4h3a7 │ greatqlte       │ 20 test cases passed                    │
-│ failure │ matrix-35czp85w4h3a7 │ Nexus6P         │ 1 test cases failed, 16 passed, 3 flaky │
-└─────────┴──────────────────────┴─────────────────┴─────────────────────────────────────────┘
+┌─────────┬──────────────────────┬──────────────────────────┬─────────────────────────────────────────┐
+│ OUTCOME │      MATRIX ID       │     TEST AXIS VALUE      │              TEST DETAILS               │
+├─────────┼──────────────────────┼──────────────────────────┼─────────────────────────────────────────┤
+│ success │ matrix-35czp85w4h3a7 │ greatqlte-26-en-portrait │ 20 test cases passed                    │
+│ failure │ matrix-35czp85w4h3a7 │ Nexus6P-26-en-portrait   │ 1 test cases failed, 16 passed, 3 flaky │
+└─────────┴──────────────────────┴──────────────────────────┴─────────────────────────────────────────┘
 ```
 
 
