@@ -6,11 +6,11 @@ import com.google.api.services.toolresults.model.Step
 import ftl.environment.orUnknown
 import ftl.util.mutableMapProperty
 
-internal fun Step.deviceModel() = dimensionValue.deviceModel()
+internal fun Step.axisValue() = dimensionValue.axisValue()
 
-internal fun Environment.deviceModel() = dimensionValue.deviceModel()
+internal fun Environment.axisValue() = dimensionValue.axisValue()
 
-private fun List<GenericJson>?.deviceModel() = this
+private fun List<GenericJson>?.axisValue() = this
     ?.toDimensionMap()
     ?.getValues(dimensionKeys)
     ?.joinToString("-")
@@ -24,6 +24,6 @@ private val GenericJson.key: String? by mutableMapProperty { null }
 
 private val GenericJson.value: String? by mutableMapProperty { null }
 
-private val dimensionKeys = DimensionValues.values().map(DimensionValues::name)
+private val dimensionKeys = DimensionValue.values().map(DimensionValue::name)
 
-private enum class DimensionValues { Model, Version, Locale, Orientation }
+private enum class DimensionValue { Model, Version, Locale, Orientation }

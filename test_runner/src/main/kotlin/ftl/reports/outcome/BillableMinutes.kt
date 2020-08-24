@@ -24,7 +24,7 @@ fun List<Step>.calculateAndroidBillableMinutes(
 private fun List<Step>.groupByDeviceType(projectId: String) =
     groupBy {
         AndroidCatalog.isVirtualDevice(
-            it.deviceModel(),
+            it.axisValue(),
             projectId
         )
     }

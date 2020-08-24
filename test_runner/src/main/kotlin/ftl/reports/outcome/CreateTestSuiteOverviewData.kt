@@ -20,7 +20,7 @@ internal fun Environment.createTestSuiteOverviewData(): TestSuiteOverviewData =
 internal fun List<Step>.createTestSuiteOverviewData(): TestSuiteOverviewData = this
     .also { require(isNotEmpty()) }
     .filter(Step::isPrimaryStep)
-    .groupBy(Step::deviceModel)
+    .groupBy(Step::axisValue)
     .values
     .map { it.mapToTestSuiteOverviews().foldTestSuiteOverviewData() }
     .fold(TestSuiteOverviewData()) { acc, data -> acc + data } // Fixme https://github.com/Flank/flank/issues/983

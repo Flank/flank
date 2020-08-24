@@ -18,12 +18,12 @@ fun List<Environment>.createMatrixOutcomeSummaryUsingEnvironments(): List<TestOu
 private fun Environment.getTestOutcome(
     outcome: Outcome? = environmentResult?.outcome
 ) = TestOutcome(
-    device = deviceModel(),
+    device = axisValue(),
     outcome = outcome?.summary ?: UNKNOWN_OUTCOME,
     details = outcome.getDetails(createTestSuiteOverviewData()),
 )
 
-fun List<Step>.createMatrixOutcomeSummaryUsingSteps() = groupBy(Step::deviceModel).map { (device, steps) ->
+fun List<Step>.createMatrixOutcomeSummaryUsingSteps() = groupBy(Step::axisValue).map { (device, steps) ->
     steps.getTestOutcome(device)
 }
 
