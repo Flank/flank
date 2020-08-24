@@ -13,7 +13,9 @@ import ftl.util.StepOutcome.skipped
 import ftl.util.StepOutcome.success
 import ftl.util.StepOutcome.unset
 
-internal fun Outcome.getDetails(testSuiteOverviewData: TestSuiteOverviewData?): String = when (summary) {
+internal fun Outcome?.getDetails(
+    testSuiteOverviewData: TestSuiteOverviewData?
+): String = when (this?.summary) {
     success, flaky -> testSuiteOverviewData
         ?.getSuccessOutcomeDetails(successDetail?.otherNativeCrash ?: false)
         ?: "Unknown outcome"

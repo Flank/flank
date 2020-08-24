@@ -7,6 +7,7 @@ import ftl.reports.outcome.createMatrixOutcomeSummary
 import ftl.reports.outcome.fetchTestOutcomeContext
 import ftl.util.MatrixState.FINISHED
 import ftl.util.MatrixState.INVALID
+import ftl.util.StepOutcome
 import ftl.util.StepOutcome.failure
 import ftl.util.StepOutcome.inconclusive
 import ftl.util.StepOutcome.skipped
@@ -26,21 +27,24 @@ data class SavedMatrix(
     val downloaded: Boolean = false,
     val billableVirtualMinutes: Long = 0,
     val billablePhysicalMinutes: Long = 0,
-    val outcome: String = "",
-    val outcomeDetails: String = "",
     val clientDetails: Map<String, String>? = null,
     val gcsPathWithoutRootBucket: String = "",
     val gcsRootBucket: String = "",
     val webLinkWithoutExecutionDetails: String? = "",
-)
+    val testAxises: List<TestOutcome> = emptyList()
+) {
+    val outcome = testAxises.maxByOrNull { StepOutcome.order.indexOf(it.outcome) }?.outcome.orEmpty()
+}
 
 fun createSavedMatrix(testMatrix: TestMatrix) = SavedMatrix().updateWithMatrix(testMatrix)
 
-fun SavedMatrix.canceledByUser() = outcomeDetails == ABORTED_BY_USER_MESSAGE
+fun SavedMatrix.canceledByUser() = testAxises.any { it.details == ABORTED_BY_USER_MESSAGE }
 
-fun SavedMatrix.infrastructureFail() = outcomeDetails == INFRASTRUCTURE_FAILURE_MESSAGE
+fun SavedMatrix.infrastructureFail() = testAxises.any { it.details == INFRASTRUCTURE_FAILURE_MESSAGE }
 
-fun SavedMatrix.incompatibleFail() = outcomeDetails in arrayOf(
+fun SavedMatrix.incompatibleFail() = testAxises.map { it.details }.intersect(incompatibleFails).isNotEmpty()
+
+private val incompatibleFails = setOf(
     INCOMPATIBLE_APP_VERSION_MESSAGE,
     INCOMPATIBLE_ARCHITECTURE_MESSAGE,
     INCOMPATIBLE_DEVICE_MESSAGE
@@ -70,11 +74,11 @@ private fun SavedMatrix.updatedSavedMatrix(
 ): SavedMatrix = when (newMatrix.state) {
     state -> this
 
-    FINISHED -> newMatrix.fetchTestOutcomeContext().createMatrixOutcomeSummary().let { (billableMinutes, outcome) ->
-        updateProperties(newMatrix).updateOutcome(outcome).updateBillableMinutes(billableMinutes)
+    FINISHED -> newMatrix.fetchTestOutcomeContext().createMatrixOutcomeSummary().let { (billableMinutes, outcomes) ->
+        updateProperties(newMatrix).updateOutcome(outcomes).updateBillableMinutes(billableMinutes)
     }
 
-    INVALID -> updateProperties(newMatrix).updateOutcome(invalidTestOutcome())
+    INVALID -> updateProperties(newMatrix).updateOutcome(listOf(invalidTestOutcome()))
 
     else -> updateProperties(newMatrix)
 }
@@ -96,12 +100,11 @@ private fun SavedMatrix.updateBillableMinutes(billableMinutes: BillableMinutes) 
     billableVirtualMinutes = billableMinutes.virtual,
 )
 
-private fun SavedMatrix.updateOutcome(testOutcome: TestOutcome) = copy(
-    outcome = testOutcome.outcome,
-    outcomeDetails = testOutcome.testDetails
+private fun SavedMatrix.updateOutcome(outcome: List<TestOutcome>) = copy(
+    testAxises = outcome
 )
 
 private fun invalidTestOutcome() = TestOutcome(
     outcome = "---",
-    testDetails = "Matrix is invalid"
+    details = "Matrix is invalid"
 )

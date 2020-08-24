@@ -2,7 +2,7 @@ package ftl.reports.outcome
 
 import com.google.api.services.toolresults.model.Environment
 
-fun TestOutcomeContext.createMatrixOutcomeSummary(): Pair<BillableMinutes, TestOutcome> =
+fun TestOutcomeContext.createMatrixOutcomeSummary(): Pair<BillableMinutes, List<TestOutcome>> =
     steps.calculateAndroidBillableMinutes(projectId, testTimeout) to
         if (environments.hasOutcome())
             environments.createMatrixOutcomeSummaryUsingEnvironments()

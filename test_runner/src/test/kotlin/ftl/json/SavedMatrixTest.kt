@@ -99,7 +99,7 @@ class SavedMatrixTest {
         assertThat(savedMatrix.billablePhysicalMinutes).isEqualTo(1)
         assertThat(savedMatrix.gcsPathWithoutRootBucket).isEqualTo(mockFileName)
         assertThat(savedMatrix.gcsRootBucket).isEqualTo(mockBucket)
-        assertThat(savedMatrix.outcomeDetails).isNotEmpty()
+        assertThat(savedMatrix.testAxises.first().details).isNotEmpty()
     }
 
     @Test
@@ -133,7 +133,7 @@ class SavedMatrixTest {
         assertThat(savedMatrix.billablePhysicalMinutes).isEqualTo(1)
         assertThat(savedMatrix.gcsPathWithoutRootBucket).isEqualTo(mockFileName)
         assertThat(savedMatrix.gcsRootBucket).isEqualTo(mockBucket)
-        assertThat(savedMatrix.outcomeDetails).isNotEmpty()
+        assertThat(savedMatrix.testAxises.first().details).isNotEmpty()
     }
 
     @Test
@@ -195,7 +195,7 @@ class SavedMatrixTest {
         testMatrix.state = INVALID
         savedMatrix = savedMatrix.updateWithMatrix(testMatrix)
         assertEquals(expectedOutcome, savedMatrix.outcome)
-        assertEquals(expectedOutcomeDetails, savedMatrix.outcomeDetails)
+        assertEquals(expectedOutcomeDetails, savedMatrix.testAxises.first().details)
         assertEquals(INVALID, savedMatrix.state)
     }
 

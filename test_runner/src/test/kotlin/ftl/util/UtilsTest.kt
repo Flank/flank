@@ -8,6 +8,7 @@ import ftl.json.SavedMatrixTest.Companion.createResultsStorage
 import ftl.json.SavedMatrixTest.Companion.createStepExecution
 import ftl.json.SavedMatrixTest.Companion.testMatrix
 import ftl.json.createSavedMatrix
+import ftl.reports.outcome.TestOutcome
 import ftl.run.cancelMatrices
 import ftl.run.exception.CONFIGURATION_FAIL
 import ftl.run.exception.FTLError
@@ -385,12 +386,20 @@ class UtilsTest {
 private val testMatrix1 = mockk<SavedMatrix>(relaxed = true) {
     every { matrixId } returns "1"
     every { webLink } returns "www.flank.com/1"
-    every { outcome } returns "Failed"
-    every { outcomeDetails } returns "Test failed to run"
+    every { testAxises } returns listOf(
+        TestOutcome(
+            outcome = "Failed",
+            details = "Test failed to run"
+        )
+    )
 }
 private val testMatrix2 = mockk<SavedMatrix>(relaxed = true) {
     every { matrixId } returns "2"
     every { webLink } returns "www.flank.com/2"
-    every { outcome } returns "Failed"
-    every { outcomeDetails } returns "Test failed to run"
+    every { testAxises } returns listOf(
+        TestOutcome(
+            outcome = "Failed",
+            details = "Test failed to run"
+        )
+    )
 }
