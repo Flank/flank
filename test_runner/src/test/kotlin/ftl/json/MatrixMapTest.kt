@@ -18,7 +18,7 @@ class MatrixMapTest {
         val successMatrix2 = matrixForExecution(0)
         val matrixMap = MatrixMap(mutableMapOf("a" to successMatrix1, "b" to successMatrix2), "")
 
-        assertThat(matrixMap.allSuccessful()).isTrue()
+        assertThat(matrixMap.isAllSuccessful()).isTrue()
         assertThat(matrixMap.runPath).isNotNull()
         assertThat(matrixMap.map).isNotNull()
     }
@@ -45,6 +45,6 @@ class MatrixMapTest {
         val failureMatrix = matrixForExecution(-1) // -1 = failure
         val matrixMap = MatrixMap(mutableMapOf("a" to failureMatrix, "b" to successMatrix), "")
 
-        assertThat(matrixMap.allSuccessful()).isFalse()
+        assertThat(matrixMap.isAllSuccessful()).isFalse()
     }
 }
