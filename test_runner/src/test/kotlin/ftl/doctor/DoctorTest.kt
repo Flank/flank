@@ -5,6 +5,7 @@ import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.test.util.FlankTestRunner
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.StringReader
@@ -190,6 +191,40 @@ flank:
 """.trimIndent()
         )
         assertThat(lint).isEqualTo("")
+    }
+
+    @Test
+    fun `validate result should contains warning about Version if is not compatible with gcloud cli`() {
+        val lint = validateYaml(
+            IosArgs, """
+gcloud:
+  test: .
+  xctestrun-file: .
+  device:
+    - model: NexusLowRes
+      version: 23
+flank:
+  project: .
+""".trimIndent()
+        )
+        assertEquals("Warning: Version should be string gcloud -> device[\"NexusLowRes\"] -> version[23]", lint.trim())
+    }
+
+    @Test
+    fun `should return empty validation message if version is compatible with gcloud cli`() {
+        val lint = validateYaml(
+            IosArgs, """
+gcloud:
+  test: .
+  xctestrun-file: .
+  device:
+    - model: NexusLowRes
+      version: "23"
+flank:
+  project: .
+""".trimIndent()
+        )
+        assertEquals("", lint)
     }
 }
 

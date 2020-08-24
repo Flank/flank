@@ -33,7 +33,7 @@ open class FTLError(val matrix: SavedMatrix) : FlankException()
  *
  * Exit code: 2
  */
-class YmlValidationError : FlankException()
+class YmlValidationError(message: String? = null) : FlankException(message)
 
 /**
  * Thrown when flank run timeouted. This is flank itself timeout, not FTL.
