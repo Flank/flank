@@ -58,6 +58,8 @@ AndroidArgs
       num-test-runs: $repeatTests
       smart-flank-gcs-path: $smartFlankGcsPath
       smart-flank-disable-upload: $smartFlankDisableUpload
+      default-test-time: $defaultTestTime
+      use-average-test-time-for-new-tests: $useAverageTestTimeForNewTests
       files-to-download:${ArgsToString.listToString(filesToDownload)}
       test-targets-always-run:${ArgsToString.listToString(testTargetsAlwaysRun)}
       disable-sharding: $disableSharding

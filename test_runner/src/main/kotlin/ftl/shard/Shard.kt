@@ -45,7 +45,7 @@ fun createShardsByShardCount(
     val maxShards = maxShards(args.maxTestShards, forcedShardCount)
 
     val previousMethodDurations = createTestMethodDurationMap(oldTestResult, args)
-    val testCases = createTestCases(testsToRun, previousMethodDurations)
+    val testCases = createTestCases(testsToRun, previousMethodDurations, args)
         .sortedByDescending(TestMethod::time) // We want to iterate over testcase going from slowest to fastest
 
     val testCount = getNumberOfNotIgnoredTestCases(testCases)

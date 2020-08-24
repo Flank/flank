@@ -43,6 +43,8 @@ IosArgs
       num-test-runs: $repeatTests
       smart-flank-gcs-path: $smartFlankGcsPath
       smart-flank-disable-upload: $smartFlankDisableUpload
+      default-test-time: $defaultTestTime
+      use-average-test-time-for-new-tests: $useAverageTestTimeForNewTests
       test-targets-always-run:${ArgsToString.listToString(testTargetsAlwaysRun)}
       files-to-download:${ArgsToString.listToString(filesToDownload)}
       keep-file-path: $keepFilePath
