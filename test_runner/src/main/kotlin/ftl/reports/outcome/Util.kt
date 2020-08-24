@@ -1,19 +1,29 @@
 package ftl.reports.outcome
 
+import com.google.api.client.json.GenericJson
 import com.google.api.services.toolresults.model.Environment
-import com.google.api.services.toolresults.model.EnvironmentDimensionValueEntry
 import com.google.api.services.toolresults.model.Step
-import com.google.api.services.toolresults.model.StepDimensionValueEntry
 import ftl.environment.orUnknown
+import ftl.util.mutableMapProperty
 
-internal fun Step.deviceModel() = dimensionValue["Model"]
-    ?.value.orUnknown()
+internal fun Step.deviceModel() = dimensionValue.deviceModel()
 
-internal fun Environment.deviceModel() = dimensionValue["Model"]
-    ?.value.orUnknown()
+internal fun Environment.deviceModel() = dimensionValue.deviceModel()
 
-operator fun List<StepDimensionValueEntry>?.get(key: String) =
-    this?.firstOrNull { it.key == key }
+private fun List<GenericJson>?.deviceModel() = this
+    ?.toDimensionMap()
+    ?.getValues(dimensionKeys)
+    ?.joinToString("-")
+    .orUnknown()
 
-operator fun List<EnvironmentDimensionValueEntry>?.get(key: String) =
-    this?.firstOrNull { it.key == key }
+private fun List<GenericJson>.toDimensionMap(): Map<String?, String?> = associate { it.key to it.value }
+
+private fun Map<String?, String?>.getValues(keys: Iterable<String>) = keys.mapNotNull { key -> get(key) }
+
+private val GenericJson.key: String? by mutableMapProperty { null }
+
+private val GenericJson.value: String? by mutableMapProperty { null }
+
+private val dimensionKeys = DimensionValues.values().map(DimensionValues::name)
+
+private enum class DimensionValues { Model, Version, Locale, Orientation }

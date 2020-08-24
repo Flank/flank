@@ -1,8 +1,8 @@
 package ftl.reports.api
 
-import com.google.api.services.toolresults.model.Step
 import ftl.reports.api.data.TestExecutionData
 import ftl.reports.api.data.TestSuiteOverviewData
+import ftl.reports.outcome.deviceModel
 import ftl.reports.xml.model.JUnitTestSuite
 
 internal fun List<TestExecutionData>.createJUnitTestSuites() = mapNotNull { data: TestExecutionData ->
@@ -18,7 +18,7 @@ private fun createJUnitTestSuite(
     data: TestExecutionData,
     overview: TestSuiteOverviewData
 ) = JUnitTestSuite(
-    name = data.step.testSuiteName(),
+    name = data.step.deviceModel(),
     timestamp = data.timestamp.asUnixTimestamp().formatUtcDate(),
     tests = overview.total.toString(),
     failures = overview.failures.toString(),
@@ -32,8 +32,3 @@ private fun createJUnitTestSuite(
     ).toMutableList(),
     time = overview.elapsedTime.format()
 )
-
-private fun Step.testSuiteName(): String {
-    val map = dimensionValue.map { it.key to it.value }.toMap()
-    return listOf(map["Model"], map["Version"], map["Locale"], map["Orientation"]).joinToString("-")
-}
