@@ -14,7 +14,7 @@ fun fixDevices(yamlPath: Path) =
 private fun Path.loadYml() = yamlMapper.readTree(loadFile(this))
 
 private fun JsonNode.fixDevices() = also {
-    getDevicesNode().getNotValidDevices().forEach { device ->
+    getDevicesNode()?.getNotValidDevices()?.forEach { device ->
         device.fixDeviceVersion()
     }
 }
@@ -23,9 +23,11 @@ internal fun JsonNode.getDevicesNode() = get(GCLOUD_NODE).get(DEVICES_NODE)
 
 internal fun JsonNode.getNotValidDevices() = filter { it.deviceVersionValid().not() }
 
-private fun JsonNode.deviceVersionValid() = get(VERSION_NODE).isTextual
+private fun JsonNode.deviceVersionValid() = get(VERSION_NODE)?.isTextual ?: false
 
-private fun JsonNode.fixDeviceVersion() = (this as ObjectNode).put(VERSION_NODE, get(VERSION_NODE).asText())
+private fun JsonNode.fixDeviceVersion() = get(VERSION_NODE)?.let {
+    (this as ObjectNode).put(VERSION_NODE, it.asText())
+}
 
 private fun JsonNode.saveFixedYml(yamlPath: Path) = yamlMapper.writerWithDefaultPrettyPrinter().writeValue(yamlPath.toFile(), this)
 

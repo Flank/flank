@@ -28,9 +28,7 @@ internal fun validateYaml(args: IArgs.ICompanion, data: Reader) =
     runCatching { ArgsHelper.yamlMapper.readTree(data) }
         .onFailure { return it.message ?: "Unknown error when parsing tree" }
         .getOrNull()
-        ?.run {
-            validateYamlKeys(args).plus(validateDevices())
-        }
+        ?.run { validateYamlKeys(args).plus(validateDevices()) }
         .orEmpty()
 
 private fun JsonNode.validateYamlKeys(args: IArgs.ICompanion) = StringBuilder().apply {
@@ -71,7 +69,8 @@ private fun preloadConfiguration(data: Path, isAndroid: Boolean) =
     }
 
 private fun JsonNode.validateDevices() = StringBuilder().apply {
-    getDevicesNode()?.getNotValidDevices()?.forEach {
-        appendLine("Warning: Version should be string $GCLOUD_NODE -> $DEVICES_NODE[${it[MODEL_NODE]}] -> $VERSION_NODE[${it[VERSION_NODE]}]")
+    getDevicesNode()?.getNotValidDevices()?.forEach { device ->
+        if (device.has(VERSION_NODE))
+            appendLine("Warning: Version should be string $GCLOUD_NODE -> $DEVICES_NODE[${device[MODEL_NODE]}] -> $VERSION_NODE[${device[VERSION_NODE]}]")
     }
 }.toString()
