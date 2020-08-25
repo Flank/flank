@@ -3,7 +3,7 @@ package ftl.args.yml
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import ftl.args.ArgsHelper.yamlMapper
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankGeneralError
 import ftl.util.loadFile
 import java.nio.file.Path
 
