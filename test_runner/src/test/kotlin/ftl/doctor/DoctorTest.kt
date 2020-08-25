@@ -16,7 +16,13 @@ class DoctorTest {
     @Test
     fun androidDoctorTest() {
         val lint = validateYaml(AndroidArgs, Paths.get("src/test/kotlin/ftl/fixtures/flank.local.yml"))
-        assertThat(lint).isEmpty()
+        val expected = """
+                Warning: Version should be string gcloud -> device["NexusLowRes"] -> version[23]
+                Warning: Version should be string gcloud -> device["NexusLowRes"] -> version[23]
+                Warning: Version should be string gcloud -> device["shamu"] -> version[22]
+                
+        """.trimIndent()
+        assertEquals(expected, lint)
     }
 
     @Test
@@ -88,6 +94,7 @@ flank:
     fun androidDoctorTestWithFailedConfiguration() {
         // given
         val expectedErrorMessage = """
+Warning: Version should be string gcloud -> device["Nexus5"] -> version[23]
 Error on parse config: flank->additional-app-test-apks
 At line: 20, column: 5
 Error node: {
@@ -103,7 +110,7 @@ Error node: {
             AndroidArgs,
             Paths.get("src/test/kotlin/ftl/fixtures/flank_android_failed_configuration.yml")
         )
-        assertThat(actual).isEqualTo(expectedErrorMessage)
+        assertEquals(expectedErrorMessage, actual)
     }
 
     @Test
@@ -132,7 +139,11 @@ Error node: {
     @Test
     fun iosDoctorTest() {
         val lint = validateYaml(IosArgs, Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.yml"))
-        assertThat(lint).isEmpty()
+        val expected = """
+            Warning: Version should be string gcloud -> device["iphone8"] -> version[11.2]
+            
+        """.trimIndent()
+        assertEquals(expected, lint)
     }
 
     @Test
@@ -194,7 +205,7 @@ flank:
     }
 
     @Test
-    fun `validate result should contains warning about Version if is not compatible with gcloud cli`() {
+    fun `validate result should contains warning about device version if is not compatible with gcloud cli`() {
         val lint = validateYaml(
             IosArgs, """
 gcloud:
@@ -211,7 +222,7 @@ flank:
     }
 
     @Test
-    fun `should return empty validation message if version is compatible with gcloud cli`() {
+    fun `should return empty validation message if device version is compatible with gcloud cli`() {
         val lint = validateYaml(
             IosArgs, """
 gcloud:
