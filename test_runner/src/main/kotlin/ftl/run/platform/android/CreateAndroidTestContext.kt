@@ -64,11 +64,11 @@ private fun InstrumentationTestContext.getFlankTestMethods(
 ): List<FlankTestMethod> =
     getParametrizedClasses().let { parameterizedClasses: List<String> ->
         DexParser.findTestMethods(test.local).asSequence()
-            .distinct()
-            .filter(testFilter.shouldRun)
-            .filterNot(parameterizedClasses::belong)
-            .map(TestMethod::toFlankTestMethod).toList()
-            .plus(parameterizedClasses.map(String::toFlankTestMethod))
+                .distinctBy { it.testName }
+                .filter(testFilter.shouldRun)
+                .filterNot(parameterizedClasses::belong)
+                .map(TestMethod::toFlankTestMethod).toList()
+                .plus(parameterizedClasses.map(String::toFlankTestMethod))
     }
 
 private fun List<String>.belong(method: TestMethod) = any { className -> method.testName.startsWith(className) }
