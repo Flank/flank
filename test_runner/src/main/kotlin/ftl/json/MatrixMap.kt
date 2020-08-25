@@ -7,10 +7,9 @@ import ftl.run.exception.IncompatibleTestDimensionError
 import ftl.run.exception.InfrastructureError
 import ftl.run.exception.MatrixCanceledError
 import ftl.util.MatrixState
-import okhttp3.internal.toImmutableMap
 
 data class MatrixMap(private val internalMap: MutableMap<String, SavedMatrix>, val runPath: String) {
-    val map = internalMap.toImmutableMap()
+    val map get() = internalMap.toMap()
     fun update(id: String, savedMatrix: SavedMatrix) {
         internalMap[id] = savedMatrix
     }
