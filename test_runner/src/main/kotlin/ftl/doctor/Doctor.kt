@@ -13,7 +13,7 @@ import ftl.args.yml.getDevicesNode
 import ftl.args.yml.getNotValidDevices
 import ftl.config.loadAndroidConfig
 import ftl.config.loadIosConfig
-import ftl.util.FlankConfigurationError
+import ftl.run.exception.FlankConfigurationError
 import ftl.util.loadFile
 import java.io.Reader
 import java.lang.StringBuilder

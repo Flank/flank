@@ -2,7 +2,7 @@ package ftl.reports.xml.model
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankGeneralError
 import java.util.Locale
 
 data class JUnitTestSuite(

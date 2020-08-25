@@ -13,7 +13,8 @@ import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
 import ftl.test.util.assertThrowsWithMessage
-import ftl.util.FlankConfigurationError
+import ftl.run.exception.FlankConfigurationError
+import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assume
@@ -68,6 +69,8 @@ class IosArgsTest {
           max-test-shards: 7
           shard-time: 60
           num-test-runs: 8
+          default-test-time: 15.0
+          use-average-test-time-for-new-tests: true
           files-to-download:
             - /sdcard/screenshots
           test-targets-always-run:
@@ -219,6 +222,8 @@ IosArgs
       num-test-runs: 8
       smart-flank-gcs-path:${' '}
       smart-flank-disable-upload: false
+      default-test-time: 15.0
+      use-average-test-time-for-new-tests: true
       test-targets-always-run:
         - a/testGrantPermissions
         - a/testGrantPermissions2
@@ -272,6 +277,8 @@ IosArgs
       num-test-runs: 1
       smart-flank-gcs-path: 
       smart-flank-disable-upload: false
+      default-test-time: 120.0
+      use-average-test-time-for-new-tests: false
       test-targets-always-run:
       files-to-download:
       keep-file-path: false
@@ -959,6 +966,61 @@ IosArgs
           max-test-shards: -1
         """.trimIndent()
         IosArgs.load(yaml)
+    }
+
+    @Test
+    fun `should set defaultTestTime`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+        flank:
+          max-test-shards: -1
+          default-test-time: 15
+        """.trimIndent()
+        val args = IosArgs.load(yaml)
+        assertEquals(args.defaultTestTime, 15.0, 0.01)
+    }
+
+    @Test
+    fun `should set defaultTestTime to default value if not specified`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+        flank:
+          max-test-shards: -1
+          use-average-test-time-for-new-tests: true
+        """.trimIndent()
+        val args = IosArgs.load(yaml)
+        assertEquals(args.defaultTestTime, 120.0, 0.01)
+    }
+
+    @Test
+    fun `should useAverageTestTimeForNewTests set to true`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+        flank:
+          max-test-shards: -1
+          use-average-test-time-for-new-tests: true
+        """.trimIndent()
+        val args = IosArgs.load(yaml)
+        Assert.assertTrue(args.useAverageTestTimeForNewTests)
+    }
+
+    @Test
+    fun `should useAverageTestTimeForNewTests set to false by defaul`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+        flank:
+          max-test-shards: -1
+        """.trimIndent()
+        val args = IosArgs.load(yaml)
+        assertFalse(args.useAverageTestTimeForNewTests)
     }
 }
 

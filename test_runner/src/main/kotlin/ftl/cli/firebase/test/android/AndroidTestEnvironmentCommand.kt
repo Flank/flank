@@ -1,14 +1,14 @@
 package ftl.cli.firebase.test.android
 
 import ftl.android.AndroidCatalog.devicesCatalogAsTable
-import ftl.android.AndroidCatalog.supportedOrientationsAsTable
 import ftl.android.AndroidCatalog.localesAsTable
+import ftl.android.AndroidCatalog.supportedOrientationsAsTable
 import ftl.android.AndroidCatalog.supportedVersionsAsTable
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
 import ftl.environment.ipBlocksListAsTable
-import ftl.environment.providedSoftwareAsTable
 import ftl.environment.networkConfigurationAsTable
+import ftl.environment.providedSoftwareAsTable
 import picocli.CommandLine
 import java.nio.file.Paths
 

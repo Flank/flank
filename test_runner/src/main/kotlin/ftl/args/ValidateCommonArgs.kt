@@ -2,8 +2,8 @@ package ftl.args
 
 import ftl.config.Device
 import ftl.config.FtlConstants
-import ftl.util.FlankConfigurationError
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankConfigurationError
+import ftl.run.exception.FlankGeneralError
 
 fun CommonArgs.validate() {
     assertProjectId()

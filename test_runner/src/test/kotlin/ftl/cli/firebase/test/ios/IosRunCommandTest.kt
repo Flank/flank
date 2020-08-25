@@ -321,4 +321,20 @@ class IosRunCommandTest {
 
         assertThat(cmd.obfuscate).isTrue()
     }
+
+    @Test
+    fun `default-test-time parse`() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parseArgs("--default-test-time=15")
+
+        assertThat(cmd.config.common.flank.defaultTestTime).isEqualTo(15.0)
+    }
+
+    @Test
+    fun `use-average-test-time-for-new-tests parse`() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parseArgs("--use-average-test-time-for-new-tests")
+
+        assertThat(cmd.config.common.flank.useAverageTestTimeForNewTests).isTrue()
+    }
 }

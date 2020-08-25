@@ -24,8 +24,8 @@ import ftl.shard.StringShards
 import ftl.shard.createShardsByShardCount
 import ftl.shard.shardCountByTime
 import ftl.shard.stringShards
-import ftl.util.FlankConfigurationError
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankConfigurationError
+import ftl.run.exception.FlankGeneralError
 import ftl.util.FlankTestMethod
 import ftl.util.assertNotEmpty
 import java.io.File

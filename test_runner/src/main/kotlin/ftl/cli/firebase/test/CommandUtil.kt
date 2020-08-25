@@ -2,7 +2,7 @@ package ftl.cli.firebase.test
 
 import ftl.args.yml.YamlDeprecated
 import ftl.args.yml.fixDevices
-import ftl.util.YmlValidationError
+import ftl.run.exception.YmlValidationError
 import java.nio.file.Path
 
 fun processValidation(validationResult: String, shouldFix: Boolean, ymlPath: Path) {

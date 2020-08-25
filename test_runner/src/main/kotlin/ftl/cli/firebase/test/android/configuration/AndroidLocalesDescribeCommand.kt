@@ -3,7 +3,7 @@ package ftl.cli.firebase.test.android.configuration
 import ftl.android.AndroidCatalog.getLocaleDescription
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
-import ftl.util.FlankConfigurationError
+import ftl.run.exception.FlankConfigurationError
 import picocli.CommandLine
 import java.nio.file.Paths
 

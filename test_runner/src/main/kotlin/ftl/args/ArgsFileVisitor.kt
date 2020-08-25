@@ -1,6 +1,6 @@
 package ftl.args
 
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankGeneralError
 import java.io.IOException
 import java.nio.file.FileSystems
 import java.nio.file.FileVisitOption

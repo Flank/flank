@@ -12,7 +12,7 @@ import ftl.cli.firebase.test.ProvidedSoftwareCommand
 import ftl.log.setDebugLogging
 import ftl.util.readRevision
 import ftl.util.readVersion
-import ftl.util.withGlobalExceptionHandling
+import ftl.run.exception.withGlobalExceptionHandling
 import picocli.CommandLine
 
 @CommandLine.Command(

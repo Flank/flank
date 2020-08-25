@@ -3,8 +3,8 @@ package ftl.http
 import com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest
 import com.google.api.client.http.HttpResponseException
 import ftl.config.FtlConstants
-import ftl.util.PermissionDenied
-import ftl.util.ProjectNotFound
+import ftl.run.exception.PermissionDenied
+import ftl.run.exception.ProjectNotFound
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import java.io.IOException

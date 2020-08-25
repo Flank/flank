@@ -20,19 +20,19 @@ import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
 import ftl.test.util.assertThrowsWithMessage
-import ftl.util.FlankGeneralError
-import ftl.util.FlankConfigurationError
-import ftl.util.IncompatibleTestDimensionError
+import ftl.run.exception.FlankGeneralError
+import ftl.run.exception.FlankConfigurationError
+import ftl.run.exception.IncompatibleTestDimensionError
 import ftl.util.asFileReference
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert.fail
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
 import org.junit.Test
 import org.junit.runner.RunWith
 import picocli.CommandLine
@@ -108,6 +108,8 @@ class AndroidArgsTest {
           max-test-shards: 7
           shard-time: 60
           num-test-runs: 8
+          default-test-time: 15.0
+          use-average-test-time-for-new-tests: true
           files-to-download:
             - /sdcard/screenshots
             - /sdcard/screenshots2
@@ -317,6 +319,8 @@ AndroidArgs
       num-test-runs: 8
       smart-flank-gcs-path:${' '}
       smart-flank-disable-upload: false
+      default-test-time: 15.0
+      use-average-test-time-for-new-tests: true
       files-to-download:
         - /sdcard/screenshots
         - /sdcard/screenshots2
@@ -382,6 +386,8 @@ AndroidArgs
       num-test-runs: 1
       smart-flank-gcs-path: 
       smart-flank-disable-upload: false
+      default-test-time: 120.0
+      use-average-test-time-for-new-tests: false
       files-to-download:
       test-targets-always-run:
       disable-sharding: false
@@ -1675,6 +1681,61 @@ AndroidArgs
           max-test-shards: -1
         """.trimIndent()
         AndroidArgs.load(yaml)
+    }
+
+    @Test
+    fun `should set defaultTestTime`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          max-test-shards: -1
+          default-test-time: 15
+        """.trimIndent()
+        val args = AndroidArgs.load(yaml)
+        assertEquals(args.defaultTestTime, 15.0, 0.01)
+    }
+
+    @Test
+    fun `should set defaultTestTime to default value if not specified`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          max-test-shards: -1
+          use-average-test-time-for-new-tests: true
+        """.trimIndent()
+        val args = AndroidArgs.load(yaml)
+        assertEquals(args.defaultTestTime, 120.0, 0.01)
+    }
+
+    @Test
+    fun `should useAverageTestTimeForNewTests set to true`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          max-test-shards: -1
+          use-average-test-time-for-new-tests: true
+        """.trimIndent()
+        val args = AndroidArgs.load(yaml)
+        assertTrue(args.useAverageTestTimeForNewTests)
+    }
+
+    @Test
+    fun `should useAverageTestTimeForNewTests set to false by defaul`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          max-test-shards: -1
+        """.trimIndent()
+        val args = AndroidArgs.load(yaml)
+        assertFalse(args.useAverageTestTimeForNewTests)
     }
 }
 

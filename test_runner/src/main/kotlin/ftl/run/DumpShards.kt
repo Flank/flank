@@ -4,9 +4,9 @@ import ftl.args.AndroidArgs
 import ftl.args.IosArgs
 import ftl.args.isInstrumentationTest
 import ftl.run.common.prettyPrint
+import ftl.run.exception.FlankConfigurationError
 import ftl.run.model.AndroidMatrixTestShards
 import ftl.run.platform.android.getAndroidMatrixShards
-import ftl.util.FlankConfigurationError
 import ftl.util.obfuscatePrettyPrinter
 import java.nio.file.Files
 import java.nio.file.Paths

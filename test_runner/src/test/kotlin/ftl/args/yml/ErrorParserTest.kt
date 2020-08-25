@@ -9,7 +9,7 @@ import ftl.args.AndroidArgs
 import ftl.args.yml.errors.ConfigurationErrorMessageBuilder
 import ftl.test.util.TestHelper
 import ftl.test.util.TestHelper.getThrowable
-import ftl.util.FlankConfigurationError
+import ftl.run.exception.FlankConfigurationError
 import org.junit.Assert
 import org.junit.Test
 

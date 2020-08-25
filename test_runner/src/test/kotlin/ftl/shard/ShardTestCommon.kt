@@ -33,5 +33,7 @@ internal fun mockArgs(maxTestShards: Int, shardTime: Int = 0): IArgs {
     val mockArgs = mockk<IosArgs>()
     every { mockArgs.maxTestShards } returns maxTestShards
     every { mockArgs.shardTime } returns shardTime
+    every { mockArgs.defaultTestTime } returns 120.0
+    every { mockArgs.useAverageTestTimeForNewTests } returns false
     return mockArgs
 }

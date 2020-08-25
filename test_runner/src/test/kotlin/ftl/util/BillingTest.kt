@@ -2,8 +2,8 @@ package ftl.util
 
 import com.google.common.truth.Truth.assertThat
 import ftl.test.util.defaultTestTimeout
-import kotlin.math.min
 import org.junit.Test
+import kotlin.math.min
 
 private val timeoutSeconds = timeoutToSeconds(defaultTestTimeout)
 

@@ -3,9 +3,9 @@ package ftl.config.android
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import ftl.config.Config
 import ftl.args.yml.AppTestPair
 import ftl.args.yml.IYmlKeys
+import ftl.config.Config
 import picocli.CommandLine
 
 /** Flank specific parameters for Android */

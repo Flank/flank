@@ -13,11 +13,11 @@ import com.google.auth.oauth2.ServiceAccountCredentials
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
-import ftl.util.BugsnagInitHelper.initBugsnag
 import ftl.gc.UserAuth
 import ftl.http.HttpTimeoutIncrease
-import ftl.util.FlankConfigurationError
-import ftl.util.FlankGeneralError
+import ftl.util.BugsnagInitHelper.initBugsnag
+import ftl.run.exception.FlankConfigurationError
+import ftl.run.exception.FlankGeneralError
 import ftl.util.readRevision
 import java.io.IOException
 import java.nio.file.Path

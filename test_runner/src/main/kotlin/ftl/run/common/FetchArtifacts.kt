@@ -3,17 +3,17 @@ package ftl.run.common
 import com.google.cloud.storage.Storage
 import ftl.args.IArgs
 import ftl.config.FtlConstants
-import ftl.json.MatrixMap
 import ftl.gc.GcStorage
+import ftl.json.MatrixMap
 import ftl.util.Artifacts
 import ftl.util.MatrixState
-import java.nio.file.Path
-import java.nio.file.Paths
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
+import java.nio.file.Path
+import java.nio.file.Paths
 
 // TODO needs refactor
 internal suspend fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) = coroutineScope {

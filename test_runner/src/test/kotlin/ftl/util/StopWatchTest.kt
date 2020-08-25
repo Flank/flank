@@ -1,6 +1,7 @@
 package ftl.util
 
 import com.google.common.truth.Truth.assertThat
+import ftl.run.exception.FlankGeneralError
 import org.junit.Test
 
 class StopWatchTest {

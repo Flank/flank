@@ -2,8 +2,8 @@ package ftl.filter
 
 import com.linkedin.dex.parser.TestMethod
 import ftl.config.FtlConstants
-import ftl.util.FlankConfigurationError
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankConfigurationError
+import ftl.run.exception.FlankGeneralError
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -62,7 +62,7 @@ object TestFilters {
         Pattern.compile("""($pattern)\s+(.+)""")
     }
 
-    private enum class Size(val annotation: String) {
+    private enum class Size(val annotationName: String) {
         LARGE("LargeTest"),
         MEDIUM("MediumTest"),
         SMALL("SmallTest");
@@ -114,8 +114,18 @@ object TestFilters {
         }
     }
 
-    private fun withSize(args: List<String>): TestFilter =
-        withAnnotation(args.map { Size.from(it).annotation })
+    private fun withSize(args: List<String>): TestFilter = args.map { Size.from(it).annotationName }.let { annotationNames ->
+        TestFilter(
+            describe = "withSize (${annotationNames.joinToString(", ")})",
+            shouldRun = { testMethod ->
+                // Ensure that all annotation with a name matching this size are detected, like
+                // https://developer.android.com/reference/android/support/test/filters/LargeTest or
+                // https://developer.android.com/reference/androidx/test/filters/LargeTest
+                testMethod.annotationNames.any { it.split(".").last() in annotationNames }
+            },
+            isAnnotation = true
+        )
+    }
 
     private fun fromTestFile(args: List<String>): TestFilter {
         require(args.size == 1) { "Invalid file path" }

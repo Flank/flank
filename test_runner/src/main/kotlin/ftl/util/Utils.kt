@@ -2,10 +2,7 @@
 
 package ftl.util
 
-import ftl.config.FtlConstants
-import ftl.json.SavedMatrix
-import ftl.run.cancelMatrices
-import kotlinx.coroutines.runBlocking
+import ftl.run.exception.FlankGeneralError
 import java.io.InputStream
 import java.io.StringWriter
 import java.nio.file.Files
@@ -16,7 +13,6 @@ import java.time.format.DateTimeFormatter
 import java.util.Random
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
-import kotlin.system.exitProcess
 
 fun String.trimStartLine(): String {
     return this.split("\n").drop(1).joinToString("\n")
@@ -123,66 +119,6 @@ fun copyBinaryResource(name: String) {
         destinationPath
     )
     destinationFile.setExecutable(true)
-}
-
-fun withGlobalExceptionHandling(block: () -> Int) {
-    try {
-        exitProcess(block())
-    } catch (t: Throwable) {
-        when (t) {
-            is FlankGeneralError -> {
-                System.err.println("\n${t.message}")
-                exitProcess(GENERAL_FAILURE)
-            }
-
-            is FlankTimeoutError -> {
-                println("\nCanceling flank due to timeout")
-                runBlocking {
-                    t.map?.run {
-                        cancelMatrices(t.map, t.projectId)
-                    }
-                }
-                exitProcess(GENERAL_FAILURE)
-            }
-
-            is IncompatibleTestDimensionError -> {
-                System.err.println("\n${t.message}")
-                exitProcess(INCOMPATIBLE_TEST_DIMENSION)
-            }
-
-            is MatrixCanceledError -> exitProcess(CANCELED_BY_USER)
-
-            is InfrastructureError -> exitProcess(INFRASTRUCTURE_ERROR)
-
-            is FailedMatrixError -> {
-                if (t.ignoreFailed) exitProcess(SUCCESS)
-                else exitProcess(NOT_PASSED)
-            }
-
-            is FTLError -> {
-                t.matrix.logError()
-                exitProcess(UNEXPECTED_ERROR)
-            }
-
-            is YmlValidationError,
-            is FlankConfigurationError -> {
-                System.err.println(t.message)
-                exitProcess(CONFIGURATION_FAIL)
-            }
-
-            // We need to cover the case where some component in the call stack starts a non-daemon
-            // thread, and then throws an Error that kills the main thread. This is extra safe implementation
-            else -> {
-                FtlConstants.bugsnag?.notify(t)
-                t.printStackTrace()
-                exitProcess(UNEXPECTED_ERROR)
-            }
-        }
-    }
-}
-
-private fun SavedMatrix.logError() {
-    println("Matrix is $state")
 }
 
 fun <R : MutableMap<String, Any>, T> mutableMapProperty(

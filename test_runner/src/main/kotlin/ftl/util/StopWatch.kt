@@ -1,5 +1,6 @@
 package ftl.util
 
+import ftl.run.exception.FlankGeneralError
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
 class StopWatch {

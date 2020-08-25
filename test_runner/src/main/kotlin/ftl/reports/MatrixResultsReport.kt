@@ -8,7 +8,7 @@ import ftl.json.SavedMatrix
 import ftl.json.isFailed
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
-import ftl.util.asPrintableTable
+import ftl.json.asPrintableTable
 import ftl.util.println
 import java.io.StringWriter
 import java.text.DecimalFormat

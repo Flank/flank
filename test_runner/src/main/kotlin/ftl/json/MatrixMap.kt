@@ -1,11 +1,11 @@
 package ftl.json
 
 import com.google.api.services.testing.model.TestMatrix
-import ftl.util.FTLError
-import ftl.util.FailedMatrixError
-import ftl.util.IncompatibleTestDimensionError
-import ftl.util.InfrastructureError
-import ftl.util.MatrixCanceledError
+import ftl.run.exception.FTLError
+import ftl.run.exception.FailedMatrixError
+import ftl.run.exception.IncompatibleTestDimensionError
+import ftl.run.exception.InfrastructureError
+import ftl.run.exception.MatrixCanceledError
 import ftl.util.MatrixState
 
 class MatrixMap(
@@ -39,9 +39,9 @@ class MatrixMap(
      */
     fun validateMatrices(shouldIgnore: Boolean = false) {
         map.values.run {
-            firstOrNull { it.canceledByUser() }?.let { throw MatrixCanceledError(it.outcomeDetails.orEmpty()) }
-            firstOrNull { it.infrastructureFail() }?.let { throw InfrastructureError(it.outcomeDetails.orEmpty()) }
-            firstOrNull { it.incompatibleFail() }?.let { throw IncompatibleTestDimensionError(it.outcomeDetails.orEmpty()) }
+            firstOrNull { it.canceledByUser() }?.run { throw MatrixCanceledError(outcomeDetails) }
+            firstOrNull { it.infrastructureFail() }?.run { throw InfrastructureError(outcomeDetails) }
+            firstOrNull { it.incompatibleFail() }?.run { throw IncompatibleTestDimensionError(outcomeDetails) }
             firstOrNull { it.state != MatrixState.FINISHED }?.let { throw FTLError(it) }
             filter { it.isFailed() }.let {
                 if (it.isNotEmpty()) throw FailedMatrixError(
@@ -52,6 +52,8 @@ class MatrixMap(
         }
     }
 }
+
+private val SavedMatrix.outcomeDetails get() = testAxises.firstOrNull()?.details.orEmpty()
 
 fun Iterable<TestMatrix>.update(matrixMap: MatrixMap) = forEach { matrix ->
     matrixMap.map[matrix.testMatrixId]?.updateWithMatrix(matrix)?.let {

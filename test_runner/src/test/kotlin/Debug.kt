@@ -1,5 +1,5 @@
 import ftl.Main
-import ftl.util.withGlobalExceptionHandling
+import ftl.run.exception.withGlobalExceptionHandling
 import picocli.CommandLine
 
 fun main() {

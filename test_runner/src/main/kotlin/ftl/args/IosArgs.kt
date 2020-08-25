@@ -2,7 +2,7 @@ package ftl.args
 
 import com.google.common.annotations.VisibleForTesting
 import ftl.ios.Xctestrun.findTestNames
-import ftl.util.FlankConfigurationError
+import ftl.run.exception.FlankConfigurationError
 import ftl.util.FlankTestMethod
 
 data class IosArgs(
@@ -43,6 +43,8 @@ IosArgs
       num-test-runs: $repeatTests
       smart-flank-gcs-path: $smartFlankGcsPath
       smart-flank-disable-upload: $smartFlankDisableUpload
+      default-test-time: $defaultTestTime
+      use-average-test-time-for-new-tests: $useAverageTestTimeForNewTests
       test-targets-always-run:${ArgsToString.listToString(testTargetsAlwaysRun)}
       files-to-download:${ArgsToString.listToString(filesToDownload)}
       keep-file-path: $keepFilePath

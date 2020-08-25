@@ -1,5 +1,6 @@
 package ftl.util
 
+import ftl.run.exception.FlankGeneralError
 import java.io.Reader
 import java.nio.file.Files
 import java.nio.file.NoSuchFileException

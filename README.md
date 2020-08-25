@@ -169,6 +169,14 @@ flank:
   ## Default: false
   # smart-flank-disable-upload: false
 
+  ## Enable using average time from previous tests duration when using SmartShard and tests did not run before.
+  ## Default: false
+  # use-average-test-time-for-new-tests: true
+
+  ## Set default test time used for calculating shards.
+  ## Default: 120.0
+  # default-test-time: 15
+
   ## Disables sharding. Useful for parameterized tests.
   # disable-sharding: false
 
@@ -384,6 +392,14 @@ flank:
   ## Disables smart flank JUnit XML uploading. Useful for preventing timing data from being updated.
   ## Default: false
   # smart-flank-disable-upload: false
+
+  ## Enable using average time from previous tests duration when using SmartShard and tests did not run before.
+  ## Default: false
+  # use-average-test-time-for-new-tests: true
+
+  ## Set default test time used for calculating shards.
+  ## Default: 120.0
+  # default-test-time: 15
 
   ## Disables sharding. Useful for parameterized tests.
   # disable-sharding: false

@@ -1,13 +1,13 @@
 package ftl.reports.xml
 
+import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
 import ftl.reports.xml.preprocesor.fixHtmlCodes
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankGeneralError
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path

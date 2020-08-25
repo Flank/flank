@@ -7,7 +7,7 @@ import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
 import ftl.test.util.FlankTestRunner
-import ftl.util.FlankConfigurationError
+import ftl.run.exception.FlankConfigurationError
 import ftl.util.FlankTestMethod
 import io.mockk.every
 import io.mockk.mockk
@@ -178,7 +178,7 @@ class ShardTest {
 
     @Test
     fun `tests annotated with @Ignore should have time 0 and do not hav impact on sharding`() {
-        val androidMockedArgs = mockk<IosArgs>()
+        val androidMockedArgs = mockk<IosArgs>(relaxed = true)
         every { androidMockedArgs.maxTestShards } returns 2
         every { androidMockedArgs.shardTime } returns 10
 
@@ -205,7 +205,7 @@ class ShardTest {
 
     @Test
     fun `tests annotated with @Ignore should not produce additional shards`() {
-        val androidMockedArgs = mockk<IosArgs>()
+        val androidMockedArgs = mockk<IosArgs>(relaxed = true)
         every { androidMockedArgs.maxTestShards } returns IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last
         every { androidMockedArgs.shardTime } returns -1
 

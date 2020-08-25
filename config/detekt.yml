@@ -106,12 +106,18 @@ formatting:
   active: true
   android: false
   autoCorrect: true
+  AnnotationOnSeparateLine:
+    active: false
+    autoCorrect: true
   ChainWrapping:
     active: true
     autoCorrect: true
   CommentSpacing:
     active: true
     autoCorrect: true
+  EnumEntryNameCase: 
+    active: true
+    autoCorrect: false
   Filename:
     active: false
   FinalNewline:
@@ -121,10 +127,10 @@ formatting:
   # see https://github.com/pinterest/ktlint/issues/527
   ImportOrdering:
     active: false
-    autoCorrect: true
+    autoCorrect: false
   Indentation:
     active: false
-    autoCorrect: true
+    autoCorrect: false
     indentSize: 4
     continuationIndentSize: 4
   MaximumLineLength:

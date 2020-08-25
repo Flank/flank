@@ -1,3 +1,5 @@
+@file:Suppress("EnumEntryNameCase")
+
 package ftl.args.yml
 
 import com.fasterxml.jackson.databind.JsonNode
@@ -7,16 +9,16 @@ import com.fasterxml.jackson.databind.node.ObjectNode
 import com.google.common.annotations.VisibleForTesting
 import ftl.args.ArgsHelper.yamlMapper
 import ftl.util.loadFile
-import ftl.util.FlankConfigurationError
-import ftl.util.FlankGeneralError
+import ftl.run.exception.FlankConfigurationError
+import ftl.run.exception.FlankGeneralError
 import java.io.Reader
 import java.nio.file.Files
 import java.nio.file.Path
 
 object YamlDeprecated {
 
-    @Suppress("EnumEntryName", "EnumNaming")
-    enum class Parent { gcloud, flank }
+    @Suppress("EnumEntryNameCase", "EnumEntryName", "EnumNaming")
+    enum class Parent { gcloud, flank } // ktlint-disable
 
     enum class Level { Warning, Error }
 
