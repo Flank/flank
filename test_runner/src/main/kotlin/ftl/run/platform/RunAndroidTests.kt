@@ -3,6 +3,7 @@ package ftl.run.platform
 import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.TestMatrix
 import ftl.args.AndroidArgs
+import ftl.args.Chunk
 import ftl.gc.GcAndroidDevice
 import ftl.gc.GcAndroidTestMatrix
 import ftl.gc.GcToolResults
@@ -18,6 +19,8 @@ import ftl.run.platform.common.afterRunTests
 import ftl.run.platform.common.beforeRunMessage
 import ftl.run.platform.common.beforeRunTests
 import ftl.run.exception.FlankGeneralError
+import ftl.shard.TestShard
+import ftl.shard.stringShards
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -31,7 +34,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     // GcAndroidTestMatrix.execute() 3x retry => matrix id (string)
     val devices = GcAndroidDevice.build(args.devices)
     val testMatrices = mutableListOf<Deferred<TestMatrix>>()
-    val allTestShardChunks = mutableListOf<List<String>>()
+    val allTestShardChunks = mutableListOf<Chunk>()
     val ignoredTestsShardChunks = mutableListOf<List<String>>()
 
     val history = GcToolResults.createToolResultsHistory(args)
@@ -64,7 +67,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     println(beforeRunMessage(args, allTestShardChunks))
     TestResult(
         matrixMap = afterRunTests(testMatrices.awaitAll(), runGcsPath, stopwatch, args),
-        shardChunks = allTestShardChunks,
+        shardChunks = allTestShardChunks.map { it.testStringList },
         ignoredTests = ignoredTestsShardChunks.flatten()
     )
 }

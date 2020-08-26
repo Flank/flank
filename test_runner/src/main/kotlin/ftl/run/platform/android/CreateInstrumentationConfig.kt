@@ -12,6 +12,6 @@ internal fun AndroidArgs.createInstrumentationConfig(
     orchestratorOption = "USE_ORCHESTRATOR".takeIf { useOrchestrator },
     disableSharding = disableSharding,
     numUniformShards = numUniformShards,
-    testShards = testApk.shards,
+    testShards = testApk.shards.map { it.testStringList },
     keepTestTargetsEmpty = disableSharding && testTargets.isEmpty()
 )
