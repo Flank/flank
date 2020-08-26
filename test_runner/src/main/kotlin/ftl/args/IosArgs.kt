@@ -14,7 +14,7 @@ data class IosArgs(
 ) : IArgs by commonArgs {
 
     override val useLegacyJUnitResult = true
-    val testShardChunks: ShardChunks by lazy { calculateShardChunks() }
+    val testShardChunks: List<Chunk> by lazy { calculateShardChunks() }
 
     companion object : IosArgsCompanion()
 
@@ -62,7 +62,7 @@ IosArgs
 }
 
 private fun IosArgs.calculateShardChunks() = if (disableSharding)
-    listOf(emptyList()) else
+    emptyList() else
     ArgsHelper.calculateShards(
         filteredTests = filterTests(findTestNames(xctestrunFile), testTargets)
             .distinct()
