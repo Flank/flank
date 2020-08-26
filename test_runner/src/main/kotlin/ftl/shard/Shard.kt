@@ -1,5 +1,6 @@
 package ftl.shard
 
+import ftl.args.Chunk
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.reports.xml.model.JUnitTestResult
@@ -40,7 +41,7 @@ fun createShardsByShardCount(
     oldTestResult: JUnitTestResult,
     args: IArgs,
     forcedShardCount: Int = -1
-): List<TestShard> {
+): List<Chunk> {
     if (forcedShardCount < -1 || forcedShardCount == 0) throw FlankConfigurationError("Invalid forcedShardCount value $forcedShardCount")
     val maxShards = maxShards(args.maxTestShards, forcedShardCount)
 
@@ -67,7 +68,7 @@ fun createShardsByShardCount(
 
     printCacheInfo(testsToRun, previousMethodDurations)
     printShardsInfo(shards)
-    return shards
+    return shards.map { Chunk(it.testMethods) }
 }
 
 private fun maxShards(maxShardsCount: Int, forcedShardCount: Int) =
