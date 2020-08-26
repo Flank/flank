@@ -9,8 +9,8 @@ import ftl.args.yml.DEVICES_NODE
 import ftl.args.yml.GCLOUD_NODE
 import ftl.args.yml.MODEL_NODE
 import ftl.args.yml.VERSION_NODE
-import ftl.args.yml.getDevicesNode
-import ftl.args.yml.getNotValidDevices
+import ftl.args.yml.devicesNode
+import ftl.args.yml.notValidDevices
 import ftl.config.loadAndroidConfig
 import ftl.config.loadIosConfig
 import ftl.run.exception.FlankConfigurationError
@@ -69,7 +69,7 @@ private fun preloadConfiguration(data: Path, isAndroid: Boolean) =
     }
 
 private fun JsonNode.validateDevices() = StringBuilder().apply {
-    getDevicesNode()?.getNotValidDevices()?.withVersionNode()?.forEach { device ->
+    devicesNode.notValidDevices.withVersionNode().forEach { device ->
         appendLine("Warning: Version should be string $GCLOUD_NODE -> $DEVICES_NODE[${device[MODEL_NODE]}] -> $VERSION_NODE[${device[VERSION_NODE]}]")
     }
 }.toString()

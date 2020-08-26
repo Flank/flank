@@ -14,14 +14,16 @@ fun fixDevices(yamlPath: Path) =
 private fun Path.loadYml() = yamlMapper.readTree(loadFile(this))
 
 private fun JsonNode.fixDevices() = also {
-    getDevicesNode()?.getNotValidDevices()?.forEach { device ->
+    devicesNode.notValidDevices.forEach { device ->
         device.fixDeviceVersion()
     }
 }
 
-internal fun JsonNode.getDevicesNode() = get(GCLOUD_NODE).get(DEVICES_NODE)
+internal val JsonNode.devicesNode
+    get() = this.get(GCLOUD_NODE).get(DEVICES_NODE)
 
-internal fun JsonNode.getNotValidDevices() = filterNot { it.deviceVersionValid() }
+internal val JsonNode.notValidDevices
+    get() = filterNot { it.deviceVersionValid() }
 
 private fun JsonNode.deviceVersionValid() = get(VERSION_NODE)?.isTextual ?: false
 
