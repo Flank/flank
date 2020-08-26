@@ -76,4 +76,11 @@ class GenericTestRunnerTest {
 """.trimStartLine()
         )
     }
+
+    @Test
+    fun `should print tests + class per shard`() {
+        val expected = """
+            10 tests + 3 classes / 5 shards
+        """.trimIndent()
+    }
 }
