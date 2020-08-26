@@ -20,7 +20,7 @@ private fun JsonNode.fixDevices() = also {
 }
 
 internal val JsonNode.devicesNode
-    get() = this.get(GCLOUD_NODE).get(DEVICES_NODE)
+    get() = get(GCLOUD_NODE).get(DEVICES_NODE)
 
 internal val JsonNode.notValidDevices
     get() = filterNot { it.deviceVersionValid() }
