@@ -77,7 +77,7 @@ private fun List<String>.belong(method: TestMethod) = any { className -> method.
 
 private fun TestMethod.toFlankTestMethod() = FlankTestMethod(
     testName = "class $testName",
-    ignored = annotations.any { it.name in ignoredAnnotations }
+    ignored = annotations.any { it.name in ignoredAnnotations },
 )
 
 private val ignoredAnnotations = listOf(
@@ -86,7 +86,7 @@ private val ignoredAnnotations = listOf(
     "android.support.test.filters.Suppress"
 )
 
-private fun String.toFlankTestMethod() = FlankTestMethod("class $this", ignored = false)
+private fun String.toFlankTestMethod() = FlankTestMethod("class $this", ignored = false, classActually = true)
 
 private fun InstrumentationTestContext.getParametrizedClasses(): List<String> =
     DexParser.readDexFiles(test.local).fold(emptyList()) { accumulator, file: DexFile ->
