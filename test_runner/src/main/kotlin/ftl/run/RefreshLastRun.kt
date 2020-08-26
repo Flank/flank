@@ -5,7 +5,7 @@ import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.gc.GcTestMatrix
 import ftl.json.MatrixMap
-import ftl.json.update
+import ftl.json.updateMatrixMap
 import ftl.reports.util.ReportManager
 import ftl.run.common.fetchArtifacts
 import ftl.run.common.getLastArgs
@@ -28,7 +28,7 @@ suspend fun refreshLastRun(currentArgs: IArgs, testShardChunks: ShardChunks) {
     val lastArgs = getLastArgs(currentArgs)
 
     refreshMatrices(matrixMap, lastArgs)
-    pollMatrices(matrixMap.map.keys, lastArgs).update(matrixMap)
+    pollMatrices(matrixMap.map.keys, lastArgs).updateMatrixMap(matrixMap)
     fetchArtifacts(matrixMap, lastArgs)
 
     // Must generate reports *after* fetching xml artifacts since reports require xml
@@ -62,7 +62,7 @@ private suspend fun refreshMatrices(matrixMap: MatrixMap, args: IArgs) = corouti
 
         if (map[matrixId]?.needsUpdate(matrix) == true) {
             map[matrixId]?.updateWithMatrix(matrix)?.let {
-                map[matrixId] = it
+                matrixMap.update(matrixId, it)
                 dirty = true
             }
         }
