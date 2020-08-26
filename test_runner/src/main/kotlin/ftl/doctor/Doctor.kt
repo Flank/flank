@@ -69,9 +69,10 @@ private fun preloadConfiguration(data: Path, isAndroid: Boolean) =
     }
 
 private fun JsonNode.validateDevices() = StringBuilder().apply {
-    devicesNode.notValidDevices.withVersionNode().forEach { device ->
+    devicesNode?.notValidDevices?.withVersionNode?.forEach { device ->
         appendLine("Warning: Version should be string $GCLOUD_NODE -> $DEVICES_NODE[${device[MODEL_NODE]}] -> $VERSION_NODE[${device[VERSION_NODE]}]")
     }
 }.toString()
 
-private fun List<JsonNode>.withVersionNode() = this.filter { it.has(VERSION_NODE) }
+private val List<JsonNode>.withVersionNode
+    get() = this.filter { it.has(VERSION_NODE) }
