@@ -1,8 +1,11 @@
 name: RELEASE
 
-# Run when push on master or create tag with version [v*]
+# Run when push on master or create tag with version [v*] for only changes to the test_runner/**
 on:
   push:
+    paths:
+      - 'test_runner/**'
+      - 'firebase_api/test_api/**'
     branches:
       - 'master'
     tags: v*
