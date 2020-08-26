@@ -23,7 +23,7 @@ internal suspend fun afterRunTests(
     stopwatch: StopWatch,
     config: IArgs
 ) = MatrixMap(
-    internalMap = testMatrices.toSavedMatrixMap().toMutableMap(),
+    map = testMatrices.toSavedMatrixMap(),
     runPath = runGcsPath
 ).also { matrixMap ->
     updateMatrixFile(matrixMap, config)

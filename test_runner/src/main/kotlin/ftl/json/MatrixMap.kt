@@ -8,10 +8,11 @@ import ftl.run.exception.InfrastructureError
 import ftl.run.exception.MatrixCanceledError
 import ftl.util.MatrixState
 
-data class MatrixMap(private val internalMap: MutableMap<String, SavedMatrix>, val runPath: String) {
-    val map get() = internalMap.toMap()
+data class MatrixMap(val map: Map<String, SavedMatrix>, val runPath: String) {
+    private val mutableMap
+        get() = map as MutableMap<String, SavedMatrix>
     fun update(id: String, savedMatrix: SavedMatrix) {
-        internalMap[id] = savedMatrix
+        mutableMap[id] = savedMatrix
     }
 }
 
