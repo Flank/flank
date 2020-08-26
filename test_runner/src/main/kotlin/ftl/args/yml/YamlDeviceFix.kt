@@ -21,7 +21,7 @@ private fun JsonNode.fixDevices() = also {
 
 internal fun JsonNode.getDevicesNode() = get(GCLOUD_NODE).get(DEVICES_NODE)
 
-internal fun JsonNode.getNotValidDevices() = filter { it.deviceVersionValid().not() }
+internal fun JsonNode.getNotValidDevices() = filterNot { it.deviceVersionValid() }
 
 private fun JsonNode.deviceVersionValid() = get(VERSION_NODE)?.isTextual ?: false
 
