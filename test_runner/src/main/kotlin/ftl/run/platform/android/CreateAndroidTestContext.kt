@@ -1,5 +1,6 @@
 package ftl.run.platform.android
 
+import com.google.common.annotations.VisibleForTesting
 import com.linkedin.dex.parser.DecodedValue
 import com.linkedin.dex.parser.DexParser
 import com.linkedin.dex.parser.TestAnnotation
@@ -59,16 +60,17 @@ private fun InstrumentationTestContext.calculateShards(
     )
 }
 
-private fun InstrumentationTestContext.getFlankTestMethods(
+@VisibleForTesting
+internal fun InstrumentationTestContext.getFlankTestMethods(
     testFilter: TestFilter
 ): List<FlankTestMethod> =
     getParametrizedClasses().let { parameterizedClasses: List<String> ->
         DexParser.findTestMethods(test.local).asSequence()
-                .distinctBy { it.testName }
-                .filter(testFilter.shouldRun)
-                .filterNot(parameterizedClasses::belong)
-                .map(TestMethod::toFlankTestMethod).toList()
-                .plus(parameterizedClasses.map(String::toFlankTestMethod))
+            .distinctBy { it.testName }
+            .filter(testFilter.shouldRun)
+            .filterNot(parameterizedClasses::belong)
+            .map(TestMethod::toFlankTestMethod).toList()
+            .plus(parameterizedClasses.map(String::toFlankTestMethod))
     }
 
 private fun List<String>.belong(method: TestMethod) = any { className -> method.testName.startsWith(className) }

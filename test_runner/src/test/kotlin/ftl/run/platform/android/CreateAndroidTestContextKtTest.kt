@@ -1,11 +1,19 @@
 package ftl.run.platform.android
 
+import com.linkedin.dex.parser.DexParser
+import com.linkedin.dex.parser.DexParser.Companion.findTestMethods
+import com.linkedin.dex.parser.TestMethod
 import ftl.args.AndroidArgs
+import ftl.filter.TestFilter
 import ftl.run.model.AndroidTestContext
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.RoboTestContext
 import ftl.test.util.mixedConfigYaml
 import ftl.test.util.should
+import ftl.util.FileReference
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.mockkObject
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -46,5 +54,34 @@ class CreateAndroidTestContextKtTest {
 
         // then
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `Should filter out methods by distinct name`() {
+        // given
+        val testInstrumentationContext = InstrumentationTestContext(
+            FileReference("./src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk", ""),
+            FileReference("./src/test/kotlin/ftl/fixtures/tmp/apk/app-single-success-debug-androidTest.apk", "")
+        )
+        var actual = 0
+
+        // when
+        mockkObject(DexParser) {
+            every { findTestMethods(any()) } returns listOf(
+                TestMethod("testMethod", listOf(mockk(relaxed = true))),
+                TestMethod("testMethod", listOf(mockk(relaxed = true))),
+                TestMethod("testMethod", listOf()),
+                TestMethod("testMethod2", listOf(mockk(relaxed = true))),
+                TestMethod("testMethod2", listOf(mockk(relaxed = true))),
+                TestMethod("testMethod2", listOf()),
+            )
+
+            actual = testInstrumentationContext
+                .getFlankTestMethods(TestFilter("test", { true }))
+                .size
+        }
+
+        // given
+        assertEquals(actual, 2)
     }
 }
