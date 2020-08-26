@@ -142,7 +142,7 @@ object GcStorage {
                 progress.start("Uploading $fileName")
                 storage.create(fileBlob, fileBytes)
             } catch (e: Exception) {
-                throw FlankGeneralError(e)
+                throw FlankGeneralError(e.message.orEmpty(), e)
             } finally {
                 progress.stop()
             }

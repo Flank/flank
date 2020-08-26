@@ -50,8 +50,8 @@ object ArgsHelper {
     fun assertCommonProps(args: IArgs) {
         assertNotEmpty(
             args.project, "The project is not set. Define GOOGLE_CLOUD_PROJECT, set project in flank.yml\n" +
-                    "or save service account credential to ${defaultCredentialPath}\n" +
-                    " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
+                "or save service account credential to ${defaultCredentialPath}\n" +
+                " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
         )
 
         if (args.maxTestShards !in AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE && args.maxTestShards != -1)
@@ -157,7 +157,7 @@ object ArgsHelper {
                     .build()
             )
         } catch (e: Exception) {
-            // User may not have create permission
+            throw FlankGeneralError("Failed to make bucket for $projectId\nCause: ${e.message}")
         }
 
         return bucket
