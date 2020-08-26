@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import ftl.args.yml.AppTestPair
 import ftl.config.Device
 import ftl.config.FtlConstants
+import ftl.run.exception.FlankConfigurationError
 import ftl.test.util.FlankTestRunner
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -482,5 +483,33 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parseArgs("--use-average-test-time-for-new-tests")
 
         assertThat(cmd.config.common.flank.useAverageTestTimeForNewTests).isTrue()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw if --full-junit-result and JUnitResult xml used`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--full-junit-result", "--smart-flank-gcs-path=gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-08-26_15-20-23.850738_rtGt/JUnitReport.xml")
+        cmd.run()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw if FullJUnitResult xml used and --full-junit-result not set`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--smart-flank-gcs-path=gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-08-26_15-20-23.850738_rtGt/FullJUnitReport.xml")
+        cmd.run()
+    }
+
+    @Test
+    fun `should not throw if --full-junit-result and smart flank path different than JUnitReport xml`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--full-junit-result", "--smart-flank-gcs-path=gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-08-26_15-20-23.850738_rtGt/JUnitReportTest.xml")
+        cmd.run()
+    }
+
+    @Test
+    fun `should not throw if --full-junit-result not set and smart flank path different than JUnitReport xml`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--smart-flank-gcs-path=gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-08-26_15-20-23.850738_rtGt/JUnitReportTest.xml")
+        cmd.run()
     }
 }
