@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - 'test_runner/**'
+      - 'firebase_api/test_api/**'
     branches:
       - 'master'
     tags: v*
