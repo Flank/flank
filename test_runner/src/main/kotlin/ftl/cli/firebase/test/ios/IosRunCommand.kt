@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.ios
 
 import ftl.args.IosArgs
+import ftl.args.validate
 import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
 import ftl.config.emptyIosConfig
@@ -43,7 +44,7 @@ class IosRunCommand : CommonRunCommand(), Runnable {
             MockServer.start()
         }
 
-        val config = IosArgs.load(Paths.get(configPath), cli = this)
+        val config = IosArgs.load(Paths.get(configPath), cli = this).validate()
 
         if (dumpShards) {
             dumpShards(args = config, obfuscatedOutput = obfuscate)
