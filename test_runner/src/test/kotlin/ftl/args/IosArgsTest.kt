@@ -93,9 +93,8 @@ class IosArgsTest {
           output-style: single
         """
 
-    @Rule
-    @JvmField
-    val systemErrRule = SystemErrRule().muteForSuccessfulTests()!!
+    @get:Rule
+    val systemErrRule = SystemErrRule().muteForSuccessfulTests()
 
     @Rule
     @JvmField

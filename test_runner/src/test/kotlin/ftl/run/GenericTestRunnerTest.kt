@@ -1,7 +1,9 @@
 package ftl.run
 
+import ftl.args.Chunk
 import ftl.args.IArgs
 import ftl.run.platform.common.beforeRunMessage
+import ftl.shard.TestMethod
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.normalizeLineEnding
@@ -10,6 +12,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
 import org.junit.After
+import org.junit.Assert.fail
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -25,13 +28,13 @@ class GenericTestRunnerTest {
 
     @Test
     fun testBeforeRunMessage1() {
-        val result = beforeRunMessage(createMock(1), listOf(listOf(""))).normalizeLineEnding()
+        val result = beforeRunMessage(createMock(1), listOf(Chunk(listOf(TestMethod(name = "", time = 0.0))))).normalizeLineEnding()
         assert(result, "  1 test / 1 shard\n")
     }
 
     @Test
     fun testBeforeRunMessage2() {
-        val result = beforeRunMessage(createMock(2), listOf(listOf(""))).normalizeLineEnding()
+        val result = beforeRunMessage(createMock(2), listOf(Chunk(listOf(TestMethod(name = "", time = 0.0))))).normalizeLineEnding()
         assert(
             result, """
   1 test / 1 shard
@@ -46,7 +49,7 @@ class GenericTestRunnerTest {
     fun testBeforeRunMessage3() {
         val result = beforeRunMessage(
             createMock(2),
-            listOf(listOf(""), listOf(""), listOf(""), listOf(""), listOf(""), listOf(""))
+            List(6) { Chunk(listOf(TestMethod(name = "", time = 0.0))) }
         ).normalizeLineEnding()
         assert(
             result, """
@@ -62,10 +65,7 @@ class GenericTestRunnerTest {
     fun testBeforeRunMessage4() {
         val result = beforeRunMessage(
             createMock(100),
-            listOf(
-                listOf("", "", "", "", ""),
-                listOf("", "", "", "", "")
-            )
+            List(2) { Chunk(listOf(TestMethod(name = "", time = 0.0))) }
         ).normalizeLineEnding()
         assert(
             result, """
@@ -79,8 +79,16 @@ class GenericTestRunnerTest {
 
     @Test
     fun `should print tests + class per shard`() {
-        val expected = """
-            10 tests + 3 classes / 5 shards
-        """.trimIndent()
+        fail("not implemented")
+    }
+
+    @Test
+    fun `should print class per shard`() {
+        fail("not implemented")
+    }
+
+    @Test
+    fun `should print tests + class per shard with miltiple run`() {
+        fail("not implemented")
     }
 }

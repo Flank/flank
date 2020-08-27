@@ -41,7 +41,7 @@ fun createShardsByShardCount(
     oldTestResult: JUnitTestResult,
     args: IArgs,
     forcedShardCount: Int = -1
-): List<Chunk> {
+): List<TestShard> {
     if (forcedShardCount < -1 || forcedShardCount == 0) throw FlankConfigurationError("Invalid forcedShardCount value $forcedShardCount")
     val maxShards = maxShards(args.maxTestShards, forcedShardCount)
 
@@ -68,7 +68,7 @@ fun createShardsByShardCount(
 
     printCacheInfo(testsToRun, previousMethodDurations)
     printShardsInfo(shards)
-    return shards.map { Chunk(it.testMethods) }
+    return shards
 }
 
 private fun maxShards(maxShardsCount: Int, forcedShardCount: Int) =

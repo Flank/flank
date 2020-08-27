@@ -40,7 +40,7 @@ class CreateAndroidTestContextKtTest {
                 app = should { local.endsWith("app-debug.apk") },
                 test = should { local.endsWith("app-multiple-flaky-debug-androidTest.apk") },
                 shards = listOf(
-                    should { size == 4 && contains("class com.example.test_app.ParameterizedTest") },
+                    should { size == 4 && testStringList.contains("class com.example.test_app.ParameterizedTest") },
                     should { size == 5 }
                 ),
                 ignoredTestCases = should { size == 4 }
