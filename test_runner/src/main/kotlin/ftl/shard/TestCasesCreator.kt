@@ -24,7 +24,7 @@ fun createTestCases(
                 previousMethodDurations = previousMethodDurations,
                 defaultTestTime = defaultTestTime
             ),
-            isParameterized = it.classActually
+            isParameterized = it.isParameterizedClass
         )
     }
 }

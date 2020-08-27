@@ -226,7 +226,7 @@ object ArgsHelper {
         }
         val (ignoredTests, testsToExecute) = filteredTests.partition { it.ignored }
         val shards = if (args.disableSharding) {
-            listOf(Chunk(testsToExecute.map { TestMethod(name = it.testName, isParameterized = it.classActually, time = 0.0) }))
+            listOf(Chunk(testsToExecute.map { TestMethod(name = it.testName, isParameterized = it.isParameterizedClass, time = 0.0) }))
         } else {
             val oldTestResult = GcStorage.downloadJunitXml(args) ?: JUnitTestResult(mutableListOf())
             val shardCount = forcedShardCount ?: shardCountByTime(testsToExecute, oldTestResult, args)

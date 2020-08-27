@@ -25,7 +25,7 @@ class IgnoreTestsAnnotationTest {
             AndroidArgs.load(singleSuccessYaml).createAndroidTestContexts()
         }.single() as InstrumentationTestContext
 
-        Assert.assertFalse(testContext.shards.flatMap { it.testStringList }.any { it.contains("#ignoredTestWithIgnore") })
+        Assert.assertFalse(testContext.shards.flatMap { it.testsList }.any { it.contains("#ignoredTestWithIgnore") })
     }
 
     @Test
@@ -35,6 +35,6 @@ class IgnoreTestsAnnotationTest {
             AndroidArgs.load(singleSuccessYaml).createAndroidTestContexts()
         }.single() as InstrumentationTestContext
 
-        Assert.assertFalse(testContext.shards.flatMap { it.testStringList }.any { it.contains("#ignoredTestWithSuppress") })
+        Assert.assertFalse(testContext.shards.flatMap { it.testsList }.any { it.contains("#ignoredTestWithSuppress") })
     }
 }

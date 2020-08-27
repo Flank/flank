@@ -90,8 +90,8 @@ class IosArgsFileTest {
         val testShardChunks = config.testShardChunks
 
         assertThat(testShardChunks.size).isEqualTo(2)
-        assertThat(testShardChunks[0].testStringList).isEqualTo(chunk0)
-        assertThat(testShardChunks[1].testStringList).isEqualTo(chunk1)
+        assertThat(testShardChunks[0].testsList).isEqualTo(chunk0)
+        assertThat(testShardChunks[1].testsList).isEqualTo(chunk1)
     }
 
     @Test

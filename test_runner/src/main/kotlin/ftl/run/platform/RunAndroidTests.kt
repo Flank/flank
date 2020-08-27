@@ -65,7 +65,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     println(beforeRunMessage(args, allTestShardChunks))
     TestResult(
         matrixMap = afterRunTests(testMatrices.awaitAll(), runGcsPath, stopwatch, args),
-        shardChunks = allTestShardChunks.map { it.testStringList },
+        shardChunks = allTestShardChunks.map { it.testsList },
         ignoredTests = ignoredTestsShardChunks.flatten()
     )
 }

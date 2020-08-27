@@ -47,7 +47,7 @@ internal suspend fun runIosTests(iosArgs: IosArgs): TestResult = coroutineScope 
                     iosDeviceList = iosDeviceList,
                     testZipGcsPath = xcTestGcsPath,
                     runGcsPath = runGcsPath,
-                    testTargets = testTargets.testStringList,
+                    testTargets = testTargets.testsList,
                     xcTestParsed = xcTestParsed,
                     args = iosArgs,
                     shardCounter = shardCounter,
@@ -59,7 +59,7 @@ internal suspend fun runIosTests(iosArgs: IosArgs): TestResult = coroutineScope 
 
     TestResult(
         matrixMap = afterRunTests(jobs.awaitAll(), runGcsPath, stopwatch, iosArgs),
-        shardChunks = iosArgs.testShardChunks.map { it.testStringList }
+        shardChunks = iosArgs.testShardChunks.map { it.testsList }
     )
 }
 
