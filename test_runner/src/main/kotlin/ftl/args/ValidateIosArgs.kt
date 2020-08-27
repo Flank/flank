@@ -10,7 +10,7 @@ fun IosArgs.validate() = apply {
 }
 
 fun IosArgs.validateRefresh() = apply {
-    this.commonArgs.validate()
+    commonArgs.validate()
     assertXcodeSupported()
     assertDevicesSupported()
     assertTestTypes()
@@ -41,6 +41,6 @@ private fun IosArgs.assertDevicesSupported() = devices.forEach { device ->
 }
 
 private fun IosArgs.assertTestFiles() {
-    ArgsHelper.assertFileExists(this.xctestrunFile, "from test")
-    ArgsHelper.assertFileExists(this.xctestrunZip, "from xctestrun-file")
+    ArgsHelper.assertFileExists(xctestrunFile, "from test")
+    ArgsHelper.assertFileExists(xctestrunZip, "from xctestrun-file")
 }

@@ -31,6 +31,8 @@ class IosArgsTest {
     private val empty = emptyList<String>()
     private val simpleFlankPath = getPath("src/test/kotlin/ftl/fixtures/simple-ios-flank.yml")
     private val testPath = "./src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip"
+    private val nonExistingTestPath = "./src/test/kotlin/ftl/fixtures/tmp/earlgrey_example_non_existing.zip"
+    private val nonExistingxctestrunFile = "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e_non_exis.xctestrun"
     private val xctestrunFile =
         "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun"
     private val invalidApp = "../test_projects/android/apks/invalid.apk"
@@ -931,7 +933,18 @@ IosArgs
         flank:
           max-test-shards: -1
         """.trimIndent()
-        IosArgs.load(yaml)
+        IosArgs.load(yaml).validate()
+    }
+
+    fun `verify no error message when test and xctestrun not set for refresh command`() {
+        val yaml = """
+        gcloud:
+          test: $nonExistingTestPath
+          xctestrun-file: $nonExistingTestPath
+        flank:
+          max-test-shards: -1
+        """.trimIndent()
+        IosArgs.load(yaml).validateRefresh()
     }
 
     @Test(expected = FlankConfigurationError::class)
@@ -942,7 +955,7 @@ IosArgs
         flank:
           max-test-shards: -1
         """.trimIndent()
-        IosArgs.load(yaml)
+        IosArgs.load(yaml).validate()
     }
 
     @Test(expected = FlankConfigurationError::class)
@@ -953,7 +966,7 @@ IosArgs
         flank:
           max-test-shards: -1
         """.trimIndent()
-        IosArgs.load(yaml)
+        IosArgs.load(yaml).validate()
     }
 
     @Test
@@ -965,7 +978,19 @@ IosArgs
         flank:
           max-test-shards: -1
         """.trimIndent()
-        IosArgs.load(yaml)
+        IosArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `verify no error message when test and xctestrun-file not set and validation is for refresh command`() {
+        val yaml = """
+        gcloud:
+          test: $nonExistingTestPath
+          xctestrun-file: $nonExistingxctestrunFile
+        flank:
+          max-test-shards: -1
+        """.trimIndent()
+        IosArgs.load(yaml).validateRefresh()
     }
 
     @Test
