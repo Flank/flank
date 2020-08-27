@@ -5,6 +5,7 @@ import ftl.android.IncompatibleModelVersion
 import ftl.android.SupportedDeviceConfig
 import ftl.android.UnsupportedModelId
 import ftl.android.UnsupportedVersionId
+import ftl.args.yml.AppTestPair
 import ftl.config.containsPhysicalDevices
 import ftl.config.containsVirtualDevices
 import ftl.run.exception.FlankConfigurationError
@@ -16,10 +17,14 @@ fun AndroidArgs.validate() {
     assertDevicesSupported()
     assertShards()
     assertTestTypes()
-    assertRoboTest()
     assertDirectoriesToPull()
     assertMaxTestShardsByDeviceType()
     assertParametersConflict()
+    assertAndroidTest()
+}
+
+fun AndroidArgs.validateRefresh() {
+
 }
 
 private fun AndroidArgs.assertAdditionalAppTestApks() {
@@ -57,13 +62,6 @@ private fun AndroidArgs.assertTestTypes() {
     )
 }
 
-private fun AndroidArgs.assertRoboTest() {
-    // Using both roboDirectives and roboScript may hang test execution on FTL
-    if (roboDirectives.isNotEmpty() && roboScript != null) throw FlankConfigurationError(
-        "Options robo-directives and robo-script are mutually exclusive, use only one of them."
-    )
-}
-
 // Validation is done according to https://cloud.google.com/sdk/gcloud/reference/firebase/test/android/run#--directories-to-pull
 private fun AndroidArgs.assertDirectoriesToPull() {
     val correctNameRegex = "(/[a-zA-Z0-9_\\-.+]+)+/?".toRegex()
@@ -73,8 +71,8 @@ private fun AndroidArgs.assertDirectoriesToPull() {
         ?.also {
             throw FlankConfigurationError(
                 "Invalid value for [directories-to-pull]: Invalid path $it.\n" +
-                        "Path must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2).\n" +
-                        "Path names are restricted to the characters [a-zA-Z0-9_-./+]. "
+                    "Path must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2).\n" +
+                    "Path names are restricted to the characters [a-zA-Z0-9_-./+]. "
             )
         }
 }
@@ -105,3 +103,48 @@ private fun AndroidArgs.assertParametersConflict() {
     if (useLegacyJUnitResult && fullJUnitResult)
         throw FlankConfigurationError("Parameters conflict, you cannot set: `--legacy-junit-result` and `--full-junit-result` at the same time.")
 }
+
+private fun AndroidArgs.assertAndroidTest() {
+    if (isInstrumentationTest) assertInstrumentationTest()
+    if (isRoboTest) assertRoboTest()
+}
+
+private fun AndroidArgs.assertInstrumentationTest() {
+    assertAppPairs()
+    assertAppApkFilePaths()
+}
+
+private fun AndroidArgs.assertRoboTest() {
+    // Using both roboDirectives and roboScript may hang test execution on FTL
+    if (roboDirectives.isNotEmpty() && roboScript != null) throw FlankConfigurationError(
+        "Options robo-directives and robo-script are mutually exclusive, use only one of them."
+    )
+    ArgsHelper.assertFileExists(roboScript.toString(), "from roboScript")
+    ArgsHelper.assertFileExists(appApk.toString(), "from app")
+}
+
+private fun AndroidArgs.assertAppApkFilePaths() {
+    appApkPath().forEach { (file, comment) ->
+        ArgsHelper.assertFileExists(file, comment)
+    }
+}
+
+private fun AndroidArgs.assertAppPairs() = appPairs().any { (app, test) ->
+    app == null && test != null || app != null && test == null
+}
+
+private fun AndroidArgs.appPairs(): List<Pair<String?, String?>> =
+    listOf(appApk to testApk) + additionalAppTestApks.map { (app, test) -> app to test }
+
+private fun AndroidArgs.appApkPath(): Map<String, String> =
+    mapOf(
+        appApk to "from app",
+        testApk to "from test"
+    ).filterNotNull() + additionalAppTestApks.fold(emptyMap<String, String>()) { acc, pair ->
+        acc + mapOf(
+            pair.app to "from additional-app-test-apks.app",
+            pair.test to "from additional-app-test-apks.test"
+        ).filterNotNull()
+    }
+
+private fun Map<String?, String>.filterNotNull() = filter { it.key != null }.mapKeys { it.key!! }

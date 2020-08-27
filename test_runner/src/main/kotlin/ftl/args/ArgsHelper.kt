@@ -245,7 +245,7 @@ object ArgsHelper {
     }
 }
 
-fun String.normalizeFilePath(name: String): String =
+fun String.normalizeFilePath(name: String = ""): String =
     if (startsWith(GCS_PREFIX)) this
     else try {
         ArgsHelper.evaluateFilePath(this)
