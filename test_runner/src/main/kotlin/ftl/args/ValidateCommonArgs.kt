@@ -57,11 +57,11 @@ private fun CommonArgs.assertSmartFlankGcsPath() = with(smartFlankGcsPath) {
             "smart-flank-gcs-path must be in the format gs://bucket/foo.xml"
         )
 
-        contains("/${FullJUnitReport.fileName()}") && fullJUnitResult.not() -> throw FlankConfigurationError(
+        smartFlankDisableUpload.not() && contains("/${FullJUnitReport.fileName()}") && fullJUnitResult.not() -> throw FlankConfigurationError(
             "smart-flank-gcs-path is set with ${FullJUnitReport.fileName()} but in this run --full-junit-result is disabled, please set --full-junit-result flag"
         )
 
-        contains("/${JUnitReport.fileName()}") && fullJUnitResult -> throw FlankConfigurationError(
+        smartFlankDisableUpload.not() && contains("/${JUnitReport.fileName()}") && fullJUnitResult -> throw FlankConfigurationError(
             "smart-flank-gcs-path is set with ${JUnitReport.fileName()} but in this run --full-junit-result enabled, please turn off --full-junit-result flag"
         )
     }

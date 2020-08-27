@@ -512,4 +512,15 @@ class AndroidRunCommandTest {
         CommandLine(cmd).parseArgs("--smart-flank-gcs-path=gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-08-26_15-20-23.850738_rtGt/JUnitReportTest.xml")
         cmd.run()
     }
+
+    @Test
+    fun `should not validate if smart-flank-disable-upload set`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs(
+            "--smart-flank-disable-upload",
+            "--full-junit-result",
+            "--smart-flank-gcs-path=gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-08-26_15-20-23.850738_rtGt/JUnitReport.xml"
+        )
+        cmd.run()
+    }
 }
