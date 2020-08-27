@@ -106,7 +106,7 @@ class GenericTestRunnerTest {
             )
         ).normalizeLineEnding().trimIndent()
 
-        assertEquals(result, expected)
+        assertEquals(expected, result)
     }
 
     @Test
@@ -128,7 +128,7 @@ class GenericTestRunnerTest {
             )
         ).normalizeLineEnding().trimIndent()
 
-        assertEquals(result, expected)
+        assertEquals(expected, result)
     }
 
     @Test
@@ -164,7 +164,7 @@ class GenericTestRunnerTest {
             )
         ).normalizeLineEnding().trimIndent()
 
-        assertEquals(result, expected)
+        assertEquals(expected, result)
     }
 
     @Test
@@ -189,6 +189,6 @@ class GenericTestRunnerTest {
             )
         ).normalizeLineEnding().trimIndent()
 
-        assertEquals(result, expected)
+        assertEquals(expected, result)
     }
 }

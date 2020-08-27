@@ -30,18 +30,13 @@ internal fun beforeRunMessage(args: IArgs, testShardChunks: List<Chunk>): String
     return result.toString()
 }
 
-private fun s(amount: Int): String {
-    return if (amount > 1) {
-        "s"
-    } else {
-        ""
-    }
-}
+private fun s(amount: Int): String =
+    if (amount > 1) "s"
+    else ""
 
-private fun es(amount: Int): String {
-    return if (amount > 1) {
-        "es"
-    } else {
-        ""
-    }
-}
+
+private fun es(amount: Int): String =
+    if (amount > 1) "es"
+    else ""
+
+
