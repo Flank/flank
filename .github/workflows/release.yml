@@ -107,3 +107,16 @@ jobs:
       with:
         gradle-executable: "./test_runner/gradlew"
         arguments: "-p test_runner publish -PGITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
+
+    - name: Get Latest Release notes and set as variables
+      run: |
+        testVar=$(awk '!NF{exit}1' release_notes.md)
+        echo "::set-env name=RELEASE_NOTES::$(echo $testVar)";
+
+    - name: Post Message of Flank Release TEST ONLY
+      uses: archive/github-actions-slack@master
+      with:
+          slack-bot-user-oauth-access-token: ${{ secrets.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN }}
+          slack-channel: flank_test_channel
+          slack-optional-icon_emoji: ":fire:"  
+          slack-text: <http://https://github.com/Flank/flank/releases/tag/${{ $RELEASE_TAG }}|Flank "${{ $RELEASE_TAG }}" > is released \n ${{ $(echo $RELEASE_NOTES) }}
