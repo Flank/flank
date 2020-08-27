@@ -1,3 +1,24 @@
+## v20.08.4
+### Features
+- [#1056](https://github.com/Flank/flank/pull/1056) Added validation of smart-flank-gcs-path to not override different junit results ([adamfilipow92](https://github.com/adamfilipow92))
+- [#1040](https://github.com/Flank/flank/pull/1040) Add test axis value column to summary table ([jan-gogo](https://github.com/jan-gogo))
+- [#1043](https://github.com/Flank/flank/pull/1043) Add printing messages for MatrixCanceledError and InfrastructureError ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1042](https://github.com/Flank/flank/pull/1042) Added option for default test time and average time for smart shard ([piotradamczyk5](https://github.com/piotradamczyk5))
+### Tests update
+- [#1055](https://github.com/Flank/flank/pull/1055) Added missing test t cover duplicated tests issue ([piotradamczyk5](https://github.com/piotradamczyk5))
+### Bug Fixes
+- [#1041](https://github.com/Flank/flank/pull/1041) Invoking flank yml on gcloud cli ([adamfilipow92](https://github.com/adamfilipow92))
+- [#1053](https://github.com/Flank/flank/pull/1053) Avoid releasing on document changes only ([Sloox](https://github.com/Sloox))
+- [#1048](https://github.com/Flank/flank/pull/1048) Flank finding and running duplicate tests ([MatthewTPage](https://github.com/MatthewTPage))
+- [#1051](https://github.com/Flank/flank/pull/1051) PR check from fork ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1044](https://github.com/Flank/flank/pull/1044) Master not compiling ([Sloox](https://github.com/Sloox))
+- [#994](https://github.com/Flank/flank/pull/994) Size annotations support ([pgreze](https://github.com/pgreze))
+### Refactor
+- [#1047](https://github.com/Flank/flank/pull/1047) MatrixMap immutability ([Sloox](https://github.com/Sloox))
+- [#1028](https://github.com/Flank/flank/pull/1028) Savedmatrix immutability change ([Sloox](https://github.com/Sloox))
+### Documentation
+- [#1009](https://github.com/Flank/flank/pull/1009) Avoid multiple identical lines printing ([adamfilipow92](https://github.com/adamfilipow92))
+
 ## v20.08.3
 ### CI Changes
 - [#1031](https://github.com/Flank/flank/pull/1031) Disable publishing snapshot to Github Packages ([piotradamczyk5](https://github.com/piotradamczyk5))
