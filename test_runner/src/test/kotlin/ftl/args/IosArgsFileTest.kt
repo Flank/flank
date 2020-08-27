@@ -19,13 +19,11 @@ import org.junit.runner.RunWith
 @RunWith(FlankTestRunner::class)
 class IosArgsFileTest {
 
-    @Rule
-    @JvmField
-    val systemErrRule = SystemErrRule().muteForSuccessfulTests()!!
+    @get:Rule
+    val systemErrRule = SystemErrRule().muteForSuccessfulTests()
 
-    @Rule
-    @JvmField
-    val systemOutRule = SystemOutRule().muteForSuccessfulTests()!!
+    @get:Rule
+    val systemOutRule = SystemOutRule().muteForSuccessfulTests()
 
     private val ymlNotFound = getPath("not_found.yml")
     private val yamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.ios.yml")
@@ -92,8 +90,8 @@ class IosArgsFileTest {
         val testShardChunks = config.testShardChunks
 
         assertThat(testShardChunks.size).isEqualTo(2)
-        assertThat(testShardChunks[0]).isEqualTo(chunk0)
-        assertThat(testShardChunks[1]).isEqualTo(chunk1)
+        assertThat(testShardChunks[0].testStringList).isEqualTo(chunk0)
+        assertThat(testShardChunks[1].testStringList).isEqualTo(chunk1)
     }
 
     @Test

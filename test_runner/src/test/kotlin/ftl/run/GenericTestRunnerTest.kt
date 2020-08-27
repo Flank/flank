@@ -65,7 +65,7 @@ class GenericTestRunnerTest {
     fun testBeforeRunMessage4() {
         val result = beforeRunMessage(
             createMock(100),
-            List(2) { Chunk(listOf(TestMethod(name = "", time = 0.0))) }
+            List(2) { Chunk(List(5) { TestMethod(name = "", time = 0.0) }) }
         ).normalizeLineEnding()
         assert(
             result, """
@@ -88,7 +88,7 @@ class GenericTestRunnerTest {
     }
 
     @Test
-    fun `should print tests + class per shard with miltiple run`() {
+    fun `should print tests + class per shard with multiple run`() {
         fail("not implemented")
     }
 }

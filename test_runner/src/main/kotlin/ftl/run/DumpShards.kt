@@ -35,7 +35,7 @@ fun dumpShards(
 ) {
     saveShardChunks(
         shardFilePath = shardFilePath,
-        shards = args.testShardChunks,
+        shards = args.testShardChunks.map { it.testStringList },
         size = args.testShardChunks.size,
         obfuscatedOutput = obfuscatedOutput
     )
