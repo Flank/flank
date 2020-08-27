@@ -23,7 +23,7 @@ internal fun beforeRunMessage(args: IArgs, testShardChunks: List<Chunk>): String
         val runTests = runCount * testsCount
         val runClasses = runCount * classesCount
         result.appendLine("    $runDevices total shard${s(runDevices)}")
-        result.appendLine("    $runTests total test${s(runTests)}")
+        if (runTests > 0) result.appendLine("    $runTests total test${s(runTests)}")
         if (runClasses > 0) result.appendLine("    $runClasses total class${es(runClasses)}")
     }
 
