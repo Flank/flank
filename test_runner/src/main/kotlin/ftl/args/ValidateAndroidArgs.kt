@@ -5,7 +5,6 @@ import ftl.android.IncompatibleModelVersion
 import ftl.android.SupportedDeviceConfig
 import ftl.android.UnsupportedModelId
 import ftl.android.UnsupportedVersionId
-import ftl.args.yml.AppTestPair
 import ftl.config.containsPhysicalDevices
 import ftl.config.containsVirtualDevices
 import ftl.run.exception.FlankConfigurationError
@@ -13,28 +12,13 @@ import ftl.run.exception.IncompatibleTestDimensionError
 import java.io.File
 
 fun AndroidArgs.validate() {
-    assertAdditionalAppTestApks()
     assertDevicesSupported()
     assertShards()
     assertTestTypes()
     assertDirectoriesToPull()
     assertMaxTestShardsByDeviceType()
     assertParametersConflict()
-    assertAndroidTest()
-}
-
-fun AndroidArgs.validateRefresh() {
-
-}
-
-private fun AndroidArgs.assertAdditionalAppTestApks() {
-    if (appApk == null) additionalAppTestApks
-        .filter { (app, _) -> app == null }
-        .map { File(it.test).name }
-        .run {
-            if (isNotEmpty())
-                throw FlankConfigurationError("Cannot resolve app apk pair for $this")
-        }
+    assertTestFiles()
 }
 
 private fun AndroidArgs.assertDevicesSupported() = devices
@@ -104,37 +88,27 @@ private fun AndroidArgs.assertParametersConflict() {
         throw FlankConfigurationError("Parameters conflict, you cannot set: `--legacy-junit-result` and `--full-junit-result` at the same time.")
 }
 
-private fun AndroidArgs.assertAndroidTest() {
+private fun AndroidArgs.assertTestFiles() {
     if (isInstrumentationTest) assertInstrumentationTest()
     if (isRoboTest) assertRoboTest()
 }
 
 private fun AndroidArgs.assertInstrumentationTest() {
-    assertAppPairs()
-    assertAppApkFilePaths()
+    assertAdditionalAppTestApks()
+    assertApkFilePaths()
 }
 
-private fun AndroidArgs.assertRoboTest() {
-    // Using both roboDirectives and roboScript may hang test execution on FTL
-    if (roboDirectives.isNotEmpty() && roboScript != null) throw FlankConfigurationError(
-        "Options robo-directives and robo-script are mutually exclusive, use only one of them."
-    )
-    ArgsHelper.assertFileExists(roboScript.toString(), "from roboScript")
-    ArgsHelper.assertFileExists(appApk.toString(), "from app")
+private fun AndroidArgs.assertAdditionalAppTestApks() {
+    if (appApk == null) additionalAppTestApks
+        .filter { (app, _) -> app == null }
+        .map { File(it.test).name }
+        .run { if (isNotEmpty()) throw FlankConfigurationError("Cannot resolve app apk pair for $this") }
 }
-
-private fun AndroidArgs.assertAppApkFilePaths() {
+private fun AndroidArgs.assertApkFilePaths() {
     appApkPath().forEach { (file, comment) ->
         ArgsHelper.assertFileExists(file, comment)
     }
 }
-
-private fun AndroidArgs.assertAppPairs() = appPairs().any { (app, test) ->
-    app == null && test != null || app != null && test == null
-}
-
-private fun AndroidArgs.appPairs(): List<Pair<String?, String?>> =
-    listOf(appApk to testApk) + additionalAppTestApks.map { (app, test) -> app to test }
 
 private fun AndroidArgs.appApkPath(): Map<String, String> =
     mapOf(
@@ -148,3 +122,13 @@ private fun AndroidArgs.appApkPath(): Map<String, String> =
     }
 
 private fun Map<String?, String>.filterNotNull() = filter { it.key != null }.mapKeys { it.key!! }
+
+
+private fun AndroidArgs.assertRoboTest() {
+    // Using both roboDirectives and roboScript may hang test execution on FTL
+    if (roboDirectives.isNotEmpty() && roboScript != null) throw FlankConfigurationError(
+        "Options robo-directives and robo-script are mutually exclusive, use only one of them."
+    )
+    ArgsHelper.assertFileExists(roboScript.toString(), "from roboScript")
+    ArgsHelper.assertFileExists(appApk.toString(), "from app")
+}
