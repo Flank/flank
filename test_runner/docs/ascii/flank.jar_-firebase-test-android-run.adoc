@@ -24,8 +24,10 @@ flank.jar
                                      [*--no-use-orchestrator*] [*--obfuscate*]
                                      [*--performance-metrics*] [*--record-video*]
                                      [*--smart-flank-disable-upload*]
+                                     [*--use-average-test-time-for-new-tests*]
                                      [*--use-orchestrator*] [*--app*=_<app>_]
                                      [*-c*=_<configPath>_]
+                                     [*--default-test-time*=_<defaultTestTime>_]
                                      [*--local-result-dir*=_<localResultsDir>_]
                                      [*--max-test-shards*=_<maxTestShards>_]
                                      [*--network-profile*=_<networkProfile>_]
@@ -174,6 +176,12 @@ Configuration is read from flank.yml
 
 *--disable-results-upload*::
   Disables flank results upload on gcloud storage.
+
+*--default-test-time*=_<defaultTestTime>_::
+  Set default test time used for calculating shards.
+
+*--use-average-test-time-for-new-tests*::
+  Enable using average time from previous tests duration when using SmartShard and tests did not run before.
 
 *--app*=_<app>_::
   The path to the application binary file. The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.
