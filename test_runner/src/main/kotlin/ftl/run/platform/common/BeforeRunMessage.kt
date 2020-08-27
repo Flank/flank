@@ -34,9 +34,6 @@ private fun s(amount: Int): String =
     if (amount > 1) "s"
     else ""
 
-
 private fun es(amount: Int): String =
     if (amount > 1) "es"
     else ""
-
-
