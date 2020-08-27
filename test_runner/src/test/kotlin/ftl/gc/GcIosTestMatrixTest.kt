@@ -2,7 +2,7 @@ package ftl.gc
 
 import com.dd.plist.NSDictionary
 import com.google.api.services.testing.model.IosDeviceList
-import ftl.args.Chunk
+import ftl.shard.Chunk
 import ftl.args.IosArgs
 import ftl.shard.TestMethod
 import ftl.test.util.FlankTestRunner

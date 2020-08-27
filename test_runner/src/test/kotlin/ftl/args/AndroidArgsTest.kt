@@ -25,6 +25,7 @@ import ftl.test.util.assertThrowsWithMessage
 import ftl.run.exception.FlankGeneralError
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.IncompatibleTestDimensionError
+import ftl.shard.Chunk
 import ftl.shard.TestMethod
 import ftl.util.asFileReference
 import io.mockk.every

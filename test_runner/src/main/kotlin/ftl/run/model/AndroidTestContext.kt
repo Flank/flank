@@ -1,6 +1,6 @@
 package ftl.run.model
 
-import ftl.args.Chunk
+import ftl.shard.Chunk
 import ftl.args.IgnoredTestCases
 import ftl.util.FileReference
 

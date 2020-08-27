@@ -1,8 +1,8 @@
 package ftl.run.platform.common
 
-import ftl.args.Chunk
 import ftl.args.IArgs
 import ftl.config.FtlConstants
+import ftl.shard.Chunk
 
 internal fun beforeRunMessage(args: IArgs, testShardChunks: List<Chunk>): String {
     val runCount = args.repeatTests

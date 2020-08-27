@@ -24,6 +24,7 @@ import ftl.shard.createShardsByShardCount
 import ftl.shard.shardCountByTime
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
+import ftl.shard.Chunk
 import ftl.shard.TestMethod
 import ftl.util.FlankTestMethod
 import ftl.util.assertNotEmpty
@@ -241,11 +242,6 @@ object ArgsHelper {
 
         return shards.map { Chunk(find + it.testMethods.filterNot { method -> find.contains(method) }) }
     }
-}
-
-data class Chunk(val testMethods: List<TestMethod>) {
-    val testStringList = testMethods.map { it.name }
-    val size get() = testMethods.size
 }
 
 fun String.normalizeFilePath(): String =

@@ -1,6 +1,5 @@
 package ftl.shard
 
-import ftl.args.Chunk
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.reports.xml.model.JUnitTestResult

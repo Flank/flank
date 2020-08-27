@@ -3,6 +3,7 @@ package ftl.args
 import com.google.common.annotations.VisibleForTesting
 import ftl.ios.Xctestrun.findTestNames
 import ftl.run.exception.FlankConfigurationError
+import ftl.shard.Chunk
 import ftl.util.FlankTestMethod
 
 data class IosArgs(
