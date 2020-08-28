@@ -115,6 +115,7 @@ jobs:
 
     - name: Post Message of Flank Release TEST ONLY
       uses: archive/github-actions-slack@master
+      if: startsWith(github.ref, 'refs/tags/v')
       with:
           slack-bot-user-oauth-access-token: ${{ secrets.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN }}
           slack-channel: flank_test_channel
