@@ -5,6 +5,7 @@ import ftl.android.AndroidCatalog.localesAsTable
 import ftl.android.AndroidCatalog.supportedOrientationsAsTable
 import ftl.android.AndroidCatalog.supportedVersionsAsTable
 import ftl.args.AndroidArgs
+import ftl.args.validate
 import ftl.config.FtlConstants
 import ftl.environment.ipBlocksListAsTable
 import ftl.environment.networkConfigurationAsTable
@@ -27,7 +28,7 @@ import java.nio.file.Paths
 )
 class AndroidTestEnvironmentCommand : Runnable {
     override fun run() {
-        val projectId = AndroidArgs.loadOrDefault(Paths.get(configPath)).project
+        val projectId = AndroidArgs.loadOrDefault(Paths.get(configPath)).validate().project
         println(devicesCatalogAsTable(projectId))
         println(supportedVersionsAsTable(projectId))
         println(localesAsTable(projectId))

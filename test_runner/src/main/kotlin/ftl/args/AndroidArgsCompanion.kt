@@ -40,8 +40,5 @@ open class AndroidArgsCompanion : IArgs.ICompanion {
             config = defaultAndroidConfig() +
                     loadAndroidConfig(reader = yamlReader) +
                     cli?.config
-        ).apply {
-            commonArgs.validate()
-            this.validate()
-        }
+        )
 }

@@ -11,7 +11,8 @@ import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.IncompatibleTestDimensionError
 import java.io.File
 
-fun AndroidArgs.validate() {
+fun AndroidArgs.validate() = apply {
+    commonArgs.validate()
     assertDevicesSupported()
     assertShards()
     assertTestTypes()
@@ -19,6 +20,7 @@ fun AndroidArgs.validate() {
     assertMaxTestShardsByDeviceType()
     assertParametersConflict()
     assertTestFiles()
+    assertOtherFiles()
 }
 
 private fun AndroidArgs.assertDevicesSupported() = devices
@@ -104,6 +106,7 @@ private fun AndroidArgs.assertAdditionalAppTestApks() {
         .map { File(it.test).name }
         .run { if (isNotEmpty()) throw FlankConfigurationError("Cannot resolve app apk pair for $this") }
 }
+
 private fun AndroidArgs.assertApkFilePaths() {
     appApkPath().forEach { (file, comment) ->
         ArgsHelper.assertFileExists(file, comment)
@@ -123,12 +126,16 @@ private fun AndroidArgs.appApkPath(): Map<String, String> =
 
 private fun Map<String?, String>.filterNotNull() = filter { it.key != null }.mapKeys { it.key!! }
 
-
 private fun AndroidArgs.assertRoboTest() {
     // Using both roboDirectives and roboScript may hang test execution on FTL
     if (roboDirectives.isNotEmpty() && roboScript != null) throw FlankConfigurationError(
         "Options robo-directives and robo-script are mutually exclusive, use only one of them."
     )
-    ArgsHelper.assertFileExists(roboScript.toString(), "from roboScript")
+    if (roboScript != null)
+        ArgsHelper.assertFileExists(roboScript.toString(), "from roboScript")
     ArgsHelper.assertFileExists(appApk.toString(), "from app")
+}
+
+private fun AndroidArgs.assertOtherFiles() {
+    otherFiles.forEach { (_, path) -> ArgsHelper.assertFileExists(path, "from otherFiles") }
 }
