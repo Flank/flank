@@ -3,7 +3,6 @@ package ftl.cli.firebase.test.ios
 import com.google.common.truth.Truth.assertThat
 import ftl.cli.firebase.test.INVALID_YML_PATH
 import ftl.cli.firebase.test.SUCCESS_VALIDATION_MESSAGE
-import ftl.cli.firebase.test.android.AndroidDoctorCommand
 import ftl.config.FtlConstants
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.normalizeLineEnding
@@ -71,9 +70,16 @@ class IosDoctorCommandTest {
 
     @Test(expected = YmlValidationError::class)
     fun `should terminate with exit code 1 when yml validation fails`() {
-        AndroidDoctorCommand().run {
+        IosDoctorCommand().run {
             configPath = INVALID_YML_PATH
             run()
         }
+    }
+
+    @Test
+    fun `ios doctor should not fail on local-result-dir`() {
+        IosDoctorCommand().apply {
+            configPath = FtlConstants.defaultIosConfig
+        }.run()
     }
 }

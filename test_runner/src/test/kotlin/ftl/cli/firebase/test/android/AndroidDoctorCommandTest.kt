@@ -4,9 +4,9 @@ import com.google.common.truth.Truth.assertThat
 import ftl.cli.firebase.test.INVALID_YML_PATH
 import ftl.cli.firebase.test.SUCCESS_VALIDATION_MESSAGE
 import ftl.config.FtlConstants
+import ftl.run.exception.YmlValidationError
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.normalizeLineEnding
-import ftl.run.exception.YmlValidationError
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
@@ -75,5 +75,12 @@ class AndroidDoctorCommandTest {
             configPath = INVALID_YML_PATH
             run()
         }
+    }
+
+    @Test
+    fun `android doctor should not fail on local-result-dir`() {
+        AndroidDoctorCommand().apply {
+            configPath = "./src/test/kotlin/ftl/fixtures/test_app_cases/flank-with_local_result_dir.yml"
+        }.run()
     }
 }
