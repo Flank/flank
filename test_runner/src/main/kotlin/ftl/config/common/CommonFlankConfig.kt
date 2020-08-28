@@ -7,6 +7,7 @@ import ftl.args.ArgsHelper
 import ftl.args.yml.IYmlKeys
 import ftl.config.Config
 import ftl.config.FtlConstants
+import ftl.shard.DEFAULT_CLASS_TEST_TIME_SEC
 import ftl.shard.DEFAULT_TEST_TIME_SEC
 import picocli.CommandLine
 
@@ -148,6 +149,9 @@ data class CommonFlankConfig @JsonIgnore constructor(
     @set:JsonProperty("default-test-time")
     var defaultTestTime: Double? by data
 
+    @set:JsonProperty("default-class-test-time")
+    var defaultClassTestTime: Double? by data
+
     @set:CommandLine.Option(
         names = ["--use-average-test-time-for-new-tests"],
         description = ["Enable using average time from previous tests duration when using SmartShard and tests did not run before."]
@@ -201,6 +205,7 @@ data class CommonFlankConfig @JsonIgnore constructor(
             outputStyle = null
             disableResultsUpload = false
             defaultTestTime = DEFAULT_TEST_TIME_SEC
+            defaultClassTestTime = DEFAULT_CLASS_TEST_TIME_SEC
             useAverageTestTimeForNewTests = false
         }
     }

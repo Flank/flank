@@ -24,3 +24,5 @@ private fun Map<String, Double>.averageTestTime(defaultTestTime: Double) = value
 const val IGNORE_TEST_TIME = 0.0
 
 const val DEFAULT_TEST_TIME_SEC = 120.0
+
+const val DEFAULT_CLASS_TEST_TIME_SEC = DEFAULT_TEST_TIME_SEC * 2

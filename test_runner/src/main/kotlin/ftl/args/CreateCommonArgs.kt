@@ -43,6 +43,7 @@ fun CommonConfig.createCommonArgs(
     localResultDir = flank.localResultsDir!!,
     disableResultsUpload = flank.disableResultsUpload!!,
     defaultTestTime = flank.defaultTestTime!!,
+    defaultTestClassTime = flank.defaultClassTestTime!!,
     useAverageTestTimeForNewTests = flank.useAverageTestTimeForNewTests!!
 ).apply {
     ArgsHelper.createJunitBucket(project, smartFlankGcsPath)

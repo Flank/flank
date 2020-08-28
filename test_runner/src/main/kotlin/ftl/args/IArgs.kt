@@ -60,6 +60,7 @@ interface IArgs {
         get() = maxTestShards in AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE
 
     val defaultTestTime: Double
+    val defaultTestClassTime: Double
     val useAverageTestTimeForNewTests: Boolean
 
     fun useLocalResultDir() = localResultDir != defaultLocalResultsDir
