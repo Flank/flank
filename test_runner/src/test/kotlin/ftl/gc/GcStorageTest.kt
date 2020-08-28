@@ -1,5 +1,6 @@
 package ftl.gc
 
+import com.google.cloud.storage.Storage
 import ftl.args.AndroidArgs
 import ftl.test.util.FlankTestRunner
 import io.mockk.every
@@ -7,6 +8,8 @@ import io.mockk.mockk
 import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Assert
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -54,5 +57,57 @@ class GcStorageTest {
                 )
             }
         )
+    }
+
+    @Test
+    fun `should return that file exist`() {
+        // given
+        val mockedStorage: Storage = mockk {
+            every {
+                list(
+                    "bucket",
+                    Storage.BlobListOption.pageSize(1),
+                    Storage.BlobListOption.prefix("path/")
+                )
+            } returns mockk {
+                every { values } returns listOf(mockk())
+            }
+        }
+
+        // when
+        val actual = GcStorage.exist(
+            "bucket",
+            "path",
+            mockedStorage
+        )
+
+        // then
+        assertTrue(actual)
+    }
+
+    @Test
+    fun `should return that file does not exist`() {
+        // given
+        val mockedStorage: Storage = mockk {
+            every {
+                list(
+                    "bucket",
+                    Storage.BlobListOption.pageSize(1),
+                    Storage.BlobListOption.prefix("path/")
+                )
+            } returns mockk {
+                every { values } returns listOf()
+            }
+        }
+
+        // when
+        val actual = GcStorage.exist(
+            "bucket",
+            "path",
+            mockedStorage
+        )
+
+        // then
+        assertFalse(actual)
     }
 }

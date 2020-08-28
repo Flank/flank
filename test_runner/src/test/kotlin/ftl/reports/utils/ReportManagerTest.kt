@@ -229,8 +229,7 @@ class ReportManagerTest {
     fun `should get weblink from legacy path and ios path`() {
         val legacyPath = File("results/2020-08-06_12-08-55.641213_jGpY/matrix_0/NexusLowRes-28-en-portrait/test_result_1.xml")
         val iosPath = File("results/test_dir/shard_0/iphone8-12.0-en-portrait/test_result_0.xml")
-        val objectName = "object_name"
-        assertEquals("object_name/2020-08-06_12-08-55.641213_jGpY/matrix_0", legacyPath.getMatrixPath(objectName))
-        assertEquals("object_name/test_dir/shard_0", iosPath.getMatrixPath(objectName))
+        assertEquals("2020-08-06_12-08-55.641213_jGpY/matrix_0", legacyPath.getMatrixPath("2020-08-06_12-08-55.641213_jGpY"))
+        assertEquals("test_dir/shard_0", iosPath.getMatrixPath("test_dir"))
     }
 }
