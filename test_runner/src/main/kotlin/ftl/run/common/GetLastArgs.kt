@@ -3,6 +3,7 @@ package ftl.run.common
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
+import ftl.args.validate
 import ftl.args.validateRefresh
 import ftl.config.FtlConstants
 import ftl.run.exception.FlankGeneralError
@@ -17,7 +18,7 @@ internal fun getLastArgs(args: IArgs): IArgs {
 
     return when {
         iosConfig.toFile().exists() -> IosArgs.load(iosConfig).validateRefresh()
-        androidConfig.toFile().exists() -> AndroidArgs.load(androidConfig)
+        androidConfig.toFile().exists() -> AndroidArgs.load(androidConfig).validate()
         else -> throw FlankGeneralError("No config file found in the last run folder: $lastRun")
     }
 }

@@ -5,7 +5,11 @@ import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.IncompatibleTestDimensionError
 
 fun IosArgs.validate() = apply {
-    validateRefresh()
+    commonArgs.validate()
+    assertXcodeSupported()
+    assertDevicesSupported()
+    assertTestTypes()
+    assertMaxTestShards()
     assertTestFiles()
 }
 
