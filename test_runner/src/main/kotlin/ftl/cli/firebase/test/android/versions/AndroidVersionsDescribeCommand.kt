@@ -2,7 +2,6 @@ package ftl.cli.firebase.test.android.versions
 
 import ftl.android.AndroidCatalog
 import ftl.args.AndroidArgs
-import ftl.args.validate
 import ftl.config.FtlConstants
 import ftl.run.exception.FlankConfigurationError
 import picocli.CommandLine
@@ -22,7 +21,7 @@ import java.nio.file.Paths
 class AndroidVersionsDescribeCommand : Runnable {
     override fun run() {
         if (versionId.isBlank()) throw FlankConfigurationError("Argument VERSION_ID must be specified.")
-        println(AndroidCatalog.describeSoftwareVersion(AndroidArgs.loadOrDefault(Paths.get(configPath)).validate().project, versionId))
+        println(AndroidCatalog.describeSoftwareVersion(AndroidArgs.loadOrDefault(Paths.get(configPath)).project, versionId))
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

@@ -910,8 +910,8 @@ AndroidArgs
           test: $testApk
           project: a
       """
-        assertThat(AndroidArgs.load(yaml).validate().project).isEqualTo("a")
-        assertThat(AndroidArgs.load(yaml, cli).validate().project).isEqualTo("b")
+        assertThat(AndroidArgs.load(yaml).project).isEqualTo("a")
+        assertThat(AndroidArgs.load(yaml, cli).project).isEqualTo("b")
     }
 
     @Test

@@ -2,7 +2,6 @@ package ftl.cli.firebase.test.android.orientations
 
 import ftl.android.AndroidCatalog
 import ftl.args.AndroidArgs
-import ftl.args.validate
 import ftl.config.FtlConstants
 import picocli.CommandLine
 import java.nio.file.Paths
@@ -20,7 +19,7 @@ import java.nio.file.Paths
 )
 class AndroidOrientationsListCommand : Runnable {
     override fun run() {
-        println(AndroidCatalog.supportedOrientationsAsTable(AndroidArgs.loadOrDefault(Paths.get(configPath)).validate().project))
+        println(AndroidCatalog.supportedOrientationsAsTable(AndroidArgs.loadOrDefault(Paths.get(configPath)).project))
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

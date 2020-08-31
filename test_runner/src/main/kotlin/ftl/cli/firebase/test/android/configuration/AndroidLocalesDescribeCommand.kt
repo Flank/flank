@@ -2,7 +2,6 @@ package ftl.cli.firebase.test.android.configuration
 
 import ftl.android.AndroidCatalog.getLocaleDescription
 import ftl.args.AndroidArgs
-import ftl.args.validate
 import ftl.config.FtlConstants
 import ftl.run.exception.FlankConfigurationError
 import picocli.CommandLine
@@ -21,7 +20,7 @@ import java.nio.file.Paths
 class AndroidLocalesDescribeCommand : Runnable {
     override fun run() {
         if (locale.isBlank()) throw FlankConfigurationError("Argument LOCALE must be specified.")
-        print(getLocaleDescription(AndroidArgs.loadOrDefault(Paths.get(configPath)).validate().project, locale))
+        print(getLocaleDescription(AndroidArgs.loadOrDefault(Paths.get(configPath)).project, locale))
     }
 
     @CommandLine.Parameters(
