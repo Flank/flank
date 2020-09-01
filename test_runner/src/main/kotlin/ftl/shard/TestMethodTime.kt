@@ -6,14 +6,20 @@ import ftl.util.FlankTestMethod
 fun getTestMethodTime(
     flankTestMethod: FlankTestMethod,
     previousMethodDurations: Map<String, Double>,
-    defaultTestTime: Double
+    defaultTestTime: Double,
+    defaultClassTestTime: Double
 ) = if (flankTestMethod.ignored) IGNORE_TEST_TIME else previousMethodDurations.getOrElse(flankTestMethod.testName) {
-    defaultTestTime
+    if (flankTestMethod.isParameterizedClass) defaultClassTestTime
+    else defaultTestTime
 }
 
 fun IArgs.fallbackTestTime(
     previousMethodDurations: Map<String, Double>
 ) = if (useAverageTestTimeForNewTests) previousMethodDurations.averageTestTime(defaultTestTime) else defaultTestTime
+
+fun IArgs.fallbackClassTestTime(
+    previousMethodDurations: Map<String, Double>
+) = if (useAverageTestTimeForNewTests) previousMethodDurations.averageTestTime(defaultClassTestTime) else defaultClassTestTime
 
 private fun Map<String, Double>.averageTestTime(defaultTestTime: Double) = values
     .filter { it > IGNORE_TEST_TIME }
