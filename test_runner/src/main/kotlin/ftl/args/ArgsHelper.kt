@@ -157,7 +157,7 @@ object ArgsHelper {
                     .build()
             )
         } catch (e: Exception) {
-            throw FlankGeneralError("Failed to make bucket for $projectId\nCause: ${e.message}")
+            println("Warning: Failed to make bucket for $projectId\nCause: ${e.message}")
         }
 
         return bucket
