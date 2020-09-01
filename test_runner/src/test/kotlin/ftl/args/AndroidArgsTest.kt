@@ -1751,7 +1751,7 @@ AndroidArgs
         flank:
           max-test-shards: -1
         """.trimIndent()
-        val args = AndroidArgs.load(yaml).validate()
+        AndroidArgs.load(yaml).validate()
     }
 
     @Test(expected = FlankGeneralError::class)
@@ -1766,7 +1766,7 @@ AndroidArgs
         flank:
           max-test-shards: -1
         """.trimIndent()
-        val args = AndroidArgs.load(yaml).validate()
+        AndroidArgs.load(yaml).validate()
     }
 }
 
