@@ -1,4 +1,8 @@
 object Versions {
+
+    // https://github.com/Guardsquare/proguard
+    const val PROGUARD = "7.0.0"
+
     // https://github.com/bugsnag/bugsnag-java/releases
     const val BUGSNAG = "3.6.1"
 
@@ -119,6 +123,8 @@ object Libs {
     const val KOTLIN_LOGGING = "io.github.microutils:kotlin-logging:${Versions.KOTLIN_LOGGING}"
 
     const val JANSI = "org.fusesource.jansi:jansi:${Versions.JANSI}"
+
+    const val PROGUARD = "com.guardsquare:proguard-gradle:${Versions.PROGUARD}"
 
     //region Plugins
     const val DETEKT_FORMATTING = "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.DETEKT}"

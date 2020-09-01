@@ -43,6 +43,7 @@ shadowJar.apply {
         exclude(dependency(Libs.TRUTH))
         exclude(dependency(Libs.MOCKK))
         exclude(dependency(Libs.JUNIT))
+        exclude(dependency(Libs.PROGUARD))
         exclude(dependency(Libs.DETEKT_FORMATTING))
     }
 }
@@ -261,6 +262,18 @@ configurations.all {
     }
 }
 
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath(Libs.PROGUARD)
+    }
+}
+
+
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
@@ -272,6 +285,22 @@ tasks["check"].dependsOn(tasks["jacocoTestReport"], tasks["detekt"])
 tasks.create("updateFlank", Exec::class.java) {
     description = "Update flank jar"
     commandLine = listOf("./bash/update_flank.sh")
+}
+
+tasks.create("applyProguard", proguard.gradle.ProGuardTask::class.java) {
+    description = "Apply proguard to flank and create a minimized jar"
+    dontwarn()
+    injars("./build/libs/flank.jar")
+    outjars("./build/libs/flank-proguard.jar")
+    libraryjars("${System.getProperty("java.home")}/lib/rt.jar")
+    libraryjars("./build/libs/flank-sources.jar")
+    configuration("./proguard/config.pro")
+    doLast {
+        copy {
+            from(file("$buildDir/libs/flank-proguard.jar"))
+            into(file("./bash/"))
+        }
+    }
 }
 
 // begin --- ASCII doc generation ---
