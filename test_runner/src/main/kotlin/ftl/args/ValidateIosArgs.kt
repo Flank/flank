@@ -4,12 +4,23 @@ import ftl.ios.IosCatalog
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.IncompatibleTestDimensionError
 
-fun IosArgs.validate() {
+fun IosArgs.validate() = apply {
+    commonArgs.validate()
+    assertXcodeSupported()
+    assertDevicesSupported()
+    assertTestTypes()
+    assertMaxTestShards()
+    assertTestFiles()
+}
+
+fun IosArgs.validateRefresh() = apply {
+    commonArgs.validate()
     assertXcodeSupported()
     assertDevicesSupported()
     assertTestTypes()
     assertMaxTestShards()
 }
+
 private fun IosArgs.assertMaxTestShards() { this.maxTestShards
     if (
         maxTestShards !in IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE &&
@@ -31,4 +42,9 @@ private fun IosArgs.assertXcodeSupported() = when {
 private fun IosArgs.assertDevicesSupported() = devices.forEach { device ->
     if (!IosCatalog.supportedDevice(device.model, device.version, this.project))
         throw IncompatibleTestDimensionError("iOS ${device.version} on ${device.model} is not a supported device")
+}
+
+private fun IosArgs.assertTestFiles() {
+    ArgsHelper.assertFileExists(xctestrunFile, "from test")
+    ArgsHelper.assertFileExists(xctestrunZip, "from xctestrun-file")
 }

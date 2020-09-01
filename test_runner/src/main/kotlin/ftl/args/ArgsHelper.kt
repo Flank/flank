@@ -245,7 +245,10 @@ object ArgsHelper {
     }
 }
 
-fun String.processFilePath(name: String): String =
-    if (startsWith(GCS_PREFIX))
-        this.also { ArgsHelper.assertGcsFileExists(it) } else
-        ArgsHelper.evaluateFilePath(this).also { ArgsHelper.assertFileExists(it, name) }
+fun String.normalizeFilePath(): String =
+    if (startsWith(GCS_PREFIX)) this
+    else try {
+        ArgsHelper.evaluateFilePath(this)
+    } catch (e: Throwable) {
+        this
+    }

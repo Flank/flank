@@ -40,8 +40,5 @@ open class IosArgsCompanion : IArgs.ICompanion {
             config = defaultIosConfig() +
                     loadIosConfig(reader = yamlReader) +
                     cli?.config
-        ).apply {
-            commonArgs.validate()
-            this.validate()
-        }
+        )
 }
