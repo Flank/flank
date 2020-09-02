@@ -25,7 +25,7 @@ class NextReleaseTagCommandTest {
         NextReleaseTagCommand().main(arrayOf("--token=success"))
 
         // then
-        assertThat(systemOutRule.log).contains("v20.08.1")
+        assertThat(systemOutRule.log).contains("v20.09.0")
     }
 
     @Test
