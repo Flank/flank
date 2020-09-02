@@ -27,23 +27,9 @@ shadowJar.apply {
     archiveClassifier.set("")
     archiveBaseName.set(artifactID)
     mergeServiceFiles()
-    minimize {
-        exclude(dependency(Libs.KOTLIN_REFLECT))
-        exclude(dependency(Libs.JACKSON_XML))
-        exclude(dependency(Libs.JACKSON_DATABIND))
-        exclude(dependency(Libs.JACKSON_KOTLIN))
-        exclude(dependency(Libs.JACKSON_YAML))
-        exclude(dependency(Libs.GSON))
-    }
     @Suppress("UnstableApiUsage")
     manifest {
         attributes(mapOf("Main-Class" to "ftl.Main"))
-    }
-    dependencies {
-        exclude(dependency(Libs.TRUTH))
-        exclude(dependency(Libs.MOCKK))
-        exclude(dependency(Libs.JUNIT))
-        exclude(dependency(Libs.DETEKT_FORMATTING))
     }
 }
 
@@ -149,8 +135,8 @@ detekt {
 
 // Kotlin dsl
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt> {
-    // Target version of the generated JVM bytecode. It is used for type resolution.
-    this.jvmTarget = "1.8"
+        // Target version of the generated JVM bytecode. It is used for type resolution.
+        this.jvmTarget = "1.8"
 }
 
 // http://www.eclemma.org/jacoco/
@@ -185,7 +171,6 @@ application {
 repositories {
     maven(url = "http://dl.bintray.com/kotlin/ktor")
     maven(url = "https://dl.bintray.com/kotlin/kotlinx")
-    google()
     jcenter()
 }
 
@@ -200,6 +185,7 @@ tasks.withType<Test> {
 
 dependencies {
     implementation(Libs.BUGSNAG)
+
     implementation(Libs.DD_PLIST)
     implementation(Libs.DEX_TEST_PARSER)
 
