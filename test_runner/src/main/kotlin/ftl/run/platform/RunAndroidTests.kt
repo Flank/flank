@@ -19,6 +19,7 @@ import ftl.run.platform.common.beforeRunMessage
 import ftl.run.platform.common.beforeRunTests
 import ftl.run.exception.FlankGeneralError
 import ftl.shard.Chunk
+import ftl.shard.testCases
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -65,7 +66,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     println(beforeRunMessage(args, allTestShardChunks))
     TestResult(
         matrixMap = afterRunTests(testMatrices.awaitAll(), runGcsPath, stopwatch, args),
-        shardChunks = allTestShardChunks.map { it.testsList },
+        shardChunks = allTestShardChunks.testCases,
         ignoredTests = ignoredTestsShardChunks.flatten()
     )
 }

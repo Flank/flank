@@ -4,6 +4,7 @@ import ftl.args.AndroidArgs
 import ftl.run.model.AndroidMatrixTestShards
 import ftl.run.model.AndroidTestShards
 import ftl.run.model.InstrumentationTestContext
+import ftl.shard.testCases
 
 suspend fun AndroidArgs.getAndroidMatrixShards(): AndroidMatrixTestShards = this
     .createAndroidTestContexts()
@@ -15,7 +16,7 @@ private fun List<InstrumentationTestContext>.asMatrixTestShards(): AndroidMatrix
         AndroidTestShards(
             app = testApks.app.local,
             test = testApks.test.local,
-            shards = testApks.shards.map { it.testsList }.mapIndexed { index, testCases ->
+            shards = testApks.shards.testCases.mapIndexed { index, testCases ->
                 "shard-$index" to testCases
             }.toMap(),
             junitIgnored = testApks.ignoredTestCases

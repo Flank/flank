@@ -7,6 +7,7 @@ import ftl.run.common.prettyPrint
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.model.AndroidMatrixTestShards
 import ftl.run.platform.android.getAndroidMatrixShards
+import ftl.shard.testCases
 import ftl.util.obfuscatePrettyPrinter
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -35,7 +36,7 @@ fun dumpShards(
 ) {
     saveShardChunks(
         shardFilePath = shardFilePath,
-        shards = args.testShardChunks.map { it.testsList },
+        shards = args.testShardChunks.testCases,
         size = args.testShardChunks.size,
         obfuscatedOutput = obfuscatedOutput
     )

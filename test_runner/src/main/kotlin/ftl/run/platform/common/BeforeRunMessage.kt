@@ -3,11 +3,12 @@ package ftl.run.platform.common
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.shard.Chunk
+import ftl.shard.TestMethod
 
 internal fun beforeRunMessage(args: IArgs, testShardChunks: List<Chunk>): String {
     val runCount = args.repeatTests
     val shardCount = testShardChunks.size
-    val (classesCount, testsCount) = testShardChunks.flatMap { it.testMethods }.partition { it.isParameterized }.run { first.count() to second.count() }
+    val (classesCount, testsCount) = testShardChunks.partitionedTestCases.testAndClassesCount
 
     val result = StringBuilder()
     val testString = if (testsCount > 0) "$testsCount test${s(testsCount)}" else ""
@@ -29,6 +30,12 @@ internal fun beforeRunMessage(args: IArgs, testShardChunks: List<Chunk>): String
 
     return result.toString()
 }
+
+private val List<Chunk>.partitionedTestCases
+    get() = flatMap { it.testMethods }.partition { it.isParameterized }
+
+private val Pair<List<TestMethod>, List<TestMethod>>.testAndClassesCount
+    get() = first.count() to second.count()
 
 private fun s(amount: Int): String =
     if (amount > 1) "s"
