@@ -32,5 +32,5 @@ Flank is using [DEX parser](https://github.com/linkedin/dex-test-parser) to deco
 ```
 
 1. Default test time for classes should be different than default time for test
-   1. You can set default test time for class by using ```--default-class-time``` command
+   1. You can set default test time for class by using ```--default-class-test-time``` command
    2. If you did not set this time, the default value is 240s
