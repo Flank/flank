@@ -288,6 +288,7 @@ tasks.create("updateFlank", Exec::class.java) {
 }
 
 tasks.create("applyProguard", proguard.gradle.ProGuardTask::class.java) {
+    dependsOn("updateFlank")
     description = "Apply proguard to flank and create a minimized jar"
     dontwarn()
     injars("./build/libs/flank.jar")
