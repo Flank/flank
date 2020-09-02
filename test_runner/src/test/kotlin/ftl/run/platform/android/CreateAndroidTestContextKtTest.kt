@@ -31,18 +31,13 @@ class CreateAndroidTestContextKtTest {
             InstrumentationTestContext(
                 app = should { local.endsWith("app-debug.apk") },
                 test = should { local.endsWith("app-single-success-debug-androidTest.apk") },
-                shards = listOf(
-                    should { size == 1 }
-                ),
+                shards = should { size == 1 },
                 ignoredTestCases = should { size == 2 }
             ),
             InstrumentationTestContext(
                 app = should { local.endsWith("app-debug.apk") },
                 test = should { local.endsWith("app-multiple-flaky-debug-androidTest.apk") },
-                shards = listOf(
-                    should { size == 4 && testsList.contains("class com.example.test_app.ParameterizedTest") },
-                    should { size == 5 }
-                ),
+                shards = should { size == 2 },
                 ignoredTestCases = should { size == 4 }
             )
         )
@@ -57,7 +52,7 @@ class CreateAndroidTestContextKtTest {
     }
 
     @Test
-    fun `Should filter out methods by distinct name`() {
+    fun `should filter out methods by distinct name`() {
         // given
         val testInstrumentationContext = InstrumentationTestContext(
             FileReference("./src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk", ""),
