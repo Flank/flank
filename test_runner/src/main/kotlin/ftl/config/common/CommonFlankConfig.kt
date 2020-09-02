@@ -184,7 +184,8 @@ data class CommonFlankConfig @JsonIgnore constructor(
             "full-junit-result",
             "local-result-dir",
             "default-test-time",
-            "default-class-test-time"
+            "default-class-test-time",
+            "local-result-dir"
         )
 
         const val defaultLocalResultsDir = "results"
