@@ -1,13 +1,3 @@
-## v20.09.0
-### Bug Fixes
-- [#1080](https://github.com/Flank/flank/pull/1080) Flaky Flank-scripts test ([Sloox](https://github.com/Sloox))
-- [#1079](https://github.com/Flank/flank/pull/1079) Fix slack notification in slack ([Sloox](https://github.com/Sloox))
-- [#1054](https://github.com/Flank/flank/pull/1054) Firebase refresh fails when test zip file doesn't exist (#1052) ([axelzuziak-gogo](https://github.com/axelzuziak-gogo), [jan-gogo](https://github.com/jan-gogo))
-- [#1070](https://github.com/Flank/flank/pull/1070) Avoid fast fail while creating a bucket ([adamfilipow92](https://github.com/adamfilipow92))
-- [#1066](https://github.com/Flank/flank/pull/1066) Bad validation of `local-result-dir` by Doctor ([piotradamczyk5](https://github.com/piotradamczyk5))
-### CI Changes
-- [#1058](https://github.com/Flank/flank/pull/1058) Post slack message about releases ([Sloox](https://github.com/Sloox))
-
 ## v20.08.4
 ### Features
 - [#1056](https://github.com/Flank/flank/pull/1056) Added validation of smart-flank-gcs-path to not override different junit results ([adamfilipow92](https://github.com/adamfilipow92))
