@@ -120,4 +120,4 @@ jobs:
           slack-bot-user-oauth-access-token: ${{ secrets.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN }}
           slack-channel: flank_test_channel
           slack-optional-icon_emoji: ":fire:"  
-          slack-text: <http://github.com/Flank/flank/releases/tag/${{ $RELEASE_TAG }}|Flank "${{ $RELEASE_TAG }}" > is released \n ${{ $(echo $RELEASE_NOTES) }}
+          slack-text: <http://github.com/Flank/flank/releases/tag/${{ env.RELEASE_TAG }}|Flank "${{ env.RELEASE_TAG }}" > is released \n ${{ env.RELEASE_NOTES }}
