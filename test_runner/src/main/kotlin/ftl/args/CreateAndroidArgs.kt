@@ -13,26 +13,26 @@ fun createAndroidArgs(
 ) = AndroidArgs(
     commonArgs = commonArgs,
     // gcloud
-    appApk = gcloud.app?.processFilePath("from app"),
-    testApk = gcloud.test?.processFilePath("from test"),
+    appApk = gcloud.app?.normalizeFilePath(),
+    testApk = gcloud.test?.normalizeFilePath(),
     useOrchestrator = gcloud.useOrchestrator!!,
     testTargets = gcloud.testTargets!!.filterNotNull(),
     testRunnerClass = gcloud.testRunnerClass,
     roboDirectives = gcloud.roboDirectives!!.parseRoboDirectives(),
     performanceMetrics = gcloud.performanceMetrics!!,
-    otherFiles = gcloud.otherFiles!!.mapValues { (_, path) -> path.processFilePath("from otherFiles") },
+    otherFiles = gcloud.otherFiles!!.mapValues { (_, path) -> path.normalizeFilePath() },
     numUniformShards = gcloud.numUniformShards,
     environmentVariables = gcloud.environmentVariables!!,
     directoriesToPull = gcloud.directoriesToPull!!,
     autoGoogleLogin = gcloud.autoGoogleLogin!!,
-    additionalApks = gcloud.additionalApks!!.map { it.processFilePath("from additional-apks") },
-    roboScript = gcloud.roboScript?.processFilePath("from roboScript"),
+    additionalApks = gcloud.additionalApks!!.map { it.normalizeFilePath() },
+    roboScript = gcloud.roboScript?.normalizeFilePath(),
 
     // flank
     additionalAppTestApks = flank.additionalAppTestApks?.map { (app, test) ->
         AppTestPair(
-            app = app?.processFilePath("from additional-app-test-apks.app"),
-            test = test.processFilePath("from additional-app-test-apks.test")
+            app = app?.normalizeFilePath(),
+            test = test.normalizeFilePath()
         )
     } ?: emptyList(),
     useLegacyJUnitResult = flank.useLegacyJUnitResult!!

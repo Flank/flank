@@ -100,11 +100,11 @@ Configuration is read from flank.yml
 *--num-flaky-test-attempts*=_<flakyTestAttempts>_::
   The number of times a TestExecution should be re-attempted if one or more of its test cases fail for any reason. The maximum number of reruns allowed is 10. Default is 0, which implies no reruns.
 
-*--max-test-shards*=_<maxTestShards>_::
-  The amount of matrices to split the tests across.
-
 *--shard-time*=_<shardTime>_::
   The max amount of seconds each shard should run.
+
+*--max-test-shards*=_<maxTestShards>_::
+  The amount of matrices to split the tests across.
 
 *--num-test-runs*=_<repeatTests>_::
   The amount of times to run the test executions.

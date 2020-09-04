@@ -11,25 +11,16 @@ import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.IncompatibleTestDimensionError
 import java.io.File
 
-fun AndroidArgs.validate() {
-    assertAdditionalAppTestApks()
+fun AndroidArgs.validate() = apply {
+    commonArgs.validate()
     assertDevicesSupported()
     assertShards()
     assertTestTypes()
-    assertRoboTest()
     assertDirectoriesToPull()
     assertMaxTestShardsByDeviceType()
     assertParametersConflict()
-}
-
-private fun AndroidArgs.assertAdditionalAppTestApks() {
-    if (appApk == null) additionalAppTestApks
-        .filter { (app, _) -> app == null }
-        .map { File(it.test).name }
-        .run {
-            if (isNotEmpty())
-                throw FlankConfigurationError("Cannot resolve app apk pair for $this")
-        }
+    assertTestFiles()
+    assertOtherFiles()
 }
 
 private fun AndroidArgs.assertDevicesSupported() = devices
@@ -57,13 +48,6 @@ private fun AndroidArgs.assertTestTypes() {
     )
 }
 
-private fun AndroidArgs.assertRoboTest() {
-    // Using both roboDirectives and roboScript may hang test execution on FTL
-    if (roboDirectives.isNotEmpty() && roboScript != null) throw FlankConfigurationError(
-        "Options robo-directives and robo-script are mutually exclusive, use only one of them."
-    )
-}
-
 // Validation is done according to https://cloud.google.com/sdk/gcloud/reference/firebase/test/android/run#--directories-to-pull
 private fun AndroidArgs.assertDirectoriesToPull() {
     val correctNameRegex = "(/[a-zA-Z0-9_\\-.+]+)+/?".toRegex()
@@ -73,8 +57,8 @@ private fun AndroidArgs.assertDirectoriesToPull() {
         ?.also {
             throw FlankConfigurationError(
                 "Invalid value for [directories-to-pull]: Invalid path $it.\n" +
-                        "Path must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2).\n" +
-                        "Path names are restricted to the characters [a-zA-Z0-9_-./+]. "
+                    "Path must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2).\n" +
+                    "Path names are restricted to the characters [a-zA-Z0-9_-./+]. "
             )
         }
 }
@@ -104,4 +88,54 @@ private fun AndroidArgs.throwMaxTestShardsLimitExceeded(): Nothing {
 private fun AndroidArgs.assertParametersConflict() {
     if (useLegacyJUnitResult && fullJUnitResult)
         throw FlankConfigurationError("Parameters conflict, you cannot set: `--legacy-junit-result` and `--full-junit-result` at the same time.")
+}
+
+private fun AndroidArgs.assertTestFiles() {
+    if (isInstrumentationTest) assertInstrumentationTest()
+    if (isRoboTest) assertRoboTest()
+}
+
+private fun AndroidArgs.assertInstrumentationTest() {
+    assertAdditionalAppTestApks()
+    assertApkFilePaths()
+}
+
+private fun AndroidArgs.assertAdditionalAppTestApks() {
+    if (appApk == null) additionalAppTestApks
+        .filter { (app, _) -> app == null }
+        .map { File(it.test).name }
+        .run { if (isNotEmpty()) throw FlankConfigurationError("Cannot resolve app apk pair for $this") }
+}
+
+private fun AndroidArgs.assertApkFilePaths() {
+    appApkPath().forEach { (file, comment) ->
+        ArgsHelper.assertFileExists(file, comment)
+    }
+}
+
+private fun AndroidArgs.appApkPath(): Map<String, String> =
+    mapOf(
+        appApk to "from app",
+        testApk to "from test"
+    ).filterNotNull() + additionalAppTestApks.fold(emptyMap<String, String>()) { acc, pair ->
+        acc + mapOf(
+            pair.app to "from additional-app-test-apks.app",
+            pair.test to "from additional-app-test-apks.test"
+        ).filterNotNull()
+    }
+
+private fun Map<String?, String>.filterNotNull() = filter { it.key != null }.mapKeys { it.key!! }
+
+private fun AndroidArgs.assertRoboTest() {
+    // Using both roboDirectives and roboScript may hang test execution on FTL
+    if (roboDirectives.isNotEmpty() && roboScript != null) throw FlankConfigurationError(
+        "Options robo-directives and robo-script are mutually exclusive, use only one of them."
+    )
+    if (roboScript != null)
+        ArgsHelper.assertFileExists(roboScript.toString(), "from roboScript")
+    ArgsHelper.assertFileExists(appApk.toString(), "from app")
+}
+
+private fun AndroidArgs.assertOtherFiles() {
+    otherFiles.forEach { (_, path) -> ArgsHelper.assertFileExists(path, "from otherFiles") }
 }
