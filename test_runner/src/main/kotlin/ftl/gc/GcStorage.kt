@@ -174,10 +174,4 @@ object GcStorage {
             outputFile.path
         }
     }
-
-    fun exist(
-        rootGcsBucket: String,
-        runGcsPath: String,
-        storage: Storage = GcStorage.storage
-    ) = storage.list(rootGcsBucket, pageSize(1), prefix("$runGcsPath/")).values.count() > 0
 }
