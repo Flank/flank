@@ -232,6 +232,7 @@ class ReportManagerTest {
         assertEquals("2020-08-06_12-08-55.641213_jGpY/matrix_0", legacyPath.getMatrixPath("2020-08-06_12-08-55.641213_jGpY"))
         assertEquals("test_dir/shard_0", iosPath.getMatrixPath("test_dir"))
     }
+
     @Test
     fun `shouldn't contains multiple test_dir in MatrixPath`() {
         val path = File("results/test_dir/test_dir/shard_0/iphone8-12.0-en-portrait/test_result_0.xml")
