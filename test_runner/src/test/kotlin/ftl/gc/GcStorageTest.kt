@@ -1,6 +1,5 @@
 package ftl.gc
 
-import com.google.cloud.storage.Storage
 import ftl.args.AndroidArgs
 import ftl.test.util.FlankTestRunner
 import io.mockk.every
@@ -8,8 +7,6 @@ import io.mockk.mockk
 import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Assert
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 
