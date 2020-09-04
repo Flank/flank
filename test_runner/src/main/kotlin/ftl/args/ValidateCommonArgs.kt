@@ -14,7 +14,6 @@ fun CommonArgs.validate() {
     assertRepeatTests()
     assertSmartFlankGcsPath()
     assertOrientationCorrectness()
-    assertResultDirUnique()
 }
 
 private fun List<Device>.devicesWithMispeltOrientations(availableOrientations: List<String>) =
@@ -67,9 +66,4 @@ private fun CommonArgs.assertSmartFlankGcsPath() = with(smartFlankGcsPath) {
             "smart-flank-gcs-path is set with ${JUnitReport.fileName()} but in this run --full-junit-result enabled, please turn off --full-junit-result flag"
         )
     }
-}
-
-private fun CommonArgs.assertResultDirUnique() {
-    if (GcStorage.exist(resultsBucket, resultsDir))
-        throw FlankConfigurationError("Google cloud storage result directory should be unique.")
 }
