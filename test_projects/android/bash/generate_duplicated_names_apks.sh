@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo "DEPRECATED!!!"
+
 set -euxo pipefail
 
 DIR=`dirname "$BASH_SOURCE"`

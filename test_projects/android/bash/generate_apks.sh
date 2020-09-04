@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo "DEPRECATED!!!"
+
 set -euxo pipefail
 
 APK_OUTPUT=$1
