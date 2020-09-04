@@ -2,7 +2,6 @@ package ftl.args
 
 import ftl.config.Device
 import ftl.config.FtlConstants
-import ftl.gc.GcStorage
 import ftl.reports.FullJUnitReport
 import ftl.reports.JUnitReport
 import ftl.run.exception.FlankConfigurationError
