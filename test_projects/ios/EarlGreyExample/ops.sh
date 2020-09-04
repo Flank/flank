@@ -3,8 +3,7 @@
 function setup_ios_env() {
   local dir=$(dirname "$BASH_SOURCE")
   gem install cocoapods
-  cd "$dir"
-  pod install
+  (cd "$dir" && pod install)
 }
 
 function earl_grey_example() {
