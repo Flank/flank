@@ -4,8 +4,7 @@ function base_app_apk() {
   local dir=$(dirname "$BASH_SOURCE")
   local outputDir="$FLANK_FIXTURES_TMP/apk"
 
-  for arg in "$@"; do
-    case "$arg" in
+  for arg in "$@"; do case "$arg" in
 
     '--generate' | '-g')
       "$dir/gradlew" -p "$dir" app:assemble
@@ -19,16 +18,14 @@ function base_app_apk() {
       cp "$apkIn" "$apkOut"
       ;;
 
-    esac
-  done
+    esac done
 }
 
 # depends on base_app_apk
 function base_test_apks() {
   local dir=$(dirname "$BASH_SOURCE")
 
-  for arg in "$@"; do
-    case "$arg" in
+  for arg in "$@"; do case "$arg" in
 
     '--generate' | '-g')
       "$dir/gradlew" -p "$dir" app:assembleAndroidTest
@@ -42,16 +39,14 @@ function base_test_apks() {
       cp $testIn $outputDir/
       ;;
 
-    esac
-  done
+    esac done
 }
 
 # depends on base_app_apk
 function duplicated_names_apks() {
   local dir=$(dirname "$BASH_SOURCE")
 
-  for arg in "$@"; do
-    case "$arg" in
+  for arg in "$@"; do case "$arg" in
 
     '--generate' | '-g')
       "$dir/gradlew" -p "$dir" \
@@ -76,16 +71,15 @@ function duplicated_names_apks() {
         cp "$dir/$moduleName"/testModule/build/outputs/apk/**/debug/*.apk "$apkDir"
       done
       ;;
-    esac
-  done
+
+    esac done
 }
 
 function multi_module_apks() {
   local dir=$(dirname "$BASH_SOURCE")
   local outputDir="$FLANK_FIXTURES_TMP/apk/multi-modules/"
 
-  for arg in "$@"; do
-    case "$arg" in
+  for arg in "$@"; do case "$arg" in
 
     '--generate' | '-g')
       "$dir/gradlew" -p "$dir" \
@@ -117,8 +111,7 @@ function multi_module_apks() {
       find "$dir/multi-modules" -type f -name "*.apk" -exec cp {} "$outputDir" \;
       ;;
 
-    esac
-  done
+    esac done
 }
 
 echo "Android test projects ops loaded"

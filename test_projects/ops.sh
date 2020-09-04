@@ -7,8 +7,7 @@ dir="$(dirname "$BASH_SOURCE")"
 
 function update_test_artifacts() {
 
-  for arg in "$@"; do
-    case "$arg" in
+  for arg in "$@"; do case "$arg" in
 
     android)
       base_app_apk --generate --copy
@@ -27,6 +26,6 @@ function update_test_artifacts() {
     all)
       update_test_artifacts android ios go
       ;;
-    esac
-  done
+
+    esac done
 }

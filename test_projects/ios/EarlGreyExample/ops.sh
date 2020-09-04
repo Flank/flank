@@ -8,8 +8,7 @@ function setup_ios_env() {
 
 function earl_grey_example() {
   local dir=$(dirname "$BASH_SOURCE")
-  for arg in "$@"; do
-    case "$arg" in
+  for arg in "$@"; do case "$arg" in
 
     '--generate' | '-g')
       "$dir/build_example.sh"
@@ -19,14 +18,12 @@ function earl_grey_example() {
       echo "TODO"
       ;;
 
-    esac
-  done
+    esac done
 }
 
 function earl_grey_ftl() {
   local dir=$(dirname "$BASH_SOURCE")
-  for arg in "$@"; do
-    case "$arg" in
+  for arg in "$@"; do case "$arg" in
 
     '--generate' | '-g')
       "$dir/build_ftl.sh"
@@ -36,8 +33,7 @@ function earl_grey_ftl() {
       echo "--copy TODO"
       ;;
 
-    esac
-  done
+    esac done
 }
 
 function universal_framework() {
