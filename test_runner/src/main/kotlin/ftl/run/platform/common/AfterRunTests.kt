@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -49,7 +50,7 @@ private fun saveConfigFile(matrixMap: MatrixMap, args: IArgs) {
     Files.write(configFilePath, args.data.toByteArray())
 }
 
-private suspend inline fun MatrixMap.printMatricesWebLinks(project: String) = coroutineScope {
+internal suspend inline fun MatrixMap.printMatricesWebLinks(project: String) = coroutineScope {
     println("Matrices webLink")
     map.values.map {
         launch(Dispatchers.IO) {

@@ -3,14 +3,17 @@ package ftl.run
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
+import ftl.config.FtlConstants
 import ftl.json.SavedMatrix
 import ftl.json.updateMatrixMap
 import ftl.reports.util.ReportManager
 import ftl.run.common.fetchArtifacts
 import ftl.run.common.pollMatrices
+import ftl.run.exception.FlankException
 import ftl.run.exception.FlankGeneralError
 import ftl.run.exception.FlankTimeoutError
 import ftl.run.model.TestResult
+import ftl.run.platform.common.printMatricesWebLinks
 import ftl.run.platform.runAndroidTests
 import ftl.run.platform.runIosTests
 import kotlinx.coroutines.TimeoutCancellationException
@@ -23,8 +26,14 @@ suspend fun newTestRun(args: IArgs) = withTimeoutOrNull(args.parsedTimeout) {
     if (!args.async) {
         cancelTestsOnTimeout(args.project, matrixMap.map) { pollMatrices(matrixMap.map.keys, args).updateMatrixMap(matrixMap) }
         cancelTestsOnTimeout(args.project, matrixMap.map) { fetchArtifacts(matrixMap, args) }
-
-        ReportManager.generate(matrixMap, args, testShardChunks, ignoredTests)
+        runCatching {
+            ReportManager.generate(matrixMap, args, testShardChunks, ignoredTests)
+        }.apply {
+            println()
+            matrixMap.printMatricesWebLinks(args.project)
+        }.recover {
+            throw it
+        }
     }
 }
 
