@@ -33,8 +33,8 @@ object ReportManager {
         args: IArgs
     ) = File(resolveLocalRunPath(matrices, args)).walk()
         .filter { it.name.matches(Artifacts.testResultRgx) }
-        .fold(mutableListOf<File>()) { xmlFiles, file ->
-            xmlFiles.apply { add(file) }
+        .fold(listOf<File>()) { xmlFiles, file ->
+            xmlFiles + file
         }
 
     private fun getWebLink(matrices: MatrixMap, xmlFile: File): String =
