@@ -80,7 +80,7 @@ class GenericTestRunnerTest {
     @Test
     fun `should print tests + class per shard`() {
         val expected = """
-            10 tests + 3 classes / 2 shards
+            10 tests + 3 parameterized classes / 2 shards
         """.trimIndent()
 
         val result = beforeRunMessage(
@@ -112,7 +112,7 @@ class GenericTestRunnerTest {
     @Test
     fun `should print class per shard`() {
         val expected = """
-            3 classes / 2 shards
+            3 parameterized classes / 2 shards
         """.trimIndent()
 
         val result = beforeRunMessage(
@@ -134,11 +134,11 @@ class GenericTestRunnerTest {
     @Test
     fun `should print tests + class per shard with multiple run`() {
         val expected = """
-            10 tests + 3 classes / 2 shards
+            10 tests + 3 parameterized classes / 2 shards
             Running 10x
               20 total shards
               100 total tests
-              30 total classes
+              30 total parameterized classes
         """.trimIndent()
 
         val result = beforeRunMessage(
@@ -170,10 +170,10 @@ class GenericTestRunnerTest {
     @Test
     fun `should print class per shard with multiple run`() {
         val expected = """
-            3 classes / 2 shards
+            3 parameterized classes / 2 shards
             Running 10x
               20 total shards
-              30 total classes
+              30 total parameterized classes
         """.trimIndent()
 
         val result = beforeRunMessage(
