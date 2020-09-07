@@ -12,7 +12,7 @@ internal fun beforeRunMessage(args: IArgs, testShardChunks: List<Chunk>): String
 
     val result = StringBuilder()
     val testString = if (testsCount > 0) "$testsCount test${s(testsCount)}" else ""
-    val classString = if (classesCount > 0) "$classesCount class${es(classesCount)}" else ""
+    val classString = if (classesCount > 0) "$classesCount parameterized class${es(classesCount)}" else ""
 
     result.appendLine(
         "${FtlConstants.indent}$testString${if (testsCount * classesCount > 0) " + " else ""}$classString / $shardCount shard${s(shardCount)}"
@@ -25,7 +25,7 @@ internal fun beforeRunMessage(args: IArgs, testShardChunks: List<Chunk>): String
         val runClasses = runCount * classesCount
         result.appendLine("    $runDevices total shard${s(runDevices)}")
         if (runTests > 0) result.appendLine("    $runTests total test${s(runTests)}")
-        if (runClasses > 0) result.appendLine("    $runClasses total class${es(runClasses)}")
+        if (runClasses > 0) result.appendLine("    $runClasses total parameterized class${es(runClasses)}")
     }
 
     return result.toString()
