@@ -20,7 +20,7 @@ function update_test_artifacts() {
       ;;
 
     go)
-      echo "TODO"
+      cp -R "$dir/gohello" "$FLANK_FIXTURES_TMP/"
       ;;
 
     all)
