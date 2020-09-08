@@ -15,6 +15,8 @@ import ftl.run.common.updateMatrixFile
 import ftl.args.ShardChunks
 import ftl.json.needsUpdate
 import ftl.json.updateWithMatrix
+import ftl.json.validate
+import ftl.run.platform.common.printMatricesWebLinks
 import ftl.util.MatrixState
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
@@ -33,6 +35,8 @@ suspend fun refreshLastRun(currentArgs: IArgs, testShardChunks: ShardChunks) {
 
     // Must generate reports *after* fetching xml artifacts since reports require xml
     ReportManager.generate(matrixMap, lastArgs, testShardChunks)
+
+    matrixMap.validate(lastArgs.ignoreFailedTests)
 }
 
 /** Refresh all in progress matrices in parallel **/

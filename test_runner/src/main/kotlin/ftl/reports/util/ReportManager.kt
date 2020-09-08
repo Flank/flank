@@ -117,7 +117,6 @@ object ReportManager {
             args.useLegacyJUnitResult -> processJunitXml(testSuite, args, testShardChunks)
             else -> processJunitXml(testSuite, args, testShardChunks)
         }
-        matrices.validate(args.ignoreFailedTests)
     }
 
     private fun IgnoredTestCases.toJunitTestsResults() = getSkippedJUnitTestSuite(map {
