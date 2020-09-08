@@ -42,6 +42,10 @@ object ArgsHelper {
     }
 
     fun assertFileExists(file: String, name: String) {
+        // flank can't detect (for now) if files exists on GCS, therefore we want to skip validation
+        // todo https://github.com/Flank/flank/issues/1099
+        if (file.startsWith(GCS_PREFIX)) return
+
         if (!File(file).exists()) {
             throw FlankGeneralError("'$file' $name doesn't exist")
         }
