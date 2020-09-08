@@ -32,7 +32,6 @@ suspend fun newTestRun(args: IArgs) = withTimeoutOrNull(args.parsedTimeout) {
         matrixMap.printMatricesWebLinks(args.project)
 
         matrixMap.validate(args.ignoreFailedTests)
-
     }
 }
 

@@ -8,7 +8,6 @@ import ftl.args.ShardChunks
 import ftl.gc.GcStorage
 import ftl.json.MatrixMap
 import ftl.json.isAllSuccessful
-import ftl.json.validate
 import ftl.reports.CostReport
 import ftl.reports.FullJUnitReport
 import ftl.reports.HtmlErrorReport
