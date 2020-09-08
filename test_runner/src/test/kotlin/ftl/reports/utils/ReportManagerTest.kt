@@ -3,6 +3,7 @@ package ftl.reports.utils
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.gc.GcStorage
+import ftl.json.validate
 import ftl.reports.CostReport
 import ftl.reports.FullJUnitReport
 import ftl.reports.JUnitReport
@@ -52,6 +53,7 @@ class ReportManagerTest {
         every { mockArgs.smartFlankGcsPath } returns ""
         every { mockArgs.useLegacyJUnitResult } returns true
         ReportManager.generate(matrix, mockArgs, emptyList())
+        matrix.validate()
     }
 
     @Test
