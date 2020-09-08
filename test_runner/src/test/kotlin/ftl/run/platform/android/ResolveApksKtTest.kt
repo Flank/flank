@@ -7,10 +7,15 @@ import ftl.run.exception.FlankGeneralError
 import ftl.util.asFileReference
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.unmockkAll
+import org.junit.After
 import org.junit.Assert.assertArrayEquals
 import org.junit.Test
 
 class ResolveApksKtTest {
+
+    @After
+    fun tearDown() = unmockkAll()
 
     @Test
     fun `should resolve apks from global app and test`() {
