@@ -16,9 +16,9 @@ See [docs/error_monitoring.md](./docs/error_monitoring.md) to disable Bugsnag er
 
 ### Contributing
 
-- Install JDK:
-  - [Oracle](https://www.oracle.com/java/technologies/javase-downloads.html)
-  - [OpenJDK](https://openjdk.java.net/)
+- Install JDK 11:
+  - [Oracle](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+  - [OpenJDK](https://jdk.java.net/11/)
 - Use [JetBrains Toolbox](https://www.jetbrains.com/toolbox/app/) to install `IntelliJ IDEA Community`
 - Clone the repo `git clone --recursive https://github.com/Flank/flank.git`
   - `git submodule update --init --recursive` updates the submodules
