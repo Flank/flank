@@ -200,6 +200,9 @@ object ReportManager {
 }
 
 private fun String.findMatrixPath(matrices: MatrixMap) = matrices.map.values
-    .firstOrNull { savedMatrix -> savedMatrix.gcsPath.endsWith(this) }
+    .firstOrNull { savedMatrix -> savedMatrix.gcsPath.endsWithTextWithOptionalSlashAtTheEnd(this) }
     ?.webLink
     ?: "".also { println("WARNING: Matrix path not found in JSON. $this") }
+
+@VisibleForTesting
+internal fun String.endsWithTextWithOptionalSlashAtTheEnd(text: String) = "($text)/*$".toRegex().containsMatchIn(this)
