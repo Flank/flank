@@ -83,5 +83,7 @@ val AndroidArgs.isInstrumentationTest
             (appApk != null || additionalAppTestApks.all { (app, _) -> app != null })
 
 val AndroidArgs.isRoboTest
-    get() = appApk != null &&
-            (roboDirectives.isNotEmpty() || roboScript != null)
+    get() = if (appApk != null) {
+        if (roboDirectives.isEmpty() && roboScript == null && isInstrumentationTest.not()) println("None of test (app), robo-directives, robo-script specified -- simple sanity robo test added")
+        true
+    } else false
