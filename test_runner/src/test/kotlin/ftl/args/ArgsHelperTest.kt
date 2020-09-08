@@ -215,4 +215,9 @@ class ArgsHelperTest {
             assertCommonProps(args)
         }
     }
+
+    @Test
+    fun `should not throw an error if apk exists on gcs instead of local fs`() {
+        assertFileExists("gs://any-bucket/any-file.apk", "from apk")
+    }
 }
