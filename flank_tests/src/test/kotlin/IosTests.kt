@@ -11,7 +11,7 @@ class IosTests {
         """IosArgs.*?gcloud:.*?flank:.*?RunTests.*?Matrices webLink.*?matrix-.*?FetchArtifacts.*?Updating matrix file.*?CostReport.*?MatrixResultsReport.*?test cases passed.*?Uploading JUnitReport.xml ."""
 
     @Test
-    fun `should run flank with android tests`() {
+    fun `should run flank with ios tests`() {
         val actual =
             FlankCommand(flankPath, ymlPath, iOSRunParams).run(workingDirectory)
         val expectedExitCode = 0
