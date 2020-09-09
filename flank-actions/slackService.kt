@@ -8,16 +8,12 @@ fun sendMessage(args: Array<String>): Int{
     val message = args[Common.ARGS_MESSAGE]
     val cookie = args.copyOfRange(Common.ARGS_COOKIE, args.lastIndex).joinToString(" ")
 
-    debug("Sending message:$message to channel:$channel with token: $token with cookie:$cookie")
-
     return try {
         val (req, rep, res) = Fuel.get(Common.URL_SLACK, 
             listOf("token" to token,"channel" to channel,"text" to message))
             .header(Headers.COOKIE to cookie)
             .responseString()
 
-        debug("Request: $req")
-        debug("Reponse: $rep")
         debug("Result: $res")
         Common.EXIT_CODE_SUCCESS
     }

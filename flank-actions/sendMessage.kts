@@ -8,8 +8,8 @@ import kotlin.system.exitProcess
 
 val result = sendMessage(args)
 
+println("Message has been sent with result $result")
+
 if (result != 0){
     exitProcess(result)
 }
-
-println("Message has been sent with result $result")
