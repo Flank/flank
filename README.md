@@ -16,7 +16,7 @@ See [docs/error_monitoring.md](./docs/error_monitoring.md) to disable Bugsnag er
 
 ### Contributing
 
-- Install JDK 11:
+- Install JDK 11 (it works also correctly on previous version, newer version are not guaranteed to works properly):
   - [Oracle](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
   - [OpenJDK](https://jdk.java.net/11/)
 - Use [JetBrains Toolbox](https://www.jetbrains.com/toolbox/app/) to install `IntelliJ IDEA Community`
