@@ -8,7 +8,6 @@ import ftl.args.ShardChunks
 import ftl.gc.GcStorage
 import ftl.json.MatrixMap
 import ftl.json.isAllSuccessful
-import ftl.json.validate
 import ftl.reports.CostReport
 import ftl.reports.FullJUnitReport
 import ftl.reports.HtmlErrorReport
@@ -117,7 +116,6 @@ object ReportManager {
             args.useLegacyJUnitResult -> processJunitXml(testSuite, args, testShardChunks)
             else -> processJunitXml(testSuite, args, testShardChunks)
         }
-        matrices.validate(args.ignoreFailedTests)
     }
 
     private fun IgnoredTestCases.toJunitTestsResults() = getSkippedJUnitTestSuite(map {
