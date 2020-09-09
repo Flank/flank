@@ -28,21 +28,19 @@ import kotlin.math.roundToInt
 
 object ReportManager {
 
-    private fun findXmlFiles(matrices: MatrixMap, args: IArgs): List<File> {
-        val xmlFiles = mutableListOf<File>()
-        val rootFolder = File(resolveLocalRunPath(matrices, args))
-
-        rootFolder.walk().forEach {
-            if (it.name.matches(Artifacts.testResultRgx)) {
-                xmlFiles.add(it)
-            }
+    private fun findXmlFiles(
+        matrices: MatrixMap,
+        args: IArgs
+    ) = File(resolveLocalRunPath(matrices, args)).walk()
+        .filter { it.name.matches(Artifacts.testResultRgx) }
+        .fold(listOf<File>()) { xmlFiles, file ->
+            xmlFiles + file
         }
 
-        return xmlFiles
-    }
-
-    private fun getWebLink(matrices: MatrixMap, xmlFile: File): String = xmlFile.getMatrixPath(matrices.runPath)
-        ?.findMatrixPath(matrices) ?: "".also { println("WARNING: Matrix path not found in JSON.") }
+    private fun getWebLink(matrices: MatrixMap, xmlFile: File): String =
+        xmlFile.getMatrixPath(matrices.runPath)
+            ?.findMatrixPath(matrices)
+            ?: "".also { println("WARNING: Matrix path not found in JSON.") }
 
     private val deviceStringRgx = Regex("([^-]+-[^-]+-[^-]+-[^-]+).*")
 
@@ -201,6 +199,10 @@ object ReportManager {
     }
 }
 
-private fun String.findMatrixPath(matrices: MatrixMap) =
-    matrices.map.values.firstOrNull { savedMatrix -> savedMatrix.gcsPath.endsWith(this) }?.webLink
-        ?: "".also { println("WARNING: Matrix path not found in JSON. $this") }
+private fun String.findMatrixPath(matrices: MatrixMap) = matrices.map.values
+    .firstOrNull { savedMatrix -> savedMatrix.gcsPath.endsWithTextWithOptionalSlashAtTheEnd(this) }
+    ?.webLink
+    ?: "".also { println("WARNING: Matrix path not found in JSON. $this") }
+
+@VisibleForTesting
+internal fun String.endsWithTextWithOptionalSlashAtTheEnd(text: String) = "($text)/*$".toRegex().containsMatchIn(this)

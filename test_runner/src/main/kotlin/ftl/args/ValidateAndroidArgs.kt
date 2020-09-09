@@ -21,6 +21,7 @@ fun AndroidArgs.validate() = apply {
     assertParametersConflict()
     assertTestFiles()
     assertOtherFiles()
+    checkResultsDirUnique()
 }
 
 private fun AndroidArgs.assertDevicesSupported() = devices

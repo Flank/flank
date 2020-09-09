@@ -2,6 +2,7 @@ package ftl.args
 
 import ftl.config.Device
 import ftl.config.FtlConstants
+import ftl.gc.GcStorage
 import ftl.reports.FullJUnitReport
 import ftl.reports.JUnitReport
 import ftl.run.exception.FlankConfigurationError
@@ -28,8 +29,8 @@ private fun List<Device>.throwIfAnyMisspelt() =
 private fun CommonArgs.assertProjectId() {
     if (project.isEmpty()) throw FlankConfigurationError(
         "The project is not set. Define GOOGLE_CLOUD_PROJECT, set project in flank.yml\n" +
-            "or save service account credential to ${FtlConstants.defaultCredentialPath}\n" +
-            " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
+                "or save service account credential to ${FtlConstants.defaultCredentialPath}\n" +
+                " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
     )
 }
 
@@ -65,4 +66,9 @@ private fun CommonArgs.assertSmartFlankGcsPath() = with(smartFlankGcsPath) {
             "smart-flank-gcs-path is set with ${JUnitReport.fileName()} but in this run --full-junit-result enabled, please turn off --full-junit-result flag"
         )
     }
+}
+
+fun IArgs.checkResultsDirUnique() {
+    if (useLegacyJUnitResult && GcStorage.exist(resultsBucket, resultsDir))
+        println("WARNING: Google cloud storage result directory should be unique, otherwise results from multiple test matrices will be overwritten or intermingled\n")
 }
