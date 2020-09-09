@@ -55,7 +55,7 @@ private fun InstrumentationTestContext.calculateShards(
     forcedShardCount = args.numUniformShards
 ).run {
     copy(
-        shards = shardChunks.filter { it.isNotEmpty() },
+        shards = shardChunks.filter { it.testMethods.isNotEmpty() },
         ignoredTestCases = ignoredTestCases
     )
 }
@@ -86,7 +86,7 @@ private val ignoredAnnotations = listOf(
     "android.support.test.filters.Suppress"
 )
 
-private fun String.toFlankTestMethod() = FlankTestMethod("class $this", ignored = false)
+private fun String.toFlankTestMethod() = FlankTestMethod("class $this", ignored = false, isParameterizedClass = true)
 
 private fun InstrumentationTestContext.getParametrizedClasses(): List<String> =
     DexParser.readDexFiles(test.local).fold(emptyList()) { accumulator, file: DexFile ->
