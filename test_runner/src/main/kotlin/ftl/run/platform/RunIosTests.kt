@@ -13,6 +13,7 @@ import ftl.run.model.TestResult
 import ftl.run.platform.common.afterRunTests
 import ftl.run.platform.common.beforeRunMessage
 import ftl.run.platform.common.beforeRunTests
+import ftl.shard.testCases
 import ftl.util.ShardCounter
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
@@ -47,7 +48,7 @@ internal suspend fun runIosTests(iosArgs: IosArgs): TestResult = coroutineScope 
                     iosDeviceList = iosDeviceList,
                     testZipGcsPath = xcTestGcsPath,
                     runGcsPath = runGcsPath,
-                    testTargets = testTargets,
+                    testTargets = testTargets.testMethodNames,
                     xcTestParsed = xcTestParsed,
                     args = iosArgs,
                     shardCounter = shardCounter,
@@ -59,7 +60,7 @@ internal suspend fun runIosTests(iosArgs: IosArgs): TestResult = coroutineScope 
 
     TestResult(
         matrixMap = afterRunTests(jobs.awaitAll(), runGcsPath, stopwatch, iosArgs),
-        shardChunks = iosArgs.testShardChunks
+        shardChunks = iosArgs.testShardChunks.testCases
     )
 }
 

@@ -3,6 +3,8 @@ package ftl.gc
 import com.google.api.client.http.GoogleApiLogger
 import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.Storage
+import com.google.cloud.storage.Storage.BlobListOption.pageSize
+import com.google.cloud.storage.Storage.BlobListOption.prefix
 import com.google.cloud.storage.StorageOptions
 import com.google.cloud.storage.contrib.nio.testing.LocalStorageHelper
 import com.google.common.annotations.VisibleForTesting
@@ -172,4 +174,10 @@ object GcStorage {
             outputFile.path
         }
     }
+
+    fun exist(
+        rootGcsBucket: String,
+        runGcsPath: String,
+        storage: Storage = GcStorage.storage
+    ) = storage.list(rootGcsBucket, pageSize(1), prefix("$runGcsPath/")).values.count() > 0
 }

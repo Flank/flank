@@ -30,7 +30,10 @@ private fun calculateShardCount(
     val previousMethodDurations = createTestMethodDurationMap(oldTestResult, args)
     return calculateShardCount(
         args = args,
-        testsTotalTime = testTotalTime(testsToRun, previousMethodDurations, args.fallbackTestTime(previousMethodDurations)),
+        testsTotalTime = testTotalTime(
+            testsToRun, previousMethodDurations, args.fallbackTestTime(previousMethodDurations),
+            args.defaultClassTestTime
+        ),
         testsToRunCount = testsToRun.size
     )
 }
@@ -38,12 +41,14 @@ private fun calculateShardCount(
 private fun testTotalTime(
     testsToRun: List<FlankTestMethod>,
     previousMethodDurations: Map<String, Double>,
-    defaultTestTime: Double
+    defaultTestTime: Double,
+    defaultClassTestTime: Double
 ) = testsToRun.sumByDouble { flankTestMethod ->
     getTestMethodTime(
         flankTestMethod,
         previousMethodDurations,
-        defaultTestTime
+        defaultTestTime,
+        defaultClassTestTime
     )
 }
 

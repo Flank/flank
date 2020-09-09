@@ -11,6 +11,7 @@ fun IosArgs.validate() = apply {
     assertTestTypes()
     assertMaxTestShards()
     assertTestFiles()
+    checkResultsDirUnique()
 }
 
 fun IosArgs.validateRefresh() = apply {
