@@ -17,3 +17,7 @@ data class RoboTestContext(
     val app: FileReference,
     val roboScript: FileReference
 ) : AndroidTestContext()
+
+data class SanityRoboTestContext(
+    val app: FileReference
+) : AndroidTestContext()
