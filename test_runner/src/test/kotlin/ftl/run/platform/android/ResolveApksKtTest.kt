@@ -4,6 +4,7 @@ import ftl.args.AndroidArgs
 import ftl.args.yml.AppTestPair
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.exception.FlankGeneralError
+import ftl.run.model.SanityRoboTestContext
 import ftl.util.asFileReference
 import io.mockk.every
 import io.mockk.mockk
@@ -71,5 +72,20 @@ class ResolveApksKtTest {
                 )
             )
         }.resolveApks()
+    }
+
+    @Test
+    fun `should return one sanity robo test context`() {
+        val androidArgs = mockk<AndroidArgs> {
+            every { appApk } returns "app"
+            every { testApk } returns null
+            every { additionalApks } returns emptyList()
+            every { additionalAppTestApks } returns emptyList()
+            every { roboScript } returns null
+        }
+        assertArrayEquals(
+            arrayOf(SanityRoboTestContext("app".asFileReference())),
+            androidArgs.resolveApks().toTypedArray()
+        )
     }
 }
