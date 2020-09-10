@@ -1066,7 +1066,7 @@ IosArgs
           max-test-shards: -1
         """.trimIndent()
         mockkObject(GcStorage) {
-            every { GcStorage.exist(any(), any(), any()) } returns true
+            every { GcStorage.exist(any(), any()) } returns true
 
             // when
             IosArgs.load(yaml).validate()
@@ -1087,7 +1087,7 @@ IosArgs
           max-test-shards: -1
         """.trimIndent()
         mockkObject(GcStorage) {
-            every { GcStorage.exist(any(), any(), any()) } returns false
+            every { GcStorage.exist(any(), any()) } returns false
 
             // when
             IosArgs.load(yaml).validate()

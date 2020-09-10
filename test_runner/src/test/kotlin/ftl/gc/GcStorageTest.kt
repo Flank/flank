@@ -1,6 +1,5 @@
 package ftl.gc
 
-import com.google.cloud.storage.Storage
 import ftl.args.AndroidArgs
 import ftl.test.util.FlankTestRunner
 import io.mockk.every
@@ -12,6 +11,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.File
 
 @RunWith(FlankTestRunner::class)
 class GcStorageTest {
@@ -62,23 +62,12 @@ class GcStorageTest {
     @Test
     fun `should return that file exist`() {
         // given
-        val mockedStorage: Storage = mockk {
-            every {
-                list(
-                    "bucket",
-                    Storage.BlobListOption.pageSize(1),
-                    Storage.BlobListOption.prefix("path/")
-                )
-            } returns mockk {
-                every { values } returns listOf(mockk())
-            }
-        }
+        GcStorage.upload(createTempFile("testFile", ".txt").path, "bucket", "path")
 
         // when
         val actual = GcStorage.exist(
             "bucket",
-            "path",
-            mockedStorage
+            "path"
         )
 
         // then
@@ -87,27 +76,38 @@ class GcStorageTest {
 
     @Test
     fun `should return that file does not exist`() {
-        // given
-        val mockedStorage: Storage = mockk {
-            every {
-                list(
-                    "bucket",
-                    Storage.BlobListOption.pageSize(1),
-                    Storage.BlobListOption.prefix("path/")
-                )
-            } returns mockk {
-                every { values } returns listOf()
-            }
-        }
-
         // when
         val actual = GcStorage.exist(
             "bucket",
-            "path",
-            mockedStorage
+            "path_not_existed"
         )
 
         // then
         assertFalse(actual)
+    }
+
+    @Test
+    fun `should return false when file does not exits`() {
+        // given
+        val actual = GcStorage.exist("gs://not/existed/file.txt")
+
+        // then
+        assertFalse(actual)
+    }
+
+    @Test
+    fun `should return true when file exist`() {
+        // given
+        val tempFile = File.createTempFile("test", ".txt")
+        GcStorage.upload(tempFile.path, "bucket", "path")
+
+        // given
+        val actual = GcStorage.exist("gs://bucket/path/${tempFile.name}")
+
+        // then
+        assertTrue(actual)
+
+        // clean
+        tempFile.delete()
     }
 }
