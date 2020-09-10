@@ -4,6 +4,7 @@ import ftl.args.AndroidArgs
 import ftl.run.model.AndroidTestContext
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.RoboTestContext
+import ftl.run.model.SanityRoboTestContext
 import ftl.util.asFileReference
 import ftl.util.uploadIfNeeded
 import kotlinx.coroutines.Dispatchers
@@ -23,6 +24,7 @@ suspend fun List<AndroidTestContext>.upload(rootGcsBucket: String, runGcsPath: S
 private fun AndroidTestContext.upload(rootGcsBucket: String, runGcsPath: String) = when (this) {
     is InstrumentationTestContext -> upload(rootGcsBucket, runGcsPath)
     is RoboTestContext -> upload(rootGcsBucket, runGcsPath)
+    is SanityRoboTestContext -> upload(rootGcsBucket, runGcsPath)
 }
 
 private fun InstrumentationTestContext.upload(rootGcsBucket: String, runGcsPath: String) = copy(
@@ -34,6 +36,8 @@ private fun RoboTestContext.upload(rootGcsBucket: String, runGcsPath: String) = 
     app = app.uploadIfNeeded(rootGcsBucket, runGcsPath),
     roboScript = roboScript.uploadIfNeeded(rootGcsBucket, runGcsPath)
 )
+
+private fun SanityRoboTestContext.upload(rootGcsBucket: String, runGcsPath: String) = SanityRoboTestContext(app.uploadIfNeeded(rootGcsBucket, runGcsPath))
 
 suspend fun AndroidArgs.uploadAdditionalApks(runGcsPath: String) = coroutineScope {
     additionalApks.map {
