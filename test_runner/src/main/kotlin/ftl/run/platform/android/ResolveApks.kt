@@ -2,6 +2,8 @@ package ftl.run.platform.android
 
 import com.google.common.annotations.VisibleForTesting
 import ftl.args.AndroidArgs
+import ftl.args.isSanityRobo
+
 import ftl.run.model.AndroidTestContext
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.RoboTestContext
@@ -19,7 +21,8 @@ private fun AndroidArgs.mainApkContext() = appApk?.let { appApk ->
     when {
         testApk != null -> InstrumentationTestContext(app = appApk.asFileReference(), test = testApk.asFileReference())
         roboScript != null -> RoboTestContext(app = appApk.asFileReference(), roboScript = roboScript.asFileReference())
-        else -> SanityRoboTestContext(app = appApk.asFileReference())
+        isSanityRobo -> SanityRoboTestContext(app = appApk.asFileReference())
+        else -> null
     }
 }
 
