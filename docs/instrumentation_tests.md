@@ -1,0 +1,22 @@
+# Flank instrumentation tests
+
+Flank contains a project for instrumentation tests placed on flank_tests directory.
+
+Tests can be run with Gradle wrapper and parametrized by command-line arguments
+
+## Commands
+
+1. ```flank-path```  location of flank.jar
+2. ```yml-path``` location of test yml
+3. ```run-params``` optional additional run parameters, default parameters depend on the platform
+   1. for iOS is ```firebase, test, ios, run```
+   2. for android ```firebase, test, ios, run```
+4. ```working-directory``` optional parameter for set working directory default is: ```./```
+
+## Example of run android test
+
+```./gradlew test --tests AndroidTests -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=../test_runner/src/test/kotlin/ftl/fixtures/test_app_cases/flank-single-success.yml -Dworking-directory=../test_runner```
+
+## Example of run ios test
+
+```./gradlew test --tests IosTests -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=../test_runner/src/test/kotlin/ftl/fixtures/simple-ios-flank.yml -Dworking-directory=../test_runner```

@@ -11,6 +11,3 @@ fun String.runCommand(workingDir: File): ProcessResult = ProcessBuilder(*split("
         waitFor(60, TimeUnit.MINUTES)
         ProcessResult(exitValue(), inputStream.bufferedReader().readText())
     }
-
-
-

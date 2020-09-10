@@ -31,15 +31,8 @@ tasks["check"].dependsOn(tasks["detekt"])
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation(Kotlin.KOTLIN_SERIALIZATION)
-    implementation(CLIKT)
-
     detektPlugins(DETEKT_FORMATTING)
-
     testImplementation(JUNIT)
-    testImplementation(MOCKK)
-    testImplementation(TRUTH)
-    testImplementation(SYSTEM_RULES)
 }
 tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "1.8"
