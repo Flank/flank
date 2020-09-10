@@ -19,14 +19,19 @@ fun Map<String, String>.toAndroidTestParameters() = withDefault(
 
 fun Map<String, String>.toIosParameters() = withDefault(
     defaultIosOutputPattern,
-    listOf("firebase", "test", "android", "ios")
+    listOf("firebase", "test", "ios", "run")
 )
 
 private fun Map<String, String>.withDefault(outputPattern: String, runParams: List<String>) = TestParameters(
-    getOrDefault("flank-path", ""),
-    getOrDefault("yml-path", ""),
-    getOrDefault("working-directory", "./"),
-    getOrDefault("output-pattern", outputPattern),
-    getOrDefault("expected-output-code", "0").toInt(),
+    getOrValueIfEmpty("flank-path", ""),
+    getOrValueIfEmpty("yml-path", ""),
+    getOrValueIfEmpty("working-directory", "./"),
+    getOrValueIfEmpty("output-pattern", outputPattern),
+    getOrValueIfEmpty("expected-output-code", "0").toInt(),
     getPropertyAsList("run-params", runParams),
 )
+
+fun Map<String,String>.getOrValueIfEmpty(key: String, defaut: String) = get(key).orEmpty().let {
+    if(it.isBlank()) defaut
+    else it
+}
