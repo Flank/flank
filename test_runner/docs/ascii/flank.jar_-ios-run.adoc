@@ -70,6 +70,9 @@ Configuration is read from flank.yml
 *--device*=_<String=String>_[,_<String=String>_...]::
   A list of DIMENSION=VALUE pairs which specify a target device to test against. This flag may be repeated to specify multiple devices. The four device dimensions are: model, version, locale, and orientation. If any dimensions are omitted, they will use a default value. Omitting all of the preceding dimension-related flags will run tests against a single device using defaults for all four device dimensions.
 
+*--async*::
+  Invoke a test asynchronously without waiting for test results.
+
 *--results-bucket*=_<resultsBucket>_::
   The name of a Google Cloud Storage bucket where raw test results will be stored (default: "test-lab-<random-UUID>"). Note that the bucket must be owned by a billing-enabled project, and that using a non-default bucket will result in billing charges for the storage used.
 
@@ -85,9 +88,6 @@ Configuration is read from flank.yml
 *--timeout*=_<timeout>_::
   The max time this test execution can run before it is cancelled (default: 15m). It does not include any time necessary to prepare and clean up the target device. The maximum possible testing time is 30m on physical devices and 60m on virtual devices. The TIMEOUT units can be h, m, or s. If no unit is given, seconds are assumed. 
 
-*--async*::
-  Invoke a test asynchronously without waiting for test results.
-
 *--client-details*=_<String=String>_[,_<String=String>_...]::
   Comma-separated, KEY=VALUE map of additional details to attach to the test matrix.Arbitrary KEY=VALUE pairs may be attached to a test matrix to provide additional context about the tests being run.When consuming the test results, such as in Cloud Functions or a CI system,these details can add additional context such as a link to the corresponding pull request.
 
@@ -100,11 +100,11 @@ Configuration is read from flank.yml
 *--num-flaky-test-attempts*=_<flakyTestAttempts>_::
   The number of times a TestExecution should be re-attempted if one or more of its test cases fail for any reason. The maximum number of reruns allowed is 10. Default is 0, which implies no reruns.
 
-*--shard-time*=_<shardTime>_::
-  The max amount of seconds each shard should run.
-
 *--max-test-shards*=_<maxTestShards>_::
   The amount of matrices to split the tests across.
+
+*--shard-time*=_<shardTime>_::
+  The max amount of seconds each shard should run.
 
 *--num-test-runs*=_<repeatTests>_::
   The amount of times to run the test executions.
@@ -154,14 +154,14 @@ Configuration is read from flank.yml
 *--use-average-test-time-for-new-tests*::
   Enable using average time from previous tests duration when using SmartShard and tests did not run before.
 
+*--test*=_<test>_::
+  The path to the test package (a zip file containing the iOS app and XCTest files). The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://. Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file is specified.
+
 *--xctestrun-file*=_<xctestrunFile>_::
   The path to an .xctestrun file that will override any .xctestrun file contained in the --test package. Because the .xctestrun file contains environment variables along with test methods to run and/or ignore, this can be useful for customizing or sharding test suites. The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://.
 
 *--xcode-version*=_<xcodeVersion>_::
   The version of Xcode that should be used to run an XCTest. Defaults to the latest Xcode version supported in Firebase Test Lab. This Xcode version must be supported by all iOS versions selected in the test matrix.
-
-*--test*=_<test>_::
-  The path to the test package (a zip file containing the iOS app and XCTest files). The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://. Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file is specified.
 
 *--test-targets*=_<testTargets>_[,_<testTargets>_...]::
   A list of one or more test method names to run (default: run all test targets).
