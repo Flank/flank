@@ -33,10 +33,9 @@ function base_test_apks() {
 
     '--copy' | '-c')
       local outputDir="$FLANK_FIXTURES_TMP/apk"
-      local testIn="$dir/app/build/outputs/apk/androidTest/**/debug/*.apk"
 
       mkdir -p "$outputDir"
-      cp $testIn $outputDir/
+      cp "$dir"/app/build/outputs/apk/androidTest/**/debug/*.apk "$outputDir/"
       ;;
 
     esac done
