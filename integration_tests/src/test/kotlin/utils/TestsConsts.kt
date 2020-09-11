@@ -1,6 +1,6 @@
 package utils
 
-const val defaultAndroidOutputPattern =   "AndroidArgs.*?" +
+const val defaultAndroidOutputPattern = "AndroidArgs.*?" +
     "gcloud:.*?" +
     "flank:.*?" +
     "RunTests.*?" +

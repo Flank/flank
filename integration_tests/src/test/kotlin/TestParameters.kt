@@ -11,7 +11,6 @@ data class TestParameters(
     val runParams: List<String>
 )
 
-
 fun Map<String, String>.toAndroidTestParameters() = withDefault(
     defaultAndroidOutputPattern,
     listOf("firebase", "test", "android", "run")
@@ -31,7 +30,7 @@ private fun Map<String, String>.withDefault(outputPattern: String, runParams: Li
     getPropertyAsList("run-params", runParams),
 )
 
-fun Map<String,String>.getOrValueIfEmpty(key: String, defaut: String) = get(key).orEmpty().let {
-    if(it.isBlank()) defaut
+fun Map<String, String>.getOrValueIfEmpty(key: String, defaut: String) = get(key).orEmpty().let {
+    if (it.isBlank()) defaut
     else it
 }
