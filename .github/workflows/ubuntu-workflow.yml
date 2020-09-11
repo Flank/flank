@@ -34,3 +34,4 @@ jobs:
         with:
           gradle-executable: "./test_runner/gradlew"
           arguments: "-p test_runner clean build"
+          

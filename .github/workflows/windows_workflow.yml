@@ -1,4 +1,4 @@
-name: ubuntu-workflow
+name: windows-workflow
 
 on:
   push:
