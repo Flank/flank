@@ -4,7 +4,7 @@ import utils.toStringMap
 
 class IntegrationTests {
     @Test
-    fun shouldMatchSuccessAndroidExitCodeAndPattern() {
+    fun shouldMatchAndroidSuccessExitCodeAndPattern() {
         val testParameters = System.getProperties().toStringMap().toAndroidTestParameters()
         val actual =
             FlankCommand(testParameters.flankPath, testParameters.ymlPath, testParameters.runParams).run(testParameters.workingDirectory)

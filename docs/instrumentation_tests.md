@@ -15,8 +15,8 @@ Tests can be run with Gradle wrapper and parametrized by command-line arguments
 
 ## Example of run android test
 
-```./gradlew test --tests IntegrationTests.shouldMatchSuccessAndroidExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=../test_runner/src/test/kotlin/ftl/fixtures/test_app_cases/flank-single-success.yml -Dworking-directory=../test_runner```
+```./gradlew test --tests IntegrationTests.shouldMatchAndroidSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_android.yml```
 
 ## Example of run ios test
 
-```./gradlew test --tests IntegrationTests.shouldMatchIosSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=../test_runner/src/test/kotlin/ftl/fixtures/simple-ios-flank.yml -Dworking-directory=../test_runner```
+```./gradlew test --tests IntegrationTests.shouldMatchIosSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_ios.yml```
