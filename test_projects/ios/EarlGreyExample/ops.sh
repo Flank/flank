@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
+EARL_GREY_EXAMPLE="$TEST_PROJECTS_IOS/EarlGreyExample"
+
 function setup_ios_env() {
   if ! [ -x "$(command -v xcpretty)" ]; then
     gem install cocoapods
   fi
-  local dir=$(dirname "$BASH_SOURCE")
-  (cd "$dir" && pod install)
+  (cd "$EARL_GREY_EXAMPLE" && pod install)
 }
 
 function install_xcpretty() {
@@ -15,12 +16,11 @@ function install_xcpretty() {
 }
 
 function universal_framework() {
-  local dir=$(dirname "$BASH_SOURCE")
-  "$dir/universal_framework.sh"
+  "$EARL_GREY_EXAMPLE/universal_framework.sh"
 }
 
 function earl_grey_example() {
-  local dir=$(dirname "$BASH_SOURCE")
+  local dir=$EARL_GREY_EXAMPLE
   local buildDir="$dir/build"
 
   for arg in "$@"; do case "$arg" in

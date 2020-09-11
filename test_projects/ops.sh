@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
-dir="$(dirname "$BASH_SOURCE")"
+TEST_PROJECTS_ANDROID="$TEST_PROJECTS/android"
+TEST_PROJECTS_IOS="$TEST_PROJECTS/ios"
 
-. "$dir/android/ops.sh"
-. "$dir/ios/EarlGreyExample/ops.sh"
+. "$TEST_PROJECTS_ANDROID/ops.sh"
+. "$TEST_PROJECTS_IOS/EarlGreyExample/ops.sh"
 
 function update_test_artifacts() {
 
@@ -20,7 +21,7 @@ function update_test_artifacts() {
       ;;
 
     go)
-      cp -R "$dir/gohello" "$FLANK_FIXTURES_TMP/"
+      cp -R "$FLANK_ROOT/test_projects/gohello" "$FLANK_FIXTURES_TMP/"
       ;;
 
     all)

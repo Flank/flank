@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function base_app_apk() {
-  local dir=$(dirname "$BASH_SOURCE")
+  local dir=$TEST_PROJECTS_ANDROID
   local outputDir="$FLANK_FIXTURES_TMP/apk"
 
   for arg in "$@"; do case "$arg" in
@@ -23,7 +23,7 @@ function base_app_apk() {
 
 # depends on base_app_apk
 function base_test_apks() {
-  local dir=$(dirname "$BASH_SOURCE")
+  local dir=$TEST_PROJECTS_ANDROID
 
   for arg in "$@"; do case "$arg" in
 
@@ -44,7 +44,7 @@ function base_test_apks() {
 
 # depends on base_app_apk
 function duplicated_names_apks() {
-  local dir=$(dirname "$BASH_SOURCE")
+  local dir=$TEST_PROJECTS_ANDROID
 
   for arg in "$@"; do case "$arg" in
 
@@ -61,7 +61,7 @@ function duplicated_names_apks() {
       local testIn="$dir/app/build/outputs/apk/androidTest/**/debug/*.apk"
 
       mkdir -p "$outputDir"
-      local dir=$(dirname "$BASH_SOURCE")
+      local dir=$(dirname "${BASH_SOURCE[0]-$0}")
       local outputDir="$FLANK_FIXTURES_TMP/apk/duplicated_names/"
 
       for index in 0 1 2 3; do
@@ -76,7 +76,7 @@ function duplicated_names_apks() {
 }
 
 function multi_module_apks() {
-  local dir=$(dirname "$BASH_SOURCE")
+  local dir=$TEST_PROJECTS_ANDROID
   local outputDir="$FLANK_FIXTURES_TMP/apk/multi-modules/"
 
   for arg in "$@"; do case "$arg" in
