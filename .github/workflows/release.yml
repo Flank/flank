@@ -118,3 +118,4 @@ jobs:
           message: Flank ${{ env.RELEASE_TAG }} has been released. View more information <http://github.com/Flank/flank/releases/tag/${{ env.RELEASE_TAG }}| here!>
           channel: ${{ secrets.SLACK_CHANNEL}}
           cookie: ${{ secrets.SLACK_COOKIE}}
+          
