@@ -1794,7 +1794,7 @@ AndroidArgs
           legacy-junit-result: true
         """.trimIndent()
         mockkObject(GcStorage) {
-            every { exist(any(), any(), any()) } returns true
+            every { exist(any(), any()) } returns true
 
             // when
             AndroidArgs.load(yaml).validate()
@@ -1835,7 +1835,7 @@ AndroidArgs
           legacy-junit-result: true
         """.trimIndent()
         mockkObject(GcStorage) {
-            every { exist(any(), any(), any()) } returns false
+            every { exist(any(), any()) } returns false
 
             // when
             AndroidArgs.load(yaml).validate()

@@ -42,20 +42,18 @@ object ArgsHelper {
     }
 
     fun assertFileExists(file: String, name: String) {
-        // flank can't detect (for now) if files exists on GCS, therefore we want to skip validation
-        // todo https://github.com/Flank/flank/issues/1099
-        if (file.startsWith(GCS_PREFIX)) return
-
-        if (!File(file).exists()) {
+        if (!file.exist())
             throw FlankGeneralError("'$file' $name doesn't exist")
-        }
     }
+
+    private fun String.exist() =
+        if (startsWith(GCS_PREFIX)) GcStorage.exist(this) else File(this).exists()
 
     fun assertCommonProps(args: IArgs) {
         assertNotEmpty(
             args.project, "The project is not set. Define GOOGLE_CLOUD_PROJECT, set project in flank.yml\n" +
-                "or save service account credential to ${defaultCredentialPath}\n" +
-                " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
+                    "or save service account credential to ${defaultCredentialPath}\n" +
+                    " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
         )
 
         if (args.maxTestShards !in AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE && args.maxTestShards != -1)
@@ -226,14 +224,22 @@ object ArgsHelper {
         }
         val (ignoredTests, testsToExecute) = filteredTests.partition { it.ignored }
         val shards = if (args.disableSharding) {
-            listOf(Chunk(testsToExecute.map { TestMethod(name = it.testName, isParameterized = it.isParameterizedClass, time = 0.0) }))
+            listOf(Chunk(testsToExecute.map {
+                TestMethod(
+                    name = it.testName,
+                    isParameterized = it.isParameterizedClass,
+                    time = 0.0
+                )
+            }))
         } else {
             val oldTestResult = GcStorage.downloadJunitXml(args) ?: JUnitTestResult(mutableListOf())
             val shardCount = forcedShardCount ?: shardCountByTime(testsToExecute, oldTestResult, args)
             createShardsByShardCount(testsToExecute, oldTestResult, args, shardCount).map { Chunk(it.testMethods) }
         }
 
-        return CalculateShardsResult(testMethodsAlwaysRun(shards, args), ignoredTestCases = ignoredTests.map { it.testName })
+        return CalculateShardsResult(
+            testMethodsAlwaysRun(shards, args),
+            ignoredTestCases = ignoredTests.map { it.testName })
     }
 
     private fun testMethodsAlwaysRun(shards: List<Chunk>, args: IArgs): List<Chunk> {
