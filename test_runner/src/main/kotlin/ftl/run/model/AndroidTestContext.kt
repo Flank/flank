@@ -1,7 +1,7 @@
 package ftl.run.model
 
+import ftl.shard.Chunk
 import ftl.args.IgnoredTestCases
-import ftl.args.ShardChunks
 import ftl.util.FileReference
 
 sealed class AndroidTestContext
@@ -9,11 +9,15 @@ sealed class AndroidTestContext
 data class InstrumentationTestContext(
     val app: FileReference,
     val test: FileReference,
-    val shards: ShardChunks = emptyList(),
+    val shards: List<Chunk> = emptyList(),
     val ignoredTestCases: IgnoredTestCases = emptyList()
 ) : AndroidTestContext()
 
 data class RoboTestContext(
     val app: FileReference,
     val roboScript: FileReference
+) : AndroidTestContext()
+
+data class SanityRoboTestContext(
+    val app: FileReference
 ) : AndroidTestContext()

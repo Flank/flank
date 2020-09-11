@@ -49,7 +49,7 @@ private fun saveConfigFile(matrixMap: MatrixMap, args: IArgs) {
     Files.write(configFilePath, args.data.toByteArray())
 }
 
-private suspend inline fun MatrixMap.printMatricesWebLinks(project: String) = coroutineScope {
+internal suspend inline fun MatrixMap.printMatricesWebLinks(project: String) = coroutineScope {
     println("Matrices webLink")
     map.values.map {
         launch(Dispatchers.IO) {

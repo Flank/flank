@@ -3,6 +3,8 @@ package ftl.gc
 import com.google.api.client.http.GoogleApiLogger
 import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.Storage
+import com.google.cloud.storage.Storage.BlobListOption.pageSize
+import com.google.cloud.storage.Storage.BlobListOption.prefix
 import com.google.cloud.storage.StorageOptions
 import com.google.cloud.storage.contrib.nio.testing.LocalStorageHelper
 import com.google.common.annotations.VisibleForTesting
@@ -10,6 +12,7 @@ import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
+import ftl.gc.GcStorage.dropLeadingSlash
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.xmlToString
@@ -153,7 +156,7 @@ object GcStorage {
     fun download(gcsUriString: String, ignoreError: Boolean = false): String {
         val gcsURI = URI.create(gcsUriString)
         val bucket = gcsURI.authority
-        val path = gcsURI.path.drop(1) // Drop leading slash
+        val path = gcsURI.path.dropLeadingSlash()
         return downloadCache[path] ?: downloadCache.computeIfAbsent(path) {
             val outputFile = File.createTempFile("tmp", null)
             outputFile.deleteOnExit()
@@ -172,4 +175,15 @@ object GcStorage {
             outputFile.path
         }
     }
+
+    fun exist(
+        rootGcsBucket: String,
+        runGcsPath: String
+    ) = storage.list(rootGcsBucket, pageSize(1), prefix("$runGcsPath/")).values.count() > 0
+
+    fun exist(gcsUriString: String) = with(URI.create(gcsUriString)) {
+        storage.get(authority, path.dropLeadingSlash())?.exists() ?: false
+    }
+
+    private fun String.dropLeadingSlash() = drop(1)
 }

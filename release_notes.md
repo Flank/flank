@@ -1,3 +1,9 @@
+## v20.09.1
+### Bug Fixes
+- [#1100](https://github.com/Flank/flank/pull/1100) Fix gcs files validation ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1093](https://github.com/Flank/flank/pull/1093) Flank release bot formatting ([Sloox](https://github.com/Sloox))
+- [#1091](https://github.com/Flank/flank/pull/1091) Add missing authors to release notes ([adamfilipow92](https://github.com/adamfilipow92))
+
 ## v20.09.0
 ### Bug Fixes
 - [#1087](https://github.com/Flank/flank/pull/1087) Fix release action ([adamfilipow92](https://github.com/adamfilipow92))

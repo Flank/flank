@@ -5,7 +5,8 @@ import ftl.util.FlankTestMethod
 
 data class TestMethod(
     val name: String,
-    val time: Double
+    val time: Double,
+    val isParameterized: Boolean = false
 )
 
 fun createTestCases(
@@ -14,6 +15,7 @@ fun createTestCases(
     args: IArgs,
 ): List<TestMethod> {
     val defaultTestTime = args.fallbackTestTime(previousMethodDurations)
+    val defaultClassTestTime = args.fallbackClassTestTime(previousMethodDurations)
     return testsToRun
         .map {
         TestMethod(
@@ -21,8 +23,10 @@ fun createTestCases(
             time = getTestMethodTime(
                 flankTestMethod = it,
                 previousMethodDurations = previousMethodDurations,
-                defaultTestTime = defaultTestTime
-            )
+                defaultTestTime = defaultTestTime,
+                defaultClassTestTime = defaultClassTestTime
+            ),
+            isParameterized = it.isParameterizedClass
         )
     }
 }

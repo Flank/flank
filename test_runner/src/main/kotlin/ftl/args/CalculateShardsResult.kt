@@ -1,3 +1,5 @@
 package ftl.args
 
-data class CalculateShardsResult(val shardChunks: ShardChunks, val ignoredTestCases: IgnoredTestCases)
+import ftl.shard.Chunk
+
+data class CalculateShardsResult(val shardChunks: List<Chunk>, val ignoredTestCases: IgnoredTestCases)

@@ -21,6 +21,7 @@ fun AndroidArgs.validate() = apply {
     assertParametersConflict()
     assertTestFiles()
     assertOtherFiles()
+    checkResultsDirUnique()
 }
 
 private fun AndroidArgs.assertDevicesSupported() = devices
@@ -43,9 +44,7 @@ private fun AndroidArgs.assertShards() {
 }
 
 private fun AndroidArgs.assertTestTypes() {
-    if (!(isRoboTest or isInstrumentationTest)) throw FlankConfigurationError(
-        "One of following options must be specified [test, robo-directives, robo-script]."
-    )
+    if (!(isRoboTest or isInstrumentationTest or isSanityRobo)) throw FlankConfigurationError("Unable to infer test type. Please check configuration")
 }
 
 // Validation is done according to https://cloud.google.com/sdk/gcloud/reference/firebase/test/android/run#--directories-to-pull

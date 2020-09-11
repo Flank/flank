@@ -1,0 +1,26 @@
+name: slack-user-bot
+
+description: Make a user act like a bot in slack
+author: Flank
+
+branding:
+  icon: file-plus
+  color: blue
+
+runs:
+  using: 'docker'
+  image: './flank-actions/Dockerfile'
+
+inputs:
+  xoxctoken:
+    description: A slack token that gives permission to act as a user.
+    required: true
+  message: 
+    description: The message to send
+    required: true
+  channel:
+    description: Channel to send to
+    required: true
+  cookie: 
+    description: Required cookie for auth
+    required: true

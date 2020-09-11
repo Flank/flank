@@ -16,6 +16,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
+      with: 
+        submodules: true
 
     - name: Get all git tags
       run: |
@@ -120,11 +122,12 @@ jobs:
         gradle-executable: "./test_runner/gradlew"
         arguments: "-p test_runner publish -PGITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
 
-    - name: Post Message of Flank Release TEST ONLY
-      uses: archive/github-actions-slack@master
+    - name: Post Message of Flank Release
+      uses: Flank/flank@V1.1-action
       if: startsWith(github.ref, 'refs/tags/v')
       with:
-          slack-bot-user-oauth-access-token: ${{ secrets.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN }}
-          slack-channel: flank_test_channel
-          slack-optional-icon_emoji: ":fire:"  
-          slack-text: Flank ${{ env.RELEASE_TAG }} has been released. View more information <http://github.com/Flank/flank/releases/tag/${{ env.RELEASE_TAG }}| here!>
+          xoxctoken: ${{ secrets.SLACK_XOXCTOKEN }}
+          message: Flank ${{ env.RELEASE_TAG }} has been released. View more information <http://github.com/Flank/flank/releases/tag/${{ env.RELEASE_TAG }}| here!>
+          channel: ${{ secrets.SLACK_CHANNEL}}
+          cookie: ${{ secrets.SLACK_COOKIE}}
+          

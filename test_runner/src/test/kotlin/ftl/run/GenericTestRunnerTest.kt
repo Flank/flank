@@ -1,7 +1,9 @@
 package ftl.run
 
+import ftl.shard.Chunk
 import ftl.args.IArgs
 import ftl.run.platform.common.beforeRunMessage
+import ftl.shard.TestMethod
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.normalizeLineEnding
@@ -10,6 +12,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -25,13 +28,13 @@ class GenericTestRunnerTest {
 
     @Test
     fun testBeforeRunMessage1() {
-        val result = beforeRunMessage(createMock(1), listOf(listOf(""))).normalizeLineEnding()
+        val result = beforeRunMessage(createMock(1), listOf(Chunk(listOf(TestMethod(name = "", time = 0.0))))).normalizeLineEnding()
         assert(result, "  1 test / 1 shard\n")
     }
 
     @Test
     fun testBeforeRunMessage2() {
-        val result = beforeRunMessage(createMock(2), listOf(listOf(""))).normalizeLineEnding()
+        val result = beforeRunMessage(createMock(2), listOf(Chunk(listOf(TestMethod(name = "", time = 0.0))))).normalizeLineEnding()
         assert(
             result, """
   1 test / 1 shard
@@ -46,7 +49,7 @@ class GenericTestRunnerTest {
     fun testBeforeRunMessage3() {
         val result = beforeRunMessage(
             createMock(2),
-            listOf(listOf(""), listOf(""), listOf(""), listOf(""), listOf(""), listOf(""))
+            List(6) { Chunk(listOf(TestMethod(name = "", time = 0.0))) }
         ).normalizeLineEnding()
         assert(
             result, """
@@ -62,10 +65,7 @@ class GenericTestRunnerTest {
     fun testBeforeRunMessage4() {
         val result = beforeRunMessage(
             createMock(100),
-            listOf(
-                listOf("", "", "", "", ""),
-                listOf("", "", "", "", "")
-            )
+            List(2) { Chunk(List(5) { TestMethod(name = "", time = 0.0) }) }
         ).normalizeLineEnding()
         assert(
             result, """
@@ -75,5 +75,120 @@ class GenericTestRunnerTest {
     1000 total tests
 """.trimStartLine()
         )
+    }
+
+    @Test
+    fun `should print tests + class per shard`() {
+        val expected = """
+            10 tests + 3 parameterized classes / 2 shards
+        """.trimIndent()
+
+        val result = beforeRunMessage(
+            createMock(1),
+            listOf(
+                Chunk(listOf(
+                    TestMethod(name = "t1", time = 0.0),
+                    TestMethod(name = "t2", time = 0.0),
+                    TestMethod(name = "t3", time = 0.0),
+                    TestMethod(name = "c1", time = 0.0, isParameterized = true),
+                    TestMethod(name = "c2", time = 0.0, isParameterized = true),
+                )),
+                Chunk(listOf(
+                    TestMethod(name = "t4", time = 0.0),
+                    TestMethod(name = "t5", time = 0.0),
+                    TestMethod(name = "t6", time = 0.0),
+                    TestMethod(name = "t7", time = 0.0),
+                    TestMethod(name = "t8", time = 0.0),
+                    TestMethod(name = "t9", time = 0.0),
+                    TestMethod(name = "t10", time = 0.0),
+                    TestMethod(name = "c3", time = 0.0, isParameterized = true),
+                ))
+            )
+        ).normalizeLineEnding().trimIndent()
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `should print class per shard`() {
+        val expected = """
+            3 parameterized classes / 2 shards
+        """.trimIndent()
+
+        val result = beforeRunMessage(
+            createMock(1),
+            listOf(
+                Chunk(listOf(
+                    TestMethod(name = "c1", time = 0.0, isParameterized = true),
+                    TestMethod(name = "c2", time = 0.0, isParameterized = true),
+                )),
+                Chunk(listOf(
+                    TestMethod(name = "c3", time = 0.0, isParameterized = true),
+                ))
+            )
+        ).normalizeLineEnding().trimIndent()
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `should print tests + class per shard with multiple run`() {
+        val expected = """
+            10 tests + 3 parameterized classes / 2 shards
+            Running 10x
+              20 total shards
+              100 total tests
+              30 total parameterized classes
+        """.trimIndent()
+
+        val result = beforeRunMessage(
+            createMock(10),
+            listOf(
+                Chunk(listOf(
+                    TestMethod(name = "t1", time = 0.0),
+                    TestMethod(name = "t2", time = 0.0),
+                    TestMethod(name = "t3", time = 0.0),
+                    TestMethod(name = "c1", time = 0.0, isParameterized = true),
+                    TestMethod(name = "c2", time = 0.0, isParameterized = true),
+                )),
+                Chunk(listOf(
+                    TestMethod(name = "t4", time = 0.0),
+                    TestMethod(name = "t5", time = 0.0),
+                    TestMethod(name = "t6", time = 0.0),
+                    TestMethod(name = "t7", time = 0.0),
+                    TestMethod(name = "t8", time = 0.0),
+                    TestMethod(name = "t9", time = 0.0),
+                    TestMethod(name = "t10", time = 0.0),
+                    TestMethod(name = "c3", time = 0.0, isParameterized = true),
+                ))
+            )
+        ).normalizeLineEnding().trimIndent()
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `should print class per shard with multiple run`() {
+        val expected = """
+            3 parameterized classes / 2 shards
+            Running 10x
+              20 total shards
+              30 total parameterized classes
+        """.trimIndent()
+
+        val result = beforeRunMessage(
+            createMock(10),
+            listOf(
+                Chunk(listOf(
+                    TestMethod(name = "c1", time = 0.0, isParameterized = true),
+                    TestMethod(name = "c2", time = 0.0, isParameterized = true),
+                )),
+                Chunk(listOf(
+                    TestMethod(name = "c3", time = 0.0, isParameterized = true),
+                ))
+            )
+        ).normalizeLineEnding().trimIndent()
+
+        assertEquals(expected, result)
     }
 }
