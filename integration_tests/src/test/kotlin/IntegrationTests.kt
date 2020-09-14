@@ -9,7 +9,7 @@ class IntegrationTests {
         val actual =
             FlankCommand(testParameters.flankPath, testParameters.ymlPath, testParameters.runParams).run(testParameters.workingDirectory)
         Assert.assertEquals(
-            "Expected exit code is: ${testParameters.expectedOutputCode} but actual: ${actual.exitCode}",
+            "Expected exit code is: ${testParameters.expectedOutputCode} but actual: ${actual.exitCode}, output:\n${actual.output}",
             testParameters.expectedOutputCode,
             actual.exitCode
         )
@@ -28,7 +28,7 @@ class IntegrationTests {
         val actual =
             FlankCommand(testParameters.flankPath, testParameters.ymlPath, testParameters.runParams).run(testParameters.workingDirectory)
         Assert.assertEquals(
-            "Expected exit code is: ${testParameters.expectedOutputCode} but actual: ${actual.exitCode}",
+            "Expected exit code is: ${testParameters.expectedOutputCode} but actual: ${actual.exitCode}, output:\n${actual.output}",
             testParameters.expectedOutputCode,
             actual.exitCode
         )
