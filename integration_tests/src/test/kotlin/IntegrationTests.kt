@@ -7,7 +7,6 @@ class IntegrationTests {
     @Test
     fun shouldMatchAndroidSuccessExitCodeAndPattern() {
         val testParameters = System.getProperties().toStringMap().toAndroidTestParameters()
-        if (testParameters.flankPath.isEmpty()) return
         val actual =
             FlankCommand(testParameters.flankPath, testParameters.ymlPath, testParameters.runParams).run(testParameters.workingDirectory)
 
@@ -28,7 +27,6 @@ class IntegrationTests {
     @Test
     fun shouldMatchIosSuccessExitCodeAndPattern() {
         val testParameters = System.getProperties().toStringMap().toIosParameters()
-        if (testParameters.flankPath.isEmpty()) return
         val actual =
             FlankCommand(testParameters.flankPath, testParameters.ymlPath, testParameters.runParams).run(testParameters.workingDirectory)
 
