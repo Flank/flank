@@ -1,6 +1,6 @@
 package ftl.cli.firebase.test
 
-import org.junit.Assert.assertEquals
+import ftl.doctor.equalsIgnoreNewlineStyle
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
@@ -23,6 +23,6 @@ Commands:
 
         val actual = out.log.trim()
 
-        assertEquals(expected, actual)
+        assert(equalsIgnoreNewlineStyle(expected, actual))
     }
 }

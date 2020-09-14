@@ -47,6 +47,7 @@ class CancelCommandTest {
         runCmd.configPath = "./src/test/kotlin/ftl/fixtures/simple-android-flank.yml"
         runCmd.run()
         CancelCommand().run()
+        Thread.sleep(1000)
         val output = systemOutRule.log
         assertThat(output).contains("No matrices to cancel")
     }

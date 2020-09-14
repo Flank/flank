@@ -20,7 +20,7 @@ class RefreshCommandTest {
 
     /** Create one result dir with matrix_ids.json for refresh command tests */
     private fun setupResultsDir() {
-        val parent = "results/2018-09-07_01:21:14.201000_SUfE"
+        val parent = "results/2018-09-07_01-21-14.201000_SUfE"
         val matrixIds = Paths.get(parent, "matrix_ids.json")
         val yamlCfg = Paths.get(parent, "flank.yml")
         matrixIds.parent.toFile().mkdirs()

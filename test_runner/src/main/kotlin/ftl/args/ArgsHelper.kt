@@ -47,7 +47,7 @@ object ArgsHelper {
             throw FlankGeneralError("'$file' $name doesn't exist")
     }
 
-    private fun String.isWindows() = this.toLowerCase().contains("window")
+    fun String.isWindows() = this.toLowerCase().contains("window")
 
     private fun String.convertToWindowsPath() = this.replace("/", "\\").replaceFirst("~", System.getProperty("user.home"))
 

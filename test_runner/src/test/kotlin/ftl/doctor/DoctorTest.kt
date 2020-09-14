@@ -110,7 +110,7 @@ Error node: {
             AndroidArgs,
             Paths.get("src/test/kotlin/ftl/fixtures/flank_android_failed_configuration.yml")
         )
-        assertEquals(expectedErrorMessage, actual)
+        assert(equalsIgnoreNewlineStyle(expectedErrorMessage, actual))
     }
 
     @Test
@@ -133,7 +133,7 @@ Error node: {
             AndroidArgs,
             Paths.get("src/test/kotlin/ftl/fixtures/flank_android_failed_tree.yml")
         )
-        assertThat(actual).isEqualTo(expectedErrorMessage)
+        assert(equalsIgnoreNewlineStyle(expectedErrorMessage, actual))
     }
 
     @Test
@@ -240,3 +240,11 @@ flank:
 }
 
 private fun validateYaml(args: IArgs.ICompanion, data: String): String = validateYaml(args, StringReader(data))
+
+fun equalsIgnoreNewlineStyle(s1: String?, s2: String?): Boolean {
+    return s1 != null && s2 != null && normalizeLineEnds(s1) == normalizeLineEnds(s2)
+}
+
+private fun normalizeLineEnds(s: String): String {
+    return s.replace("\r\n", "\n").replace('\r', '\n')
+}

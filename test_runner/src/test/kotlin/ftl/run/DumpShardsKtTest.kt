@@ -3,6 +3,8 @@ package ftl.run
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
+import ftl.config.FtlConstants
+import ftl.doctor.equalsIgnoreNewlineStyle
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.ios2ConfigYaml
 import ftl.test.util.mixedConfigYaml
@@ -62,7 +64,7 @@ class DumpShardsKtTest {
   }
 }
         """.trimIndent()
-
+        if (FtlConstants.isWindows) return // TODO Windows Linux subsytem does not contain all expected commands
         // when
         val actual = runBlocking {
             dumpShards(AndroidArgs.load(mixedConfigYaml), TEST_SHARD_FILE)
@@ -70,7 +72,7 @@ class DumpShardsKtTest {
         }
 
         // then
-        assertEquals(expected, actual)
+        assert(equalsIgnoreNewlineStyle(expected, actual))
     }
 
     @Test
@@ -148,7 +150,7 @@ class DumpShardsKtTest {
   ]
 ]
         """.trimIndent()
-
+        if (FtlConstants.isWindows) return // TODO Windows Linux subsytem does not contain all expected commands
         // when
         val actual = runBlocking {
             dumpShards(IosArgs.load(ios2ConfigYaml), TEST_SHARD_FILE)
@@ -178,6 +180,7 @@ class DumpShardsKtTest {
 ]
         """.trimIndent()
 
+        if (FtlConstants.isWindows) return // TODO Windows Linux subsytem does not contain all expected commands
         // when
         val actual = runBlocking {
             dumpShards(IosArgs.load(ios2ConfigYaml), TEST_SHARD_FILE, true)
