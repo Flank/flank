@@ -4,8 +4,8 @@ plugins {
     application
     kotlin(Kotlin.PLUGIN_JVM) version Versions.KOTLIN_VERSION
     kotlin(Kotlin.PLUGIN_SERIALIZATION) version Versions.KOTLIN_VERSION
-    id(PLUGIN_SHADOW_JAR) version Versions.SHADOW_JAR
-    id(DETEKT_PLUGIN) version Versions.DETEKT
+    id(Libs.PLUGIN_SHADOW_JAR) version Versions.SHADOW_JAR
+    id(Libs.DETEKT_PLUGIN) version Versions.DETEKT
 }
 
 val artifactID = "flankScripts"
@@ -52,16 +52,16 @@ tasks["check"].dependsOn(tasks["detekt"])
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation(Kotlin.KOTLIN_SERIALIZATION)
-    implementation(Fuel.CORE)
-    implementation(Fuel.KOTLINX_SERIALIZATION)
-    implementation(Fuel.COROUTINES)
-    implementation(CLIKT)
+    implementation(Libs.KOTLIN_SERIALIZATION)
+    implementation(Libs.Fuel.CORE)
+    implementation(Libs.Fuel.KOTLINX_SERIALIZATION)
+    implementation(Libs.Fuel.COROUTINES)
+    implementation(Libs.CLIKT)
 
-    detektPlugins(DETEKT_FORMATTING)
+    detektPlugins(Libs.DETEKT_FORMATTING)
 
-    testImplementation(JUNIT)
-    testImplementation(MOCKK)
-    testImplementation(TRUTH)
-    testImplementation(SYSTEM_RULES)
+    testImplementation(Libs.JUNIT)
+    testImplementation(Libs.MOCKK)
+    testImplementation(Libs.TRUTH)
+    testImplementation(Libs.SYSTEM_RULES)
 }

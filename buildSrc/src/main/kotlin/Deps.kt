@@ -91,16 +91,6 @@ object Versions {
     const val KOTLINX_SERIALIZATION = "0.20.0"
     const val FUEL = "2.2.3"
     const val CLIKT = "2.8.0"
-    // https://github.com/google/truth/releases
-//    const val TRUTH = "1.0"
-    // https://github.com/mockk/mockk
-//    const val MOCKK = "1.10.0"
-//    const val JUNIT = "4.13"
-    // https://github.com/stefanbirkner/system-rules/releases
-//    const val SYSTEM_RULES = "1.19.0"
-
-    // https://github.com/detekt/detekt/releases
-//    const val DETEKT = "1.1.0" // version must be same as flank cause they share config with each other
 }
 
 object Libs {
@@ -154,4 +144,23 @@ object Libs {
     //endregion
 
     const val COMMON_TEXT = "org.apache.commons:commons-text:${Versions.COMMON_TEXT}"
+    const val KOTLIN_SERIALIZATION = "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.KOTLINX_SERIALIZATION}"
+
+    //region flank-scripts
+    const val PLUGIN_SHADOW_JAR = "com.github.johnrengelman.shadow"
+    const val CLIKT = "com.github.ajalt:clikt:${Versions.CLIKT}"
+    const val DETEKT_PLUGIN = "io.gitlab.arturbosch.detekt"
+    //endregion
+
+    object Fuel {
+        const val CORE = "com.github.kittinunf.fuel:fuel:${Versions.FUEL}"
+        const val COROUTINES = "com.github.kittinunf.fuel:fuel-coroutines:${Versions.FUEL}"
+        const val KOTLINX_SERIALIZATION = "com.github.kittinunf.fuel:fuel-kotlinx-serialization:${Versions.FUEL}"
+    }
 }
+
+object Kotlin {
+    const val PLUGIN_JVM = "jvm"
+    const val PLUGIN_SERIALIZATION = "plugin.serialization"
+}
+
