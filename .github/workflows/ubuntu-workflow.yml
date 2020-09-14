@@ -33,7 +33,7 @@ jobs:
         uses: eskatos/gradle-command-action@v1
         with:
           gradle-executable: "./test_runner/gradlew"
-          arguments: "-p test_runner clean build shadowJar"
+          arguments: "-p test_runner clean build"
 
       - name: Gradle Integration Tests Android
         uses: eskatos/gradle-command-action@v1
