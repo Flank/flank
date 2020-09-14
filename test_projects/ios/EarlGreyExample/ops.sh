@@ -52,16 +52,16 @@ function earl_grey_example() {
 
       local productsDir="$dir/build/Build/Products"
 
-      cp -R "$productsDir/*-iphoneos" "$FLANK_FIXTURES_TMP/"
+      cp -Rf "$productsDir"/*-iphoneos "$FLANK_FIXTURES_TMP/"
 
-      cp "$productsDir/*.xctestrun" "$FLANK_FIXTURES_TMP/"
+      cp "$productsDir"/*.xctestrun "$FLANK_FIXTURES_TMP/"
 
       cp \
-        "$productsDir/Debug-iphoneos/EarlGreyExampleTests.xctest/EarlGreyExampleTests" \
+        "$productsDir/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleTests.xctest/EarlGreyExampleTests" \
         "$FLANK_FIXTURES_TMP/objc/"
 
       cp \
-        "$productsDir/Debug-iphoneos/EarlGreyExampleSwiftTests.xctest/EarlGreyExampleSwiftTests" \
+        "$productsDir/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest/EarlGreyExampleSwiftTests" \
         "$FLANK_FIXTURES_TMP/swift/"
       ;;
 
