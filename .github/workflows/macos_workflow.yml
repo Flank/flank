@@ -29,14 +29,6 @@ jobs:
         key: ${{ runner.os }}-2-gradle-${{ hashFiles('**/*.gradle*') }}
         restore-keys: |
           ${{ runner.os }}-2-gradle-
-
-    - name: Gradle check
-      uses: eskatos/gradle-command-action@v1
-      with:
-        # Path to the Gradle executable
-        gradle-executable: "./test_runner/gradlew"
-        # Gradle command line arguments, see gradle --help
-        arguments: "-p test_runner check"
         
     - name: Codecov
       uses: codecov/codecov-action@v1.0.7
