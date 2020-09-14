@@ -1,8 +1,18 @@
 # Test artifacts
+Test artifacts are necessary for CI and local testing.
+
+### Generating test artifacts
+```bash
+cd ... # your flank repositry root
+source .env
+update_test_artifacts android ios  # [ android | go | ios | all ]
+```
+`update_test_artifacts` function will generate artifacts and copy them to `test_runner/src/test/kotlin/ftl/fixtures/tmp/` directory.
+
+# Refactor
 This is proposal of test artifacts refactoring.
 
-## Context
-Test artifacts are necessary for CI and local testing. 
+## Context 
 Working on different issues sometimes requires different implementations of test artifacts that may exist in same time.
 
 ### Problem
@@ -33,9 +43,9 @@ Sometimes downloading may fail, but this not aborting test run.
 For remote storage options see [host_binaries_solutions_comparison.md](./host_binaries_solutions_comparison.md)
 
 ## Solution proposal
-1. Move source code of test artifacts to one repo. 
-We should consider flank repo because test_app is already there or dedicated repo linked to flank as git submodule.
-2. Prepare missing build scripts and adjust existing. 
+1. ~~Move source code of test artifacts to one repo. 
+We should consider flank repo because test_app is already there or dedicated repo linked to flank as git submodule.~~
+2. ~~Prepare missing build scripts and adjust existing.~~
 We need dedicated scripts for each artifact group (iOS, Android or different types of each) and one to execute all of them.
 3. Choose the best solution for hosting remote artifacts. See `Technical research` section.
 4. Integrate artifacts synchronization with remote storage
