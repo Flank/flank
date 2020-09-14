@@ -31,6 +31,7 @@ import ftl.util.assertNotEmpty
 import java.io.File
 import java.net.URI
 import java.nio.file.Files
+import java.nio.file.InvalidPathException
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.regex.Pattern
@@ -45,6 +46,10 @@ object ArgsHelper {
         if (!file.exist())
             throw FlankGeneralError("'$file' $name doesn't exist")
     }
+
+    private fun String.isWindows() = this.toLowerCase().contains("window")
+
+    private fun String.convertToWindowsPath() = this.replace("/", "\\").replaceFirst("~", System.getProperty("user.home"))
 
     private fun String.exist() =
         if (startsWith(GCS_PREFIX)) GcStorage.exist(this) else File(this).exists()
@@ -73,10 +78,18 @@ object ArgsHelper {
     }
 
     fun evaluateFilePath(filePath: String): String {
-        var file = filePath.trim().replaceFirst(Regex("^~"), System.getProperty("user.home"))
+        val isWindows = System.getProperty("os.name").isWindows()
+
+        var file = if (isWindows) filePath.trim().convertToWindowsPath()
+        else
+            filePath.trim().replaceFirst(Regex("^~"), System.getProperty("user.home"))
         file = evaluateEnvVars(file)
         // avoid File(..).canonicalPath since that will resolve symlinks
-        file = Paths.get(file).toAbsolutePath().normalize().toString()
+        try {
+            file = Paths.get(file).toAbsolutePath().normalize().toString()
+        } catch (e: InvalidPathException) {
+            throw FlankGeneralError("Invalid path exception: $e")
+        }
 
         // Avoid walking the folder's parent dir if we know it exists already.
         if (File(file).exists()) return file
