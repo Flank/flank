@@ -1,15 +1,11 @@
 import org.junit.Assert
 import org.junit.Test
 import utils.toStringMap
-import java.io.File
 
 class IntegrationTests {
 
     @Test
     fun shouldMatchAndroidSuccessExitCodeAndPattern() {
-        val file = File("../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk")
-        Assert.assertTrue("File: ${file.absolutePath} not exists", file.exists())
-
         val testParameters = System.getProperties().toStringMap().toAndroidTestParameters()
         if (testParameters.flankPath.isEmpty()) return
         val actual =
@@ -31,9 +27,6 @@ class IntegrationTests {
 
     @Test
     fun shouldMatchIosSuccessExitCodeAndPattern() {
-        val file = File("../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk")
-        Assert.assertTrue("File: ${file.absolutePath} not exists", file.exists())
-
         val testParameters = System.getProperties().toStringMap().toIosParameters()
         if (testParameters.flankPath.isEmpty()) return
         val actual =

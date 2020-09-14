@@ -9,5 +9,5 @@ fun String.runCommand(workingDir: File): ProcessResult = ProcessBuilder(*split("
     .redirectError(ProcessBuilder.Redirect.PIPE)
     .start().run {
         waitFor(60, TimeUnit.MINUTES)
-        ProcessResult(exitValue(), inputStream.bufferedReader().readText())
+        ProcessResult(exitValue(), inputStream.bufferedReader().readText() + this.errorStream.bufferedReader().readText())
     }
