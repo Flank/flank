@@ -42,6 +42,14 @@ jobs:
         gradle-executable: "./test_runner/gradlew"
         arguments: "-p test_runner clean build"
 
+    - name: Prepare Google Service Account
+      env:
+        GCLOUD_KEY: ${{ secrets.GCLOUD_KEY }}
+      run: |
+        GCLOUD_DIR="$HOME/.config/gcloud/"
+        mkdir -p "$GCLOUD_DIR"
+        echo "$GCLOUD_KEY" | base64 --decode > "$GCLOUD_DIR/application_default_credentials.json" 
+        
     - name: Gradle Integration Tests Android
       uses: eskatos/gradle-command-action@v1
       with:
