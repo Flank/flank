@@ -9,6 +9,13 @@ update_test_artifacts android ios  # [ android | go | ios | all ]
 ```
 `update_test_artifacts` function will generate artifacts and copy them to `test_runner/src/test/kotlin/ftl/fixtures/tmp/` directory.
 
+### Test projects
+All source code for test artifacts is located in [test_projects](../test_projects/) directory.
+
+Each test project can contain own `ops.sh` script used building and coping generated artifacts.
+
+`update_test_artifacts` function is located in [test_projects/ops.sh](../test_projects/ops.sh) script.
+
 # Refactor
 This is proposal of test artifacts refactoring.
 

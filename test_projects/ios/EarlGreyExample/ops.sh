@@ -4,7 +4,7 @@ EARL_GREY_EXAMPLE="$TEST_PROJECTS_IOS/EarlGreyExample"
 
 function setup_ios_env() {
   if ! [ -x "$(command -v xcpretty)" ]; then
-    gem install cocoapods
+    gem install cocoapods -v 1.9.3
   fi
   (cd "$EARL_GREY_EXAMPLE" && pod install)
 }
