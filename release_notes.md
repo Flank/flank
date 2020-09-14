@@ -1,3 +1,15 @@
+## v20.09.2
+### Features
+- [#1111](https://github.com/Flank/flank/pull/1111) Check if gcs path exist before run ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1110](https://github.com/Flank/flank/pull/1110) Finialize the slack sending integration with actions ([Sloox](https://github.com/Sloox))
+- [#1108](https://github.com/Flank/flank/pull/1108) Support for robo tests without robo script ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1104](https://github.com/Flank/flank/pull/1104) Send slack message for releases ([Sloox](https://github.com/Sloox))
+- [#1097](https://github.com/Flank/flank/pull/1097) Print the matrices web link at the end of a run ([adamfilipow92](https://github.com/adamfilipow92))
+### Bug Fixes
+- [#1107](https://github.com/Flank/flank/pull/1107) Running iOS test on Linux ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1059](https://github.com/Flank/flank/pull/1059) Shards and Tests count do not match ([pawelpasterz](https://github.com/pawelpasterz), [adamfilipow92](https://github.com/adamfilipow92))
+- [#1067](https://github.com/Flank/flank/pull/1067) Matrix path not found in json ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+
 ## v20.09.1
 ### Bug Fixes
 - [#1100](https://github.com/Flank/flank/pull/1100) Fix gcs files validation ([pawelpasterz](https://github.com/pawelpasterz))
