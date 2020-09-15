@@ -16,8 +16,9 @@ See [docs/error_monitoring.md](./docs/error_monitoring.md) to disable Bugsnag er
 
 ### Contributing
 
-- Install [Oracle JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-  - JDK 9 or later will not work
+- Install JDK 11 (it works also correctly on previous version, newer version are not guaranteed to works properly):
+  - [Oracle](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+  - [OpenJDK](https://jdk.java.net/11/)
 - Use [JetBrains Toolbox](https://www.jetbrains.com/toolbox/app/) to install `IntelliJ IDEA Community`
 - Clone the repo `git clone --recursive https://github.com/Flank/flank.git`
   - `git submodule update --init --recursive` updates the submodules
@@ -729,11 +730,7 @@ and flank's example [gradle-export-api](https://github.com/Flank/flank/tree/mast
 
     With the [update_flank.sh](https://github.com/Flank/flank/blob/master/test_runner/bash/update_flank.sh) shell script, you can rebuild `flank.jar`.
 
-3)  > Symbol is declared in module 'java.xml' which does not export package 'com.sun.org.apache.xerces.internal.dom'
-
-    Make sure you're using JDK 8 to compile Flank.
-
-4)  > Test run failed to complete. Expected 786 tests, received 660
+3)  > Test run failed to complete. Expected 786 tests, received 660
 
     Try setting `use-orchestrator: false`. Parameterized tests [are not compatible with orchestrator](https://stackoverflow.com/questions/48735268/unable-to-run-parameterized-tests-with-android-test-orchestrator). Flank uses [orchestrator by default on Android.](https://developer.android.com/training/testing/junit-runner)
 

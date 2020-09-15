@@ -9,6 +9,8 @@ import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
+import ftl.gc.GcStorage
+import ftl.gc.GcStorage.exist
 import ftl.gc.android.setupAndroidTest
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.platform.android.createAndroidTestConfig
@@ -23,8 +25,11 @@ import ftl.test.util.assertThrowsWithMessage
 import ftl.run.exception.FlankGeneralError
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.IncompatibleTestDimensionError
+import ftl.shard.Chunk
+import ftl.shard.TestMethod
 import ftl.util.asFileReference
 import io.mockk.every
+import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
@@ -33,7 +38,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
+import org.junit.Rule
 import org.junit.Test
+import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
 import java.io.StringReader
@@ -44,6 +51,11 @@ import java.util.UUID
 @Suppress("TooManyFunctions")
 @RunWith(FlankTestRunner::class)
 class AndroidArgsTest {
+
+    @Rule
+    @JvmField
+    val systemOutRule: SystemOutRule = SystemOutRule().enableLog()
+
     private val empty = emptyList<String>()
     private val appApk = "../test_projects/android/apks/app-debug.apk"
     private val invalidApk = "../test_projects/android/apks/invalid.apk"
@@ -1402,7 +1414,7 @@ AndroidArgs
             InstrumentationTestContext(
                 app = "app".asFileReference(),
                 test = "test".asFileReference(),
-                shards = listOf(listOf("test"), listOf("test"))
+                shards = listOf(Chunk(listOf(TestMethod(name = "test", time = 0.0))), Chunk(listOf(TestMethod(name = "test", time = 0.0))))
             )
         )
         val testSpecification = TestSpecification().setupAndroidTest(androidTestConfig)
@@ -1426,7 +1438,7 @@ AndroidArgs
             InstrumentationTestContext(
                 app = "app".asFileReference(),
                 test = "test".asFileReference(),
-                shards = listOf(listOf("test"), listOf("test"))
+                shards = listOf(Chunk(listOf(TestMethod(name = "test", time = 0.0))), Chunk(listOf(TestMethod(name = "test", time = 0.0))))
             )
         )
         val testSpecification = TestSpecification().setupAndroidTest(androidTestConfig)
@@ -1596,6 +1608,7 @@ AndroidArgs
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
     }
+
     @Test
     fun `should not throw when --legacy-junit-result set and --full-junit-result not set`() {
         val yaml = """
@@ -1768,10 +1781,73 @@ AndroidArgs
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
     }
+
+    @Test
+    fun `should show warning message when bucket exist and legacy junit result used`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          results-dir: test
+        flank:
+          max-test-shards: -1
+          legacy-junit-result: true
+        """.trimIndent()
+        mockkObject(GcStorage) {
+            every { exist(any(), any()) } returns true
+
+            // when
+            AndroidArgs.load(yaml).validate()
+
+            // then
+            assertTrue(systemOutRule.log.contains("WARNING: Google cloud storage result directory should be unique, otherwise results from multiple test matrices will be overwritten or intermingled"))
+        }
+    }
+
+    @Test
+    fun `should not print Google cloud storage warning when legacy junit results is false`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          results-dir: test
+        flank:
+          max-test-shards: -1
+          legacy-junit-result: false
+        """.trimIndent()
+
+        // when
+        AndroidArgs.load(yaml).validate()
+
+        // then
+        assertFalse(systemOutRule.log.contains("WARNING: Google cloud storage result directory should be unique, otherwise results from multiple test matrices will be overwritten or intermingled"))
+    }
+
+    @Test
+    fun `should not print result-dir warning when same directory does not exist`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          results-dir: test
+        flank:
+          max-test-shards: -1
+          legacy-junit-result: true
+        """.trimIndent()
+        mockkObject(GcStorage) {
+            every { exist(any(), any()) } returns false
+
+            // when
+            AndroidArgs.load(yaml).validate()
+
+            // then
+            assertFalse(systemOutRule.log.contains("WARNING: Google cloud storage result directory should be unique, otherwise results from multiple test matrices will be overwritten or intermingled"))
+        }
+    }
 }
 
 private fun AndroidArgs.Companion.load(yamlData: String, cli: AndroidRunCommand? = null): AndroidArgs =
     load(StringReader(yamlData), cli)
 
-fun getAndroidShardChunks(args: AndroidArgs): ShardChunks =
+fun getAndroidShardChunks(args: AndroidArgs): List<Chunk> =
     runBlocking { (args.createAndroidTestContexts().first() as InstrumentationTestContext).shards }

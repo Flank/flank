@@ -27,6 +27,7 @@ internal class TestCasesCreatorTest {
         val args = mockk<IArgs> {
             every { useAverageTestTimeForNewTests } returns true
             every { defaultTestTime } returns 10.0
+            every { defaultClassTestTime } returns 12.0
         }
 
         // when
@@ -45,6 +46,7 @@ internal class TestCasesCreatorTest {
         val args = mockk<IArgs> {
             every { useAverageTestTimeForNewTests } returns false
             every { defaultTestTime } returns 10.0
+            every { defaultClassTestTime } returns 12.0
         }
 
         // when
@@ -69,6 +71,7 @@ internal class TestCasesCreatorTest {
         val args = mockk<IArgs> {
             every { useAverageTestTimeForNewTests } returns true
             every { defaultTestTime } returns 10.0
+            every { defaultClassTestTime } returns 12.0
         }
 
         // when
@@ -88,6 +91,7 @@ internal class TestCasesCreatorTest {
         val args = mockk<IArgs> {
             every { useAverageTestTimeForNewTests } returns true
             every { defaultTestTime } returns 10.0
+            every { defaultClassTestTime } returns 12.0
         }
 
         // when

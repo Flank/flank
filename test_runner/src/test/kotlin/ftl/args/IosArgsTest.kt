@@ -7,20 +7,24 @@ import ftl.config.FtlConstants
 import ftl.config.FtlConstants.defaultIosModel
 import ftl.config.FtlConstants.defaultIosVersion
 import ftl.config.defaultIosConfig
+import ftl.gc.GcStorage
+import ftl.run.exception.FlankConfigurationError
 import ftl.run.status.OutputStyle
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
 import ftl.test.util.assertThrowsWithMessage
-import ftl.run.exception.FlankConfigurationError
-import org.junit.Assert
+import io.mockk.every
+import io.mockk.mockkObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Assume
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
+import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
 import java.io.StringReader
@@ -89,9 +93,12 @@ class IosArgsTest {
           output-style: single
         """
 
+    @get:Rule
+    val systemErrRule = SystemErrRule().muteForSuccessfulTests()
+
     @Rule
     @JvmField
-    val systemErrRule = SystemErrRule().muteForSuccessfulTests()!!
+    val systemOutRule: SystemOutRule = SystemOutRule().enableLog()
 
     @Test
     fun `empty testTargets`() {
@@ -1032,7 +1039,7 @@ IosArgs
           use-average-test-time-for-new-tests: true
         """.trimIndent()
         val args = IosArgs.load(yaml)
-        Assert.assertTrue(args.useAverageTestTimeForNewTests)
+        assertTrue(args.useAverageTestTimeForNewTests)
     }
 
     @Test
@@ -1046,6 +1053,48 @@ IosArgs
         """.trimIndent()
         val args = IosArgs.load(yaml)
         assertFalse(args.useAverageTestTimeForNewTests)
+    }
+
+    @Test
+    fun `should show warning message when results directory exist`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+          results-dir: test
+        flank:
+          max-test-shards: -1
+        """.trimIndent()
+        mockkObject(GcStorage) {
+            every { GcStorage.exist(any(), any()) } returns true
+
+            // when
+            IosArgs.load(yaml).validate()
+
+            // then
+            assertTrue(systemOutRule.log.contains("WARNING: Google cloud storage result directory should be unique, otherwise results from multiple test matrices will be overwritten or intermingled"))
+        }
+    }
+
+    @Test
+    fun `should not print result-dir warning when same directory does not exist`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+          results-dir: test
+        flank:
+          max-test-shards: -1
+        """.trimIndent()
+        mockkObject(GcStorage) {
+            every { GcStorage.exist(any(), any()) } returns false
+
+            // when
+            IosArgs.load(yaml).validate()
+
+            // then
+            assertFalse(systemOutRule.log.contains("WARNING: Google cloud storage result directory should be unique, otherwise results from multiple test matrices will be overwritten or intermingled"))
+        }
     }
 }
 

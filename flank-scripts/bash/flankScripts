@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
-DIR=`dirname "$BASH_SOURCE"`
+dir=$(dirname "$BASH_SOURCE")
+scriptsJar="$dir/flankScripts.jar"
 
-/usr/bin/env java -jar "$DIR/flankScripts.jar" "$@"
+if [ ! -f "$scriptsJar" ]; then
+  "$dir/buildFlankScripts.sh"
+fi
+
+/usr/bin/env java -jar "$scriptsJar" "$@"

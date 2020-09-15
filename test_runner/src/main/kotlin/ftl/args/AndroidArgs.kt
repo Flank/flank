@@ -78,10 +78,20 @@ AndroidArgs
 }
 
 val AndroidArgs.isInstrumentationTest
-    get() = appApk != null && testApk != null ||
+    get() = appApk.isNotNull() &&
+            testApk.isNotNull() ||
             additionalAppTestApks.isNotEmpty() &&
-            (appApk != null || additionalAppTestApks.all { (app, _) -> app != null })
+            (appApk.isNotNull() || additionalAppTestApks.all { (app, _) -> app.isNotNull() })
 
 val AndroidArgs.isRoboTest
-    get() = appApk != null &&
-            (roboDirectives.isNotEmpty() || roboScript != null)
+    get() = appApk.isNotNull() &&
+            (roboDirectives.isNotEmpty() || roboScript.isNotNull())
+
+val AndroidArgs.isSanityRobo
+    get() = appApk.isNotNull() &&
+            testApk.isNull() &&
+            roboScript.isNull() &&
+            additionalAppTestApks.isEmpty()
+
+private fun String?.isNull() = this == null
+private fun String?.isNotNull() = isNull().not()

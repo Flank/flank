@@ -24,13 +24,11 @@ import org.junit.runner.RunWith
 @RunWith(FlankTestRunner::class)
 class AndroidArgsFileTest {
 
-    @Rule
-    @JvmField
-    val systemErrRule = SystemErrRule().muteForSuccessfulTests()!!
+    @get:Rule
+    val systemErrRule = SystemErrRule().muteForSuccessfulTests()
 
-    @Rule
-    @JvmField
-    val systemOutRule = SystemOutRule().muteForSuccessfulTests()!!
+    @get:Rule
+    val systemOutRule = SystemOutRule().muteForSuccessfulTests()
 
     private val ymlNotFound = getPath("not_found.yml")
     private val localYamlFile = getPath("src/test/kotlin/ftl/fixtures/flank.local.yml")

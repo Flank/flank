@@ -20,12 +20,12 @@ import ftl.config.FtlConstants.useMock
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.reports.xml.model.JUnitTestResult
-import ftl.shard.StringShards
 import ftl.shard.createShardsByShardCount
 import ftl.shard.shardCountByTime
-import ftl.shard.stringShards
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
+import ftl.shard.Chunk
+import ftl.shard.TestMethod
 import ftl.util.FlankTestMethod
 import ftl.util.assertNotEmpty
 import java.io.File
@@ -42,16 +42,18 @@ object ArgsHelper {
     }
 
     fun assertFileExists(file: String, name: String) {
-        if (!File(file).exists()) {
+        if (!file.exist())
             throw FlankGeneralError("'$file' $name doesn't exist")
-        }
     }
+
+    private fun String.exist() =
+        if (startsWith(GCS_PREFIX)) GcStorage.exist(this) else File(this).exists()
 
     fun assertCommonProps(args: IArgs) {
         assertNotEmpty(
             args.project, "The project is not set. Define GOOGLE_CLOUD_PROJECT, set project in flank.yml\n" +
-                "or save service account credential to ${defaultCredentialPath}\n" +
-                " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
+                    "or save service account credential to ${defaultCredentialPath}\n" +
+                    " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
         )
 
         if (args.maxTestShards !in AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE && args.maxTestShards != -1)
@@ -218,30 +220,33 @@ object ArgsHelper {
     ): CalculateShardsResult {
         if (filteredTests.isEmpty()) {
             // Avoid unnecessary computing if we already know there aren't tests to run.
-            return CalculateShardsResult(listOf(emptyList()), emptyList())
+            return CalculateShardsResult(emptyList(), emptyList())
         }
         val (ignoredTests, testsToExecute) = filteredTests.partition { it.ignored }
         val shards = if (args.disableSharding) {
-            // Avoid to cast it to MutableList<String> to be agnostic from the caller.
-            listOf(testsToExecute.map { it.testName }.toMutableList())
+            listOf(Chunk(testsToExecute.map {
+                TestMethod(
+                    name = it.testName,
+                    isParameterized = it.isParameterizedClass,
+                    time = 0.0
+                )
+            }))
         } else {
             val oldTestResult = GcStorage.downloadJunitXml(args) ?: JUnitTestResult(mutableListOf())
             val shardCount = forcedShardCount ?: shardCountByTime(testsToExecute, oldTestResult, args)
-            createShardsByShardCount(testsToExecute, oldTestResult, args, shardCount).stringShards()
+            createShardsByShardCount(testsToExecute, oldTestResult, args, shardCount).map { Chunk(it.testMethods) }
         }
 
-        return CalculateShardsResult(testMethodsAlwaysRun(shards, args), ignoredTestCases = ignoredTests.map { it.testName })
+        return CalculateShardsResult(
+            testMethodsAlwaysRun(shards, args),
+            ignoredTestCases = ignoredTests.map { it.testName })
     }
 
-    private fun testMethodsAlwaysRun(shards: StringShards, args: IArgs): StringShards {
+    private fun testMethodsAlwaysRun(shards: List<Chunk>, args: IArgs): List<Chunk> {
         val alwaysRun = args.testTargetsAlwaysRun
+        val find = shards.flatMap { it.testMethods }.filter { alwaysRun.contains(it.name) }
 
-        shards.forEach { shard ->
-            shard.removeAll(alwaysRun)
-            shard.addAll(0, alwaysRun)
-        }
-
-        return shards
+        return shards.map { Chunk(find + it.testMethods.filterNot { method -> find.contains(method) }) }
     }
 }
 

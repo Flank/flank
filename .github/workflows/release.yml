@@ -12,10 +12,12 @@ on:
 
 jobs:
   release:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     
     steps:
     - uses: actions/checkout@v2
+      with: 
+        submodules: true
 
     - name: Get all git tags
       run: |
@@ -63,7 +65,7 @@ jobs:
       with:
         gradle-executable: "./test_runner/gradlew"
         arguments: "-p test_runner clean build shadowJar"
-        
+
     - name: Gradle Upload to bintray
       uses: eskatos/gradle-command-action@v1
       with:
@@ -108,16 +110,11 @@ jobs:
         gradle-executable: "./test_runner/gradlew"
         arguments: "-p test_runner publish -PGITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
 
-    - name: Get Latest Release notes and set as variables
-      run: |
-        notes=$(awk '!NF{exit}1' release_notes.md)
-        echo "::set-env name=RELEASE_NOTES::$(echo $notes)";
-
-    - name: Post Message of Flank Release TEST ONLY
-      uses: archive/github-actions-slack@master
+    - name: Post Message of Flank Release
+      uses: Flank/flank@V1.1-action
       if: startsWith(github.ref, 'refs/tags/v')
       with:
-          slack-bot-user-oauth-access-token: ${{ secrets.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN }}
-          slack-channel: flank_test_channel
-          slack-optional-icon_emoji: ":fire:"  
-          slack-text: <http://github.com/Flank/flank/releases/tag/${{ env.RELEASE_TAG }}|Flank "${{ env.RELEASE_TAG }}" > is released \n ${{ env.RELEASE_NOTES }}
+          xoxctoken: ${{ secrets.SLACK_XOXCTOKEN }}
+          message: Flank ${{ env.RELEASE_TAG }} has been released. View more information <http://github.com/Flank/flank/releases/tag/${{ env.RELEASE_TAG }}| here!>
+          channel: ${{ secrets.SLACK_CHANNEL}}
+          cookie: ${{ secrets.SLACK_COOKIE}}

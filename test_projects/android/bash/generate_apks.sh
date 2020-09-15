@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo "DEPRECATED!!! use functions from test_projects/android/ops.sh"
+
 set -euxo pipefail
 
 APK_OUTPUT=$1
