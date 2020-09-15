@@ -14,9 +14,11 @@ import ftl.util.StepOutcome.success
 import ftl.util.StepOutcome.unset
 
 internal fun Outcome?.getDetails(
-    testSuiteOverviewData: TestSuiteOverviewData?
+    testSuiteOverviewData: TestSuiteOverviewData?,
+    isRoboTest: Boolean = false
 ): String = when (this?.summary) {
-    success, flaky -> testSuiteOverviewData
+    success, flaky -> if (isRoboTest) "---"
+    else testSuiteOverviewData
         ?.getSuccessOutcomeDetails(successDetail?.otherNativeCrash ?: false)
         ?: "Unknown outcome"
     failure -> failureDetail.getFailureOutcomeDetails(testSuiteOverviewData)
@@ -43,6 +45,7 @@ internal fun FailureDetail?.getFailureOutcomeDetails(testSuiteOverviewData: Test
     crashed == true -> "Application crashed"
     timedOut == true -> "Test timed out"
     notInstalled == true -> "App failed to install"
+    failedRoboscript == true -> "Test failed to run"
     else -> testSuiteOverviewData?.buildFailureOutcomeDetailsSummary() ?: "Unknown failure"
 } + this?.takeIf { it.otherNativeCrash ?: false }?.let { NATIVE_CRASH_MESSAGE }.orEmpty()
 
