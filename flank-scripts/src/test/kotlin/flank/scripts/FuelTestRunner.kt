@@ -11,7 +11,6 @@ import flank.scripts.release.updatebugsnag.BugSnagRequest
 import flank.scripts.release.updatebugsnag.BugSnagResponse
 import flank.scripts.utils.toJson
 import flank.scripts.utils.toObject
-import kotlinx.serialization.builtins.list
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.junit.runners.BlockJUnit4ClassRunner

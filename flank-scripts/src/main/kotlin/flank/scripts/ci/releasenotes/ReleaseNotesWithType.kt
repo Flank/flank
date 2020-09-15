@@ -8,11 +8,11 @@ typealias ReleaseNotesWithType = Map<String, List<String>>
 
 fun ReleaseNotesWithType.asString(headerTag: String) =
     StringBuilder(headerTag.markdownH2())
-        .appendln()
+        .appendLine()
         .apply {
             this@asString.forEach { (type, messages) ->
-                appendln(type.markdownH3())
-                messages.forEach { appendln(it) }
+                appendLine(type.markdownH3())
+                messages.forEach { appendLine(it) }
             }
         }
         .toString()

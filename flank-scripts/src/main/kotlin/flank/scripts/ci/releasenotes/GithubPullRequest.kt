@@ -1,10 +1,8 @@
 package flank.scripts.ci.releasenotes
 
 import com.github.kittinunf.fuel.core.ResponseDeserializable
-import flank.scripts.utils.toObject
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.builtins.list
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
