@@ -19,7 +19,7 @@ internal fun AndroidArgs.resolveApks(): List<AndroidTestContext> = listOfNotNull
 
 private fun AndroidArgs.mainApkContext() = appApk?.let { appApk ->
     when {
-        testApk != null -> InstrumentationTestContext(app = appApk.asFileReference(), test = testApk.asFileReference())
+        testApk != null -> InstrumentationTestContext(app = appApk.asFileReference(), test = testApk.asFileReference(), env = emptyMap())
         roboScript != null -> RoboTestContext(app = appApk.asFileReference(), roboScript = roboScript.asFileReference())
         isSanityRobo -> SanityRoboTestContext(app = appApk.asFileReference())
         else -> null
@@ -31,6 +31,6 @@ private fun AndroidArgs.additionalApksContexts() = additionalAppTestApks.map {
         app = (it.app ?: appApk)
             ?.asFileReference()
             ?: throw FlankGeneralError("Cannot create app-test apks pair for instrumentation tests, missing app apk for test ${it.test}"),
-        test = it.test.asFileReference()
+        test = it.test.asFileReference(), env = it.environmentVariables
     )
 }.toTypedArray()

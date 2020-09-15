@@ -4,7 +4,6 @@ import ftl.args.FlankRoboDirective
 import ftl.args.ShardChunks
 
 sealed class AndroidTestConfig {
-
     data class Instrumentation(
         val appApkGcsPath: String,
         val testApkGcsPath: String,
@@ -14,7 +13,8 @@ sealed class AndroidTestConfig {
         val disableSharding: Boolean,
         val testShards: ShardChunks,
         val numUniformShards: Int?,
-        val keepTestTargetsEmpty: Boolean
+        val keepTestTargetsEmpty: Boolean,
+        val env: Map<String, String> = emptyMap()
     ) : AndroidTestConfig()
 
     data class Robo(
@@ -22,4 +22,5 @@ sealed class AndroidTestConfig {
         val flankRoboDirectives: List<FlankRoboDirective>?,
         val roboScriptGcsPath: String?
     ) : AndroidTestConfig()
+
 }
