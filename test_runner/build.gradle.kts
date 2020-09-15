@@ -1,4 +1,3 @@
-
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.jfrog.bintray.gradle.BintrayExtension
@@ -136,14 +135,14 @@ detekt {
 
 subprojects {
     tasks.withType<Test> {
-        maxParallelForks = 1 //Computers with massive amount of threads, parallel test running causes conflicts and failures
+        maxParallelForks = Runtime.getRuntime().availableProcessors() / 2
     }
 }
 
 // Kotlin dsl
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt> {
-        // Target version of the generated JVM bytecode. It is used for type resolution.
-        this.jvmTarget = "1.8"
+    // Target version of the generated JVM bytecode. It is used for type resolution.
+    this.jvmTarget = "1.8"
 }
 
 // http://www.eclemma.org/jacoco/
