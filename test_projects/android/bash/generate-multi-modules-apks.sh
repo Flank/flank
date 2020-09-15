@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo "DEPRECATED!!! use functions from test_projects/android/ops.sh"
+
 set -euxo pipefail
 
 PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." >/dev/null 2>&1 && pwd )"

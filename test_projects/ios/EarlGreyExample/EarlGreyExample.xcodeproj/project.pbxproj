@@ -283,18 +283,18 @@
 				TargetAttributes = {
 					2CB7314C1C29E54A00CF35C1 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = H86XEK7ZTM;
+						DevelopmentTeam = AD2V26JBWL;
 						LastSwiftMigration = 0800;
 						TestTargetID = 5F5A53781ADE67D500F81DF0;
 					};
 					5F5A53781ADE67D500F81DF0 = {
 						CreatedOnToolsVersion = 6.3;
-						DevelopmentTeam = H86XEK7ZTM;
+						DevelopmentTeam = AD2V26JBWL;
 						LastSwiftMigration = 0800;
 					};
 					5FDE05571B0DAA090037B82F = {
 						CreatedOnToolsVersion = 6.3.2;
-						DevelopmentTeam = H86XEK7ZTM;
+						DevelopmentTeam = AD2V26JBWL;
 						TestTargetID = 5F5A53781ADE67D500F81DF0;
 					};
 				};
@@ -485,12 +485,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = H86XEK7ZTM;
+				DEVELOPMENT_TEAM = AD2V26JBWL;
 				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = EarlGreyExampleSwiftTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.samples.EarlGreySwiftTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.gogoapps.earlgrey.samples.EarlGreySwiftTests;
 				PRODUCT_MODULE_NAME = EarlGreyExampleTestsSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -509,11 +509,11 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = H86XEK7ZTM;
+				DEVELOPMENT_TEAM = AD2V26JBWL;
 				INFOPLIST_FILE = EarlGreyExampleSwiftTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.samples.EarlGreySwiftTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.gogoapps.earlgrey.samples.EarlGreySwiftTests;
 				PRODUCT_MODULE_NAME = EarlGreyExampleTestsSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -619,12 +619,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = H86XEK7ZTM;
+				DEVELOPMENT_TEAM = AD2V26JBWL;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/EarlGreyExample/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.samples.EarlGrey3;
+				PRODUCT_BUNDLE_IDENTIFIER = io.gogoapps.earlgrey.samples.EarlGrey;
 				PRODUCT_MODULE_NAME = EarlGreyExampleSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
@@ -642,12 +642,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = H86XEK7ZTM;
+				DEVELOPMENT_TEAM = AD2V26JBWL;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/EarlGreyExample/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.samples.EarlGrey3;
+				PRODUCT_BUNDLE_IDENTIFIER = io.gogoapps.earlgrey.samples.EarlGrey;
 				PRODUCT_MODULE_NAME = EarlGreyExampleSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
@@ -666,7 +666,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = H86XEK7ZTM;
+				DEVELOPMENT_TEAM = AD2V26JBWL;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -682,7 +682,7 @@
 				INFOPLIST_FILE = EarlGreyExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.samples.EarlGreyTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.gogoapps.earlgrey.samples.EarlGreyTests;
 				PRODUCT_MODULE_NAME = EarlGreyExampleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -704,7 +704,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = H86XEK7ZTM;
+				DEVELOPMENT_TEAM = AD2V26JBWL;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = (
@@ -716,7 +716,7 @@
 				INFOPLIST_FILE = EarlGreyExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.samples.EarlGreyTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.gogoapps.earlgrey.samples.EarlGreyTests;
 				PRODUCT_MODULE_NAME = EarlGreyExampleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
