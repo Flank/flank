@@ -21,6 +21,4 @@ RUN chmod +x /entrypoint.sh
 
 RUN chmod +x /sendMessage
 
-RUN bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && /test.sh"
-
 ENTRYPOINT /bin/bash /entrypoint.sh
