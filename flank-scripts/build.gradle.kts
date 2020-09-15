@@ -2,9 +2,9 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     application
-    kotlin(Kotlin.PLUGIN_JVM) version Versions.KOTLIN_VERSION
-    kotlin(Kotlin.PLUGIN_SERIALIZATION) version Versions.KOTLIN_VERSION
-    id(Libs.PLUGIN_SHADOW_JAR) version Versions.SHADOW_JAR
+    kotlin(Kotlin.PLUGIN_JVM) version Versions.KOTLIN
+    kotlin(Kotlin.PLUGIN_SERIALIZATION) version Versions.KOTLIN
+    id(Libs.PLUGIN_SHADOW_JAR) version Versions.SHADOW
     id(Libs.DETEKT_PLUGIN) version Versions.DETEKT
 }
 
