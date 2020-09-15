@@ -20,7 +20,7 @@ class BashTest {
 
     @Test(expected = FlankGeneralError::class)
     fun executeStderrExitCode1() {
-        if (isWindows) return
+        if (isWindows) throw FlankGeneralError("Failure as is windows")
         assertThat(Bash.execute("echo not an error 1>&2; exit 1")).isEmpty()
     }
 
