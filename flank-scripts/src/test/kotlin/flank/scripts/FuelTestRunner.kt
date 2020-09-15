@@ -12,6 +12,8 @@ import flank.scripts.release.updatebugsnag.BugSnagResponse
 import flank.scripts.utils.toJson
 import flank.scripts.utils.toObject
 import kotlinx.serialization.builtins.list
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.junit.runners.BlockJUnit4ClassRunner
 import org.junit.runners.model.Statement
 
@@ -29,7 +31,8 @@ class FuelTestRunner(klass: Class<*>) : BlockJUnit4ClassRunner(klass) {
                 return when {
                     url == "https://api.github.com/repos/Flank/flank/git/refs/tags/success" -> request.buildResponse("", 200)
                     url == "https://api.github.com/repos/flank/flank/releases/latest" && request.headers["Authorization"].contains("token success") -> request.buildResponse(GitHubRelease("v20.08.0").toJson(GitHubRelease.serializer()), 200)
-                    url == "https://api.github.com/repos/flank/flank/commits/success/pulls" -> request.buildResponse(githubPullRequestTest.toJson(GithubPullRequest.serializer().list), 200)
+                    url == "https://api.github.com/repos/flank/flank/commits/success/pulls" -> request.buildResponse(
+                        Json.encodeToString(githubPullRequestTest), 200)
                     request.isFailedGithubRequest() -> request.buildResponse(githubErrorBody, 422)
                     url == "https://build.bugsnag.com/" -> request.handleBugsnagResponse()
                     else -> Response(request.url)

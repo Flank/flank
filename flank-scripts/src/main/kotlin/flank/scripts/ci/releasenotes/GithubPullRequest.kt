@@ -5,6 +5,8 @@ import flank.scripts.utils.toObject
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.list
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 @Serializable
 data class GithubPullRequest(
@@ -22,6 +24,6 @@ data class GithubUser(
 
 object GithubPullRequestDeserializer : ResponseDeserializable<List<GithubPullRequest>> {
     override fun deserialize(content: String): List<GithubPullRequest> {
-        return content.toObject(GithubPullRequest.serializer().list)
+        return Json.decodeFromString(content)
     }
 }

@@ -51,7 +51,7 @@ detekt {
 tasks["check"].dependsOn(tasks["detekt"])
 
 dependencies {
-    implementation(kotlin("stdlib"))
+    implementation(kotlin("stdlib", org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION)) // or "stdlib-jdk8"
     implementation(Libs.KOTLIN_SERIALIZATION)
     implementation(Libs.Fuel.CORE)
     implementation(Libs.Fuel.KOTLINX_SERIALIZATION)

@@ -86,7 +86,7 @@ object Versions {
 
 
     // ============== flank-scripts ==============
-    const val KOTLINX_SERIALIZATION = "0.20.0"
+    const val KOTLINX_SERIALIZATION = "1.0.0-RC"
     const val FUEL = "2.2.3"
     const val CLIKT = "2.8.0"
 }
@@ -142,7 +142,7 @@ object Libs {
     //endregion
 
     const val COMMON_TEXT = "org.apache.commons:commons-text:${Versions.COMMON_TEXT}"
-    const val KOTLIN_SERIALIZATION = "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.KOTLINX_SERIALIZATION}"
+    const val KOTLIN_SERIALIZATION = "org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.KOTLINX_SERIALIZATION}"
 
     //region flank-scripts
     const val PLUGIN_SHADOW_JAR = "com.github.johnrengelman.shadow"
