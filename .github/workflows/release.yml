@@ -65,7 +65,7 @@ jobs:
       with:
         gradle-executable: "./test_runner/gradlew"
         arguments: "-p test_runner clean build shadowJar"
-        
+
     - name: Gradle Upload to bintray
       uses: eskatos/gradle-command-action@v1
       with:
@@ -118,4 +118,3 @@ jobs:
           message: Flank ${{ env.RELEASE_TAG }} has been released. View more information <http://github.com/Flank/flank/releases/tag/${{ env.RELEASE_TAG }}| here!>
           channel: ${{ secrets.SLACK_CHANNEL}}
           cookie: ${{ secrets.SLACK_COOKIE}}
-          

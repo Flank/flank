@@ -226,7 +226,7 @@ dependencies {
     // NOTE: iOS support isn't in the public artifact. Use testing jar generated from the private gcloud CLI json
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-testing%22
     // compile("com.google.apis:google-api-services-testing:v1-rev30-1.23.0")
-    implementation(project("test_api"))
+    implementation(project(":test_api"))
 
     implementation(Libs.JSOUP)
     implementation(Libs.OKHTTP)
