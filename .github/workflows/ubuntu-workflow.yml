@@ -34,7 +34,8 @@ jobs:
         with:
           gradle-executable: "./test_runner/gradlew"
           arguments: "-p test_runner clean build"
-          - name: Prepare Google Service Account
+
+      - name: Prepare Google Service Account
         env:
           GCLOUD_KEY: ${{ secrets.GCLOUD_KEY }}
         run: |
