@@ -22,5 +22,4 @@ sealed class AndroidTestConfig {
         val flankRoboDirectives: List<FlankRoboDirective>?,
         val roboScriptGcsPath: String?
     ) : AndroidTestConfig()
-
 }
