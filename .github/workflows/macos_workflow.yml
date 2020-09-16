@@ -52,9 +52,9 @@ jobs:
     - name: Gradle Integration Tests Android
       uses: eskatos/gradle-command-action@v1
       with:
-        arguments: "--info :integration_tests:test --tests IntegrationTests.shouldMatchAndroidSuccessExitCodeAndPattern -Dflank-path=./test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_android.yml"
+        arguments: "--info :integration_tests:test --tests IntegrationTests.shouldMatchAndroidSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_android.yml"
 
     - name: Gradle Integration Tests iOS
       uses: eskatos/gradle-command-action@v1
       with:
-        arguments: "--info :integration_tests:test  --tests IntegrationTests.shouldMatchIosSuccessExitCodeAndPattern -Dflank-path=./test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_ios.yml"
+        arguments: "--info :integration_tests:test --tests IntegrationTests.shouldMatchIosSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_ios.yml"
