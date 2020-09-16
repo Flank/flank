@@ -17,16 +17,16 @@ internal fun Outcome?.getDetails(
     testSuiteOverviewData: TestSuiteOverviewData?,
     isRoboTest: Boolean = false
 ): String = when (this?.summary) {
-    success, flaky -> if (isRoboTest) "---"
-    else testSuiteOverviewData
-        ?.getSuccessOutcomeDetails(successDetail?.otherNativeCrash ?: false)
-        ?: "Unknown outcome"
+    success, flaky -> if (isRoboTest) "---" else getSuccessOutcomeDetails(testSuiteOverviewData)
     failure -> failureDetail.getFailureOutcomeDetails(testSuiteOverviewData)
     inconclusive -> inconclusiveDetail.formatOutcomeDetails()
     skipped -> skippedDetail.formatOutcomeDetails()
     unset -> "Unset outcome"
     else -> "Unknown outcome"
 }
+
+private fun Outcome?.getSuccessOutcomeDetails(data: TestSuiteOverviewData?) =
+    data?.getSuccessOutcomeDetails(this?.successDetail?.otherNativeCrash ?: false) ?: "Unknown outcome"
 
 private fun TestSuiteOverviewData.getSuccessOutcomeDetails(
     otherNativeCrash: Boolean
