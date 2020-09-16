@@ -11,6 +11,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -215,5 +216,34 @@ class GcAndroidTestMatrixTest {
             )
         )
         assertTrue(testSetup.environmentVariables.any { it.key == "coverageFile" && it.value == "/sdcard/test_module1.ec" })
+    }
+
+    @Test
+    fun `should override env variable value instead of add second with same key`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          environment-variables:
+            coverage: true
+            coverageFile: /sdcard/test.ec
+            clearPackageData: true
+        """.trimIndent()
+        val androidArgs = AndroidArgs.load(StringReader(yaml), null)
+
+        val testSetup = TestSetup().setEnvironmentVariables(
+            androidArgs, AndroidTestConfig.Instrumentation(
+                appApkGcsPath = "",
+                testApkGcsPath = "",
+                testShards = emptyList(),
+                orchestratorOption = null,
+                numUniformShards = null,
+                disableSharding = false,
+                testRunnerClass = "",
+                keepTestTargetsEmpty = false,
+                environmentVariables = mapOf(Pair("coverageFile", "/sdcard/test_module1.ec"))
+            )
+        )
+        assertEquals(1, testSetup.environmentVariables.count { it.key == "coverageFile" })
     }
 }
