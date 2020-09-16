@@ -158,4 +158,62 @@ class GcAndroidTestMatrixTest {
         )
         assertTrue(testSetup.environmentVariables.isNotEmpty())
     }
+
+    @Test
+    fun `should set env variables with values from test config`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          environment-variables:
+            coverage: true
+            coverageFilePath: /sdcard/
+            clearPackageData: true
+        """.trimIndent()
+        val androidArgs = AndroidArgs.load(StringReader(yaml), null)
+
+        val testSetup = TestSetup().setEnvironmentVariables(
+            androidArgs, AndroidTestConfig.Instrumentation(
+                appApkGcsPath = "",
+                testApkGcsPath = "",
+                testShards = emptyList(),
+                orchestratorOption = null,
+                numUniformShards = null,
+                disableSharding = false,
+                testRunnerClass = "",
+                keepTestTargetsEmpty = false,
+                environmentVariables = mapOf(Pair("coverageFile", "/sdcard/test.ec"))
+            )
+        )
+        assertTrue(testSetup.environmentVariables.any { it.key == "coverageFile" && it.value == "/sdcard/test.ec" })
+    }
+
+    @Test
+    fun `should set env variables and override androidArgs env variables by value from TestConfig variables`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          environment-variables:
+            coverage: true
+            coverageFile: /sdcard/test.ec
+            clearPackageData: true
+        """.trimIndent()
+        val androidArgs = AndroidArgs.load(StringReader(yaml), null)
+
+        val testSetup = TestSetup().setEnvironmentVariables(
+            androidArgs, AndroidTestConfig.Instrumentation(
+                appApkGcsPath = "",
+                testApkGcsPath = "",
+                testShards = emptyList(),
+                orchestratorOption = null,
+                numUniformShards = null,
+                disableSharding = false,
+                testRunnerClass = "",
+                keepTestTargetsEmpty = false,
+                environmentVariables = mapOf(Pair("coverageFile", "/sdcard/test_module1.ec"))
+            )
+        )
+        assertTrue(testSetup.environmentVariables.any { it.key == "coverageFile" && it.value == "/sdcard/test_module1.ec" })
+    }
 }

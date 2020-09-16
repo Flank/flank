@@ -15,5 +15,5 @@ internal fun AndroidArgs.createInstrumentationConfig(
     numUniformShards = numUniformShards,
     testShards = testApk.shards.testCases,
     keepTestTargetsEmpty = disableSharding && testTargets.isEmpty(),
-    env = testApk.env
+    environmentVariables = testApk.environmentVariables
 )

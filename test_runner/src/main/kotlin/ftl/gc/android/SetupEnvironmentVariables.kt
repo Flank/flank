@@ -10,9 +10,9 @@ import ftl.run.platform.android.AndroidTestConfig
 internal fun TestSetup.setEnvironmentVariables(args: AndroidArgs, testConfig: AndroidTestConfig) = apply {
     environmentVariables = when (testConfig) {
         is AndroidTestConfig.Instrumentation ->
-            args.environmentVariables.map { it.toEnvironmentVariable() } + testConfig.env.map { it.toEnvironmentVariable() }
+            testConfig.environmentVariables.map { it.toEnvironmentVariable() } + args.environmentVariables.map { it.toEnvironmentVariable() }
         is AndroidTestConfig.Robo -> emptyList()
-    }
+    }.distinctBy { it.key }
 }
 
 private fun Map.Entry<String, String>.toEnvironmentVariable() = EnvironmentVariable().apply {
