@@ -7,7 +7,7 @@ This repository contains helper scripts for developing flank. For now, it contai
 
 To build flank-scripts:
 1. Run script `buildFlankScripts.sh` in `flank-scripts/bash/` directory
-2. Run command `flank-scripts/gradlew clean assemble shadowJar` and manual copy file from `/flank-scripts/build/libs/flankScripts.jar` to `flank-scripts/bash/`
+2. Run command `./gradlew clean flank-scripts:assemble flank-scripts:shadowJar` and manual copy file from `/flank-scripts/build/libs/flankScripts.jar` to `flank-scripts/bash/`
 3. You could always run/build it from Intellij IDEA 
 
 ### Usage
