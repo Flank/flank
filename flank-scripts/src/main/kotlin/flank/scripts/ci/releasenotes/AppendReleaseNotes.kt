@@ -1,5 +1,6 @@
 package flank.scripts.ci.releasenotes
 
+import flank.scripts.utils.withNewLineAtTheEnd
 import java.io.File
 
 fun File.appendReleaseNotes(releaseNotesWithType: ReleaseNotesWithType, releaseTag: String) {
@@ -13,5 +14,3 @@ private fun File.appendToReleaseNotes(releaseNotesWithType: ReleaseNotesWithType
     writeText(releaseNotesWithType.asString(releaseTag).withNewLineAtTheEnd() +
         readLines().joinToString(System.lineSeparator()).withNewLineAtTheEnd())
 }
-
-private fun String.withNewLineAtTheEnd() = plus(System.lineSeparator())
