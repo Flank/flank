@@ -27,6 +27,14 @@ shadowJar.apply {
     archiveClassifier.set("")
     archiveBaseName.set(artifactID)
     mergeServiceFiles()
+    minimize {
+        exclude(dependency(Libs.KOTLIN_REFLECT))
+        exclude(dependency(Libs.JACKSON_XML))
+        exclude(dependency(Libs.JACKSON_DATABIND))
+        exclude(dependency(Libs.JACKSON_KOTLIN))
+        exclude(dependency(Libs.JACKSON_YAML))
+        exclude(dependency(Libs.GSON))
+    }
     @Suppress("UnstableApiUsage")
     manifest {
         attributes(mapOf("Main-Class" to "ftl.Main"))
