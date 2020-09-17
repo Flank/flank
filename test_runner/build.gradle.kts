@@ -11,7 +11,7 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 plugins {
     application
     jacoco
-    kotlin("jvm") version Versions.KOTLIN
+    kotlin("jvm")
 
     id("io.gitlab.arturbosch.detekt") version Versions.DETEKT
     id("com.jfrog.bintray") version Versions.BINTRAY
@@ -282,8 +282,18 @@ tasks.withType<KotlinCompile> {
 // https://github.com/codecov/example-gradle/blob/master/build.gradle#L25
 tasks["check"].dependsOn(tasks["jacocoTestReport"], tasks["detekt"])
 
-tasks.create("updateFlank", Exec::class.java) {
+val updateFlank by tasks.registering(Exec::class) {
+    group = "Build"
     description = "Update flank jar"
+    commandLine = listOf("./bash/update_flank.sh")
+}
+
+val flankFullRun by tasks.registering(Exec::class) {
+    dependsOn(tasks["clean"], tasks["check"])
+    // currently IT run only on CI, implement support to enable local run
+    dependsOn( ":integration_tests:test")
+    group = "Build"
+    description = "Perform full test_runner run"
     commandLine = listOf("./bash/update_flank.sh")
 }
 

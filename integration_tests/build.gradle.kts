@@ -1,9 +1,7 @@
-import org.jetbrains.kotlin.backend.common.onlyIf
-
 plugins {
     java
-    kotlin("jvm") version Versions.KOTLIN
-    id("io.gitlab.arturbosch.detekt") version Versions.DETEKT
+    kotlin("jvm")
+    id(Libs.DETEKT_PLUGIN) version Versions.DETEKT
 }
 
 group = "org.flank"

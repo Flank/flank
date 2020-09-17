@@ -9,3 +9,12 @@ configurations.all {
         exclude(group = "com.google.guava", module = "guava-jdk5")
     }
 }
+
+plugins {
+    kotlin(Kotlin.PLUGIN_JVM) version Versions.KOTLIN
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}

@@ -1,6 +1,6 @@
 plugins {
     application
-    kotlin("jvm") version "1.3.72"
+    kotlin(Kotlin.PLUGIN_JVM)
 }
 
 group = "ftl.sample"
