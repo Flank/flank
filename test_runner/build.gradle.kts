@@ -261,6 +261,7 @@ buildscript {
     dependencies {
         classpath(Dependencies.PROGUARD)
     }
+    implementation(Dependencies.JANSI)
 }
 
 tasks.withType<KotlinCompile> {
