@@ -1,7 +1,7 @@
 plugins {
     java
-    kotlin("jvm")
-    id(Libs.DETEKT_PLUGIN) version Versions.DETEKT
+    kotlin(Plugins.Kotlin.PLUGIN_JVM)
+    id(Plugins.DETEKT_PLUGIN) version Versions.DETEKT
 }
 
 group = "org.flank"
@@ -29,8 +29,8 @@ detekt {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    testImplementation(Libs.JUNIT)
-    detektPlugins(Libs.DETEKT_FORMATTING)
+    testImplementation(Dependencies.JUNIT)
+    detektPlugins(Dependencies.DETEKT_FORMATTING)
 }
 
 tasks.test {

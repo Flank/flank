@@ -1,6 +1,6 @@
 plugins {
     application
-    kotlin(Kotlin.PLUGIN_JVM)
+    kotlin(Plugins.Kotlin.PLUGIN_JVM)
 }
 
 group = "ftl.sample"
