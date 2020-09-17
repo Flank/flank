@@ -1,4 +1,5 @@
-import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import utils.toStringMap
 
@@ -10,7 +11,7 @@ class IntegrationTests {
         val actual =
             FlankCommand(testParameters.flankPath, testParameters.ymlPath, testParameters.runParams).run(testParameters.workingDirectory)
 
-        Assert.assertEquals(
+        assertEquals(
             "Expected exit code is: ${testParameters.expectedOutputCode} but actual: ${actual.exitCode}, output:\n${actual.output}",
             testParameters.expectedOutputCode,
             actual.exitCode
@@ -18,7 +19,7 @@ class IntegrationTests {
         val expectedOutput = testParameters.outputPattern.toRegex(
             setOf(RegexOption.DOT_MATCHES_ALL)
         )
-        Assert.assertTrue(
+        assertTrue(
             "Output don't match pattern, actual output: ${actual.output}",
             expectedOutput.find(actual.output)?.value.orEmpty().isNotBlank()
         )
@@ -30,7 +31,7 @@ class IntegrationTests {
         val actual =
             FlankCommand(testParameters.flankPath, testParameters.ymlPath, testParameters.runParams).run(testParameters.workingDirectory)
 
-        Assert.assertEquals(
+        assertEquals(
             "Expected exit code is: ${testParameters.expectedOutputCode} but actual: ${actual.exitCode}, output:\n${actual.output}",
             testParameters.expectedOutputCode,
             actual.exitCode
@@ -38,7 +39,7 @@ class IntegrationTests {
         val expectedOutput = testParameters.outputPattern.toRegex(
             setOf(RegexOption.DOT_MATCHES_ALL)
         )
-        Assert.assertTrue(
+        assertTrue(
             "Output don't match pattern, actual output: ${actual.output}",
             expectedOutput.find(actual.output)?.value.orEmpty().isNotBlank()
         )

@@ -15,7 +15,8 @@ data class TestOutcomeContext(
     val projectId: String,
     val environments: List<Environment>,
     val steps: List<Step>,
-    val testTimeout: Long
+    val testTimeout: Long,
+    val isRoboTest: Boolean
 )
 
 fun TestMatrix.fetchTestOutcomeContext() = getToolResultsIds().let { ids ->
@@ -24,7 +25,8 @@ fun TestMatrix.fetchTestOutcomeContext() = getToolResultsIds().let { ids ->
         matrixId = testMatrixId,
         environments = GcToolResults.listAllEnvironments(ids),
         steps = GcToolResults.listAllSteps(ids),
-        testTimeout = testTimeout()
+        testTimeout = testTimeout(),
+        isRoboTest = isRoboTest()
     )
 }
 
@@ -44,3 +46,5 @@ private fun TestMatrix.testTimeout() = timeoutToSeconds(
         ?.testTimeout
         ?: "0s"
 )
+
+private fun TestMatrix.isRoboTest() = testExecutions.orEmpty().any { it?.testSpecification?.androidRoboTest != null }

@@ -23,7 +23,7 @@ internal fun List<Step>.createTestSuiteOverviewData(): TestSuiteOverviewData = t
     .groupBy(Step::axisValue)
     .values
     .map { it.mapToTestSuiteOverviews().foldTestSuiteOverviewData() }
-    .fold(TestSuiteOverviewData()) { acc, data -> acc + data } // Fixme https://github.com/Flank/flank/issues/983
+    .fold(TestSuiteOverviewData()) { acc, data -> acc + data }
 
 private fun Step.isPrimaryStep() =
     multiStep?.primaryStep?.rollUp != null || multiStep == null

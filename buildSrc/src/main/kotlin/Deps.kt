@@ -83,6 +83,12 @@ object Versions {
 
     // https://github.com/ben-manes/gradle-versions-plugin/releases
     const val BEN_MANES = "0.28.0"
+
+
+    // ============== flank-scripts ==============
+    const val KOTLINX_SERIALIZATION = "1.0.0-RC"
+    const val FUEL = "2.2.3"
+    const val CLIKT = "2.8.0"
 }
 
 object Libs {
@@ -136,4 +142,23 @@ object Libs {
     //endregion
 
     const val COMMON_TEXT = "org.apache.commons:commons-text:${Versions.COMMON_TEXT}"
+    const val KOTLIN_SERIALIZATION = "org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.KOTLINX_SERIALIZATION}"
+
+    //region flank-scripts
+    const val PLUGIN_SHADOW_JAR = "com.github.johnrengelman.shadow"
+    const val CLIKT = "com.github.ajalt:clikt:${Versions.CLIKT}"
+    const val DETEKT_PLUGIN = "io.gitlab.arturbosch.detekt"
+    //endregion
+
+    object Fuel {
+        const val CORE = "com.github.kittinunf.fuel:fuel:${Versions.FUEL}"
+        const val COROUTINES = "com.github.kittinunf.fuel:fuel-coroutines:${Versions.FUEL}"
+        const val KOTLINX_SERIALIZATION = "com.github.kittinunf.fuel:fuel-kotlinx-serialization:${Versions.FUEL}"
+    }
 }
+
+object Kotlin {
+    const val PLUGIN_JVM = "jvm"
+    const val PLUGIN_SERIALIZATION = "plugin.serialization"
+}
+

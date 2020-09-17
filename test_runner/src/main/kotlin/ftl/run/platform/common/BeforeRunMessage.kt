@@ -11,7 +11,7 @@ internal fun beforeRunMessage(args: IArgs, testShardChunks: List<Chunk>): String
     val (classesCount, testsCount) = testShardChunks.partitionedTestCases.testAndClassesCount
 
     val result = StringBuilder()
-    val testString = if (testsCount > 0) "$testsCount test${s(testsCount)}" else ""
+    val testString = if (testsCount == 0 && classesCount != 0) "" else "$testsCount test${s(testsCount)}"
     val classString = if (classesCount > 0) "$classesCount parameterized class${es(classesCount)}" else ""
 
     result.appendLine(

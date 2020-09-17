@@ -27,9 +27,23 @@ shadowJar.apply {
     archiveClassifier.set("")
     archiveBaseName.set(artifactID)
     mergeServiceFiles()
+    minimize {
+        exclude(dependency(Libs.KOTLIN_REFLECT))
+        exclude(dependency(Libs.JACKSON_XML))
+        exclude(dependency(Libs.JACKSON_DATABIND))
+        exclude(dependency(Libs.JACKSON_KOTLIN))
+        exclude(dependency(Libs.JACKSON_YAML))
+        exclude(dependency(Libs.GSON))
+    }
     @Suppress("UnstableApiUsage")
     manifest {
         attributes(mapOf("Main-Class" to "ftl.Main"))
+    }
+    dependencies {
+        exclude(dependency(Libs.TRUTH))
+        exclude(dependency(Libs.MOCKK))
+        exclude(dependency(Libs.JUNIT))
+        exclude(dependency(Libs.DETEKT_FORMATTING))
     }
 }
 
@@ -226,7 +240,7 @@ dependencies {
     // NOTE: iOS support isn't in the public artifact. Use testing jar generated from the private gcloud CLI json
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-testing%22
     // compile("com.google.apis:google-api-services-testing:v1-rev30-1.23.0")
-    implementation(project(":test_api"))
+    implementation(project(":firebase_apis:test_api"))
 
     implementation(Libs.JSOUP)
     implementation(Libs.OKHTTP)
@@ -241,16 +255,6 @@ dependencies {
     implementation(Libs.COMMON_TEXT)
 
     implementation(Libs.JANSI)
-}
-
-// Fix Exception in thread "main" java.lang.NoSuchMethodError: com.google.common.hash.Hashing.crc32c()Lcom/google/common/hash/HashFunction;
-// https://stackoverflow.com/a/45286710
-configurations.all {
-    resolutionStrategy {
-        force("com.google.guava:guava:25.1-jre")
-        force(Libs.KOTLIN_REFLECT)
-        exclude(group = "com.google.guava", module = "guava-jdk5")
-    }
 }
 
 tasks.withType<KotlinCompile> {

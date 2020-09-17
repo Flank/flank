@@ -12,29 +12,33 @@ data class TestOutcome(
     val details: String = "",
 )
 
-fun List<Environment>.createMatrixOutcomeSummaryUsingEnvironments(): List<TestOutcome> =
-    map(Environment::getTestOutcome)
+fun TestOutcomeContext.createMatrixOutcomeSummaryUsingEnvironments(): List<TestOutcome> = environments
+    .map { environment ->
+        TestOutcome(
+            device = environment.axisValue(),
+            outcome = environment.outcomeSummary,
+            details = environment.getOutcomeDetails(isRoboTest)
+        )
+    }
 
-private fun Environment.getTestOutcome(
-    outcome: Outcome? = environmentResult?.outcome
-) = TestOutcome(
-    device = axisValue(),
-    outcome = outcome?.summary ?: UNKNOWN_OUTCOME,
-    details = outcome.getDetails(createTestSuiteOverviewData()),
-)
+private val Environment.outcomeSummary
+    get() = environmentResult?.outcome?.summary ?: UNKNOWN_OUTCOME
 
-fun List<Step>.createMatrixOutcomeSummaryUsingSteps() = groupBy(Step::axisValue).map { (device, steps) ->
-    steps.getTestOutcome(device)
-}
+private fun Environment.getOutcomeDetails(isRoboTest: Boolean) = environmentResult?.outcome.getDetails(createTestSuiteOverviewData(), isRoboTest)
 
-private fun List<Step>.getTestOutcome(
-    deviceModel: String,
-    outcome: Outcome? = getOutcomeFromSteps(),
-) = TestOutcome(
-    device = deviceModel,
-    outcome = outcome?.summary ?: UNKNOWN_OUTCOME,
-    details = outcome.getDetails(createTestSuiteOverviewData())
-)
+fun TestOutcomeContext.createMatrixOutcomeSummaryUsingSteps() = steps
+    .groupBy(Step::axisValue)
+    .map { (device, steps) ->
+        TestOutcome(
+            device = device,
+            outcome = steps.getOutcomeSummary(),
+            details = steps.getOutcomeDetails(isRoboTest)
+        )
+    }
+
+private fun List<Step>.getOutcomeSummary() = getOutcomeFromSteps()?.summary ?: UNKNOWN_OUTCOME
+
+private fun List<Step>.getOutcomeDetails(isRoboTest: Boolean) = getOutcomeFromSteps().getDetails(createTestSuiteOverviewData(), isRoboTest)
 
 private fun List<Step>.getOutcomeFromSteps(): Outcome? = maxByOrNull {
     StepOutcome.order.indexOf(it.outcome?.summary)

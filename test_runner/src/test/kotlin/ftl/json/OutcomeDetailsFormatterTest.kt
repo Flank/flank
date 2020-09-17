@@ -6,10 +6,15 @@ import ftl.reports.api.data.TestSuiteOverviewData
 import ftl.util.StepOutcome
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.unmockkAll
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 internal class OutcomeDetailsFormatterTest {
+
+    @After
+    fun tearDown() = unmockkAll()
 
     @Test
     fun `should return correct outcome details for success`() {
@@ -21,8 +26,8 @@ internal class OutcomeDetailsFormatterTest {
         val testSuiteOverviewData = TestSuiteOverviewData(12, 0, 0, 3, 2, 0.0, 0.0)
         val successCount = with(testSuiteOverviewData) { total - errors - failures - flakes - skipped }
         val expectedMessage = "$successCount test cases passed, " +
-            "${testSuiteOverviewData.skipped} skipped, " +
-            "${testSuiteOverviewData.flakes} flaky"
+                "${testSuiteOverviewData.skipped} skipped, " +
+                "${testSuiteOverviewData.flakes} flaky"
 
         // when
         val result = mockedOutcome.getDetails(testSuiteOverviewData)
@@ -41,9 +46,9 @@ internal class OutcomeDetailsFormatterTest {
         val testSuiteOverviewData = TestSuiteOverviewData(12, 0, 0, 3, 2, 0.0, 0.0)
         val successCount = with(testSuiteOverviewData) { total - errors - failures - flakes - skipped }
         val expectedMessage = "$successCount test cases passed, " +
-            "${testSuiteOverviewData.skipped} skipped, " +
-            "${testSuiteOverviewData.flakes} flaky" +
-            " (Native crash)"
+                "${testSuiteOverviewData.skipped} skipped, " +
+                "${testSuiteOverviewData.flakes} flaky" +
+                " (Native crash)"
 
         // when
         val result = mockedOutcome.getDetails(testSuiteOverviewData)
@@ -57,19 +62,14 @@ internal class OutcomeDetailsFormatterTest {
         // given
         val mockedOutcome = mockk<Outcome> {
             every { summary } returns StepOutcome.failure
-            every { failureDetail } returns mockk {
-                every { crashed } returns false
-                every { timedOut } returns false
-                every { notInstalled } returns false
-                every { otherNativeCrash } returns false
-            }
+            every { failureDetail } returns mockk(relaxed = true) {}
         }
         val testSuiteOverviewData = TestSuiteOverviewData(12, 3, 3, 3, 2, 0.0, 0.0)
         val expectedMessage = "${testSuiteOverviewData.failures} test cases failed, " +
-            "${testSuiteOverviewData.errors} errors, " +
-            "1 passed, " +
-            "${testSuiteOverviewData.skipped} skipped, " +
-            "${testSuiteOverviewData.flakes} flaky"
+                "${testSuiteOverviewData.errors} errors, " +
+                "1 passed, " +
+                "${testSuiteOverviewData.skipped} skipped, " +
+                "${testSuiteOverviewData.flakes} flaky"
 
         // when
         val result = mockedOutcome.getDetails(testSuiteOverviewData)
@@ -146,12 +146,7 @@ internal class OutcomeDetailsFormatterTest {
         // given
         val mockedOutcome = mockk<Outcome> {
             every { summary } returns StepOutcome.failure
-            every { failureDetail } returns mockk {
-                every { crashed } returns false
-                every { timedOut } returns false
-                every { notInstalled } returns false
-                every { otherNativeCrash } returns false
-            }
+            every { failureDetail } returns mockk(relaxed = true) {}
         }
         val expectedMessage = "Unknown failure"
 
@@ -353,5 +348,17 @@ internal class OutcomeDetailsFormatterTest {
         FailureDetail().apply {
             otherNativeCrash = null
         }.getFailureOutcomeDetails(null)
+    }
+
+    @Test
+    fun `should print message for failed robo test`() {
+        val mockedOutcome = mockk<Outcome> {
+            every { summary } returns StepOutcome.failure
+            every { failureDetail } returns FailureDetail().apply { failedRoboscript = true }
+        }
+
+        val result = mockedOutcome.getDetails(null, true)
+
+        assertEquals("Test failed to run", result)
     }
 }
