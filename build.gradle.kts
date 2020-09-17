@@ -5,13 +5,13 @@
 configurations.all {
     resolutionStrategy {
         force("com.google.guava:guava:25.1-jre")
-        force(Libs.KOTLIN_REFLECT)
+        force(Dependencies.KOTLIN_REFLECT)
         exclude(group = "com.google.guava", module = "guava-jdk5")
     }
 }
 
 plugins {
-    kotlin(Kotlin.PLUGIN_JVM) version Versions.KOTLIN
+    kotlin(Plugins.Kotlin.PLUGIN_JVM) version Versions.KOTLIN
 }
 
 repositories {
