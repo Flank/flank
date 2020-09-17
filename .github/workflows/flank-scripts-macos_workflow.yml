@@ -25,5 +25,4 @@ jobs:
     - name: Gradle check
       uses: eskatos/gradle-command-action@v1
       with:
-        gradle-executable: "./flank-scripts/gradlew"
-        arguments: "-p flank-scripts check"
+        arguments: ":flank-scripts:check"

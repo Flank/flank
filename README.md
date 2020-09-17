@@ -62,9 +62,8 @@ app, test, and xctestrun-file support `~`, environment variables, and globs (*, 
 
 Run `test_runner/flank.ios.yml` with flank to verify iOS execution is working.
 
-- `cd test_runner/`
-- `./gradlew clean build shadowJar`
-- `java -jar ./build/libs/flank-*.jar firebase test ios run`
+- `./gradlew clean test_runner:build test_runner:shadowJar`
+- `java -jar ./test_runner/build/libs/flank-*.jar firebase test ios run`
 
 ```yaml
 # gcloud args match the official gcloud cli
@@ -226,9 +225,8 @@ flank:
 
 Run `test_runner/flank.yml` with flank to verify Android execution is working.
 
-- `cd test_runner/`
-- `./gradlew clean build shadowJar`
-- `java -jar ./build/libs/flank-*.jar firebase test android run`
+- `./gradlew clean test_runner:build test_runner:shadowJar`
+- `java -jar ./test_runner/build/libs/flank-*.jar firebase test android run`
 
 ```yaml
 # gcloud args match the official gcloud cli
