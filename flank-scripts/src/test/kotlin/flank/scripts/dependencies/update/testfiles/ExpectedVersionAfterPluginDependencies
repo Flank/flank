@@ -6,7 +6,7 @@ object Versions {
     const val DD_PLIST = "1.23"
 
     // https://github.com/detekt/detekt
-    const val DETEKT = "1.11.0"
+    const val DETEKT = "1.13.1"
 
     // https://github.com/bintray/gradle-bintray-plugin/releases
     const val BINTRAY = "1.8.5"
@@ -82,8 +82,8 @@ object Versions {
     const val JANSI = "1.18"
 
     // https://github.com/ben-manes/gradle-versions-plugin/releases
-    const val BEN_MANES = "0.28.0"
-    const val PROGUARD = "7.0.0"
+    const val BEN_MANES = "0.33.0"
+
 
     // ============== flank-scripts ==============
     const val KOTLINX_SERIALIZATION = "1.0.0-RC"

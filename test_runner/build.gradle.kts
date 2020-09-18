@@ -42,7 +42,6 @@ shadowJar.apply {
         exclude(dependency(Dependencies.TRUTH))
         exclude(dependency(Dependencies.MOCKK))
         exclude(dependency(Dependencies.JUNIT))
-
         exclude(dependency(Dependencies.PROGUARD))
         exclude(dependency(Dependencies.DETEKT_FORMATTING))
     }
@@ -285,23 +284,6 @@ val flankFullRun by tasks.registering(Exec::class) {
     group = "Build"
     description = "Perform full test_runner run"
     commandLine = listOf("./bash/update_flank.sh")
-}
-
-tasks.create("applyProguard", proguard.gradle.ProGuardTask::class.java) {
-    dependsOn("updateFlank")
-    description = "Apply proguard to flank and create a minimized jar"
-    dontwarn()
-    injars("./build/libs/flank.jar")
-    outjars("./build/libs/flank-proguard.jar")
-    libraryjars("${System.getProperty("java.home")}/lib/rt.jar")
-    libraryjars("./build/libs/flank-sources.jar")
-    configuration("./proguard/config.pro")
-    doLast {
-        copy {
-            from(file("$buildDir/libs/flank-proguard.jar"))
-            into(file("./bash/"))
-        }
-    }
 }
 
 // begin --- ASCII doc generation ---

@@ -3,10 +3,10 @@ object Versions {
     const val BUGSNAG = "3.6.1"
 
     // https://github.com/3breadt/dd-plist/releases
-    const val DD_PLIST = "1.23"
+    const val DD_PLIST = "3.21"
 
     // https://github.com/detekt/detekt
-    const val DETEKT = "1.11.0"
+    const val DETEKT = "0.11.1"
 
     // https://github.com/bintray/gradle-bintray-plugin/releases
     const val BINTRAY = "1.8.5"
@@ -24,7 +24,7 @@ object Versions {
     const val KOTLIN_COROUTINES = "1.3.9"
 
     // https://github.com/remkop/picocli/releases
-    const val PICOCLI = "4.4.0"
+    const val PICOCLI = "0.4.4"
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
     const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20200803-1.30.10"
@@ -45,7 +45,7 @@ object Versions {
 
     // https://github.com/FasterXML/jackson-core/releases
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
-    const val JACKSON = "2.11.0"
+    const val JACKSON = "0.11.2"
 
     const val JUNIT = "4.13"
 
@@ -56,7 +56,7 @@ object Versions {
     const val KTOR = "1.4.0"
 
     // https://github.com/qos-ch/logback/releases
-    const val LOGBACK = "1.2.3"
+    const val LOGBACK = "3.2.1"
 
     // https://github.com/square/okhttp/releases
     const val OKHTTP = "4.7.2"
@@ -83,7 +83,7 @@ object Versions {
 
     // https://github.com/ben-manes/gradle-versions-plugin/releases
     const val BEN_MANES = "0.28.0"
-    const val PROGUARD = "7.0.0"
+
 
     // ============== flank-scripts ==============
     const val KOTLINX_SERIALIZATION = "1.0.0-RC"
