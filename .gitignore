@@ -6,3 +6,4 @@ out/
 .gradle/
 test_runner/flank/
 local.properties
+/report.json
