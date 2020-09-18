@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.args.yml.AppTestPair
 import ftl.args.yml.IYmlKeys
+import ftl.args.yml.ymlKeys
 import ftl.config.Config
 import picocli.CommandLine
 
@@ -54,10 +55,9 @@ data class AndroidFlankConfig @JsonIgnore constructor(
 
         override val group = IYmlKeys.Group.FLANK
 
-        override val keys = listOf(
-            "additional-app-test-apks",
-            "legacy-junit-result"
-        )
+        override val keys by lazy {
+            AndroidFlankConfig::class.ymlKeys
+        }
 
         fun default() = AndroidFlankConfig().apply {
             additionalAppTestApks = null

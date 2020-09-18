@@ -4,102 +4,39 @@
 
 ### gcloud
 
-1. app
-2. test
-3. additional-apks
-4. auto-google-login
-5. no-auto-google-login
-6. use-orchestrator
-7. no-use-orchestrator
-8. environment-variables
-9. directories-to-pull
-10. other-files
-11. performance-metrics
-12. no-performance-metrics
-13. num-uniform-shards
-14. test-runner-class
-15. test-targets
-16. robo-directives
-17. robo-script
-18. results-bucket
-19. results-dir
-20. record-video
-21. no-record-video
-22. timeout
-23. async
-24. client-details
-25. network-profile
-26. results-history-name
-27. num-flaky-test-attempts
-28. device
-
-### flank
-
-1. additional-app-test-apks
-2. legacy-junit-result
-3. max-test-shards
-4. shard-time
-5. num-test-runs
-6. smart-flank-gcs-path
-7. smart-flank-disable-upload
-8. disable-sharding
-9. test-targets-always-run
-10. files-to-download
-11. project
-12. local-result-dir
-13. run-timeout
-14. full-junit-result
-15. ignore-failed-tests
-16. keep-file-path
-17. output-style
-18. disable-results-upload
-19. default-test-time
-20. default-class-test-time
-21. use-average-test-time-for-new-tests
-
-## Investigation report
-
-### environment-variables
-
-Need to set ```directories-to-pull``` to pull from device directory with coverage report. 
-There are no warnings or fails when ```environment-variables``` set without ```directories-to-pull```.
-
-### files-to-download
-
-In case when we want download coverage report we need to set ```directories-to-pull```.
-There are no warnings or fails when ```files-to-download``` set without ```directories-to-pull```.
-
-### disable-sharding
-
-Can be set to true with set ```max-test-shards``` higher than one. In this case flank disable sharding. 
-
-### num-uniform-shards
-
-1. When set with ```max-test-shards``` Flank fast fail
-2. When set with ```disable-sharding``` Flank disable sharding without any warning
-
-## List of commands ios
-
-### gcloud
-
+0. app
 1. test
-2. xctestrun-file
-3. xcode-version
-4. results-bucket
-5. results-dir
-6. record-video
-7. no-record-video
-8. timeout
-9. async
-10. client-details
-11. network-profile
-12. results-history-name
-13. num-flaky-test-attempts
-14. device
+2. additional-apks
+3. auto-google-login
+4. no-auto-google-login
+5. use-orchestrator
+6. no-use-orchestrator
+7. environment-variables
+8. directories-to-pull
+9. other-files
+10. performance-metrics
+11. no-performance-metrics
+12. num-uniform-shards
+13. test-runner-class
+14. test-targets
+15. robo-directives
+16. robo-script
+17. results-bucket
+18. results-dir
+19. record-video
+20. no-record-video
+21. timeout
+22. async
+23. client-details
+24. network-profile
+25. results-history-name
+26. num-flaky-test-attempts
+27. device
 
 ### flank
 
-1. test-targets
+0. additional-app-test-apks
+1. legacy-junit-result
 2. max-test-shards
 3. shard-time
 4. num-test-runs
@@ -119,3 +56,66 @@ Can be set to true with set ```max-test-shards``` higher than one. In this case 
 18. default-test-time
 19. default-class-test-time
 20. use-average-test-time-for-new-tests
+
+## List of commands ios
+
+### gcloud
+
+0. test
+1. xctestrun-file
+2. xcode-version
+3. results-bucket
+4. results-dir
+5. record-video
+6. no-record-video
+7. timeout
+8. async
+9. client-details
+10. network-profile
+11. results-history-name
+12. num-flaky-test-attempts
+13. device
+
+### flank
+
+0. test-targets
+1. max-test-shards
+2. shard-time
+3. num-test-runs
+4. smart-flank-gcs-path
+5. smart-flank-disable-upload
+6. disable-sharding
+7. test-targets-always-run
+8. files-to-download
+9. project
+10. local-result-dir
+11. run-timeout
+12. full-junit-result
+13. ignore-failed-tests
+14. keep-file-path
+15. output-style
+16. disable-results-upload
+17. default-test-time
+18. default-class-test-time
+19. use-average-test-time-for-new-tests
+
+## Investigation report
+
+### environment-variables
+
+Need to set ```directories-to-pull``` to pull from device directory with coverage report. 
+There are no warnings or fails when ```environment-variables``` set without ```directories-to-pull```.
+
+### files-to-download
+
+In case when we want download coverage report we need to set ```directories-to-pull```.
+There are no warnings or fails when ```files-to-download``` set without ```directories-to-pull```.
+
+### disable-sharding
+
+Can be set to true with set ```max-test-shards``` higher than one. In this case flank disable sharding. 
+
+### num-uniform-shards
+
+0. When set with ```max-test-shards``` Flank fast fail
+1. When set with ```disable-sharding``` Flank disable sharding without any warning

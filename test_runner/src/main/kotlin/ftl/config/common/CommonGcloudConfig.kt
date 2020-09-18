@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.args.ArgsHelper
 import ftl.args.yml.IYmlKeys
+import ftl.args.yml.ymlKeys
 import ftl.config.Config
 import ftl.config.Device
 import ftl.config.FlankDefaults
@@ -123,15 +124,9 @@ data class CommonGcloudConfig @JsonIgnore constructor(
 
         override val group = IYmlKeys.Group.GCLOUD
 
-        override val keys = listOf(
-            "results-bucket",
-            "results-dir",
-            "record-video",
-            "timeout",
-            "async",
-            "results-history-name",
-            "num-flaky-test-attempts"
-        )
+        override val keys by lazy {
+            CommonGcloudConfig::class.ymlKeys
+        }
 
         fun default(android: Boolean) = CommonGcloudConfig().apply {
             ArgsHelper.yamlMapper.readerFor(CommonGcloudConfig::class.java)
