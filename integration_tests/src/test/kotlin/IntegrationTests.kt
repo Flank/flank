@@ -1,5 +1,6 @@
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Ignore
 import org.junit.Test
 import utils.toStringMap
 
@@ -25,6 +26,7 @@ class IntegrationTests {
         )
     }
 
+    @Ignore("iOS has only physical devices, whit current configuration flank's project hits quota limit extremely fast")
     @Test
     fun shouldMatchIosSuccessExitCodeAndPattern() {
         val testParameters = System.getProperties().toStringMap().toIosParameters()
