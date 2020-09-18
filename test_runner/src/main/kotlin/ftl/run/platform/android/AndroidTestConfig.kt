@@ -9,7 +9,7 @@ sealed class AndroidTestConfig {
         val testApkGcsPath: String,
         val testRunnerClass: String?,
         val orchestratorOption: String?,
-            // sharding
+        // sharding
         val disableSharding: Boolean,
         val testShards: ShardChunks,
         val numUniformShards: Int?,
