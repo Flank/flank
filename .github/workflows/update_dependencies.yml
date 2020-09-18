@@ -17,7 +17,7 @@ jobs:
       - name: Gradle clean build
         uses: eskatos/gradle-command-action@v1
         with:
-            arguments: dependencyUpdates -DoutputFormatter=json -DoutputDir=${{ env.GITHUB_WORKSPACE }}
+            arguments: dependencyUpdates -DoutputFormatter=json -DoutputDir=.
 
       - name: Gradle Build flankScripts and add it to PATH
         run: |
