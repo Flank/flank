@@ -14,7 +14,7 @@ jobs:
         with:
           submodules: true
 
-      - name: Gradle update dependency raport
+      - name: Gradle dependency updates raport
         uses: eskatos/gradle-command-action@v1
         with:
             arguments: dependencyUpdates -DoutputFormatter=json -DoutputDir=..
@@ -34,11 +34,11 @@ jobs:
         with:
           commit-message: "[Automatic PR] Dependencies update"
           signoff: false
-          branch: 'dependency_updates'
-          title: 'build: Dependency updates'
-          body: "Dependency updates"
+          branch: 'dependencies_update'
+          title: 'build: Dependencies updats'
+          body: "Dependencies updates"
           labels: |
             automated pr
-            release
+            dependencies
           reviewers: bootstraponline,jan-gogo,pawelpasterz,adamfilipow92,piotradamczyk5,Sloox,axelzuziak-gogo
           draft: false 
