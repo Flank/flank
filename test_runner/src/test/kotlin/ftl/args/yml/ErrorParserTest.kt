@@ -7,7 +7,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.dataformat.yaml.snakeyaml.error.MarkedYAMLException
 import ftl.args.AndroidArgs
 import ftl.args.yml.errors.ConfigurationErrorMessageBuilder
-import ftl.doctor.equalsIgnoreNewlineStyle
+import ftl.doctor.assertEqualsIgnoreNewlineStyle
 import ftl.test.util.TestHelper
 import ftl.test.util.TestHelper.getThrowable
 import ftl.run.exception.FlankConfigurationError
@@ -64,7 +64,7 @@ At line: 23, column: 3
               "version" : "test"
             }
         """.trimIndent()
-        assert(equalsIgnoreNewlineStyle(exceptedMessage, actualMessage))
+        assertEqualsIgnoreNewlineStyle(exceptedMessage, actualMessage)
     }
 
     @Test
@@ -81,7 +81,7 @@ Error node: {
   }
 }
         """.trimIndent()
-        assert(equalsIgnoreNewlineStyle(exceptedMessage, actualMessage))
+        assertEqualsIgnoreNewlineStyle(exceptedMessage, actualMessage)
     }
 
     @Test
@@ -109,7 +109,7 @@ Error node:
         val actualMessage = buildErrorMessage(exception)
 
         // then
-        assert(equalsIgnoreNewlineStyle(expectedMessage, actualMessage))
+        assertEqualsIgnoreNewlineStyle(expectedMessage, actualMessage)
     }
 
     @Test(expected = FlankConfigurationError::class)

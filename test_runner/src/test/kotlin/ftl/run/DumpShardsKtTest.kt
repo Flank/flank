@@ -4,7 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
-import ftl.doctor.equalsIgnoreNewlineStyle
+import ftl.doctor.assertEqualsIgnoreNewlineStyle
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.ios2ConfigYaml
 import ftl.test.util.mixedConfigYaml
@@ -72,7 +72,7 @@ class DumpShardsKtTest {
         }
 
         // then
-        assert(equalsIgnoreNewlineStyle(expected, actual))
+        assertEqualsIgnoreNewlineStyle(expected, actual)
     }
 
     @Test

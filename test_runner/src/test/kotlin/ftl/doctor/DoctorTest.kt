@@ -5,6 +5,7 @@ import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.test.util.FlankTestRunner
+import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -110,7 +111,7 @@ Error node: {
             AndroidArgs,
             Paths.get("src/test/kotlin/ftl/fixtures/flank_android_failed_configuration.yml")
         )
-        assert(equalsIgnoreNewlineStyle(expectedErrorMessage, actual))
+        assertEqualsIgnoreNewlineStyle(expectedErrorMessage, actual)
     }
 
     @Test
@@ -133,7 +134,7 @@ Error node: {
             AndroidArgs,
             Paths.get("src/test/kotlin/ftl/fixtures/flank_android_failed_tree.yml")
         )
-        assert(equalsIgnoreNewlineStyle(expectedErrorMessage, actual))
+        assertEqualsIgnoreNewlineStyle(expectedErrorMessage, actual)
     }
 
     @Test
@@ -241,6 +242,9 @@ flank:
 
 private fun validateYaml(args: IArgs.ICompanion, data: String): String = validateYaml(args, StringReader(data))
 
+fun assertEqualsIgnoreNewlineStyle(s1: String?, s2: String?) {
+    return Assert.assertEquals(equalsIgnoreNewlineStyle(s1, s2), true)
+}
 fun equalsIgnoreNewlineStyle(s1: String?, s2: String?): Boolean {
     return s1 != null && s2 != null && normalizeLineEnds(s1) == normalizeLineEnds(s2)
 }
