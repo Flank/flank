@@ -40,5 +40,5 @@ jobs:
           labels: |
             automated pr
             release
-          reviewers: bootstraponline,jan-gogo,pawelpasterz,adamfilipow92,piotradamczyk5,Sloox,axelzuziak-gogo
+          reviewers: 
           draft: false 
