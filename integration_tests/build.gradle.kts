@@ -1,9 +1,7 @@
-import org.jetbrains.kotlin.backend.common.onlyIf
-
 plugins {
     java
-    kotlin("jvm") version Versions.KOTLIN
-    id("io.gitlab.arturbosch.detekt") version Versions.DETEKT
+    kotlin(Plugins.Kotlin.PLUGIN_JVM)
+    id(Plugins.DETEKT_PLUGIN) version Versions.DETEKT
 }
 
 group = "org.flank"
@@ -31,8 +29,8 @@ detekt {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    testImplementation(Libs.JUNIT)
-    detektPlugins(Libs.DETEKT_FORMATTING)
+    testImplementation(Dependencies.JUNIT)
+    detektPlugins(Dependencies.DETEKT_FORMATTING)
 }
 
 tasks.test {

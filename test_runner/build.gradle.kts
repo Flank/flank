@@ -11,13 +11,12 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 plugins {
     application
     jacoco
-    kotlin("jvm") version Versions.KOTLIN
-
-    id("io.gitlab.arturbosch.detekt") version Versions.DETEKT
-    id("com.jfrog.bintray") version Versions.BINTRAY
-    id("maven-publish")
-    id("com.github.johnrengelman.shadow") version Versions.SHADOW
-    id("com.github.ben-manes.versions") version Versions.BEN_MANES
+    kotlin(Plugins.Kotlin.PLUGIN_JVM)
+    id(Plugins.DETEKT_PLUGIN) version Versions.DETEKT
+    id(Plugins.JFROG_BINTRAY) version Versions.BINTRAY
+    id(Plugins.MAVEN_PUBLISH)
+    id(Plugins.PLUGIN_SHADOW_JAR) version Versions.SHADOW
+    id(Plugins.BEN_MANES_PLUGIN) version Versions.BEN_MANES
 }
 
 val artifactID = "flank"
@@ -28,23 +27,24 @@ shadowJar.apply {
     archiveBaseName.set(artifactID)
     mergeServiceFiles()
     minimize {
-        exclude(dependency(Libs.KOTLIN_REFLECT))
-        exclude(dependency(Libs.JACKSON_XML))
-        exclude(dependency(Libs.JACKSON_DATABIND))
-        exclude(dependency(Libs.JACKSON_KOTLIN))
-        exclude(dependency(Libs.JACKSON_YAML))
-        exclude(dependency(Libs.GSON))
+        exclude(dependency(Dependencies.KOTLIN_REFLECT))
+        exclude(dependency(Dependencies.JACKSON_XML))
+        exclude(dependency(Dependencies.JACKSON_DATABIND))
+        exclude(dependency(Dependencies.JACKSON_KOTLIN))
+        exclude(dependency(Dependencies.JACKSON_YAML))
+        exclude(dependency(Dependencies.GSON))
     }
     @Suppress("UnstableApiUsage")
     manifest {
         attributes(mapOf("Main-Class" to "ftl.Main"))
     }
     dependencies {
-        exclude(dependency(Libs.TRUTH))
-        exclude(dependency(Libs.MOCKK))
-        exclude(dependency(Libs.JUNIT))
-        exclude(dependency(Libs.PROGUARD))
-        exclude(dependency(Libs.DETEKT_FORMATTING))
+        exclude(dependency(Dependencies.TRUTH))
+        exclude(dependency(Dependencies.MOCKK))
+        exclude(dependency(Dependencies.JUNIT))
+
+        exclude(dependency(Dependencies.PROGUARD))
+        exclude(dependency(Dependencies.DETEKT_FORMATTING))
     }
 }
 
@@ -199,67 +199,57 @@ tasks.withType<Test> {
 }
 
 dependencies {
-    implementation(Libs.BUGSNAG)
+    implementation(Dependencies.BUGSNAG)
 
-    implementation(Libs.DD_PLIST)
-    implementation(Libs.DEX_TEST_PARSER)
+    implementation(Dependencies.DD_PLIST)
+    implementation(Dependencies.DEX_TEST_PARSER)
 
-    implementation(Libs.GSON)
+    implementation(Dependencies.GSON)
 
-    implementation(Libs.JACKSON_DATABIND)
-    implementation(Libs.JACKSON_KOTLIN)
-    implementation(Libs.JACKSON_YAML)
-    implementation(Libs.JACKSON_XML)
+    implementation(Dependencies.JACKSON_DATABIND)
+    implementation(Dependencies.JACKSON_KOTLIN)
+    implementation(Dependencies.JACKSON_YAML)
+    implementation(Dependencies.JACKSON_XML)
 
-    implementation(Libs.GOOGLE_NIO)
-    implementation(Libs.GOOGLE_AUTH)
-    implementation(Libs.GOOGLE_STORAGE)
-    implementation(Libs.GOOGLE_TOOLRESULTS)
+    implementation(Dependencies.GOOGLE_NIO)
+    implementation(Dependencies.GOOGLE_AUTH)
+    implementation(Dependencies.GOOGLE_STORAGE)
+    implementation(Dependencies.GOOGLE_TOOLRESULTS)
 
-    implementation(Libs.KTOR_SERVER_CORE)
-    implementation(Libs.KTOR_SERVER_NETTY)
-    implementation(Libs.KTOR_GSON)
+    implementation(Dependencies.KTOR_SERVER_CORE)
+    implementation(Dependencies.KTOR_SERVER_NETTY)
+    implementation(Dependencies.KTOR_GSON)
 
-    implementation(Libs.KOTLIN_STD_LIB)
-    implementation(Libs.KOTLIN_COROUTINES_CORE)
+    implementation(Dependencies.KOTLIN_STD_LIB)
+    implementation(Dependencies.KOTLIN_COROUTINES_CORE)
 
-    implementation(Libs.LOGBACK)
+    implementation(Dependencies.LOGBACK)
 
-    implementation(Libs.PICOCLI)
-    annotationProcessor(Libs.PICOCLI_CODEGEN)
+    implementation(Dependencies.PICOCLI)
+    annotationProcessor(Dependencies.PICOCLI_CODEGEN)
 
-    implementation(Libs.WOODSTOX)
+    implementation(Dependencies.WOODSTOX)
 
-    implementation(Libs.KOTLIN_LOGGING)
+    implementation(Dependencies.KOTLIN_LOGGING)
 
     // NOTE: iOS support isn't in the public artifact. Use testing jar generated from the private gcloud CLI json
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-testing%22
     // compile("com.google.apis:google-api-services-testing:v1-rev30-1.23.0")
     implementation(project(":firebase_apis:test_api"))
 
-    implementation(Libs.JSOUP)
-    implementation(Libs.OKHTTP)
+    implementation(Dependencies.JSOUP)
+    implementation(Dependencies.OKHTTP)
 
-    detektPlugins(Libs.DETEKT_FORMATTING)
+    detektPlugins(Dependencies.DETEKT_FORMATTING)
 
-    testImplementation(Libs.JUNIT)
-    implementation(Libs.SYSTEM_RULES)
-    testImplementation(Libs.TRUTH)
-    testImplementation(Libs.MOCKK)
+    testImplementation(Dependencies.JUNIT)
+    implementation(Dependencies.SYSTEM_RULES)
+    testImplementation(Dependencies.TRUTH)
+    testImplementation(Dependencies.MOCKK)
 
-    implementation(Libs.COMMON_TEXT)
+    implementation(Dependencies.COMMON_TEXT)
 
-    implementation(Libs.JANSI)
-}
-
-// Fix Exception in thread "main" java.lang.NoSuchMethodError: com.google.common.hash.Hashing.crc32c()Lcom/google/common/hash/HashFunction;
-// https://stackoverflow.com/a/45286710
-configurations.all {
-    resolutionStrategy {
-        force("com.google.guava:guava:25.1-jre")
-        force(Libs.KOTLIN_REFLECT)
-        exclude(group = "com.google.guava", module = "guava-jdk5")
-    }
+    implementation(Dependencies.JANSI)
 }
 
 buildscript {
@@ -269,7 +259,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath(Libs.PROGUARD)
+        classpath(Dependencies.PROGUARD)
     }
 }
 
@@ -282,8 +272,18 @@ tasks.withType<KotlinCompile> {
 // https://github.com/codecov/example-gradle/blob/master/build.gradle#L25
 tasks["check"].dependsOn(tasks["jacocoTestReport"], tasks["detekt"])
 
-tasks.create("updateFlank", Exec::class.java) {
+val updateFlank by tasks.registering(Exec::class) {
+    group = "Build"
     description = "Update flank jar"
+    commandLine = listOf("./bash/update_flank.sh")
+}
+
+val flankFullRun by tasks.registering(Exec::class) {
+    dependsOn(tasks["clean"], tasks["check"])
+    // currently IT run only on CI, implement support to enable local run
+    dependsOn( ":integration_tests:test")
+    group = "Build"
+    description = "Perform full test_runner run"
     commandLine = listOf("./bash/update_flank.sh")
 }
 
