@@ -238,7 +238,6 @@ dependencies {
 
     implementation(Dependencies.JSOUP)
     implementation(Dependencies.OKHTTP)
-
     detektPlugins(Dependencies.DETEKT_FORMATTING)
 
     testImplementation(Dependencies.JUNIT)
@@ -247,7 +246,6 @@ dependencies {
     testImplementation(Dependencies.MOCKK)
 
     implementation(Dependencies.COMMON_TEXT)
-
     implementation(Dependencies.JANSI)
 }
 
@@ -261,7 +259,6 @@ buildscript {
         classpath(Dependencies.PROGUARD)
     }
 }
-
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
@@ -284,6 +281,7 @@ val flankFullRun by tasks.registering(Exec::class) {
     group = "Build"
     description = "Perform full test_runner run"
     commandLine = listOf("./bash/update_flank.sh")
+
 }
 
 // begin --- ASCII doc generation ---
