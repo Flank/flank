@@ -1,20 +1,17 @@
-package flank.scripts.dependencies
+package flank.scripts.dependencies.update
 
-import flank.scripts.dependencies.update.GradleDependency
-import flank.scripts.dependencies.update.gradleDependency
-import flank.scripts.dependencies.update.needsUpdate
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 
-fun File.updateGradle() {
+fun File.updateGradle(gradleWrapperPropertiesPath: String = "") {
     gradleDependency()
         .takeIf { it.needsUpdate() }
-        ?.let { gradleDependency -> updateGradleWrapper(gradleDependency) }
+        ?.let { gradleDependency -> updateGradleWrapper(gradleDependency, gradleWrapperPropertiesPath) }
 }
 
-private fun updateGradleWrapper(gradleDependency: GradleDependency) {
-    findAllGradleWrapperPropertiesFiles()
+private fun updateGradleWrapper(gradleDependency: GradleDependency, gradleWrapperPropertiesPath: String) {
+    findAllGradleWrapperPropertiesFiles(gradleWrapperPropertiesPath)
         .forEach {
             val from = gradleDependency.running.version
             val to = gradleDependency.current.version
@@ -23,9 +20,10 @@ private fun updateGradleWrapper(gradleDependency: GradleDependency) {
         }
 }
 
-private fun findAllGradleWrapperPropertiesFiles() = Files.walk(Paths.get(""))
-    .filter { it.fileName.toString() == GRADLE_WRAPPER_PROPERTIES_FILE }
-    .map { it.toFile() }
+private fun findAllGradleWrapperPropertiesFiles(gradleWrapperPropertiesPath: String) =
+    Files.walk(Paths.get(gradleWrapperPropertiesPath))
+        .filter { it.fileName.toString() == GRADLE_WRAPPER_PROPERTIES_FILE }
+        .map { it.toFile() }
 
 private fun File.updateGradleWrapperPropertiesFile(from: String, to: String) {
     writeText(readText().replace(from, to))

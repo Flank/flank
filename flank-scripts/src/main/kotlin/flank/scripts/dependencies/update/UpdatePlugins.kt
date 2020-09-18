@@ -5,21 +5,24 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.stream.Collectors
 
-fun File.updatePlugins(pluginsFile: File, versionsFile: File) {
+fun File.updatePlugins(pluginsFile: File, versionsFile: File, buildGradleDirectory: String = "") {
     versionsFile.updateVersions(
-        dependencies = getDependenciesUpdate(findPluginsValNames(pluginsFile))
+        dependencies = getDependenciesUpdate(findPluginsValNames(pluginsFile), buildGradleDirectory)
     )
 }
 
-private fun getDependenciesUpdate(pluginsValNames: List<Pair<Dependency, String>>) = findBuildGradleFiles()
+private fun getDependenciesUpdate(
+    pluginsValNames: List<Pair<Dependency, String>>,
+    buildGradleDirectory: String
+) = findBuildGradleFiles(buildGradleDirectory)
     .getPluginsBlock()
     .fold(setOf<DependencyUpdate>()) { currentSet, pluginsBlock ->
         currentSet + pluginsBlock.findVersionsValNameFor(pluginsValNames).flatten().mapNotNull { it }
     }
     .toList()
 
-private fun findBuildGradleFiles() =
-    Files.walk(Paths.get(""))
+private fun findBuildGradleFiles(buildGradleDirectory: String) =
+    Files.walk(Paths.get(buildGradleDirectory))
         .filter { it.fileName.toString() == BUILD_GRADLE_FILE_NAME }
         .map { it.toFile() }
         .collect(Collectors.toList())
@@ -28,7 +31,7 @@ private fun List<File>.getPluginsBlock() =
     mapNotNull { pluginsBlockRegex.find(it.readText()) }
         .map { it.value }
 
-fun File.findPluginsValNames(pluginsFile: File) =
+private fun File.findPluginsValNames(pluginsFile: File) =
     outDatedDependencies()
         .filter { it.name?.contains("gradle.plugin") ?: false }
         .map { dependency -> dependency to dependency.group.findPluginValNames(pluginsFile) }
