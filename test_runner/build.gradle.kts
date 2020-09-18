@@ -42,6 +42,7 @@ shadowJar.apply {
         exclude(dependency(Dependencies.TRUTH))
         exclude(dependency(Dependencies.MOCKK))
         exclude(dependency(Dependencies.JUNIT))
+        exclude(dependency(Dependencies.PROGUARD))
         exclude(dependency(Dependencies.DETEKT_FORMATTING))
     }
 }
@@ -249,6 +250,18 @@ dependencies {
 
     implementation(Dependencies.JANSI)
 }
+
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath(Dependencies.PROGUARD)
+    }
+}
+
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
