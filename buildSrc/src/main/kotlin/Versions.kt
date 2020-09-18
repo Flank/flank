@@ -84,7 +84,6 @@ object Versions {
     // https://github.com/ben-manes/gradle-versions-plugin/releases
     const val BEN_MANES = "0.28.0"
 
-    // https://github.com/Guardsquare/proguard
     const val PROGUARD = "7.0.0"
 
     // ============== flank-scripts ==============
