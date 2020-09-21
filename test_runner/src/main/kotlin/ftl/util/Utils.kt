@@ -36,7 +36,7 @@ fun join(first: String, vararg more: String): String {
 }
 
 fun assertNotEmpty(str: String, e: String) {
-    if (str.isEmpty()) {
+    if (str.isBlank()) {
         throw FlankGeneralError(e)
     }
 }
