@@ -16,7 +16,7 @@ See [docs/error_monitoring.md](./docs/error_monitoring.md) to disable Bugsnag er
 
 ### Contributing
 
-- Install JDK 11 (it works also correctly on previous version, newer version are not guaranteed to works properly):
+- Install JDK 11 (it works also correctly on the previous version, a newer version is not guaranteed to work properly):
   - [Oracle](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
   - [OpenJDK](https://jdk.java.net/11/)
 - Use [JetBrains Toolbox](https://www.jetbrains.com/toolbox/app/) to install `IntelliJ IDEA Community`
@@ -181,7 +181,7 @@ flank:
   # disable-sharding: false
 
   ## always run - these tests are inserted at the beginning of every shard
-  ## useful if you need to grant permissions or login before other tests run
+  ## However flank doesn't guarantee tests execution order. It is specific for user's config and FTL internal implementation
   # test-targets-always-run:
   #   - className/testName
 
@@ -404,7 +404,7 @@ flank:
   # disable-sharding: false
 
   ## always run - these tests are inserted at the beginning of every shard
-  ## useful if you need to grant permissions or login before other tests run
+    ## However flank doesn't guarantee tests execution order. It is specific for user's config and FTL internal implementation
   # test-targets-always-run:
   #   - class com.example.app.ExampleUiTest#testPasses
 
