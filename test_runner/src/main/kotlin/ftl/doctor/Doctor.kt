@@ -26,7 +26,7 @@ fun validateYaml(args: IArgs.ICompanion, data: Path) =
 @VisibleForTesting
 internal fun validateYaml(args: IArgs.ICompanion, data: Reader) =
     runCatching { ArgsHelper.yamlMapper.readTree(data) }
-        .onFailure { return it.message ?: "Unknown error when parsing tree" }
+        .onFailure { return it.message?.replace(System.lineSeparator(), "\n") ?: "Unknown error when parsing tree" }
         .getOrNull()
         ?.run { validateYamlKeys(args).plus(validateDevices()) }
         .orEmpty()

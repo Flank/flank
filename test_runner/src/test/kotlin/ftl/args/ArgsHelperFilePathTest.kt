@@ -68,6 +68,8 @@ class ArgsHelperFilePathTest {
 
     @Test
     fun evaluateRelativeFilePath() {
+        assumeFalse(isWindows)
+
         val expected = makeTmpFile("/tmp/app-debug.apk")
         val testApkPath = "~/../../../../../../../../../tmp/app-debug.apk"
         val actual = ArgsHelper.evaluateFilePath(testApkPath)

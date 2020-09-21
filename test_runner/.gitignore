@@ -8,3 +8,4 @@ src/test/kotlin/ftl/fixtures/error_result/*.xml
 src/test/kotlin/ftl/fixtures/success_result/*.xml
 *.json
 *-describe.adoc
+should_exists.txt
