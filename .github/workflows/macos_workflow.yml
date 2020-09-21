@@ -1,15 +1,7 @@
 name: macOS-workflow
 
-on:
-  push:
-    branches: 
-      - master
-  pull_request:
-    branches:
-      - '*'
-    paths:
-      - '**'
-      - '!flank-scripts/**'
+on: 
+  workflow_dispatch:
 
 jobs:
   build:
