@@ -1,6 +1,6 @@
 package ftl.run.status
 
-import ftl.doctor.equalsIgnoreNewlineStyle
+import ftl.doctor.assertEqualsIgnoreNewlineStyle
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
@@ -20,14 +20,13 @@ class VerbosePrinterTest {
         printChanges(PrinterTestUtil.changes2)
 
         // then
-        assert(
-            equalsIgnoreNewlineStyle(
+        assertEqualsIgnoreNewlineStyle(
             listOf(
                 "  time name1 state0",
                 "  time name2 state0",
                 "  time name2 state1"
             ).joinToString("\n", postfix = "\n"),
             systemOutRule.log
-        ))
+        )
     }
 }
