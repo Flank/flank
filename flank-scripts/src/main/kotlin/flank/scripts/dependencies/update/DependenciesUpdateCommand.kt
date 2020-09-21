@@ -21,7 +21,7 @@ object DependenciesUpdateCommand : CliktCommand(name = "update", help = "Update 
                 .file(mustExist = true)
                 .default(File("./buildSrc/src/main/kotlin/Versions.kt"))
     private val pluginsFile
-            by option(help = "Path to .kts file with versions defined")
+            by option(help = "Path to .kts file with plugins defined")
                 .file(mustExist = true)
                 .default(File("./buildSrc/src/main/kotlin/Plugins.kt"))
 
