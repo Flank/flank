@@ -116,7 +116,7 @@ object ArgsHelper {
     }
 
     fun createJunitBucket(projectId: String, junitGcsPath: String) {
-        if (useMock || junitGcsPath.isEmpty()) return
+        if (useMock || junitGcsPath.isBlank()) return
         val bucket = junitGcsPath.drop(GCS_PREFIX.length).substringBefore('/')
         createGcsBucket(projectId, bucket)
     }
@@ -124,7 +124,7 @@ object ArgsHelper {
     // Make best effort to list/create the bucket.
     // Due to permission issues, the user may not be able to list or create buckets.
     fun createGcsBucket(projectId: String, bucket: String): String {
-        if (bucket.isEmpty()) return GcToolResults.getDefaultBucket(projectId)
+        if (bucket.isBlank()) return GcToolResults.getDefaultBucket(projectId)
             ?: throw FlankGeneralError("Failed to make bucket for $projectId")
         if (useMock) return bucket
 
