@@ -2,6 +2,7 @@ package ftl.util
 
 import com.google.common.truth.Truth.assertThat
 import ftl.config.FtlConstants.isMacOS
+import ftl.config.FtlConstants.isWindows
 import ftl.run.exception.FlankGeneralError
 import ftl.test.util.FlankTestRunner
 import org.junit.Test
@@ -13,26 +14,31 @@ class BashTest {
 
     @Test
     fun executeStderr() {
+        if (isWindows) return
         assertThat(Bash.execute("echo a 1>&2")).isEqualTo("a")
     }
 
     @Test(expected = FlankGeneralError::class)
     fun executeStderrExitCode1() {
+        if (isWindows) throw FlankGeneralError("Failure as is windows")
         assertThat(Bash.execute("echo not an error 1>&2; exit 1")).isEmpty()
     }
 
     @Test
     fun executeNoOutput() {
+        if (isWindows) return
         assertThat(Bash.execute(" ")).isEmpty()
     }
 
     @Test
     fun executeSmallOutput() {
+        if (isWindows) return
         assertThat(Bash.execute("echo ok")).isEqualTo("ok")
     }
 
     @Test
     fun executeLargeOutput() {
+        if (isWindows) return
         // gohello is a binary that outputs 100k 'hi' to stdout
         val os = if (isMacOS) {
             "mac"
