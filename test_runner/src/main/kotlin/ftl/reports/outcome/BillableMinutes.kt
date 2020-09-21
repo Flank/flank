@@ -2,6 +2,7 @@ package ftl.reports.outcome
 
 import com.google.api.services.toolresults.model.Step
 import ftl.android.AndroidCatalog
+import ftl.environment.orUnknown
 import ftl.util.billableMinutes
 import kotlin.math.min
 
@@ -16,25 +17,24 @@ fun List<Step>.calculateAndroidBillableMinutes(
 ): BillableMinutes =
     groupByDeviceType(projectId).run {
         BillableMinutes(
-            virtual = get(true)?.sumBillableMinutes(timeoutValue) ?: 0,
-            physical = get(false)?.sumBillableMinutes(timeoutValue) ?: 0
+            virtual = get("VIRTUAL")?.sumBillableMinutes(timeoutValue) ?: 0,
+            physical = get("PHYSICAL")?.sumBillableMinutes(timeoutValue) ?: 0
         )
     }
+private fun Step.deviceModel() = dimensionValue.find { it.key.equals("Model", ignoreCase = true) }?.value.orUnknown()
 
 private fun List<Step>.groupByDeviceType(projectId: String) =
     groupBy {
-        AndroidCatalog.isVirtualDevice(
-            it.axisValue(),
+        AndroidCatalog.deviceType(
+            it.deviceModel(),
             projectId
         )
     }
 
-private fun List<Step>.sumBillableMinutes(timeout: Long) =
-    mapNotNull { step ->
-        step.getBillableSeconds(default = timeout)
-    }.map {
-        billableMinutes(it)
-    }.sum()
+private fun List<Step>.sumBillableMinutes(timeout: Long) = this
+    .mapNotNull { it.getBillableSeconds(default = timeout) }
+    .map { billableMinutes(it) }
+    .sum()
 
 private fun Step.getBillableSeconds(default: Long) =
     testExecutionStep?.testTiming?.testProcessDuration?.seconds?.let {

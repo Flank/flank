@@ -65,12 +65,19 @@ object AndroidCatalog {
         return SupportedDeviceConfig
     }
 
-    fun isVirtualDevice(device: AndroidDevice?, projectId: String): Boolean = device?.androidModelId?.let { isVirtualDevice(it, projectId) } ?: false
+    fun isVirtualDevice(device: AndroidDevice?, projectId: String): Boolean = device
+        ?.androidModelId
+        ?.let { isVirtualDevice(it, projectId) }
+        ?: false
 
     fun isVirtualDevice(modelId: String, projectId: String): Boolean {
-        val form = deviceCatalog(projectId).models.find { it.id == modelId }?.form ?: "PHYSICAL"
-        return form == "VIRTUAL"
+        val form = deviceCatalog(projectId).models.find { it.id.equals(modelId, ignoreCase = true) }?.form ?: "PHYSICAL"
+        return form.equals("VIRTUAL", ignoreCase = true)
     }
+
+    fun deviceType(modelId: String, projectId: String) =
+        if (isVirtualDevice(modelId, projectId)) "VIRTUAL"
+        else "PHYSICAL"
 }
 
 sealed class DeviceConfigCheck
