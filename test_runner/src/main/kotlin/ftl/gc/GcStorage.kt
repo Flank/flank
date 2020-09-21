@@ -64,7 +64,7 @@ object GcStorage {
     }
 
     fun uploadJunitXml(testResult: JUnitTestResult, args: IArgs) {
-        if (args.smartFlankGcsPath.isEmpty() || args.smartFlankDisableUpload) return
+        if (args.smartFlankGcsPath.isBlank() || args.smartFlankDisableUpload) return
 
         // bucket/path/to/object
         val rawPath = args.smartFlankGcsPath.drop(GCS_PREFIX.length)

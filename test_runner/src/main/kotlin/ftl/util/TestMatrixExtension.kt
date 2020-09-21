@@ -27,7 +27,7 @@ fun TestMatrix.getClientDetails(): Map<String, String>? =
 
 fun TestMatrix.webLinkWithoutExecutionDetails(): String {
     val webLink = webLink()
-    return if (webLink.isEmpty()) {
+    return if (webLink.isBlank()) {
         webLink
     } else {
         val executionsRegex = "/executions/.+".toRegex()
