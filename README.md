@@ -181,7 +181,7 @@ flank:
   # disable-sharding: false
 
   ## always run - these tests are inserted at the beginning of every shard
-  ## Execution order is not guaranteed by Flank. Users are responsible for configuring their on device test runner logic.
+  ## Execution order is not guaranteed by Flank. Users are responsible for configuring their own device test runner logic.
   # test-targets-always-run:
   #   - className/testName
 
@@ -404,7 +404,7 @@ flank:
   # disable-sharding: false
 
   ## always run - these tests are inserted at the beginning of every shard
-  ## Execution order is not guaranteed by Flank. Users are responsible for configuring their on device test runner logic.
+  ## Execution order is not guaranteed by Flank. Users are responsible for configuring their own device test runner logic.
   # test-targets-always-run:
   #   - class com.example.app.ExampleUiTest#testPasses
 
