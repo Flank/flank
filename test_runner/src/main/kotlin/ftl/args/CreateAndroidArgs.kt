@@ -29,10 +29,11 @@ fun createAndroidArgs(
     roboScript = gcloud.roboScript?.normalizeFilePath(),
 
     // flank
-    additionalAppTestApks = flank.additionalAppTestApks?.map { (app, test) ->
+    additionalAppTestApks = flank.additionalAppTestApks?.map { (app, test, env) ->
         AppTestPair(
             app = app?.normalizeFilePath(),
-            test = test.normalizeFilePath()
+            test = test.normalizeFilePath(),
+            environmentVariables = env
         )
     } ?: emptyList(),
     useLegacyJUnitResult = flank.useLegacyJUnitResult!!
