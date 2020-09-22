@@ -23,7 +23,8 @@ See [docs/error_monitoring.md](./docs/error_monitoring.md) to disable Bugsnag er
 - Use [JetBrains Toolbox](https://www.jetbrains.com/toolbox/app/) to install `IntelliJ IDEA Community`
 - Clone the repo `git clone --recursive https://github.com/Flank/flank.git`
   - `git submodule update --init --recursive` updates the submodules
-- Open `test_runner/build.gradle.kts` with `IntelliJ IDEA Community`
+- Open `build.gradle.kts` in the main Flank base directory with `IntelliJ IDEA Community`, this will open the entire Flank mono repo
+- test runner contributions can be made in the `test_runner\` subdirectory
 
 ### Features
 
