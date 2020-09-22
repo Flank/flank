@@ -2,6 +2,7 @@ package ftl.reports.outcome
 
 import com.google.api.services.toolresults.model.Step
 import ftl.android.AndroidCatalog
+import ftl.android.DeviceType
 import ftl.environment.orUnknown
 import ftl.util.billableMinutes
 import kotlin.math.min
@@ -31,10 +32,6 @@ private fun Step.getBillableSeconds(default: Long) =
     testExecutionStep?.testTiming?.testProcessDuration?.seconds?.let {
         min(it, default)
     }
-
-private enum class DeviceType {
-    VIRTUAL, PHYSICAL
-}
 
 private fun deviceType(modelId: String, projectId: String) =
     if (AndroidCatalog.isVirtualDevice(modelId, projectId)) DeviceType.VIRTUAL
