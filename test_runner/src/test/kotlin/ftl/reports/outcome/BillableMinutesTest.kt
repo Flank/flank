@@ -2,6 +2,7 @@ package ftl.reports.outcome
 
 import com.google.api.services.testing.model.AndroidModel
 import com.google.api.services.toolresults.model.Step
+import ftl.android.DeviceType
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
 import io.mockk.every
@@ -21,10 +22,10 @@ class BillableMinutesTest {
     val output: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
 
     private val androidModels = listOf<AndroidModel>(
-        make { id = "NexusLowRes"; form = "VIRTUAL" },
-        make { id = "Nexus5"; form = "VIRTUAL" },
-        make { id = "g3"; form = "PHYSICAL" },
-        make { id = "sailfish"; form = "PHYSICAL" }
+        make { id = "NexusLowRes"; form = DeviceType.VIRTUAL.name },
+        make { id = "Nexus5"; form = DeviceType.VIRTUAL.name },
+        make { id = "g3"; form = DeviceType.PHYSICAL.name },
+        make { id = "sailfish"; form = DeviceType.PHYSICAL.name }
     )
 
     @Before
