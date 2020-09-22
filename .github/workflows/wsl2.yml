@@ -27,7 +27,10 @@ jobs:
         distribution: Ubuntu-18.04
 
     - name: Change working directory to workspace with flank files
-      run: . #  TODO change dir to /mnt/workspace
+      run: |
+          ls
+          cd mnt
+          ls
     - name: Build Flank
       run: |
           ./gradlew clean build
