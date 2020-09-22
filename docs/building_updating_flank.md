@@ -1,12 +1,12 @@
 # Building and Updating Flank
-
 Ensure that all steps taken for contributing and building Flank have been followed, which are found [here](../README.md)
 
 ## Building an updated flank
 To build an updated version of flank from source simply run (This assumes you are in the root Flank directory)
 
-> ./gradlew clean build
-> ./gradlew updateFlank
+> ./gradlew flankFullRun
+
+The flank full run task, builds a clean Flan, runs all tests and runs the updateFlank gradle task.
 
 
 This will create the `Flank.jar` file and place it in `/test_runner/bash`
