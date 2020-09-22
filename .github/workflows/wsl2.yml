@@ -28,7 +28,7 @@ jobs:
 
     - name: Build Flank
       run: |
-          ./gradlew clean build
+          gradlew clean build
     - name: Prepare Google Service Account
       run: |
           GCLOUD_DIR="$HOME/.config/gcloud/"
@@ -37,8 +37,8 @@ jobs:
 
     - name: Integration Tests Android
       run: |
-          ./gradlew --info :integration_tests:test --tests IntegrationTests.shouldMatchAndroidSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_android.yml
+          gradlew --info :integration_tests:test --tests IntegrationTests.shouldMatchAndroidSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_android.yml
     
     - name: Integration Tests iOS
       run: |
-          ./gradlew --info :integration_tests:test --tests IntegrationTests.shouldMatchIosSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_ios.yml
+          gradlew --info :integration_tests:test --tests IntegrationTests.shouldMatchIosSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_ios.yml
