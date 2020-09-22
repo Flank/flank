@@ -71,7 +71,10 @@ object AndroidCatalog {
         ?: false
 
     fun isVirtualDevice(modelId: String, projectId: String): Boolean {
-        val form = deviceCatalog(projectId).models.find { it.id.equals(modelId, ignoreCase = true) }?.form ?: "PHYSICAL"
+        val form = deviceCatalog(projectId).models
+            .find { it.id.equals(modelId, ignoreCase = true) }?.form
+            ?: "PHYSICAL".also { println("Unable to find device type for $modelId. PHYSICAL used as fallback in cost calculations") }
+
         return form.equals("VIRTUAL", ignoreCase = true)
     }
 

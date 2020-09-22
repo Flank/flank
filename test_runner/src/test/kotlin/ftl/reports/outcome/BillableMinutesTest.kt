@@ -9,10 +9,16 @@ import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.contrib.java.lang.system.SystemOutRule
 
 class BillableMinutesTest {
+
+    @get:Rule
+    val output: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
 
     private val androidModels = listOf<AndroidModel>(
         make { id = "NexusLowRes"; form = "VIRTUAL" },
@@ -23,6 +29,7 @@ class BillableMinutesTest {
 
     @Before
     fun setUp() {
+        output.clearLog()
         mockkObject(GcTesting)
         every {
             GcTesting
@@ -98,6 +105,18 @@ class BillableMinutesTest {
         val minutes = listOf(step1, step2, step3, step4).calculateAndroidBillableMinutes(projectId = "anyId", timeoutValue = timeout)
 
         verifyBilling(minutes, expectedVirtual, expectedPhysical)
+    }
+
+    @Test
+    fun `should return billing for physical device when unable to find device type`() {
+        val expectedPhysical = 3L
+        val modelId = "uncommon"
+        val step: Step = makeStep(model = modelId, duration = 123)
+
+        val minutes = listOf(step).calculateAndroidBillableMinutes(projectId = "anyId", timeoutValue = 1000L)
+
+        verifyBilling(minutes, expectedPhysical = expectedPhysical)
+        assertTrue(output.log.contains("Unable to find device type for $modelId. PHYSICAL used as fallback in cost calculations"))
     }
 }
 
