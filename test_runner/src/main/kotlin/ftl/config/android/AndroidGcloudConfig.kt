@@ -26,6 +26,7 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
         description = ["The path to the application binary file. " +
             "The path may be in the local filesystem or in Google Cloud Storage using gs:// notation."]
     )
+    @set:JsonProperty("app")
     var app: String? by data
 
     @set:CommandLine.Option(
@@ -33,6 +34,7 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
         description = ["The path to the binary file containing instrumentation tests. " +
             "The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://."]
     )
+    @set:JsonProperty("test")
     var test: String? by data
 
     @set:CommandLine.Option(

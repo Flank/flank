@@ -27,6 +27,7 @@ data class IosGcloudConfig @JsonIgnore constructor(
             "beginning with gs://. Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file " +
             "is specified."]
     )
+    @set:JsonProperty("test")
     var test: String? by data
 
     @set:CommandLine.Option(

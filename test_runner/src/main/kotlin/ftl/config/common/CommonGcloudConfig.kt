@@ -71,12 +71,14 @@ data class CommonGcloudConfig @JsonIgnore constructor(
                 "possible testing time is 30m on physical devices and 60m on virtual devices. The TIMEOUT units can be h, m, " +
                 "or s. If no unit is given, seconds are assumed. "]
     )
+    @set:JsonProperty("timeout")
     var timeout: String? by data
 
     @set:CommandLine.Option(
         names = ["--async"],
         description = ["Invoke a test asynchronously without waiting for test results."]
     )
+    @set:JsonProperty("async")
     var async: Boolean? by data
 
     @set:CommandLine.Option(

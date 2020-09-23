@@ -86,6 +86,7 @@ data class CommonFlankConfig @JsonIgnore constructor(
         description = ["The Google Cloud Platform project name to use for this invocation. " +
             "If omitted, then the project from the service account credential is used"]
     )
+    @set:JsonProperty("project")
     var project: String? by data
 
     @set:CommandLine.Option(
