@@ -20,6 +20,10 @@ jobs:
         shell: wsl-bash {0}
 
     steps:
+    - name: Set GCLOUD_KEY
+      shell: cmd
+      run: setx GCLOUD_KEY ${{ secrets.GCLOUD_KEY }} /p
+          
     - uses: Vampire/setup-wsl@v1
       with:
         distribution: Ubuntu-18.04
@@ -48,8 +52,6 @@ jobs:
           ./gradlew clean build
 
     - name: Prepare Google Service Account
-      env:
-        GCLOUD_KEY: ${{ secrets.GCLOUD_KEY }}
       run: |
           GCLOUD_DIR="$HOME/.config/gcloud/"
           mkdir -p "$GCLOUD_DIR"
