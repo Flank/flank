@@ -4,8 +4,14 @@ import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.SerializationStrategy
 import kotlinx.serialization.json.Json
 
+private val json by lazy {
+    Json {
+        ignoreUnknownKeys = true
+    }
+}
+
 fun <T> T.toJson(serializationStrategy: SerializationStrategy<T>) =
-    Json.encodeToString(serializationStrategy, this)
+    json.encodeToString(serializationStrategy, this)
 
 fun <T> String.toObject(deserializationStrategy: DeserializationStrategy<T>) =
-    Json.decodeFromString(deserializationStrategy, this)
+    json.decodeFromString(deserializationStrategy, this)
