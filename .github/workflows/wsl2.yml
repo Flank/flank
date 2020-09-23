@@ -10,6 +10,8 @@ jobs:
     defaults:
       run:
         shell: wsl-bash {0}
+
+
     steps:
     - uses: actions/checkout@v2
       with: 
@@ -25,11 +27,15 @@ jobs:
     - uses: Vampire/setup-wsl@v1
       with:
         distribution: Ubuntu-18.04
+        additional-packages:
+          dos2unix
 
     - name: Build Flank
-      run: |
-        ls
-        ./gradlew clean build
+        shell: wsl-bash_Ubuntu-18.04 {0}
+        run: |
+          dos2unix *
+          chmod +x gradlew
+          gradlew clean build
 
 
     - name: Prepare Google Service Account
