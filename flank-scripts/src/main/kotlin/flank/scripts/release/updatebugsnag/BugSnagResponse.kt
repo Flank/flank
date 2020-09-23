@@ -12,5 +12,5 @@ data class BugSnagResponse(
 )
 
 object BugSnagResponseDeserializer : ResponseDeserializable<BugSnagResponse> {
-    override fun deserialize(content: String) = content.toObject(BugSnagResponse.serializer())
+    override fun deserialize(content: String): BugSnagResponse = content.toObject()
 }

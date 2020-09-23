@@ -24,7 +24,7 @@ private fun createRequestBody(bugsnagApiKey: String, appVersion: String, githubW
                 builderName = "github-actions",
                 sourceControl = githubActionsSourceControl(appVersion),
                 metadata = mapOf("github_actions_build_url" to githubWorkflowUrl)
-        ).toJson(BugSnagRequest.serializer())
+        ).toJson()
 
 private fun githubActionsSourceControl(appVersion: String) = SourceControl(
         "github",

@@ -1,7 +1,7 @@
 package flank.scripts.utils
 
-import kotlinx.serialization.DeserializationStrategy
-import kotlinx.serialization.SerializationStrategy
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 private val json by lazy {
@@ -10,8 +10,6 @@ private val json by lazy {
     }
 }
 
-fun <T> T.toJson(serializationStrategy: SerializationStrategy<T>) =
-    json.encodeToString(serializationStrategy, this)
+internal inline fun <reified T> T.toJson() = json.encodeToString(this)
 
-fun <T> String.toObject(deserializationStrategy: DeserializationStrategy<T>) =
-    json.decodeFromString(deserializationStrategy, this)
+internal inline fun <reified T> String.toObject() = json.decodeFromString<T>(this)

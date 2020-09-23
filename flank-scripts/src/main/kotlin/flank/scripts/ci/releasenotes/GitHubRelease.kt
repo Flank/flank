@@ -11,5 +11,5 @@ data class GitHubRelease(
 )
 
 object GithubReleaseDeserializable : ResponseDeserializable<GitHubRelease> {
-    override fun deserialize(content: String) = content.toObject(GitHubRelease.serializer())
+    override fun deserialize(content: String): GitHubRelease = content.toObject()
 }
