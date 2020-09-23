@@ -22,7 +22,7 @@ class SerializationTest {
         )
 
         // when
-        val actual = testJson.toObject(GitHubErrorResponse.serializer())
+        val actual = testJson.toObject<GitHubErrorResponse>()
 
         // then
         assertThat(actual).isEqualTo(expected)
@@ -35,7 +35,7 @@ class SerializationTest {
         val expected = "{\"provider\":\"a\",\"repository\":\"b\",\"revision\":\"c\"}"
 
         // when
-        val actual = testObject.toJson(SourceControl.serializer())
+        val actual = testObject.toJson()
 
         // then
         assertThat(actual).isEqualTo(expected)
