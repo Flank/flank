@@ -28,7 +28,10 @@ jobs:
 
     - name: Build Flank
       run: |
-          gradlew clean build
+        ls
+        ./gradlew clean build
+
+
     - name: Prepare Google Service Account
       run: |
           GCLOUD_DIR="$HOME/.config/gcloud/"
