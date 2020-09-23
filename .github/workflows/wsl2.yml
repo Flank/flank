@@ -31,8 +31,8 @@ jobs:
           dos2unix
 
     - name: Build Flank
-        shell: wsl-bash_Ubuntu-18.04 {0}
-        run: |
+      shell: wsl-bash_Ubuntu-18.04 {0}
+      run: |
           dos2unix *
           chmod +x gradlew
           gradlew clean build
