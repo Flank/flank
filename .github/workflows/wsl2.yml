@@ -29,15 +29,14 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-2-gradle-
 
-    - uses: actions/setup-java@v1
-      with:
-        java-version: '15' # The JDK version to make available on the path.
-        java-package: jdk # (jre, jdk, or jdk+fx) - defaults to jdk
-
-    - name: Build Flank
-      run: |
+    - name: Configure WSL for flank
+        run: |
           find . -type f -print0 | xargs -0 -n 1 -P 4 dos2unix
           chmod +x gradlew
+          sudo apt-get install openjdk-8-jdk
+
+    - name: Gradle clean build
+        run: |
           ./gradlew clean build
 
     - name: Prepare Google Service Account
