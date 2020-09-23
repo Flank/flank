@@ -22,7 +22,7 @@ jobs:
     steps:
     - name: Set GCLOUD_KEY
       shell: cmd
-      run: setx GCLOUD_KEY ${{ secrets.GCLOUD_KEY }} /p
+      run: setx GCLOUD_KEY ${{ secrets.GCLOUD_KEY }}
           
     - uses: Vampire/setup-wsl@v1
       with:
