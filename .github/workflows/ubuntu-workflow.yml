@@ -18,6 +18,7 @@ jobs:
       - uses: actions/checkout@v2
         with: 
           submodules: true
+
       - name: Display the java version
         run: java -version 
         shell: bash

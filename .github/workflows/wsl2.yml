@@ -11,8 +11,13 @@ jobs:
       run:
         shell: wsl-bash {0}
 
-
     steps:
+    - uses: Vampire/setup-wsl@v1
+      with:
+        distribution: Ubuntu-18.04
+        additional-packages:
+          dos2unix
+
     - uses: actions/checkout@v2
       with: 
         submodules: true
@@ -24,20 +29,16 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-2-gradle-
 
-    - uses: Vampire/setup-wsl@v1
+    - uses: actions/setup-java@v1
       with:
-        distribution: Ubuntu-18.04
-        additional-packages:
-          dos2unix
+        java-version: '15.0.4' # The JDK version to make available on the path.
+        java-package: jdk # (jre, jdk, or jdk+fx) - defaults to jdk
 
     - name: Build Flank
-      shell: wsl-bash_Ubuntu-18.04 {0}
       run: |
-          dos2unix *
+          find . -type f -print0 | xargs -0 -n 1 -P 4 dos2unix
           chmod +x gradlew
           ./gradlew clean build
-          echo "Complete"
-
 
     - name: Prepare Google Service Account
       run: |
@@ -47,8 +48,8 @@ jobs:
 
     - name: Integration Tests Android
       run: |
-          gradlew --info :integration_tests:test --tests IntegrationTests.shouldMatchAndroidSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_android.yml
+          ./gradlew --info :integration_tests:test --tests IntegrationTests.shouldMatchAndroidSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_android.yml
     
     - name: Integration Tests iOS
       run: |
-          gradlew --info :integration_tests:test --tests IntegrationTests.shouldMatchIosSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_ios.yml
+          ./gradlew --info :integration_tests:test --tests IntegrationTests.shouldMatchIosSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_ios.yml
