@@ -29,7 +29,7 @@ class FuelTestRunner(klass: Class<*>) : BlockJUnit4ClassRunner(klass) {
                 val url = request.url.toString()
                 return when {
                     url == "https://api.github.com/repos/Flank/flank/git/refs/tags/success" -> request.buildResponse("", 200)
-                    url == "https://api.github.com/repos/flank/flank/releases/latest" && request.headers["Authorization"].contains("token success") -> request.buildResponse(GitHubRelease("v20.08.0").toJson(GitHubRelease.serializer()), 200)
+                    url == "https://api.github.com/repos/flank/flank/releases/latest" && request.headers["Authorization"].contains("token success") -> request.buildResponse(GitHubRelease("v20.08.0").toJson(), 200)
                     url == "https://api.github.com/repos/flank/flank/commits/success/pulls" -> request.buildResponse(
                         Json.encodeToString(githubPullRequestTest), 200)
                     request.isFailedGithubRequest() -> request.buildResponse(githubErrorBody, 422)
@@ -52,17 +52,18 @@ class FuelTestRunner(klass: Class<*>) : BlockJUnit4ClassRunner(klass) {
         ))
 
     private fun Request.handleBugsnagResponse() =
-        if (body.asString("application/json").toObject(BugSnagRequest.serializer()).apiKey == "success") {
+        if (body.asString("application/json").toObject<BugSnagRequest>().apiKey == "success") {
             buildResponse(
-                body = BugSnagResponse("success")
-                    .toJson(BugSnagResponse.serializer()), statusCode = 200
+                body = BugSnagResponse("success").toJson(),
+                statusCode = 200
             )
         } else {
             buildResponse(
                 body = BugSnagResponse(
                     status = "failure",
                     errors = listOf("errors")
-                ).toJson(BugSnagResponse.serializer()), statusCode = 422
+                ).toJson(),
+                statusCode = 422
             )
         }
 }
