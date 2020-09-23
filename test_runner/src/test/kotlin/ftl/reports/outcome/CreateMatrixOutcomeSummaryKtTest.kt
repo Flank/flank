@@ -123,4 +123,4 @@ class CreateMatrixOutcomeSummaryKtTest {
     }
 }
 
-private inline fun <reified T : Any> make(block: T.() -> Unit = {}): T = T::class.createInstance().apply(block)
+internal inline fun <reified T : Any> make(block: T.() -> Unit = {}): T = T::class.createInstance().apply(block)
