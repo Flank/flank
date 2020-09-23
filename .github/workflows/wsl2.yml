@@ -33,7 +33,7 @@ jobs:
       run: |
           find . -type f -print0 | xargs -0 -n 1 -P 4 dos2unix
           chmod +x gradlew
-          sudo apt-get install openjdk-8-jdk
+          sudo apt-get -y install openjdk-8-jdk
 
     - name: Gradle clean build
       run: |
