@@ -35,7 +35,8 @@ jobs:
       run: |
           dos2unix *
           chmod +x gradlew
-          gradlew clean build
+          ./gradlew clean build
+          echo "Complete"
 
 
     - name: Prepare Google Service Account
