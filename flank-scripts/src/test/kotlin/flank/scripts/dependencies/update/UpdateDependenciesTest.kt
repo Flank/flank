@@ -2,6 +2,7 @@ package flank.scripts.dependencies.update
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import skipIfWindows
 import java.io.File
 
 class UpdateDependenciesTest {
@@ -12,6 +13,9 @@ class UpdateDependenciesTest {
 
     @Test
     fun `should update dependencies`() {
+        // assume
+        skipIfWindows()
+
         // given
         val copyOfTestVersions =
             testVersions.copyTo(

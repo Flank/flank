@@ -2,6 +2,7 @@ package flank.scripts.dependencies.update
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import skipIfWindows
 import java.io.File
 
 class UpdateVersionsInFileTest {
@@ -10,6 +11,9 @@ class UpdateVersionsInFileTest {
 
     @Test
     fun `should properly update versions file`() {
+        // assume
+        skipIfWindows()
+
         // given
         val copyOfTestVersions = testVersions.copyTo(File(testVersions.absolutePath + "After"))
         val expectedFileAfterChanged =

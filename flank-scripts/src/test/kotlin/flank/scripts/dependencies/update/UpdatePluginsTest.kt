@@ -2,6 +2,7 @@ package flank.scripts.dependencies.update
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import skipIfWindows
 import java.io.File
 
 class UpdatePluginsTest {
@@ -11,6 +12,9 @@ class UpdatePluginsTest {
 
     @Test
     fun `should update plugin versions`() {
+        // assume
+        skipIfWindows()
+
         // given
         val expectedVersions =
             File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/ExpectedVersionAfterPluginDependencies")
