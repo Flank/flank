@@ -1,0 +1,52 @@
+// tag::picocli-generated-full-manpage[]
+
+// tag::picocli-generated-man-section-name[]
+== Name
+
+flank.jar
+-android - 
+
+// end::picocli-generated-man-section-name[]
+
+// tag::picocli-generated-man-section-synopsis[]
+== Synopsis
+
+*flank.jar
+ android* [COMMAND]
+
+// end::picocli-generated-man-section-synopsis[]
+
+// tag::picocli-generated-man-section-description[]
+== Description
+
+
+
+// end::picocli-generated-man-section-description[]
+
+// tag::picocli-generated-man-section-commands[]
+== Commands
+
+*run*::
+  Run tests on Firebase Test Lab
+
+*doctor*::
+  Verifies flank firebase is setup correctly
+
+*models*::
+  Information about available models
+
+*versions*::
+  Information about available software versions
+
+*screen-orientations*::
+  Information about available orientations
+
+*locales*::
+  Information about available locales on device
+
+*test-environment*::
+  Print available Android devices, Android OS versions list, locales, provided software, network configuration, orientation and IP blocks to test against
+
+// end::picocli-generated-man-section-commands[]
+
+// end::picocli-generated-full-manpage[]
