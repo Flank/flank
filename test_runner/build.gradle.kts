@@ -387,6 +387,11 @@ tasks.withType<DependencyUpdatesTask> {
     resolutionStrategy {
         componentSelection {
             all {
+
+                if(candidate.group == "com.google.apis" && candidate.module == "google-api-services-toolresults" && !candidate.version.startsWith("v1beta3-")) {
+                    reject("com.google.apis:google-api-services-toolresults should use beta only")
+                }
+
                 if (isNonStable(candidate.version) && isStable(currentVersion)) {
                     reject("Release candidate")
                 }
