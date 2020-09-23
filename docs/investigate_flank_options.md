@@ -1,6 +1,6 @@
-# Investigate flank commands
+# Investigate flank options
 
-## List of commands android
+## List of options android
 
 ### gcloud
 
@@ -57,7 +57,7 @@
 19. default-class-test-time
 20. use-average-test-time-for-new-tests
 
-## List of commands ios
+## List of options ios
 
 ### gcloud
 
@@ -101,21 +101,22 @@
 
 ## Investigation report
 
-### environment-variables
+### environment-variables (Android)
 
-Need to set ```directories-to-pull``` to pull from device directory with coverage report. 
+Need to set ```directories-to-pull``` to pull from device directory with coverage report.
 There are no warnings or fails when ```environment-variables``` set without ```directories-to-pull```.
+I added warning.
 
-### files-to-download
+### files-to-download (Android)
 
 In case when we want download coverage report we need to set ```directories-to-pull```.
 There are no warnings or fails when ```files-to-download``` set without ```directories-to-pull```.
 
-### disable-sharding
+### disable-sharding (Common)
 
-Can be set to true with set ```max-test-shards``` higher than one. In this case flank disable sharding. 
+Can be set to true with set ```max-test-shards``` higher than one. In this case flank disable sharding.
 
-### num-uniform-shards
+### num-uniform-shards (Android)
 
 0. When set with ```max-test-shards``` Flank fast fail
 1. When set with ```disable-sharding``` Flank disable sharding without any warning
