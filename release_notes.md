@@ -1,3 +1,28 @@
+## v20.09.3
+### Bug Fixes
+- [#1151](https://github.com/Flank/flank/pull/1151) Update flank-scripts serialization ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1149](https://github.com/Flank/flank/pull/1149) Flank-scripts next release tag generation ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1138](https://github.com/Flank/flank/pull/1138) Fix cost report ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1137](https://github.com/Flank/flank/pull/1137) Running Code coverage job ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1130](https://github.com/Flank/flank/pull/1130) Bump action versioning ([Sloox](https://github.com/Sloox))
+- [#1124](https://github.com/Flank/flank/pull/1124) Reflect gclouds outcome for robo tests ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1121](https://github.com/Flank/flank/pull/1121) Dockerfile fix for slack message send ([Sloox](https://github.com/Sloox))
+- [#1116](https://github.com/Flank/flank/pull/1116) Fixes release workflows ([Sloox](https://github.com/Sloox))
+### Features
+- [#1141](https://github.com/Flank/flank/pull/1141) Add Java 15 compile support ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1126](https://github.com/Flank/flank/pull/1126) Allow Flank using different environment variables between test-apks ([adamfilipow92](https://github.com/adamfilipow92))
+- [#1078](https://github.com/Flank/flank/pull/1078) Add proguard initial step into Flank configuration ([Sloox](https://github.com/Sloox))
+- [#1125](https://github.com/Flank/flank/pull/1125) Readded shadowjar minimization ([Sloox](https://github.com/Sloox))
+- [#1109](https://github.com/Flank/flank/pull/1109) Integration tests for Flank ([adamfilipow92](https://github.com/adamfilipow92))
+### Documentation
+- [#1139](https://github.com/Flank/flank/pull/1139) Optimization docs addition ([Sloox](https://github.com/Sloox))
+- [#1136](https://github.com/Flank/flank/pull/1136) Update documentation related with test-targets-always-run feature ([pawelpasterz](https://github.com/pawelpasterz))
+### CI Changes
+- [#1114](https://github.com/Flank/flank/pull/1114) Add Windows workflow ([Sloox](https://github.com/Sloox))
+- [#1095](https://github.com/Flank/flank/pull/1095) Add new bash scripts for test artifacts generation ([axelzuziak-gogo](https://github.com/axelzuziak-gogo), [jan-gogo](https://github.com/jan-gogo))
+### Refactor
+- [#1113](https://github.com/Flank/flank/pull/1113) Use single settings.gradle for flank projects ([jan-gogo](https://github.com/jan-gogo), [piotradamczyk5](https://github.com/piotradamczyk5))
+
 ## v20.09.2
 ### Features
 - [#1111](https://github.com/Flank/flank/pull/1111) Check if gcs path exist before run ([piotradamczyk5](https://github.com/piotradamczyk5))
