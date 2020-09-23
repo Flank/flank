@@ -27,7 +27,7 @@ class UpdatePluginsTest {
         testReport.updatePlugins(testPlugins, copyOfTestVersions, "src/test/kotlin/flank/scripts/dependencies/update/testfiles")
 
         // then
-        assertEquals(copyOfTestVersions.readText(), expectedVersions.readText())
+        assertEquals(expectedVersions.readText(), copyOfTestVersions.readText())
 
         // then
         makeBuildGradleNotPrepared()
