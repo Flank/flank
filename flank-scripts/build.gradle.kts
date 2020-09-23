@@ -60,6 +60,9 @@ dependencies {
     implementation(Dependencies.Fuel.KOTLINX_SERIALIZATION)
     implementation(Dependencies.Fuel.COROUTINES)
     implementation(Dependencies.CLIKT)
+    implementation(Dependencies.JSOUP)
+    implementation(Dependencies.OKHTTP)
+    implementation("com.jcabi:jcabi-github:1.0")
 
     detektPlugins(Dependencies.DETEKT_FORMATTING)
 

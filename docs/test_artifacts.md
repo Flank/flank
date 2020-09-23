@@ -1,5 +1,25 @@
 # Test artifacts
-Test artifacts are necessary for CI and local testing.
+Test artifacts are necessary for CI and local testing. 
+They can change over time so developers should be able to maintain and share them easy as possible. 
+
+## User stories 
+> As a developer I want to have test artifacts automatically updated before test run.
+
+* Developer should be able to download test Artifacts manually using gradle `downloadTestArtifacts` task. 
+* Gradle `test` task should depend on `downloadTestArtifacts`.
+
+> As a developer I want to update test artifacts for the specific branch.
+
+* Developer should be able to update test artifacts for the specific branch manually using gradle task or script.
+* Test artifacts for master branch should be updated automatically by CI after each merge to master.
+
+> As a developer when I'm deleting my working branch I want be able to remove also dedicated test artifacts when exists.
+
+* Developer should be able to remove test artifacts for the specific branch manually using gradle task or script.
+* Test artifacts for feature branches should be deleted automatically after feature branch delete.
+
+
+## Manual
 
 ### Generating test artifacts
 ```bash
