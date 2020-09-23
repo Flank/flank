@@ -1,0 +1,62 @@
+name:  Flank WSL 
+
+on:
+  push:
+    branches: 
+      - master
+  pull_request:
+    branches:
+      - '*'
+    paths:
+      - '**'
+      - '!flank-scripts/**'
+
+jobs:
+  build:
+    # The type of runner that the job will run on
+    runs-on: windows-2019
+    defaults:
+      run:
+        shell: wsl-bash {0}
+
+    steps:
+    - uses: Vampire/setup-wsl@v1
+      with:
+        distribution: Ubuntu-18.04
+        additional-packages:
+          dos2unix
+
+    - uses: actions/checkout@v2
+      with: 
+        submodules: true
+
+    - uses: actions/cache@v2
+      with:
+        path: ~/.gradle/caches
+        key: ${{ runner.os }}-2-gradle-${{ hashFiles('**/*.gradle*') }}
+        restore-keys: |
+          ${{ runner.os }}-2-gradle-
+
+    - name: Configure WSL for flank
+      run: |
+          find . -type f -print0 | xargs -0 -n 1 -P 4 dos2unix
+          chmod +x gradlew
+          sudo apt-get -y install openjdk-8-jdk
+
+    - name: Gradle clean build
+      run: |
+          ./gradlew clean build
+
+    - name: Prepare Google Service Account
+      run: |
+          GCLOUD_DIR="$HOME/.config/gcloud/"
+          mkdir -p "$GCLOUD_DIR"
+          echo "$GCLOUD_KEY" | base64 --decode > "$GCLOUD_DIR/application_default_credentials.json"
+
+    - name: Integration Tests Android
+      run: |
+          ./gradlew --info :integration_tests:test --tests IntegrationTests.shouldMatchAndroidSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_android.yml
+    
+    - name: Integration Tests iOS
+      run: |
+          ./gradlew --info :integration_tests:test --tests IntegrationTests.shouldMatchIosSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_ios.yml
