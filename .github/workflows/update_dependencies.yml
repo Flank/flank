@@ -1,0 +1,44 @@
+name: Update dependencies
+
+on:
+  schedule:
+    - cron: '0 5 * * 1' # At 05:00 on Monday
+  workflow_dispatch:    # or manually
+
+jobs:
+  update_dependencies:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Gradle dependency updates raport
+        uses: eskatos/gradle-command-action@v1
+        with:
+            arguments: dependencyUpdates -DoutputFormatter=json -DoutputDir=..
+
+      - name: Gradle Build flankScripts and add it to PATH
+        run: |
+          ./flank-scripts/bash/buildFlankScripts.sh
+          echo "::add-path::./flank-scripts/bash"
+
+      - name: Update dependencies
+        run: |
+          flankScripts dependencies update
+
+      - name: Commit files and create Pull request
+        id: pr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: "[Automatic PR] Dependencies update"
+          signoff: false
+          branch: 'dependencies_update'
+          title: 'build: Dependencies updats'
+          body: "Dependencies updates"
+          labels: |
+            automated pr
+            dependencies
+          reviewers: bootstraponline,jan-gogo,pawelpasterz,adamfilipow92,piotradamczyk5,Sloox,axelzuziak-gogo
+          draft: false 

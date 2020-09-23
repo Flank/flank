@@ -106,3 +106,21 @@ Delete old tag on GitHub
 | --git-tag`      	| Git tag         	|
 | `--username`    	| Git username    	|
 | `--token`       	| Git token       	|
+
+### dependencies
+Dependencies update process was described [here](../docs/dependencies_update_process.md)
+To show all available commands for ci use:
+`flankScripts dependencies`
+
+Available commands are:
+  - `update`    Command to update dependencies
+  
+#### `update`
+Command to update dependencies
+
+| Option              	| Description                                                                                         	|
+|---------------------	|-----------------------------------------------------------------------------------------------------	|
+| --report-file       	| Path to .json report file. DEFAULT: `./report.json`                                                 	|
+| --dependencies-file 	| Path to .kts file with dependencies defined. DEFAULT:  `./buildSrc/src/main/kotlin/Dependencies.kt` 	|
+| --versions-file     	| Path to .kts file with versions defined. DEFAULT:  `./buildSrc/src/main/kotlin/Versions.kt`         	|
+| --plugins-file      	| Path to .kts file with plugins defined. DEFAULT:  `./buildSrc/src/main/kotlin/Plugins.kt`           	|
