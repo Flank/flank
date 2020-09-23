@@ -105,18 +105,21 @@
 
 Need to set ```directories-to-pull``` to pull from device directory with coverage report.
 There are no warnings or fails when ```environment-variables``` set without ```directories-to-pull```.
-I added warning.
+Added warning.
 
 ### files-to-download (Android)
 
 In case when we want download coverage report we need to set ```directories-to-pull```.
 There are no warnings or fails when ```files-to-download``` set without ```directories-to-pull```.
+Added warning.
 
 ### disable-sharding (Common)
 
 Can be set to true with set ```max-test-shards``` higher than one. In this case flank disable sharding.
+Added warning.
 
 ### num-uniform-shards (Android)
 
 0. When set with ```max-test-shards``` Flank fast fail
 1. When set with ```disable-sharding``` Flank disable sharding without any warning
+   - Added warning.
