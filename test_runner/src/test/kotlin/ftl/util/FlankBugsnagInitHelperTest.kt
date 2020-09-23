@@ -1,8 +1,6 @@
 package ftl.util
 
 import ftl.log.LogbackLogger
-import io.mockk.every
-import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Assert.assertNotNull
@@ -37,34 +35,24 @@ class FlankBugsnagInitHelperTest {
 
     @Test
     fun `should not create Bugsnag object if user has analytics disabled`() {
-        mockkStatic(System::class)
-        every { System.getProperty("user.home") } returns folder.root.absolutePath
-
         val subfolder = folder.newFolder(GSUTIL_FOLDER)
         File(subfolder, ANALYTICS_FILE).also { it.writeText(DISABLED) }
 
-        assertNull(helper.initBugsnag(useMock = false))
+        assertNull(helper.initBugsnag(useMock = false, folder.root.absolutePath))
     }
-
     @Test
     fun `should not create Bugsnag object if user provided analytics-uuid`() {
-        mockkStatic(System::class)
-        every { System.getProperty("user.home") } returns folder.root.absolutePath
-
         val subfolder = folder.newFolder(GSUTIL_FOLDER)
         File(subfolder, ANALYTICS_FILE).also { it.writeText(UUID.randomUUID().toString()) }
 
-        assertNotNull(helper.initBugsnag(useMock = false))
+        assertNotNull(helper.initBugsnag(useMock = false, folder.root.absolutePath))
     }
 
     @Test
     fun `should create Bugsnag object if mock server used`() {
-        mockkStatic(System::class)
-        every { System.getProperty("user.home") } returns folder.root.absolutePath
-
         val subfolder = folder.newFolder(GSUTIL_FOLDER)
         File(subfolder, ANALYTICS_FILE).also { it.writeText(UUID.randomUUID().toString()) }
 
-        assertNull(helper.initBugsnag(useMock = true))
+        assertNull(helper.initBugsnag(useMock = true, folder.root.absolutePath))
     }
 }

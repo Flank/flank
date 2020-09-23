@@ -10,7 +10,8 @@ data class InstrumentationTestContext(
     val app: FileReference,
     val test: FileReference,
     val shards: List<Chunk> = emptyList(),
-    val ignoredTestCases: IgnoredTestCases = emptyList()
+    val ignoredTestCases: IgnoredTestCases = emptyList(),
+    val environmentVariables: Map<String, String> = emptyMap()
 ) : AndroidTestContext()
 
 data class RoboTestContext(

@@ -16,13 +16,15 @@ See [docs/error_monitoring.md](./docs/error_monitoring.md) to disable Bugsnag er
 
 ### Contributing
 
-- Install JDK 11 (it works also correctly on previous version, newer version are not guaranteed to works properly):
-  - [Oracle](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
-  - [OpenJDK](https://jdk.java.net/11/)
+- Install JDK 15 (it works also correctly on the previous version, a newer version is not guaranteed to work properly):
+  - [Oracle](https://www.oracle.com/java/technologies/javase-downloads.html#JDK15)
+  - [OpenJDK](https://openjdk.java.net/projects/jdk/15/)
+  - [AdoptJDK](https://adoptopenjdk.net/?variant=openjdk15&jvmVariant=hotspot)
 - Use [JetBrains Toolbox](https://www.jetbrains.com/toolbox/app/) to install `IntelliJ IDEA Community`
 - Clone the repo `git clone --recursive https://github.com/Flank/flank.git`
   - `git submodule update --init --recursive` updates the submodules
-- Open `test_runner/build.gradle.kts` with `IntelliJ IDEA Community`
+- Open `build.gradle.kts` in the main Flank base directory with `IntelliJ IDEA Community`, this will open the entire Flank mono repo
+- test runner contributions can be made in the `test_runner\` subdirectory
 
 ### Features
 
@@ -181,7 +183,7 @@ flank:
   # disable-sharding: false
 
   ## always run - these tests are inserted at the beginning of every shard
-  ## useful if you need to grant permissions or login before other tests run
+  ## Execution order is not guaranteed by Flank. Users are responsible for configuring their own device test runner logic.
   # test-targets-always-run:
   #   - className/testName
 
@@ -404,7 +406,7 @@ flank:
   # disable-sharding: false
 
   ## always run - these tests are inserted at the beginning of every shard
-  ## useful if you need to grant permissions or login before other tests run
+  ## Execution order is not guaranteed by Flank. Users are responsible for configuring their own device test runner logic.
   # test-targets-always-run:
   #   - class com.example.app.ExampleUiTest#testPasses
 

@@ -20,7 +20,7 @@ private fun ObfuscationContext.obfuscateAndroidPackageAndClass(packageNameWithCl
         .fold("") { previous, next ->
             val classChunk = getOrPut(previous) { linkedMapOf() }
             val obfuscatedPart = classChunk.getOrPut(next) { nextSymbol(next, classChunk) }
-            if (previous.isEmpty()) obfuscatedPart else "$previous$ANDROID_PACKAGE_SEPARATOR$obfuscatedPart"
+            if (previous.isBlank()) obfuscatedPart else "$previous$ANDROID_PACKAGE_SEPARATOR$obfuscatedPart"
         }
 
 private fun ObfuscationContext.obfuscateAndroidMethodIfPresent(

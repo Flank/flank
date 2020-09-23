@@ -37,7 +37,7 @@ internal class LogTableBuilderTest {
         val table = buildTable(*sampleColumns)
 
         // then
-        val tableLines = table.split(System.lineSeparator())
+        val tableLines = table.split("\n")
         val firstLine = tableLines.first()
         assertThat(firstLine.first()).isEqualTo(START_TABLE_START_CHAR)
         assertThat(firstLine.contains(START_TABLE_MIDDLE_CHAR)).isTrue()
@@ -56,7 +56,7 @@ internal class LogTableBuilderTest {
         val table = buildTable(*sampleColumns)
 
         // then
-        val tableLines = table.split(System.lineSeparator())
+        val tableLines = table.split("\n")
         val firstLine = tableLines[2] // 0->table start, 1->data, 2-> row separator
         assertThat(firstLine.first()).isEqualTo(MIDDLE_TABLE_START_CHAR)
         assertThat(firstLine.contains(MIDDLE_TABLE_MIDDLE_CHAR)).isTrue()
@@ -75,7 +75,7 @@ internal class LogTableBuilderTest {
         val table = buildTable(*sampleColumns)
 
         // then
-        val tableLines = table.split(System.lineSeparator())
+        val tableLines = table.split("\n")
         val firstLine = tableLines.last()
         assertThat(firstLine.first()).isEqualTo(END_TABLE_START_CHAR)
         assertThat(firstLine.contains(END_TABLE_MIDDLE_CHAR)).isTrue()
@@ -93,7 +93,7 @@ internal class LogTableBuilderTest {
         val table = buildTable(*sampleColumns)
 
         // then
-        val tableLines = table.split(System.lineSeparator())
+        val tableLines = table.split("\n")
         val headerLine = tableLines[1] // 0->table start, 1->header
         val dataLine = tableLines[3] // 0->table start, 1->header, 2 -> separator, 3-> data
         dataLine

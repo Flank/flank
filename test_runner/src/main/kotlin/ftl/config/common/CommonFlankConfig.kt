@@ -64,8 +64,8 @@ data class CommonFlankConfig @JsonIgnore constructor(
     @set:CommandLine.Option(
         names = ["--test-targets-always-run"],
         split = ",",
-        description = [
-            "A list of one or more test methods to always run first in every shard."]
+        description = ["A list of one or more test methods to be added at the top of every shard. " +
+            "Flank doesn't ensure execution order of added tests."]
     )
     @set:JsonProperty("test-targets-always-run")
     var testTargetsAlwaysRun: List<String>? by data

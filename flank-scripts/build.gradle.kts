@@ -2,10 +2,10 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     application
-    kotlin(Kotlin.PLUGIN_JVM) version Versions.KOTLIN
-    kotlin(Kotlin.PLUGIN_SERIALIZATION) version Versions.KOTLIN
-    id(Libs.PLUGIN_SHADOW_JAR) version Versions.SHADOW
-    id(Libs.DETEKT_PLUGIN) version Versions.DETEKT
+    kotlin(Plugins.Kotlin.PLUGIN_JVM)
+    kotlin(Plugins.Kotlin.PLUGIN_SERIALIZATION) version Versions.KOTLIN
+    id(Plugins.PLUGIN_SHADOW_JAR) version Versions.SHADOW
+    id(Plugins.DETEKT_PLUGIN) version Versions.DETEKT
 }
 
 val artifactID = "flankScripts"
@@ -52,16 +52,16 @@ tasks["check"].dependsOn(tasks["detekt"])
 
 dependencies {
     implementation(kotlin("stdlib", org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION)) // or "stdlib-jdk8"
-    implementation(Libs.KOTLIN_SERIALIZATION)
-    implementation(Libs.Fuel.CORE)
-    implementation(Libs.Fuel.KOTLINX_SERIALIZATION)
-    implementation(Libs.Fuel.COROUTINES)
-    implementation(Libs.CLIKT)
+    implementation(Dependencies.KOTLIN_SERIALIZATION)
+    implementation(Dependencies.Fuel.CORE)
+    implementation(Dependencies.Fuel.KOTLINX_SERIALIZATION)
+    implementation(Dependencies.Fuel.COROUTINES)
+    implementation(Dependencies.CLIKT)
 
-    detektPlugins(Libs.DETEKT_FORMATTING)
+    detektPlugins(Dependencies.DETEKT_FORMATTING)
 
-    testImplementation(Libs.JUNIT)
-    testImplementation(Libs.MOCKK)
-    testImplementation(Libs.TRUTH)
-    testImplementation(Libs.SYSTEM_RULES)
+    testImplementation(Dependencies.JUNIT)
+    testImplementation(Dependencies.MOCKK)
+    testImplementation(Dependencies.TRUTH)
+    testImplementation(Dependencies.SYSTEM_RULES)
 }

@@ -1,6 +1,7 @@
 package ftl.reports.xml
 
 import com.google.common.truth.Truth.assertThat
+import ftl.doctor.assertEqualsIgnoreNewlineStyle
 import ftl.test.util.TestHelper.normalizeLineEnding
 import ftl.run.exception.FlankGeneralError
 import org.junit.Assert
@@ -168,7 +169,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
         val parsed = parseAllSuitesXml(unknownXml).xmlToString()
 
-        assertThat(parsed).isEqualTo(expected)
+        assertEqualsIgnoreNewlineStyle(parsed, expected)
     }
 
     @Test
