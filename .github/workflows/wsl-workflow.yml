@@ -22,7 +22,7 @@ jobs:
     steps:
     - name: Set GCLOUD_KEY
       shell: cmd
-      run: setx GCLOUD_KEY ${{ secrets.GCLOUD_KEY }}
+      run: echo ${{ secrets.GCLOUD_KEY }} > gcloud_key.txt
           
     - uses: Vampire/setup-wsl@v1
       with:
@@ -53,6 +53,8 @@ jobs:
 
     - name: Prepare Google Service Account
       run: |
+          ls
+          GCLOUD_KEY=$(cat gcloud_key.txt)
           GCLOUD_DIR="$HOME/.config/gcloud/"
           mkdir -p "$GCLOUD_DIR"
           echo "$GCLOUD_KEY" | base64 --decode > "$GCLOUD_DIR/application_default_credentials.json"
