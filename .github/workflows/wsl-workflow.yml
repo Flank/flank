@@ -48,6 +48,8 @@ jobs:
           ./gradlew clean build
 
     - name: Prepare Google Service Account
+      env:
+        GCLOUD_KEY: ${{ secrets.GCLOUD_KEY }}
       run: |
           GCLOUD_DIR="$HOME/.config/gcloud/"
           mkdir -p "$GCLOUD_DIR"
