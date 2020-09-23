@@ -16,9 +16,10 @@ See [docs/error_monitoring.md](./docs/error_monitoring.md) to disable Bugsnag er
 
 ### Contributing
 
-- Install JDK 11 (it works also correctly on the previous version, a newer version is not guaranteed to work properly):
-  - [Oracle](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
-  - [OpenJDK](https://jdk.java.net/11/)
+- Install JDK 15 (it works also correctly on the previous version, a newer version is not guaranteed to work properly):
+  - [Oracle](https://www.oracle.com/java/technologies/javase-downloads.html#JDK15)
+  - [OpenJDK](https://openjdk.java.net/projects/jdk/15/)
+  - [AdoptJDK](https://adoptopenjdk.net/?variant=openjdk15&jvmVariant=hotspot)
 - Use [JetBrains Toolbox](https://www.jetbrains.com/toolbox/app/) to install `IntelliJ IDEA Community`
 - Clone the repo `git clone --recursive https://github.com/Flank/flank.git`
   - `git submodule update --init --recursive` updates the submodules
