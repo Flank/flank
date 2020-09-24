@@ -115,7 +115,7 @@ Added warning.
 
 ### disable-sharding (Common)
 
-Can be set to true with set ```max-test-shards``` higher than one. In this case flank disable sharding.
+Can be enabled by setting ```max-test-shards``` to greater than one. In this case flank will disable sharding
 Added warning.
 
 ### num-uniform-shards (Android)
