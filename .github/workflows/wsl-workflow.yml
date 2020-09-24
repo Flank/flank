@@ -1,8 +1,8 @@
-name:  Flank WSL 
+name:  Flank WSL
 
 on:
   push:
-    branches: 
+    branches:
       - master
   pull_request:
     branches:
@@ -28,7 +28,7 @@ jobs:
           dos2unix
 
     - uses: actions/checkout@v2
-      with: 
+      with:
         submodules: true
 
     - uses: actions/cache@v2
@@ -37,6 +37,11 @@ jobs:
         key: ${{ runner.os }}-2-gradle-${{ hashFiles('**/*.gradle*') }}
         restore-keys: |
           ${{ runner.os }}-2-gradle-
+
+    - name: Set GCLOUD_KEY for WSL
+        shell: cmd
+        run: |
+          echo ${{ secrets.GCLOUD_KEY }} > gcloud_key.txt
 
     - name: Configure WSL for flank
       run: |
@@ -48,24 +53,18 @@ jobs:
       run: |
           ./gradlew clean build
 
-    - name: Set GCLOUD_KEY for WSL
-      shell: cmd
-      run: |
-        echo ${{ secrets.GCLOUD_KEY }} > gcloud_key.txt
-        ls
-
     - name: Prepare Google Service Account
       run: |
-          ls
           GCLOUD_KEY=$(cat gcloud_key.txt)
           GCLOUD_DIR="$HOME/.config/gcloud/"
           mkdir -p "$GCLOUD_DIR"
+          echo "$GCLOUD_KEY"
           echo "$GCLOUD_KEY" | base64 --decode > "$GCLOUD_DIR/application_default_credentials.json"
 
     - name: Integration Tests Android
       run: |
           ./gradlew --info :integration_tests:test --tests IntegrationTests.shouldMatchAndroidSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_android.yml
-    
+
     - name: Integration Tests iOS
       run: |
           ./gradlew --info :integration_tests:test --tests IntegrationTests.shouldMatchIosSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_ios.yml
