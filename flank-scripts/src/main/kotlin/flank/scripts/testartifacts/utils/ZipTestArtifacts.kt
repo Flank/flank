@@ -6,33 +6,61 @@ import flank.scripts.utils.zip
 import java.io.File
 
 fun zipTestArtifacts(
-    projectRoot: String,
+    projectRoot: File,
     branchName: String = currentGitBranch()
 ) {
-    projectRoot.testArtifactsPath(branchName).let {
+    projectRoot.testArtifacts(branchName).run {
         zip(
-            src = it,
-            dst = "$it-${System.currentTimeMillis()}.zip"
+            src = absoluteFile,
+            dst = File("$absolutePath-${System.currentTimeMillis()}.zip")
         )
     }
 }
 
 fun unzipTestArtifacts(
-    projectRoot: String,
-    branchName: String = currentGitBranch()
+    projectRoot: File,
+    branch: String = currentGitBranch()
 ) {
-    val testArtifactsRoot = "$projectRoot/test_artifacts"
-    val regex = Regex("^$branchName-\\d*.zip")
-    val zipFile = File(testArtifactsRoot)
-        .listFiles { file -> regex.matches(file.name) }
-        ?.maxBy { it.name.split("-").last().split(".").first() }
-        ?: throw Exception("Cannot find zip file for branch $branchName in $projectRoot/test_artifacts")
-    val dstDir = "$testArtifactsRoot/$branchName"
-    File(dstDir).apply {
-        if (exists() && isDirectory) {
-            println("Deleting old $name")
-            deleteRecursively()
+    unzip(
+        src = requireNotNull(latestArtifactsZip(projectRoot, branch)) {
+            "Cannot find zip file for branch $branch in ${projectRoot.testArtifacts}"
+        },
+        dst = projectRoot.testArtifacts(branch).apply {
+            if (exists() && isDirectory) {
+                println("Deleting old $name")
+                deleteRecursively()
+            }
         }
-    }
-    unzip(zipFile.absolutePath, dstDir)
+    )
 }
+
+data class TestArtifactsZip(
+    val branch: String = currentGitBranch(),
+    val timestamp: Long = System.currentTimeMillis()
+) {
+    override fun toString(): String =
+        "$branch-$timestamp.zip"
+}
+
+fun String.parseTestArtifactsZip(): TestArtifactsZip = this
+    .removeSuffix(".zip")
+    .reversed()
+    .split("-", limit = 1)
+    .run {
+        TestArtifactsZip(
+            branch = last().reversed(),
+            timestamp = first().reversed().toLong()
+        )
+    }
+
+fun latestArtifactsZip(
+    projectRoot: File = flankRoot(),
+    branch: String = currentGitBranch()
+): File? = artifactZipRegex(branch).let { regex ->
+    projectRoot.testArtifacts.listFiles { file -> regex.matches(file.name) }
+        ?.maxBy { zipNameTimestamp(it.name) }
+}
+
+fun artifactZipRegex(branch: String = currentGitBranch()) = Regex("^$branch-\\d*.zip")
+
+fun zipNameTimestamp(name: String) = name.split("-").last().split(".").first()

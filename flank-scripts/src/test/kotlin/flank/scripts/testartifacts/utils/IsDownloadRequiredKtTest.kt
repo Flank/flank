@@ -7,10 +7,10 @@ import org.junit.Test
 internal class IsDownloadRequiredKtTest {
 
     @Test
-    fun test() {
+    fun artifactsOutdated() {
         fetchRemoteAssetLink().run {
-            assertTrue(isDownloadRequired(""))
-            assertFalse(isDownloadRequired(FIXTURES_PATH)) // FIXME find better way to test negative path
+            assertTrue(artifactsOutdated(branch = "latest"))
+            assertFalse(artifactsOutdated(branch = ""))
         }
     }
 }

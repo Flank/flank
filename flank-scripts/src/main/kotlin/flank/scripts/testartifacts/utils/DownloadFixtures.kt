@@ -25,5 +25,5 @@ private fun Element.downloadFixtures(
     val zipPath = "${fixtures.path}/$assetName"
     OkHttpClient().download(downloadUrl, zipPath)
 
-    unzip(zipPath, fixtures.path)
+    unzip(File(zipPath), fixtures)
 }

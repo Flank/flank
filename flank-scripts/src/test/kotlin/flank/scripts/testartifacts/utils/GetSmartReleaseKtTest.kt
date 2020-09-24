@@ -6,7 +6,9 @@ class GetSmartReleaseKtTest {
 
     @Test
     fun test() {
-        getOrCreateArtifactsRelease("test")
-        getOrCreateArtifactsRelease("test").delete()
+        testArtifactsRepo().run {
+            getOrCreateArtifactsRelease("test")
+            getOrCreateArtifactsRelease("test").delete()
+        }
     }
 }

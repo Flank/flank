@@ -9,17 +9,17 @@ internal class ZipKtTest {
 
     @Test
     fun zipTest() {
-        val src = "./src"
-        val src2 = "./src2"
-        val srcZip = "./src.zip"
+        val src = File("./src")
+        val src2 = File("./src2")
+        val srcZip = File("./src.zip")
         zip(src, srcZip)
         unzip(srcZip, src2)
         Assert.assertEquals(
-            File(src).calculateSize(),
-            File(src2).calculateSize()
+            src.calculateSize(),
+            src2.calculateSize()
         )
-        File(srcZip).delete()
-        File(src2).deleteRecursively()
+        srcZip.delete()
+        src2.deleteRecursively()
     }
 }
 

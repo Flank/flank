@@ -6,8 +6,8 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 import java.util.zip.ZipOutputStream
 
-fun unzip(src: String, dst: String = File(src).parent) {
-    println("Unzipping: $src to $dst")
+fun unzip(src: File, dst: File = src.parentFile) {
+    print("* Unzipping: $src to $dst - ")
     ZipFile(src).use { zipFile ->
         zipFile.entries().asSequence().forEach { zipEntry ->
             val outputFile = File(dst, zipEntry.name)
@@ -26,22 +26,24 @@ fun unzip(src: String, dst: String = File(src).parent) {
             }
         }
     }
+    println("OK")
 }
 
-fun zip(src: String, dst: String) {
-    println("Zipping: $src to $dst")
-    File(dst).apply {
+fun zip(src: File, dst: File) {
+    print("* Zipping: $src to $dst - ")
+    dst.apply {
         if (isDirectory) throw Exception("Destination path $dst cannot be directory")
         if (!exists()) createNewFile()
         outputStream().use { fos ->
             ZipOutputStream(fos).use { zos ->
                 zos.zipFile(
-                    fileToZip = File(src),
+                    fileToZip = src,
                     fileName = ""
                 )
             }
         }
     }
+    println("OK")
 }
 
 private fun ZipOutputStream.zipFile(
