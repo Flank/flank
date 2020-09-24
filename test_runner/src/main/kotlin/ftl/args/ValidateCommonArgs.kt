@@ -74,7 +74,6 @@ fun IArgs.checkResultsDirUnique() {
         println("WARNING: Google cloud storage result directory should be unique, otherwise results from multiple test matrices will be overwritten or intermingled\n")
 }
 
-
 fun IArgs.checkDisableSharding() {
     if (disableSharding && maxTestShards > 0)
         println("WARNING: disable-sharding enabled with max-test-shards = $maxTestShards, Flank will ignore max-test-shard and disable sharding.")
