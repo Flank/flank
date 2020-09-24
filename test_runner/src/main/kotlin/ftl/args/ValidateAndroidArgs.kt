@@ -144,7 +144,7 @@ private fun AndroidArgs.assertOtherFiles() {
 
 private fun AndroidArgs.checkEnvironmentVariables() =
     if (environmentVariables.isNotEmpty() && directoriesToPull.isEmpty())
-        println("WARNING: environment-variables set but directories-to-pull, not this can cause coverage file will not download to the bucket")
+        println("WARNING: environment-variables set but directories-to-pull is empty, this will result in the coverage file  not downloading to the bucket")
     else Unit
 
 private fun AndroidArgs.checkFilesToDownload() =
