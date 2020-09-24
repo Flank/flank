@@ -106,7 +106,9 @@
 Need to set ```directories-to-pull``` to pull from device directory with coverage report.
 There are no warnings or fails when ```environment-variables``` set without ```directories-to-pull```.
 Added warning.
-
+Set the ``directories-to-pull``` variable to pull from the device directory with coverage report.
+There will be no warnings or failure messages when ```environment-variables``` is set without ```directories-to-pull```
+Need to set ```directories-to-pull``` to pull from device directory with coverage report. A warning has been added about this.
 ### files-to-download (Android)
 
 In the case where coverage reports need to be downloaded set the ```directories-to-pull``` variable.
