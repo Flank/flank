@@ -121,5 +121,5 @@ Added warning.
 ### num-uniform-shards (Android)
 
 0. When set with ```max-test-shards``` Flank will fail fast.
-1. When set with ```disable-sharding``` Flank disable sharding without any warning
+1. When set with ```disable-sharding```, Flank will disable sharding without any warning
    - Warning added about this.
