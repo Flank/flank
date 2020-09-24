@@ -122,4 +122,4 @@ Added warning.
 
 0. When set with ```max-test-shards``` Flank fast fail
 1. When set with ```disable-sharding``` Flank disable sharding without any warning
-   - Added warning.
+   - Warning added about this.
