@@ -619,6 +619,10 @@ Bitrise has an official [flank step](https://github.com/bitrise-steplib/bitrise-
 
 [fladle]: https://github.com/runningcode/fladle
 
+### Flank on Windows
+In order to build or run Flank using Windows please follow [guide](docs/windows_wsl_guide.md) of building/running it using Windows WSL.
+Native support is not currently supported.
+
 ### Authenticate with a Google account
 
 Run `flank auth login`. Flank will save the credential to `~/.flank`. Google account authentication allows each person
