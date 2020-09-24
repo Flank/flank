@@ -4,100 +4,100 @@
 
 ### gcloud
 
-0. app
-0. test
-0. additional-apks
-0. auto-google-login
-0. no-auto-google-login
-0. use-orchestrator
-0. no-use-orchestrator
-0. environment-variables
-0. directories-to-pull
-0. other-files
-0. performance-metrics
-0. no-performance-metrics
-0. num-uniform-shards
-0. test-runner-class
-0. test-targets
-0. robo-directives
-0. robo-script
-0. results-bucket
-0. results-dir
-0. record-video
-0. no-record-video
-0. timeout
-0. async
-0. client-details
-0. network-profile
-0. results-history-name
-0. num-flaky-test-attempts
-0. device
+1. app
+1. test
+1. additional-apks
+1. auto-google-login
+1. no-auto-google-login
+1. use-orchestrator
+1. no-use-orchestrator
+1. environment-variables
+1. directories-to-pull
+1. other-files
+1. performance-metrics
+1. no-performance-metrics
+1. num-uniform-shards
+1. test-runner-class
+1. test-targets
+1. robo-directives
+1. robo-script
+1. results-bucket
+1. results-dir
+1. record-video
+1. no-record-video
+1. timeout
+1. async
+1. client-details
+1. network-profile
+1. results-history-name
+1. num-flaky-test-attempts
+1. device
 
 ### flank
 
-0. additional-app-test-apks
-0. legacy-junit-result
-0. max-test-shards
-0. shard-time
-0. num-test-runs
-0. smart-flank-gcs-path
-0. smart-flank-disable-upload
-0. disable-sharding
-0. test-targets-always-run
-0. files-to-download
-0. project
-0. local-result-dir
-0. run-timeout
-0. full-junit-result
-0. ignore-failed-tests
-0. keep-file-path
-0. output-style
-0. disable-results-upload
-0. default-test-time
-0. default-class-test-time
-0. use-average-test-time-for-new-tests
+1. additional-app-test-apks
+1. legacy-junit-result
+1. max-test-shards
+1. shard-time
+1. num-test-runs
+1. smart-flank-gcs-path
+1. smart-flank-disable-upload
+1. disable-sharding
+1. test-targets-always-run
+1. files-to-download
+1. project
+1. local-result-dir
+1. run-timeout
+1. full-junit-result
+1. ignore-failed-tests
+1. keep-file-path
+1. output-style
+1. disable-results-upload
+1. default-test-time
+1. default-class-test-time
+1. use-average-test-time-for-new-tests
 
 ## List of options ios
 
 ### gcloud
 
-0. test
-0. xctestrun-file
-0. xcode-version
-0. results-bucket
-0. results-dir
-0. record-video
-0. no-record-video
-0. timeout
-0. async
-0. client-details
-0. network-profile
-0. results-history-name
-0. num-flaky-test-attempts
-0. device
+1. test
+1. xctestrun-file
+1. xcode-version
+1. results-bucket
+1. results-dir
+1. record-video
+1. no-record-video
+1. timeout
+1. async
+1. client-details
+1. network-profile
+1. results-history-name
+1. num-flaky-test-attempts
+1. device
 
 ### flank
 
-0. test-targets
-0. max-test-shards
-0. shard-time
-0. num-test-runs
-0. smart-flank-gcs-path
-0. smart-flank-disable-upload
-0. disable-sharding
-0. test-targets-always-run
-0. files-to-download
-0. project
-0. local-result-dir
-0. run-timeout
-0. full-junit-result
-0. ignore-failed-tests
-0. keep-file-path
-0. output-style
-0. disable-results-upload
-0. default-test-time
-0. default-class-test-time
-0. use-average-test-time-for-new-tests
+1. test-targets
+1. max-test-shards
+1. shard-time
+1. num-test-runs
+1. smart-flank-gcs-path
+1. smart-flank-disable-upload
+1. disable-sharding
+1. test-targets-always-run
+1. files-to-download
+1. project
+1. local-result-dir
+1. run-timeout
+1. full-junit-result
+1. ignore-failed-tests
+1. keep-file-path
+1. output-style
+1. disable-results-upload
+1. default-test-time
+1. default-class-test-time
+1. use-average-test-time-for-new-tests
 
 ## Investigation report
 
@@ -120,6 +120,6 @@ A warning is added regarding this.
 
 ### num-uniform-shards (Android)
 
-0. When set with ```max-test-shards``` Flank will fail fast.
-0. When set with ```disable-sharding```, Flank will disable sharding without any warning
+1. When set with ```max-test-shards``` Flank will fail fast.
+1. When set with ```disable-sharding```, Flank will disable sharding without any warning
    - Warning added about this.
