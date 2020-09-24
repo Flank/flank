@@ -142,17 +142,17 @@ private fun AndroidArgs.assertOtherFiles() {
     otherFiles.forEach { (_, path) -> ArgsHelper.assertFileExists(path, "from otherFiles") }
 }
 
-private fun AndroidArgs.checkEnvironmentVariables() =
+private fun AndroidArgs.checkEnvironmentVariables() {
     if (environmentVariables.isNotEmpty() && directoriesToPull.isEmpty())
         println("WARNING: environment-variables set but directories-to-pull is empty, this will result in the coverage file  not downloading to the bucket")
-    else Unit
+}
 
-private fun AndroidArgs.checkFilesToDownload() =
+private fun AndroidArgs.checkFilesToDownload() {
     if (filesToDownload.isNotEmpty() && directoriesToPull.isEmpty())
         println("WARNING: files-to-download is set but directories-to-pull is empty, the coverage file may fail to download into the bucket ")
-    else Unit
+}
 
-private fun AndroidArgs.checkNumUniformShards() =
+private fun AndroidArgs.checkNumUniformShards() {
     if ((numUniformShards ?: 0) > 0 && disableSharding)
         println("WARNING: disable-sharding is enabled with num-uniform-shards = $numUniformShards, Flank will ignore num-uniform-shards and disable sharding.")
-    else Unit
+}
