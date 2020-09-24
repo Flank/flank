@@ -111,7 +111,7 @@ Added warning.
 
 In the case where coverage reports need to be downloaded set the ```directories-to-pull``` variable.
 There are no warnings or fails when ```files-to-download``` set without ```directories-to-pull```.
-Added warning.
+A warning is added regarding this.
 
 ### disable-sharding (Common)
 
