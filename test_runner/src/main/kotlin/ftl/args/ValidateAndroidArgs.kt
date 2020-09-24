@@ -154,5 +154,5 @@ private fun AndroidArgs.checkFilesToDownload() =
 
 private fun AndroidArgs.checkNumUniformShards() =
     if ((numUniformShards ?: 0) > 0 && disableSharding)
-        println("WARNING: disable-sharding enabled with num-uniform-shards = $numUniformShards, Flank will ignore num-uniform-shards and disable sharding.")
+        println("WARNING: disable-sharding is enabled with num-uniform-shards = $numUniformShards, Flank will ignore num-uniform-shards and disable sharding.")
     else Unit
