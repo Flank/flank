@@ -13,8 +13,10 @@ fun downloadFixtures() {
     }
 }
 
-private fun Element.downloadFixtures() {
-    val fixtures = File(FIXTURES_PATH)
+private fun Element.downloadFixtures(
+    downloadPath: String
+) {
+    val fixtures = File(downloadPath)
     if (fixtures.exists()) fixtures.deleteRecursively()
     fixtures.mkdirs()
 

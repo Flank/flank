@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package ftl.mock
 
 import ftl.run.exception.FlankGeneralError
@@ -21,12 +23,12 @@ object TestArtifact {
     const val fixturesPath = "./src/test/kotlin/ftl/fixtures/tmp"
 
     val checkFixtures by lazy {
-        if (online()) {
-            val assetLink = remoteAssetLink()
-            if (updateRequired(assetLink)) {
-                updateFixtures(assetLink)
-            }
-        }
+//        if (online()) {
+//            val assetLink = remoteAssetLink()
+//            if (updateRequired(assetLink)) {
+//                updateFixtures(assetLink)
+//            }
+//        }
     }
 
     private fun online(): Boolean {

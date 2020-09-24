@@ -32,3 +32,11 @@ class UploadCommand : CliktCommand(
     }
 }
 
+class PrepareCommand : CliktCommand(
+    name = "prepare",
+    help = "Creates fresh copy of master's test artifacts for current working branch"
+) {
+    override fun run() {
+        TODO()
+    }
+}

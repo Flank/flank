@@ -26,7 +26,7 @@ private fun Releases.getOrCreateRelease(name: String) =
     Release.Smart(
         try {
             Releases.Smart(this).find(name)
-        } catch (e: IOException) {
+        } catch (e: IllegalArgumentException) {
             create(name)
         }
     )
