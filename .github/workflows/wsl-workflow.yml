@@ -39,8 +39,8 @@ jobs:
           ${{ runner.os }}-2-gradle-
 
     - name: Set GCLOUD_KEY for WSL
-        shell: cmd
-        run: |
+      shell: cmd
+      run: |
           echo ${{ secrets.GCLOUD_KEY }} > gcloud_key.txt
 
     - name: Configure WSL for flank
