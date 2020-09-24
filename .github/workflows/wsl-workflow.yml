@@ -22,7 +22,9 @@ jobs:
     steps:
     - name: Set GCLOUD_KEY
       shell: cmd
-      run: echo ${{ secrets.GCLOUD_KEY }} > gcloud_key.txt
+      run: |
+        echo ${{ secrets.GCLOUD_KEY }} > gcloud_key.txt
+        ls
           
     - uses: Vampire/setup-wsl@v1
       with:
