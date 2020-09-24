@@ -109,7 +109,7 @@ Added warning.
 
 ### files-to-download (Android)
 
-In case when we want download coverage report we need to set ```directories-to-pull```.
+In the case where coverage reports need to be downloaded set the ```directories-to-pull``` variable.
 There are no warnings or fails when ```files-to-download``` set without ```directories-to-pull```.
 Added warning.
 
