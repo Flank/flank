@@ -110,7 +110,7 @@ Added warning.
 ### files-to-download (Android)
 
 In the case where coverage reports need to be downloaded set the ```directories-to-pull``` variable.
-There are no warnings or fails when ```files-to-download``` set without ```directories-to-pull```.
+There will be no warnings or failures when ```files-to-download``` is set without ```directories-to-pull```.
 A warning is added regarding this.
 
 ### disable-sharding (Common)
