@@ -149,7 +149,7 @@ private fun AndroidArgs.checkEnvironmentVariables() =
 
 private fun AndroidArgs.checkFilesToDownload() =
     if (filesToDownload.isNotEmpty() && directoriesToPull.isEmpty())
-        println("WARNING: files-to-download set but directories-to-pull, not this can cause coverage file will not download to the bucket")
+        println("WARNING: files-to-download is set but directories-to-pull is empty, the coverage file may fail to download into the bucket ")
     else Unit
 
 private fun AndroidArgs.checkNumUniformShards() =
