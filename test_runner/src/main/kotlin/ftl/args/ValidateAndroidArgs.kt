@@ -144,12 +144,12 @@ private fun AndroidArgs.assertOtherFiles() {
 
 private fun AndroidArgs.checkEnvironmentVariables() {
     if (environmentVariables.isNotEmpty() && directoriesToPull.isEmpty())
-        println("WARNING: environment-variables set but directories-to-pull is empty, this will result in the coverage file  not downloading to the bucket")
+        println("WARNING: environment-variables set but directories-to-pull is empty, this will result in the coverage file  not downloading to the bucket.")
 }
 
 private fun AndroidArgs.checkFilesToDownload() {
     if (filesToDownload.isNotEmpty() && directoriesToPull.isEmpty())
-        println("WARNING: files-to-download is set but directories-to-pull is empty, the coverage file may fail to download into the bucket ")
+        println("WARNING: files-to-download is set but directories-to-pull is empty, the coverage file may fail to download into the bucket.")
 }
 
 private fun AndroidArgs.checkNumUniformShards() {
