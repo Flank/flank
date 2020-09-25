@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.args.ArgsHelper
 import ftl.args.yml.IYmlKeys
+import ftl.args.yml.ymlKeys
 import ftl.config.Config
 import ftl.config.Device
 import ftl.config.FlankDefaults
@@ -70,12 +71,14 @@ data class CommonGcloudConfig @JsonIgnore constructor(
                 "possible testing time is 30m on physical devices and 60m on virtual devices. The TIMEOUT units can be h, m, " +
                 "or s. If no unit is given, seconds are assumed. "]
     )
+    @set:JsonProperty("timeout")
     var timeout: String? by data
 
     @set:CommandLine.Option(
         names = ["--async"],
         description = ["Invoke a test asynchronously without waiting for test results."]
     )
+    @set:JsonProperty("async")
     var async: Boolean? by data
 
     @set:CommandLine.Option(
@@ -123,15 +126,9 @@ data class CommonGcloudConfig @JsonIgnore constructor(
 
         override val group = IYmlKeys.Group.GCLOUD
 
-        override val keys = listOf(
-            "results-bucket",
-            "results-dir",
-            "record-video",
-            "timeout",
-            "async",
-            "results-history-name",
-            "num-flaky-test-attempts"
-        )
+        override val keys by lazy {
+            CommonGcloudConfig::class.ymlKeys
+        }
 
         fun default(android: Boolean) = CommonGcloudConfig().apply {
             ArgsHelper.yamlMapper.readerFor(CommonGcloudConfig::class.java)

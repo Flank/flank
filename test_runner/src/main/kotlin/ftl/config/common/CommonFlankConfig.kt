@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.args.ArgsHelper
 import ftl.args.yml.IYmlKeys
+import ftl.args.yml.ymlKeys
 import ftl.config.Config
 import ftl.config.FtlConstants
 import ftl.shard.DEFAULT_CLASS_TEST_TIME_SEC
@@ -85,6 +86,7 @@ data class CommonFlankConfig @JsonIgnore constructor(
         description = ["The Google Cloud Platform project name to use for this invocation. " +
             "If omitted, then the project from the service account credential is used"]
     )
+    @set:JsonProperty("project")
     var project: String? by data
 
     @set:CommandLine.Option(
@@ -165,28 +167,9 @@ data class CommonFlankConfig @JsonIgnore constructor(
 
         override val group = IYmlKeys.Group.FLANK
 
-        override val keys = listOf(
-            "max-test-shards",
-            "shard-time",
-            "num-test-runs",
-            "smart-flank-gcs-path",
-            "smart-flank-disable-upload",
-            "disable-sharding",
-            "test-targets-always-run",
-            "files-to-download",
-            "project",
-            "run-timeout",
-            "legacy-junit-result",
-            "ignore-failed-tests",
-            "keep-file-path",
-            "output-style",
-            "disable-results-upload",
-            "full-junit-result",
-            "local-result-dir",
-            "default-test-time",
-            "default-class-test-time",
-            "local-result-dir"
-        )
+        override val keys by lazy {
+            CommonFlankConfig::class.ymlKeys
+        }
 
         const val defaultLocalResultsDir = "results"
 
