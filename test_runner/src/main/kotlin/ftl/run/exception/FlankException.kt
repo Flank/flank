@@ -90,7 +90,6 @@ class ProjectNotFound(exc: IOException) : FTLProjectError(exc)
  */
 class IncompatibleTestDimensionError(message: String) : FlankException(message)
 
-
 /**
  * The test environment for this test execution is not supported because of incompatible test dimensions. This error might occur if the selected Android API level is not supported by the selected device type.
  *
