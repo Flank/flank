@@ -51,7 +51,7 @@ object TestArtifact {
     }
 
     private fun getHtml(): Document {
-        val githubUrl = "https://github.com/Flank/test_artifacts/releases/latest"
+        val githubUrl = "https://github.com/Flank/test_artifacts/releases/tag/latest"
         val maxRetries = 6
         repeat(maxRetries) { attempt ->
             try {
