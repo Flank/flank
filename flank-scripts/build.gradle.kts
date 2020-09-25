@@ -27,7 +27,17 @@ group = "flank.scripts"
 
 application {
     mainClassName = "flank.scripts.MainKt"
+    applicationDefaultJvmArgs = listOf(
+        "-Xmx2048m",
+        "-Xms512m"
+    )
 }
+
+tasks.test {
+    maxHeapSize = "2048m"
+    minHeapSize = "512m"
+}
+
 
 repositories {
     jcenter()
@@ -62,7 +72,8 @@ dependencies {
     implementation(Dependencies.CLIKT)
     implementation(Dependencies.JSOUP)
     implementation(Dependencies.OKHTTP)
-    implementation("com.jcabi:jcabi-github:1.0")
+    implementation(Dependencies.JCABI_GITHUB)
+    implementation(Dependencies.SLF4J_NOP)
 
     detektPlugins(Dependencies.DETEKT_FORMATTING)
 

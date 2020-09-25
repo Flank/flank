@@ -2,7 +2,6 @@ package flank.scripts.testartifacts.utils
 
 import com.jcabi.github.Release
 import flank.scripts.utils.currentGitBranch
-import flank.scripts.utils.md5
 import java.io.File
 
 fun uploadFixtures(
@@ -22,14 +21,16 @@ fun uploadFixtures(
 private fun Release.Smart.uploadFixtures(
     zipFile: File
 ) {
-//    val bytes =
-//    val md5 = bytes.md5()
     print("* Removing assets from ${url()} - ")
     removeAssets()
     println("OK")
     print("* Uploading fixtures $zipFile - ")
-    assets().upload(zipFile.assertZipName().readBytes(), "application/zip", zipFile.name)
-//    body(md5)
+    System.out.flush()
+    assets().upload(
+        zipFile.assertZipName().readBytes(),
+        "application/zip",
+        zipFile.name.parseTestArtifactsZip().shortName
+    )
     name(tag())
     body("Test artifacts for Flank branch ${tag()}.")
     println("OK")
@@ -44,7 +45,6 @@ private val zipRegex = Regex("^.*-\\d*\\.zip")
 
 private fun Release.removeAssets() {
     assets().iterate().forEach { asset ->
-        println("Removing $asset")
         asset.remove()
     }
 }

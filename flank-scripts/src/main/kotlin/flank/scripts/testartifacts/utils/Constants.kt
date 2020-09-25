@@ -13,7 +13,7 @@ const val TEST_ARTIFACTS_PATH = "test_artifacts"
 
 val String.fixturesPath get() = plus("/$FIXTURES_PATH")
 
-fun flankRoot() = File(System.getenv("FLANK_ROOT") ?: "../")
+fun flankRoot() = File(System.getenv("FLANK_ROOT") ?: "../").absoluteFile.normalize()
 
 val File.testArtifacts get() = resolve(TEST_ARTIFACTS_PATH)
 

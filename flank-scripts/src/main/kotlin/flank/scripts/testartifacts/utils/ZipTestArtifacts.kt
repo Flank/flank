@@ -12,7 +12,7 @@ fun zipTestArtifacts(
     projectRoot.testArtifacts(branchName).run {
         zip(
             src = absoluteFile,
-            dst = File("$absolutePath-${System.currentTimeMillis()}.zip")
+            dst = parentFile.resolve(TestArtifactsZip(branchName).fullName)
         )
     }
 }
@@ -38,17 +38,21 @@ data class TestArtifactsZip(
     val branch: String = currentGitBranch(),
     val timestamp: Long = System.currentTimeMillis()
 ) {
-    override fun toString(): String =
-        "$branch-$timestamp.zip"
+    val fullName get() = "$branch-$timestamp.zip"
+    val shortName get() = "$$timestamp.zip"
+
+    override fun toString(): String = fullName
 }
 
-fun String.parseTestArtifactsZip(): TestArtifactsZip = this
+fun String.parseTestArtifactsZip(
+    branch: String? = null
+): TestArtifactsZip = this
     .removeSuffix(".zip")
     .reversed()
     .split("-", limit = 1)
     .run {
         TestArtifactsZip(
-            branch = last().reversed(),
+            branch = branch ?: last().reversed(),
             timestamp = first().reversed().toLong()
         )
     }

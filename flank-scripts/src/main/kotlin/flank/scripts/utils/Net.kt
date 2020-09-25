@@ -4,7 +4,6 @@ import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.Socket
 
-
 internal fun isOnline(): Boolean {
     val host = "1.1.1.1"
 

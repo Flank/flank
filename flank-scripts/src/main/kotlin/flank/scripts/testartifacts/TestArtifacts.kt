@@ -23,7 +23,6 @@ class DownloadCommand : CliktCommand(
     }
 }
 
-
 class UploadCommand : CliktCommand(
     name = "upload"
 ) {
