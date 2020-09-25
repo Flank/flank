@@ -35,7 +35,7 @@ jobs:
           mkdir -p "$GCLOUD_DIR"
           echo "$GCLOUD_KEY" | base64 --decode > "$GCLOUD_DIR/application_default_credentials.json"
 
-      - id: 'reviews'
+      - name: Check pull request is approved
         uses: jrylan/github-action-reviews-counter@main
         with:
           repo-token: '${{ secrets.GITHUB_TOKEN }}'
