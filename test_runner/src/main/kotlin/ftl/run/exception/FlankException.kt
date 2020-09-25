@@ -98,7 +98,7 @@ class IncompatibleTestDimensionError(message: String) : FlankException(message)
  *
  * @param message [String] message to be printed to [System.err]
  */
-class ValidationError(message: String) : FlankException(message)
+class MatrixValidationError(message: String) : FlankException(message)
 
 /**
  * The test matrix was canceled by the user.

@@ -1,6 +1,7 @@
 package ftl.json
 
 import com.google.api.services.testing.model.TestMatrix
+import ftl.environment.orUnknown
 import ftl.reports.outcome.*
 import ftl.util.MatrixState.FINISHED
 import ftl.util.MatrixState.INVALID
@@ -106,8 +107,7 @@ private fun SavedMatrix.updateOutcome(outcome: List<TestOutcome>) = copy(
 
 private fun TestMatrix.invalidTestOutcome() = TestOutcome(
     outcome = INVALID,
-//    details = "Matrix: $testMatrixId failed, reason: ${invalidMatrixDetails.orEmpty()}"
-    details = invalidMatrixDetails.orEmpty()
+    details = invalidMatrixDetails.orUnknown()
 )
 
-fun SavedMatrix.errorMessage() = getOutcomeMessageByKey(testAxises.firstOrNull()?.details.orEmpty())
+fun SavedMatrix.errorMessage() = "Matrix: [$matrixId] failed: ".plus(getOutcomeMessageByKey(testAxises.firstOrNull()?.details.orUnknown()))

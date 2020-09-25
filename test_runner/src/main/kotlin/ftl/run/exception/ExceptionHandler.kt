@@ -53,6 +53,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
                 exitProcess(UNEXPECTED_ERROR)
             }
 
+            is MatrixValidationError,
             is YmlValidationError,
             is FlankConfigurationError -> {
                 printError(t.message)
