@@ -37,8 +37,8 @@ jobs:
 
       - name: Gradle Integration Tests Android
         uses: 'jrylan/github-action-reviews-counter@main'
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+        #with:
+          #repo-token: ${{ secrets.GITHUB_TOKEN }}
         - # Conditionally run the next step
           if: 'steps.reviews.outputs.approved >= 2 && steps.reviews.outputs.changes_requested == 0 && github.event.pull_request.draft == false'
           uses: eskatos/gradle-command-action@v1
@@ -49,8 +49,8 @@ jobs:
 
       - name: Gradle Integration Tests iOS
         uses: 'jrylan/github-action-reviews-counter@main'
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+        #with:
+          #repo-token: ${{ secrets.GITHUB_TOKEN }}
         - # Conditionally run the next step
           if: 'steps.reviews.outputs.approved >= 2 && steps.reviews.outputs.changes_requested == 0 && github.event.pull_request.draft == false'
           uses: eskatos/gradle-command-action@v1
