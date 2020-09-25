@@ -17,7 +17,6 @@ fun sendMessage(args: Array<String>): Int{
         Common.EXIT_CODE_SUCCESS
     }
     catch(e: Exception) {
-        error("Error has occured: $e")
         Common.EXIT_CODE_FAILURE
     }
 }
