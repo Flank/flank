@@ -22,6 +22,9 @@ fun AndroidArgs.validate() = apply {
     assertTestFiles()
     assertOtherFiles()
     checkResultsDirUnique()
+    checkEnvironmentVariables()
+    checkFilesToDownload()
+    checkNumUniformShards()
 }
 
 private fun AndroidArgs.assertDevicesSupported() = devices
@@ -137,4 +140,19 @@ private fun AndroidArgs.assertRoboTest() {
 
 private fun AndroidArgs.assertOtherFiles() {
     otherFiles.forEach { (_, path) -> ArgsHelper.assertFileExists(path, "from otherFiles") }
+}
+
+private fun AndroidArgs.checkEnvironmentVariables() {
+    if (environmentVariables.isNotEmpty() && directoriesToPull.isEmpty())
+        println("WARNING: environment-variables set but directories-to-pull is empty, this will result in the coverage file  not downloading to the bucket.")
+}
+
+private fun AndroidArgs.checkFilesToDownload() {
+    if (filesToDownload.isNotEmpty() && directoriesToPull.isEmpty())
+        println("WARNING: files-to-download is set but directories-to-pull is empty, the coverage file may fail to download into the bucket.")
+}
+
+private fun AndroidArgs.checkNumUniformShards() {
+    if ((numUniformShards ?: 0) > 0 && disableSharding)
+        println("WARNING: disable-sharding is enabled with num-uniform-shards = $numUniformShards, Flank will ignore num-uniform-shards and disable sharding.")
 }

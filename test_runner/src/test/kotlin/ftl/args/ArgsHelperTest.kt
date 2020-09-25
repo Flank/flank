@@ -8,8 +8,6 @@ import ftl.args.ArgsHelper.createGcsBucket
 import ftl.args.ArgsHelper.validateTestMethods
 import ftl.args.yml.mergeYmlKeys
 import ftl.config.FtlConstants
-import ftl.config.common.CommonGcloudConfig
-import ftl.config.ios.IosGcloudConfig
 import ftl.gc.GcStorage
 import ftl.gc.GcStorage.exist
 import ftl.shard.TestMethod
@@ -20,10 +18,11 @@ import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.assertThrowsWithMessage
 import ftl.run.exception.FlankGeneralError
 import ftl.run.exception.FlankConfigurationError
+import io.mockk.mockk
+import io.mockk.unmockkAll
 import io.mockk.every
 import io.mockk.mockkObject
 import io.mockk.spyk
-import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Assume
 import org.junit.Rule
@@ -48,9 +47,16 @@ class ArgsHelperTest {
 
     @Test
     fun `mergeYmlMaps succeeds`() {
-        val merged = mergeYmlKeys(CommonGcloudConfig, IosGcloudConfig)
+        val merged = mergeYmlKeys(mockk() {
+            every { keys } returns listOf("devices", "test", "apk")
+            every { group } returns "gcloud"
+        }, mockk() {
+            every { keys } returns listOf("xcode-version", "async", "client-details")
+            every { group } returns "gcloud"
+        })
+
         assertThat(merged.keys.size).isEqualTo(1)
-        assertThat(merged["gcloud"]?.size).isEqualTo(11)
+        assertThat(merged["gcloud"]?.size).isEqualTo(6)
     }
 
     @Test
