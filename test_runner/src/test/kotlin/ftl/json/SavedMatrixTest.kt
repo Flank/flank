@@ -197,6 +197,7 @@ class SavedMatrixTest {
         assertEquals(expectedOutcome, savedMatrix.outcome)
         assertEquals(expectedOutcomeDetails, savedMatrix.testAxises.first().details)
         assertEquals(INVALID, savedMatrix.state)
+        assertEquals("Matrix: [${testMatrix.testMatrixId}] failed: Unknown error", savedMatrix.errorMessage())
     }
 
     @Test
