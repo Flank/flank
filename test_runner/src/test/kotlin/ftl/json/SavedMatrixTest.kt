@@ -183,8 +183,8 @@ class SavedMatrixTest {
 
     @Test
     fun `savedMatrix should have outcome and outcome details properly filled when state is INVALID`() {
-        val expectedOutcome = "---"
-        val expectedOutcomeDetails = "Matrix is invalid"
+        val expectedOutcome = "INVALID"
+        val expectedOutcomeDetails = "UNKNOWN"
         val testMatrix = testMatrix()
         testMatrix.testMatrixId = "123"
         testMatrix.state = PENDING
