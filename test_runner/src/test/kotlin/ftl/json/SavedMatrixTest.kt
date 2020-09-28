@@ -10,7 +10,9 @@ import com.google.api.services.testing.model.ToolResultsStep
 import com.google.common.truth.Truth.assertThat
 import ftl.config.Device
 import ftl.gc.GcAndroidDevice
+import ftl.run.exception.MatrixValidationError
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.assertThrowsWithMessage
 import ftl.util.MatrixState.FINISHED
 import ftl.util.MatrixState.INVALID
 import ftl.util.MatrixState.PENDING
@@ -197,7 +199,6 @@ class SavedMatrixTest {
         assertEquals(expectedOutcome, savedMatrix.outcome)
         assertEquals(expectedOutcomeDetails, savedMatrix.testAxises.first().details)
         assertEquals(INVALID, savedMatrix.state)
-        assertEquals("Matrix: [${testMatrix.testMatrixId}] failed: Unknown error", savedMatrix.errorMessage())
     }
 
     @Test

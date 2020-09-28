@@ -4,7 +4,9 @@ import com.google.common.truth.Truth.assertThat
 import ftl.json.SavedMatrixTest.Companion.createResultsStorage
 import ftl.json.SavedMatrixTest.Companion.createStepExecution
 import ftl.json.SavedMatrixTest.Companion.testMatrix
+import ftl.run.exception.MatrixValidationError
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.assertThrowsWithMessage
 import ftl.util.MatrixState
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -46,5 +48,19 @@ class MatrixMapTest {
         val matrixMap = MatrixMap(mutableMapOf("a" to failureMatrix, "b" to successMatrix), "")
 
         assertThat(matrixMap.isAllSuccessful()).isFalse()
+    }
+
+    @Test
+    fun `invalid matrix should contains specyfic error message`() {
+        val testMatrix = testMatrix()
+        testMatrix.testMatrixId = "123"
+        testMatrix.state = MatrixState.INVALID
+
+        val savedMatrix = createSavedMatrix(testMatrix)
+
+        val expectedErrorMessage = "Matrix: [${testMatrix.testMatrixId}] failed: Unknown error"
+        assertThrowsWithMessage(MatrixValidationError::class, expectedErrorMessage) {
+            MatrixMap(mapOf(savedMatrix.matrixId to savedMatrix), "").validate()
+        }
     }
 }
