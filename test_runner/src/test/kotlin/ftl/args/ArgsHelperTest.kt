@@ -47,13 +47,16 @@ class ArgsHelperTest {
 
     @Test
     fun `mergeYmlMaps succeeds`() {
-        val merged = mergeYmlKeys(mockk() {
-            every { keys } returns listOf("devices", "test", "apk")
-            every { group } returns "gcloud"
-        }, mockk() {
-            every { keys } returns listOf("xcode-version", "async", "client-details")
-            every { group } returns "gcloud"
-        })
+        val merged = mergeYmlKeys(
+            mockk() {
+                every { keys } returns listOf("devices", "test", "apk")
+every { group } returns "gcloud"
+            },
+            mockk() {
+                every { keys } returns listOf("xcode-version", "async", "client-details")
+                        every { group } returns "gcloud"
+            }
+        )
 
         assertThat(merged.keys.size).isEqualTo(1)
         assertThat(merged["gcloud"]?.size).isEqualTo(6)

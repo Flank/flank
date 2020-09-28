@@ -18,7 +18,9 @@ fun main() {
     withGlobalExceptionHandling {
         CommandLine(Main()).execute(
 //            "--debug",
-            "firebase", "test", "android",
+            "firebase",
+            "test",
+            "android",
             "run",
 //            "--dry",
 //            "--dump-shards",

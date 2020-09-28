@@ -20,7 +20,8 @@ class UpdatePluginsTest {
             File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/ExpectedVersionAfterPluginDependencies")
         val copyOfTestVersions =
             testVersions.copyTo(
-                File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/VersionsAfterPluginDependencies"))
+                File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/VersionsAfterPluginDependencies")
+            )
         prepareBuildGradleForTest()
 
         // when
