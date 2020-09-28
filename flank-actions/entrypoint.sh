@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
-echo 'Sending message'
-./sendMessage $INPUT_XOXCTOKEN $INPUT_MESSAGE $INPUT_CHANNEL $INPUT_COOKIE
+echo 'Attempting to sendMessage'
+cd /
+./sendMessage "$INPUT_XOXCTOKEN" "$INPUT_CHANNEL" "$INPUT_MESSAGE" "$INPUT_COOKIE"
+
 echo 'Sending message done!'
