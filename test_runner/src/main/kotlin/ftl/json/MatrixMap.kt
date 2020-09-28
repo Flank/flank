@@ -1,6 +1,9 @@
 package ftl.json
 
 import com.google.api.services.testing.model.TestMatrix
+import com.google.common.annotations.VisibleForTesting
+import ftl.environment.orUnknown
+import ftl.reports.outcome.getOutcomeMessageByKey
 import ftl.run.exception.FTLError
 import ftl.run.exception.FailedMatrixError
 import ftl.run.exception.IncompatibleTestDimensionError
@@ -65,3 +68,6 @@ fun MatrixMap.validate(shouldIgnore: Boolean = false) {
 }
 
 private val SavedMatrix.outcomeDetails get() = testAxises.firstOrNull()?.details.orEmpty()
+
+@VisibleForTesting
+internal fun SavedMatrix.errorMessage() = "Matrix: [$matrixId] failed: ".plus(getOutcomeMessageByKey(testAxises.firstOrNull()?.details.orUnknown()))

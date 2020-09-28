@@ -6,7 +6,6 @@ import ftl.reports.outcome.BillableMinutes
 import ftl.reports.outcome.TestOutcome
 import ftl.reports.outcome.createMatrixOutcomeSummary
 import ftl.reports.outcome.fetchTestOutcomeContext
-import ftl.reports.outcome.getOutcomeMessageByKey
 import ftl.util.MatrixState.FINISHED
 import ftl.util.MatrixState.INVALID
 import ftl.util.StepOutcome
@@ -113,5 +112,3 @@ private fun TestMatrix.invalidTestOutcome() = TestOutcome(
     outcome = INVALID,
     details = invalidMatrixDetails.orUnknown()
 )
-
-fun SavedMatrix.errorMessage() = "Matrix: [$matrixId] failed: ".plus(getOutcomeMessageByKey(testAxises.firstOrNull()?.details.orUnknown()))
