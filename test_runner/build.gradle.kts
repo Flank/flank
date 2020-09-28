@@ -186,6 +186,7 @@ tasks.withType<KotlinCompile>().configureEach {
 }
 
 application {
+    // unfortunately shadowJar task seems not to be working correctly with new property based approach
     mainClassName = "ftl.Main"
 }
 
@@ -322,7 +323,7 @@ val generateCliAsciiDoc by tasks.registering(JavaExec::class) {
     description = "Generate AsciiDoc manpage"
     main = "picocli.codegen.docgen.manpage.ManPageGenerator"
     args = listOf(
-        application.mainClassName,
+        application.mainClass.get(),
         "--outdir=${project.rootDir}/docs/ascii/",
         "-v"
     )

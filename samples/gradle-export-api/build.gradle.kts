@@ -27,5 +27,5 @@ tasks {
 }
 
 application {
-    mainClassName = "ftl.sample.FetchBuildData"
+    mainClass.set("ftl.sample.FetchBuildData")
 }
