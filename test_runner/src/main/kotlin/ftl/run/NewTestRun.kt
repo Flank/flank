@@ -3,6 +3,7 @@ package ftl.run
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
+import ftl.gc.GcStorage
 import ftl.json.SavedMatrix
 import ftl.json.updateMatrixMap
 import ftl.json.validate
@@ -27,7 +28,7 @@ suspend fun newTestRun(args: IArgs) = withTimeoutOrNull(args.parsedTimeout) {
         cancelTestsOnTimeout(args.project, matrixMap.map) { fetchArtifacts(matrixMap, args) }
 
         ReportManager.generate(matrixMap, args, testShardChunks, ignoredTests)
-
+        
         println()
         matrixMap.printMatricesWebLinks(args.project)
 
