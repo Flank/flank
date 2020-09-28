@@ -129,12 +129,14 @@ formatting:
     active: false
     autoCorrect: false
   Indentation:
-    active: false
-    autoCorrect: false
+    active: true
+    autoCorrect: true
     indentSize: 4
     continuationIndentSize: 4
   MaximumLineLength:
-    active: false
+    active: true
+    autoCorrect: true
+    maxLineLength: 120
   ModifierOrdering:
     active: true
     autoCorrect: true
@@ -257,7 +259,7 @@ naming:
     propertyPattern: '[A-Za-z][_A-Za-z0-9]*'
     privatePropertyPattern: '(_)?[A-Za-z][A-Za-z0-9]*'
   VariableMaxLength:
-    active: false
+    active: true
     maximumVariableNameLength: 64
   VariableMinLength:
     active: false
@@ -346,7 +348,7 @@ style:
   ForbiddenPublicDataClass:
     active: true
   MaxLineLength:
-    active: false
+    active: true
     maxLineLength: 120
     excludePackageStatements: true
     excludeImportStatements: true
