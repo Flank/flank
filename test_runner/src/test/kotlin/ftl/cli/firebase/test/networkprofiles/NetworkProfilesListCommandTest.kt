@@ -17,9 +17,7 @@ class NetworkProfilesListCommandTest {
     @Before
     fun setUp() {
         mockkStatic(
-            "ftl.http.ExecuteWithRetryKt",
-            "ftl.run.common.PrettyPrintKt",
-            "ftl.environment.common.ListNetworkConfigurationKt"
+            "ftl.environment.NetworkConfigurationCatalogKt"
         )
     }
 
