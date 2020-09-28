@@ -1,7 +1,7 @@
 plugins {
     java
     kotlin(Plugins.Kotlin.PLUGIN_JVM)
-    id(Plugins.DETEKT_PLUGIN) version Versions.DETEKT
+    id(Plugins.DETEKT_PLUGIN)
 }
 
 group = "org.flank"

@@ -12,12 +12,19 @@ configurations.all {
 
 plugins {
     kotlin(Plugins.Kotlin.PLUGIN_JVM) version Versions.KOTLIN
+    id(Plugins.DETEKT_PLUGIN) version Versions.DETEKT
     id(Plugins.BEN_MANES_PLUGIN) version Versions.BEN_MANES
 }
 
 repositories {
     jcenter()
     mavenCentral()
+}
+
+subprojects {
+    tasks.withType<Test> {
+        maxParallelForks = Runtime.getRuntime().availableProcessors() / 2
+    }
 }
 
 tasks.named("dependencyUpdates", DependencyUpdatesTask::class.java).configure {

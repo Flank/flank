@@ -5,7 +5,7 @@ plugins {
     kotlin(Plugins.Kotlin.PLUGIN_JVM)
     kotlin(Plugins.Kotlin.PLUGIN_SERIALIZATION) version Versions.KOTLIN
     id(Plugins.PLUGIN_SHADOW_JAR) version Versions.SHADOW
-    id(Plugins.DETEKT_PLUGIN) version Versions.DETEKT
+    id(Plugins.DETEKT_PLUGIN)
 }
 
 val artifactID = "flankScripts"
