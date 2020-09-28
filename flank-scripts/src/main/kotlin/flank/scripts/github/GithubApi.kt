@@ -3,10 +3,18 @@ package flank.scripts.github
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.coroutines.awaitResult
+import com.jcabi.github.Coordinates
+import com.jcabi.github.Release
+import com.jcabi.github.Releases
+import com.jcabi.github.Repo
+import com.jcabi.github.RtGithub
 import flank.scripts.ci.releasenotes.GithubPullRequestDeserializer
 import flank.scripts.ci.releasenotes.GithubReleaseDeserializable
 import flank.scripts.exceptions.mapClientError
 import flank.scripts.exceptions.toGithubException
+import flank.scripts.utils.getEnv
+
+// ============= HTTP GITHUB API =============
 
 suspend fun getPrDetailsByCommit(commitSha: String, githubToken: String) =
     Fuel.get("https://api.github.com/repos/flank/flank/commits/$commitSha/pulls")
@@ -31,3 +39,34 @@ fun deleteOldTag(tag: String, username: String, password: String) =
         .mapClientError { it.toGithubException() }
 
 private const val DELETE_ENDPOINT = "https://api.github.com/repos/Flank/flank/git/refs/tags/"
+
+// ============= JCABI GITHUB API =============
+
+fun githubRepo(
+    token: String,
+    repoPath: String
+): Repo =
+    RtGithub(getEnv(token))
+        .repos()
+        .get(Coordinates.Simple(repoPath))
+
+fun Repo.getRelease(tag: String): Release.Smart? =
+    Releases.Smart(releases()).run {
+        if (!exists(tag)) null
+        else Release.Smart(find(tag))
+    }
+
+fun Repo.getOrCreateRelease(tag: String): Release.Smart =
+    releases().getOrCreateRelease(tag)
+
+private fun Releases.getOrCreateRelease(tag: String) =
+    Release.Smart(
+        try {
+            print("* Fetching release $tag - ")
+            Releases.Smart(this).find(tag).also { println("OK") }
+        } catch (e: IllegalArgumentException) {
+            println("FAILED")
+            print("* Creating new release $tag - ")
+            create(tag).also { println("OK") }
+        }
+    )

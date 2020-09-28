@@ -62,6 +62,7 @@ object Dependencies {
         const val COROUTINES = "com.github.kittinunf.fuel:fuel-coroutines:${Versions.FUEL}"
         const val KOTLINX_SERIALIZATION = "com.github.kittinunf.fuel:fuel-kotlinx-serialization:${Versions.FUEL}"
     }
+    const val GLASSFISH_JSON = "org.glassfish:javax.json:${Versions.GLASSFISH_JSON}"
     //endregion
 }
 

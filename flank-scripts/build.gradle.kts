@@ -74,6 +74,7 @@ dependencies {
     implementation(Dependencies.OKHTTP)
     implementation(Dependencies.JCABI_GITHUB)
     implementation(Dependencies.SLF4J_NOP)
+    implementation(Dependencies.GLASSFISH_JSON)
 
     detektPlugins(Dependencies.DETEKT_FORMATTING)
 
@@ -82,3 +83,5 @@ dependencies {
     testImplementation(Dependencies.TRUTH)
     testImplementation(Dependencies.SYSTEM_RULES)
 }
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
