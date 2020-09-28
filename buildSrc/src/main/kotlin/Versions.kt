@@ -88,7 +88,7 @@ object Versions {
     const val PROGUARD = "7.0.0"
 
     // ============== flank-scripts ==============
-    const val KOTLINX_SERIALIZATION = "1.0.0-RC"
-    const val FUEL = "2.2.3"
+    const val KOTLINX_SERIALIZATION = "1.0.0-RC2"
+    const val FUEL = "2.3.0"
     const val CLIKT = "2.8.0"
 }
