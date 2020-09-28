@@ -1,10 +1,10 @@
 build:
   maxIssues: 0
   weights:
-    # complexity: 2
-    # LongParameterList: 1
-    # style: 1
-    # comments: 1
+  # complexity: 2
+  # LongParameterList: 1
+  # style: 1
+  # comments: 1
 
 processors:
   active: true
@@ -110,13 +110,13 @@ formatting:
     active: false
     autoCorrect: true
   ChainWrapping:
-    active: true
+    active: false
     autoCorrect: true
   CommentSpacing:
     active: true
     autoCorrect: true
-  EnumEntryNameCase: 
-    active: true
+  EnumEntryNameCase:
+    active: false
     autoCorrect: false
   Filename:
     active: false
@@ -129,12 +129,13 @@ formatting:
     active: false
     autoCorrect: false
   Indentation:
-    active: true
+    active: false
     autoCorrect: true
     indentSize: 4
     continuationIndentSize: 4
   MaximumLineLength:
-    active: true
+    excludes: ['**/test/**', '**/*.Test.kt', '**/*.Spec.kt']
+    active: false
     autoCorrect: true
     maxLineLength: 120
   ModifierOrdering:
@@ -348,7 +349,8 @@ style:
   ForbiddenPublicDataClass:
     active: true
   MaxLineLength:
-    active: true
+    excludes: ['**/test/**', '**/*.Test.kt', '**/*.Spec.kt']
+    active: false
     maxLineLength: 120
     excludePackageStatements: true
     excludeImportStatements: true
