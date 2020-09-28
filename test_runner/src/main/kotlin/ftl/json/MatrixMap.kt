@@ -1,16 +1,20 @@
 package ftl.json
 
 import com.google.api.services.testing.model.TestMatrix
+import ftl.environment.orUnknown
+import ftl.reports.outcome.getOutcomeMessageByKey
 import ftl.run.exception.FTLError
 import ftl.run.exception.FailedMatrixError
 import ftl.run.exception.IncompatibleTestDimensionError
 import ftl.run.exception.InfrastructureError
 import ftl.run.exception.MatrixCanceledError
+import ftl.run.exception.MatrixValidationError
 import ftl.util.MatrixState
 
 data class MatrixMap(val map: Map<String, SavedMatrix>, val runPath: String) {
     private val mutableMap
         get() = map as MutableMap<String, SavedMatrix>
+
     fun update(id: String, savedMatrix: SavedMatrix) {
         mutableMap[id] = savedMatrix
     }
@@ -51,6 +55,7 @@ fun MatrixMap.validate(shouldIgnore: Boolean = false) {
         firstOrNull { it.canceledByUser() }?.run { throw MatrixCanceledError(outcomeDetails) }
         firstOrNull { it.infrastructureFail() }?.run { throw InfrastructureError(outcomeDetails) }
         firstOrNull { it.incompatibleFail() }?.run { throw IncompatibleTestDimensionError(outcomeDetails) }
+        firstOrNull { it.invalid() }?.run { throw MatrixValidationError(errorMessage()) }
         firstOrNull { it.state != MatrixState.FINISHED }?.let { throw FTLError(it) }
         filter { it.isFailed() }.let {
             if (it.isNotEmpty()) throw FailedMatrixError(
@@ -62,3 +67,5 @@ fun MatrixMap.validate(shouldIgnore: Boolean = false) {
 }
 
 private val SavedMatrix.outcomeDetails get() = testAxises.firstOrNull()?.details.orEmpty()
+
+private fun SavedMatrix.errorMessage() = "Matrix: [$matrixId] failed: ".plus(getOutcomeMessageByKey(testAxises.firstOrNull()?.details.orUnknown()))

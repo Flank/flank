@@ -1,6 +1,7 @@
 package ftl.json
 
 import com.google.api.services.testing.model.TestMatrix
+import ftl.environment.orUnknown
 import ftl.reports.outcome.BillableMinutes
 import ftl.reports.outcome.TestOutcome
 import ftl.reports.outcome.createMatrixOutcomeSummary
@@ -44,6 +45,8 @@ fun SavedMatrix.infrastructureFail() = testAxises.any { it.details == INFRASTRUC
 
 fun SavedMatrix.incompatibleFail() = testAxises.map { it.details }.intersect(incompatibleFails).isNotEmpty()
 
+fun SavedMatrix.invalid() = testAxises.any { it.outcome == INVALID }
+
 private val incompatibleFails = setOf(
     INCOMPATIBLE_APP_VERSION_MESSAGE,
     INCOMPATIBLE_ARCHITECTURE_MESSAGE,
@@ -54,6 +57,7 @@ fun SavedMatrix.isFailed() = when (outcome) {
     failure -> true
     skipped -> true
     inconclusive -> true
+    INVALID -> true
     else -> false
 }
 
@@ -78,7 +82,7 @@ private fun SavedMatrix.updatedSavedMatrix(
         updateProperties(newMatrix).updateOutcome(outcomes).updateBillableMinutes(billableMinutes)
     }
 
-    INVALID -> updateProperties(newMatrix).updateOutcome(listOf(invalidTestOutcome()))
+    INVALID -> updateProperties(newMatrix).updateOutcome(listOf(newMatrix.invalidTestOutcome()))
 
     else -> updateProperties(newMatrix)
 }
@@ -104,7 +108,7 @@ private fun SavedMatrix.updateOutcome(outcome: List<TestOutcome>) = copy(
     testAxises = outcome
 )
 
-private fun invalidTestOutcome() = TestOutcome(
-    outcome = "---",
-    details = "Matrix is invalid"
+private fun TestMatrix.invalidTestOutcome() = TestOutcome(
+    outcome = INVALID,
+    details = invalidMatrixDetails.orUnknown()
 )
