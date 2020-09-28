@@ -25,17 +25,14 @@ class RefreshCommandTest {
         val yamlCfg = Paths.get(parent, "flank.yml")
         matrixIds.parent.toFile().mkdirs()
 
-        Runtime.getRuntime().addShutdownHook(
-            Thread {
-                File(parent).deleteRecursively()
-            }
-        )
+        Runtime.getRuntime().addShutdownHook(Thread {
+            File(parent).deleteRecursively()
+        })
 
         if (matrixIds.toFile().exists() && yamlCfg.toFile().exists()) return
 
         Files.write(
-            matrixIds,
-            """
+            matrixIds, """
                 {
                 "matrix-1": {
                 "matrixId": "matrix-1",
@@ -51,8 +48,7 @@ class RefreshCommandTest {
         )
 
         Files.write(
-            yamlCfg,
-            """
+            yamlCfg, """
              gcloud:
                app: ../test_projects/android/apks/app-debug.apk
                test: ../test_projects/android/apks/app-debug-androidTest.apk

@@ -39,16 +39,16 @@ class NetworkProfileDescribeTest {
     @Test
     fun `should print profile description if data exists`() {
         val configs = listOf(
-            NetworkConfiguration().apply {
-                        downRule = makeRule(0.5f)
-                upRule = makeRule(0.8f)
-                id = "ANY"
-                    },
-            NetworkConfiguration().apply {
-                        downRule = makeRule(0.1f)
-                upRule = makeRule(0.2f)
-                id = "DIFFERENT"
-                    }
+                NetworkConfiguration().apply {
+                    downRule = makeRule(0.5f)
+                    upRule = makeRule(0.8f)
+                    id = "ANY"
+                },
+                NetworkConfiguration().apply {
+                    downRule = makeRule(0.1f)
+                    upRule = makeRule(0.2f)
+                    id = "DIFFERENT"
+                }
         )
         every { getNetworkConfiguration() } returns configs
 
@@ -87,21 +87,21 @@ class NetworkProfileDescribeTest {
     @Test
     fun `should print message if unable to find provided profile`() {
         val configs = listOf(
-            NetworkConfiguration().apply {
-                        downRule = makeRule(0.456f)
-                id = "ANY_1"
-                upRule = makeRule(0.111f)
-                    },
-            NetworkConfiguration().apply {
-                        downRule = makeRule(0.0976f)
-                id = "ANY_2"
-                upRule = makeRule(0.234f)
-                    },
-            NetworkConfiguration().apply {
-                        downRule = makeRule(0.1f)
-                id = "ANY_3"
-                upRule = makeRule(0.11233f)
-                    }
+                NetworkConfiguration().apply {
+                    downRule = makeRule(0.456f)
+                    id = "ANY_1"
+                    upRule = makeRule(0.111f)
+                },
+                NetworkConfiguration().apply {
+                    downRule = makeRule(0.0976f)
+                    id = "ANY_2"
+                    upRule = makeRule(0.234f)
+                },
+                NetworkConfiguration().apply {
+                    downRule = makeRule(0.1f)
+                    id = "ANY_3"
+                    upRule = makeRule(0.11233f)
+                }
         )
         every { getNetworkConfiguration() } returns configs
 
@@ -117,11 +117,11 @@ class NetworkProfileDescribeTest {
     @Test
     fun `should handle possible null values`() {
         val configs = listOf(
-            NetworkConfiguration().apply {
-                        downRule = makeRule(0.456f)
-                id = "WITH_NULLS"
-                upRule = TrafficRule().apply { packetLossRatio = 0.123f }
-                    }
+                NetworkConfiguration().apply {
+                    downRule = makeRule(0.456f)
+                    id = "WITH_NULLS"
+                    upRule = TrafficRule().apply { packetLossRatio = 0.123f }
+                }
         )
         every { getNetworkConfiguration() } returns configs
 

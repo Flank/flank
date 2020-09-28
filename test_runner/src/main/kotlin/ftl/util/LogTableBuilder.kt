@@ -139,8 +139,8 @@ private fun StringBuilder.appendDataRow(data: List<DataWithSize>) {
 private fun DataWithSize.leftAligned() = String.format("%-${columnSize}s", " $data")
 
 private fun DataWithSize.center() = String.format(
-    "%-" + columnSize + "s",
-    String.format("%" + (data.length + (columnSize - data.length) / 2) + "s", this.data)
+        "%-" + columnSize + "s",
+        String.format("%" + (data.length + (columnSize - data.length) / 2) + "s", this.data)
 )
 
 inline fun TableColumn.applyColorsUsing(mapper: (String) -> SystemOutColor) = copy(dataColor = data.map(mapper))

@@ -62,8 +62,7 @@ class TestFiltersTest {
     @Test
     fun testIgnoreMultipleAnnotations() {
         val m1 = TestMethod(
-            "com.example.app.ExampleUiTest#testFails",
-            listOf(
+            "com.example.app.ExampleUiTest#testFails", listOf(
                 TestAnnotation("org.junit.runner.RunWith", emptyMap(), false),
                 TestAnnotation("org.junit.Ignore", emptyMap(), false),
                 TestAnnotation("org.junit.Test", emptyMap(), false)

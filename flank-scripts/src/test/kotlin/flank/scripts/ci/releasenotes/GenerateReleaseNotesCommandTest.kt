@@ -12,11 +12,9 @@ class GenerateReleaseNotesCommandTest {
 
         // when
         val command = GenerateReleaseNotesCommand().apply {
-            main(
-                listOf(
-                    "--token=token",
-                    "--release-notes-file=$expected"
-                )
+            main(listOf(
+                "--token=token",
+                "--release-notes-file=$expected")
             )
         }
 

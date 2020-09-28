@@ -350,10 +350,7 @@ class UtilsTest {
         val simulatedMain: Thread = object : Thread("simulated-main") {
             override fun run() {
                 val pb = ProcessBuilder(
-                    "java",
-                    "-cp",
-                    System.getProperty("java.class.path"),
-                    HangingApp::class.java.name
+                    "java", "-cp", System.getProperty("java.class.path"), HangingApp::class.java.name
                 ).redirectError(File(VERIFICATION_FILE))
                 try {
                     val process = pb.start()

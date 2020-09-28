@@ -236,8 +236,7 @@ class AndroidArgsTest {
             assert(environmentVariables, linkedMapOf("clearPackageData" to "true", "randomEnvVar" to "false"))
             assert(directoriesToPull, listOf("/sdcard/screenshots", "/sdcard/screenshots2"))
             assert(
-                otherFiles,
-                mapOf(
+                otherFiles, mapOf(
                     "/sdcard/dir1/file1.txt" to appApkAbsolutePath,
                     "/sdcard/dir2/file2.jpg" to testApkAbsolutePath
                 )
@@ -252,8 +251,7 @@ class AndroidArgsTest {
                 )
             )
             assert(
-                devices,
-                listOf(
+                devices, listOf(
                     Device("NexusLowRes", "23", "en", "portrait", isVirtual = true),
                     Device("NexusLowRes", "24", "en", "portrait", isVirtual = true)
                 )
@@ -266,8 +264,7 @@ class AndroidArgsTest {
             assert(repeatTests, 8)
             assert(filesToDownload, listOf("/sdcard/screenshots", "/sdcard/screenshots2"))
             assert(
-                testTargetsAlwaysRun,
-                listOf(
+                testTargetsAlwaysRun, listOf(
                     "class example.Test#grantPermission",
                     "class example.Test#grantPermission2"
                 )
@@ -283,8 +280,7 @@ class AndroidArgsTest {
     fun androidArgsToString() {
         val androidArgs = AndroidArgs.load(androidNonDefault)
         assert(
-            androidArgs.toString(),
-            """
+            androidArgs.toString(), """
 AndroidArgs
     gcloud:
       results-bucket: mockBucket
@@ -418,8 +414,7 @@ AndroidArgs
       legacy-junit-result: true
       ignore-failed-tests: false
       output-style: multi
-        """.trimIndent(),
-            args.toString()
+        """.trimIndent(), args.toString()
         )
     }
 

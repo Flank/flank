@@ -31,9 +31,7 @@ private fun calculateShardCount(
     return calculateShardCount(
         args = args,
         testsTotalTime = testTotalTime(
-            testsToRun,
-            previousMethodDurations,
-            args.fallbackTestTime(previousMethodDurations),
+            testsToRun, previousMethodDurations, args.fallbackTestTime(previousMethodDurations),
             args.defaultClassTestTime
         ),
         testsToRunCount = testsToRun.size

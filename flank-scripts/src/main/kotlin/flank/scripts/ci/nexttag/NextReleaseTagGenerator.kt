@@ -7,9 +7,9 @@ import java.time.format.DateTimeFormatter
 fun generateNextReleaseTag(previousReleaseTag: String): String {
     val (year, month, number) = previousReleaseTag.trimStart('v').split('.')
     return if (isNextReleaseInCurrentMonth(
-        year,
-        month
-    )
+            year,
+            month
+        )
     ) "v$year.$month.${number.toInt() + 1}" else currentMonthFirstTag()
 }
 

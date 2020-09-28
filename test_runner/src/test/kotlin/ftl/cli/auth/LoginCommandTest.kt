@@ -1,5 +1,6 @@
 package ftl.cli.auth
 
+import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.normalizeLineEnding
@@ -26,12 +27,11 @@ class LoginCommandTest {
         CommandLine(command).execute("-h")
 
         val output = systemOutRule.log.normalizeLineEnding()
-        assertThat(output).startsWith(
-            """Obtains access credentials for your user account via a web-based authorization
+        Truth.assertThat(output).startsWith(
+        """Obtains access credentials for your user account via a web-based authorization
 flow.
 
-login [-h]""".trimIndent()
-        )
+login [-h]""".trimIndent())
 
         assertThat(command.usageHelpRequested).isTrue()
     }

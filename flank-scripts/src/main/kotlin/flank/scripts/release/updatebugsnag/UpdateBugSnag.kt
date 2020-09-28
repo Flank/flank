@@ -18,18 +18,18 @@ private suspend fun httpRequest(jsonString: String) =
 
 private fun createRequestBody(bugsnagApiKey: String, appVersion: String, githubWorkflowUrl: String) =
         BugSnagRequest(
-            apiKey = bugsnagApiKey,
-            appVersion = appVersion,
-            releaseStage = "production",
-            builderName = "github-actions",
-            sourceControl = githubActionsSourceControl(appVersion),
-            metadata = mapOf("github_actions_build_url" to githubWorkflowUrl)
+                apiKey = bugsnagApiKey,
+                appVersion = appVersion,
+                releaseStage = "production",
+                builderName = "github-actions",
+                sourceControl = githubActionsSourceControl(appVersion),
+                metadata = mapOf("github_actions_build_url" to githubWorkflowUrl)
         ).toJson()
 
 private fun githubActionsSourceControl(appVersion: String) = SourceControl(
-    "github",
-    REPOSITORY,
-    appVersion
+        "github",
+        REPOSITORY,
+        appVersion
 )
 
 private const val BUGNSAG_URL = "https://build.bugsnag.com/"

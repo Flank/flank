@@ -119,8 +119,7 @@ class GcAndroidTestMatrixTest {
         val androidArgs = AndroidArgs.load(StringReader(yaml), null)
 
         val testSetup = TestSetup().setEnvironmentVariables(
-            androidArgs,
-            AndroidTestConfig.Robo(
+            androidArgs, AndroidTestConfig.Robo(
                 appApkGcsPath = "",
                 flankRoboDirectives = emptyList(),
                 roboScriptGcsPath = ""
@@ -147,8 +146,7 @@ class GcAndroidTestMatrixTest {
         val androidArgs = AndroidArgs.load(StringReader(yaml), null)
 
         val testSetup = TestSetup().setEnvironmentVariables(
-            androidArgs,
-            AndroidTestConfig.Instrumentation(
+            androidArgs, AndroidTestConfig.Instrumentation(
                 appApkGcsPath = "",
                 testApkGcsPath = "",
                 testShards = emptyList(),
@@ -176,18 +174,17 @@ class GcAndroidTestMatrixTest {
         val androidArgs = AndroidArgs.load(StringReader(yaml), null)
 
         val testSetup = TestSetup().setEnvironmentVariables(
-            androidArgs,
-            AndroidTestConfig.Instrumentation(
-                            appApkGcsPath = "",
-                            testApkGcsPath = "",
-                            testShards = emptyList(),
-                            orchestratorOption = null,
-                            numUniformShards = null,
-                            disableSharding = false,
-                            testRunnerClass = "",
-                            keepTestTargetsEmpty = false,
-                            environmentVariables = mapOf(Pair("coverageFile", "/sdcard/test.ec"))
-                        )
+            androidArgs, AndroidTestConfig.Instrumentation(
+                appApkGcsPath = "",
+                testApkGcsPath = "",
+                testShards = emptyList(),
+                orchestratorOption = null,
+                numUniformShards = null,
+                disableSharding = false,
+                testRunnerClass = "",
+                keepTestTargetsEmpty = false,
+                environmentVariables = mapOf(Pair("coverageFile", "/sdcard/test.ec"))
+            )
         )
         assertTrue(testSetup.environmentVariables.any { it.key == "coverageFile" && it.value == "/sdcard/test.ec" })
     }
@@ -206,18 +203,17 @@ class GcAndroidTestMatrixTest {
         val androidArgs = AndroidArgs.load(StringReader(yaml), null)
 
         val testSetup = TestSetup().setEnvironmentVariables(
-            androidArgs,
-            AndroidTestConfig.Instrumentation(
-                            appApkGcsPath = "",
-                            testApkGcsPath = "",
-                            testShards = emptyList(),
-                            orchestratorOption = null,
-                            numUniformShards = null,
-                            disableSharding = false,
-                            testRunnerClass = "",
-                            keepTestTargetsEmpty = false,
-                            environmentVariables = mapOf(Pair("coverageFile", "/sdcard/test_module1.ec"))
-                        )
+            androidArgs, AndroidTestConfig.Instrumentation(
+                appApkGcsPath = "",
+                testApkGcsPath = "",
+                testShards = emptyList(),
+                orchestratorOption = null,
+                numUniformShards = null,
+                disableSharding = false,
+                testRunnerClass = "",
+                keepTestTargetsEmpty = false,
+                environmentVariables = mapOf(Pair("coverageFile", "/sdcard/test_module1.ec"))
+            )
         )
         assertTrue(testSetup.environmentVariables.any { it.key == "coverageFile" && it.value == "/sdcard/test_module1.ec" })
     }
@@ -236,18 +232,17 @@ class GcAndroidTestMatrixTest {
         val androidArgs = AndroidArgs.load(StringReader(yaml), null)
 
         val testSetup = TestSetup().setEnvironmentVariables(
-            androidArgs,
-            AndroidTestConfig.Instrumentation(
-                            appApkGcsPath = "",
-                            testApkGcsPath = "",
-                            testShards = emptyList(),
-                            orchestratorOption = null,
-                            numUniformShards = null,
-                            disableSharding = false,
-                            testRunnerClass = "",
-                            keepTestTargetsEmpty = false,
-                            environmentVariables = mapOf(Pair("coverageFile", "/sdcard/test_module1.ec"))
-                        )
+            androidArgs, AndroidTestConfig.Instrumentation(
+                appApkGcsPath = "",
+                testApkGcsPath = "",
+                testShards = emptyList(),
+                orchestratorOption = null,
+                numUniformShards = null,
+                disableSharding = false,
+                testRunnerClass = "",
+                keepTestTargetsEmpty = false,
+                environmentVariables = mapOf(Pair("coverageFile", "/sdcard/test_module1.ec"))
+            )
         )
         assertEquals(1, testSetup.environmentVariables.count { it.key == "coverageFile" })
     }

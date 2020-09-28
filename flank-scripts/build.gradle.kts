@@ -38,7 +38,6 @@ repositories {
 detekt {
     input = files("src/main/kotlin", "src/test/kotlin")
     config = files("../config/detekt.yml")
-    autoCorrect = true
     reports {
         xml {
             enabled = false

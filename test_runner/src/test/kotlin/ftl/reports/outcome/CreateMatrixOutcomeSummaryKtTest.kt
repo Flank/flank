@@ -75,11 +75,9 @@ class CreateMatrixOutcomeSummaryKtTest {
 
     @Test
     fun `should create TestOutcome list for success robo test - from steps`() {
-        val steps: List<Step> = listOf(
-            make {
-                outcome = make { summary = "success" }
-            }
-        )
+        val steps: List<Step> = listOf(make {
+            outcome = make { summary = "success" }
+        })
         every { steps[0].axisValue() } returns "anyDevice"
         every { steps.calculateAndroidBillableMinutes(any(), any()) } returns make()
         val context = TestOutcomeContext(
@@ -100,14 +98,12 @@ class CreateMatrixOutcomeSummaryKtTest {
 
     @Test
     fun `should create TestOutcome list for failed robo test - from steps`() {
-        val steps: List<Step> = listOf(
-            make {
-                outcome = make {
-                    summary = "failure"
-failureDetail = make { failedRoboscript = true }
-                }
+        val steps: List<Step> = listOf(make {
+            outcome = make {
+                summary = "failure"
+                failureDetail = make { failedRoboscript = true }
             }
-        )
+        })
         every { steps[0].axisValue() } returns "anyDevice"
         every { steps.calculateAndroidBillableMinutes(any(), any()) } returns make()
         val context = TestOutcomeContext(

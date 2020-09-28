@@ -31,9 +31,7 @@ class FuelTestRunner(klass: Class<*>) : BlockJUnit4ClassRunner(klass) {
                     url == "https://api.github.com/repos/Flank/flank/git/refs/tags/success" -> request.buildResponse("", 200)
                     url == "https://api.github.com/repos/flank/flank/releases/latest" && request.headers["Authorization"].contains("token success") -> request.buildResponse(GitHubRelease("v20.08.0").toJson(), 200)
                     url == "https://api.github.com/repos/flank/flank/commits/success/pulls" -> request.buildResponse(
-                        Json.encodeToString(githubPullRequestTest),
-                        200
-                    )
+                        Json.encodeToString(githubPullRequestTest), 200)
                     request.isFailedGithubRequest() -> request.buildResponse(githubErrorBody, 422)
                     url == "https://build.bugsnag.com/" -> request.handleBugsnagResponse()
                     else -> Response(request.url)
@@ -48,15 +46,10 @@ class FuelTestRunner(klass: Class<*>) : BlockJUnit4ClassRunner(klass) {
                 .startsWith("https://api.github.com/") && request.headers["Authorization"].contains("token failure"))
 
     private fun Request.buildResponse(body: String, statusCode: Int) =
-        Response(
-            url,
-            statusCode = statusCode,
-            responseMessage = body,
-            body = DefaultBody(
-                { body.byteInputStream() },
-                { body.length.toLong() }
-            )
-        )
+        Response(url, statusCode = statusCode, responseMessage = body, body = DefaultBody(
+            { body.byteInputStream() },
+            { body.length.toLong() }
+        ))
 
     private fun Request.handleBugsnagResponse() =
         if (body.asString("application/json").toObject<BugSnagRequest>().apiKey == "success") {
@@ -75,13 +68,12 @@ class FuelTestRunner(klass: Class<*>) : BlockJUnit4ClassRunner(klass) {
         }
 }
 
-private val githubPullRequestTest = listOf(
-    GithubPullRequest(
-        "www.pull.request",
-        "feat: new Feature",
-        5,
-        listOf()
-    )
+private val githubPullRequestTest = listOf(GithubPullRequest(
+    "www.pull.request",
+    "feat: new Feature",
+    5,
+    listOf()
+)
 )
 
 private val githubErrorBody = """

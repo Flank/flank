@@ -47,8 +47,7 @@ class IosArgsFileTest {
             assert(async, true)
             assert(testTargets, listOf(testName))
             assert(
-                devices,
-                listOf(
+                devices, listOf(
                     Device("iphone8", "11.2", "en_US", "portrait")
                 )
             )

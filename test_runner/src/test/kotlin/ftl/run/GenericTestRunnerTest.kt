@@ -36,8 +36,7 @@ class GenericTestRunnerTest {
     fun testBeforeRunMessage2() {
         val result = beforeRunMessage(createMock(2), listOf(Chunk(listOf(TestMethod(name = "", time = 0.0))))).normalizeLineEnding()
         assert(
-            result,
-            """
+            result, """
   1 test / 1 shard
   Running 2x
     2 total shards
@@ -53,8 +52,7 @@ class GenericTestRunnerTest {
             List(6) { Chunk(listOf(TestMethod(name = "", time = 0.0))) }
         ).normalizeLineEnding()
         assert(
-            result,
-            """
+            result, """
   6 tests / 6 shards
   Running 2x
     12 total shards
@@ -70,8 +68,7 @@ class GenericTestRunnerTest {
             List(2) { Chunk(List(5) { TestMethod(name = "", time = 0.0) }) }
         ).normalizeLineEnding()
         assert(
-            result,
-            """
+            result, """
   10 tests / 2 shards
   Running 100x
     200 total shards
@@ -89,27 +86,23 @@ class GenericTestRunnerTest {
         val result = beforeRunMessage(
             createMock(1),
             listOf(
-                Chunk(
-                    listOf(
-                        TestMethod(name = "t1", time = 0.0),
-                        TestMethod(name = "t2", time = 0.0),
-                        TestMethod(name = "t3", time = 0.0),
-                        TestMethod(name = "c1", time = 0.0, isParameterized = true),
-                        TestMethod(name = "c2", time = 0.0, isParameterized = true),
-                    )
-                ),
-                Chunk(
-                    listOf(
-                        TestMethod(name = "t4", time = 0.0),
-                        TestMethod(name = "t5", time = 0.0),
-                        TestMethod(name = "t6", time = 0.0),
-                        TestMethod(name = "t7", time = 0.0),
-                        TestMethod(name = "t8", time = 0.0),
-                        TestMethod(name = "t9", time = 0.0),
-                        TestMethod(name = "t10", time = 0.0),
-                        TestMethod(name = "c3", time = 0.0, isParameterized = true),
-                    )
-                )
+                Chunk(listOf(
+                    TestMethod(name = "t1", time = 0.0),
+                    TestMethod(name = "t2", time = 0.0),
+                    TestMethod(name = "t3", time = 0.0),
+                    TestMethod(name = "c1", time = 0.0, isParameterized = true),
+                    TestMethod(name = "c2", time = 0.0, isParameterized = true),
+                )),
+                Chunk(listOf(
+                    TestMethod(name = "t4", time = 0.0),
+                    TestMethod(name = "t5", time = 0.0),
+                    TestMethod(name = "t6", time = 0.0),
+                    TestMethod(name = "t7", time = 0.0),
+                    TestMethod(name = "t8", time = 0.0),
+                    TestMethod(name = "t9", time = 0.0),
+                    TestMethod(name = "t10", time = 0.0),
+                    TestMethod(name = "c3", time = 0.0, isParameterized = true),
+                ))
             )
         ).normalizeLineEnding().trimIndent()
 
@@ -125,17 +118,13 @@ class GenericTestRunnerTest {
         val result = beforeRunMessage(
             createMock(1),
             listOf(
-                Chunk(
-                    listOf(
-                        TestMethod(name = "c1", time = 0.0, isParameterized = true),
-                        TestMethod(name = "c2", time = 0.0, isParameterized = true),
-                    )
-                ),
-                Chunk(
-                    listOf(
-                        TestMethod(name = "c3", time = 0.0, isParameterized = true),
-                    )
-                )
+                Chunk(listOf(
+                    TestMethod(name = "c1", time = 0.0, isParameterized = true),
+                    TestMethod(name = "c2", time = 0.0, isParameterized = true),
+                )),
+                Chunk(listOf(
+                    TestMethod(name = "c3", time = 0.0, isParameterized = true),
+                ))
             )
         ).normalizeLineEnding().trimIndent()
 
@@ -155,27 +144,23 @@ class GenericTestRunnerTest {
         val result = beforeRunMessage(
             createMock(10),
             listOf(
-                Chunk(
-                    listOf(
-                        TestMethod(name = "t1", time = 0.0),
-                        TestMethod(name = "t2", time = 0.0),
-                        TestMethod(name = "t3", time = 0.0),
-                        TestMethod(name = "c1", time = 0.0, isParameterized = true),
-                        TestMethod(name = "c2", time = 0.0, isParameterized = true),
-                    )
-                ),
-                Chunk(
-                    listOf(
-                        TestMethod(name = "t4", time = 0.0),
-                        TestMethod(name = "t5", time = 0.0),
-                        TestMethod(name = "t6", time = 0.0),
-                        TestMethod(name = "t7", time = 0.0),
-                        TestMethod(name = "t8", time = 0.0),
-                        TestMethod(name = "t9", time = 0.0),
-                        TestMethod(name = "t10", time = 0.0),
-                        TestMethod(name = "c3", time = 0.0, isParameterized = true),
-                    )
-                )
+                Chunk(listOf(
+                    TestMethod(name = "t1", time = 0.0),
+                    TestMethod(name = "t2", time = 0.0),
+                    TestMethod(name = "t3", time = 0.0),
+                    TestMethod(name = "c1", time = 0.0, isParameterized = true),
+                    TestMethod(name = "c2", time = 0.0, isParameterized = true),
+                )),
+                Chunk(listOf(
+                    TestMethod(name = "t4", time = 0.0),
+                    TestMethod(name = "t5", time = 0.0),
+                    TestMethod(name = "t6", time = 0.0),
+                    TestMethod(name = "t7", time = 0.0),
+                    TestMethod(name = "t8", time = 0.0),
+                    TestMethod(name = "t9", time = 0.0),
+                    TestMethod(name = "t10", time = 0.0),
+                    TestMethod(name = "c3", time = 0.0, isParameterized = true),
+                ))
             )
         ).normalizeLineEnding().trimIndent()
 
@@ -194,17 +179,13 @@ class GenericTestRunnerTest {
         val result = beforeRunMessage(
             createMock(10),
             listOf(
-                Chunk(
-                    listOf(
-                        TestMethod(name = "c1", time = 0.0, isParameterized = true),
-                        TestMethod(name = "c2", time = 0.0, isParameterized = true),
-                    )
-                ),
-                Chunk(
-                    listOf(
-                        TestMethod(name = "c3", time = 0.0, isParameterized = true),
-                    )
-                )
+                Chunk(listOf(
+                    TestMethod(name = "c1", time = 0.0, isParameterized = true),
+                    TestMethod(name = "c2", time = 0.0, isParameterized = true),
+                )),
+                Chunk(listOf(
+                    TestMethod(name = "c3", time = 0.0, isParameterized = true),
+                ))
             )
         ).normalizeLineEnding().trimIndent()
 

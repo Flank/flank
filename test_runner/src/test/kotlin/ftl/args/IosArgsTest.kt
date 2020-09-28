@@ -197,8 +197,7 @@ flank:
     fun `args toString`() {
         val args = IosArgs.load(iosNonDefault)
         assert(
-            args.toString(),
-            """
+            args.toString(), """
 IosArgs
     gcloud:
       results-bucket: mockBucket
@@ -301,8 +300,7 @@ IosArgs
       run-timeout: -1
       ignore-failed-tests: false
       output-style: multi
-        """.trimIndent(),
-            args.toString()
+        """.trimIndent(), args.toString()
         )
     }
 

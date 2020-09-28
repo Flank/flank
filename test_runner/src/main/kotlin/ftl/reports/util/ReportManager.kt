@@ -106,16 +106,11 @@ object ReportManager {
                 HtmlErrorReport
             ).map { it.run(matrices, testSuite, printToStdout = false, args = args) }
         }
-        JUnitReport.run(
-            matrices,
-            testSuite?.apply {
-                if (ignoredTestCases.isNotEmpty()) {
-                            testsuites?.add(ignoredTestCases.toJunitTestsResults())
-                        }
-            },
-            printToStdout = false,
-            args = args
-        )
+        JUnitReport.run(matrices, testSuite?.apply {
+            if (ignoredTestCases.isNotEmpty()) {
+                testsuites?.add(ignoredTestCases.toJunitTestsResults())
+            }
+        }, printToStdout = false, args = args)
         when {
             args.fullJUnitResult -> processFullJunitResult(args, matrices, testShardChunks)
             args.useLegacyJUnitResult -> processJunitXml(testSuite, args, testShardChunks)
@@ -123,16 +118,14 @@ object ReportManager {
         }
     }
 
-    private fun IgnoredTestCases.toJunitTestsResults() = getSkippedJUnitTestSuite(
-        map {
-            JUnitTestCase(
-                classname = it.split("#").first().replace("class ", ""),
-                name = it.split("#").last(),
-                time = "0.0",
-                skipped = null
-            )
-        }
-    )
+    private fun IgnoredTestCases.toJunitTestsResults() = getSkippedJUnitTestSuite(map {
+        JUnitTestCase(
+            classname = it.split("#").first().replace("class ", ""),
+            name = it.split("#").last(),
+            time = "0.0",
+            skipped = null
+        )
+    })
 
     private fun processFullJunitResult(args: IArgs, matrices: MatrixMap, testShardChunks: ShardChunks) {
         val testSuite = processXmlFromApi(matrices, args, withStackTraces = true)
@@ -178,11 +171,9 @@ object ReportManager {
     ) {
         val list = createShardEfficiencyList(oldResult, newResult, args, testShardChunks)
 
-        println(
-            "Actual shard times:\n" + list.joinToString("\n") {
-                "  ${it.shard}: Expected: ${it.expectedTime.roundToInt()}s, Actual: ${it.finalTime.roundToInt()}s, Diff: ${it.timeDiff.roundToInt()}s"
-            } + "\n"
-        )
+        println("Actual shard times:\n" + list.joinToString("\n") {
+            "  ${it.shard}: Expected: ${it.expectedTime.roundToInt()}s, Actual: ${it.finalTime.roundToInt()}s, Diff: ${it.timeDiff.roundToInt()}s"
+        } + "\n")
     }
 
     private fun processJunitXml(

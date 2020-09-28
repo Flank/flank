@@ -15,8 +15,7 @@ class UpdateGradleTest {
             File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/expected_gradle-wrapper.properties.test")
         val copyOfTestVersions =
             testGradleVersionFile.copyTo(
-                File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/gradle-wrapper.properties")
-            )
+                File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/gradle-wrapper.properties"))
 
         // when
         testReport.updateGradle("src/test/kotlin/flank/scripts/dependencies/update/testfiles/")

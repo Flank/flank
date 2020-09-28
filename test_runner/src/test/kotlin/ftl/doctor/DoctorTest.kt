@@ -29,8 +29,7 @@ class DoctorTest {
     @Test
     fun androidDoctorTest2() {
         val lint = validateYaml(
-            AndroidArgs,
-            """
+                AndroidArgs, """
 hi: .
 foo:
   bar: 1
@@ -69,7 +68,7 @@ flank:
         """.trimIndent()
         )
         assertThat(lint).isEqualTo(
-            """
+                """
 Unknown top level keys: [hi, foo]
 Unknown keys in gcloud -> [two]
 Unknown keys in flank -> [three]
@@ -81,8 +80,7 @@ Unknown keys in flank -> [three]
     @Test
     fun androidDoctorTest3() {
         val lint = validateYaml(
-            AndroidArgs,
-            """
+                AndroidArgs, """
 gcloud:
   app: .
   test: .
@@ -110,8 +108,8 @@ Error node: {
 
         // when
         val actual = validateYaml(
-            AndroidArgs,
-            Paths.get("src/test/kotlin/ftl/fixtures/flank_android_failed_configuration.yml")
+                AndroidArgs,
+                Paths.get("src/test/kotlin/ftl/fixtures/flank_android_failed_configuration.yml")
         )
         assertEqualsIgnoreNewlineStyle(expectedErrorMessage, actual)
     }
@@ -133,8 +131,8 @@ Error node: {
 
         // when
         val actual = validateYaml(
-            AndroidArgs,
-            Paths.get("src/test/kotlin/ftl/fixtures/flank_android_failed_tree.yml")
+                AndroidArgs,
+                Paths.get("src/test/kotlin/ftl/fixtures/flank_android_failed_tree.yml")
         )
         assertEqualsIgnoreNewlineStyle(expectedErrorMessage, actual)
     }
@@ -152,8 +150,7 @@ Error node: {
     @Test
     fun iosDoctorTest2() {
         val lint = validateYaml(
-            IosArgs,
-            """
+                IosArgs, """
 hi: .
 foo:
   bar: 1
@@ -185,7 +182,7 @@ flank:
 """.trimIndent()
         )
         assertThat(lint).isEqualTo(
-            """
+                """
 Unknown top level keys: [hi, foo]
 Unknown keys in gcloud -> [two]
 Unknown keys in flank -> [three]
@@ -197,8 +194,7 @@ Unknown keys in flank -> [three]
     @Test
     fun iosDoctorTest3() {
         val lint = validateYaml(
-            IosArgs,
-            """
+                IosArgs, """
 gcloud:
   test: .
   xctestrun-file: .
@@ -212,8 +208,7 @@ flank:
     @Test
     fun `validate result should contains warning about device version if is not compatible with gcloud cli`() {
         val lint = validateYaml(
-            IosArgs,
-            """
+                IosArgs, """
 gcloud:
   test: .
   xctestrun-file: .
@@ -230,8 +225,7 @@ flank:
     @Test
     fun `should return empty validation message if device version is compatible with gcloud cli`() {
         val lint = validateYaml(
-            IosArgs,
-            """
+                IosArgs, """
 gcloud:
   test: .
   xctestrun-file: .

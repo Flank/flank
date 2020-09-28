@@ -45,11 +45,9 @@ private object ObfuscatedIosJsonSerializer : JsonSerializer<List<List<String>>> 
         context: JsonSerializationContext
     ) = JsonArray().also { jsonArray ->
         src.forEach { list ->
-            jsonArray.add(
-                JsonArray().also { nestedJsonArray ->
-                    list.forEach { nestedJsonArray.add(obfuscationContext.obfuscateIosTestName(it)) }
-                }
-            )
+            jsonArray.add(JsonArray().also { nestedJsonArray ->
+                list.forEach { nestedJsonArray.add(obfuscationContext.obfuscateIosTestName(it)) }
+            })
         }
     }
 }

@@ -31,9 +31,7 @@ class DependencyExtensionsTest {
             "1.0",
             "name",
             AvailableVersion(
-                "1.1",
-                null,
-                null
+                "1.1", null, null
             )
         )
 
