@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.core.findOrSetObject
 import com.github.ajalt.clikt.core.requireObject
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.options.default
+import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.file
 import flank.scripts.testartifacts.core.Context
@@ -14,6 +15,7 @@ import flank.scripts.testartifacts.core.downloadFixtures
 import flank.scripts.testartifacts.core.flankRoot
 import flank.scripts.testartifacts.core.linkArtifacts
 import flank.scripts.testartifacts.core.prepareTestArtifacts
+import flank.scripts.testartifacts.core.removeRemoteCopy
 import flank.scripts.testartifacts.core.unzipTestArtifacts
 import flank.scripts.testartifacts.core.uploadFixtures
 import flank.scripts.testartifacts.core.zipTestArtifacts
@@ -21,17 +23,18 @@ import flank.scripts.utils.currentGitBranch
 import java.io.File
 
 class TestArtifactsCommand : CliktCommand(
-    name = "testArtifacts"
+    name = "testArtifacts",
+    help = "The base command for artifacts management."
 ) {
 
     private val branch: String by option(
-        "-b",
-        help = "Define on which branch the command should operate. The current git branch is a default."
+        "--branch", "-b",
+        help = "Branch name that identify test artifacts to operate. The current git branch is a default."
     ).default(currentGitBranch())
 
     private val projectRoot: File by option(
-        "-p",
-        help = "Define project root directory. The "
+        "--project-root", "-p",
+        help = "Path to local project repository root. By default it is resolved from FLANK_ROOT env variable."
     ).file().default(flankRoot())
 
     private val artifacts by findOrSetObject {
@@ -48,7 +51,8 @@ class TestArtifactsCommand : CliktCommand(
             PrepareCommand(),
             ZipCommand(),
             UnzipCommand(),
-            LinkArtifacts()
+            LinkArtifactsCommand(),
+            RemoveCommand()
         )
     }
 
@@ -61,8 +65,10 @@ private class DownloadCommand : CliktCommand(
     help = "Download test artifacts zip asset to test_artifacts directory."
 ) {
     val artifacts by requireObject<Context>()
+    val overwrite by option("--overwrite", "-o").flag()
+
     override fun run() {
-        artifacts.downloadFixtures()
+        artifacts.downloadFixtures(overwrite)
     }
 }
 
@@ -76,11 +82,16 @@ private class UploadCommand : CliktCommand(
 }
 
 private class PrepareCommand : CliktCommand(
-    help = "Creates fresh copy of master's test artifacts for current working branch."
+    help = "Creates fresh copy of test artifacts for current working branch, basing on existing one."
 ) {
     val artifacts by requireObject<Context>()
+    val source by option(
+        "--src", "-s",
+        help = "The name of branch that identify artifacts source. The master branch is a default."
+    ).default("master")
+
     override fun run() {
-        artifacts.prepareTestArtifacts()
+        artifacts.prepareTestArtifacts(source)
     }
 }
 
@@ -102,12 +113,21 @@ private class UnzipCommand : CliktCommand(
     }
 }
 
-private class LinkArtifacts : CliktCommand(
+private class LinkArtifactsCommand : CliktCommand(
     name = "link",
-    help = "Create symbolic link to under test_runner/src/test/kotlin/ftl/fixtures/tmp to test_artifacts/{branchName}"
+    help = "Create symbolic link to under test_runner/src/test/kotlin/ftl/fixtures/tmp to test_artifacts/{branchName}."
 ) {
     val artifacts by requireObject<Context>()
     override fun run() {
         artifacts.linkArtifacts()
+    }
+}
+
+private class RemoveCommand : CliktCommand(
+    help = "Remove remote copy of test artifacts."
+) {
+    val artifacts by requireObject<Context>()
+    override fun run() {
+        artifacts.removeRemoteCopy()
     }
 }
