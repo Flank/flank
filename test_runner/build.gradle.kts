@@ -1,4 +1,3 @@
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.jfrog.bintray.gradle.BintrayExtension
 import groovy.util.Node
@@ -16,7 +15,6 @@ plugins {
     id(Plugins.JFROG_BINTRAY) version Versions.BINTRAY
     id(Plugins.MAVEN_PUBLISH)
     id(Plugins.PLUGIN_SHADOW_JAR) version Versions.SHADOW
-    id(Plugins.BEN_MANES_PLUGIN) version Versions.BEN_MANES
 }
 
 val artifactID = "flank"
@@ -288,7 +286,7 @@ val updateFlank by tasks.registering(Exec::class) {
 val flankFullRun by tasks.registering(Exec::class) {
     dependsOn(tasks["clean"], tasks["check"])
     // currently IT run only on CI, implement support to enable local run
-    dependsOn( ":integration_tests:test")
+    dependsOn(":integration_tests:test")
     group = "Build"
     description = "Perform full test_runner run"
     commandLine = listOf("./bash/update_flank.sh")
@@ -376,27 +374,3 @@ fun execAndGetStdout(vararg args: String): String {
     return stdout.toString().trimEnd()
 }
 
-tasks.withType<DependencyUpdatesTask> {
-
-    fun isStable(version: String): Boolean {
-        return listOf("RELEASE", "FINAL", "GA")
-            .any { version.toUpperCase().contains(it) } || "^[0-9,.v-]+(-r)?$".toRegex().matches(version)
-    }
-
-    fun isNonStable(version: String) = isStable(version).not()
-
-    resolutionStrategy {
-        componentSelection {
-            all {
-
-                if(candidate.group == "com.google.apis" && candidate.module == "google-api-services-toolresults" && !candidate.version.startsWith("v1beta3-")) {
-                    reject("com.google.apis:google-api-services-toolresults should use beta only")
-                }
-
-                if (isNonStable(candidate.version) && isStable(currentVersion)) {
-                    reject("Release candidate")
-                }
-            }
-        }
-    }
-}
