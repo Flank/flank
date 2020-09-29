@@ -742,10 +742,10 @@ and flank's example [gradle-export-api](https://github.com/Flank/flank/tree/mast
    > Task 'prepareKotlinBuildScriptModel' not found in project ':test_runner'.  
    > or similar
     
-    1. Make sure you do not change any module specific settings for Gradle
-    1. Clear IDE cache using `File > Invalidate Caches / Restart`
-    1. Re-import project using root `build.gradle.kts`
-    1. Sync project again
+    - Make sure you do not change any module specific settings for Gradle
+    - Clear IDE cache using `File > Invalidate Caches / Restart`
+    - Re-import project using root `build.gradle.kts`
+    - Sync project again
 
 # Resources
 
