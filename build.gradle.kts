@@ -32,12 +32,6 @@ repositories {
     mavenCentral()
 }
 
-subprojects {
-    tasks.withType<Test> {
-        maxParallelForks = Runtime.getRuntime().availableProcessors()
-    }
-}
-
 tasks.named("dependencyUpdates", DependencyUpdatesTask::class.java).configure {
 
     gradleReleaseChannel = "release-candidate"
