@@ -18,7 +18,7 @@ fun Context.uploadFixtures() {
 private fun Context.uploadFixtures(
     release: Release.Smart,
     zipFile: File,
-    assetName: String = zipFile.name.parseArtifactsArchive().shortName
+    archive: ArtifactsArchive = zipFile.name.parseArtifactsArchive()
 ) = release.run {
     print("* Removing assets from ${url()} - ")
     removeAssets()
@@ -28,10 +28,10 @@ private fun Context.uploadFixtures(
     assets().upload(
         zipFile.readBytes(),
         "application/zip",
-        assetName
+        archive.shortName
     )
     name(tag())
-    body("Test artifacts for Flank branch ${tag()}.")
+    body(archive.timestamp.toString())
     println("OK")
 }
 

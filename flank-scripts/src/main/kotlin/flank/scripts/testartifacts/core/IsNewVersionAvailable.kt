@@ -3,7 +3,7 @@ package flank.scripts.testartifacts.core
 import com.jcabi.github.Repo
 import flank.scripts.github.getRelease
 
-internal fun Context.isDownloadRequired(
+internal fun Context.isNewVersionAvailable(
     repo: Repo = testArtifactsRepo()
 ): Boolean {
 

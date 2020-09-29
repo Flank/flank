@@ -16,6 +16,7 @@ import flank.scripts.testartifacts.core.flankRoot
 import flank.scripts.testartifacts.core.linkArtifacts
 import flank.scripts.testartifacts.core.prepareTestArtifacts
 import flank.scripts.testartifacts.core.removeRemoteCopy
+import flank.scripts.testartifacts.core.resolveArtifacts
 import flank.scripts.testartifacts.core.unzipTestArtifacts
 import flank.scripts.testartifacts.core.uploadFixtures
 import flank.scripts.testartifacts.core.zipTestArtifacts
@@ -52,7 +53,8 @@ class TestArtifactsCommand : CliktCommand(
             ZipCommand(),
             UnzipCommand(),
             LinkArtifactsCommand(),
-            RemoveCommand()
+            RemoveCommand(),
+            ResolveCommand()
         )
     }
 
@@ -129,5 +131,14 @@ private class RemoveCommand : CliktCommand(
     val artifacts by requireObject<Context>()
     override fun run() {
         artifacts.removeRemoteCopy()
+    }
+}
+
+private class ResolveCommand : CliktCommand(
+    help = "Automatically prepare local artifacts if needed."
+) {
+    val artifacts by requireObject<Context>()
+    override fun run() {
+        artifacts.resolveArtifacts()
     }
 }

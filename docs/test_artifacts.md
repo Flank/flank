@@ -50,7 +50,7 @@ To export path to your local flank repository just source [.env](../.env) file.
 
 > As a developer I want to download test artifacts before test run.
 
-* Just run `./gradlew test` command, this should trigger `checkArtifacts` task which will update artifacts if needed.
+* Just run `./gradlew test` command, this should trigger `resolveArtifacts` task which will update artifacts if needed.
 
 > As a developer I want to switch between local test artifacts
 
