@@ -49,9 +49,7 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
         runBlocking {
             if (dumpShards) dumpShards(args = config, obfuscatedOutput = obfuscate)
             else {
-                dumpShards(args = config, obfuscatedOutput = obfuscate)
-                if (config.disableResultsUpload.not())
-                    GcStorage.upload(ANDROID_SHARD_FILE, config.resultsBucket, config.resultsDir)
+                config.dumpShardsWithGcloudUpload(obfuscate)
                 newTestRun(config)
             }
         }
@@ -62,4 +60,9 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
         description = ["Measures test shards from given test apks and writes them into $ANDROID_SHARD_FILE file instead of executing."]
     )
     var dumpShards: Boolean = false
+}
+
+private suspend fun AndroidArgs.dumpShardsWithGcloudUpload(obfuscatedOutput: Boolean) {
+    dumpShards(args = this, obfuscatedOutput = obfuscatedOutput)
+    if (disableResultsUpload.not()) GcStorage.upload(ANDROID_SHARD_FILE, resultsBucket, resultsDir)
 }

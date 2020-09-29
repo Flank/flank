@@ -50,9 +50,7 @@ class IosRunCommand : CommonRunCommand(), Runnable {
         if (dumpShards) {
             dumpShards(args = config, obfuscatedOutput = obfuscate)
         } else runBlocking {
-            dumpShards(args = config, obfuscatedOutput = obfuscate)
-            if (config.disableResultsUpload.not())
-                GcStorage.upload(IOS_SHARD_FILE, config.resultsBucket, config.resultsDir)
+            config.dumpShardsWithGcloudUpload(obfuscate)
             newTestRun(config)
         }
     }
@@ -62,4 +60,9 @@ class IosRunCommand : CommonRunCommand(), Runnable {
         description = ["Measures test shards from given test apks and writes them into $IOS_SHARD_FILE file instead of executing."]
     )
     var dumpShards: Boolean = false
+}
+
+fun IosArgs.dumpShardsWithGcloudUpload(obfuscatedOutput: Boolean) {
+    dumpShards(args = this, obfuscatedOutput = obfuscatedOutput)
+    if (disableResultsUpload.not()) GcStorage.upload(IOS_SHARD_FILE, resultsBucket, resultsDir)
 }

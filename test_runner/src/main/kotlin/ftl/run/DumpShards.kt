@@ -16,7 +16,7 @@ suspend fun dumpShards(
     args: AndroidArgs,
     shardFilePath: String = ANDROID_SHARD_FILE,
     obfuscatedOutput: Boolean = false
-): String {
+) {
     if (!args.isInstrumentationTest) throw FlankConfigurationError(
         "Cannot dump shards for non instrumentation test, ensure test apk has been set."
     )
@@ -27,21 +27,19 @@ suspend fun dumpShards(
         size = shards.size,
         obfuscatedOutput = obfuscatedOutput
     )
-    return shardFilePath
 }
 
 fun dumpShards(
     args: IosArgs,
     shardFilePath: String = IOS_SHARD_FILE,
     obfuscatedOutput: Boolean = false
-): String {
+) {
     saveShardChunks(
         shardFilePath = shardFilePath,
         shards = args.testShardChunks.testCases,
         size = args.testShardChunks.size,
         obfuscatedOutput = obfuscatedOutput
     )
-    return shardFilePath
 }
 
 private fun saveShardChunks(
