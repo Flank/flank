@@ -62,7 +62,7 @@ class IosRunCommand : CommonRunCommand(), Runnable {
     var dumpShards: Boolean = false
 }
 
-fun IosArgs.dumpShardsWithGcloudUpload(obfuscatedOutput: Boolean) {
+private fun IosArgs.dumpShardsWithGcloudUpload(obfuscatedOutput: Boolean) {
     dumpShards(args = this, obfuscatedOutput = obfuscatedOutput)
     if (disableResultsUpload.not()) GcStorage.upload(IOS_SHARD_FILE, resultsBucket, resultsDir)
 }
