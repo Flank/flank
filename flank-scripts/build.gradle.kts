@@ -85,3 +85,10 @@ dependencies {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
+
+val prepareJar by tasks.registering(Copy::class) {
+    dependsOn("shadowJar")
+    from("$buildDir/libs")
+    include("flankScripts.jar")
+    into("$projectDir/bash")
+}

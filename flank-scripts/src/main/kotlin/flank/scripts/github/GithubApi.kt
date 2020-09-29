@@ -12,7 +12,6 @@ import flank.scripts.ci.releasenotes.GithubPullRequestDeserializer
 import flank.scripts.ci.releasenotes.GithubReleaseDeserializable
 import flank.scripts.exceptions.mapClientError
 import flank.scripts.exceptions.toGithubException
-import flank.scripts.utils.getEnv
 
 // ============= HTTP GITHUB API =============
 
@@ -46,7 +45,7 @@ fun githubRepo(
     token: String,
     repoPath: String
 ): Repo =
-    RtGithub(getEnv(token))
+    RtGithub(token)
         .repos()
         .get(Coordinates.Simple(repoPath))
 

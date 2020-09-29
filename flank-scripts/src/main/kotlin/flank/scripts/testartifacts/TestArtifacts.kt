@@ -1,5 +1,3 @@
-@file:Suppress("ImplicitThis")
-
 package flank.scripts.testartifacts
 
 import com.github.ajalt.clikt.core.CliktCommand
@@ -52,7 +50,7 @@ class TestArtifactsCommand : CliktCommand(
             PrepareCommand(),
             ZipCommand(),
             UnzipCommand(),
-            LinkArtifactsCommand(),
+            LinkCommand(),
             RemoveCommand(),
             ResolveCommand()
         )
@@ -115,8 +113,7 @@ private class UnzipCommand : CliktCommand(
     }
 }
 
-private class LinkArtifactsCommand : CliktCommand(
-    name = "link",
+private class LinkCommand : CliktCommand(
     help = "Create symbolic link to under test_runner/src/test/kotlin/ftl/fixtures/tmp to test_artifacts/{branchName}."
 ) {
     val artifacts by requireObject<Context>()
