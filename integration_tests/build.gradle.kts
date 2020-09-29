@@ -19,6 +19,7 @@ detekt {
     config = files("../config/detekt.yml")
     autoCorrect = true //auto format for detekt via klint
     buildUponDefaultConfig = true // preconfigure defaults
+    parallel = true
 
     reports {
         html.enabled = true // observe findings in your browser with structure and code snippets

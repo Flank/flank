@@ -16,6 +16,17 @@ plugins {
     id(Plugins.BEN_MANES_PLUGIN) version Versions.BEN_MANES
 }
 
+tasks.named("detekt") {
+    dependsOn(":test_runner:detekt")
+    dependsOn(":integration_tests:detekt")
+    dependsOn(":flank-scripts:detekt")
+}
+
+tasks.named("clean"){
+    dependsOn(":test_runner:clean")
+    dependsOn(":integration_tests:clean")
+}
+
 repositories {
     jcenter()
     mavenCentral()
@@ -23,7 +34,7 @@ repositories {
 
 subprojects {
     tasks.withType<Test> {
-        maxParallelForks = Runtime.getRuntime().availableProcessors() / 2
+        maxParallelForks = Runtime.getRuntime().availableProcessors()
     }
 }
 

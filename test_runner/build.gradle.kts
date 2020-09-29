@@ -133,11 +133,11 @@ publishing {
 }
 
 detekt {
-    failFast = true // fail build on any finding
     input = files("src/main/kotlin", "src/test/kotlin")
     config = files("../config/detekt.yml")
-    autoCorrect = true //auto format for detekt via klint
-    buildUponDefaultConfig = true // preconfigure defaults
+    parallel = true
+    failFast = true // fail build on any finding
+    autoCorrect = true
 
     reports {
         html.enabled = true // observe findings in your browser with structure and code snippets
