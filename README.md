@@ -738,7 +738,7 @@ and flank's example [gradle-export-api](https://github.com/Flank/flank/tree/mast
 
     Try setting `use-orchestrator: false`. Parameterized tests [are not compatible with orchestrator](https://stackoverflow.com/questions/48735268/unable-to-run-parameterized-tests-with-android-test-orchestrator). Flank uses [orchestrator by default on Android.](https://developer.android.com/training/testing/junit-runner)
     
-4) > I got issue when making Gradle sync of Flank
+4) > I have an issue when attempting to sync the Flank Gradle project
    > Task 'prepareKotlinBuildScriptModel' not found in project ':test_runner'.  
    > or similar
     
