@@ -42,24 +42,24 @@ class IPBlocksListCommandTest {
     @Test
     fun `should print ips for devices`() {
         val ips = listOf(
-                DeviceIpBlock().apply {
-                    block = "1.1.1.1/1"
-                    form = "AnyForm"
-                    addedDate = Date().apply {
-                        day = 1
-                        month = 1
-                        year = 1111
+            DeviceIpBlock().apply {
+                        block = "1.1.1.1/1"
+                form = "AnyForm"
+                addedDate = Date().apply {
+                            day = 1
+                    month = 1
+                    year = 1111
+                        }
+                    },
+            DeviceIpBlock().apply {
+                        block = "2.2.2.2/2"
+                form = "OtherForm"
+                addedDate = Date().apply {
+                            day = 12
+                    month = 12
+                    year = 1212
+                        }
                     }
-                },
-                DeviceIpBlock().apply {
-                    block = "2.2.2.2/2"
-                    form = "OtherForm"
-                    addedDate = Date().apply {
-                        day = 12
-                        month = 12
-                        year = 1212
-                    }
-                }
         )
 
         every { deviceIPBlocks() } returns ips
@@ -92,51 +92,51 @@ class IPBlocksListCommandTest {
     @Test
     fun `should not fail when FTL returns null in any of values`() {
         val ips = listOf(
-                DeviceIpBlock().apply {
-                    block = "1.1.1.1/1"
-                    form = "AnyForm"
-                    addedDate = Date().apply {
-                        day = null
-                        month = 1
-                        year = 1111
+            DeviceIpBlock().apply {
+                        block = "1.1.1.1/1"
+                form = "AnyForm"
+                addedDate = Date().apply {
+                            day = null
+                    month = 1
+                    year = 1111
+                        }
+                    },
+            DeviceIpBlock().apply {
+                        block = null
+                form = "MissingIpForm"
+                addedDate = Date().apply {
+                            day = 12
+                    month = 2
+                    year = 1212
+                        }
+                    },
+            DeviceIpBlock().apply {
+                        block = "2.2.2.2/2"
+                form = "OtherForm"
+                addedDate = Date().apply {
+                            day = 12
+                    month = null
+                    year = 1212
+                        }
+                    },
+            DeviceIpBlock().apply {
+                        block = "3.3.3.3/4"
+                form = "FunnyForm"
+                addedDate = Date().apply {
+                            day = 8
+                    month = 2
+                    year = null
+                        }
+                    },
+            DeviceIpBlock().apply {
+                        block = "4.4.4.4/4"
+                form = null
+                addedDate = Date().apply {
+                            day = 8
+                    month = 2
+                    year = 1523
+                        }
                     }
-                },
-                DeviceIpBlock().apply {
-                    block = null
-                    form = "MissingIpForm"
-                    addedDate = Date().apply {
-                        day = 12
-                        month = 2
-                        year = 1212
-                    }
-                },
-                DeviceIpBlock().apply {
-                    block = "2.2.2.2/2"
-                    form = "OtherForm"
-                    addedDate = Date().apply {
-                        day = 12
-                        month = null
-                        year = 1212
-                    }
-                },
-                DeviceIpBlock().apply {
-                    block = "3.3.3.3/4"
-                    form = "FunnyForm"
-                    addedDate = Date().apply {
-                        day = 8
-                        month = 2
-                        year = null
-                    }
-                },
-                DeviceIpBlock().apply {
-                    block = "4.4.4.4/4"
-                    form = null
-                    addedDate = Date().apply {
-                        day = 8
-                        month = 2
-                        year = 1523
-                    }
-                }
         )
 
         every { deviceIPBlocks() } returns ips

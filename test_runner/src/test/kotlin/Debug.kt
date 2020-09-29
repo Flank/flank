@@ -1,3 +1,5 @@
+@file:Suppress("InvalidPackageDeclaration")
+
 import ftl.Main
 import ftl.run.exception.withGlobalExceptionHandling
 import picocli.CommandLine
@@ -18,7 +20,9 @@ fun main() {
     withGlobalExceptionHandling {
         CommandLine(Main()).execute(
 //            "--debug",
-            "firebase", "test", "android",
+            "firebase",
+            "test",
+            "android",
             "run",
 //            "--dry",
 //            "--dump-shards",

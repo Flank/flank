@@ -28,10 +28,11 @@ class LoginCommandTest {
 
         val output = systemOutRule.log.normalizeLineEnding()
         Truth.assertThat(output).startsWith(
-        """Obtains access credentials for your user account via a web-based authorization
+            """Obtains access credentials for your user account via a web-based authorization
 flow.
 
-login [-h]""".trimIndent())
+login [-h]""".trimIndent()
+        )
 
         assertThat(command.usageHelpRequested).isTrue()
     }

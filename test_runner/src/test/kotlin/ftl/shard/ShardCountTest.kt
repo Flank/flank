@@ -47,7 +47,8 @@ class ShardCountTest {
         val result = shardCountByTime(
             testsToRun,
             suite,
-            mockArgs(maxTestShards = -1, shardTime = DEFAULT_TEST_TIME_SEC.toInt()))
+            mockArgs(maxTestShards = -1, shardTime = DEFAULT_TEST_TIME_SEC.toInt())
+        )
 
         assertThat(result).isEqualTo(3)
     }
@@ -60,7 +61,8 @@ class ShardCountTest {
         val result = shardCountByTime(
             testsToRun,
             suite,
-            mockArgs(maxTestShards = -1, shardTime = DEFAULT_TEST_TIME_SEC.toInt() + 1))
+            mockArgs(maxTestShards = -1, shardTime = DEFAULT_TEST_TIME_SEC.toInt() + 1)
+        )
 
         assertThat(result).isEqualTo(3)
     }
@@ -72,7 +74,8 @@ class ShardCountTest {
         val result = shardCountByTime(
             testsToRun,
             suite,
-            mockArgs(maxTestShards = -1, shardTime = (DEFAULT_TEST_TIME_SEC * 2).toInt()))
+            mockArgs(maxTestShards = -1, shardTime = (DEFAULT_TEST_TIME_SEC * 2).toInt())
+        )
 
         assertThat(result).isEqualTo(1)
     }

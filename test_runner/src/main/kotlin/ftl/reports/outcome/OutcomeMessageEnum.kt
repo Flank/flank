@@ -11,11 +11,13 @@ enum class OutcomeMessageEnum(val message: String) {
     INSTRUMENTATION_ORCHESTRATOR_INCOMPATIBLE(
         "The test runner class specified by the user or the test APK's " +
             "manifest file is not compatible with Android Test Orchestrator. " +
-            "Please use AndroidJUnitRunner version 1.0 or higher"),
-    NO_TEST_RUNNER_CLASS
-    ("The test APK does not contain the test runner class specified by " +
-        "the user or the manifest file. The test runner class name may be " +
-        "incorrect, or the class may be mislocated in the app APK."),
+            "Please use AndroidJUnitRunner version 1.0 or higher"
+    ),
+    NO_TEST_RUNNER_CLASS(
+        "The test APK does not contain the test runner class specified by " +
+"the user or the manifest file. The test runner class name may be " +
+"incorrect, or the class may be mislocated in the app APK."
+    ),
     NO_LAUNCHER_ACTIVITY("The app APK does not specify a main launcher activity"),
     FORBIDDEN_PERMISSIONS("The app declares one or more permissions that are not allowed"),
     INVALID_ROBO_DIRECTIVES("Cannot have multiple robo-directives with the same resource name"),
@@ -29,16 +31,19 @@ enum class OutcomeMessageEnum(val message: String) {
     MALFORMED_XC_TEST_ZIP(
         "The XCTest zip file was malformed. The zip did not contain a single " +
             ".xctestrun file and the contents of the DerivedData/Build/Products " +
-            "directory."),
+            "directory."
+    ),
     BUILT_FOR_IOS_SIMULATOR("The provided XCTest was built for the iOS simulator rather than for a physical device"),
     NO_TESTS_IN_XC_TEST_ZIP("The .xctestrun file did not specify any test targets to run"),
     USE_DESTINATION_ARTIFACTS(
         "One or more of the test targets defined in the .xctestrun file " +
-            "specifies \"UseDestinationArtifacts\"), which is not allowed"),
+            "specifies \"UseDestinationArtifacts\"), which is not allowed"
+    ),
     TEST_NOT_APP_HOSTED(
         "One or more of the test targets defined in the .xctestrun file " +
             "does not have a host binary to run on the physical iOS device), " +
-            "which may cause errors when running xcodebuild"),
+            "which may cause errors when running xcodebuild"
+    ),
     NO_CODE_APK("\"hasCode\" is false in the Manifest. Tested APKs must contain code"),
     INVALID_INPUT_APK("Either the provided input APK path was malformed, the APK file does not exist, or the user does not have permission to access the file"),
     INVALID_APK_PREVIEW_SDK("Your app targets a preview version of the Android SDK that's incompatible with the selected devices."),

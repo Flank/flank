@@ -5,6 +5,7 @@ import java.math.RoundingMode
 import java.util.concurrent.TimeUnit
 
 private val physicalCostPerMinute = divBy60(5) // $5/hr
+
 private val virtualCostPerMinute = divBy60(1) // $1/hr
 
 private fun divBy60(value: Long) = BigDecimal(value).divide(BigDecimal(60), 10, RoundingMode.HALF_UP)
