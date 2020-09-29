@@ -1,15 +1,8 @@
 name:  Flank WSL
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - '*'
-    paths:
-      - '**'
-      - '!flank-scripts/**'
+  pull_request_review:
+    types: submitted
 
 jobs:
   build:
@@ -60,10 +53,22 @@ jobs:
           mkdir -p "$GCLOUD_DIR"
           echo "$GCLOUD_KEY" | base64 --ignore-garbage --decode > "$GCLOUD_DIR/application_default_credentials.json"
 
-    - name: Integration Tests Android
-      run: |
-          ./gradlew --info :integration_tests:test --tests IntegrationTests.shouldMatchAndroidSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_android.yml
+    - name: Check pull request is approved
+      uses: jrylan/github-action-reviews-counter@main
+      with:
+        repo-token: '${{ secrets.GITHUB_TOKEN }}'
+    - name: Gradle Integration Tests Android
+      if: 'steps.reviews.outputs.approved >= 2 && steps.reviews.outputs.changes_requested == 0 && github.event.pull_request.draft == false'
+      uses: eskatos/gradle-command-action@v1
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+      with:
+        arguments: "--info :integration_tests:test --tests IntegrationTests.shouldMatchAndroidSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_android.yml"
 
-    - name: Integration Tests iOS
-      run: |
-          ./gradlew --info :integration_tests:test --tests IntegrationTests.shouldMatchIosSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_ios.yml
+    - name: Gradle Integration Tests iOS
+      if: 'steps.reviews.outputs.approved >= 2 && steps.reviews.outputs.changes_requested == 0 && github.event.pull_request.draft == false'
+      uses: eskatos/gradle-command-action@v1
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+      with:
+        arguments: "--info :integration_tests:test --tests IntegrationTests.shouldMatchIosSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_ios.yml"
