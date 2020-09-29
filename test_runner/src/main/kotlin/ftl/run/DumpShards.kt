@@ -1,7 +1,6 @@
 package ftl.run
 
 import ftl.args.AndroidArgs
-import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.args.isInstrumentationTest
 import ftl.run.common.prettyPrint
@@ -12,10 +11,6 @@ import ftl.shard.testCases
 import ftl.util.obfuscatePrettyPrinter
 import java.nio.file.Files
 import java.nio.file.Paths
-
-suspend fun dumpShards(args: IArgs, obfuscatedOutput: Boolean = false) =
-    if (args is AndroidArgs) dumpShards(args, ANDROID_SHARD_FILE, obfuscatedOutput)
-    else dumpShards(args as IosArgs, IOS_SHARD_FILE, obfuscatedOutput)
 
 suspend fun dumpShards(
     args: AndroidArgs,

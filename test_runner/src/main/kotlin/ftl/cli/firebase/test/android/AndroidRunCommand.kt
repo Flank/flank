@@ -5,6 +5,7 @@ import ftl.args.validate
 import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
 import ftl.config.emptyAndroidConfig
+import ftl.gc.GcStorage
 import ftl.mock.MockServer
 import ftl.run.ANDROID_SHARD_FILE
 import ftl.run.dumpShards
@@ -47,7 +48,12 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
         val config = AndroidArgs.load(Paths.get(configPath), cli = this).validate()
         runBlocking {
             if (dumpShards) dumpShards(args = config, obfuscatedOutput = obfuscate)
-            else newTestRun(config, obfuscate)
+            else {
+                dumpShards(args = config, obfuscatedOutput = obfuscate)
+                if (config.disableResultsUpload.not())
+                    GcStorage.upload(ANDROID_SHARD_FILE, config.resultsBucket, config.resultsDir)
+                newTestRun(config)
+            }
         }
     }
 

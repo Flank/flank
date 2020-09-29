@@ -3,7 +3,6 @@ package ftl.run
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
-import ftl.gc.GcStorage
 import ftl.json.SavedMatrix
 import ftl.json.updateMatrixMap
 import ftl.json.validate
@@ -19,7 +18,7 @@ import ftl.run.platform.runIosTests
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withTimeoutOrNull
 
-suspend fun newTestRun(args: IArgs, obfuscate: Boolean = false) = withTimeoutOrNull(args.parsedTimeout) {
+suspend fun newTestRun(args: IArgs) = withTimeoutOrNull(args.parsedTimeout) {
     println(args)
     val (matrixMap, testShardChunks, ignoredTests) = cancelTestsOnTimeout(args.project) { runTests(args) }
 
@@ -31,9 +30,6 @@ suspend fun newTestRun(args: IArgs, obfuscate: Boolean = false) = withTimeoutOrN
 
         println()
         matrixMap.printMatricesWebLinks(args.project)
-        dumpShards(args, obfuscate).takeIf { args.disableResultsUpload.not() }?.let { shardFile ->
-            GcStorage.upload(shardFile, args.resultsBucket, args.resultsDir)
-        }
         matrixMap.validate(args.ignoreFailedTests)
     }
 }
