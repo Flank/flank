@@ -1,6 +1,7 @@
 package ftl.run
 
 import ftl.args.AndroidArgs
+import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.args.isInstrumentationTest
 import ftl.run.common.prettyPrint
@@ -12,11 +13,15 @@ import ftl.util.obfuscatePrettyPrinter
 import java.nio.file.Files
 import java.nio.file.Paths
 
+suspend fun dumpShards(args: IArgs, obfuscatedOutput: Boolean = false) =
+    if (args is AndroidArgs) dumpShards(args, ANDROID_SHARD_FILE, obfuscatedOutput)
+    else dumpShards(args as IosArgs, IOS_SHARD_FILE, obfuscatedOutput)
+
 suspend fun dumpShards(
     args: AndroidArgs,
     shardFilePath: String = ANDROID_SHARD_FILE,
     obfuscatedOutput: Boolean = false
-) {
+): String {
     if (!args.isInstrumentationTest) throw FlankConfigurationError(
         "Cannot dump shards for non instrumentation test, ensure test apk has been set."
     )
@@ -27,19 +32,21 @@ suspend fun dumpShards(
         size = shards.size,
         obfuscatedOutput = obfuscatedOutput
     )
+    return shardFilePath
 }
 
 fun dumpShards(
     args: IosArgs,
     shardFilePath: String = IOS_SHARD_FILE,
     obfuscatedOutput: Boolean = false
-) {
+): String {
     saveShardChunks(
         shardFilePath = shardFilePath,
         shards = args.testShardChunks.testCases,
         size = args.testShardChunks.size,
         obfuscatedOutput = obfuscatedOutput
     )
+    return shardFilePath
 }
 
 private fun saveShardChunks(

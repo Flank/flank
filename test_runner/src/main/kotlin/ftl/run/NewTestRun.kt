@@ -19,7 +19,7 @@ import ftl.run.platform.runIosTests
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withTimeoutOrNull
 
-suspend fun newTestRun(args: IArgs) = withTimeoutOrNull(args.parsedTimeout) {
+suspend fun newTestRun(args: IArgs, obfuscate: Boolean = false) = withTimeoutOrNull(args.parsedTimeout) {
     println(args)
     val (matrixMap, testShardChunks, ignoredTests) = cancelTestsOnTimeout(args.project) { runTests(args) }
 
@@ -28,10 +28,12 @@ suspend fun newTestRun(args: IArgs) = withTimeoutOrNull(args.parsedTimeout) {
         cancelTestsOnTimeout(args.project, matrixMap.map) { fetchArtifacts(matrixMap, args) }
 
         ReportManager.generate(matrixMap, args, testShardChunks, ignoredTests)
-        
+
         println()
         matrixMap.printMatricesWebLinks(args.project)
-
+        dumpShards(args, obfuscate).takeIf { args.disableResultsUpload.not() }?.let { shardFile ->
+            GcStorage.upload(shardFile, args.resultsBucket, args.resultsDir)
+        }
         matrixMap.validate(args.ignoreFailedTests)
     }
 }

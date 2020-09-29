@@ -5,7 +5,6 @@ import ftl.args.validate
 import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
 import ftl.config.emptyIosConfig
-import ftl.gc.GcStorage
 import ftl.mock.MockServer
 import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards
@@ -50,9 +49,7 @@ class IosRunCommand : CommonRunCommand(), Runnable {
         if (dumpShards) {
             dumpShards(args = config, obfuscatedOutput = obfuscate)
         } else runBlocking {
-            newTestRun(config)
-            dumpShards(args = config, obfuscatedOutput = obfuscate)
-            GcStorage.upload(IOS_SHARD_FILE, config.resultsBucket, config.resultsDir)
+            newTestRun(config, obfuscate)
         }
     }
 
