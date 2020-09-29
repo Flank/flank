@@ -39,13 +39,13 @@ private fun TestExecutionData.reduceTestCases() = copy(
     }
 )
 
-internal fun List<TestExecutionData>.removeStackTraces(): List<TestExecutionData> = map(TestExecutionData::removeStackTraces)
+internal fun List<TestExecutionData>.removeStackTraces(): List<TestExecutionData> =
+    map(TestExecutionData::removeStackTraces)
+
 private fun TestExecutionData.removeStackTraces() = copy(
     testCases = testCases.onEach {
-        if (it.flaky) {
-it.stackTraces = emptyList()
-}
-}
+        if (it.flaky) it.stackTraces = emptyList()
+    }
 )
 
 // For primary step return stepId instead of primaryStepId

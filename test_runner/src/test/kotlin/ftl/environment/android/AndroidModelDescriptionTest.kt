@@ -12,19 +12,20 @@ class AndroidModelDescriptionTest {
         val models = listOf(
             AndroidModel().apply {
                 id = "walleye"
-codename = "walleye"
-brand = "Google"
-form = "PHYSICAL"
-formFactor = "PHONE"
-manufacturer = "Google"
-name = "Pixel 2"
-screenDensity = 420
-screenX = 1080
-screenY = 1920
-supportedAbis = listOf("arm64-v8a", "armeabi-v7a", "armeabi")
-supportedVersionIds = listOf("26", "27", "28")
-tags = listOf("default")
-thumbnailUrl = "https://lh3.googleusercontent.com/j4urvb3lXTaFGZI6IzHmAjum2HQVID1OHPhDB7dOzRvXb2WscSX2RFwEEFFSYhajqRO5Yu0e6FYQ"
+                codename = "walleye"
+                brand = "Google"
+                form = "PHYSICAL"
+                formFactor = "PHONE"
+                manufacturer = "Google"
+                name = "Pixel 2"
+                screenDensity = 420
+                screenX = 1080
+                screenY = 1920
+                supportedAbis = listOf("arm64-v8a", "armeabi-v7a", "armeabi")
+                supportedVersionIds = listOf("26", "27", "28")
+                tags = listOf("default")
+                thumbnailUrl =
+                    "https://lh3.googleusercontent.com/j4urvb3lXTaFGZI6IzHmAjum2HQVID1OHPhDB7dOzRvXb2WscSX2RFwEEFFSYhajqRO5Yu0e6FYQ"
             }
         )
 
@@ -60,18 +61,19 @@ thumbnailUrl = "https://lh3.googleusercontent.com/j4urvb3lXTaFGZI6IzHmAjum2HQVID
         val models = listOf(
             AndroidModel().apply {
                 id = "walleye"
-codename = "walleye"
-brand = "Google"
-form = "PHYSICAL"
-formFactor = "PHONE"
-manufacturer = "Google"
-name = "Pixel 2"
-screenDensity = 420
-screenX = 1080
-screenY = 1920
-supportedAbis = listOf("arm64-v8a", "armeabi-v7a", "armeabi")
-supportedVersionIds = listOf("26", "27", "28")
-thumbnailUrl = "https://lh3.googleusercontent.com/j4urvb3lXTaFGZI6IzHmAjum2HQVID1OHPhDB7dOzRvXb2WscSX2RFwEEFFSYhajqRO5Yu0e6FYQ"
+                codename = "walleye"
+                brand = "Google"
+                form = "PHYSICAL"
+                formFactor = "PHONE"
+                manufacturer = "Google"
+                name = "Pixel 2"
+                screenDensity = 420
+                screenX = 1080
+                screenY = 1920
+                supportedAbis = listOf("arm64-v8a", "armeabi-v7a", "armeabi")
+                supportedVersionIds = listOf("26", "27", "28")
+                thumbnailUrl =
+                    "https://lh3.googleusercontent.com/j4urvb3lXTaFGZI6IzHmAjum2HQVID1OHPhDB7dOzRvXb2WscSX2RFwEEFFSYhajqRO5Yu0e6FYQ"
             }
         )
 

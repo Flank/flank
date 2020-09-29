@@ -12,15 +12,15 @@ class AndroidSoftwareVersionDescriptionTest {
         val versions = listOf(
             AndroidVersion().apply {
                 id = "26"
-apiLevel = 26
-codeName = "Oreo"
-versionString = "8.0.x"
-releaseDate = Date().apply {
+                apiLevel = 26
+                codeName = "Oreo"
+                versionString = "8.0.x"
+                releaseDate = Date().apply {
                     day = 21
-month = 8
-year = 2017
+                    month = 8
+                    year = 2017
                 }
-tags = listOf("default")
+                tags = listOf("default")
             }
         )
 
@@ -45,13 +45,13 @@ tags = listOf("default")
         val versions = listOf(
             AndroidVersion().apply {
                 id = "23"
-apiLevel = 23
-codeName = "Marshmallow"
-versionString = "6.0.x"
-releaseDate = Date().apply {
+                apiLevel = 23
+                codeName = "Marshmallow"
+                versionString = "6.0.x"
+                releaseDate = Date().apply {
                     day = 5
-month = 10
-year = 2015
+                    month = 10
+                    year = 2015
                 }
             }
         )

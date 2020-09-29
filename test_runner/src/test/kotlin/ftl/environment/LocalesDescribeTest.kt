@@ -11,8 +11,8 @@ class LocalesDescribeTest {
         val locales = listOf(
             Locale().apply {
                 id = "test"
-name = "name_test"
-tags = listOf("one", "second")
+                name = "name_test"
+                tags = listOf("one", "second")
             }
         )
 
@@ -32,7 +32,7 @@ tags = listOf("one", "second")
         val locales = listOf(
             Locale().apply {
                 id = "test"
-name = "name_test"
+                name = "name_test"
             }
         )
 

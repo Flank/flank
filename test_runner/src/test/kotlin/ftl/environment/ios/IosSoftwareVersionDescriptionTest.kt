@@ -12,10 +12,10 @@ class IosSoftwareVersionDescriptionTest {
         val versions = listOf(
             IosVersion().apply {
                 id = versionId
-majorVersion = 10
-minorVersion = 3
-tags = listOf("default")
-supportedXcodeVersionIds = listOf("10.2.1", "10.3", "11.0", "11.1", "11.2.1", "11.3.1")
+                majorVersion = 10
+                minorVersion = 3
+                tags = listOf("default")
+                supportedXcodeVersionIds = listOf("10.2.1", "10.3", "11.0", "11.1", "11.2.1", "11.3.1")
             }
         )
 
@@ -43,10 +43,10 @@ supportedXcodeVersionIds = listOf("10.2.1", "10.3", "11.0", "11.1", "11.2.1", "1
         val versions = listOf(
             IosVersion().apply {
                 id = versionId
-majorVersion = 10
-minorVersion = 3
-tags = null
-supportedXcodeVersionIds = listOf("10.2.1", "10.3", "11.0", "11.1", "11.2.1", "11.3.1")
+                majorVersion = 10
+                minorVersion = 3
+                tags = null
+                supportedXcodeVersionIds = listOf("10.2.1", "10.3", "11.0", "11.1", "11.2.1", "11.3.1")
             }
         )
 

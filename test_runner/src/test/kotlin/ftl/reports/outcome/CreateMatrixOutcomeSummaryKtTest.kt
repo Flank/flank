@@ -104,7 +104,7 @@ class CreateMatrixOutcomeSummaryKtTest {
             make {
                 outcome = make {
                     summary = "failure"
-failureDetail = make { failedRoboscript = true }
+                    failureDetail = make { failedRoboscript = true }
                 }
             }
         )

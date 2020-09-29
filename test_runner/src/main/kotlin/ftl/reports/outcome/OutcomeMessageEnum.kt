@@ -15,8 +15,8 @@ enum class OutcomeMessageEnum(val message: String) {
     ),
     NO_TEST_RUNNER_CLASS(
         "The test APK does not contain the test runner class specified by " +
-"the user or the manifest file. The test runner class name may be " +
-"incorrect, or the class may be mislocated in the app APK."
+            "the user or the manifest file. The test runner class name may be " +
+            "incorrect, or the class may be mislocated in the app APK."
     ),
     NO_LAUNCHER_ACTIVITY("The app APK does not specify a main launcher activity"),
     FORBIDDEN_PERMISSIONS("The app declares one or more permissions that are not allowed"),

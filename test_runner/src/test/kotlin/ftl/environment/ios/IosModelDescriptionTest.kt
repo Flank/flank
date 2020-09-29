@@ -12,14 +12,14 @@ class IosModelDescriptionTest {
         val models = listOf(
             IosModel().apply {
                 deviceCapabilities = listOf("accelerometer", "arm64")
-formFactor = "PHONE"
-id = "iphone6s"
-name = "iPhone 6s"
-screenDensity = 326
-screenX = 750
-screenY = 1334
-supportedVersionIds = listOf("10.3", "11.2")
-tags = listOf("deprecated=10.3", "deprecated=11.2")
+                formFactor = "PHONE"
+                id = "iphone6s"
+                name = "iPhone 6s"
+                screenDensity = 326
+                screenX = 750
+                screenY = 1334
+                supportedVersionIds = listOf("10.3", "11.2")
+                tags = listOf("deprecated=10.3", "deprecated=11.2")
             }
         )
 
@@ -49,13 +49,13 @@ tags = listOf("deprecated=10.3", "deprecated=11.2")
         val models = listOf(
             IosModel().apply {
                 deviceCapabilities = listOf("accelerometer", "arm64")
-formFactor = "PHONE"
-id = "iphone6s"
-name = "iPhone 6s"
-screenDensity = 326
-screenX = 750
-screenY = 1334
-supportedVersionIds = listOf("10.3", "11.2")
+                formFactor = "PHONE"
+                id = "iphone6s"
+                name = "iPhone 6s"
+                screenDensity = 326
+                screenX = 750
+                screenY = 1334
+                supportedVersionIds = listOf("10.3", "11.2")
             }
         )
 

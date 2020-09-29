@@ -26,7 +26,8 @@ object IosCatalog {
 
     fun softwareVersionsAsTable(projectId: String) = getVersionsList(projectId).asPrintableTable()
 
-    fun describeSoftwareVersion(projectId: String, versionId: String) = getVersionsList(projectId).getDescription(versionId)
+    fun describeSoftwareVersion(projectId: String, versionId: String) =
+        getVersionsList(projectId).getDescription(versionId)
 
     private fun getVersionsList(projectId: String) = iosDeviceCatalog(projectId).versions
 
@@ -36,7 +37,8 @@ object IosCatalog {
 
     private fun getLocales(projectId: String) = iosDeviceCatalog(projectId).runtimeConfiguration.locales
 
-    fun supportedOrientationsAsTable(projectId: String) = iosDeviceCatalog(projectId).runtimeConfiguration.orientations.asPrintableTable()
+    fun supportedOrientationsAsTable(projectId: String) =
+        iosDeviceCatalog(projectId).runtimeConfiguration.orientations.asPrintableTable()
 
     fun supportedXcode(version: String, projectId: String) = xcodeVersions(projectId).contains(version)
 
@@ -71,8 +73,7 @@ If this project has already been granted access, please make sure you are using 
 on the Blaze or Flame billing plans, and that you have run
 gcloud config set billing/quota_project project
 
-If you are still having issues, please email ftl-ios-feedback@google.com for support.""",
-            e
+If you are still having issues, please email ftl-ios-feedback@google.com for support.""", e
         )
     }
 }

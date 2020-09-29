@@ -50,11 +50,11 @@ class ArgsHelperTest {
         val merged = mergeYmlKeys(
             mockk() {
                 every { keys } returns listOf("devices", "test", "apk")
-every { group } returns "gcloud"
+                every { group } returns "gcloud"
             },
             mockk() {
                 every { keys } returns listOf("xcode-version", "async", "client-details")
-                        every { group } returns "gcloud"
+                every { group } returns "gcloud"
             }
         )
 

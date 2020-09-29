@@ -110,8 +110,8 @@ object ReportManager {
             matrices,
             testSuite?.apply {
                 if (ignoredTestCases.isNotEmpty()) {
-                            testsuites?.add(ignoredTestCases.toJunitTestsResults())
-                        }
+                    testsuites?.add(ignoredTestCases.toJunitTestsResults())
+                }
             },
             printToStdout = false,
             args = args
