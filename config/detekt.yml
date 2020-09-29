@@ -106,6 +106,8 @@ formatting:
   active: true
   android: false
   autoCorrect: true
+  ArgumentListWrapping:
+    active: false
   AnnotationOnSeparateLine:
     active: false
     autoCorrect: true
@@ -147,11 +149,15 @@ formatting:
     active: true
     autoCorrect: true
   NoConsecutiveBlankLines:
+    excludes: ['**/test/**', '**/*.Test.kt', '**/*.Spec.kt']
     active: true
     autoCorrect: true
   NoEmptyClassBody:
     active: true
     autoCorrect: true
+  NoEmptyFirstLineInMethodBlock:
+    excludes: ['**/test/**', '**/*.Test.kt', '**/*.Spec.kt']
+    active: true
   NoItParamInMultilineLambda:
     active: false
   NoLineBreakAfterElse:
@@ -182,7 +188,8 @@ formatting:
     active: true
     autoCorrect: true
   ParameterListWrapping:
-    active: true
+    excludes: ['**/test/**', '**/*.Test.kt', '**/*.Spec.kt']
+    active: false
     autoCorrect: true
     indentSize: 4
   SpacingAroundColon:
@@ -316,6 +323,8 @@ potential-bugs:
 
 style:
   active: true
+  ClassOrdering:
+    active: false
   CollapsibleIfStatements:
     active: true
   DataClassContainsFunctions:
@@ -409,6 +418,8 @@ style:
     active: true
   UnusedPrivateClass:
     active: true
+  UnderscoresInNumericLiterals:
+    active: false
   UnusedPrivateMember:
     active: true
     allowedNames: '(_|ignored|expected|serialVersionUID|plus)'
