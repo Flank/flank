@@ -1,10 +1,14 @@
 package ftl.cli.firebase.test.ios
 
 import com.google.common.truth.Truth.assertThat
+import ftl.args.IosArgs
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.isWindows
+import ftl.run.dumpShards
 import ftl.test.util.FlankTestRunner
+import io.mockk.mockkStatic
+import io.mockk.verify
 import org.junit.Assume.assumeFalse
 import org.junit.Rule
 import org.junit.Test
@@ -336,5 +340,15 @@ class IosRunCommandTest {
         CommandLine(cmd).parseArgs("--use-average-test-time-for-new-tests")
 
         assertThat(cmd.config.common.flank.useAverageTestTimeForNewTests).isTrue()
+    }
+
+    @Test
+    fun `should dump shards on every run`() {
+        mockkStatic("ftl.run.DumpShardsKt")
+        mockkStatic("ftl.run.NewTestRunKt")
+        val runCmd = IosRunCommand()
+        runCmd.configPath = "./src/test/kotlin/ftl/fixtures/simple-ios-flank.yml"
+        runCmd.run()
+        verify { dumpShards(any<IosArgs>(), any(), any()) }
     }
 }

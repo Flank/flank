@@ -1,11 +1,15 @@
 package ftl.cli.firebase.test.android
 
 import com.google.common.truth.Truth.assertThat
+import ftl.args.AndroidArgs
 import ftl.args.yml.AppTestPair
 import ftl.config.Device
 import ftl.config.FtlConstants
+import ftl.run.dumpShards
 import ftl.run.exception.FlankConfigurationError
 import ftl.test.util.FlankTestRunner
+import io.mockk.coVerify
+import io.mockk.mockkStatic
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -522,5 +526,15 @@ class AndroidRunCommandTest {
             "--smart-flank-gcs-path=gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-08-26_15-20-23.850738_rtGt/JUnitReport.xml"
         )
         cmd.run()
+    }
+
+    @Test
+    fun `should dump shards on every run`() {
+        mockkStatic("ftl.run.DumpShardsKt")
+        mockkStatic("ftl.run.NewTestRunKt")
+        val runCmd = AndroidRunCommand()
+        runCmd.configPath = "./src/test/kotlin/ftl/fixtures/simple-android-flank.yml"
+        runCmd.run()
+        coVerify { dumpShards(any<AndroidArgs>(), any(), any()) }
     }
 }
