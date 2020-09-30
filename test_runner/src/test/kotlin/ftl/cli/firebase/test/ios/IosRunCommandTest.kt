@@ -343,7 +343,7 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun `should dump shards on every run`() {
+    fun `should dump shards on ios test run`() {
         mockkStatic("ftl.run.DumpShardsKt")
         mockkStatic("ftl.run.NewTestRunKt")
         val runCmd = IosRunCommand()

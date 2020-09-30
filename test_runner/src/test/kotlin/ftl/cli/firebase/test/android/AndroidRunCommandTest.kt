@@ -529,7 +529,7 @@ class AndroidRunCommandTest {
     }
 
     @Test
-    fun `should dump shards on every run`() {
+    fun `should dump shards on android test run`() {
         mockkStatic("ftl.run.DumpShardsKt")
         mockkStatic("ftl.run.NewTestRunKt")
         val runCmd = AndroidRunCommand()
