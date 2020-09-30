@@ -5,8 +5,11 @@ import ftl.args.IosArgs
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.isWindows
+import ftl.gc.GcStorage
+import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards
 import ftl.test.util.FlankTestRunner
+import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.verify
 import org.junit.Assume.assumeFalse
@@ -349,5 +352,18 @@ class IosRunCommandTest {
         runCmd.configPath = "./src/test/kotlin/ftl/fixtures/simple-ios-flank.yml"
         runCmd.run()
         verify { dumpShards(any<IosArgs>(), any(), any()) }
+    }
+
+    @Test
+    fun `should dump shards on ios test run and not upload when disable-upload-results set`() {
+        mockkStatic("ftl.run.DumpShardsKt")
+        mockkObject(GcStorage) {
+            val runCmd = IosRunCommand()
+            runCmd.configPath = "./src/test/kotlin/ftl/fixtures/simple-ios-flank.yml"
+            CommandLine(runCmd).parseArgs("--disable-results-upload")
+            runCmd.run()
+            verify { dumpShards(any<IosArgs>(), any(), any()) }
+            verify(inverse = true) { GcStorage.upload(IOS_SHARD_FILE, any(), any()) }
+        }
     }
 }
