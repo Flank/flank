@@ -345,7 +345,6 @@ class IosRunCommandTest {
     @Test
     fun `should dump shards on ios test run`() {
         mockkStatic("ftl.run.DumpShardsKt")
-        mockkStatic("ftl.run.NewTestRunKt")
         val runCmd = IosRunCommand()
         runCmd.configPath = "./src/test/kotlin/ftl/fixtures/simple-ios-flank.yml"
         runCmd.run()
