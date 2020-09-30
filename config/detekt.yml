@@ -112,13 +112,13 @@ formatting:
     active: false
     autoCorrect: true
   ChainWrapping:
-    active: false
+    active: true
     autoCorrect: true
   CommentSpacing:
     active: true
     autoCorrect: true
   EnumEntryNameCase:
-    active: false
+    active: true
     autoCorrect: false
   Filename:
     active: false

@@ -16,20 +16,19 @@ plugins {
     id(Plugins.BEN_MANES_PLUGIN) version Versions.BEN_MANES
 }
 
-tasks.named("detekt") {
-    dependsOn(":test_runner:detekt")
-    dependsOn(":integration_tests:detekt")
-    dependsOn(":flank-scripts:detekt")
-}
-
-tasks.named("clean"){
-    dependsOn(":test_runner:clean")
-    dependsOn(":integration_tests:clean")
-}
-
 repositories {
     jcenter()
     mavenCentral()
+}
+
+subprojects {
+    afterEvaluate {
+        if (tasks.findByName("detekt") != null) {
+            tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+                dependsOn(tasks["detekt"])
+            }
+        }
+    }
 }
 
 tasks.named("dependencyUpdates", DependencyUpdatesTask::class.java).configure {
