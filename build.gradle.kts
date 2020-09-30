@@ -21,6 +21,12 @@ repositories {
     mavenCentral()
 }
 
+tasks.named("detekt") {
+    dependsOn(":test_runner:detekt")
+    dependsOn(":integration_tests:detekt")
+    dependsOn(":flank-scripts:detekt")
+}
+
 subprojects {
     afterEvaluate {
         if (tasks.findByName("detekt") != null) {
