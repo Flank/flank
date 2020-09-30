@@ -8,10 +8,6 @@ android {
     compileSdkVersion 29
     buildToolsVersion '29.0.3'
 
-    defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 29
-    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -28,15 +24,28 @@ android {
         }
     }
     defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 29
         multiDexEnabled true
         applicationId "cucumber.cukeulator"
         testApplicationId "cucumber.cukeulator.test"
         testInstrumentationRunner "cucumber.cukeulator.test.CukeulatorAndroidJUnitRunner"
-       //testInstrumentationRunnerArguments = [
+        versionCode 1
+        versionName '1.0'
+        //testInstrumentationRunnerArguments = [
             // cucumberUseAndroidJUnitRunner: getProperty("cucumberUseAndroidJUnitRunner"),
             // uncomment this to clear app data before each test when running with orchestrator
             // clearPackageData: 'true'
         //]
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+
+        debug {}
     }
 
     packagingOptions {
