@@ -1,0 +1,51 @@
+name:  Flank WSL
+
+on:
+  pull_request_review:
+    types: submitted
+
+jobs:
+  build:
+    # The type of runner that the job will run on
+    runs-on: windows-2019
+    steps:
+
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - uses: actions/cache@v2
+      with:
+        path: ~/.gradle/caches
+        key: ${{ runner.os }}-2-gradle-${{ hashFiles('**/*.gradle*') }}
+        restore-keys: |
+          ${{ runner.os }}-2-gradle-
+
+    - name: Set GCLOUD_KEY for WINDOWS
+      shell: cmd
+      run: |
+          echo ${{ secrets.GCLOUD_KEY }} > gcloud_key.txt
+
+    - name: Gradle clean build
+      shell: cmd
+      run: |
+          gradlew.bat clean build
+
+    - name: Prepare Google Service Account
+      shell: cmd
+      run: |
+          set GCLOUD_DIR=".config/gcloud/"
+          mkdir %GCLOUD_DIR%
+          certutil -decode gcloud_key.txt %GCLOUD_DIR%application_default_credentials.json
+
+    - name: Check pull request is approved
+      uses: jrylan/github-action-reviews-counter@main
+      with:
+        repo-token: '${{ secrets.GITHUB_TOKEN }}'
+    - name: Gradle Integration Tests Android
+      if: 'steps.reviews.outputs.approved >= 2 && steps.reviews.outputs.changes_requested == 0 && github.event.pull_request.draft == false'
+      uses: eskatos/gradle-command-action@v1
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+      with:
+        arguments: "--info :integration_tests:test --tests IntegrationTests.shouldMatchAndroidSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_android.yml"
