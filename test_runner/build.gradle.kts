@@ -132,12 +132,6 @@ publishing {
     }
 }
 
-subprojects {
-    tasks.withType<Test> {
-        maxParallelForks = Runtime.getRuntime().availableProcessors()
-    }
-}
-
 detekt {
     input = files("src/main/kotlin", "src/test/kotlin")
     config = files("../config/detekt.yml")
