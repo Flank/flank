@@ -34,9 +34,9 @@ jobs:
     - name: Prepare Google Service Account
       shell: cmd
       run: |
-          set GCLOUD_DIR=".config/gcloud/"
+          set GCLOUD_DIR="%HOMEPATH%/.config/gcloud/"
           mkdir %GCLOUD_DIR%
-          certutil -decode gcloud_key.txt %GCLOUD_DIR%application_default_credentials.json
+          echo certutil -decode gcloud_key.txt %GCLOUD_DIR%application_default_credentials.json
 
     - name: Check pull request is approved
       uses: jrylan/github-action-reviews-counter@main
