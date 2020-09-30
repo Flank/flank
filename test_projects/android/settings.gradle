@@ -27,3 +27,7 @@ include ':app',
         ':dir1:testModule',
         ':dir2:testModule',
         ':dir3:testModule'
+
+
+include ':cucumber_sample_app'
+include ':cucumber_sample_app:cucumber-android', ':cucumber_sample_app:cukeulator'
