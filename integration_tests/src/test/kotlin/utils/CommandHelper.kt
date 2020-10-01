@@ -5,12 +5,12 @@ import java.util.concurrent.TimeUnit
 
 
 fun String.runCommand(workingDir: File): ProcessResult = ProcessBuilder(*split("\\s".toRegex()).toTypedArray())
-    .directory(workingDir).run {
-        redirectOutputForCompatibleOS().start().run {
-            waitFor(processTimeout, TimeUnit.MINUTES)
-            ProcessResult(exitValue(), getOsSpecificOutput())
-        }
-    }
+    .directory(workingDir).startProcess()
+
+private fun ProcessBuilder.startProcess() = start().run {
+    waitFor(processTimeout, TimeUnit.MINUTES)
+    ProcessResult(exitValue(), getOsSpecificOutput())
+}
 
 private fun Process.getOsSpecificOutput(): String {
     return if (isWindows) {

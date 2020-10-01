@@ -158,11 +158,10 @@ jacoco {
 }
 
 tasks.jacocoTestReport {
-    classDirectories.setFrom(
-            fileTree("build/classes/kotlin/main").apply {
-                exclude("**/*\$run$1.class")
-                exclude("**/ftl/mock/*")
-            })
+    classDirectories.setFrom(fileTree("build/classes/kotlin/main").apply {
+        exclude("**/*\$run$1.class")
+        exclude("**/ftl/mock/*")
+    })
 
     reports {
         xml.isEnabled = true
@@ -340,8 +339,8 @@ val processCliAsciiDoc by tasks.registering {
             file.apply {
                 readLines().run {
                     val toRemove = IntRange(
-                            indexOf("// tag::picocli-generated-man-section-header[]"),
-                            indexOf("// end::picocli-generated-man-section-header[]")
+                        indexOf("// tag::picocli-generated-man-section-header[]"),
+                        indexOf("// end::picocli-generated-man-section-header[]")
                     )
                     filterIndexed { index, _ -> index !in toRemove }
                 }.joinToString("\n").let { text ->
