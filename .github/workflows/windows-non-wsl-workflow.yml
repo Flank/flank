@@ -1,4 +1,4 @@
-name:  Flank WSL
+name:  Flank Windows
 
 on:
   pull_request_review:
