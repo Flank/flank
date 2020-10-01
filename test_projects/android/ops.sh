@@ -113,4 +113,24 @@ function multi_module_apks() {
     esac done
 }
 
+function cucumber_sample_app() {
+  local dir=$TEST_PROJECTS_ANDROID
+  local outputDir="$FLANK_FIXTURES_TMP/apk/cucumber_sample_app/"
+
+  for arg in "$@"; do case "$arg" in
+
+    '--generate' | '-g')
+      "$dir/gradlew" -p "$dir" \
+        :cucumber_sample_app:cukeulator:assemble \
+        :cucumber_sample_app:cukeulator:assembleAndroidTest
+      ;;
+
+    '--copy' | '-c')
+      mkdir -p "$outputDir"
+      find "$dir/cucumber_sample_app" -type f -name "*.apk" -exec cp {} "$outputDir" \;
+      ;;
+
+    esac done
+}
+
 echo "Android test projects ops loaded"
