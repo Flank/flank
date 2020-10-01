@@ -21,12 +21,10 @@ private fun Process.getOsSpecificOutput(): String {
     }
 }
 
-private fun ProcessBuilder.redirectOutputForCompatibleOS(): ProcessBuilder {
-    return if (isWindows) {
-        redirectOutput(File(outputFileName)).redirectError(File(errorFileName))
-    } else {
-        redirectOutput(ProcessBuilder.Redirect.PIPE).redirectError(ProcessBuilder.Redirect.PIPE)
-    }
+private fun ProcessBuilder.redirectOutputForCompatibleOS() = if (isWindows) {
+    redirectOutput(File(outputFileName)).redirectError(File(errorFileName))
+} else {
+    redirectOutput(ProcessBuilder.Redirect.PIPE).redirectError(ProcessBuilder.Redirect.PIPE)
 }
 
 private val isWindows = System.getProperty("os.name").startsWith("Windows")
