@@ -108,44 +108,49 @@ class ShardTest {
     @Test(expected = FlankConfigurationError::class)
     fun `createShardsByShardCount throws on forcedShardCount = 0`() {
         createShardsByShardCount(
-                listOf(),
-                sample(),
-                mockArgs(-1, 7),
-                0)
+            listOf(),
+            sample(),
+            mockArgs(-1, 7),
+            0
+        )
     }
 
     private fun newSuite(testCases: MutableList<JUnitTestCase>): JUnitTestResult {
-        return JUnitTestResult(mutableListOf(
+        return JUnitTestResult(
+            mutableListOf(
                 JUnitTestSuite("",
-                        "3",
-                        "0",
-                        -1,
-                        "0",
-                        "0",
-                        "12.032",
-                        "2019-07-27T08:15:04",
-                        "localhost",
-                        "matrix-1234_execution-asdf",
-                        testCases,
-                        null,
-                        null,
-                        null)))
+                     "3",
+                     "0",
+                     -1,
+                     "0",
+                     "0",
+                     "12.032",
+                     "2019-07-27T08:15:04",
+                     "localhost",
+                     "matrix-1234_execution-asdf",
+                     testCases,
+                     null,
+                     null,
+                     null)
+            )
+        )
     }
 
     private fun shardCountByTime(shardTime: Int): Int {
         val testsToRun = listOfFlankTestMethod("a/a", "b/b", "c/c")
         val testCases = mutableListOf(
-                JUnitTestCase("a", "a", "0.001"),
-                JUnitTestCase("b", "b", "0.0"),
-                JUnitTestCase("c", "c", "0.0")
+            JUnitTestCase("a", "a", "0.001"),
+            JUnitTestCase("b", "b", "0.0"),
+            JUnitTestCase("c", "c", "0.0")
         )
 
         val oldTestResult = newSuite(testCases)
 
         return shardCountByTime(
-                testsToRun,
-                oldTestResult,
-                mockArgs(-1, shardTime))
+            testsToRun,
+            oldTestResult,
+            mockArgs(-1, shardTime)
+        )
     }
 
     @Test(expected = FlankConfigurationError::class)
@@ -188,11 +193,13 @@ class ShardTest {
             FlankTestMethod("c/c")
         )
 
-        val oldTestResult = newSuite(mutableListOf(
-            JUnitTestCase("a", "a", "5.0"),
-            JUnitTestCase("b", "b", "10.0"),
-            JUnitTestCase("c", "c", "10.0")
-        ))
+        val oldTestResult = newSuite(
+            mutableListOf(
+                JUnitTestCase("a", "a", "5.0"),
+                JUnitTestCase("b", "b", "10.0"),
+                JUnitTestCase("c", "c", "10.0")
+            )
+        )
 
         val shardCount = shardCountByTime(testsToRun, oldTestResult, androidMockedArgs)
         assertEquals(2, shardCount)

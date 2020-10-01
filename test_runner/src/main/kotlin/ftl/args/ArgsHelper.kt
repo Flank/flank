@@ -49,14 +49,16 @@ object ArgsHelper {
             throw FlankGeneralError("'$file' $name doesn't exist")
     }
 
-    private fun String.convertToWindowsPath() = this.replace("/", "\\").replaceFirst("~", System.getProperty("user.home"))
+    private fun String.convertToWindowsPath() =
+        this.replace("/", "\\").replaceFirst("~", System.getProperty("user.home"))
 
     private fun String.exist() =
-            if (startsWith(GCS_PREFIX)) GcStorage.exist(this) else File(this).exists()
+        if (startsWith(GCS_PREFIX)) GcStorage.exist(this) else File(this).exists()
 
     fun assertCommonProps(args: IArgs) {
         assertNotEmpty(
-                args.project, "The project is not set. Define GOOGLE_CLOUD_PROJECT, set project in flank.yml\n" +
+            args.project,
+            "The project is not set. Define GOOGLE_CLOUD_PROJECT, set project in flank.yml\n" +
                 "or save service account credential to ${defaultCredentialPath}\n" +
                 " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
         )
@@ -115,7 +117,12 @@ object ArgsHelper {
         GcStorage.storage.get(bucket, path) ?: throw FlankGeneralError("The file at '$uri' does not exist")
     }
 
-    fun validateTestMethods(testTargets: List<String>, validTestMethods: Collection<String>, from: String, skipValidation: Boolean = useMock) {
+    fun validateTestMethods(
+        testTargets: List<String>,
+        validTestMethods: Collection<String>,
+        from: String,
+        skipValidation: Boolean = useMock
+    ) {
         val missingMethods = testTargets - validTestMethods
 
         if (!skipValidation && missingMethods.isNotEmpty()) throw FlankConfigurationError("$from is missing methods: $missingMethods.\nValid methods:\n$validTestMethods")
@@ -132,7 +139,7 @@ object ArgsHelper {
     // Due to permission issues, the user may not be able to list or create buckets.
     fun createGcsBucket(projectId: String, bucket: String): String {
         if (bucket.isBlank()) return GcToolResults.getDefaultBucket(projectId)
-                ?: throw FlankGeneralError("Failed to make bucket for $projectId")
+            ?: throw FlankGeneralError("Failed to make bucket for $projectId")
         if (useMock) return bucket
 
         // test lab supports using a special free storage bucket
@@ -140,9 +147,9 @@ object ArgsHelper {
         if (bucket.startsWith("test-lab-")) return bucket
 
         val storage = StorageOptions.newBuilder()
-                .setCredentials(FtlConstants.credential)
-                .setProjectId(projectId)
-                .build().service
+            .setCredentials(FtlConstants.credential)
+            .setProjectId(projectId)
+            .build().service
         val bucketLabel = mapOf("flank" to "")
         val storageLocation = "us-central1"
 
@@ -159,11 +166,11 @@ object ArgsHelper {
 
         try {
             storage.create(
-                    BucketInfo.newBuilder(bucket)
-                            .setStorageClass(StorageClass.REGIONAL)
-                            .setLocation(storageLocation)
-                            .setLabels(bucketLabel)
-                            .build()
+                BucketInfo.newBuilder(bucket)
+                    .setStorageClass(StorageClass.REGIONAL)
+                    .setLocation(storageLocation)
+                    .setLabels(bucketLabel)
+                    .build()
             )
         } catch (e: Exception) {
             println("Warning: Failed to make bucket for $projectId\nCause: ${e.message}")
@@ -177,9 +184,9 @@ object ArgsHelper {
             if (!defaultCredentialPath.toFile().exists()) return null
 
             return JsonObjectParser(JSON_FACTORY).parseAndClose(
-                    Files.newInputStream(defaultCredentialPath),
-                    Charsets.UTF_8,
-                    GenericJson::class.java
+                Files.newInputStream(defaultCredentialPath),
+                Charsets.UTF_8,
+                GenericJson::class.java
             )["project_id"] as String
         } catch (e: Exception) {
             println("Parsing $defaultCredentialPath failed:")
@@ -231,13 +238,17 @@ object ArgsHelper {
         }
         val (ignoredTests, testsToExecute) = filteredTests.partition { it.ignored }
         val shards = if (args.disableSharding) {
-            listOf(Chunk(testsToExecute.map {
-                TestMethod(
-                        name = it.testName,
-                        isParameterized = it.isParameterizedClass,
-                        time = 0.0
+            listOf(
+                Chunk(
+                    testsToExecute.map {
+                        TestMethod(
+                            name = it.testName,
+                            isParameterized = it.isParameterizedClass,
+                            time = 0.0
+                        )
+                    }
                 )
-            }))
+            )
         } else {
             val oldTestResult = GcStorage.downloadJunitXml(args) ?: JUnitTestResult(mutableListOf())
             val shardCount = forcedShardCount ?: shardCountByTime(testsToExecute, oldTestResult, args)
@@ -245,8 +256,9 @@ object ArgsHelper {
         }
 
         return CalculateShardsResult(
-                testMethodsAlwaysRun(shards, args),
-                ignoredTestCases = ignoredTests.map { it.testName })
+            testMethodsAlwaysRun(shards, args),
+            ignoredTestCases = ignoredTests.map { it.testName }
+        )
     }
 
     private fun testMethodsAlwaysRun(shards: List<Chunk>, args: IArgs): List<Chunk> {
@@ -258,9 +270,9 @@ object ArgsHelper {
 }
 
 fun String.normalizeFilePath(): String =
-        if (startsWith(GCS_PREFIX)) this
-        else try {
-            ArgsHelper.evaluateFilePath(this)
-        } catch (e: Throwable) {
-            this
-        }
+    if (startsWith(GCS_PREFIX)) this
+    else try {
+        ArgsHelper.evaluateFilePath(this)
+    } catch (e: Throwable) {
+        this
+    }

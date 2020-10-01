@@ -49,6 +49,7 @@ abstract class CommonRunCommand {
     @CommandLine.Option(
         names = ["--obfuscate"],
         description = ["Replacing internal test names with unique identifiers when using --dump-shards option " +
-                "to avoid exposing internal details"])
+                "to avoid exposing internal details"]
+    )
     var obfuscate: Boolean = false
 }

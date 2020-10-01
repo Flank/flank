@@ -26,7 +26,8 @@ object IosCatalog {
 
     fun softwareVersionsAsTable(projectId: String) = getVersionsList(projectId).asPrintableTable()
 
-    fun describeSoftwareVersion(projectId: String, versionId: String) = getVersionsList(projectId).getDescription(versionId)
+    fun describeSoftwareVersion(projectId: String, versionId: String) =
+        getVersionsList(projectId).getDescription(versionId)
 
     private fun getVersionsList(projectId: String) = iosDeviceCatalog(projectId).versions
 
@@ -36,7 +37,8 @@ object IosCatalog {
 
     private fun getLocales(projectId: String) = iosDeviceCatalog(projectId).runtimeConfiguration.locales
 
-    fun supportedOrientationsAsTable(projectId: String) = iosDeviceCatalog(projectId).runtimeConfiguration.orientations.asPrintableTable()
+    fun supportedOrientationsAsTable(projectId: String) =
+        iosDeviceCatalog(projectId).runtimeConfiguration.orientations.asPrintableTable()
 
     fun supportedXcode(version: String, projectId: String) = xcodeVersions(projectId).contains(version)
 
