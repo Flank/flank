@@ -1,11 +1,19 @@
 package ftl.cli.firebase.test.android
 
 import com.google.common.truth.Truth.assertThat
+import ftl.args.AndroidArgs
 import ftl.args.yml.AppTestPair
 import ftl.config.Device
 import ftl.config.FtlConstants
+import ftl.gc.GcStorage
+import ftl.run.ANDROID_SHARD_FILE
+import ftl.run.dumpShards
 import ftl.run.exception.FlankConfigurationError
 import ftl.test.util.FlankTestRunner
+import io.mockk.coVerify
+import io.mockk.mockkObject
+import io.mockk.mockkStatic
+import io.mockk.verify
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -522,5 +530,27 @@ class AndroidRunCommandTest {
             "--smart-flank-gcs-path=gs://test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2020-08-26_15-20-23.850738_rtGt/JUnitReport.xml"
         )
         cmd.run()
+    }
+
+    @Test
+    fun `should dump shards on android test run`() {
+        mockkStatic("ftl.run.DumpShardsKt")
+        val runCmd = AndroidRunCommand()
+        runCmd.configPath = "./src/test/kotlin/ftl/fixtures/simple-android-flank.yml"
+        runCmd.run()
+        coVerify { dumpShards(any<AndroidArgs>(), any(), any()) }
+    }
+
+    @Test
+    fun `should dump shards on android test run and not upload when disable-upload-results set`() {
+        mockkStatic("ftl.run.DumpShardsKt")
+        mockkObject(GcStorage) {
+            val runCmd = AndroidRunCommand()
+            runCmd.configPath = "./src/test/kotlin/ftl/fixtures/simple-android-flank.yml"
+            CommandLine(runCmd).parseArgs("--disable-results-upload")
+            runCmd.run()
+            coVerify { dumpShards(any<AndroidArgs>(), any(), any()) }
+            verify(inverse = true) { GcStorage.upload(ANDROID_SHARD_FILE, any(), any()) }
+        }
     }
 }

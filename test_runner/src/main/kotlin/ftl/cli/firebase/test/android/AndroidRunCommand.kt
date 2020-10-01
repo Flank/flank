@@ -5,6 +5,7 @@ import ftl.args.validate
 import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
 import ftl.config.emptyAndroidConfig
+import ftl.gc.GcStorage
 import ftl.mock.MockServer
 import ftl.run.ANDROID_SHARD_FILE
 import ftl.run.dumpShards
@@ -47,7 +48,10 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
         val config = AndroidArgs.load(Paths.get(configPath), cli = this).validate()
         runBlocking {
             if (dumpShards) dumpShards(args = config, obfuscatedOutput = obfuscate)
-            else newTestRun(config)
+            else {
+                config.dumpShardsWithGcloudUpload(obfuscate)
+                newTestRun(config)
+            }
         }
     }
 
@@ -56,4 +60,9 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
         description = ["Measures test shards from given test apks and writes them into $ANDROID_SHARD_FILE file instead of executing."]
     )
     var dumpShards: Boolean = false
+}
+
+private suspend fun AndroidArgs.dumpShardsWithGcloudUpload(obfuscatedOutput: Boolean) {
+    dumpShards(args = this, obfuscatedOutput = obfuscatedOutput)
+    if (disableResultsUpload.not()) GcStorage.upload(ANDROID_SHARD_FILE, resultsBucket, resultsDir)
 }
