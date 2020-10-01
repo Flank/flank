@@ -37,9 +37,11 @@ private fun assertMockUrl() {
 }
 
 private fun deleteMockResultDirOnShutDown(args: IArgs, runGcsPath: String) {
-    Runtime.getRuntime().addShutdownHook(Thread {
-        File(args.localResultDir, runGcsPath).deleteRecursively()
-    })
+    Runtime.getRuntime().addShutdownHook(
+        Thread {
+            File(args.localResultDir, runGcsPath).deleteRecursively()
+        }
+    )
 }
 
 private fun deleteLocalResultDir(args: IArgs) {

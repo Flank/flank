@@ -9,17 +9,19 @@ import org.junit.Test
 class IosModelDescriptionTest {
     @Test
     fun `should return model with tag if any tag exists`() {
-        val models = listOf(IosModel().apply {
-            deviceCapabilities = listOf("accelerometer", "arm64")
-            formFactor = "PHONE"
-            id = "iphone6s"
-            name = "iPhone 6s"
-            screenDensity = 326
-            screenX = 750
-            screenY = 1334
-            supportedVersionIds = listOf("10.3", "11.2")
-            tags = listOf("deprecated=10.3", "deprecated=11.2")
-        })
+        val models = listOf(
+            IosModel().apply {
+                deviceCapabilities = listOf("accelerometer", "arm64")
+                formFactor = "PHONE"
+                id = "iphone6s"
+                name = "iPhone 6s"
+                screenDensity = 326
+                screenX = 750
+                screenY = 1334
+                supportedVersionIds = listOf("10.3", "11.2")
+                tags = listOf("deprecated=10.3", "deprecated=11.2")
+            }
+        )
 
         val modelDescription = models.getDescription("iphone6s")
         val expected = """
@@ -44,16 +46,18 @@ class IosModelDescriptionTest {
 
     @Test
     fun `should return model without tag if no tags`() {
-        val models = listOf(IosModel().apply {
-            deviceCapabilities = listOf("accelerometer", "arm64")
-            formFactor = "PHONE"
-            id = "iphone6s"
-            name = "iPhone 6s"
-            screenDensity = 326
-            screenX = 750
-            screenY = 1334
-            supportedVersionIds = listOf("10.3", "11.2")
-        })
+        val models = listOf(
+            IosModel().apply {
+                deviceCapabilities = listOf("accelerometer", "arm64")
+                formFactor = "PHONE"
+                id = "iphone6s"
+                name = "iPhone 6s"
+                screenDensity = 326
+                screenX = 750
+                screenY = 1334
+                supportedVersionIds = listOf("10.3", "11.2")
+            }
+        )
 
         val modelDescription = models.getDescription("iphone6s")
         val expected = """

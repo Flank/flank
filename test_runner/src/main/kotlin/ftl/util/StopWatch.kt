@@ -1,6 +1,7 @@
 package ftl.util
 
 import ftl.run.exception.FlankGeneralError
+import java.util.Locale
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
 class StopWatch {
@@ -27,6 +28,6 @@ class StopWatch {
             "  " else
             " "
 
-        return String.format("%dm$space%ds", minutes, seconds)
+        return String.format(Locale.getDefault(), "%dm$space%ds", minutes, seconds)
     }
 }

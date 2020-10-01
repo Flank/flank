@@ -186,12 +186,14 @@ class TestRunnerTest {
     private fun getMockedTestMatrix() = TestMatrix().apply {
         state = "INVALID"
         testMatrixId = "matrix-12345"
-        testExecutions = listOf(TestExecution().apply {
-            resultStorage = ResultStorage().apply {
-                googleCloudStorage = GoogleCloudStorage().apply {
-                    gcsPath = "any/Path"
+        testExecutions = listOf(
+            TestExecution().apply {
+                resultStorage = ResultStorage().apply {
+                    googleCloudStorage = GoogleCloudStorage().apply {
+                        gcsPath = "any/Path"
+                    }
                 }
             }
-        })
+        )
     }
 }

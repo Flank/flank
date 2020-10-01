@@ -381,7 +381,6 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun `merge testTimes`() {
-
         /**
          * 1. First run generates local merged JUnit XML
          *    - Firbase XML downloaded from each shard

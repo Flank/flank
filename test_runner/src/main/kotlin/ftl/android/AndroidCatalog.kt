@@ -54,7 +54,6 @@ object AndroidCatalog {
         versionMap.getOrPut(projectId) { deviceCatalog(projectId).versions.map { it.id } }
 
     fun supportedDeviceConfig(modelId: String, versionId: String, projectId: String): DeviceConfigCheck {
-
         val foundModel = deviceCatalog(projectId).models.find { it.id == modelId } ?: return UnsupportedModelId
         if (!androidVersionIds(projectId).contains(versionId)) return UnsupportedVersionId
 

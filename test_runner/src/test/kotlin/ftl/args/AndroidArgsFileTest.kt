@@ -57,7 +57,6 @@ class AndroidArgsFileTest {
     }
 
     private fun checkConfig(args: AndroidArgs, local: Boolean) {
-
         with(args) {
             if (local) assert(getString(testApk!!), getString(testApkAbsolutePath))
             else assert(testApk, testApkGcs)
@@ -76,7 +75,8 @@ class AndroidArgsFileTest {
             assert(async, true)
             assert(testTargets, listOf(testName))
             assert(
-                devices, listOf(
+                devices,
+                listOf(
                     Device("NexusLowRes", "23", "en", "portrait", isVirtual = true),
                     Device("NexusLowRes", "23", "en", "landscape", isVirtual = true),
                     Device("shamu", "22", "zh_CN", "default", isVirtual = false)

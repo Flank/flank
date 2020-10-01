@@ -34,7 +34,6 @@ object GcAndroidTestMatrix {
         toolResultsHistory: ToolResultsHistory,
         additionalApkGcsPaths: List<String>
     ): Testing.Projects.TestMatrices.Create {
-
         // https://github.com/bootstraponline/studio-google-cloud-testing/blob/203ed2890c27a8078cd1b8f7ae12cf77527f426b/firebase-testing/src/com/google/gct/testing/launcher/CloudTestsLauncher.java#L120
         val clientInfo = ClientInfo()
             .setName("Flank")

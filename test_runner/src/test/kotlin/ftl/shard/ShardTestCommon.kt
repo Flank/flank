@@ -10,7 +10,6 @@ import io.mockk.every
 import io.mockk.mockk
 
 internal fun sample(): JUnitTestResult {
-
     val testCases = mutableListOf(
         JUnitTestCase("a", "a", "1.0"),
         JUnitTestCase("b", "b", "2.0"),

@@ -11,7 +11,7 @@ plugins {
     application
     jacoco
     kotlin(Plugins.Kotlin.PLUGIN_JVM)
-    id(Plugins.DETEKT_PLUGIN) version Versions.DETEKT
+    id(Plugins.DETEKT_PLUGIN)
     id(Plugins.JFROG_BINTRAY) version Versions.BINTRAY
     id(Plugins.MAVEN_PUBLISH)
     id(Plugins.PLUGIN_SHADOW_JAR) version Versions.SHADOW
@@ -133,22 +133,16 @@ publishing {
 }
 
 detekt {
-    failFast = true // fail build on any finding
     input = files("src/main/kotlin", "src/test/kotlin")
     config = files("../config/detekt.yml")
-    autoCorrect = true //auto format for detekt via klint
-    buildUponDefaultConfig = true // preconfigure defaults
+    parallel = true
+    failFast = true // fail build on any finding
+    autoCorrect = true
 
     reports {
         html.enabled = true // observe findings in your browser with structure and code snippets
         xml.enabled = true // checkstyle like format mainly for integrations like Jenkins
         txt.enabled = true // similar to the console output, contains issue signature to manually edit baseline files
-    }
-}
-
-subprojects {
-    tasks.withType<Test> {
-        maxParallelForks = Runtime.getRuntime().availableProcessors() / 2
     }
 }
 

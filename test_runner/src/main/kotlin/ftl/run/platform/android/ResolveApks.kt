@@ -31,6 +31,7 @@ private fun AndroidArgs.additionalApksContexts() = additionalAppTestApks.map {
         app = (it.app ?: appApk)
             ?.asFileReference()
             ?: throw FlankGeneralError("Cannot create app-test apks pair for instrumentation tests, missing app apk for test ${it.test}"),
-        test = it.test.asFileReference(), environmentVariables = it.environmentVariables
+        test = it.test.asFileReference(),
+        environmentVariables = it.environmentVariables
     )
 }.toTypedArray()

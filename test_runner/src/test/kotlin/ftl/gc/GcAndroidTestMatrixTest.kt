@@ -119,7 +119,8 @@ class GcAndroidTestMatrixTest {
         val androidArgs = AndroidArgs.load(StringReader(yaml), null)
 
         val testSetup = TestSetup().setEnvironmentVariables(
-            androidArgs, AndroidTestConfig.Robo(
+            androidArgs,
+            AndroidTestConfig.Robo(
                 appApkGcsPath = "",
                 flankRoboDirectives = emptyList(),
                 roboScriptGcsPath = ""
@@ -146,7 +147,8 @@ class GcAndroidTestMatrixTest {
         val androidArgs = AndroidArgs.load(StringReader(yaml), null)
 
         val testSetup = TestSetup().setEnvironmentVariables(
-            androidArgs, AndroidTestConfig.Instrumentation(
+            androidArgs,
+            AndroidTestConfig.Instrumentation(
                 appApkGcsPath = "",
                 testApkGcsPath = "",
                 testShards = emptyList(),
@@ -174,7 +176,8 @@ class GcAndroidTestMatrixTest {
         val androidArgs = AndroidArgs.load(StringReader(yaml), null)
 
         val testSetup = TestSetup().setEnvironmentVariables(
-            androidArgs, AndroidTestConfig.Instrumentation(
+            androidArgs,
+            AndroidTestConfig.Instrumentation(
                 appApkGcsPath = "",
                 testApkGcsPath = "",
                 testShards = emptyList(),
@@ -203,7 +206,8 @@ class GcAndroidTestMatrixTest {
         val androidArgs = AndroidArgs.load(StringReader(yaml), null)
 
         val testSetup = TestSetup().setEnvironmentVariables(
-            androidArgs, AndroidTestConfig.Instrumentation(
+            androidArgs,
+            AndroidTestConfig.Instrumentation(
                 appApkGcsPath = "",
                 testApkGcsPath = "",
                 testShards = emptyList(),
@@ -232,7 +236,8 @@ class GcAndroidTestMatrixTest {
         val androidArgs = AndroidArgs.load(StringReader(yaml), null)
 
         val testSetup = TestSetup().setEnvironmentVariables(
-            androidArgs, AndroidTestConfig.Instrumentation(
+            androidArgs,
+            AndroidTestConfig.Instrumentation(
                 appApkGcsPath = "",
                 testApkGcsPath = "",
                 testShards = emptyList(),

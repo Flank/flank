@@ -11,6 +11,7 @@ data class TestShard(
     var time: Double,
     val testMethods: MutableList<TestMethod>
 )
+
 /** List of shards containing test names as a string. */
 typealias StringShards = List<MutableList<String>>
 

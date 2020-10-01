@@ -5,7 +5,7 @@ plugins {
     kotlin(Plugins.Kotlin.PLUGIN_JVM)
     kotlin(Plugins.Kotlin.PLUGIN_SERIALIZATION) version Versions.KOTLIN
     id(Plugins.PLUGIN_SHADOW_JAR) version Versions.SHADOW
-    id(Plugins.DETEKT_PLUGIN) version Versions.DETEKT
+    id(Plugins.DETEKT_PLUGIN)
 }
 
 val artifactID = "flankScripts"
@@ -38,7 +38,9 @@ repositories {
 detekt {
     input = files("src/main/kotlin", "src/test/kotlin")
     config = files("../config/detekt.yml")
+    parallel = true
     autoCorrect = true
+
     reports {
         xml {
             enabled = false
