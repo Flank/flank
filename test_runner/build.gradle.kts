@@ -159,10 +159,10 @@ jacoco {
 
 tasks.jacocoTestReport {
     classDirectories.setFrom(
-        fileTree("build/classes/kotlin/main").apply {
-            exclude("**/*\$run$1.class")
-            exclude("**/ftl/mock/*")
-        })
+            fileTree("build/classes/kotlin/main").apply {
+                exclude("**/*\$run$1.class")
+                exclude("**/ftl/mock/*")
+            })
 
     reports {
         xml.isEnabled = true
@@ -274,7 +274,18 @@ tasks["check"].dependsOn(tasks["jacocoTestReport"], tasks["detekt"])
 val updateFlank by tasks.registering(Exec::class) {
     group = "Build"
     description = "Update flank jar"
-    commandLine = listOf("./bash/update_flank.sh")
+    commandLine = if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+        doLast {
+            copy {//due to security permissions copying files is restricted via bat files
+                from("./test_runner/build/libs/flank.jar")
+                into("./test_runner/bash/")
+            }
+        }
+        listOf("./bash/update_flank.bat")
+    } else {
+        listOf("./bash/update_flank.sh")
+    }
+
 }
 
 val flankFullRun by tasks.registering(Exec::class) {
@@ -307,17 +318,17 @@ tasks.create("applyProguard", proguard.gradle.ProGuardTask::class.java) {
 val generateCliAsciiDoc by tasks.registering(JavaExec::class) {
     dependsOn(tasks.classes)
     classpath(
-        configurations.compile,
-        configurations.annotationProcessor,
-        sourceSets["main"].runtimeClasspath
+            configurations.compile,
+            configurations.annotationProcessor,
+            sourceSets["main"].runtimeClasspath
     )
     group = "Documentation"
     description = "Generate AsciiDoc manpage"
     main = "picocli.codegen.docgen.manpage.ManPageGenerator"
     args = listOf(
-        application.mainClass.get(),
-        "--outdir=${project.rootDir}/docs/ascii/",
-        "-v"
+            application.mainClass.get(),
+            "--outdir=${project.rootDir}/docs/ascii/",
+            "-v"
     )
 }
 
@@ -329,8 +340,8 @@ val processCliAsciiDoc by tasks.registering {
             file.apply {
                 readLines().run {
                     val toRemove = IntRange(
-                        indexOf("// tag::picocli-generated-man-section-header[]"),
-                        indexOf("// end::picocli-generated-man-section-header[]")
+                            indexOf("// tag::picocli-generated-man-section-header[]"),
+                            indexOf("// end::picocli-generated-man-section-header[]")
                     )
                     filterIndexed { index, _ -> index !in toRemove }
                 }.joinToString("\n").let { text ->
