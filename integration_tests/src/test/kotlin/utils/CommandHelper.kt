@@ -5,7 +5,8 @@ import java.util.concurrent.TimeUnit
 
 
 fun String.runCommand(workingDir: File): ProcessResult = ProcessBuilder(*split("\\s".toRegex()).toTypedArray())
-    .directory(workingDir).startProcess()
+    .directory(workingDir).redirectOutputForCompatibleOS().startProcess()
+
 
 private fun ProcessBuilder.startProcess() = start().run {
     waitFor(processTimeout, TimeUnit.MINUTES)
