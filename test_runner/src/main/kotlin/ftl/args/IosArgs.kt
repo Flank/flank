@@ -2,6 +2,7 @@ package ftl.args
 
 import com.google.common.annotations.VisibleForTesting
 import ftl.ios.Xctestrun.findTestNames
+import ftl.ios.XctestrunMethods
 import ftl.run.exception.FlankConfigurationError
 import ftl.shard.Chunk
 import ftl.util.FlankTestMethod
@@ -69,9 +70,11 @@ IosArgs
 private fun IosArgs.calculateShardChunks() = if (disableSharding)
     emptyList() else
     ArgsHelper.calculateShards(
-        filteredTests = filterTests(findTestNames(xctestrunFile), testTargets)
-            .distinct()
-            .map { FlankTestMethod(it, ignored = false) },
+        filteredTests = filterTests2(findTestNames(xctestrunFile), testTargets)
+                .map { it.value }
+                .flatMap { it }
+                .distinct()
+                .map { FlankTestMethod(it, ignored = false) },
         args = this
     ).shardChunks
 
@@ -95,3 +98,27 @@ internal fun filterTests(validTestMethods: List<String>, testTargetsRgx: List<St
         return@filter false
     }
 }
+
+@VisibleForTesting
+internal fun filterTests2(validTestMethods: XctestrunMethods, testTargetsRgx: List<String?>): XctestrunMethods {
+    if (testTargetsRgx.isEmpty()) {
+        return validTestMethods
+    }
+
+    return validTestMethods.mapValues {
+        it.value.filter { test ->
+            testTargetsRgx.filterNotNull().forEach { target ->
+                try {
+                    if (test.matches(target.toRegex())) {
+                        return@filter true
+                    }
+                } catch (e: Exception) {
+                    throw FlankConfigurationError("Invalid regex: $target", e)
+                }
+            }
+
+            return@filter false
+        }
+    }
+}
+
