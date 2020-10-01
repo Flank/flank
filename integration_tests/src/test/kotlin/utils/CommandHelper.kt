@@ -13,12 +13,10 @@ private fun ProcessBuilder.startProcess() = start().run {
     ProcessResult(exitValue(), getOsSpecificOutput())
 }
 
-private fun Process.getOsSpecificOutput(): String {
-    return if (isWindows) {
-        File(outputFileName).readText() + File(errorFileName).readText()
-    } else {
-        inputStream.bufferedReader().readText() + this.errorStream.bufferedReader().readText()
-    }
+private fun Process.getOsSpecificOutput() = if (isWindows) {
+    File(outputFileName).readText() + File(errorFileName).readText()
+} else {
+    inputStream.bufferedReader().readText() + this.errorStream.bufferedReader().readText()
 }
 
 private fun ProcessBuilder.redirectOutputForCompatibleOS() = if (isWindows) {
