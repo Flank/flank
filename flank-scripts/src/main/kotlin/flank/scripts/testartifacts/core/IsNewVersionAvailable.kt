@@ -6,7 +6,6 @@ import flank.scripts.github.getRelease
 internal fun Context.isNewVersionAvailable(
     repo: Repo = testArtifactsRepo()
 ): Boolean {
-
     val remote = repo.getRelease(branch)
         ?.body()?.toLong()
         ?: return false

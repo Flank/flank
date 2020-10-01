@@ -19,8 +19,7 @@ data class ArtifactsArchive(
 
 fun String.parseArtifactsArchive(
     branch: String? = null
-): ArtifactsArchive = this
-    .removeSuffix(".zip")
+): ArtifactsArchive = removeSuffix(".zip")
     .reversed()
     .split("-", "/", limit = 2)
     .run {
@@ -32,7 +31,7 @@ fun String.parseArtifactsArchive(
 
 fun Context.latestArtifactsArchive(): File? = artifactArchiveRegex(branch).let { regex ->
     projectRoot.testArtifacts.listFiles { file -> regex.matches(file.name) }
-        ?.maxBy { archiveNameTimestamp(it.name) }
+        ?.maxByOrNull { archiveNameTimestamp(it.name) }
 }
 
 private fun artifactArchiveRegex(branch: String = currentGitBranch()) = Regex("^$branch-\\d*.${ArtifactsArchive.ext}")

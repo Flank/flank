@@ -55,8 +55,7 @@ fun Repo.getRelease(tag: String): Release.Smart? =
         else Release.Smart(find(tag))
     }
 
-fun Repo.getOrCreateRelease(tag: String): Release.Smart =
-    releases().getOrCreateRelease(tag)
+fun Repo.getOrCreateRelease(tag: String): Release.Smart = releases().getOrCreateRelease(tag)
 
 private fun Releases.getOrCreateRelease(tag: String) =
     Release.Smart(
