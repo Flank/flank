@@ -4,6 +4,7 @@
 |Date|Who?|Action|
 |---|---|---|
 |31th July 2020|[pawelpasterz](https://github.com/pawelpasterz)|created|
+|1st October 2020|[adamfilipow92](https://github.com/adamfilipow92)|update|
 |   |   |   |
 
 ### Description
@@ -71,4 +72,36 @@ The following must occur:
            } ?: outcome
        }
     ```
-2. Add unit tests to cover this case.
+2. The test below reflects potential but rare behavior.
+
+    ```kotlin
+       @Test
+       fun `savedMatrix should have flaky outcome when at least one test is flaky`() {
+           val expectedOutcome = "flaky"
+           val successStepExecution = createStepExecution(1) // success
+           // https://github.com/Flank/flank/issues/918
+           // This test covers edge case where summary for both step and execution is null and outcome of
+           // saved matrix was not changed and is set to success
+           val malformed = createStepExecution(stepId = -666, executionId = -666) // flaky
+   
+           // below order in the list matters!
+           val executions = listOf(
+               successStepExecution,
+               successStepExecution,
+               malformed
+           )
+   
+           val testMatrix = testMatrix().apply {
+               testMatrixId = "123"
+               state = FINISHED
+               resultStorage = createResultsStorage()
+               testExecutions = executions
+           }
+   
+           val savedMatrix = createSavedMatrix(testMatrix)
+   
+           assertEquals(expectedOutcome, savedMatrix.outcome)
+       }
+   ```
+
+3. This issue is not deterministic and really difficult to reproduce by manual tests. The community not reporting this issue for some time. 
