@@ -49,7 +49,7 @@ object GcIosTestMatrix {
         val generatedXctestrun = if (args.disableSharding) {
             xcTestParsed.toByteArray()
         } else {
-            Xctestrun.rewrite(xcTestParsed, testTargets)
+            Xctestrun.rewrite(args.xctestrunFile, testTargets)
         }
 
         // Add shard number to file name

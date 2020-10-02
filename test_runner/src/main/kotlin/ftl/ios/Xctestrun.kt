@@ -4,6 +4,7 @@ import com.dd.plist.NSArray
 import com.dd.plist.NSDictionary
 import com.dd.plist.NSString
 import com.dd.plist.PropertyListParser
+import com.google.common.annotations.VisibleForTesting
 import ftl.run.exception.FlankGeneralError
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -86,7 +87,7 @@ object Xctestrun {
         )
     }
 
-    // Finds tests in a xctestrun file
+    /* Finds tests in a xctestrun file */
     private fun findTestNames(xctestrun: File): XctestrunMethods {
         val root = parse(xctestrun)
         val result = mutableMapOf<String, List<String>>()
@@ -102,8 +103,8 @@ object Xctestrun {
         return result
     }
 
-    // Finds tests for testTarget in xctestrun file
-    fun findTestNamesForTarget(testTarget: String, xctestrun: File): List<String> {
+    /* Finds tests for testTarget in xctestrun file */
+    private fun findTestNamesForTarget(testTarget: String, xctestrun: File): List<String> {
         val rootDictionary = parse(xctestrun)
         val testRoot = xctestrun.parent + "/"
 
@@ -119,26 +120,21 @@ object Xctestrun {
         ).distinct()
     }
 
-    // TODO: AXEL REMOVE
-    fun rewrite(root: NSDictionary, methods: Collection<String>): ByteArray {
-        val rootClone = root.clone()
-        for (testTarget in rootClone.allKeys()) {
-            if (testTarget.isMetadata()) continue
-            val testDictionary = (rootClone[testTarget] as NSDictionary)
-            setOnlyTestIdentifiers(testDictionary, methods)
-        }
-
-        return rootClone.toByteArray()
+    fun rewrite(xctestrun: String, methods: List<String>): ByteArray {
+        val xctestrunFile = File(xctestrun)
+        val methodsToRun = findTestNames(xctestrunFile).mapValues { it.value.filter { methods.contains(it) } }
+        return rewrite(parse(xctestrunFile), methodsToRun)
     }
 
-    fun rewrite(root: NSDictionary, data: XctestrunMethods): ByteArray {
+    @VisibleForTesting
+    internal fun rewrite(root: NSDictionary, data: XctestrunMethods): ByteArray {
         val rootClone = root.clone()
 
         for (testTarget in rootClone.allKeys()) {
             if (testTarget.isMetadata()) continue
             val methods = data[testTarget]
             if (methods != null) {
-                val testDictionary = (rootClone[testTarget] as NSDictionary)
+                val testDictionary = rootClone[testTarget] as NSDictionary
                 setOnlyTestIdentifiers(testDictionary, methods)
             }
         }

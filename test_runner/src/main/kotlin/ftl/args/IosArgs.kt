@@ -71,8 +71,7 @@ private fun IosArgs.calculateShardChunks() = if (disableSharding)
     emptyList() else
     ArgsHelper.calculateShards(
         filteredTests = filterTests2(findTestNames(xctestrunFile), testTargets)
-                .map { it.value }
-                .flatMap { it }
+                .flatMap { it.value }
                 .distinct()
                 .map { FlankTestMethod(it, ignored = false) },
         args = this

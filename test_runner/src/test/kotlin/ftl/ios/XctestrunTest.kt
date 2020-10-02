@@ -57,7 +57,9 @@ class XctestrunTest {
     fun findTestNames() {
         assumeFalse(isWindows)
 
-        val names = Xctestrun.findTestNames(swiftXctestrun).sorted()
+        val names = Xctestrun.findTestNames(swiftXctestrun)
+                .flatMap { it.value }
+                .sorted()
         assertThat(swiftTests).isEqualTo(names)
     }
 
@@ -66,7 +68,7 @@ class XctestrunTest {
         assumeFalse(isWindows)
 
         val root = Xctestrun.parse(swiftXctestrun)
-        val methods = Xctestrun.findTestNames(swiftXctestrun)
+        val methods = Xctestrun.findTestNames(testTarget = "EarlGreyExampleSwiftTests", xctestrun = swiftXctestrun)
         val methodsData= mapOf<String, List<String>>("EarlGreyExampleSwiftTests" to methods)
 
         val results = String(Xctestrun.rewrite(root, methodsData))
@@ -218,7 +220,7 @@ class XctestrunTest {
         assumeFalse(isWindows)
         Xctestrun.findTestNames(testTarget = "Incorrect", xctestrun = swiftXctestrun).sorted()
     }
-x
+
     fun `find test names for xctestrun file containing multiple test targets`() {
         assumeFalse(isWindows)
         val names = Xctestrun.findTestNames(testTarget = "SwiftTests1", xctestrun = multipleTargetsSwiftXctestrun).sorted()
@@ -229,18 +231,23 @@ x
     }
 
     @Test
-    fun `rewrite methods in multiple test targets`() {
+    fun `rewrite methods in single test target`() {
         assumeFalse(isWindows)
+        val methods = listOf("EarlGreyExampleSwiftTests/testBasicSelectionActionAssert", "EarlGreyExampleSwiftTests/testBasicSelection")
+        val result = Xctestrun.rewrite(xctestrun = swiftXctestrun, methods)
+        val resultXML = Xctestrun.parse(result)
+        val testTarget = resultXML["EarlGreyExampleSwiftTests"] as NSDictionary
+        val resultMethods = testTarget["OnlyTestIdentifiers"] as NSArray
 
+        assertThat(methods.toSet()).isEqualTo(resultMethods.array.map { it.toJavaObject() }.toSet())
+    }
+
+    @Test
+    fun `rewrite methods in multiple test targets`() {
         val expectedMethods1 = listOf("SuiteA/testA1", "SuiteA/testA2")
         val expectedMethods2 = listOf("SwiftTests2/tests2_test1")
 
-        val root = Xctestrun.parse(multipleTargetsSwiftXctestrun)
-        val data = mapOf<String, List<String>>(
-            "SwiftTests1" to expectedMethods1,
-            "SwiftTests2" to expectedMethods2,
-        )
-        val result = Xctestrun.rewrite(root, data)
+        val result = Xctestrun.rewrite(xctestrun = multipleTargetsSwiftXctestrun, listOf(expectedMethods1, expectedMethods2).flatMap { it })
         val resultXML = Xctestrun.parse(result)
 
         val targetSwiftTests1 = resultXML["SwiftTests1"] as NSDictionary
@@ -248,7 +255,44 @@ x
         val resultMethods1 = targetSwiftTests1["OnlyTestIdentifiers"] as NSArray
         val resultMethods2 = targetSwiftTests2["OnlyTestIdentifiers"] as NSArray
 
-        assertThat(expectedMethods1).isEqualTo(resultMethods1.array.map { it.toJavaObject() })
-        assertThat(expectedMethods2).isEqualTo(resultMethods2.array.map { it.toJavaObject() })
+        assertThat(expectedMethods1.toSet()).isEqualTo(resultMethods1.array.map { it.toJavaObject() }.toSet())
+        assertThat(expectedMethods2.toSet()).isEqualTo(resultMethods2.array.map { it.toJavaObject() }.toSet())
+    }
+
+    @Test
+    fun `rewrite incorrect methods in multiple test targets`() {
+        val methods1 = listOf("incorrect1", "incorrect2")
+        val methods2 = listOf("incorrect3")
+
+        val result = Xctestrun.rewrite(xctestrun = multipleTargetsSwiftXctestrun, listOf(methods1, methods2).flatMap { it })
+        val resultXML = Xctestrun.parse(result)
+
+        val targetSwiftTests1 = resultXML["SwiftTests1"] as NSDictionary
+        val targetSwiftTests2 = resultXML["SwiftTests2"] as NSDictionary
+        val resultMethods1 = targetSwiftTests1["OnlyTestIdentifiers"] as NSArray
+        val resultMethods2 = targetSwiftTests2["OnlyTestIdentifiers"] as NSArray
+
+        assertThat(resultMethods1.array.isEmpty()).isTrue()
+        assertThat(resultMethods2.array.isEmpty()).isTrue()
+    }
+
+    @Test
+    fun `rewrite mix of correct and incorrect methods in multiple test targets`() {
+        val methods1 = listOf("SuiteA/testA1", "SuiteA/testA2", "incorrect1")
+        val methods2 = listOf("SwiftTests2/tests2_test1", "incorrect2")
+
+        val expectedMethods1 = listOf("SuiteA/testA1", "SuiteA/testA2")
+        val expectedMethods2 = listOf("SwiftTests2/tests2_test1")
+
+        val result = Xctestrun.rewrite(xctestrun = multipleTargetsSwiftXctestrun, listOf(expectedMethods1, expectedMethods2).flatMap { it })
+        val resultXML = Xctestrun.parse(result)
+
+        val targetSwiftTests1 = resultXML["SwiftTests1"] as NSDictionary
+        val targetSwiftTests2 = resultXML["SwiftTests2"] as NSDictionary
+        val resultMethods1 = targetSwiftTests1["OnlyTestIdentifiers"] as NSArray
+        val resultMethods2 = targetSwiftTests2["OnlyTestIdentifiers"] as NSArray
+
+        assertThat(expectedMethods1.toSet()).isEqualTo(resultMethods1.array.map { it.toJavaObject() }.toSet())
+        assertThat(expectedMethods2.toSet()).isEqualTo(resultMethods2.array.map { it.toJavaObject() }.toSet())
     }
 }
