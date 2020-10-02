@@ -95,6 +95,14 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
     var environmentVariables: Map<String, String>? by data
 
     @set:CommandLine.Option(
+        names = ["--grant-permissions"],
+        description = ["Whether to grant runtime permissions on the device before the test begins. By default," +
+                " all permissions are granted. PERMISSIONS must be one of: all, none."]
+    )
+    @set:JsonProperty("grant-permissions")
+    var grantPermissions: String? by data
+
+    @set:CommandLine.Option(
         names = ["--directories-to-pull"],
         split = ",",
         description = ["A list of paths that will be copied from the device's " +
@@ -210,6 +218,7 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
             autoGoogleLogin = FlankDefaults.DISABLE_AUTO_LOGIN
             useOrchestrator = true
             environmentVariables = emptyMap()
+            grantPermissions = null
             directoriesToPull = emptyList()
             otherFiles = emptyMap()
             performanceMetrics = FlankDefaults.DISABLE_PERFORMANCE_METRICS
