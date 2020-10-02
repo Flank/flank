@@ -53,7 +53,7 @@ class MatrixMapTest {
     }
 
     @Test
-    fun `invalid matrix should contain a specific error message`() {
+    fun `invalid matrix should contains specyfic error message`() {
         val testMatrix = testMatrix()
         testMatrix.testMatrixId = "123"
         testMatrix.state = MatrixState.INVALID
