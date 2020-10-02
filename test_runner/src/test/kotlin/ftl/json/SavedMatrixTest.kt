@@ -236,33 +236,4 @@ class SavedMatrixTest {
             savedMatrix.outcome
         )
     }
-
-    @Ignore("Should be used to verify https://github.com/Flank/flank/issues/918 fix")
-    @Test
-    fun `savedMatrix should have flaky outcome when at least one test is flaky`() {
-        val expectedOutcome = "flaky"
-        val successStepExecution = createStepExecution(1) // success
-        // https://github.com/Flank/flank/issues/918
-        // This test covers edge case where summary for both step and execution is null and outcome of
-        // saved matrix was not changed and is set to success
-        val malformed = createStepExecution(stepId = -666, executionId = -666) // flaky
-
-        // below order in the list matters!
-        val executions = listOf(
-            successStepExecution,
-            successStepExecution,
-            malformed
-        )
-
-        val testMatrix = testMatrix().apply {
-            testMatrixId = "123"
-            state = FINISHED
-            resultStorage = createResultsStorage()
-            testExecutions = executions
-        }
-
-        val savedMatrix = createSavedMatrix(testMatrix)
-
-        assertEquals(expectedOutcome, savedMatrix.outcome)
-    }
 }
