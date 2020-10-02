@@ -16,7 +16,6 @@ import ftl.util.MatrixState.INVALID
 import ftl.util.MatrixState.PENDING
 import ftl.util.webLink
 import org.junit.Assert.assertEquals
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
