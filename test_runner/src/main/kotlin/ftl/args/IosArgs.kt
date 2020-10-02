@@ -70,7 +70,7 @@ IosArgs
 private fun IosArgs.calculateShardChunks() = if (disableSharding)
     emptyList() else
     ArgsHelper.calculateShards(
-        filteredTests = filterTests2(findTestNames(xctestrunFile), testTargets)
+        filteredTests = filterTests(findTestNames(xctestrunFile), testTargets)
                 .flatMap { it.value }
                 .distinct()
                 .map { FlankTestMethod(it, ignored = false) },
@@ -78,28 +78,7 @@ private fun IosArgs.calculateShardChunks() = if (disableSharding)
     ).shardChunks
 
 @VisibleForTesting
-internal fun filterTests(validTestMethods: List<String>, testTargetsRgx: List<String?>): List<String> {
-    if (testTargetsRgx.isEmpty()) {
-        return validTestMethods
-    }
-
-    return validTestMethods.filter { test ->
-        testTargetsRgx.filterNotNull().forEach { target ->
-            try {
-                if (test.matches(target.toRegex())) {
-                    return@filter true
-                }
-            } catch (e: Exception) {
-                throw FlankConfigurationError("Invalid regex: $target", e)
-            }
-        }
-
-        return@filter false
-    }
-}
-
-@VisibleForTesting
-internal fun filterTests2(validTestMethods: XctestrunMethods, testTargetsRgx: List<String?>): XctestrunMethods {
+internal fun filterTests(validTestMethods: XctestrunMethods, testTargetsRgx: List<String?>): XctestrunMethods {
     if (testTargetsRgx.isEmpty()) {
         return validTestMethods
     }
@@ -120,4 +99,3 @@ internal fun filterTests2(validTestMethods: XctestrunMethods, testTargetsRgx: Li
         }
     }
 }
-

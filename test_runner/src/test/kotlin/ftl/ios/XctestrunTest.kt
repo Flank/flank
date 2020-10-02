@@ -69,7 +69,7 @@ class XctestrunTest {
 
         val root = Xctestrun.parse(swiftXctestrun)
         val methods = Xctestrun.findTestNames(testTarget = "EarlGreyExampleSwiftTests", xctestrun = swiftXctestrun)
-        val methodsData= mapOf<String, List<String>>("EarlGreyExampleSwiftTests" to methods)
+        val methodsData = mapOf<String, List<String>>("EarlGreyExampleSwiftTests" to methods)
 
         val results = String(Xctestrun.rewrite(root, methodsData))
 
@@ -82,7 +82,7 @@ class XctestrunTest {
 
         val root = Xctestrun.parse(swiftXctestrun)
         val methods = Xctestrun.findTestNames(testTarget = "EarlGreyExampleSwiftTests", xctestrun = swiftXctestrun)
-        val methodsData= mapOf<String, List<String>>("EarlGreyExampleSwiftTests" to methods)
+        val methodsData = mapOf<String, List<String>>("EarlGreyExampleSwiftTests" to methods)
 
         // ensure root object isn't modified. Rewrite should return a new object.
         val key = "OnlyTestIdentifiers"
@@ -100,7 +100,7 @@ class XctestrunTest {
         root["EarlGreyExampleSwiftTests"] = NSDictionary()
         root["EarlGreyExampleTests"] = NSDictionary()
         val methods = listOf("testOne", "testTwo")
-        val methodsData= mapOf<String, List<String>>("EarlGreyExampleSwiftTests" to methods, "EarlGreyExampleTests" to methods)
+        val methodsData = mapOf<String, List<String>>("EarlGreyExampleSwiftTests" to methods, "EarlGreyExampleTests" to methods)
         Xctestrun.rewrite(root, methodsData)
         Xctestrun.rewrite(root, methodsData)
         val result = Xctestrun.rewrite(root, methodsData)
@@ -284,7 +284,7 @@ class XctestrunTest {
         val expectedMethods1 = listOf("SuiteA/testA1", "SuiteA/testA2")
         val expectedMethods2 = listOf("SwiftTests2/tests2_test1")
 
-        val result = Xctestrun.rewrite(xctestrun = multipleTargetsSwiftXctestrun, listOf(expectedMethods1, expectedMethods2).flatMap { it })
+        val result = Xctestrun.rewrite(xctestrun = multipleTargetsSwiftXctestrun, listOf(methods1, methods2).flatMap { it })
         val resultXML = Xctestrun.parse(result)
 
         val targetSwiftTests1 = resultXML["SwiftTests1"] as NSDictionary
