@@ -13,6 +13,7 @@ data class AndroidArgs(
     val roboScript: String?,
     val environmentVariables: Map<String, String>, // should not be printed, becuase could contains sensitive informations
     val directoriesToPull: List<String>,
+    val grantPermissions:String?,
     val otherFiles: Map<String, String>,
     val performanceMetrics: Boolean,
     val numUniformShards: Int?,
@@ -42,6 +43,7 @@ AndroidArgs
       auto-google-login: $autoGoogleLogin
       use-orchestrator: $useOrchestrator
       directories-to-pull:${ArgsToString.listToString(directoriesToPull)}
+      grant-permissions:${grantPermissions}
       other-files:${ArgsToString.mapToString(otherFiles)}
       performance-metrics: $performanceMetrics
       num-uniform-shards: $numUniformShards
