@@ -2,7 +2,7 @@ name: macOS-workflow
 
 on:
   push:
-    branches: 
+    branches:
       - master
   pull_request:
     branches:
@@ -17,8 +17,17 @@ jobs:
     runs-on: macos-latest
 
     steps:
+    - uses: khan/pull-request-comment-trigger@master
+      id: check
+      with:
+        trigger: 'run test trigger'
+        reaction: rocket
+      env:
+        GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+    - run: 'echo Found it!'
+      if: steps.check.outputs.triggered == 'true'
     - uses: actions/checkout@v2
-      with: 
+      with:
         submodules: true
     - uses: actions/setup-java@v1
       with:
@@ -37,7 +46,7 @@ jobs:
 
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        commit_message: "[Auto-commit] Added filese fixed by Detekt" 
+        commit_message: "[Auto-commit] Added filese fixed by Detekt"
 
     - name: Codecov
       uses: codecov/codecov-action@v1.0.7
