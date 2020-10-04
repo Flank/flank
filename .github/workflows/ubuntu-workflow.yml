@@ -5,16 +5,28 @@ on:
     branches:
       - master
   pull_request:
+    types: [ opened ]
     branches:
       - '*'
     paths:
       - '**'
       - '!flank-scripts/**'
+  issue_comment:
+    types: [ created ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: khan/pull-request-comment-trigger@master
+        id: check
+        with:
+          trigger: 'Test trigger'
+          reaction: rocket
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      - run: 'echo Found it!'
+        if: steps.check.outputs.triggered == 'true'
       - uses: actions/checkout@v2
         with:
           submodules: true
