@@ -10,10 +10,10 @@ Process run commands and update files with defined versions in the provided file
 
 ## Usage
 
-### Manually
-0. Generate report using command `./gradlew dependencyUpdates -DoutputFormatter=json -DoutputDir=..`
+### Manually (root directory)
+0. Generate report using command `./gradlew dependencyUpdates -DoutputFormatter=json -DoutputDir=.`
 0. Build flank scripts using script `./flank-scripts/bash/buildFlankScripts.sh`
-0. Run `/flank-scripts/bash/flankScripts dependencies update`
+0. Run `./flank-scripts/bash/flankScripts dependencies update`
 
 ### Github action
 Run `Update dependencies` job using [Github action menu](https://github.com/Flank/flank/actions) by clicking `Run workflow` button
