@@ -744,6 +744,10 @@ and flank's example [gradle-export-api](https://github.com/Flank/flank/tree/mast
     - Clear IDE cache using `File > Invalidate Caches / Restart`
     - Re-import project using root `build.gradle.kts`
     - Sync project again
+    
+5) > Does Flank support Cucumber?
+   
+   Please check [document](docs/cucumber_support.md) for more info
 
 # Resources
 

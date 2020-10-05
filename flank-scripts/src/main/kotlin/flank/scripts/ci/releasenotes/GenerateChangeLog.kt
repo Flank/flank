@@ -14,7 +14,7 @@ import java.io.File
 
 fun generateReleaseNotes(githubToken: String) = runBlocking {
     generateReleaseNotes(
-        latestReleaseTag = getLatestReleaseTag(githubToken).map { it.tag }.getOrElse(""),
+        latestReleaseTag = getLatestReleaseTag(githubToken).map { it.tag }.getOrElse { "" },
         githubToken = githubToken
     )
 }

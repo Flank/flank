@@ -6,7 +6,7 @@ object Versions {
     const val DD_PLIST = "1.23"
 
     // https://github.com/detekt/detekt
-    const val DETEKT = "1.14.0"
+    const val DETEKT = "1.14.1"
 
     // https://github.com/bintray/gradle-bintray-plugin/releases
     const val BINTRAY = "1.8.5"
@@ -45,7 +45,7 @@ object Versions {
 
     // https://github.com/FasterXML/jackson-core/releases
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
-    const val JACKSON = "2.11.2"
+    const val JACKSON = "2.11.3"
 
     const val JUNIT = "4.13"
 
@@ -88,7 +88,7 @@ object Versions {
     const val PROGUARD = "7.0.0"
 
     // ============== flank-scripts ==============
-    const val KOTLINX_SERIALIZATION = "1.0.0-RC"
-    const val FUEL = "2.2.3"
+    const val KOTLIN_SERIALIZATION = "1.0.0-RC2"
+    const val FUEL = "2.3.0"
     const val CLIKT = "2.8.0"
 }
