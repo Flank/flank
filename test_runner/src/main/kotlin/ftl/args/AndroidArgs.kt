@@ -73,6 +73,8 @@ AndroidArgs
       legacy-junit-result: $useLegacyJUnitResult
       ignore-failed-tests: $ignoreFailedTests
       output-style: ${outputStyle.name.toLowerCase()}
+      disable-results-upload: $disableResultsUpload
+      default-class-test-time: $defaultClassTestTime
    """.trimIndent()
     }
 }

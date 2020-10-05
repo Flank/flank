@@ -91,6 +91,8 @@ class IosArgsTest {
           ignore-failed-tests: true
           keep-file-path: true
           output-style: single
+          disable-results-upload: true
+          default-class-test-time: 30.0
         """
 
     @get:Rule
@@ -251,6 +253,8 @@ IosArgs
       run-timeout: 15m
       ignore-failed-tests: true
       output-style: single
+      disable-results-upload: true
+      default-class-test-time: 30.0
 """.trimIndent()
         )
     }
@@ -301,6 +305,8 @@ IosArgs
       run-timeout: -1
       ignore-failed-tests: false
       output-style: multi
+      disable-results-upload: false
+      default-class-test-time: 240.0
         """.trimIndent(),
             args.toString()
         )
