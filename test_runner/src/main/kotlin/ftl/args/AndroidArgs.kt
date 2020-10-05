@@ -13,7 +13,7 @@ data class AndroidArgs(
     val roboScript: String?,
     val environmentVariables: Map<String, String>,
     val directoriesToPull: List<String>,
-    val grantPermissions:String?,
+    val grantPermissions: String?,
     val otherFiles: Map<String, String>,
     val performanceMetrics: Boolean,
     val numUniformShards: Int?,
@@ -42,9 +42,9 @@ AndroidArgs
       additional-apks: ${ArgsToString.listToString(additionalApks)}
       auto-google-login: $autoGoogleLogin
       use-orchestrator: $useOrchestrator
-      directories-to-pull:${ArgsToString.listToString(directoriesToPull)}
-      grant-permissions:${grantPermissions}
-      other-files:${ArgsToString.mapToString(otherFiles)}
+      directories-to-pull: ${ArgsToString.listToString(directoriesToPull)}
+      grant-permissions: $grantPermissions
+      other-files: ${ArgsToString.mapToString(otherFiles)}
       performance-metrics: $performanceMetrics
       num-uniform-shards: $numUniformShards
       test-runner-class: $testRunnerClass

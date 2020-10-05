@@ -8,6 +8,7 @@ import ftl.android.UnsupportedVersionId
 import ftl.config.containsPhysicalDevices
 import ftl.config.containsVirtualDevices
 import ftl.run.exception.FlankConfigurationError
+import ftl.run.exception.FlankGeneralError
 import ftl.run.exception.IncompatibleTestDimensionError
 import java.io.File
 
@@ -21,10 +22,15 @@ fun AndroidArgs.validate() = apply {
     assertParametersConflict()
     assertTestFiles()
     assertOtherFiles()
+    assertGrantPermissions()
     checkResultsDirUnique()
     checkEnvironmentVariables()
     checkFilesToDownload()
     checkNumUniformShards()
+}
+
+private fun AndroidArgs.assertGrantPermissions() = grantPermissions?.let {
+    if (it !in listOf("all", "none")) throw FlankGeneralError("Unsupported permission '$grantPermissions'\nOnly 'all' or 'none' supported.")
 }
 
 private fun AndroidArgs.assertDevicesSupported() = devices
@@ -119,7 +125,7 @@ private fun AndroidArgs.appApkPath(): Map<String, String> =
     mapOf(
         appApk to "from app",
         testApk to "from test"
-    ).filterNotNull() + additionalAppTestApks.fold(emptyMap<String, String>()) { acc, pair ->
+    ).filterNotNull() + additionalAppTestApks.fold(emptyMap()) { acc, pair ->
         acc + mapOf(
             pair.app to "from additional-app-test-apks.app",
             pair.test to "from additional-app-test-apks.test"
