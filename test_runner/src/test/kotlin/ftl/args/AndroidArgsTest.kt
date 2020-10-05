@@ -97,6 +97,7 @@ class AndroidArgsTest {
           directories-to-pull:
           - /sdcard/screenshots
           - /sdcard/screenshots2
+          grant-permissions: all
           other-files:
             /sdcard/dir1/file1.txt: $appApk
             /sdcard/dir2/file2.jpg: $testApk
@@ -310,6 +311,7 @@ AndroidArgs
       directories-to-pull:
         - /sdcard/screenshots
         - /sdcard/screenshots2
+      grant-permissions: all
       other-files:
         /sdcard/dir1/file1.txt: $appApkAbsolutePath
         /sdcard/dir2/file2.jpg: $testApkAbsolutePath
@@ -387,6 +389,7 @@ AndroidArgs
       auto-google-login: false
       use-orchestrator: true
       directories-to-pull:
+      grant-permissions: null
       other-files:
       performance-metrics: false
       num-uniform-shards: null
@@ -1854,6 +1857,54 @@ AndroidArgs
             // then
             assertFalse(systemOutRule.log.contains("WARNING: Google cloud storage result directory should be unique, otherwise results from multiple test matrices will be overwritten or intermingled"))
         }
+    }
+
+    @Test(expected = FlankGeneralError::class)
+    fun `should throw exception if incorrect permission requested`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          grant-permissions: error
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should Not throw exception if correct permission requested All`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          grant-permissions: all
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should Not throw exception if correct permission requested None`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          grant-permissions: none
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
     }
 }
 

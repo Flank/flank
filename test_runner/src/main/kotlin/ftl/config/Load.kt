@@ -15,10 +15,8 @@ import ftl.util.loadFile
 import java.io.Reader
 import java.nio.file.Path
 
-fun loadAndroidConfig(
-    path: Path? = null,
-    reader: Reader = loadFile(path!!)
-): AndroidConfig = modifyAndThrow(reader, android = true).run {
+fun loadAndroidConfig(path: Path? = null, reader: Reader = loadFile(path!!)): AndroidConfig =
+    modifyAndThrow(reader, android = true).run {
     AndroidConfig(
         data = this,
         common = parseYaml<CommonWrapper>().run { Config.Partial(gcloud, flank) },
