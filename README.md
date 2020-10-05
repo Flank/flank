@@ -178,6 +178,11 @@ flank:
   ## Default: 120.0
   # default-test-time: 15
 
+  ## Set default test time (in seconds) used for calculating shards of parametrized classes when previous tests results are not available.
+  ## Default test time for classes should be different from the default time for test
+  ## Default: 240.0
+  # default-class-test-time: 30
+
   ## Disables sharding. Useful for parameterized tests.
   # disable-sharding: false
 
@@ -399,6 +404,11 @@ flank:
   ## Set default test time used for calculating shards.
   ## Default: 120.0
   # default-test-time: 15
+
+  ## Set default test time (in seconds) used for calculating shards of parametrized classes when previous tests results are not available.
+  ## Default test time for classes should be different from the default time for test
+  ## Default: 240.0
+  # default-class-test-time: 30
 
   ## Disables sharding. Useful for parameterized tests.
   # disable-sharding: false

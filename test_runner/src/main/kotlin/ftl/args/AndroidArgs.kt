@@ -11,7 +11,7 @@ data class AndroidArgs(
     val useOrchestrator: Boolean,
     val roboDirectives: List<FlankRoboDirective>,
     val roboScript: String?,
-    val environmentVariables: Map<String, String>,
+    val environmentVariables: Map<String, String>, // should not be printed, becuase could contains sensitive informations
     val directoriesToPull: List<String>,
     val otherFiles: Map<String, String>,
     val performanceMetrics: Boolean,
