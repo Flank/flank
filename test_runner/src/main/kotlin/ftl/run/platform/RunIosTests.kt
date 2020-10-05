@@ -9,6 +9,7 @@ import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
 import ftl.ios.Xctestrun
+import ftl.run.dumpShards
 import ftl.run.model.TestResult
 import ftl.run.platform.common.afterRunTests
 import ftl.run.platform.common.beforeRunMessage
@@ -40,7 +41,7 @@ internal suspend fun runIosTests(iosArgs: IosArgs): TestResult = coroutineScope 
     val xcTestGcsPath = getXcTestGcPath(iosArgs, runGcsPath)
 
     println(beforeRunMessage(iosArgs, iosArgs.testShardChunks))
-
+    dumpShards(iosArgs)
     repeat(runCount) {
         jobs += iosArgs.testShardChunks.map { testTargets ->
             async(Dispatchers.IO) {

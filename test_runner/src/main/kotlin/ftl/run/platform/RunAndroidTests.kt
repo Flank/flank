@@ -7,6 +7,7 @@ import ftl.gc.GcAndroidDevice
 import ftl.gc.GcAndroidTestMatrix
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
+import ftl.run.ANDROID_SHARD_FILE
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.TestResult
 import ftl.run.platform.android.createAndroidTestConfig
@@ -18,6 +19,10 @@ import ftl.run.platform.common.afterRunTests
 import ftl.run.platform.common.beforeRunMessage
 import ftl.run.platform.common.beforeRunTests
 import ftl.run.exception.FlankGeneralError
+import ftl.run.model.AndroidMatrixTestShards
+import ftl.run.model.AndroidTestContext
+import ftl.run.platform.android.asMatrixTestShards
+import ftl.run.saveShardChunks
 import ftl.shard.Chunk
 import ftl.shard.testCases
 import kotlinx.coroutines.Deferred
@@ -40,8 +45,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     val otherGcsFiles = args.uploadOtherFiles(runGcsPath)
     val additionalApks = args.uploadAdditionalApks(runGcsPath)
 
-    args.createAndroidTestContexts()
-        .upload(args.resultsBucket, runGcsPath)
+    args.createAndroidTestContexts().dumpShards().upload(args.resultsBucket, runGcsPath)
         .forEachIndexed { index, context ->
             if (context is InstrumentationTestContext) {
                 ignoredTestsShardChunks += context.ignoredTestCases
@@ -64,12 +68,24 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     if (testMatrices.isEmpty()) throw FlankGeneralError("There are no tests to run.")
 
     println(beforeRunMessage(args, allTestShardChunks))
+
     TestResult(
         matrixMap = afterRunTests(testMatrices.awaitAll(), runGcsPath, stopwatch, args),
         shardChunks = allTestShardChunks.testCases,
         ignoredTests = ignoredTestsShardChunks.flatten()
     )
 }
+
+private fun List<AndroidTestContext>.dumpShards() = apply {
+    filterIsInstance<InstrumentationTestContext>().asMatrixTestShards().saveShards()
+}
+
+private fun AndroidMatrixTestShards.saveShards() = saveShardChunks(
+    shardFilePath = ANDROID_SHARD_FILE,
+    shards = this,
+    size = size,
+    obfuscatedOutput = false
+)
 
 private suspend fun executeAndroidTestMatrix(
     runCount: Int,

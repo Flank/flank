@@ -42,7 +42,7 @@ fun dumpShards(
     )
 }
 
-private fun saveShardChunks(
+fun saveShardChunks(
     shardFilePath: String,
     shards: Any,
     size: Int,

@@ -6,12 +6,12 @@ import ftl.run.model.AndroidTestShards
 import ftl.run.model.InstrumentationTestContext
 import ftl.shard.testCases
 
-suspend fun AndroidArgs.getAndroidMatrixShards(): AndroidMatrixTestShards = this
-    .createAndroidTestContexts()
+suspend fun AndroidArgs.getAndroidMatrixShards(): AndroidMatrixTestShards =
+    createAndroidTestContexts()
     .filterIsInstance<InstrumentationTestContext>()
     .asMatrixTestShards()
 
-private fun List<InstrumentationTestContext>.asMatrixTestShards(): AndroidMatrixTestShards =
+fun List<InstrumentationTestContext>.asMatrixTestShards(): AndroidMatrixTestShards =
     map { testApks ->
         AndroidTestShards(
             app = testApks.app.local,
