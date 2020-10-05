@@ -51,7 +51,7 @@ object Dependencies {
     //endregion
 
     const val COMMON_TEXT = "org.apache.commons:commons-text:${Versions.COMMON_TEXT}"
-    const val KOTLIN_SERIALIZATION = "org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.KOTLINX_SERIALIZATION}"
+    const val KOTLIN_SERIALIZATION = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.KOTLIN_SERIALIZATION}"
 
     //region flank-scripts
     const val CLIKT = "com.github.ajalt:clikt:${Versions.CLIKT}"
