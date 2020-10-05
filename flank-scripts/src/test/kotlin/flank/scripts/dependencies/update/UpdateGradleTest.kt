@@ -15,15 +15,12 @@ class UpdateGradleTest {
             File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/expected_gradle-wrapper.properties.test")
         val copyOfTestVersions =
             testGradleVersionFile.copyTo(
-                File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/gradle-wrapper.properties"))
+                File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/gradle-wrapper.properties")).apply { deleteOnExit() }
 
         // when
         testReport.updateGradle("src/test/kotlin/flank/scripts/dependencies/update/testfiles/")
 
         // then
         assertEquals(copyOfTestVersions.readText(), expectedVersions.readText())
-
-        // then
-        copyOfTestVersions.delete()
     }
 }
