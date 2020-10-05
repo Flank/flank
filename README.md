@@ -110,7 +110,6 @@ gcloud:
   ## All tests which use the same history name will have their results grouped together in the Firebase console in a time-ordered test history list.
   # results-history-name: android-history
 
-  ## Experimental!
   ## The number of times a TestExecution should be re-attempted if one or more\nof its test cases fail for any reason.
   ## The maximum number of reruns allowed is 10. Default is 0, which implies no reruns.
   # num-flaky-test-attempts: 0
@@ -273,7 +272,6 @@ gcloud:
   ## All tests which use the same history name will have their results grouped together in the Firebase console in a time-ordered test history list.
   # results-history-name: android-history
 
-  ## Experimental!
   ## The number of times a TestExecution should be re-attempted if one or more\nof its test cases fail for any reason.
   ## The maximum number of reruns allowed is 10. Default is 0, which implies no reruns.
   # num-flaky-test-attempts: 0
