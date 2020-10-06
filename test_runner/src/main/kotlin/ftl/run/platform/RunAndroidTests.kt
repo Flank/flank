@@ -5,6 +5,7 @@ import com.google.api.services.testing.model.TestMatrix
 import ftl.args.AndroidArgs
 import ftl.gc.GcAndroidDevice
 import ftl.gc.GcAndroidTestMatrix
+import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
 import ftl.run.ANDROID_SHARD_FILE
@@ -45,7 +46,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     val otherGcsFiles = args.uploadOtherFiles(runGcsPath)
     val additionalApks = args.uploadAdditionalApks(runGcsPath)
 
-    args.createAndroidTestContexts().dumpShards().upload(args.resultsBucket, runGcsPath)
+    args.createAndroidTestContexts().dumpShards(args).upload(args.resultsBucket, runGcsPath)
         .forEachIndexed { index, context ->
             if (context is InstrumentationTestContext) {
                 ignoredTestsShardChunks += context.ignoredTestCases
@@ -76,8 +77,9 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     )
 }
 
-private fun List<AndroidTestContext>.dumpShards() = apply {
+private fun List<AndroidTestContext>.dumpShards(config: AndroidArgs) = apply {
     filterIsInstance<InstrumentationTestContext>().asMatrixTestShards().saveShards()
+    if (config.disableResultsUpload.not()) GcStorage.upload(ANDROID_SHARD_FILE, config.resultsBucket, config.resultsDir)
 }
 
 private fun AndroidMatrixTestShards.saveShards() = saveShardChunks(
