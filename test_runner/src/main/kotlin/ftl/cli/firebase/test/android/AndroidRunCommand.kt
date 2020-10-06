@@ -1,7 +1,6 @@
 package ftl.cli.firebase.test.android
 
 import ftl.args.AndroidArgs
-import ftl.args.isInstrumentationTest
 import ftl.args.validate
 import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
@@ -47,13 +46,8 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
 
         val config = AndroidArgs.load(Paths.get(configPath), cli = this).validate()
         runBlocking {
-            when {
-                dumpShards -> dumpShards(args = config, obfuscatedOutput = obfuscate)
-                config.isInstrumentationTest -> {
-                    newTestRun(config)
-                }
-                else -> newTestRun(config)
-            }
+            if (dumpShards) dumpShards(args = config, obfuscatedOutput = obfuscate)
+            else newTestRun(config)
         }
     }
 

@@ -1,15 +1,17 @@
 package ftl.cli.firebase.test.android
 
 import com.google.common.truth.Truth.assertThat
+import ftl.args.AndroidArgs
 import ftl.args.yml.AppTestPair
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.gc.GcStorage
 import ftl.run.ANDROID_SHARD_FILE
-import ftl.run.dumpShards
 import ftl.run.exception.FlankConfigurationError
+import ftl.run.platform.android.createAndroidTestContexts
 import ftl.run.saveShardChunks
 import ftl.test.util.FlankTestRunner
+import io.mockk.coVerify
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.verify
@@ -550,6 +552,17 @@ class AndroidRunCommandTest {
             runCmd.run()
             verify { saveShardChunks(any(), any(), any(), any()) }
             verify(inverse = true) { GcStorage.upload(ANDROID_SHARD_FILE, any(), any()) }
+        }
+    }
+
+    @Test
+    fun `should calculate shards only one time on newRun`() {
+        mockkStatic("ftl.run.DumpShardsKt", "ftl.run.platform.android.CreateAndroidTestContextKt")
+        mockkObject(GcStorage) {
+            val runCmd = AndroidRunCommand()
+            runCmd.configPath = "./src/test/kotlin/ftl/fixtures/simple-android-flank.yml"
+            runCmd.run()
+            coVerify(exactly = 1) { any<AndroidArgs>().createAndroidTestContexts() }
         }
     }
 }
