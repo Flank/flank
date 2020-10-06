@@ -32,7 +32,7 @@ class UpdateGradleTest {
 
     @Test
     fun `Should update RC version gradle`() {
-        val rcReportText = testReport.readText().replace(
+        val rcReportText = testReport.readText().replace("\r\n", "\n").replace(
             """
     |        "releaseCandidate": {
     |            "version": "6.7-rc-1",
