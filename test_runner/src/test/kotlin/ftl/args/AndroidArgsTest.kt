@@ -306,11 +306,11 @@ AndroidArgs
         - $testFlakyApkAbsolutePath
       auto-google-login: false
       use-orchestrator: false
-      directories-to-pull:
+      directories-to-pull: 
         - /sdcard/screenshots
         - /sdcard/screenshots2
       grant-permissions: all
-      other-files:
+      other-files: 
         /sdcard/dir1/file1.txt: $appApkAbsolutePath
         /sdcard/dir2/file2.jpg: $testApkAbsolutePath
       performance-metrics: false
@@ -384,9 +384,9 @@ AndroidArgs
       additional-apks: 
       auto-google-login: false
       use-orchestrator: true
-      directories-to-pull:
+      directories-to-pull: 
       grant-permissions: null
-      other-files:
+      other-files: 
       performance-metrics: false
       num-uniform-shards: null
       test-runner-class: null
@@ -1422,7 +1422,10 @@ AndroidArgs
             InstrumentationTestContext(
                 app = "app".asFileReference(),
                 test = "test".asFileReference(),
-                shards = listOf(Chunk(listOf(TestMethod(name = "test", time = 0.0))), Chunk(listOf(TestMethod(name = "test", time = 0.0))))
+                shards = listOf(
+                    Chunk(listOf(TestMethod(name = "test", time = 0.0))),
+                    Chunk(listOf(TestMethod(name = "test", time = 0.0)))
+                )
             )
         )
         val testSpecification = TestSpecification().setupAndroidTest(androidTestConfig)
@@ -1446,7 +1449,10 @@ AndroidArgs
             InstrumentationTestContext(
                 app = "app".asFileReference(),
                 test = "test".asFileReference(),
-                shards = listOf(Chunk(listOf(TestMethod(name = "test", time = 0.0))), Chunk(listOf(TestMethod(name = "test", time = 0.0))))
+                shards = listOf(
+                    Chunk(listOf(TestMethod(name = "test", time = 0.0))),
+                    Chunk(listOf(TestMethod(name = "test", time = 0.0)))
+                )
             )
         )
         val testSpecification = TestSpecification().setupAndroidTest(androidTestConfig)
