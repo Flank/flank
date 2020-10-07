@@ -389,7 +389,7 @@ AndroidArgs
       auto-google-login: false
       use-orchestrator: true
       directories-to-pull: 
-      grant-permissions: null
+      grant-permissions: all
       other-files: 
       performance-metrics: false
       num-uniform-shards: null
