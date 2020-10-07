@@ -8,7 +8,7 @@ data class ArtifactsArchive(
     val timestamp: Long = System.currentTimeMillis()
 ) {
     val fullName get() = "$branch-$timestamp.$ext"
-    val shortName get() = "$$timestamp.$ext"
+    val shortName get() = "$timestamp.$ext"
 
     override fun toString(): String = fullName
 
