@@ -58,7 +58,7 @@ object GcAndroidTestMatrix {
             .setAdditionalApks(additionalApkGcsPaths.mapGcsPathsToApks())
             .setFilesToPush(otherFiles.mapToDeviceFiles())
             .setEnvironmentVariables(args, androidTestConfig)
-            .setDontAutograntPermissions(args.isShouldAutoGrantPermissions)
+            .setDontAutograntPermissions(!args.isShouldAutoGrantPermissions)
 
         val testTimeoutSeconds = timeoutToSeconds(args.testTimeout)
 
