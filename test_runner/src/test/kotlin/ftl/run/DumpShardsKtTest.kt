@@ -153,7 +153,7 @@ class DumpShardsKtTest {
         if (FtlConstants.isWindows) return // TODO Windows Linux subsytem does not contain all expected commands
         // when
         val actual = runBlocking {
-            dumpShards(IosArgs.load(ios2ConfigYaml).copy(obfuscateDumpShards = false), TEST_SHARD_FILE)
+            dumpShards(IosArgs.load(ios2ConfigYaml), TEST_SHARD_FILE)
             File(TEST_SHARD_FILE).apply { deleteOnExit() }.readText()
         }
 
@@ -183,7 +183,7 @@ class DumpShardsKtTest {
         if (FtlConstants.isWindows) return // TODO Windows Linux subsytem does not contain all expected commands
         // when
         val actual = runBlocking {
-            dumpShards(IosArgs.load(ios2ConfigYaml), TEST_SHARD_FILE)
+            dumpShards(IosArgs.load(ios2ConfigYaml).copy(obfuscateDumpShards = true), TEST_SHARD_FILE)
             File(TEST_SHARD_FILE).apply { deleteOnExit() }.readText()
         }
 
