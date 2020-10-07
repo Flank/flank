@@ -218,7 +218,7 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
             autoGoogleLogin = FlankDefaults.DISABLE_AUTO_LOGIN
             useOrchestrator = true
             environmentVariables = emptyMap()
-            grantPermissions = null
+            grantPermissions = FlankDefaults.GRANT_PERMISSIONS_ALL
             directoriesToPull = emptyList()
             otherFiles = emptyMap()
             performanceMetrics = FlankDefaults.DISABLE_PERFORMANCE_METRICS
