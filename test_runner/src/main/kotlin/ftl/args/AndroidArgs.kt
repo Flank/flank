@@ -81,6 +81,8 @@ AndroidArgs
     }
 }
 
+val AndroidArgs.isShouldAutoGrantPermissions
+    get() = grantPermissions.isNotNull() && (grantPermissions.equals("all"))
 val AndroidArgs.isInstrumentationTest
     get() = appApk.isNotNull() &&
             testApk.isNotNull() ||
