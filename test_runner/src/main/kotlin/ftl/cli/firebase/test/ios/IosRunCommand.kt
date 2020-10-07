@@ -44,10 +44,10 @@ class IosRunCommand : CommonRunCommand(), Runnable {
             MockServer.start()
         }
 
-        val config = IosArgs.load(Paths.get(configPath), cli = this).validate()
+        val config = IosArgs.load(Paths.get(configPath), cli = this).validate().copy(obfuscateDumpShards = obfuscate)
 
         if (dumpShards) {
-            dumpShards(args = config, obfuscatedOutput = obfuscate)
+            dumpShards(args = config)
         } else runBlocking {
             newTestRun(config)
         }

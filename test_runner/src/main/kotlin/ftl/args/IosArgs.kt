@@ -11,7 +11,8 @@ data class IosArgs(
     val xctestrunZip: String,
     val xctestrunFile: String,
     val xcodeVersion: String?,
-    val testTargets: List<String>
+    val testTargets: List<String>,
+    val obfuscateDumpShards: Boolean
 ) : IArgs by commonArgs {
 
     override val useLegacyJUnitResult = true

@@ -78,15 +78,15 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
 }
 
 private fun List<AndroidTestContext>.dumpShards(config: AndroidArgs) = apply {
-    filterIsInstance<InstrumentationTestContext>().asMatrixTestShards().saveShards()
+    filterIsInstance<InstrumentationTestContext>().asMatrixTestShards().saveShards(config.obfuscateDumpShards)
     if (config.disableResultsUpload.not()) GcStorage.upload(ANDROID_SHARD_FILE, config.resultsBucket, config.resultsDir)
 }
 
-private fun AndroidMatrixTestShards.saveShards() = saveShardChunks(
+private fun AndroidMatrixTestShards.saveShards(obfuscateOutput: Boolean) = saveShardChunks(
     shardFilePath = ANDROID_SHARD_FILE,
     shards = this,
     size = size,
-    obfuscatedOutput = false
+    obfuscatedOutput = obfuscateOutput
 )
 
 private suspend fun executeAndroidTestMatrix(

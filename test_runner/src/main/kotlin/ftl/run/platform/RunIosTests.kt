@@ -39,7 +39,8 @@ internal suspend fun runIosTests(iosArgs: IosArgs): TestResult = coroutineScope 
     val history = GcToolResults.createToolResultsHistory(iosArgs)
 
     dumpShards(iosArgs)
-    if (iosArgs.disableResultsUpload.not()) GcStorage.upload(IOS_SHARD_FILE, iosArgs.resultsBucket, iosArgs.resultsDir)
+    if (iosArgs.disableResultsUpload.not())
+        GcStorage.upload(IOS_SHARD_FILE, iosArgs.resultsBucket, iosArgs.resultsDir)
 
     // Upload only after parsing shards to detect missing methods early.
     val xcTestGcsPath = getXcTestGcPath(iosArgs, runGcsPath)

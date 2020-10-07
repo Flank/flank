@@ -351,7 +351,7 @@ class IosRunCommandTest {
         val runCmd = IosRunCommand()
         runCmd.configPath = "./src/test/kotlin/ftl/fixtures/simple-ios-flank.yml"
         runCmd.run()
-        verify { dumpShards(any<IosArgs>(), any(), any()) }
+        verify { dumpShards(any<IosArgs>(), any()) }
     }
 
     @Test
@@ -362,7 +362,7 @@ class IosRunCommandTest {
             runCmd.configPath = "./src/test/kotlin/ftl/fixtures/simple-ios-flank.yml"
             CommandLine(runCmd).parseArgs("--disable-results-upload")
             runCmd.run()
-            verify { dumpShards(any<IosArgs>(), any(), any()) }
+            verify { dumpShards(any<IosArgs>(), any()) }
             verify(inverse = true) { GcStorage.upload(IOS_SHARD_FILE, any(), any()) }
         }
     }

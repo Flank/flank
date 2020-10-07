@@ -36,5 +36,6 @@ fun createAndroidArgs(
             environmentVariables = env
         )
     } ?: emptyList(),
-    useLegacyJUnitResult = flank.useLegacyJUnitResult!!
+    useLegacyJUnitResult = flank.useLegacyJUnitResult!!,
+    obfuscateDumpShards = false
 )

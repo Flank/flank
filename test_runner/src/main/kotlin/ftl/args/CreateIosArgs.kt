@@ -21,7 +21,8 @@ private fun createIosArgs(
     xctestrunZip = gcloud.test?.normalizeFilePath().orEmpty(),
     xctestrunFile = gcloud.xctestrunFile?.normalizeFilePath().orEmpty(),
     xcodeVersion = gcloud.xcodeVersion,
-    testTargets = flank.testTargets?.filterNotNull().orEmpty()
+    testTargets = flank.testTargets?.filterNotNull().orEmpty(),
+    obfuscateDumpShards = true
 )
 
 private fun convertToShardCount(inputValue: Int) =

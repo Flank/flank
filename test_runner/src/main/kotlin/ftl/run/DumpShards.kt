@@ -15,7 +15,6 @@ import java.nio.file.Paths
 suspend fun dumpShards(
     args: AndroidArgs,
     shardFilePath: String = ANDROID_SHARD_FILE,
-    obfuscatedOutput: Boolean = false
 ) {
     if (!args.isInstrumentationTest) throw FlankConfigurationError(
         "Cannot dump shards for non instrumentation test, ensure test apk has been set."
@@ -25,20 +24,19 @@ suspend fun dumpShards(
         shardFilePath = shardFilePath,
         shards = shards,
         size = shards.size,
-        obfuscatedOutput = obfuscatedOutput
+        obfuscatedOutput = args.obfuscateDumpShards
     )
 }
 
 fun dumpShards(
     args: IosArgs,
     shardFilePath: String = IOS_SHARD_FILE,
-    obfuscatedOutput: Boolean = false
 ) {
     saveShardChunks(
         shardFilePath = shardFilePath,
         shards = args.testShardChunks.testCases,
         size = args.testShardChunks.size,
-        obfuscatedOutput = obfuscatedOutput
+        obfuscatedOutput = args.obfuscateDumpShards
     )
 }
 
