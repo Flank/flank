@@ -3,6 +3,7 @@ package ftl.run.platform
 import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.TestMatrix
 import ftl.args.AndroidArgs
+import ftl.args.isInstrumentationTest
 import ftl.gc.GcAndroidDevice
 import ftl.gc.GcAndroidTestMatrix
 import ftl.gc.GcStorage
@@ -77,10 +78,10 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     )
 }
 
-private fun List<AndroidTestContext>.dumpShards(config: AndroidArgs) = apply {
+private fun List<AndroidTestContext>.dumpShards(config: AndroidArgs) = takeIf { config.isInstrumentationTest }?.apply {
     filterIsInstance<InstrumentationTestContext>().asMatrixTestShards().saveShards(config.obfuscateDumpShards)
     if (config.disableResultsUpload.not()) GcStorage.upload(ANDROID_SHARD_FILE, config.resultsBucket, config.resultsDir)
-}
+} ?: this
 
 private fun AndroidMatrixTestShards.saveShards(obfuscateOutput: Boolean) = saveShardChunks(
     shardFilePath = ANDROID_SHARD_FILE,
