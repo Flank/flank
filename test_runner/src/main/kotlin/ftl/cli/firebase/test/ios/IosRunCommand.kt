@@ -44,7 +44,7 @@ class IosRunCommand : CommonRunCommand(), Runnable {
             MockServer.start()
         }
 
-        val config = IosArgs.load(Paths.get(configPath), cli = this).validate().copy(obfuscateDumpShards = obfuscate)
+        val config = IosArgs.load(Paths.get(configPath), cli = this).validate()
 
         if (dumpShards) {
             dumpShards(args = config)
