@@ -59,6 +59,8 @@ IosArgs
       run-timeout: $runTimeout
       ignore-failed-tests: $ignoreFailedTests
       output-style: ${outputStyle.name.toLowerCase()}
+      disable-results-upload: $disableResultsUpload
+      default-class-test-time: $defaultClassTestTime
     """.trimIndent()
     }
 }

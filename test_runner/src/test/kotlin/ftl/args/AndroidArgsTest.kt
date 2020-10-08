@@ -138,6 +138,8 @@ class AndroidArgsTest {
           run-timeout: 20m
           ignore-failed-tests: true
           output-style: single
+          disable-results-upload: true
+          default-class-test-time: 30.0
       """
 
     @After
@@ -357,6 +359,8 @@ AndroidArgs
       legacy-junit-result: false
       ignore-failed-tests: true
       output-style: single
+      disable-results-upload: true
+      default-class-test-time: 30.0
 """.trimIndent()
         )
     }
@@ -418,6 +422,8 @@ AndroidArgs
       legacy-junit-result: true
       ignore-failed-tests: false
       output-style: multi
+      disable-results-upload: false
+      default-class-test-time: 240.0
         """.trimIndent(),
             args.toString()
         )
