@@ -71,7 +71,6 @@ dependencies {
     implementation(Dependencies.Fuel.COROUTINES)
     implementation(Dependencies.CLIKT)
     implementation(Dependencies.JSOUP)
-    implementation(Dependencies.OKHTTP)
     implementation(Dependencies.JCABI_GITHUB)
     implementation(Dependencies.SLF4J_NOP)
     implementation(Dependencies.GLASSFISH_JSON)

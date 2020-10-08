@@ -3,7 +3,6 @@ package flank.scripts.testartifacts.core
 import com.jcabi.github.Release
 import flank.scripts.github.getRelease
 import flank.scripts.utils.download
-import okhttp3.OkHttpClient
 import java.io.File
 
 fun Context.downloadFixtures(
@@ -29,7 +28,7 @@ private fun Context.downloadFixtures(
         ).fullName
     ).run {
         if (exists() && overwrite) delete()
-        if (!exists()) OkHttpClient().download(url, absolutePath).also { println("OK") }
+        if (!exists()) download(url, absolutePath).also { println("OK") }
         else println("ABORTED (already exists)")
     }
 }
