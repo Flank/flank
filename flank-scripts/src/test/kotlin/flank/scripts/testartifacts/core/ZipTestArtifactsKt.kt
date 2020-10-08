@@ -31,7 +31,7 @@ class ZipTestArtifactsKt {
     }
 
     @Test
-    fun test() {
+    fun `should zip artifacts directory and than unzip the archive`() {
         testContext.run {
             // when
             zipTestArtifacts()

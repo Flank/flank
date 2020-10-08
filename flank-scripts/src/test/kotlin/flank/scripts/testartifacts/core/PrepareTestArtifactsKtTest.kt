@@ -26,13 +26,12 @@ class PrepareTestArtifactsKtTest {
     }
 
     @Test
-    fun test() {
+    fun `should prepare test artifacts`() {
         testContext.copy(branch = TEST_BRANCH_2).run {
             // when
             prepareTestArtifacts(TEST_BRANCH_1)
 
             // then
-
             projectRoot.run {
                 assertEquals(
                     testArtifacts(TEST_BRANCH_1).listFiles()!!.map { it.name },

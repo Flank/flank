@@ -46,8 +46,8 @@ private fun latestArtifactZipUrl(branch: String): String =
 private fun Release.Smart.latestArtifactZipUrl() = assets()
     .iterate()
     .map { it.json() }
-    .filter { regex.matches(it.getString("name")) }
+    .filter { zipFileRegex.matches(it.getString("name")) }
     .maxByOrNull { it.getString("name").toString() }
     ?.getString("browser_download_url")
 
-private val regex = Regex("^\\d+\\.zip")
+private val zipFileRegex = Regex("^\\d+\\.zip")

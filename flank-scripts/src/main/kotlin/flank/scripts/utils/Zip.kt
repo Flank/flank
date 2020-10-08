@@ -2,6 +2,8 @@ package flank.scripts.utils
 
 import java.io.File
 import java.io.FileInputStream
+import java.io.InputStream
+import java.io.OutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 import java.util.zip.ZipOutputStream
@@ -19,15 +21,14 @@ fun unzip(src: File, dst: File = src.parentFile) {
 
             outputFile.parentFile.mkdirs()
 
-            zipFile.getInputStream(zipEntry).use { zipEntryInput ->
-                outputFile.outputStream().use { output ->
-                    zipEntryInput.copyTo(output)
-                }
-            }
+            zipFile.getInputStream(zipEntry) useCopyTo outputFile.outputStream()
         }
     }
     println("OK")
 }
+
+private infix fun InputStream.useCopyTo(output: OutputStream) =
+    use { zipEntryInput -> output.use { output -> zipEntryInput.copyTo(output) } }
 
 fun zip(src: File, dst: File) {
     print("* Zipping: $src to $dst - ")
@@ -61,7 +62,7 @@ private fun ZipOutputStream.zipFile(
                 )
             )
             closeEntry()
-            fileToZip.listFiles()!!.forEach { childFile ->
+            fileToZip.listFiles()?.forEach { childFile ->
                 zipFile(childFile, "$fileName/${childFile.name}")
             }
         }

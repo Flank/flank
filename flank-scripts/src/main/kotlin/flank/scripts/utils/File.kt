@@ -9,10 +9,7 @@ fun createSymbolicLink(
 ) {
     Files.createSymbolicLink(
         Paths.get(link)
-            .also { linkPath ->
-                if (Files.isSymbolicLink(linkPath))
-                    Files.delete(linkPath)
-            }
+            .also { linkPath -> if (Files.isSymbolicLink(linkPath)) Files.delete(linkPath) }
             .toAbsolutePath().normalize(),
 
         Paths.get(target)

@@ -20,14 +20,14 @@ class ArtifactsArchiveTest {
     }
 
     @Test
-    fun latestArtifactsArchiveTest() {
+    fun `get latest artifacts archive name`() {
         testContext.latestArtifactsArchive()!!.run {
             assertEquals(zipFileName, name)
         }
     }
 
     @Test
-    fun parseArtifactsArchiveTest() {
+    fun `should parse artifacts archive by name`() {
         zipFileName.parseArtifactsArchive().run {
             assertEquals(zipFileName, fullName)
             assertEquals(assetName, shortName)

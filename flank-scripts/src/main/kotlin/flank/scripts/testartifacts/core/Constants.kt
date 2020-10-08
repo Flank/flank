@@ -3,7 +3,7 @@ package flank.scripts.testartifacts.core
 import flank.scripts.utils.currentGitBranch
 import java.io.File
 
-const val GITHUB_TOKEN = "GITHUB_TOKEN"
+const val GITHUB_TOKEN_ENV_KEY = "GITHUB_TOKEN"
 const val TEST_ARTIFACTS_REPO = "Flank/test_artifacts"
 
 const val FIXTURES_PATH = "test_runner/src/test/kotlin/ftl/fixtures/tmp"
