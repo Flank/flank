@@ -97,6 +97,7 @@ class AndroidArgsTest {
           directories-to-pull:
           - /sdcard/screenshots
           - /sdcard/screenshots2
+          grant-permissions: all
           other-files:
             /sdcard/dir1/file1.txt: $appApk
             /sdcard/dir2/file2.jpg: $testApk
@@ -307,10 +308,11 @@ AndroidArgs
         - $testFlakyApkAbsolutePath
       auto-google-login: false
       use-orchestrator: false
-      directories-to-pull:
+      directories-to-pull: 
         - /sdcard/screenshots
         - /sdcard/screenshots2
-      other-files:
+      grant-permissions: all
+      other-files: 
         /sdcard/dir1/file1.txt: $appApkAbsolutePath
         /sdcard/dir2/file2.jpg: $testApkAbsolutePath
       performance-metrics: false
@@ -386,8 +388,9 @@ AndroidArgs
       additional-apks: 
       auto-google-login: false
       use-orchestrator: true
-      directories-to-pull:
-      other-files:
+      directories-to-pull: 
+      grant-permissions: all
+      other-files: 
       performance-metrics: false
       num-uniform-shards: null
       test-runner-class: null
@@ -1425,7 +1428,10 @@ AndroidArgs
             InstrumentationTestContext(
                 app = "app".asFileReference(),
                 test = "test".asFileReference(),
-                shards = listOf(Chunk(listOf(TestMethod(name = "test", time = 0.0))), Chunk(listOf(TestMethod(name = "test", time = 0.0))))
+                shards = listOf(
+                    Chunk(listOf(TestMethod(name = "test", time = 0.0))),
+                    Chunk(listOf(TestMethod(name = "test", time = 0.0)))
+                )
             )
         )
         val testSpecification = TestSpecification().setupAndroidTest(androidTestConfig)
@@ -1449,7 +1455,10 @@ AndroidArgs
             InstrumentationTestContext(
                 app = "app".asFileReference(),
                 test = "test".asFileReference(),
-                shards = listOf(Chunk(listOf(TestMethod(name = "test", time = 0.0))), Chunk(listOf(TestMethod(name = "test", time = 0.0))))
+                shards = listOf(
+                    Chunk(listOf(TestMethod(name = "test", time = 0.0))),
+                    Chunk(listOf(TestMethod(name = "test", time = 0.0)))
+                )
             )
         )
         val testSpecification = TestSpecification().setupAndroidTest(androidTestConfig)
@@ -1854,6 +1863,54 @@ AndroidArgs
             // then
             assertFalse(systemOutRule.log.contains("WARNING: Google cloud storage result directory should be unique, otherwise results from multiple test matrices will be overwritten or intermingled"))
         }
+    }
+
+    @Test(expected = FlankGeneralError::class)
+    fun `should throw exception if incorrect permission requested`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          grant-permissions: error
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should Not throw exception if correct permission requested All`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          grant-permissions: all
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should Not throw exception if correct permission requested None`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          grant-permissions: none
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
     }
 }
 

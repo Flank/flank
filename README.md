@@ -324,6 +324,10 @@ gcloud:
   # directories-to-pull:
   #   - /sdcard/
 
+  ## Whether to grant runtime permissions on the device before the test begins.
+  ## By default, all permissions are granted. PERMISSIONS must be one of: all, none
+  # grant-permissions: all
+
   ## A list of device-path: file-path pairs that indicate the device paths to push files to the device before starting tests, and the paths of files to push.
   ## Device paths must be under absolute, whitelisted paths (${EXTERNAL_STORAGE}, or ${ANDROID_DATA}/local/tmp).
   ## Source file paths may be in the local filesystem or in Google Cloud Storage (gs://…).
