@@ -9,4 +9,5 @@ object FlankDefaults {
     const val DISABLE_VIDEO_RECORDING = false
     const val DISABLE_AUTO_LOGIN = false
     const val DISABLE_PERFORMANCE_METRICS = false
+    const val GRANT_PERMISSIONS_ALL = "all"
 }

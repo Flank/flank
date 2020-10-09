@@ -178,6 +178,11 @@ flank:
   ## Default: 120.0
   # default-test-time: 15
 
+  ## Set default test time (in seconds) used for calculating shards of parametrized classes when previous tests results are not available.
+  ## Default test time for classes should be different from the default time for test
+  ## Default: 240.0
+  # default-class-test-time: 30
+
   ## Disables sharding. Useful for parameterized tests.
   # disable-sharding: false
 
@@ -213,6 +218,12 @@ flank:
   ## Useful for Fladle and other gradle plugins that don't expect the process to have a non-zero exit code.
   ## The JUnit XML is used to determine failure. (default: false)
   # ignore-failed-tests: true
+
+  ## Output style of execution status. May be one of [verbose, multi, single].
+  ## For runs with only one test execution the default value is 'verbose', in other cases
+  ## 'multi' is used as the default. The output style 'multi' is not displayed correctly on consoles
+  ## which don't support ansi codes, to avoid corrupted output use single or verbose.
+  # output-style: single
 
   ## Enable create additional local junit result on local storage with failure nodes on passed flaky tests.
   # full-junit-result: false
@@ -287,6 +298,10 @@ gcloud:
   ## The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://.
   test: ../test_projects/android/apks/app-debug-androidTest.apk
 
+  ## A list of up to 100 additional APKs to install, in addition to those being directly tested.
+  ## The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.
+  # additional-apks: additional-apk1.apk,additional-apk2.apk,additional-apk3.apk
+
   ## Automatically log into the test device using a preconfigured Google account before beginning the test.
   ## Disabled by default. Use --auto-google-login to enable.
   # auto-google-login: true
@@ -308,6 +323,10 @@ gcloud:
   ## is complete. These must be absolute paths under /sdcard or /data/local/tmp
   # directories-to-pull:
   #   - /sdcard/
+
+  ## Whether to grant runtime permissions on the device before the test begins.
+  ## By default, all permissions are granted. PERMISSIONS must be one of: all, none
+  # grant-permissions: all
 
   ## A list of device-path: file-path pairs that indicate the device paths to push files to the device before starting tests, and the paths of files to push.
   ## Device paths must be under absolute, whitelisted paths (${EXTERNAL_STORAGE}, or ${ANDROID_DATA}/local/tmp).
@@ -400,6 +419,11 @@ flank:
   ## Default: 120.0
   # default-test-time: 15
 
+  ## Set default test time (in seconds) used for calculating shards of parametrized classes when previous tests results are not available.
+  ## Default test time for classes should be different from the default time for test
+  ## Default: 240.0
+  # default-class-test-time: 30
+
   ## Disables sharding. Useful for parameterized tests.
   # disable-sharding: false
 
@@ -442,6 +466,12 @@ flank:
   ## This flag allows fallback for legacy xml junit results parsing
   ## Currently available for android, iOS still uses only legacy way.
   # legacy-junit-result: false
+
+  ## Output style of execution status. May be one of [verbose, multi, single].
+  ## For runs with only one test execution the default value is 'verbose', in other cases
+  ## 'multi' is used as the default. The output style 'multi' is not displayed correctly on consoles
+  ## which don't support ansi codes, to avoid corrupted output use single or verbose.
+  # output-style: single
 
   ## Enable create additional local junit result on local storage with failure nodes on passed flaky tests.
   # full-junit-result: false

@@ -11,8 +11,9 @@ data class AndroidArgs(
     val useOrchestrator: Boolean,
     val roboDirectives: List<FlankRoboDirective>,
     val roboScript: String?,
-    val environmentVariables: Map<String, String>,
+    val environmentVariables: Map<String, String>, // should not be printed, becuase could contains sensitive informations
     val directoriesToPull: List<String>,
+    val grantPermissions: String?,
     val otherFiles: Map<String, String>,
     val performanceMetrics: Boolean,
     val numUniformShards: Int?,
@@ -41,8 +42,9 @@ AndroidArgs
       additional-apks: ${ArgsToString.listToString(additionalApks)}
       auto-google-login: $autoGoogleLogin
       use-orchestrator: $useOrchestrator
-      directories-to-pull:${ArgsToString.listToString(directoriesToPull)}
-      other-files:${ArgsToString.mapToString(otherFiles)}
+      directories-to-pull: ${ArgsToString.listToString(directoriesToPull)}
+      grant-permissions: $grantPermissions
+      other-files: ${ArgsToString.mapToString(otherFiles)}
       performance-metrics: $performanceMetrics
       num-uniform-shards: $numUniformShards
       test-runner-class: $testRunnerClass
@@ -73,10 +75,14 @@ AndroidArgs
       legacy-junit-result: $useLegacyJUnitResult
       ignore-failed-tests: $ignoreFailedTests
       output-style: ${outputStyle.name.toLowerCase()}
+      disable-results-upload: $disableResultsUpload
+      default-class-test-time: $defaultClassTestTime
    """.trimIndent()
     }
 }
 
+val AndroidArgs.isDontAutograntPermissions
+    get() = !(grantPermissions.isNotNull() && (grantPermissions.equals("all")))
 val AndroidArgs.isInstrumentationTest
     get() = appApk.isNotNull() &&
             testApk.isNotNull() ||

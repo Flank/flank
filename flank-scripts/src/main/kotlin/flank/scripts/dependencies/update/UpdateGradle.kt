@@ -14,7 +14,10 @@ private fun updateGradleWrapper(gradleDependency: GradleDependency, gradleWrappe
     findAllGradleWrapperPropertiesFiles(gradleWrapperPropertiesPath)
         .forEach {
             val from = gradleDependency.running.version
-            val to = gradleDependency.current.version
+            val to = if (gradleDependency.releaseCandidate.isUpdateAvailable)
+                gradleDependency.releaseCandidate.version
+            else
+                gradleDependency.current.version
             println("Update gradle wrapper $from to $to in file ${it.path}")
             it.updateGradleWrapperPropertiesFile(from, to)
         }

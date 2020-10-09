@@ -99,15 +99,23 @@ class DependencyExtensionsTest {
             releaseCandidate = GradleVersion("1.2rc", "test", false, false),
             running = GradleVersion("1", "test", false, false),
         )
-        val gradleWhichDoesNotNeedUpdate = GradleDependency(
+        val gradleWhichNeedsUpdateRc = GradleDependency(
             current = GradleVersion("1.1", "test", false, false),
             nightly = GradleVersion("1.3", "test", false, false),
             releaseCandidate = GradleVersion("1.2rc", "test", false, false),
             running = GradleVersion("1.1", "test", false, false),
         )
+        val gradleWhichDoesNotNeedUpdate = GradleDependency(
+            current = GradleVersion("1.1", "test", false, false),
+            nightly = GradleVersion("1.3", "test", false, false),
+            releaseCandidate = GradleVersion("1.1", "test", false, false),
+            running = GradleVersion("1.1", "test", false, false),
+        )
 
-        // when - then
+
+            // when - then
         assertTrue(gradleWhichNeedsUpdate.needsUpdate())
+        assertTrue(gradleWhichNeedsUpdateRc.needsUpdate())
         assertFalse(gradleWhichDoesNotNeedUpdate.needsUpdate())
     }
 }

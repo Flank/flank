@@ -13,6 +13,7 @@ import com.google.api.services.testing.model.TestSetup
 import com.google.api.services.testing.model.TestSpecification
 import com.google.api.services.testing.model.ToolResultsHistory
 import ftl.args.AndroidArgs
+import ftl.args.isDontAutograntPermissions
 import ftl.gc.android.mapGcsPathsToApks
 import ftl.gc.android.mapToDeviceFiles
 import ftl.gc.android.setEnvironmentVariables
@@ -57,6 +58,7 @@ object GcAndroidTestMatrix {
             .setAdditionalApks(additionalApkGcsPaths.mapGcsPathsToApks())
             .setFilesToPush(otherFiles.mapToDeviceFiles())
             .setEnvironmentVariables(args, androidTestConfig)
+            .setDontAutograntPermissions(args.isDontAutograntPermissions)
 
         val testTimeoutSeconds = timeoutToSeconds(args.testTimeout)
 
