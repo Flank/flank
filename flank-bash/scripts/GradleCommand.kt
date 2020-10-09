@@ -8,4 +8,4 @@ fun createGradleCommand(
 private val gradleExecutable: String
     get() = if(isWindows) "gradlew.bat" else "gradlew"
 
-private val isWindows = System.getProperty("os.name").startsWith("Windows")
+val isWindows = System.getProperty("os.name").startsWith("Windows")
