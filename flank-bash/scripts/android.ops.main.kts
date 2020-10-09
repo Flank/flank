@@ -10,13 +10,13 @@ import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 import eu.jrie.jetbrains.kotlinshell.shell.*
+import java.nio.file.Path
 import java.nio.file.StandardCopyOption
 
 suspend fun Shell.generateApkAndTests() {
+    baseAppApk()
+    baseTesApks()
     duplicatedNamesApks()
-//    baseAppApk()
-//    baseTesApks()
-//    duplicatedNamesApks()
 }
 
 suspend fun Shell.baseAppApk() {
@@ -60,15 +60,17 @@ suspend fun Shell.duplicatedNamesApks() {
     modules.map { Paths.get(androidTestProjectsPath, it, "testModule", "build", "outputs", "apk").toFile() }
         .flatMap { it.walk().filter { file -> file.extension == "apk" }.toList() }
         .forEachIndexed { index, file ->
-            Paths.get(outputDir.toString(), modules[index], file.name).let { path ->
-                if (!path.parent.toFile().exists()) {
-                    Files.createDirectories(path.parent)
-                }
-                Files.copy(
-                    file.toPath(),
-                    path,
-                    StandardCopyOption.REPLACE_EXISTING
-                )
-            }
+            file.copyDuplicatedApkToDirectory(Paths.get(outputDir.toString(), modules[index], file.name))
         }
 }
+
+fun File.copyDuplicatedApkToDirectory(output: Path) = toPath().let { sourceFile ->
+    if (!output.parent.toFile().exists())
+        Files.createDirectories(output.parent)
+    Files.copy(
+        sourceFile,
+        output,
+        StandardCopyOption.REPLACE_EXISTING
+    )
+}
+
