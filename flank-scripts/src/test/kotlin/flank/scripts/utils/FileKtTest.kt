@@ -1,14 +1,32 @@
 package flank.scripts.utils
 
+import org.junit.After
+import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
 
 class FileKtTest {
 
+    private val linkName = "tmp"
+    private val targetName = "../"
+
     @Test
-    fun createSymbolicLinkTest() {
+    fun `should create symbolic link`() {
+
+        // when
         createSymbolicLink(
-            link = "../test_runner/src/test/kotlin/ftl/fixtures/tmp",
-            target = "../test_artifacts/master"
+            link = linkName,
+            target = targetName
         )
+
+        // then
+        assertTrue(Files.isSymbolicLink(Paths.get(linkName)))
+    }
+
+    @After
+    fun tearDown() {
+        File(linkName).delete()
     }
 }
