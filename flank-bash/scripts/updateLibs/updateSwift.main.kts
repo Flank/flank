@@ -2,6 +2,7 @@
 
 @file:Import("downloadFiles.main.kts")
 @file:Import("unpack.main.kts")
+@file:Import("update.constants.kts")
 
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -10,7 +11,27 @@ import java.nio.file.StandardCopyOption
 private val currentPath = Paths.get("")
 private val swiftPath = Paths.get(currentPath.toString(), "swift")
 
-fun updateSwift() {
+fun updateSwiftWindows() {
+    val swiftExe = Paths.get(swiftPath.toString(), "swift.exe")
+
+    if (swiftExe.toFile().exists()) {
+        println("Swift exists")
+    } else {
+        println("Downloading swift")
+        swiftPath.toFile().mkdirs()
+        downloadFile(
+            url = "https://swift.org/builds/swift-5.3-release/windows10/swift-5.3-RELEASE/swift-5.3-RELEASE-windows10.exe",
+            destinationPath = swiftExe.toString()
+        )
+    }
+
+    swiftExe.toFile().extract(swiftPath.toFile(), "zip", "gz")
+    findAndCopyLicense()
+    findAndCopySwiftDemangleFile()
+    swiftPath.toFile().deleteRecursively()
+}
+
+fun updateSwiftOther() {
     val swiftTarGz = Paths.get(swiftPath.toString(), "swift.tar.gz")
 
     if (swiftTarGz.toFile().exists()) {
@@ -29,6 +50,8 @@ fun updateSwift() {
     findAndCopySwiftDemangleFile()
     swiftPath.toFile().deleteRecursively()
 }
+
+fun updateSwift() = if (isWindows) updateSwiftWindows() else updateSwiftOther()
 
 fun findAndCopyLicense() {
     val licenseFileSuffix = Paths.get("usr", "share", "swift", "LICENSE.txt").toString()

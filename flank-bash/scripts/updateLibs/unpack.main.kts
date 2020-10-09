@@ -19,7 +19,7 @@ fun File.extract(
     kotlin.runCatching {
         archiver.extract(this, destination)
     }.onFailure {
-        println("There was an error when unpacking $name")
+        println("There was an error when unpacking $name - $it")
     }
 }
 
@@ -37,6 +37,6 @@ fun File.extract(
     kotlin.runCatching {
         archiver.extract(this, destination)
     }.onFailure {
-        println("There was an error when unpacking $name")
+        println("There was an error when unpacking $name - $it")
     }
 }

@@ -8,10 +8,18 @@ import java.io.File
 fun downloadFile(
     url: String,
     destinationPath: String
-)  {
+) {
     println("Downloading from $url")
+    var lastUpdate = 0L
     Fuel.download(url)
         .fileDestination { _, _ -> File(destinationPath) }
+        .progress { readBytes, totalBytes ->
+            if (System.currentTimeMillis() - lastUpdate > 2000) {
+                lastUpdate = System.currentTimeMillis()
+                val progress = readBytes.toFloat() / totalBytes.toFloat() * 100
+                println("Bytes downloaded $readBytes / $totalBytes ($progress %)")
+            }
+        }
         .response()
 }
 
