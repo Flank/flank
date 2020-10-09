@@ -16,7 +16,7 @@ fun downloadFile(
         .progress { readBytes, totalBytes ->
             if (System.currentTimeMillis() - lastUpdate > 2000) {
                 lastUpdate = System.currentTimeMillis()
-                val progress = readBytes.toFloat() / totalBytes.toFloat() * 100
+                val progress = (readBytes.toFloat() / totalBytes.toFloat() * 100).toInt()
                 println("Bytes downloaded $readBytes / $totalBytes ($progress %)")
             }
         }
