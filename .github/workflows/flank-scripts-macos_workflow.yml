@@ -24,5 +24,8 @@ jobs:
 
     - name: Gradle check
       uses: eskatos/gradle-command-action@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        HEAD_REF: ${{ github.head_ref }}
       with:
         arguments: ":flank-scripts:check"
