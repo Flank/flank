@@ -108,8 +108,8 @@ Delete old tag on GitHub
 | `--token`       	| Git token       	|
 
 ### dependencies
-Dependencies update process was described [here](../docs/dependencies_update_process.md)  
-To show all available commands for dependencies use:
+Dependencies update process was described [here](../docs/dependencies_update_process.md)
+To show all available commands for ci use:
 `flankScripts dependencies`
 
 Available commands are:
@@ -124,42 +124,3 @@ Command to update dependencies
 | --dependencies-file 	| Path to .kts file with dependencies defined. DEFAULT:  `./buildSrc/src/main/kotlin/Dependencies.kt` 	|
 | --versions-file     	| Path to .kts file with versions defined. DEFAULT:  `./buildSrc/src/main/kotlin/Versions.kt`         	|
 | --plugins-file      	| Path to .kts file with plugins defined. DEFAULT:  `./buildSrc/src/main/kotlin/Plugins.kt`           	|
-
-### Test artifacts management
-Test artifacts management process was described [here](../docs/test_artifacts.md)  
-To show all available commands for testArtifacts use `flankScripts testArtifacts`
-All [testArtifacts](../flank-scripts/src/main/kotlin/flank/scripts/testartifacts/TestArtifacts.kt) subcommands can be configured using base options.
-
-| Option         | Short option | Description                                                                                      |
-|----------------|--------------|--------------------------------------------------------------------------------------------------|
-| --branch       | -b           | Branch name that identify test artifacts to operate. The current git branch is a default.        |
-| --project-root | -p           | Path to local project repository root. By default it is resolved from `FLANK_ROOT` env variable. |
-
-  #### `download`
-  Download test artifacts zip asset to test_artifacts directory.
-  
-  | Option      | Short option | Description                                                             |
-  |-------------|--------------|-------------------------------------------------------------------------|
-  | --overwrite | -o           | Flag which indicates if should overwrite old resources when downloading |
-  
-  #### `upload`  
-  Upload test artifacts zip as github release asset.
-  #### `prepare` 
-  Creates fresh copy of test artifacts for current working branch, basing on existing one.
-  
-  | Option | Short option | Description                                                                        |
-  |--------|--------------|------------------------------------------------------------------------------------|
-  | --src  | -s           | The name of branch that identify artifacts source. The master branch is a default. |
-  
-  #### `zip`     
-  Create zip archive from test artifacts directory.
-  #### `unzip`   
-  Unpack test artifacts zip archive.
-  #### `link`  
-  Create symbolic link to under
-      `test_runner/src/test/kotlin/ftl/fixtures/tmp` to `test_artifacts/{branchName}`.
-  #### `remove`  
-  Remove remote copy of test artifacts.
-  #### `resolve` 
-  Automatically prepare local artifacts if needed.
-

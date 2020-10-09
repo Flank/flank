@@ -27,17 +27,7 @@ group = "flank.scripts"
 
 application {
     mainClassName = "flank.scripts.MainKt"
-    applicationDefaultJvmArgs = listOf(
-        "-Xmx2048m",
-        "-Xms512m"
-    )
 }
-
-tasks.test {
-    maxHeapSize = "2048m"
-    minHeapSize = "512m"
-}
-
 
 repositories {
     jcenter()
@@ -70,10 +60,6 @@ dependencies {
     implementation(Dependencies.Fuel.KOTLINX_SERIALIZATION)
     implementation(Dependencies.Fuel.COROUTINES)
     implementation(Dependencies.CLIKT)
-    implementation(Dependencies.JSOUP)
-    implementation(Dependencies.JCABI_GITHUB)
-    implementation(Dependencies.SLF4J_NOP)
-    implementation(Dependencies.GLASSFISH_JSON)
 
     detektPlugins(Dependencies.DETEKT_FORMATTING)
 
@@ -81,13 +67,4 @@ dependencies {
     testImplementation(Dependencies.MOCKK)
     testImplementation(Dependencies.TRUTH)
     testImplementation(Dependencies.SYSTEM_RULES)
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
-
-val prepareJar by tasks.registering(Copy::class) {
-    dependsOn("shadowJar")
-    from("$buildDir/libs")
-    include("flankScripts.jar")
-    into("$projectDir/bash")
 }

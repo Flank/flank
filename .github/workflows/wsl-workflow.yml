@@ -43,9 +43,6 @@ jobs:
           sudo apt-get -y install openjdk-8-jdk
 
     - name: Gradle clean build
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        HEAD_REF: ${{ github.head_ref }}
       run: |
           ./gradlew clean build
 

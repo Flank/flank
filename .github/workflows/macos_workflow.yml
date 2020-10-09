@@ -32,11 +32,8 @@ jobs:
 
     - name: Gradle clean build
       uses: eskatos/gradle-command-action@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        HEAD_REF: ${{ github.head_ref }}
       with:
-        arguments: "clean build"
+          arguments: "clean build"
 
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:

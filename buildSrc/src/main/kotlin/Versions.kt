@@ -91,7 +91,4 @@ object Versions {
     const val KOTLIN_SERIALIZATION = "1.0.0-RC2"
     const val FUEL = "2.3.0"
     const val CLIKT = "2.8.0"
-    const val JCABI_GITHUB = "1.1.2"
-    const val SLF4J_NOP = "1.7.25"
-    const val GLASSFISH_JSON = "1.1"
 }

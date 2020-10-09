@@ -12,17 +12,10 @@ fun List<String>.runCommand(retryCount: Int = 0, fileForOutput: File? = null) =
             redirectError(ProcessBuilder.Redirect.INHERIT)
         }
     }
+
         .startWithRetry(retryCount)
 
-fun String.runCommand(retryCount: Int = 0, fileForOutput: File? = null) =
-    split(" ").toList().runCommand(retryCount, fileForOutput)
-
-fun String.runForOutput(retryCount: Int = 0): String = File
-    .createTempFile(hashCode().toString(), "")
-    .let { file ->
-        runCommand(retryCount, file)
-        file.readText()
-    }
+fun String.runCommand(retryCount: Int = 0, fileForOutput: File? = null) = split(" ").toList().runCommand(retryCount, fileForOutput)
 
 internal fun ProcessBuilder.startWithRetry(retryCount: Int): Int {
     var retryTries = 0

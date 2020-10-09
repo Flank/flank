@@ -2,6 +2,7 @@ package ftl.ios
 
 import com.google.common.truth.Truth.assertThat
 import ftl.config.FtlConstants.isWindows
+import ftl.mock.TestArtifact.fixturesPath
 import ftl.test.util.FlankTestRunner
 import ftl.run.exception.FlankGeneralError
 import org.junit.Assume.assumeFalse

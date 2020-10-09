@@ -378,17 +378,3 @@ fun execAndGetStdout(vararg args: String): String {
     return stdout.toString().trimEnd()
 }
 
-val resolveArtifacts by tasks.registering {
-    dependsOn(":flank-scripts:prepareJar")
-    group = "verification"
-    doLast {
-        val flankScriptsPath = rootDir.resolve("flank-scripts/bash/flankScripts").absolutePath
-        println(flankScriptsPath)
-        exec {
-            commandLine(flankScriptsPath, "testArtifacts", "-p", rootDir.absolutePath, "resolve")
-            workingDir = rootDir
-        }
-    }
-}
-
-tasks.test { dependsOn(resolveArtifacts) }
