@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.core.subcommands
 import flank.scripts.ci.CiCommand
 import flank.scripts.dependencies.DependenciesCommand
 import flank.scripts.release.ReleaseCommand
+import flank.scripts.testartifacts.TestArtifactsCommand
 
 class Main : CliktCommand(name = "flankScripts") {
     @Suppress("EmptyFunctionBlock")
@@ -12,7 +13,10 @@ class Main : CliktCommand(name = "flankScripts") {
 }
 
 fun main(args: Array<String>) {
-    Main()
-        .subcommands(ReleaseCommand(), CiCommand(), DependenciesCommand)
-        .main(args)
+    Main().subcommands(
+        ReleaseCommand(),
+        CiCommand(),
+        DependenciesCommand,
+        TestArtifactsCommand()
+    ).main(args)
 }
