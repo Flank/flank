@@ -68,7 +68,7 @@ data class CommonGcloudConfig @JsonIgnore constructor(
         names = ["--timeout"],
         description = ["The max time this test execution can run before it is cancelled " +
                 "(default: 15m). It does not include any time necessary to prepare and clean up the target device. The maximum " +
-                "possible testing time is 30m on physical devices and 60m on virtual devices. The TIMEOUT units can be h, m, " +
+                "possible testing time is 45m on physical devices and 60m on virtual devices. The TIMEOUT units can be h, m, " +
                 "or s. If no unit is given, seconds are assumed. "]
     )
     @set:JsonProperty("timeout")
