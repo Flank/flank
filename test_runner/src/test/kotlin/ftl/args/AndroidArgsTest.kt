@@ -98,6 +98,7 @@ class AndroidArgsTest {
           - /sdcard/screenshots
           - /sdcard/screenshots2
           grant-permissions: all
+          type: null
           other-files:
             /sdcard/dir1/file1.txt: $appApk
             /sdcard/dir2/file2.jpg: $testApk
@@ -312,6 +313,7 @@ AndroidArgs
         - /sdcard/screenshots
         - /sdcard/screenshots2
       grant-permissions: all
+      type: null
       other-files: 
         /sdcard/dir1/file1.txt: $appApkAbsolutePath
         /sdcard/dir2/file2.jpg: $testApkAbsolutePath
@@ -390,6 +392,7 @@ AndroidArgs
       use-orchestrator: true
       directories-to-pull: 
       grant-permissions: all
+      type: null
       other-files: 
       performance-metrics: false
       num-uniform-shards: null

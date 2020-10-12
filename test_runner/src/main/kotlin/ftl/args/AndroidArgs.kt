@@ -1,6 +1,7 @@
 package ftl.args
 
 import ftl.args.yml.AppTestPair
+import ftl.args.yml.Type
 
 data class AndroidArgs(
     val commonArgs: CommonArgs,
@@ -14,6 +15,7 @@ data class AndroidArgs(
     val environmentVariables: Map<String, String>, // should not be printed, becuase could contains sensitive informations
     val directoriesToPull: List<String>,
     val grantPermissions: String?,
+    val type: Type?,
     val otherFiles: Map<String, String>,
     val performanceMetrics: Boolean,
     val numUniformShards: Int?,
@@ -44,6 +46,7 @@ AndroidArgs
       use-orchestrator: $useOrchestrator
       directories-to-pull: ${ArgsToString.listToString(directoriesToPull)}
       grant-permissions: $grantPermissions
+      type: ${type?.ymlName}
       other-files: ${ArgsToString.mapToString(otherFiles)}
       performance-metrics: $performanceMetrics
       num-uniform-shards: $numUniformShards
@@ -83,6 +86,7 @@ AndroidArgs
 
 val AndroidArgs.isDontAutograntPermissions
     get() = !(grantPermissions.isNotNull() && (grantPermissions.equals("all")))
+
 val AndroidArgs.isInstrumentationTest
     get() = appApk.isNotNull() &&
             testApk.isNotNull() ||
