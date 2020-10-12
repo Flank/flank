@@ -18,13 +18,36 @@ suspend fun Shell.setupIosEnv() {
     val shouldInstallXcpretty = kotlin.runCatching { "xcpretty -V"().pcb.exitCode }.getOrDefault(1) != 0
     if (shouldInstallXcpretty) "gem install cocoapods -v 1.9.3"()
     val earlGreyExample = Paths.get(iOsTestProjectsPath, "EarlGreyExample")
-    "cd $earlGreyExample && pod install")()
+    ("cd $earlGreyExample && pod install")()
 }
 
-suspend fun installXcpretty() {
-
+suspend fun Shell.installXcpretty() {
+    val shouldInstallXcpretty = kotlin.runCatching { "xcpretty -V"().pcb.exitCode }.getOrDefault(1) != 0
+    if(shouldInstallXcpretty)  ("gem install xcpretty")()
 }
 
 suspend fun Shell.buildEarlGreyExample() {
+    installXcpretty()
+    val buildDir = Paths.get(iOsTestProjectsPath, "EarlGreyExample", "build")
+    ("rm -rf \"${buildDir}\"")()
+    ("""
+        xcodebuild build-for-testing \
+        -allowProvisioningUpdates \
+        -workspace "${buildDir.parent}/EarlGreyExample.xcworkspace" \
+        -scheme "EarlGreyExampleSwiftTests" \
+        -derivedDataPath "${buildDir.parent}" \
+        -sdk iphoneos |
+        xcpretty
+    """.trimIndent())()
 
+
+    ("""
+        xcodebuild build-for-testing \
+        -allowProvisioningUpdates \
+        -workspace "${buildDir.parent}/EarlGreyExample.xcworkspace" \
+        -scheme "EarlGreyExampleTests" \
+        -derivedDataPath "${buildDir.parent}" \
+        -sdk iphoneos |
+        xcpretty
+    """.trimIndent())()
 }
