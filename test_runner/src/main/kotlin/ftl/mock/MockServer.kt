@@ -356,6 +356,5 @@ object MockServer {
         LogbackLogger.Root.isEnabled = loggingEnabled
         isStarted = true
         FtlConstants.useMock = true
-        TestArtifact.checkFixtures
     }
 }

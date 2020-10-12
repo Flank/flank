@@ -55,12 +55,14 @@ object Dependencies {
 
     //region flank-scripts
     const val CLIKT = "com.github.ajalt:clikt:${Versions.CLIKT}"
-
+    const val JCABI_GITHUB = "com.jcabi:jcabi-github:${Versions.JCABI_GITHUB}"
+    const val SLF4J_NOP = "org.slf4j:slf4j-nop:${Versions.SLF4J_NOP}"
     object Fuel {
         const val CORE = "com.github.kittinunf.fuel:fuel:${Versions.FUEL}"
         const val COROUTINES = "com.github.kittinunf.fuel:fuel-coroutines:${Versions.FUEL}"
         const val KOTLINX_SERIALIZATION = "com.github.kittinunf.fuel:fuel-kotlinx-serialization:${Versions.FUEL}"
     }
+    const val GLASSFISH_JSON = "org.glassfish:javax.json:${Versions.GLASSFISH_JSON}"
     //endregion
 }
 

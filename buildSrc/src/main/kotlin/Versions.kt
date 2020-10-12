@@ -12,7 +12,7 @@ object Versions {
     const val BINTRAY = "1.8.5"
 
     // https://github.com/johnrengelman/shadow/releases
-    const val SHADOW = "6.0.0"
+    const val SHADOW = "6.1.0"
 
     // https://github.com/linkedin/dex-test-parser/releases
     const val DEX_TEST_PARSER = "2.2.1"
@@ -47,7 +47,7 @@ object Versions {
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
     const val JACKSON = "2.11.3"
 
-    const val JUNIT = "4.13"
+    const val JUNIT = "4.13.1"
 
     // https://github.com/jhy/jsoup/releases
     const val JSOUP = "1.13.1"
@@ -91,4 +91,7 @@ object Versions {
     const val KOTLIN_SERIALIZATION = "1.0.0-RC2"
     const val FUEL = "2.3.0"
     const val CLIKT = "2.8.0"
+    const val JCABI_GITHUB = "1.1.2"
+    const val SLF4J_NOP = "1.7.30"
+    const val GLASSFISH_JSON = "1.1.4"
 }

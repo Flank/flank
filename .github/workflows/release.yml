@@ -62,6 +62,9 @@ jobs:
 
     - name: Gradle Build Flank
       uses: eskatos/gradle-command-action@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        HEAD_REF: ${{ github.head_ref }}
       with:
         arguments: "clean test_runner:build test_runner:shadowJar"
         

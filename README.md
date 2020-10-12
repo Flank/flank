@@ -85,7 +85,7 @@ gcloud:
 
   ## The max time this test execution can run before it is cancelled (default: 15m).
   ## It does not include any time necessary to prepare and clean up the target device.
-  ## The maximum possible testing time is 30m on physical devices and 60m on virtual devices.
+  ## The maximum possible testing time is 45m on physical devices and 60m on virtual devices.
   ## The TIMEOUT units can be h, m, or s. If no unit is given, seconds are assumed.
   # timeout: 30m
 
@@ -258,7 +258,7 @@ gcloud:
 
   ## The max time this test execution can run before it is cancelled (default: 15m).
   ## It does not include any time necessary to prepare and clean up the target device.
-  ## The maximum possible testing time is 30m on physical devices and 60m on virtual devices.
+  ## The maximum possible testing time is 45m on physical devices and 60m on virtual devices.
   ## The TIMEOUT units can be h, m, or s. If no unit is given, seconds are assumed.
   # timeout: 30m
 
@@ -323,6 +323,10 @@ gcloud:
   ## is complete. These must be absolute paths under /sdcard or /data/local/tmp
   # directories-to-pull:
   #   - /sdcard/
+
+  ## Whether to grant runtime permissions on the device before the test begins.
+  ## By default, all permissions are granted. PERMISSIONS must be one of: all, none
+  # grant-permissions: all
 
   ## A list of device-path: file-path pairs that indicate the device paths to push files to the device before starting tests, and the paths of files to push.
   ## Device paths must be under absolute, whitelisted paths (${EXTERNAL_STORAGE}, or ${ANDROID_DATA}/local/tmp).

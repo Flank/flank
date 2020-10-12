@@ -45,8 +45,7 @@ object ArgsHelper {
     }
 
     fun assertFileExists(file: String, name: String) {
-        if (!file.exist())
-            throw FlankGeneralError("'$file' $name doesn't exist")
+        if (!file.exist()) throw FlankGeneralError("'$file' $name doesn't exist")
     }
 
     private fun String.convertToWindowsPath() =

@@ -3,7 +3,6 @@ package ftl.ios
 import com.dd.plist.NSDictionary
 import com.google.common.truth.Truth.assertThat
 import ftl.config.FtlConstants.isWindows
-import ftl.mock.TestArtifact.fixturesPath
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.normalizeLineEnding
 import ftl.run.exception.FlankGeneralError

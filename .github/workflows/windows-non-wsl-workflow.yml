@@ -28,6 +28,9 @@ jobs:
 
     - name: Gradle clean build
       shell: cmd
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        HEAD_REF: ${{ github.head_ref }}
       run: |
           gradlew.bat clean build
 

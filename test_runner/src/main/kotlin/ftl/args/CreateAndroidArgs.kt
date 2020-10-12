@@ -38,5 +38,6 @@ fun createAndroidArgs(
         )
     } ?: emptyList(),
     useLegacyJUnitResult = flank.useLegacyJUnitResult!!,
-    obfuscateDumpShards = obfuscate
+    obfuscateDumpShards = obfuscate,
+    grantPermissions = gcloud.grantPermissions
 )
