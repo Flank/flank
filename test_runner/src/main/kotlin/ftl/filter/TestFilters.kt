@@ -150,12 +150,20 @@ object TestFilters {
         }
     )
 
-    private fun withClassName(classNames: List<String>): TestFilter = TestFilter(
-        describe = "withClassName (${classNames.joinToString(", ")})",
-        shouldRun = { testMethod ->
-            withPackageName(classNames).shouldRun(testMethod)
-        }
-    )
+    private fun withClassName(classNames: List<String>): TestFilter {
+        val splittedClassNames = classNames.map { it.split("#") }
+        return TestFilter(
+            describe = "withClassName (${classNames.joinToString(", ")})",
+            shouldRun = { testMethod ->
+                val splittedName = testMethod.testName.split("#")
+                splittedClassNames.any { className ->
+                    // className.size == 1 => foo.bar.TestClass1
+                    // className.size != 1 => foo.bar.TestClass1#testMethod1
+                    splittedName[0] == className[0] && (className.size == 1 || splittedName[1] == className[1])
+                }
+            }
+        )
+    }
 
     private fun withAnnotation(annotations: List<String>): TestFilter = TestFilter(
         describe = "withAnnotation (${annotations.joinToString(", ")})",
