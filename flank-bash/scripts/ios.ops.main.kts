@@ -28,7 +28,7 @@ suspend fun Shell.setupIosEnv() {
 
 suspend fun Shell.installPods() {
     val earlGreyExample = Paths.get(iOsTestProjectsPath, "EarlGreyExample")
-    kotlin.runCatching { "cd $earlGreyExample && pod install"() }
+    kotlin.runCatching { "pod install --project-directory=$earlGreyExample --verbose"() }
 }
 
 suspend fun Shell.buildEarlGreyExample() {
