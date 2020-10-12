@@ -88,7 +88,7 @@ object Versions {
     const val PROGUARD = "7.0.0"
 
     // ============== flank-scripts ==============
-    const val KOTLIN_SERIALIZATION = "1.0.0"
+    const val KOTLIN_SERIALIZATION = "1.0.0-RC2"
     const val FUEL = "2.3.0"
     const val CLIKT = "2.8.0"
     const val JCABI_GITHUB = "1.1.2"
