@@ -90,7 +90,8 @@ private val ignoredAnnotations = listOf(
 
 private fun String.toFlankTestMethod() = FlankTestMethod("class $this", ignored = false, isParameterizedClass = true)
 
-private fun InstrumentationTestContext.getParametrizedClasses(): List<String> =
+@VisibleForTesting
+internal fun InstrumentationTestContext.getParametrizedClasses(): List<String> =
     DexParser.readDexFiles(test.local).fold(emptyList()) { accumulator, file: DexFile ->
         accumulator + file.classDefs
             .filter(file::isParametrizedClass)
