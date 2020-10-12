@@ -7,47 +7,59 @@
 @file:OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 
 import eu.jrie.jetbrains.kotlinshell.shell.*
+import java.nio.file.Files
 import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 
 
 suspend fun Shell.generateIos() = takeUnless { isWindows }?.let {
     setupIosEnv()
+    installPods()
+    buildEarlGreyExample()
 }
 
 suspend fun Shell.setupIosEnv() {
-    val shouldInstallXcpretty = kotlin.runCatching { "xcpretty -V"().pcb.exitCode }.getOrDefault(1) != 0
+    val shouldInstallXcpretty = kotlin.runCatching {
+        val result = "xcpretty -v"()
+        result.pcb.exitCode
+    }.getOrDefault(1) != 0
     if (shouldInstallXcpretty) "gem install cocoapods -v 1.9.3"()
-    val earlGreyExample = Paths.get(iOsTestProjectsPath, "EarlGreyExample")
-    ("cd $earlGreyExample && pod install")()
 }
 
-suspend fun Shell.installXcpretty() {
-    val shouldInstallXcpretty = kotlin.runCatching { "xcpretty -V"().pcb.exitCode }.getOrDefault(1) != 0
-    if(shouldInstallXcpretty)  ("gem install xcpretty")()
+suspend fun Shell.installPods() {
+    val earlGreyExample = Paths.get(iOsTestProjectsPath, "EarlGreyExample")
+    kotlin.runCatching { "cd $earlGreyExample && pod install"() }
 }
 
 suspend fun Shell.buildEarlGreyExample() {
     installXcpretty()
     val buildDir = Paths.get(iOsTestProjectsPath, "EarlGreyExample", "build")
     ("rm -rf \"${buildDir}\"")()
-    ("""
-        xcodebuild build-for-testing \
-        -allowProvisioningUpdates \
-        -workspace "${buildDir.parent}/EarlGreyExample.xcworkspace" \
-        -scheme "EarlGreyExampleSwiftTests" \
-        -derivedDataPath "${buildDir.parent}" \
-        -sdk iphoneos |
-        xcpretty
-    """.trimIndent())()
+    val cmd =
+        ("xcodebuild build-for-testing -allowProvisioningUpdates -workspace ${buildDir.parent}/EarlGreyExample.xcworkspace -scheme EarlGreyExampleSwiftTests -derivedDataPath ${buildDir.parent} -sdk iphoneos")
+    println(cmd)
+    cmd()
 
 
-    ("""
-        xcodebuild build-for-testing \
-        -allowProvisioningUpdates \
-        -workspace "${buildDir.parent}/EarlGreyExample.xcworkspace" \
-        -scheme "EarlGreyExampleTests" \
-        -derivedDataPath "${buildDir.parent}" \
-        -sdk iphoneos |
-        xcpretty
-    """.trimIndent())()
+//    ("""
+//        xcodebuild build-for-testing
+//        -allowProvisioningUpdates
+//        -workspace '${buildDir.parent}/EarlGreyExample.xcworkspace'
+//        -scheme 'EarlGreyExampleTests'
+//        -derivedDataPath '${buildDir.parent}'
+//        -sdk iphoneos | xcpretty
+//    """.trimIndent())()
+
+    val productsDir = Paths.get(buildDir.toString(), "Build", "Products")
+    productsDir.toFile().walk().filter {
+        it.nameWithoutExtension.endsWith("-iphoneos") || it.extension == "xctestrun"
+    }.forEach {
+        Files.copy(it.toPath(), Paths.get(flankFixturesTmpPath, it.name), StandardCopyOption.REPLACE_EXISTING)
+    }
+
+}
+
+suspend fun Shell.installXcpretty() {
+    val shouldInstallXcpretty = kotlin.runCatching { "xcpretty -v"().pcb.exitCode }.getOrDefault(1) != 0
+    if (shouldInstallXcpretty) ("gem install xcpretty")()
 }
