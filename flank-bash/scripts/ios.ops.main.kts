@@ -6,13 +6,25 @@
 @file:CompilerOptions("-Xopt-in=kotlin.RequiresOptIn")
 @file:OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 
-import java.io.File
-import java.nio.file.Files
-import java.nio.file.Paths
 import eu.jrie.jetbrains.kotlinshell.shell.*
-import java.nio.file.Path
-import java.nio.file.StandardCopyOption
+import java.nio.file.Paths
 
-fun Shell.generateIos() = takeUnless { isWindows }?.let {
+
+suspend fun Shell.generateIos() = takeUnless { isWindows }?.let {
+    setupIosEnv()
+}
+
+suspend fun Shell.setupIosEnv() {
+    val shouldInstallXcpretty = kotlin.runCatching { "xcpretty -V"().pcb.exitCode }.getOrDefault(1) != 0
+    if (shouldInstallXcpretty) "gem install cocoapods -v 1.9.3"()
+    val earlGreyExample = Paths.get(iOsTestProjectsPath, "EarlGreyExample")
+    "cd $earlGreyExample && pod install")()
+}
+
+suspend fun installXcpretty() {
+
+}
+
+suspend fun Shell.buildEarlGreyExample() {
 
 }
