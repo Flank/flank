@@ -2,7 +2,7 @@
 @file:DependsOn("eu.jrie.jetbrains:kotlin-shell-core:0.2.1")
 @file:DependsOn("org.slf4j:slf4j-simple:1.7.28")
 
-@file:Import("updateLibs/downloadFiles.main.kts")
+@file:Import("../util/downloadFiles.main.kts")
 
 @file:CompilerOptions("-Xopt-in=kotlin.RequiresOptIn")
 @file:OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)

@@ -6,9 +6,9 @@
 @file:DependsOn("com.github.kittinunf.fuel:fuel:2.3.0")
 @file:DependsOn("com.github.kittinunf.fuel:fuel-coroutines:2.3.0")
 
-@file:Import("./updateLibs/updateAtomic.main.kts")
-@file:Import("./updateLibs/updateLlvm.main.kts")
-@file:Import("./updateLibs/updateSwift.main.kts")
+@file:Import("updateAtomic.main.kts")
+@file:Import("updateLlvm.main.kts")
+@file:Import("updateSwift.main.kts")
 
 @file:DependsOn("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
 
