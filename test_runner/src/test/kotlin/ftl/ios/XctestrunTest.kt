@@ -207,7 +207,6 @@ class XctestrunTest {
         assertThat(actualTests).isEqualTo(listOf("EarlGreyExampleSwiftTests/testBasicSelection"))
     }
 
-    // New
     @Test
     fun findTestNamesForTestTarget() {
         assumeFalse(isWindows)
@@ -221,13 +220,14 @@ class XctestrunTest {
         Xctestrun.findTestNames(testTarget = "Incorrect", xctestrun = swiftXctestrun).sorted()
     }
 
+    @Test
     fun `find test names for xctestrun file containing multiple test targets`() {
         assumeFalse(isWindows)
-        val names = Xctestrun.findTestNames(testTarget = "SwiftTests1", xctestrun = multipleTargetsSwiftXctestrun).sorted()
-        assertThat(names).isEqualTo(listOf("SuiteA/testA1", "SuiteA/testA2", "SuiteB/testB1", "SuiteB/testB2"))
+        val names = Xctestrun.findTestNames(testTarget = "FlankExampleTests", xctestrun = multipleTargetsSwiftXctestrun).sorted()
+        assertThat(names).isEqualTo(listOf("FlankExampleTests/test1", "FlankExampleTests/test2"))
 
-        val names2 = Xctestrun.findTestNames(testTarget = "SwiftTests2", xctestrun = multipleTargetsSwiftXctestrun).sorted()
-        assertThat(names2).isEqualTo(listOf("SwiftTests2/tests2_test1", "SwiftTests2/tests2_test2"))
+        val names2 = Xctestrun.findTestNames(testTarget = "FlankExampleSecondTests", xctestrun = multipleTargetsSwiftXctestrun).sorted()
+        assertThat(names2).isEqualTo(listOf("FlankExampleSecondTests/test3", "FlankExampleSecondTests/test4"))
     }
 
     @Test
