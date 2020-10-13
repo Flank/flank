@@ -3,10 +3,13 @@ package ftl.run.platform
 import com.google.api.services.testing.Testing
 import com.google.api.services.testing.model.TestMatrix
 import ftl.args.AndroidArgs
+import ftl.args.isInstrumentationTest
 import ftl.gc.GcAndroidDevice
 import ftl.gc.GcAndroidTestMatrix
+import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
+import ftl.run.ANDROID_SHARD_FILE
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.TestResult
 import ftl.run.platform.android.createAndroidTestConfig
@@ -18,6 +21,10 @@ import ftl.run.platform.common.afterRunTests
 import ftl.run.platform.common.beforeRunMessage
 import ftl.run.platform.common.beforeRunTests
 import ftl.run.exception.FlankGeneralError
+import ftl.run.model.AndroidMatrixTestShards
+import ftl.run.model.AndroidTestContext
+import ftl.run.platform.android.asMatrixTestShards
+import ftl.run.saveShardChunks
 import ftl.shard.Chunk
 import ftl.shard.testCases
 import kotlinx.coroutines.Deferred
@@ -40,8 +47,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     val otherGcsFiles = args.uploadOtherFiles(runGcsPath)
     val additionalApks = args.uploadAdditionalApks(runGcsPath)
 
-    args.createAndroidTestContexts()
-        .upload(args.resultsBucket, runGcsPath)
+    args.createAndroidTestContexts().dumpShards(args).upload(args.resultsBucket, runGcsPath)
         .forEachIndexed { index, context ->
             if (context is InstrumentationTestContext) {
                 ignoredTestsShardChunks += context.ignoredTestCases
@@ -64,12 +70,25 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     if (testMatrices.isEmpty()) throw FlankGeneralError("There are no tests to run.")
 
     println(beforeRunMessage(args, allTestShardChunks))
+
     TestResult(
         matrixMap = afterRunTests(testMatrices.awaitAll(), runGcsPath, stopwatch, args),
         shardChunks = allTestShardChunks.testCases,
         ignoredTests = ignoredTestsShardChunks.flatten()
     )
 }
+
+private fun List<AndroidTestContext>.dumpShards(config: AndroidArgs) = takeIf { config.isInstrumentationTest }?.apply {
+    filterIsInstance<InstrumentationTestContext>().asMatrixTestShards().saveShards(config.obfuscateDumpShards)
+    if (config.disableResultsUpload.not()) GcStorage.upload(ANDROID_SHARD_FILE, config.resultsBucket, config.resultsDir)
+} ?: this
+
+private fun AndroidMatrixTestShards.saveShards(obfuscateOutput: Boolean) = saveShardChunks(
+    shardFilePath = ANDROID_SHARD_FILE,
+    shards = this,
+    size = size,
+    obfuscatedOutput = obfuscateOutput
+)
 
 private suspend fun executeAndroidTestMatrix(
     runCount: Int,

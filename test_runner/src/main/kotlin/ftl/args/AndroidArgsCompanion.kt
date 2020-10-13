@@ -38,7 +38,8 @@ open class AndroidArgsCompanion : IArgs.ICompanion {
     internal fun load(yamlReader: Reader, cli: AndroidRunCommand? = null) =
         createAndroidArgs(
             config = defaultAndroidConfig() +
-                    loadAndroidConfig(reader = yamlReader) +
-                    cli?.config
+                loadAndroidConfig(reader = yamlReader) +
+                cli?.config,
+            obfuscate = cli?.obfuscate ?: false
         )
 }

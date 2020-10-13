@@ -46,7 +46,7 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
 
         val config = AndroidArgs.load(Paths.get(configPath), cli = this).validate()
         runBlocking {
-            if (dumpShards) dumpShards(args = config, obfuscatedOutput = obfuscate)
+            if (dumpShards) dumpShards(args = config)
             else newTestRun(config)
         }
     }
