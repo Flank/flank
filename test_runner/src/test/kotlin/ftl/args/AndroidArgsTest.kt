@@ -5,6 +5,7 @@ import com.google.common.truth.Truth.assertThat
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 import ftl.args.IArgs.Companion.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE
 import ftl.args.yml.AppTestPair
+import ftl.args.yml.Type
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants.defaultAndroidModel
@@ -98,7 +99,7 @@ class AndroidArgsTest {
           - /sdcard/screenshots
           - /sdcard/screenshots2
           grant-permissions: all
-          type: null
+          type: instrumentation
           other-files:
             /sdcard/dir1/file1.txt: $appApk
             /sdcard/dir2/file2.jpg: $testApk
@@ -239,6 +240,7 @@ class AndroidArgsTest {
             assert(useOrchestrator, false)
             assert(environmentVariables, linkedMapOf("clearPackageData" to "true", "randomEnvVar" to "false"))
             assert(directoriesToPull, listOf("/sdcard/screenshots", "/sdcard/screenshots2"))
+            assert(grantPermissions, "all")
             assert(
                 otherFiles,
                 mapOf(
@@ -246,6 +248,7 @@ class AndroidArgsTest {
                     "/sdcard/dir2/file2.jpg" to testApkAbsolutePath
                 )
             )
+            assert(type, Type.INSTRUMENTATION)
             assert(performanceMetrics, false)
             assert(testRunnerClass, "com.foo.TestRunner")
             assert(
@@ -313,7 +316,7 @@ AndroidArgs
         - /sdcard/screenshots
         - /sdcard/screenshots2
       grant-permissions: all
-      type: null
+      type: instrumentation
       other-files: 
         /sdcard/dir1/file1.txt: $appApkAbsolutePath
         /sdcard/dir2/file2.jpg: $testApkAbsolutePath
