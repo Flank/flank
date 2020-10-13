@@ -8,6 +8,7 @@
 
 @file:Import("xcPretty.main.kts")
 @file:Import("packer.main.kts")
+@file:Import("../PathHelper.kt")
 
 import eu.jrie.jetbrains.kotlinshell.shell.shell
 import java.nio.file.Files
@@ -16,8 +17,7 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.util.stream.Collectors
 
-val currentPath = Paths.get("")
-val dataPath: Path = Paths.get("", "dd_tmp")
+val dataPath: Path = Paths.get(currentPath.toString(), "dd_tmp")
 dataPath.toFile().deleteRecursively()
 val archiveFileName = "earlgrey_example.zip"
 val buildProductPath = Paths.get(dataPath.toString(), "Build", "Products")

@@ -12,7 +12,6 @@
 
 @file:DependsOn("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
 
-import java.io.File
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.launch
 

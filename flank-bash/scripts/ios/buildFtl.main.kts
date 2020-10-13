@@ -7,6 +7,7 @@
 
 @file:Import("xcPretty.main.kts")
 @file:Import("packer.main.kts")
+@file:Import("PathHelper.kt")
 
 import eu.jrie.jetbrains.kotlinshell.shell.shell
 import java.nio.file.Files

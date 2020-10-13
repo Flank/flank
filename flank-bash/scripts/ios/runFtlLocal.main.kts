@@ -6,6 +6,8 @@
 @file:CompilerOptions("-Xopt-in=kotlin.RequiresOptIn")
 @file:OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 
+@file:Import("../PathHelper.kt")
+
 import eu.jrie.jetbrains.kotlinshell.shell.shell
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -16,7 +18,7 @@ val id = args.firstOrNull() ?: {
     exitProcess(1)
 }
 
-val dataPath: Path = Paths.get("", "dd_tmp", "Build" , "Products")
+val dataPath: Path = Paths.get(currentPath.toString(), "dd_tmp", "Build" , "Products")
 
 val xcodeCommand = "xcodebuild test-without-building " +
     " -xctestrun $dataPath/*.xctestrun " +

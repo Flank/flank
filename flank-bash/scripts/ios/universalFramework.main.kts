@@ -6,12 +6,12 @@
 @file:OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 
 @file:Import("LipoHelper.kt")
+@file:Import("../PathHelper.kt")
 
 import eu.jrie.jetbrains.kotlinshell.shell.shell
-import java.nio.file.Path
 import java.nio.file.Paths
 
-val comboPath = Paths.get("ios-frameworks").toString()
+val comboPath = Paths.get(currentPath.toString(), "ios-frameworks").toString()
 val devicePath = Paths.get(comboPath, "Debug-iphoneos").toString()
 val simPath = Paths.get(comboPath, "Debug-iphonesimulator").toString()
 
