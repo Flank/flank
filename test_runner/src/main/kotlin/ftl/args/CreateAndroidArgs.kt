@@ -37,5 +37,6 @@ fun createAndroidArgs(
         )
     } ?: emptyList(),
     useLegacyJUnitResult = flank.useLegacyJUnitResult!!,
+    scenarioLabels = gcloud.scenarioLabels!!,
     grantPermissions = gcloud.grantPermissions
 )
