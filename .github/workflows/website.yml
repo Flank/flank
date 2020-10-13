@@ -1,7 +1,7 @@
 name: publish_mkdocs_site
 
 on:
-  pull_request:
+  pull_request: #  TODO change to push before merge
     branches: [master]
     paths: ['docs/**']
 
