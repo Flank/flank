@@ -1,11 +1,10 @@
 name: publish_mkdocs_site
+
 on:
   pull_request:
     branches: [master]
     paths: ['docs/**']
-  push:
-    branches: [master]
-    paths: ['docs/**']
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
