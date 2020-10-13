@@ -1,0 +1,51 @@
+# pip install -r requirements.txt
+# mkdocs serve
+
+
+extra:
+  fladle:
+    current_release: '20.09.3'
+    fladle_version: '0.13.0'
+
+site_name: Flank
+site_url: https://flank.github.io/flank/
+repo_name: flank
+repo_url: https://github.com/Flank/flank/
+site_description: Flank is a massively parallel Android and iOS test runner for Firebase Test Lab.
+extra_css:
+  - stylesheets/extra.css
+
+nav:
+  - Home: index.md
+  - Vision: flank_vision.md
+  - Sharding: test_sharding.md
+  - Smart Flank: smart_flank.md
+  - Building & updating Flank: building_updating_flank.md
+  - Windows WSL: windows_wsl_guide.md
+  - Cucumber: cucumber_support.md
+  - Contribution:
+      - Pull request: pr_titles.md
+  - Development:
+      - Environment setup: onboarding/1_environment_setup.md
+      - Contribution: onboarding/2_contribution.md
+      - Estimation: onboarding/3_estimation.md
+      - Buddy system: onboarding/4_buddy_system.md
+      - Test artifacts: test_artifacts.md
+      - Client generation: client_generation.md
+      - Dependencies update: dependencies_update_process.md
+      - Secrets: flank_secrets.md
+      - Releasing: release_process.md
+
+theme:
+  name: material
+
+markdown_extensions:
+  - codehilite
+  - admonition
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+
+plugins:
+  - search
+#  - markdownextradata: {}

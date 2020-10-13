@@ -85,7 +85,7 @@ gcloud:
 
   ## The max time this test execution can run before it is cancelled (default: 15m).
   ## It does not include any time necessary to prepare and clean up the target device.
-  ## The maximum possible testing time is 30m on physical devices and 60m on virtual devices.
+  ## The maximum possible testing time is 45m on physical devices and 60m on virtual devices.
   ## The TIMEOUT units can be h, m, or s. If no unit is given, seconds are assumed.
   # timeout: 30m
 
@@ -110,7 +110,6 @@ gcloud:
   ## All tests which use the same history name will have their results grouped together in the Firebase console in a time-ordered test history list.
   # results-history-name: android-history
 
-  ## Experimental!
   ## The number of times a TestExecution should be re-attempted if one or more\nof its test cases fail for any reason.
   ## The maximum number of reruns allowed is 10. Default is 0, which implies no reruns.
   # num-flaky-test-attempts: 0
@@ -179,6 +178,11 @@ flank:
   ## Default: 120.0
   # default-test-time: 15
 
+  ## Set default test time (in seconds) used for calculating shards of parametrized classes when previous tests results are not available.
+  ## Default test time for classes should be different from the default time for test
+  ## Default: 240.0
+  # default-class-test-time: 30
+
   ## Disables sharding. Useful for parameterized tests.
   # disable-sharding: false
 
@@ -215,6 +219,12 @@ flank:
   ## The JUnit XML is used to determine failure. (default: false)
   # ignore-failed-tests: true
 
+  ## Output style of execution status. May be one of [verbose, multi, single].
+  ## For runs with only one test execution the default value is 'verbose', in other cases
+  ## 'multi' is used as the default. The output style 'multi' is not displayed correctly on consoles
+  ## which don't support ansi codes, to avoid corrupted output use single or verbose.
+  # output-style: single
+
   ## Enable create additional local junit result on local storage with failure nodes on passed flaky tests.
   # full-junit-result: false
 
@@ -248,7 +258,7 @@ gcloud:
 
   ## The max time this test execution can run before it is cancelled (default: 15m).
   ## It does not include any time necessary to prepare and clean up the target device.
-  ## The maximum possible testing time is 30m on physical devices and 60m on virtual devices.
+  ## The maximum possible testing time is 45m on physical devices and 60m on virtual devices.
   ## The TIMEOUT units can be h, m, or s. If no unit is given, seconds are assumed.
   # timeout: 30m
 
@@ -273,7 +283,6 @@ gcloud:
   ## All tests which use the same history name will have their results grouped together in the Firebase console in a time-ordered test history list.
   # results-history-name: android-history
 
-  ## Experimental!
   ## The number of times a TestExecution should be re-attempted if one or more\nof its test cases fail for any reason.
   ## The maximum number of reruns allowed is 10. Default is 0, which implies no reruns.
   # num-flaky-test-attempts: 0
@@ -288,6 +297,10 @@ gcloud:
   ## The path to the binary file containing instrumentation tests.
   ## The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://.
   test: ../test_projects/android/apks/app-debug-androidTest.apk
+
+  ## A list of up to 100 additional APKs to install, in addition to those being directly tested.
+  ## The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.
+  # additional-apks: additional-apk1.apk,additional-apk2.apk,additional-apk3.apk
 
   ## Automatically log into the test device using a preconfigured Google account before beginning the test.
   ## Disabled by default. Use --auto-google-login to enable.
@@ -310,6 +323,10 @@ gcloud:
   ## is complete. These must be absolute paths under /sdcard or /data/local/tmp
   # directories-to-pull:
   #   - /sdcard/
+
+  ## Whether to grant runtime permissions on the device before the test begins.
+  ## By default, all permissions are granted. PERMISSIONS must be one of: all, none
+  # grant-permissions: all
 
   ## A list of device-path: file-path pairs that indicate the device paths to push files to the device before starting tests, and the paths of files to push.
   ## Device paths must be under absolute, whitelisted paths (${EXTERNAL_STORAGE}, or ${ANDROID_DATA}/local/tmp).
@@ -402,6 +419,11 @@ flank:
   ## Default: 120.0
   # default-test-time: 15
 
+  ## Set default test time (in seconds) used for calculating shards of parametrized classes when previous tests results are not available.
+  ## Default test time for classes should be different from the default time for test
+  ## Default: 240.0
+  # default-class-test-time: 30
+
   ## Disables sharding. Useful for parameterized tests.
   # disable-sharding: false
 
@@ -444,6 +466,12 @@ flank:
   ## This flag allows fallback for legacy xml junit results parsing
   ## Currently available for android, iOS still uses only legacy way.
   # legacy-junit-result: false
+
+  ## Output style of execution status. May be one of [verbose, multi, single].
+  ## For runs with only one test execution the default value is 'verbose', in other cases
+  ## 'multi' is used as the default. The output style 'multi' is not displayed correctly on consoles
+  ## which don't support ansi codes, to avoid corrupted output use single or verbose.
+  # output-style: single
 
   ## Enable create additional local junit result on local storage with failure nodes on passed flaky tests.
   # full-junit-result: false
@@ -619,6 +647,10 @@ Bitrise has an official [flank step](https://github.com/bitrise-steplib/bitrise-
 
 [fladle]: https://github.com/runningcode/fladle
 
+### Flank on Windows
+In order to build or run Flank using Windows please follow [guide](docs/windows_wsl_guide.md) of building/running it using Windows WSL.
+Native support is not currently supported.
+
 ### Authenticate with a Google account
 
 Run `flank auth login`. Flank will save the credential to `~/.flank`. Google account authentication allows each person
@@ -733,7 +765,20 @@ and flank's example [gradle-export-api](https://github.com/Flank/flank/tree/mast
 3)  > Test run failed to complete. Expected 786 tests, received 660
 
     Try setting `use-orchestrator: false`. Parameterized tests [are not compatible with orchestrator](https://stackoverflow.com/questions/48735268/unable-to-run-parameterized-tests-with-android-test-orchestrator). Flank uses [orchestrator by default on Android.](https://developer.android.com/training/testing/junit-runner)
+    
+4) > I have an issue when attempting to sync the Flank Gradle project
+   > Task 'prepareKotlinBuildScriptModel' not found in project ':test_runner'.  
+   > or similar
+    
+    - Make sure you do not change any module specific settings for Gradle
+    - Clear IDE cache using `File > Invalidate Caches / Restart`
+    - Re-import project using root `build.gradle.kts`
+    - Sync project again
+    
+5) > Does Flank support Cucumber?
+   
+   Please check [document](docs/cucumber_support.md) for more info
 
-### Resources
+# Resources
 
 - [Instrumenting Firebase Test Lab](https://developer.squareup.com/blog/instrumenting-firebase-test-lab/)

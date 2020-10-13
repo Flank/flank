@@ -48,14 +48,6 @@
     font-size: 14px;
 }
 
-.md-sidebar--primary {
-    display: none;
-}
-
-.md-sidebar--secondary {
-    order: initial;
-}
-
 h1, h2, h3, h4, h5 {
     color: black !important;
 }
