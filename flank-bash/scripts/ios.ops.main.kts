@@ -7,6 +7,7 @@
 @file:OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 
 import eu.jrie.jetbrains.kotlinshell.shell.*
+import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
@@ -33,30 +34,36 @@ suspend fun Shell.installPods() {
 
 suspend fun Shell.buildEarlGreyExample() {
     installXcpretty()
-    val buildDir = Paths.get(iOsTestProjectsPath, "EarlGreyExample", "build")
-    ("rm -rf \"${buildDir}\"")()
-    val cmd =
-        ("xcodebuild build-for-testing -allowProvisioningUpdates -workspace ${buildDir.parent}/EarlGreyExample.xcworkspace -scheme EarlGreyExampleSwiftTests -derivedDataPath ${buildDir.parent} -sdk iphoneos")
-    println(cmd)
-    cmd()
+    val buildDir = Paths.get(iOsTestProjectsPath, "EarlGreyExample", "Build")
+    buildDir.toFile().deleteRecursively()
+
+    ("xcodebuild build-for-testing " +
+        "-allowProvisioningUpdates " +
+        "-workspace ${buildDir.parent}/EarlGreyExample.xcworkspace " +
+        "-scheme EarlGreyExampleSwiftTests " +
+        "-derivedDataPath ${buildDir.parent} " +
+        "-sdk iphoneos")()
 
 
-//    ("""
-//        xcodebuild build-for-testing
-//        -allowProvisioningUpdates
-//        -workspace '${buildDir.parent}/EarlGreyExample.xcworkspace'
-//        -scheme 'EarlGreyExampleTests'
-//        -derivedDataPath '${buildDir.parent}'
-//        -sdk iphoneos | xcpretty
-//    """.trimIndent())()
+    ("xcodebuild build-for-testing " +
+        "-allowProvisioningUpdates " +
+        "-workspace ${buildDir.parent}/EarlGreyExample.xcworkspace " +
+        "-scheme EarlGreyExampleTests " +
+        "-derivedDataPath ${buildDir.parent} " +
+        "-sdk iphoneos")()
 
-    val productsDir = Paths.get(buildDir.toString(), "Build", "Products")
+    Files.createDirectories(Paths.get(flankFixturesTmpPath, "objc"))
+    Files.createDirectories(Paths.get(flankFixturesTmpPath, "swift"))
+    val productsDir = Paths.get(buildDir.toString(), "Products")
     productsDir.toFile().walk().filter {
         it.nameWithoutExtension.endsWith("-iphoneos") || it.extension == "xctestrun"
     }.forEach {
-        Files.copy(it.toPath(), Paths.get(flankFixturesTmpPath, it.name), StandardCopyOption.REPLACE_EXISTING)
+        println(it.name)
+        if (it.isDirectory) it.copyRecursively(Paths.get(flankFixturesTmpPath, it.name).toFile(), overwrite = true)
+        else it.copyTo(Paths.get(flankFixturesTmpPath, it.name).toFile(), overwrite = true)
     }
-
+    Files.copy(Paths.get(productsDir.toString(), "Debug-iphoneos", "EarlGreyExampleSwift.app", "PlugIns", "EarlGreyExampleTests.xctest", "EarlGreyExampleTests"), Paths.get(flankFixturesTmpPath, "objc", "EarlGreyExampleTests"), StandardCopyOption.REPLACE_EXISTING)
+    Files.copy(Paths.get(productsDir.toString(), "Debug-iphoneos", "EarlGreyExampleSwift.app", "PlugIns", "EarlGreyExampleSwiftTests.xctest", "EarlGreyExampleSwiftTests"), Paths.get(flankFixturesTmpPath, "swift", "EarlGreyExampleSwiftTests"), StandardCopyOption.REPLACE_EXISTING)
 }
 
 suspend fun Shell.installXcpretty() {
