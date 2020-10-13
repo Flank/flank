@@ -4,6 +4,7 @@
 @file:Import("util/GradleCommand.kt")
 @file:Import("util/PathHelper.kt")
 @file:Import("ios/util/IosBuildCommand.kt")
+@file:Import("util/downloadSoftware.main.kts")
 @file:CompilerOptions("-Xopt-in=kotlin.RequiresOptIn")
 @file:OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 
@@ -14,36 +15,36 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
+
+val debugIphoneOs = "Debug-iphoneos"
+val earlGreyExampleSwift = "EarlGreyExampleSwift.app"
+val plugins = "PlugIns"
+val earlGreyExample = "EarlGreyExample"
+val earlGreyExampleTests = "EarlGreyExampleTests"
+val earlGreyExampleSwiftTests = "EarlGreyExampleSwiftTests"
+val buildDirectory = "Build"
+val pluginsDirectory = arrayOf(debugIphoneOs, earlGreyExampleSwift, plugins)
+
+enum class TestType {
+    SWIFT,
+    OBJECTIVE_C
+}
+
+
 suspend fun Shell.generateIos() = takeUnless { isWindows }?.let {
-    setupIosEnv()
-    installPods()
-    installXcpretty()
+    downloadCocoaPodsIfNeeded()
+    installPods(Paths.get(iOSTestProjectsPath, earlGreyExample))
+    downloadXcPrettyIfNeeded()
+    createDirectories()
     buildEarlGreyExample()
 }
 
-suspend fun Shell.setupIosEnv() {
-    val shouldInstallXcpretty = kotlin.runCatching {
-        "xcpretty -v"().pcb.exitCode
-    }.getOrDefault(1) != 0
-    if (shouldInstallXcpretty) "gem install cocoapods -v 1.9.3"()
-}
-
-suspend fun Shell.installPods() {
-    val earlGreyExample = Paths.get(iOsTestProjectsPath, earlGreyExample)
-    kotlin.runCatching { "pod install --project-directory=$earlGreyExample --verbose"() }
-}
-
-suspend fun Shell.installXcpretty() {
-    val shouldInstallXcpretty = kotlin.runCatching { "xcpretty -v"().pcb.exitCode }.getOrDefault(1) != 0
-    if (shouldInstallXcpretty) ("gem install xcpretty")()
-}
-
-suspend fun buildEarlGreyExample() = Paths.get(iOsTestProjectsPath, earlGreyExample, buildDirectory).runBuilds().let { buildDir ->
-    createDirectories()
-    Paths.get(buildDir.toString(), "Products")
-}.apply {
+suspend fun buildEarlGreyExample() = buildDirectoryPath.runBuilds().resolve("Products").apply {
     filterFilesToCopy().copyIosProductFiles()
 }.copyTestFiles()
+
+
+val buildDirectoryPath = Paths.get(iOSTestProjectsPath, earlGreyExample, buildDirectory)
 
 fun Path.copyTestFiles() = toString().let { productsDirectory ->
     copyTestFile(productsDirectory, earlGreyExampleTests, TestType.OBJECTIVE_C)
@@ -78,28 +79,9 @@ fun createDirectories() {
 
 fun createDirectoryInFixture(directoryName: String): Path = Files.createDirectories(Paths.get(flankFixturesTmpPath, directoryName))
 
-
 fun Path.filterFilesToCopy() = toFile().walk().filter { it.nameWithoutExtension.endsWith("-iphoneos") || it.extension == "xctestrun" }
 
 fun Sequence<File>.copyIosProductFiles() = forEach {
     if (it.isDirectory) it.copyRecursively(Paths.get(flankFixturesTmpPath, it.name).toFile(), overwrite = true)
     else it.copyTo(Paths.get(flankFixturesTmpPath, it.name).toFile(), overwrite = true)
-}
-
-
-val debugIphoneOs = "Debug-iphoneos"
-val earlGreyExampleSwift = "EarlGreyExampleSwift.app"
-val plugins = "PlugIns"
-val earlGreyExample = "EarlGreyExample"
-
-val earlGreyExampleTests = "EarlGreyExampleTests"
-val earlGreyExampleSwiftTests = "EarlGreyExampleSwiftTests"
-
-val buildDirectory = "Build"
-
-val pluginsDirectory = arrayOf(debugIphoneOs, earlGreyExampleSwift, plugins)
-
-enum class TestType {
-    SWIFT,
-    OBJECTIVE_C
 }
