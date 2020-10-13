@@ -3,6 +3,7 @@
 @file:DependsOn("org.slf4j:slf4j-simple:1.7.28")
 @file:Import("util/GradleCommand.kt")
 @file:Import("util/PathHelper.kt")
+@file:Import("ios/util/IosBuildCommand.kt")
 @file:CompilerOptions("-Xopt-in=kotlin.RequiresOptIn")
 @file:OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 
@@ -58,8 +59,14 @@ fun copyTestFile(productsDirectory: String, name: String, type: TestType) = File
 suspend fun Path.runBuilds() = toFile().let { projectPath ->
     projectPath.deleteRecursively()
     shell {
-        createIosBuildCommand(projectPath.parent, scheme = earlGreyExampleTests)()
-        createIosBuildCommand(projectPath.parent, scheme = earlGreyExampleSwiftTests)()
+        val swiftCommand = createIosBuildCommand(
+            projectPath.parent, Paths.get(projectPath.parent, "EarlGreyExample.xcworkspace").toString(), scheme = earlGreyExampleTests
+        ).process()
+
+        pipeline { swiftCommand pipe "xcpretty".process() }
+
+        val objcCommand = createIosBuildCommand(projectPath.parent, Paths.get(projectPath.parent, "EarlGreyExample.xcworkspace").toString(), scheme = earlGreyExampleSwiftTests).process()
+        pipeline { objcCommand pipe "xcpretty".process() }
     }
     this
 }
@@ -71,12 +78,6 @@ fun createDirectories() {
 
 fun createDirectoryInFixture(directoryName: String): Path = Files.createDirectories(Paths.get(flankFixturesTmpPath, directoryName))
 
-fun createIosBuildCommand(buildDir: String, scheme: String) = "xcodebuild build-for-testing " +
-    "-allowProvisioningUpdates " +
-    "-workspace $buildDir/EarlGreyExample.xcworkspace " +
-    "-scheme $scheme " +
-    "-derivedDataPath $buildDir " +
-    "-sdk iphoneos"
 
 fun Path.filterFilesToCopy() = toFile().walk().filter { it.nameWithoutExtension.endsWith("-iphoneos") || it.extension == "xctestrun" }
 
