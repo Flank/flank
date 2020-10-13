@@ -1,5 +1,5 @@
 gcloud:
-  test: ./src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
+  test: ./zsrc/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
   xctestrun-file: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
   results-bucket: tmp_bucket_2
   record-video: true
@@ -18,3 +18,24 @@ flank:
     - EarlGreyExampleSwiftTests/testWith.*$
   test-targets-always-run:
   - EarlGreyExampleSwiftTests/testWithGreyAssertions
+
+#gcloud:
+#  test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/multiple-test-targets/FlankTests.zip
+#  xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/multiple-test-targets/FlankTests_iphoneos14.0-arm64.xctestrun
+#  #  results-bucket: tmp_bucket_2
+#  #  record-video: true
+#  #  timeout: 60m
+#  async: false
+#  device:
+#    - model: iphone8
+#      version: 13.6
+#      orientation: portrait
+#      locale: en_US
+#
+#flank:
+##  max-test-shards: 2
+##  num-test-runs: 1
+##  test-targets:
+##    - FlankExampleTests/test1
+##  test-targets-always-run:
+##  - EarlGreyExampleSwiftTests/testWithGreyAssertions

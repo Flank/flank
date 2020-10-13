@@ -11,8 +11,8 @@ import org.junit.runner.RunWith
 @RunWith(FlankTestRunner::class)
 class ParseTest {
 
-    private val objcBinary = "$fixturesPath/objc/EarlGreyExampleTests"
-    private val swiftBinary = "$fixturesPath/swift/EarlGreyExampleSwiftTests"
+    private val objcBinary = "$FIXTURES_PATH/objc/EarlGreyExampleTests"
+    private val swiftBinary = "$FIXTURES_PATH/swift/EarlGreyExampleSwiftTests"
 
     private val objcTests = listOf(
         "EarlGreyExampleTests/testBasicSelection",
@@ -72,10 +72,10 @@ class ParseTest {
     fun `Parse ObjC and Swift with space in path`() {
         assumeFalse(isWindows)
 
-        var results = Parse.parseObjcTests("$fixturesPath/sp ace/objc/EarlGreyExampleTests").sorted()
+        var results = Parse.parseObjcTests("$FIXTURES_PATH/sp ace/objc/EarlGreyExampleTests").sorted()
         checkObjcTests(results)
 
-        results = Parse.parseSwiftTests("$fixturesPath/sp ace/swift/EarlGreyExampleSwiftTests").sorted()
+        results = Parse.parseSwiftTests("$FIXTURES_PATH/sp ace/swift/EarlGreyExampleSwiftTests").sorted()
         checkSwiftTests(results)
     }
 

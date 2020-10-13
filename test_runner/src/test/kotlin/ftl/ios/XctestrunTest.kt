@@ -16,8 +16,8 @@ import java.nio.file.Paths
 @RunWith(FlankTestRunner::class)
 class XctestrunTest {
 
-    private val swiftXctestrun = "$fixturesPath/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun"
-    private val multipleTargetsSwiftXctestrun = "$fixturesPath/axel/AllTests_iphoneos13.7-arm64e.xctestrun"
+    private val swiftXctestrun = "$FIXTURES_PATH/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun"
+    private val multipleTargetsSwiftXctestrun = "$FIXTURES_PATH/axel/AllTests_iphoneos13.7-arm64e.xctestrun"
 
     private val swiftTests = listOf(
         "EarlGreyExampleSwiftTests/testBasicSelection",
@@ -199,7 +199,7 @@ class XctestrunTest {
 </plist>
         """.trimIndent()
 
-        val tmpXml = Paths.get(fixturesPath, "skip.xctestrun")
+        val tmpXml = Paths.get(FIXTURES_PATH, "skip.xctestrun")
         Files.write(tmpXml, inputXml.toByteArray())
         tmpXml.toFile().deleteOnExit()
 
