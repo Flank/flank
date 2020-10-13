@@ -9,6 +9,7 @@
 @file:Import("../util/archive.main.kts")
 @file:Import("../util/downloadSoftware.main.kts")
 @file:Import("../util/PathHelper.kt")
+@file:Import("util/IosBuildCommand.kt")
 
 import eu.jrie.jetbrains.kotlinshell.shell.shell
 import java.nio.file.Files
@@ -25,23 +26,12 @@ downloadXcPrettyIfNeeded()
 
 shell {
 
-    val xcodeCommandSwiftTests = "xcodebuild build-for-testing" +
-        "  -allowProvisioningUpdates" +
-        "  -workspace ./EarlGreyExample.xcworkspace" +
-        "  -scheme \"EarlGreyExampleSwiftTests\"" +
-        "  -derivedDataPath $dataPath" +
-        "  -sdk iphoneos".process()
+    val xcodeCommandSwiftTests = createIosBuildCommand(dataPath.toString(),"./EarlGreyExample.xcworkspace", "EarlGreyExampleSwiftTests")
     val xcPrettyCommand = "xcpretty".process()
 
     pipeline { xcodeCommandSwiftTests pipe xcPrettyCommand }
 
-    val xcodeCommandTests = "xcodebuild build-for-testing" +
-        "  -allowProvisioningUpdates" +
-        "  -workspace ./EarlGreyExample.xcworkspace" +
-        "  -scheme \"EarlGreyExampleTests\"" +
-        "  -derivedDataPath $dataPath" +
-        "  -sdk iphoneos".process()
-
+    val xcodeCommandTests = createIosBuildCommand(dataPath.toString(),"./EarlGreyExample.xcworkspace", "EarlGreyExampleTests")
     pipeline { xcodeCommandTests pipe xcPrettyCommand }
 }
 

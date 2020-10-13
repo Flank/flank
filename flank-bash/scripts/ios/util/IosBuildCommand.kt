@@ -1,7 +1,7 @@
-fun createIosBuildCommand(buildDir: String, workSpace: String, scheme: String) =
+fun createIosBuildCommand(buildDir: String, workspace: String, scheme: String) =
     "xcodebuild build-for-testing " +
     "-allowProvisioningUpdates " +
-    "-workspace $workSpace " +
+    "-workspace $workspace " +
     "-scheme $scheme " +
     "-derivedDataPath $buildDir " +
     "-sdk iphoneos"
