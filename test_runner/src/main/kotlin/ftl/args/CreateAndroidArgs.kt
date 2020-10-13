@@ -39,5 +39,5 @@ fun createAndroidArgs(
     } ?: emptyList(),
     useLegacyJUnitResult = flank.useLegacyJUnitResult!!,
     grantPermissions = gcloud.grantPermissions,
-    type = gcloud.type?.let { Type.valueOf(it) }
+    type = gcloud.type?.let { Type.fromString(it) }
 )
