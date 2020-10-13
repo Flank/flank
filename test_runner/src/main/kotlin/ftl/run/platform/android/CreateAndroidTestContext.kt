@@ -70,12 +70,14 @@ internal fun InstrumentationTestContext.getFlankTestMethods(
             .filter(testFilter.shouldRun)
             .filterNot(parameterizedClasses::belong)
             .map(TestMethod::toFlankTestMethod).toList()
-            .plus(parameterizedClasses
-                .filter { testFilter.shouldRun(TestMethod(it, emptyList())) }
-                .map(String::toFlankTestMethod))
+            .plus(parameterizedClasses.onlyShouldRun(testFilter))
     }
 
 private fun List<String>.belong(method: TestMethod) = any { className -> method.testName.startsWith(className) }
+
+private fun List<String>.onlyShouldRun(filter: TestFilter) = this
+    .filter { filter.shouldRun(TestMethod(it, emptyList())) }
+    .map { FlankTestMethod("class $it", ignored = false, isParameterizedClass = true) }
 
 private fun TestMethod.toFlankTestMethod() = FlankTestMethod(
     testName = "class $testName",
@@ -87,8 +89,6 @@ private val ignoredAnnotations = listOf(
     "androidx.test.filters.Suppress",
     "android.support.test.filters.Suppress"
 )
-
-private fun String.toFlankTestMethod() = FlankTestMethod("class $this", ignored = false, isParameterizedClass = true)
 
 @VisibleForTesting
 internal fun InstrumentationTestContext.getParametrizedClasses(): List<String> =

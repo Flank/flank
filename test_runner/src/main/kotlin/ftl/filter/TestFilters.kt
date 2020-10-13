@@ -151,15 +151,18 @@ object TestFilters {
     )
 
     private fun withClassName(classNames: List<String>): TestFilter {
-        val splittedClassNames = classNames.map { it.split("#") }
+        // splits foo.bar.TestClass1#testMethod1 into [foo.bar.TestClass1, testMethod1]
+        fun String.extractClassAndTestNames() = split("#")
+
+        val classFilters = classNames.map { it.extractClassAndTestNames() }
         return TestFilter(
             describe = "withClassName (${classNames.joinToString(", ")})",
             shouldRun = { testMethod ->
-                val splittedName = testMethod.testName.split("#")
-                splittedClassNames.any { className ->
-                    // className.size == 1 => foo.bar.TestClass1
-                    // className.size != 1 => foo.bar.TestClass1#testMethod1
-                    splittedName[0] == className[0] && (className.size == 1 || splittedName[1] == className[1])
+                val testMethodName = testMethod.testName.extractClassAndTestNames()
+                classFilters.any { filter ->
+                    // When filter.size == 1 all test methods from the class should run therefore we do not compare method names
+                    // When filter.size != 1 only particular test from the class should be launched and we need to compare method names as well
+                    testMethodName[0] == filter[0] && (filter.size == 1 || testMethodName[1] == filter[1])
                 }
             }
         )
