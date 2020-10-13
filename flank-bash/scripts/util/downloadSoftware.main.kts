@@ -9,7 +9,6 @@ import eu.jrie.jetbrains.kotlinshell.shell.Shell
 import eu.jrie.jetbrains.kotlinshell.shell.shell
 import java.io.File
 import java.nio.file.Path
-import java.nio.file.Paths
 
 suspend fun Shell.commandExitCode(command: String) = runCatching { command().pcb.exitCode }.getOrDefault(1)
 

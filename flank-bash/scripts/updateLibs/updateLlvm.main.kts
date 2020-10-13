@@ -36,7 +36,7 @@ fun updateLlvmNonWindows() {
     if (llvmTarXz.toFile().exists()) {
         println("LLVM exists")
     } else {
-        println("Downloading LLVM for Windows...")
+        println("Downloading LLVM...")
         llvmPath.toFile().mkdirs()
         downloadFile(
             url = "http://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz",

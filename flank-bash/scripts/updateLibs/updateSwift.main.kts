@@ -17,7 +17,7 @@ fun updateSwiftWindows() {
     if (swiftExe.toFile().exists()) {
         println("Swift exists")
     } else {
-        println("Downloading swift")
+        println("Downloading swift for Windows")
         swiftPath.toFile().mkdirs()
         downloadFile(
             url = "https://swift.org/builds/swift-5.3-release/windows10/swift-5.3-RELEASE/swift-5.3-RELEASE-windows10.exe",

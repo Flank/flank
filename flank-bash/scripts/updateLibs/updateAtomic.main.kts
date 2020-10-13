@@ -3,10 +3,8 @@
 @file:Import("../util/downloadFiles.main.kts")
 @file:Import("../util/archive.main.kts")
 
-import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.nio.file.StandardCopyOption
 import java.util.stream.Collectors
 
 private val currentPath = Paths.get("")
