@@ -17,7 +17,7 @@ import java.nio.file.Paths
 class XctestrunTest {
 
     private val swiftXctestrun = "$FIXTURES_PATH/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun"
-    private val multipleTargetsSwiftXctestrun = "$FIXTURES_PATH/axel/AllTests_iphoneos13.7-arm64e.xctestrun"
+    private val multipleTargetsSwiftXctestrun = "$FIXTURES_PATH/axel/FlankTests_iphoneos14.0-arm64.xctestrun"
 
     private val swiftTests = listOf(
         "EarlGreyExampleSwiftTests/testBasicSelection",
@@ -244,16 +244,16 @@ class XctestrunTest {
 
     @Test
     fun `rewrite methods in multiple test targets`() {
-        val expectedMethods1 = listOf("SuiteA/testA1", "SuiteA/testA2")
-        val expectedMethods2 = listOf("SwiftTests2/tests2_test1")
+        val expectedMethods1 = listOf("FlankExampleTests/test1", "FlankExampleTests/test2")
+        val expectedMethods2 = listOf("FlankExampleSecondTests/test3")
 
         val result = Xctestrun.rewrite(xctestrun = multipleTargetsSwiftXctestrun, listOf(expectedMethods1, expectedMethods2).flatMap { it })
         val resultXML = Xctestrun.parse(result)
 
-        val targetSwiftTests1 = resultXML["SwiftTests1"] as NSDictionary
-        val targetSwiftTests2 = resultXML["SwiftTests2"] as NSDictionary
-        val resultMethods1 = targetSwiftTests1["OnlyTestIdentifiers"] as NSArray
-        val resultMethods2 = targetSwiftTests2["OnlyTestIdentifiers"] as NSArray
+        val target1 = resultXML["FlankExampleTests"] as NSDictionary
+        val target2 = resultXML["FlankExampleSecondTests"] as NSDictionary
+        val resultMethods1 = target1["OnlyTestIdentifiers"] as NSArray
+        val resultMethods2 = target2["OnlyTestIdentifiers"] as NSArray
 
         assertThat(expectedMethods1.toSet()).isEqualTo(resultMethods1.array.map { it.toJavaObject() }.toSet())
         assertThat(expectedMethods2.toSet()).isEqualTo(resultMethods2.array.map { it.toJavaObject() }.toSet())
@@ -267,10 +267,10 @@ class XctestrunTest {
         val result = Xctestrun.rewrite(xctestrun = multipleTargetsSwiftXctestrun, listOf(methods1, methods2).flatMap { it })
         val resultXML = Xctestrun.parse(result)
 
-        val targetSwiftTests1 = resultXML["SwiftTests1"] as NSDictionary
-        val targetSwiftTests2 = resultXML["SwiftTests2"] as NSDictionary
-        val resultMethods1 = targetSwiftTests1["OnlyTestIdentifiers"] as NSArray
-        val resultMethods2 = targetSwiftTests2["OnlyTestIdentifiers"] as NSArray
+        val target1 = resultXML["FlankExampleTests"] as NSDictionary
+        val target2 = resultXML["FlankExampleSecondTests"] as NSDictionary
+        val resultMethods1 = target1["OnlyTestIdentifiers"] as NSArray
+        val resultMethods2 = target2["OnlyTestIdentifiers"] as NSArray
 
         assertThat(resultMethods1.array.isEmpty()).isTrue()
         assertThat(resultMethods2.array.isEmpty()).isTrue()
@@ -278,19 +278,19 @@ class XctestrunTest {
 
     @Test
     fun `rewrite mix of correct and incorrect methods in multiple test targets`() {
-        val methods1 = listOf("SuiteA/testA1", "SuiteA/testA2", "incorrect1")
-        val methods2 = listOf("SwiftTests2/tests2_test1", "incorrect2")
+        val methods1 = listOf("FlankExampleTests/test1", "FlankExampleTests/test2", "incorrect1")
+        val methods2 = listOf("FlankExampleSecondTests/test3", "incorrect2")
 
-        val expectedMethods1 = listOf("SuiteA/testA1", "SuiteA/testA2")
-        val expectedMethods2 = listOf("SwiftTests2/tests2_test1")
+        val expectedMethods1 = listOf("FlankExampleTests/test1", "FlankExampleTests/test2")
+        val expectedMethods2 = listOf("FlankExampleSecondTests/test3")
 
         val result = Xctestrun.rewrite(xctestrun = multipleTargetsSwiftXctestrun, listOf(methods1, methods2).flatMap { it })
         val resultXML = Xctestrun.parse(result)
 
-        val targetSwiftTests1 = resultXML["SwiftTests1"] as NSDictionary
-        val targetSwiftTests2 = resultXML["SwiftTests2"] as NSDictionary
-        val resultMethods1 = targetSwiftTests1["OnlyTestIdentifiers"] as NSArray
-        val resultMethods2 = targetSwiftTests2["OnlyTestIdentifiers"] as NSArray
+        val target1 = resultXML["FlankExampleTests"] as NSDictionary
+        val target2 = resultXML["FlankExampleSecondTests"] as NSDictionary
+        val resultMethods1 = target1["OnlyTestIdentifiers"] as NSArray
+        val resultMethods2 = target2["OnlyTestIdentifiers"] as NSArray
 
         assertThat(expectedMethods1.toSet()).isEqualTo(resultMethods1.array.map { it.toJavaObject() }.toSet())
         assertThat(expectedMethods2.toSet()).isEqualTo(resultMethods2.array.map { it.toJavaObject() }.toSet())

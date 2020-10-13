@@ -91,20 +91,13 @@ object Xctestrun {
     }
 
     /* Finds tests in a xctestrun file */
-    private fun findTestNames(xctestrun: File): XctestrunMethods {
-        val root = parse(xctestrun)
-        val result = mutableMapOf<String, List<String>>()
-
-        for (testTarget in root.allKeys()) {
-            val methods = findTestNamesForTarget(
+    private fun findTestNames(xctestrun: File): XctestrunMethods =
+        parse(xctestrun).allKeys().associate { testTarget ->
+            testTarget to findTestNamesForTarget(
                 testTarget = testTarget,
                 xctestrun = xctestrun
             )
-            result[testTarget] = methods
         }
-
-        return result
-    }
 
     /* Finds tests for testTarget in xctestrun file */
     private fun findTestNamesForTarget(testTarget: String, xctestrun: File): List<String> {
