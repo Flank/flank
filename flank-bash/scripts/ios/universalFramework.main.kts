@@ -6,7 +6,7 @@
 @file:OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 
 @file:Import("LipoHelper.kt")
-@file:Import("../PathHelper.kt")
+@file:Import("../util/PathHelper.kt")
 
 import eu.jrie.jetbrains.kotlinshell.shell.shell
 import java.nio.file.Paths

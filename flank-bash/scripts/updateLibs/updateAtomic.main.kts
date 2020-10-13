@@ -1,7 +1,7 @@
 @file:CompilerOptions("jvmTarget = '1.8'")
 
 @file:Import("../util/downloadFiles.main.kts")
-@file:Import("../util/unpack.main.kts")
+@file:Import("../util/archive.main.kts")
 
 import java.io.File
 import java.nio.file.Files

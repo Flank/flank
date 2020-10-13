@@ -6,9 +6,9 @@
 @file:CompilerOptions("-Xopt-in=kotlin.RequiresOptIn")
 @file:OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 
-@file:Import("xcPretty.main.kts")
-@file:Import("packer.main.kts")
-@file:Import("../PathHelper.kt")
+@file:Import("../util/archive.main.kts")
+@file:Import("../util/downloadSoftware.main.kts")
+@file:Import("../util/PathHelper.kt")
 
 import eu.jrie.jetbrains.kotlinshell.shell.shell
 import java.nio.file.Files

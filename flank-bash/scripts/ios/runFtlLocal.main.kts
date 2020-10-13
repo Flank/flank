@@ -6,7 +6,7 @@
 @file:CompilerOptions("-Xopt-in=kotlin.RequiresOptIn")
 @file:OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 
-@file:Import("../PathHelper.kt")
+@file:Import("../util/PathHelper.kt")
 
 import eu.jrie.jetbrains.kotlinshell.shell.shell
 import java.nio.file.Path

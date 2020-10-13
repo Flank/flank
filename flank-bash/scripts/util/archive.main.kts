@@ -40,3 +40,17 @@ fun File.extract(
         println("There was an error when unpacking $name - $it")
     }
 }
+
+fun List<File>.archive(
+    destinationFileName: String,
+    destinationDirectory: File,
+    archiveFormat: ArchiveFormat = ArchiveFormat.ZIP
+) {
+    println("Packing...$destinationFileName")
+    val archiver = ArchiverFactory.createArchiver(archiveFormat)
+    runCatching {
+        archiver.create(destinationFileName, destinationDirectory, *toTypedArray())
+    }.onFailure {
+        println("There was an error when packing ${destinationDirectory.absolutePath}${File.separator}$destinationFileName - $it")
+    }
+}
