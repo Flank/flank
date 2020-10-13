@@ -30,7 +30,7 @@ jobs:
       shell: cmd
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        HEAD_REF: ${{ github.head_ref }}
+        HEAD_REF: ${{ github.ref }}
       run: |
           gradlew.bat clean build
 
