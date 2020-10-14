@@ -7,7 +7,6 @@
 
 import eu.jrie.jetbrains.kotlinshell.shell.Shell
 import eu.jrie.jetbrains.kotlinshell.shell.shell
-import java.io.File
 import java.nio.file.Path
 import kotlin.system.exitProcess
 
@@ -42,7 +41,7 @@ suspend fun Shell.installPods(path: Path) {
 
 fun checkIfPipInstalled() {
     shell {
-        if(commandExitCode("pip3 -V") != 0) {
+        if(commandExitCode("pip -V") != 0) {
             println("You need pip fot this script. To install it follow https://pip.pypa.io/en/stable/installing/")
             exitProcess(1)
         }
@@ -52,5 +51,15 @@ fun checkIfPipInstalled() {
 fun downloadSortJsonIfNeeded() {
     checkAndInstall("sort-json") {
         "npm -g install sort-json"()
+    }
+}
+
+fun installClientGeneratorIfNeeded() {
+    val isWindows = System.getProperty("os.name").startsWith("Windows")
+    val generateLibraryCheckCommand = (if(isWindows) "where " else "command -v ") + "generate_library"
+
+    checkAndInstall(generateLibraryCheckCommand) {
+        checkIfPipInstalled()
+        "pip install google-apis-client-generator"()
     }
 }

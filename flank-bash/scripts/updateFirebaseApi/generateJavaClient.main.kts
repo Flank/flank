@@ -12,11 +12,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
-checkIfPipInstalled()
-print("X1112")
-shell {
-    "pip install google-apis-client-generator"()
-}
+installClientGeneratorIfNeeded()
 val apiPath = Paths.get("test_api").toString()
 val outputDirectory = Paths.get(apiPath, "src", "main", "java").toString()
 val testingJsonInput = Paths.get("json", "testing_v1.json").toString()
