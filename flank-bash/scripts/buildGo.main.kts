@@ -8,10 +8,8 @@
 
 @file:OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 
-import eu.jrie.jetbrains.kotlinshell.processes.process.ProcessSendChannel
 import java.nio.file.Paths
 import eu.jrie.jetbrains.kotlinshell.shell.*
-import java.io.File
 
 enum class GoOS(
     val goName: String,
@@ -24,7 +22,7 @@ enum class GoOS(
 }
 
 val goHelloDirectory =
-    (if (args.isNotEmpty()) Paths.get(args.first()) else Paths.get(rootDirectoryPath, "test_projects", "gohello"))
+    (if (args.isNotEmpty()) Paths.get(args.first()) else Paths.get(testProjectsPath, "gohello"))
         .toString()
 private val goHelloBinDirectoryPath = Paths.get(goHelloDirectory, "bin")
 
@@ -33,13 +31,14 @@ suspend fun createExecutable(os: GoOS) {
         .toFile()
         .mkdirs()
 
-    shell(dir = Paths.get(rootDirectoryPath, "test_projects", "gohello").toFile()) {
+    shell(dir = Paths.get(testProjectsPath, "gohello").toFile()) {
         export("GOOS" to os.goName)
         export("GOARCH" to "amd64")
-        "go build -o $flankFixturesTmpPath/gohello/${os.directory}/gohello${os.extension}"()
+        "go build -o ${createPathForBinary(os)}"()
     }
-
 }
+
+fun createPathForBinary(os: GoOS) = Paths.get(flankFixturesTmpPath, "gohello", os.directory, "gohello${os.extension}")
 
 suspend fun generateGoArtifacts() {
     goHelloBinDirectoryPath.toFile().deleteRecursively()
