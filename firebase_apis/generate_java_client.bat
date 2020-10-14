@@ -1,1 +1,1 @@
-kotlin ../flank-bash/scripts/updateFirebaseApi/generateJavaClient.main.kts
+kotlin ..\flank-bash\scripts\updateFirebaseApi\generateJavaClient.main.kts

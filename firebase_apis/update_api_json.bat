@@ -1,1 +1,1 @@
-kotlin ../flank-bash/scripts/updateFirebaseApi/updateApiJson.main.kts
+kotlin ..\flank-bash\scripts\updateFirebaseApi\updateApiJson.main.kts
