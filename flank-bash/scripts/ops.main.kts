@@ -3,6 +3,7 @@
 @file:DependsOn("org.slf4j:slf4j-simple:1.7.28")
 @file:Import("android.ops.main.kts")
 @file:Import("ios.ops.main.kts")
+@file:Import("buildGo.main.kts")
 @file:CompilerOptions("-Xopt-in=kotlin.RequiresOptIn")
 @file:OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 
@@ -19,6 +20,7 @@ shell {
         when (it) {
             OpsOptions.ANDROID.toString() -> generateApkAndTests()
             OpsOptions.IOS.toString() -> generateIos()
+            OpsOptions.GO.toString() -> generateGoArtifacts()
         }
     }
 }

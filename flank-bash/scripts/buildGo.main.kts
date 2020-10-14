@@ -37,7 +37,9 @@ fun createExecutable(os: GoOS) {
     }
 }
 
-goHelloBinDirectoryPath.toFile().deleteRecursively()
+fun generateGoArtifacts() {
+    goHelloBinDirectoryPath.toFile().deleteRecursively()
+    GoOS.values().forEach { createExecutable(it) }
+}
 
-GoOS.values().forEach { createExecutable(it) }
 
