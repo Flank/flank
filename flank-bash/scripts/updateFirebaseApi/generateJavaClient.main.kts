@@ -12,8 +12,8 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
-downloadPipIfNeeded()
-
+checkIfPipInstalled()
+print("X1112")
 shell {
     "pip install google-apis-client-generator"()
 }
