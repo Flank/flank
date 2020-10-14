@@ -22,7 +22,7 @@ enum class GoOS(
 }
 
 private val goHelloDirectory =
-    (if (args.isNotEmpty()) Paths.get(args.first()) else Paths.get(rootDirectoryPath, "test_project", "gohello"))
+    (if (args.isNotEmpty()) Paths.get(args.first()) else Paths.get(rootDirectoryPathString, "test_project", "gohello"))
         .toString()
 private val goHelloBinDirectoryPath = Paths.get(goHelloDirectory, "bin")
 

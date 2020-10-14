@@ -22,10 +22,9 @@ suspend fun Shell.generateApkAndTests() {
 }
 
 suspend fun Shell.baseAppApk() {
-    createGradleCommand(
-        workingDir = androidTestProjectsPath,
-        options = listOf("-p", androidTestProjectsPath, "app:assemble")
-    )()
+    shell(dir = rootDirectoryFile) {
+        createGradleCommand("app:assemble")()
+    }
     val outputDir = Paths.get(flankFixturesTmpPath, "apk", "app-debug.apk")
     if (!outputDir.parent.toFile().exists()) Files.createDirectories(outputDir.parent)
     val assembleDirectory = Paths.get(androidTestProjectsPath, "app", "build", "outputs", "apk", "singleSuccess", "debug", "app-single-success-debug.apk")
@@ -34,10 +33,9 @@ suspend fun Shell.baseAppApk() {
 }
 
 suspend fun Shell.baseTesApks() {
-    createGradleCommand(
-        workingDir = androidTestProjectsPath,
-        options = listOf("-p", androidTestProjectsPath, "app:assembleAndroidTest")
-    )()
+    shell(dir = rootDirectoryFile) {
+        createGradleCommand("app:assembleAndroidTest")()
+    }
     val assembleDirectory = Paths.get(androidTestProjectsPath, "app", "build", "outputs", "apk", "androidTest")
     File(assembleDirectory.toString()).findApks().forEach {
         Files.copy(it.toPath(), Paths.get(flankFixturesTmpPath, "apk", it.name), StandardCopyOption.REPLACE_EXISTING)
@@ -46,10 +44,9 @@ suspend fun Shell.baseTesApks() {
 
 suspend fun Shell.duplicatedNamesApks() {
     val modules = (0..3).map { "dir$it" }
-    createGradleCommand(
-        workingDir = androidTestProjectsPath,
-        options = listOf("-p", androidTestProjectsPath) + modules.map { "$it:testModule:assembleAndroidTest" }
-    )()
+    shell(dir = rootDirectoryFile) {
+        createGradleCommand(modules.map { "$it:testModule:assembleAndroidTest" })()
+    }
     val outputDir = Paths.get(flankFixturesTmpPath, "apk", "duplicated_names")
     if (!outputDir.toFile().exists()) Files.createDirectories(outputDir)
 
@@ -66,20 +63,18 @@ fun File.copyApkToDirectory(output: Path) = toPath().let { sourceFile ->
 }
 
 suspend fun Shell.multiModulesApks() {
-    createGradleCommand(
-        workingDir = androidTestProjectsPath,
-        options = listOf("-p", androidTestProjectsPath, ":multi-modules:multiapp:assemble") + (1..20).map { ":multi-modules:testModule$it:assembleAndroidTest" }
-    )()
+    shell(dir = rootDirectoryFile) {
+        createGradleCommand(listOf(":multi-modules:multiapp:assemble") + (1..20).map { ":multi-modules:testModule$it:assembleAndroidTest" })()
+    }
     val outputDir = Paths.get(flankFixturesTmpPath, "apk", "multi-modules").toString()
     Paths.get(androidTestProjectsPath, "multi-modules").toFile().findApks()
         .forEach { it.copyApkToDirectory(Paths.get(outputDir, it.name)) }
 }
 
 suspend fun Shell.cucumberSampleApp() {
-    createGradleCommand(
-        workingDir = androidTestProjectsPath,
-        options = listOf("-p", androidTestProjectsPath, "cucumber_sample_app:cukeulator:assembleDebug", ":cucumber_sample_app:cukeulator:assembleAndroidTest")
-    )()
+    shell(dir = rootDirectoryFile) {
+        createGradleCommand("cucumber_sample_app:cukeulator:assembleDebug", ":cucumber_sample_app:cukeulator:assembleAndroidTest")()
+    }
     val outputDir = Paths.get(flankFixturesTmpPath, "apk", "cucumber_sample_app").toString()
     Paths.get(androidTestProjectsPath, "cucumber_sample_app").toFile().findApks().copyApksToPath(outputDir)
 }

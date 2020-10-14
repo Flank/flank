@@ -12,15 +12,12 @@ import eu.jrie.jetbrains.kotlinshell.shell.*
 import java.nio.file.Path
 import java.nio.file.Paths
 
-val gradleCommand = createGradleCommand(
-    workingDir = rootDirectoryPath,
-    options = listOf(":test_runner:clean", ":test_runner:assemble", ":test_runner:shadowJar")
-)
-
-val flankDirectory: Path = Paths.get(rootDirectoryPath, "test_runner")
+val flankDirectory: Path = Paths.get(rootDirectoryPathString, "test_runner")
 
 shell {
-    gradleCommand()
+    shell(dir = rootDirectoryFile) {
+        createGradleCommand(":test_runner:clean", ":test_runner:assemble", ":test_runner:shadowJar")()
+    }
 }
 
 Paths.get(flankDirectory.toString(), "build", "libs", "flank.jar").toFile()

@@ -1,11 +1,14 @@
 import java.nio.file.Paths
 
 fun createGradleCommand(
-    workingDir: String,
+    vararg options: String
+) = createGradleCommand(options.asList())
+
+fun createGradleCommand(
     options: List<String>
-) = "${Paths.get(workingDir, gradleExecutable).toString()} ${options.joinToString(" ")}"
+) = "$gradleExecutable ${options.joinToString(" ")}"
 
 private val gradleExecutable: String
-    get() = if(isWindows) "gradlew.bat" else "gradlew"
+    get() = if (isWindows) "gradlew.bat" else "./gradlew"
 
 val isWindows = System.getProperty("os.name").startsWith("Windows")
