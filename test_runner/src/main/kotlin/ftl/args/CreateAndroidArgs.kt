@@ -10,7 +10,8 @@ fun createAndroidArgs(
     config: AndroidConfig? = null,
     gcloud: AndroidGcloudConfig = config!!.platform.gcloud,
     flank: AndroidFlankConfig = config!!.platform.flank,
-    commonArgs: CommonArgs = config!!.prepareAndroidCommonConfig()
+    commonArgs: CommonArgs = config!!.prepareAndroidCommonConfig(),
+    obfuscate: Boolean = false
 ) = AndroidArgs(
     commonArgs = commonArgs,
     // gcloud
@@ -38,6 +39,7 @@ fun createAndroidArgs(
         )
     } ?: emptyList(),
     useLegacyJUnitResult = flank.useLegacyJUnitResult!!,
+    obfuscateDumpShards = obfuscate,
     grantPermissions = gcloud.grantPermissions,
     type = gcloud.type?.let { Type.fromString(it) }
 )
