@@ -11,7 +11,7 @@ suspend fun AndroidArgs.getAndroidMatrixShards(): AndroidMatrixTestShards = this
     .filterIsInstance<InstrumentationTestContext>()
     .asMatrixTestShards()
 
-private fun List<InstrumentationTestContext>.asMatrixTestShards(): AndroidMatrixTestShards =
+fun List<InstrumentationTestContext>.asMatrixTestShards(): AndroidMatrixTestShards =
     map { testApks ->
         AndroidTestShards(
             app = testApks.app.local,

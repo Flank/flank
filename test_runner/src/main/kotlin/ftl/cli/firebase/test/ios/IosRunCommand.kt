@@ -47,7 +47,7 @@ class IosRunCommand : CommonRunCommand(), Runnable {
         val config = IosArgs.load(Paths.get(configPath), cli = this).validate()
 
         if (dumpShards) {
-            dumpShards(args = config, obfuscatedOutput = obfuscate)
+            dumpShards(args = config)
         } else runBlocking {
             newTestRun(config)
         }

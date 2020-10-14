@@ -3,6 +3,8 @@ package ftl.run
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
+import ftl.cli.firebase.test.android.AndroidRunCommand
+import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.config.FtlConstants
 import ftl.doctor.assertEqualsIgnoreNewlineStyle
 import ftl.test.util.FlankTestRunner
@@ -123,7 +125,7 @@ class DumpShardsKtTest {
 
         // when
         val actual = runBlocking {
-            dumpShards(AndroidArgs.load(mixedConfigYaml), TEST_SHARD_FILE, true)
+            dumpShards(AndroidArgs.load(mixedConfigYaml, AndroidRunCommand().apply { obfuscate = true }), TEST_SHARD_FILE)
             File(TEST_SHARD_FILE).apply { deleteOnExit() }.readText()
         }
 
@@ -183,7 +185,7 @@ class DumpShardsKtTest {
         if (FtlConstants.isWindows) return // TODO Windows Linux subsytem does not contain all expected commands
         // when
         val actual = runBlocking {
-            dumpShards(IosArgs.load(ios2ConfigYaml), TEST_SHARD_FILE, true)
+            dumpShards(IosArgs.load(ios2ConfigYaml, IosRunCommand().apply { obfuscate = true }), TEST_SHARD_FILE)
             File(TEST_SHARD_FILE).apply { deleteOnExit() }.readText()
         }
 
