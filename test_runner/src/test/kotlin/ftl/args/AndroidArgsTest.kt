@@ -1962,6 +1962,24 @@ AndroidArgs
               locale: en
               orientation: portrait
           type: instrumentation
+          test-runner-class: com.foo.TestRunner
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception if correct type requested instrumental but no test runner set`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          test
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: instrumentation
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
     }
