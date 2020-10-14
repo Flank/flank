@@ -30,14 +30,16 @@ enum class TestType {
     OBJECTIVE_C
 }
 
-
 suspend fun Shell.generateIos() = takeUnless { isWindows }?.let {
     downloadCocoaPodsIfNeeded()
     installPods(Paths.get(iOSTestProjectsPath, earlGreyExample))
     downloadXcPrettyIfNeeded()
-    createDirectories()
+    createDirectoryInFixture(directoryName = "objc")
+    createDirectoryInFixture(directoryName = "swift")
     buildEarlGreyExample()
 }
+
+fun createDirectoryInFixture(directoryName: String): Path = Files.createDirectories(Paths.get(flankFixturesTmpPath, directoryName))
 
 suspend fun buildEarlGreyExample() = buildDirectoryPath.runBuilds().resolve("Products").apply {
     filterFilesToCopy().copyIosProductFiles()
@@ -45,17 +47,6 @@ suspend fun buildEarlGreyExample() = buildDirectoryPath.runBuilds().resolve("Pro
 
 
 val buildDirectoryPath = Paths.get(iOSTestProjectsPath, earlGreyExample, buildDirectory)
-
-fun Path.copyTestFiles() = toString().let { productsDirectory ->
-    copyTestFile(productsDirectory, earlGreyExampleTests, TestType.OBJECTIVE_C)
-    copyTestFile(productsDirectory, earlGreyExampleSwiftTests, TestType.SWIFT)
-}
-
-fun copyTestFile(productsDirectory: String, name: String, type: TestType) = Files.copy(
-    Paths.get(productsDirectory, *pluginsDirectory, "$name.xctest", name),
-    Paths.get(flankFixturesTmpPath, type.toString().toLowerCase(), name),
-    StandardCopyOption.REPLACE_EXISTING
-)
 
 suspend fun Path.runBuilds() = toFile().let { projectPath ->
     projectPath.deleteRecursively()
@@ -72,16 +63,19 @@ suspend fun Path.runBuilds() = toFile().let { projectPath ->
     this
 }
 
-fun createDirectories() {
-    createDirectoryInFixture(directoryName = "objc")
-    createDirectoryInFixture(directoryName = "swift")
-}
-
-fun createDirectoryInFixture(directoryName: String): Path = Files.createDirectories(Paths.get(flankFixturesTmpPath, directoryName))
-
 fun Path.filterFilesToCopy() = toFile().walk().filter { it.nameWithoutExtension.endsWith("-iphoneos") || it.extension == "xctestrun" }
 
 fun Sequence<File>.copyIosProductFiles() = forEach {
     if (it.isDirectory) it.copyRecursively(Paths.get(flankFixturesTmpPath, it.name).toFile(), overwrite = true)
     else it.copyTo(Paths.get(flankFixturesTmpPath, it.name).toFile(), overwrite = true)
 }
+fun Path.copyTestFiles() = toString().let { productsDirectory ->
+    copyTestFile(productsDirectory, earlGreyExampleTests, TestType.OBJECTIVE_C)
+    copyTestFile(productsDirectory, earlGreyExampleSwiftTests, TestType.SWIFT)
+}
+
+fun copyTestFile(productsDirectory: String, name: String, type: TestType) = Files.copy(
+    Paths.get(productsDirectory, *pluginsDirectory, "$name.xctest", name),
+    Paths.get(flankFixturesTmpPath, type.toString().toLowerCase(), name),
+    StandardCopyOption.REPLACE_EXISTING
+)
