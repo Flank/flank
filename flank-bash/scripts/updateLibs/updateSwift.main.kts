@@ -6,7 +6,6 @@
 
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.nio.file.StandardCopyOption
 
 private val currentPath = Paths.get("")
 private val swiftPath = Paths.get(currentPath.toString(), "swift")
