@@ -9,7 +9,7 @@ enum class Type(val ymlName: String) {
         fun fromString(stringVal: String): Type {
             val filtered = values().filter { it.ymlName == stringVal }
             if (filtered.isEmpty()) {
-                throw FlankGeneralError("Unsupported Type given `$stringVal` only [${values().joinToString(",")}] supported.")
+                throw FlankGeneralError("Unsupported Type given `$stringVal` only [${values().joinToString(","){it.ymlName}}] supported.")
             }
             return filtered.first()
         }
