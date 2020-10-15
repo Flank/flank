@@ -17,7 +17,8 @@ val flankDirectory: Path = Paths.get(rootDirectoryPathString, "test_runner")
 shell {
     createGradleCommand(
         workingDir = rootDirectoryPathString,
-        "-p", rootDirectoryPathString, ":test_runner:clean", ":test_runner:assemble", ":test_runner:shadowJar")()
+        "-p", rootDirectoryPathString,
+        ":test_runner:clean", ":test_runner:assemble", ":test_runner:shadowJar")()
 }
 
 Paths.get(flankDirectory.toString(), "build", "libs", "flank.jar").toFile()
