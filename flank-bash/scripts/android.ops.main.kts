@@ -77,7 +77,7 @@ suspend fun Shell.buildMultiModulesApks() {
     shell {
         createGradleCommand(
             workingDir = androidTestProjectsPath,
-            options = listOf(":multi-modules:multiapp:assemble") + (1..20).map { ":multi-modules:testModule$it:assembleAndroidTest" })()
+            options = listOf("-p", androidTestProjectsPath, ":multi-modules:multiapp:assemble") + (1..20).map { ":multi-modules:testModule$it:assembleAndroidTest" })()
     }
     val outputDir = Paths.get(flankFixturesTmpPath, "apk", "multi-modules").toString()
     Paths.get(androidTestProjectsPath, "multi-modules").toFile().findApks()
@@ -88,7 +88,7 @@ suspend fun Shell.buildCucumberSampleApp() {
     shell {
         createGradleCommand(
             workingDir = androidTestProjectsPath,
-            options = listOf("cucumber_sample_app:cukeulator:assembleDebug", ":cucumber_sample_app:cukeulator:assembleAndroidTest")
+            options = listOf("-p", androidTestProjectsPath, "cucumber_sample_app:cukeulator:assembleDebug", ":cucumber_sample_app:cukeulator:assembleAndroidTest")
         )()
     }
     val outputDir = Paths.get(flankFixturesTmpPath, "apk", "cucumber_sample_app").toString()
