@@ -15,9 +15,10 @@ import java.nio.file.Paths
 val flankDirectory: Path = Paths.get(rootDirectoryPathString, "test_runner")
 
 shell {
-    shell(dir = rootDirectoryFile) {
-        createGradleCommand(":test_runner:clean", ":test_runner:assemble", ":test_runner:shadowJar")()
-    }
+    createGradleCommand(
+        workingDir = rootDirectoryPathString,
+        options = ":test_runner:clean", ":test_runner:assemble", ":test_runner:shadowJar")()
+
 }
 
 Paths.get(flankDirectory.toString(), "build", "libs", "flank.jar").toFile()
