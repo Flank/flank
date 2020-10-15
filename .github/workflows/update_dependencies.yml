@@ -28,14 +28,18 @@ jobs:
         run: |
           flankScripts dependencies update
 
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
       - name: Commit files and create Pull request
         id: pr
         uses: peter-evans/create-pull-request@v3
         with:
           commit-message: "[Automatic PR] Dependencies update"
           signoff: false
-          branch: 'dependencies_update'
-          title: 'build: Dependencies updates'
+          branch: "dependencies-update-${{ steps.date.outputs.date }}"
+          title: "build: Dependencies updates [${{ steps.date.outputs.date }}]"
           body: "Dependencies updates"
           labels: |
             automated pr
