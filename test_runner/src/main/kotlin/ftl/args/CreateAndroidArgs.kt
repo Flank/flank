@@ -1,6 +1,7 @@
 package ftl.args
 
 import ftl.args.yml.AppTestPair
+import ftl.args.yml.Type
 import ftl.config.AndroidConfig
 import ftl.config.android.AndroidFlankConfig
 import ftl.config.android.AndroidGcloudConfig
@@ -40,5 +41,6 @@ fun createAndroidArgs(
     useLegacyJUnitResult = flank.useLegacyJUnitResult!!,
     scenarioLabels = gcloud.scenarioLabels!!,
     obfuscateDumpShards = obfuscate,
-    grantPermissions = gcloud.grantPermissions
+    grantPermissions = gcloud.grantPermissions,
+    type = gcloud.type?.let { Type.fromString(it) }
 )

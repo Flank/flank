@@ -5,6 +5,7 @@ import com.google.common.truth.Truth.assertThat
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 import ftl.args.IArgs.Companion.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE
 import ftl.args.yml.AppTestPair
+import ftl.args.yml.Type
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants.defaultAndroidModel
@@ -98,6 +99,7 @@ class AndroidArgsTest {
           - /sdcard/screenshots
           - /sdcard/screenshots2
           grant-permissions: all
+          type: instrumentation
           other-files:
             /sdcard/dir1/file1.txt: $appApk
             /sdcard/dir2/file2.jpg: $testApk
@@ -238,6 +240,7 @@ class AndroidArgsTest {
             assert(useOrchestrator, false)
             assert(environmentVariables, linkedMapOf("clearPackageData" to "true", "randomEnvVar" to "false"))
             assert(directoriesToPull, listOf("/sdcard/screenshots", "/sdcard/screenshots2"))
+            assert(grantPermissions, "all")
             assert(
                 otherFiles,
                 mapOf(
@@ -245,6 +248,7 @@ class AndroidArgsTest {
                     "/sdcard/dir2/file2.jpg" to testApkAbsolutePath
                 )
             )
+            assert(type, Type.INSTRUMENTATION)
             assert(performanceMetrics, false)
             assert(testRunnerClass, "com.foo.TestRunner")
             assert(
@@ -312,6 +316,7 @@ AndroidArgs
         - /sdcard/screenshots
         - /sdcard/screenshots2
       grant-permissions: all
+      type: instrumentation
       other-files: 
         /sdcard/dir1/file1.txt: $appApkAbsolutePath
         /sdcard/dir2/file2.jpg: $testApkAbsolutePath
@@ -391,6 +396,7 @@ AndroidArgs
       use-orchestrator: true
       directories-to-pull: 
       grant-permissions: all
+      type: null
       other-files: 
       scenario-labels: 
       performance-metrics: false
@@ -1911,6 +1917,87 @@ AndroidArgs
               locale: en
               orientation: portrait
           grant-permissions: none
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+    @Test(expected = FlankGeneralError::class)
+    fun `should throw exception if incorrect type requested`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          grant-permissions: error
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should Not throw exception if correct type requested game-loop`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: game-loop
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should Not throw exception if correct type requested instrumental`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: instrumentation
+          test-runner-class: com.foo.TestRunner
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception if correct type requested instrumental but no test runner set`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          test
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: instrumentation
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should Not throw exception if correct type requested robo`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: robo
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
     }

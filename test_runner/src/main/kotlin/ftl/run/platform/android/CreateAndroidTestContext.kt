@@ -70,10 +70,14 @@ internal fun InstrumentationTestContext.getFlankTestMethods(
             .filter(testFilter.shouldRun)
             .filterNot(parameterizedClasses::belong)
             .map(TestMethod::toFlankTestMethod).toList()
-            .plus(parameterizedClasses.map(String::toFlankTestMethod))
+            .plus(parameterizedClasses.onlyShouldRun(testFilter))
     }
 
 private fun List<String>.belong(method: TestMethod) = any { className -> method.testName.startsWith(className) }
+
+private fun List<String>.onlyShouldRun(filter: TestFilter) = this
+    .filter { filter.shouldRun(TestMethod(it, emptyList())) }
+    .map { FlankTestMethod("class $it", ignored = false, isParameterizedClass = true) }
 
 private fun TestMethod.toFlankTestMethod() = FlankTestMethod(
     testName = "class $testName",
@@ -86,9 +90,8 @@ private val ignoredAnnotations = listOf(
     "android.support.test.filters.Suppress"
 )
 
-private fun String.toFlankTestMethod() = FlankTestMethod("class $this", ignored = false, isParameterizedClass = true)
-
-private fun InstrumentationTestContext.getParametrizedClasses(): List<String> =
+@VisibleForTesting
+internal fun InstrumentationTestContext.getParametrizedClasses(): List<String> =
     DexParser.readDexFiles(test.local).fold(emptyList()) { accumulator, file: DexFile ->
         accumulator + file.classDefs
             .filter(file::isParametrizedClass)

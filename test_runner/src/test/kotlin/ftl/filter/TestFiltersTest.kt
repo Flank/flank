@@ -358,6 +358,42 @@ class TestFiltersTest {
         assertThat(filter.shouldRun(BAR_PACKAGE)).isFalse()
         assertThat(filter.shouldRun(BAR_CLASSNAME)).isTrue()
     }
+
+    @Test
+    fun `withClassName should correctly filter classes with similar name`() {
+        // test-targets:
+        //   - class foo.bar.Class1
+        // should filter foo.bar.Class11, foo.bar.Class101 ...
+        // the same is applicable for methods
+
+        val filter = fromTestTargets(
+            listOf(
+                "class anyPackage_1.anyClass_1",
+                "class anyPackage_3.anyClass_3#anyMethod_3"
+            )
+        )
+
+        val tests = listOf(
+            TargetsHelper(pack = "anyPackage_1", cl = "anyClass_1", m = "anyMethod_1", annotation = "Foo"),
+            TargetsHelper(pack = "anyPackage_1", cl = "anyClass_1", m = "anyMethod_2", annotation = "Foo"),
+            TargetsHelper(pack = "anyPackage_1", cl = "anyClass_12", m = "anyMethod_1", annotation = "Bar"),
+            TargetsHelper(pack = "anyPackage_1", cl = "anyClass_12", m = "anyMethod_12", annotation = "Bar"),
+            TargetsHelper(pack = "anyPackage_3", cl = "anyClass_3", m = "anyMethod_3", annotation = "Bar"),
+            TargetsHelper(pack = "anyPackage_3", cl = "anyClass_3", m = "anyMethod_32", annotation = "Bar"),
+            TargetsHelper(pack = "anyPackage_3", cl = "anyClass_32", m = "anyMethod_3", annotation = "Bar"),
+            TargetsHelper(pack = "anyPackage_3", cl = "anyClass_32", m = "anyMethod_32", annotation = "Bar")
+        ).map { getDefaultTestMethod(it.fullView, it.annotation) }
+
+        val expected = listOf(
+            "anyPackage_1.anyClass_1#anyMethod_1",
+            "anyPackage_1.anyClass_1#anyMethod_2",
+            "anyPackage_3.anyClass_3#anyMethod_3"
+        )
+
+        val result = tests.withFilter(filter)
+
+        assertThat(result).isEqualTo(expected)
+    }
 }
 
 private fun getDefaultTestMethod(testName: String, annotation: String) =

@@ -5,6 +5,7 @@ import ftl.android.IncompatibleModelVersion
 import ftl.android.SupportedDeviceConfig
 import ftl.android.UnsupportedModelId
 import ftl.android.UnsupportedVersionId
+import ftl.args.yml.Type
 import ftl.config.containsPhysicalDevices
 import ftl.config.containsVirtualDevices
 import ftl.run.exception.FlankConfigurationError
@@ -23,10 +24,19 @@ fun AndroidArgs.validate() = apply {
     assertTestFiles()
     assertOtherFiles()
     assertGrantPermissions()
+    assertType()
     checkResultsDirUnique()
     checkEnvironmentVariables()
     checkFilesToDownload()
     checkNumUniformShards()
+}
+
+private fun AndroidArgs.assertType() = type?.let {
+    if (appApk == null) throw FlankGeneralError("A valid AppApk must be defined if Type parameter is used.")
+    if (it == Type.INSTRUMENTATION) {
+        if (testApk == null) throw FlankGeneralError("Instrumentation tests require a valid testApk defined.")
+        if (testRunnerClass == null) throw FlankGeneralError("Instrumentation tests require a valid test-runner-class defined.")
+    }
 }
 
 private fun AndroidArgs.assertGrantPermissions() = grantPermissions?.let {

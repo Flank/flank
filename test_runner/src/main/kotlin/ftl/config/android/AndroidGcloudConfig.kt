@@ -24,7 +24,7 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
     @set:CommandLine.Option(
         names = ["--app"],
         description = ["The path to the application binary file. " +
-            "The path may be in the local filesystem or .setDontAutograntPermissions(true)in Google Cloud Storage using gs:// notation."]
+            "The path may be in the local filesystem or in Google Cloud Storage using gs:// notation."]
     )
     @set:JsonProperty("app")
     var app: String? by data
@@ -101,6 +101,13 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
     )
     @set:JsonProperty("grant-permissions")
     var grantPermissions: String? by data
+
+    @set:CommandLine.Option(
+        names = ["--type"],
+        description = ["The type of test to run. TYPE must be one of: instrumentation, robo, game-loop."]
+    )
+    @set:JsonProperty("type")
+    var type: String? by data
 
     @set:CommandLine.Option(
         names = ["--directories-to-pull"],
@@ -239,6 +246,7 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
             testTargets = emptyList()
             roboDirectives = emptyMap()
             roboScript = null
+            type = null
         }
     }
 }
