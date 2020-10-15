@@ -8,13 +8,13 @@ Flank is YAML compatible with [the gcloud CLI](https://cloud.google.com/sdk/gclo
 
 https://github.com/Flank/flank/releases/latest/download/flank.jar
 
-### Sponsors
+## Sponsors
 
 [<img src="./assets/bugsnag-logo-dark.png" width="50%" />](https://www.bugsnag.com/)
 
 See [docs/error_monitoring.md](./docs/error_monitoring.md) to disable Bugsnag error monitoring.
 
-### Contributing
+## Contributing
 
 - Install JDK 15 (it works also correctly on the previous version, a newer version is not guaranteed to work properly):
   - [Oracle](https://www.oracle.com/java/technologies/javase-downloads.html#JDK15)
@@ -26,7 +26,7 @@ See [docs/error_monitoring.md](./docs/error_monitoring.md) to disable Bugsnag er
 - Open `build.gradle.kts` in the main Flank base directory with `IntelliJ IDEA Community`, this will open the entire Flank mono repo
 - test runner contributions can be made in the `test_runner\` subdirectory
 
-### Features
+## Features
 
 - Test sharding
 - Cost reporting
@@ -35,18 +35,18 @@ See [docs/error_monitoring.md](./docs/error_monitoring.md) to disable Bugsnag er
 - JUnit XML report
 - Smart Flank
 
-### Exit Codes
+## Exit Codes
 
-Exit code  | Description
- --        |         -- |
-0          | All tests passed
-1          | A general failure occurred. Possible causes include: a filename that does not exist or an HTTP/network error.
-2          | Usually indicates missing or wrong usage of flags, incorrect parameters, errors in config files.
-10         | At least one matrix not finished (usually a FTL internal error) or unexpected error occurred.
-15         | Firebase Test Lab could not determine if the test matrix passed or failed, because of an unexpected error.
-18         | The test environment for this test execution is not supported because of incompatible test dimensions. This error might occur if the selected Android API level is not supported by the selected device type.
-19         | The test matrix was canceled by the user.
-20         | A test infrastructure error occurred.
+| Exit code  | Description |
+|  ---:      | :---  |
+| 0          | All tests passed 
+| 1          | A general failure occurred. Possible causes include: a filename that does not exist or an HTTP/network error. 
+| 2          | Usually indicates missing or wrong usage of flags, incorrect parameters, errors in config files. 
+| 10         | At least one matrix not finished (usually a FTL internal error) or unexpected error occurred. 
+| 15         | Firebase Test Lab could not determine if the test matrix passed or failed, because of an unexpected error. 
+| 18         | The test environment for this test execution is not supported because of incompatible test dimensions. This error might occur if the selected Android API level is not supported by the selected device type. 
+| 19         | The test matrix was canceled by the user. 
+| 20         | A test infrastructure error occurred. 
 
 ## CLI
 
@@ -481,7 +481,7 @@ flank:
   # disable-results-upload: false
 ```
 
-### Android code coverage
+## Android code coverage
 
 <details>
 <summary>Update your app's build.gradle to build with coverage and use orchestrator.
@@ -605,7 +605,7 @@ flank:
 - Open the report in `./build/reports/jacoco/firebaseJacoco/html/index.html`
 </details>
 
-### CI integration
+## CI integration
 
 Download Flank from GitHub releases.
 
@@ -633,30 +633,30 @@ gcloud:
 EOF
 ```
 
-### Circle CI
+## Circle CI
 
 Circle CI has a [firebase testlab orb](https://circleci.com/orbs/registry/orb/freeletics/firebase-testlab) that supports Flank.
 
-### Bitrise
+## Bitrise
 
 Bitrise has an official [flank step](https://github.com/bitrise-steplib/bitrise-step-flank).
 
-### Gradle Plugin
+## Gradle Plugin
 
 [Fladle][fladle] is a Gradle plugin for Flank that provides DSL configuration and task based execution.
 
 [fladle]: https://github.com/runningcode/fladle
 
-### Flank on Windows
+## Flank on Windows
 In order to build or run Flank using Windows please follow [guide](docs/windows_wsl_guide.md) of building/running it using Windows WSL.
 Native support is not currently supported.
 
-### Authenticate with a Google account
+## Authenticate with a Google account
 
 Run `flank auth login`. Flank will save the credential to `~/.flank`. Google account authentication allows each person
 to have a unique non-shared credential. A service account is still recommended for CI.
 
-### Authenticate with a service account
+## Authenticate with a service account
 
 Follow the [test lab docs](https://firebase.google.com/docs/test-lab/android/continuous) to create a service account.
 - Save the credential to `$HOME/.config/gcloud/application_default_credentials.json` or set `GOOGLE_APPLICATION_CREDENTIALS` when using a custom path.
@@ -678,7 +678,7 @@ mkdir -p "$GCLOUD_DIR"
 echo "$GCLOUD_KEY" | base64 --decode > "$GCLOUD_DIR/application_default_credentials.json"
 ```
 
-### Running with gcloud directly
+## Running with gcloud directly
 
 flank.yml is compatible with the gcloud CLI.
 
@@ -687,14 +687,14 @@ flank.yml is compatible with the gcloud CLI.
 
 **NOTE:** You will need to [activate gcloud's service account](https://cloud.google.com/sdk/gcloud/reference/auth/activate-service-account) for the above commands to work.
 
-### Doctor
+## Doctor
 
 Use the doctor command to check for errors in the YAML.
 
 - `flank firebase test android doctor`
 - `flank firebase test ios doctor`
 
-### Check version
+## Check version
 
 Flank supports printing the current version.
 
@@ -703,7 +703,7 @@ $ flank -v
 v3.0-SNAPSHOT
 ```
 
-### Maven
+## Maven
 
 You can consume Flank via maven.  
 See the [maven repo](https://bintray.com/flank/maven/flank) for all supported versions.
@@ -740,12 +740,12 @@ dependencies {
 ```
 </details>
 
-### Gradle Enterprise Export API
+## Gradle Enterprise Export API
 
 It is possible to fetch metrics from Gradle builds. For detailed info please visit [Gradle Export API](https://docs.gradle.com/enterprise/export-api/)
 and flank's example [gradle-export-api](https://github.com/Flank/flank/tree/master/samples/gradle-export-api).
 
-### FAQ
+## FAQ
 
 1) > Access Not Configured. Cloud Tool Results API has not been used in project 764086051850 before or it is disabled.
 
