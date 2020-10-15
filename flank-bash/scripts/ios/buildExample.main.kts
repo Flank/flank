@@ -9,6 +9,7 @@
 @file:Import("../util/archive.main.kts")
 @file:Import("../util/downloadSoftware.main.kts")
 @file:Import("../util/PathHelper.kt")
+@file:Import("../util/OsHelper.kts")
 @file:Import("IosBuildCommand.kt")
 
 import eu.jrie.jetbrains.kotlinshell.shell.shell
@@ -17,6 +18,12 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.util.stream.Collectors
+import kotlin.system.exitProcess
+
+if(isWindows) {
+    println("This script does not work on Windows")
+    exitProcess(1)
+}
 
 val dataPath: Path = Paths.get(currentPath.toString(), "dd_tmp")
 dataPath.toFile().deleteRecursively()

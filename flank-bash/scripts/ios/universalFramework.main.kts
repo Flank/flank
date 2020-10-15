@@ -7,9 +7,16 @@
 
 @file:Import("LipoHelper.kt")
 @file:Import("../util/PathHelper.kt")
+@file:Import("../util/OsHelper.kts")
 
 import eu.jrie.jetbrains.kotlinshell.shell.shell
 import java.nio.file.Paths
+import kotlin.system.exitProcess
+
+if (isWindows) {
+    println("This script does not work on Windows")
+    exitProcess(1)
+}
 
 val comboPath = Paths.get(currentPath.toString(), "ios-frameworks").toString()
 val devicePath = Paths.get(comboPath, "Debug-iphoneos").toString()

@@ -2,7 +2,7 @@
 
 @file:Import("../util/downloadFiles.main.kts")
 @file:Import("../util/archive.main.kts")
-@file:Import("update.constants.kts")
+@file:Import("../util/OsHelper.kts")
 
 import java.nio.file.Files
 import java.nio.file.Paths

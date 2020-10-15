@@ -6,6 +6,7 @@
 @file:OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 
 @file:Import("../util/PathHelper.kt")
+@file:Import("../util/OsHelper.kts")
 
 import eu.jrie.jetbrains.kotlinshell.shell.shell
 import java.nio.file.Path
@@ -17,7 +18,12 @@ val id = args.firstOrNull() ?: {
     exitProcess(1)
 }
 
-val dataPath: Path = Paths.get(currentPath.toString(), "dd_tmp", "Build" , "Products")
+if (isWindows) {
+    println("This script does not work on Windows")
+    exitProcess(1)
+}
+
+val dataPath: Path = Paths.get(currentPath.toString(), "dd_tmp", "Build", "Products")
 
 val xcodeCommand = "xcodebuild test-without-building " +
     " -xctestrun $dataPath/*.xctestrun " +

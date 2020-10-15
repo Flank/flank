@@ -16,6 +16,12 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.util.stream.Collectors
+import kotlin.system.exitProcess
+
+if(isWindows) {
+    println("This script does not work on Windows")
+    exitProcess(1)
+}
 
 val currentPath = Paths.get("")
 val dataPath: Path = Paths.get("", "dd_tmp")
