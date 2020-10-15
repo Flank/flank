@@ -16,8 +16,8 @@ import java.nio.file.Paths
 @RunWith(FlankTestRunner::class)
 class XctestrunTest {
 
-    private val swiftXctestrun = "$FIXTURES_PATH/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun"
-    private val multipleTargetsSwiftXctestrun = "$FIXTURES_PATH/axel/FlankTests_iphoneos14.0-arm64.xctestrun"
+    private val swiftXctestrun = "$FIXTURES_PATH/ios/earl_grey_example/EarlGreyExampleSwiftTests.xctestrun"
+    private val multipleTargetsSwiftXctestrun = "$FIXTURES_PATH/ios/flank_ios_example/FlankExampleTests.xctestrun"
 
     private val swiftTests = listOf(
         "EarlGreyExampleSwiftTests/testBasicSelection",
@@ -44,7 +44,7 @@ class XctestrunTest {
         val result = Xctestrun.parse(swiftXctestrun)
         assertThat(arrayOf("EarlGreyExampleSwiftTests", "__xctestrun_metadata__")).isEqualTo(result.allKeys())
         val dict = result["EarlGreyExampleSwiftTests"] as NSDictionary
-        assertThat(dict.count()).isEqualTo(19)
+        assertThat(dict.count()).isEqualTo(20)
         assertThat(dict.containsKey("OnlyTestIdentifiers")).isFalse()
     }
 

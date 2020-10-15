@@ -488,7 +488,7 @@
 				DEVELOPMENT_TEAM = AD2V26JBWL;
 				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = EarlGreyExampleSwiftTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.gogoapps.earlgrey.samples.EarlGreySwiftTests;
 				PRODUCT_MODULE_NAME = EarlGreyExampleTestsSwift;
@@ -511,7 +511,7 @@
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = L2UF9MLSM6;
 				INFOPLIST_FILE = EarlGreyExampleSwiftTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.gogoapps.earlgrey.samples.EarlGreySwiftTests;
 				PRODUCT_MODULE_NAME = EarlGreyExampleTestsSwift;
@@ -559,7 +559,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_MODULE_NAME = EarlGreyExample;
@@ -600,7 +600,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_MODULE_NAME = EarlGreyExample;
 				PRODUCT_NAME = EarlGreyExample;
@@ -622,7 +622,7 @@
 				DEVELOPMENT_TEAM = AD2V26JBWL;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/EarlGreyExample/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.gogoapps.earlgrey.samples.EarlGrey;
 				PRODUCT_MODULE_NAME = EarlGreyExampleSwift;
@@ -645,7 +645,7 @@
 				DEVELOPMENT_TEAM = L2UF9MLSM6;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/EarlGreyExample/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.gogoapps.earlgrey.samples.EarlGrey;
 				PRODUCT_MODULE_NAME = EarlGreyExampleSwift;
@@ -680,7 +680,7 @@
 					$CONFIGURATION_TEMP_DIR/EarlGreyExampleSwift.build/DerivedSources,
 				);
 				INFOPLIST_FILE = EarlGreyExample/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.gogoapps.earlgrey.samples.EarlGreyTests;
 				PRODUCT_MODULE_NAME = EarlGreyExampleTests;
@@ -714,7 +714,7 @@
 					$CONFIGURATION_TEMP_DIR/EarlGreyExampleSwift.build/DerivedSources,
 				);
 				INFOPLIST_FILE = EarlGreyExample/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.gogoapps.earlgrey.samples.EarlGreyTests;
 				PRODUCT_MODULE_NAME = EarlGreyExampleTests;

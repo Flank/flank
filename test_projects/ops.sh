@@ -5,6 +5,7 @@ TEST_PROJECTS_IOS="$TEST_PROJECTS/ios"
 
 . "$TEST_PROJECTS_ANDROID/ops.sh"
 . "$TEST_PROJECTS_IOS/EarlGreyExample/ops.sh"
+. "$TEST_PROJECTS_IOS/FlankExample/ops.sh"
 
 function update_test_artifacts() {
 
@@ -18,6 +19,7 @@ function update_test_artifacts() {
     ios)
       setup_ios_env
       earl_grey_example --generate --copy
+      flank_ios_example --generate --copy
       ;;
 
     go)
