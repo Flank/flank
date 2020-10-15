@@ -139,7 +139,7 @@ detekt {
     input = files("src/main/kotlin", "src/test/kotlin")
     config = files("../config/detekt.yml")
     parallel = true
-    failFast = false // fail build on any finding
+    failFast = true // fail build on any finding
     autoCorrect = true
 
     reports {
