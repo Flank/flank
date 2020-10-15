@@ -15,8 +15,7 @@ val flankScriptsDirectory: Path = Paths.get(rootDirectoryPathString, "flank-scri
 shell {
     createGradleCommand(
         workingDir = rootDirectoryPathString,
-        "-p", rootDirectoryPathString,
-        ":flank-scripts:clean", ":flank-scripts:assemble", ":flank-scripts:shadowJar"
+        "-p", rootDirectoryPathString, ":flank-scripts:clean", ":flank-scripts:assemble", ":flank-scripts:shadowJar"
     )()
 }
 
