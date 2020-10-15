@@ -82,6 +82,9 @@ gcloud:
   # directories-to-pull:
   #   - /sdcard/
 
+  ## The type of test to run. TYPE must be one of: instrumentation, robo, game-loop.
+  # type: instrumentation
+
   ## Whether to grant runtime permissions on the device before the test begins.
   ## By default, all permissions are granted. PERMISSIONS must be one of: all, none
   # grant-permissions: all
