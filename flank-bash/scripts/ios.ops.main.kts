@@ -3,7 +3,7 @@
 @file:DependsOn("org.slf4j:slf4j-simple:1.7.28")
 @file:Import("util/GradleCommand.kt")
 @file:Import("util/PathHelper.kt")
-@file:Import("ios/util/IosBuildCommand.kt")
+@file:Import("ios/IosBuildCommand.kt")
 @file:Import("util/downloadSoftware.main.kts")
 @file:CompilerOptions("-Xopt-in=kotlin.RequiresOptIn")
 @file:OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)

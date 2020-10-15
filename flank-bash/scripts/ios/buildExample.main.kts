@@ -9,7 +9,7 @@
 @file:Import("../util/archive.main.kts")
 @file:Import("../util/downloadSoftware.main.kts")
 @file:Import("../util/PathHelper.kt")
-@file:Import("util/IosBuildCommand.kt")
+@file:Import("IosBuildCommand.kt")
 
 import eu.jrie.jetbrains.kotlinshell.shell.shell
 import java.nio.file.Files

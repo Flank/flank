@@ -8,6 +8,7 @@
 @file:Import("../util/downloadSoftware.main.kts")
 @file:Import("../util/archive.main.kts")
 @file:Import("../util/PathHelper.kt")
+@file:Import("IosBuildCommand.kt")
 
 import eu.jrie.jetbrains.kotlinshell.shell.shell
 import java.nio.file.Files
@@ -24,18 +25,13 @@ val buildProductPath = Paths.get(dataPath.toString(), "Build", "Products")
 downloadXcPrettyIfNeeded()
 
 shell {
-    val xcodeCommand = "xcodebuild build-for-testing" +
-        "  -allowProvisioningUpdates" +
-        "  -workspace ./EarlGreyExample.xcworkspace" +
-        "  -scheme \"EarlGreyExampleSwiftTests\"" +
-        "  -derivedDataPath $dataPath" +
-        "  -sdk iphoneos".process()
+    val xcodeCommand = createIosBuildCommand(dataPath, "./EarlGreyExample.xcworkspace", "\"EarlGreyExampleSwiftTests\"").process()
     val xcPrettyCommand = "xcpretty".process()
 
     pipeline { xcodeCommand pipe xcPrettyCommand }
 
     Files.walk(Paths.get(""))
-        .filter { it.fileName.toString().endsWith("-iphoneos") ||  it.fileName.toString().endsWith(".xctestrun") }
+        .filter { it.fileName.toString().endsWith("-iphoneos") || it.fileName.toString().endsWith(".xctestrun") }
         .map { it.toFile() }
         .collect(Collectors.toList())
         .archive(archiveFileName, currentPath.toFile())

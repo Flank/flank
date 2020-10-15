@@ -14,25 +14,27 @@ import java.nio.file.Path
 import java.nio.file.StandardCopyOption
 
 suspend fun Shell.generateApkAndTests() {
-    baseAppApk()
-    baseTesApks()
-    duplicatedNamesApks()
-    multiModulesApks()
-    cucumberSampleApp()
+    buildBaseApp()
+    buildBaseTestApk()
+    buildDuplicatedNamesApks()
+    buildMultiModulesApks()
+    buildCucumberSampleApp()
 }
 
-suspend fun Shell.baseAppApk() {
+suspend fun Shell.buildBaseApp() {
     shell(dir = rootDirectoryFile) {
         createGradleCommand("app:assemble")()
     }
+
     val outputDir = Paths.get(flankFixturesTmpPath, "apk", "app-debug.apk")
+
     if (!outputDir.parent.toFile().exists()) Files.createDirectories(outputDir.parent)
+
     val assembleDirectory = Paths.get(androidTestProjectsPath, "app", "build", "outputs", "apk", "singleSuccess", "debug", "app-single-success-debug.apk")
     Files.copy(assembleDirectory, outputDir, StandardCopyOption.REPLACE_EXISTING)
-
 }
 
-suspend fun Shell.baseTesApks() {
+suspend fun Shell.buildBaseTestApk() {
     shell(dir = rootDirectoryFile) {
         createGradleCommand("app:assembleAndroidTest")()
     }
@@ -42,7 +44,7 @@ suspend fun Shell.baseTesApks() {
     }
 }
 
-suspend fun Shell.duplicatedNamesApks() {
+suspend fun Shell.buildDuplicatedNamesApks() {
     val modules = (0..3).map { "dir$it" }
     shell(dir = rootDirectoryFile) {
         createGradleCommand(modules.map { "$it:testModule:assembleAndroidTest" })()
@@ -62,7 +64,7 @@ fun File.copyApkToDirectory(output: Path) = toPath().let { sourceFile ->
     Files.copy(sourceFile, output, StandardCopyOption.REPLACE_EXISTING)
 }
 
-suspend fun Shell.multiModulesApks() {
+suspend fun Shell.buildMultiModulesApks() {
     shell(dir = rootDirectoryFile) {
         createGradleCommand(listOf(":multi-modules:multiapp:assemble") + (1..20).map { ":multi-modules:testModule$it:assembleAndroidTest" })()
     }
@@ -71,7 +73,7 @@ suspend fun Shell.multiModulesApks() {
         .forEach { it.copyApkToDirectory(Paths.get(outputDir, it.name)) }
 }
 
-suspend fun Shell.cucumberSampleApp() {
+suspend fun Shell.buildCucumberSampleApp() {
     shell(dir = rootDirectoryFile) {
         createGradleCommand("cucumber_sample_app:cukeulator:assembleDebug", ":cucumber_sample_app:cukeulator:assembleAndroidTest")()
     }
