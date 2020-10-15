@@ -636,11 +636,11 @@ gcloud:
 EOF
 ```
 
-## Circle CI
+### Circle CI
 
 Circle CI has a [firebase testlab orb](https://circleci.com/orbs/registry/orb/freeletics/firebase-testlab) that supports Flank.
 
-## Bitrise
+### Bitrise
 
 Bitrise has an official [flank step](https://github.com/bitrise-steplib/bitrise-step-flank).
 
