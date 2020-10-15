@@ -1,1 +1,2 @@
-kotlin ..\flank-bash\scripts\updateFirebaseApi\updateApiJson.main.kts
+SET DIR=%~dp0
+kotlin $DIR\..\flank-bash\scripts\updateFirebaseApi\updateApiJson.main.kts

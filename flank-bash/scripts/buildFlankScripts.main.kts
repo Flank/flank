@@ -12,6 +12,7 @@ import java.nio.file.Paths
 
 val flankScriptsDirectory: Path = Paths.get(rootDirectoryPathString, "flank-scripts")
 
+println("XXX")
 shell {
     shell(dir = rootDirectoryFile) {
         createGradleCommand(":flank-scripts:clean", ":flank-scripts:assemble", ":flank-scripts:shadowJar")()

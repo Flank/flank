@@ -8,7 +8,7 @@ val rootDirectoryFile = rootDirectoryPath.toFile()
 val rootDirectoryPathString = rootDirectoryPath.toString()
 
 fun goToRoot(startPath: Path): Path =
-    if (startPath.isRoot()) startPath else goToRoot(startPath.toAbsolutePath().parent)
+    if (startPath.isRoot()) startPath.toAbsolutePath() else goToRoot(startPath.toAbsolutePath().parent)
 
 fun Path.isRoot() = Files.exists(Paths.get(toString(), "settings.gradle.kts"))
 

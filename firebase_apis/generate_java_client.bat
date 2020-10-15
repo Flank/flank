@@ -1,1 +1,2 @@
-kotlin ..\flank-bash\scripts\updateFirebaseApi\generateJavaClient.main.kts
+SET DIR=%~dp0
+kotlin $DIR\..\flank-bash\scripts\updateFirebaseApi\generateJavaClient.main.kts
