@@ -99,8 +99,9 @@ gcloud:
   ## A list of game-loop scenario labels (default: None). Each game-loop scenario may be labeled in the APK manifest file with one or more arbitrary strings, creating logical groupings (e.g. GPU_COMPATIBILITY_TESTS).
   ## If --scenario-numbers and --scenario-labels are specified together, Firebase Test Lab will first execute each scenario from --scenario-numbers.
   ## It will then expand each given scenario label into a list of scenario numbers marked with that label, and execute those scenarios.
-  # scenario-labels
-  # LABEL1, LABEL2, ...
+  # scenario-labels:
+  #  - label1
+  #  - label2
 
   ## Monitor and record performance metrics: CPU, memory, network usage, and FPS (game-loop only).
   ## Disabled by default. Use --performance-metrics to enable.
