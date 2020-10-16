@@ -2001,6 +2001,43 @@ AndroidArgs
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
     }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception if incorrect type requested and scenario labels provided`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: robo
+          scenario-labels: 
+            - test1 
+            - test2
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    fun `should not throw exception if game-loop required but no scenario loop provided`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: game-loop
+          scenario-labels: 
+            - test1 
+            - test2
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
 }
 
 private fun AndroidArgs.Companion.load(yamlData: String, cli: AndroidRunCommand? = null): AndroidArgs =
