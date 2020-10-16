@@ -35,6 +35,7 @@ nav:
       - Dependencies update: dependencies_update_process.md
       - Secrets: flank_secrets.md
       - Releasing: release_process.md
+      - Kotlin scripts hints: development_kotlin_scripts.md
 
 theme:
   name: material
