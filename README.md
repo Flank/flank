@@ -337,6 +337,13 @@ gcloud:
   # other-files
   #   - /sdcard/dir1/file1.txt: local/file.txt
   #   - /sdcard/dir2/file2.jpg: gs://bucket/file.jpg
+  
+  ## A list of game-loop scenario numbers which will be run as part of the test (default: all scenarios). 
+  ## A maximum of 1024 scenarios may be specified in one test matrix, but the maximum number may also be limited by the overall test --timeout setting.
+  # scenario-numbers:
+  #   - 1
+  #   - 2
+  #   - 3
 
   ## Monitor and record performance metrics: CPU, memory, network usage, and FPS (game-loop only).
   ## Disabled by default. Use --performance-metrics to enable.

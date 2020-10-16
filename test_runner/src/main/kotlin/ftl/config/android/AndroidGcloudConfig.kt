@@ -133,6 +133,16 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
     var otherFiles: Map<String, String>? by data
 
     @set:CommandLine.Option(
+        names = ["--scenario-numbers"],
+        split = ",",
+        description = ["A list of game-loop scenario numbers which will be run as part of the test (default: all scenarios). " +
+                "A maximum of 1024 scenarios may be specified in one test matrix, " +
+                "but the maximum number may also be limited by the overall test --timeout setting."]
+    )
+    @set:JsonProperty("scenario-labels")
+    var scenarioNumbers: List<String>? by data
+
+    @set:CommandLine.Option(
         names = ["--performance-metrics"],
         description = ["Monitor and record performance metrics: CPU, memory, " +
             "network usage, and FPS (game-loop only). Disabled by default."]
@@ -228,6 +238,7 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
             grantPermissions = FlankDefaults.GRANT_PERMISSIONS_ALL
             directoriesToPull = emptyList()
             otherFiles = emptyMap()
+            scenarioNumbers = emptyList()
             performanceMetrics = FlankDefaults.DISABLE_PERFORMANCE_METRICS
             numUniformShards = null
             testRunnerClass = null
