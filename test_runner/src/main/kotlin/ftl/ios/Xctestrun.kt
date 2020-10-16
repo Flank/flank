@@ -100,21 +100,17 @@ object Xctestrun {
         }
 
     /* Finds tests for testTarget in xctestrun file */
-    private fun findTestNamesForTarget(testTarget: String, xctestrun: File): List<String> {
-        val rootDictionary = parse(xctestrun)
-        val testRoot = xctestrun.parent + "/"
-
-        if (!rootDictionary.containsKey(testTarget)) {
-            throw FlankGeneralError("XCTestrun does not contain $testTarget test target.")
-        }
-        val testDictionary = (rootDictionary[testTarget] as NSDictionary)
-
-        return testsForTarget(
-            testDictionary = testDictionary,
-            testRoot = testRoot,
+    private fun findTestNamesForTarget(
+        testTarget: String, 
+        xctestrun: File
+    ): List<String> =
+        testsForTarget(
+            testDictionary = parse(xctestrun)[testTarget]
+                as? NSDictionary
+                ?: throw FlankGeneralError("XCTestrun does not contain $testTarget test target."),
+            testRoot = xctestrun.parent + "/",
             testTarget = testTarget
         ).distinct()
-    }
 
     fun rewrite(xctestrun: String, methods: List<String>): ByteArray {
         val xctestrunFile = File(xctestrun)
