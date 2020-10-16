@@ -80,18 +80,17 @@ private fun IosArgs.calculateShardChunks() = if (disableSharding)
 @VisibleForTesting
 internal fun filterTests(
     validTestMethods: XctestrunMethods,
-    testTargetsRgx: List<String?>
+    testTargetsRgx: List<String>
 ): XctestrunMethods =
     if (testTargetsRgx.isEmpty()) validTestMethods
-    else validTestMethods.mapValues {
-        it.value.filter { test ->
-            testTargetsRgx.filterNotNull().forEach { target ->
+    else validTestMethods.mapValues { (_, tests) ->
+        tests.filter { test ->
+            testTargetsRgx.any { target ->
                 try {
-                    if (test.matches(target.toRegex())) return@filter true
+                    test.matches(target.toRegex())
                 } catch (e: Exception) {
                     throw FlankConfigurationError("Invalid regex: $target", e)
                 }
             }
-            false
         }
     }

@@ -83,12 +83,11 @@ object Xctestrun {
         return findTestNames(File(xctestrun))
     }
 
-    fun findTestNames(testTarget: String, xctestrun: String): List<String> {
-        return findTestNamesForTarget(
+    fun findTestNames(testTarget: String, xctestrun: String): List<String> =
+        findTestNamesForTarget(
             testTarget = testTarget,
             xctestrun = File(xctestrun)
         )
-    }
 
     /* Finds tests in a xctestrun file */
     private fun findTestNames(xctestrun: File): XctestrunMethods =
