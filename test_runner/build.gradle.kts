@@ -3,9 +3,11 @@ import com.jfrog.bintray.gradle.BintrayExtension
 import groovy.util.Node
 import groovy.util.NodeList
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 import java.util.*
+import java.nio.file.Paths
 
 plugins {
     application
@@ -318,17 +320,17 @@ tasks.create("applyProguard", proguard.gradle.ProGuardTask::class.java) {
 val generateCliAsciiDoc by tasks.registering(JavaExec::class) {
     dependsOn(tasks.classes)
     classpath(
-            configurations.compile,
-            configurations.annotationProcessor,
-            sourceSets["main"].runtimeClasspath
+        configurations.compile,
+        configurations.annotationProcessor,
+        sourceSets["main"].runtimeClasspath
     )
     group = "Documentation"
     description = "Generate AsciiDoc manpage"
     main = "picocli.codegen.docgen.manpage.ManPageGenerator"
     args = listOf(
-            application.mainClass.get(),
-            "--outdir=${project.rootDir}/docs/ascii/",
-            "-v"
+        application.mainClass.get(),
+        "--outdir=${project.rootDir}/docs/ascii/",
+        "-v"
     )
 }
 
@@ -383,10 +385,13 @@ val resolveArtifacts by tasks.registering {
     dependsOn(":flank-scripts:prepareJar")
     group = "verification"
     doLast {
-        val flankScriptsPath = rootDir.resolve("flank-scripts/bash/flankScripts").absolutePath
-        println(flankScriptsPath)
+        val flankScriptsRunnerName = if(DefaultNativePlatform.getCurrentOperatingSystem().isWindows)
+            "flankScripts.bat" else "flankScripts"
+        val flankScriptsPath = Paths.get("flank-scripts", "bash", flankScriptsRunnerName).toString()
+        val rootFlankScriptsPath = rootDir.resolve(flankScriptsPath).absolutePath
+        println(rootFlankScriptsPath)
         exec {
-            commandLine(flankScriptsPath, "testArtifacts", "-p", rootDir.absolutePath, "resolve")
+            commandLine(rootFlankScriptsPath, "testArtifacts", "-p", rootDir.absolutePath, "resolve")
             workingDir = rootDir
         }
     }
