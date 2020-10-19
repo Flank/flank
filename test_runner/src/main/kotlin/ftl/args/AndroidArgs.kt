@@ -17,6 +17,7 @@ data class AndroidArgs(
     val grantPermissions: String?,
     val type: Type?,
     val otherFiles: Map<String, String>,
+    val scenarioLabels: List<String>,
     val performanceMetrics: Boolean,
     val numUniformShards: Int?,
     val testRunnerClass: String?,
@@ -49,6 +50,7 @@ AndroidArgs
       grant-permissions: $grantPermissions
       type: ${type?.ymlName}
       other-files: ${ArgsToString.mapToString(otherFiles)}
+      scenario-labels: ${ArgsToString.listToString(scenarioLabels)}
       performance-metrics: $performanceMetrics
       num-uniform-shards: $numUniformShards
       test-runner-class: $testRunnerClass

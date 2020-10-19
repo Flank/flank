@@ -320,6 +320,7 @@ AndroidArgs
       other-files: 
         /sdcard/dir1/file1.txt: $appApkAbsolutePath
         /sdcard/dir2/file2.jpg: $testApkAbsolutePath
+      scenario-labels: 
       performance-metrics: false
       num-uniform-shards: null
       test-runner-class: com.foo.TestRunner
@@ -397,6 +398,7 @@ AndroidArgs
       grant-permissions: all
       type: null
       other-files: 
+      scenario-labels: 
       performance-metrics: false
       num-uniform-shards: null
       test-runner-class: null
@@ -1996,6 +1998,43 @@ AndroidArgs
               locale: en
               orientation: portrait
           type: robo
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception if incorrect type requested and scenario labels provided`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: robo
+          scenario-labels: 
+            - test1 
+            - test2
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    fun `should not throw exception if game-loop required but no scenario loop provided`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: game-loop
+          scenario-labels: 
+            - test1 
+            - test2
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
     }
