@@ -31,7 +31,6 @@ val buildProductPath = Paths.get(dataPath.toString(), "Build", "Products")
 downloadXcPrettyIfNeeded()
 
 shell {
-
     val xcodeCommandSwiftTests = createIosBuildCommand(dataPath.toString(), "./EarlGreyExample.xcworkspace", "EarlGreyExampleSwiftTests")
     val xcPrettyCommand = "xcpretty".process()
 

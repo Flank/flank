@@ -36,7 +36,7 @@ fun downloadCocoaPodsIfNeeded() {
 }
 
 suspend fun Shell.installPods(path: Path) {
-    kotlin.runCatching { "pod install --project-directory=$path --verbose"() }
+    runCatching { "pod install --project-directory=$path --verbose"() }
 }
 
 fun checkIfPipInstalled() {

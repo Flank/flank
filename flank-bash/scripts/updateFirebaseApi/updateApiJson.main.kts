@@ -34,5 +34,3 @@ shell {
     "sort-json $testingV1Path"()
     "sort-json $testingV1Beta3Path"()
 }
-
-

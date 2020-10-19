@@ -15,7 +15,6 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
-
 val debugIphoneOs = "Debug-iphoneos"
 val earlGreyExampleSwift = "EarlGreyExampleSwift.app"
 val plugins = "PlugIns"
@@ -48,7 +47,6 @@ fun createDirectoryInFixture(directoryName: String): Path = Files.createDirector
 suspend fun buildEarlGreyExample() = buildDirectoryPath.runBuilds().resolve("Products").apply {
     filterFilesToCopy().copyIosProductFiles()
 }.copyTestFiles()
-
 
 val buildDirectoryPath = Paths.get(iOSTestProjectsPath, earlGreyExample, buildDirectory)
 

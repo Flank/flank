@@ -16,7 +16,7 @@ fun File.extract(
     } else {
         ArchiverFactory.createArchiver(archiveFormat)
     }
-    kotlin.runCatching {
+    runCatching {
         archiver.extract(this, destination)
     }.onFailure {
         println("There was an error when unpacking $name - $it")
@@ -34,7 +34,7 @@ fun File.extract(
     } else {
         ArchiverFactory.createArchiver(archiveFormat)
     }
-    kotlin.runCatching {
+    runCatching {
         archiver.extract(this, destination)
     }.onFailure {
         println("There was an error when unpacking $name - $it")
