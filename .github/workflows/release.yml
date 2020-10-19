@@ -27,21 +27,21 @@ jobs:
     - name: Gradle Build flankScripts and add it to PATH
       run: |
         ./flank-scripts/bash/buildFlankScripts.sh
-        echo "::add-path::./flank-scripts/bash"
+        echo "./flank-scripts/bash" >> $GITHUB_PATH
 
     - name: Set env variables
       run: |
-        echo "::set-env name=MVN_REVISION::$(echo $GITHUB_SHA)";
+        echo "MVN_REVISION=$(echo $GITHUB_SHA)" >> $GITHUB_ENV
 
           if [[ $GITHUB_REF == refs/tags/* ]]
-            then 
-              echo "::set-env name=MVN_VERSION::$(echo ${GITHUB_REF:11})";
-              echo "::set-env name=RELEASE_TAG::$(echo ${GITHUB_REF:10})";
-            else 
-              echo "::set-env name=RELEASE_TAG::flank_snapshot";
-              echo "::set-env name=MVN_VERSION::flank_snapshot";
+            then
+              echo "MVN_VERSION=$(echo ${GITHUB_REF:11})" >> $GITHUB_ENV
+              echo "RELEASE_TAG=$(echo ${GITHUB_REF:10})" >> $GITHUB_ENV
+            else
+              echo "RELEASE_TAG=flank_snapshot" >> $GITHUB_ENV
+              echo "MVN_VERSION=flank_snapshot" >> $GITHUB_ENV
               git_short_hash=$(git rev-parse --short "$GITHUB_SHA")
-              echo "::set-env name=GIT_SHORT_HASH::$(echo $git_short_hash)";
+              echo "GIT_SHORT_HASH=$(echo $git_short_hash)" >> $GITHUB_ENV
           fi;
 
     - name: Store version variables to file
