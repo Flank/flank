@@ -11,8 +11,8 @@ import org.junit.runner.RunWith
 @RunWith(FlankTestRunner::class)
 class ParseTest {
 
-    private val objcBinary = "$FIXTURES_PATH/objc/EarlGreyExampleTests"
-    private val swiftBinary = "$FIXTURES_PATH/swift/EarlGreyExampleSwiftTests"
+    private val objcBinary = "$FIXTURES_PATH/ios/earl_grey_example/objc/EarlGreyExampleTests"
+    private val swiftBinary = "$FIXTURES_PATH/ios/earl_grey_example/swift/EarlGreyExampleSwiftTests"
 
     private val objcTests = listOf(
         "EarlGreyExampleTests/testBasicSelection",
