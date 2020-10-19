@@ -2091,7 +2091,7 @@ AndroidArgs
               version: 25
               locale: en
               orientation: portrait
-          type: robo
+          type: game-loop
           scenario-numbers: 
             - error
             - 2
