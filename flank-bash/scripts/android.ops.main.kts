@@ -49,7 +49,7 @@ suspend fun Shell.buildBaseTestApk() {
         )()
     }
     val assembleDirectory = Paths.get(androidTestProjectsPath, "app", "build", "outputs", "apk", "androidTest")
-    File(assembleDirectory.toString()).findApks().forEach {
+    assembleDirectory.toFile().findApks().forEach {
         Files.copy(it.toPath(), Paths.get(flankFixturesTmpPath, "apk", it.name), StandardCopyOption.REPLACE_EXISTING)
     }
 }
