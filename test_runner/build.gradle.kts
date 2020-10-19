@@ -21,6 +21,7 @@ val artifactID = "flank"
 
 val shadowJar: ShadowJar by tasks
 shadowJar.apply {
+    outputs.cacheIf { false } // to investigate if better solution is possible
     archiveClassifier.set("")
     archiveBaseName.set(artifactID)
     mergeServiceFiles()

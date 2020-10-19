@@ -126,8 +126,8 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
         names = ["--other-files"],
         split = ",",
         description = ["A list of device-path=file-path pairs that indicate the device paths to push files to the device before starting tests, and the paths of files to push." +
-            "Device paths must be under absolute, whitelisted paths (\${EXTERNAL_STORAGE}, or \${ANDROID_DATA}/local/tmp)." +
-            "Source file paths may be in the local filesystem or in Google Cloud Storage (gs://…). "]
+                "Device paths must be under absolute, whitelisted paths (\${EXTERNAL_STORAGE}, or \${ANDROID_DATA}/local/tmp)." +
+                "Source file paths may be in the local filesystem or in Google Cloud Storage (gs://…). "]
     )
     @set:JsonProperty("other-files")
     var otherFiles: Map<String, String>? by data
@@ -141,6 +141,17 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
     )
     @set:JsonProperty("scenario-labels")
     var scenarioNumbers: List<String>? by data
+
+    @set:CommandLine.Option(
+        names = ["--scenario-labels"],
+        split = ",",
+        description = ["A list of game-loop scenario labels (default: None). " +
+                "Each game-loop scenario may be labeled in the APK manifest file with one or more arbitrary strings, creating logical groupings (e.g. GPU_COMPATIBILITY_TESTS). " +
+                "If --scenario-numbers and --scenario-labels are specified together, Firebase Test Lab will first execute each scenario from --scenario-numbers. " +
+                "It will then expand each given scenario label into a list of scenario numbers marked with that label, and execute those scenarios."]
+    )
+    @set:JsonProperty("scenario-labels")
+    var scenarioLabels: List<String>? by data
 
     @set:CommandLine.Option(
         names = ["--performance-metrics"],
@@ -239,6 +250,7 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
             directoriesToPull = emptyList()
             otherFiles = emptyMap()
             scenarioNumbers = emptyList()
+            scenarioLabels = emptyList()
             performanceMetrics = FlankDefaults.DISABLE_PERFORMANCE_METRICS
             numUniformShards = null
             testRunnerClass = null

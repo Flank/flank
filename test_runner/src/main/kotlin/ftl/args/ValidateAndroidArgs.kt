@@ -25,10 +25,16 @@ fun AndroidArgs.validate() = apply {
     assertOtherFiles()
     assertGrantPermissions()
     assertType()
+    assertGameLoop()
     checkResultsDirUnique()
     checkEnvironmentVariables()
     checkFilesToDownload()
     checkNumUniformShards()
+}
+
+private fun AndroidArgs.assertGameLoop() {
+    if (scenarioLabels.isNotEmpty() && (type == null || type != Type.GAMELOOP))
+        throw FlankConfigurationError("Scenario labels defined but Type is not Game-loop.")
 }
 
 private fun AndroidArgs.assertType() = type?.let {

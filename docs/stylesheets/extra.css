@@ -1,0 +1,129 @@
+:root {
+    --md-primary-fg-color: #1eb284;
+    --md-accent-fg-color: #1eb284;
+}
+
+.md-header {
+    background-color: #20ce9a;
+}
+
+.md-header-nav__title {
+    padding-left: 12px !important;
+}
+
+.md-logo {
+    display: none;
+}
+
+.md-logo img {
+    /*position: relative;*/
+    /*top: 3px;*/
+    /*width: 81px !important;*/
+    /*height: 24px !important;*/
+}
+
+/*.md-header-nav__topic {*/
+/*    display: none;*/
+/*}*/
+
+.md-source__repository {
+    font-size: 16px !important;
+}
+
+.md-source__facts li {
+    font-size: 12px !important;
+}
+
+.md-nav, .md-nav li, .md-tabs a {
+    font-size: 14px !important;
+}
+
+.md-tabs {
+    background-color: #20ce9a;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+.md-search__input {
+    background-color: #1eb284;
+    font-size: 14px;
+}
+
+h1, h2, h3, h4, h5 {
+    color: black !important;
+}
+
+h1 {
+    font-size: 36px !important;
+    font-weight: 500 !important;
+}
+
+h2 {
+    font-size: 28px !important;
+    font-weight: 300 !important;
+}
+
+h3 {
+    font-size: 24px !important;
+    font-weight: 500 !important;
+}
+
+h4 {
+    font-size: 20px !important;
+    font-weight: 300 !important;
+}
+
+p, li {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+code {
+    font-size: 13px !important;
+    background-color: #f5f8fa !important;
+    color: black !important;
+}
+
+blockquote {
+    border-radius: 4px;
+    box-shadow: 0 5px 6px -3px rgba(0, 0, 0, 0.07), 0 3px 16px 2px rgba(0, 0, 0, 0.02), 0 9px 12px 1px rgba(0, 0, 0, 0.02);
+    background-color: #ffffff;
+    border-left: 4px solid #20ce9a !important;
+    box-sizing: border-box;
+    padding: 16px;
+    color: black !important;
+}
+
+details {
+    border-left: .2rem solid #20ce9a !important;
+    font-size: 14px !important;
+    box-shadow: 0 5px 6px -3px rgba(0, 0, 0, 0.07), 0 3px 16px 2px rgba(0, 0, 0, 0.02), 0 9px 12px 1px rgba(0, 0, 0, 0.02) !important;
+}
+
+details summary {
+    background-color: rgba(32, 206, 154,  0.1) !important;
+}
+
+details summary::before {
+    background-color: #20ce9a !important;
+}
+
+.md-footer-nav__inner {
+    height: 92px;
+}
+
+.md-footer-nav__inner a {
+    padding-top: 21px;
+}
+
+.md-footer-nav__inner a .md-ellipsis, .md-footer-nav__inner a .md-ellipsis span {
+    font-size: 14px !important;
+}
+
+.md-footer-nav__inner svg {
+    height: 24px;
+    width: 24px;
+}
+
+.md-footer-meta {
+    display: none;
+}

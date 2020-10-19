@@ -24,7 +24,7 @@ object Versions {
     const val KOTLIN_COROUTINES = "1.3.9"
 
     // https://github.com/remkop/picocli/releases
-    const val PICOCLI = "4.5.1"
+    const val PICOCLI = "4.5.2"
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
     const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20200803-1.30.10"
@@ -32,7 +32,7 @@ object Versions {
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
     // https://github.com/googleapis/google-oauth-java-client/issues/251#issuecomment-504565533
-    const val GOOGLE_AUTH = "0.21.1"
+    const val GOOGLE_AUTH = "0.22.0"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
     const val GOOGLE_NIO = "0.121.2"
@@ -68,7 +68,7 @@ object Versions {
     const val TRUTH = "1.0.1"
 
     // https://github.com/FasterXML/woodstox/releases
-    const val WOODSTOX = "6.2.1"
+    const val WOODSTOX = "6.2.3"
 
     const val KOTLIN_LOGGING = "2.0.3"
 
@@ -88,7 +88,7 @@ object Versions {
     const val PROGUARD = "7.0.0"
 
     // ============== flank-scripts ==============
-    const val KOTLIN_SERIALIZATION = "1.0.0-RC2"
+    const val KOTLIN_SERIALIZATION = "1.0.0"
     const val FUEL = "2.3.0"
     const val CLIKT = "2.8.0"
     const val JCABI_GITHUB = "1.1.2"
