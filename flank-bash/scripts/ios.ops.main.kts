@@ -30,6 +30,10 @@ enum class TestType {
     OBJECTIVE_C
 }
 
+shell {
+    if(args.contains("build")) generateIos()
+}
+
 suspend fun Shell.generateIos() = takeUnless { isWindows }?.let {
     downloadCocoaPodsIfNeeded()
     installPods(Paths.get(iOSTestProjectsPath, earlGreyExample))

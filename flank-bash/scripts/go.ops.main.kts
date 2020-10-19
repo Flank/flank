@@ -44,3 +44,7 @@ suspend fun generateGoArtifacts() {
     goHelloBinDirectoryPath.toFile().deleteRecursively()
     GoOS.values().forEach { createExecutable(it) }
 }
+
+shell {
+    if(args.contains("build")) generateGoArtifacts()
+}
