@@ -139,7 +139,7 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
                 "A maximum of 1024 scenarios may be specified in one test matrix, " +
                 "but the maximum number may also be limited by the overall test --timeout setting."]
     )
-    @set:JsonProperty("scenario-labels")
+    @set:JsonProperty("scenario-numbers")
     var scenarioNumbers: List<String>? by data
 
     @set:CommandLine.Option(

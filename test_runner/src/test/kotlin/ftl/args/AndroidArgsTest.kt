@@ -320,8 +320,8 @@ AndroidArgs
       other-files: 
         /sdcard/dir1/file1.txt: $appApkAbsolutePath
         /sdcard/dir2/file2.jpg: $testApkAbsolutePath
-      scenario-labels: 
       scenario-numbers: 
+      scenario-labels: 
       performance-metrics: false
       num-uniform-shards: null
       test-runner-class: com.foo.TestRunner
