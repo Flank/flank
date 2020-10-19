@@ -6,6 +6,7 @@ import ftl.ios.XctestrunMethods
 import ftl.run.exception.FlankConfigurationError
 import ftl.shard.Chunk
 import ftl.util.FlankTestMethod
+import java.lang.Exception
 
 data class IosArgs(
     val commonArgs: CommonArgs,
@@ -80,17 +81,19 @@ private fun IosArgs.calculateShardChunks() = if (disableSharding)
 @VisibleForTesting
 internal fun filterTests(
     validTestMethods: XctestrunMethods,
-    testTargetsRgx: List<String>
+    testTargets: List<String>
 ): XctestrunMethods =
-    if (testTargetsRgx.isEmpty()) validTestMethods
-    else validTestMethods.mapValues { (_, tests) ->
-        tests.filter { test ->
-            testTargetsRgx.any { target ->
-                try {
-                    test.matches(target.toRegex())
-                } catch (e: Exception) {
-                    throw FlankConfigurationError("Invalid regex: $target", e)
-                }
+    if (testTargets.isEmpty()) validTestMethods
+    else testTargets.map { testTarget ->
+        try {
+            testTarget.toRegex()
+        } catch (e: Exception) {
+            throw FlankConfigurationError("Invalid regex: $testTarget", e)
+        }
+    }.let { testTargetRgx ->
+        validTestMethods.mapValues { (_, tests) ->
+            tests.filter { test ->
+                testTargetRgx.any { regex -> test.matches(regex) }
             }
         }
     }
