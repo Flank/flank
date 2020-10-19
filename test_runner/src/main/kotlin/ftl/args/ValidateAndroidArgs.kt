@@ -33,8 +33,15 @@ fun AndroidArgs.validate() = apply {
 }
 
 private fun AndroidArgs.assertGameLoop() {
+    assertLabelContent()
+}
+
+private fun AndroidArgs.assertLabelContent() {
     if (scenarioLabels.isNotEmpty() && (type == null || type != Type.GAMELOOP))
         throw FlankConfigurationError("Scenario labels defined but Type is not Game-loop.")
+    if (scenarioNumbers.isNotEmpty() && (type == null || type != Type.GAMELOOP))
+        throw FlankConfigurationError("Scenario numbers defined but Type is not Game-loop.")
+    scenarioNumbers.forEach { it.toIntOrNull() ?: throw FlankConfigurationError("Invalid scenario number provided - $it") }
 }
 
 private fun AndroidArgs.assertType() = type?.let {
