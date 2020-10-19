@@ -31,7 +31,7 @@ enum class TestType {
 }
 
 shell {
-    if(args.contains("build")) generateIos()
+    if (args.contains("build")) generateIos()
 }
 
 suspend fun Shell.generateIos() = takeUnless { isWindows }?.let {
@@ -73,6 +73,7 @@ fun Sequence<File>.copyIosProductFiles() = forEach {
     if (it.isDirectory) it.copyRecursively(Paths.get(flankFixturesTmpPath, it.name).toFile(), overwrite = true)
     else it.copyTo(Paths.get(flankFixturesTmpPath, it.name).toFile(), overwrite = true)
 }
+
 fun Path.copyTestFiles() = toString().let { productsDirectory ->
     copyTestFile(productsDirectory, earlGreyExampleTests, TestType.OBJECTIVE_C)
     copyTestFile(productsDirectory, earlGreyExampleSwiftTests, TestType.SWIFT)

@@ -1,4 +1,3 @@
-
 @file:Repository("https://dl.bintray.com/jakubriegel/kotlin-shell")
 @file:DependsOn("eu.jrie.jetbrains:kotlin-shell-core:0.2.1")
 @file:DependsOn("org.slf4j:slf4j-simple:1.7.28")
@@ -20,7 +19,7 @@ import java.nio.file.StandardCopyOption
 import java.util.stream.Collectors
 import kotlin.system.exitProcess
 
-if(isWindows) {
+if (isWindows) {
     println("This script does not work on Windows")
     exitProcess(1)
 }
@@ -33,17 +32,17 @@ downloadXcPrettyIfNeeded()
 
 shell {
 
-    val xcodeCommandSwiftTests = createIosBuildCommand(dataPath.toString(),"./EarlGreyExample.xcworkspace", "EarlGreyExampleSwiftTests")
+    val xcodeCommandSwiftTests = createIosBuildCommand(dataPath.toString(), "./EarlGreyExample.xcworkspace", "EarlGreyExampleSwiftTests")
     val xcPrettyCommand = "xcpretty".process()
 
     pipeline { xcodeCommandSwiftTests pipe xcPrettyCommand }
 
-    val xcodeCommandTests = createIosBuildCommand(dataPath.toString(),"./EarlGreyExample.xcworkspace", "EarlGreyExampleTests")
+    val xcodeCommandTests = createIosBuildCommand(dataPath.toString(), "./EarlGreyExample.xcworkspace", "EarlGreyExampleTests")
     pipeline { xcodeCommandTests pipe xcPrettyCommand }
 }
 
 Files.walk(Paths.get(""))
-    .filter { it.fileName.toString().endsWith("-iphoneos") ||  it.fileName.toString().endsWith(".xctestrun") }
+    .filter { it.fileName.toString().endsWith("-iphoneos") || it.fileName.toString().endsWith(".xctestrun") }
     .map { it.toFile() }
     .collect(Collectors.toList())
     .archive(archiveFileName, currentPath.toFile())

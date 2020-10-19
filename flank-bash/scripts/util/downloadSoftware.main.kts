@@ -41,7 +41,7 @@ suspend fun Shell.installPods(path: Path) {
 
 fun checkIfPipInstalled() {
     shell {
-        if(commandExitCode("pip -V") != 0) {
+        if (commandExitCode("pip -V") != 0) {
             println("You need pip fot this script. To install it follow https://pip.pypa.io/en/stable/installing/")
             exitProcess(1)
         }
@@ -56,7 +56,7 @@ fun downloadSortJsonIfNeeded() {
 
 fun installClientGeneratorIfNeeded() {
     val isWindows = System.getProperty("os.name").startsWith("Windows")
-    val generateLibraryCheckCommand = (if(isWindows) "where " else "command -v ") + "generate_library"
+    val generateLibraryCheckCommand = (if (isWindows) "where " else "command -v ") + "generate_library"
 
     checkAndInstall(generateLibraryCheckCommand) {
         checkIfPipInstalled()

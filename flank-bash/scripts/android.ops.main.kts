@@ -14,7 +14,7 @@ import java.nio.file.Path
 import java.nio.file.StandardCopyOption
 
 shell {
-    if(args.contains("build")) generateApkAndTests()
+    if (args.contains("build")) generateApkAndTests()
 }
 
 suspend fun Shell.generateApkAndTests() {

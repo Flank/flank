@@ -1,4 +1,3 @@
-
 fun createLipoCommand(
     outputPath: String,
     vararg files: String

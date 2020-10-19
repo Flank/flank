@@ -44,5 +44,5 @@ suspend fun generateGoArtifacts() {
 }
 
 shell {
-    if(args.contains("build")) generateGoArtifacts()
+    if (args.contains("build")) generateGoArtifacts()
 }

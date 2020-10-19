@@ -18,7 +18,7 @@ import java.nio.file.StandardCopyOption
 import java.util.stream.Collectors
 import kotlin.system.exitProcess
 
-if(isWindows) {
+if (isWindows) {
     println("This script does not work on Windows")
     exitProcess(1)
 }

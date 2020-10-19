@@ -31,7 +31,7 @@ val universalFilesNames = listOf(
 )
 
 shell {
-    universalFilesNames.forEach {fileName ->
+    universalFilesNames.forEach { fileName ->
         createLipoCommand(
             outputPath = Paths.get(comboPath, fileName).toString(),
             Paths.get(devicePath, fileName).toString(), Paths.get(simPath, fileName).toString()

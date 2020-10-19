@@ -21,13 +21,12 @@ shell {
     val generateLibraryCommand = "generate_library " +
         "--input=$testingJsonInput " +
         "--language=java " +
-        "--package_path=api/services " +
         "--output_dir=$outputDirectory"
     generateLibraryCommand()
 }
 
 Files.move(
     Paths.get(outputDirectory, "pom.xml"),
-    Paths.get(apiPath,  "pom.xml"),
+    Paths.get(apiPath, "pom.xml"),
     StandardCopyOption.REPLACE_EXISTING
 )
