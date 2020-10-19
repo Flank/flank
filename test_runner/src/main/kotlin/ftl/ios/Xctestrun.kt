@@ -13,7 +13,7 @@ import java.nio.file.Paths
 /*
 {
   "TestTarget": ["method1", "method2"],
-  "TestTarget2: ["method3", "method4"]
+  "TestTarget2": ["method3", "method4"]
 }
 */
 typealias XctestrunMethods = Map<String, List<String>>
