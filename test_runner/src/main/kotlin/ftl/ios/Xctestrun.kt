@@ -113,7 +113,7 @@ object Xctestrun {
 
     fun rewrite(xctestrun: String, methods: List<String>): ByteArray {
         val xctestrunFile = File(xctestrun)
-        val methodsToRun = findTestNames(xctestrunFile).mapValues { it.value.filter { methods.contains(it) } }
+        val methodsToRun = findTestNames(xctestrunFile).mapValues { (_, list) -> list.filter(methods::contains) }
         return rewrite(parse(xctestrunFile), methodsToRun)
     }
 
