@@ -347,6 +347,8 @@ class IosRunCommandTest {
 
     @Test
     fun `should dump shards on ios test run`() {
+        assumeFalse(isWindows) // TODO remove in #1180
+
         mockkStatic("ftl.run.DumpShardsKt")
         val runCmd = IosRunCommand()
         runCmd.configPath = "./src/test/kotlin/ftl/fixtures/simple-ios-flank.yml"
@@ -356,6 +358,8 @@ class IosRunCommandTest {
 
     @Test
     fun `should dump shards on ios test run and not upload when disable-upload-results set`() {
+        assumeFalse(isWindows) // TODO remove in #1180
+
         mockkStatic("ftl.run.DumpShardsKt")
         mockkObject(GcStorage) {
             val runCmd = IosRunCommand()
