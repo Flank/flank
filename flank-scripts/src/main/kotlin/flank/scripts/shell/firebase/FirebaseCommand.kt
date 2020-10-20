@@ -1,4 +1,4 @@
-package flank.scripts.firebase
+package flank.scripts.shell.firebase
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
