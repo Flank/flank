@@ -6,7 +6,6 @@ import java.nio.file.Path
 
 val currentPath = Paths.get("")
 val rootDirectoryPath = goToRoot(currentPath)
-val rootDirectoryFile = rootDirectoryPath.toFile()
 val rootDirectoryPathString = rootDirectoryPath.toString()
 
 fun goToRoot(startPath: Path): Path =

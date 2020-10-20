@@ -4,11 +4,12 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import flank.scripts.shell.utils.currentPath
+import flank.scripts.shell.utils.failIfWindows
 import flank.scripts.utils.runCommand
 import java.nio.file.Path
 import java.nio.file.Paths
 
-object RunFtlLocalCommand : CliktCommand(name = "iosBuildFtl", help = "build ftl ios app") {
+object RunFtlLocalCommand : CliktCommand(name = "iosBuildFtl", help = "Build ftl ios app") {
 
     private val deviceId by option(help = "Pass device id. Please take it from Xcode -> Window -> Devices and Simulators")
         .required()

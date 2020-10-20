@@ -1,4 +1,4 @@
-package flank.scripts.shell.ios
+package flank.scripts.shell.utils
 
 import flank.scripts.utils.isWindows
 import kotlin.system.exitProcess

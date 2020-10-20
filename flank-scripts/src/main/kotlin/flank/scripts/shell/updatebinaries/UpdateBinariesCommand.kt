@@ -1,8 +1,8 @@
 package flank.scripts.shell.updatebinaries
 
 import com.github.ajalt.clikt.core.CliktCommand
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.joinAll
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 object UpdateBinariesCommand : CliktCommand(name = "updateBinaries", help = "Update binaries used by Flank") {
@@ -10,10 +10,10 @@ object UpdateBinariesCommand : CliktCommand(name = "updateBinaries", help = "Upd
     override fun run() {
         runBlocking {
             listOf(
-                async { updateAtomic() },
-                async { updateLlvm() },
-                async { updateSwift() }
-            ).awaitAll()
+                launch { updateAtomic() },
+                launch { updateLlvm() },
+                launch { updateSwift() }
+            ).joinAll()
 
             println("Binaries updated")
         }

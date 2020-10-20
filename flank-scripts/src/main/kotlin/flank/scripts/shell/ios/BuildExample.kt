@@ -3,6 +3,7 @@ package flank.scripts.shell.ios
 
 import com.github.ajalt.clikt.core.CliktCommand
 import flank.scripts.shell.utils.currentPath
+import flank.scripts.shell.utils.failIfWindows
 import flank.scripts.shell.utils.pipe
 import flank.scripts.utils.archive
 import flank.scripts.utils.downloadXcPrettyIfNeeded
@@ -12,7 +13,7 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.util.stream.Collectors
 
-object BuildExampleCommand : CliktCommand(name = "iosBuildExample", help = "build example ios app") {
+object BuildExampleCommand : CliktCommand(name = "iosBuildExample", help = "Build example ios app") {
     override fun run() {
         failIfWindows()
         downloadXcPrettyIfNeeded()

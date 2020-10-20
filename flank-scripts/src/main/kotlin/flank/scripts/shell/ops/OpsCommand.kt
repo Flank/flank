@@ -7,11 +7,11 @@ object OpsCommand : CliktCommand(name = "ops", help = "Contains all ops command:
     init {
         subcommands(
             AndroidOpsCommand,
-            IosOpsCommand(),
+            IosOpsCommand,
             GoOpsCommand
         )
     }
 
-    override fun run() {
-    }
+    @Suppress("EmptyFunctionBlock")
+    override fun run() {}
 }
