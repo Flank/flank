@@ -1,4 +1,4 @@
-package flank.scripts.shell
+package flank.scripts.shell.updatebinaries
 
 import com.github.ajalt.clikt.core.CliktCommand
 import kotlinx.coroutines.async

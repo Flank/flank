@@ -1,4 +1,4 @@
-package flank.scripts.shell
+package flank.scripts.shell.updatebinaries
 
 import flank.scripts.utils.downloadFile
 import flank.scripts.utils.extract
