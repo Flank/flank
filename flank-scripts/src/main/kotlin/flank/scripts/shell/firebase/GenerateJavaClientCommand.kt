@@ -9,7 +9,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
-class GenerateJavaClient : CliktCommand(name = "generateJavaClient", help = "Generate Java Client") {
+class GenerateJavaClientCommand : CliktCommand(name = "generate_java_client", help = "Generate Java Client") {
 
     override fun run() {
         checkIfPipInstalled()

@@ -7,7 +7,8 @@ class FirebaseCommand : CliktCommand(name = "firebase", help = "Contains all fir
 
     init {
         subcommands(
-            GenerateJavaClient()
+            UpdateApiJsonCommand(),
+            GenerateJavaClientCommand()
         )
     }
 
