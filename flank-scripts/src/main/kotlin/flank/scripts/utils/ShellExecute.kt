@@ -24,6 +24,12 @@ fun String.runForOutput(retryCount: Int = 0): String = File
         file.readText()
     }
 
+fun String.checkCommandExists() = (if (isWindows) "where " else "command -v ").plus(this).runCommand() == 0
+
+fun String.checkAndInstallIfNeed(installCommand: String) = checkCommandExists().takeUnless { it }?.let {
+    installCommand.runCommand()
+}
+
 internal fun ProcessBuilder.startWithRetry(retryCount: Int): Int {
     var retryTries = 0
     var processResponse: Int
