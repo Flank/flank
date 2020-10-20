@@ -16,3 +16,9 @@ class BugsnagException(val body: BugSnagResponse) : FlankScriptsExceptions() {
         return "Error while doing Bugnsag request, because of ${body.errors.joinToString()}"
     }
 }
+
+class ShellCommandException(private val errorMessage: String) : FlankScriptsExceptions() {
+    override fun toString(): String {
+        return "Error while executing shell command, details: $errorMessage"
+    }
+}

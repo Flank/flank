@@ -1,6 +1,7 @@
 package flank.scripts.shell.firebase
 
 import com.github.ajalt.clikt.core.CliktCommand
+import flank.scripts.exceptions.ShellCommandException
 import flank.scripts.utils.checkIfPipInstalled
 import flank.scripts.utils.installClientGeneratorIfNeeded
 import flank.scripts.utils.runCommand
@@ -24,7 +25,7 @@ class GenerateJavaClient : CliktCommand(name = "generateJavaClient", help = "Gen
             "--output_dir=$outputDirectory"
 
         val result = generateLibraryCommand.runCommand()
-        if (result != 0) throw Exception()
+        if (result != 0) throw ShellCommandException("Error when execute generate_library command")
 
         Files.move(
             Paths.get(outputDirectory, "pom.xml"),
