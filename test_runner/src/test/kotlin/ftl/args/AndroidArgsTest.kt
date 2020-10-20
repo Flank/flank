@@ -321,6 +321,7 @@ AndroidArgs
         /sdcard/dir1/file1.txt: $appApkAbsolutePath
         /sdcard/dir2/file2.jpg: $testApkAbsolutePath
       scenario-labels: 
+      obb-files: 
       performance-metrics: false
       num-uniform-shards: null
       test-runner-class: com.foo.TestRunner
@@ -399,6 +400,7 @@ AndroidArgs
       type: null
       other-files: 
       scenario-labels: 
+      obb-files: 
       performance-metrics: false
       num-uniform-shards: null
       test-runner-class: null
@@ -2021,6 +2023,7 @@ AndroidArgs
         AndroidArgs.load(yaml).validate()
     }
 
+    @Test
     fun `should not throw exception if game-loop required but no scenario loop provided`() {
         val yaml = """
         gcloud:
@@ -2035,6 +2038,80 @@ AndroidArgs
           scenario-labels: 
             - test1 
             - test2
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should not throw exception if valid obb files provided with type gameloop`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: game-loop
+          obb-files:
+            - ../test_projects/android/gameloop/test.obb
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception if valid obb files provided without type gameloop`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: robo
+          obb-files:
+            - ../test_projects/android/gameloop/test.obb
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception if more than 2 obb files defined`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: robo
+          obb-files:
+            - ../test_projects/android/gameloop/test.obb
+            - ../test_projects/android/gameloop/test.obb
+            - ../test_projects/android/gameloop/test.obb
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception if obb file not found`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: robo
+          obb-files:
+            - ../test_projects/android/gameloop/error.obb
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
     }

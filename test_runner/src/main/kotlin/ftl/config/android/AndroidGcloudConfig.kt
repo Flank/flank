@@ -144,6 +144,16 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
     var scenarioLabels: List<String>? by data
 
     @set:CommandLine.Option(
+        names = ["--obb-files"],
+        split = ",",
+        description = ["A list of one or two Android OBB file names which will be copied to each test device before the tests will run (default: None). " +
+                "Each OBB file name must conform to the format as specified by Android " +
+                "(e.g. [main|patch].0300110.com.example.android.obb) and will be installed into <shared-storage>/Android/obb/<package-name>/ on the test device."]
+    )
+    @set:JsonProperty("obb-files")
+    var obbfiles: List<String>? by data
+
+    @set:CommandLine.Option(
         names = ["--performance-metrics"],
         description = ["Monitor and record performance metrics: CPU, memory, " +
             "network usage, and FPS (game-loop only). Disabled by default."]
@@ -240,6 +250,7 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
             directoriesToPull = emptyList()
             otherFiles = emptyMap()
             scenarioLabels = emptyList()
+            obbfiles = emptyList()
             performanceMetrics = FlankDefaults.DISABLE_PERFORMANCE_METRICS
             numUniformShards = null
             testRunnerClass = null

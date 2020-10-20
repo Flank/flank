@@ -18,6 +18,7 @@ data class AndroidArgs(
     val type: Type?,
     val otherFiles: Map<String, String>,
     val scenarioLabels: List<String>,
+    val obbfiles: List<String>,
     val performanceMetrics: Boolean,
     val numUniformShards: Int?,
     val testRunnerClass: String?,
@@ -51,6 +52,7 @@ AndroidArgs
       type: ${type?.ymlName}
       other-files: ${ArgsToString.mapToString(otherFiles)}
       scenario-labels: ${ArgsToString.listToString(scenarioLabels)}
+      obb-files: ${ArgsToString.listToString(obbfiles)}
       performance-metrics: $performanceMetrics
       num-uniform-shards: $numUniformShards
       test-runner-class: $testRunnerClass

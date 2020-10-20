@@ -338,6 +338,12 @@ gcloud:
   #   - /sdcard/dir1/file1.txt: local/file.txt
   #   - /sdcard/dir2/file2.jpg: gs://bucket/file.jpg
 
+  ## A list of one or two Android OBB file names which will be copied to each test device before the tests will run (default: None).
+  ## Each OBB file name must conform to the format as specified by Android (e.g. [main|patch].0300110.com.example.android.obb) and will be installed into <shared-storage>/Android/obb/<package-name>/ on the test device.
+  # obb-files:
+  #   - local/file/path/test1.obb
+  #   - local/file/path/test2.obb
+
   ## Monitor and record performance metrics: CPU, memory, network usage, and FPS (game-loop only).
   ## Disabled by default. Use --performance-metrics to enable.
   # performance-metrics: true
