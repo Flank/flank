@@ -31,5 +31,3 @@ class GenerateJavaClient : CliktCommand(name = "generateJavaClient", help = "Gen
         )
     }
 }
-
-
