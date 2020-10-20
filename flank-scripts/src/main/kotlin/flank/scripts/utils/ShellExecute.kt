@@ -2,8 +2,12 @@ package flank.scripts.utils
 
 import java.io.File
 
-fun List<String>.runCommand(retryCount: Int = 0, fileForOutput: File? = null) =
-    ProcessBuilder(this).apply {
+fun List<String>.runCommand(
+    retryCount: Int = 0,
+    fileForOutput: File? = null,
+    environmentVariables: Map<String, String> = mapOf()
+) = ProcessBuilder(this).apply {
+        environment().putAll(environmentVariables)
         if (fileForOutput != null) {
             redirectOutput(fileForOutput)
             redirectError(fileForOutput)
@@ -14,8 +18,11 @@ fun List<String>.runCommand(retryCount: Int = 0, fileForOutput: File? = null) =
     }
         .startWithRetry(retryCount)
 
-fun String.runCommand(retryCount: Int = 0, fileForOutput: File? = null) =
-    split(" ").toList().runCommand(retryCount, fileForOutput)
+fun String.runCommand(
+    retryCount: Int = 0,
+    fileForOutput: File? = null,
+    environmentVariables: Map<String, String> = mapOf()
+) = split(" ").toList().runCommand(retryCount, fileForOutput, environmentVariables)
 
 fun String.runForOutput(retryCount: Int = 0): String = File
     .createTempFile(hashCode().toString(), "")
