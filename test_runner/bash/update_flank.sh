@@ -1,3 +1,3 @@
 
 DIR=`dirname "$BASH_SOURCE"`
-kotlin $DIR/../../flank-bash/scripts/updateFlank.main.kts
+kotlin $DIR/../../flank-scripts/bash/flankScripts.bat shell buildFlank

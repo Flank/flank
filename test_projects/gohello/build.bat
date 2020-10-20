@@ -1,2 +1,2 @@
 SET DIR=%~dp0
-kotlin %DIR%\..\..\flank-bash\scripts\go.ops.main.kts build
+kotlin %DIR%\..\..\flank-scripts\bash\flankScripts.bat shell ops go
