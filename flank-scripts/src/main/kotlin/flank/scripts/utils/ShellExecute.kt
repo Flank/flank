@@ -30,6 +30,10 @@ fun String.checkAndInstallIfNeed(installCommand: String) = checkCommandExists().
     installCommand.runCommand()
 }
 
+fun String.commandInstalledOr(orAction: () -> Unit) = checkCommandExists().takeUnless { it }?.let {
+    orAction()
+}
+
 internal fun ProcessBuilder.startWithRetry(retryCount: Int): Int {
     var retryTries = 0
     var processResponse: Int

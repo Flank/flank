@@ -1,18 +1,35 @@
 package flank.scripts.firebase
 
 import com.github.ajalt.clikt.core.CliktCommand
-import flank.scripts.utils.checkAndInstallIfNeed
+import flank.scripts.utils.installClientGeneratorIfNeeded
+import flank.scripts.utils.runCommand
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 
 class GenerateJavaClient : CliktCommand(name = "generateJavaClient", help = "Generate Java Client") {
+
     override fun run() {
         installClientGeneratorIfNeeded()
-    }
-}
+        val apiPath = Paths.get("test_api").toString()
+        val outputDirectory = Paths.get(apiPath, "src", "main", "java").toString()
+        val testingJsonInput = Paths.get("json", "testing_v1.json").toString()
+        Paths.get(apiPath, "src").toFile().deleteRecursively()
 
-fun installClientGeneratorIfNeeded() {
-    val isWindows = System.getProperty("os.name").startsWith("Windows")
-    val generateLibraryCheckCommand = (if (isWindows) "where " else "command -v ") + "generate_library"
-    generateLibraryCheckCommand.checkAndInstallIfNeed("pip install google-apis-client-generator")
+        val generateLibraryCommand = "generate_library " +
+            "--input=$testingJsonInput " +
+            "--language=java " +
+            "--output_dir=$outputDirectory"
+
+        val result = generateLibraryCommand.runCommand()
+        if (result != 0) throw Exception()
+
+        Files.move(
+            Paths.get(outputDirectory, "pom.xml"),
+            Paths.get(apiPath, "pom.xml"),
+            StandardCopyOption.REPLACE_EXISTING
+        )
+    }
 }
 
 
