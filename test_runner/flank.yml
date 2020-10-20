@@ -96,6 +96,13 @@ gcloud:
   #   - /sdcard/dir1/file1.txt: local/file.txt
   #   - /sdcard/dir2/file2.jpg: gs://bucket/file.jpg
 
+  ## A list of game-loop scenario numbers which will be run as part of the test (default: all scenarios).
+  ## A maximum of 1024 scenarios may be specified in one test matrix, but the maximum number may also be limited by the overall test --timeout setting.
+  # scenario-numbers:
+  #   - 1
+  #   - 2
+  #   - 3
+
   ## A list of game-loop scenario labels (default: None). Each game-loop scenario may be labeled in the APK manifest file with one or more arbitrary strings, creating logical groupings (e.g. GPU_COMPATIBILITY_TESTS).
   ## If --scenario-numbers and --scenario-labels are specified together, Firebase Test Lab will first execute each scenario from --scenario-numbers.
   ## It will then expand each given scenario label into a list of scenario numbers marked with that label, and execute those scenarios.

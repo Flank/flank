@@ -320,6 +320,7 @@ AndroidArgs
       other-files: 
         /sdcard/dir1/file1.txt: $appApkAbsolutePath
         /sdcard/dir2/file2.jpg: $testApkAbsolutePath
+      scenario-numbers: 
       scenario-labels: 
       performance-metrics: false
       num-uniform-shards: null
@@ -398,6 +399,7 @@ AndroidArgs
       grant-permissions: all
       type: null
       other-files: 
+      scenario-numbers: 
       scenario-labels: 
       performance-metrics: false
       num-uniform-shards: null
@@ -2021,7 +2023,8 @@ AndroidArgs
         AndroidArgs.load(yaml).validate()
     }
 
-    fun `should not throw exception if game-loop required but no scenario loop provided`() {
+    @Test
+    fun `should not throw exception if game-loop and scenario labels provided`() {
         val yaml = """
         gcloud:
           app: $appApk
@@ -2035,6 +2038,104 @@ AndroidArgs
           scenario-labels: 
             - test1 
             - test2
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should not throw exception if game-loop and scenario numbers provided`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: game-loop
+          scenario-numbers: 
+            - 1
+            - 2
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception if game-loop not provided and scenario numbers provided`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: robo
+          scenario-numbers: 
+            - 1 
+            - 2
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception if invalid scenario numbers provided`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: game-loop
+          scenario-numbers: 
+            - error
+            - 2
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should Not throw exception if valid scenario numbers provided`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: game-loop
+          scenario-numbers: 
+            - 1
+            - 2
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should Not throw exception if valid scenario numbers provided and scenario labels`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: game-loop
+          scenario-labels:
+            - label1
+            - label2
+          scenario-numbers: 
+            - 1
+            - 2
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
     }
