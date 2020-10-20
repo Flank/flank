@@ -11,7 +11,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
-class AndroidOpsCommand : CliktCommand(name = "android", help = "Build android apk's with test's") {
+object AndroidOpsCommand : CliktCommand(name = "android", help = "Build android apk's with test's") {
     override fun run() {
         buildBaseApk()
         buildBaseTestApk()

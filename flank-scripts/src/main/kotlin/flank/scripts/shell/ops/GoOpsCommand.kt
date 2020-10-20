@@ -7,7 +7,7 @@ import flank.scripts.utils.runCommand
 import java.nio.file.Path
 import java.nio.file.Paths
 
-class GoOpsCommand : CliktCommand(name = "buildGoApps", help = "build go sample apps") {
+object GoOpsCommand : CliktCommand(name = "buildGoApps", help = "build go sample apps") {
     override fun run() {
         generateGoArtifacts()
     }

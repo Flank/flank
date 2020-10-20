@@ -7,7 +7,7 @@ import flank.scripts.utils.downloadSortJsonIfNeeded
 import flank.scripts.utils.runCommand
 import java.nio.file.Paths
 
-class UpdateApiJsonCommand : CliktCommand(name = "update_api_json", help = "Contains all firebase commands") {
+object UpdateApiJsonCommand : CliktCommand(name = "update_api_json", help = "Contains all firebase commands") {
     override fun run() {
         val jsonDirectoryPath = Paths.get(currentPath.toString(), "json")
         val testingV1Path = Paths.get(jsonDirectoryPath.toString(), "testing_v1.json").toString()

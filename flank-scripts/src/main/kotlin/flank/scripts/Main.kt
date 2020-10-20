@@ -17,6 +17,6 @@ fun main(args: Array<String>) {
         ReleaseCommand(),
         CiCommand(),
         DependenciesCommand,
-        TestArtifactsCommand()
+        TestArtifactsCommand(),
     ).main(args)
 }
