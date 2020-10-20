@@ -1,3 +1,49 @@
+## v20.10.0
+### CI Changes
+- [#1253](https://github.com/Flank/flank/pull/1253) Use Github app token for creating release notes ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1248](https://github.com/Flank/flank/pull/1248) Update deprecated options ::set-env and ::add-path ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1240](https://github.com/Flank/flank/pull/1240) Add current date to dependecy PR ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1148](https://github.com/Flank/flank/pull/1148) Add scripts for test artifacts managment ([jan-gogo](https://github.com/jan-gogo), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1210](https://github.com/Flank/flank/pull/1210) Enable RC versions for gradle (dependency update task) ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1158](https://github.com/Flank/flank/pull/1158) Fix test artifacts url ([jan-gogo](https://github.com/jan-gogo))
+- [#1152](https://github.com/Flank/flank/pull/1152) Added WSL workflow ([Sloox](https://github.com/Sloox), [piotradamczyk5](https://github.com/piotradamczyk5))
+### Features
+- [#1244](https://github.com/Flank/flank/pull/1244) Added scenario-numbers ([Sloox](https://github.com/Sloox))
+- [#1238](https://github.com/Flank/flank/pull/1238) Scenario Labels ([Sloox](https://github.com/Sloox))
+- [#1230](https://github.com/Flank/flank/pull/1230) Add type ([Sloox](https://github.com/Sloox))
+- [#1186](https://github.com/Flank/flank/pull/1186) Grant permissions addition ([Sloox](https://github.com/Sloox))
+- [#1214](https://github.com/Flank/flank/pull/1214) Added printing missing options ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1175](https://github.com/Flank/flank/pull/1175) Android integration tests run on non wsl windows ([Sloox](https://github.com/Sloox), [adamfilipow92](https://github.com/adamfilipow92))
+- [#1171](https://github.com/Flank/flank/pull/1171) Dump shards and upload on every run ([adamfilipow92](https://github.com/adamfilipow92))
+- [#1163](https://github.com/Flank/flank/pull/1163) Integration tests run when pr is approved and not draft ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1159](https://github.com/Flank/flank/pull/1159) Improve error message on matrix failures ([pawelpasterz](https://github.com/pawelpasterz), [adamfilipow92](https://github.com/adamfilipow92))
+- [#1133](https://github.com/Flank/flank/pull/1133) Auto update dependencies ([piotradamczyk5](https://github.com/piotradamczyk5))
+### Bug Fixes
+- [#1250](https://github.com/Flank/flank/pull/1250) Fix running flank workflows on Windows ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1247](https://github.com/Flank/flank/pull/1247) Flank web documentation link ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1243](https://github.com/Flank/flank/pull/1243) Disable cache for :test_runner:shadowJar task ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1233](https://github.com/Flank/flank/pull/1233) Fix withClassName filter ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1221](https://github.com/Flank/flank/pull/1221) Always dump shards ([pawelpasterz](https://github.com/pawelpasterz), [adamfilipow92](https://github.com/adamfilipow92))
+- [#1236](https://github.com/Flank/flank/pull/1236) Empty branch name in workflows ([jan-gogo](https://github.com/jan-gogo))
+- [#1232](https://github.com/Flank/flank/pull/1232) Test_runner:resolveArtifacts task ([jan-gogo](https://github.com/jan-gogo))
+- [#1225](https://github.com/Flank/flank/pull/1225) Release job missing env ()
+- [#1188](https://github.com/Flank/flank/pull/1188) Revert "feat: Dump shards and upload on every run (#1171)" ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1177](https://github.com/Flank/flank/pull/1177) Fix flank-scripts test ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1167](https://github.com/Flank/flank/pull/1167) Flank action ([Sloox](https://github.com/Sloox))
+- [#1161](https://github.com/Flank/flank/pull/1161) Release notes slack tweaks ([Sloox](https://github.com/Sloox))
+- [#1164](https://github.com/Flank/flank/pull/1164) Dependabot security issues ([Sloox](https://github.com/Sloox))
+### Documentation
+- [#1222](https://github.com/Flank/flank/pull/1222) Add flank website code ([jan-gogo](https://github.com/jan-gogo))
+- [#1229](https://github.com/Flank/flank/pull/1229) Update documentation ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1215](https://github.com/Flank/flank/pull/1215) Added documentation about missing options ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1190](https://github.com/Flank/flank/pull/1190) Added documentation about Cucumber support ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1181](https://github.com/Flank/flank/pull/1181) Investigation incorrect outcome for flaky tests ([pawelpasterz](https://github.com/pawelpasterz), [adamfilipow92](https://github.com/adamfilipow92))
+- [#1173](https://github.com/Flank/flank/pull/1173) Add FAQ section about sync problems ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1131](https://github.com/Flank/flank/pull/1131) Investigate flank options ([jan-gogo](https://github.com/jan-gogo), [adamfilipow92](https://github.com/adamfilipow92))
+### Tests update
+- [#1187](https://github.com/Flank/flank/pull/1187) Remove verification test for edge cases of incorrect outcome in flaky tests ([adamfilipow92](https://github.com/adamfilipow92))
+- [#1174](https://github.com/Flank/flank/pull/1174) Added cucumber sample app for testing #1118 ([piotradamczyk5](https://github.com/piotradamczyk5))
+
 ## v20.09.3
 ### Bug Fixes
 - [#1151](https://github.com/Flank/flank/pull/1151) Update flank-scripts serialization ([piotradamczyk5](https://github.com/piotradamczyk5))
