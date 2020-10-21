@@ -69,7 +69,7 @@ interface IArgs {
         // num_shards must be >= 1, and <= 50
         val AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE = 1..50
 
-        val AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE = 1..250
+        val AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE = 1..500
     }
 
     interface ICompanion {
