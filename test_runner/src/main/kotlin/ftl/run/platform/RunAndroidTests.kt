@@ -48,16 +48,16 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     val additionalApks = args.uploadAdditionalApks(runGcsPath)
 
     args.createAndroidTestContexts().dumpShards(args).upload(args.resultsBucket, runGcsPath)
-        .forEachIndexed { index, context ->
+        .forEachIndexed { contextIndex, context ->
             if (context is InstrumentationTestContext) {
                 ignoredTestsShardChunks += context.ignoredTestCases
                 allTestShardChunks += context.shards
             }
             val androidTestConfig = args.createAndroidTestConfig(context)
-            testMatrices += executeAndroidTestMatrix(runCount = args.repeatTests) {
+            testMatrices += executeAndroidTestMatrix(runCount = args.repeatTests) { runIndex ->
                 GcAndroidTestMatrix.build(
                     androidTestConfig = androidTestConfig,
-                    runGcsPath = "$runGcsPath/matrix_$index/",
+                    runGcsPath = runGcsPath.calculateMatrixValue(contextIndex, runIndex),
                     additionalApkGcsPaths = additionalApks,
                     androidDeviceList = devices,
                     args = args,
@@ -78,6 +78,10 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     )
 }
 
+private fun String.calculateMatrixValue(contextIndex: Int, runIndex: Int) =
+    if (runIndex == 0) "$this/matrix_$contextIndex/"
+    else "$this/matrix_${contextIndex}_$runIndex/"
+
 private fun List<AndroidTestContext>.dumpShards(config: AndroidArgs) = takeIf { config.isInstrumentationTest }?.apply {
     filterIsInstance<InstrumentationTestContext>().asMatrixTestShards().saveShards(config.obfuscateDumpShards)
     if (config.disableResultsUpload.not()) GcStorage.upload(ANDROID_SHARD_FILE, config.resultsBucket, config.resultsDir)
@@ -92,11 +96,11 @@ private fun AndroidMatrixTestShards.saveShards(obfuscateOutput: Boolean) = saveS
 
 private suspend fun executeAndroidTestMatrix(
     runCount: Int,
-    createTestMatrix: () -> Testing.Projects.TestMatrices.Create
+    createTestMatrix: (runIndex: Int) -> Testing.Projects.TestMatrices.Create
 ): List<Deferred<TestMatrix>> = coroutineScope {
     (0 until runCount).map {
         async(Dispatchers.IO) {
-            createTestMatrix().executeWithRetry()
+            createTestMatrix(it).executeWithRetry()
         }
     }
 }
