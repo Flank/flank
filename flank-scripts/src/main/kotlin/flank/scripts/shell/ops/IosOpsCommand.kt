@@ -1,6 +1,8 @@
 package flank.scripts.shell.ops
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.parameters.options.flag
+import com.github.ajalt.clikt.parameters.options.option
 import flank.scripts.shell.ios.createIosBuildCommand
 import flank.scripts.shell.utils.failIfWindows
 import flank.scripts.shell.utils.flankFixturesTmpPath
@@ -21,6 +23,11 @@ enum class TestType {
 }
 
 object IosOpsCommand : CliktCommand(name = "ios", help = "Build ios app with tests") {
+
+    private val generate: Boolean by option().flag("-g", default = true)
+
+    private val copy: Boolean by option().flag("-c", default = true)
+
     override fun run() {
         failIfWindows()
         generateIos()
@@ -32,7 +39,7 @@ object IosOpsCommand : CliktCommand(name = "ios", help = "Build ios app with tes
         downloadXcPrettyIfNeeded()
         createDirectoryInFixture(directoryName = "objc")
         createDirectoryInFixture(directoryName = "swift")
-        buildEarlGreyExample()
+        if (generate) buildEarlGreyExample()
     }
 
     private fun createDirectoryInFixture(directoryName: String): Path =
@@ -70,7 +77,7 @@ object IosOpsCommand : CliktCommand(name = "ios", help = "Build ios app with tes
         else it.copyTo(Paths.get(flankFixturesTmpPath, it.name).toFile(), overwrite = true)
     }
 
-    private fun Path.copyTestFiles() = toString().let { productsDirectory ->
+    private fun Path.copyTestFiles() = toString().takeIf { copy }?.let { productsDirectory ->
         val pluginsDirectory = arrayOf("Debug-iphoneos", "EarlGreyExampleSwift.app", "PlugIns")
         copyTestFile(productsDirectory, pluginsDirectory, EARL_GREY_EXAMPLE_TESTS, TestType.OBJECTIVE_C)
         copyTestFile(productsDirectory, pluginsDirectory, EARL_GREY_EXAMPLE_SWIFT_TESTS, TestType.SWIFT)
