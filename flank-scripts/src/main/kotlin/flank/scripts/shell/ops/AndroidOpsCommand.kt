@@ -16,9 +16,9 @@ import java.nio.file.StandardCopyOption
 
 object AndroidOpsCommand : CliktCommand(name = "android", help = "Build android apks with tests") {
 
-    private val generate: Boolean by option().flag("-g", default = true)
+    private val generate: Boolean by option(help = "Make build").flag("-g", default = true)
 
-    private val copy: Boolean by option().flag("-c", default = true)
+    private val copy: Boolean by option(help = "Copy output files to tmp").flag("-c", default = true)
 
     private val artifacts: List<String> by option().multiple()
 

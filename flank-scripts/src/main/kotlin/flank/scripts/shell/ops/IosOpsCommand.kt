@@ -24,9 +24,9 @@ enum class TestType {
 
 object IosOpsCommand : CliktCommand(name = "ios", help = "Build ios app with tests") {
 
-    private val generate: Boolean by option().flag("-g", default = true)
+    private val generate: Boolean by option(help = "Make build").flag("-g", default = true)
 
-    private val copy: Boolean by option().flag("-c", default = true)
+    private val copy: Boolean by option(help = "Copy output files to tmp").flag("-c", default = true)
 
     override fun run() {
         failIfWindows()
