@@ -322,6 +322,7 @@ AndroidArgs
         /sdcard/dir2/file2.jpg: $testApkAbsolutePath
       scenario-numbers: 
       scenario-labels: 
+      obb-files: 
       performance-metrics: false
       num-uniform-shards: null
       test-runner-class: com.foo.TestRunner
@@ -401,6 +402,7 @@ AndroidArgs
       other-files: 
       scenario-numbers: 
       scenario-labels: 
+      obb-files: 
       performance-metrics: false
       num-uniform-shards: null
       test-runner-class: null

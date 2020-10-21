@@ -38,7 +38,18 @@ private fun AndroidArgs.assertGameLoop() {
 
 private fun AndroidArgs.assertLabelContent() {
     if (scenarioLabels.isNotEmpty() && (type == null || type != Type.GAMELOOP))
-        throw FlankConfigurationError("Scenario labels defined but Type is not Game-loop.")
+        throw FlankConfigurationError("Scenario labels defined but Type is not Game-loop. ($type)")
+
+    if (obbfiles.isNotEmpty() && (type == null || type != Type.GAMELOOP))
+        throw FlankConfigurationError("OBB files defined but Type is not Game-loop. ($type)")
+    if (obbfiles.isNotEmpty() && obbfiles.size > 2)
+        throw FlankConfigurationError("Up to two OBB files are supported. Currently ${obbfiles.size} OBB files supplied.")
+    if (obbfiles.isNotEmpty()) {
+        obbfiles.forEach {
+            ArgsHelper.assertFileExists(it, " (obb file)")
+        }
+    }
+
     if (scenarioNumbers.isNotEmpty() && (type == null || type != Type.GAMELOOP))
         throw FlankConfigurationError("Scenario numbers defined but Type is not Game-loop.")
     scenarioNumbers.forEach { it.toIntOrNull() ?: throw FlankConfigurationError("Invalid scenario number provided - $it") }

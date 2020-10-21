@@ -41,6 +41,7 @@ fun createAndroidArgs(
     useLegacyJUnitResult = flank.useLegacyJUnitResult!!,
     scenarioLabels = gcloud.scenarioLabels!!,
     obfuscateDumpShards = obfuscate,
+    obbfiles = gcloud.obbfiles!!,
     scenarioNumbers = gcloud.scenarioNumbers!!,
     grantPermissions = gcloud.grantPermissions,
     type = gcloud.type?.let { Type.fromString(it) }
