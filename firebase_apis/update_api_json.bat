@@ -1,2 +1,2 @@
 SET DIR=%~dp0
-kotlin %DIR%\..\..\flank-scripts\bash\flankScripts.bat shell firebase updateApiJson
+%DIR%\..\..\flank-scripts\bash\flankScripts.bat shell firebase updateApiJson

@@ -199,6 +199,10 @@ Build ftl ios app
 #### `iosRunFtlLocal` 
 Run ftl locally ios app
 
+| Option      | Description                                                              |
+|-------------|--------------------------------------------------------------------------|
+| --device-id | Device id. Please take it from Xcode -> Window -> Devices and Simulators |
+
 #### `iosUniversalFramework` 
 
 #### `ops` 
