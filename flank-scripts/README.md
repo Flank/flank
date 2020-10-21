@@ -163,3 +163,62 @@ All [testArtifacts](../flank-scripts/src/main/kotlin/flank/scripts/testartifacts
   #### `resolve` 
   Automatically prepare local artifacts if needed.
 
+### Shell
+
+To show all available commands for shell use: `flankScripts shell`
+
+Available commands are:
+  - `firebase`               Contains all firebase commands  
+  - `iosBuildExample`        Build example ios app
+  - `iosBuildFtl`            Build ftl ios app
+  - `iosRunFtlLocal`         Run ftl locally ios app
+  - `iosUniversalFramework`  Create Universal Framework
+  - `ops`                    Contains all ops command: android, ios, gp
+  - `updateBinaries`         Update binaries used by Flank
+  - `buildFlank`             Build Flank
+
+#### `firebase` 
+
+Contains tasks related to firebase client generation.  
+These tasks are :
+  - `updateApiJson`      Download file for generating client
+  - `generateJavaClient`   Generates Java client
+
+##### `updateApiJson`
+Download file for generating client
+
+##### `generateJavaClient`
+Generate Java Client from json schema
+
+#### `iosBuildExample` 
+Build example ios app
+
+#### `iosBuildFtl` 
+Build ftl ios app
+
+#### `iosRunFtlLocal` 
+Run ftl locally ios app
+
+#### `iosUniversalFramework` 
+
+#### `ops` 
+Contains tasks related to building sample apps with tests.  
+These tasks are :
+  - `go`        Build go app with tests
+  - `ios`       Build ios app with tests
+  - `android`   Build android apks with tests
+  
+##### `go`
+Build go app with tests
+
+##### `ios`
+Build ios app with tests
+
+##### `android`
+Build android apks with tests
+
+#### `updateBinaries` 
+Update binaries used by Flank
+
+#### `buildFlank` 
+Build Flank test runner
