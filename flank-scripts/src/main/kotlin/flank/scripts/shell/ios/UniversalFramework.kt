@@ -6,7 +6,7 @@ import flank.scripts.shell.utils.failIfWindows
 import flank.scripts.utils.runCommand
 import java.nio.file.Paths
 
-object UniversalFrameworkCommand : CliktCommand(name = "iosUniversalFramework", help = "??") {
+object UniversalFrameworkCommand : CliktCommand(name = "iosUniversalFramework", help = "Create Universal Framework") {
     override fun run() {
         failIfWindows()
         createUniversalFiles()

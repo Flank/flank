@@ -12,23 +12,26 @@ private val swiftPath = Paths.get(currentPath.toString(), "swift")
 fun updateSwift() = if (isWindows) updateSwiftWindows() else updateSwiftOther()
 
 private fun updateSwiftWindows() {
+    println(" Will be available after #1134")
+    /*
+    TODO finish this in #1134
     val swiftExe = Paths.get(swiftPath.toString(), "swift.exe")
 
-    if (swiftExe.toFile().exists()) {
-        println("Swift exists")
-    } else {
-        println("Downloading swift for Windows")
-        swiftPath.toFile().mkdirs()
-        downloadFile(
-            srcUrl = "https://swift.org/builds/swift-5.3-release/windows10/swift-5.3-RELEASE/swift-5.3-RELEASE-windows10.exe",
-            destinationPath = swiftExe.toString()
-        )
-    }
+     if (swiftExe.toFile().exists()) {
+         println("Swift exists")
+     } else {
+         println("Downloading swift for Windows")
+         swiftPath.toFile().mkdirs()
+         downloadFile(
+             srcUrl = "https://swift.org/builds/swift-5.3-release/windows10/swift-5.3-RELEASE/swift-5.3-RELEASE-windows10.exe",
+             destinationPath = swiftExe.toString()
+         )
+     }
 
-    swiftExe.toFile().extract(swiftPath.toFile(), "zip", "gz")
-    findAndCopySwiftLicense()
-    findAndCopySwiftDemangleFile()
-    swiftPath.toFile().deleteRecursively()
+     swiftExe.toFile().extract(swiftPath.toFile(), "zip", "gz")
+     findAndCopySwiftLicense()
+     findAndCopySwiftDemangleFile()
+     swiftPath.toFile().deleteRecursively()*/
 }
 
 private fun updateSwiftOther() {

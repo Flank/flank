@@ -1,2 +1,2 @@
 DIR=`dirname "$BASH_SOURCE"`
-kotlin $DIR/../../flank-scripts/bash/flankScripts.bat shell ops go
+kotlin $DIR/../../flank-scripts/bash/flankScripts shell ops go

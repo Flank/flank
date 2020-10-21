@@ -9,7 +9,7 @@ import flank.scripts.utils.runCommand
 import java.nio.file.Path
 import java.nio.file.Paths
 
-object RunFtlLocalCommand : CliktCommand(name = "iosBuildFtl", help = "Build ftl ios app") {
+object RunFtlLocalCommand : CliktCommand(name = "iosRunFtlLocal", help = "Run ftl locally ios app") {
 
     private val deviceId by option(help = "Pass device id. Please take it from Xcode -> Window -> Devices and Simulators")
         .required()

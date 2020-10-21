@@ -12,7 +12,10 @@ private val llvmPath = Paths.get(currentPath.toString(), "llvm")
 fun updateLlvm() = if (isWindows) updateLlvmWindows() else updateLlvmNonWindows()
 
 private fun updateLlvmWindows() {
-    val llvmExe = Paths.get(llvmPath.toString(), "LLVM-win64.exe")
+    println(" Will be available after #1134")
+   /*
+   TODO finish this in #1134
+   val llvmExe = Paths.get(llvmPath.toString(), "LLVM-win64.exe")
     if (llvmExe.toFile().exists()) {
         println("LLVM exists")
     } else {
@@ -27,7 +30,7 @@ private fun updateLlvmWindows() {
     llvmExe.toFile().extract(llvmPath.toFile(), "zip", "xz")
     findAndCopyLlvmLicense()
     findAndCopyLlvmNmFile()
-    llvmPath.toFile().deleteRecursively()
+    llvmPath.toFile().deleteRecursively()*/
 }
 
 private fun updateLlvmNonWindows() {
@@ -46,7 +49,7 @@ private fun updateLlvmNonWindows() {
 
     llvmTarXz.toFile().extract(llvmPath.toFile(), "tar", "xz")
     findAndCopyLlvmLicense()
-    findAndCopyLlvmLicense()
+    findAndCopyLlvmNmFile()
     llvmPath.toFile().deleteRecursively()
 }
 
