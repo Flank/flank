@@ -57,7 +57,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
             testMatrices += executeAndroidTestMatrix(runCount = args.repeatTests) { runIndex ->
                 GcAndroidTestMatrix.build(
                     androidTestConfig = androidTestConfig,
-                    runGcsPath = runGcsPath.calculateMatrixValue(contextIndex, runIndex),
+                    runGcsPath = runGcsPath.createGcsPath(contextIndex, runIndex),
                     additionalApkGcsPaths = additionalApks,
                     androidDeviceList = devices,
                     args = args,
@@ -78,7 +78,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     )
 }
 
-private fun String.calculateMatrixValue(contextIndex: Int, runIndex: Int) =
+private fun String.createGcsPath(contextIndex: Int, runIndex: Int) =
     if (runIndex == 0) "$this/matrix_$contextIndex/"
     else "$this/matrix_${contextIndex}_$runIndex/"
 
