@@ -95,6 +95,6 @@ object IosOpsCommand : CliktCommand(name = "ios", help = "Build ios app with tes
     )
 }
 
-private const val EARL_GREY_EXAMPLE = "EarlGreyExample"
+const val EARL_GREY_EXAMPLE = "EarlGreyExample"
 private const val EARL_GREY_EXAMPLE_TESTS = "EarlGreyExampleTests"
 private const val EARL_GREY_EXAMPLE_SWIFT_TESTS = "EarlGreyExampleSwiftTests"
