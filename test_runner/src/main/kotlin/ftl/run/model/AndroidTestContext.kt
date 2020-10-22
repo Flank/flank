@@ -19,6 +19,13 @@ data class RoboTestContext(
     val roboScript: FileReference
 ) : AndroidTestContext()
 
+data class GameLoopContext(
+    val app: FileReference,
+    val test: FileReference,
+    val scenarioLabels: List<String>,
+    val scenarioNumbers: List<String>
+) : AndroidTestContext()
+
 data class SanityRoboTestContext(
     val app: FileReference
 ) : AndroidTestContext()

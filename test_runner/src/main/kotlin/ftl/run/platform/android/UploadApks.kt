@@ -2,6 +2,7 @@ package ftl.run.platform.android
 
 import ftl.args.AndroidArgs
 import ftl.run.model.AndroidTestContext
+import ftl.run.model.GameLoopContext
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.RoboTestContext
 import ftl.run.model.SanityRoboTestContext
@@ -25,6 +26,7 @@ private fun AndroidTestContext.upload(rootGcsBucket: String, runGcsPath: String)
     is InstrumentationTestContext -> upload(rootGcsBucket, runGcsPath)
     is RoboTestContext -> upload(rootGcsBucket, runGcsPath)
     is SanityRoboTestContext -> upload(rootGcsBucket, runGcsPath)
+    is GameLoopContext -> upload(rootGcsBucket, runGcsPath)
 }
 
 private fun InstrumentationTestContext.upload(rootGcsBucket: String, runGcsPath: String) = copy(
@@ -35,6 +37,11 @@ private fun InstrumentationTestContext.upload(rootGcsBucket: String, runGcsPath:
 private fun RoboTestContext.upload(rootGcsBucket: String, runGcsPath: String) = copy(
     app = app.uploadIfNeeded(rootGcsBucket, runGcsPath),
     roboScript = roboScript.uploadIfNeeded(rootGcsBucket, runGcsPath)
+)
+
+private fun GameLoopContext.upload(rootGcsBucket: String, runGcsPath: String) = copy(
+    app = app.uploadIfNeeded(rootGcsBucket, runGcsPath),
+    test = test.uploadIfNeeded(rootGcsBucket, runGcsPath)
 )
 
 private fun SanityRoboTestContext.upload(rootGcsBucket: String, runGcsPath: String) = SanityRoboTestContext(app.uploadIfNeeded(rootGcsBucket, runGcsPath))

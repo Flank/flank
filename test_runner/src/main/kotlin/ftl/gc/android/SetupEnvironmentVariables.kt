@@ -12,6 +12,7 @@ internal fun TestSetup.setEnvironmentVariables(args: AndroidArgs, testConfig: An
         is AndroidTestConfig.Instrumentation ->
             testConfig.environmentVariables.map { it.toEnvironmentVariable() } + args.environmentVariables.map { it.toEnvironmentVariable() }
         is AndroidTestConfig.Robo -> emptyList()
+        is AndroidTestConfig.GameLoop -> emptyList()
     }.distinctBy { it.key }
 }
 
