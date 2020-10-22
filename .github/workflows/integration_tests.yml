@@ -11,14 +11,18 @@ jobs:
         os: [ ubuntu-latest, macos-latest ]
     runs-on: ${{ matrix.os }}
     steps:
+      - name: Check pull request is approved
+        uses: jrylan/github-action-reviews-counter@main
+        with:
+          repo-token: '${{ secrets.GITHUB_TOKEN }}'
+
       - uses: actions/checkout@v2
+        if: 'steps.reviews.outputs.approved >= 2 && steps.reviews.outputs.changes_requested == 0 && github.event.pull_request.draft == false'
         with:
           submodules: true
-      - name: Display the java version
-        run: java -version
-        shell: bash
 
       - uses: actions/cache@v2
+        if: 'steps.reviews.outputs.approved >= 2 && steps.reviews.outputs.changes_requested == 0 && github.event.pull_request.draft == false'
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
@@ -26,6 +30,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Gradle clean build
+        if: 'steps.reviews.outputs.approved >= 2 && steps.reviews.outputs.changes_requested == 0 && github.event.pull_request.draft == false'
         uses: eskatos/gradle-command-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -34,6 +39,7 @@ jobs:
           arguments: "clean build"
 
       - name: Prepare Google Service Account
+        if: 'steps.reviews.outputs.approved >= 2 && steps.reviews.outputs.changes_requested == 0 && github.event.pull_request.draft == false'
         env:
           GCLOUD_KEY: ${{ secrets.GCLOUD_KEY }}
         run: |
@@ -41,10 +47,6 @@ jobs:
           mkdir -p "$GCLOUD_DIR"
           echo "$GCLOUD_KEY" | base64 --decode > "$GCLOUD_DIR/application_default_credentials.json"
 
-      - name: Check pull request is approved
-        uses: jrylan/github-action-reviews-counter@main
-        with:
-          repo-token: '${{ secrets.GITHUB_TOKEN }}'
       - name: Gradle Integration Tests Android
         if: 'steps.reviews.outputs.approved >= 2 && steps.reviews.outputs.changes_requested == 0 && github.event.pull_request.draft == false'
         uses: eskatos/gradle-command-action@v1
