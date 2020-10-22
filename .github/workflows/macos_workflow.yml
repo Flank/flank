@@ -7,9 +7,6 @@ on:
   pull_request:
     branches:
       - '*'
-    paths:
-      - '**'
-      - '!flank-scripts/**'
 
 jobs:
   build:
