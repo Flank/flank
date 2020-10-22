@@ -11,6 +11,10 @@ jobs:
   check_title:
     runs-on: macos-latest
     steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.5.0
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
       - uses: amannn/action-semantic-pull-request@v1.2.0
         if: github.event.pull_request.draft == false
         env:
