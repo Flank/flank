@@ -2020,7 +2020,7 @@ AndroidArgs
           type: robo
           scenario-labels: 
             - test1 
-            - test2
+            - test2GcAndroidTestMatrix.build
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
     }

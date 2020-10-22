@@ -22,4 +22,12 @@ sealed class AndroidTestConfig {
         val flankRoboDirectives: List<FlankRoboDirective>?,
         val roboScriptGcsPath: String?
     ) : AndroidTestConfig()
+
+    data class GameLoop(
+        val appApkGcsPath: String,
+        val testApkGcsPath: String,
+        val testRunnerClass: String?,
+        val scenarioNumbers: List<String>,
+        val scenarioLabels: List<String>
+    ) : AndroidTestConfig()
 }

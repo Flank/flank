@@ -9,5 +9,7 @@ internal fun TestSpecification.setupAndroidTest(config: AndroidTestConfig) = app
             androidInstrumentationTest = createAndroidInstrumentationTest(config)
         is AndroidTestConfig.Robo ->
             androidRoboTest = createAndroidRoboTest(config)
+        is AndroidTestConfig.GameLoop ->
+            androidTestLoop = createGameLoopTest(config)
     }
 }
