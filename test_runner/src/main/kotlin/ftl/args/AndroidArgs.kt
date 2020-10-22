@@ -91,6 +91,8 @@ AndroidArgs
     }
 }
 
+// FIXME
+// Changes these based on type
 val AndroidArgs.isDontAutograntPermissions
     get() = !(grantPermissions.isNotNull() && (grantPermissions.equals("all")))
 
@@ -109,6 +111,9 @@ val AndroidArgs.isSanityRobo
             testApk.isNull() &&
             roboScript.isNull() &&
             additionalAppTestApks.isEmpty()
+
+val AndroidArgs.isGameLoop
+    get() = if (type == null) false else (type == Type.GAMELOOP)
 
 private fun String?.isNull() = this == null
 private fun String?.isNotNull() = isNull().not()
