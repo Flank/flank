@@ -2247,7 +2247,7 @@ AndroidArgs
         AndroidArgs.load(yaml).validate()
     }
 
-    @Test
+    @Test(expected = FlankConfigurationError::class)
     fun `should throw exception if game-loop is provided and more than 2 obb files provided`() {
         val yaml = """
         gcloud:
