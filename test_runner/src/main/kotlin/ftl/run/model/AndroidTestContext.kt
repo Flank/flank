@@ -1,6 +1,5 @@
 package ftl.run.model
 
-import com.google.api.services.testing.model.ObbFile
 import ftl.shard.Chunk
 import ftl.args.IgnoredTestCases
 import ftl.util.FileReference

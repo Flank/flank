@@ -43,7 +43,7 @@ private fun AndroidArgs.assertLabelContent() {
     if (obbFiles.isNotEmpty() && (type == null || type != Type.GAMELOOP))
         throw FlankConfigurationError("OBB files defined but Type is not Game-loop. ($type)")
     if (obbFiles.isNotEmpty() && obbFiles.size > 2)
-        throw FlankConfigurationError("Up to two OBB files are supported. Currently ${obbFiles.size} OBB files supplied.")
+        throw FlankConfigurationError("Up to two OBB files are supported. Currently ${obbFiles.size} OBB files have been supplied.")
     if (obbFiles.isNotEmpty()) {
         obbFiles.forEach {
             ArgsHelper.assertFileExists(it, " (obb file)")
@@ -87,7 +87,7 @@ private fun AndroidArgs.assertShards() {
 }
 
 private fun AndroidArgs.assertTestTypes() {
-    if (!(isRoboTest or isInstrumentationTest or isSanityRobo)) throw FlankConfigurationError("Unable to infer test type. Please check configuration")
+    if (!(isRoboTest or isInstrumentationTest or isSanityRobo or isGameLoop)) throw FlankConfigurationError("Unable to infer test type. Please check configuration")
 }
 
 // Validation is done according to https://cloud.google.com/sdk/gcloud/reference/firebase/test/android/run#--directories-to-pull

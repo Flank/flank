@@ -65,6 +65,7 @@ class AndroidArgsTest {
     private val testApk = "../test_projects/android/apks/app-debug-androidTest.apk"
     private val testErrorApk = "../test_projects/android/apks/error-androidTest.apk"
     private val testFlakyApk = "../test_projects/android/apks/flaky-androidTest.apk"
+    private val obbFile = "../test_projects/android/gameloop/test.obb"
     private val appApkAbsolutePath = appApk.absolutePath()
     private val testApkAbsolutePath = testApk.absolutePath()
     private val testErrorApkAbsolutePath = testErrorApk.absolutePath()
@@ -2174,6 +2175,96 @@ AndroidArgs
         val testSpecification = TestSpecification().setupAndroidTest(androidTestConfig)
         assertTrue(testSpecification.androidTestLoop.scenarioLabels == args.scenarioLabels)
         assertTrue(testSpecification.androidTestLoop.scenarios == args.scenarioNumbers.map { it.toInt() })
+    }
+
+    @Test
+    fun `should not throw exception if game-loop is provided and nothing else`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: game-loop
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should not throw exception if game-loop is provided and valid obb files provided`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: game-loop
+          obb-files: 
+            - $obbFile
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankGeneralError::class)
+    fun `should throw exception if game-loop is provided and invalid obb file provided`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: game-loop
+          obb-files: 
+            - error
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception if game-loop is not provided and valid obb file provided`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: robo
+          obb-files: 
+            - $obbFile
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should throw exception if game-loop is provided and more than 2 obb files provided`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: game-loop
+          obb-files: 
+            - $obbFile
+            - $obbFile
+            - $obbFile
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
     }
 }
 
