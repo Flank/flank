@@ -38,6 +38,7 @@ IosArgs
       xcode-version: $xcodeVersion
       device:${ArgsToString.objectsToString(devices)}
       num-flaky-test-attempts: $flakyTestAttempts
+      other-files: ${ArgsToString.mapToString(otherFiles)}
 
     flank:
       max-test-shards: $maxTestShards

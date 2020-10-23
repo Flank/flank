@@ -17,7 +17,6 @@ data class AndroidArgs(
     val grantPermissions: String?,
     val type: Type?,
     val scenarioNumbers: List<String>,
-    val otherFiles: Map<String, String>,
     val scenarioLabels: List<String>,
     val obbfiles: List<String>,
     val performanceMetrics: Boolean,

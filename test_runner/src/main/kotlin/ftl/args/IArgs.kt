@@ -22,6 +22,7 @@ interface IArgs {
     val project: String
     val resultsHistoryName: String?
     val flakyTestAttempts: Int
+    val otherFiles: Map<String, String>
 
     // FlankYml
     val maxTestShards: Int

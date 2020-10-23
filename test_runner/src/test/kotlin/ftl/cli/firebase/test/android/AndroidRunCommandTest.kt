@@ -81,7 +81,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.config.platform.gcloud.testRunnerClass).isNull()
         assertThat(cmd.config.platform.gcloud.environmentVariables).isNull()
         assertThat(cmd.config.platform.gcloud.directoriesToPull).isNull()
-        assertThat(cmd.config.platform.gcloud.otherFiles).isNull()
+        assertThat(cmd.config.common.gcloud.otherFiles).isNull()
         assertThat(cmd.config.common.gcloud.devices).isNull()
         assertThat(cmd.config.common.gcloud.resultsBucket).isNull()
         assertThat(cmd.config.common.gcloud.recordVideo).isNull()
@@ -227,7 +227,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--other-files=a=1,b=2")
 
-        assertThat(cmd.config.platform.gcloud.otherFiles).hasSize(2)
+        assertThat(cmd.config.common.gcloud.otherFiles).hasSize(2)
     }
 
     @Test
