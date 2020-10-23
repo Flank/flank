@@ -26,6 +26,7 @@ import ftl.test.util.assertThrowsWithMessage
 import ftl.run.exception.FlankGeneralError
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.IncompatibleTestDimensionError
+import ftl.run.model.GameLoopContext
 import ftl.shard.Chunk
 import ftl.shard.TestMethod
 import ftl.util.asFileReference
@@ -2020,7 +2021,7 @@ AndroidArgs
           type: robo
           scenario-labels: 
             - test1 
-            - test2GcAndroidTestMatrix.build
+            - test2
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
     }
@@ -2140,6 +2141,39 @@ AndroidArgs
             - 2
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should return Gameloop test with correct scenario numbers and labels`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: game-loop
+          scenario-labels:
+            - label1
+            - label2
+          scenario-numbers: 
+            - 1
+            - 2
+        """.trimIndent()
+        val args = AndroidArgs.load(yaml).validate()
+        val androidTestConfig = args.createAndroidTestConfig(
+            GameLoopContext(
+                app = "app".asFileReference(),
+                test = "test".asFileReference(),
+                scenarioNumbers = args.scenarioNumbers,
+                scenarioLabels = args.scenarioLabels
+            )
+        )
+        val testSpecification = TestSpecification().setupAndroidTest(androidTestConfig)
+        assertTrue(testSpecification.androidTestLoop.scenarioLabels == args.scenarioLabels)
+        assertTrue(testSpecification.androidTestLoop.scenarios == args.scenarioNumbers.map { it.toInt() })
     }
 }
 

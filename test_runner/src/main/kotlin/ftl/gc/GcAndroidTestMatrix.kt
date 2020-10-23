@@ -56,7 +56,7 @@ object GcAndroidTestMatrix {
             .setNetworkProfile(args.networkProfile)
             .setDirectoriesToPull(args.directoriesToPull)
             .setAdditionalApks(additionalApkGcsPaths.mapGcsPathsToApks())
-            .setFilesToPush(otherFiles.mapToDeviceFiles())
+            .setFilesToPush(otherFiles.mapToDeviceFiles() + args.obbFiles.mapToDeviceFiles())
             .setEnvironmentVariables(args, androidTestConfig)
             .setDontAutograntPermissions(args.isDontAutograntPermissions)
 

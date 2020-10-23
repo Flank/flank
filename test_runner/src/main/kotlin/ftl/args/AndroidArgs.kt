@@ -19,7 +19,7 @@ data class AndroidArgs(
     val scenarioNumbers: List<String>,
     val otherFiles: Map<String, String>,
     val scenarioLabels: List<String>,
-    val obbfiles: List<String>,
+    val obbFiles: List<String>,
     val performanceMetrics: Boolean,
     val numUniformShards: Int?,
     val testRunnerClass: String?,
@@ -54,7 +54,7 @@ AndroidArgs
       other-files: ${ArgsToString.mapToString(otherFiles)}
       scenario-numbers: ${ArgsToString.listToString(scenarioNumbers)}
       scenario-labels: ${ArgsToString.listToString(scenarioLabels)}
-      obb-files: ${ArgsToString.listToString(obbfiles)}
+      obb-files: ${ArgsToString.listToString(obbFiles)}
       performance-metrics: $performanceMetrics
       num-uniform-shards: $numUniformShards
       test-runner-class: $testRunnerClass
@@ -91,20 +91,18 @@ AndroidArgs
     }
 }
 
-// FIXME
 // Changes these based on type
 val AndroidArgs.isDontAutograntPermissions
     get() = !(grantPermissions.isNotNull() && (grantPermissions.equals("all")))
 
 val AndroidArgs.isInstrumentationTest
-    get() = appApk.isNotNull() &&
-            testApk.isNotNull() ||
-            additionalAppTestApks.isNotEmpty() &&
-            (appApk.isNotNull() || additionalAppTestApks.all { (app, _) -> app.isNotNull() })
+    get() = if (type != null) (type == Type.INSTRUMENTATION) else
+        (appApk.isNotNull() && testApk.isNotNull() || additionalAppTestApks.isNotEmpty() &&
+            (appApk.isNotNull() || additionalAppTestApks.all { (app, _) -> app.isNotNull() }))
 
 val AndroidArgs.isRoboTest
-    get() = appApk.isNotNull() &&
-            (roboDirectives.isNotEmpty() || roboScript.isNotNull())
+    get() = if (type != null) (type == Type.ROBO) else
+        (appApk.isNotNull() && (roboDirectives.isNotEmpty() || roboScript.isNotNull()))
 
 val AndroidArgs.isSanityRobo
     get() = appApk.isNotNull() &&
