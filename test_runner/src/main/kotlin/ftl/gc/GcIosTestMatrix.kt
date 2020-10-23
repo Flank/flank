@@ -6,6 +6,7 @@ import com.google.api.services.testing.model.ClientInfo
 import com.google.api.services.testing.model.EnvironmentMatrix
 import com.google.api.services.testing.model.FileReference
 import com.google.api.services.testing.model.GoogleCloudStorage
+import com.google.api.services.testing.model.IosDeviceFile
 import com.google.api.services.testing.model.IosDeviceList
 import com.google.api.services.testing.model.IosTestSetup
 import com.google.api.services.testing.model.IosXcTest
@@ -69,6 +70,7 @@ object GcIosTestMatrix {
             .setNetworkProfile(args.networkProfile)
             .setPushFiles(otherFiles.mapToIosDeviceFiles())
             .setAdditionalIpas(additionalIpasGcsPaths.mapGcsPathsToFileReference())
+            .setPullDirectories(args.directoriesToPull.toIosDeviceFiles())
 
         val testTimeoutSeconds = timeoutToSeconds(args.testTimeout)
 
@@ -98,3 +100,5 @@ object GcIosTestMatrix {
         }
     }
 }
+
+private fun List<String>.toIosDeviceFiles() = map { path -> IosDeviceFile().apply { devicePath = path } }

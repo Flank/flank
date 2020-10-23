@@ -1,6 +1,7 @@
 package ftl.args
 
 import ftl.args.yml.Type
+import ftl.args.yml.Type
 import ftl.config.Device
 import ftl.config.common.CommonFlankConfig.Companion.defaultLocalResultsDir
 import ftl.run.status.OutputStyle
@@ -26,6 +27,7 @@ interface IArgs {
     val otherFiles: Map<String, String>
     val scenarioNumbers: List<String>
     val type: Type? get() = null
+    val directoriesToPull: List<String>
 
     // FlankYml
     val maxTestShards: Int

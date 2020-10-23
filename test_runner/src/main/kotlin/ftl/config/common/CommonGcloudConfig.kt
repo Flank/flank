@@ -121,6 +121,19 @@ data class CommonGcloudConfig @JsonIgnore constructor(
     var flakyTestAttempts: Int? by data
 
     @set:CommandLine.Option(
+        names = ["--directories-to-pull"],
+        split = ",",
+        description = ["A list of paths that will be copied from the device's " +
+            "storage to the designated results bucket after the test is complete. These must be absolute paths under " +
+            "/sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2). " +
+            "Path names are restricted to the characters a-zA-Z0-9_-./+. The paths /sdcard and /data will be made available " +
+            "and treated as implicit path substitutions. E.g. if /sdcard on a particular device does not map to external " +
+            "storage, the system will replace it with the external storage path prefix for that device."]
+    )
+    @set:JsonProperty("directories-to-pull")
+    var directoriesToPull: List<String>? by data
+
+    @set:CommandLine.Option(
         names = ["--other-files"],
         split = ",",
         description = [
@@ -170,6 +183,7 @@ data class CommonGcloudConfig @JsonIgnore constructor(
             clientDetails = null
             networkProfile = null
             devices = listOf(defaultDevice(android))
+            directoriesToPull = emptyList()
             otherFiles = emptyMap()
             type = null
             scenarioNumbers = emptyList()

@@ -80,7 +80,6 @@ class AndroidRunCommandTest {
         assertThat(cmd.config.platform.gcloud.numUniformShards).isNull()
         assertThat(cmd.config.platform.gcloud.testRunnerClass).isNull()
         assertThat(cmd.config.platform.gcloud.environmentVariables).isNull()
-        assertThat(cmd.config.platform.gcloud.directoriesToPull).isNull()
         assertThat(cmd.config.common.gcloud.otherFiles).isNull()
         assertThat(cmd.config.common.gcloud.devices).isNull()
         assertThat(cmd.config.common.gcloud.resultsBucket).isNull()
@@ -98,6 +97,7 @@ class AndroidRunCommandTest {
         assertThat(cmd.config.common.flank.filesToDownload).isNull()
         assertThat(cmd.config.common.gcloud.resultsDir).isNull()
         assertThat(cmd.config.common.gcloud.flakyTestAttempts).isNull()
+        assertThat(cmd.config.common.gcloud.directoriesToPull).isNull()
         assertThat(cmd.config.common.flank.disableSharding).isNull()
         assertThat(cmd.config.common.flank.localResultsDir).isNull()
         assertThat(cmd.config.common.flank.smartFlankDisableUpload).isNull()
@@ -219,7 +219,7 @@ class AndroidRunCommandTest {
         val cmd = AndroidRunCommand()
         CommandLine(cmd).parseArgs("--directories-to-pull=a,b")
 
-        assertThat(cmd.config.platform.gcloud.directoriesToPull).hasSize(2)
+        assertThat(cmd.config.common.gcloud.directoriesToPull).hasSize(2)
     }
 
     @Test

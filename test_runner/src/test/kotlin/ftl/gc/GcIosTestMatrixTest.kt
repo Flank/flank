@@ -14,6 +14,7 @@ import io.mockk.mockk
 import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert
 import org.junit.Assume.assumeFalse
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -164,5 +165,33 @@ class GcIosTestMatrixTest {
 
         val expected = emptyList<String>()
         assertEquals(expected, iosArgs.additionalIpas)
+    }
+
+    @Test
+    fun `should fill directoriesToPull`() {
+        val iosArgs = IosArgs.load(StringReader("""
+            gcloud:
+              test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
+              xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
+              results-dir: test_dir
+              directories-to-pull:
+                - test/test/test
+        """.trimIndent()))
+
+        val expected = listOf("test/test/test")
+        Assert.assertEquals(expected, iosArgs.directoriesToPull)
+    }
+
+    @Test
+    fun `should not fill directoriesToPull`() {
+        val iosArgs = IosArgs.load(StringReader("""
+            gcloud:
+              test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
+              xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
+              results-dir: test_dir
+        """.trimIndent()))
+
+        val expected = emptyList<String>()
+        Assert.assertEquals(expected, iosArgs.directoriesToPull)
     }
 }
