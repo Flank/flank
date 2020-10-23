@@ -9,7 +9,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-
+    - uses: gradle/wrapper-validation-action@v1
     - name: Get all git tags
       run: |
         git fetch --prune --unshallow --tags
