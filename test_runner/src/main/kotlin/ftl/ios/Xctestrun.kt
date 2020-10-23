@@ -83,7 +83,6 @@ object Xctestrun {
             xctestrun = File(xctestrun)
         )
 
-    /* Finds tests in a xctestrun file */
     private fun findTestNames(xctestrun: File): XctestrunMethods =
         parse(xctestrun).allKeys().associate { testTarget ->
             testTarget to findTestNamesForTarget(
