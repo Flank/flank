@@ -38,6 +38,7 @@ jobs:
         submodules: true
 
     - uses: gradle/wrapper-validation-action@v1
+      if: 'steps.reviews.outputs.approved >= 2 && github.event.pull_request.draft == false'
 
     - uses: actions/cache@v2
       if: 'steps.reviews.outputs.approved >= 2 && steps.reviews.outputs.changes_requested == 0 && github.event.pull_request.draft == false'
