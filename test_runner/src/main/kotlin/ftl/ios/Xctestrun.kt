@@ -10,12 +10,6 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.nio.file.Paths
 
-/*
-{
-  "TestTarget": ["method1", "method2"],
-  "TestTarget2": ["method3", "method4"]
-}
-*/
 typealias XctestrunMethods = Map<String, List<String>>
 
 object Xctestrun {
