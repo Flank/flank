@@ -16,6 +16,7 @@ import ftl.args.AndroidArgs
 import ftl.args.isDontAutograntPermissions
 import ftl.gc.android.mapGcsPathsToApks
 import ftl.gc.android.mapToDeviceFiles
+import ftl.gc.android.mapToDeviceObbFiles
 import ftl.gc.android.setEnvironmentVariables
 import ftl.gc.android.setupAndroidTest
 import ftl.run.platform.android.AndroidTestConfig
@@ -33,7 +34,8 @@ object GcAndroidTestMatrix {
         androidDeviceList: AndroidDeviceList,
         args: AndroidArgs,
         toolResultsHistory: ToolResultsHistory,
-        additionalApkGcsPaths: List<String>
+        additionalApkGcsPaths: List<String>,
+        obbFiles: Map<String, String>
     ): Testing.Projects.TestMatrices.Create {
         // https://github.com/bootstraponline/studio-google-cloud-testing/blob/203ed2890c27a8078cd1b8f7ae12cf77527f426b/firebase-testing/src/com/google/gct/testing/launcher/CloudTestsLauncher.java#L120
         val clientInfo = ClientInfo()
@@ -56,7 +58,7 @@ object GcAndroidTestMatrix {
             .setNetworkProfile(args.networkProfile)
             .setDirectoriesToPull(args.directoriesToPull)
             .setAdditionalApks(additionalApkGcsPaths.mapGcsPathsToApks())
-            .setFilesToPush(otherFiles.mapToDeviceFiles() + args.obbFiles.mapToDeviceFiles())
+            .setFilesToPush(otherFiles.mapToDeviceFiles() + obbFiles.mapToDeviceObbFiles())
             .setEnvironmentVariables(args, androidTestConfig)
             .setDontAutograntPermissions(args.isDontAutograntPermissions)
 

@@ -25,7 +25,6 @@ sealed class AndroidTestConfig {
 
     data class GameLoop(
         val appApkGcsPath: String,
-        val testApkGcsPath: String,
         val testRunnerClass: String?,
         val scenarioNumbers: List<String>,
         val scenarioLabels: List<String>

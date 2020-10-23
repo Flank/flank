@@ -41,7 +41,6 @@ private fun RoboTestContext.upload(rootGcsBucket: String, runGcsPath: String) = 
 
 private fun GameLoopContext.upload(rootGcsBucket: String, runGcsPath: String) = copy(
     app = app.uploadIfNeeded(rootGcsBucket, runGcsPath),
-    test = test?.uploadIfNeeded(rootGcsBucket, runGcsPath)
 )
 
 private fun SanityRoboTestContext.upload(rootGcsBucket: String, runGcsPath: String) = SanityRoboTestContext(app.uploadIfNeeded(rootGcsBucket, runGcsPath))

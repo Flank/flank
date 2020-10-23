@@ -2167,7 +2167,6 @@ AndroidArgs
         val androidTestConfig = args.createAndroidTestConfig(
             GameLoopContext(
                 app = "app".asFileReference(),
-                test = "test".asFileReference(),
                 scenarioNumbers = args.scenarioNumbers,
                 scenarioLabels = args.scenarioLabels
             )

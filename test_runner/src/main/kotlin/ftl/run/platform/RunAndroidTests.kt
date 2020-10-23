@@ -24,6 +24,7 @@ import ftl.run.exception.FlankGeneralError
 import ftl.run.model.AndroidMatrixTestShards
 import ftl.run.model.AndroidTestContext
 import ftl.run.platform.android.asMatrixTestShards
+import ftl.run.platform.android.uploadObbFiles
 import ftl.run.saveShardChunks
 import ftl.shard.Chunk
 import ftl.shard.testCases
@@ -46,6 +47,7 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
     val history = GcToolResults.createToolResultsHistory(args)
     val otherGcsFiles = args.uploadOtherFiles(runGcsPath)
     val additionalApks = args.uploadAdditionalApks(runGcsPath)
+    val obbFiles = args.uploadObbFiles(runGcsPath)
 
     args.createAndroidTestContexts().dumpShards(args).upload(args.resultsBucket, runGcsPath)
         .forEachIndexed { contextIndex, context ->
@@ -62,7 +64,8 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
                     androidDeviceList = devices,
                     args = args,
                     otherFiles = otherGcsFiles,
-                    toolResultsHistory = history
+                    toolResultsHistory = history,
+                    obbFiles = obbFiles
                 )
             }
         }

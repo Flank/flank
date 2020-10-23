@@ -19,9 +19,9 @@ internal fun Map<String, String>.mapToDeviceFiles(): List<DeviceFile> =
         )
     }
 
-internal fun List<String>.mapToDeviceFiles(): List<DeviceFile> =
-    filterNotNull().map {
+internal fun Map<String, String>.mapToDeviceObbFiles(): List<DeviceFile> =
+    map { (_: String, gcsFilePath: String) ->
         DeviceFile().setObbFile(
-            ObbFile().setObb(FileReference().setGcsPath(it))
+            ObbFile().setObb(FileReference().setGcsPath(gcsFilePath))
         )
     }
