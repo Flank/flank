@@ -14,3 +14,9 @@ internal suspend fun AndroidArgs.uploadOtherFiles(
         async(Dispatchers.IO) { devicePath to GcStorage.upload(filePath, resultsBucket, runGcsPath) }
     }.awaitAll().toMap()
 }
+
+internal suspend fun AndroidArgs.uploadObbFiles(runGcsPath: String): Map<String, String> = coroutineScope {
+    obbFiles.map {
+        async(Dispatchers.IO) { it to GcStorage.upload(it, resultsBucket, runGcsPath) }
+    }.awaitAll().toMap()
+}

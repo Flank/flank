@@ -7,7 +7,6 @@ internal fun AndroidArgs.createAndroidLoopConfig(
     testApk: GameLoopContext
 ) = AndroidTestConfig.GameLoop(
     appApkGcsPath = testApk.app.gcs,
-    testApkGcsPath = testApk.test?.gcs ?: "",
     testRunnerClass = testRunnerClass,
     scenarioLabels = scenarioLabels,
     scenarioNumbers = scenarioNumbers
