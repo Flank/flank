@@ -91,7 +91,6 @@ object Xctestrun {
             )
         }
 
-    /* Finds tests for testTarget in xctestrun file */
     private fun findTestNamesForTarget(
             testTarget: String,
             xctestrun: File
