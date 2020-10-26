@@ -13,8 +13,7 @@ jobs:
         os: [ ubuntu-latest, macos-latest ]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Approve count
-        id: 'reviews'
+      - id: 'reviews'
         uses: jrylan/github-action-reviews-counter@main
         with:
           repo-token: '${{ secrets.GITHUB_TOKEN }}'
