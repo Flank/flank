@@ -1,10 +1,7 @@
 name:  Flank Windows
 
 on:
-  pull_request_target:
-    branches: [master]
-  pull_request_review:
-    types: submitted
+  workflow_dispatch:
 
 jobs:
   build:
@@ -16,18 +13,11 @@ jobs:
       with:
         access_token: ${{ github.token }}
 
-    - name: Check pull request is approved
-      uses: jrylan/github-action-reviews-counter@main
-      with:
-        repo-token: '${{ secrets.GITHUB_TOKEN }}'
-
     - uses: actions/checkout@v2
-      if: 'steps.reviews.outputs.approved >= 2 && github.event.pull_request.draft == false'
       with:
         submodules: true
 
     - uses: actions/cache@v2
-      if: 'steps.reviews.outputs.approved >= 2 && github.event.pull_request.draft == false'
       with:
         path: ~/.gradle/caches
         key: ${{ runner.os }}-2-gradle-${{ hashFiles('**/*.gradle*') }}
@@ -35,13 +25,11 @@ jobs:
           ${{ runner.os }}-2-gradle-
 
     - name: Set GCLOUD_KEY for WINDOWS
-      if: 'steps.reviews.outputs.approved >= 2 && github.event.pull_request.draft == false'
       shell: cmd
       run: |
           echo ${{ secrets.GCLOUD_KEY }} > gcloud_key.txt
 
     - name: Gradle clean build
-      if: 'steps.reviews.outputs.approved >= 2 && github.event.pull_request.draft == false'
       shell: cmd
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -50,7 +38,6 @@ jobs:
           gradlew.bat clean build
 
     - name: Prepare Google Service Account
-      if: 'steps.reviews.outputs.approved >= 2 && github.event.pull_request.draft == false'
       shell: cmd
       run: |
           set GCLOUD_DIR="%HOMEPATH%/.config/gcloud/"
@@ -58,7 +45,6 @@ jobs:
           echo certutil -decode gcloud_key.txt %GCLOUD_DIR%application_default_credentials.json
 
     - name: Gradle Integration Tests Android
-      if: 'steps.reviews.outputs.approved >= 2 && steps.reviews.outputs.changes_requested == 0 && github.event.pull_request.draft == false'
       uses: eskatos/gradle-command-action@v1
       env:
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
