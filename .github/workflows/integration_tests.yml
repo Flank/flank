@@ -18,8 +18,9 @@ jobs:
         with:
           repo-token: '${{ secrets.GITHUB_TOKEN }}'
 
-      - uses: actions/checkout@v2
+      - # Conditionally run the next step
         if: 'steps.reviews.outputs.approved >= 2'
+        uses: actions/checkout@v2
         with:
           submodules: true
 
