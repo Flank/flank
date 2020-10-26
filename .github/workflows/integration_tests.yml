@@ -17,6 +17,9 @@ jobs:
         with:
           repo-token: '${{ secrets.GITHUB_TOKEN }}'
 
+      - name: Print current approve count
+        run: echo "Current Approve count ${{ steps.reviews.outputs.approved }}"
+
   integration-tests-unix:
     needs: [check_approve_count]
     if: 'needs.check_approve_count.outputs.approve_count >= 2'
