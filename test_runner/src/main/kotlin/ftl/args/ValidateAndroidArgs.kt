@@ -44,7 +44,7 @@ private fun AndroidArgs.assertLabelContent() {
         obbFiles.isEmpty() -> Unit
         (type == null || type != Type.GAMELOOP) -> throw FlankConfigurationError("OBB files defined but Type is not Game-loop. ($type)")
         obbFiles.size > MAX_OBB_FILES -> throw FlankConfigurationError("Up to two OBB files are supported. Currently ${obbFiles.size} OBB files have been supplied.")
-        else -> obbFiles.forEach { ArgsHelper.assertFileExists(it, " (obb file)")  }
+        else -> obbFiles.forEach { ArgsHelper.assertFileExists(it, " (obb file)") }
     }
 
     if (scenarioNumbers.isNotEmpty() && (type == null || type != Type.GAMELOOP))

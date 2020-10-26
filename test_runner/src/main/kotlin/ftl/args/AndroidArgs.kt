@@ -105,8 +105,7 @@ fun AndroidArgs.validateInstrumentation() = (appApk.isNotNull() && testApk.isNot
 val AndroidArgs.isRoboTest
     get() = if (type != null) type == Type.ROBO else validateRobo()
 
-
-fun AndroidArgs.validateRobo() =  (appApk.isNotNull() && (roboDirectives.isNotEmpty() || roboScript.isNotNull()))
+fun AndroidArgs.validateRobo() = (appApk.isNotNull() && (roboDirectives.isNotEmpty() || roboScript.isNotNull()))
 
 val AndroidArgs.isSanityRobo
     get() = appApk.isNotNull() &&
