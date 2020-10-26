@@ -1,6 +1,8 @@
 name:  Flank WSL
 
 on:
+  pull_request_target:
+    branches: [master]
   pull_request_review:
     types: submitted
 
@@ -17,19 +19,29 @@ jobs:
       uses: styfle/cancel-workflow-action@0.5.0
       with:
         access_token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Check pull request is approved
+      uses: jrylan/github-action-reviews-counter@main
+      with:
+        repo-token: '${{ secrets.GITHUB_TOKEN }}'
+
     - uses: Vampire/setup-wsl@v1
+      if: 'steps.reviews.outputs.approved >= 2 && steps.reviews.outputs.changes_requested == 0 && github.event.pull_request.draft == false'
       with:
         distribution: Ubuntu-18.04
         additional-packages:
           dos2unix
 
     - uses: actions/checkout@v2
+      if: 'steps.reviews.outputs.approved >= 2 && steps.reviews.outputs.changes_requested == 0 && github.event.pull_request.draft == false'
       with:
         submodules: true
 
     - uses: gradle/wrapper-validation-action@v1
+      if: 'steps.reviews.outputs.approved >= 2 && github.event.pull_request.draft == false'
 
     - uses: actions/cache@v2
+      if: 'steps.reviews.outputs.approved >= 2 && steps.reviews.outputs.changes_requested == 0 && github.event.pull_request.draft == false'
       with:
         path: ~/.gradle/caches
         key: ${{ runner.os }}-2-gradle-${{ hashFiles('**/*.gradle*') }}
@@ -37,35 +49,35 @@ jobs:
           ${{ runner.os }}-2-gradle-
 
     - name: Set GCLOUD_KEY for WSL
+      if: 'steps.reviews.outputs.approved >= 2 && github.event.pull_request.draft == false'
       shell: cmd
       run: |
           echo ${{ secrets.GCLOUD_KEY }} > gcloud_key.txt
 
     - name: Configure WSL for flank
+      if: 'steps.reviews.outputs.approved >= 2 && github.event.pull_request.draft == false'
       run: |
           find . -type f -print0 | xargs -0 -n 1 -P 4 dos2unix
           chmod +x gradlew
           sudo apt-get -y install openjdk-8-jdk
 
     - name: Gradle clean build
+      if: 'steps.reviews.outputs.approved >= 2 && github.event.pull_request.draft == false'
       run: |
           export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
           export HEAD_REF=${{ github.ref }}
           ./gradlew clean build
 
     - name: Prepare Google Service Account
+      if: 'steps.reviews.outputs.approved >= 2 && github.event.pull_request.draft == false'
       run: |
           GCLOUD_KEY=$(cat gcloud_key.txt)
           GCLOUD_DIR="$HOME/.config/gcloud/"
           mkdir -p "$GCLOUD_DIR"
           echo "$GCLOUD_KEY" | base64 --ignore-garbage --decode > "$GCLOUD_DIR/application_default_credentials.json"
-
-    - name: Check pull request is approved
-      uses: jrylan/github-action-reviews-counter@main
-      with:
-        repo-token: '${{ secrets.GITHUB_TOKEN }}'
+          
     - name: Gradle Integration Tests Android
-      if: 'steps.reviews.outputs.approved >= 2 && steps.reviews.outputs.changes_requested == 0 && github.event.pull_request.draft == false'
+      if: 'steps.reviews.outputs.approved >= 2 && github.event.pull_request.draft == false'
       uses: eskatos/gradle-command-action@v1
       env:
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
@@ -73,7 +85,7 @@ jobs:
         arguments: "--info :integration_tests:test --tests IntegrationTests.shouldMatchAndroidSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_android.yml"
 
     - name: Gradle Integration Tests iOS
-      if: 'steps.reviews.outputs.approved >= 2 && steps.reviews.outputs.changes_requested == 0 && github.event.pull_request.draft == false'
+      if: 'steps.reviews.outputs.approved >= 2 && github.event.pull_request.draft == false'
       uses: eskatos/gradle-command-action@v1
       env:
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
