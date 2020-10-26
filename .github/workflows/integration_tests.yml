@@ -13,7 +13,7 @@ jobs:
         os: [ ubuntu-latest, macos-latest ]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Check pull request is approved
+      - name: 'reviews'
         uses: jrylan/github-action-reviews-counter@main
         with:
           repo-token: '${{ secrets.GITHUB_TOKEN }}'
