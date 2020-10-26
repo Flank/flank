@@ -19,9 +19,12 @@ internal fun Map<String, String>.mapToDeviceFiles(): List<DeviceFile> =
         )
     }
 
-internal fun Map<String, String>.mapToDeviceObbFiles(): List<DeviceFile> =
-    map { (_, gcsFilePath: String) ->
+internal fun Map<String, String>.mapToDeviceObbFiles(obbnames: List<String>): List<DeviceFile> {
+    var index = -1 // intentional
+    return map { (_, gcsFilePath: String) ->
+        index++
         DeviceFile().setObbFile(
-            ObbFile().setObb(FileReference().setGcsPath(gcsFilePath))
+            ObbFile().setObb(FileReference().setGcsPath(gcsFilePath)).setObbFileName(obbnames[index])
         )
     }
+}

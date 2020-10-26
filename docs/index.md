@@ -344,6 +344,12 @@ gcloud:
   #   - local/file/path/test1.obb
   #   - local/file/path/test2.obb
 
+  ## A list of OBB required filenames. OBB file name must conform to the format as specified by Android e.g. 
+  ## [main|patch].0300110.com.example.android.obb which will be installed into <shared-storage>/Android/obb/<package-name>/ on the device.
+  # obb-names:
+  #   - [main|patch].<VERSION>.com.example.android.obb
+
+
   ## Monitor and record performance metrics: CPU, memory, network usage, and FPS (game-loop only).
   ## Disabled by default. Use --performance-metrics to enable.
   # performance-metrics: true

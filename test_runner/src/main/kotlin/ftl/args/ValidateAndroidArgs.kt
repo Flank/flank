@@ -34,6 +34,15 @@ fun AndroidArgs.validate() = apply {
 
 private fun AndroidArgs.assertGameLoop() {
     assertLabelContent()
+    assertObbFiles()
+}
+
+private fun AndroidArgs.assertObbFiles() {
+    when {
+        obbFiles.isEmpty() && obbNames.isEmpty() -> Unit
+        (obbFiles.size != obbNames.size) ->
+            throw FlankConfigurationError("Obb files and Obb File names provided are invalid. Amount provided does not match - Obb files (${obbFiles.size}) vs Obb file names (${obbNames.size})")
+    }
 }
 
 private fun AndroidArgs.assertLabelContent() {

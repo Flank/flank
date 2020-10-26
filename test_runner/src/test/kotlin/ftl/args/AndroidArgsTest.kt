@@ -325,6 +325,7 @@ AndroidArgs
       scenario-numbers: 
       scenario-labels: 
       obb-files: 
+      obb-names: 
       performance-metrics: false
       num-uniform-shards: null
       test-runner-class: com.foo.TestRunner
@@ -405,6 +406,7 @@ AndroidArgs
       scenario-numbers: 
       scenario-labels: 
       obb-files: 
+      obb-names: 
       performance-metrics: false
       num-uniform-shards: null
       test-runner-class: null
@@ -2192,8 +2194,8 @@ AndroidArgs
         AndroidArgs.load(yaml).validate()
     }
 
-    @Test
-    fun `should not throw exception if game-loop is provided and valid obb files provided`() {
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception if game-loop is provided and valid obb files provided but no obb file names`() {
         val yaml = """
         gcloud:
           app: $appApk
@@ -2206,6 +2208,44 @@ AndroidArgs
           type: game-loop
           obb-files: 
             - $obbFile
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should not throw exception if game-loop is provided and valid obb files provided and obb file names`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: game-loop
+          obb-files: 
+            - $obbFile
+          obb-names:
+            - com.test.obb
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception if game-loop is provided but no obb files provided but valid obb file names`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: game-loop
+          obb-names: 
+            - com.test.obb
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
     }
