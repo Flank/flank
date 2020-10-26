@@ -14,7 +14,8 @@ data class IosArgs(
     val xctestrunFile: String,
     val xcodeVersion: String?,
     val testTargets: List<String>,
-    val obfuscateDumpShards: Boolean
+    val obfuscateDumpShards: Boolean,
+    val additionalIpas: List<String>
 ) : IArgs by commonArgs {
 
     override val useLegacyJUnitResult = true
@@ -41,6 +42,7 @@ IosArgs
       device:${ArgsToString.objectsToString(devices)}
       num-flaky-test-attempts: $flakyTestAttempts
       other-files: ${ArgsToString.mapToString(otherFiles)}
+      additional-ipas: ${ArgsToString.listToString(additionalIpas)}
 
     flank:
       max-test-shards: $maxTestShards
