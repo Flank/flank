@@ -40,20 +40,19 @@ private fun AndroidArgs.assertLabelContent() {
     if (scenarioLabels.isNotEmpty() && (type == null || type != Type.GAMELOOP))
         throw FlankConfigurationError("Scenario labels defined but Type is not Game-loop. ($type)")
 
-    if (obbFiles.isNotEmpty() && (type == null || type != Type.GAMELOOP))
-        throw FlankConfigurationError("OBB files defined but Type is not Game-loop. ($type)")
-    if (obbFiles.isNotEmpty() && obbFiles.size > 2)
-        throw FlankConfigurationError("Up to two OBB files are supported. Currently ${obbFiles.size} OBB files have been supplied.")
-    if (obbFiles.isNotEmpty()) {
-        obbFiles.forEach {
-            ArgsHelper.assertFileExists(it, " (obb file)")
-        }
+    when {
+        obbFiles.isEmpty() -> Unit
+        (type == null || type != Type.GAMELOOP) -> throw FlankConfigurationError("OBB files defined but Type is not Game-loop. ($type)")
+        obbFiles.size > MAX_OBB_FILES -> throw FlankConfigurationError("Up to two OBB files are supported. Currently ${obbFiles.size} OBB files have been supplied.")
+        else -> obbFiles.forEach { ArgsHelper.assertFileExists(it, " (obb file)")  }
     }
 
     if (scenarioNumbers.isNotEmpty() && (type == null || type != Type.GAMELOOP))
         throw FlankConfigurationError("Scenario numbers defined but Type is not Game-loop.")
     scenarioNumbers.forEach { it.toIntOrNull() ?: throw FlankConfigurationError("Invalid scenario number provided - $it") }
 }
+
+private const val MAX_OBB_FILES = 2
 
 private fun AndroidArgs.assertType() = type?.let {
     if (appApk == null) throw FlankGeneralError("A valid AppApk must be defined if Type parameter is used.")

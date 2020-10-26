@@ -20,7 +20,7 @@ internal fun Map<String, String>.mapToDeviceFiles(): List<DeviceFile> =
     }
 
 internal fun Map<String, String>.mapToDeviceObbFiles(): List<DeviceFile> =
-    map { (_: String, gcsFilePath: String) ->
+    map { (_, gcsFilePath: String) ->
         DeviceFile().setObbFile(
             ObbFile().setObb(FileReference().setGcsPath(gcsFilePath))
         )

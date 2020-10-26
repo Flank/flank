@@ -96,13 +96,17 @@ val AndroidArgs.isDontAutograntPermissions
     get() = !(grantPermissions.isNotNull() && (grantPermissions.equals("all")))
 
 val AndroidArgs.isInstrumentationTest
-    get() = if (type != null) (type == Type.INSTRUMENTATION) else
-        (appApk.isNotNull() && testApk.isNotNull() || additionalAppTestApks.isNotEmpty() &&
-            (appApk.isNotNull() || additionalAppTestApks.all { (app, _) -> app.isNotNull() }))
+    get() = if (type != null) (type == Type.INSTRUMENTATION) else validateInstrumentation()
+
+fun AndroidArgs.validateInstrumentation() = (appApk.isNotNull() && testApk.isNotNull() ||
+        additionalAppTestApks.isNotEmpty() &&
+        (appApk.isNotNull() || additionalAppTestApks.all { (app, _) -> app.isNotNull() }))
 
 val AndroidArgs.isRoboTest
-    get() = if (type != null) (type == Type.ROBO) else
-        (appApk.isNotNull() && (roboDirectives.isNotEmpty() || roboScript.isNotNull()))
+    get() = if (type != null) type == Type.ROBO else validateRobo()
+
+
+fun AndroidArgs.validateRobo() =  (appApk.isNotNull() && (roboDirectives.isNotEmpty() || roboScript.isNotNull()))
 
 val AndroidArgs.isSanityRobo
     get() = appApk.isNotNull() &&
