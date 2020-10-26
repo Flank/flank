@@ -1,3 +1,3 @@
 package ftl.ios
 
-const val fixturesPath = "./src/test/kotlin/ftl/fixtures/tmp"
+const val FIXTURES_PATH = "./src/test/kotlin/ftl/fixtures/tmp"

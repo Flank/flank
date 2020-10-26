@@ -4,6 +4,7 @@ import com.dd.plist.NSDictionary
 import com.google.api.services.testing.model.IosDeviceList
 import ftl.shard.Chunk
 import ftl.args.IosArgs
+import ftl.ios.FIXTURES_PATH
 import ftl.shard.TestMethod
 import ftl.test.util.FlankTestRunner
 import ftl.util.ShardCounter
@@ -64,7 +65,7 @@ class GcIosTestMatrixTest {
         every { iosArgs.testTimeout } returns "3m"
         every { iosArgs.resultsBucket } returns "/hi"
         every { iosArgs.project } returns "123"
-        every { iosArgs.xctestrunFile } returns "any/path/to/test/file.xctestrun"
+        every { iosArgs.xctestrunFile } returns "$FIXTURES_PATH/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun"
 
         GcIosTestMatrix.build(
             iosDeviceList = IosDeviceList(),

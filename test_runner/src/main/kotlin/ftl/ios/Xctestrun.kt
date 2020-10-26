@@ -4,10 +4,13 @@ import com.dd.plist.NSArray
 import com.dd.plist.NSDictionary
 import com.dd.plist.NSString
 import com.dd.plist.PropertyListParser
+import com.google.common.annotations.VisibleForTesting
 import ftl.run.exception.FlankGeneralError
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.nio.file.Paths
+
+typealias XctestrunMethods = Map<String, List<String>>
 
 object Xctestrun {
 
@@ -70,41 +73,53 @@ object Xctestrun {
         return PropertyListParser.parse(xctestrun) as NSDictionary
     }
 
-    fun findTestNames(xctestrun: String): List<String> {
+    fun findTestNames(xctestrun: String): XctestrunMethods {
         return findTestNames(File(xctestrun))
     }
 
-    // Finds tests in a xctestrun file
-    private fun findTestNames(xctestrun: File): List<String> {
-        val root = parse(xctestrun)
-        val result = mutableListOf<String>()
-        // EarlGreyExampleSwiftTests_iphoneos11.3-arm64.xctestrun => EarlGreyExampleSwiftTests
-        val testRoot = xctestrun.parent + "/"
+    fun findTestNames(testTarget: String, xctestrun: String): List<String> =
+        findTestNamesForTarget(
+            testTarget = testTarget,
+            xctestrun = File(xctestrun)
+        )
 
-        // OnlyTestIdentifiers
-        // Test-Class-Name[/Test-Method-Name]
-        // Example/testExample
-        for (testTarget in root.allKeys()) {
-            val testDictionary = (root[testTarget] as NSDictionary)
-
-            val methods = testsForTarget(
-                testDictionary = testDictionary,
-                testRoot = testRoot,
-                testTarget = testTarget
+    private fun findTestNames(xctestrun: File): XctestrunMethods =
+        parse(xctestrun).allKeys().associate { testTarget ->
+            testTarget to findTestNamesForTarget(
+                testTarget = testTarget,
+                xctestrun = xctestrun
             )
-
-            result += methods
         }
 
-        return result.distinct()
+    private fun findTestNamesForTarget(
+            testTarget: String,
+            xctestrun: File
+    ): List<String> =
+        testsForTarget(
+            testDictionary = parse(xctestrun)[testTarget]
+                as? NSDictionary
+                ?: throw FlankGeneralError("XCTestrun does not contain $testTarget test target."),
+            testRoot = xctestrun.parent + "/",
+            testTarget = testTarget
+        ).distinct()
+
+    fun rewrite(xctestrun: String, methods: List<String>): ByteArray {
+        val xctestrunFile = File(xctestrun)
+        val methodsToRun = findTestNames(xctestrunFile).mapValues { (_, list) -> list.filter(methods::contains) }
+        return rewrite(parse(xctestrunFile), methodsToRun)
     }
 
-    fun rewrite(root: NSDictionary, methods: Collection<String>): ByteArray {
+    @VisibleForTesting
+    internal fun rewrite(root: NSDictionary, data: XctestrunMethods): ByteArray {
         val rootClone = root.clone()
+
         for (testTarget in rootClone.allKeys()) {
             if (testTarget.isMetadata()) continue
-            val testDictionary = (rootClone[testTarget] as NSDictionary)
-            setOnlyTestIdentifiers(testDictionary, methods)
+            val methods = data[testTarget]
+            if (methods != null) {
+                val testDictionary = rootClone[testTarget] as NSDictionary
+                setOnlyTestIdentifiers(testDictionary, methods)
+            }
         }
 
         return rootClone.toByteArray()
