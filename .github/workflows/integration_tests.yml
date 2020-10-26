@@ -1,11 +1,13 @@
 name: integration-tests
 
 on:
+  pull_request_target:
+    branches: [master]
   pull_request_review:
     types: submitted
 
 jobs:
-  build:
+  integration-tests:
     strategy:
       matrix:
         os: [ ubuntu-latest, macos-latest ]

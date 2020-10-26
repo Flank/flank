@@ -6,7 +6,7 @@ object Versions {
     const val DD_PLIST = "1.23"
 
     // https://github.com/detekt/detekt
-    const val DETEKT = "1.14.1"
+    const val DETEKT = "1.14.2"
 
     // https://github.com/bintray/gradle-bintray-plugin/releases
     const val BINTRAY = "1.8.5"
@@ -65,7 +65,7 @@ object Versions {
     const val SYSTEM_RULES = "1.19.0"
 
     // https://github.com/google/truth/releases
-    const val TRUTH = "1.0.1"
+    const val TRUTH = "1.1"
 
     // https://github.com/FasterXML/woodstox/releases
     const val WOODSTOX = "6.2.3"
