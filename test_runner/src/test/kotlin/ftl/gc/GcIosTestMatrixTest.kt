@@ -16,6 +16,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert
 import org.junit.Assume.assumeFalse
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.StringReader
@@ -179,7 +180,7 @@ class GcIosTestMatrixTest {
         """.trimIndent()))
 
         val expected = listOf("test/test/test")
-        Assert.assertEquals(expected, iosArgs.directoriesToPull)
+        assertEquals(expected, iosArgs.directoriesToPull)
     }
 
     @Test
@@ -192,6 +193,6 @@ class GcIosTestMatrixTest {
         """.trimIndent()))
 
         val expected = emptyList<String>()
-        Assert.assertEquals(expected, iosArgs.directoriesToPull)
+        assertEquals(expected, iosArgs.directoriesToPull)
     }
 }
