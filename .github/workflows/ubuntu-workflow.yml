@@ -27,10 +27,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Gradle clean build
+      - id: build
+        name: Gradle clean build
         uses: eskatos/gradle-command-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_REF: ${{ github.head_ref }}
         with:
-          arguments: "clean build"
+          arguments: "clean build -I gradle/scans-init.gradle.kts"
+
+      - name: Add ubuntu-workflow Build Scan URL to Pull Request
+        uses: mshick/add-pr-comment@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          message: |
+            **Buildscan url for run [${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
+            ${{ steps.build.outputs.build-scan-url }}
