@@ -19,7 +19,7 @@ jobs:
           repo-token: '${{ secrets.GITHUB_TOKEN }}'
 
       - uses: actions/checkout@v2
-        if: 'steps.reviews.outputs.approved >= 2 && steps.reviews.outputs.changes_requested == 0 && github.event.pull_request.draft == false'
+        if: 'steps.reviews.outputs.approved >= 2'
         with:
           submodules: true
 
