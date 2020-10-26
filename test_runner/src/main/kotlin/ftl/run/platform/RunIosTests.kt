@@ -12,6 +12,7 @@ import ftl.ios.Xctestrun
 import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards
 import ftl.run.model.TestResult
+import ftl.run.platform.android.uploadOtherFiles
 import ftl.run.platform.common.afterRunTests
 import ftl.run.platform.common.beforeRunMessage
 import ftl.run.platform.common.beforeRunTests
@@ -30,13 +31,13 @@ internal suspend fun runIosTests(iosArgs: IosArgs): TestResult = coroutineScope 
     val (stopwatch, runGcsPath) = beforeRunTests(iosArgs)
 
     val iosDeviceList = GcIosMatrix.build(iosArgs.devices)
-
     val xcTestParsed = Xctestrun.parse(iosArgs.xctestrunFile)
 
     val jobs = arrayListOf<Deferred<TestMatrix>>()
     val runCount = iosArgs.repeatTests
     val shardCounter = ShardCounter()
     val history = GcToolResults.createToolResultsHistory(iosArgs)
+    val otherGcsFiles = iosArgs.uploadOtherFiles(runGcsPath)
 
     dumpShards(iosArgs)
     if (iosArgs.disableResultsUpload.not())
@@ -58,7 +59,8 @@ internal suspend fun runIosTests(iosArgs: IosArgs): TestResult = coroutineScope 
                     xcTestParsed = xcTestParsed,
                     args = iosArgs,
                     shardCounter = shardCounter,
-                    toolResultsHistory = history
+                    toolResultsHistory = history,
+                    otherFiles = otherGcsFiles
                 ).executeWithRetry()
             }
         }

@@ -120,6 +120,16 @@ data class CommonGcloudConfig @JsonIgnore constructor(
     @set:JsonProperty("num-flaky-test-attempts")
     var flakyTestAttempts: Int? by data
 
+    @set:CommandLine.Option(
+        names = ["--other-files"],
+        split = ",",
+        description = [
+            "A list of device-path=file-path pairs that indicate the device paths to push files to the device before " +
+                "starting tests, and the paths of files to push."]
+    )
+    @set:JsonProperty("other-files")
+    var otherFiles: Map<String, String>? by data
+
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {
@@ -143,6 +153,7 @@ data class CommonGcloudConfig @JsonIgnore constructor(
             clientDetails = null
             networkProfile = null
             devices = listOf(defaultDevice(android))
+            otherFiles = emptyMap()
         }
     }
 }

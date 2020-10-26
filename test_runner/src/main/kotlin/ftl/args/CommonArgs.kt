@@ -17,6 +17,7 @@ data class CommonArgs(
     override val flakyTestAttempts: Int,
     override val clientDetails: Map<String, String>?,
     override val networkProfile: String?,
+    override val otherFiles: Map<String, String>,
 
     // flank
     override val project: String,

@@ -56,6 +56,9 @@ class IosArgsTest {
           network-profile: LTE
           project: projectFoo
           results-history-name: ios-history
+          other-files:
+            com.my.app:/Documents/file.txt: local/file.txt
+            /private/var/mobile/Media/file.jpg: gs://bucket/file.jpg
 
           test: $testPath
           xctestrun-file: $xctestrunFile
@@ -227,6 +230,9 @@ IosArgs
           locale: c
           orientation: default
       num-flaky-test-attempts: 4
+      other-files: 
+        com.my.app:/Documents/file.txt: local/file.txt
+        /private/var/mobile/Media/file.jpg: gs://bucket/file.jpg
 
     flank:
       max-test-shards: 7
@@ -284,6 +290,7 @@ IosArgs
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 0
+      other-files: 
 
     flank:
       max-test-shards: 1
