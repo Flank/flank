@@ -16,7 +16,7 @@ jobs:
       with:
         access_token: ${{ github.token }}
 
-    - name: Check pull request is approved
+    - name: 'reviews'
       uses: jrylan/github-action-reviews-counter@main
       with:
         repo-token: '${{ secrets.GITHUB_TOKEN }}'
