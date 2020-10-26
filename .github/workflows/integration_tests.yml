@@ -1,7 +1,7 @@
 name: integration-tests
 
 on:
-  pull_request_target:
+  pull_request:
     branches: [master]
   pull_request_review:
     types: submitted
