@@ -4,8 +4,23 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    # The type of runner that the job will run on
+  check_approve_count:
+    runs-on: ubuntu-latest
+    outputs:
+      approve_count: ${{ steps.reviews.outputs.approved }}
+    steps:
+      - name: Check pull request is approved
+        id: 'reviews'
+        uses: jrylan/github-action-reviews-counter@main
+        with:
+          repo-token: '${{ secrets.GITHUB_TOKEN }}'
+
+      - name: Print current approve count
+        run: echo "Current Approve count ${{ steps.reviews.outputs.approved }}"
+
+  integration-tests-wsl:
+    needs: [check_approve_count]
+    if: 'needs.check_approve_count.outputs.approve_count >= 2'
     runs-on: windows-2019
     defaults:
       run:
