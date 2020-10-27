@@ -14,7 +14,7 @@ jobs:
       - name: Count approve count
         id: 'reviews'
         run: |
-          count=$(curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/flank/flank/pulls/${{github.event.issue.number}}/reviews -s | grep -i -c '"state": "APPROVED"')
+          count=$(curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/flank/flank/pulls/${{github.event.number}}/reviews -s | grep -i -c '"state": "APPROVED"')
           echo '::set-output name=approved::$(echo $count)'
 
       - name: Print current approve count
