@@ -34,7 +34,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_REF: ${{ github.head_ref }}
         with:
-          arguments: "clean build -I gradle/scans-init.gradle.kts"
+          arguments: "clean build --scan"
 
       - name: Add ubuntu-workflow Build Scan URL to Pull Request
         uses: mshick/add-pr-comment@v1
