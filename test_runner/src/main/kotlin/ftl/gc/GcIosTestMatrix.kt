@@ -6,7 +6,6 @@ import com.google.api.services.testing.model.ClientInfo
 import com.google.api.services.testing.model.EnvironmentMatrix
 import com.google.api.services.testing.model.FileReference
 import com.google.api.services.testing.model.GoogleCloudStorage
-import com.google.api.services.testing.model.IosDeviceFile
 import com.google.api.services.testing.model.IosDeviceList
 import com.google.api.services.testing.model.IosTestSetup
 import com.google.api.services.testing.model.IosXcTest
@@ -17,6 +16,7 @@ import com.google.api.services.testing.model.ToolResultsHistory
 import ftl.args.IosArgs
 import ftl.gc.android.mapGcsPathsToFileReference
 import ftl.gc.android.mapToIosDeviceFiles
+import ftl.gc.android.toIosDeviceFile
 import ftl.ios.Xctestrun
 import ftl.ios.Xctestrun.toByteArray
 import ftl.run.exception.FlankGeneralError
@@ -101,4 +101,4 @@ object GcIosTestMatrix {
     }
 }
 
-private fun List<String>.toIosDeviceFiles() = map { path -> IosDeviceFile().apply { devicePath = path } }
+private fun List<String>.toIosDeviceFiles() = map { path -> toIosDeviceFile(path) }

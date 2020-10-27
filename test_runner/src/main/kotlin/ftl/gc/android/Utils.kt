@@ -32,16 +32,15 @@ internal fun Map<String, String>.mapToDeviceObbFiles(obbnames: List<String>): Li
     }
 }
 
-internal fun Map<String, String>.mapToIosDeviceFiles(): List<IosDeviceFile> =
-    map { (testDevicePath, gcsFilePath) ->
-        IosDeviceFile().apply {
-            if (testDevicePath.contains(":")) {
-                val (bundleIdSeparated, pathSeparated) = testDevicePath.split(":")
-                bundleId = bundleIdSeparated
-                devicePath = pathSeparated
-            } else {
-                devicePath = testDevicePath
-            }
-            content = FileReference().setGcsPath(gcsFilePath)
-        }
+internal fun Map<String, String>.mapToIosDeviceFiles(): List<IosDeviceFile> = map { (testDevicePath, gcsFilePath) -> toIosDeviceFile(testDevicePath, gcsFilePath) }
+
+internal fun toIosDeviceFile(testDevicePath: String, gcsFilePath: String = "") = IosDeviceFile().apply {
+    if (testDevicePath.contains(":")) {
+        val (bundleIdSeparated, pathSeparated) = testDevicePath.split(":")
+        bundleId = bundleIdSeparated
+        devicePath = pathSeparated
+    } else {
+        devicePath = testDevicePath
     }
+    content = FileReference().setGcsPath(gcsFilePath)
+}
