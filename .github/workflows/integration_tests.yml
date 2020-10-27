@@ -11,11 +11,11 @@ jobs:
     outputs:
       approve_count: ${{ steps.reviews.outputs.approved }}
     steps:
-      - name: Check pull request is approved
+      - name: Count approve count
         id: 'reviews'
-        uses: jrylan/github-action-reviews-counter@main
-        with:
-          repo-token: '${{ secrets.GITHUB_TOKEN }}'
+        run: |
+          count=$(curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/flank/flank/pulls/${{github.event.issue.number}}/reviews -s | grep -i -c '"state": "APPROVED"')
+          echo '::set-output name=approved::$(echo $count)'
 
       - name: Print current approve count
         run: echo "Current Approve count ${{ steps.reviews.outputs.approved }}"
