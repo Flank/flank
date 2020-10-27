@@ -49,6 +49,15 @@ data class IosGcloudConfig @JsonIgnore constructor(
     @set:JsonProperty("xcode-version")
     var xcodeVersion: String? by data
 
+    @set:CommandLine.Option(
+        names = ["--additional-ipas"],
+        split = ",",
+        description = ["List of up to 100 additional IPAs to install, in addition to the one being directly tested. " +
+            "The path may be in the local filesystem or in Google Cloud Storage using gs:// notation."]
+    )
+    @set:JsonProperty("additional-ipas")
+    var additionalIpas: List<String>? by data
+
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {
@@ -63,6 +72,7 @@ data class IosGcloudConfig @JsonIgnore constructor(
             test = null
             xctestrunFile = null
             xcodeVersion = null
+            additionalIpas = emptyList()
         }
     }
 }

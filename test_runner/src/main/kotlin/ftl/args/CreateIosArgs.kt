@@ -24,6 +24,7 @@ private fun createIosArgs(
     xctestrunZip = gcloud.test?.normalizeFilePath().orEmpty(),
     xctestrunFile = gcloud.xctestrunFile?.normalizeFilePath().orEmpty(),
     xcodeVersion = gcloud.xcodeVersion,
+    additionalIpas = gcloud.additionalIpas!!.map { it.normalizeFilePath() },
     testTargets = flank.testTargets?.filterNotNull().orEmpty(),
     obfuscateDumpShards = obfuscate
 )
