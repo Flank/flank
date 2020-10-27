@@ -14,6 +14,7 @@ import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.testing.model.TestSpecification
 import com.google.api.services.testing.model.ToolResultsHistory
 import ftl.args.IosArgs
+import ftl.gc.android.mapToIosDeviceFiles
 import ftl.ios.Xctestrun
 import ftl.ios.Xctestrun.toByteArray
 import ftl.run.exception.FlankGeneralError
@@ -31,7 +32,8 @@ object GcIosTestMatrix {
         args: IosArgs,
         testTargets: List<String>,
         shardCounter: ShardCounter,
-        toolResultsHistory: ToolResultsHistory
+        toolResultsHistory: ToolResultsHistory,
+        otherFiles: Map<String, String>
     ): Testing.Projects.TestMatrices.Create {
         val clientInfo = ClientInfo()
             .setName("Flank")
@@ -47,7 +49,7 @@ object GcIosTestMatrix {
         val generatedXctestrun = if (args.disableSharding) {
             xcTestParsed.toByteArray()
         } else {
-            Xctestrun.rewrite(xcTestParsed, testTargets)
+            Xctestrun.rewrite(args.xctestrunFile, testTargets)
         }
 
         // Add shard number to file name
@@ -62,6 +64,7 @@ object GcIosTestMatrix {
 
         val iOSTestSetup = IosTestSetup()
             .setNetworkProfile(args.networkProfile)
+            .setPushFiles(otherFiles.mapToIosDeviceFiles())
 
         val testTimeoutSeconds = timeoutToSeconds(args.testTimeout)
 

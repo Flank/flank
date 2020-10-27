@@ -22,7 +22,6 @@ fun createAndroidArgs(
     testRunnerClass = gcloud.testRunnerClass,
     roboDirectives = gcloud.roboDirectives!!.parseRoboDirectives(),
     performanceMetrics = gcloud.performanceMetrics!!,
-    otherFiles = gcloud.otherFiles!!.mapValues { (_, path) -> path.normalizeFilePath() },
     numUniformShards = gcloud.numUniformShards,
     environmentVariables = gcloud.environmentVariables!!,
     directoriesToPull = gcloud.directoriesToPull!!,

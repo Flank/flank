@@ -123,16 +123,6 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
     var directoriesToPull: List<String>? by data
 
     @set:CommandLine.Option(
-        names = ["--other-files"],
-        split = ",",
-        description = ["A list of device-path=file-path pairs that indicate the device paths to push files to the device before starting tests, and the paths of files to push." +
-                "Device paths must be under absolute, whitelisted paths (\${EXTERNAL_STORAGE}, or \${ANDROID_DATA}/local/tmp)." +
-                "Source file paths may be in the local filesystem or in Google Cloud Storage (gs://…). "]
-    )
-    @set:JsonProperty("other-files")
-    var otherFiles: Map<String, String>? by data
-
-    @set:CommandLine.Option(
         names = ["--scenario-numbers"],
         split = ",",
         description = ["A list of game-loop scenario numbers which will be run as part of the test (default: all scenarios). " +
@@ -267,7 +257,6 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
             environmentVariables = emptyMap()
             grantPermissions = FlankDefaults.GRANT_PERMISSIONS_ALL
             directoriesToPull = emptyList()
-            otherFiles = emptyMap()
             scenarioNumbers = emptyList()
             scenarioLabels = emptyList()
             obbfiles = emptyList()

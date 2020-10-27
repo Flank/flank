@@ -52,20 +52,27 @@ function earl_grey_example() {
 
       local productsDir="$dir/build/Build/Products"
 
-      cp -Rf "$productsDir"/*-iphoneos "$FLANK_FIXTURES_TMP/"
+      # xcodebuild generates .xctestrun files names in format: PROJECTNAME_platform_version_architecture.xctestrun, code below removes "_platform_version_architecture" part
+      mv -f "$productsDir/EarlGreyExampleSwiftTests"*.xctestrun "$productsDir/EarlGreyExampleSwiftTests.xctestrun"
+      mv -f "$productsDir/EarlGreyExampleTests"*.xctestrun "$productsDir/EarlGreyExampleTests.xctestrun"
 
-      cp "$productsDir"/*.xctestrun "$FLANK_FIXTURES_TMP/"
+      mkdir -p "$FLANK_FIXTURES_TMP/ios/earl_grey_example/objc/"
+      mkdir -p "$FLANK_FIXTURES_TMP/ios/earl_grey_example/swift/"
+
+      cp -Rf "$productsDir"/*-iphoneos "$FLANK_FIXTURES_TMP/ios/earl_grey_example/"
+
+      cp "$productsDir"/*.xctestrun "$FLANK_FIXTURES_TMP/ios/earl_grey_example/"
 
       cp \
         "$productsDir/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleTests.xctest/EarlGreyExampleTests" \
-        "$FLANK_FIXTURES_TMP/objc/"
+        "$FLANK_FIXTURES_TMP/ios/earl_grey_example/objc/"
 
       cp \
         "$productsDir/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest/EarlGreyExampleSwiftTests" \
-        "$FLANK_FIXTURES_TMP/swift/"
+        "$FLANK_FIXTURES_TMP/ios/earl_grey_example/swift/"
       ;;
 
     esac done
 }
 
-echo "iOS test projects ops loaded"
+echo "iOS EarlGreyExample test projects ops loaded"

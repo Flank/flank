@@ -94,6 +94,7 @@ class IosRunCommandTest {
         assertThat(cmd.config.common.flank.smartFlankDisableUpload).isNull()
         assertThat(cmd.config.common.flank.smartFlankGcsPath).isNull()
         assertThat(cmd.config.common.flank.runTimeout).isNull()
+        assertThat(cmd.config.common.gcloud.otherFiles).isNull()
     }
 
     @Test
@@ -369,5 +370,13 @@ class IosRunCommandTest {
             verify { dumpShards(any<IosArgs>(), any()) }
             verify(inverse = true) { GcStorage.upload(IOS_SHARD_FILE, any(), any()) }
         }
+    }
+
+    @Test
+    fun `otherFiles parse`() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parseArgs("--other-files=a=1,b=2")
+
+        assertThat(cmd.config.common.gcloud.otherFiles).hasSize(2)
     }
 }

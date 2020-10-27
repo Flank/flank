@@ -2,9 +2,11 @@ package ftl.args
 
 import com.google.common.annotations.VisibleForTesting
 import ftl.ios.Xctestrun.findTestNames
+import ftl.ios.XctestrunMethods
 import ftl.run.exception.FlankConfigurationError
 import ftl.shard.Chunk
 import ftl.util.FlankTestMethod
+import java.lang.Exception
 
 data class IosArgs(
     val commonArgs: CommonArgs,
@@ -38,6 +40,7 @@ IosArgs
       xcode-version: $xcodeVersion
       device:${ArgsToString.objectsToString(devices)}
       num-flaky-test-attempts: $flakyTestAttempts
+      other-files: ${ArgsToString.mapToString(otherFiles)}
 
     flank:
       max-test-shards: $maxTestShards
@@ -69,28 +72,28 @@ private fun IosArgs.calculateShardChunks() = if (disableSharding)
     emptyList() else
     ArgsHelper.calculateShards(
         filteredTests = filterTests(findTestNames(xctestrunFile), testTargets)
-            .distinct()
-            .map { FlankTestMethod(it, ignored = false) },
+                .flatMap { it.value }
+                .distinct()
+                .map { FlankTestMethod(it, ignored = false) },
         args = this
     ).shardChunks
 
 @VisibleForTesting
-internal fun filterTests(validTestMethods: List<String>, testTargetsRgx: List<String?>): List<String> {
-    if (testTargetsRgx.isEmpty()) {
-        return validTestMethods
-    }
-
-    return validTestMethods.filter { test ->
-        testTargetsRgx.filterNotNull().forEach { target ->
-            try {
-                if (test.matches(target.toRegex())) {
-                    return@filter true
-                }
-            } catch (e: Exception) {
-                throw FlankConfigurationError("Invalid regex: $target", e)
+internal fun filterTests(
+    validTestMethods: XctestrunMethods,
+    testTargets: List<String>
+): XctestrunMethods =
+    if (testTargets.isEmpty()) validTestMethods
+    else testTargets.map { testTarget ->
+        try {
+            testTarget.toRegex()
+        } catch (e: Exception) {
+            throw FlankConfigurationError("Invalid regex: $testTarget", e)
+        }
+    }.let { testTargetRgx ->
+        validTestMethods.mapValues { (_, tests) ->
+            tests.filter { test ->
+                testTargetRgx.any { regex -> test.matches(regex) }
             }
         }
-
-        return@filter false
     }
-}

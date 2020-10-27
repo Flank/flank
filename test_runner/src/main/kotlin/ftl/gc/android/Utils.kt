@@ -3,6 +3,7 @@ package ftl.gc.android
 import com.google.api.services.testing.model.Apk
 import com.google.api.services.testing.model.DeviceFile
 import com.google.api.services.testing.model.FileReference
+import com.google.api.services.testing.model.IosDeviceFile
 import com.google.api.services.testing.model.ObbFile
 import com.google.api.services.testing.model.RegularFile
 
@@ -28,3 +29,17 @@ internal fun Map<String, String>.mapToDeviceObbFiles(obbnames: List<String>): Li
         )
     }
 }
+
+internal fun Map<String, String>.mapToIosDeviceFiles(): List<IosDeviceFile> =
+    map { (testDevicePath, gcsFilePath) ->
+        IosDeviceFile().apply {
+            if (testDevicePath.contains(":")) {
+                val (bundleIdSeparated, pathSeparated) = testDevicePath.split(":")
+                bundleId = bundleIdSeparated
+                devicePath = pathSeparated
+            } else {
+                devicePath = testDevicePath
+            }
+            content = FileReference().setGcsPath(gcsFilePath)
+        }
+    }

@@ -56,6 +56,9 @@ class IosArgsTest {
           network-profile: LTE
           project: projectFoo
           results-history-name: ios-history
+          other-files:
+            com.my.app:/Documents/file.txt: local/file.txt
+            /private/var/mobile/Media/file.jpg: gs://bucket/file.jpg
 
           test: $testPath
           xctestrun-file: $xctestrunFile
@@ -227,6 +230,9 @@ IosArgs
           locale: c
           orientation: default
       num-flaky-test-attempts: 4
+      other-files: 
+        com.my.app:/Documents/file.txt: local/file.txt
+        /private/var/mobile/Media/file.jpg: gs://bucket/file.jpg
 
     flank:
       max-test-shards: 7
@@ -284,6 +290,7 @@ IosArgs
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 0
+      other-files: 
 
     flank:
       max-test-shards: 1
@@ -860,13 +867,15 @@ IosArgs
 
     @Test(expected = FlankConfigurationError::class)
     fun `invalid regex filter throws custom exception`() {
-        filterTests(listOf("test"), testTargetsRgx = listOf("*."))
+        val validTestMethods = mapOf("SampleXCTest" to listOf("test"))
+        filterTests(validTestMethods, testTargets = listOf("*."))
     }
 
     @Test
     fun `filterTests emptyFilter`() {
         val tests = getValidTestsSample()
-        val actual = filterTests(tests, emptyList())
+        val validTestMethods = mapOf("SampleXCTest" to tests)
+        val actual = filterTests(validTestMethods, emptyList()).flatMap { it.value }
 
         assertThat(actual).containsExactlyElementsIn(tests)
     }
@@ -874,8 +883,9 @@ IosArgs
     @Test
     fun `filterTests regularFilter`() {
         val tests = getValidTestsSample()
+        val validTestMethods = mapOf("SampleXCTest" to tests)
         val filter = listOf("ClassOneTest/testOne", "ClassFourTest/testFour")
-        val actual = filterTests(tests, filter)
+        val actual = filterTests(validTestMethods, filter).flatMap { it.value }
 
         val expected = listOf("ClassOneTest/testOne", "ClassFourTest/testFour")
 
@@ -885,8 +895,9 @@ IosArgs
     @Test
     fun `filterTests starFilter`() {
         val tests = getValidTestsSample()
+        val validTestMethods = mapOf("SampleXCTest" to tests)
         val filter = listOf(".*?Test/testOne", ".*?/testFour")
-        val actual = filterTests(tests, filter)
+        val actual = filterTests(validTestMethods, filter).flatMap { it.value }
 
         val expected = listOf(
             "ClassOneTest/testOne",
@@ -899,8 +910,9 @@ IosArgs
     @Test
     fun `filterTests starAndRegularFilter`() {
         val tests = getValidTestsSample()
+        val validTestMethods = mapOf("SampleXCTest" to tests)
         val filter = listOf(".*?Screenshots/testTwo", "ClassOneTest/testOne")
-        val actual = filterTests(tests, filter)
+        val actual = filterTests(validTestMethods, filter).flatMap { it.value }
 
         val expected = listOf(
             "ClassTwoScreenshots/testTwo",

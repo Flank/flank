@@ -4,6 +4,7 @@ import com.dd.plist.NSDictionary
 import com.google.api.services.testing.model.IosDeviceList
 import ftl.shard.Chunk
 import ftl.args.IosArgs
+import ftl.ios.FIXTURES_PATH
 import ftl.shard.TestMethod
 import ftl.test.util.FlankTestRunner
 import ftl.util.ShardCounter
@@ -11,8 +12,10 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.StringReader
 
 @RunWith(FlankTestRunner::class)
 class GcIosTestMatrixTest {
@@ -34,7 +37,8 @@ class GcIosTestMatrixTest {
             args = iosArgs,
             testTargets = emptyList(),
             shardCounter = ShardCounter(),
-            toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs)
+            toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs),
+            otherFiles = mapOf()
         )
     }
 
@@ -49,7 +53,8 @@ class GcIosTestMatrixTest {
             args = iosArgs,
             testTargets = listOf(""),
             shardCounter = ShardCounter(),
-            toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs)
+            toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs),
+            otherFiles = mapOf()
         )
     }
 
@@ -60,7 +65,7 @@ class GcIosTestMatrixTest {
         every { iosArgs.testTimeout } returns "3m"
         every { iosArgs.resultsBucket } returns "/hi"
         every { iosArgs.project } returns "123"
-        every { iosArgs.xctestrunFile } returns "any/path/to/test/file.xctestrun"
+        every { iosArgs.xctestrunFile } returns "$FIXTURES_PATH/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun"
 
         GcIosTestMatrix.build(
             iosDeviceList = IosDeviceList(),
@@ -70,7 +75,49 @@ class GcIosTestMatrixTest {
             args = iosArgs,
             testTargets = emptyList(),
             shardCounter = ShardCounter(),
-            toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs)
+            toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs),
+            otherFiles = mapOf()
         )
+    }
+
+
+    @Test
+    fun `should fill otherFiles`() {
+        val iosArgs = IosArgs.load(
+            StringReader(
+                """
+            gcloud:
+              test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
+              xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
+              results-dir: test_dir
+              other-files:
+                com.my.app:/Documents/file.txt: local/file.txt
+                /private/var/mobile/Media/file.jpg: gs://bucket/file.jpg
+        """.trimIndent()
+            )
+        )
+
+        val expected = mapOf(
+            "com.my.app:/Documents/file.txt" to "local/file.txt",
+            "/private/var/mobile/Media/file.jpg" to "gs://bucket/file.jpg"
+        )
+        assertEquals(expected, iosArgs.otherFiles)
+    }
+
+    @Test
+    fun `should not fill otherFiles`() {
+        val iosArgs = IosArgs.load(
+            StringReader(
+                """
+            gcloud:
+              test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
+              xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
+              results-dir: test_dir
+        """.trimIndent()
+            )
+        )
+
+        val expected = emptyMap<String, String>()
+        assertEquals(expected, iosArgs.otherFiles)
     }
 }
