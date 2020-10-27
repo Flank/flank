@@ -3,7 +3,6 @@ import com.gradle.scan.plugin.BuildScanPlugin
 import java.io.ByteArrayOutputStream
 
 /**
- * We want to publish scans only for top level build and when explicitly selected.
  * To publish scan within the build, run
  * ./gradlew build -I gradle/scans-init.gradle.kts
  */
