@@ -30,12 +30,10 @@ fun main() {
             "--output-style=single",
 //            "--full-junit-result",
 //            "--legacy-junit-result",
-            "-c=test_runner/src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type${extra.isExtra()}.yml",
+            "-c=test_runner/src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type-$extra.yml",
             "--project=$projectId"
 //            "--client-details=key1=value1,key2=value2"
         )
     }
 }
-
-private fun String.isExtra() = if (this.isEmpty()) "" else "-$this"
 
