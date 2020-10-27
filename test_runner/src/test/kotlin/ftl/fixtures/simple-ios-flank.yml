@@ -1,4 +1,8 @@
 gcloud:
-  test: ./src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
-  xctestrun-file: ./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
+  test: ../flank_bins/earlgrey_example.zip
+  xctestrun-file: ../flank_bins/EarlGreyExampleSwiftTests_iphoneos14.0-arm64-armv7.xctestrun
   results-dir: test_dir
+  directories-to-pull:
+    - io.gogoapps.earlgrey.samples.EarlGrey:/Documents/output2
+  other-files:
+    io.gogoapps.earlgrey.samples.EarlGrey:/Documents/output2/flank.txt: /Users/adamfilipowicz/Repos/flank.txt

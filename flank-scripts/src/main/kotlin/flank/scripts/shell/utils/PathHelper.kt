@@ -18,3 +18,5 @@ val androidTestProjectsPath = Paths.get(testProjectsPath, "android").toString()
 val iOSTestProjectsPath = Paths.get(testProjectsPath, "ios").toString()
 val flankFixturesTmpPath =
     Paths.get(rootDirectoryPathString, "test_runner", "src", "test", "kotlin", "ftl", "fixtures", "tmp").toString()
+val flankFixturesIosTmpPath =
+    Paths.get(flankFixturesTmpPath, "ios").toString()

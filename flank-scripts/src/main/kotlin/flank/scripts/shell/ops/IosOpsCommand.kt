@@ -5,7 +5,7 @@ import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import flank.scripts.shell.ios.createIosBuildCommand
 import flank.scripts.shell.utils.failIfWindows
-import flank.scripts.shell.utils.flankFixturesTmpPath
+import flank.scripts.shell.utils.flankFixturesIosTmpPath
 import flank.scripts.shell.utils.iOSTestProjectsPath
 import flank.scripts.shell.utils.pipe
 import flank.scripts.utils.downloadCocoaPodsIfNeeded
@@ -43,12 +43,12 @@ object IosOpsCommand : CliktCommand(name = "ios", help = "Build ios app with tes
     }
 
     private fun createDirectoryInFixture(directoryName: String): Path =
-        Files.createDirectories(Paths.get(flankFixturesTmpPath, directoryName))
+        Files.createDirectories(Paths.get(flankFixturesIosTmpPath, directoryName))
 
     private fun buildEarlGreyExample() = Paths.get(iOSTestProjectsPath, EARL_GREY_EXAMPLE, "Build")
         .runBuilds()
         .resolve("Products")
-        .apply { filterFilesToCopy().copyIosProductFiles() }
+        .apply { renameXctestFiles().filterFilesToCopy().copyIosProductFiles() }
         .copyTestFiles()
 
     private fun Path.runBuilds() = apply {
@@ -69,12 +69,25 @@ object IosOpsCommand : CliktCommand(name = "ios", help = "Build ios app with tes
         objcCommand pipe "xcpretty"
     }
 
+    private fun Path.renameXctestFiles() = apply {
+        toFile().walk().filter { it.extension == "xctestrun" && it.name.contains("EarlGreyExampleSwiftTests|EarlGreyExampleTests") }.forEach {
+            it.reduceTestFileName()
+        }
+    }
+
+    private fun File.reduceTestFileName() = when {
+        (name.contains("EarlGreyExampleSwiftTests")) -> renameTo(toPath().parent.resolve("EarlGreyExampleSwiftTests.xctestrun").toFile())
+        (name.contains("EarlGreyExampleTests")) -> renameTo(toPath().parent.resolve("EarlGreyExampleTests.xctestrun").toFile())
+        else -> false
+    }
+
     private fun Path.filterFilesToCopy() =
         toFile().walk().filter { it.nameWithoutExtension.endsWith("-iphoneos") || it.extension == "xctestrun" }
 
+
     private fun Sequence<File>.copyIosProductFiles() = forEach {
-        if (it.isDirectory) it.copyRecursively(Paths.get(flankFixturesTmpPath, it.name).toFile(), overwrite = true)
-        else it.copyTo(Paths.get(flankFixturesTmpPath, it.name).toFile(), overwrite = true)
+        if (it.isDirectory) it.copyRecursively(Paths.get(flankFixturesIosTmpPath, it.name).toFile(), overwrite = true)
+        else it.copyTo(Paths.get(flankFixturesIosTmpPath, it.name).toFile(), overwrite = true)
     }
 
     private fun Path.copyTestFiles() = toString().takeIf { copy }?.let { productsDirectory ->
@@ -90,7 +103,7 @@ object IosOpsCommand : CliktCommand(name = "ios", help = "Build ios app with tes
         type: TestType
     ) = Files.copy(
         Paths.get(productsDirectory, *pluginsDirectories, "$name.xctest", name),
-        Paths.get(flankFixturesTmpPath, type.toString().toLowerCase(), name),
+        Paths.get(flankFixturesIosTmpPath, type.toString().toLowerCase(), name),
         StandardCopyOption.REPLACE_EXISTING
     )
 }
