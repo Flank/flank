@@ -12,6 +12,7 @@ fun IosArgs.validate() = apply {
     assertMaxTestShards()
     assertTestFiles()
     checkResultsDirUnique()
+    assertAdditionalIpas()
 }
 
 fun IosArgs.validateRefresh() = apply {
@@ -48,4 +49,8 @@ private fun IosArgs.assertDevicesSupported() = devices.forEach { device ->
 private fun IosArgs.assertTestFiles() {
     ArgsHelper.assertFileExists(xctestrunFile, "from test")
     ArgsHelper.assertFileExists(xctestrunZip, "from xctestrun-file")
+}
+
+private fun IosArgs.assertAdditionalIpas() {
+    if (additionalIpas.size > 100) throw FlankConfigurationError("Maximum 100 additional ipas are supported")
 }

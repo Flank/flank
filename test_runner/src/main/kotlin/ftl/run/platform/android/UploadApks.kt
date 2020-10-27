@@ -1,6 +1,7 @@
 package ftl.run.platform.android
 
 import ftl.args.AndroidArgs
+import ftl.args.IosArgs
 import ftl.run.model.AndroidTestContext
 import ftl.run.model.GameLoopContext
 import ftl.run.model.InstrumentationTestContext
@@ -43,10 +44,20 @@ private fun GameLoopContext.upload(rootGcsBucket: String, runGcsPath: String) = 
     app = app.uploadIfNeeded(rootGcsBucket, runGcsPath),
 )
 
-private fun SanityRoboTestContext.upload(rootGcsBucket: String, runGcsPath: String) = SanityRoboTestContext(app.uploadIfNeeded(rootGcsBucket, runGcsPath))
+private fun SanityRoboTestContext.upload(rootGcsBucket: String, runGcsPath: String) =
+    SanityRoboTestContext(app.uploadIfNeeded(rootGcsBucket, runGcsPath))
 
-suspend fun AndroidArgs.uploadAdditionalApks(runGcsPath: String) = coroutineScope {
-    additionalApks.map {
+suspend fun AndroidArgs.uploadAdditionalApks(runGcsPath: String) =
+    additionalApks.uploadToGcloudIfNeeded(runGcsPath, resultsBucket)
+
+suspend fun IosArgs.uploadAdditionalIpas(runGcsPath: String) =
+    additionalIpas.uploadToGcloudIfNeeded(runGcsPath, resultsBucket)
+
+private suspend fun List<String>.uploadToGcloudIfNeeded(
+    runGcsPath: String,
+    resultsBucket: String
+) = coroutineScope {
+    map {
         async { it.asFileReference().uploadIfNeeded(resultsBucket, runGcsPath).gcs }
     }.awaitAll()
 }

@@ -8,15 +8,19 @@ import com.google.api.services.testing.model.ObbFile
 import com.google.api.services.testing.model.RegularFile
 
 internal fun List<String>.mapGcsPathsToApks(): List<Apk>? = this
-    .map { gcsPath -> Apk().setLocation(FileReference().setGcsPath(gcsPath)) }
+    .map { gcsPath -> Apk().setLocation(gcsPath.toFileReference()) }
     .takeIf { it.isNotEmpty() }
+
+internal fun List<String>.mapGcsPathsToFileReference(): List<FileReference> = map { it.toFileReference() }
+
+private fun String.toFileReference() = FileReference().setGcsPath(this)
 
 internal fun Map<String, String>.mapToDeviceFiles(): List<DeviceFile> =
     map { (devicePath: String, gcsFilePath: String) ->
         DeviceFile().setRegularFile(
             RegularFile()
                 .setDevicePath(devicePath)
-                .setContent(FileReference().setGcsPath(gcsFilePath))
+                .setContent(gcsFilePath.toFileReference())
         )
     }
 
