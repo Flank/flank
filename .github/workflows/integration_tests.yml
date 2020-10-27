@@ -9,7 +9,7 @@ jobs:
   check_approve_count:
     runs-on: ubuntu-latest
     outputs:
-      approve_count: ${{ steps.reviews.outputs.approved }}
+      approve_count: ${{ steps.reviews.output.approved }}
     steps:
       - name: Count approve count
         id: 'reviews'
@@ -18,11 +18,11 @@ jobs:
           echo '::set-output name=approved::$(echo $count)'
 
       - name: Print current approve count
-        run: echo "Current Approve count ${{ steps.reviews.outputs.approved }}"
+        run: echo "Current Approve count ${{ steps.reviews.output.approved }}"
 
   integration-tests-unix:
     needs: [check_approve_count]
-    if: 'needs.check_approve_count.outputs.approve_count >= 2'
+    if: 'needs.check_approve_count.output.approve_count >= 2'
     strategy:
       matrix:
         os: [ ubuntu-latest, macos-latest ]
@@ -76,7 +76,7 @@ jobs:
 
   integration-tests-windows:
     needs: [check_approve_count]
-    if: 'needs.check_approve_count.outputs.approve_count >= 2'
+    if: 'needs.check_approve_count.output.approve_count >= 2'
     runs-on: windows-2019
     steps:
     - name: Cancel Previous Runs
