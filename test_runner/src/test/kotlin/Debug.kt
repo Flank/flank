@@ -13,8 +13,9 @@ fun main() {
     val projectId = System.getenv("GOOGLE_CLOUD_PROJECT")
         ?: "YOUR PROJECT ID"
 
-    val quantity = "single"
+    val quantity = "multiple"
     val type = "gameloop"
+    val extra = "obb"
     // Bugsnag keeps the process alive so we must call exitProcess
     // https://github.com/bugsnag/bugsnag-java/issues/151
     withGlobalExceptionHandling {
@@ -29,9 +30,12 @@ fun main() {
             "--output-style=single",
 //            "--full-junit-result",
 //            "--legacy-junit-result",
-            "-c=test_runner/src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type.yml",
+            "-c=test_runner/src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type${extra.isExtra()}.yml",
             "--project=$projectId"
 //            "--client-details=key1=value1,key2=value2"
         )
     }
 }
+
+private fun String.isExtra() = if (this.isEmpty()) "" else "-$this"
+
