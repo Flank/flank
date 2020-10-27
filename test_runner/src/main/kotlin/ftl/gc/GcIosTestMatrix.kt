@@ -14,6 +14,7 @@ import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.testing.model.TestSpecification
 import com.google.api.services.testing.model.ToolResultsHistory
 import ftl.args.IosArgs
+import ftl.gc.android.mapGcsPathsToFileReference
 import ftl.gc.android.mapToIosDeviceFiles
 import ftl.ios.Xctestrun
 import ftl.ios.Xctestrun.toByteArray
@@ -24,6 +25,7 @@ import ftl.util.timeoutToSeconds
 
 object GcIosTestMatrix {
 
+    @Suppress("LongParameterList")
     fun build(
         iosDeviceList: IosDeviceList,
         testZipGcsPath: String,
@@ -33,7 +35,8 @@ object GcIosTestMatrix {
         testTargets: List<String>,
         shardCounter: ShardCounter,
         toolResultsHistory: ToolResultsHistory,
-        otherFiles: Map<String, String>
+        otherFiles: Map<String, String>,
+        additionalIpasGcsPaths: List<String>
     ): Testing.Projects.TestMatrices.Create {
         val clientInfo = ClientInfo()
             .setName("Flank")
@@ -49,7 +52,7 @@ object GcIosTestMatrix {
         val generatedXctestrun = if (args.disableSharding) {
             xcTestParsed.toByteArray()
         } else {
-            Xctestrun.rewrite(xcTestParsed, testTargets)
+            Xctestrun.rewrite(args.xctestrunFile, testTargets)
         }
 
         // Add shard number to file name
@@ -65,6 +68,7 @@ object GcIosTestMatrix {
         val iOSTestSetup = IosTestSetup()
             .setNetworkProfile(args.networkProfile)
             .setPushFiles(otherFiles.mapToIosDeviceFiles())
+            .setAdditionalIpas(additionalIpasGcsPaths.mapGcsPathsToFileReference())
 
         val testTimeoutSeconds = timeoutToSeconds(args.testTimeout)
 

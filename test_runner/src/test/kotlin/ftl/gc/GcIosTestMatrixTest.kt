@@ -4,6 +4,7 @@ import com.dd.plist.NSDictionary
 import com.google.api.services.testing.model.IosDeviceList
 import ftl.shard.Chunk
 import ftl.args.IosArgs
+import ftl.ios.FIXTURES_PATH
 import ftl.shard.TestMethod
 import ftl.test.util.FlankTestRunner
 import ftl.util.ShardCounter
@@ -37,7 +38,8 @@ class GcIosTestMatrixTest {
             testTargets = emptyList(),
             shardCounter = ShardCounter(),
             toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs),
-            otherFiles = mapOf()
+            otherFiles = mapOf(),
+            additionalIpasGcsPaths = emptyList()
         )
     }
 
@@ -53,7 +55,8 @@ class GcIosTestMatrixTest {
             testTargets = listOf(""),
             shardCounter = ShardCounter(),
             toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs),
-            otherFiles = mapOf()
+            otherFiles = mapOf(),
+            additionalIpasGcsPaths = emptyList()
         )
     }
 
@@ -64,7 +67,7 @@ class GcIosTestMatrixTest {
         every { iosArgs.testTimeout } returns "3m"
         every { iosArgs.resultsBucket } returns "/hi"
         every { iosArgs.project } returns "123"
-        every { iosArgs.xctestrunFile } returns "any/path/to/test/file.xctestrun"
+        every { iosArgs.xctestrunFile } returns "$FIXTURES_PATH/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun"
 
         GcIosTestMatrix.build(
             iosDeviceList = IosDeviceList(),
@@ -75,7 +78,8 @@ class GcIosTestMatrixTest {
             testTargets = emptyList(),
             shardCounter = ShardCounter(),
             toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs),
-            otherFiles = mapOf()
+            otherFiles = mapOf(),
+            additionalIpasGcsPaths = emptyList()
         )
     }
 
@@ -118,5 +122,43 @@ class GcIosTestMatrixTest {
 
         val expected = emptyMap<String, String>()
         assertEquals(expected, iosArgs.otherFiles)
+    }
+
+    @Test
+    fun `should fill additional ipas`() {
+        val iosArgs = IosArgs.load(
+            StringReader(
+                """
+            gcloud:
+              test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
+              xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
+              results-dir: test_dir
+              additional-ipas:
+                - path/to/local/file.ipa
+                - gs://bucket/file.ipa
+        """.trimIndent()
+            )
+        )
+
+        val expected = listOf("path/to/local/file.ipa", "gs://bucket/file.ipa")
+        assertEquals(expected, iosArgs.additionalIpas)
+    }
+
+
+    @Test
+    fun `should not fill additional ipas`() {
+        val iosArgs = IosArgs.load(
+            StringReader(
+                """
+            gcloud:
+              test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
+              xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
+              results-dir: test_dir
+        """.trimIndent()
+            )
+        )
+
+        val expected = emptyList<String>()
+        assertEquals(expected, iosArgs.additionalIpas)
     }
 }

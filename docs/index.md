@@ -146,7 +146,6 @@ gcloud:
   #   locale: es_ES
   #   orientation: landscape
 
-
   ## A list of device-path=file-path pairs that specify the paths of the test device and the files you want pushed to the device prior to testing.
   ## Device paths should either be under the Media shared folder (e.g. prefixed with /private/var/mobile/Media) or
   ## within the documents directory of the filesystem of an app under test (e.g. /Documents). Device paths to app
@@ -154,6 +153,12 @@ gcloud:
   # other-files
   #   com.my.app:/Documents/file.txt: local/file.txt
   #   /private/var/mobile/Media/file.jpg: gs://bucket/file.jpg
+  
+  ## List of up to 100 additional IPAs to install, in addition to the one being directly tested. 
+  ## The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.
+  # additional-ipas:
+  #   - gs://bucket/additional.ipa
+  #   - path/to/local/ipa/file.ipa
 
 flank:
   # -- FlankYml --

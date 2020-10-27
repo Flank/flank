@@ -16,4 +16,4 @@ function earl_grey_example() {
   $DIR/../../flank-scripts/bash/flankScripts shell ops ios --copy --generate
 }
 
-echo "iOS test projects ops loaded"
+echo "iOS EarlGreyExample test projects ops loaded"
