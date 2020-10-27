@@ -1,5 +1,5 @@
 gcloud:
-  app: test_projects/android/gameloop/app-gameloop.apk
+  app: test_projects/android/gameloop/app-debug.apk
   scenario-labels:
     - GPU
     - PERFORMANCE

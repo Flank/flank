@@ -1,11 +1,5 @@
 gcloud:
-  app: test_projects/android/gameloop/app-gameloop.apk
-  scenario-labels:
-    - GPU
-    - PERFORMANCE
-  scenario-numbers:
-    - 1
-    - 2
+  app: test_projects/android/gameloop/app-debug.apk
   type: game-loop
   obb-files:
     - test_projects/android/gameloop/test.obb

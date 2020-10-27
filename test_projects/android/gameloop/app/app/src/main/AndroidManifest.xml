@@ -2,6 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.flank.gameloop">
 
+    <meta-data
+        android:name="com.google.test.loops"
+        android:value="2" />
+
+    <meta-data
+        android:name="com.google.test.loops.GPU"
+        android:value="1" />
+    <meta-data
+        android:name="com.google.test.loops.PERFORMANCE"
+        android:value="2" />
+
     <application
         android:testOnly="false"
         android:allowBackup="true"
@@ -19,20 +30,8 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
-                <action android:name="com.google.intent.action.TEST_LOOP"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="application/javascript"/>
             </intent-filter>
         </activity>
     </application>
-
-    <meta-data
-        android:name="com.google.test.loops.PERFORMANCE"
-        android:value="1,3-5" />
-
-    <meta-data
-        android:name="com.google.test.loops.GPU"
-        android:value="2,6" />
 
 </manifest>

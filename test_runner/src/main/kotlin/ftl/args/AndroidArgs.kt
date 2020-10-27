@@ -108,11 +108,14 @@ val AndroidArgs.isRoboTest
 
 fun AndroidArgs.validateRobo() = (appApk.isNotNull() && (roboDirectives.isNotEmpty() || roboScript.isNotNull()))
 
-val AndroidArgs.isSanityRobo
+val AndroidArgs.checkForSanityRobo
     get() = appApk.isNotNull() &&
-            testApk.isNull() &&
-            roboScript.isNull() &&
-            additionalAppTestApks.isEmpty()
+        testApk.isNull() &&
+        roboScript.isNull() &&
+        additionalAppTestApks.isEmpty()
+
+val AndroidArgs.isSanityRobo
+    get() = if (type != null) (type == Type.ROBO) && checkForSanityRobo else checkForSanityRobo
 
 val AndroidArgs.isGameLoop
     get() = if (type == null) false else (type == Type.GAMELOOP)
