@@ -12,16 +12,15 @@ jobs:
       approve_count: ${{ steps.reviews.outputs.approved }}
     steps:
       - name: Count approve count
-        id: 'reviews'
+        id: reviews
         run: |
           export count=$(curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/flank/flank/pulls/${{github.event.number}}/reviews -s | grep -i -c '"state": "APPROVED"')
           echo $count
-          echo '::set-output name=approved::${count}'
+          echo "::set-output name=approved::${count}"
 
       - name: Print current approve count
         run: |
           echo "Current Approve count ${{ steps.reviews.outputs.approved }}"
-          echo "Current Approve count ${{ steps.reviews.output.approved }}"
 
   integration-tests-unix:
     needs: [check_approve_count]
