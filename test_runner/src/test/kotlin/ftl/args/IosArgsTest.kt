@@ -42,6 +42,8 @@ class IosArgsTest {
     private val invalidApp = "../test_projects/android/apks/invalid.apk"
     private val xctestrunFileAbsolutePath = xctestrunFile.absolutePath()
     private val testAbsolutePath = testPath.absolutePath()
+    private val testIpa1 = "./src/test/kotlin/ftl/fixtures/tmp/test.ipa"
+    private val testIpa2 = "./src/test/kotlin/ftl/fixtures/tmp/test2.ipa"
     private val resultDir = "test_dir"
     private val iosNonDefault = """
         gcloud:
@@ -59,7 +61,9 @@ class IosArgsTest {
           other-files:
             com.my.app:/Documents/file.txt: local/file.txt
             /private/var/mobile/Media/file.jpg: gs://bucket/file.jpg
-
+          additional-ipas:
+            - $testIpa1
+            - $testIpa2
           test: $testPath
           xctestrun-file: $xctestrunFile
           xcode-version: 9.2
@@ -233,6 +237,9 @@ IosArgs
       other-files: 
         com.my.app:/Documents/file.txt: local/file.txt
         /private/var/mobile/Media/file.jpg: gs://bucket/file.jpg
+      additional-ipas: 
+        - $testIpa1
+        - $testIpa2
 
     flank:
       max-test-shards: 7
@@ -291,6 +298,7 @@ IosArgs
           orientation: portrait
       num-flaky-test-attempts: 0
       other-files: 
+      additional-ipas: 
 
     flank:
       max-test-shards: 1

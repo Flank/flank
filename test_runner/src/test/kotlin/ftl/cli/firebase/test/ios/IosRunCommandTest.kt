@@ -379,4 +379,14 @@ class IosRunCommandTest {
 
         assertThat(cmd.config.common.gcloud.otherFiles).hasSize(2)
     }
+
+    @Test
+    fun `additionalApks parse`() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parseArgs("--additional-ipas=a.ipa,b.ipa")
+        println(cmd.config.platform.gcloud.additionalIpas)
+
+        assertThat(cmd.config.platform.gcloud.additionalIpas).hasSize(2)
+        assertThat(cmd.config.platform.gcloud.additionalIpas).isEqualTo(listOf("a.ipa", "b.ipa"))
+    }
 }
