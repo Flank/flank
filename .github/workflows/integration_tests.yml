@@ -15,6 +15,8 @@ jobs:
         id: reviews
         run: |
           PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
+          echo $PR_NUMBER
+          echo $GITHUB_REF
           export count2=$(curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/flank/flank/pulls/${PR_NUMBER}/reviews -s | grep -i -c '"state": "APPROVED"')
           echo $count
           echo "::set-output name=approved::${count}"
