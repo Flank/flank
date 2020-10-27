@@ -2,10 +2,10 @@ package ftl.gc
 
 import com.dd.plist.NSDictionary
 import com.google.api.services.testing.model.IosDeviceList
-import ftl.shard.Chunk
 import ftl.args.IosArgs
 import ftl.config.FtlConstants.isWindows
 import ftl.ios.FIXTURES_PATH
+import ftl.shard.Chunk
 import ftl.shard.TestMethod
 import ftl.test.util.FlankTestRunner
 import ftl.util.ShardCounter
@@ -14,9 +14,7 @@ import io.mockk.mockk
 import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert
 import org.junit.Assume.assumeFalse
-import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.StringReader

@@ -239,6 +239,7 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
             useOrchestrator = true
             environmentVariables = emptyMap()
             grantPermissions = FlankDefaults.GRANT_PERMISSIONS_ALL
+            scenarioNumbers = emptyList()
             otherFiles = emptyMap()
             directoriesToPull = emptyList()
             scenarioLabels = emptyList()
