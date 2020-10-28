@@ -93,8 +93,8 @@ jobs:
       run: |
         set GCLOUD_DIR="%HOMEPATH%\.config\gcloud\"
         mkdir %GCLOUD_DIR%
-        echo %FIREBASE_CREDENTIALS% > %HOMEPATH%\.config\gcloud\application_default_credentials.json
         cd %GCLOUD_DIR%
+        echo %FIREBASE_CREDENTIALS% > application_default_credentials.json
         dir
 
     - uses: actions/checkout@v2
@@ -115,7 +115,7 @@ jobs:
         HEAD_REF: ${{ github.ref }}
       run: |
           gradlew.bat clean build
-        
+
 #    - name: Prepare Google Service Account
 #      shell: cmd
 #      run: |
