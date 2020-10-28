@@ -1,4 +1,5 @@
 import java.io.ByteArrayOutputStream
+import org.gradle.kotlin.dsl.support.serviceOf
 
 rootProject.name = "flank"
 
@@ -15,10 +16,17 @@ plugins {
     id("com.gradle.enterprise") version "3.4.1"
 }
 
+@Suppress("UnstableApiUsage")
+val isCI: Boolean = serviceOf<ProviderFactory>()
+    .environmentVariable("CI")
+    .forUseAtConfigurationTime().map { it == "true" }
+    .getOrElse(false)
+
 gradleEnterprise {
     buildScan {
         termsOfServiceUrl = "https://gradle.com/terms-of-service"
         termsOfServiceAgree = "yes"
+        publishAlwaysIf(isCI)
         background {
             val os = ByteArrayOutputStream()
             exec {
