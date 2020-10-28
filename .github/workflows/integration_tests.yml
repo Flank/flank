@@ -97,11 +97,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-2-gradle-
 
-    - name: Set GCLOUD_KEY for WINDOWS
-      shell: cmd
-      run: |
-          echo ${{ secrets.GCLOUD_KEY }} > gcloud_key.txt
-
     - name: Gradle clean build
       shell: cmd
       env:
@@ -110,10 +105,16 @@ jobs:
       run: |
           gradlew.bat clean build
 
+    - name: Set GCLOUD_KEY for WINDOWS
+      shell: cmd
+      env:
+        GCLOUD_KEY: ${{ secrets.GCLOUD_KEY }}
+      run: |
+        echo %GCLOUD_KEY% > gcloud_key.txt
+
     - name: Prepare Google Service Account
       shell: cmd
       run: |
-          echo ${{ secrets.GCLOUD_KEY }} > gcloud_key.txt
           set GCLOUD_DIR="%HOMEPATH%\.config\gcloud\"
           mkdir %GCLOUD_DIR%
           certutil -decode gcloud_key.txt %GCLOUD_DIR%application_default_credentials.json
