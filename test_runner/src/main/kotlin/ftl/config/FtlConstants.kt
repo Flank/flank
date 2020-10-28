@@ -19,7 +19,6 @@ import ftl.util.BugsnagInitHelper.initBugsnag
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 import ftl.util.readRevision
-import java.io.File
 import java.io.IOException
 import java.nio.file.Path
 import java.nio.file.Paths
