@@ -1,5 +1,6 @@
 package ftl.args
 
+import ftl.args.yml.toType
 import ftl.config.CommonConfig
 import ftl.run.status.OutputStyle
 import ftl.run.status.asOutputStyle
@@ -25,6 +26,7 @@ fun CommonConfig.createCommonArgs(
     networkProfile = gcloud.networkProfile,
     clientDetails = gcloud.clientDetails,
     otherFiles = gcloud.otherFiles!!.mapValues { (_, path) -> path.normalizeFilePath() },
+    type = gcloud.type?.toType(),
 
     // flank
     maxTestShards = flank.maxTestShards!!,
