@@ -83,7 +83,7 @@ object FtlConstants {
                 GoogleApiLogger.silenceComputeEngine()
                 ServiceAccountCredentials.getApplicationDefault()
             }.getOrElse {
-                if (isWindows) ServiceAccountCredentials.fromStream(defaultWindowsCredentialPath.toFile().inputStream())
+                if (isWindows) GoogleCredentials.fromStream(defaultWindowsCredentialPath.toFile().inputStream())
                 else throw FlankGeneralError("Error: Failed to read service account credential.\n${it.message}")
             }
         }
