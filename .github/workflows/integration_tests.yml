@@ -118,7 +118,7 @@ jobs:
       run: |
           set GCLOUD_DIR="%HOMEPATH%/.config/gcloud/"
           mkdir %GCLOUD_DIR%
-          echo certutil -decode gcloud_key.txt %GCLOUD_DIR%application_default_credentials.json
+          certutil -decode gcloud_key.txt %GCLOUD_DIR%application_default_credentials.json
 
     - name: Gradle Integration Tests Android
       uses: eskatos/gradle-command-action@v1
