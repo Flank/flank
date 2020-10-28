@@ -94,7 +94,7 @@ jobs:
         set GCLOUD_DIR="%HOMEPATH%\.config\gcloud\"
         mkdir %GCLOUD_DIR%
         echo "%FIREBASE_CREDENTIALS%" > %GCLOUD_DIR%application_default_credentials.json
-        dir %GCLOUD_DIR%
+        dir
 
     - uses: actions/checkout@v2
       with:
