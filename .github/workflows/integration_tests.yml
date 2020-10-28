@@ -86,6 +86,17 @@ jobs:
       with:
         access_token: ${{ github.token }}
 
+    - name: Set GCLOUD_KEY for WINDOWS
+      shell: cmd
+      env:
+        FIREBASE_CREDENTIALS: ${{ secrets.FIREBASE_CREDENTIALS }}
+      run: |
+        set GCLOUD_DIR="%HOMEPATH%\.config\gcloud\"
+        mkdir %GCLOUD_DIR%
+        echo %FIREBASE_CREDENTIALS% > %HOMEPATH%\.config\gcloud\application_default_credentials.json
+        cd %GCLOUD_DIR%
+        dir
+
     - uses: actions/checkout@v2
       with:
         submodules: true
@@ -104,14 +115,7 @@ jobs:
         HEAD_REF: ${{ github.ref }}
       run: |
           gradlew.bat clean build
-
-    - name: Set GCLOUD_KEY for WINDOWS
-      shell: cmd
-      env:
-        FIREBASE_CREDENTIALS: ${{ secrets.FIREBASE_CREDENTIALS }}
-      run: |
-        echo %FIREBASE_CREDENTIALS% > %HOMEPATH%\.config\gcloud\application_default_credentials.json
-
+        
 #    - name: Prepare Google Service Account
 #      shell: cmd
 #      run: |
