@@ -76,7 +76,7 @@ object FtlConstants {
         when {
             useMock -> GoogleCredentials.create(AccessToken("mock", Date()))
             UserAuth.exists() -> UserAuth.load()
-            else -> kotlin.runCatching {
+            else -> runCatching {
                 GoogleApiLogger.silenceComputeEngine()
                 ServiceAccountCredentials.getApplicationDefault()
             }.getOrElse {
