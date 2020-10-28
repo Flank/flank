@@ -100,7 +100,7 @@ jobs:
     - name: Set GCLOUD_KEY for WINDOWS
       shell: cmd
       run: |
-          echo ${{ secrets.GCLOUD_KEY }} > %HOMEPATH%\gcloud_key.txt
+          echo ${{ secrets.GCLOUD_KEY }} > gcloud_key.txt
 
     - name: Gradle clean build
       shell: cmd
@@ -115,7 +115,7 @@ jobs:
       run: |
           set GCLOUD_DIR="%HOMEPATH%\.config\gcloud\"
           mkdir %GCLOUD_DIR%
-          certutil -decode %HOMEPATH%\gcloud_key.txt %GCLOUD_DIR%application_default_credentials.json
+          certutil -decode gcloud_key.txt %GCLOUD_DIR%application_default_credentials.json
 
     - name: Gradle Integration Tests Android
       uses: eskatos/gradle-command-action@v1

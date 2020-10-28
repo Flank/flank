@@ -19,6 +19,7 @@ import ftl.util.BugsnagInitHelper.initBugsnag
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 import ftl.util.readRevision
+import java.io.File
 import java.io.IOException
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -76,6 +77,7 @@ object FtlConstants {
         when {
             useMock -> GoogleCredentials.create(AccessToken("mock", Date()))
             UserAuth.exists() -> UserAuth.load()
+            isWindows -> ServiceAccountCredentials.fromStream(defaultCredentialPath.toFile().inputStream())
             else -> try {
                 GoogleApiLogger.silenceComputeEngine()
                 ServiceAccountCredentials.getApplicationDefault()
