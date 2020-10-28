@@ -91,7 +91,7 @@ jobs:
       env:
         FIREBASE_CREDENTIALS: ${{ secrets.FIREBASE_CREDENTIALS }}
       run: |
-        echo %FIREBASE_CREDENTIALS% > application_default_credentials.json
+        echo "%FIREBASE_CREDENTIALS%" > application_default_credentials.json
         dir
 
     - uses: actions/checkout@v2
