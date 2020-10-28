@@ -41,5 +41,5 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           message: |
-            **Buildscan url for run [${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
+            **Buildscan url for ubuntu-workflow run [${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
             ${{ steps.build.outputs.build-scan-url }}
