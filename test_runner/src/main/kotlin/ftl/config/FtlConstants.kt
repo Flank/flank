@@ -19,7 +19,6 @@ import ftl.util.BugsnagInitHelper.initBugsnag
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 import ftl.util.readRevision
-import java.io.IOException
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.Date
@@ -76,12 +75,12 @@ object FtlConstants {
         when {
             useMock -> GoogleCredentials.create(AccessToken("mock", Date()))
             UserAuth.exists() -> UserAuth.load()
-            isWindows -> ServiceAccountCredentials.fromStream(defaultCredentialPath.toFile().inputStream())
-            else -> try {
+            else -> kotlin.runCatching {
                 GoogleApiLogger.silenceComputeEngine()
                 ServiceAccountCredentials.getApplicationDefault()
-            } catch (e: IOException) {
-                throw FlankGeneralError("Error: Failed to read service account credential.\n${e.message}")
+            }.getOrElse {
+                if (isWindows) ServiceAccountCredentials.fromStream(defaultCredentialPath.toFile().inputStream())
+                else throw FlankGeneralError("Error: Failed to read service account credential.\n${it.message}")
             }
         }
     }
