@@ -4,6 +4,7 @@ import com.google.api.services.testing.model.Apk
 import com.google.api.services.testing.model.DeviceFile
 import com.google.api.services.testing.model.FileReference
 import com.google.api.services.testing.model.IosDeviceFile
+import com.google.api.services.testing.model.ObbFile
 import com.google.api.services.testing.model.RegularFile
 
 internal fun List<String>.mapGcsPathsToApks(): List<Apk>? = this
@@ -22,6 +23,14 @@ internal fun Map<String, String>.mapToDeviceFiles(): List<DeviceFile> =
                 .setContent(gcsFilePath.toFileReference())
         )
     }
+
+internal fun Map<String, String>.mapToDeviceObbFiles(obbnames: List<String>): List<DeviceFile> {
+    return values.mapIndexed { index, gcsFilePath ->
+        DeviceFile().setObbFile(
+            ObbFile().setObb(FileReference().setGcsPath(gcsFilePath)).setObbFileName(obbnames[index])
+        )
+    }
+}
 
 internal fun Map<String, String>.mapToIosDeviceFiles(): List<IosDeviceFile> =
     map { (testDevicePath, gcsFilePath) ->

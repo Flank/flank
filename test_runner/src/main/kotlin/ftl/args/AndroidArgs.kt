@@ -18,7 +18,8 @@ data class AndroidArgs(
     val type: Type?,
     val scenarioNumbers: List<String>,
     val scenarioLabels: List<String>,
-    val obbfiles: List<String>,
+    val obbFiles: List<String>,
+    val obbNames: List<String>,
     val performanceMetrics: Boolean,
     val numUniformShards: Int?,
     val testRunnerClass: String?,
@@ -53,7 +54,8 @@ AndroidArgs
       other-files: ${ArgsToString.mapToString(otherFiles)}
       scenario-numbers: ${ArgsToString.listToString(scenarioNumbers)}
       scenario-labels: ${ArgsToString.listToString(scenarioLabels)}
-      obb-files: ${ArgsToString.listToString(obbfiles)}
+      obb-files: ${ArgsToString.listToString(obbFiles)}
+      obb-names: ${ArgsToString.listToString(obbNames)}
       performance-metrics: $performanceMetrics
       num-uniform-shards: $numUniformShards
       test-runner-class: $testRunnerClass
@@ -90,24 +92,33 @@ AndroidArgs
     }
 }
 
+// Changes these based on type
 val AndroidArgs.isDontAutograntPermissions
     get() = !(grantPermissions.isNotNull() && (grantPermissions.equals("all")))
 
 val AndroidArgs.isInstrumentationTest
-    get() = appApk.isNotNull() &&
-            testApk.isNotNull() ||
-            additionalAppTestApks.isNotEmpty() &&
-            (appApk.isNotNull() || additionalAppTestApks.all { (app, _) -> app.isNotNull() })
+    get() = if (type != null) (type == Type.INSTRUMENTATION) else validateInstrumentation()
+
+fun AndroidArgs.validateInstrumentation() = (appApk.isNotNull() && testApk.isNotNull() ||
+        additionalAppTestApks.isNotEmpty() &&
+        (appApk.isNotNull() || additionalAppTestApks.all { (app, _) -> app.isNotNull() }))
 
 val AndroidArgs.isRoboTest
+    get() = if (type != null) type == Type.ROBO else validateRobo()
+
+fun AndroidArgs.validateRobo() = (appApk.isNotNull() && (roboDirectives.isNotEmpty() || roboScript.isNotNull()))
+
+private val AndroidArgs.checkForSanityRobo
     get() = appApk.isNotNull() &&
-            (roboDirectives.isNotEmpty() || roboScript.isNotNull())
+        testApk.isNull() &&
+        roboScript.isNull() &&
+        additionalAppTestApks.isEmpty()
 
 val AndroidArgs.isSanityRobo
-    get() = appApk.isNotNull() &&
-            testApk.isNull() &&
-            roboScript.isNull() &&
-            additionalAppTestApks.isEmpty()
+    get() = if (type != null) (type == Type.ROBO) && checkForSanityRobo else checkForSanityRobo
+
+val AndroidArgs.isGameLoop
+    get() = if (type == null) false else (type == Type.GAMELOOP)
 
 private fun String?.isNull() = this == null
 private fun String?.isNotNull() = isNull().not()

@@ -2,6 +2,7 @@ package ftl.run.platform.android
 
 import ftl.args.AndroidArgs
 import ftl.args.yml.AppTestPair
+import ftl.args.yml.Type
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.exception.FlankGeneralError
 import ftl.run.model.SanityRoboTestContext
@@ -82,6 +83,7 @@ class ResolveApksKtTest {
             every { additionalApks } returns emptyList()
             every { additionalAppTestApks } returns emptyList()
             every { roboScript } returns null
+            every { type } returns Type.ROBO
         }
         assertArrayEquals(
             arrayOf(SanityRoboTestContext("app".asFileReference())),

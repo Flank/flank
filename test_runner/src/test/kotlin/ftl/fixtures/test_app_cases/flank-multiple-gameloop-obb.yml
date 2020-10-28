@@ -1,0 +1,7 @@
+gcloud:
+  app: test_projects/android/gameloop/app-debug.apk
+  type: game-loop
+  obb-files:
+    - test_projects/android/gameloop/test.obb
+  obb-names:
+    - 'main.0300110.com.flank.gameloop.obb'

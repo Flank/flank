@@ -2,12 +2,14 @@ package ftl.run.platform.android
 
 import com.google.common.annotations.VisibleForTesting
 import ftl.args.AndroidArgs
+import ftl.args.isGameLoop
 import ftl.args.isSanityRobo
 
 import ftl.run.model.AndroidTestContext
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.RoboTestContext
 import ftl.run.exception.FlankGeneralError
+import ftl.run.model.GameLoopContext
 import ftl.run.model.SanityRoboTestContext
 import ftl.util.asFileReference
 
@@ -22,6 +24,7 @@ private fun AndroidArgs.mainApkContext() = appApk?.let { appApk ->
         testApk != null -> InstrumentationTestContext(app = appApk.asFileReference(), test = testApk.asFileReference(), environmentVariables = emptyMap())
         roboScript != null -> RoboTestContext(app = appApk.asFileReference(), roboScript = roboScript.asFileReference())
         isSanityRobo -> SanityRoboTestContext(app = appApk.asFileReference())
+        isGameLoop -> GameLoopContext(appApk.asFileReference(), scenarioLabels, scenarioNumbers)
         else -> null
     }
 }
