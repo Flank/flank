@@ -9,7 +9,7 @@ version = "1.0"
 
 repositories {
     mavenCentral()
-    maven(url = "http://dl.bintray.com/kotlin/ktor")
+    maven(url = "https://dl.bintray.com/kotlin/ktor")
     maven(url = "https://dl.bintray.com/kotlin/kotlinx")
 }
 
