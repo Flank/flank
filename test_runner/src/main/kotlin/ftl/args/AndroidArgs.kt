@@ -108,7 +108,7 @@ val AndroidArgs.isRoboTest
 
 fun AndroidArgs.validateRobo() = (appApk.isNotNull() && (roboDirectives.isNotEmpty() || roboScript.isNotNull()))
 
-val AndroidArgs.checkForSanityRobo
+private val AndroidArgs.checkForSanityRobo
     get() = appApk.isNotNull() &&
         testApk.isNull() &&
         roboScript.isNull() &&
