@@ -95,7 +95,6 @@ jobs:
         mkdir %GCLOUD_DIR%
         echo %GCLOUD_KEY% > gcloud_key.txt
         certutil -decode gcloud_key.txt %GCLOUD_DIR%\application_default_credentials.json
-        type %GCLOUD_DIR%\application_default_credentials.json
 
     - uses: actions/checkout@v2
       with:
