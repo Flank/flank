@@ -4,6 +4,7 @@ import com.dd.plist.NSDictionary
 import com.google.api.services.testing.model.IosDeviceList
 import ftl.shard.Chunk
 import ftl.args.IosArgs
+import ftl.config.FtlConstants.isWindows
 import ftl.ios.FIXTURES_PATH
 import ftl.shard.TestMethod
 import ftl.test.util.FlankTestRunner
@@ -13,6 +14,7 @@ import io.mockk.mockk
 import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assume.assumeFalse
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.StringReader
@@ -62,6 +64,8 @@ class GcIosTestMatrixTest {
 
     @Test
     fun `build validArgs`() {
+        assumeFalse(isWindows) // TODO enable it on #1180
+
         val iosArgs = mockk<IosArgs>(relaxed = true)
         every { iosArgs.testShardChunks } returns listOf(Chunk(listOf(TestMethod(name = "", time = 0.0))))
         every { iosArgs.testTimeout } returns "3m"

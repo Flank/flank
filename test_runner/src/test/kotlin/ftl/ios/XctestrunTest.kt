@@ -244,6 +244,8 @@ class XctestrunTest {
 
     @Test
     fun `rewrite methods in multiple test targets`() {
+        assumeFalse(isWindows) // TODO enable it on #1180
+
         val expectedMethods1 = listOf("FlankExampleTests/test1", "FlankExampleTests/test2")
         val expectedMethods2 = listOf("FlankExampleSecondTests/test3")
 
@@ -261,6 +263,8 @@ class XctestrunTest {
 
     @Test
     fun `rewrite incorrect methods in multiple test targets`() {
+        assumeFalse(isWindows) // TODO enable it on #1180
+
         val methods1 = listOf("incorrect1", "incorrect2")
         val methods2 = listOf("incorrect3")
 
@@ -278,6 +282,8 @@ class XctestrunTest {
 
     @Test
     fun `rewrite mix of correct and incorrect methods in multiple test targets`() {
+        assumeFalse(isWindows) // TODO enable it on #1180
+
         val methods1 = listOf("FlankExampleTests/test1", "FlankExampleTests/test2", "incorrect1")
         val methods2 = listOf("FlankExampleSecondTests/test3", "incorrect2")
 
