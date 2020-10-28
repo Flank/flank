@@ -91,12 +91,12 @@ jobs:
       env:
         FIREBASE_CREDENTIALS: ${{ secrets.FIREBASE_CREDENTIALS }}
       run: |
-        set GCLOUD_DIR=%HOMEPATH%\.config\gcloud\
-        mkdir %GCLOUD_DIR%
-        %FIREBASE_CREDENTIALS% > application_default_credentials.json
-        echo %FIREBASE_CREDENTIALS% > %GCLOUD_DIR%application_default_credentials.json
+        set GCLOUD_DIR="%HOMEPATH%\.config\gcloud\"
+        mkdir "%GCLOUD_DIR%"
+        "%FIREBASE_CREDENTIALS%" > application_default_credentials.json
+        echo "%FIREBASE_CREDENTIALS%" > "%GCLOUD_DIR%application_default_credentials.json"
         dir
-        dir %GCLOUD_DIR%
+        dir "%GCLOUD_DIR%"
 
     - uses: actions/checkout@v2
       with:
