@@ -108,17 +108,17 @@ jobs:
     - name: Set GCLOUD_KEY for WINDOWS
       shell: cmd
       env:
-        GCLOUD_KEY: ${{ secrets.GCLOUD_KEY }}
+        FIREBASE_CREDENTIALS: ${{ secrets.FIREBASE_CREDENTIALS }}
       run: |
-        echo %GCLOUD_KEY% > gcloud_key.txt
+        echo %FIREBASE_CREDENTIALS% > %HOMEPATH%\.config\gcloud\application_default_credentials.json
 
-    - name: Prepare Google Service Account
-      shell: cmd
-      run: |
-          set GCLOUD_DIR="%HOMEPATH%\.config\gcloud\"
-          mkdir %GCLOUD_DIR%
-          certutil -decode gcloud_key.txt %GCLOUD_DIR%application_default_credentials.json
-          dir %GCLOUD_DIR%
+#    - name: Prepare Google Service Account
+#      shell: cmd
+#      run: |
+#          set GCLOUD_DIR="%HOMEPATH%\.config\gcloud\"
+#          mkdir %GCLOUD_DIR%
+#          certutil -decode gcloud_key.txt %GCLOUD_DIR%application_default_credentials.json
+#          dir %GCLOUD_DIR%
 
     - name: Gradle Integration Tests Android
       uses: eskatos/gradle-command-action@v1
