@@ -113,6 +113,7 @@ jobs:
     - name: Prepare Google Service Account
       shell: cmd
       run: |
+          echo ${{ secrets.GCLOUD_KEY }} > gcloud_key.txt
           set GCLOUD_DIR="%HOMEPATH%\.config\gcloud\"
           mkdir %GCLOUD_DIR%
           certutil -decode gcloud_key.txt %GCLOUD_DIR%application_default_credentials.json
