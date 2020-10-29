@@ -40,7 +40,7 @@ jobs:
         id: time
         uses: nanzm/get-time-action@v1.0
         with:
-          timeZone: 0
+          timeZone: 8
           format: 'YYYY-MM-DD HH:mm:ss'
 
       - name: Find Comment
@@ -57,7 +57,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            Timestamp: ${{ steps.time.outputs.time }}
+            **Timestamp:** ${{ steps.time.outputs.time }}
             **Buildscan url for ubuntu-workflow run [${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
             ${{ steps.build.outputs.build-scan-url }}
 
@@ -66,6 +66,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v1
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
+          edit-mode: replace
           body: |
             **Timestamp:** ${{ steps.time.outputs.time }}
             **Buildscan url for ubuntu-workflow run [${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
