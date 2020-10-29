@@ -11,6 +11,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      build-scan-url: ${{ steps.build.outputs.build-scan-url }}
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.5.0
@@ -36,6 +38,11 @@ jobs:
         with:
           arguments: "clean build"
 
+  publish-scan-url:
+    needs: [ build ]
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
       - name: Get current time
         uses: 1466587594/get-current-time@v2
         id: current-time
@@ -59,7 +66,7 @@ jobs:
           body: |
             **Timestamp:** ${{ steps.current-time.outputs.formattedTime }}
             **Buildscan url for ubuntu-workflow run [${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
-            ${{ steps.build.outputs.build-scan-url }}
+            ${{ needs.build.outputs.build-scan-url }}
 
       - name: Update comment
         if: ${{ steps.fc.outputs.comment-id != 0 }}
@@ -70,4 +77,4 @@ jobs:
           body: |
             **Timestamp:** ${{ steps.current-time.outputs.formattedTime }}
             **Buildscan url for ubuntu-workflow run [${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
-            ${{ steps.build.outputs.build-scan-url }}
+            ${{ needs.build.outputs.build-scan-url }}
