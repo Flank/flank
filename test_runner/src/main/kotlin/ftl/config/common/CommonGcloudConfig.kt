@@ -130,6 +130,16 @@ data class CommonGcloudConfig @JsonIgnore constructor(
     @set:JsonProperty("other-files")
     var otherFiles: Map<String, String>? by data
 
+    @set:CommandLine.Option(
+        names = ["--scenario-numbers"],
+        split = ",",
+        description = ["A list of game-loop scenario numbers which will be run as part of the test (default: all scenarios). " +
+                "A maximum of 1024 scenarios may be specified in one test matrix, " +
+                "but the maximum number may also be limited by the overall test --timeout setting."]
+    )
+    @set:JsonProperty("scenario-numbers")
+    var scenarioNumbers: List<String>? by data
+
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {
@@ -154,6 +164,7 @@ data class CommonGcloudConfig @JsonIgnore constructor(
             networkProfile = null
             devices = listOf(defaultDevice(android))
             otherFiles = emptyMap()
+            scenarioNumbers = emptyList()
         }
     }
 }

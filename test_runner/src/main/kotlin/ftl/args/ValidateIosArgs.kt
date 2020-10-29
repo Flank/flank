@@ -13,6 +13,13 @@ fun IosArgs.validate() = apply {
     assertTestFiles()
     checkResultsDirUnique()
     assertAdditionalIpas()
+    assertGameloop()
+}
+
+fun IosArgs.assertGameloop() {
+    /*if (scenarioNumbers.isNotEmpty() && (type == null || type != Type.GAMELOOP))
+        throw FlankConfigurationError("Scenario numbers defined but Type is not Game-loop.")*/
+    scenarioNumbers.forEach { it.toIntOrNull() ?: throw FlankConfigurationError("Invalid scenario number provided - $it") }
 }
 
 fun IosArgs.validateRefresh() = apply {

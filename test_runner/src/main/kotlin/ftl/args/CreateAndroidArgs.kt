@@ -42,7 +42,6 @@ fun createAndroidArgs(
     obfuscateDumpShards = obfuscate,
     obbFiles = gcloud.obbfiles!!,
     obbNames = gcloud.obbnames!!,
-    scenarioNumbers = gcloud.scenarioNumbers!!,
     grantPermissions = gcloud.grantPermissions,
     type = gcloud.type?.let { Type.fromString(it) }
 )

@@ -25,6 +25,7 @@ fun CommonConfig.createCommonArgs(
     networkProfile = gcloud.networkProfile,
     clientDetails = gcloud.clientDetails,
     otherFiles = gcloud.otherFiles!!.mapValues { (_, path) -> path.normalizeFilePath() },
+    scenarioNumbers = gcloud.scenarioNumbers!!,
 
     // flank
     maxTestShards = flank.maxTestShards!!,

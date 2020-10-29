@@ -43,6 +43,7 @@ IosArgs
       num-flaky-test-attempts: $flakyTestAttempts
       other-files: ${ArgsToString.mapToString(otherFiles)}
       additional-ipas: ${ArgsToString.listToString(additionalIpas)}
+      scenario-numbers: ${ArgsToString.listToString(scenarioNumbers)}
 
     flank:
       max-test-shards: $maxTestShards

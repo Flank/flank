@@ -240,6 +240,7 @@ IosArgs
       additional-ipas: 
         - $testIpa1
         - $testIpa2
+      scenario-numbers: 
 
     flank:
       max-test-shards: 7
@@ -299,6 +300,7 @@ IosArgs
       num-flaky-test-attempts: 0
       other-files: 
       additional-ipas: 
+      scenario-numbers: 
 
     flank:
       max-test-shards: 1
