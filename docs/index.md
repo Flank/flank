@@ -160,6 +160,9 @@ gcloud:
   #   - gs://bucket/additional.ipa
   #   - path/to/local/ipa/file.ipa
 
+  ## The type of iOS test to run. TYPE must be one of: xctest, game-loop. Default: xctest
+  # type: xctest
+
 flank:
   # -- FlankYml --
 

@@ -565,4 +565,12 @@ class AndroidRunCommandTest {
             coVerify(exactly = 1) { any<AndroidArgs>().createAndroidTestContexts() }
         }
     }
+
+    @Test
+    fun `should properly parse type`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--type=a")
+
+        assertThat(cmd.config.common.gcloud.type).isEqualTo("a")
+    }
 }

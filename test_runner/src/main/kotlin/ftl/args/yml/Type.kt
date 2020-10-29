@@ -3,15 +3,14 @@ package ftl.args.yml
 import ftl.run.exception.FlankGeneralError
 
 enum class Type(val ymlName: String) {
-    INSTRUMENTATION("instrumentation"), ROBO("robo"), GAMELOOP("game-loop");
+    INSTRUMENTATION("instrumentation"),
+    ROBO("robo"),
+    XCTEST("xctest"),
+    GAMELOOP("game-loop");
+}
 
-    companion object {
-        fun fromString(stringVal: String): Type {
-            val filtered = values().filter { it.ymlName == stringVal }
-            if (filtered.isEmpty()) {
-                throw FlankGeneralError("Unsupported Type given `$stringVal` only [${values().joinToString(","){it.ymlName}}] supported.")
-            }
-            return filtered.first()
-        }
-    }
+fun String.toType() = Type.values().find { it.ymlName == this } ?: throwUnsuportedType()
+
+private fun String.throwUnsuportedType(): Nothing {
+    throw FlankGeneralError("Unsupported Type given `$this` only [${Type.values().joinToString(",") { it.ymlName }}] supported.")
 }

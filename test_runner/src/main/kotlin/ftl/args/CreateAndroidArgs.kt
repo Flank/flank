@@ -1,7 +1,6 @@
 package ftl.args
 
 import ftl.args.yml.AppTestPair
-import ftl.args.yml.Type
 import ftl.config.AndroidConfig
 import ftl.config.android.AndroidFlankConfig
 import ftl.config.android.AndroidGcloudConfig
@@ -43,6 +42,5 @@ fun createAndroidArgs(
     obbFiles = gcloud.obbfiles!!,
     obbNames = gcloud.obbnames!!,
     scenarioNumbers = gcloud.scenarioNumbers!!,
-    grantPermissions = gcloud.grantPermissions,
-    type = gcloud.type?.let { Type.fromString(it) }
+    grantPermissions = gcloud.grantPermissions
 )
