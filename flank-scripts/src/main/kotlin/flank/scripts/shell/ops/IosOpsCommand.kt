@@ -84,7 +84,6 @@ object IosOpsCommand : CliktCommand(name = "ios", help = "Build ios app with tes
     private fun Path.filterFilesToCopy() =
         toFile().walk().filter { it.nameWithoutExtension.endsWith("-iphoneos") || it.extension == "xctestrun" }
 
-
     private fun Sequence<File>.copyIosProductFiles() = forEach {
         if (it.isDirectory) it.copyRecursively(Paths.get(flankFixturesIosTmpPath, it.name).toFile(), overwrite = true)
         else it.copyTo(Paths.get(flankFixturesIosTmpPath, it.name).toFile(), overwrite = true)
