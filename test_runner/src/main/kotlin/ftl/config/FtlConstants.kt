@@ -19,6 +19,7 @@ import ftl.util.BugsnagInitHelper.initBugsnag
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 import ftl.util.readRevision
+import java.io.IOException
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.Date
@@ -68,8 +69,8 @@ object FtlConstants {
     }
 
     val defaultCredentialPath: Path by lazy {
-        if (isWindows) Paths.get(System.getenv("HOMEPATH"), ".config/gcloud/application_default_credentials.json")
-        else Paths.get(System.getProperty("user.home"), ".config/gcloud/application_default_credentials.json")
+        val homePath = if (isWindows) System.getenv("HOMEPATH") else System.getProperty("user.home")
+        Paths.get(homePath, ".config/gcloud/application_default_credentials.json")
     }
 
     val credential: GoogleCredentials by lazy {
@@ -80,10 +81,16 @@ object FtlConstants {
                 GoogleApiLogger.silenceComputeEngine()
                 ServiceAccountCredentials.getApplicationDefault()
             }.getOrElse {
-                if (isWindows) GoogleCredentials.fromStream(defaultCredentialPath.toFile().inputStream())
+                if (isWindows) loadGoogleAccountCredentials()
                 else throw FlankGeneralError("Error: Failed to read service account credential.\n${it.message}")
             }
         }
+    }
+
+    private fun loadGoogleAccountCredentials(): GoogleCredentials = try {
+        GoogleCredentials.fromStream(defaultCredentialPath.toFile().inputStream())
+    } catch (e: IOException) {
+        throw FlankGeneralError("Error: Failed to read service account credential.\n${e.message}")
     }
 
     val httpCredential: HttpRequestInitializer by lazy {
