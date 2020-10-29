@@ -36,10 +36,37 @@ jobs:
         with:
           arguments: "clean build"
 
-      - name: Add ubuntu-workflow Build Scan URL to Pull Request
-        uses: mshick/add-pr-comment@v1
+      - name: Get Time
+        id: time
+        uses: nanzm/get-time-action@v1.0
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          message: |
+          timeZone: 0
+          format: 'YYYY-MM-DD-HH-mm-ss'
+
+      - name: Find Comment
+        uses: peter-evans/find-comment@v1
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: Buildscan url for ubuntu-workflow run
+
+      - name: Create comment
+        if: ${{ steps.fc.outputs.comment-id == 0 }}
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            Timestamp: ${{ steps.time.outputs.time }}
+            **Buildscan url for ubuntu-workflow run [${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
+            ${{ steps.build.outputs.build-scan-url }}
+
+      - name: Update comment
+        if: ${{ steps.fc.outputs.comment-id != 0 }}
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          body: |
+            Timestamp: ${{ steps.time.outputs.time }}
             **Buildscan url for ubuntu-workflow run [${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
             ${{ steps.build.outputs.build-scan-url }}
