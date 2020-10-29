@@ -36,12 +36,12 @@ jobs:
         with:
           arguments: "clean build"
 
-      - name: Get Time
-        id: time
-        uses: nanzm/get-time-action@v1.0
+      - name: Get current time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
         with:
-          timeZone: 8
           format: 'YYYY-MM-DD HH:mm:ss'
+          utcOffset: "+00:00"
 
       - name: Find Comment
         uses: peter-evans/find-comment@v1
@@ -57,7 +57,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            **Timestamp:** ${{ steps.time.outputs.time }}
+            **Timestamp:** ${{ steps.current-time.outputs.formattedTime }}
             **Buildscan url for ubuntu-workflow run [${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
             ${{ steps.build.outputs.build-scan-url }}
 
@@ -68,6 +68,6 @@ jobs:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           edit-mode: replace
           body: |
-            **Timestamp:** ${{ steps.time.outputs.time }}
+            **Timestamp:** ${{ steps.current-time.outputs.formattedTime }}
             **Buildscan url for ubuntu-workflow run [${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
             ${{ steps.build.outputs.build-scan-url }}
