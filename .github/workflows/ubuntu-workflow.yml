@@ -41,7 +41,7 @@ jobs:
         uses: nanzm/get-time-action@v1.0
         with:
           timeZone: 0
-          format: 'YYYY-MM-DD-HH-mm-ss'
+          format: 'YYYY-MM-DD HH:mm:ss'
 
       - name: Find Comment
         uses: peter-evans/find-comment@v1
@@ -67,6 +67,6 @@ jobs:
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           body: |
-            Timestamp: ${{ steps.time.outputs.time }}
+            **Timestamp:** ${{ steps.time.outputs.time }}
             **Buildscan url for ubuntu-workflow run [${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
             ${{ steps.build.outputs.build-scan-url }}
