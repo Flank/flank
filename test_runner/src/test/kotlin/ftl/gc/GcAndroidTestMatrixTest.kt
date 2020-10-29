@@ -45,7 +45,8 @@ class GcAndroidTestMatrixTest {
             androidDeviceList = AndroidDeviceList(),
             args = androidArgs,
             toolResultsHistory = createToolResultsHistory(androidArgs),
-            additionalApkGcsPaths = emptyList()
+            additionalApkGcsPaths = emptyList(),
+            obbFiles = emptyMap()
         )
     }
 
@@ -69,7 +70,8 @@ class GcAndroidTestMatrixTest {
             androidDeviceList = AndroidDeviceList(),
             args = androidArgs,
             toolResultsHistory = createToolResultsHistory(androidArgs),
-            additionalApkGcsPaths = emptyList()
+            additionalApkGcsPaths = emptyList(),
+            obbFiles = emptyMap()
         )
     }
 
@@ -97,7 +99,8 @@ class GcAndroidTestMatrixTest {
             androidDeviceList = AndroidDeviceList(),
             args = androidArgs,
             toolResultsHistory = createToolResultsHistory(androidArgs),
-            additionalApkGcsPaths = emptyList()
+            additionalApkGcsPaths = emptyList(),
+            obbFiles = emptyMap()
         )
     }
 

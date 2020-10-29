@@ -144,6 +144,15 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
     var scenarioLabels: List<String>? by data
 
     @set:CommandLine.Option(
+        names = ["--obb-names"],
+        split = ",",
+        description = ["A list of OBB required filenames. OBB file name must conform to the format as specified by Android e.g. " +
+                "## [main|patch].0300110.com.example.android.obb which will be installed into <shared-storage>/Android/obb/<package-name>/ on the device."]
+    )
+    @set:JsonProperty("obb-names")
+    var obbnames: List<String>? by data
+
+    @set:CommandLine.Option(
         names = ["--obb-files"],
         split = ",",
         description = ["A list of one or two Android OBB file names which will be copied to each test device before the tests will run (default: None). " +
@@ -251,6 +260,7 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
             scenarioNumbers = emptyList()
             scenarioLabels = emptyList()
             obbfiles = emptyList()
+            obbnames = emptyList()
             performanceMetrics = FlankDefaults.DISABLE_PERFORMANCE_METRICS
             numUniformShards = null
             testRunnerClass = null

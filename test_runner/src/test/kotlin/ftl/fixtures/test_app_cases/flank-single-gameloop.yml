@@ -1,0 +1,3 @@
+gcloud:
+  app: test_projects/android/gameloop/app-debug.apk
+  type: game-loop
