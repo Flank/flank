@@ -69,20 +69,28 @@ object FtlConstants {
     }
 
     val defaultCredentialPath: Path by lazy {
-        Paths.get(System.getProperty("user.home"), ".config/gcloud/application_default_credentials.json")
+        val homePath = if (isWindows) System.getenv("HOMEPATH") else System.getProperty("user.home")
+        Paths.get(homePath, ".config/gcloud/application_default_credentials.json")
     }
 
     val credential: GoogleCredentials by lazy {
         when {
             useMock -> GoogleCredentials.create(AccessToken("mock", Date()))
             UserAuth.exists() -> UserAuth.load()
-            else -> try {
+            else -> runCatching {
                 GoogleApiLogger.silenceComputeEngine()
                 ServiceAccountCredentials.getApplicationDefault()
-            } catch (e: IOException) {
-                throw FlankGeneralError("Error: Failed to read service account credential.\n${e.message}")
+            }.getOrElse {
+                if (isWindows) loadGoogleAccountCredentials()
+                else throw FlankGeneralError("Error: Failed to read service account credential.\n${it.message}")
             }
         }
+    }
+
+    private fun loadGoogleAccountCredentials(): GoogleCredentials = try {
+        GoogleCredentials.fromStream(defaultCredentialPath.toFile().inputStream())
+    } catch (e: IOException) {
+        throw FlankGeneralError("Error: Failed to read service account credential.\n${e.message}")
     }
 
     val httpCredential: HttpRequestInitializer by lazy {
