@@ -11,6 +11,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      build-scan-url: ${{ steps.build.outputs.build-scan-url }}
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.5.0
@@ -36,10 +38,43 @@ jobs:
         with:
           arguments: "clean build"
 
-      - name: Add ubuntu-workflow Build Scan URL to Pull Request
-        uses: mshick/add-pr-comment@v1
+  publish-scan-url:
+    needs: [ build ]
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get current time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          message: |
+          format: 'YYYY-MM-DD HH:mm:ss'
+          utcOffset: "+00:00"
+
+      - name: Find Comment
+        uses: peter-evans/find-comment@v1
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: Buildscan url for ubuntu-workflow run
+
+      - name: Create comment
+        if: ${{ steps.fc.outputs.comment-id == 0 }}
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            **Timestamp:** ${{ steps.current-time.outputs.formattedTime }}
             **Buildscan url for ubuntu-workflow run [${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
-            ${{ steps.build.outputs.build-scan-url }}
+            ${{ needs.build.outputs.build-scan-url }}
+
+      - name: Update comment
+        if: ${{ steps.fc.outputs.comment-id != 0 }}
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          edit-mode: replace
+          body: |
+            **Timestamp:** ${{ steps.current-time.outputs.formattedTime }}
+            **Buildscan url for ubuntu-workflow run [${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
+            ${{ needs.build.outputs.build-scan-url }}

@@ -140,6 +140,13 @@ data class CommonGcloudConfig @JsonIgnore constructor(
     @set:JsonProperty("scenario-numbers")
     var scenarioNumbers: List<String>? by data
 
+    @set:CommandLine.Option(
+        names = ["--type"],
+        description = ["The type of test to run. TYPE must be one of: instrumentation, robo, xctest, game-loop."]
+    )
+    @set:JsonProperty("type")
+    var type: String? by data
+
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {
@@ -164,6 +171,7 @@ data class CommonGcloudConfig @JsonIgnore constructor(
             networkProfile = null
             devices = listOf(defaultDevice(android))
             otherFiles = emptyMap()
+            type = null
             scenarioNumbers = emptyList()
         }
     }

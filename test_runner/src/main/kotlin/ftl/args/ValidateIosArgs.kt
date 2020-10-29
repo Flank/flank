@@ -1,5 +1,6 @@
 package ftl.args
 
+import ftl.args.yml.Type
 import ftl.ios.IosCatalog
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.IncompatibleTestDimensionError
@@ -13,12 +14,13 @@ fun IosArgs.validate() = apply {
     assertTestFiles()
     checkResultsDirUnique()
     assertAdditionalIpas()
+    validType()
     assertGameloop()
 }
 
 fun IosArgs.assertGameloop() {
-    /*if (scenarioNumbers.isNotEmpty() && (type == null || type != Type.GAMELOOP))
-        throw FlankConfigurationError("Scenario numbers defined but Type is not Game-loop.")*/
+    if (scenarioNumbers.isNotEmpty() && (type == null || type != Type.GAMELOOP))
+        throw FlankConfigurationError("Scenario numbers defined but Type is not Game-loop.")
     scenarioNumbers.forEach { it.toIntOrNull() ?: throw FlankConfigurationError("Invalid scenario number provided - $it") }
 }
 
@@ -60,4 +62,10 @@ private fun IosArgs.assertTestFiles() {
 
 private fun IosArgs.assertAdditionalIpas() {
     if (additionalIpas.size > 100) throw FlankConfigurationError("Maximum 100 additional ipas are supported")
+}
+
+private fun IosArgs.validType() {
+    val validIosTypes = arrayOf(Type.GAMELOOP, Type.XCTEST)
+    if (commonArgs.type !in validIosTypes)
+        throw FlankConfigurationError("Type should be one of ${validIosTypes.joinToString(",")}")
 }

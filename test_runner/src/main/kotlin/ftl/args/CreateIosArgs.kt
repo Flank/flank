@@ -1,5 +1,6 @@
 package ftl.args
 
+import ftl.args.yml.Type
 import ftl.config.IosConfig
 import ftl.config.ios.IosFlankConfig
 import ftl.config.ios.IosGcloudConfig
@@ -20,7 +21,10 @@ private fun createIosArgs(
     commonArgs: CommonArgs,
     obfuscate: Boolean = false
 ) = IosArgs(
-    commonArgs = commonArgs.copy(maxTestShards = convertToShardCount(commonArgs.maxTestShards)),
+    commonArgs = commonArgs.copy(
+        maxTestShards = convertToShardCount(commonArgs.maxTestShards),
+        type = commonArgs.type ?: Type.XCTEST
+    ),
     xctestrunZip = gcloud.test?.normalizeFilePath().orEmpty(),
     xctestrunFile = gcloud.xctestrunFile?.normalizeFilePath().orEmpty(),
     xcodeVersion = gcloud.xcodeVersion,

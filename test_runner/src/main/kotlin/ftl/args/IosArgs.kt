@@ -6,7 +6,6 @@ import ftl.ios.XctestrunMethods
 import ftl.run.exception.FlankConfigurationError
 import ftl.shard.Chunk
 import ftl.util.FlankTestMethod
-import java.lang.Exception
 
 data class IosArgs(
     val commonArgs: CommonArgs,
@@ -44,6 +43,7 @@ IosArgs
       other-files: ${ArgsToString.mapToString(otherFiles)}
       additional-ipas: ${ArgsToString.listToString(additionalIpas)}
       scenario-numbers: ${ArgsToString.listToString(scenarioNumbers)}
+      type: ${type?.ymlName}
 
     flank:
       max-test-shards: $maxTestShards

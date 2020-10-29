@@ -389,4 +389,12 @@ class IosRunCommandTest {
         assertThat(cmd.config.platform.gcloud.additionalIpas).hasSize(2)
         assertThat(cmd.config.platform.gcloud.additionalIpas).isEqualTo(listOf("a.ipa", "b.ipa"))
     }
+
+    @Test
+    fun `should properly parse type`() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parseArgs("--type=a")
+
+        assertThat(cmd.config.common.gcloud.type).isEqualTo("a")
+    }
 }

@@ -98,6 +98,9 @@ gcloud:
   #   - 2
   #   - 3
 
+  ## The type of iOS test to run. TYPE must be one of: xctest, game-loop. Default: xctest
+  # type: xctest
+
 flank:
   # -- FlankYml --
 

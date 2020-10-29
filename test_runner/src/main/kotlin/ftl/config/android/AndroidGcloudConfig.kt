@@ -103,13 +103,6 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
     var grantPermissions: String? by data
 
     @set:CommandLine.Option(
-        names = ["--type"],
-        description = ["The type of test to run. TYPE must be one of: instrumentation, robo, game-loop."]
-    )
-    @set:JsonProperty("type")
-    var type: String? by data
-
-    @set:CommandLine.Option(
         names = ["--directories-to-pull"],
         split = ",",
         description = ["A list of paths that will be copied from the device's " +
@@ -256,7 +249,6 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
             testTargets = emptyList()
             roboDirectives = emptyMap()
             roboScript = null
-            type = null
         }
     }
 }

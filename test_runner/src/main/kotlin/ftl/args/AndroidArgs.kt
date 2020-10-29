@@ -16,6 +16,7 @@ data class AndroidArgs(
     val directoriesToPull: List<String>,
     val grantPermissions: String?,
     val type: Type?,
+    val scenarioNumbers: List<String>,
     val scenarioLabels: List<String>,
     val obbFiles: List<String>,
     val obbNames: List<String>,
