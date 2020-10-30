@@ -215,8 +215,16 @@ These tasks are :
 ##### `go`
 Build go app with tests
 
-##### `ios`
-Build ios app with tests
+##### `build_earl_grey_example`
+Build ios earl grey example app with tests
+
+| Option     | Short option | Description              |
+|------------|--------------|--------------------------|
+| --generate | -g           | Make build               |
+| --copy     | -c           | Copy output files to tmp |
+
+##### `build_flank_example`
+Build ios flank example app with tests
 
 | Option     | Short option | Description              |
 |------------|--------------|--------------------------|
