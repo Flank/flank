@@ -1,7 +1,6 @@
 package ftl.args
 
 import ftl.args.yml.Type
-import ftl.args.yml.Type
 import ftl.config.Device
 import ftl.config.common.CommonFlankConfig.Companion.defaultLocalResultsDir
 import ftl.run.status.OutputStyle
