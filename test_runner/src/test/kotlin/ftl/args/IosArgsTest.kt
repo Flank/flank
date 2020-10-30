@@ -77,6 +77,7 @@ class IosArgsTest {
             locale: c
             orientation: default
           num-flaky-test-attempts: 4
+          type: xctest
 
         flank:
           max-test-shards: 7
@@ -240,6 +241,7 @@ IosArgs
       additional-ipas: 
         - $testIpa1
         - $testIpa2
+      type: xctest
 
     flank:
       max-test-shards: 7
@@ -299,6 +301,7 @@ IosArgs
       num-flaky-test-attempts: 0
       other-files: 
       additional-ipas: 
+      type: xctest
 
     flank:
       max-test-shards: 1

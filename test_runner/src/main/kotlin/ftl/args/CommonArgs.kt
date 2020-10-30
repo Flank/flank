@@ -1,5 +1,6 @@
 package ftl.args
 
+import ftl.args.yml.Type
 import ftl.config.Device
 import ftl.run.status.OutputStyle
 
@@ -18,6 +19,7 @@ data class CommonArgs(
     override val clientDetails: Map<String, String>?,
     override val networkProfile: String?,
     override val otherFiles: Map<String, String>,
+    override val type: Type?,
 
     // flank
     override val project: String,
