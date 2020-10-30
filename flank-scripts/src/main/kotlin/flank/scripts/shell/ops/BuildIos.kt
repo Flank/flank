@@ -2,14 +2,12 @@ package flank.scripts.shell.ops
 
 import flank.scripts.shell.ios.createIosBuildCommand
 import flank.scripts.shell.utils.flankFixturesIosTmpPath
-import flank.scripts.shell.utils.iOSTestProjectsPath
 import flank.scripts.shell.utils.pipe
 import flank.scripts.utils.archive
 import flank.scripts.utils.downloadCocoaPodsIfNeeded
 import flank.scripts.utils.downloadXcPrettyIfNeeded
 import flank.scripts.utils.installPods
 import java.io.File
-import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
@@ -17,13 +15,8 @@ fun IosBuildConfiguration.generateIos() {
     downloadCocoaPodsIfNeeded()
     installPods(Paths.get(projectPath))
     downloadXcPrettyIfNeeded()
-    createDirectoryInFixture(directoryName = "objective_c")
-    createDirectoryInFixture(directoryName = "swift")
     if (generate) buildEarlGreyExample()
 }
-
-private fun IosBuildConfiguration.createDirectoryInFixture(directoryName: String): Path =
-    Files.createDirectories(Paths.get(flankFixturesIosTmpPath, projectName, directoryName))
 
 private fun IosBuildConfiguration.buildEarlGreyExample() = Paths.get(projectPath, "Build")
     .runBuilds(this)
@@ -92,11 +85,9 @@ private fun IosBuildConfiguration.copyTestFile(
 private fun File.findTestDirectories() = walk().filter { it.isDirectory && it.name.endsWith(".xctest") }
 
 data class IosBuildConfiguration(
-    val projectPath: String = Paths.get(iOSTestProjectsPath, EARL_GREY_EXAMPLE).toString(),
-    val projectName: String = EARL_GREY_EXAMPLE,
-    val objcTestsName: String = EARL_GREY_EXAMPLE_TESTS,
-    val swiftTestsName: String = EARL_GREY_EXAMPLE_SWIFT_TESTS,
-    val buildConfigurations: List<IosTestBuildConfiguration> = emptyList(),
+    val projectPath: String,
+    val projectName: String,
+    val buildConfigurations: List<IosTestBuildConfiguration>,
     val useWorkspace: Boolean = false,
     val generate: Boolean = true,
     val copy: Boolean = true
@@ -106,14 +97,3 @@ data class IosTestBuildConfiguration(val scheme: String, val outputDirectoryName
 
 private val IosBuildConfiguration.workspaceName
     get() = "$projectName.xcworkspace"
-
-// private val IosBuildConfiguration.swiftAppDirectory
-//    get() = "${projectName}Swift.app"
-
-const val EARL_GREY_EXAMPLE = "EarlGreyExample"
-const val EARL_GREY_EXAMPLE_TESTS = "EarlGreyExampleTests"
-const val EARL_GREY_EXAMPLE_SWIFT_TESTS = "EarlGreyExampleSwiftTests"
-
-const val FLANK_EXAMPLE = "FlankExample"
-const val FLANK_EXAMPLE_TESTS = "FlankExampleTests"
-const val FLANK_EXAMPLE_SECOND_TESTS = "FlankExampleSecondTests"

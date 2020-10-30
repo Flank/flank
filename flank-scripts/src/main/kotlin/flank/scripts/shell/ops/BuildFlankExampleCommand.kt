@@ -7,7 +7,7 @@ import flank.scripts.shell.utils.failIfWindows
 import flank.scripts.shell.utils.iOSTestProjectsPath
 import java.nio.file.Paths
 
-object IosOpsCommand : CliktCommand(name = "ios", help = "Build ios app with tests") {
+object BuildFlankExampleCommand : CliktCommand(name = "build_flank_example", help = "Build ios flank example app with tests") {
 
     private val generate: Boolean? by option(help = "Make build").flag("-g", default = true)
 
@@ -19,8 +19,6 @@ object IosOpsCommand : CliktCommand(name = "ios", help = "Build ios app with tes
         IosBuildConfiguration(
             projectPath = Paths.get(iOSTestProjectsPath, FLANK_EXAMPLE).toString(),
             projectName = FLANK_EXAMPLE,
-            objcTestsName = FLANK_EXAMPLE_TESTS,
-            swiftTestsName = FLANK_EXAMPLE_SECOND_TESTS,
             buildConfigurations = listOf(
                 IosTestBuildConfiguration(FLANK_EXAMPLE, "tests"),
             ),
@@ -28,19 +26,7 @@ object IosOpsCommand : CliktCommand(name = "ios", help = "Build ios app with tes
             generate = generate ?: true,
             copy = copy ?: true
         ).generateIos()
-
-        IosBuildConfiguration(
-            projectPath = Paths.get(iOSTestProjectsPath, EARL_GREY_EXAMPLE).toString(),
-            projectName = EARL_GREY_EXAMPLE,
-            objcTestsName = EARL_GREY_EXAMPLE_TESTS,
-            swiftTestsName = EARL_GREY_EXAMPLE_SWIFT_TESTS,
-            buildConfigurations = listOf(
-                IosTestBuildConfiguration(EARL_GREY_EXAMPLE_SWIFT_TESTS, "swift"),
-                IosTestBuildConfiguration(EARL_GREY_EXAMPLE_TESTS, "objective_c")
-            ),
-            useWorkspace = true,
-            generate = generate ?: true,
-            copy = copy ?: true
-        ).generateIos()
     }
 }
+
+private const val FLANK_EXAMPLE = "FlankExample"

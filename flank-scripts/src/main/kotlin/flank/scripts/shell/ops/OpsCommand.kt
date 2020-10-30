@@ -7,7 +7,8 @@ object OpsCommand : CliktCommand(name = "ops", help = "Contains all ops command:
     init {
         subcommands(
             AndroidOpsCommand,
-            IosOpsCommand,
+            BuildEarlGreyExampleCommand,
+            BuildFlankExampleCommand,
             GoOpsCommand
         )
     }
