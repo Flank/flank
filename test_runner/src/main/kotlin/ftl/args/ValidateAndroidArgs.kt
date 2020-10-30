@@ -56,9 +56,10 @@ private fun AndroidArgs.assertLabelContent() {
         else -> obbFiles.forEach { ArgsHelper.assertFileExists(it, " (obb file)") }
     }
 
-    if (scenarioNumbers.isNotEmpty() && (type == null || type != Type.GAMELOOP))
+    if (scenarioNumbers.isNotEmpty() && (type != Type.GAMELOOP))
         throw FlankConfigurationError("Scenario numbers defined but Type is not Game-loop.")
     scenarioNumbers.forEach { it.toIntOrNull() ?: throw FlankConfigurationError("Invalid scenario number provided - $it") }
+    if (scenarioNumbers.size > 1024) throw FlankConfigurationError("There cannot be more than 1024 Scenario numbers")
 }
 
 private const val MAX_OBB_FILES = 2
