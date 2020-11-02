@@ -43,7 +43,7 @@ Any other key than metadata should have corresponding **TestTarget** dictionary.
 
 In this version, XML contains two keys: `TestConfigurations` and `TestPlan` in addition to `__xctestrun_metadata__`. 
 
-`TestPlan` is just a dictionary containing basic informations about current **TestPlan.** We can ignore it. So it's excluded from example xml below.```
+`TestPlan` is just a dictionary containing basic informations about current **TestPlan.** We can ignore it. So it's excluded from example xml below.
 
 `TestConfigurations` is an array of different test configurations. Test configuration contains name property and array of TestTargets. 
 
