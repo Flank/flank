@@ -23,7 +23,6 @@ fun createAndroidArgs(
     performanceMetrics = gcloud.performanceMetrics!!,
     numUniformShards = gcloud.numUniformShards,
     environmentVariables = gcloud.environmentVariables!!,
-    directoriesToPull = gcloud.directoriesToPull!!,
     autoGoogleLogin = gcloud.autoGoogleLogin!!,
     additionalApks = gcloud.additionalApks!!.map { it.normalizeFilePath() },
     roboScript = gcloud.roboScript?.normalizeFilePath(),

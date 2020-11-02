@@ -2,10 +2,10 @@ package ftl.gc
 
 import com.dd.plist.NSDictionary
 import com.google.api.services.testing.model.IosDeviceList
-import ftl.shard.Chunk
 import ftl.args.IosArgs
 import ftl.config.FtlConstants.isWindows
 import ftl.ios.FIXTURES_PATH
+import ftl.shard.Chunk
 import ftl.shard.TestMethod
 import ftl.test.util.FlankTestRunner
 import ftl.util.ShardCounter
@@ -164,5 +164,33 @@ class GcIosTestMatrixTest {
 
         val expected = emptyList<String>()
         assertEquals(expected, iosArgs.additionalIpas)
+    }
+
+    @Test
+    fun `should fill directoriesToPull`() {
+        val iosArgs = IosArgs.load(StringReader("""
+            gcloud:
+              test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
+              xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
+              results-dir: test_dir
+              directories-to-pull:
+                - test/test/test
+        """.trimIndent()))
+
+        val expected = listOf("test/test/test")
+        assertEquals(expected, iosArgs.directoriesToPull)
+    }
+
+    @Test
+    fun `should not fill directoriesToPull`() {
+        val iosArgs = IosArgs.load(StringReader("""
+            gcloud:
+              test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
+              xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
+              results-dir: test_dir
+        """.trimIndent()))
+
+        val expected = emptyList<String>()
+        assertEquals(expected, iosArgs.directoriesToPull)
     }
 }

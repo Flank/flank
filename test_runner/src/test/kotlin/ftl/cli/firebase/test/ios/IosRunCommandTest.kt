@@ -90,6 +90,7 @@ class IosRunCommandTest {
         assertThat(cmd.config.common.gcloud.devices).isNull()
         assertThat(cmd.config.common.gcloud.resultsDir).isNull()
         assertThat(cmd.config.common.gcloud.flakyTestAttempts).isNull()
+        assertThat(cmd.config.common.gcloud.directoriesToPull).isNull()
         assertThat(cmd.config.common.flank.localResultsDir).isNull()
         assertThat(cmd.config.common.flank.smartFlankDisableUpload).isNull()
         assertThat(cmd.config.common.flank.smartFlankGcsPath).isNull()

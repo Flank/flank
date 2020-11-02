@@ -145,6 +145,12 @@ gcloud:
   #   version: 12.0
   #   locale: es_ES
   #   orientation: landscape
+  
+  ## A list of paths that will be copied from the device's storage to the designated results bucket after the test
+  ## is complete. These must be absolute paths under /private/var/mobile/Media or /Documents
+  ## of the app under test. If the path is under an app's /Documents, it must be prefixed with the app's bundle id and a colon
+  # directories-to-pull:
+  #   - /private/var/mobile/Media
 
   ## A list of device-path=file-path pairs that specify the paths of the test device and the files you want pushed to the device prior to testing.
   ## Device paths should either be under the Media shared folder (e.g. prefixed with /private/var/mobile/Media) or

@@ -235,6 +235,7 @@ IosArgs
           locale: c
           orientation: default
       num-flaky-test-attempts: 4
+      directories-to-pull: 
       other-files: 
         com.my.app:/Documents/file.txt: local/file.txt
         /private/var/mobile/Media/file.jpg: gs://bucket/file.jpg
@@ -301,6 +302,7 @@ IosArgs
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 0
+      directories-to-pull: 
       other-files: 
       additional-ipas: 
       scenario-numbers: 

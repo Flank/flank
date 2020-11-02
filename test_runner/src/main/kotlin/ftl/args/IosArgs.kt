@@ -41,6 +41,7 @@ IosArgs
       xcode-version: $xcodeVersion
       device:${ArgsToString.objectsToString(devices)}
       num-flaky-test-attempts: $flakyTestAttempts
+      directories-to-pull: ${ArgsToString.listToString(directoriesToPull)}
       other-files: ${ArgsToString.mapToString(otherFiles)}
       additional-ipas: ${ArgsToString.listToString(additionalIpas)}
       scenario-numbers: ${ArgsToString.listToString(scenarioNumbers)}
