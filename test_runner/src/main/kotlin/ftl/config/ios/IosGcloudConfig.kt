@@ -60,7 +60,6 @@ data class IosGcloudConfig @JsonIgnore constructor(
 
     @set:CommandLine.Option(
         names = ["--app"],
-        split = ",",
         description = ["The path to the application archive (.ipa file) for game-loop testing. " +
                 "The path may be in the local filesystem or in Google Cloud Storage using gs:// notation. " +
                 "This flag is only valid when --type=game-loop is also set"]
