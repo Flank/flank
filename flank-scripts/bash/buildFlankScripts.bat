@@ -1,4 +1,3 @@
-Rem REPLACE with #1246
 SET DIR=%~dp0
 
 SET FLANK_SCRIPTS=%DIR%\..

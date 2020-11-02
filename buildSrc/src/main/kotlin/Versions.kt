@@ -88,6 +88,8 @@ object Versions {
     const val PROGUARD = "7.0.0"
 
     // ============== flank-scripts ==============
+    const val ARCHIVE_LIB = "1.1.0"
+    const val TUKAANI_XZ = "1.0"
     const val KOTLIN_SERIALIZATION = "1.0.0"
     const val FUEL = "2.3.0"
     const val CLIKT = "2.8.0"

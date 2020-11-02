@@ -1,33 +1,27 @@
 #!/usr/bin/env bash
 
-TEST_PROJECTS_ANDROID="$TEST_PROJECTS/android"
-TEST_PROJECTS_IOS="$TEST_PROJECTS/ios"
-
-. "$TEST_PROJECTS_ANDROID/ops.sh"
-. "$TEST_PROJECTS_IOS/EarlGreyExample/ops.sh"
-. "$TEST_PROJECTS_IOS/FlankExample/ops.sh"
+DIR=`dirname "$BASH_SOURCE"`
 
 function update_test_artifacts() {
 
   for arg in "$@"; do case "$arg" in
 
     android)
-      base_app_apk --generate --copy
-      base_test_apks --generate --copy
+      $DIR/../flank-scripts/bash/flankScripts shell ops android --copy --generate
       ;;
 
     ios)
-      setup_ios_env
-      earl_grey_example --generate --copy
-      flank_ios_example --generate --copy
+      $DIR/../flank-scripts/bash/flankScripts shell ops ios --copy --generate
       ;;
 
     go)
-      cp -R "$FLANK_ROOT/test_projects/gohello" "$FLANK_FIXTURES_TMP/"
+      $DIR/../flank-scripts/bash/flankScripts shell ops go --copy --generate
       ;;
 
     all)
-      update_test_artifacts android ios go
+      $DIR/../flank-scripts/bash/flankScripts shell ops android --copy --generate
+      $DIR/../flank-scripts/bash/flankScripts shell ops ios --copy --generate
+      $DIR/../flank-scripts/bash/flankScripts shell ops go --copy --generate
       ;;
 
     esac done

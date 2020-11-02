@@ -2,8 +2,12 @@ package flank.scripts.utils
 
 import java.io.File
 
-fun List<String>.runCommand(retryCount: Int = 0, fileForOutput: File? = null) =
-    ProcessBuilder(this).apply {
+fun List<String>.runCommand(
+    retryCount: Int = 0,
+    fileForOutput: File? = null,
+    environmentVariables: Map<String, String> = mapOf()
+) = ProcessBuilder(this).apply {
+        environment().putAll(environmentVariables)
         if (fileForOutput != null) {
             redirectOutput(fileForOutput)
             redirectError(fileForOutput)
@@ -14,8 +18,11 @@ fun List<String>.runCommand(retryCount: Int = 0, fileForOutput: File? = null) =
     }
         .startWithRetry(retryCount)
 
-fun String.runCommand(retryCount: Int = 0, fileForOutput: File? = null) =
-    split(" ").toList().runCommand(retryCount, fileForOutput)
+fun String.runCommand(
+    retryCount: Int = 0,
+    fileForOutput: File? = null,
+    environmentVariables: Map<String, String> = mapOf()
+) = split(" ").toList().runCommand(retryCount, fileForOutput, environmentVariables)
 
 fun String.runForOutput(retryCount: Int = 0): String = File
     .createTempFile(hashCode().toString(), "")
@@ -23,6 +30,16 @@ fun String.runForOutput(retryCount: Int = 0): String = File
         runCommand(retryCount, file)
         file.readText()
     }
+
+fun String.checkCommandExists() = (if (isWindows) "where " else "command -v ").plus(this).runCommand() == 0
+
+fun String.checkAndInstallIfNeed(installCommand: String) = checkCommandExists().takeUnless { it }?.let {
+    installCommand.runCommand()
+}
+
+fun String.commandInstalledOr(orAction: () -> Unit) = checkCommandExists().takeUnless { it }?.let {
+    orAction()
+}
 
 internal fun ProcessBuilder.startWithRetry(retryCount: Int): Int {
     var retryTries = 0

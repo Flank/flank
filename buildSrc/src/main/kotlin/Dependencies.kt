@@ -54,6 +54,8 @@ object Dependencies {
     const val KOTLIN_SERIALIZATION = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.KOTLIN_SERIALIZATION}"
 
     //region flank-scripts
+    const val ARCHIVE_LIB = "org.rauschig:jarchivelib:${Versions.ARCHIVE_LIB}"
+    const val TUKAANI_XZ = "org.tukaani:xz:${Versions.TUKAANI_XZ}"
     const val CLIKT = "com.github.ajalt:clikt:${Versions.CLIKT}"
     const val JCABI_GITHUB = "com.jcabi:jcabi-github:${Versions.JCABI_GITHUB}"
     const val SLF4J_NOP = "org.slf4j:slf4j-nop:${Versions.SLF4J_NOP}"
