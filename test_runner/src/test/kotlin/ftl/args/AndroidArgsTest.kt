@@ -440,7 +440,7 @@ AndroidArgs
       run-timeout: -1
       legacy-junit-result: true
       ignore-failed-tests: false
-      output-style: multi
+      output-style: verbose
       disable-results-upload: false
       default-class-test-time: 240.0
         """.trimIndent(),
@@ -488,7 +488,7 @@ AndroidArgs
             assert(testTargetsAlwaysRun, empty)
             assert(disableSharding, false)
             assert(runTimeout, "-1")
-            assert(outputStyle, OutputStyle.Multi)
+            assert(outputStyle, OutputStyle.Verbose)
             assert(fullJUnitResult, false)
         }
     }
@@ -1199,17 +1199,17 @@ AndroidArgs
     @Test
     fun `cli output-style`() {
         val cli = AndroidRunCommand()
-        CommandLine(cli).parseArgs("--output-style=verbose")
+        CommandLine(cli).parseArgs("--output-style=multi")
 
         val yaml = """
         gcloud:
           app: $appApk
           test: $testApk
       """
-        assertThat(AndroidArgs.load(yaml).validate().outputStyle).isEqualTo(OutputStyle.Multi)
+        assertThat(AndroidArgs.load(yaml).validate().outputStyle).isEqualTo(OutputStyle.Verbose)
 
         val args = AndroidArgs.load(yaml, cli).validate()
-        assertThat(args.outputStyle).isEqualTo(OutputStyle.Verbose)
+        assertThat(args.outputStyle).isEqualTo(OutputStyle.Multi)
     }
 
     @Test(expected = FlankConfigurationError::class)

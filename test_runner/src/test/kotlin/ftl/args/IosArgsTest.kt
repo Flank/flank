@@ -326,7 +326,7 @@ IosArgs
       local-result-dir: results
       run-timeout: -1
       ignore-failed-tests: false
-      output-style: multi
+      output-style: verbose
       disable-results-upload: false
       default-class-test-time: 240.0
         """.trimIndent(),
@@ -858,17 +858,17 @@ IosArgs
     @Test
     fun `cli output-style`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parseArgs("--output-style=verbose")
+        CommandLine(cli).parseArgs("--output-style=multi")
 
         val yaml = """
         gcloud:
           test: $testPath
           xctestrun-file: $testPath
       """
-        assertThat(IosArgs.load(yaml).outputStyle).isEqualTo(OutputStyle.Multi)
+        assertThat(IosArgs.load(yaml).outputStyle).isEqualTo(OutputStyle.Verbose)
 
         val args = IosArgs.load(yaml, cli)
-        assertThat(args.outputStyle).isEqualTo(OutputStyle.Verbose)
+        assertThat(args.outputStyle).isEqualTo(OutputStyle.Multi)
     }
 
     private fun getValidTestsSample() = listOf(
