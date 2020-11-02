@@ -398,4 +398,12 @@ class IosRunCommandTest {
 
         assertThat(cmd.config.common.gcloud.type).isEqualTo("a")
     }
+
+    @Test
+    fun `should properly parse test-special-entitlements`() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parseArgs("--test-special-entitlements")
+
+        assertThat(cmd.config.platform.gcloud.testSpecialEntitlements).isEqualTo(true)
+    }
 }
