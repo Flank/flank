@@ -2,13 +2,27 @@ package ftl.ios.xctest
 
 import com.dd.plist.NSArray
 import com.dd.plist.NSDictionary
+import ftl.ios.Xctestrun.parse
+import ftl.ios.XctestrunMethods
+import java.io.File
 
-fun rewriteXcTestRun(
+fun rewriteXcTestRun(xctestrun: String, methods: List<String>): ByteArray {
+    val xctestrunFile = File(xctestrun)
+    val methodsToRun = findTestNames(xctestrunFile).mapValues { (_, list) -> list.filter(methods::contains) }
+    return rewriteXcTestRun(parse(xctestrun), methodsToRun)
+}
+
+fun rewriteXcTestRun(xctestrun: String, methodsData: XctestrunMethods): ByteArray {
+    val xctestrunFile = File(xctestrun)
+    return rewriteXcTestRun(parse(xctestrun), methodsData)
+}
+
+internal fun rewriteXcTestRun(
     root: NSDictionary,
-    methods: Collection<String>
+    methods: XctestrunMethods
 ): ByteArray = root.clone().apply {
     allKeys().filterNot(String::isMetadata).forEach { testTarget ->
-        (get(testTarget) as NSDictionary).setOnlyTestIdentifiers(methods)
+        (get(testTarget) as NSDictionary).setOnlyTestIdentifiers(methods[testTarget] ?: emptyList())
     }
 }.toByteArray()
 

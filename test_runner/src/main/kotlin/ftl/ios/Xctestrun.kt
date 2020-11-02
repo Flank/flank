@@ -2,6 +2,7 @@ package ftl.ios
 
 import com.dd.plist.NSDictionary
 import ftl.ios.xctest.findTestNames
+import ftl.ios.xctest.findTestsForTestTarget
 import ftl.ios.xctest.parseToNSDictionary
 import ftl.ios.xctest.rewriteXcTestRun
 import java.io.File
@@ -14,7 +15,9 @@ object Xctestrun {
 
     fun parse(xctestrun: ByteArray): NSDictionary = parseToNSDictionary(xctestrun)
 
-    fun findTestNames(xctestrun: String): List<String> = findTestNames(File(xctestrun))
+    fun findTestNames(xctestrun: String): XctestrunMethods = findTestNames(File(xctestrun))
 
-    fun rewrite(root: NSDictionary, methods: Collection<String>) = rewriteXcTestRun(root, methods)
+    fun findTestsForTarget(testTarget: String, xctestrun: String): List<String> = findTestsForTestTarget(testTarget, File(xctestrun))
+
+    fun rewrite(xctestrun: String, methods: List<String>) = rewriteXcTestRun(xctestrun, methods)
 }

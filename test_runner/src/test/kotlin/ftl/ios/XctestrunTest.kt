@@ -4,6 +4,7 @@ import com.dd.plist.NSArray
 import com.dd.plist.NSDictionary
 import com.google.common.truth.Truth.assertThat
 import ftl.config.FtlConstants.isWindows
+import ftl.ios.xctest.rewriteXcTestRun
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.normalizeLineEnding
 import ftl.run.exception.FlankGeneralError
@@ -69,10 +70,10 @@ class XctestrunTest {
         assumeFalse(isWindows)
 
         val root = Xctestrun.parse(swiftXctestrun)
-        val methods = Xctestrun.findTestNames(testTarget = "EarlGreyExampleSwiftTests", xctestrun = swiftXctestrun)
+        val methods = Xctestrun.findTestsForTarget(testTarget = "EarlGreyExampleSwiftTests", xctestrun = swiftXctestrun)
         val methodsData = mapOf<String, List<String>>("EarlGreyExampleSwiftTests" to methods)
 
-        val results = String(Xctestrun.rewrite(root, methodsData))
+        val results = String(rewriteXcTestRun(root, methodsData))
 
         assertThat(results.contains("OnlyTestIdentifiers")).isTrue()
     }
@@ -82,7 +83,7 @@ class XctestrunTest {
         assumeFalse(isWindows)
 
         val root = Xctestrun.parse(swiftXctestrun)
-        val methods = Xctestrun.findTestNames(testTarget = "EarlGreyExampleSwiftTests", xctestrun = swiftXctestrun)
+        val methods = Xctestrun.findTestsForTarget(testTarget = "EarlGreyExampleSwiftTests", xctestrun = swiftXctestrun)
         val methodsData = mapOf<String, List<String>>("EarlGreyExampleSwiftTests" to methods)
 
         // ensure root object isn't modified. Rewrite should return a new object.
@@ -90,7 +91,7 @@ class XctestrunTest {
 
         assertThat(root.toASCIIPropertyList().contains(key)).isFalse()
 
-        Xctestrun.rewrite(root, methodsData)
+        rewriteXcTestRun(root, methodsData)
 
         assertThat(root.toASCIIPropertyList().contains(key)).isFalse()
     }
@@ -102,9 +103,9 @@ class XctestrunTest {
         root["EarlGreyExampleTests"] = NSDictionary()
         val methods = listOf("testOne", "testTwo")
         val methodsData = mapOf<String, List<String>>("EarlGreyExampleSwiftTests" to methods, "EarlGreyExampleTests" to methods)
-        Xctestrun.rewrite(root, methodsData)
-        Xctestrun.rewrite(root, methodsData)
-        val result = Xctestrun.rewrite(root, methodsData)
+        rewriteXcTestRun(root, methodsData)
+        rewriteXcTestRun(root, methodsData)
+        val result = rewriteXcTestRun(root, methodsData)
         val expected = """<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -155,7 +156,7 @@ class XctestrunTest {
         val root = Xctestrun.parse(inputXml.toByteArray())
 
         val tests = mapOf<String, List<String>>("EarlGreyExampleSwiftTests" to listOf("testOne", "testTwo"))
-        val rewrittenXml = String(Xctestrun.rewrite(root, tests))
+        val rewrittenXml = String(rewriteXcTestRun(root, tests))
 
         assertThat(inputXml).isEqualTo(rewrittenXml.normalizeLineEnding())
     }
@@ -204,30 +205,30 @@ class XctestrunTest {
         Files.write(tmpXml, inputXml.toByteArray())
         tmpXml.toFile().deleteOnExit()
 
-        val actualTests = Xctestrun.findTestNames("EarlGreyExampleSwiftTests", tmpXml.toString()).sorted()
+        val actualTests = Xctestrun.findTestsForTarget("EarlGreyExampleSwiftTests", tmpXml.toString()).sorted()
         assertThat(actualTests).isEqualTo(listOf("EarlGreyExampleSwiftTests/testBasicSelection"))
     }
 
     @Test
     fun findTestNamesForTestTarget() {
         assumeFalse(isWindows)
-        val names = Xctestrun.findTestNames(testTarget = "EarlGreyExampleSwiftTests", xctestrun = swiftXctestrun).sorted()
+        val names = Xctestrun.findTestsForTarget(testTarget = "EarlGreyExampleSwiftTests", xctestrun = swiftXctestrun).sorted()
         assertThat(swiftTests).isEqualTo(names)
     }
 
     @Test(expected = FlankGeneralError::class)
     fun `findTestNames for nonexisting test target`() {
         assumeFalse(isWindows)
-        Xctestrun.findTestNames(testTarget = "Incorrect", xctestrun = swiftXctestrun).sorted()
+        Xctestrun.findTestsForTarget(testTarget = "Incorrect", xctestrun = swiftXctestrun).sorted()
     }
 
     @Test
     fun `find test names for xctestrun file containing multiple test targets`() {
         assumeFalse(isWindows)
-        val names = Xctestrun.findTestNames(testTarget = "FlankExampleTests", xctestrun = multipleTargetsSwiftXctestrun).sorted()
+        val names = Xctestrun.findTestsForTarget(testTarget = "FlankExampleTests", xctestrun = multipleTargetsSwiftXctestrun).sorted()
         assertThat(names).isEqualTo(listOf("FlankExampleTests/test1", "FlankExampleTests/test2"))
 
-        val names2 = Xctestrun.findTestNames(testTarget = "FlankExampleSecondTests", xctestrun = multipleTargetsSwiftXctestrun).sorted()
+        val names2 = Xctestrun.findTestsForTarget(testTarget = "FlankExampleSecondTests", xctestrun = multipleTargetsSwiftXctestrun).sorted()
         assertThat(names2).isEqualTo(listOf("FlankExampleSecondTests/test3", "FlankExampleSecondTests/test4"))
     }
 
