@@ -243,6 +243,7 @@ IosArgs
         - $testIpa2
       scenario-numbers: 
       type: xctest
+      app: 
 
     flank:
       max-test-shards: 7
@@ -304,6 +305,8 @@ IosArgs
       additional-ipas: 
       scenario-numbers: 
       type: xctest
+      app: 
+      
 
     flank:
       max-test-shards: 1

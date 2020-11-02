@@ -18,7 +18,16 @@ fun IosArgs.validate() = apply {
     assertGameloop()
 }
 
-fun IosArgs.assertGameloop() {
+private fun IosArgs.assertGameloop() {
+    validateApp()
+    validateScenarioNumbers()
+}
+
+private fun IosArgs.validateApp() {
+    if (app.isNotEmpty() && type != Type.GAMELOOP) throw FlankConfigurationError("App cannot be defined if type is not equal to game-loop (IOS)")
+}
+
+private fun IosArgs.validateScenarioNumbers() {
     if (scenarioNumbers.isNotEmpty() && (type != Type.GAMELOOP))
         throw FlankConfigurationError("Scenario numbers defined but Type is not Game-loop.")
     scenarioNumbers.forEach { it.toIntOrNull() ?: throw FlankConfigurationError("Invalid scenario number provided - $it") }

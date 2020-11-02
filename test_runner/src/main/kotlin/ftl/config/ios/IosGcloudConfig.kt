@@ -58,6 +58,16 @@ data class IosGcloudConfig @JsonIgnore constructor(
     @set:JsonProperty("additional-ipas")
     var additionalIpas: List<String>? by data
 
+    @set:CommandLine.Option(
+        names = ["--app"],
+        split = ",",
+        description = ["The path to the application archive (.ipa file) for game-loop testing. " +
+                "The path may be in the local filesystem or in Google Cloud Storage using gs:// notation. " +
+                "This flag is only valid when --type=game-loop is also set"]
+    )
+    @set:JsonProperty("app")
+    var app: String? by data
+
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {

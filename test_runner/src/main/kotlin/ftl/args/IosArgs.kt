@@ -14,7 +14,8 @@ data class IosArgs(
     val xcodeVersion: String?,
     val testTargets: List<String>,
     val obfuscateDumpShards: Boolean,
-    val additionalIpas: List<String>
+    val additionalIpas: List<String>,
+    val app: String,
 ) : IArgs by commonArgs {
 
     override val useLegacyJUnitResult = true
@@ -44,6 +45,7 @@ IosArgs
       additional-ipas: ${ArgsToString.listToString(additionalIpas)}
       scenario-numbers: ${ArgsToString.listToString(scenarioNumbers)}
       type: ${type?.ymlName}
+      app: $app
 
     flank:
       max-test-shards: $maxTestShards
