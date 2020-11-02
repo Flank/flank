@@ -15,6 +15,14 @@ fun IosArgs.validate() = apply {
     checkResultsDirUnique()
     assertAdditionalIpas()
     validType()
+    assertGameloop()
+}
+
+fun IosArgs.assertGameloop() {
+    if (scenarioNumbers.isNotEmpty() && (type != Type.GAMELOOP))
+        throw FlankConfigurationError("Scenario numbers defined but Type is not Game-loop.")
+    scenarioNumbers.forEach { it.toIntOrNull() ?: throw FlankConfigurationError("Invalid scenario number provided - $it") }
+    if (scenarioNumbers.size > 1024) throw FlankConfigurationError("There cannot be more than 1024 Scenario numbers")
 }
 
 fun IosArgs.validateRefresh() = apply {

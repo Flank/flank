@@ -241,6 +241,7 @@ IosArgs
       additional-ipas: 
         - $testIpa1
         - $testIpa2
+      scenario-numbers: 
       type: xctest
 
     flank:
@@ -301,6 +302,7 @@ IosArgs
       num-flaky-test-attempts: 0
       other-files: 
       additional-ipas: 
+      scenario-numbers: 
       type: xctest
 
     flank:
@@ -1126,6 +1128,62 @@ IosArgs
             // then
             assertFalse(systemOutRule.log.contains("WARNING: Google cloud storage result directory should be unique, otherwise results from multiple test matrices will be overwritten or intermingled"))
         }
+    }
+
+    @Test
+    fun `should not throw exception if game-loop is provided and nothing else`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+          results-dir: test
+          type: game-loop
+        """.trimIndent()
+        IosArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception if game-loop is not provided and scenario numbers are`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+          results-dir: test
+          scenario-numbers:
+             - 1
+             - 2
+        """.trimIndent()
+        IosArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should not throw exception if game-loop is provided and scenario numbers are`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+          results-dir: test
+          type: game-loop
+          scenario-numbers:
+             - 1
+             - 2
+        """.trimIndent()
+        IosArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception if invalid scenario numbers are provided`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+          results-dir: test
+          type: game-loop
+          scenario-numbers:
+             - error1
+             - error2
+        """.trimIndent()
+        IosArgs.load(yaml).validate()
     }
 }
 

@@ -131,6 +131,16 @@ data class CommonGcloudConfig @JsonIgnore constructor(
     var otherFiles: Map<String, String>? by data
 
     @set:CommandLine.Option(
+        names = ["--scenario-numbers"],
+        split = ",",
+        description = ["A list of game-loop scenario numbers which will be run as part of the test (default: all scenarios). " +
+                "A maximum of 1024 scenarios may be specified in one test matrix, " +
+                "but the maximum number may also be limited by the overall test --timeout setting."]
+    )
+    @set:JsonProperty("scenario-numbers")
+    var scenarioNumbers: List<String>? by data
+
+    @set:CommandLine.Option(
         names = ["--type"],
         description = ["The type of test to run. TYPE must be one of: instrumentation, robo, xctest, game-loop."]
     )
@@ -162,6 +172,7 @@ data class CommonGcloudConfig @JsonIgnore constructor(
             devices = listOf(defaultDevice(android))
             otherFiles = emptyMap()
             type = null
+            scenarioNumbers = emptyList()
         }
     }
 }

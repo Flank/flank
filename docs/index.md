@@ -160,6 +160,13 @@ gcloud:
   #   - gs://bucket/additional.ipa
   #   - path/to/local/ipa/file.ipa
 
+  ## A list of game-loop scenario numbers which will be run as part of the test (default: all scenarios).
+  ## A maximum of 1024 scenarios may be specified in one test matrix, but the maximum number may also be limited by the overall test --timeout setting.
+  # scenario-numbers:
+  #   - 1
+  #   - 2
+  #   - 3
+
   ## The type of iOS test to run. TYPE must be one of: xctest, game-loop. Default: xctest
   # type: xctest
 
@@ -360,6 +367,13 @@ gcloud:
   # obb-files:
   #   - local/file/path/test1.obb
   #   - local/file/path/test2.obb
+
+  ## A list of game-loop scenario numbers which will be run as part of the test (default: all scenarios).
+  ## A maximum of 1024 scenarios may be specified in one test matrix, but the maximum number may also be limited by the overall test --timeout setting.
+  # scenario-numbers:
+  #   - 1
+  #   - 2
+  #   - 3
 
   ## A list of OBB required filenames. OBB file name must conform to the format as specified by Android e.g. 
   ## [main|patch].0300110.com.example.android.obb which will be installed into <shared-storage>/Android/obb/<package-name>/ on the device.

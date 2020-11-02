@@ -42,6 +42,7 @@ IosArgs
       num-flaky-test-attempts: $flakyTestAttempts
       other-files: ${ArgsToString.mapToString(otherFiles)}
       additional-ipas: ${ArgsToString.listToString(additionalIpas)}
+      scenario-numbers: ${ArgsToString.listToString(scenarioNumbers)}
       type: ${type?.ymlName}
 
     flank:
