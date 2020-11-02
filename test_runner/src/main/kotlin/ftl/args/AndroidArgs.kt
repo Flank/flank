@@ -15,7 +15,6 @@ data class AndroidArgs(
     val environmentVariables: Map<String, String>, // should not be printed, becuase could contains sensitive informations
     val directoriesToPull: List<String>,
     val grantPermissions: String?,
-    val scenarioNumbers: List<String>,
     val scenarioLabels: List<String>,
     val obbFiles: List<String>,
     val obbNames: List<String>,

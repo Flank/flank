@@ -91,6 +91,13 @@ gcloud:
   #   - gs://bucket/additional.ipa
   #   - path/to/local/ipa/file.ipa
 
+  ## A list of game-loop scenario numbers which will be run as part of the test (default: all scenarios).
+  ## A maximum of 1024 scenarios may be specified in one test matrix, but the maximum number may also be limited by the overall test --timeout setting.
+  # scenario-numbers:
+  #   - 1
+  #   - 2
+  #   - 3
+
   ## The type of iOS test to run. TYPE must be one of: xctest, game-loop. Default: xctest
   # type: xctest
 

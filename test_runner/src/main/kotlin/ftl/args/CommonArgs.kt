@@ -20,6 +20,7 @@ data class CommonArgs(
     override val networkProfile: String?,
     override val otherFiles: Map<String, String>,
     override val type: Type?,
+    override val scenarioNumbers: List<String>,
 
     // flank
     override val project: String,
