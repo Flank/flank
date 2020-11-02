@@ -23,7 +23,10 @@ internal fun findTestNames(xctestrun: File): XctestrunMethods =
     }
 
 internal fun findTestsForTestTarget(testTarget: String, xctestrun: File): List<String> =
-    parseToNSDictionary(xctestrun).run { findTestsForTarget(testTarget, testRoot = xctestrun.parent + "/") }
+        parseToNSDictionary(xctestrun).get(testTarget)
+                ?.let { (it as? NSDictionary) }
+                ?.let { it.findTestsForTarget(testTarget, testRoot = xctestrun.parent + "/") }
+                ?: throw FlankGeneralError("Test target $testTarget doesn't exist")
 
 private fun NSDictionary.findTestsForTarget(testTarget: String, testRoot: String): List<String> =
     if (testTarget.isMetadata()) emptyList()
@@ -35,13 +38,7 @@ private fun NSDictionary.findXcTestTargets(testTarget: String): NSObject? =
         get("DependentProductPaths")
                 ?.let { it as? NSArray }?.array
                 ?.first { product -> product.toString().containsTestTarget(testTarget) }
-//        get(testTarget)
-//                ?.let {
-//                    get("DependentProductPaths")
-//                            ?.let { it as? NSArray }?.array
-//                            ?.first { product -> product.toString().containsTestTarget(testTarget) }
-//                }
-//                ?: throw FlankGeneralError("Test target $testTarget doesn't exist")
+                ?: throw FlankGeneralError("Test target $testTarget doesn't exist")
 
 private fun String.containsTestTarget(name: String): Boolean = contains("/$name.xctest")
 
