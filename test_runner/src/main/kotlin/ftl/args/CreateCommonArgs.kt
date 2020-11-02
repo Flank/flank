@@ -25,6 +25,7 @@ fun CommonConfig.createCommonArgs(
     flakyTestAttempts = gcloud.flakyTestAttempts!!,
     networkProfile = gcloud.networkProfile,
     clientDetails = gcloud.clientDetails,
+    directoriesToPull = gcloud.directoriesToPull!!,
     otherFiles = gcloud.otherFiles!!.mapValues { (_, path) -> path.normalizeFilePath() },
     scenarioNumbers = gcloud.scenarioNumbers!!,
     type = gcloud.type?.toType(),
