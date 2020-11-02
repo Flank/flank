@@ -5,21 +5,25 @@ import com.dd.plist.NSDictionary
 import com.dd.plist.NSObject
 import com.dd.plist.NSString
 import ftl.ios.Parse
+import ftl.ios.XctestrunMethods
 import ftl.run.exception.FlankGeneralError
 import java.io.File
 import java.nio.file.Paths
 
 // Finds tests in a xctestrun file
-internal fun findTestNames(xctestrun: File): List<String> =
+internal fun findTestNames(xctestrun: File): XctestrunMethods =
     parseToNSDictionary(xctestrun).run {
         val testRoot = xctestrun.parent + "/"
         allKeys().map { testTarget ->
-            (get(testTarget) as NSDictionary).findTestsForTarget(
+            testTarget to (get(testTarget) as NSDictionary).findTestsForTarget(
                 testRoot = testRoot,
                 testTarget = testTarget
             )
-        }.flatten().distinct()
+        }.distinct().toMap()
     }
+
+internal fun findTestsForTestTarget(testTarget: String, xctestrun: File): List<String> =
+    parseToNSDictionary(xctestrun).run { findTestsForTarget(testTarget, testRoot = xctestrun.parent + "/") }
 
 private fun NSDictionary.findTestsForTarget(testTarget: String, testRoot: String): List<String> =
     if (testTarget.isMetadata()) emptyList()
@@ -28,9 +32,16 @@ private fun NSDictionary.findTestsForTarget(testTarget: String, testRoot: String
         ?: throw FlankGeneralError("No tests found")
 
 private fun NSDictionary.findXcTestTargets(testTarget: String): NSObject? =
-    get("DependentProductPaths")
-        ?.let { it as? NSArray }?.array
-        ?.first { product -> product.toString().containsTestTarget(testTarget) }
+        get("DependentProductPaths")
+                ?.let { it as? NSArray }?.array
+                ?.first { product -> product.toString().containsTestTarget(testTarget) }
+//        get(testTarget)
+//                ?.let {
+//                    get("DependentProductPaths")
+//                            ?.let { it as? NSArray }?.array
+//                            ?.first { product -> product.toString().containsTestTarget(testTarget) }
+//                }
+//                ?: throw FlankGeneralError("Test target $testTarget doesn't exist")
 
 private fun String.containsTestTarget(name: String): Boolean = contains("/$name.xctest")
 
