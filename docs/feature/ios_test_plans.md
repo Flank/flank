@@ -53,7 +53,7 @@ In this version, XML contains two keys: `TestConfigurations` and `TestPlan` in a
 	<key>Name</key> 
 	<string>pl</string> <!-- Name property -->
 	<key>TestTargets</key>
-	<array>
+	<array> <!-- TestConfigurations -->
 		<dict>
 			<key>BlueprintName</key>
 			<string>UITests</string>
