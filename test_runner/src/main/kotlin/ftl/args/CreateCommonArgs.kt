@@ -66,4 +66,4 @@ private val CommonConfig.defaultOutputStyle
 
 private val CommonConfig.hasMultipleExecutions
     get() = gcloud.flakyTestAttempts!! > 0 ||
-            (!flank.disableSharding!! && flank.maxTestShards!! > 0)
+            (!flank.disableSharding!! && flank.maxTestShards!! > 1)
