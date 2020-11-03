@@ -25,7 +25,7 @@ Any other key than metadata should have corresponding **TestTarget** dictionary.
 <plist version="1.0">
 <dict>
 	<key>EarlGreyExampleSwiftTests</key>
-	<dict>
+	<dict> <!-- TestTarget -->
 		<key>BlueprintName</key>
 		<string>EarlGreyExampleSwiftTests</string>
 		... 
