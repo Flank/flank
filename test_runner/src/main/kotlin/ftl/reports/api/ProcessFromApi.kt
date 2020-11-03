@@ -5,20 +5,12 @@ import com.google.api.services.testing.model.TestMatrix
 import ftl.args.IArgs
 import ftl.gc.GcTestMatrix
 import ftl.json.MatrixMap
-import ftl.reports.xml.model.JUnitTestResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 
-fun processXmlFromApi(
-    matrices: MatrixMap,
-    args: IArgs,
-    withStackTraces: Boolean = false
-): JUnitTestResult = refreshMatricesAndGetExecutions(matrices, args)
-    .createJUnitTestResult(withStackTraces)
-
-private fun refreshMatricesAndGetExecutions(matrices: MatrixMap, args: IArgs): List<TestExecution> = refreshTestMatrices(
+fun refreshMatricesAndGetExecutions(matrices: MatrixMap, args: IArgs): List<TestExecution> = refreshTestMatrices(
     matrixIds = matrices.map.values.map { it.matrixId },
     projectId = args.project
 ).getTestExecutions()
