@@ -175,6 +175,13 @@ gcloud:
 
   ## The type of iOS test to run. TYPE must be one of: xctest, game-loop. Default: xctest
   # type: xctest
+  
+  ## The path to the application archive (.ipa file) for game-loop testing. 
+  ## The path may be in the local filesystem or in Google Cloud Storage using gs:// notation. 
+  ## This flag is only valid when --type=game-loop is also set
+  # app:
+  #  - gs://bucket/additional.ipa OR path/to/local/ipa/file.ipa
+
 
   ## Enables testing special app entitlements. Re-signs an app having special entitlements with a new application-identifier.
   ## This currently supports testing Push Notifications (aps-environment) entitlement for up to one app in a project.

@@ -245,6 +245,7 @@ IosArgs
         - $testIpa2
       scenario-numbers: 
       type: xctest
+      app: 
       test-special-entitlements: true
 
     flank:
@@ -308,6 +309,7 @@ IosArgs
       additional-ipas: 
       scenario-numbers: 
       type: xctest
+      app: 
       test-special-entitlements: false
 
     flank:
@@ -1187,6 +1189,31 @@ IosArgs
           scenario-numbers:
              - error1
              - error2
+        """.trimIndent()
+        IosArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception if app provided but not type equals gameloop`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+          results-dir: test
+          app: $testPath
+        """.trimIndent()
+        IosArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should not throw exception if app provided and type equals gameloop`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+          results-dir: test
+          type: game-loop
+          app: $testPath
         """.trimIndent()
         IosArgs.load(yaml).validate()
     }

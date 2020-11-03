@@ -15,6 +15,7 @@ data class IosArgs(
     val testTargets: List<String>,
     val obfuscateDumpShards: Boolean,
     val additionalIpas: List<String>,
+    val app: String,
     val testSpecialEntitlements: Boolean?
 ) : IArgs by commonArgs {
 
@@ -46,6 +47,7 @@ IosArgs
       additional-ipas: ${ArgsToString.listToString(additionalIpas)}
       scenario-numbers: ${ArgsToString.listToString(scenarioNumbers)}
       type: ${type?.ymlName}
+      app: $app
       test-special-entitlements: $testSpecialEntitlements
 
     flank:
