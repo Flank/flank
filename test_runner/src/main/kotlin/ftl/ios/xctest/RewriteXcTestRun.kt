@@ -12,7 +12,7 @@ fun rewriteXcTestRun(xctestrun: String, methods: List<String>): ByteArray {
     return rewriteXcTestRun(parse(xctestrun), methodsToRun)
 }
 
-fun rewriteXcTestRun(xctestrun: String, methodsData: XctestrunMethods): ByteArray {
+internal fun rewriteXcTestRun(xctestrun: String, methodsData: XctestrunMethods): ByteArray {
     val xctestrunFile = File(xctestrun)
     return rewriteXcTestRun(parse(xctestrun), methodsData)
 }
