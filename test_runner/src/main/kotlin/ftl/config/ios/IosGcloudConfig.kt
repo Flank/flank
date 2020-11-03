@@ -82,6 +82,7 @@ data class IosGcloudConfig @JsonIgnore constructor(
             xctestrunFile = null
             xcodeVersion = null
             additionalIpas = emptyList()
+            app = null
         }
     }
 }
