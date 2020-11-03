@@ -6,6 +6,7 @@ import io.mockk.every
 import io.mockk.spyk
 import io.mockk.verify
 import org.fusesource.jansi.Ansi
+import org.fusesource.jansi.AnsiConsole
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -21,6 +22,7 @@ class MultiLinePrinterTest {
         // given
         val ansi = spyk(Ansi.ansi()) { every { this@spyk.toString() } returns "" }
         val printChanges = MultiLinePrinter { ansi }
+        AnsiConsole.systemUninstall()
 
         // when
         printChanges(changes1)
