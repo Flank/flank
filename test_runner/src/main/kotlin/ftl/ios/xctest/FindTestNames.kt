@@ -34,7 +34,7 @@ private fun NSDictionary.findTestsForTarget(testTarget: String, testRoot: String
         ?.run { findBinaryTests(testRoot) - findTestsToSkip() }
         ?: throw FlankGeneralError("No tests found")
 
-private fun NSDictionary.findXcTestTargets(testTarget: String): NSObject? =
+private fun NSDictionary.findXcTestTargets(testTarget: String): NSObject =
     get("DependentProductPaths")
         ?.let { it as? NSArray }?.array
         ?.first { product -> product.toString().containsTestTarget(testTarget) }
