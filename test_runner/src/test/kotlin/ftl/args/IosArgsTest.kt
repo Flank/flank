@@ -78,6 +78,7 @@ class IosArgsTest {
             orientation: default
           num-flaky-test-attempts: 4
           type: xctest
+          test-special-entitlements: true
 
         flank:
           max-test-shards: 7
@@ -245,6 +246,7 @@ IosArgs
       scenario-numbers: 
       type: xctest
       app: 
+      test-special-entitlements: true
 
     flank:
       max-test-shards: 7
@@ -307,6 +309,7 @@ IosArgs
       additional-ipas: 
       scenario-numbers: 
       type: xctest
+      test-special-entitlements: false
       app: 
 
     flank:

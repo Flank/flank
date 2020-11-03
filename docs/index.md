@@ -183,6 +183,11 @@ gcloud:
   #  - gs://bucket/additional.ipa OR path/to/local/ipa/file.ipa
 
 
+  ## Enables testing special app entitlements. Re-signs an app having special entitlements with a new application-identifier.
+  ## This currently supports testing Push Notifications (aps-environment) entitlement for up to one app in a project.
+  ## Note: Because this changes the app's identifier, make sure none of the resources in your zip file contain direct references to the test app's bundle id.
+  # test-special-entitlements: false
+
 flank:
   # -- FlankYml --
 

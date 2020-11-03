@@ -31,7 +31,8 @@ private fun createIosArgs(
     additionalIpas = gcloud.additionalIpas!!.map { it.normalizeFilePath() },
     testTargets = flank.testTargets?.filterNotNull().orEmpty(),
     obfuscateDumpShards = obfuscate,
-    app = gcloud.app?.normalizeFilePath().orEmpty()
+    app = gcloud.app?.normalizeFilePath().orEmpty(),
+    testSpecialEntitlements = gcloud.testSpecialEntitlements ?: false
 )
 
 private fun convertToShardCount(inputValue: Int) =
