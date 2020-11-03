@@ -309,8 +309,8 @@ IosArgs
       additional-ipas: 
       scenario-numbers: 
       type: xctest
-      test-special-entitlements: false
       app: 
+      test-special-entitlements: false
 
     flank:
       max-test-shards: 1
