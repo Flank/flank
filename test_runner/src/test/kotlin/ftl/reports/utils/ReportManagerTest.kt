@@ -79,6 +79,7 @@ class ReportManagerTest {
         every { mockArgs.fullJUnitResult } returns false
         every { mockArgs.ignoreFailedTests } returns false
         every { mockArgs.smartFlankDisableUpload } returns true
+        every { mockArgs.project } returns "project"
         return mockArgs
     }
 

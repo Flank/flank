@@ -15,7 +15,7 @@ import ftl.reports.FullJUnitReport
 import ftl.reports.HtmlErrorReport
 import ftl.reports.JUnitReport
 import ftl.reports.MatrixResultsReport
-import ftl.reports.api.createAndUploadPerformanceMetrics
+import ftl.reports.api.getAndUploadPerformanceMetrics
 import ftl.reports.api.createJUnitTestResult
 import ftl.reports.api.refreshMatricesAndGetExecutions
 import ftl.reports.xml.model.JUnitTestCase
@@ -141,7 +141,18 @@ object ReportManager {
         testExecutions: List<TestExecution>,
         matrices: MatrixMap
     ) {
-        if (args is AndroidArgs) testExecutions.createAndUploadPerformanceMetrics(args, matrices)
+        testExecutions
+            .takeIf { args is AndroidArgs }
+            ?.run {
+                withGcsStoragePath(matrices, args.resultsDir).getAndUploadPerformanceMetrics(args.resultsBucket)
+            }
+    }
+
+    private fun List<TestExecution>.withGcsStoragePath(
+        matrices: MatrixMap,
+        defaultResultDir: String
+    ) = map { testExecution ->
+        testExecution to (matrices.map[testExecution.matrixId]?.gcsPathWithoutRootBucket ?: defaultResultDir)
     }
 
     private fun IgnoredTestCases.toJunitTestsResults() = getSkippedJUnitTestSuite(

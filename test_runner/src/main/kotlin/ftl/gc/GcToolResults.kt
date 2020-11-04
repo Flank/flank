@@ -107,7 +107,7 @@ object GcToolResults {
             .executeWithRetry()
     }
 
-    fun createPerformanceMetric(
+    fun getPerformanceMetric(
         toolResultsStep: ToolResultsStep
     ) = service
         .projects()

@@ -1,5 +1,8 @@
 package ftl.gc
 
+import com.google.api.services.toolresults.model.AppStartTime
+import com.google.api.services.toolresults.model.Duration
+import com.google.api.services.toolresults.model.PerfMetricsSummary
 import ftl.args.AndroidArgs
 import ftl.test.util.FlankTestRunner
 import io.mockk.every
@@ -25,6 +28,19 @@ class GcStorageTest {
         every { androidArgs.appApk } returns "../test_projects/android/apks/app-debug.apk"
 
         GcStorage.upload(androidArgs.appApk!!, "does-not-exist", "nope")
+    }
+
+    @Test
+    fun `should upload performance metrics`() {
+        // given
+        val expectedPerformanceMetrics = PerfMetricsSummary()
+            .setAppStartTime(AppStartTime().setInitialDisplayTime(Duration().setSeconds(5)))
+
+        // when
+        GcStorage.uploadPerformanceMetrics(expectedPerformanceMetrics, "bucket", "path/test")
+
+        // then
+        assertTrue(GcStorage.exist("gs://bucket/path/test/performanceMetrics.json"))
     }
 
     @Test

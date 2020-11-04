@@ -3,36 +3,30 @@ package ftl.reports.api
 import com.google.api.services.testing.model.TestExecution
 import com.google.api.services.toolresults.model.PerfMetricsSummary
 import ftl.android.AndroidCatalog
-import ftl.args.IArgs
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
-import ftl.json.MatrixMap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 
-internal fun List<TestExecution>.createAndUploadPerformanceMetrics(
-    args: IArgs,
-    matrices: MatrixMap
+internal fun List<Pair<TestExecution, String>>.getAndUploadPerformanceMetrics(
+    resultBucket: String
 ) = runBlocking {
     filterAndroidPhysicalDevicesRuns()
-        .map { testExecution ->
+        .map { (testExecution, gcsStoragePath) ->
             async(Dispatchers.IO) {
-                testExecution.createPerformanceMetric().upload(
-                    resultBucket = args.resultsBucket,
-                    resultDir = matrices.map[testExecution.matrixId]?.gcsPathWithoutRootBucket ?: args.resultsDir
-                )
+                testExecution.getPerformanceMetric().upload(resultBucket = resultBucket, resultDir = gcsStoragePath)
             }
         }
         .awaitAll()
 }
 
-private fun List<TestExecution>.filterAndroidPhysicalDevicesRuns() = filterNot {
-    AndroidCatalog.isVirtualDevice(it.environment.androidDevice, it.projectId)
+private fun List<Pair<TestExecution, String>>.filterAndroidPhysicalDevicesRuns() = filterNot { (testExecution, _) ->
+    AndroidCatalog.isVirtualDevice(testExecution.environment.androidDevice, testExecution.projectId)
 }
 
-private fun TestExecution.createPerformanceMetric() = GcToolResults.createPerformanceMetric(toolResultsStep)
+private fun TestExecution.getPerformanceMetric() = GcToolResults.getPerformanceMetric(toolResultsStep)
 
 private fun PerfMetricsSummary.upload(
     resultBucket: String,
