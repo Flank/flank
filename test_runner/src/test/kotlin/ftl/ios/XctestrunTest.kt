@@ -50,7 +50,7 @@ class XctestrunTest {
         val result = parseToNSDictionary(swiftXctestrun)
         assertThat(arrayOf("EarlGreyExampleSwiftTests", "__xctestrun_metadata__")).isEqualTo(result.allKeys())
         val dict = result["EarlGreyExampleSwiftTests"] as NSDictionary
-        assertThat(dict.count()).isEqualTo(19)
+        assertThat(dict.count()).isEqualTo(20)
         assertThat(dict.containsKey("OnlyTestIdentifiers")).isFalse()
     }
 
