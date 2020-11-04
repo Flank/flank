@@ -16,6 +16,17 @@ fun IosArgs.validate() = apply {
     assertAdditionalIpas()
     validType()
     assertGameloop()
+    assertTestTargetForShards()
+}
+
+private fun IosArgs.assertTestTargetForShards() {
+    if (testTargetsForShard.isNotEmpty()) {
+        if (devices.isEmpty() && testTargetsForShard.size > 500) {
+            throw FlankConfigurationError("Cannot have more than 500 Test Targets for Shards with no device provided.")
+        } else if (devices.isNotEmpty() && testTargetsForShard.size > 50) {
+            throw FlankConfigurationError("Cannot have more than 50 Test Targets for Shards if one or more devices are specified.")
+        }
+    }
 }
 
 private fun IosArgs.assertGameloop() {
@@ -30,7 +41,9 @@ private fun IosArgs.validateApp() {
 private fun IosArgs.validateScenarioNumbers() {
     if (scenarioNumbers.isNotEmpty() && (type != Type.GAMELOOP))
         throw FlankConfigurationError("Scenario numbers defined but Type is not Game-loop.")
-    scenarioNumbers.forEach { it.toIntOrNull() ?: throw FlankConfigurationError("Invalid scenario number provided - $it") }
+    scenarioNumbers.forEach {
+        it.toIntOrNull() ?: throw FlankConfigurationError("Invalid scenario number provided - $it")
+    }
     if (scenarioNumbers.size > 1024) throw FlankConfigurationError("There cannot be more than 1024 Scenario numbers")
 }
 
@@ -42,7 +55,8 @@ fun IosArgs.validateRefresh() = apply {
     assertMaxTestShards()
 }
 
-private fun IosArgs.assertMaxTestShards() { this.maxTestShards
+private fun IosArgs.assertMaxTestShards() {
+    this.maxTestShards
     if (
         maxTestShards !in IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE &&
         maxTestShards != -1
@@ -50,10 +64,12 @@ private fun IosArgs.assertMaxTestShards() { this.maxTestShards
         "max-test-shards must be >= ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.first} and <= ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}, or -1. But current is $maxTestShards"
     )
 }
+
 private fun IosArgs.assertTestTypes() {
     if (xctestrunFile.isBlank() or xctestrunZip.isBlank())
         throw FlankConfigurationError("Both of following options must be specified [test, xctestrun-file].")
 }
+
 private fun IosArgs.assertXcodeSupported() = when {
     xcodeVersion == null -> Unit
     IosCatalog.supportedXcode(xcodeVersion, project) -> Unit
