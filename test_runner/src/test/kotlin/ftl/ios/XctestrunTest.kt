@@ -4,13 +4,17 @@ import com.dd.plist.NSArray
 import com.dd.plist.NSDictionary
 import com.google.common.truth.Truth.assertThat
 import ftl.config.FtlConstants.isWindows
-import ftl.ios.xctest.rewriteXcTestRun
+import ftl.ios.xctest.findTestsForTestTarget
+import ftl.ios.xctest.findXcTestNamesV1
+import ftl.ios.xctest.parseToNSDictionary
+import ftl.ios.xctest.rewriteXcTestRunV1
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.normalizeLineEnding
 import ftl.run.exception.FlankGeneralError
 import org.junit.Assume.assumeFalse
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -43,25 +47,25 @@ class XctestrunTest {
     @Test
     fun parse() {
         assumeFalse(isWindows)
-        val result = Xctestrun.parse(swiftXctestrun)
+        val result = parseToNSDictionary(swiftXctestrun)
         assertThat(arrayOf("EarlGreyExampleSwiftTests", "__xctestrun_metadata__")).isEqualTo(result.allKeys())
         val dict = result["EarlGreyExampleSwiftTests"] as NSDictionary
-        assertThat(dict.count()).isEqualTo(20)
+        assertThat(dict.count()).isEqualTo(19)
         assertThat(dict.containsKey("OnlyTestIdentifiers")).isFalse()
     }
 
     @Test(expected = FlankGeneralError::class)
     fun `parse fileNotFound`() {
-        Xctestrun.parse("./XctestrunThatDoesNotExist")
+        parseToNSDictionary("./XctestrunThatDoesNotExist")
     }
 
     @Test
     fun findTestNames() {
         assumeFalse(isWindows)
 
-        val names = Xctestrun.findTestNames(swiftXctestrun)
-                .flatMap { it.value }
-                .sorted()
+        val names = findXcTestNamesV1(swiftXctestrun)
+            .flatMap { it.value }
+            .sorted()
         assertThat(swiftTests).isEqualTo(names)
     }
 
@@ -69,11 +73,11 @@ class XctestrunTest {
     fun rewrite() {
         assumeFalse(isWindows)
 
-        val root = Xctestrun.parse(swiftXctestrun)
-        val methods = Xctestrun.findTestsForTarget(testTarget = "EarlGreyExampleSwiftTests", xctestrun = swiftXctestrun)
+        val root = parseToNSDictionary(swiftXctestrun)
+        val methods = findTestsForTestTarget(testTarget = "EarlGreyExampleSwiftTests", xctestrun = File(swiftXctestrun))
         val methodsData = mapOf<String, List<String>>("EarlGreyExampleSwiftTests" to methods)
 
-        val results = String(rewriteXcTestRun(root, methodsData))
+        val results = String(rewriteXcTestRunV1(root, methodsData))
 
         assertThat(results.contains("OnlyTestIdentifiers")).isTrue()
     }
@@ -82,8 +86,8 @@ class XctestrunTest {
     fun rewriteImmutable() {
         assumeFalse(isWindows)
 
-        val root = Xctestrun.parse(swiftXctestrun)
-        val methods = Xctestrun.findTestsForTarget(testTarget = "EarlGreyExampleSwiftTests", xctestrun = swiftXctestrun)
+        val root = parseToNSDictionary(swiftXctestrun)
+        val methods = findTestsForTestTarget(testTarget = "EarlGreyExampleSwiftTests", xctestrun = File(swiftXctestrun))
         val methodsData = mapOf<String, List<String>>("EarlGreyExampleSwiftTests" to methods)
 
         // ensure root object isn't modified. Rewrite should return a new object.
@@ -91,7 +95,7 @@ class XctestrunTest {
 
         assertThat(root.toASCIIPropertyList().contains(key)).isFalse()
 
-        rewriteXcTestRun(root, methodsData)
+        rewriteXcTestRunV1(root, methodsData)
 
         assertThat(root.toASCIIPropertyList().contains(key)).isFalse()
     }
@@ -103,9 +107,9 @@ class XctestrunTest {
         root["EarlGreyExampleTests"] = NSDictionary()
         val methods = listOf("testOne", "testTwo")
         val methodsData = mapOf<String, List<String>>("EarlGreyExampleSwiftTests" to methods, "EarlGreyExampleTests" to methods)
-        rewriteXcTestRun(root, methodsData)
-        rewriteXcTestRun(root, methodsData)
-        val result = rewriteXcTestRun(root, methodsData)
+        rewriteXcTestRunV1(root, methodsData)
+        rewriteXcTestRunV1(root, methodsData)
+        val result = rewriteXcTestRunV1(root, methodsData)
         val expected = """<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -153,10 +157,10 @@ class XctestrunTest {
 </dict>
 </plist>
         """.trimIndent()
-        val root = Xctestrun.parse(inputXml.toByteArray())
+        val root = parseToNSDictionary(inputXml.toByteArray())
 
         val tests = mapOf<String, List<String>>("EarlGreyExampleSwiftTests" to listOf("testOne", "testTwo"))
-        val rewrittenXml = String(rewriteXcTestRun(root, tests))
+        val rewrittenXml = String(rewriteXcTestRunV1(root, tests))
 
         assertThat(inputXml).isEqualTo(rewrittenXml.normalizeLineEnding())
     }
@@ -205,30 +209,30 @@ class XctestrunTest {
         Files.write(tmpXml, inputXml.toByteArray())
         tmpXml.toFile().deleteOnExit()
 
-        val actualTests = Xctestrun.findTestsForTarget("EarlGreyExampleSwiftTests", tmpXml.toString()).sorted()
+        val actualTests = findTestsForTestTarget("EarlGreyExampleSwiftTests", tmpXml.toFile()).sorted()
         assertThat(actualTests).isEqualTo(listOf("EarlGreyExampleSwiftTests/testBasicSelection"))
     }
 
     @Test
     fun findTestNamesForTestTarget() {
         assumeFalse(isWindows)
-        val names = Xctestrun.findTestsForTarget(testTarget = "EarlGreyExampleSwiftTests", xctestrun = swiftXctestrun).sorted()
+        val names = findTestsForTestTarget(testTarget = "EarlGreyExampleSwiftTests", xctestrun = File(swiftXctestrun)).sorted()
         assertThat(swiftTests).isEqualTo(names)
     }
 
     @Test(expected = FlankGeneralError::class)
     fun `findTestNames for nonexisting test target`() {
         assumeFalse(isWindows)
-        Xctestrun.findTestsForTarget(testTarget = "Incorrect", xctestrun = swiftXctestrun).sorted()
+        findTestsForTestTarget(testTarget = "Incorrect", xctestrun = File(swiftXctestrun)).sorted()
     }
 
     @Test
     fun `find test names for xctestrun file containing multiple test targets`() {
         assumeFalse(isWindows)
-        val names = Xctestrun.findTestsForTarget(testTarget = "FlankExampleTests", xctestrun = multipleTargetsSwiftXctestrun).sorted()
+        val names = findTestsForTestTarget(testTarget = "FlankExampleTests", xctestrun = File(multipleTargetsSwiftXctestrun)).sorted()
         assertThat(names).isEqualTo(listOf("FlankExampleTests/test1", "FlankExampleTests/test2"))
 
-        val names2 = Xctestrun.findTestsForTarget(testTarget = "FlankExampleSecondTests", xctestrun = multipleTargetsSwiftXctestrun).sorted()
+        val names2 = findTestsForTestTarget(testTarget = "FlankExampleSecondTests", xctestrun = File(multipleTargetsSwiftXctestrun)).sorted()
         assertThat(names2).isEqualTo(listOf("FlankExampleSecondTests/test3", "FlankExampleSecondTests/test4"))
     }
 
@@ -236,8 +240,8 @@ class XctestrunTest {
     fun `rewrite methods in single test target`() {
         assumeFalse(isWindows)
         val methods = listOf("EarlGreyExampleSwiftTests/testBasicSelectionActionAssert", "EarlGreyExampleSwiftTests/testBasicSelection")
-        val result = Xctestrun.rewrite(xctestrun = swiftXctestrun, methods)
-        val resultXML = Xctestrun.parse(result)
+        val result = rewriteXcTestRunV1(xctestrun = swiftXctestrun, methods)
+        val resultXML = parseToNSDictionary(result)
         val testTarget = resultXML["EarlGreyExampleSwiftTests"] as NSDictionary
         val resultMethods = testTarget["OnlyTestIdentifiers"] as NSArray
 
@@ -251,8 +255,8 @@ class XctestrunTest {
         val expectedMethods1 = listOf("FlankExampleTests/test1", "FlankExampleTests/test2")
         val expectedMethods2 = listOf("FlankExampleSecondTests/test3")
 
-        val result = Xctestrun.rewrite(xctestrun = multipleTargetsSwiftXctestrun, listOf(expectedMethods1, expectedMethods2).flatMap { it })
-        val resultXML = Xctestrun.parse(result)
+        val result = rewriteXcTestRunV1(xctestrun = multipleTargetsSwiftXctestrun, listOf(expectedMethods1, expectedMethods2).flatMap { it })
+        val resultXML = parseToNSDictionary(result)
 
         val target1 = resultXML["FlankExampleTests"] as NSDictionary
         val target2 = resultXML["FlankExampleSecondTests"] as NSDictionary
@@ -270,8 +274,8 @@ class XctestrunTest {
         val methods1 = listOf("incorrect1", "incorrect2")
         val methods2 = listOf("incorrect3")
 
-        val result = Xctestrun.rewrite(xctestrun = multipleTargetsSwiftXctestrun, listOf(methods1, methods2).flatMap { it })
-        val resultXML = Xctestrun.parse(result)
+        val result = rewriteXcTestRunV1(xctestrun = multipleTargetsSwiftXctestrun, listOf(methods1, methods2).flatMap { it })
+        val resultXML = parseToNSDictionary(result)
 
         val target1 = resultXML["FlankExampleTests"] as NSDictionary
         val target2 = resultXML["FlankExampleSecondTests"] as NSDictionary
@@ -292,8 +296,8 @@ class XctestrunTest {
         val expectedMethods1 = listOf("FlankExampleTests/test1", "FlankExampleTests/test2")
         val expectedMethods2 = listOf("FlankExampleSecondTests/test3")
 
-        val result = Xctestrun.rewrite(xctestrun = multipleTargetsSwiftXctestrun, listOf(methods1, methods2).flatMap { it })
-        val resultXML = Xctestrun.parse(result)
+        val result = rewriteXcTestRunV1(xctestrun = multipleTargetsSwiftXctestrun, listOf(methods1, methods2).flatMap { it })
+        val resultXML = parseToNSDictionary(result)
 
         val target1 = resultXML["FlankExampleTests"] as NSDictionary
         val target2 = resultXML["FlankExampleSecondTests"] as NSDictionary

@@ -72,10 +72,10 @@ class ParseTest {
     fun `Parse ObjC and Swift with space in path`() {
         assumeFalse(isWindows)
 
-        var results = Parse.parseObjcTests("$FIXTURES_PATH/sp ace/objc/EarlGreyExampleTests").sorted()
+        var results = ftl.ios.xctest.parseObjcTests("$FIXTURES_PATH/sp ace/objc/EarlGreyExampleTests").sorted()
         checkObjcTests(results)
 
-        results = Parse.parseSwiftTests("$FIXTURES_PATH/sp ace/swift/EarlGreyExampleSwiftTests").sorted()
+        results = ftl.ios.xctest.parseSwiftTests("$FIXTURES_PATH/sp ace/swift/EarlGreyExampleSwiftTests").sorted()
         checkSwiftTests(results)
     }
 
@@ -83,30 +83,30 @@ class ParseTest {
     fun parseObjcTests() {
         assumeFalse(isWindows)
 
-        val results = Parse.parseObjcTests(objcBinary).sorted()
+        val results = ftl.ios.xctest.parseObjcTests(objcBinary).sorted()
         checkObjcTests(results)
     }
 
     @Test(expected = FlankGeneralError::class)
     fun `parseObjcTests fileNotFound`() {
-        Parse.parseObjcTests("./BinaryThatDoesNotExist")
+        ftl.ios.xctest.parseObjcTests("./BinaryThatDoesNotExist")
     }
 
     @Test
     fun parseSwiftTests() {
         assumeFalse(isWindows)
 
-        val results = Parse.parseSwiftTests(swiftBinary).sorted()
+        val results = ftl.ios.xctest.parseSwiftTests(swiftBinary).sorted()
         checkSwiftTests(results)
     }
 
     @Test(expected = FlankGeneralError::class)
     fun `parseSwiftTests fileNotFound`() {
-        Parse.parseSwiftTests("./BinaryThatDoesNotExist")
+        ftl.ios.xctest.parseSwiftTests("./BinaryThatDoesNotExist")
     }
 
     @Test(expected = FlankGeneralError::class)
     fun `parseSwiftTests tmpFolder`() {
-        Parse.parseSwiftTests("/tmp")
+        ftl.ios.xctest.parseSwiftTests("/tmp")
     }
 }
