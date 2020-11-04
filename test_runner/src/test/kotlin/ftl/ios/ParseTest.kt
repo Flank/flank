@@ -2,6 +2,8 @@ package ftl.ios
 
 import com.google.common.truth.Truth.assertThat
 import ftl.config.FtlConstants.isWindows
+import ftl.ios.xctest.common.parseObjcTests
+import ftl.ios.xctest.common.parseSwiftTests
 import ftl.test.util.FlankTestRunner
 import ftl.run.exception.FlankGeneralError
 import org.junit.Assume.assumeFalse
@@ -72,10 +74,10 @@ class ParseTest {
     fun `Parse ObjC and Swift with space in path`() {
         assumeFalse(isWindows)
 
-        var results = ftl.ios.xctest.parseObjcTests("$FIXTURES_PATH/sp ace/objc/EarlGreyExampleTests").sorted()
+        var results = parseObjcTests("$FIXTURES_PATH/sp ace/objc/EarlGreyExampleTests").sorted()
         checkObjcTests(results)
 
-        results = ftl.ios.xctest.parseSwiftTests("$FIXTURES_PATH/sp ace/swift/EarlGreyExampleSwiftTests").sorted()
+        results = parseSwiftTests("$FIXTURES_PATH/sp ace/swift/EarlGreyExampleSwiftTests").sorted()
         checkSwiftTests(results)
     }
 
@@ -83,30 +85,30 @@ class ParseTest {
     fun parseObjcTests() {
         assumeFalse(isWindows)
 
-        val results = ftl.ios.xctest.parseObjcTests(objcBinary).sorted()
+        val results = parseObjcTests(objcBinary).sorted()
         checkObjcTests(results)
     }
 
     @Test(expected = FlankGeneralError::class)
     fun `parseObjcTests fileNotFound`() {
-        ftl.ios.xctest.parseObjcTests("./BinaryThatDoesNotExist")
+        parseObjcTests("./BinaryThatDoesNotExist")
     }
 
     @Test
     fun parseSwiftTests() {
         assumeFalse(isWindows)
 
-        val results = ftl.ios.xctest.parseSwiftTests(swiftBinary).sorted()
+        val results = parseSwiftTests(swiftBinary).sorted()
         checkSwiftTests(results)
     }
 
     @Test(expected = FlankGeneralError::class)
     fun `parseSwiftTests fileNotFound`() {
-        ftl.ios.xctest.parseSwiftTests("./BinaryThatDoesNotExist")
+        parseSwiftTests("./BinaryThatDoesNotExist")
     }
 
     @Test(expected = FlankGeneralError::class)
     fun `parseSwiftTests tmpFolder`() {
-        ftl.ios.xctest.parseSwiftTests("/tmp")
+        parseSwiftTests("/tmp")
     }
 }

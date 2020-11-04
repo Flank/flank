@@ -18,7 +18,7 @@ import ftl.gc.android.mapGcsPathsToFileReference
 import ftl.gc.android.mapToIosDeviceFiles
 import ftl.gc.android.toIosDeviceFile
 import ftl.ios.xctest.rewriteXcTestRunV1
-import ftl.ios.xctest.toByteArray
+import ftl.ios.xctest.common.toByteArray
 import ftl.run.exception.FlankGeneralError
 import ftl.util.ShardCounter
 import ftl.util.join

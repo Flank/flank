@@ -8,7 +8,7 @@ import ftl.gc.GcIosTestMatrix
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
-import ftl.ios.xctest.parseToNSDictionary
+import ftl.ios.xctest.common.parseToNSDictionary
 import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards
 import ftl.run.model.TestResult

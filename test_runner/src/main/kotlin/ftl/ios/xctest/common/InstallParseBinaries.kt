@@ -1,4 +1,4 @@
-package ftl.ios.xctest
+package ftl.ios.xctest.common
 
 import ftl.config.FtlConstants
 import ftl.util.copyBinaryResource

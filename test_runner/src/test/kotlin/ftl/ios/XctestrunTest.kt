@@ -4,9 +4,9 @@ import com.dd.plist.NSArray
 import com.dd.plist.NSDictionary
 import com.google.common.truth.Truth.assertThat
 import ftl.config.FtlConstants.isWindows
-import ftl.ios.xctest.findTestsForTestTarget
+import ftl.ios.xctest.common.findTestsForTestTarget
 import ftl.ios.xctest.findXcTestNamesV1
-import ftl.ios.xctest.parseToNSDictionary
+import ftl.ios.xctest.common.parseToNSDictionary
 import ftl.ios.xctest.rewriteXcTestRunV1
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.normalizeLineEnding

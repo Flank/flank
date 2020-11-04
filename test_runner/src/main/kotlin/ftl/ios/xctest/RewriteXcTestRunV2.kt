@@ -3,7 +3,13 @@ package ftl.ios.xctest
 import com.dd.plist.NSArray
 import com.dd.plist.NSDictionary
 import com.dd.plist.NSObject
-import ftl.run.exception.FlankConfigurationError
+import ftl.ios.xctest.common.TEST_CONFIGURATION
+import ftl.ios.xctest.common.XctestrunMethods
+import ftl.ios.xctest.common.getBlueprintName
+import ftl.ios.xctest.common.getTestConfigurations
+import ftl.ios.xctest.common.parseToNSDictionary
+import ftl.ios.xctest.common.setOnlyTestIdentifiers
+import ftl.ios.xctest.common.toByteArray
 
 fun rewriteXcTestRunV2(
     xcTestPlan: String,
@@ -11,35 +17,27 @@ fun rewriteXcTestRunV2(
 ): Map<String, ByteArray> =
     rewriteXcTestRunV2(
         parseToNSDictionary(xcTestPlan),
-        findXcTestNamesV1(xcTestPlan).mapValues { (_, list) ->
-            list.filter(filterMethods::contains)
+        findXcTestNamesV2(xcTestPlan).mapValues { (_, map) ->
+            map.mapValues { (_, list) ->
+                list.filter(filterMethods::contains)
+            }
         },
     )
 
 private fun rewriteXcTestRunV2(
     root: NSDictionary,
-    methods: XctestrunMethods
+    methods: Map<String, XctestrunMethods>
 ): Map<String, ByteArray> =
-    root.splitTestConfigurations().map { configDict ->
-        val key = configDict.getName()
-        key to root.clone().apply {
-            put(
-                TEST_CONFIGURATION,
-                configDict.setOnlyTestIdentifiers(
-                    methods[key] ?: emptyList()
-                ).wrapInNSArray()
-            )
+    root.getTestConfigurations().mapValues { (key, configDict) ->
+        root.clone().also {
+            val testMethods = methods[key]
+                ?.get(configDict.getBlueprintName())
+                ?: emptyList()
+
+            it[TEST_CONFIGURATION] = configDict
+                .setOnlyTestIdentifiers(testMethods)
+                .wrapInNSArray()
         }.toByteArray()
     }.toMap()
-
-private fun NSDictionary.splitTestConfigurations(): List<NSDictionary> =
-    testConfigurationsNSArray().array.map { it as NSDictionary }
-
-private fun NSDictionary.testConfigurationsNSArray(): NSArray =
-    get(TEST_CONFIGURATION) as NSArray
-
-private fun NSDictionary.getName(): String = get(NAME)
-    ?.toJavaObject(String::class.java)
-    ?: throw FlankConfigurationError("Cannot get Name key from NSDictionary:\n ${toXMLPropertyList()}")
 
 private fun NSObject.wrapInNSArray() = NSArray().also { it.setValue(0, this) }

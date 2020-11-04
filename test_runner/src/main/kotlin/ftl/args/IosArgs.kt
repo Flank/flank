@@ -1,7 +1,7 @@
 package ftl.args
 
 import com.google.common.annotations.VisibleForTesting
-import ftl.ios.xctest.XctestrunMethods
+import ftl.ios.xctest.common.XctestrunMethods
 import ftl.ios.xctest.findXcTestNamesV1
 import ftl.run.exception.FlankConfigurationError
 import ftl.shard.Chunk

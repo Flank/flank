@@ -2,6 +2,11 @@ package ftl.ios.xctest
 
 import com.dd.plist.NSDictionary
 import com.google.common.annotations.VisibleForTesting
+import ftl.ios.xctest.common.XctestrunMethods
+import ftl.ios.xctest.common.isMetadata
+import ftl.ios.xctest.common.parseToNSDictionary
+import ftl.ios.xctest.common.setOnlyTestIdentifiers
+import ftl.ios.xctest.common.toByteArray
 
 fun rewriteXcTestRunV1(
     xctestrun: String,
