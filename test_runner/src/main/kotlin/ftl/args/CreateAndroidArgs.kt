@@ -4,6 +4,7 @@ import ftl.args.yml.AppTestPair
 import ftl.config.AndroidConfig
 import ftl.config.android.AndroidFlankConfig
 import ftl.config.android.AndroidGcloudConfig
+import ftl.util.require
 
 fun createAndroidArgs(
     config: AndroidConfig? = null,
@@ -16,15 +17,15 @@ fun createAndroidArgs(
     // gcloud
     appApk = gcloud.app?.normalizeFilePath(),
     testApk = gcloud.test?.normalizeFilePath(),
-    useOrchestrator = gcloud.useOrchestrator!!,
-    testTargets = gcloud.testTargets!!.filterNotNull(),
+    useOrchestrator = gcloud::useOrchestrator.require(),
+    testTargets = gcloud::testTargets.require().filterNotNull(),
     testRunnerClass = gcloud.testRunnerClass,
-    roboDirectives = gcloud.roboDirectives!!.parseRoboDirectives(),
-    performanceMetrics = gcloud.performanceMetrics!!,
+    roboDirectives = gcloud::roboDirectives.require().parseRoboDirectives(),
+    performanceMetrics = gcloud::performanceMetrics.require(),
     numUniformShards = gcloud.numUniformShards,
-    environmentVariables = gcloud.environmentVariables!!,
-    autoGoogleLogin = gcloud.autoGoogleLogin!!,
-    additionalApks = gcloud.additionalApks!!.map { it.normalizeFilePath() },
+    environmentVariables = gcloud::environmentVariables.require(),
+    autoGoogleLogin = gcloud::autoGoogleLogin.require(),
+    additionalApks = gcloud::additionalApks.require().map { it.normalizeFilePath() },
     roboScript = gcloud.roboScript?.normalizeFilePath(),
 
     // flank
@@ -35,10 +36,10 @@ fun createAndroidArgs(
             environmentVariables = env
         )
     } ?: emptyList(),
-    useLegacyJUnitResult = flank.useLegacyJUnitResult!!,
-    scenarioLabels = gcloud.scenarioLabels!!,
+    useLegacyJUnitResult = flank::useLegacyJUnitResult.require(),
+    scenarioLabels = gcloud::scenarioLabels.require(),
     obfuscateDumpShards = obfuscate,
-    obbFiles = gcloud.obbfiles!!,
-    obbNames = gcloud.obbnames!!,
+    obbFiles = gcloud::obbfiles.require(),
+    obbNames = gcloud::obbnames.require(),
     grantPermissions = gcloud.grantPermissions
 )
