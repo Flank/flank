@@ -1928,6 +1928,7 @@ AndroidArgs
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
     }
+
     @Test(expected = FlankGeneralError::class)
     fun `should throw exception if incorrect type requested`() {
         val yaml = """
@@ -2304,6 +2305,37 @@ AndroidArgs
             - $obbFile
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should throw exception if incorrect (empty) value used in yml config file`() {
+        assertThrowsWithMessage(
+            clazz = FlankGeneralError::class,
+            message = "Invalid value for [test-targets]: no argument value found"
+        ) {
+            AndroidArgs.load(
+                """
+            gcloud:
+              app: any/path.apk
+              test-targets:
+        """.trimIndent()
+            )
+        }
+    }
+
+    @Test
+    fun `should not throw exception if incorrect (empty) value used in yml config file is overwriten with command line`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parseArgs("--legacy-junit-result")
+
+        AndroidArgs.load(
+            """
+            gcloud:
+              app: any/path.apk
+            flank:
+              legacy-junit-result:
+        """.trimIndent(), cli
+        )
     }
 }
 
