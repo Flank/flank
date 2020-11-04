@@ -2,6 +2,7 @@
 
 package ftl.util
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.run.exception.FlankGeneralError
 import java.io.InputStream
 import java.io.StringWriter
@@ -12,6 +13,7 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Random
 import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KMutableProperty
 import kotlin.reflect.KProperty
 
 fun String.trimStartLine(): String {
@@ -132,3 +134,12 @@ fun <R : MutableMap<String, Any>, T> mutableMapProperty(
     override fun setValue(thisRef: R, property: KProperty<*>, value: T) =
         thisRef.set(name ?: property.name, value as Any)
 }
+
+/**
+ * Used to validate values from yml config file.
+ * Should be used only on properties with [JsonProperty] annotation.
+ */
+fun <T> KMutableProperty<T?>.require() =
+    getter.call() ?: throw FlankGeneralError(
+        "Invalid value for [${setter.annotations.filterIsInstance<JsonProperty>().first().value}]: no argument value found"
+    )
