@@ -1220,6 +1220,21 @@ IosArgs
         """.trimIndent()
         IosArgs.load(yaml).validate()
     }
+
+    @Test
+    fun `validate default test target for shards`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+          results-dir: test
+          type: game-loop
+          app: $testPath
+          test-targets-for-shard: 
+            - com.example.test
+        """.trimIndent()
+        IosArgs.load(yaml).validate()
+    }
 }
 
 private fun IosArgs.Companion.load(yamlData: String, cli: IosRunCommand? = null): IosArgs =
