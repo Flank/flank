@@ -4,52 +4,63 @@ import com.dd.plist.NSArray
 import com.dd.plist.NSDictionary
 import com.dd.plist.NSObject
 import com.dd.plist.NSString
-import ftl.ios.Parse
-import ftl.ios.XctestrunMethods
+import com.google.common.annotations.VisibleForTesting
 import ftl.run.exception.FlankGeneralError
 import java.io.File
 import java.nio.file.Paths
 
-// Finds tests in a xctestrun file
-internal fun findTestNames(xctestrun: File): XctestrunMethods =
+internal fun findXcTestNamesV1(xctestrun: String): XctestrunMethods =
+    findXcTestNamesV1(File(xctestrun))
+
+private fun findXcTestNamesV1(xctestrun: File): XctestrunMethods =
     parseToNSDictionary(xctestrun).run {
         val testRoot = xctestrun.parent + "/"
-        allKeys().map { testTarget ->
-            testTarget to (get(testTarget) as NSDictionary).findTestsForTarget(
+        allKeys().filterNot(String::isMetadata).map { testTarget ->
+            testTarget to findTestsForTarget(
                 testRoot = testRoot,
-                testTarget = testTarget
+                testTargetDict = get(testTarget) as NSDictionary,
+                testTargetKey = testTarget,
             )
         }.distinct().toMap()
     }
 
-internal fun findTestsForTestTarget(testTarget: String, xctestrun: File): List<String> =
-    parseToNSDictionary(xctestrun).get(testTarget)
-        ?.let { (it as? NSDictionary) }
-        ?.let { it.findTestsForTarget(testTarget, testRoot = xctestrun.parent + "/") }
-        ?: throw FlankGeneralError("Test target $testTarget doesn't exist")
+internal fun findXcTestNamesV2(xctestrun: String): XctestrunMethods =
+    findXcTestNamesV2(File(xctestrun))
 
-private fun NSDictionary.findTestsForTarget(testTarget: String, testRoot: String): List<String> =
-    if (testTarget.isMetadata()) emptyList()
-    else findXcTestTargets(testTarget)
-        ?.run { findBinaryTests(testRoot) - findTestsToSkip() }
-        ?: throw FlankGeneralError("No tests found")
+private fun findXcTestNamesV2(xctestrun: File): XctestrunMethods =
+    parseToNSDictionary(xctestrun).run {
+        allKeys().map { testTarget ->
+            testTarget to findTestsForTarget(
+                testRoot = xctestrun.parent + "/",
+                testTargetDict = get(testTarget) as NSDictionary,
+                testTargetKey = testTarget,
+            )
+        }.distinct().toMap()
+    }
 
-private fun NSDictionary.findXcTestTargets(testTarget: String): NSObject =
+private fun findTestsForTarget(
+    testRoot: String,
+    testTargetDict: NSDictionary,
+    testTargetKey: String,
+): List<String> = testTargetDict
+    .findXcTestTargets(testTargetKey)
+    .findBinaryTests(testRoot) - testTargetDict
+    .findTestsToSkip()
+
+fun NSDictionary.findXcTestTargets(testTarget: String): NSObject =
     get("DependentProductPaths")
         ?.let { it as? NSArray }?.array
-        ?.first { product -> product.toString().containsTestTarget(testTarget) }
+        ?.first { product -> product.toString().contains("/$testTarget.xctest") }
         ?: throw FlankGeneralError("Test target $testTarget doesn't exist")
 
-private fun String.containsTestTarget(name: String): Boolean = contains("/$name.xctest")
-
-private fun NSObject.findBinaryTests(testRoot: String): List<String> {
+fun NSObject.findBinaryTests(testRoot: String): List<String> {
     val binaryRoot = toString().replace("__TESTROOT__/", testRoot)
     println("Found xctest: $binaryRoot")
 
     val binaryName = File(binaryRoot).nameWithoutExtension
     val binaryPath = Paths.get(binaryRoot, binaryName).toString()
 
-    return (Parse.parseObjcTests(binaryPath) + Parse.parseSwiftTests(binaryPath)).distinct()
+    return (parseObjcTests(binaryPath) + parseSwiftTests(binaryPath)).distinct()
 }
 
 private fun NSDictionary.findTestsToSkip(): List<String> =
@@ -57,3 +68,10 @@ private fun NSDictionary.findTestsToSkip(): List<String> =
         ?.let { it as? NSArray }?.array
         ?.mapNotNull { (it as? NSString)?.content }
         ?: emptyList()
+
+@VisibleForTesting // TODO Remove it, cause is used only in tests
+internal fun findTestsForTestTarget(testTarget: String, xctestrun: File): List<String> =
+    parseToNSDictionary(xctestrun)[testTarget]
+        ?.let { it as? NSDictionary }
+        ?.let { findTestsForTarget(xctestrun.parent + "/", it, testTarget) }
+        ?: throw FlankGeneralError("Test target $testTarget doesn't exist")
