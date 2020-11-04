@@ -79,6 +79,7 @@ class IosArgsTest {
           num-flaky-test-attempts: 4
           type: xctest
           test-special-entitlements: true
+          
 
         flank:
           max-test-shards: 7
@@ -247,6 +248,7 @@ IosArgs
       type: xctest
       app: 
       test-special-entitlements: true
+      test-targets-for-shard: 
 
     flank:
       max-test-shards: 7
@@ -311,6 +313,7 @@ IosArgs
       type: xctest
       app: 
       test-special-entitlements: false
+      test-targets-for-shard: 
 
     flank:
       max-test-shards: 1

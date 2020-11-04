@@ -78,6 +78,16 @@ data class IosGcloudConfig @JsonIgnore constructor(
     @set:JsonProperty("test-special-entitlements")
     var testSpecialEntitlements: Boolean? by data
 
+    @set:CommandLine.Option(
+        names = ["--test-targets-for-shard"],
+        description = ["Specifies a group of packages, classes, and/or test cases to run in each shard (a group of test cases)." +
+                " The shards are run in parallel on separate devices. " +
+                "You can repeat this flag up to 50 times to specify multiple shards when one or more physical devices are selected, or up to 500 times when no physical devices are selected.\n" +
+                "Note: If you include the flags --environment-variable or --test-targets when running --test-targets-for-shard, the flags are applied to all the shards you create"]
+    )
+    @set:JsonProperty("test-targets-for-shard")
+    var testTargetsForShard: List<String>? by data
+
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {
@@ -95,6 +105,7 @@ data class IosGcloudConfig @JsonIgnore constructor(
             additionalIpas = emptyList()
             app = null
             testSpecialEntitlements = false
+            testTargetsForShard = emptyList()
         }
     }
 }
