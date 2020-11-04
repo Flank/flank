@@ -12,12 +12,10 @@ fun main() {
     // run "gradle check" to generate required fixtures
     val projectId = System.getenv("GOOGLE_CLOUD_PROJECT")
         ?: "YOUR PROJECT ID"
-/*
 
     val quantity = "multiple"
     val type = "gameloop"
     val extra = "obb"
-*/
 
     // Bugsnag keeps the process alive so we must call exitProcess
     // https://github.com/bugsnag/bugsnag-java/issues/151
@@ -33,8 +31,7 @@ fun main() {
             "--output-style=single",
 //            "--full-junit-result",
 //            "--legacy-junit-result",
-            "-c=/Users/piotr/Projekty/gogo/flank/test_runner/src/test/kotlin/ftl/fixtures/simple-ios-flank.yml",
-//            "-c=test_runner/src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type-$extra.yml",
+            "-c=test_runner/src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type-$extra.yml",
             "--project=$projectId"
 //            "--client-details=key1=value1,key2=value2"
         )
