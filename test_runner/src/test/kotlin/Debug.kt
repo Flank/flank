@@ -24,7 +24,7 @@ fun main() {
 //            "--debug",
             "firebase",
             "test",
-            "ios",
+            "android",
             "run",
 //            "--dry",
 //            "--dump-shards",

@@ -20,14 +20,16 @@ internal fun createAndroidInstrumentationTest(
     disableSharding = config.disableSharding,
     testShards = config.testShards,
     numUniformShards = config.numUniformShards,
-    keepTestTargetsEmpty = config.keepTestTargetsEmpty
+    keepTestTargetsEmpty = config.keepTestTargetsEmpty,
+    testFlagForShard = config.testFlagForShard
 )
 
 internal fun AndroidInstrumentationTest.setupTestTargets(
     disableSharding: Boolean,
     testShards: ShardChunks,
     numUniformShards: Int?,
-    keepTestTargetsEmpty: Boolean
+    keepTestTargetsEmpty: Boolean,
+    testFlagForShard: List<String>
 ) = apply {
     when {
         keepTestTargetsEmpty -> {
