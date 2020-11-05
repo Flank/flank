@@ -48,11 +48,20 @@ internal fun AndroidInstrumentationTest.setupTestTargets(
                     }
                     uniformSharding = UniformSharding().setNumShards(safeNumUniformShards)
                 } else {
-                    manualSharding = ManualSharding().setTestTargetsForShard(
-                        testShards.map {
-                            TestTargetsForShard().setTestTargets(it)
-                        }
-                    )
+                    manualSharding = if (testFlagForShard.isNotEmpty()) {
+                        ManualSharding().setTestTargetsForShard(
+                            testFlagForShard.map {
+                                TestTargetsForShard().setTestTargets(it.split(',', ';'))
+                            }
+                        )
+                    } else {
+                        ManualSharding().setTestTargetsForShard(
+                            testShards.map {
+                                TestTargetsForShard().setTestTargets(it)
+                            }
+                        )
+                    }
+
                 }
             }
         }
