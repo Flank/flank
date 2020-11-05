@@ -16,8 +16,7 @@ data class IosArgs(
     val obfuscateDumpShards: Boolean,
     val additionalIpas: List<String>,
     val app: String,
-    val testSpecialEntitlements: Boolean?,
-    val testTargetsForShard: List<String>
+    val testSpecialEntitlements: Boolean?
 ) : IArgs by commonArgs {
 
     override val useLegacyJUnitResult = true
@@ -50,7 +49,6 @@ IosArgs
       type: ${type?.ymlName}
       app: $app
       test-special-entitlements: $testSpecialEntitlements
-      test-targets-for-shard: ${ArgsToString.listToString(testTargetsForShard)}
 
     flank:
       max-test-shards: $maxTestShards

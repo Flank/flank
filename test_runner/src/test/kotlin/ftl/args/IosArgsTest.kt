@@ -248,7 +248,6 @@ IosArgs
       type: xctest
       app: 
       test-special-entitlements: true
-      test-targets-for-shard: 
 
     flank:
       max-test-shards: 7
@@ -313,7 +312,6 @@ IosArgs
       type: xctest
       app: 
       test-special-entitlements: false
-      test-targets-for-shard: 
 
     flank:
       max-test-shards: 1
@@ -1217,21 +1215,6 @@ IosArgs
           results-dir: test
           type: game-loop
           app: $testPath
-        """.trimIndent()
-        IosArgs.load(yaml).validate()
-    }
-
-    @Test
-    fun `validate default test target for shards`() {
-        val yaml = """
-        gcloud:
-          test: $testPath
-          xctestrun-file: $testPath
-          results-dir: test
-          type: game-loop
-          app: $testPath
-          test-targets-for-shard: 
-            - com.example.test
         """.trimIndent()
         IosArgs.load(yaml).validate()
     }
