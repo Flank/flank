@@ -1980,13 +1980,12 @@ AndroidArgs
         AndroidArgs.load(yaml).validate()
     }
 
-    @Test(expected = FlankConfigurationError::class)
+    @Test(expected = FlankGeneralError::class)
     fun `should throw exception if correct type requested instrumental but no test runner set`() {
         val yaml = """
         gcloud:
           app: $appApk
           test: $testApk
-          test
           device:
             - model: Nexus6
               version: 25
@@ -2340,8 +2339,8 @@ AndroidArgs
         )
     }
 
-    @Test
-    fun `should not throw exception if test targets for shard is defined correctly`() {
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception if test targets for shard is defined correctly but type not defined`() {
         val yaml = """
         gcloud:
           app: $appApk
@@ -2351,6 +2350,25 @@ AndroidArgs
               version: 25
               locale: en
               orientation: portrait
+          test-targets-for-shard: 
+            - com.example.test
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should not throw exception if test targets for shard & type is defined correctly (instrumentation)`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: instrumentation
+          test-runner-class: com.foo.TestRunner
           test-targets-for-shard: 
             - com.example.test
         """.trimIndent()
