@@ -61,7 +61,6 @@ internal fun AndroidInstrumentationTest.setupTestTargets(
                             }
                         )
                     }
-
                 }
             }
         }
