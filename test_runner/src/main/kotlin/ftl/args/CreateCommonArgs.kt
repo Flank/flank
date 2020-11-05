@@ -4,6 +4,7 @@ import ftl.args.yml.toType
 import ftl.config.CommonConfig
 import ftl.run.status.OutputStyle
 import ftl.run.status.asOutputStyle
+import ftl.util.require
 import ftl.util.uniqueObjectName
 
 fun CommonConfig.createCommonArgs(
@@ -12,42 +13,44 @@ fun CommonConfig.createCommonArgs(
     data = data,
 
     // gcloud
-    devices = gcloud.devices!!,
+    devices = gcloud::devices.require(),
     resultsBucket = ArgsHelper.createGcsBucket(
-        projectId = flank.project!!,
-        bucket = gcloud.resultsBucket!!
+        projectId = flank::project.require(),
+        bucket = gcloud::resultsBucket.require()
     ),
     resultsDir = gcloud.resultsDir ?: uniqueObjectName(),
-    recordVideo = gcloud.recordVideo!!,
-    testTimeout = gcloud.timeout!!,
-    async = gcloud.async!!,
+    recordVideo = gcloud::recordVideo.require(),
+    testTimeout = gcloud::timeout.require(),
+    async = gcloud::async.require(),
     resultsHistoryName = gcloud.resultsHistoryName,
-    flakyTestAttempts = gcloud.flakyTestAttempts!!,
+    flakyTestAttempts = gcloud::flakyTestAttempts.require(),
     networkProfile = gcloud.networkProfile,
     clientDetails = gcloud.clientDetails,
-    otherFiles = gcloud.otherFiles!!.mapValues { (_, path) -> path.normalizeFilePath() },
+    directoriesToPull = gcloud::directoriesToPull.require(),
+    otherFiles = gcloud::otherFiles.require().mapValues { (_, path) -> path.normalizeFilePath() },
+    scenarioNumbers = gcloud::scenarioNumbers.require(),
     type = gcloud.type?.toType(),
 
     // flank
-    maxTestShards = flank.maxTestShards!!,
-    shardTime = flank.shardTime!!,
-    repeatTests = flank.repeatTests!!,
-    smartFlankGcsPath = flank.smartFlankGcsPath!!,
-    smartFlankDisableUpload = flank.smartFlankDisableUpload!!,
-    testTargetsAlwaysRun = flank.testTargetsAlwaysRun!!,
-    runTimeout = flank.runTimeout!!,
-    fullJUnitResult = flank.fullJUnitResult!!,
-    project = flank.project!!,
+    maxTestShards = flank::maxTestShards.require(),
+    shardTime = flank::shardTime.require(),
+    repeatTests = flank::repeatTests.require(),
+    smartFlankGcsPath = flank::smartFlankGcsPath.require(),
+    smartFlankDisableUpload = flank::smartFlankDisableUpload.require(),
+    testTargetsAlwaysRun = flank::testTargetsAlwaysRun.require(),
+    runTimeout = flank::runTimeout.require(),
+    fullJUnitResult = flank::fullJUnitResult.require(),
+    project = flank::project.require(),
     outputStyle = outputStyle,
-    keepFilePath = flank.keepFilePath!!,
-    ignoreFailedTests = flank.ignoreFailedTests!!,
-    filesToDownload = flank.filesToDownload!!,
-    disableSharding = flank.disableSharding!!,
-    localResultDir = flank.localResultsDir!!,
-    disableResultsUpload = flank.disableResultsUpload!!,
-    defaultTestTime = flank.defaultTestTime!!,
-    defaultClassTestTime = flank.defaultClassTestTime!!,
-    useAverageTestTimeForNewTests = flank.useAverageTestTimeForNewTests!!
+    keepFilePath = flank::keepFilePath.require(),
+    ignoreFailedTests = flank::ignoreFailedTests.require(),
+    filesToDownload = flank::filesToDownload.require(),
+    disableSharding = flank::disableSharding.require(),
+    localResultDir = flank::localResultsDir.require(),
+    disableResultsUpload = flank::disableResultsUpload.require(),
+    defaultTestTime = flank::defaultTestTime.require(),
+    defaultClassTestTime = flank::defaultClassTestTime.require(),
+    useAverageTestTimeForNewTests = flank::useAverageTestTimeForNewTests.require()
 ).apply {
     ArgsHelper.createJunitBucket(project, smartFlankGcsPath)
 }
@@ -64,4 +67,4 @@ private val CommonConfig.defaultOutputStyle
 
 private val CommonConfig.hasMultipleExecutions
     get() = gcloud.flakyTestAttempts!! > 0 ||
-            (!flank.disableSharding!! && flank.maxTestShards!! > 0)
+            (!flank.disableSharding!! && flank.maxTestShards!! > 1)

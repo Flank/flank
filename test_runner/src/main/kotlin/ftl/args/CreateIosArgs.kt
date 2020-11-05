@@ -4,6 +4,7 @@ import ftl.args.yml.Type
 import ftl.config.IosConfig
 import ftl.config.ios.IosFlankConfig
 import ftl.config.ios.IosGcloudConfig
+import ftl.util.require
 
 fun createIosArgs(
     config: IosConfig,
@@ -28,9 +29,11 @@ private fun createIosArgs(
     xctestrunZip = gcloud.test?.normalizeFilePath().orEmpty(),
     xctestrunFile = gcloud.xctestrunFile?.normalizeFilePath().orEmpty(),
     xcodeVersion = gcloud.xcodeVersion,
-    additionalIpas = gcloud.additionalIpas!!.map { it.normalizeFilePath() },
+    additionalIpas = gcloud::additionalIpas.require().map { it.normalizeFilePath() },
     testTargets = flank.testTargets?.filterNotNull().orEmpty(),
-    obfuscateDumpShards = obfuscate
+    obfuscateDumpShards = obfuscate,
+    app = gcloud.app?.normalizeFilePath().orEmpty(),
+    testSpecialEntitlements = gcloud.testSpecialEntitlements ?: false
 )
 
 private fun convertToShardCount(inputValue: Int) =

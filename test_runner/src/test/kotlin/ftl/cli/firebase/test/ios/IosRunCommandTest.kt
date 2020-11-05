@@ -90,6 +90,7 @@ class IosRunCommandTest {
         assertThat(cmd.config.common.gcloud.devices).isNull()
         assertThat(cmd.config.common.gcloud.resultsDir).isNull()
         assertThat(cmd.config.common.gcloud.flakyTestAttempts).isNull()
+        assertThat(cmd.config.common.gcloud.directoriesToPull).isNull()
         assertThat(cmd.config.common.flank.localResultsDir).isNull()
         assertThat(cmd.config.common.flank.smartFlankDisableUpload).isNull()
         assertThat(cmd.config.common.flank.smartFlankGcsPath).isNull()
@@ -396,5 +397,13 @@ class IosRunCommandTest {
         CommandLine(cmd).parseArgs("--type=a")
 
         assertThat(cmd.config.common.gcloud.type).isEqualTo("a")
+    }
+
+    @Test
+    fun `should properly parse test-special-entitlements`() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parseArgs("--test-special-entitlements")
+
+        assertThat(cmd.config.platform.gcloud.testSpecialEntitlements).isEqualTo(true)
     }
 }

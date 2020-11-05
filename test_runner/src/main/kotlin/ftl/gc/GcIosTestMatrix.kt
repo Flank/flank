@@ -16,6 +16,7 @@ import com.google.api.services.testing.model.ToolResultsHistory
 import ftl.args.IosArgs
 import ftl.gc.android.mapGcsPathsToFileReference
 import ftl.gc.android.mapToIosDeviceFiles
+import ftl.gc.android.toIosDeviceFile
 import ftl.ios.Xctestrun
 import ftl.ios.Xctestrun.toByteArray
 import ftl.run.exception.FlankGeneralError
@@ -64,11 +65,13 @@ object GcIosTestMatrix {
             .setTestsZip(FileReference().setGcsPath(testZipGcsPath))
             .setXctestrun(FileReference().setGcsPath(xctestrunFileGcsPath))
             .setXcodeVersion(args.xcodeVersion)
+            .setTestSpecialEntitlements(args.testSpecialEntitlements)
 
         val iOSTestSetup = IosTestSetup()
             .setNetworkProfile(args.networkProfile)
             .setPushFiles(otherFiles.mapToIosDeviceFiles())
             .setAdditionalIpas(additionalIpasGcsPaths.mapGcsPathsToFileReference())
+            .setPullDirectories(args.directoriesToPull.toIosDeviceFiles())
 
         val testTimeoutSeconds = timeoutToSeconds(args.testTimeout)
 
@@ -98,3 +101,5 @@ object GcIosTestMatrix {
         }
     }
 }
+
+private fun List<String>.toIosDeviceFiles() = map { path -> toIosDeviceFile(path) }

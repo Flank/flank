@@ -21,7 +21,7 @@ object Versions {
     const val KOTLIN = "1.4.10"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    const val KOTLIN_COROUTINES = "1.3.9"
+    const val KOTLIN_COROUTINES = "1.4.0"
 
     // https://github.com/remkop/picocli/releases
     const val PICOCLI = "4.5.2"
@@ -38,7 +38,7 @@ object Versions {
     const val GOOGLE_NIO = "0.121.2"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "1.113.1"
+    const val GOOGLE_STORAGE = "1.113.2"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.8.6"
@@ -79,7 +79,7 @@ object Versions {
     const val COMMON_TEXT = "1.9"
 
     // https://github.com/fusesource/jansi/releases
-    const val JANSI = "1.18"
+    const val JANSI = "2.0.1"
 
     // https://github.com/ben-manes/gradle-versions-plugin/releases
     const val BEN_MANES = "0.33.0"
@@ -88,7 +88,9 @@ object Versions {
     const val PROGUARD = "7.0.0"
 
     // ============== flank-scripts ==============
-    const val KOTLIN_SERIALIZATION = "1.0.0"
+    const val KOTLIN_SERIALIZATION = "1.0.1"
+    const val ARCHIVE_LIB = "1.1.0"
+    const val TUKAANI_XZ = "1.0"
     const val FUEL = "2.3.0"
     const val CLIKT = "2.8.0"
     const val JCABI_GITHUB = "1.1.2"

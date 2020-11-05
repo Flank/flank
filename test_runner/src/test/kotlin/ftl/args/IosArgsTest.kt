@@ -78,6 +78,7 @@ class IosArgsTest {
             orientation: default
           num-flaky-test-attempts: 4
           type: xctest
+          test-special-entitlements: true
 
         flank:
           max-test-shards: 7
@@ -235,13 +236,17 @@ IosArgs
           locale: c
           orientation: default
       num-flaky-test-attempts: 4
+      directories-to-pull: 
       other-files: 
         com.my.app:/Documents/file.txt: local/file.txt
         /private/var/mobile/Media/file.jpg: gs://bucket/file.jpg
       additional-ipas: 
         - $testIpa1
         - $testIpa2
+      scenario-numbers: 
       type: xctest
+      app: 
+      test-special-entitlements: true
 
     flank:
       max-test-shards: 7
@@ -299,9 +304,13 @@ IosArgs
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 0
+      directories-to-pull: 
       other-files: 
       additional-ipas: 
+      scenario-numbers: 
       type: xctest
+      app: 
+      test-special-entitlements: false
 
     flank:
       max-test-shards: 1
@@ -322,7 +331,7 @@ IosArgs
       local-result-dir: results
       run-timeout: -1
       ignore-failed-tests: false
-      output-style: multi
+      output-style: verbose
       disable-results-upload: false
       default-class-test-time: 240.0
         """.trimIndent(),
@@ -854,17 +863,17 @@ IosArgs
     @Test
     fun `cli output-style`() {
         val cli = IosRunCommand()
-        CommandLine(cli).parseArgs("--output-style=verbose")
+        CommandLine(cli).parseArgs("--output-style=multi")
 
         val yaml = """
         gcloud:
           test: $testPath
           xctestrun-file: $testPath
       """
-        assertThat(IosArgs.load(yaml).outputStyle).isEqualTo(OutputStyle.Multi)
+        assertThat(IosArgs.load(yaml).outputStyle).isEqualTo(OutputStyle.Verbose)
 
         val args = IosArgs.load(yaml, cli)
-        assertThat(args.outputStyle).isEqualTo(OutputStyle.Verbose)
+        assertThat(args.outputStyle).isEqualTo(OutputStyle.Multi)
     }
 
     private fun getValidTestsSample() = listOf(
@@ -1126,6 +1135,87 @@ IosArgs
             // then
             assertFalse(systemOutRule.log.contains("WARNING: Google cloud storage result directory should be unique, otherwise results from multiple test matrices will be overwritten or intermingled"))
         }
+    }
+
+    @Test
+    fun `should not throw exception if game-loop is provided and nothing else`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+          results-dir: test
+          type: game-loop
+        """.trimIndent()
+        IosArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception if game-loop is not provided and scenario numbers are`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+          results-dir: test
+          scenario-numbers:
+             - 1
+             - 2
+        """.trimIndent()
+        IosArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should not throw exception if game-loop is provided and scenario numbers are`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+          results-dir: test
+          type: game-loop
+          scenario-numbers:
+             - 1
+             - 2
+        """.trimIndent()
+        IosArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception if invalid scenario numbers are provided`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+          results-dir: test
+          type: game-loop
+          scenario-numbers:
+             - error1
+             - error2
+        """.trimIndent()
+        IosArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception if app provided but not type equals gameloop`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+          results-dir: test
+          app: $testPath
+        """.trimIndent()
+        IosArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should not throw exception if app provided and type equals gameloop`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+          results-dir: test
+          type: game-loop
+          app: $testPath
+        """.trimIndent()
+        IosArgs.load(yaml).validate()
     }
 }
 

@@ -20,9 +20,27 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
   var tableItems = (1...50).map { $0 }
 
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+    
   override func viewDidLoad() {
     super.viewDidLoad()
-
+    
+    let str = "viewLoaded"
+    let outputDirectory = getDocumentsDirectory().appendingPathComponent("output")
+   
+    do {
+        try FileManager.default.createDirectory(atPath: outputDirectory.path, withIntermediateDirectories: true, attributes: nil)
+        
+        let filename = outputDirectory.appendingPathComponent("test.txt")
+        
+        try str.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
+        
+    } catch {
+        print("error on create test file")
+    }
     // Create the send message view to contain one of the two send buttons
     let sendMessageView = SendMessageView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
     sendMessageView.translatesAutoresizingMaskIntoConstraints = false

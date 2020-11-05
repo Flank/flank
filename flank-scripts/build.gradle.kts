@@ -74,6 +74,8 @@ dependencies {
     implementation(Dependencies.JCABI_GITHUB)
     implementation(Dependencies.SLF4J_NOP)
     implementation(Dependencies.GLASSFISH_JSON)
+    implementation(Dependencies.ARCHIVE_LIB)
+    implementation(Dependencies.TUKAANI_XZ)
 
     detektPlugins(Dependencies.DETEKT_FORMATTING)
 

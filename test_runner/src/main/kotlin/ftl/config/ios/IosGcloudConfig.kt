@@ -58,6 +58,26 @@ data class IosGcloudConfig @JsonIgnore constructor(
     @set:JsonProperty("additional-ipas")
     var additionalIpas: List<String>? by data
 
+    @set:CommandLine.Option(
+        names = ["--app"],
+        description = ["The path to the application archive (.ipa file) for game-loop testing. " +
+                "The path may be in the local filesystem or in Google Cloud Storage using gs:// notation. " +
+                "This flag is only valid when --type=game-loop is also set"]
+    )
+    @set:JsonProperty("app")
+    var app: String? by data
+
+    @set:CommandLine.Option(
+        names = ["--test-special-entitlements"],
+        description = ["Enables testing special app entitlements. Re-signs an app having special entitlements with a new" +
+            " application-identifier. This currently supports testing Push Notifications (aps-environment) entitlement " +
+            "for up to one app in a project.\n" +
+            "Note: Because this changes the app's identifier, make sure none of the resources in your zip file contain " +
+            "direct references to the test app's bundle id."]
+    )
+    @set:JsonProperty("test-special-entitlements")
+    var testSpecialEntitlements: Boolean? by data
+
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {
@@ -73,6 +93,8 @@ data class IosGcloudConfig @JsonIgnore constructor(
             xctestrunFile = null
             xcodeVersion = null
             additionalIpas = emptyList()
+            app = null
+            testSpecialEntitlements = false
         }
     }
 }

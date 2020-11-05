@@ -11,3 +11,4 @@ local.properties
 results
 xcuserdata/
 test_projects/ios/*/build*
+android_shards.json
