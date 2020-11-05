@@ -2326,7 +2326,7 @@ AndroidArgs
     }
 
     @Test
-    fun `should not throw exception if incorrect (empty) value used in yml config file is overwriten with command line`() {
+    fun `should not throw exception if incorrect (empty) value used in yml config file is overwritten with command line`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parseArgs("--legacy-junit-result")
 
@@ -2338,6 +2338,23 @@ AndroidArgs
               legacy-junit-result:
         """.trimIndent(), cli
         )
+    }
+
+    @Test
+    fun `should not throw exception if test targets for shard is defined correctly`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          test-targets-for-shard: 
+            - com.example.test
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
     }
 }
 
