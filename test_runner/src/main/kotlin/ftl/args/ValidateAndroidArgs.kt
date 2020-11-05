@@ -22,6 +22,7 @@ fun AndroidArgs.validate() = apply {
     assertMaxTestShardsByDeviceType()
     assertParametersConflict()
     assertTestFiles()
+    assertTestTargetForShards()
     assertOtherFiles()
     assertGrantPermissions()
     assertType()
@@ -30,6 +31,16 @@ fun AndroidArgs.validate() = apply {
     checkEnvironmentVariables()
     checkFilesToDownload()
     checkNumUniformShards()
+}
+
+private fun AndroidArgs.assertTestTargetForShards() {
+    if (testTargetsForShard.isNotEmpty()) {
+        if (devices.isEmpty() && testTargetsForShard.size > 500) {
+            throw FlankConfigurationError("Cannot have more than 500 Test Targets for Shards with no device provided.")
+        } else if (devices.isNotEmpty() && testTargetsForShard.size > 50) {
+            throw FlankConfigurationError("Cannot have more than 50 Test Targets for Shards if one or more devices are specified.")
+        }
+    }
 }
 
 private fun AndroidArgs.assertGameLoop() {
