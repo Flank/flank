@@ -1,10 +1,13 @@
 package ftl.gc
 
+import com.google.auth.oauth2.AccessToken
 import com.google.auth.oauth2.ClientId
 import com.google.auth.oauth2.MemoryTokensStorage
 import com.google.auth.oauth2.UserAuthorizer
 import com.google.auth.oauth2.UserCredentials
 import ftl.config.FtlConstants
+import ftl.config.FtlConstants.userHome
+import ftl.run.exception.FlankGeneralError
 import io.ktor.application.call
 import io.ktor.response.respondText
 import io.ktor.routing.get
@@ -18,21 +21,37 @@ import java.io.FileOutputStream
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.net.URI
+import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.util.Date
 
 class UserAuth {
 
     companion object {
-        private val home = System.getProperty("user.home")!!
-        private val dotFlank = Paths.get(home, ".flank/")
+        private val dotFlank = Paths.get(userHome, ".flank")
         val userToken: Path = Paths.get(dotFlank.toString(), "UserToken")
 
-        fun exists() = userToken.toFile().exists()
-        fun load(): UserCredentials {
-            return ObjectInputStream(FileInputStream(userToken.toFile())).use {
-                it.readObject() as UserCredentials
-            }
+        fun exists() = Files.exists(userToken)
+        fun load(): UserCredentials = readCredentialsOrThrow()
+
+        private fun readCredentialsOrThrow(): UserCredentials = runCatching {
+            ObjectInputStream(FileInputStream(userToken.toFile())).readObject() as UserCredentials
+        }.getOrElse {
+            throwAuthenticationError()
+        }.also {
+            ObjectOutputStream(FileOutputStream(userToken.toFile())).writeObject(
+                it.toBuilder().setAccessToken(AccessToken(it.accessToken.tokenValue, Date(0L))).build()
+            )
+        }
+
+        fun throwAuthenticationError(): Nothing {
+            Files.delete(userToken)
+            throw FlankGeneralError(
+                "Could not load user authentication, please\n" +
+                    " - login again using command: flank auth login\n" +
+                    " - or try again to use The Application Default Credentials variable to login"
+            )
         }
     }
 
@@ -96,9 +115,7 @@ class UserAuth {
         val userCredential = authorizer.getCredentials(userId)
 
         dotFlank.toFile().mkdirs()
-        ObjectOutputStream(FileOutputStream(userToken.toFile())).use {
-            it.writeObject(userCredential)
-        }
+        ObjectOutputStream(FileOutputStream(userToken.toFile())).writeObject(userCredential)
 
         println()
         println("User token saved to $userToken")

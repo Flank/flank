@@ -12,7 +12,7 @@ import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
-import ftl.gc.GcStorage.dropLeadingSlash
+import ftl.config.credential
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.xmlToString
@@ -34,7 +34,7 @@ object GcStorage {
     val storageOptions: StorageOptions by lazy {
         val builder = StorageOptions.newBuilder()
         if (FtlConstants.useMock) builder.setHost(FtlConstants.localhost)
-        builder.setCredentials(FtlConstants.credential)
+        builder.setCredentials(credential)
 
         // The oauth lib for user auth needs to be replaced
         // https://github.com/Flank/flank/issues/464#issuecomment-455227703
