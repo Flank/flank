@@ -12,7 +12,7 @@ typealias XctestrunMethods = Map<String, List<String>>
 
 internal const val XCTEST_METADATA = "__xctestrun_metadata__"
 internal const val FORMAT_VERSION = "FormatVersion"
-internal const val TEST_CONFIGURATION = "TestConfiguration"
+internal const val TEST_CONFIGURATIONS = "TestConfigurations"
 internal const val TEST_TARGETS = "TestTargets"
 internal const val TEST_PLAN = "TestPlan"
 internal const val NAME = "Name"
@@ -28,19 +28,25 @@ internal fun NSDictionary.getXcTestRunVersion(): Int =
         ?.get(FORMAT_VERSION)?.toJavaObject(Int::class.java)
         ?: throw FlankGeneralError("Given NSDictionary doesn't contains $FORMAT_VERSION")
 
-fun NSDictionary.getTestConfigurations(): Map<String, NSDictionary> =
+internal fun NSDictionary.getTestConfigurations(): Map<String, NSDictionary> =
     testConfigurationsNSArray().array.map { it as NSDictionary }.associateBy {
         it.getName()
     }
 
 private fun NSDictionary.testConfigurationsNSArray(): NSArray =
-    get(TEST_CONFIGURATION) as NSArray
+    get(TEST_CONFIGURATIONS) as NSArray
+
+internal fun NSDictionary.getTestTargets(): List<NSDictionary> =
+    (get(TEST_TARGETS) as NSArray).array.map { it as NSDictionary }
+
+internal fun NSDictionary.getOnlyTestIdentifiers() =
+    (get(ONLY_TEST_IDENTIFIERS) as NSArray).array.map { it.toString() }
 
 private fun NSDictionary.getName(): String = get(NAME)
     ?.toJavaObject(String::class.java)
     ?: throw FlankConfigurationError("Cannot get Name key from NSDictionary:\n ${toXMLPropertyList()}")
 
-fun NSDictionary.getBlueprintName() = get(BLUEPRINT_NAME).toString()
+internal fun NSDictionary.getBlueprintName() = get(BLUEPRINT_NAME).toString()
 
 internal fun NSDictionary.toByteArray(): ByteArray {
     val out = ByteArrayOutputStream()
@@ -74,7 +80,7 @@ internal fun validateIsFile(path: String) = File(path).run {
 
 // https://github.com/google/xctestrunner/blob/51dbb6b7eb35f2ed55439459ca49e06992bc4da0/xctestrunner/test_runner/xctestrun.py#L129
 // Rewrites tests so that only the listed tests execute
-fun NSDictionary.setOnlyTestIdentifiers(methods: Collection<String>) = apply {
+internal fun NSDictionary.setOnlyTestIdentifiers(methods: Collection<String>) = apply {
     while (containsKey(ONLY_TEST_IDENTIFIERS)) remove(ONLY_TEST_IDENTIFIERS)
     this[ONLY_TEST_IDENTIFIERS] = NSArray(methods.size).also { methods.forEachIndexed(it::setValue) }
 }

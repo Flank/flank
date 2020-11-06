@@ -4,7 +4,7 @@ import com.dd.plist.NSDictionary
 import com.google.api.services.testing.model.IosDeviceList
 import ftl.args.IosArgs
 import ftl.config.FtlConstants.isWindows
-import ftl.ios.FIXTURES_PATH
+import ftl.ios.xctest.FIXTURES_PATH
 import ftl.shard.Chunk
 import ftl.shard.TestMethod
 import ftl.test.util.FlankTestRunner

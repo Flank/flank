@@ -1,12 +1,10 @@
 package ftl.ios.xctest
 
-import com.dd.plist.NSArray
-import com.dd.plist.NSDictionary
-import ftl.ios.xctest.common.TEST_TARGETS
 import ftl.ios.xctest.common.XctestrunMethods
 import ftl.ios.xctest.common.findTestsForTarget
 import ftl.ios.xctest.common.getBlueprintName
 import ftl.ios.xctest.common.getTestConfigurations
+import ftl.ios.xctest.common.getTestTargets
 import ftl.ios.xctest.common.parseToNSDictionary
 import java.io.File
 
@@ -27,6 +25,3 @@ private fun findXcTestNamesV2(xctestrun: File): Map<String, XctestrunMethods> {
             }
     }
 }
-
-private fun NSDictionary.getTestTargets(): List<NSDictionary> =
-    (get(TEST_TARGETS) as NSArray).array.map { it as NSDictionary }
