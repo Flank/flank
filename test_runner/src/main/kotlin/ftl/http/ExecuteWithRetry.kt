@@ -3,7 +3,7 @@ package ftl.http
 import com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest
 import com.google.api.client.http.HttpResponseException
 import ftl.config.FtlConstants
-import ftl.gc.UserAuth
+import ftl.run.exception.FailureToken
 import ftl.run.exception.PermissionDenied
 import ftl.run.exception.ProjectNotFound
 import kotlinx.coroutines.delay
@@ -30,7 +30,7 @@ private inline fun <T> withRetry(crossinline block: () -> T): T = runBlocking {
             if (err is HttpResponseException) {
                 // we want to handle some FTL errors with special care
                 when (err.statusCode) {
-                    400 -> if (err.containsBadTokenMessage()) UserAuth.throwAuthenticationError()
+                    400 -> if (err.containsBadTokenMessage()) throw FailureToken(err) else return@repeat
                     429 -> return@repeat
                     403 -> throw PermissionDenied(err)
                     404 -> throw ProjectNotFound(err)

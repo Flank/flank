@@ -1,6 +1,5 @@
 package ftl.gc
 
-import com.google.auth.oauth2.AccessToken
 import com.google.auth.oauth2.ClientId
 import com.google.auth.oauth2.MemoryTokensStorage
 import com.google.auth.oauth2.UserAuthorizer
@@ -16,6 +15,7 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
+import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.ObjectInputStream
@@ -24,13 +24,13 @@ import java.net.URI
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.util.Date
 
 class UserAuth {
 
     companion object {
         private val dotFlank = Paths.get(userHome, ".flank")
-        val userToken: Path = Paths.get(dotFlank.toString(), "UserToken")
+        val userToken: Path = if (FtlConstants.useMock) File.createTempFile("test_", ".Token").toPath()
+        else Paths.get(dotFlank.toString(), "UserToken")
 
         fun exists() = Files.exists(userToken)
         fun load(): UserCredentials = readCredentialsOrThrow()
@@ -39,10 +39,6 @@ class UserAuth {
             ObjectInputStream(FileInputStream(userToken.toFile())).readObject() as UserCredentials
         }.getOrElse {
             throwAuthenticationError()
-        }.also {
-            ObjectOutputStream(FileOutputStream(userToken.toFile())).writeObject(
-                it.toBuilder().setAccessToken(AccessToken(it.accessToken.tokenValue, Date(0L))).build()
-            )
         }
 
         fun throwAuthenticationError(): Nothing {

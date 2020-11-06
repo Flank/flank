@@ -20,6 +20,7 @@ import ftl.config.httpCredential
 import ftl.config.FtlConstants.httpTransport
 import ftl.http.executeWithRetry
 import ftl.run.exception.FTLProjectError
+import ftl.run.exception.FailureToken
 import ftl.run.exception.FlankGeneralError
 import ftl.run.exception.PermissionDenied
 import ftl.run.exception.ProjectNotFound
@@ -129,6 +130,7 @@ object GcToolResults {
         when (ftlProjectError) {
             is PermissionDenied -> throw FlankGeneralError(permissionDeniedErrorMessage(projectId, ftlProjectError.message))
             is ProjectNotFound -> throw FlankGeneralError(projectNotFoundErrorMessage(projectId, ftlProjectError.message))
+            is FailureToken -> UserAuth.throwAuthenticationError()
         }
     }
 
