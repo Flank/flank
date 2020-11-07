@@ -31,6 +31,7 @@ detekt {
 dependencies {
     implementation(kotlin("stdlib"))
     testImplementation(Dependencies.JUNIT)
+    testImplementation(Dependencies.TRUTH)
     detektPlugins(Dependencies.DETEKT_FORMATTING)
 }
 
@@ -44,4 +45,15 @@ tasks.test {
     systemProperty("working-directory", System.getProperty("working-directory"))
     systemProperty("output-pattern", System.getProperty("output-pattern"))
     systemProperty("expected-output-code", System.getProperty("expected-output-code"))
+    filter {
+        excludeTestsMatching("*IT")
+    }
+}
+
+tasks.register<Test>("integrationTests") {
+    group = "Verification"
+    description = "Runs flank integration tests"
+    filter {
+        includeTestsMatching("*IT")
+    }
 }
