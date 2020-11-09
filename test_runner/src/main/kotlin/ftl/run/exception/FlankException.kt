@@ -80,6 +80,7 @@ class FlankGeneralError : FlankException {
 sealed class FTLProjectError(exc: IOException) : FlankException("Caused by: $exc")
 class PermissionDenied(exc: IOException) : FTLProjectError(exc)
 class ProjectNotFound(exc: IOException) : FTLProjectError(exc)
+class FailureToken(exc: IOException) : FTLProjectError(exc)
 
 /**
  * The test environment for this test execution is not supported because of incompatible test dimensions. This error might occur if the selected Android API level is not supported by the selected device type.

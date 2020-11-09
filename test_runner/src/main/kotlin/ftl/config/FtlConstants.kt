@@ -3,31 +3,24 @@ package ftl.config
 import com.bugsnag.Bugsnag
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
 import com.google.api.client.googleapis.util.Utils
-import com.google.api.client.http.GoogleApiLogger
-import com.google.api.client.http.HttpRequestInitializer
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.JsonFactory
-import com.google.auth.oauth2.AccessToken
-import com.google.auth.oauth2.GoogleCredentials
-import com.google.auth.oauth2.ServiceAccountCredentials
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
-import ftl.gc.UserAuth
-import ftl.http.HttpTimeoutIncrease
 import ftl.util.BugsnagInitHelper.initBugsnag
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 import ftl.util.readRevision
-import java.io.IOException
-import java.nio.file.Path
-import java.nio.file.Paths
-import java.util.Date
 
 object FtlConstants {
     var useMock = false
 
     private val osName = System.getProperty("os.name")?.toLowerCase() ?: ""
+
+    val userHome: String by lazy {
+        if (isWindows) System.getenv("HOMEPATH") else System.getProperty("user.home")
+    }
 
     val isMacOS: Boolean by lazy {
         val isMacOS = osName.indexOf("mac") >= 0
@@ -65,44 +58,6 @@ object FtlConstants {
             return@lazy GoogleNetHttpTransport.newTrustedTransport()
         } catch (e: Exception) {
             throw FlankGeneralError(e)
-        }
-    }
-
-    val defaultCredentialPath: Path by lazy {
-        val homePath = if (isWindows) System.getenv("HOMEPATH") else System.getProperty("user.home")
-        Paths.get(homePath, ".config/gcloud/application_default_credentials.json")
-    }
-
-    val credential: GoogleCredentials by lazy {
-        when {
-            useMock -> GoogleCredentials.create(AccessToken("mock", Date()))
-            UserAuth.exists() -> UserAuth.load()
-            else -> runCatching {
-                GoogleApiLogger.silenceComputeEngine()
-                ServiceAccountCredentials.getApplicationDefault()
-            }.getOrElse {
-                if (isWindows) loadGoogleAccountCredentials()
-                else throw FlankGeneralError("Error: Failed to read service account credential.\n${it.message}")
-            }
-        }
-    }
-
-    private fun loadGoogleAccountCredentials(): GoogleCredentials = try {
-        GoogleCredentials.fromStream(defaultCredentialPath.toFile().inputStream())
-    } catch (e: IOException) {
-        throw FlankGeneralError("Error: Failed to read service account credential.\n${e.message}")
-    }
-
-    val httpCredential: HttpRequestInitializer by lazy {
-        if (useMock) {
-            HttpRequestInitializer {}
-        } else {
-            // Authenticate with https://github.com/googleapis/google-auth-library-java
-            // Scope is required.
-            // https://developers.google.com/identity/protocols/googlescopes
-            // https://developers.google.com/identity/protocols/application-default-credentials
-            // https://cloud.google.com/sdk/gcloud/reference/alpha/compute/instances/set-scopes
-            HttpTimeoutIncrease(credential.createScoped(listOf("https://www.googleapis.com/auth/cloud-platform")))
         }
     }
 
