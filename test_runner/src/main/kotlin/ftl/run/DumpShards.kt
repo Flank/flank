@@ -23,7 +23,7 @@ suspend fun dumpShards(
     saveShardChunks(
         shardFilePath = shardFilePath,
         shards = shards,
-        size = shards.size,
+        size = shards.flatMap { it.value.shards.values }.count(),
         obfuscatedOutput = args.obfuscateDumpShards
     )
 }

@@ -21,13 +21,13 @@ object Versions {
     const val KOTLIN = "1.4.10"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    const val KOTLIN_COROUTINES = "1.4.0"
+    const val KOTLIN_COROUTINES = "1.4.1"
 
     // https://github.com/remkop/picocli/releases
     const val PICOCLI = "4.5.2"
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
-    const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20200803-1.30.10"
+    const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20201029-1.30.10"
 
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
@@ -35,7 +35,7 @@ object Versions {
     const val GOOGLE_AUTH = "0.22.0"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.121.2"
+    const val GOOGLE_NIO = "0.122.0"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
     const val GOOGLE_STORAGE = "1.113.2"
@@ -82,15 +82,15 @@ object Versions {
     const val JANSI = "2.0.1"
 
     // https://github.com/ben-manes/gradle-versions-plugin/releases
-    const val BEN_MANES = "0.33.0"
+    const val BEN_MANES = "0.36.0"
 
     // https://github.com/Guardsquare/proguard
-    const val PROGUARD = "7.0.0"
+    const val PROGUARD = "7.0.1"
 
     // ============== flank-scripts ==============
     const val KOTLIN_SERIALIZATION = "1.0.1"
     const val ARCHIVE_LIB = "1.1.0"
-    const val TUKAANI_XZ = "1.0"
+    const val TUKAANI_XZ = "1.8"
     const val FUEL = "2.3.0"
     const val CLIKT = "2.8.0"
     const val JCABI_GITHUB = "1.1.2"

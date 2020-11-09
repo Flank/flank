@@ -16,9 +16,18 @@ import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
+import org.junit.After
+import org.junit.Rule
+import org.junit.contrib.java.lang.system.SystemOutRule
 
 @RunWith(FlankTestRunner::class)
 class DumpShardsKtTest {
+
+    @get:Rule
+    val output: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
+
+    @After
+    fun tearDown() = output.clearLog()
 
     @Test
     fun `dump shards android`() {
@@ -75,6 +84,7 @@ class DumpShardsKtTest {
 
         // then
         assertEqualsIgnoreNewlineStyle(expected, actual)
+        assertThat(output.log).contains("Saved 3 shards to $TEST_SHARD_FILE")
     }
 
     @Test
@@ -132,6 +142,7 @@ class DumpShardsKtTest {
         // then
         assertNotEquals(notExpected, actual)
         assertThat(notExpected.split(System.lineSeparator()).size).isEqualTo(actual.split(System.lineSeparator()).size) // same line count
+        assertThat(output.log).contains("Saved 3 shards to $TEST_SHARD_FILE")
     }
 
     @Test
@@ -161,6 +172,7 @@ class DumpShardsKtTest {
 
         // then
         assertEquals(expected, actual)
+        assertThat(output.log).contains("Saved 2 shards to $TEST_SHARD_FILE")
     }
 
     @Test
@@ -192,6 +204,7 @@ class DumpShardsKtTest {
         // then
         assertNotEquals(notExpected, actual)
         assertThat(notExpected.split(System.lineSeparator()).size).isEqualTo(actual.split(System.lineSeparator()).size) // same line count
+        assertThat(output.log).contains("Saved 2 shards to $TEST_SHARD_FILE")
     }
 }
 
