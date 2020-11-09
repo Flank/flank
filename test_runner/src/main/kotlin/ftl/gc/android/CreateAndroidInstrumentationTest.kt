@@ -48,21 +48,25 @@ internal fun AndroidInstrumentationTest.setupTestTargets(
                     }
                     uniformSharding = UniformSharding().setNumShards(safeNumUniformShards)
                 } else {
-                    manualSharding = if (testFlagForShard != null && testFlagForShard.isNotEmpty()) {
-                        ManualSharding().setTestTargetsForShard(
-                            testFlagForShard.map {
-                                TestTargetsForShard().setTestTargets(it.split(',', ';'))
-                            }
-                        )
-                    } else {
-                        ManualSharding().setTestTargetsForShard(
-                            testShards.map {
-                                TestTargetsForShard().setTestTargets(it)
-                            }
-                        )
-                    }
+                    manualSharding = createManualSharding(testFlagForShard, testShards)
                 }
             }
         }
+    }
+}
+
+private fun createManualSharding(testFlagForShard: List<String>?, testShards: ShardChunks) =
+    if (testFlagForShard != null && testFlagForShard.isNotEmpty()) {
+        ManualSharding().setTestTargetsForShard(
+            testFlagForShard.map {
+                TestTargetsForShard().setTestTargets(it.split(',', ';'))
+            }
+        )
+    } else {
+        ManualSharding().setTestTargetsForShard(
+            testShards.map {
+                TestTargetsForShard().setTestTargets(it)
+            }
+        )
     }
 }
