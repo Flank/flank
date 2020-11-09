@@ -42,5 +42,5 @@ fun createAndroidArgs(
     obbFiles = gcloud::obbfiles.require(),
     obbNames = gcloud::obbnames.require(),
     grantPermissions = gcloud.grantPermissions,
-    testTargetsForShard = gcloud.testTargetsForShard.orEmpty()
+    testTargetsForShard = gcloud.testTargetsForShard
 )

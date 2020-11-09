@@ -45,7 +45,6 @@ fun IosArgs.validateRefresh() = apply {
 }
 
 private fun IosArgs.assertMaxTestShards() {
-    this.maxTestShards
     if (
         maxTestShards !in IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE &&
         maxTestShards != -1

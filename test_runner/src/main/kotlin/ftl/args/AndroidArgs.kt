@@ -24,7 +24,7 @@ data class AndroidArgs(
     val additionalAppTestApks: List<AppTestPair>,
     override val useLegacyJUnitResult: Boolean,
     val obfuscateDumpShards: Boolean,
-    val testTargetsForShard: List<String>
+    val testTargetsForShard: List<String>?
 ) : IArgs by commonArgs {
     companion object : AndroidArgsCompanion()
 

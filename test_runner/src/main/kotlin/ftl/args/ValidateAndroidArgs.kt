@@ -34,13 +34,12 @@ fun AndroidArgs.validate() = apply {
 }
 
 private fun AndroidArgs.assertTestTargetForShards() {
-    if (testTargetsForShard.isNotEmpty()) {
-        if (numUniformShards != null) throw FlankConfigurationError("Number Of Uniform Shards and test Targets For Shards cannot be defined at the same time.")
-        if (type != Type.INSTRUMENTATION) throw FlankConfigurationError("Test target for shards can only be specified when test type is INSTRUMENTATION.")
-        if (devices.isEmpty() && testTargetsForShard.size > 500) {
-            throw FlankConfigurationError("Cannot have more than 500 Test Targets for Shards with no device provided.")
-        } else if (devices.isNotEmpty() && testTargetsForShard.size > 50) {
-            throw FlankConfigurationError("Cannot have more than 50 Test Targets for Shards if one or more devices are specified.")
+    if (testTargetsForShard != null && testTargetsForShard.isNotEmpty()) {
+        when {
+            numUniformShards != null -> throw FlankConfigurationError("Number Of Uniform Shards and test Targets For Shards cannot be defined at the same time.")
+            type != Type.INSTRUMENTATION-> throw FlankConfigurationError("Test target for shards can only be specified when test type is INSTRUMENTATION.")
+            devices.isEmpty() && testTargetsForShard.size > 500 -> throw FlankConfigurationError("Cannot have more than 500 Test Targets for Shards with no device provided.")
+            devices.isNotEmpty() && testTargetsForShard.size > 50 -> throw FlankConfigurationError("Cannot have more than 50 Test Targets for Shards if one or more devices are specified.")
         }
     }
 }
@@ -104,16 +103,12 @@ private fun AndroidArgs.assertDevicesSupported() = devices
             SupportedDeviceConfig -> Unit
             UnsupportedModelId -> throw IncompatibleTestDimensionError(
                 "Unsupported model id, '${device.model}'\nSupported model ids: ${
-                    AndroidCatalog.androidModelIds(
-                        project
-                    )
+                    AndroidCatalog.androidModelIds(project)
                 }"
             )
             UnsupportedVersionId -> throw IncompatibleTestDimensionError(
                 "Unsupported version id, '${device.version}'\nSupported Version ids: ${
-                    AndroidCatalog.androidVersionIds(
-                        project
-                    )
+                    AndroidCatalog.androidVersionIds(project)
                 }"
             )
             IncompatibleModelVersion -> throw IncompatibleTestDimensionError("Incompatible model, '${device.model}', and version, '${device.version}'\nSupported version ids for '${device.model}': $check")
@@ -139,8 +134,8 @@ private fun AndroidArgs.assertDirectoriesToPull() {
         ?.also {
             throw FlankConfigurationError(
                 "Invalid value for [directories-to-pull]: Invalid path $it.\n" +
-                        "Path must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2).\n" +
-                        "Path names are restricted to the characters [a-zA-Z0-9_-./+]. "
+                "Path must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2).\n" +
+                "Path names are restricted to the characters [a-zA-Z0-9_-./+]. "
             )
         }
 }
