@@ -2339,23 +2339,6 @@ AndroidArgs
         )
     }
 
-    @Test(expected = FlankConfigurationError::class)
-    fun `should throw exception if test targets for shard is defined correctly but type not defined`() {
-        val yaml = """
-        gcloud:
-          app: $appApk
-          test: $testApk
-          device:
-            - model: Nexus6
-              version: 25
-              locale: en
-              orientation: portrait
-          test-targets-for-shard: 
-            - com.example.test
-        """.trimIndent()
-        AndroidArgs.load(yaml).validate()
-    }
-
     @Test
     fun `should not throw exception if test targets for shard & type is defined correctly (instrumentation)`() {
         val yaml = """
