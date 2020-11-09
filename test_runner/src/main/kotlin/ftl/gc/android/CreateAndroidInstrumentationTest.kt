@@ -69,4 +69,3 @@ private fun createManualSharding(testFlagForShard: List<String>?, testShards: Sh
             }
         )
     }
-}

@@ -14,7 +14,7 @@ class FileKtTest {
 
     @Test
     fun `should create symbolic link`() {
-
+        if (isWindows) return
         // when
         createSymbolicLink(
             link = linkName,
