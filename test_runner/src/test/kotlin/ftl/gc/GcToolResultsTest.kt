@@ -6,6 +6,7 @@ import com.google.api.services.testing.model.ToolResultsHistory
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
+import ftl.run.exception.FailureToken
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.getThrowable
 import ftl.run.exception.FlankGeneralError
@@ -90,7 +91,9 @@ class GcToolResultsTest {
             }
             """.trimIndent()
             val mockJSonException = GoogleJsonResponseException(exceptionBuilder, null)
-            every { GcToolResults.service.Projects().initializeSettings(projectId) } throws PermissionDenied(mockJSonException)
+            every { GcToolResults.service.Projects().initializeSettings(projectId) } throws PermissionDenied(
+                mockJSonException
+            )
             val exception = getThrowable { GcToolResults.getDefaultBucket(projectId) }
             assertEquals(expected, exception.message)
         }
@@ -100,7 +103,9 @@ class GcToolResultsTest {
     fun `getDefaultBucket on PermissionDenied error should throw FlankGeneralError`() {
         mockkObject(GcToolResults) {
             every { GcToolResults.service.applicationName } returns projectId
-            every { GcToolResults.service.Projects().initializeSettings(projectId) } throws PermissionDenied(IOException())
+            every {
+                GcToolResults.service.Projects().initializeSettings(projectId)
+            } throws PermissionDenied(IOException())
             GcToolResults.getDefaultBucket(projectId)
         }
     }
@@ -109,7 +114,9 @@ class GcToolResultsTest {
     fun `getDefaultBucket on ProjectNotFound error should throw FlankGeneralError`() {
         mockkObject(GcToolResults) {
             every { GcToolResults.service.applicationName } returns projectId
-            every { GcToolResults.service.Projects().initializeSettings(projectId) } throws ProjectNotFound(IOException())
+            every {
+                GcToolResults.service.Projects().initializeSettings(projectId)
+            } throws ProjectNotFound(IOException())
             GcToolResults.getDefaultBucket(projectId)
         }
     }
@@ -149,8 +156,39 @@ class GcToolResultsTest {
             }
             """.trimIndent()
             val mockJSonException = GoogleJsonResponseException(exceptionBuilder, null)
-            every { GcToolResults.service.Projects().initializeSettings(projectId) } throws ProjectNotFound(mockJSonException)
+            every { GcToolResults.service.Projects().initializeSettings(projectId) } throws ProjectNotFound(
+                mockJSonException
+            )
             val exception = getThrowable { GcToolResults.getDefaultBucket(projectId) }
+            assertEquals(expected, exception.message)
+        }
+    }
+
+    @Test
+    fun `getDefaultBucket on 400 with authentication error should throw exception with specific message`() {
+        val expected = """
+Could not load user authentication, please
+ - login again using command: flank auth login
+ - or try again to use The Application Default Credentials variable to login
+            """.trimIndent()
+        mockkObject(GcToolResults) {
+            every { GcToolResults.service.applicationName } returns FtlConstants.applicationName
+
+            val exceptionBuilder = mockk<HttpResponseException.Builder>()
+            every { exceptionBuilder.message } returns """
+Caused by: com.google.api.client.http.HttpResponseException: 400 Bad Request
+POST https://oauth2.googleapis.com/token
+{
+  "error": "invalid_grant",
+  "error_description": "Bad Request"
+}
+            """.trimIndent()
+            val mockJSonException = GoogleJsonResponseException(exceptionBuilder, null)
+            every { GcToolResults.service.Projects().initializeSettings(projectId) } throws FailureToken(
+                mockJSonException
+            )
+            val exception = getThrowable { GcToolResults.getDefaultBucket(projectId) }
+            assertThat(exception).isInstanceOf(FlankGeneralError::class.java)
             assertEquals(expected, exception.message)
         }
     }

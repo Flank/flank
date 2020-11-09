@@ -10,15 +10,14 @@ import com.google.cloud.storage.BucketInfo
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageClass
 import com.google.cloud.storage.StorageOptions
-import ftl.args.ArgsHelper.convertToWindowsPath
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 import ftl.args.yml.YamlObjectMapper
-import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.FtlConstants.JSON_FACTORY
-import ftl.config.FtlConstants.defaultCredentialPath
+import ftl.config.defaultCredentialPath
 import ftl.config.FtlConstants.isWindows
 import ftl.config.FtlConstants.useMock
+import ftl.config.credential
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.reports.xml.model.JUnitTestResult
@@ -146,7 +145,7 @@ object ArgsHelper {
         if (bucket.startsWith("test-lab-")) return bucket
 
         val storage = StorageOptions.newBuilder()
-            .setCredentials(FtlConstants.credential)
+            .setCredentials(credential)
             .setProjectId(projectId)
             .build().service
         val bucketLabel = mapOf("flank" to "")

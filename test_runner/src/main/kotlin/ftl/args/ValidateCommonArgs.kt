@@ -2,6 +2,7 @@ package ftl.args
 
 import ftl.config.Device
 import ftl.config.FtlConstants
+import ftl.config.defaultCredentialPath
 import ftl.gc.GcStorage
 import ftl.reports.FullJUnitReport
 import ftl.reports.JUnitReport
@@ -30,7 +31,7 @@ private fun List<Device>.throwIfAnyMisspelt() =
 private fun CommonArgs.assertProjectId() {
     if (project.isBlank()) throw FlankConfigurationError(
         "The project is not set. Define GOOGLE_CLOUD_PROJECT, set project in flank.yml\n" +
-            "or save service account credential to ${FtlConstants.defaultCredentialPath}\n" +
+            "or save service account credential to $defaultCredentialPath\n" +
             " See https://github.com/GoogleCloudPlatform/google-cloud-java#specifying-a-project-id"
     )
 }
