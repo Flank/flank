@@ -29,7 +29,7 @@ internal fun AndroidInstrumentationTest.setupTestTargets(
     testShards: ShardChunks,
     numUniformShards: Int?,
     keepTestTargetsEmpty: Boolean,
-    testFlagForShard: List<String>
+    testFlagForShard: List<String>?
 ) = apply {
     when {
         keepTestTargetsEmpty -> {
@@ -48,7 +48,7 @@ internal fun AndroidInstrumentationTest.setupTestTargets(
                     }
                     uniformSharding = UniformSharding().setNumShards(safeNumUniformShards)
                 } else {
-                    manualSharding = if (testFlagForShard.isNotEmpty()) {
+                    manualSharding = if (testFlagForShard != null && testFlagForShard.isNotEmpty()) {
                         ManualSharding().setTestTargetsForShard(
                             testFlagForShard.map {
                                 TestTargetsForShard().setTestTargets(it.split(',', ';'))
