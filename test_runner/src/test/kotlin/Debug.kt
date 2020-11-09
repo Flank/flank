@@ -13,9 +13,9 @@ fun main() {
     val projectId = System.getenv("GOOGLE_CLOUD_PROJECT")
         ?: "YOUR PROJECT ID"
 
-    val quantity = "multiple"
-    val type = "gameloop"
-    val extra = "obb"
+    val quantity = "single"
+    val type = "shards"
+    val extra = "test"
 
     // Bugsnag keeps the process alive so we must call exitProcess
     // https://github.com/bugsnag/bugsnag-java/issues/151

@@ -37,7 +37,7 @@ private fun AndroidArgs.assertTestTargetForShards() {
     if (testTargetsForShard != null && testTargetsForShard.isNotEmpty()) {
         when {
             numUniformShards != null -> throw FlankConfigurationError("Number Of Uniform Shards and test Targets For Shards cannot be defined at the same time.")
-            type != Type.INSTRUMENTATION -> throw FlankConfigurationError("Test target for shards can only be specified when test type is INSTRUMENTATION.")
+            type != Type.INSTRUMENTATION -> throw FlankConfigurationError("Test target for shards can only be specified when test type is 'instrumentation'.")
             devices.isEmpty() && testTargetsForShard.size > 500 -> throw FlankConfigurationError("Cannot have more than 500 Test Targets for Shards with no device provided.")
             devices.isNotEmpty() && testTargetsForShard.size > 50 -> throw FlankConfigurationError("Cannot have more than 50 Test Targets for Shards if one or more devices are specified.")
         }
