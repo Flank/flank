@@ -4,28 +4,17 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 
 
-fun String.runCommand(workingDir: File): ProcessResult = ProcessBuilder(*split("\\s".toRegex()).toTypedArray())
-    .directory(workingDir).redirectOutputForCompatibleOS().startProcess()
+fun String.runCommand(workingDir: File, testSuite: String): ProcessResult {
+    val outFile = File("$testSuite-$outputFileName").also { it.deleteOnExit() }
+    val errFile = File("$testSuite-$errorFileName").also { it.deleteOnExit() }
+    val result = ProcessBuilder(*split("\\s".toRegex()).toTypedArray())
+        .directory(workingDir)
+        .redirectOutput(outFile)
+        .redirectError(errFile)
+        .start().also { it.waitFor(processTimeout, TimeUnit.MINUTES) }
 
-
-private fun ProcessBuilder.startProcess() = start().run {
-    waitFor(processTimeout, TimeUnit.MINUTES)
-    ProcessResult(exitValue(), getOsSpecificOutput())
+    return ProcessResult(result.exitValue(), File(outFile.name).readText() + File(errFile.name).readText())
 }
-
-private fun Process.getOsSpecificOutput() = if (isWindows) {
-    File(outputFileName).readText() + File(errorFileName).readText()
-} else {
-    inputStream.bufferedReader().readText() + this.errorStream.bufferedReader().readText()
-}
-
-private fun ProcessBuilder.redirectOutputForCompatibleOS() = if (isWindows) {
-    redirectOutput(File(outputFileName)).redirectError(File(errorFileName))
-} else {
-    redirectOutput(ProcessBuilder.Redirect.PIPE).redirectError(ProcessBuilder.Redirect.PIPE)
-}
-
-private val isWindows = System.getProperty("os.name").startsWith("Windows")
 
 private const val outputFileName = "out.log"
 private const val errorFileName = "error.log"

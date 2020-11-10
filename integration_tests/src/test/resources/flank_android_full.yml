@@ -1,11 +1,12 @@
 gcloud:
   app: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk
   robo-script: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/MainActivity_robo_script.json
+  use-orchestrator: false
 
 flank:
   disable-sharding: false
   max-test-shards: 50
-  disable-results-upload: true
+  output-style: single
   additional-app-test-apks:
     - test: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-success-debug-androidTest.apk
     - test: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-error-debug-androidTest.apk
