@@ -34,7 +34,7 @@ fun AndroidArgs.validate() = apply {
 }
 
 private fun AndroidArgs.assertTestTargetForShards() {
-    if (testTargetsForShard != null && testTargetsForShard.isNotEmpty()) {
+    if (testTargetsForShard.isNotEmpty()) {
         when {
             numUniformShards != null -> throw FlankConfigurationError("Number Of Uniform Shards and test Targets For Shards cannot be defined at the same time.")
             isInstrumentationTest.not() -> throw FlankConfigurationError("Test target for shards can only be specified when test type is 'instrumentation'.")
