@@ -1,5 +1,6 @@
 package ftl.run.status
 
+import ftl.config.FtlConstants.isWindows
 import ftl.run.status.PrinterTestUtil.changes1
 import ftl.run.status.PrinterTestUtil.changes2
 import io.mockk.every
@@ -19,6 +20,7 @@ class MultiLinePrinterTest {
 
     @Test
     fun test() {
+        if (isWindows) return
         // given
         val ansi = spyk(Ansi.ansi()) { every { this@spyk.toString() } returns "" }
         val printChanges = MultiLinePrinter { ansi }
