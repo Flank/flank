@@ -16,5 +16,5 @@ internal fun AndroidArgs.createInstrumentationConfig(
     testShards = testApk.shards.testCases,
     keepTestTargetsEmpty = disableSharding && testTargets.isEmpty(),
     environmentVariables = testApk.environmentVariables,
-    testFlagForShard = testTargetsForShard
+    testTargetsForShard = testTargetsForShard
 )

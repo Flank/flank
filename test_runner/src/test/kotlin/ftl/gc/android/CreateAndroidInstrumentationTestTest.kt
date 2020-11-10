@@ -22,7 +22,7 @@ class UtilsKtTest {
                 testShards = testShards,
                 numUniformShards = null,
                 keepTestTargetsEmpty = false,
-                testFlagForShard = emptyList()
+                testTargetsForShard = emptyList()
             )
             .testTargets
 
@@ -44,7 +44,7 @@ class UtilsKtTest {
                 testShards = testShards,
                 numUniformShards = IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last,
                 keepTestTargetsEmpty = false,
-                testFlagForShard = emptyList()
+                testTargetsForShard = emptyList()
             )
 
         // then
@@ -64,7 +64,7 @@ class UtilsKtTest {
                 testShards = shardChunks,
                 numUniformShards = null,
                 keepTestTargetsEmpty = false,
-                testFlagForShard = emptyList()
+                testTargetsForShard = emptyList()
             )
             .shardingOption
             .manualSharding

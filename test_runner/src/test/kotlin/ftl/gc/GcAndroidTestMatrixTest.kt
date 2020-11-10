@@ -39,7 +39,7 @@ class GcAndroidTestMatrixTest {
                 disableSharding = false,
                 testRunnerClass = "",
                 keepTestTargetsEmpty = false,
-                testFlagForShard = emptyList()
+                testTargetsForShard = emptyList()
             ),
             runGcsPath = "",
             otherFiles = emptyMap(),
@@ -65,7 +65,7 @@ class GcAndroidTestMatrixTest {
                 disableSharding = false,
                 testRunnerClass = "",
                 keepTestTargetsEmpty = false,
-                testFlagForShard = emptyList()
+                testTargetsForShard = emptyList()
             ),
             runGcsPath = "",
             otherFiles = emptyMap(),
@@ -95,7 +95,7 @@ class GcAndroidTestMatrixTest {
                 disableSharding = false,
                 testRunnerClass = "",
                 keepTestTargetsEmpty = false,
-                testFlagForShard = emptyList()
+                testTargetsForShard = emptyList()
             ),
             runGcsPath = "",
             otherFiles = emptyMap(),
@@ -163,7 +163,7 @@ class GcAndroidTestMatrixTest {
                 disableSharding = false,
                 testRunnerClass = "",
                 keepTestTargetsEmpty = false,
-                testFlagForShard = emptyList()
+                testTargetsForShard = emptyList()
             )
         )
         assertTrue(testSetup.environmentVariables.isNotEmpty())
@@ -194,7 +194,7 @@ class GcAndroidTestMatrixTest {
                 testRunnerClass = "",
                 keepTestTargetsEmpty = false,
                 environmentVariables = mapOf(Pair("coverageFile", "/sdcard/test.ec")),
-                testFlagForShard = emptyList()
+                testTargetsForShard = emptyList()
             )
         )
         assertTrue(testSetup.environmentVariables.any { it.key == "coverageFile" && it.value == "/sdcard/test.ec" })
@@ -225,7 +225,7 @@ class GcAndroidTestMatrixTest {
                 testRunnerClass = "",
                 keepTestTargetsEmpty = false,
                 environmentVariables = mapOf(Pair("coverageFile", "/sdcard/test_module1.ec")),
-                testFlagForShard = emptyList()
+                testTargetsForShard = emptyList()
             )
         )
         assertTrue(testSetup.environmentVariables.any { it.key == "coverageFile" && it.value == "/sdcard/test_module1.ec" })
@@ -256,7 +256,7 @@ class GcAndroidTestMatrixTest {
                 testRunnerClass = "",
                 keepTestTargetsEmpty = false,
                 environmentVariables = mapOf(Pair("coverageFile", "/sdcard/test_module1.ec")),
-                testFlagForShard = emptyList()
+                testTargetsForShard = emptyList()
             )
         )
         assertEquals(1, testSetup.environmentVariables.count { it.key == "coverageFile" })

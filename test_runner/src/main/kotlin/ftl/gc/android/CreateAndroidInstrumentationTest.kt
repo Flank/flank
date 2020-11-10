@@ -21,7 +21,7 @@ internal fun createAndroidInstrumentationTest(
     testShards = config.testShards,
     numUniformShards = config.numUniformShards,
     keepTestTargetsEmpty = config.keepTestTargetsEmpty,
-    testFlagForShard = config.testFlagForShard
+    testTargetsForShard = config.testTargetsForShard
 )
 
 internal fun AndroidInstrumentationTest.setupTestTargets(
@@ -29,7 +29,7 @@ internal fun AndroidInstrumentationTest.setupTestTargets(
     testShards: ShardChunks,
     numUniformShards: Int?,
     keepTestTargetsEmpty: Boolean,
-    testFlagForShard: List<String>?
+    testTargetsForShard: ShardChunks
 ) = apply {
     when {
         keepTestTargetsEmpty -> {
@@ -48,18 +48,18 @@ internal fun AndroidInstrumentationTest.setupTestTargets(
                     }
                     uniformSharding = UniformSharding().setNumShards(safeNumUniformShards)
                 } else {
-                    manualSharding = createManualSharding(testFlagForShard, testShards)
+                    manualSharding = createManualSharding(testTargetsForShard, testShards)
                 }
             }
         }
     }
 }
 
-private fun createManualSharding(testFlagForShard: List<String>?, testShards: ShardChunks) =
-    if (testFlagForShard != null && testFlagForShard.isNotEmpty()) {
+private fun createManualSharding(testFlagForShard: ShardChunks, testShards: ShardChunks) =
+    if (testFlagForShard.isNotEmpty()) {
         ManualSharding().setTestTargetsForShard(
             testFlagForShard.map {
-                TestTargetsForShard().setTestTargets(it.split(',', ';'))
+                TestTargetsForShard().setTestTargets(it)
             }
         )
     } else {

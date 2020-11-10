@@ -79,7 +79,6 @@ class IosArgsTest {
           num-flaky-test-attempts: 4
           type: xctest
           test-special-entitlements: true
-          
 
         flank:
           max-test-shards: 7
