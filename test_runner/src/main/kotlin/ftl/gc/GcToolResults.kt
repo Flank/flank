@@ -107,6 +107,21 @@ object GcToolResults {
             .executeWithRetry()
     }
 
+    fun getPerformanceMetric(
+        toolResultsStep: ToolResultsStep
+    ) = service
+        .projects()
+        .histories()
+        .executions()
+        .steps()
+        .getPerfMetricsSummary(
+            toolResultsStep.projectId,
+            toolResultsStep.historyId,
+            toolResultsStep.executionId,
+            toolResultsStep.stepId
+        )
+        .executeWithRetry()
+
     // Lists Test Cases attached to a Step
     fun listTestCases(toolResultsStep: ToolResultsStep): ListTestCasesResponse {
         return service

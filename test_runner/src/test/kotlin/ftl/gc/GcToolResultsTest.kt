@@ -3,6 +3,7 @@ package ftl.gc
 import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.google.api.client.http.HttpResponseException
 import com.google.api.services.testing.model.ToolResultsHistory
+import com.google.api.services.testing.model.ToolResultsStep
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
@@ -191,5 +192,20 @@ POST https://oauth2.googleapis.com/token
             assertThat(exception).isInstanceOf(FlankGeneralError::class.java)
             assertEquals(expected, exception.message)
         }
+    }
+
+    @Test
+    fun `should properly get Performance Metrics`() {
+        // given
+        val toolsStepResults = ToolResultsStep().setStepId("1").setExecutionId("2").setHistoryId("3").setProjectId("4")
+
+        // when
+        val response = GcToolResults.getPerformanceMetric(toolsStepResults)
+
+        // then
+        assertThat(response.stepId).isEqualTo(toolsStepResults.stepId)
+        assertThat(response.executionId).isEqualTo(toolsStepResults.executionId)
+        assertThat(response.projectId).isEqualTo(toolsStepResults.projectId)
+        assertThat(response.historyId).isEqualTo(toolsStepResults.historyId)
     }
 }

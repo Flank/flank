@@ -12,16 +12,22 @@ import com.google.api.services.testing.model.TestExecution
 import com.google.api.services.testing.model.TestMatrix
 import com.google.api.services.testing.model.ToolResultsExecution
 import com.google.api.services.testing.model.ToolResultsStep
+import com.google.api.services.toolresults.model.AppStartTime
+import com.google.api.services.toolresults.model.CPUInfo
 import com.google.api.services.toolresults.model.Duration
 import com.google.api.services.toolresults.model.EnvironmentDimensionValueEntry
 import com.google.api.services.toolresults.model.FailureDetail
+import com.google.api.services.toolresults.model.GraphicsStats
 import com.google.api.services.toolresults.model.History
 import com.google.api.services.toolresults.model.InconclusiveDetail
 import com.google.api.services.toolresults.model.ListEnvironmentsResponse
 import com.google.api.services.toolresults.model.ListHistoriesResponse
 import com.google.api.services.toolresults.model.ListStepsResponse
+import com.google.api.services.toolresults.model.MemoryInfo
 import com.google.api.services.toolresults.model.MergedResult
 import com.google.api.services.toolresults.model.Outcome
+import com.google.api.services.toolresults.model.PerfEnvironment
+import com.google.api.services.toolresults.model.PerfMetricsSummary
 import com.google.api.services.toolresults.model.ProjectSettings
 import com.google.api.services.toolresults.model.SkippedDetail
 import com.google.api.services.toolresults.model.Step
@@ -333,6 +339,28 @@ object MockServer {
                 get("/{...}") {
                     println("Unknown GET " + call.request.uri)
                     call.respond("")
+                }
+
+                get("/toolresults/v1beta3/projects/{projectId}/histories/{historyId}/executions/{executionId}/steps/{stepId}/perfMetricsSummary") {
+                    val performanceMetricsSummary = PerfMetricsSummary()
+                        .setStepId(call.parameters["stepId"])
+                        .setHistoryId(call.parameters["historyId"])
+                        .setProjectId(call.parameters["projectId"])
+                        .setExecutionId(call.parameters["executionId"])
+                        .setAppStartTime(
+                            AppStartTime()
+                                .setInitialDisplayTime(Duration().setSeconds(4))
+                                .setFullyDrawnTime(Duration().setSeconds(5))
+                        )
+                        .setPerfEnvironment(
+                            PerfEnvironment()
+                                .setCpuInfo(CPUInfo().setCpuProcessor("mock_processor").setNumberOfCores(16))
+                                .setMemoryInfo(MemoryInfo().setMemoryCapInKibibyte(1024))
+                        )
+                        .setGraphicsStats(
+                            GraphicsStats().setP90Millis(100)
+                        )
+                    call.respond(performanceMetricsSummary)
                 }
             }
         }

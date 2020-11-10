@@ -1,6 +1,8 @@
 package ftl.reports.util
 
+import com.google.api.services.testing.model.TestExecution
 import com.google.common.annotations.VisibleForTesting
+import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IgnoredTestCases
 import ftl.args.IosArgs
@@ -13,7 +15,9 @@ import ftl.reports.FullJUnitReport
 import ftl.reports.HtmlErrorReport
 import ftl.reports.JUnitReport
 import ftl.reports.MatrixResultsReport
-import ftl.reports.api.processXmlFromApi
+import ftl.reports.api.getAndUploadPerformanceMetrics
+import ftl.reports.api.createJUnitTestResult
+import ftl.reports.api.refreshMatricesAndGetExecutions
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.getSkippedJUnitTestSuite
@@ -79,7 +83,7 @@ object ReportManager {
         // ios supports only legacy parsing
         args is IosArgs -> processXmlFromFile(matrices, args, ::parseAllSuitesXml)
         args.useLegacyJUnitResult -> processXmlFromFile(matrices, args, ::parseOneSuiteXml)
-        else -> processXmlFromApi(matrices, args)
+        else -> refreshMatricesAndGetExecutions(matrices, args).createJUnitTestResult()
     }
 
     /** Returns true if there were no test failures */
@@ -94,12 +98,8 @@ object ReportManager {
             val useFlakyTests = args.flakyTestAttempts > 0
             if (useFlakyTests) JUnitDedupe.modify(testSuite)
         }
-        listOf(
-            CostReport,
-            MatrixResultsReport
-        ).map {
-            it.run(matrices, testSuite, printToStdout = true, args = args)
-        }
+        listOf(CostReport, MatrixResultsReport)
+            .map { it.run(matrices, testSuite, printToStdout = true, args = args) }
 
         if (!matrices.isAllSuccessful()) {
             listOf(
@@ -116,11 +116,43 @@ object ReportManager {
             printToStdout = false,
             args = args
         )
+
+        val testExecutions = refreshMatricesAndGetExecutions(matrices, args)
+        processJunitResults(args, matrices, testSuite, testShardChunks, testExecutions)
+        createAndUploadPerformanceMetricsForAndroid(args, testExecutions, matrices)
+    }
+
+    private fun processJunitResults(
+        args: IArgs,
+        matrices: MatrixMap,
+        testSuite: JUnitTestResult?,
+        testShardChunks: ShardChunks,
+        testExecutions: List<TestExecution>
+    ) {
         when {
-            args.fullJUnitResult -> processFullJunitResult(args, matrices, testShardChunks)
+            args.fullJUnitResult -> processFullJunitResult(args, matrices, testShardChunks, testExecutions)
             args.useLegacyJUnitResult -> processJunitXml(testSuite, args, testShardChunks)
             else -> processJunitXml(testSuite, args, testShardChunks)
         }
+    }
+
+    private fun createAndUploadPerformanceMetricsForAndroid(
+        args: IArgs,
+        testExecutions: List<TestExecution>,
+        matrices: MatrixMap
+    ) {
+        testExecutions
+            .takeIf { args is AndroidArgs }
+            ?.run {
+                withGcsStoragePath(matrices, args.resultsDir).getAndUploadPerformanceMetrics(args.resultsBucket)
+            }
+    }
+
+    private fun List<TestExecution>.withGcsStoragePath(
+        matrices: MatrixMap,
+        defaultResultDir: String
+    ) = map { testExecution ->
+        testExecution to (matrices.map[testExecution.matrixId]?.gcsPathWithoutRootBucket ?: defaultResultDir)
     }
 
     private fun IgnoredTestCases.toJunitTestsResults() = getSkippedJUnitTestSuite(
@@ -134,8 +166,13 @@ object ReportManager {
         }
     )
 
-    private fun processFullJunitResult(args: IArgs, matrices: MatrixMap, testShardChunks: ShardChunks) {
-        val testSuite = processXmlFromApi(matrices, args, withStackTraces = true)
+    private fun processFullJunitResult(
+        args: IArgs,
+        matrices: MatrixMap,
+        testShardChunks: ShardChunks,
+        testExecutions: List<TestExecution>
+    ) {
+        val testSuite = testExecutions.createJUnitTestResult(withStackTraces = true)
         FullJUnitReport.run(matrices, testSuite, printToStdout = false, args = args)
         processJunitXml(testSuite, args, testShardChunks)
     }
