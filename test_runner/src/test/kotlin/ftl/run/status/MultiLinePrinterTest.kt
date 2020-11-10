@@ -1,13 +1,11 @@
 package ftl.run.status
 
-import ftl.config.FtlConstants.isWindows
 import ftl.run.status.PrinterTestUtil.changes1
 import ftl.run.status.PrinterTestUtil.changes2
 import io.mockk.every
 import io.mockk.spyk
 import io.mockk.verify
 import org.fusesource.jansi.Ansi
-import org.fusesource.jansi.AnsiConsole
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -20,11 +18,9 @@ class MultiLinePrinterTest {
 
     @Test
     fun test() {
-        if (isWindows) return
         // given
         val ansi = spyk(Ansi.ansi()) { every { this@spyk.toString() } returns "" }
         val printChanges = MultiLinePrinter { ansi }
-        AnsiConsole.systemUninstall()
 
         // when
         printChanges(changes1)
