@@ -1,3 +1,6 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     java
     kotlin(Plugins.Kotlin.PLUGIN_JVM)
@@ -56,4 +59,14 @@ tasks.register<Test>("integrationTests") {
     filter {
         includeTestsMatching("*IT")
     }
+    testLogging {
+        events("skipped", "failed")
+        exceptionFormat = TestExceptionFormat.FULL
+    }
+    maxParallelForks = 4
+}
+
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    freeCompilerArgs = listOf("-Xinline-classes")
 }

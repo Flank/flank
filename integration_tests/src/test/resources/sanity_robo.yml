@@ -1,7 +1,2 @@
 gcloud:
   app: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk
-flank:
-  disable-results-upload: true
-  max-test-shards: 50
-  test-targets-always-run:
-    - class actually.any.test.Clazz
