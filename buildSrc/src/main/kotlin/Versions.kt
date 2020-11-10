@@ -79,7 +79,7 @@ object Versions {
     const val COMMON_TEXT = "1.9"
 
     // https://github.com/fusesource/jansi/releases
-    const val JANSI = "1.18"
+    const val JANSI = "2.0.1"
 
     // https://github.com/ben-manes/gradle-versions-plugin/releases
     const val BEN_MANES = "0.36.0"
