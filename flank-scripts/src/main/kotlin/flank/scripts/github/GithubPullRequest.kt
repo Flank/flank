@@ -1,4 +1,4 @@
-package flank.scripts.ci.releasenotes
+package flank.scripts.github
 
 import com.github.kittinunf.fuel.core.ResponseDeserializable
 import flank.scripts.utils.toObject
@@ -10,10 +10,10 @@ data class GithubPullRequest(
     @SerialName("html_url") val htmlUrl: String,
     val title: String,
     val number: Int,
-    val assignees: List<GithubUser> = emptyList(),
+    val assignees: List<GithubUser>,
     val labels: List<GitHubLabel> = emptyList(),
     val body: String = "",
-    val head: GitHubHead? = null
+    val head: GitHubHead?
 )
 
 @Serializable
