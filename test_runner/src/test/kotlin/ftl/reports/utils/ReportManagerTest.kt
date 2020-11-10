@@ -9,6 +9,7 @@ import ftl.reports.CostReport
 import ftl.reports.FullJUnitReport
 import ftl.reports.JUnitReport
 import ftl.reports.MatrixResultsReport
+import ftl.reports.api.refreshMatricesAndGetExecutions
 import ftl.reports.util.ReportManager
 import ftl.reports.util.getMatrixPath
 import ftl.reports.xml.model.JUnitTestCase
@@ -21,6 +22,7 @@ import ftl.test.util.FlankTestRunner
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
+import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.After
@@ -53,6 +55,8 @@ class ReportManagerTest {
         val mockArgs = mockk<AndroidArgs>(relaxed = true)
         every { mockArgs.smartFlankGcsPath } returns ""
         every { mockArgs.useLegacyJUnitResult } returns true
+        mockkStatic("ftl.reports.api.ProcessFromApiKt")
+        every { refreshMatricesAndGetExecutions(any(), any()) } returns emptyList()
         ReportManager.generate(matrix, mockArgs, emptyList())
         matrix.validate()
     }
@@ -63,6 +67,8 @@ class ReportManagerTest {
         val mockArgs = mockk<AndroidArgs>(relaxed = true)
         every { mockArgs.smartFlankGcsPath } returns ""
         every { mockArgs.useLegacyJUnitResult } returns true
+        mockkStatic("ftl.reports.api.ProcessFromApiKt")
+        every { refreshMatricesAndGetExecutions(any(), any()) } returns emptyList()
         ReportManager.generate(matrix, mockArgs, emptyList())
     }
 
@@ -79,6 +85,7 @@ class ReportManagerTest {
         every { mockArgs.fullJUnitResult } returns false
         every { mockArgs.ignoreFailedTests } returns false
         every { mockArgs.smartFlankDisableUpload } returns true
+        every { mockArgs.project } returns "project"
         return mockArgs
     }
 
