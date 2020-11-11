@@ -453,6 +453,14 @@ gcloud:
   #   - 2
   #   - 3
 
+  ### Scenario Labels
+  ## A list of game-loop scenario labels (default: None). Each game-loop scenario may be labeled in the APK manifest file with one or more arbitrary strings, creating logical groupings (e.g. GPU_COMPATIBILITY_TESTS).
+  ## If --scenario-numbers and --scenario-labels are specified together, Firebase Test Lab will first execute each scenario from --scenario-numbers.
+  ## It will then expand each given scenario label into a list of scenario numbers marked with that label, and execute those scenarios.
+  # scenario-labels:
+  #  - label1
+  #  - label2
+
   ### OBB filenames
   ## A list of OBB required filenames. OBB file name must conform to the format as specified by Android e.g. 
   ## [main|patch].0300110.com.example.android.obb which will be installed into <shared-storage>/Android/obb/<package-name>/ on the device.
