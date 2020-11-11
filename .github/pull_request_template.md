@@ -9,3 +9,4 @@ Fixes #
 
 - [ ] Documented
 - [ ] Unit tested
+- [ ] Integration tests updated
