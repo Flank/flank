@@ -1,6 +1,7 @@
 package ftl.gc
 
 import com.google.api.client.http.GoogleApiLogger
+import com.google.api.services.toolresults.model.PerfMetricsSummary
 import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.Storage.BlobListOption.pageSize
@@ -81,6 +82,22 @@ object GcStorage {
             throw FlankGeneralError(e)
         } finally {
             progress.stop()
+        }
+    }
+
+    fun uploadPerformanceMetrics(perfMetricsSummary: PerfMetricsSummary, resultsBucket: String, resultDir: String) {
+        val performanceMetricsFileName = "performanceMetrics.json"
+        runCatching {
+            upload(
+                performanceMetricsFileName,
+                perfMetricsSummary.toPrettyString().toByteArray(),
+                resultsBucket,
+                resultDir
+            )
+        }.onFailure {
+            println("Cannot upload performance metrics ${it.message}")
+        }.onSuccess {
+            println("Performance metrics uploaded to https://console.developers.google.com/storage/browser/$resultsBucket/$resultDir")
         }
     }
 
