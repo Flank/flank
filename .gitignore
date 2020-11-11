@@ -12,3 +12,5 @@ results
 xcuserdata/
 test_projects/ios/*/build*
 android_shards.json
+ios_shards.json
+*.log
