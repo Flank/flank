@@ -3,6 +3,7 @@ package integration
 import com.google.common.truth.Truth.assertThat
 import org.junit.Assert.assertEquals
 import utils.ProcessResult
+import java.io.File
 import java.lang.StringBuilder
 import kotlin.text.Regex.Companion.escape
 
@@ -38,7 +39,7 @@ fun FlankAssertion.customConfig(vararg customChecks: Pair<String, String> = empt
         }
 }
 
-private fun MutableMap.MutableEntry<String, Any>.makeKVRegex() = "${key}:\\s*${value}".toRegex()
+private fun MutableMap.MutableEntry<String, Any>.makeKVRegex() = "$key:\\s*$value".toRegex()
 
 infix fun String.with(value: Any) = this to value.toString()
 
@@ -53,7 +54,7 @@ fun FlankOutput.matricesWebLink(linksNumber: Int = 1) = lines.add(buildString {
     }
 })
 
-private fun shards(tests: Int = 1, classes: Int = 0, shards: Int = 1, matrices: Int = 1, os: String) = buildString {
+private fun shards(tests: Int, classes: Int, shards: Int, matrices: Int, os: String) = buildString {
     val testString = if (tests > 0) "tests" else "test"
     val classString = if (classes > 0) "classes" else "class"
     val shardString = if (shards > 0) "shards" else "shard"
@@ -61,20 +62,23 @@ private fun shards(tests: Int = 1, classes: Int = 0, shards: Int = 1, matrices: 
     flankOutputLine("[\\S\\s]*")
     flankOutputLine("Saved $shards shards to ${os}_shards.json")
     flankOutputLine("Uploading ${os}_shards.json .")
-    if (tests >= 0) {
-        flankOutputLine("Uploading app-debug.apk [\\s\\S]*")
+    if (tests >= 0 && matrices > 0) {
+        flankOutputLine("Uploading app-debug.apk[\\s\\S]*")
         if (classes == 0)
             flankOutputLine("$tests $testString / $shards $shardString")
         else
             flankOutputLine("$tests $testString + $classes parameterized $classString / $shards $shardString")
+
+        flankOutputLine("$matrices matrix ids created in [0-9]{1,2}m [0-9]{1,2}s")
+        flankOutputLine("https://console.developers.google.com/storage/browser/test-lab-[a-zA-Z0-9_-]*/[.a-zA-Z0-9_-]*")
     }
-    flankOutputLine("$matrices matrix ids created in \\dm \\ds")
-    flankOutputLine("https://console.developers.google.com/storage/browser/test-lab-[a-zA-Z0-9_-]*/[.a-zA-Z0-9_-]*")
 }
 
-fun FlankOutput.androidShards(tests: Int = 1, classes: Int = 0, shards: Int = 1, matrices: Int = 1) = lines.add(shards(tests, classes, shards, matrices, "android"))
+fun FlankOutput.androidShards(tests: Int, classes: Int, shards: Int, matrices: Int) =
+    lines.add(shards(tests, classes, shards, matrices, "android"))
 
-fun FlankOutput.iosShards(tests: Int = 1, classes: Int = 0, shards: Int = 1, matrices: Int = 1) = lines.add(shards(tests, classes, shards, matrices, "ios"))
+fun FlankOutput.iosShards(tests: Int, classes: Int, shards: Int, matrices: Int) =
+    lines.add(shards(tests, classes, shards, matrices, "ios"))
 
 fun FlankOutput.resultsReport(left: Int = 1, right: Int = 1) = lines.add(buildString {
     flankOutputLine("MatrixResultsReport")
@@ -134,19 +138,29 @@ inline class FlankAssertion(val input: String)
 
 inline infix fun FlankAssertion.contains(block: FlankAssertion.() -> Unit) = this.run(block)
 
+@Suppress("SetterBackingFieldAssignment")
 data class OutcomeSummary(val matcher: MutableMap<TestOutcome, Int> = mutableMapOf<TestOutcome, Int>().withDefault { 0 }) {
-    fun success(number: Int) = matcher.put(TestOutcome.SUCCESS, number)
+    var success: Int = 0
+        set(value) {
+            matcher[TestOutcome.SUCCESS] = value
+        }
 
-    fun failure(number: Int) = matcher.put(TestOutcome.FAILURE, number)
+    var failure: Int = 0
+        set(value) {
+            matcher[TestOutcome.FAILURE] = value
+        }
 
-    fun flaky(number: Int) = matcher.put(TestOutcome.FLAKY, number)
+    var flaky: Int = 0
+        set(value) {
+            matcher[TestOutcome.FLAKY] = value
+        }
 }
 
-fun FlankAssertion.outcomeSummary(block: OutcomeSummary.() -> Unit) =
+fun assertContainsOutcomeSummary(input: String, block: OutcomeSummary.() -> Unit) =
     OutcomeSummary().apply(block).matcher.entries.forEach { (outcome, times) ->
         val actual = outcome.regex.findAll(input).toList().size
-        if (actual != times) throw AssertionError(
-            """Incorrect number of ${outcome.name}
+        if (actual != times) throw AssertionError("""
+             |Incorrect number of ${outcome.name}
              |  expected: $times
              |  but was:  $actual
              |Output:
@@ -155,17 +169,19 @@ fun FlankAssertion.outcomeSummary(block: OutcomeSummary.() -> Unit) =
         )
     }
 
-fun FlankAssertion.noOutcomeSummary() {
+fun assertNoOutcomeSummary(input: String) {
     if ("┌[\\s\\S]*┘".toRegex().matches(input)) throw AssertionError("There should be no outcome table.")
 }
 
 enum class TestOutcome(val regex: Regex) {
-    SUCCESS(fromCommon("success", "---")),
-    FLAKY(fromCommon("flaky", "[0-9a-z\\s,]*")),
-    FAILURE(fromCommon("failure", "[0-9a-z\\s,]*")),
+    SUCCESS(fromCommon("success")),
+    FLAKY(fromCommon("flaky")),
+    FAILURE(fromCommon("failure")),
 }
 
 private val fromCommon =
-    { result: String, details: String -> "│\\s$result\\s│\\s${"matrix"}-[a-zA-Z0-9]*\\s│\\s[a-zA-Z0-9-]*\\s│\\s$details\\s*│".toRegex() }
+    { outcome: String -> "│\\s$outcome\\s│\\s${"matrix"}-[a-zA-Z0-9]*\\s│\\s[a-zA-Z0-9-]*\\s│\\s[a-zA-Z0-9\\s,-]*\\s*│".toRegex() }
 
-fun String.removeUnicode() = replace("\u001B\\[\\d{1,2}m".toRegex(), "")
+fun String.removeUnicode() = replace("\u001B\\[\\d{1,2}m".toRegex(), "").trimIndent()
+
+fun findInCompare(name: String) = File("./src/test/resources/compare/$name-compare").readText().trimIndent()

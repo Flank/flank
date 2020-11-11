@@ -37,23 +37,23 @@ AndroidArgs
       record-video: $recordVideo
       timeout: $testTimeout
       async: $async
-      client-details: ${ArgsToString.mapToString(clientDetails)}
+      client-details:${ArgsToString.mapToString(clientDetails)}
       network-profile: $networkProfile
       results-history-name: $resultsHistoryName
       # Android gcloud
       app: $appApk
       test: $testApk
-      additional-apks: ${ArgsToString.listToString(additionalApks)}
+      additional-apks:${ArgsToString.listToString(additionalApks)}
       auto-google-login: $autoGoogleLogin
       use-orchestrator: $useOrchestrator
-      directories-to-pull: ${ArgsToString.listToString(directoriesToPull)}
+      directories-to-pull:${ArgsToString.listToString(directoriesToPull)}
       grant-permissions: $grantPermissions
       type: ${type?.ymlName}
-      other-files: ${ArgsToString.mapToString(otherFiles)}
-      scenario-numbers: ${ArgsToString.listToString(scenarioNumbers)}
-      scenario-labels: ${ArgsToString.listToString(scenarioLabels)}
-      obb-files: ${ArgsToString.listToString(obbFiles)}
-      obb-names: ${ArgsToString.listToString(obbNames)}
+      other-files:${ArgsToString.mapToString(otherFiles)}
+      scenario-numbers:${ArgsToString.listToString(scenarioNumbers)}
+      scenario-labels:${ArgsToString.listToString(scenarioLabels)}
+      obb-files:${ArgsToString.listToString(obbFiles)}
+      obb-names:${ArgsToString.listToString(obbNames)}
       performance-metrics: $performanceMetrics
       num-uniform-shards: $numUniformShards
       test-runner-class: $testRunnerClass
