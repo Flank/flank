@@ -12,7 +12,7 @@ fun String.runCommand(workingDir: File, testSuite: String): ProcessResult {
         .redirectOutput(outFile)
         .redirectError(errFile)
         .start().also { it.waitFor(processTimeout, TimeUnit.MINUTES) }
-
+    File("$testSuite-compare").writeText(File(outFile.name).readText() + File(errFile.name).readText())
     return ProcessResult(result.exitValue(), File(outFile.name).readText() + File(errFile.name).readText())
 }
 
