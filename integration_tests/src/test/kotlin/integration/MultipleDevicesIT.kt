@@ -2,29 +2,30 @@ package integration
 
 import FlankCommand
 import com.google.common.truth.Truth.assertThat
-import org.junit.Test
 import run
+import org.junit.Test
 
-
-class AndroidFullIT {
-    private val name = this::class.java.simpleName
+class MultipleDevicesIT {
 
     @Test
-    fun `flank full option run`() {
+    fun `run tests on multiple devices - android`() {
+        val name = this::class.java.simpleName + "-android"
         val result = FlankCommand(
             flankPath = "../test_runner/build/libs/flank.jar",
-            ymlPath = "./src/test/resources/cases/flank_android_multiple_apk.yml",
+            ymlPath = "./src/test/resources/cases/flank_android_multiple_devices.yml",
             params = androidRunCommands
-        ).run("./", name)
-
+        ).run(
+            workingDirectory = "./",
+            testSuite = name
+        )
 
         assertExitCode(result, 10)
 
         val resOutput = result.output.removeUnicode()
         assertThat(resOutput).containsMatch(findInCompare(name))
         assertContainsOutcomeSummary(resOutput) {
-            success = 3
-            failure = 1
+            success = 6
+            failure = 3
         }
     }
 }
