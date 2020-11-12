@@ -12,7 +12,7 @@ class SanityRoboIT {
     fun `sanity robo`() {
         val result = FlankCommand(
             flankPath = "../test_runner/build/libs/flank.jar",
-            ymlPath = "./src/test/resources/sanity_robo.yml",
+            ymlPath = "./src/test/resources/cases/sanity_robo.yml",
             params = androidRunCommands
         ).run(
             workingDirectory = "./",

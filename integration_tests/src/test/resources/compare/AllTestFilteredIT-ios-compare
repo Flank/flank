@@ -1,0 +1,79 @@
+IosArgs
+    gcloud:
+      results-bucket: test-lab-[a-zA-Z0-9-]*
+      results-dir: [.a-zA-Z0-9_-]*
+      record-video: false
+      timeout: 15m
+      async: false
+      client-details:
+      network-profile: null
+      results-history-name: null
+      # iOS gcloud
+      test: [0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
+      xctestrun-file: [0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
+      xcode-version: null
+      device:
+        - model: iphone8
+          version: 12.0
+          locale: en
+          orientation: portrait
+      num-flaky-test-attempts: 0
+      directories-to-pull:
+      other-files:
+      additional-ipas:
+      scenario-numbers:
+      type: xctest
+      app: 
+      test-special-entitlements: false
+
+    flank:
+      max-test-shards: 1
+      shard-time: -1
+      num-test-runs: 1
+      smart-flank-gcs-path:\s
+      smart-flank-disable-upload: false
+      default-test-time: 120.0
+      use-average-test-time-for-new-tests: false
+      test-targets-always-run:
+      files-to-download:
+      keep-file-path: false
+      full-junit-result: false
+      # iOS flank
+      test-targets:
+        - nonExisting/Class
+      disable-sharding: false
+      project: flank-open-source
+      local-result-dir: results
+      run-timeout: -1
+      ignore-failed-tests: false
+      output-style: verbose
+      disable-results-upload: false
+      default-class-test-time: 240.0
+
+RunTests
+Found xctest: [0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest
+isMacOS = true \(mac os x\)
+nm -U "[0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest/EarlGreyExampleSwiftTests"
+nm -gU "[0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest/EarlGreyExampleSwiftTests" | xargs -s 262144 xcrun swift-demangle
+Saved 0 shards to ios_shards.json
+  Uploading ios_shards.json \.*
+  Uploading earlgrey_example.zip \*.
+  0 test / 0 shard
+
+  0 matrix ids created in \d{1,2}m \d{1,2}s
+  https://console.developers.google.com/storage/browser/test-lab-[a-zA-Z0-9_-]*/[.a-zA-Z0-9_-]*
+
+Matrices webLink
+
+
+FetchArtifacts
+
+CostReport
+  No cost. 0m
+
+  Uploading CostReport.txt \.*
+MatrixResultsReport
+  0 / 0 \(NaN\%\)
+  Uploading MatrixResultsReport.txt \.*
+
+Matrices webLink

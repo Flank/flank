@@ -5,26 +5,26 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import run
 
-
-class AndroidFullIT {
-    private val name = this::class.java.simpleName
+class TestFilteringIT {
 
     @Test
-    fun `flank full option run`() {
+    fun `run test from only one apk`() {
+        val name = this::class.java.simpleName
         val result = FlankCommand(
             flankPath = "../test_runner/build/libs/flank.jar",
-            ymlPath = "./src/test/resources/cases/flank_android_multiple_apk.yml",
+            ymlPath = "./src/test/resources/cases/test_filtering_android.yml",
             params = androidRunCommands
-        ).run("./", name)
+        ).run(
+            workingDirectory = "./",
+            testSuite = name
+        )
 
-
-        assertExitCode(result, 10)
+        assertExitCode(result, 0)
 
         val resOutput = result.output.removeUnicode()
         assertThat(resOutput).containsMatch(findInCompare(name))
         assertContainsOutcomeSummary(resOutput) {
-            success = 3
-            failure = 1
+            success = 1
         }
     }
 }
