@@ -6,6 +6,10 @@ import flank.scripts.release.updatebugsnag.BugSnagResponse
 sealed class FlankScriptsExceptions : Exception()
 
 class GitHubException(val body: GitHubErrorResponse) : FlankScriptsExceptions() {
+
+    override val message: String?
+        get() = toString()
+
     override fun toString(): String {
         return "Error while doing GitHub request, because of ${body.message}, more info at ${body.documentationUrl}"
     }
