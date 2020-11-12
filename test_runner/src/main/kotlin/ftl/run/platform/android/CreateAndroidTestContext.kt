@@ -28,7 +28,7 @@ suspend fun AndroidArgs.createAndroidTestContexts(): List<AndroidTestContext> = 
 
 private suspend fun List<AndroidTestContext>.setupShards(
     args: AndroidArgs,
-    testFilter: TestFilter = TestFilters.fromTestTargets(args.testTargets)
+    testFilter: TestFilter = TestFilters.fromTestTargets(args.testTargets, args.testTargetsForShard)
 ): List<AndroidTestContext> = coroutineScope {
     map { testContext ->
         async {
@@ -48,7 +48,7 @@ private fun InstrumentationTestContext.downloadApks(): InstrumentationTestContex
 
 private fun InstrumentationTestContext.calculateShards(
     args: AndroidArgs,
-    testFilter: TestFilter = TestFilters.fromTestTargets(args.testTargets)
+    testFilter: TestFilter = TestFilters.fromTestTargets(args.testTargets, args.testTargetsForShard)
 ): InstrumentationTestContext = ArgsHelper.calculateShards(
     filteredTests = getFlankTestMethods(testFilter),
     args = args,

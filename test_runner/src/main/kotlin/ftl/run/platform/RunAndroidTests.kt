@@ -86,7 +86,10 @@ private fun String.createGcsPath(contextIndex: Int, runIndex: Int) =
     else "$this/matrix_${contextIndex}_$runIndex/"
 
 private fun List<AndroidTestContext>.dumpShards(config: AndroidArgs) = takeIf { config.isInstrumentationTest }?.apply {
-    filterIsInstance<InstrumentationTestContext>().asMatrixTestShards().saveShards(config.obfuscateDumpShards)
+    if (config.testTargetsForShard.isEmpty())
+        filterIsInstance<InstrumentationTestContext>()
+                .asMatrixTestShards()
+                .saveShards(config.obfuscateDumpShards)
     if (config.disableResultsUpload.not()) GcStorage.upload(ANDROID_SHARD_FILE, config.resultsBucket, config.resultsDir)
 } ?: this
 

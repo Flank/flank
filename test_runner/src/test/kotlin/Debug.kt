@@ -15,7 +15,7 @@ fun main() {
 
     val quantity = "single"
     val type = "shards"
-    val extra = "test"
+    val extra = "simple"
 
     // Bugsnag keeps the process alive so we must call exitProcess
     // https://github.com/bugsnag/bugsnag-java/issues/151

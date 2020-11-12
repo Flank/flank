@@ -5,11 +5,11 @@ import ftl.args.AndroidArgs
 import ftl.args.isGameLoop
 import ftl.args.isSanityRobo
 
+import ftl.run.exception.FlankGeneralError
 import ftl.run.model.AndroidTestContext
+import ftl.run.model.GameLoopContext
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.RoboTestContext
-import ftl.run.exception.FlankGeneralError
-import ftl.run.model.GameLoopContext
 import ftl.run.model.SanityRoboTestContext
 import ftl.util.asFileReference
 
@@ -21,7 +21,7 @@ internal fun AndroidArgs.resolveApks(): List<AndroidTestContext> = listOfNotNull
 
 private fun AndroidArgs.mainApkContext() = appApk?.let { appApk ->
     when {
-        testApk != null -> InstrumentationTestContext(app = appApk.asFileReference(), test = testApk.asFileReference(), environmentVariables = emptyMap())
+        testApk != null -> InstrumentationTestContext(app = appApk.asFileReference(), test = testApk.asFileReference(), environmentVariables = emptyMap(), testTargetsForShard = testTargetsForShard)
         roboScript != null -> RoboTestContext(app = appApk.asFileReference(), roboScript = roboScript.asFileReference())
         isSanityRobo -> SanityRoboTestContext(app = appApk.asFileReference())
         isGameLoop -> GameLoopContext(appApk.asFileReference(), scenarioLabels, scenarioNumbers)
@@ -35,6 +35,7 @@ private fun AndroidArgs.additionalApksContexts() = additionalAppTestApks.map {
             ?.asFileReference()
             ?: throw FlankGeneralError("Cannot create app-test apks pair for instrumentation tests, missing app apk for test ${it.test}"),
         test = it.test.asFileReference(),
-        environmentVariables = it.environmentVariables
+        environmentVariables = it.environmentVariables,
+        testTargetsForShard = testTargetsForShard
     )
 }.toTypedArray()
