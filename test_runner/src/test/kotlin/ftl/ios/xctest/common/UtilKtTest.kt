@@ -13,7 +13,6 @@ class UtilKtTest {
         val result = parseToNSDictionary(swiftXcTestRunV1)
         assertThat(arrayOf("EarlGreyExampleSwiftTests", "__xctestrun_metadata__")).isEqualTo(result.allKeys())
         val dict = result["EarlGreyExampleSwiftTests"] as NSDictionary
-        assertThat(dict.count()).isEqualTo(20)
         assertThat(dict.containsKey("OnlyTestIdentifiers")).isFalse()
     }
 
