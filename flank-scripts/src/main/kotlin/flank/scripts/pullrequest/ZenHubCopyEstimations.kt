@@ -4,6 +4,7 @@ import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.coroutines.awaitResult
 import com.github.kittinunf.fuel.coroutines.awaitStringResult
+import com.github.kittinunf.result.getOrNull
 import com.github.kittinunf.result.onError
 import com.github.kittinunf.result.success
 import flank.scripts.utils.toJson
@@ -14,7 +15,7 @@ private const val ZENHUB_BASE_URL = "https://api.zenhub.com/p1/repositories/$FLA
 
 suspend fun copyEstimations(zenhubToken: String, issueNumber: Int, pullRequestNumber: Int) {
     getEstimation(zenhubToken, issueNumber)
-        .run { setEstimation(zenhubToken, pullRequestNumber, estimate.value) }
+        ?.run { setEstimation(zenhubToken, pullRequestNumber, estimate.value) }
 }
 
 suspend fun getEstimation(zenhubToken: String, issueNumber: Int) =
@@ -22,17 +23,14 @@ suspend fun getEstimation(zenhubToken: String, issueNumber: Int) =
         .withZenhubHeaders(zenhubToken)
         .awaitResult(ZenHubIssueDeserializable)
         .onError { println("Could not get estimations because of ${it.message}") }
-        .get()
+        .getOrNull()
 
 private suspend fun setEstimation(zenhubToken: String, pullRequestNumber: Int, estimate: Int) {
     Fuel.put("$ZENHUB_BASE_URL/issues/$pullRequestNumber/estimate")
         .withZenhubHeaders(zenhubToken)
         .body(ZenHubEstimateRequest(estimate).toJson())
         .awaitStringResult()
-        .onError {
-            it.printStackTrace()
-            println("Could not set estimations because of ${it.message}")
-        }
+        .onError { println("Could not set estimations because of ${it.message}") }
         .success { println("Estimate $estimate set to pull request #$pullRequestNumber") }
 }
 

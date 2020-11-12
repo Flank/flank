@@ -13,7 +13,7 @@ data class GithubPullRequest(
     val assignees: List<GithubUser>,
     val labels: List<GitHubLabel> = emptyList(),
     val body: String = "",
-    val head: GitHubHead?
+    val head: GitHubHead? = null
 )
 
 @Serializable
@@ -22,8 +22,12 @@ data class GithubUser(
     @SerialName("html_url") val htmlUrl: String
 )
 
-object GithubPullRequestDeserializer : ResponseDeserializable<List<GithubPullRequest>> {
+object GithubPullRequestListDeserializer : ResponseDeserializable<List<GithubPullRequest>> {
     override fun deserialize(content: String): List<GithubPullRequest> = content.toObject()
+}
+
+object GithubPullRequestDeserializer : ResponseDeserializable<GithubPullRequest> {
+    override fun deserialize(content: String): GithubPullRequest = content.toObject()
 }
 
 @Serializable

@@ -7,6 +7,8 @@ import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.kittinunf.result.onError
 import com.github.kittinunf.result.success
+import flank.scripts.github.GithubPullRequest
+import flank.scripts.github.getGitHubPullRequest
 import flank.scripts.testartifacts.core.GITHUB_TOKEN_ENV_KEY
 import flank.scripts.utils.getEnv
 import kotlinx.coroutines.Dispatchers
@@ -25,9 +27,7 @@ object CopyProperties :
     override fun run() {
         runBlocking {
             getGitHubPullRequest(githubToken, prNumber)
-                .onError {
-                    println("Could not copy properties, because of ${it.message}")
-                }
+                .onError { println("Could not copy properties, because of ${it.message}") }
                 .success { pullRequest ->
                     val issueNumber = pullRequest.findReferenceNumber()
                     checkNotNull(issueNumber) { "Reference issue not found on description and branch" }
@@ -39,7 +39,7 @@ object CopyProperties :
     }
 }
 
-private suspend fun GitHubPullRequest.copyGitHubProperties(
+private suspend fun GithubPullRequest.copyGitHubProperties(
     githubToken: String,
     baseIssueNumber: Int,
     prNumber: Int
