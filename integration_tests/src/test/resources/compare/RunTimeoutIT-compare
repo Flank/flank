@@ -1,7 +1,3 @@
-version: local_snapshot
-revision: 451aadbe4bfa0fa64f6cab20713bc228e897437e
-
-WARNING: disable-sharding enabled with max-test-shards = 1, Flank will ignore max-test-shard and disable sharding.
 AndroidArgs
     gcloud:
       results-bucket: test-lab-[a-zA-Z0-9-]*
