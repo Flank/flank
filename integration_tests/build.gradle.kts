@@ -57,7 +57,7 @@ tasks.register<Test>("integrationTests") {
     group = "Verification"
     description = "Runs flank integration tests"
     filter {
-        includeTestsMatching("*MultipleApksIT")
+        includeTestsMatching("*IT")
     }
     testLogging {
         events("skipped", "failed")
