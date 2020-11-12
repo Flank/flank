@@ -5,7 +5,7 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import run
 
-class AndroidFullIT {
+class MultipleApksIT {
     private val name = this::class.java.simpleName
 
     @Test
