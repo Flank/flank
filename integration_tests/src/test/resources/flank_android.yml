@@ -3,5 +3,4 @@ gcloud:
   test: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-single-success-debug-androidTest.apk
 
 flank:
-  disable-results-upload: true
   disable-sharding: true
