@@ -3,6 +3,7 @@ package flank.scripts.pullrequest
 import flank.scripts.FuelTestRunner
 import flank.scripts.testGithubLabels
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
@@ -25,7 +26,7 @@ class SetLabelsTest {
             copyLabels("success", 1, 2)
 
             // then
-            systemOutRule.log.contains("$expected set to pull request #2")
+            assertTrue(systemOutRule.log.contains("$expected set to pull request #2"))
         }
     }
 
@@ -37,7 +38,7 @@ class SetLabelsTest {
             copyLabels("failure", 1, 2)
 
             // then
-            systemOutRule.log.contains("Could not copy labels because of ")
+            assertTrue(systemOutRule.log.contains("Could not copy labels because of "))
         }
     }
 }

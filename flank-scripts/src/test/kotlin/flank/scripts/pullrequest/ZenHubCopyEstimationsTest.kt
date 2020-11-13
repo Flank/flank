@@ -3,6 +3,7 @@ package flank.scripts.pullrequest
 import flank.scripts.FuelTestRunner
 import flank.scripts.testZenHubIssue
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
@@ -26,7 +27,7 @@ class ZenHubCopyEstimationsTest {
             copyEstimation("success", 1, pullRequestNumber)
 
             // then
-            systemOutRule.log.contains("Estimate $expected set to pull request #$pullRequestNumber")
+            assertTrue(systemOutRule.log.contains("Estimate $expected set to pull request #$pullRequestNumber"))
         }
     }
 
@@ -37,8 +38,8 @@ class ZenHubCopyEstimationsTest {
             copyEstimation("failure", 1, 2)
 
             // then
-            systemOutRule.log.contains("Could not get estimations because of ")
-            systemOutRule.log.contains("Could not copy estimations because they are not provided")
+            assertTrue(systemOutRule.log.contains("Could not get estimations because of "))
+            assertTrue(systemOutRule.log.contains("Could not copy estimation because it is not provided"))
         }
     }
 }
