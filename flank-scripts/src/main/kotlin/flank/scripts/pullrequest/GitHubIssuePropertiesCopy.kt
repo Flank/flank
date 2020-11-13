@@ -20,7 +20,7 @@ import kotlinx.coroutines.runBlocking
 object CopyProperties :
     CliktCommand(name = "copyProperties", help = "Copy properties from referanced issue to pull request") {
 
-    private val githubToken by option(help = "Git Token").default(getEnv(GITHUB_TOKEN_ENV_KEY))
+    private val githubToken by option(help = "Git Token").required()
     private val zenhubToken by option(help = "ZenHub api Token").required()
     private val prNumber by option(help = "Pull request number").int().required()
 
