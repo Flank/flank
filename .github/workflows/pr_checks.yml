@@ -10,7 +10,7 @@ on:
 jobs:
   copy_properties:
     runs-on: macos-latest
-    #if: ${{ github.event.action == 'opened' }}
+    if: ${{ github.event.action == 'opened' }}
     steps:
       - uses: actions/checkout@v2
       - name: Gradle Build flankScripts and add it to PATH

@@ -245,7 +245,6 @@ Update binaries used by Flank
 #### `buildFlank` 
 Build Flank test runner
 
-
 ### pullRequest
 To show all available commands for pullRequest use:
 `flankScripts pullRequest`
@@ -254,7 +253,11 @@ Available commands are:
   - `copyProperties`    Copy properties from referenced issue to pull request
   
 #### `copyProperties`
-Command to copy properties from referenced issue to pull request
+Command to copy labels, assignees and estimate are copied from source issue.
+Source issue is discovered by:
+- Having reference in description (ex. Fixes #1092)  
+or
+- Having reference in branch name(ex. #1092_copy_properties_to_pull_request)
 
 | Option         | Description         |
 |----------------|---------------------|
