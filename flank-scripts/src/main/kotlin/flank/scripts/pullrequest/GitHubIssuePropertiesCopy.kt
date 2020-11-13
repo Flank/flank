@@ -1,7 +1,6 @@
 package flank.scripts.pullrequest
 
 import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.int
@@ -9,8 +8,6 @@ import com.github.kittinunf.result.onError
 import com.github.kittinunf.result.success
 import flank.scripts.github.GithubPullRequest
 import flank.scripts.github.getGitHubPullRequest
-import flank.scripts.testartifacts.core.GITHUB_TOKEN_ENV_KEY
-import flank.scripts.utils.getEnv
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.joinAll
@@ -20,7 +17,7 @@ import kotlinx.coroutines.runBlocking
 object CopyProperties :
     CliktCommand(name = "copyProperties", help = "Copy properties from referanced issue to pull request") {
 
-    private val githubToken by option(help = "Git Token").default(getEnv(GITHUB_TOKEN_ENV_KEY))
+    private val githubToken by option(help = "Git Token").required()
     private val zenhubToken by option(help = "ZenHub api Token").required()
     private val prNumber by option(help = "Pull request number").int().required()
 

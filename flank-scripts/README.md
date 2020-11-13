@@ -244,3 +244,20 @@ Update binaries used by Flank
 
 #### `buildFlank` 
 Build Flank test runner
+
+
+### pullRequest
+To show all available commands for pullRequest use:
+`flankScripts pullRequest`
+
+Available commands are:
+  - `copyProperties`    Copy properties from referenced issue to pull request
+  
+#### `copyProperties`
+Command to copy properties from referenced issue to pull request
+
+| Option         | Description         |
+|----------------|---------------------|
+| --github-token | GitHub Token        |
+| --zenhub-token | ZenHub api Token    |
+| --pr-number    | Pull request number |
