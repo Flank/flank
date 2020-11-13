@@ -22,7 +22,7 @@ fun handleGithubMockRequest(url: String, request: Request) = when {
         testGithubLabels.toJson(), 200
     )
     request.isFailedGithubRequest() -> request.buildResponse(githubErrorBody, 422)
-    else -> throw IllegalArgumentException("Not supported request")
+    else -> error("Not supported request")
 }
 
 private fun Request.containsSuccessHeader() = request.headers["Authorization"].contains("token success")

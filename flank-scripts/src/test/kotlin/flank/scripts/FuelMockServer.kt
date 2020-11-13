@@ -4,6 +4,7 @@ import com.github.kittinunf.fuel.core.Client
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.core.requests.DefaultBody
+import flank.scripts.pullrequest.ZENHUB_BASE_URL
 import flank.scripts.release.updatebugsnag.BugSnagRequest
 import flank.scripts.release.updatebugsnag.BugSnagResponse
 import flank.scripts.utils.toJson
@@ -14,6 +15,7 @@ class FuelMockServer : Client {
         val url = request.url.toString()
         return when {
             url.startsWith("https://api.github.com/repos/flank/flank/", ignoreCase = true) -> handleGithubMockRequest(url, request)
+            url.startsWith(ZENHUB_BASE_URL) -> handleZenhubMockRequest(url, request)
             url == "https://build.bugsnag.com/" -> request.handleBugsnagResponse()
             else -> Response(request.url)
         }

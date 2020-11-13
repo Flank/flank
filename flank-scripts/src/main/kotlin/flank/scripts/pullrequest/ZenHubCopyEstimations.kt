@@ -11,14 +11,15 @@ import flank.scripts.utils.toJson
 import kotlinx.serialization.Serializable
 
 private const val FLANK_REPO_ID = 84221974
-private const val ZENHUB_BASE_URL = "https://api.zenhub.com/p1/repositories/$FLANK_REPO_ID"
+internal const val ZENHUB_BASE_URL = "https://api.zenhub.com/p1/repositories/$FLANK_REPO_ID"
 
-suspend fun copyEstimations(zenhubToken: String, issueNumber: Int, pullRequestNumber: Int) {
+suspend fun copyEstimation(zenhubToken: String, issueNumber: Int, pullRequestNumber: Int) {
     getEstimation(zenhubToken, issueNumber)
         ?.run { setEstimation(zenhubToken, pullRequestNumber, estimate.value) }
+        ?: println("Could not copy estimation because it is not provided")
 }
 
-suspend fun getEstimation(zenhubToken: String, issueNumber: Int) =
+private suspend fun getEstimation(zenhubToken: String, issueNumber: Int) =
     Fuel.get("$ZENHUB_BASE_URL/issues/$issueNumber")
         .withZenhubHeaders(zenhubToken)
         .awaitResult(ZenHubIssueDeserializable)
