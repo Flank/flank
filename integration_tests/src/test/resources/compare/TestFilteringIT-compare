@@ -9,8 +9,8 @@ AndroidArgs
       network-profile: null
       results-history-name: null
       # Android gcloud
-      app: [0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk
-      test: [0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-single-success-debug-androidTest.apk
+      app: [0-9a-zA-Z\\\/_.-:]*[\\\/]test_runner[\\\/]src[\\\/]test[\\\/]kotlin[\\\/]ftl[\\\/]fixtures[\\\/]tmp[\\\/]apk[\\\/]app-debug.apk
+      test: [0-9a-zA-Z\\\/_.-:]*[\\\/]test_runner[\\\/]src[\\\/]test[\\\/]kotlin[\\\/]ftl[\\\/]fixtures[\\\/]tmp[\\\/]apk[\\\/]app-single-success-debug-androidTest.apk
       additional-apks:
       auto-google-login: false
       use-orchestrator: true
@@ -35,12 +35,12 @@ AndroidArgs
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 0
-
+[\s\S]*
     flank:
       max-test-shards: 1
       shard-time: -1
       num-test-runs: 1
-      smart-flank-gcs-path: 
+      smart-flank-gcs-path:\s
       smart-flank-disable-upload: false
       default-test-time: 120.0
       use-average-test-time-for-new-tests: false
@@ -54,45 +54,43 @@ AndroidArgs
       keep-file-path: false
       additional-app-test-apks:
         - app: null
-          test: [0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-success-debug-androidTest.apk
+          test: [0-9a-zA-Z\\\/_.-:]*[\\\/]test_runner[\\\/]src[\\\/]test[\\\/]kotlin[\\\/]ftl[\\\/]fixtures[\\\/]tmp[\\\/]apk[\\\/]app-multiple-success-debug-androidTest.apk
       run-timeout: -1
       legacy-junit-result: false
       ignore-failed-tests: false
       output-style: verbose
       disable-results-upload: false
       default-class-test-time: 240.0
-
+[\s\S]*
 RunTests
   No tests for app-single-success-debug-androidTest.apk
-
+[\s\S]*
 Saved 1 shards to android_shards.json
   Uploading android_shards.json \.*
   Uploading app-debug.apk \.*
   Uploading app-multiple-success-debug-androidTest.apk \.*
-  1 test / 1 shard
-
+  1 test \/ 1 shard
+[\s\S]*
   1 matrix ids created in \d{1,2}m \d{1,2}s
-  https://console.developers.google.com/storage/browser/test-lab-[a-zA-Z0-9_-]*/[.a-zA-Z0-9_-]*
-
+  https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*
+[\s\S]*
 Matrices webLink
-  matrix-[a-zA-Z0-9]* https://console.firebase.google.com/project/flank-open-source/testlab/histories/[.a-zA-Z0-9_-]*/matrices/[.a-zA-Z0-9_-]*(/executions/[.a-zA-Z0-9_-]*)?
-
-  [\s\S]*
-
+  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
+[\s\S]*
 FetchArtifacts
   \.*
   Updating matrix file
-
+[\s\S]*
 CostReport
   Virtual devices
     \$\d{1,2}.\d{1,2} for \d{1,2}m
-
+[\s\S]*
   Uploading CostReport.txt \.*
 MatrixResultsReport
-  1 / 1 \(100\.00\%\)
+  1 \/ 1 \(100\.00\%\)
 [\s\S]*
   Uploading MatrixResultsReport.txt \.*
   Uploading JUnitReport.xml \.*
-
+[\s\S]*
 Matrices webLink
-  matrix-[a-zA-Z0-9]* https://console.firebase.google.com/project/flank-open-source/testlab/histories/[.a-zA-Z0-9_-]*/matrices/[.a-zA-Z0-9_-]*(/executions/[.a-zA-Z0-9_-]*)?
+  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
