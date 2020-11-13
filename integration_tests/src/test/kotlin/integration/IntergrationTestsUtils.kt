@@ -66,3 +66,10 @@ private val fromCommon =
 fun String.removeUnicode() = replace("\u001B\\[\\d{1,2}m".toRegex(), "").trimIndent()
 
 fun findInCompare(name: String) = File("./src/test/resources/compare/$name-compare").readText().trimIndent()
+
+
+private val osName = System.getProperty("os.name")?.toLowerCase() ?: ""
+
+val isWindows: Boolean by lazy {
+    osName.indexOf("win") >= 0
+}

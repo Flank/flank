@@ -6,10 +6,9 @@ import org.junit.Test
 import run
 
 class IgnoreFailedIT {
-
+    private val name = this::class.java.simpleName
     @Test
     fun `return with exit code 0 for failed tests`() {
-        val name = this::class.java.simpleName
         val result = FlankCommand(
             flankPath = "../test_runner/build/libs/flank.jar",
             ymlPath = "./src/test/resources/cases/flank_android_ignore_failed.yml",
