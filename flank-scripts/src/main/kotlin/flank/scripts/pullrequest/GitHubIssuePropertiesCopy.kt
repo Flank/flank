@@ -56,5 +56,5 @@ private suspend fun copyZenhubProperties(
     baseIssueNumber: Int,
     prNumber: Int
 ) {
-    copyEstimations(zenhubToken, baseIssueNumber, prNumber)
+    copyEstimation(zenhubToken, baseIssueNumber, prNumber)
 }
