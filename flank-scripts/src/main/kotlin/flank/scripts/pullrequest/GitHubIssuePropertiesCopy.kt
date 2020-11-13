@@ -8,8 +8,6 @@ import com.github.kittinunf.result.onError
 import com.github.kittinunf.result.success
 import flank.scripts.github.GithubPullRequest
 import flank.scripts.github.getGitHubPullRequest
-import flank.scripts.testartifacts.core.GITHUB_TOKEN_ENV_KEY
-import flank.scripts.utils.getEnv
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.joinAll
