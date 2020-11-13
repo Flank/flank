@@ -21,7 +21,12 @@ internal fun AndroidArgs.resolveApks(): List<AndroidTestContext> = listOfNotNull
 
 private fun AndroidArgs.mainApkContext() = appApk?.let { appApk ->
     when {
-        testApk != null -> InstrumentationTestContext(app = appApk.asFileReference(), test = testApk.asFileReference(), environmentVariables = emptyMap(), testTargetsForShard = testTargetsForShard)
+        testApk != null -> InstrumentationTestContext(
+            app = appApk.asFileReference(),
+            test = testApk.asFileReference(),
+            environmentVariables = emptyMap(),
+            testTargetsForShard = testTargetsForShard
+        )
         roboScript != null -> RoboTestContext(app = appApk.asFileReference(), roboScript = roboScript.asFileReference())
         isSanityRobo -> SanityRoboTestContext(app = appApk.asFileReference())
         isGameLoop -> GameLoopContext(appApk.asFileReference(), scenarioLabels, scenarioNumbers)

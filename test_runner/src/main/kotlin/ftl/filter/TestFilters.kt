@@ -74,9 +74,7 @@ object TestFilters {
         }
     }
 
-    fun fromTestTargets(testTargets: List<String>) = fromTestTargets(testTargets, emptyList())
-
-    fun fromTestTargets(testTargets: List<String>, testTargetsForShard: ShardChunks): TestFilter {
+    fun fromTestTargets(testTargets: List<String>, testTargetsForShard: ShardChunks = emptyList()): TestFilter {
         val targets = testTargets + testTargetsForShard.flatten()
 
         val parsedFilters =
