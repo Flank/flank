@@ -9,7 +9,7 @@ AndroidArgs
       network-profile: null
       results-history-name: null
       # Android gcloud
-      app: [0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk
+      app: [0-9a-zA-Z\\\/_.-:]*[\\\/]test_runner[\\\/]src[\\\/]test[\\\/]kotlin[\\\/]ftl[\\\/]fixtures[\\\/]tmp[\\\/]apk[\\\/]app-debug.apk
       test: null
       additional-apks:
       auto-google-login: false
@@ -61,34 +61,32 @@ AndroidArgs
 
 RunTests
   Uploading app-debug.apk \.*
-  0 test / 0 shard
+  0 test \/ 0 shard
 
   1 matrix ids created in \d{1,2}m \d{1,2}s
-  https://console.developers.google.com/storage/browser/test-lab-[a-zA-Z0-9_-]*/[.a-zA-Z0-9_-]*
+  https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*
 
 Matrices webLink
-  matrix-[a-zA-Z0-9]* https://console.firebase.google.com/project/flank-open-source/testlab/histories/[.a-zA-Z0-9_-]*/matrices/[.a-zA-Z0-9_-]*/executions/[.a-zA-Z0-9_-]*
-
-  [\s\S]*
-
+  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*\/executions\/[.a-zA-Z0-9_-]*
+[\s\S]*
 FetchArtifacts
-  
+[\s\S]*
   Updating matrix file
-
+[\s\S]*
 CostReport
   Virtual devices
     \$\d{1,2}.\d{1,2} for \d{1,2}m
-
+[\s\S]*
   Uploading CostReport.txt \.*
 MatrixResultsReport
-  1 / 1 \(100\.00\%\)
-┌─────────┬──────────────────────┬────────────────────────────┬──────────────┐
-│ OUTCOME │      MATRIX ID       │      TEST AXIS VALUE       │ TEST DETAILS │
-├─────────┼──────────────────────┼────────────────────────────┼──────────────┤
-│ success │ matrix-[a-zA-Z0-9\s]*│ NexusLowRes-28-en-portrait │ ---          │
-└─────────┴──────────────────────┴────────────────────────────┴──────────────┘
+  1 \/ 1 \(100\.00\%\)
+.*
+[│\?] OUTCOME [│\?]      MATRIX ID       [│\?]      TEST AXIS VALUE       [│\?] TEST DETAILS [│\?]
+.*
+[│\?] success [│\?] matrix-[a-zA-Z0-9\s]*[│\?] NexusLowRes-28-en-portrait [│\?] ---          [│\?]
+.*
   Uploading MatrixResultsReport.txt \.*
   Uploading JUnitReport.xml \.*
-
+[\s\S]*
 Matrices webLink
-  matrix-[a-zA-Z0-9]* https://console.firebase.google.com/project/flank-open-source/testlab/histories/[.a-zA-Z0-9_-]*/matrices/[.a-zA-Z0-9_-]*/executions/[.a-zA-Z0-9_-]*
+  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*\/executions\/[.a-zA-Z0-9_-]*
