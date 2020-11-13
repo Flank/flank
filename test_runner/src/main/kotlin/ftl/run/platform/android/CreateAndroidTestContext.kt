@@ -32,11 +32,11 @@ private suspend fun List<AndroidTestContext>.setupShards(
 ): List<AndroidTestContext> = coroutineScope {
     map { testContext ->
         async {
-            if (testContext !is InstrumentationTestContext) testContext
-            else testContext.downloadApks().calculateShards(
-                args = args,
-                testFilter = testFilter
-            )
+            when {
+                testContext !is InstrumentationTestContext -> testContext
+                args.testTargetsForShard.isNotEmpty() -> testContext.downloadApks().calculateDummyShards(args, testFilter)
+                else -> testContext.downloadApks().calculateShards(args, testFilter)
+            }
         }
     }.awaitAll().dropEmptyInstrumentationTest()
 }
@@ -53,6 +53,19 @@ private fun InstrumentationTestContext.calculateShards(
     filteredTests = getFlankTestMethods(testFilter),
     args = args,
     forcedShardCount = args.numUniformShards
+).run {
+    copy(
+        shards = shardChunks.filter { it.testMethods.isNotEmpty() },
+        ignoredTestCases = ignoredTestCases
+    )
+}
+
+private fun InstrumentationTestContext.calculateDummyShards(
+    args: AndroidArgs,
+    testFilter: TestFilter = TestFilters.fromTestTargets(args.testTargets, args.testTargetsForShard),
+): InstrumentationTestContext = ArgsHelper.calculateDummyShards(
+    filteredTests = getFlankTestMethods(testFilter),
+    args = args
 ).run {
     copy(
         shards = shardChunks.filter { it.testMethods.isNotEmpty() },

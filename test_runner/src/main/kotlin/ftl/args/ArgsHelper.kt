@@ -27,6 +27,7 @@ import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 import ftl.shard.Chunk
 import ftl.shard.TestMethod
+import ftl.shard.createShardsByTestForShards
 import ftl.util.FlankTestMethod
 import ftl.util.assertNotEmpty
 import java.io.File
@@ -231,8 +232,7 @@ object ArgsHelper {
         forcedShardCount: Int? = null
     ): CalculateShardsResult {
         if (filteredTests.isEmpty()) {
-            // Avoid unnecessary computing if we already know there aren't tests to run.
-            return CalculateShardsResult(emptyList(), emptyList())
+            return CalculateShardsResult(emptyList(), emptyList()) // Avoid unnecessary computing if we already know there aren't tests to run.
         }
         val (ignoredTests, testsToExecute) = filteredTests.partition { it.ignored }
         val shards = if (args.disableSharding) {
@@ -264,6 +264,23 @@ object ArgsHelper {
         val find = shards.flatMap { it.testMethods }.filter { alwaysRun.contains(it.name) }
 
         return shards.map { Chunk(find + it.testMethods.filterNot { method -> find.contains(method) }) }
+    }
+
+    fun calculateDummyShards(
+        filteredTests: List<FlankTestMethod>,
+        args: AndroidArgs,
+    ): CalculateShardsResult {
+        if (filteredTests.isEmpty()) {
+            return CalculateShardsResult(emptyList(), emptyList()) // Avoid unnecessary computing if we already know there aren't tests to run.
+        }
+        val (ignoredTests, _) = filteredTests.partition { it.ignored }
+
+        val shards = createShardsByTestForShards(args).map { Chunk(it.testMethods) }
+
+        return CalculateShardsResult(
+            testMethodsAlwaysRun(shards, args),
+            ignoredTestCases = ignoredTests.map { it.testName }
+        )
     }
 }
 
