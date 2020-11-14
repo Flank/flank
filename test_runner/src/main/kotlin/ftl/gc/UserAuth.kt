@@ -36,7 +36,9 @@ class UserAuth {
         fun load(): UserCredentials = readCredentialsOrThrow()
 
         private fun readCredentialsOrThrow(): UserCredentials = runCatching {
-            ObjectInputStream(FileInputStream(userToken.toFile())).readObject() as UserCredentials
+            FileInputStream(userToken.toFile()).use {
+                ObjectInputStream(it).readObject() as UserCredentials
+            }
         }.getOrElse {
             throwAuthenticationError()
         }
