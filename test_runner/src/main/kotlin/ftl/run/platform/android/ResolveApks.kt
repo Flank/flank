@@ -16,7 +16,7 @@ import ftl.util.asFileReference
 @VisibleForTesting
 internal fun AndroidArgs.resolveApks(): List<AndroidTestContext> = listOfNotNull(
     mainApkContext(),
-     *additionalApksContexts()
+    *additionalApksContexts()
 )
 
 private fun AndroidArgs.mainApkContext() = appApk?.let { appApk ->
