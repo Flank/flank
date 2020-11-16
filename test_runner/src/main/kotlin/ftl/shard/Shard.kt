@@ -36,18 +36,14 @@ class com.foo.ClassName#testMethodToSkip
 
 */
 
-fun createShardsByTestForShards(
-    args: AndroidArgs
-): List<TestShard> {
-    return args.testTargetsForShard.map { list ->
-        val testMethods = list
-            .map { name -> TestMethod(name, 0.0, false) }
-            .toMutableList()
-        TestShard(
-            time = testMethods[testMethods.lastIndex].time,
-            testMethods = testMethods
-        )
-    }
+fun createShardsByTestForShards(args: AndroidArgs) = args.testTargetsForShard.map { list ->
+    val testMethods = list
+        .map { name -> TestMethod(name, 0.0, false) }
+        .toMutableList()
+    TestShard(
+        time = testMethods[testMethods.lastIndex].time,
+        testMethods = testMethods
+    )
 }
 
 // take in the XML with timing info then return list of shards based on the amount of shards to use
