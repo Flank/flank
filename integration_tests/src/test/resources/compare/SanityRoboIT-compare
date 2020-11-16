@@ -70,13 +70,13 @@ Matrices webLink
   matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*\/executions\/[.a-zA-Z0-9_-]*
 [\s\S]*
 FetchArtifacts
-[\s\S]*
+\s*
   Updating matrix file
-[\s\S]*
+\s*
 CostReport
   Virtual devices
     \$\d{1,2}.\d{1,2} for \d{1,2}m
-[\s\S]*
+\s*
   Uploading CostReport.txt \.*
 MatrixResultsReport
   1 \/ 1 \(100\.00\%\)
@@ -87,6 +87,6 @@ MatrixResultsReport
 .*
   Uploading MatrixResultsReport.txt \.*
   Uploading JUnitReport.xml \.*
-[\s\S]*
+\s*
 Matrices webLink
   matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*\/executions\/[.a-zA-Z0-9_-]*
