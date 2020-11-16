@@ -19,16 +19,14 @@ fun rewriteXcTestRunV2(
 ): Map<String, ByteArray> =
     rewriteXcTestRunV2(
         parseToNSDictionary(xcTestPlan),
-        findXcTestNamesV2(xcTestPlan).filterXcTestMethods(filterMethods),
+        findXcTestNamesV2(xcTestPlan).filterXcTestMethodsV2(filterMethods),
     )
 
 @VisibleForTesting
-internal fun Map<String, XctestrunMethods>.filterXcTestMethods(
+internal fun Map<String, XctestrunMethods>.filterXcTestMethodsV2(
     names: List<String>
 ) = mapValues { (_, map) ->
-    map.mapValues { (_, list) ->
-        list.filter(names::contains)
-    }
+    map.filterXcTestMethodsV1(names)
 }
 
 @VisibleForTesting

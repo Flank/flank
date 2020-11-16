@@ -1,6 +1,8 @@
 package ftl.shard
 
-data class Chunk(val testMethods: List<TestMethod>) {
+data class Chunk(
+    val testMethods: List<TestMethod>
+) {
     val testMethodNames = testMethods.map { it.name }
     val size get() = testMethods.size
 }
