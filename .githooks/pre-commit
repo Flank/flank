@@ -1,0 +1,17 @@
+#!C:/Program\ Files/Git/usr/bin/sh.exe
+
+echo "Running detekt check"
+OUTPUT="/tmp/detekt-$(date +%s)"
+./gradlew detekt > $OUTPUT
+EXIT_CODE=$?
+if [ $EXIT_CODE -ne 0 ]; then
+  cat $OUTPUT
+  rm $OUTPUT
+  echo
+  echo "***********************************************"
+  echo "                 Detekt failed                 "
+  echo " Please fix the above issues before committing "
+  echo "***********************************************"
+  exit $EXIT_CODE
+fi
+rm $OUTPUT
