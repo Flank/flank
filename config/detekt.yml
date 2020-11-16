@@ -189,7 +189,7 @@ formatting:
     autoCorrect: true
   ParameterListWrapping:
     excludes: ['**/test/**', '**/*.Test.kt', '**/*.Spec.kt']
-    active: false
+    active: true
     autoCorrect: true
     indentSize: 4
   SpacingAroundColon:
