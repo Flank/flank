@@ -1,6 +1,6 @@
 object Versions {
     // https://github.com/bugsnag/bugsnag-java/releases
-    const val BUGSNAG = "3.6.1"
+    const val BUGSNAG = "3.6.2"
 
     // https://github.com/3breadt/dd-plist/releases
     const val DD_PLIST = "1.23"
@@ -38,7 +38,7 @@ object Versions {
     const val GOOGLE_NIO = "0.122.0"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "1.113.2"
+    const val GOOGLE_STORAGE = "1.113.3"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.8.6"
