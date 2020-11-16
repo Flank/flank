@@ -2,14 +2,17 @@ package ftl.util
 
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
+import ftl.args.IArgs
 import ftl.json.MatrixMap
 import ftl.test.util.FlankTestRunner
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
 import org.junit.After
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.File
 
 @RunWith(FlankTestRunner::class)
 class MatrixUtilTest {
@@ -35,15 +38,30 @@ class MatrixUtilTest {
     }
 
     @Test
-    fun `resolveLocalRunPath validInput`() {
-        val matrixMap = mockk<MatrixMap>()
-        every { matrixMap.runPath } returns "a/b"
+    fun `should return localResultDir if provided`() {
+        val mockedArgs = mockk<IArgs>()
+        every { mockedArgs.useLocalResultDir() } returns true
+        every { mockedArgs.localResultDir } returns "/tmp"
 
-        assertThat(resolveLocalRunPath(matrixMap, AndroidArgs.default())).isEqualTo("results/b")
+        assertThat(resolveLocalRunPath(MatrixMap(emptyMap(), ""), mockedArgs)).isEqualTo("/tmp")
     }
 
     @Test
-    fun `resolveLocalRunPath pathExists`() {
+    fun `should newly created directory and if do not use localResultDir and runPath not exist`() {
+        // given
+        val matrixMap = mockk<MatrixMap>()
+        every { matrixMap.runPath } returns "a/b"
+
+        // when
+        val localRunPath = resolveLocalRunPath(matrixMap, AndroidArgs.default())
+
+        // then
+        assertThat(localRunPath).isEqualTo("results/a/b")
+        assertTrue(File(localRunPath).exists())
+    }
+
+    @Test
+    fun `should return run path if directory already exist`() {
         val matrixMap = mockk<MatrixMap>()
         every { matrixMap.runPath } returns "/tmp"
 
