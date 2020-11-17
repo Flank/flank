@@ -5,14 +5,10 @@ import ftl.json.MatrixMap
 import java.io.File
 import java.util.concurrent.TimeUnit
 
-fun resolveLocalRunPath(matrices: MatrixMap, args: IArgs): String {
-    if (args.useLocalResultDir()) return args.localResultDir
-
-    val runPath = File(matrices.runPath)
-    if (!runPath.exists()) return join(args.localResultDir, runPath.name)
-
-    // avoid File().toString() as that will use a '\' path separator.
-    return matrices.runPath
+fun resolveLocalRunPath(matrices: MatrixMap, args: IArgs) = when {
+    args.useLocalResultDir() -> args.localResultDir
+    File(matrices.runPath).exists() -> matrices.runPath
+    else -> join(args.localResultDir, matrices.runPath).also { localPath -> File(localPath).mkdirs() }
 }
 
 fun timeoutToSeconds(timeout: String): Long {
