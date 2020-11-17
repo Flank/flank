@@ -62,7 +62,7 @@ AndroidArgs
       robo-script: $roboScript
       device: ${ArgsToString.objectsToString(devices)}
       num-flaky-test-attempts: $flakyTestAttempts
-      test-targets-for-shard: ${ArgsToString.objectsToString(testTargetsForShard)}
+      test-targets-for-shard: ${ArgsToString.listOfListToString(testTargetsForShard)}
 
     flank:
       max-test-shards: $maxTestShards
