@@ -14,27 +14,8 @@
 		3201E30D255D3E9D00347837 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3201E30C255D3E9D00347837 /* GameViewController.swift */; };
 		3201E310255D3E9D00347837 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3201E30E255D3E9D00347837 /* Main.storyboard */; };
 		3201E312255D3E9E00347837 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3201E311255D3E9E00347837 /* Assets.xcassets */; };
-		3201E31D255D3E9E00347837 /* flankgameloopTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3201E31C255D3E9E00347837 /* flankgameloopTests.swift */; };
-		3201E328255D3E9E00347837 /* flankgameloopUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3201E327255D3E9E00347837 /* flankgameloopUITests.swift */; };
 		3201E33F255D48D900347837 /* FTLGameLoop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3201E33E255D48D900347837 /* FTLGameLoop.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		3201E319255D3E9E00347837 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3201E2F9255D3E9D00347837 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3201E300255D3E9D00347837;
-			remoteInfo = flankgameloop;
-		};
-		3201E324255D3E9E00347837 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3201E2F9255D3E9D00347837 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3201E300255D3E9D00347837;
-			remoteInfo = flankgameloop;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		3201E301255D3E9D00347837 /* flankgameloop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flankgameloop.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -46,31 +27,11 @@
 		3201E30F255D3E9D00347837 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3201E311255D3E9E00347837 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3201E313255D3E9E00347837 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3201E318255D3E9E00347837 /* flankgameloopTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = flankgameloopTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3201E31C255D3E9E00347837 /* flankgameloopTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = flankgameloopTests.swift; sourceTree = "<group>"; };
-		3201E31E255D3E9E00347837 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3201E323255D3E9E00347837 /* flankgameloopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = flankgameloopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3201E327255D3E9E00347837 /* flankgameloopUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = flankgameloopUITests.swift; sourceTree = "<group>"; };
-		3201E329255D3E9E00347837 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3201E33E255D48D900347837 /* FTLGameLoop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTLGameLoop.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		3201E2FE255D3E9D00347837 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3201E315255D3E9E00347837 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3201E320255D3E9E00347837 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -84,8 +45,6 @@
 			isa = PBXGroup;
 			children = (
 				3201E303255D3E9D00347837 /* flankgameloop */,
-				3201E31B255D3E9E00347837 /* flankgameloopTests */,
-				3201E326255D3E9E00347837 /* flankgameloopUITests */,
 				3201E302255D3E9D00347837 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -94,8 +53,6 @@
 			isa = PBXGroup;
 			children = (
 				3201E301255D3E9D00347837 /* flankgameloop.app */,
-				3201E318255D3E9E00347837 /* flankgameloopTests.xctest */,
-				3201E323255D3E9E00347837 /* flankgameloopUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -114,24 +71,6 @@
 				3201E33E255D48D900347837 /* FTLGameLoop.swift */,
 			);
 			path = flankgameloop;
-			sourceTree = "<group>";
-		};
-		3201E31B255D3E9E00347837 /* flankgameloopTests */ = {
-			isa = PBXGroup;
-			children = (
-				3201E31C255D3E9E00347837 /* flankgameloopTests.swift */,
-				3201E31E255D3E9E00347837 /* Info.plist */,
-			);
-			path = flankgameloopTests;
-			sourceTree = "<group>";
-		};
-		3201E326255D3E9E00347837 /* flankgameloopUITests */ = {
-			isa = PBXGroup;
-			children = (
-				3201E327255D3E9E00347837 /* flankgameloopUITests.swift */,
-				3201E329255D3E9E00347837 /* Info.plist */,
-			);
-			path = flankgameloopUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,42 +93,6 @@
 			productReference = 3201E301255D3E9D00347837 /* flankgameloop.app */;
 			productType = "com.apple.product-type.application";
 		};
-		3201E317255D3E9E00347837 /* flankgameloopTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3201E32F255D3E9E00347837 /* Build configuration list for PBXNativeTarget "flankgameloopTests" */;
-			buildPhases = (
-				3201E314255D3E9E00347837 /* Sources */,
-				3201E315255D3E9E00347837 /* Frameworks */,
-				3201E316255D3E9E00347837 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				3201E31A255D3E9E00347837 /* PBXTargetDependency */,
-			);
-			name = flankgameloopTests;
-			productName = flankgameloopTests;
-			productReference = 3201E318255D3E9E00347837 /* flankgameloopTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		3201E322255D3E9E00347837 /* flankgameloopUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3201E332255D3E9E00347837 /* Build configuration list for PBXNativeTarget "flankgameloopUITests" */;
-			buildPhases = (
-				3201E31F255D3E9E00347837 /* Sources */,
-				3201E320255D3E9E00347837 /* Frameworks */,
-				3201E321255D3E9E00347837 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				3201E325255D3E9E00347837 /* PBXTargetDependency */,
-			);
-			name = flankgameloopUITests;
-			productName = flankgameloopUITests;
-			productReference = 3201E323255D3E9E00347837 /* flankgameloopUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -201,14 +104,6 @@
 				TargetAttributes = {
 					3201E300255D3E9D00347837 = {
 						CreatedOnToolsVersion = 12.1;
-					};
-					3201E317255D3E9E00347837 = {
-						CreatedOnToolsVersion = 12.1;
-						TestTargetID = 3201E300255D3E9D00347837;
-					};
-					3201E322255D3E9E00347837 = {
-						CreatedOnToolsVersion = 12.1;
-						TestTargetID = 3201E300255D3E9D00347837;
 					};
 				};
 			};
@@ -226,8 +121,6 @@
 			projectRoot = "";
 			targets = (
 				3201E300255D3E9D00347837 /* flankgameloop */,
-				3201E317255D3E9E00347837 /* flankgameloopTests */,
-				3201E322255D3E9E00347837 /* flankgameloopUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -241,20 +134,6 @@
 				3201E307255D3E9D00347837 /* GameScene.sks in Resources */,
 				3201E312255D3E9E00347837 /* Assets.xcassets in Resources */,
 				3201E309255D3E9D00347837 /* Actions.sks in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3201E316255D3E9E00347837 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3201E321255D3E9E00347837 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,36 +151,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3201E314255D3E9E00347837 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3201E31D255D3E9E00347837 /* flankgameloopTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3201E31F255D3E9E00347837 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3201E328255D3E9E00347837 /* flankgameloopUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		3201E31A255D3E9E00347837 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 3201E300255D3E9D00347837 /* flankgameloop */;
-			targetProxy = 3201E319255D3E9E00347837 /* PBXContainerItemProxy */;
-		};
-		3201E325255D3E9E00347837 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 3201E300255D3E9D00347837 /* flankgameloop */;
-			targetProxy = 3201E324255D3E9E00347837 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		3201E30E255D3E9D00347837 /* Main.storyboard */ = {
@@ -469,90 +319,6 @@
 			};
 			name = Release;
 		};
-		3201E330255D3E9E00347837 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L2UF9MLSM6;
-				INFOPLIST_FILE = flankgameloopTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.gogoapps.flankgameloopTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/flankgameloop.app/flankgameloop";
-			};
-			name = Debug;
-		};
-		3201E331255D3E9E00347837 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L2UF9MLSM6;
-				INFOPLIST_FILE = flankgameloopTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.gogoapps.flankgameloopTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/flankgameloop.app/flankgameloop";
-			};
-			name = Release;
-		};
-		3201E333255D3E9E00347837 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L2UF9MLSM6;
-				INFOPLIST_FILE = flankgameloopUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.gogoapps.flankgameloopUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = flankgameloop;
-			};
-			name = Debug;
-		};
-		3201E334255D3E9E00347837 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L2UF9MLSM6;
-				INFOPLIST_FILE = flankgameloopUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.gogoapps.flankgameloopUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = flankgameloop;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -570,24 +336,6 @@
 			buildConfigurations = (
 				3201E32D255D3E9E00347837 /* Debug */,
 				3201E32E255D3E9E00347837 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		3201E32F255D3E9E00347837 /* Build configuration list for PBXNativeTarget "flankgameloopTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3201E330255D3E9E00347837 /* Debug */,
-				3201E331255D3E9E00347837 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		3201E332255D3E9E00347837 /* Build configuration list for PBXNativeTarget "flankgameloopUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3201E333255D3E9E00347837 /* Debug */,
-				3201E334255D3E9E00347837 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
