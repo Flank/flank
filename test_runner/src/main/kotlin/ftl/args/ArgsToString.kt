@@ -27,7 +27,7 @@ object ArgsToString {
     fun listOfListToString(listOfList: List<List<String?>>?): String {
         if (listOfList.isNullOrEmpty()) return ""
         return NEW_LINE + listOfList.flatten()
-            .joinToString(System.lineSeparator()) { "         $it" }
+            .joinToString(System.lineSeparator()) { "        - $it" }
     }
 
     fun apksToString(devices: List<AppTestPair>): String {
