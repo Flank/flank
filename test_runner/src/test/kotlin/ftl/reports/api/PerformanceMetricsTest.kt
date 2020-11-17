@@ -5,6 +5,7 @@ import com.google.api.services.testing.model.TestExecution
 import com.google.api.services.testing.model.ToolResultsStep
 import com.google.common.truth.Truth.assertThat
 import ftl.android.AndroidCatalog
+import ftl.args.IArgs
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.test.util.FlankTestRunner
@@ -27,8 +28,11 @@ class PerformanceMetricsTest {
     fun `should not get and upload performance metrics for virtual devices`() {
         mockkObject(AndroidCatalog) {
             every { AndroidCatalog.isVirtualDevice(any<AndroidDevice>(), any()) } returns true
+            val args = mockk<IArgs> {
+                every { resultsBucket } returns "b8ce"
+            }
 
-            assertThat(testExecutions.map { it to "path" }.getAndUploadPerformanceMetrics("b8ce")).isEmpty()
+           assertThat(testExecutions.map { it to "path" }.getAndUploadPerformanceMetrics(args)).isEmpty()
         }
     }
 
@@ -44,7 +48,12 @@ class PerformanceMetricsTest {
             }
 
             mockkObject(GcStorage) {
-                testExecutions.map { it to expectedPath }.getAndUploadPerformanceMetrics(expectedBucket)
+                val args = mockk<IArgs> {
+                    every { resultsBucket } returns expectedBucket
+                    every { useLocalResultDir() } returns false
+                    every { localResultDir } returns "local"
+                }
+                testExecutions.map { it to expectedPath }.getAndUploadPerformanceMetrics(args)
                 performanceMetrics.forEach {
                     verify { GcStorage.uploadPerformanceMetrics(it, expectedBucket, expectedPath) }
                 }
