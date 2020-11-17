@@ -28,9 +28,9 @@ internal fun List<Pair<TestExecution, String>>.getAndUploadPerformanceMetrics(
 }
 
 private fun PerfMetricsSummary.save(resultsDir: String, args: IArgs) {
-    val configFilePath = if (args.useLocalResultDir())
-        Paths.get(args.localResultDir, "performanceMetrics.json") else
-        Paths.get(args.localResultDir, resultsDir, "performanceMetrics.json")
+    val configFilePath =
+        if (args.useLocalResultDir()) Paths.get(args.localResultDir, "performanceMetrics.json")
+        else Paths.get(args.localResultDir, resultsDir, "performanceMetrics.json")
 
     configFilePath.parent.toFile().mkdirs()
     Files.write(configFilePath, toPrettyString().toByteArray())
