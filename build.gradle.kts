@@ -21,15 +21,6 @@ repositories {
     mavenCentral()
 }
 
-subprojects {
-    afterEvaluate {
-        if (tasks.findByName("detekt") != null) {
-            tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-                dependsOn(tasks["detekt"])
-            }
-        }
-    }
-}
 
 tasks.named("dependencyUpdates", DependencyUpdatesTask::class.java).configure {
 
