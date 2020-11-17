@@ -18,8 +18,8 @@ import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.xmlToString
 import ftl.run.exception.FlankGeneralError
-import ftl.util.ProgressBar
 import ftl.util.join
+import ftl.util.runWithProgress
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URI
@@ -73,16 +73,11 @@ object GcStorage {
         val name = rawPath.substringAfter('/')
 
         val fileBlob = BlobInfo.newBuilder(bucket, name).build()
-
-        val progress = ProgressBar()
-        try {
-            progress.start("Uploading smart flank XML")
-            storage.create(fileBlob, testResult.xmlToString().toByteArray())
-        } catch (e: Exception) {
-            throw FlankGeneralError(e)
-        } finally {
-            progress.stop()
-        }
+        runWithProgress(
+            startMessage = "Uploading smart flank XML",
+            action = { storage.create(fileBlob, testResult.xmlToString().toByteArray()) },
+            onError = { throw FlankGeneralError(it) }
+        )
     }
 
     fun uploadPerformanceMetrics(perfMetricsSummary: PerfMetricsSummary, resultsBucket: String, resultDir: String) =
@@ -141,10 +136,8 @@ object GcStorage {
         storage: Storage = GcStorage.storage
     ): String {
         val file = File(filePath)
-        val absolutePath = file.absolutePath
-        val fileName = file.name
-        return uploadCache[absolutePath] ?: uploadCache.computeIfAbsent(absolutePath) {
-            val gcsPath = join(runGcsPath, fileName)
+        return uploadCache.computeIfAbsent("$runGcsPath-${file.absolutePath}") {
+            val gcsPath = join(runGcsPath, file.name)
             val index = duplicatedGcsPathCounter.merge(gcsPath, 0) { old, _ -> old + 1 }
             val validGcsPath = when {
                 index == 0 -> gcsPath
@@ -154,16 +147,11 @@ object GcStorage {
 
             // 404 Not Found error when rootGcsBucket does not exist
             val fileBlob = BlobInfo.newBuilder(rootGcsBucket, validGcsPath).build()
-
-            val progress = ProgressBar()
-            try {
-                progress.start("Uploading $fileName")
-                storage.create(fileBlob, fileBytes)
-            } catch (e: Exception) {
-                throw FlankGeneralError("Error on uploading $fileName\nCause: $e")
-            } finally {
-                progress.stop()
-            }
+            runWithProgress(
+                startMessage = "Uploading ${file.name}",
+                action = { storage.create(fileBlob, fileBytes) },
+                onError = { throw FlankGeneralError("Error on uploading ${file.name}\nCause: $it") }
+            )
             GCS_PREFIX + join(rootGcsBucket, validGcsPath)
         }
     }
