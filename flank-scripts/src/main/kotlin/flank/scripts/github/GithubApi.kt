@@ -17,13 +17,13 @@ import flank.scripts.exceptions.toGithubException
 
 suspend fun getPrDetailsByCommit(commitSha: String, githubToken: String) =
     Fuel.get("https://api.github.com/repos/flank/flank/commits/$commitSha/pulls")
-        .appendHeaders(githubToken)
+        .appendGitHubHeaders(githubToken)
         .awaitResult(GithubPullRequestListDeserializer)
         .mapClientError { it.toGithubException() }
 
 suspend fun getLatestReleaseTag(githubToken: String) =
     Fuel.get("https://api.github.com/repos/flank/flank/releases/latest")
-        .appendHeaders(githubToken)
+        .appendGitHubHeaders(githubToken)
         .awaitResult(GithubReleaseDeserializable)
         .mapClientError { it.toGithubException() }
 
@@ -37,11 +37,11 @@ fun deleteOldTag(tag: String, username: String, password: String) =
 
 suspend fun getGitHubPullRequest(githubToken: String, issueNumber: Int) =
     Fuel.get("https://api.github.com/repos/Flank/flank/pulls/$issueNumber")
-        .appendHeaders(githubToken)
+        .appendGitHubHeaders(githubToken)
         .awaitResult(GithubPullRequestDeserializer)
         .mapClientError { it.toGithubException() }
 
-fun Request.appendHeaders(githubToken: String) =
+fun Request.appendGitHubHeaders(githubToken: String) =
     appendHeader("Accept", "application/vnd.github.v3+json")
         .appendHeader("Authorization", "token $githubToken")
 
