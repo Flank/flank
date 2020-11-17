@@ -12,8 +12,8 @@ class MultipleDevicesIT {
     fun `run tests on multiple devices - android`() {
         val name = "$name-android"
         val result = FlankCommand(
-            flankPath = "../test_runner/build/libs/flank.jar",
-            ymlPath = "./src/test/resources/cases/flank_android_multiple_devices.yml",
+            flankPath = FLANK_JAR_PATH,
+            ymlPath = "$CONFIGS_PATH/flank_android_multiple_devices.yml",
             params = androidRunCommands
         ).run(
             workingDirectory = "./",

@@ -11,11 +11,10 @@ class MultipleApksIT {
     @Test
     fun `flank full option run`() {
         val result = FlankCommand(
-            flankPath = "../test_runner/build/libs/flank.jar",
-            ymlPath = "./src/test/resources/cases/flank_android_multiple_apk.yml",
+            flankPath = FLANK_JAR_PATH,
+            ymlPath = "$CONFIGS_PATH/flank_android_multiple_apk.yml",
             params = androidRunCommands
         ).run("./", name)
-
 
         assertExitCode(result, 10)
 

@@ -4,6 +4,9 @@ import org.junit.Assert.assertEquals
 import utils.ProcessResult
 import java.io.File
 
+const val FLANK_JAR_PATH = "../test_runner/build/libs/flank.jar"
+const val CONFIGS_PATH = "./src/test/resources/cases"
+
 val androidRunCommands = listOf("firebase", "test", "android", "run")
 val iosRunCommands = listOf("firebase", "test", "ios", "run")
 
@@ -69,7 +72,6 @@ private val fromCommon =
 fun String.removeUnicode() = replace("\u001B\\[\\d{1,2}m".toRegex(), "").trimIndent()
 
 fun findInCompare(name: String) = File("./src/test/resources/compare/$name-compare").readText().trimIndent()
-
 
 private val osName = System.getProperty("os.name")?.toLowerCase() ?: ""
 

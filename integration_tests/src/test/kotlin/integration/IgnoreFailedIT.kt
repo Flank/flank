@@ -10,8 +10,8 @@ class IgnoreFailedIT {
     @Test
     fun `return with exit code 0 for failed tests`() {
         val result = FlankCommand(
-            flankPath = "../test_runner/build/libs/flank.jar",
-            ymlPath = "./src/test/resources/cases/flank_android_ignore_failed.yml",
+            flankPath = FLANK_JAR_PATH,
+            ymlPath = "$CONFIGS_PATH/flank_android_ignore_failed.yml",
             params = androidRunCommands
         ).run(
             workingDirectory = "./",
