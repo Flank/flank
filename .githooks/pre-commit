@@ -1,4 +1,4 @@
-#!C:/Program\ Files/Git/usr/bin/sh.exe
+#!/bin/sh
 
 echo "Running detekt check"
 OUTPUT="/tmp/detekt-$(date +%s)"

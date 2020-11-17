@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 @echo off
 echo Changing git config for hooks to .githooks
 git config --local core.hooksPath .githooks/
