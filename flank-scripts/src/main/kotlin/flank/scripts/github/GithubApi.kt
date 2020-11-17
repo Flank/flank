@@ -41,7 +41,7 @@ suspend fun getGitHubPullRequest(githubToken: String, issueNumber: Int) =
         .awaitResult(GithubPullRequestDeserializer)
         .mapClientError { it.toGithubException() }
 
-private fun Request.appendHeaders(githubToken: String) =
+fun Request.appendHeaders(githubToken: String) =
     appendHeader("Accept", "application/vnd.github.v3+json")
         .appendHeader("Authorization", "token $githubToken")
 
