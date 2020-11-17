@@ -533,7 +533,7 @@ gcloud:
   ## Note: If you include the flags environment-variable or test-targets when running test-targets-for-shard, the flags are applied to all the shards you create.
   # test-target-for-shard:
   # - package com.package1.for.shard1
-  # - class com.package2.for.shard2.class
+  # - class com.package2.for.shard2.Class
 
 flank:
   # -- FlankYml --
