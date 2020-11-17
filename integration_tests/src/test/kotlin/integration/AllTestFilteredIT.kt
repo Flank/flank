@@ -13,8 +13,8 @@ class AllTestFilteredIT {
     fun `filter all tests - android`() {
         val name = "$name-android"
         val result = FlankCommand(
-            flankPath = "../test_runner/build/libs/flank.jar",
-            ymlPath = "./src/test/resources/cases/all_test_filtered_android.yml",
+            flankPath = FLANK_JAR_PATH,
+            ymlPath = "$CONFIGS_PATH/all_test_filtered_android.yml",
             params = androidRunCommands
         ).run(
             workingDirectory = "./",
@@ -33,8 +33,8 @@ class AllTestFilteredIT {
         assumeFalse(isWindows)
         val name = "$name-ios"
         val result = FlankCommand(
-            flankPath = "../test_runner/build/libs/flank.jar",
-            ymlPath = "./src/test/resources/cases/all_test_filtered_ios.yml",
+            flankPath = FLANK_JAR_PATH,
+            ymlPath = "$CONFIGS_PATH/all_test_filtered_ios.yml",
             params = iosRunCommands
         ).run(
             workingDirectory = "./",

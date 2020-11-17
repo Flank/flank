@@ -11,8 +11,8 @@ class TestFilteringIT {
     @Test
     fun `run test from only one apk`() {
         val result = FlankCommand(
-            flankPath = "../test_runner/build/libs/flank.jar",
-            ymlPath = "./src/test/resources/cases/test_filtering_android.yml",
+            flankPath = FLANK_JAR_PATH,
+            ymlPath = "$CONFIGS_PATH/test_filtering_android.yml",
             params = androidRunCommands
         ).run(
             workingDirectory = "./",
