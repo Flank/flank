@@ -7,5 +7,5 @@ data class Chunk(
     val size get() = testMethods.size
 }
 
-val List<Chunk>.testCases
+val List<Chunk>.testCases: List<List<String>>
     get() = map { it.testMethodNames }

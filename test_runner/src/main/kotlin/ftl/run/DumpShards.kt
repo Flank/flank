@@ -5,6 +5,8 @@ import ftl.args.IosArgs
 import ftl.args.isInstrumentationTest
 import ftl.log.OutputLogLevel
 import ftl.log.logLn
+import ftl.ios.xctest.common.XcTestRunVersion.V1
+import ftl.ios.xctest.common.XcTestRunVersion.V2
 import ftl.run.common.prettyPrint
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.model.AndroidMatrixTestShards
@@ -34,10 +36,26 @@ fun IosArgs.dumpShards(
     // VisibleForTesting
     shardFilePath: String = IOS_SHARD_FILE,
 ) {
+    val xcTestRunShards: Map<String, Map<String, List<List<String>>>> =
+        xcTestRunData.shards.mapValues { (_, targets) ->
+            targets.mapValues { (_, chunks) ->
+                chunks.testCases
+            }
+        }
+
+    val rawShards = when (xcTestRunData.version) {
+        V1 -> xcTestRunShards.values.first()
+        V2 -> xcTestRunShards
+    }
+
+    val size = xcTestRunData.shards.values
+        .flatMap { it.values }
+        .flatten().size
+
     saveShardChunks(
         shardFilePath = shardFilePath,
-        shards = testShardChunks.testCases,
-        size = testShardChunks.size,
+        shards = rawShards,
+        size = size,
         obfuscatedOutput = obfuscateDumpShards
     )
 }
@@ -55,7 +73,8 @@ fun saveShardChunks(
     logLn("Saved $size shards to $shardFilePath", OutputLogLevel.DETAILED)
 }
 
-private fun getGson(obfuscatedOutput: Boolean) = if (obfuscatedOutput) obfuscatePrettyPrinter else prettyPrint
+private fun getGson(obfuscatedOutput: Boolean) =
+    if (obfuscatedOutput) obfuscatePrettyPrinter else prettyPrint
 
 const val ANDROID_SHARD_FILE = "android_shards.json"
 const val IOS_SHARD_FILE = "ios_shards.json"
