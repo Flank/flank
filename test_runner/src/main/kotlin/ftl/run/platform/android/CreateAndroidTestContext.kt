@@ -12,11 +12,13 @@ import com.linkedin.dex.spec.ClassDefItem
 import com.linkedin.dex.spec.DexFile
 import ftl.args.AndroidArgs
 import ftl.args.ArgsHelper
+import ftl.args.CalculateShardsResult
 import ftl.config.FtlConstants
 import ftl.filter.TestFilter
 import ftl.filter.TestFilters
 import ftl.run.model.AndroidTestContext
 import ftl.run.model.InstrumentationTestContext
+import ftl.shard.createShardsByTestForShards
 import ftl.util.FlankTestMethod
 import ftl.util.downloadIfNeeded
 import kotlinx.coroutines.async
@@ -34,7 +36,8 @@ private suspend fun List<AndroidTestContext>.setupShards(
         async {
             when {
                 testContext !is InstrumentationTestContext -> testContext
-                args.testTargetsForShard.isNotEmpty() -> testContext.downloadApks().calculateDummyShards(args, testFilter)
+                args.testTargetsForShard.isNotEmpty() -> testContext.downloadApks()
+                    .calculateDummyShards(args, testFilter)
                 else -> testContext.downloadApks().calculateShards(args, testFilter)
             }
         }
@@ -63,13 +66,19 @@ private fun InstrumentationTestContext.calculateShards(
 private fun InstrumentationTestContext.calculateDummyShards(
     args: AndroidArgs,
     testFilter: TestFilter = TestFilters.fromTestTargets(args.testTargets, args.testTargetsForShard),
-): InstrumentationTestContext = ArgsHelper.calculateDummyShards(
-    filteredTests = getFlankTestMethods(testFilter),
-    args = args
-).run {
-    copy(
-        shards = shardChunks.filter { it.testMethods.isNotEmpty() },
-        ignoredTestCases = ignoredTestCases
+): InstrumentationTestContext {
+    val filteredTests = getFlankTestMethods(testFilter)
+    val shardsResult = if (filteredTests.isEmpty()) {
+        CalculateShardsResult(emptyList(), emptyList())
+    } else {
+        CalculateShardsResult(
+            shardChunks = ArgsHelper.testMethodsAlwaysRun(args.createShardsByTestForShards(), args),
+            ignoredTestCases = emptyList()
+        )
+    }
+    return copy(
+        shards = shardsResult.shardChunks.filter { it.testMethods.isNotEmpty() },
+        ignoredTestCases = shardsResult.ignoredTestCases
     )
 }
 

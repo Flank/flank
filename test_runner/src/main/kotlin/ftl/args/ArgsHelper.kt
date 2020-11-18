@@ -14,20 +14,19 @@ import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 import ftl.args.yml.YamlObjectMapper
 import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.FtlConstants.JSON_FACTORY
-import ftl.config.defaultCredentialPath
 import ftl.config.FtlConstants.isWindows
 import ftl.config.FtlConstants.useMock
 import ftl.config.credential
+import ftl.config.defaultCredentialPath
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.reports.xml.model.JUnitTestResult
-import ftl.shard.createShardsByShardCount
-import ftl.shard.shardCountByTime
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 import ftl.shard.Chunk
 import ftl.shard.TestMethod
-import ftl.shard.createShardsByTestForShards
+import ftl.shard.createShardsByShardCount
+import ftl.shard.shardCountByTime
 import ftl.util.FlankTestMethod
 import ftl.util.assertNotEmpty
 import java.io.File
@@ -259,25 +258,11 @@ object ArgsHelper {
         )
     }
 
-    private fun testMethodsAlwaysRun(shards: List<Chunk>, args: IArgs): List<Chunk> {
+    fun testMethodsAlwaysRun(shards: List<Chunk>, args: IArgs): List<Chunk> {
         val alwaysRun = args.testTargetsAlwaysRun
         val find = shards.flatMap { it.testMethods }.filter { alwaysRun.contains(it.name) }
 
         return shards.map { Chunk(find + it.testMethods.filterNot { method -> find.contains(method) }) }
-    }
-
-    fun calculateDummyShards(
-        filteredTests: List<FlankTestMethod>,
-        args: AndroidArgs,
-    ): CalculateShardsResult {
-        if (filteredTests.isEmpty()) {
-            return CalculateShardsResult(emptyList(), emptyList()) // Avoid unnecessary computing if we already know there aren't tests to run.
-        }
-        val shards = createShardsByTestForShards(args).map { Chunk(it.testMethods) }
-        return CalculateShardsResult(
-            testMethodsAlwaysRun(shards, args),
-            ignoredTestCases = emptyList()
-        )
     }
 }
 
