@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 object CopyProperties :
-    CliktCommand(name = "copyProperties", help = "Copy properties from referanced issue to pull request") {
+    CliktCommand(name = "copyProperties", help = "Copy properties from referenced issue to pull request") {
 
     private val githubToken by option(help = "Git Token").required()
     private val zenhubToken by option(help = "ZenHub api Token").required()
