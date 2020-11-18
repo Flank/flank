@@ -46,3 +46,7 @@ export GITHUB_TOKEN="type your gihub token here"
     1. You can clone https://github.com/Flank/gcloud_cli
     1. Or follow official instruction https://cloud.google.com/sdk/docs/quickstarts
     1. Don't forget about exports for python and gcloud
+1. Ensure Git hooks is configured correctly so detekt is run on a commit
+    1. Navigate to the .githooks folder
+    1. Execute linkHooks.sh or linkHooks.bat (depends on the current development OS)
+    1. Attempting a `git commit ...` should now trigger a detekt check and will not allow committing until it is successful

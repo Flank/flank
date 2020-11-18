@@ -92,8 +92,8 @@ object Xctestrun {
         }
 
     private fun findTestNamesForTarget(
-            testTarget: String,
-            xctestrun: File
+        testTarget: String,
+        xctestrun: File
     ): List<String> =
         testsForTarget(
             testDictionary = parse(xctestrun)[testTarget]
