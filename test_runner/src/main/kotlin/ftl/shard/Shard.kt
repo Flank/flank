@@ -36,7 +36,8 @@ class com.foo.ClassName#testMethodToSkip
 
 */
 
-fun AndroidArgs.createShardsByTestForShards() = this.testTargetsForShard.map { list ->
+fun AndroidArgs.createShardsByTestForShards(): List<Chunk> = testTargetsForShard.map { list ->
+
     val testMethods = list
         .map { name -> TestMethod(name, 0.0, false) }
         .toMutableList()
