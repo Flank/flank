@@ -24,9 +24,8 @@ suspend fun newTestRun(args: IArgs) = withTimeoutOrNull(args.parsedTimeout) {
 
     if (!args.async) {
         cancelTestsOnTimeout(args.project, matrixMap.map) { pollMatrices(matrixMap.map.keys, args).updateMatrixMap(matrixMap) }
-        cancelTestsOnTimeout(args.project, matrixMap.map) { fetchArtifacts(matrixMap, args) }
-
         ReportManager.generate(matrixMap, args, testShardChunks, ignoredTests)
+        cancelTestsOnTimeout(args.project, matrixMap.map) { fetchArtifacts(matrixMap, args) }
 
         println()
         matrixMap.printMatricesWebLinks(args.project)

@@ -143,9 +143,7 @@ object ReportManager {
     ) {
         testExecutions
             .takeIf { args is AndroidArgs }
-            ?.run {
-                withGcsStoragePath(matrices, args.resultsDir).getAndUploadPerformanceMetrics(args.resultsBucket)
-            }
+            ?.run { withGcsStoragePath(matrices, args.resultsDir).getAndUploadPerformanceMetrics(args) }
     }
 
     private fun List<TestExecution>.withGcsStoragePath(
