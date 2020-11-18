@@ -85,11 +85,10 @@ object GcStorage {
         }
     }
 
-    fun uploadPerformanceMetrics(perfMetricsSummary: PerfMetricsSummary, resultsBucket: String, resultDir: String) {
-        val performanceMetricsFileName = "performanceMetrics.json"
+    fun uploadPerformanceMetrics(perfMetricsSummary: PerfMetricsSummary, resultsBucket: String, resultDir: String) =
         runCatching {
             upload(
-                performanceMetricsFileName,
+                "performanceMetrics.json",
                 perfMetricsSummary.toPrettyString().toByteArray(),
                 resultsBucket,
                 resultDir
@@ -98,8 +97,7 @@ object GcStorage {
             println("Cannot upload performance metrics ${it.message}")
         }.onSuccess {
             println("Performance metrics uploaded to https://console.developers.google.com/storage/browser/$resultsBucket/$resultDir")
-        }
-    }
+        }.getOrNull()
 
     fun uploadReportResult(testResult: String, args: IArgs, fileName: String) {
         if (args.resultsBucket.isBlank() || args.resultsDir.isBlank() || args.disableResultsUpload) return

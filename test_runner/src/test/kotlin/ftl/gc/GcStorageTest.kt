@@ -37,10 +37,10 @@ class GcStorageTest {
             .setAppStartTime(AppStartTime().setInitialDisplayTime(Duration().setSeconds(5)))
 
         // when
-        GcStorage.uploadPerformanceMetrics(expectedPerformanceMetrics, "bucket", "path/test")
+        val filePath = GcStorage.uploadPerformanceMetrics(expectedPerformanceMetrics, "bucket", "path/test")
 
         // then
-        assertTrue(GcStorage.exist("gs://bucket/path/test/performanceMetrics.json"))
+        assertTrue(GcStorage.exist(filePath.orEmpty()))
     }
 
     @Test
