@@ -274,8 +274,6 @@ fun String.normalizeFilePath(): String =
         this
     }
 
-fun List<String>.normalizeToTestTargets(): ShardChunks {
-    return if (this.isEmpty().not()) {
-        this.map { it.split(',', ';') }
-    } else emptyList()
-}
+fun List<String>.normalizeToTestTargets(): ShardChunks =
+    if (isEmpty()) emptyList()
+    else map { it.split(',', ';') }
