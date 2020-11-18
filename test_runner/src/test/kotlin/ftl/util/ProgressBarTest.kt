@@ -45,7 +45,7 @@ class ProgressBarTest {
         )
 
         // then
-        assertThat(systemOutRule.log).contains("  TEST .")
+        assertThat(systemOutRule.log).contains("  TEST ")
         verify { action.run() }
         verify(exactly = 0) { onError.run() }
     }
@@ -71,7 +71,7 @@ class ProgressBarTest {
         )
 
         // then
-        assertThat(systemOutRule.log).contains("  TEST .")
+        assertThat(systemOutRule.log).contains("  TEST ")
         verify { action.run() }
         verify { onError.run() }
     }
