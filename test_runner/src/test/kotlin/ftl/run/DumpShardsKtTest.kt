@@ -137,8 +137,8 @@ class DumpShardsKtTest {
         // when
         val actual = runBlocking {
             AndroidArgs.load(
-                yamlPath = mixedConfigYaml,
-                cli = AndroidRunCommand().apply { obfuscate = true }
+                yamlPath =mixedConfigYaml,
+               cli = AndroidRunCommand().apply { obfuscate = true }
             ).dumpShards(TEST_SHARD_FILE)
             File(TEST_SHARD_FILE).apply { deleteOnExit() }.readText()
         }
@@ -155,19 +155,21 @@ class DumpShardsKtTest {
     fun `dump shards ios`() {
         // given
         val expected = """
-[
-  [
-    "EarlGreyExampleSwiftTests/testWithGreyAssertions",
-    "EarlGreyExampleSwiftTests/testWithInRoot",
-    "EarlGreyExampleSwiftTests/testWithCondition",
-    "EarlGreyExampleSwiftTests/testWithCustomFailureHandler"
-  ],
-  [
-    "EarlGreyExampleSwiftTests/testWithGreyAssertions",
-    "EarlGreyExampleSwiftTests/testWithCustomMatcher",
-    "EarlGreyExampleSwiftTests/testWithCustomAssertion"
+{
+  "EarlGreyExampleSwiftTests": [
+    [
+      "EarlGreyExampleSwiftTests/testWithGreyAssertions",
+      "EarlGreyExampleSwiftTests/testWithInRoot",
+      "EarlGreyExampleSwiftTests/testWithCondition",
+      "EarlGreyExampleSwiftTests/testWithCustomFailureHandler"
+    ],
+    [
+      "EarlGreyExampleSwiftTests/testWithGreyAssertions",
+      "EarlGreyExampleSwiftTests/testWithCustomMatcher",
+      "EarlGreyExampleSwiftTests/testWithCustomAssertion"
+    ]
   ]
-]
+}
         """.trimIndent()
         if (FtlConstants.isWindows) return // TODO Windows Linux subsytem does not contain all expected commands
         // when
@@ -185,27 +187,29 @@ class DumpShardsKtTest {
     fun `dump shards obfuscated ios`() {
         // given
         val notExpected = """
-[
-  [
-    "EarlGreyExampleSwiftTests/testWithGreyAssertions",
-    "EarlGreyExampleSwiftTests/testWithInRoot",
-    "EarlGreyExampleSwiftTests/testWithCondition",
-    "EarlGreyExampleSwiftTests/testWithCustomFailureHandler"
-  ],
-  [
-    "EarlGreyExampleSwiftTests/testWithGreyAssertions",
-    "EarlGreyExampleSwiftTests/testWithCustomMatcher",
-    "EarlGreyExampleSwiftTests/testWithCustomAssertion"
+{
+  "EarlGreyExampleSwiftTests": [
+    [
+      "EarlGreyExampleSwiftTests/testWithGreyAssertions",
+      "EarlGreyExampleSwiftTests/testWithInRoot",
+      "EarlGreyExampleSwiftTests/testWithCondition",
+      "EarlGreyExampleSwiftTests/testWithCustomFailureHandler"
+    ],
+    [
+      "EarlGreyExampleSwiftTests/testWithGreyAssertions",
+      "EarlGreyExampleSwiftTests/testWithCustomMatcher",
+      "EarlGreyExampleSwiftTests/testWithCustomAssertion"
+    ]
   ]
-]
+}
         """.trimIndent()
 
         if (FtlConstants.isWindows) return // TODO Windows Linux subsytem does not contain all expected commands
         // when
         val actual = runBlocking {
             IosArgs.load(
-                yamlPath = ios2ConfigYaml,
-                cli = IosRunCommand().apply { obfuscate = true }
+                yamlPath =ios2ConfigYaml,
+               cli = IosRunCommand().apply { obfuscate = true }
             ).dumpShards(TEST_SHARD_FILE)
             File(TEST_SHARD_FILE).apply { deleteOnExit() }.readText()
         }

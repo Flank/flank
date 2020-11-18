@@ -5,6 +5,7 @@ import com.dd.plist.NSDictionary
 import com.dd.plist.NSObject
 import com.google.common.annotations.VisibleForTesting
 import ftl.ios.xctest.common.TEST_CONFIGURATIONS
+import ftl.ios.xctest.common.TEST_TARGETS
 import ftl.ios.xctest.common.XctestrunMethods
 import ftl.ios.xctest.common.getBlueprintName
 import ftl.ios.xctest.common.getTestConfigurations
@@ -13,6 +14,7 @@ import ftl.ios.xctest.common.parseToNSDictionary
 import ftl.ios.xctest.common.setOnlyTestIdentifiers
 import ftl.ios.xctest.common.toByteArray
 
+// TODO remove unused & fix test
 fun rewriteXcTestRunV2(
     xcTestPlan: String,
     filterMethods: List<String> = emptyList()
@@ -48,3 +50,30 @@ internal fun rewriteXcTestRunV2(
     }.toMap()
 
 private fun NSObject.wrapInNSArray() = NSArray(1).also { it.setValue(0, this) }
+
+fun NSDictionary.reduceXcTestRunV2(
+    configuration: String,
+    testTarget: String,
+    methods: List<String>,
+) = apply {
+    set(
+        TEST_CONFIGURATIONS,
+        getTestConfigurations()
+            .getValue(configuration)
+            .reduceTestConfiguration(testTarget, methods)
+            .wrapInNSArray()
+    )
+}
+
+fun NSDictionary.reduceTestConfiguration(
+    testTarget: String,
+    methods: List<String>,
+) = apply {
+    set(
+        TEST_TARGETS,
+        getTestTargets()
+            .first { it.getBlueprintName() == testTarget }
+            .setOnlyTestIdentifiers(methods)
+            .wrapInNSArray()
+    )
+}

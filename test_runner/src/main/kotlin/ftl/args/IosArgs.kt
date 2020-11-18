@@ -1,13 +1,10 @@
 package ftl.args
 
 import com.google.common.annotations.VisibleForTesting
-import ftl.ios.XcTestRunData
-import ftl.ios.calculateXcTestRunData
+import ftl.ios.xctest.XcTestRunData
+import ftl.ios.xctest.calculateXcTestRunData
 import ftl.ios.xctest.common.XctestrunMethods
-import ftl.ios.xctest.findXcTestNamesV1
 import ftl.run.exception.FlankConfigurationError
-import ftl.shard.Chunk
-import ftl.util.FlankTestMethod
 
 data class IosArgs(
     val commonArgs: CommonArgs,
@@ -22,7 +19,6 @@ data class IosArgs(
 ) : IArgs by commonArgs {
 
     override val useLegacyJUnitResult = true
-    val testShardChunks: List<Chunk> by lazy { calculateShardChunks() } // TODO deprecated, will be replaced by xcTestRunData
     val xcTestRunData: XcTestRunData by lazy { calculateXcTestRunData() }
 
     companion object : IosArgsCompanion()
@@ -79,16 +75,6 @@ IosArgs
         """.trimIndent()
     }
 }
-
-private fun IosArgs.calculateShardChunks() = if (disableSharding)
-    emptyList() else
-    ArgsHelper.calculateShards(
-        filteredTests = filterTests(findXcTestNamesV1(xctestrunFile), testTargets)
-            .flatMap { it.value }
-            .distinct()
-            .map { FlankTestMethod(it, ignored = false) },
-        args = this
-    ).shardChunks
 
 @VisibleForTesting
 internal fun filterTests(
