@@ -334,7 +334,7 @@ AndroidArgs
         - class com.example.app.ExampleUiTest#testFails
       robo-directives:
       robo-script: null
-      device:
+      device: 
         - model: NexusLowRes
           version: 23
           locale: en
@@ -344,6 +344,7 @@ AndroidArgs
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 3
+      test-targets-for-shard: 
 
     flank:
       max-test-shards: 7
@@ -413,12 +414,13 @@ AndroidArgs
       test-targets:
       robo-directives:
       robo-script: null
-      device:
+      device: 
         - model: NexusLowRes
           version: 28
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 0
+      test-targets-for-shard: 
 
     flank:
       max-test-shards: 1
@@ -1978,13 +1980,12 @@ AndroidArgs
         AndroidArgs.load(yaml).validate()
     }
 
-    @Test(expected = FlankConfigurationError::class)
+    @Test(expected = FlankGeneralError::class)
     fun `should throw exception if correct type requested instrumental but no test runner set`() {
         val yaml = """
         gcloud:
           app: $appApk
           test: $testApk
-          test
           device:
             - model: Nexus6
               version: 25
@@ -2324,7 +2325,7 @@ AndroidArgs
     }
 
     @Test
-    fun `should not throw exception if incorrect (empty) value used in yml config file is overwriten with command line`() {
+    fun `should not throw exception if incorrect (empty) value used in yml config file is overwritten with command line`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parseArgs("--legacy-junit-result")
 
@@ -2336,6 +2337,25 @@ AndroidArgs
               legacy-junit-result:
         """.trimIndent(), cli
         )
+    }
+
+    @Test
+    fun `should not throw exception if test targets for shard & type is defined correctly (instrumentation)`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus6
+              version: 25
+              locale: en
+              orientation: portrait
+          type: instrumentation
+          test-runner-class: com.foo.TestRunner
+          test-targets-for-shard: 
+            - com.example.test
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
     }
 }
 

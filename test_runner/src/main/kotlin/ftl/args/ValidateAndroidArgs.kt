@@ -22,6 +22,7 @@ fun AndroidArgs.validate() = apply {
     assertMaxTestShardsByDeviceType()
     assertParametersConflict()
     assertTestFiles()
+    assertTestTargetForShards()
     assertOtherFiles()
     assertGrantPermissions()
     assertType()
@@ -30,6 +31,17 @@ fun AndroidArgs.validate() = apply {
     checkEnvironmentVariables()
     checkFilesToDownload()
     checkNumUniformShards()
+}
+
+private fun AndroidArgs.assertTestTargetForShards() {
+    if (testTargetsForShard.isNotEmpty()) {
+        when {
+            numUniformShards != null -> throw FlankConfigurationError("Number Of Uniform Shards and test Targets For Shards cannot be defined at the same time.")
+            isInstrumentationTest.not() -> throw FlankConfigurationError("Test target for shards can only be specified when test type is 'instrumentation'.")
+            devices.isEmpty() && testTargetsForShard.size > 500 -> throw FlankConfigurationError("Cannot have more than 500 Test Targets for Shards with no device provided.")
+            devices.isNotEmpty() && testTargetsForShard.size > 50 -> throw FlankConfigurationError("Cannot have more than 50 Test Targets for Shards if one or more devices are specified.")
+        }
+    }
 }
 
 private fun AndroidArgs.assertGameLoop() {
@@ -58,7 +70,9 @@ private fun AndroidArgs.assertLabelContent() {
 
     if (scenarioNumbers.isNotEmpty() && (type != Type.GAMELOOP))
         throw FlankConfigurationError("Scenario numbers defined but Type is not Game-loop.")
-    scenarioNumbers.forEach { it.toIntOrNull() ?: throw FlankConfigurationError("Invalid scenario number provided - $it") }
+    scenarioNumbers.forEach {
+        it.toIntOrNull() ?: throw FlankConfigurationError("Invalid scenario number provided - $it")
+    }
     if (scenarioNumbers.size > 1024) throw FlankConfigurationError("There cannot be more than 1024 Scenario numbers")
 }
 
@@ -73,7 +87,8 @@ private fun AndroidArgs.assertType() = type?.let {
 }
 
 private fun AndroidArgs.assertGrantPermissions() = grantPermissions?.let {
-    if (it !in listOf("all", "none")) throw FlankGeneralError("Unsupported permission '$grantPermissions'\nOnly 'all' or 'none' supported.")
+    if (it !in listOf("all", "none")
+    ) throw FlankGeneralError("Unsupported permission '$grantPermissions'\nOnly 'all' or 'none' supported.")
 }
 
 private fun AndroidArgs.assertDevicesSupported() = devices
@@ -83,8 +98,16 @@ private fun AndroidArgs.assertDevicesSupported() = devices
     .forEach { (device, check) ->
         when (check) {
             SupportedDeviceConfig -> Unit
-            UnsupportedModelId -> throw IncompatibleTestDimensionError("Unsupported model id, '${device.model}'\nSupported model ids: ${AndroidCatalog.androidModelIds(project)}")
-            UnsupportedVersionId -> throw IncompatibleTestDimensionError("Unsupported version id, '${device.version}'\nSupported Version ids: ${AndroidCatalog.androidVersionIds(project)}")
+            UnsupportedModelId -> throw IncompatibleTestDimensionError(
+                "Unsupported model id, '${device.model}'\nSupported model ids: ${
+                    AndroidCatalog.androidModelIds(project)
+                }"
+            )
+            UnsupportedVersionId -> throw IncompatibleTestDimensionError(
+                "Unsupported version id, '${device.version}'\nSupported Version ids: ${
+                    AndroidCatalog.androidVersionIds(project)
+                }"
+            )
             IncompatibleModelVersion -> throw IncompatibleTestDimensionError("Incompatible model, '${device.model}', and version, '${device.version}'\nSupported version ids for '${device.model}': $check")
         }
     }
@@ -108,8 +131,8 @@ private fun AndroidArgs.assertDirectoriesToPull() {
         ?.also {
             throw FlankConfigurationError(
                 "Invalid value for [directories-to-pull]: Invalid path $it.\n" +
-                    "Path must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2).\n" +
-                    "Path names are restricted to the characters [a-zA-Z0-9_-./+]. "
+                "Path must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2).\n" +
+                "Path names are restricted to the characters [a-zA-Z0-9_-./+]. "
             )
         }
 }

@@ -41,6 +41,7 @@ class XctestrunTest {
 
     @Test
     fun parse() {
+        assumeFalse(isWindows)
         val result = Xctestrun.parse(swiftXctestrun)
         assertThat(arrayOf("EarlGreyExampleSwiftTests", "__xctestrun_metadata__")).isEqualTo(result.allKeys())
         val dict = result["EarlGreyExampleSwiftTests"] as NSDictionary

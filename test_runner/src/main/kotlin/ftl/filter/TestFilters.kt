@@ -1,6 +1,7 @@
 package ftl.filter
 
 import com.linkedin.dex.parser.TestMethod
+import ftl.args.ShardChunks
 import ftl.config.FtlConstants
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
@@ -73,7 +74,9 @@ object TestFilters {
         }
     }
 
-    fun fromTestTargets(targets: List<String>): TestFilter {
+    fun fromTestTargets(testTargets: List<String>, testTargetsForShard: ShardChunks = emptyList()): TestFilter {
+        val targets = testTargets + testTargetsForShard.flatten()
+
         val parsedFilters =
             targets
                 .asSequence()

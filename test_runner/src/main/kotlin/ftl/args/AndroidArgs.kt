@@ -23,7 +23,8 @@ data class AndroidArgs(
     val testTargets: List<String>,
     val additionalAppTestApks: List<AppTestPair>,
     override val useLegacyJUnitResult: Boolean,
-    val obfuscateDumpShards: Boolean
+    val obfuscateDumpShards: Boolean,
+    val testTargetsForShard: ShardChunks
 ) : IArgs by commonArgs {
     companion object : AndroidArgsCompanion()
 
@@ -59,8 +60,9 @@ AndroidArgs
       test-targets:${ArgsToString.listToString(testTargets)}
       robo-directives:${ArgsToString.objectsToString(roboDirectives)}
       robo-script: $roboScript
-      device:${ArgsToString.objectsToString(devices)}
+      device: ${ArgsToString.objectsToString(devices)}
       num-flaky-test-attempts: $flakyTestAttempts
+      test-targets-for-shard: ${ArgsToString.listOfListToString(testTargetsForShard)}
 
     flank:
       max-test-shards: $maxTestShards

@@ -2,6 +2,7 @@ package flank.scripts.utils
 
 import org.junit.After
 import org.junit.Assert.assertTrue
+import org.junit.Assume.assumeFalse
 import org.junit.Test
 import java.io.File
 import java.nio.file.Files
@@ -14,7 +15,7 @@ class FileKtTest {
 
     @Test
     fun `should create symbolic link`() {
-
+        assumeFalse(isWindows)
         // when
         createSymbolicLink(
             link = linkName,

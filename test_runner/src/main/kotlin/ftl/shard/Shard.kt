@@ -1,5 +1,6 @@
 package ftl.shard
 
+import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.reports.xml.model.JUnitTestResult
@@ -34,6 +35,17 @@ Android:
 class com.foo.ClassName#testMethodToSkip
 
 */
+
+fun AndroidArgs.createShardsByTestForShards(): List<Chunk> = testTargetsForShard.map { list ->
+
+    val testMethods = list
+        .map { name -> TestMethod(name, 0.0, false) }
+        .toMutableList()
+    TestShard(
+        time = testMethods[testMethods.lastIndex].time,
+        testMethods = testMethods
+    )
+}.map { Chunk(it.testMethods) }
 
 // take in the XML with timing info then return list of shards based on the amount of shards to use
 fun createShardsByShardCount(

@@ -2,6 +2,7 @@ package ftl.run.model
 
 import ftl.shard.Chunk
 import ftl.args.IgnoredTestCases
+import ftl.args.ShardChunks
 import ftl.util.FileReference
 
 sealed class AndroidTestContext
@@ -11,7 +12,8 @@ data class InstrumentationTestContext(
     val test: FileReference,
     val shards: List<Chunk> = emptyList(),
     val ignoredTestCases: IgnoredTestCases = emptyList(),
-    val environmentVariables: Map<String, String> = emptyMap()
+    val environmentVariables: Map<String, String> = emptyMap(),
+    val testTargetsForShard: ShardChunks = emptyList()
 ) : AndroidTestContext()
 
 data class RoboTestContext(

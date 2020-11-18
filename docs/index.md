@@ -526,6 +526,15 @@ gcloud:
   # - model: NexusLowRes
   #   version: 27
 
+  ### test-targets-for-shard
+  ## Specifies a group of packages, classes, and/or test cases to run in each shard (a group of test cases). 
+  ## The shards are run in parallel on separate devices. You can repeat this flag up to 50 times to specify multiple shards when one or more physical devices are selected, 
+  ## or up to 500 times when no physical devices are selected.
+  ## Note: If you include the flags environment-variable or test-targets when running test-targets-for-shard, the flags are applied to all the shards you create.
+  # test-target-for-shard:
+  # - package com.package1.for.shard1
+  # - class com.package2.for.shard2.Class
+
 flank:
   # -- FlankYml --
 

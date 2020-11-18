@@ -33,6 +33,7 @@ class ResolveApksKtTest {
                 every { testApk } returns "test"
                 every { additionalApks } returns emptyList()
                 every { additionalAppTestApks } returns emptyList()
+                every { testTargetsForShard } returns emptyList()
             }.resolveApks().toTypedArray()
         )
     }
@@ -56,6 +57,7 @@ class ResolveApksKtTest {
                         test = "test"
                     )
                 )
+                every { testTargetsForShard } returns emptyList()
             }.resolveApks().toTypedArray()
         )
     }

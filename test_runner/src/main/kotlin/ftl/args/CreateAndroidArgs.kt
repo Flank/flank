@@ -41,5 +41,6 @@ fun createAndroidArgs(
     obfuscateDumpShards = obfuscate,
     obbFiles = gcloud::obbfiles.require(),
     obbNames = gcloud::obbnames.require(),
-    grantPermissions = gcloud.grantPermissions
+    grantPermissions = gcloud.grantPermissions,
+    testTargetsForShard = gcloud.testTargetsForShard?.normalizeToTestTargets().orEmpty()
 )
