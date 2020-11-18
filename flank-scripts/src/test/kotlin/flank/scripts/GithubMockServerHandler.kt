@@ -15,11 +15,11 @@ fun handleGithubMockRequest(url: String, request: Request) = when {
         200
     )
     url.endsWith("/commits/success/pulls") -> request.buildResponse(Json.encodeToString(githubPullRequestTest), 200)
-    (url.contains("/pulls/") || url.contains("/issues/")) && request.containsSuccessHeader() -> request.buildResponse(
-        githubPullRequestTest.first().toJson(), 200
-    )
     url.endsWith("/labels") && request.containsSuccessHeader() -> request.buildResponse(
         testGithubLabels.toJson(), 200
+    )
+    (url.contains("/pulls/") || url.contains("/issues/")) && request.containsSuccessHeader() -> request.buildResponse(
+        githubPullRequestTest.first().toJson(), 200
     )
     request.isFailedGithubRequest() -> request.buildResponse(githubErrorBody, 422)
     else -> error("Not supported request")
