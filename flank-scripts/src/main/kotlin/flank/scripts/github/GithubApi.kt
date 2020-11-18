@@ -41,6 +41,12 @@ suspend fun getGitHubPullRequest(githubToken: String, issueNumber: Int) =
         .awaitResult(GithubPullRequestDeserializer)
         .mapClientError { it.toGithubException() }
 
+suspend fun getGitHubIssue(githubToken: String, issueNumber: Int) =
+    Fuel.get("https://api.github.com/repos/Flank/flank/issues/$issueNumber")
+        .appendGitHubHeaders(githubToken)
+        .awaitResult(GithubPullRequestDeserializer)
+        .mapClientError { it.toGithubException() }
+
 fun Request.appendGitHubHeaders(githubToken: String) =
     appendHeader("Accept", "application/vnd.github.v3+json")
         .appendHeader("Authorization", "token $githubToken")

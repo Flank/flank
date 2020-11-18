@@ -6,7 +6,6 @@ import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.kittinunf.result.onError
 import com.github.kittinunf.result.success
-import flank.scripts.github.GithubPullRequest
 import flank.scripts.github.getGitHubPullRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -29,21 +28,20 @@ object CopyProperties :
                     val issueNumber = pullRequest.findReferenceNumber()
                     checkNotNull(issueNumber) { "Reference issue not found on description and branch" }
                     println("Found referenced issue #$issueNumber")
-                    launch(Dispatchers.IO) { pullRequest.copyGitHubProperties(githubToken, issueNumber, prNumber) }
+                    launch(Dispatchers.IO) { copyGitHubProperties(githubToken, issueNumber, prNumber) }
                     launch(Dispatchers.IO) { copyZenhubProperties(zenhubToken, issueNumber, prNumber) }
                 }
         }
     }
 }
 
-private suspend fun GithubPullRequest.copyGitHubProperties(
+private suspend fun copyGitHubProperties(
     githubToken: String,
     baseIssueNumber: Int,
     prNumber: Int
 ) = coroutineScope {
-    val assignees = this@copyGitHubProperties.assignees.map { it.login }
     listOf(
-        launch { setAssigneesToPullRequest(githubToken, prNumber, assignees) },
+        launch { copyAssignees(githubToken, baseIssueNumber, prNumber) },
         launch { copyLabels(githubToken, baseIssueNumber, prNumber) },
     ).joinAll()
 }

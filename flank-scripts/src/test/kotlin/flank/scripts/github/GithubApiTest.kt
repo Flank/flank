@@ -109,4 +109,29 @@ class GithubApiTest {
             assertThat(response).isInstanceOf(GithubPullRequest::class.java)
         }
     }
+    @Test
+    fun `Should return failure for incorrect get issue result`() {
+        runBlocking {
+            // when
+            val actual = getGitHubIssue("failure", 0)
+
+            // then
+            assertThat(actual).isInstanceOf(Result.Failure::class.java)
+            val (_, exception) = actual
+            assertThat(exception).isInstanceOf(GitHubException::class.java)
+        }
+    }
+
+    @Test
+    fun `Should return success for correct get issue result`() {
+        runBlocking {
+            // when
+            val actual = getGitHubIssue("success", 1)
+
+            // then
+            assertThat(actual).isInstanceOf(Result.Success::class.java)
+            val (response, _) = actual
+            assertThat(response).isInstanceOf(GithubPullRequest::class.java)
+        }
+    }
 }
