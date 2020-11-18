@@ -90,8 +90,6 @@ object GcStorage {
             )
         }.onFailure {
             println("Cannot upload performance metrics ${it.message}")
-        }.onSuccess {
-            println("Performance metrics uploaded to https://console.developers.google.com/storage/browser/$resultsBucket/$resultDir")
         }.getOrNull()
 
     fun uploadReportResult(testResult: String, args: IArgs, fileName: String) {

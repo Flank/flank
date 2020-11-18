@@ -21,7 +21,9 @@ internal fun List<Pair<TestExecution, String>>.getAndUploadPerformanceMetrics(
             async(Dispatchers.IO) {
                 val performanceMetrics = testExecution.getPerformanceMetric()
                 performanceMetrics.save(gcsStoragePath, args)
-                performanceMetrics.upload(resultBucket = args.resultsBucket, resultDir = gcsStoragePath)
+                if (args.disableResultsUpload.not()) {
+                    performanceMetrics.upload(resultBucket = args.resultsBucket, resultDir = gcsStoragePath)
+                }
             }
         }
         .awaitAll()
