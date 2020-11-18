@@ -10,7 +10,7 @@ const val defaultAndroidOutputPattern = "AndroidArgs.*?" +
     "Updating matrix file.*?" +
     "CostReport.*?MatrixResultsReport.*?" +
     "1 test cases passed, 1 skipped.*?" +
-    "Uploading JUnitReport.xml ."
+    "Uploading JUnitReport.xml \\."
 
 const val defaultIosOutputPattern = "IosArgs.*?" +
     "gcloud:.*?" +
