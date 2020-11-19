@@ -113,7 +113,7 @@ jobs:
         arguments: "test_runner:publish -PGITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
 
     - name: Post Message of Flank Release
-      uses: Flank/flank@V1.3-action
+      uses: Flank/flank@V1.4-action
       if: startsWith(github.ref, 'refs/tags/v')
       with:
           xoxctoken: ${{ secrets.SLACK_XOXCTOKEN }}
