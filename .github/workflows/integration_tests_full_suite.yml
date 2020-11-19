@@ -1,0 +1,76 @@
+name: integration-tests-full-suite
+
+on:
+  pull_request:
+    types: [opened]
+  issue_comment:
+    types: [created]
+
+jobs:
+  comment-trigger-listener:
+    runs-on: ubuntu-latest
+    outputs:
+      should-run: ${{ steps.check.outputs.triggered }}
+    steps:
+      - uses: khan/pull-request-comment-trigger@master
+        id: check
+        with:
+          trigger: '@run-it'
+          reaction: rocket
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+
+  integration-tests-full-suite-ubuntu:
+    needs: [ comment-trigger-listener ]
+    if: ${{ needs.comment-trigger-listener.outputs.should-run == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.5.0
+        with:
+          access_token: '${{ secrets.GITHUB_TOKEN }}'
+
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Gradle clean build
+        uses: eskatos/gradle-command-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_REF: ${{ github.ref }}
+        with:
+          arguments: "clean build"
+
+      - name: Prepare Google Service Account
+        env:
+          GCLOUD_KEY: ${{ secrets.GCLOUD_KEY }}
+        run: |
+          GCLOUD_DIR="$HOME/.config/gcloud/"
+          mkdir -p "$GCLOUD_DIR"
+          echo "$GCLOUD_KEY" | base64 --decode > "$GCLOUD_DIR/application_default_credentials.json"
+
+      - name: Gradle Integration Tests Android
+        uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: "--info :integration_tests:test"
+
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v1
+        with:
+          report_paths: '**/build/test-results/integrationTests/TEST-*.xml'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+#      - name: Publish Integration Test Results
+#        uses: EnricoMi/publish-unit-test-result-action@v1.5
+#        if: always()
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          files: integration_tests/build/test-results/integrationTests/**/*.xml
