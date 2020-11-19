@@ -7,7 +7,7 @@ import flank.scripts.shell.utils.failIfWindows
 import flank.scripts.shell.utils.iOSTestProjectsPath
 import java.nio.file.Paths
 
-object BuildFlankExampleCommand : CliktCommand(name = "build_flank_example", help = "Build ios flank example app with tests") {
+object BuildGameLoopExampleCommand : CliktCommand(name = "build_ios_gameloop_example", help = "Build ios game loop example app") {
 
     private val generate: Boolean? by option(help = "Make build").flag("-g", default = true)
 
@@ -17,16 +17,16 @@ object BuildFlankExampleCommand : CliktCommand(name = "build_flank_example", hel
         failIfWindows()
 
         IosBuildConfiguration(
-            projectPath = Paths.get(iOSTestProjectsPath, FLANK_EXAMPLE).toString(),
-            projectName = FLANK_EXAMPLE,
+            projectPath = Paths.get(iOSTestProjectsPath, FLANK_GAME_LOOP_EXAMPLE).toString(),
+            projectName = FLANK_GAME_LOOP_EXAMPLE,
             buildConfigurations = listOf(
-                IosTestBuildConfiguration(FLANK_EXAMPLE, "tests"),
+                IosTestBuildConfiguration(FLANK_GAME_LOOP_EXAMPLE, "tests"),
             ),
             useWorkspace = false,
             generate = generate ?: true,
             copy = copy ?: true
-        ).generateIosTestArtifacts()
+        ).generateIPA()
     }
 }
 
-private const val FLANK_EXAMPLE = "FlankExample"
+private const val FLANK_GAME_LOOP_EXAMPLE = "FlankGameLoopExample"

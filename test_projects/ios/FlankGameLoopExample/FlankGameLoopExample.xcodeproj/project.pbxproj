@@ -18,7 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3201E301255D3E9D00347837 /* flankgameloop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flankgameloop.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3201E301255D3E9D00347837 /* FlankGameLoopExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlankGameLoopExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3201E304255D3E9D00347837 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3201E306255D3E9D00347837 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		3201E308255D3E9D00347837 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -52,7 +52,7 @@
 		3201E302255D3E9D00347837 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3201E301255D3E9D00347837 /* flankgameloop.app */,
+				3201E301255D3E9D00347837 /* FlankGameLoopExample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -76,9 +76,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3201E300255D3E9D00347837 /* flankgameloop */ = {
+		3201E300255D3E9D00347837 /* FlankGameLoopExample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3201E32C255D3E9E00347837 /* Build configuration list for PBXNativeTarget "flankgameloop" */;
+			buildConfigurationList = 3201E32C255D3E9E00347837 /* Build configuration list for PBXNativeTarget "FlankGameLoopExample" */;
 			buildPhases = (
 				3201E2FD255D3E9D00347837 /* Sources */,
 				3201E2FE255D3E9D00347837 /* Frameworks */,
@@ -88,9 +88,9 @@
 			);
 			dependencies = (
 			);
-			name = flankgameloop;
+			name = FlankGameLoopExample;
 			productName = flankgameloop;
-			productReference = 3201E301255D3E9D00347837 /* flankgameloop.app */;
+			productReference = 3201E301255D3E9D00347837 /* FlankGameLoopExample.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -107,7 +107,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 3201E2FC255D3E9D00347837 /* Build configuration list for PBXProject "flankgameloop" */;
+			buildConfigurationList = 3201E2FC255D3E9D00347837 /* Build configuration list for PBXProject "FlankGameLoopExample" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -120,7 +120,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3201E300255D3E9D00347837 /* flankgameloop */,
+				3201E300255D3E9D00347837 /* FlankGameLoopExample */,
 			);
 		};
 /* End PBXProject section */
@@ -322,7 +322,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3201E2FC255D3E9D00347837 /* Build configuration list for PBXProject "flankgameloop" */ = {
+		3201E2FC255D3E9D00347837 /* Build configuration list for PBXProject "FlankGameLoopExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3201E32A255D3E9E00347837 /* Debug */,
@@ -331,7 +331,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3201E32C255D3E9E00347837 /* Build configuration list for PBXNativeTarget "flankgameloop" */ = {
+		3201E32C255D3E9E00347837 /* Build configuration list for PBXNativeTarget "FlankGameLoopExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3201E32D255D3E9E00347837 /* Debug */,

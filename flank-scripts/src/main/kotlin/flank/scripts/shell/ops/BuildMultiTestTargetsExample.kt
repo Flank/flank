@@ -7,7 +7,7 @@ import flank.scripts.shell.utils.failIfWindows
 import flank.scripts.shell.utils.iOSTestProjectsPath
 import java.nio.file.Paths
 
-object BuildFlankExampleCommand : CliktCommand(name = "build_flank_example", help = "Build ios flank example app with tests") {
+object BuildMultiTestTargetsExample : CliktCommand(name = "build_ios_multi_test_targets_example", help = "Build ios multi test targets example app") {
 
     private val generate: Boolean? by option(help = "Make build").flag("-g", default = true)
 
@@ -17,10 +17,10 @@ object BuildFlankExampleCommand : CliktCommand(name = "build_flank_example", hel
         failIfWindows()
 
         IosBuildConfiguration(
-            projectPath = Paths.get(iOSTestProjectsPath, FLANK_EXAMPLE).toString(),
-            projectName = FLANK_EXAMPLE,
+            projectPath = Paths.get(iOSTestProjectsPath, FLANK_IOS_MULTIPLE_TEST_TARGETS_EXAMPLE).toString(),
+            projectName = FLANK_IOS_MULTIPLE_TEST_TARGETS_EXAMPLE,
             buildConfigurations = listOf(
-                IosTestBuildConfiguration(FLANK_EXAMPLE, "tests"),
+                IosTestBuildConfiguration("AllTests", "AllTests"),
             ),
             useWorkspace = false,
             generate = generate ?: true,
@@ -29,4 +29,4 @@ object BuildFlankExampleCommand : CliktCommand(name = "build_flank_example", hel
     }
 }
 
-private const val FLANK_EXAMPLE = "FlankExample"
+private const val FLANK_IOS_MULTIPLE_TEST_TARGETS_EXAMPLE = "FlankMultiTestTargetsExample"
