@@ -60,9 +60,9 @@ AndroidArgs
       test-targets:${ArgsToString.listToString(testTargets)}
       robo-directives:${ArgsToString.objectsToString(roboDirectives)}
       robo-script: $roboScript
-      device: ${ArgsToString.objectsToString(devices)}
+      device:${ArgsToString.objectsToString(devices)}
       num-flaky-test-attempts: $flakyTestAttempts
-      test-targets-for-shard: ${ArgsToString.listOfListToString(testTargetsForShard)}
+      test-targets-for-shard:${ArgsToString.listOfListToString(testTargetsForShard)}
       fail-fast: $failFast
 
     flank:

@@ -35,6 +35,7 @@ AndroidArgs
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 0
+      test-targets-for-shard:
 
     flank:
       max-test-shards: 1
