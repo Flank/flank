@@ -334,7 +334,7 @@ AndroidArgs
         - class com.example.app.ExampleUiTest#testFails
       robo-directives:
       robo-script: null
-      device: 
+      device:
         - model: NexusLowRes
           version: 23
           locale: en
@@ -344,7 +344,7 @@ AndroidArgs
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 3
-      test-targets-for-shard: 
+      test-targets-for-shard:
 
     flank:
       max-test-shards: 7
@@ -414,13 +414,13 @@ AndroidArgs
       test-targets:
       robo-directives:
       robo-script: null
-      device: 
+      device:
         - model: NexusLowRes
           version: 28
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 0
-      test-targets-for-shard: 
+      test-targets-for-shard:
 
     flank:
       max-test-shards: 1
