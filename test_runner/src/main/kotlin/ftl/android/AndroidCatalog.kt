@@ -34,7 +34,7 @@ object AndroidCatalog {
 
     private fun getModels(projectId: String) = deviceCatalog(projectId).models
 
-    fun Device.getDeviceSupportedVersionId(projectId: String): List<String> = getModels(projectId).find { it.id == model }?.supportedVersionIds
+    fun Device.getSupportedVersionId(projectId: String): List<String> = getModels(projectId).find { it.id == model }?.supportedVersionIds
         ?: emptyList()
 
     fun supportedVersionsAsTable(projectId: String) = getVersionsList(projectId).asPrintableTable()

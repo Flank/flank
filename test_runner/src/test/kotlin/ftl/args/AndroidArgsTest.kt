@@ -29,6 +29,7 @@ import ftl.run.exception.IncompatibleTestDimensionError
 import ftl.run.model.GameLoopContext
 import ftl.shard.Chunk
 import ftl.shard.TestMethod
+import ftl.test.util.TestHelper.getThrowable
 import ftl.util.asFileReference
 import io.mockk.every
 import io.mockk.mockkObject
@@ -2356,6 +2357,24 @@ AndroidArgs
             - com.example.test
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should return correct message if version is not supported for device`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: Nexus7
+              version: 28
+        """.trimIndent()
+        val errorMessage = getThrowable { AndroidArgs.load(yaml).validate() }.message ?: ""
+        val expectedMessage = """
+            Incompatible model, 'Nexus7', and version, '28'
+            Supported version ids for 'Nexus7': 19, 21, 22
+        """.trimIndent()
+        assertEquals(expectedMessage, errorMessage)
     }
 }
 
