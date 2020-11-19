@@ -1,13 +1,12 @@
 name: integration-tests-full-suite
 
 on:
-  pull_request:
-    types: [opened]
   issue_comment:
-    types: [created]
+    types: [ created ]
 
 jobs:
   comment-trigger-listener:
+    if: github.event.issue.pull_request
     runs-on: ubuntu-latest
     outputs:
       should-run: ${{ steps.check.outputs.triggered }}
