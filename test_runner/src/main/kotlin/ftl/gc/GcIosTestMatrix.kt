@@ -17,8 +17,8 @@ import ftl.args.IosArgs
 import ftl.gc.android.mapGcsPathsToFileReference
 import ftl.gc.android.mapToIosDeviceFiles
 import ftl.gc.android.toIosDeviceFile
-import ftl.ios.Xctestrun
-import ftl.ios.Xctestrun.toByteArray
+import ftl.ios.xctest.rewriteXcTestRunV1
+import ftl.ios.xctest.common.toByteArray
 import ftl.run.exception.FlankGeneralError
 import ftl.util.ShardCounter
 import ftl.util.join
@@ -53,13 +53,15 @@ object GcIosTestMatrix {
         val generatedXctestrun = if (args.disableSharding) {
             xcTestParsed.toByteArray()
         } else {
-            Xctestrun.rewrite(args.xctestrunFile, testTargets)
+            rewriteXcTestRunV1(args.xctestrunFile, testTargets)
         }
 
         // Add shard number to file name
-        val xctestrunNewFileName = StringBuilder(args.xctestrunFile).insert(args.xctestrunFile.lastIndexOf("."), "_$shardName").toString()
+        val xctestrunNewFileName =
+            StringBuilder(args.xctestrunFile).insert(args.xctestrunFile.lastIndexOf("."), "_$shardName").toString()
 
-        val xctestrunFileGcsPath = GcStorage.uploadXCTestFile(xctestrunNewFileName, gcsBucket, matrixGcsSuffix, generatedXctestrun)
+        val xctestrunFileGcsPath =
+            GcStorage.uploadXCTestFile(xctestrunNewFileName, gcsBucket, matrixGcsSuffix, generatedXctestrun)
 
         val iOSXCTest = IosXcTest()
             .setTestsZip(FileReference().setGcsPath(testZipGcsPath))

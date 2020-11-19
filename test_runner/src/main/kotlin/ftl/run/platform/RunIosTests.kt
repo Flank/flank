@@ -8,7 +8,7 @@ import ftl.gc.GcIosTestMatrix
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
-import ftl.ios.Xctestrun
+import ftl.ios.xctest.common.parseToNSDictionary
 import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards
 import ftl.run.model.TestResult
@@ -32,7 +32,7 @@ internal suspend fun runIosTests(iosArgs: IosArgs): TestResult = coroutineScope 
     val (stopwatch, runGcsPath) = beforeRunTests(iosArgs)
 
     val iosDeviceList = GcIosMatrix.build(iosArgs.devices)
-    val xcTestParsed = Xctestrun.parse(iosArgs.xctestrunFile)
+    val xcTestParsed = parseToNSDictionary(iosArgs.xctestrunFile)
 
     val jobs = arrayListOf<Deferred<TestMatrix>>()
     val runCount = iosArgs.repeatTests
