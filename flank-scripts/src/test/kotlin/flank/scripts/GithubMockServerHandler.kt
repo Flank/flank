@@ -4,6 +4,7 @@ import com.github.kittinunf.fuel.core.Request
 import flank.scripts.ci.releasenotes.GitHubRelease
 import flank.scripts.github.GitHubLabel
 import flank.scripts.github.GithubPullRequest
+import flank.scripts.github.GithubUser
 import flank.scripts.utils.toJson
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -37,12 +38,17 @@ val testGithubLabels = listOf(
     GitHubLabel("label3"),
 )
 
+val testAssignees = listOf(
+    GithubUser("test", "www.test.com"),
+    GithubUser("test2", "www.test2.com"),
+)
+
 private val githubPullRequestTest = listOf(
     GithubPullRequest(
         "www.pull.request",
         "feat: new Feature",
         5,
-        listOf()
+        testAssignees
     )
 )
 
