@@ -12,4 +12,4 @@ jobs:
           token: ${{ secrets.PAT }}
           reaction-token: ${{ secrets.PAT }}
           commands: |
-            integration-test
+            integration-test-fs
