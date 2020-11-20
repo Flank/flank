@@ -12,13 +12,13 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "greet"
-  greet:
-   - uses: khan/pull-request-comment-trigger@master
-     id: check
-     with:
+    greet:
+     - uses: khan/pull-request-comment-trigger@master
+       id: check
+       env:
+         GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+       with:
         trigger: '@flank-it'
         reaction: rocket
-        env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-   - run: 'echo Found it!'
-     if: steps.check.outputs.triggered == 'true'
+     - run: 'echo Found it!'
+       if: steps.check.outputs.triggered == 'true'
