@@ -9,8 +9,8 @@ AndroidArgs
       network-profile: null
       results-history-name: null
       # Android gcloud
-      app: [0-9a-zA-Z\\\/_.-:]*[\\\/]test_runner[\\\/]src[\\\/]test[\\\/]kotlin[\\\/]ftl[\\\/]fixtures[\\\/]tmp[\\\/]apk[\\\/]app-debug.apk
-      test: [0-9a-zA-Z\\\/_.-:]*[\\\/]test_runner[\\\/]src[\\\/]test[\\\/]kotlin[\\\/]ftl[\\\/]fixtures[\\\/]tmp[\\\/]apk[\\\/]app-single-success-debug-androidTest.apk
+      app: [0-9a-zA-Z\\\/_.:-]*[\\\/]test_runner[\\\/]src[\\\/]test[\\\/]kotlin[\\\/]ftl[\\\/]fixtures[\\\/]tmp[\\\/]apk[\\\/]app-debug.apk
+      test: [0-9a-zA-Z\\\/_.:-]*[\\\/]test_runner[\\\/]src[\\\/]test[\\\/]kotlin[\\\/]ftl[\\\/]fixtures[\\\/]tmp[\\\/]apk[\\\/]app-single-success-debug-androidTest.apk
       additional-apks:
       auto-google-login: false
       use-orchestrator: true
@@ -55,7 +55,7 @@ AndroidArgs
       keep-file-path: false
       additional-app-test-apks:
         - app: null
-          test: [0-9a-zA-Z\\\/_.-:]*[\\\/]test_runner[\\\/]src[\\\/]test[\\\/]kotlin[\\\/]ftl[\\\/]fixtures[\\\/]tmp[\\\/]apk[\\\/]app-multiple-success-debug-androidTest.apk
+          test: [0-9a-zA-Z\\\/_.:-]*[\\\/]test_runner[\\\/]src[\\\/]test[\\\/]kotlin[\\\/]ftl[\\\/]fixtures[\\\/]tmp[\\\/]apk[\\\/]app-multiple-success-debug-androidTest.apk
       run-timeout: -1
       legacy-junit-result: false
       ignore-failed-tests: false
