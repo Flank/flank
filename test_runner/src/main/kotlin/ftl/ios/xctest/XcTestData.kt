@@ -16,11 +16,11 @@ import ftl.util.FlankTestMethod
 import java.io.File
 
 data class XcTestRunData(
-    val version: XcTestRunVersion,
     val rootDir: String,
     val nsDict: NSDictionary,
-    val shardTargets: Map<String, List<XctestrunMethods>>,
-    val shardChunks: Map<String, List<Chunk>>
+    val version: XcTestRunVersion = nsDict.getXcTestRunVersion(),
+    val shardTargets: Map<String, List<XctestrunMethods>> = emptyMap(),
+    val shardChunks: Map<String, List<Chunk>> = emptyMap()
 )
 
 fun IosArgs.calculateXcTestRunData(): XcTestRunData {
@@ -30,7 +30,7 @@ fun IosArgs.calculateXcTestRunData(): XcTestRunData {
 
     val calculatedShards: Map<String, Pair<List<Chunk>, List<XctestrunMethods>>> =
         if (disableSharding) emptyMap()
-        else calculateXcTestRunShards(
+        else calculateConfigurationShards(
             xcTestRoot = xcTestRoot,
             xcTestNsDictionary = xcTestNsDictionary,
             regexList = testTargets.mapToRegex()
@@ -39,13 +39,12 @@ fun IosArgs.calculateXcTestRunData(): XcTestRunData {
     return XcTestRunData(
         rootDir = xcTestRoot,
         nsDict = xcTestNsDictionary,
-        version = xcTestNsDictionary.getXcTestRunVersion(),
+        shardChunks = calculatedShards.mapValues { it.value.first },
         shardTargets = calculatedShards.mapValues { it.value.second },
-        shardChunks = calculatedShards.mapValues { it.value.first }
     )
 }
 
-private fun IosArgs.calculateXcTestRunShards(
+private fun IosArgs.calculateConfigurationShards(
     xcTestRoot: String,
     xcTestNsDictionary: NSDictionary,
     regexList: List<Regex>
@@ -54,21 +53,7 @@ private fun IosArgs.calculateXcTestRunShards(
         xcTestRoot = xcTestRoot,
         xcTestNsDictionary = xcTestNsDictionary
     ).mapValues { (_, targets: Map<String, List<String>>) ->
-        val calculatedShards = calculateShards(
-            filteredTests = targets
-                .values.flatten()
-                .filterAnyMatches(regexList)
-                .map(::FlankTestMethod),
-            args = this
-        ).shardChunks
-
-        val testCases = calculatedShards.testCases
-
-        calculatedShards to testCases.map { shardMethods ->
-            targets.mapValues { (_, methods) ->
-                methods.intersect(shardMethods).toList()
-            }
-        }
+        calculateConfigurationShards(targets, regexList)
     }
 
 private fun findXcTestNames(
@@ -79,6 +64,30 @@ private fun findXcTestNames(
         V1 -> mapOf("" to findXcTestNamesV1(xcTestRoot, xcTestNsDictionary))
         V2 -> findXcTestNamesV2(xcTestRoot, xcTestNsDictionary)
     }
+
+private fun IosArgs.calculateConfigurationShards(
+    targets: Map<String, List<String>>,
+    regexList: List<Regex>
+): Pair<List<Chunk>, List<XctestrunMethods>> {
+
+    val shardChunks = calculateShards(
+        filteredTests = targets
+            .values.flatten()
+            .filterAnyMatches(regexList)
+            .map(::FlankTestMethod),
+        args = this
+    ).shardChunks
+
+    val shardTargets = shardChunks.testCases.map { shardMethods ->
+        targets.mapValues { (_, methods) ->
+            methods.intersect(shardMethods).toList()
+        }.filterValues {
+            it.isNotEmpty()
+        }
+    }
+
+    return shardChunks to shardTargets
+}
 
 private fun List<String>.filterAnyMatches(
     list: List<Regex>

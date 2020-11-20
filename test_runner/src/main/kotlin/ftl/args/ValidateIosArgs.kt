@@ -3,6 +3,7 @@ package ftl.args
 import ftl.args.yml.Type
 import ftl.ios.IosCatalog
 import ftl.ios.IosCatalog.getSupportedVersionId
+import ftl.ios.xctest.common.mapToRegex
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.IncompatibleTestDimensionError
 
@@ -17,6 +18,7 @@ fun IosArgs.validate() = apply {
     assertAdditionalIpas()
     validType()
     assertGameloop()
+    assertXcTestRunData()
 }
 
 private fun IosArgs.assertGameloop() {
@@ -25,14 +27,18 @@ private fun IosArgs.assertGameloop() {
 }
 
 private fun IosArgs.validateApp() {
-    if (app.isNotEmpty() && type != Type.GAMELOOP) throw FlankConfigurationError("App cannot be defined if type is not equal to game-loop (IOS)")
+    if (app.isNotEmpty() && type != Type.GAMELOOP) throw FlankConfigurationError(
+        "App cannot be defined if type is not equal to game-loop (IOS)"
+    )
 }
 
 private fun IosArgs.validateScenarioNumbers() {
     if (scenarioNumbers.isNotEmpty() && (type != Type.GAMELOOP))
         throw FlankConfigurationError("Scenario numbers defined but Type is not Game-loop.")
     scenarioNumbers.forEach {
-        it.toIntOrNull() ?: throw FlankConfigurationError("Invalid scenario number provided - $it")
+        it.toIntOrNull() ?: throw FlankConfigurationError(
+            "Invalid scenario number provided - $it"
+        )
     }
     if (scenarioNumbers.size > 1024) throw FlankConfigurationError("There cannot be more than 1024 Scenario numbers")
 }
@@ -81,6 +87,37 @@ private fun IosArgs.assertAdditionalIpas() {
 
 private fun IosArgs.validType() {
     val validIosTypes = arrayOf(Type.GAMELOOP, Type.XCTEST)
-    if (commonArgs.type !in validIosTypes)
-        throw FlankConfigurationError("Type should be one of ${validIosTypes.joinToString(",")}")
+    if (commonArgs.type !in validIosTypes) throw FlankConfigurationError(
+        "Type should be one of ${validIosTypes.joinToString(",")}"
+    )
+}
+
+private fun IosArgs.assertXcTestRunData() {
+    if (!disableSharding) {
+        if (testTargets.isNotEmpty()) {
+            val filteredMethods = xcTestRunData
+                .shardTargets.values
+                .flatten()
+                .flatMap { it.values }
+                .flatten()
+
+            if (filteredMethods.isEmpty()) throw FlankConfigurationError(
+                "Empty shards. Cannot match any method to $testTargets"
+            )
+
+            if (filteredMethods.size < testTargets.size) {
+                val regexList = testTargets.mapToRegex()
+
+                val notMatched = testTargets.filter {
+                    filteredMethods.all { method ->
+                        regexList.any { regex ->
+                            regex.matches(method)
+                        }
+                    }
+                }
+
+                println("WARNING: cannot match test_targets: $notMatched")
+            }
+        }
+    }
 }
