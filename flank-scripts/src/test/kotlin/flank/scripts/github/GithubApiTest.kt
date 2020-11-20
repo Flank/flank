@@ -4,7 +4,6 @@ import com.github.kittinunf.result.Result
 import com.google.common.truth.Truth.assertThat
 import flank.scripts.FuelTestRunner
 import flank.scripts.ci.releasenotes.GitHubRelease
-import flank.scripts.ci.releasenotes.GithubPullRequest
 import flank.scripts.exceptions.GitHubException
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -82,6 +81,57 @@ class GithubApiTest {
             assertThat(actual).isInstanceOf(Result.Failure::class.java)
             val (_, exception) = actual
             assertThat(exception).isInstanceOf(GitHubException::class.java)
+        }
+    }
+
+    @Test
+    fun `Should return failure for incorrect get pull request result`() {
+        runBlocking {
+            // when
+            val actual = getGitHubPullRequest("failure", 0)
+
+            // then
+            assertThat(actual).isInstanceOf(Result.Failure::class.java)
+            val (_, exception) = actual
+            assertThat(exception).isInstanceOf(GitHubException::class.java)
+        }
+    }
+
+    @Test
+    fun `Should return success for correct get pull request result`() {
+        runBlocking {
+            // when
+            val actual = getGitHubPullRequest("success", 1)
+
+            // then
+            assertThat(actual).isInstanceOf(Result.Success::class.java)
+            val (response, _) = actual
+            assertThat(response).isInstanceOf(GithubPullRequest::class.java)
+        }
+    }
+    @Test
+    fun `Should return failure for incorrect get issue result`() {
+        runBlocking {
+            // when
+            val actual = getGitHubIssue("failure", 0)
+
+            // then
+            assertThat(actual).isInstanceOf(Result.Failure::class.java)
+            val (_, exception) = actual
+            assertThat(exception).isInstanceOf(GitHubException::class.java)
+        }
+    }
+
+    @Test
+    fun `Should return success for correct get issue result`() {
+        runBlocking {
+            // when
+            val actual = getGitHubIssue("success", 1)
+
+            // then
+            assertThat(actual).isInstanceOf(Result.Success::class.java)
+            val (response, _) = actual
+            assertThat(response).isInstanceOf(GithubPullRequest::class.java)
         }
     }
 }
