@@ -18,8 +18,9 @@ jobs:
       - name: Debug Action
         uses: hmarr/debug-action@v1.0.0
       - run: |
-          echo Found it ${{github.event}}!
+          echo Found it $GITHUB_EVENT_NAME !
       - uses: khan/pull-request-comment-trigger@master
+        if: ${{ env.GITHUB_EVENT_NAME == 'issue_comment'}}
         id: check
         with:
           trigger: '@flank-it'
