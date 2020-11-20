@@ -67,7 +67,7 @@ private fun IosArgs.assertXcodeSupported() = when {
 
 private fun IosArgs.assertDevicesSupported() = devices.forEach { device ->
     if (!IosCatalog.supportedDevice(device.model, device.version, this.project))
-        throw IncompatibleTestDimensionError("iOS ${device.version} on ${device.model} is not a supported\nSupported version ids for '${device.model}': ${device.getSupportedVersionId(project).joinToString { it }}")
+        throw IncompatibleTestDimensionError("iOS ${device.version} on ${device.model} is not a supported\nSupported version ids for '${device.model}': ${device.getSupportedVersionId(project).joinToString()}")
 }
 
 private fun IosArgs.assertTestFiles() {
