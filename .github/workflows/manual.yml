@@ -1,0 +1,24 @@
+# This is a basic workflow that is manually triggered
+
+name: Manual workflow
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+  issue_comment:
+    types: [created]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "greet"
+  greet:
+   - uses: khan/pull-request-comment-trigger@master
+     id: check
+     with:
+        trigger: '@flank-it'
+        reaction: rocket
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+   - run: 'echo Found it!'
+     if: steps.check.outputs.triggered == 'true'
