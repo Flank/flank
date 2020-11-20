@@ -15,7 +15,7 @@ jobs:
   greet:
     runs-on: ubuntu-latest
     steps:
-      - run: 'echo Found it ${{ github.event.type }}!'
+      - run: 'echo Found it ${{github.event.action}}!'
       - uses: khan/pull-request-comment-trigger@master
         id: check
         with:
