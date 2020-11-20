@@ -1,6 +1,7 @@
 package ftl.args
 
 import ftl.android.AndroidCatalog
+import ftl.android.AndroidCatalog.getSupportedVersionId
 import ftl.android.IncompatibleModelVersion
 import ftl.android.SupportedDeviceConfig
 import ftl.android.UnsupportedModelId
@@ -108,7 +109,7 @@ private fun AndroidArgs.assertDevicesSupported() = devices
                     AndroidCatalog.androidVersionIds(project)
                 }"
             )
-            IncompatibleModelVersion -> throw IncompatibleTestDimensionError("Incompatible model, '${device.model}', and version, '${device.version}'\nSupported version ids for '${device.model}': $check")
+            IncompatibleModelVersion -> throw IncompatibleTestDimensionError("Incompatible model, '${device.model}', and version, '${device.version}'\nSupported version ids for '${device.model}': ${device.getSupportedVersionId(project).joinToString { it }}")
         }
     }
 

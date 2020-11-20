@@ -1,6 +1,7 @@
 package ftl.ios
 
 import com.google.api.services.testing.model.IosDeviceCatalog
+import ftl.config.Device
 import ftl.environment.asPrintableTable
 import ftl.environment.common.asPrintableTable
 import ftl.environment.getLocaleDescription
@@ -50,6 +51,9 @@ object IosCatalog {
         versionId: String,
         projectId: String
     ) = iosDeviceCatalog(projectId).models.find { it.id == modelId }?.supportedVersionIds?.contains(versionId) ?: false
+
+    fun Device.getSupportedVersionId(projectId: String): List<String> = iosDeviceCatalog(projectId).models.find { it.id == model }?.supportedVersionIds
+        ?: emptyList()
 
     // Device catalogMap is different depending on the project id
     private fun iosDeviceCatalog(

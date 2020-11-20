@@ -2,6 +2,7 @@ package ftl.android
 
 import com.google.api.services.testing.model.AndroidDevice
 import com.google.api.services.testing.model.AndroidDeviceCatalog
+import ftl.config.Device
 import ftl.environment.android.asPrintableTable
 import ftl.environment.android.getDescription
 import ftl.environment.asPrintableTable
@@ -32,6 +33,9 @@ object AndroidCatalog {
     fun describeModel(projectId: String, modelId: String) = getModels(projectId).getDescription(modelId)
 
     private fun getModels(projectId: String) = deviceCatalog(projectId).models
+
+    fun Device.getSupportedVersionId(projectId: String): List<String> = getModels(projectId).find { it.id == model }?.supportedVersionIds
+        ?: emptyList()
 
     fun supportedVersionsAsTable(projectId: String) = getVersionsList(projectId).asPrintableTable()
 
