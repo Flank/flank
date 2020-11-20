@@ -15,6 +15,8 @@ jobs:
   greet:
     runs-on: ubuntu-latest
     steps:
+      - name: Debug Action
+        uses: hmarr/debug-action@v1.0.0
       - run: |
           echo Found it ${{github.event}}!
       - uses: khan/pull-request-comment-trigger@master
