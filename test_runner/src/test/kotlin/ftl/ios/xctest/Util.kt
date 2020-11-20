@@ -56,7 +56,7 @@ val swiftTestsV2 = mapOf(
             "UITestsClass/test1_2",
             "UITestsClass/test1_3",
             "UITestsClass/test1_ENLocale",
-            "UITestsClass/test1_PLLocale",
+            "UITestsClass/test1_PLLocale"
         ),
         "SecondUITests" to listOf(
             "SecondUITestsClass/test2_1",
@@ -72,7 +72,7 @@ val swiftTestsV2 = mapOf(
             "UITestsClass/test1_2",
             "UITestsClass/test1_3",
             "UITestsClass/test1_ENLocale",
-            "UITestsClass/test1_PLLocale",
+            "UITestsClass/test1_PLLocale"
         ),
         "SecondUITests" to listOf(
             "SecondUITestsClass/test2_1",

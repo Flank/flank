@@ -155,21 +155,19 @@ class DumpShardsKtTest {
     fun `dump shards ios`() {
         // given
         val expected = """
-{
-  "EarlGreyExampleSwiftTests": [
-    [
-      "EarlGreyExampleSwiftTests/testWithGreyAssertions",
-      "EarlGreyExampleSwiftTests/testWithInRoot",
-      "EarlGreyExampleSwiftTests/testWithCondition",
-      "EarlGreyExampleSwiftTests/testWithCustomFailureHandler"
-    ],
-    [
-      "EarlGreyExampleSwiftTests/testWithGreyAssertions",
-      "EarlGreyExampleSwiftTests/testWithCustomMatcher",
-      "EarlGreyExampleSwiftTests/testWithCustomAssertion"
-    ]
+[
+  [
+    "EarlGreyExampleSwiftTests/testWithGreyAssertions",
+    "EarlGreyExampleSwiftTests/testWithInRoot",
+    "EarlGreyExampleSwiftTests/testWithCondition",
+    "EarlGreyExampleSwiftTests/testWithCustomFailureHandler"
+  ],
+  [
+    "EarlGreyExampleSwiftTests/testWithGreyAssertions",
+    "EarlGreyExampleSwiftTests/testWithCustomMatcher",
+    "EarlGreyExampleSwiftTests/testWithCustomAssertion"
   ]
-}
+]
         """.trimIndent()
         if (FtlConstants.isWindows) return // TODO Windows Linux subsytem does not contain all expected commands
         // when
@@ -185,26 +183,25 @@ class DumpShardsKtTest {
 
     @Test
     fun `dump shards obfuscated ios`() {
+        if (FtlConstants.isWindows) return // TODO Windows Linux subsytem does not contain all expected commands
+
         // given
-        val notExpected = """
-{
-  "EarlGreyExampleSwiftTests": [
-    [
-      "EarlGreyExampleSwiftTests/testWithGreyAssertions",
-      "EarlGreyExampleSwiftTests/testWithInRoot",
-      "EarlGreyExampleSwiftTests/testWithCondition",
-      "EarlGreyExampleSwiftTests/testWithCustomFailureHandler"
-    ],
-    [
-      "EarlGreyExampleSwiftTests/testWithGreyAssertions",
-      "EarlGreyExampleSwiftTests/testWithCustomMatcher",
-      "EarlGreyExampleSwiftTests/testWithCustomAssertion"
-    ]
+        val expected = """
+[
+  [
+    "A/a",
+    "A/b",
+    "A/c",
+    "A/d"
+  ],
+  [
+    "A/a",
+    "A/e",
+    "A/f"
   ]
-}
+]
         """.trimIndent()
 
-        if (FtlConstants.isWindows) return // TODO Windows Linux subsytem does not contain all expected commands
         // when
         val actual = runBlocking {
             IosArgs.load(
@@ -215,10 +212,7 @@ class DumpShardsKtTest {
         }
 
         // then
-        assertNotEquals(notExpected, actual)
-        assertThat(notExpected.split(System.lineSeparator()).size).isEqualTo(
-            actual.split(System.lineSeparator()).size
-        ) // same line count
+        assertEquals(expected, actual)
         assertThat(output.log).contains("Saved 2 shards to $TEST_SHARD_FILE")
     }
 }

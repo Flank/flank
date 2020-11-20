@@ -96,3 +96,11 @@ internal fun NSDictionary.setOnlyTestIdentifiers(methods: Collection<String>) =
         this[ONLY_TEST_IDENTIFIERS] =
             NSArray(methods.size).also { methods.forEachIndexed(it::setValue) }
     }
+
+internal fun List<String>.mapToRegex(): List<Regex> = map { filter ->
+    try {
+        filter.toRegex()
+    } catch (e: Exception) {
+        throw FlankConfigurationError("Invalid regex: $filter", e)
+    }
+}

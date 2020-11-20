@@ -11,7 +11,6 @@ import ftl.run.common.prettyPrint
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.model.AndroidMatrixTestShards
 import ftl.run.platform.android.getAndroidMatrixShards
-import ftl.shard.testCases
 import ftl.util.obfuscatePrettyPrinter
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -36,20 +35,16 @@ fun IosArgs.dumpShards(
     // VisibleForTesting
     shardFilePath: String = IOS_SHARD_FILE,
 ) {
-    val xcTestRunShards: Map<String, Map<String, List<List<String>>>> =
-        xcTestRunData.shards.mapValues { (_, targets) ->
-            targets.mapValues { (_, chunks) ->
-                chunks.testCases
-            }
-        }
+    val xcTestRunShards: Map<String, List<List<String>>> = xcTestRunData.shardTargets.mapValues {
+        it.value.flatMap { it.values }
+    }
 
-    val rawShards = when (xcTestRunData.version) {
+    val rawShards: Any = when (xcTestRunData.version) {
         V1 -> xcTestRunShards.values.first()
         V2 -> xcTestRunShards
     }
 
-    val size = xcTestRunData.shards.values
-        .flatMap { it.values }
+    val size = xcTestRunData.shardTargets.values
         .flatten().size
 
     saveShardChunks(
