@@ -2,6 +2,7 @@ package ftl.args
 
 import ftl.args.yml.Type
 import ftl.ios.IosCatalog
+import ftl.ios.IosCatalog.getSupportedVersionId
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.IncompatibleTestDimensionError
 
@@ -66,7 +67,7 @@ private fun IosArgs.assertXcodeSupported() = when {
 
 private fun IosArgs.assertDevicesSupported() = devices.forEach { device ->
     if (!IosCatalog.supportedDevice(device.model, device.version, this.project))
-        throw IncompatibleTestDimensionError("iOS ${device.version} on ${device.model} is not a supported device")
+        throw IncompatibleTestDimensionError("iOS ${device.version} on ${device.model} is not a supported\nSupported version ids for '${device.model}': ${device.getSupportedVersionId(project).joinToString { it }}")
 }
 
 private fun IosArgs.assertTestFiles() {

@@ -129,8 +129,8 @@ flank:
 
     @Test
     fun `args invalidDeviceExits`() {
-        assertThrowsWithMessage(Throwable::class, "iOS 99.9 on iphoneZ is not a supported device") {
-            val invalidDevice = mutableListOf(Device("iphoneZ", "99.9"))
+        assertThrowsWithMessage(Throwable::class, "iOS 11.2 on iphonexsmax is not a supported\nSupported version ids for 'iphonexsmax': 12.0, 12.1") {
+            val invalidDevice = mutableListOf(Device("iphonexsmax", "11.2"))
             createIosArgs(
                 config = defaultIosConfig().apply {
                     common.gcloud.devices = invalidDevice
