@@ -24,3 +24,19 @@ private class ProgressBarTask : TimerTask() {
         print(".")
     }
 }
+
+fun runWithProgress(
+    startMessage: String,
+    action: () -> Unit,
+    onError: (Exception) -> Unit
+) {
+    val progress = ProgressBar()
+    try {
+        progress.start(startMessage)
+        action()
+    } catch (e: Exception) {
+        onError(e)
+    } finally {
+        progress.stop()
+    }
+}

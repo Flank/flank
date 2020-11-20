@@ -37,7 +37,7 @@ class PerformanceMetricsTest {
     }
 
     @Test
-    fun `should get and upload performance metrics for physical devices`() {
+    fun `should get and upload performance metrics for physical devices if results upload enabled`() {
         val expectedBucket = "bucket"
         val expectedPath = "path"
 
@@ -52,10 +52,37 @@ class PerformanceMetricsTest {
                     every { resultsBucket } returns expectedBucket
                     every { useLocalResultDir() } returns false
                     every { localResultDir } returns "local"
+                    every { disableResultsUpload } returns false
                 }
                 testExecutions.map { it to expectedPath }.getAndUploadPerformanceMetrics(args)
                 performanceMetrics.forEach {
                     verify { GcStorage.uploadPerformanceMetrics(it, expectedBucket, expectedPath) }
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `should get and not upload performance metrics for physical devices if results upload disabled`() {
+        val expectedBucket = "bucket"
+        val expectedPath = "path"
+
+        mockkObject(AndroidCatalog) {
+            every { AndroidCatalog.isVirtualDevice(any<AndroidDevice>(), any()) } returns false
+            val performanceMetrics = testExecutions.map {
+                GcToolResults.getPerformanceMetric(it.toolResultsStep)
+            }
+
+            mockkObject(GcStorage) {
+                val args = mockk<IArgs> {
+                    every { resultsBucket } returns expectedBucket
+                    every { useLocalResultDir() } returns false
+                    every { localResultDir } returns "local"
+                    every { disableResultsUpload } returns true
+                }
+                testExecutions.map { it to expectedPath }.getAndUploadPerformanceMetrics(args)
+                performanceMetrics.forEach {
+                    verify(exactly = 0) { GcStorage.uploadPerformanceMetrics(it, expectedBucket, expectedPath) }
                 }
             }
         }
