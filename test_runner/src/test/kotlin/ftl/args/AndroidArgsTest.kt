@@ -1243,7 +1243,7 @@ AndroidArgs
         """.trimIndent()
 
         val parsedYml = AndroidArgs.load(yaml).validate()
-        val (matrixMap, chunks) = runBlocking { runAndroidTests(parsedYml) }
+        val (matrixMap, chunks) = runBlocking { parsedYml.runAndroidTests() }
         assertEquals(4, matrixMap.map.size)
         assertEquals(4, chunks.size)
     }
@@ -1381,7 +1381,7 @@ AndroidArgs
         every { runBlocking { any<AndroidArgs>().createAndroidTestContexts() } } returns listOf()
 
         val parsedYml = AndroidArgs.load(yaml).validate()
-        runBlocking { runAndroidTests(parsedYml) }
+        runBlocking { parsedYml.runAndroidTests() }
     }
 
     @Test

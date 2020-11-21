@@ -18,9 +18,11 @@ import ftl.run.platform.runIosTests
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withTimeoutOrNull
 
-suspend fun newTestRun(args: IArgs) = withTimeoutOrNull(args.parsedTimeout) {
+suspend fun IArgs.newTestRun() = withTimeoutOrNull(parsedTimeout) {
+    val args: IArgs = this@newTestRun
     println(args)
-    val (matrixMap, testShardChunks, ignoredTests) = cancelTestsOnTimeout(args.project) { runTests(args) }
+    val (matrixMap, testShardChunks, ignoredTests) =
+        cancelTestsOnTimeout(project) { runTests() }
 
     if (!args.async) {
         cancelTestsOnTimeout(args.project, matrixMap.map) { pollMatrices(matrixMap.map.keys, args).updateMatrixMap(matrixMap) }
@@ -28,19 +30,18 @@ suspend fun newTestRun(args: IArgs) = withTimeoutOrNull(args.parsedTimeout) {
         cancelTestsOnTimeout(args.project, matrixMap.map) { fetchArtifacts(matrixMap, args) }
 
         println()
-        matrixMap.printMatricesWebLinks(args.project)
+        matrixMap.printMatricesWebLinks(project)
 
-        matrixMap.validate(args.ignoreFailedTests)
+        matrixMap.validate(ignoreFailedTests)
     }
 }
 
-private suspend fun runTests(args: IArgs): TestResult {
-    return when (args) {
-        is AndroidArgs -> runAndroidTests(args)
-        is IosArgs -> runIosTests(args)
+private suspend fun IArgs.runTests(): TestResult =
+    when (this) {
+        is AndroidArgs -> runAndroidTests()
+        is IosArgs -> runIosTests()
         else -> throw FlankGeneralError("Unknown config type")
     }
-}
 
 private suspend fun <T> cancelTestsOnTimeout(
     projectId: String,

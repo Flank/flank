@@ -114,7 +114,7 @@ class TestRunnerTest {
     fun `mockedAndroidTestRun local`() {
         val localConfig = AndroidArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.local.yml"))
         runBlocking {
-            newTestRun(localConfig)
+            localConfig.newTestRun()
         }
     }
 
@@ -122,7 +122,7 @@ class TestRunnerTest {
     fun `mockedAndroidTestRun gcsAndHistoryName`() {
         val gcsConfig = AndroidArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.gcs.yml"))
         runBlocking {
-            newTestRun(gcsConfig)
+            gcsConfig.newTestRun()
         }
     }
 
@@ -132,7 +132,7 @@ class TestRunnerTest {
 
         val config = IosArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.yml"))
         runBlocking {
-            newTestRun(config)
+            config.newTestRun()
         }
     }
 
@@ -142,7 +142,7 @@ class TestRunnerTest {
 
         val config = IosArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.gcs.yml"))
         runBlocking {
-            newTestRun(config)
+            config.newTestRun()
         }
     }
 
@@ -150,7 +150,7 @@ class TestRunnerTest {
     fun `matrix webLink should be printed before polling matrices`() {
         val localConfig = AndroidArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.local.yml"))
         runBlocking {
-            newTestRun(localConfig)
+            localConfig.newTestRun()
         }
         val matrixWebLinkHeader = "Matrices webLink"
         val matrixLink = Regex("(matrix-\\d+ https://console\\.firebase\\.google\\.com/project/.*/testlab/histories/.*/matrices/.*)(/executions/.*)?")
@@ -171,7 +171,7 @@ class TestRunnerTest {
             getMockedTestMatrix()
         )
         runBlocking {
-            newTestRun(localConfig)
+            localConfig.newTestRun()
         }
         val matrixWebLinkHeader = "Matrices webLink"
         val message = "Unable to get web link"

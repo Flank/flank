@@ -32,7 +32,7 @@ class RunAndroidTestsKtTest {
 
         // when
         val actual = runBlocking {
-            runAndroidTests(AndroidArgs.load(mixedConfigYaml))
+            AndroidArgs.load(mixedConfigYaml).runAndroidTests()
         }
 
         // then
@@ -49,7 +49,7 @@ class RunAndroidTestsKtTest {
             every { androidArgs.repeatTests } returns 2
 
             runBlocking {
-                runAndroidTests(androidArgs)
+                androidArgs.runAndroidTests()
             }
 
             verify {
@@ -76,7 +76,7 @@ class RunAndroidTestsKtTest {
             every { androidArgs.resultsBucket } returns "test_bucket"
 
             runBlocking {
-                runAndroidTests(androidArgs)
+                androidArgs.runAndroidTests()
             }
 
             verify(inverse = true) {

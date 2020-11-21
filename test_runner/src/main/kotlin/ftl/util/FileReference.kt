@@ -1,5 +1,6 @@
 package ftl.util
 
+import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.gc.GcStorage
 import ftl.run.exception.FlankGeneralError
@@ -27,6 +28,15 @@ fun FileReference.downloadIfNeeded() =
     if (local.isNotBlank()) this
     else copy(local = GcStorage.download(gcs))
 
-fun FileReference.uploadIfNeeded(rootGcsBucket: String, runGcsPath: String) =
+fun IArgs.uploadIfNeeded(file: FileReference): FileReference =
+    file.uploadIfNeeded(
+        rootGcsBucket = resultsBucket,
+        runGcsPath = resultsDir
+    )
+
+fun FileReference.uploadIfNeeded(
+    rootGcsBucket: String,
+    runGcsPath: String
+): FileReference =
     if (gcs.isNotBlank()) this
     else copy(gcs = GcStorage.upload(local, rootGcsBucket, runGcsPath))
