@@ -34,8 +34,6 @@ jobs:
           echo $count
           echo "::set-output name=approved::${count}"
       - run : | 
-          echo "Current Approve count ${{ steps.reviews.outputs.approved }}"
-          echo nice $should
           echo '::set-output name=should_run::${{ env.run_it }}'
           id: should-run-step
           env: 
