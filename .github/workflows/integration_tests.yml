@@ -1,16 +1,15 @@
 name: integration-tests
 
 on:
-  pull_request:
-    types: [ edited, synchronize ]
-  pull_request_review:
-    types: submitted
+  workflow_dispatch:
+  issue_comment:
+    types: [created]
 
 jobs:
-  check:
+  check_files:
     name: Check files
     outputs:
-      should_run: ${{ steps.check_files.outputs.should_run }}
+      it_test_files_changed: ${{ steps.check_files.outputs.it_files_changed }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -35,32 +34,103 @@ jobs:
           done < diffs.txt
           rm diffs.txt
           echo "Should run IT: ${SHOULD_RUN}"
-          echo "::set-output name=should_run::${SHOULD_RUN}"
+          echo "::set-output name=it_files_changed::${SHOULD_RUN}"
 
-  check_approve_count:
-    needs: [ check ]
+  should_run_it:
     runs-on: ubuntu-latest
-    if: needs.check.outputs.should_run == 'true'
     outputs:
-      approve_count: ${{ steps.reviews.outputs.approved }}
+      run_integration_tests: ${{ steps.should-run-step.outputs.should_run }}
+      pr_number: ${{ steps.pr_number.outputs.number }}
     steps:
-      - name: Count approve count
-        id: reviews
+      - name: Get PR number
+        id: pr_number
+        if: ${{ github.event_name == 'issue_comment'}}
         run: |
-          PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
-          echo $PR_NUMBER
-          echo $GITHUB_REF
-          export count=$(curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/flank/flank/pulls/${PR_NUMBER}/reviews?per_page=100 -s | grep -i -c '"state": "APPROVED"')
-          echo $count
-          echo "::set-output name=approved::${count}"
+          PR_URL="${{ github.event.issue.pull_request.url }}"
+          PR_NUMBER=${PR_URL##*/}
+          echo "::set-output name=number::$PR_NUMBER"
+      - uses: khan/pull-request-comment-trigger@master
+        if: ${{ github.event_name == 'issue_comment'}}
+        id: check_issue_comment
+        with:
+          trigger: '@flank-it'
+          reaction: rocket
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      # TEMPORARY DISABLED UNTIL WE FIGURE OUT THE BEST METHOD TO RUN INTEGRATION TESTS
+      # FIXME BEFORE FINISH EPIC  #1212
+      #      - name: Count approve count
+      #        if: ${{ github.event_name == 'pull_request' || github.event_name == 'pull_request_review'}}
+      #        id: approve_count
+      #        run: |
+      #          PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
+      #          echo $PR_NUMBER
+      #          echo $GITHUB_REF
+      #          export count=$(curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/flank/flank/pulls/${PR_NUMBER}/reviews?per_page=100 -s | grep -i -c '"state": "APPROVED"')
+      #          echo $count
+      #          echo "::set-output name=approved::${count}"
 
-      - name: Print current approve count
+      - name: Checkout code
+        uses: actions/checkout@v2
+        if: ${{ github.event_name == 'issue_comment'}}
+        with:
+          fetch-depth: 2
+
+      - name: Checkout Pull Request
+        if: github.event_name == 'issue_comment'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Current Approve count ${{ steps.reviews.outputs.approved }}"
+          hub pr checkout ${{ steps.pr_number.outputs.number }}
 
+      - name: check modified files
+        id: check_files
+        run: |
+          git diff --name-only --diff-filter=AMDR HEAD^ HEAD > diffs.txt
+          echo "---------------"
+          cat diffs.txt
+          echo "---------------"
+          SHOULD_RUN='false'
+          while IFS= read -r file
+          do
+            if [[ $file == test_runner/* ]] || [[ $file == integration_tests/* ]]; then
+              SHOULD_RUN='true'
+              break
+            fi
+          done < diffs.txt
+          rm diffs.txt
+          echo "Should run IT: ${SHOULD_RUN}"
+          echo "::set-output name=it_files_changed::${SHOULD_RUN}"
+      - name: Check if integrations tests should run
+        id: should-run-step
+        env:
+          run_it: ${{ (steps.check_issue_comment.outputs.triggered == 'true' && steps.check_files.outputs.it_files_changed == 'true') || github.event_name == 'workflow_dispatch' }}
+        run : |
+          echo "event name: ${{ github.event_name }}"
+          echo "issue command found: ${{ steps.check_issue_comment.outputs.triggered == 'true' }}"
+          echo "IT files changed: ${{ steps.check_files.outputs.it_files_changed == 'true' }}"
+          echo '::set-output name=should_run::${{ env.run_it }}'
+  integration-tests-post-link:
+    needs: [ should_run_it ]
+    if: needs.should_run_it.outputs.run_integration_tests == 'true' && github.event_name != 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get current time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
+        with:
+          format: 'YYYY-MM-DD HH:mm:ss'
+          utcOffset: "+00:00"
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ needs.should_run_it.outputs.pr_number }}
+          body: |
+            **Integration tests run, you could track them [here](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
+            ${{ steps.current-time.outputs.formattedTime }}
   integration-tests-unix:
-    needs: [ check_approve_count ]
-    if: 'needs.check_approve_count.outputs.approve_count >= 2'
+    needs: [ should_run_it ]
+    if: needs.should_run_it.outputs.run_integration_tests == 'true'
     strategy:
       matrix:
         os: [ ubuntu-latest, macos-latest ]
@@ -74,6 +144,13 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
+
+      - name: Checkout Pull Request
+        if: github.event_name != 'workflow_dispatch'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          hub pr checkout ${{ needs.should_run_it.outputs.pr_number }}
 
       - uses: actions/cache@v2
         with:
@@ -109,8 +186,8 @@ jobs:
           arguments: "--info :integration_tests:test --tests IntegrationTests.shouldMatchIosSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_ios.yml"
 
   integration-tests-windows:
-    needs: [ check_approve_count ]
-    if: 'needs.check_approve_count.outputs.approve_count >= 2'
+    needs: [ should_run_it ]
+    if: needs.should_run_it.outputs.run_integration_tests == 'true'
     runs-on: windows-2019
     steps:
       - name: Cancel Previous Runs
@@ -121,6 +198,13 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
+
+      - name: Checkout Pull Request
+        if: github.event_name != 'workflow_dispatch'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          hub pr checkout ${{ needs.should_run_it.outputs.pr_number }}
 
       - uses: actions/cache@v2
         with:
