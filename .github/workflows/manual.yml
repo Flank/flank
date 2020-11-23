@@ -29,3 +29,5 @@ jobs:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       - run: 'echo Found it ${{ github.event.type }}!'
         if: steps.check.outputs.triggered == 'true'
+      - run : "echo nice"
+        if: ${{ env.GITHUB_EVENT_NAME == 'issue_comment' || env.GITHUB_EVENT_NAME == 'workflow_dispatch'}}
