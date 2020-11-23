@@ -19,6 +19,7 @@ jobs:
         uses: hmarr/debug-action@v1.0.0
       - run: |
           echo Found it $GITHUB_EVENT_NAME !
+          echo Found it ${{ github.event_name }} !
       - uses: khan/pull-request-comment-trigger@master
         if: ${{ env.GITHUB_EVENT_NAME == 'issue_comment'}}
         id: check
@@ -30,4 +31,4 @@ jobs:
       - run: 'echo Found it ${{ github.event.type }}!'
         if: steps.check.outputs.triggered == 'true'
       - run : "echo nice"
-        if: ${{ env.GITHUB_EVENT_NAME == 'issue_comment' || env.GITHUB_EVENT_NAME == 'workflow_dispatch'}}
+        if: ${{ github.event_name == 'issue_comment' || github.event_name == 'workflow_dispatch' }}
