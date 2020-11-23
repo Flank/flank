@@ -30,5 +30,11 @@ jobs:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       - run: 'echo Found it ${{ github.event.type }}!'
         if: steps.check.outputs.triggered == 'true'
-      - run : "echo nice"
-        if: ${{ steps.check.outputs.triggered == 'true' || github.event_name == 'workflow_dispatch' }}
+      - run : | 
+          echo nice $should
+          echo '::set-output name=SELECTED_COLOR::${{ env.should }}'
+        id: x-x-x
+        env: 
+          should: ${{ steps.check.outputs.triggered == 'true' || github.event_name == 'workflow_dispatch' }}
+      - name: Get color
+        run: echo "The selected color is ${{ steps.x-x-x.outputs.SELECTED_COLOR }}"
