@@ -20,6 +20,14 @@ class MultipleApksIT {
 
         val resOutput = result.output.removeUnicode()
         assertThat(resOutput).containsMatch(findInCompare(name))
+        listOf(
+            "Uploading app-multiple-success-debug-androidTest.apk",
+            "Uploading app-multiple-error-debug-androidTest.apk",
+            "Uploading MainActivity_robo_script.json"
+        ).forEach {
+            assertThat(resOutput).contains(it)
+        }
+
         assertContainsOutcomeSummary(resOutput) {
             success = 3
             failure = 1
