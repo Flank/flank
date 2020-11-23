@@ -33,11 +33,12 @@ jobs:
           export count=$(curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/flank/flank/pulls/${PR_NUMBER}/reviews -s | grep -i -c '"state": "APPROVED"')
           echo $count
           echo "::set-output name=approved::${count}"
-      - run : | 
+      - name: Check if integrations tests should run
+        run : | 
           echo '::set-output name=should_run::${{ env.run_it }}'
-          id: should-run-step
-          env: 
-            run_it: ${{ steps.check.outputs.triggered == 'true' || github.event_name == 'workflow_dispatch' || steps.reviews.outputs.approved >= 2 }}
+        id: should-run-step
+        env: 
+          run_it: ${{ steps.check.outputs.triggered == 'true' || github.event_name == 'workflow_dispatch' || steps.reviews.outputs.approved >= 2 }}
 
   integration-tests-unix:
     needs: [ check_approve_count ]
