@@ -30,7 +30,7 @@ suspend fun AndroidArgs.dumpShards(
 }
 
 fun IosArgs.dumpShards(
-    @VisibleForTesting
+    // VisibleForTesting
     shardFilePath: String = IOS_SHARD_FILE,
 ) {
     saveShardChunks(
