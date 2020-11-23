@@ -14,7 +14,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 suspend fun AndroidArgs.dumpShards(
-    @VisibleForTesting
+    // VisibleForTesting
     shardFilePath: String = ANDROID_SHARD_FILE,
 ) {
     if (!isInstrumentationTest) throw FlankConfigurationError(
