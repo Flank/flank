@@ -78,7 +78,7 @@ class GcStorageTest {
     @Test
     fun `should return that file exist`() {
         // given
-        GcStorage.upload(createTempFile("testFile", ".txt").path, "bucket", "path")
+        GcStorage.upload(File.createTempFile("testFile", ".txt").path, "bucket", "path")
 
         // when
         val actual = GcStorage.exist(
