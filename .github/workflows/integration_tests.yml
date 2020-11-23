@@ -10,7 +10,7 @@ on:
     types: [created]
 
 jobs:
-  check_approve_count:
+  should_run_it:
     runs-on: ubuntu-latest
     outputs:
       run_integration_tests: ${{ steps.should-run-step.outputs.should_run }}
@@ -30,7 +30,7 @@ jobs:
           PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
           echo $PR_NUMBER
           echo $GITHUB_REF
-          export count=$(curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/flank/flank/pulls/${PR_NUMBER}/reviews -s | grep -i -c '"state": "APPROVED"')
+          export count=$(curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/flank/flank/pulls/${PR_NUMBER}/reviews?per_page=100 -s | grep -i -c '"state": "APPROVED"')
           echo $count
           echo "::set-output name=approved::${count}"
       - name: Check if integrations tests should run
@@ -44,8 +44,8 @@ jobs:
           echo '::set-output name=should_run::${{ env.run_it }}'
 
   integration-tests-unix:
-    needs: [ check_approve_count ]
-    if: needs.check_approve_count.outputs.run_integration_tests == 'true'
+    needs: [ should_run_it ]
+    if: needs.should_run_it.outputs.run_integration_tests == 'true'
     strategy:
       matrix:
         os: [ ubuntu-latest, macos-latest ]
@@ -94,8 +94,8 @@ jobs:
           arguments: "--info :integration_tests:test --tests IntegrationTests.shouldMatchIosSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_ios.yml"
 
   integration-tests-windows:
-    needs: [ check_approve_count ]
-    if: needs.check_approve_count.outputs.run_integration_tests == 'true'
+    needs: [ should_run_it ]
+    if: needs.should_run_it.outputs.run_integration_tests == 'true'
     runs-on: windows-2019
     steps:
       - name: Cancel Previous Runs
