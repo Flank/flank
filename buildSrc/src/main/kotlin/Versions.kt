@@ -18,7 +18,7 @@ object Versions {
     const val DEX_TEST_PARSER = "2.2.1"
 
     // match to Tools -> Kotlin -> Configure Kotlin Plugin Updates -> Update Channel: Stable
-    const val KOTLIN = "1.4.10"
+    const val KOTLIN = "1.4.20"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
     const val KOTLIN_COROUTINES = "1.4.1"
@@ -35,10 +35,10 @@ object Versions {
     const val GOOGLE_AUTH = "0.22.0"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.122.0"
+    const val GOOGLE_NIO = "0.122.1"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "1.113.3"
+    const val GOOGLE_STORAGE = "1.113.4"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.8.6"
