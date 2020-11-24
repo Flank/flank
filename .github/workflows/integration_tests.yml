@@ -58,7 +58,7 @@ jobs:
         run: |
           PR_URL="${{ github.event.issue.pull_request.url }}"
           PR_NUMBER=${PR_URL##*/}
-          echo '::set-output name=number::${{ env.PR_NUMBER }} '
+          echo '::set-output name=number::$(echo $PR_NUMBER)'
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v1
         with:
