@@ -17,36 +17,34 @@ import kotlinx.coroutines.launch
 import java.nio.file.Files
 import java.nio.file.Paths
 
-internal suspend fun afterRunTests(
+internal suspend fun IArgs.afterRunTests(
     testMatrices: List<TestMatrix>,
-    runGcsPath: String,
     stopwatch: StopWatch,
-    config: IArgs
 ) = MatrixMap(
     map = testMatrices.toSavedMatrixMap(),
-    runPath = runGcsPath
+    runPath = resultsDir
 ).also { matrixMap ->
-    updateMatrixFile(matrixMap, config)
-    saveConfigFile(matrixMap, config)
+    updateMatrixFile(matrixMap)
+    saveConfigFile(matrixMap)
 
     println(FtlConstants.indent + "${matrixMap.map.size} matrix ids created in ${stopwatch.check()}")
     val gcsBucket = "https://console.developers.google.com/storage/browser/" +
-            config.resultsBucket + "/" + matrixMap.runPath
+            resultsBucket + "/" + matrixMap.runPath
     println(FtlConstants.indent + gcsBucket)
     println()
-    matrixMap.printMatricesWebLinks(config.project)
+    matrixMap.printMatricesWebLinks(project)
 }
 
 private fun List<TestMatrix>.toSavedMatrixMap() =
     associate { matrix -> matrix.testMatrixId to createSavedMatrix(matrix) }
 
-private fun saveConfigFile(matrixMap: MatrixMap, args: IArgs) {
-    val configFilePath = if (args.useLocalResultDir())
-        Paths.get(args.localResultDir, FtlConstants.configFileName(args)) else
-        Paths.get(args.localResultDir, matrixMap.runPath, FtlConstants.configFileName(args))
+private fun IArgs.saveConfigFile(matrixMap: MatrixMap) {
+    val configFilePath = if (useLocalResultDir())
+        Paths.get(localResultDir, FtlConstants.configFileName(this)) else
+        Paths.get(localResultDir, matrixMap.runPath, FtlConstants.configFileName(this))
 
     configFilePath.parent.toFile().mkdirs()
-    Files.write(configFilePath, args.data.toByteArray())
+    Files.write(configFilePath, data.toByteArray())
 }
 
 internal suspend inline fun MatrixMap.printMatricesWebLinks(project: String) = coroutineScope {

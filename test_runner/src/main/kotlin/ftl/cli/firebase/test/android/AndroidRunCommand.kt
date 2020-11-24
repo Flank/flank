@@ -44,10 +44,11 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
             MockServer.start()
         }
 
-        val config = AndroidArgs.load(Paths.get(configPath), cli = this).validate()
-        runBlocking {
-            if (dumpShards) dumpShards(args = config)
-            else newTestRun(config)
+        AndroidArgs.load(Paths.get(configPath), cli = this).validate().run {
+            runBlocking {
+                if (dumpShards) dumpShards()
+                else newTestRun()
+            }
         }
     }
 
