@@ -69,7 +69,6 @@ private fun IosArgs.calculateConfigurationShards(
     targets: Map<String, List<String>>,
     regexList: List<Regex>
 ): Pair<List<Chunk>, List<XctestrunMethods>> {
-
     val shardChunks = calculateShards(
         filteredTests = targets
             .values.flatten()

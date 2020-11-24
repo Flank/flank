@@ -137,8 +137,8 @@ class DumpShardsKtTest {
         // when
         val actual = runBlocking {
             AndroidArgs.load(
-                yamlPath =mixedConfigYaml,
-               cli = AndroidRunCommand().apply { obfuscate = true }
+                yamlPath = mixedConfigYaml,
+                cli = AndroidRunCommand().apply { obfuscate = true }
             ).dumpShards(TEST_SHARD_FILE)
             File(TEST_SHARD_FILE).apply { deleteOnExit() }.readText()
         }
@@ -205,8 +205,8 @@ class DumpShardsKtTest {
         // when
         val actual = runBlocking {
             IosArgs.load(
-                yamlPath =ios2ConfigYaml,
-               cli = IosRunCommand().apply { obfuscate = true }
+                yamlPath = ios2ConfigYaml,
+                cli = IosRunCommand().apply { obfuscate = true }
             ).dumpShards(TEST_SHARD_FILE)
             File(TEST_SHARD_FILE).apply { deleteOnExit() }.readText()
         }
