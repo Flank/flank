@@ -1,7 +1,7 @@
 import kotlin.system.exitProcess
 
 
-//DEPS com.github.kittinunf.fuel:fuel:2.2.3
+//DEPS com.github.kittinunf.fuel:fuel:2.3.0
 
 //INCLUDE slackService.kt
 //INCLUDE common.kt
