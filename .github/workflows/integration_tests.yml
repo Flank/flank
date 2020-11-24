@@ -6,35 +6,6 @@ on:
     types: [created]
 
 jobs:
-  check_files:
-    name: Check files
-    outputs:
-      it_test_files_changed: ${{ steps.check_files.outputs.it_files_changed }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 2
-
-      - name: check modified files
-        id: check_files
-        run: |
-          git diff --name-only --diff-filter=AMDR HEAD^ HEAD > diffs.txt
-          echo "---------------"
-          cat diffs.txt
-          echo "---------------"
-          SHOULD_RUN='false'
-          while IFS= read -r file
-          do
-            if [[ $file == test_runner/* ]] || [[ $file == integration_tests/* ]]; then
-              SHOULD_RUN='true'
-              break
-            fi
-          done < diffs.txt
-          rm diffs.txt
-          echo "Should run IT: ${SHOULD_RUN}"
-          echo "::set-output name=it_files_changed::${SHOULD_RUN}"
 
   should_run_it:
     runs-on: ubuntu-latest
@@ -144,6 +115,13 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
+
+      - name: Checkout Pull Request
+        if: github.event_name != 'workflow_dispatch'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          hub pr checkout ${{ needs.should_run_it.outputs.pr_number }}
 
       - name: Checkout Pull Request
         if: github.event_name != 'workflow_dispatch'
