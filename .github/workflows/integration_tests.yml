@@ -65,8 +65,8 @@ jobs:
         with:
           issue-number: ${{ needs.should_run_it.outputs.pr_number }}
           body: |
-            **Timestamp:** ${{ steps.current-time.outputs.formattedTime }}
-            **Integration tests run, you could track them [${{ here }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
+            **Integration tests run, you could track them [here](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
+            ${{ steps.current-time.outputs.formattedTime }}
   integration-tests-unix:
     needs: [ should_run_it ]
     if: needs.should_run_it.outputs.run_integration_tests == 'true'
