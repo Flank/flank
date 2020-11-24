@@ -44,7 +44,7 @@ jobs:
           echo '::set-output name=should_run::${{ env.run_it }}'
   integration-tests-post-link:
     needs: [ should_run_it ]
-    if: needs.should_run_it.outputs.run_integration_tests == 'true'
+    if: needs.should_run_it.outputs.run_integration_tests == 'true' && github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Get current time
@@ -53,10 +53,16 @@ jobs:
         with:
           format: 'YYYY-MM-DD HH:mm:ss'
           utcOffset: "+00:00"
+      - name: Get PR number
+        id: pr_number
+        run: |
+          PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
+          echo $PR_NUMBER
+          echo '::set-output name=number::$PR_NUMBER'
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v1
         with:
-          issue-number: ${{ github.event.pull_request.number }}
+          issue-number: ${{ steps.pr_number.outputs.number }}
           body: |
             **Timestamp:** ${{ steps.current-time.outputs.formattedTime }}
             **Integration tests run, you could track them on [${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
