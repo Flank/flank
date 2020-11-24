@@ -1,8 +1,8 @@
 rm -rf build/
 
 echo "Archiving..."
-xcodebuild -project "flankgameloop.xcodeproj" \
--scheme flankgameloop \
+xcodebuild -project "FlankGameLoopExample.xcodeproj" \
+-scheme FlankGameLoopExample \
 -sdk iphoneos \
 -allowProvisioningUpdates \
 archive -archivePath "build/gameloop.xcarchive" | xcpretty

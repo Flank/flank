@@ -1,6 +1,7 @@
 package flank.scripts.shell.ops
 
 import flank.scripts.shell.ios.createXcodeBuildForTestingCommand
+import flank.scripts.shell.utils.currentPath
 import flank.scripts.shell.utils.flankFixturesIosTmpPath
 import flank.scripts.shell.utils.pipe
 import flank.scripts.utils.archive
@@ -8,8 +9,10 @@ import flank.scripts.utils.downloadCocoaPodsIfNeeded
 import flank.scripts.utils.downloadXcPrettyIfNeeded
 import flank.scripts.utils.installPodsIfNeeded
 import java.io.File
+import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.util.stream.Collectors
 
 fun IosBuildConfiguration.generateIosTestArtifacts() {
     downloadCocoaPodsIfNeeded()
@@ -20,6 +23,7 @@ fun IosBuildConfiguration.generateIosTestArtifacts() {
 
 private fun IosBuildConfiguration.buildProject() = Paths.get(projectPath, "Build")
     .runBuilds(this)
+    .resolve("Build")
     .resolve("Products")
     .apply { renameXctestFiles().filterFilesToCopy().archiveProject(projectName).copyIosProductFiles(projectName) }
     .copyTestFiles(this)
@@ -35,7 +39,7 @@ private fun Path.runBuilds(configuration: IosBuildConfiguration) = apply {
     else Paths.get(parent, "${configuration.projectName}.xcodeproj").toString()
     configuration.buildConfigurations.forEach {
         val buildCommand = createXcodeBuildForTestingCommand(
-            parent,
+            toString(),
             scheme = it.scheme,
             project = project,
             workspace = workspace

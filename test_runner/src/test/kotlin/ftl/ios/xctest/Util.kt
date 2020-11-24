@@ -4,12 +4,12 @@ import com.google.common.truth.Truth.assertThat
 
 const val FIXTURES_PATH = "./src/test/kotlin/ftl/fixtures/tmp"
 
-const val swiftXcTestRunV1 = "$FIXTURES_PATH/ios/earl_grey_example/EarlGreyExampleSwiftTests.xctestrun"
-const val multiTargetsSwiftXcTestRunV1 = "$FIXTURES_PATH/ios/flank_ios_example/FlankExampleTests.xctestrun"
+const val swiftXcTestRunV1 = "$FIXTURES_PATH/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun"
+const val multiTargetsSwiftXcTestRunV1 = "$FIXTURES_PATH/ios/FlankExample/FlankExample.xctestrun"
 const val swiftXcTestRunV2 = "$FIXTURES_PATH/ios/multi_test_targets/AllTests_AllTests_iphoneos13.7-arm64e.xctestrun"
 
-const val objcBinary = "$FIXTURES_PATH/ios/earl_grey_example/objc/EarlGreyExampleTests"
-const val swiftBinary = "$FIXTURES_PATH/ios/earl_grey_example/swift/EarlGreyExampleSwiftTests"
+const val objcBinary = "$FIXTURES_PATH/ios/EarlGreyExample/EarlGreyExampleTests"
+const val swiftBinary = "$FIXTURES_PATH/ios/EarlGreyExample/EarlGreyExampleSwiftTests"
 
 val objcTestsV1 = listOf(
     "EarlGreyExampleTests/testBasicSelection",

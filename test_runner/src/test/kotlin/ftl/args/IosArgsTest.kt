@@ -34,11 +34,11 @@ import java.io.StringReader
 class IosArgsTest {
     private val empty = emptyList<String>()
     private val simpleFlankPath = getPath("src/test/kotlin/ftl/fixtures/simple-ios-flank.yml")
-    private val testPath = "./src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip"
+    private val testPath = "./src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExample.zip"
     private val nonExistingTestPath = "./src/test/kotlin/ftl/fixtures/tmp/earlgrey_example_non_existing.zip"
     private val nonExistingxctestrunFile = "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e_non_exis.xctestrun"
     private val xctestrunFile =
-        "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun"
+        "./src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun"
     private val invalidApp = "../test_projects/android/apks/invalid.apk"
     private val xctestrunFileAbsolutePath = xctestrunFile.absolutePath()
     private val testAbsolutePath = testPath.absolutePath()

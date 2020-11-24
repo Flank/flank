@@ -28,11 +28,11 @@ function flank_ios_example() {
       # xcodebuild generates .xctestrun files names in format: PROJECTNAME_platform_version_architecture.xctestrun, code below removes "_platform_version_architecture" part
       mv -f "$productsDir/"*.xctestrun "$productsDir/FlankExampleTests.xctestrun"
 
-      mkdir -p "$FLANK_FIXTURES_TMP/ios/flank_ios_example/"
+      mkdir -p "$FLANK_FIXTURES_TMP/ios/FlankExample/"
       
-      cp -Rf "$productsDir"/*-iphoneos "$FLANK_FIXTURES_TMP/ios/flank_ios_example/"
+      cp -Rf "$productsDir"/*-iphoneos "$FLANK_FIXTURES_TMP/ios/FlankExample/"
 
-      cp "$productsDir"/*.xctestrun "$FLANK_FIXTURES_TMP/ios/flank_ios_example/"
+      cp "$productsDir"/*.xctestrun "$FLANK_FIXTURES_TMP/ios/FlankExample/"
       ;;
 
     esac done
