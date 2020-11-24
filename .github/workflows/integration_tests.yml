@@ -7,8 +7,40 @@ on:
     types: submitted
 
 jobs:
-  check_approve_count:
+  check:
+    name: Check files
+    outputs:
+      should_run: ${{ steps.check_files.outputs.should_run }}
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: check modified files
+        id: check_files
+        run: |
+          git diff --name-only --diff-filter=AMDR HEAD^ HEAD > diffs.txt
+          echo "---------------"
+          cat diffs.txt
+          echo "---------------"
+          SHOULD_RUN='false'
+          while IFS= read -r file
+          do
+            if [[ $file == test_runner/* ]] || [[ $file == integration_tests/* ]]; then
+              SHOULD_RUN='true'
+              break
+            fi
+          done < diffs.txt
+          rm diffs.txt
+          echo "Should run IT: ${SHOULD_RUN}"
+          echo "::set-output name=should_run::${SHOULD_RUN}"
+
+  check_approve_count:
+    needs: [ check ]
+    runs-on: ubuntu-latest
+    if: needs.check.outputs.should_run == 'true'
     outputs:
       approve_count: ${{ steps.reviews.outputs.approved }}
     steps:
@@ -121,4 +153,3 @@ jobs:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         with:
           arguments: "--info :integration_tests:test --tests IntegrationTests.shouldMatchAndroidSuccessExitCodeAndPattern -Dflank-path=../test_runner/build/libs/flank.jar -Dyml-path=./src/test/resources/flank_android.yml"
-
