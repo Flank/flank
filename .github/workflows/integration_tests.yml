@@ -56,8 +56,9 @@ jobs:
 
       - name: check modified files
         id: check_files
+        if: github.event_name == 'issue_comment'
         run: |
-          git diff --name-only --diff-filter=AMDR HEAD^ HEAD > diffs.txt
+          git diff --name-only --diff-filter=AMDR master > diffs.txt
           echo "---------------"
           cat diffs.txt
           echo "---------------"
@@ -115,13 +116,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
-
-      - name: Checkout Pull Request
-        if: github.event_name != 'workflow_dispatch'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          hub pr checkout ${{ needs.should_run_it.outputs.pr_number }}
 
       - name: Checkout Pull Request
         if: github.event_name != 'workflow_dispatch'
