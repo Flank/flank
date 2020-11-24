@@ -57,7 +57,7 @@ jobs:
       - name: check modified files
         id: check_files
         run: |
-          git diff --name-only --diff-filter=AMDR HEAD^ master > diffs.txt
+          git diff --name-only --diff-filter=AMDR master > diffs.txt
           echo "---------------"
           cat diffs.txt
           echo "---------------"
