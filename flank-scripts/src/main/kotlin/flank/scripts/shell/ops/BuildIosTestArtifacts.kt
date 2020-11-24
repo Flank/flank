@@ -1,7 +1,6 @@
 package flank.scripts.shell.ops
 
 import flank.scripts.shell.ios.createXcodeBuildForTestingCommand
-import flank.scripts.shell.utils.currentPath
 import flank.scripts.shell.utils.flankFixturesIosTmpPath
 import flank.scripts.shell.utils.pipe
 import flank.scripts.utils.archive
@@ -9,10 +8,8 @@ import flank.scripts.utils.downloadCocoaPodsIfNeeded
 import flank.scripts.utils.downloadXcPrettyIfNeeded
 import flank.scripts.utils.installPodsIfNeeded
 import java.io.File
-import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.util.stream.Collectors
 
 fun IosBuildConfiguration.generateIosTestArtifacts() {
     downloadCocoaPodsIfNeeded()
@@ -25,8 +22,10 @@ private fun IosBuildConfiguration.buildProject() = Paths.get(projectPath, "Build
     .runBuilds(this)
     .resolve("Build")
     .resolve("Products")
-    .apply { renameXctestFiles().filterFilesToCopy().archiveProject(projectName).copyIosProductFiles(projectName) }
-    .copyTestFiles(this)
+    .apply { renameXctestFiles().filterFilesToCopy().archiveProject(projectName).copyIosProductFiles(projectName) }.let {
+        if (this.copyXCTestFiles) { it.copyTestFiles(this)}
+    }
+
 
 private fun Path.runBuilds(configuration: IosBuildConfiguration) = apply {
     toFile().deleteRecursively()
@@ -73,9 +72,9 @@ private fun Sequence<File>.copyIosProductFiles(projectName: String) = forEach {
 }
 
 private fun Path.copyTestFiles(configuration: IosBuildConfiguration) = toString().takeIf { configuration.copy }?.let { productsDirectory ->
-    val appDirectory = Paths.get(productsDirectory, "Debug-iphoneos").toFile().findTestDirectories()
+    val appDirectory = Paths.get(productsDirectory, "Debug-iphoneos").toFile().findXCTestDirectories()
     appDirectory.forEach {
-        it.walk().filter { it.isFile && it.extension == "" }.forEach { testFile ->
+        it.walk().filter { it.isFile && it.extension == "" && !it.name.contains("CodeResources") }.forEach { testFile ->
             configuration.copyTestFile(testFile)
         }
     }
@@ -86,7 +85,7 @@ private fun IosBuildConfiguration.copyTestFile(
 ) =
     fileToCopy.copyTo(Paths.get(flankFixturesIosTmpPath, projectName, fileToCopy.name).toFile(), true)
 
-private fun File.findTestDirectories() = walk().filter { it.isDirectory && it.name.endsWith(".xctest") }
+private fun File.findXCTestDirectories() = walk().filter { it.isDirectory && it.name.endsWith(".xctest") }
 
 data class IosBuildConfiguration(
     val projectPath: String,
@@ -94,7 +93,8 @@ data class IosBuildConfiguration(
     val buildConfigurations: List<IosTestBuildConfiguration>,
     val useWorkspace: Boolean = false,
     val generate: Boolean = true,
-    val copy: Boolean = true
+    val copy: Boolean = true,
+    val copyXCTestFiles: Boolean = false
 )
 
 data class IosTestBuildConfiguration(val scheme: String, val outputDirectoryName: String)

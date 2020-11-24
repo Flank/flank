@@ -25,7 +25,8 @@ object BuildEarlGreyExampleCommand : CliktCommand(name = "build_earl_grey_exampl
             ),
             useWorkspace = true,
             generate = generate ?: true,
-            copy = copy ?: true
+            copy = copy ?: true,
+            copyXCTestFiles = copy ?: true
         ).generateIosTestArtifacts()
     }
 }

@@ -22,20 +22,17 @@
   },
   "testTargets" : [
     {
-      "skippedTests" : [
-        "UITests\/test2()"
-      ],
       "target" : {
-        "containerPath" : "container:FlankMultiTestTargetsExample.xcodeproj",
-        "identifier" : "3284E2B025458E56001F14AA",
-        "name" : "UITests"
+        "containerPath" : "container:FlankTestPlansExample.xcodeproj",
+        "identifier" : "3284E2C025458E66001F14AA",
+        "name" : "SecondUITests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:FlankMultiTestTargetsExample.xcodeproj",
-        "identifier" : "3284E2C025458E66001F14AA",
-        "name" : "SecondUITests"
+        "containerPath" : "container:FlankTestPlansExample.xcodeproj",
+        "identifier" : "3284E2B025458E56001F14AA",
+        "name" : "UITests"
       }
     }
   ],

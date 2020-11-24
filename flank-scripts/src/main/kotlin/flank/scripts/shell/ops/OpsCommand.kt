@@ -9,7 +9,7 @@ object OpsCommand : CliktCommand(name = "ops", help = "Contains all ops command:
             AndroidOpsCommand,
             BuildEarlGreyExampleCommand,
             BuildGameLoopExampleCommand,
-            BuildMultiTestTargetsExample,
+            BuildTestPlansExample,
             BuildFlankExampleCommand,
             GoOpsCommand
         )

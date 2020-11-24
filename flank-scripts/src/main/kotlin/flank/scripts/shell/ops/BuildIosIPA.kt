@@ -2,6 +2,7 @@ package flank.scripts.shell.ops
 
 import flank.scripts.shell.ios.createXcodeArchiveCommand
 import flank.scripts.shell.ios.createXcodeExportArchiveCommand
+import flank.scripts.shell.utils.flankFixturesIosTmpPath
 import flank.scripts.shell.utils.pipe
 import flank.scripts.utils.downloadCocoaPodsIfNeeded
 import flank.scripts.utils.downloadXcPrettyIfNeeded
@@ -18,6 +19,8 @@ fun IosBuildConfiguration.generateIPA() {
 
 private fun IosBuildConfiguration.archiveProject() = Paths.get(projectPath, "Build")
     .runXcodeArchiveBuilds(this)
+    .resolve("ipa")
+    .copyIPAFile(this)
 
 private fun Path.runXcodeArchiveBuilds(configuration: IosBuildConfiguration) = apply {
     toFile().deleteRecursively()
@@ -43,5 +46,11 @@ private fun Path.runXcodeArchiveBuilds(configuration: IosBuildConfiguration) = a
         )
         archiveCommand pipe "xcpretty"
         exportArchiveCommand pipe "xcpretty"
+    }
+}
+
+private fun Path.copyIPAFile(configuration: IosBuildConfiguration) {
+    toFile().walk().filter { it.name.endsWith(".ipa") }.forEach {
+        it.copyTo(Paths.get(flankFixturesIosTmpPath, configuration.projectName, it.name).toFile(), true)
     }
 }
