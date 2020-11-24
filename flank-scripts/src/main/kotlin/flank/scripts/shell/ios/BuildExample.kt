@@ -26,13 +26,14 @@ private fun buildExample() {
         toFile().deleteRecursively()
     }
 
-    val xcodeCommandSwiftTests = createXcodeBuildForTestingCommand(
+    val xcodeCommandSwiftTests = createIosBuildCommand(
         dataPath.toString(),
+        "./EarlGreyExample.xcworkspace",
         "EarlGreyExampleSwiftTests"
     )
     xcodeCommandSwiftTests pipe "xcpretty"
 
-    val xcodeCommandTests = createXcodeBuildForTestingCommand(dataPath.toString(), "EarlGreyExampleTests")
+    val xcodeCommandTests = createIosBuildCommand(dataPath.toString(), "./EarlGreyExample.xcworkspace", "EarlGreyExampleTests")
     xcodeCommandTests pipe "xcpretty"
 
     copyExampleOutputFiles(dataPath.toString())

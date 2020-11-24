@@ -25,7 +25,7 @@ object BuildFlankExampleCommand : CliktCommand(name = "build_flank_example", hel
             useWorkspace = false,
             generate = generate ?: true,
             copy = copy ?: true
-        ).generateIosTestArtifacts()
+        ).generateIos()
     }
 }
 

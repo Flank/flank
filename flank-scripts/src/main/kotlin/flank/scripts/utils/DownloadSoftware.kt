@@ -10,9 +10,8 @@ fun downloadCocoaPodsIfNeeded() {
     "xcpretty".checkAndInstallIfNeed("gem install cocoapods -v 1.9.3")
 }
 
-fun installPodsIfNeeded(path: Path) {
-    if (path.toFile().listFiles().map { it.name }.contains("Podfile"))
-        "pod install --project-directory=$path --verbose".runCommand()
+fun installPods(path: Path) {
+    "pod install --project-directory=$path --verbose".runCommand()
 }
 
 fun checkIfPipInstalled() {
