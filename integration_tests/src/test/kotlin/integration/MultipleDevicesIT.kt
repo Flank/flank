@@ -4,7 +4,6 @@ import FlankCommand
 import com.google.common.truth.Truth.assertThat
 import run
 import org.junit.Test
-import java.io.File
 
 class MultipleDevicesIT {
     private val name = this::class.java.simpleName
@@ -24,7 +23,6 @@ class MultipleDevicesIT {
         assertExitCode(result, 10)
 
         val resOutput = result.output.removeUnicode()
-        File("test.log").writeText(resOutput)
         assertThat(resOutput).containsMatch(findInCompare(name))
         listOf(
             "Uploading app-multiple-success-debug-androidTest.apk",
