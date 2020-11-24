@@ -20,6 +20,7 @@ plugins {
 }
 
 val artifactID = "flank"
+// HEELO TO TEST
 
 val shadowJar: ShadowJar by tasks
 shadowJar.apply {
