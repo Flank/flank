@@ -12,6 +12,7 @@ jobs:
     outputs:
       run_integration_tests: ${{ steps.should-run-step.outputs.should_run }}
       pr_number: ${{ steps.pr_number.outputs.number }}
+      it_files_changed : ${{ steps.check_files.outputs.it_files_changed }}
     steps:
       - name: Get PR number
         id: pr_number
@@ -56,7 +57,7 @@ jobs:
 
       - name: check modified files
         id: check_files
-        if: ${{ github.event_name == 'issue_comment'}}
+        if: github.event_name == 'issue_comment'
         run: |
           git diff --name-only --diff-filter=AMDR master > diffs.txt
           echo "---------------"
@@ -84,7 +85,7 @@ jobs:
           echo '::set-output name=should_run::${{ env.run_it }}'
   integration-tests-post-link:
     needs: [ should_run_it ]
-    if: needs.should_run_it.outputs.run_integration_tests == 'true' && github.event_name != 'workflow_dispatch'
+    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Get current time
@@ -93,13 +94,24 @@ jobs:
         with:
           format: 'YYYY-MM-DD HH:mm:ss'
           utcOffset: "+00:00"
-      - name: Create comment
+      - name: Create comment that tests were triggered
         uses: peter-evans/create-or-update-comment@v1
+        if: needs.should_run_it.outputs.run_integration_tests == 'true'
         with:
           issue-number: ${{ needs.should_run_it.outputs.pr_number }}
           body: |
-            **Integration tests run, you could track them [here](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
+            **Integration tests were triggered, you could track them [here](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
             ${{ steps.current-time.outputs.formattedTime }}
+
+      - name: Create comment that test did not run
+        uses: peter-evans/create-or-update-comment@v1
+        if: needs.should_run_it.outputs.run_integration_tests == 'false'
+        with:
+          issue-number: ${{ needs.should_run_it.outputs.pr_number }}
+          body: |
+            **Integration tests did not run, because files under `test_runner/*` or `integration_tests/*` were not changed **
+            ${{ steps.current-time.outputs.formattedTime }}
+
   integration-tests-unix:
     needs: [ should_run_it ]
     if: needs.should_run_it.outputs.run_integration_tests == 'true'
@@ -116,13 +128,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
-
-      - name: Checkout Pull Request
-        if: github.event_name != 'workflow_dispatch'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          hub pr checkout ${{ needs.should_run_it.outputs.pr_number }}
 
       - name: Checkout Pull Request
         if: github.event_name != 'workflow_dispatch'
