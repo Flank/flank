@@ -47,11 +47,11 @@ private fun GameLoopContext.upload(rootGcsBucket: String, runGcsPath: String) = 
 private fun SanityRoboTestContext.upload(rootGcsBucket: String, runGcsPath: String) =
     SanityRoboTestContext(app.uploadIfNeeded(rootGcsBucket, runGcsPath))
 
-suspend fun AndroidArgs.uploadAdditionalApks(runGcsPath: String) =
-    additionalApks.uploadToGcloudIfNeeded(runGcsPath, resultsBucket)
+suspend fun AndroidArgs.uploadAdditionalApks() =
+    additionalApks.uploadToGcloudIfNeeded(resultsDir, resultsBucket)
 
-suspend fun IosArgs.uploadAdditionalIpas(runGcsPath: String) =
-    additionalIpas.uploadToGcloudIfNeeded(runGcsPath, resultsBucket)
+suspend fun IosArgs.uploadAdditionalIpas() =
+    additionalIpas.uploadToGcloudIfNeeded(resultsDir, resultsBucket)
 
 private suspend fun List<String>.uploadToGcloudIfNeeded(
     runGcsPath: String,

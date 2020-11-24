@@ -57,7 +57,7 @@ internal suspend fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) = corouti
 
     if (dirty) {
         println(FtlConstants.indent + "Updating matrix file")
-        updateMatrixFile(matrixMap, args)
+        args.updateMatrixFile(matrixMap)
         println()
     }
 }

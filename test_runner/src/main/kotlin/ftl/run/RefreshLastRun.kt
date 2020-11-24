@@ -73,7 +73,7 @@ private suspend fun refreshMatrices(matrixMap: MatrixMap, args: IArgs) = corouti
 
     if (dirty) {
         println(FtlConstants.indent + "Updating matrix file")
-        updateMatrixFile(matrixMap, args)
+        args.updateMatrixFile(matrixMap)
     }
     println()
 }

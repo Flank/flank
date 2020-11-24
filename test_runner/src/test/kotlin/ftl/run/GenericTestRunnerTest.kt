@@ -28,13 +28,17 @@ class GenericTestRunnerTest {
 
     @Test
     fun testBeforeRunMessage1() {
-        val result = beforeRunMessage(createMock(1), listOf(Chunk(listOf(TestMethod(name = "", time = 0.0))))).normalizeLineEnding()
+        val result = createMock(1).beforeRunMessage(
+            listOf(Chunk(listOf(TestMethod(name = "", time = 0.0))))
+        ).normalizeLineEnding()
         assert(result, "  1 test / 1 shard\n")
     }
 
     @Test
     fun testBeforeRunMessage2() {
-        val result = beforeRunMessage(createMock(2), listOf(Chunk(listOf(TestMethod(name = "", time = 0.0))))).normalizeLineEnding()
+        val result = createMock(2).beforeRunMessage(
+            listOf(Chunk(listOf(TestMethod(name = "", time = 0.0))))
+        ).normalizeLineEnding()
         assert(
             result,
             """
@@ -48,8 +52,7 @@ class GenericTestRunnerTest {
 
     @Test
     fun testBeforeRunMessage3() {
-        val result = beforeRunMessage(
-            createMock(2),
+        val result = createMock(2).beforeRunMessage(
             List(6) { Chunk(listOf(TestMethod(name = "", time = 0.0))) }
         ).normalizeLineEnding()
         assert(
@@ -65,8 +68,7 @@ class GenericTestRunnerTest {
 
     @Test
     fun testBeforeRunMessage4() {
-        val result = beforeRunMessage(
-            createMock(100),
+        val result = createMock(100).beforeRunMessage(
             List(2) { Chunk(List(5) { TestMethod(name = "", time = 0.0) }) }
         ).normalizeLineEnding()
         assert(
@@ -86,8 +88,7 @@ class GenericTestRunnerTest {
             10 tests + 3 parameterized classes / 2 shards
         """.trimIndent()
 
-        val result = beforeRunMessage(
-            createMock(1),
+        val result = createMock(1).beforeRunMessage(
             listOf(
                 Chunk(
                     listOf(
@@ -122,8 +123,7 @@ class GenericTestRunnerTest {
             3 parameterized classes / 2 shards
         """.trimIndent()
 
-        val result = beforeRunMessage(
-            createMock(1),
+        val result = createMock(1).beforeRunMessage(
             listOf(
                 Chunk(
                     listOf(
@@ -152,8 +152,7 @@ class GenericTestRunnerTest {
               30 total parameterized classes
         """.trimIndent()
 
-        val result = beforeRunMessage(
-            createMock(10),
+        val result = createMock(10).beforeRunMessage(
             listOf(
                 Chunk(
                     listOf(
@@ -191,8 +190,7 @@ class GenericTestRunnerTest {
               30 total parameterized classes
         """.trimIndent()
 
-        val result = beforeRunMessage(
-            createMock(10),
+        val result = createMock(10).beforeRunMessage(
             listOf(
                 Chunk(
                     listOf(

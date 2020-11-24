@@ -5,8 +5,8 @@ import ftl.config.FtlConstants
 import ftl.shard.Chunk
 import ftl.shard.TestMethod
 
-internal fun beforeRunMessage(args: IArgs, testShardChunks: List<Chunk>): String {
-    val runCount = args.repeatTests
+internal fun IArgs.beforeRunMessage(testShardChunks: List<Chunk>): String {
+    val runCount = repeatTests
     val shardCount = testShardChunks.size
     val (classesCount, testsCount) = testShardChunks.partitionedTestCases.testAndClassesCount
 

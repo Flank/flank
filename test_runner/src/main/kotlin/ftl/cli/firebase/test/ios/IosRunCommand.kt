@@ -44,12 +44,9 @@ class IosRunCommand : CommonRunCommand(), Runnable {
             MockServer.start()
         }
 
-        val config = IosArgs.load(Paths.get(configPath), cli = this).validate()
-
-        if (dumpShards) {
-            dumpShards(args = config)
-        } else runBlocking {
-            newTestRun(config)
+        IosArgs.load(Paths.get(configPath), cli = this).validate().run {
+            if (dumpShards) dumpShards()
+            else runBlocking { newTestRun() }
         }
     }
 

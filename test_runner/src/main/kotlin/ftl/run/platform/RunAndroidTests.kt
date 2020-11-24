@@ -34,32 +34,31 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 
-internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineScope {
-    val (stopwatch, runGcsPath) = beforeRunTests(args)
-
-    // GcAndroidMatrix => GcAndroidTestMatrix
-    // GcAndroidTestMatrix.execute() 3x retry => matrix id (string)
-    val devices = GcAndroidDevice.build(args.devices)
+internal suspend fun AndroidArgs.runAndroidTests(): TestResult = coroutineScope {
+    val args = this@runAndroidTests
+    val stopwatch = beforeRunTests()
+    val devices = GcAndroidDevice.build(devices)
     val testMatrices = mutableListOf<Deferred<TestMatrix>>()
     val allTestShardChunks = mutableListOf<Chunk>()
     val ignoredTestsShardChunks = mutableListOf<List<String>>()
-
     val history = GcToolResults.createToolResultsHistory(args)
-    val otherGcsFiles = args.uploadOtherFiles(runGcsPath)
-    val additionalApks = args.uploadAdditionalApks(runGcsPath)
-    val obbFiles = args.uploadObbFiles(runGcsPath)
+    val otherGcsFiles = uploadOtherFiles()
+    val additionalApks = uploadAdditionalApks()
+    val obbFiles = uploadObbFiles()
 
-    args.createAndroidTestContexts().dumpShards(args).upload(args.resultsBucket, runGcsPath)
+    createAndroidTestContexts()
+        .dumpShards(args)
+        .upload(resultsBucket, resultsDir)
         .forEachIndexed { contextIndex, context ->
             if (context is InstrumentationTestContext) {
                 ignoredTestsShardChunks += context.ignoredTestCases
                 allTestShardChunks += context.shards
             }
-            val androidTestConfig = args.createAndroidTestConfig(context)
-            testMatrices += executeAndroidTestMatrix(runCount = args.repeatTests) { runIndex ->
+            val androidTestConfig = createAndroidTestConfig(context)
+            testMatrices += executeAndroidTestMatrix(runCount = repeatTests) { runIndex ->
                 GcAndroidTestMatrix.build(
                     androidTestConfig = androidTestConfig,
-                    runGcsPath = runGcsPath.createGcsPath(contextIndex, runIndex),
+                    runGcsPath = resultsDir.createGcsPath(contextIndex, runIndex),
                     additionalApkGcsPaths = additionalApks,
                     androidDeviceList = devices,
                     args = args,
@@ -72,10 +71,10 @@ internal suspend fun runAndroidTests(args: AndroidArgs): TestResult = coroutineS
 
     if (testMatrices.isEmpty()) throw FlankGeneralError("There are no tests to run.")
 
-    println(beforeRunMessage(args, allTestShardChunks))
+    println(beforeRunMessage(allTestShardChunks))
 
     TestResult(
-        matrixMap = afterRunTests(testMatrices.awaitAll(), runGcsPath, stopwatch, args),
+        matrixMap = afterRunTests(testMatrices.awaitAll(), stopwatch),
         shardChunks = allTestShardChunks.testCases,
         ignoredTests = ignoredTestsShardChunks.flatten()
     )

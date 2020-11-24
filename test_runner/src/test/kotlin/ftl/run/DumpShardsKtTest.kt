@@ -24,7 +24,8 @@ import org.junit.contrib.java.lang.system.SystemOutRule
 class DumpShardsKtTest {
 
     @get:Rule
-    val output: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
+    val output: SystemOutRule =
+        SystemOutRule().enableLog().muteForSuccessfulTests()
 
     @After
     fun tearDown() = output.clearLog()
@@ -78,7 +79,7 @@ class DumpShardsKtTest {
         if (FtlConstants.isWindows) return // TODO Windows Linux subsytem does not contain all expected commands
         // when
         val actual = runBlocking {
-            dumpShards(AndroidArgs.load(mixedConfigYaml), TEST_SHARD_FILE)
+            AndroidArgs.load(mixedConfigYaml).dumpShards(TEST_SHARD_FILE)
             File(TEST_SHARD_FILE).apply { deleteOnExit() }.readText()
         }
 
@@ -135,13 +136,18 @@ class DumpShardsKtTest {
 
         // when
         val actual = runBlocking {
-            dumpShards(AndroidArgs.load(mixedConfigYaml, AndroidRunCommand().apply { obfuscate = true }), TEST_SHARD_FILE)
+            AndroidArgs.load(
+                yamlPath = mixedConfigYaml,
+                cli = AndroidRunCommand().apply { obfuscate = true }
+            ).dumpShards(TEST_SHARD_FILE)
             File(TEST_SHARD_FILE).apply { deleteOnExit() }.readText()
         }
 
         // then
         assertNotEquals(notExpected, actual)
-        assertThat(notExpected.split(System.lineSeparator()).size).isEqualTo(actual.split(System.lineSeparator()).size) // same line count
+        assertThat(notExpected.split(System.lineSeparator()).size).isEqualTo(
+            actual.split(System.lineSeparator()).size
+        ) // same line count
         assertThat(output.log).contains("Saved 3 shards to $TEST_SHARD_FILE")
     }
 
@@ -166,7 +172,7 @@ class DumpShardsKtTest {
         if (FtlConstants.isWindows) return // TODO Windows Linux subsytem does not contain all expected commands
         // when
         val actual = runBlocking {
-            dumpShards(IosArgs.load(ios2ConfigYaml), TEST_SHARD_FILE)
+            IosArgs.load(ios2ConfigYaml).dumpShards(TEST_SHARD_FILE)
             File(TEST_SHARD_FILE).apply { deleteOnExit() }.readText()
         }
 
@@ -197,13 +203,18 @@ class DumpShardsKtTest {
         if (FtlConstants.isWindows) return // TODO Windows Linux subsytem does not contain all expected commands
         // when
         val actual = runBlocking {
-            dumpShards(IosArgs.load(ios2ConfigYaml, IosRunCommand().apply { obfuscate = true }), TEST_SHARD_FILE)
+            IosArgs.load(
+                yamlPath = ios2ConfigYaml,
+                cli = IosRunCommand().apply { obfuscate = true }
+            ).dumpShards(TEST_SHARD_FILE)
             File(TEST_SHARD_FILE).apply { deleteOnExit() }.readText()
         }
 
         // then
         assertNotEquals(notExpected, actual)
-        assertThat(notExpected.split(System.lineSeparator()).size).isEqualTo(actual.split(System.lineSeparator()).size) // same line count
+        assertThat(notExpected.split(System.lineSeparator()).size).isEqualTo(
+            actual.split(System.lineSeparator()).size
+        ) // same line count
         assertThat(output.log).contains("Saved 2 shards to $TEST_SHARD_FILE")
     }
 }

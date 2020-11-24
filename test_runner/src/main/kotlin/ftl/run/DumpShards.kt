@@ -12,31 +12,31 @@ import ftl.util.obfuscatePrettyPrinter
 import java.nio.file.Files
 import java.nio.file.Paths
 
-suspend fun dumpShards(
-    args: AndroidArgs,
+suspend fun AndroidArgs.dumpShards(
+    // VisibleForTesting
     shardFilePath: String = ANDROID_SHARD_FILE,
 ) {
-    if (!args.isInstrumentationTest) throw FlankConfigurationError(
+    if (!isInstrumentationTest) throw FlankConfigurationError(
         "Cannot dump shards for non instrumentation test, ensure test apk has been set."
     )
-    val shards: AndroidMatrixTestShards = args.getAndroidMatrixShards()
+    val shards: AndroidMatrixTestShards = getAndroidMatrixShards()
     saveShardChunks(
         shardFilePath = shardFilePath,
         shards = shards,
         size = shards.flatMap { it.value.shards.values }.count(),
-        obfuscatedOutput = args.obfuscateDumpShards
+        obfuscatedOutput = obfuscateDumpShards
     )
 }
 
-fun dumpShards(
-    args: IosArgs,
+fun IosArgs.dumpShards(
+    // VisibleForTesting
     shardFilePath: String = IOS_SHARD_FILE,
 ) {
     saveShardChunks(
         shardFilePath = shardFilePath,
-        shards = args.testShardChunks.testCases,
-        size = args.testShardChunks.size,
-        obfuscatedOutput = args.obfuscateDumpShards
+        shards = testShardChunks.testCases,
+        size = testShardChunks.size,
+        obfuscatedOutput = obfuscateDumpShards
     )
 }
 

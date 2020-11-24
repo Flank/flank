@@ -9,24 +9,20 @@ import ftl.run.exception.FlankGeneralError
 import ftl.util.StopWatch
 import java.io.File
 
-internal fun beforeRunTests(args: IArgs): Pair<StopWatch, String> {
+internal fun IArgs.beforeRunTests() = StopWatch().also { watch ->
     println("\nRunTests")
     assertMockUrl()
 
-    val stopwatch = StopWatch().start()
-    val runGcsPath = args.resultsDir
+    watch.start()
 
     // Avoid spamming the results/ dir with temporary files from running the test suite.
     if (FtlConstants.useMock)
-        deleteMockResultDirOnShutDown(args, runGcsPath)
+        deleteMockResultDirOnShutDown()
 
-    if (args.useLocalResultDir()) {
-        // Only one result is stored when using --local-result-dir
-        // Delete any old results if they exist before storing new ones.
-        deleteLocalResultDir(args)
-    }
-
-    return stopwatch to runGcsPath
+    // Only one result is stored when using --local-result-dir
+    // Delete any old results if they exist before storing new ones.
+    if (useLocalResultDir())
+        deleteLocalResultDir()
 }
 
 private fun assertMockUrl() {
@@ -36,14 +32,10 @@ private fun assertMockUrl() {
     if (!GcToolResults.service.rootUrl.contains(FtlConstants.localhost)) throw FlankGeneralError("expected localhost in GcToolResults")
 }
 
-private fun deleteMockResultDirOnShutDown(args: IArgs, runGcsPath: String) {
-    Runtime.getRuntime().addShutdownHook(
-        Thread {
-            File(args.localResultDir, runGcsPath).deleteRecursively()
-        }
-    )
+private fun IArgs.deleteMockResultDirOnShutDown() {
+    File(localResultDir, resultsDir).deleteOnExit()
 }
 
-private fun deleteLocalResultDir(args: IArgs) {
-    File(args.localResultDir).deleteRecursively()
+private fun IArgs.deleteLocalResultDir() {
+    File(localResultDir).deleteRecursively()
 }
