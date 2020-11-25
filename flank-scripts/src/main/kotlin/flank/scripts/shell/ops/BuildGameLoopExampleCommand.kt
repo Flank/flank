@@ -8,7 +8,7 @@ import flank.scripts.shell.utils.iOSTestProjectsPath
 import java.nio.file.Paths
 
 object BuildGameLoopExampleCommand : CliktCommand(
-    name = "build_ios_gameloop_example", 
+    name = "build_ios_gameloop_example",
     help = "Build ios game loop example app"
 ) {
 

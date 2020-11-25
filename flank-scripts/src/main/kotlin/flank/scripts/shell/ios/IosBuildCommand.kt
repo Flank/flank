@@ -1,9 +1,9 @@
 package flank.scripts.shell.ios
 
 fun createXcodeBuildForTestingCommand(
-    buildDir: String, 
-    scheme: String, 
-    project: String = "", 
+    buildDir: String,
+    scheme: String,
+    project: String = "",
     workspace: String = ""
 ) =
     "xcodebuild build-for-testing" +
@@ -15,9 +15,9 @@ fun createXcodeBuildForTestingCommand(
         " -sdk iphoneos"
 
 fun createXcodeArchiveCommand(
-    archivePath: String, 
-    scheme: String, 
-    project: String = "", 
+    archivePath: String,
+    scheme: String,
+    project: String = "",
     workspace: String = ""
 ) =
     "xcodebuild" +
@@ -29,8 +29,8 @@ fun createXcodeArchiveCommand(
             " -archivePath $archivePath"
 
 fun createXcodeExportArchiveCommand(
-    archivePath: String, 
-    exportOptionsPlistPath: String, 
+    archivePath: String,
+    exportOptionsPlistPath: String,
     exportPath: String = ""
 ) =
     "xcodebuild -exportArchive" +
