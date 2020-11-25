@@ -11,7 +11,7 @@ object OpsCommand : CliktCommand(name = "ops", help = "Contains all ops command:
             BuildGameLoopExampleCommand,
             BuildTestPlansExample,
             BuildFlankExampleCommand,
-            iOSOpsCommand,
+            IosOpsCommand,
             GoOpsCommand
         )
     }
