@@ -1,3 +1,5 @@
+@file:Suppress("EXPERIMENTAL_API_USAGE")
+
 package ftl.util
 
 import kotlinx.coroutines.flow.Flow
