@@ -18,7 +18,11 @@ fun createXcodeArchiveCommand(archivePath: String, scheme: String, project: Stri
             " archive" +
             " -archivePath $archivePath"
 
-fun createXcodeExportArchiveCommand(archivePath: String, exportOptionsPlistPath: String, exportPath: String = "") =
+fun createXcodeExportArchiveCommand(
+    archivePath: String, 
+    exportOptionsPlistPath: String, 
+    exportPath: String = ""
+) =
     "xcodebuild -exportArchive" +
             " -allowProvisioningUpdates" +
             " -archivePath $archivePath" +
