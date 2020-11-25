@@ -14,8 +14,8 @@ fun main() {
         ?: "YOUR PROJECT ID"
 
     val quantity = "single"
-    val type = "shards"
-    val extra = "simple"
+    val type = "gameloop"
+    val extra = "ios"
 
     // Bugsnag keeps the process alive so we must call exitProcess
     // https://github.com/bugsnag/bugsnag-java/issues/151
@@ -24,7 +24,7 @@ fun main() {
 //            "--debug",
             "firebase",
             "test",
-            "android",
+            "ios",
             "run",
 //            "--dry",
 //            "--dump-shards",

@@ -1,0 +1,10 @@
+gcloud:
+  app: test_projects/ios/FlankGameLoopExample/ipa/FlankGameLoopExample.ipa
+  type: game-loop
+  scenario-numbers:
+      - 1
+  device:
+      - model: iphone11
+        version: 13.6
+        orientation: portrait
+        locale: en_US
