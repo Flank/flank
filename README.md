@@ -5,4 +5,4 @@ Flank is a [massively parallel Android and iOS test runner](https://docs.google.
 Flank is YAML compatible with [the gcloud CLI](https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test). Flank provides extra features to accelerate velocity and increase quality.
 
 ### Documentation is at [flank.github.io/flank](https://flank.github.io/flank/)
-! awesome
+! awesome?
