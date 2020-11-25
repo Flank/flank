@@ -12,7 +12,7 @@ data class AndroidArgs(
     val useOrchestrator: Boolean,
     val roboDirectives: List<FlankRoboDirective>,
     val roboScript: String?,
-    val environmentVariables: Map<String, String>, // should not be printed, becuase could contains sensitive informations
+    val environmentVariables: Map<String, String>, // should not be printed, because could contain sensitive information
     val grantPermissions: String?,
     val scenarioLabels: List<String>,
     val obbFiles: List<String>,
@@ -63,6 +63,7 @@ AndroidArgs
       device: ${ArgsToString.objectsToString(devices)}
       num-flaky-test-attempts: $flakyTestAttempts
       test-targets-for-shard: ${ArgsToString.listOfListToString(testTargetsForShard)}
+      fail-fast: $failFast
 
     flank:
       max-test-shards: $maxTestShards

@@ -30,6 +30,7 @@ fun CommonConfig.createCommonArgs(
     otherFiles = gcloud::otherFiles.require().mapValues { (_, path) -> path.normalizeFilePath() },
     scenarioNumbers = gcloud::scenarioNumbers.require(),
     type = gcloud.type?.toType(),
+    failFast = gcloud::failFast.require(),
 
     // flank
     maxTestShards = flank::maxTestShards.require(),

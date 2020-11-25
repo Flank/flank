@@ -247,6 +247,7 @@ IosArgs
       type: xctest
       app: 
       test-special-entitlements: true
+      fail-fast: false
 
     flank:
       max-test-shards: 7
@@ -311,6 +312,7 @@ IosArgs
       type: xctest
       app: 
       test-special-entitlements: false
+      fail-fast: false
 
     flank:
       max-test-shards: 1
@@ -874,6 +876,22 @@ IosArgs
 
         val args = IosArgs.load(yaml, cli)
         assertThat(args.outputStyle).isEqualTo(OutputStyle.Multi)
+    }
+
+    @Test
+    fun `cli fail-fast`() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parseArgs("--fail-fast")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+      """
+        assertThat(IosArgs.load(yaml).validate().failFast).isEqualTo(false)
+
+        val args = IosArgs.load(yaml, cli).validate()
+        assertThat(args.failFast).isEqualTo(true)
     }
 
     private fun getValidTestsSample() = listOf(

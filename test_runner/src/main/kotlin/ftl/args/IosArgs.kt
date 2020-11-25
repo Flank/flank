@@ -49,6 +49,7 @@ IosArgs
       type: ${type?.ymlName}
       app: $app
       test-special-entitlements: $testSpecialEntitlements
+      fail-fast: $failFast
 
     flank:
       max-test-shards: $maxTestShards

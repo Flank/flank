@@ -27,6 +27,7 @@ interface IArgs {
     val scenarioNumbers: List<String>
     val type: Type? get() = null
     val directoriesToPull: List<String>
+    val failFast: Boolean
 
     // FlankYml
     val maxTestShards: Int
