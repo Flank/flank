@@ -22,10 +22,10 @@ private fun IosBuildConfiguration.buildProject() = Paths.get(projectPath, "Build
     .runBuilds(this)
     .resolve("Build")
     .resolve("Products")
-    .apply { renameXctestFiles().filterFilesToCopy().archiveProject(projectName).copyIosProductFiles(projectName) }.let {
-        if (this.copyXCTestFiles) { it.copyTestFiles(this)}
+    .apply { renameXctestFiles().filterFilesToCopy().archiveProject(projectName).copyIosProductFiles(projectName) }
+    .let {
+        if (this.copyXCTestFiles) it.copyTestFiles(this)
     }
-
 
 private fun Path.runBuilds(configuration: IosBuildConfiguration) = apply {
     toFile().deleteRecursively()
