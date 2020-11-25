@@ -25,9 +25,9 @@ class MultipleDevicesIT {
         val resOutput = result.output.removeUnicode()
         assertThat(resOutput).containsMatch(findInCompare(name))
         assertContainsUploads(resOutput,
-            "Uploading app-multiple-success-debug-androidTest.apk",
-            "Uploading app-multiple-error-debug-androidTest.apk",
-            "Uploading performanceMetrics.json"
+            "app-multiple-success-debug-androidTest.apk",
+            "app-multiple-error-debug-androidTest.apk",
+            "performanceMetrics.json"
         )
         assertContainsOutcomeSummary(resOutput) {
             success = 6

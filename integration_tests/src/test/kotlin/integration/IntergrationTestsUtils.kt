@@ -1,6 +1,6 @@
 package integration
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import org.junit.Assert.assertEquals
 import utils.ProcessResult
 import java.io.File
@@ -42,7 +42,7 @@ data class OutcomeSummary(val matcher: MutableMap<TestOutcome, Int> = mutableMap
 }
 
 fun assertContainsUploads(input: String, vararg uploads: String) = uploads.forEach {
-    Truth.assertThat(input).contains(it)
+    assertThat(input).contains("Uploading $it")
 }
 
 fun assertContainsOutcomeSummary(input: String, block: OutcomeSummary.() -> Unit) =
