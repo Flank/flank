@@ -1,0 +1,62 @@
+name: Full Suite Integration Tests Cron
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # At 00:00 everyday
+  workflow_dispatch:    # or manually
+
+jobs:
+  run_it_full_suite:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.5.0
+        with:
+          access_token: '${{ secrets.GITHUB_TOKEN }}'
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ubuntu-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ubuntu-gradle-
+
+      - name: Gradle integration tests
+        uses: eskatos/gradle-command-action@v1
+        id: build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_REF: ${{ github.ref }}
+        with:
+          arguments: "clean build -x test"
+
+      - name: Get current time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
+        with:
+          format: 'YYYY-MM-DD HH:mm'
+          utcOffset: "+00:00"
+
+      - name: Gradle integration tests
+        uses: eskatos/gradle-command-action@v1
+        id: run_it
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_REF: ${{ github.ref }}
+        with:
+          arguments: "integrationTests"
+
+      - uses: JasonEtco/create-an-issue@v2
+        if: failure()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_DATE: ${{ steps.current-time.outputs.formattedTime }}
+          RUN_ID: ${{ github.run_id }}
+          BUILD_SCAN_URL: ${{ steps.run_it.outputs.build-scan-url }}
+        with:
+          filename: .github/it_failed_template.md
