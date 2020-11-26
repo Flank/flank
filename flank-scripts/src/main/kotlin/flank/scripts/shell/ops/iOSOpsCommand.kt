@@ -12,7 +12,6 @@ object IosOpsCommand : CliktCommand(name = "ios", help = "Build ios test artifac
         if (generate.not()) return
         listOf(
             BuildEarlGreyExampleCommand,
-            BuildGameLoopExampleCommand,
             BuildTestPlansExample,
             BuildFlankExampleCommand
         ).forEach {

@@ -74,3 +74,70 @@ To export path to your local flank repository just source [.env](../.env) file.
 > As a developer I want to remove test artifacts
 
 * Run `flankScripts testArtifacts remove` this will remove the remote copy of test artifacts for current working branch.
+
+
+## iOS test artifacts
+
+Currently we have 4 different iOS test projects:
+
+1. EarlGreyExample
+2. FlankExample
+3. FlankGameLoopExample
+4. FlankTestPlansExample
+
+Source code of each of them is located under: [test_projects/ios](../test_projects/ios)
+
+Test artifacts for each project contains: 
+* build output in Debug-iphoneos
+* zipped build output in PROJECT_NAME.zip,
+* .xctestrun file for each test target
+
+### EarlGreyExample
+
+This project is basically clone of [EarlGrey](https://github.com/google/EarlGrey). 
+Source project contains two test targets: EarlGreyExampleSwiftTests, EarlGreyExampleTests.
+
+#### Generate
+Run: `flankScripts shell ops build_earl_grey_example`.
+
+#### Source Code
+[test_projects/ios/EarlGreyExample](../test_projects/ios/EarlGreyExample)
+
+
+### FlankExample
+
+Simple project with two test targets: FlankExampleTests, FlankExampleSecondTests.
+
+#### Generate
+Run: `flankScripts shell ops build_flank_example`.
+
+#### Source Code
+[test_projects/ios/EarlGreyExample](../test_projects/ios/FlankExample)
+
+
+### FlankGameLoopExample
+
+Simple SpriteKit app to test gameloop mode. It doesn't contain any test target, so test artifacts contains only IPA file.
+
+#### Generate
+Run: `flankScripts shell ops build_ios_gameloop_example`.
+
+#### Source Code
+[test_projects/ios/EarlGreyExample](../test_projects/ios/FlankGameLoopExample)
+
+⚠️ NOTE: Generating IPA requires Apple distribution certificate therefore for now it's not possible to generate it without correct Apple Developer Account. 
+`build_ios_gameloop_example` is excluded from:
+```bash
+source .env
+update_test_artifacts ios
+```
+
+### FlankTestPlansExample
+
+iOS project with XCTestPlans. Contains `AllTests` test plan. Generated .xctestrun is using V2 format. More details about test plans: [docs/feature/ios_test_plans.md](feature/ios_test_plans.md)
+
+#### Generate
+Run: `flankScripts shell ops build_ios_testplans_example`.
+
+#### Source Code
+[test_projects/ios/EarlGreyExample](../test_projects/ios/FlankTestPlansExample)
