@@ -7,7 +7,7 @@ on:
 jobs:
   create_release:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'release')
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'release') && contains(github.event.pull_request.user.login, 'flank-release[bot]') && startsWith(github.event.pull_request.title, 'release notes for')
     steps:
       - uses: actions/checkout@v2
       - uses: tibdex/github-app-token@v1
