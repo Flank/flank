@@ -30,6 +30,7 @@ nav:
       - Contribution: onboarding/2_contribution.md
       - Estimation: onboarding/3_estimation.md
       - Buddy system: onboarding/4_buddy_system.md
+      - Code review: onboarding/5_code_review.md
       - Test artifacts: test_artifacts.md
       - Client generation: client_generation.md
       - Dependencies update: dependencies_update_process.md
