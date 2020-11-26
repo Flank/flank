@@ -4,7 +4,10 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 
-object IosOpsCommand : CliktCommand(name = "ios", help = "Build ios test artifacts") {
+object IosOpsCommand : CliktCommand(
+    name = "build_all_ios", 
+    help = "Build all ios test artifacts"
+) {
 
     private val generate: Boolean by option(help = "Make build").flag("-g", default = true)
 
