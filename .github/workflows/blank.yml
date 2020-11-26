@@ -16,7 +16,7 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'release')
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'release') && contains(github.event.pull_request.user.login, 'piotradamczyk5') && startsWith(github.event.pull_request.title, 'release notes for')
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: tibdex/github-app-token@v1
