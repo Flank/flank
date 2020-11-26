@@ -126,9 +126,8 @@ Run: `flankScripts shell ops build_ios_gameloop_example`.
 [test_projects/ios/EarlGreyExample](../test_projects/ios/FlankGameLoopExample)
 
 ⚠️ NOTE: Generating IPA requires Apple distribution certificate therefore for now it's not possible to generate it without correct Apple Developer Account. 
-`build_ios_gameloop_example` is excluded from:
+`build_ios_gameloop_example` is excluded when building all iOS artifacts:
 ```bash
-source .env
 update_test_artifacts ios
 ```
 
