@@ -51,8 +51,20 @@ jobs:
         with:
           arguments: "integrationTests"
 
+      - name: Check for opened issues
+        if: ${{ failure() }}
+        id: check-opened
+        run: |
+          resp=$(curl -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/Flank/flank/issues?creator=github-actions[bot]&state=open&labels=IT_Failed" | jq .)
+          echo $resp
+          SHOULD_RUN='false'
+          if [ $resp = "[]" ]; then
+            SHOULD_RUN='true'
+          fi
+          echo "::set-output name=should_create::${SHOULD_RUN}"
+
       - uses: JasonEtco/create-an-issue@v2
-        if: failure()
+        if: ${{ failure() && steps.check-opened.outputs.should_create == 'true' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUN_DATE: ${{ steps.current-time.outputs.formattedTime }}

@@ -2,7 +2,7 @@
 name: Full suite IT test report
 about: Report failed IT tests
 title: Full Suite integration tests failed on master [{{ env.RUN_DATE }}]
-labels: bug
+labels: bug, IT_Failed
 ---
 ### Integration Test failed on master 
 **Timestamp:** {{ env.RUN_DATE }}
