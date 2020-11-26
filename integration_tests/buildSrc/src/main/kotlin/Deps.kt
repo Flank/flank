@@ -11,6 +11,10 @@ object Versions {
 
     // https://github.com/mockk/mockk
     const val MOCKK = "1.10.0"
+
+    // https://github.com/FasterXML/jackson-core/releases
+    // https://github.com/FasterXML/jackson-dataformat-xml/releases
+    const val JACKSON = "2.11.3"
 }
 
 object Libs {
@@ -20,6 +24,11 @@ object Libs {
 
     //region Plugins
     const val DETEKT_FORMATTING = "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.DETEKT}"
+    //endregion
+
+    //region Jackson
+    const val JACKSON_KOTLIN = "com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.JACKSON}"
+    const val JACKSON_XML = "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${Versions.JACKSON}"
     //endregion
 
     //region Test Dependencies
