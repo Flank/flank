@@ -13,10 +13,6 @@ RUN bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk install kscript"
 
 RUN bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk install gradle"
 
-RUN chmod +x /compile.sh
-
-RUN bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && /compile.sh"
-
 COPY entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
