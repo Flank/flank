@@ -157,7 +157,19 @@ tasks.register("download") {
 }
 
 tasks.register("checkIfVersionUpdated") {
-    if(isVersionChanged().not()) {
+    val isVersionChanged = withTempFile {
+        outputStream().use {
+            project.exec {
+                commandLine(listOf("git", "diff", "..master", "--name-only"))
+                standardOutput = it
+            }
+        }
+
+        val changedFiles = readLines()
+        changedFiles.any { it.startsWith("flank-scripts") }.not()
+            || (changedFiles.contains("flank-scripts/build.gradle.kts") && isVersionChangedInBuildGradle())
+    }
+    if(isVersionChanged.not()) {
         throw GradleException(
             "Flank scripts version is not updated, but files changed.\n" +
             "Please update version according to schema: <breaking change>.<feature added>.<fix/minor change>"
@@ -165,23 +177,10 @@ tasks.register("checkIfVersionUpdated") {
     }
 }
 
-fun isVersionChanged(): Boolean = withTempFile {
-    outputStream().use {
-        project.exec {
-            commandLine(listOf("git", "diff", "--name-only"))
-            standardOutput = it
-        }
-    }
-
-    val changedFiles = readLines()
-    changedFiles.any { it.startsWith("flank-scripts") }.not()
-        || (changedFiles.contains("flank-scripts/build.gradle.kts") && isVersionChangedInBuildGradle())
-}
-
 fun isVersionChangedInBuildGradle(): Boolean = withTempFile {
     outputStream().use {
         project.exec {
-            commandLine(listOf("git", "diff", "--", "build.gradle.kts"))
+            commandLine(listOf("git", "diff", "..master", "--", "build.gradle.kts"))
             standardOutput = it
         }
     }
