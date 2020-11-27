@@ -37,9 +37,9 @@ dependencies {
 }
 
 tasks.test {
-//    onlyIf {
-//    //    System.getProperty("flank-path", "").isNotBlank()
-//    }
+    onlyIf {
+        System.getProperty("flank-path", "").isNotBlank()
+    }
     systemProperty("flank-path", System.getProperty("flank-path"))
     systemProperty("yml-path", System.getProperty("yml-path"))
     systemProperty("run-params", System.getProperty("run-params"))

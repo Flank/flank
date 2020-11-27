@@ -13,15 +13,11 @@ const val defaultAndroidOutputPattern = "AndroidArgs\\s*" +
     "FetchArtifacts[\\s\\S]*" +
     "Updating matrix file"
 
-const val defaultIosOutputPattern = "IosArgs.*?" +
-    "gcloud:.*?" +
-    "flank:.*?" +
-    "RunTests.*?" +
-    "Matrices webLink.*?" +
-    "matrix-.*?" +
-    "FetchArtifacts.*?" +
-    "Updating matrix file.*?" +
-    "CostReport.*?" +
-    "MatrixResultsReport.*?" +
-    "test cases passed.*?" +
-    "Uploading JUnitReport.xml ."
+const val defaultIosOutputPattern = "IosArgs[\\s\\S]*" +
+    "flank:[\\s\\S]*" +
+    "RunTests[\\s\\S]*" +
+    "Matrices webLink[\\s\\S]*" +
+    "matrix-[\\s\\S]*" +
+    "CostReport[\\s\\S]*" +
+    "MatrixResultsReport[\\s\\S]*" +
+    "[\\s\\S]*test cases passed[\\s\\S]*"

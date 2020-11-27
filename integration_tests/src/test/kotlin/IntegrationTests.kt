@@ -2,11 +2,16 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Ignore
 import org.junit.Test
+import utils.assertCountOfSkippedTests
+import utils.assertTestResultContainsWebLinks
+import utils.findTestDirectoryFromOutput
+import utils.loadAsTestSuite
+import utils.toJUnitXmlFile
 import utils.toStringMap
+import java.io.File
 
 
 class IntegrationTests {
-
     @Test
     fun shouldMatchAndroidSuccessExitCodeAndPattern() {
         val testParameters = System.getProperties().toStringMap().toAndroidTestParameters()
@@ -25,6 +30,11 @@ class IntegrationTests {
             "Output don't match pattern, actual output: ${actual.output}",
             expectedOutput.find(actual.output)?.value.orEmpty().isNotBlank()
         )
+
+        actual.output.findTestDirectoryFromOutput().toJUnitXmlFile().loadAsTestSuite().run {
+            assertCountOfSkippedTests(3)
+            assertTestResultContainsWebLinks()
+        }
     }
 
     @Ignore("iOS has only physical devices, whit current configuration flank's project hits quota limit extremely fast")
@@ -42,6 +52,7 @@ class IntegrationTests {
         val expectedOutput = testParameters.outputPattern.toRegex(
             setOf(RegexOption.DOT_MATCHES_ALL)
         )
+        File("test.log").writeText(actual.output)
         assertTrue(
             "Output don't match pattern, actual output: ${actual.output}",
             expectedOutput.find(actual.output)?.value.orEmpty().isNotBlank()
