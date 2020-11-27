@@ -16,11 +16,18 @@ Each push:
 - to `master` branch run Snapshot release
 - of tag `v*` run regular release
 
-## Manual Steps
+## Triggering release 
+
+### Manually
 1. Navigate to [Github Actions](https://github.com/Flank/flank/actions)
 2. Run job [`Generate release notes for next commit`](https://github.com/Flank/flank/actions?query=workflow%3A%22Generate+release+notes+for+next+commit%22) by using `Run Workflow` button
-3. After merging, push a tag for the release
+3. After merging PR,  the next tag will be pushed to repository
 4. Wait for CI job to finish
+
+### Automatically
+1. Release job will run each 1st day of month
+2. After merging PR,  the next tag will be pushed to repository
+2. Wait for CI job to finish
 
 ## CI Steps
 1. Gradle Build flankScripts and add it to PATH
