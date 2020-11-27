@@ -1,4 +1,7 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import com.jfrog.bintray.gradle.BintrayExtension
+import java.util.*
+import java.nio.file.Paths
 
 plugins {
     application
@@ -6,9 +9,11 @@ plugins {
     kotlin(Plugins.Kotlin.PLUGIN_SERIALIZATION) version Versions.KOTLIN
     id(Plugins.PLUGIN_SHADOW_JAR) version Versions.SHADOW
     id(Plugins.DETEKT_PLUGIN)
+    id(Plugins.MAVEN_PUBLISH)
+    id(Plugins.JFROG_BINTRAY)
 }
 
-val artifactID = "flankScripts"
+val artifactID = "flank-scripts"
 
 val shadowJar: ShadowJar by tasks
 shadowJar.apply {
@@ -21,9 +26,9 @@ shadowJar.apply {
         attributes(mapOf("Main-Class" to "flank.scripts.MainKt"))
     }
 }
-
-version = "1.0"
-group = "flank.scripts"
+// <breaking change>.<feature added>.<fix/minor change>
+version = "1.0.0"
+group = "com.github.flank"
 
 application {
     mainClassName = "flank.scripts.MainKt"
@@ -31,6 +36,57 @@ application {
         "-Xmx2048m",
         "-Xms512m"
     )
+}
+bintray {
+    user = System.getenv("JFROG_USER") ?: properties["JFROG_USER"].toString()
+    key = System.getenv("JFROG_API_KEY") ?: properties["JFROG_API_KEY"].toString()
+    publish = true
+    override = true
+    setPublications("mavenJava")
+    pkg(closureOf<BintrayExtension.PackageConfig> {
+        repo = "maven"
+        name = artifactID
+        userOrg = "flank"
+        setLicenses("Apache-2.0")
+        vcsUrl = "https://github.com/Flank/flank.git"
+        version(closureOf<BintrayExtension.VersionConfig> {
+            name = version.name
+            released = Date().toString()
+        })
+    })
+}
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            groupId = group.toString()
+            artifactId = artifactID
+            version = version
+
+            artifact(shadowJar)
+
+            pom {
+                name.set("Flank-scripts")
+                description.set("Scripts for Flank")
+                url.set("https://github.com/flank/flank")
+
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
+                }
+            }
+
+            pom.withXml {
+                // Remove deps since we're publishing a fat jar
+                val pom = asNode()
+                val depNode: groovy.util.NodeList = pom.get("dependencies") as groovy.util.NodeList
+                for (child in depNode) {
+                    pom.remove(child as groovy.util.Node)
+                }
+            }
+        }
+    }
 }
 
 tasks.test {
@@ -93,3 +149,51 @@ val prepareJar by tasks.registering(Copy::class) {
     include("flankScripts.jar")
     into("$projectDir/bash")
 }
+
+tasks.register("download") {
+    val sourceUrl = "https://dl.bintray.com/flank/maven/com/github/flank/$artifactID/$version/$artifactID-$version.jar"
+    val destinationFile = Paths.get("bash", "flankScripts.jar").toFile()
+    ant.invokeMethod("get", mapOf("src" to sourceUrl, "dest" to destinationFile))
+}
+
+tasks.register("checkIfVersionUpdated") {
+    if(isVersionChanged().not()) {
+        throw GradleException(
+            "Flank scripts version is not updated, but files changed.\n" +
+            "Please update version according to schema: <breaking change>.<feature added>.<fix/minor change>"
+        )
+    }
+}
+
+fun isVersionChanged(): Boolean = withTempFile {
+    outputStream().use {
+        project.exec {
+            commandLine(listOf("git", "diff", "--name-only"))
+            standardOutput = it
+        }
+    }
+
+    val changedFiles = readLines()
+    changedFiles.any { it.startsWith("flank-scripts") }.not()
+        || (changedFiles.contains("flank-scripts/build.gradle.kts") && isVersionChangedInBuildGradle())
+}
+
+fun isVersionChangedInBuildGradle(): Boolean = withTempFile {
+    outputStream().use {
+        project.exec {
+            commandLine(listOf("git", "diff", "--", "build.gradle.kts"))
+            standardOutput = it
+        }
+    }
+
+    readLines()
+        .filter { it.startsWith("-version = ") || it.startsWith("+version = ") }
+        .size >= 2
+}
+
+fun <T> withTempFile(block: File.() -> T): T {
+    val tempFile = createTempFile("${System.currentTimeMillis()}")
+    return block(tempFile).also { tempFile.delete() }
+}
+
+tasks["detekt"].dependsOn(tasks["checkIfVersionUpdated"])

@@ -13,9 +13,9 @@ jobs:
     if: ${{ github.event.action == 'opened' }}
     steps:
       - uses: actions/checkout@v2
-      - name: Gradle Build flankScripts and add it to PATH
+      - name: Download flankScripts and add it to PATH
         run: |
-          ./flank-scripts/bash/buildFlankScripts.sh
+          ./gradlew :flank-scripts:download
           echo "./flank-scripts/bash" >> $GITHUB_PATH
 
       - name: Copy properties

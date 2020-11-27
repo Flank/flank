@@ -14,6 +14,7 @@ plugins {
     kotlin(Plugins.Kotlin.PLUGIN_JVM) version Versions.KOTLIN
     id(Plugins.DETEKT_PLUGIN) version Versions.DETEKT
     id(Plugins.BEN_MANES_PLUGIN) version Versions.BEN_MANES
+    id(Plugins.JFROG_BINTRAY) version Versions.BINTRAY
 }
 
 repositories {

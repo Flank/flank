@@ -14,7 +14,7 @@ plugins {
     jacoco
     kotlin(Plugins.Kotlin.PLUGIN_JVM)
     id(Plugins.DETEKT_PLUGIN)
-    id(Plugins.JFROG_BINTRAY) version Versions.BINTRAY
+    id(Plugins.JFROG_BINTRAY)
     id(Plugins.MAVEN_PUBLISH)
     id(Plugins.PLUGIN_SHADOW_JAR) version Versions.SHADOW
 }
