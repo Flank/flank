@@ -2,6 +2,8 @@ name: "Generate release notes for next commit"
 
 on: 
   workflow_dispatch:
+  schedule:
+    - cron: 0 7 1 * *
 
 jobs:
   generateReleaseNotes:
