@@ -32,7 +32,8 @@ private fun buildExample() {
     val xcodeCommandSwiftTests = createXcodeBuildForTestingCommand(
         buildDir = buildPath.toString(),
         scheme = "EarlGreyExampleSwiftTests",
-        workspace = Paths.get(projectPath.toString(), "EarlGreyExample.xcworkspace").toString()
+        workspace = Paths.get(projectPath.toString(), "EarlGreyExample.xcworkspace").toString(),
+        useLegacyBuildSystem = true
     )
 
     installPodsIfNeeded(path = projectPath)
@@ -41,7 +42,8 @@ private fun buildExample() {
     val xcodeCommandTests = createXcodeBuildForTestingCommand(
         buildDir = buildPath.toString(),
         scheme = "EarlGreyExampleTests",
-        workspace = Paths.get(projectPath.toString(), "EarlGreyExample.xcworkspace").toString()
+        workspace = Paths.get(projectPath.toString(), "EarlGreyExample.xcworkspace").toString(),
+        useLegacyBuildSystem = true
     )
 
     xcodeCommandTests pipe "xcpretty"

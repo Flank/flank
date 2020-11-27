@@ -41,7 +41,8 @@ private fun Path.runBuilds(configuration: IosBuildConfiguration) = apply {
             toString(),
             scheme = it.scheme,
             project = project,
-            workspace = workspace
+            workspace = workspace,
+            useLegacyBuildSystem = configuration.useLegacyBuildSystem
         )
         buildCommand pipe "xcpretty"
     }
@@ -94,7 +95,8 @@ data class IosBuildConfiguration(
     val useWorkspace: Boolean = false,
     val generate: Boolean = true,
     val copy: Boolean = true,
-    val copyXCTestFiles: Boolean = false
+    val copyXCTestFiles: Boolean = false,
+    val useLegacyBuildSystem: Boolean = false
 )
 
 data class IosTestBuildConfiguration(val scheme: String, val outputDirectoryName: String)

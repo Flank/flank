@@ -4,13 +4,15 @@ fun createXcodeBuildForTestingCommand(
     buildDir: String,
     scheme: String,
     project: String = "",
-    workspace: String = ""
+    workspace: String = "",
+    useLegacyBuildSystem: Boolean
 ) =
     "xcodebuild build-for-testing" +
         " -allowProvisioningUpdates" +
         (if (workspace.isBlank()) "" else " -workspace $workspace") +
         (if (project.isBlank()) "" else " -project $project") +
         " -scheme $scheme" +
+        (if (useLegacyBuildSystem) " -UseModernBuildSystem=NO" else "") +
         " -derivedDataPath $buildDir" +
         " -sdk iphoneos"
 

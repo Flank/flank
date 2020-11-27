@@ -22,7 +22,11 @@ private fun buildFtl() {
     val dataPath = Paths.get("", "dd_tmp").apply {
         toFile().deleteRecursively()
     }.toString()
-    val xcodeCommand = createXcodeBuildForTestingCommand(dataPath, "\"EarlGreyExampleSwiftTests\"")
+    val xcodeCommand = createXcodeBuildForTestingCommand(
+        buildDir = dataPath,
+        scheme = "\"EarlGreyExampleSwiftTests\"",
+        useLegacyBuildSystem = true
+    )
 
     xcodeCommand pipe "xcpretty"
     copyFtlOutputFiles(dataPath)
