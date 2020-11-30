@@ -159,6 +159,11 @@ tasks.register("download") {
 tasks.register("checkIfVersionUpdated") {
     val isVersionChanged = withTempFile {
         outputStream().use {
+
+            project.exec {
+                commandLine("git", "fetch", "--no-tags", "-v")
+            }
+
             project.exec {
                 commandLine(listOf("git", "diff", "origin/master", "HEAD", "--name-only"))
                 standardOutput = it
