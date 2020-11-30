@@ -21,7 +21,7 @@ object Versions {
     const val KOTLIN = "1.4.20"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    const val KOTLIN_COROUTINES = "1.4.1"
+    const val KOTLIN_COROUTINES = "1.4.2"
 
     // https://github.com/remkop/picocli/releases
     const val PICOCLI = "4.5.2"
@@ -45,7 +45,7 @@ object Versions {
 
     // https://github.com/FasterXML/jackson-core/releases
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
-    const val JACKSON = "2.11.3"
+    const val JACKSON = "2.12.0"
 
     const val JUNIT = "4.13.1"
 
