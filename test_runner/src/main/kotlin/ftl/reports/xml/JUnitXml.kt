@@ -3,6 +3,7 @@ package ftl.reports.xml
 import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
+import com.fasterxml.jackson.dataformat.xml.deser.FromXmlParser.Feature.EMPTY_ELEMENT_AS_NULL
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
@@ -15,6 +16,7 @@ import java.nio.file.Path
 private val xmlModule = JacksonXmlModule().apply { setDefaultUseWrapper(false) }
 
 private val xmlMapper = XmlMapper(xmlModule)
+    .configure(EMPTY_ELEMENT_AS_NULL, true)
     .registerModules(KotlinModule())
     .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
 
