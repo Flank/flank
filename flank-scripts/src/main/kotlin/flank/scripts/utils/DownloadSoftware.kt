@@ -7,7 +7,7 @@ fun downloadXcPrettyIfNeeded() {
 }
 
 fun downloadCocoaPodsIfNeeded() {
-    "xcpretty".checkAndInstallIfNeed("gem install cocoapods -v 1.9.3")
+    "pod".checkAndInstallIfNeed("gem install cocoapods -v 1.9.3")
 }
 
 fun installPodsIfNeeded(path: Path) {
