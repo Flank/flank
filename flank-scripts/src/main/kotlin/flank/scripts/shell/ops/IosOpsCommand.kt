@@ -8,8 +8,8 @@ object IosOpsCommand : CliktCommand(
 ) {
 
     override fun run() = listOf(
-            BuildEarlGreyExampleCommand,
-            BuildTestPlansExample,
-            BuildFlankExampleCommand
-        ).forEach(CliktCommand::run)
+        BuildEarlGreyExampleCommand,
+        BuildTestPlansExample,
+        BuildFlankExampleCommand
+    ).forEach(CliktCommand::run)
 }
