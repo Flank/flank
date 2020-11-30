@@ -52,7 +52,7 @@
     "formFactor" : "PHONE",
     "id" : "iphone8",
     "name" : "iPhone 8",
-    "supportedVersionIds" : [ "11.2", "11.4", "12.0" ],
+    "supportedVersionIds" : [ "11.2", "11.4", "12.0", "13.6" ],
     "tags" : [ "default", "deprecated=11.2" ]
   }, {
     "deviceCapabilities" : [ "accelerometer", "armv6", "armv7", "arm64", "auto-focus-camera", "bluetooth-le", "front-facing-camera", "gamekit", "gyroscope", "location-services", "magnetometer", "metal", "microphone", "opengles-1", "opengles-2", "opengles-3", "peer-peer", "still-camera", "video-camera", "wifi", "arkit", "camera-flash", "gps", "healthkit", "nfc", "sms", "telephony" ],

@@ -300,7 +300,7 @@ IosArgs
       xcode-version: null
       device:
         - model: iphone8
-          version: 12.0
+          version: 13.6
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 0
@@ -362,7 +362,7 @@ IosArgs
             // IosGcloudYml
             assert(xctestrunZip, testAbsolutePath)
             assert(xctestrunFile, xctestrunFileAbsolutePath)
-            assert(devices, listOf(Device("iphone8", "12.0")))
+            assert(devices, listOf(Device("iphone8", "13.6")))
             assert(flakyTestAttempts, 0)
 
             // FlankYml
