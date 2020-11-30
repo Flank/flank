@@ -160,7 +160,7 @@ tasks.register("checkIfVersionUpdated") {
     val isVersionChanged = withTempFile {
         outputStream().use {
             project.exec {
-                commandLine(listOf("git", "diff", "..master", "--name-only"))
+                commandLine(listOf("git", "diff", "origin/master", "HEAD", "--name-only"))
                 standardOutput = it
             }
         }
@@ -180,7 +180,7 @@ tasks.register("checkIfVersionUpdated") {
 fun isVersionChangedInBuildGradle(): Boolean = withTempFile {
     outputStream().use {
         project.exec {
-            commandLine(listOf("git", "diff", "..master", "--", "build.gradle.kts"))
+            commandLine(listOf("git", "diff", "origin/master", "HEAD", "--", "build.gradle.kts"))
             standardOutput = it
         }
     }
