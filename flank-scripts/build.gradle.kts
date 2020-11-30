@@ -157,6 +157,7 @@ tasks.register("download") {
 }
 
 tasks.register("checkIfVersionUpdated") {
+    group = "verification"
     val isVersionChanged = withTempFile {
         outputStream().use {
 
