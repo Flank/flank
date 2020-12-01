@@ -1,13 +1,16 @@
-name: Full Suite Integration Tests Cron
+name: Full Suite Integration Tests
 
 on:
   schedule:
-    - cron: '0 0 * * *' # At 00:00 everyday
-  workflow_dispatch:    # or manually
+    - cron: '0 0 * * 1-5' # At 00:00 on every day-of-week from Monday through Friday
+  workflow_dispatch:      # or manually
 
 jobs:
-  run_it_full_suite:
+  run-it-full-suite:
     runs-on: ubuntu-latest
+    outputs:
+      build-scan-url: ${{ steps.run-it.outputs.build-scan-url }}
+      it-status: ${{ steps.status.outputs.it-status }}
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.5.0
@@ -26,7 +29,7 @@ jobs:
           restore-keys: |
             ubuntu-gradle-
 
-      - name: Gradle integration tests
+      - name: Gradle clean build
         uses: eskatos/gradle-command-action@v1
         id: build
         env:
@@ -35,6 +38,30 @@ jobs:
         with:
           arguments: "clean build -x test"
 
+      - name: Gradle integration tests
+        uses: eskatos/gradle-command-action@v1
+        id: run-it
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_REF: ${{ github.ref }}
+        with:
+          arguments: "integrationTests"
+
+      - name: Set status
+        if: always()
+        id: status
+        run: |
+          echo "::set-output name=it-status::${{ job.status }}"
+
+  prepare-message:
+    if: always()
+    runs-on: ubuntu-latest
+    needs: [ run-it-full-suite ]
+    outputs:
+      issue-number: ${{ steps.check-opened.outputs.issue-number }}
+      message-body: ${{ steps.body.outputs.body }}
+      next-step: ${{ steps.next-step.outputs.next-step }}
+    steps:
       - name: Get current time
         uses: 1466587594/get-current-time@v2
         id: current-time
@@ -42,33 +69,123 @@ jobs:
           format: 'YYYY-MM-DD HH:mm'
           utcOffset: "+00:00"
 
-      - name: Gradle integration tests
-        uses: eskatos/gradle-command-action@v1
-        id: run_it
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HEAD_REF: ${{ github.ref }}
-        with:
-          arguments: "integrationTests"
-
       - name: Check for opened issues
-        if: ${{ failure() }}
         id: check-opened
         run: |
-          resp=$(curl -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/Flank/flank/issues?creator=github-actions[bot]&state=open&labels=IT_Failed" | jq .)
-          echo $resp
-          SHOULD_RUN='false'
-          if [ $resp = "[]" ]; then
-            SHOULD_RUN='true'
-          fi
-          echo "::set-output name=should_create::${SHOULD_RUN}"
+          resp=$(curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/Flank/flank/issues?creator=github-actions[bot]&state=open&labels=IT_Failed" | jq '.[0] | .number' -r)
+          echo "::set-output name=issue-number::${resp}"
 
-      - uses: JasonEtco/create-an-issue@v2
-        if: ${{ failure() && steps.check-opened.outputs.should_create == 'true' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RUN_DATE: ${{ steps.current-time.outputs.formattedTime }}
-          RUN_ID: ${{ github.run_id }}
-          BUILD_SCAN_URL: ${{ steps.run_it.outputs.build-scan-url }}
+      - name: Date of last run
+        id: last-run-date
+        run: |
+          resp=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/Flank/flank/actions/workflows/it_cron.yml/runs?per_page=2&page=1" | jq ' [.workflow_runs | .[] | select(.status != "in_progress") | select(.conclusion != "cancelled")][0] | .created_at' -r)
+          echo "::set-output name=last-run-date::${resp}"
+
+      - name: Create failed message
+        if: ${{ needs.run-it-full-suite.outputs.it-status == 'failure' }}
+        run: |
+          echo "### Full suite IT run :x: FAILED :x:" >> message.txt
+          echo "**Timestamp:** ${{ steps.current-time.outputs.formattedTime }}" >> message.txt
+          echo "**Job run:** [${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})" >> message.txt
+          echo "**Build scan URL:** ${{ needs.run-it-full-suite.outputs.build-scan-url }}" >> message.txt
+          echo "**Commits since the last run:**" >> message.txt
+          list=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/Flank/flank/commits?since=${{ steps.last-run-date.outputs.last-run-date }}" | jq ' .[] | .sha' -r)
+          if [ -z "$list" ]
+          then
+            echo "No new commits" >> message.txt
+          else
+            echo "|commit SHA|PR|" >> message.txt
+            echo "|---|:---:|" >> message.txt
+            while IFS= read -r commit; do
+              resp=$(curl -H "Accept: application/vnd.github.groot-preview+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/Flank/flank/commits/${commit}/pulls" | jq '.[] | {html_url, title}')
+              if [ -z "$resp" ]; then
+                echo "|${commit}|-|" >> message.txt
+              else
+                echo "|${commit}|[PR-$(echo $resp | jq .title -r)]($(echo $resp | jq .html_url -r))|" >> message.txt
+              fi
+            done <<< "$list"
+          fi
+
+      - name: Create success message
+        if: ${{ needs.run-it-full-suite.outputs.it-status == 'success' }}
+        run: |
+          echo "### Full suite IT run :white_check_mark: SUCCEEDED :white_check_mark:" >> message.txt
+          echo "**Timestamp:** ${{ steps.current-time.outputs.formattedTime }}" >> message.txt
+          echo "**Job run:** [${{ github.run_id }}](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})" >> message.txt
+          echo "**Build scan URL:** ${{ needs.run-it-full-suite.outputs.build-scan-url }}" >> message.txt
+          echo "**Closing issue**" >> message.txt
+
+      - name: Make message body
+        id: body
+        run: |
+          body=$(cat message.txt)
+          body="${body//'%'/'%25'}"
+          body="${body//$'\n'/'%0A'}"
+          body="${body//$'\r'/'%0D'}"
+          echo "::set-output name=body::${body}"
+
+      - name: Decide on next step
+        id: next-step
+        run: |
+          next_step=''
+          status=${{ needs.run-it-full-suite.outputs.it-status }}
+          issue_number=${{ steps.check-opened.outputs.issue-number }}
+          if [ "$status" == 'success' ]; then
+            if [ "$issue_number" == null ]; then
+              next_step='do-nothing'
+            else
+              next_step='close'
+            fi
+          else
+            if [ "$issue_number" == null ]; then
+              next_step='create'
+            else
+              next_step='comment'
+            fi
+          fi
+          echo "::set-output name=next-step::${next_step}"
+
+  create-issue:
+    needs: [ prepare-message ]
+    if: always() && needs.prepare-message.outputs.next-step == 'create'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prepare template
+        run: |
+          echo "### Integration Test failed on master" >> issue.md
+
+      - name: Create Issue From File
+        id: create-issue
+        uses: peter-evans/create-issue-from-file@v2
         with:
-          filename: .github/it_failed_template.md
+          title: Full Suite integration tests failed on master
+          content-filepath: ./issue.md
+          labels: bug, IT_Failed
+
+      - name: Add comment to existing issue
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ steps.create-issue.outputs.issue-number }}
+          body: ${{ needs.prepare-message.outputs.message-body }}
+
+  close-issue:
+    needs: [ prepare-message ]
+    if: always() && needs.prepare-message.outputs.next-step == 'close'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close issue
+        uses: peter-evans/close-issue@v1
+        with:
+          issue-number: ${{ needs.prepare-message.outputs.issue-number }}
+          comment: ${{ needs.prepare-message.outputs.message-body }}
+
+  add-comment:
+    needs: [ prepare-message ]
+    if: always() && needs.prepare-message.outputs.next-step == 'comment'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add comment to existing issue
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ needs.prepare-message.outputs.issue-number }}
+          body: ${{ needs.prepare-message.outputs.message-body }}
