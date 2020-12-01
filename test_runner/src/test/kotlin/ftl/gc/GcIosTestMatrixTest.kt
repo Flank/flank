@@ -1,7 +1,7 @@
 package ftl.gc
 
 import com.dd.plist.NSDictionary
-import com.google.api.services.testing.model.IosDeviceList
+import com.google.testing.model.IosDeviceList
 import ftl.args.IosArgs
 import ftl.config.FtlConstants.isWindows
 import ftl.ios.xctest.FIXTURES_PATH

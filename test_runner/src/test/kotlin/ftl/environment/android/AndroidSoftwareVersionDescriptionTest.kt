@@ -1,7 +1,7 @@
 package ftl.environment.android
 
-import com.google.api.services.testing.model.AndroidVersion
-import com.google.api.services.testing.model.Date
+import com.google.testing.model.AndroidVersion
+import com.google.testing.model.Date
 import ftl.test.util.TestHelper.getThrowable
 import org.junit.Assert
 import org.junit.Test

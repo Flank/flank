@@ -1,7 +1,7 @@
 package ftl.gc.android
 
-import com.google.api.services.testing.model.EnvironmentVariable
-import com.google.api.services.testing.model.TestSetup
+import com.google.testing.model.EnvironmentVariable
+import com.google.testing.model.TestSetup
 import com.google.common.annotations.VisibleForTesting
 import ftl.args.AndroidArgs
 import ftl.run.platform.android.AndroidTestConfig

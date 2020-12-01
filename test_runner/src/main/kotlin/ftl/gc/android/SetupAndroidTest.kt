@@ -1,6 +1,6 @@
 package ftl.gc.android
 
-import com.google.api.services.testing.model.TestSpecification
+import com.google.testing.model.TestSpecification
 import ftl.run.platform.android.AndroidTestConfig
 
 internal fun TestSpecification.setupAndroidTest(config: AndroidTestConfig) = apply {

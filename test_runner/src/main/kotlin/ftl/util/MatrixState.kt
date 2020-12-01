@@ -1,6 +1,6 @@
 package ftl.util
 
-import com.google.api.services.testing.model.TestMatrix
+import com.google.testing.model.TestMatrix
 
 object MatrixState {
     // https://github.com/bootstraponline/gcloud_cli/blob/0752e88b155a417a18d244c242b4ab3fb9aa1c1f/google-cloud-sdk/lib/googlecloudsdk/third_party/apis/testing_v1.json#L171

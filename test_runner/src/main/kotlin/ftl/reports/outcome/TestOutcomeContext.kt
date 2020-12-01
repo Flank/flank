@@ -1,7 +1,7 @@
 package ftl.reports.outcome
 
-import com.google.api.services.testing.model.TestMatrix
-import com.google.api.services.testing.model.ToolResultsExecution
+import com.google.testing.model.TestMatrix
+import com.google.testing.model.ToolResultsExecution
 import com.google.api.services.toolresults.model.Environment
 import com.google.api.services.toolresults.model.Step
 import ftl.gc.GcToolResults

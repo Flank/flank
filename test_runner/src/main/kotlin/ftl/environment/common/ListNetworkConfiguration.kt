@@ -1,6 +1,6 @@
 package ftl.environment.common
 
-import com.google.api.services.testing.model.NetworkConfiguration
+import com.google.testing.model.NetworkConfiguration
 import ftl.environment.TestEnvironmentInfo
 import ftl.environment.createTableColumnFor
 import ftl.environment.getOrCreateList

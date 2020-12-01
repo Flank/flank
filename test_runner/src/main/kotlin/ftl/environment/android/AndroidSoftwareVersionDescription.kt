@@ -1,6 +1,6 @@
 package ftl.environment.android
 
-import com.google.api.services.testing.model.AndroidVersion
+import com.google.testing.model.AndroidVersion
 import ftl.run.exception.FlankGeneralError
 
 fun List<AndroidVersion>.getDescription(versionId: String) = findVersion(versionId)?.prepareDescription().orErrorMessage(versionId)

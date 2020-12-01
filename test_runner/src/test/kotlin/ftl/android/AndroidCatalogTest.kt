@@ -1,6 +1,6 @@
 package ftl.android
 
-import com.google.api.services.testing.model.AndroidDevice
+import com.google.testing.model.AndroidDevice
 import com.google.common.truth.Truth.assertThat
 import ftl.test.util.FlankTestRunner
 import io.mockk.every

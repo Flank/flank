@@ -1,7 +1,7 @@
 package ftl.run.status
 
-import com.google.api.services.testing.model.Environment
-import com.google.api.services.testing.model.TestExecution
+import com.google.testing.model.Environment
+import com.google.testing.model.TestExecution
 import ftl.args.IArgs
 
 class ExecutionStatusListPrinter(

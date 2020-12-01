@@ -1,10 +1,10 @@
 package ftl.run
 
-import com.google.api.services.testing.Testing
-import com.google.api.services.testing.model.GoogleCloudStorage
-import com.google.api.services.testing.model.ResultStorage
-import com.google.api.services.testing.model.TestExecution
-import com.google.api.services.testing.model.TestMatrix
+import com.google.testing.Testing
+import com.google.testing.model.GoogleCloudStorage
+import com.google.testing.model.ResultStorage
+import com.google.testing.model.TestExecution
+import com.google.testing.model.TestMatrix
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
