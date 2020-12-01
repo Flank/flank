@@ -1,0 +1,24 @@
+name: RELEASE
+
+on:
+  push:
+    paths:
+      - 'flank-scripts/**'
+    branches:
+      - 'master'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+      with: 
+        submodules: true
+
+    - uses: gradle/wrapper-validation-action@v1
+
+    - name: Gradle Upload to bintray
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: "flank-scripts:bintrayUpload -PJFROG_API_KEY=${{ secrets.JFROG_API_KEY }} -PJFROG_USER=${{ secrets.JFROG_USER }}"
