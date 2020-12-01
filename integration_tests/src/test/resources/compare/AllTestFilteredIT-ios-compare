@@ -9,12 +9,12 @@ IosArgs
       network-profile: null
       results-history-name: null
       # iOS gcloud
-      test: [0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
-      xctestrun-file: [0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
+      test: [0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExample.zip
+      xctestrun-file: [0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun
       xcode-version: null
       device:
         - model: iphone8
-          version: 12.0
+          version: 13.6
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 0
@@ -51,10 +51,10 @@ IosArgs
       default-class-test-time: 240.0
 
 RunTests
-Found xctest: [0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest
+Found xctest: [0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest
 isMacOS = true \(mac os x\)
-nm -U "[0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest/EarlGreyExampleSwiftTests"
-nm -gU "[0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest/EarlGreyExampleSwiftTests" | xargs -s 262144 xcrun swift-demangle
+nm -U "[0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest/EarlGreyExampleSwiftTests"
+nm -gU "[0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest/EarlGreyExampleSwiftTests" | xargs -s 262144 xcrun swift-demangle
 Saved 0 shards to ios_shards.json
   Uploading ios_shards.json \.*
   Uploading earlgrey_example.zip \*.
@@ -66,8 +66,6 @@ Saved 0 shards to ios_shards.json
 Matrices webLink
 
 
-FetchArtifacts
-
 CostReport
   No cost. 0m
 
@@ -75,5 +73,7 @@ CostReport
 MatrixResultsReport
   0 / 0 \(NaN\%\)
   Uploading MatrixResultsReport.txt \.*
+FetchArtifacts
+
 
 Matrices webLink
