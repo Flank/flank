@@ -1,6 +1,6 @@
 package ftl.environment.ios
 
-import com.google.api.services.testing.model.IosModel
+import com.google.testing.model.IosModel
 import ftl.test.util.TestHelper.getThrowable
 import ftl.run.exception.FlankGeneralError
 import org.junit.Assert

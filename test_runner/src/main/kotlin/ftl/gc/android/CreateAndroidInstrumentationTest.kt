@@ -1,11 +1,11 @@
 package ftl.gc.android
 
-import com.google.api.services.testing.model.AndroidInstrumentationTest
-import com.google.api.services.testing.model.FileReference
-import com.google.api.services.testing.model.ManualSharding
-import com.google.api.services.testing.model.ShardingOption
-import com.google.api.services.testing.model.TestTargetsForShard
-import com.google.api.services.testing.model.UniformSharding
+import com.google.testing.model.AndroidInstrumentationTest
+import com.google.testing.model.FileReference
+import com.google.testing.model.ManualSharding
+import com.google.testing.model.ShardingOption
+import com.google.testing.model.TestTargetsForShard
+import com.google.testing.model.UniformSharding
 import ftl.args.ShardChunks
 import ftl.run.platform.android.AndroidTestConfig
 

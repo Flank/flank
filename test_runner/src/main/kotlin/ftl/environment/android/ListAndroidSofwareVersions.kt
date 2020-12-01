@@ -1,7 +1,7 @@
 package ftl.environment.android
 
-import com.google.api.services.testing.model.AndroidVersion
-import com.google.api.services.testing.model.Date
+import com.google.testing.model.AndroidVersion
+import com.google.testing.model.Date
 import ftl.environment.OS_VERSION_ID
 import ftl.environment.TAGS
 import ftl.environment.TestEnvironmentInfo

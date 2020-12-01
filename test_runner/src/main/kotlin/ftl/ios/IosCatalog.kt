@@ -1,6 +1,6 @@
 package ftl.ios
 
-import com.google.api.services.testing.model.IosDeviceCatalog
+import com.google.testing.model.IosDeviceCatalog
 import ftl.config.Device
 import ftl.environment.asPrintableTable
 import ftl.environment.common.asPrintableTable

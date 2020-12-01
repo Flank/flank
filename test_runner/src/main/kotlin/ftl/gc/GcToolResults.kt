@@ -1,9 +1,9 @@
 package ftl.gc
 
-import com.google.api.services.testing.model.TestExecution
-import com.google.api.services.testing.model.ToolResultsExecution
-import com.google.api.services.testing.model.ToolResultsHistory
-import com.google.api.services.testing.model.ToolResultsStep
+import com.google.testing.model.TestExecution
+import com.google.testing.model.ToolResultsExecution
+import com.google.testing.model.ToolResultsHistory
+import com.google.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.ToolResults
 import com.google.api.services.toolresults.model.Environment
 import com.google.api.services.toolresults.model.Execution

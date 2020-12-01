@@ -1,6 +1,6 @@
 package ftl.json
 
-import com.google.api.services.testing.model.TestMatrix
+import com.google.testing.model.TestMatrix
 import ftl.environment.orUnknown
 import ftl.reports.outcome.BillableMinutes
 import ftl.reports.outcome.TestOutcome

@@ -1,6 +1,6 @@
 package ftl.environment.android
 
-import com.google.api.services.testing.model.AndroidModel
+import com.google.testing.model.AndroidModel
 import ftl.environment.FORM
 import ftl.environment.MAKE
 import ftl.environment.MODEL_ID

@@ -13338,9 +13338,9 @@
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="jnbOIk6D.AAAAQXB" xmi:id="jnbOIk6D.AAAAQXB_documentaiton" xmi:type="uml:Comment">
-												<body>the {@link com.google.api.services.testing.model.FileReference}</body>
+												<body>the {@link com.google.testing.model.FileReference}</body>
 												<xmi:Extension extender="Visual Paradigm">
-													<htmlValue value="&lt;HTML&gt;&lt;BODY&gt;&lt;p style=&quot;margin-top: 0&quot;&gt;the {@link com.google.api.services.testing.model.FileReference}&lt;/p&gt;&lt;/BODY&gt;&lt;/HTML&gt;"/>
+													<htmlValue value="&lt;HTML&gt;&lt;BODY&gt;&lt;p style=&quot;margin-top: 0&quot;&gt;the {@link com.google.testing.model.FileReference}&lt;/p&gt;&lt;/BODY&gt;&lt;/HTML&gt;"/>
 												</xmi:Extension>
 											</ownedComment>
 										</ownedParameter>
@@ -13421,9 +13421,9 @@
 													<qualityScore value="-1"/>
 												</xmi:Extension>
 												<ownedComment annotatedElement="LnbOIk6D.AAAAQXJ" xmi:id="LnbOIk6D.AAAAQXJ_documentaiton" xmi:type="uml:Comment">
-													<body>the {@link com.google.api.services.testing.model.FileReference}</body>
+													<body>the {@link com.google.testing.model.FileReference}</body>
 													<xmi:Extension extender="Visual Paradigm">
-														<htmlValue value="&lt;HTML&gt;&lt;BODY&gt;&lt;p style=&quot;margin-top: 0&quot;&gt;the {@link com.google.api.services.testing.model.FileReference}&lt;/p&gt;&lt;/BODY&gt;&lt;/HTML&gt;"/>
+														<htmlValue value="&lt;HTML&gt;&lt;BODY&gt;&lt;p style=&quot;margin-top: 0&quot;&gt;the {@link com.google.testing.model.FileReference}&lt;/p&gt;&lt;/BODY&gt;&lt;/HTML&gt;"/>
 													</xmi:Extension>
 												</ownedComment>
 											</ownedParameter>
@@ -14214,9 +14214,9 @@
 													<qualityScore value="-1"/>
 												</xmi:Extension>
 												<ownedComment annotatedElement="0XbOIk6D.AAAAQYZ" xmi:id="0XbOIk6D.AAAAQYZ_documentaiton" xmi:type="uml:Comment">
-													<body>the {@link com.google.api.services.testing.model.TestMatrix}</body>
+													<body>the {@link com.google.testing.model.TestMatrix}</body>
 													<xmi:Extension extender="Visual Paradigm">
-														<htmlValue value="&lt;HTML&gt;&lt;BODY&gt;&lt;p style=&quot;margin-top: 0&quot;&gt;the {@link com.google.api.services.testing.model.TestMatrix}&lt;/p&gt;&lt;/BODY&gt;&lt;/HTML&gt;"/>
+														<htmlValue value="&lt;HTML&gt;&lt;BODY&gt;&lt;p style=&quot;margin-top: 0&quot;&gt;the {@link com.google.testing.model.TestMatrix}&lt;/p&gt;&lt;/BODY&gt;&lt;/HTML&gt;"/>
 													</xmi:Extension>
 												</ownedComment>
 											</ownedParameter>
@@ -15264,9 +15264,9 @@
 														<qualityScore value="-1"/>
 													</xmi:Extension>
 													<ownedComment annotatedElement="tXbOIk6D.AAAAQaG" xmi:id="tXbOIk6D.AAAAQaG_documentaiton" xmi:type="uml:Comment">
-														<body>the {@link com.google.api.services.testing.model.TestMatrix}</body>
+														<body>the {@link com.google.testing.model.TestMatrix}</body>
 														<xmi:Extension extender="Visual Paradigm">
-															<htmlValue value="&lt;HTML&gt;&lt;BODY&gt;&lt;p style=&quot;margin-top: 0&quot;&gt;the {@link com.google.api.services.testing.model.TestMatrix}&lt;/p&gt;&lt;/BODY&gt;&lt;/HTML&gt;"/>
+															<htmlValue value="&lt;HTML&gt;&lt;BODY&gt;&lt;p style=&quot;margin-top: 0&quot;&gt;the {@link com.google.testing.model.TestMatrix}&lt;/p&gt;&lt;/BODY&gt;&lt;/HTML&gt;"/>
 														</xmi:Extension>
 													</ownedComment>
 												</ownedParameter>
@@ -18614,7 +18614,7 @@
 								<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="set$Xgafv" visibility="public" xmi:id="J4.uIk6D.AAAAQhC" xmi:type="uml:Operation">
 									<ownedParameter kind="return" type="y4.uIk6D.AAAAQg1" xmi:id="J4.uIk6D.AAAAQhC_return" xmi:type="uml:Parameter">
 										<xmi:Extension extender="Visual Paradigm">
-											<genericType xmi:value="com.google.api.services.testing.TestingRequest&lt;T&gt;"/>
+											<genericType xmi:value="com.google.testing.TestingRequest&lt;T&gt;"/>
 										</xmi:Extension>
 									</ownedParameter>
 									<ownedParameter kind="inout" name="$Xgafv" type="java.lang.String_id" xmi:id="p4.uIk6D.AAAAQhD" xmi:type="uml:Parameter">
@@ -18679,7 +18679,7 @@
 								<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="setAccessToken" visibility="public" xmi:id="V4.uIk6D.AAAAQhJ" xmi:type="uml:Operation">
 									<ownedParameter kind="return" type="y4.uIk6D.AAAAQg1" xmi:id="V4.uIk6D.AAAAQhJ_return" xmi:type="uml:Parameter">
 										<xmi:Extension extender="Visual Paradigm">
-											<genericType xmi:value="com.google.api.services.testing.TestingRequest&lt;T&gt;"/>
+											<genericType xmi:value="com.google.testing.TestingRequest&lt;T&gt;"/>
 										</xmi:Extension>
 									</ownedParameter>
 									<ownedParameter kind="inout" name="accessToken" type="java.lang.String_id" xmi:id="14.uIk6D.AAAAQhK" xmi:type="uml:Parameter">
@@ -18744,7 +18744,7 @@
 								<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="setAlt" visibility="public" xmi:id="d4.uIk6D.AAAAQhQ" xmi:type="uml:Operation">
 									<ownedParameter kind="return" type="y4.uIk6D.AAAAQg1" xmi:id="d4.uIk6D.AAAAQhQ_return" xmi:type="uml:Parameter">
 										<xmi:Extension extender="Visual Paradigm">
-											<genericType xmi:value="com.google.api.services.testing.TestingRequest&lt;T&gt;"/>
+											<genericType xmi:value="com.google.testing.TestingRequest&lt;T&gt;"/>
 										</xmi:Extension>
 									</ownedParameter>
 									<ownedParameter kind="inout" name="alt" type="java.lang.String_id" xmi:id="94.uIk6D.AAAAQhR" xmi:type="uml:Parameter">
@@ -18809,7 +18809,7 @@
 								<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="setCallback" visibility="public" xmi:id="T4.uIk6D.AAAAQhX" xmi:type="uml:Operation">
 									<ownedParameter kind="return" type="y4.uIk6D.AAAAQg1" xmi:id="T4.uIk6D.AAAAQhX_return" xmi:type="uml:Parameter">
 										<xmi:Extension extender="Visual Paradigm">
-											<genericType xmi:value="com.google.api.services.testing.TestingRequest&lt;T&gt;"/>
+											<genericType xmi:value="com.google.testing.TestingRequest&lt;T&gt;"/>
 										</xmi:Extension>
 									</ownedParameter>
 									<ownedParameter kind="inout" name="callback" type="java.lang.String_id" xmi:id="T4.uIk6D.AAAAQhY" xmi:type="uml:Parameter">
@@ -18874,7 +18874,7 @@
 								<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="setFields" visibility="public" xmi:id="P4.uIk6D.AAAAQhe" xmi:type="uml:Operation">
 									<ownedParameter kind="return" type="y4.uIk6D.AAAAQg1" xmi:id="P4.uIk6D.AAAAQhe_return" xmi:type="uml:Parameter">
 										<xmi:Extension extender="Visual Paradigm">
-											<genericType xmi:value="com.google.api.services.testing.TestingRequest&lt;T&gt;"/>
+											<genericType xmi:value="com.google.testing.TestingRequest&lt;T&gt;"/>
 										</xmi:Extension>
 									</ownedParameter>
 									<ownedParameter kind="inout" name="fields" type="java.lang.String_id" xmi:id="v4.uIk6D.AAAAQhf" xmi:type="uml:Parameter">
@@ -18939,7 +18939,7 @@
 								<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="setKey" visibility="public" xmi:id="gE.uIk6D.AAAAQhl" xmi:type="uml:Operation">
 									<ownedParameter kind="return" type="y4.uIk6D.AAAAQg1" xmi:id="gE.uIk6D.AAAAQhl_return" xmi:type="uml:Parameter">
 										<xmi:Extension extender="Visual Paradigm">
-											<genericType xmi:value="com.google.api.services.testing.TestingRequest&lt;T&gt;"/>
+											<genericType xmi:value="com.google.testing.TestingRequest&lt;T&gt;"/>
 										</xmi:Extension>
 									</ownedParameter>
 									<ownedParameter kind="inout" name="key" type="java.lang.String_id" xmi:id="QE.uIk6D.AAAAQhm" xmi:type="uml:Parameter">
@@ -19004,7 +19004,7 @@
 								<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="setOauthToken" visibility="public" xmi:id="oE.uIk6D.AAAAQhs" xmi:type="uml:Operation">
 									<ownedParameter kind="return" type="y4.uIk6D.AAAAQg1" xmi:id="oE.uIk6D.AAAAQhs_return" xmi:type="uml:Parameter">
 										<xmi:Extension extender="Visual Paradigm">
-											<genericType xmi:value="com.google.api.services.testing.TestingRequest&lt;T&gt;"/>
+											<genericType xmi:value="com.google.testing.TestingRequest&lt;T&gt;"/>
 										</xmi:Extension>
 									</ownedParameter>
 									<ownedParameter kind="inout" name="oauthToken" type="java.lang.String_id" xmi:id="YE.uIk6D.AAAAQht" xmi:type="uml:Parameter">
@@ -19069,7 +19069,7 @@
 								<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="setPrettyPrint" visibility="public" xmi:id="UE.uIk6D.AAAAQhz" xmi:type="uml:Operation">
 									<ownedParameter kind="return" type="y4.uIk6D.AAAAQg1" xmi:id="UE.uIk6D.AAAAQhz_return" xmi:type="uml:Parameter">
 										<xmi:Extension extender="Visual Paradigm">
-											<genericType xmi:value="com.google.api.services.testing.TestingRequest&lt;T&gt;"/>
+											<genericType xmi:value="com.google.testing.TestingRequest&lt;T&gt;"/>
 										</xmi:Extension>
 									</ownedParameter>
 									<ownedParameter kind="inout" name="prettyPrint" type="java.lang.Boolean_id" xmi:id="0E.uIk6D.AAAAQh0" xmi:type="uml:Parameter">
@@ -19134,7 +19134,7 @@
 								<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="setQuotaUser" visibility="public" xmi:id="8E.uIk6D.AAAAQh6" xmi:type="uml:Operation">
 									<ownedParameter kind="return" type="y4.uIk6D.AAAAQg1" xmi:id="8E.uIk6D.AAAAQh6_return" xmi:type="uml:Parameter">
 										<xmi:Extension extender="Visual Paradigm">
-											<genericType xmi:value="com.google.api.services.testing.TestingRequest&lt;T&gt;"/>
+											<genericType xmi:value="com.google.testing.TestingRequest&lt;T&gt;"/>
 										</xmi:Extension>
 									</ownedParameter>
 									<ownedParameter kind="inout" name="quotaUser" type="java.lang.String_id" xmi:id="8E.uIk6D.AAAAQh7" xmi:type="uml:Parameter">
@@ -19199,7 +19199,7 @@
 								<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="setUploadType" visibility="public" xmi:id="SE.uIk6D.AAAAQiB" xmi:type="uml:Operation">
 									<ownedParameter kind="return" type="y4.uIk6D.AAAAQg1" xmi:id="SE.uIk6D.AAAAQiB_return" xmi:type="uml:Parameter">
 										<xmi:Extension extender="Visual Paradigm">
-											<genericType xmi:value="com.google.api.services.testing.TestingRequest&lt;T&gt;"/>
+											<genericType xmi:value="com.google.testing.TestingRequest&lt;T&gt;"/>
 										</xmi:Extension>
 									</ownedParameter>
 									<ownedParameter kind="inout" name="uploadType" type="java.lang.String_id" xmi:id="yE.uIk6D.AAAAQiC" xmi:type="uml:Parameter">
@@ -19264,7 +19264,7 @@
 								<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="setUploadProtocol" visibility="public" xmi:id="aE.uIk6D.AAAAQiI" xmi:type="uml:Operation">
 									<ownedParameter kind="return" type="y4.uIk6D.AAAAQg1" xmi:id="aE.uIk6D.AAAAQiI_return" xmi:type="uml:Parameter">
 										<xmi:Extension extender="Visual Paradigm">
-											<genericType xmi:value="com.google.api.services.testing.TestingRequest&lt;T&gt;"/>
+											<genericType xmi:value="com.google.testing.TestingRequest&lt;T&gt;"/>
 										</xmi:Extension>
 									</ownedParameter>
 									<ownedParameter kind="inout" name="uploadProtocol" type="java.lang.String_id" xmi:id="aE.uIk6D.AAAAQiJ" xmi:type="uml:Parameter">
@@ -19349,7 +19349,7 @@
 								<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="setDisableGZipContent" visibility="public" xmi:id="mE.uIk6D.AAAAQiN" xmi:type="uml:Operation">
 									<ownedParameter kind="return" type="y4.uIk6D.AAAAQg1" xmi:id="mE.uIk6D.AAAAQiN_return" xmi:type="uml:Parameter">
 										<xmi:Extension extender="Visual Paradigm">
-											<genericType xmi:value="com.google.api.services.testing.TestingRequest&lt;T&gt;"/>
+											<genericType xmi:value="com.google.testing.TestingRequest&lt;T&gt;"/>
 										</xmi:Extension>
 									</ownedParameter>
 									<ownedParameter kind="inout" name="disableGZipContent" xmi:id="mE.uIk6D.AAAAQiO" xmi:type="uml:Parameter">
@@ -19412,7 +19412,7 @@
 								<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="setRequestHeaders" visibility="public" xmi:id="WE.uIk6D.AAAAQiQ" xmi:type="uml:Operation">
 									<ownedParameter kind="return" type="y4.uIk6D.AAAAQg1" xmi:id="WE.uIk6D.AAAAQiQ_return" xmi:type="uml:Parameter">
 										<xmi:Extension extender="Visual Paradigm">
-											<genericType xmi:value="com.google.api.services.testing.TestingRequest&lt;T&gt;"/>
+											<genericType xmi:value="com.google.testing.TestingRequest&lt;T&gt;"/>
 										</xmi:Extension>
 									</ownedParameter>
 									<ownedParameter kind="inout" name="headers" type="com.google.api.client.http.HttpHeaders_id" xmi:id="2E.uIk6D.AAAAQiR" xmi:type="uml:Parameter">
@@ -19474,7 +19474,7 @@
 								<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="set" visibility="public" xmi:id="OE.uIk6D.AAAAQiT" xmi:type="uml:Operation">
 									<ownedParameter kind="return" type="y4.uIk6D.AAAAQg1" xmi:id="OE.uIk6D.AAAAQiT_return" xmi:type="uml:Parameter">
 										<xmi:Extension extender="Visual Paradigm">
-											<genericType xmi:value="com.google.api.services.testing.TestingRequest&lt;T&gt;"/>
+											<genericType xmi:value="com.google.testing.TestingRequest&lt;T&gt;"/>
 										</xmi:Extension>
 									</ownedParameter>
 									<ownedParameter kind="inout" name="parameterName" xmi:id="uE.uIk6D.AAAAQiU" xmi:type="uml:Parameter">
@@ -19681,7 +19681,7 @@
 									<ownedParameter kind="return" type="void_id" xmi:id="dE.uIk6D.AAAAQip_return" xmi:type="uml:Parameter"/>
 									<ownedParameter kind="inout" name="request" type="y4.uIk6D.AAAAQg1" xmi:id="dE.uIk6D.AAAAQiq" xmi:type="uml:Parameter">
 										<xmi:Extension extender="Visual Paradigm">
-											<genericType xmi:value="com.google.api.services.testing.TestingRequest&lt;?&gt;"/>
+											<genericType xmi:value="com.google.testing.TestingRequest&lt;?&gt;"/>
 											<qualityScore value="-1"/>
 										</xmi:Extension>
 									</ownedParameter>
@@ -25826,7 +25826,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getRoboDirectives" visibility="public" xmi:id="x0.uIk6D.AAAAQlx" xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id="x0.uIk6D.AAAAQlx_return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.RoboDirective&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.RoboDirective&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -25887,7 +25887,7 @@
 										<ownedParameter kind="return" type="80.uIk6D.AAAAQk_" xmi:id="J0.uIk6D.AAAAQlz_return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="roboDirectives" type="java.util.List_id" xmi:id="J0.uIk6D.AAAAQl0" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.RoboDirective&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.RoboDirective&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="J0.uIk6D.AAAAQl0" xmi:id="J0.uIk6D.AAAAQl0_documentaiton" xmi:type="uml:Comment">
@@ -25947,7 +25947,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getStartingIntents" visibility="public" xmi:id="Z0.uIk6D.AAAAQl7" xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id="Z0.uIk6D.AAAAQl7_return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.RoboStartingIntent&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.RoboStartingIntent&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -26008,7 +26008,7 @@
 										<ownedParameter kind="return" type="80.uIk6D.AAAAQk_" xmi:id="50.uIk6D.AAAAQl9_return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="startingIntents" type="java.util.List_id" xmi:id="50.uIk6D.AAAAQl." xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.RoboStartingIntent&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.RoboStartingIntent&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="50.uIk6D.AAAAQl." xmi:id="50.uIk6D.AAAAQl._documentaiton" xmi:type="uml:Comment">
@@ -28082,7 +28082,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getAndroidDevices" visibility="public" xmi:id="1s.uIk6D.AAAAQqz" xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id="1s.uIk6D.AAAAQqz_return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.AndroidDevice&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.AndroidDevice&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -28143,7 +28143,7 @@
 										<ownedParameter kind="return" type="5s.uIk6D.AAAAQqv" xmi:id="Ns.uIk6D.AAAAQq1_return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="androidDevices" type="java.util.List_id" xmi:id="Ns.uIk6D.AAAAQq2" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.AndroidDevice&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.AndroidDevice&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="Ns.uIk6D.AAAAQq2" xmi:id="Ns.uIk6D.AAAAQq2_documentaiton" xmi:type="uml:Comment">
@@ -29920,7 +29920,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getModels" visibility="public" xmi:id="W8.uIk6D.AAAAQu." xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id="W8.uIk6D.AAAAQu._return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.IosModel&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.IosModel&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -29981,7 +29981,7 @@
 										<ownedParameter kind="return" type="K8.uIk6D.AAAAQu0" xmi:id="W8.uIk6D.AAAAQvA_return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="models" type="java.util.List_id" xmi:id="28.uIk6D.AAAAQvB" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.IosModel&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.IosModel&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="28.uIk6D.AAAAQvB" xmi:id="28.uIk6D.AAAAQvB_documentaiton" xmi:type="uml:Comment">
@@ -30041,7 +30041,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getVersions" visibility="public" xmi:id="u8.uIk6D.AAAAQvI" xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id="u8.uIk6D.AAAAQvI_return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.IosVersion&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.IosVersion&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -30102,7 +30102,7 @@
 										<ownedParameter kind="return" type="K8.uIk6D.AAAAQu0" xmi:id="e8.uIk6D.AAAAQvK_return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="versions" type="java.util.List_id" xmi:id="e8.uIk6D.AAAAQvL" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.IosVersion&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.IosVersion&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="e8.uIk6D.AAAAQvL" xmi:id="e8.uIk6D.AAAAQvL_documentaiton" xmi:type="uml:Comment">
@@ -30132,7 +30132,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getXcodeVersions" visibility="public" xmi:id=".8.uIk6D.AAAAQvN" xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id=".8.uIk6D.AAAAQvN_return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.XcodeVersion&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.XcodeVersion&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -30193,7 +30193,7 @@
 										<ownedParameter kind="return" type="K8.uIk6D.AAAAQu0" xmi:id=".8.uIk6D.AAAAQvP_return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="xcodeVersions" type="java.util.List_id" xmi:id="B8.uIk6D.AAAAQvQ" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.XcodeVersion&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.XcodeVersion&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="B8.uIk6D.AAAAQvQ" xmi:id="B8.uIk6D.AAAAQvQ_documentaiton" xmi:type="uml:Comment">
@@ -31152,7 +31152,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getTestExecutions" visibility="public" xmi:id="NC.uIk6D.AAAAQxe" xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id="NC.uIk6D.AAAAQxe_return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.TestExecution&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.TestExecution&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -31213,7 +31213,7 @@
 										<ownedParameter kind="return" type="YC.uIk6D.AAAAQwc" xmi:id="tC.uIk6D.AAAAQxg_return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="testExecutions" type="java.util.List_id" xmi:id="tC.uIk6D.AAAAQxh" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.TestExecution&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.TestExecution&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="tC.uIk6D.AAAAQxh" xmi:id="tC.uIk6D.AAAAQxh_documentaiton" xmi:type="uml:Comment">
@@ -31415,7 +31415,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getConfigurations" visibility="public" xmi:id="XC.uIk6D.AAAAQx9" xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id="XC.uIk6D.AAAAQx9_return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.NetworkConfiguration&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.NetworkConfiguration&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -31473,7 +31473,7 @@
 										<ownedParameter kind="return" type="bC.uIk6D.AAAAQx5" xmi:id="3C.uIk6D.AAAAQx__return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="configurations" type="java.util.List_id" xmi:id="3C.uIk6D.AAAAQyA" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.NetworkConfiguration&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.NetworkConfiguration&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="3C.uIk6D.AAAAQyA" xmi:id="3C.uIk6D.AAAAQyA_documentaiton" xmi:type="uml:Comment">
@@ -31706,7 +31706,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getLocales" visibility="public" xmi:id="0i.uIk6D.AAAAQyf" xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id="0i.uIk6D.AAAAQyf_return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.Locale&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.Locale&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -31767,7 +31767,7 @@
 										<ownedParameter kind="return" type="4i.uIk6D.AAAAQyZ" xmi:id="Mi.uIk6D.AAAAQyh_return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="locales" type="java.util.List_id" xmi:id="Mi.uIk6D.AAAAQyi" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.Locale&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.Locale&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="Mi.uIk6D.AAAAQyi" xmi:id="Mi.uIk6D.AAAAQyi_documentaiton" xmi:type="uml:Comment">
@@ -31797,7 +31797,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getOrientations" visibility="public" xmi:id="si.uIk6D.AAAAQyk" xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id="si.uIk6D.AAAAQyk_return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.Orientation&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.Orientation&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -31858,7 +31858,7 @@
 										<ownedParameter kind="return" type="4i.uIk6D.AAAAQyZ" xmi:id="ci.uIk6D.AAAAQym_return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="orientations" type="java.util.List_id" xmi:id="ci.uIk6D.AAAAQyn" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.Orientation&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.Orientation&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="ci.uIk6D.AAAAQyn" xmi:id="ci.uIk6D.AAAAQyn_documentaiton" xmi:type="uml:Comment">
@@ -33333,7 +33333,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getModels" visibility="public" xmi:id="tS.uIk6D.AAAAQ1." xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id="tS.uIk6D.AAAAQ1._return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.AndroidModel&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.AndroidModel&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -33394,7 +33394,7 @@
 										<ownedParameter kind="return" type="lS.uIk6D.AAAAQ12" xmi:id="dS.uIk6D.AAAAQ2A_return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="models" type="java.util.List_id" xmi:id="dS.uIk6D.AAAAQ2B" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.AndroidModel&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.AndroidModel&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="dS.uIk6D.AAAAQ2B" xmi:id="dS.uIk6D.AAAAQ2B_documentaiton" xmi:type="uml:Comment">
@@ -33454,7 +33454,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getVersions" visibility="public" xmi:id="DS.uIk6D.AAAAQ2I" xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id="DS.uIk6D.AAAAQ2I_return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.AndroidVersion&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.AndroidVersion&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -33515,7 +33515,7 @@
 										<ownedParameter kind="return" type="lS.uIk6D.AAAAQ12" xmi:id="jS.uIk6D.AAAAQ2K_return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="versions" type="java.util.List_id" xmi:id="TS.uIk6D.AAAAQ2L" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.AndroidVersion&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.AndroidVersion&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="TS.uIk6D.AAAAQ2L" xmi:id="TS.uIk6D.AAAAQ2L_documentaiton" xmi:type="uml:Comment">
@@ -34657,7 +34657,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getAdditionalApks" visibility="public" xmi:id="Ty.uIk6D.AAAAQ40" xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id="Ty.uIk6D.AAAAQ40_return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.Apk&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.Apk&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -34718,7 +34718,7 @@
 										<ownedParameter kind="return" type="Fy.uIk6D.AAAAQ4f" xmi:id="zy.uIk6D.AAAAQ42_return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="additionalApks" type="java.util.List_id" xmi:id="Ly.uIk6D.AAAAQ43" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.Apk&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.Apk&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="Ly.uIk6D.AAAAQ43" xmi:id="Ly.uIk6D.AAAAQ43_documentaiton" xmi:type="uml:Comment">
@@ -34779,7 +34779,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getEnvironmentVariables" visibility="public" xmi:id="by.uIk6D.AAAAQ4." xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id="by.uIk6D.AAAAQ4._return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.EnvironmentVariable&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.EnvironmentVariable&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -34840,7 +34840,7 @@
 										<ownedParameter kind="return" type="Fy.uIk6D.AAAAQ4f" xmi:id="7y.uIk6D.AAAAQ5A_return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="environmentVariables" type="java.util.List_id" xmi:id="7y.uIk6D.AAAAQ5B" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.EnvironmentVariable&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.EnvironmentVariable&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="7y.uIk6D.AAAAQ5B" xmi:id="7y.uIk6D.AAAAQ5B_documentaiton" xmi:type="uml:Comment">
@@ -34870,7 +34870,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getFilesToPush" visibility="public" xmi:id="Hy.uIk6D.AAAAQ5D" xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id="Hy.uIk6D.AAAAQ5D_return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.DeviceFile&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.DeviceFile&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -34931,7 +34931,7 @@
 										<ownedParameter kind="return" type="Fy.uIk6D.AAAAQ4f" xmi:id="ny.uIk6D.AAAAQ5F_return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="filesToPush" type="java.util.List_id" xmi:id="ny.uIk6D.AAAAQ5G" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.DeviceFile&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.DeviceFile&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="ny.uIk6D.AAAAQ5G" xmi:id="ny.uIk6D.AAAAQ5G_documentaiton" xmi:type="uml:Comment">
@@ -35630,7 +35630,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getLocales" visibility="public" xmi:id=".K.uIk6D.AAAAQ6u" xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id=".K.uIk6D.AAAAQ6u_return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.Locale&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.Locale&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -35691,7 +35691,7 @@
 										<ownedParameter kind="return" type="2K.uIk6D.AAAAQ6o" xmi:id=".K.uIk6D.AAAAQ6w_return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="locales" type="java.util.List_id" xmi:id="BK.uIk6D.AAAAQ6x" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.Locale&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.Locale&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="BK.uIk6D.AAAAQ6x" xmi:id="BK.uIk6D.AAAAQ6x_documentaiton" xmi:type="uml:Comment">
@@ -35721,7 +35721,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getOrientations" visibility="public" xmi:id="hK.uIk6D.AAAAQ6z" xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id="hK.uIk6D.AAAAQ6z_return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.Orientation&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.Orientation&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -35782,7 +35782,7 @@
 										<ownedParameter kind="return" type="2K.uIk6D.AAAAQ6o" xmi:id="hK.uIk6D.AAAAQ61_return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="orientations" type="java.util.List_id" xmi:id="hK.uIk6D.AAAAQ62" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.Orientation&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.Orientation&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="hK.uIk6D.AAAAQ62" xmi:id="hK.uIk6D.AAAAQ62_documentaiton" xmi:type="uml:Comment">
@@ -35907,7 +35907,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getClientInfoDetails" visibility="public" xmi:id="FK.uIk6D.AAAAQ7F" xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id="FK.uIk6D.AAAAQ7F_return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.ClientInfoDetail&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.ClientInfoDetail&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -35968,7 +35968,7 @@
 										<ownedParameter kind="return" type="JK.uIk6D.AAAAQ6_" xmi:id="lK.uIk6D.AAAAQ7H_return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="clientInfoDetails" type="java.util.List_id" xmi:id="lK.uIk6D.AAAAQ7I" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.ClientInfoDetail&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.ClientInfoDetail&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="lK.uIk6D.AAAAQ7I" xmi:id="lK.uIk6D.AAAAQ7I_documentaiton" xmi:type="uml:Comment">
@@ -37541,7 +37541,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getTestTargetsForShard" visibility="public" xmi:id="Ea.uIk6D.AAAAQ.u" xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id="Ea.uIk6D.AAAAQ.u_return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.TestTargetsForShard&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.TestTargetsForShard&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -37602,7 +37602,7 @@
 										<ownedParameter kind="return" type="oa.uIk6D.AAAAQ.q" xmi:id="ka.uIk6D.AAAAQ.w_return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="testTargetsForShard" type="java.util.List_id" xmi:id="ka.uIk6D.AAAAQ.x" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.TestTargetsForShard&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.TestTargetsForShard&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="ka.uIk6D.AAAAQ.x" xmi:id="ka.uIk6D.AAAAQ.x_documentaiton" xmi:type="uml:Comment">
@@ -38370,7 +38370,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getIntentFilters" visibility="public" xmi:id="na.uIk6D.AAAARAg" xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id="na.uIk6D.AAAARAg_return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.IntentFilter&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.IntentFilter&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -38428,7 +38428,7 @@
 										<ownedParameter kind="return" type="ta.uIk6D.AAAARAN" xmi:id="Xa.uIk6D.AAAARAi_return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="intentFilters" type="java.util.List_id" xmi:id="Xa.uIk6D.AAAARAj" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.IntentFilter&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.IntentFilter&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="Xa.uIk6D.AAAARAj" xmi:id="Xa.uIk6D.AAAARAj_documentaiton" xmi:type="uml:Comment">
@@ -38857,7 +38857,7 @@
 									<ownedOperation isAbstract="false" isLeaf="false" isOrdered="false" isQuery="false" isStatic="false" isUnique="true" name="getIosDevices" visibility="public" xmi:id="66.uIk6D.AAAARBi" xmi:type="uml:Operation">
 										<ownedParameter kind="return" type="java.util.List_id" xmi:id="66.uIk6D.AAAARBi_return" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.IosDevice&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.IosDevice&gt;"/>
 											</xmi:Extension>
 										</ownedParameter>
 										<xmi:Extension extender="Visual Paradigm">
@@ -38918,7 +38918,7 @@
 										<ownedParameter kind="return" type="K6.uIk6D.AAAARBe" xmi:id="G6.uIk6D.AAAARBk_return" xmi:type="uml:Parameter"/>
 										<ownedParameter kind="inout" name="iosDevices" type="java.util.List_id" xmi:id="G6.uIk6D.AAAARBl" xmi:type="uml:Parameter">
 											<xmi:Extension extender="Visual Paradigm">
-												<genericType xmi:value="java.util.List&lt;com.google.api.services.testing.model.IosDevice&gt;"/>
+												<genericType xmi:value="java.util.List&lt;com.google.testing.model.IosDevice&gt;"/>
 												<qualityScore value="-1"/>
 											</xmi:Extension>
 											<ownedComment annotatedElement="G6.uIk6D.AAAARBl" xmi:id="G6.uIk6D.AAAARBl_documentaiton" xmi:type="uml:Comment">
@@ -40748,7 +40748,7 @@
 		<ownedMember name="com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest" visibility="public" xmi:id="com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest_id" xmi:type="uml:DataType"/>
 		<ownedMember name="com.google.api.client.googleapis.services.AbstractGoogleClientRequest" visibility="public" xmi:id="com.google.api.client.googleapis.services.AbstractGoogleClientRequest_id" xmi:type="uml:DataType"/>
 	</uml:Model>
-	<uml:Diagram diagramType="ClassDiagram" documentation="" name="com.google.api.services.testing" toolName="Visual Paradigm" xmi:id="SY7OIk6D.AAAAQfZ">
+	<uml:Diagram diagramType="ClassDiagram" documentation="" name="com.google.testing" toolName="Visual Paradigm" xmi:id="SY7OIk6D.AAAAQfZ">
 		<xmi:Extension extender="Visual Paradigm">
 			<properties>
 				<ashowShapeStereotypeIconName value="true"/>

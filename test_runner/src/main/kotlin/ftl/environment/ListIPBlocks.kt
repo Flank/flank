@@ -1,7 +1,7 @@
 package ftl.environment
 
-import com.google.api.services.testing.model.Date
-import com.google.api.services.testing.model.DeviceIpBlock
+import com.google.testing.model.Date
+import com.google.testing.model.DeviceIpBlock
 import ftl.gc.deviceIPBlocks
 import ftl.reports.api.twoDigitString
 import ftl.util.TableColumn
