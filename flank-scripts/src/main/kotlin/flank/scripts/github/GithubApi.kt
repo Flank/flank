@@ -4,6 +4,7 @@ import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.coroutines.awaitResult
+import com.github.kittinunf.result.onError
 import com.jcabi.github.Coordinates
 import com.jcabi.github.Release
 import com.jcabi.github.Releases
@@ -17,9 +18,10 @@ import flank.scripts.exceptions.toGithubException
 
 suspend fun getPrDetailsByCommit(commitSha: String, githubToken: String) =
     Fuel.get("https://api.github.com/repos/flank/flank/commits/$commitSha/pulls")
-        .appendGitHubHeaders(githubToken)
+        .appendGitHubHeaders(githubToken, "application/vnd.github.groot-preview+json")
         .awaitResult(GithubPullRequestListDeserializer)
         .mapClientError { it.toGithubException() }
+        .onError { println("Could not download info for commit $commitSha, because of ${it.message}") }
 
 suspend fun getLatestReleaseTag(githubToken: String) =
     Fuel.get("https://api.github.com/repos/flank/flank/releases/latest")
@@ -47,8 +49,8 @@ suspend fun getGitHubIssue(githubToken: String, issueNumber: Int) =
         .awaitResult(GithubPullRequestDeserializer)
         .mapClientError { it.toGithubException() }
 
-fun Request.appendGitHubHeaders(githubToken: String) =
-    appendHeader("Accept", "application/vnd.github.v3+json")
+fun Request.appendGitHubHeaders(githubToken: String, contentType: String = "application/vnd.github.v3+json") =
+    appendHeader("Accept", contentType)
         .appendHeader("Authorization", "token $githubToken")
 
 private const val DELETE_ENDPOINT = "https://api.github.com/repos/Flank/flank/git/refs/tags/"
