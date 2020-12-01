@@ -27,7 +27,7 @@ shadowJar.apply {
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
-version = "1.1.0"
+version = "1.1.1"
 group = "com.github.flank"
 
 application {
@@ -201,4 +201,4 @@ fun <T> withTempFile(block: File.() -> T): T {
     return block(tempFile).also { tempFile.delete() }
 }
 
-tasks["detekt"].dependsOn(tasks["checkIfVersionUpdated"])
+// TODO temporary disabled tasks["check"].dependsOn(tasks["checkIfVersionUpdated"])
