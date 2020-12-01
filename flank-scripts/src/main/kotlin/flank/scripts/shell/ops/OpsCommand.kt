@@ -8,7 +8,10 @@ object OpsCommand : CliktCommand(name = "ops", help = "Contains all ops command:
         subcommands(
             AndroidOpsCommand,
             BuildEarlGreyExampleCommand,
+            BuildGameLoopExampleCommand,
+            BuildTestPlansExample,
             BuildFlankExampleCommand,
+            IosOpsCommand,
             GoOpsCommand
         )
     }

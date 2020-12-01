@@ -34,11 +34,11 @@ import java.io.StringReader
 class IosArgsTest {
     private val empty = emptyList<String>()
     private val simpleFlankPath = getPath("src/test/kotlin/ftl/fixtures/simple-ios-flank.yml")
-    private val testPath = "./src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip"
+    private val testPath = "./src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExample.zip"
     private val nonExistingTestPath = "./src/test/kotlin/ftl/fixtures/tmp/earlgrey_example_non_existing.zip"
     private val nonExistingxctestrunFile = "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e_non_exis.xctestrun"
     private val xctestrunFile =
-        "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun"
+        "./src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun"
     private val invalidApp = "../test_projects/android/apks/invalid.apk"
     private val xctestrunFileAbsolutePath = xctestrunFile.absolutePath()
     private val testAbsolutePath = testPath.absolutePath()
@@ -300,7 +300,7 @@ IosArgs
       xcode-version: null
       device:
         - model: iphone8
-          version: 12.0
+          version: 13.6
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 0
@@ -362,7 +362,7 @@ IosArgs
             // IosGcloudYml
             assert(xctestrunZip, testAbsolutePath)
             assert(xctestrunFile, xctestrunFileAbsolutePath)
-            assert(devices, listOf(Device("iphone8", "12.0")))
+            assert(devices, listOf(Device("iphone8", "13.6")))
             assert(flakyTestAttempts, 0)
 
             // FlankYml

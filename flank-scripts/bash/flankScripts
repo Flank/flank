@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 dir=$(dirname "$BASH_SOURCE")
-scriptsJar="$dir/flankScripts.jar"
+scriptsJar="$dir/flank-scripts.jar"
 
 if [ ! -f "$scriptsJar" ]; then
   "$dir/buildFlankScripts.sh"

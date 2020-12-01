@@ -16,10 +16,10 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3284E2C025458E66001F14AA"
-               BuildableName = "SecondUITests.xctest"
-               BlueprintName = "SecondUITests"
-               ReferencedContainer = "container:FlankMultiTestTargetsExample.xcodeproj">
+               BlueprintIdentifier = "3284E2B025458E56001F14AA"
+               BuildableName = "UITests.xctest"
+               BlueprintName = "UITests"
+               ReferencedContainer = "container:FlankTestPlansExample.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

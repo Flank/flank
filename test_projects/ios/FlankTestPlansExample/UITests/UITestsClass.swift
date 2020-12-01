@@ -1,24 +1,24 @@
 import XCTest
 
-class UITests: XCTestCase {
+class UITestsClass: XCTestCase {
 
-    func test1() {
+    func test1_1() {
         XCTAssertEqual("", "")
     }
     
-    func test2() {
+    func test1_2() {
         XCTAssertEqual("", "")
     }
     
-    func test3() {
+    func test1_3() {
         XCTAssertEqual("", "")
     }
     
-    func test1ENLocale() {
+    func test1_ENLocale() {
         XCTAssert(Locale.current.identifier.contains("en"))
     }
     
-    func test1PLLocale() {
+    func test1_PLLocale() {
         XCTAssert(Locale.current.identifier.contains("pl"))
     }
 }

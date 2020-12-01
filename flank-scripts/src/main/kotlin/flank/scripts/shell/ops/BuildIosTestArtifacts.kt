@@ -1,28 +1,31 @@
 package flank.scripts.shell.ops
 
-import flank.scripts.shell.ios.createIosBuildCommand
+import flank.scripts.shell.ios.createXcodeBuildForTestingCommand
 import flank.scripts.shell.utils.flankFixturesIosTmpPath
 import flank.scripts.shell.utils.pipe
 import flank.scripts.utils.archive
 import flank.scripts.utils.downloadCocoaPodsIfNeeded
 import flank.scripts.utils.downloadXcPrettyIfNeeded
-import flank.scripts.utils.installPods
+import flank.scripts.utils.installPodsIfNeeded
 import java.io.File
 import java.nio.file.Path
 import java.nio.file.Paths
 
-fun IosBuildConfiguration.generateIos() {
+fun IosBuildConfiguration.generateIosTestArtifacts() {
     downloadCocoaPodsIfNeeded()
-    installPods(Paths.get(projectPath))
+    installPodsIfNeeded(Paths.get(projectPath))
     downloadXcPrettyIfNeeded()
-    if (generate) buildEarlGreyExample()
+    if (generate) buildProject()
 }
 
-private fun IosBuildConfiguration.buildEarlGreyExample() = Paths.get(projectPath, "Build")
+private fun IosBuildConfiguration.buildProject() = Paths.get(projectPath, "Build")
     .runBuilds(this)
+    .resolve("Build")
     .resolve("Products")
     .apply { renameXctestFiles().filterFilesToCopy().archiveProject(projectName).copyIosProductFiles(projectName) }
-    .copyTestFiles(this)
+    .let {
+        if (this.copyXCTestFiles) it.copyTestFiles(this)
+    }
 
 private fun Path.runBuilds(configuration: IosBuildConfiguration) = apply {
     toFile().deleteRecursively()
@@ -34,11 +37,12 @@ private fun Path.runBuilds(configuration: IosBuildConfiguration) = apply {
     val project = if (configuration.useWorkspace) ""
     else Paths.get(parent, "${configuration.projectName}.xcodeproj").toString()
     configuration.buildConfigurations.forEach {
-        val buildCommand = createIosBuildCommand(
-            parent,
-            workspace,
+        val buildCommand = createXcodeBuildForTestingCommand(
+            toString(),
             scheme = it.scheme,
-            project,
+            project = project,
+            workspace = workspace,
+            useLegacyBuildSystem = configuration.useLegacyBuildSystem
         )
         buildCommand pipe "xcpretty"
     }
@@ -69,9 +73,9 @@ private fun Sequence<File>.copyIosProductFiles(projectName: String) = forEach {
 }
 
 private fun Path.copyTestFiles(configuration: IosBuildConfiguration) = toString().takeIf { configuration.copy }?.let { productsDirectory ->
-    val appDirectory = Paths.get(productsDirectory, "Debug-iphoneos").toFile().findTestDirectories()
+    val appDirectory = Paths.get(productsDirectory, "Debug-iphoneos").toFile().findXCTestDirectories()
     appDirectory.forEach {
-        it.walk().filter { it.isFile && it.extension == "" }.forEach { testFile ->
+        it.walk().filter { it.isFile && it.extension == "" && !it.name.contains("CodeResources") }.forEach { testFile ->
             configuration.copyTestFile(testFile)
         }
     }
@@ -82,7 +86,7 @@ private fun IosBuildConfiguration.copyTestFile(
 ) =
     fileToCopy.copyTo(Paths.get(flankFixturesIosTmpPath, projectName, fileToCopy.name).toFile(), true)
 
-private fun File.findTestDirectories() = walk().filter { it.isDirectory && it.name.endsWith(".xctest") }
+private fun File.findXCTestDirectories() = walk().filter { it.isDirectory && it.name.endsWith(".xctest") }
 
 data class IosBuildConfiguration(
     val projectPath: String,
@@ -90,10 +94,12 @@ data class IosBuildConfiguration(
     val buildConfigurations: List<IosTestBuildConfiguration>,
     val useWorkspace: Boolean = false,
     val generate: Boolean = true,
-    val copy: Boolean = true
+    val copy: Boolean = true,
+    val copyXCTestFiles: Boolean = false,
+    val useLegacyBuildSystem: Boolean = false
 )
 
 data class IosTestBuildConfiguration(val scheme: String, val outputDirectoryName: String)
 
-private val IosBuildConfiguration.workspaceName
+ val IosBuildConfiguration.workspaceName
     get() = "$projectName.xcworkspace"

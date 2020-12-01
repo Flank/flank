@@ -382,7 +382,7 @@ fun execAndGetStdout(vararg args: String): String {
 }
 
 val resolveArtifacts by tasks.registering {
-    dependsOn(":flank-scripts:download")
+    dependsOn(":flank-scripts:prepareJar")
     group = "verification"
     doLast {
         val flankScriptsRunnerName = if(DefaultNativePlatform.getCurrentOperatingSystem().isWindows)
