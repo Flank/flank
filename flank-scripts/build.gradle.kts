@@ -67,7 +67,7 @@ publishing {
             pom {
                 name.set("Flank-scripts")
                 description.set("Scripts for Flank")
-                url.set("https://github.com/flank/flank")
+                url.set("https://github.com/Flank/flank")
 
                 licenses {
                     license {
