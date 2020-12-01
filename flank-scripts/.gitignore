@@ -6,6 +6,7 @@
 
 # Package Files #
 flankScripts.jar
+flank-scripts.jar
 *.war
 *.nar
 *.ear

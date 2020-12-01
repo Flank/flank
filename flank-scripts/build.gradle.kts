@@ -146,13 +146,13 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> { kotlinOptions.
 val prepareJar by tasks.registering(Copy::class) {
     dependsOn("shadowJar")
     from("$buildDir/libs")
-    include("flankScripts.jar")
+    include("flank-scripts.jar")
     into("$projectDir/bash")
 }
 
 tasks.register("download") {
     val sourceUrl = "https://dl.bintray.com/flank/maven/com/github/flank/$artifactID/$version/$artifactID-$version.jar"
-    val destinationFile = Paths.get("bash", "flankScripts.jar").toFile()
+    val destinationFile = Paths.get("bash", "flank-scripts.jar").toFile()
     ant.invokeMethod("get", mapOf("src" to sourceUrl, "dest" to destinationFile))
 }
 
