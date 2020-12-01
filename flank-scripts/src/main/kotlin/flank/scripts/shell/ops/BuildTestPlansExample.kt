@@ -7,10 +7,7 @@ import flank.scripts.shell.utils.failIfWindows
 import flank.scripts.shell.utils.iOSTestProjectsPath
 import java.nio.file.Paths
 
-object BuildTestPlansExample : CliktCommand(
-    name = "build_ios_testplans_example", 
-    help = "Build ios test plans example app"
-) {
+object BuildTestPlansExample : CliktCommand(name = "build_ios_testplans_example", help = "Build ios test plans example app") {
 
     private val generate: Boolean? by option(help = "Make build").flag("-g", default = true)
 
