@@ -1,4 +1,4 @@
-name: RELEASE
+name: Release Flank Scripts
 
 on:
   push:
