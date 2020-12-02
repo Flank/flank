@@ -2,6 +2,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.jfrog.bintray.gradle.BintrayExtension
 import java.util.*
 import java.nio.file.Paths
+import java.io.ByteArrayOutputStream
 
 plugins {
     application
@@ -27,7 +28,7 @@ shadowJar.apply {
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
-version = "1.1.3"
+version = "1.1.4"
 group = "com.github.flank"
 
 application {
@@ -156,44 +157,42 @@ tasks.register("download") {
     ant.invokeMethod("get", mapOf("src" to sourceUrl, "dest" to destinationFile))
 }
 
-tasks.register("checkIfVersionUpdated") {
-    group = "verification"
-    val isVersionChanged = withTempFile {
-        outputStream().use {
+val checkIfVersionUpdated by tasks.registering(Exec::class) {
+    commandLine("git", "fetch", "--no-tags")
 
-            project.exec {
-                commandLine("git", "fetch", "--no-tags", "-v")
-            }
-
-            project.exec {
-                commandLine(listOf("git", "diff", "origin/master", "HEAD", "--name-only"))
-                standardOutput = it
-            }
-        }
-
-        val changedFiles = readLines()
-        changedFiles.any { it.startsWith("flank-scripts") }.not()
+    doLast {
+        val changedFiles = execAndGetStdout("git", "diff", "origin/master", "HEAD", "--name-only").split("\n") +
+            execAndGetStdout("git", "diff", "origin/master", "--name-only").split("\n")
+        val isVersionChanged = changedFiles.any { it.startsWith("flank-scripts") }.not()
             || (changedFiles.contains("flank-scripts/build.gradle.kts") && isVersionChangedInBuildGradle())
-    }
-    if(isVersionChanged.not()) {
-        throw GradleException(
-            "Flank scripts version is not updated, but files changed.\n" +
-            "Please update version according to schema: <breaking change>.<feature added>.<fix/minor change>"
-        )
+
+        if (isVersionChanged.not()) {
+            throw GradleException(
+                "Flank scripts version is not updated, but files changed.\n" +
+                    "Please update version according to schema: <breaking change>.<feature added>.<fix/minor change>"
+            )
+        }
     }
 }
 
-fun isVersionChangedInBuildGradle(): Boolean = withTempFile {
-    outputStream().use {
-        project.exec {
-            commandLine(listOf("git", "diff", "origin/master", "HEAD", "--", "build.gradle.kts"))
-            standardOutput = it
-        }
-    }
+fun isVersionChangedInBuildGradle(): Boolean {
 
-    readLines()
+    val localResultsStream = execAndGetStdout("git", "diff", "origin/master", "HEAD", "--", "build.gradle.kts")
+    val commitedResultsStream = execAndGetStdout("git", "diff", "origin/master", "--", "build.gradle.kts")
+
+    return (commitedResultsStream.split("\n") + localResultsStream.split("\n"))
         .filter { it.startsWith("-version = ") || it.startsWith("+version = ") }
         .size >= 2
+}
+
+fun execAndGetStdout(vararg args: String): String {
+    val stdout = ByteArrayOutputStream()
+    exec {
+        commandLine(*args)
+        standardOutput = stdout
+        workingDir = projectDir
+    }
+    return stdout.toString().trimEnd()
 }
 
 fun <T> withTempFile(block: File.() -> T): T {
@@ -201,4 +200,4 @@ fun <T> withTempFile(block: File.() -> T): T {
     return block(tempFile).also { tempFile.delete() }
 }
 
-// TODO temporary disabled tasks["check"].dependsOn(tasks["checkIfVersionUpdated"])
+tasks["detekt"].dependsOn(tasks["checkIfVersionUpdated"])
