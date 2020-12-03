@@ -14,8 +14,8 @@ fun main() {
         ?: "YOUR PROJECT ID"
 
     val quantity = "single"
-    val type = "gameloop"
-    val extra = "ios"
+    val type = "success"
+//    val extra = "ios"
 
     // Bugsnag keeps the process alive so we must call exitProcess
     // https://github.com/bugsnag/bugsnag-java/issues/151
@@ -24,14 +24,14 @@ fun main() {
 //            "--debug",
             "firebase",
             "test",
-            "ios",
+            "android",
             "run",
 //            "--dry",
 //            "--dump-shards",
             "--output-style=single",
 //            "--full-junit-result",
 //            "--legacy-junit-result",
-            "-c=test_runner/src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type-$extra.yml",
+            "-c=test_runner/src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type.yml",
             "--project=$projectId"
 //            "--client-details=key1=value1,key2=value2"
         )

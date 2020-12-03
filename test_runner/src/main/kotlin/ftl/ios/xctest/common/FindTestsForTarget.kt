@@ -5,6 +5,7 @@ import com.dd.plist.NSDictionary
 import com.dd.plist.NSObject
 import com.dd.plist.NSString
 import com.google.common.annotations.VisibleForTesting
+import ftl.log.logLine
 import ftl.run.exception.FlankGeneralError
 import java.io.File
 import java.nio.file.Paths
@@ -28,7 +29,7 @@ private fun NSDictionary.findXcTestTargets(
 
 private fun NSObject.findBinaryTests(testRoot: String): List<String> {
     val binaryRoot = toString().replace("__TESTROOT__/", testRoot)
-    println("Found xctest: $binaryRoot")
+    logLine("Found xctest: $binaryRoot")
 
     val binaryName = File(binaryRoot).nameWithoutExtension
     val binaryPath = Paths.get(binaryRoot, binaryName).toString()

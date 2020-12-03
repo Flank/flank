@@ -16,6 +16,7 @@ import ftl.args.ShardChunks
 import ftl.json.needsUpdate
 import ftl.json.updateWithMatrix
 import ftl.json.validate
+import ftl.log.logLine
 import ftl.util.MatrixState
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
@@ -40,7 +41,7 @@ suspend fun refreshLastRun(currentArgs: IArgs, testShardChunks: ShardChunks) {
 
 /** Refresh all in progress matrices in parallel **/
 private suspend fun refreshMatrices(matrixMap: MatrixMap, args: IArgs) = coroutineScope {
-    println("RefreshMatrices")
+    logLine("RefreshMatrices")
 
     val jobs = arrayListOf<Deferred<TestMatrix>>()
     val map = matrixMap.map
@@ -54,14 +55,14 @@ private suspend fun refreshMatrices(matrixMap: MatrixMap, args: IArgs) = corouti
     }
 
     if (matrixCount != 0) {
-        println(FtlConstants.indent + "Refreshing ${matrixCount}x matrices")
+        logLine(FtlConstants.indent + "Refreshing ${matrixCount}x matrices")
     }
 
     var dirty = false
     jobs.awaitAll().forEach { matrix ->
         val matrixId = matrix.testMatrixId
 
-        println(FtlConstants.indent + "${matrix.state} $matrixId")
+        logLine(FtlConstants.indent + "${matrix.state} $matrixId")
 
         if (map[matrixId]?.needsUpdate(matrix) == true) {
             map[matrixId]?.updateWithMatrix(matrix)?.let {
@@ -72,8 +73,8 @@ private suspend fun refreshMatrices(matrixMap: MatrixMap, args: IArgs) = corouti
     }
 
     if (dirty) {
-        println(FtlConstants.indent + "Updating matrix file")
+        logLine(FtlConstants.indent + "Updating matrix file")
         args.updateMatrixFile(matrixMap)
     }
-    println()
+    logLine()
 }

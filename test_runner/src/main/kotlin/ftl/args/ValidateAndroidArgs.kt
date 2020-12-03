@@ -9,6 +9,7 @@ import ftl.android.UnsupportedVersionId
 import ftl.args.yml.Type
 import ftl.config.containsPhysicalDevices
 import ftl.config.containsVirtualDevices
+import ftl.log.logLine
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 import ftl.run.exception.IncompatibleTestDimensionError
@@ -146,7 +147,7 @@ private fun AndroidArgs.assertMaxTestShardsByDeviceType() =
     }
 
 private fun AndroidArgs.assertDevicesShards() {
-    if (inVirtualRange && !inPhysicalRange) println("Physical devices configured, but max-test-shards limit set to $maxTestShards, for physical devices range is ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.first} to ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}, you additionally have configured virtual devices. In this case, the physical limit will be decreased to: ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}")
+    if (inVirtualRange && !inPhysicalRange) logLine("Physical devices configured, but max-test-shards limit set to $maxTestShards, for physical devices range is ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.first} to ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}, you additionally have configured virtual devices. In this case, the physical limit will be decreased to: ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}")
     else if (!inVirtualRange && !inPhysicalRange) throwMaxTestShardsLimitExceeded()
 }
 
@@ -217,15 +218,15 @@ private fun AndroidArgs.assertOtherFiles() {
 
 private fun AndroidArgs.checkEnvironmentVariables() {
     if (environmentVariables.isNotEmpty() && directoriesToPull.isEmpty())
-        println("WARNING: environment-variables set but directories-to-pull is empty, this will result in the coverage file  not downloading to the bucket.")
+        logLine("WARNING: environment-variables set but directories-to-pull is empty, this will result in the coverage file  not downloading to the bucket.")
 }
 
 private fun AndroidArgs.checkFilesToDownload() {
     if (filesToDownload.isNotEmpty() && directoriesToPull.isEmpty())
-        println("WARNING: files-to-download is set but directories-to-pull is empty, the coverage file may fail to download into the bucket.")
+        logLine("WARNING: files-to-download is set but directories-to-pull is empty, the coverage file may fail to download into the bucket.")
 }
 
 private fun AndroidArgs.checkNumUniformShards() {
     if ((numUniformShards ?: 0) > 0 && disableSharding)
-        println("WARNING: disable-sharding is enabled with num-uniform-shards = $numUniformShards, Flank will ignore num-uniform-shards and disable sharding.")
+        logLine("WARNING: disable-sharding is enabled with num-uniform-shards = $numUniformShards, Flank will ignore num-uniform-shards and disable sharding.")
 }

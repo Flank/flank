@@ -8,6 +8,7 @@ import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
 import ftl.ios.xctest.common.parseToNSDictionary
+import ftl.log.logLine
 import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards
 import ftl.run.model.TestResult
@@ -50,7 +51,7 @@ internal suspend fun IosArgs.runIosTests(): TestResult = coroutineScope {
     // Upload only after parsing shards to detect missing methods early.
     val xcTestGcsPath = uploadIfNeeded(xctestrunZip.asFileReference()).gcs
 
-    println(beforeRunMessage(testShardChunks))
+    logLine(beforeRunMessage(testShardChunks))
 
     repeat(runCount) {
         jobs += testShardChunks.map { testTargets ->

@@ -3,6 +3,7 @@ package ftl.args
 import ftl.args.yml.Type
 import ftl.config.Device
 import ftl.config.common.CommonFlankConfig.Companion.defaultLocalResultsDir
+import ftl.log.OutputLogLevel
 import ftl.run.status.OutputStyle
 import ftl.util.timeoutToMils
 
@@ -81,4 +82,11 @@ interface IArgs {
     interface ICompanion {
         val validArgs: Map<String, List<String>>
     }
+}
+
+val IArgs.logLevel
+    get() = if (outputStyle == OutputStyle.Compact) OutputLogLevel.LOW else OutputLogLevel.HIGH
+
+fun IArgs.setLogLevel() = also {
+    ftl.log.setLogLevel(logLevel)
 }

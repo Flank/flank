@@ -3,6 +3,7 @@ package ftl.cli.firebase.test.ios.models
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.ios.IosCatalog.devicesCatalogAsTable
+import ftl.log.logLine
 import picocli.CommandLine
 import java.nio.file.Paths
 
@@ -19,7 +20,7 @@ import java.nio.file.Paths
 )
 class IosModelsListCommand : Runnable {
     override fun run() {
-        println(devicesCatalogAsTable(IosArgs.loadOrDefault(Paths.get(configPath)).project))
+        logLine(devicesCatalogAsTable(IosArgs.loadOrDefault(Paths.get(configPath)).project))
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

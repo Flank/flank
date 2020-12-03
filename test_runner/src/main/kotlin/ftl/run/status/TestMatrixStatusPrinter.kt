@@ -4,6 +4,7 @@ import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
 import ftl.args.IArgs
 import ftl.config.FtlConstants
+import ftl.log.logLine
 import ftl.util.MatrixState
 import ftl.util.StopWatch
 
@@ -29,10 +30,10 @@ class TestMatrixStatusPrinter(
 
     private fun printTestMatrixStatusList(time: String) {
         if (args.outputStyle == OutputStyle.Single) {
-            println()
+            logLine()
         }
         cache.forEach { (id, state) ->
-            println("${FtlConstants.indent}$time $id $state")
+            logLine("${FtlConstants.indent}$time $id $state")
         }
     }
 }

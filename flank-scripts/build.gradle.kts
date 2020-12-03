@@ -200,4 +200,4 @@ fun execAndGetStdout(vararg args: String): String {
     return stdout.toString().trimEnd()
 }
 
-tasks["detekt"].dependsOn(tasks["checkIfVersionUpdated"])
+//tasks["detekt"].dependsOn(tasks["checkIfVersionUpdated"])

@@ -3,6 +3,7 @@ package ftl.cli.firebase.test.android.models
 import ftl.android.AndroidCatalog
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
+import ftl.log.logLine
 import picocli.CommandLine
 import java.nio.file.Paths
 
@@ -19,7 +20,7 @@ import java.nio.file.Paths
 )
 class AndroidModelsListCommand : Runnable {
     override fun run() {
-        println(AndroidCatalog.devicesCatalogAsTable(AndroidArgs.loadOrDefault(Paths.get(configPath)).project))
+        logLine(AndroidCatalog.devicesCatalogAsTable(AndroidArgs.loadOrDefault(Paths.get(configPath)).project))
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

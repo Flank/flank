@@ -3,6 +3,7 @@ package ftl.cli.firebase.test.ios.versions
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.ios.IosCatalog.softwareVersionsAsTable
+import ftl.log.logLine
 import picocli.CommandLine
 import java.nio.file.Paths
 
@@ -19,7 +20,7 @@ import java.nio.file.Paths
 )
 class IosVersionsListCommand : Runnable {
     override fun run() {
-        println(softwareVersionsAsTable(IosArgs.loadOrDefault(Paths.get(configPath)).project))
+        logLine(softwareVersionsAsTable(IosArgs.loadOrDefault(Paths.get(configPath)).project))
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])
