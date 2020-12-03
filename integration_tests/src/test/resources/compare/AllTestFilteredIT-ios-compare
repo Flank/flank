@@ -25,6 +25,7 @@ IosArgs
       type: xctest
       app: 
       test-special-entitlements: false
+      fail-fast: false
 
     flank:
       max-test-shards: 1

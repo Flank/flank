@@ -63,7 +63,7 @@ tasks.register<Test>("integrationTests") {
         events("skipped", "failed")
         exceptionFormat = TestExceptionFormat.FULL
     }
-    maxParallelForks = 4
+    maxParallelForks = Runtime.getRuntime().availableProcessors() / 2
 }
 
 val compileTestKotlin: KotlinCompile by tasks
