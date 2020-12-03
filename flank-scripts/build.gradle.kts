@@ -158,6 +158,7 @@ tasks.register("download") {
 }
 
 val checkIfVersionUpdated by tasks.registering(Exec::class) {
+    group = "verification"
     commandLine("git", "fetch", "--no-tags")
 
     doLast {
@@ -168,8 +169,11 @@ val checkIfVersionUpdated by tasks.registering(Exec::class) {
 
         if (isVersionChanged.not()) {
             throw GradleException(
-                "Flank scripts version is not updated, but files changed.\n" +
-                    "Please update version according to schema: <breaking change>.<feature added>.<fix/minor change>"
+                """
+                   Flank scripts version is not updated, but files changed.
+                   Please update version according to schema: <breaking change>.<feature added>.<fix/minor change>
+                """.trimIndent()
+
             )
         }
     }
@@ -178,9 +182,10 @@ val checkIfVersionUpdated by tasks.registering(Exec::class) {
 fun isVersionChangedInBuildGradle(): Boolean {
 
     val localResultsStream = execAndGetStdout("git", "diff", "origin/master", "HEAD", "--", "build.gradle.kts")
+        .split("\n")
     val commitedResultsStream = execAndGetStdout("git", "diff", "origin/master", "--", "build.gradle.kts")
-
-    return (commitedResultsStream.split("\n") + localResultsStream.split("\n"))
+        .split("\n")
+    return (commitedResultsStream + localResultsStream)
         .filter { it.startsWith("-version = ") || it.startsWith("+version = ") }
         .size >= 2
 }
@@ -193,11 +198,6 @@ fun execAndGetStdout(vararg args: String): String {
         workingDir = projectDir
     }
     return stdout.toString().trimEnd()
-}
-
-fun <T> withTempFile(block: File.() -> T): T {
-    val tempFile = createTempFile("${System.currentTimeMillis()}")
-    return block(tempFile).also { tempFile.delete() }
 }
 
 tasks["detekt"].dependsOn(tasks["checkIfVersionUpdated"])
