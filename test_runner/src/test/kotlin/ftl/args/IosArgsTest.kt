@@ -217,7 +217,7 @@ IosArgs
       record-video: false
       timeout: 70m
       async: true
-      client-details: 
+      client-details:
         key1: value1
         key2: value2
       network-profile: LTE
@@ -236,14 +236,14 @@ IosArgs
           locale: c
           orientation: default
       num-flaky-test-attempts: 4
-      directories-to-pull: 
-      other-files: 
+      directories-to-pull:
+      other-files:
         com.my.app:/Documents/file.txt: local/file.txt
         /private/var/mobile/Media/file.jpg: gs://bucket/file.jpg
-      additional-ipas: 
+      additional-ipas:
         - $testIpa1
         - $testIpa2
-      scenario-numbers: 
+      scenario-numbers:
       type: xctest
       app: 
       test-special-entitlements: true
@@ -292,7 +292,7 @@ IosArgs
       record-video: false
       timeout: 15m
       async: false
-      client-details: 
+      client-details:
       network-profile: null
       results-history-name: null
       # iOS gcloud
@@ -305,10 +305,10 @@ IosArgs
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 0
-      directories-to-pull: 
-      other-files: 
-      additional-ipas: 
-      scenario-numbers: 
+      directories-to-pull:
+      other-files:
+      additional-ipas:
+      scenario-numbers:
       type: xctest
       app: 
       test-special-entitlements: false
