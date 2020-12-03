@@ -123,6 +123,14 @@ gcloud:
   ## The maximum number of reruns allowed is 10. Default is 0, which implies no reruns.
   # num-flaky-test-attempts: 0
 
+  ### Fail Fast
+  ## If true, only a single attempt at most will be made to run each execution/shard in the matrix.
+  ## Flaky test attempts are not affected. Normally, 2 or more attempts are made if a potential
+  ## infrastructure issue is detected. This feature is for latency sensitive workloads. The
+  ## incidence of execution failures may be significantly greater for fail-fast matrices and support
+  ## is more limited because of that expectation.
+  # fail-fast: false
+
   # -- IosGcloudYml --
 
   ### IOS Test Package Path
@@ -376,6 +384,14 @@ gcloud:
   ## The number of times a TestExecution should be re-attempted if one or more\nof its test cases fail for any reason.
   ## The maximum number of reruns allowed is 10. Default is 0, which implies no reruns.
   # num-flaky-test-attempts: 0
+
+  ### Fail Fast
+  ## If true, only a single attempt at most will be made to run each execution/shard in the matrix.
+  ## Flaky test attempts are not affected. Normally, 2 or more attempts are made if a potential
+  ## infrastructure issue is detected. This feature is for latency sensitive workloads. The
+  ## incidence of execution failures may be significantly greater for fail-fast matrices and support
+  ## is more limited because of that expectation.
+  # fail-fast: false
 
   # -- AndroidGcloudYml --
 

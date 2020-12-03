@@ -22,6 +22,7 @@ data class CommonArgs(
     override val type: Type?,
     override val directoriesToPull: List<String>,
     override val scenarioNumbers: List<String>,
+    override val failFast: Boolean,
 
     // flank
     override val project: String,

@@ -162,6 +162,16 @@ data class CommonGcloudConfig @JsonIgnore constructor(
     @set:JsonProperty("type")
     var type: String? by data
 
+    @set:CommandLine.Option(
+        names = ["--fail-fast"],
+        description = ["If true, only a single attempt at most will be made to run each " +
+                "execution/shard in the matrix. Flaky test attempts are not affected. Normally, " +
+                "2 or more attempts are made if a potential infrastructure issue is detected." +
+                " This feature is for latency sensitive workloads."]
+    )
+    @set:JsonProperty("fail-fast")
+    var failFast: Boolean? by data
+
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {
@@ -189,6 +199,7 @@ data class CommonGcloudConfig @JsonIgnore constructor(
             otherFiles = emptyMap()
             type = null
             scenarioNumbers = emptyList()
+            failFast = false
         }
     }
 }

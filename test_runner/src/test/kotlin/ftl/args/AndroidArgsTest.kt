@@ -346,6 +346,7 @@ AndroidArgs
           orientation: portrait
       num-flaky-test-attempts: 3
       test-targets-for-shard: 
+      fail-fast: false
 
     flank:
       max-test-shards: 7
@@ -422,6 +423,7 @@ AndroidArgs
           orientation: portrait
       num-flaky-test-attempts: 0
       test-targets-for-shard: 
+      fail-fast: false
 
     flank:
       max-test-shards: 1
@@ -1225,6 +1227,23 @@ AndroidArgs
           output-style: unknown
       """
         AndroidArgs.load(yaml).validate()
+    }
+
+
+    @Test
+    fun `cli fail-fast`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parseArgs("--fail-fast")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+      """
+        assertThat(AndroidArgs.load(yaml).validate().failFast).isEqualTo(false)
+
+        val args = AndroidArgs.load(yaml, cli).validate()
+        assertThat(args.failFast).isEqualTo(true)
     }
 
     @Test
@@ -2378,7 +2397,10 @@ AndroidArgs
     }
 }
 
-private fun AndroidArgs.Companion.load(yamlData: String, cli: AndroidRunCommand? = null): AndroidArgs =
+private fun AndroidArgs.Companion.load(
+    yamlData: String,
+    cli: AndroidRunCommand? = null
+): AndroidArgs =
     load(StringReader(yamlData), cli)
 
 fun getAndroidShardChunks(args: AndroidArgs): List<Chunk> =
