@@ -9,11 +9,18 @@ fun NSDictionary.reduceXcTestRunV1(
 ): NSDictionary = apply {
     (keys - targets.keys - XCTEST_METADATA).forEach(this::remove)
     targets.forEach { (testTarget, methods) ->
-        set(
-            testTarget,
-            getValue(testTarget)
-                .let { it as NSDictionary }
-                .setOnlyTestIdentifiers(methods)
-        )
+        setOnlyTestIdentifiers(testTarget, methods)
     }
+}
+
+private fun NSDictionary.setOnlyTestIdentifiers(
+    testTarget: String,
+    methods: List<String>
+) {
+    set(
+        testTarget,
+        getValue(testTarget)
+            .let { it as NSDictionary }
+            .setOnlyTestIdentifiers(methods)
+    )
 }

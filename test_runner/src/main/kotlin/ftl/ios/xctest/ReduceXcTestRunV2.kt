@@ -24,18 +24,15 @@ fun NSDictionary.reduceXcTestRunV2(
 }
 
 private fun NSDictionary.reduceTestConfiguration(
-    targets: Map<String, List<String>>
+    targetMethods: Map<String, List<String>>
 ): NSDictionary = apply {
     set(
         TEST_TARGETS,
-        getTestTargets()
-            .mapNotNull {
-                targets[
-                    it.getBlueprintName()
-                ]?.let { methods ->
-                    it.setOnlyTestIdentifiers(methods)
-                }
-            }.toNsArray()
+        getTestTargets().mapNotNull { target ->
+            targetMethods[target.getBlueprintName()]?.let { methods ->
+                target.setOnlyTestIdentifiers(methods)
+            }
+        }.toNsArray()
     )
 }
 

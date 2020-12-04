@@ -19,6 +19,7 @@ import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import java.io.File
+import org.junit.Assume.assumeFalse
 
 @RunWith(FlankTestRunner::class)
 class DumpShardsKtTest {
@@ -183,7 +184,7 @@ class DumpShardsKtTest {
 
     @Test
     fun `dump shards obfuscated ios`() {
-        if (FtlConstants.isWindows) return // TODO Windows Linux subsytem does not contain all expected commands
+        assumeFalse(FtlConstants.isWindows) // TODO Windows Linux subsytem does not contain all expected commands
 
         // given
         val expected = """

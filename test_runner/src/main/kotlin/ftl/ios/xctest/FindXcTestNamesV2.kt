@@ -12,15 +12,19 @@ internal fun findXcTestNamesV2(
 ): Map<String, Map<String, List<String>>> =
     xcTestNsDictionary
         .getTestConfigurations()
-        .mapValues { (_, configDict) ->
-            configDict
-                .getTestTargets()
-                .associateBy { targetDict -> targetDict.getBlueprintName() }
-                .mapValues { (name, dict) ->
-                    findTestsForTarget(
-                        testRoot = xcTestRoot,
-                        testTargetName = name,
-                        testTargetDict = dict,
-                    )
-                }
+        .mapValues { (_, configDict: NSDictionary) ->
+            configDict.findTestTargetMethods(xcTestRoot)
+        }
+
+private fun NSDictionary.findTestTargetMethods(
+    xcTestRoot: String
+): Map<String, List<String>> =
+    getTestTargets()
+        .associateBy { targetDict -> targetDict.getBlueprintName() }
+        .mapValues { (name, dict) ->
+            findTestsForTarget(
+                testRoot = xcTestRoot,
+                testTargetName = name,
+                testTargetDict = dict,
+            )
         }
