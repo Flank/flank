@@ -52,5 +52,7 @@ data class TestCase(
     val time: String?,
 
     @JsonSetter(nulls = Nulls.AS_EMPTY)
-    val skipped: String?
+    val skipped: String?,
+
+    val failure: String?
 )

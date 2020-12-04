@@ -15,3 +15,7 @@ fun TestSuites.assertTestResultContainsWebLinks() =
     }
 
 fun TestSuites.assertCountOfSkippedTests(expectedCount: Int) = assertEquals(expectedCount, testSuites.sumBy { it.skipped })
+
+fun TestSuites.assertCountOfFailedTests(expectedCount: Int) = assertEquals(expectedCount, testSuites.sumBy { it.failures })
+
+fun TestSuites.assertCountOfSuccessTests(expectedCount: Int) = assertEquals(expectedCount, testSuites.sumBy { it.tests } - testSuites.sumBy { it.failures + it.skipped })
