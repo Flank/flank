@@ -27,18 +27,14 @@ private fun IosArgs.assertGameloop() {
 }
 
 private fun IosArgs.validateApp() {
-    if (app.isNotEmpty() && type != Type.GAMELOOP) throw FlankConfigurationError(
-        "App cannot be defined if type is not equal to game-loop (IOS)"
-    )
+    if (app.isNotEmpty() && type != Type.GAMELOOP) throw FlankConfigurationError("App cannot be defined if type is not equal to game-loop (IOS)")
 }
 
 private fun IosArgs.validateScenarioNumbers() {
     if (scenarioNumbers.isNotEmpty() && (type != Type.GAMELOOP))
         throw FlankConfigurationError("Scenario numbers defined but Type is not Game-loop.")
     scenarioNumbers.forEach {
-        it.toIntOrNull() ?: throw FlankConfigurationError(
-            "Invalid scenario number provided - $it"
-        )
+        it.toIntOrNull() ?: throw FlankConfigurationError("Invalid scenario number provided - $it")
     }
     if (scenarioNumbers.size > 1024) throw FlankConfigurationError("There cannot be more than 1024 Scenario numbers")
 }
@@ -73,13 +69,7 @@ private fun IosArgs.assertXcodeSupported() = when {
 
 private fun IosArgs.assertDevicesSupported() = devices.forEach { device ->
     if (!IosCatalog.supportedDevice(device.model, device.version, this.project))
-        throw IncompatibleTestDimensionError(
-            "iOS ${device.version} on ${
-                device.model
-            } is not a supported\nSupported version ids for '${device.model}': ${
-                device.getSupportedVersionId(project).joinToString()
-            }"
-        )
+        throw IncompatibleTestDimensionError("iOS ${device.version} on ${device.model} is not a supported\nSupported version ids for '${device.model}': ${device.getSupportedVersionId(project).joinToString()}")
 }
 
 private fun IosArgs.assertTestFiles() {
@@ -93,9 +83,8 @@ private fun IosArgs.assertAdditionalIpas() {
 
 private fun IosArgs.validType() {
     val validIosTypes = arrayOf(Type.GAMELOOP, Type.XCTEST)
-    if (commonArgs.type !in validIosTypes) throw FlankConfigurationError(
-        "Type should be one of ${validIosTypes.joinToString(",")}"
-    )
+    if (commonArgs.type !in validIosTypes)
+        throw FlankConfigurationError("Type should be one of ${validIosTypes.joinToString(",")}")
 }
 
 private fun IosArgs.assertXcTestRunData() {

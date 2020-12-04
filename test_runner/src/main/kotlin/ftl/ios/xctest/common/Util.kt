@@ -90,12 +90,10 @@ internal fun validateIsFile(path: String) = File(path).run {
 
 // https://github.com/google/xctestrunner/blob/51dbb6b7eb35f2ed55439459ca49e06992bc4da0/xctestrunner/test_runner/xctestrun.py#L129
 // Rewrites tests so that only the listed tests execute
-internal fun NSDictionary.setOnlyTestIdentifiers(methods: Collection<String>) =
-    apply {
-        while (containsKey(ONLY_TEST_IDENTIFIERS)) remove(ONLY_TEST_IDENTIFIERS)
-        this[ONLY_TEST_IDENTIFIERS] =
-            NSArray(methods.size).also { methods.forEachIndexed(it::setValue) }
-    }
+internal fun NSDictionary.setOnlyTestIdentifiers(methods: Collection<String>) = apply {
+    while (containsKey(ONLY_TEST_IDENTIFIERS)) remove(ONLY_TEST_IDENTIFIERS)
+    this[ONLY_TEST_IDENTIFIERS] = NSArray(methods.size).also { methods.forEachIndexed(it::setValue) }
+}
 
 internal fun List<String>.mapToRegex(): List<Regex> = map { filter ->
     try {
