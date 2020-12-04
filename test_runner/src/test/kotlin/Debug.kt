@@ -3,8 +3,10 @@
 import ftl.Main
 import ftl.run.exception.withGlobalExceptionHandling
 import picocli.CommandLine
+import java.io.File
 
 fun main() {
+    println(File("").absolutePath)
     // GoogleApiLogger.logAllToStdout()
 
     // for debugging. Run test from IntelliJ IDEA
@@ -13,10 +15,6 @@ fun main() {
     val projectId = System.getenv("GOOGLE_CLOUD_PROJECT")
         ?: "YOUR PROJECT ID"
 
-    val quantity = "single"
-    val type = "success"
-    val extra = "ios"
-
     // Bugsnag keeps the process alive so we must call exitProcess
     // https://github.com/bugsnag/bugsnag-java/issues/151
     withGlobalExceptionHandling {
@@ -24,14 +22,14 @@ fun main() {
 //            "--debug",
             "firebase",
             "test",
-            "android",
+            "ios",
             "run",
 //            "--dry",
 //            "--dump-shards",
             "--output-style=single",
 //            "--full-junit-result",
 //            "--legacy-junit-result",
-            "-c=test_runner/src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type-$extra.yml",
+            "-c=./src/test/kotlin/ftl/fixtures/test_app_cases/flank-xctestrunv2-all.yml",
             "--project=$projectId"
 //            "--client-details=key1=value1,key2=value2"
         )

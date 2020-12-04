@@ -1,0 +1,6 @@
+gcloud:
+  test: "./src/test/kotlin/ftl/fixtures/tmp/ios/FlankTestPlansExample/FlankTestPlansExample.zip"
+  xctestrun-file: "./src/test/kotlin/ftl/fixtures/tmp/ios/FlankTestPlansExample/AllTests.xctestrun"
+flank:
+  max-test-shards: 1
+  repeatTests: 1
