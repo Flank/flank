@@ -4,7 +4,7 @@ import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.defaultCredentialPath
 import ftl.gc.GcStorage
-import ftl.log.logLine
+import ftl.log.logLn
 import ftl.reports.FullJUnitReport
 import ftl.reports.JUnitReport
 import ftl.run.exception.FlankConfigurationError
@@ -73,10 +73,10 @@ private fun CommonArgs.assertSmartFlankGcsPath() = with(smartFlankGcsPath) {
 
 fun IArgs.checkResultsDirUnique() {
     if (useLegacyJUnitResult && GcStorage.exist(resultsBucket, resultsDir))
-        logLine("WARNING: Google cloud storage result directory should be unique, otherwise results from multiple test matrices will be overwritten or intermingled\n")
+        logLn("WARNING: Google cloud storage result directory should be unique, otherwise results from multiple test matrices will be overwritten or intermingled\n")
 }
 
 fun IArgs.checkDisableSharding() {
     if (disableSharding && maxTestShards > 0)
-        logLine("WARNING: disable-sharding enabled with max-test-shards = $maxTestShards, Flank will ignore max-test-shard and disable sharding.")
+        logLn("WARNING: disable-sharding enabled with max-test-shards = $maxTestShards, Flank will ignore max-test-shard and disable sharding.")
 }

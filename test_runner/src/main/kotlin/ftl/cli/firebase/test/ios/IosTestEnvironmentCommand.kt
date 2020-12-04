@@ -9,7 +9,7 @@ import ftl.ios.IosCatalog.devicesCatalogAsTable
 import ftl.ios.IosCatalog.localesAsTable
 import ftl.ios.IosCatalog.softwareVersionsAsTable
 import ftl.ios.IosCatalog.supportedOrientationsAsTable
-import ftl.log.logLine
+import ftl.log.logLn
 import picocli.CommandLine
 import java.nio.file.Paths
 
@@ -29,13 +29,13 @@ import java.nio.file.Paths
 class IosTestEnvironmentCommand : Runnable {
     override fun run() {
         val projectId = IosArgs.loadOrDefault(Paths.get(configPath)).project
-        logLine(devicesCatalogAsTable(projectId))
-        logLine(softwareVersionsAsTable(projectId))
-        logLine(localesAsTable(projectId))
-        logLine(providedSoftwareAsTable())
-        logLine(networkConfigurationAsTable())
-        logLine(supportedOrientationsAsTable(projectId))
-        logLine(ipBlocksListAsTable())
+        logLn(devicesCatalogAsTable(projectId))
+        logLn(softwareVersionsAsTable(projectId))
+        logLn(localesAsTable(projectId))
+        logLn(providedSoftwareAsTable())
+        logLn(networkConfigurationAsTable())
+        logLn(supportedOrientationsAsTable(projectId))
+        logLn(ipBlocksListAsTable())
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

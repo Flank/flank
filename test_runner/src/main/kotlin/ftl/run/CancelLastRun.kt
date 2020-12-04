@@ -4,7 +4,7 @@ import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.gc.GcTestMatrix
 import ftl.json.SavedMatrix
-import ftl.log.logLine
+import ftl.log.logLn
 import ftl.run.common.getLastArgs
 import ftl.run.common.getLastMatrices
 import ftl.util.MatrixState
@@ -24,7 +24,7 @@ fun cancelLastRun(args: IArgs) {
 
 /** Cancel all in progress matrices in parallel **/
 suspend fun cancelMatrices(matrixMap: Map<String, SavedMatrix>, project: String) = coroutineScope {
-    logLine("CancelMatrices")
+    logLn("CancelMatrices")
 
     var matrixCount = 0
 
@@ -37,10 +37,10 @@ suspend fun cancelMatrices(matrixMap: Map<String, SavedMatrix>, project: String)
     }
 
     if (matrixCount == 0) {
-        logLine(FtlConstants.indent + "No matrices to cancel")
+        logLn(FtlConstants.indent + "No matrices to cancel")
     } else {
-        logLine(FtlConstants.indent + "Cancelling ${matrixCount}x matrices")
+        logLn(FtlConstants.indent + "Cancelling ${matrixCount}x matrices")
     }
 
-    logLine()
+    logLn()
 }

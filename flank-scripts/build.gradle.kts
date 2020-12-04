@@ -28,7 +28,7 @@ shadowJar.apply {
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
-version = "1.1.4"
+version = "1.1.5"
 group = "com.github.flank"
 
 application {
@@ -200,4 +200,4 @@ fun execAndGetStdout(vararg args: String): String {
     return stdout.toString().trimEnd()
 }
 
-//tasks["detekt"].dependsOn(tasks["checkIfVersionUpdated"])
+tasks["detekt"].dependsOn(tasks["checkIfVersionUpdated"])

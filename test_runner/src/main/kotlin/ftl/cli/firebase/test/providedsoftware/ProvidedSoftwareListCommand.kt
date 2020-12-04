@@ -1,7 +1,7 @@
 package ftl.cli.firebase.test.providedsoftware
 
 import ftl.environment.providedSoftwareAsTable
-import ftl.log.logLine
+import ftl.log.logLn
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -17,6 +17,6 @@ import picocli.CommandLine
 )
 class ProvidedSoftwareListCommand : Runnable {
     override fun run() {
-        logLine(providedSoftwareAsTable())
+        logLn(providedSoftwareAsTable())
     }
 }

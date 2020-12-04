@@ -3,7 +3,7 @@ package ftl.cli.firebase.test.android.versions
 import ftl.android.AndroidCatalog.supportedVersionsAsTable
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
-import ftl.log.logLine
+import ftl.log.logLn
 import picocli.CommandLine
 import java.nio.file.Paths
 
@@ -20,7 +20,7 @@ import java.nio.file.Paths
 )
 class AndroidVersionsListCommand : Runnable {
     override fun run() {
-        logLine(supportedVersionsAsTable(AndroidArgs.loadOrDefault(Paths.get(configPath)).project))
+        logLn(supportedVersionsAsTable(AndroidArgs.loadOrDefault(Paths.get(configPath)).project))
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

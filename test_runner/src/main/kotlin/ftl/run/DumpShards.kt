@@ -3,7 +3,8 @@ package ftl.run
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
 import ftl.args.isInstrumentationTest
-import ftl.log.logLineHigh
+import ftl.log.OutputLogLevel
+import ftl.log.logLn
 import ftl.run.common.prettyPrint
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.model.AndroidMatrixTestShards
@@ -51,7 +52,7 @@ fun saveShardChunks(
         Paths.get(shardFilePath),
         getGson(obfuscatedOutput).toJson(shards).toByteArray()
     )
-    logLineHigh("Saved $size shards to $shardFilePath")
+    logLn("Saved $size shards to $shardFilePath", OutputLogLevel.All)
 }
 
 private fun getGson(obfuscatedOutput: Boolean) = if (obfuscatedOutput) obfuscatePrettyPrinter else prettyPrint

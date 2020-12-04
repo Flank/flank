@@ -9,7 +9,7 @@ import ftl.config.FtlConstants
 import ftl.environment.ipBlocksListAsTable
 import ftl.environment.networkConfigurationAsTable
 import ftl.environment.providedSoftwareAsTable
-import ftl.log.logLine
+import ftl.log.logLn
 import picocli.CommandLine
 import java.nio.file.Paths
 
@@ -29,13 +29,13 @@ import java.nio.file.Paths
 class AndroidTestEnvironmentCommand : Runnable {
     override fun run() {
         val projectId = AndroidArgs.loadOrDefault(Paths.get(configPath)).project
-        logLine(devicesCatalogAsTable(projectId))
-        logLine(supportedVersionsAsTable(projectId))
-        logLine(localesAsTable(projectId))
-        logLine(providedSoftwareAsTable())
-        logLine(networkConfigurationAsTable())
-        logLine(supportedOrientationsAsTable(projectId))
-        logLine(ipBlocksListAsTable())
+        logLn(devicesCatalogAsTable(projectId))
+        logLn(supportedVersionsAsTable(projectId))
+        logLn(localesAsTable(projectId))
+        logLn(providedSoftwareAsTable())
+        logLn(networkConfigurationAsTable())
+        logLn(supportedOrientationsAsTable(projectId))
+        logLn(ipBlocksListAsTable())
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

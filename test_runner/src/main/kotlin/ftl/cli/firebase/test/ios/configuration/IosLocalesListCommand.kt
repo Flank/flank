@@ -3,7 +3,7 @@ package ftl.cli.firebase.test.ios.configuration
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.ios.IosCatalog.localesAsTable
-import ftl.log.logLine
+import ftl.log.logLn
 import picocli.CommandLine
 import java.nio.file.Paths
 
@@ -20,7 +20,7 @@ import java.nio.file.Paths
 )
 class IosLocalesListCommand : Runnable {
     override fun run() {
-        logLine(localesAsTable(projectId = IosArgs.loadOrDefault(Paths.get(configPath)).project))
+        logLn(localesAsTable(projectId = IosArgs.loadOrDefault(Paths.get(configPath)).project))
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

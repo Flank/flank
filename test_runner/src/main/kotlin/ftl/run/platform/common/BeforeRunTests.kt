@@ -5,13 +5,13 @@ import ftl.config.FtlConstants
 import ftl.gc.GcStorage
 import ftl.gc.GcTesting
 import ftl.gc.GcToolResults
-import ftl.log.logLine
+import ftl.log.logLn
 import ftl.run.exception.FlankGeneralError
 import ftl.util.StopWatch
 import java.io.File
 
 internal fun IArgs.beforeRunTests() = StopWatch().also { watch ->
-    logLine("\nRunTests")
+    logLn("\nRunTests")
     assertMockUrl()
 
     watch.start()

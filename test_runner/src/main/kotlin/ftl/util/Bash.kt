@@ -1,14 +1,14 @@
 package ftl.util
 
 import ftl.config.FtlConstants
-import ftl.log.logLine
+import ftl.log.logLn
 import ftl.run.exception.FlankGeneralError
 import java.lang.ProcessBuilder.Redirect.PIPE
 
 object Bash {
 
     fun execute(cmd: String): String {
-        logLine(cmd)
+        logLn(cmd)
 
         val bashPath = if (FtlConstants.isWindows) "bash.exe" else "/bin/bash"
 

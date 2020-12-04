@@ -1,6 +1,6 @@
 package ftl.shard
 
-import ftl.log.logLine
+import ftl.log.logLn
 import ftl.util.FlankTestMethod
 import kotlin.math.roundToInt
 
@@ -8,8 +8,8 @@ fun printCacheInfo(testsToRun: List<FlankTestMethod>, previousMethodDurations: M
     val allTestCount = testsToRun.size
     val cacheHit = cacheHit(allTestCount, calculateCacheMiss(testsToRun, previousMethodDurations))
     val cachePercent = cachePercent(allTestCount, cacheHit)
-    logLine()
-    logLine(" Smart Flank cache hit: ${cachePercent.roundToInt()}% ($cacheHit / $allTestCount)")
+    logLn()
+    logLn(" Smart Flank cache hit: ${cachePercent.roundToInt()}% ($cacheHit / $allTestCount)")
 }
 
 private fun cacheHit(allTestCount: Int, cacheMiss: Int) = allTestCount - cacheMiss

@@ -5,9 +5,9 @@ import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.gc.GcStorage
 import ftl.json.MatrixMap
+import ftl.log.OutputLogLevel
 import ftl.log.log
-import ftl.log.logHigh
-import ftl.log.logLineHigh
+import ftl.log.logLn
 import ftl.util.Artifacts
 import ftl.util.MatrixState
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +20,7 @@ import java.nio.file.Paths
 
 // TODO needs refactor
 internal suspend fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) = coroutineScope {
-    logLineHigh("FetchArtifacts")
+    logLn("FetchArtifacts", OutputLogLevel.All)
     val fields = Storage.BlobListOption.fields(Storage.BlobField.NAME)
 
     var dirty = false
@@ -43,7 +43,7 @@ internal suspend fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) = corouti
             if (matched) {
                 val downloadFile = getDownloadPath(args, blobPath)
 
-                logHigh(".")
+                log(".", OutputLogLevel.All)
                 if (!downloadFile.toFile().exists()) {
                     val parentFile = downloadFile.parent.toFile()
                     parentFile.mkdirs()
@@ -56,12 +56,12 @@ internal suspend fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) = corouti
         filtered[index] = matrix.copy(downloaded = true)
         jobs
     }.joinAll()
-    logLineHigh()
+    logLn(level = OutputLogLevel.All)
 
     if (dirty) {
-        logLineHigh(FtlConstants.indent + "Updating matrix file")
+        logLn(FtlConstants.indent + "Updating matrix file", level = OutputLogLevel.All)
         args.updateMatrixFile(matrixMap)
-        logLineHigh()
+        logLn(level = OutputLogLevel.All)
     }
 }
 

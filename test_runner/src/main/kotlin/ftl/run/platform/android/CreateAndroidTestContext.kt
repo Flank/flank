@@ -16,7 +16,7 @@ import ftl.args.CalculateShardsResult
 import ftl.config.FtlConstants
 import ftl.filter.TestFilter
 import ftl.filter.TestFilters
-import ftl.log.logLine
+import ftl.log.logLn
 import ftl.run.model.AndroidTestContext
 import ftl.run.model.InstrumentationTestContext
 import ftl.shard.createShardsByTestForShards
@@ -146,6 +146,6 @@ private fun List<AndroidTestContext>.dropEmptyInstrumentationTest(): List<Androi
 
 private fun printNoTests(testApks: List<InstrumentationTestContext>) {
     val testApkNames = testApks.joinToString(", ") { pathname -> File(pathname.test.local).name }
-    logLine("${FtlConstants.indent}No tests for $testApkNames")
-    logLine()
+    logLn("${FtlConstants.indent}No tests for $testApkNames")
+    logLn()
 }

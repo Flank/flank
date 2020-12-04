@@ -9,7 +9,7 @@ import ftl.cli.firebase.test.IPBlocksCommand
 import ftl.cli.firebase.test.IosCommand
 import ftl.cli.firebase.test.NetworkProfilesCommand
 import ftl.cli.firebase.test.ProvidedSoftwareCommand
-import ftl.log.logLine
+import ftl.log.logLn
 import ftl.log.setDebugLogging
 import ftl.util.readRevision
 import ftl.util.readVersion
@@ -54,9 +54,9 @@ class Main : Runnable {
             // Flank must invoke exitProcess to exit cleanly.
             // https://github.com/bugsnag/bugsnag-java/issues/151
             withGlobalExceptionHandling {
-                logLine("version: " + readVersion())
-                logLine("revision: " + readRevision())
-                logLine()
+                logLn("version: " + readVersion())
+                logLn("revision: " + readRevision())
+                logLn()
                 CommandLine(Main()).execute(*args)
             }
         }

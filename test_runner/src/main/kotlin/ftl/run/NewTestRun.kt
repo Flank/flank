@@ -6,7 +6,7 @@ import ftl.args.IosArgs
 import ftl.json.SavedMatrix
 import ftl.json.updateMatrixMap
 import ftl.json.validate
-import ftl.log.logLine
+import ftl.log.logLn
 import ftl.reports.util.ReportManager
 import ftl.run.common.fetchArtifacts
 import ftl.run.common.pollMatrices
@@ -21,7 +21,7 @@ import kotlinx.coroutines.withTimeoutOrNull
 
 suspend fun IArgs.newTestRun() = withTimeoutOrNull(parsedTimeout) {
     val args: IArgs = this@newTestRun
-    logLine(args)
+    logLn(args)
     val (matrixMap, testShardChunks, ignoredTests) =
         cancelTestsOnTimeout(project) { runTests() }
 
@@ -30,7 +30,7 @@ suspend fun IArgs.newTestRun() = withTimeoutOrNull(parsedTimeout) {
         ReportManager.generate(matrixMap, args, testShardChunks, ignoredTests)
         cancelTestsOnTimeout(args.project, matrixMap.map) { fetchArtifacts(matrixMap, args) }
 
-        println()
+        logLn()
         matrixMap.printMatricesWebLinks(project)
 
         matrixMap.validate(ignoreFailedTests)

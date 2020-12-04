@@ -6,7 +6,7 @@ import com.google.auth.oauth2.UserAuthorizer
 import com.google.auth.oauth2.UserCredentials
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.userHome
-import ftl.log.logLine
+import ftl.log.logLn
 import ftl.run.exception.FlankGeneralError
 import io.ktor.application.call
 import io.ktor.response.respondText
@@ -90,8 +90,8 @@ class UserAuth {
 
     private fun printAuthorizationUrl() {
         val url = authorizer.getAuthorizationUrl(userId, null, uri)
-        logLine("Visit the following URL in your browser:")
-        logLine(url)
+        logLn("Visit the following URL in your browser:")
+        logLn(url)
     }
 
     fun request() {
@@ -116,7 +116,7 @@ class UserAuth {
         dotFlank.toFile().mkdirs()
         ObjectOutputStream(FileOutputStream(userToken.toFile())).writeObject(userCredential)
 
-        logLine()
-        logLine("User token saved to $userToken")
+        logLn()
+        logLn("User token saved to $userToken")
     }
 }

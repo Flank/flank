@@ -7,7 +7,7 @@ import com.google.testing.model.ShardingOption
 import com.google.testing.model.TestTargetsForShard
 import com.google.testing.model.UniformSharding
 import ftl.args.ShardChunks
-import ftl.log.logLine
+import ftl.log.logLn
 import ftl.run.platform.android.AndroidTestConfig
 
 internal fun createAndroidInstrumentationTest(
@@ -44,7 +44,7 @@ internal fun AndroidInstrumentationTest.setupTestTargets(
                 if (numUniformShards != null) {
                     testTargets = testShards.flatten()
                     val safeNumUniformShards = if (testTargets.size > numUniformShards) numUniformShards else {
-                        logLine("WARNING: num-uniform-shards ($numUniformShards) is higher than number of test cases (${testTargets.size}) from ${testApk.gcsPath}")
+                        logLn("WARNING: num-uniform-shards ($numUniformShards) is higher than number of test cases (${testTargets.size}) from ${testApk.gcsPath}")
                         testTargets.size
                     }
                     uniformSharding = UniformSharding().setNumShards(safeNumUniformShards)

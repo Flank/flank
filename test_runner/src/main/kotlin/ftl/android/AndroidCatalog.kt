@@ -10,7 +10,7 @@ import ftl.environment.common.asPrintableTable
 import ftl.environment.getLocaleDescription
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
-import ftl.log.logLine
+import ftl.log.logLn
 
 /**
  * Contains lists of possible Android device and version ids, as well as checks
@@ -78,7 +78,7 @@ object AndroidCatalog {
         val form = deviceCatalog(projectId).models
             .find { it.id.equals(modelId, ignoreCase = true) }?.form
             ?: DeviceType.PHYSICAL.name.also {
-                logLine("Unable to find device type for $modelId. PHYSICAL used as fallback in cost calculations")
+                logLn("Unable to find device type for $modelId. PHYSICAL used as fallback in cost calculations")
             }
 
         return form.equals(DeviceType.VIRTUAL.name, ignoreCase = true)

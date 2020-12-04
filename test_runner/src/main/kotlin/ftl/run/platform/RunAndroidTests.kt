@@ -9,7 +9,7 @@ import ftl.gc.GcAndroidTestMatrix
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
-import ftl.log.logLine
+import ftl.log.logLn
 import ftl.run.ANDROID_SHARD_FILE
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.TestResult
@@ -72,7 +72,7 @@ internal suspend fun AndroidArgs.runAndroidTests(): TestResult = coroutineScope 
 
     if (testMatrices.isEmpty()) throw FlankGeneralError("There are no tests to run.")
 
-    logLine(beforeRunMessage(allTestShardChunks))
+    logLn(beforeRunMessage(allTestShardChunks))
 
     TestResult(
         matrixMap = afterRunTests(testMatrices.awaitAll(), stopwatch),

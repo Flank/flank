@@ -3,8 +3,9 @@ package ftl.run.status
 import com.google.common.annotations.VisibleForTesting
 import ftl.args.IArgs
 import ftl.config.FtlConstants
+import ftl.log.OutputLogLevel
 import ftl.log.log
-import ftl.log.logLineHigh
+import ftl.log.logLn
 import org.fusesource.jansi.Ansi
 import org.fusesource.jansi.AnsiConsole
 
@@ -65,7 +66,7 @@ internal class MultiLinePrinter(
 @VisibleForTesting
 internal object VerbosePrinter : (List<ExecutionStatus.Change>) -> Unit {
     override fun invoke(changes: List<ExecutionStatus.Change>) {
-        changes.map(ExecutionStatus.Change::views).flatten().forEach(::logLineHigh)
+        changes.map(ExecutionStatus.Change::views).flatten().forEach { logLn(it, OutputLogLevel.All) }
     }
 }
 

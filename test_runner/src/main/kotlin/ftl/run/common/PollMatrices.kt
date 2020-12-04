@@ -5,6 +5,7 @@ package ftl.run.common
 import com.google.testing.model.TestMatrix
 import ftl.args.IArgs
 import ftl.gc.GcTestMatrix
+import ftl.log.logLn
 import ftl.run.status.TestMatrixStatusPrinter
 import ftl.util.MatrixState
 import kotlinx.coroutines.coroutineScope
@@ -34,7 +35,7 @@ suspend fun pollMatrices(
     }.fold(emptyMap<String, TestMatrix>()) { matrices, next ->
         matrices + (next.testMatrixId to next)
     }.values.also {
-        println()
+        logLn()
     }
 }
 

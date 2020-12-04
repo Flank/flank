@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.node.MissingNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.google.common.annotations.VisibleForTesting
 import ftl.args.ArgsHelper.yamlMapper
-import ftl.log.logLine
+import ftl.log.logLn
 import ftl.util.loadFile
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
@@ -117,7 +117,7 @@ object YamlDeprecated {
     private fun validate(key: Key, keyValue: JsonNode): Transform? {
         transforms.forEach {
             if (it.old == key) {
-                logLine("${it.level}: `${it.old.parent}: ${it.old.name}:` renamed to `${it.new.parent}: ${it.new.name}:`")
+                logLn("${it.level}: `${it.old.parent}: ${it.old.name}:` renamed to `${it.new.parent}: ${it.new.name}:`")
                 return Transform(keyValue, it)
             }
         }
@@ -133,7 +133,7 @@ object YamlDeprecated {
         val (errorDetected, string) = modify(loadFile(yamlPath))
 
         Files.write(yamlPath, string.toByteArray())
-        logLine("\nUpdated ${yamlPath.fileName} file")
+        logLn("\nUpdated ${yamlPath.fileName} file")
 
         return errorDetected
     }

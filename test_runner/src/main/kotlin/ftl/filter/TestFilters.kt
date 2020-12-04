@@ -3,7 +3,7 @@ package ftl.filter
 import com.linkedin.dex.parser.TestMethod
 import ftl.args.ShardChunks
 import ftl.config.FtlConstants
-import ftl.log.logLine
+import ftl.log.logLn
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 import java.io.IOException
@@ -92,7 +92,7 @@ object TestFilters {
         val include = otherFilters.filterNot { it.describe.startsWith("not") }.toTypedArray()
 
         val result = allOf(*annotationFilters, *exclude, anyOf(*include))
-        if (FtlConstants.useMock) logLine(result.describe)
+        if (FtlConstants.useMock) logLn(result.describe)
         return result
     }
 
@@ -200,7 +200,7 @@ object TestFilters {
     private fun allOf(vararg filters: TestFilter): TestFilter = TestFilter(
         describe = "allOf ${filters.map { it.describe }}",
         shouldRun = { testMethod ->
-            if (FtlConstants.useMock) logLine(":: ${testMethod.testName} @${testMethod.annotations.firstOrNull()}")
+            if (FtlConstants.useMock) logLn(":: ${testMethod.testName} @${testMethod.annotations.firstOrNull()}")
             filters.isEmpty() || filters.all { filter ->
                 filter.shouldRun(testMethod).also { result ->
                     if (FtlConstants.useMock) println("  $result ${filter.describe}")

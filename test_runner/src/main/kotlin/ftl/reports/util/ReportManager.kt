@@ -10,7 +10,7 @@ import ftl.args.ShardChunks
 import ftl.gc.GcStorage
 import ftl.json.MatrixMap
 import ftl.json.isAllSuccessful
-import ftl.log.logLine
+import ftl.log.logLn
 import ftl.reports.CostReport
 import ftl.reports.FullJUnitReport
 import ftl.reports.HtmlErrorReport
@@ -44,7 +44,7 @@ object ReportManager {
     private fun getWebLink(matrices: MatrixMap, xmlFile: File): String =
         xmlFile.getMatrixPath(matrices.runPath)
             ?.findMatrixPath(matrices)
-            ?: "".also { logLine("WARNING: Matrix path not found in JSON.") }
+            ?: "".also { logLn("WARNING: Matrix path not found in JSON.") }
 
     private val deviceStringRgx = Regex("([^-]+-[^-]+-[^-]+-[^-]+).*")
 
@@ -214,7 +214,7 @@ object ReportManager {
     ) {
         val list = createShardEfficiencyList(oldResult, newResult, args, testShardChunks)
 
-        logLine(
+        logLn(
             "Actual shard times:\n" + list.joinToString("\n") {
                 "  ${it.shard}: Expected: ${it.expectedTime.roundToInt()}s, Actual: ${it.finalTime.roundToInt()}s, Diff: ${it.timeDiff.roundToInt()}s"
             } + "\n"
@@ -245,7 +245,7 @@ object ReportManager {
 private fun String.findMatrixPath(matrices: MatrixMap) = matrices.map.values
     .firstOrNull { savedMatrix -> savedMatrix.gcsPath.endsWithTextWithOptionalSlashAtTheEnd(this) }
     ?.webLink
-    ?: "".also { logLine("WARNING: Matrix path not found in JSON. $this") }
+    ?: "".also { logLn("WARNING: Matrix path not found in JSON. $this") }
 
 @VisibleForTesting
 internal fun String.endsWithTextWithOptionalSlashAtTheEnd(text: String) = "($text)/*$".toRegex().containsMatchIn(this)
