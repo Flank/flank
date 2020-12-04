@@ -37,8 +37,8 @@ class ReduceXcTestRunV2KtTest {
 					<key>BundleIdentifiersForCrashReportEmphasis</key>
 					<array>
 						<string>io.gogoapps.FlankMultiTestTargetsExample</string>
-						<string>io.gogoapps.UITests</string>
 						<string>io.gogoapps.SecondUITests</string>
+						<string>io.gogoapps.UITests</string>
 					</array>
 					<key>CommandLineArguments</key>
 					<array>
@@ -49,11 +49,13 @@ class ReduceXcTestRunV2KtTest {
 						<string>-AppleLocale</string>
 						<string>en_GB</string>
 					</array>
+					<key>DefaultTestExecutionTimeAllowance</key>
+					<integer>600</integer>
 					<key>DependentProductPaths</key>
 					<array>
-						<string>__TESTROOT__/Debug-iphoneos/SecondUITests-Runner.app/PlugIns/SecondUITests.xctest</string>
 						<string>__TESTROOT__/Debug-iphoneos/UITests-Runner.app/PlugIns/UITests.xctest</string>
-						<string>__TESTROOT__/Debug-iphoneos/FlankMultiTestTargetsExample.app</string>
+						<string>__TESTROOT__/Debug-iphoneos/SecondUITests-Runner.app/PlugIns/SecondUITests.xctest</string>
+						<string>__TESTROOT__/Debug-iphoneos/FlankTestPlansExample.app</string>
 					</array>
 					<key>EnvironmentVariables</key>
 					<dict>
@@ -68,10 +70,6 @@ class ReduceXcTestRunV2KtTest {
 					<true/>
 					<key>ProductModuleName</key>
 					<string>UITests</string>
-					<key>SkipTestIdentifiers</key>
-					<array>
-						<string>UITests/test2</string>
-					</array>
 					<key>SystemAttachmentLifetime</key>
 					<string>deleteOnSuccess</string>
 					<key>TestBundlePath</key>
@@ -105,7 +103,7 @@ class ReduceXcTestRunV2KtTest {
 					<dict>
 					</dict>
 					<key>UITargetAppPath</key>
-					<string>__TESTROOT__/Debug-iphoneos/FlankMultiTestTargetsExample.app</string>
+					<string>__TESTROOT__/Debug-iphoneos/FlankTestPlansExample.app</string>
 					<key>UserAttachmentLifetime</key>
 					<string>deleteOnSuccess</string>
 					<key>OnlyTestIdentifiers</key>
@@ -149,8 +147,8 @@ class ReduceXcTestRunV2KtTest {
 					<key>BundleIdentifiersForCrashReportEmphasis</key>
 					<array>
 						<string>io.gogoapps.FlankMultiTestTargetsExample</string>
-						<string>io.gogoapps.UITests</string>
 						<string>io.gogoapps.SecondUITests</string>
+						<string>io.gogoapps.UITests</string>
 					</array>
 					<key>CommandLineArguments</key>
 					<array>
@@ -161,11 +159,13 @@ class ReduceXcTestRunV2KtTest {
 						<string>-AppleLocale</string>
 						<string>pl_PL</string>
 					</array>
+					<key>DefaultTestExecutionTimeAllowance</key>
+					<integer>600</integer>
 					<key>DependentProductPaths</key>
 					<array>
-						<string>__TESTROOT__/Debug-iphoneos/SecondUITests-Runner.app/PlugIns/SecondUITests.xctest</string>
 						<string>__TESTROOT__/Debug-iphoneos/UITests-Runner.app/PlugIns/UITests.xctest</string>
-						<string>__TESTROOT__/Debug-iphoneos/FlankMultiTestTargetsExample.app</string>
+						<string>__TESTROOT__/Debug-iphoneos/SecondUITests-Runner.app/PlugIns/SecondUITests.xctest</string>
+						<string>__TESTROOT__/Debug-iphoneos/FlankTestPlansExample.app</string>
 					</array>
 					<key>EnvironmentVariables</key>
 					<dict>
@@ -180,10 +180,6 @@ class ReduceXcTestRunV2KtTest {
 					<true/>
 					<key>ProductModuleName</key>
 					<string>UITests</string>
-					<key>SkipTestIdentifiers</key>
-					<array>
-						<string>UITests/test2</string>
-					</array>
 					<key>SystemAttachmentLifetime</key>
 					<string>deleteOnSuccess</string>
 					<key>TestBundlePath</key>
@@ -217,7 +213,7 @@ class ReduceXcTestRunV2KtTest {
 					<dict>
 					</dict>
 					<key>UITargetAppPath</key>
-					<string>__TESTROOT__/Debug-iphoneos/FlankMultiTestTargetsExample.app</string>
+					<string>__TESTROOT__/Debug-iphoneos/FlankTestPlansExample.app</string>
 					<key>UserAttachmentLifetime</key>
 					<string>deleteOnSuccess</string>
 					<key>OnlyTestIdentifiers</key>
