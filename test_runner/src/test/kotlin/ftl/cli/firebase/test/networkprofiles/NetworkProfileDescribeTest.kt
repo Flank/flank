@@ -1,7 +1,7 @@
 package ftl.cli.firebase.test.networkprofiles
 
-import com.google.api.services.testing.model.NetworkConfiguration
-import com.google.api.services.testing.model.TrafficRule
+import com.google.testing.model.NetworkConfiguration
+import com.google.testing.model.TrafficRule
 import ftl.environment.getNetworkConfiguration
 import ftl.run.exception.FlankConfigurationError
 import ftl.test.util.assertThrowsWithMessage

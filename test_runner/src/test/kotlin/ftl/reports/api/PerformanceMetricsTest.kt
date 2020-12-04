@@ -1,8 +1,8 @@
 package ftl.reports.api
 
-import com.google.api.services.testing.model.AndroidDevice
-import com.google.api.services.testing.model.TestExecution
-import com.google.api.services.testing.model.ToolResultsStep
+import com.google.testing.model.AndroidDevice
+import com.google.testing.model.TestExecution
+import com.google.testing.model.ToolResultsStep
 import com.google.common.truth.Truth.assertThat
 import ftl.android.AndroidCatalog
 import ftl.args.IArgs

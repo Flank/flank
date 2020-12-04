@@ -3,15 +3,16 @@ package flank.scripts.utils
 import java.nio.file.Path
 
 fun downloadXcPrettyIfNeeded() {
-    "xcpretty".checkAndInstallIfNeed("gem install xcpretty")
+    "xcpretty".checkAndInstallIfNeed("gem install xcpretty --user-install")
 }
 
 fun downloadCocoaPodsIfNeeded() {
-    "xcpretty".checkAndInstallIfNeed("gem install cocoapods -v 1.9.3")
+    "pod".checkAndInstallIfNeed("gem install cocoapods -v 1.9.3 --user-install")
 }
 
-fun installPods(path: Path) {
-    "pod install --project-directory=$path --verbose".runCommand()
+fun installPodsIfNeeded(path: Path) {
+    if (path.toFile().listFiles().map { it.name }.contains("Podfile"))
+        "pod install --project-directory=$path --verbose".runCommand()
 }
 
 fun checkIfPipInstalled() {

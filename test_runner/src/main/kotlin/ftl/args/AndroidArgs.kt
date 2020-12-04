@@ -12,7 +12,7 @@ data class AndroidArgs(
     val useOrchestrator: Boolean,
     val roboDirectives: List<FlankRoboDirective>,
     val roboScript: String?,
-    val environmentVariables: Map<String, String>, // should not be printed, becuase could contains sensitive informations
+    val environmentVariables: Map<String, String>, // should not be printed, because could contain sensitive information
     val grantPermissions: String?,
     val scenarioLabels: List<String>,
     val obbFiles: List<String>,
@@ -37,32 +37,33 @@ AndroidArgs
       record-video: $recordVideo
       timeout: $testTimeout
       async: $async
-      client-details: ${ArgsToString.mapToString(clientDetails)}
+      client-details:${ArgsToString.mapToString(clientDetails)}
       network-profile: $networkProfile
       results-history-name: $resultsHistoryName
       # Android gcloud
       app: $appApk
       test: $testApk
-      additional-apks: ${ArgsToString.listToString(additionalApks)}
+      additional-apks:${ArgsToString.listToString(additionalApks)}
       auto-google-login: $autoGoogleLogin
       use-orchestrator: $useOrchestrator
-      directories-to-pull: ${ArgsToString.listToString(directoriesToPull)}
+      directories-to-pull:${ArgsToString.listToString(directoriesToPull)}
       grant-permissions: $grantPermissions
       type: ${type?.ymlName}
-      other-files: ${ArgsToString.mapToString(otherFiles)}
-      scenario-numbers: ${ArgsToString.listToString(scenarioNumbers)}
-      scenario-labels: ${ArgsToString.listToString(scenarioLabels)}
-      obb-files: ${ArgsToString.listToString(obbFiles)}
-      obb-names: ${ArgsToString.listToString(obbNames)}
+      other-files:${ArgsToString.mapToString(otherFiles)}
+      scenario-numbers:${ArgsToString.listToString(scenarioNumbers)}
+      scenario-labels:${ArgsToString.listToString(scenarioLabels)}
+      obb-files:${ArgsToString.listToString(obbFiles)}
+      obb-names:${ArgsToString.listToString(obbNames)}
       performance-metrics: $performanceMetrics
       num-uniform-shards: $numUniformShards
       test-runner-class: $testRunnerClass
       test-targets:${ArgsToString.listToString(testTargets)}
       robo-directives:${ArgsToString.objectsToString(roboDirectives)}
       robo-script: $roboScript
-      device: ${ArgsToString.objectsToString(devices)}
+      device:${ArgsToString.objectsToString(devices)}
       num-flaky-test-attempts: $flakyTestAttempts
-      test-targets-for-shard: ${ArgsToString.listOfListToString(testTargetsForShard)}
+      test-targets-for-shard:${ArgsToString.listOfListToString(testTargetsForShard)}
+      fail-fast: $failFast
 
     flank:
       max-test-shards: $maxTestShards

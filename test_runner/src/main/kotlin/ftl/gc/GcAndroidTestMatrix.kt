@@ -1,17 +1,17 @@
 package ftl.gc
 
-import com.google.api.services.testing.Testing
-import com.google.api.services.testing.model.Account
-import com.google.api.services.testing.model.AndroidDeviceList
-import com.google.api.services.testing.model.ClientInfo
-import com.google.api.services.testing.model.EnvironmentMatrix
-import com.google.api.services.testing.model.GoogleAuto
-import com.google.api.services.testing.model.GoogleCloudStorage
-import com.google.api.services.testing.model.ResultStorage
-import com.google.api.services.testing.model.TestMatrix
-import com.google.api.services.testing.model.TestSetup
-import com.google.api.services.testing.model.TestSpecification
-import com.google.api.services.testing.model.ToolResultsHistory
+import com.google.testing.Testing
+import com.google.testing.model.Account
+import com.google.testing.model.AndroidDeviceList
+import com.google.testing.model.ClientInfo
+import com.google.testing.model.EnvironmentMatrix
+import com.google.testing.model.GoogleAuto
+import com.google.testing.model.GoogleCloudStorage
+import com.google.testing.model.ResultStorage
+import com.google.testing.model.TestMatrix
+import com.google.testing.model.TestSetup
+import com.google.testing.model.TestSpecification
+import com.google.testing.model.ToolResultsHistory
 import ftl.args.AndroidArgs
 import ftl.args.isDontAutograntPermissions
 import ftl.gc.android.mapGcsPathsToApks
@@ -84,6 +84,7 @@ object GcAndroidTestMatrix {
             .setResultStorage(resultsStorage)
             .setEnvironmentMatrix(environmentMatrix)
             .setFlakyTestAttempts(args.flakyTestAttempts)
+            .setFailFast(args.failFast)
         try {
             return GcTesting.get.projects().testMatrices().create(args.project, testMatrix)
         } catch (e: Exception) {

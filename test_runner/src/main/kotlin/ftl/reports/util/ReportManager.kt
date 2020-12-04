@@ -1,6 +1,6 @@
 package ftl.reports.util
 
-import com.google.api.services.testing.model.TestExecution
+import com.google.testing.model.TestExecution
 import com.google.common.annotations.VisibleForTesting
 import ftl.args.AndroidArgs
 import ftl.args.IArgs

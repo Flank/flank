@@ -28,6 +28,7 @@ flank.jar
                                      [*--use-orchestrator*] [*--app*=_<app>_]
                                      [*-c*=_<configPath>_]
                                      [*--default-test-time*=_<defaultTestTime>_]
+                                     [*--grant-permissions*=_<grantPermissions>_]
                                      [*--local-result-dir*=_<localResultsDir>_]
                                      [*--max-test-shards*=_<maxTestShards>_]
                                      [*--network-profile*=_<networkProfile>_]
@@ -45,7 +46,7 @@ flank.jar
                                      [*--smart-flank-gcs-path*=_<smartFlankGcsPath>_
                                      ] [*--test*=_<test>_]
                                      [*--test-runner-class*=_<testRunnerClass>_]
-                                     [*--timeout*=_<timeout>_]
+                                     [*--timeout*=_<timeout>_] [*--type*=_<type>_]
                                      [*--additional-apks*=_<additionalApks>_[,
                                      _<additionalApks>_...]]...
                                      [*--additional-app-test-apks*=_<String=String>_
@@ -60,14 +61,23 @@ flank.jar
                                      _<String=String>_...]]...
                                      [*--files-to-download*=_<filesToDownload>_[,
                                      _<filesToDownload>_...]]...
+                                     [*--obb-files*=_<obbfiles>_[,
+                                     _<obbfiles>_...]]... [*--obb-names*=_<obbnames>_
+                                     [,_<obbnames>_...]]...
                                      [*--other-files*=_<String=String>_[,
                                      _<String=String>_...]]...
                                      [*--robo-directives*=_<String=String>_[,
                                      _<String=String>_...]]...
+                                     [*--scenario-labels*=_<scenarioLabels>_[,
+                                     _<scenarioLabels>_...]]...
+                                     [*--scenario-numbers*=_<scenarioNumbers>_[,
+                                     _<scenarioNumbers>_...]]...
                                      [*--test-targets*=_<testTargets>_[,
                                      _<testTargets>_...]]...
                                      [*--test-targets-always-run*=_<testTargetsAlwa_
                      _                ysRun>_[,_<testTargetsAlwaysRun>_...]]...
+                                     [*--test-targets-for-shard*=_<testTargetsForSh_
+                    _                 ard>_]...
 
 // end::picocli-generated-man-section-synopsis[]
 
@@ -112,7 +122,7 @@ Configuration is read from flank.yml
   Disable video recording during the test (default behavior). Use --record-video to enable.
 
 *--timeout*=_<timeout>_::
-  The max time this test execution can run before it is cancelled (default: 15m). It does not include any time necessary to prepare and clean up the target device. The maximum possible testing time is 30m on physical devices and 60m on virtual devices. The TIMEOUT units can be h, m, or s. If no unit is given, seconds are assumed. 
+  The max time this test execution can run before it is cancelled (default: 15m). It does not include any time necessary to prepare and clean up the target device. The maximum possible testing time is 45m on physical devices and 60m on virtual devices. The TIMEOUT units can be h, m, or s. If no unit is given, seconds are assumed. 
 
 *--async*::
   Invoke a test asynchronously without waiting for test results.
@@ -129,14 +139,26 @@ Configuration is read from flank.yml
 *--num-flaky-test-attempts*=_<flakyTestAttempts>_::
   The number of times a TestExecution should be re-attempted if one or more of its test cases fail for any reason. The maximum number of reruns allowed is 10. Default is 0, which implies no reruns.
 
+*--directories-to-pull*=_<directoriesToPull>_[,_<directoriesToPull>_...]::
+  A list of paths that will be copied from the device's storage to the designated results bucket after the test is complete. For Android devices these must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2). Path names are restricted to the characters a-zA-Z0-9_-./+. The paths /sdcard and /data will be made available and treated as implicit path substitutions. E.g. if /sdcard on a particular device does not map to external storage, the system will replace it with the external storage path prefix for that device. For iOS devices these must be absolute paths under /private/var/mobile/Media or /Documents of the app under test. If the path is under an app's /Documents, it must be prefixed with the app's bundle id and a colon
+
+*--other-files*=_<String=String>_[,_<String=String>_...]::
+  A list of device-path=file-path pairs that indicate the device paths to push files to the device before starting tests, and the paths of files to push.
+
+*--scenario-numbers*=_<scenarioNumbers>_[,_<scenarioNumbers>_...]::
+  A list of game-loop scenario numbers which will be run as part of the test (default: all scenarios). A maximum of 1024 scenarios may be specified in one test matrix, but the maximum number may also be limited by the overall test --timeout setting.
+
+*--type*=_<type>_::
+  The type of test to run. TYPE must be one of: instrumentation, robo, xctest, game-loop.
+
 *--shard-time*=_<shardTime>_::
   The max amount of seconds each shard should run.
 
-*--num-test-runs*=_<repeatTests>_::
-  The amount of times to run the test executions.
-
 *--max-test-shards*=_<maxTestShards>_::
   The amount of matrices to split the tests across.
+
+*--num-test-runs*=_<repeatTests>_::
+  The amount of times to run the test executions.
 
 *--smart-flank-gcs-path*=_<smartFlankGcsPath>_::
   Google cloud storage path to save test timing data used by smart flank.
@@ -205,13 +227,19 @@ Configuration is read from flank.yml
   Orchestrator is not used. See --use-orchestrator.
 
 *--environment-variables*=_<String=String>_[,_<String=String>_...]::
-  A comma-separated, key=value map of environment variables and their desired values. --environment-variables=coverage=true,coverageFile=/sdcard/coverage.ec The environment variables are mirrored as extra options to the am instrument -e KEY1 VALUE1 … command and passed to your test runner (typically AndroidJUnitRunner)
+  A comma-separated, key=value map of environment variables and their desired values. --environment-variables=coverage=true,coverageFile=/sdcard/coverage.ec The environment variables are mirrored as extra options to the am instrument -e KEY1 VALUE1 … command and passed to your test runner (typically AndroidJUnitRunner)If you want have downloaded coverage you need also set --directories-to-pull
 
-*--directories-to-pull*=_<directoriesToPull>_[,_<directoriesToPull>_...]::
-  A list of paths that will be copied from the device's storage to the designated results bucket after the test is complete. These must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2). Path names are restricted to the characters a-zA-Z0-9_-./+. The paths /sdcard and /data will be made available and treated as implicit path substitutions. E.g. if /sdcard on a particular device does not map to external storage, the system will replace it with the external storage path prefix for that device.
+*--grant-permissions*=_<grantPermissions>_::
+  Whether to grant runtime permissions on the device before the test begins. By default, all permissions are granted. PERMISSIONS must be one of: all, none.
 
-*--other-files*=_<String=String>_[,_<String=String>_...]::
-  A list of device-path=file-path pairs that indicate the device paths to push files to the device before starting tests, and the paths of files to push.Device paths must be under absolute, whitelisted paths (null, or null/local/tmp).Source file paths may be in the local filesystem or in Google Cloud Storage (gs://…). 
+*--scenario-labels*=_<scenarioLabels>_[,_<scenarioLabels>_...]::
+  A list of game-loop scenario labels (default: None). Each game-loop scenario may be labeled in the APK manifest file with one or more arbitrary strings, creating logical groupings (e.g. GPU_COMPATIBILITY_TESTS). If --scenario-numbers and --scenario-labels are specified together, Firebase Test Lab will first execute each scenario from --scenario-numbers. It will then expand each given scenario label into a list of scenario numbers marked with that label, and execute those scenarios.
+
+*--obb-names*=_<obbnames>_[,_<obbnames>_...]::
+  A list of OBB required filenames. OBB file name must conform to the format as specified by Android e.g. ## [main|patch].0300110.com.example.android.obb which will be installed into <shared-storage>/Android/obb/<package-name>/ on the device.
+
+*--obb-files*=_<obbfiles>_[,_<obbfiles>_...]::
+  A list of one or two Android OBB file names which will be copied to each test device before the tests will run (default: None). Each OBB file name must conform to the format as specified by Android (e.g. [main|patch].0300110.com.example.android.obb) and will be installed into <shared-storage>/Android/obb/<package-name>/ on the test device.
 
 *--performance-metrics*::
   Monitor and record performance metrics: CPU, memory, network usage, and FPS (game-loop only). Disabled by default.
@@ -247,6 +275,11 @@ The path may be in the local filesystem or in Google Cloud Storage using gs:// n
 You can guide the Robo test to perform specific actions by recording a Robo Script in Android Studio and then specifying this argument.
 +
 Learn more at https://firebase.google.com/docs/test-lab/robo-ux-test#scripting. 
+
+*--test-targets-for-shard*=_<testTargetsForShard>_::
+  Specifies a group of packages, classes, and/or test cases to run in each shard (a group of test cases). The shards are run in parallel on separate devices. You can repeat this flag up to 50 times to specify multiple shards when one or more physical devices are selected, or up to 500 times when no physical devices are selected.
++
+Note: If you include the flags --environment-variable or --test-targets when running --test-targets-for-shard, the flags are applied to all the shards you create
 
 *--additional-app-test-apks*=_<String=String>_[,_<String=String>_...]::
   A list of app & test apks to include in the run. Useful for running multiple module tests within a single Flank run.

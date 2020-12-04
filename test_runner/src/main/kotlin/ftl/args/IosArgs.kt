@@ -33,7 +33,7 @@ IosArgs
       record-video: $recordVideo
       timeout: $testTimeout
       async: $async
-      client-details: ${ArgsToString.mapToString(clientDetails)}
+      client-details:${ArgsToString.mapToString(clientDetails)}
       network-profile: $networkProfile
       results-history-name: $resultsHistoryName
       # iOS gcloud
@@ -42,13 +42,14 @@ IosArgs
       xcode-version: $xcodeVersion
       device:${ArgsToString.objectsToString(devices)}
       num-flaky-test-attempts: $flakyTestAttempts
-      directories-to-pull: ${ArgsToString.listToString(directoriesToPull)}
-      other-files: ${ArgsToString.mapToString(otherFiles)}
-      additional-ipas: ${ArgsToString.listToString(additionalIpas)}
-      scenario-numbers: ${ArgsToString.listToString(scenarioNumbers)}
+      directories-to-pull:${ArgsToString.listToString(directoriesToPull)}
+      other-files:${ArgsToString.mapToString(otherFiles)}
+      additional-ipas:${ArgsToString.listToString(additionalIpas)}
+      scenario-numbers:${ArgsToString.listToString(scenarioNumbers)}
       type: ${type?.ymlName}
       app: $app
       test-special-entitlements: $testSpecialEntitlements
+      fail-fast: $failFast
 
     flank:
       max-test-shards: $maxTestShards

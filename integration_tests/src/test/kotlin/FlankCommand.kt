@@ -5,4 +5,4 @@ data class FlankCommand(val flankPath: String, val ymlPath: String, val params: 
 
 private fun FlankCommand.create() = "java -jar $flankPath ${params.joinToString(separator = " ")} -c=$ymlPath"
 
-fun FlankCommand.run(workingDirectory: String) = create().runCommand(File(workingDirectory))
+fun FlankCommand.run(workingDirectory: String, testSuite: String = "") = create().runCommand(File(workingDirectory), testSuite)

@@ -55,7 +55,7 @@ class FindTestsForTargetKtTest {
 </plist>
         """.trimIndent()
 
-        val tmpXml = Paths.get(FIXTURES_PATH, "skip.xctestrun")
+        val tmpXml = Paths.get("$FIXTURES_PATH/ios/EarlGreyExample", "skip.xctestrun")
         Files.write(tmpXml, inputXml.toByteArray())
         tmpXml.toFile().deleteOnExit()
 

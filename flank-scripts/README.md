@@ -7,7 +7,7 @@ This repository contains helper scripts for developing flank. For now, it contai
 
 To build flank-scripts:
 1. Run script `buildFlankScripts.sh` in `flank-scripts/bash/` directory
-2. Run command `./gradlew clean flank-scripts:assemble flank-scripts:shadowJar` and manual copy file from `/flank-scripts/build/libs/flankScripts.jar` to `flank-scripts/bash/`
+2. Run command `./gradlew clean flank-scripts:assemble flank-scripts:shadowJar` and manual copy file from `/flank-scripts/build/libs/flank-scripts.jar` to `flank-scripts/bash/`
 3. You could always run/build it from Intellij IDEA 
 
 ### Usage
@@ -209,27 +209,27 @@ Run ftl locally ios app
 Contains tasks related to building sample apps with tests.  
 These tasks are :
   - `go`        Build go app with tests
-  - `ios`       Build ios app with tests
+  - `build_earl_grey_example`      Build ios earl grey example app with tests
+  - `build_ios_gameloop_example`   Build ios game loop example app
+  - `build_ios_testplans_example`  Build ios test plans example app
+  - `build_flank_example`          Build ios flank example app with tests
+  - `ios`       Build all ios tests artifacts
   - `android`   Build android apks with tests
   
 ##### `go`
 Build go app with tests
 
 ##### `build_earl_grey_example`
-Build ios earl grey example app with tests
-
-| Option     | Short option | Description              |
-|------------|--------------|--------------------------|
-| --generate | -g           | Make build               |
-| --copy     | -c           | Copy output files to tmp |
+Build ios [Earlgrey example](../docs/test_artifacts.md#earlgreyexample) app and copy output to the test artifacts directory
 
 ##### `build_flank_example`
-Build ios flank example app with tests
+Build ios [Flank example](../docs/test_artifacts.md#flankexample) app and copy output to the test artifacts directory
 
-| Option     | Short option | Description              |
-|------------|--------------|--------------------------|
-| --generate | -g           | Make build               |
-| --copy     | -c           | Copy output files to tmp |
+##### `build_ios_gameloop_example`
+Build ios [Game loop example](../docs/test_artifacts.md#flankgameloopexample) app and copy .IPA to the test artifacts directory
+
+##### `build_ios_testplans_example`
+Build ios [Test plans example](../docs/test_artifacts.md#flanktestplansexample) app and copy output to the test artifacts directory
 
 ##### `android`
 Build android apks with tests

@@ -1,7 +1,7 @@
 package ftl.environment
 
-import com.google.api.services.testing.model.NetworkConfiguration
-import com.google.api.services.testing.model.TrafficRule
+import com.google.testing.model.NetworkConfiguration
+import com.google.testing.model.TrafficRule
 
 fun networkProfileDescription(profile: String) = getNetworkConfiguration()
     .find { it.id?.toUpperCase() == profile.toUpperCase() }

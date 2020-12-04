@@ -1,0 +1,40 @@
+{
+  "configurations" : [
+    {
+      "id" : "E18D1EDE-34BF-48F9-BB90-20837E471D61",
+      "name" : "en",
+      "options" : {
+        "language" : "en",
+        "region" : "GB"
+      }
+    },
+    {
+      "id" : "FF2D701A-B853-4916-B3C5-85DD0454C4F5",
+      "name" : "pl",
+      "options" : {
+        "language" : "pl",
+        "region" : "PL"
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:FlankTestPlansExample.xcodeproj",
+        "identifier" : "3284E2C025458E66001F14AA",
+        "name" : "SecondUITests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:FlankTestPlansExample.xcodeproj",
+        "identifier" : "3284E2B025458E56001F14AA",
+        "name" : "UITests"
+      }
+    }
+  ],
+  "version" : 1
+}

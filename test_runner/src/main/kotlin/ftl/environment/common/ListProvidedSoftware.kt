@@ -1,6 +1,6 @@
 package ftl.environment.common
 
-import com.google.api.services.testing.model.ProvidedSoftwareCatalog
+import com.google.testing.model.ProvidedSoftwareCatalog
 import ftl.util.TableColumn
 import ftl.util.buildTable
 

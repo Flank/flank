@@ -1,7 +1,7 @@
 package ftl.gc
 
 import com.dd.plist.NSDictionary
-import com.google.api.services.testing.model.IosDeviceList
+import com.google.testing.model.IosDeviceList
 import ftl.args.IosArgs
 import ftl.config.FtlConstants.isWindows
 import ftl.ios.xctest.FIXTURES_PATH
@@ -71,7 +71,7 @@ class GcIosTestMatrixTest {
         every { iosArgs.testTimeout } returns "3m"
         every { iosArgs.resultsBucket } returns "/hi"
         every { iosArgs.project } returns "123"
-        every { iosArgs.xctestrunFile } returns "$FIXTURES_PATH/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun"
+        every { iosArgs.xctestrunFile } returns "$FIXTURES_PATH/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun"
 
         GcIosTestMatrix.build(
             iosDeviceList = IosDeviceList(),
@@ -94,8 +94,8 @@ class GcIosTestMatrixTest {
             StringReader(
                 """
             gcloud:
-              test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
-              xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
+              test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExample.zip
+              xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun
               results-dir: test_dir
               other-files:
                 com.my.app:/Documents/file.txt: local/file.txt
@@ -117,8 +117,8 @@ class GcIosTestMatrixTest {
             StringReader(
                 """
             gcloud:
-              test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
-              xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
+              test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExample.zip
+              xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun
               results-dir: test_dir
         """.trimIndent()
             )
@@ -134,8 +134,8 @@ class GcIosTestMatrixTest {
             StringReader(
                 """
             gcloud:
-              test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
-              xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
+              test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExample.zip
+              xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun
               results-dir: test_dir
               additional-ipas:
                 - path/to/local/file.ipa
@@ -155,8 +155,8 @@ class GcIosTestMatrixTest {
             StringReader(
                 """
             gcloud:
-              test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
-              xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
+              test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExample.zip
+              xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun
               results-dir: test_dir
         """.trimIndent()
             )
@@ -170,8 +170,8 @@ class GcIosTestMatrixTest {
     fun `should fill directoriesToPull`() {
         val iosArgs = IosArgs.load(StringReader("""
             gcloud:
-              test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
-              xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
+              test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExample.zip
+              xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun
               results-dir: test_dir
               directories-to-pull:
                 - test/test/test
@@ -185,8 +185,8 @@ class GcIosTestMatrixTest {
     fun `should not fill directoriesToPull`() {
         val iosArgs = IosArgs.load(StringReader("""
             gcloud:
-              test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
-              xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
+              test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExample.zip
+              xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun
               results-dir: test_dir
         """.trimIndent()))
 

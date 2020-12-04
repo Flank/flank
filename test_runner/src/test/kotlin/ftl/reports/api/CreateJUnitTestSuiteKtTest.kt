@@ -1,7 +1,7 @@
 package ftl.reports.api
 
-import com.google.api.services.testing.model.TestExecution
-import com.google.api.services.testing.model.ToolResultsStep
+import com.google.testing.model.TestExecution
+import com.google.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.model.Step
 import com.google.api.services.toolresults.model.StepDimensionValueEntry
 import com.google.api.services.toolresults.model.TestCase

@@ -1,6 +1,7 @@
 *.iml
 .idea/
 build/
+Build/
 out/
 .DS_Store
 .gradle/
@@ -12,3 +13,5 @@ results
 xcuserdata/
 test_projects/ios/*/build*
 android_shards.json
+ios_shards.json
+*.log

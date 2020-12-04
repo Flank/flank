@@ -1,6 +1,6 @@
 package ftl.reports.outcome
 
-import com.google.api.services.testing.model.AndroidModel
+import com.google.testing.model.AndroidModel
 import com.google.api.services.toolresults.model.Step
 import ftl.android.DeviceType
 import ftl.gc.GcTesting

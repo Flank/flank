@@ -1,7 +1,7 @@
 package ftl.run.platform
 
-import com.google.api.services.testing.Testing
-import com.google.api.services.testing.model.TestMatrix
+import com.google.testing.Testing
+import com.google.testing.model.TestMatrix
 import ftl.args.AndroidArgs
 import ftl.args.isInstrumentationTest
 import ftl.gc.GcAndroidDevice

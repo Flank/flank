@@ -1,6 +1,6 @@
 package ftl.environment.ios
 
-import com.google.api.services.testing.model.IosModel
+import com.google.testing.model.IosModel
 import ftl.environment.MODEL_ID
 import ftl.environment.MODEL_NAME
 import ftl.environment.OS_VERSION_IDS

@@ -1,6 +1,6 @@
 package ftl.gc
 
-import com.google.api.services.testing.Testing
+import com.google.testing.Testing
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.config.FtlConstants.applicationName

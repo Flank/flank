@@ -1,7 +1,7 @@
 package ftl.gc
 
-import com.google.api.services.testing.model.AndroidDeviceList
-import com.google.api.services.testing.model.TestSetup
+import com.google.testing.model.AndroidDeviceList
+import com.google.testing.model.TestSetup
 import ftl.args.AndroidArgs
 import ftl.gc.GcToolResults.createToolResultsHistory
 import ftl.gc.android.setEnvironmentVariables

@@ -1,6 +1,6 @@
 package ftl.reports.api
 
-import com.google.api.services.testing.model.ToolResultsStep
+import com.google.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.model.Duration
 import com.google.api.services.toolresults.model.StackTrace
 import com.google.api.services.toolresults.model.TestCase

@@ -1,6 +1,6 @@
 package ftl.reports.api
 
-import com.google.api.services.testing.model.TestExecution
+import com.google.testing.model.TestExecution
 import com.google.api.services.toolresults.model.MultiStep
 import com.google.api.services.toolresults.model.StackTrace
 import com.google.api.services.toolresults.model.Step

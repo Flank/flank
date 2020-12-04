@@ -16,7 +16,7 @@ class RewriteXcTestRunV2KtTest {
     fun rewrite() {
         assumeFalse(FtlConstants.isWindows)
         // given
-        val uiTestsMethods = listOf("UITests/test1")
+        val uiTestsMethods = listOf("UITestsClass/test1_1")
         val secondUiTestsMethods = emptyList<String>()
         val expectedTargetNames = listOf("en", "pl")
 
@@ -35,8 +35,8 @@ class RewriteXcTestRunV2KtTest {
                 assertThat(configurations.size).isEqualTo(1)
                 configurations.first().getTestTargets().let { targets ->
                     assertThat(targets.size).isEqualTo(2)
-                    assertThat(targets[0].getOnlyTestIdentifiers()).isEqualTo(uiTestsMethods)
-                    assertThat(targets[1].getOnlyTestIdentifiers()).isEqualTo(secondUiTestsMethods)
+                    assertThat(targets[0].getOnlyTestIdentifiers()).isEqualTo(secondUiTestsMethods)
+                    assertThat(targets[1].getOnlyTestIdentifiers()).isEqualTo(uiTestsMethods)
                 }
             }
         }

@@ -1,18 +1,18 @@
 package ftl.gc
 
 import com.dd.plist.NSDictionary
-import com.google.api.services.testing.Testing
-import com.google.api.services.testing.model.ClientInfo
-import com.google.api.services.testing.model.EnvironmentMatrix
-import com.google.api.services.testing.model.FileReference
-import com.google.api.services.testing.model.GoogleCloudStorage
-import com.google.api.services.testing.model.IosDeviceList
-import com.google.api.services.testing.model.IosTestSetup
-import com.google.api.services.testing.model.IosXcTest
-import com.google.api.services.testing.model.ResultStorage
-import com.google.api.services.testing.model.TestMatrix
-import com.google.api.services.testing.model.TestSpecification
-import com.google.api.services.testing.model.ToolResultsHistory
+import com.google.testing.Testing
+import com.google.testing.model.ClientInfo
+import com.google.testing.model.EnvironmentMatrix
+import com.google.testing.model.FileReference
+import com.google.testing.model.GoogleCloudStorage
+import com.google.testing.model.IosDeviceList
+import com.google.testing.model.IosTestSetup
+import com.google.testing.model.IosXcTest
+import com.google.testing.model.ResultStorage
+import com.google.testing.model.TestMatrix
+import com.google.testing.model.TestSpecification
+import com.google.testing.model.ToolResultsHistory
 import ftl.args.IosArgs
 import ftl.gc.android.mapGcsPathsToFileReference
 import ftl.gc.android.mapToIosDeviceFiles
@@ -95,6 +95,7 @@ object GcIosTestMatrix {
             .setEnvironmentMatrix(environmentMatrix)
             .setResultStorage(resultStorage)
             .setFlakyTestAttempts(args.flakyTestAttempts)
+            .setFailFast(args.failFast)
 
         try {
             return GcTesting.get.projects().testMatrices().create(args.project, testMatrix)

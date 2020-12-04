@@ -1,6 +1,6 @@
 package ftl.args
 
-import com.google.api.services.testing.model.TestSpecification
+import com.google.testing.model.TestSpecification
 import com.google.common.truth.Truth.assertThat
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 import ftl.args.IArgs.Companion.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE
@@ -302,7 +302,7 @@ AndroidArgs
       record-video: false
       timeout: 70m
       async: true
-      client-details: 
+      client-details:
         key1: value1
         key2: value2
       network-profile: LTE
@@ -310,23 +310,23 @@ AndroidArgs
       # Android gcloud
       app: $appApkAbsolutePath
       test: $testApkAbsolutePath
-      additional-apks: 
+      additional-apks:
         - $testErrorApkAbsolutePath
         - $testFlakyApkAbsolutePath
       auto-google-login: false
       use-orchestrator: false
-      directories-to-pull: 
+      directories-to-pull:
         - /sdcard/screenshots
         - /sdcard/screenshots2
       grant-permissions: all
       type: instrumentation
-      other-files: 
+      other-files:
         /sdcard/dir1/file1.txt: $appApkAbsolutePath
         /sdcard/dir2/file2.jpg: $testApkAbsolutePath
-      scenario-numbers: 
-      scenario-labels: 
-      obb-files: 
-      obb-names: 
+      scenario-numbers:
+      scenario-labels:
+      obb-files:
+      obb-names:
       performance-metrics: false
       num-uniform-shards: null
       test-runner-class: com.foo.TestRunner
@@ -335,7 +335,7 @@ AndroidArgs
         - class com.example.app.ExampleUiTest#testFails
       robo-directives:
       robo-script: null
-      device: 
+      device:
         - model: NexusLowRes
           version: 23
           locale: en
@@ -345,7 +345,8 @@ AndroidArgs
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 3
-      test-targets-for-shard: 
+      test-targets-for-shard:
+      fail-fast: false
 
     flank:
       max-test-shards: 7
@@ -392,36 +393,37 @@ AndroidArgs
       record-video: false
       timeout: 15m
       async: false
-      client-details: 
+      client-details:
       network-profile: null
       results-history-name: null
       # Android gcloud
       app: $appApkAbsolutePath
       test: $testApkAbsolutePath
-      additional-apks: 
+      additional-apks:
       auto-google-login: false
       use-orchestrator: true
-      directories-to-pull: 
+      directories-to-pull:
       grant-permissions: all
       type: null
-      other-files: 
-      scenario-numbers: 
-      scenario-labels: 
-      obb-files: 
-      obb-names: 
+      other-files:
+      scenario-numbers:
+      scenario-labels:
+      obb-files:
+      obb-names:
       performance-metrics: false
       num-uniform-shards: null
       test-runner-class: null
       test-targets:
       robo-directives:
       robo-script: null
-      device: 
+      device:
         - model: NexusLowRes
           version: 28
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 0
-      test-targets-for-shard: 
+      test-targets-for-shard:
+      fail-fast: false
 
     flank:
       max-test-shards: 1
@@ -1225,6 +1227,22 @@ AndroidArgs
           output-style: unknown
       """
         AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `cli fail-fast`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parseArgs("--fail-fast")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+      """
+        assertThat(AndroidArgs.load(yaml).validate().failFast).isEqualTo(false)
+
+        val args = AndroidArgs.load(yaml, cli).validate()
+        assertThat(args.failFast).isEqualTo(true)
     }
 
     @Test
@@ -2378,7 +2396,10 @@ AndroidArgs
     }
 }
 
-private fun AndroidArgs.Companion.load(yamlData: String, cli: AndroidRunCommand? = null): AndroidArgs =
+private fun AndroidArgs.Companion.load(
+    yamlData: String,
+    cli: AndroidRunCommand? = null
+): AndroidArgs =
     load(StringReader(yamlData), cli)
 
 fun getAndroidShardChunks(args: AndroidArgs): List<Chunk> =

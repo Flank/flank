@@ -1,6 +1,6 @@
 package ftl.run.platform
 
-import com.google.api.services.testing.model.TestMatrix
+import com.google.testing.model.TestMatrix
 import ftl.args.IosArgs
 import ftl.gc.GcIosMatrix
 import ftl.gc.GcIosTestMatrix

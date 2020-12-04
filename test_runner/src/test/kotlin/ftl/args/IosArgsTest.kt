@@ -34,11 +34,11 @@ import java.io.StringReader
 class IosArgsTest {
     private val empty = emptyList<String>()
     private val simpleFlankPath = getPath("src/test/kotlin/ftl/fixtures/simple-ios-flank.yml")
-    private val testPath = "./src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip"
+    private val testPath = "./src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExample.zip"
     private val nonExistingTestPath = "./src/test/kotlin/ftl/fixtures/tmp/earlgrey_example_non_existing.zip"
     private val nonExistingxctestrunFile = "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e_non_exis.xctestrun"
     private val xctestrunFile =
-        "./src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun"
+        "./src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun"
     private val invalidApp = "../test_projects/android/apks/invalid.apk"
     private val xctestrunFileAbsolutePath = xctestrunFile.absolutePath()
     private val testAbsolutePath = testPath.absolutePath()
@@ -217,7 +217,7 @@ IosArgs
       record-video: false
       timeout: 70m
       async: true
-      client-details: 
+      client-details:
         key1: value1
         key2: value2
       network-profile: LTE
@@ -236,17 +236,18 @@ IosArgs
           locale: c
           orientation: default
       num-flaky-test-attempts: 4
-      directories-to-pull: 
-      other-files: 
+      directories-to-pull:
+      other-files:
         com.my.app:/Documents/file.txt: local/file.txt
         /private/var/mobile/Media/file.jpg: gs://bucket/file.jpg
-      additional-ipas: 
+      additional-ipas:
         - $testIpa1
         - $testIpa2
-      scenario-numbers: 
+      scenario-numbers:
       type: xctest
       app: 
       test-special-entitlements: true
+      fail-fast: false
 
     flank:
       max-test-shards: 7
@@ -291,7 +292,7 @@ IosArgs
       record-video: false
       timeout: 15m
       async: false
-      client-details: 
+      client-details:
       network-profile: null
       results-history-name: null
       # iOS gcloud
@@ -300,17 +301,18 @@ IosArgs
       xcode-version: null
       device:
         - model: iphone8
-          version: 12.0
+          version: 13.6
           locale: en
           orientation: portrait
       num-flaky-test-attempts: 0
-      directories-to-pull: 
-      other-files: 
-      additional-ipas: 
-      scenario-numbers: 
+      directories-to-pull:
+      other-files:
+      additional-ipas:
+      scenario-numbers:
       type: xctest
       app: 
       test-special-entitlements: false
+      fail-fast: false
 
     flank:
       max-test-shards: 1
@@ -362,7 +364,7 @@ IosArgs
             // IosGcloudYml
             assert(xctestrunZip, testAbsolutePath)
             assert(xctestrunFile, xctestrunFileAbsolutePath)
-            assert(devices, listOf(Device("iphone8", "12.0")))
+            assert(devices, listOf(Device("iphone8", "13.6")))
             assert(flakyTestAttempts, 0)
 
             // FlankYml
@@ -874,6 +876,22 @@ IosArgs
 
         val args = IosArgs.load(yaml, cli)
         assertThat(args.outputStyle).isEqualTo(OutputStyle.Multi)
+    }
+
+    @Test
+    fun `cli fail-fast`() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parseArgs("--fail-fast")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $testPath
+      """
+        assertThat(IosArgs.load(yaml).validate().failFast).isEqualTo(false)
+
+        val args = IosArgs.load(yaml, cli).validate()
+        assertThat(args.failFast).isEqualTo(true)
     }
 
     private fun getValidTestsSample() = listOf(
