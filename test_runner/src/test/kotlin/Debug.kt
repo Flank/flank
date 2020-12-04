@@ -15,7 +15,7 @@ fun main() {
 
     val quantity = "single"
     val type = "success"
-//    val extra = "ios"
+    val extra = "ios"
 
     // Bugsnag keeps the process alive so we must call exitProcess
     // https://github.com/bugsnag/bugsnag-java/issues/151
@@ -31,7 +31,7 @@ fun main() {
             "--output-style=single",
 //            "--full-junit-result",
 //            "--legacy-junit-result",
-            "-c=test_runner/src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type.yml",
+            "-c=test_runner/src/test/kotlin/ftl/fixtures/test_app_cases/flank-$quantity-$type-$extra.yml",
             "--project=$projectId"
 //            "--client-details=key1=value1,key2=value2"
         )
