@@ -1,0 +1,32 @@
+# null cannot be used as parameter value in parameterized tests 
+
+## Bug description
+
+Test code with parametrized code and custom name could not be run on 
+
+```
+@RunWith(Parameterized::class)
+class BrokenTestName2(private val testCase: TestCase) {
+
+    @Test fun test() {
+        val expectedRemainder = if (testCase.odd) 1 else 0
+        for (value in testCase.values) {
+            assertEquals(expectedRemainder, abs(value % 2))
+        }
+    }
+
+    data class TestCase(
+        val values: List<Int>,
+        val odd: Boolean,
+    )
+
+    companion object {
+
+        @[JvmStatic Parameterized.Parameters(name = "{0}")]
+        fun parameters(): List<TestCase> = listOf(
+            TestCase(listOf(-4, -2, 0, 2, 4), odd = false),
+            TestCase(listOf(-3, -5, -1, 1, 3, 5), odd = true),
+        )
+    }
+}
+```
