@@ -11,12 +11,12 @@ class ProgressBar {
     private val timer = Timer(true)
 
     fun start(msg: String) {
-        log("  $msg ", OutputLogLevel.All)
+        log("  $msg ", OutputLogLevel.DETAILED)
         timer.scheduleAtFixedRate(task, 0, 10_000)
     }
 
     fun stop() {
-        logLn(level = OutputLogLevel.All)
+        logLn(level = OutputLogLevel.DETAILED)
         timer.cancel()
         task.cancel()
     }
@@ -24,7 +24,7 @@ class ProgressBar {
 
 private class ProgressBarTask : TimerTask() {
     override fun run() {
-        log(".", OutputLogLevel.All)
+        log(".", OutputLogLevel.DETAILED)
     }
 }
 

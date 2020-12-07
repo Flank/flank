@@ -66,7 +66,7 @@ internal class MultiLinePrinter(
 @VisibleForTesting
 internal object VerbosePrinter : (List<ExecutionStatus.Change>) -> Unit {
     override fun invoke(changes: List<ExecutionStatus.Change>) {
-        changes.map(ExecutionStatus.Change::views).flatten().forEach { logLn(it, OutputLogLevel.All) }
+        changes.map(ExecutionStatus.Change::views).flatten().forEach { logLn(it, OutputLogLevel.DETAILED) }
     }
 }
 

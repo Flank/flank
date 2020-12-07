@@ -20,7 +20,7 @@ class ProgressBarTest {
 
     @Before
     fun beforeTest() {
-        setLogLevel(OutputLogLevel.All)
+        setLogLevel(OutputLogLevel.DETAILED)
     }
 
     @Test

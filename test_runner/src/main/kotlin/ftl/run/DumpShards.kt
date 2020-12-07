@@ -52,7 +52,7 @@ fun saveShardChunks(
         Paths.get(shardFilePath),
         getGson(obfuscatedOutput).toJson(shards).toByteArray()
     )
-    logLn("Saved $size shards to $shardFilePath", OutputLogLevel.All)
+    logLn("Saved $size shards to $shardFilePath", OutputLogLevel.DETAILED)
 }
 
 private fun getGson(obfuscatedOutput: Boolean) = if (obfuscatedOutput) obfuscatePrettyPrinter else prettyPrint
