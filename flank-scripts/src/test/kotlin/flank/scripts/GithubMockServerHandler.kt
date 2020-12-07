@@ -2,9 +2,9 @@ package flank.scripts
 
 import com.github.kittinunf.fuel.core.Request
 import flank.scripts.ci.releasenotes.GitHubRelease
-import flank.scripts.github.GitHubLabel
-import flank.scripts.github.GithubPullRequest
-import flank.scripts.github.GithubUser
+import flank.scripts.github.objects.GitHubLabel
+import flank.scripts.github.objects.GithubPullRequest
+import flank.scripts.github.objects.GithubUser
 import flank.scripts.utils.toJson
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json

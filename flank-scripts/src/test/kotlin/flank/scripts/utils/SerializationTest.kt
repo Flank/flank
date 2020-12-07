@@ -32,7 +32,12 @@ class SerializationTest {
     fun `Should create json from object`() {
         // given
         val testObject = SourceControl("a", "b", "c")
-        val expected = "{\"provider\":\"a\",\"repository\":\"b\",\"revision\":\"c\"}"
+        val expected = """
+            {
+                "provider": "a",
+                "repository": "b",
+                "revision": "c"
+            }""".trimIndent()
 
         // when
         val actual = testObject.toJson()

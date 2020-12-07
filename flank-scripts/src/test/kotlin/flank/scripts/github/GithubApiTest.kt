@@ -5,6 +5,7 @@ import com.google.common.truth.Truth.assertThat
 import flank.scripts.FuelTestRunner
 import flank.scripts.ci.releasenotes.GitHubRelease
 import flank.scripts.exceptions.GitHubException
+import flank.scripts.github.objects.GithubPullRequest
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.runner.RunWith
