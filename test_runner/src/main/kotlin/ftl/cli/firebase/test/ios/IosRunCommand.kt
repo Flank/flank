@@ -1,7 +1,7 @@
 package ftl.cli.firebase.test.ios
 
 import ftl.args.IosArgs
-import ftl.args.setLogLevel
+import ftl.args.setupLogLevel
 import ftl.args.validate
 import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
@@ -46,7 +46,7 @@ class IosRunCommand : CommonRunCommand(), Runnable {
         }
 
         IosArgs.load(Paths.get(configPath), cli = this).validate().run {
-            setLogLevel()
+            setupLogLevel()
             if (dumpShards) dumpShards()
             else runBlocking { newTestRun() }
         }

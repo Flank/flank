@@ -87,6 +87,6 @@ interface IArgs {
 val IArgs.logLevel
     get() = if (outputStyle == OutputStyle.Compact) OutputLogLevel.SIMPLE else OutputLogLevel.DETAILED
 
-fun IArgs.setLogLevel() = also {
+fun IArgs.setupLogLevel() = also {
     ftl.log.setLogLevel(logLevel)
 }

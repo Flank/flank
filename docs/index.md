@@ -305,11 +305,12 @@ flank:
   ## The JUnit XML is used to determine failure. (default: false)
   # ignore-failed-tests: true
 
-  ### Output Style
-  ## Output style of execution status. May be one of [verbose, multi, single].
+  ### Output Style flag
+  ## Output style of execution status. May be one of [verbose, multi, single, compact].
   ## For runs with only one test execution the default value is 'verbose', in other cases
   ## 'multi' is used as the default. The output style 'multi' is not displayed correctly on consoles
   ## which don't support ansi codes, to avoid corrupted output use single or verbose.
+  ## The output style `compact` is used to produce less detailed output, it prints just Args, test and matrix count, weblinks, cost, and result reports.
   # output-style: single
 
   ### Full Junit Result flag
@@ -650,10 +651,11 @@ flank:
   # legacy-junit-result: false
 
   ### Output Style flag
-  ## Output style of execution status. May be one of [verbose, multi, single].
+  ## Output style of execution status. May be one of [verbose, multi, single, compact].
   ## For runs with only one test execution the default value is 'verbose', in other cases
   ## 'multi' is used as the default. The output style 'multi' is not displayed correctly on consoles
   ## which don't support ansi codes, to avoid corrupted output use single or verbose.
+  ## The output style `compact` is used to produce less detailed output, it prints just Args, test and matrix count, weblinks, cost, and result reports.
   # output-style: single
 
   ### Full Junit Result flag
