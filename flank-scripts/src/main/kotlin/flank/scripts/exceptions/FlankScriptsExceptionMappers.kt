@@ -14,6 +14,8 @@ fun <VALUE : Any, ERROR : FuelError, ERROR2 : Exception> Result<VALUE, ERROR>.ma
 fun <VALUE : Any, ERROR : FuelError> Result<VALUE, ERROR>.mapClientErrorToGithubException() =
     mapClientError { it.toGithubException() }
 
+fun <V : Any, E : FuelError> Result<V, E>.mapErrorToGithubException() = mapClientError { it.toGithubException() }
+
 fun FuelError.toGithubException() = GitHubException(response.body().asString(APPLICATION_JSON_CONTENT_TYPE).toObject())
 
 fun FuelError.toBugsnagException() =
