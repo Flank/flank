@@ -88,30 +88,29 @@ private fun IosArgs.validType() {
 }
 
 private fun IosArgs.assertXcTestRunData() {
-    if (!disableSharding)
-        if (testTargets.isNotEmpty()) {
-            val filteredMethods = xcTestRunData
-                .shardTargets.values
-                .flatten()
-                .flatMap { it.values }
-                .flatten()
+    if (!disableSharding && testTargets.isNotEmpty()) {
+        val filteredMethods = xcTestRunData
+            .shardTargets.values
+            .flatten()
+            .flatMap { it.values }
+            .flatten()
 
-            if (filteredMethods.isEmpty()) throw FlankConfigurationError(
-                "Empty shards. Cannot match any method to $testTargets"
-            )
+        if (filteredMethods.isEmpty()) throw FlankConfigurationError(
+            "Empty shards. Cannot match any method to $testTargets"
+        )
 
-            if (filteredMethods.size < testTargets.size) {
-                val regexList = testTargets.mapToRegex()
+        if (filteredMethods.size < testTargets.size) {
+            val regexList = testTargets.mapToRegex()
 
-                val notMatched = testTargets.filter {
-                    filteredMethods.all { method ->
-                        regexList.any { regex ->
-                            regex.matches(method)
-                        }
+            val notMatched = testTargets.filter {
+                filteredMethods.all { method ->
+                    regexList.any { regex ->
+                        regex.matches(method)
                     }
                 }
-
-                println("WARNING: cannot match test_targets: $notMatched")
             }
+
+            println("WARNING: cannot match test_targets: $notMatched")
         }
+    }
 }
