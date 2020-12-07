@@ -2,7 +2,7 @@ package ftl.run.status
 
 import ftl.run.exception.FlankConfigurationError
 
-enum class OutputStyle { Verbose, Single, Multi }
+enum class OutputStyle { Verbose, Single, Multi, Compact }
 
 fun String.asOutputStyle() = capitalize().let { capitalized ->
     OutputStyle.values().find { style -> style.name == capitalized }

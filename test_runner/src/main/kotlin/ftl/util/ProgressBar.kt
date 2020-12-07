@@ -1,5 +1,8 @@
 package ftl.util
 
+import ftl.log.OutputLogLevel
+import ftl.log.log
+import ftl.log.logLn
 import java.util.Timer
 import java.util.TimerTask
 
@@ -8,12 +11,12 @@ class ProgressBar {
     private val timer = Timer(true)
 
     fun start(msg: String) {
-        print("  $msg ")
+        log("  $msg ", OutputLogLevel.DETAILED)
         timer.scheduleAtFixedRate(task, 0, 10_000)
     }
 
     fun stop() {
-        println()
+        logLn(level = OutputLogLevel.DETAILED)
         timer.cancel()
         task.cancel()
     }
@@ -21,7 +24,7 @@ class ProgressBar {
 
 private class ProgressBarTask : TimerTask() {
     override fun run() {
-        print(".")
+        log(".", OutputLogLevel.DETAILED)
     }
 }
 

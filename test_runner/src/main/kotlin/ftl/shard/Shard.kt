@@ -3,6 +3,7 @@ package ftl.shard
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
+import ftl.log.logLn
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.run.exception.FlankConfigurationError
 import ftl.util.FlankTestMethod
@@ -100,7 +101,7 @@ private fun matchNumberOfShardsWithTestCount(maxShards: Int, testCount: Int) =
 private val IArgs.platformName get() = if (this is IosArgs) "ios" else "android"
 
 private fun printShardsInfo(shards: List<TestShard>) {
-    println("  Shard times: " + shards.joinToString(", ") { "${it.time.roundToInt()}s" } + "\n")
+    logLn("  Shard times: " + shards.joinToString(", ") { "${it.time.roundToInt()}s" } + "\n")
 }
 
 private fun createShardsForTestCases(

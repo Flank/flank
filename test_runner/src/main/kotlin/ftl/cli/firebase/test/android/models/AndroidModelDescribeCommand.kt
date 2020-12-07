@@ -3,6 +3,7 @@ package ftl.cli.firebase.test.android.models
 import ftl.android.AndroidCatalog
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
+import ftl.log.logLn
 import ftl.run.exception.FlankConfigurationError
 import picocli.CommandLine
 import java.nio.file.Paths
@@ -20,7 +21,7 @@ import java.nio.file.Paths
 class AndroidModelDescribeCommand : Runnable {
     override fun run() {
         if (modelId.isBlank()) throw FlankConfigurationError("Argument MODEL_ID must be specified.")
-        println(AndroidCatalog.describeModel(AndroidArgs.loadOrDefault(Paths.get(configPath)).project, modelId))
+        logLn(AndroidCatalog.describeModel(AndroidArgs.loadOrDefault(Paths.get(configPath)).project, modelId))
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

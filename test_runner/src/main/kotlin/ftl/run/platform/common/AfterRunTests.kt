@@ -6,6 +6,7 @@ import ftl.config.FtlConstants
 import ftl.gc.GcTestMatrix
 import ftl.json.MatrixMap
 import ftl.json.createSavedMatrix
+import ftl.log.logLn
 import ftl.run.common.updateMatrixFile
 import ftl.util.StopWatch
 import ftl.util.isInvalid
@@ -27,11 +28,11 @@ internal suspend fun IArgs.afterRunTests(
     updateMatrixFile(matrixMap)
     saveConfigFile(matrixMap)
 
-    println(FtlConstants.indent + "${matrixMap.map.size} matrix ids created in ${stopwatch.check()}")
+    logLn(FtlConstants.indent + "${matrixMap.map.size} matrix ids created in ${stopwatch.check()}")
     val gcsBucket = "https://console.developers.google.com/storage/browser/" +
             resultsBucket + "/" + matrixMap.runPath
-    println(FtlConstants.indent + gcsBucket)
-    println()
+    logLn(FtlConstants.indent + gcsBucket)
+    logLn()
     matrixMap.printMatricesWebLinks(project)
 }
 
@@ -48,13 +49,13 @@ private fun IArgs.saveConfigFile(matrixMap: MatrixMap) {
 }
 
 internal suspend inline fun MatrixMap.printMatricesWebLinks(project: String) = coroutineScope {
-    println("Matrices webLink")
+    logLn("Matrices webLink")
     map.values.map {
         launch(Dispatchers.IO) {
-            println("${FtlConstants.indent}${it.matrixId} ${getOrUpdateWebLink(it.webLink, project, it.matrixId)}")
+            logLn("${FtlConstants.indent}${it.matrixId} ${getOrUpdateWebLink(it.webLink, project, it.matrixId)}")
         }
     }.joinAll()
-    println()
+    logLn()
 }
 
 private tailrec suspend fun getOrUpdateWebLink(link: String, project: String, matrixId: String): String =

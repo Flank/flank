@@ -1,6 +1,7 @@
 package ftl.reports.outcome
 
 import com.google.api.services.toolresults.model.Environment
+import ftl.log.logLn
 
 fun TestOutcomeContext.createMatrixOutcomeSummary() = billableMinutes() to outcomeSummary()
 
@@ -10,7 +11,7 @@ private fun TestOutcomeContext.outcomeSummary() =
     if (environments.hasOutcome())
         createMatrixOutcomeSummaryUsingEnvironments()
     else {
-        if (steps.isEmpty()) println("No test results found, something went wrong. Try re-running the tests.")
+        if (steps.isEmpty()) logLn("No test results found, something went wrong. Try re-running the tests.")
         createMatrixOutcomeSummaryUsingSteps()
     }
 

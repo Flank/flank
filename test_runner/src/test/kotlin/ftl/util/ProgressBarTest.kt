@@ -1,10 +1,13 @@
 package ftl.util
 
 import com.google.common.truth.Truth.assertThat
+import ftl.log.OutputLogLevel
+import ftl.log.setLogLevel
 import ftl.test.util.TestHelper.normalizeLineEnding
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
@@ -14,6 +17,11 @@ class ProgressBarTest {
     @Rule
     @JvmField
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
+
+    @Before
+    fun beforeTest() {
+        setLogLevel(OutputLogLevel.DETAILED)
+    }
 
     @Test
     fun `progress start stop`() {

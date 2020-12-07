@@ -8,6 +8,7 @@ import com.google.api.client.json.JsonFactory
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
+import ftl.log.logLn
 import ftl.util.BugsnagInitHelper.initBugsnag
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
@@ -24,7 +25,7 @@ object FtlConstants {
 
     val isMacOS: Boolean by lazy {
         val isMacOS = osName.indexOf("mac") >= 0
-        println("isMacOS = $isMacOS ($osName)")
+        logLn("isMacOS = $isMacOS ($osName)")
         isMacOS
     }
 

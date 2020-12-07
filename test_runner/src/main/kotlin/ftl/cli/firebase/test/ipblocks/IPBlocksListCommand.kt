@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.ipblocks
 
 import ftl.environment.ipBlocksListAsTable
+import ftl.log.logLn
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -16,6 +17,6 @@ import picocli.CommandLine
 )
 class IPBlocksListCommand : Runnable {
     override fun run() {
-        println(ipBlocksListAsTable())
+        logLn(ipBlocksListAsTable())
     }
 }

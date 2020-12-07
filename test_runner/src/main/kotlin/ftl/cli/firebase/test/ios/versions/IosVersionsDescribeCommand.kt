@@ -3,6 +3,7 @@ package ftl.cli.firebase.test.ios.versions
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.ios.IosCatalog
+import ftl.log.logLn
 import ftl.run.exception.FlankConfigurationError
 import picocli.CommandLine
 import java.nio.file.Paths
@@ -21,7 +22,7 @@ import java.nio.file.Paths
 class IosVersionsDescribeCommand : Runnable {
     override fun run() {
         if (versionId.isBlank()) throw FlankConfigurationError("Argument VERSION_ID must be specified.")
-        println(IosCatalog.describeSoftwareVersion(IosArgs.loadOrDefault(Paths.get(configPath)).project, versionId))
+        logLn(IosCatalog.describeSoftwareVersion(IosArgs.loadOrDefault(Paths.get(configPath)).project, versionId))
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])

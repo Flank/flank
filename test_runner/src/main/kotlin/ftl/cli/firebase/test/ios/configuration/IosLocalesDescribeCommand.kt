@@ -3,6 +3,7 @@ package ftl.cli.firebase.test.ios.configuration
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.ios.IosCatalog.getLocaleDescription
+import ftl.log.log
 import ftl.run.exception.FlankConfigurationError
 import picocli.CommandLine
 import java.nio.file.Paths
@@ -20,7 +21,7 @@ import java.nio.file.Paths
 class IosLocalesDescribeCommand : Runnable {
     override fun run() {
         if (locale.isBlank()) throw FlankConfigurationError("Argument LOCALE must be specified.")
-        print(getLocaleDescription(IosArgs.loadOrDefault(Paths.get(configPath)).project, locale))
+        log(getLocaleDescription(IosArgs.loadOrDefault(Paths.get(configPath)).project, locale))
     }
 
     @CommandLine.Parameters(

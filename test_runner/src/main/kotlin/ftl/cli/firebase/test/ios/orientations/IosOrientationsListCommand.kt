@@ -3,6 +3,7 @@ package ftl.cli.firebase.test.ios.orientations
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.ios.IosCatalog
+import ftl.log.logLn
 import picocli.CommandLine
 import java.nio.file.Paths
 
@@ -19,7 +20,7 @@ import java.nio.file.Paths
 )
 class IosOrientationsListCommand : Runnable {
     override fun run() {
-        println(IosCatalog.supportedOrientationsAsTable(IosArgs.loadOrDefault(Paths.get(configPath)).project))
+        logLn(IosCatalog.supportedOrientationsAsTable(IosArgs.loadOrDefault(Paths.get(configPath)).project))
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])
