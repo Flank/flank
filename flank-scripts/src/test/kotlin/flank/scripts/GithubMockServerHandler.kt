@@ -18,18 +18,21 @@ import kotlinx.serialization.json.Json
 fun handleGithubMockRequest(url: String, request: Request) = when {
     request.isFailedGithubRequest() -> request.buildResponse(githubErrorBody, 422)
     url ends """/actions/workflows/[a-zA-Z.-]*/runs""" -> request.buildResponse(workflowSummary, 200)
-    url ends """/issues/\d/comments""" && request.method == Method.GET -> request.buildResponse(testGithubIssueCommentList, 200)
-    url ends """/issues/\d/comments""" && request.method == Method.POST -> request.buildResponse(createComment, 200)
+    url ends """/issues/\d*/comments""" && request.isGET -> request.buildResponse(
+        testGithubIssueCommentList,
+        200
+    )
+    url ends """/issues/\d*/comments""" && request.isPOST -> request.buildResponse(createComment, 200)
     url.endsWith("/git/refs/tags/success") -> request.buildResponse("", 200)
     url.endsWith("/releases/latest") && request.containsSuccessHeader() ->
         request.buildResponse(GitHubRelease("v20.08.0").toJson(), 200)
     url.endsWith("/commits/success/pulls") -> request.buildResponse(Json.encodeToString(githubPullRequestTest), 200)
     url.endsWith("/commits") -> request.buildResponse(testGithubIssueList, 200)
-    url.endsWith("/issues") && request.method == Method.GET -> request.buildResponse(
+    url.endsWith("/issues") && request.isGET -> request.buildResponse(
         githubPullRequestTest.toJson(),
         200
     )
-    url.endsWith("/issues") && request.method == Method.POST -> request.buildResponse(createIssue, 200)
+    url.endsWith("/issues") && request.isPOST -> request.buildResponse(createIssue, 200)
     url.endsWith("/labels") && request.containsSuccessHeader() -> request.buildResponse(testGithubLabels.toJson(), 200)
     (url.contains("/pulls/") || url.contains("/issues/")) && request.containsSuccessHeader() ->
         request.buildResponse(githubPullRequestTest.first().toJson(), 200)
@@ -53,6 +56,12 @@ private val testGithubIssueCommentList = listOf(
     GitHubCreateIssueCommentResponse(1, "anyBody", "https://bla.org"),
     GitHubCreateIssueCommentResponse(2, "anyBody", "https://bla.org")
 ).toJson()
+
+private val Request.isPOST: Boolean
+    get() = method == Method.POST
+
+private val Request.isGET: Boolean
+    get() = method == Method.GET
 
 private val workflowSummary = GitHubWorkflowRunsSummary(1, emptyList()).toJson()
 private val createIssue = GitHubCreateIssueResponse(1, "https://bla.org", "any body", 123).toJson()
