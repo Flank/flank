@@ -14,7 +14,7 @@ import com.jcabi.github.Repo
 import com.jcabi.github.RtGithub
 import flank.scripts.ci.releasenotes.GitHubRelease
 import flank.scripts.ci.releasenotes.GithubReleaseDeserializable
-import flank.scripts.exceptions.mapErrorToGithubException
+import flank.scripts.exceptions.mapClientErrorToGithubException
 import flank.scripts.github.objects.GitHubCommit
 import flank.scripts.github.objects.GitHubCommitListDeserializer
 import flank.scripts.github.objects.GitHubCreateIssueCommentRequest
@@ -40,44 +40,44 @@ suspend fun getPrDetailsByCommit(commitSha: String, githubToken: String): Result
     Fuel.get("$URL_BASE/commits/$commitSha/pulls")
         .appendGitHubHeaders(githubToken, "application/vnd.github.groot-preview+json")
         .awaitResult(GithubPullRequestListDeserializer)
-        .mapErrorToGithubException()
+        .mapClientErrorToGithubException()
         .onError { println("Could not download info for commit $commitSha, because of ${it.message}") }
 
 suspend fun getLatestReleaseTag(githubToken: String): Result<GitHubRelease, Exception> =
     Fuel.get("$URL_BASE/releases/latest")
         .appendGitHubHeaders(githubToken)
         .awaitResult(GithubReleaseDeserializable)
-        .mapErrorToGithubException()
+        .mapClientErrorToGithubException()
 
 suspend fun getGitHubPullRequest(githubToken: String, issueNumber: Int): Result<GithubPullRequest, Exception> =
     Fuel.get("$URL_BASE/pulls/$issueNumber")
         .appendGitHubHeaders(githubToken)
         .awaitResult(GithubPullRequestDeserializer)
-        .mapErrorToGithubException()
+        .mapClientErrorToGithubException()
 
 suspend fun getGitHubIssue(githubToken: String, issueNumber: Int): Result<GithubPullRequest, Exception> =
     Fuel.get("$URL_BASE/issues/$issueNumber")
         .appendGitHubHeaders(githubToken)
         .awaitResult(GithubPullRequestDeserializer)
-        .mapErrorToGithubException()
+        .mapClientErrorToGithubException()
 
 suspend fun getGitHubIssueList(githubToken: String, parameters: Parameters = emptyList()): Result<List<GithubPullRequest>, Exception> =
     Fuel.get("$URL_BASE/issues", parameters)
         .appendGitHubHeaders(githubToken)
         .awaitResult(GithubPullRequestListDeserializer)
-        .mapErrorToGithubException()
+        .mapClientErrorToGithubException()
 
 suspend fun getGitHubCommitList(githubToken: String, parameters: Parameters = emptyList()): Result<List<GitHubCommit>, Exception> =
     Fuel.get("$URL_BASE/commits", parameters)
         .appendGitHubHeaders(githubToken)
         .awaitResult(GitHubCommitListDeserializer)
-        .mapErrorToGithubException()
+        .mapClientErrorToGithubException()
 
 suspend fun getGitHubWorkflowRunsSummary(githubToken: String, workflow: String, parameters: Parameters = emptyList()): Result<GitHubWorkflowRunsSummary, Exception> =
     Fuel.get("$URL_BASE/actions/workflows/$workflow/runs", parameters)
         .appendGitHubHeaders(githubToken)
         .awaitResult(GithubWorkflowRunsSummaryDeserializer)
-        .mapErrorToGithubException()
+        .mapClientErrorToGithubException()
 
 // POST
 suspend fun postNewIssueComment(githubToken: String, issueNumber: Int, payload: GitHubCreateIssueCommentRequest): Result<GitHubCreateIssueCommentResponse, Exception> =
@@ -85,14 +85,14 @@ suspend fun postNewIssueComment(githubToken: String, issueNumber: Int, payload: 
         .appendGitHubHeaders(githubToken)
         .body(payload.toJson())
         .awaitResult(GitHubCreateIssueCommentResponseDeserializer)
-        .mapErrorToGithubException()
+        .mapClientErrorToGithubException()
 
 suspend fun postNewIssue(githubToken: String, payload: GitHubCreateIssueRequest): Result<GitHubCreateIssueResponse, Exception> =
     Fuel.post("$URL_BASE/issues")
         .appendGitHubHeaders(githubToken)
         .body(payload.toJson())
         .awaitResult(GitHubCreateIssueResponseDeserializer)
-        .mapErrorToGithubException()
+        .mapClientErrorToGithubException()
 
 // PATCH
 fun patchIssue(githubToken: String, issueNumber: Int, payload: GitHubUpdateIssueRequest): Result<ByteArray, Exception> =
@@ -101,7 +101,7 @@ fun patchIssue(githubToken: String, issueNumber: Int, payload: GitHubUpdateIssue
         .body(payload.toJson())
         .response()
         .third
-        .mapErrorToGithubException()
+        .mapClientErrorToGithubException()
 
 // DELETE
 fun deleteOldTag(tag: String, username: String, password: String): Result<ByteArray, Exception> =
@@ -110,7 +110,7 @@ fun deleteOldTag(tag: String, username: String, password: String): Result<ByteAr
         .basic(username, password)
         .response()
         .third
-        .mapErrorToGithubException()
+        .mapClientErrorToGithubException()
 
 fun Request.appendGitHubHeaders(githubToken: String, contentType: String = "application/vnd.github.v3+json") =
     appendHeader("Accept", contentType)

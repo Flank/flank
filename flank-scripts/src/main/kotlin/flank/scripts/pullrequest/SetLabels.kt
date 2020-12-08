@@ -7,7 +7,7 @@ import com.github.kittinunf.result.getOrNull
 import com.github.kittinunf.result.map
 import com.github.kittinunf.result.onError
 import com.github.kittinunf.result.success
-import flank.scripts.exceptions.mapErrorToGithubException
+import flank.scripts.exceptions.mapClientErrorToGithubException
 import flank.scripts.github.objects.GitHubLabelDeserializable
 import flank.scripts.github.appendGitHubHeaders
 import flank.scripts.utils.toJson
@@ -25,7 +25,7 @@ private suspend fun getLabelsFromIssue(githubToken: String, issueNumber: Int) =
     Fuel.get("https://api.github.com/repos/Flank/flank/issues/$issueNumber/labels")
         .appendGitHubHeaders(githubToken)
         .awaitResult(GitHubLabelDeserializable)
-        .mapErrorToGithubException()
+        .mapClientErrorToGithubException()
 
 private suspend fun setLabelsToPullRequest(githubToken: String, pullRequestNumber: Int, labels: List<String>) {
     Fuel.post("https://api.github.com/repos/Flank/flank/issues/$pullRequestNumber/labels")

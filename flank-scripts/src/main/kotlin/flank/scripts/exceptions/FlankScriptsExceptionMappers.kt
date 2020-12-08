@@ -10,7 +10,7 @@ fun <V : Any, E : FuelError, E2 : Exception> Result<V, E>.mapClientError(transfo
     is Result.Failure -> if (error.response.isClientError) Result.Failure(transform(error)) else this
 }
 
-fun <V : Any, E : FuelError> Result<V, E>.mapErrorToGithubException() = mapClientError { it.toGithubException() }
+fun <V : Any, E : FuelError> Result<V, E>.mapClientErrorToGithubException() = mapClientError { it.toGithubException() }
 
 fun FuelError.toGithubException() = GitHubException(response.body().asString(APPLICATION_JSON_CONTENT_TYPE).toObject())
 

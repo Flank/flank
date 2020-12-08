@@ -5,7 +5,15 @@ import com.google.common.truth.Truth.assertThat
 import flank.scripts.FuelTestRunner
 import flank.scripts.ci.releasenotes.GitHubRelease
 import flank.scripts.exceptions.GitHubException
+import flank.scripts.github.objects.GitHubCommit
+import flank.scripts.github.objects.GitHubCreateIssueCommentRequest
+import flank.scripts.github.objects.GitHubCreateIssueCommentResponse
+import flank.scripts.github.objects.GitHubCreateIssueRequest
+import flank.scripts.github.objects.GitHubCreateIssueResponse
+import flank.scripts.github.objects.GitHubUpdateIssueRequest
+import flank.scripts.github.objects.GitHubWorkflowRunsSummary
 import flank.scripts.github.objects.GithubPullRequest
+import flank.scripts.github.objects.IssueState
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -110,6 +118,7 @@ class GithubApiTest {
             assertThat(response).isInstanceOf(GithubPullRequest::class.java)
         }
     }
+
     @Test
     fun `Should return failure for incorrect get issue result`() {
         runBlocking {
@@ -133,6 +142,166 @@ class GithubApiTest {
             assertThat(actual).isInstanceOf(Result.Success::class.java)
             val (response, _) = actual
             assertThat(response).isInstanceOf(GithubPullRequest::class.java)
+        }
+    }
+
+    @Test
+    fun `should return issue list`() {
+        runBlocking {
+            // when
+            val actual = getGitHubIssueList("success", emptyList())
+
+            // then
+            assertThat(actual).isInstanceOf(Result.Success::class.java)
+            val (response, _) = actual
+            assertThat(response?.first()).isInstanceOf(GithubPullRequest::class.java)
+        }
+    }
+
+    @Test
+    fun `should return failure for incorrect issue list result`() {
+        runBlocking {
+            // when
+            val actual = getGitHubIssueList("failure")
+
+            // then
+            assertThat(actual).isInstanceOf(Result.Failure::class.java)
+            val (_, exception) = actual
+            assertThat(exception).isInstanceOf(GitHubException::class.java)
+        }
+    }
+
+    @Test
+    fun `should return commit list`() {
+        runBlocking {
+            // when
+            val actual = getGitHubCommitList("success")
+
+            // then
+            assertThat(actual).isInstanceOf(Result.Success::class.java)
+            val (response, _) = actual
+            assertThat(response?.first()).isInstanceOf(GitHubCommit::class.java)
+        }
+    }
+
+    @Test
+    fun `should return failure for incorrect commit list result`() {
+        runBlocking {
+            // when
+            val actual = getGitHubCommitList("failure")
+
+            // then
+            assertThat(actual).isInstanceOf(Result.Failure::class.java)
+            val (_, exception) = actual
+            assertThat(exception).isInstanceOf(GitHubException::class.java)
+        }
+    }
+
+    @Test
+    fun `should return workflow summary for by workflow name`() {
+        runBlocking {
+            // when
+            val actual = getGitHubWorkflowRunsSummary("success", "test-workflow.yml")
+
+            // then
+            assertThat(actual).isInstanceOf(Result.Success::class.java)
+            val (response, _) = actual
+            assertThat(response).isInstanceOf(GitHubWorkflowRunsSummary::class.java)
+        }
+    }
+
+    @Test
+    fun `should return failure for incorrect workflow summary result`() {
+        runBlocking {
+            // when
+            val actual = getGitHubWorkflowRunsSummary("failure", "test-workflow.yml")
+
+            // then
+            assertThat(actual).isInstanceOf(Result.Failure::class.java)
+            val (_, exception) = actual
+            assertThat(exception).isInstanceOf(GitHubException::class.java)
+        }
+    }
+
+    @Test
+    fun `should create new issue comment and return comment response`() {
+        runBlocking {
+            // when
+            val payload = GitHubCreateIssueCommentRequest("Any body!")
+            val actual = postNewIssueComment("success", 123, payload)
+
+            // then
+            assertThat(actual).isInstanceOf(Result.Success::class.java)
+            val (response, _) = actual
+            assertThat(response).isInstanceOf(GitHubCreateIssueCommentResponse::class.java)
+        }
+    }
+
+    @Test
+    fun `should return failure when problem with comment creation occurred`() {
+        runBlocking {
+            // when
+            val payload = GitHubCreateIssueCommentRequest("Any body!")
+            val actual = postNewIssueComment("failure", 123, payload)
+
+            // then
+            assertThat(actual).isInstanceOf(Result.Failure::class.java)
+            val (_, exception) = actual
+            assertThat(exception).isInstanceOf(GitHubException::class.java)
+        }
+    }
+
+    @Test
+    fun `should create new issue and return issue response`() {
+        runBlocking {
+            // when
+            val payload = GitHubCreateIssueRequest(body = "Any body!", title = "Any title")
+            val actual = postNewIssue("success", payload)
+
+            // then
+            assertThat(actual).isInstanceOf(Result.Success::class.java)
+            val (response, _) = actual
+            assertThat(response).isInstanceOf(GitHubCreateIssueResponse::class.java)
+        }
+    }
+
+    @Test
+    fun `should return failure when problem with issue creation occurred`() {
+        runBlocking {
+            // when
+            val payload = GitHubCreateIssueRequest(body = "Any body!", title = "Any title")
+            val actual = postNewIssue("failure", payload)
+
+            // then
+            assertThat(actual).isInstanceOf(Result.Failure::class.java)
+            val (_, exception) = actual
+            assertThat(exception).isInstanceOf(GitHubException::class.java)
+        }
+    }
+
+    @Test
+    fun `should update an issue`() {
+        // when
+        val payload = GitHubUpdateIssueRequest(state = IssueState.CLOSED)
+        val actual = patchIssue("success", 123, payload)
+
+        // then
+        assertThat(actual).isInstanceOf(Result.Success::class.java)
+        val (response, _) = actual
+        assertThat(response).isInstanceOf(ByteArray::class.java)
+    }
+
+    @Test
+    fun `should return failure when problem with updating issue occurred`() {
+        runBlocking {
+            // when
+            val payload = GitHubUpdateIssueRequest(state = IssueState.CLOSED)
+            val actual = patchIssue("failure", 123, payload)
+
+            // then
+            assertThat(actual).isInstanceOf(Result.Failure::class.java)
+            val (_, exception) = actual
+            assertThat(exception).isInstanceOf(GitHubException::class.java)
         }
     }
 }
