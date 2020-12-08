@@ -215,6 +215,8 @@ if (!DefaultNativePlatform.getCurrentOperatingSystem().isMacOsX) {
             }
         }
     }
+
+    tasks.compileKotlin { dependsOn(tasks["downloadBinaries"]) }
 }
 
 dependencies {
