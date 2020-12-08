@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import ftl.args.yml.AppTestPair
 import ftl.config.Device
 import ftl.config.defaultAndroidConfig
+import ftl.run.exception.FlankGeneralError
 import ftl.run.platform.android.createAndroidTestContexts
 import ftl.run.platform.android.getAndroidMatrixShards
 import ftl.run.status.OutputStyle
@@ -12,7 +13,6 @@ import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
 import ftl.test.util.TestHelper.getString
-import ftl.run.exception.FlankGeneralError
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Rule

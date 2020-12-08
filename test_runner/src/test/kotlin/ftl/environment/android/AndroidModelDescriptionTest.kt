@@ -1,8 +1,8 @@
 package ftl.environment.android
 
 import com.google.testing.model.AndroidModel
-import ftl.test.util.TestHelper.getThrowable
 import ftl.run.exception.FlankGeneralError
+import ftl.test.util.TestHelper.getThrowable
 import org.junit.Assert
 import org.junit.Test
 
@@ -52,7 +52,7 @@ class AndroidModelDescriptionTest {
         tags:
         - default
         thumbnailUrl: https://lh3.googleusercontent.com/j4urvb3lXTaFGZI6IzHmAjum2HQVID1OHPhDB7dOzRvXb2WscSX2RFwEEFFSYhajqRO5Yu0e6FYQ
-""".trimIndent()
+        """.trimIndent()
         Assert.assertEquals(expected, modelDescription)
     }
 
@@ -98,7 +98,7 @@ class AndroidModelDescriptionTest {
         - 27
         - 28
         thumbnailUrl: https://lh3.googleusercontent.com/j4urvb3lXTaFGZI6IzHmAjum2HQVID1OHPhDB7dOzRvXb2WscSX2RFwEEFFSYhajqRO5Yu0e6FYQ
-""".trimIndent()
+        """.trimIndent()
         Assert.assertEquals(expected, modelDescription)
     }
 

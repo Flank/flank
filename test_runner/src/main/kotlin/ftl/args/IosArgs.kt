@@ -73,7 +73,7 @@ IosArgs
       output-style: ${outputStyle.name.toLowerCase()}
       disable-results-upload: $disableResultsUpload
       default-class-test-time: $defaultClassTestTime
-    """.trimIndent()
+        """.trimIndent()
     }
 }
 
@@ -81,9 +81,9 @@ private fun IosArgs.calculateShardChunks() = if (disableSharding)
     emptyList() else
     ArgsHelper.calculateShards(
         filteredTests = filterTests(findXcTestNamesV1(xctestrunFile), testTargets)
-                .flatMap { it.value }
-                .distinct()
-                .map { FlankTestMethod(it, ignored = false) },
+            .flatMap { it.value }
+            .distinct()
+            .map { FlankTestMethod(it, ignored = false) },
         args = this
     ).shardChunks
 

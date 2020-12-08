@@ -20,5 +20,3 @@ class FindXcTestNamesV1KtTest {
         assertThat(swiftTestsV1).isEqualTo(names)
     }
 }
-
-

@@ -19,7 +19,7 @@ Explore IP blocks used by Firebase Test Lab devices.
 ip-blocks [COMMAND]
 Commands:
   list  List all IP address blocks used by Firebase Test Lab devices
-  """.trimIndent()
+        """.trimIndent()
 
         val actual = out.log.trim()
 

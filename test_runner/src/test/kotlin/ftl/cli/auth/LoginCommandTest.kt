@@ -30,7 +30,8 @@ class LoginCommandTest {
             """Obtains access credentials for your user account via a web-based authorization
 flow.
 
-login [-h]""".trimIndent()
+login [-h]
+            """.trimIndent()
         )
 
         assertThat(command.usageHelpRequested).isTrue()

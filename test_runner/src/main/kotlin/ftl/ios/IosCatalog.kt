@@ -77,7 +77,8 @@ If this project has already been granted access, please make sure you are using 
 on the Blaze or Flame billing plans, and that you have run
 gcloud config set billing/quota_project project
 
-If you are still having issues, please email ftl-ios-feedback@google.com for support.""", e
+If you are still having issues, please email ftl-ios-feedback@google.com for support.""",
+            e
         )
     }
 }

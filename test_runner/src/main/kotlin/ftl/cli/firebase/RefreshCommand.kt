@@ -15,9 +15,11 @@ import picocli.CommandLine.Option
     parameterListHeading = "%n@|bold,underline Parameters:|@%n",
     optionListHeading = "%n@|bold,underline Options:|@%n",
     header = ["Downloads results for the last Firebase Test Lab run"],
-    description = ["""Selects the most recent run in the results/ folder.
+    description = [
+        """Selects the most recent run in the results/ folder.
 Reads in the matrix_ids.json file. Refreshes any incomplete matrices.
-"""],
+"""
+    ],
     usageHelpAutoWidth = true
 )
 class RefreshCommand : Runnable {

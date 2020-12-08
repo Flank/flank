@@ -1,9 +1,5 @@
 package ftl.gc
 
-import com.google.testing.model.TestExecution
-import com.google.testing.model.ToolResultsExecution
-import com.google.testing.model.ToolResultsHistory
-import com.google.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.ToolResults
 import com.google.api.services.toolresults.model.Environment
 import com.google.api.services.toolresults.model.Execution
@@ -12,12 +8,16 @@ import com.google.api.services.toolresults.model.ListEnvironmentsResponse
 import com.google.api.services.toolresults.model.ListStepsResponse
 import com.google.api.services.toolresults.model.ListTestCasesResponse
 import com.google.api.services.toolresults.model.Step
+import com.google.testing.model.TestExecution
+import com.google.testing.model.ToolResultsExecution
+import com.google.testing.model.ToolResultsHistory
+import com.google.testing.model.ToolResultsStep
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.config.FtlConstants.applicationName
-import ftl.config.httpCredential
 import ftl.config.FtlConstants.httpTransport
+import ftl.config.httpCredential
 import ftl.http.executeWithRetry
 import ftl.run.exception.FTLProjectError
 import ftl.run.exception.FailureToken
@@ -209,11 +209,13 @@ private val permissionDeniedErrorMessage = { projectId: String, message: String?
 Consider authentication with a Service Account https://github.com/Flank/flank#authenticate-with-a-service-account
 or with a Google account https://github.com/Flank/flank#authenticate-with-a-google-account
 
-$message""".trimIndent()
+$message
+    """.trimIndent()
 }
 
 private val projectNotFoundErrorMessage = { projectId: String, message: String? ->
     """Flank was unable to find project $projectId. Please verify the project id.
 
-$message""".trimIndent()
+$message
+    """.trimIndent()
 }

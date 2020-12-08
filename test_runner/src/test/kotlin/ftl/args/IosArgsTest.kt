@@ -276,7 +276,7 @@ IosArgs
       output-style: single
       disable-results-upload: true
       default-class-test-time: 30.0
-""".trimIndent()
+            """.trimIndent()
         )
     }
 
@@ -336,7 +336,7 @@ IosArgs
       output-style: verbose
       disable-results-upload: false
       default-class-test-time: 240.0
-        """.trimIndent(),
+            """.trimIndent(),
             args.toString()
         )
     }

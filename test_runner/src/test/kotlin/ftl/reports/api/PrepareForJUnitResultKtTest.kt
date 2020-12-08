@@ -1,11 +1,11 @@
 package ftl.reports.api
 
-import com.google.testing.model.TestExecution
 import com.google.api.services.toolresults.model.MultiStep
 import com.google.api.services.toolresults.model.StackTrace
 import com.google.api.services.toolresults.model.Step
 import com.google.api.services.toolresults.model.TestCase
 import com.google.api.services.toolresults.model.Timestamp
+import com.google.testing.model.TestExecution
 import ftl.reports.api.data.TestExecutionData
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals

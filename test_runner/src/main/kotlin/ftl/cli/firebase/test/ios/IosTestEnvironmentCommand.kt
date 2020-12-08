@@ -20,10 +20,14 @@ import java.nio.file.Paths
     descriptionHeading = "%n@|bold,underline Description:|@%n%n",
     parameterListHeading = "%n@|bold,underline Parameters:|@%n",
     optionListHeading = "%n@|bold,underline Options:|@%n",
-    header = ["Print available iOS devices, OS versions list, locales, provided software, network configuration, " +
-        "orientation and IP blocks to test against"],
-    description = ["Print available iOS devices, OS versions list, locales, provided software, network configuration, " +
-        "orientation and IP blocks to test against"],
+    header = [
+        "Print available iOS devices, OS versions list, locales, provided software, network configuration, " +
+            "orientation and IP blocks to test against"
+    ],
+    description = [
+        "Print available iOS devices, OS versions list, locales, provided software, network configuration, " +
+            "orientation and IP blocks to test against"
+    ],
     usageHelpAutoWidth = true
 )
 class IosTestEnvironmentCommand : Runnable {

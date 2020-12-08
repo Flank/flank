@@ -18,15 +18,15 @@ fun createTestCases(
     val defaultClassTestTime = args.fallbackClassTestTime(previousMethodDurations)
     return testsToRun
         .map {
-        TestMethod(
-            name = it.testName,
-            time = getTestMethodTime(
-                flankTestMethod = it,
-                previousMethodDurations = previousMethodDurations,
-                defaultTestTime = defaultTestTime,
-                defaultClassTestTime = defaultClassTestTime
-            ),
-            isParameterized = it.isParameterizedClass
-        )
-    }
+            TestMethod(
+                name = it.testName,
+                time = getTestMethodTime(
+                    flankTestMethod = it,
+                    previousMethodDurations = previousMethodDurations,
+                    defaultTestTime = defaultTestTime,
+                    defaultClassTestTime = defaultClassTestTime
+                ),
+                isParameterized = it.isParameterizedClass
+            )
+        }
 }

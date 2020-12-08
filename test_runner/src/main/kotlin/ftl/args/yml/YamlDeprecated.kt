@@ -9,9 +9,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode
 import com.google.common.annotations.VisibleForTesting
 import ftl.args.ArgsHelper.yamlMapper
 import ftl.log.logLn
-import ftl.util.loadFile
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
+import ftl.util.loadFile
 import java.io.Reader
 import java.nio.file.Files
 import java.nio.file.Path

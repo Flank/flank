@@ -35,8 +35,10 @@ class IosModelDescribeCommand : Runnable {
         arity = "1",
         paramLabel = "MODEL_ID",
         defaultValue = "",
-        description = ["The models to describe, found" +
-            " using \$ gcloud firebase test ios models list."]
+        description = [
+            "The models to describe, found" +
+                " using \$ gcloud firebase test ios models list."
+        ]
     )
     var modelId: String = ""
 }

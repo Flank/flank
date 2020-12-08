@@ -66,7 +66,7 @@ flank:
     - .
   three: .
   project: .
-        """.trimIndent()
+            """.trimIndent()
         )
         assertThat(lint).isEqualTo(
             """
@@ -74,7 +74,7 @@ Unknown top level keys: [hi, foo]
 Unknown keys in gcloud -> [two]
 Unknown keys in flank -> [three]
 
-""".trimIndent()
+            """.trimIndent()
         )
     }
 
@@ -88,7 +88,7 @@ gcloud:
   test: .
 flank:
   project: .
-        """.trimIndent()
+            """.trimIndent()
         )
         assertThat(lint).isEqualTo("")
     }
@@ -182,7 +182,7 @@ flank:
     - .
   three: .
   project: .
-""".trimIndent()
+            """.trimIndent()
         )
         assertThat(lint).isEqualTo(
             """
@@ -190,7 +190,7 @@ Unknown top level keys: [hi, foo]
 Unknown keys in gcloud -> [two]
 Unknown keys in flank -> [three]
 
-""".trimIndent()
+            """.trimIndent()
         )
     }
 
@@ -204,7 +204,7 @@ gcloud:
   xctestrun-file: .
 flank:
   project: .
-""".trimIndent()
+            """.trimIndent()
         )
         assertThat(lint).isEqualTo("")
     }
@@ -222,7 +222,7 @@ gcloud:
       version: 23
 flank:
   project: .
-""".trimIndent()
+            """.trimIndent()
         )
         assertEquals("Warning: Version should be string gcloud -> device[\"NexusLowRes\"] -> version[23]", lint.trim())
     }
@@ -240,7 +240,7 @@ gcloud:
       version: "23"
 flank:
   project: .
-""".trimIndent()
+            """.trimIndent()
         )
         assertEquals("", lint)
     }

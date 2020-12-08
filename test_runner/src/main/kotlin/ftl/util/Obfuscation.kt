@@ -39,11 +39,11 @@ fun ObfuscationContext.obfuscateIosTestName(input: String): String {
         getOrPut(className) { nextSymbol(className, this) }
     }
     return obfuscatedClassName +
-            IOS_TEST_METHOD_SEPARATOR +
-            obfuscateMethodName(
-                methodName = input.split(IOS_TEST_METHOD_SEPARATOR).last(),
-                context = getOrPut(obfuscatedClassName) { linkedMapOf() }
-            )
+        IOS_TEST_METHOD_SEPARATOR +
+        obfuscateMethodName(
+            methodName = input.split(IOS_TEST_METHOD_SEPARATOR).last(),
+            context = getOrPut(obfuscatedClassName) { linkedMapOf() }
+        )
 }
 
 private fun nextSymbol(key: String, context: Map<String, String>): String {

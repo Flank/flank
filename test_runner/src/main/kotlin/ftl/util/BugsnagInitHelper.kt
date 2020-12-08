@@ -14,10 +14,10 @@ internal object BugsnagInitHelper {
         useMock: Boolean,
         rootPath: String = System.getProperty("user.home")
     ) = when {
-            useMock -> null
-            analyticsFileExistAndIsDisabled(rootPath) -> null
-            else -> Bugsnag(FLANK_API_KEY)
-        }
+        useMock -> null
+        analyticsFileExistAndIsDisabled(rootPath) -> null
+        else -> Bugsnag(FLANK_API_KEY)
+    }
 
     private fun analyticsFileExistAndIsDisabled(rootPath: String) =
         File(rootPath, "$GSUTIL_FOLDER/$ANALYTICS_FILE").run { exists() && readText().trim() == DISABLED }

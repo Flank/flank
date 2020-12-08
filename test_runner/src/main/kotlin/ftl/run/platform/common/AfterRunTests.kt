@@ -30,7 +30,7 @@ internal suspend fun IArgs.afterRunTests(
 
     logLn(FtlConstants.indent + "${matrixMap.map.size} matrix ids created in ${stopwatch.check()}")
     val gcsBucket = "https://console.developers.google.com/storage/browser/" +
-            resultsBucket + "/" + matrixMap.runPath
+        resultsBucket + "/" + matrixMap.runPath
     logLn(FtlConstants.indent + gcsBucket)
     logLn()
     matrixMap.printMatricesWebLinks(project)

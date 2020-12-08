@@ -23,7 +23,7 @@ class LocalesDescribeTest {
                 tags:
                 - one
                 - second
-            """.trimIndent()
+        """.trimIndent()
         Assert.assertEquals(expected, localesDescription)
     }
 
@@ -40,7 +40,7 @@ class LocalesDescribeTest {
         val expected = """
                 id: test
                 name: name_test
-            """.trimIndent()
+        """.trimIndent()
         Assert.assertEquals(expected, localesDescription)
     }
 }

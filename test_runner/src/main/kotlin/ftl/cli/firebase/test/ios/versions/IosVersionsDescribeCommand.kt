@@ -33,8 +33,10 @@ class IosVersionsDescribeCommand : Runnable {
         arity = "1",
         paramLabel = "VERSION_ID",
         defaultValue = "",
-        description = ["The version to describe, found" +
-            " using \$ gcloud firebase test ios versions list."]
+        description = [
+            "The version to describe, found" +
+                " using \$ gcloud firebase test ios versions list."
+        ]
     )
     var versionId: String = ""
 }

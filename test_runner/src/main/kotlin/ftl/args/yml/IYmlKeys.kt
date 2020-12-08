@@ -18,9 +18,9 @@ interface IYmlKeys {
 
 val KClass<*>.ymlKeys
     get() = memberProperties
-            .filterIsInstance<KMutableProperty<*>>()
-            .mapNotNull { it.setter.findAnnotation<JsonProperty>() }
-            .map { it.value }
+        .filterIsInstance<KMutableProperty<*>>()
+        .mapNotNull { it.setter.findAnnotation<JsonProperty>() }
+        .map { it.value }
 
 fun mergeYmlKeys(
     vararg keys: IYmlKeys

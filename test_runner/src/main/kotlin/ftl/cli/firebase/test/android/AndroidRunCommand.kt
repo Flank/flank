@@ -25,10 +25,12 @@ import java.nio.file.Paths
     parameterListHeading = "%n@|bold,underline Parameters:|@%n",
     optionListHeading = "%n@|bold,underline Options:|@%n",
     header = ["Run tests on Firebase Test Lab"],
-    description = ["""Uploads the app and test apk to GCS.
+    description = [
+        """Uploads the app and test apk to GCS.
 Runs the espresso tests using orchestrator.
 Configuration is read from flank.yml
-"""],
+"""
+    ],
     usageHelpAutoWidth = true
 )
 class AndroidRunCommand : CommonRunCommand(), Runnable {

@@ -9,9 +9,9 @@ import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.log.logLn
-import ftl.util.BugsnagInitHelper.initBugsnag
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
+import ftl.util.BugsnagInitHelper.initBugsnag
 import ftl.util.readRevision
 
 object FtlConstants {

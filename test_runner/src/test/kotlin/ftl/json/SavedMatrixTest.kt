@@ -1,5 +1,6 @@
 package ftl.json
 
+import com.google.common.truth.Truth.assertThat
 import com.google.testing.model.Environment
 import com.google.testing.model.GoogleCloudStorage
 import com.google.testing.model.ResultStorage
@@ -7,7 +8,6 @@ import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
 import com.google.testing.model.ToolResultsExecution
 import com.google.testing.model.ToolResultsStep
-import com.google.common.truth.Truth.assertThat
 import ftl.config.Device
 import ftl.gc.GcAndroidDevice
 import ftl.test.util.FlankTestRunner

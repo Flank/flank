@@ -27,8 +27,10 @@ class NetworkProfilesDescribeCommand : Runnable {
         arity = "1",
         paramLabel = "PROFILE_ID",
         defaultValue = "",
-        description = ["The network profile to describe, found" +
-            " using \$ gcloud beta firebase test network-profiles list."]
+        description = [
+            "The network profile to describe, found" +
+                " using \$ gcloud beta firebase test network-profiles list."
+        ]
     )
     var profileId: String = ""
 }

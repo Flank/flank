@@ -63,8 +63,8 @@ fun buildTable(vararg tableColumns: TableColumn, tableStyle: TableStyle = TableS
     val builder = StringBuilder().apply {
         startTable(rowSizes)
         tableColumns
-                .map { DataWithSize(data = it.header, columnSize = it.columnSize, centered = true) }
-                .apply { appendDataRow(this) }
+            .map { DataWithSize(data = it.header, columnSize = it.columnSize, centered = true) }
+            .apply { appendDataRow(this) }
         rowSeparator(rowSizes)
         appendData(tableColumns, rowSizes, tableStyle)
         endTable(rowSizes)
