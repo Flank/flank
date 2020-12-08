@@ -1,6 +1,5 @@
 package ftl.gc
 
-import com.dd.plist.NSDictionary
 import com.google.testing.Testing
 import com.google.testing.model.ClientInfo
 import com.google.testing.model.EnvironmentMatrix
@@ -17,8 +16,6 @@ import ftl.args.IosArgs
 import ftl.gc.android.mapGcsPathsToFileReference
 import ftl.gc.android.mapToIosDeviceFiles
 import ftl.gc.android.toIosDeviceFile
-import ftl.ios.xctest.common.toByteArray
-import ftl.ios.xctest.rewriteXcTestRunV1
 import ftl.run.exception.FlankGeneralError
 import ftl.util.ShardCounter
 import ftl.util.join
@@ -30,10 +27,8 @@ object GcIosTestMatrix {
     fun build(
         iosDeviceList: IosDeviceList,
         testZipGcsPath: String,
-        runGcsPath: String,
-        xcTestParsed: NSDictionary,
         args: IosArgs,
-        testTargets: List<String>,
+        xcTestRun: ByteArray,
         shardCounter: ShardCounter,
         toolResultsHistory: ToolResultsHistory,
         otherFiles: Map<String, String>,
@@ -45,23 +40,15 @@ object GcIosTestMatrix {
 
         val gcsBucket = args.resultsBucket
         val shardName = shardCounter.next()
-        val matrixGcsSuffix = join(runGcsPath, shardName)
+        val matrixGcsSuffix = join(args.resultsDir, shardName)
         val matrixGcsPath = join(gcsBucket, matrixGcsSuffix)
-
-        // Parameterized tests on iOS don't shard correctly.
-        // Avoid changing Xctestrun file when disableSharding is on.
-        val generatedXctestrun = if (args.disableSharding) {
-            xcTestParsed.toByteArray()
-        } else {
-            rewriteXcTestRunV1(args.xctestrunFile, testTargets)
-        }
 
         // Add shard number to file name
         val xctestrunNewFileName =
             StringBuilder(args.xctestrunFile).insert(args.xctestrunFile.lastIndexOf("."), "_$shardName").toString()
 
         val xctestrunFileGcsPath =
-            GcStorage.uploadXCTestFile(xctestrunNewFileName, gcsBucket, matrixGcsSuffix, generatedXctestrun)
+            GcStorage.uploadXCTestFile(xctestrunNewFileName, gcsBucket, matrixGcsSuffix, xcTestRun)
 
         val iOSXCTest = IosXcTest()
             .setTestsZip(FileReference().setGcsPath(testZipGcsPath))

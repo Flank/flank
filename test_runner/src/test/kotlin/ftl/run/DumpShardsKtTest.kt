@@ -19,6 +19,7 @@ import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import java.io.File
+import org.junit.Assume.assumeFalse
 
 @RunWith(FlankTestRunner::class)
 class DumpShardsKtTest {
@@ -183,24 +184,25 @@ class DumpShardsKtTest {
 
     @Test
     fun `dump shards obfuscated ios`() {
+        assumeFalse(FtlConstants.isWindows) // TODO Windows Linux subsytem does not contain all expected commands
+
         // given
-        val notExpected = """
+        val expected = """
 [
   [
-    "EarlGreyExampleSwiftTests/testWithGreyAssertions",
-    "EarlGreyExampleSwiftTests/testWithInRoot",
-    "EarlGreyExampleSwiftTests/testWithCondition",
-    "EarlGreyExampleSwiftTests/testWithCustomFailureHandler"
+    "A/a",
+    "A/b",
+    "A/c",
+    "A/d"
   ],
   [
-    "EarlGreyExampleSwiftTests/testWithGreyAssertions",
-    "EarlGreyExampleSwiftTests/testWithCustomMatcher",
-    "EarlGreyExampleSwiftTests/testWithCustomAssertion"
+    "A/a",
+    "A/e",
+    "A/f"
   ]
 ]
         """.trimIndent()
 
-        if (FtlConstants.isWindows) return // TODO Windows Linux subsytem does not contain all expected commands
         // when
         val actual = runBlocking {
             IosArgs.load(
@@ -211,10 +213,7 @@ class DumpShardsKtTest {
         }
 
         // then
-        assertNotEquals(notExpected, actual)
-        assertThat(notExpected.split(System.lineSeparator()).size).isEqualTo(
-            actual.split(System.lineSeparator()).size
-        ) // same line count
+        assertEquals(expected, actual)
         assertThat(output.log).contains("Saved 2 shards to $TEST_SHARD_FILE")
     }
 }
