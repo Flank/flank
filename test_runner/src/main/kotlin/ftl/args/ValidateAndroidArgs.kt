@@ -9,6 +9,7 @@ import ftl.android.UnsupportedVersionId
 import ftl.args.yml.Type
 import ftl.config.containsPhysicalDevices
 import ftl.config.containsVirtualDevices
+import ftl.log.logLn
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 import ftl.run.exception.IncompatibleTestDimensionError
@@ -101,12 +102,12 @@ private fun AndroidArgs.assertDevicesSupported() = devices
             SupportedDeviceConfig -> Unit
             UnsupportedModelId -> throw IncompatibleTestDimensionError(
                 "Unsupported model id, '${device.model}'\nSupported model ids: ${
-                    AndroidCatalog.androidModelIds(project)
+                AndroidCatalog.androidModelIds(project)
                 }"
             )
             UnsupportedVersionId -> throw IncompatibleTestDimensionError(
                 "Unsupported version id, '${device.version}'\nSupported Version ids: ${
-                    AndroidCatalog.androidVersionIds(project)
+                AndroidCatalog.androidVersionIds(project)
                 }"
             )
             IncompatibleModelVersion -> throw IncompatibleTestDimensionError("Incompatible model, '${device.model}', and version, '${device.version}'\nSupported version ids for '${device.model}': ${device.getSupportedVersionId(project).joinToString { it }}")
@@ -132,8 +133,8 @@ private fun AndroidArgs.assertDirectoriesToPull() {
         ?.also {
             throw FlankConfigurationError(
                 "Invalid value for [directories-to-pull]: Invalid path $it.\n" +
-                "Path must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2).\n" +
-                "Path names are restricted to the characters [a-zA-Z0-9_-./+]. "
+                    "Path must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2).\n" +
+                    "Path names are restricted to the characters [a-zA-Z0-9_-./+]. "
             )
         }
 }
@@ -146,7 +147,7 @@ private fun AndroidArgs.assertMaxTestShardsByDeviceType() =
     }
 
 private fun AndroidArgs.assertDevicesShards() {
-    if (inVirtualRange && !inPhysicalRange) println("Physical devices configured, but max-test-shards limit set to $maxTestShards, for physical devices range is ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.first} to ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}, you additionally have configured virtual devices. In this case, the physical limit will be decreased to: ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}")
+    if (inVirtualRange && !inPhysicalRange) logLn("Physical devices configured, but max-test-shards limit set to $maxTestShards, for physical devices range is ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.first} to ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}, you additionally have configured virtual devices. In this case, the physical limit will be decreased to: ${IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last}")
     else if (!inVirtualRange && !inPhysicalRange) throwMaxTestShardsLimitExceeded()
 }
 
@@ -217,15 +218,15 @@ private fun AndroidArgs.assertOtherFiles() {
 
 private fun AndroidArgs.checkEnvironmentVariables() {
     if (environmentVariables.isNotEmpty() && directoriesToPull.isEmpty())
-        println("WARNING: environment-variables set but directories-to-pull is empty, this will result in the coverage file  not downloading to the bucket.")
+        logLn("WARNING: environment-variables set but directories-to-pull is empty, this will result in the coverage file  not downloading to the bucket.")
 }
 
 private fun AndroidArgs.checkFilesToDownload() {
     if (filesToDownload.isNotEmpty() && directoriesToPull.isEmpty())
-        println("WARNING: files-to-download is set but directories-to-pull is empty, the coverage file may fail to download into the bucket.")
+        logLn("WARNING: files-to-download is set but directories-to-pull is empty, the coverage file may fail to download into the bucket.")
 }
 
 private fun AndroidArgs.checkNumUniformShards() {
     if ((numUniformShards ?: 0) > 0 && disableSharding)
-        println("WARNING: disable-sharding is enabled with num-uniform-shards = $numUniformShards, Flank will ignore num-uniform-shards and disable sharding.")
+        logLn("WARNING: disable-sharding is enabled with num-uniform-shards = $numUniformShards, Flank will ignore num-uniform-shards and disable sharding.")
 }

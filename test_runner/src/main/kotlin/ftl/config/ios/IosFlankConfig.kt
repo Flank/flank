@@ -17,8 +17,10 @@ data class IosFlankConfig @JsonIgnore constructor(
     @set:CommandLine.Option(
         names = ["--test-targets"],
         split = ",",
-        description = ["A list of one or more test method " +
-                "names to run (default: run all test targets)."]
+        description = [
+            "A list of one or more test method " +
+                "names to run (default: run all test targets)."
+        ]
     )
     @set:JsonProperty("test-targets")
     var testTargets: List<String?>? by data

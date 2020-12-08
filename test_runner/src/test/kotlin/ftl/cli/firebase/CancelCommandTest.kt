@@ -25,17 +25,17 @@ class CancelCommandTest {
         val output = systemOutRule.log.normalizeLineEnding()
         assertThat(output).startsWith(
             "Cancels the last Firebase Test Lab run\n" +
-                    "\n" +
-                    "cancel [-h]\n" +
-                    "\n" +
-                    "Description:\n" +
-                    "\n" +
-                    "Selects the most recent run in the results/ folder.\n" +
-                    "Reads in the matrix_ids.json file. Cancels any incomplete matrices.\n" +
-                    "\n" +
-                    "\n" +
-                    "Options:\n" +
-                    "  -h, --help   Prints this help message\n"
+                "\n" +
+                "cancel [-h]\n" +
+                "\n" +
+                "Description:\n" +
+                "\n" +
+                "Selects the most recent run in the results/ folder.\n" +
+                "Reads in the matrix_ids.json file. Cancels any incomplete matrices.\n" +
+                "\n" +
+                "\n" +
+                "Options:\n" +
+                "  -h, --help   Prints this help message\n"
         )
 
         assertThat(command.usageHelpRequested).isTrue()

@@ -87,7 +87,6 @@ class GcIosTestMatrixTest {
         )
     }
 
-
     @Test
     fun `should fill otherFiles`() {
         val iosArgs = IosArgs.load(
@@ -100,7 +99,7 @@ class GcIosTestMatrixTest {
               other-files:
                 com.my.app:/Documents/file.txt: local/file.txt
                 /private/var/mobile/Media/file.jpg: gs://bucket/file.jpg
-        """.trimIndent()
+                """.trimIndent()
             )
         )
 
@@ -120,7 +119,7 @@ class GcIosTestMatrixTest {
               test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExample.zip
               xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun
               results-dir: test_dir
-        """.trimIndent()
+                """.trimIndent()
             )
         )
 
@@ -140,14 +139,13 @@ class GcIosTestMatrixTest {
               additional-ipas:
                 - path/to/local/file.ipa
                 - gs://bucket/file.ipa
-        """.trimIndent()
+                """.trimIndent()
             )
         )
 
         val expected = listOf("path/to/local/file.ipa", "gs://bucket/file.ipa")
         assertEquals(expected, iosArgs.additionalIpas)
     }
-
 
     @Test
     fun `should not fill additional ipas`() {
@@ -158,7 +156,7 @@ class GcIosTestMatrixTest {
               test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExample.zip
               xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun
               results-dir: test_dir
-        """.trimIndent()
+                """.trimIndent()
             )
         )
 
@@ -168,14 +166,18 @@ class GcIosTestMatrixTest {
 
     @Test
     fun `should fill directoriesToPull`() {
-        val iosArgs = IosArgs.load(StringReader("""
+        val iosArgs = IosArgs.load(
+            StringReader(
+                """
             gcloud:
               test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExample.zip
               xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun
               results-dir: test_dir
               directories-to-pull:
                 - test/test/test
-        """.trimIndent()))
+                """.trimIndent()
+            )
+        )
 
         val expected = listOf("test/test/test")
         assertEquals(expected, iosArgs.directoriesToPull)
@@ -183,12 +185,16 @@ class GcIosTestMatrixTest {
 
     @Test
     fun `should not fill directoriesToPull`() {
-        val iosArgs = IosArgs.load(StringReader("""
+        val iosArgs = IosArgs.load(
+            StringReader(
+                """
             gcloud:
               test: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExample.zip
               xctestrun-file: ./test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun
               results-dir: test_dir
-        """.trimIndent()))
+                """.trimIndent()
+            )
+        )
 
         val expected = emptyList<String>()
         assertEquals(expected, iosArgs.directoriesToPull)

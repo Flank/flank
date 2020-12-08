@@ -71,17 +71,17 @@ class RefreshCommandTest {
         val output = systemOutRule.log.normalizeLineEnding()
         assertThat(output).startsWith(
             "Downloads results for the last Firebase Test Lab run\n" +
-                    "\n" +
-                    "refresh [-h]\n" +
-                    "\n" +
-                    "Description:\n" +
-                    "\n" +
-                    "Selects the most recent run in the results/ folder.\n" +
-                    "Reads in the matrix_ids.json file. Refreshes any incomplete matrices.\n" +
-                    "\n" +
-                    "\n" +
-                    "Options:\n" +
-                    "  -h, --help   Prints this help message\n"
+                "\n" +
+                "refresh [-h]\n" +
+                "\n" +
+                "Description:\n" +
+                "\n" +
+                "Selects the most recent run in the results/ folder.\n" +
+                "Reads in the matrix_ids.json file. Refreshes any incomplete matrices.\n" +
+                "\n" +
+                "\n" +
+                "Options:\n" +
+                "  -h, --help   Prints this help message\n"
         )
 
         assertThat(refresh.usageHelpRequested).isTrue()

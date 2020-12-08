@@ -1,10 +1,10 @@
 package ftl.reports.api
 
-import com.google.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.model.Duration
 import com.google.api.services.toolresults.model.StackTrace
 import com.google.api.services.toolresults.model.TestCase
 import com.google.api.services.toolresults.model.TestCaseReference
+import com.google.testing.model.ToolResultsStep
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.xmlPrettyWriter
 import org.junit.Assert.assertArrayEquals

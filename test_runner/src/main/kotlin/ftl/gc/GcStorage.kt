@@ -14,6 +14,7 @@ import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.credential
+import ftl.log.logLn
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.xmlToString
@@ -89,7 +90,7 @@ object GcStorage {
                 resultDir
             )
         }.onFailure {
-            println("Cannot upload performance metrics ${it.message}")
+            logLn("Cannot upload performance metrics ${it.message}")
         }.getOrNull()
 
     fun uploadReportResult(testResult: String, args: IArgs, fileName: String) {

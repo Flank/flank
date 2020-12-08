@@ -109,7 +109,6 @@ class RewriteXcTestRunV1KtTest {
         assertThat(inputXml).isEqualTo(rewrittenXml.normalizeLineEnding())
     }
 
-
     @Test
     fun `rewrite methods in single test target`() {
         assumeFalse(FtlConstants.isWindows)

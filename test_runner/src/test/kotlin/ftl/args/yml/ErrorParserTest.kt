@@ -8,9 +8,9 @@ import com.fasterxml.jackson.dataformat.yaml.snakeyaml.error.MarkedYAMLException
 import ftl.args.AndroidArgs
 import ftl.args.yml.errors.ConfigurationErrorMessageBuilder
 import ftl.doctor.assertEqualsIgnoreNewlineStyle
+import ftl.run.exception.FlankConfigurationError
 import ftl.test.util.TestHelper
 import ftl.test.util.TestHelper.getThrowable
-import ftl.run.exception.FlankConfigurationError
 import org.junit.Assert
 import org.junit.Test
 
@@ -26,13 +26,13 @@ class ErrorParserTest {
     fun `parse json mapping error`() {
         val instantionError =
             "Instantiation of [simple type, class ftl.config.Device] value failed for JSON property version due to missing (therefore NULL) value for creator parameter version which is a non-nullable type\n" +
-                    " at [Source: (StringReader); line: 23, column: 3] (through reference chain: ftl.args.yml.AndroidGcloudYml[\"gcloud\"]->ftl.args.yml.AndroidGcloudYmlParams[\"device\"]->java.util.ArrayList[4]->ftl.config.Device[\"version\"])"
+                " at [Source: (StringReader); line: 23, column: 3] (through reference chain: ftl.args.yml.AndroidGcloudYml[\"gcloud\"]->ftl.args.yml.AndroidGcloudYmlParams[\"device\"]->java.util.ArrayList[4]->ftl.config.Device[\"version\"])"
 
         val expected = """
 Error on parse config: gcloud->device[4]->version
 Missing element or value for: 'version'
 At line: 23, column: 3
-""".trimIndent()
+        """.trimIndent()
         val buildErrorMessage = ConfigurationErrorMessageBuilder
         Assert.assertEquals(expected, buildErrorMessage(instantionError))
     }
@@ -101,7 +101,7 @@ At line: 5, column: 8
 Error node: 
         test: ../test_app/apks/app-debug-and ... 
             ^
-            """.trimIndent()
+        """.trimIndent()
         val exception = getThrowable { ObjectMapper(YAMLFactory()).readTree(testYaml) } as MarkedYAMLException
         val buildErrorMessage = ConfigurationErrorMessageBuilder
 

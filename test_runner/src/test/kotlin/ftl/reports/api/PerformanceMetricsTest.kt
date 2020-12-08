@@ -1,9 +1,9 @@
 package ftl.reports.api
 
+import com.google.common.truth.Truth.assertThat
 import com.google.testing.model.AndroidDevice
 import com.google.testing.model.TestExecution
 import com.google.testing.model.ToolResultsStep
-import com.google.common.truth.Truth.assertThat
 import ftl.android.AndroidCatalog
 import ftl.args.IArgs
 import ftl.gc.GcStorage
@@ -32,7 +32,7 @@ class PerformanceMetricsTest {
                 every { resultsBucket } returns "b8ce"
             }
 
-           assertThat(testExecutions.map { it to "path" }.getAndUploadPerformanceMetrics(args)).isEmpty()
+            assertThat(testExecutions.map { it to "path" }.getAndUploadPerformanceMetrics(args)).isEmpty()
         }
     }
 

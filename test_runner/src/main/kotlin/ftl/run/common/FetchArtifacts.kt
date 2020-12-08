@@ -5,6 +5,9 @@ import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.gc.GcStorage
 import ftl.json.MatrixMap
+import ftl.log.OutputLogLevel
+import ftl.log.log
+import ftl.log.logLn
 import ftl.util.Artifacts
 import ftl.util.MatrixState
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +20,7 @@ import java.nio.file.Paths
 
 // TODO needs refactor
 internal suspend fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) = coroutineScope {
-    println("FetchArtifacts")
+    logLn("FetchArtifacts", OutputLogLevel.DETAILED)
     val fields = Storage.BlobListOption.fields(Storage.BlobField.NAME)
 
     var dirty = false
@@ -27,7 +30,7 @@ internal suspend fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) = corouti
         finished && notDownloaded
     }.toMutableList()
 
-    print(FtlConstants.indent)
+    log(FtlConstants.indent)
     filtered.flatMapIndexed { index, matrix ->
         val prefix = Storage.BlobListOption.prefix(matrix.gcsPathWithoutRootBucket)
         val result = GcStorage.storage.list(matrix.gcsRootBucket, prefix, fields)
@@ -40,7 +43,7 @@ internal suspend fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) = corouti
             if (matched) {
                 val downloadFile = getDownloadPath(args, blobPath)
 
-                print(".")
+                log(".", OutputLogLevel.DETAILED)
                 if (!downloadFile.toFile().exists()) {
                     val parentFile = downloadFile.parent.toFile()
                     parentFile.mkdirs()
@@ -53,12 +56,12 @@ internal suspend fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) = corouti
         filtered[index] = matrix.copy(downloaded = true)
         jobs
     }.joinAll()
-    println()
+    logLn(level = OutputLogLevel.DETAILED)
 
     if (dirty) {
-        println(FtlConstants.indent + "Updating matrix file")
+        logLn(FtlConstants.indent + "Updating matrix file", level = OutputLogLevel.DETAILED)
         args.updateMatrixFile(matrixMap)
-        println()
+        logLn(level = OutputLogLevel.DETAILED)
     }
 }
 

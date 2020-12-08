@@ -3,6 +3,9 @@ package ftl.run.status
 import com.google.common.annotations.VisibleForTesting
 import ftl.args.IArgs
 import ftl.config.FtlConstants
+import ftl.log.OutputLogLevel
+import ftl.log.log
+import ftl.log.logLn
 import org.fusesource.jansi.Ansi
 import org.fusesource.jansi.AnsiConsole
 
@@ -12,6 +15,7 @@ fun createExecutionStatusPrinter(
     OutputStyle.Multi -> MultiLinePrinter()
     OutputStyle.Single -> SingleLinePrinter()
     OutputStyle.Verbose -> VerbosePrinter
+    OutputStyle.Compact -> VerbosePrinter
 }
 
 @VisibleForTesting
@@ -32,7 +36,7 @@ internal class SingleLinePrinter : (List<ExecutionStatus.Change>) -> Unit {
             print("\r" + (0..previousLineSize).joinToString("") { " " })
             val output = "${FtlConstants.indent}$time Test executions status: $statusCounts"
             previousLineSize = output.length
-            print("\r$output")
+            log("\r$output")
         }
     }
 }
@@ -48,7 +52,7 @@ internal class MultiLinePrinter(
     private val output = LinkedHashMap<String, ExecutionStatus.View>()
     override fun invoke(changes: List<ExecutionStatus.Change>) {
         repeat(output.size) {
-            print(ansi().cursorUpLine().eraseLine().toString())
+            log(ansi().cursorUpLine().eraseLine().toString())
         }
         output += changes.map { change ->
             change.views.takeLast(1)
@@ -62,7 +66,7 @@ internal class MultiLinePrinter(
 @VisibleForTesting
 internal object VerbosePrinter : (List<ExecutionStatus.Change>) -> Unit {
     override fun invoke(changes: List<ExecutionStatus.Change>) {
-        changes.map(ExecutionStatus.Change::views).flatten().forEach(::println)
+        changes.map(ExecutionStatus.Change::views).flatten().forEach { logLn(it, OutputLogLevel.DETAILED) }
     }
 }
 

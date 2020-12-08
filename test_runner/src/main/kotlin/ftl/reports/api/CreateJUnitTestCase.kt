@@ -1,8 +1,8 @@
 package ftl.reports.api
 
-import com.google.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.model.StackTrace
 import com.google.api.services.toolresults.model.TestCase
+import com.google.testing.model.ToolResultsStep
 import ftl.reports.xml.model.JUnitTestCase
 
 internal fun createJUnitTestCases(
@@ -43,8 +43,8 @@ private fun createJUnitTestCase(
 
 private fun getWebLink(toolResultsStep: ToolResultsStep, testCaseId: String): String {
     return "https://console.firebase.google.com/project/${toolResultsStep.projectId}/" +
-            "testlab/histories/${toolResultsStep.historyId}/" +
-            "matrices/${toolResultsStep.executionId}/" +
-            "executions/${toolResultsStep.stepId}/" +
-            "testcases/$testCaseId"
+        "testlab/histories/${toolResultsStep.historyId}/" +
+        "matrices/${toolResultsStep.executionId}/" +
+        "executions/${toolResultsStep.stepId}/" +
+        "testcases/$testCaseId"
 }

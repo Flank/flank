@@ -36,7 +36,7 @@ class AndroidSoftwareVersionDescriptionTest {
             tags:
             - default
             versionString: 8.0.x
-            """.trimIndent()
+        """.trimIndent()
         Assert.assertEquals(expected, localesDescription)
     }
 
@@ -66,7 +66,7 @@ class AndroidSoftwareVersionDescriptionTest {
               month: 10
               year: 2015
             versionString: 6.0.x
-            """.trimIndent()
+        """.trimIndent()
         Assert.assertEquals(expected, localesDescription)
     }
 

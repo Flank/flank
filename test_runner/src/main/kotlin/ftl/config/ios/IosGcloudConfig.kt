@@ -22,29 +22,35 @@ data class IosGcloudConfig @JsonIgnore constructor(
 
     @set:CommandLine.Option(
         names = ["--test"],
-        description = ["The path to the test package (a zip file containing the iOS app " +
-            "and XCTest files). The given path may be in the local filesystem or in Google Cloud Storage using a URL " +
-            "beginning with gs://. Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file " +
-            "is specified."]
+        description = [
+            "The path to the test package (a zip file containing the iOS app " +
+                "and XCTest files). The given path may be in the local filesystem or in Google Cloud Storage using a URL " +
+                "beginning with gs://. Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file " +
+                "is specified."
+        ]
     )
     @set:JsonProperty("test")
     var test: String? by data
 
     @set:CommandLine.Option(
         names = ["--xctestrun-file"],
-        description = ["The path to an .xctestrun file that will override any " +
-            ".xctestrun file contained in the --test package. Because the .xctestrun file contains environment variables " +
-            "along with test methods to run and/or ignore, this can be useful for customizing or sharding test suites. The " +
-            "given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://."]
+        description = [
+            "The path to an .xctestrun file that will override any " +
+                ".xctestrun file contained in the --test package. Because the .xctestrun file contains environment variables " +
+                "along with test methods to run and/or ignore, this can be useful for customizing or sharding test suites. The " +
+                "given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://."
+        ]
     )
     @set:JsonProperty("xctestrun-file")
     var xctestrunFile: String? by data
 
     @set:CommandLine.Option(
         names = ["--xcode-version"],
-        description = ["The version of Xcode that should be used to run an XCTest. " +
-            "Defaults to the latest Xcode version supported in Firebase Test Lab. This Xcode version must be supported by " +
-            "all iOS versions selected in the test matrix."]
+        description = [
+            "The version of Xcode that should be used to run an XCTest. " +
+                "Defaults to the latest Xcode version supported in Firebase Test Lab. This Xcode version must be supported by " +
+                "all iOS versions selected in the test matrix."
+        ]
     )
     @set:JsonProperty("xcode-version")
     var xcodeVersion: String? by data
@@ -52,28 +58,34 @@ data class IosGcloudConfig @JsonIgnore constructor(
     @set:CommandLine.Option(
         names = ["--additional-ipas"],
         split = ",",
-        description = ["List of up to 100 additional IPAs to install, in addition to the one being directly tested. " +
-            "The path may be in the local filesystem or in Google Cloud Storage using gs:// notation."]
+        description = [
+            "List of up to 100 additional IPAs to install, in addition to the one being directly tested. " +
+                "The path may be in the local filesystem or in Google Cloud Storage using gs:// notation."
+        ]
     )
     @set:JsonProperty("additional-ipas")
     var additionalIpas: List<String>? by data
 
     @set:CommandLine.Option(
         names = ["--app"],
-        description = ["The path to the application archive (.ipa file) for game-loop testing. " +
+        description = [
+            "The path to the application archive (.ipa file) for game-loop testing. " +
                 "The path may be in the local filesystem or in Google Cloud Storage using gs:// notation. " +
-                "This flag is only valid when --type=game-loop is also set"]
+                "This flag is only valid when --type=game-loop is also set"
+        ]
     )
     @set:JsonProperty("app")
     var app: String? by data
 
     @set:CommandLine.Option(
         names = ["--test-special-entitlements"],
-        description = ["Enables testing special app entitlements. Re-signs an app having special entitlements with a new" +
-            " application-identifier. This currently supports testing Push Notifications (aps-environment) entitlement " +
-            "for up to one app in a project.\n" +
-            "Note: Because this changes the app's identifier, make sure none of the resources in your zip file contain " +
-            "direct references to the test app's bundle id."]
+        description = [
+            "Enables testing special app entitlements. Re-signs an app having special entitlements with a new" +
+                " application-identifier. This currently supports testing Push Notifications (aps-environment) entitlement " +
+                "for up to one app in a project.\n" +
+                "Note: Because this changes the app's identifier, make sure none of the resources in your zip file contain " +
+                "direct references to the test app's bundle id."
+        ]
     )
     @set:JsonProperty("test-special-entitlements")
     var testSpecialEntitlements: Boolean? by data

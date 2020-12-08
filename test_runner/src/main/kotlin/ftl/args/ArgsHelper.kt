@@ -20,6 +20,7 @@ import ftl.config.credential
 import ftl.config.defaultCredentialPath
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
+import ftl.log.logLn
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
@@ -171,7 +172,7 @@ object ArgsHelper {
                     .build()
             )
         } catch (e: Exception) {
-            println("Warning: Failed to make bucket for $projectId\nCause: ${e.message}")
+            logLn("Warning: Failed to make bucket for $projectId\nCause: ${e.message}")
         }
 
         return bucket
@@ -187,8 +188,8 @@ object ArgsHelper {
                 GenericJson::class.java
             )["project_id"] as String
         } catch (e: Exception) {
-            println("Parsing $defaultCredentialPath failed:")
-            println(e.printStackTrace())
+            logLn("Parsing $defaultCredentialPath failed:")
+            logLn(e.printStackTrace())
         }
 
         return null
@@ -211,7 +212,7 @@ object ArgsHelper {
             val envName = matcher.group(1)
             val envValue: String? = System.getenv(envName)
             if (envValue == null) {
-                println("WARNING: $envName not found")
+                logLn("WARNING: $envName not found")
             }
             matcher.appendReplacement(buffer, envValue ?: "")
         }

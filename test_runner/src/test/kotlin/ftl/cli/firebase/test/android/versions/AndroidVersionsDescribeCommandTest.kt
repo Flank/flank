@@ -2,8 +2,8 @@ package ftl.cli.firebase.test.android.versions
 
 import ftl.android.AndroidCatalog
 import ftl.cli.firebase.test.ios.versions.IosVersionsDescribeCommand
-import ftl.test.util.TestHelper
 import ftl.run.exception.FlankConfigurationError
+import ftl.test.util.TestHelper
 import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.Assert.assertEquals

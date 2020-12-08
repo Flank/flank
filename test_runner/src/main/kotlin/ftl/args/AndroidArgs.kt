@@ -88,7 +88,7 @@ AndroidArgs
       output-style: ${outputStyle.name.toLowerCase()}
       disable-results-upload: $disableResultsUpload
       default-class-test-time: $defaultClassTestTime
-   """.trimIndent()
+        """.trimIndent()
     }
 }
 
@@ -99,9 +99,11 @@ val AndroidArgs.isDontAutograntPermissions
 val AndroidArgs.isInstrumentationTest
     get() = if (type != null) (type == Type.INSTRUMENTATION) else validateInstrumentation()
 
-fun AndroidArgs.validateInstrumentation() = (appApk.isNotNull() && testApk.isNotNull() ||
+fun AndroidArgs.validateInstrumentation() = (
+    appApk.isNotNull() && testApk.isNotNull() ||
         additionalAppTestApks.isNotEmpty() &&
-        (appApk.isNotNull() || additionalAppTestApks.all { (app, _) -> app.isNotNull() }))
+        (appApk.isNotNull() || additionalAppTestApks.all { (app, _) -> app.isNotNull() })
+    )
 
 val AndroidArgs.isRoboTest
     get() = if (type != null) type == Type.ROBO else validateRobo()

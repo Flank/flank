@@ -4,9 +4,9 @@ import com.google.common.truth.Truth.assertThat
 import com.linkedin.dex.parser.TestAnnotation
 import com.linkedin.dex.parser.TestMethod
 import ftl.filter.TestFilters.fromTestTargets
+import ftl.run.exception.FlankConfigurationError
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper
-import ftl.run.exception.FlankConfigurationError
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith

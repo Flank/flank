@@ -19,8 +19,10 @@ data class AndroidFlankConfig @JsonIgnore constructor(
     @CommandLine.Option(
         names = ["--additional-app-test-apks"],
         split = ",",
-        description = ["A list of app & test apks to include in the run. " +
-            "Useful for running multiple module tests within a single Flank run."]
+        description = [
+            "A list of app & test apks to include in the run. " +
+                "Useful for running multiple module tests within a single Flank run."
+        ]
     )
     fun additionalAppTestApks(map: Map<String, String>?) {
         if (map.isNullOrEmpty()) return

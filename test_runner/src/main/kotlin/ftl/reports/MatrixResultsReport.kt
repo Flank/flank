@@ -5,10 +5,11 @@ import ftl.config.FtlConstants.indent
 import ftl.gc.GcStorage
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
+import ftl.json.asPrintableTable
 import ftl.json.isFailed
+import ftl.log.log
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
-import ftl.json.asPrintableTable
 import ftl.util.println
 import java.io.StringWriter
 import java.text.DecimalFormat
@@ -70,7 +71,7 @@ object MatrixResultsReport : IReport {
 
     override fun run(matrices: MatrixMap, result: JUnitTestResult?, printToStdout: Boolean, args: IArgs) {
         val output = generate(matrices)
-        if (printToStdout) print(output)
+        if (printToStdout) log(output)
         write(matrices, output, args)
         GcStorage.uploadReportResult(output, args, fileName())
     }

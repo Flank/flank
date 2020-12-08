@@ -6,8 +6,8 @@ import ftl.args.IosArgs
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
-import ftl.test.util.FlankTestRunner
 import ftl.run.exception.FlankConfigurationError
+import ftl.test.util.FlankTestRunner
 import ftl.util.FlankTestMethod
 import io.mockk.every
 import io.mockk.mockk
@@ -118,20 +118,22 @@ class ShardTest {
     private fun newSuite(testCases: MutableList<JUnitTestCase>): JUnitTestResult {
         return JUnitTestResult(
             mutableListOf(
-                JUnitTestSuite("",
-                     "3",
-                     "0",
-                     -1,
-                     "0",
-                     "0",
-                     "12.032",
-                     "2019-07-27T08:15:04",
-                     "localhost",
-                     "matrix-1234_execution-asdf",
-                     testCases,
-                     null,
-                     null,
-                     null)
+                JUnitTestSuite(
+                    "",
+                    "3",
+                    "0",
+                    -1,
+                    "0",
+                    "0",
+                    "12.032",
+                    "2019-07-27T08:15:04",
+                    "localhost",
+                    "matrix-1234_execution-asdf",
+                    testCases,
+                    null,
+                    null,
+                    null
+                )
             )
         )
     }

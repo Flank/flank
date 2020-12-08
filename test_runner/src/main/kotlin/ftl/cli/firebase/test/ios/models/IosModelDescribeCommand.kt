@@ -3,6 +3,7 @@ package ftl.cli.firebase.test.ios.models
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.ios.IosCatalog
+import ftl.log.logLn
 import ftl.run.exception.FlankConfigurationError
 import picocli.CommandLine
 import java.nio.file.Paths
@@ -20,7 +21,7 @@ import java.nio.file.Paths
 class IosModelDescribeCommand : Runnable {
     override fun run() {
         if (modelId.isBlank()) throw FlankConfigurationError("Argument MODEL_ID must be specified.")
-        println(IosCatalog.describeModel(IosArgs.loadOrDefault(Paths.get(configPath)).project, modelId))
+        logLn(IosCatalog.describeModel(IosArgs.loadOrDefault(Paths.get(configPath)).project, modelId))
     }
 
     @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])
@@ -34,8 +35,10 @@ class IosModelDescribeCommand : Runnable {
         arity = "1",
         paramLabel = "MODEL_ID",
         defaultValue = "",
-        description = ["The models to describe, found" +
-            " using \$ gcloud firebase test ios models list."]
+        description = [
+            "The models to describe, found" +
+                " using \$ gcloud firebase test ios models list."
+        ]
     )
     var modelId: String = ""
 }

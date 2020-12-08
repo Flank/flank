@@ -9,22 +9,23 @@ import ftl.gc.GcAndroidTestMatrix
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
+import ftl.log.logLn
 import ftl.run.ANDROID_SHARD_FILE
+import ftl.run.exception.FlankGeneralError
+import ftl.run.model.AndroidMatrixTestShards
+import ftl.run.model.AndroidTestContext
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.TestResult
+import ftl.run.platform.android.asMatrixTestShards
 import ftl.run.platform.android.createAndroidTestConfig
 import ftl.run.platform.android.createAndroidTestContexts
 import ftl.run.platform.android.upload
 import ftl.run.platform.android.uploadAdditionalApks
+import ftl.run.platform.android.uploadObbFiles
 import ftl.run.platform.android.uploadOtherFiles
 import ftl.run.platform.common.afterRunTests
 import ftl.run.platform.common.beforeRunMessage
 import ftl.run.platform.common.beforeRunTests
-import ftl.run.exception.FlankGeneralError
-import ftl.run.model.AndroidMatrixTestShards
-import ftl.run.model.AndroidTestContext
-import ftl.run.platform.android.asMatrixTestShards
-import ftl.run.platform.android.uploadObbFiles
 import ftl.run.saveShardChunks
 import ftl.shard.Chunk
 import ftl.shard.testCases
@@ -71,7 +72,7 @@ internal suspend fun AndroidArgs.runAndroidTests(): TestResult = coroutineScope 
 
     if (testMatrices.isEmpty()) throw FlankGeneralError("There are no tests to run.")
 
-    println(beforeRunMessage(allTestShardChunks))
+    logLn(beforeRunMessage(allTestShardChunks))
 
     TestResult(
         matrixMap = afterRunTests(testMatrices.awaitAll(), stopwatch),
@@ -87,8 +88,8 @@ private fun String.createGcsPath(contextIndex: Int, runIndex: Int) =
 private fun List<AndroidTestContext>.dumpShards(config: AndroidArgs) = takeIf { config.isInstrumentationTest }?.apply {
     if (config.testTargetsForShard.isEmpty())
         filterIsInstance<InstrumentationTestContext>()
-                .asMatrixTestShards()
-                .saveShards(config.obfuscateDumpShards)
+            .asMatrixTestShards()
+            .saveShards(config.obfuscateDumpShards)
     if (config.disableResultsUpload.not()) GcStorage.upload(ANDROID_SHARD_FILE, config.resultsBucket, config.resultsDir)
 } ?: this
 

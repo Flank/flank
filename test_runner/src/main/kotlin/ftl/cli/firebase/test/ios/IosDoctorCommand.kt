@@ -17,8 +17,10 @@ import java.nio.file.Paths
     parameterListHeading = "%n@|bold,underline Parameters:|@%n",
     optionListHeading = "%n@|bold,underline Options:|@%n",
     header = ["Verifies flank firebase is setup correctly"],
-    description = ["""Validates iOS YAML and connection to iOS catalog.
-"""],
+    description = [
+        """Validates iOS YAML and connection to iOS catalog.
+"""
+    ],
     usageHelpAutoWidth = true
 )
 class IosDoctorCommand : Runnable {

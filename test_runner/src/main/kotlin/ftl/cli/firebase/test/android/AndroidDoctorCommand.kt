@@ -17,8 +17,10 @@ import java.nio.file.Paths
     parameterListHeading = "%n@|bold,underline Parameters:|@%n",
     optionListHeading = "%n@|bold,underline Options:|@%n",
     header = ["Verifies flank firebase is setup correctly"],
-    description = ["""Validates Android Flank YAML.
-"""],
+    description = [
+        """Validates Android Flank YAML.
+"""
+    ],
     usageHelpAutoWidth = true
 )
 class AndroidDoctorCommand : Runnable {

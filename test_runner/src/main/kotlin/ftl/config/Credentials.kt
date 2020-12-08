@@ -22,13 +22,14 @@ val credential: GoogleCredentials by lazy {
     when {
         FtlConstants.useMock -> GoogleCredentials.create(AccessToken("mock", Date()))
         UserAuth.exists() -> UserAuth.load()
-        else -> runCatching {
-            GoogleApiLogger.silenceComputeEngine()
-            ServiceAccountCredentials.getApplicationDefault()
-        }.getOrElse {
-            if (FtlConstants.isWindows) loadGoogleAccountCredentials()
-            else throw FlankGeneralError("Error: Failed to read service account credential.\n${it.message}")
-        }
+        else ->
+            runCatching {
+                GoogleApiLogger.silenceComputeEngine()
+                ServiceAccountCredentials.getApplicationDefault()
+            }.getOrElse {
+                if (FtlConstants.isWindows) loadGoogleAccountCredentials()
+                else throw FlankGeneralError("Error: Failed to read service account credential.\n${it.message}")
+            }
     }
 }
 

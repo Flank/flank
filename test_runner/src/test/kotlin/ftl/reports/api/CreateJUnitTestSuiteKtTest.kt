@@ -1,12 +1,12 @@
 package ftl.reports.api
 
-import com.google.testing.model.TestExecution
-import com.google.testing.model.ToolResultsStep
 import com.google.api.services.toolresults.model.Step
 import com.google.api.services.toolresults.model.StepDimensionValueEntry
 import com.google.api.services.toolresults.model.TestCase
 import com.google.api.services.toolresults.model.TestExecutionStep
 import com.google.api.services.toolresults.model.Timestamp
+import com.google.testing.model.TestExecution
+import com.google.testing.model.ToolResultsStep
 import ftl.reports.api.data.TestExecutionData
 import ftl.reports.api.data.TestSuiteOverviewData
 import ftl.reports.xml.model.JUnitTestCase

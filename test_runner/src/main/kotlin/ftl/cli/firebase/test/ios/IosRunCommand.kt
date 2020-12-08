@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.ios
 
 import ftl.args.IosArgs
+import ftl.args.setupLogLevel
 import ftl.args.validate
 import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
@@ -24,10 +25,12 @@ import java.nio.file.Paths
     parameterListHeading = "%n@|bold,underline Parameters:|@%n",
     optionListHeading = "%n@|bold,underline Options:|@%n",
     header = ["Run tests on Firebase Test Lab"],
-    description = ["""Uploads the app and tests to GCS.
+    description = [
+        """Uploads the app and tests to GCS.
 Runs the XCTests and XCUITests.
 Configuration is read from flank.yml
-"""],
+"""
+    ],
     usageHelpAutoWidth = true
 )
 class IosRunCommand : CommonRunCommand(), Runnable {
@@ -45,6 +48,7 @@ class IosRunCommand : CommonRunCommand(), Runnable {
         }
 
         IosArgs.load(Paths.get(configPath), cli = this).validate().run {
+            setupLogLevel()
             if (dumpShards) dumpShards()
             else runBlocking { newTestRun() }
         }
