@@ -13,8 +13,8 @@ fun TestMatrix.webLink(): String {
 
     val baseUrl =
         "https://console.firebase.google.com/project/${this.projectId}/" +
-                "testlab/histories/${firstStep.historyId}/" +
-                "matrices/${firstStep.executionId}"
+            "testlab/histories/${firstStep.historyId}/" +
+            "matrices/${firstStep.executionId}"
     return if (numDevices == 1) {
         "$baseUrl/executions/${firstStep.stepId}"
     } else {

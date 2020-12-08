@@ -19,8 +19,8 @@ import ftl.gc.android.mapToDeviceFiles
 import ftl.gc.android.mapToDeviceObbFiles
 import ftl.gc.android.setEnvironmentVariables
 import ftl.gc.android.setupAndroidTest
-import ftl.run.platform.android.AndroidTestConfig
 import ftl.run.exception.FlankGeneralError
+import ftl.run.platform.android.AndroidTestConfig
 import ftl.util.join
 import ftl.util.timeoutToSeconds
 

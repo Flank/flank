@@ -52,4 +52,4 @@ private fun matrixChangesFlow(
 
 private val TestMatrix.isCompleted: Boolean
     get() = MatrixState.completed(state) &&
-            testExecutions?.all { MatrixState.completed(it.state) } ?: true
+        testExecutions?.all { MatrixState.completed(it.state) } ?: true

@@ -1,7 +1,7 @@
 package ftl.args
 
-import com.google.testing.model.TestSpecification
 import com.google.common.truth.Truth.assertThat
+import com.google.testing.model.TestSpecification
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 import ftl.args.IArgs.Companion.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE
 import ftl.args.yml.AppTestPair
@@ -13,23 +13,23 @@ import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.gc.GcStorage
 import ftl.gc.GcStorage.exist
 import ftl.gc.android.setupAndroidTest
+import ftl.run.exception.FlankConfigurationError
+import ftl.run.exception.FlankGeneralError
+import ftl.run.exception.IncompatibleTestDimensionError
+import ftl.run.model.GameLoopContext
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.platform.android.createAndroidTestConfig
 import ftl.run.platform.android.createAndroidTestContexts
 import ftl.run.platform.runAndroidTests
 import ftl.run.status.OutputStyle
+import ftl.shard.Chunk
+import ftl.shard.TestMethod
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
-import ftl.test.util.assertThrowsWithMessage
-import ftl.run.exception.FlankGeneralError
-import ftl.run.exception.FlankConfigurationError
-import ftl.run.exception.IncompatibleTestDimensionError
-import ftl.run.model.GameLoopContext
-import ftl.shard.Chunk
-import ftl.shard.TestMethod
 import ftl.test.util.TestHelper.getThrowable
+import ftl.test.util.assertThrowsWithMessage
 import ftl.util.asFileReference
 import io.mockk.every
 import io.mockk.mockkObject
@@ -377,7 +377,7 @@ AndroidArgs
       output-style: single
       disable-results-upload: true
       default-class-test-time: 30.0
-""".trimIndent()
+            """.trimIndent()
         )
     }
 
@@ -448,7 +448,7 @@ AndroidArgs
       output-style: verbose
       disable-results-upload: false
       default-class-test-time: 240.0
-        """.trimIndent(),
+            """.trimIndent(),
             args.toString()
         )
     }
@@ -2338,7 +2338,7 @@ AndroidArgs
             gcloud:
               app: any/path.apk
               test-targets:
-        """.trimIndent()
+                """.trimIndent()
             )
         }
     }
@@ -2354,7 +2354,8 @@ AndroidArgs
               app: any/path.apk
             flank:
               legacy-junit-result:
-        """.trimIndent(), cli
+            """.trimIndent(),
+            cli
         )
     }
 

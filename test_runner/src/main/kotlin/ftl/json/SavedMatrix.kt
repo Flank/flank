@@ -78,9 +78,10 @@ private fun SavedMatrix.updatedSavedMatrix(
 ): SavedMatrix = when (newMatrix.state) {
     state -> this
 
-    FINISHED -> newMatrix.fetchTestOutcomeContext().createMatrixOutcomeSummary().let { (billableMinutes, outcomes) ->
-        updateProperties(newMatrix).updateOutcome(outcomes).updateBillableMinutes(billableMinutes)
-    }
+    FINISHED ->
+        newMatrix.fetchTestOutcomeContext().createMatrixOutcomeSummary().let { (billableMinutes, outcomes) ->
+            updateProperties(newMatrix).updateOutcome(outcomes).updateBillableMinutes(billableMinutes)
+        }
 
     INVALID -> updateProperties(newMatrix).updateOutcome(listOf(newMatrix.invalidTestOutcome()))
 

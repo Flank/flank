@@ -3,11 +3,11 @@ package ftl.args
 import com.google.common.truth.Truth.assertThat
 import ftl.config.Device
 import ftl.config.FtlConstants
+import ftl.run.exception.FlankGeneralError
 import ftl.run.status.OutputStyle
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
-import ftl.run.exception.FlankGeneralError
 import org.junit.Assert.assertEquals
 import org.junit.Assume
 import org.junit.Rule

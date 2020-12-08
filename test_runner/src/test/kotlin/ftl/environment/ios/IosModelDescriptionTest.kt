@@ -1,8 +1,8 @@
 package ftl.environment.ios
 
 import com.google.testing.model.IosModel
-import ftl.test.util.TestHelper.getThrowable
 import ftl.run.exception.FlankGeneralError
+import ftl.test.util.TestHelper.getThrowable
 import org.junit.Assert
 import org.junit.Test
 
@@ -40,7 +40,7 @@ class IosModelDescriptionTest {
         tags:
         - deprecated=10.3
         - deprecated=11.2
-""".trimIndent()
+        """.trimIndent()
         Assert.assertEquals(expected, modelDescription)
     }
 
@@ -73,7 +73,7 @@ class IosModelDescriptionTest {
         supportedVersionIds:
         - 10.3
         - 11.2
-""".trimIndent()
+        """.trimIndent()
         Assert.assertEquals(expected, modelDescription)
     }
 

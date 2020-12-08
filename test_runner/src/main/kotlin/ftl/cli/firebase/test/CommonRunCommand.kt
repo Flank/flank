@@ -21,11 +21,13 @@ abstract class CommonRunCommand {
     @CommandLine.Option(
         names = ["--device"],
         split = ",",
-        description = ["A list of DIMENSION=VALUE pairs which specify a target " +
+        description = [
+            "A list of DIMENSION=VALUE pairs which specify a target " +
                 "device to test against. This flag may be repeated to specify multiple devices. The four device dimensions are: " +
                 "model, version, locale, and orientation. If any dimensions are omitted, they will use a default value. Omitting " +
                 "all of the preceding dimension-related flags will run tests against a single device using defaults for all four " +
-                "device dimensions."]
+                "device dimensions."
+        ]
     )
     fun device(map: Map<String, String>?) {
         config.common.gcloud.addDevice(
@@ -48,8 +50,10 @@ abstract class CommonRunCommand {
 
     @CommandLine.Option(
         names = ["--obfuscate"],
-        description = ["Replacing internal test names with unique identifiers when using --dump-shards option " +
-                "to avoid exposing internal details"]
+        description = [
+            "Replacing internal test names with unique identifiers when using --dump-shards option " +
+                "to avoid exposing internal details"
+        ]
     )
     var obfuscate: Boolean = false
 }

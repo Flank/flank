@@ -2,9 +2,9 @@ package ftl.args
 
 import com.google.common.truth.Truth
 import ftl.config.FtlConstants.isWindows
+import ftl.run.exception.FlankGeneralError
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
-import ftl.run.exception.FlankGeneralError
 import org.junit.Assume.assumeFalse
 import org.junit.Rule
 import org.junit.Test

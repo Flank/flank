@@ -29,8 +29,10 @@ class IosLocalesDescribeCommand : Runnable {
         arity = "1",
         paramLabel = "LOCALE",
         defaultValue = "",
-        description = ["The locale to describe, found" +
-                " using \$ gcloud firebase test ios locales list\n."]
+        description = [
+            "The locale to describe, found" +
+                " using \$ gcloud firebase test ios locales list\n."
+        ]
     )
     var locale: String = ""
 

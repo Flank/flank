@@ -11,9 +11,9 @@ import ftl.cli.firebase.test.NetworkProfilesCommand
 import ftl.cli.firebase.test.ProvidedSoftwareCommand
 import ftl.log.logLn
 import ftl.log.setDebugLogging
+import ftl.run.exception.withGlobalExceptionHandling
 import ftl.util.readRevision
 import ftl.util.readVersion
-import ftl.run.exception.withGlobalExceptionHandling
 import picocli.CommandLine
 
 @CommandLine.Command(

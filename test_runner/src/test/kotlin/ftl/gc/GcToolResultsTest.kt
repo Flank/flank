@@ -2,17 +2,17 @@ package ftl.gc
 
 import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.google.api.client.http.HttpResponseException
+import com.google.common.truth.Truth.assertThat
 import com.google.testing.model.ToolResultsHistory
 import com.google.testing.model.ToolResultsStep
-import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
 import ftl.run.exception.FailureToken
-import ftl.test.util.FlankTestRunner
-import ftl.test.util.TestHelper.getThrowable
 import ftl.run.exception.FlankGeneralError
 import ftl.run.exception.PermissionDenied
 import ftl.run.exception.ProjectNotFound
+import ftl.test.util.FlankTestRunner
+import ftl.test.util.TestHelper.getThrowable
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
@@ -171,7 +171,7 @@ class GcToolResultsTest {
 Could not load user authentication, please
  - login again using command: flank auth login
  - or try again to use The Application Default Credentials variable to login
-            """.trimIndent()
+        """.trimIndent()
         mockkObject(GcToolResults) {
             every { GcToolResults.service.applicationName } returns FtlConstants.applicationName
 

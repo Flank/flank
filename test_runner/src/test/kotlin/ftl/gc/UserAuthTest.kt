@@ -18,7 +18,7 @@ class UserAuthTest {
 Could not load user authentication, please
  - login again using command: flank auth login
  - or try again to use The Application Default Credentials variable to login
-            """.trimIndent()
+        """.trimIndent()
         mockkObject(UserAuth.Companion) {
             every { userToken } returns tempFile.toPath()
 

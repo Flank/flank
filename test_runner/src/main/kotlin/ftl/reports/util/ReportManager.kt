@@ -1,7 +1,7 @@
 package ftl.reports.util
 
-import com.google.testing.model.TestExecution
 import com.google.common.annotations.VisibleForTesting
+import com.google.testing.model.TestExecution
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IgnoredTestCases
@@ -16,8 +16,8 @@ import ftl.reports.FullJUnitReport
 import ftl.reports.HtmlErrorReport
 import ftl.reports.JUnitReport
 import ftl.reports.MatrixResultsReport
-import ftl.reports.api.getAndUploadPerformanceMetrics
 import ftl.reports.api.createJUnitTestResult
+import ftl.reports.api.getAndUploadPerformanceMetrics
 import ftl.reports.api.refreshMatricesAndGetExecutions
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult

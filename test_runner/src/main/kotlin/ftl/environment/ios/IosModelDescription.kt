@@ -26,7 +26,7 @@ name: ${model.name}
 screenDensity: ${model.screenDensity}
 screenX: ${model.screenX}
 screenY: ${model.screenY}
-""".trimIndent()
+    """.trimIndent()
 ).toString()
 
 private fun String?.orErrorMessage(modelId: String) = this ?: throw FlankGeneralError("ERROR: '$modelId' is not a valid model")

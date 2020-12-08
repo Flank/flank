@@ -43,7 +43,7 @@ upRule:
   bandwidth: ${upRule.bandwidth}
   delay: ${upRule.delay}
   packetLossRatio: ${upRule.packetLossRatio}
-""".trimIndent()
+    """.trimIndent()
 }
 
 private data class NetworkConfigurationWrapper(val downRule: Rule, val upRule: Rule, val id: String)

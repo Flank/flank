@@ -33,7 +33,7 @@ class IosSoftwareVersionDescriptionTest {
             - 11.3.1
             tags:
             - default
-            """.trimIndent()
+        """.trimIndent()
         Assert.assertEquals(expected, localesDescription)
     }
 
@@ -62,7 +62,7 @@ class IosSoftwareVersionDescriptionTest {
             - 11.1
             - 11.2.1
             - 11.3.1
-            """.trimIndent()
+        """.trimIndent()
         Assert.assertEquals(expected, localesDescription)
     }
 

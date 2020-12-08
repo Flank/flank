@@ -37,8 +37,9 @@ private suspend fun List<AndroidTestContext>.setupShards(
         async {
             when {
                 testContext !is InstrumentationTestContext -> testContext
-                args.testTargetsForShard.isNotEmpty() -> testContext.downloadApks()
-                    .calculateDummyShards(args, testFilter)
+                args.testTargetsForShard.isNotEmpty() ->
+                    testContext.downloadApks()
+                        .calculateDummyShards(args, testFilter)
                 else -> testContext.downloadApks().calculateShards(args, testFilter)
             }
         }

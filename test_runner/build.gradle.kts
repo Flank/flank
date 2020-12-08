@@ -6,8 +6,8 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
-import java.util.*
 import java.nio.file.Paths
+import java.util.*
 
 plugins {
     application
@@ -56,18 +56,22 @@ bintray {
     key = System.getenv("JFROG_API_KEY") ?: properties["JFROG_API_KEY"].toString()
     publish = true
     setPublications("mavenJava")
-    pkg(closureOf<BintrayExtension.PackageConfig> {
-        repo = "maven"
-        name = "flank"
-        userOrg = "flank"
-        setLicenses("Apache-2.0")
-        vcsUrl = "https://github.com/Flank/flank.git"
-        version(closureOf<BintrayExtension.VersionConfig> {
-            name = System.getenv("MVN_VERSION")
-            vcsTag = System.getenv("MVN_REVISION")
-            released = Date().toString()
-        })
-    })
+    pkg(
+        closureOf<BintrayExtension.PackageConfig> {
+            repo = "maven"
+            name = "flank"
+            userOrg = "flank"
+            setLicenses("Apache-2.0")
+            vcsUrl = "https://github.com/Flank/flank.git"
+            version(
+                closureOf<BintrayExtension.VersionConfig> {
+                    name = System.getenv("MVN_VERSION")
+                    vcsTag = System.getenv("MVN_REVISION")
+                    released = Date().toString()
+                }
+            )
+        }
+    )
 }
 
 java {
@@ -161,10 +165,12 @@ jacoco {
 }
 
 tasks.jacocoTestReport {
-    classDirectories.setFrom(fileTree("build/classes/kotlin/main").apply {
-        exclude("**/*\$run$1.class")
-        exclude("**/ftl/mock/*")
-    })
+    classDirectories.setFrom(
+        fileTree("build/classes/kotlin/main").apply {
+            exclude("**/*\$run$1.class")
+            exclude("**/ftl/mock/*")
+        }
+    )
 
     reports {
         xml.isEnabled = true
@@ -264,7 +270,6 @@ buildscript {
     }
 }
 
-
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
@@ -278,7 +283,7 @@ val updateFlank by tasks.registering(Exec::class) {
     description = "Update flank jar"
     commandLine = if (System.getProperty("os.name").toLowerCase().contains("windows")) {
         doLast {
-            copy {//due to security permissions copying files is restricted via bat files
+            copy { // due to security permissions copying files is restricted via bat files
                 from("./test_runner/build/libs/flank.jar")
                 into("./test_runner/bash/")
             }
@@ -287,7 +292,6 @@ val updateFlank by tasks.registering(Exec::class) {
     } else {
         listOf("./bash/update_flank.sh")
     }
-
 }
 
 val flankFullRun by tasks.registering(Exec::class) {
@@ -354,9 +358,9 @@ val processCliAsciiDoc by tasks.registering {
     }
 }
 
-//tasks.assemble {
-//dependsOn(processCliAsciiDoc)
-//}
+// tasks.assemble {
+// dependsOn(processCliAsciiDoc)
+// }
 // end --- ASCII doc generation ---
 
 val updateVersion by tasks.registering {
@@ -385,7 +389,7 @@ val resolveArtifacts by tasks.registering {
     dependsOn(":flank-scripts:prepareJar")
     group = "verification"
     doLast {
-        val flankScriptsRunnerName = if(DefaultNativePlatform.getCurrentOperatingSystem().isWindows)
+        val flankScriptsRunnerName = if (DefaultNativePlatform.getCurrentOperatingSystem().isWindows)
             "flankScripts.bat" else "flankScripts"
         val flankScriptsPath = Paths.get("flank-scripts", "bash", flankScriptsRunnerName).toString()
         val rootFlankScriptsPath = rootDir.resolve(flankScriptsPath).absolutePath
