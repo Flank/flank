@@ -204,6 +204,17 @@ tasks.withType<Test> {
         exceptionFormat = TestExceptionFormat.FULL
     }
 }
+if (!DefaultNativePlatform.getCurrentOperatingSystem().isMacOsX) {
+    tasks.register<DownloadBinariesTask>("downloadBinaries") {
+        doLast {
+            java {
+                val kotlinSrcDir = "../binaries"
+                val mainJavaSourceSet: SourceDirectorySet = sourceSets.getByName("main").resources
+                mainJavaSourceSet.srcDir(kotlinSrcDir)
+            }
+        }
+    }
+}
 
 dependencies {
     implementation(Dependencies.BUGSNAG)
