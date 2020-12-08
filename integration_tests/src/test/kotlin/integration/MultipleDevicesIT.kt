@@ -37,7 +37,6 @@ class MultipleDevicesIT {
             success = 6
             failure = 3
         }
-
         resOutput.findTestDirectoryFromOutput().toJUnitXmlFile().loadAsTestSuite().run {
             assertTestResultContainsWebLinks()
         }
