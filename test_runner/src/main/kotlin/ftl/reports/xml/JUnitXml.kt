@@ -55,6 +55,11 @@ fun parseAllSuitesXml(path: File): JUnitTestResult {
     return parseAllSuitesXml(path.toPath())
 }
 
-fun parseAllSuitesXml(data: String): JUnitTestResult {
-    return xmlMapper.readValue(fixHtmlCodes(data), JUnitTestResult::class.java)
-}
+fun parseAllSuitesXml(data: String): JUnitTestResult =
+    // This is workaround for flank being unable to parse <testsuites/> into JUnitTesResults
+    // We need to preserve configure(EMPTY_ELEMENT_AS_NULL, true) to skip empty elements
+    // Once better solution is found, this should be fixed
+    if (data.contains("<testsuites/>"))
+        JUnitTestResult(null)
+    else
+        xmlMapper.readValue(fixHtmlCodes(data), JUnitTestResult::class.java)

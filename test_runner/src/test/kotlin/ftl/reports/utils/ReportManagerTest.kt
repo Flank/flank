@@ -1,6 +1,7 @@
 package ftl.reports.utils
 
 import com.google.common.truth.Truth.assertThat
+import com.google.testing.model.TestExecution
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
 import ftl.gc.GcStorage
@@ -9,6 +10,7 @@ import ftl.reports.CostReport
 import ftl.reports.FullJUnitReport
 import ftl.reports.JUnitReport
 import ftl.reports.MatrixResultsReport
+import ftl.reports.api.createJUnitTestResult
 import ftl.reports.api.refreshMatricesAndGetExecutions
 import ftl.reports.util.ReportManager
 import ftl.reports.util.getMatrixPath
@@ -90,6 +92,27 @@ class ReportManagerTest {
     }
 
     @Test
+    fun `JUnit results should not be uploaded if junit result is null`() {
+        val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/empty_result", AndroidArgs.default())
+        val mockArgs = prepareMockAndroidArgs()
+        every { mockArgs.localResultDir } returns "./src/test/kotlin/ftl/fixtures/empty_result"
+        mockkObject(GcStorage)
+        ReportManager.generate(matrix, mockArgs, emptyList())
+        verify(exactly = 0) { GcStorage.uploadJunitXml(any(), any()) }
+    }
+
+    @Test
+    fun `JUnit results should not be uploaded if junit result is empty`() {
+        val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/empty_result", AndroidArgs.default())
+        val mockArgs = prepareMockAndroidArgs()
+        every { mockArgs.localResultDir } returns "./src/test/kotlin/ftl/fixtures/empty_result"
+        every { mockArgs.useLegacyJUnitResult } returns false
+        mockkObject(GcStorage)
+        ReportManager.generate(matrix, mockArgs, emptyList())
+        verify(exactly = 0) { GcStorage.uploadJunitXml(any(), any()) }
+    }
+
+    @Test
     fun `uploadJunitXml should be called`() {
         val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result", AndroidArgs.default())
         val mockArgs = prepareMockAndroidArgs()
@@ -105,6 +128,13 @@ class ReportManagerTest {
         every { mockArgs.useLegacyJUnitResult } returns false
         every { mockArgs.project } returns "projecId"
 
+        val executions = emptyList<TestExecution>()
+        mockkStatic("ftl.reports.api.ProcessFromApiKt")
+        mockkStatic("ftl.reports.api.CreateJUnitTestResultKt")
+        every { refreshMatricesAndGetExecutions(any(), any()) } returns executions
+        every { executions.createJUnitTestResult(any()) } returns JUnitTestResult(mutableListOf(suite))
+
+
         val junitTestResult = ReportManager.processXmlFromFile(matrix, mockArgs, ::parseOneSuiteXml)
         ReportManager.generate(matrix, mockArgs, emptyList())
         verify { GcStorage.uploadJunitXml(junitTestResult!!, mockArgs) }
@@ -117,6 +147,12 @@ class ReportManagerTest {
         every { mockArgs.useLegacyJUnitResult } returns false
         every { mockArgs.fullJUnitResult } returns true
         every { mockArgs.project } returns "projecId"
+
+        val executions = emptyList<TestExecution>()
+        mockkStatic("ftl.reports.api.ProcessFromApiKt")
+        mockkStatic("ftl.reports.api.CreateJUnitTestResultKt")
+        every { refreshMatricesAndGetExecutions(any(), any()) } returns executions
+        every { executions.createJUnitTestResult(any()) } returns JUnitTestResult(mutableListOf(suite))
 
         val junitTestResult = ReportManager.processXmlFromFile(matrix, mockArgs, ::parseOneSuiteXml)
         ReportManager.generate(matrix, mockArgs, emptyList())
@@ -250,4 +286,16 @@ class ReportManagerTest {
         val path = File("results/test_dir/test_dir/shard_0/iphone8-12.0-en-portrait/test_result_0.xml")
         assertEquals("test_dir/shard_0", path.getMatrixPath("test_dir"))
     }
+
+    private val suite: JUnitTestSuite
+        get() = JUnitTestSuite(
+            name = "any",
+            tests = "2",
+            failures = "0",
+            errors = "0",
+            skipped = null,
+            time = "0.12",
+            timestamp = "123:456",
+            testcases = null
+        )
 }

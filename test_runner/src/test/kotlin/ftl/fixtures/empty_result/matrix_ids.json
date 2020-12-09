@@ -7,13 +7,6 @@
     "downloaded": false,
     "billableVirtualMinutes": 1,
     "billablePhysicalMinutes": 0,
-    "outcome": "success",
-    "testAxises": [
-      {
-        "device": "NexusLowRes-28-en-portrait",
-        "outcome": "success",
-        "details": "2 test cases passed"
-      }
-    ]
+    "outcome": "inconclusive"
   }
 }
