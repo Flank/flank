@@ -205,18 +205,8 @@ tasks.withType<Test> {
     }
 }
 if (!DefaultNativePlatform.getCurrentOperatingSystem().isMacOsX) {
-    tasks.register<DownloadBinariesTask>("downloadBinaries") {
-        doLast {
-            java {
-                val binariesDirectory = Paths.get(project.rootDir.toString(), "binaries")
-                val mainResourcesDirectory: SourceDirectorySet = sourceSets.getByName("main").resources
-                mainResourcesDirectory.srcDir(binariesDirectory)
-                println("Resource directories: $mainResourcesDirectory")
-            }
-        }
-    }
-
-    tasks.compileKotlin { dependsOn(tasks["downloadBinaries"]) }
+    val downloadBinaries by tasks.registering(DownloadBinariesTask::class)
+    tasks.compileKotlin { dependsOn(downloadBinaries) }
 }
 
 dependencies {

@@ -1,4 +1,5 @@
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 import java.io.File
@@ -12,40 +13,44 @@ open class DownloadBinariesTask : DefaultTask() {
         get() = DefaultNativePlatform.getCurrentOperatingSystem().isWindows
 
     private val outputDirectory = Paths.get(project.rootDir.toString(), "binaries")
+    private val resourceDirectory = Paths.get(project.rootDir.toString(), "test_runner", "src", "main", "resources", "binaries")
+
+    @Input
+    var forceUpdate: Boolean = false
 
     @TaskAction
     fun downloadBinaries() {
         osName
-            ?.takeIf { shouldDownloadBinaries() }
+            .takeIf { forceUpdate || shouldDownloadBinaries() }
             ?.let(::downloadAndUnzip)
     }
 
-    private val osName: String?
+    private val osName: String
         get() = if(isWindows) "windows" else "linux"
 
     private fun shouldDownloadBinaries(): Boolean {
-        val binariesPath = outputDirectory.toFile()
-        return !(binariesPath.exists() && binariesPath.isDirectory && hasAllNeededFiles())
+        val binariesPath = resourceDirectory.toFile()
+        return !(binariesPath.exists() && binariesPath.isDirectory && binariesPath.hasAllNeededFiles())
     }
 
-    private fun hasAllNeededFiles(): Boolean {
-        val binaries = outputDirectory.toFile().list() ?: emptyArray()
-        return filesListByOs().all { it in binaries }
+    private fun File.hasAllNeededFiles(): Boolean {
+        val binaries = list() ?: emptyArray()
+        return neededFilesListByOs().all { it in binaries }
     }
 
-    private fun filesListByOs(): List<String> = when {
+    private fun neededFilesListByOs(): List<String> = when {
         isWindows -> listOf("libatomic.so.1", "libatomic.so.1.2.0") // more files should be added after #1134"
         else -> listOf("nm", "swift-demangle", "libatomic.so.1", "libatomic.so.1.2.0")
     }
 
     private fun downloadAndUnzip(osname: String) {
-        if(Files.notExists(outputDirectory)) {
-            Files.createDirectory(outputDirectory)
-        }
+        if(forceUpdate) resourceDirectory.toFile().deleteRecursively()
+        if(Files.notExists(outputDirectory)) Files.createDirectory(outputDirectory)
         val sourceUrl = "https://github.com/Flank/binaries/releases/download/$osname/binaries.zip"
         val destinationFile = Paths.get(outputDirectory.toString(), "binaries.zip").toFile()
         ant.invokeMethod("get", mapOf("src" to sourceUrl, "dest" to destinationFile))
-        unzipFile(destinationFile.absoluteFile, outputDirectory.toString())
+        if(Files.notExists(resourceDirectory)) Files.createDirectory(resourceDirectory)
+        unzipFile(destinationFile.absoluteFile, resourceDirectory.toString())
         destinationFile.delete()
     }
 
