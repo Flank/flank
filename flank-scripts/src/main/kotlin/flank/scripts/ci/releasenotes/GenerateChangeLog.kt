@@ -3,8 +3,8 @@ package flank.scripts.ci.releasenotes
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.getOrElse
 import com.github.kittinunf.result.map
-import flank.scripts.github.GithubPullRequest
-import flank.scripts.github.GithubUser
+import flank.scripts.github.objects.GithubPullRequest
+import flank.scripts.github.objects.GithubUser
 import flank.scripts.github.getLatestReleaseTag
 import flank.scripts.github.getPrDetailsByCommit
 import flank.scripts.utils.markdownLink
