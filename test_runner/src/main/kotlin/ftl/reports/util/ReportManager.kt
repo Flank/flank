@@ -226,7 +226,7 @@ object ReportManager {
         args: IArgs,
         testShardChunks: ShardChunks
     ) {
-        if (newTestResult == null) return
+        if (newTestResult == null || newTestResult.testsuites.isNullOrEmpty()) return
 
         val oldTestResult = GcStorage.downloadJunitXml(args)
 

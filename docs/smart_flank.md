@@ -8,7 +8,7 @@ At the start of a run, Flank checks to see if there's a JUnit XML with timing in
 
 After each test run, the aggregated JUnit XML from the new run is merged with the old run. Any tests not in the new run are discarded. Tests that were skipped, errored, failed, or empty are discarded. The test time value of successful tests is set using the time from the latest run. If a test failed in the new run and passed in the old run, the timing info from the old run is carried over.
 
-The merged XML is uploaded to the user defined `smartFlankGcsPath`. If `smartFlankGcsPath` is not defined, then the smart flank feature will not activate.
+The merged XML is uploaded to the user defined `smartFlankGcsPath`. If `smartFlankGcsPath` is not defined, then the smart flank feature will not activate. Empty results are not uploaded.
 
 Example:
 

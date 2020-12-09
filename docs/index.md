@@ -237,6 +237,7 @@ flank:
 
   ### Smart Flank GCS Paths
   ## Google cloud storage path to store the JUnit XML results from the last run.
+  ## NOTE: Empty results will not be uploaded
   # smart-flank-gcs-path: gs://tmp_flank/flank/test_app_ios.xml
 
   ### Smart Flank Disable Upload flag
@@ -574,6 +575,7 @@ flank:
 
   ### Smart Flank GCS Path
   ## Google cloud storage path where the JUnit XML results from the last run is stored.
+  ## NOTE: Empty results will not be uploaded
   # smart-flank-gcs-path: gs://tmp_flank/tmp/JUnitReport.xml
 
   ### Smart Flank Upload Disable flag

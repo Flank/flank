@@ -42,6 +42,15 @@ class JUnitXmlTest {
     }
 
     @Test
+    fun `empty testcase -- infrastructure error result`() {
+        val xml = "<testsuites/>"
+
+        parseAllSuitesXml(xml).run {
+            assertThat(testsuites).isNull()
+        }
+    }
+
+    @Test
     fun `merge android`() {
         val mergedXml = parseOneSuiteXml(androidPassXml).merge(parseOneSuiteXml(androidFailXml))
         val merged = mergedXml.xmlToString().normalizeLineEnding()
