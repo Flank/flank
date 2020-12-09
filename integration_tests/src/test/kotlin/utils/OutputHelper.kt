@@ -3,11 +3,12 @@ package utils
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import utils.testResults.TestSuites
+import java.io.File
 import java.nio.file.Paths
 
 fun String.findTestDirectoryFromOutput() = "results-dir:\\s.*\\s".toRegex().find(this)?.value.orEmpty().trim().replace("results-dir: ", "")
 
-fun String.toJUnitXmlFile() = Paths.get("./", "results", this, "JUnitReport.xml").toFile()
+fun String.toJUnitXmlFile(): File = Paths.get("./", "results", this, "JUnitReport.xml").toFile()
 
 fun TestSuites.assertTestResultContainsWebLinks() =
     testSuites.flatMap { it.testCases }.filter { it.skipped == null }.forEach {
@@ -16,6 +17,10 @@ fun TestSuites.assertTestResultContainsWebLinks() =
 
 fun TestSuites.assertCountOfSkippedTests(expectedCount: Int) = assertEquals(expectedCount, testSuites.sumBy { it.skipped })
 
-fun TestSuites.assertCountOfFailedTests(expectedCount: Int) = assertEquals(expectedCount, testSuites.sumBy { it.failures })
+fun TestSuites.assertCountOfFailedTests(expectedCount: Int) = assertEquals(expectedCount, testSuites.count { it.failures > 0 })
 
-fun TestSuites.assertCountOfSuccessTests(expectedCount: Int) = assertEquals(expectedCount, testSuites.sumBy { it.tests } - testSuites.sumBy { it.failures + it.skipped })
+fun TestSuites.assertCountOfSuccessTests(expectedCount: Int) = assertEquals(expectedCount, testSuites.count { it.failures == 0 && it.skipped == 0 })
+
+fun TestSuites.assertTestPass(tests: List<String>) = assertEquals(tests.count(), testSuites.flatMap { it.testCases }.filter { it.name in tests && it.failure == null }.distinctBy { it.name }.count())
+
+fun TestSuites.assertTestFail(tests: List<String>) = assertEquals(tests.count(), testSuites.flatMap { it.testCases }.filter { it.name in tests && it.failure != null }.distinctBy { it.name }.count())

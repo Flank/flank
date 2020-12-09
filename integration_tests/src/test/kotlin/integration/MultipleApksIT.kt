@@ -4,6 +4,8 @@ import FlankCommand
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import run
+import utils.assertTestFail
+import utils.assertTestPass
 import utils.assertTestResultContainsWebLinks
 import utils.findTestDirectoryFromOutput
 import utils.loadAsTestSuite
@@ -37,6 +39,8 @@ class MultipleApksIT {
 
         resOutput.findTestDirectoryFromOutput().toJUnitXmlFile().loadAsTestSuite().run {
             assertTestResultContainsWebLinks()
+            assertTestPass(multipleSuccessfulTests)
+            assertTestFail(multipleFailedTests)
         }
     }
 }

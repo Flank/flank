@@ -5,6 +5,7 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import run
 import utils.assertCountOfFailedTests
+import utils.assertTestPass
 import utils.assertTestResultContainsWebLinks
 import utils.findTestDirectoryFromOutput
 import utils.loadAsTestSuite
@@ -34,6 +35,7 @@ class TestFilteringIT {
         resOutput.findTestDirectoryFromOutput().toJUnitXmlFile().loadAsTestSuite().run {
             assertTestResultContainsWebLinks()
             assertCountOfFailedTests(0)
+            assertTestPass(listOf("test2"))
         }
     }
 }
