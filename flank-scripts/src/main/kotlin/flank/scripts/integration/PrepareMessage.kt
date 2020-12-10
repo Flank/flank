@@ -28,7 +28,7 @@ private val failureTemplate = { lastRun: String, runId: String, url: String ->
 private fun makeHumanFriendly(date: String) =
     LocalDateTime
         .ofInstant(Instant.from(DateTimeFormatter.ISO_INSTANT.parse(date)), ZoneOffset.UTC)
-        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"))
+        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
 
 fun prepareSuccessMessage(
     lastRun: String,
