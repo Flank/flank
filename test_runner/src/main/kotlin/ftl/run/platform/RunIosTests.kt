@@ -7,11 +7,13 @@ import ftl.gc.GcIosTestMatrix
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
+import ftl.ios.xctest.common.mapToRegex
 import ftl.log.logLn
 import ftl.ios.xctest.flattenShardChunks
 import ftl.ios.xctest.xcTestRunFlow
 import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards
+import ftl.run.exception.FlankGeneralError
 import ftl.run.model.TestResult
 import ftl.run.platform.android.uploadAdditionalIpas
 import ftl.run.platform.android.uploadOtherFiles
@@ -45,9 +47,11 @@ internal suspend fun IosArgs.runIosTests(): TestResult =
         val otherGcsFiles = uploadOtherFiles()
         val additionalIpasGcsFiles = uploadAdditionalIpas()
 
-    dumpShards()
-    if (disableResultsUpload.not())
-        GcStorage.upload(IOS_SHARD_FILE, resultsBucket, resultsDir)
+        dumpShards()
+        if (disableResultsUpload.not())
+            GcStorage.upload(IOS_SHARD_FILE, resultsBucket, resultsDir)
+
+        args.validateXcTestRunData()
 
         // Upload only after parsing shards to detect missing methods early.
         val xcTestGcsPath = uploadIfNeeded(xctestrunZip.asFileReference()).gcs
@@ -81,3 +85,31 @@ internal suspend fun IosArgs.runIosTests(): TestResult =
             shardChunks = testShardChunks.testCases
         )
     }
+
+private fun IosArgs.validateXcTestRunData() {
+    if (!disableSharding && testTargets.isNotEmpty()) {
+        val filteredMethods = xcTestRunData
+            .shardTargets.values
+            .flatten()
+            .flatMap { it.values }
+            .flatten()
+
+        if (filteredMethods.isEmpty()) throw FlankGeneralError(
+            "Empty shards. Cannot match any method to $testTargets"
+        )
+
+        if (filteredMethods.size < testTargets.size) {
+            val regexList = testTargets.mapToRegex()
+
+            val notMatched = testTargets.filter {
+                filteredMethods.all { method ->
+                    regexList.any { regex ->
+                        regex.matches(method)
+                    }
+                }
+            }
+
+            logLn("WARNING: cannot match test_targets: $notMatched")
+        }
+    }
+}
