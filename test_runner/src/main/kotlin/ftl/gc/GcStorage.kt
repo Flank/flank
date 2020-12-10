@@ -14,6 +14,7 @@ import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.credential
+import ftl.json.MatrixMap
 import ftl.log.logLn
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
@@ -25,6 +26,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.net.URI
 import java.nio.file.Files
+import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.concurrent.ConcurrentHashMap
 
@@ -92,6 +94,17 @@ object GcStorage {
         }.onFailure {
             logLn("Cannot upload performance metrics ${it.message}")
         }.getOrNull()
+
+    fun uploadMatricesId(args: IArgs, matrixMap: MatrixMap): String {
+        val matrixIdsPath: Path = if (args.useLocalResultDir())
+            Paths.get(args.localResultDir, FtlConstants.matrixIdsFile) else
+            Paths.get(args.localResultDir, matrixMap.runPath, FtlConstants.matrixIdsFile)
+        return upload(
+            file = matrixIdsPath.toString(),
+            rootGcsBucket = args.resultsBucket,
+            runGcsPath = args.resultsDir
+        )
+    }
 
     fun uploadReportResult(testResult: String, args: IArgs, fileName: String) {
         if (args.resultsBucket.isBlank() || args.resultsDir.isBlank() || args.disableResultsUpload) return

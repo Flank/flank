@@ -121,6 +121,7 @@ object ReportManager {
         val testExecutions = refreshMatricesAndGetExecutions(matrices, args)
         processJunitResults(args, matrices, testSuite, testShardChunks, testExecutions)
         createAndUploadPerformanceMetricsForAndroid(args, testExecutions, matrices)
+        GcStorage.uploadMatricesId(args, matrices)
     }
 
     private fun processJunitResults(
