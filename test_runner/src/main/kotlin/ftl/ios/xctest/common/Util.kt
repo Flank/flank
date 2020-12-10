@@ -10,6 +10,8 @@ import java.io.File
 
 typealias XctestrunMethods = Map<String, List<String>>
 
+enum class XcTestRunVersion { V1, V2 }
+
 internal const val XCTEST_METADATA = "__xctestrun_metadata__"
 internal const val FORMAT_VERSION = "FormatVersion"
 internal const val TEST_CONFIGURATIONS = "TestConfigurations"
@@ -23,7 +25,13 @@ internal fun String.isMetadata(): Boolean = contentEquals(XCTEST_METADATA)
 
 internal fun String.isTestPlan(): Boolean = contentEquals(TEST_PLAN)
 
-internal fun NSDictionary.getXcTestRunVersion(): Int =
+internal fun NSDictionary.getXcTestRunVersion(): XcTestRunVersion =
+    getXcTestRunVersionNumber().let { versionNumber ->
+        XcTestRunVersion.values().getOrNull(versionNumber - 1)
+            ?: throw FlankGeneralError("Unsupported xctestrun version $versionNumber")
+    }
+
+private fun NSDictionary.getXcTestRunVersionNumber(): Int =
     (get(XCTEST_METADATA) as? NSDictionary)
         ?.get(FORMAT_VERSION)?.toJavaObject(Int::class.java)
         ?: throw FlankGeneralError("Given NSDictionary doesn't contains $FORMAT_VERSION")
@@ -57,16 +65,18 @@ internal fun NSDictionary.toByteArray(): ByteArray {
 internal fun parseToNSDictionary(xctestrunPath: String): NSDictionary =
     parseToNSDictionary(File(xctestrunPath))
 
-internal fun parseToNSDictionary(xctestrun: File): NSDictionary = xctestrun.canonicalFile
-    .apply { if (!exists()) throw FlankGeneralError("$this doesn't exist") }
-    .let(PropertyListParser::parse) as NSDictionary
+internal fun parseToNSDictionary(xctestrun: File): NSDictionary =
+    xctestrun.canonicalFile
+        .apply { if (!exists()) throw FlankGeneralError("$this doesn't exist") }
+        .let(PropertyListParser::parse) as NSDictionary
 
 internal fun parseToNSDictionary(xctestrun: ByteArray): NSDictionary =
     PropertyListParser.parse(xctestrun) as NSDictionary
 
-internal fun parseXcMethodName(matcher: MatchResult): String = matcher.groupValues.last()
-    .replace('.', '/')
-    .replace(' ', '/')
+internal fun parseXcMethodName(matcher: MatchResult): String =
+    matcher.groupValues.last()
+        .replace('.', '/')
+        .replace(' ', '/')
 
 internal fun String.quote() = "\"$this\""
 
@@ -83,4 +93,12 @@ internal fun validateIsFile(path: String) = File(path).run {
 internal fun NSDictionary.setOnlyTestIdentifiers(methods: Collection<String>) = apply {
     while (containsKey(ONLY_TEST_IDENTIFIERS)) remove(ONLY_TEST_IDENTIFIERS)
     this[ONLY_TEST_IDENTIFIERS] = NSArray(methods.size).also { methods.forEachIndexed(it::setValue) }
+}
+
+internal fun List<String>.mapToRegex(): List<Regex> = map { filter ->
+    try {
+        filter.toRegex()
+    } catch (e: Exception) {
+        throw FlankConfigurationError("Invalid regex: $filter", e)
+    }
 }

@@ -3,6 +3,7 @@ package ftl.args
 import com.google.common.truth.Truth.assertThat
 import ftl.config.Device
 import ftl.config.FtlConstants
+import ftl.ios.xctest.flattenShardChunks
 import ftl.run.exception.FlankGeneralError
 import ftl.run.status.OutputStyle
 import ftl.test.util.FlankTestRunner
@@ -88,7 +89,7 @@ class IosArgsFileTest {
             "EarlGreyExampleSwiftTests/testWithCustomAssertion"
         )
 
-        val testShardChunks = config.testShardChunks
+        val testShardChunks = config.xcTestRunData.flattenShardChunks()
 
         assertThat(testShardChunks.size).isEqualTo(2)
         assertThat(testShardChunks[0].testMethodNames).isEqualTo(chunk0)

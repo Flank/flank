@@ -1,3 +1,7 @@
 gcloud:
   test: "./src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip"
-  xctestrun-file: "./src/test/kotlin/ftl/fixtures/tmp/ios/flank_ios_example/FlankExampleTests.xctestrun"
+  xctestrun-file: "./src/test/kotlin/ftl/fixtures/tmp/ios/multi_test_targets/AllTests_AllTests_iphoneos13.7-arm64e.xctestrun"
+
+flank:
+  disable-sharding: false
+  max-test-shards: 3

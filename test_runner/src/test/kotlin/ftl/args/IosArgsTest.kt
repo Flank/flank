@@ -8,6 +8,7 @@ import ftl.config.FtlConstants.defaultIosModel
 import ftl.config.FtlConstants.defaultIosVersion
 import ftl.config.defaultIosConfig
 import ftl.gc.GcStorage
+import ftl.ios.xctest.flattenShardChunks
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.status.OutputStyle
 import ftl.test.util.FlankTestRunner
@@ -397,6 +398,8 @@ IosArgs
         )
 
         with(args) {
+            val testShardChunks = xcTestRunData.flattenShardChunks()
+
             assert(maxTestShards, IArgs.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE.last)
             assert(testShardChunks.size, 17)
             testShardChunks.forEach { chunk -> assert(chunk.size, 1) }
@@ -430,7 +433,7 @@ IosArgs
         flank:
           disable-sharding: true
       """
-        IosArgs.load(yaml).testShardChunks
+        IosArgs.load(yaml)
     }
 
     @Test(expected = RuntimeException::class)
@@ -442,7 +445,7 @@ IosArgs
         flank:
           disable-sharding: false
       """
-        IosArgs.load(yaml).testShardChunks
+        IosArgs.load(yaml).xcTestRunData
     }
 
     // gcloudYml

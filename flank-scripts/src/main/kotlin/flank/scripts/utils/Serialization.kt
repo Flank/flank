@@ -7,6 +7,8 @@ import kotlinx.serialization.json.Json
 private val json by lazy {
     Json {
         ignoreUnknownKeys = true
+        encodeDefaults = false
+        prettyPrint = true
     }
 }
 
