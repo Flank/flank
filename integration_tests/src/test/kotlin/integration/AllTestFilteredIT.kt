@@ -3,6 +3,7 @@ package integration
 import FlankCommand
 import com.google.common.truth.Truth.assertThat
 import org.junit.Assume.assumeFalse
+import org.junit.Ignore
 import run
 import org.junit.Test
 
@@ -29,6 +30,7 @@ class AllTestFilteredIT {
     }
 
     @Test
+    @Ignore("Should be fixed in https://github.com/Flank/flank/issues/1388")
     fun `filter all tests - ios`() {
         assumeFalse(isWindows)
         val name = "$name-ios"
