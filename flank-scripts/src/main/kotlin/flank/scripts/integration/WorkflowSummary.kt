@@ -4,14 +4,11 @@ import com.github.kittinunf.result.getOrNull
 import flank.scripts.github.getGitHubWorkflowRunsSummary
 import java.time.Instant
 import java.time.format.DateTimeFormatter
-import kotlinx.coroutines.coroutineScope
 
-suspend fun getLastITWorkflowRunDate(token: String) = coroutineScope {
-    getLastWorkflowRunDate(
-        token = token,
-        workflowFileName = "it_cron.yml"
-    )
-}
+suspend fun getLastITWorkflowRunDate(token: String) = getLastWorkflowRunDate(
+    token = token,
+    workflowFileName = "full_suite_integration_tests.yml"
+)
 
 suspend fun getLastWorkflowRunDate(
     token: String,

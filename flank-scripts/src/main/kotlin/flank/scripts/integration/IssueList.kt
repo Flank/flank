@@ -7,8 +7,7 @@ import flank.scripts.github.getGitHubIssueList
 suspend fun checkForOpenedITIssues(token: String) = getGitHubIssueList(
     githubToken = token,
     parameters = listOf(
-//        "creator" to "github-actions[bot]",
-        "creator" to "pawelpasterz",
+        "creator" to "github-actions[bot]",
         "state" to "open",
         "labels" to "IT_Failed"
     )
@@ -19,4 +18,4 @@ suspend fun checkForOpenedITIssues(token: String) = getGitHubIssueList(
     .also {
         if (it != null) println("** Issue found: ${it.htmlUrl}")
         else println("** No opened issue")
-    }
+    }?.number
