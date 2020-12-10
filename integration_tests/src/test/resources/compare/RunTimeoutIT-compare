@@ -65,16 +65,5 @@ RunTests
 Saved 1 shards to android_shards.json
   Uploading app-debug.apk \.*
   Uploading app-single-success-debug-androidTest.apk \.*
-  1 test / 1 shard
-
-  1 matrix ids created in \d{1,2}m \d{1,2}s
-  https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*
-
-Matrices webLink
-  matrix-[0-9a-zA-Z\/_.-]* https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
-
-[\s\S]*
 
 Canceling flank due to timeout
-CancelMatrices
-  Cancelling 1x matrices
