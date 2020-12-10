@@ -1,6 +1,3 @@
 gcloud:
   test: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/earlgrey_example.zip
   xctestrun-file: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/EarlGreyExampleSwiftTests_iphoneos13.4-arm64e.xctestrun
-  device:
-    - model: iphone8
-      version: 13.6
