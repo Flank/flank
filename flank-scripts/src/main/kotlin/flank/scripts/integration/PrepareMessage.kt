@@ -1,11 +1,15 @@
 package flank.scripts.integration
 
 import flank.scripts.github.objects.GithubPullRequest
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 
 private val successTemplate = { lastRun: String, runId: String, url: String ->
     """
     |### Full suite IT run :white_check_mark: SUCCEEDED :white_check_mark:
-    |**Timestamp:** $lastRun
+    |**Timestamp:** ${makeHumanFriendly(lastRun)}
     |**Job run:** [$runId](https://github.com/Flank/flank/actions/runs/$runId
     |**Build scan URL:** $url
     |**Closing issue**
@@ -15,15 +19,16 @@ private val successTemplate = { lastRun: String, runId: String, url: String ->
 private val failureTemplate = { lastRun: String, runId: String, url: String ->
     """
     |### Full suite IT run :x: FAILED :x:
-    |**Timestamp:** $lastRun
+    |**Timestamp:** ${makeHumanFriendly(lastRun)}
     |**Job run:** [$runId](https://github.com/Flank/flank/actions/runs/$runId
     |**Build scan URL:** $url
 """.trimMargin()
 }
 
-sealed class CommentMessage
-object Success : CommentMessage()
-object Failure : CommentMessage()
+private fun makeHumanFriendly(date: String) =
+    LocalDateTime
+        .ofInstant(Instant.from(DateTimeFormatter.ISO_INSTANT.parse(date)), ZoneOffset.UTC)
+        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"))
 
 fun prepareSuccessMessage(
     lastRun: String,

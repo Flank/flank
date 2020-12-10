@@ -18,11 +18,8 @@ object ProcessResultCommand : CliktCommand(name = "processResults") {
         .required()
 
     private val githubToken by option(help = "Git Token").required()
-
     private val runID by option(help = "Workflow job ID").required()
-
     private val openedIssue by lazy { runBlocking { checkForOpenedITIssues(githubToken) } }
-
     private val lastRun by lazy { runBlocking { getLastITWorkflowRunDate(githubToken) } }
 
     override fun run() {

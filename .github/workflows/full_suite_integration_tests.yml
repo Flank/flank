@@ -4,6 +4,8 @@ on:
   schedule:
     - cron: '0 0 * * 1-5' # At 00:00 on every day-of-week from Monday through Friday
   workflow_dispatch:      # or manually
+    branches:
+      - 'master'
 
 jobs:
   run-it-full-suite:
