@@ -5,7 +5,6 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import run
 import utils.assertCountOfFailedTests
-import utils.assertCountOfSuccessTests
 import utils.assertTestResultContainsWebLinks
 import utils.findTestDirectoryFromOutput
 import utils.loadAsTestSuite
@@ -32,11 +31,9 @@ class SanityRoboIT {
         assertContainsOutcomeSummary(resOutput) {
             success = 1
         }
-
         resOutput.findTestDirectoryFromOutput().toJUnitXmlFile().loadAsTestSuite().run {
             assertTestResultContainsWebLinks()
             assertCountOfFailedTests(0)
-            assertCountOfSuccessTests(1)
         }
     }
 }
