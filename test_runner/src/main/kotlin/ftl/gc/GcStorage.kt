@@ -19,6 +19,7 @@ import ftl.log.logLn
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.xmlToString
+import ftl.run.common.getMatrixFilePath
 import ftl.run.exception.FlankGeneralError
 import ftl.util.join
 import ftl.util.runWithProgress
@@ -26,7 +27,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.net.URI
 import java.nio.file.Files
-import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.concurrent.ConcurrentHashMap
 
@@ -96,9 +96,7 @@ object GcStorage {
         }.getOrNull()
 
     fun uploadMatricesId(args: IArgs, matrixMap: MatrixMap): String {
-        val matrixIdsPath: Path = if (args.useLocalResultDir())
-            Paths.get(args.localResultDir, FtlConstants.matrixIdsFile) else
-            Paths.get(args.localResultDir, matrixMap.runPath, FtlConstants.matrixIdsFile)
+        val matrixIdsPath = args.getMatrixFilePath(matrixMap)
         return upload(
             file = matrixIdsPath.toString(),
             rootGcsBucket = args.resultsBucket,
