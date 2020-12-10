@@ -204,10 +204,9 @@ tasks.withType<Test> {
         exceptionFormat = TestExceptionFormat.FULL
     }
 }
-if (!DefaultNativePlatform.getCurrentOperatingSystem().isMacOsX) {
-    val downloadBinaries by tasks.registering(DownloadBinariesTask::class)
-    tasks.compileKotlin { dependsOn(downloadBinaries) }
-}
+
+val downloadBinaries by tasks.registering(DownloadBinariesTask::class)
+tasks.compileKotlin { dependsOn(downloadBinaries) }
 
 dependencies {
     implementation(Dependencies.BUGSNAG)
