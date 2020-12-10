@@ -386,6 +386,7 @@ fun execAndGetStdout(vararg args: String): String {
 }
 
 val resolveArtifacts by tasks.registering {
+    println(DefaultNativePlatform.getCurrentOperatingSystem())
     dependsOn(":flank-scripts:prepareJar")
     group = "verification"
     doLast {
