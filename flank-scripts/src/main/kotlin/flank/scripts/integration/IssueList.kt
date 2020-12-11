@@ -4,7 +4,7 @@ import com.github.kittinunf.result.getOrElse
 import com.github.kittinunf.result.onError
 import flank.scripts.github.getGitHubIssueList
 
-suspend fun checkForOpenedITIssues(token: String) = getGitHubIssueList(
+suspend fun checkForOpenedITIssues(token: String): Int? = getGitHubIssueList(
     githubToken = token,
     parameters = listOf(
         "creator" to "github-actions[bot]",

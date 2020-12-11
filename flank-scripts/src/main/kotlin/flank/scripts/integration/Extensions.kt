@@ -13,7 +13,21 @@ import flank.scripts.utils.toJson
 import kotlinx.coroutines.coroutineScope
 import kotlin.system.exitProcess
 
-internal suspend fun IntegrationContext.createNewIssue() = createAndPostNewIssue().postComment()
+internal suspend fun IntegrationContext.createNewIssue(): GitHubCreateIssueCommentRequest =
+    createAndPostNewIssue().postComment()
+
+internal suspend fun IntegrationContext.postComment(): GitHubCreateIssueCommentRequest =
+    createCommentPayload().also { payload ->
+        postNewIssueComment(token, issueNumber, payload)
+        println("** Comment posted")
+        println(payload.toJson())
+    }
+
+internal suspend fun IntegrationContext.closeIssue(): ByteArray =
+    postComment().run {
+        println("** Closing issue")
+        patchIssue(token, issueNumber, GitHubUpdateIssueRequest(state = IssueState.CLOSED)).get()
+    }
 
 private suspend fun IntegrationContext.createAndPostNewIssue(payload: GitHubCreateIssueRequest = createIssuePayload()) =
     postNewIssue(token, payload)
@@ -38,12 +52,6 @@ private fun createIssuePayload(): GitHubCreateIssueRequest {
     return issuePayload
 }
 
-internal suspend fun IntegrationContext.postComment() = createCommentPayload().also { payload ->
-    postNewIssueComment(token, issueNumber, payload)
-    println("** Comment posted")
-    println(payload.toJson())
-}
-
 private suspend fun IntegrationContext.createCommentPayload() = coroutineScope {
     val message = when (result) {
         ITResults.SUCCESS -> prepareSuccessMessage(lastRun, runID, url)
@@ -53,11 +61,6 @@ private suspend fun IntegrationContext.createCommentPayload() = coroutineScope {
         }
     }
     GitHubCreateIssueCommentRequest(message)
-}
-
-internal suspend fun IntegrationContext.closeIssue() = postComment().also {
-    println("** Closing issue")
-    patchIssue(token, issueNumber, GitHubUpdateIssueRequest(state = IssueState.CLOSED))
 }
 
 private fun logIssueCreated(issue: GitHubCreateIssueResponse) = println(

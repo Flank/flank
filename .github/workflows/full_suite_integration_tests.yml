@@ -55,4 +55,8 @@ jobs:
 
       - name: Process IT results
         run: |
-          flankScripts integration processResults --result ${{ job.status }} --url ${{ steps.run-it.outputs.build-scan-url }} --github-token=${{ secrets.GITHUB_TOKEN }} --run-id ${{ github.run_id }}
+          flankScripts integration processResults \
+            --result ${{ job.status }} \
+            --url ${{ steps.run-it.outputs.build-scan-url }} \
+            --github-token ${{ secrets.GITHUB_TOKEN }} \
+            --run-id ${{ github.run_id }}
