@@ -21,7 +21,8 @@ suspend fun getCommitListSinceDate(token: String, since: String) = coroutineScop
         .asFlow()
         .flatMapMerge {
             channelFlow {
-                launch { send(it.sha to getPrDetailsByCommit(it.sha, token).get()) }
+                launch {
+                    send(it.sha to getPrDetailsByCommit(it.sha, token).getOrElse { emptyList() }) }
             }
         }
         .flatMapMerge { (commit, prs) ->

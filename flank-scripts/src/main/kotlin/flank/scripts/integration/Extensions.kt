@@ -1,6 +1,5 @@
 package flank.scripts.integration
 
-import com.github.kittinunf.result.getOrNull
 import com.github.kittinunf.result.onError
 import flank.scripts.github.objects.GitHubCreateIssueCommentRequest
 import flank.scripts.github.objects.GitHubCreateIssueRequest
@@ -14,7 +13,21 @@ import flank.scripts.utils.toJson
 import kotlinx.coroutines.coroutineScope
 import kotlin.system.exitProcess
 
-internal suspend fun IntegrationContext.createNewIssue() = coroutineScope {
+internal suspend fun IntegrationContext.createNewIssue() = createAndPostNewIssue().postComment()
+
+private suspend fun IntegrationContext.createAndPostNewIssue(payload: GitHubCreateIssueRequest = createIssuePayload()) =
+    postNewIssue(token, payload)
+        .onError {
+            println(it.message)
+            exitProcess(-1)
+        }
+        .get()
+        .run {
+            logIssueCreated(this)
+            copy(openedIssue = number)
+        }
+
+private fun createIssuePayload(): GitHubCreateIssueRequest {
     println("** Creating new issue")
     val issuePayload = GitHubCreateIssueRequest(
         title = "Full Suite integration tests failed on master",
@@ -22,18 +35,8 @@ internal suspend fun IntegrationContext.createNewIssue() = coroutineScope {
         labels = listOf("IT_Failed", "bug")
     )
     println(issuePayload.toJson())
-    val issue = postNewIssue(token, issuePayload)
-        .onError {
-            println(it.message)
-        }
-        .getOrNull()
-    if (issue == null) {
-        println("** Issue created but empty response returned. Terminating.")
-        exitProcess(-1)
-    }
-    logIssueCreated(issue)
-    copy(openedIssue = issue.number)
-}.postComment()
+    return issuePayload
+}
 
 internal suspend fun IntegrationContext.postComment() = createCommentPayload().also { payload ->
     postNewIssueComment(token, issueNumber, payload)

@@ -14,7 +14,7 @@ suspend fun checkForOpenedITIssues(token: String) = getGitHubIssueList(
 )
     .onError { println(it.message) }
     .getOrElse { emptyList() }
-    .getOrNull(0)
+    .firstOrNull()
     .also {
         if (it != null) println("** Issue found: ${it.htmlUrl}")
         else println("** No opened issue")
