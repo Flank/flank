@@ -11,6 +11,20 @@ const val CONFIGS_PATH = "./src/test/resources/cases"
 val androidRunCommands = listOf("firebase", "test", "android", "run")
 val iosRunCommands = listOf("firebase", "test", "ios", "run")
 
+val multipleSuccessfulTests = listOf(
+    "test", "testFoo",
+    "test0", "test1", "test2",
+    "clickRightButton[0]", "clickRightButton[1]", "clickRightButton[2]",
+    "shouldHopefullyPass[0]", "shouldHopefullyPass[1]", "shouldHopefullyPass[2]",
+    "clickRightButtonFromMethod(toast, toast) [0]", "clickRightButtonFromMethod(alert, alert) [1]",
+    "clickRightButtonFromMethod(exception, exception) [2]", "clickRightButtonFromAnnotation(toast, toast) [0]",
+    "clickRightButtonFromAnnotation(alert, alert) [1]", "clickRightButtonFromAnnotation(exception, exception) [2]",
+    "clickRightButton[0: toast toast]", "clickRightButton[1: alert alert]", "clickRightButton[2: exception exception]"
+)
+val multipleFailedTests = listOf(
+    "testFoo", "test0", "test1", "test2", "testBar"
+)
+
 fun assertExitCode(result: ProcessResult, expectedExitCode: Int) = assertEquals(
     """
     Exit code:

@@ -34,6 +34,8 @@ detekt {
 dependencies {
     implementation(kotlin("stdlib"))
     testImplementation(Dependencies.JUNIT)
+    testImplementation(Dependencies.JACKSON_XML)
+    testImplementation(Dependencies.JACKSON_KOTLIN)
     testImplementation(Dependencies.TRUTH)
     detektPlugins(Dependencies.DETEKT_FORMATTING)
 }

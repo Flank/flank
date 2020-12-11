@@ -4,6 +4,12 @@ import FlankCommand
 import com.google.common.truth.Truth.assertThat
 import run
 import org.junit.Test
+import utils.assertTestFail
+import utils.assertTestPass
+import utils.assertTestResultContainsWebLinks
+import utils.findTestDirectoryFromOutput
+import utils.loadAsTestSuite
+import utils.toJUnitXmlFile
 
 class MultipleDevicesIT {
     private val name = this::class.java.simpleName
@@ -32,6 +38,11 @@ class MultipleDevicesIT {
         assertContainsOutcomeSummary(resOutput) {
             success = 6
             failure = 3
+        }
+        resOutput.findTestDirectoryFromOutput().toJUnitXmlFile().loadAsTestSuite().run {
+            assertTestResultContainsWebLinks()
+            assertTestPass(multipleSuccessfulTests)
+            assertTestFail(multipleFailedTests)
         }
     }
 }

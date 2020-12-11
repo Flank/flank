@@ -4,6 +4,12 @@ import FlankCommand
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import run
+import utils.assertTestFail
+import utils.assertTestPass
+import utils.assertTestResultContainsWebLinks
+import utils.findTestDirectoryFromOutput
+import utils.loadAsTestSuite
+import utils.toJUnitXmlFile
 
 class MultipleApksIT {
     private val name = this::class.java.simpleName
@@ -29,6 +35,12 @@ class MultipleApksIT {
         assertContainsOutcomeSummary(resOutput) {
             success = 3
             failure = 1
+        }
+
+        resOutput.findTestDirectoryFromOutput().toJUnitXmlFile().loadAsTestSuite().run {
+            assertTestResultContainsWebLinks()
+            assertTestPass(multipleSuccessfulTests)
+            assertTestFail(multipleFailedTests)
         }
     }
 }

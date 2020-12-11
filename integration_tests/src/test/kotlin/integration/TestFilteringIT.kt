@@ -4,6 +4,12 @@ import FlankCommand
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import run
+import utils.assertCountOfFailedTests
+import utils.assertTestPass
+import utils.assertTestResultContainsWebLinks
+import utils.findTestDirectoryFromOutput
+import utils.loadAsTestSuite
+import utils.toJUnitXmlFile
 
 class TestFilteringIT {
     private val name = this::class.java.simpleName
@@ -25,6 +31,11 @@ class TestFilteringIT {
         assertThat(resOutput).containsMatch(findInCompare(name))
         assertContainsOutcomeSummary(resOutput) {
             success = 1
+        }
+        resOutput.findTestDirectoryFromOutput().toJUnitXmlFile().loadAsTestSuite().run {
+            assertTestResultContainsWebLinks()
+            assertCountOfFailedTests(0)
+            assertTestPass(listOf("test2"))
         }
     }
 }
