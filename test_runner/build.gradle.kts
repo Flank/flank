@@ -205,9 +205,6 @@ tasks.withType<Test> {
     }
 }
 
-val downloadBinaries by tasks.registering(DownloadBinariesTask::class)
-tasks.compileKotlin { dependsOn(downloadBinaries) }
-
 dependencies {
     implementation(Dependencies.BUGSNAG)
 
