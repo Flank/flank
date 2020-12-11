@@ -264,3 +264,22 @@ or
 | --github-token | GitHub Token        |
 | --zenhub-token | ZenHub api Token    |
 | --pr-number    | Pull request number |
+
+### integration (currently, available only on the master branch)
+To show all available commands for `integration` use:
+`flankScripts integration`
+
+Available commands are: Process results from `full_suite_integration_tests` workflow
+- `processResults`    
+
+#### `processResults`
+If IT ended up with failure a new issue is created with some basic info: build scan URL, commit list, timestamp.
+If there is an issue already created comment is posted to the existing one (so we avoid multiple copies of the same ticket).
+Once integration tests end with success issue is closed. 
+
+| Option         | Description         |
+|----------------|---------------------|
+| --github-token | GitHub Token        |
+| --result       | Status of IT step from workflow. Can be either `success` or `failure`|
+| --url          | Build scan url from IT step|
+| --run-id       | `job.run_id` value from workflow context. Used for comment posting|
