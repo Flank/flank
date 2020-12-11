@@ -95,10 +95,10 @@ object GcStorage {
             logLn("Cannot upload performance metrics ${it.message}")
         }.getOrNull()
 
-    fun uploadMatricesId(args: IArgs, matrixMap: MatrixMap): String {
-        val matrixIdsPath = args.getMatrixFilePath(matrixMap)
-        return upload(
-            file = matrixIdsPath.toString(),
+    fun uploadMatricesId(args: IArgs, matrixMap: MatrixMap) {
+        if (args.disableResultsUpload) return
+        upload(
+            file = args.getMatrixFilePath(matrixMap).toString(),
             rootGcsBucket = args.resultsBucket,
             runGcsPath = args.resultsDir
         )
