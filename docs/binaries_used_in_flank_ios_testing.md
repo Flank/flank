@@ -6,23 +6,9 @@ Binaries are placed in [Flank binaries repository](https://github.com/Flank/bina
 
 ## Usage
 
-There is gradle task which download binaries and copy them to resources. 
-This task runs only on Linux and Windows, because on MacOS the binaries are part of system files.
-If you would like to run script manually use Gradle command:  
-```
-gradlew :test_runner:downloadBinaries
-```
-You could also configure force update by using `forceUpdate` option
-
-`test_runner/build.gradle.kts`
-```kotlin
-if (!DefaultNativePlatform.getCurrentOperatingSystem().isMacOsX) {
-    val downloadBinaries by tasks.registering(DownloadBinariesTask::class) {
-        forceUpdate = true
-    }
-    tasks.compileKotlin { dependsOn(downloadBinaries) }
-}
-```
+The binaries are downloaded at runtime when they needed for Linux and Windows from [Flank binaries repository](https://github.com/Flank/binaries).
+They are unpacked to `<user directory>/.flank`.
+If they already exist on this path, they are not downloaded again.
 
 ## Updating
 
