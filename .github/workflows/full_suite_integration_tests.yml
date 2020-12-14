@@ -1,0 +1,62 @@
+name: Full Suite Integration Tests
+
+on:
+  schedule:
+    - cron: '0 0 * * 1-5' # At 00:00 on every day-of-week from Monday through Friday
+  workflow_dispatch:      # or manually
+
+jobs:
+  run-it-full-suite:
+    if: github.ref == 'refs/heads/master' # for now we want this workflow to run only on master, to be removed once support for different branches is implemented
+    runs-on: ubuntu-latest
+    outputs:
+      build-scan-url: ${{ steps.run-it.outputs.build-scan-url }}
+      it-status: ${{ steps.status.outputs.it-status }}
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.5.0
+        with:
+          access_token: '${{ secrets.GITHUB_TOKEN }}'
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Download flankScripts and add it to PATH
+        run: |
+          ./gradlew :flank-scripts:download
+          echo "./flank-scripts/bash" >> $GITHUB_PATH
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ubuntu-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ubuntu-gradle-
+
+      - name: Gradle clean build
+        uses: eskatos/gradle-command-action@v1
+        id: build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_REF: ${{ github.ref }}
+        with:
+          arguments: "clean assemble"
+
+      - name: Gradle integration tests
+        uses: eskatos/gradle-command-action@v1
+        id: run-it
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_REF: ${{ github.ref }}
+        with:
+          arguments: "integrationTests"
+
+      - name: Process IT results
+        run: |
+          flankScripts integration processResults \
+            --result ${{ job.status }} \
+            --url ${{ steps.run-it.outputs.build-scan-url }} \
+            --github-token ${{ secrets.GITHUB_TOKEN }} \
+            --run-id ${{ github.run_id }}
