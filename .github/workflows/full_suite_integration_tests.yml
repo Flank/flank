@@ -9,9 +9,6 @@ jobs:
   run-it-full-suite:
     if: github.ref == 'refs/heads/master' # for now we want this workflow to run only on master, to be removed once support for different branches is implemented
     runs-on: ubuntu-latest
-    outputs:
-      build-scan-url: ${{ steps.run-it.outputs.build-scan-url }}
-      it-status: ${{ steps.status.outputs.it-status }}
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.5.0
@@ -35,6 +32,14 @@ jobs:
           restore-keys: |
             ubuntu-gradle-
 
+      - name: Prepare Google Service Account
+        env:
+          GCLOUD_KEY: ${{ secrets.GCLOUD_KEY }}
+        run: |
+          GCLOUD_DIR="$HOME/.config/gcloud/"
+          mkdir -p "$GCLOUD_DIR"
+          echo "$GCLOUD_KEY" | base64 --decode > "$GCLOUD_DIR/application_default_credentials.json"
+
       - name: Gradle clean build
         uses: eskatos/gradle-command-action@v1
         id: build
@@ -54,6 +59,7 @@ jobs:
           arguments: "integrationTests"
 
       - name: Process IT results
+        if: always()
         run: |
           flankScripts integration processResults \
             --result ${{ job.status }} \
