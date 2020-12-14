@@ -47,7 +47,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_REF: ${{ github.ref }}
         with:
-          arguments: "clean assemble"
+          arguments: "clean build"
 
       - name: Gradle integration tests
         uses: eskatos/gradle-command-action@v1

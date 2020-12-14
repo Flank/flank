@@ -33,7 +33,7 @@ private val successTemplate = { lastRun: String, runId: String, url: String ->
     """
     |### Full suite IT run :white_check_mark: SUCCEEDED :white_check_mark:
     |**Timestamp:** ${makeHumanFriendly(lastRun)}
-    |**Job run:** [$runId](https://github.com/Flank/flank/actions/runs/$runId
+    |**Job run:** [$runId](https://github.com/Flank/flank/actions/runs/$runId)
     |**Build scan URL:** $url
     |**Closing issue**
 """.trimMargin()
@@ -43,7 +43,7 @@ private val failureTemplate = { lastRun: String, runId: String, url: String ->
     """
     |### Full suite IT run :x: FAILED :x:
     |**Timestamp:** ${makeHumanFriendly(lastRun)}
-    |**Job run:** [$runId](https://github.com/Flank/flank/actions/runs/$runId
+    |**Job run:** [$runId](https://github.com/Flank/flank/actions/runs/$runId)
     |**Build scan URL:** $url
 """.trimMargin()
 }
