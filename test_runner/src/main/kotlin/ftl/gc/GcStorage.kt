@@ -14,10 +14,12 @@ import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.credential
+import ftl.json.MatrixMap
 import ftl.log.logLn
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.xmlToString
+import ftl.run.common.getMatrixFilePath
 import ftl.run.exception.FlankGeneralError
 import ftl.util.join
 import ftl.util.runWithProgress
@@ -92,6 +94,15 @@ object GcStorage {
         }.onFailure {
             logLn("Cannot upload performance metrics ${it.message}")
         }.getOrNull()
+
+    fun uploadMatricesId(args: IArgs, matrixMap: MatrixMap) {
+        if (args.disableResultsUpload) return
+        upload(
+            file = args.getMatrixFilePath(matrixMap).toString(),
+            rootGcsBucket = args.resultsBucket,
+            runGcsPath = args.resultsDir
+        )
+    }
 
     fun uploadReportResult(testResult: String, args: IArgs, fileName: String) {
         if (args.resultsBucket.isBlank() || args.resultsDir.isBlank() || args.disableResultsUpload) return

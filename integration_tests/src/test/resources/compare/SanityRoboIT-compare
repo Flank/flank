@@ -85,6 +85,7 @@ MatrixResultsReport
 .*
   Uploading MatrixResultsReport.txt \.*
   Uploading JUnitReport.xml \.*
+  Uploading matrix_ids.json \.*
 FetchArtifacts
   \.*
   Updating matrix file
