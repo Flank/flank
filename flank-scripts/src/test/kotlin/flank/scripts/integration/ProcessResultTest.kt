@@ -68,21 +68,21 @@ private val issueCreated = """
          number: 123 
     ** Comment posted
     {
-        "body": "### Full suite IT run :x: FAILED :x:\n**Timestamp:** 2000-10-10 12:33:17\n**Job run:** [123abc](https://github.com/Flank/flank/actions/runs/123abc\n**Build scan URL:** http://any.url\n|commit SHA|PR|\n|---|:---:|\n|aaaaaaaaa|[feat: new Feature](www.pull.request)\n"
+        "body": "### Full suite IT run :x: FAILED :x:\n**Timestamp:** 2000-10-10 12:33:17\n**Job run:** [123abc](https://github.com/Flank/flank/actions/runs/123abc)\n**Build scan URL:** http://any.url\n|commit SHA|PR|\n|---|:---:|\n|aaaaaaaaa|[feat: new Feature](www.pull.request)\n"
     }
 """.trimIndent()
 
 private val commentPosted = """
     ** Comment posted
     {
-        "body": "### Full suite IT run :x: FAILED :x:\n**Timestamp:** 2000-10-10 12:33:17\n**Job run:** [123abc](https://github.com/Flank/flank/actions/runs/123abc\n**Build scan URL:** http://any.url\n|commit SHA|PR|\n|---|:---:|\n|aaaaaaaaa|[feat: new Feature](www.pull.request)\n"
+        "body": "### Full suite IT run :x: FAILED :x:\n**Timestamp:** 2000-10-10 12:33:17\n**Job run:** [123abc](https://github.com/Flank/flank/actions/runs/123abc)\n**Build scan URL:** http://any.url\n|commit SHA|PR|\n|---|:---:|\n|aaaaaaaaa|[feat: new Feature](www.pull.request)\n"
     }
 """.trimIndent()
 
 private val issueClosed = """
     ** Comment posted
     {
-        "body": "### Full suite IT run :white_check_mark: SUCCEEDED :white_check_mark:\n**Timestamp:** 2000-10-10 12:33:17\n**Job run:** [123abc](https://github.com/Flank/flank/actions/runs/123abc\n**Build scan URL:** http://any.url\n**Closing issue**"
+        "body": "### Full suite IT run :white_check_mark: SUCCEEDED :white_check_mark:\n**Timestamp:** 2000-10-10 12:33:17\n**Job run:** [123abc](https://github.com/Flank/flank/actions/runs/123abc)\n**Build scan URL:** http://any.url\n**Closing issue**"
     }
     ** Closing issue
 """.trimIndent()
