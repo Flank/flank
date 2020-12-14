@@ -4,10 +4,61 @@ on:
   schedule:
     - cron: '0 0 * * 1-5' # At 00:00 on every day-of-week from Monday through Friday
   workflow_dispatch:      # or manually
+  issue_comment:
+    types: [created]      # or by comment
 
 jobs:
+  should_run_it:
+    runs-on: ubuntu-latest
+    outputs:
+      run_integration_tests: ${{ steps.should-run-step.outputs.should_run }}
+      pr_number: ${{ steps.pr_number.outputs.number }}
+    steps:
+      - name: Get PR number
+        id: pr_number
+        if: ${{ github.event_name == 'issue_comment'}}
+        run: |
+          PR_URL="${{ github.event.issue.pull_request.url }}"
+          PR_NUMBER=${PR_URL##*/}
+          echo "::set-output name=number::$PR_NUMBER"
+      - uses: khan/pull-request-comment-trigger@master
+        if: ${{ github.event_name == 'issue_comment'}}
+        id: check_issue_comment
+        with:
+          trigger: '@flank-it'
+          reaction: rocket
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      - name: Check if integrations tests should run
+        id: should-run-step
+        env:
+          run_it: ${{ (steps.check_issue_comment.outputs.triggered == 'true'|| github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' }}
+        run : |
+          echo "event name: ${{ github.event_name }}"
+          echo "issue command found: ${{ steps.check_issue_comment.outputs.triggered == 'true' }}"
+          echo '::set-output name=should_run::${{ env.run_it }}'
+  integration-tests-post-link:
+    runs-on: ubuntu-latest
+    needs: [ should_run_it ]
+    if: github.event_name == 'issue_comment' && needs.should_run_it.outputs.run_integration_tests == 'true'
+    steps:
+      - name: Get current time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
+        with:
+          format: 'YYYY-MM-DD HH:mm:ss'
+          utcOffset: "+00:00"
+      - name: Create comment that tests were triggered
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ needs.should_run_it.outputs.pr_number }}
+          body: |
+            **Integration tests were triggered, you could track them [here](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
+            ${{ steps.current-time.outputs.formattedTime }}
+    
   run-it-full-suite:
-    if: github.ref == 'refs/heads/master' # for now we want this workflow to run only on master, to be removed once support for different branches is implemented
+    needs: [ should_run_it ]
+    if: github.event_name == 'issue_comment' && needs.should_run_it.outputs.run_integration_tests == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
@@ -17,8 +68,13 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          submodules: true
+
+      - name: Checkout Pull Request
+        if: github.event_name == 'issue_comment'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr checkout ${{ needs.should_run_it.outputs.pr_number }}
 
       - name: Download flankScripts and add it to PATH
         run: |
@@ -59,7 +115,7 @@ jobs:
           arguments: "integrationTests"
 
       - name: Process IT results
-        if: always()
+        if: always() && github.event_name != 'issue_comment'
         run: |
           flankScripts integration processResults \
             --result ${{ job.status }} \
