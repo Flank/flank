@@ -16,8 +16,6 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
-      with: 
-        submodules: true
 
     - uses: gradle/wrapper-validation-action@v1
 

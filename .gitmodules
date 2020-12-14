@@ -1,3 +1,0 @@
-[submodule "test_runner/src/main/resources/binaries"]
-	path = test_runner/src/main/resources/binaries
-	url = https://github.com/Flank/binaries.git
