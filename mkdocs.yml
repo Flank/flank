@@ -36,6 +36,7 @@ nav:
       - Dependencies update: dependencies_update_process.md
       - Secrets: flank_secrets.md
       - Releasing: release_process.md
+      - Binaries for Flank's iOS: binaries_used_in_flank_io_testing.md
 
 theme:
   name: material

@@ -106,23 +106,6 @@ fun readTextResource(name: String): String {
     return getResource(name).bufferedReader().use { it.readText() }
 }
 
-private val userHome = System.getProperty("user.home")
-
-fun copyBinaryResource(name: String) {
-    val destinationPath = Paths.get(userHome, ".flank", name)
-    val destinationFile = destinationPath.toFile()
-
-    if (destinationFile.exists()) return
-    destinationPath.parent.toFile().mkdirs()
-
-    // "binaries/" folder prefix is required for Linux to find the resource.
-    Files.copy(
-        getResource("binaries/$name"),
-        destinationPath
-    )
-    destinationFile.setExecutable(true)
-}
-
 fun <R : MutableMap<String, Any>, T> mutableMapProperty(
     name: String? = null,
     defaultValue: () -> T
