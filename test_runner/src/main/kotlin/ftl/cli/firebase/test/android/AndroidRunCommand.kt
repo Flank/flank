@@ -1,12 +1,12 @@
 package ftl.cli.firebase.test.android
 
 import ftl.args.AndroidArgs
+import ftl.args.logArgs
 import ftl.args.setupLogLevel
 import ftl.args.validate
 import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
 import ftl.config.emptyAndroidConfig
-import ftl.log.logLn
 import ftl.mock.MockServer
 import ftl.run.ANDROID_SHARD_FILE
 import ftl.run.dumpShards
@@ -48,7 +48,7 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
             MockServer.start()
         }
 
-        AndroidArgs.load(Paths.get(configPath), cli = this).logArgs().validate().run {
+        AndroidArgs.load(Paths.get(configPath), cli = this).setupLogLevel().logArgs().validate().run {
             runBlocking {
                 if (dumpShards) dumpShards()
                 else newTestRun()
@@ -63,7 +63,3 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
     var dumpShards: Boolean = false
 }
 
-private fun AndroidArgs.logArgs() = also {
-    setupLogLevel()
-    logLn(this)
-}
