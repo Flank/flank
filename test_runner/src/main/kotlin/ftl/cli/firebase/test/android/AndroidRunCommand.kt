@@ -6,6 +6,7 @@ import ftl.args.validate
 import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
 import ftl.config.emptyAndroidConfig
+import ftl.log.logLn
 import ftl.mock.MockServer
 import ftl.run.ANDROID_SHARD_FILE
 import ftl.run.dumpShards
@@ -47,8 +48,7 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
             MockServer.start()
         }
 
-        AndroidArgs.load(Paths.get(configPath), cli = this).validate().run {
-            setupLogLevel()
+        AndroidArgs.load(Paths.get(configPath), cli = this).logArgs().validate().run {
             runBlocking {
                 if (dumpShards) dumpShards()
                 else newTestRun()
@@ -61,4 +61,9 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
         description = ["Measures test shards from given test apks and writes them into $ANDROID_SHARD_FILE file instead of executing."]
     )
     var dumpShards: Boolean = false
+}
+
+private fun AndroidArgs.logArgs() = also {
+    setupLogLevel()
+    logLn(this)
 }

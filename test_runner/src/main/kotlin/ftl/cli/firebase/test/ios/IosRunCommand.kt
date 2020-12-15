@@ -6,6 +6,7 @@ import ftl.args.validate
 import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
 import ftl.config.emptyIosConfig
+import ftl.log.logLn
 import ftl.mock.MockServer
 import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards
@@ -47,8 +48,7 @@ class IosRunCommand : CommonRunCommand(), Runnable {
             MockServer.start()
         }
 
-        IosArgs.load(Paths.get(configPath), cli = this).validate().run {
-            setupLogLevel()
+        IosArgs.load(Paths.get(configPath), cli = this).logArgs().validate().run {
             if (dumpShards) dumpShards()
             else runBlocking { newTestRun() }
         }
@@ -59,4 +59,9 @@ class IosRunCommand : CommonRunCommand(), Runnable {
         description = ["Measures test shards from given test apks and writes them into $IOS_SHARD_FILE file instead of executing."]
     )
     var dumpShards: Boolean = false
+}
+
+private fun IosArgs.logArgs() = also {
+    setupLogLevel()
+    logLn(this)
 }
