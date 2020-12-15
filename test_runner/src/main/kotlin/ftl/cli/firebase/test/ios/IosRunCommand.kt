@@ -1,12 +1,12 @@
 package ftl.cli.firebase.test.ios
 
 import ftl.args.IosArgs
-import ftl.args.logArgs
 import ftl.args.setupLogLevel
 import ftl.args.validate
 import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
 import ftl.config.emptyIosConfig
+import ftl.log.logLn
 import ftl.mock.MockServer
 import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards
@@ -48,7 +48,10 @@ class IosRunCommand : CommonRunCommand(), Runnable {
             MockServer.start()
         }
 
-        IosArgs.load(Paths.get(configPath), cli = this).setupLogLevel().logArgs().validate().run {
+        IosArgs.load(Paths.get(configPath), cli = this).apply {
+            setupLogLevel()
+            logLn(this)
+        }.validate().run {
             if (dumpShards) dumpShards()
             else runBlocking { newTestRun() }
         }
