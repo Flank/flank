@@ -3,6 +3,7 @@ import com.jfrog.bintray.gradle.BintrayExtension
 import java.util.*
 import java.nio.file.Paths
 import java.io.ByteArrayOutputStream
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     application
@@ -28,7 +29,7 @@ shadowJar.apply {
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
-version = "1.2.1"
+version = "1.2.2"
 group = "com.github.flank"
 
 application {
@@ -121,6 +122,7 @@ detekt {
 tasks["check"].dependsOn(tasks["detekt"])
 
 dependencies {
+    implementation(gradleApi())
     implementation(kotlin("stdlib", org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION)) // or "stdlib-jdk8"
     implementation(Dependencies.KOTLIN_SERIALIZATION)
     implementation(Dependencies.Fuel.CORE)
@@ -142,7 +144,12 @@ dependencies {
     testImplementation(Dependencies.SYSTEM_RULES)
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "1.8"
+        freeCompilerArgs = listOf("-Xinline-classes")
+    }
+}
 
 val prepareJar by tasks.registering(Copy::class) {
     dependsOn("shadowJar")
