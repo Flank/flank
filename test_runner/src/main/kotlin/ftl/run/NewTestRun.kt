@@ -21,7 +21,6 @@ import kotlinx.coroutines.withTimeoutOrNull
 
 suspend fun IArgs.newTestRun() = withTimeoutOrNull(parsedTimeout) {
     val args: IArgs = this@newTestRun
-    logLn(args)
     val (matrixMap, testShardChunks, ignoredTests) =
         cancelTestsOnTimeout(project) { runTests() }
 

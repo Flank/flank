@@ -56,25 +56,5 @@ Found xctest: [0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/ios
 isMacOS = true \(mac os x\)
 nm -U "[0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest/EarlGreyExampleSwiftTests"
 nm -gU "[0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest/EarlGreyExampleSwiftTests" | xargs -s 262144 xcrun swift-demangle
-Saved 0 shards to ios_shards.json
-  Uploading ios_shards.json \.*
-  Uploading earlgrey_example.zip \*.
-  0 test / 0 shard
 
-  0 matrix ids created in \d{1,2}m \d{1,2}s
-  https://console.developers.google.com/storage/browser/test-lab-[a-zA-Z0-9_-]*/[.a-zA-Z0-9_-]*
-
-Matrices webLink
-
-
-CostReport
-  No cost. 0m
-
-  Uploading CostReport.txt \.*
-MatrixResultsReport
-  0 / 0 \(NaN\%\)
-  Uploading MatrixResultsReport.txt \.*
-FetchArtifacts
-
-
-Matrices webLink
+Empty shards. Cannot match any method to \[.*\]

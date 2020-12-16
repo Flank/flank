@@ -77,6 +77,6 @@ fun IArgs.checkResultsDirUnique() {
 }
 
 fun IArgs.checkDisableSharding() {
-    if (disableSharding && maxTestShards > 0)
+    if (disableSharding && maxTestShards > 1)
         logLn("WARNING: disable-sharding enabled with max-test-shards = $maxTestShards, Flank will ignore max-test-shard and disable sharding.")
 }

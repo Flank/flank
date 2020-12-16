@@ -45,9 +45,9 @@ internal suspend fun IosArgs.runIosTests(): TestResult =
         val otherGcsFiles = uploadOtherFiles()
         val additionalIpasGcsFiles = uploadAdditionalIpas()
 
-    dumpShards()
-    if (disableResultsUpload.not())
-        GcStorage.upload(IOS_SHARD_FILE, resultsBucket, resultsDir)
+        dumpShards()
+        if (disableResultsUpload.not())
+            GcStorage.upload(IOS_SHARD_FILE, resultsBucket, resultsDir)
 
         // Upload only after parsing shards to detect missing methods early.
         val xcTestGcsPath = uploadIfNeeded(xctestrunZip.asFileReference()).gcs

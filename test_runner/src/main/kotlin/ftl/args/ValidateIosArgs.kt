@@ -4,7 +4,9 @@ import ftl.args.yml.Type
 import ftl.ios.IosCatalog
 import ftl.ios.IosCatalog.getSupportedVersionId
 import ftl.ios.xctest.common.mapToRegex
+import ftl.log.logLn
 import ftl.run.exception.FlankConfigurationError
+import ftl.run.exception.FlankGeneralError
 import ftl.run.exception.IncompatibleTestDimensionError
 
 fun IosArgs.validate() = apply {
@@ -95,7 +97,7 @@ private fun IosArgs.assertXcTestRunData() {
             .flatMap { it.values }
             .flatten()
 
-        if (filteredMethods.isEmpty()) throw FlankConfigurationError(
+        if (filteredMethods.isEmpty()) throw FlankGeneralError(
             "Empty shards. Cannot match any method to $testTargets"
         )
 
@@ -110,7 +112,7 @@ private fun IosArgs.assertXcTestRunData() {
                 }
             }
 
-            println("WARNING: cannot match test_targets: $notMatched")
+            logLn("WARNING: cannot match test_targets: $notMatched")
         }
     }
 }
