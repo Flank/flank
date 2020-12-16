@@ -43,7 +43,6 @@ class CancelCommandTest {
 
     @Test
     fun cancelCommandRuns() {
-        CancelCommand().run()
         val runCmd = AndroidRunCommand()
         runCmd.configPath = "./src/test/kotlin/ftl/fixtures/simple-android-flank.yml"
         runCmd.run()
