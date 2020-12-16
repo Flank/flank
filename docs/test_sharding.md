@@ -19,7 +19,7 @@ Orchestrator is **enabled by default in Flank** and disabled by default in gclou
 
 [AndroidX Test 1.3.0 Beta02][androidx_test] or later is required to run parameterized tests with orchestrator. Both the runner and orchestrator must be updated.
 
-Local execution will use the version of Orchestrator defined in your gradle file. Firebase Test Lab currently uses Orchestrator v1.2.0. Firebase must manually upgrade Orchestrator on their devices for customers to use the new version.
+Local execution will use the version of Orchestrator defined in your gradle file. Firebase Test Lab currently uses Orchestrator v1.3.0. Firebase must manually upgrade Orchestrator on their devices for customers to use the new version.
 
 [orchestrator]: https://developer.android.com/training/testing/junit-runner#using-android-test-orchestrator
 [instrumentation]: https://developer.android.com/reference/android/app/Instrumentation
