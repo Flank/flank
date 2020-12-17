@@ -72,3 +72,8 @@ val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.kotlinOptions {
     freeCompilerArgs = listOf("-Xinline-classes")
 }
+// Locally you should have flank builded on CI we need to build it
+if(System.getenv("CI") != null) {
+    tasks["integrationTests"].dependsOn(":test_runner:build")
+}
+
