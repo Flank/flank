@@ -115,6 +115,8 @@ jobs:
     runs-on: ubuntu-latest
     if: always() && github.event_name != 'issue_comment'
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: Download flankScripts and add it to PATH
         run: |
           ./gradlew :flank-scripts:download
