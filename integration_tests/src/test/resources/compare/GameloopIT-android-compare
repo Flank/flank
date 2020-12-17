@@ -21,7 +21,9 @@ AndroidArgs
       scenario-numbers:
       scenario-labels:
       obb-files:
+        - ..[\\\/]test_projects[\\\/]android[\\\/]gameloop[\\\/]test.obb
       obb-names:
+        - main.0300110.com.flank.gameloop.obb
       performance-metrics: false
       num-uniform-shards: null
       test-runner-class: null
@@ -62,6 +64,7 @@ AndroidArgs
       default-class-test-time: 240.0
 \s*
 RunTests
+  Uploading test.obb \.*
   Uploading app-debug.apk \.*
   0 test \/ 0 shard
 \s*

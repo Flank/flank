@@ -50,8 +50,6 @@ IosArgs
       output-style: verbose
       disable-results-upload: false
       default-class-test-time: 240.0
-
-RunTests
 Found xctest: [0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest
 isMacOS = true \(mac os x\)
 nm -U "[0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest/EarlGreyExampleSwiftTests"
