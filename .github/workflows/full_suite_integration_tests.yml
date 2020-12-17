@@ -9,15 +9,15 @@ on:
 
 jobs:
   cancel_previous:
+    if: ${{ github.event_name != 'issue_comment'}}
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
-        if: ${{ github.event_name != 'issue_comment'}}
         uses: styfle/cancel-workflow-action@0.6.0
         with:
           access_token: '${{ secrets.GITHUB_TOKEN }}'
+
   should_run_it:
-    needs: [ cancel_previous ]
     runs-on: ubuntu-latest
     outputs:
       run_integration_tests: ${{ steps.should-run-step.outputs.should_run }}
