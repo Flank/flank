@@ -52,7 +52,7 @@ IosArgs
       default-class-test-time: 240.0
 Found xctest: [0-9a-zA-Z\/_.-]*\/test_runner\/src\/test\/kotlin\/ftl\/fixtures\/tmp\/ios\/EarlGreyExample\/Debug-iphoneos\/EarlGreyExampleSwift.app\/PlugIns\/EarlGreyExampleSwiftTests.xctest
 isMacOS = (true \(mac os x\)|false \(linux\))
-(PATH=~\/.flank nm -U\s)?nm -U "[0-9a-zA-Z\/_.-]*\/test_runner\/src\/test\/kotlin\/ftl\/fixtures\/tmp\/ios\/EarlGreyExample\/Debug-iphoneos\/EarlGreyExampleSwift.app\/PlugIns\/EarlGreyExampleSwiftTests.xctest\/EarlGreyExampleSwiftTests"
+(PATH=~\/.flank\s)?nm -U "[0-9a-zA-Z\/_.-]*\/test_runner\/src\/test\/kotlin\/ftl\/fixtures\/tmp\/ios\/EarlGreyExample\/Debug-iphoneos\/EarlGreyExampleSwift.app\/PlugIns\/EarlGreyExampleSwiftTests.xctest\/EarlGreyExampleSwiftTests"
 (export LD_LIBRARY_PATH=~\/\.flank; export PATH=~\/\.flank:\$PATH;\s)?nm -gU "[0-9a-zA-Z\/_.-]*\/test_runner\/src\/test\/kotlin\/ftl\/fixtures\/tmp\/ios\/EarlGreyExample\/Debug-iphoneos\/EarlGreyExampleSwift.app\/PlugIns\/EarlGreyExampleSwiftTests.xctest\/EarlGreyExampleSwiftTests"\s\| xargs -s 262144 (xcrun\s)?swift-demangle
 
 Empty shards. Cannot match any method to \[.*\]
