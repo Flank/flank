@@ -1,18 +1,19 @@
 package flank.scripts.dependencies.update
 
+import flank.scripts.utils.Version
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class GradleDependency(
-    val current: GradleVersion,
-    val nightly: GradleVersion,
-    val releaseCandidate: GradleVersion,
-    val running: GradleVersion
+    val current: GradleReleaseChannel,
+    val nightly: GradleReleaseChannel,
+    val releaseCandidate: GradleReleaseChannel,
+    val running: GradleReleaseChannel
 )
 
 @Serializable
-data class GradleVersion(
-    val version: String,
+data class GradleReleaseChannel(
+    val version: Version,
     val reason: String,
     val isUpdateAvailable: Boolean,
     val isFailure: Boolean

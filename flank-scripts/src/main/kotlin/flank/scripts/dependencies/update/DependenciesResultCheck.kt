@@ -1,5 +1,6 @@
 package flank.scripts.dependencies.update
 
+import flank.scripts.utils.Version
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -13,7 +14,7 @@ data class DependenciesResultCheck(
 @Serializable
 data class Dependency(
     val group: String,
-    val version: String,
+    val version: Version,
     val name: String? = null,
     @SerialName("available") val availableVersion: AvailableVersion? = null
 )
@@ -25,7 +26,7 @@ data class Dependencies(
 
 @Serializable
 data class AvailableVersion(
-    val release: String?,
-    val milestone: String?,
-    val integration: String?
+    val release: Version?,
+    val milestone: Version?,
+    val integration: Version?
 )

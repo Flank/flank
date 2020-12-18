@@ -1,5 +1,8 @@
 package flank.scripts.dependencies.update
 
+import flank.scripts.utils.toAvailableVersion
+import flank.scripts.utils.toDependency
+import flank.scripts.utils.toGradleReleaseChannel
 import org.junit.Test
 
 import org.junit.Assert.assertEquals
@@ -11,7 +14,7 @@ class DependencyExtensionsTest {
     @Test
     fun `should return group with name`() {
         // given
-        val dependency = Dependency(
+        val dependency = toDependency(
             "group",
             "1.0",
             "name"
@@ -26,11 +29,11 @@ class DependencyExtensionsTest {
 
     @Test
     fun `should get version to update if release available`() {
-        val dependency = Dependency(
+        val dependency = toDependency(
             "group",
             "1.0",
             "name",
-            AvailableVersion(
+            toAvailableVersion(
                 "1.1", null, null
             )
         )
@@ -44,11 +47,11 @@ class DependencyExtensionsTest {
 
     @Test
     fun `should get version to update if milestone available`() {
-        val dependency = Dependency(
+        val dependency = toDependency(
             "group",
             "1.0",
             "name",
-            AvailableVersion(null, "1.1", null)
+            toAvailableVersion(null, "1.1", null)
         )
 
         // when
@@ -60,11 +63,11 @@ class DependencyExtensionsTest {
 
     @Test
     fun `should get version to update if integration available`() {
-        val dependency = Dependency(
+        val dependency = toDependency(
             "group",
             "1.0",
             "name",
-            AvailableVersion(null, null, "1.1")
+            toAvailableVersion(null, null, "1.1")
         )
 
         // when
@@ -76,7 +79,7 @@ class DependencyExtensionsTest {
 
     @Test
     fun `should get current version to update if no update`() {
-        val dependency = Dependency(
+        val dependency = toDependency(
             "group",
             "1.0",
             "name",
@@ -94,22 +97,22 @@ class DependencyExtensionsTest {
     fun `should properly check if gradle needs update`() {
         // given
         val gradleWhichNeedsUpdate = GradleDependency(
-            current = GradleVersion("1.1", "test", false, false),
-            nightly = GradleVersion("1.3", "test", false, false),
-            releaseCandidate = GradleVersion("1.2rc", "test", false, false),
-            running = GradleVersion("1", "test", false, false),
+            current = toGradleReleaseChannel("1.1", "test", false, false),
+            nightly = toGradleReleaseChannel("1.3", "test", false, false),
+            releaseCandidate = toGradleReleaseChannel("1.2rc", "test", false, false),
+            running = toGradleReleaseChannel("1", "test", false, false),
         )
         val gradleWhichNeedsUpdateRc = GradleDependency(
-            current = GradleVersion("1.1", "test", false, false),
-            nightly = GradleVersion("1.3", "test", false, false),
-            releaseCandidate = GradleVersion("1.2rc", "test", false, false),
-            running = GradleVersion("1.1", "test", false, false),
+            current = toGradleReleaseChannel("1.1", "test", false, false),
+            nightly = toGradleReleaseChannel("1.3", "test", false, false),
+            releaseCandidate = toGradleReleaseChannel("1.2rc", "test", false, false),
+            running = toGradleReleaseChannel("1.1", "test", false, false),
         )
         val gradleWhichDoesNotNeedUpdate = GradleDependency(
-            current = GradleVersion("1.1", "test", false, false),
-            nightly = GradleVersion("1.3", "test", false, false),
-            releaseCandidate = GradleVersion("1.1", "test", false, false),
-            running = GradleVersion("1.1", "test", false, false),
+            current = toGradleReleaseChannel("1.1", "test", false, false),
+            nightly = toGradleReleaseChannel("1.3", "test", false, false),
+            releaseCandidate = toGradleReleaseChannel("1.1", "test", false, false),
+            running = toGradleReleaseChannel("1.1", "test", false, false),
         )
 
 

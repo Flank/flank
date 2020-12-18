@@ -17,7 +17,7 @@ private fun String.getInsertLine(
     .find { containsValDeclaration(it) }
     ?.let {
         println("Updated dependency ${it.name} from ${it.oldVersion} to ${it.newVersion}")
-        replaceFirst(it.oldVersion, it.newVersion)
+        replaceFirst(it.oldVersion.toString(), it.newVersion.toString())
     }
     ?: this
 
