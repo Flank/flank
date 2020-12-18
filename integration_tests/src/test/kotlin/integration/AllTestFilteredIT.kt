@@ -31,7 +31,7 @@ class AllTestFilteredIT {
     @Test
     fun `filter all tests - ios`() {
         assumeFalse(isWindows)
-        val name = "$name-ios"
+        val name = "$name-ios "
         val result = FlankCommand(
             flankPath = FLANK_JAR_PATH,
             ymlPath = "$CONFIGS_PATH/all_test_filtered_ios.yml",
