@@ -1,6 +1,7 @@
 package ftl.shard
 
 import com.google.common.truth.Truth.assertThat
+import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.reports.xml.model.JUnitTestCase
@@ -12,6 +13,7 @@ import ftl.util.FlankTestMethod
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
+import java.nio.file.Paths
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -96,8 +98,12 @@ class ShardTest {
         val testsToRun = mutableListOf<FlankTestMethod>()
         repeat(1_000_000) { index -> testsToRun.add(FlankTestMethod("$index/$index")) }
 
+        val arg = AndroidArgs.loadOrDefault(Paths.get("just-be-here"), null).run {
+            copy(commonArgs = commonArgs.copy(maxTestShards = 4))
+        }
+
         val nano = measureNanoTime {
-            createShardsByShardCount(testsToRun, JUnitTestResult(null), mockArgs(4))
+            createShardsByShardCount(testsToRun, JUnitTestResult(null), arg)
         }
 
         val ms = TimeUnit.NANOSECONDS.toMillis(nano)
