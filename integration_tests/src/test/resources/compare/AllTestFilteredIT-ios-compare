@@ -9,8 +9,8 @@ IosArgs
       network-profile: null
       results-history-name: null
       # iOS gcloud
-      test: [0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExample.zip
-      xctestrun-file: [0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun
+      test: [0-9a-zA-Z\/_.-]*\/test_runner\/src\/test\/kotlin\/ftl\/fixtures\/tmp\/ios\/EarlGreyExample\/EarlGreyExample.zip
+      xctestrun-file: [0-9a-zA-Z\/_.-]*\/test_runner\/src\/test\/kotlin\/ftl\/fixtures\/tmp\/ios\/EarlGreyExample\/EarlGreyExampleSwiftTests.xctestrun
       xcode-version: null
       device:
         - model: iphone8
@@ -23,7 +23,7 @@ IosArgs
       additional-ipas:
       scenario-numbers:
       type: xctest
-      app: 
+      app:\s
       test-special-entitlements: false
       fail-fast: false
 
@@ -41,7 +41,7 @@ IosArgs
       full-junit-result: false
       # iOS flank
       test-targets:
-        - nonExisting/Class
+        - nonExisting\/Class
       disable-sharding: false
       project: flank-open-source
       local-result-dir: results
@@ -50,9 +50,9 @@ IosArgs
       output-style: verbose
       disable-results-upload: false
       default-class-test-time: 240.0
-Found xctest: [0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest
-isMacOS = true \(mac os x\)
-nm -U "[0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest/EarlGreyExampleSwiftTests"
-nm -gU "[0-9a-zA-Z\/_.-]*/test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest/EarlGreyExampleSwiftTests" | xargs -s 262144 xcrun swift-demangle
+Found xctest: [0-9a-zA-Z\/_.-]*\/test_runner\/src\/test\/kotlin\/ftl\/fixtures\/tmp\/ios\/EarlGreyExample\/Debug-iphoneos\/EarlGreyExampleSwift.app\/PlugIns\/EarlGreyExampleSwiftTests.xctest
+isMacOS = (true \(mac os x\)|false \(linux\))
+(PATH=~\/.flank nm -U\s)?nm -U "[0-9a-zA-Z\/_.-]*\/test_runner\/src\/test\/kotlin\/ftl\/fixtures\/tmp\/ios\/EarlGreyExample\/Debug-iphoneos\/EarlGreyExampleSwift.app\/PlugIns\/EarlGreyExampleSwiftTests.xctest\/EarlGreyExampleSwiftTests"
+(export LD_LIBRARY_PATH=~\/\.flank; export PATH=~\/\.flank:\$PATH;\s)?nm -gU "[0-9a-zA-Z\/_.-]*\/test_runner\/src\/test\/kotlin\/ftl\/fixtures\/tmp\/ios\/EarlGreyExample\/Debug-iphoneos\/EarlGreyExampleSwift.app\/PlugIns\/EarlGreyExampleSwiftTests.xctest\/EarlGreyExampleSwiftTests"\s\| xargs -s 262144 (xcrun\s)?swift-demangle
 
 Empty shards. Cannot match any method to \[.*\]
