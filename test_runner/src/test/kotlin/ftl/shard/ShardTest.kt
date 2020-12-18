@@ -19,8 +19,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.concurrent.TimeUnit
-import kotlin.system.measureNanoTime
 import kotlin.system.measureTimeMillis
 
 @RunWith(FlankTestRunner::class)
@@ -103,14 +101,14 @@ class ShardTest {
             copy(commonArgs = commonArgs.copy(maxTestShards = 4))
         }
 
+        // The test occasionally fails on GH Actions' machines, we need to retry to exclude flakiness
         val maxAttempts = 5
         val maxMs = 5000
 
         var attempt = 0
         var ms = Long.MAX_VALUE
 
-        while (attempt < maxAttempts && ms >= maxMs) {
-            attempt++
+        while (attempt++ < maxAttempts && ms >= maxMs) {
             ms = measureTimeMillis {
                 createShardsByShardCount(testsToRun, JUnitTestResult(null), arg)
             }
