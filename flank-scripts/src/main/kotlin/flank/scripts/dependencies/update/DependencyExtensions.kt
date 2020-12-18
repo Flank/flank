@@ -8,4 +8,4 @@ val Dependency.versionToUpdate
         ?: availableVersion?.integration
         ?: version
 
-fun GradleDependency.needsUpdate() = (running.version != current.version) || (running.version != releaseCandidate.version)
+fun GradleDependency.needsUpdate() = running.version < current.version || running.version < releaseCandidate.version

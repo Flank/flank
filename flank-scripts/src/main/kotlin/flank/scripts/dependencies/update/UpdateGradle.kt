@@ -14,12 +14,9 @@ private fun updateGradleWrapper(gradleDependency: GradleDependency, gradleWrappe
     findAllGradleWrapperPropertiesFiles(gradleWrapperPropertiesPath)
         .forEach {
             val from = gradleDependency.running.version
-            val to = if (gradleDependency.releaseCandidate.isUpdateAvailable)
-                gradleDependency.releaseCandidate.version
-            else
-                gradleDependency.current.version
+            val to = maxOf(gradleDependency.releaseCandidate.version, gradleDependency.current.version)
             println("Update gradle wrapper $from to $to in file ${it.path}")
-            it.updateGradleWrapperPropertiesFile(from, to)
+            it.updateGradleWrapperPropertiesFile(from.toString(), to.toString())
         }
 }
 
@@ -28,8 +25,6 @@ private fun findAllGradleWrapperPropertiesFiles(gradleWrapperPropertiesPath: Str
         .filter { it.fileName.toString() == GRADLE_WRAPPER_PROPERTIES_FILE }
         .map { it.toFile() }
 
-private fun File.updateGradleWrapperPropertiesFile(from: String, to: String) {
-    writeText(readText().replace(from, to))
-}
+private fun File.updateGradleWrapperPropertiesFile(from: String, to: String) = writeText(readText().replace(from, to))
 
 private const val GRADLE_WRAPPER_PROPERTIES_FILE = "gradle-wrapper.properties"

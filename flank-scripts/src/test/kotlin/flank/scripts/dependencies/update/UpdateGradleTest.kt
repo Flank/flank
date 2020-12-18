@@ -5,8 +5,11 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import java.io.File
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
 
-class UpdateGradleTest {
+@RunWith(Parameterized::class)
+class UpdateGradleTest(private val settings: List<TestChannelSettings>) {
     @get:Rule
     val tempFolder = TemporaryFolder()
 
@@ -14,55 +17,92 @@ class UpdateGradleTest {
     private val testGradleVersionFile =
         File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/test_gradle-wrapper.properties.test")
 
-    @Test
-    fun `Should update gradle`() {
-        // given
-        val expectedVersions =
-            File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/expected_gradle-wrapper.properties.test")
-        val copyOfTestVersions = tempFolder.newFile("gradle-wrapper.properties").apply {
-            writeText(testGradleVersionFile.readText())
-        }
-
-        // when
-        testReport.updateGradle(tempFolder.root.absolutePath)
-
-        // then
-        assertEquals(copyOfTestVersions.readText(), expectedVersions.readText())
+    companion object {
+        @JvmStatic
+        @Parameterized.Parameters
+        fun params() = listOf(
+            asList(
+                ReleaseCandidate(version = "6.7-rc-1", isExpected = true),
+                Running(version = "6.5.2"),
+                Current(version = "6.6")
+            ),
+            asList(
+                ReleaseCandidate(version = "6.6-rc-1"),
+                Running(version = "6.5.3"),
+                Current(version = "6.8", isExpected = true)
+            ),
+            asList(
+                ReleaseCandidate(version = "6.7-rc-2", isExpected = true),
+                Running(version = "6.7-rc-1"),
+                Current(version = "6.6")
+            ),
+            asList(
+                ReleaseCandidate(version = "6.2-rc-2"),
+                Running(version = "6.5", isExpected = true),
+                Current(version = "6.4")
+            )
+        )
     }
 
     @Test
-    fun `Should update RC version gradle`() {
-        val rcReportText = testReport.readText().replace("\r\n", "\n").replace(
-            """
-    |        "releaseCandidate": {
-    |            "version": "6.7-rc-1",
+    fun `Should update gradle`() {
+        // given
+        val expectedVersions = testGradleVersionFile.replaceGradleVersion(settings.first { it.isExpected }.version)
+        val copyOfTestVersions = tempFolder.newFile("gradle-wrapper.properties").apply {
+            writeText(testGradleVersionFile.replaceGradleVersion(settings.first { it.name == "running" }.version))
+        }
+        val preparedReport = tempFolder.newFile("report.json").apply {
+            writeText(testReport.replaceChannelTemplate(settings))
+        }
+
+        // when
+        preparedReport.updateGradle(tempFolder.root.absolutePath)
+
+        // then
+        assertEquals(expectedVersions, copyOfTestVersions.readText())
+    }
+}
+
+private fun File.replaceChannelTemplate(settings: List<TestChannelSettings>): String {
+    var result = readText().replace("\r\n", "\n")
+    for (setting in settings) {
+        result = result.replace("\"${setting.name}\": \\{([^{}]+)}".toRegex(), """
+    |        "${setting.name}": {
+    |            "version": "${setting.version}",
     |            "reason": "",
     |            "isUpdateAvailable": false,
     |            "isFailure": false
     |        }
-        """.trimMargin(), """
-    |        "releaseCandidate": {
-    |            "version": "6.7-rc-1",
-    |            "reason": "",
-    |            "isUpdateAvailable": true,
-    |            "isFailure": false
-    |        }
         """.trimMargin()
         )
-
-        val rcReport = tempFolder.newFile("rcReport.json").apply { writeText(rcReportText) }
-
-        // given
-        val expectedVersions =
-            File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/expected_gradle-wrapper.properties_RC.test")
-        val copyOfTestVersions = tempFolder.newFile("gradle-wrapper.properties").apply {
-            writeText(testGradleVersionFile.readText())
-        }
-
-        // when
-        rcReport.updateGradle(tempFolder.root.absolutePath)
-
-        // then
-        assertEquals(copyOfTestVersions.readText(), expectedVersions.readText())
     }
+    return result
 }
+
+private fun asList(vararg settings: TestChannelSettings) = arrayOf(settings.toList())
+
+private fun File.replaceGradleVersion(version: String) = readText()
+    .replace("\r\n", "\n")
+    .replace("6.5.1", version)
+
+sealed class TestChannelSettings(
+    val name: String,
+    val version: String,
+    val isExpected: Boolean
+)
+
+private class ReleaseCandidate(
+    version: String,
+    isExpected: Boolean = false
+) : TestChannelSettings("releaseCandidate", version, isExpected)
+
+private class Running(
+    version: String,
+    isExpected: Boolean = false
+) : TestChannelSettings("running", version, isExpected)
+
+private class Current(
+    version: String,
+    isExpected: Boolean = false
+) : TestChannelSettings("current", version, isExpected)
+
