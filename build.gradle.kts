@@ -12,9 +12,13 @@ configurations.all {
 
 plugins {
     kotlin(Plugins.Kotlin.PLUGIN_JVM) version Versions.KOTLIN
-    id(Plugins.DETEKT_PLUGIN) version Versions.DETEKT
+    id(Plugins.KTLINT_GRADLE_PLUGIN) version Versions.KTLINT_GRADLE
     id(Plugins.BEN_MANES_PLUGIN) version Versions.BEN_MANES
     id(Plugins.JFROG_BINTRAY) version Versions.BINTRAY
+}
+
+subprojects {
+    apply(plugin = Plugins.KTLINT_GRADLE_PLUGIN)
 }
 
 repositories {
@@ -28,7 +32,7 @@ tasks.named("dependencyUpdates", DependencyUpdatesTask::class.java).configure {
     gradleReleaseChannel = "release-candidate"
 
     fun isStable(version: String) = listOf("RELEASE", "FINAL", "GA")
-            .any { version.toUpperCase().contains(it) } || "^[0-9,.v-]+(-r)?$".toRegex().matches(version)
+        .any { version.toUpperCase().contains(it) } || "^[0-9,.v-]+(-r)?$".toRegex().matches(version)
 
     fun isNonStable(version: String) = isStable(version).not()
 

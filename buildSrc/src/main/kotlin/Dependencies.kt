@@ -36,10 +36,6 @@ object Dependencies {
 
     const val PROGUARD = "com.guardsquare:proguard-gradle:${Versions.PROGUARD}"
 
-    //region Plugins
-    const val DETEKT_FORMATTING = "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.DETEKT}"
-    //endregion
-
     //region Test Dependencies
     const val JSOUP = "org.jsoup:jsoup:${Versions.JSOUP}"
     const val JUNIT = "junit:junit:${Versions.JUNIT}"
