@@ -4,6 +4,7 @@ object Dependencies {
     const val DD_PLIST = "com.googlecode.plist:dd-plist:${Versions.DD_PLIST}"
     const val DEX_TEST_PARSER = "com.linkedin.dextestparser:parser:${Versions.DEX_TEST_PARSER}"
 
+    const val GOOGLE_API_CLIENT = "com.google.api-client:google-api-client:${Versions.GOOGLE_API}"
     const val GOOGLE_AUTH = "com.google.auth:google-auth-library-oauth2-http:${Versions.GOOGLE_AUTH}"
     const val GOOGLE_NIO = "com.google.cloud:google-cloud-nio:${Versions.GOOGLE_NIO}"
     const val GOOGLE_STORAGE = "com.google.cloud:google-cloud-storage:${Versions.GOOGLE_STORAGE}"
