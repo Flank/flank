@@ -37,7 +37,8 @@ class SerializationTest {
                 "provider": "a",
                 "repository": "b",
                 "revision": "c"
-            }""".trimIndent()
+            }
+        """.trimIndent()
 
         // when
         val actual = testObject.toJson()

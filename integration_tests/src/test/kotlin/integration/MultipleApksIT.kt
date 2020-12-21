@@ -26,7 +26,8 @@ class MultipleApksIT {
 
         val resOutput = result.output.removeUnicode()
         assertThat(resOutput).containsMatch(findInCompare(name))
-        assertContainsUploads(resOutput,
+        assertContainsUploads(
+            resOutput,
             "app-multiple-success-debug-androidTest.apk",
             "app-multiple-error-debug-androidTest.apk",
             "MainActivity_robo_script.json"

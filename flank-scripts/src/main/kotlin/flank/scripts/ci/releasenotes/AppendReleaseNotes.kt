@@ -11,6 +11,8 @@ fun File.appendReleaseNotes(releaseNotesWithType: ReleaseNotesWithType, releaseT
 }
 
 private fun File.appendToReleaseNotes(releaseNotesWithType: ReleaseNotesWithType, releaseTag: String) {
-    writeText(releaseNotesWithType.asString(releaseTag).withNewLineAtTheEnd() +
-        readLines().joinToString(System.lineSeparator()).withNewLineAtTheEnd())
+    writeText(
+        releaseNotesWithType.asString(releaseTag).withNewLineAtTheEnd() +
+            readLines().joinToString(System.lineSeparator()).withNewLineAtTheEnd()
+    )
 }

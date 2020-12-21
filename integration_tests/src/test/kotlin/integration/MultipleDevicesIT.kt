@@ -2,8 +2,8 @@ package integration
 
 import FlankCommand
 import com.google.common.truth.Truth.assertThat
-import run
 import org.junit.Test
+import run
 import utils.assertTestFail
 import utils.assertTestPass
 import utils.assertTestResultContainsWebLinks
@@ -30,7 +30,8 @@ class MultipleDevicesIT {
 
         val resOutput = result.output.removeUnicode()
         assertThat(resOutput).containsMatch(findInCompare(name))
-        assertContainsUploads(resOutput,
+        assertContainsUploads(
+            resOutput,
             "app-multiple-success-debug-androidTest.apk",
             "app-multiple-error-debug-androidTest.apk",
             "performanceMetrics.json"

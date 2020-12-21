@@ -101,5 +101,5 @@ data class IosBuildConfiguration(
 
 data class IosTestBuildConfiguration(val scheme: String, val outputDirectoryName: String)
 
- val IosBuildConfiguration.workspaceName
+val IosBuildConfiguration.workspaceName
     get() = "$projectName.xcworkspace"

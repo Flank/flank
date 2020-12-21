@@ -5,8 +5,8 @@ package ftl.sample
 import okhttp3.Authenticator
 import okhttp3.Credentials
 import okhttp3.OkHttpClient
-import okhttp3.Response
 import okhttp3.Request
+import okhttp3.Response
 import okhttp3.Route
 import okhttp3.sse.EventSource
 import okhttp3.sse.EventSourceListener
@@ -20,23 +20,23 @@ fun main() {
     val url = "$baseUrl/build-export/v1/builds/since/now?stream"
 
     val client = OkHttpClient.Builder()
-            .connectTimeout(Duration.ZERO)
-            .readTimeout(Duration.ZERO)
-            .authenticator(
-                    object : Authenticator {
-                        override fun authenticate(route: Route?, response: Response): Request? {
-                            return response.request
-                                    .newBuilder()
-                                    .addHeader("Authorization", Credentials.basic(id, password))
-                                    .build()
-                        }
-                    }
-            ).build()
+        .connectTimeout(Duration.ZERO)
+        .readTimeout(Duration.ZERO)
+        .authenticator(
+            object : Authenticator {
+                override fun authenticate(route: Route?, response: Response): Request? {
+                    return response.request
+                        .newBuilder()
+                        .addHeader("Authorization", Credentials.basic(id, password))
+                        .build()
+                }
+            }
+        ).build()
 
     val factory = createFactory(client)
 
     val request = Request.Builder()
-            .url(url).build()
+        .url(url).build()
     val listener = object : EventSourceListener() {
         override fun onClosed(eventSource: EventSource) {
             println("onClosed")

@@ -68,5 +68,5 @@ private fun logIssueCreated(issue: GitHubCreateIssueResponse) = println(
 ** Issue created:
      url:    ${issue.htmlUrl}
      number: ${issue.number} 
-""".trimIndent()
+    """.trimIndent()
 )

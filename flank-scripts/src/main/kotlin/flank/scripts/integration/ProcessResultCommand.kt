@@ -51,7 +51,7 @@ object ProcessResultCommand : CliktCommand(name = "processResults") {
              result: $itResult
              url:    $buildScanURL
              runID:  $runID
-    """.trimIndent()
+        """.trimIndent()
     )
 }
 

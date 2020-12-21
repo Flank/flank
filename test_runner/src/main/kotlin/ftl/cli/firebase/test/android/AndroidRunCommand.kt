@@ -65,4 +65,3 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
     )
     var dumpShards: Boolean = false
 }
-

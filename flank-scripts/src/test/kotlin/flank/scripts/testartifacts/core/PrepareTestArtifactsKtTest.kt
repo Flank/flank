@@ -1,9 +1,9 @@
 package flank.scripts.testartifacts.core
 
-import flank.scripts.testartifacts.prepareTestDirectory
-import flank.scripts.testartifacts.removeTestDirectory
 import flank.scripts.testartifacts.TEST_BRANCH_1
 import flank.scripts.testartifacts.TEST_BRANCH_2
+import flank.scripts.testartifacts.prepareTestDirectory
+import flank.scripts.testartifacts.removeTestDirectory
 import flank.scripts.testartifacts.testContext
 import org.junit.After
 import org.junit.Assert.assertEquals

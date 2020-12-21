@@ -3,8 +3,8 @@ package flank.scripts.ci.releasenotes
 import com.google.common.truth.Truth.assertThat
 import flank.scripts.utils.markdownH2
 import flank.scripts.utils.markdownH3
-import java.io.File
 import org.junit.Test
+import java.io.File
 
 class AppendReleaseNotesTest {
 
