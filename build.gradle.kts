@@ -1,4 +1,5 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.jmailen.gradle.kotlinter.tasks.LintTask
 
 // Fix Exception in thread "main" java.lang.NoSuchMethodError: com.google.common.hash.Hashing.crc32c()Lcom/google/common/hash/HashFunction;
 // https://stackoverflow.com/a/45286710
@@ -17,6 +18,16 @@ plugins {
     id(Plugins.JFROG_BINTRAY) version Versions.BINTRAY
 }
 
+tasks {
+    "lintKotlinMain"(LintTask::class) {
+        exclude(
+            "**/*Generated.kt",
+            "**/*Test.kt",
+            "**/Test*.kt" //we can expand this list
+        )
+    }
+}
+
 subprojects {
     apply(plugin = Plugins.KTLINT_GRADLE_PLUGIN)
 }
@@ -25,7 +36,6 @@ repositories {
     jcenter()
     mavenCentral()
 }
-
 
 tasks.named("dependencyUpdates", DependencyUpdatesTask::class.java).configure {
 
