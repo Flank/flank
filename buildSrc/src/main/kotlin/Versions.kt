@@ -29,6 +29,9 @@ object Versions {
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
     const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20201029-1.30.10"
 
+    // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
+    const val GOOGLE_API = "1.31.1"
+
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
     // https://github.com/googleapis/google-oauth-java-client/issues/251#issuecomment-504565533

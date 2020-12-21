@@ -12,6 +12,5 @@ repositories {
 }
 
 dependencies {
-    // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
-    implementation("com.google.api-client:google-api-client:1.30.10")
+    implementation(Dependencies.GOOGLE_API_CLIENT)
 }
