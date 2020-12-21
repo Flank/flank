@@ -15,13 +15,13 @@ import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.credential
 import ftl.json.MatrixMap
-import ftl.log.logLn
+import flank.common.logLn
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.xmlToString
 import ftl.run.common.getMatrixFilePath
 import ftl.run.exception.FlankGeneralError
-import ftl.util.join
+import flank.common.join
 import ftl.util.runWithProgress
 import java.io.File
 import java.io.FileOutputStream

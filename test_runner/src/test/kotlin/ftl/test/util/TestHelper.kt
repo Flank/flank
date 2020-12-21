@@ -27,11 +27,6 @@ object TestHelper {
 
     fun String.absolutePath(): String = Paths.get(this).toAbsolutePath().normalize().toString()
 
-    fun String.normalizeLineEnding(): String {
-        // required for tests to pass on Windows
-        return this.replace("\r\n", "\n")
-    }
-
     fun getThrowable(action: () -> Unit): Throwable = try {
         action()
         throw FlankTestNotFoundException("Action not throwing exception")

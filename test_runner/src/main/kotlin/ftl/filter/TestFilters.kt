@@ -3,7 +3,7 @@ package ftl.filter
 import com.linkedin.dex.parser.TestMethod
 import ftl.args.ShardChunks
 import ftl.config.FtlConstants
-import ftl.log.logLn
+import flank.common.logLn
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 import java.io.IOException

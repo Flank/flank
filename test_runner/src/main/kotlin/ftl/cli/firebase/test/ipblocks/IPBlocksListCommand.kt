@@ -1,7 +1,7 @@
 package ftl.cli.firebase.test.ipblocks
 
 import ftl.environment.ipBlocksListAsTable
-import ftl.log.logLn
+import flank.common.logLn
 import picocli.CommandLine
 
 @CommandLine.Command(

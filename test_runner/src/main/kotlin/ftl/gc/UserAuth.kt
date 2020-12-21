@@ -5,8 +5,8 @@ import com.google.auth.oauth2.MemoryTokensStorage
 import com.google.auth.oauth2.UserAuthorizer
 import com.google.auth.oauth2.UserCredentials
 import ftl.config.FtlConstants
-import ftl.config.FtlConstants.userHome
-import ftl.log.logLn
+import flank.common.userHome
+import flank.common.logLn
 import ftl.run.exception.FlankGeneralError
 import io.ktor.application.call
 import io.ktor.response.respondText

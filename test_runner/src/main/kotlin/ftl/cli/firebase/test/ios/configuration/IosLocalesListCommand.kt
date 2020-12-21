@@ -3,7 +3,7 @@ package ftl.cli.firebase.test.ios.configuration
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.ios.IosCatalog.localesAsTable
-import ftl.log.logLn
+import flank.common.logLn
 import picocli.CommandLine
 import java.nio.file.Paths
 

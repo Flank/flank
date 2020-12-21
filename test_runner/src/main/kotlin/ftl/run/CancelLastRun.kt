@@ -4,7 +4,7 @@ import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.gc.GcTestMatrix
 import ftl.json.SavedMatrix
-import ftl.log.logLn
+import flank.common.logLn
 import ftl.run.common.getLastArgs
 import ftl.run.common.getLastMatrices
 import ftl.util.MatrixState

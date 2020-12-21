@@ -28,7 +28,7 @@ shadowJar.apply {
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
-version = "1.2.5"
+version = "1.2.6"
 group = "com.github.flank"
 
 application {
@@ -107,16 +107,12 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib", org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION)) // or "stdlib-jdk8"
     implementation(Dependencies.KOTLIN_SERIALIZATION)
-    implementation(Dependencies.Fuel.CORE)
-    implementation(Dependencies.Fuel.KOTLINX_SERIALIZATION)
-    implementation(Dependencies.Fuel.COROUTINES)
+    implementation(project(":common"))
     implementation(Dependencies.CLIKT)
     implementation(Dependencies.JSOUP)
     implementation(Dependencies.JCABI_GITHUB)
     implementation(Dependencies.SLF4J_NOP)
     implementation(Dependencies.GLASSFISH_JSON)
-    implementation(Dependencies.ARCHIVE_LIB)
-    implementation(Dependencies.TUKAANI_XZ)
 
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.MOCKK)

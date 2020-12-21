@@ -1,8 +1,8 @@
 package flank.scripts.shell.firebase
 
 import com.github.ajalt.clikt.core.CliktCommand
+import flank.common.downloadFile
 import flank.scripts.shell.utils.currentPath
-import flank.scripts.utils.downloadFile
 import flank.scripts.utils.downloadSortJsonIfNeeded
 import flank.scripts.utils.runCommand
 import java.nio.file.Paths

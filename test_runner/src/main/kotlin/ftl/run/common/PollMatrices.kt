@@ -5,7 +5,7 @@ package ftl.run.common
 import com.google.testing.model.TestMatrix
 import ftl.args.IArgs
 import ftl.gc.GcTestMatrix
-import ftl.log.logLn
+import flank.common.logLn
 import ftl.run.status.TestMatrixStatusPrinter
 import ftl.util.MatrixState
 import kotlinx.coroutines.coroutineScope

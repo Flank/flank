@@ -3,7 +3,7 @@ package ftl.shard
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
-import ftl.log.logLn
+import flank.common.logLn
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.run.exception.FlankConfigurationError
 import ftl.util.FlankTestMethod

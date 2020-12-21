@@ -7,9 +7,9 @@ import ftl.gc.GcIosTestMatrix
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
+import flank.common.logLn
 import ftl.ios.xctest.flattenShardChunks
 import ftl.ios.xctest.xcTestRunFlow
-import ftl.log.logLn
 import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards
 import ftl.run.model.TestResult

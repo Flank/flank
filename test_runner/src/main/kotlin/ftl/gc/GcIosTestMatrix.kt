@@ -18,7 +18,7 @@ import ftl.gc.android.mapToIosDeviceFiles
 import ftl.gc.android.toIosDeviceFile
 import ftl.run.exception.FlankGeneralError
 import ftl.util.ShardCounter
-import ftl.util.join
+import flank.common.join
 import ftl.util.timeoutToSeconds
 
 object GcIosTestMatrix {

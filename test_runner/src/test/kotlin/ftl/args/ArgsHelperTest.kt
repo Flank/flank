@@ -1,13 +1,13 @@
 package ftl.args
 
 import com.google.common.truth.Truth.assertThat
+import flank.common.isWindows
 import ftl.args.ArgsHelper.assertCommonProps
 import ftl.args.ArgsHelper.assertFileExists
 import ftl.args.ArgsHelper.assertGcsFileExists
 import ftl.args.ArgsHelper.createGcsBucket
 import ftl.args.ArgsHelper.validateTestMethods
 import ftl.args.yml.mergeYmlKeys
-import ftl.config.FtlConstants
 import ftl.gc.GcStorage
 import ftl.gc.GcStorage.exist
 import ftl.run.exception.FlankConfigurationError
@@ -156,7 +156,7 @@ class ArgsHelperTest {
 
     @Test
     fun evaluateTildeInFilePath() {
-        Assume.assumeFalse(FtlConstants.isWindows)
+        Assume.assumeFalse(isWindows)
 
         val expected = makeTmpFile("/tmp/random.xctestrun")
 

@@ -2,7 +2,7 @@ package ftl.cli.firebase
 
 import com.google.common.truth.Truth.assertThat
 import ftl.test.util.FlankTestRunner
-import ftl.test.util.TestHelper.normalizeLineEnding
+import flank.common.normalizeLineEnding
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule

@@ -16,7 +16,7 @@ import ftl.args.CalculateShardsResult
 import ftl.config.FtlConstants
 import ftl.filter.TestFilter
 import ftl.filter.TestFilters
-import ftl.log.logLn
+import flank.common.logLn
 import ftl.run.model.AndroidTestContext
 import ftl.run.model.InstrumentationTestContext
 import ftl.shard.createShardsByTestForShards

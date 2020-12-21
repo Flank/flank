@@ -4,7 +4,7 @@ import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.config.defaultCredentialPath
 import ftl.gc.GcStorage
-import ftl.log.logLn
+import flank.common.logLn
 import ftl.reports.FullJUnitReport
 import ftl.reports.JUnitReport
 import ftl.run.exception.FlankConfigurationError

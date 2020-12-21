@@ -10,7 +10,7 @@ import ftl.environment.common.asPrintableTable
 import ftl.environment.getLocaleDescription
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
-import ftl.log.logLn
+import flank.common.logLn
 
 /**
  * Contains lists of possible Android device and version ids, as well as checks

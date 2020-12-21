@@ -1,10 +1,10 @@
-package flank.scripts.utils
+package flank.common
 
 import org.junit.Assert
 import org.junit.Test
 import java.io.File
 
-internal class ZipKtTest {
+internal class ArchiveKtTest {
 
     @Test
     fun zipTest() {
@@ -12,7 +12,7 @@ internal class ZipKtTest {
         val src2 = File("./src2")
         val srcZip = File("./src.zip")
         zip(src, srcZip)
-        unzip(srcZip, src2)
+        unzipFile(srcZip, src2.absolutePath)
         Assert.assertEquals(
             src.calculateSize(),
             src2.calculateSize()

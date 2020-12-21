@@ -1,7 +1,7 @@
 package ftl.cli.firebase.test.providedsoftware
 
 import ftl.environment.providedSoftwareAsTable
-import ftl.log.logLn
+import flank.common.logLn
 import picocli.CommandLine
 
 @CommandLine.Command(

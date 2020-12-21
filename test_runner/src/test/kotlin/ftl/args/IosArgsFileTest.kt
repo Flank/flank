@@ -1,8 +1,8 @@
 package ftl.args
 
 import com.google.common.truth.Truth.assertThat
+import flank.common.isWindows
 import ftl.config.Device
-import ftl.config.FtlConstants
 import ftl.ios.xctest.flattenShardChunks
 import ftl.run.exception.FlankGeneralError
 import ftl.run.status.OutputStyle
@@ -72,7 +72,7 @@ class IosArgsFileTest {
 
     @Test
     fun testMethodsAlwaysRun() {
-        Assume.assumeFalse(FtlConstants.isWindows)
+        Assume.assumeFalse(isWindows)
 
         val config = IosArgs.load(yamlFile2)
 

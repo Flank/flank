@@ -3,7 +3,7 @@ package ftl.cli.firebase.test.android.versions
 import ftl.android.AndroidCatalog.supportedVersionsAsTable
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
-import ftl.log.logLn
+import flank.common.logLn
 import picocli.CommandLine
 import java.nio.file.Paths
 

@@ -1,4 +1,4 @@
-package flank.scripts.utils
+package flank.common
 
 import org.junit.After
 import org.junit.Assert.assertTrue

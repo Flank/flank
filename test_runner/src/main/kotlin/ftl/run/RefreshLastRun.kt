@@ -10,7 +10,7 @@ import ftl.json.needsUpdate
 import ftl.json.updateMatrixMap
 import ftl.json.updateWithMatrix
 import ftl.json.validate
-import ftl.log.logLn
+import flank.common.logLn
 import ftl.reports.util.ReportManager
 import ftl.run.common.fetchArtifacts
 import ftl.run.common.getLastArgs

@@ -9,7 +9,7 @@ import ftl.config.FtlConstants
 import ftl.environment.ipBlocksListAsTable
 import ftl.environment.networkConfigurationAsTable
 import ftl.environment.providedSoftwareAsTable
-import ftl.log.logLn
+import flank.common.logLn
 import picocli.CommandLine
 import java.nio.file.Paths
 

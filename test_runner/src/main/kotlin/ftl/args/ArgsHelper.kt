@@ -14,13 +14,13 @@ import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 import ftl.args.yml.YamlObjectMapper
 import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.FtlConstants.JSON_FACTORY
-import ftl.config.FtlConstants.isWindows
+import flank.common.isWindows
 import ftl.config.FtlConstants.useMock
 import ftl.config.credential
 import ftl.config.defaultCredentialPath
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
-import ftl.log.logLn
+import flank.common.logLn
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError

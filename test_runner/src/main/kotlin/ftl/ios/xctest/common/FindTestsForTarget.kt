@@ -5,7 +5,7 @@ import com.dd.plist.NSDictionary
 import com.dd.plist.NSObject
 import com.dd.plist.NSString
 import com.google.common.annotations.VisibleForTesting
-import ftl.log.logLn
+import flank.common.logLn
 import ftl.run.exception.FlankGeneralError
 import java.io.File
 import java.nio.file.Paths

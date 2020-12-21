@@ -2,7 +2,7 @@ package ftl.run.exception
 
 import ftl.config.FtlConstants
 import ftl.json.SavedMatrix
-import ftl.log.logLn
+import flank.common.logLn
 import ftl.run.cancelMatrices
 import kotlinx.coroutines.runBlocking
 import kotlin.system.exitProcess

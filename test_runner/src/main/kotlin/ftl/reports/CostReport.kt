@@ -7,7 +7,7 @@ import ftl.json.MatrixMap
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.util.estimateCosts
-import ftl.util.println
+import flank.common.println
 import java.io.StringWriter
 
 /** Calculates cost based on the matrix map. Always run. */

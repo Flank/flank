@@ -1,8 +1,8 @@
 package ftl.util
 
 import com.google.common.truth.Truth.assertThat
-import ftl.config.FtlConstants.isMacOS
-import ftl.config.FtlConstants.isWindows
+import flank.common.isMacOS
+import flank.common.isWindows
 import ftl.run.exception.FlankGeneralError
 import ftl.test.util.FlankTestRunner
 import org.junit.Test

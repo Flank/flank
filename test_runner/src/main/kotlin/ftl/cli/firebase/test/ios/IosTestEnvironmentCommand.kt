@@ -9,7 +9,7 @@ import ftl.ios.IosCatalog.devicesCatalogAsTable
 import ftl.ios.IosCatalog.localesAsTable
 import ftl.ios.IosCatalog.softwareVersionsAsTable
 import ftl.ios.IosCatalog.supportedOrientationsAsTable
-import ftl.log.logLn
+import flank.common.logLn
 import picocli.CommandLine
 import java.nio.file.Paths
 

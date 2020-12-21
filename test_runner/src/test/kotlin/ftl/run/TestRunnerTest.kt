@@ -8,7 +8,7 @@ import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
-import ftl.config.FtlConstants.isWindows
+import flank.common.isWindows
 import ftl.http.executeWithRetry
 import ftl.run.common.getDownloadPath
 import ftl.test.util.FlankTestRunner

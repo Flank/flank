@@ -4,7 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import ftl.args.IosArgs
 import ftl.config.Device
 import ftl.config.FtlConstants
-import ftl.config.FtlConstants.isWindows
+import flank.common.isWindows
 import ftl.gc.GcStorage
 import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards

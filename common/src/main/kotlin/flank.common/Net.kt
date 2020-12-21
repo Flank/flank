@@ -1,4 +1,4 @@
-package flank.scripts.utils
+package flank.common
 
 import java.net.InetAddress
 import java.net.InetSocketAddress

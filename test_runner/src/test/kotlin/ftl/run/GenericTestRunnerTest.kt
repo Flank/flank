@@ -6,8 +6,8 @@ import ftl.shard.Chunk
 import ftl.shard.TestMethod
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.assert
-import ftl.test.util.TestHelper.normalizeLineEnding
-import ftl.util.trimStartLine
+import flank.common.normalizeLineEnding
+import flank.common.trimStartLine
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll

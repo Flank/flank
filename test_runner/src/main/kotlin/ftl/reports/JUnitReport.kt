@@ -3,7 +3,7 @@ package ftl.reports
 import ftl.args.IArgs
 import ftl.gc.GcStorage
 import ftl.json.MatrixMap
-import ftl.log.log
+import flank.common.log
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.xmlToString

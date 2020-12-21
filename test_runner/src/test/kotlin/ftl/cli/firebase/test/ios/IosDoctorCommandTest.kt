@@ -6,7 +6,7 @@ import ftl.cli.firebase.test.SUCCESS_VALIDATION_MESSAGE
 import ftl.config.FtlConstants
 import ftl.run.exception.YmlValidationError
 import ftl.test.util.FlankTestRunner
-import ftl.test.util.TestHelper.normalizeLineEnding
+import flank.common.normalizeLineEnding
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule

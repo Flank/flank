@@ -1,15 +1,15 @@
 package ftl.ios.xctest.common
 
-import ftl.config.FtlConstants
-import ftl.config.FtlConstants.isMacOS
-import ftl.config.FtlConstants.isWindows
-import ftl.log.OutputLogLevel
-import ftl.log.logLn
-import ftl.util.createDirectoryIfNotExist
-import ftl.util.createSymbolicLink
-import ftl.util.download
-import ftl.util.hasAllFiles
-import ftl.util.unzipFile
+import flank.common.OutputLogLevel
+import flank.common.createDirectoryIfNotExist
+import flank.common.createSymbolicLink
+import flank.common.downloadFile
+import flank.common.hasAllFiles
+import flank.common.isMacOS
+import flank.common.isWindows
+import flank.common.logLn
+import flank.common.userHome
+import flank.common.unzipFile
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -37,15 +37,15 @@ private fun neededFilesListByOs(): List<String> = if (isWindows) {
     listOf("nm", "swift-demangle", "libatomic.so.1", "libatomic.so.1.2.0")
 }
 
-private val flankBinariesDirectory = Paths.get(FtlConstants.userHome, ".flank")
+private val flankBinariesDirectory = Paths.get(userHome, ".flank")
 
 private fun downloadAndUnzip(osname: String) {
     createDirectoryIfNotExist(flankBinariesDirectory)
     val destinationFile = Paths.get(flankBinariesDirectory.toString(), "binaries.zip")
 
-    download(
+    downloadFile(
         sourceUrl = "https://github.com/Flank/binaries/releases/download/$osname/binaries.zip",
-        destination = destinationFile
+        destinationPath = destinationFile
     )
     createDirectoryIfNotExist(flankBinariesDirectory)
     unzipFile(destinationFile.toFile().absoluteFile, flankBinariesDirectory.toString())

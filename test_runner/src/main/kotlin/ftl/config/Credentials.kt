@@ -5,7 +5,8 @@ import com.google.api.client.http.HttpRequestInitializer
 import com.google.auth.oauth2.AccessToken
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.auth.oauth2.ServiceAccountCredentials
-import ftl.config.FtlConstants.userHome
+import flank.common.isWindows
+import flank.common.userHome
 import ftl.gc.UserAuth
 import ftl.http.HttpTimeoutIncrease
 import ftl.run.exception.FlankGeneralError
@@ -27,7 +28,7 @@ val credential: GoogleCredentials by lazy {
                 GoogleApiLogger.silenceComputeEngine()
                 ServiceAccountCredentials.getApplicationDefault()
             }.getOrElse {
-                if (FtlConstants.isWindows) loadGoogleAccountCredentials()
+                if (isWindows) loadGoogleAccountCredentials()
                 else throw FlankGeneralError("Error: Failed to read service account credential.\n${it.message}")
             }
     }

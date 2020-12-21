@@ -1,7 +1,7 @@
 package ftl.reports.outcome
 
 import com.google.api.services.toolresults.model.Environment
-import ftl.log.logLn
+import flank.common.logLn
 
 fun TestOutcomeContext.createMatrixOutcomeSummary() = billableMinutes() to outcomeSummary()
 

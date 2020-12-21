@@ -9,7 +9,7 @@ import ftl.cli.firebase.test.IPBlocksCommand
 import ftl.cli.firebase.test.IosCommand
 import ftl.cli.firebase.test.NetworkProfilesCommand
 import ftl.cli.firebase.test.ProvidedSoftwareCommand
-import ftl.log.logLn
+import flank.common.logLn
 import ftl.log.setDebugLogging
 import ftl.run.exception.withGlobalExceptionHandling
 import ftl.util.readRevision

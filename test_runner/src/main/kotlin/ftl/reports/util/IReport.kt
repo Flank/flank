@@ -4,7 +4,7 @@ import ftl.args.IArgs
 import ftl.json.MatrixMap
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.util.resolveLocalRunPath
-import ftl.util.write
+import flank.common.write
 import java.nio.file.Paths
 
 interface IReport {

@@ -4,7 +4,7 @@ import ftl.args.yml.Type
 import ftl.ios.IosCatalog
 import ftl.ios.IosCatalog.getSupportedVersionId
 import ftl.ios.xctest.common.mapToRegex
-import ftl.log.logLn
+import flank.common.logLn
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 import ftl.run.exception.IncompatibleTestDimensionError

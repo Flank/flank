@@ -21,7 +21,7 @@ import ftl.gc.android.setEnvironmentVariables
 import ftl.gc.android.setupAndroidTest
 import ftl.run.exception.FlankGeneralError
 import ftl.run.platform.android.AndroidTestConfig
-import ftl.util.join
+import flank.common.join
 import ftl.util.timeoutToSeconds
 
 object GcAndroidTestMatrix {

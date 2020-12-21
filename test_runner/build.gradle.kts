@@ -184,6 +184,7 @@ tasks.withType<Test> {
 }
 
 dependencies {
+    implementation(project(":common"))
     implementation(Dependencies.BUGSNAG)
 
     implementation(Dependencies.DD_PLIST)

@@ -4,7 +4,7 @@ import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
 import ftl.args.IArgs
 import ftl.config.FtlConstants
-import ftl.log.logLn
+import flank.common.logLn
 import ftl.util.MatrixState
 import ftl.util.StopWatch
 

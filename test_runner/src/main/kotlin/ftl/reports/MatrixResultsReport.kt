@@ -7,10 +7,10 @@ import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
 import ftl.json.asPrintableTable
 import ftl.json.isFailed
-import ftl.log.log
+import flank.common.log
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
-import ftl.util.println
+import flank.common.println
 import java.io.StringWriter
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols

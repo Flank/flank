@@ -9,7 +9,7 @@ import ftl.gc.GcAndroidTestMatrix
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
-import ftl.log.logLn
+import flank.common.logLn
 import ftl.run.ANDROID_SHARD_FILE
 import ftl.run.exception.FlankGeneralError
 import ftl.run.model.AndroidMatrixTestShards
