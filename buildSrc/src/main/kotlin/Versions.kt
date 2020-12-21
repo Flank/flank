@@ -6,7 +6,7 @@ object Versions {
     const val DD_PLIST = "1.23"
 
     // https://github.com/detekt/detekt
-    const val DETEKT = "1.14.2"
+    const val DETEKT = "1.15.0"
 
     // https://github.com/bintray/gradle-bintray-plugin/releases
     const val BINTRAY = "1.8.5"
@@ -70,7 +70,7 @@ object Versions {
     // https://github.com/FasterXML/woodstox/releases
     const val WOODSTOX = "6.2.3"
 
-    const val KOTLIN_LOGGING = "2.0.3"
+    const val KOTLIN_LOGGING = "2.0.4"
 
     // https://github.com/mockk/mockk
     // For now we need to keep version with jdk8 suffix
@@ -81,7 +81,7 @@ object Versions {
     const val COMMON_TEXT = "1.9"
 
     // https://github.com/fusesource/jansi/releases
-    const val JANSI = "2.1.0"
+    const val JANSI = "2.1.1"
 
     // https://github.com/ben-manes/gradle-versions-plugin/releases
     const val BEN_MANES = "0.36.0"
@@ -93,7 +93,7 @@ object Versions {
     const val KOTLIN_SERIALIZATION = "1.0.1"
     const val ARCHIVE_LIB = "1.1.0"
     const val TUKAANI_XZ = "1.8"
-    const val FUEL = "2.3.0"
+    const val FUEL = "2.3.1"
     const val CLIKT = "2.8.0"
     const val JCABI_GITHUB = "1.1.2"
     const val SLF4J_NOP = "1.7.30"
