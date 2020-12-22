@@ -5,8 +5,8 @@ import ftl.android.AndroidCatalog.getLocaleDescription
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
 import ftl.run.exception.FlankConfigurationError
-import java.nio.file.Paths
 import picocli.CommandLine
+import java.nio.file.Paths
 
 @CommandLine.Command(
     name = "describe",

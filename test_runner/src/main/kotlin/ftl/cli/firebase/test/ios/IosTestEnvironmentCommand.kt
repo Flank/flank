@@ -10,8 +10,8 @@ import ftl.ios.IosCatalog.devicesCatalogAsTable
 import ftl.ios.IosCatalog.localesAsTable
 import ftl.ios.IosCatalog.softwareVersionsAsTable
 import ftl.ios.IosCatalog.supportedOrientationsAsTable
-import java.nio.file.Paths
 import picocli.CommandLine
+import java.nio.file.Paths
 
 @CommandLine.Command(
     name = "test-environment",

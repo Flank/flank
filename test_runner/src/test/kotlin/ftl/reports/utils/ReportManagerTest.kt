@@ -27,7 +27,6 @@ import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
-import java.io.File
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assume.assumeFalse
@@ -36,6 +35,7 @@ import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
+import java.io.File
 
 @RunWith(FlankTestRunner::class)
 class ReportManagerTest {

@@ -1,12 +1,12 @@
 package ftl.run.platform.common
 
 import com.google.testing.model.TestMatrix
+import flank.common.logLn
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.gc.GcTestMatrix
 import ftl.json.MatrixMap
 import ftl.json.createSavedMatrix
-import flank.common.logLn
 import ftl.run.common.updateMatrixFile
 import ftl.util.StopWatch
 import ftl.util.isInvalid

@@ -8,13 +8,13 @@ import ftl.config.common.CommonFlankConfig
 import ftl.config.common.CommonGcloudConfig
 import ftl.config.ios.IosFlankConfig
 import ftl.config.ios.IosGcloudConfig
-import kotlin.reflect.KClass
-import kotlin.reflect.full.memberProperties
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import picocli.CommandLine
+import kotlin.reflect.KClass
+import kotlin.reflect.full.memberProperties
 
 @RunWith(Parameterized::class)
 class ConfigTest(

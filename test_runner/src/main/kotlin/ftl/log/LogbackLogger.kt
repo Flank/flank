@@ -3,8 +3,8 @@ package ftl.log
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.Logger
 import com.bugsnag.Bugsnag
-import kotlin.properties.Delegates
 import org.slf4j.LoggerFactory.getLogger
+import kotlin.properties.Delegates
 
 sealed class LogbackLogger(private val logger: Logger) : FlankLogger {
 

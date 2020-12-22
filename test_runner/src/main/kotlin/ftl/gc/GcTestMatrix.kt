@@ -4,10 +4,10 @@ import com.google.testing.model.CancelTestMatrixResponse
 import com.google.testing.model.TestMatrix
 import ftl.http.executeWithRetry
 import ftl.run.exception.FlankGeneralError
-import java.time.Duration.ofHours
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import java.time.Duration.ofHours
 
 object GcTestMatrix {
 

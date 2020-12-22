@@ -1,9 +1,9 @@
 package integration
 
 import com.google.common.truth.Truth.assertThat
-import java.io.File
 import org.junit.Assert.assertEquals
 import utils.ProcessResult
+import java.io.File
 
 const val FLANK_JAR_PATH = "../test_runner/build/libs/flank.jar"
 const val CONFIGS_PATH = "./src/test/resources/cases"

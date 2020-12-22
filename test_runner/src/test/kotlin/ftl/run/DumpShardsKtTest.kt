@@ -10,7 +10,6 @@ import ftl.doctor.assertEqualsIgnoreNewlineStyle
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.ios2ConfigYaml
 import ftl.test.util.mixedConfigYaml
-import java.io.File
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -20,6 +19,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
+import java.io.File
 
 @RunWith(FlankTestRunner::class)
 class DumpShardsKtTest {

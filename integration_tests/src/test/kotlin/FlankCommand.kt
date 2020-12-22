@@ -1,5 +1,5 @@
-import java.io.File
 import utils.runCommand
+import java.io.File
 
 data class FlankCommand(val flankPath: String, val ymlPath: String, val params: List<String>)
 

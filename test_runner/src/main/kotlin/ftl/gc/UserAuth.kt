@@ -14,6 +14,8 @@ import io.ktor.routing.get
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -23,8 +25,6 @@ import java.net.URI
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 
 class UserAuth {
 

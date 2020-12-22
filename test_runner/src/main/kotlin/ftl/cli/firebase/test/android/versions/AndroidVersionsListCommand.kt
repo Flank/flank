@@ -4,8 +4,8 @@ import flank.common.logLn
 import ftl.android.AndroidCatalog.supportedVersionsAsTable
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
-import java.nio.file.Paths
 import picocli.CommandLine
+import java.nio.file.Paths
 
 @CommandLine.Command(
     name = "list",

@@ -1,9 +1,9 @@
 package flank.common
 
-import java.io.File
 import org.rauschig.jarchivelib.ArchiveFormat
 import org.rauschig.jarchivelib.ArchiverFactory
 import org.rauschig.jarchivelib.CompressionType
+import java.io.File
 
 fun File.extract(
     destination: File,

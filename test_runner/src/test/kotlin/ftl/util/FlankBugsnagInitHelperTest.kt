@@ -2,8 +2,6 @@ package ftl.util
 
 import ftl.log.LogbackLogger
 import io.mockk.unmockkAll
-import java.io.File
-import java.util.UUID
 import org.junit.After
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
@@ -11,6 +9,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
+import java.io.File
+import java.util.UUID
 
 private const val GSUTIL_FOLDER = ".gsutil"
 private const val ANALYTICS_FILE = "analytics-uuid"

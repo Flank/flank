@@ -11,11 +11,11 @@ import ftl.mock.MockServer
 import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards
 import ftl.run.newTestRun
-import java.nio.file.Paths
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
+import java.nio.file.Paths
 
 @Command(
     name = "run",

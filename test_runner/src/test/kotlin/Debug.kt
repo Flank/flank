@@ -2,8 +2,8 @@
 
 import ftl.Main
 import ftl.run.exception.withGlobalExceptionHandling
-import java.io.File
 import picocli.CommandLine
+import java.io.File
 
 fun main() {
     println(File("").absolutePath)

@@ -6,12 +6,12 @@ import ftl.android.AndroidCatalog
 import ftl.args.IArgs
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
-import java.nio.file.Files
-import java.nio.file.Paths
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
+import java.nio.file.Files
+import java.nio.file.Paths
 
 internal fun List<Pair<TestExecution, String>>.getAndUploadPerformanceMetrics(
     args: IArgs

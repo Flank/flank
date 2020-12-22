@@ -35,10 +35,6 @@ import io.mockk.every
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
-import java.io.StringReader
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.util.UUID
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -50,6 +46,10 @@ import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
+import java.io.StringReader
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.util.UUID
 
 @Suppress("TooManyFunctions")
 @RunWith(FlankTestRunner::class)

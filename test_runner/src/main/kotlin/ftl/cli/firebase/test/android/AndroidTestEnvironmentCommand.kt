@@ -10,8 +10,8 @@ import ftl.config.FtlConstants
 import ftl.environment.ipBlocksListAsTable
 import ftl.environment.networkConfigurationAsTable
 import ftl.environment.providedSoftwareAsTable
-import java.nio.file.Paths
 import picocli.CommandLine
+import java.nio.file.Paths
 
 @CommandLine.Command(
     name = "test-environment",

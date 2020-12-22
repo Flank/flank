@@ -5,9 +5,9 @@ import flank.common.isMacOS
 import flank.common.isWindows
 import ftl.run.exception.FlankGeneralError
 import ftl.test.util.FlankTestRunner
-import java.io.File
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.File
 
 @RunWith(FlankTestRunner::class)
 class BashTest {

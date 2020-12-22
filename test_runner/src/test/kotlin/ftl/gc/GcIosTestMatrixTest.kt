@@ -9,12 +9,12 @@ import ftl.util.ShardCounter
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
-import java.io.StringReader
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assume.assumeFalse
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.StringReader
 
 @RunWith(FlankTestRunner::class)
 class GcIosTestMatrixTest {

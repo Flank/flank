@@ -1,9 +1,9 @@
 package ftl.args
 
 import ftl.test.util.TestHelper
-import java.io.StringReader
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import java.io.StringReader
 
 class ValidateDirectoriesToPullAndroidArgsTest {
 

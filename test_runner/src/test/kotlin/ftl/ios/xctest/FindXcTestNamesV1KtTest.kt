@@ -3,9 +3,9 @@ package ftl.ios.xctest
 import com.google.common.truth.Truth.assertThat
 import flank.common.isWindows
 import ftl.ios.xctest.common.parseToNSDictionary
-import java.io.File
 import org.junit.Assume.assumeFalse
 import org.junit.Test
+import java.io.File
 
 class FindXcTestNamesV1KtTest {
 

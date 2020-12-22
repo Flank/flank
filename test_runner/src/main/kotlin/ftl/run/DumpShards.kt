@@ -1,10 +1,10 @@
 package ftl.run
 
 import flank.common.OutputLogLevel
+import flank.common.logLn
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
 import ftl.args.isInstrumentationTest
-import flank.common.logLn
 import ftl.ios.xctest.common.XcTestRunVersion.V1
 import ftl.ios.xctest.common.XcTestRunVersion.V2
 import ftl.run.common.prettyPrint

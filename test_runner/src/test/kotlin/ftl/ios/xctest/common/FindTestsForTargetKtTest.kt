@@ -7,11 +7,11 @@ import ftl.ios.xctest.multiTargetsSwiftXcTestRunV1
 import ftl.ios.xctest.swiftTestsV1
 import ftl.ios.xctest.swiftXcTestRunV1
 import ftl.run.exception.FlankGeneralError
+import org.junit.Assume.assumeFalse
+import org.junit.Test
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
-import org.junit.Assume.assumeFalse
-import org.junit.Test
 
 class FindTestsForTargetKtTest {
 

@@ -5,8 +5,8 @@ import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.ios.IosCatalog
 import ftl.run.exception.FlankConfigurationError
-import java.nio.file.Paths
 import picocli.CommandLine
+import java.nio.file.Paths
 
 @CommandLine.Command(
     name = "describe",

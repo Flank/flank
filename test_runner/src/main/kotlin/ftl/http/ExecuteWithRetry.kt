@@ -6,11 +6,11 @@ import ftl.config.FtlConstants
 import ftl.run.exception.FailureToken
 import ftl.run.exception.PermissionDenied
 import ftl.run.exception.ProjectNotFound
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import java.io.IOException
 import kotlin.math.exp
 import kotlin.math.roundToInt
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 
 // Only use on calls that don't change state.
 // Fetching status is safe to retry on timeout. Creating a matrix is not.

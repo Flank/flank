@@ -4,8 +4,8 @@ import flank.common.logLn
 import ftl.config.FtlConstants
 import ftl.json.SavedMatrix
 import ftl.run.cancelMatrices
-import kotlin.system.exitProcess
 import kotlinx.coroutines.runBlocking
+import kotlin.system.exitProcess
 
 fun withGlobalExceptionHandling(block: () -> Int) {
     try {

@@ -6,8 +6,8 @@ import ftl.run.exception.FlankGeneralError
 import ftl.test.util.TestHelper.getThrowable
 import io.mockk.every
 import io.mockk.mockkObject
-import java.io.File
 import org.junit.Test
+import java.io.File
 
 class UserAuthTest {
 

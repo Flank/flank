@@ -4,8 +4,8 @@ import flank.common.logLn
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.ios.IosCatalog.devicesCatalogAsTable
-import java.nio.file.Paths
 import picocli.CommandLine
+import java.nio.file.Paths
 
 @CommandLine.Command(
     name = "list",

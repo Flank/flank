@@ -3,10 +3,10 @@ package ftl.args.yml
 import ftl.run.exception.FlankGeneralError
 import ftl.test.util.TestHelper.getThrowable
 import ftl.util.loadFile
-import java.nio.file.Paths
-import java.util.UUID
 import org.junit.Assert
 import org.junit.Test
+import java.nio.file.Paths
+import java.util.UUID
 
 class FileLoaderTest {
     @Test(expected = FlankGeneralError::class)
