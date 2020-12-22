@@ -1,34 +1,40 @@
-package flank.scripts.utils
+package flank.common
 
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStream
-import java.io.OutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 import java.util.zip.ZipOutputStream
 
-fun unzip(src: File, dst: File = src.parentFile) {
-    print("* Unzipping: $src to $dst - ")
-    ZipFile(src).use { zipFile ->
-        zipFile.entries().asSequence().forEach { zipEntry ->
-            val outputFile = File(dst, zipEntry.name)
 
-            if (zipEntry.isDirectory) {
-                outputFile.mkdirs()
-                return@forEach
-            }
-
-            outputFile.parentFile.mkdirs()
-
-            zipFile.getInputStream(zipEntry) useCopyTo outputFile.outputStream()
-        }
-    }
-    println("OK")
+fun unzipFile(zipFileName: File, unzipPath: String): List<File> {
+    println("Unzipping: ${zipFileName.absolutePath} to $unzipPath")
+    return ZipFile(zipFileName).unzipTo(unzipPath)
 }
 
-private infix fun InputStream.useCopyTo(output: OutputStream) =
-    use { zipEntryInput -> output.use { output -> zipEntryInput.copyTo(output) } }
+private fun ZipFile.unzipTo(unzipPath: String) = use { zipFile ->
+    zipFile.entries()
+        .asSequence()
+        .fold(listOf<File>()) { unzippedFiles, zipFileEntry ->
+            unzippedFiles + zipFileEntry.saveToFile(zipFile, unzipPath)
+        }
+}
+
+private fun ZipEntry.saveToFile(zipFile: ZipFile, unzipPath: String): File {
+    val outputFile = File(unzipPath, name)
+    if(isDirectory) {
+        outputFile.mkdirs()
+    } else {
+        zipFile.getInputStream(this).use { zipEntryInput -> zipEntryInput.toFile(outputFile) }
+    }
+
+    return outputFile
+}
+
+private fun InputStream.toFile(destinationFile: File) {
+    destinationFile.outputStream().use { output -> copyTo(output) }
+}
 
 fun zip(src: File, dst: File) {
     print("* Zipping: $src to $dst - ")

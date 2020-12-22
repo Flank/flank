@@ -1,7 +1,6 @@
-package ftl.util
+package flank.common
 
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
+import org.junit.Assert
 import org.junit.Test
 import java.io.File
 import java.nio.file.Files
@@ -19,7 +18,7 @@ internal class FilesTest {
         createSymbolicLink(expectedDestination, testFile)
 
         // then
-        assertTrue(Files.isSymbolicLink(expectedDestination))
+        Assert.assertTrue(Files.isSymbolicLink(expectedDestination))
 
         // clean
         testFile.toFile().delete()
@@ -33,11 +32,11 @@ internal class FilesTest {
         val testDestination = Paths.get(Files.createTempDirectory("temp").toString(), "settings.gradle.kts")
 
         // when
-        download(testSource, testDestination)
+        downloadFile(testSource, testDestination)
 
         // then
-        assertTrue(testDestination.toFile().exists())
-        assertTrue(testDestination.toFile().length() > 0)
+        Assert.assertTrue(testDestination.toFile().exists())
+        Assert.assertTrue(testDestination.toFile().length() > 0)
     }
 
     @Test
@@ -62,8 +61,8 @@ internal class FilesTest {
             )
 
         // then
-        assertTrue(resultTrue)
-        assertFalse(resultFalse)
+        Assert.assertTrue(resultTrue)
+        Assert.assertFalse(resultFalse)
 
         // clean
         testDirectory.toFile().deleteRecursively()
