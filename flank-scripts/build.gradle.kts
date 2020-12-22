@@ -181,3 +181,5 @@ fun execAndGetStdout(vararg args: String): String {
     }
     return stdout.toString().trimEnd()
 }
+
+tasks["formatKotlin"].dependsOn(tasks["checkIfVersionUpdated"])
