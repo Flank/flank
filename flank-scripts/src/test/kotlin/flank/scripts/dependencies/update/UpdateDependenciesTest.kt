@@ -19,7 +19,8 @@ class UpdateDependenciesTest {
         // given
         val copyOfTestVersions =
             testVersions.copyTo(
-                File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/VersionsAfterUpdateDependencies"))
+                File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/VersionsAfterUpdateDependencies")
+            )
         val expectedVersions =
             File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/ExpectedVersionAfterUpdateDependencies")
 

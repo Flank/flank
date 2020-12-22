@@ -8,8 +8,8 @@ import com.github.kittinunf.result.map
 import com.github.kittinunf.result.onError
 import com.github.kittinunf.result.success
 import flank.scripts.exceptions.mapClientErrorToGithubException
-import flank.scripts.github.objects.GitHubLabelDeserializable
 import flank.scripts.github.appendGitHubHeaders
+import flank.scripts.github.objects.GitHubLabelDeserializable
 import flank.scripts.utils.toJson
 import kotlinx.serialization.Serializable
 

@@ -82,7 +82,6 @@ class ReduceXcTestRunV1KtTest {
         assertThat(inputXml).isEqualTo(rewrittenXml.normalizeLineEnding())
     }
 
-
     @Test
     fun `rewrite methods in single test target`() {
         assumeFalse(FtlConstants.isWindows)
@@ -137,10 +136,14 @@ class ReduceXcTestRunV1KtTest {
         val resultMethods1 = target1["OnlyTestIdentifiers"] as NSArray
         val resultMethods2 = target2["OnlyTestIdentifiers"] as NSArray
 
-        assertThat(expectedMethods1.toSet()).isEqualTo(resultMethods1.array.map { it.toJavaObject() }
-            .toSet())
-        assertThat(expectedMethods2.toSet()).isEqualTo(resultMethods2.array.map { it.toJavaObject() }
-            .toSet())
+        assertThat(expectedMethods1.toSet()).isEqualTo(
+            resultMethods1.array.map { it.toJavaObject() }
+                .toSet()
+        )
+        assertThat(expectedMethods2.toSet()).isEqualTo(
+            resultMethods2.array.map { it.toJavaObject() }
+                .toSet()
+        )
     }
 
     @Test
@@ -191,9 +194,13 @@ class ReduceXcTestRunV1KtTest {
         val resultMethods1 = target1["OnlyTestIdentifiers"] as NSArray
         val resultMethods2 = target2["OnlyTestIdentifiers"] as NSArray
 
-        assertThat(expectedMethods1.toSet()).isEqualTo(resultMethods1.array.map { it.toJavaObject() }
-            .toSet())
-        assertThat(expectedMethods2.toSet()).isEqualTo(resultMethods2.array.map { it.toJavaObject() }
-            .toSet())
+        assertThat(expectedMethods1.toSet()).isEqualTo(
+            resultMethods1.array.map { it.toJavaObject() }
+                .toSet()
+        )
+        assertThat(expectedMethods2.toSet()).isEqualTo(
+            resultMethods2.array.map { it.toJavaObject() }
+                .toSet()
+        )
     }
 }

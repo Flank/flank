@@ -24,7 +24,6 @@ class ProcessResultTest {
             openedIssue = null
         )
 
-
     @Test
     fun `should create new issue for failed result`() {
         runBlocking {

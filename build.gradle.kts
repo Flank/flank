@@ -1,4 +1,5 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.jmailen.gradle.kotlinter.tasks.LintTask
 
 // Fix Exception in thread "main" java.lang.NoSuchMethodError: com.google.common.hash.Hashing.crc32c()Lcom/google/common/hash/HashFunction;
 // https://stackoverflow.com/a/45286710
@@ -12,9 +13,23 @@ configurations.all {
 
 plugins {
     kotlin(Plugins.Kotlin.PLUGIN_JVM) version Versions.KOTLIN
-    id(Plugins.DETEKT_PLUGIN) version Versions.DETEKT
+    id(Plugins.KTLINT_GRADLE_PLUGIN) version Versions.KTLINT_GRADLE
     id(Plugins.BEN_MANES_PLUGIN) version Versions.BEN_MANES
     id(Plugins.JFROG_BINTRAY) version Versions.BINTRAY
+}
+
+tasks {
+    "lintKotlinMain"(LintTask::class) {
+        exclude(
+            "**/*Generated.kt",
+            "**/*Test.kt",
+            "**/Test*.kt" //we can expand this list
+        )
+    }
+}
+
+subprojects {
+    apply(plugin = Plugins.KTLINT_GRADLE_PLUGIN)
 }
 
 repositories {
@@ -22,13 +37,12 @@ repositories {
     mavenCentral()
 }
 
-
 tasks.named("dependencyUpdates", DependencyUpdatesTask::class.java).configure {
 
     gradleReleaseChannel = "release-candidate"
 
     fun isStable(version: String) = listOf("RELEASE", "FINAL", "GA")
-            .any { version.toUpperCase().contains(it) } || "^[0-9,.v-]+(-r)?$".toRegex().matches(version)
+        .any { version.toUpperCase().contains(it) } || "^[0-9,.v-]+(-r)?$".toRegex().matches(version)
 
     fun isNonStable(version: String) = isStable(version).not()
 

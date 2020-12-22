@@ -10,7 +10,6 @@ import utils.toJUnitXmlFile
 import utils.toStringMap
 import java.io.File
 
-
 class IntegrationTests {
     @Test
     fun shouldMatchAndroidSuccessExitCodeAndPattern() {

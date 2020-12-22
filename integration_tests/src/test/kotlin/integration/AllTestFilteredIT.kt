@@ -3,8 +3,8 @@ package integration
 import FlankCommand
 import com.google.common.truth.Truth.assertThat
 import org.junit.Assume.assumeFalse
-import run
 import org.junit.Test
+import run
 
 class AllTestFilteredIT {
     private val name = this::class.java.simpleName

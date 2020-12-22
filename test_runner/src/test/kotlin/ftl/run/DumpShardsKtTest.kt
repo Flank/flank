@@ -14,12 +14,12 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
+import org.junit.Assume.assumeFalse
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import java.io.File
-import org.junit.Assume.assumeFalse
 
 @RunWith(FlankTestRunner::class)
 class DumpShardsKtTest {

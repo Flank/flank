@@ -134,7 +134,6 @@ class ReportManagerTest {
         every { refreshMatricesAndGetExecutions(any(), any()) } returns executions
         every { executions.createJUnitTestResult(any()) } returns JUnitTestResult(mutableListOf(suite))
 
-
         val junitTestResult = ReportManager.processXmlFromFile(matrix, mockArgs, ::parseOneSuiteXml)
         ReportManager.generate(matrix, mockArgs, emptyList())
         verify { GcStorage.uploadJunitXml(junitTestResult!!, mockArgs) }

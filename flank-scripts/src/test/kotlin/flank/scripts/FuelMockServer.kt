@@ -39,7 +39,10 @@ private fun Request.handleBugsnagResponse() =
     }
 
 fun Request.buildResponse(body: String, statusCode: Int) =
-    Response(url, statusCode = statusCode, responseMessage = body, body = DefaultBody(
-        { body.byteInputStream() },
-        { body.length.toLong() }
-    ))
+    Response(
+        url, statusCode = statusCode, responseMessage = body,
+        body = DefaultBody(
+            { body.byteInputStream() },
+            { body.length.toLong() }
+        )
+    )

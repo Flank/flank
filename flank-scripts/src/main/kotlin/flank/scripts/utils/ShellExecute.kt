@@ -7,16 +7,16 @@ fun List<String>.runCommand(
     fileForOutput: File? = null,
     environmentVariables: Map<String, String> = mapOf()
 ) = ProcessBuilder(this).apply {
-        environment().putAll(environmentVariables)
-        if (fileForOutput != null) {
-            redirectOutput(fileForOutput)
-            redirectError(fileForOutput)
-        } else {
-            redirectOutput(ProcessBuilder.Redirect.INHERIT)
-            redirectError(ProcessBuilder.Redirect.INHERIT)
-        }
+    environment().putAll(environmentVariables)
+    if (fileForOutput != null) {
+        redirectOutput(fileForOutput)
+        redirectError(fileForOutput)
+    } else {
+        redirectOutput(ProcessBuilder.Redirect.INHERIT)
+        redirectError(ProcessBuilder.Redirect.INHERIT)
     }
-        .startWithRetry(retryCount)
+}
+    .startWithRetry(retryCount)
 
 fun String.runCommand(
     retryCount: Int = 0,

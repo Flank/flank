@@ -23,12 +23,12 @@ fun createXcodeArchiveCommand(
     workspace: String = ""
 ) =
     "xcodebuild" +
-            " -allowProvisioningUpdates" +
-            (if (workspace.isBlank()) "" else " -workspace $workspace") +
-            (if (project.isBlank()) "" else " -project $project") +
-            " -scheme $scheme" +
-            " archive" +
-            " -archivePath $archivePath"
+        " -allowProvisioningUpdates" +
+        (if (workspace.isBlank()) "" else " -workspace $workspace") +
+        (if (project.isBlank()) "" else " -project $project") +
+        " -scheme $scheme" +
+        " archive" +
+        " -archivePath $archivePath"
 
 fun createXcodeExportArchiveCommand(
     archivePath: String,
@@ -36,7 +36,7 @@ fun createXcodeExportArchiveCommand(
     exportPath: String = ""
 ) =
     "xcodebuild -exportArchive" +
-            " -allowProvisioningUpdates" +
-            " -archivePath $archivePath" +
-            " -exportOptionsPlist $exportOptionsPlistPath" +
-            " -exportPath $exportPath"
+        " -allowProvisioningUpdates" +
+        " -archivePath $archivePath" +
+        " -exportOptionsPlist $exportOptionsPlistPath" +
+        " -exportPath $exportPath"

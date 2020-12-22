@@ -4,7 +4,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     java
     kotlin(Plugins.Kotlin.PLUGIN_JVM)
-    id(Plugins.DETEKT_PLUGIN)
 }
 
 group = "org.flank"
@@ -16,28 +15,12 @@ repositories {
     maven(url = "https://dl.bintray.com/kotlin/kotlinx")
 }
 
-detekt {
-    failFast = true // fail build on any finding
-    input = files("src/main/kotlin", "src/test/kotlin")
-    config = files("../config/detekt.yml")
-    autoCorrect = true //auto format for detekt via klint
-    buildUponDefaultConfig = true // preconfigure defaults
-    parallel = true
-
-    reports {
-        html.enabled = true // observe findings in your browser with structure and code snippets
-        xml.enabled = true // checkstyle like format mainly for integrations like Jenkins
-        txt.enabled = true // similar to the console output, contains issue signature to manually edit baseline files
-    }
-}
-
 dependencies {
     implementation(kotlin("stdlib"))
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.JACKSON_XML)
     testImplementation(Dependencies.JACKSON_KOTLIN)
     testImplementation(Dependencies.TRUTH)
-    detektPlugins(Dependencies.DETEKT_FORMATTING)
 }
 
 tasks.test {

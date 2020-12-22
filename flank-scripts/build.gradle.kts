@@ -9,7 +9,6 @@ plugins {
     kotlin(Plugins.Kotlin.PLUGIN_JVM)
     kotlin(Plugins.Kotlin.PLUGIN_SERIALIZATION) version Versions.KOTLIN
     id(Plugins.PLUGIN_SHADOW_JAR) version Versions.SHADOW
-    id(Plugins.DETEKT_PLUGIN)
     id(Plugins.MAVEN_PUBLISH)
     id(Plugins.JFROG_BINTRAY)
 }
@@ -17,6 +16,7 @@ plugins {
 val artifactID = "flank-scripts"
 
 val shadowJar: ShadowJar by tasks
+
 shadowJar.apply {
     archiveClassifier.set("")
     archiveFileName.set("$artifactID.jar")
@@ -28,7 +28,7 @@ shadowJar.apply {
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
-version = "1.2.3"
+version = "1.2.5"
 group = "com.github.flank"
 
 application {
@@ -38,6 +38,7 @@ application {
         "-Xms512m"
     )
 }
+
 bintray {
     user = System.getenv("JFROG_USER") ?: properties["JFROG_USER"].toString()
     key = System.getenv("JFROG_API_KEY") ?: properties["JFROG_API_KEY"].toString()
@@ -56,6 +57,7 @@ bintray {
         })
     })
 }
+
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
@@ -102,24 +104,6 @@ repositories {
     maven(url = "https://kotlin.bintray.com/kotlinx")
 }
 
-detekt {
-    input = files("src/main/kotlin", "src/test/kotlin")
-    config = files("../config/detekt.yml")
-    parallel = true
-    autoCorrect = true
-
-    reports {
-        xml {
-            enabled = false
-        }
-        html {
-            enabled = true
-        }
-    }
-}
-
-tasks["check"].dependsOn(tasks["detekt"])
-
 dependencies {
     implementation(kotlin("stdlib", org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION)) // or "stdlib-jdk8"
     implementation(Dependencies.KOTLIN_SERIALIZATION)
@@ -133,8 +117,6 @@ dependencies {
     implementation(Dependencies.GLASSFISH_JSON)
     implementation(Dependencies.ARCHIVE_LIB)
     implementation(Dependencies.TUKAANI_XZ)
-
-    detektPlugins(Dependencies.DETEKT_FORMATTING)
 
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.MOCKK)
@@ -200,4 +182,4 @@ fun execAndGetStdout(vararg args: String): String {
     return stdout.toString().trimEnd()
 }
 
-tasks["detekt"].dependsOn(tasks["checkIfVersionUpdated"])
+tasks["lintKotlin"].dependsOn(tasks["checkIfVersionUpdated"])
