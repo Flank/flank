@@ -15,7 +15,7 @@ internal class FilesTest {
         val expectedDestination = Paths.get(Files.createTempDirectory("temp").toString(), "test.link")
 
         // when
-        createSymbolicLink(expectedDestination, testFile)
+        createSymbolicLinkToFile(expectedDestination, testFile)
 
         // then
         Assert.assertTrue(Files.isSymbolicLink(expectedDestination))

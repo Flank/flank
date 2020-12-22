@@ -14,7 +14,7 @@ fun createSymbolicLink(
     link: String,
     target: String
 ) {
-    createSymbolicLink(
+    Files.createSymbolicLink(
         Paths.get(link)
             .also { linkPath -> if (Files.isSymbolicLink(linkPath)) Files.delete(linkPath) }
             .toAbsolutePath().normalize(),
@@ -24,7 +24,7 @@ fun createSymbolicLink(
     )
 }
 
-fun createSymbolicLink(link: Path, target: Path) {
+fun createSymbolicLinkToFile(link: Path, target: Path) {
     Files.createSymbolicLink(link, target.fileName)
 }
 
