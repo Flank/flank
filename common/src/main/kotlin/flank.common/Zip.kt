@@ -7,7 +7,6 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 import java.util.zip.ZipOutputStream
 
-
 fun unzipFile(zipFileName: File, unzipPath: String): List<File> {
     println("Unzipping: ${zipFileName.absolutePath} to $unzipPath")
     return ZipFile(zipFileName).unzipTo(unzipPath)
@@ -23,7 +22,7 @@ private fun ZipFile.unzipTo(unzipPath: String) = use { zipFile ->
 
 private fun ZipEntry.saveToFile(zipFile: ZipFile, unzipPath: String): File {
     val outputFile = File(unzipPath, name)
-    if(isDirectory) {
+    if (isDirectory) {
         outputFile.mkdirs()
     } else {
         zipFile.getInputStream(this).use { zipEntryInput -> zipEntryInput.toFile(outputFile) }

@@ -11,7 +11,6 @@ fun String.normalizeLineEnding(): String {
     return this.replace("\r\n", "\n")
 }
 
-
 fun String.trimStartLine(): String {
     return this.split("\n").drop(1).joinToString("\n")
 }

@@ -4,12 +4,6 @@ import org.rauschig.jarchivelib.ArchiveFormat
 import org.rauschig.jarchivelib.ArchiverFactory
 import org.rauschig.jarchivelib.CompressionType
 import java.io.File
-import java.io.FileInputStream
-import java.io.InputStream
-import java.util.zip.ZipEntry
-import java.util.zip.ZipFile
-import java.util.zip.ZipOutputStream
-
 
 fun File.extract(
     destination: File,
