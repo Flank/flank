@@ -3,9 +3,9 @@
 package ftl.run.common
 
 import com.google.testing.model.TestMatrix
+import flank.common.logLn
 import ftl.args.IArgs
 import ftl.gc.GcTestMatrix
-import flank.common.logLn
 import ftl.run.status.TestMatrixStatusPrinter
 import ftl.util.MatrixState
 import kotlinx.coroutines.coroutineScope

@@ -1,3 +1,4 @@
+import java.io.File
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Ignore
@@ -8,7 +9,6 @@ import utils.findTestDirectoryFromOutput
 import utils.loadAsTestSuite
 import utils.toJUnitXmlFile
 import utils.toStringMap
-import java.io.File
 
 class IntegrationTests {
     @Test

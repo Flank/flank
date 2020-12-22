@@ -1,10 +1,10 @@
 package flank.common
 
-import org.junit.Assert
-import org.junit.Test
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
+import org.junit.Assert
+import org.junit.Test
 
 internal class FilesTest {
 

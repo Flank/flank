@@ -3,9 +3,9 @@ package flank.scripts.ci.nexttag
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockkStatic
+import java.time.LocalDate
 import org.junit.BeforeClass
 import org.junit.Test
-import java.time.LocalDate
 
 class NextReleaseTagGeneratorTest {
 

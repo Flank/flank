@@ -1,9 +1,9 @@
 package ftl.reports
 
+import flank.common.log
 import ftl.args.IArgs
 import ftl.gc.GcStorage
 import ftl.json.MatrixMap
-import flank.common.log
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.xmlToString

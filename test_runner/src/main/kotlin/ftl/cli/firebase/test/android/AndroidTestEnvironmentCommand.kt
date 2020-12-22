@@ -1,5 +1,6 @@
 package ftl.cli.firebase.test.android
 
+import flank.common.logLn
 import ftl.android.AndroidCatalog.devicesCatalogAsTable
 import ftl.android.AndroidCatalog.localesAsTable
 import ftl.android.AndroidCatalog.supportedOrientationsAsTable
@@ -9,9 +10,8 @@ import ftl.config.FtlConstants
 import ftl.environment.ipBlocksListAsTable
 import ftl.environment.networkConfigurationAsTable
 import ftl.environment.providedSoftwareAsTable
-import flank.common.logLn
-import picocli.CommandLine
 import java.nio.file.Paths
+import picocli.CommandLine
 
 @CommandLine.Command(
     name = "test-environment",

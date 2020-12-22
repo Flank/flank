@@ -2,6 +2,7 @@
 
 package ftl.sample
 
+import java.time.Duration
 import okhttp3.Authenticator
 import okhttp3.Credentials
 import okhttp3.OkHttpClient
@@ -11,7 +12,6 @@ import okhttp3.Route
 import okhttp3.sse.EventSource
 import okhttp3.sse.EventSourceListener
 import okhttp3.sse.EventSources.createFactory
-import java.time.Duration
 
 fun main() {
     val id = ""

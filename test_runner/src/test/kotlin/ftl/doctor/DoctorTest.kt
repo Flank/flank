@@ -5,12 +5,12 @@ import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.test.util.FlankTestRunner
+import java.io.StringReader
+import java.nio.file.Paths
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.io.StringReader
-import java.nio.file.Paths
 
 @RunWith(FlankTestRunner::class)
 class DoctorTest {

@@ -8,8 +8,8 @@ import flank.common.hasAllFiles
 import flank.common.isMacOS
 import flank.common.isWindows
 import flank.common.logLn
-import flank.common.userHome
 import flank.common.unzipFile
+import flank.common.userHome
 import java.nio.file.Files
 import java.nio.file.Paths
 

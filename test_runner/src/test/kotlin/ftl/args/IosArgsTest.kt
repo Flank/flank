@@ -18,6 +18,7 @@ import ftl.test.util.TestHelper.getPath
 import ftl.test.util.assertThrowsWithMessage
 import io.mockk.every
 import io.mockk.mockkObject
+import java.io.StringReader
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -28,7 +29,6 @@ import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import picocli.CommandLine
-import java.io.StringReader
 
 @Suppress("TooManyFunctions")
 @RunWith(FlankTestRunner::class)

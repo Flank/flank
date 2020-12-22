@@ -9,14 +9,14 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
+import java.time.LocalDate
+import java.time.Year
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
-import java.time.LocalDate
-import java.time.Year
 
 @RunWith(FuelTestRunner::class)
 class NextReleaseTagCommandTest {

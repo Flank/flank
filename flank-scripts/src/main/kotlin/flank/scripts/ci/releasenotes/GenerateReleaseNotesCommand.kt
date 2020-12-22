@@ -8,8 +8,8 @@ import com.github.kittinunf.result.map
 import com.github.kittinunf.result.success
 import flank.scripts.ci.nexttag.generateNextReleaseTag
 import flank.scripts.github.getLatestReleaseTag
-import kotlinx.coroutines.runBlocking
 import java.io.File
+import kotlinx.coroutines.runBlocking
 
 class GenerateReleaseNotesCommand :
     CliktCommand("Command to append item to release notes", name = "generateReleaseNotes") {

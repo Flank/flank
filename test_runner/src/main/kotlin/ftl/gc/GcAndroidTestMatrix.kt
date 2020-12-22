@@ -12,6 +12,7 @@ import com.google.testing.model.TestMatrix
 import com.google.testing.model.TestSetup
 import com.google.testing.model.TestSpecification
 import com.google.testing.model.ToolResultsHistory
+import flank.common.join
 import ftl.args.AndroidArgs
 import ftl.args.isDontAutograntPermissions
 import ftl.gc.android.mapGcsPathsToApks
@@ -21,7 +22,6 @@ import ftl.gc.android.setEnvironmentVariables
 import ftl.gc.android.setupAndroidTest
 import ftl.run.exception.FlankGeneralError
 import ftl.run.platform.android.AndroidTestConfig
-import flank.common.join
 import ftl.util.timeoutToSeconds
 
 object GcAndroidTestMatrix {

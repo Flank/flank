@@ -1,9 +1,9 @@
 package ftl.cli.firebase
 
 import com.google.common.truth.Truth.assertThat
+import flank.common.normalizeLineEnding
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.test.util.FlankTestRunner
-import flank.common.normalizeLineEnding
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule

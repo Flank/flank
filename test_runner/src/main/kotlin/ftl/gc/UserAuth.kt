@@ -4,9 +4,9 @@ import com.google.auth.oauth2.ClientId
 import com.google.auth.oauth2.MemoryTokensStorage
 import com.google.auth.oauth2.UserAuthorizer
 import com.google.auth.oauth2.UserCredentials
-import ftl.config.FtlConstants
-import flank.common.userHome
 import flank.common.logLn
+import flank.common.userHome
+import ftl.config.FtlConstants
 import ftl.run.exception.FlankGeneralError
 import io.ktor.application.call
 import io.ktor.response.respondText
@@ -14,8 +14,6 @@ import io.ktor.routing.get
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -25,6 +23,8 @@ import java.net.URI
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 class UserAuth {
 

@@ -1,11 +1,11 @@
 package ftl.cli.firebase.test.ios.versions
 
+import flank.common.logLn
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.ios.IosCatalog.softwareVersionsAsTable
-import flank.common.logLn
-import picocli.CommandLine
 import java.nio.file.Paths
+import picocli.CommandLine
 
 @CommandLine.Command(
     name = "list",

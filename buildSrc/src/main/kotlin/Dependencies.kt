@@ -64,5 +64,3 @@ object Dependencies {
     const val GLASSFISH_JSON = "org.glassfish:javax.json:${Versions.GLASSFISH_JSON}"
     //endregion
 }
-
-

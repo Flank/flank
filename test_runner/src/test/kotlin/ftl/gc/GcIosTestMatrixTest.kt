@@ -1,20 +1,20 @@
 package ftl.gc
 
 import com.google.testing.model.IosDeviceList
-import ftl.args.IosArgs
 import flank.common.isWindows
+import ftl.args.IosArgs
 import ftl.ios.xctest.FIXTURES_PATH
 import ftl.test.util.FlankTestRunner
 import ftl.util.ShardCounter
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
+import java.io.StringReader
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assume.assumeFalse
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.io.StringReader
 
 @RunWith(FlankTestRunner::class)
 class GcIosTestMatrixTest {

@@ -1,8 +1,8 @@
 package ftl.cli.auth
 
 import com.google.common.truth.Truth.assertThat
-import ftl.test.util.FlankTestRunner
 import flank.common.normalizeLineEnding
+import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.ExpectedSystemExit

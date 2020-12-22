@@ -1,10 +1,10 @@
 package utils
 
+import java.io.File
+import java.nio.file.Paths
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import utils.testResults.TestSuites
-import java.io.File
-import java.nio.file.Paths
 
 fun String.findTestDirectoryFromOutput() =
     "results-dir:\\s.*\\s".toRegex().find(this)?.value.orEmpty().trim().replace("results-dir: ", "")

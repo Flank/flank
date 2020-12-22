@@ -1,12 +1,12 @@
 package flank.scripts.dependencies.update
 
+import java.io.File
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import java.io.File
 
 @RunWith(Parameterized::class)
 class UpdateGradleTest(private val settings: List<TestChannelSettings>) {

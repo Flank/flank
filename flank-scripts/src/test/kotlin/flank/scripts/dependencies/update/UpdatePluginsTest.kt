@@ -1,9 +1,9 @@
 package flank.scripts.dependencies.update
 
+import java.io.File
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import skipIfWindows
-import java.io.File
 
 class UpdatePluginsTest {
     private val testReport = File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/report.json")

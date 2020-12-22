@@ -5,12 +5,12 @@ import flank.common.isWindows
 import ftl.run.exception.FlankGeneralError
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath
+import java.io.File
 import org.junit.Assume.assumeFalse
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.EnvironmentVariables
 import org.junit.runner.RunWith
-import java.io.File
 
 @RunWith(FlankTestRunner::class)
 class ArgsHelperFilePathTest {

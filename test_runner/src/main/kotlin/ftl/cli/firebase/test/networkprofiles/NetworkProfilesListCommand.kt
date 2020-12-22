@@ -1,7 +1,7 @@
 package ftl.cli.firebase.test.networkprofiles
 
-import ftl.environment.networkConfigurationAsTable
 import flank.common.logLn
+import ftl.environment.networkConfigurationAsTable
 import picocli.CommandLine
 
 @CommandLine.Command(

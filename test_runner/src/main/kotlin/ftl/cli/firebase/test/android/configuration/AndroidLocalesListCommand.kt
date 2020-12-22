@@ -1,11 +1,11 @@
 package ftl.cli.firebase.test.android.configuration
 
+import flank.common.logLn
 import ftl.android.AndroidCatalog
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
-import flank.common.logLn
-import picocli.CommandLine
 import java.nio.file.Paths
+import picocli.CommandLine
 
 @CommandLine.Command(
     name = "list",

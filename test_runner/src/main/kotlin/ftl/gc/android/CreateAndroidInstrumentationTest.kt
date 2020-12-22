@@ -6,8 +6,8 @@ import com.google.testing.model.ManualSharding
 import com.google.testing.model.ShardingOption
 import com.google.testing.model.TestTargetsForShard
 import com.google.testing.model.UniformSharding
-import ftl.args.ShardChunks
 import flank.common.logLn
+import ftl.args.ShardChunks
 import ftl.run.platform.android.AndroidTestConfig
 
 internal fun createAndroidInstrumentationTest(

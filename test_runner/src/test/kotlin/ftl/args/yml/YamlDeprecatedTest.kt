@@ -4,11 +4,11 @@ import com.google.common.truth.Truth.assertThat
 import ftl.run.exception.FlankConfigurationError
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper
+import java.io.StringReader
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
-import java.io.StringReader
 
 @RunWith(FlankTestRunner::class)
 class YamlDeprecatedTest {

@@ -5,8 +5,8 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.kittinunf.result.Result
 import flank.scripts.github.getLatestReleaseTag
-import kotlinx.coroutines.runBlocking
 import kotlin.system.exitProcess
+import kotlinx.coroutines.runBlocking
 
 class NextReleaseTagCommand : CliktCommand(help = "Print next release tag", name = "nextReleaseTag") {
 

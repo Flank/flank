@@ -1,12 +1,12 @@
 package ftl.cli.firebase.test.android.models
 
+import flank.common.logLn
 import ftl.android.AndroidCatalog
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
-import flank.common.logLn
 import ftl.run.exception.FlankConfigurationError
-import picocli.CommandLine
 import java.nio.file.Paths
+import picocli.CommandLine
 
 @CommandLine.Command(
     name = "describe",

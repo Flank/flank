@@ -4,10 +4,10 @@ import flank.common.hasAllFiles
 import flank.common.isMacOS
 import flank.common.isWindows
 import flank.common.userHome
+import java.nio.file.Paths
 import org.junit.Assert.assertTrue
 import org.junit.Assume.assumeTrue
 import org.junit.Test
-import java.nio.file.Paths
 
 internal class InstallParseBinariesTest {
 

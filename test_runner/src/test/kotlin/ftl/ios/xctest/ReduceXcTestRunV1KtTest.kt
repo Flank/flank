@@ -4,10 +4,10 @@ import com.dd.plist.NSArray
 import com.dd.plist.NSDictionary
 import com.google.common.truth.Truth.assertThat
 import flank.common.isWindows
+import flank.common.normalizeLineEnding
 import ftl.args.IosArgs
 import ftl.ios.xctest.common.parseToNSDictionary
 import ftl.ios.xctest.common.toByteArray
-import flank.common.normalizeLineEnding
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.Assume.assumeFalse

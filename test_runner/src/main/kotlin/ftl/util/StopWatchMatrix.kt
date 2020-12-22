@@ -1,7 +1,7 @@
 package ftl.util
 
-import ftl.config.FtlConstants
 import flank.common.logLn
+import ftl.config.FtlConstants
 
 class StopWatchMatrix(private val stopwatch: StopWatch, private val matrixId: String) {
 

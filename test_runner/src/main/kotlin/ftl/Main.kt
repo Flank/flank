@@ -1,5 +1,6 @@
 package ftl
 
+import flank.common.logLn
 import ftl.cli.AuthCommand
 import ftl.cli.FirebaseCommand
 import ftl.cli.firebase.CancelCommand
@@ -9,7 +10,6 @@ import ftl.cli.firebase.test.IPBlocksCommand
 import ftl.cli.firebase.test.IosCommand
 import ftl.cli.firebase.test.NetworkProfilesCommand
 import ftl.cli.firebase.test.ProvidedSoftwareCommand
-import flank.common.logLn
 import ftl.log.setDebugLogging
 import ftl.run.exception.withGlobalExceptionHandling
 import ftl.util.readRevision

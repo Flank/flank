@@ -6,9 +6,9 @@ import com.google.testing.model.GoogleCloudStorage
 import com.google.testing.model.ResultStorage
 import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
+import flank.common.isWindows
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
-import flank.common.isWindows
 import ftl.http.executeWithRetry
 import ftl.run.common.getDownloadPath
 import ftl.test.util.FlankTestRunner
@@ -17,6 +17,7 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
+import java.nio.file.Paths
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertFalse
@@ -26,7 +27,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
-import java.nio.file.Paths
 
 private const val OBJECT_NAME = "2019-03-22_15-30-02.189000_frjt"
 private const val FILE_NAME = "StandardOutputAndStandardError.txt"

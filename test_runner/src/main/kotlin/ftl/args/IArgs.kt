@@ -1,10 +1,10 @@
 package ftl.args
 
+import flank.common.OutputLogLevel
+import flank.common.setLogLevel
 import ftl.args.yml.Type
 import ftl.config.Device
 import ftl.config.common.CommonFlankConfig.Companion.defaultLocalResultsDir
-import flank.common.OutputLogLevel
-import flank.common.setLogLevel
 import ftl.run.status.OutputStyle
 import ftl.util.timeoutToMils
 

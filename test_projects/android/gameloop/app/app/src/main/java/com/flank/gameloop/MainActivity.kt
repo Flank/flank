@@ -3,17 +3,16 @@ package com.flank.gameloop
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
-
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val launchIntent = intent
         if (launchIntent.action == "com.google.intent.action.TEST_LOOP") {
-            when(val scenario = launchIntent.getIntExtra("scenario", 0)){
-                1->scenario1(scenario)
-                2->scenario2(scenario*2)
-                3->scenario3(scenario*3)
+            when (val scenario = launchIntent.getIntExtra("scenario", 0)) {
+                1 -> scenario1(scenario)
+                2 -> scenario2(scenario * 2)
+                3 -> scenario3(scenario * 3)
             }
             finish()
         } else {

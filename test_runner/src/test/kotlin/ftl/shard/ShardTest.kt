@@ -13,13 +13,13 @@ import ftl.util.FlankTestMethod
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
+import java.nio.file.Paths
+import kotlin.system.measureTimeMillis
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.nio.file.Paths
-import kotlin.system.measureTimeMillis
 
 @RunWith(FlankTestRunner::class)
 class ShardTest {

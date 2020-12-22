@@ -23,6 +23,7 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.spyk
 import io.mockk.unmockkAll
+import java.io.File
 import org.junit.After
 import org.junit.Assume
 import org.junit.Rule
@@ -30,7 +31,6 @@ import org.junit.Test
 import org.junit.contrib.java.lang.system.EnvironmentVariables
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.runner.RunWith
-import java.io.File
 
 @RunWith(FlankTestRunner::class)
 class ArgsHelperTest {

@@ -6,13 +6,13 @@ import ftl.Main
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
+import java.nio.file.Path
+import java.nio.file.Paths
+import kotlin.reflect.KClass
 import org.junit.Assert
 import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import picocli.CommandLine
-import java.nio.file.Path
-import java.nio.file.Paths
-import kotlin.reflect.KClass
 
 object TestHelper {
 

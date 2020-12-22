@@ -4,9 +4,9 @@ import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
 import ftl.doctor.assertEqualsIgnoreNewlineStyle
 import ftl.run.exception.FlankGeneralError
+import java.nio.file.Paths
 import org.junit.Assert
 import org.junit.Test
-import java.nio.file.Paths
 
 class JUnitXmlTest {
 

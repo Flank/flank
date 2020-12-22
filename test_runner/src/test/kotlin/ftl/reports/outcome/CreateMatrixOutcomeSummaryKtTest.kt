@@ -5,11 +5,11 @@ import com.google.api.services.toolresults.model.Step
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
+import kotlin.reflect.full.createInstance
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import kotlin.reflect.full.createInstance
 
 class CreateMatrixOutcomeSummaryKtTest {
 

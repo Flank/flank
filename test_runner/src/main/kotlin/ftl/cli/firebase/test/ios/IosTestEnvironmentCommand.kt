@@ -1,5 +1,6 @@
 package ftl.cli.firebase.test.ios
 
+import flank.common.logLn
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.environment.ipBlocksListAsTable
@@ -9,9 +10,8 @@ import ftl.ios.IosCatalog.devicesCatalogAsTable
 import ftl.ios.IosCatalog.localesAsTable
 import ftl.ios.IosCatalog.softwareVersionsAsTable
 import ftl.ios.IosCatalog.supportedOrientationsAsTable
-import flank.common.logLn
-import picocli.CommandLine
 import java.nio.file.Paths
+import picocli.CommandLine
 
 @CommandLine.Command(
     name = "test-environment",

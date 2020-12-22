@@ -1,10 +1,10 @@
 package flank.scripts.dependencies.update
 
 import flank.scripts.utils.toDependencyUpdate
+import java.io.File
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import skipIfWindows
-import java.io.File
 
 class UpdateVersionsInFileTest {
 

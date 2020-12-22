@@ -1,8 +1,8 @@
 package flank.common
 
+import java.io.File
 import org.junit.Assert
 import org.junit.Test
-import java.io.File
 
 internal class ArchiveKtTest {
 
