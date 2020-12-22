@@ -10,8 +10,8 @@ import flank.scripts.github.patchIssue
 import flank.scripts.github.postNewIssue
 import flank.scripts.github.postNewIssueComment
 import flank.scripts.utils.toJson
-import kotlin.system.exitProcess
 import kotlinx.coroutines.coroutineScope
+import kotlin.system.exitProcess
 
 internal suspend fun IntegrationContext.createNewIssue(): GitHubCreateIssueCommentRequest =
     createAndPostNewIssue().postComment()

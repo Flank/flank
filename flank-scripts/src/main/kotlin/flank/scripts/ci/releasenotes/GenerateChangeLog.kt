@@ -9,10 +9,10 @@ import flank.scripts.github.objects.GithubPullRequest
 import flank.scripts.github.objects.GithubUser
 import flank.scripts.utils.markdownLink
 import flank.scripts.utils.runCommand
-import java.io.File
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
+import java.io.File
 
 fun generateReleaseNotes(githubToken: String) = runBlocking {
     generateReleaseNotes(
