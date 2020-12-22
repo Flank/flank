@@ -1,8 +1,8 @@
 package flank.scripts.testartifacts.core
 
 import com.jcabi.github.Release
+import flank.common.downloadFile
 import flank.scripts.github.getRelease
-import flank.scripts.utils.downloadFile
 import java.io.File
 
 fun Context.downloadFixtures(

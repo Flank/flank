@@ -1,6 +1,6 @@
 package flank.scripts.ci.releasenotes
 
-import flank.scripts.utils.withNewLineAtTheEnd
+import flank.common.withNewLineAtTheEnd
 import java.io.File
 
 fun File.appendReleaseNotes(releaseNotesWithType: ReleaseNotesWithType, releaseTag: String) {

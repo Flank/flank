@@ -1,11 +1,11 @@
 package ftl.reports.utils
 
 import com.google.common.truth.Truth.assertThat
+import flank.common.normalizeLineEnding
 import ftl.reports.util.JUnitDedupe
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.xmlToString
 import ftl.test.util.FlankTestRunner
-import ftl.test.util.TestHelper.normalizeLineEnding
 import org.junit.Test
 import org.junit.runner.RunWith
 

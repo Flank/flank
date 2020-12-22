@@ -1,7 +1,7 @@
 package ftl.util
 
-import ftl.config.FtlConstants
-import ftl.log.logLn
+import flank.common.isWindows
+import flank.common.logLn
 import ftl.run.exception.FlankGeneralError
 import java.lang.ProcessBuilder.Redirect.PIPE
 
@@ -10,7 +10,7 @@ object Bash {
     fun execute(cmd: String): String {
         logLn(cmd)
 
-        val bashPath = if (FtlConstants.isWindows) "bash.exe" else "/bin/bash"
+        val bashPath = if (isWindows) "bash.exe" else "/bin/bash"
 
         val process = ProcessBuilder(bashPath, "-c", cmd)
             .redirectOutput(PIPE)

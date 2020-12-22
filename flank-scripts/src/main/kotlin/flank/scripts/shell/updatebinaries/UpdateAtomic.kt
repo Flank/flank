@@ -1,7 +1,7 @@
 package flank.scripts.shell.updatebinaries
 
-import flank.scripts.utils.downloadFile
-import flank.scripts.utils.extract
+import flank.common.downloadFile
+import flank.common.extract
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.stream.Collectors
@@ -19,8 +19,8 @@ fun updateAtomic() {
         println("Downloading Atomic...")
         atomicPath.toFile().mkdirs()
         downloadFile(
-            srcUrl = "http://mirrors.kernel.org/ubuntu/pool/main/g/gcc-8/libatomic1_8-20180414-1ubuntu2_amd64.deb",
-            destinationPath = atomicDeb.toString()
+            sourceUrl = "http://mirrors.kernel.org/ubuntu/pool/main/g/gcc-8/libatomic1_8-20180414-1ubuntu2_amd64.deb",
+            destination = atomicDeb.toString()
         )
     }
 

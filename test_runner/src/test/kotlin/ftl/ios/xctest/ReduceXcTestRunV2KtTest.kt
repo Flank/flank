@@ -1,8 +1,8 @@
 package ftl.ios.xctest
 
 import com.google.common.truth.Truth.assertThat
+import flank.common.isWindows
 import ftl.args.IosArgs
-import ftl.config.FtlConstants
 import ftl.ios.xctest.common.ONLY_TEST_IDENTIFIERS
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
@@ -15,7 +15,7 @@ class ReduceXcTestRunV2KtTest {
 
     @Test
     fun rewrite() {
-        assumeFalse(FtlConstants.isWindows)
+        assumeFalse(isWindows)
         // given
         val uiTestsMethods = listOf("UITestsClass/test1_1")
         val expected = listOf(
@@ -259,7 +259,7 @@ class ReduceXcTestRunV2KtTest {
 
     @Test
     fun `ensure rewrite not mutates root`() {
-        assumeFalse(FtlConstants.isWindows)
+        assumeFalse(isWindows)
 
         // given
         val args = IosArgs.default()

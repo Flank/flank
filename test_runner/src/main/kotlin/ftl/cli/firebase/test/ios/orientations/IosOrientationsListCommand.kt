@@ -1,9 +1,9 @@
 package ftl.cli.firebase.test.ios.orientations
 
+import flank.common.logLn
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.ios.IosCatalog
-import ftl.log.logLn
 import picocli.CommandLine
 import java.nio.file.Paths
 

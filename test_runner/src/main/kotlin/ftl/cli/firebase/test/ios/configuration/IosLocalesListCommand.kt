@@ -1,9 +1,9 @@
 package ftl.cli.firebase.test.ios.configuration
 
+import flank.common.logLn
 import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.ios.IosCatalog.localesAsTable
-import ftl.log.logLn
 import picocli.CommandLine
 import java.nio.file.Paths
 

@@ -1,6 +1,6 @@
 package ftl.shard
 
-import ftl.log.logLn
+import flank.common.logLn
 import ftl.util.FlankTestMethod
 import kotlin.math.roundToInt
 

@@ -1,6 +1,6 @@
 package ftl.ios.xctest.common
 
-import ftl.config.FtlConstants
+import flank.common.isMacOS
 import ftl.util.Bash
 
 internal fun parseObjcTests(binary: String): List<String> {
@@ -11,7 +11,7 @@ internal fun parseObjcTests(binary: String): List<String> {
     // https://github.com/linkedin/bluepill/blob/37e7efa42472222b81adaa0e88f2bd82aa289b44/Source/Shared/BPXCTestFile.m#L18
     // must quote binary path in case there are spaces
     var cmd = "nm -U ${binary.quote()}"
-    if (!FtlConstants.isMacOS) cmd = "PATH=~/.flank $cmd"
+    if (!isMacOS) cmd = "PATH=~/.flank $cmd"
     val output = Bash.execute(cmd)
 
     output.lines().forEach { line ->

@@ -1,8 +1,8 @@
 package ftl.gc
 
 import com.google.testing.model.IosDeviceList
+import flank.common.isWindows
 import ftl.args.IosArgs
-import ftl.config.FtlConstants.isWindows
 import ftl.ios.xctest.FIXTURES_PATH
 import ftl.test.util.FlankTestRunner
 import ftl.util.ShardCounter

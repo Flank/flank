@@ -1,7 +1,7 @@
 package ftl.args
 
 import com.google.common.truth.Truth
-import ftl.config.FtlConstants.isWindows
+import flank.common.isWindows
 import ftl.run.exception.FlankGeneralError
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.TestHelper.absolutePath

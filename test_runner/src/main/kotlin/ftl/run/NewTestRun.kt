@@ -1,12 +1,12 @@
 package ftl.run
 
+import flank.common.logLn
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.json.SavedMatrix
 import ftl.json.updateMatrixMap
 import ftl.json.validate
-import ftl.log.logLn
 import ftl.reports.util.ReportManager
 import ftl.run.common.fetchArtifacts
 import ftl.run.common.pollMatrices

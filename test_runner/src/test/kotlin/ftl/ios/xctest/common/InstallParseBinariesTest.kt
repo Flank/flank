@@ -1,7 +1,9 @@
 package ftl.ios.xctest.common
 
-import ftl.config.FtlConstants
-import ftl.util.hasAllFiles
+import flank.common.hasAllFiles
+import flank.common.isMacOS
+import flank.common.isWindows
+import flank.common.userHome
 import org.junit.Assert.assertTrue
 import org.junit.Assume.assumeTrue
 import org.junit.Test
@@ -12,14 +14,14 @@ internal class InstallParseBinariesTest {
     @Test
     fun `should install binaries for windows`() {
         // given
-        assumeTrue(FtlConstants.isWindows)
+        assumeTrue(isWindows)
 
         // when
         installBinaries
 
         // then
         assertTrue(
-            Paths.get(FtlConstants.userHome, ".flank").toFile().hasAllFiles(
+            Paths.get(userHome, ".flank").toFile().hasAllFiles(
                 listOf("libatomic.so.1", "libatomic.so.1.2.0")
             )
         )
@@ -28,14 +30,14 @@ internal class InstallParseBinariesTest {
     @Test
     fun `should install binaries for linux`() {
         // given
-        assumeTrue(FtlConstants.isWindows.not() && FtlConstants.isMacOS.not())
+        assumeTrue(isWindows.not() && isMacOS.not())
 
         // when
         installBinaries
 
         // then
         assertTrue(
-            Paths.get(FtlConstants.userHome, ".flank").toFile().hasAllFiles(
+            Paths.get(userHome, ".flank").toFile().hasAllFiles(
                 listOf("nm", "swift-demangle", "libatomic.so.1", "libatomic.so.1.2.0")
             )
         )

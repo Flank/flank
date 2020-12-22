@@ -1,8 +1,8 @@
 package ftl.util
 
-import ftl.log.OutputLogLevel
-import ftl.log.log
-import ftl.log.logLn
+import flank.common.OutputLogLevel
+import flank.common.log
+import flank.common.logLn
 import java.util.Timer
 import java.util.TimerTask
 

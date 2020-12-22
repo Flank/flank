@@ -1,9 +1,9 @@
 package ftl.util
 
 import com.google.common.truth.Truth.assertThat
-import ftl.log.OutputLogLevel
-import ftl.log.setLogLevel
-import ftl.test.util.TestHelper.normalizeLineEnding
+import flank.common.OutputLogLevel
+import flank.common.normalizeLineEnding
+import flank.common.setLogLevel
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

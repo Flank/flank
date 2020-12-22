@@ -1,7 +1,6 @@
-package ftl.log
+package flank.common
 
 import com.google.common.truth.Truth
-import ftl.test.util.TestHelper.normalizeLineEnding
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
@@ -11,7 +10,8 @@ class OutputLoggerTest {
 
     @Rule
     @JvmField
-    val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
+    val systemOutRule: SystemOutRule = SystemOutRule()
+        .enableLog().muteForSuccessfulTests()
 
     private val simpleMessage = "print for simple"
     private val detailedMessage = "print for detailed"

@@ -1,12 +1,12 @@
 package ftl.config
 
+import flank.common.trimStartLine
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
 import ftl.config.FtlConstants.defaultIosModel
 import ftl.config.FtlConstants.defaultIosVersion
 import ftl.config.FtlConstants.defaultLocale
 import ftl.config.FtlConstants.defaultOrientation
-import ftl.util.trimStartLine
 
 data class Device(
     val model: String,

@@ -1,5 +1,6 @@
 package ftl.args
 
+import flank.common.logLn
 import ftl.android.AndroidCatalog
 import ftl.android.AndroidCatalog.getSupportedVersionId
 import ftl.android.IncompatibleModelVersion
@@ -9,7 +10,6 @@ import ftl.android.UnsupportedVersionId
 import ftl.args.yml.Type
 import ftl.config.containsPhysicalDevices
 import ftl.config.containsVirtualDevices
-import ftl.log.logLn
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 import ftl.run.exception.IncompatibleTestDimensionError

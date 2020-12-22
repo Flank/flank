@@ -23,7 +23,7 @@ tasks {
         exclude(
             "**/*Generated.kt",
             "**/*Test.kt",
-            "**/Test*.kt" //we can expand this list
+            "**/Test*.kt" // we can expand this list
         )
     }
 }

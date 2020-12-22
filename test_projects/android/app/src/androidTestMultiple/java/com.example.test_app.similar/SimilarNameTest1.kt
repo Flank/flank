@@ -2,8 +2,6 @@ package com.example.test_app.similar
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.test_app.BaseInstrumentedTest
-import org.junit.Ignore
-import androidx.test.filters.Suppress
 import org.junit.Test
 import org.junit.runner.RunWith
 

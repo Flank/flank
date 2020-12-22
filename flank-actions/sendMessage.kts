@@ -1,15 +1,14 @@
 import kotlin.system.exitProcess
 
+// DEPS com.github.kittinunf.fuel:fuel:2.3.0
 
-//DEPS com.github.kittinunf.fuel:fuel:2.3.0
-
-//INCLUDE slackService.kt
-//INCLUDE common.kt
+// INCLUDE slackService.kt
+// INCLUDE common.kt
 
 val result = sendMessage(args)
 
 println("Message has been sent with result $result")
 
-if (result != 0){
+if (result != 0) {
     exitProcess(result)
 }

@@ -1,4 +1,4 @@
-package flank.scripts.utils
+package flank.common
 
 import org.rauschig.jarchivelib.ArchiveFormat
 import org.rauschig.jarchivelib.ArchiverFactory

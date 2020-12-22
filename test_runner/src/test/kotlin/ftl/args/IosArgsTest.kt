@@ -1,9 +1,9 @@
 package ftl.args
 
 import com.google.common.truth.Truth.assertThat
+import flank.common.isWindows
 import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.config.Device
-import ftl.config.FtlConstants
 import ftl.config.FtlConstants.defaultIosModel
 import ftl.config.FtlConstants.defaultIosVersion
 import ftl.config.defaultIosConfig
@@ -384,7 +384,7 @@ IosArgs
 
     @Test
     fun negativeOneTestShards() {
-        Assume.assumeFalse(FtlConstants.isWindows)
+        Assume.assumeFalse(isWindows)
 
         val args = IosArgs.load(
             """

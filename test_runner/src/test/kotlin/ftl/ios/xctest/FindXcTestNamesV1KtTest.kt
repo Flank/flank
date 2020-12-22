@@ -1,7 +1,7 @@
 package ftl.ios.xctest
 
 import com.google.common.truth.Truth.assertThat
-import ftl.config.FtlConstants
+import flank.common.isWindows
 import ftl.ios.xctest.common.parseToNSDictionary
 import org.junit.Assume.assumeFalse
 import org.junit.Test
@@ -11,7 +11,7 @@ class FindXcTestNamesV1KtTest {
 
     @Test
     fun findTestNames() {
-        assumeFalse(FtlConstants.isWindows)
+        assumeFalse(isWindows)
 
         // given
         val xctestrun = File(swiftXcTestRunV1)

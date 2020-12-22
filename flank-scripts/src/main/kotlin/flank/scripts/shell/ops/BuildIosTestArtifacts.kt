@@ -1,9 +1,9 @@
 package flank.scripts.shell.ops
 
+import flank.common.archive
 import flank.scripts.shell.ios.createXcodeBuildForTestingCommand
 import flank.scripts.shell.utils.flankFixturesIosTmpPath
 import flank.scripts.shell.utils.pipe
-import flank.scripts.utils.archive
 import flank.scripts.utils.downloadCocoaPodsIfNeeded
 import flank.scripts.utils.downloadXcPrettyIfNeeded
 import flank.scripts.utils.installPodsIfNeeded

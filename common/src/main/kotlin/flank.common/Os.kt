@@ -1,0 +1,13 @@
+package flank.common
+
+private val osName = System.getProperty("os.name")?.toLowerCase() ?: ""
+
+val isMacOS: Boolean by lazy {
+    val isMacOS = osName.indexOf("mac") >= 0
+    logLn("isMacOS = $isMacOS ($osName)")
+    isMacOS
+}
+
+val isWindows: Boolean by lazy {
+    osName.indexOf("win") >= 0
+}

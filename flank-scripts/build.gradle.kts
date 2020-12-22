@@ -1,8 +1,9 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.jfrog.bintray.gradle.BintrayExtension
-import java.util.*
-import java.nio.file.Paths
+import groovy.xml.dom.DOMCategory.attributes
 import java.io.ByteArrayOutputStream
+import java.nio.file.Paths
+import java.util.*
 
 plugins {
     application
@@ -28,7 +29,7 @@ shadowJar.apply {
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
-version = "1.2.5"
+version = "1.2.6"
 group = "com.github.flank"
 
 application {
@@ -97,7 +98,6 @@ tasks.test {
     minHeapSize = "512m"
 }
 
-
 repositories {
     jcenter()
     mavenCentral()
@@ -107,16 +107,12 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib", org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION)) // or "stdlib-jdk8"
     implementation(Dependencies.KOTLIN_SERIALIZATION)
-    implementation(Dependencies.Fuel.CORE)
-    implementation(Dependencies.Fuel.KOTLINX_SERIALIZATION)
-    implementation(Dependencies.Fuel.COROUTINES)
+    implementation(project(":common"))
     implementation(Dependencies.CLIKT)
     implementation(Dependencies.JSOUP)
     implementation(Dependencies.JCABI_GITHUB)
     implementation(Dependencies.SLF4J_NOP)
     implementation(Dependencies.GLASSFISH_JSON)
-    implementation(Dependencies.ARCHIVE_LIB)
-    implementation(Dependencies.TUKAANI_XZ)
 
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.MOCKK)
@@ -146,8 +142,8 @@ val checkIfVersionUpdated by tasks.registering(Exec::class) {
     doLast {
         val changedFiles = execAndGetStdout("git", "diff", "origin/master", "HEAD", "--name-only").split("\n") +
             execAndGetStdout("git", "diff", "origin/master", "--name-only").split("\n")
-        val isVersionChanged = changedFiles.any { it.startsWith("flank-scripts") }.not()
-            || (changedFiles.contains("flank-scripts/build.gradle.kts") && isVersionChangedInBuildGradle())
+        val isVersionChanged = changedFiles.any { it.startsWith("flank-scripts") }.not() ||
+            (changedFiles.contains("flank-scripts/build.gradle.kts") && isVersionChangedInBuildGradle())
 
         if (isVersionChanged.not()) {
             throw GradleException(

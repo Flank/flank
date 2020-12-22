@@ -1,6 +1,6 @@
 package ftl.cli.firebase.test
 
-import ftl.test.util.TestHelper.normalizeLineEnding
+import flank.common.normalizeLineEnding
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
