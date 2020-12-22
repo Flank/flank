@@ -1162,8 +1162,7 @@ IosArgs
     fun `should not throw exception if game-loop is provided and nothing else`() {
         val yaml = """
         gcloud:
-          test: $testPath
-          xctestrun-file: $testPath
+          app: $testPath
           results-dir: test
           type: game-loop
         """.trimIndent()
@@ -1188,8 +1187,7 @@ IosArgs
     fun `should not throw exception if game-loop is provided and scenario numbers are`() {
         val yaml = """
         gcloud:
-          test: $testPath
-          xctestrun-file: $testPath
+          app: $testPath
           results-dir: test
           type: game-loop
           scenario-numbers:

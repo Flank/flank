@@ -58,7 +58,14 @@ private fun IosArgs.assertMaxTestShards() {
     )
 }
 
-private fun IosArgs.assertTestTypes() {
+private fun IosArgs.assertTestTypes() = if (type == Type.GAMELOOP) validateGameloopFiles()
+else validateStandardTestTypes()
+
+private fun IosArgs.validateGameloopFiles() {
+    if (app.isBlank()) throw FlankConfigurationError("When you using gameloop you should set [app].")
+}
+
+private fun IosArgs.validateStandardTestTypes() {
     if (xctestrunFile.isBlank() or xctestrunZip.isBlank())
         throw FlankConfigurationError("Both of following options must be specified [test, xctestrun-file].")
 }
@@ -74,7 +81,8 @@ private fun IosArgs.assertDevicesSupported() = devices.forEach { device ->
         throw IncompatibleTestDimensionError("iOS ${device.version} on ${device.model} is not a supported\nSupported version ids for '${device.model}': ${device.getSupportedVersionId(project).joinToString()}")
 }
 
-private fun IosArgs.assertTestFiles() {
+private fun IosArgs.assertTestFiles() = if (type == Type.GAMELOOP) Unit
+else {
     ArgsHelper.assertFileExists(xctestrunFile, "from test")
     ArgsHelper.assertFileExists(xctestrunZip, "from xctestrun-file")
 }
@@ -90,6 +98,7 @@ private fun IosArgs.validType() {
 }
 
 private fun IosArgs.assertXcTestRunData() {
+    if (type == Type.GAMELOOP) return
     if (!disableSharding && testTargets.isNotEmpty()) {
         val filteredMethods = xcTestRunData
             .shardTargets.values

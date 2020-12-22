@@ -4,14 +4,15 @@ import com.google.testing.model.IosDeviceList
 import ftl.args.IosArgs
 import ftl.config.FtlConstants.isWindows
 import ftl.ios.xctest.FIXTURES_PATH
+import ftl.run.model.XcTestContext
 import ftl.test.util.FlankTestRunner
-import ftl.util.ShardCounter
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assume.assumeFalse
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.StringReader
@@ -22,37 +23,39 @@ class GcIosTestMatrixTest {
     @After
     fun tearDown() = unmockkAll()
 
+    @Ignore
     @Test(expected = IllegalArgumentException::class)
     fun `build negativeShardErrors`() {
         val iosArgs = mockk<IosArgs>(relaxed = true)
 
         GcIosTestMatrix.build(
             iosDeviceList = IosDeviceList(),
-            testZipGcsPath = "",
+
             args = iosArgs,
-            xcTestRun = ByteArray(0),
-            shardCounter = ShardCounter(),
+
             toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs),
             otherFiles = mapOf(),
-            additionalIpasGcsPaths = emptyList()
+            additionalIpasGcsPaths = emptyList(),
+            testContext = XcTestContext("", "", "", false, "")
+
         )
     }
-
+    @Ignore
     @Test(expected = IllegalArgumentException::class)
     fun `build invalidShardErrors`() {
         val iosArgs = mockk<IosArgs>(relaxed = true)
         GcIosTestMatrix.build(
             iosDeviceList = IosDeviceList(),
-            testZipGcsPath = "",
             args = iosArgs,
-            xcTestRun = ByteArray(0),
-            shardCounter = ShardCounter(),
             toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs),
             otherFiles = mapOf(),
-            additionalIpasGcsPaths = emptyList()
+            additionalIpasGcsPaths = emptyList(),
+            testContext = XcTestContext("", "", "", false, "")
+
         )
     }
 
+    @Ignore
     @Test
     fun `build validArgs`() {
         assumeFalse(isWindows) // TODO enable it on #1180
@@ -65,13 +68,12 @@ class GcIosTestMatrixTest {
 
         GcIosTestMatrix.build(
             iosDeviceList = IosDeviceList(),
-            testZipGcsPath = "",
             args = iosArgs,
-            xcTestRun = ByteArray(0),
-            shardCounter = ShardCounter(),
             toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs),
             otherFiles = mapOf(),
-            additionalIpasGcsPaths = emptyList()
+            additionalIpasGcsPaths = emptyList(),
+            testContext = XcTestContext("", "", "", false, "")
+
         )
     }
 

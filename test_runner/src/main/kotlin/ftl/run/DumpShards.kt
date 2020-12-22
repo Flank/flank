@@ -3,6 +3,7 @@ package ftl.run
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
 import ftl.args.isInstrumentationTest
+import ftl.args.yml.Type
 import ftl.log.OutputLogLevel
 import ftl.log.logLn
 import ftl.ios.xctest.common.XcTestRunVersion.V1
@@ -35,6 +36,8 @@ fun IosArgs.dumpShards(
     // VisibleForTesting
     shardFilePath: String = IOS_SHARD_FILE,
 ) {
+    if (type == Type.GAMELOOP) return
+
     val xcTestRunShards: Map<String, List<List<String>>> = xcTestRunData.shardTargets.mapValues {
         it.value.flatMap { it.values }
     }

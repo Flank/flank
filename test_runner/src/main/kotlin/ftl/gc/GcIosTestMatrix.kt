@@ -3,11 +3,9 @@ package ftl.gc
 import com.google.testing.Testing
 import com.google.testing.model.ClientInfo
 import com.google.testing.model.EnvironmentMatrix
-import com.google.testing.model.FileReference
 import com.google.testing.model.GoogleCloudStorage
 import com.google.testing.model.IosDeviceList
 import com.google.testing.model.IosTestSetup
-import com.google.testing.model.IosXcTest
 import com.google.testing.model.ResultStorage
 import com.google.testing.model.TestMatrix
 import com.google.testing.model.TestSpecification
@@ -16,9 +14,9 @@ import ftl.args.IosArgs
 import ftl.gc.android.mapGcsPathsToFileReference
 import ftl.gc.android.mapToIosDeviceFiles
 import ftl.gc.android.toIosDeviceFile
+import ftl.gc.ios.setupdIosTest
 import ftl.run.exception.FlankGeneralError
-import ftl.util.ShardCounter
-import ftl.util.join
+import ftl.run.model.IosTestContext
 import ftl.util.timeoutToSeconds
 
 object GcIosTestMatrix {
@@ -26,10 +24,8 @@ object GcIosTestMatrix {
     @Suppress("LongParameterList")
     fun build(
         iosDeviceList: IosDeviceList,
-        testZipGcsPath: String,
         args: IosArgs,
-        xcTestRun: ByteArray,
-        shardCounter: ShardCounter,
+        testContext: IosTestContext,
         toolResultsHistory: ToolResultsHistory,
         otherFiles: Map<String, String>,
         additionalIpasGcsPaths: List<String>
@@ -38,24 +34,6 @@ object GcIosTestMatrix {
             .setName("Flank")
             .setClientInfoDetails(args.clientDetails?.toClientInfoDetailList())
 
-        val gcsBucket = args.resultsBucket
-        val shardName = shardCounter.next()
-        val matrixGcsSuffix = join(args.resultsDir, shardName)
-        val matrixGcsPath = join(gcsBucket, matrixGcsSuffix)
-
-        // Add shard number to file name
-        val xctestrunNewFileName =
-            StringBuilder(args.xctestrunFile).insert(args.xctestrunFile.lastIndexOf("."), "_$shardName").toString()
-
-        val xctestrunFileGcsPath =
-            GcStorage.uploadXCTestFile(xctestrunNewFileName, gcsBucket, matrixGcsSuffix, xcTestRun)
-
-        val iOSXCTest = IosXcTest()
-            .setTestsZip(FileReference().setGcsPath(testZipGcsPath))
-            .setXctestrun(FileReference().setGcsPath(xctestrunFileGcsPath))
-            .setXcodeVersion(args.xcodeVersion)
-            .setTestSpecialEntitlements(args.testSpecialEntitlements)
-
         val iOSTestSetup = IosTestSetup()
             .setNetworkProfile(args.networkProfile)
             .setPushFiles(otherFiles.mapToIosDeviceFiles())
@@ -63,15 +41,15 @@ object GcIosTestMatrix {
             .setPullDirectories(args.directoriesToPull.toIosDeviceFiles())
 
         val testTimeoutSeconds = timeoutToSeconds(args.testTimeout)
-
+        testContext.toString()
         val testSpecification = TestSpecification()
             .setDisableVideoRecording(!args.recordVideo)
             .setTestTimeout("${testTimeoutSeconds}s")
             .setIosTestSetup(iOSTestSetup)
-            .setIosXcTest(iOSXCTest)
+            .setupdIosTest(testContext)
 
         val resultStorage = ResultStorage()
-            .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(matrixGcsPath))
+            .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(testContext.matrixGcsPath))
             .setToolResultsHistory(toolResultsHistory)
 
         val environmentMatrix = EnvironmentMatrix().setIosDeviceList(iosDeviceList)
