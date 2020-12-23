@@ -26,6 +26,5 @@ fun downloadSortJsonIfNeeded() {
 }
 
 fun installClientGeneratorIfNeeded() {
-    val generateLibraryCheckCommand = "generate_library"
-    generateLibraryCheckCommand.checkAndInstallIfNeed("pip install google-apis-client-generator")
+    "generate_library".checkAndInstallIfNeed("pip install google-apis-client-generator")
 }
