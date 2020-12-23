@@ -850,6 +850,10 @@ to have a unique non-shared credential. A service account is still recommended f
 Follow the [test lab docs](https://firebase.google.com/docs/test-lab/android/continuous) to create a service account.
 - Save the credential to `$HOME/.config/gcloud/application_default_credentials.json` or set `GOOGLE_APPLICATION_CREDENTIALS` when using a custom path.
 - Set the project id in flank.yml or set the `GOOGLE_CLOUD_PROJECT` environment variable.
+- (Since 21.01) if `projectId` is not set in a config yml file, flank uses the first available project ID among the following sources:
+    1. The project ID specified in the JSON credentials file pointed by the GOOGLE_APPLICATION_CREDENTIALS environment variable [fladle](https://runningcode.github.io/fladle/configuration/#serviceaccountcredentials)
+    1. The project ID specified by the GOOGLE_CLOUD_PROJECT environment variable
+    1. The project ID specified in the JSON credentials file `$HOME/.config/gcloud/application_default_credentials.json`
 
 For continuous integration, base64 encode the credential as `GCLOUD_KEY`. Then write the file using a shell script. Note that gcloud CLI does not need to be installed. Flank works without any dependency on gcloud CLI.
 

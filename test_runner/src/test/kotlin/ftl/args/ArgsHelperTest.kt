@@ -138,7 +138,7 @@ class ArgsHelperTest {
 
     @Test
     fun `getDefaultProjectId succeeds`() {
-        assertThat(ArgsHelper.getDefaultProjectId())
+        assertThat(ArgsHelper.getDefaultProjectIdOrNull())
             .isEqualTo("mockProjectId")
     }
 
