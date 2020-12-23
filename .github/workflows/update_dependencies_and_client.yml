@@ -26,6 +26,7 @@ jobs:
         run: |
           pip install google-apis-client-generator
           command -v generate_library
+          generate_library
 
   update_dependencies:
     runs-on: macos-latest
