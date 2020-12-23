@@ -9,7 +9,7 @@ import java.nio.file.Paths
 
 object UpdateApiJsonCommand : CliktCommand(name = "updateApiJson", help = "Download file for generating client") {
     override fun run() {
-        val jsonDirectoryPath = Paths.get(currentPath.toString(), "json")
+        val jsonDirectoryPath = Paths.get(currentPath.toString(), "firebase_apis", "json")
         val testingV1Path = Paths.get(jsonDirectoryPath.toString(), "testing_v1.json").toString()
         val testingV1Beta3Path = Paths.get(jsonDirectoryPath.toString(), "toolresults_v1beta3.json").toString()
 
