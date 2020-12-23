@@ -26,6 +26,6 @@ fun downloadSortJsonIfNeeded() {
 }
 
 fun installClientGeneratorIfNeeded() {
-    val generateLibraryCheckCommand = (if (isWindows) "where " else "command -v ") + "generate_library"
+    val generateLibraryCheckCommand = "generate_library"
     generateLibraryCheckCommand.checkAndInstallIfNeed("pip install google-apis-client-generator")
 }

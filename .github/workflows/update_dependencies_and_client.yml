@@ -63,6 +63,10 @@ jobs:
     needs: [ get_token_and_date ]
     steps:
       - uses: actions/checkout@v2
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '2.x'
 
       - name: Download flankScripts and add it to PATH
         run: |
@@ -71,6 +75,7 @@ jobs:
 
       - name: Update Java Client
         run: |
+          pip install google-apis-client-generator
           flankScripts shell firebase updateApiJson
           flankScripts shell firebase generateJavaClient
 
