@@ -24,7 +24,6 @@ jobs:
 
       - name: command tester
         run: |
-          command -v generate_library
           pip install google-apis-client-generator
           command -v generate_library
 
