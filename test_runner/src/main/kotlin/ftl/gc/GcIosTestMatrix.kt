@@ -41,7 +41,7 @@ object GcIosTestMatrix {
             .setPullDirectories(args.directoriesToPull.toIosDeviceFiles())
 
         val testTimeoutSeconds = timeoutToSeconds(args.testTimeout)
-        testContext.toString()
+
         val testSpecification = TestSpecification()
             .setDisableVideoRecording(!args.recordVideo)
             .setTestTimeout("${testTimeoutSeconds}s")

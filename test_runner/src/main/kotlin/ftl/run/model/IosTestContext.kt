@@ -4,7 +4,7 @@ sealed class IosTestContext(open val matrixGcsPath: String)
 
 data class XcTestContext(
     val xcTestGcsPath: String,
-    val xctestrunFileGcsPath: String,
+    val xcTestRunFileGcsPath: String,
     val xcodeVersion: String,
     val testSpecialEntitlements: Boolean,
     override val matrixGcsPath: String

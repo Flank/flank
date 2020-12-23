@@ -1,7 +1,6 @@
 package ftl.run.platform
 
 import ftl.args.IosArgs
-import ftl.args.yml.Type
 import ftl.gc.GcIosMatrix
 import ftl.gc.GcIosTestMatrix
 import ftl.gc.GcStorage
@@ -45,9 +44,8 @@ internal suspend fun IosArgs.runIosTests(): TestResult =
         if (disableResultsUpload.not())
             GcStorage.upload(IOS_SHARD_FILE, resultsBucket, resultsDir)
 
-        // Upload only after parsing shards to detect missing methods early.
-
-        logBeforeRunMessage()
+        val testShardChunks = xcTestRunData.flattenShardChunks()
+        logLn(beforeRunMessage(testShardChunks))
 
         val result = createIosTestContexts().map { context ->
             GcIosTestMatrix.build(
@@ -68,12 +66,6 @@ internal suspend fun IosArgs.runIosTests(): TestResult =
                 testMatrices = result,
                 stopwatch = stopwatch
             ),
-            shardChunks = if (type == Type.GAMELOOP) emptyList() else xcTestRunData.flattenShardChunks().testCases
+            shardChunks = testShardChunks.testCases
         )
     }
-
-private fun IosArgs.logBeforeRunMessage() {
-    if (type == Type.GAMELOOP) return
-    val testShardChunks = xcTestRunData.flattenShardChunks()
-    logLn(beforeRunMessage(testShardChunks))
-}

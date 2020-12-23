@@ -58,14 +58,15 @@ private fun IosArgs.assertMaxTestShards() {
     )
 }
 
-private fun IosArgs.assertTestTypes() = if (type == Type.GAMELOOP) validateGameloopFiles()
-else validateStandardTestTypes()
+private fun IosArgs.assertTestTypes() =
+    if (type == Type.GAMELOOP) validateGameloopFiles()
+    else validateXcTestTypes()
 
 private fun IosArgs.validateGameloopFiles() {
     if (app.isBlank()) throw FlankConfigurationError("When you using gameloop you should set [app].")
 }
 
-private fun IosArgs.validateStandardTestTypes() {
+private fun IosArgs.validateXcTestTypes() {
     if (xctestrunFile.isBlank() or xctestrunZip.isBlank())
         throw FlankConfigurationError("Both of following options must be specified [test, xctestrun-file].")
 }
@@ -81,11 +82,11 @@ private fun IosArgs.assertDevicesSupported() = devices.forEach { device ->
         throw IncompatibleTestDimensionError("iOS ${device.version} on ${device.model} is not a supported\nSupported version ids for '${device.model}': ${device.getSupportedVersionId(project).joinToString()}")
 }
 
-private fun IosArgs.assertTestFiles() = if (type == Type.GAMELOOP) Unit
-else {
-    ArgsHelper.assertFileExists(xctestrunFile, "from test")
-    ArgsHelper.assertFileExists(xctestrunZip, "from xctestrun-file")
-}
+private fun IosArgs.assertTestFiles() =
+    if (type == Type.XCTEST) {
+        ArgsHelper.assertFileExists(xctestrunFile, "from test")
+        ArgsHelper.assertFileExists(xctestrunZip, "from xctestrun-file")
+    } else ArgsHelper.assertFileExists(app, "from app")
 
 private fun IosArgs.assertAdditionalIpas() {
     if (additionalIpas.size > 100) throw FlankConfigurationError("Maximum 100 additional ipas are supported")
@@ -97,31 +98,31 @@ private fun IosArgs.validType() {
         throw FlankConfigurationError("Type should be one of ${validIosTypes.joinToString(",")}")
 }
 
-private fun IosArgs.assertXcTestRunData() {
-    if (type == Type.GAMELOOP) return
-    if (!disableSharding && testTargets.isNotEmpty()) {
-        val filteredMethods = xcTestRunData
-            .shardTargets.values
-            .flatten()
-            .flatMap { it.values }
-            .flatten()
+private fun IosArgs.assertXcTestRunData() =
+    takeIf { type == Type.XCTEST }?.let {
+        if (!disableSharding && testTargets.isNotEmpty()) {
+            val filteredMethods = xcTestRunData
+                .shardTargets.values
+                .flatten()
+                .flatMap { it.values }
+                .flatten()
 
-        if (filteredMethods.isEmpty()) throw FlankGeneralError(
-            "Empty shards. Cannot match any method to $testTargets"
-        )
+            if (filteredMethods.isEmpty()) throw FlankGeneralError(
+                "Empty shards. Cannot match any method to $testTargets"
+            )
 
-        if (filteredMethods.size < testTargets.size) {
-            val regexList = testTargets.mapToRegex()
+            if (filteredMethods.size < testTargets.size) {
+                val regexList = testTargets.mapToRegex()
 
-            val notMatched = testTargets.filter {
-                filteredMethods.all { method ->
-                    regexList.any { regex ->
-                        regex.matches(method)
+                val notMatched = testTargets.filter {
+                    filteredMethods.all { method ->
+                        regexList.any { regex ->
+                            regex.matches(method)
+                        }
                     }
                 }
-            }
 
-            logLn("WARNING: cannot match test_targets: $notMatched")
+                logLn("WARNING: cannot match test_targets: $notMatched")
+            }
         }
     }
-}

@@ -29,4 +29,22 @@ class GameloopIT {
             success = 1
         }
     }
+
+    @Test
+    fun iosGameloop() {
+        val name = "$name-ios"
+        val result = FlankCommand(
+            flankPath = FLANK_JAR_PATH,
+            ymlPath = "$CONFIGS_PATH/flank_ios_gameloop_success.yml",
+            params = iosRunCommands
+        ).run(
+            workingDirectory = "./",
+            testSuite = name
+        )
+
+        assertExitCode(result, 0)
+
+        val resOutput = result.output.removeUnicode()
+        Truth.assertThat(resOutput).containsMatch(findInCompare(name))
+    }
 }

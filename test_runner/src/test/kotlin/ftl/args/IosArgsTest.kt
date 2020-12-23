@@ -1170,6 +1170,19 @@ IosArgs
     }
 
     @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception if game-loop is set but app not`() {
+        val yaml = """
+        gcloud:
+          results-dir: test
+          type: game-loop
+          scenario-numbers:
+             - 1
+             - 2
+        """.trimIndent()
+        IosArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
     fun `should throw exception if game-loop is not provided and scenario numbers are`() {
         val yaml = """
         gcloud:
@@ -1201,8 +1214,7 @@ IosArgs
     fun `should throw exception if invalid scenario numbers are provided`() {
         val yaml = """
         gcloud:
-          test: $testPath
-          xctestrun-file: $testPath
+          app: $testPath
           results-dir: test
           type: game-loop
           scenario-numbers:

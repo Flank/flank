@@ -17,7 +17,7 @@ fun TestSpecification.setupdIosTest(context: IosTestContext) = apply {
 
 private fun setupXcTest(context: XcTestContext) = IosXcTest().apply {
     testsZip = FileReference().setGcsPath(context.xcTestGcsPath)
-    xctestrun = FileReference().setGcsPath(context.xctestrunFileGcsPath)
+    xctestrun = FileReference().setGcsPath(context.xcTestRunFileGcsPath)
     xcodeVersion = context.xcodeVersion
     testSpecialEntitlements = context.testSpecialEntitlements
 }

@@ -15,20 +15,24 @@ import kotlinx.coroutines.flow.map
 internal fun IosArgs.createXcTestContexts(): Flow<IosTestContext> {
     val shardCounter = ShardCounter()
     val xcTestGcsPath = uploadIfNeeded(xctestrunZip.asFileReference()).gcs
+    val gcsBucket = resultsBucket
     return xcTestRunFlow().map { xcTestRun ->
-
-        val gcsBucket = resultsBucket
         val shardName = shardCounter.next()
         val matrixGcsSuffix = join(resultsDir, shardName)
         val matrixGcsPath = join(gcsBucket, matrixGcsSuffix)
 
-        val xctestrunNewFileName =
+        val xcTestRunNewFileName =
             StringBuilder(xctestrunFile).insert(xctestrunFile.lastIndexOf("."), "_$shardName").toString()
 
-        val xctestrunFileGcsPath =
-            GcStorage.uploadXCTestFile(xctestrunNewFileName, gcsBucket, matrixGcsSuffix, xcTestRun)
+        val xcTestRunFileGcsPath =
+            GcStorage.uploadXCTestFile(xcTestRunNewFileName, gcsBucket, matrixGcsSuffix, xcTestRun)
 
-        XcTestContext(xcTestGcsPath, xctestrunFileGcsPath, xcodeVersion.orEmpty(), testSpecialEntitlements
-            ?: false, matrixGcsPath)
+        XcTestContext(
+            xcTestGcsPath = xcTestGcsPath,
+            xcTestRunFileGcsPath = xcTestRunFileGcsPath,
+            xcodeVersion = xcodeVersion.orEmpty(),
+            testSpecialEntitlements = testSpecialEntitlements ?: false,
+            matrixGcsPath = matrixGcsPath
+        )
     }
 }

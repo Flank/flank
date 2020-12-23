@@ -35,9 +35,7 @@ suspend fun AndroidArgs.dumpShards(
 fun IosArgs.dumpShards(
     // VisibleForTesting
     shardFilePath: String = IOS_SHARD_FILE,
-) {
-    if (type == Type.GAMELOOP) return
-
+) = takeIf { type == Type.XCTEST }?.let {
     val xcTestRunShards: Map<String, List<List<String>>> = xcTestRunData.shardTargets.mapValues {
         it.value.flatMap { it.values }
     }
