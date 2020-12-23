@@ -14,9 +14,10 @@ object GenerateJavaClientCommand : CliktCommand(name = "generateJavaClient", hel
     override fun run() {
         checkIfPipInstalled()
         installClientGeneratorIfNeeded()
-        val apiPath = Paths.get("test_api").toString()
+        val firebaseApiPath = Paths.get("", "firebase_apis").toString()
+        val apiPath = Paths.get(firebaseApiPath, "test_api").toString()
         val outputDirectory = Paths.get(apiPath, "src", "main", "java").toString()
-        val testingJsonInput = Paths.get("json", "testing_v1.json").toString()
+        val testingJsonInput = Paths.get(firebaseApiPath, "json", "testing_v1.json").toString()
         Paths.get(apiPath, "src").toFile().deleteRecursively()
 
         val generateLibraryCommand = "generate_library " +
