@@ -16,17 +16,7 @@ jobs:
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
-      
-      - name: Setup python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '2.x'
-
-      - name: command tester
-        run: |
-          pip install google-apis-client-generator
-          command -v generate_library
-          generate_library
+    
 
   update_dependencies:
     runs-on: macos-latest
