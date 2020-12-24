@@ -14,7 +14,7 @@ import ftl.args.IosArgs
 import ftl.gc.android.mapGcsPathsToFileReference
 import ftl.gc.android.mapToIosDeviceFiles
 import ftl.gc.android.toIosDeviceFile
-import ftl.gc.ios.setupdIosTest
+import ftl.gc.ios.setupIosTest
 import ftl.run.exception.FlankGeneralError
 import ftl.run.model.IosTestContext
 import ftl.util.timeoutToSeconds
@@ -25,7 +25,7 @@ object GcIosTestMatrix {
     fun build(
         iosDeviceList: IosDeviceList,
         args: IosArgs,
-        testContext: IosTestContext,
+        iosTestContext: IosTestContext,
         toolResultsHistory: ToolResultsHistory,
         otherFiles: Map<String, String>,
         additionalIpasGcsPaths: List<String>
@@ -46,10 +46,10 @@ object GcIosTestMatrix {
             .setDisableVideoRecording(!args.recordVideo)
             .setTestTimeout("${testTimeoutSeconds}s")
             .setIosTestSetup(iOSTestSetup)
-            .setupdIosTest(testContext)
+            .setupIosTest(iosTestContext)
 
         val resultStorage = ResultStorage()
-            .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(testContext.matrixGcsPath))
+            .setGoogleCloudStorage(GoogleCloudStorage().setGcsPath(iosTestContext.matrixGcsPath))
             .setToolResultsHistory(toolResultsHistory)
 
         val environmentMatrix = EnvironmentMatrix().setIosDeviceList(iosDeviceList)

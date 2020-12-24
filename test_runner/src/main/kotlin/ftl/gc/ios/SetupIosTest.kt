@@ -8,10 +8,10 @@ import ftl.run.model.GameloopTestContext
 import ftl.run.model.IosTestContext
 import ftl.run.model.XcTestContext
 
-fun TestSpecification.setupdIosTest(context: IosTestContext) = apply {
+fun TestSpecification.setupIosTest(context: IosTestContext) = apply {
     when (context) {
         is XcTestContext -> iosXcTest = setupXcTest(context)
-        is GameloopTestContext -> iosTestLoop = setupLoopTest(context)
+        is GameloopTestContext -> iosTestLoop = setupGameLoopTest(context)
     }
 }
 
@@ -22,7 +22,7 @@ private fun setupXcTest(context: XcTestContext) = IosXcTest().apply {
     testSpecialEntitlements = context.testSpecialEntitlements
 }
 
-private fun setupLoopTest(context: GameloopTestContext) = IosTestLoop().apply {
+private fun setupGameLoopTest(context: GameloopTestContext) = IosTestLoop().apply {
     appIpa = FileReference().setGcsPath(context.appGcsPath)
     scenarios = context.scenarios
 }

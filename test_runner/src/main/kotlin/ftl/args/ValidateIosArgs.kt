@@ -63,7 +63,7 @@ private fun IosArgs.assertTestTypes() =
     else validateXcTestTypes()
 
 private fun IosArgs.validateGameloopFiles() {
-    if (app.isBlank()) throw FlankConfigurationError("When you using gameloop you should set [app].")
+    if (app.isBlank()) throw FlankConfigurationError("When [gameloop] is specified, [app] must be set.")
 }
 
 private fun IosArgs.validateXcTestTypes() {

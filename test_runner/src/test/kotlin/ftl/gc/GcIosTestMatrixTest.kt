@@ -32,7 +32,7 @@ class GcIosTestMatrixTest {
             toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs),
             otherFiles = mapOf(),
             additionalIpasGcsPaths = emptyList(),
-            testContext = XcTestContext("", "", "", false, "")
+            iosTestContext = XcTestContext("", "", "", false, "")
         )
     }
 
@@ -45,7 +45,7 @@ class GcIosTestMatrixTest {
             toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs),
             otherFiles = mapOf(),
             additionalIpasGcsPaths = emptyList(),
-            testContext = XcTestContext("", "", "", false, "")
+            iosTestContext = XcTestContext("", "", "", false, "")
         )
     }
 
@@ -65,7 +65,7 @@ class GcIosTestMatrixTest {
             toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs),
             otherFiles = mapOf(),
             additionalIpasGcsPaths = emptyList(),
-            testContext = XcTestContext("", "", "", false, "")
+            iosTestContext = XcTestContext("", "", "", false, "")
 
         )
     }

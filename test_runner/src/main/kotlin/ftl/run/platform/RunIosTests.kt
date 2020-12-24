@@ -51,7 +51,7 @@ internal suspend fun IosArgs.runIosTests(): TestResult =
             GcIosTestMatrix.build(
                 iosDeviceList = iosDeviceList,
                 args = args,
-                testContext = context,
+                iosTestContext = context,
                 toolResultsHistory = history,
                 otherFiles = otherGcsFiles,
                 additionalIpasGcsPaths = additionalIpasGcsFiles
