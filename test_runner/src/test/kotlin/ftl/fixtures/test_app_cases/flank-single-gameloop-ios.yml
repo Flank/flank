@@ -1,5 +1,5 @@
 gcloud:
-  app: ./test_artifacts/master/ios/FlankGameLoopExample/FlankGameLoopExample.ipa
+  app: test_projects/ios/FlankGameLoopExample/ipa/FlankGameLoopExample.ipa
   type: game-loop
   scenario-numbers:
       - 1
