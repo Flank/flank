@@ -32,7 +32,7 @@ fun assertExitCode(result: ProcessResult, expectedExitCode: Int) = assertEquals(
       actual   ${result.exitCode}
     Output:
       ${result.output}
-""".trimIndent(),
+    """.trimIndent(),
     expectedExitCode,
     result.exitCode
 )
@@ -62,7 +62,8 @@ fun assertContainsUploads(input: String, vararg uploads: String) = uploads.forEa
 fun assertContainsOutcomeSummary(input: String, block: OutcomeSummary.() -> Unit) =
     OutcomeSummary().apply(block).matcher.entries.forEach { (outcome, times) ->
         val actual = outcome.regex.findAll(input).toList().size
-        if (actual != times) throw AssertionError("""
+        if (actual != times) throw AssertionError(
+            """
              |Incorrect number of ${outcome.name}
              |  expected: $times
              |  but was:  $actual

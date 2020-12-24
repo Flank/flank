@@ -8,7 +8,6 @@ import com.google.api.client.json.JsonFactory
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
-import ftl.log.logLn
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 import ftl.util.BugsnagInitHelper.initBugsnag
@@ -16,22 +15,6 @@ import ftl.util.readRevision
 
 object FtlConstants {
     var useMock = false
-
-    private val osName = System.getProperty("os.name")?.toLowerCase() ?: ""
-
-    val userHome: String by lazy {
-        if (isWindows) System.getenv("HOMEPATH") else System.getProperty("user.home")
-    }
-
-    val isMacOS: Boolean by lazy {
-        val isMacOS = osName.indexOf("mac") >= 0
-        logLn("isMacOS = $isMacOS ($osName)")
-        isMacOS
-    }
-
-    val isWindows: Boolean by lazy {
-        osName.indexOf("win") >= 0
-    }
 
     const val localhost = "http://localhost:8080"
     const val defaultLocale = "en"

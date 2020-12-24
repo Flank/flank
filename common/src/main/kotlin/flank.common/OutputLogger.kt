@@ -1,4 +1,4 @@
-package ftl.log
+package flank.common
 
 fun setLogLevel(logLevel: OutputLogLevel) {
     minimumLogLevel = logLevel

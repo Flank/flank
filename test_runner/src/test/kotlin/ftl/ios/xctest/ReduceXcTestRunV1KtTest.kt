@@ -3,11 +3,11 @@ package ftl.ios.xctest
 import com.dd.plist.NSArray
 import com.dd.plist.NSDictionary
 import com.google.common.truth.Truth.assertThat
+import flank.common.isWindows
+import flank.common.normalizeLineEnding
 import ftl.args.IosArgs
-import ftl.config.FtlConstants
 import ftl.ios.xctest.common.parseToNSDictionary
 import ftl.ios.xctest.common.toByteArray
-import ftl.test.util.TestHelper.normalizeLineEnding
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.Assume.assumeFalse
@@ -17,7 +17,7 @@ class ReduceXcTestRunV1KtTest {
 
     @Test
     fun rewrite() {
-        assumeFalse(FtlConstants.isWindows)
+        assumeFalse(isWindows)
 
         val results = runBlocking {
             IosArgs.default().copy(
@@ -34,7 +34,7 @@ class ReduceXcTestRunV1KtTest {
 
     @Test
     fun rewriteImmutable() {
-        assumeFalse(FtlConstants.isWindows)
+        assumeFalse(isWindows)
 
         val args = IosArgs.default().copy(
             xctestrunFile = swiftXcTestRunV1,
@@ -82,10 +82,9 @@ class ReduceXcTestRunV1KtTest {
         assertThat(inputXml).isEqualTo(rewrittenXml.normalizeLineEnding())
     }
 
-
     @Test
     fun `rewrite methods in single test target`() {
-        assumeFalse(FtlConstants.isWindows)
+        assumeFalse(isWindows)
         val methods = listOf(
             "FlankExampleTests/test1",
             "FlankExampleTests/test2"
@@ -115,7 +114,7 @@ class ReduceXcTestRunV1KtTest {
 
     @Test
     fun `rewrite methods in multiple test targets`() {
-        assumeFalse(FtlConstants.isWindows) // TODO enable it on #1180
+        assumeFalse(isWindows) // TODO enable it on #1180
 
         val expectedMethods1 =
             listOf("FlankExampleTests/test1", "FlankExampleTests/test2")
@@ -137,15 +136,19 @@ class ReduceXcTestRunV1KtTest {
         val resultMethods1 = target1["OnlyTestIdentifiers"] as NSArray
         val resultMethods2 = target2["OnlyTestIdentifiers"] as NSArray
 
-        assertThat(expectedMethods1.toSet()).isEqualTo(resultMethods1.array.map { it.toJavaObject() }
-            .toSet())
-        assertThat(expectedMethods2.toSet()).isEqualTo(resultMethods2.array.map { it.toJavaObject() }
-            .toSet())
+        assertThat(expectedMethods1.toSet()).isEqualTo(
+            resultMethods1.array.map { it.toJavaObject() }
+                .toSet()
+        )
+        assertThat(expectedMethods2.toSet()).isEqualTo(
+            resultMethods2.array.map { it.toJavaObject() }
+                .toSet()
+        )
     }
 
     @Test
     fun `rewrite incorrect methods in multiple test targets`() {
-        assumeFalse(FtlConstants.isWindows) // TODO enable it on #1180
+        assumeFalse(isWindows) // TODO enable it on #1180
 
         val methods = listOf(
             "incorrect1",
@@ -165,7 +168,7 @@ class ReduceXcTestRunV1KtTest {
 
     @Test
     fun `rewrite mix of correct and incorrect methods in multiple test targets`() {
-        assumeFalse(FtlConstants.isWindows) // TODO enable it on #1180
+        assumeFalse(isWindows) // TODO enable it on #1180
 
         val methods1 = listOf(
             "FlankExampleTests/test1",
@@ -191,9 +194,13 @@ class ReduceXcTestRunV1KtTest {
         val resultMethods1 = target1["OnlyTestIdentifiers"] as NSArray
         val resultMethods2 = target2["OnlyTestIdentifiers"] as NSArray
 
-        assertThat(expectedMethods1.toSet()).isEqualTo(resultMethods1.array.map { it.toJavaObject() }
-            .toSet())
-        assertThat(expectedMethods2.toSet()).isEqualTo(resultMethods2.array.map { it.toJavaObject() }
-            .toSet())
+        assertThat(expectedMethods1.toSet()).isEqualTo(
+            resultMethods1.array.map { it.toJavaObject() }
+                .toSet()
+        )
+        assertThat(expectedMethods2.toSet()).isEqualTo(
+            resultMethods2.array.map { it.toJavaObject() }
+                .toSet()
+        )
     }
 }

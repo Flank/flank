@@ -2,6 +2,7 @@ package ftl.android
 
 import com.google.testing.model.AndroidDevice
 import com.google.testing.model.AndroidDeviceCatalog
+import flank.common.logLn
 import ftl.config.Device
 import ftl.environment.android.asPrintableTable
 import ftl.environment.android.getDescription
@@ -10,7 +11,6 @@ import ftl.environment.common.asPrintableTable
 import ftl.environment.getLocaleDescription
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
-import ftl.log.logLn
 
 /**
  * Contains lists of possible Android device and version ids, as well as checks

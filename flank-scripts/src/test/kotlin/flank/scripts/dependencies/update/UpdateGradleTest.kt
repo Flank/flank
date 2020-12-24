@@ -4,9 +4,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
-import java.io.File
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import java.io.File
 
 @RunWith(Parameterized::class)
 class UpdateGradleTest(private val settings: List<TestChannelSettings>) {
@@ -66,7 +66,9 @@ class UpdateGradleTest(private val settings: List<TestChannelSettings>) {
 private fun File.replaceChannelTemplate(settings: List<TestChannelSettings>): String {
     var result = readText().replace("\r\n", "\n")
     for (setting in settings) {
-        result = result.replace("\"${setting.name}\": \\{([^{}]+)}".toRegex(), """
+        result = result.replace(
+            "\"${setting.name}\": \\{([^{}]+)}".toRegex(),
+            """
     |        "${setting.name}": {
     |            "version": "${setting.version}",
     |            "reason": "",
@@ -105,4 +107,3 @@ private class Current(
     version: String,
     isExpected: Boolean = false
 ) : TestChannelSettings("current", version, isExpected)
-

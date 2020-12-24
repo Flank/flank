@@ -22,10 +22,6 @@ object Libs {
     const val KOTLIN_REFLECT = "org.jetbrains.kotlin:kotlin-reflect:${Versions.KOTLIN}"
     const val KOTLIN_STD_LIB = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.KOTLIN}"
 
-    //region Plugins
-    const val DETEKT_FORMATTING = "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.DETEKT}"
-    //endregion
-
     //region Jackson
     const val JACKSON_KOTLIN = "com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.JACKSON}"
     const val JACKSON_XML = "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${Versions.JACKSON}"

@@ -1,15 +1,15 @@
 #!/bin/sh
 
-echo "Running detekt check"
-OUTPUT="/tmp/detekt-$(date +%s)"
-./gradlew detekt > $OUTPUT
+echo "Running ktlint check"
+OUTPUT="/tmp/ktlint-$(date +%s)"
+./gradlew formatKotlin > $OUTPUT
 EXIT_CODE=$?
 if [ $EXIT_CODE -ne 0 ]; then
   cat $OUTPUT
   rm $OUTPUT
   echo
   echo "***********************************************"
-  echo "                 Detekt failed                 "
+  echo "           Ktlint failed to autofix            "
   echo " Please fix the above issues before committing "
   echo "***********************************************"
   exit $EXIT_CODE

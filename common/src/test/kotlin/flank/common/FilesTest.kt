@@ -1,4 +1,4 @@
-package flank.scripts.utils
+package flank.common
 
 import org.junit.After
 import org.junit.Assert.assertTrue
@@ -8,7 +8,7 @@ import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 
-class FileKtTest {
+class FilesTest {
 
     private val linkName = "tmp"
     private val targetName = "../"

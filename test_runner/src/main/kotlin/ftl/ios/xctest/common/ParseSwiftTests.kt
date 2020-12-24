@@ -1,6 +1,6 @@
 package ftl.ios.xctest.common
 
-import ftl.config.FtlConstants.isMacOS
+import flank.common.isMacOS
 import ftl.util.Bash
 
 internal fun parseSwiftTests(binary: String): List<String> {

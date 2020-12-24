@@ -3,11 +3,10 @@ package flank.scripts.dependencies.update
 import flank.scripts.utils.toAvailableVersion
 import flank.scripts.utils.toDependency
 import flank.scripts.utils.toGradleReleaseChannel
-import org.junit.Test
-
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
+import org.junit.Test
 
 class DependencyExtensionsTest {
 
@@ -115,8 +114,7 @@ class DependencyExtensionsTest {
             running = toGradleReleaseChannel("1.1", "test", false, false),
         )
 
-
-            // when - then
+        // when - then
         assertTrue(gradleWhichNeedsUpdate.needsUpdate())
         assertTrue(gradleWhichNeedsUpdateRc.needsUpdate())
         assertFalse(gradleWhichDoesNotNeedUpdate.needsUpdate())

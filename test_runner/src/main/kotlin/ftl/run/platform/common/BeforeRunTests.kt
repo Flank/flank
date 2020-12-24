@@ -1,11 +1,11 @@
 package ftl.run.platform.common
 
+import flank.common.logLn
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.gc.GcStorage
 import ftl.gc.GcTesting
 import ftl.gc.GcToolResults
-import ftl.log.logLn
 import ftl.run.exception.FlankGeneralError
 import ftl.util.StopWatch
 import java.io.File

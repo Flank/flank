@@ -9,7 +9,8 @@ include(
     ":flank-scripts",
     ":integration_tests",
     "samples:gradle-export-api",
-    "test_projects:android"
+    "test_projects:android",
+    ":common"
 )
 
 plugins {

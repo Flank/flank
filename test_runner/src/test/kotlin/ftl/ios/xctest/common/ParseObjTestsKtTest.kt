@@ -1,6 +1,6 @@
 package ftl.ios.xctest.common
 
-import ftl.config.FtlConstants
+import flank.common.isWindows
 import ftl.ios.xctest.FIXTURES_PATH
 import ftl.ios.xctest.checkObjcTests
 import ftl.ios.xctest.objcBinary
@@ -12,7 +12,7 @@ class ParseObjTestsKtTest {
 
     @Test
     fun parseObjcTests() {
-        assumeFalse(FtlConstants.isWindows)
+        assumeFalse(isWindows)
 
         val results = parseObjcTests(objcBinary).sorted()
         checkObjcTests(results)
@@ -25,7 +25,7 @@ class ParseObjTestsKtTest {
 
     @Test
     fun `Parse ObjC with space in path`() {
-        assumeFalse(FtlConstants.isWindows)
+        assumeFalse(isWindows)
 
         val results = parseObjcTests("$FIXTURES_PATH/sp ace/objc/EarlGreyExampleTests").sorted()
         checkObjcTests(results)

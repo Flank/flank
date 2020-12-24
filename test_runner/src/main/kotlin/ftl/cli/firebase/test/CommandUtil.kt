@@ -1,8 +1,8 @@
 package ftl.cli.firebase.test
 
+import flank.common.logLn
 import ftl.args.yml.YamlDeprecated
 import ftl.args.yml.fixDevices
-import ftl.log.logLn
 import ftl.run.exception.YmlValidationError
 import java.nio.file.Path
 

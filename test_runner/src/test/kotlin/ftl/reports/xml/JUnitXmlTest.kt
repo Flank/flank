@@ -1,9 +1,9 @@
 package ftl.reports.xml
 
 import com.google.common.truth.Truth.assertThat
+import flank.common.normalizeLineEnding
 import ftl.doctor.assertEqualsIgnoreNewlineStyle
 import ftl.run.exception.FlankGeneralError
-import ftl.test.util.TestHelper.normalizeLineEnding
 import org.junit.Assert
 import org.junit.Test
 import java.nio.file.Paths

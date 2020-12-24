@@ -13,12 +13,12 @@ class ReleaseCommand : CliktCommand(name = "release", help = "Contains all relea
 
     init {
         subcommands(
-                ReleaseFlankCommand(),
-                UpdateBugSnagCommand(),
-                DeleteOldSnapshotCommand(),
-                SyncMavenCommand(),
-                DeleteOldReleaseCommand(),
-                DeleteOldTagCommand()
+            ReleaseFlankCommand(),
+            UpdateBugSnagCommand(),
+            DeleteOldSnapshotCommand(),
+            SyncMavenCommand(),
+            DeleteOldReleaseCommand(),
+            DeleteOldTagCommand()
         )
     }
 

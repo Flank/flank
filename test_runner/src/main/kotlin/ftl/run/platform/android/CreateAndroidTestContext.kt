@@ -10,13 +10,13 @@ import com.linkedin.dex.parser.getAnnotationsDirectory
 import com.linkedin.dex.parser.getClassAnnotationValues
 import com.linkedin.dex.spec.ClassDefItem
 import com.linkedin.dex.spec.DexFile
+import flank.common.logLn
 import ftl.args.AndroidArgs
 import ftl.args.ArgsHelper
 import ftl.args.CalculateShardsResult
 import ftl.config.FtlConstants
 import ftl.filter.TestFilter
 import ftl.filter.TestFilters
-import ftl.log.logLn
 import ftl.run.model.AndroidTestContext
 import ftl.run.model.InstrumentationTestContext
 import ftl.shard.createShardsByTestForShards

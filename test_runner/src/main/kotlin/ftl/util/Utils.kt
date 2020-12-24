@@ -5,9 +5,6 @@ package ftl.util
 import com.fasterxml.jackson.annotation.JsonProperty
 import ftl.run.exception.FlankGeneralError
 import java.io.InputStream
-import java.io.StringWriter
-import java.nio.file.Files
-import java.nio.file.Paths
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -15,27 +12,6 @@ import java.util.Random
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.KProperty
-
-fun String.trimStartLine(): String {
-    return this.split("\n").drop(1).joinToString("\n")
-}
-
-fun StringWriter.println(msg: String = "") {
-    this.append(msg + "\n")
-}
-
-fun String.write(data: String) {
-    Files.write(Paths.get(this), data.toByteArray())
-}
-
-fun join(first: String, vararg more: String): String {
-    // Note: Paths.get(...) does not work for joining because the path separator
-    // will be '\' on Windows which is invalid for a URI
-    return listOf(first, *more)
-        .joinToString("/")
-        .replace("\\", "/")
-        .replace(regex = Regex("/+"), replacement = "/")
-}
 
 fun assertNotEmpty(str: String, e: String) {
     if (str.isBlank()) {
@@ -126,3 +102,5 @@ fun <T> KMutableProperty<T?>.require() =
     getter.call() ?: throw FlankGeneralError(
         "Invalid value for [${setter.annotations.filterIsInstance<JsonProperty>().first().value}]: no argument value found"
     )
+
+fun getGACPathOrEmpty(): String = System.getenv("GOOGLE_APPLICATION_CREDENTIALS").orEmpty()

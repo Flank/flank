@@ -44,6 +44,6 @@ private fun GitHubWorkflowRun?.logRun() = this?.also {
      name: ${it.name}
      last run: ${it.createdAt}
      url: ${it.htmlUrl}
-""".trimIndent()
+        """.trimIndent()
     )
 }

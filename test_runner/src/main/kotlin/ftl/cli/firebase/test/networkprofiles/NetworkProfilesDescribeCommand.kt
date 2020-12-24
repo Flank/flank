@@ -1,7 +1,7 @@
 package ftl.cli.firebase.test.networkprofiles
 
+import flank.common.logLn
 import ftl.environment.networkProfileDescription
-import ftl.log.logLn
 import ftl.run.exception.FlankConfigurationError
 import picocli.CommandLine
 

@@ -10,17 +10,17 @@ import com.google.cloud.storage.BucketInfo
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageClass
 import com.google.cloud.storage.StorageOptions
+import flank.common.isWindows
+import flank.common.logLn
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 import ftl.args.yml.YamlObjectMapper
 import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.FtlConstants.JSON_FACTORY
-import ftl.config.FtlConstants.isWindows
 import ftl.config.FtlConstants.useMock
 import ftl.config.credential
 import ftl.config.defaultCredentialPath
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
-import ftl.log.logLn
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
@@ -30,6 +30,7 @@ import ftl.shard.createShardsByShardCount
 import ftl.shard.shardCountByTime
 import ftl.util.FlankTestMethod
 import ftl.util.assertNotEmpty
+import ftl.util.getGACPathOrEmpty
 import java.io.File
 import java.net.URI
 import java.nio.file.Files
@@ -43,6 +44,8 @@ object ArgsHelper {
     val yamlMapper: ObjectMapper by lazy {
         YamlObjectMapper().registerKotlinModule()
     }
+
+    private var projectIdSource: String? = null
 
     fun assertFileExists(file: String, name: String) {
         if (!file.exist()) throw FlankGeneralError("'$file' $name doesn't exist")
@@ -137,7 +140,7 @@ object ArgsHelper {
     // Make best effort to list/create the bucket.
     // Due to permission issues, the user may not be able to list or create buckets.
     fun createGcsBucket(projectId: String, bucket: String): String {
-        if (bucket.isBlank()) return GcToolResults.getDefaultBucket(projectId)
+        if (bucket.isBlank()) return GcToolResults.getDefaultBucket(projectId, projectIdSource)
             ?: throw FlankGeneralError("Failed to make bucket for $projectId")
         if (useMock) return bucket
 
@@ -178,29 +181,29 @@ object ArgsHelper {
         return bucket
     }
 
-    private fun serviceAccountProjectId(): String? {
-        try {
-            if (!defaultCredentialPath.toFile().exists()) return null
+    fun getDefaultProjectIdOrNull(): String? = if (useMock) "mockProjectId"
+    // Allow users control over project by checking using Google's logic first before falling back to JSON.
+    else fromUserProvidedCredentials()
+        ?: ServiceOptions.getDefaultProjectId()?.let { if (it.isBlank()) null else it }
+        ?: fromDefaultCredentials()
 
-            return JsonObjectParser(JSON_FACTORY).parseAndClose(
-                Files.newInputStream(defaultCredentialPath),
-                Charsets.UTF_8,
-                GenericJson::class.java
-            )["project_id"] as String
-        } catch (e: Exception) {
-            logLn("Parsing $defaultCredentialPath failed:")
-            logLn(e.printStackTrace())
-        }
+    private fun fromDefaultCredentials() = getProjectIdFromJson(defaultCredentialPath)
 
-        return null
-    }
+    private fun fromUserProvidedCredentials() =
+        getProjectIdFromJson(Paths.get(getGACPathOrEmpty()))
 
-    fun getDefaultProjectId(): String? {
-        if (useMock) return "mockProjectId"
-
-        // Allow users control over project by checking using Google's logic first before falling back to JSON.
-        return ServiceOptions.getDefaultProjectId() ?: serviceAccountProjectId()
-    }
+    private fun getProjectIdFromJson(jsonPath: Path): String? = if (!jsonPath.toFile().exists()) null
+    else runCatching {
+        projectIdSource = jsonPath.toAbsolutePath().toString()
+        JsonObjectParser(JSON_FACTORY).parseAndClose(
+            Files.newInputStream(jsonPath),
+            Charsets.UTF_8,
+            GenericJson::class.java
+        )["project_id"] as String
+    }.onFailure {
+        logLn("Parsing $jsonPath failed:")
+        logLn(it.printStackTrace())
+    }.getOrNull()
 
     // https://stackoverflow.com/a/2821201/2450315
     private val envRegex = Pattern.compile("\\$([a-zA-Z_]+[a-zA-Z0-9_]*)")
@@ -232,7 +235,10 @@ object ArgsHelper {
         forcedShardCount: Int? = null
     ): CalculateShardsResult {
         if (filteredTests.isEmpty()) {
-            return CalculateShardsResult(emptyList(), emptyList()) // Avoid unnecessary computing if we already know there aren't tests to run.
+            return CalculateShardsResult(
+                emptyList(),
+                emptyList()
+            ) // Avoid unnecessary computing if we already know there aren't tests to run.
         }
         val (ignoredTests, testsToExecute) = filteredTests.partition { it.ignored }
         val shards = if (args.disableSharding) {

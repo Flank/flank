@@ -1,9 +1,9 @@
 package ftl.cli.firebase.test.android.versions
 
+import flank.common.logLn
 import ftl.android.AndroidCatalog.supportedVersionsAsTable
 import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
-import ftl.log.logLn
 import picocli.CommandLine
 import java.nio.file.Paths
 

@@ -1,12 +1,12 @@
 package ftl.cli.firebase.test.android
 
+import flank.common.logLn
 import ftl.args.AndroidArgs
 import ftl.args.setupLogLevel
 import ftl.args.validate
 import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
 import ftl.config.emptyAndroidConfig
-import ftl.log.logLn
 import ftl.mock.MockServer
 import ftl.run.ANDROID_SHARD_FILE
 import ftl.run.dumpShards
@@ -65,4 +65,3 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
     )
     var dumpShards: Boolean = false
 }
-

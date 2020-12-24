@@ -2,18 +2,17 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.jfrog.bintray.gradle.BintrayExtension
 import groovy.util.Node
 import groovy.util.NodeList
-import org.gradle.api.tasks.testing.logging.TestExceptionFormat
-import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 import java.nio.file.Paths
 import java.util.*
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     application
     jacoco
     kotlin(Plugins.Kotlin.PLUGIN_JVM)
-    id(Plugins.DETEKT_PLUGIN)
     id(Plugins.JFROG_BINTRAY)
     id(Plugins.MAVEN_PUBLISH)
     id(Plugins.PLUGIN_SHADOW_JAR) version Versions.SHADOW
@@ -45,7 +44,6 @@ shadowJar.apply {
         exclude(dependency(Dependencies.JUNIT))
 
         exclude(dependency(Dependencies.PROGUARD))
-        exclude(dependency(Dependencies.DETEKT_FORMATTING))
     }
 }
 
@@ -139,26 +137,6 @@ publishing {
     }
 }
 
-detekt {
-    input = files("src/main/kotlin", "src/test/kotlin")
-    config = files("../config/detekt.yml")
-    parallel = true
-    failFast = true // fail build on any finding
-    autoCorrect = true
-
-    reports {
-        html.enabled = true // observe findings in your browser with structure and code snippets
-        xml.enabled = true // checkstyle like format mainly for integrations like Jenkins
-        txt.enabled = true // similar to the console output, contains issue signature to manually edit baseline files
-    }
-}
-
-// Kotlin dsl
-tasks.withType<io.gitlab.arturbosch.detekt.Detekt> {
-    // Target version of the generated JVM bytecode. It is used for type resolution.
-    this.jvmTarget = "1.8"
-}
-
 // http://www.eclemma.org/jacoco/
 jacoco {
     toolVersion = "0.8.6"
@@ -206,6 +184,7 @@ tasks.withType<Test> {
 }
 
 dependencies {
+    implementation(project(":common"))
     implementation(Dependencies.BUGSNAG)
 
     implementation(Dependencies.DD_PLIST)
@@ -247,8 +226,6 @@ dependencies {
     implementation(Dependencies.JSOUP)
     implementation(Dependencies.OKHTTP)
 
-    detektPlugins(Dependencies.DETEKT_FORMATTING)
-
     testImplementation(Dependencies.JUNIT)
     implementation(Dependencies.SYSTEM_RULES)
     testImplementation(Dependencies.TRUTH)
@@ -276,7 +253,6 @@ tasks.withType<KotlinCompile> {
 
 // https://github.com/gradle/kotlin-dsl/blob/master/samples/task-dependencies/build.gradle.kts#L41
 // https://github.com/codecov/example-gradle/blob/master/build.gradle#L25
-tasks["check"].dependsOn(tasks["jacocoTestReport"], tasks["detekt"])
 
 val updateFlank by tasks.registering(Exec::class) {
     group = "Build"

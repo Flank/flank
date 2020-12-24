@@ -56,7 +56,7 @@ class GcToolResultsTest {
     }
 
     @Test
-    fun `getDefaultBucket on 403 error should throw exception with specific message`() {
+    fun `getDefaultBucket on 403 error should throw exception with specific message - no source`() {
         val expected = """
             Flank encountered a 403 error when running on project $projectId. Please verify this credential is authorized for the project and has the required permissions.
             Consider authentication with a Service Account https://github.com/Flank/flank#authenticate-with-a-service-account
@@ -96,6 +96,51 @@ class GcToolResultsTest {
                 mockJSonException
             )
             val exception = getThrowable { GcToolResults.getDefaultBucket(projectId) }
+            assertEquals(expected, exception.message)
+        }
+    }
+
+    @Test
+    fun `getDefaultBucket on 403 error should throw exception with specific message - with source`() {
+        val expected = """
+            Flank encountered a 403 error when running on project $projectId (from /Any/path/to/json.json). Please verify this credential is authorized for the project and has the required permissions.
+            Consider authentication with a Service Account https://github.com/Flank/flank#authenticate-with-a-service-account
+            or with a Google account https://github.com/Flank/flank#authenticate-with-a-google-account
+            
+            Caused by: com.google.api.client.googleapis.json.GoogleJsonResponseException: 403 Forbidden
+            {
+              "code" : 403,
+              "errors" : [ {
+                "domain" : "global",
+                "message" : "The caller does not have permission",
+                "reason" : "forbidden"
+              } ],
+              "message" : "The caller does not have permission",
+              "status" : "PERMISSION_DENIED"
+            }
+        """.trimIndent()
+        mockkObject(GcToolResults) {
+            every { GcToolResults.service.applicationName } returns projectId
+
+            val exceptionBuilder = mockk<HttpResponseException.Builder>()
+            every { exceptionBuilder.message } returns """
+            403 Forbidden
+            {
+              "code" : 403,
+              "errors" : [ {
+                "domain" : "global",
+                "message" : "The caller does not have permission",
+                "reason" : "forbidden"
+              } ],
+              "message" : "The caller does not have permission",
+              "status" : "PERMISSION_DENIED"
+            }
+            """.trimIndent()
+            val mockJSonException = GoogleJsonResponseException(exceptionBuilder, null)
+            every { GcToolResults.service.Projects().initializeSettings(projectId) } throws PermissionDenied(
+                mockJSonException
+            )
+            val exception = getThrowable { GcToolResults.getDefaultBucket(projectId, "/Any/path/to/json.json") }
             assertEquals(expected, exception.message)
         }
     }

@@ -1,12 +1,12 @@
 package ftl.cli.firebase.test.ios
 
+import flank.common.logLn
 import ftl.args.IosArgs
 import ftl.args.setupLogLevel
 import ftl.args.validate
 import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
 import ftl.config.emptyIosConfig
-import ftl.log.logLn
 import ftl.mock.MockServer
 import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards

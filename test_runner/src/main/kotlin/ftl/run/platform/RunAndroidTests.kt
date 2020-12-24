@@ -2,6 +2,7 @@ package ftl.run.platform
 
 import com.google.testing.Testing
 import com.google.testing.model.TestMatrix
+import flank.common.logLn
 import ftl.args.AndroidArgs
 import ftl.args.isInstrumentationTest
 import ftl.gc.GcAndroidDevice
@@ -9,7 +10,6 @@ import ftl.gc.GcAndroidTestMatrix
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
-import ftl.log.logLn
 import ftl.run.ANDROID_SHARD_FILE
 import ftl.run.exception.FlankGeneralError
 import ftl.run.model.AndroidMatrixTestShards

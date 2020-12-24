@@ -50,4 +50,3 @@ sealed class Compare(private val lambda: (Int) -> Boolean) {
 private object Greater : Compare({ it > 0 })
 private object Smaller : Compare({ it < 0 })
 private object Equal : Compare({ it == 0 })
-

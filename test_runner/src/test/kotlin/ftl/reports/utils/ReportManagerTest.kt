@@ -2,8 +2,8 @@ package ftl.reports.utils
 
 import com.google.common.truth.Truth.assertThat
 import com.google.testing.model.TestExecution
+import flank.common.isWindows
 import ftl.args.AndroidArgs
-import ftl.config.FtlConstants
 import ftl.gc.GcStorage
 import ftl.json.validate
 import ftl.reports.CostReport
@@ -29,6 +29,7 @@ import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assume.assumeFalse
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemErrRule
@@ -134,7 +135,6 @@ class ReportManagerTest {
         every { refreshMatricesAndGetExecutions(any(), any()) } returns executions
         every { executions.createJUnitTestResult(any()) } returns JUnitTestResult(mutableListOf(suite))
 
-
         val junitTestResult = ReportManager.processXmlFromFile(matrix, mockArgs, ::parseOneSuiteXml)
         ReportManager.generate(matrix, mockArgs, emptyList())
         verify { GcStorage.uploadJunitXml(junitTestResult!!, mockArgs) }
@@ -234,7 +234,8 @@ class ReportManagerTest {
             JUnitTestCase("b", "b", "20.0"),
             JUnitTestCase("c", "c", "30.0")
         )
-        val oldRunSuite = JUnitTestSuite("", "-1", "-1", -1, "-1", "-1", "-1", "-1", "-1", "-1", oldRunTestCases, null, null, null)
+        val oldRunSuite =
+            JUnitTestSuite("", "-1", "-1", -1, "-1", "-1", "-1", "-1", "-1", "-1", oldRunTestCases, null, null, null)
         val oldTestResult = JUnitTestResult(mutableListOf(oldRunSuite))
 
         val newRunTestCases = mutableListOf(
@@ -242,7 +243,8 @@ class ReportManagerTest {
             JUnitTestCase("b", "b", "21.0"),
             JUnitTestCase("c", "c", "30.0")
         )
-        val newRunSuite = JUnitTestSuite("", "-1", "-1", -1, "-1", "-1", "-1", "-1", "-1", "-1", newRunTestCases, null, null, null)
+        val newRunSuite =
+            JUnitTestSuite("", "-1", "-1", -1, "-1", "-1", "-1", "-1", "-1", "-1", newRunTestCases, null, null, null)
         val newTestResult = JUnitTestResult(mutableListOf(newRunSuite))
 
         val mockArgs = mockk<AndroidArgs>()
@@ -273,16 +275,20 @@ class ReportManagerTest {
 
     @Test
     fun `should get weblink from legacy path and ios path`() {
-        if (FtlConstants.isWindows) return // TODO investigate as to why the pathing fails here completely
-        val legacyPath = File("results/2020-08-06_12-08-55.641213_jGpY/matrix_0/NexusLowRes-28-en-portrait/test_result_1.xml")
+        assumeFalse(isWindows) // TODO investigate as to why the pathing fails here completely
+        val legacyPath =
+            File("results/2020-08-06_12-08-55.641213_jGpY/matrix_0/NexusLowRes-28-en-portrait/test_result_1.xml")
         val iosPath = File("results/test_dir/shard_0/iphone8-12.0-en-portrait/test_result_0.xml")
-        assertEquals("2020-08-06_12-08-55.641213_jGpY/matrix_0", legacyPath.getMatrixPath("2020-08-06_12-08-55.641213_jGpY"))
+        assertEquals(
+            "2020-08-06_12-08-55.641213_jGpY/matrix_0",
+            legacyPath.getMatrixPath("2020-08-06_12-08-55.641213_jGpY")
+        )
         assertEquals("test_dir/shard_0", iosPath.getMatrixPath("test_dir"))
     }
 
     @Test
     fun `shouldn't contains multiple test_dir in MatrixPath`() {
-        if (FtlConstants.isWindows) return // TODO investigate as to why the pathing fails here completely
+        assumeFalse(isWindows) // TODO investigate as to why the pathing fails here completely
         val path = File("results/test_dir/test_dir/shard_0/iphone8-12.0-en-portrait/test_result_0.xml")
         assertEquals("test_dir/shard_0", path.getMatrixPath("test_dir"))
     }

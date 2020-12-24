@@ -1,9 +1,9 @@
 package flank.scripts.shell.ios
 
 import com.github.ajalt.clikt.core.CliktCommand
+import flank.common.archive
 import flank.scripts.shell.utils.failIfWindows
 import flank.scripts.shell.utils.pipe
-import flank.scripts.utils.archive
 import flank.scripts.utils.downloadXcPrettyIfNeeded
 import java.nio.file.Files
 import java.nio.file.Paths

@@ -1,7 +1,7 @@
 package ftl.ios.xctest.common
 
 import com.google.common.truth.Truth.assertThat
-import ftl.config.FtlConstants
+import flank.common.isWindows
 import ftl.ios.xctest.FIXTURES_PATH
 import ftl.ios.xctest.multiTargetsSwiftXcTestRunV1
 import ftl.ios.xctest.swiftTestsV1
@@ -17,7 +17,7 @@ class FindTestsForTargetKtTest {
 
     @Test
     fun `findTestNames respects skip`() {
-        assumeFalse(FtlConstants.isWindows)
+        assumeFalse(isWindows)
 
         val inputXml = """
 <?xml version="1.0" encoding="UTF-8"?>
@@ -65,20 +65,20 @@ class FindTestsForTargetKtTest {
 
     @Test
     fun findTestNamesForTestTarget() {
-        assumeFalse(FtlConstants.isWindows)
+        assumeFalse(isWindows)
         val names = findTestsForTestTarget(testTarget = "EarlGreyExampleSwiftTests", xctestrun = File(swiftXcTestRunV1)).sorted()
         assertThat(swiftTestsV1).isEqualTo(names)
     }
 
     @Test(expected = FlankGeneralError::class)
     fun `findTestNames for nonexisting test target`() {
-        assumeFalse(FtlConstants.isWindows)
+        assumeFalse(isWindows)
         findTestsForTestTarget(testTarget = "Incorrect", xctestrun = File(swiftXcTestRunV1)).sorted()
     }
 
     @Test
     fun `find test names for xctestrun file containing multiple test targets`() {
-        assumeFalse(FtlConstants.isWindows)
+        assumeFalse(isWindows)
         val names = findTestsForTestTarget(testTarget = "FlankExampleTests", xctestrun = File(multiTargetsSwiftXcTestRunV1)).sorted()
         assertThat(names).isEqualTo(listOf("FlankExampleTests/test1", "FlankExampleTests/test2"))
 

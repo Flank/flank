@@ -1,11 +1,11 @@
 package ftl.run
 
 import com.google.common.truth.Truth.assertThat
+import flank.common.isWindows
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
 import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.cli.firebase.test.ios.IosRunCommand
-import ftl.config.FtlConstants
 import ftl.doctor.assertEqualsIgnoreNewlineStyle
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.ios2ConfigYaml
@@ -14,12 +14,12 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
+import org.junit.Assume.assumeFalse
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
 import java.io.File
-import org.junit.Assume.assumeFalse
 
 @RunWith(FlankTestRunner::class)
 class DumpShardsKtTest {
@@ -77,7 +77,7 @@ class DumpShardsKtTest {
   }
 }
         """.trimIndent()
-        if (FtlConstants.isWindows) return // TODO Windows Linux subsytem does not contain all expected commands
+        if (isWindows) return // TODO Windows Linux subsytem does not contain all expected commands
         // when
         val actual = runBlocking {
             AndroidArgs.load(mixedConfigYaml).dumpShards(TEST_SHARD_FILE)
@@ -154,6 +154,8 @@ class DumpShardsKtTest {
 
     @Test
     fun `dump shards ios`() {
+        assumeFalse(isWindows) // TODO Windows Linux subsytem does not contain all expected commands
+
         // given
         val expected = """
 [
@@ -170,7 +172,6 @@ class DumpShardsKtTest {
   ]
 ]
         """.trimIndent()
-        if (FtlConstants.isWindows) return // TODO Windows Linux subsytem does not contain all expected commands
         // when
         val actual = runBlocking {
             IosArgs.load(ios2ConfigYaml).dumpShards(TEST_SHARD_FILE)
@@ -184,7 +185,7 @@ class DumpShardsKtTest {
 
     @Test
     fun `dump shards obfuscated ios`() {
-        assumeFalse(FtlConstants.isWindows) // TODO Windows Linux subsytem does not contain all expected commands
+        assumeFalse(isWindows) // TODO Windows Linux subsytem does not contain all expected commands
 
         // given
         val expected = """

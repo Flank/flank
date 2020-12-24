@@ -1,10 +1,10 @@
 package ftl.run.common
 
+import flank.common.logLn
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
-import ftl.log.logLn
 import ftl.run.exception.FlankGeneralError
 import java.nio.file.Paths
 

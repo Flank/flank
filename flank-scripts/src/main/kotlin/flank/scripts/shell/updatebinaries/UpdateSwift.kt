@@ -1,7 +1,7 @@
 package flank.scripts.shell.updatebinaries
 
-import flank.scripts.utils.downloadFile
-import flank.scripts.utils.extract
+import flank.common.downloadFile
+import flank.common.extract
 import flank.scripts.utils.isWindows
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -43,8 +43,8 @@ private fun updateSwiftOther() {
         println("Downloading swift")
         swiftPath.toFile().mkdirs()
         downloadFile(
-            srcUrl = "https://swift.org/builds/swift-5.0.1-release/ubuntu1604/swift-5.0.1-RELEASE/swift-5.0.1-RELEASE-ubuntu16.04.tar.gz",
-            destinationPath = swiftTarGz.toString()
+            sourceUrl = "https://swift.org/builds/swift-5.0.1-release/ubuntu1604/swift-5.0.1-RELEASE/swift-5.0.1-RELEASE-ubuntu16.04.tar.gz",
+            destination = swiftTarGz.toString()
         )
     }
 

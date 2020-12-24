@@ -1,11 +1,11 @@
 package ftl.run.status
 
 import com.google.common.annotations.VisibleForTesting
+import flank.common.OutputLogLevel
+import flank.common.log
+import flank.common.logLn
 import ftl.args.IArgs
 import ftl.config.FtlConstants
-import ftl.log.OutputLogLevel
-import ftl.log.log
-import ftl.log.logLn
 import org.fusesource.jansi.Ansi
 import org.fusesource.jansi.AnsiConsole
 

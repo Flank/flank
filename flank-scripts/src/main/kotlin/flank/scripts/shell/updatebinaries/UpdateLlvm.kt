@@ -1,7 +1,7 @@
 package flank.scripts.shell.updatebinaries
 
-import flank.scripts.utils.downloadFile
-import flank.scripts.utils.extract
+import flank.common.downloadFile
+import flank.common.extract
 import flank.scripts.utils.isWindows
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -42,8 +42,8 @@ private fun updateLlvmNonWindows() {
         println("Downloading LLVM...")
         llvmPath.toFile().mkdirs()
         downloadFile(
-            srcUrl = "http://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz",
-            destinationPath = llvmTarXz.toString()
+            sourceUrl = "http://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz",
+            destination = llvmTarXz.toString()
         )
     }
 

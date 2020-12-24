@@ -186,7 +186,7 @@ data class CommonFlankConfig @JsonIgnore constructor(
         const val defaultLocalResultsDir = "results"
 
         fun default() = CommonFlankConfig().apply {
-            project = ArgsHelper.getDefaultProjectId() ?: ""
+            project = ArgsHelper.getDefaultProjectIdOrNull()
             maxTestShards = 1
             shardTime = -1
             repeatTests = 1

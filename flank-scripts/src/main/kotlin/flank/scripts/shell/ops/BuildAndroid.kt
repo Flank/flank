@@ -80,8 +80,11 @@ fun AndroidBuildConfiguration.buildMultiModulesApks() {
     if (artifacts.canExecute("buildMultiModulesApks").not()) return
     createGradleCommand(
         workingDir = androidTestProjectsPath,
-        options = listOf("-p", androidTestProjectsPath,
-            ":multi-modules:multiapp:assemble") + (1..20).map { ":multi-modules:testModule$it:assembleAndroidTest" }).runCommand()
+        options = listOf(
+            "-p", androidTestProjectsPath,
+            ":multi-modules:multiapp:assemble"
+        ) + (1..20).map { ":multi-modules:testModule$it:assembleAndroidTest" }
+    ).runCommand()
 
     if (copy) copyMultiModulesApks()
 }

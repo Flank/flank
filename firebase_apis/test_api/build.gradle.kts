@@ -1,5 +1,8 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     `java-library`
+    kotlin(Plugins.Kotlin.PLUGIN_JVM)
 }
 
 java {
@@ -12,6 +15,14 @@ repositories {
 }
 
 dependencies {
-    // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
-    implementation("com.google.api-client:google-api-client:1.30.10")
+    implementation(Dependencies.GOOGLE_API_CLIENT)
+    implementation(kotlin("stdlib-jdk8"))
+}
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = "1.8"
 }

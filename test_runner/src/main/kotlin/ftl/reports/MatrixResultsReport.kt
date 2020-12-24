@@ -1,5 +1,7 @@
 package ftl.reports
 
+import flank.common.log
+import flank.common.println
 import ftl.args.IArgs
 import ftl.config.FtlConstants.indent
 import ftl.gc.GcStorage
@@ -7,10 +9,8 @@ import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
 import ftl.json.asPrintableTable
 import ftl.json.isFailed
-import ftl.log.log
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
-import ftl.util.println
 import java.io.StringWriter
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols

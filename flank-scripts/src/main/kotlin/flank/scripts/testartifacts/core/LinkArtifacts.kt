@@ -1,6 +1,6 @@
 package flank.scripts.testartifacts.core
 
-import flank.scripts.utils.createSymbolicLink
+import flank.common.createSymbolicLink
 
 fun Context.linkArtifacts() {
     print("* Creating link artifacts link for $branch - ")

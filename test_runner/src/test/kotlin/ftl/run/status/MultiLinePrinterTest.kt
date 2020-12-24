@@ -1,6 +1,6 @@
 package ftl.run.status
 
-import ftl.config.FtlConstants.isWindows
+import flank.common.isWindows
 import ftl.run.status.PrinterTestUtil.changes1
 import ftl.run.status.PrinterTestUtil.changes2
 import io.mockk.every
