@@ -3,7 +3,7 @@ package ftl.ios.xctest
 import com.dd.plist.NSDictionary
 import ftl.args.ArgsHelper.calculateShards
 import ftl.args.IosArgs
-import ftl.args.yml.Type
+import ftl.args.isXcTest
 import ftl.ios.xctest.common.XcTestRunVersion
 import ftl.ios.xctest.common.XcTestRunVersion.V1
 import ftl.ios.xctest.common.XcTestRunVersion.V2
@@ -25,7 +25,7 @@ data class XcTestRunData(
 )
 
 fun IosArgs.calculateXcTestRunData(): XcTestRunData =
-    if (type == Type.XCTEST) calculateXcTest()
+    if (isXcTest) calculateXcTest()
     else emptyXcTestRunData()
 
 private fun IosArgs.calculateXcTest(): XcTestRunData {

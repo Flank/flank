@@ -10,7 +10,7 @@ import ftl.util.uploadIfNeeded
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-internal fun IosArgs.createGameLoopTestContexts(): Flow<IosTestContext> {
+internal fun IosArgs.createGameloopTestContexts(): Flow<IosTestContext> {
     val shardCounter = ShardCounter()
     val appGcsPath = uploadIfNeeded(app.asFileReference()).gcs
     val gcsBucket = resultsBucket

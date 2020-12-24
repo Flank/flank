@@ -83,7 +83,7 @@ private fun IosArgs.assertDevicesSupported() = devices.forEach { device ->
 }
 
 private fun IosArgs.assertTestFiles() =
-    if (type == Type.XCTEST) {
+    if (isXcTest) {
         ArgsHelper.assertFileExists(xctestrunFile, "from test")
         ArgsHelper.assertFileExists(xctestrunZip, "from xctestrun-file")
     } else ArgsHelper.assertFileExists(app, "from app")
@@ -98,31 +98,30 @@ private fun IosArgs.validType() {
         throw FlankConfigurationError("Type should be one of ${validIosTypes.joinToString(",")}")
 }
 
-private fun IosArgs.assertXcTestRunData() =
-    takeIf { type == Type.XCTEST }?.let {
-        if (!disableSharding && testTargets.isNotEmpty()) {
-            val filteredMethods = xcTestRunData
-                .shardTargets.values
-                .flatten()
-                .flatMap { it.values }
-                .flatten()
+private fun IosArgs.assertXcTestRunData() = takeIf { isXcTest }?.let {
+    if (!disableSharding && testTargets.isNotEmpty()) {
+        val filteredMethods = xcTestRunData
+            .shardTargets.values
+            .flatten()
+            .flatMap { it.values }
+            .flatten()
 
-            if (filteredMethods.isEmpty()) throw FlankGeneralError(
-                "Empty shards. Cannot match any method to $testTargets"
-            )
+        if (filteredMethods.isEmpty()) throw FlankGeneralError(
+            "Empty shards. Cannot match any method to $testTargets"
+        )
 
-            if (filteredMethods.size < testTargets.size) {
-                val regexList = testTargets.mapToRegex()
+        if (filteredMethods.size < testTargets.size) {
+            val regexList = testTargets.mapToRegex()
 
-                val notMatched = testTargets.filter {
-                    filteredMethods.all { method ->
-                        regexList.any { regex ->
-                            regex.matches(method)
-                        }
+            val notMatched = testTargets.filter {
+                filteredMethods.all { method ->
+                    regexList.any { regex ->
+                        regex.matches(method)
                     }
                 }
-
-                logLn("WARNING: cannot match test_targets: $notMatched")
             }
+
+            logLn("WARNING: cannot match test_targets: $notMatched")
         }
     }
+}
