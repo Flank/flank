@@ -66,7 +66,6 @@ class GcIosTestMatrixTest {
             otherFiles = mapOf(),
             additionalIpasGcsPaths = emptyList(),
             iosTestContext = XcTestContext("", "", "", false, "")
-
         )
     }
 
