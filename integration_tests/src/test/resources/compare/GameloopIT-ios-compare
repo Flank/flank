@@ -52,7 +52,6 @@ IosArgs
       default-class-test-time: 240.0
 
 RunTests
-  Uploading ios_shards.json .
   0 test \/ 0 shard
 
   Uploading FlankGameLoopExample.ipa .

@@ -5,7 +5,6 @@ import flank.common.logLn
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
 import ftl.args.isInstrumentationTest
-import ftl.args.isXcTest
 import ftl.ios.xctest.common.XcTestRunVersion.V1
 import ftl.ios.xctest.common.XcTestRunVersion.V2
 import ftl.run.common.prettyPrint
@@ -35,7 +34,7 @@ suspend fun AndroidArgs.dumpShards(
 fun IosArgs.dumpShards(
     // VisibleForTesting
     shardFilePath: String = IOS_SHARD_FILE,
-) = takeIf { isXcTest }?.let {
+) {
     val xcTestRunShards: Map<String, List<List<String>>> = xcTestRunData.shardTargets.mapValues {
         it.value.flatMap { it.values }
     }

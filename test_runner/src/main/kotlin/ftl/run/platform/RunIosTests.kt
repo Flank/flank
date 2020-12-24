@@ -2,6 +2,7 @@ package ftl.run.platform
 
 import flank.common.logLn
 import ftl.args.IosArgs
+import ftl.args.isXcTest
 import ftl.gc.GcIosMatrix
 import ftl.gc.GcIosTestMatrix
 import ftl.gc.GcStorage
@@ -40,9 +41,7 @@ internal suspend fun IosArgs.runIosTests(): TestResult =
         val otherGcsFiles = uploadOtherFiles()
         val additionalIpasGcsFiles = uploadAdditionalIpas()
 
-        dumpShards()
-        if (disableResultsUpload.not())
-            GcStorage.upload(IOS_SHARD_FILE, resultsBucket, resultsDir)
+        dumpShardsIfXcTest()
 
         val testShardChunks = xcTestRunData.flattenShardChunks()
         logLn(beforeRunMessage(testShardChunks))
@@ -69,3 +68,9 @@ internal suspend fun IosArgs.runIosTests(): TestResult =
             shardChunks = testShardChunks.testCases
         )
     }
+
+private fun IosArgs.dumpShardsIfXcTest() = takeIf { isXcTest }?.let {
+    dumpShards()
+    if (disableResultsUpload.not())
+        GcStorage.upload(IOS_SHARD_FILE, resultsBucket, resultsDir)
+}
