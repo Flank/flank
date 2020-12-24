@@ -6,10 +6,10 @@ import ftl.args.AndroidArgs
 import ftl.args.IosArgs
 import ftl.args.isInstrumentationTest
 import ftl.args.isXcTest
-import ftl.log.OutputLogLevel
-import ftl.log.logLn
 import ftl.ios.xctest.common.XcTestRunVersion.V1
 import ftl.ios.xctest.common.XcTestRunVersion.V2
+import ftl.log.OutputLogLevel
+import ftl.log.logLn
 import ftl.run.common.prettyPrint
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.model.AndroidMatrixTestShards

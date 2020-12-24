@@ -10,7 +10,6 @@ import com.google.testing.model.ResultStorage
 import com.google.testing.model.TestMatrix
 import com.google.testing.model.TestSpecification
 import com.google.testing.model.ToolResultsHistory
-import flank.common.join
 import ftl.args.IosArgs
 import ftl.gc.android.mapGcsPathsToFileReference
 import ftl.gc.android.mapToIosDeviceFiles
