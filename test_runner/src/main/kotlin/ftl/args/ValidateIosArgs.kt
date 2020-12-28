@@ -4,6 +4,7 @@ import flank.common.logLn
 import ftl.args.yml.Type
 import ftl.ios.IosCatalog
 import ftl.ios.IosCatalog.getSupportedVersionId
+import ftl.ios.xctest.XcTestRunData
 import ftl.ios.xctest.common.mapToRegex
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
@@ -98,30 +99,32 @@ private fun IosArgs.validType() {
         throw FlankConfigurationError("Type should be one of ${validIosTypes.joinToString(",")}")
 }
 
-private fun IosArgs.assertXcTestRunData() = takeIf { isXcTest }?.let {
-    if (!disableSharding && testTargets.isNotEmpty()) {
-        val filteredMethods = xcTestRunData
-            .shardTargets.values
-            .flatten()
-            .flatMap { it.values }
-            .flatten()
+private fun IosArgs.assertXcTestRunData() =
+    takeIf { isXcTest && !disableSharding && testTargets.isNotEmpty() }
+        ?.let {
+            val filteredMethods = xcTestRunData.filterMethods()
 
-        if (filteredMethods.isEmpty()) throw FlankGeneralError(
-            "Empty shards. Cannot match any method to $testTargets"
-        )
+            if (filteredMethods.isEmpty()) throw FlankGeneralError(
+                "Empty shards. Cannot match any method to $testTargets"
+            )
 
-        if (filteredMethods.size < testTargets.size) {
-            val regexList = testTargets.mapToRegex()
+            if (filteredMethods.size < testTargets.size) {
+                val regexList = testTargets.mapToRegex()
 
-            val notMatched = testTargets.filter {
-                filteredMethods.all { method ->
-                    regexList.any { regex ->
-                        regex.matches(method)
+                val notMatched = testTargets.filter {
+                    filteredMethods.all { method ->
+                        regexList.any { regex ->
+                            regex.matches(method)
+                        }
                     }
                 }
-            }
 
-            logLn("WARNING: cannot match test_targets: $notMatched")
+                logLn("WARNING: cannot match test_targets: $notMatched")
+            }
         }
-    }
-}
+
+private fun XcTestRunData.filterMethods() = shardTargets.values
+    .flatten()
+    .flatMap { it.values }
+    .flatten()
+
