@@ -3,6 +3,7 @@ package flank.scripts
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
 import flank.scripts.ci.CiCommand
+import flank.scripts.contribution.ContributionCommand
 import flank.scripts.dependencies.DependenciesCommand
 import flank.scripts.integration.IntegrationCommand
 import flank.scripts.pullrequest.PullRequestCommand
@@ -23,6 +24,7 @@ fun main(args: Array<String>) {
         TestArtifactsCommand(),
         ShellCommand,
         PullRequestCommand,
-        IntegrationCommand
+        IntegrationCommand,
+        ContributionCommand
     ).main(args)
 }

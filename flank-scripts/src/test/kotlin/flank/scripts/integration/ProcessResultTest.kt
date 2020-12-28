@@ -1,6 +1,7 @@
 package flank.scripts.integration
 
 import com.google.common.truth.Truth.assertThat
+import flank.common.normalizeLineEnding
 import flank.scripts.FuelTestRunner
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
@@ -29,7 +30,7 @@ class ProcessResultTest {
         runBlocking {
             ctx.createNewIssue()
 
-            assertThat(output.log).contains(issueCreated)
+            assertThat(output.log.trim().normalizeLineEnding()).contains(issueCreated)
         }
     }
 
@@ -38,7 +39,7 @@ class ProcessResultTest {
         runBlocking {
             ctx.copy(openedIssue = 123).postComment()
 
-            assertThat(output.log).contains(commentPosted)
+            assertThat(output.log.trim().normalizeLineEnding()).contains(commentPosted)
         }
     }
 
@@ -47,7 +48,7 @@ class ProcessResultTest {
         runBlocking {
             ctx.copy(openedIssue = 123, result = ITResults.SUCCESS).closeIssue()
 
-            assertThat(output.log).contains(issueClosed)
+            assertThat(output.log.trim().normalizeLineEnding()).contains(issueClosed)
         }
     }
 }
