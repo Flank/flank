@@ -1,0 +1,96 @@
+name: Update dependencies
+
+on:
+  schedule:
+    - cron: '0 5 * * 1' # At 05:00 on Monday
+  workflow_dispatch:    # or manually
+
+jobs:
+  get_token_and_date:
+    runs-on: ubuntu-latest
+    outputs:
+      github_token: ${{ steps.generate-token.outputs.token }}
+      date: ${{ steps.date.outputs.date }}
+    steps:
+      - uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.FLANK_RELEASE_APP_ID }}
+          private_key: ${{ secrets.FLANK_RELEASE_PRIVATE_KEY }}
+
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
+  update_dependencies:
+    runs-on: macos-latest
+    needs: [ get_token_and_date ]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Gradle dependency updates raport
+        uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: dependencyUpdates -DoutputFormatter=json -DoutputDir=.
+
+      - name: Download flankScripts and add it to PATH
+        run: |
+          ./gradlew :flank-scripts:download
+          echo "./flank-scripts/bash" >> $GITHUB_PATH
+
+      - name: Update dependencies
+        run: |
+          flankScripts dependencies update
+
+      - name: Commit files and create Pull request
+        id: pr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ needs.get_token_and_date.outputs.github_token }}
+          commit-message: "[Automatic PR] Dependencies update"
+          signoff: false
+          branch: "dependencies-update-${{ needs.get_token_and_date.outputs.date }}"
+          title: "build: Dependencies updates [${{ needs.get_token_and_date.outputs.date }}]"
+          body: "Dependencies updates"
+          labels: |
+            automated pr
+            dependencies
+          reviewers: bootstraponline,jan-gogo,pawelpasterz,adamfilipow92,piotradamczyk5,Sloox,axelzuziak-gogo
+          draft: false
+
+  update_firebase_api:
+    runs-on: macos-latest
+    needs: [ get_token_and_date ]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '2.x'
+
+      - name: Download flankScripts and add it to PATH
+        run: |
+          ./gradlew :flank-scripts:download
+          echo "./flank-scripts/bash" >> $GITHUB_PATH
+
+      - name: Update Java Client
+        run: |
+          pip install google-apis-client-generator
+          flankScripts shell firebase updateApiJson
+          flankScripts shell firebase generateJavaClient
+
+      - name: Commit files and create Pull request
+        id: pr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ needs.get_token_and_date.outputs.github_token }}
+          commit-message: "[Automatic PR] Firebase API Client update"
+          signoff: false
+          branch: "firebase-api-client-update-${{ needs.get_token_and_date.outputs.date }}"
+          title: "build: Firebase API Client update [${{ needs.get_token_and_date.outputs.date }}]"
+          body: "Firebase Api update"
+          labels: |
+            automated pr
+            firease_api
+          reviewers: bootstraponline,jan-gogo,pawelpasterz,adamfilipow92,piotradamczyk5,Sloox,axelzuziak-gogo
+          draft: false
