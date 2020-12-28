@@ -127,4 +127,3 @@ private fun XcTestRunData.filterMethods() = shardTargets.values
     .flatten()
     .flatMap { it.values }
     .flatten()
-
