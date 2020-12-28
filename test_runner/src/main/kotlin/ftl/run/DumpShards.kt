@@ -5,6 +5,7 @@ import flank.common.logLn
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
 import ftl.args.isInstrumentationTest
+import ftl.config.FtlConstants
 import ftl.ios.xctest.common.XcTestRunVersion.V1
 import ftl.ios.xctest.common.XcTestRunVersion.V2
 import ftl.run.common.prettyPrint
@@ -65,7 +66,7 @@ fun saveShardChunks(
         Paths.get(shardFilePath),
         getGson(obfuscatedOutput).toJson(shards).toByteArray()
     )
-    logLn("Saved $size shards to $shardFilePath", OutputLogLevel.DETAILED)
+    logLn("${FtlConstants.indent}Saved $size shards to $shardFilePath", OutputLogLevel.DETAILED)
 }
 
 private fun getGson(obfuscatedOutput: Boolean) =

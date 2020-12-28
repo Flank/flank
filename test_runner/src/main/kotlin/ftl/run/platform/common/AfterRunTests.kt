@@ -2,8 +2,10 @@ package ftl.run.platform.common
 
 import com.google.testing.model.TestMatrix
 import flank.common.logLn
+import flank.common.startWithNewLine
 import ftl.args.IArgs
 import ftl.config.FtlConstants
+import ftl.config.FtlConstants.GCS_STORAGE_LINK
 import ftl.gc.GcTestMatrix
 import ftl.json.MatrixMap
 import ftl.json.createSavedMatrix
@@ -29,10 +31,8 @@ internal suspend fun IArgs.afterRunTests(
     saveConfigFile(matrixMap)
 
     logLn(FtlConstants.indent + "${matrixMap.map.size} matrix ids created in ${stopwatch.check()}")
-    val gcsBucket = "https://console.developers.google.com/storage/browser/" +
-        resultsBucket + "/" + matrixMap.runPath
-    logLn(FtlConstants.indent + gcsBucket)
-    logLn()
+    val gcsBucket = GCS_STORAGE_LINK + resultsBucket + "/" + matrixMap.runPath
+    logLn("${FtlConstants.indent}Raw results will be stored in your GCS bucket at [$gcsBucket]")
     matrixMap.printMatricesWebLinks(project)
 }
 
@@ -49,7 +49,7 @@ private fun IArgs.saveConfigFile(matrixMap: MatrixMap) {
 }
 
 internal suspend inline fun MatrixMap.printMatricesWebLinks(project: String) = coroutineScope {
-    logLn("Matrices webLink")
+    logLn("Matrices webLink".startWithNewLine())
     map.values.map {
         launch(Dispatchers.IO) {
             logLn("${FtlConstants.indent}${it.matrixId} ${getOrUpdateWebLink(it.webLink, project, it.matrixId)}")

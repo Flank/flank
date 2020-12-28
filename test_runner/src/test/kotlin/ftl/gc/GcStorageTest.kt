@@ -68,8 +68,7 @@ class GcStorageTest {
                     filePath = filePath,
                     fileBytes = ByteArray(0),
                     rootGcsBucket = "bucket",
-                    runGcsPath = "gcsPath",
-                    storage = mockk(relaxed = true)
+                    runGcsPath = "gcsPath"
                 )
             }
         )

@@ -76,5 +76,4 @@ private suspend fun refreshMatrices(matrixMap: MatrixMap, args: IArgs) = corouti
         logLn(FtlConstants.indent + "Updating matrix file")
         args.updateMatrixFile(matrixMap)
     }
-    logLn()
 }
