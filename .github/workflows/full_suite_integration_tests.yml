@@ -5,7 +5,7 @@ on:
     - cron: '0 0 * * 1-5' # At 00:00 on every day-of-week from Monday through Friday
   workflow_dispatch:      # or manually
   issue_comment:
-    types: [created]      # or by comment
+    types: [ created ]      # or by comment
 
 jobs:
   cancel_previous:
@@ -42,7 +42,7 @@ jobs:
         id: should-run-step
         env:
           run_it: ${{ steps.check_issue_comment.outputs.triggered == 'true'|| github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' }}
-        run : |
+        run: |
           echo "event name: ${{ github.event_name }}"
           echo "issue command found: ${{ steps.check_issue_comment.outputs.triggered == 'true' }}"
           echo '::set-output name=should_run::${{ env.run_it }}'
@@ -65,9 +65,9 @@ jobs:
         with:
           issue-number: ${{ needs.should_run_it.outputs.pr_number }}
           body: |
-            **Integration tests were triggered at ${{ steps.current-time.outputs.formattedTime }}, you could track them [here](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
+            **Integration tests were triggered at ${{ steps.current-time.outputs.formattedTime }}, you can track progress [here](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
           reactions: rocket
-    
+
   run-it-full-suite:
     needs: [ should_run_it ]
     if: needs.should_run_it.outputs.run_integration_tests == 'true'
@@ -142,7 +142,9 @@ jobs:
           comment-id: ${{ needs.integration-tests-post-link.outputs.comment_id }}
           edit-mode: replace
           body: |
-            **Integration tests failed, you could see results [here](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
+            **Integration tests failed :x:**
+            Build scan ${{ needs.run-it-full-suite.outputs.build-scan-url }}
+            Workflow run https://github.com/Flank/flank/actions/runs/${{ github.run_id }}
           reactions: '-1'
 
       - name: Update comment on success
@@ -152,5 +154,7 @@ jobs:
           comment-id: ${{ needs.integration-tests-post-link.outputs.comment_id }}
           edit-mode: replace
           body: |
-            **Integration tests succeed, you could see results [here](https://github.com/Flank/flank/actions/runs/${{ github.run_id }})**
+            **Integration tests succeed :white_check_mark:**
+            Build scan ${{ needs.run-it-full-suite.outputs.build-scan-url }}
+            Workflow run https://github.com/Flank/flank/actions/runs/${{ github.run_id }}
           reactions: '+1'
