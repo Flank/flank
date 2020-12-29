@@ -67,14 +67,15 @@ AndroidArgs
 RunTests
   No tests for app-single-success-debug-androidTest.apk
 \s*
-Saved 1 shards to android_shards.json
-  Uploading android_shards.json \.*
-  Uploading app-debug.apk \.*
-  Uploading app-multiple-success-debug-androidTest.apk \.*
+  Saved 1 shards to android_shards.json
+  Uploading \[android_shards.json\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*
+  Uploading \[app-debug.apk\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*
+  Uploading \[app-multiple-success-debug-androidTest.apk\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*
+
   1 test \/ 1 shard
-\s*
+
   1 matrix ids created in \d{1,2}m \d{1,2}s
-  https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*
+  Raw results will be stored in your GCS bucket at \[https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\]
 \s*
 Matrices webLink
   matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
@@ -83,16 +84,18 @@ CostReport
   Virtual devices
     \$\d{1,2}.\d{1,2} for \d{1,2}m
 \s*
-  Uploading CostReport.txt \.*
+  Uploading \[CostReport.txt\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*
+
 MatrixResultsReport
   1 \/ 1 \(100\.00\%\)
 [\s\S]*
-  Uploading MatrixResultsReport.txt \.*
-  Uploading JUnitReport.xml \.*
-  Uploading matrix_ids.json \.*
+  Uploading \[MatrixResultsReport.txt\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*
+  Uploading \[JUnitReport.xml\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*
+  Uploading \[matrix_ids.json\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*
+
 FetchArtifacts
-  \.*
-  Updating matrix file
-\s*
+    Updating matrix file
+
+
 Matrices webLink
   matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
