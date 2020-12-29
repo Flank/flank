@@ -1,6 +1,7 @@
 package ftl.args
 
 import com.google.common.annotations.VisibleForTesting
+import ftl.args.yml.Type
 import ftl.ios.xctest.XcTestRunData
 import ftl.ios.xctest.calculateXcTestRunData
 import ftl.ios.xctest.common.XctestrunMethods
@@ -75,6 +76,9 @@ IosArgs
         """.trimIndent()
     }
 }
+
+val IosArgs.isXcTest: Boolean
+    get() = type == Type.XCTEST
 
 @VisibleForTesting
 internal fun filterTests(

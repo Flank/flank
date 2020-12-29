@@ -1,0 +1,87 @@
+IosArgs
+    gcloud:
+      results-bucket: test-lab-[a-zA-Z0-9-]*
+      results-dir: [.a-zA-Z0-9_-]*
+      record-video: false
+      timeout: 15m
+      async: false
+      client-details:
+      network-profile: null
+      results-history-name: null
+      # iOS gcloud
+      test:\s
+      xctestrun-file:\s
+      xcode-version: null
+      device:
+        - model: iphone11
+          version: 13.6
+          locale: en_US
+          orientation: portrait
+      num-flaky-test-attempts: 0
+      directories-to-pull:
+      other-files:
+      additional-ipas:
+      scenario-numbers:
+        - 1
+      type: game-loop
+      app: [0-9a-zA-Z\/_.-]*\/test_runner\/src\/test\/kotlin\/ftl\/fixtures\/tmp\/ios\/FlankGameLoopExample\/FlankGameLoopExample.ipa
+      test-special-entitlements: false
+      fail-fast: false
+
+    flank:
+      max-test-shards: 1
+      shard-time: -1
+      num-test-runs: 1
+      smart-flank-gcs-path:\s
+      smart-flank-disable-upload: false
+      default-test-time: 120.0
+      use-average-test-time-for-new-tests: false
+      test-targets-always-run:
+      files-to-download:
+      keep-file-path: false
+      full-junit-result: false
+      # iOS flank
+      test-targets:
+      disable-sharding: false
+      project: flank-open-source
+      local-result-dir: results
+      run-timeout: -1
+      ignore-failed-tests: false
+      output-style: verbose
+      disable-results-upload: false
+      default-class-test-time: 240.0
+
+RunTests
+  0 test \/ 0 shard
+
+  Uploading FlankGameLoopExample.ipa .
+  1 matrix ids created in \d{1,2}m \d{1,2}s
+  https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*
+
+Matrices webLink
+  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?
+
+ [\s\S]*
+
+Unable to find device type for iphone11. PHYSICAL used as fallback in cost calculations
+CostReport
+  Physical devices
+    \$\d{1,2}.\d{1,2} for \d{1,2}m
+
+  Uploading CostReport.txt .
+MatrixResultsReport
+  1 \/ 1 \(100.00%\)
+┌─────────┬──────────────────────┬──────────────────────────────┬─────────────────────┐
+│ OUTCOME │      MATRIX ID       │       TEST AXIS VALUE        │    TEST DETAILS     │
+├─────────┼──────────────────────┼──────────────────────────────┼─────────────────────┤
+│ success │ matrix-[a-zA-Z0-9]* │.* │ 0 test cases passed │
+└─────────┴──────────────────────┴──────────────────────────────┴─────────────────────┘
+  Uploading MatrixResultsReport.txt .
+  Uploading matrix_ids.json .
+FetchArtifacts
+  .
+  Updating matrix file
+
+
+Matrices webLink
+  matrix-[a-zA-Z0-9]* https:\/\/console.firebase.google.com\/project\/flank-open-source\/testlab\/histories\/[.a-zA-Z0-9_-]*\/matrices\/[.a-zA-Z0-9_-]*(\/executions\/[.a-zA-Z0-9_-]*)?

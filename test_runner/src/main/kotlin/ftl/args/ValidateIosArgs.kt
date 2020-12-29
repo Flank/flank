@@ -4,6 +4,7 @@ import flank.common.logLn
 import ftl.args.yml.Type
 import ftl.ios.IosCatalog
 import ftl.ios.IosCatalog.getSupportedVersionId
+import ftl.ios.xctest.XcTestRunData
 import ftl.ios.xctest.common.mapToRegex
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
@@ -58,7 +59,15 @@ private fun IosArgs.assertMaxTestShards() {
     )
 }
 
-private fun IosArgs.assertTestTypes() {
+private fun IosArgs.assertTestTypes() =
+    if (type == Type.GAMELOOP) validateGameloopFiles()
+    else validateXcTestTypes()
+
+private fun IosArgs.validateGameloopFiles() {
+    if (app.isBlank()) throw FlankConfigurationError("When [gameloop] is specified, [app] must be set.")
+}
+
+private fun IosArgs.validateXcTestTypes() {
     if (xctestrunFile.isBlank() or xctestrunZip.isBlank())
         throw FlankConfigurationError("Both of following options must be specified [test, xctestrun-file].")
 }
@@ -74,10 +83,11 @@ private fun IosArgs.assertDevicesSupported() = devices.forEach { device ->
         throw IncompatibleTestDimensionError("iOS ${device.version} on ${device.model} is not a supported\nSupported version ids for '${device.model}': ${device.getSupportedVersionId(project).joinToString()}")
 }
 
-private fun IosArgs.assertTestFiles() {
-    ArgsHelper.assertFileExists(xctestrunFile, "from test")
-    ArgsHelper.assertFileExists(xctestrunZip, "from xctestrun-file")
-}
+private fun IosArgs.assertTestFiles() =
+    if (isXcTest) {
+        ArgsHelper.assertFileExists(xctestrunFile, "from test")
+        ArgsHelper.assertFileExists(xctestrunZip, "from xctestrun-file")
+    } else ArgsHelper.assertFileExists(app, "from app")
 
 private fun IosArgs.assertAdditionalIpas() {
     if (additionalIpas.size > 100) throw FlankConfigurationError("Maximum 100 additional ipas are supported")
@@ -89,30 +99,31 @@ private fun IosArgs.validType() {
         throw FlankConfigurationError("Type should be one of ${validIosTypes.joinToString(",")}")
 }
 
-private fun IosArgs.assertXcTestRunData() {
-    if (!disableSharding && testTargets.isNotEmpty()) {
-        val filteredMethods = xcTestRunData
-            .shardTargets.values
-            .flatten()
-            .flatMap { it.values }
-            .flatten()
+private fun IosArgs.assertXcTestRunData() =
+    takeIf { isXcTest && !disableSharding && testTargets.isNotEmpty() }
+        ?.let {
+            val filteredMethods = xcTestRunData.filterMethods()
 
-        if (filteredMethods.isEmpty()) throw FlankGeneralError(
-            "Empty shards. Cannot match any method to $testTargets"
-        )
+            if (filteredMethods.isEmpty()) throw FlankGeneralError(
+                "Empty shards. Cannot match any method to $testTargets"
+            )
 
-        if (filteredMethods.size < testTargets.size) {
-            val regexList = testTargets.mapToRegex()
+            if (filteredMethods.size < testTargets.size) {
+                val regexList = testTargets.mapToRegex()
 
-            val notMatched = testTargets.filter {
-                filteredMethods.all { method ->
-                    regexList.any { regex ->
-                        regex.matches(method)
+                val notMatched = testTargets.filter {
+                    filteredMethods.all { method ->
+                        regexList.any { regex ->
+                            regex.matches(method)
+                        }
                     }
                 }
-            }
 
-            logLn("WARNING: cannot match test_targets: $notMatched")
+                logLn("WARNING: cannot match test_targets: $notMatched")
+            }
         }
-    }
-}
+
+private fun XcTestRunData.filterMethods() = shardTargets.values
+    .flatten()
+    .flatMap { it.values }
+    .flatten()

@@ -1,5 +1,5 @@
 gcloud:
-  app: test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/FlankGameLoopExample/FlankGameLoopExample.ipa
+  app: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/FlankGameLoopExample/FlankGameLoopExample.ipa
   type: game-loop
   scenario-numbers:
     - 1

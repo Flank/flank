@@ -1,15 +1,14 @@
 package ftl.run.platform
 
-import com.google.testing.model.TestMatrix
 import flank.common.logLn
 import ftl.args.IosArgs
+import ftl.args.isXcTest
 import ftl.gc.GcIosMatrix
 import ftl.gc.GcIosTestMatrix
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
 import ftl.ios.xctest.flattenShardChunks
-import ftl.ios.xctest.xcTestRunFlow
 import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards
 import ftl.run.model.TestResult
@@ -18,11 +17,9 @@ import ftl.run.platform.android.uploadOtherFiles
 import ftl.run.platform.common.afterRunTests
 import ftl.run.platform.common.beforeRunMessage
 import ftl.run.platform.common.beforeRunTests
+import ftl.run.platform.ios.createIosTestContexts
 import ftl.shard.testCases
-import ftl.util.ShardCounter
-import ftl.util.asFileReference
 import ftl.util.repeat
-import ftl.util.uploadIfNeeded
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -40,35 +37,25 @@ internal suspend fun IosArgs.runIosTests(): TestResult =
 
         val iosDeviceList = GcIosMatrix.build(devices)
 
-        val shardCounter = ShardCounter()
         val history = GcToolResults.createToolResultsHistory(args)
         val otherGcsFiles = uploadOtherFiles()
         val additionalIpasGcsFiles = uploadAdditionalIpas()
 
-        dumpShards()
-        if (disableResultsUpload.not())
-            GcStorage.upload(IOS_SHARD_FILE, resultsBucket, resultsDir)
+        dumpShardsIfXcTest()
 
-        // Upload only after parsing shards to detect missing methods early.
-        val xcTestGcsPath = uploadIfNeeded(xctestrunZip.asFileReference()).gcs
         val testShardChunks = xcTestRunData.flattenShardChunks()
-
         logLn(beforeRunMessage(testShardChunks))
 
-        val result: List<TestMatrix> = xcTestRunFlow()
-            .map { xcTestRun ->
-                GcIosTestMatrix.build(
-                    iosDeviceList = iosDeviceList,
-                    testZipGcsPath = xcTestGcsPath,
-                    xcTestRun = xcTestRun,
-                    args = args,
-                    shardCounter = shardCounter,
-                    toolResultsHistory = history,
-                    otherFiles = otherGcsFiles,
-                    additionalIpasGcsPaths = additionalIpasGcsFiles
-                )
-            }
-            .repeat(repeatTests)
+        val result = createIosTestContexts().map { context ->
+            GcIosTestMatrix.build(
+                iosDeviceList = iosDeviceList,
+                args = args,
+                iosTestContext = context,
+                toolResultsHistory = history,
+                otherFiles = otherGcsFiles,
+                additionalIpasGcsPaths = additionalIpasGcsFiles
+            )
+        }.repeat(repeatTests)
             .map { async(Dispatchers.IO) { it.executeWithRetry() } }
             .toList()
             .awaitAll()
@@ -81,3 +68,9 @@ internal suspend fun IosArgs.runIosTests(): TestResult =
             shardChunks = testShardChunks.testCases
         )
     }
+
+private fun IosArgs.dumpShardsIfXcTest() = takeIf { isXcTest }?.let {
+    dumpShards()
+    if (disableResultsUpload.not())
+        GcStorage.upload(IOS_SHARD_FILE, resultsBucket, resultsDir)
+}

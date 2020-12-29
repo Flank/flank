@@ -29,7 +29,7 @@ fun main() {
             "--output-style=single",
 //            "--full-junit-result",
 //            "--legacy-junit-result",
-            "-c=./src/test/kotlin/ftl/fixtures/test_app_cases/flank-xctestrunv2-all.yml",
+            "-c=./test_runner/src/test/kotlin/ftl/fixtures/test_app_cases/flank-single-gameloop-ios.yml",
             "--project=$projectId"
 //            "--client-details=key1=value1,key2=value2"
         )

@@ -3,6 +3,7 @@ package ftl.ios.xctest
 import com.dd.plist.NSDictionary
 import ftl.args.ArgsHelper.calculateShards
 import ftl.args.IosArgs
+import ftl.args.isXcTest
 import ftl.ios.xctest.common.XcTestRunVersion
 import ftl.ios.xctest.common.XcTestRunVersion.V1
 import ftl.ios.xctest.common.XcTestRunVersion.V2
@@ -23,7 +24,11 @@ data class XcTestRunData(
     val shardChunks: Map<String, List<Chunk>> = emptyMap()
 )
 
-fun IosArgs.calculateXcTestRunData(): XcTestRunData {
+fun IosArgs.calculateXcTestRunData(): XcTestRunData =
+    if (isXcTest) calculateXcTest()
+    else emptyXcTestRunData()
+
+private fun IosArgs.calculateXcTest(): XcTestRunData {
     val xcTestRunFile = File(xctestrunFile)
     val xcTestRoot: String = xcTestRunFile.parent + "/"
     val xcTestNsDictionary: NSDictionary = parseToNSDictionary(xcTestRunFile)
@@ -43,6 +48,12 @@ fun IosArgs.calculateXcTestRunData(): XcTestRunData {
         shardTargets = calculatedShards.mapValues { it.value.second },
     )
 }
+
+private fun emptyXcTestRunData() = XcTestRunData(
+    rootDir = "",
+    nsDict = NSDictionary(),
+    version = V1
+)
 
 private fun IosArgs.calculateConfigurationShards(
     xcTestRoot: String,
