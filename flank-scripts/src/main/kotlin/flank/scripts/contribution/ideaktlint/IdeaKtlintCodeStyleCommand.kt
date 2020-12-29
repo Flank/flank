@@ -23,7 +23,6 @@ object IdeaKtlintCodeStyleCommand : CliktCommand(
                 retrieveKtlintResolve()
             }
         }
-
     }
 
     private fun tryCleanup() = "ktlint".deleteFile()
@@ -41,7 +40,7 @@ object IdeaKtlintCodeStyleCommand : CliktCommand(
                 logLn("Failed to apply Ktlint to idea project ${result.component2()?.localizedMessage.orEmpty()}")
             }
         }
-    
+
     private fun applyKtlintToIdea() {
         logLn("Applying to Idea")
         "java -jar ktlint applyToIDEAProject".runCommand()
