@@ -3,6 +3,8 @@ package flank.scripts
 import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Request
 import flank.scripts.ci.releasenotes.GitHubRelease
+import flank.scripts.github.objects.Author
+import flank.scripts.github.objects.Commit
 import flank.scripts.github.objects.GitHubCommit
 import flank.scripts.github.objects.GitHubCreateIssueCommentResponse
 import flank.scripts.github.objects.GitHubCreateIssueResponse
@@ -58,7 +60,7 @@ private fun Request.isFailedGithubRequest() =
 private fun Request.noIssueHeader() = request.headers["Authorization"].contains("token no-issue")
 
 private val testGithubIssueList = listOf(
-    GitHubCommit("aaaaaaaaa")
+    GitHubCommit("aaaaaaaaa", Commit(Author("", "", "")))
 ).toJson()
 
 private val testGithubIssueCommentList = listOf(

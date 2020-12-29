@@ -6,7 +6,20 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GitHubCommit(
-    val sha: String
+    val sha: String,
+    val commit: Commit
+)
+
+@Serializable
+data class Commit(
+    val author: Author
+)
+
+@Serializable
+data class Author(
+    val name: String,
+    val email: String,
+    val date: String
 )
 
 object GitHubCommitListDeserializer : ResponseDeserializable<List<GitHubCommit>> {

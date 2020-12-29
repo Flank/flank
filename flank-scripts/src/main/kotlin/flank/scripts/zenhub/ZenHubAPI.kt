@@ -1,4 +1,4 @@
-package flank.scripts.pullrequest
+package flank.scripts.zenhub
 
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.Request
@@ -10,9 +10,10 @@ import com.github.kittinunf.result.success
 import flank.scripts.utils.toJson
 import kotlinx.serialization.Serializable
 
-private const val FLANK_REPO_ID = 84221974
+const val FLANK_REPO_ID = 84221974
 internal const val ZENHUB_BASE_URL = "https://api.zenhub.com/p1/repositories/$FLANK_REPO_ID"
 
+// GET
 suspend fun copyEstimation(zenhubToken: String, issueNumber: Int, pullRequestNumber: Int) {
     getEstimation(zenhubToken, issueNumber)
         ?.run { setEstimation(zenhubToken, pullRequestNumber, estimate.value) }
