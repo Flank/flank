@@ -1,4 +1,4 @@
-package flank.scripts.pullrequest
+package flank.scripts.zenhub
 
 import flank.scripts.FuelTestRunner
 import flank.scripts.testZenHubIssue

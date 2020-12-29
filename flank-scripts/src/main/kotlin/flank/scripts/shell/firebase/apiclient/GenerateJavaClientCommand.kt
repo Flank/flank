@@ -1,4 +1,4 @@
-package flank.scripts.shell.firebase
+package flank.scripts.shell.firebase.apiclient
 
 import com.github.ajalt.clikt.core.CliktCommand
 import flank.scripts.exceptions.ShellCommandException

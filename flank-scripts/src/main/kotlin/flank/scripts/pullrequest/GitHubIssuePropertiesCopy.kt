@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.parameters.types.int
 import com.github.kittinunf.result.onError
 import com.github.kittinunf.result.success
 import flank.scripts.github.getGitHubPullRequest
+import flank.scripts.zenhub.copyEstimation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.joinAll
