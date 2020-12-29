@@ -13,6 +13,7 @@ import kotlinx.serialization.Serializable
 const val FLANK_REPO_ID = 84221974
 internal const val ZENHUB_BASE_URL = "https://api.zenhub.com/p1/repositories/$FLANK_REPO_ID"
 
+// GET
 suspend fun copyEstimation(zenhubToken: String, issueNumber: Int, pullRequestNumber: Int) {
     getEstimation(zenhubToken, issueNumber)
         ?.run { setEstimation(zenhubToken, pullRequestNumber, estimate.value) }
