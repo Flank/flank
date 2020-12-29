@@ -56,7 +56,7 @@ data class OutcomeSummary(val matcher: MutableMap<TestOutcome, Int> = mutableMap
 }
 
 fun assertContainsUploads(input: String, vararg uploads: String) = uploads.forEach {
-    assertThat(input).contains("Uploading $it")
+    assertThat(input).contains("Uploading [$it]")
 }
 
 fun assertContainsOutcomeSummary(input: String, block: OutcomeSummary.() -> Unit) =
