@@ -10,6 +10,8 @@ val userHome: String by lazy {
     if (isWindows) System.getenv("HOMEPATH") else System.getProperty("user.home")
 }
 
+fun String.deleteFile() = Paths.get(this).delete()
+
 fun createSymbolicLink(
     link: String,
     target: String
@@ -47,4 +49,17 @@ fun createDirectoryIfNotExist(path: Path) {
 fun File.hasAllFiles(fileList: List<String>): Boolean {
     val directoryFiles = list() ?: emptyArray()
     return fileList.all { it in directoryFiles }
+}
+
+private fun Path.exists(): Boolean = Files.exists(this)
+
+private fun Path.isFile(): Boolean = !Files.isDirectory(this)
+
+private fun Path.delete(): Boolean {
+    return if (isFile() && exists()) {
+        Files.delete(this)
+        true
+    } else {
+        false
+    }
 }
