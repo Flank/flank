@@ -1,9 +1,8 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.jfrog.bintray.gradle.BintrayExtension
-import groovy.xml.dom.DOMCategory.attributes
 import java.io.ByteArrayOutputStream
 import java.nio.file.Paths
-import java.util.*
+import java.util.Date
 
 plugins {
     application
@@ -29,7 +28,7 @@ shadowJar.apply {
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
-version = "1.2.8"
+version = "1.2.9"
 group = "com.github.flank"
 
 application {
@@ -46,17 +45,21 @@ bintray {
     publish = true
     override = true
     setPublications("mavenJava")
-    pkg(closureOf<BintrayExtension.PackageConfig> {
-        repo = "maven"
-        name = artifactID
-        userOrg = "flank"
-        setLicenses("Apache-2.0")
-        vcsUrl = "https://github.com/Flank/flank.git"
-        version(closureOf<BintrayExtension.VersionConfig> {
-            name = version.name
-            released = Date().toString()
-        })
-    })
+    pkg(
+        closureOf<BintrayExtension.PackageConfig> {
+            repo = "maven"
+            name = artifactID
+            userOrg = "flank"
+            setLicenses("Apache-2.0")
+            vcsUrl = "https://github.com/Flank/flank.git"
+            version(
+                closureOf<BintrayExtension.VersionConfig> {
+                    name = version.name
+                    released = Date().toString()
+                }
+            )
+        }
+    )
 }
 
 publishing {
