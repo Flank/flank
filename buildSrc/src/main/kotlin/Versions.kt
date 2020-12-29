@@ -8,6 +8,8 @@ object Versions {
     // https://github.com/jeremymailen/kotlinter-gradle
     const val KTLINT_GRADLE = "3.3.0"
 
+    const val KTLINT = "0.40.0"
+
     // https://github.com/bintray/gradle-bintray-plugin/releases
     const val BINTRAY = "1.8.5"
 

@@ -15,8 +15,7 @@ fun List<String>.runCommand(
         redirectOutput(ProcessBuilder.Redirect.INHERIT)
         redirectError(ProcessBuilder.Redirect.INHERIT)
     }
-}
-    .startWithRetry(retryCount)
+}.startWithRetry(retryCount)
 
 fun String.runCommand(
     retryCount: Int = 0,
