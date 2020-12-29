@@ -49,7 +49,6 @@ class ProgressBarTest {
         runWithProgress(
             startMessage = "TEST",
             action = { action.run() },
-            onSuccess = {},
             onError = { onError.run() }
         )
 
@@ -76,7 +75,6 @@ class ProgressBarTest {
                 action.run()
                 throw Exception()
             },
-            onSuccess = {},
             onError = { onError.run() }
         )
 

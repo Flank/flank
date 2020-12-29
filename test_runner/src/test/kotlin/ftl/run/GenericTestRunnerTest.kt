@@ -1,9 +1,7 @@
 package ftl.run
 
 import flank.common.normalizeLineEnding
-import flank.common.startWithNewLine
 import flank.common.trimStartLine
-import flank.common.withNewLineAtTheEnd
 import ftl.args.IArgs
 import ftl.run.platform.common.beforeRunMessage
 import ftl.shard.Chunk
@@ -33,7 +31,7 @@ class GenericTestRunnerTest {
         val result = createMock(1).beforeRunMessage(
             listOf(Chunk(listOf(TestMethod(name = "", time = 0.0))))
         ).normalizeLineEnding()
-        assert(result, "  1 test / 1 shard".withNewLineAtTheEnd().startWithNewLine())
+        assert(result.trim(), "  1 test / 1 shard".trim())
     }
 
     @Test
