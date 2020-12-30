@@ -51,6 +51,14 @@ fun File.hasAllFiles(fileList: List<String>): Boolean {
     return fileList.all { it in directoryFiles }
 }
 
+fun String.fileCopyTo(directory: String, overwrite: Boolean = true): Boolean {
+    val file = Paths.get(this).toFile()
+    return if (file.isFile && file.exists()) {
+        file.copyTo(Paths.get(directory + file.name).toFile(), overwrite)
+        true
+    } else false
+}
+
 private fun Path.exists(): Boolean = Files.exists(this)
 
 private fun Path.isFile(): Boolean = !Files.isDirectory(this)
