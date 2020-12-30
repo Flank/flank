@@ -23,34 +23,32 @@ object CheckForSDKUpdateCommand : CliktCommand(
     private val lastRun by lazy { runBlocking { getLastSDKUpdateRunDate(githubToken) } }
     private val openedUpdates by lazy { runBlocking { checkForOpenedUpdates(githubToken) } }
 
-    override fun run() {
-        runBlocking {
-            println("** Find previously checked commit")
-            val oldSha = getCommitsUntilLastCheck(githubToken, lastRun) ?: run {
-                println("** Unable to find previous commit")
-                return@runBlocking
-            }
-            println("** Find latest commit")
-            val newSha = getCommitsUntilLastCheck(githubToken, Instant.now().toString()) ?: run {
-                println("** Unable to find latest commit")
-                return@runBlocking
-            }
+    override fun run() = runBlocking {
+        println("** Find previously checked commit")
+        val oldSha = getCommitsUntilLastCheck(githubToken, lastRun) ?: run {
+            println("** Unable to find previous commit")
+            return@runBlocking
+        }
+        println("** Find latest commit")
+        val newSha = getCommitsUntilLastCheck(githubToken, Instant.now().toString()) ?: run {
+            println("** Unable to find latest commit")
+            return@runBlocking
+        }
 
-            if (oldSha == newSha) {
-                println("** No new commits since the last run")
-                return@runBlocking
-            }
+        if (oldSha == newSha) {
+            println("** No new commits since the last run")
+            return@runBlocking
+        }
 
-            with(createContext(oldSha)) {
-                println("** New version $newVersion")
-                println("** Old version $oldVersion")
-                when {
-                    oldVersion < newVersion && openedUpdates != null -> updateOpenedEpic()
-                    oldVersion < newVersion && openedUpdates == null -> createEpicIssue()
-                    else -> run {
-                        println("** No new features")
-                        return@runBlocking
-                    }
+        with(createContext(oldSha)) {
+            println("** New version $newVersion")
+            println("** Old version $oldVersion")
+            when {
+                oldVersion < newVersion && openedUpdates != null -> updateOpenedEpic()
+                oldVersion < newVersion && openedUpdates == null -> createEpicIssue()
+                else -> run {
+                    println("** No new features")
+                    return@runBlocking
                 }
             }
         }

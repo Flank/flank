@@ -15,7 +15,6 @@ import kotlinx.serialization.Serializable
 const val FLANK_REPO_ID = 84221974
 internal const val ZENHUB_BASE_URL = "https://api.zenhub.com/p1/repositories/$FLANK_REPO_ID"
 
-// GET
 suspend fun copyEstimation(zenhubToken: String, issueNumber: Int, pullRequestNumber: Int) {
     getEstimation(zenhubToken, issueNumber)
         ?.run { setEstimation(zenhubToken, pullRequestNumber, estimate.value) }
@@ -29,7 +28,6 @@ private suspend fun getEstimation(zenhubToken: String, issueNumber: Int) =
         .onError { println("Could not get estimations because of ${it.message}") }
         .getOrNull()
 
-// PUT
 private suspend fun setEstimation(zenhubToken: String, pullRequestNumber: Int, estimate: Int) {
     Fuel.put("$ZENHUB_BASE_URL/issues/$pullRequestNumber/estimate")
         .withZenhubHeaders(zenhubToken)
@@ -39,7 +37,6 @@ private suspend fun setEstimation(zenhubToken: String, pullRequestNumber: Int, e
         .success { println("Estimate $estimate set to pull request #$pullRequestNumber") }
 }
 
-// POST
 fun convertIssueToEpic(zenhubToken: String, issueNumber: Int, payload: ConvertToEpicRequest) =
     Fuel.post("$ZENHUB_BASE_URL/issues/$issueNumber/convert_to_epic")
         .withZenhubHeaders(zenhubToken)
