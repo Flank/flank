@@ -44,21 +44,16 @@ object CheckForSDKUpdateCommand : CliktCommand(
             println("** New version $newVersion")
             println("** Old version $oldVersion")
             when {
-                oldVersion < newVersion && openedUpdates != null -> updateOpenedEpic()
-                oldVersion < newVersion && openedUpdates == null -> createEpicIssue()
-                else -> run {
-                    println("** No new features")
-                    return@runBlocking
-                }
+                oldVersion >= newVersion -> println("** No new features")
+                openedUpdates != null -> updateOpenedEpic()
+                openedUpdates == null -> createEpicIssue()
             }
         }
     }
 
     private fun createContext(sha: String) = SDKUpdateContext(
-        oldVersion = parseToVersion(Fuel.get("$RAW_GITHUB/$sha/google-cloud-sdk/VERSION").responseString().third.get()),
-        newVersion = parseToVersion(
-            Fuel.get("$RAW_GITHUB/master/google-cloud-sdk/VERSION").responseString().third.get()
-        ),
+        oldVersion = getVersionBySHA(sha),
+        newVersion = getVersionBySHA("master"),
         updatesLazy = suspend {
             val notes = Paths.get(currentPath.toString(), "notes.txt")
             downloadFile("$RAW_GITHUB/master/google-cloud-sdk/RELEASE_NOTES", notes)
@@ -68,4 +63,7 @@ object CheckForSDKUpdateCommand : CliktCommand(
         zenhubToken = zenhubToken,
         openedIssue = openedUpdates
     )
+
+    private fun getVersionBySHA(sha: String) =
+        parseToVersion(Fuel.get("$RAW_GITHUB/$sha/google-cloud-sdk/VERSION").responseString().third.get())
 }

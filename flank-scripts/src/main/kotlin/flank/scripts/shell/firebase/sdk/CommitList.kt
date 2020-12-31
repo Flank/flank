@@ -1,6 +1,7 @@
 package flank.scripts.shell.firebase.sdk
 
 import flank.scripts.github.getGitHubCommitList
+import flank.scripts.github.objects.GitHubCommit
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 
@@ -15,12 +16,15 @@ suspend fun getCommitsUntilLastCheck(token: String, until: String): String? = ge
 )
     .get()
     .maxByOrNull { Instant.from(DateTimeFormatter.ISO_INSTANT.parse(it.commit.author.date)) }
-    .also {
-        if (it != null)
-            println(
-                """
-                |** Commit found: 
-                |      SHA: ${it.sha}
-                |      timestamp: ${it.commit.author.date}""".trimMargin()
-            )
-    }?.sha
+    .also(::logCommitFound)
+    ?.sha
+
+private fun logCommitFound(commit: GitHubCommit?) {
+    if (commit != null)
+        println(
+            """
+            |** Commit found: 
+            |      SHA: ${commit.sha}
+            |      timestamp: ${commit.commit.author.date}""".trimMargin()
+        )
+}

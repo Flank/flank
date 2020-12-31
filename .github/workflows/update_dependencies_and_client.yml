@@ -97,7 +97,6 @@ jobs:
 
   check_for_sdk_updates:
     runs-on: macos-latest
-    needs: [ get_token_and_date ]
     steps:
       - name: Download flankScripts and add it to PATH
         run: |
