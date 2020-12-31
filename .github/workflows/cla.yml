@@ -17,11 +17,11 @@ jobs:
       - name: "CLA Assistant"
         if: (github.event.comment.body == 'recheck' || github.event.comment.body == 'I have read the CLA Document and I hereby sign the CLA') || github.event_name == 'pull_request_target'
         # Alpha Release
-        uses: cla-assistant/github-action@v2.0.1-alpha
+        uses: cla-assistant/github-action@v2.0.2-alpha
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # the below token should have repo scope and must be manually added by you in the repository's secret
-          PERSONAL_ACCESS_TOKEN : ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          PERSONAL_ACCESS_TOKEN : ${{ steps.generate-token.outputs.token }}
         with:
           path-to-signatures: 'cla/v1/cla.json'
           path-to-document: 'https://github.com/piotradamczyk5/flank/blob/master/cla.md' # e.g. a CLA or a DCO document
