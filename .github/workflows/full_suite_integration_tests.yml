@@ -10,7 +10,7 @@ on:
 jobs:
   cancel_previous:
     if: ${{ github.event_name != 'issue_comment'}}
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.6.0
@@ -18,7 +18,7 @@ jobs:
           access_token: '${{ secrets.GITHUB_TOKEN }}'
 
   should_run_it:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     outputs:
       run_integration_tests: ${{ steps.should-run-step.outputs.should_run }}
       pr_number: ${{ steps.pr_number.outputs.number }}
@@ -47,7 +47,7 @@ jobs:
           echo "issue command found: ${{ steps.check_issue_comment.outputs.triggered == 'true' }}"
           echo '::set-output name=should_run::${{ env.run_it }}'
   integration-tests-post-link:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs: [ should_run_it ]
     if: github.event_name == 'issue_comment' && needs.should_run_it.outputs.run_integration_tests == 'true'
     outputs:
@@ -71,7 +71,7 @@ jobs:
   run-it-full-suite:
     needs: [ should_run_it ]
     if: needs.should_run_it.outputs.run_integration_tests == 'true'
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     outputs:
       job_status: ${{ job.status }}
       build-scan-url: ${{ steps.run-it.outputs.build-scan-url }}
@@ -89,9 +89,9 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.gradle/caches
-          key: ubuntu-gradle-${{ hashFiles('**/*.gradle*') }}
+          key: macos-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
-            ubuntu-gradle-
+            macos-gradle-
 
       - name: Prepare Google Service Account
         env:
@@ -112,7 +112,7 @@ jobs:
 
   process-results:
     needs: [ run-it-full-suite ]
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     if: always() && github.event_name != 'issue_comment'
     steps:
       - name: Checkout code
@@ -132,7 +132,7 @@ jobs:
 
   post-comment_with_results:
     needs: [ run-it-full-suite, integration-tests-post-link ]
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     if: always() && github.event_name == 'issue_comment'
     steps:
       - name: Update comment on failure
