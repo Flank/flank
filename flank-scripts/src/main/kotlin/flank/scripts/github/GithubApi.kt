@@ -36,7 +36,6 @@ private const val FLANK_REPO = "Flank/flank"
 private const val URL_BASE = "https://api.github.com/repos"
 
 // ============= HTTP GITHUB API =============
-// GET
 suspend fun getPrDetailsByCommit(commitSha: String, githubToken: String, repo: String = FLANK_REPO): Result<List<GithubPullRequest>, Exception> =
     Fuel.get("$URL_BASE/$repo/commits/$commitSha/pulls")
         .appendGitHubHeaders(githubToken, "application/vnd.github.groot-preview+json")
@@ -80,7 +79,6 @@ suspend fun getGitHubWorkflowRunsSummary(githubToken: String, workflow: String, 
         .awaitResult(GithubWorkflowRunsSummaryDeserializer)
         .mapClientErrorToGithubException()
 
-// POST
 suspend fun postNewIssueComment(githubToken: String, issueNumber: Int, payload: GitHubCreateIssueCommentRequest, repo: String = FLANK_REPO): Result<GitHubCreateIssueCommentResponse, Exception> =
     Fuel.post("$URL_BASE/$repo/issues/$issueNumber/comments")
         .appendGitHubHeaders(githubToken)
@@ -95,7 +93,6 @@ suspend fun postNewIssue(githubToken: String, payload: GitHubCreateIssueRequest,
         .awaitResult(GitHubCreateIssueResponseDeserializer)
         .mapClientErrorToGithubException()
 
-// PATCH
 fun patchIssue(githubToken: String, issueNumber: Int, payload: GitHubUpdateIssueRequest, repo: String = FLANK_REPO): Result<ByteArray, Exception> =
     Fuel.patch("$URL_BASE/$repo/issues/$issueNumber")
         .appendGitHubHeaders(githubToken)
@@ -104,7 +101,6 @@ fun patchIssue(githubToken: String, issueNumber: Int, payload: GitHubUpdateIssue
         .third
         .mapClientErrorToGithubException()
 
-// DELETE
 fun deleteOldTag(tag: String, username: String, password: String, repo: String = FLANK_REPO): Result<ByteArray, Exception> =
     Fuel.delete("$URL_BASE/$repo/git/refs/tags/$tag")
         .authentication()

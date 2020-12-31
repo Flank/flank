@@ -8,6 +8,8 @@ import com.github.kittinunf.result.getOrNull
 import com.github.kittinunf.result.onError
 import com.github.kittinunf.result.success
 import flank.scripts.utils.toJson
+import flank.scripts.zenhub.objects.ConvertToEpicRequest
+import flank.scripts.zenhub.objects.UpdateEpicRequest
 import kotlinx.serialization.Serializable
 
 const val FLANK_REPO_ID = 84221974
@@ -34,6 +36,24 @@ private suspend fun setEstimation(zenhubToken: String, pullRequestNumber: Int, e
         .onError { println("Could not set estimations because of ${it.message}") }
         .success { println("Estimate $estimate set to pull request #$pullRequestNumber") }
 }
+
+fun convertIssueToEpic(zenhubToken: String, issueNumber: Int, payload: ConvertToEpicRequest) =
+    Fuel.post("$ZENHUB_BASE_URL/issues/$issueNumber/convert_to_epic")
+        .withZenhubHeaders(zenhubToken)
+        .body(payload.toJson())
+        .response()
+        .third
+        .onError { println("Unable to convert to epic: ${it.message}") }
+        .success { println("** Issue $issueNumber successfully converted to an epic") }
+
+fun updateEpic(zenhubToken: String, issueNumber: Int, payload: UpdateEpicRequest) =
+    Fuel.post("$ZENHUB_BASE_URL/epics/$issueNumber/update_issues")
+        .withZenhubHeaders(zenhubToken)
+        .body(payload.toJson())
+        .response()
+        .third
+        .onError { println("Unable to update epic: ${it.message}") }
+        .success { println("** Issues successfully added to the issue $issueNumber") }
 
 private fun Request.withZenhubHeaders(zenhubToken: String) =
     appendHeader("Content-Type", "application/json")

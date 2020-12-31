@@ -94,3 +94,17 @@ jobs:
             firease_api
           reviewers: bootstraponline,jan-gogo,pawelpasterz,adamfilipow92,piotradamczyk5,Sloox,axelzuziak-gogo
           draft: false
+
+  check_for_sdk_updates:
+    runs-on: macos-latest
+    steps:
+      - name: Download flankScripts and add it to PATH
+        run: |
+          ./gradlew :flank-scripts:download
+          echo "./flank-scripts/bash" >> $GITHUB_PATH
+
+      - name: Run SDK check
+        run: |
+          flankScripts shell firebase checkForSdkUpdate \
+          --github-token=${{ secrets.GITHUB_TOKEN }} \
+          --zenhub-token=${{ secrets.ZENHUB_API_KEY }}

@@ -4,6 +4,9 @@ import java.io.StringWriter
 import java.nio.file.Files
 import java.nio.file.Paths
 
+val newLine: String
+    get() = System.lineSeparator()
+
 fun String.withNewLineAtTheEnd() = plus(System.lineSeparator())
 
 fun String.startWithNewLine() = System.lineSeparator() + this
