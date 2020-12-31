@@ -181,14 +181,23 @@ Available commands are:
 
 Contains tasks related to firebase client generation.  
 These tasks are :
-  - `updateApiJson`      Download file for generating client
+  - `updateApiJson`        Download file for generating client
   - `generateJavaClient`   Generates Java client
+  - `checkForSdkUpdate`    Check for any changes/new features in gcloud SDK
 
 ##### `updateApiJson`
 Download file for generating client
 
 ##### `generateJavaClient`
 Generate Java Client from json schema
+
+##### `checkForSdkUpdate`
+Check for any changes/new features in gcloud SDK. If any detected, create issue for each
+
+| Option         | Description      |
+|----------------|------------------|
+| --github-token | GitHub Token     |
+| --zenhub-token | ZenHub api Token |
 
 #### `iosBuildExample` 
 Build example ios app
