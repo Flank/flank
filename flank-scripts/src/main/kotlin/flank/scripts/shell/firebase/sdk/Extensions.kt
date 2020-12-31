@@ -2,6 +2,7 @@ package flank.scripts.shell.firebase.sdk
 
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.onError
+import flank.common.newLine
 import flank.scripts.github.objects.GitHubCreateIssueRequest
 import flank.scripts.github.objects.GitHubCreateIssueResponse
 import flank.scripts.github.objects.GitHubUpdateIssueRequest
@@ -42,7 +43,7 @@ internal suspend fun SDKUpdateContext.updateOpenedEpic() = coroutineScope {
         issueNumber = openedIssue.number,
         payload = GitHubUpdateIssueRequest(
             title = "Implement new gcloud features [$newVersion]",
-            body = openedIssue.body + "\n" + updates
+            body = openedIssue.body + newLine + updates
         )
     )
 
@@ -60,13 +61,13 @@ private suspend fun SDKUpdateContext.createSubIssues() = coroutineScope {
             println("** No new features")
             exitProcess(0)
         }
-        joinToString(separator = "\n* ", prefix = "* ") to map {
+        joinToString(separator = "$newLine* ", prefix = "* ") to map {
             async {
                 postNewIssue(
                     githubToken = githubToken,
                     payload = GitHubCreateIssueRequest(
                         title = it.split(" ").take(10).joinToString(" "),
-                        body = "#### Verify and implement:\n* $it",
+                        body = "#### Verify and implement:$newLine* $it",
                         labels = listOf("Feature")
                     ),
                 ).handleRequest()
@@ -105,10 +106,10 @@ private suspend fun SDKUpdateContext.createEpic(updates: String) = postNewIssue(
 ).handleRequest().number
 
 private val body: (String) -> String = {
-    "### New features in gcloud sdk found :mag:\n#### For more information visit [RELEASE NOTES]" +
+    "### New features in gcloud sdk found :mag:$newLine#### For more information visit [RELEASE NOTES]" +
         "(https://cloud.google.com/sdk/docs/release-notes#firebase_test_lab) and [SDK REFERENCE]" +
-        "(https://cloud.google.com/sdk/gcloud/reference/alpha/firebase)\n" +
-        "#### Verify and implement:\n$it"
+        "(https://cloud.google.com/sdk/gcloud/reference/alpha/firebase)$newLine" +
+        "#### Verify and implement:$newLine$it"
 }
 
 private fun Result<GitHubCreateIssueResponse, Exception>.handleRequest() = this
