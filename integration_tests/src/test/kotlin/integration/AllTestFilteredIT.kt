@@ -2,6 +2,7 @@ package integration
 
 import FlankCommand
 import com.google.common.truth.Truth.assertThat
+import flank.common.isWindows
 import org.junit.Assume.assumeFalse
 import org.junit.Test
 import run

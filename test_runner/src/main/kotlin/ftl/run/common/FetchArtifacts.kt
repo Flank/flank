@@ -4,6 +4,7 @@ import com.google.cloud.storage.Storage
 import flank.common.OutputLogLevel
 import flank.common.log
 import flank.common.logLn
+import flank.common.startWithNewLine
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.gc.GcStorage
@@ -20,7 +21,7 @@ import java.nio.file.Paths
 
 // TODO needs refactor
 internal suspend fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) = coroutineScope {
-    logLn("FetchArtifacts", OutputLogLevel.DETAILED)
+    logLn("FetchArtifacts".startWithNewLine(), OutputLogLevel.DETAILED)
     val fields = Storage.BlobListOption.fields(Storage.BlobField.NAME)
 
     var dirty = false
@@ -42,8 +43,6 @@ internal suspend fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) = corouti
             val matched = artifactsList.any { blobPath.matches(it) }
             if (matched) {
                 val downloadFile = getDownloadPath(args, blobPath)
-
-                log(".", OutputLogLevel.DETAILED)
                 if (!downloadFile.toFile().exists()) {
                     val parentFile = downloadFile.parent.toFile()
                     parentFile.mkdirs()
@@ -56,12 +55,10 @@ internal suspend fun fetchArtifacts(matrixMap: MatrixMap, args: IArgs) = corouti
         filtered[index] = matrix.copy(downloaded = true)
         jobs
     }.joinAll()
-    logLn(level = OutputLogLevel.DETAILED)
 
     if (dirty) {
         logLn(FtlConstants.indent + "Updating matrix file", level = OutputLogLevel.DETAILED)
         args.updateMatrixFile(matrixMap)
-        logLn(level = OutputLogLevel.DETAILED)
     }
 }
 

@@ -31,7 +31,7 @@ class GenericTestRunnerTest {
         val result = createMock(1).beforeRunMessage(
             listOf(Chunk(listOf(TestMethod(name = "", time = 0.0))))
         ).normalizeLineEnding()
-        assert(result, "  1 test / 1 shard\n")
+        assert(result.trim(), "  1 test / 1 shard".trim())
     }
 
     @Test
@@ -42,6 +42,7 @@ class GenericTestRunnerTest {
         assert(
             result,
             """
+
   1 test / 1 shard
   Running 2x
     2 total shards
@@ -58,6 +59,7 @@ class GenericTestRunnerTest {
         assert(
             result,
             """
+
   6 tests / 6 shards
   Running 2x
     12 total shards
@@ -74,6 +76,7 @@ class GenericTestRunnerTest {
         assert(
             result,
             """
+
   10 tests / 2 shards
   Running 100x
     200 total shards

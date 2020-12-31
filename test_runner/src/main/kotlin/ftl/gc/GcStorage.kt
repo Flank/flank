@@ -12,9 +12,9 @@ import com.google.common.annotations.VisibleForTesting
 import flank.common.join
 import flank.common.logLn
 import ftl.args.IArgs
-import ftl.args.IosArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
+import ftl.config.FtlConstants.GCS_STORAGE_LINK
 import ftl.config.credential
 import ftl.json.MatrixMap
 import ftl.reports.xml.model.JUnitTestResult
@@ -72,14 +72,11 @@ object GcStorage {
 
         // bucket/path/to/object
         val rawPath = args.smartFlankGcsPath.drop(GCS_PREFIX.length)
-        val bucket = rawPath.substringBefore('/')
-        val name = rawPath.substringAfter('/')
 
-        val fileBlob = BlobInfo.newBuilder(bucket, name).build()
-        runWithProgress(
-            startMessage = "Uploading smart flank XML",
-            action = { storage.create(fileBlob, testResult.xmlToString().toByteArray()) },
-            onError = { throw FlankGeneralError(it) }
+        testResult.xmlToString().toByteArray().uploadWithProgress(
+            bucket = rawPath.substringBefore('/'),
+            path = rawPath.substringAfter('/'),
+            name = "smart flank XML"
         )
     }
 
@@ -114,9 +111,6 @@ object GcStorage {
         )
     }
 
-    fun uploadXCTestZip(args: IosArgs, runGcsPath: String): String =
-        upload(args.xctestrunZip, args.resultsBucket, runGcsPath)
-
     fun uploadXCTestFile(fileName: String, gcsBucket: String, runGcsPath: String, fileBytes: ByteArray): String =
         upload(
             filePath = fileName,
@@ -126,14 +120,11 @@ object GcStorage {
         )
 
     // junit xml may not exist. ignore error if it doesn't exist
-    fun downloadJunitXml(args: IArgs): JUnitTestResult? {
-        val oldXmlPath = download(args.smartFlankGcsPath, ignoreError = true)
-        if (oldXmlPath.isNotEmpty()) {
-            return parseAllSuitesXml(Paths.get(oldXmlPath))
-        }
-
-        return null
-    }
+    fun downloadJunitXml(
+        args: IArgs
+    ): JUnitTestResult? = download(args.smartFlankGcsPath, ignoreError = true)
+        .takeIf { it.isNotEmpty() }
+        ?.let { parseAllSuitesXml(Paths.get(it)) }
 
     private val duplicatedGcsPathCounter = ConcurrentHashMap<String, Int>()
 
@@ -142,8 +133,7 @@ object GcStorage {
         filePath: String,
         fileBytes: ByteArray,
         rootGcsBucket: String,
-        runGcsPath: String,
-        storage: Storage = GcStorage.storage
+        runGcsPath: String
     ): String {
         val file = File(filePath)
         return uploadCache.computeIfAbsent("$runGcsPath-${file.absolutePath}") {
@@ -156,14 +146,25 @@ object GcStorage {
             }
 
             // 404 Not Found error when rootGcsBucket does not exist
-            val fileBlob = BlobInfo.newBuilder(rootGcsBucket, validGcsPath).build()
-            runWithProgress(
-                startMessage = "Uploading ${file.name}",
-                action = { storage.create(fileBlob, fileBytes) },
-                onError = { throw FlankGeneralError("Error on uploading ${file.name}\nCause: $it") }
+            fileBytes.uploadWithProgress(
+                bucket = rootGcsBucket,
+                path = validGcsPath,
+                name = file.name
             )
             GCS_PREFIX + join(rootGcsBucket, validGcsPath)
         }
+    }
+
+    private fun ByteArray.uploadWithProgress(
+        bucket: String,
+        path: String,
+        name: String
+    ) {
+        runWithProgress(
+            startMessage = "Uploading [$name] to ${GCS_STORAGE_LINK + join(bucket, path).replace(name, "")}..",
+            action = { storage.create(BlobInfo.newBuilder(bucket, path).build(), this) },
+            onError = { throw FlankGeneralError("Error on uploading $name\nCause: $it") }
+        )
     }
 
     fun download(gcsUriString: String, ignoreError: Boolean = false): String {

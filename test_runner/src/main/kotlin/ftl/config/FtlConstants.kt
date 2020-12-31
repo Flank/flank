@@ -29,6 +29,7 @@ object FtlConstants {
     const val matrixIdsFile = "matrix_ids.json"
     const val applicationName = "Flank"
     const val GCS_PREFIX = "gs://"
+    const val GCS_STORAGE_LINK = "https://console.developers.google.com/storage/browser/"
     const val runTimeout = "-1"
 
     val JSON_FACTORY: JsonFactory by lazy { Utils.getDefaultJsonFactory() }

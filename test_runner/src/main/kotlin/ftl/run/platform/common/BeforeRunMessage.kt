@@ -10,7 +10,7 @@ internal fun IArgs.beforeRunMessage(testShardChunks: List<Chunk>): String {
     val shardCount = testShardChunks.size
     val (classesCount, testsCount) = testShardChunks.partitionedTestCases.testAndClassesCount
 
-    val result = StringBuilder()
+    val result = StringBuilder("\n")
     val testString = if (testsCount == 0 && classesCount != 0) "" else "$testsCount test${s(testsCount)}"
     val classString = if (classesCount > 0) "$classesCount parameterized class${es(classesCount)}" else ""
 

@@ -1,6 +1,5 @@
 package ftl.run
 
-import flank.common.logLn
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
@@ -29,7 +28,6 @@ suspend fun IArgs.newTestRun() = withTimeoutOrNull(parsedTimeout) {
         ReportManager.generate(matrixMap, args, testShardChunks, ignoredTests)
         cancelTestsOnTimeout(args.project, matrixMap.map) { fetchArtifacts(matrixMap, args) }
 
-        logLn()
         matrixMap.printMatricesWebLinks(project)
 
         matrixMap.validate(ignoreFailedTests)

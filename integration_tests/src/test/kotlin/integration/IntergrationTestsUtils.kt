@@ -1,6 +1,7 @@
 package integration
 
 import com.google.common.truth.Truth.assertThat
+import flank.common.isWindows
 import org.junit.Assert.assertEquals
 import utils.ProcessResult
 import java.io.File
@@ -56,7 +57,7 @@ data class OutcomeSummary(val matcher: MutableMap<TestOutcome, Int> = mutableMap
 }
 
 fun assertContainsUploads(input: String, vararg uploads: String) = uploads.forEach {
-    assertThat(input).contains("Uploading $it")
+    assertThat(input).contains("Uploading [$it]")
 }
 
 fun assertContainsOutcomeSummary(input: String, block: OutcomeSummary.() -> Unit) =
@@ -92,9 +93,3 @@ private val fromCommon =
 fun String.removeUnicode() = replace("\u001B\\[\\d{1,2}m".toRegex(), "").trimIndent()
 
 fun findInCompare(name: String) = File("./src/test/resources/compare/$name-compare").readText().trimIndent()
-
-private val osName = System.getProperty("os.name")?.toLowerCase() ?: ""
-
-val isWindows: Boolean by lazy {
-    osName.indexOf("win") >= 0
-}

@@ -29,10 +29,10 @@ class ProgressBarTest {
 
         progress.start("hi")
         Thread.sleep(300)
-        assertThat(systemOutRule.log.normalizeLineEnding()).isEqualTo("  hi .")
+        assertThat(systemOutRule.log.normalizeLineEnding()).isEqualTo("  hi.")
 
         progress.stop()
-        assertThat(systemOutRule.log.normalizeLineEnding()).isEqualTo("  hi .\n")
+        assertThat(systemOutRule.log.normalizeLineEnding()).isEqualTo("  hi.\n")
     }
 
     @Test
@@ -53,7 +53,7 @@ class ProgressBarTest {
         )
 
         // then
-        assertThat(systemOutRule.log).contains("  TEST ")
+        assertThat(systemOutRule.log).contains("  TEST")
         verify { action.run() }
         verify(exactly = 0) { onError.run() }
     }
@@ -79,7 +79,7 @@ class ProgressBarTest {
         )
 
         // then
-        assertThat(systemOutRule.log).contains("  TEST ")
+        assertThat(systemOutRule.log).contains("  TEST")
         verify { action.run() }
         verify { onError.run() }
     }

@@ -6,6 +6,8 @@ import java.nio.file.Paths
 
 fun String.withNewLineAtTheEnd() = plus(System.lineSeparator())
 
+fun String.startWithNewLine() = System.lineSeparator() + this
+
 fun String.normalizeLineEnding(): String {
     // required for tests to pass on Windows
     return this.replace("\r\n", "\n")

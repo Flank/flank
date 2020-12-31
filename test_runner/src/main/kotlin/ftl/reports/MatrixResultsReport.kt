@@ -2,6 +2,7 @@ package ftl.reports
 
 import flank.common.log
 import flank.common.println
+import flank.common.startWithNewLine
 import ftl.args.IArgs
 import ftl.config.FtlConstants.indent
 import ftl.gc.GcStorage
@@ -43,7 +44,7 @@ object MatrixResultsReport : IReport {
         if (failed > 0) outputData += "$failed matrices failed"
 
         StringWriter().use { writer ->
-            writer.println(reportName())
+            writer.println(reportName().startWithNewLine())
             writer.println("$indent$success / $total ($successPercent%)")
             if (failed > 0) {
                 writer.println("$indent$failed matrices failed")
