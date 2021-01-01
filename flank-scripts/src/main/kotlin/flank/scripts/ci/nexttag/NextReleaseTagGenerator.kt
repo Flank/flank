@@ -1,7 +1,6 @@
 package flank.scripts.ci.nexttag
 
 import java.time.LocalDate
-import java.time.Year
 import java.time.format.DateTimeFormatter
 
 fun generateNextReleaseTag(previousReleaseTag: String): String {
@@ -14,7 +13,7 @@ fun generateNextReleaseTag(previousReleaseTag: String): String {
 }
 
 private fun isNextReleaseInCurrentMonth(year: String, month: String) =
-    DateTimeFormatter.ofPattern("yy").format(Year.now()) == year &&
+    DateTimeFormatter.ofPattern("yy").format(LocalDate.now()) == year &&
         DateTimeFormatter.ofPattern("MM").format(LocalDate.now()) == month
 
 private fun currentMonthFirstTag() = "v${DateTimeFormatter.ofPattern("yy.MM").format(LocalDate.now())}.0"
