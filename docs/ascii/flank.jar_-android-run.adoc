@@ -14,7 +14,7 @@ flank.jar
 *flank.jar
  android run* [*-h*] [*--async*] [*--auto-google-login*]
                        [*--disable-results-upload*] [*--disable-sharding*] [*--dry*]
-                       [*--dump-shards*] [*--full-junit-result*]
+                       [*--dump-shards*] [*--fail-fast*] [*--full-junit-result*]
                        [*--ignore-failed-tests*] [*--keep-file-path*]
                        [*--legacy-junit-result*] [*--no-auto-google-login*]
                        [*--no-performance-metrics*] [*--no-record-video*]
@@ -134,6 +134,9 @@ Configuration is read from flank.yml
 
 *--scenario-numbers*=_<scenarioNumbers>_[,_<scenarioNumbers>_...]::
   A list of game-loop scenario numbers which will be run as part of the test (default: all scenarios). A maximum of 1024 scenarios may be specified in one test matrix, but the maximum number may also be limited by the overall test --timeout setting.
+
+*--fail-fast*::
+  If true, only a single attempt at most will be made to run each execution/shard in the matrix. Flaky test attempts are not affected. Normally, 2 or more attempts are made if a potential infrastructure issue is detected. This feature is for latency sensitive workloads.
 
 *--type*=_<type>_::
   The type of test to run. TYPE must be one of: instrumentation, robo, xctest, game-loop.

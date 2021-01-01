@@ -1,3 +1,44 @@
+## v21.01.0
+### CI Changes
+- [#1439](https://github.com/Flank/flank/pull/1439) Remove sanity checks and change full suite IT OS to macOS ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1433](https://github.com/Flank/flank/pull/1433) Change IT workflow comment ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1424](https://github.com/Flank/flank/pull/1424) Auto update firebase api client ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1412](https://github.com/Flank/flank/pull/1412) 1411 implement version ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1409](https://github.com/Flank/flank/pull/1409) Trigger integration tests from pr comment ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1385](https://github.com/Flank/flank/pull/1385) Get rid of binaries submodule ([jan-gogo](https://github.com/jan-gogo), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1400](https://github.com/Flank/flank/pull/1400) Change gradle command ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1398](https://github.com/Flank/flank/pull/1398) Add create google account config step ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1353](https://github.com/Flank/flank/pull/1353) Implement workflow for full suite IT (cron + manual) ([pawelpasterz](https://github.com/pawelpasterz), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1378](https://github.com/Flank/flank/pull/1378) Update GH API ([pawelpasterz](https://github.com/pawelpasterz))
+### Features
+- [#1436](https://github.com/Flank/flank/pull/1436) 1422 autodetect new gcloud features ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1429](https://github.com/Flank/flank/pull/1429) Change uploading file output ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1426](https://github.com/Flank/flank/pull/1426) Support for iOS gameloop tests ([Sloox](https://github.com/Sloox), [jan-gogo](https://github.com/jan-gogo), [adamfilipow92](https://github.com/adamfilipow92))
+- [#1421](https://github.com/Flank/flank/pull/1421) Default project Id - use GOOGLE_APPLICATION_CREDENTIALS first, then GOOGLE_CLOUD_PROJECT ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1404](https://github.com/Flank/flank/pull/1404) Add basic gameloop IT for Android ([Sloox](https://github.com/Sloox), [adamfilipow92](https://github.com/adamfilipow92))
+- [#1393](https://github.com/Flank/flank/pull/1393) Upload matrix ids ([Sloox](https://github.com/Sloox), [jan-gogo](https://github.com/jan-gogo))
+- [#1362](https://github.com/Flank/flank/pull/1362) Add logic to verify xml results ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1321](https://github.com/Flank/flank/pull/1321) IOS support for testplans ([axelzuziak-gogo](https://github.com/axelzuziak-gogo), [jan-gogo](https://github.com/jan-gogo))
+- [#1375](https://github.com/Flank/flank/pull/1375) Add new output style to print smaller output ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1370](https://github.com/Flank/flank/pull/1370) Add support for "fail fast" feature on FTL ([RainNapper](https://github.com/RainNapper))
+### Refactor
+- [#1432](https://github.com/Flank/flank/pull/1432) Small changes in flank-scripts module ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1418](https://github.com/Flank/flank/pull/1418) Create module with shared utilities ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1417](https://github.com/Flank/flank/pull/1417) Update firebase_apis module ([pawelpasterz](https://github.com/pawelpasterz))
+### Bug Fixes
+- [#1414](https://github.com/Flank/flank/pull/1414) Add attempts to performance test ([jan-gogo](https://github.com/jan-gogo))
+- [#1410](https://github.com/Flank/flank/pull/1410) Fix integration tests on CI. ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1413](https://github.com/Flank/flank/pull/1413) Fix calculate shards test ([pawelpasterz](https://github.com/pawelpasterz), [jan-gogo](https://github.com/jan-gogo))
+- [#1405](https://github.com/Flank/flank/pull/1405) CancelCommandRuns should works independent ([Sloox](https://github.com/Sloox), [adamfilipow92](https://github.com/adamfilipow92))
+- [#1395](https://github.com/Flank/flank/pull/1395) Print args when iOS tests are not found ([jan-gogo](https://github.com/jan-gogo), [adamfilipow92](https://github.com/adamfilipow92))
+- [#1387](https://github.com/Flank/flank/pull/1387) Fix NPE ([pawelpasterz](https://github.com/pawelpasterz), [jan-gogo](https://github.com/jan-gogo))
+- [#1372](https://github.com/Flank/flank/pull/1372) Fix Flank Scripts version verification tasks ([piotradamczyk5](https://github.com/piotradamczyk5))
+### Documentation
+- [#1401](https://github.com/Flank/flank/pull/1401) Update orchestrator version in docs ([adamfilipow92](https://github.com/adamfilipow92))
+- [#1380](https://github.com/Flank/flank/pull/1380) Added documentation about handling #1374 issue ([piotradamczyk5](https://github.com/piotradamczyk5))
+### Tests update
+- [#1316](https://github.com/Flank/flank/pull/1316) [IT] Add test cases ([pawelpasterz](https://github.com/pawelpasterz), [adamfilipow92](https://github.com/adamfilipow92))
+
 ## v20.12.0
 ### Bug Fixes
 - [#1366](https://github.com/Flank/flank/pull/1366) Generation of release notes ([piotradamczyk5](https://github.com/piotradamczyk5))
