@@ -95,7 +95,7 @@ IosArgs
       default-class-test-time: $defaultClassTestTime
       disable-usage-statistics: $disableUsageStatistics
       only-test-configuration: $onlyTestConfiguration
-      skipTestConfiguration: $skipTestConfiguration
+      skip-test-configuration: $skipTestConfiguration
         """.trimIndent()
     }
 }
