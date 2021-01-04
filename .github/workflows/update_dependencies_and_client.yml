@@ -27,6 +27,15 @@ jobs:
     needs: [ get_token_and_date ]
     steps:
       - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.FLANK_RELEASE_APP_ID }}
+          private_key: ${{ secrets.FLANK_RELEASE_PRIVATE_KEY }}
 
       - name: Gradle dependency updates raport
         uses: eskatos/gradle-command-action@v1
@@ -46,7 +55,7 @@ jobs:
         id: pr
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ needs.get_token_and_date.outputs.github_token }}
+          token: ${{ steps.generate-token.outputs.token }}
           commit-message: "[Automatic PR] Dependencies update"
           signoff: false
           branch: "dependencies-update-${{ needs.get_token_and_date.outputs.date }}"
@@ -63,6 +72,10 @@ jobs:
     needs: [ get_token_and_date ]
     steps:
       - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
       - name: Setup python
         uses: actions/setup-python@v2
         with:
@@ -98,6 +111,17 @@ jobs:
   check_for_sdk_updates:
     runs-on: macos-latest
     steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.FLANK_RELEASE_APP_ID }}
+          private_key: ${{ secrets.FLANK_RELEASE_PRIVATE_KEY }}
+
       - name: Download flankScripts and add it to PATH
         run: |
           ./gradlew :flank-scripts:download
@@ -106,5 +130,5 @@ jobs:
       - name: Run SDK check
         run: |
           flankScripts shell firebase checkForSdkUpdate \
-          --github-token=${{ secrets.GITHUB_TOKEN }} \
+          --github-token=${{ steps.generate-token.outputs.token }} \
           --zenhub-token=${{ secrets.ZENHUB_API_KEY }}
