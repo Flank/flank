@@ -6,27 +6,26 @@ on:
   workflow_dispatch:    # or manually
 
 jobs:
-  get_token_and_date:
+  get_date:
     runs-on: ubuntu-latest
     outputs:
-      github_token: ${{ steps.generate-token.outputs.token }}
       date: ${{ steps.date.outputs.date }}
     steps:
-      - uses: tibdex/github-app-token@v1
-        id: generate-token
-        with:
-          app_id: ${{ secrets.FLANK_RELEASE_APP_ID }}
-          private_key: ${{ secrets.FLANK_RELEASE_PRIVATE_KEY }}
-
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
   update_dependencies:
     runs-on: macos-latest
-    needs: [ get_token_and_date ]
+    needs: [ get_date ]
     steps:
       - uses: actions/checkout@v2
+
+      - uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.FLANK_RELEASE_APP_ID }}
+          private_key: ${{ secrets.FLANK_RELEASE_PRIVATE_KEY }}
 
       - name: Gradle dependency updates raport
         uses: eskatos/gradle-command-action@v1
@@ -46,11 +45,11 @@ jobs:
         id: pr
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ needs.get_token_and_date.outputs.github_token }}
+          token: ${{ steps.generate-token.outputs.token }}
           commit-message: "[Automatic PR] Dependencies update"
           signoff: false
-          branch: "dependencies-update-${{ needs.get_token_and_date.outputs.date }}"
-          title: "build: Dependencies updates [${{ needs.get_token_and_date.outputs.date }}]"
+          branch: "dependencies-update-${{ needs.get_date.outputs.date }}"
+          title: "build: Dependencies updates [${{ needs.get_date.outputs.date }}]"
           body: "Dependencies updates"
           labels: |
             automated pr
@@ -60,9 +59,16 @@ jobs:
 
   update_firebase_api:
     runs-on: macos-latest
-    needs: [ get_token_and_date ]
+    needs: [ get_date ]
     steps:
       - uses: actions/checkout@v2
+
+      - uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.FLANK_RELEASE_APP_ID }}
+          private_key: ${{ secrets.FLANK_RELEASE_PRIVATE_KEY }}
+
       - name: Setup python
         uses: actions/setup-python@v2
         with:
@@ -83,11 +89,11 @@ jobs:
         id: pr
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ needs.get_token_and_date.outputs.github_token }}
+          token: ${{ steps.generate-token.outputs.token }}
           commit-message: "[Automatic PR] Firebase API Client update"
           signoff: false
-          branch: "firebase-api-client-update-${{ needs.get_token_and_date.outputs.date }}"
-          title: "build: Firebase API Client update [${{ needs.get_token_and_date.outputs.date }}]"
+          branch: "firebase-api-client-update-${{ needs.get_date.outputs.date }}"
+          title: "build: Firebase API Client update [${{ needs.get_date.outputs.date }}]"
           body: "Firebase Api update"
           labels: |
             automated pr
