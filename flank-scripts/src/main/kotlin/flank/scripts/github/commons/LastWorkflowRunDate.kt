@@ -3,7 +3,6 @@ package flank.scripts.github.commons
 import com.github.kittinunf.result.getOrNull
 import flank.scripts.github.getGitHubWorkflowRunsSummary
 import flank.scripts.github.objects.GitHubWorkflowRun
-import kotlinx.coroutines.runBlocking
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 

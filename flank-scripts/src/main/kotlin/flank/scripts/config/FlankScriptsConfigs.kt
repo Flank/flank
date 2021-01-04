@@ -44,7 +44,7 @@ private val props = SafeProperties(defaults).also { prop ->
     }
 }
 
-val zenhubFlankRepoID = props[ZENHUB_REPO_ID]
+val zenhubFlankRepoID = Integer.parseInt(props[ZENHUB_REPO_ID])
 val flankRepo = props[FLANK_REPO]
 val flankGcloudCLIRepo = props[GCLOUD_REPO]
 val flankTestArtifactsRepo = props[ARTIFACTS_REPO]

@@ -20,7 +20,7 @@ data class ConvertToEpicRequest(
 @Serializable
 data class Issue(
     @SerialName("repo_id")
-    val repo: String,
+    val repo: Int,
     @SerialName("issue_number")
     val issueNumber: Int
 )
