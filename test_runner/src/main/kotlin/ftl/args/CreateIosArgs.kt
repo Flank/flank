@@ -33,7 +33,9 @@ private fun createIosArgs(
     testTargets = flank.testTargets?.filterNotNull().orEmpty(),
     obfuscateDumpShards = obfuscate,
     app = gcloud.app?.normalizeFilePath().orEmpty(),
-    testSpecialEntitlements = gcloud.testSpecialEntitlements ?: false
+    testSpecialEntitlements = gcloud.testSpecialEntitlements ?: false,
+    onlyTestConfiguration = flank.onlyTestConfiguration,
+    skipTestConfiguration = flank.skipTestConfiguration
 )
 
 private fun convertToShardCount(inputValue: Int) =

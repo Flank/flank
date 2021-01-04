@@ -103,6 +103,7 @@ class IosArgsTest {
           output-style: single
           disable-results-upload: true
           default-class-test-time: 30.0
+          only-test-configuration: pl
         """
 
     @get:Rule
@@ -278,6 +279,8 @@ IosArgs
       disable-results-upload: true
       default-class-test-time: 30.0
       disable-usage-statistics: false
+      only-test-configuration: pl
+      skipTestConfiguration: null
             """.trimIndent()
         )
     }
@@ -339,6 +342,8 @@ IosArgs
       disable-results-upload: false
       default-class-test-time: 240.0
       disable-usage-statistics: false
+      only-test-configuration: null
+      skipTestConfiguration: null
             """.trimIndent(),
             args.toString()
         )
@@ -381,6 +386,8 @@ IosArgs
             // IosFlankYml
             assert(testTargets, empty)
             assert(runTimeout, "-1")
+            assert(onlyTestConfiguration, null)
+            assert(skipTestConfiguration, null)
         }
     }
 
