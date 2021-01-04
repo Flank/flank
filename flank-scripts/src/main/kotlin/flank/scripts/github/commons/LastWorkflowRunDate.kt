@@ -43,12 +43,3 @@ private fun GitHubWorkflowRun?.logRun() = this?.also {
         """.trimIndent()
     )
 }
-
-fun main() {
-    runBlocking {
-        getLastWorkflowRunDate(
-            token = "46b81695ce4a71ca20e7d618d20c75bcc6a5268e",
-            workflowFileName = "full_suite_integration_tests.yml"
-        )
-    }
-}
