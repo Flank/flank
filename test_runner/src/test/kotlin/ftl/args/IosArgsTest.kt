@@ -42,6 +42,9 @@ class IosArgsTest {
         "./src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun"
     private val invalidApp = "../test_projects/android/apks/invalid.apk"
     private val xctestrunFileAbsolutePath = xctestrunFile.absolutePath()
+
+    private val testPlansPath = "./src/test/kotlin/ftl/fixtures/tmp/ios/FlankTestPlansExample/FlankTestPlansExample.zip"
+    private val testPlansXctestrun = "./src/test/kotlin/ftl/fixtures/tmp/ios/FlankTestPlansExample/AllTests.xctestrun"
     private val testAbsolutePath = testPath.absolutePath()
     private val testIpa1 = "./src/test/kotlin/ftl/fixtures/tmp/test.ipa"
     private val testIpa2 = "./src/test/kotlin/ftl/fixtures/tmp/test2.ipa"
@@ -1254,6 +1257,54 @@ IosArgs
           results-dir: test
           type: game-loop
           app: $testPath
+        """.trimIndent()
+        IosArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception when only-test-configuration is specified for xctestrun v1`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $xctestrunFile
+        flank:
+          only-test-configuration: pl
+        """.trimIndent()
+        IosArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankConfigurationError::class)
+    fun `should throw exception when skip-test-configuration is specified for xctestrun v1`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $xctestrunFile
+        flank:
+          skip-test-configuration: pl
+        """.trimIndent()
+        IosArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should not throw exception when only-test-configuration is specified for xctestrun v2`() {
+        val yaml = """
+        gcloud:
+          test: $testPlansPath
+          xctestrun-file: $testPlansXctestrun
+        flank:
+          only-test-configuration: pl
+        """.trimIndent()
+        IosArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should not throw exception when skip-test-configuration is specified for xctestrun v2`() {
+        val yaml = """
+        gcloud:
+          test: $testPlansPath
+          xctestrun-file: $testPlansXctestrun
+        flank:
+          skip-test-configuration: pl
         """.trimIndent()
         IosArgs.load(yaml).validate()
     }

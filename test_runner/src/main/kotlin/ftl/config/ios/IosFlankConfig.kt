@@ -40,7 +40,7 @@ data class IosFlankConfig @JsonIgnore constructor(
     @set:CommandLine.Option(
         names = ["--skip-test-configuration"],
         description = [
-            "-skip-test-configuration constrains a test action to skip a specified test configuration " +
+            "Constrains a test action to skip a specified test configuration " +
                     "and include all other test configurations. (default: run all test configurations). " +
                     "Flank can combine  multiple constraint options, but -only-test-configuration has precedence over -skip-test-configuration. " +
                     "Each test configuration name must match the name of a configuration specified in a test plan and is case-sensitive."
