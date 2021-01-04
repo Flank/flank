@@ -20,3 +20,5 @@ val flankFixturesTmpPath =
     Paths.get(rootDirectoryPathString, "test_runner", "src", "test", "kotlin", "ftl", "fixtures", "tmp").toString()
 val flankFixturesIosTmpPath =
     Paths.get(flankFixturesTmpPath, "ios").toString()
+
+val flankScriptsRootPathString = Paths.get(rootDirectoryPathString, "flank-scripts").toString()

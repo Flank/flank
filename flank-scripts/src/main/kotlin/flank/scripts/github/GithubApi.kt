@@ -5,8 +5,10 @@ import com.github.kittinunf.fuel.core.Parameters
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.coroutines.awaitResult
+import com.github.kittinunf.fuel.coroutines.awaitStringResult
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.onError
+import com.github.kittinunf.result.success
 import com.jcabi.github.Coordinates
 import com.jcabi.github.Release
 import com.jcabi.github.Releases
@@ -14,6 +16,7 @@ import com.jcabi.github.Repo
 import com.jcabi.github.RtGithub
 import flank.scripts.ci.releasenotes.GitHubRelease
 import flank.scripts.ci.releasenotes.GithubReleaseDeserializable
+import flank.scripts.config.flankRepo
 import flank.scripts.exceptions.mapClientErrorToGithubException
 import flank.scripts.github.objects.GitHubCommit
 import flank.scripts.github.objects.GitHubCommitListDeserializer
@@ -23,6 +26,9 @@ import flank.scripts.github.objects.GitHubCreateIssueCommentResponseDeserializer
 import flank.scripts.github.objects.GitHubCreateIssueRequest
 import flank.scripts.github.objects.GitHubCreateIssueResponse
 import flank.scripts.github.objects.GitHubCreateIssueResponseDeserializer
+import flank.scripts.github.objects.GitHubLabelDeserializable
+import flank.scripts.github.objects.GitHubSetAssigneesRequest
+import flank.scripts.github.objects.GitHubSetLabelsRequest
 import flank.scripts.github.objects.GitHubUpdateIssueRequest
 import flank.scripts.github.objects.GitHubWorkflowRunsSummary
 import flank.scripts.github.objects.GithubPullRequest
@@ -32,7 +38,7 @@ import flank.scripts.github.objects.GithubWorkflowRunsSummaryDeserializer
 import flank.scripts.utils.toJson
 import java.lang.Exception
 
-private const val FLANK_REPO = "Flank/flank"
+private val FLANK_REPO = flankRepo
 private const val URL_BASE = "https://api.github.com/repos"
 
 // ============= HTTP GITHUB API =============
@@ -92,6 +98,33 @@ suspend fun postNewIssue(githubToken: String, payload: GitHubCreateIssueRequest,
         .body(payload.toJson())
         .awaitResult(GitHubCreateIssueResponseDeserializer)
         .mapClientErrorToGithubException()
+
+suspend fun getLabelsFromIssue(githubToken: String, issueNumber: Int, repo: String = FLANK_REPO) =
+    Fuel.get("$URL_BASE/$repo/issues/$issueNumber/labels")
+        .appendGitHubHeaders(githubToken)
+        .awaitResult(GitHubLabelDeserializable)
+        .mapClientErrorToGithubException()
+
+suspend fun setLabelsToPullRequest(githubToken: String, pullRequestNumber: Int, labels: List<String>, repo: String = FLANK_REPO) {
+    Fuel.post("$URL_BASE/$repo/issues/$pullRequestNumber/labels")
+        .appendGitHubHeaders(githubToken)
+        .body(GitHubSetLabelsRequest(labels).toJson())
+        .awaitStringResult()
+        .onError { println("Could not set assignees because of ${it.message}") }
+        .success { println("$labels set to pull request #$pullRequestNumber") }
+}
+
+suspend fun setAssigneesToPullRequest(githubToken: String, pullRequestNumber: Int, assignees: List<String>, repo: String = FLANK_REPO) {
+    Fuel.post("$URL_BASE/$repo/issues/$pullRequestNumber/assignees")
+        .appendGitHubHeaders(githubToken)
+        .body(GitHubSetAssigneesRequest(assignees).toJson())
+        .awaitStringResult()
+        .onError {
+            println("Could not set assignees because of ${it.message}")
+            it.printStackTrace()
+        }
+        .success { println("$assignees set to pull request #$pullRequestNumber") }
+}
 
 fun patchIssue(githubToken: String, issueNumber: Int, payload: GitHubUpdateIssueRequest, repo: String = FLANK_REPO): Result<ByteArray, Exception> =
     Fuel.patch("$URL_BASE/$repo/issues/$issueNumber")

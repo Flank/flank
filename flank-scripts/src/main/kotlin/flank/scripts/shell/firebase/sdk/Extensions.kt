@@ -3,12 +3,12 @@ package flank.scripts.shell.firebase.sdk
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.onError
 import flank.common.newLine
+import flank.scripts.config.zenhubFlankRepoID
 import flank.scripts.github.objects.GitHubCreateIssueRequest
 import flank.scripts.github.objects.GitHubCreateIssueResponse
 import flank.scripts.github.objects.GitHubUpdateIssueRequest
 import flank.scripts.github.patchIssue
 import flank.scripts.github.postNewIssue
-import flank.scripts.zenhub.FLANK_REPO_ID
 import flank.scripts.zenhub.convertIssueToEpic
 import flank.scripts.zenhub.objects.ConvertToEpicRequest
 import flank.scripts.zenhub.objects.Issue
@@ -74,7 +74,7 @@ private suspend fun SDKUpdateContext.createSubIssues() = coroutineScope {
             }
         }
             .awaitAll()
-            .map { Issue(FLANK_REPO_ID, it.number) }
+            .map { Issue(zenhubFlankRepoID, it.number) }
     }
 }
 

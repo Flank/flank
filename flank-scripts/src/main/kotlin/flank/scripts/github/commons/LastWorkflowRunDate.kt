@@ -3,6 +3,7 @@ package flank.scripts.github.commons
 import com.github.kittinunf.result.getOrNull
 import flank.scripts.github.getGitHubWorkflowRunsSummary
 import flank.scripts.github.objects.GitHubWorkflowRun
+import kotlinx.coroutines.runBlocking
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 
@@ -41,4 +42,13 @@ private fun GitHubWorkflowRun?.logRun() = this?.also {
      url: ${it.htmlUrl}
         """.trimIndent()
     )
+}
+
+fun main() {
+    runBlocking {
+        getLastWorkflowRunDate(
+            token = "46b81695ce4a71ca20e7d618d20c75bcc6a5268e",
+            workflowFileName = "full_suite_integration_tests.yml"
+        )
+    }
 }

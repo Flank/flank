@@ -2,12 +2,13 @@ package flank.scripts.shell.firebase.sdk
 
 import com.github.kittinunf.result.getOrElse
 import com.github.kittinunf.result.onError
+import flank.scripts.config.updatesOpenedUser
 import flank.scripts.github.getGitHubIssueList
 
 suspend fun checkForOpenedUpdates(token: String) = getGitHubIssueList(
     githubToken = token,
     parameters = listOf(
-        "creator" to "github-actions[bot]",
+        "creator" to updatesOpenedUser,
         "state" to "open",
         "labels" to "gcloud SDK"
     )

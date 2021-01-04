@@ -99,6 +99,7 @@ publishing {
 tasks.test {
     maxHeapSize = "2048m"
     minHeapSize = "512m"
+    systemProperty("testScript", "")
 }
 
 repositories {

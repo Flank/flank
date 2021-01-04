@@ -5,13 +5,13 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.kittinunf.fuel.Fuel
 import flank.common.downloadFile
+import flank.scripts.config.flankGcloudCLIRepo
 import flank.scripts.shell.utils.currentPath
 import flank.scripts.utils.parseToVersion
 import kotlinx.coroutines.runBlocking
 import java.nio.file.Paths
-import java.time.Instant
 
-private const val RAW_GITHUB = "https://raw.githubusercontent.com/Flank/gcloud_cli"
+private val RAW_GITHUB = "https://raw.githubusercontent.com/$flankGcloudCLIRepo"
 
 object CheckForSDKUpdateCommand : CliktCommand(
     name = "checkForSdkUpdate",
@@ -24,31 +24,32 @@ object CheckForSDKUpdateCommand : CliktCommand(
     private val openedUpdates by lazy { runBlocking { checkForOpenedUpdates(githubToken) } }
 
     override fun run() = runBlocking {
-        println("** Find previously checked commit")
-        val oldSha = getCommitsUntilLastCheck(githubToken, lastRun) ?: run {
-            println("** Unable to find previous commit")
-            return@runBlocking
-        }
-        println("** Find latest commit")
-        val newSha = getCommitsUntilLastCheck(githubToken, Instant.now().toString()) ?: run {
-            println("** Unable to find latest commit")
-            return@runBlocking
-        }
-
-        if (oldSha == newSha) {
-            println("** No new commits since the last run")
-            return@runBlocking
-        }
-
-        with(createContext(oldSha)) {
-            println("** New version $newVersion")
-            println("** Old version $oldVersion")
-            when {
-                oldVersion >= newVersion -> println("** No new features")
-                openedUpdates != null -> updateOpenedEpic()
-                openedUpdates == null -> createEpicIssue()
-            }
-        }
+        println(lastRun)
+//        println("** Find previously checked commit")
+//        val oldSha = getCommitsUntilLastCheck(githubToken, lastRun) ?: run {
+//            println("** Unable to find previous commit")
+//            return@runBlocking
+//        }
+//        println("** Find latest commit")
+//        val newSha = getCommitsUntilLastCheck(githubToken, Instant.now().toString()) ?: run {
+//            println("** Unable to find latest commit")
+//            return@runBlocking
+//        }
+//
+//        if (oldSha == newSha) {
+//            println("** No new commits since the last run")
+//            return@runBlocking
+//        }
+//
+//        with(createContext(oldSha)) {
+//            println("** New version $newVersion")
+//            println("** Old version $oldVersion")
+//            when {
+//                oldVersion >= newVersion -> println("** No new features")
+//                openedUpdates != null -> updateOpenedEpic()
+//                openedUpdates == null -> createEpicIssue()
+//            }
+//        }
     }
 
     private fun createContext(sha: String) = SDKUpdateContext(

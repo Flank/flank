@@ -2,12 +2,13 @@ package flank.scripts.integration
 
 import com.github.kittinunf.result.getOrElse
 import com.github.kittinunf.result.onError
+import flank.scripts.config.integrationOpenedIssueUser
 import flank.scripts.github.getGitHubIssueList
 
 suspend fun checkForOpenedITIssues(token: String): Int? = getGitHubIssueList(
     githubToken = token,
     parameters = listOf(
-        "creator" to "github-actions[bot]",
+        "creator" to integrationOpenedIssueUser,
         "state" to "open",
         "labels" to "IT_Failed"
     )

@@ -1,5 +1,6 @@
 package flank.scripts.integration
 
+import flank.scripts.config.flankRepo
 import flank.scripts.github.objects.GithubPullRequest
 import java.time.Instant
 import java.time.LocalDateTime
@@ -33,7 +34,7 @@ private val successTemplate = { lastRun: String, runId: String, url: String ->
     """
     |### Full suite IT run :white_check_mark: SUCCEEDED :white_check_mark:
     |**Timestamp:** ${makeHumanFriendly(lastRun)}
-    |**Job run:** [$runId](https://github.com/Flank/flank/actions/runs/$runId)
+    |**Job run:** [$runId](https://github.com/$flankRepo/actions/runs/$runId)
     |**Build scan URL:** $url
     |**Closing issue**
 """.trimMargin()
@@ -43,7 +44,7 @@ private val failureTemplate = { lastRun: String, runId: String, url: String ->
     """
     |### Full suite IT run :x: FAILED :x:
     |**Timestamp:** ${makeHumanFriendly(lastRun)}
-    |**Job run:** [$runId](https://github.com/Flank/flank/actions/runs/$runId)
+    |**Job run:** [$runId](https://github.com/$flankRepo/actions/runs/$runId)
     |**Build scan URL:** $url
 """.trimMargin()
 }
