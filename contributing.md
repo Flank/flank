@@ -46,3 +46,4 @@ Run `./gradlew check` to fix lint issues
 ## CLA
 
 A CLA is required to contribute to flank. Google's open source policy [explains why CLAs are commonly used](https://opensource.google.com/docs/cla/policy/)
+To sign CLA follow instructions on pull request which needs CLA to be signed. 
