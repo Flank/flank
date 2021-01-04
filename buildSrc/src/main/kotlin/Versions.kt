@@ -18,7 +18,7 @@ object Versions {
     const val DEX_TEST_PARSER = "2.2.1"
 
     // match to Tools -> Kotlin -> Configure Kotlin Plugin Updates -> Update Channel: Stable
-    const val KOTLIN = "1.4.21"
+    const val KOTLIN = "1.4.21-2"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
     const val KOTLIN_COROUTINES = "1.4.2"
@@ -78,7 +78,7 @@ object Versions {
     // https://github.com/mockk/mockk
     // For now we need to keep version with jdk8 suffix
     // https://github.com/mockk/mockk/pull/540
-    const val MOCKK = "1.10.3-jdk8"
+    const val MOCKK = "1.10.4"
 
     // https://commons.apache.org/proper/commons-text/
     const val COMMON_TEXT = "1.9"
