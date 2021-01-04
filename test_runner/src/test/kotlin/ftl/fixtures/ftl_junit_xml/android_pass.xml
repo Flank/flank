@@ -1,5 +1,0 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<testsuite name="" tests="1" failures="0" errors="0" skipped="0" time="2.278" timestamp="2018-09-14T20:45:55" hostname="localhost" testLabExecutionId="matrix-1234_execution-asdf">
-  <properties />
-  <testcase name="testPasses" classname="com.example.app.ExampleUiTest" time="0.328" />
-</testsuite>

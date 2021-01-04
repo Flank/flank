@@ -1,6 +1,0 @@
-gcloud:
-  app: "../test_projects/android/apks/app-debug.apk"
-  test: "../test_projects/android/apks/app-debug-androidTest.apk"
-  results-dir: test_dir
-flank:
-  legacy-junit-result: true

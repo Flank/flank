@@ -1,8 +1,0 @@
-gcloud:
-  app: gs://flank-open-source.appspot.com/integration/app-debug.apk
-  test: gs://flank-open-source.appspot.com/integration/app-single-success-debug-androidTest.apk
-
-flank:
-  disable-results-upload: true
-  disable-sharding: true
-  run-timeout: 1m

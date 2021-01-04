@@ -1,4 +1,0 @@
-gcloud:
-  app: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-single-success-parametrized-debug.apk
-  test: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-single-success-debug-parametrized-androidTest.apk
-  use-orchestrator: false

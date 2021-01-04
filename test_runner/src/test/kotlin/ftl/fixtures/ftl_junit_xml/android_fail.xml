@@ -1,9 +1,0 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<testsuite name="" tests="2" failures="1" errors="0" skipped="0" time="3.87" timestamp="2018-09-09T00:16:36" hostname="localhost">
-  <properties />
-  <testcase name="testFails" classname="com.example.app.ExampleUiTest" time="0.857">
-    <failure>junit.framework.AssertionFailedError: expected:&lt;true&gt; but was:&lt;false&gt;
-junit.framework.Assert.fail(Assert.java:50)</failure>
-  </testcase>
-  <testcase name="testPasses" classname="com.example.app.ExampleUiTest" time="0.276" />
-</testsuite>
