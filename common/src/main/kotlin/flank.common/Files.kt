@@ -1,6 +1,8 @@
 package flank.common
 
 import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.awaitUnit
+import com.github.kittinunf.fuel.httpDownload
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
@@ -35,6 +37,12 @@ fun downloadFile(sourceUrl: String, destination: String) {
         .fileDestination { _, _ -> File(destination) }
         .responseString()
 }
+
+suspend fun String.downloadFile(destination: String) = this.httpDownload().fileDestination { _, _ ->
+    Files.createFile(Paths.get(destination)).toFile().also {
+        logLn("Ktlint written to: ${it.absolutePath}")
+    }
+}.awaitUnit()
 
 fun downloadFile(sourceUrl: String, destinationPath: Path) {
     Fuel.download(sourceUrl)
