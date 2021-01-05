@@ -47,8 +47,6 @@ export GITHUB_TOKEN="type your gihub token here"
     1. Or follow official instruction https://cloud.google.com/sdk/docs/quickstarts
     1. Don't forget about exports for Python and gcloud
 1. Ensure that pre-commit hook has been configured correctly
-    1. Ensure Flank is building correctly especially flank-scripts
-    1. Fully Build flank for example `gradlew flankFullRun`
     1. Make sure you can execute `flank-scripts` from the command line if not navigate to in the command line to `./flank-scripts/bash` 
     1. Run `flankScripts contribution linkGithooks`
 1. Apply Ktlint style to Idea project.
