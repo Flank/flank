@@ -84,7 +84,6 @@ private fun AndroidArgs.assertType() = type?.let {
     if (appApk == null) throw FlankGeneralError("A valid AppApk must be defined if Type parameter is used.")
     if (it == Type.INSTRUMENTATION) {
         if (testApk == null) throw FlankGeneralError("Instrumentation tests require a valid testApk defined.")
-        if (testRunnerClass == null) throw FlankGeneralError("Instrumentation tests require a valid test-runner-class defined.")
     }
 }
 
