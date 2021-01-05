@@ -50,7 +50,5 @@ export GITHUB_TOKEN="type your gihub token here"
     1. Make sure you can execute `flank-scripts` from the command line if not navigate to in the command line to `./flank-scripts/bash` 
     1. Run `flankScripts contribution linkGithooks`
 1. Apply Ktlint style to Idea project.
-    1. Ensure Flank is building correctly especially flank-scripts
-    1. Fully Build flank for example `gradlew flankFullRun`
     1. Make sure you can execute `flank-scripts` from the command line if not navigate to in the command line to `./flank-scripts/bash` 
     1. Run `flankScripts contribution applyKtlintToIdea`
