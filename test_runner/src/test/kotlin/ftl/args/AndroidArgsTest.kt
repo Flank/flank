@@ -1999,22 +1999,6 @@ AndroidArgs
         AndroidArgs.load(yaml).validate()
     }
 
-    @Test(expected = FlankGeneralError::class)
-    fun `should throw exception if correct type requested instrumental but no test runner set`() {
-        val yaml = """
-        gcloud:
-          app: $appApk
-          test: $testApk
-          device:
-            - model: Nexus6
-              version: 25
-              locale: en
-              orientation: portrait
-          type: instrumentation
-        """.trimIndent()
-        AndroidArgs.load(yaml).validate()
-    }
-
     @Test
     fun `should Not throw exception if correct type requested robo`() {
         val yaml = """
