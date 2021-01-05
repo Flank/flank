@@ -1,3 +1,11 @@
+## v21.01.1
+### CI Changes
+- [#1451](https://github.com/Flank/flank/pull/1451) Added CLA assistant ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1447](https://github.com/Flank/flank/pull/1447) Fix dependency update workflow ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1443](https://github.com/Flank/flank/pull/1443) Add missing step ([pawelpasterz](https://github.com/pawelpasterz))
+### Bug Fixes
+- [#1453](https://github.com/Flank/flank/pull/1453) Fix problem with test-runner-class ([piotradamczyk5](https://github.com/piotradamczyk5))
+
 ## v21.01.0
 ### CI Changes
 - [#1439](https://github.com/Flank/flank/pull/1439) Remove sanity checks and change full suite IT OS to macOS ([piotradamczyk5](https://github.com/piotradamczyk5))
