@@ -278,8 +278,8 @@ or
 To show all available commands for `integration` use:
 `flankScripts integration`
 
-Available commands are: Process results from `full_suite_integration_tests` workflow
-- `processResults`    
+Available commands are: 
+- `processResults`    Process results from `full_suite_integration_tests` workflow  
 
 #### `processResults`
 If IT ended up with failure a new issue is created with some basic info: build scan URL, commit list, timestamp.
@@ -292,3 +292,17 @@ Once integration tests end with success issue is closed.
 | --result       | Status of IT step from workflow. Can be either `success` or `failure`|
 | --url          | Build scan url from IT step|
 | --run-id       | `job.run_id` value from workflow context. Used for comment posting|
+
+### Contribution
+To show all available commands for `contribution` use:
+`flankScripts contribution`
+
+Available commands are: 
+- `linkGitHooks`    Apply a pre-commit hook for Ktlint
+- `applyKtlintToIdea`    Applies Ktlint styling to the current idea project
+
+#### `linkGithooks`
+Applies a pre-commit hook that runs Ktlint on a commit and fails if there are lint issues. It is set to automatically fix issues if it can.
+
+### `applyKtlintToIdea`
+Applies Ktlint styling to the current idea project, so that correct code styling is upheld.

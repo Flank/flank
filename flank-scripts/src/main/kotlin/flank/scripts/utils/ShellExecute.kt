@@ -5,9 +5,11 @@ import java.io.File
 fun List<String>.runCommand(
     retryCount: Int = 0,
     fileForOutput: File? = null,
-    environmentVariables: Map<String, String> = mapOf()
+    environmentVariables: Map<String, String> = mapOf(),
+    executionDirectory: File? = null
 ) = ProcessBuilder(this).apply {
     environment().putAll(environmentVariables)
+    if (executionDirectory != null) directory(executionDirectory)
     if (fileForOutput != null) {
         redirectOutput(fileForOutput)
         redirectError(fileForOutput)
@@ -15,14 +17,14 @@ fun List<String>.runCommand(
         redirectOutput(ProcessBuilder.Redirect.INHERIT)
         redirectError(ProcessBuilder.Redirect.INHERIT)
     }
-}
-    .startWithRetry(retryCount)
+}.startWithRetry(retryCount)
 
 fun String.runCommand(
     retryCount: Int = 0,
     fileForOutput: File? = null,
-    environmentVariables: Map<String, String> = mapOf()
-) = split(" ").toList().runCommand(retryCount, fileForOutput, environmentVariables)
+    environmentVariables: Map<String, String> = mapOf(),
+    executionDirectory: File? = null
+) = split(" ").toList().runCommand(retryCount, fileForOutput, environmentVariables, executionDirectory)
 
 fun String.runForOutput(retryCount: Int = 0): String = File
     .createTempFile(hashCode().toString(), "")

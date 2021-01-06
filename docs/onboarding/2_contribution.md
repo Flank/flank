@@ -53,3 +53,7 @@ Having documentation up to date gives the ability to drop work at any moment and
 
 ### Buddy system
 See [buddy_system.md](4_buddy_system.md) to read about team work in a flank.
+
+### Ktlint styling and pre-commit hooks
+To ensure that the correct styling for Flank is upheld ensure that [environment setup](1_environment_setup.md) is read, and the correct `flankScripts` commands have been run
+so that Ktlint is applied to the idea project, and the pre-commit hook is working correctly.

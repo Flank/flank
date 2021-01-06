@@ -1,6 +1,8 @@
 package flank.common
 
 import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.awaitUnit
+import com.github.kittinunf.fuel.httpDownload
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
@@ -9,6 +11,8 @@ import java.nio.file.Paths
 val userHome: String by lazy {
     if (isWindows) System.getenv("HOMEPATH") else System.getProperty("user.home")
 }
+
+fun String.deleteFile() = Paths.get(this).delete()
 
 fun createSymbolicLink(
     link: String,
@@ -34,6 +38,12 @@ fun downloadFile(sourceUrl: String, destination: String) {
         .responseString()
 }
 
+suspend fun String.downloadFile(destination: String) = this.httpDownload().fileDestination { _, _ ->
+    Files.createFile(Paths.get(destination)).toFile().also {
+        logLn("Ktlint written to: ${it.absolutePath}")
+    }
+}.awaitUnit()
+
 fun downloadFile(sourceUrl: String, destinationPath: Path) {
     Fuel.download(sourceUrl)
         .fileDestination { _, _ -> destinationPath.toFile() }
@@ -47,4 +57,25 @@ fun createDirectoryIfNotExist(path: Path) {
 fun File.hasAllFiles(fileList: List<String>): Boolean {
     val directoryFiles = list() ?: emptyArray()
     return fileList.all { it in directoryFiles }
+}
+
+fun String.fileCopyTo(directory: String, overwrite: Boolean = true): Boolean {
+    val file = Paths.get(this).toFile()
+    return if (file.isFile && file.exists()) {
+        file.copyTo(Paths.get(directory.padEnd(1, '/') + file.name).toFile(), overwrite)
+        true
+    } else false
+}
+
+private fun Path.exists(): Boolean = Files.exists(this)
+
+private fun Path.isFile(): Boolean = !Files.isDirectory(this)
+
+private fun Path.delete(): Boolean {
+    return if (isFile() && exists()) {
+        Files.delete(this)
+        true
+    } else {
+        false
+    }
 }

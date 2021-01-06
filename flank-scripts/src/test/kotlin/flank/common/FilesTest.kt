@@ -1,6 +1,7 @@
 package flank.common
 
 import org.junit.Assert
+import org.junit.Assume
 import org.junit.Test
 import java.io.File
 import java.nio.file.Files
@@ -10,6 +11,7 @@ internal class FilesTest {
 
     @Test
     fun `Should create symbolic file at desired location`() {
+        Assume.assumeFalse(isWindows)
         // given
         val testFile = File.createTempFile("test", "file").toPath()
         val expectedDestination = Paths.get(Files.createTempDirectory("temp").toString(), "test.link")
