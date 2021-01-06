@@ -39,7 +39,7 @@ private class SafeProperties(defaults: Properties) : Properties(defaults) {
 }
 
 private val props = SafeProperties(defaults).also { prop ->
-    with(Paths.get("$flankScriptsRootPathString/src/flank-scripts.properties").toFile()) {
+    with(Paths.get("$flankScriptsRootPathString/flank-scripts.properties").toFile()) {
         if (exists()) prop.load(inputStream())
     }
 }
