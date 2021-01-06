@@ -3,7 +3,7 @@ package flank.scripts.release.updatebugsnag
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.github.kittinunf.fuel.coroutines.awaitResult
-import flank.scripts.config.flankRepo
+import flank.scripts.config.flankRepository
 import flank.scripts.exceptions.mapClientError
 import flank.scripts.exceptions.toBugsnagException
 import flank.scripts.utils.toJson
@@ -34,4 +34,4 @@ private fun githubActionsSourceControl(appVersion: String) = SourceControl(
 )
 
 private const val BUGNSAG_URL = "https://build.bugsnag.com/"
-private val REPOSITORY = "https://github.com/$flankRepo"
+private val REPOSITORY = "https://github.com/$flankRepository"

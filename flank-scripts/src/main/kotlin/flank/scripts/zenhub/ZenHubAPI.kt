@@ -7,13 +7,13 @@ import com.github.kittinunf.fuel.coroutines.awaitStringResult
 import com.github.kittinunf.result.getOrNull
 import com.github.kittinunf.result.onError
 import com.github.kittinunf.result.success
-import flank.scripts.config.zenhubFlankRepoID
+import flank.scripts.config.zenhubRepositoryID
 import flank.scripts.utils.toJson
 import flank.scripts.zenhub.objects.ConvertToEpicRequest
 import flank.scripts.zenhub.objects.UpdateEpicRequest
 import kotlinx.serialization.Serializable
 
-internal val ZENHUB_BASE_URL = "https://api.zenhub.com/p1/repositories/$zenhubFlankRepoID"
+internal val ZENHUB_BASE_URL = "https://api.zenhub.com/p1/repositories/$zenhubRepositoryID"
 
 suspend fun copyEstimation(zenhubToken: String, issueNumber: Int, pullRequestNumber: Int) {
     getEstimation(zenhubToken, issueNumber)

@@ -1,6 +1,6 @@
 package flank.scripts.shell.firebase.sdk
 
-import flank.scripts.config.flankGcloudCLIRepo
+import flank.scripts.config.flankGcloudCLIRepository
 import flank.scripts.github.getGitHubCommitList
 import flank.scripts.github.objects.GitHubCommit
 import java.time.Instant
@@ -13,7 +13,7 @@ suspend fun getCommitsUntilLastCheck(token: String, until: String): String? = ge
         "per_page" to 10,
         "until" to until
     ),
-    repo = flankGcloudCLIRepo
+    repo = flankGcloudCLIRepository
 )
     .get()
     .maxByOrNull { Instant.from(DateTimeFormatter.ISO_INSTANT.parse(it.commit.author.date)) }

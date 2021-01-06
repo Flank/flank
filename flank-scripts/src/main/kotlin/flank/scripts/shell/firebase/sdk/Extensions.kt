@@ -3,7 +3,7 @@ package flank.scripts.shell.firebase.sdk
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.onError
 import flank.common.newLine
-import flank.scripts.config.zenhubFlankRepoID
+import flank.scripts.config.zenhubRepositoryID
 import flank.scripts.github.objects.GitHubCreateIssueRequest
 import flank.scripts.github.objects.GitHubCreateIssueResponse
 import flank.scripts.github.objects.GitHubUpdateIssueRequest
@@ -74,7 +74,7 @@ private suspend fun SDKUpdateContext.createSubIssues() = coroutineScope {
             }
         }
             .awaitAll()
-            .map { Issue(zenhubFlankRepoID, it.number) }
+            .map { Issue(zenhubRepositoryID, it.number) }
     }
 }
 
