@@ -1,4 +1,4 @@
-package flank.scripts.shell.utils
+package flank.common
 
 import java.nio.file.Files
 import java.nio.file.Path
@@ -21,4 +21,4 @@ val flankFixturesTmpPath =
 val flankFixturesIosTmpPath =
     Paths.get(flankFixturesTmpPath, "ios").toString()
 
-val flankScriptsRootPathString = Paths.get(rootDirectoryPathString, "flank-scripts").toString()
+val flankCommonRootPathString = Paths.get(rootDirectoryPathString, "common").toString()

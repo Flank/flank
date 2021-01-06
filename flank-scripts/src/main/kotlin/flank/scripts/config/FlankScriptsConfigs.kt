@@ -1,48 +1,16 @@
 package flank.scripts.config
 
-import flank.scripts.shell.utils.flankScriptsRootPathString
-import java.nio.file.Paths
-import java.util.Properties
+import flank.common.config.ARTIFACTS_REPO
+import flank.common.config.FLANK_REPO
+import flank.common.config.GCLOUD_REPO
+import flank.common.config.IT_USER
+import flank.common.config.IT_WORKFLOW_FILE
+import flank.common.config.SDK_USER
+import flank.common.config.SDK_WORKFLOW
+import flank.common.config.ZENHUB_REPO_ID
+import flank.common.config.flankProjectProperties
 
-private const val ZENHUB_REPO_ID = "zenhub.repo-id"
-private const val FLANK_REPO = "repo.flank"
-private const val GCLOUD_REPO = "repo.gcloud_cli"
-private const val ARTIFACTS_REPO = "repo.test-artifacts"
-private const val IT_WORKFLOW_FILE = "integration.workflow-filename"
-private const val IT_USER = "integration.issue-poster"
-private const val SDK_WORKFLOW = "sdk-check.workflow-filename"
-private const val SDK_USER = "sdk-check.issue-poster"
-
-private val defaults = Properties().apply {
-    setProperty(ZENHUB_REPO_ID, "84221974")
-    setProperty(FLANK_REPO, "Flank/flank")
-    setProperty(GCLOUD_REPO, "Flank/gcloud_cli")
-    setProperty(ARTIFACTS_REPO, "Flank/test_artifacts")
-    setProperty(IT_WORKFLOW_FILE, "full_suite_integration_tests.yml")
-    setProperty(IT_USER, "github-actions[bot]")
-    setProperty(SDK_WORKFLOW, "update_dependencies_and_client.yml")
-    setProperty(SDK_USER, "github-actions[bot]")
-}
-
-private class SafeProperties(defaults: Properties) : Properties(defaults) {
-    override fun get(key: Any?) = (key as String).run {
-        requireNotNull(
-            if (
-                // we want our CI to use defaults always 
-                System.getenv("CI") != null ||
-                // we don't want to use developers' properties during tests
-                System.getProperty("testScript") != null
-            ) defaults.getProperty(key)
-            else getProperty(key)
-        )
-    }
-}
-
-private val props = SafeProperties(defaults).also { prop ->
-    with(Paths.get("$flankScriptsRootPathString/flank-scripts.properties").toFile()) {
-        if (exists()) prop.load(inputStream())
-    }
-}
+private val props = flankProjectProperties
 
 val zenhubRepositoryID = Integer.parseInt(props[ZENHUB_REPO_ID])
 val flankRepository = props[FLANK_REPO]

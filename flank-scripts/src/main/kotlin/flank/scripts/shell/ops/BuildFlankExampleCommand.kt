@@ -3,8 +3,8 @@ package flank.scripts.shell.ops
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
+import flank.common.iOSTestProjectsPath
 import flank.scripts.shell.utils.failIfWindows
-import flank.scripts.shell.utils.iOSTestProjectsPath
 import java.nio.file.Paths
 
 object BuildFlankExampleCommand : CliktCommand(name = "build_flank_example", help = "Build ios flank example app with tests") {

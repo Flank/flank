@@ -3,8 +3,8 @@ package flank.scripts.shell.ops
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
+import flank.common.iOSTestProjectsPath
 import flank.scripts.shell.utils.failIfWindows
-import flank.scripts.shell.utils.iOSTestProjectsPath
 import java.nio.file.Paths
 
 object BuildEarlGreyExampleCommand : CliktCommand(name = "build_earl_grey_example", help = "Build ios earl grey example app with tests") {
