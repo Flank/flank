@@ -24,4 +24,4 @@ out/
 buildSrc/.gradle/
 buildSrc/build
 local.properties
-src/flank-scripts.properties
+flank-scripts.properties
