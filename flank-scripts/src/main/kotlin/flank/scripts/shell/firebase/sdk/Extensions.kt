@@ -2,8 +2,8 @@ package flank.scripts.shell.firebase.sdk
 
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.onError
+import flank.common.config.zenhubRepositoryID
 import flank.common.newLine
-import flank.scripts.config.zenhubRepositoryID
 import flank.scripts.github.objects.GitHubCreateIssueRequest
 import flank.scripts.github.objects.GitHubCreateIssueResponse
 import flank.scripts.github.objects.GitHubUpdateIssueRequest

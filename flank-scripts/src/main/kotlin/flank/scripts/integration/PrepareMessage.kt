@@ -1,6 +1,6 @@
 package flank.scripts.integration
 
-import flank.scripts.config.flankRepository
+import flank.common.config.flankRepository
 import flank.scripts.github.objects.GithubPullRequest
 import java.time.Instant
 import java.time.LocalDateTime

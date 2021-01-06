@@ -5,14 +5,14 @@ import flank.common.isCI
 import java.nio.file.Paths
 import java.util.Properties
 
-const val ZENHUB_REPO_ID = "zenhub.repo-id"
-const val FLANK_REPO = "repo.flank"
-const val GCLOUD_REPO = "repo.gcloud_cli"
-const val ARTIFACTS_REPO = "repo.test-artifacts"
-const val IT_WORKFLOW_FILE = "integration.workflow-filename"
-const val IT_USER = "integration.issue-poster"
-const val SDK_WORKFLOW = "sdk-check.workflow-filename"
-const val SDK_USER = "sdk-check.issue-poster"
+private const val ZENHUB_REPO_ID = "zenhub.repo-id"
+private const val FLANK_REPO = "repo.flank"
+private const val GCLOUD_REPO = "repo.gcloud_cli"
+private const val ARTIFACTS_REPO = "repo.test-artifacts"
+private const val IT_WORKFLOW_FILE = "integration.workflow-filename"
+private const val IT_USER = "integration.issue-poster"
+private const val SDK_WORKFLOW = "sdk-check.workflow-filename"
+private const val SDK_USER = "sdk-check.issue-poster"
 
 private val defaults = Properties().apply {
     setProperty(ZENHUB_REPO_ID, "84221974")
@@ -34,10 +34,19 @@ class SafeProperties(defaults: Properties) : Properties(defaults) {
 // default properties should be used in CI and during tests
 private fun shouldUseDefaults() = isCI() || isTest()
 
-private fun isTest() = System.getProperty("testScript") != null
+private fun isTest() = System.getProperty("useDefaultProperties") != null
 
-val flankProjectProperties = SafeProperties(defaults).also { prop ->
+private val props = SafeProperties(defaults).also { prop ->
     with(Paths.get("$flankCommonRootPathString/flank-debug.properties").toFile()) {
         if (exists()) prop.load(inputStream())
     }
 }
+
+val zenhubRepositoryID = Integer.parseInt(props[ZENHUB_REPO_ID])
+val flankRepository = props[FLANK_REPO]
+val flankGcloudCLIRepository = props[GCLOUD_REPO]
+val flankTestArtifactsRepository = props[ARTIFACTS_REPO]
+val integrationOpenedIssueUser = props[IT_USER]
+val updatesOpenedUser = props[SDK_USER]
+val fullSuiteWorkflowFilename = props[IT_WORKFLOW_FILE]
+val updateDependenciesWorkflowFilename = props[SDK_WORKFLOW]

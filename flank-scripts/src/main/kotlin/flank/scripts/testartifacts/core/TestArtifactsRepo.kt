@@ -1,7 +1,7 @@
 package flank.scripts.testartifacts.core
 
 import com.jcabi.github.Repo
-import flank.scripts.config.flankTestArtifactsRepository
+import flank.common.config.flankTestArtifactsRepository
 import flank.scripts.github.githubRepo
 import flank.scripts.utils.getEnv
 

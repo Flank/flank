@@ -3,7 +3,7 @@ package flank.scripts.release.updatebugsnag
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.github.kittinunf.fuel.coroutines.awaitResult
-import flank.scripts.config.flankRepository
+import flank.common.config.flankRepository
 import flank.scripts.exceptions.mapClientError
 import flank.scripts.exceptions.toBugsnagException
 import flank.scripts.utils.toJson

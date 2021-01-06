@@ -7,7 +7,7 @@ import com.github.kittinunf.fuel.coroutines.awaitStringResult
 import com.github.kittinunf.result.getOrNull
 import com.github.kittinunf.result.onError
 import com.github.kittinunf.result.success
-import flank.scripts.config.zenhubRepositoryID
+import flank.common.config.zenhubRepositoryID
 import flank.scripts.utils.toJson
 import flank.scripts.zenhub.objects.ConvertToEpicRequest
 import flank.scripts.zenhub.objects.UpdateEpicRequest

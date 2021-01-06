@@ -2,7 +2,7 @@ package flank.scripts.shell.firebase.sdk
 
 import com.github.kittinunf.result.getOrElse
 import com.github.kittinunf.result.onError
-import flank.scripts.config.updatesOpenedUser
+import flank.common.config.updatesOpenedUser
 import flank.scripts.github.getGitHubIssueList
 
 suspend fun checkForOpenedUpdates(token: String) = getGitHubIssueList(

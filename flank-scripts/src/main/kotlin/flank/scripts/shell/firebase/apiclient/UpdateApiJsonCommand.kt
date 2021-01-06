@@ -1,9 +1,9 @@
 package flank.scripts.shell.firebase.apiclient
 
 import com.github.ajalt.clikt.core.CliktCommand
+import flank.common.config.flankGcloudCLIRepository
 import flank.common.currentPath
 import flank.common.downloadFile
-import flank.scripts.config.flankGcloudCLIRepository
 import flank.scripts.utils.downloadSortJsonIfNeeded
 import flank.scripts.utils.runCommand
 import java.nio.file.Paths

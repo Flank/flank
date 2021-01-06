@@ -1,6 +1,6 @@
 package flank.scripts.shell.firebase.sdk
 
-import flank.scripts.config.flankGcloudCLIRepository
+import flank.common.config.flankGcloudCLIRepository
 import flank.scripts.github.getGitHubCommitList
 import flank.scripts.github.objects.GitHubCommit
 import java.time.Instant
