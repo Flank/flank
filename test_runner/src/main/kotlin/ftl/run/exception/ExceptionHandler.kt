@@ -13,6 +13,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
     } catch (t: Throwable) {
         when (t) {
             is FlankGeneralError -> {
+                captureError(t)
                 printError("\n${t.message}")
                 exitProcess(GENERAL_FAILURE)
             }
@@ -28,6 +29,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
             }
 
             is IncompatibleTestDimensionError -> {
+                captureError(t)
                 printError("\n${t.message}")
                 exitProcess(INCOMPATIBLE_TEST_DIMENSION)
             }
@@ -39,6 +41,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
             }
 
             is InfrastructureError -> {
+                captureError(t)
                 printError("An infrastructure error occurred.")
                 printError("Details: ${t.messageOrUnavailable}")
                 exitProcess(INFRASTRUCTURE_ERROR)
@@ -50,6 +53,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
             }
 
             is FTLError -> {
+                captureError(t)
                 t.matrix.logError()
                 exitProcess(UNEXPECTED_ERROR)
             }
@@ -57,6 +61,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
             is MatrixValidationError,
             is YmlValidationError,
             is FlankConfigurationError -> {
+                captureError(t)
                 printError(t.message)
                 exitProcess(CONFIGURATION_FAIL)
             }
