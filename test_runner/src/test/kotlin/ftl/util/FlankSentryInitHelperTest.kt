@@ -23,7 +23,7 @@ class FlankSentryInitHelperTest {
 
     @Before
     fun setUp() {
-        LogbackLogger.FlankBugsnag.isEnabled = false
+        LogbackLogger.FlankSentry.isEnabled = false
     }
 
     @After

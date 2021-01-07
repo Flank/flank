@@ -17,5 +17,5 @@ sealed class LogbackLogger(private val logger: Logger) : FlankLogger {
     }
 
     object Root : LogbackLogger(getLogger(Logger.ROOT_LOGGER_NAME))
-    object FlankBugsnag : LogbackLogger(getLogger(Sentry::class.java))
+    object FlankSentry : LogbackLogger(getLogger(Sentry::class.java))
 }
