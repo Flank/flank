@@ -4,5 +4,5 @@ import flank.scripts.github.commons.getLastWorkflowRunDate
 
 suspend fun getLastSDKUpdateRunDate(token: String) = getLastWorkflowRunDate(
     token = token,
-    workflowFileName = "update_dependencies_and_client.yml"
+    workflowFileName = "update_dependencies_pointer.yml"
 )
