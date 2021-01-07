@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.nio.file.Paths
 
 plugins {
     application
@@ -38,4 +39,22 @@ compileKotlin.kotlinOptions {
 val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.kotlinOptions {
     jvmTarget = "1.8"
+}
+
+file("flank-debug.properties").run {
+    if (!exists() && System.getenv("CI") != null) writeText(
+        """
+            #zenhub.repo-id=84221974
+            #
+            #repo.flank=Flank/flank
+            #repo.gcloud_cli=Flank/gcloud_cli
+            #repo.test-artifacts=Flank/test_artifacts
+            #
+            #integration.workflow-filename=full_suite_integration_tests.yml
+            #integration.issue-poster=github-actions[bot]
+            #
+            #sdk-check.workflow-filename=update_dependencies_and_client.yml
+            #sdk-check.issue-poster=github-actions[bot]
+        """.trimIndent()
+    )
 }
