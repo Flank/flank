@@ -4,15 +4,35 @@ import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.awaitUnit
 import com.github.kittinunf.fuel.httpDownload
 import java.io.File
+import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+
 
 val userHome: String by lazy {
     if (isWindows) System.getenv("HOMEPATH") else System.getProperty("user.home")
 }
 
 fun String.deleteFile() = Paths.get(this).delete()
+
+fun linkFiles(
+    link: String,
+    target: String
+) = if (isWindows) copyDirectory(link, target) else createSymbolicLink(link, target)
+
+fun copyDirectory(sourceDirectoryLocation: String, destinationDirectoryLocation: String) {
+    Files.walk(Paths.get(sourceDirectoryLocation))
+        .forEach { source: Path ->
+            val destination =
+                Paths.get(destinationDirectoryLocation, source.toString().substring(sourceDirectoryLocation.length))
+            try {
+                Files.copy(source, destination)
+            } catch (e: IOException) {
+                logLn(e.localizedMessage)
+            }
+        }
+}
 
 fun createSymbolicLink(
     link: String,
