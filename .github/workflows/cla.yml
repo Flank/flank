@@ -20,4 +20,4 @@ jobs:
           path-to-signatures: 'cla/v1/signatures.json'
           path-to-document: 'https://github.com/Flank/flank/blob/cla_signatures/cla.md'
           branch: 'cla_signatures'
-          allowlist: bootstraponline,jan-gogo,pawelpasterz,adamfilipow92,Sloox,axelzuziak-gogo,bot*
+          allowlist: bot*
