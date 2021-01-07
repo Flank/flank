@@ -14,6 +14,7 @@ import ftl.log.setDebugLogging
 import ftl.run.exception.withGlobalExceptionHandling
 import ftl.util.readRevision
 import ftl.util.readVersion
+import ftl.util.sessionId
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -56,6 +57,7 @@ class Main : Runnable {
             withGlobalExceptionHandling {
                 logLn("version: " + readVersion())
                 logLn("revision: " + readRevision())
+                logLn("session id: $sessionId")
                 logLn()
                 CommandLine(Main()).execute(*args)
             }

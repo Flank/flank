@@ -13,6 +13,8 @@ import ftl.mock.MockServer
 import ftl.run.ANDROID_SHARD_FILE
 import ftl.run.dumpShards
 import ftl.run.newTestRun
+import ftl.util.CrashReportTag
+import ftl.util.setCrashReportTag
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine
 import picocli.CommandLine.Command
@@ -58,6 +60,8 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
         AndroidArgs.load(Paths.get(configPath), cli = this).apply {
             setupLogLevel()
             logLn(this)
+            setCrashReportTag(CrashReportTag.DEVICE_SYSTEM.tagName, "android")
+            setCrashReportTag(CrashReportTag.TEST_TYPE.tagName, type?.name.orEmpty())
         }.validate().run {
             runBlocking {
                 if (dumpShards) dumpShards()

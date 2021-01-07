@@ -263,9 +263,7 @@ class UtilsTest {
         val message = "not flank related error thrown"
         mockkObject(FtlConstants)
         every { FtlConstants.useMock } returns false
-        every { FtlConstants.bugsnag } returns mockk {
-            every { notify(any<Throwable>()) } returns true
-        }
+
         val block = { throw FlankGeneralError(message) }
 
         // will

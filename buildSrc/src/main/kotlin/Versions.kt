@@ -2,6 +2,9 @@ object Versions {
     // https://github.com/bugsnag/bugsnag-java/releases
     const val BUGSNAG = "3.6.2"
 
+    // https://github.com/getsentry/sentry-java/releases
+    const val SENTRY = "3.1.0"
+
     // https://github.com/3breadt/dd-plist/releases
     const val DD_PLIST = "1.23"
 
