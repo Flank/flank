@@ -41,7 +41,7 @@ compileTestKotlin.kotlinOptions {
 }
 
 file("flank-debug.properties").run {
-    if (!exists() && System.getenv("CI") != null) writeText(
+    if (!exists() && System.getenv("CI") == null) writeText(
         """
             #zenhub.repo-id=84221974
             #
