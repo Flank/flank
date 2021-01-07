@@ -3,7 +3,6 @@ package flank.common
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.awaitUnit
 import com.github.kittinunf.fuel.httpDownload
-import com.sun.org.apache.xpath.internal.operations.Bool
 import java.io.File
 import java.io.IOException
 import java.nio.file.Files
