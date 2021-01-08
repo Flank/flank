@@ -13,12 +13,17 @@ val userHome: String by lazy {
     if (isWindows) System.getenv("HOMEPATH") else System.getProperty("user.home")
 }
 
-fun String.deleteFile() = Paths.get(this).delete()
-
 fun linkFiles(
     link: String,
     target: String
-) = if (isWindows) copyDirectory(target, link) else createSymbolicLink(link, target)
+) = if (isWindows) createCopy(target, link) else createSymbolicLink(link, target)
+
+fun createCopy(sourceDirectoryLocation: String, destinationDirectoryLocation: String) {
+    if (destinationDirectoryLocation.fileExists()) {
+        deleteDirectory(destinationDirectoryLocation)
+    }
+    copyDirectory(sourceDirectoryLocation, destinationDirectoryLocation)
+}
 
 fun copyDirectory(sourceDirectoryLocation: String, destinationDirectoryLocation: String) {
     Files.walk(Paths.get(sourceDirectoryLocation))
@@ -33,19 +38,25 @@ fun copyDirectory(sourceDirectoryLocation: String, destinationDirectoryLocation:
         }
 }
 
+fun deleteDirectory(directory: String) = if (directory.fileExists()) deleteDirectory(directory.toFile()) else false
+
+private fun deleteDirectory(directory: File): Boolean {
+    val allContents = directory.listFiles()
+    if (allContents != null) {
+        for (file in allContents) {
+            deleteDirectory(file)
+        }
+    }
+    return directory.delete()
+}
+
 fun createSymbolicLink(
     link: String,
     target: String
-) {
-    Files.createSymbolicLink(
-        Paths.get(link)
-            .also { linkPath -> if (Files.isSymbolicLink(linkPath)) Files.delete(linkPath) }
-            .toAbsolutePath().normalize(),
-
-        Paths.get(target)
-            .toAbsolutePath().normalize()
-    )
-}
+): Path = Files.createSymbolicLink(
+    Paths.get(link).also { linkPath -> if (Files.isSymbolicLink(linkPath)) Files.delete(linkPath) }.toAbsolutePath().normalize(),
+    Paths.get(target).toAbsolutePath().normalize()
+)
 
 fun createSymbolicLinkToFile(link: Path, target: Path) {
     Files.createSymbolicLink(link, target.fileName)
@@ -68,6 +79,10 @@ fun downloadFile(sourceUrl: String, destinationPath: Path) {
         .fileDestination { _, _ -> destinationPath.toFile() }
         .responseString()
 }
+
+fun String.toFile(): File = Paths.get(this).toFile()
+
+fun String.deleteFile() = Paths.get(this).delete()
 
 fun createDirectoryIfNotExist(path: Path) {
     if (Files.notExists(path)) Files.createDirectory(path)
