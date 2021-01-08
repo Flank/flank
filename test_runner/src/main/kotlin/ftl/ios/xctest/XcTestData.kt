@@ -54,15 +54,23 @@ private fun emptyXcTestRunData() = XcTestRunData(
     nsDict = NSDictionary(),
     version = V1
 )
+private fun IosArgs.filterTestConfigurationsIfNeeded(
+    configurations: Map<String, Map<String, List<String>>>
+): Map<String, Map<String, List<String>>> {
+    val only = onlyTestConfiguration ?: return configurations.filterKeys { it != skipTestConfiguration }
+    return configurations.filterKeys { it == only }
+}
 
 private fun IosArgs.calculateConfigurationShards(
     xcTestRoot: String,
     xcTestNsDictionary: NSDictionary,
     regexList: List<Regex>
 ): Map<String, Pair<List<Chunk>, List<XctestrunMethods>>> =
-    findXcTestNames(
-        xcTestRoot = xcTestRoot,
-        xcTestNsDictionary = xcTestNsDictionary
+    filterTestConfigurationsIfNeeded(
+        findXcTestNames(
+            xcTestRoot = xcTestRoot,
+            xcTestNsDictionary = xcTestNsDictionary
+        )
     ).mapValues { (_, targets: Map<String, List<String>>) ->
         calculateConfigurationShards(targets, regexList)
     }

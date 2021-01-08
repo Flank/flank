@@ -282,7 +282,7 @@ IosArgs
       default-class-test-time: 30.0
       disable-usage-statistics: false
       only-test-configuration: pl
-      skipTestConfiguration: null
+      skip-test-configuration: null
             """.trimIndent()
         )
     }
@@ -345,7 +345,7 @@ IosArgs
       default-class-test-time: 240.0
       disable-usage-statistics: false
       only-test-configuration: null
-      skipTestConfiguration: null
+      skip-test-configuration: null
             """.trimIndent(),
             args.toString()
         )

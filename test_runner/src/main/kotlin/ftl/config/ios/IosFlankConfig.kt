@@ -29,9 +29,9 @@ data class IosFlankConfig @JsonIgnore constructor(
         names = ["--only-test-configuration"],
         description = [
             "Constrains a test action to only test a specified test configuration within a test plan " +
-                    "and exclude all other test configurations. (default: run all test configurations)." +
-                    "Flank can  combine  multiple  constraint options, but -only-test-configuration has precedence over -skip-test-configuration. " +
-                    "Each test configuration name must match the name of a configuration specified in a test plan and is case-sensitive."
+                "and exclude all other test configurations. (default: run all test configurations)." +
+                "Flank can  combine  multiple  constraint options, but -only-test-configuration has precedence over -skip-test-configuration. " +
+                "Each test configuration name must match the name of a configuration specified in a test plan and is case-sensitive."
         ]
     )
     @set:JsonProperty("only-test-configuration")
@@ -41,9 +41,9 @@ data class IosFlankConfig @JsonIgnore constructor(
         names = ["--skip-test-configuration"],
         description = [
             "Constrains a test action to skip a specified test configuration " +
-                    "and include all other test configurations. (default: run all test configurations). " +
-                    "Flank can combine  multiple constraint options, but -only-test-configuration has precedence over -skip-test-configuration. " +
-                    "Each test configuration name must match the name of a configuration specified in a test plan and is case-sensitive."
+                "and include all other test configurations. (default: run all test configurations). " +
+                "Flank can combine  multiple constraint options, but -only-test-configuration has precedence over -skip-test-configuration. " +
+                "Each test configuration name must match the name of a configuration specified in a test plan and is case-sensitive."
         ]
     )
     @set:JsonProperty("skip-test-configuration")
