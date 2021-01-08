@@ -4,7 +4,6 @@ import io.mockk.InternalPlatformDsl.toStr
 import org.junit.After
 import org.junit.Assert.assertTrue
 import org.junit.Assume.assumeFalse
-import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import java.io.File
@@ -44,7 +43,7 @@ class FilesTest {
         copyDirectory(folder1.absolutePath, folder2.absolutePath)
 
         // then
-        val strFile = folder2.absolutePath.toStr().plus(osPathSeperator()).plus(folder2.name).plus(osPathSeperator())
+        val strFile = folder2.absolutePath.toStr().plus(osPathSeperator()).plus(tempFolder2.root.name).plus(osPathSeperator())
             .plus(fileInFolder1.name)
         assertTrue(strFile.fileExists())
         temporaryFolder.delete()
