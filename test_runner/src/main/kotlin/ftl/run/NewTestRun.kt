@@ -3,14 +3,12 @@ package ftl.run
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
-import ftl.gc.GcStorage
 import ftl.json.SavedMatrix
 import ftl.json.updateMatrixMap
 import ftl.json.validate
 import ftl.reports.util.ReportManager
 import ftl.run.common.fetchArtifacts
 import ftl.run.common.pollMatrices
-import ftl.run.common.saveSessionId
 import ftl.run.exception.FlankGeneralError
 import ftl.run.exception.FlankTimeoutError
 import ftl.run.model.TestResult
