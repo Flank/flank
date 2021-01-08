@@ -5,9 +5,7 @@ import com.github.kittinunf.fuel.core.awaitUnit
 import com.github.kittinunf.fuel.httpDownload
 import java.io.File
 import java.io.IOException
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
+import java.nio.file.*
 
 val userHome: String by lazy {
     if (isWindows) System.getenv("HOMEPATH") else System.getProperty("user.home")
@@ -54,7 +52,8 @@ fun createSymbolicLink(
     link: String,
     target: String
 ): Path = Files.createSymbolicLink(
-    Paths.get(link).also { linkPath -> if (Files.isSymbolicLink(linkPath)) Files.delete(linkPath) }.toAbsolutePath().normalize(),
+    Paths.get(link).also { linkPath -> if (Files.isSymbolicLink(linkPath)) Files.delete(linkPath) }.toAbsolutePath()
+        .normalize(),
     Paths.get(target).toAbsolutePath().normalize()
 )
 
@@ -93,15 +92,9 @@ fun File.hasAllFiles(fileList: List<String>): Boolean {
     return fileList.all { it in directoryFiles }
 }
 
-fun String.fileCopyTo(directory: String, overwrite: Boolean = true): Boolean {
-    val file = Paths.get(this).toFile()
-    return if (file.isFile && file.exists()) {
-        file.copyTo(Paths.get(directory.padEnd(1, '/') + file.name).toFile(), overwrite)
-        true
-    } else false
-}
-
 fun String.fileExists(): Boolean = Paths.get(this).exists()
+
+fun osPathSeperator() = (if (isWindows) "\\" else "/")
 
 private fun Path.exists(): Boolean = Files.exists(this)
 
