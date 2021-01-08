@@ -6,7 +6,9 @@ import ftl.args.setupLogLevel
 import ftl.args.validate
 import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
-import ftl.config.emptyAndroidConfig
+import ftl.config.android.AndroidFlankConfig
+import ftl.config.android.AndroidGcloudConfig
+import ftl.config.createConfiguration
 import ftl.mock.MockServer
 import ftl.run.ANDROID_SHARD_FILE
 import ftl.run.dumpShards
@@ -37,7 +39,12 @@ Configuration is read from flank.yml
 class AndroidRunCommand : CommonRunCommand(), Runnable {
 
     @CommandLine.Mixin
-    override val config = emptyAndroidConfig()
+    private val androidGcloudConfig = AndroidGcloudConfig()
+
+    @CommandLine.Mixin
+    private val androidFlankConfig = AndroidFlankConfig()
+
+    override val config by createConfiguration(androidGcloudConfig, androidFlankConfig)
 
     init {
         configPath = FtlConstants.defaultAndroidConfig
