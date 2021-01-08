@@ -1,7 +1,4 @@
 object Versions {
-    // https://github.com/bugsnag/bugsnag-java/releases
-    const val BUGSNAG = "3.6.2"
-
     // https://github.com/getsentry/sentry-java/releases
     const val SENTRY = "3.1.0"
 

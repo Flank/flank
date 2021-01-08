@@ -1,5 +1,6 @@
 package ftl.run.platform
 
+import com.google.api.services.toolresults.model.AndroidTest
 import com.google.testing.Testing
 import com.google.testing.model.TestMatrix
 import flank.common.logLn
@@ -11,6 +12,7 @@ import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
 import ftl.run.ANDROID_SHARD_FILE
+import ftl.run.common.saveSessionId
 import ftl.run.exception.FlankGeneralError
 import ftl.run.model.AndroidMatrixTestShards
 import ftl.run.model.AndroidTestContext
@@ -46,7 +48,6 @@ internal suspend fun AndroidArgs.runAndroidTests(): TestResult = coroutineScope 
     val otherGcsFiles = uploadOtherFiles()
     val additionalApks = uploadAdditionalApks()
     val obbFiles = uploadObbFiles()
-
     createAndroidTestContexts()
         .dumpShards(args)
         .upload(resultsBucket, resultsDir)
@@ -69,6 +70,8 @@ internal suspend fun AndroidArgs.runAndroidTests(): TestResult = coroutineScope 
                 )
             }
         }
+
+
 
     if (testMatrices.isEmpty()) throw FlankGeneralError("There are no tests to run.")
 

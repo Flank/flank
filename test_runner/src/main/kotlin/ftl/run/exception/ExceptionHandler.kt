@@ -13,7 +13,6 @@ fun withGlobalExceptionHandling(block: () -> Int) {
     } catch (t: Throwable) {
         when (t) {
             is FlankGeneralError -> {
-                captureError(t)
                 printError("\n${t.message}")
                 exitProcess(GENERAL_FAILURE)
             }
@@ -29,7 +28,6 @@ fun withGlobalExceptionHandling(block: () -> Int) {
             }
 
             is IncompatibleTestDimensionError -> {
-                captureError(t)
                 printError("\n${t.message}")
                 exitProcess(INCOMPATIBLE_TEST_DIMENSION)
             }

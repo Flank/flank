@@ -10,14 +10,12 @@ private const val GSUTIL_FOLDER = ".gsutil"
 private const val ANALYTICS_FILE = "analytics-uuid"
 private const val DISABLED = "DISABLED"
 
-enum class CrashReportTag(val tagName: String) {
-    SESSION_ID("session.id"),
-    OS_NAME("os.name"),
-    FLANK_VERSION("flank.version"),
-    FLANK_REVISION("flank.revision"),
-    DEVICE_SYSTEM("device.system"),
-    TEST_TYPE("test.type")
-}
+const val SESSION_ID = "session.id"
+const val OS_NAME = "os.name"
+const val FLANK_VERSION = " flank.version"
+const val FLANK_REVISION = "flank.revision"
+const val DEVICE_SYSTEM = "device.system"
+const val TEST_TYPE = "test.type"
 
 val captureError by lazy {
     initCrashReporter(FtlConstants.useMock)
@@ -41,18 +39,20 @@ private fun initializeCrashReportWrapper() {
         it.dsn = FLANK_API_KEY
         it.release = readRevision()
     }
-    setCrashReportTag(CrashReportTag.SESSION_ID.tagName, sessionId)
-    setCrashReportTag(CrashReportTag.OS_NAME.tagName, System.getProperty("os.name"))
-    setCrashReportTag(CrashReportTag.FLANK_VERSION.tagName, readVersion())
-    setCrashReportTag(CrashReportTag.FLANK_REVISION.tagName, readRevision())
+    setCrashReportTag(
+        SESSION_ID to sessionId,
+        OS_NAME to System.getProperty("os.name"),
+        FLANK_VERSION to readVersion(),
+        FLANK_REVISION to readRevision()
+    )
 }
 
 val sessionId by lazy {
     UUID.randomUUID().toString()
 }
 
-fun setCrashReportTag(key: String, value: String) {
-    Sentry.setTag(key, value)
+fun setCrashReportTag(vararg tags: Pair<String, String>) = tags.forEach {
+    Sentry.setTag(it.first, it.second)
 }
 
 private fun notify(error: Throwable) {
