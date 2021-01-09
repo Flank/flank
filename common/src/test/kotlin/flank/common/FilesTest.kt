@@ -22,7 +22,6 @@ class FilesTest {
             target = targetName
         )
 
-
         // then
         assertTrue(Files.isSymbolicLink(Paths.get(linkName)))
     }
