@@ -14,4 +14,10 @@ if [ $EXIT_CODE -ne 0 ]; then
   echo "***********************************************"
   exit $EXIT_CODE
 fi
+
+if [ `git diff --cached --exit-code HEAD^ > /dev/null && (git ls-files --other --exclude-standard --directory | grep -c -v '/$')` ];
+then
+  $(git commit -a -m "Automatic commit for styling fixes")
+fi
+
 rm $OUTPUT
