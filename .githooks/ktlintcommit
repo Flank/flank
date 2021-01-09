@@ -1,0 +1,3 @@
+#!/bin/sh
+sleep 1
+git commit -n -a -m "Automatic commit for styling fixes"
