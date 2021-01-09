@@ -17,7 +17,7 @@ fi
 
 if [ -n "$(git status --porcelain)" ]; then
   echo "Changes found committing automatically"
-  exec .githooks/ktlintcommit
+  exec .githooks/ktlintcommit &
 fi
 
 rm "$OUTPUT"
