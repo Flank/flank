@@ -17,7 +17,7 @@ fi
 
 if [ -n "$(git status --porcelain)" ]; then
   echo "Changes found committing automatically"
-  git commit -a --no-verify -m "Automatic commit for styling fixes"
+  exec git commit -n -a -m "Automatic commit for styling fixes"
 fi
 
 rm "$OUTPUT"
