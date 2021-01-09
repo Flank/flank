@@ -2,11 +2,11 @@
 
 echo "Running ktlint check"
 OUTPUT="/tmp/ktlint-$(date +%s)"
-./gradlew formatKotlin > $OUTPUT
+./gradlew formatKotlin > "$OUTPUT"
 EXIT_CODE=$?
 if [ $EXIT_CODE -ne 0 ]; then
-  cat $OUTPUT
-  rm $OUTPUT
+  cat "$OUTPUT"
+  rm "$OUTPUT"
   echo
   echo "***********************************************"
   echo "           Ktlint failed to autofix            "
@@ -15,9 +15,9 @@ if [ $EXIT_CODE -ne 0 ]; then
   exit $EXIT_CODE
 fi
 
-if [ `git diff --cached --exit-code HEAD^ > /dev/null && (git ls-files --other --exclude-standard --directory | grep -c -v '/$')` ];
-then
-  $(git commit -a -m "Automatic commit for styling fixes")
+if [ -n "$(git status --porcelain)" ]; then
+  echo "Changes found committing automatically"
+  git commit -a --no-verify -m "Automatic commit for styling fixes"
 fi
 
-rm $OUTPUT
+rm "$OUTPUT"

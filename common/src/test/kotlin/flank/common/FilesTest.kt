@@ -5,7 +5,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Assume.assumeFalse
 import org.junit.Test
 import java.io.File
-import java.text.Annotation
 import java.nio.file.Files
 import java.nio.file.Paths
 
