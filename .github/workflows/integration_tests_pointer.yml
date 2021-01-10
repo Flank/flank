@@ -1,0 +1,13 @@
+# Workflow is unable to retrieve data about previous workflows (the same file).
+# This workflow is a way to preserve last run date for full_suite_integration_tests.yml workflow
+# which is available from within that workflow
+name: Integration Tests Pointer
+on:
+  repository_dispatch:
+    types: [ integration-pointer]
+jobs:
+  point:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Integration tests pointer updated: $(date +'%Y-%m-%d')"
