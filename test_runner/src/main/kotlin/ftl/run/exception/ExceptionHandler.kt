@@ -59,7 +59,6 @@ fun withGlobalExceptionHandling(block: () -> Int) {
             is MatrixValidationError,
             is YmlValidationError,
             is FlankConfigurationError -> {
-                captureError(t)
                 printError(t.message)
                 exitProcess(CONFIGURATION_FAIL)
             }
