@@ -19,9 +19,9 @@ private val defaults = Properties().apply {
     setProperty(FLANK_REPO, "Flank/flank")
     setProperty(GCLOUD_REPO, "Flank/gcloud_cli")
     setProperty(ARTIFACTS_REPO, "Flank/test_artifacts")
-    setProperty(IT_WORKFLOW_FILE, "full_suite_integration_tests.yml")
+    setProperty(IT_WORKFLOW_FILE, "integration_tests_pointer.yml")
     setProperty(IT_USER, "github-actions[bot]")
-    setProperty(SDK_WORKFLOW, "update_dependencies_and_client.yml")
+    setProperty(SDK_WORKFLOW, "update_dependencies_pointer.yml")
     setProperty(SDK_USER, "github-actions[bot]")
 }
 
