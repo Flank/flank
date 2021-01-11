@@ -5,7 +5,9 @@ import com.github.kittinunf.fuel.core.awaitUnit
 import com.github.kittinunf.fuel.httpDownload
 import java.io.File
 import java.io.IOException
-import java.nio.file.*
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
 
 val userHome: String by lazy {
     if (isWindows) System.getenv("HOMEPATH") else System.getProperty("user.home")
@@ -36,7 +38,9 @@ fun copyDirectory(sourceDirectoryLocation: String, destinationDirectoryLocation:
         }
 }
 
-fun deleteDirectory(directory: String) = if (directory.fileExists()) deleteDirectory(directory.toFile()) else false
+fun deleteDirectory(directory: String) {
+    if (directory.fileExists()) deleteDirectory(directory.toFile())
+}
 
 private fun deleteDirectory(directory: File): Boolean {
     val allContents = directory.listFiles()
