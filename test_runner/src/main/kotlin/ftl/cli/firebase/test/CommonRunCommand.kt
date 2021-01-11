@@ -3,10 +3,23 @@ package ftl.cli.firebase.test
 import ftl.config.Config
 import ftl.config.android.AndroidGcloudConfig
 import ftl.config.asDevice
+import ftl.config.common.CommonFlankConfig
+import ftl.config.common.CommonGcloudConfig
 import ftl.config.common.addDevice
 import picocli.CommandLine
 
 abstract class CommonRunCommand {
+
+    @CommandLine.Mixin
+    private val commonGcloudConfig = CommonGcloudConfig()
+
+    @CommandLine.Mixin
+    private val commonFlankConfig = CommonFlankConfig()
+
+    val commonConfig = Config.Partial(
+        gcloud = commonGcloudConfig,
+        flank = commonFlankConfig
+    )
 
     abstract val config: Config.Platform<*, *>
 

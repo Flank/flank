@@ -26,7 +26,7 @@ object Versions {
     const val KOTLIN_COROUTINES = "1.4.2"
 
     // https://github.com/remkop/picocli/releases
-    const val PICOCLI = "4.5.2"
+    const val PICOCLI = "4.6.1"
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
     const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20201029-1.30.10"

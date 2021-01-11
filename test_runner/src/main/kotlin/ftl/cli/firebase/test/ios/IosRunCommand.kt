@@ -6,7 +6,9 @@ import ftl.args.setupLogLevel
 import ftl.args.validate
 import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
-import ftl.config.emptyIosConfig
+import ftl.config.createConfiguration
+import ftl.config.ios.IosFlankConfig
+import ftl.config.ios.IosGcloudConfig
 import ftl.mock.MockServer
 import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards
@@ -37,7 +39,12 @@ Configuration is read from flank.yml
 class IosRunCommand : CommonRunCommand(), Runnable {
 
     @CommandLine.Mixin
-    override val config = emptyIosConfig()
+    private val iosGcloudConfig = IosGcloudConfig()
+
+    @CommandLine.Mixin
+    private val iosFlankConfig = IosFlankConfig()
+
+    override val config by createConfiguration(iosGcloudConfig, iosFlankConfig)
 
     init {
         configPath = FtlConstants.defaultIosConfig
