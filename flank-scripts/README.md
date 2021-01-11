@@ -306,3 +306,19 @@ Applies a pre-commit hook that runs Ktlint on a commit and fails if there are li
 
 ### `applyKtlintToIdea`
 Applies Ktlint styling to the current idea project, so that correct code styling is upheld.
+
+## Testing
+To test your script with different settings use `flank-debug.properties` file. Uncomment and replace with desired values.
+Properties are skipped by git and should not be attached to a commit. Note, `test` task ignores your own properties and will use the default.
+
+#### List of possible configs
+| Key         | Description         | Default value |
+|:----------------|:---------------------|:---:|
+|`zenhub.repo-id`|Flank's repo ID in zenhub app. Used to create new epics.|`84221974`|
+|`repo.flank`|Flank test runner repo. Essential property for github client.|`Flank/flank`|
+|`repo.gcloud_cli`|Flank's fork of gcloud sdk repo.|`Flank/gcloud_cli`|
+|`repo.test-artifacts`|Flank's source of artifacts (apks, binaries, etc) used for testing|`Flank/test_artifacts`|
+|`integration.workflow-filename`|GH Action integration tests workflow file. Used to fetch list of commits since it's last run.|`full_suite_integration_tests.yml`|
+|`integration.issue-poster`|Name of account that creates IT issue|`github-actions[bot]`|
+|`sdk-check.workflow-filename`|GH Action dependencies update workflow file. Used to fetch list of commits since it's last run.|`update_dependencies_and_client.yml`|
+|`sdk-check.issue-poster`|Name of account that creates dependencies issues/epics|`github-actions[bot]`|

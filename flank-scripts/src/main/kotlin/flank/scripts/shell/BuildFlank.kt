@@ -1,8 +1,8 @@
 package flank.scripts.shell
 
 import com.github.ajalt.clikt.core.CliktCommand
+import flank.common.rootDirectoryPathString
 import flank.scripts.shell.utils.createGradleCommand
-import flank.scripts.shell.utils.rootDirectoryPathString
 import flank.scripts.utils.runCommand
 import java.nio.file.Files
 import java.nio.file.Paths
