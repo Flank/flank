@@ -161,6 +161,7 @@ jobs:
 
   trigger-pointer:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
     steps:
       - uses: tibdex/github-app-token@v1
         id: generate-token

@@ -16,7 +16,10 @@ val userHome: String by lazy {
 fun linkFiles(
     link: String,
     target: String
-) = if (isWindows) createCopy(target, link) else createSymbolicLink(link, target)
+) {
+    if (isWindows) createCopy(target, link)
+    else createSymbolicLink(link, target)
+}
 
 fun createCopy(sourceDirectoryLocation: String, destinationDirectoryLocation: String) {
     if (destinationDirectoryLocation.fileExists()) {
