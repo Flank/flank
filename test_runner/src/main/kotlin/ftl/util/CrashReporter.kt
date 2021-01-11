@@ -27,11 +27,11 @@ internal fun initCrashReporter(
     rootPath: String = System.getProperty("user.home")
 ) = when {
     useMock -> null
-    analyticsFileExistAndIsDisabled(rootPath) -> null
+    isGoogleAnalyticsDisabled(rootPath) -> null
     else -> initializeCrashReportWrapper()
 }
 
-private fun analyticsFileExistAndIsDisabled(rootPath: String) =
+private fun isGoogleAnalyticsDisabled(rootPath: String) =
     File(rootPath, "$GSUTIL_FOLDER/$ANALYTICS_FILE").run { exists() && readText().trim() == DISABLED }
 
 private fun initializeCrashReportWrapper() {

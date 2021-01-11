@@ -28,7 +28,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.net.URI
 import java.nio.file.Files
-import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.concurrent.ConcurrentHashMap
 
@@ -105,7 +104,7 @@ object GcStorage {
 
     fun IArgs.uploadSessionId() = takeUnless { disableResultsUpload }?.let {
         upload(
-            file = Path.of(localResultDir, SESSION_ID_FILE).toString(),
+            file = Paths.get(localResultDir, SESSION_ID_FILE).toString(),
             rootGcsBucket = resultsBucket,
             runGcsPath = resultsDir
         )
