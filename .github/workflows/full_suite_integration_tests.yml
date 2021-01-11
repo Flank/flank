@@ -161,7 +161,7 @@ jobs:
 
   trigger-pointer:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
+    if: github.event_name != 'issue_comment'
     steps:
       - uses: tibdex/github-app-token@v1
         id: generate-token
