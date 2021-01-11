@@ -2,10 +2,10 @@ package ftl.http
 
 import com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest
 import com.google.api.client.http.HttpResponseException
-import ftl.config.FtlConstants
 import ftl.run.exception.FailureToken
 import ftl.run.exception.PermissionDenied
 import ftl.run.exception.ProjectNotFound
+import ftl.util.captureError
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import java.io.IOException
@@ -24,7 +24,7 @@ private inline fun <T> withRetry(crossinline block: () -> T): T = runBlocking {
         } catch (err: IOException) {
             // We want to send every occurrence of Google API error for statistic purposes
             // https://github.com/Flank/flank/issues/701
-            FtlConstants.bugsnag?.notify(FlankGoogleApiError(err))
+            captureError(FlankGoogleApiError(err))
 
             lastError = err
             if (err is HttpResponseException) {

@@ -13,6 +13,9 @@ import ftl.mock.MockServer
 import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards
 import ftl.run.newTestRun
+import ftl.util.DEVICE_SYSTEM
+import ftl.util.TEST_TYPE
+import ftl.util.setCrashReportTag
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine
 import picocli.CommandLine.Command
@@ -58,6 +61,10 @@ class IosRunCommand : CommonRunCommand(), Runnable {
         IosArgs.load(Paths.get(configPath), cli = this).apply {
             setupLogLevel()
             logLn(this)
+            setCrashReportTag(
+                DEVICE_SYSTEM to "ios",
+                TEST_TYPE to type?.name.orEmpty()
+            )
         }.validate().run {
             if (dumpShards) dumpShards()
             else runBlocking { newTestRun() }

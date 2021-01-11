@@ -100,7 +100,9 @@ fun <R : MutableMap<String, Any>, T> mutableMapProperty(
  */
 fun <T> KMutableProperty<T?>.require() =
     getter.call() ?: throw FlankGeneralError(
-        "Invalid value for [${setter.annotations.filterIsInstance<JsonProperty>().first().value}]: no argument value found"
+        "Invalid value for [${
+        setter.annotations.filterIsInstance<JsonProperty>().first().value
+        }]: no argument value found"
     )
 
 fun getGACPathOrEmpty(): String = System.getenv("GOOGLE_APPLICATION_CREDENTIALS").orEmpty()
