@@ -1,6 +1,5 @@
 package ftl.config
 
-import com.bugsnag.Bugsnag
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
 import com.google.api.client.googleapis.util.Utils
 import com.google.api.client.http.javanet.NetHttpTransport
@@ -10,8 +9,6 @@ import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
-import ftl.util.BugsnagInitHelper.initBugsnag
-import ftl.util.readRevision
 
 object FtlConstants {
     var useMock = false
@@ -33,10 +30,6 @@ object FtlConstants {
     const val runTimeout = "-1"
 
     val JSON_FACTORY: JsonFactory by lazy { Utils.getDefaultJsonFactory() }
-
-    val bugsnag: Bugsnag? by lazy {
-        initBugsnag(useMock)?.apply { setAppVersion(readRevision()) }
-    }
 
     val httpTransport: NetHttpTransport by lazy {
         try {

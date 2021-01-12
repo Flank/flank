@@ -3,7 +3,7 @@ package flank.scripts.shell.ios
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
-import flank.scripts.shell.utils.currentPath
+import flank.common.currentPath
 import flank.scripts.shell.utils.failIfWindows
 import flank.scripts.utils.runCommand
 import java.nio.file.Path

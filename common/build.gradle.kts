@@ -39,3 +39,21 @@ val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.kotlinOptions {
     jvmTarget = "1.8"
 }
+
+file("flank-debug.properties").run {
+    if (!exists() && System.getenv("CI") == null) writeText(
+        """
+            #zenhub.repo-id=84221974
+            #
+            #repo.flank=Flank/flank
+            #repo.gcloud_cli=Flank/gcloud_cli
+            #repo.test-artifacts=Flank/test_artifacts
+            #
+            #integration.workflow-filename=integration_tests_pointer.yml
+            #integration.issue-poster=github-actions[bot]
+            #
+            #sdk-check.workflow-filename=update_dependencies_pointer.yml
+            #sdk-check.issue-poster=github-actions[bot]
+        """.trimIndent()
+    )
+}

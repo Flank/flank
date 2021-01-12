@@ -1,8 +1,8 @@
 package flank.scripts.shell.ops
 
 import com.github.ajalt.clikt.core.CliktCommand
-import flank.scripts.shell.utils.flankFixturesTmpPath
-import flank.scripts.shell.utils.testProjectsPath
+import flank.common.flankFixturesTmpPath
+import flank.common.testProjectsPath
 import flank.scripts.utils.runCommand
 import java.nio.file.Path
 import java.nio.file.Paths

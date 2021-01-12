@@ -16,16 +16,14 @@ private const val GSUTIL_FOLDER = ".gsutil"
 private const val ANALYTICS_FILE = "analytics-uuid"
 private const val DISABLED = "DISABLED\n"
 
-class FlankBugsnagInitHelperTest {
-
-    private val helper = BugsnagInitHelper
+class FlankSentryInitHelperTest {
 
     @get:Rule
     val folder = TemporaryFolder()
 
     @Before
     fun setUp() {
-        LogbackLogger.FlankBugsnag.isEnabled = false
+        LogbackLogger.FlankSentry.isEnabled = false
     }
 
     @After
@@ -38,14 +36,14 @@ class FlankBugsnagInitHelperTest {
         val subfolder = folder.newFolder(GSUTIL_FOLDER)
         File(subfolder, ANALYTICS_FILE).also { it.writeText(DISABLED) }
 
-        assertNull(helper.initBugsnag(useMock = false, folder.root.absolutePath))
+        assertNull(initCrashReporter(useMock = false, folder.root.absolutePath))
     }
     @Test
     fun `should not create Bugsnag object if user provided analytics-uuid`() {
         val subfolder = folder.newFolder(GSUTIL_FOLDER)
         File(subfolder, ANALYTICS_FILE).also { it.writeText(UUID.randomUUID().toString()) }
 
-        assertNotNull(helper.initBugsnag(useMock = false, folder.root.absolutePath))
+        assertNotNull(initCrashReporter(useMock = false, folder.root.absolutePath))
     }
 
     @Test
@@ -53,6 +51,6 @@ class FlankBugsnagInitHelperTest {
         val subfolder = folder.newFolder(GSUTIL_FOLDER)
         File(subfolder, ANALYTICS_FILE).also { it.writeText(UUID.randomUUID().toString()) }
 
-        assertNull(helper.initBugsnag(useMock = true, folder.root.absolutePath))
+        assertNull(initCrashReporter(useMock = true, folder.root.absolutePath))
     }
 }

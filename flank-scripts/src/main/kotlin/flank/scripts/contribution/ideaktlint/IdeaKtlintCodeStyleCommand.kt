@@ -1,11 +1,11 @@
 package flank.scripts.contribution.ideaktlint
 
 import com.github.ajalt.clikt.core.CliktCommand
+import flank.common.currentPath
 import flank.common.deleteFile
 import flank.common.downloadFile
+import flank.common.goToRoot
 import flank.common.logLn
-import flank.scripts.shell.utils.currentPath
-import flank.scripts.shell.utils.goToRoot
 import flank.scripts.utils.isWindows
 import flank.scripts.utils.runCommand
 import kotlinx.coroutines.runBlocking

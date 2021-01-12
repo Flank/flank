@@ -20,6 +20,7 @@ import ftl.json.MatrixMap
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.xmlToString
+import ftl.run.common.SESSION_ID_FILE
 import ftl.run.common.getMatrixFilePath
 import ftl.run.exception.FlankGeneralError
 import ftl.util.runWithProgress
@@ -98,6 +99,14 @@ object GcStorage {
             file = args.getMatrixFilePath(matrixMap).toString(),
             rootGcsBucket = args.resultsBucket,
             runGcsPath = args.resultsDir
+        )
+    }
+
+    fun IArgs.uploadSessionId() = takeUnless { disableResultsUpload }?.let {
+        upload(
+            file = Paths.get(localResultDir, SESSION_ID_FILE).toString(),
+            rootGcsBucket = resultsBucket,
+            runGcsPath = resultsDir
         )
     }
 

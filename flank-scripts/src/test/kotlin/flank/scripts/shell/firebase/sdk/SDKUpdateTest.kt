@@ -1,6 +1,7 @@
 package flank.scripts.shell.firebase.sdk
 
 import com.google.common.truth.Truth.assertThat
+import flank.common.normalizeLineEnding
 import flank.scripts.FuelTestRunner
 import flank.scripts.github.objects.GithubPullRequest
 import flank.scripts.utils.parseToVersion
@@ -31,7 +32,7 @@ class SDKUpdateTest {
         runBlocking {
             ctx.createEpicIssue()
 
-            assertThat(output.log).contains(expectMulti)
+            assertThat(output.log.normalizeLineEnding()).contains(expectMulti)
         }
     }
 
@@ -47,7 +48,7 @@ class SDKUpdateTest {
                 )
             ).updateOpenedEpic()
 
-            assertThat(output.log).contains(expectOpened)
+            assertThat(output.log.normalizeLineEnding()).contains(expectOpened)
         }
     }
 }
@@ -74,7 +75,7 @@ private val multi = """
     |## 319
     |### Firebase Test Lab
     |  * should not be included 
-""".trimMargin()
+""".trimMargin().normalizeLineEnding()
 
 private val expectMulti = """
     |** Create linked issues
@@ -101,7 +102,7 @@ private val expectMulti = """
     |     url:    https://bla.org
     |     number: 123 
     |** Issue 123 successfully converted to an epic
-""".trimMargin()
+""".trimMargin().normalizeLineEnding()
 
 private val expectOpened = """
     |** Create linked issues
@@ -125,4 +126,4 @@ private val expectOpened = """
     |     number: 123 
     |** Update existing epic
     |** Issues successfully added to the issue 123
-""".trimMargin()
+""".trimMargin().normalizeLineEnding()

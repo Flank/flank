@@ -4,14 +4,15 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.kittinunf.fuel.Fuel
+import flank.common.config.flankGcloudCLIRepository
+import flank.common.currentPath
 import flank.common.downloadFile
-import flank.scripts.shell.utils.currentPath
 import flank.scripts.utils.parseToVersion
 import kotlinx.coroutines.runBlocking
 import java.nio.file.Paths
 import java.time.Instant
 
-private const val RAW_GITHUB = "https://raw.githubusercontent.com/Flank/gcloud_cli"
+private val RAW_GITHUB = "https://raw.githubusercontent.com/$flankGcloudCLIRepository"
 
 object CheckForSDKUpdateCommand : CliktCommand(
     name = "checkForSdkUpdate",

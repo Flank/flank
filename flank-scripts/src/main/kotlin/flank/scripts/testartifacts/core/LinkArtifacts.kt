@@ -1,11 +1,11 @@
 package flank.scripts.testartifacts.core
 
-import flank.common.createSymbolicLink
+import flank.common.linkFiles
 
 fun Context.linkArtifacts() {
     print("* Creating link artifacts link for $branch - ")
     projectRoot.run {
-        createSymbolicLink(
+        linkFiles(
             target = testArtifacts(branch).absolutePath,
             link = resolve(FIXTURES_PATH).absolutePath
         )

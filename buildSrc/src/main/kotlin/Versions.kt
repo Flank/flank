@@ -1,6 +1,6 @@
 object Versions {
-    // https://github.com/bugsnag/bugsnag-java/releases
-    const val BUGSNAG = "3.6.2"
+    // https://github.com/getsentry/sentry-java/releases
+    const val SENTRY = "3.1.0"
 
     // https://github.com/3breadt/dd-plist/releases
     const val DD_PLIST = "1.23"
@@ -26,7 +26,7 @@ object Versions {
     const val KOTLIN_COROUTINES = "1.4.2"
 
     // https://github.com/remkop/picocli/releases
-    const val PICOCLI = "4.5.2"
+    const val PICOCLI = "4.6.1"
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
     const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20201029-1.30.10"
@@ -50,7 +50,7 @@ object Versions {
 
     // https://github.com/FasterXML/jackson-core/releases
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
-    const val JACKSON = "2.12.0"
+    const val JACKSON = "2.12.1"
 
     const val JUNIT = "4.13.1"
 

@@ -12,3 +12,4 @@ build/
 out/
 .gradle/
 local.properties
+flank-debug.properties

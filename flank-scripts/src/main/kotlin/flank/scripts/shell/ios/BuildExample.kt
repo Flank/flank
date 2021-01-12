@@ -3,9 +3,9 @@ package flank.scripts.shell.ios
 
 import com.github.ajalt.clikt.core.CliktCommand
 import flank.common.archive
-import flank.scripts.shell.utils.currentPath
+import flank.common.currentPath
+import flank.common.iOSTestProjectsPath
 import flank.scripts.shell.utils.failIfWindows
-import flank.scripts.shell.utils.iOSTestProjectsPath
 import flank.scripts.shell.utils.pipe
 import flank.scripts.utils.downloadXcPrettyIfNeeded
 import flank.scripts.utils.installPodsIfNeeded

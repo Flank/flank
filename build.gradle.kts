@@ -30,6 +30,13 @@ tasks {
 
 subprojects {
     apply(plugin = Plugins.KTLINT_GRADLE_PLUGIN)
+    afterEvaluate {
+        if (tasks.findByName("test") != null) {
+            tasks.test {
+                systemProperty("useDefaultProperties", "")
+            }
+        }
+    }
 }
 
 repositories {

@@ -6,9 +6,11 @@ import flank.common.startWithNewLine
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_STORAGE_LINK
+import ftl.gc.GcStorage.uploadSessionId
 import ftl.gc.GcTestMatrix
 import ftl.json.MatrixMap
 import ftl.json.createSavedMatrix
+import ftl.run.common.saveSessionId
 import ftl.run.common.updateMatrixFile
 import ftl.util.StopWatch
 import ftl.util.isInvalid
@@ -29,7 +31,8 @@ internal suspend fun IArgs.afterRunTests(
 ).also { matrixMap ->
     updateMatrixFile(matrixMap)
     saveConfigFile(matrixMap)
-
+    saveSessionId()
+    uploadSessionId()
     logLn(FtlConstants.indent + "${matrixMap.map.size} matrix ids created in ${stopwatch.check()}")
     val gcsBucket = GCS_STORAGE_LINK + resultsBucket + "/" + matrixMap.runPath
     logLn("${FtlConstants.indent}Raw results will be stored in your GCS bucket at [$gcsBucket]")

@@ -1,9 +1,9 @@
 package ftl.run.exception
 
 import flank.common.logLn
-import ftl.config.FtlConstants
 import ftl.json.SavedMatrix
 import ftl.run.cancelMatrices
+import ftl.util.captureError
 import kotlinx.coroutines.runBlocking
 import kotlin.system.exitProcess
 
@@ -39,6 +39,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
             }
 
             is InfrastructureError -> {
+                captureError(t)
                 printError("An infrastructure error occurred.")
                 printError("Details: ${t.messageOrUnavailable}")
                 exitProcess(INFRASTRUCTURE_ERROR)
@@ -50,6 +51,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
             }
 
             is FTLError -> {
+                captureError(t)
                 t.matrix.logError()
                 exitProcess(UNEXPECTED_ERROR)
             }
@@ -64,7 +66,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
             // We need to cover the case where some component in the call stack starts a non-daemon
             // thread, and then throws an Error that kills the main thread. This is extra safe implementation
             else -> {
-                FtlConstants.bugsnag?.notify(t)
+                captureError(t)
                 t.printStackTrace()
                 exitProcess(UNEXPECTED_ERROR)
             }

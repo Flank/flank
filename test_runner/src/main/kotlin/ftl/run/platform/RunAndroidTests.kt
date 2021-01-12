@@ -46,7 +46,6 @@ internal suspend fun AndroidArgs.runAndroidTests(): TestResult = coroutineScope 
     val otherGcsFiles = uploadOtherFiles()
     val additionalApks = uploadAdditionalApks()
     val obbFiles = uploadObbFiles()
-
     createAndroidTestContexts()
         .dumpShards(args)
         .upload(resultsBucket, resultsDir)
