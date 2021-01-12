@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.android
 
 import flank.common.logLn
+import ftl.analytics.sendConfiguration
 import ftl.args.AndroidArgs
 import ftl.args.setupLogLevel
 import ftl.args.validate
@@ -65,6 +66,7 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
                 DEVICE_SYSTEM to "android",
                 TEST_TYPE to type?.name.orEmpty()
             )
+            sendConfiguration()
         }.validate().run {
             runBlocking {
                 if (dumpShards) dumpShards()

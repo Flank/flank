@@ -2,6 +2,9 @@ object Versions {
     // https://github.com/getsentry/sentry-java/releases
     const val SENTRY = "3.2.0"
 
+    //https://github.com/mixpanel/mixpanel-java/releases
+    const val MIXPANEL = "1.5.0"
+
     // https://github.com/3breadt/dd-plist/releases
     const val DD_PLIST = "1.23"
 
