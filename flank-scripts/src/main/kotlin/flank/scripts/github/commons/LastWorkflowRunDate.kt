@@ -24,7 +24,7 @@ suspend fun getLastWorkflowRunDate(
         workflowRuns
             .filter { it.status != "in_progress" }
             .filter { it.conclusion != "cancelled" }
-            .getOrNull(1)
+            .getOrNull(0)
             .logRun()
             ?.createdAt.run { DateTimeFormatter.ISO_INSTANT.format(Instant.parse(this)) }
     } ?: run {

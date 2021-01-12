@@ -161,7 +161,8 @@ jobs:
 
   trigger-pointer:
     runs-on: ubuntu-latest
-    if: github.event_name != 'issue_comment'
+    needs: [ process-results ]
+    if: always() && github.event_name != 'issue_comment'
     steps:
       - uses: tibdex/github-app-token@v1
         id: generate-token
