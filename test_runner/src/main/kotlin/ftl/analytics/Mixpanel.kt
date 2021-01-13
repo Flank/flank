@@ -53,11 +53,10 @@ fun AndroidArgs.sendConfiguration() {
     objectToMap().filter { it.key != COMMON_ARGS }.getNonDefaultArgs(defaultArgsMap)
         .plus(commonArgs.objectToMap().getNonDefaultArgs(defaultCommonArgs))
         .let {
-            messageBuilder.event(
-                project,
-                CONFIGURATION_KEY,
-                JSONObject(it)
-            ).sendMessage()
+            it.forEach {
+                messageBuilder.event(project,
+                it.key,JSONObject(mapOf(it.key to it.value))).sendMessage()
+            }
         }
 }
 
@@ -70,7 +69,10 @@ fun IosArgs.sendConfiguration() {
     objectToMap().filter { it.key != COMMON_ARGS }.getNonDefaultArgs(defaultArgsMap)
         .plus(commonArgs.objectToMap().getNonDefaultArgs(defaultCommonArgs))
         .let {
-            messageBuilder.event(project, CONFIGURATION_KEY, JSONObject(it))
+            it.forEach {
+                messageBuilder.event(project,
+                    it.key,JSONObject(mapOf(it.key to it.value))).sendMessage()
+            }
         }
 }
 
