@@ -11,6 +11,6 @@ jobs:
         uses: Flank/flank@master
         with:
           xoxctoken: ${{ secrets.SLACK_XOXCTOKEN }}
-          message: Flank ${{ env.RELEASE_TAG }} has been released. View more information <http://github.com/Flank/flank/releases/tag/${{ env.RELEASE_TAG }}| here!>
+          message: This is a test message. ignore
           channel: ${{ secrets.SLACK_CHANNEL}}
           cookie: ${{ secrets.SLACK_COOKIE}}
