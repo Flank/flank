@@ -9,7 +9,6 @@ jobs:
       steps:
       - name: Post Message of Flank Release
         uses: Flank/flank@master
-        if: startsWith(github.ref, 'refs/tags/v')
         with:
           xoxctoken: ${{ secrets.SLACK_XOXCTOKEN }}
           message: Flank ${{ env.RELEASE_TAG }} has been released. View more information <http://github.com/Flank/flank/releases/tag/${{ env.RELEASE_TAG }}| here!>
