@@ -1,11 +1,8 @@
 name: "Test SendFlank"
 on:
-  pull_request_target:
-    branches: master
-    types:
-      - opened
-      - edited
-      - synchronize
+  pull_request:
+    branches:
+      - master
 
 - name: Post Message of Flank Release
     uses: Flank/flank@master
