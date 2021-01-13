@@ -28,7 +28,55 @@ for MixPanel and Segment
 ### Scenario
 Send configuration provided by a user to MixPanel
 
-**TODO**
+Sending events to Mixpanel is easy from developer perspective
+
+1. Add dependencu
+    ```kotlin
+    implementation("com.mixpanel:mixpanel-java:1.5.0")
+    ```
+1. Register user
+
+    ```kotlin
+    val messageBuilder = MessageBuilder(PROJECT_TOKEN);
+    
+    val props = JSONObject()
+    props.put("name", args.project) //set name as project id to easiest identification on users list
+    val update = messageBuilder.set(project, props)
+    
+    // Send the update to mixpanel
+    val mixpanel = MixpanelAPI()
+    mixpanel.sendMessage(update)
+    ```
+1. Send event
+
+```kotlin
+
+val messageBuilder = MessageBuilder(PROJECT_TOKEN)
+
+// You can send properties along with events
+val props =  JSONObject()
+props.put("type", "gameloop")
+props.put("outputStyle", "single")
+
+val configurationEvent =
+    messageBuilder.event(distinctId, "configuration", props)
+
+val api = MixpanelAPI()
+
+api.sendMessage(configurationEvent)
+```
+
+You could find working code [here](https://github.com/Flank/flank/tree/1460-mix-panel-poc)
+
+### Results
+
+Configuration and sending events is easy. Mixpanel dashboard is advanced and probably meets our requirements. 
+We could send all changed parameters by one event or send changed parameters one by one.
+
+### Pros
+- easy to use
+- standalone
+- easy to configure
 
 ## POC Segment
 
