@@ -56,9 +56,10 @@ private fun emptyXcTestRunData() = XcTestRunData(
 )
 private fun IosArgs.filterTestConfigurationsIfNeeded(
     configurations: Map<String, Map<String, List<String>>>
-): Map<String, Map<String, List<String>>> {
-    val only = onlyTestConfiguration ?: return configurations.filterKeys { it != skipTestConfiguration }
-    return configurations.filterKeys { it == only }
+): Map<String, Map<String, List<String>>> = when {
+    onlyTestConfiguration != null -> configurations.filterKeys { it == onlyTestConfiguration }
+    skipTestConfiguration != null -> configurations.filterKeys { it != skipTestConfiguration }
+    else -> configurations
 }
 
 private fun IosArgs.calculateConfigurationShards(
