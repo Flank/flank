@@ -6,11 +6,14 @@ import com.fasterxml.jackson.module.kotlin.kotlinModule
 import com.mixpanel.mixpanelapi.MessageBuilder
 import com.mixpanel.mixpanelapi.MixpanelAPI
 import ftl.args.AndroidArgs
+import ftl.args.IArgs
 import ftl.args.IosArgs
 import org.json.JSONObject
 
 private const val MIXPANEL_API_TOKEN = "f7490466a203188ecf591b9e7b0ae19d"
 private const val CONFIGURATION_KEY = "configuration"
+private const val PROJECT_ID = "project_id"
+private const val COMMON_ARGS = "commonArgs"
 
 private val messageBuilder by lazy {
     MessageBuilder(MIXPANEL_API_TOKEN)
@@ -26,33 +29,44 @@ private val objectMapper by lazy {
     }
 }
 
-fun registerUser(projectId: String) {
+private fun IArgs.registerUser() {
     messageBuilder.set(
-        projectId,
-        JSONObject("PROJECT_ID" to projectId)
+        project,
+        JSONObject(
+            mapOf(
+                PROJECT_ID to project,
+                "name" to project
+            )
+        )
     ).sendMessage()
 }
 
 private fun JSONObject.sendMessage() = apiClient.sendMessage(this)
 
 fun AndroidArgs.sendConfiguration() {
+    registerUser()
     val defaultArgs = AndroidArgs.default()
     val defaultArgsMap = defaultArgs.objectToMap()
     val defaultCommonArgs = defaultArgs.commonArgs.objectToMap()
 
-    objectToMap().filter { it.key != "commonArgs" }.getNonDefaultArgs(defaultArgsMap)
+    objectToMap().filter { it.key != COMMON_ARGS }.getNonDefaultArgs(defaultArgsMap)
         .plus(commonArgs.objectToMap().getNonDefaultArgs(defaultCommonArgs))
         .let {
-            messageBuilder.event(project, CONFIGURATION_KEY, JSONObject(it))
+            messageBuilder.event(
+                project,
+                CONFIGURATION_KEY,
+                JSONObject(it)
+            ).sendMessage()
         }
 }
 
 fun IosArgs.sendConfiguration() {
+    registerUser()
     val defaultArgs = IosArgs.default()
     val defaultArgsMap = defaultArgs.objectToMap()
     val defaultCommonArgs = defaultArgs.commonArgs.objectToMap()
 
-    objectToMap().filter { it.key != "commonArgs" }.getNonDefaultArgs(defaultArgsMap)
+    objectToMap().filter { it.key != COMMON_ARGS }.getNonDefaultArgs(defaultArgsMap)
         .plus(commonArgs.objectToMap().getNonDefaultArgs(defaultCommonArgs))
         .let {
             messageBuilder.event(project, CONFIGURATION_KEY, JSONObject(it))
