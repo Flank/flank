@@ -14,6 +14,7 @@ private const val MIXPANEL_API_TOKEN = "f7490466a203188ecf591b9e7b0ae19d"
 private const val CONFIGURATION_KEY = "configuration"
 private const val PROJECT_ID = "project_id"
 private const val COMMON_ARGS = "commonArgs"
+private const val NAME_KEY = "name"
 
 private val messageBuilder by lazy {
     MessageBuilder(MIXPANEL_API_TOKEN)
@@ -35,7 +36,7 @@ private fun IArgs.registerUser() {
         JSONObject(
             mapOf(
                 PROJECT_ID to project,
-                "name" to project
+                NAME_KEY to project
             )
         )
     ).sendMessage()
