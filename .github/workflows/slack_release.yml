@@ -3,8 +3,8 @@ on:
   pull_request:
     branches:
       - master
-
-- name: Post Message of Flank Release
+jobs:
+  - name: Post Message of Flank Release
     uses: Flank/flank@master
     if: startsWith(github.ref, 'refs/tags/v')
     with:
