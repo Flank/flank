@@ -122,7 +122,6 @@ not readable and could not be analyzed. This tool is mostly used for websites an
 custom events. Maybe this is the fault of Segment integration or Flank specific use case, but this tool does not work properly with Google Analytics.
 Other destinations are not worth to be a consideration, because it is better to use standalone versions of them.
 
-
 ### Pros
 - easy to use
 
@@ -133,4 +132,5 @@ Other destinations are not worth to be a consideration, because it is better to 
 
 ## Decision MixPanel vs Segment
 
-**TODO** 
+Based on Flank needs it was decided that MixPanel will deliver the best experience to Team. Segment is not standalone tool and its configuration is painful, so it is better to stick to MixPanel which provide easy out of the box integration and met all criteria created by Flank team.
+The work on analytics will be continue in nearest future. Flank team should consider which use cases are needed for analytics as entry point for further development of it in Flank.
