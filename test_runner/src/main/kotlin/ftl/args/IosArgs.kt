@@ -1,5 +1,6 @@
 package ftl.args
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.google.common.annotations.VisibleForTesting
 import ftl.args.yml.Type
 import ftl.ios.xctest.XcTestRunData
@@ -20,6 +21,8 @@ data class IosArgs(
 ) : IArgs by commonArgs {
 
     override val useLegacyJUnitResult = true
+
+    @get:JsonIgnore
     val xcTestRunData: XcTestRunData by lazy { calculateXcTestRunData() }
 
     companion object : IosArgsCompanion()

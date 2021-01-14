@@ -10,7 +10,7 @@ import ftl.args.IArgs
 import ftl.args.IosArgs
 import org.json.JSONObject
 
-private const val MIXPANEL_API_TOKEN = "f7490466a203188ecf591b9e7b0ae19d"
+private const val MIXPANEL_API_TOKEN = "d9728b2c8e6ca9fd6de1fcd32dd8cdc2"
 private const val CONFIGURATION_KEY = "configuration"
 private const val PROJECT_ID = "project_id"
 private const val COMMON_ARGS = "commonArgs"
@@ -53,12 +53,11 @@ fun AndroidArgs.sendConfiguration() {
     objectToMap().filter { it.key != COMMON_ARGS }.getNonDefaultArgs(defaultArgsMap)
         .plus(commonArgs.objectToMap().getNonDefaultArgs(defaultCommonArgs))
         .let {
-            it.forEach {
-                messageBuilder.event(
-                    project,
-                    it.key, JSONObject(mapOf(it.key to it.value))
-                ).sendMessage()
-            }
+            messageBuilder.event(
+                project,
+                CONFIGURATION_KEY,
+                JSONObject(it)
+            ).sendMessage()
         }
 }
 
@@ -71,12 +70,11 @@ fun IosArgs.sendConfiguration() {
     objectToMap().filter { it.key != COMMON_ARGS }.getNonDefaultArgs(defaultArgsMap)
         .plus(commonArgs.objectToMap().getNonDefaultArgs(defaultCommonArgs))
         .let {
-            it.forEach {
-                messageBuilder.event(
-                    project,
-                    it.key, JSONObject(mapOf(it.key to it.value))
-                ).sendMessage()
-            }
+            messageBuilder.event(
+                project,
+                CONFIGURATION_KEY,
+                JSONObject(it)
+            ).sendMessage()
         }
 }
 
