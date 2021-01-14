@@ -52,13 +52,8 @@ fun AndroidArgs.sendConfiguration() {
 
     objectToMap().filter { it.key != COMMON_ARGS }.getNonDefaultArgs(defaultArgsMap)
         .plus(commonArgs.objectToMap().getNonDefaultArgs(defaultCommonArgs))
-        .let {
-            messageBuilder.event(
-                project,
-                CONFIGURATION_KEY,
-                JSONObject(it)
-            ).sendMessage()
-        }
+        .createEvent(project)
+        .sendMessage()
 }
 
 fun IosArgs.sendConfiguration() {
@@ -69,14 +64,12 @@ fun IosArgs.sendConfiguration() {
 
     objectToMap().filter { it.key != COMMON_ARGS }.getNonDefaultArgs(defaultArgsMap)
         .plus(commonArgs.objectToMap().getNonDefaultArgs(defaultCommonArgs))
-        .let {
-            messageBuilder.event(
-                project,
-                CONFIGURATION_KEY,
-                JSONObject(it)
-            ).sendMessage()
-        }
+        .createEvent(project)
+        .sendMessage()
 }
+
+private fun Map<String, Any?>.createEvent(projectId: String) =
+    messageBuilder.event(projectId, CONFIGURATION_KEY, JSONObject(this))
 
 private fun Map<String, Any>.getNonDefaultArgs(defaultArgs: Map<String, Any>) =
     keys.fold(mapOf<String, Any?>()) { acc, key ->
