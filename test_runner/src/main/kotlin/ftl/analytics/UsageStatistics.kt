@@ -44,7 +44,7 @@ private fun IArgs.registerUser() {
 
 private fun JSONObject.sendMessage() = apiClient.sendMessage(this)
 
-fun AndroidArgs.sendConfiguration() {
+fun AndroidArgs.sendConfiguration() = takeUnless { disableUsageStatistics }?.let {
     registerUser()
     val defaultArgs = AndroidArgs.default()
     val defaultArgsMap = defaultArgs.objectToMap()
@@ -56,7 +56,7 @@ fun AndroidArgs.sendConfiguration() {
         .sendMessage()
 }
 
-fun IosArgs.sendConfiguration() {
+fun IosArgs.sendConfiguration() = takeUnless { disableUsageStatistics }?.let {
     registerUser()
     val defaultArgs = IosArgs.default()
     val defaultArgsMap = defaultArgs.objectToMap()

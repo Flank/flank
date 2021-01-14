@@ -71,6 +71,8 @@ interface IArgs {
     val defaultClassTestTime: Double
     val useAverageTestTimeForNewTests: Boolean
 
+    val disableUsageStatistics: Boolean
+
     fun useLocalResultDir() = localResultDir != defaultLocalResultsDir
 
     companion object {
