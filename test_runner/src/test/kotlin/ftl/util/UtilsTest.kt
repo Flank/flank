@@ -41,7 +41,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import org.junit.Rule
 import org.junit.Test
-import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.runner.RunWith
@@ -56,9 +55,6 @@ private const val VERIFICATION_MESSAGE = "Killing thread intentionally"
 
 @RunWith(FlankTestRunner::class)
 class UtilsTest {
-
-    @get:Rule
-    val exit = ExpectedSystemExit.none()!!
 
     @get:Rule
     val output = SystemOutRule().enableLog().muteForSuccessfulTests()!!
