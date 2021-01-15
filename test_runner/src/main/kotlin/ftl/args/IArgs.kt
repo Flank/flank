@@ -6,6 +6,7 @@ import ftl.args.yml.Type
 import ftl.config.Device
 import ftl.config.common.CommonFlankConfig.Companion.defaultLocalResultsDir
 import ftl.run.status.OutputStyle
+import ftl.util.readVersion
 import ftl.util.timeoutToMils
 
 // Properties common to both Android and iOS
@@ -93,3 +94,6 @@ val IArgs.logLevel
 fun IArgs.setupLogLevel() {
     setLogLevel(logLevel)
 }
+
+val IArgs.blockSendingUsageStatistics
+    get() = disableUsageStatistics || readVersion() == "local_snapshot"

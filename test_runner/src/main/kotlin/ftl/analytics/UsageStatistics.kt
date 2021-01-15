@@ -8,6 +8,7 @@ import com.mixpanel.mixpanelapi.MixpanelAPI
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
+import ftl.args.blockSendingUsageStatistics
 import org.json.JSONObject
 
 private const val MIXPANEL_API_TOKEN = "d9728b2c8e6ca9fd6de1fcd32dd8cdc2"
@@ -44,7 +45,7 @@ private fun IArgs.registerUser() {
 
 private fun JSONObject.sendMessage() = apiClient.sendMessage(this)
 
-fun AndroidArgs.sendConfiguration() = takeUnless { disableUsageStatistics }?.let {
+fun AndroidArgs.sendConfiguration() = takeUnless { blockSendingUsageStatistics }?.let {
     registerUser()
     val defaultArgs = AndroidArgs.default()
     val defaultArgsMap = defaultArgs.objectToMap()
@@ -56,7 +57,7 @@ fun AndroidArgs.sendConfiguration() = takeUnless { disableUsageStatistics }?.let
         .sendMessage()
 }
 
-fun IosArgs.sendConfiguration() = takeUnless { disableUsageStatistics }?.let {
+fun IosArgs.sendConfiguration() = takeUnless { blockSendingUsageStatistics }?.let {
     registerUser()
     val defaultArgs = IosArgs.default()
     val defaultArgsMap = defaultArgs.objectToMap()
