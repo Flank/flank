@@ -32,25 +32,30 @@ class FlankSentryInitHelperTest {
     }
 
     @Test
-    fun `should not create Bugsnag object if user has analytics disabled`() {
+    fun `should not create Sentry object if user has analytics disabled`() {
         val subfolder = folder.newFolder(GSUTIL_FOLDER)
         File(subfolder, ANALYTICS_FILE).also { it.writeText(DISABLED) }
 
-        assertNull(initCrashReporter(useMock = false, folder.root.absolutePath))
+        assertNull(initCrashReporter(isTest = false, folder.root.absolutePath))
     }
     @Test
-    fun `should not create Bugsnag object if user provided analytics-uuid`() {
+    fun `should not create Sentry object if user provided analytics-uuid`() {
         val subfolder = folder.newFolder(GSUTIL_FOLDER)
         File(subfolder, ANALYTICS_FILE).also { it.writeText(UUID.randomUUID().toString()) }
 
-        assertNotNull(initCrashReporter(useMock = false, folder.root.absolutePath))
+        assertNotNull(initCrashReporter(isTest = false, folder.root.absolutePath))
     }
 
     @Test
-    fun `should create Bugsnag object if mock server used`() {
+    fun `should create Sentry object if mock server used`() {
         val subfolder = folder.newFolder(GSUTIL_FOLDER)
         File(subfolder, ANALYTICS_FILE).also { it.writeText(UUID.randomUUID().toString()) }
 
-        assertNull(initCrashReporter(useMock = true, folder.root.absolutePath))
+        assertNull(initCrashReporter(isTest = true, folder.root.absolutePath))
+    }
+
+    @Test
+    fun `should not create Sentry object when running tests`() {
+        assertNull(initCrashReporter())
     }
 }

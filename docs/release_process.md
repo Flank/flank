@@ -31,16 +31,15 @@ Each push:
 
 ## CI Steps
 1. Gradle Build flankScripts and add it to PATH
-2. Set environment variables
-3. Update bugsnag
-4. Get Jfrog CLI
-5. Delete old snapshot
-6. Gradle Build Flank
-7. Gradle Upload to bintray
-8. Authenticate to hub
-9. Remove old release
-10. Rename old tag  
-11. Release flank
+1. Set environment variables
+1. Get Jfrog CLI
+1. Delete old snapshot
+1. Gradle Build Flank
+1. Gradle Upload to bintray
+1. Authenticate to hub
+1. Remove old release
+1. Rename old tag  
+1. Release flank
     1. Snapshot for snapshot flow (push to master)
     2. Stable for regular flow (push tag `v*`)
 12. Sync bintray to maven central

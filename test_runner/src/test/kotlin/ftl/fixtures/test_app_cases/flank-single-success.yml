@@ -4,4 +4,3 @@ gcloud:
 
 flank:
   disable-sharding: true
-

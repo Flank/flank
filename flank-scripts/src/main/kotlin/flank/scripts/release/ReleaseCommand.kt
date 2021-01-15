@@ -7,14 +7,12 @@ import flank.scripts.release.hub.DeleteOldTagCommand
 import flank.scripts.release.hub.ReleaseFlankCommand
 import flank.scripts.release.jfrog.delete.DeleteOldSnapshotCommand
 import flank.scripts.release.jfrog.sync.SyncMavenCommand
-import flank.scripts.release.updatebugsnag.UpdateBugSnagCommand
 
 class ReleaseCommand : CliktCommand(name = "release", help = "Contains all release commands") {
 
     init {
         subcommands(
             ReleaseFlankCommand(),
-            UpdateBugSnagCommand(),
             DeleteOldSnapshotCommand(),
             SyncMavenCommand(),
             DeleteOldReleaseCommand(),

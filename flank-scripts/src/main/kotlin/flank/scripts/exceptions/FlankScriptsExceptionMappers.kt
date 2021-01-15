@@ -16,7 +16,4 @@ fun <VALUE : Any, ERROR : FuelError> Result<VALUE, ERROR>.mapClientErrorToGithub
 
 fun FuelError.toGithubException() = GitHubException(response.body().asString(APPLICATION_JSON_CONTENT_TYPE).toObject())
 
-fun FuelError.toBugsnagException() =
-    BugsnagException(response.body().asString(APPLICATION_JSON_CONTENT_TYPE).toObject())
-
 private const val APPLICATION_JSON_CONTENT_TYPE = "application/json"

@@ -2,7 +2,6 @@ package flank.scripts.utils
 
 import com.google.common.truth.Truth.assertThat
 import flank.scripts.github.GitHubErrorResponse
-import flank.scripts.release.updatebugsnag.SourceControl
 import org.junit.Test
 
 class SerializationTest {
@@ -23,25 +22,6 @@ class SerializationTest {
 
         // when
         val actual = testJson.toObject<GitHubErrorResponse>()
-
-        // then
-        assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test
-    fun `Should create json from object`() {
-        // given
-        val testObject = SourceControl("a", "b", "c")
-        val expected = """
-            {
-                "provider": "a",
-                "repository": "b",
-                "revision": "c"
-            }
-        """.trimIndent()
-
-        // when
-        val actual = testObject.toJson()
 
         // then
         assertThat(actual).isEqualTo(expected)

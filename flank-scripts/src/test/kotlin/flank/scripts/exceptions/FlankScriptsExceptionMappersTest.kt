@@ -83,30 +83,6 @@ class FlankScriptsExceptionMappersTest {
         assertThat(gitHubException.toString()).isEqualTo(expectedToString)
     }
 
-    @Test
-    fun `Should properly map bugsnag exception from json body`() {
-        // given
-        val mockedFuelError = """
-            {
-              "errors": [
-                "Missing app version"
-              ],
-              "status": "error"
-            }
-        """.trimIndent().toMockFuelError()
-        val expectedErrors = listOf("Missing app version")
-        val expectedStatus = "error"
-        val expectedMessage = "Error while doing Bugnsag request, because of Missing app version"
-
-        // when
-        val bugsnagException = mockedFuelError.toBugsnagException()
-
-        // then
-        assertThat(bugsnagException.body.errors).isEqualTo(expectedErrors)
-        assertThat(bugsnagException.body.status).isEqualTo(expectedStatus)
-        assertThat(bugsnagException.toString()).isEqualTo(expectedMessage)
-    }
-
     private fun String.toMockFuelError() = mockk<FuelError> {
         every { response.body().asString(any()) } returns this@toMockFuelError
     }

@@ -15,8 +15,6 @@ fun main() {
     val projectId = System.getenv("GOOGLE_CLOUD_PROJECT")
         ?: "YOUR PROJECT ID"
 
-    // Bugsnag keeps the process alive so we must call exitProcess
-    // https://github.com/bugsnag/bugsnag-java/issues/151
     withGlobalExceptionHandling {
         CommandLine(Main()).execute(
 //            "--debug",

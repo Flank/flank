@@ -30,10 +30,10 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.runs
 import io.mockk.unmockkAll
+import io.mockk.verify
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.Assert.assertEquals
@@ -180,20 +180,29 @@ class UtilsTest {
     @Test
     fun `should terminate process with exit code 10 if FailedMatrix exception is thrown`() {
         // given
-        val block = { throw FailedMatrixError(listOf(testMatrix1, testMatrix2)) }
+        val exception = FailedMatrixError(listOf(testMatrix1, testMatrix2))
 
-        // will
-        exit.expectSystemExitWithStatus(NOT_PASSED)
-
-        // when
-        withGlobalExceptionHandling(block)
+        // when - then
+        withGlobalExceptionHandling(
+            { throw exception },
+            {
+                assertThat(it).isEqualTo(NOT_PASSED)
+            }
+        )
     }
 
     @Test
     fun `should terminate process with exit code 2 if YmlValidationError is thrown`() {
-        exit.expectSystemExitWithStatus(CONFIGURATION_FAIL)
-        val block = { throw YmlValidationError() }
-        withGlobalExceptionHandling(block)
+        // given
+        val exception = YmlValidationError()
+
+        // when - then
+        withGlobalExceptionHandling(
+            { throw exception },
+            { exitCode ->
+                assertThat(exitCode).isEqualTo(CONFIGURATION_FAIL)
+            }
+        )
     }
 
     @Test
@@ -201,43 +210,46 @@ class UtilsTest {
         // given
         mockkStatic("ftl.run.CancelLastRunKt")
         coEvery { cancelMatrices(any(), any()) } just runs
-        exit.expectSystemExitWithStatus(1)
-        val block = { throw FlankTimeoutError(mapOf("anyMatrix" to mockk(relaxed = true)), "anyProject") }
-        // when
-        withGlobalExceptionHandling(block)
-        // then
-        coVerify(exactly = 1) { cancelMatrices(any(), any()) }
+        val exception = FlankTimeoutError(mapOf("anyMatrix" to mockk(relaxed = true)), "anyProject")
+
+        // when-then
+        withGlobalExceptionHandling(
+            { throw exception },
+            {
+                coVerify(exactly = 1) { cancelMatrices(any(), any()) }
+            }
+        )
     }
 
     @Test
     fun `should terminate process with exit code 15 if FTLError is thrown`() {
         // given
-        val block = { throw FTLError(testMatrix1) }
+        val exception = FTLError(testMatrix1)
 
-        // will
-        exit.expectSystemExitWithStatus(UNEXPECTED_ERROR)
-        exit.checkAssertionAfterwards {
-            assertTrue(output.log.contains("Matrix is ${testMatrix1.state}"))
-        }
-
-        // when
-        withGlobalExceptionHandling(block)
+        // when - then
+        withGlobalExceptionHandling(
+            { throw exception },
+            { exitCode ->
+                assertTrue(output.log.contains("Matrix is ${testMatrix1.state}"))
+                assertThat(exitCode).isEqualTo(UNEXPECTED_ERROR)
+            }
+        )
     }
 
     @Test
     fun `should terminate process with exit code 2 if FlankFatalError is thrown`() {
         // given
         val message = "test error was thrown"
-        val block = { throw FlankConfigurationError(message) }
+        val exception = FlankConfigurationError(message)
 
-        // will
-        exit.expectSystemExitWithStatus(2)
-        exit.checkAssertionAfterwards {
-            assertTrue(err.log.contains(message))
-        }
-
-        // when
-        withGlobalExceptionHandling(block)
+        // when - then
+        withGlobalExceptionHandling(
+            { throw exception },
+            { exitCode ->
+                assertTrue(err.log.contains(message))
+                assertThat(exitCode).isEqualTo(CONFIGURATION_FAIL)
+            }
+        )
     }
 
     @Test
@@ -247,66 +259,61 @@ class UtilsTest {
 
         val block = { throw FlankGeneralError(message) }
 
-        // will
-        exit.expectSystemExitWithStatus(GENERAL_FAILURE)
-        exit.checkAssertionAfterwards {
+        // when
+        withGlobalExceptionHandling(block) {
+            assertThat(it).isEqualTo(GENERAL_FAILURE)
             assertTrue(err.log.contains(message))
         }
-
-        // when
-        withGlobalExceptionHandling(block)
     }
 
     @Test
-    fun `should notify bugsnag if non related flak error occurred`() {
+    fun `should notify sentry if non related flank error occurred`() {
         // given
         val message = "not flank related error thrown"
-        mockkObject(FtlConstants)
-        every { FtlConstants.useMock } returns false
+        val exception = Exception(message)
+        mockkStatic(Throwable::report)
 
-        val block = { throw FlankGeneralError(message) }
-
-        // will
-        exit.expectSystemExitWithStatus(GENERAL_FAILURE)
-        exit.checkAssertionAfterwards {
-            assertTrue(err.log.contains(message))
-        }
-
-        // when
-        withGlobalExceptionHandling(block)
+        // when - then
+        withGlobalExceptionHandling(
+            { throw exception },
+            { exitCode ->
+                assertThat(exitCode).isEqualTo(UNEXPECTED_ERROR)
+                verify { exception.report() }
+            }
+        )
     }
 
     @Test
     fun `should terminate process with exit code 0 if at least one matrix failed and ignore-failed-tests flag is true`() {
         // given
-        val block = {
-            throw FailedMatrixError(
-                matrices = listOf(testMatrix1, testMatrix2),
-                ignoreFailed = true
-            )
-        }
+        val exception = FailedMatrixError(
+            matrices = listOf(testMatrix1, testMatrix2),
+            ignoreFailed = true
+        )
 
-        // will
-        exit.expectSystemExitWithStatus(SUCCESS)
-
-        // when
-        withGlobalExceptionHandling(block)
+        // when - then
+        withGlobalExceptionHandling(
+            { throw exception },
+            { exitCode ->
+                assertThat(exitCode).isEqualTo(SUCCESS)
+            }
+        )
     }
 
     @Test
     fun `should terminate process with exit code 1 if there is not tests to run overall`() {
         // given
         val message = "No tests to run"
-        val block = { throw FlankGeneralError(message) }
+        val exception = FlankGeneralError(message)
 
-        // will
-        exit.expectSystemExitWithStatus(GENERAL_FAILURE)
-        exit.checkAssertionAfterwards {
-            assertTrue(err.log.contains(message))
-        }
-
-        // when
-        withGlobalExceptionHandling(block)
+        // when - then
+        withGlobalExceptionHandling(
+            { throw exception },
+            { exitCode ->
+                assertTrue(err.log.contains(message))
+                assertThat(exitCode).isEqualTo(GENERAL_FAILURE)
+            }
+        )
     }
 
     @CommandLine.Command(name = "whosbad")

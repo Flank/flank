@@ -1,6 +1,6 @@
 package ftl.util
 
-import ftl.config.FtlConstants
+import flank.common.config.isTest
 import io.sentry.Sentry
 import java.io.File
 import java.util.UUID
@@ -12,21 +12,23 @@ private const val DISABLED = "DISABLED"
 
 const val SESSION_ID = "session.id"
 const val OS_NAME = "os.name"
-const val FLANK_VERSION = " flank.version"
+const val FLANK_VERSION = "flank.version"
 const val FLANK_REVISION = "flank.revision"
 const val DEVICE_SYSTEM = "device.system"
 const val TEST_TYPE = "test.type"
 
-val captureError by lazy {
-    initCrashReporter(FtlConstants.useMock)
-    ::notify
+fun Throwable.report() {
+    crashReporter
+    notify(this)
 }
 
+internal val crashReporter by lazy { initCrashReporter() }
+
 internal fun initCrashReporter(
-    useMock: Boolean,
+    isTest: Boolean = isTest(),
     rootPath: String = System.getProperty("user.home")
 ) = when {
-    useMock -> null
+    isTest -> null
     isGoogleAnalyticsDisabled(rootPath) -> null
     else -> initializeCrashReportWrapper()
 }
@@ -51,10 +53,8 @@ val sessionId by lazy {
     UUID.randomUUID().toString()
 }
 
-fun setCrashReportTag(vararg tags: Pair<String, String>) = tags.forEach {
-    Sentry.setTag(it.first, it.second)
-}
+fun setCrashReportTag(
+    vararg tags: Pair<String, String>
+) = tags.forEach { (property, value) -> Sentry.setTag(property, value) }
 
-private fun notify(error: Throwable) {
-    Sentry.captureException(error)
-}
+private fun notify(error: Throwable) = Sentry.captureException(error)
