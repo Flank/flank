@@ -84,7 +84,7 @@ We could send all changed parameters by one event or send changed parameters one
 Send configuration provided by a user to Segment.
 
 ### Description
-During making POC Segment appears to be a not a standalone solution. It is just a tunnel to map and send data to other destination(s).
+During making POC Segment appears to be not a standalone solution. It is just a tunnel to map and send data to other destination(s).
 A destination for this proof of concept was Google Analytics.
 
 ### Usage in Flank
