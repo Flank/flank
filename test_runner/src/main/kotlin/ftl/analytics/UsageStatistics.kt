@@ -1,82 +1,75 @@
 package ftl.analytics
 
 import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.module.kotlin.jsonMapper
-import com.fasterxml.jackson.module.kotlin.kotlinModule
-import com.mixpanel.mixpanelapi.MessageBuilder
-import com.mixpanel.mixpanelapi.MixpanelAPI
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
-import ftl.args.blockSendingUsageStatistics
 import org.json.JSONObject
+import kotlin.reflect.KClass
 
-private const val MIXPANEL_API_TOKEN = "d9728b2c8e6ca9fd6de1fcd32dd8cdc2"
-private const val CONFIGURATION_KEY = "configuration"
 private const val PROJECT_ID = "project_id"
 private const val COMMON_ARGS = "commonArgs"
 private const val NAME_KEY = "name"
+private const val COVERAGE_FILE_PATH = "coverageFilePath"
+private const val ENVIRONMENT_VARIABLES = "environmentVariables"
+private const val ANONYMIZE_VALUE = "..."
 
-fun AndroidArgs.sendConfiguration() = takeUnless { blockSendingUsageStatistics }?.let {
-    registerUser()
-    AndroidArgs.default().let { defaultArgs ->
-        objectToMap().filterNonCommonArgs().getNonDefaultArgs(defaultArgs.objectToMap())
-            .plus(commonArgs.objectToMap().getNonDefaultArgs(defaultArgs.commonArgs.objectToMap()))
-            .createEvent(project)
-            .sendMessage()
-    }
+private val keysToRemove by lazy {
+    IArgs::class.findMembersWithAnnotation(IgnoreInStatistics::class) +
+        AndroidArgs::class.findMembersWithAnnotation(IgnoreInStatistics::class) +
+        IosArgs::class.findMembersWithAnnotation(IgnoreInStatistics::class)
 }
 
-fun IosArgs.sendConfiguration() = takeUnless { blockSendingUsageStatistics }?.let {
-    registerUser()
-    IosArgs.default().let { defaultArgs ->
-        objectToMap().filterNonCommonArgs().getNonDefaultArgs(defaultArgs.objectToMap())
-            .plus(commonArgs.objectToMap().getNonDefaultArgs(defaultArgs.commonArgs.objectToMap()))
-            .createEvent(project)
-            .sendMessage()
-    }
+private val keysToAnonymize by lazy {
+    IArgs::class.findMembersWithAnnotation(AnonymizeInStatistics::class) +
+        AndroidArgs::class.findMembersWithAnnotation(AnonymizeInStatistics::class) +
+        IosArgs::class.findMembersWithAnnotation(AnonymizeInStatistics::class)
 }
 
-private fun Map<String, Any>.filterNonCommonArgs() = filter { it.key != COMMON_ARGS }
+private fun KClass<*>.findMembersWithAnnotation(annotationType: KClass<*>) = this.members.filter {
+    it.annotations.any { annotation -> annotation.annotationClass == annotationType }
+}.map {
+    it.name
+}
 
-private fun IArgs.registerUser(): IArgs = apply {
+internal fun IArgs.registerUser(): IArgs = apply {
     messageBuilder.set(
-        project,
-        JSONObject(
-            mapOf(
-                PROJECT_ID to project,
-                NAME_KEY to project
-            )
-        )
+        project, mapOf(PROJECT_ID to project, NAME_KEY to project).toJSONObject()
     ).sendMessage()
 }
 
-private fun JSONObject.sendMessage() = apiClient.sendMessage(this)
+internal fun Any.objectToMap() = objectMapper.convertValue(this, object : TypeReference<Map<String, Any>>() {})
 
-private fun Map<String, Any?>.createEvent(projectId: String) =
-    messageBuilder.event(projectId, CONFIGURATION_KEY, JSONObject(this))
+internal fun Map<String, Any>.filterNonCommonArgs() = filter { it.key != COMMON_ARGS }
 
-private fun Any.objectToMap() = objectMapper.convertValue(this, object : TypeReference<Map<String, Any>>() {})
-
-private fun Map<String, Any>.getNonDefaultArgs(defaultArgs: Map<String, Any>) =
+internal fun Map<String, Any>.getNonDefaultArgs(defaultArgs: Map<String, Any>) =
     keys.fold(mapOf<String, Any?>()) { acc, key ->
         acc.compareValues(key, this, defaultArgs[key])
     }
 
+@Suppress("UNCHECKED_CAST")
 private fun Map<String, Any?>.compareValues(key: String, source: Map<String, Any>, defaultValue: Any?) =
-    if (source[key] != defaultValue) this + (key to source[key])
-    else this
-
-private val messageBuilder by lazy {
-    MessageBuilder(MIXPANEL_API_TOKEN)
-}
-
-private val apiClient by lazy {
-    MixpanelAPI()
-}
-
-private val objectMapper by lazy {
-    jsonMapper {
-        addModule(kotlinModule())
+    keysToAnonymize.let { keysToAnonymize ->
+        when {
+            (key == ENVIRONMENT_VARIABLES) -> this + (source[key] as Map<String, String>).filterSensitiveDataInEnv()
+            source[key] == defaultValue || key in keysToRemove -> this
+            keysToAnonymize.contains(key) -> this + (key to source[key]?.toAnonymous())
+            else -> this + (key to source[key])
+        }
     }
+
+private fun Map<String, String>.filterSensitiveDataInEnv() = keys.fold(
+    mapOf<String, String>(),
+    { acc, key ->
+        acc +
+            if (key == COVERAGE_FILE_PATH) (key to ANONYMIZE_VALUE)
+            else (key to (this[key].orEmpty()))
+    }
+)
+
+private fun Any.toAnonymous() = when (this) {
+    is List<*> -> "Count: $size"
+    else -> ANONYMIZE_VALUE
 }
+
+private fun Map<*, *>.toJSONObject() = JSONObject(this)
