@@ -17,21 +17,29 @@ private const val PROJECT_ID = "project_id"
 private const val COMMON_ARGS = "commonArgs"
 private const val NAME_KEY = "name"
 
-private val messageBuilder by lazy {
-    MessageBuilder(MIXPANEL_API_TOKEN)
-}
-
-private val apiClient by lazy {
-    MixpanelAPI()
-}
-
-private val objectMapper by lazy {
-    jsonMapper {
-        addModule(kotlinModule())
+fun AndroidArgs.sendConfiguration() = takeUnless { blockSendingUsageStatistics }?.let {
+    registerUser()
+    AndroidArgs.default().let { defaultArgs ->
+        objectToMap().filterNonCommonArgs().getNonDefaultArgs(defaultArgs.objectToMap())
+            .plus(commonArgs.objectToMap().getNonDefaultArgs(defaultArgs.commonArgs.objectToMap()))
+            .createEvent(project)
+            .sendMessage()
     }
 }
 
-private fun IArgs.registerUser() {
+fun IosArgs.sendConfiguration() = takeUnless { blockSendingUsageStatistics }?.let {
+    registerUser()
+    IosArgs.default().let { defaultArgs ->
+        objectToMap().filterNonCommonArgs().getNonDefaultArgs(defaultArgs.objectToMap())
+            .plus(commonArgs.objectToMap().getNonDefaultArgs(defaultArgs.commonArgs.objectToMap()))
+            .createEvent(project)
+            .sendMessage()
+    }
+}
+
+private fun Map<String, Any>.filterNonCommonArgs() = filter { it.key != COMMON_ARGS }
+
+private fun IArgs.registerUser(): IArgs = apply {
     messageBuilder.set(
         project,
         JSONObject(
@@ -45,32 +53,10 @@ private fun IArgs.registerUser() {
 
 private fun JSONObject.sendMessage() = apiClient.sendMessage(this)
 
-fun AndroidArgs.sendConfiguration() = takeUnless { blockSendingUsageStatistics }?.let {
-    registerUser()
-    val defaultArgs = AndroidArgs.default()
-    val defaultArgsMap = defaultArgs.objectToMap()
-    val defaultCommonArgs = defaultArgs.commonArgs.objectToMap()
-
-    objectToMap().filter { it.key != COMMON_ARGS }.getNonDefaultArgs(defaultArgsMap)
-        .plus(commonArgs.objectToMap().getNonDefaultArgs(defaultCommonArgs))
-        .createEvent(project)
-        .sendMessage()
-}
-
-fun IosArgs.sendConfiguration() = takeUnless { blockSendingUsageStatistics }?.let {
-    registerUser()
-    val defaultArgs = IosArgs.default()
-    val defaultArgsMap = defaultArgs.objectToMap()
-    val defaultCommonArgs = defaultArgs.commonArgs.objectToMap()
-
-    objectToMap().filter { it.key != COMMON_ARGS }.getNonDefaultArgs(defaultArgsMap)
-        .plus(commonArgs.objectToMap().getNonDefaultArgs(defaultCommonArgs))
-        .createEvent(project)
-        .sendMessage()
-}
-
 private fun Map<String, Any?>.createEvent(projectId: String) =
     messageBuilder.event(projectId, CONFIGURATION_KEY, JSONObject(this))
+
+private fun Any.objectToMap() = objectMapper.convertValue(this, object : TypeReference<Map<String, Any>>() {})
 
 private fun Map<String, Any>.getNonDefaultArgs(defaultArgs: Map<String, Any>) =
     keys.fold(mapOf<String, Any?>()) { acc, key ->
@@ -81,4 +67,16 @@ private fun Map<String, Any?>.compareValues(key: String, source: Map<String, Any
     if (source[key] != defaultValue) this + (key to source[key])
     else this
 
-private fun Any.objectToMap() = objectMapper.convertValue(this, object : TypeReference<Map<String, Any>>() {})
+private val messageBuilder by lazy {
+    MessageBuilder(MIXPANEL_API_TOKEN)
+}
+
+private val apiClient by lazy {
+    MixpanelAPI()
+}
+
+private val objectMapper by lazy {
+    jsonMapper {
+        addModule(kotlinModule())
+    }
+}
