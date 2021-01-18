@@ -78,8 +78,6 @@ object Versions {
     const val KOTLIN_LOGGING = "2.0.4"
 
     // https://github.com/mockk/mockk
-    // For now we need to keep version with jdk8 suffix
-    // https://github.com/mockk/mockk/pull/540
     const val MOCKK = "1.10.5"
 
     // https://commons.apache.org/proper/commons-text/
