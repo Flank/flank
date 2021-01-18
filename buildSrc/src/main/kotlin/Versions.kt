@@ -1,6 +1,6 @@
 object Versions {
     // https://github.com/getsentry/sentry-java/releases
-    const val SENTRY = "3.1.0"
+    const val SENTRY = "3.2.0"
 
     // https://github.com/3breadt/dd-plist/releases
     const val DD_PLIST = "1.23"
@@ -32,7 +32,7 @@ object Versions {
     const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20201029-1.30.10"
 
     // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
-    const val GOOGLE_API = "1.31.1"
+    const val GOOGLE_API = "1.31.2"
 
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
@@ -40,7 +40,7 @@ object Versions {
     const val GOOGLE_AUTH = "0.22.2"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.122.3"
+    const val GOOGLE_NIO = "0.122.5"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
     const val GOOGLE_STORAGE = "1.113.6"
@@ -78,9 +78,7 @@ object Versions {
     const val KOTLIN_LOGGING = "2.0.4"
 
     // https://github.com/mockk/mockk
-    // For now we need to keep version with jdk8 suffix
-    // https://github.com/mockk/mockk/pull/540
-    const val MOCKK = "1.10.4"
+    const val MOCKK = "1.10.5"
 
     // https://commons.apache.org/proper/commons-text/
     const val COMMON_TEXT = "1.9"
