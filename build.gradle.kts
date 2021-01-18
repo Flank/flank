@@ -34,7 +34,6 @@ subprojects {
         if (tasks.findByName("test") != null) {
             tasks.test {
                 systemProperty("runningTests", true)
-                systemProperty("useDefaultProperties", "")
             }
         }
     }

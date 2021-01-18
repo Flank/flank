@@ -14,17 +14,14 @@ import picocli.CommandLine
 @RunWith(FlankTestRunner::class)
 class MainTest {
 
-    @Rule
-    @JvmField
+    @get:Rule
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
 
-    @Rule
-    @JvmField
+    @get:Rule
     val systemErrRule: SystemErrRule = SystemErrRule().enableLog().muteForSuccessfulTests()
 
-    @Rule
-    @JvmField
-    val systemExit = ExpectedSystemExit.none()!!
+    @get:Rule
+    val systemExit: ExpectedSystemExit = ExpectedSystemExit.none()
 
     private fun assertMainHelpStrings(output: String) {
         assertThat(output.normalizeLineEnding()).contains(

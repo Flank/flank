@@ -11,7 +11,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
     withGlobalExceptionHandling(block, { exitProcess(it) })
 }
 
-// Overloading this function make tests easier to perform and tests exit code properly
+// Overloading this function makes tests easier to implement and exit with the correct exit code
 fun withGlobalExceptionHandling(block: () -> Int, exitProcessFunction: (Int) -> Unit) {
     try {
         exitProcess(block())

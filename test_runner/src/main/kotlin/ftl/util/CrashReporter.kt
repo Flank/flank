@@ -1,6 +1,7 @@
 package ftl.util
 
 import flank.common.config.isTest
+import ftl.log.setDebugLogging
 import io.sentry.Sentry
 import java.io.File
 import java.util.UUID
@@ -18,11 +19,13 @@ const val DEVICE_SYSTEM = "device.system"
 const val TEST_TYPE = "test.type"
 
 fun Throwable.report() {
-    crashReporter
-    notify(this)
+    if (isTest().not()) {
+        crashReporter
+        notify(this)
+    }
 }
 
-internal val crashReporter by lazy { initCrashReporter() }
+private val crashReporter by lazy { initCrashReporter() }
 
 internal fun initCrashReporter(
     isTest: Boolean = isTest(),
@@ -40,6 +43,7 @@ private fun initializeCrashReportWrapper() {
     Sentry.init {
         it.dsn = FLANK_API_KEY
         it.release = readRevision()
+        setDebugLogging(true)
     }
     setCrashReportTag(
         SESSION_ID to sessionId,

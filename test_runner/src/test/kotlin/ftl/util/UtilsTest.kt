@@ -339,6 +339,7 @@ class UtilsTest {
         @JvmStatic
         fun main(args: Array<String>) {
             FtlConstants.useMock = true
+            System.setProperty("runningTests", "true")
             withGlobalExceptionHandling { CommandLine(Malicious()).execute(*args) }
         }
     }
