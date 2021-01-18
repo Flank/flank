@@ -2,6 +2,7 @@ package ftl.analytics
 
 import com.fasterxml.jackson.module.kotlin.jsonMapper
 import com.fasterxml.jackson.module.kotlin.kotlinModule
+import com.google.common.annotations.VisibleForTesting
 import com.mixpanel.mixpanelapi.MessageBuilder
 import com.mixpanel.mixpanelapi.MixpanelAPI
 import ftl.util.SESSION_ID
@@ -25,9 +26,10 @@ internal val objectMapper by lazy {
     }
 }
 
-internal fun JSONObject.sendMessage() = apiClient.sendMessage(this)
+@VisibleForTesting
+internal fun JSONObject.send() = apiClient.sendMessage(this)
 
-internal fun Map<String, Any?>.createEvent(projectId: String) =
+internal fun Map<String, Any?>.toEvent(projectId: String) =
     (this + Pair(SESSION_ID, sessionId)).run {
         messageBuilder.event(projectId, CONFIGURATION_KEY, JSONObject(this))
     }

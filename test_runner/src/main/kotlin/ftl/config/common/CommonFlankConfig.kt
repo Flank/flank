@@ -212,6 +212,7 @@ data class CommonFlankConfig @JsonIgnore constructor(
             defaultTestTime = DEFAULT_TEST_TIME_SEC
             defaultClassTestTime = DEFAULT_CLASS_TEST_TIME_SEC
             useAverageTestTimeForNewTests = false
+            disableUsageStatistics = false
         }
     }
 }

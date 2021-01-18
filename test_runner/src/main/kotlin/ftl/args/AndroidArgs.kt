@@ -116,6 +116,7 @@ AndroidArgs
       output-style: ${outputStyle.name.toLowerCase()}
       disable-results-upload: $disableResultsUpload
       default-class-test-time: $defaultClassTestTime
+      disable-usage-statistics: $disableUsageStatistics
         """.trimIndent()
     }
 }
