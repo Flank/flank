@@ -61,4 +61,6 @@ fun setCrashReportTag(
     vararg tags: Pair<String, String>
 ) = tags.forEach { (property, value) -> Sentry.setTag(property, value) }
 
-private fun notify(error: Throwable) = Sentry.captureException(error)
+private fun notify(error: Throwable) {
+    Sentry.captureException(error)
+}

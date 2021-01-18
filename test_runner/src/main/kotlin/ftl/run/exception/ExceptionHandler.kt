@@ -4,17 +4,21 @@ import flank.common.logLn
 import ftl.json.SavedMatrix
 import ftl.run.cancelMatrices
 import ftl.util.report
+import io.sentry.Sentry
 import kotlinx.coroutines.runBlocking
 import kotlin.system.exitProcess
 
 fun withGlobalExceptionHandling(block: () -> Int) {
-    withGlobalExceptionHandling(block, { exitProcess(it) })
+    withGlobalExceptionHandling(block) {
+        closeCrashReporter()
+        exitProcess(it)
+    }
 }
 
 // Overloading this function makes tests easier to implement and exit with the correct exit code
 fun withGlobalExceptionHandling(block: () -> Int, exitProcessFunction: (Int) -> Unit) {
     try {
-        exitProcess(block())
+        exitProcessFunction(block())
     } catch (t: Throwable) {
         when (t) {
             is FlankGeneralError -> {
@@ -86,4 +90,9 @@ private fun printError(string: String?) = System.err.println(string)
 
 private fun SavedMatrix.logError() {
     logLn("Matrix is $state")
+}
+
+fun closeCrashReporter() {
+    Sentry.endSession()
+    Sentry.close()
 }
