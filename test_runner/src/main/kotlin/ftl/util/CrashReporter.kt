@@ -18,20 +18,27 @@ const val FLANK_REVISION = "flank.revision"
 const val DEVICE_SYSTEM = "device.system"
 const val TEST_TYPE = "test.type"
 
+private val configureCrashReporter by lazy { initCrashReporter() }
+
+private var crashReportingEnabled = true
+
+fun disableCrashReporting() {
+    crashReportingEnabled = false
+    configureCrashReporter
+}
+
 fun Throwable.report() {
     if (isTest().not()) {
-        crashReporter
+        configureCrashReporter
         notify(this)
     }
 }
 
-private val crashReporter by lazy { initCrashReporter() }
-
 internal fun initCrashReporter(
-    isTest: Boolean = isTest(),
+    disabledCrashReporter: Boolean = isTest() || crashReportingEnabled.not(),
     rootPath: String = System.getProperty("user.home")
 ) = when {
-    isTest -> null
+    disabledCrashReporter -> null
     isGoogleAnalyticsDisabled(rootPath) -> null
     else -> initializeCrashReportWrapper()
 }

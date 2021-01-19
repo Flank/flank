@@ -36,14 +36,14 @@ class FlankSentryInitHelperTest {
         val subfolder = folder.newFolder(GSUTIL_FOLDER)
         File(subfolder, ANALYTICS_FILE).also { it.writeText(DISABLED) }
 
-        assertNull(initCrashReporter(isTest = false, folder.root.absolutePath))
+        assertNull(initCrashReporter(disabledCrashReporter = false, folder.root.absolutePath))
     }
     @Test
     fun `should not create Sentry object if user provided analytics-uuid`() {
         val subfolder = folder.newFolder(GSUTIL_FOLDER)
         File(subfolder, ANALYTICS_FILE).also { it.writeText(UUID.randomUUID().toString()) }
 
-        assertNotNull(initCrashReporter(isTest = false, folder.root.absolutePath))
+        assertNotNull(initCrashReporter(disabledCrashReporter = false, folder.root.absolutePath))
     }
 
     @Test
@@ -51,7 +51,7 @@ class FlankSentryInitHelperTest {
         val subfolder = folder.newFolder(GSUTIL_FOLDER)
         File(subfolder, ANALYTICS_FILE).also { it.writeText(UUID.randomUUID().toString()) }
 
-        assertNull(initCrashReporter(isTest = true, folder.root.absolutePath))
+        assertNull(initCrashReporter(disabledCrashReporter = true, folder.root.absolutePath))
     }
 
     @Test
