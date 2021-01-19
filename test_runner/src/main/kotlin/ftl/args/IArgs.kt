@@ -1,6 +1,7 @@
 package ftl.args
 
 import flank.common.OutputLogLevel
+import flank.common.config.isTest
 import flank.common.setLogLevel
 import ftl.analytics.AnonymizeInStatistics
 import ftl.analytics.IgnoreInStatistics
@@ -8,7 +9,6 @@ import ftl.args.yml.Type
 import ftl.config.Device
 import ftl.config.common.CommonFlankConfig.Companion.defaultLocalResultsDir
 import ftl.run.status.OutputStyle
-import ftl.util.readVersion
 import ftl.util.timeoutToMils
 
 // Properties common to both Android and iOS
@@ -116,4 +116,4 @@ fun IArgs.setupLogLevel() {
 }
 
 val IArgs.blockSendingUsageStatistics
-    get() = disableUsageStatistics || readVersion() == "local_snapshot"
+    get() = disableUsageStatistics || isTest()
