@@ -16,7 +16,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
 }
 
 // Overloading this function makes tests easier to implement and exit with the correct exit code
-fun withGlobalExceptionHandling(block: () -> Int, exitProcessFunction: (Int) -> Unit) {
+internal fun withGlobalExceptionHandling(block: () -> Int, exitProcessFunction: (Int) -> Unit) {
     try {
         exitProcessFunction(block())
     } catch (t: Throwable) {
