@@ -3,8 +3,8 @@ package ftl.run.exception
 import flank.common.logLn
 import ftl.json.SavedMatrix
 import ftl.run.cancelMatrices
+import ftl.util.closeCrashReporter
 import ftl.util.report
-import io.sentry.Sentry
 import kotlinx.coroutines.runBlocking
 import kotlin.system.exitProcess
 
@@ -90,9 +90,4 @@ private fun printError(string: String?) = System.err.println(string)
 
 private fun SavedMatrix.logError() {
     logLn("Matrix is $state")
-}
-
-fun closeCrashReporter() {
-    Sentry.endSession()
-    Sentry.close()
 }

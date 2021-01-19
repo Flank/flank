@@ -180,10 +180,8 @@ class UtilsTest {
 
         // when - then
         withGlobalExceptionHandling(
-            { throw exception },
-            {
-                assertThat(it).isEqualTo(NOT_PASSED)
-            }
+            block = { throw exception },
+            exitProcessFunction = { assertThat(it).isEqualTo(NOT_PASSED) }
         )
     }
 
@@ -194,8 +192,8 @@ class UtilsTest {
 
         // when - then
         withGlobalExceptionHandling(
-            { throw exception },
-            { exitCode ->
+            block = { throw exception },
+            exitProcessFunction = { exitCode ->
                 assertThat(exitCode).isEqualTo(CONFIGURATION_FAIL)
             }
         )
@@ -210,10 +208,8 @@ class UtilsTest {
 
         // when-then
         withGlobalExceptionHandling(
-            { throw exception },
-            {
-                coVerify(exactly = 1) { cancelMatrices(any(), any()) }
-            }
+            block = { throw exception },
+            exitProcessFunction = { coVerify(exactly = 1) { cancelMatrices(any(), any()) } }
         )
     }
 
@@ -224,8 +220,8 @@ class UtilsTest {
 
         // when - then
         withGlobalExceptionHandling(
-            { throw exception },
-            { exitCode ->
+            block = { throw exception },
+            exitProcessFunction = { exitCode ->
                 assertTrue(output.log.contains("Matrix is ${testMatrix1.state}"))
                 assertThat(exitCode).isEqualTo(UNEXPECTED_ERROR)
             }
@@ -240,8 +236,8 @@ class UtilsTest {
 
         // when - then
         withGlobalExceptionHandling(
-            { throw exception },
-            { exitCode ->
+            block = { throw exception },
+            exitProcessFunction = { exitCode ->
                 assertTrue(err.log.contains(message))
                 assertThat(exitCode).isEqualTo(CONFIGURATION_FAIL)
             }
@@ -252,14 +248,16 @@ class UtilsTest {
     fun `should terminate process with exit code 1 if not flank related exception is thrown`() {
         // given
         val message = "not flank related error thrown"
-
-        val block = { throw FlankGeneralError(message) }
+        val exception = FlankGeneralError(message)
 
         // when
-        withGlobalExceptionHandling(block) {
-            assertThat(it).isEqualTo(GENERAL_FAILURE)
-            assertTrue(err.log.contains(message))
-        }
+        withGlobalExceptionHandling(
+            block = { throw exception },
+            exitProcessFunction = {
+                assertThat(it).isEqualTo(GENERAL_FAILURE)
+                assertTrue(err.log.contains(message))
+            }
+        )
     }
 
     @Test
@@ -271,8 +269,8 @@ class UtilsTest {
 
         // when - then
         withGlobalExceptionHandling(
-            { throw exception },
-            { exitCode ->
+            block = { throw exception },
+            exitProcessFunction = { exitCode ->
                 assertThat(exitCode).isEqualTo(UNEXPECTED_ERROR)
                 verify { exception.report() }
             }
@@ -289,10 +287,8 @@ class UtilsTest {
 
         // when - then
         withGlobalExceptionHandling(
-            { throw exception },
-            { exitCode ->
-                assertThat(exitCode).isEqualTo(SUCCESS)
-            }
+            block = { throw exception },
+            exitProcessFunction = { exitCode -> assertThat(exitCode).isEqualTo(SUCCESS) }
         )
     }
 
@@ -304,8 +300,8 @@ class UtilsTest {
 
         // when - then
         withGlobalExceptionHandling(
-            { throw exception },
-            { exitCode ->
+            block = { throw exception },
+            exitProcessFunction = { exitCode ->
                 assertTrue(err.log.contains(message))
                 assertThat(exitCode).isEqualTo(GENERAL_FAILURE)
             }

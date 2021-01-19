@@ -64,3 +64,8 @@ fun setCrashReportTag(
 private fun notify(error: Throwable) {
     Sentry.captureException(error)
 }
+
+fun closeCrashReporter() {
+    Sentry.endSession()
+    Sentry.close()
+}
