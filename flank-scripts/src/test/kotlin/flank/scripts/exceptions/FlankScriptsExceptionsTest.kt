@@ -2,7 +2,6 @@ package flank.scripts.exceptions
 
 import com.google.common.truth.Truth.assertThat
 import flank.scripts.github.GitHubErrorResponse
-import flank.scripts.release.updatebugsnag.BugSnagResponse
 import org.junit.Test
 
 class FlankScriptsExceptionsTest {
@@ -15,19 +14,6 @@ class FlankScriptsExceptionsTest {
 
         // when
         val actual = GitHubException(testBody)
-
-        // then
-        assertThat(actual.toString()).isEqualTo(expectedToString)
-    }
-
-    @Test
-    fun `Should return correct description of bugnsag exception`() {
-        // given
-        val testBody = BugSnagResponse("error", errors = listOf("test", "not good"))
-        val expectedToString = "Error while doing Bugnsag request, because of test, not good"
-
-        // when
-        val actual = BugsnagException(testBody)
 
         // then
         assertThat(actual.toString()).isEqualTo(expectedToString)

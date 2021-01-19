@@ -34,7 +34,7 @@ class SafeProperties(defaults: Properties) : Properties(defaults) {
 // default properties should be used in CI and during tests
 private fun shouldUseDefaults() = isCI() || isTest()
 
-private fun isTest() = System.getProperty("useDefaultProperties") != null
+fun isTest() = System.getProperty("runningTests").toBoolean()
 
 private val props = SafeProperties(defaults).also { prop ->
     with(Paths.get("$flankCommonRootPathString/flank-debug.properties").toFile()) {

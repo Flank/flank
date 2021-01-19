@@ -49,7 +49,6 @@ To show all available commands for release use:
 
 Available commands are:
   - `releaseFlank`      Release Flank on GitHub  
-  - `updateBugsnag`     Update Bugnsag  
   - `jFrogDelete`       Delete old version on bintray  
   - `jFrogSync`         Sync maven repository using jfrog  
   - `deleteOldRelease`  Delete old release on github  
@@ -65,16 +64,6 @@ Release Flank on GitHub
 | `--git-tag`     	| Git Tag                              	|
 | `--commit-hash` 	| Git Commit hash                      	|
 |  `--token`        | Git token                             |
-
-
-#### `updateBugsnag`
-Update Bugnsag  
-
-| Option                  	| Description                   	|
-|-------------------------	|-------------------------------	|
-| `--bugsnag-api-key`     	| Bugsnag api key               	|
-| `--app-version `        	| App version to update         	|
-| `--github-workflow-url` 	| GitHub workflow url. Optional 	|
 
 #### `jFrogDelete`
 Delete old version on bintray 

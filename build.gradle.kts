@@ -33,7 +33,7 @@ subprojects {
     afterEvaluate {
         if (tasks.findByName("test") != null) {
             tasks.test {
-                systemProperty("useDefaultProperties", "")
+                systemProperty("runningTests", true)
             }
         }
     }

@@ -2,11 +2,13 @@
 
 import ftl.Main
 import ftl.run.exception.withGlobalExceptionHandling
+import ftl.util.disableCrashReporting
 import picocli.CommandLine
 import java.io.File
 
 fun main() {
     println(File("").absolutePath)
+    disableCrashReporting()
     // GoogleApiLogger.logAllToStdout()
 
     // for debugging. Run test from IntelliJ IDEA
@@ -15,8 +17,6 @@ fun main() {
     val projectId = System.getenv("GOOGLE_CLOUD_PROJECT")
         ?: "YOUR PROJECT ID"
 
-    // Bugsnag keeps the process alive so we must call exitProcess
-    // https://github.com/bugsnag/bugsnag-java/issues/151
     withGlobalExceptionHandling {
         CommandLine(Main()).execute(
 //            "--debug",

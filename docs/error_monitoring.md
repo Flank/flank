@@ -1,13 +1,13 @@
 # Flank Error Monitoring
 
-Flank uses Bugsnag to monitor test runner stability. Bugsnag enables data driven decisions when prioritizing bug fixes.
+Flank uses Sentry to monitor test runner stability. Sentry enables data driven decisions when prioritizing bug fixes.
 
-- https://www.bugsnag.com/
-- https://docs.bugsnag.com/
+- https://sentry.io/
+- https://docs.sentry.io/
 
 ## Data Captured
 
-Bugsnag captures the following error data:
+Sentry captures the following error data:
 
 Flank
   - Stacktrace
@@ -22,7 +22,7 @@ Device
   - osVersion
   - runtimeVersions of Java
 
-## Disable Bugsnag
+## Disable Sentry
 
 Flank respects the same analytics opt out as gcloud CLI.
 
@@ -30,6 +30,8 @@ Flank respects the same analytics opt out as gcloud CLI.
 
 ## More information
 
-To see how Bugsnag is integrated within the Flank project please see the [Flank Bugsnag testcase](../test_runner/src/test/kotlin/ftl/util/FlankBugsnagInitHelperTest.kt) and [the actual Bugsnag implementation](../test_runner/src/main/kotlin/ftl/util/BugsnagInitHelper.kt)
+To see how Sentry is integrated within the Flank project please see the 
+[Flank Sentry testcase](../test_runner/src/test/kotlin/ftl/util/FlankSentryInitHelperTest.kt) and 
+[the actual Sentry implementation](../test_runner/src/main/kotlin/ftl/util/CrashReporter.kt)
 
-- [Bugsnag data policy](https://docs.bugsnag.com/legal/privacy-policy/#:~:text=Services%20via%20Mobile%20Devices.&text=Bugsnag%20will%20collect%20certain%20information,operating%20system%20of%20your%20device.)
+- [Sentry Data Security, Privacy, and Compliance Overview](https://sentry.io/security/)

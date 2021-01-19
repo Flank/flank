@@ -1,6 +1,7 @@
 package ftl.util
 
-import ftl.config.FtlConstants
+import flank.common.config.isTest
+import ftl.log.setDebugLogging
 import io.sentry.Sentry
 import java.io.File
 import java.util.UUID
@@ -12,21 +13,32 @@ private const val DISABLED = "DISABLED"
 
 const val SESSION_ID = "session.id"
 const val OS_NAME = "os.name"
-const val FLANK_VERSION = " flank.version"
+const val FLANK_VERSION = "flank.version"
 const val FLANK_REVISION = "flank.revision"
 const val DEVICE_SYSTEM = "device.system"
 const val TEST_TYPE = "test.type"
 
-val captureError by lazy {
-    initCrashReporter(FtlConstants.useMock)
-    ::notify
+private val configureCrashReporter by lazy { initCrashReporter() }
+
+private var crashReportingEnabled = true
+
+fun disableCrashReporting() {
+    crashReportingEnabled = false
+    configureCrashReporter
+}
+
+fun Throwable.report() {
+    if (isTest().not()) {
+        configureCrashReporter
+        notify(this)
+    }
 }
 
 internal fun initCrashReporter(
-    useMock: Boolean,
+    disabledCrashReporter: Boolean = isTest() || crashReportingEnabled.not(),
     rootPath: String = System.getProperty("user.home")
 ) = when {
-    useMock -> null
+    disabledCrashReporter -> null
     isGoogleAnalyticsDisabled(rootPath) -> null
     else -> initializeCrashReportWrapper()
 }
@@ -38,6 +50,7 @@ private fun initializeCrashReportWrapper() {
     Sentry.init {
         it.dsn = FLANK_API_KEY
         it.release = readRevision()
+        setDebugLogging(true)
     }
     setCrashReportTag(
         SESSION_ID to sessionId,
@@ -51,10 +64,15 @@ val sessionId by lazy {
     UUID.randomUUID().toString()
 }
 
-fun setCrashReportTag(vararg tags: Pair<String, String>) = tags.forEach {
-    Sentry.setTag(it.first, it.second)
-}
+fun setCrashReportTag(
+    vararg tags: Pair<String, String>
+) = tags.forEach { (property, value) -> Sentry.setTag(property, value) }
 
 private fun notify(error: Throwable) {
     Sentry.captureException(error)
+}
+
+fun closeCrashReporter() {
+    Sentry.endSession()
+    Sentry.close()
 }

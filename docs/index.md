@@ -10,9 +10,7 @@ https://github.com/Flank/flank/releases/latest/download/flank.jar
 
 ## Sponsors
 
-[<img src="./assets/bugsnag-logo-dark.png" width="50%" />](https://www.bugsnag.com/)
-
-See [docs/error_monitoring.md](./docs/error_monitoring.md) to disable Bugsnag error monitoring.
+See [docs/error_monitoring.md](./docs/error_monitoring.md) to disable Sentry error monitoring.
 
 ## Contributing
 
