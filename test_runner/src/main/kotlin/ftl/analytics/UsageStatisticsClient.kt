@@ -31,5 +31,5 @@ internal fun JSONObject.send() = apiClient.sendMessage(this)
 
 internal fun Map<String, Any?>.toEvent(projectId: String) =
     (this + Pair(SESSION_ID, sessionId)).run {
-        messageBuilder.event(projectId, CONFIGURATION_KEY, JSONObject(this))
+        messageBuilder.event(projectId, CONFIGURATION_KEY, toJSONObject())
     }
