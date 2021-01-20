@@ -31,10 +31,10 @@ data class IosArgs(
     val testSpecialEntitlements: Boolean?,
 
     @property:AnonymizeInStatistics
-    val onlyTestConfiguration: String?,
+    val onlyTestConfiguration: String,
 
     @property:AnonymizeInStatistics
-    val skipTestConfiguration: String?
+    val skipTestConfiguration: String
 ) : IArgs by commonArgs {
 
     override val useLegacyJUnitResult = true

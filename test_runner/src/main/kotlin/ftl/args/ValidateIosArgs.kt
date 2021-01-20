@@ -102,7 +102,7 @@ private fun IosArgs.validType() {
 }
 
 private fun IosArgs.assertXcTestRunVersion() {
-    if (!onlyTestConfiguration.isNullOrEmpty() or !skipTestConfiguration.isNullOrEmpty())
+    if (onlyTestConfiguration.isNotBlank() or skipTestConfiguration.isNotBlank())
         if (xcTestRunData.version == XcTestRunVersion.V1) throw FlankConfigurationError("Specified [xctestrun-file] doesn't contain test plans. Options: [only-test-configuration] or [skip-test-configuration] are not valid for this [xctestrun-file]")
 }
 

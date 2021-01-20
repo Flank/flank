@@ -282,7 +282,7 @@ IosArgs
       default-class-test-time: 30.0
       disable-usage-statistics: false
       only-test-configuration: pl
-      skip-test-configuration: null
+      skip-test-configuration: 
             """.trimIndent()
         )
     }
@@ -344,8 +344,8 @@ IosArgs
       disable-results-upload: false
       default-class-test-time: 240.0
       disable-usage-statistics: false
-      only-test-configuration: null
-      skip-test-configuration: null
+      only-test-configuration: 
+      skip-test-configuration: 
             """.trimIndent(),
             args.toString()
         )
@@ -388,8 +388,8 @@ IosArgs
             // IosFlankYml
             assert(testTargets, empty)
             assert(runTimeout, "-1")
-            assert(onlyTestConfiguration, null)
-            assert(skipTestConfiguration, null)
+            assert(onlyTestConfiguration, "")
+            assert(skipTestConfiguration, "")
         }
     }
 

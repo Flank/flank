@@ -57,8 +57,8 @@ private fun emptyXcTestRunData() = XcTestRunData(
 private fun IosArgs.filterTestConfigurationsIfNeeded(
     configurations: Map<String, Map<String, List<String>>>
 ): Map<String, Map<String, List<String>>> = when {
-    onlyTestConfiguration != null -> configurations.filterKeys { it == onlyTestConfiguration }
-    skipTestConfiguration != null -> configurations.filterKeys { it != skipTestConfiguration }
+    onlyTestConfiguration.isNotBlank() -> configurations.filterKeys { it == onlyTestConfiguration }
+    skipTestConfiguration.isNotBlank() -> configurations.filterKeys { it != skipTestConfiguration }
     else -> configurations
 }
 
