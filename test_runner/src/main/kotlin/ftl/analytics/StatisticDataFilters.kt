@@ -9,25 +9,23 @@ annotation class IgnoreInStatistics
 annotation class AnonymizeInStatistics
 
 internal val keysToRemove by lazy {
-    classesForStatistics.map { it.ignoredMembersForStatistics() }.flatten()
+    classesForStatistics.map(findMembersWithAnnotation(IgnoreInStatistics::class)).flatten()
 }
-
-private fun KClass<*>.ignoredMembersForStatistics() = findMembersWithAnnotation(IgnoreInStatistics::class)
 
 internal val keysToAnonymize by lazy {
-    classesForStatistics.map { it.anonymousMembersForStatistics() }.flatten()
+    classesForStatistics.map(findMembersWithAnnotation(AnonymizeInStatistics::class)).flatten()
 }
-
-private fun KClass<*>.anonymousMembersForStatistics() = findMembersWithAnnotation(AnonymizeInStatistics::class)
 
 private val classesForStatistics = listOf(IArgs::class, AndroidArgs::class, IosArgs::class)
 
-private const val ANONYMIZE_VALUE = "..."
-
-private fun KClass<*>.findMembersWithAnnotation(annotationType: KClass<*>) = members.filter { member ->
-    member.annotations.any { annotation -> annotation.annotationClass == annotationType }
-}.map {
-    it.name
+private fun findMembersWithAnnotation(
+    annotationType: KClass<*>
+): KClass<*>.() -> List<String> = {
+    members.filter { member ->
+        member.annotations.any { annotation -> annotation.annotationClass == annotationType }
+    }.map {
+        it.name
+    }
 }
 
 internal fun Map<String, Any>.removeNotNeededKeys(defaultArgs: Map<String, Any>) =
@@ -46,3 +44,5 @@ private fun Any.toAnonymous(): Any = when (this) {
     is List<*> -> "Count: $size"
     else -> ANONYMIZE_VALUE
 }
+
+private const val ANONYMIZE_VALUE = "..."
