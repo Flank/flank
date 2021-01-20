@@ -1,7 +1,10 @@
 package ftl.args
 
 import flank.common.OutputLogLevel
+import flank.common.config.isTest
 import flank.common.setLogLevel
+import ftl.analytics.AnonymizeInStatistics
+import ftl.analytics.IgnoreInStatistics
 import ftl.args.yml.Type
 import ftl.config.Device
 import ftl.config.common.CommonFlankConfig.Companion.defaultLocalResultsDir
@@ -11,23 +14,35 @@ import ftl.util.timeoutToMils
 // Properties common to both Android and iOS
 interface IArgs {
     // original YAML data
+    @IgnoreInStatistics
     val data: String
 
     // GcloudYml
     val devices: List<Device>
+
+    @AnonymizeInStatistics
     val resultsBucket: String
+
+    @AnonymizeInStatistics
     val resultsDir: String
+
     val recordVideo: Boolean
     val testTimeout: String
     val async: Boolean
+
+    @AnonymizeInStatistics
     val clientDetails: Map<String, String>?
     val networkProfile: String?
     val project: String
     val resultsHistoryName: String?
     val flakyTestAttempts: Int
+
+    @AnonymizeInStatistics
     val otherFiles: Map<String, String>
     val scenarioNumbers: List<String>
     val type: Type? get() = null
+
+    @AnonymizeInStatistics
     val directoriesToPull: List<String>
     val failFast: Boolean
 
@@ -35,11 +50,17 @@ interface IArgs {
     val maxTestShards: Int
     val shardTime: Int
     val repeatTests: Int
+
+    @AnonymizeInStatistics
     val smartFlankGcsPath: String
     val smartFlankDisableUpload: Boolean
     val testTargetsAlwaysRun: List<String>
+
+    @AnonymizeInStatistics
     val filesToDownload: List<String>
     val disableSharding: Boolean
+
+    @AnonymizeInStatistics
     val localResultDir: String
     val runTimeout: String
     val parsedTimeout: Long
@@ -71,6 +92,8 @@ interface IArgs {
     val defaultClassTestTime: Double
     val useAverageTestTimeForNewTests: Boolean
 
+    val disableUsageStatistics: Boolean
+
     fun useLocalResultDir() = localResultDir != defaultLocalResultsDir
 
     companion object {
@@ -91,3 +114,6 @@ val IArgs.logLevel
 fun IArgs.setupLogLevel() {
     setLogLevel(logLevel)
 }
+
+val IArgs.blockSendingUsageStatistics
+    get() = disableUsageStatistics || isTest()

@@ -173,6 +173,13 @@ data class CommonFlankConfig @JsonIgnore constructor(
     @set:JsonProperty("use-average-test-time-for-new-tests")
     var useAverageTestTimeForNewTests: Boolean? by data
 
+    @set:CommandLine.Option(
+        names = ["--disable-usage-statistics"],
+        description = ["If set to true flank not send usage statistics."]
+    )
+    @set:JsonProperty("disable-usage-statistics")
+    var disableUsageStatistics: Boolean? by data
+
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {
@@ -205,6 +212,7 @@ data class CommonFlankConfig @JsonIgnore constructor(
             defaultTestTime = DEFAULT_TEST_TIME_SEC
             defaultClassTestTime = DEFAULT_CLASS_TEST_TIME_SEC
             useAverageTestTimeForNewTests = false
+            disableUsageStatistics = false
         }
     }
 }

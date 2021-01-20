@@ -63,6 +63,7 @@ AndroidArgs
       output-style: verbose
       disable-results-upload: false
       default-class-test-time: 240.0
+      disable-usage-statistics: false
 \s*
 RunTests
   No tests for app-single-success-debug-androidTest.apk
