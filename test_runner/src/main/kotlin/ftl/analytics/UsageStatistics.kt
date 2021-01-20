@@ -16,4 +16,4 @@ internal fun Map<String, Any>.getNonDefaultArgs(
     defaultArgs: Map<String, Any>
 ) = removeNotNeededKeys(defaultArgs).filterSensitiveValues()
 
-private fun Map<*, *>.toJSONObject() = JSONObject(this)
+internal fun Map<*, *>.toJSONObject() = JSONObject(this)
