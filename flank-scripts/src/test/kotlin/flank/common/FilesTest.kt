@@ -2,19 +2,23 @@ package flank.common
 
 import org.junit.Assert
 import org.junit.Assume
+import org.junit.Rule
 import org.junit.Test
-import java.io.File
+import org.junit.rules.TemporaryFolder
 import java.nio.file.Files
 import java.nio.file.Paths
 
 internal class FilesTest {
 
+    @get:Rule
+    val folder = TemporaryFolder()
+
     @Test
     fun `Should create symbolic file at desired location`() {
         Assume.assumeFalse(isWindows)
         // given
-        val testFile = File.createTempFile("test", "file").toPath()
-        val expectedDestination = Paths.get(Files.createTempDirectory("temp").toString(), "test.link")
+        val testFile = folder.newFile("test.file").toPath()
+        val expectedDestination = Paths.get(folder.newFolder("temp").toString(), "test.link")
 
         // when
         createSymbolicLinkToFile(expectedDestination, testFile)
@@ -30,8 +34,8 @@ internal class FilesTest {
     @Test
     fun `Should download file and store it and destination`() {
         // given
-        val testSource = "https://github.com/Flank/flank/blob/master/settings.gradle.kts"
-        val testDestination = Paths.get(Files.createTempDirectory("temp").toString(), "settings.gradle.kts")
+        val testSource = "https://raw.githubusercontent.com/Flank/flank/master/settings.gradle.kts"
+        val testDestination = Paths.get(folder.root.absolutePath, "settings.gradle.kts")
 
         // when
         downloadFile(testSource, testDestination)
@@ -44,7 +48,7 @@ internal class FilesTest {
     @Test
     fun `Should check if directory contains all needed files`() {
         // given
-        val testDirectory = Files.createTempDirectory("test")
+        val testDirectory = folder.root.absolutePath
         val testFiles = listOf(
             Paths.get(testDirectory.toString(), "testFile1"),
             Paths.get(testDirectory.toString(), "testFile2"),
@@ -52,7 +56,7 @@ internal class FilesTest {
             Paths.get(testDirectory.toString(), "testFile4")
         )
 
-        testFiles.forEach { Files.createFile(it) }
+        testFiles.forEach { folder.newFile(it.fileName.toString()) }
 
         // when
         val resultTrue = testDirectory.toFile().hasAllFiles(testFiles.map { it.fileName.toString() })
@@ -65,8 +69,5 @@ internal class FilesTest {
         // then
         Assert.assertTrue(resultTrue)
         Assert.assertFalse(resultFalse)
-
-        // clean
-        testDirectory.toFile().deleteRecursively()
     }
 }

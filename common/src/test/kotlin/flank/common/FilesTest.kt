@@ -4,6 +4,7 @@ import io.mockk.InternalPlatformDsl.toStr
 import org.junit.After
 import org.junit.Assert.assertTrue
 import org.junit.Assume.assumeFalse
+import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import java.io.File
@@ -13,6 +14,9 @@ import java.nio.file.Paths
 class FilesTest {
     private val linkName = "tmp"
     private val targetName = "../"
+
+    @get:Rule
+    val folder = TemporaryFolder()
 
     @Test
     fun `should create symbolic link`() {
@@ -43,8 +47,9 @@ class FilesTest {
         copyDirectory(folder1.absolutePath, folder2.absolutePath)
 
         // then
-        val strFile = folder2.absolutePath.toStr().plus(osPathSeperator()).plus(tempFolder2.root.name).plus(osPathSeperator())
-            .plus(fileInFolder1.name)
+        val strFile =
+            folder2.absolutePath.toStr().plus(osPathSeperator()).plus(tempFolder2.root.name).plus(osPathSeperator())
+                .plus(fileInFolder1.name)
         assertTrue(strFile.fileExists())
         temporaryFolder.delete()
         tempFolder2.delete()
@@ -53,7 +58,7 @@ class FilesTest {
     @Test
     fun `delete directory`() {
         // when
-        val file = Files.createTempDirectory(null)
+        val file = folder.newFolder("anyPath")
         assertTrue(file.toString().fileExists())
         deleteDirectory(file.toString())
         assertTrue(!file.toString().fileExists())
