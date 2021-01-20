@@ -10,7 +10,7 @@ fun AndroidArgs.sendConfiguration() = sendConfiguration(events = createEventMap(
 
 fun IosArgs.sendConfiguration() = sendConfiguration(events = createEventMap())
 
-fun IArgs.sendConfiguration(events: Map<String, Any?>, rootPath: String = System.getProperty("user.home")) =
+fun IArgs.sendConfiguration(events: Map<String, Any?>, rootPath: String = userHome) =
     takeUnless { blockSendingUsageStatistics || isGoogleAnalyticsDisabled(rootPath) }?.run {
         registerUser()
         events
