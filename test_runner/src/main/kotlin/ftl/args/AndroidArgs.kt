@@ -1,29 +1,57 @@
 package ftl.args
 
+import ftl.analytics.AnonymizeInStatistics
 import ftl.args.yml.AppTestPair
 import ftl.args.yml.Type
 
 data class AndroidArgs(
     val commonArgs: CommonArgs,
+
+    @property:AnonymizeInStatistics
     val appApk: String?,
+
+    @property:AnonymizeInStatistics
     val testApk: String?,
+
+    @property:AnonymizeInStatistics
     val additionalApks: List<String>,
+
     val autoGoogleLogin: Boolean,
     val useOrchestrator: Boolean,
+
+    @property:AnonymizeInStatistics
     val roboDirectives: List<FlankRoboDirective>,
+
+    @property:AnonymizeInStatistics
     val roboScript: String?,
+
+    @property:AnonymizeInStatistics
     val environmentVariables: Map<String, String>, // should not be printed, because could contain sensitive information
     val grantPermissions: String?,
+
+    @property:AnonymizeInStatistics
     val scenarioLabels: List<String>,
+
+    @property:AnonymizeInStatistics
     val obbFiles: List<String>,
+
+    @property:AnonymizeInStatistics
     val obbNames: List<String>,
     val performanceMetrics: Boolean,
     val numUniformShards: Int?,
+
+    @property:AnonymizeInStatistics
     val testRunnerClass: String?,
+
+    @property:AnonymizeInStatistics
     val testTargets: List<String>,
+
+    @property:AnonymizeInStatistics
     val additionalAppTestApks: List<AppTestPair>,
     override val useLegacyJUnitResult: Boolean,
     val obfuscateDumpShards: Boolean,
+
+    @property:AnonymizeInStatistics
     val testTargetsForShard: ShardChunks
 ) : IArgs by commonArgs {
     companion object : AndroidArgsCompanion()
@@ -88,6 +116,7 @@ AndroidArgs
       output-style: ${outputStyle.name.toLowerCase()}
       disable-results-upload: $disableResultsUpload
       default-class-test-time: $defaultClassTestTime
+      disable-usage-statistics: $disableUsageStatistics
         """.trimIndent()
     }
 }

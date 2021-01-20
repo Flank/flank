@@ -43,7 +43,7 @@ internal fun initCrashReporter(
     else -> initializeCrashReportWrapper()
 }
 
-private fun isGoogleAnalyticsDisabled(rootPath: String) =
+internal fun isGoogleAnalyticsDisabled(rootPath: String) =
     File(rootPath, "$GSUTIL_FOLDER/$ANALYTICS_FILE").run { exists() && readText().trim() == DISABLED }
 
 private fun initializeCrashReportWrapper() {

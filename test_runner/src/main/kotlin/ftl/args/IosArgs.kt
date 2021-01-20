@@ -1,6 +1,8 @@
 package ftl.args
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.google.common.annotations.VisibleForTesting
+import ftl.analytics.AnonymizeInStatistics
 import ftl.args.yml.Type
 import ftl.ios.xctest.XcTestRunData
 import ftl.ios.xctest.calculateXcTestRunData
@@ -9,17 +11,29 @@ import ftl.run.exception.FlankConfigurationError
 
 data class IosArgs(
     val commonArgs: CommonArgs,
+
+    @property:AnonymizeInStatistics
     val xctestrunZip: String,
+
+    @property:AnonymizeInStatistics
     val xctestrunFile: String,
     val xcodeVersion: String?,
+
+    @property:AnonymizeInStatistics
     val testTargets: List<String>,
     val obfuscateDumpShards: Boolean,
+
+    @property:AnonymizeInStatistics
     val additionalIpas: List<String>,
+
+    @property:AnonymizeInStatistics
     val app: String,
     val testSpecialEntitlements: Boolean?
 ) : IArgs by commonArgs {
 
     override val useLegacyJUnitResult = true
+
+    @get:JsonIgnore
     val xcTestRunData: XcTestRunData by lazy { calculateXcTestRunData() }
 
     companion object : IosArgsCompanion()
@@ -73,6 +87,7 @@ IosArgs
       output-style: ${outputStyle.name.toLowerCase()}
       disable-results-upload: $disableResultsUpload
       default-class-test-time: $defaultClassTestTime
+      disable-usage-statistics: $disableUsageStatistics
         """.trimIndent()
     }
 }

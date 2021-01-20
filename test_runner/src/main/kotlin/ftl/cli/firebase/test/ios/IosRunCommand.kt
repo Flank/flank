@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.ios
 
 import flank.common.logLn
+import ftl.analytics.sendConfiguration
 import ftl.args.IosArgs
 import ftl.args.setupLogLevel
 import ftl.args.validate
@@ -65,6 +66,7 @@ class IosRunCommand : CommonRunCommand(), Runnable {
                 DEVICE_SYSTEM to "ios",
                 TEST_TYPE to type?.name.orEmpty()
             )
+            sendConfiguration()
         }.validate().run {
             if (dumpShards) dumpShards()
             else runBlocking { newTestRun() }

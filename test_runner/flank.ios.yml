@@ -251,3 +251,8 @@ flank:
   ## Disables flank results upload on gcloud storage.
   ## Default: false
   # disable-results-upload: false
+
+  ### Disable usage statistics flag
+  ## Disable sending usage statistics (without sensitive data) to the analytic tool.
+  ## Default: false
+  # disable-usage-statistics: false
