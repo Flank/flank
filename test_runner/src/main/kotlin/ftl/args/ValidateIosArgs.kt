@@ -5,6 +5,7 @@ import ftl.args.yml.Type
 import ftl.ios.IosCatalog
 import ftl.ios.IosCatalog.getSupportedVersionId
 import ftl.ios.xctest.XcTestRunData
+import ftl.ios.xctest.common.XcTestRunVersion
 import ftl.ios.xctest.common.mapToRegex
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
@@ -20,6 +21,7 @@ fun IosArgs.validate() = apply {
     checkResultsDirUnique()
     assertAdditionalIpas()
     validType()
+    assertXcTestRunVersion()
     assertGameloop()
     assertXcTestRunData()
 }
@@ -98,6 +100,14 @@ private fun IosArgs.validType() {
     if (commonArgs.type !in validIosTypes)
         throw FlankConfigurationError("Type should be one of ${validIosTypes.joinToString(",")}")
 }
+
+private fun IosArgs.assertXcTestRunVersion() {
+    if (filterTestConfiguration && xcTestRunData.version == XcTestRunVersion.V1)
+        throw FlankConfigurationError("Specified [xctestrun-file] doesn't contain test plans. Options: [only-test-configuration] or [skip-test-configuration] are not valid for this [xctestrun-file]")
+}
+
+private val IosArgs.filterTestConfiguration
+    get() = onlyTestConfiguration.isNotBlank() or skipTestConfiguration.isNotBlank()
 
 private fun IosArgs.assertXcTestRunData() =
     takeIf { isXcTest && !disableSharding && testTargets.isNotEmpty() }

@@ -28,7 +28,13 @@ data class IosArgs(
 
     @property:AnonymizeInStatistics
     val app: String,
-    val testSpecialEntitlements: Boolean?
+    val testSpecialEntitlements: Boolean?,
+
+    @property:AnonymizeInStatistics
+    val onlyTestConfiguration: String,
+
+    @property:AnonymizeInStatistics
+    val skipTestConfiguration: String
 ) : IArgs by commonArgs {
 
     override val useLegacyJUnitResult = true
@@ -88,6 +94,8 @@ IosArgs
       disable-results-upload: $disableResultsUpload
       default-class-test-time: $defaultClassTestTime
       disable-usage-statistics: $disableUsageStatistics
+      only-test-configuration: $onlyTestConfiguration
+      skip-test-configuration: $skipTestConfiguration
         """.trimIndent()
     }
 }
