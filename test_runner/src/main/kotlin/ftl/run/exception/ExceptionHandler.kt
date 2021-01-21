@@ -75,8 +75,8 @@ internal fun withGlobalExceptionHandling(block: () -> Int, exitProcessFunction: 
             // We need to cover the case where some component in the call stack starts a non-daemon
             // thread, and then throws an Error that kills the main thread. This is extra safe implementation
             else -> {
-                t.report()
                 t.printStackTrace()
+                t.report()
                 exitProcessFunction(UNEXPECTED_ERROR)
             }
         }

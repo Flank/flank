@@ -1,7 +1,6 @@
 package ftl.util
 
 import flank.common.config.isTest
-import ftl.log.setDebugLogging
 import io.sentry.Sentry
 import java.io.File
 import java.util.UUID
@@ -50,7 +49,6 @@ private fun initializeCrashReportWrapper() {
     Sentry.init {
         it.dsn = FLANK_API_KEY
         it.release = readRevision()
-        setDebugLogging(true)
     }
     setCrashReportTag(
         SESSION_ID to sessionId,
