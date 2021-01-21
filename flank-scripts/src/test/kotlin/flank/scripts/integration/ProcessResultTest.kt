@@ -51,6 +51,19 @@ class ProcessResultTest {
             assertThat(output.log.trim().normalizeLineEnding()).contains(issueClosed)
         }
     }
+
+    @Test
+    fun `should post new comment -- missing url`() {
+        ProcessResultCommand.main(
+            listOf(
+                "--github-token=success",
+                "--url=",
+                "--result=failure",
+                "--run-id=123"
+            )
+        )
+        assertThat(output.log.trim().normalizeLineEnding()).contains(missingUrl)
+    }
 }
 
 private val issueCreated = """
@@ -85,4 +98,20 @@ private val issueClosed = """
         "body": "### Full suite IT run :white_check_mark: SUCCEEDED :white_check_mark:\n**Timestamp:** 2000-10-10 12:33:17\n**Job run:** [123abc](https://github.com/Flank/flank/actions/runs/123abc)\n**Build scan URL:** http://any.url\n**Closing issue**"
     }
     ** Closing issue
+""".trimIndent()
+
+private val missingUrl = """
+    ** Parameters:
+         result: FAILURE
+         url:    No build scan URL provided
+         runID:  123
+    ** Last workflow run:
+         name: any-name
+         last run: 2020-12-10T09:51:56.797534Z
+         url: http://workflow.run/123
+    ** Issue found: www.pull.request
+    ** Comment posted
+    {
+        "body": "### Full suite IT run :x: FAILED :x:\n**Timestamp:** 2020-12-10 09:51:56\n**Job run:** [123](https://github.com/Flank/flank/actions/runs/123)\n**Build scan URL:** No build scan URL provided\n|commit SHA|PR|\n|---|:---:|\n|aaaaaaaaa|[feat: new Feature](www.pull.request)\n"
+    }
 """.trimIndent()

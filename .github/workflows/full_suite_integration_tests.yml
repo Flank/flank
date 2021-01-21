@@ -125,10 +125,10 @@ jobs:
       - name: Process IT results
         run: |
           flankScripts integration processResults \
-          --result ${{ needs.run-it-full-suite.outputs.job_status }} \
-          --url ${{ needs.run-it-full-suite.outputs.build-scan-url }} \
-          --github-token ${{ secrets.GITHUB_TOKEN }} \
-          --run-id ${{ github.run_id }}
+          --result=${{ needs.run-it-full-suite.outputs.job_status }} \
+          --url=${{ needs.run-it-full-suite.outputs.build-scan-url }} \
+          --github-token=${{ secrets.GITHUB_TOKEN }} \
+          --run-id=${{ github.run_id }}
 
   post-comment_with_results:
     needs: [ run-it-full-suite, integration-tests-post-link ]
