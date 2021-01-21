@@ -22,7 +22,7 @@ tasks {
     "lintKotlinMain"(LintTask::class) {
         exclude(
             "**/*Generated.kt",
-            "**/*Test.kt",	
+            "**/*Test.kt",
             "**/Test*.kt" // we can expand this list
         )
     }
