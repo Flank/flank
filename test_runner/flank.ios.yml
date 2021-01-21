@@ -256,3 +256,17 @@ flank:
   ## Disable sending usage statistics (without sensitive data) to the analytic tool.
   ## Default: false
   # disable-usage-statistics: false
+
+  ### Only Test Configuration
+  ## Constrains a test action to only test a specified test configuration within a test plan and exclude all other test configurations.
+  ## Flank can combine multiple constraint options, but -only-test-configuration has precedence over -skip-test-configuration.
+  ## Each test configuration name must match the name of a configuration specified in a test plan and is case-sensitive.
+  ## Default: null (run all test configurations)
+  # only-test-configuration: en
+
+  ### Skip Test Configuration
+  ## Constrains a test action to skip a specified test configuration and include all other test configurations.
+  ## Flank can combine multiple constraint options, but -only-test-configuration has precedence over -skip-test-configuration.
+  ## Each test configuration name must match the name of a configuration specified in a test plan and is case-sensitive.
+  ## Default: null (run all test configurations)
+  # skip-test-configuration: en
