@@ -2,6 +2,8 @@ package integration
 
 import FlankCommand
 import com.google.common.truth.Truth
+import flank.common.isWindows
+import org.junit.Assume.assumeFalse
 import org.junit.Test
 import run
 
@@ -32,6 +34,7 @@ class GameloopIT {
 
     @Test
     fun iosGameloop() {
+        assumeFalse(isWindows)
         val name = "$name-ios"
         val result = FlankCommand(
             flankPath = FLANK_JAR_PATH,
