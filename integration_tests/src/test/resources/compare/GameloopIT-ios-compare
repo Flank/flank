@@ -51,6 +51,8 @@ IosArgs
       disable-results-upload: false
       default-class-test-time: 240.0
       disable-usage-statistics: false
+      only-test-configuration:\s
+      skip-test-configuration:\s
 
 RunTests
 \s*
