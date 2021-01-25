@@ -2501,6 +2501,12 @@
       },
       "type": "object"
     },
+    "LogcatCollectionError": {
+      "description": "A warning that there were issues in logcat collection.",
+      "id": "LogcatCollectionError",
+      "properties": {},
+      "type": "object"
+    },
     "MatrixDimensionDefinition": {
       "description": "One dimension of the matrix of different runs of a step.",
       "id": "MatrixDimensionDefinition",
@@ -3609,7 +3615,8 @@
             "blankScreen",
             "overlappingUiElements",
             "unityException",
-            "deviceOutOfMemory"
+            "deviceOutOfMemory",
+            "logcatCollectionError"
           ],
           "enumDescriptions": [
             "Default unspecified type. Do not use. For versioning only.",
@@ -3641,7 +3648,8 @@
             "Blank screen is found in the Robo crawl",
             "Overlapping UI elements are found in the Robo crawl",
             "An uncaught Unity exception was detected (these don't crash apps).",
-            "Device running out of memory was detected"
+            "Device running out of memory was detected",
+            "Problems detected while collecting logcat"
           ],
           "type": "string"
         },
