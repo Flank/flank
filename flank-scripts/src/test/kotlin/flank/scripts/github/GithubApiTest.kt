@@ -3,8 +3,6 @@ package flank.scripts.github
 import com.github.kittinunf.result.Result
 import com.google.common.truth.Truth.assertThat
 import flank.scripts.FuelTestRunner
-import flank.scripts.ci.releasenotes.GitHubRelease
-import flank.scripts.exceptions.GitHubException
 import flank.scripts.github.objects.GitHubCommit
 import flank.scripts.github.objects.GitHubCreateIssueCommentRequest
 import flank.scripts.github.objects.GitHubCreateIssueCommentResponse
@@ -14,6 +12,8 @@ import flank.scripts.github.objects.GitHubUpdateIssueRequest
 import flank.scripts.github.objects.GitHubWorkflowRunsSummary
 import flank.scripts.github.objects.GithubPullRequest
 import flank.scripts.github.objects.IssueState
+import flank.scripts.ops.ci.releasenotes.GitHubRelease
+import flank.scripts.utils.exceptions.GitHubException
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.runner.RunWith

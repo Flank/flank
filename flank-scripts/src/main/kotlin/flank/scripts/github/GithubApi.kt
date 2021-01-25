@@ -15,9 +15,6 @@ import com.jcabi.github.Releases
 import com.jcabi.github.Repo
 import com.jcabi.github.RtGithub
 import flank.common.config.flankRepository
-import flank.scripts.ci.releasenotes.GitHubRelease
-import flank.scripts.ci.releasenotes.GithubReleaseDeserializable
-import flank.scripts.exceptions.mapClientErrorToGithubException
 import flank.scripts.github.objects.GitHubCommit
 import flank.scripts.github.objects.GitHubCommitListDeserializer
 import flank.scripts.github.objects.GitHubCreateIssueCommentRequest
@@ -35,6 +32,9 @@ import flank.scripts.github.objects.GithubPullRequest
 import flank.scripts.github.objects.GithubPullRequestDeserializer
 import flank.scripts.github.objects.GithubPullRequestListDeserializer
 import flank.scripts.github.objects.GithubWorkflowRunsSummaryDeserializer
+import flank.scripts.ops.ci.releasenotes.GitHubRelease
+import flank.scripts.ops.ci.releasenotes.GithubReleaseDeserializable
+import flank.scripts.utils.exceptions.mapClientErrorToGithubException
 import flank.scripts.utils.toJson
 import java.lang.Exception
 

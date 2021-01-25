@@ -1,5 +1,9 @@
 package flank.scripts.dependencies.update
 
+import flank.scripts.ops.dependencies.GradleDependency
+import flank.scripts.ops.dependencies.groupWithName
+import flank.scripts.ops.dependencies.needsUpdate
+import flank.scripts.ops.dependencies.versionToUpdate
 import flank.scripts.utils.toAvailableVersion
 import flank.scripts.utils.toDependency
 import flank.scripts.utils.toGradleReleaseChannel

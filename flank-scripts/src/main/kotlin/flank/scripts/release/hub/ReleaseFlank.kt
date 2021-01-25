@@ -1,7 +1,7 @@
 package flank.scripts.release.hub
 
-import flank.scripts.ci.releasenotes.asString
-import flank.scripts.ci.releasenotes.generateReleaseNotes
+import flank.scripts.ops.ci.releasenotes.asString
+import flank.scripts.ops.ci.releasenotes.generateReleaseNotes
 import flank.scripts.utils.runCommand
 import java.io.File
 import java.nio.file.Path

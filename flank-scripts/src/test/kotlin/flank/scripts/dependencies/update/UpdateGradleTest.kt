@@ -1,5 +1,6 @@
 package flank.scripts.dependencies.update
 
+import flank.scripts.ops.dependencies.updateGradle
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test

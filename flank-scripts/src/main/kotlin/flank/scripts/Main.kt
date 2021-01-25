@@ -2,11 +2,11 @@ package flank.scripts
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
-import flank.scripts.ci.CiCommand
-import flank.scripts.contribution.ContributionCommand
-import flank.scripts.dependencies.DependenciesCommand
-import flank.scripts.integration.IntegrationCommand
-import flank.scripts.pullrequest.PullRequestCommand
+import flank.scripts.cli.CiCommand
+import flank.scripts.cli.ContributionCommand
+import flank.scripts.cli.DependenciesCommand
+import flank.scripts.cli.IntegrationCommand
+import flank.scripts.cli.PullRequestCommand
 import flank.scripts.release.ReleaseCommand
 import flank.scripts.shell.ShellCommand
 import flank.scripts.testartifacts.TestArtifactsCommand

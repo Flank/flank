@@ -2,7 +2,6 @@ package flank.scripts
 
 import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Request
-import flank.scripts.ci.releasenotes.GitHubRelease
 import flank.scripts.github.objects.Author
 import flank.scripts.github.objects.Commit
 import flank.scripts.github.objects.GitHubCommit
@@ -13,6 +12,7 @@ import flank.scripts.github.objects.GitHubWorkflowRun
 import flank.scripts.github.objects.GitHubWorkflowRunsSummary
 import flank.scripts.github.objects.GithubPullRequest
 import flank.scripts.github.objects.GithubUser
+import flank.scripts.ops.ci.releasenotes.GitHubRelease
 import flank.scripts.utils.toJson
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json

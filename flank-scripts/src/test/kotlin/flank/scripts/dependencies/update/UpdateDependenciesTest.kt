@@ -1,5 +1,6 @@
 package flank.scripts.dependencies.update
 
+import flank.scripts.ops.dependencies.updateDependencies
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import skipIfWindows

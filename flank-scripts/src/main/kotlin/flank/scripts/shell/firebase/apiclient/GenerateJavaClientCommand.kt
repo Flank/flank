@@ -1,8 +1,8 @@
 package flank.scripts.shell.firebase.apiclient
 
 import com.github.ajalt.clikt.core.CliktCommand
-import flank.scripts.exceptions.ShellCommandException
 import flank.scripts.utils.checkIfPipInstalled
+import flank.scripts.utils.exceptions.ShellCommandException
 import flank.scripts.utils.installClientGeneratorIfNeeded
 import flank.scripts.utils.runCommand
 import java.nio.file.Files
