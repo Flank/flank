@@ -1,6 +1,6 @@
 object Versions {
     // https://github.com/getsentry/sentry-java/releases
-    const val SENTRY = "3.2.0"
+    const val SENTRY = "3.2.1"
 
     //https://github.com/mixpanel/mixpanel-java/releases
     const val MIXPANEL = "1.5.0"
@@ -46,7 +46,7 @@ object Versions {
     const val GOOGLE_NIO = "0.122.5"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "1.113.6"
+    const val GOOGLE_STORAGE = "1.113.9"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.8.6"
@@ -73,7 +73,7 @@ object Versions {
     const val SYSTEM_RULES = "1.19.0"
 
     // https://github.com/google/truth/releases
-    const val TRUTH = "1.1"
+    const val TRUTH = "1.1.2"
 
     // https://github.com/FasterXML/woodstox/releases
     const val WOODSTOX = "6.2.3"
@@ -87,7 +87,7 @@ object Versions {
     const val COMMON_TEXT = "1.9"
 
     // https://github.com/fusesource/jansi/releases
-    const val JANSI = "2.1.1"
+    const val JANSI = "2.2.0"
 
     // https://github.com/ben-manes/gradle-versions-plugin/releases
     const val BEN_MANES = "0.36.0"
