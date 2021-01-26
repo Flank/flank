@@ -72,7 +72,7 @@ jobs:
   run-it-full-suite:
     needs: [ should_run_it ]
     if: needs.should_run_it.outputs.run_integration_tests == 'true'
-    runs-on: windows-latest
+    runs-on: [ubuntu-latest, macos-latest, windows-latest]
     outputs:
       job_status: ${{ job.status }}
       build-scan-url: ${{ steps.run-it.outputs.build-scan-url }}
