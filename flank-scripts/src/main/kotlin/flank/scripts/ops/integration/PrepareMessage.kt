@@ -7,13 +7,13 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-fun prepareSuccessMessage(
+internal fun prepareSuccessMessage(
     lastRun: String,
     runId: String,
     url: String
 ): String = successTemplate(lastRun, runId, url)
 
-fun prepareFailureMessage(
+internal fun prepareFailureMessage(
     lastRun: String,
     runId: String,
     url: String,

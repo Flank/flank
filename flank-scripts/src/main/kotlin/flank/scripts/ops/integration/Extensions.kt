@@ -1,7 +1,6 @@
 package flank.scripts.ops.integration
 
 import com.github.kittinunf.result.onError
-import flank.scripts.cli.ITResults
 import flank.scripts.github.objects.GitHubCreateIssueCommentRequest
 import flank.scripts.github.objects.GitHubCreateIssueRequest
 import flank.scripts.github.objects.GitHubCreateIssueResponse

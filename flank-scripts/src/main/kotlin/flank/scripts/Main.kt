@@ -7,7 +7,7 @@ import flank.scripts.cli.ContributionCommand
 import flank.scripts.cli.DependenciesCommand
 import flank.scripts.cli.IntegrationCommand
 import flank.scripts.cli.PullRequestCommand
-import flank.scripts.release.ReleaseCommand
+import flank.scripts.cli.ReleaseCommand
 import flank.scripts.shell.ShellCommand
 import flank.scripts.testartifacts.TestArtifactsCommand
 

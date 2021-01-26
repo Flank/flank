@@ -1,4 +1,4 @@
-package flank.scripts.release.hub
+package flank.scripts.ops.release.hub
 
 import com.google.common.truth.Truth.assertThat
 import flank.scripts.FuelTestRunner

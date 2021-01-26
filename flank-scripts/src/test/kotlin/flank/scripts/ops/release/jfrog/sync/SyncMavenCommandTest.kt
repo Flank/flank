@@ -1,5 +1,6 @@
-package flank.scripts.release.jfrog.sync
+package flank.scripts.ops.release.jfrog.sync
 
+import flank.scripts.ops.release.jfrog.jFrogSync
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.verify
@@ -16,7 +17,7 @@ class SyncMavenCommandTest {
     @Test
     fun `Should return same exit code as command`() {
         // given
-        mockkStatic("flank.scripts.release.jfrog.sync.SyncMavenKt")
+        mockkStatic("flank.scripts.ops.release.jfrog.sync.SyncMavenKt")
         every { jFrogSync(any()) } returns 1
 
         // expect

@@ -9,7 +9,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 
-suspend fun getCommitListSinceDate(
+internal suspend fun getCommitListSinceDate(
     token: String,
     since: String
 ): List<Pair<String, GithubPullRequest?>> = coroutineScope {

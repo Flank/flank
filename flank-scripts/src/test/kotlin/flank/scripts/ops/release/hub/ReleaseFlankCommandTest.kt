@@ -1,4 +1,4 @@
-package flank.scripts.release.hub
+package flank.scripts.ops.release.hub
 
 import io.mockk.every
 import io.mockk.mockkStatic
@@ -33,7 +33,7 @@ class ReleaseFlankCommandTest {
     @Test
     fun `Should return successfully run release for snasphot`() {
         // given
-        mockkStatic("flank.scripts.release.hub.ReleaseFlankKt")
+        mockkStatic("flank.scripts.ops.release.hub.ReleaseFlankKt")
         every { releaseFlank(any(), any(), any(), any(), any()) } returns 0
 
         // expect
@@ -46,7 +46,7 @@ class ReleaseFlankCommandTest {
     @Test
     fun `Should return successfully run release for stable`() {
         // given
-        mockkStatic("flank.scripts.release.hub.ReleaseFlankKt")
+        mockkStatic("flank.scripts.ops.release.hub.ReleaseFlankKt")
         every { releaseFlank(any(), any(), any(), any(), any()) } returns 0
 
         // expect
