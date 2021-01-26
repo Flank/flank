@@ -8,7 +8,7 @@ import flank.scripts.cli.DependenciesCommand
 import flank.scripts.cli.IntegrationCommand
 import flank.scripts.cli.PullRequestCommand
 import flank.scripts.cli.ReleaseCommand
-import flank.scripts.shell.ShellCommand
+import flank.scripts.cli.ShellCommand
 import flank.scripts.testartifacts.TestArtifactsCommand
 
 class Main : CliktCommand(name = "flankScripts") {
