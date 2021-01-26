@@ -13,6 +13,10 @@ val userHome: String by lazy {
     if (isWindows) System.getenv("HOMEPATH") else System.getProperty("user.home")
 }
 
+val appDataDirectory: String by lazy {
+    if (isWindows) System.getenv("APPDATA") else System.getProperty("user.home")
+}
+
 fun linkFiles(
     link: String,
     target: String
