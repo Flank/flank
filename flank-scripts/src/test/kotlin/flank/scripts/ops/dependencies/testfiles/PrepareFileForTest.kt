@@ -1,4 +1,4 @@
-package flank.scripts.dependencies.update.testfiles
+package flank.scripts.ops.dependencies.testfiles
 
 import java.io.File
 

@@ -1,9 +1,8 @@
-package flank.scripts.ci.nexttag
+package flank.scripts.cli.ci
 
 import com.github.kittinunf.result.Result
 import com.google.common.truth.Truth.assertThat
 import flank.scripts.FuelTestRunner
-import flank.scripts.cli.ci.NextReleaseTagCommand
 import flank.scripts.github.getLatestReleaseTag
 import flank.scripts.ops.ci.releasenotes.GitHubRelease
 import io.mockk.coEvery

@@ -1,6 +1,5 @@
-package flank.scripts.dependencies.update
+package flank.scripts.ops.dependencies
 
-import flank.scripts.ops.dependencies.matchingVersionVal
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

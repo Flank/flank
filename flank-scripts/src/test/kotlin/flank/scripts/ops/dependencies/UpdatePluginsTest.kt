@@ -1,9 +1,9 @@
-package flank.scripts.dependencies.update
+package flank.scripts.ops.dependencies
 
-import flank.scripts.ops.dependencies.updatePlugins
+import flank.common.isWindows
 import org.junit.Assert.assertEquals
+import org.junit.Assume.assumeFalse
 import org.junit.Test
-import skipIfWindows
 import java.io.File
 
 class UpdatePluginsTest {
@@ -14,7 +14,7 @@ class UpdatePluginsTest {
     @Test
     fun `should update plugin versions`() {
         // assume
-        skipIfWindows()
+        assumeFalse(isWindows)
 
         // given
         val expectedVersions =
