@@ -1,7 +1,5 @@
-
 package flank.scripts.ops.shell.ios
 
-import com.github.ajalt.clikt.core.CliktCommand
 import flank.common.archive
 import flank.common.currentPath
 import flank.common.iOSTestProjectsPath
@@ -15,12 +13,10 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.util.stream.Collectors
 
-object BuildExampleCommand : CliktCommand(name = "iosBuildExample", help = "Build example ios app") {
-    override fun run() {
-        failIfWindows()
-        downloadXcPrettyIfNeeded()
-        buildExample()
-    }
+fun buildIosExample() {
+    failIfWindows()
+    downloadXcPrettyIfNeeded()
+    buildExample()
 }
 
 private fun buildExample() {

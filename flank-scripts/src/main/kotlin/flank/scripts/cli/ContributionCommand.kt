@@ -16,7 +16,8 @@ object ContributionCommand : CliktCommand(name = "contribution", help = "Tasks f
     }
 
     @Suppress("EmptyFunctionBlock")
-    override fun run() {}
+    override fun run() {
+    }
 }
 
 object GitHooksLinkCommand : CliktCommand(

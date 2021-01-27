@@ -1,22 +1,15 @@
 package flank.scripts.ops.shell.ios
 
-import com.github.ajalt.clikt.core.CliktCommand
 import flank.common.currentPath
 import flank.scripts.ops.shell.utils.failIfWindows
 import flank.scripts.utils.runCommand
 import java.nio.file.Paths
 
-object UniversalFrameworkCommand : CliktCommand(name = "iosUniversalFramework", help = "Create Universal Framework") {
-    override fun run() {
-        failIfWindows()
-        createUniversalFiles()
-    }
-}
-
 private const val APP_FRAMEWORK_FRAMEWORK = "AppFramework.framework"
 private const val APP_FRAMEWORK = "AppFramework"
 
-private fun createUniversalFiles() {
+fun createUniversalFrameworkFiles() {
+    failIfWindows()
     val comboPath = Paths.get(currentPath.toString(), "ios-frameworks").toString()
     val devicePath = Paths.get(comboPath, "Debug-iphoneos").toString()
     val simPath = Paths.get(comboPath, "Debug-iphonesimulator").toString()

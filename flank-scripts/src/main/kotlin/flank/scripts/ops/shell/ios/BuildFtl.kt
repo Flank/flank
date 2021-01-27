@@ -1,6 +1,5 @@
 package flank.scripts.ops.shell.ios
 
-import com.github.ajalt.clikt.core.CliktCommand
 import flank.common.archive
 import flank.scripts.ops.shell.utils.failIfWindows
 import flank.scripts.ops.shell.utils.pipe
@@ -10,15 +9,13 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.util.stream.Collectors
 
-object BuildFtlCommand : CliktCommand(name = "iosBuildFtl", help = "Build ftl ios app") {
-    override fun run() {
-        failIfWindows()
-        downloadXcPrettyIfNeeded()
-        buildFtl()
-    }
+fun buildFtl() {
+    failIfWindows()
+    downloadXcPrettyIfNeeded()
+    buildFtlExample()
 }
 
-private fun buildFtl() {
+private fun buildFtlExample() {
     val dataPath = Paths.get("", "dd_tmp").apply {
         toFile().deleteRecursively()
     }.toString()
