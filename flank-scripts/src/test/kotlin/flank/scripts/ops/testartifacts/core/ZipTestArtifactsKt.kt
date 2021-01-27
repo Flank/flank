@@ -1,11 +1,14 @@
-package flank.scripts.testartifacts.core
+package flank.scripts.ops.testartifacts.core
 
-import flank.scripts.testartifacts.TEST_FILE_BODY
-import flank.scripts.testartifacts.TEST_FILE_NAME
-import flank.scripts.testartifacts.prepareTestDirectory
-import flank.scripts.testartifacts.removeTestArchive
-import flank.scripts.testartifacts.removeTestDirectory
-import flank.scripts.testartifacts.testContext
+import flank.scripts.ops.testartifacts.TEST_FILE_BODY
+import flank.scripts.ops.testartifacts.TEST_FILE_NAME
+import flank.scripts.ops.testartifacts.prepareTestDirectory
+import flank.scripts.ops.testartifacts.removeTestArchive
+import flank.scripts.ops.testartifacts.removeTestDirectory
+import flank.scripts.ops.testartifacts.testArtifacts
+import flank.scripts.ops.testartifacts.testContext
+import flank.scripts.ops.testartifacts.unzipTestArtifacts
+import flank.scripts.ops.testartifacts.zipTestArtifacts
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull

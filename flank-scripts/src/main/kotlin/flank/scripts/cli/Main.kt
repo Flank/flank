@@ -9,7 +9,7 @@ import flank.scripts.cli.integration.IntegrationCommand
 import flank.scripts.cli.pullrequest.PullRequestCommand
 import flank.scripts.cli.release.ReleaseCommand
 import flank.scripts.cli.shell.ShellCommand
-import flank.scripts.testartifacts.TestArtifactsCommand
+import flank.scripts.cli.testartifacts.TestArtifactsCommand
 
 class Main : CliktCommand(name = "flankScripts") {
     @Suppress("EmptyFunctionBlock")
@@ -21,7 +21,7 @@ fun main(args: Array<String>) {
         ReleaseCommand(),
         CiCommand(),
         DependenciesCommand,
-        TestArtifactsCommand(),
+        TestArtifactsCommand,
         ShellCommand,
         PullRequestCommand,
         IntegrationCommand,

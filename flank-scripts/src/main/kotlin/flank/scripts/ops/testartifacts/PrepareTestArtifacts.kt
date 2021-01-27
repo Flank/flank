@@ -1,4 +1,4 @@
-package flank.scripts.testartifacts.core
+package flank.scripts.ops.testartifacts
 
 fun Context.prepareTestArtifacts(src: String = "master") {
     print("* Creating artifacts directory for $branch based on $src - ")

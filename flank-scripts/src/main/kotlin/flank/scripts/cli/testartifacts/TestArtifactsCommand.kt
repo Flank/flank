@@ -1,4 +1,4 @@
-package flank.scripts.testartifacts
+package flank.scripts.cli.testartifacts
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.findOrSetObject
@@ -9,20 +9,20 @@ import com.github.ajalt.clikt.parameters.options.defaultLazy
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.file
-import flank.scripts.testartifacts.core.Context
-import flank.scripts.testartifacts.core.downloadFixtures
-import flank.scripts.testartifacts.core.flankRoot
-import flank.scripts.testartifacts.core.linkArtifacts
-import flank.scripts.testartifacts.core.prepareTestArtifacts
-import flank.scripts.testartifacts.core.removeRemoteCopy
-import flank.scripts.testartifacts.core.resolveArtifacts
-import flank.scripts.testartifacts.core.unzipTestArtifacts
-import flank.scripts.testartifacts.core.uploadFixtures
-import flank.scripts.testartifacts.core.zipTestArtifacts
+import flank.scripts.ops.testartifacts.Context
+import flank.scripts.ops.testartifacts.downloadFixtures
+import flank.scripts.ops.testartifacts.flankRoot
+import flank.scripts.ops.testartifacts.linkArtifacts
+import flank.scripts.ops.testartifacts.prepareTestArtifacts
+import flank.scripts.ops.testartifacts.removeRemoteCopy
+import flank.scripts.ops.testartifacts.resolveArtifacts
+import flank.scripts.ops.testartifacts.unzipTestArtifacts
+import flank.scripts.ops.testartifacts.uploadFixtures
+import flank.scripts.ops.testartifacts.zipTestArtifacts
 import flank.scripts.utils.currentGitBranch
 import java.io.File
 
-class TestArtifactsCommand : CliktCommand(
+object TestArtifactsCommand : CliktCommand(
     name = "testArtifacts",
     help = "The base command for artifacts management."
 ) {

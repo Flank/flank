@@ -1,4 +1,4 @@
-package flank.scripts.testartifacts.core
+package flank.scripts.ops.testartifacts
 
 import flank.common.unzipFile
 import flank.common.zip

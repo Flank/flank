@@ -1,7 +1,4 @@
-package flank.scripts.testartifacts
-
-import flank.scripts.testartifacts.core.Context
-import flank.scripts.testartifacts.core.testArtifacts
+package flank.scripts.ops.testartifacts
 
 const val TEST_BRANCH_1 = "1-unit-test-artifacts-management"
 const val TEST_BRANCH_2 = "2-unit-test-artifacts-management"

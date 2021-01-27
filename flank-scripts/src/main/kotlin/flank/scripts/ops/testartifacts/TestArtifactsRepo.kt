@@ -1,4 +1,4 @@
-package flank.scripts.testartifacts.core
+package flank.scripts.ops.testartifacts
 
 import com.jcabi.github.Repo
 import flank.common.config.flankTestArtifactsRepository

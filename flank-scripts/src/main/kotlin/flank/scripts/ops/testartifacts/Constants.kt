@@ -1,4 +1,4 @@
-package flank.scripts.testartifacts.core
+package flank.scripts.ops.testartifacts
 
 import flank.scripts.utils.currentGitBranch
 import java.io.File

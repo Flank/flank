@@ -1,10 +1,12 @@
-package flank.scripts.testartifacts.core
+package flank.scripts.ops.testartifacts.core
 
-import flank.scripts.testartifacts.TEST_BRANCH_1
-import flank.scripts.testartifacts.TEST_BRANCH_2
-import flank.scripts.testartifacts.prepareTestDirectory
-import flank.scripts.testartifacts.removeTestDirectory
-import flank.scripts.testartifacts.testContext
+import flank.scripts.ops.testartifacts.TEST_BRANCH_1
+import flank.scripts.ops.testartifacts.TEST_BRANCH_2
+import flank.scripts.ops.testartifacts.prepareTestArtifacts
+import flank.scripts.ops.testartifacts.prepareTestDirectory
+import flank.scripts.ops.testartifacts.removeTestDirectory
+import flank.scripts.ops.testartifacts.testArtifacts
+import flank.scripts.ops.testartifacts.testContext
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
