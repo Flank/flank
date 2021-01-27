@@ -1,15 +1,16 @@
 package flank.scripts.ops.dependencies
 
 import flank.common.isWindows
+import flank.scripts.ops.dependencies.testfiles.testFilesPath
 import org.junit.Assert.assertEquals
 import org.junit.Assume.assumeFalse
 import org.junit.Test
 import java.io.File
 
 class UpdatePluginsTest {
-    private val testReport = File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/report.json")
-    private val testPlugins = File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/TestPlugins")
-    private val testVersions = File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/TestVersions")
+    private val testReport = File("${testFilesPath}report.json")
+    private val testPlugins = File("${testFilesPath}TestPlugins")
+    private val testVersions = File("${testFilesPath}TestVersions")
 
     @Test
     fun `should update plugin versions`() {
@@ -18,31 +19,33 @@ class UpdatePluginsTest {
 
         // given
         val expectedVersions =
-            File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/ExpectedVersionAfterPluginDependencies")
+            File("${testFilesPath}ExpectedVersionAfterPluginDependencies")
         val copyOfTestVersions =
             testVersions.copyTo(
-                File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/VersionsAfterPluginDependencies")
+                File("${testFilesPath}VersionsAfterPluginDependencies")
             )
         prepareBuildGradleForTest()
 
         // when
-        testReport.updatePlugins(testPlugins, copyOfTestVersions, "src/test/kotlin/flank/scripts/dependencies/update/testfiles")
+        testReport.updatePlugins(testPlugins, copyOfTestVersions, testFilesPath)
 
         // then
         assertEquals(expectedVersions.readText(), copyOfTestVersions.readText())
 
         // then
         makeBuildGradleNotPrepared()
+
+        // clean
         copyOfTestVersions.delete()
     }
 
     private fun prepareBuildGradleForTest() {
-        File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/build.gradle.kts.test")
-            .renameTo(File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/build.gradle.kts"))
+        File("${testFilesPath}build.gradle.kts.test")
+            .renameTo(File("${testFilesPath}build.gradle.kts"))
     }
 
     private fun makeBuildGradleNotPrepared() {
-        File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/build.gradle.kts")
-            .renameTo(File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/build.gradle.kts.test"))
+        File("${testFilesPath}build.gradle.kts")
+            .renameTo(File("${testFilesPath}build.gradle.kts.test"))
     }
 }

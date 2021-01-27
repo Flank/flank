@@ -1,16 +1,17 @@
 package flank.scripts.ops.dependencies
 
 import flank.common.isWindows
+import flank.scripts.ops.dependencies.testfiles.testFilesPath
 import org.junit.Assert.assertEquals
 import org.junit.Assume.assumeFalse
 import org.junit.Test
 import java.io.File
 
 class UpdateDependenciesTest {
-    private val testReport = File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/report.json")
+    private val testReport = File("${testFilesPath}report.json")
     private val testDependencies =
-        File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/TestDependencies")
-    private val testVersions = File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/TestVersions")
+        File("${testFilesPath}TestDependencies")
+    private val testVersions = File("${testFilesPath}TestVersions")
 
     @Test
     fun `should update dependencies`() {
@@ -20,10 +21,10 @@ class UpdateDependenciesTest {
         // given
         val copyOfTestVersions =
             testVersions.copyTo(
-                File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/VersionsAfterUpdateDependencies")
+                File("${testFilesPath}VersionsAfterUpdateDependencies")
             )
         val expectedVersions =
-            File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/ExpectedVersionAfterUpdateDependencies")
+            File("${testFilesPath}ExpectedVersionAfterUpdateDependencies")
 
         // when
         testReport.updateDependencies(testDependencies, copyOfTestVersions)

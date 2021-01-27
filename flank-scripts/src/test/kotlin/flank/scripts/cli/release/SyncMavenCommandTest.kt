@@ -17,7 +17,7 @@ class SyncMavenCommandTest {
     @Test
     fun `Should return same exit code as command`() {
         // given
-        mockkStatic("flank.scripts.ops.release.jfrog.sync.SyncMavenKt")
+        mockkStatic(::jFrogSync)
         every { jFrogSync(any()) } returns 1
 
         // expect

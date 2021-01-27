@@ -1,5 +1,6 @@
 package flank.scripts.ops.dependencies
 
+import flank.scripts.ops.dependencies.testfiles.testFilesPath
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -13,9 +14,9 @@ class UpdateGradleTest(private val settings: List<TestChannelSettings>) {
     @get:Rule
     val tempFolder = TemporaryFolder()
 
-    private val testReport = File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/report.json")
+    private val testReport = File("${testFilesPath}report.json")
     private val testGradleVersionFile =
-        File("src/test/kotlin/flank/scripts/dependencies/update/testfiles/test_gradle-wrapper.properties.test")
+        File("${testFilesPath}test_gradle-wrapper.properties.test")
 
     companion object {
         @JvmStatic
