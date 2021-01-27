@@ -1,10 +1,5 @@
-package flank.scripts.ops.testartifacts.core
+package flank.scripts.ops.testartifacts
 
-import flank.scripts.ops.testartifacts.TEST_BRANCH_1
-import flank.scripts.ops.testartifacts.latestArtifactsArchive
-import flank.scripts.ops.testartifacts.parseArtifactsArchive
-import flank.scripts.ops.testartifacts.testArtifacts
-import flank.scripts.ops.testartifacts.testContext
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before

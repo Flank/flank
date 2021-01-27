@@ -8,11 +8,11 @@ import flank.scripts.github.objects.GitHubCommit
 import flank.scripts.github.objects.GitHubCreateIssueCommentResponse
 import flank.scripts.github.objects.GitHubCreateIssueResponse
 import flank.scripts.github.objects.GitHubLabel
+import flank.scripts.github.objects.GitHubRelease
 import flank.scripts.github.objects.GitHubWorkflowRun
 import flank.scripts.github.objects.GitHubWorkflowRunsSummary
 import flank.scripts.github.objects.GithubPullRequest
 import flank.scripts.github.objects.GithubUser
-import flank.scripts.ops.ci.releasenotes.GitHubRelease
 import flank.scripts.utils.toJson
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json

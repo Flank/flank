@@ -8,11 +8,11 @@ import flank.scripts.github.objects.GitHubCreateIssueCommentRequest
 import flank.scripts.github.objects.GitHubCreateIssueCommentResponse
 import flank.scripts.github.objects.GitHubCreateIssueRequest
 import flank.scripts.github.objects.GitHubCreateIssueResponse
+import flank.scripts.github.objects.GitHubRelease
 import flank.scripts.github.objects.GitHubUpdateIssueRequest
 import flank.scripts.github.objects.GitHubWorkflowRunsSummary
 import flank.scripts.github.objects.GithubPullRequest
 import flank.scripts.github.objects.IssueState
-import flank.scripts.ops.ci.releasenotes.GitHubRelease
 import flank.scripts.utils.exceptions.GitHubException
 import kotlinx.coroutines.runBlocking
 import org.junit.Test

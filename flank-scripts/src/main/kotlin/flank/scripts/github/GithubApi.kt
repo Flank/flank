@@ -24,6 +24,7 @@ import flank.scripts.github.objects.GitHubCreateIssueRequest
 import flank.scripts.github.objects.GitHubCreateIssueResponse
 import flank.scripts.github.objects.GitHubCreateIssueResponseDeserializer
 import flank.scripts.github.objects.GitHubLabelDeserializable
+import flank.scripts.github.objects.GitHubRelease
 import flank.scripts.github.objects.GitHubSetAssigneesRequest
 import flank.scripts.github.objects.GitHubSetLabelsRequest
 import flank.scripts.github.objects.GitHubUpdateIssueRequest
@@ -31,12 +32,10 @@ import flank.scripts.github.objects.GitHubWorkflowRunsSummary
 import flank.scripts.github.objects.GithubPullRequest
 import flank.scripts.github.objects.GithubPullRequestDeserializer
 import flank.scripts.github.objects.GithubPullRequestListDeserializer
+import flank.scripts.github.objects.GithubReleaseDeserializable
 import flank.scripts.github.objects.GithubWorkflowRunsSummaryDeserializer
-import flank.scripts.ops.ci.releasenotes.GitHubRelease
-import flank.scripts.ops.ci.releasenotes.GithubReleaseDeserializable
 import flank.scripts.utils.exceptions.mapClientErrorToGithubException
 import flank.scripts.utils.toJson
-import java.lang.Exception
 
 private const val URL_BASE = "https://api.github.com/repos"
 

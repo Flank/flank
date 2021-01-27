@@ -4,7 +4,7 @@ import com.github.kittinunf.result.Result
 import com.google.common.truth.Truth.assertThat
 import flank.scripts.FuelTestRunner
 import flank.scripts.github.getLatestReleaseTag
-import flank.scripts.ops.ci.releasenotes.GitHubRelease
+import flank.scripts.github.objects.GitHubRelease
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockkStatic
