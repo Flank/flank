@@ -20,11 +20,15 @@ class ParseSwiftTestsKtTest {
 
     @Test(expected = FlankGeneralError::class)
     fun `parseSwiftTests fileNotFound`() {
+        assumeFalse(isWindows)
+
         parseSwiftTests("./BinaryThatDoesNotExist")
     }
 
     @Test(expected = FlankGeneralError::class)
     fun `parseSwiftTests tmpFolder`() {
+        assumeFalse(isWindows)
+
         parseSwiftTests("/tmp")
     }
 

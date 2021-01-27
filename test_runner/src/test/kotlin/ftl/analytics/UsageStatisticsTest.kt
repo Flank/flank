@@ -1,8 +1,9 @@
 package ftl.analytics
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
+import ftl.test.util.FlankTestRunner
 import ftl.util.readVersion
 import io.mockk.every
 import io.mockk.mockkStatic
@@ -11,7 +12,9 @@ import io.mockk.verify
 import org.json.JSONObject
 import org.junit.After
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(FlankTestRunner::class)
 class UsageStatisticsTest {
 
     @After
@@ -22,12 +25,14 @@ class UsageStatisticsTest {
     @Test
     fun `should filter default args for android`() {
         val default = AndroidArgs.default()
-        val args = default.copy(appApk = "test").objectToMap()
+        val args = default.copy(
+            appApk = "test"
+        ).objectToMap()
 
         val nonDefaultArgs = args.filterNonCommonArgs().getNonDefaultArgs(default.objectToMap())
 
-        Truth.assertThat(nonDefaultArgs).containsKey("appApk")
-        Truth.assertThat(nonDefaultArgs.count()).isEqualTo(1)
+        assertThat(nonDefaultArgs).containsKey("appApk")
+        assertThat(nonDefaultArgs.count()).isEqualTo(1)
     }
 
     @Test
@@ -37,8 +42,8 @@ class UsageStatisticsTest {
 
         val nonDefaultArgs = args.filterNonCommonArgs().getNonDefaultArgs(default.objectToMap())
 
-        Truth.assertThat(nonDefaultArgs).containsKey("xctestrunFile")
-        Truth.assertThat(nonDefaultArgs.count()).isEqualTo(1)
+        assertThat(nonDefaultArgs).containsKey("xctestrunFile")
+        assertThat(nonDefaultArgs.count()).isEqualTo(1)
     }
 
     @Test
@@ -49,9 +54,9 @@ class UsageStatisticsTest {
 
         val nonDefaultArgs = args.createEventMap(default)
 
-        Truth.assertThat(nonDefaultArgs).containsKey("xctestrunFile")
-        Truth.assertThat(nonDefaultArgs).containsKey("resultsBucket")
-        Truth.assertThat(nonDefaultArgs.count()).isEqualTo(2)
+        assertThat(nonDefaultArgs).containsKey("xctestrunFile")
+        assertThat(nonDefaultArgs).containsKey("resultsBucket")
+        assertThat(nonDefaultArgs.count()).isEqualTo(2)
     }
 
     @Test
@@ -61,9 +66,9 @@ class UsageStatisticsTest {
 
         val nonDefaultArgs = args.createEventMap(default)
 
-        Truth.assertThat(nonDefaultArgs).containsKey("testApk")
-        Truth.assertThat(nonDefaultArgs).containsKey("resultsBucket")
-        Truth.assertThat(nonDefaultArgs.count()).isEqualTo(2)
+        assertThat(nonDefaultArgs).containsKey("testApk")
+        assertThat(nonDefaultArgs).containsKey("resultsBucket")
+        assertThat(nonDefaultArgs.count()).isEqualTo(2)
     }
 
     @Test
@@ -73,12 +78,12 @@ class UsageStatisticsTest {
 
         val nonDefaultArgs = args.createEventMap(default)
         (nonDefaultArgs["environmentVariables"] as? Map<*, *>)?.let { environmentVariables ->
-            Truth.assertThat(environmentVariables.count()).isEqualTo(2)
-            Truth.assertThat(environmentVariables.values.all { it == "..." }).isTrue()
+            assertThat(environmentVariables.count()).isEqualTo(2)
+            assertThat(environmentVariables.values.all { it == "..." }).isTrue()
         }
 
-        Truth.assertThat(nonDefaultArgs.count()).isEqualTo(1)
-        Truth.assertThat(nonDefaultArgs.keys).containsExactly("environmentVariables")
+        assertThat(nonDefaultArgs.count()).isEqualTo(1)
+        assertThat(nonDefaultArgs.keys).containsExactly("environmentVariables")
     }
 
     @Test

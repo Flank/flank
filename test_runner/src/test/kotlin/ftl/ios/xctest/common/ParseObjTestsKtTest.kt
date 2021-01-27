@@ -20,6 +20,8 @@ class ParseObjTestsKtTest {
 
     @Test(expected = FlankGeneralError::class)
     fun `parseObjcTests fileNotFound`() {
+        assumeFalse(isWindows)
+
         parseObjcTests("./BinaryThatDoesNotExist")
     }
 

@@ -1,9 +1,9 @@
 package ftl.ios.xctest.common
 
+import flank.common.appDataDirectory
 import flank.common.hasAllFiles
 import flank.common.isMacOS
 import flank.common.isWindows
-import flank.common.userHome
 import org.junit.Assert.assertTrue
 import org.junit.Assume.assumeTrue
 import org.junit.Test
@@ -21,7 +21,7 @@ internal class InstallParseBinariesTest {
 
         // then
         assertTrue(
-            Paths.get(userHome, ".flank").toFile().hasAllFiles(
+            Paths.get(appDataDirectory, ".flank").toFile().hasAllFiles(
                 listOf("libatomic.so.1", "libatomic.so.1.2.0")
             )
         )
@@ -37,7 +37,7 @@ internal class InstallParseBinariesTest {
 
         // then
         assertTrue(
-            Paths.get(userHome, ".flank").toFile().hasAllFiles(
+            Paths.get(appDataDirectory, ".flank").toFile().hasAllFiles(
                 listOf("nm", "swift-demangle", "libatomic.so.1", "libatomic.so.1.2.0")
             )
         )
