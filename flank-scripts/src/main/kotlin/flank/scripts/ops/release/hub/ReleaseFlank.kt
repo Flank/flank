@@ -1,5 +1,6 @@
 package flank.scripts.ops.release.hub
 
+import com.google.common.annotations.VisibleForTesting
 import flank.scripts.ops.ci.releasenotes.asString
 import flank.scripts.ops.ci.releasenotes.generateReleaseNotes
 import flank.scripts.utils.ERROR_WHEN_RUNNING
@@ -19,7 +20,8 @@ fun tryReleaseFlank(path: Path, gitTag: String, commitHash: String, isSnapshotRe
     else -> releaseFlank(path, gitTag, commitHash, isSnapshotRelease, token)
 }
 
-private fun releaseFlank(
+@VisibleForTesting
+internal fun releaseFlank(
     path: Path,
     gitTag: String,
     commitHash: String,

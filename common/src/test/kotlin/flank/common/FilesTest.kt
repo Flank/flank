@@ -64,9 +64,6 @@ class FilesTest {
     fun tearDown() {
         File(linkName).delete()
     }
-}
-
-internal class FilesTest {
 
     @Test
     fun `Should create symbolic file at desired location`() {

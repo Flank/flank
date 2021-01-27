@@ -1,4 +1,4 @@
-package flank.scripts.ops.release.jfrog.sync
+package flank.scripts.cli.release
 
 import flank.scripts.ops.release.jfrog.jFrogSync
 import io.mockk.every

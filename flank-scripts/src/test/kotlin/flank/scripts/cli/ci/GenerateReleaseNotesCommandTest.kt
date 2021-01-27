@@ -1,4 +1,4 @@
-package flank.scripts.ops.ci.releasenotes
+package flank.scripts.cli.ci
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test

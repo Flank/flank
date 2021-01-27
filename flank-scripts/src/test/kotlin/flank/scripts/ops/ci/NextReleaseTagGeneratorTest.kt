@@ -1,4 +1,4 @@
-package flank.scripts.ci.nexttag
+package flank.scripts.ops.ci
 
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every

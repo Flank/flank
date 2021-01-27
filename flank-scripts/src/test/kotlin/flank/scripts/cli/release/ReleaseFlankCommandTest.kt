@@ -1,5 +1,6 @@
-package flank.scripts.ops.release.hub
+package flank.scripts.cli.release
 
+import flank.scripts.ops.release.hub.releaseFlank
 import io.mockk.every
 import io.mockk.mockkStatic
 import org.junit.Rule
