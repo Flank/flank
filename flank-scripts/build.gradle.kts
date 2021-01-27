@@ -32,7 +32,7 @@ version = "1.4.6"
 group = "com.github.flank"
 
 application {
-    mainClassName = "flank.scripts.MainKt"
+    mainClassName = "flank.scripts.cli.MainKt"
     applicationDefaultJvmArgs = listOf(
         "-Xmx2048m",
         "-Xms512m"

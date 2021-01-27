@@ -1,17 +1,17 @@
-package flank.scripts.cli
+package flank.scripts.cli.shell
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
-import flank.scripts.ops.shell.BuildFlankCommand
-import flank.scripts.ops.shell.ios.InstallXcPrettyCommand
-import flank.scripts.ops.shell.ios.SetupIosEnvCommand
+import flank.scripts.ops.shell.buildFlank
+import flank.scripts.ops.shell.installXcPretty
 import flank.scripts.ops.shell.ios.buildFtl
 import flank.scripts.ops.shell.ios.buildIosExample
 import flank.scripts.ops.shell.ios.createUniversalFrameworkFiles
 import flank.scripts.ops.shell.ios.runFtlLocal
 import flank.scripts.ops.shell.ops.OpsCommand
+import flank.scripts.ops.shell.setupIosEnv
 import flank.scripts.ops.shell.updatebinaries.UpdateBinariesCommand
 
 object ShellCommand : CliktCommand(name = "shell", help = "Task for shell commands") {
@@ -60,5 +60,23 @@ object RunFtlLocalCommand : CliktCommand(name = "iosRunFtlLocal", help = "Run ft
 object UniversalFrameworkCommand : CliktCommand(name = "iosUniversalFramework", help = "Create Universal Framework") {
     override fun run() {
         createUniversalFrameworkFiles()
+    }
+}
+
+object SetupIosEnvCommand : CliktCommand(name = "setup_ios_env", help = "Build ios app with tests") {
+    override fun run() {
+        setupIosEnv()
+    }
+}
+
+object InstallXcPrettyCommand : CliktCommand(name = "install_xcpretty", help = "Build ios app with tests") {
+    override fun run() {
+        installXcPretty()
+    }
+}
+
+object BuildFlankCommand : CliktCommand(name = "buildFlank", help = "Build Flank") {
+    override fun run() {
+        buildFlank()
     }
 }

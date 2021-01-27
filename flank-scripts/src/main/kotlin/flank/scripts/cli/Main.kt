@@ -1,14 +1,14 @@
-package flank.scripts
+package flank.scripts.cli
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
-import flank.scripts.cli.CiCommand
-import flank.scripts.cli.ContributionCommand
-import flank.scripts.cli.DependenciesCommand
-import flank.scripts.cli.IntegrationCommand
-import flank.scripts.cli.PullRequestCommand
-import flank.scripts.cli.ReleaseCommand
-import flank.scripts.cli.ShellCommand
+import flank.scripts.cli.ci.CiCommand
+import flank.scripts.cli.contribution.ContributionCommand
+import flank.scripts.cli.dependencies.DependenciesCommand
+import flank.scripts.cli.integration.IntegrationCommand
+import flank.scripts.cli.pullrequest.PullRequestCommand
+import flank.scripts.cli.release.ReleaseCommand
+import flank.scripts.cli.shell.ShellCommand
 import flank.scripts.testartifacts.TestArtifactsCommand
 
 class Main : CliktCommand(name = "flankScripts") {

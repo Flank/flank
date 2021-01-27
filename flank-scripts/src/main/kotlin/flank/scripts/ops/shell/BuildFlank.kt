@@ -1,6 +1,5 @@
 package flank.scripts.ops.shell
 
-import com.github.ajalt.clikt.core.CliktCommand
 import flank.common.rootDirectoryPathString
 import flank.scripts.ops.shell.utils.createGradleCommand
 import flank.scripts.utils.runCommand
@@ -8,13 +7,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
-object BuildFlankCommand : CliktCommand(name = "buildFlank", help = "Build Flank") {
-    override fun run() {
-        buildFlank()
-    }
-}
-
-private fun buildFlank() {
+fun buildFlank() {
     createGradleCommand(
         workingDir = rootDirectoryPathString,
         "-p", rootDirectoryPathString, ":test_runner:clean", ":test_runner:assemble", ":test_runner:shadowJar"

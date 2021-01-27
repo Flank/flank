@@ -1,7 +1,7 @@
 package flank.scripts.ops.shell.ios
 
 import flank.common.currentPath
-import flank.scripts.ops.shell.utils.failIfWindows
+import flank.scripts.utils.failIfWindows
 import flank.scripts.utils.runCommand
 import java.nio.file.Paths
 

@@ -4,7 +4,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import flank.common.iOSTestProjectsPath
-import flank.scripts.ops.shell.utils.failIfWindows
+import flank.scripts.utils.failIfWindows
 import java.nio.file.Paths
 
 object BuildTestPlansExample : CliktCommand(name = "build_ios_testplans_example", help = "Build ios test plans example app") {

@@ -1,4 +1,4 @@
-package flank.scripts.cli
+package flank.scripts.cli.dependencies
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
