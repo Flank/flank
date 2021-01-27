@@ -11,7 +11,7 @@ import flank.scripts.ops.shell.ios.buildIosExample
 import flank.scripts.ops.shell.ios.createUniversalFrameworkFiles
 import flank.scripts.ops.shell.ios.runFtlLocal
 import flank.scripts.ops.shell.setupIosEnv
-import flank.scripts.ops.shell.updatebinaries.UpdateBinariesCommand
+import flank.scripts.ops.shell.updatebinaries.updateBinaries
 
 object ShellCommand : CliktCommand(name = "shell", help = "Task for shell commands") {
     init {
@@ -77,5 +77,12 @@ object InstallXcPrettyCommand : CliktCommand(name = "install_xcpretty", help = "
 object BuildFlankCommand : CliktCommand(name = "buildFlank", help = "Build Flank") {
     override fun run() {
         buildFlank()
+    }
+}
+
+object UpdateBinariesCommand : CliktCommand(name = "updateBinaries", help = "Update binaries used by Flank") {
+
+    override fun run() {
+        updateBinaries()
     }
 }
