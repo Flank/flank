@@ -1,4 +1,4 @@
-package flank.scripts.ops.shell.ops
+package flank.scripts.ops.shell.ops.ios
 
 import flank.common.archive
 import flank.common.flankFixturesIosTmpPath

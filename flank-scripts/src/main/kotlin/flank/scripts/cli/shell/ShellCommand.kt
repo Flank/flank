@@ -10,7 +10,6 @@ import flank.scripts.ops.shell.ios.buildFtl
 import flank.scripts.ops.shell.ios.buildIosExample
 import flank.scripts.ops.shell.ios.createUniversalFrameworkFiles
 import flank.scripts.ops.shell.ios.runFtlLocal
-import flank.scripts.ops.shell.ops.OpsCommand
 import flank.scripts.ops.shell.setupIosEnv
 import flank.scripts.ops.shell.updatebinaries.UpdateBinariesCommand
 

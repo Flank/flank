@@ -1,4 +1,4 @@
-package flank.scripts.ops.shell.ops
+package flank.scripts.cli.shell
 
 import com.github.ajalt.clikt.core.CliktCommand
 
