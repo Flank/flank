@@ -6,7 +6,6 @@ object IosOpsCommand : CliktCommand(
     name = "ios",
     help = "Build ios test artifacts"
 ) {
-
     override fun run() = listOf(
         BuildEarlGreyExampleCommand,
         BuildTestPlansExample,

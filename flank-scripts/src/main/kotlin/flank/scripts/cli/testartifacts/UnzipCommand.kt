@@ -9,6 +9,7 @@ object UnzipCommand : CliktCommand(
     help = "Unpack test artifacts zip archive."
 ) {
     val artifacts by requireObject<Context>()
+
     override fun run() {
         artifacts.unzipTestArtifacts()
     }

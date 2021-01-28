@@ -8,7 +8,8 @@ import flank.scripts.ops.testartifacts.linkArtifacts
 object LinkCommand : CliktCommand(
     help = "Create symbolic link to under test_runner/src/test/kotlin/ftl/fixtures/tmp to test_artifacts/{branchName}."
 ) {
-    val artifacts by requireObject<Context>()
+    private val artifacts by requireObject<Context>()
+
     override fun run() {
         artifacts.linkArtifacts()
     }

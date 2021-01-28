@@ -6,7 +6,10 @@ import flank.scripts.cli.shell.buildexample.BuildExampleCommand
 import flank.scripts.cli.shell.buildexample.OpsCommand
 import flank.scripts.cli.shell.firebase.FirebaseCommand
 
-object ShellCommand : CliktCommand(name = "shell", help = "Task for shell commands") {
+object ShellCommand : CliktCommand(
+    name = "shell",
+    help = "Task for shell commands"
+) {
     init {
         subcommands(
             BuildFlankCommand,

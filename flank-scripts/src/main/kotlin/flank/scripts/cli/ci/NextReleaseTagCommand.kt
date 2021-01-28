@@ -5,8 +5,10 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import flank.scripts.ops.ci.createNextReleaseTag
 
-object NextReleaseTagCommand : CliktCommand(help = "Print next release tag", name = "nextReleaseTag") {
-
+object NextReleaseTagCommand : CliktCommand(
+    help = "Print next release tag",
+    name = "nextReleaseTag"
+) {
     private val token by option(help = "Git Token").required()
 
     override fun run() {

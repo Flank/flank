@@ -9,6 +9,7 @@ object ZipCommand : CliktCommand(
     help = "Create zip archive from test artifacts directory."
 ) {
     val artifacts by requireObject<Context>()
+
     override fun run() {
         artifacts.zipTestArtifacts()
     }

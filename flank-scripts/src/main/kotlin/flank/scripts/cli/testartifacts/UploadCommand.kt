@@ -9,6 +9,7 @@ object UploadCommand : CliktCommand(
     help = "Upload test artifacts zip as github release asset."
 ) {
     val artifacts by requireObject<Context>()
+
     override fun run() {
         artifacts.uploadFixtures()
     }

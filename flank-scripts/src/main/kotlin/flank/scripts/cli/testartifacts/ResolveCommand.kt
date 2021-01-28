@@ -9,6 +9,7 @@ object ResolveCommand : CliktCommand(
     help = "Automatically prepare local artifacts if needed."
 ) {
     val artifacts by requireObject<Context>()
+
     override fun run() {
         artifacts.resolveArtifacts()
     }

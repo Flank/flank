@@ -6,8 +6,10 @@ import com.github.ajalt.clikt.parameters.options.required
 import flank.scripts.ops.release.jfrog.jFrogSync
 import kotlin.system.exitProcess
 
-class SyncMavenCommand : CliktCommand(name = "jFrogSync", help = "Sync maven repository using jfrog") {
-
+class SyncMavenCommand : CliktCommand(
+    name = "jFrogSync",
+    help = "Sync maven repository using jfrog"
+) {
     private val mavenTag by option(help = "Maven Tag").required()
 
     override fun run() {

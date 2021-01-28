@@ -10,8 +10,9 @@ import flank.scripts.ops.testartifacts.downloadFixtures
 object DownloadCommand : CliktCommand(
     help = "Download test artifacts zip asset to test_artifacts directory."
 ) {
-    val artifacts by requireObject<Context>()
-    val overwrite by option(
+    private val artifacts by requireObject<Context>()
+
+    private val overwrite by option(
         "--overwrite", "-o",
         help = "Flag which indicates if should overwrite old resources when downloading"
     ).flag()

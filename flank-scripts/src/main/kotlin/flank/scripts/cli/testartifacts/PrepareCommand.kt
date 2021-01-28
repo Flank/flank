@@ -11,6 +11,7 @@ object PrepareCommand : CliktCommand(
     help = "Creates fresh copy of test artifacts for current working branch, basing on existing one."
 ) {
     val artifacts by requireObject<Context>()
+
     val source by option(
         "--src", "-s",
         help = "The name of branch that identify artifacts source. The master branch is a default."

@@ -8,6 +8,8 @@ import flank.scripts.utils.getRootDirFile
 import flank.scripts.utils.runCommand
 
 suspend fun applyKtlintToIdea() {
+    logLn("Applying Ktlint code style to this idea project")
+    logLn("Retrieving Ktlint...")
     retrieveKtlintResolveCommand()
     applyKtlintToIdeaCommand()
     tryCleanupKtlint()

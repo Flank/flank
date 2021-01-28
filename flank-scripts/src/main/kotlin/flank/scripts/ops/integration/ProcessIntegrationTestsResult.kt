@@ -11,7 +11,23 @@ fun processIntegrationTestsResult(
     githubToken: String,
     url: String,
     runID: String
-) = createContext(result, githubToken, url, runID).processIntegrationTestsResult()
+) {
+    logArgs(result, url, runID)
+    createContext(result, githubToken, url, runID).processIntegrationTestsResult()
+}
+
+private fun logArgs(
+    result: ITResults,
+    url: String,
+    runID: String
+) = println(
+    """
+    ** Parameters:
+         result: $result
+         url:    $url
+         runID:  $runID
+    """.trimIndent()
+)
 
 private fun createContext(
     result: ITResults,

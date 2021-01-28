@@ -15,7 +15,6 @@ object TestArtifactsCommand : CliktCommand(
     name = "testArtifacts",
     help = "The base command for artifacts management."
 ) {
-
     private val branch: String by option(
         "--branch", "-b",
         help = "Branch name that identify test artifacts to operate. The current git branch is a default."

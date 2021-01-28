@@ -9,6 +9,7 @@ object RemoveCommand : CliktCommand(
     help = "Remove remote copy of test artifacts."
 ) {
     val artifacts by requireObject<Context>()
+
     override fun run() {
         artifacts.removeRemoteCopy()
     }
