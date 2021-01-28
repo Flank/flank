@@ -7,7 +7,7 @@ object PullRequestCommand : CliktCommand(
     name = "pullRequest"
 ) {
     init {
-        subcommands(CopyProperties)
+        subcommands(CopyPropertiesCommand)
     }
 
     @Suppress("EmptyFunctionBlock")

@@ -6,7 +6,7 @@ import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.int
 import flank.scripts.ops.pullrequest.copyGitHubProperties
 
-object CopyProperties : CliktCommand(
+object CopyPropertiesCommand : CliktCommand(
     name = "copyProperties",
     help = "Copy properties from referenced issue to pull request"
 ) {
