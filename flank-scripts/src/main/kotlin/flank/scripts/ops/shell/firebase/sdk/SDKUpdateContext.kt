@@ -1,6 +1,6 @@
 package flank.scripts.ops.shell.firebase.sdk
 
-import flank.scripts.github.objects.GithubPullRequest
+import flank.scripts.data.github.objects.GithubPullRequest
 import flank.scripts.utils.Version
 
 data class SDKUpdateContext(

@@ -4,7 +4,7 @@ import com.github.kittinunf.fuel.Fuel
 import flank.common.config.flankGcloudCLIRepository
 import flank.common.currentPath
 import flank.common.downloadFile
-import flank.scripts.github.objects.GithubPullRequest
+import flank.scripts.data.github.objects.GithubPullRequest
 import flank.scripts.utils.parseToVersion
 import kotlinx.coroutines.runBlocking
 import java.nio.file.Paths

@@ -3,10 +3,10 @@ package flank.scripts.ops.shell.ios
 import flank.common.archive
 import flank.common.currentPath
 import flank.common.iOSTestProjectsPath
-import flank.scripts.ops.shell.utils.pipe
 import flank.scripts.utils.downloadXcPrettyIfNeeded
 import flank.scripts.utils.failIfWindows
 import flank.scripts.utils.installPodsIfNeeded
+import flank.scripts.utils.pipe
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths

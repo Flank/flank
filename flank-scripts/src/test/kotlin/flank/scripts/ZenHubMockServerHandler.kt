@@ -2,9 +2,9 @@ package flank.scripts
 
 import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Request
+import flank.scripts.data.zenhub.ZenHubEstimate
+import flank.scripts.data.zenhub.ZenHubIssue
 import flank.scripts.utils.toJson
-import flank.scripts.zenhub.ZenHubEstimate
-import flank.scripts.zenhub.ZenHubIssue
 
 fun handleZenhubMockRequest(url: String, request: Request) = when {
     url.contains("issues") && request.isGet && request.isSuccessful() ->

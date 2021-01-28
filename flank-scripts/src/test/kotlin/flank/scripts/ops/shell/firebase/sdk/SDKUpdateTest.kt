@@ -3,7 +3,7 @@ package flank.scripts.ops.shell.firebase.sdk
 import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
 import flank.scripts.FuelTestRunner
-import flank.scripts.github.objects.GithubPullRequest
+import flank.scripts.data.github.objects.GithubPullRequest
 import flank.scripts.utils.parseToVersion
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule

@@ -3,10 +3,10 @@ package flank.scripts.ops.ci.releasenotes
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.getOrElse
 import com.github.kittinunf.result.map
-import flank.scripts.github.getLatestReleaseTag
-import flank.scripts.github.getPrDetailsByCommit
-import flank.scripts.github.objects.GithubPullRequest
-import flank.scripts.github.objects.GithubUser
+import flank.scripts.data.github.getLatestReleaseTag
+import flank.scripts.data.github.getPrDetailsByCommit
+import flank.scripts.data.github.objects.GithubPullRequest
+import flank.scripts.data.github.objects.GithubUser
 import flank.scripts.utils.markdownLink
 import flank.scripts.utils.runCommand
 import kotlinx.coroutines.async

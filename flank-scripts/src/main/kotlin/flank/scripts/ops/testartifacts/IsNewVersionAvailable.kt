@@ -1,7 +1,7 @@
 package flank.scripts.ops.testartifacts
 
 import com.jcabi.github.Repo
-import flank.scripts.github.getRelease
+import flank.scripts.data.github.getRelease
 
 internal fun Context.isNewVersionAvailable(
     repo: Repo = testArtifactsRepo()

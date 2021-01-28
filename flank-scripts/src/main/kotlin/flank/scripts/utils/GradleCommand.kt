@@ -1,6 +1,5 @@
-package flank.scripts.ops.shell.utils
+package flank.scripts.utils
 
-import flank.scripts.utils.isWindows
 import java.nio.file.Paths
 
 fun createGradleCommand(

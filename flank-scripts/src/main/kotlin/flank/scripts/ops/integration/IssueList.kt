@@ -3,7 +3,7 @@ package flank.scripts.ops.integration
 import com.github.kittinunf.result.getOrElse
 import com.github.kittinunf.result.onError
 import flank.common.config.integrationOpenedIssueUser
-import flank.scripts.github.getGitHubIssueList
+import flank.scripts.data.github.getGitHubIssueList
 
 internal suspend fun checkForOpenedITIssues(token: String): Int? = getGitHubIssueList(
     githubToken = token,

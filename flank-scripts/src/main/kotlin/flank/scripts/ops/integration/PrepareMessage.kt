@@ -1,7 +1,7 @@
 package flank.scripts.ops.integration
 
 import flank.common.config.flankRepository
-import flank.scripts.github.objects.GithubPullRequest
+import flank.scripts.data.github.objects.GithubPullRequest
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset

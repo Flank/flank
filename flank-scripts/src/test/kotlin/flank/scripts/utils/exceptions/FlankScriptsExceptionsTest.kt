@@ -1,7 +1,7 @@
 package flank.scripts.utils.exceptions
 
 import com.google.common.truth.Truth.assertThat
-import flank.scripts.github.GitHubErrorResponse
+import flank.scripts.data.github.GitHubErrorResponse
 import org.junit.Test
 
 class FlankScriptsExceptionsTest {

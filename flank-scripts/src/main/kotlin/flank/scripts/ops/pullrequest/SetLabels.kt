@@ -3,8 +3,8 @@ package flank.scripts.ops.pullrequest
 import com.github.kittinunf.result.getOrNull
 import com.github.kittinunf.result.map
 import com.github.kittinunf.result.onError
-import flank.scripts.github.getLabelsFromIssue
-import flank.scripts.github.setLabelsToPullRequest
+import flank.scripts.data.github.getLabelsFromIssue
+import flank.scripts.data.github.setLabelsToPullRequest
 
 internal suspend fun copyLabels(githubToken: String, issueNumber: Int, pullRequestNumber: Int) {
     getLabelsFromIssue(githubToken, issueNumber)

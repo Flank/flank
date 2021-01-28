@@ -1,9 +1,9 @@
 package flank.scripts.ops.shell.ios
 
 import flank.common.archive
-import flank.scripts.ops.shell.utils.pipe
 import flank.scripts.utils.downloadXcPrettyIfNeeded
 import flank.scripts.utils.failIfWindows
+import flank.scripts.utils.pipe
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption

@@ -1,4 +1,4 @@
-package flank.scripts.zenhub
+package flank.scripts.data.zenhub
 
 import com.github.kittinunf.fuel.core.ResponseDeserializable
 import flank.scripts.utils.toObject

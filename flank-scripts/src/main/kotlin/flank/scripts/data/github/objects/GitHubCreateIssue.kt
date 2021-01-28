@@ -1,4 +1,4 @@
-package flank.scripts.github.objects
+package flank.scripts.data.github.objects
 
 import com.github.kittinunf.fuel.core.ResponseDeserializable
 import flank.scripts.utils.toObject

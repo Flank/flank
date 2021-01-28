@@ -1,4 +1,4 @@
-package flank.scripts.zenhub.objects
+package flank.scripts.data.zenhub.objects
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

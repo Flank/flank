@@ -1,14 +1,14 @@
 package flank.scripts.ops.integration
 
 import com.github.kittinunf.result.onError
-import flank.scripts.github.objects.GitHubCreateIssueCommentRequest
-import flank.scripts.github.objects.GitHubCreateIssueRequest
-import flank.scripts.github.objects.GitHubCreateIssueResponse
-import flank.scripts.github.objects.GitHubUpdateIssueRequest
-import flank.scripts.github.objects.IssueState
-import flank.scripts.github.patchIssue
-import flank.scripts.github.postNewIssue
-import flank.scripts.github.postNewIssueComment
+import flank.scripts.data.github.objects.GitHubCreateIssueCommentRequest
+import flank.scripts.data.github.objects.GitHubCreateIssueRequest
+import flank.scripts.data.github.objects.GitHubCreateIssueResponse
+import flank.scripts.data.github.objects.GitHubUpdateIssueRequest
+import flank.scripts.data.github.objects.IssueState
+import flank.scripts.data.github.patchIssue
+import flank.scripts.data.github.postNewIssue
+import flank.scripts.data.github.postNewIssueComment
 import flank.scripts.utils.toJson
 import kotlinx.coroutines.coroutineScope
 import kotlin.system.exitProcess

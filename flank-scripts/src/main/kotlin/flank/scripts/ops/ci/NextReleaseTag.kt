@@ -1,7 +1,7 @@
 package flank.scripts.ops.ci
 
 import com.github.kittinunf.result.Result
-import flank.scripts.github.getLatestReleaseTag
+import flank.scripts.data.github.getLatestReleaseTag
 import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

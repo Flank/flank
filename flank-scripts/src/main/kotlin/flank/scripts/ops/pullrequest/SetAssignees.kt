@@ -3,8 +3,8 @@ package flank.scripts.ops.pullrequest
 import com.github.kittinunf.result.getOrNull
 import com.github.kittinunf.result.map
 import com.github.kittinunf.result.onError
-import flank.scripts.github.getGitHubIssue
-import flank.scripts.github.setAssigneesToPullRequest
+import flank.scripts.data.github.getGitHubIssue
+import flank.scripts.data.github.setAssigneesToPullRequest
 
 internal suspend fun copyAssignees(githubToken: String, baseIssueNumber: Int, pullRequestNumber: Int) {
     getGitHubIssue(githubToken, baseIssueNumber)

@@ -2,9 +2,9 @@ package flank.scripts.ops.integration
 
 import com.github.kittinunf.result.getOrElse
 import com.github.kittinunf.result.onError
-import flank.scripts.github.getGitHubCommitList
-import flank.scripts.github.getPrDetailsByCommit
-import flank.scripts.github.objects.GithubPullRequest
+import flank.scripts.data.github.getGitHubCommitList
+import flank.scripts.data.github.getPrDetailsByCommit
+import flank.scripts.data.github.objects.GithubPullRequest
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope

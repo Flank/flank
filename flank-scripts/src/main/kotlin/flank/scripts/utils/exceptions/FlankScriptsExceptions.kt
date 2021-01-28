@@ -1,6 +1,6 @@
 package flank.scripts.utils.exceptions
 
-import flank.scripts.github.GitHubErrorResponse
+import flank.scripts.data.github.GitHubErrorResponse
 
 sealed class FlankScriptsExceptions : Exception()
 

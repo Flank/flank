@@ -1,6 +1,6 @@
 package flank.scripts.ops.pullrequest
 
-import flank.scripts.github.objects.GithubPullRequest
+import flank.scripts.data.github.objects.GithubPullRequest
 
 internal fun GithubPullRequest.findReferenceNumber() =
     (tryGetReferenceNumberFromBody() ?: tryGetReferenceNumberFromBranch())

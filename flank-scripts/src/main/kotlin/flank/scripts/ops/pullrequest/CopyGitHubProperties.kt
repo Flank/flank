@@ -2,8 +2,8 @@ package flank.scripts.ops.pullrequest
 
 import com.github.kittinunf.result.onError
 import com.github.kittinunf.result.success
-import flank.scripts.github.getGitHubPullRequest
-import flank.scripts.zenhub.copyEstimation
+import flank.scripts.data.github.getGitHubPullRequest
+import flank.scripts.data.zenhub.copyEstimation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.joinAll

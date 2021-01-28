@@ -1,4 +1,4 @@
-package flank.scripts.github
+package flank.scripts.data.github
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

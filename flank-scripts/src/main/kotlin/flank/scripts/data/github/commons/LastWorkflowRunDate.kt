@@ -1,8 +1,8 @@
-package flank.scripts.github.commons
+package flank.scripts.data.github.commons
 
 import com.github.kittinunf.result.getOrNull
-import flank.scripts.github.getGitHubWorkflowRunsSummary
-import flank.scripts.github.objects.GitHubWorkflowRun
+import flank.scripts.data.github.getGitHubWorkflowRunsSummary
+import flank.scripts.data.github.objects.GitHubWorkflowRun
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 

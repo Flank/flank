@@ -1,7 +1,7 @@
 package flank.scripts.ops.release.hub
 
 import com.github.kittinunf.result.Result
-import flank.scripts.github.deleteOldTag
+import flank.scripts.data.github.deleteOldTag
 import kotlinx.coroutines.runBlocking
 import java.lang.Exception
 

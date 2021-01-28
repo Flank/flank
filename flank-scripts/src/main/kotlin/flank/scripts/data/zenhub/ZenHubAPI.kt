@@ -1,4 +1,4 @@
-package flank.scripts.zenhub
+package flank.scripts.data.zenhub
 
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.Request
@@ -8,9 +8,9 @@ import com.github.kittinunf.result.getOrNull
 import com.github.kittinunf.result.onError
 import com.github.kittinunf.result.success
 import flank.common.config.zenhubRepositoryID
+import flank.scripts.data.zenhub.objects.ConvertToEpicRequest
+import flank.scripts.data.zenhub.objects.UpdateEpicRequest
 import flank.scripts.utils.toJson
-import flank.scripts.zenhub.objects.ConvertToEpicRequest
-import flank.scripts.zenhub.objects.UpdateEpicRequest
 import kotlinx.serialization.Serializable
 
 internal val ZENHUB_BASE_URL = "https://api.zenhub.com/p1/repositories/$zenhubRepositoryID"

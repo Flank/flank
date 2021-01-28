@@ -1,6 +1,6 @@
 package flank.scripts.ops.testartifacts
 
-import flank.scripts.github.getRelease
+import flank.scripts.data.github.getRelease
 
 fun Context.removeRemoteCopy() {
     print("* Removing remote copy for $branch - ")

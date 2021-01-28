@@ -1,7 +1,7 @@
 package flank.scripts.ops.pullrequest
 
 import com.google.common.truth.Truth.assertThat
-import flank.scripts.github.objects.GithubPullRequest
+import flank.scripts.data.github.objects.GithubPullRequest
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Test

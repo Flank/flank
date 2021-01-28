@@ -2,7 +2,7 @@ package flank.scripts.ops.testartifacts
 
 import com.jcabi.github.Release
 import com.jcabi.github.ReleaseAsset
-import flank.scripts.github.getOrCreateRelease
+import flank.scripts.data.github.getOrCreateRelease
 import java.io.File
 
 fun Context.uploadFixtures() {

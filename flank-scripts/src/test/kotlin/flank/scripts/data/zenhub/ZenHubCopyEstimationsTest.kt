@@ -1,4 +1,4 @@
-package flank.scripts.zenhub
+package flank.scripts.data.zenhub
 
 import flank.scripts.FuelTestRunner
 import flank.scripts.testZenHubIssue
