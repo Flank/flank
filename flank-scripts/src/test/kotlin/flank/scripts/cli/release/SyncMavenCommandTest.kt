@@ -24,7 +24,7 @@ class SyncMavenCommandTest {
         systemExit.expectSystemExitWithStatus(1)
 
         // when
-        SyncMavenCommand().main(listOf("--git-tag=TAG"))
+        SyncMavenCommand.main(listOf("--git-tag=TAG"))
 
         // then
         verify { jFrogSync("TAG") }

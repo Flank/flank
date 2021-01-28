@@ -19,7 +19,7 @@ class ReleaseFlankCommandTest {
         systemExit.expectSystemExitWithStatus(1)
 
         // when
-        ReleaseFlankCommand().main(listOf("--input-file=./", "--git-tag=T", "--snapshot"))
+        ReleaseFlankCommand.main(listOf("--input-file=./", "--git-tag=T", "--snapshot"))
     }
 
     @Test
@@ -28,7 +28,7 @@ class ReleaseFlankCommandTest {
         systemExit.expectSystemExitWithStatus(1)
 
         // when
-        ReleaseFlankCommand().main(listOf("--input-file=./", "--git-tag=T"))
+        ReleaseFlankCommand.main(listOf("--input-file=./", "--git-tag=T"))
     }
 
     @Test
@@ -41,7 +41,7 @@ class ReleaseFlankCommandTest {
         systemExit.expectSystemExitWithStatus(0)
 
         // when
-        ReleaseFlankCommand().main(listOf("--input-file=./", "--git-tag=T", "--commit-hash=X", "--snapshot"))
+        ReleaseFlankCommand.main(listOf("--input-file=./", "--git-tag=T", "--commit-hash=X", "--snapshot"))
     }
 
     @Test
@@ -54,6 +54,6 @@ class ReleaseFlankCommandTest {
         systemExit.expectSystemExitWithStatus(0)
 
         // when
-        ReleaseFlankCommand().main(listOf("--input-file=./", "--git-tag=T", "--token=X"))
+        ReleaseFlankCommand.main(listOf("--input-file=./", "--git-tag=T", "--token=X"))
     }
 }
