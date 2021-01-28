@@ -11,7 +11,7 @@ object FirebaseCommand : CliktCommand(
         subcommands(
             UpdateApiJsonCommand,
             GenerateJavaClientCommand,
-            CheckForSDKUpdateCommand
+            CheckForSdkUpdateCommand
         )
     }
 

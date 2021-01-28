@@ -5,7 +5,7 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import flank.scripts.ops.shell.firebase.sdk.checkForSDKUpdate
 
-object CheckForSDKUpdateCommand : CliktCommand(
+object CheckForSdkUpdateCommand : CliktCommand(
     name = "checkForSdkUpdate",
     help = "Verifies if there were changes in gcloud sdk that need to be implemented in flank"
 ) {
