@@ -1,7 +1,7 @@
 package flank.scripts.ops.shell
 
 import flank.common.iOSTestProjectsPath
-import flank.scripts.ops.shell.ops.ios.EARL_GREY_EXAMPLE
+import flank.scripts.ops.shell.buildexample.ios.EARL_GREY_EXAMPLE
 import flank.scripts.utils.downloadCocoaPodsIfNeeded
 import flank.scripts.utils.failIfWindows
 import flank.scripts.utils.installPodsIfNeeded

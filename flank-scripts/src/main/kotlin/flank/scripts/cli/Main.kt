@@ -18,8 +18,8 @@ class Main : CliktCommand(name = "flankScripts") {
 
 fun main(args: Array<String>) {
     Main().subcommands(
-        ReleaseCommand(),
-        CiCommand(),
+        ReleaseCommand,
+        CiCommand,
         DependenciesCommand,
         TestArtifactsCommand,
         ShellCommand,
