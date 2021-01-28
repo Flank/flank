@@ -44,7 +44,7 @@ class NextReleaseTagCommandTest {
             coEvery { getLatestReleaseTag(any()) } returns Result.success(GitHubRelease("v20.09.0"))
 
             // when
-            NextReleaseTagCommand().main(arrayOf("--token=success"))
+            NextReleaseTagCommand.main(arrayOf("--token=success"))
 
             // expected
             assertThat(systemOutRule.log).contains("v20.09.1")
@@ -59,6 +59,6 @@ class NextReleaseTagCommandTest {
             assertThat(systemOutRule.log).contains("Error while doing GitHub request")
         }
         // when
-        NextReleaseTagCommand().main(arrayOf("--token=failure"))
+        NextReleaseTagCommand.main(arrayOf("--token=failure"))
     }
 }

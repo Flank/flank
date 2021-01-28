@@ -12,7 +12,7 @@ class GenerateReleaseNotesCommandTest {
         val expected = File.createTempFile("test", ".file").absolutePath
 
         // when
-        val command = GenerateReleaseNotesCommand().apply {
+        val command = GenerateReleaseNotesCommand.apply {
             main(
                 listOf(
                     "--token=token",
