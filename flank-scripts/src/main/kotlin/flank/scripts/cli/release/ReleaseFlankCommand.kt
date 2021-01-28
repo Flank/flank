@@ -9,7 +9,7 @@ import com.github.ajalt.clikt.parameters.types.path
 import flank.scripts.ops.release.hub.tryReleaseFlank
 import kotlin.system.exitProcess
 
-class ReleaseFlankCommand : CliktCommand(
+object ReleaseFlankCommand : CliktCommand(
     name = "releaseFlank",
     help = "Release Flank on GitHub"
 ) {

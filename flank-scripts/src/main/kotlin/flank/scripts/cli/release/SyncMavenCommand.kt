@@ -6,7 +6,7 @@ import com.github.ajalt.clikt.parameters.options.required
 import flank.scripts.ops.release.jfrog.jFrogSync
 import kotlin.system.exitProcess
 
-class SyncMavenCommand : CliktCommand(
+object SyncMavenCommand : CliktCommand(
     name = "jFrogSync",
     help = "Sync maven repository using jfrog"
 ) {

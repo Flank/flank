@@ -5,7 +5,7 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import flank.scripts.ops.release.hub.tryDeleteOldTag
 
-class DeleteOldTagCommand : CliktCommand(
+object DeleteOldTagCommand : CliktCommand(
     name = "deleteOldTag",
     help = "Delete old tag on GitHub"
 ) {

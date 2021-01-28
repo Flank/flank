@@ -9,11 +9,11 @@ object ReleaseCommand : CliktCommand(
 ) {
     init {
         subcommands(
-            ReleaseFlankCommand(),
-            DeleteOldSnapshotCommand(),
-            SyncMavenCommand(),
-            DeleteOldReleaseCommand(),
-            DeleteOldTagCommand()
+            ReleaseFlankCommand,
+            DeleteOldSnapshotCommand,
+            SyncMavenCommand,
+            DeleteOldReleaseCommand,
+            DeleteOldTagCommand
         )
     }
 
