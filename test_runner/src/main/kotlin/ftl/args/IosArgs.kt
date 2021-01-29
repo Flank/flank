@@ -7,7 +7,9 @@ import ftl.args.yml.Type
 import ftl.ios.xctest.XcTestRunData
 import ftl.ios.xctest.calculateXcTestRunData
 import ftl.ios.xctest.common.XctestrunMethods
+import ftl.run.IOS_SHARD_FILE
 import ftl.run.exception.FlankConfigurationError
+import java.nio.file.Paths
 
 data class IosArgs(
     val commonArgs: CommonArgs,
@@ -102,6 +104,9 @@ IosArgs
 
 val IosArgs.isXcTest: Boolean
     get() = type == Type.XCTEST
+
+val IosArgs.shardsFilePath
+    get() = Paths.get(localResultDir, resultsDir, IOS_SHARD_FILE).toAbsolutePath().toString()
 
 @VisibleForTesting
 internal fun filterTests(
