@@ -42,7 +42,7 @@ private val flankBinariesDirectory = Paths.get(appDataDirectory, ".flank").toAbs
 private fun downloadAndUnzip(osname: String) {
     createDirectoryIfNotExist(flankBinariesDirectory)
     val destinationFile = Paths.get(flankBinariesDirectory.toString(), "binaries.zip")
-
+    print("")
     downloadFile(
         sourceUrl = "https://github.com/Flank/binaries/releases/download/$osname/binaries.zip",
         destinationPath = destinationFile
