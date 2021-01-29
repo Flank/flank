@@ -101,9 +101,16 @@ jobs:
         env:
           GCLOUD_KEY: ${{ secrets.GCLOUD_KEY }}
         run: |
-          GCLOUD_DIR="$HOME/.config/gcloud/"
-          mkdir -p "$GCLOUD_DIR"
-          echo "$GCLOUD_KEY" | base64 --decode > "$GCLOUD_DIR/application_default_credentials.json"
+            if [ "$RUNNER_OS" == "Windows" ]; then
+                set GCLOUD_DIR="%HOMEPATH%/.config/gcloud/"
+                mkdir %GCLOUD_DIR%
+                echo certutil -decode gcloud_key.txt %GCLOUD_DIR%application_default_credentials.json
+            else
+                GCLOUD_DIR="$HOME/.config/gcloud/"
+                mkdir -p "$GCLOUD_DIR"
+                echo "$GCLOUD_KEY" | base64 --decode > "$GCLOUD_DIR/application_default_credentials.json"
+            fi
+            shell: bash
 
       - name: Gradle integration tests
         uses: eskatos/gradle-command-action@v1
