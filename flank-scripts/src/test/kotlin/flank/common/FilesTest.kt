@@ -1,20 +1,27 @@
 package flank.common
 
+import flank.scripts.FuelTestRunner
 import org.junit.Assert
 import org.junit.Assume
+import org.junit.Rule
 import org.junit.Test
-import java.io.File
+import org.junit.rules.TemporaryFolder
+import org.junit.runner.RunWith
 import java.nio.file.Files
 import java.nio.file.Paths
 
+@RunWith(FuelTestRunner::class)
 internal class FilesTest {
+
+    @get:Rule
+    val root = TemporaryFolder()
 
     @Test
     fun `Should create symbolic file at desired location`() {
         Assume.assumeFalse(isWindows)
         // given
-        val testFile = File.createTempFile("test", "file").toPath()
-        val expectedDestination = Paths.get(Files.createTempDirectory("temp").toString(), "test.link")
+        val testFile = root.newFile("test.file").toPath()
+        val expectedDestination = Paths.get(root.newFolder("temp").toString(), "test.link")
 
         // when
         createSymbolicLinkToFile(expectedDestination, testFile)
@@ -30,8 +37,8 @@ internal class FilesTest {
     @Test
     fun `Should download file and store it and destination`() {
         // given
-        val testSource = "https://github.com/Flank/flank/blob/master/settings.gradle.kts"
-        val testDestination = Paths.get(Files.createTempDirectory("temp").toString(), "settings.gradle.kts")
+        val testSource = "https://path.com/to/test/settings.gradle.kts"
+        val testDestination = Paths.get(root.newFolder("temp").toString(), "settings.gradle.kts")
 
         // when
         downloadFile(testSource, testDestination)
@@ -44,7 +51,7 @@ internal class FilesTest {
     @Test
     fun `Should check if directory contains all needed files`() {
         // given
-        val testDirectory = Files.createTempDirectory("test")
+        val testDirectory = root.newFolder("test").toPath()
         val testFiles = listOf(
             Paths.get(testDirectory.toString(), "testFile1"),
             Paths.get(testDirectory.toString(), "testFile2"),

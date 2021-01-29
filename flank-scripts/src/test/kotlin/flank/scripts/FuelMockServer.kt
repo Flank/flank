@@ -12,6 +12,7 @@ class FuelMockServer : Client {
         return when {
             url.startsWith("https://api.github.com/repos/flank/flank/", ignoreCase = true) -> handleGithubMockRequest(url, request)
             url.startsWith(ZENHUB_BASE_URL) -> handleZenhubMockRequest(url, request)
+            url == "https://path.com/to/test/settings.gradle.kts" -> request.buildResponse("not empty", 200)
             else -> Response(request.url)
         }
     }
