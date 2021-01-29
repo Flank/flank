@@ -3,6 +3,7 @@ package ftl.run.platform
 import flank.common.logLn
 import ftl.args.IosArgs
 import ftl.args.isXcTest
+import ftl.args.shardsFilePath
 import ftl.gc.GcIosMatrix
 import ftl.gc.GcIosTestMatrix
 import ftl.gc.GcStorage
@@ -70,7 +71,9 @@ internal suspend fun IosArgs.runIosTests(): TestResult =
     }
 
 private fun IosArgs.dumpShardsIfXcTest() = takeIf { isXcTest }?.let {
-    dumpShards()
+    dumpShards(
+        shardFilePath = shardsFilePath
+    )
     if (disableResultsUpload.not())
         GcStorage.upload(IOS_SHARD_FILE, resultsBucket, resultsDir)
 }
