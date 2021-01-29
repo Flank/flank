@@ -110,7 +110,7 @@ jobs:
                 mkdir -p "$GCLOUD_DIR"
                 echo "$GCLOUD_KEY" | base64 --decode > "$GCLOUD_DIR/application_default_credentials.json"
             fi
-            shell: bash
+        shell: bash
 
       - name: Gradle integration tests
         uses: eskatos/gradle-command-action@v1
