@@ -40,7 +40,8 @@ private fun neededFilesListByOs(): List<String> = if (isWindows) {
 private val flankBinariesDirectory = Paths.get(appDataDirectory, ".flank").toAbsolutePath()
 
 private fun downloadAndUnzip(osname: String) {
-    val dummyVar = 1
+    val dummyVar = ""
+    print(dummyVar)
     createDirectoryIfNotExist(flankBinariesDirectory)
     val destinationFile = Paths.get(flankBinariesDirectory.toString(), "binaries.zip")
 
