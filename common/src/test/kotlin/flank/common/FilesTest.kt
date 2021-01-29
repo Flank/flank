@@ -5,6 +5,7 @@ import org.junit.After
 import org.junit.Assert
 import org.junit.Assert.assertTrue
 import org.junit.Assume.assumeFalse
+import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import java.io.File
@@ -14,6 +15,9 @@ import java.nio.file.Paths
 class FilesTest {
     private val linkName = "tmp"
     private val targetName = "../"
+
+    @get:Rule
+    val root = TemporaryFolder()
 
     @Test
     fun `should create symbolic link`() {
@@ -69,8 +73,8 @@ class FilesTest {
     fun `Should create symbolic file at desired location`() {
         assumeFalse(isWindows)
         // given
-        val testFile = File.createTempFile("test", "file").toPath()
-        val expectedDestination = Paths.get(Files.createTempDirectory("temp").toString(), "test.link")
+        val testFile = root.newFile("test.file").toPath()
+        val expectedDestination = Paths.get(root.newFolder("temp").toString(), "test.link")
 
         // when
         createSymbolicLinkToFile(expectedDestination, testFile)
@@ -84,23 +88,9 @@ class FilesTest {
     }
 
     @Test
-    fun `Should download file and store it and destination`() {
-        // given
-        val testSource = "https://github.com/Flank/flank/blob/master/settings.gradle.kts"
-        val testDestination = Paths.get(Files.createTempDirectory("temp").toString(), "settings.gradle.kts")
-
-        // when
-        downloadFile(testSource, testDestination)
-
-        // then
-        assertTrue(testDestination.toFile().exists())
-        assertTrue(testDestination.toFile().length() > 0)
-    }
-
-    @Test
     fun `Should check if directory contains all needed files`() {
         // given
-        val testDirectory = Files.createTempDirectory("test")
+        val testDirectory = root.newFolder("test").toPath()
         val testFiles = listOf(
             Paths.get(testDirectory.toString(), "testFile1"),
             Paths.get(testDirectory.toString(), "testFile2"),
