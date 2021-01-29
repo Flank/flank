@@ -1,16 +1,13 @@
 package flank.common
 
-import flank.scripts.FuelTestRunner
 import org.junit.Assert
 import org.junit.Assume
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
-import org.junit.runner.RunWith
 import java.nio.file.Files
 import java.nio.file.Paths
 
-@RunWith(FuelTestRunner::class)
 internal class FilesTest {
 
     @get:Rule
@@ -32,20 +29,6 @@ internal class FilesTest {
         // clean
         testFile.toFile().delete()
         expectedDestination.toFile().delete()
-    }
-
-    @Test
-    fun `Should download file and store it and destination`() {
-        // given
-        val testSource = "https://path.com/to/test/settings.gradle.kts"
-        val testDestination = Paths.get(root.newFolder("temp").toString(), "settings.gradle.kts")
-
-        // when
-        downloadFile(testSource, testDestination)
-
-        // then
-        Assert.assertTrue(testDestination.toFile().exists())
-        Assert.assertTrue(testDestination.toFile().length() > 0)
     }
 
     @Test
