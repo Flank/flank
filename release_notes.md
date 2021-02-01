@@ -1,3 +1,36 @@
+## v21.02.0
+### Bug Fixes
+- [#1547](https://github.com/Flank/flank/pull/1547) IT test fix ()
+- [#1540](https://github.com/Flank/flank/pull/1540) Dummy var for pr ([Sloox](https://github.com/Sloox))
+- [#1546](https://github.com/Flank/flank/pull/1546) Fix flaky FilesTest ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1526](https://github.com/Flank/flank/pull/1526) Windows Integration tests ([Sloox](https://github.com/Sloox))
+- [#1521](https://github.com/Flank/flank/pull/1521) Fix NPE and logging ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1506](https://github.com/Flank/flank/pull/1506) Improve Sentry logging for tests ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1470](https://github.com/Flank/flank/pull/1470) Resolve Fails on Windows ([Sloox](https://github.com/Sloox), [pawelpasterz](https://github.com/pawelpasterz))
+- [#1490](https://github.com/Flank/flank/pull/1490) Fix incorrect method usage on master ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1465](https://github.com/Flank/flank/pull/1465) CI failures on performance tests ([piotradamczyk5](https://github.com/piotradamczyk5))
+### CI Changes
+- [#1537](https://github.com/Flank/flank/pull/1537) Integration Test for all OS's ([Sloox](https://github.com/Sloox))
+- [#1534](https://github.com/Flank/flank/pull/1534) Added Windows workflow ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1535](https://github.com/Flank/flank/pull/1535) Windows integration test ([Sloox](https://github.com/Sloox))
+- [#1468](https://github.com/Flank/flank/pull/1468) Use pointer workflows to preserve run date ([pawelpasterz](https://github.com/pawelpasterz), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1456](https://github.com/Flank/flank/pull/1456) Update config for CLA ([piotradamczyk5](https://github.com/piotradamczyk5))
+### Tests update
+- [#1525](https://github.com/Flank/flank/pull/1525) Add missing iOS options in IT ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1514](https://github.com/Flank/flank/pull/1514) Update compare file and make url option not required ([pawelpasterz](https://github.com/pawelpasterz), [adamfilipow92](https://github.com/adamfilipow92))
+### Features
+- [#1448](https://github.com/Flank/flank/pull/1448) Filtering test configurations (iOS TestPlans) ([axelzuziak-gogo](https://github.com/axelzuziak-gogo), [jan-gogo](https://github.com/jan-gogo))
+- [#1504](https://github.com/Flank/flank/pull/1504) Sending configuration to mixpanel ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1474](https://github.com/Flank/flank/pull/1474) Amend pre-commit hook ([Sloox](https://github.com/Sloox))
+- [#1471](https://github.com/Flank/flank/pull/1471) Migrate from bugsnag to sentry ([adamfilipow92](https://github.com/adamfilipow92))
+- [#1428](https://github.com/Flank/flank/pull/1428) Rewrite pre-commit hook & ktlint apply to idea into Flank Scripts ([Sloox](https://github.com/Sloox))
+### Documentation
+- [#1495](https://github.com/Flank/flank/pull/1495) Choose analytics tool ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+### Refactor
+- [#1450](https://github.com/Flank/flank/pull/1450) Enable properties file in flank scripts ([pawelpasterz](https://github.com/pawelpasterz), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1473](https://github.com/Flank/flank/pull/1473) Update picocli to latest version ([pawelpasterz](https://github.com/pawelpasterz), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1466](https://github.com/Flank/flank/pull/1466) Change packages in the common module ([pawelpasterz](https://github.com/pawelpasterz))
+
 ## v21.01.1
 ### CI Changes
 - [#1451](https://github.com/Flank/flank/pull/1451) Added CLA assistant ([piotradamczyk5](https://github.com/piotradamczyk5))
