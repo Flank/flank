@@ -13,11 +13,12 @@ flank.jar
 
 *flank.jar
  firebase test ios run* [*-h*] [*--async*] [*--disable-results-upload*]
-                                 [*--disable-sharding*] [*--dry*] [*--dump-shards*]
-                                 [*--fail-fast*] [*--full-junit-result*]
-                                 [*--ignore-failed-tests*] [*--keep-file-path*]
-                                 [*--no-record-video*] [*--obfuscate*]
-                                 [*--record-video*]
+                                 [*--disable-sharding*]
+                                 [*--disable-usage-statistics*] [*--dry*]
+                                 [*--dump-shards*] [*--fail-fast*]
+                                 [*--full-junit-result*] [*--ignore-failed-tests*]
+                                 [*--keep-file-path*] [*--no-record-video*]
+                                 [*--obfuscate*] [*--record-video*]
                                  [*--smart-flank-disable-upload*]
                                  [*--test-special-entitlements*]
                                  [*--use-average-test-time-for-new-tests*]
@@ -28,13 +29,16 @@ flank.jar
                                  [*--network-profile*=_<networkProfile>_]
                                  [*--num-flaky-test-attempts*=_<flakyTestAttempts>_]
                                   [*--num-test-runs*=_<repeatTests>_]
-                                 [*--output-style*=_<outputStyle>_]
+                                 [*--only-test-configuration*=_<onlyTestConfigurati_
+             _                    on>_] [*--output-style*=_<outputStyle>_]
                                  [*--project*=_<project>_]
                                  [*--results-bucket*=_<resultsBucket>_]
                                  [*--results-dir*=_<resultsDir>_]
                                  [*--results-history-name*=_<resultsHistoryName>_]
                                  [*--run-timeout*=_<runTimeout>_]
                                  [*--shard-time*=_<shardTime>_]
+                                 [*--skip-test-configuration*=_<skipTestConfigurati_
+             _                    on>_]
                                  [*--smart-flank-gcs-path*=_<smartFlankGcsPath>_]
                                  [*--test*=_<test>_] [*--timeout*=_<timeout>_]
                                  [*--type*=_<type>_]
@@ -73,21 +77,6 @@ Configuration is read from flank.yml
 
 // tag::picocli-generated-man-section-options[]
 == Options
-
-*-h*, *--help*::
-  Prints this help message
-
-*--dry*::
-  Dry run on mock server
-
-*-c*, *--config*=_<configPath>_::
-  YAML config file path
-
-*--obfuscate*::
-  Replacing internal test names with unique identifiers when using --dump-shards option to avoid exposing internal details
-
-*--device*=_<String=String>_[,_<String=String>_...]::
-  A list of DIMENSION=VALUE pairs which specify a target device to test against. This flag may be repeated to specify multiple devices. The four device dimensions are: model, version, locale, and orientation. If any dimensions are omitted, they will use a default value. Omitting all of the preceding dimension-related flags will run tests against a single device using defaults for all four device dimensions.
 
 *--results-bucket*=_<resultsBucket>_::
   The name of a Google Cloud Storage bucket where raw test results will be stored (default: "test-lab-<random-UUID>"). Note that the bucket must be owned by a billing-enabled project, and that using a non-default bucket will result in billing charges for the storage used.
@@ -134,11 +123,11 @@ Configuration is read from flank.yml
 *--type*=_<type>_::
   The type of test to run. TYPE must be one of: instrumentation, robo, xctest, game-loop.
 
-*--shard-time*=_<shardTime>_::
-  The max amount of seconds each shard should run.
-
 *--max-test-shards*=_<maxTestShards>_::
   The amount of matrices to split the tests across.
+
+*--shard-time*=_<shardTime>_::
+  The max amount of seconds each shard should run.
 
 *--num-test-runs*=_<repeatTests>_::
   The amount of times to run the test executions.
@@ -188,6 +177,24 @@ Configuration is read from flank.yml
 *--use-average-test-time-for-new-tests*::
   Enable using average time from previous tests duration when using SmartShard and tests did not run before.
 
+*--disable-usage-statistics*::
+  If set to true flank not send usage statistics.
+
+*-h*, *--help*::
+  Prints this help message
+
+*--dry*::
+  Dry run on mock server
+
+*-c*, *--config*=_<configPath>_::
+  YAML config file path
+
+*--obfuscate*::
+  Replacing internal test names with unique identifiers when using --dump-shards option to avoid exposing internal details
+
+*--device*=_<String=String>_[,_<String=String>_...]::
+  A list of DIMENSION=VALUE pairs which specify a target device to test against. This flag may be repeated to specify multiple devices. The four device dimensions are: model, version, locale, and orientation. If any dimensions are omitted, they will use a default value. Omitting all of the preceding dimension-related flags will run tests against a single device using defaults for all four device dimensions.
+
 *--xctestrun-file*=_<xctestrunFile>_::
   The path to an .xctestrun file that will override any .xctestrun file contained in the --test package. Because the .xctestrun file contains environment variables along with test methods to run and/or ignore, this can be useful for customizing or sharding test suites. The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://.
 
@@ -207,6 +214,12 @@ Note: Because this changes the app's identifier, make sure none of the resources
 
 *--test*=_<test>_::
   The path to the test package (a zip file containing the iOS app and XCTest files). The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with gs://. Note: any .xctestrun file in this zip file will be ignored if --xctestrun-file is specified.
+
+*--only-test-configuration*=_<onlyTestConfiguration>_::
+  Constrains a test action to only test a specified test configuration within a test plan and exclude all other test configurations. (default: run all test configurations).Flank can  combine  multiple  constraint options, but -only-test-configuration has precedence over -skip-test-configuration. Each test configuration name must match the name of a configuration specified in a test plan and is case-sensitive.
+
+*--skip-test-configuration*=_<skipTestConfiguration>_::
+  Constrains a test action to skip a specified test configuration and include all other test configurations. (default: run all test configurations). Flank can combine  multiple constraint options, but -only-test-configuration has precedence over -skip-test-configuration. Each test configuration name must match the name of a configuration specified in a test plan and is case-sensitive.
 
 *--test-targets*=_<testTargets>_[,_<testTargets>_...]::
   A list of one or more test method names to run (default: run all test targets).
