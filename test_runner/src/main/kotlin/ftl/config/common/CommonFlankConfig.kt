@@ -180,6 +180,13 @@ data class CommonFlankConfig @JsonIgnore constructor(
     @set:JsonProperty("disable-usage-statistics")
     var disableUsageStatistics: Boolean? by data
 
+    @set:CommandLine.Option(
+        names = ["--enable-output-report"],
+        description = ["Saves output results as parsable json file and optionally upload it to Gcloud."]
+    )
+    @set:JsonProperty("enable-output-report")
+    var enableOutputReport: Boolean? by data
+
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {
@@ -213,6 +220,7 @@ data class CommonFlankConfig @JsonIgnore constructor(
             defaultClassTestTime = DEFAULT_CLASS_TEST_TIME_SEC
             useAverageTestTimeForNewTests = false
             disableUsageStatistics = false
+            enableOutputReport = false
         }
     }
 }

@@ -11,6 +11,10 @@ import ftl.config.android.AndroidFlankConfig
 import ftl.config.android.AndroidGcloudConfig
 import ftl.config.createConfiguration
 import ftl.mock.MockServer
+import ftl.reports.output.configure
+import ftl.reports.output.log
+import ftl.reports.output.outputReport
+import ftl.reports.output.toOutputReportConfiguration
 import ftl.run.ANDROID_SHARD_FILE
 import ftl.run.dumpShards
 import ftl.run.newTestRun
@@ -62,6 +66,8 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
         AndroidArgs.load(Paths.get(configPath), cli = this).apply {
             setupLogLevel()
             logLn(this)
+            outputReport.configure(toOutputReportConfiguration())
+            outputReport.log(this)
             setCrashReportTag(
                 DEVICE_SYSTEM to "android",
                 TEST_TYPE to type?.name.orEmpty()

@@ -1,5 +1,7 @@
 package ftl.util
 
+import ftl.reports.output.log
+import ftl.reports.output.outputReport
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.concurrent.TimeUnit
@@ -30,6 +32,8 @@ private fun estimateCosts(billableVirtualMinutes: BigDecimal, billablePhysicalMi
     val virtualCost = billableVirtualMinutes.multiply(virtualCostPerMinute).setScale(2, RoundingMode.HALF_UP)
     val physicalCost = billablePhysicalMinutes.multiply(physicalCostPerMinute).setScale(2, RoundingMode.HALF_UP)
     val totalCost = (virtualCost + physicalCost).setScale(2, RoundingMode.HALF_UP)
+
+    outputReport.log(physicalCost, virtualCost, totalCost)
 
     val billableVirtualTime = prettyTime(billableVirtualMinutes)
     val billablePhysicalTime = prettyTime(billablePhysicalMinutes)

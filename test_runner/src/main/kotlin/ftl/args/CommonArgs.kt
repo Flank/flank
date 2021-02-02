@@ -44,5 +44,6 @@ data class CommonArgs(
     override val defaultTestTime: Double,
     override val defaultClassTestTime: Double,
     override val useAverageTestTimeForNewTests: Boolean,
-    override val disableUsageStatistics: Boolean
+    override val disableUsageStatistics: Boolean,
+    override val enableOutputReport: Boolean
 ) : IArgs

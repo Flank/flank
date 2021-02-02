@@ -348,6 +348,14 @@ class IosRunCommandTest {
     }
 
     @Test
+    fun `--enable-output-report parse`() {
+        val cmd = IosRunCommand()
+        CommandLine(cmd).parseArgs("--enable-output-report")
+
+        assertThat(cmd.config.common.flank.enableOutputReport).isTrue()
+    }
+
+    @Test
     fun `should dump shards on ios test run`() {
         assumeFalse(isWindows) // TODO remove in #1180
 

@@ -95,6 +95,8 @@ interface IArgs {
 
     val disableUsageStatistics: Boolean
 
+    val enableOutputReport: Boolean
+
     fun useLocalResultDir() = localResultDir != defaultLocalResultsDir
 
     companion object {

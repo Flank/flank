@@ -4,12 +4,14 @@ import com.google.api.services.toolresults.model.Environment
 import com.google.api.services.toolresults.model.Outcome
 import com.google.api.services.toolresults.model.Step
 import ftl.json.getDetails
+import ftl.reports.api.data.TestSuiteOverviewData
 import ftl.util.StepOutcome
 
 data class TestOutcome(
     val device: String = "",
     val outcome: String = "",
     val details: String = "",
+    val testSuiteOverview: TestSuiteOverviewData = TestSuiteOverviewData()
 )
 
 fun TestOutcomeContext.createMatrixOutcomeSummaryUsingEnvironments(): List<TestOutcome> = environments
@@ -17,7 +19,8 @@ fun TestOutcomeContext.createMatrixOutcomeSummaryUsingEnvironments(): List<TestO
         TestOutcome(
             device = environment.axisValue(),
             outcome = environment.outcomeSummary,
-            details = environment.getOutcomeDetails(isRoboTest)
+            details = environment.getOutcomeDetails(isRoboTest),
+            testSuiteOverview = environment.createTestSuiteOverviewData()
         )
     }
 
@@ -32,7 +35,8 @@ fun TestOutcomeContext.createMatrixOutcomeSummaryUsingSteps() = steps
         TestOutcome(
             device = device,
             outcome = steps.getOutcomeSummary(),
-            details = steps.getOutcomeDetails(isRoboTest)
+            details = steps.getOutcomeDetails(isRoboTest),
+            testSuiteOverview = steps.createTestSuiteOverviewData()
         )
     }
 

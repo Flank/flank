@@ -2,6 +2,9 @@ package ftl.run.exception
 
 import flank.common.logLn
 import ftl.json.SavedMatrix
+import ftl.reports.output.add
+import ftl.reports.output.generate
+import ftl.reports.output.outputReport
 import ftl.run.cancelMatrices
 import ftl.util.closeCrashReporter
 import ftl.util.report
@@ -11,6 +14,7 @@ import kotlin.system.exitProcess
 fun withGlobalExceptionHandling(block: () -> Int) {
     withGlobalExceptionHandling(block) {
         closeCrashReporter()
+        outputReport.generate()
         exitProcess(it)
     }
 }
@@ -86,7 +90,10 @@ internal fun withGlobalExceptionHandling(block: () -> Int, exitProcessFunction: 
 private val FlankException.messageOrUnavailable: String
     get() = if (message.isNullOrBlank()) "[Unavailable]" else message as String
 
-private fun printError(string: String?) = System.err.println(string)
+private fun printError(string: String?) {
+    System.err.println(string)
+    string?.let { outputReport.add("error", it) }
+}
 
 private fun SavedMatrix.logError() {
     logLn("Matrix is $state")
