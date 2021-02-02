@@ -13,8 +13,9 @@ flank.jar
 
 *flank.jar
  android run* [*-h*] [*--async*] [*--auto-google-login*]
-                       [*--disable-results-upload*] [*--disable-sharding*] [*--dry*]
-                       [*--dump-shards*] [*--fail-fast*] [*--full-junit-result*]
+                       [*--disable-results-upload*] [*--disable-sharding*]
+                       [*--disable-usage-statistics*] [*--dry*] [*--dump-shards*]
+                       [*--fail-fast*] [*--full-junit-result*]
                        [*--ignore-failed-tests*] [*--keep-file-path*]
                        [*--legacy-junit-result*] [*--no-auto-google-login*]
                        [*--no-performance-metrics*] [*--no-record-video*]
@@ -81,21 +82,6 @@ Configuration is read from flank.yml
 // tag::picocli-generated-man-section-options[]
 == Options
 
-*-h*, *--help*::
-  Prints this help message
-
-*--dry*::
-  Dry run on mock server
-
-*-c*, *--config*=_<configPath>_::
-  YAML config file path
-
-*--obfuscate*::
-  Replacing internal test names with unique identifiers when using --dump-shards option to avoid exposing internal details
-
-*--device*=_<String=String>_[,_<String=String>_...]::
-  A list of DIMENSION=VALUE pairs which specify a target device to test against. This flag may be repeated to specify multiple devices. The four device dimensions are: model, version, locale, and orientation. If any dimensions are omitted, they will use a default value. Omitting all of the preceding dimension-related flags will run tests against a single device using defaults for all four device dimensions.
-
 *--results-bucket*=_<resultsBucket>_::
   The name of a Google Cloud Storage bucket where raw test results will be stored (default: "test-lab-<random-UUID>"). Note that the bucket must be owned by a billing-enabled project, and that using a non-default bucket will result in billing charges for the storage used.
 
@@ -141,11 +127,11 @@ Configuration is read from flank.yml
 *--type*=_<type>_::
   The type of test to run. TYPE must be one of: instrumentation, robo, xctest, game-loop.
 
-*--shard-time*=_<shardTime>_::
-  The max amount of seconds each shard should run.
-
 *--max-test-shards*=_<maxTestShards>_::
   The amount of matrices to split the tests across.
+
+*--shard-time*=_<shardTime>_::
+  The max amount of seconds each shard should run.
 
 *--num-test-runs*=_<repeatTests>_::
   The amount of times to run the test executions.
@@ -194,6 +180,24 @@ Configuration is read from flank.yml
 
 *--use-average-test-time-for-new-tests*::
   Enable using average time from previous tests duration when using SmartShard and tests did not run before.
+
+*--disable-usage-statistics*::
+  If set to true flank not send usage statistics.
+
+*-h*, *--help*::
+  Prints this help message
+
+*--dry*::
+  Dry run on mock server
+
+*-c*, *--config*=_<configPath>_::
+  YAML config file path
+
+*--obfuscate*::
+  Replacing internal test names with unique identifiers when using --dump-shards option to avoid exposing internal details
+
+*--device*=_<String=String>_[,_<String=String>_...]::
+  A list of DIMENSION=VALUE pairs which specify a target device to test against. This flag may be repeated to specify multiple devices. The four device dimensions are: model, version, locale, and orientation. If any dimensions are omitted, they will use a default value. Omitting all of the preceding dimension-related flags will run tests against a single device using defaults for all four device dimensions.
 
 *--app*=_<app>_::
   The path to the application binary file. The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.
