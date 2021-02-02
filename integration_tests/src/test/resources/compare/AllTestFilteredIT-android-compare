@@ -66,7 +66,7 @@ AndroidArgs
 RunTests
   No tests for app-single-success-debug-androidTest.apk
 
-  Saved 0 shards to android_shards.json
+  Saved 0 shards to .*\/android_shards.json
   Uploading \[android_shards.json\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*
 
 There are no tests to run.
