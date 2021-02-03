@@ -4,7 +4,7 @@ import com.github.kittinunf.fuel.core.Client
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.core.requests.DefaultBody
-import flank.scripts.zenhub.ZENHUB_BASE_URL
+import flank.scripts.data.zenhub.ZENHUB_BASE_URL
 
 class FuelMockServer : Client {
     override fun executeRequest(request: Request): Response {

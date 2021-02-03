@@ -43,6 +43,14 @@ fun String.commandInstalledOr(orAction: () -> Unit) = checkCommandExists().takeU
     orAction()
 }
 
+infix fun String.pipe(command: String) {
+    if (isWindows) {
+        listOf("cmd", "/C", "$this | $command").runCommand()
+    } else {
+        listOf("/bin/bash", "-c", "$this | $command").runCommand()
+    }
+}
+
 internal fun ProcessBuilder.startWithRetry(retryCount: Int): Int {
     var retryTries = 0
     var processResponse: Int
