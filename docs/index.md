@@ -339,6 +339,11 @@ flank:
   ## Each test configuration name must match the name of a configuration specified in a test plan and is case-sensitive.
   ## Default: null (run all test configurations)
   # skip-test-configuration: en
+
+  ### Enable output report flag
+  ## Saves output results as parsable json file and optionally upload it to Gcloud..
+  ## Default: false
+  # enable-output-report: false
 ```
 
 ### Android example
@@ -690,6 +695,11 @@ flank:
   ## Disable sending usage statistics (without sensitive data) to the analytic tool.
   ## Default: false
   # disable-usage-statistics: false
+
+  ### Enable output report flag
+  ## Saves output results as parsable json file and optionally upload it to Gcloud..
+  ## Default: false
+  # enable-output-report: false
 ```
 
 ## Android code coverage
