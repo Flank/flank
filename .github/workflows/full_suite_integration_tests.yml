@@ -85,7 +85,7 @@ jobs:
 
       - name: Checkout Pull Request
         if: github.event_name == 'issue_comment'
-        env:Invalid value for [
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh pr checkout ${{ needs.should_run_it.outputs.pr_number }}
