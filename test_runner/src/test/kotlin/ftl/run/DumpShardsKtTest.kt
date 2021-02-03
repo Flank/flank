@@ -219,4 +219,4 @@ class DumpShardsKtTest {
     }
 }
 
-private const val TEST_SHARD_FILE = "test_dump_shard_file.json"
+private const val TEST_SHARD_FILE = "./test_dump_shard_file.json"

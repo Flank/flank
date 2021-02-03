@@ -63,7 +63,7 @@ AndroidArgs
       disable-usage-statistics: false
 
 RunTests
-  Saved 1 shards to android_shards.json
+  Saved 1 shards to .*\/android_shards.json
 
   1 test \/ 1 shard
 
