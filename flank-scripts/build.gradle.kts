@@ -28,11 +28,11 @@ shadowJar.apply {
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
-version = "1.4.6"
+version = "1.5.0"
 group = "com.github.flank"
 
 application {
-    mainClassName = "flank.scripts.MainKt"
+    mainClassName = "flank.scripts.cli.MainKt"
     applicationDefaultJvmArgs = listOf(
         "-Xmx2048m",
         "-Xms512m"
