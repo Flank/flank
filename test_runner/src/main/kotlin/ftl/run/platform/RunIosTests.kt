@@ -10,7 +10,6 @@ import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
 import ftl.ios.xctest.flattenShardChunks
-import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards
 import ftl.run.model.TestResult
 import ftl.run.platform.android.uploadAdditionalIpas
@@ -75,5 +74,5 @@ private fun IosArgs.dumpShardsIfXcTest() = takeIf { isXcTest }?.let {
         shardFilePath = shardsFilePath
     )
     if (disableResultsUpload.not())
-        GcStorage.upload(IOS_SHARD_FILE, resultsBucket, resultsDir)
+        GcStorage.upload(shardsFilePath, resultsBucket, resultsDir)
 }
