@@ -2,6 +2,7 @@ package ftl.run
 
 import flank.common.OutputLogLevel
 import flank.common.logLn
+import flank.common.toFile
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
 import ftl.args.isInstrumentationTest
@@ -13,6 +14,7 @@ import ftl.run.exception.FlankConfigurationError
 import ftl.run.model.AndroidMatrixTestShards
 import ftl.run.platform.android.getAndroidMatrixShards
 import ftl.util.obfuscatePrettyPrinter
+import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -62,12 +64,14 @@ fun saveShardChunks(
     size: Int,
     obfuscatedOutput: Boolean
 ) {
+    shardFilePath.createDirectories()
     Files.write(
         Paths.get(shardFilePath),
         getGson(obfuscatedOutput).toJson(shards).toByteArray()
     )
     logLn("${FtlConstants.indent}Saved $size shards to $shardFilePath", OutputLogLevel.DETAILED)
 }
+private fun String.createDirectories() = File(this).parent.toFile().mkdirs()
 
 private fun getGson(obfuscatedOutput: Boolean) =
     if (obfuscatedOutput) obfuscatePrettyPrinter else prettyPrint

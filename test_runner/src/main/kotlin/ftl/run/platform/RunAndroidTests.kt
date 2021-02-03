@@ -5,12 +5,12 @@ import com.google.testing.model.TestMatrix
 import flank.common.logLn
 import ftl.args.AndroidArgs
 import ftl.args.isInstrumentationTest
+import ftl.args.shardsFilePath
 import ftl.gc.GcAndroidDevice
 import ftl.gc.GcAndroidTestMatrix
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
-import ftl.run.ANDROID_SHARD_FILE
 import ftl.run.exception.FlankGeneralError
 import ftl.run.model.AndroidMatrixTestShards
 import ftl.run.model.AndroidTestContext
@@ -88,15 +88,15 @@ private fun List<AndroidTestContext>.dumpShards(config: AndroidArgs) = takeIf { 
     if (config.testTargetsForShard.isEmpty())
         filterIsInstance<InstrumentationTestContext>()
             .asMatrixTestShards()
-            .saveShards(config.obfuscateDumpShards)
-    if (config.disableResultsUpload.not()) GcStorage.upload(ANDROID_SHARD_FILE, config.resultsBucket, config.resultsDir)
+            .saveShards(config)
+    if (config.disableResultsUpload.not()) GcStorage.upload(config.shardsFilePath, config.resultsBucket, config.resultsDir)
 } ?: this
 
-private fun AndroidMatrixTestShards.saveShards(obfuscateOutput: Boolean) = saveShardChunks(
-    shardFilePath = ANDROID_SHARD_FILE,
+private fun AndroidMatrixTestShards.saveShards(config: AndroidArgs) = saveShardChunks(
+    shardFilePath = config.shardsFilePath,
     shards = this,
     size = size,
-    obfuscatedOutput = obfuscateOutput
+    obfuscatedOutput = config.obfuscateDumpShards
 )
 
 private suspend fun executeAndroidTestMatrix(
