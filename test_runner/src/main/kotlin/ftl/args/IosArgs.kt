@@ -106,7 +106,7 @@ val IosArgs.isXcTest: Boolean
     get() = type == Type.XCTEST
 
 val IosArgs.shardsFilePath
-    get() = Paths.get(localResultDir, resultsDir, IOS_SHARD_FILE).toAbsolutePath().toString()
+    get() = Paths.get(localStorageDirectory, IOS_SHARD_FILE).toAbsolutePath().toString()
 
 @VisibleForTesting
 internal fun filterTests(

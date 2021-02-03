@@ -154,7 +154,7 @@ val AndroidArgs.isGameLoop
     get() = if (type == null) false else (type == Type.GAMELOOP)
 
 val AndroidArgs.shardsFilePath
-    get() = Paths.get(localResultDir, resultsDir, ANDROID_SHARD_FILE).toAbsolutePath().toString()
+    get() = Paths.get(localStorageDirectory, ANDROID_SHARD_FILE).toAbsolutePath().toString()
 
 private fun String?.isNull() = this == null
 private fun String?.isNotNull() = isNull().not()
