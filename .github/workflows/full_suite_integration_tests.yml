@@ -106,7 +106,7 @@ jobs:
             if [ "$RUNNER_OS" == "Windows" ]; then
                 set GCLOUD_DIR="%HOMEPATH%/.config/gcloud/"
                 mkdir %GCLOUD_DIR%
-                echo certutil -decode %GCLOUD_KEY% %GCLOUD_DIR%/application_default_credentials.json
+                echo certutil -decode %GCLOUD_KEY% %GCLOUD_DIR%application_default_credentials.json
             else
                 GCLOUD_DIR="$HOME/.config/gcloud/"
                 mkdir -p "$GCLOUD_DIR"
