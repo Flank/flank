@@ -1,7 +1,7 @@
 package ftl.reports.output
 
 import ftl.args.IArgs
-import java.nio.file.Paths
+import ftl.args.localStorageDirectory
 
 data class OutputReportConfiguration(
     val enabled: Boolean = false,
@@ -29,6 +29,3 @@ fun IArgs.toOutputReportConfiguration() = OutputReportConfiguration(
         resultsDir = resultsDir
     )
 )
-
-private val IArgs.localStorageDirectory
-    get() = if (useLocalResultDir()) localResultDir else Paths.get(localResultDir, resultsDir).toString()
