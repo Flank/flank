@@ -53,6 +53,7 @@ IosArgs
       disable-usage-statistics: false
       only-test-configuration:\s
       skip-test-configuration:\s
+      enable-output-report: false
 
 RunTests
 \s*

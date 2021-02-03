@@ -284,6 +284,7 @@ IosArgs
       disable-usage-statistics: false
       only-test-configuration: pl
       skip-test-configuration: 
+      enable-output-report: false
             """.trimIndent()
         )
     }
@@ -347,6 +348,7 @@ IosArgs
       disable-usage-statistics: false
       only-test-configuration: 
       skip-test-configuration: 
+      enable-output-report: false
             """.trimIndent(),
             args.toString()
         )

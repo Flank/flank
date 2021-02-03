@@ -378,6 +378,7 @@ AndroidArgs
       disable-results-upload: true
       default-class-test-time: 30.0
       disable-usage-statistics: false
+      enable-output-report: false
             """.trimIndent()
         )
     }
@@ -450,6 +451,7 @@ AndroidArgs
       disable-results-upload: false
       default-class-test-time: 240.0
       disable-usage-statistics: false
+      enable-output-report: false
             """.trimIndent(),
             args.toString()
         )
