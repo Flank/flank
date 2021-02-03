@@ -99,6 +99,8 @@ jobs:
 
       - name: Prepare Google Service Account
         env:
+          FLANK_PROJECT_ID: flank-open-source
+          GOOGLE_CLOUD_PROJECT: flank-open-source
           GCLOUD_KEY: ${{ secrets.GCLOUD_KEY }}
         run: |
             if [ "$RUNNER_OS" == "Windows" ]; then
