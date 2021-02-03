@@ -85,7 +85,7 @@ jobs:
 
       - name: Checkout Pull Request
         if: github.event_name == 'issue_comment'
-        env:
+        env:Invalid value for [
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh pr checkout ${{ needs.should_run_it.outputs.pr_number }}
@@ -106,7 +106,7 @@ jobs:
             if [ "$RUNNER_OS" == "Windows" ]; then
                 set GCLOUD_DIR="%HOMEPATH%/.config/gcloud/"
                 mkdir %GCLOUD_DIR%
-                echo certutil -decode gcloud_key.txt %GCLOUD_DIR%application_default_credentials.json
+                echo certutil -decode %GCLOUD_KEY% %GCLOUD_DIR%/application_default_credentials.json
             else
                 GCLOUD_DIR="$HOME/.config/gcloud/"
                 mkdir -p "$GCLOUD_DIR"
