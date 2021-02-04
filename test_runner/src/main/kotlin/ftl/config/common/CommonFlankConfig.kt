@@ -8,6 +8,7 @@ import ftl.args.yml.IYmlKeys
 import ftl.args.yml.ymlKeys
 import ftl.config.Config
 import ftl.config.FtlConstants
+import ftl.reports.output.OutputReportType
 import ftl.shard.DEFAULT_CLASS_TEST_TIME_SEC
 import ftl.shard.DEFAULT_TEST_TIME_SEC
 import picocli.CommandLine
@@ -181,11 +182,11 @@ data class CommonFlankConfig @JsonIgnore constructor(
     var disableUsageStatistics: Boolean? by data
 
     @set:CommandLine.Option(
-        names = ["--enable-output-report"],
-        description = ["Saves output results as parsable json file and optionally upload it to Gcloud."]
+        names = ["--output-report"],
+        description = ["Saves output results as parsable file and optionally upload it to Gcloud."]
     )
-    @set:JsonProperty("enable-output-report")
-    var enableOutputReport: Boolean? by data
+    @set:JsonProperty("output-report")
+    var outputReport: String? by data
 
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
@@ -220,7 +221,7 @@ data class CommonFlankConfig @JsonIgnore constructor(
             defaultClassTestTime = DEFAULT_CLASS_TEST_TIME_SEC
             useAverageTestTimeForNewTests = false
             disableUsageStatistics = false
-            enableOutputReport = false
+            outputReport = OutputReportType.NONE.name
         }
     }
 }

@@ -98,7 +98,7 @@ IosArgs
       disable-usage-statistics: $disableUsageStatistics
       only-test-configuration: $onlyTestConfiguration
       skip-test-configuration: $skipTestConfiguration
-      enable-output-report: $enableOutputReport
+      output-report: $outputReportType
         """.trimIndent()
     }
 }

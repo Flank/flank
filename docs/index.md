@@ -340,10 +340,10 @@ flank:
   ## Default: null (run all test configurations)
   # skip-test-configuration: en
 
-  ### Enable output report flag
-  ## Saves output results as parsable json file and optionally upload it to Gcloud..
-  ## Default: false
-  # enable-output-report: false
+ ### Enable output report with set type
+ ## Saves output results as parsable file and optionally upload it to Gcloud..
+ ## Default: none
+ # output-report: none
 ```
 
 ### Android example
@@ -696,10 +696,10 @@ flank:
   ## Default: false
   # disable-usage-statistics: false
 
-  ### Enable output report flag
-  ## Saves output results as parsable json file and optionally upload it to Gcloud..
-  ## Default: false
-  # enable-output-report: false
+  ### Enable output report with set type
+  ## Saves output results as parsable file and optionally upload it to Gcloud. Possible values are [none, json].
+  ## Default: none
+  # output-report: none
 ```
 
 ## Android code coverage

@@ -8,6 +8,7 @@ import ftl.analytics.IgnoreInStatistics
 import ftl.args.yml.Type
 import ftl.config.Device
 import ftl.config.common.CommonFlankConfig.Companion.defaultLocalResultsDir
+import ftl.reports.output.OutputReportType
 import ftl.run.status.OutputStyle
 import ftl.util.timeoutToMils
 import java.nio.file.Paths
@@ -95,7 +96,7 @@ interface IArgs {
 
     val disableUsageStatistics: Boolean
 
-    val enableOutputReport: Boolean
+    val outputReportType: OutputReportType
 
     fun useLocalResultDir() = localResultDir != defaultLocalResultsDir
 

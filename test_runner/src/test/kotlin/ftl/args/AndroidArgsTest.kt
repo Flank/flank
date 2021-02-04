@@ -146,6 +146,7 @@ class AndroidArgsTest {
           output-style: single
           disable-results-upload: true
           default-class-test-time: 30.0
+          output-report: json
       """
 
     @After
@@ -378,7 +379,7 @@ AndroidArgs
       disable-results-upload: true
       default-class-test-time: 30.0
       disable-usage-statistics: false
-      enable-output-report: false
+      output-report: json
             """.trimIndent()
         )
     }
@@ -451,7 +452,7 @@ AndroidArgs
       disable-results-upload: false
       default-class-test-time: 240.0
       disable-usage-statistics: false
-      enable-output-report: false
+      output-report: none
             """.trimIndent(),
             args.toString()
         )

@@ -348,11 +348,11 @@ class IosRunCommandTest {
     }
 
     @Test
-    fun `--enable-output-report parse`() {
+    fun `--output-report parse`() {
         val cmd = IosRunCommand()
-        CommandLine(cmd).parseArgs("--enable-output-report")
+        CommandLine(cmd).parseArgs("--output-report=json")
 
-        assertThat(cmd.config.common.flank.enableOutputReport).isTrue()
+        assertThat(cmd.config.common.flank.outputReport).isEqualTo("json")
     }
 
     @Test

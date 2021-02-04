@@ -63,7 +63,7 @@ AndroidArgs
       disable-results-upload: false
       default-class-test-time: 240.0
       disable-usage-statistics: false
-      enable-output-report: false
+      output-report: none
 \s*
 RunTests
   Uploading \[test.obb\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*

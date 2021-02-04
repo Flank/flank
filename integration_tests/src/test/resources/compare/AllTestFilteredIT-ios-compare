@@ -53,7 +53,7 @@ IosArgs
       disable-usage-statistics: false
       only-test-configuration:\s
       skip-test-configuration:\s
-      enable-output-report: false
+      output-report: none
 Found xctest: [0-9a-zA-Z\/_.-]*\/test_runner\/src\/test\/kotlin\/ftl\/fixtures\/tmp\/ios\/EarlGreyExample\/Debug-iphoneos\/EarlGreyExampleSwift.app\/PlugIns\/EarlGreyExampleSwiftTests.xctest
 isMacOS = (true \(mac os x\)|false \(linux\))
 (PATH=~\/.flank\s)?nm -U "[0-9a-zA-Z\/_.-]*\/test_runner\/src\/test\/kotlin\/ftl\/fixtures\/tmp\/ios\/EarlGreyExample\/Debug-iphoneos\/EarlGreyExampleSwift.app\/PlugIns\/EarlGreyExampleSwiftTests.xctest\/EarlGreyExampleSwiftTests"

@@ -61,7 +61,7 @@ AndroidArgs
       disable-results-upload: true
       default-class-test-time: 240.0
       disable-usage-statistics: false
-      enable-output-report: false
+      output-report: none
 
 RunTests
   Saved 1 shards to .*\/android_shards.json

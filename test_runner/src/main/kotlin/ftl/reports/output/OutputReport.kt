@@ -28,12 +28,21 @@ fun OutputReport.add(key: String, reportNode: Any) {
 fun OutputReport.generate() {
     val (resultsDirectory, outputFile) = configuration.local
     val (resultsBucket, resultsDir) = configuration.remote
-    outputData
-        .takeIf { configuration.enabled }
-        ?.toJson()
-        ?.storeToFile(resultsDirectory, outputFile)
+    storeOutputData(resultsDirectory, outputFile)
         ?.takeIf { configuration.remote.uploadReport }
         ?.uploadToGcloud(resultsBucket, resultsDir)
+}
+
+private fun OutputReport.storeOutputData(
+    resultsDirectory: String,
+    outputFile: String
+) = when (configuration.type) {
+    OutputReportType.JSON ->
+        outputData
+            .takeIf { configuration.enabled }
+            ?.toJson()
+            ?.storeToFile(resultsDirectory, outputFile)
+    OutputReportType.NONE -> null
 }
 
 private fun OutputData.toJson() = prettyPrint.toJson(this)

@@ -5,6 +5,7 @@ import ftl.args.localStorageDirectory
 
 data class OutputReportConfiguration(
     val enabled: Boolean = false,
+    val type: OutputReportType = OutputReportType.NONE,
     val local: OutputReportLocalConfiguration = OutputReportLocalConfiguration(),
     val remote: OutputReportRemoteConfiguration = OutputReportRemoteConfiguration(),
 )
@@ -21,7 +22,8 @@ data class OutputReportRemoteConfiguration(
 )
 
 fun IArgs.toOutputReportConfiguration() = OutputReportConfiguration(
-    enabled = enableOutputReport,
+    enabled = outputReportType != OutputReportType.NONE,
+    type = outputReportType,
     local = OutputReportLocalConfiguration(localStorageDirectory),
     remote = OutputReportRemoteConfiguration(
         uploadReport = disableResultsUpload.not(),

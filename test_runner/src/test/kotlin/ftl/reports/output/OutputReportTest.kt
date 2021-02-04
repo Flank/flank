@@ -41,11 +41,32 @@ class OutputReportTest {
     }
 
     @Test
-    fun `should not generate report if not disabled`() {
+    fun `should not generate report if disabled`() {
         // given
         val tempDirectory = Files.createTempDirectory("temp")
         val configuration = OutputReportConfiguration(
             enabled = false,
+            local = OutputReportLocalConfiguration(tempDirectory.toString()),
+            remote = OutputReportRemoteConfiguration(uploadReport = false)
+        )
+        val expectedPath = Paths.get(configuration.local.storageDirectory, configuration.local.outputFile)
+
+        // when
+        outputReport.configure(configuration)
+        outputReport.add("test", "node")
+        outputReport.generate()
+
+        // then
+        assertThat(expectedPath.toFile().exists()).isFalse()
+    }
+
+    @Test
+    fun `should generate report if report type is NONE`() {
+        // given
+        val tempDirectory = Files.createTempDirectory("temp")
+        val configuration = OutputReportConfiguration(
+            enabled = true,
+            type = OutputReportType.NONE,
             local = OutputReportLocalConfiguration(tempDirectory.toString()),
             remote = OutputReportRemoteConfiguration(uploadReport = false)
         )
@@ -66,6 +87,7 @@ class OutputReportTest {
         val tempDirectory = Files.createTempDirectory("temp")
         val configuration = OutputReportConfiguration(
             enabled = true,
+            type = OutputReportType.JSON,
             local = OutputReportLocalConfiguration(tempDirectory.toString()),
             remote = OutputReportRemoteConfiguration(uploadReport = false)
         )
@@ -89,6 +111,7 @@ class OutputReportTest {
         val tempDirectory = Files.createTempDirectory("temp")
         val configuration = OutputReportConfiguration(
             enabled = true,
+            type = OutputReportType.JSON,
             local = OutputReportLocalConfiguration(tempDirectory.toString()),
             remote = OutputReportRemoteConfiguration(uploadReport = false)
         )
