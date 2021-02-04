@@ -3,8 +3,7 @@ package ftl.ios.xctest.common
 import flank.common.OutputLogLevel
 import flank.common.appDataDirectory
 import flank.common.createDirectoryIfNotExist
-import flank.common.createFileCopy
-import flank.common.createSymbolicLinkToFile
+import flank.common.createLinkToFile
 import flank.common.downloadFile
 import flank.common.hasAllFiles
 import flank.common.isMacOS
@@ -55,16 +54,8 @@ private fun downloadAndUnzip(osname: String) {
             it.setExecutable(true)
         }
     Files.delete(destinationFile)
-
-    if (isWindows) {
-        createFileCopy(
-            "$flankBinariesDirectory\\libatomic.so.1.2.0",
-            "$flankBinariesDirectory\\libatomic.so.1"
-        )
-    } else {
-        createSymbolicLinkToFile(
-            link = Paths.get(flankBinariesDirectory.toString(), "libatomic.so.1"),
-            target = Paths.get(flankBinariesDirectory.toString(), "libatomic.so.1.2.0")
-        )
-    }
+    createLinkToFile(
+        link = Paths.get(flankBinariesDirectory.toString(), "libatomic.so.1"),
+        target = Paths.get(flankBinariesDirectory.toString(), "libatomic.so.1.2.0")
+    )
 }

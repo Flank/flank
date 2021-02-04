@@ -99,7 +99,7 @@ jobs:
 
       - name: Prepare Google Service Account
         env:
-          GOOGLE_CLOUD_PROJECT: flank-open-source
+          GOOGLE_CLOUD_PROJECT: flank-open-source #needs to be removed.
           GCLOUD_KEY: ${{ secrets.GCLOUD_KEY }}
 
         run: |
