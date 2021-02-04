@@ -27,6 +27,7 @@ private fun downloadAndCopyBinaries() {
 }
 
 private fun shouldDownloadBinaries(): Boolean {
+    println("test")
     val binariesPath = flankBinariesDirectory.toFile()
     return !(binariesPath.exists() && binariesPath.isDirectory && binariesPath.hasAllFiles(neededFilesListByOs()))
 }
