@@ -32,6 +32,8 @@ fun createCopy(sourceDirectoryLocation: String, destinationDirectoryLocation: St
     copyDirectory(sourceDirectoryLocation, destinationDirectoryLocation)
 }
 
+fun createFileCopy(source: String, destination: String) = Files.copy(Paths.get(source), Paths.get(destination))
+
 fun copyDirectory(sourceDirectoryLocation: String, destinationDirectoryLocation: String) {
     Files.walk(Paths.get(sourceDirectoryLocation))
         .forEach { source: Path ->
