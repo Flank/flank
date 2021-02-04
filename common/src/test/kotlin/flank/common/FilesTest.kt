@@ -77,7 +77,7 @@ class FilesTest {
         val expectedDestination = Paths.get(root.newFolder("temp").toString(), "test.link")
 
         // when
-        createSymbolicLinkToFile(expectedDestination, testFile)
+        createLinkToFile(expectedDestination, testFile)
 
         // then
         assertTrue(Files.isSymbolicLink(expectedDestination))

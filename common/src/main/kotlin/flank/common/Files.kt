@@ -32,6 +32,8 @@ fun createCopy(sourceDirectoryLocation: String, destinationDirectoryLocation: St
     copyDirectory(sourceDirectoryLocation, destinationDirectoryLocation)
 }
 
+fun createFileCopy(source: String, destination: String): Path = Files.copy(Paths.get(source), Paths.get(destination))
+
 fun copyDirectory(sourceDirectoryLocation: String, destinationDirectoryLocation: String) {
     Files.walk(Paths.get(sourceDirectoryLocation))
         .forEach { source: Path ->
@@ -68,9 +70,9 @@ fun createSymbolicLink(
     Paths.get(target).toAbsolutePath().normalize()
 )
 
-fun createSymbolicLinkToFile(link: Path, target: Path) {
-    Files.createSymbolicLink(link, target.fileName)
-}
+fun createLinkToFile(link: Path, target: Path): Path =
+    if (isWindows) createFileCopy(target.toString(), link.toString())
+    else Files.createSymbolicLink(link, target.fileName)
 
 fun downloadFile(sourceUrl: String, destination: String) {
     Fuel.download(sourceUrl)
