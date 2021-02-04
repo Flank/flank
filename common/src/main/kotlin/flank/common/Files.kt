@@ -71,7 +71,7 @@ fun createSymbolicLink(
 )
 
 fun createLinkToFile(link: Path, target: Path): Path =
-    if (isWindows) createFileCopy(link.toString(), target.toString())
+    if (isWindows) createFileCopy(target.toString(), link.toString())
     else Files.createSymbolicLink(link, target.fileName)
 
 fun downloadFile(sourceUrl: String, destination: String) {
