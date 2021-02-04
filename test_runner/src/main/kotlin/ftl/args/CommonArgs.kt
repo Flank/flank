@@ -2,6 +2,7 @@ package ftl.args
 
 import ftl.args.yml.Type
 import ftl.config.Device
+import ftl.reports.output.OutputReportType
 import ftl.run.status.OutputStyle
 
 data class CommonArgs(
@@ -44,5 +45,6 @@ data class CommonArgs(
     override val defaultTestTime: Double,
     override val defaultClassTestTime: Double,
     override val useAverageTestTimeForNewTests: Boolean,
-    override val disableUsageStatistics: Boolean
+    override val disableUsageStatistics: Boolean,
+    override val outputReportType: OutputReportType
 ) : IArgs

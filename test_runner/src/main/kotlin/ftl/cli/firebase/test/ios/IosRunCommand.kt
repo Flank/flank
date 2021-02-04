@@ -11,6 +11,10 @@ import ftl.config.createConfiguration
 import ftl.config.ios.IosFlankConfig
 import ftl.config.ios.IosGcloudConfig
 import ftl.mock.MockServer
+import ftl.reports.output.configure
+import ftl.reports.output.log
+import ftl.reports.output.outputReport
+import ftl.reports.output.toOutputReportConfiguration
 import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards
 import ftl.run.newTestRun
@@ -62,6 +66,8 @@ class IosRunCommand : CommonRunCommand(), Runnable {
         IosArgs.load(Paths.get(configPath), cli = this).apply {
             setupLogLevel()
             logLn(this)
+            outputReport.configure(toOutputReportConfiguration())
+            outputReport.log(this)
             setCrashReportTag(
                 DEVICE_SYSTEM to "ios",
                 TEST_TYPE to type?.name.orEmpty()

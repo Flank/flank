@@ -10,6 +10,8 @@ import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
 import ftl.json.asPrintableTable
 import ftl.json.isFailed
+import ftl.reports.output.log
+import ftl.reports.output.outputReport
 import ftl.reports.util.IReport
 import ftl.reports.xml.model.JUnitTestResult
 import java.io.StringWriter
@@ -53,6 +55,7 @@ object MatrixResultsReport : IReport {
 
             if (matrices.map.isNotEmpty()) {
                 val savedMatrices = matrices.map.values
+                outputReport.log(savedMatrices)
                 writer.println(savedMatrices.toList().asPrintableTable())
                 savedMatrices.printMatricesLinks(writer)
             }

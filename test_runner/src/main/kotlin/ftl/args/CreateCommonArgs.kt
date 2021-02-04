@@ -2,6 +2,7 @@ package ftl.args
 
 import ftl.args.yml.toType
 import ftl.config.CommonConfig
+import ftl.reports.output.OutputReportType
 import ftl.run.status.OutputStyle
 import ftl.run.status.asOutputStyle
 import ftl.util.require
@@ -52,7 +53,8 @@ fun CommonConfig.createCommonArgs(
     defaultTestTime = flank::defaultTestTime.require(),
     defaultClassTestTime = flank::defaultClassTestTime.require(),
     useAverageTestTimeForNewTests = flank::useAverageTestTimeForNewTests.require(),
-    disableUsageStatistics = flank.disableUsageStatistics ?: false
+    disableUsageStatistics = flank.disableUsageStatistics ?: false,
+    outputReportType = OutputReportType.fromName(flank.outputReport)
 ).apply {
     ArgsHelper.createJunitBucket(project, smartFlankGcsPath)
 }

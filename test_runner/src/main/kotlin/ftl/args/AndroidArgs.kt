@@ -119,6 +119,7 @@ AndroidArgs
       disable-results-upload: $disableResultsUpload
       default-class-test-time: $defaultClassTestTime
       disable-usage-statistics: $disableUsageStatistics
+      output-report: $outputReportType
         """.trimIndent()
     }
 }

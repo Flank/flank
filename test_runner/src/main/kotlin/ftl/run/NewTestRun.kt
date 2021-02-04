@@ -6,6 +6,8 @@ import ftl.args.IosArgs
 import ftl.json.SavedMatrix
 import ftl.json.updateMatrixMap
 import ftl.json.validate
+import ftl.reports.output.log
+import ftl.reports.output.outputReport
 import ftl.reports.util.ReportManager
 import ftl.run.common.fetchArtifacts
 import ftl.run.common.pollMatrices
@@ -34,7 +36,7 @@ suspend fun IArgs.newTestRun() = withTimeoutOrNull(parsedTimeout) {
         cancelTestsOnTimeout(args.project, matrixMap.map) { fetchArtifacts(matrixMap, args) }
 
         matrixMap.printMatricesWebLinks(project)
-
+        outputReport.log(matrixMap)
         matrixMap.validate(ignoreFailedTests)
     }
 }

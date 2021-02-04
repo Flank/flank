@@ -29,7 +29,6 @@ object CostReport : IReport {
 
     private fun generate(matrices: MatrixMap): String {
         val cost = estimate(matrices)
-
         StringWriter().use { writer ->
             writer.println(reportName())
             cost.split("\n").forEach { writer.println(indent + it) }

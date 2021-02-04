@@ -494,6 +494,14 @@ class AndroidRunCommandTest {
         assertThat(cmd.config.common.flank.useAverageTestTimeForNewTests).isTrue()
     }
 
+    @Test
+    fun `--output-report parse`() {
+        val cmd = AndroidRunCommand()
+        CommandLine(cmd).parseArgs("--output-report=json")
+
+        assertThat(cmd.config.common.flank.outputReport).isEqualTo("json")
+    }
+
     @Test(expected = FlankConfigurationError::class)
     fun `should throw if --full-junit-result and JUnitResult xml used`() {
         val cmd = AndroidRunCommand()

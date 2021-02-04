@@ -107,6 +107,7 @@ class IosArgsTest {
           disable-results-upload: true
           default-class-test-time: 30.0
           only-test-configuration: pl
+          output-report: json
         """
 
     @get:Rule
@@ -284,6 +285,7 @@ IosArgs
       disable-usage-statistics: false
       only-test-configuration: pl
       skip-test-configuration: 
+      output-report: json
             """.trimIndent()
         )
     }
@@ -347,6 +349,7 @@ IosArgs
       disable-usage-statistics: false
       only-test-configuration: 
       skip-test-configuration: 
+      output-report: none
             """.trimIndent(),
             args.toString()
         )
