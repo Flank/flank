@@ -65,7 +65,7 @@ ___
     - `zip` - Create zip archive from test artifacts directory.
 
   
-(1) - currently there is only one command, but probably there will be more in future
+(1) - denotes that there is only one command, but it may change in the future.
 
 
 ### Package structure for CLI
