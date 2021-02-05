@@ -2,7 +2,7 @@
 
 ### Command List
 
-- `assemble` - Group of commands for assemble test application
+- `assemble` - Group of commands to assemble test applications
     - `ios` - Subgroup of commands for managing assemble iOS apps
         - `earl_grey` - Assemble iOS earl grey application
         - `flank_example` - Assemble iOS flank example application
