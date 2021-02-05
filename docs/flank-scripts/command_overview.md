@@ -18,7 +18,7 @@ ___
 - `firebase` - Group of commands for managing firebase integrations
     - `update_api` - Update api schema
     - `generate_client` - Generate Java Client based on api schema
-    - `check_for_sdk_updates` - Check for new SDK features and create tasks for it
+    - `check_for_sdk_updates` - Check for new SDK features and create update tasks for it
 
 ___
     
