@@ -2,35 +2,55 @@
 
 ### Command List
 
-- `release` - Group of commands for creating Flank release
-    - `generate_release_notes` - Generate release notes
-    - `next_tag` - Get tag for next release
-    - `delete_github_release` - Delete release from Github
-    - `delete_snapshot` - Delete snapshot package from artifacts repository
-    - `delete_old_tag` - Delete old/unused tag from Github
-    - `sync_with_maven_central` - Sync artifacts repository with Maven central
-    - `make_github_release` - Make new Github release
+- `assemble` - Group of commands for assemble test application
+    - `ios` - Subgroup of commands for managing assemble iOS apps
+        - `earl_grey` - Assemble iOS earl grey application
+        - `flank_example` - Assemble iOS flank example application
+        - `game_loop` - Assemble iOS game loop application
+        - `test_plans` - Assemble iOS test plans application
+        - `all` - Assemble all iOS applications
+    - `android` - Subgroup of command for managing assemble Android apps
+        - `app` - Assemble Android test application
+    - `go_artifacts` - Generate go artifacts
+    
+___
+
+- `firebase` - Group of commands for managing firebase integrations
+    - `update_api` - Update api schema
+    - `generate_client` - Generate Java Client based on api schema
+    - `check_for_sdk_updates` - Check for new SDK features and create tasks for it
 
 ___
     
-- `coding_style` - Group of commands used for applying correct coding style
-    - `apply_linter_to_git_hooks` - Apply KtLint pre-commit hook
-    - `apply_linter_to_ide` - Apply KtLint to IDE
-  
-___
+- `github` - Group of command for managing Github   
+    - `copy_issue_properties` - Copy properties(assignees, SP, labels) from issue to PR
+    - `delete_old_tag` - Delete old/unused tag from Github
+    - `delete_release` - Delete release from Github
+    - `make_release` - Make new Github release
     
-- `update_dependencies` - Update repository dependencies
+___
+
+- `gradle`   - Group of commands related to gradle tasks (1)
+    - `update_dependencies` - Update repository 3rd party dependencies
 
 ___
 
 - `integration_tests` - Group of commands for handling integration tests (1)
     - `process_results` - Process results of integration tests
-
-
-(1) - currently there is only one command, but probably there will be more in future
+   
 ___
-    
-- `copy_issue_properties` - Copy properties(assignees, SP, labels) from issue to PR
+
+- `linter` - Group of commands used for applying correct coding style
+    - `apply_to_git_hooks` - Apply Linter pre-commit hook
+    - `apply_to_ide` - Apply Linter to IDE
+  
+___
+
+- `release` - Group of commands for creating Flank release
+    - `generate_release_notes` - Generate release notes
+    - `next_tag` - Get tag for next release
+    - `delete_snapshot` - Delete snapshot package from artifacts repository
+    - `sync_with_maven_central` - Sync artifacts repository with Maven central
 
 ___
 
@@ -44,24 +64,9 @@ ___
     - `upload` - Upload test artifacts zip as github release asset.
     - `zip` - Create zip archive from test artifacts directory.
 
-___
-
-- `firebase` - Group of commands for managing firebase integrations
-    - `update_api` - Update api schema
-    - `generate_client` - Generate Java Client based on api schema
-    - `check_for_sdk_updates` - Check for new SDK features and create tasks for it
-
-___
-    
-- `assemble` - Group of commands for assemble test application
-    - `android_app` - Assemble Android test application
-    - `go_artifacts` - Generate go artifacts
-    - `ios_earl_grey` - Assemble iOS earl grey application
-    - `ios_flank_example` - Assemble iOS flank example application
-    - `ios_game_loop` - Assemble iOS game loop application
-    - `ios_test_plans` - Assemble iOS test plans application
-    - `ios_all` - Assemble all iOS applications
   
+(1) - currently there is only one command, but probably there will be more in future
+
 
 ### Package structure for CLI
 
@@ -69,41 +74,45 @@ ___
 flank-scripts/
 └── cli/
     ├── assemble/
-    │   ├── AndroidAppCommand.kt
-    │   ├── GoArtifactsCommand.kt
-    │   ├── IosAllCommand.kt
-    │   ├── IosEarlGreyCommand.kt
-    │   ├── IosFlankExampleCommand.kt
-    │   ├── IosGameLoopCommand.kt
-    │   └── IosTestPlansCommand.kt
-    ├── codingstyle/
-    │   ├── ApplyLinterToGitHooksCommand.kt
-    │   └── ApplyLinterToIdeCommand.kt
+    │   ├── android/
+    │   │   └── AppCommand.kt
+    │   ├── ios/
+    │   │   ├── AllCommand.kt
+    │   │   ├── EarlGreyCommand.kt
+    │   │   ├── FlankExampleCommand.kt
+    │   │   ├── GameLoopCommand.kt
+    │   │   └── TestPlansCommand.kt
+    │   └── GoArtifactsCommand.kt
     ├── firebase/
     │   ├── CheckForSdkUpdatesCommand.kt
     │   ├── GenerateClientCommand.kt
     │   └── UpdateApiCommand.kt
-    ├── integrationtests/
-    │   └── ProcessResultsCommand.kt
-    ├── release/
-    │   ├── DeleteSnapshotCommand.kt
+    ├── github/
     │   ├── DeleteOldTagCommand.kt
     │   ├── DeleteGithubReleaseCommand.kt
-    │   ├── GenerateReleaseNotesCommand.kt
     │   ├── MakeGithubReleaseCommand.kt
+    │   ├── CopyIssuePropertiesCommand.kt
+    ├── gradle/
+    │   └── UpdateDependenciesCommand.kt
+    ├── integrationtests/
+    │   └── ProcessResultsCommand.kt
+    ├── linter/
+    │   ├── ApplyToGitHooksCommand.kt
+    │   └── ApplyToIdeCommand.kt
+    ├── release/
+    │   ├── DeleteSnapshotCommand.kt
+    │   ├── GenerateReleaseNotesCommand.kt
     │   ├── NextTagCommand.kt
     │   └── SyncWithMavenCentralCommand.kt
-    ├── testartifacts/
-    │   ├── DownloadCommand.kt
-    │   ├── LinkCommand.kt
-    │   ├── PrepareCommand.kt
-    │   ├── RemoveRemoteCommand.kt
-    │   ├── ResolveCommand.kt
-    │   ├── UnzipCommand.kt
-    │   ├── UploadCommand.kt
-    │   └── ZipCommand.kt
-    ├── UpdateDependenciesCommand.kt
-    └── CopyIssuePropertiesCommand.kt
+    └── testartifacts/
+        ├── DownloadCommand.kt
+        ├── LinkCommand.kt
+        ├── PrepareCommand.kt
+        ├── RemoveRemoteCommand.kt
+        ├── ResolveCommand.kt
+        ├── UnzipCommand.kt
+        ├── UploadCommand.kt
+        └── ZipCommand.kt
 ```
 
 ### Usage
