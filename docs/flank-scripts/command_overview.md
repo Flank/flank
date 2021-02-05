@@ -9,7 +9,7 @@
         - `game_loop` - Assemble iOS game loop application
         - `test_plans` - Assemble iOS test plans application
         - `all` - Assemble all iOS applications
-    - `android` - Subgroup of command for managing assemble Android apps
+    - `android` - Subgroup of command for Android app assembly
         - `app` - Assemble Android test application
     - `go_artifacts` - Generate go artifacts
     
