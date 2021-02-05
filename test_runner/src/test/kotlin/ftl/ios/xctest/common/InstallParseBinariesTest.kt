@@ -31,7 +31,7 @@ internal class InstallParseBinariesTest {
     fun `should install binaries for linux`() {
         // given
         assumeTrue(isWindows.not() && isMacOS.not())
-
+        println("asd")
         // when
         installBinaries
 
