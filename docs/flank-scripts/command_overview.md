@@ -116,4 +116,4 @@ flank-scripts/
 ```
 
 ### Usage
-`flankScripts <command group> <command name> <arguments>`
+`flankScripts <command group> [<subgroup>] <command name> [<arguments>]`
