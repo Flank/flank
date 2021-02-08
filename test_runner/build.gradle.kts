@@ -379,7 +379,7 @@ val resolveArtifacts by tasks.registering {
 }
 
 tasks.test {
-    maxHeapSize = "3072m"
-    minHeapSize = "512m"
+//    maxHeapSize = "3072m"
+//    minHeapSize = "512m"
     dependsOn(resolveArtifacts)
 }
