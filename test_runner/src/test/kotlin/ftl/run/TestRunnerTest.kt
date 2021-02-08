@@ -130,9 +130,8 @@ class TestRunnerTest {
     fun `mockedIosTestRun local`() {
         assumeFalse(isWindows)
 
-        val config = IosArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.yml"))
         runBlocking {
-            config.newTestRun()
+            throw IllegalStateException("${Runtime.getRuntime().maxMemory() / 1024 / 1024}")
         }
     }
 
