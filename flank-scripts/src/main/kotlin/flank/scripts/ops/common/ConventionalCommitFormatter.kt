@@ -1,4 +1,4 @@
-package flank.scripts.ops.ci.releasenotes
+package flank.scripts.ops.common
 
 fun String.mapPrTitleWithType() = when {
     startsWith("feat") -> "Features" to skipConventionalCommitPrefix().capitalize()

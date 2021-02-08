@@ -3,8 +3,7 @@ package flank.scripts.ops.ci
 import com.github.kittinunf.result.map
 import com.github.kittinunf.result.success
 import flank.scripts.data.github.getLatestReleaseTag
-import flank.scripts.ops.ci.releasenotes.appendReleaseNotes
-import flank.scripts.ops.ci.releasenotes.generateReleaseNotes
+import flank.scripts.ops.common.generateReleaseNotes
 import kotlinx.coroutines.runBlocking
 import java.io.File
 

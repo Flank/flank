@@ -2,7 +2,6 @@ package flank.scripts.ops.shell.buildexample.ios
 
 import flank.common.archive
 import flank.common.flankFixturesIosTmpPath
-import flank.scripts.ops.shell.ios.createXcodeBuildForTestingCommand
 import flank.scripts.utils.downloadCocoaPodsIfNeeded
 import flank.scripts.utils.downloadXcPrettyIfNeeded
 import flank.scripts.utils.installPodsIfNeeded

@@ -3,7 +3,7 @@ package flank.scripts.cli.shell
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
-import flank.scripts.ops.shell.ios.runFtlLocal
+import flank.scripts.ops.shell.buildexample.ios.runFtlLocal
 
 object RunFtlLocalCommand : CliktCommand(
     name = "iosRunFtlLocal",

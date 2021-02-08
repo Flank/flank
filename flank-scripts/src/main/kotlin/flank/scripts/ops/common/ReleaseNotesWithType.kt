@@ -1,4 +1,4 @@
-package flank.scripts.ops.ci.releasenotes
+package flank.scripts.ops.common
 
 import flank.scripts.utils.markdownH2
 import flank.scripts.utils.markdownH3
