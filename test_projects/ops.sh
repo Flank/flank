@@ -7,7 +7,7 @@ function update_test_artifacts() {
   for arg in "$@"; do case "$arg" in
 
     android)
-      $DIR/../flank-scripts/bash/flankScripts shell ops android --copy --generate
+      $DIR/../flank-scripts/bash/flankScripts assemble android app --copy --generate
       ;;
 
     ios)
@@ -15,13 +15,13 @@ function update_test_artifacts() {
       ;;
 
     go)
-      $DIR/../flank-scripts/bash/flankScripts shell ops go --copy --generate
+      $DIR/../flank-scripts/bash/flankScripts assemble go --copy --generate
       ;;
 
     all)
-      $DIR/../flank-scripts/bash/flankScripts shell ops android --copy --generate
+      $DIR/../flank-scripts/bash/flankScripts assemble android app --copy --generate
       $DIR/../flank-scripts/bash/flankScripts shell ops ios --copy --generate
-      $DIR/../flank-scripts/bash/flankScripts shell ops go --copy --generate
+      $DIR/../flank-scripts/bash/flankScripts assemble go --copy --generate
       ;;
 
     esac done

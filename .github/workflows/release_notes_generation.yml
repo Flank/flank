@@ -29,12 +29,12 @@ jobs:
 
     - name: Set next release tag variable
       run: |
-        TAG=$(flankScripts ci nextReleaseTag --token=${{ secrets.GITHUB_TOKEN }})
+        TAG=$(flankScripts release next_tag --token=${{ secrets.GITHUB_TOKEN }})
         echo "NEXT_RELEASE_TAG=$(echo $TAG)" >> $GITHUB_ENV
 
     - name: Append release note
       run: |
-        flankScripts ci generateReleaseNotes --token=${{ secrets.GITHUB_TOKEN }}
+        flankScripts release generate_release_notes --token=${{ secrets.GITHUB_TOKEN }}
 
     - uses: tibdex/github-app-token@v1
       id: generate-token

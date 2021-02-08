@@ -73,7 +73,7 @@ To export path to your local flank repository just source [.env](../.env) file.
 
 > As a developer I want to remove test artifacts
 
-* Run `flankScripts testArtifacts remove` this will remove the remote copy of test artifacts for current working branch.
+* Run `flankScripts testArtifacts remove_remote` this will remove the remote copy of test artifacts for current working branch.
 
 
 ## iOS test artifacts
@@ -98,7 +98,7 @@ This project is basically clone of [EarlGrey](https://github.com/google/EarlGrey
 Source project contains two test targets: EarlGreyExampleSwiftTests, EarlGreyExampleTests.
 
 #### Generate
-Run: `flankScripts shell ops build_earl_grey_example`.
+Run: `flankScripts assemble ios earl_grey`.
 
 #### Source Code
 [test_projects/ios/EarlGreyExample](../test_projects/ios/EarlGreyExample)
@@ -109,7 +109,7 @@ Run: `flankScripts shell ops build_earl_grey_example`.
 Simple project with two test targets: FlankExampleTests, FlankExampleSecondTests.
 
 #### Generate
-Run: `flankScripts shell ops build_flank_example`.
+Run: `flankScripts assemble ios flank_example`.
 
 #### Source Code
 [test_projects/ios/EarlGreyExample](../test_projects/ios/FlankExample)
@@ -120,13 +120,13 @@ Run: `flankScripts shell ops build_flank_example`.
 Simple SpriteKit app to test gameloop mode. It doesn't contain any test target, so test artifacts contains only IPA file.
 
 #### Generate
-Run: `flankScripts shell ops build_ios_gameloop_example`.
+Run: `flankScripts assemble ios game_loop`.
 
 #### Source Code
 [test_projects/ios/EarlGreyExample](../test_projects/ios/FlankGameLoopExample)
 
 ⚠️ NOTE: Generating IPA requires Apple distribution certificate therefore for now it's not possible to generate it without correct Apple Developer Account. 
-`build_ios_gameloop_example` is excluded when building all iOS artifacts:
+`game_loop` is excluded when building all iOS artifacts:
 ```bash
 update_test_artifacts ios
 ```
@@ -136,7 +136,7 @@ update_test_artifacts ios
 iOS project with XCTestPlans. Contains `AllTests` test plan. Generated .xctestrun is using V2 format. More details about test plans: [docs/feature/ios_test_plans.md](feature/ios_test_plans.md)
 
 #### Generate
-Run: `flankScripts shell ops build_ios_testplans_example`.
+Run: `flankScripts assemble ios test_plans`.
 
 #### Source Code
 [test_projects/ios/EarlGreyExample](../test_projects/ios/FlankTestPlansExample)

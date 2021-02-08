@@ -55,7 +55,7 @@ jobs:
         jfrog bt config --user ${{ secrets.JFROG_USER }} --key ${{ secrets.JFROG_API_KEY }} --licenses Apache-2.0  
     
     - name: Delete old snapshot
-      run: flankScripts release jFrogDelete --version=$MVN_VERSION
+      run: flankScripts release delete_snapshot --version=$MVN_VERSION
 
     - name: Gradle Build Flank
       uses: eskatos/gradle-command-action@v1
@@ -84,22 +84,22 @@ jobs:
     - name: Delete old release
       run: |
         hub version
-        flankScripts release deleteOldRelease --git-tag=$RELEASE_TAG
+        flankScripts github delete_release --git-tag=$RELEASE_TAG
 
     - name: Delete old tag
       if: ${{ env.RELEASE_TAG == 'flank_snapshot' }}
-      run: flankScripts release deleteOldTag --git-tag=$RELEASE_TAG --username=$GITHUB_ACTOR --token=${{ secrets.GITHUB_TOKEN }}
+      run: flankScripts github delete_old_tag --git-tag=$RELEASE_TAG --username=$GITHUB_ACTOR --token=${{ secrets.GITHUB_TOKEN }}
 
     - name: Release snapshot
       if: ${{ env.RELEASE_TAG == 'flank_snapshot' }} 
-      run: flankScripts release releaseFlank --input-file=./test_runner/build/libs/flank.jar --git-tag=$RELEASE_TAG --commit-hash=$GIT_SHORT_HASH --snapshot
+      run: flankScripts github make_release --input-file=./test_runner/build/libs/flank.jar --git-tag=$RELEASE_TAG --commit-hash=$GIT_SHORT_HASH --snapshot
 
     - name: Release stable
       if: startsWith(github.ref, 'refs/tags/v')
-      run: flankScripts release releaseFlank --input-file=./test_runner/build/libs/flank.jar --git-tag=$RELEASE_TAG --token=${{ secrets.GITHUB_TOKEN }}
+      run: flankScripts github make_release --input-file=./test_runner/build/libs/flank.jar --git-tag=$RELEASE_TAG --token=${{ secrets.GITHUB_TOKEN }}
 
     - name: Sync bintray to maven central
-      run: flankScripts release jFrogSync --maven-tag=$MVN_VERSION
+      run: flankScripts release sync_with_maven_central --maven-tag=$MVN_VERSION
 
     - name: Gradle Upload to GitHub packages
       uses: eskatos/gradle-command-action@v1

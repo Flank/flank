@@ -1,2 +1,2 @@
 SET DIR=%~dp0
-%DIR%\..\..\flank-scripts\bash\flankScripts.bat shell firebase generateJavaClient
+%DIR%\..\..\flank-scripts\bash\flankScripts.bat firebase generate_client
