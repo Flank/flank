@@ -13,7 +13,9 @@ import flank.scripts.cli.testartifacts.TestArtifactsCommand
 
 class Main : CliktCommand(name = "flankScripts") {
     @Suppress("EmptyFunctionBlock")
-    override fun run() {}
+    override fun run() {
+        print("flank ")
+    }
 }
 
 fun main(args: Array<String>) {
