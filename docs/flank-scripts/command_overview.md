@@ -65,7 +65,7 @@ ___
     - `download` - Download test artifacts zip asset to test_artifacts directory.
     - `link` - Create symbolic link to under test_runner/src/test/kotlin/ftl/fixtures/tmp to
       test_artifacts/{branchName}.
-    - `prepare`- Creates fresh copy of test artifacts for current working branch, basing on existing one.
+    - `prepare`- Creates a fresh copy of test artifacts for the current working branch, basing on an existing one.
     - `remove_remote` - Remove remote copy of test artifacts.
     - `resolve` - Automatically prepare local artifacts if needed.
     - `unzip` - Unpack test artifacts zip archive.
