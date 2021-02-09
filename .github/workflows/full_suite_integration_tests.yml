@@ -99,14 +99,13 @@ jobs:
 
       - name: Prepare Google Service Account
         env:
-          GOOGLE_CLOUD_PROJECT: flank-open-source #needs to be removed.
           GCLOUD_KEY: ${{ secrets.GCLOUD_KEY }}
-          GCLOUD_KEY_WINDOWS: ${{ secrets.GCLOUD_KEY_WINDOWS }}
+
         run: |
             if [ "$RUNNER_OS" == "Windows" ]; then
                 GCLOUD_DIR=$HOMEPATH\\.config\\gcloud\\
                 mkdir -p $GCLOUD_DIR
-                echo $GCLOUD_KEY_WINDOWS > key.txt
+                echo $GCLOUD_KEY > key.txt
                 certutil -decode key.txt $GCLOUD_DIR\application_default_credentials.json
             else
                 GCLOUD_DIR="$HOME/.config/gcloud/"
