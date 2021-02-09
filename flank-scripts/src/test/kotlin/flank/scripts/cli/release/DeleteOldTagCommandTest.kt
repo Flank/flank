@@ -2,6 +2,7 @@ package flank.scripts.cli.release
 
 import com.google.common.truth.Truth.assertThat
 import flank.scripts.FuelTestRunner
+import flank.scripts.cli.github.DeleteOldTagCommand
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule

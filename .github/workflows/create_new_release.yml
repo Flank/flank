@@ -22,7 +22,7 @@ jobs:
           echo "./flank-scripts/bash" >> $GITHUB_PATH
       - name: Set next release tag variable
         run: |
-          TAG=$(flankScripts ci nextReleaseTag --token=${{ secrets.GITHUB_TOKEN }})
+          TAG=$(flankScripts release next_tag --token=${{ secrets.GITHUB_TOKEN }})
           echo "NEXT_RELEASE_TAG=$(echo $TAG)" >> $GITHUB_ENV
           
       - name: Push tag

@@ -5,10 +5,16 @@ import com.github.ajalt.clikt.core.subcommands
 
 object DependenciesCommand : CliktCommand(
     name = "dependencies",
-    help = "Task for manages dependencies"
+    help = "Group of commands related to dependencies tasks"
 ) {
     init {
-        subcommands(DependenciesUpdateCommand)
+        subcommands(
+            InstallXcPrettyCommand,
+            SetupIosEnvCommand,
+            UniversalFrameworkCommand,
+            UpdateBinariesCommand,
+            UpdateCommand
+        )
     }
 
     @Suppress("EmptyFunctionBlock")

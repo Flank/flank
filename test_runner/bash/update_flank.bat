@@ -1,2 +1,2 @@
 SET DIR=%~dp0
-%DIR%\..\..\flank-scripts\bash\flankScripts.bat shell buildFlank
+%DIR%\..\..\flank-scripts\bash\flankScripts.bat assemble flank

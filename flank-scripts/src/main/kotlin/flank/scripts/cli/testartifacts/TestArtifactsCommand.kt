@@ -13,7 +13,7 @@ import java.io.File
 
 object TestArtifactsCommand : CliktCommand(
     name = "testArtifacts",
-    help = "The base command for artifacts management."
+    help = "Group of commands for artifacts management."
 ) {
     private val branch: String by option(
         "--branch", "-b",
@@ -40,7 +40,7 @@ object TestArtifactsCommand : CliktCommand(
             ZipCommand,
             UnzipCommand,
             LinkCommand,
-            RemoveCommand,
+            RemoveRemoteCommand,
             ResolveCommand
         )
     }

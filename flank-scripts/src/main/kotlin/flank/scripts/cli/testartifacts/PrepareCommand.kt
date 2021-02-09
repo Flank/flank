@@ -8,7 +8,7 @@ import flank.scripts.ops.testartifacts.Context
 import flank.scripts.ops.testartifacts.prepareTestArtifacts
 
 object PrepareCommand : CliktCommand(
-    help = "Creates fresh copy of test artifacts for current working branch, basing on existing one."
+    help = "Creates a fresh copy of test artifacts for the current working branch, basing on an existing one."
 ) {
     val artifacts by requireObject<Context>()
 

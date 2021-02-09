@@ -1,7 +1,7 @@
 @ECHO OFF
 SET ARG=%1
 if "%ARG%" == "android" (
-	CALL ../flank-scripts/bash/flankScripts.bat shell ops android --copy --generate
+	CALL ../flank-scripts/bash/flankScripts.bat assemble android app --copy --generate
 )
 
 if "%ARG%" == "ios" (
@@ -9,10 +9,10 @@ if "%ARG%" == "ios" (
 )
 
 if "%ARG%" == "go" (
-	CALL ../flank-scripts/bash/flankScripts.bat shell ops go
+	CALL ../flank-scripts/bash/flankScripts.bat assemble go
 )
 
 if "%ARG%" == "all" (
-    CALL ../flank-scripts/bash/flankScripts.bat shell ops android --copy --generate
-    CALL ../flank-scripts/bash/flankScripts.bat shell ops go
+    CALL ../flank-scripts/bash/flankScripts.bat assemble android app --copy --generate
+    CALL ../flank-scripts/bash/flankScripts.bat assemble go
 )

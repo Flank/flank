@@ -1,6 +1,7 @@
 package flank.scripts.cli.ci
 
 import com.google.common.truth.Truth.assertThat
+import flank.scripts.cli.release.GenerateReleaseNotesCommand
 import org.junit.Test
 import java.io.File
 
