@@ -1,2 +1,2 @@
 DIR=`dirname "$BASH_SOURCE"`
-$DIR/../../flank-scripts/bash/flankScripts shell ops go
+$DIR/../../flank-scripts/bash/flankScripts assemble go

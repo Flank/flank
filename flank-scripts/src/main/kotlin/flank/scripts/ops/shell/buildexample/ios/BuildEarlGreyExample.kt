@@ -1,6 +1,9 @@
 package flank.scripts.ops.shell.buildexample.ios
 
 import flank.common.iOSTestProjectsPath
+import flank.scripts.ops.common.EARL_GREY_EXAMPLE
+import flank.scripts.ops.common.EARL_GREY_EXAMPLE_SWIFT_TESTS
+import flank.scripts.ops.common.EARL_GREY_EXAMPLE_TESTS
 import flank.scripts.utils.failIfWindows
 import java.nio.file.Paths
 

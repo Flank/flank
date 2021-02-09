@@ -1,4 +1,4 @@
-package flank.scripts.ops.shell.ios
+package flank.scripts.ops.shell.buildexample.ios
 
 import flank.common.archive
 import flank.scripts.utils.downloadXcPrettyIfNeeded

@@ -1,8 +1,8 @@
 package flank.scripts.ops.release.hub
 
 import com.google.common.annotations.VisibleForTesting
-import flank.scripts.ops.ci.releasenotes.asString
-import flank.scripts.ops.ci.releasenotes.generateReleaseNotes
+import flank.scripts.ops.common.asString
+import flank.scripts.ops.common.generateReleaseNotes
 import flank.scripts.utils.ERROR_WHEN_RUNNING
 import flank.scripts.utils.runCommand
 import java.io.File

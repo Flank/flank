@@ -3,7 +3,7 @@ package flank.scripts.ops.integration
 import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
 import flank.scripts.FuelTestRunner
-import flank.scripts.cli.integration.ProcessResultCommand
+import flank.scripts.cli.integrationtests.ProcessResultCommand
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.Test

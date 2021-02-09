@@ -1,3 +1,3 @@
 
 DIR=`dirname "$BASH_SOURCE"`
-$DIR/../../flank-scripts/bash/flankScripts shell buildFlank
+$DIR/../../flank-scripts/bash/flankScripts assemble flank

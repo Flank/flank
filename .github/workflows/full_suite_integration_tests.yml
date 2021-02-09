@@ -137,7 +137,7 @@ jobs:
 
       - name: Process IT results
         run: |
-          flankScripts integration processResults \
+          flankScripts integration_tests process_results \
           --result=${{ needs.run-it-full-suite.outputs.job_status }} \
           --url=${{ needs.run-it-full-suite.outputs.build-scan-url }} \
           --github-token=${{ secrets.GITHUB_TOKEN }} \

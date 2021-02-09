@@ -6,295 +6,100 @@ This repository contains helper scripts for developing flank. For now, it contai
 ### Build
 
 To build flank-scripts:
-1. Run script `buildFlankScripts.sh` in `flank-scripts/bash/` directory
-2. Run command `./gradlew clean flank-scripts:assemble flank-scripts:shadowJar` and manual copy file from `/flank-scripts/build/libs/flank-scripts.jar` to `flank-scripts/bash/`
-3. You could always run/build it from Intellij IDEA 
+  - Run script `buildFlankScripts.sh` in `flank-scripts/bash/` directory
+  - Run command `./gradlew clean flank-scripts:assemble flank-scripts:shadowJar` and manual copy file from `/flank-scripts/build/libs/flank-scripts.jar` to `flank-scripts/bash/`
+  - You could always run/build it from Intellij IDEA 
 
 ### Usage
 
-Run the script with arguments 
-`flankScripts COMMAND [ARGS]...`
+Run the script with arguments
+`flankScripts <command group> [<subgroup>] <command name> [<arguments>]`
 
 If you need help with available commands or arguments you could always use option `--help`
 
 ## Available commands and options
 
-### CI
-To show all available commands for ci use:
-`flankScripts ci`
+### Command List
 
-Available commands are:
-  - `generateReleaseNotes`  Command to generate release notes and append them to `release_notes.md`
-  - `nextReleaseTag`        Print next release tag
-  
-#### `generateReleaseNotes`
-Command to generate release notes and append them to `release_notes.md`
+- `assemble` - Group of commands to assemble application
+  - `android` - Subgroup of commands for Android test application assembly
+    - `app` - Assemble Android test application
+  - `ios` - Subgroup of commands for iOS test applications assembly
+    - `earl_grey` - Assemble iOS earl grey application
+    - `example` - Assemble iOS example application
+    - `flank_example` - Assemble iOS flank example application
+    - `ftl` - Assemble iOS ftl example application
+    - `game_loop` - Assemble iOS game loop application
+    - `test_plans` - Assemble iOS test plans application
+    - `all` - Assemble all iOS applications
+  - `flank` - Build Flank
+  - `go_artifacts` - Generate go artifacts
 
-| Option               	| Description                                             	|
-|----------------------	|---------------------------------------------------------	|
-| --token              	| Git token                                               	|
-| --release-notes-file 	| Path to release_notes.md (default `./release_notes.md`) 	|
+___
 
-#### `nextReleaseTag`
-Print next release tag
+- `dependencies`   - Group of commands related to dependencies tasks
+  - `install_xcpretty` - Install xcpretty formatter
+  - `setup_ios_env` - Setup iOS environment
+  - `universal_framework_files` - Create Universal Framework files
+  - `update_binaries` - Update binaries used by Flank
+  - `update` - Update repository 3rd party dependencies
 
-| Option          	| Description     	|
-|-----------------	|-----------------	|
-| `--token`       	| Git token       	|
+___
 
-### Release 
-The release process was described in [document](../docs/release_process.md).  
-To show all available commands for release use:
-`flankScripts release`
+- `firebase` - Group of commands for managing firebase integrations
+  - `check_for_sdk_updates` - Check for new SDK features and create update tasks for it
+    - `generate_client` - Generate Java Client based on api schema
+    - `update_api` - Update api schema
 
-Available commands are:
-  - `releaseFlank`      Release Flank on GitHub  
-  - `jFrogDelete`       Delete old version on bintray  
-  - `jFrogSync`         Sync maven repository using jfrog  
-  - `deleteOldRelease`  Delete old release on github  
-  - `deleteOldTag`      Delete old tag on GitHub  
-  
-#### `releaseFlank`
-Release Flank on GitHub 
+___
 
-| Option          	| Description                          	|
-|-----------------	|--------------------------------------	|
-| `--input-file`  	| Path to release file                 	|
-| `--snapshot `   	| Is Snapshot release. Default `false` 	|
-| `--git-tag`     	| Git Tag                              	|
-| `--commit-hash` 	| Git Commit hash                      	|
-|  `--token`        | Git token                             |
+- `github` - Group of command for managing Github integration
+  - `copy_issue_properties` - Copy properties(assignees, story points, labels) from issue to pull request
+  - `delete_old_tag` - Delete old tag on GitHub
+  - `delete_release` - Delete old release on github
+  - `make_release` - Make new Github release
 
-#### `jFrogDelete`
-Delete old version on bintray 
- 
-| Option          	| Description                          	|
-|-----------------	|--------------------------------------	|
-| --version       	| Maven version ( without leading `v`) 	|
+___
 
-#### `jFrogSync` 
-Sync maven repository using jfrog
+- `integration_tests` - Group of commands for handling integration tests (1)
+  - `process_results` - Process results of integration tests
 
-| Option          	| Description                          	|
-|-----------------	|--------------------------------------	|
-| `--git-tag`     	| Git Tag                              	|
+___
 
-#### `deleteOldRelease` 
-Delete old release on github
+- `linter` - Group of commands used for applying correct coding style
+  - `apply_to_git_hooks` - Apply Linter pre-commit hook
+  - `apply_to_ide` - Apply Linter to IDE
 
-| Option          	| Description                          	|
-|-----------------	|--------------------------------------	|
-| `--git-tag`     	| Git Tag                              	| 
+___
+
+- `release` - Group of commands for creating Flank release
+  - `delete_snapshot` - Delete snapshot package from artifacts repository
+  - `generate_release_notes` - Generate release notes
+  - `next_tag` - Get tag for next release
+  - `sync_with_maven_central` - Sync artifact's repository with Maven central
+
+___
+
+- `test_artifacts` - Group of commands for artifacts management
+  - `download` - Download test artifacts zip asset to test_artifacts directory.
+  - `link` - Create symbolic link to under test_runner/src/test/kotlin/ftl/fixtures/tmp to
+    test_artifacts/{branchName}.
+  - `prepare`- Creates a fresh copy of test artifacts for the current working branch, basing on an existing one.
+  - `remove_remote` - Remove remote copy of test artifacts.
+  - `resolve` - Automatically prepare local artifacts if needed.
+  - `unzip` - Unpack test artifacts zip archive.
+  - `upload` - Upload test artifacts zip as github release asset.
+  - `zip` - Create zip archive from test artifacts directory.
+
+(1) - please note that there is only one command, but it may change in the future.
 
 
-#### `deleteOldTag` 
-Delete old tag on GitHub
+### Arguments
 
-| Option          	| Description     	|
-|-----------------	|-----------------	|
-| --git-tag`      	| Git tag         	|
-| `--username`    	| Git username    	|
-| `--token`       	| Git token       	|
-
-### dependencies
-Dependencies update process was described [here](../docs/dependencies_update_process.md)  
-To show all available commands for dependencies use:
-`flankScripts dependencies`
-
-Available commands are:
-  - `update`    Command to update dependencies
-  
-#### `update`
-Command to update dependencies
-
-| Option              	| Description                                                                                         	|
-|---------------------	|-----------------------------------------------------------------------------------------------------	|
-| --report-file       	| Path to .json report file. DEFAULT: `./report.json`                                                 	|
-| --dependencies-file 	| Path to .kts file with dependencies defined. DEFAULT:  `./buildSrc/src/main/kotlin/Dependencies.kt` 	|
-| --versions-file     	| Path to .kts file with versions defined. DEFAULT:  `./buildSrc/src/main/kotlin/Versions.kt`         	|
-| --plugins-file      	| Path to .kts file with plugins defined. DEFAULT:  `./buildSrc/src/main/kotlin/Plugins.kt`           	|
-
-### Test artifacts management
-Test artifacts management process was described [here](../docs/test_artifacts.md)  
-To show all available commands for testArtifacts use `flankScripts testArtifacts`
-All [testArtifacts](../flank-scripts/src/main/kotlin/flank/scripts/testartifacts/TestArtifacts.kt) subcommands can be configured using base options.
-
-| Option         | Short option | Description                                                                                      |
-|----------------|--------------|--------------------------------------------------------------------------------------------------|
-| --branch       | -b           | Branch name that identify test artifacts to operate. The current git branch is a default.        |
-| --project-root | -p           | Path to local project repository root. By default it is resolved from `FLANK_ROOT` env variable. |
-
-  #### `download`
-  Download test artifacts zip asset to test_artifacts directory.
-  
-  | Option      | Short option | Description                                                             |
-  |-------------|--------------|-------------------------------------------------------------------------|
-  | --overwrite | -o           | Flag which indicates if should overwrite old resources when downloading |
-  
-  #### `upload`  
-  Upload test artifacts zip as github release asset.
-  #### `prepare` 
-  Creates fresh copy of test artifacts for current working branch, basing on existing one.
-  
-  | Option | Short option | Description                                                                        |
-  |--------|--------------|------------------------------------------------------------------------------------|
-  | --src  | -s           | The name of branch that identify artifacts source. The master branch is a default. |
-  
-  #### `zip`     
-  Create zip archive from test artifacts directory.
-  #### `unzip`   
-  Unpack test artifacts zip archive.
-  #### `link`  
-  Create symbolic link to under
-      `test_runner/src/test/kotlin/ftl/fixtures/tmp` to `test_artifacts/{branchName}`.
-  #### `remove`  
-  Remove remote copy of test artifacts.
-  #### `resolve` 
-  Automatically prepare local artifacts if needed.
-
-### Shell
-
-To show all available commands for shell use: `flankScripts shell`
-
-Available commands are:
-  - `firebase`               Contains all firebase commands  
-  - `iosBuildExample`        Build example ios app
-  - `iosBuildFtl`            Build ftl ios app
-  - `iosRunFtlLocal`         Run ftl locally ios app
-  - `iosUniversalFramework`  Create Universal Framework
-  - `ops`                    Contains all ops command: android, ios, gp
-  - `updateBinaries`         Update binaries used by Flank
-  - `buildFlank`             Build Flank
-
-#### `firebase` 
-
-Contains tasks related to firebase client generation.  
-These tasks are :
-  - `updateApiJson`        Download file for generating client
-  - `generateJavaClient`   Generates Java client
-  - `checkForSdkUpdate`    Check for any changes/new features in gcloud SDK
-
-##### `updateApiJson`
-Download file for generating client
-
-##### `generateJavaClient`
-Generate Java Client from json schema
-
-##### `checkForSdkUpdate`
-Check for any changes/new features in gcloud SDK. If any detected, create issue for each
-
-| Option         | Description      |
-|----------------|------------------|
-| --github-token | GitHub Token     |
-| --zenhub-token | ZenHub api Token |
-
-#### `iosBuildExample` 
-Build example ios app
-
-#### `iosBuildFtl` 
-Build ftl ios app
-
-#### `iosRunFtlLocal` 
-Run ftl locally ios app
-
-| Option      | Description                                                              |
-|-------------|--------------------------------------------------------------------------|
-| --device-id | Device id. Please take it from Xcode -> Window -> Devices and Simulators |
-
-#### `iosUniversalFramework` 
-
-#### `ops` 
-Contains tasks related to building sample apps with tests.  
-These tasks are :
-  - `go`        Build go app with tests
-  - `build_earl_grey_example`      Build ios earl grey example app with tests
-  - `build_ios_gameloop_example`   Build ios game loop example app
-  - `build_ios_testplans_example`  Build ios test plans example app
-  - `build_flank_example`          Build ios flank example app with tests
-  - `ios`       Build all ios tests artifacts
-  - `android`   Build android apks with tests
-  
-##### `go`
-Build go app with tests
-
-##### `build_earl_grey_example`
-Build ios [Earlgrey example](../docs/test_artifacts.md#earlgreyexample) app and copy output to the test artifacts directory
-
-##### `build_flank_example`
-Build ios [Flank example](../docs/test_artifacts.md#flankexample) app and copy output to the test artifacts directory
-
-##### `build_ios_gameloop_example`
-Build ios [Game loop example](../docs/test_artifacts.md#flankgameloopexample) app and copy .IPA to the test artifacts directory
-
-##### `build_ios_testplans_example`
-Build ios [Test plans example](../docs/test_artifacts.md#flanktestplansexample) app and copy output to the test artifacts directory
-
-##### `android`
-Build android apks with tests
-
-| Option     | Short option | Description              |
-|------------|--------------|--------------------------|
-| --generate | -g           | Make build               |
-| --copy     | -c           | Copy output files to tmp |
-
-#### `updateBinaries` 
-Update binaries used by Flank
-
-#### `buildFlank` 
-Build Flank test runner
-
-### pullRequest
-To show all available commands for pullRequest use:
-`flankScripts pullRequest`
-
-Available commands are:
-  - `copyProperties`    Copy properties from referenced issue to pull request
-  
-#### `copyProperties`
-Command to copy labels, assignees and estimate are copied from source issue.
-Source issue is discovered by:
-- Having reference in description (ex. Fixes #1092)  
+To show applicable arguments for command use `--help` or `-h` options:
+`flankScripts <command group> [<subgroup>] <command name> --help`
 or
-- Having reference in branch name(ex. #1092_copy_properties_to_pull_request)
-
-| Option         | Description         |
-|----------------|---------------------|
-| --github-token | GitHub Token        |
-| --zenhub-token | ZenHub api Token    |
-| --pr-number    | Pull request number |
-
-### integration (currently, available only on the master branch)
-To show all available commands for `integration` use:
-`flankScripts integration`
-
-Available commands are: 
-- `processResults`    Process results from `full_suite_integration_tests` workflow  
-
-#### `processResults`
-If IT ended up with failure a new issue is created with some basic info: build scan URL, commit list, timestamp.
-If there is an issue already created comment is posted to the existing one (so we avoid multiple copies of the same ticket).
-Once integration tests end with success issue is closed. 
-
-| Option         | Description         |
-|----------------|---------------------|
-| --github-token | GitHub Token        |
-| --result       | Status of IT step from workflow. Can be either `success` or `failure`|
-| --url          | Build scan url from IT step|
-| --run-id       | `job.run_id` value from workflow context. Used for comment posting|
-
-### Contribution
-To show all available commands for `contribution` use:
-`flankScripts contribution`
-
-Available commands are: 
-- `linkGitHooks`    Apply a pre-commit hook for Ktlint
-- `applyKtlintToIdea`    Applies Ktlint styling to the current idea project
-
-#### `linkGithooks`
-Applies a pre-commit hook that runs Ktlint on a commit and fails if there are lint issues. It is set to automatically fix issues if it can.
-
-### `applyKtlintToIdea`
-Applies Ktlint styling to the current idea project, so that correct code styling is upheld.
+`flankScripts <command group> [<subgroup>] <command name> -h`
 
 ## Testing
 To test your script with different settings use `flank-debug.properties` file. Uncomment and replace with desired values.
@@ -311,3 +116,208 @@ Properties are skipped by git and should not be attached to a commit. Note, `tes
 |`integration.issue-poster`|Name of account that creates IT issue|`github-actions[bot]`|
 |`sdk-check.workflow-filename`|GH Action dependencies update workflow file. Used to fetch list of commits since it's last run.|`update_dependencies_and_client.yml`|
 |`sdk-check.issue-poster`|Name of account that creates dependencies issues/epics|`github-actions[bot]`|
+
+## Directory structure
+
+```bash
+.
+├── cli
+│   ├── Main.kt
+│   ├── assemble
+│   │   ├── AssembleCommand.kt
+│   │   ├── FlankCommand.kt
+│   │   ├── GoCommand.kt
+│   │   ├── android
+│   │   │   ├── AndroidCommand.kt
+│   │   │   └── AppCommand.kt
+│   │   └── ios
+│   │       ├── EarlGreyCommand.kt
+│   │       ├── ExampleCommand.kt
+│   │       ├── FlankExampleCommand.kt
+│   │       ├── FtlCommand.kt
+│   │       ├── GameLoopExampleCommand.kt
+│   │       ├── IosCommand.kt
+│   │       ├── RunFtlLocalCommand.kt
+│   │       └── TestPlansExample.kt
+│   ├── dependencies
+│   │   ├── DependenciesCommand.kt
+│   │   ├── InstallXcPrettyCommand.kt
+│   │   ├── SetupIosEnvCommand.kt
+│   │   ├── UniversalFrameworkCommand.kt
+│   │   ├── UpdateBinariesCommand.kt
+│   │   └── UpdateCommand.kt
+│   ├── firebase
+│   │   ├── CheckForSdkUpdatesCommand.kt
+│   │   ├── FirebaseCommand.kt
+│   │   ├── GenerateClientCommand.kt
+│   │   └── UpdateApiCommand.kt
+│   ├── github
+│   │   ├── CopyIssuePropertiesCommand.kt
+│   │   ├── DeleteOldTagCommand.kt
+│   │   ├── DeleteReleaseCommand.kt
+│   │   ├── GitHubCommand.kt
+│   │   └── MakeReleaseCommand.kt
+│   ├── integrationtests
+│   │   ├── IntegrationTestsCommand.kt
+│   │   └── ProcessResultCommand.kt
+│   ├── linter
+│   │   ├── ApplyToGitHooksCommand.kt
+│   │   ├── ApplyToIdeCommand.kt
+│   │   └── LinterCommand.kt
+│   ├── release
+│   │   ├── DeleteSnapshotCommand.kt
+│   │   ├── GenerateReleaseNotesCommand.kt
+│   │   ├── NextTagCommand.kt
+│   │   ├── ReleaseCommand.kt
+│   │   └── SyncWithMavenCentralCommand.kt
+│   └── testartifacts
+│       ├── DownloadCommand.kt
+│       ├── LinkCommand.kt
+│       ├── PrepareCommand.kt
+│       ├── RemoveRemoteCommand.kt
+│       ├── ResolveCommand.kt
+│       ├── TestArtifactsCommand.kt
+│       ├── UnzipCommand.kt
+│       ├── UploadCommand.kt
+│       └── ZipCommand.kt
+├── data
+│   ├── github
+│   │   ├── GitHubErrorResponse.kt
+│   │   ├── GithubApi.kt
+│   │   ├── commons
+│   │   │   └── LastWorkflowRunDate.kt
+│   │   └── objects
+│   │       ├── GitHubCommit.kt
+│   │       ├── GitHubCreateIssue.kt
+│   │       ├── GitHubCreateIssueComment.kt
+│   │       ├── GitHubRelease.kt
+│   │       ├── GitHubSetAssigneesRequest.kt
+│   │       ├── GitHubSetLabelsRequest.kt
+│   │       ├── GitHubUpdateIssue.kt
+│   │       ├── GitHubWorkflowRun.kt
+│   │       └── GithubPullRequest.kt
+│   └── zenhub
+│       ├── ZenHubAPI.kt
+│       ├── ZenHubIssue.kt
+│       └── objects
+│           └── ConvertToEpicRequest.kt
+├── ops
+│   ├── ci
+│   │   ├── CreateReleaseNotes.kt
+│   │   ├── NextReleaseTag.kt
+│   │   └── releasenotes
+│   │       ├── AppendReleaseNotes.kt
+│   │       ├── ConventionalCommitFormatter.kt
+│   │       ├── GenerateChangeLog.kt
+│   │       └── ReleaseNotesWithType.kt
+│   ├── contribution
+│   │   ├── ApplyKtlintToIdea.kt
+│   │   └── LinkGitHooks.kt
+│   ├── dependencies
+│   │   ├── DependenciesResultCheck.kt
+│   │   ├── DependencyExtensions.kt
+│   │   ├── DependencyUpdate.kt
+│   │   ├── FindOutdatedDependencies.kt
+│   │   ├── FindVersionInLines.kt
+│   │   ├── GradleDependency.kt
+│   │   ├── UpdateAllDependencies.kt
+│   │   ├── UpdateDependencies.kt
+│   │   ├── UpdateGradle.kt
+│   │   ├── UpdatePlugins.kt
+│   │   └── UpdateVersionsInFile.kt
+│   ├── integration
+│   │   ├── CommitList.kt
+│   │   ├── Extensions.kt
+│   │   ├── IntegrationContext.kt
+│   │   ├── IssueList.kt
+│   │   ├── PrepareMessage.kt
+│   │   ├── ProcessIntegrationTestsResult.kt
+│   │   └── WorkflowSummary.kt
+│   ├── pullrequest
+│   │   ├── CopyGitHubProperties.kt
+│   │   ├── FindReferenceIssue.kt
+│   │   ├── SetAssignees.kt
+│   │   └── SetLabels.kt
+│   ├── release
+│   │   ├── hub
+│   │   │   ├── DeleteOldRelease.kt
+│   │   │   ├── DeleteOldTag.kt
+│   │   │   └── ReleaseFlank.kt
+│   │   └── jfrog
+│   │       ├── DeleteOldSnapshot.kt
+│   │       ├── JFrogCommandHelper.kt
+│   │       └── SyncMaven.kt
+│   ├── shell
+│   │   ├── BuildFlank.kt
+│   │   ├── InstallXcPretty.kt
+│   │   ├── SetupIosEnv.kt
+│   │   ├── buildexample
+│   │   │   ├── android
+│   │   │   │   ├── BuildBaseAndroidApk.kt
+│   │   │   │   ├── BuildBaseAndroidTests.kt
+│   │   │   │   ├── BuildCucumberSampleApk.kt
+│   │   │   │   ├── BuildDuplicatedNamesApks.kt
+│   │   │   │   ├── BuildMultiModulesApks.kt
+│   │   │   │   ├── Common.kt
+│   │   │   │   └── RunAndroidOps.kt
+│   │   │   ├── go
+│   │   │   │   └── BuildGO.kt
+│   │   │   └── ios
+│   │   │       ├── BuildEarlGreyExample.kt
+│   │   │       ├── BuildExample.kt
+│   │   │       ├── BuildFlankExampleCommand.kt
+│   │   │       ├── BuildFtl.kt
+│   │   │       ├── BuildGameLoopExampleCommand.kt
+│   │   │       ├── BuildIosIPA.kt
+│   │   │       ├── BuildIosTestArtifacts.kt
+│   │   │       ├── BuildTestPlansExample.kt
+│   │   │       ├── EarlGreyExampleConsts.kt
+│   │   │       ├── IosBuildCommand.kt
+│   │   │       ├── LipoHelper.kt
+│   │   │       ├── RunFtlLocal.kt
+│   │   │       └── UniversalFramework.kt
+│   │   ├── firebase
+│   │   │   ├── apiclient
+│   │   │   │   ├── GenerateJavaClient.kt
+│   │   │   │   └── UpdateApiJson.kt
+│   │   │   └── sdk
+│   │   │       ├── CheckForSDKUpdateCommand.kt
+│   │   │       ├── CommitList.kt
+│   │   │       ├── Extensions.kt
+│   │   │       ├── LastSDKUpdateRun.kt
+│   │   │       ├── OpenedUpdates.kt
+│   │   │       └── SDKUpdateContext.kt
+│   │   └── updatebinaries
+│   │       ├── UpdateAtomic.kt
+│   │       ├── UpdateBinaries.kt
+│   │       ├── UpdateLlvm.kt
+│   │       └── UpdateSwift.kt
+│   └── testartifacts
+│       ├── ArtifactsArchive.kt
+│       ├── Constants.kt
+│       ├── Context.kt
+│       ├── DownloadFixtures.kt
+│       ├── IsNewVersionAvailable.kt
+│       ├── LinkArtifacts.kt
+│       ├── PrepareTestArtifacts.kt
+│       ├── RemoveRemoteCopy.kt
+│       ├── ResolveArtifacts.kt
+│       ├── TestArtifactsRepo.kt
+│       ├── UploadFixtures.kt
+│       └── ZipArtifacts.kt
+└── utils
+    ├── DownloadSoftware.kt
+    ├── Env.kt
+    ├── FastFailForWindows.kt
+    ├── Git.kt
+    ├── GradleCommand.kt
+    ├── MarkdownFormatter.kt
+    ├── Path.kt
+    ├── Serialization.kt
+    ├── ShellExecute.kt
+    ├── Version.kt
+    └── exceptions
+        ├── FlankScriptsExceptionMappers.kt
+        └── FlankScriptsExceptions.kt
+
+```

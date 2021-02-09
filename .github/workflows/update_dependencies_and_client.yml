@@ -82,8 +82,8 @@ jobs:
       - name: Update Java Client
         run: |
           pip install google-apis-client-generator
-          flankScripts shell firebase updateApiJson
-          flankScripts shell firebase generateJavaClient
+          flankScripts firebase update_api
+          flankScripts firebase generate_client
 
       - name: Commit files and create Pull request
         id: pr
@@ -112,7 +112,7 @@ jobs:
 
       - name: Run SDK check
         run: |
-          flankScripts shell firebase checkForSdkUpdate \
+          flankScripts firebase check_for_sdk_updates \
           --github-token=${{ secrets.GITHUB_TOKEN }} \
           --zenhub-token=${{ secrets.ZENHUB_API_KEY }}
 
