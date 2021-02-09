@@ -1,5 +1,6 @@
 package flank.scripts.ops.ci.releasenotes
 
+import flank.scripts.ops.common.asString
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

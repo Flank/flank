@@ -1,6 +1,7 @@
 package flank.scripts.ops.ci.releasenotes
 
 import com.google.common.truth.Truth.assertThat
+import flank.scripts.ops.ci.appendReleaseNotes
 import flank.scripts.utils.markdownH2
 import flank.scripts.utils.markdownH3
 import org.junit.Test

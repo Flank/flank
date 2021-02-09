@@ -1,4 +1,4 @@
-package flank.scripts.ops.ci.releasenotes
+package flank.scripts.ops.common
 
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.getOrElse
