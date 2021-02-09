@@ -103,7 +103,7 @@ or
 
 ## Testing
 To test your script with different settings use the `flank-debug.properties` file. Uncomment and replace with desired values.
-Properties are skipped by git and should not be attached to a commit. Note, `test` task ignores your own properties and will use the default.
+Properties are skipped by git and should not be attached to a commit. Note, the `test` task ignores your own properties and will use the default.
 
 #### List of possible configs
 | Key         | Description         | Default value |
