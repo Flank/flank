@@ -15,7 +15,7 @@ To build flank-scripts:
 Run the script with arguments
 `flankScripts <command group> [<subgroup>] <command name> [<arguments>]`
 
-If you need help with available commands or arguments you could always use option `--help`
+If you need help with available commands or arguments you could always use the option `--help`
 
 ## Available commands and options
 
