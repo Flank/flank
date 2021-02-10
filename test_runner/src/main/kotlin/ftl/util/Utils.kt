@@ -3,6 +3,7 @@
 package ftl.util
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import flank.common.logLn
 import ftl.run.exception.FlankGeneralError
 import java.io.InputStream
 import java.time.Instant
@@ -66,6 +67,13 @@ private val classLoader = Thread.currentThread().contextClassLoader
 private fun getResource(name: String): InputStream {
     return classLoader.getResourceAsStream(name)
         ?: throw FlankGeneralError("Unable to find resource: $name")
+}
+
+fun printVersionInfo() {
+    logLn("version: " + readVersion())
+    logLn("revision: " + readRevision())
+    logLn("session id: $sessionId")
+    logLn()
 }
 
 // app version: flank_snapshot

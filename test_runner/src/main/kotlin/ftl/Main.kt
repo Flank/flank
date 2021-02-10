@@ -1,6 +1,5 @@
 package ftl
 
-import flank.common.logLn
 import ftl.cli.AuthCommand
 import ftl.cli.FirebaseCommand
 import ftl.cli.firebase.CancelCommand
@@ -12,9 +11,7 @@ import ftl.cli.firebase.test.NetworkProfilesCommand
 import ftl.cli.firebase.test.ProvidedSoftwareCommand
 import ftl.log.setDebugLogging
 import ftl.run.exception.withGlobalExceptionHandling
-import ftl.util.readRevision
-import ftl.util.readVersion
-import ftl.util.sessionId
+import ftl.util.printVersionInfo
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -34,8 +31,8 @@ import picocli.CommandLine
 )
 class Main : Runnable {
     override fun run() {
-        if (printVersion) return
-        CommandLine.usage(Main::class.java, System.out)
+        if (printVersion) printVersionInfo()
+        else CommandLine.usage(Main::class.java, System.out)
     }
 
     @CommandLine.Option(names = ["-v", "--version"], description = ["Prints the version"])
@@ -52,10 +49,6 @@ class Main : Runnable {
         @JvmStatic
         fun main(args: Array<String>) {
             withGlobalExceptionHandling {
-                logLn("version: " + readVersion())
-                logLn("revision: " + readRevision())
-                logLn("session id: $sessionId")
-                logLn()
                 CommandLine(Main()).execute(*args)
             }
         }
