@@ -60,7 +60,6 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
     }
 
     override fun run() {
-
         printVersionInfo()
 
         if (dryRun) {

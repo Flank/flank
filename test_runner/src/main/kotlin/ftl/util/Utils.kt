@@ -70,8 +70,8 @@ private fun getResource(name: String): InputStream {
 }
 
 fun printVersionInfo() {
-    logLn("version: " + readVersion())
-    logLn("revision: " + readRevision())
+    logLn("version: ${readVersion()}")
+    logLn("revision: ${readRevision()}")
     logLn("session id: $sessionId")
     logLn()
 }
