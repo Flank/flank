@@ -1,7 +1,7 @@
 package flank.scripts.cli.release
 
 import flank.scripts.cli.github.MakeReleaseCommand
-import flank.scripts.ops.release.hub.releaseFlank
+import flank.scripts.ops.github.releaseFlank
 import io.mockk.every
 import io.mockk.mockkStatic
 import org.junit.Rule

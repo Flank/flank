@@ -5,8 +5,8 @@ import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.enum
-import flank.scripts.ops.integration.ITResults
-import flank.scripts.ops.integration.processIntegrationTestsResult
+import flank.scripts.ops.integrationtests.ITResults
+import flank.scripts.ops.integrationtests.processIntegrationTestsResult
 
 object ProcessResultCommand : CliktCommand(
     name = "process_results",

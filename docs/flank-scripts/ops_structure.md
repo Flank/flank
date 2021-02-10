@@ -5,7 +5,7 @@ called `common`.
 For better code organization `updatebinaries` has a separate package inside `dependencies`, as well as `jfrog` in
 `release` package.
 
-Ops package structure and file organization is presented on tree below:
+Ops package structure and file organization are presented on the tree below:
 
 ```bash
 ├── ops

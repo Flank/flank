@@ -1,7 +1,7 @@
 package flank.scripts.cli.dependencies
 
 import com.github.ajalt.clikt.core.CliktCommand
-import flank.scripts.ops.shell.buildexample.ios.createUniversalFrameworkFiles
+import flank.scripts.ops.assemble.ios.createUniversalFrameworkFiles
 
 object UniversalFrameworkCommand : CliktCommand(
     name = "universal_framework_files",

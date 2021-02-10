@@ -1,7 +1,7 @@
 package flank.scripts.cli.firebase
 
 import com.github.ajalt.clikt.core.CliktCommand
-import flank.scripts.ops.shell.firebase.apiclient.generateJavaClient
+import flank.scripts.ops.firebase.generateJavaClient
 
 object GenerateClientCommand : CliktCommand(
     name = "generate_client",

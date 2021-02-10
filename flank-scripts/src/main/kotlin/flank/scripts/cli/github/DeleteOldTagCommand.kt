@@ -3,7 +3,7 @@ package flank.scripts.cli.github
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
-import flank.scripts.ops.release.hub.tryDeleteOldTag
+import flank.scripts.ops.github.tryDeleteOldTag
 
 object DeleteOldTagCommand : CliktCommand(
     name = "delete_old_tag",

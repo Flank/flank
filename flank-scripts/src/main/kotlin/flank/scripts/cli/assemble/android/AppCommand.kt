@@ -4,8 +4,8 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.multiple
 import com.github.ajalt.clikt.parameters.options.option
-import flank.scripts.ops.shell.buildexample.android.AndroidBuildConfiguration
-import flank.scripts.ops.shell.buildexample.android.runAndroidBuild
+import flank.scripts.ops.assemble.android.AndroidBuildConfiguration
+import flank.scripts.ops.assemble.android.runAndroidBuild
 
 object AppCommand : CliktCommand(
     name = "app",
