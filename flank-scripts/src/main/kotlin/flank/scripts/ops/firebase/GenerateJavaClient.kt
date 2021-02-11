@@ -1,7 +1,7 @@
 package flank.scripts.ops.firebase
 
-import flank.scripts.ops.dependencies.checkIfPipInstalled
-import flank.scripts.ops.dependencies.installClientGeneratorIfNeeded
+import flank.scripts.utils.checkAndInstallIfNeed
+import flank.scripts.utils.commandInstalledOr
 import flank.scripts.utils.exceptions.ShellCommandException
 import flank.scripts.utils.runCommand
 import java.nio.file.Files
@@ -30,4 +30,14 @@ fun generateJavaClient() {
         Paths.get(apiPath, "pom.xml"),
         StandardCopyOption.REPLACE_EXISTING
     )
+}
+
+private fun checkIfPipInstalled() {
+    "pip".commandInstalledOr {
+        println("You need pip fot this script. To install it follow https://pip.pypa.io/en/stable/installing/")
+    }
+}
+
+private fun installClientGeneratorIfNeeded() {
+    "generate_library".checkAndInstallIfNeed("pip install google-apis-client-generator")
 }

@@ -1,7 +1,6 @@
 package flank.scripts.ops.dependencies
 
 import flank.scripts.utils.checkAndInstallIfNeed
-import flank.scripts.utils.commandInstalledOr
 import flank.scripts.utils.runCommand
 import java.nio.file.Path
 
@@ -16,18 +15,4 @@ fun downloadCocoaPodsIfNeeded() {
 fun installPodsIfNeeded(path: Path) {
     if (path.toFile().listFiles().map { it.name }.contains("Podfile"))
         "pod install --project-directory=$path --verbose".runCommand()
-}
-
-fun checkIfPipInstalled() {
-    "pip".commandInstalledOr {
-        println("You need pip fot this script. To install it follow https://pip.pypa.io/en/stable/installing/")
-    }
-}
-
-fun downloadSortJsonIfNeeded() {
-    "sort-json".checkAndInstallIfNeed("npm -g install sort-json")
-}
-
-fun installClientGeneratorIfNeeded() {
-    "generate_library".checkAndInstallIfNeed("pip install google-apis-client-generator")
 }

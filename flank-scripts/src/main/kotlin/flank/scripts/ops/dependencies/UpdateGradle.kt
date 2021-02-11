@@ -1,5 +1,6 @@
 package flank.scripts.ops.dependencies
 
+import flank.scripts.utils.toObject
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -9,6 +10,10 @@ internal fun File.updateGradle(gradleWrapperPropertiesPath: String = "") {
         .takeIf { it.needsUpdate() }
         ?.let { gradleDependency -> updateGradleWrapper(gradleDependency, gradleWrapperPropertiesPath) }
 }
+
+private fun File.gradleDependency() = readText().toObject<DependenciesResultCheck>().gradle
+
+internal fun GradleDependency.needsUpdate() = running.version < current.version || running.version < releaseCandidate.version
 
 private fun updateGradleWrapper(gradleDependency: GradleDependency, gradleWrapperPropertiesPath: String) {
     findAllGradleWrapperPropertiesFiles(gradleWrapperPropertiesPath)

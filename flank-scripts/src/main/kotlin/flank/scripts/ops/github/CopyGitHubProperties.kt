@@ -1,8 +1,14 @@
 package flank.scripts.ops.github
 
+import com.github.kittinunf.result.getOrNull
+import com.github.kittinunf.result.map
 import com.github.kittinunf.result.onError
 import com.github.kittinunf.result.success
+import flank.scripts.data.github.getGitHubIssue
 import flank.scripts.data.github.getGitHubPullRequest
+import flank.scripts.data.github.getLabelsFromIssue
+import flank.scripts.data.github.setAssigneesToPullRequest
+import flank.scripts.data.github.setLabelsToPullRequest
 import flank.scripts.data.zenhub.copyEstimation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -43,6 +49,22 @@ private suspend fun copyGitHubProperties(
         launch { copyAssignees(githubToken, baseIssueNumber, prNumber) },
         launch { copyLabels(githubToken, baseIssueNumber, prNumber) },
     ).joinAll()
+}
+
+internal suspend fun copyAssignees(githubToken: String, baseIssueNumber: Int, pullRequestNumber: Int) {
+    getGitHubIssue(githubToken, baseIssueNumber)
+        .onError { println("Could not copy assignees because of ${it.message}") }
+        .map { githubIssue -> githubIssue.assignees.map { it.login } }
+        .getOrNull()
+        ?.let { setAssigneesToPullRequest(githubToken, pullRequestNumber, it) }
+}
+
+internal suspend fun copyLabels(githubToken: String, issueNumber: Int, pullRequestNumber: Int) {
+    getLabelsFromIssue(githubToken, issueNumber)
+        .onError { println("Could not copy labels because of ${it.message}") }
+        .map { it.map { label -> label.name } }
+        .getOrNull()
+        ?.run { setLabelsToPullRequest(githubToken, pullRequestNumber, this) }
 }
 
 private suspend fun copyZenhubProperties(

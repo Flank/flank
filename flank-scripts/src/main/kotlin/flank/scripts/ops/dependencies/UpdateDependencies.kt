@@ -22,6 +22,21 @@ private fun List<Dependency>.getDependenciesToUpdate(dependenciesFile: File): Li
     }
 }
 
+internal val Dependency.groupWithName get() = "$group:$name:"
+
+internal fun List<String>.matchingVersionVal(name: String) =
+    find { it.contains(name) }?.findValName() ?: NOT_FOUND_VERSION
+
+private fun String.findValName() = versionRegex.find(this)
+    ?.value
+    ?.split('.')
+    ?.last()
+    ?.replace("}\"", "")
+    ?: NOT_FOUND_VERSION
+
+private const val NOT_FOUND_VERSION = "!versionNotFound"
+private val versionRegex = "(\\$\\{Versions\\.).*}\"".toRegex()
+
 private fun File.getOutdatedDependenciesFileLines(
     outdatedDependenciesNames: List<String>
 ) = readLines().filter { line -> outdatedDependenciesNames.any { line.contains(it) } }
