@@ -3,7 +3,7 @@ package flank.scripts.cli.firebase
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
-import flank.scripts.ops.shell.firebase.sdk.checkForSDKUpdate
+import flank.scripts.ops.firebase.checkForSDKUpdate
 
 object CheckForSdkUpdatesCommand : CliktCommand(
     name = "check_for_sdk_updates",

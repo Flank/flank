@@ -4,7 +4,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.int
-import flank.scripts.ops.pullrequest.copyGitHubProperties
+import flank.scripts.ops.github.copyGitHubProperties
 
 object CopyIssuePropertiesCommand : CliktCommand(
     name = "copy_issue_properties",

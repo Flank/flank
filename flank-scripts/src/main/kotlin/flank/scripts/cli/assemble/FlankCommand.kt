@@ -1,7 +1,7 @@
 package flank.scripts.cli.assemble
 
 import com.github.ajalt.clikt.core.CliktCommand
-import flank.scripts.ops.shell.buildFlank
+import flank.scripts.ops.assemble.buildFlank
 
 object FlankCommand : CliktCommand(
     name = "flank",

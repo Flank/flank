@@ -1,7 +1,7 @@
 package flank.scripts.cli.assemble.ios
 
 import com.github.ajalt.clikt.core.CliktCommand
-import flank.scripts.ops.shell.buildexample.ios.buildFtl
+import flank.scripts.ops.assemble.ios.buildFtl
 
 object FtlCommand : CliktCommand(
     name = "ftl",

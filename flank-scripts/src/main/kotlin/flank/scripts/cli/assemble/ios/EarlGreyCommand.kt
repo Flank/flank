@@ -3,7 +3,7 @@ package flank.scripts.cli.assemble.ios
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
-import flank.scripts.ops.shell.buildexample.ios.buildEarlGreyExample
+import flank.scripts.ops.assemble.ios.buildEarlGreyExample
 
 object EarlGreyCommand : CliktCommand(
     name = "earl_grey",
