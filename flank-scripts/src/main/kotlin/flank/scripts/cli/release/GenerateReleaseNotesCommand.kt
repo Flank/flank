@@ -5,7 +5,7 @@ import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.google.common.annotations.VisibleForTesting
-import flank.scripts.ops.ci.createReleaseNotes
+import flank.scripts.ops.release.createReleaseNotes
 
 object GenerateReleaseNotesCommand : CliktCommand(
     name = "generate_release_notes",

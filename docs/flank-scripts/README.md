@@ -202,30 +202,77 @@ Properties are skipped by git and should not be attached to a commit. Note, the 
 │       └── objects
 │           └── ConvertToEpicRequest.kt
 ├── ops
+│   ├── assemble
+│   │   ├── BuildFlank.kt
+│   │   ├── BuildGo.kt
+│   │   ├── GradleCommand.kt
+│   │   ├── android
+│   │   │   ├── BuildBaseAndroidApk.kt
+│   │   │   ├── BuildBaseAndroidTests.kt
+│   │   │   ├── BuildCucumberSampleApk.kt
+│   │   │   ├── BuildDuplicatedNamesApks.kt
+│   │   │   ├── BuildMultiModulesApks.kt
+│   │   │   ├── Common.kt
+│   │   │   └── RunAndroidOps.kt
+│   │   └── ios
+│   │       ├── BuildEarlGreyExample.kt
+│   │       ├── BuildExample.kt
+│   │       ├── BuildFlankExampleCommand.kt
+│   │       ├── BuildFtl.kt
+│   │       ├── BuildGameLoopExampleCommand.kt
+│   │       ├── BuildIosIPA.kt
+│   │       ├── BuildIosTestArtifacts.kt
+│   │       ├── BuildTestPlansExample.kt
+│   │       ├── IosBuildCommand.kt
+│   │       ├── LipoHelper.kt
+│   │       ├── RunFtlLocal.kt
+│   │       └── UniversalFramework.kt
 │   ├── ci
-│   │   ├── CreateReleaseNotes.kt
-│   │   ├── NextReleaseTag.kt
-│   │   └── releasenotes
-│   │       ├── AppendReleaseNotes.kt
-│   │       ├── ConventionalCommitFormatter.kt
-│   │       ├── GenerateChangeLog.kt
-│   │       └── ReleaseNotesWithType.kt
+│   ├── common
+│   │   ├── ConventionalCommitFormatter.kt
+│   │   ├── EarlGreyExampleConsts.kt
+│   │   ├── GenerateChangeLog.kt
+│   │   └── ReleaseNotesWithType.kt
 │   ├── contribution
-│   │   ├── ApplyKtlintToIdea.kt
-│   │   └── LinkGitHooks.kt
 │   ├── dependencies
 │   │   ├── DependenciesResultCheck.kt
 │   │   ├── DependencyExtensions.kt
 │   │   ├── DependencyUpdate.kt
+│   │   ├── DownloadSoftware.kt
 │   │   ├── FindOutdatedDependencies.kt
 │   │   ├── FindVersionInLines.kt
 │   │   ├── GradleDependency.kt
+│   │   ├── InstallXcPretty.kt
+│   │   ├── SetupIosEnv.kt
 │   │   ├── UpdateAllDependencies.kt
 │   │   ├── UpdateDependencies.kt
 │   │   ├── UpdateGradle.kt
 │   │   ├── UpdatePlugins.kt
-│   │   └── UpdateVersionsInFile.kt
+│   │   ├── UpdateVersionsInFile.kt
+│   │   └── updatebinaries
+│   │       ├── UpdateAtomic.kt
+│   │       ├── UpdateBinaries.kt
+│   │       ├── UpdateLlvm.kt
+│   │       └── UpdateSwift.kt
+│   ├── firebase
+│   │   ├── CheckForSDKUpdateCommand.kt
+│   │   ├── CommitList.kt
+│   │   ├── Extensions.kt
+│   │   ├── GenerateJavaClient.kt
+│   │   ├── LastSDKUpdateRun.kt
+│   │   ├── OpenedUpdates.kt
+│   │   ├── SDKUpdateContext.kt
+│   │   └── UpdateApiJson.kt
+│   ├── github
+│   │   ├── CopyGitHubProperties.kt
+│   │   ├── DeleteOldRelease.kt
+│   │   ├── DeleteOldTag.kt
+│   │   ├── FindReferenceIssue.kt
+│   │   ├── ReleaseFlank.kt
+│   │   ├── SetAssignees.kt
+│   │   └── SetLabels.kt
 │   ├── integration
+│   ├── integrationtests
 │   │   ├── CommitList.kt
 │   │   ├── Extensions.kt
 │   │   ├── IntegrationContext.kt
@@ -233,65 +280,28 @@ Properties are skipped by git and should not be attached to a commit. Note, the 
 │   │   ├── PrepareMessage.kt
 │   │   ├── ProcessIntegrationTestsResult.kt
 │   │   └── WorkflowSummary.kt
+│   ├── linter
+│   │   ├── ApplyKtlintToIdea.kt
+│   │   └── LinkGitHooks.kt
 │   ├── pullrequest
-│   │   ├── CopyGitHubProperties.kt
-│   │   ├── FindReferenceIssue.kt
-│   │   ├── SetAssignees.kt
-│   │   └── SetLabels.kt
 │   ├── release
+│   │   ├── AppendReleaseNotes.kt
+│   │   ├── CreateReleaseNotes.kt
+│   │   ├── NextReleaseTag.kt
 │   │   ├── hub
-│   │   │   ├── DeleteOldRelease.kt
-│   │   │   ├── DeleteOldTag.kt
-│   │   │   └── ReleaseFlank.kt
 │   │   └── jfrog
 │   │       ├── DeleteOldSnapshot.kt
 │   │       ├── JFrogCommandHelper.kt
 │   │       └── SyncMaven.kt
 │   ├── shell
-│   │   ├── BuildFlank.kt
-│   │   ├── InstallXcPretty.kt
-│   │   ├── SetupIosEnv.kt
 │   │   ├── buildexample
 │   │   │   ├── android
-│   │   │   │   ├── BuildBaseAndroidApk.kt
-│   │   │   │   ├── BuildBaseAndroidTests.kt
-│   │   │   │   ├── BuildCucumberSampleApk.kt
-│   │   │   │   ├── BuildDuplicatedNamesApks.kt
-│   │   │   │   ├── BuildMultiModulesApks.kt
-│   │   │   │   ├── Common.kt
-│   │   │   │   └── RunAndroidOps.kt
 │   │   │   ├── go
-│   │   │   │   └── BuildGO.kt
 │   │   │   └── ios
-│   │   │       ├── BuildEarlGreyExample.kt
-│   │   │       ├── BuildExample.kt
-│   │   │       ├── BuildFlankExampleCommand.kt
-│   │   │       ├── BuildFtl.kt
-│   │   │       ├── BuildGameLoopExampleCommand.kt
-│   │   │       ├── BuildIosIPA.kt
-│   │   │       ├── BuildIosTestArtifacts.kt
-│   │   │       ├── BuildTestPlansExample.kt
-│   │   │       ├── EarlGreyExampleConsts.kt
-│   │   │       ├── IosBuildCommand.kt
-│   │   │       ├── LipoHelper.kt
-│   │   │       ├── RunFtlLocal.kt
-│   │   │       └── UniversalFramework.kt
 │   │   ├── firebase
 │   │   │   ├── apiclient
-│   │   │   │   ├── GenerateJavaClient.kt
-│   │   │   │   └── UpdateApiJson.kt
 │   │   │   └── sdk
-│   │   │       ├── CheckForSDKUpdateCommand.kt
-│   │   │       ├── CommitList.kt
-│   │   │       ├── Extensions.kt
-│   │   │       ├── LastSDKUpdateRun.kt
-│   │   │       ├── OpenedUpdates.kt
-│   │   │       └── SDKUpdateContext.kt
 │   │   └── updatebinaries
-│   │       ├── UpdateAtomic.kt
-│   │       ├── UpdateBinaries.kt
-│   │       ├── UpdateLlvm.kt
-│   │       └── UpdateSwift.kt
 │   └── testartifacts
 │       ├── ArtifactsArchive.kt
 │       ├── Constants.kt
@@ -306,11 +316,9 @@ Properties are skipped by git and should not be attached to a commit. Note, the 
 │       ├── UploadFixtures.kt
 │       └── ZipArtifacts.kt
 └── utils
-    ├── DownloadSoftware.kt
     ├── Env.kt
     ├── FastFailForWindows.kt
     ├── Git.kt
-    ├── GradleCommand.kt
     ├── MarkdownFormatter.kt
     ├── Path.kt
     ├── Serialization.kt
@@ -319,5 +327,6 @@ Properties are skipped by git and should not be attached to a commit. Note, the 
     └── exceptions
         ├── FlankScriptsExceptionMappers.kt
         └── FlankScriptsExceptions.kt
+
 
 ```

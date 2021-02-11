@@ -1,7 +1,7 @@
 package flank.scripts.cli.assemble
 
 import com.github.ajalt.clikt.core.CliktCommand
-import flank.scripts.ops.shell.buildexample.go.generateGoArtifacts
+import flank.scripts.ops.assemble.generateGoArtifacts
 
 object GoCommand : CliktCommand(
     name = "go",

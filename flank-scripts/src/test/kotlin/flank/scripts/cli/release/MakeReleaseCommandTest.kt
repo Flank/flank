@@ -1,7 +1,7 @@
 package flank.scripts.cli.release
 
 import flank.scripts.cli.github.MakeReleaseCommand
-import flank.scripts.ops.release.hub.releaseFlank
+import flank.scripts.ops.github.releaseFlank
 import io.mockk.every
 import io.mockk.mockkStatic
 import org.junit.Rule
@@ -35,7 +35,7 @@ class MakeReleaseCommandTest {
     @Test
     fun `Should return successfully run release for snasphot`() {
         // given
-        mockkStatic("flank.scripts.ops.release.hub.ReleaseFlankKt")
+        mockkStatic("flank.scripts.ops.github.ReleaseFlankKt")
         every { releaseFlank(any(), any(), any(), any(), any()) } returns 0
 
         // expect
@@ -48,7 +48,7 @@ class MakeReleaseCommandTest {
     @Test
     fun `Should return successfully run release for stable`() {
         // given
-        mockkStatic("flank.scripts.ops.release.hub.ReleaseFlankKt")
+        mockkStatic("flank.scripts.ops.github.ReleaseFlankKt")
         every { releaseFlank(any(), any(), any(), any(), any()) } returns 0
 
         // expect
