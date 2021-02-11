@@ -1,11 +1,21 @@
 package ftl.environment.ios
 
+import com.google.common.truth.Truth
 import com.google.testing.model.IosVersion
+import flank.common.normalizeLineEnding
+import ftl.cli.firebase.test.ios.versions.IosVersionsCommand
 import ftl.test.util.TestHelper.getThrowable
 import org.junit.Assert
+import org.junit.Rule
 import org.junit.Test
+import org.junit.contrib.java.lang.system.SystemOutRule
 
 class IosSoftwareVersionDescriptionTest {
+
+    @Rule
+    @JvmField
+    val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
+
     @Test
     fun `should return software version with tag if any tag exists`() {
         val versionId = "11.2"
@@ -73,5 +83,12 @@ class IosSoftwareVersionDescriptionTest {
         val localesDescription = getThrowable { versions.getDescription(versionName) }
         val expected = "ERROR: '$versionName' is not a valid OS version"
         Assert.assertEquals(expected, localesDescription.message)
+    }
+
+    @Test
+    fun `should not print version information`() {
+        IosVersionsCommand().run()
+        val output = systemOutRule.log.normalizeLineEnding()
+        Truth.assertThat(output).doesNotContainMatch("version: .*")
     }
 }

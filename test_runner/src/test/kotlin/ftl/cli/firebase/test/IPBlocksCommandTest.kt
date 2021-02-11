@@ -1,5 +1,7 @@
 package ftl.cli.firebase.test
 
+import com.google.common.truth.Truth.assertThat
+import flank.common.normalizeLineEnding
 import ftl.doctor.assertEqualsIgnoreNewlineStyle
 import org.junit.Rule
 import org.junit.Test
@@ -24,5 +26,12 @@ Commands:
         val actual = out.log.trim()
 
         assertEqualsIgnoreNewlineStyle(expected, actual)
+    }
+
+    @Test
+    fun `should not print version information`() {
+        IPBlocksCommand().run()
+        val output = out.log.normalizeLineEnding()
+        assertThat(output).doesNotContainMatch("version: .*")
     }
 }

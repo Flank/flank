@@ -1,5 +1,7 @@
 package ftl.cli.firebase.test.ios.configuration
 
+import com.google.common.truth.Truth.assertThat
+import flank.common.normalizeLineEnding
 import ftl.ios.IosCatalog
 import ftl.run.exception.FlankConfigurationError
 import ftl.test.util.TestHelper
@@ -36,5 +38,12 @@ class IosLocalesDescribeCommandTest {
         val exception = getThrowable { CommandLine(IosLocalesDescribeCommand()).execute("test", "--config=$simpleFlankPath") }
         val result = exception.message
         assertEquals("ERROR: 'test' is not a valid locale", result)
+    }
+
+    @Test
+    fun `should not print version information`() {
+        CommandLine(IosLocalesDescribeCommand()).execute("pl", "--config=$simpleFlankPath")
+        val output = systemOutRule.log.normalizeLineEnding()
+        assertThat(output).doesNotContainMatch("version: .*")
     }
 }

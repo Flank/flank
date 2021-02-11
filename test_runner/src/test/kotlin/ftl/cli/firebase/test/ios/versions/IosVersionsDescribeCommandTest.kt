@@ -1,5 +1,7 @@
 package ftl.cli.firebase.test.ios.versions
 
+import com.google.common.truth.Truth.assertThat
+import flank.common.normalizeLineEnding
 import ftl.ios.IosCatalog
 import ftl.run.exception.FlankConfigurationError
 import ftl.test.util.TestHelper.getThrowable
@@ -32,5 +34,12 @@ class IosVersionsDescribeCommandTest {
     fun `should return error message if version not exists`() {
         val exception = getThrowable { CommandLine(IosVersionsDescribeCommand()).execute("test") }
         assertEquals("ERROR: 'test' is not a valid OS version", exception.message)
+    }
+
+    @Test
+    fun `should not print version information`() {
+        CommandLine(IosVersionsDescribeCommand()).execute("10.3")
+        val output = systemOutRule.log.normalizeLineEnding()
+        assertThat(output).doesNotContainMatch("version: .*")
     }
 }

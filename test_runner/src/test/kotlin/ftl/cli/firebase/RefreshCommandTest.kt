@@ -105,4 +105,11 @@ class RefreshCommandTest {
         cmd.usageHelpRequested = true
         assertThat(cmd.usageHelpRequested).isTrue()
     }
+
+    @Test
+    fun `should not print version information`() {
+        RefreshCommand().run()
+        val output = systemOutRule.log.normalizeLineEnding()
+        assertThat(output).doesNotContainMatch("version: .*")
+    }
 }

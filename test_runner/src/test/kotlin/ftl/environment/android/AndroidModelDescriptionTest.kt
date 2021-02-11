@@ -1,12 +1,22 @@
 package ftl.environment.android
 
+import com.google.common.truth.Truth.assertThat
 import com.google.testing.model.AndroidModel
+import flank.common.normalizeLineEnding
+import ftl.cli.firebase.test.android.models.AndroidModelsCommand
 import ftl.run.exception.FlankGeneralError
 import ftl.test.util.TestHelper.getThrowable
 import org.junit.Assert
+import org.junit.Rule
 import org.junit.Test
+import org.junit.contrib.java.lang.system.SystemOutRule
 
 class AndroidModelDescriptionTest {
+
+    @Rule
+    @JvmField
+    val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
+
     @Test
     fun `should return model with tag if any tag exists`() {
         val models = listOf(
@@ -110,5 +120,12 @@ class AndroidModelDescriptionTest {
         val expected = "ERROR: '$versionName' is not a valid model"
         Assert.assertEquals(expected, localesDescription.message)
         throw localesDescription
+    }
+
+    @Test
+    fun `should not print version information`() {
+        AndroidModelsCommand().run()
+        val output = systemOutRule.log.normalizeLineEnding()
+        assertThat(output).doesNotContainMatch("version: .*")
     }
 }

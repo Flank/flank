@@ -1,7 +1,9 @@
 package ftl.cli.firebase.test.networkprofiles
 
+import com.google.common.truth.Truth.assertThat
 import com.google.testing.model.NetworkConfiguration
 import com.google.testing.model.TrafficRule
+import flank.common.normalizeLineEnding
 import ftl.environment.getNetworkConfiguration
 import ftl.run.exception.FlankConfigurationError
 import ftl.test.util.assertThrowsWithMessage
@@ -142,6 +144,23 @@ class NetworkProfileDescribeTest {
         """.trimIndent()
 
         assertEquals(expected, result)
+    }
+
+    @Test
+    fun `should not print version information`() {
+        val configs = listOf(
+            NetworkConfiguration().apply {
+                downRule = makeRule(0.5f)
+                upRule = makeRule(0.8f)
+                id = "ANY"
+            }
+        )
+
+        every { getNetworkConfiguration() } returns configs
+
+        runMainCommand("network-profiles", "describe", "ANY")
+        val output = systemOutRule.log.normalizeLineEnding()
+        assertThat(output).doesNotContainMatch("version: .*")
     }
 }
 

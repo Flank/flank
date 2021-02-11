@@ -1,5 +1,7 @@
 package ftl.cli.firebase.test.android.configuration
 
+import com.google.common.truth.Truth.assertThat
+import flank.common.normalizeLineEnding
 import ftl.android.AndroidCatalog
 import ftl.run.exception.FlankConfigurationError
 import ftl.test.util.TestHelper.getThrowable
@@ -12,6 +14,7 @@ import org.junit.contrib.java.lang.system.SystemOutRule
 import picocli.CommandLine
 
 class AndroidLocalesDescribeCommandTest {
+
     @get:Rule
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
 
@@ -32,5 +35,12 @@ class AndroidLocalesDescribeCommandTest {
     fun `should return error message if locale not exists`() {
         val exception = getThrowable { CommandLine(AndroidLocalesDescribeCommand()).execute("test") }
         assertEquals("ERROR: 'test' is not a valid locale", exception.message)
+    }
+
+    @Test
+    fun `should not print version information`() {
+        CommandLine(AndroidLocalesDescribeCommand()).execute("pl")
+        val output = systemOutRule.log.normalizeLineEnding()
+        assertThat(output).doesNotContainMatch("version: .*")
     }
 }
