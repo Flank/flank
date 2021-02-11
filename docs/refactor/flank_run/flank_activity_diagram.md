@@ -1,6 +1,6 @@
 # Flank Activity Diagram 
 
-![activity_diagram](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/refactor/flank_run/flank_activity_diagram.puml)
+![activity_diagram](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/1317-flank-run-refactor/docs/refactor/flank_run/flank_activity_diagram.puml)
 
 ## Description
 
