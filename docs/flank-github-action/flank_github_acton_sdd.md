@@ -49,25 +49,25 @@ Flank Github action will be developed using [composite run steps action](https:/
 name: 'Flank'
 description: 'Run Flank from Github actions!'
 inputs:
-	version: 
-		description: 'Version of flank to run'
-		required: true
-		default: <latest>
-	platform: 
-		description: 'Platform to run iOS or Android'
-		required: true
+    version: 
+        description: 'Version of flank to run'
+        required: true
+        default: <latest>
+    platform: 
+        description: 'Platform to run iOS or Android'
+        required: true
   flank_option1:
     description: 'Description of option 1'
     required: false # validation will done when running
     ...
-  flank_optionX:
-    description: 'Description of option X'
+  flank_optionN:
+    description: 'Description of option N'
     required: false # validation will done when running
   flank_configuration_file:
     description: 'Path to configuration file'
     required: false # validation will done when running
-	flank_service_account: 
-	  description: 'Path to service account file to authenticate'
+  flank_service_account: 
+      description: 'Path to service account file to authenticate'
     required: true
 outputs:
   output_report:
@@ -133,15 +133,13 @@ jobs:
         version: '21.01.0'
         platform: 'android'
         flank_service_account: './service_account.json'
-				app: "../test_projects/android/apks/app-debug.apk"
-  			test: "../test_projects/android/apks/app-debug-androidTest.apk"
-  			results-dir: test_dir
-				legacy-junit-result: true
+                app: "../test_projects/android/apks/app-debug.apk"
+              test: "../test_projects/android/apks/app-debug-androidTest.apk"
+              results-dir: test_dir
+                legacy-junit-result: true
     - run: cat ${{ steps.flank.outputs.output_report }}
       shell: bash
 ```
-
-
 
 # Results
 
