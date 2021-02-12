@@ -7,7 +7,6 @@ import org.junit.Assert
 import org.junit.Test
 
 class AndroidSoftwareVersionDescriptionTest {
-
     @Test
     fun `should return software version with tag if any tag exists`() {
         val versions = listOf(

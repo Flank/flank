@@ -6,7 +6,6 @@ import org.junit.Assert
 import org.junit.Test
 
 class IosSoftwareVersionDescriptionTest {
-
     @Test
     fun `should return software version with tag if any tag exists`() {
         val versionId = "11.2"

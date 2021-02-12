@@ -8,6 +8,7 @@ import org.junit.Test
 import picocli.CommandLine
 
 class IosLocalesListCommandTest {
+
     @Test
     fun `should execute IosCatalog localesAsTable when run IosLocalesListCommand`() {
         mockkObject(IosCatalog) {

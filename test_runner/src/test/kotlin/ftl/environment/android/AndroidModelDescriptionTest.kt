@@ -7,7 +7,6 @@ import org.junit.Assert
 import org.junit.Test
 
 class AndroidModelDescriptionTest {
-
     @Test
     fun `should return model with tag if any tag exists`() {
         val models = listOf(

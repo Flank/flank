@@ -5,6 +5,7 @@ import org.junit.Test
 import picocli.CommandLine
 
 class IosTestEnvironmentCommandTest {
+
     @Test
     fun iosTestEnvironmentCommandShouldParseConfig() {
         val cmd = IosTestEnvironmentCommand()
