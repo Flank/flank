@@ -14,39 +14,76 @@ partition "run tests" #LightBlue {
 
 split
 partition "run android" #LightBlue {
-partition "before run tests" #LightBlue {
-#snow:start stop watch;
-#snow:prepare result directory;
-#MediumSeaGreen:ensure not running on mock;
-}
-'na pewno atomowe, sklada sie z kilku krokow w sumie ale to raczej nie problem
-'jesli przyjmujemy tez pokazywanie google api to w taki razie czy nie powinno byc na jakiś kolor?
-'mamy tak naprawde 3 obiekty stricte zwiazane z api ftl GcTesting, GcStorage, GcTOolResults
-'oznaczac je na jakis inny kolor?
-#snow:prepare data;
-#snow:upload files;
-:create test contexts;
-note right: In progress
-partition "dump shards" #LightBlue {
-#snow:as matrix test shards;
-'rozbic na ify? (brzydki json)
-#snow:prepare dump file;
-#snow:upload dump file;
-}
-#snow:upload test files;
-repeat
-#snow:create test config;
-#snow:build test matrix;
-#snow:execute with retry;
-repeat while (for each context)
-#snow:before run message;
-partition "after test run" #LightBlue {
-#snow:update matrix file;
-#snow:save config file;
-#snow:save session id;
-#snow:upload session id;
-}
-#snow:test results>
+  partition "before run tests" #LightBlue {
+    #snow :start stop watch;
+    #snow :prepare result directory;
+    #MediumSeaGreen :ensure not running on mock;
+  }
+  'na pewno atomowe, sklada sie z kilku krokow w sumie ale to raczej nie problem
+  'jesli przyjmujemy tez pokazywanie google api to w taki razie czy nie powinno byc na jakiś kolor?
+  'mamy tak naprawde 3 obiekty stricte zwiazane z api ftl GcTesting, GcStorage, GcTOolResults
+  'oznaczac je na jakis inny kolor?
+  #snow :prepare data;
+  #snow :upload files;
+  partition "create test contexts" #LightBlue {
+    #snow :resolve apks;
+    partition "setup shards" #LightBlue {
+      #snow :prepare test filters;
+      repeat
+        #snow :download apks;
+        partition "calculate shards" #LightBlue {
+          #snow :get flank test methods;
+          partition "get old results or default" #LightBlue {
+            #snow :download xml results;
+            partition "parse all suites xml" #LightBlue {
+              #snow :fix html codes;
+              #snow :read value;
+            }
+          }
+          partition "calculate shards count" #LightBlue {
+            #snow :create tests duration map;
+            #snow :get test method time;
+            #snow :shards count>
+          }
+          partition "create shards by shard count" #LightBlue {
+            #snow :create tests duration map;
+            partition "create test methods" #LightBlue {
+              #snow :get fallback times;
+              repeat
+                #snow :get test method time;
+                #snow :enrich test method with time;
+              repeat while (for each test)
+              #snow :list of test methods with time>
+            }
+            #snow :print cache info;
+            #snow :print shards info;
+            #snow :shards>
+          }
+        }
+      repeat while (for each context)
+    }
+    #snow :shards + ignored tests list>
+  }
+  partition "dump shards" #LightBlue {
+    #snow :as matrix test shards;
+    'rozbic na ify? (brzydki json)
+    #snow :prepare dump file;
+    #snow :upload dump file;
+  }
+  #snow :upload test files;
+  repeat
+    #snow :create test config;
+    #snow :build test matrix;
+    #snow :execute with retry;
+  repeat while (for each context)
+  #snow :before run message;
+  partition "after test run" #LightBlue {
+    #snow :update matrix file;
+    #snow :save config file;
+    #snow :save session id;
+    #snow :upload session id;
+  }
+  #snow :test results>
 }
 
 split again
