@@ -1,5 +1,7 @@
 package flank.scripts.ops.dependencies
 
+import flank.scripts.ops.dependencies.common.DependenciesResultCheck
+import flank.scripts.ops.dependencies.common.GradleDependency
 import flank.scripts.utils.toObject
 import java.io.File
 import java.nio.file.Files

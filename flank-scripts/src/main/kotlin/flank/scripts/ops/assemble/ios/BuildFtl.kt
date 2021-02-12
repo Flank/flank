@@ -1,7 +1,7 @@
 package flank.scripts.ops.assemble.ios
 
 import flank.common.archive
-import flank.scripts.ops.dependencies.downloadXcPrettyIfNeeded
+import flank.scripts.ops.common.downloadXcPrettyIfNeeded
 import flank.scripts.utils.failIfWindows
 import flank.scripts.utils.pipe
 import java.nio.file.Files

@@ -1,4 +1,4 @@
-package flank.scripts.ops.dependencies.updatebinaries
+package flank.scripts.ops.updatebinaries
 
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch

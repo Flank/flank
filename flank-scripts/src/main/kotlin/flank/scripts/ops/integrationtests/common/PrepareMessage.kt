@@ -1,4 +1,4 @@
-package flank.scripts.ops.integrationtests
+package flank.scripts.ops.integrationtests.common
 
 import flank.common.config.flankRepository
 import flank.scripts.data.github.objects.GithubPullRequest

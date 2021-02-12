@@ -1,9 +1,9 @@
 package flank.scripts.ops.assemble.ios
 
 import flank.common.flankFixturesIosTmpPath
-import flank.scripts.ops.dependencies.downloadCocoaPodsIfNeeded
-import flank.scripts.ops.dependencies.downloadXcPrettyIfNeeded
-import flank.scripts.ops.dependencies.installPodsIfNeeded
+import flank.scripts.ops.common.downloadCocoaPodsIfNeeded
+import flank.scripts.ops.common.downloadXcPrettyIfNeeded
+import flank.scripts.ops.common.installPodsIfNeeded
 import flank.scripts.utils.pipe
 import java.nio.file.Path
 import java.nio.file.Paths

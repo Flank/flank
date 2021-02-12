@@ -1,4 +1,4 @@
-package flank.scripts.ops.dependencies
+package flank.scripts.ops.dependencies.common
 
 import flank.scripts.utils.toObject
 import java.io.File

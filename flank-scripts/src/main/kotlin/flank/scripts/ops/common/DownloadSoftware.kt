@@ -1,4 +1,4 @@
-package flank.scripts.ops.dependencies
+package flank.scripts.ops.common
 
 import flank.scripts.utils.checkAndInstallIfNeed
 import flank.scripts.utils.runCommand

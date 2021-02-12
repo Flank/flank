@@ -4,6 +4,8 @@ import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
 import flank.scripts.FuelTestRunner
 import flank.scripts.data.github.objects.GithubPullRequest
+import flank.scripts.ops.firebase.common.createEpicIssue
+import flank.scripts.ops.firebase.common.updateOpenedEpic
 import flank.scripts.utils.parseToVersion
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule

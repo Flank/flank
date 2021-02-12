@@ -1,6 +1,7 @@
 package flank.scripts.ops.dependencies
 
 import flank.common.withNewLineAtTheEnd
+import flank.scripts.ops.dependencies.common.DependencyUpdate
 import java.io.File
 
 fun File.updateVersions(dependencies: List<DependencyUpdate>) =

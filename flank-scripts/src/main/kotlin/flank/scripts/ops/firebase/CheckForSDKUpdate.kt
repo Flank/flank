@@ -11,6 +11,8 @@ import flank.common.downloadFile
 import flank.scripts.data.github.commons.getLastWorkflowRunDate
 import flank.scripts.data.github.getGitHubIssueList
 import flank.scripts.data.github.objects.GithubPullRequest
+import flank.scripts.ops.firebase.common.createEpicIssue
+import flank.scripts.ops.firebase.common.updateOpenedEpic
 import flank.scripts.utils.parseToVersion
 import kotlinx.coroutines.runBlocking
 import java.nio.file.Paths

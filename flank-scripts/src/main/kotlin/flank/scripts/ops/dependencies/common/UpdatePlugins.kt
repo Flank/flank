@@ -1,5 +1,8 @@
 package flank.scripts.ops.dependencies
 
+import flank.scripts.ops.dependencies.common.Dependency
+import flank.scripts.ops.dependencies.common.DependencyUpdate
+import flank.scripts.ops.dependencies.common.outDatedDependencies
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths

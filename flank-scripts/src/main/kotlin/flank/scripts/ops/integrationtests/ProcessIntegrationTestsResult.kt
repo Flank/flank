@@ -6,6 +6,11 @@ import flank.common.config.fullSuiteWorkflowFilename
 import flank.common.config.integrationOpenedIssueUser
 import flank.scripts.data.github.commons.getLastWorkflowRunDate
 import flank.scripts.data.github.getGitHubIssueList
+import flank.scripts.ops.integrationtests.common.ITResults
+import flank.scripts.ops.integrationtests.common.IntegrationContext
+import flank.scripts.ops.integrationtests.common.closeIssue
+import flank.scripts.ops.integrationtests.common.createNewIssue
+import flank.scripts.ops.integrationtests.common.postComment
 import kotlinx.coroutines.runBlocking
 
 fun processIntegrationTestsResult(

@@ -1,4 +1,4 @@
-package flank.scripts.ops.integrationtests
+package flank.scripts.ops.integrationtests.common
 
 import com.github.kittinunf.result.getOrElse
 import com.github.kittinunf.result.onError

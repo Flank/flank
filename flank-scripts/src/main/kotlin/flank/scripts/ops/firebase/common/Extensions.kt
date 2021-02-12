@@ -1,4 +1,4 @@
-package flank.scripts.ops.firebase
+package flank.scripts.ops.firebase.common
 
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.onError
@@ -14,10 +14,10 @@ import flank.scripts.data.zenhub.objects.ConvertToEpicRequest
 import flank.scripts.data.zenhub.objects.Issue
 import flank.scripts.data.zenhub.objects.UpdateEpicRequest
 import flank.scripts.data.zenhub.updateEpic
+import flank.scripts.ops.firebase.SDKUpdateContext
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import java.lang.Exception
 import kotlin.system.exitProcess
 
 internal suspend fun SDKUpdateContext.createEpicIssue() = coroutineScope {

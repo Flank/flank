@@ -5,7 +5,7 @@ import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.enum
-import flank.scripts.ops.integrationtests.ITResults
+import flank.scripts.ops.integrationtests.common.ITResults
 import flank.scripts.ops.integrationtests.processIntegrationTestsResult
 
 object ProcessResultCommand : CliktCommand(
