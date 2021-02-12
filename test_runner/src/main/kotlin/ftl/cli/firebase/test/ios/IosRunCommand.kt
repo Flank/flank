@@ -20,6 +20,7 @@ import ftl.run.dumpShards
 import ftl.run.newTestRun
 import ftl.util.DEVICE_SYSTEM
 import ftl.util.TEST_TYPE
+import ftl.util.printVersionInfo
 import ftl.util.setCrashReportTag
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine
@@ -59,6 +60,8 @@ class IosRunCommand : CommonRunCommand(), Runnable {
     }
 
     override fun run() {
+        printVersionInfo()
+
         if (dryRun) {
             MockServer.start()
         }

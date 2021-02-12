@@ -2,6 +2,7 @@ package ftl.cli.firebase.test.ios
 
 import com.google.common.truth.Truth.assertThat
 import flank.common.isWindows
+import flank.common.normalizeLineEnding
 import ftl.args.IosArgs
 import ftl.config.Device
 import ftl.config.FtlConstants
@@ -413,5 +414,14 @@ class IosRunCommandTest {
         CommandLine(cmd).parseArgs("--test-special-entitlements")
 
         assertThat(cmd.config.platform.gcloud.testSpecialEntitlements).isEqualTo(true)
+    }
+
+    @Test
+    fun `should print version information`() {
+        assumeFalse(isWindows)
+
+        IosRunCommand().run()
+        val output = systemOutRule.log.normalizeLineEnding()
+        assertThat(output).containsMatch("version: .*")
     }
 }
