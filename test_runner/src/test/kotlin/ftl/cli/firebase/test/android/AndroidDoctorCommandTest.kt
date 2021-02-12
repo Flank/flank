@@ -83,11 +83,4 @@ class AndroidDoctorCommandTest {
             configPath = "./src/test/kotlin/ftl/fixtures/test_app_cases/flank-with_local_result_dir.yml"
         }.run()
     }
-
-    @Test
-    fun `should not print version information`() {
-        AndroidDoctorCommand().run()
-        val output = systemOutRule.log.normalizeLineEnding()
-        assertThat(output).doesNotContainMatch("version: .*")
-    }
 }

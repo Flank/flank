@@ -82,11 +82,4 @@ class IosDoctorCommandTest {
             configPath = FtlConstants.defaultIosConfig
         }.run()
     }
-
-    @Test
-    fun `should not print version information`() {
-        IosDoctorCommand().run()
-        val output = systemOutRule.log.normalizeLineEnding()
-        assertThat(output).doesNotContainMatch("version: .*")
-    }
 }

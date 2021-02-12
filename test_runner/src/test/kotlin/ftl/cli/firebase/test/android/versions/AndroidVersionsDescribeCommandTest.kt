@@ -1,7 +1,5 @@
 package ftl.cli.firebase.test.android.versions
 
-import com.google.common.truth.Truth
-import flank.common.normalizeLineEnding
 import ftl.android.AndroidCatalog
 import ftl.cli.firebase.test.ios.versions.IosVersionsDescribeCommand
 import ftl.run.exception.FlankConfigurationError
@@ -36,12 +34,5 @@ class AndroidVersionsDescribeCommandTest {
     fun `should return error message if version not exists`() {
         val exception = TestHelper.getThrowable { CommandLine(IosVersionsDescribeCommand()).execute("test") }
         assertEquals("ERROR: 'test' is not a valid OS version", exception.message)
-    }
-
-    @Test
-    fun `should not print version information`() {
-        CommandLine(AndroidVersionsDescribeCommand()).execute("21")
-        val output = systemOutRule.log.normalizeLineEnding()
-        Truth.assertThat(output).doesNotContainMatch("version: .*")
     }
 }

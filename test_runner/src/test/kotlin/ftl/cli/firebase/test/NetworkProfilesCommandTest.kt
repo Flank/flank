@@ -1,6 +1,5 @@
 package ftl.cli.firebase.test
 
-import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -29,12 +28,5 @@ class NetworkProfilesCommandTest {
         val actual = systemOutRule.log.normalizeLineEnding()
 
         assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should not print version information`() {
-        NetworkProfilesCommand().run()
-        val output = systemOutRule.log.normalizeLineEnding()
-        assertThat(output).doesNotContainMatch("version: .*")
     }
 }
