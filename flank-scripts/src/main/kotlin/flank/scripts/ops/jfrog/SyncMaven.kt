@@ -1,4 +1,4 @@
-package flank.scripts.ops.release.jfrog
+package flank.scripts.ops.jfrog
 
 import flank.scripts.utils.runCommand
 

@@ -1,9 +1,15 @@
 package flank.scripts.ops.firebase
 
 import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.result.getOrElse
+import com.github.kittinunf.result.onError
 import flank.common.config.flankGcloudCLIRepository
+import flank.common.config.updateDependenciesWorkflowFilename
+import flank.common.config.updatesOpenedUser
 import flank.common.currentPath
 import flank.common.downloadFile
+import flank.scripts.data.github.commons.getLastWorkflowRunDate
+import flank.scripts.data.github.getGitHubIssueList
 import flank.scripts.data.github.objects.GithubPullRequest
 import flank.scripts.utils.parseToVersion
 import kotlinx.coroutines.runBlocking
@@ -42,6 +48,27 @@ fun checkForSDKUpdate(githubToken: String, zenhubToken: String) = runBlocking {
         }
     }
 }
+
+private suspend fun getLastSDKUpdateRunDate(token: String) = getLastWorkflowRunDate(
+    token = token,
+    workflowFileName = updateDependenciesWorkflowFilename
+)
+
+private suspend fun checkForOpenedUpdates(token: String) = getGitHubIssueList(
+    githubToken = token,
+    parameters = listOf(
+        "creator" to updatesOpenedUser,
+        "state" to "open",
+        "labels" to "gcloud SDK"
+    )
+)
+    .onError { println(it.message) }
+    .getOrElse { emptyList() }
+    .firstOrNull()
+    .also {
+        if (it != null) println("** Issue found: ${it.htmlUrl}")
+        else println("** No opened issue")
+    }
 
 private fun createContext(sha: String, githubToken: String, zenhubToken: String, openedUpdates: GithubPullRequest?) =
     SDKUpdateContext(

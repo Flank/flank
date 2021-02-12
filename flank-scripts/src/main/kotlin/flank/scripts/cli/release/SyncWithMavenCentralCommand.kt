@@ -3,7 +3,7 @@ package flank.scripts.cli.release
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
-import flank.scripts.ops.release.jfrog.jFrogSync
+import flank.scripts.ops.jfrog.jFrogSync
 import kotlin.system.exitProcess
 
 object SyncWithMavenCentralCommand : CliktCommand(

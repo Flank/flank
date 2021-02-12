@@ -1,6 +1,7 @@
 package flank.scripts.ops.testartifacts
 
 import com.jcabi.github.Repo
+import flank.scripts.data.github.getRelease
 
 fun Context.resolveArtifacts(
     repo: Repo = testArtifactsRepo()
@@ -22,4 +23,18 @@ fun Context.resolveArtifacts(
             }
         }
     }
+}
+
+private fun Context.isNewVersionAvailable(
+    repo: Repo = testArtifactsRepo()
+): Boolean {
+    val remote = repo.getRelease(branch)
+        ?.body()?.toLong()
+        ?: return false
+
+    val local = latestArtifactsArchive()
+        ?.name?.parseArtifactsArchive()?.timestamp
+        ?: return true
+
+    return remote > local
 }

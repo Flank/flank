@@ -2,7 +2,7 @@ package flank.scripts.ops.assemble.android
 
 import flank.common.androidTestProjectsPath
 import flank.common.flankFixturesTmpPath
-import flank.scripts.ops.assemble.createGradleCommand
+import flank.scripts.utils.createGradleCommand
 import flank.scripts.utils.runCommand
 import java.io.File
 import java.nio.file.Paths

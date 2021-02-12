@@ -1,3 +1,3 @@
-package flank.scripts.ops.release.jfrog
+package flank.scripts.ops.jfrog
 
 val flankMaven: (String) -> String = { version -> "flank/maven/flank/$version" }

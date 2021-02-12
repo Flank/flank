@@ -1,6 +1,6 @@
 package flank.scripts.cli.release
 
-import flank.scripts.ops.release.jfrog.jFrogSync
+import flank.scripts.ops.jfrog.jFrogSync
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.verify
