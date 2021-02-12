@@ -4,207 +4,214 @@
 start
 :main;
 partition "cli command" #LightGreen {
-split
+  split
+  :login;
 
-:login;
+  split again
+  partition "new test run" #LightBlue  {
+    partition "run tests" #LightBlue {
 
-split again
-partition "new test run" #LightBlue  {
-partition "run tests" #LightBlue {
-
-split
-partition "run android" #LightBlue {
-  partition "before run tests" #LightBlue {
-    #snow :start stop watch;
-    #snow :prepare result directory;
-    #MediumSeaGreen :ensure not running on mock;
-  }
-  'na pewno atomowe, sklada sie z kilku krokow w sumie ale to raczej nie problem
-  'jesli przyjmujemy tez pokazywanie google api to w taki razie czy nie powinno byc na jakiś kolor?
-  'mamy tak naprawde 3 obiekty stricte zwiazane z api ftl GcTesting, GcStorage, GcTOolResults
-  'oznaczac je na jakis inny kolor?
-  #snow :prepare data;
-  #snow :upload files;
-  partition "create test contexts" #LightBlue {
-    #snow :resolve apks;
-    partition "setup shards" #LightBlue {
-      #snow :prepare test filters;
-      repeat
-        #snow :download apks;
-        partition "calculate shards" #LightBlue {
-          #snow :get flank test methods;
-          partition "get old results or default" #LightBlue {
-            #snow :download xml results;
-            partition "parse all suites xml" #LightBlue {
-              #snow :fix html codes;
-              #snow :read value;
-            }
-          }
-          partition "calculate shards count" #LightBlue {
-            #snow :create tests duration map;
-            #snow :get test method time;
-            #snow :shards count>
-          }
-          partition "create shards by shard count" #LightBlue {
-            #snow :create tests duration map;
-            partition "create test methods" #LightBlue {
-              #snow :get fallback times;
-              repeat
-                #snow :get test method time;
-                #snow :enrich test method with time;
-              repeat while (for each test)
-              #snow :list of test methods with time>
-            }
-            #snow :print cache info;
-            #snow :print shards info;
-            #snow :shards>
-          }
+      split
+      partition "run android" #LightBlue {
+        partition "before run tests" #LightBlue {
+          #snow :start stop watch;
+          #snow :prepare result directory;
+          #snow :ensure not running on mock;
         }
-      repeat while (for each context)
+        #snow :prepare data;
+        #snow :upload files;
+        partition "create test contexts" #LightBlue {
+          #snow :resolve apks;
+          partition "setup shards" #LightBlue {
+            #snow :prepare test filters;
+            repeat
+              if (instrumentation with user sharding) then (yes)
+                #snow :download apks;
+                partition "calculate shards" #LightBlue {
+                  #snow :get flank test method;
+                  #snow :create shards by test for shards;
+                  #snow :add always run methods;
+                  #snow :shards>
+                }
+              elseif (instrumentation with flank sharding) then (yes)
+                #snow :download apks;
+                partition "calculate shards" #LightBlue {
+                  #snow :get flank test methods;
+                  partition "get old results or default" #LightBlue {
+                    #snow :download xml results;
+                    partition "parse all suites xml" #LightBlue {
+                      #snow :fix html codes;
+                      #snow :read value;
+                    }
+                  }
+                  partition "calculate shards count" #LightBlue {
+                    #snow :create tests duration map;
+                    #snow :get test method time;
+                    #snow :shards count>
+                  }
+                  partition "create shards by shard count" #LightBlue {
+                    #snow :create tests duration map;
+                    partition "create test methods" #LightBlue {
+                      #snow :get fallback times;
+                      repeat
+                        #snow :get test method time;
+                        #snow :enrich test method with time;
+                      repeat while (for each test)
+                      #snow :list of test methods with time>
+                    }
+                    #snow :add always run methods;
+                    #snow :print cache info;
+                    #snow :print shards info;
+                    #snow :shards>
+                  }
+                }
+              else (robo / game loop test)
+              endif
+            repeat while (for each context)
+          }
+          #snow :drop empty shards;
+          #snow :shards + ignored tests list>
+        }
+        partition "dump shards" #LightBlue {
+          #snow :as matrix test shards;
+          partition "save shards" #LightBlue {
+            if (printer ?) then
+              #snow :pretty;
+            else
+              #snow :obfuscated;
+            endif
+            #snow :save to file;
+          }
+          #snow :upload dump file;
+        }
+        #snow :upload test files;
+        repeat
+          #snow :create test config;
+          #snow :build test matrix;
+          #snow :execute with retry;
+        repeat while (for each context)
+        #snow :before run message;
+        partition "after test run" #LightBlue {
+          #snow :update matrix file;
+          #snow :save config file;
+          #snow :save session id;
+          #snow :upload session id;
+          repeat
+            #snow :get and print\nmatrix weblink;
+          repeat while (for each test matrix))
+        }
+        #snow :test results>
+      }
+
+      split again
+      partition "run ios" #LightBlue {
+        :before run tests;
+        :prepare data;
+        :upload files;
+        :dump shards;
+        :before run message;
+        :create test contexts;
+        repeat
+          :upload;
+          :create test config;
+          :build test matrix;
+          :execute with retry;
+        repeat while (for each context)
+        :after test run;
+        :test results>
+      }
+      end split
     }
-    #snow :shards + ignored tests list>
+
+    partition "poll matrices" #LightBlue {
+      repeat
+        :print next not complete matrix status;
+      repeat while (any matrix is not complete)
+      :test matrices>
+    }
+    partition "generate report" #LightBlue {
+      :parse test suite;
+      :generate cost report;
+      :generate matrix results report;
+      :generate optional htmlErrorReport;
+      :generate junit report;
+      :refresh matrices and get executions;
+      :process junit results;
+      :createAndUploadPerformanceMetricsForAndroid;
+    }
+    :fetch artifacts;
+    :print matrices web links;
+    :validate matrices;
   }
-  partition "dump shards" #LightBlue {
-    #snow :as matrix test shards;
-    'rozbic na ify? (brzydki json)
-    #snow :prepare dump file;
-    #snow :upload dump file;
+
+  split again
+  partition "refresh last run" #LightBlue {
+    :get last matrices;
+    :get last args;
+    :refresh matrices;
+    :poll matrices;
+    :fetch artifacts;
+    :generate report;
+    :validate matrices;
   }
-  #snow :upload test files;
-  repeat
-    #snow :create test config;
-    #snow :build test matrix;
-    #snow :execute with retry;
-  repeat while (for each context)
-  #snow :before run message;
-  partition "after test run" #LightBlue {
-    #snow :update matrix file;
-    #snow :save config file;
-    #snow :save session id;
-    #snow :upload session id;
+
+  split again
+  partition "cancel last run" #LightBlue {
+    :get last matrices;
+    :get last args;
+    :cancel matrices;
   }
-  #snow :test results>
-}
 
-split again
-partition "run ios" #LightBlue {
-:before run tests;
-:prepare data;
-:upload files;
-:dump shards;
-:before run message;
-:create test contexts;
-repeat
-:upload;
-:create test config;
-:build test matrix;
-:execute with retry;
-repeat while (for each context)
-:after test run;
-:test results>
-}
+  split again
+  partition "android / ios" #LightBlue {
+  split
 
-end split
-}
+  partition "configuration" #LightBlue {
+    split
+    :print locales description;
+    split again
+    :print locales table;
+    split end
+  }
 
-partition "poll matrices" #LightBlue {
-repeat
-:print next not complete matrix status;
-repeat while (any matrix is not complete)
-:test matrices>
-}
-partition "generate report" #LightBlue {
-:parse test suite;
-:generate cost report;
-:generate matrix results report;
-:generate optional htmlErrorReport;
-:generate junit report;
-:refresh matrices and get executions;
-:process junit results;
-:createAndUploadPerformanceMetricsForAndroid;
+  split again
+  partition "models" #LightBlue {
+    split
+    :print description;
+    split again
+    :print table;
+    split end
+  }
 
-}
-:fetch artifacts;
-:print matrices web links;
-:validate matrices;
-}
+  split again
+  partition "supported orientations" #LightBlue {
+    split
+    :print table;
+    split end
+  }
 
+  split again
+  partition "versions" #LightBlue {
+    split
+    :print description;
+    split again
+    :print table;
+    split end
+  }
 
+  split again
+  :print ip blocks list;
 
-split again
-partition "refresh last run" #LightBlue {
-:get last matrices;
-:get last args;
-:refresh matrices;
-:poll matrices;
-:fetch artifacts;
-:generate report;
-:validate matrices;
-}
+  split again
+  :print network configurations;
 
+  split again
+  :print network profile description;
 
+  split again
+  :print provided software;
 
-split again
-partition "cancel last run" #LightBlue {
-:get last matrices;
-:get last args;
-:cancel matrices;
-}
-
-
-
-split again
-partition "android / ios" #LightBlue {
-split
-
-
-partition "configuration" #LightBlue {
-split
-:print locales description;
-split again
-:print locales table;
-split end
-}
-
-split again
-partition "models" #LightBlue {
-split
-:print description;
-split again
-:print table;
-split end
-}
-
-split again
-partition "supported orientations" #LightBlue {
-split
-:print table;
-split end
-}
-
-split again
-partition "versions" #LightBlue {
-split
-:print description;
-split again
-:print table;
-split end
-}
-
-
-split again
-:print ip blocks list;
-
-split again
-:print network configurations;
-
-split again
-:print network profile description;
-
-split again
-:print provided software;
-
-end split
+  end split
 }
 end split
 stop
