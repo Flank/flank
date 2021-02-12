@@ -6,10 +6,15 @@ import ftl.test.util.TestHelper.getThrowable
 import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.Assert.assertEquals
+import org.junit.Rule
 import org.junit.Test
+import org.junit.contrib.java.lang.system.SystemOutRule
 import picocli.CommandLine
 
 class IosVersionsDescribeCommandTest {
+    @get:Rule
+    val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
+
     @Test
     fun `should execute IosCatalog describeSoftwareVersion when run IosVersionsDescribeCommand`() {
         mockkObject(IosCatalog) {

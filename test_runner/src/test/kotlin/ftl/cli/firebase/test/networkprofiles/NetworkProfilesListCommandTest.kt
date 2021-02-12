@@ -13,6 +13,7 @@ import org.junit.Test
 import picocli.CommandLine
 
 class NetworkProfilesListCommandTest {
+
     @Before
     fun setUp() {
         mockkStatic(

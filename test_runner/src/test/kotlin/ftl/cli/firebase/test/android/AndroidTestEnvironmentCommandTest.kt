@@ -5,6 +5,7 @@ import org.junit.Test
 import picocli.CommandLine
 
 class AndroidTestEnvironmentCommandTest {
+
     @Test
     fun androidTestEnvironmentCommandShouldParseConfig() {
         val cmd = AndroidTestEnvironmentCommand()

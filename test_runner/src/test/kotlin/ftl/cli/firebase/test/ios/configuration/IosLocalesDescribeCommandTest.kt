@@ -7,10 +7,15 @@ import ftl.test.util.TestHelper.getThrowable
 import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.Assert.assertEquals
+import org.junit.Rule
 import org.junit.Test
+import org.junit.contrib.java.lang.system.SystemOutRule
 import picocli.CommandLine
 
 class IosLocalesDescribeCommandTest {
+    @get:Rule
+    val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
+
     private val simpleFlankPath = TestHelper.getPath("src/test/kotlin/ftl/fixtures/simple-ios-flank.yml")
 
     @Test

@@ -1,6 +1,5 @@
 package ftl.cli.firebase.test.ipblocks
 
-import com.google.common.truth.Truth.assertThat
 import com.google.testing.model.Date
 import com.google.testing.model.DeviceIpBlock
 import ftl.gc.deviceIPBlocks
@@ -147,6 +146,5 @@ class IPBlocksListCommandTest {
 
         val result = out.log.trim()
         assertEquals(expected, result)
-        assertThat(result).doesNotContainMatch("version: .*")
     }
 }

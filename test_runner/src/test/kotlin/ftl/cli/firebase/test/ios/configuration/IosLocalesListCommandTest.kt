@@ -1,6 +1,6 @@
 package ftl.cli.firebase.test.ios.configuration
 
-import com.google.common.truth.Truth.assertThat
+import com.google.common.truth.Truth
 import ftl.ios.IosCatalog
 import io.mockk.mockkObject
 import io.mockk.verify
@@ -21,6 +21,6 @@ class IosLocalesListCommandTest {
         val cmd = IosLocalesListCommand()
         CommandLine(cmd).parseArgs("--config=a")
 
-        assertThat(cmd.configPath).isEqualTo("a")
+        Truth.assertThat(cmd.configPath).isEqualTo("a")
     }
 }

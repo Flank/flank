@@ -1,6 +1,6 @@
 package ftl.cli.firebase.test.ios
 
-import com.google.common.truth.Truth.assertThat
+import com.google.common.truth.Truth
 import org.junit.Test
 import picocli.CommandLine
 
@@ -10,6 +10,6 @@ class IosTestEnvironmentCommandTest {
         val cmd = IosTestEnvironmentCommand()
         CommandLine(cmd).parseArgs("--config=a")
 
-        assertThat(cmd.configPath).isEqualTo("a")
+        Truth.assertThat(cmd.configPath).isEqualTo("a")
     }
 }

@@ -1,21 +1,12 @@
 package ftl.environment.ios
 
-import com.google.common.truth.Truth
 import com.google.testing.model.IosModel
-import flank.common.normalizeLineEnding
-import ftl.cli.firebase.test.ios.models.IosModelsCommand
 import ftl.run.exception.FlankGeneralError
 import ftl.test.util.TestHelper.getThrowable
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
-import org.junit.contrib.java.lang.system.SystemOutRule
 
 class IosModelDescriptionTest {
-
-    @Rule
-    @JvmField
-    val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
 
     @Test
     fun `should return model with tag if any tag exists`() {
@@ -95,12 +86,5 @@ class IosModelDescriptionTest {
         val expected = "ERROR: '$versionName' is not a valid model"
         Assert.assertEquals(expected, localesDescription.message)
         throw localesDescription
-    }
-
-    @Test
-    fun `should not print version information`() {
-        IosModelsCommand().run()
-        val output = systemOutRule.log.normalizeLineEnding()
-        Truth.assertThat(output).doesNotContainMatch("version: .*")
     }
 }

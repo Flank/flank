@@ -8,6 +8,7 @@ import org.junit.Test
 import picocli.CommandLine
 
 class AndroidLocalesListCommandTest {
+
     @Test
     fun `should execute AndroidCatalog localesAsTable when run AndroidLocalesListCommand`() {
         mockkObject(AndroidCatalog) {

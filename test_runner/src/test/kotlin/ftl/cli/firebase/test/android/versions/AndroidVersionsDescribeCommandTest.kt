@@ -7,15 +7,10 @@ import ftl.test.util.TestHelper
 import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.Assert.assertEquals
-import org.junit.Rule
 import org.junit.Test
-import org.junit.contrib.java.lang.system.SystemOutRule
 import picocli.CommandLine
 
 class AndroidVersionsDescribeCommandTest {
-    @Rule
-    @JvmField
-    val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
 
     @Test
     fun `should execute AndroidCatalog describeSoftwareVersion when run AndroidVersionsDescribeCommand`() {

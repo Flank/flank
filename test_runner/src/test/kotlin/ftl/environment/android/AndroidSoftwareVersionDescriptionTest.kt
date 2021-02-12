@@ -1,21 +1,12 @@
 package ftl.environment.android
 
-import com.google.common.truth.Truth.assertThat
 import com.google.testing.model.AndroidVersion
 import com.google.testing.model.Date
-import flank.common.normalizeLineEnding
-import ftl.cli.firebase.test.android.versions.AndroidVersionsCommand
 import ftl.test.util.TestHelper.getThrowable
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
-import org.junit.contrib.java.lang.system.SystemOutRule
 
 class AndroidSoftwareVersionDescriptionTest {
-
-    @Rule
-    @JvmField
-    val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
 
     @Test
     fun `should return software version with tag if any tag exists`() {
@@ -87,12 +78,5 @@ class AndroidSoftwareVersionDescriptionTest {
         val localesDescription = getThrowable { versions.getDescription(versionName) }
         val expected = "ERROR: '$versionName' is not a valid OS version"
         Assert.assertEquals(expected, localesDescription.message)
-    }
-
-    @Test
-    fun `should not print version informations`() {
-        AndroidVersionsCommand().run()
-        val output = systemOutRule.log.normalizeLineEnding()
-        assertThat(output).doesNotContainMatch("version: .*")
     }
 }
