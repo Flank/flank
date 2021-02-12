@@ -418,6 +418,8 @@ class IosRunCommandTest {
 
     @Test
     fun `should print version information`() {
+        assumeFalse(isWindows)
+
         IosRunCommand().run()
         val output = systemOutRule.log.normalizeLineEnding()
         assertThat(output).containsMatch("version: .*")
