@@ -3,7 +3,7 @@ package flank.scripts.ops.firebase
 import flank.common.config.flankGcloudCLIRepository
 import flank.common.currentPath
 import flank.common.downloadFile
-import flank.scripts.ops.dependencies.downloadSortJsonIfNeeded
+import flank.scripts.utils.checkAndInstallIfNeed
 import flank.scripts.utils.runCommand
 import java.nio.file.Paths
 
@@ -27,4 +27,8 @@ fun updateApiJson() {
 
     "sort-json $testingV1Path".runCommand()
     "sort-json $testingV1Beta3Path".runCommand()
+}
+
+private fun downloadSortJsonIfNeeded() {
+    "sort-json".checkAndInstallIfNeed("npm -g install sort-json")
 }

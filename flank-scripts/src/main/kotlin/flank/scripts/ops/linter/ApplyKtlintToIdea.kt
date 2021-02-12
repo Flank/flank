@@ -15,7 +15,7 @@ suspend fun applyKtlintToIdea() {
     tryCleanupKtlint()
 }
 
-internal suspend fun retrieveKtlintResolveCommand() =
+private suspend fun retrieveKtlintResolveCommand() =
     "https://github.com/pinterest/ktlint/releases/download/0.40.0/ktlint".downloadFile(getKtlintFilePath())
 
 private fun applyKtlintToIdeaCommand() =

@@ -1,7 +1,7 @@
 package flank.scripts.cli.dependencies
 
 import com.github.ajalt.clikt.core.CliktCommand
-import flank.scripts.ops.dependencies.updatebinaries.updateBinaries
+import flank.scripts.ops.updatebinaries.updateBinaries
 
 object UpdateBinariesCommand : CliktCommand(
     name = "update_binaries",

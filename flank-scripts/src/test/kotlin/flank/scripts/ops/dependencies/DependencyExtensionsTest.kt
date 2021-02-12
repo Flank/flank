@@ -1,5 +1,6 @@
 package flank.scripts.ops.dependencies
 
+import flank.scripts.ops.dependencies.common.GradleDependency
 import flank.scripts.utils.toAvailableVersion
 import flank.scripts.utils.toDependency
 import flank.scripts.utils.toGradleReleaseChannel

@@ -39,6 +39,11 @@ fun createUniversalFrameworkFiles() {
     )
 }
 
+fun createLipoCommand(
+    outputPath: String,
+    vararg files: String
+) = "lipo -create ${files.joinToString(" ")} -output $outputPath"
+
 private fun copyAppFrameworkFiles(fromPath: String, toPath: String) {
     Paths.get(fromPath, APP_FRAMEWORK_FRAMEWORK).toFile()
         .copyRecursively(Paths.get(toPath, APP_FRAMEWORK_FRAMEWORK).toFile(), overwrite = true)

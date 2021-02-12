@@ -1,9 +1,9 @@
 package flank.scripts.utils
 
-import flank.scripts.ops.dependencies.AvailableVersion
-import flank.scripts.ops.dependencies.Dependency
-import flank.scripts.ops.dependencies.DependencyUpdate
-import flank.scripts.ops.dependencies.GradleReleaseChannel
+import flank.scripts.ops.dependencies.common.AvailableVersion
+import flank.scripts.ops.dependencies.common.Dependency
+import flank.scripts.ops.dependencies.common.DependencyUpdate
+import flank.scripts.ops.dependencies.common.GradleReleaseChannel
 
 fun toGradleReleaseChannel(
     version: String,

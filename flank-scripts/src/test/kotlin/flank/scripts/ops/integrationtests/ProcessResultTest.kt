@@ -4,6 +4,11 @@ import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
 import flank.scripts.FuelTestRunner
 import flank.scripts.cli.integrationtests.ProcessResultCommand
+import flank.scripts.ops.integrationtests.common.ITResults
+import flank.scripts.ops.integrationtests.common.IntegrationContext
+import flank.scripts.ops.integrationtests.common.closeIssue
+import flank.scripts.ops.integrationtests.common.createNewIssue
+import flank.scripts.ops.integrationtests.common.postComment
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.Test
