@@ -11,3 +11,6 @@ val isMacOS: Boolean by lazy {
 val isWindows: Boolean by lazy {
     osName.indexOf("win") >= 0
 }
+
+val isLinux: Boolean
+    get() = !isWindows && !isMacOS

@@ -2,6 +2,7 @@ package integration
 
 import FlankCommand
 import com.google.common.truth.Truth
+import flank.common.isLinux
 import flank.common.isMacOS
 import flank.common.isWindows
 import org.junit.Assume.assumeFalse
@@ -37,7 +38,7 @@ class GameloopIT {
     fun iosGameloop() {
         assumeFalse(isWindows)
         assumeFalse(isMacOS)
-        assumeFalse(!isWindows && !isMacOS)
+        assumeFalse(isLinux)
         val name = "$name-ios"
         val result = FlankCommand(
             flankPath = FLANK_JAR_PATH,
