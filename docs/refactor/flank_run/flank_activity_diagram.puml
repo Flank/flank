@@ -183,7 +183,7 @@ partition "cli command" #LightGreen {
             repeat while (for each matrix)
             #snow :get test executions;
           }
-          partition "create junit result" #LightBlue {
+          partition "create junit test result" #LightBlue {
             partition "create test execution data" #LightBlue {
               fork
                 #snow :list test cases;
@@ -228,7 +228,53 @@ partition "cli command" #LightGreen {
         repeat while (for each matrix)
         #snow :get test executions;
       }
-      :process junit results;
+      partition "process junit results" #LightBlue {
+        if (make full junit result) then (yes)
+          partition "create junit test result" #LightBlue {
+            partition "create test execution data" #LightBlue {
+              fork
+                #snow :list test cases;
+              fork again
+                #snow :get step results;
+              end fork
+              #snow :test execution data>
+            }
+            #snow :prepare for junit results;
+            partition "create junit test suites" #LightBlue {
+              repeat
+                #snow :create test suite overview data;
+              repeat while(for each execution data)
+            }
+          }
+          partition "generate full junit result" #LightBlue {
+            #snow :xml to string;
+            #snow :upload report;
+          }
+          partition "process junit xml" #LightBlue {
+            #snow :download junit xml;
+            #snow :merge test times;
+            if (has previous test times to compare?) then (yes)
+              partition "create shard efficiency list" #LightBlue {
+                #snow :create test method duration map;
+              }
+            else (no)
+            endif
+            #snow :upload junit xml;
+          }
+        else (no)
+          partition "process junit xml" #LightBlue {
+            #snow :download junit xml;
+            #snow :merge test times;
+            if (has previous test times to compare?) then (yes)
+              partition "create shard efficiency list" #LightBlue {
+                #snow :create test method duration map;
+              }
+            else (no)
+            endif
+            #snow :upload junit xml;
+          }
+        endif
+      }
       partition "create and upload performance metrics for android" #LightBlue {
         partition "get and upload performance metrics" #LightBlue {
           repeat
@@ -238,6 +284,7 @@ partition "cli command" #LightGreen {
           repeat while (for each test execution)
         }
       }
+      #snow :upload matrices id;
     }
     :fetch artifacts;
     :print matrices web links;
