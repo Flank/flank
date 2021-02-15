@@ -55,7 +55,7 @@ object Versions {
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
     const val JACKSON = "2.12.1"
 
-    const val JUNIT = "4.13.1"
+    const val JUNIT = "4.13.2"
 
     // https://github.com/jhy/jsoup/releases
     const val JSOUP = "1.13.1"
@@ -76,18 +76,18 @@ object Versions {
     const val TRUTH = "1.1.2"
 
     // https://github.com/FasterXML/woodstox/releases
-    const val WOODSTOX = "6.2.3"
+    const val WOODSTOX = "6.2.4"
 
     const val KOTLIN_LOGGING = "2.0.4"
 
     // https://github.com/mockk/mockk
-    const val MOCKK = "1.10.5"
+    const val MOCKK = "1.10.6"
 
     // https://commons.apache.org/proper/commons-text/
     const val COMMON_TEXT = "1.9"
 
     // https://github.com/fusesource/jansi/releases
-    const val JANSI = "2.2.0"
+    const val JANSI = "2.3.1"
 
     // https://github.com/ben-manes/gradle-versions-plugin/releases
     const val BEN_MANES = "0.36.0"
