@@ -39,6 +39,7 @@ class GameloopIT {
         assumeFalse(isWindows)
         assumeFalse(isMacOS)
         assumeFalse(isLinux)
+        print("Ye old print")
         val name = "$name-ios"
         val result = FlankCommand(
             flankPath = FLANK_JAR_PATH,
