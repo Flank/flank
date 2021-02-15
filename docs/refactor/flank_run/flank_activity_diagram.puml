@@ -157,7 +157,7 @@ partition "cli command" #LightGreen {
           #snow :upload session id;
           repeat
             #snow :get and print\nmatrix weblink;
-          repeat while (for each test matrix))
+          repeat while (for each test matrix)
         }
         #snow :test results>
       }
@@ -165,10 +165,11 @@ partition "cli command" #LightGreen {
     }
 
     partition "poll matrices" #LightBlue {
-      repeat
-        :print next not complete matrix status;
-      repeat while (any matrix is not complete)
-      :test matrices>
+      while (all matrices completed?) is (no)
+        #snow :refresh;
+        #snow :print status;
+      endwhile (yes)
+      #snow :update matrix map;
     }
     partition "generate report" #LightBlue {
       :parse test suite;
