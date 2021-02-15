@@ -4,6 +4,7 @@
 start
 :main;
 partition "cli command" #LightGreen {
+  #red :TODO iOS sharding is performed when validation is performed;
   split
   :login;
 
@@ -103,27 +104,62 @@ partition "cli command" #LightGreen {
           #snow :upload session id;
           repeat
             #snow :get and print\nmatrix weblink;
-          repeat while (for each test matrix))
+          repeat while (for each test matrix)
         }
         #snow :test results>
       }
 
       split again
       partition "run ios" #LightBlue {
-        :before run tests;
-        :prepare data;
-        :upload files;
-        :dump shards;
-        :before run message;
-        :create test contexts;
+        partition "before run tests" #LightBlue {
+          #snow :start stop watch;
+          #snow :prepare result directory;
+          #snow :ensure not running on mock;
+        }
+        #snow :prepare data;
+        #snow :upload files;
+        partition "dump shards" #LightBlue {
+          #snow :prepare xc test run shards;
+          partition "save shards" #LightBlue {
+            if (printer ?) then
+              #snow :pretty;
+            else
+              #snow :obfuscated;
+            endif
+            #snow :save to file;
+          }
+          #snow :upload dump file;
+        }
+        #snow :before run message;
         repeat
-          :upload;
-          :create test config;
-          :build test matrix;
-          :execute with retry;
+          split
+          partition "xc test run" #LightBlue {
+            #snow :create counter;
+            #snow :upload files;
+            #snow :xc test run data as byte array;
+            #snow :upload xc test file;
+            #snow :xc test context>
+          }
+          split again
+          partition "game loop test run" #LightBlue {
+            #snow :create counter;
+            #snow :upload files;
+            #snow :game loop test context>
+          }
+          end split
+          #snow :build test matrix;
+          #snow :execute with retry;
         repeat while (for each context)
-        :after test run;
-        :test results>
+        partition "after test run" #LightBlue {
+          #snow :update matrix file;
+          #snow :save config file;
+          #snow :save session id;
+          #snow :upload session id;
+          repeat
+            #snow :get and print\nmatrix weblink;
+          repeat while (for each test matrix))
+        }
+        #snow :test results>
       }
       end split
     }
