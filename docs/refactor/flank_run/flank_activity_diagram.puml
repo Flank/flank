@@ -2,6 +2,7 @@
 'https://plantuml.com/activity-diagram-beta
 
 start
+skinparam ConditionEndStyle hline
 :main;
 partition "cli command" #LightGreen {
   #red :TODO iOS sharding is performed when validation is performed;
@@ -172,14 +173,71 @@ partition "cli command" #LightGreen {
       #snow :update matrix map;
     }
     partition "generate report" #LightBlue {
-      :parse test suite;
-      :generate cost report;
-      :generate matrix results report;
-      :generate optional htmlErrorReport;
-      :generate junit report;
-      :refresh matrices and get executions;
+      partition "parse test suite" #LightBlue {
+        if (iOS test run\nor\nuse legacy junit result ?) then (yes)
+          #snow :process xml from file;
+        else (no)
+          partition "refresh test matrices and get executions" #LightBlue {
+            repeat
+              #snow :refresh;
+            repeat while (for each matrix)
+            #snow :get test executions;
+          }
+          partition "create junit result" #LightBlue {
+            partition "create test execution data" #LightBlue {
+              fork
+                #snow :list test cases;
+              fork again
+                #snow :get step results;
+              end fork
+              #snow :test execution data>
+            }
+            #snow :prepare for junit results;
+            partition "create junit test suites" #LightBlue {
+              repeat
+                #snow :create test suite overview data;
+              repeat while(for each execution data)
+            }
+          }
+        endif
+        #snow :JUnit test result>
+      }
+      if (use legacy junit results ?) then (yes)
+        #snow :remove duplicated test cases;
+      endif
+      partition "generate cost report" #LightBlue {
+        #snow :upload report;
+      }
+      partition "generate matrix results report" #LightBlue {
+        #snow :upload report;
+      }
+      if (any test failed?) then (yes)
+        partition "generate HTML report" #LightBlue {
+          #snow :upload report;
+        }
+      else (no)
+      endif
+      partition "generate junit report" #LightBlue {
+        #snow :get ignored test cases;
+        #snow :xml to string;
+        #snow :upload report;
+      }
+      partition "refresh test matrices and get executions" #LightBlue {
+        repeat
+          #snow :refresh;
+        repeat while (for each matrix)
+        #snow :get test executions;
+      }
       :process junit results;
-      :createAndUploadPerformanceMetricsForAndroid;
+      partition "create and upload performance metrics for android" #LightBlue {
+        partition "get and upload performance metrics" #LightBlue {
+          repeat
+            #snow :download performance metric;
+            #snow :save metric to file;
+            #snow :upload metric file;
+          repeat while (for each test execution)
+        }
+      }
     }
     :fetch artifacts;
     :print matrices web links;
