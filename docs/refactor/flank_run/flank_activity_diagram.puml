@@ -20,7 +20,7 @@ partition "cli command" #LightGreen {
     #orange :create args;
     partition "validate args" #orange {
       if (is iOS run ?) then (yes)
-        #orange :create iOS shards;
+        #orange :calculate xc test run data (create iOS shards);
       else (no)
       endif
     }
