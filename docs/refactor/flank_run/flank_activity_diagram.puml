@@ -3,9 +3,14 @@
 
 start
 skinparam ConditionEndStyle hline
+legend left
+  |= Color |= Type |
+  |<#snow>| Atomic activities |
+  |<#LightBlue>| Related to domain scope |
+  |<#Orange>| Presented in separate diagram. Can be considered as atomic |
+endlegend
 :main;
 partition "cli command" #LightGreen {
-  #red :TODO iOS sharding is performed when validation is performed;
   split
   :login;
 
@@ -22,63 +27,7 @@ partition "cli command" #LightGreen {
         }
         #snow :prepare data;
         #snow :upload files;
-        partition "create test contexts" #LightBlue {
-          #snow :resolve apks;
-          partition "setup shards" #LightBlue {
-            #snow :prepare test filters;
-            repeat
-              split
-              partition "instrumentation with user sharding" #LightBlue {
-                #snow :download apks;
-                partition "calculate shards" #LightBlue {
-                  #snow :get flank test method;
-                  #snow :create shards by test for shards;
-                  #snow :add always run methods;
-                  #snow :shards>
-                }
-              }
-              split again
-              partition "instrumentation with flank sharding" #LightBlue {
-                #snow :download apks;
-                partition "calculate shards" #LightBlue {
-                  #snow :get flank test methods;
-                  partition "get old results or default" #LightBlue {
-                    #snow :download xml results;
-                    partition "parse all suites xml" #LightBlue {
-                      #snow :fix html codes;
-                      #snow :read value;
-                    }
-                  }
-                  partition "calculate shards count" #LightBlue {
-                    #snow :create tests duration map;
-                    #snow :get test method time;
-                    #snow :shards count>
-                  }
-                  partition "create shards by shard count" #LightBlue {
-                    #snow :create tests duration map;
-                    partition "create test methods" #LightBlue {
-                      #snow :get fallback times;
-                      repeat
-                        #snow :get test method time;
-                        #snow :enrich test method with time;
-                      repeat while (for each test)
-                      #snow :list of test methods with time>
-                    }
-                    #snow :add always run methods;
-                    #snow :print cache info;
-                    #snow :print shards info;
-                    #snow :shards>
-                  }
-                }
-              }
-              split again
-              #snow :robo / game loop test\n      __no sharding__;
-              end split
-            repeat while (for each context)
-          }
-          #snow :drop empty shards;
-          #snow :shards + ignored tests list>
-        }
+        #orange :create android test contexts;
         partition "dump shards" #LightBlue {
           #snow :as matrix test shards;
           partition "save shards" #LightBlue {
@@ -132,22 +81,8 @@ partition "cli command" #LightGreen {
           #snow :upload dump file;
         }
         #snow :before run message;
+        #orange :create iOS test contexts;
         repeat
-          split
-          partition "xc test run" #LightBlue {
-            #snow :create counter;
-            #snow :upload files;
-            #snow :xc test run data as byte array;
-            #snow :upload xc test file;
-            #snow :xc test context>
-          }
-          split again
-          partition "game loop test run" #LightBlue {
-            #snow :create counter;
-            #snow :upload files;
-            #snow :game loop test context>
-          }
-          end split
           #snow :build test matrix;
           #snow :execute with retry;
         repeat while (for each context)
