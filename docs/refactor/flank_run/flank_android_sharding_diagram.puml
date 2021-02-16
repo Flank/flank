@@ -3,7 +3,6 @@
 
 start
 skinparam ConditionEndStyle hline
-split
   partition "create android test contexts" #LightBlue {
     #snow :resolve apks;
     partition "setup shards" #LightBlue {
@@ -61,26 +60,6 @@ split
     #snow :drop empty shards;
     #snow :shards + ignored tests list>
   }
-split again
-  #orange :get shards;
-  partition "create iOS test contexts" #LightBlue {
-    split
-    partition "xc test run" #LightBlue {
-      #snow :create counter;
-      #snow :upload files;
-      #snow :xc test run data as byte array;
-      #snow :upload xc test file;
-      #snow :xc test context>
-    }
-    split again
-    partition "game loop test run" #LightBlue {
-      #snow :create counter;
-      #snow :upload files;
-      #snow :game loop test context>
-    }
-    end split
-  }
-end split
 end
 
 @enduml
