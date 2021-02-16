@@ -10,16 +10,20 @@ legend left
   |<#Orange>| Presented in separate diagram. Can be considered as atomic |
 endlegend
 :main;
-if (is iOS run ?) then (yes)
-  #orange :create iOS shards;
-else (no)
-endif
 partition "cli command" #LightGreen {
   split
   :login;
 
   split again
   partition "new test run" #LightBlue  {
+    #orange :load config;
+    #orange :create args;
+    partition "validate args" #orange {
+      if (is iOS run ?) then (yes)
+        #orange :create iOS shards;
+      else (no)
+      endif
+    }
     partition "run tests" #LightBlue {
       split
       partition "run android" #LightBlue {
