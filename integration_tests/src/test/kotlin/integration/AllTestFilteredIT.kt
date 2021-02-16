@@ -6,7 +6,6 @@ import flank.common.isWindows
 import org.junit.Assume.assumeFalse
 import org.junit.Test
 import run
-import java.io.File
 
 class AllTestFilteredIT {
     private val name = this::class.java.simpleName
@@ -46,7 +45,6 @@ class AllTestFilteredIT {
         assertExitCode(result, 1)
 
         val resOutput = result.output.removeUnicode()
-        File("test.log").writeText(resOutput)
         assertThat(resOutput).containsMatch(findInCompare(name))
         assertNoOutcomeSummary(resOutput)
     }
