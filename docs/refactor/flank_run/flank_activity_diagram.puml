@@ -286,9 +286,24 @@ partition "cli command" #LightGreen {
       }
       #snow :upload matrices id;
     }
-    :fetch artifacts;
-    :print matrices web links;
-    :validate matrices;
+    partition "fetch artifacts" #LightBlue {
+      #snow :prepare blob list option - field name;
+      repeat
+        #snow :prepare blob list option - prefix;
+        #snow :get files list in bucket;
+        repeat
+          #snow :download file;
+        repeat while (for each file in bucket)
+      repeat while (for each finished matrix)
+      #snow :update matrix file;
+    }
+    partition "print matrices web links" #LightBlue {
+      repeat
+        #snow :refresh matrix;
+        #snow :print links;
+      repeat while (for each matrix)
+    }
+    #snow :validate matrices;
   }
 
   split again
