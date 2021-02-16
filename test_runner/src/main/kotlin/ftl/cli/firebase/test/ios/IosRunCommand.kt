@@ -78,9 +78,7 @@ class IosRunCommand : CommonRunCommand(), Runnable {
             if (dumpShards.not()) logLn(this)
         }.validate().run {
             if (dumpShards) dumpShards()
-            else runBlocking {
-                newTestRun()
-            }
+            else runBlocking { newTestRun() }
         }
     }
 
