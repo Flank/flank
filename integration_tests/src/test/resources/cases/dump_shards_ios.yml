@@ -2,3 +2,7 @@ gcloud:
   test: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExample.zip
   xctestrun-file: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun
 
+flank:
+  disable-sharding: false
+  max-test-shards: 2
+  output-style: single
