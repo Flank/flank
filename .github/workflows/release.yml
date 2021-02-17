@@ -38,8 +38,8 @@ jobs:
               echo "MVN_VERSION=$(echo ${GITHUB_REF:11})" >> $GITHUB_ENV
               echo "RELEASE_TAG=$(echo ${GITHUB_REF:10})" >> $GITHUB_ENV
             else
-              echo "RELEASE_TAG=flank_snapshot" >> $GITHUB_ENV
-              echo "MVN_VERSION=flank_snapshot" >> $GITHUB_ENV
+              echo "RELEASE_TAG=flank-snapshot" >> $GITHUB_ENV
+              echo "MVN_VERSION=master-SNAPSHOT" >> $GITHUB_ENV
               git_short_hash=$(git rev-parse --short "$GITHUB_SHA")
               echo "GIT_SHORT_HASH=$(echo $git_short_hash)" >> $GITHUB_ENV
           fi;
@@ -64,11 +64,6 @@ jobs:
         HEAD_REF: ${{ github.head_ref }}
       with:
         arguments: "clean test_runner:build test_runner:shadowJar"
-        
-    - name: Gradle Upload to bintray
-      uses: eskatos/gradle-command-action@v1
-      with:
-        arguments: "test_runner:bintrayUpload -PJFROG_API_KEY=${{ secrets.JFROG_API_KEY }} -PJFROG_USER=${{ secrets.JFROG_USER }}"
 
     - name: Authenticate to hub
       run: |
@@ -91,21 +86,28 @@ jobs:
       run: flankScripts github delete_old_tag --git-tag=$RELEASE_TAG --username=$GITHUB_ACTOR --token=${{ secrets.GITHUB_TOKEN }}
 
     - name: Release snapshot
-      if: ${{ env.RELEASE_TAG == 'flank_snapshot' }} 
+      if: ${{ env.RELEASE_TAG == 'flank_snapshot' }}
       run: flankScripts github make_release --input-file=./test_runner/build/libs/flank.jar --git-tag=$RELEASE_TAG --commit-hash=$GIT_SHORT_HASH --snapshot
 
     - name: Release stable
       if: startsWith(github.ref, 'refs/tags/v')
       run: flankScripts github make_release --input-file=./test_runner/build/libs/flank.jar --git-tag=$RELEASE_TAG --token=${{ secrets.GITHUB_TOKEN }}
 
-    - name: Sync bintray to maven central
-      run: flankScripts release sync_with_maven_central --maven-tag=$MVN_VERSION
+    - name: Gradle Upload to MavenCentral
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: |
+        :test_runner:publishMavenJavaPublicationToMavenCentralRepository
+        -PMVN_CENTRAL_USER=${{ secrets.MVN_CENTRAL_USER }}
+        -PMVN_CENTRAL_PASSWORD=${{ secrets.MVN_CENTRAL_PASSWORD }}
+        -PPGP_SIGNING_KEY=${{ secrets.PGP_SIGNING_KEY }}
+        closeAndReleaseRepository
 
     - name: Gradle Upload to GitHub packages
       uses: eskatos/gradle-command-action@v1
       if: startsWith(github.ref, 'refs/tags/v')
       with:
-        arguments: "test_runner:publish -PGITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
+        arguments: ":test_runner:publishMavenJavaPublicationToGitHubPackagesRepository -PGITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
 
     - name: Post Message of Flank Release
       uses: Flank/flank@master

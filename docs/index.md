@@ -939,7 +939,7 @@ repositories {
 }
 
 dependencies {
-    compile("flank:flank:flank_snapshot")
+    compile("flank:flank:master-SNAPSHOT")
 }
 ```
 

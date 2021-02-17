@@ -4,6 +4,7 @@ object Plugins {
     const val KTLINT_GRADLE_PLUGIN = "org.jmailen.kotlinter"
     const val JFROG_BINTRAY = "com.jfrog.bintray"
     const val MAVEN_PUBLISH = "maven-publish"
+    const val NEXUS_STAGING = "io.codearte.nexus-staging"
     const val BEN_MANES_PLUGIN = "com.github.ben-manes.versions"
     object Kotlin {
         const val PLUGIN_JVM = "jvm"
