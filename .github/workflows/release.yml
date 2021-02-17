@@ -49,14 +49,6 @@ jobs:
           echo "$GITHUB_SHA" > ./test_runner/src/main/resources/revision.txt
           echo "$RELEASE_TAG" > ./test_runner/src/main/resources/version.txt
 
-    - name: Get Jfrog CLI
-      run: |
-        brew install jfrog-cli-go
-        jfrog bt config --user ${{ secrets.JFROG_USER }} --key ${{ secrets.JFROG_API_KEY }} --licenses Apache-2.0  
-    
-    - name: Delete old snapshot
-      run: flankScripts release delete_snapshot --version=$MVN_VERSION
-
     - name: Gradle Build Flank
       uses: eskatos/gradle-command-action@v1
       env:
