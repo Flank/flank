@@ -1,5 +1,6 @@
 package utils
 
+import com.google.common.truth.IterableSubject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import utils.testResults.TestSuites
@@ -31,3 +32,7 @@ fun TestSuites.assertTestFail(tests: List<String>) = assertEquals(
     tests.count(),
     testSuites.flatMap { it.testCases }.filter { it.name in tests && it.failure != null }.distinctBy { it.name }.count()
 )
+
+fun IterableSubject.containsAll(vararg args: Any) = args.forEach { arg ->
+    contains(arg)
+}
