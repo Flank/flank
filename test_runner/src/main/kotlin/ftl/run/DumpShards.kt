@@ -71,7 +71,11 @@ fun saveShardChunks(
     )
     logLn("${FtlConstants.indent}Saved $size shards to $shardFilePath", OutputLogLevel.DETAILED)
 }
-private fun String.createDirectories() = File(this).parent.toFile().mkdirs()
+
+private fun String.createDirectories() {
+    if (this !in listOf(ANDROID_SHARD_FILE, IOS_SHARD_FILE))
+        File(this).parent.toFile().mkdirs()
+}
 
 private fun getGson(obfuscatedOutput: Boolean) =
     if (obfuscatedOutput) obfuscatePrettyPrinter else prettyPrint

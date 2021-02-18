@@ -68,7 +68,6 @@ class IosRunCommand : CommonRunCommand(), Runnable {
 
         IosArgs.load(Paths.get(configPath), cli = this).apply {
             setupLogLevel()
-            logLn(this)
             outputReport.configure(toOutputReportConfiguration())
             outputReport.log(this)
             setCrashReportTag(
@@ -76,6 +75,7 @@ class IosRunCommand : CommonRunCommand(), Runnable {
                 TEST_TYPE to type?.name.orEmpty()
             )
             sendConfiguration()
+            if (dumpShards.not()) logLn(this)
         }.validate().run {
             if (dumpShards) dumpShards()
             else runBlocking { newTestRun() }

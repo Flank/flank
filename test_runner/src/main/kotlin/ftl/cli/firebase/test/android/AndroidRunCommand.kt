@@ -68,7 +68,7 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
 
         AndroidArgs.load(Paths.get(configPath), cli = this).apply {
             setupLogLevel()
-            logLn(this)
+
             outputReport.configure(toOutputReportConfiguration())
             outputReport.log(this)
             setCrashReportTag(
@@ -76,10 +76,14 @@ class AndroidRunCommand : CommonRunCommand(), Runnable {
                 TEST_TYPE to type?.name.orEmpty()
             )
             sendConfiguration()
-        }.validate().run {
+        }.validate().also { args ->
             runBlocking {
-                if (dumpShards) dumpShards()
-                else newTestRun()
+                if (dumpShards)
+                    args.dumpShards()
+                else {
+                    logLn(args)
+                    args.newTestRun()
+                }
             }
         }
     }
