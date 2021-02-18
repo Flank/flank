@@ -13,8 +13,6 @@ object ReleaseCommand : CliktCommand(
     init {
         subcommands(
             MakeReleaseCommand,
-            DeleteSnapshotCommand,
-            SyncWithMavenCentralCommand,
             DeleteReleaseCommand,
             DeleteOldTagCommand
         )

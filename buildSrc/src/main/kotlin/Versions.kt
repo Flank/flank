@@ -16,6 +16,9 @@ object Versions {
     // https://github.com/bintray/gradle-bintray-plugin/releases
     const val BINTRAY = "1.8.5"
 
+    // https://github.com/Codearte/gradle-nexus-staging-plugin
+    const val NEXUS_STAGING = "0.22.0"
+
     // https://github.com/johnrengelman/shadow/releases
     const val SHADOW = "6.1.0"
 

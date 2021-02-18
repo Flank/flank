@@ -1,10 +1,8 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import com.jfrog.bintray.gradle.BintrayExtension
 import groovy.util.Node
 import groovy.util.NodeList
 import java.io.ByteArrayOutputStream
 import java.nio.file.Paths
-import java.util.*
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -13,8 +11,8 @@ plugins {
     application
     jacoco
     kotlin(Plugins.Kotlin.PLUGIN_JVM)
-    id(Plugins.JFROG_BINTRAY)
     id(Plugins.MAVEN_PUBLISH)
+    signing
     id(Plugins.PLUGIN_SHADOW_JAR) version Versions.SHADOW
 }
 
@@ -47,31 +45,6 @@ shadowJar.apply {
     }
 }
 
-// https://bintray.com/flank/maven
-// https://github.com/bintray/gradle-bintray-plugin#readme
-bintray {
-    user = System.getenv("JFROG_USER") ?: properties["JFROG_USER"].toString()
-    key = System.getenv("JFROG_API_KEY") ?: properties["JFROG_API_KEY"].toString()
-    publish = true
-    setPublications("mavenJava")
-    pkg(
-        closureOf<BintrayExtension.PackageConfig> {
-            repo = "maven"
-            name = "flank"
-            userOrg = "flank"
-            setLicenses("Apache-2.0")
-            vcsUrl = "https://github.com/Flank/flank.git"
-            version(
-                closureOf<BintrayExtension.VersionConfig> {
-                    name = System.getenv("MVN_VERSION")
-                    vcsTag = System.getenv("MVN_REVISION")
-                    released = Date().toString()
-                }
-            )
-        }
-    )
-}
-
 java {
     withJavadocJar()
     withSourcesJar()
@@ -87,12 +60,22 @@ publishing {
                 password = System.getenv("GITHUB_TOKEN") ?: properties["GITHUB_TOKEN"].toString()
             }
         }
+        maven {
+            val staging = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            val snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
+            url = uri(if (version.toString().endsWith("-SNAPSHOT")) snapshotsRepoUrl else staging)
+            name = "MavenCentral"
+            credentials {
+                username = System.getenv("MVN_CENTRAL_USER") ?: properties["MVN_CENTRAL_USER"].toString()
+                password = System.getenv("MVN_CENTRAL_PASSWORD") ?: properties["MVN_CENTRAL_PASSWORD"].toString()
+            }
+        }
     }
     publications {
         create<MavenPublication>("mavenJava") {
             groupId = "com.github.flank"
             artifactId = artifactID
-            version = System.getenv("MVN_VERSION") ?: "local_snapshot"
+            version = System.getenv("MVN_VERSION") ?: "local-SNAPSHOT"
 
             artifact(shadowJar)
             artifact(tasks["javadocJar"])
@@ -135,6 +118,12 @@ publishing {
             }
         }
     }
+}
+
+signing {
+    val pgpSigningKey: String = System.getenv("PGP_SIGNING_KEY") ?: properties["PGP_SIGNING_KEY"].toString()
+    useInMemoryPgpKeys(pgpSigningKey, "")
+    sign(publishing.publications["mavenJava"])
 }
 
 // http://www.eclemma.org/jacoco/
