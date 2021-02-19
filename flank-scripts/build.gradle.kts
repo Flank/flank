@@ -1,8 +1,7 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import com.jfrog.bintray.gradle.BintrayExtension
 import java.io.ByteArrayOutputStream
+import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.Date
 
 plugins {
     application
@@ -10,7 +9,6 @@ plugins {
     kotlin(Plugins.Kotlin.PLUGIN_SERIALIZATION) version Versions.KOTLIN
     id(Plugins.PLUGIN_SHADOW_JAR) version Versions.SHADOW
     id(Plugins.MAVEN_PUBLISH)
-    id(Plugins.JFROG_BINTRAY)
 }
 
 val artifactID = "flank-scripts"
@@ -28,7 +26,7 @@ shadowJar.apply {
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
-version = "1.6.3"
+version = "1.6.4"
 group = "com.github.flank"
 
 application {
@@ -39,30 +37,17 @@ application {
     )
 }
 
-bintray {
-    user = System.getenv("JFROG_USER") ?: properties["JFROG_USER"].toString()
-    key = System.getenv("JFROG_API_KEY") ?: properties["JFROG_API_KEY"].toString()
-    publish = true
-    override = true
-    setPublications("mavenJava")
-    pkg(
-        closureOf<BintrayExtension.PackageConfig> {
-            repo = "maven"
-            name = artifactID
-            userOrg = "flank"
-            setLicenses("Apache-2.0")
-            vcsUrl = "https://github.com/Flank/flank.git"
-            version(
-                closureOf<BintrayExtension.VersionConfig> {
-                    name = version.name
-                    released = Date().toString()
-                }
-            )
-        }
-    )
-}
-
 publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/Flank/flank")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR") ?: properties["GITHUB_ACTOR"].toString()
+                password = System.getenv("GITHUB_TOKEN") ?: properties["GITHUB_TOKEN"].toString()
+            }
+        }
+    }
     publications {
         create<MavenPublication>("mavenJava") {
             groupId = group.toString()
@@ -132,10 +117,16 @@ val prepareJar by tasks.registering(Copy::class) {
     into("$projectDir/bash")
 }
 
-tasks.register("download") {
-    val sourceUrl = "https://dl.bintray.com/flank/maven/com/github/flank/$artifactID/$version/$artifactID-$version.jar"
-    val destinationFile = Paths.get("bash", "flank-scripts.jar").toFile()
-    ant.invokeMethod("get", mapOf("src" to sourceUrl, "dest" to destinationFile))
+val download by tasks.registering(Exec::class) {
+    commandLine(
+        "gh", "release", "download", "flank-scripts-$version", "-D", System.getenv("GITHUB_WORKSPACE") ?: ".."
+    )
+    doLast {
+        Files.copy(
+            Paths.get( "$artifactID.jar"),
+            Paths.get("flank-scripts","bash", "$artifactID.jar")
+        )
+    }
 }
 
 val checkIfVersionUpdated by tasks.registering(Exec::class) {
@@ -159,6 +150,17 @@ val checkIfVersionUpdated by tasks.registering(Exec::class) {
         }
     }
 }
+
+val releaseFlankScripts by tasks.registering(Exec::class) {
+    dependsOn(":flank-scripts:publish")
+    commandLine(
+        "gh", "release", "create",
+        "flank-scripts-$version", "$buildDir/libs/$artifactID.jar",
+        "-t", "'Flank Scripts $version'",
+        "-p"
+    )
+}
+
 
 fun isVersionChangedInBuildGradle(): Boolean {
 
