@@ -6,34 +6,18 @@
 
 1. GoogleApiLogger.kt
 
-## ftl.analytics
-
-1. PrepareConfiguration.kt
-1. UsageStatisticsClient.kt
-
 ## ftl.android
 
 1. AndroidCatalog.kt
 
 ## ftl.args
 
-1. AndroidArgsCompanion.kt
 1. ArgsHelper.kt
-1. IosArgs.kt
-1. IosArgsCompanion.kt
-
-## ftl.args.yml
-
-1. YamlDeprecated.kt
 
 ## ftl.config
 
 1. Credentials.kt
 1. FtlConstants.kt
-
-## ftl.doctor
-
-1. Doctor.kt
 
 ## ftl.environment
 
@@ -96,10 +80,6 @@
 ## ftl.ios
 
 1. IosCatalog.kt
-
-## ftl.ios.xctest.common
-
-1. FindTestsForTarget.kt
 
 ## ftl.json
 
@@ -166,11 +146,6 @@
 
 1. RunAndroidTests.kt
 
-## ftl.run.platform.android
-
-1. CreateAndroidTestContext.kt
-1. ResolveApks.kt
-
 ## ftl.run.platform.common
 
 1. AfterRunTests.kt
@@ -178,12 +153,10 @@
 ## ftl.run.status
 
 1. ExecutionStatusListPrinter.kt
-1. ExecutionStatusPrinter.kt
 1. TestMatrixStatusPrinter.kt
 
 ## ftl.util
 
-1. LogTableBuilder.kt
 1. MatrixState.kt
 1. ObfuscationGson.kt
 1. TestMatrixExtension.kt
