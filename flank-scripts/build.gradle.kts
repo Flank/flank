@@ -26,7 +26,7 @@ shadowJar.apply {
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
-version = "1.6.4"
+version = "1.6.5"
 group = "com.github.flank"
 
 application {
@@ -123,8 +123,8 @@ val download by tasks.registering(Exec::class) {
     )
     doLast {
         Files.copy(
-            Paths.get( "$artifactID.jar"),
-            Paths.get("flank-scripts","bash", "$artifactID.jar")
+            Paths.get("$artifactID.jar"),
+            Paths.get("flank-scripts", "bash", "$artifactID.jar")
         )
     }
 }
@@ -156,7 +156,7 @@ val releaseFlankScripts by tasks.registering(Exec::class) {
     commandLine(
         "gh", "release", "create",
         "flank-scripts-$version", "$buildDir/libs/$artifactID.jar",
-        "-t", "'Flank Scripts $version'",
+        "-t", "Flank Scripts $version",
         "-p"
     )
 }
