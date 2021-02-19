@@ -19,4 +19,4 @@ jobs:
     - name: Gradle Upload to Github packages and Github release
       uses: eskatos/gradle-command-action@v1
       with:
-        arguments: "flank-scripts:releaseFlankScripts"
+        arguments: "flank-scripts:releaseFlankScripts -PGITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
