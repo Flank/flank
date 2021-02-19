@@ -152,7 +152,7 @@ val checkIfVersionUpdated by tasks.registering(Exec::class) {
 }
 
 val releaseFlankScripts by tasks.registering(Exec::class) {
-    //dependsOn(":flank-scripts:publish")
+    dependsOn(":flank-scripts:publish")
     commandLine(
         "gh", "release", "create",
         "flank-scripts-$version", "$buildDir/libs/$artifactID.jar",
