@@ -10,7 +10,10 @@ include(
     ":integration_tests",
     "samples:gradle-export-api",
     "test_projects:android",
-    ":common"
+    ":common",
+    ":corellium",
+    ":corellium:corellium-sandbox",
+    ":corellium:corellium-client"
 )
 
 plugins {
