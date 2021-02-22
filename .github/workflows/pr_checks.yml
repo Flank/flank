@@ -14,6 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Download flankScripts and add it to PATH
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ./gradlew :flank-scripts:download
           echo "./flank-scripts/bash" >> $GITHUB_PATH

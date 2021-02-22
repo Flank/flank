@@ -23,6 +23,8 @@ jobs:
         arguments: "test_runner:processCliAsciiDoc"
 
     - name: Download flankScripts and add it to PATH
+      env: 
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         ./gradlew :flank-scripts:download
         echo "./flank-scripts/bash" >> $GITHUB_PATH
