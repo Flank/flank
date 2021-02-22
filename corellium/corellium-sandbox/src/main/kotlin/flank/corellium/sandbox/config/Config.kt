@@ -1,30 +1,40 @@
+@file:Suppress("unused")
 package flank.corellium.sandbox.config
 
-import java.nio.file.Paths
 import java.util.Properties
 
 object Config {
     private val prop = Properties().also { prop ->
-        with(Paths.get(object {}.javaClass.getResource("corellium-config.properties").toURI()).toFile()) {
-            prop.load(inputStream())
-        }
+        prop.load(object {}.javaClass.classLoader.getResourceAsStream("corellium-config.properties"))
     }
 
-    val api: String
-        get() = prop["api"] as String
+    private fun get(name: String) = prop[name] as String
 
-    val username: String
-        get() = prop["username"] as String
+    val api = get("api")
 
-    val password: String
-        get() = prop["password"] as String
+    val username = get("username")
 
-    val projectId: String
-        get() = prop["project_id"] as String
+    val password = get("password")
 
-    val instanceId: String
-        get() = prop["instance_id"] as String
+    val projectId = get("project_id")
 
-    val token: String
-        get() = prop["token"] as String
+    val instanceId = get("instance_id")
+
+    val token = get("token")
+
+    val instanceName = get("instance_name")
+
+    val plistPath = get("plist_path")
+
+    val pathToUploadPlist = get("path_to_upload_plist")
+
+    val xctestrunPath = get("xctestrun_path")
+
+    val udid = get("udid")
+
+    val osbuild = get("osbuild")
+
+    val flavor = get("flavor")
+
+    val os = get("os")
 }

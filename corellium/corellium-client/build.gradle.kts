@@ -18,6 +18,9 @@ dependencies {
     implementation(Dependencies.KOTLIN_SERIALIZATION)
     implementation("io.ktor:ktor-client-serialization:1.5.1")
     implementation("io.ktor:ktor-client-websockets:1.5.1")
+    implementation("io.ktor:ktor-client-logging:1.5.1")
+
+    implementation("ch.qos.logback:logback-classic:1.2.3")
 
     api("io.ktor:ktor-client-core:1.5.1")
     api("io.ktor:ktor-client-cio:1.5.1")

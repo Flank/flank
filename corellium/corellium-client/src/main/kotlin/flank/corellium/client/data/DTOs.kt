@@ -15,7 +15,7 @@ data class Instance(
     val patches: List<String> = emptyList(),
     val os: String = "",
     val osbuild: String = "",
-    val agent: InstanceAgent = InstanceAgent()
+    val agent: InstanceAgent? = InstanceAgent()
 )
 
 @Serializable
@@ -64,4 +64,12 @@ data class Credentials(
 @Serializable
 data class LoginResponse(
     val token: String
+)
+
+@Serializable
+data class AgentOperation(
+    val type: String,
+    val op: String,
+    val id: Int,
+    val path: String
 )
