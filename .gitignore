@@ -17,3 +17,4 @@ ios_shards.json
 *.log
 test_runner/src/main/resources/binaries/
 ktlint
+flank-scripts.jar
