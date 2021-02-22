@@ -16,10 +16,9 @@ jobs:
 
     - uses: gradle/wrapper-validation-action@v1
 
-    - name: Authenticate in GitHub CLI
-      run: gh auth login --with-token < ${{ secrets.GITHUB_TOKEN }}
-
     - name: Gradle Upload to Github packages and Github release
       uses: eskatos/gradle-command-action@v1
+      env: 
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         arguments: "flank-scripts:releaseFlankScripts -PGITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
