@@ -121,4 +121,112 @@ command that:
 * `com.google.apis:google-api-services-toolresults`
 * `io.sentry:sentry`
 * `com.mixpanel:mixpanel-java`
-* ... ?
+
+#### List of external API usages
+
+Based on [google_api_usecases](../gcloud/google_api_usecases.md)
+
+1. com.google.api.client.http
+    * GoogleApiLogger.kt
+1. ftl.android
+    * AndroidCatalog.kt
+1. ftl.args
+    * ArgsHelper.kt
+1. ftl.config
+    * Credentials.kt
+    * FtlConstants.kt
+1. ftl.environment
+    * ListIPBlocks.kt $
+    * ListLocales.kt $
+    * LocalesDescription.kt $
+    * NetworkProfileDescription.kt $
+1. ftl.environment.android
+    * AndroidModelDescription.kt $
+    * AndroidSoftwareVersionDescription.kt $
+    * ListAndroidDevices.kt $
+    * ListAndroidSofwareVersions.kt $
+1. ftl.environment.common
+    * ListNetworkConfiguration.kt $
+    * ListOrientations.kt $
+    * ListProvidedSoftware.kt $
+1. ftl.environment.ios
+    * IosModelDescription.kt $
+    * IosSoftwareVersionDescription.kt $
+    * ListIOsDevices.kt $
+    * ListIOsSofwareVersions.kt $
+1. ftl.gc
+    * GcAndroidDevice.kt $
+    * GcAndroidTestMatrix.kt
+    * GcIosMatrix.kt $
+    * GcIosTestMatrix.kt
+    * GcStorage.kt
+    * GcTesting.kt $
+    * GcTestMatrix.kt
+    * GcToolResults.kt
+    * UserAuth.kt
+    * ftl/gc/Utils.kt $
+1. ftl.gc.android
+    * CreateAndroidInstrumentationTest.kt $
+    * CreateAndroidLoopTest.kt $
+    * CreateAndroidRobotTest.kt $
+    * SetupAndroidTest.kt $
+    * SetupEnvironmentVariables.kt $
+    * ftl/gc/android/Utils.kt $
+1. ftl.gc.ios
+    * SetupIosTest.kt $
+1. ftl.http
+    * ExecuteWithRetry.kt
+    * HttpTimeoutIncrease.kt
+1. ftl.ios
+    * IosCatalog.kt $
+1. ftl.json
+    * MatrixMap.kt $
+    * OutcomeDetailsFormatter.kt $
+    * SavedMatrix.kt $
+1. ftl.log
+    * Loggers.kt
+1. ftl.mock
+    * MockServer.kt
+1. ftl.reports
+    * HtmlErrorReport.kt
+1. ftl.reports.api
+    * CreateJUnitTestCase.kt $
+    * CreateJUnitTestResult.kt $
+    * CreateTestExecutionData.kt
+    * CreateTestSuiteOverviewData.kt $
+    * PerformanceMetrics.kt
+    * PrepareForJUnitResult.kt
+    * ProcessFromApi.kt $
+    * ftl/reports/api/Utils.kt
+1. ftl.reports.api.data
+    * TestExecutionData.kt $
+    * TestSuiteOverviewData.kt $
+1. ftl.reports.outcome
+    * BillableMinutes.kt $
+    * CreateMatrixOutcomeSummary.kt $
+    * CreateTestSuiteOverviewData.kt $
+    * TestOutcome.kt $
+    * TestOutcomeContext.kt $
+    * ftl/reports/outcome/Util.kt $
+1. ftl.reports.util
+    * ReportManager.kt $
+1. ftl.run
+    * RefreshLastRun.kt $
+1. ftl.run.common
+    * FetchArtifacts.kt
+    * PollMatrices.kt
+1. ftl.run.platform
+    * RunAndroidTests.kt $
+1. ftl.run.platform.common
+    * AfterRunTests.kt $
+1. ftl.run.status
+    * ExecutionStatusListPrinter.kt $
+    * TestMatrixStatusPrinter.kt $
+1. ftl.util
+    * MatrixState.kt $
+    * TestMatrixExtension.kt $
+
+where
+* `?` - probably is not part of data, need investigation
+* `$` - only operates on API structures, not call methods directly
+
