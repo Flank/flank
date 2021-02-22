@@ -16,7 +16,9 @@ jobs:
           app_id: ${{ secrets.FLANK_RELEASE_APP_ID }}
           private_key: ${{ secrets.FLANK_RELEASE_PRIVATE_KEY }}
 
-      - name: Download flankScripts and add it to PATH
+      - name: Download flankScripts and add it to PATH. 
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ./gradlew :flank-scripts:download
           echo "./flank-scripts/bash" >> $GITHUB_PATH
