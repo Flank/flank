@@ -36,7 +36,7 @@ but from technical perspective those will be interfaces, type aliases, and struc
 * ftl
     * cli
     * domain
-    * interfaces
+    * interfaces ?
     * data ?
     * utils
    
@@ -62,7 +62,7 @@ Should be thin as possible and aware only about domain layer API (top-level publ
 
 #### Requirements
 
-* New package for grouping domain code
+* New package for grouping domain code.
 * Domain package directly can contain only:
     * top-level public functions that represents use-cases(?).
     * packages that contains low-level domain logic functions.
@@ -89,9 +89,19 @@ for all top-level functions.
 typealias UseCase<A, R> = suspend (T) -> Flow<R>
 ```
 
+#### Low-level
+
+The domain-related functions, private or internal,
+useful for organizing complicated domain code into the smaller chunks,
+and necessary where it comes to reuse something.
+The composition of low-level function should be flat, because more nesting in depth,
+can make a code much harder to understand.
+
+
 ### Data
 
 #### Requirements
 
-* New package for grouping wrappers and adapters for external APIs
-* TODO
+* New package for grouping wrappers and adapters for external APIs.
+* Consider separated package in `ftl` only for interfaces and structures, shared between api adapters and domain.
+* External API structures and function cannot leak to other layers.

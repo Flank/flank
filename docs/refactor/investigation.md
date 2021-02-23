@@ -1,4 +1,4 @@
-# Flank investigation [Not complete]
+# Flank investigation
 
 This document contains investigation of flank architecture, layers and package structure.
 
@@ -227,6 +227,5 @@ Based on [google_api_usecases](../gcloud/google_api_usecases.md)
     * TestMatrixExtension.kt $
 
 where
-* `?` - probably is not part of data, need investigation
 * `$` - only operates on API structures, not call methods directly
 
