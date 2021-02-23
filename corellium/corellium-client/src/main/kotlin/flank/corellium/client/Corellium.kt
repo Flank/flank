@@ -183,10 +183,10 @@ class Corellium(
         )
     }
 
-    suspend fun getVPNConfig(projectId: String, type: VPN) {
+    suspend fun getVPNConfig(projectId: String, type: VPN, id: String = UUID.randomUUID().toString()) {
         val response: HttpResponse = withRetry {
             client.get {
-                url("$urlBase/projects/$projectId/vpn-configs/${UUID.randomUUID()}.${type.name.toLowerCase()}")
+                url("$urlBase/projects/$projectId/vpn-configs/$id.${type.name.toLowerCase()}")
                 header("Authorization", token)
             }
         }

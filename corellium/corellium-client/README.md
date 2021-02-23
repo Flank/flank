@@ -7,7 +7,7 @@ to [example](https://github.com/corellium/corellium-api/blob/master/examples/age
 
 ## Installing
 
-JDK 8+ is required (tested on java 8 & 15)
+JDK 8+ is required (tested on java 8 & 15). [KTOR](https://ktor.io/) is used as HTTP client.
 
 To build just run (from the root of the project)
 
@@ -28,7 +28,8 @@ Creates new corellium client instance. Options:
 * `api` -> your corellium's http adrress, example: `yourcompany.enterprise.corellium.com` (without `https`)
 * `username`, `password` -> credentials to log in and acquire token
 * `tokenFallback` (optional) -> pass if you don't want to log in
-* `logging` (optional) -> logging level for http requests, default: `None`. More info [LoggingLevel](#sealed-class-logginglevel)
+* `logging` (optional) -> logging level for http requests, default: `None`. More
+  info [LoggingLevel](#sealed-class-logginglevel)
 
 ```kotlin
 val client = Corellium(
@@ -42,8 +43,8 @@ val client = Corellium(
 
 #### logIn(): String (token)
 
-Logs in with given credentials. Acquired `token` is persisted inside the client. It is also returned from the function if
-you want to reuse it
+Logs in with given credentials. Acquired `token` is persisted inside the client. It is also returned from the function
+if you want to reuse it
 
 ```kotlin
 val token: String = client.logIn()
@@ -102,7 +103,9 @@ val newInstanceId: String = client.createNewInstance(
 ```
 
 #### waitUntilInstanceIsReady(instanceId: String)
-Waits until instance with `id` == `instanceId` is ready to use (`state` is `on`). It's `suspend` function so the thread is not blocked.
+
+Waits until instance with `id` == `instanceId` is ready to use (`state` is `on`). It's `suspend` function so the thread
+is not blocked.
 
 ```kotlin
 val instanceId = "11111-aaaaa-bbbbb-33333"
@@ -110,6 +113,7 @@ client.waitUntilInstanceIsReady(instanceId)
 ```
 
 #### getInstanceInfo(instanceId: String): Instance
+
 Returns [Instance](#data-class-instance) for given `instanceId`
 
 ```kotlin
@@ -118,6 +122,7 @@ val instance: Instance = client.getInstanceInfo(instanceId)
 ```
 
 #### deleteInstance(instanceId: String)
+
 Deletes instance by id
 
 ```kotlin
@@ -126,9 +131,11 @@ client.deleteInstance(instanceId)
 ```
 
 #### createAgent(agentInfo: String): Agent
+
 Creates [Agent](#class-agent) for the given instance
 
-**NOTE**: Creating an agent can be flaky sometimes and may throw 5xx errors. There is the retry mechanism implemented but sometimes it's not enough.
+**NOTE**: Creating an agent can be flaky sometimes and may throw 5xx errors. There is the retry mechanism implemented
+but sometimes it's not enough.
 
 ```kotlin
 val instanceId = "11111-aaaaa-bbbbb-33333"
@@ -138,18 +145,130 @@ val agent: Agent = client.createAgent(instance.agent.info)
 
 #### getVPNConfig(projectId: String, type: VPN)
 
+Downloads VPN config file. Currently, filename is hardcoded:
+
+* `config.ovpn` -> for `VPN.OVPN`
+* `tblk.zip` -> for `VPN.TBLK`
+
+```kotlin
+client.getVPNConfig(
+    projectId = "11111-aaaaa-bbbbb-33333",
+    type = VPN.TBLK,
+    id = "asdasd-adaag-324234-dfsdf" // optional, if not passed, UUID.randomUUID() is used to generate
+)
+```
+
 ### class Agent
+
+-----
+
+This is a wrapper class
+for [ClientWebSocketSession](https://api.ktor.io/1.5.1/io.ktor.client.features.websocket/-client-web-socket-session/index.html)
+with additional logic.
 
 #### new instance
 
+Should be created only with factory method [Corellium#createAgent](#createagentagentinfo-string-agent).
+
 #### uploadFile(path: String, bytes: ByteArray)
+
+Uploads file (`ByteArray`) to the given `path`, on the device agent is connected to.
+
+```kotlin
+val path = "/var/usr/temp-file"
+val bytes = File("path/to/file").readBytes()
+
+agent.uploadFile(path, bytes)
+```
 
 #### close()
 
+Closes agent's connection.
+
+```kotlin
+agent.close()
+```
+
 ### data class Project
+
+----
+**NOTE**: Does not contain all fields returned from corellium API
+
+```kotlin
+data class Project(
+  val id: String,
+  val name: String,
+  val quotas: Quotas,
+  val quotasUsed: Quotas
+)
+
+data class Quotas(
+  val cores: Int,
+  val instances: Int,
+  val ram: Int,
+  val cpus: Int,
+  val gpus: Int? = null,
+  val instance: Int? = null
+)
+```
 
 ### data class Instance
 
+----
+**NOTE**: Does not contain all fields returned from corellium API
+
+```kotlin
+data class Instance(
+    val id: String = "",
+    val name: String,
+    val key: String = "",
+    val flavor: String,
+    val type: String = "",
+    val project: String,
+    val state: String = "",
+    val bootOptions: BootOptions = BootOptions(),
+    val patches: List<String> = emptyList(),
+    val os: String = "",
+    val osbuild: String = "",
+    val agent: InstanceAgent? = InstanceAgent()
+)
+
+data class BootOptions(
+  val bootArgs: String = "",
+  val restoreBootArgs: String = "",
+  val udid: String = "",
+  val ecid: String = ""
+)
+
+data class InstanceAgent(
+  val hash: String = "",
+  val info: String = ""
+)
+```
+
 ### sealed class LoggingLevel
 
+----
+Subclass names' are corresponding with ktor's
+enum [LogLevel](https://api.ktor.io/1.5.1/io.ktor.client.features.logging/-log-level/index.html) values.
+
+* `LoggingLevel.All` -> `LogLevel.ALL`
+* `LoggingLevel.None` -> `LogLevel.NONE`
+* `LoggingLevel.Body` -> `LogLevel.BODY`
+* `LoggingLevel.Headers` -> `LogLevel.HEADERS`
+* `LoggingLevel.Info` -> `LogLevel.INFO`
+
 ### enum VPN
+
+----
+
+```kotlin
+enum class VPN {
+    OVPN, TBLK
+}
+```
+
+## Additional Info
+* Corellium API is flaky (for now) -- there might be `5xx`s randomly being thrown
+* There are lots of more features available by API, current implementation has essential features to run iOS test on Corellium device, from Flank's perspective
+* All `Corellium` client requests have retry mechanism implemented. Sometimes it's not enough though
