@@ -161,34 +161,48 @@
 1. ObfuscationGson.kt
 1. TestMatrixExtension.kt
 
-## Gcloud Api use cases
-
-1. Upload files to gcs
-1. List environment information's
-    1. ipblocks
-    1. locales
-    1. network Profile
-    1. models (ios, android)
-    1. software versions
-    1. devices
-    1. network configuration
-    1. orientations
+## Gcloud Api Use cases
 
 1. GcToolResults.kt
-    - createToolResultsHistory
-    - getExecutionResult
-    - getStepResult
-    - getPerformanceMetric
-    - listTestCases
-    - getDefaultBucket
-    - listAllEnvironments
-    - listAllSteps
+   - createToolResultsHistory
+   - getExecutionResult
+   - getStepResult
+   - getPerformanceMetric
+   - listTestCases
+   - getDefaultBucket
+   - listAllEnvironments
+   - listAllSteps
 
 1. TestOutcomeContext.kt
-    - fetchTestOutcomeContext
+   - fetchTestOutcomeContext
 
 1. GcIosTestMatrix.kt
-    - build
+   - build
 
 1. GcAndroidTestMatrix.kt
-    - build
+   - build
+   
+1. GcStorage.kt
+   - uploadWithProgress
+   - download
+   - exist
+   
+1. Common environment information's
+    - ListIPBlocks.kt 
+    - ListLocales.kt
+    - LocalesDescription.kt
+    - NetworkConfigurationCatalog.kt
+    - NetworkProfileDescription.kt  
+    - ProvidedSoftwareCatalog.kt
+    - TestEnvironmentInfo.kt
+   
+1. AndroidModelDescription.kt
+1. AndroidSoftwareVersionDescription.kt
+1. ListAndroidDevices.kt
+1. ListAndroidSofwareVersions.kt
+
+1. IosModelDescription.kt
+1. IosSoftwareVersionDescription.kt
+1. ListIOsDevices.kt
+1. ListIOsSofwareVersions.kt
+
