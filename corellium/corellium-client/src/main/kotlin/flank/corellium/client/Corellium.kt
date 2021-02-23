@@ -97,9 +97,9 @@ class Corellium(
         ).map { it.id }
     }
 
-    suspend fun getAllProjects(): List<Project> = withRetry {
-        getProjectIdList()
-            .map {
+    suspend fun getAllProjects(): List<Project> = getProjectIdList()
+        .map {
+            withRetry {
                 async {
                     client.get<Project> {
                         url("$urlBase/projects/$it")
@@ -108,8 +108,8 @@ class Corellium(
                     }
                 }
             }
-            .awaitAll()
-    }
+        }
+        .awaitAll()
 
     suspend fun getProjectInstancesList(projectId: String): List<Instance> = withRetry {
         client.get {
