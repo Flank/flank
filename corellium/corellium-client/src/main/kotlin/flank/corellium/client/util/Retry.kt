@@ -22,7 +22,11 @@ suspend inline fun <T> withRetry(crossinline block: suspend CoroutineScope.() ->
     return@coroutineScope block()
 }
 
-suspend inline fun <T> withProgress(crossinline block: suspend CoroutineScope.() -> T) = coroutineScope {
+suspend inline fun <T> withProgress(
+    initialDelay: Long = 0,
+    crossinline block: suspend CoroutineScope.() -> T
+) = coroutineScope {
+    if (initialDelay > 0) delay(initialDelay)
     val progress = launch {
         println("Progress")
         while (true) {

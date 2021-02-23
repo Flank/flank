@@ -157,15 +157,14 @@ class Corellium(
         }
     }
 
-    suspend fun createAgent(agentInfo: String): Agent = withProgress {
-        delay(25_000)
+    suspend fun createAgent(agentInfo: String): Agent = withProgress(initialDelay = 25_000) {
         Agent(
             withRetry {
                 wsClient.webSocketSession {
                     url("${urlBase.replace("https", "wss")}/agent/$agentInfo")
                     header("Authorization", token)
                 }.apply {
-                    println("Agent connected")
+                    println("\nAgent connected")
                     pinger(outgoing, 1000, 100)
                     ponger(outgoing)
 

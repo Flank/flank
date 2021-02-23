@@ -53,6 +53,7 @@ fun main() = runBlocking {
     println("Creating agent")
     val agent = client.createAgent(instance.agent?.info ?: error("Agent is not present"))
 
+    println("Uploading file")
     agent.uploadFile(
         path = pathStringToUploadTo,
         bytes = File(localPathString).readBytes()
