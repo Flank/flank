@@ -125,12 +125,12 @@ jobs:
           arguments: "integrationTests"
 
       - name: Export Variables for FlankScripts
-          if: ${{ always() }}
-          uses: UnlyEd/github-action-store-variable@v2.1.0
-          with:
-            variables: |
-              ${{ matrix.os }}=${{ job.status }}
-              ${{ matrix.os }}-bs=${{steps.run-it.outputs.build-scan-url}}
+        if: ${{ always() }}
+        uses: UnlyEd/github-action-store-variable@v2.1.0
+        with:
+          variables: |
+            ${{ matrix.os }}=${{ job.status }}
+            ${{ matrix.os }}-bs=${{steps.run-it.outputs.build-scan-url}}
 
   process-results:
     needs: [ run-it-full-suite ]
