@@ -23,8 +23,6 @@ import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
 import io.ktor.http.cio.websocket.Frame
-import io.ktor.http.cio.websocket.pinger
-import io.ktor.http.cio.websocket.ponger
 import io.ktor.http.cio.websocket.readText
 import io.ktor.http.contentType
 import io.ktor.util.cio.writeChannel
@@ -165,10 +163,9 @@ class Corellium(
                     header("Authorization", token)
                 }.apply {
                     println("\nAgent connected")
-                    pinger(outgoing, 1000, 100)
-                    ponger(outgoing)
 
                     launch {
+                        // there should be handlers, will be implemented in production
                         for (frame in incoming) {
                             when (frame) {
                                 is Frame.Text -> println("got text: ${frame.readText()}")

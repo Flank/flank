@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Instance(
     val id: String = "",
-    val name: String,
+    val name: String = "",
     val key: String = "",
     val flavor: String,
     val type: String = "",
@@ -71,5 +71,5 @@ data class AgentOperation(
     val type: String,
     val op: String,
     val id: Int,
-    val path: String
+    val path: String = ""
 )

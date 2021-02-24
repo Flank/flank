@@ -8,33 +8,33 @@ object Config {
         prop.load(object {}.javaClass.classLoader.getResourceAsStream("corellium-config.properties"))
     }
 
-    private fun get(name: String) = prop[name] as String
+    fun getProp(name: String) = prop[name] as String
 
-    val api = get("api")
+    val api = getProp("api")
 
-    val username = get("username")
+    val username = getProp("username")
 
-    val password = get("password")
+    val password = getProp("password")
 
-    val projectId = get("project_id")
+    val projectId = getProp("project_id")
 
-    val instanceId = get("instance_id")
+    val instanceId = getProp("instance_id")
 
-    val token = get("token")
+    val token = getProp("token")
 
-    val instanceName = get("instance_name")
+    val instanceName = getProp("instance_name")
 
-    val plistPath = get("plist_path")
+    val plistPath = getProp("plist_path")
 
-    val pathToUploadPlist = get("path_to_upload_plist")
+    val pathToUploadPlist = getProp("path_to_upload_plist")
 
-    val xctestrunPath = get("xctestrun_path")
+    val xctestrunPath = getProp("xctestrun_path")
 
-    val udid = get("udid")
+    val udid = getProp("udid")
 
-    val osbuild = get("osbuild")
+    val osbuild = getProp("osbuild")
 
-    val flavor = get("flavor")
+    val flavor = getProp("flavor")
 
-    val os = get("os")
+    val os = getProp("os")
 }
