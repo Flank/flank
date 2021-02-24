@@ -31,7 +31,7 @@ flexibility and control over creating shards.
 
 # API
 
-It is hard to plan API for that change because the codebase could be different when doing this task and also usage of this
+It is hard to plan for this change to the API because by the time this is worked upon the codebase may have changed significantly influencing the usage of this request.
 the option will be applied to many places in code.
 Please follow up `Design` section for the implementation plan.
 
