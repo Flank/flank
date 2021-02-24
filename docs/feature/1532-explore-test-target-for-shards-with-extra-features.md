@@ -23,7 +23,7 @@ flexibility and control over creating shards.
 
 # Design
 
-- Add new option under Flank configuration, possible ideas are: `plan-sharding`, `tests-for-shards`.
+- Add new option under Flank configuration, possible ideas are: `plan-sharding`, `tests-for-shards`, `smart-test-targets-for-shards`.
 - New option should at least behave the same as [`test-target-for-shards`](https://cloud.google.com/sdk/gcloud/reference/beta/firebase/test/android/run#--test-targets-for-shard).
 - The left over tests should then be sorted into other shards or a single shard based upon the configuration provided by the user.
 - Flank should fast fail if `disable-sharding` is set to `true`  or `max-test-shards` is lower than specified test shards
