@@ -42,7 +42,7 @@ will change behavior of `test-target-for-shards`.
 
 # Dependencies
 
-There are not any dependencies that could have a real impact on this task. However, it will be best to do this after
+There are no dependencies that will have a impact on this task. It is recommended to do this after 
 [Flank's refactor](https://github.com/Flank/flank/issues/1317) to make it easier.
 
 # Testing
