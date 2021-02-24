@@ -7,4 +7,4 @@ gcloud:
       - 'main.0300110.com.flank.gameloop.obb'
 flank:
   disable-sharding: true
-
+  disable-usage-statistics: true

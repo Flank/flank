@@ -4,3 +4,4 @@ gcloud:
 flank:
   test-targets:
     - nonExisting/Class
+  disable-usage-statistics: true

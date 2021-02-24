@@ -7,3 +7,4 @@ flank:
   disable-sharding: false
   max-test-shards: 2
   output-style: single
+  disable-usage-statistics: true
