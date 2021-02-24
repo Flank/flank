@@ -6,3 +6,4 @@ flank:
   disable-results-upload: true
   disable-sharding: true
   run-timeout: 1m
+  disable-usage-statistics: true
