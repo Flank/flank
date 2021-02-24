@@ -37,7 +37,7 @@ Please follow up `Design` section for the implementation plan.
 
 # Results
 
-A new option which split sharding based on user input or alternative flag (described in `Alternative Considered`) which
+A new option will be created which will split sharding based on user input or an alternative flag (described in `Alternative Considered`) which
 will change behavior of `test-target-for-shards`.
 
 # Dependencies
