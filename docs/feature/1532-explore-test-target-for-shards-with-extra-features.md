@@ -19,7 +19,7 @@ flexibility and control over creating shards.
 
 1. New option is available on the flank configuration level
 1. User could specify which packages/class/tests run on specific shards by using a new option
-1. Other not specified tests are automatically added to the left shard/shards
+1. Other tests that are not specified are then automatically added to a different set of shards/shard
 
 # Design
 
