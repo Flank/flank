@@ -161,41 +161,41 @@
 1. ObfuscationGson.kt
 1. TestMatrixExtension.kt
 
-## Gcloud Api Use cases
+## Gcloud Api Calls in Flank
 
 1. GcToolResults.kt
-   - createToolResultsHistory
-   - getExecutionResult
-   - getStepResult
-   - getPerformanceMetric
-   - listTestCases
-   - getDefaultBucket
-   - listAllEnvironments
-   - listAllSteps
+    - createToolResultsHistory
+    - getExecutionResult
+    - getStepResult
+    - getPerformanceMetric
+    - listTestCases
+    - getDefaultBucket
+    - listAllEnvironments
+    - listAllSteps
 
 1. TestOutcomeContext.kt
-   - fetchTestOutcomeContext
+    - fetchTestOutcomeContext
 
 1. GcIosTestMatrix.kt
-   - build
+    - build
 
 1. GcAndroidTestMatrix.kt
-   - build
-   
+    - build
+
 1. GcStorage.kt
-   - uploadWithProgress
-   - download
-   - exist
-   
+    - uploadWithProgress
+    - download
+    - exist
+
 1. Common environment information's
-    - ListIPBlocks.kt 
+    - ListIPBlocks.kt
     - ListLocales.kt
     - LocalesDescription.kt
     - NetworkConfigurationCatalog.kt
-    - NetworkProfileDescription.kt  
+    - NetworkProfileDescription.kt
     - ProvidedSoftwareCatalog.kt
     - TestEnvironmentInfo.kt
-   
+
 1. AndroidModelDescription.kt
 1. AndroidSoftwareVersionDescription.kt
 1. ListAndroidDevices.kt
@@ -206,3 +206,136 @@
 1. ListIOsDevices.kt
 1. ListIOsSofwareVersions.kt
 
+## Android Run use case
+
+1. AndroidRunCommand.kt
+    - L: 76 ```validate()```
+
+1. ValidateAndroidArgs.kt
+    - L: 18 ```AndroidArgs.validate()```
+
+1. ValidateAndroidArgs.kt
+    - L: 20 ```assertDevicesSupported()```
+        - L:95 ```AndroidArgs.assertDevicesSupported()```
+        - L:97 ```AndroidCatalog.supportedDeviceConfig()```
+        - L:104 ```AndroidCatalog.androidModelIds()```
+        - L:109 ```AndroidCatalog.androidVersionIds()```
+        - L:112 ```device.getSupportedVersionId()```
+
+1. ValidateAndroidArgs.kt
+    - L: 32 ```IArgs.checkResultsDirUnique()```
+    
+1. ValidateCommonArgs.kt
+    - L: 74 ```IArgs.checkResultsDirUnique()```
+    - L: 75 ```GcStorage.exist(resultsBucket, resultsDir)```
+    
+1. AndroidRunCommand.kt
+    - L: 79 ```newTestRun()```
+
+1. NewTestRun.kt
+    - L: 27 ```runTests()```
+
+1. RunAndroidTest.kt
+    - L: 46 ```uploadOtherFiles()```
+        - UploadOtherFiles.kt
+            - L: 14 ```GcStorage.upload()```
+    - L: 47 ```uploadAdditionalApks()```
+        - UploadApks.kt
+            - L: 50 ```uploadAdditionalApks()```
+            - L: 56 ```uploadToGcloudIfNeeded()```
+            - FileReference.kt
+                - L: 37 ```FileReference.uploadIfNeeded()```
+                - L: 42 ```GcStorage.upload()```
+
+    - L: 48 ```uploadObbFiles()```
+        - UploadOtherFiles.kt
+            - L: 18 ```uploadObbFiles()```
+            - L: 20  ```GcStorage.upload()```
+       
+    - L: 49 ```createAndroidTestContexts()```
+        - CreateAndroidTestContext.kt
+            - L: 30 ```setupShards()```
+            - L: 41 ```testContext.downloadApks()```
+            - L: 50 ```app = app.downloadIfNeeded()```
+            - L: 51 ```test = test.downloadIfNeeded()```
+                - FileReference.kt
+                    - L: 29 ```GcStorage.download()```
+                    - GcStorage.kt
+                        - L: 179 ```download()```
+       
+    - L: 51 ```upload()```
+        - UploadApks.kt
+            - L: 23 ```context.upload()```
+            - L: 26 ```AndroidTestContext.upload()```
+            - L: 27 ```is InstrumentationTestContext -> upload()```
+                - L: 33 ```InstrumentationTestContext.upload()```
+                - L: 34 ```app.uploadIfNeeded()```
+                - L: 35 ```test.uploadIfNeeded()```
+                    - FileReference.kt
+                        - L: 37 ```FileReference.uploadIfNeeded()```
+                        - L: 42 ```GcStorage.upload```
+                        - GcStorage.kt
+                            - L: 60 ```upload()```
+              
+            - L: 28 ```is RoboTestContext -> upload()```
+                - L: 38 ```RoboTestContext.upload()```
+                - L: 39 ```app.uploadIfNeeded()```
+                - L: 40 ```roboScript.uploadIfNeeded()```
+                    - FileReference.kt
+                        - L: 37 ```FileReference.uploadIfNeeded()```
+                        - L: 42 ```GcStorage.upload```
+                        - GcStorage.kt
+                            - L: 60 ```upload()```
+              
+            - L: 29 ```is SanityRoboTestContext -> upload()```
+                - L: 47 ```SanityRoboTestContext.upload()```
+                    - L: 48 ```app.uploadIfNeeded()```
+                        - FileReference.kt
+                            - L: 37 ```FileReference.uploadIfNeeded()```
+                            - L: 42 ```GcStorage.upload```
+                            - GcStorage.kt
+                                - L: 60 ```upload()```
+              
+            - L: 30 ```is GameLoopContext -> upload()```
+                - L: 43 ```GameLoopContext.upload()```
+                    - L: 44 ```app.uploadIfNeeded()```
+                        - FileReference.kt
+                            - L: 37 ```FileReference.uploadIfNeeded()```
+                            - L: 42 ```GcStorage.upload```
+                            - GcStorage.kt
+                                - L: 60 ```upload()```
+            
+        - L: 59 ```GcAndroidTestMatrix.build()```
+            - GcAndroidTestMatrix.kt
+                - L: 30 ```build()```
+                - L: 89 ```GcTesting.get.projects().testMatrices().create()```
+
+1. NewTestRun.kt
+    - L: 35 ```ReportManager.generate()```
+    - ReportManager.kt
+        - L: 97 ```parseTestSuite()```
+        - L: 87 ```refreshMatricesAndGetExecutions()```
+        - ProcessFromApi.kt
+            - L: 13 ```refreshMatricesAndGetExecutions()```
+            - L: 18 ```refreshTestMatrices()```
+            - L: 24 ```cTestMatrix.refresh()```
+          
+        - L: 121 ```refreshMatricesAndGetExecutions()```
+        - ProcessFromApi.kt
+            - L: 13 ```refreshMatricesAndGetExecutions()```
+            - L: 18 ```refreshTestMatrices()```
+            - L: 24 ```cTestMatrix.refresh()```
+          
+        - L: 123 ```createAndUploadPerformanceMetricsForAndroid()```
+        - L: 148 ```getAndUploadPerformanceMetrics()```
+        - PerformanceMetrics.kt
+            - L: 16 ```getAndUploadPerformanceMetrics()```
+            - L: 27 ```getPerformanceMetric()```
+            - L: 45 ```GcToolResults.getPerformanceMetric()```
+            - L: 25 ```performanceMetrics.upload()```
+            - L: 47 ```GcStorage.uploadPerformanceMetrics()```
+          
+        - L: 124 ```GcStorage.uploadMatricesId()```
+        - GcStorage.kt
+            - L: 96 ```uploadMatricesId()```
+            - L: 60 ```upload()```
