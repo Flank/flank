@@ -122,7 +122,7 @@ command that:
 * `io.sentry:sentry`
 * `com.mixpanel:mixpanel-java`
 
-#### List of external API usages
+#### List of external API usages in files
 
 Based on [google_api_usecases](../gcloud/google_api_usecases.md)
 
@@ -229,3 +229,97 @@ Based on [google_api_usecases](../gcloud/google_api_usecases.md)
 where
 * `$` - only operates on API structures, not call methods directly
 
+#### Google API use cases
+
+* `auth/LoginCommand.kt`
+   * Authorizing google account using OAuth2 for getting credentials.
+  
+* `firebase/CancelCommand.kt`
+   * Sending cancel request using projectId and testMatrixId
+
+* `firebase/RefreshCommand.kt` ?
+   * Getting current test matrices' status for updating matrix file if needed
+   * Polling the matrices' status for live logging until all matrices are not finished.
+   * Downloading test artifacts from bucket
+   
+* `firebase/test/providedsoftware/ProvidedSoftwareListCommand.kt`
+   * Getting softwareCatalog from testEnvironmentCatalog
+
+* `firebase/test/ipblocks/IPBlocksListCommand.kt`
+   * Getting orchestratorVersion from testEnvironmentCatalog
+   
+* `firebase/test/networkprofiles/NetworkProfilesDescribeCommand.kt`
+   * Getting configurations from testEnvironmentCatalog through networkConfigurationCatalog
+   
+* `firebase/test/networkprofiles/NetworkProfilesListCommand.kt`
+   * Getting configurations from testEnvironmentCatalog through networkConfigurationCatalog
+
+* `firebase/test/android/configuration/AndroidLocalesDescribeCommand.kt`
+   * Getting android device catalog for obtain locales
+
+* `firebase/test/android/configuration/AndroidLocalesListCommand.kt`
+   * Getting android device catalog for obtain locales
+
+* `firebase/test/android/models/AndroidModelDescribeCommand.kt`
+   * Getting android device catalog for obtain models
+
+* `firebase/test/android/models/AndroidModelsListCommand.kt`
+   * Getting android device catalog for obtain models
+
+* `firebase/test/android/orientations/AndroidOrientationsListCommand.kt`
+   * Getting android device catalog for obtain orientations
+
+* `firebase/test/android/versions/AndroidVersionsDescribeCommand.kt`
+   * Getting android device catalog for obtain versions
+
+* `firebase/test/android/versions/AndroidVersionsListCommand.kt`
+   * Getting android device catalog for obtain versions  
+
+* `firebase/test/android/AndroidTestEnvironmentCommand.kt`
+   * `AndroidModelsListCommand`
+   * `AndroidVersionsListCommand`
+   * `AndroidLocalesListCommand`
+   * `ProvidedSoftwareListCommand`
+   * `NetworkProfilesListCommand`
+   * `AndroidOrientationsListCommand`
+   * `IPBlocksListCommand`
+
+* `firebase/test/ios/configuration/IosLocalesDescribeCommand.kt`
+   * Getting ios device catalog for obtain locales
+   
+* `firebase/test/ios/configuration/IosLocalesListCommand.kt`
+   * Getting ios device catalog for obtain locales
+   
+* `firebase/test/ios/models/IosModelDescribeCommand.kt`
+   * Getting ios device catalog for obtain models
+   
+* `firebase/test/ios/models/IosModelsListCommand.kt`
+   * Getting ios device catalog for obtain models
+   
+* `firebase/test/ios/orientations/IosOrientationsListCommand.kt`
+   * Getting ios device catalog for obtain orientations
+   
+* `firebase/test/ios/versions/IosVersionsDescribeCommand.kt`
+   * Getting ios device catalog for obtain versions
+   
+* `firebase/test/ios/versions/IosVersionsListCommand.kt`
+   * Getting ios device catalog for obtain versions
+   
+* `firebase/test/ios/IosTestEnvironmentCommand.kt`
+   * `IosModelsListCommand`
+   * `IosVersionsListCommand`
+   * `IosLocalesListCommand`
+   * `ProvidedSoftwareListCommand`
+   * `NetworkProfilesListCommand`
+   * `IosOrientationsListCommand`
+   * `IPBlocksListCommand`
+   
+
+* `firebase/test/android/AndroidRunCommand.kt`
+   * TODO
+
+* `firebase/test/ios/IosRunCommand.kt`
+   * TODO
+
+where
+* `?` - investigate if implementation is correct or is performing some not necessary operations. 
