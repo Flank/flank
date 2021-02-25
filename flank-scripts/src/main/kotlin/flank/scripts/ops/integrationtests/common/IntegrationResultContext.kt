@@ -14,28 +14,31 @@ import flank.scripts.data.github.patchIssue
 import flank.scripts.data.github.postNewIssue
 import flank.scripts.data.github.postNewIssueComment
 import flank.scripts.utils.toJson
+import flank.scripts.utils.toObject
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import kotlin.system.exitProcess
 
-internal suspend fun IntegrationContext.createNewIssue(): GitHubCreateIssueCommentRequest =
+internal suspend fun IntegrationResultContext.createNewIssue(): GitHubCreateIssueCommentRequest =
     createAndPostNewIssue().postComment()
 
-internal suspend fun IntegrationContext.postComment(): GitHubCreateIssueCommentRequest =
+internal suspend fun IntegrationResultContext.postComment(): GitHubCreateIssueCommentRequest =
     createCommentPayload().also { payload ->
         postNewIssueComment(token, issueNumber, payload)
         println("** Comment posted")
         println(payload.toJson())
     }
 
-internal suspend fun IntegrationContext.closeIssue(): ByteArray =
+internal suspend fun IntegrationResultContext.closeIssue(): ByteArray =
     postComment().run {
         println("** Closing issue")
         patchIssue(token, issueNumber, GitHubUpdateIssueRequest(state = IssueState.CLOSED)).get()
     }
 
-private suspend fun IntegrationContext.createAndPostNewIssue(payload: GitHubCreateIssueRequest = createIssuePayload()) =
+private suspend fun IntegrationResultContext.createAndPostNewIssue(payload: GitHubCreateIssueRequest = createIssuePayload()) =
     postNewIssue(token, payload)
         .onError {
             println(it.message)
@@ -58,12 +61,12 @@ private fun createIssuePayload(): GitHubCreateIssueRequest {
     return issuePayload
 }
 
-private suspend fun IntegrationContext.createCommentPayload() = coroutineScope {
+private suspend fun IntegrationResultContext.createCommentPayload() = coroutineScope {
     val message = when (result) {
-        ITResults.SUCCESS -> prepareSuccessMessage(lastRun, runID, url)
-        ITResults.FAILURE -> {
+        ITResult.SUCCESS -> prepareSuccessMessage(lastRun, runID, runState)
+        ITResult.FAILURE -> {
             val commitList = getCommitListSinceDate(token, lastRun)
-            prepareFailureMessage(lastRun, runID, url, commitList)
+            prepareFailureMessage(lastRun, runID, runState, commitList)
         }
     }
     GitHubCreateIssueCommentRequest(message)
@@ -97,10 +100,10 @@ private fun logIssueCreated(issue: GitHubCreateIssueResponse) = println(
     """.trimIndent()
 )
 
-data class IntegrationContext(
-    val result: ITResults,
+data class IntegrationResultContext(
+    val result: ITResult,
     val token: String,
-    val url: String,
+    val runState: ITRunState,
     val runID: String,
     val lastRun: String,
     val openedIssue: Int?,
@@ -108,3 +111,30 @@ data class IntegrationContext(
     val issueNumber: Int
         get() = requireNotNull(openedIssue)
 }
+
+@Serializable
+data class ITRunState(
+    @SerialName("windows-latest")
+    val windowsResult: ITResult,
+    @SerialName("windows-latest-bs")
+    val windowsBSUrl: String,
+    @SerialName("macOs-latest")
+    val macOsResult: ITResult,
+    @SerialName("macOs-latest-bs")
+    val macOsBSUrl: String,
+    @SerialName("ubuntu-latest")
+    val linuxResult: ITResult,
+    @SerialName("ubuntut-latest-bs")
+    val linuxBSUrl: String
+)
+
+internal val dummyITRunState = ITRunState(
+    windowsBSUrl = "",
+    windowsResult = ITResult.FAILURE,
+    macOsBSUrl = "",
+    macOsResult = ITResult.FAILURE,
+    linuxBSUrl = "",
+    linuxResult = ITResult.FAILURE,
+)
+
+internal fun String.toITRunState() = this.toObject<ITRunState>()

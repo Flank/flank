@@ -4,10 +4,11 @@ import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
 import flank.scripts.FuelTestRunner
 import flank.scripts.cli.integrationtests.ProcessResultCommand
-import flank.scripts.ops.integrationtests.common.ITResults
-import flank.scripts.ops.integrationtests.common.IntegrationContext
+import flank.scripts.ops.integrationtests.common.ITResult
+import flank.scripts.ops.integrationtests.common.IntegrationResultContext
 import flank.scripts.ops.integrationtests.common.closeIssue
 import flank.scripts.ops.integrationtests.common.createNewIssue
+import flank.scripts.ops.integrationtests.common.dummyITRunState
 import flank.scripts.ops.integrationtests.common.postComment
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
@@ -21,11 +22,11 @@ class ProcessResultTest {
     @get:Rule
     val output: SystemOutRule = SystemOutRule().enableLog()
 
-    private val ctx: IntegrationContext
-        get() = IntegrationContext(
-            result = ITResults.FAILURE,
+    private val ctx: IntegrationResultContext
+        get() = IntegrationResultContext(
+            result = ITResult.FAILURE,
             token = "success",
-            url = "http://any.url",
+            runState = dummyITRunState,
             runID = "123abc",
             lastRun = "2000-10-10T12:33:17Z",
             openedIssue = null
@@ -52,7 +53,7 @@ class ProcessResultTest {
     @Test
     fun `should close issue`() {
         runBlocking {
-            ctx.copy(openedIssue = 123, result = ITResults.SUCCESS).closeIssue()
+            ctx.copy(openedIssue = 123, result = ITResult.SUCCESS).closeIssue()
 
             assertThat(output.log.trim().normalizeLineEnding()).contains(issueClosed)
         }

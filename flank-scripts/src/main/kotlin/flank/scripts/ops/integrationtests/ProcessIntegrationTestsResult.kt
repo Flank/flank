@@ -6,45 +6,47 @@ import flank.common.config.fullSuiteWorkflowFilename
 import flank.common.config.integrationOpenedIssueUser
 import flank.scripts.data.github.commons.getLastWorkflowRunDate
 import flank.scripts.data.github.getGitHubIssueList
-import flank.scripts.ops.integrationtests.common.ITResults
-import flank.scripts.ops.integrationtests.common.IntegrationContext
+import flank.scripts.ops.integrationtests.common.ITResult
+import flank.scripts.ops.integrationtests.common.ITRunState
+import flank.scripts.ops.integrationtests.common.IntegrationResultContext
 import flank.scripts.ops.integrationtests.common.closeIssue
 import flank.scripts.ops.integrationtests.common.createNewIssue
 import flank.scripts.ops.integrationtests.common.postComment
+import flank.scripts.ops.integrationtests.common.toITRunState
 import kotlinx.coroutines.runBlocking
 
 fun processIntegrationTestsResult(
-    result: ITResults,
+    result: ITResult,
     githubToken: String,
-    url: String,
+    runState: String,
     runID: String
 ) {
-    logArgs(result, url, runID)
-    createContext(result, githubToken, url, runID).processIntegrationTestsResult()
+    logArgs(result, runState, runID)
+    createContext(result, githubToken, runState.toITRunState(), runID).processIntegrationTestsResult()
 }
 
 private fun logArgs(
-    result: ITResults,
+    result: ITResult,
     url: String,
     runID: String
 ) = println(
     """
     ** Parameters:
-         result: $result
-         url:    $url
+         global Run Result: $result
+         run State: $url
          runID:  $runID
     """.trimIndent()
 )
 
 private fun createContext(
-    result: ITResults,
+    result: ITResult,
     githubToken: String,
-    url: String,
+    itRunState: ITRunState,
     runID: String
-) = IntegrationContext(
+) = IntegrationResultContext(
     result = result,
     token = githubToken,
-    url = url,
+    runState = itRunState,
     runID = runID,
     lastRun = runBlocking { getLastITWorkflowRunDate(githubToken) },
     openedIssue = runBlocking { checkForOpenedITIssues(githubToken) }
@@ -55,12 +57,12 @@ internal suspend fun getLastITWorkflowRunDate(token: String) = getLastWorkflowRu
     workflowFileName = fullSuiteWorkflowFilename
 )
 
-private fun IntegrationContext.processIntegrationTestsResult() = runBlocking {
+private fun IntegrationResultContext.processIntegrationTestsResult() = runBlocking {
     with(this) {
         when {
-            result == ITResults.FAILURE && openedIssue == null -> createNewIssue()
-            result == ITResults.FAILURE && openedIssue != null -> postComment()
-            result == ITResults.SUCCESS && openedIssue != null -> closeIssue()
+            result == ITResult.FAILURE && openedIssue == null -> createNewIssue()
+            result == ITResult.FAILURE && openedIssue != null -> postComment()
+            result == ITResult.SUCCESS && openedIssue != null -> closeIssue()
             else -> return@with
         }
     }
