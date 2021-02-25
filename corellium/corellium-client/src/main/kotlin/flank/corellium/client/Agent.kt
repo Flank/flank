@@ -125,7 +125,7 @@ class Agent(
         val task = Job()
         tasks[id] = getCommonHandler(task)
         try {
-            withTimeout(20_000) {
+            withTimeout(10_000) {
                 task.join()
             }
         } catch (ex: TimeoutCancellationException) {

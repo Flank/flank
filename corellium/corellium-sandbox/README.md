@@ -1,25 +1,24 @@
-# **STILL IN PROGRESS**
-
-------
-------
-------
 # Corellium API sandbox
 
-## Run example script
-(from project root)
+## Example script
+Please check [SUMMARY](SUMMARY.md)
+Example script uses simple app/test-app in resources.
 
-1) place your iOS project in resource directory and provide required variables to configuration file:
+Before you launch, provide required variables to configuration file:
 
 * `username`
 * `password`
 * `api`
-* `udid`
-* `osbuild`
+* `udid` todo: can be hardcoded?
+* `osbuild` todo: to verify if actually needed
 
+Below are steps that works for me everytime
 1) connect with [VPN](#vpn)
 1) setup [USBFluxd](#usbfluxd-setup)
 1) build script with `./gradlew shadowJar`
 1) run `java -jar ./corellium/corellium-sandbox/build/libs/corellium-sandbox-all.jar`
+1) you will probably get an error saying that xcode is unable to find the device -- restart `USBFluxd`
+TBC...
 
 ## VPN
 
@@ -60,8 +59,8 @@ You will probably encounter some issues during configuration. Here are some link
 ## USBFluxd setup
 There are two options:
 #### macOS only
-1) Download `USBFluxd` dmg file
-   ![USBFluxd](./imgs/usb_download.png)
+1) Download `USBFlux` dmg file
+   ![USBFlux](./imgs/usb_download.png)
 2) install
 3) start and have fun
 

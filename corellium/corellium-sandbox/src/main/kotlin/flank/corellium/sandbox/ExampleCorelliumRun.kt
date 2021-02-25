@@ -36,7 +36,6 @@ fun main() = runBlocking {
                     name = instanceName,
                     flavor = Config.flavor,
                     os = Config.os,
-                    osbuild = Config.osbuild,
                     bootOptions = BootOptions(
                         udid = Config.udid
                     ),
@@ -65,6 +64,8 @@ fun main() = runBlocking {
     ProcessBuilder(
         "xcodebuild",
         "test-without-building",
+        "-allowProvisioningUpdates",
+        "-allowProvisioningDeviceRegistration",
         "-xctestrun",
         xctestrunPath,
         "-destination",

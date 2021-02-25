@@ -1,14 +1,12 @@
 ## About
 
-Only for POC integration purposes. It's based
-on [corellium-api](https://github.com/corellium/corellium-api). It has only essential features implemented to be able to
-run simple iOS test run similar
+Only for POC integration purposes. It's based on [corellium-api](https://github.com/corellium/corellium-api). It has
+only essential features implemented to be able to run simple iOS test run similar
 to [example](https://github.com/corellium/corellium-api/blob/master/examples/agent-simple.js)
 
-
 ## **IT IS DEFINITELY NOT PRODUCTION READY!**
-There are lots of features missing (compared to nodeJS corellium [client](https://github.com/corellium/corellium-api)).
 
+There are lots of features missing (compared to nodeJS corellium [client](https://github.com/corellium/corellium-api)).
 
 ## Installing
 
@@ -38,11 +36,11 @@ Creates new corellium client instance. Options:
 
 ```kotlin
 val client = Corellium(
-  api = String,
-  username = String,
-  password = String,
-  tokenFallback = String,
-  logging = LoggingLevel
+    api = String,
+    username = String,
+    password = String,
+    tokenFallback = String,
+    logging = LoggingLevel
 )
 ```
 
@@ -98,12 +96,12 @@ Following options are required (all `Instance` fields are described [here](#data
 
 ```kotlin
 val newInstanceId: String = client.createNewInstance(
-  Instance(
-    project = "11111-aaaaa-bbbbb-33333",
-    name = "test-iphone",
-    flavor = "iphone7",
-    os = "13.0"
-  )
+    Instance(
+        project = "11111-aaaaa-bbbbb-33333",
+        name = "test-iphone",
+        flavor = "iphone7",
+        os = "13.0"
+    )
 )
 ```
 
@@ -157,9 +155,9 @@ Downloads VPN config file. Currently, filename is hardcoded:
 
 ```kotlin
 client.getVPNConfig(
-  projectId = "11111-aaaaa-bbbbb-33333",
-  type = VPN.TBLK,
-  id = "asdasd-adaag-324234-dfsdf" // optional, if not passed, UUID.randomUUID() is used to generate
+    projectId = "11111-aaaaa-bbbbb-33333",
+    type = VPN.TBLK,
+    id = "asdasd-adaag-324234-dfsdf" // optional, if not passed, UUID.randomUUID() is used to generate
 )
 ```
 
@@ -194,6 +192,14 @@ Closes agent's connection.
 agent.close()
 ```
 
+#### waitForAgentReady()
+
+Suspends coroutine until agent connection is established and ready to use
+
+```kotlin
+agent.waitForAgentReady()
+```
+
 ### data class Project
 
 ----
@@ -201,19 +207,19 @@ agent.close()
 
 ```kotlin
 data class Project(
-  val id: String,
-  val name: String,
-  val quotas: Quotas,
-  val quotasUsed: Quotas
+    val id: String,
+    val name: String,
+    val quotas: Quotas,
+    val quotasUsed: Quotas
 )
 
 data class Quotas(
-  val cores: Int,
-  val instances: Int,
-  val ram: Int,
-  val cpus: Int,
-  val gpus: Int? = null,
-  val instance: Int? = null
+    val cores: Int,
+    val instances: Int,
+    val ram: Int,
+    val cpus: Int,
+    val gpus: Int? = null,
+    val instance: Int? = null
 )
 ```
 
@@ -224,30 +230,30 @@ data class Quotas(
 
 ```kotlin
 data class Instance(
-  val id: String = "",
-  val name: String = "",
-  val key: String = "",
-  val flavor: String,
-  val type: String = "",
-  val project: String,
-  val state: String = "",
-  val bootOptions: BootOptions = BootOptions(),
-  val patches: List<String> = emptyList(),
-  val os: String = "",
-  val osbuild: String = "",
-  val agent: InstanceAgent? = InstanceAgent()
+    val id: String = "",
+    val name: String = "",
+    val key: String = "",
+    val flavor: String,
+    val type: String = "",
+    val project: String,
+    val state: String = "",
+    val bootOptions: BootOptions = BootOptions(),
+    val patches: List<String> = emptyList(),
+    val os: String = "",
+    val osbuild: String = "",
+    val agent: InstanceAgent? = InstanceAgent()
 )
 
 data class BootOptions(
-  val bootArgs: String = "",
-  val restoreBootArgs: String = "",
-  val udid: String = "",
-  val ecid: String = ""
+    val bootArgs: String = "",
+    val restoreBootArgs: String = "",
+    val udid: String = "",
+    val ecid: String = ""
 )
 
 data class InstanceAgent(
-  val hash: String = "",
-  val info: String = ""
+    val hash: String = "",
+    val info: String = ""
 )
 ```
 
@@ -269,11 +275,13 @@ enum [LogLevel](https://api.ktor.io/1.5.1/io.ktor.client.features.logging/-log-l
 
 ```kotlin
 enum class VPN {
-  OVPN, TBLK
+    OVPN, TBLK
 }
 ```
 
 ## Additional Info
-* Corellium API is flaky (for now) -- there might be `5xx`s randomly being thrown
-* There are lots of more features available by API, the current implementation has essential features to run iOS test on Corellium device, from Flank's perspective
+
+* There are lots of more features available by API, the current implementation has essential features to run iOS test on
+  Corellium device, from Flank's perspective
 * All `Corellium` client requests have a retry mechanism implemented. Sometimes it's not enough though
+* Creating new instance usually requires USBFlux restart
