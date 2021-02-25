@@ -60,7 +60,7 @@ AndroidArgs
       output-style: verbose
       disable-results-upload: true
       default-class-test-time: 240.0
-      disable-usage-statistics: false
+      disable-usage-statistics: true
       output-report: none
 
 RunTests
