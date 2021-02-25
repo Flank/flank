@@ -213,119 +213,128 @@
 
 1. ValidateAndroidArgs.kt
     - L: 18 ```AndroidArgs.validate()```
-
-1. ValidateAndroidArgs.kt
-    - L: 20 ```assertDevicesSupported()```
-        - L:95 ```AndroidArgs.assertDevicesSupported()```
-        - L:97 ```AndroidCatalog.supportedDeviceConfig()```
-        - L:104 ```AndroidCatalog.androidModelIds()```
-        - L:109 ```AndroidCatalog.androidVersionIds()```
-        - L:112 ```device.getSupportedVersionId()```
-
-1. ValidateAndroidArgs.kt
+    - L: 20 ```AndroidArgs.assertDevicesSupported()```
+        - L: 97 ```AndroidCatalog.supportedDeviceConfig()```
+        - L: 104 ```AndroidCatalog.androidModelIds()```
+        - L: 109 ```AndroidCatalog.androidVersionIds()```
+        - L: 112 ```device.getSupportedVersionId()```
     - L: 32 ```IArgs.checkResultsDirUnique()```
-    
-1. ValidateCommonArgs.kt
-    - L: 74 ```IArgs.checkResultsDirUnique()```
-    - L: 75 ```GcStorage.exist(resultsBucket, resultsDir)```
-    
+    - ValidateCommonArgs.kt
+        - L: 75 ```GcStorage.exist(resultsBucket, resultsDir)```
+
 1. AndroidRunCommand.kt
     - L: 79 ```newTestRun()```
 
 1. NewTestRun.kt
     - L: 27 ```runTests()```
+    - L: 46 ```runAndroidTests()```
 
-1. RunAndroidTest.kt
+1. RunAndroidTests.kt
     - L: 46 ```uploadOtherFiles()```
-        - UploadOtherFiles.kt
-            - L: 14 ```GcStorage.upload()```
+    - UploadOtherFiles.kt
+        - L: 14 ```GcStorage.upload()```
+
     - L: 47 ```uploadAdditionalApks()```
-        - UploadApks.kt
-            - L: 50 ```uploadAdditionalApks()```
-            - L: 56 ```uploadToGcloudIfNeeded()```
-            - FileReference.kt
-                - L: 37 ```FileReference.uploadIfNeeded()```
-                - L: 42 ```GcStorage.upload()```
+    - UploadApks.kt
+        - L: 50 ```uploadAdditionalApks()```
+        - L: 56 ```uploadToGcloudIfNeeded()```
+        - FileReference.kt
+            - L: 37 ```FileReference.uploadIfNeeded()```
+            - L: 42 ```GcStorage.upload()```
 
     - L: 48 ```uploadObbFiles()```
-        - UploadOtherFiles.kt
-            - L: 18 ```uploadObbFiles()```
-            - L: 20  ```GcStorage.upload()```
-       
+    - UploadOtherFiles.kt
+        - L: 18 ```uploadObbFiles()```
+        - L: 20  ```GcStorage.upload()```
+
     - L: 49 ```createAndroidTestContexts()```
-        - CreateAndroidTestContext.kt
-            - L: 30 ```setupShards()```
-            - L: 41 ```testContext.downloadApks()```
-            - L: 50 ```app = app.downloadIfNeeded()```
-            - L: 51 ```test = test.downloadIfNeeded()```
-                - FileReference.kt
-                    - L: 29 ```GcStorage.download()```
-                    - GcStorage.kt
-                        - L: 179 ```download()```
-       
+    - CreateAndroidTestContext.kt
+        - L: 30 ```setupShards()```
+        - L: 41 ```testContext.downloadApks()```
+        - L: 50 ```app = app.downloadIfNeeded()```
+        - L: 51 ```test = test.downloadIfNeeded()```
+        - FileReference.kt
+            - L: 29 ```GcStorage.download()```
+            - GcStorage.kt
+                - L: 179 ```download()```
+
     - L: 51 ```upload()```
-        - UploadApks.kt
-            - L: 23 ```context.upload()```
-            - L: 26 ```AndroidTestContext.upload()```
-            - L: 27 ```is InstrumentationTestContext -> upload()```
-                - L: 33 ```InstrumentationTestContext.upload()```
-                - L: 34 ```app.uploadIfNeeded()```
-                - L: 35 ```test.uploadIfNeeded()```
-                    - FileReference.kt
-                        - L: 37 ```FileReference.uploadIfNeeded()```
-                        - L: 42 ```GcStorage.upload```
-                        - GcStorage.kt
-                            - L: 60 ```upload()```
-              
-            - L: 28 ```is RoboTestContext -> upload()```
-                - L: 38 ```RoboTestContext.upload()```
-                - L: 39 ```app.uploadIfNeeded()```
-                - L: 40 ```roboScript.uploadIfNeeded()```
-                    - FileReference.kt
-                        - L: 37 ```FileReference.uploadIfNeeded()```
-                        - L: 42 ```GcStorage.upload```
-                        - GcStorage.kt
-                            - L: 60 ```upload()```
-              
-            - L: 29 ```is SanityRoboTestContext -> upload()```
-                - L: 47 ```SanityRoboTestContext.upload()```
-                    - L: 48 ```app.uploadIfNeeded()```
-                        - FileReference.kt
-                            - L: 37 ```FileReference.uploadIfNeeded()```
-                            - L: 42 ```GcStorage.upload```
-                            - GcStorage.kt
-                                - L: 60 ```upload()```
-              
-            - L: 30 ```is GameLoopContext -> upload()```
-                - L: 43 ```GameLoopContext.upload()```
-                    - L: 44 ```app.uploadIfNeeded()```
-                        - FileReference.kt
-                            - L: 37 ```FileReference.uploadIfNeeded()```
-                            - L: 42 ```GcStorage.upload```
-                            - GcStorage.kt
-                                - L: 60 ```upload()```
-            
-        - L: 59 ```GcAndroidTestMatrix.build()```
-            - GcAndroidTestMatrix.kt
-                - L: 30 ```build()```
-                - L: 89 ```GcTesting.get.projects().testMatrices().create()```
+    - UploadApks.kt
+        - L: 23 ```context.upload()```
+        - L: 26 ```AndroidTestContext.upload()```
+        - L: 27 ```is InstrumentationTestContext -> upload()```
+        - L: 33 ```InstrumentationTestContext.upload()```
+        - L: 34 ```app.uploadIfNeeded()```
+        - L: 35 ```test.uploadIfNeeded()```
+        - FileReference.kt
+            - L: 37 ```FileReference.uploadIfNeeded()```
+            - L: 42 ```GcStorage.upload```
+            - GcStorage.kt
+                - L: 60 ```upload()```
+
+    - L: 28 ```is RoboTestContext -> upload()```
+    - L: 38 ```RoboTestContext.upload()```
+    - L: 39 ```app.uploadIfNeeded()```
+    - L: 40 ```roboScript.uploadIfNeeded()```
+    - FileReference.kt
+        - L: 37 ```FileReference.uploadIfNeeded()```
+        - L: 42 ```GcStorage.upload```
+        - GcStorage.kt
+            - L: 60 ```upload()```
+
+    - L: 29 ```is SanityRoboTestContext -> upload()```
+    - L: 47 ```SanityRoboTestContext.upload()```
+    - L: 48 ```app.uploadIfNeeded()```
+    - FileReference.kt
+        - L: 37 ```FileReference.uploadIfNeeded()```
+        - L: 42 ```GcStorage.upload```
+        - GcStorage.kt
+            - L: 60 ```upload()```
+
+    - L: 30 ```is GameLoopContext -> upload()```
+    - L: 43 ```GameLoopContext.upload()```
+    - L: 44 ```app.uploadIfNeeded()```
+    - FileReference.kt
+        - L: 37 ```FileReference.uploadIfNeeded()```
+        - L: 42 ```GcStorage.upload```
+        - GcStorage.kt
+            - L: 60 ```upload()```
+
+    - L: 59 ```GcAndroidTestMatrix.build()```
+    - GcAndroidTestMatrix.kt
+        - L: 30 ```build()```
+        - L: 89 ```GcTesting.get.projects().testMatrices().create()```
 
 1. NewTestRun.kt
     - L: 35 ```ReportManager.generate()```
     - ReportManager.kt
         - L: 97 ```parseTestSuite()```
+        - L: 103 ```it.run()```
+        - MatrixResultsReport.kt
+            - L: 80 ```GcStorage.uploadReportResult()```
+            - GcStorage.kt
+                - L: 115 ```upload()```
+        - CostReport.kt
+            - L: 43 ```GcStorage.uploadReportResult()```
+            - GcStorage.kt
+                - L: 115 ```upload()```
+        - L: 108 ```it.run()```
+        - HtmlErrorReport.kt
+            - L: 35 ```GcStorage.uploadReportResult()```
+            - GcStorage.kt
+                - L: 115 ```upload()```
         - L: 87 ```refreshMatricesAndGetExecutions()```
         - ProcessFromApi.kt
             - L: 13 ```refreshMatricesAndGetExecutions()```
             - L: 18 ```refreshTestMatrices()```
             - L: 24 ```cTestMatrix.refresh()```
-          
+
         - L: 121 ```refreshMatricesAndGetExecutions()```
         - ProcessFromApi.kt
             - L: 13 ```refreshMatricesAndGetExecutions()```
             - L: 18 ```refreshTestMatrices()```
             - L: 24 ```cTestMatrix.refresh()```
-          
+
         - L: 123 ```createAndUploadPerformanceMetricsForAndroid()```
         - L: 148 ```getAndUploadPerformanceMetrics()```
         - PerformanceMetrics.kt
@@ -334,7 +343,105 @@
             - L: 45 ```GcToolResults.getPerformanceMetric()```
             - L: 25 ```performanceMetrics.upload()```
             - L: 47 ```GcStorage.uploadPerformanceMetrics()```
-          
+
+        - L: 124 ```GcStorage.uploadMatricesId()```
+        - GcStorage.kt
+            - L: 96 ```uploadMatricesId()```
+            - L: 60 ```upload()```
+
+## iOS Run use case
+
+1. IosRunCommand.kt
+    - L: 76 ```validate()```
+
+1. ValidateIosArgs.kt
+    - L: 14 ```IosArgs.validate()```
+    - L: 16 ```assertXcodeSupported()```
+    - L: 79 ```IosCatalog.supportedXcode()```
+    - IosCatalog.kt
+        - L: 44 ```xcodeVersions()```
+        - L: 47 ```iosDeviceCatalog()```
+        - L: 63: ```GcTesting...iosDeviceCatalog()```
+
+    - L: 17 ```assertDevicesSupported(()```
+    - L: 84 ```IosCatalog.supportedDevice()```
+    - IosCatalog.kt
+        - L: 53 ```iosDeviceCatalog()```
+        - L: 63 ```GcTesting...iosDeviceCatalog()```
+    - L: 21 ```checkResultsDirUnique()```
+    - ValidateCommonArgs.kt
+        - L: 75 ```GcStorage.exist()```
+
+1. IosRunCommand.kt
+    - L: 78 ```newTestRun()```
+
+1. NewTestRun.kt
+    - L: 27 ```runTests()```
+    - L: 47 ```runIosTests()```
+
+1. RunIosTests.kt
+    - L: 41 ```uploadOtherFiles()```
+    - UploadOtherFiles.kt
+        - L: 14 ```GcStorage.upload()```
+    - L: 42 ```uploadAdditionalIpas()```
+    - UploadApks.kt
+        - L: 54 ```uploadToGcloudIfNeeded()```
+        - L: 61 ```uploadIfNeeded()```
+        - FileReference.kt
+            - L: 42 ```GcStorage.upload()```
+    - L: 49 ```createIosTestContexts()```
+    - CreateIosTestContext.kt
+        - L: 9 ```createXcTestContexts()```
+        - CreateXcTestContext.kt
+            - L: 17 ```uploadIfNeeded()```
+            - FileReference.kt
+                - L: 32 ```uploadIfNeeded()```
+                - L: 42: ```GcStorage.upload()```
+            - L: 28 ```GcStorage.uploadXCTestFile()```
+            - GcStorage.kt
+                - L: 124 ```upload()```
+            - L: 10 ```createGameloopTestContexts()```
+            - CreateGameloopTestContext.kt
+                - L: 15 ```uploadIfNeeded()```
+                - FileReference.kt
+                    - L: 32 ```uploadIfNeeded()```
+                    - L: 42 ```GcStorage.upload()```
+    - L: 50 ```GcIosTestMatrix.build()```
+    - GcIosTestMatrix.kt
+        - L: 66 ```GcTesting...create()```
+
+1. NewTestRun.kt
+    - L: 35 ```ReportManager.generate()```
+    - ReportManager.kt
+        - L: 103 ```it.run()```
+        - MatrixResultsReport.kt
+            - L: 80 ```GcStorage.uploadReportResult()```
+            - GcStorage.kt
+                - L: 115 ```upload()```
+        - CostReport.kt
+            - L: 43 ```GcStorage.uploadReportResult()```
+            - GcStorage.kt
+                - L: 115 ```upload()```
+        - L: 108 ```it.run()```
+        - HtmlErrorReport.kt
+            - L: 35 ```GcStorage.uploadReportResult()```
+            - GcStorage.kt
+                - L: 115 ```upload()```
+        - L: 121 ```refreshMatricesAndGetExecutions()```
+        - ProcessFromApi.kt
+            - L: 13 ```refreshMatricesAndGetExecutions()```
+            - L: 18 ```refreshTestMatrices()```
+            - L: 24 ```cTestMatrix.refresh()```
+
+        - L: 123 ```createAndUploadPerformanceMetricsForAndroid()```
+        - L: 148 ```getAndUploadPerformanceMetrics()```
+        - PerformanceMetrics.kt
+            - L: 16 ```getAndUploadPerformanceMetrics()```
+            - L: 27 ```getPerformanceMetric()```
+            - L: 45 ```GcToolResults.getPerformanceMetric()```
+            - L: 25 ```performanceMetrics.upload()```
+            - L: 47 ```GcStorage.uploadPerformanceMetrics()```
+
         - L: 124 ```GcStorage.uploadMatricesId()```
         - GcStorage.kt
             - L: 96 ```uploadMatricesId()```
