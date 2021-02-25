@@ -13,8 +13,6 @@ import io.ktor.client.engine.cio.CIO
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.features.logging.Logging
-import io.ktor.client.features.websocket.WebSockets
-import io.ktor.client.features.websocket.webSocketSession
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.header
@@ -22,15 +20,12 @@ import io.ktor.client.request.post
 import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
-import io.ktor.http.cio.websocket.Frame
-import io.ktor.http.cio.websocket.readText
 import io.ktor.http.contentType
 import io.ktor.util.cio.writeChannel
 import io.ktor.utils.io.copyAndClose
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import java.io.File
 import java.util.UUID
@@ -41,7 +36,7 @@ class Corellium(
     private val username: String,
     private val password: String,
     private val tokenFallback: String = "",
-    logging: LoggingLevel = LoggingLevel.None
+    private val logging: LoggingLevel = LoggingLevel.None
 ) {
     private val client = HttpClient(CIO) {
         install(JsonFeature) {
@@ -51,16 +46,6 @@ class Corellium(
                     encodeDefaults = false
                 }
             )
-        }
-        install(Logging) {
-            level = logging.level
-        }
-    }
-
-    private val wsClient = HttpClient {
-        install(WebSockets) {
-            pingInterval = 5000
-            maxFrameSize = Long.MAX_VALUE
         }
         install(Logging) {
             level = logging.level
@@ -151,34 +136,15 @@ class Corellium(
                 break
             }
             // it really takes loooong time
-            delay(10000)
+            delay(20_000)
         }
     }
 
-    suspend fun createAgent(agentInfo: String): Agent = withProgress(initialDelay = 25_000) {
-        Agent(
-            withRetry {
-                wsClient.webSocketSession {
-                    url("${urlBase.replace("https", "wss")}/agent/$agentInfo")
-                    header("Authorization", token)
-                }.apply {
-                    println("\nAgent connected")
-
-                    launch {
-                        // there should be handlers, will be implemented in production
-                        for (frame in incoming) {
-                            when (frame) {
-                                is Frame.Text -> println("got text: ${frame.readText()}")
-                                is Frame.Ping -> println("got ping")
-                                is Frame.Pong -> println("got pong")
-                                else -> println("got response")
-                            }
-                        }
-                    }
-                }
-            }
-        )
-    }
+    fun createAgent(agentInfo: String): Agent = Agent(
+        agentUrl = "${urlBase.replace("https", "wss")}/agent/$agentInfo",
+        logging = logging,
+        token = token
+    )
 
     suspend fun getVPNConfig(projectId: String, type: VPN, id: String = UUID.randomUUID().toString()) {
         val response: HttpResponse = withRetry {

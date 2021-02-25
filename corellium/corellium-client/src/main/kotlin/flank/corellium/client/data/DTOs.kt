@@ -1,6 +1,13 @@
 package flank.corellium.client.data
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+
+private val format = Json {
+    ignoreUnknownKeys = true
+    encodeDefaults = false
+}
 
 @Serializable
 data class Instance(
@@ -72,4 +79,19 @@ data class AgentOperation(
     val op: String,
     val id: Int,
     val path: String = ""
+)
+
+@Serializable
+data class CommandResult(
+    val id: Int,
+    val success: Boolean,
+    val error: CommandError? = null
+) {
+    override fun toString() = format.encodeToString(this)
+}
+
+@Serializable
+data class CommandError(
+    val name: String = "",
+    val message: String = "",
 )

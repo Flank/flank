@@ -51,7 +51,10 @@ fun main() = runBlocking {
     val instance = client.getInstanceInfo(instanceId)
 
     println("Creating agent")
-    val agent = client.createAgent(instance.agent?.info ?: error("Agent is not present"))
+    val agent = client.createAgent(instance.agent?.info ?: error("Agent info is not present"))
+    println("Await agent is connected and ready to use")
+    agent.waitForAgentReady()
+    println("Agent ready")
 
     println("Uploading plist file")
     agent.uploadFile(
