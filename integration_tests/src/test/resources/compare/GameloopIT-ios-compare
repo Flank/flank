@@ -50,7 +50,7 @@ IosArgs
       output-style: verbose
       disable-results-upload: false
       default-class-test-time: 240.0
-      disable-usage-statistics: false
+      disable-usage-statistics: true
       only-test-configuration:\s
       skip-test-configuration:\s
       output-report: none
