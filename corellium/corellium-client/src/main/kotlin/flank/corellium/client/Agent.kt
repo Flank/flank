@@ -54,7 +54,6 @@ class Agent(
         }.apply {
             ponger(outgoing)
 
-            println("\nAgent connected")
             launch {
                 for (frame in incoming) {
                     when (frame) {
@@ -69,7 +68,7 @@ class Agent(
     }
 
     private fun textFrameHandler(frame: Frame.Text) {
-        println("Received: ${frame.readText()}")
+        println("\nReceived: ${frame.readText()}")
         val result = format.decodeFromString<CommandResult>(frame.readText())
         tasks[result.id]?.let { it(result) }
     }
@@ -85,21 +84,23 @@ class Agent(
             )
         )
         tasks[id] = getCommonHandler(task)
-        task.join()
+        withTimeout(20_000) {
+            task.join()
+        }
     }
 
     suspend fun waitForAgentReady() = withProgress {
-        var ready: Boolean
+        var booting: Boolean
         do {
             delay(20_000)
-            ready = try {
+            booting = try {
                 connect()
                 isReady()
                 false
             } catch (ex: Exception) {
                 true
             }
-        } while (ready)
+        } while (booting)
     }
 
     suspend fun uploadFile(path: String, bytes: ByteArray) {
