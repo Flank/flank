@@ -87,21 +87,21 @@ private val issueCreated = """
      number: 123 
 ** Comment posted
 {
-    "body": "### Full suite IT run :x: FAILED :x:\n**Timestamp:** 2000-10-10 12:33:17\n**Job run:** [123abc](https://github.com/Flank/flank/actions/runs/123abc)\n**Windows status:**  FAILURE  - url:\n**Linux status:**    FAILURE  - url:\n**MacOs status:**    FAILURE  - url:\n|commit SHA|PR|\n|---|:---:|\n|aaaaaaaaa|[feat: new Feature](www.pull.request)\n"
+    "body": "### Full suite IT run :x: FAILED :x:\n**Timestamp:** 2000-10-10 12:33:17\n**Job run:** [123abc](https://github.com/Flank/flank/actions/runs/123abc)\n**Windows status:**  FAILURE  - url:N/A\n**Linux status:**    FAILURE  - url:N/A\n**MacOs status:**    FAILURE  - url:N/A\n|commit SHA|PR|\n|---|:---:|\n|aaaaaaaaa|[feat: new Feature](www.pull.request)\n"
 }
 """.trimIndent()
 
 private val commentPosted = """
 ** Comment posted
 {
-    "body": "### Full suite IT run :x: FAILED :x:\n**Timestamp:** 2000-10-10 12:33:17\n**Job run:** [123abc](https://github.com/Flank/flank/actions/runs/123abc)\n**Windows status:**  FAILURE  - url:\n**Linux status:**    FAILURE  - url:\n**MacOs status:**    FAILURE  - url:\n|commit SHA|PR|\n|---|:---:|\n|aaaaaaaaa|[feat: new Feature](www.pull.request)\n"
+    "body": "### Full suite IT run :x: FAILED :x:\n**Timestamp:** 2000-10-10 12:33:17\n**Job run:** [123abc](https://github.com/Flank/flank/actions/runs/123abc)\n**Windows status:**  FAILURE  - url:N/A\n**Linux status:**    FAILURE  - url:N/A\n**MacOs status:**    FAILURE  - url:N/A\n|commit SHA|PR|\n|---|:---:|\n|aaaaaaaaa|[feat: new Feature](www.pull.request)\n"
 }
 """.trimIndent()
 
 private val issueClosed = """
 ** Comment posted
 {
-    "body": "### Full suite IT run :white_check_mark: SUCCEEDED :white_check_mark:\n**Timestamp:** 2000-10-10 12:33:17\n**Job run:** [123abc](https://github.com/Flank/flank/actions/runs/123abc)\n**Windows url:** \n**Linux url:** \n**MacOs url:** \n**Closing issue**"
+    "body": "### Full suite IT run :white_check_mark: SUCCEEDED :white_check_mark:\n**Timestamp:** 2000-10-10 12:33:17\n**Job run:** [123abc](https://github.com/Flank/flank/actions/runs/123abc)\n**Windows url:** N/A\n**Linux url:** N/A\n**MacOs url:** N/A\n**Closing issue**"
 }
 ** Closing issue
 """.trimIndent()
@@ -118,6 +118,6 @@ private val missingUrl = """
 ** Issue found: www.pull.request
 ** Comment posted
 {
-    "body": "### Full suite IT run :x: FAILED :x:\n**Timestamp:** 2020-12-10 09:51:56\n**Job run:** [123](https://github.com/Flank/flank/actions/runs/123)\n**Windows status:**  FAILURE  - url:\n**Linux status:**    FAILURE  - url:\n**MacOs status:**    FAILURE  - url:\n|commit SHA|PR|\n|---|:---:|\n|aaaaaaaaa|[feat: new Feature](www.pull.request)\n"
+    "body": "### Full suite IT run :x: FAILED :x:\n**Timestamp:** 2020-12-10 09:51:56\n**Job run:** [123](https://github.com/Flank/flank/actions/runs/123)\n**Windows status:**  FAILURE  - url:N/A\n**Linux status:**    FAILURE  - url:N/A\n**MacOs status:**    FAILURE  - url:N/A\n|commit SHA|PR|\n|---|:---:|\n|aaaaaaaaa|[feat: new Feature](www.pull.request)\n"
 }
 """.trimIndent()
