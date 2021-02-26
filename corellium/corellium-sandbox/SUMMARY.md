@@ -170,4 +170,5 @@ Then use below configuration:
 ```properties
 plist_path=./corellium/corellium-sandbox/src/main/resources/com.apple.UIAutomation.plist
 xctestrun_path=./corellium/corellium-sandbox/src/main/resources/CompiledProject/SampleXCUITests_iphoneos14.4-arm64.xctestrun
+udid=[one that you used to compile, if you compiled the project with instance connected it will be instance udid ]
 ```
