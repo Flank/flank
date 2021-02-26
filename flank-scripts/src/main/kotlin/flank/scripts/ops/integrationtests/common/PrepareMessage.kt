@@ -35,9 +35,9 @@ private val successTemplate = { lastRun: String, runId: String, runState: ITRunS
     |### Full suite IT run :white_check_mark: SUCCEEDED :white_check_mark:
     |**Timestamp:** ${makeHumanFriendly(lastRun)}
     |**Job run:** [$runId](https://github.com/$flankRepository/actions/runs/$runId)
-    |**Windows url:** ${runState.windowsBSUrl}
-    |**Linux url:** ${runState.linuxBSUrl}
-    |**MacOs url:** ${runState.macOsBSUrl}
+    |**Windows url:** ${runState.windowsBSUrl.withDefault()}
+    |**Linux url:** ${runState.linuxBSUrl.withDefault()}
+    |**MacOs url:** ${runState.macOsBSUrl.withDefault()}
     |**Closing issue**
 """.trimMargin()
 }
@@ -52,10 +52,12 @@ private val failureTemplate = { lastRun: String, runId: String, runState: ITRunS
 }
 
 private fun ITRunState.failureResult() = """
-    |**Windows status:**  $windowsResult  - url:$windowsBSUrl
-    |**Linux status:**    $linuxResult  - url:$linuxBSUrl
-    |**MacOs status:**    $macOsResult  - url:$macOsBSUrl
+    |**Windows status:**  $windowsResult  - url:${windowsBSUrl.withDefault()}
+    |**Linux status:**    $linuxResult  - url:${linuxBSUrl.withDefault()}
+    |**MacOs status:**    $macOsResult  - url:${macOsBSUrl.withDefault()}
 """.trimIndent()
+
+private fun String.withDefault() = if (this.isBlank()) "N/A" else this
 
 private fun makeHumanFriendly(date: String) =
     LocalDateTime

@@ -8,7 +8,6 @@ import flank.scripts.ops.integrationtests.common.ITResult
 import flank.scripts.ops.integrationtests.common.IntegrationResultContext
 import flank.scripts.ops.integrationtests.common.closeIssue
 import flank.scripts.ops.integrationtests.common.createNewIssue
-import flank.scripts.ops.integrationtests.common.dummyITRunState
 import flank.scripts.ops.integrationtests.common.postComment
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
