@@ -321,7 +321,7 @@ From the CLI command point of view. The most nested points refer API calls.
     * Validation
         * Checking if bucket exist (common args validation)
         * Getting android device catalog for check supported devices
-    * Running tests
+    * Running android tests
         * Preparing data
         * Uploading files
         * Creating android test contexts
@@ -331,10 +331,10 @@ From the CLI command point of view. The most nested points refer API calls.
         * Uploading
             * Uploading apks if needed & depending on test context
         * Building and running android test matrix
-    * After run test
-        * Upload session ID
+        * After run test
+            * Uploading session ID
             * Printing matrices web links
-                * get or update web for each matrix
+                * getOrUpdateWebLink
                     * Getting test matrices
     * Pooling matrices
         * Getting test matrices
@@ -361,8 +361,18 @@ From the CLI command point of view. The most nested points refer API calls.
     * validation
         * Checking if bucket exist (common args validation)
         * Getting ios device catalog for check supported devices
-
-    * After run test (from this point the path is same as for android)
+    * Running ios tests
+        * Preparing data
+        * Uploading files
+        * Dump shards if needed
+            * Uploading dumped shards if needed
+        * Creating ios test contexts
+            * Creating xctest context
+                * Uploading xctest files
+            * Creating gameloop test context
+                * Uploading app file
+        * Building and running android test matrix
+        * After run test (from this point the path is same as for android)
 
 where
 
