@@ -1,5 +1,5 @@
 package flank.scripts.ops.integrationtests.common
 
-enum class ITResults {
+enum class ITResult {
     SUCCESS, FAILURE
 }
