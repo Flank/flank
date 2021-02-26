@@ -115,17 +115,17 @@ data class IntegrationResultContext(
 @Serializable
 data class ITRunState(
     @SerialName("windows-latest")
-    val windowsResult: ITResult,
+    val windowsResult: ITResult = ITResult.FAILURE,
     @SerialName("windows-latest-bs")
-    val windowsBSUrl: String,
+    val windowsBSUrl: String = "",
     @SerialName("macOs-latest")
-    val macOsResult: ITResult,
+    val macOsResult: ITResult = ITResult.FAILURE,
     @SerialName("macOs-latest-bs")
-    val macOsBSUrl: String,
+    val macOsBSUrl: String = "",
     @SerialName("ubuntu-latest")
-    val linuxResult: ITResult,
+    val linuxResult: ITResult = ITResult.FAILURE,
     @SerialName("ubuntut-latest-bs")
-    val linuxBSUrl: String
+    val linuxBSUrl: String = ""
 )
 
 internal val dummyITRunState = ITRunState(

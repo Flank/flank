@@ -64,8 +64,8 @@ class ProcessResultTest {
         ProcessResultCommand.main(
             listOf(
                 "--github-token=success",
-                "--url=",
-                "--result=failure",
+                "--rr={}",
+                "--global-result=failure",
                 "--run-id=123"
             )
         )
@@ -74,51 +74,51 @@ class ProcessResultTest {
 }
 
 private val issueCreated = """
-    ** Creating new issue
-    {
-        "title": "Full Suite integration tests failed on master",
-        "body": "### Integration Test failed on master",
-        "labels": [
-            "IT_Failed",
-            "bug"
-        ]
-    }
-    ** Issue created:
-         url:    https://bla.org
-         number: 123 
-    ** Comment posted
-    {
-        "body": "### Full suite IT run :x: FAILED :x:\n**Timestamp:** 2000-10-10 12:33:17\n**Job run:** [123abc](https://github.com/Flank/flank/actions/runs/123abc)\n**Build scan URL:** http://any.url\n|commit SHA|PR|\n|---|:---:|\n|aaaaaaaaa|[feat: new Feature](www.pull.request)\n"
-    }
+** Creating new issue
+{
+    "title": "Full Suite integration tests failed on master",
+    "body": "### Integration Test failed on master",
+    "labels": [
+        "IT_Failed",
+        "bug"
+    ]
+}
+** Issue created:
+     url:    https://bla.org
+     number: 123 
+** Comment posted
+{
+    "body": "### Full suite IT run :x: FAILED :x:\n**Timestamp:** 2000-10-10 12:33:17\n**Job run:** [123abc](https://github.com/Flank/flank/actions/runs/123abc)\n**Windows status:**  FAILURE  - url:\n**Linux status:**    FAILURE  - url:\n**MacOs status:**    FAILURE  - url:\n|commit SHA|PR|\n|---|:---:|\n|aaaaaaaaa|[feat: new Feature](www.pull.request)\n"
+}
 """.trimIndent()
 
 private val commentPosted = """
-    ** Comment posted
-    {
-        "body": "### Full suite IT run :x: FAILED :x:\n**Timestamp:** 2000-10-10 12:33:17\n**Job run:** [123abc](https://github.com/Flank/flank/actions/runs/123abc)\n**Build scan URL:** http://any.url\n|commit SHA|PR|\n|---|:---:|\n|aaaaaaaaa|[feat: new Feature](www.pull.request)\n"
-    }
+** Comment posted
+{
+    "body": "### Full suite IT run :x: FAILED :x:\n**Timestamp:** 2000-10-10 12:33:17\n**Job run:** [123abc](https://github.com/Flank/flank/actions/runs/123abc)\n**Windows status:**  FAILURE  - url:\n**Linux status:**    FAILURE  - url:\n**MacOs status:**    FAILURE  - url:\n|commit SHA|PR|\n|---|:---:|\n|aaaaaaaaa|[feat: new Feature](www.pull.request)\n"
+}
 """.trimIndent()
 
 private val issueClosed = """
-    ** Comment posted
-    {
-        "body": "### Full suite IT run :white_check_mark: SUCCEEDED :white_check_mark:\n**Timestamp:** 2000-10-10 12:33:17\n**Job run:** [123abc](https://github.com/Flank/flank/actions/runs/123abc)\n**Build scan URL:** http://any.url\n**Closing issue**"
-    }
-    ** Closing issue
+** Comment posted
+{
+    "body": "### Full suite IT run :white_check_mark: SUCCEEDED :white_check_mark:\n**Timestamp:** 2000-10-10 12:33:17\n**Job run:** [123abc](https://github.com/Flank/flank/actions/runs/123abc)\n**Windows url:** \n**Linux url:** \n**MacOs url:** \n**Closing issue**"
+}
+** Closing issue
 """.trimIndent()
 
 private val missingUrl = """
-    ** Parameters:
-         result: FAILURE
-         url:    No build scan URL provided
-         runID:  123
-    ** Last workflow run:
-         name: any-name
-         last run: 2020-12-10T09:51:56.797534Z
-         url: http://workflow.run/123
-    ** Issue found: www.pull.request
-    ** Comment posted
-    {
-        "body": "### Full suite IT run :x: FAILED :x:\n**Timestamp:** 2020-12-10 09:51:56\n**Job run:** [123](https://github.com/Flank/flank/actions/runs/123)\n**Build scan URL:** No build scan URL provided\n|commit SHA|PR|\n|---|:---:|\n|aaaaaaaaa|[feat: new Feature](www.pull.request)\n"
-    }
+** Parameters:
+     global Run Result: FAILURE
+     run State: {}
+     runID:  123
+** Last workflow run:
+     name: any-name
+     last run: 2020-12-10T09:51:56.797534Z
+     url: http://workflow.run/123
+** Issue found: www.pull.request
+** Comment posted
+{
+    "body": "### Full suite IT run :x: FAILED :x:\n**Timestamp:** 2020-12-10 09:51:56\n**Job run:** [123](https://github.com/Flank/flank/actions/runs/123)\n**Windows status:**  FAILURE  - url:\n**Linux status:**    FAILURE  - url:\n**MacOs status:**    FAILURE  - url:\n|commit SHA|PR|\n|---|:---:|\n|aaaaaaaaa|[feat: new Feature](www.pull.request)\n"
+}
 """.trimIndent()
