@@ -4,25 +4,22 @@ This document contains investigation of flank architecture, layers and package s
 
 ## Motivation
 
-Currently, the flank code is not well documented, 
-and the only source of true is the implementation. 
-The code base has grown over the last year, 
-and it's almost impossible to keep in mind whole project.
-So to make further work more doable,
-it's necessary to identify hidden constraints in code,
-expose them in documentation and do refactor.
+Currently, the flank code is not well documented, and the only source of true is the implementation. The code base has
+grown over the last year, now it's almost impossible to keep in mind whole project. So to make further work more doable
+and convenient, it's necessary to identify hidden constraints in code, expose them in documentation and do refactor.
 This document is and entity point for further improvements.
 
 ## Layers
 
 ### Presentation
 
-### Issues
+#### Issues
+
 1. `ftl.Main` command shouldn't be bound with `main` function with constructor
 1. Some commands that can run domain code are doing too much.
 1. Some of composing commands seem to be in wrong package.
 
-### CLI commands
+#### CLI commands
 
 Flank commands tree.
 
@@ -90,7 +87,9 @@ ftl/cli/
         └── providedsoftware
             └── ProvidedSoftwareListCommand.kt ?
 ```
+
 command that:
+
 * `?` is running domain code
 * `/` routes to subcommands
 * `!` is doing too much in run function
@@ -227,99 +226,144 @@ Based on [google_api_usecases](../gcloud/google_api_usecases.md)
     * TestMatrixExtension.kt $
 
 where
+
 * `$` - only operates on API structures, not call methods directly
 
 #### Google API use cases
 
+From the CLI command point of view. The most nested points refer API calls.
+
 * `auth/LoginCommand.kt`
-   * Authorizing google account using OAuth2 for getting credentials.
-  
+    * Authorizing google account using OAuth2 for getting credentials.
+
 * `firebase/CancelCommand.kt`
-   * Sending cancel request using projectId and testMatrixId
+    * Sending cancel request using projectId and testMatrixId
 
 * `firebase/RefreshCommand.kt` ?
-   * Getting current test matrices' status for updating matrix file if needed
-   * Polling the matrices' status for live logging until all matrices are not finished.
-   * Downloading test artifacts from bucket
-   
+    * Getting current test matrices' status for updating matrix file if needed
+    * Polling the matrices' status for live logging until all matrices are not finished.
+    * Downloading test artifacts from bucket
+
 * `firebase/test/providedsoftware/ProvidedSoftwareListCommand.kt`
-   * Getting softwareCatalog from testEnvironmentCatalog
+    * Getting softwareCatalog from testEnvironmentCatalog
 
 * `firebase/test/ipblocks/IPBlocksListCommand.kt`
-   * Getting orchestratorVersion from testEnvironmentCatalog
-   
+    * Getting orchestratorVersion from testEnvironmentCatalog
+
 * `firebase/test/networkprofiles/NetworkProfilesDescribeCommand.kt`
-   * Getting configurations from testEnvironmentCatalog through networkConfigurationCatalog
-   
+    * Getting configurations from testEnvironmentCatalog through networkConfigurationCatalog
+
 * `firebase/test/networkprofiles/NetworkProfilesListCommand.kt`
-   * Getting configurations from testEnvironmentCatalog through networkConfigurationCatalog
+    * Getting configurations from testEnvironmentCatalog through networkConfigurationCatalog
 
 * `firebase/test/android/configuration/AndroidLocalesDescribeCommand.kt`
-   * Getting android device catalog for obtain locales
+    * Getting android device catalog for obtain locales
 
 * `firebase/test/android/configuration/AndroidLocalesListCommand.kt`
-   * Getting android device catalog for obtain locales
+    * Getting android device catalog for obtain locales
 
 * `firebase/test/android/models/AndroidModelDescribeCommand.kt`
-   * Getting android device catalog for obtain models
+    * Getting android device catalog for obtain models
 
 * `firebase/test/android/models/AndroidModelsListCommand.kt`
-   * Getting android device catalog for obtain models
+    * Getting android device catalog for obtain models
 
 * `firebase/test/android/orientations/AndroidOrientationsListCommand.kt`
-   * Getting android device catalog for obtain orientations
+    * Getting android device catalog for obtain orientations
 
 * `firebase/test/android/versions/AndroidVersionsDescribeCommand.kt`
-   * Getting android device catalog for obtain versions
+    * Getting android device catalog for obtain versions
 
 * `firebase/test/android/versions/AndroidVersionsListCommand.kt`
-   * Getting android device catalog for obtain versions  
+    * Getting android device catalog for obtain versions
 
 * `firebase/test/android/AndroidTestEnvironmentCommand.kt`
-   * `AndroidModelsListCommand`
-   * `AndroidVersionsListCommand`
-   * `AndroidLocalesListCommand`
-   * `ProvidedSoftwareListCommand`
-   * `NetworkProfilesListCommand`
-   * `AndroidOrientationsListCommand`
-   * `IPBlocksListCommand`
+    * `AndroidModelsListCommand`
+    * `AndroidVersionsListCommand`
+    * `AndroidLocalesListCommand`
+    * `ProvidedSoftwareListCommand`
+    * `NetworkProfilesListCommand`
+    * `AndroidOrientationsListCommand`
+    * `IPBlocksListCommand`
 
 * `firebase/test/ios/configuration/IosLocalesDescribeCommand.kt`
-   * Getting ios device catalog for obtain locales
-   
+    * Getting ios device catalog for obtain locales
+
 * `firebase/test/ios/configuration/IosLocalesListCommand.kt`
-   * Getting ios device catalog for obtain locales
-   
+    * Getting ios device catalog for obtain locales
+
 * `firebase/test/ios/models/IosModelDescribeCommand.kt`
-   * Getting ios device catalog for obtain models
-   
+    * Getting ios device catalog for obtain models
+
 * `firebase/test/ios/models/IosModelsListCommand.kt`
-   * Getting ios device catalog for obtain models
-   
+    * Getting ios device catalog for obtain models
+
 * `firebase/test/ios/orientations/IosOrientationsListCommand.kt`
-   * Getting ios device catalog for obtain orientations
-   
+    * Getting ios device catalog for obtain orientations
+
 * `firebase/test/ios/versions/IosVersionsDescribeCommand.kt`
-   * Getting ios device catalog for obtain versions
-   
+    * Getting ios device catalog for obtain versions
+
 * `firebase/test/ios/versions/IosVersionsListCommand.kt`
-   * Getting ios device catalog for obtain versions
-   
+    * Getting ios device catalog for obtain versions
+
 * `firebase/test/ios/IosTestEnvironmentCommand.kt`
-   * `IosModelsListCommand`
-   * `IosVersionsListCommand`
-   * `IosLocalesListCommand`
-   * `ProvidedSoftwareListCommand`
-   * `NetworkProfilesListCommand`
-   * `IosOrientationsListCommand`
-   * `IPBlocksListCommand`
-   
+    * `IosModelsListCommand`
+    * `IosVersionsListCommand`
+    * `IosLocalesListCommand`
+    * `ProvidedSoftwareListCommand`
+    * `NetworkProfilesListCommand`
+    * `IosOrientationsListCommand`
+    * `IPBlocksListCommand`
+
 
 * `firebase/test/android/AndroidRunCommand.kt`
-   * TODO
+    * Validation
+        * Checking if bucket exist (common args validation)
+        * Getting android device catalog for check supported devices
+    * Running tests
+        * Preparing data
+        * Uploading files
+        * Creating android test contexts
+            * downloading apks if needed
+        * Dumping shards
+            * Uploading dumped shards if needed
+        * Uploading
+            * Uploading apks if needed & depending on test context
+        * Building and running android test matrix
+    * After run test
+        * Upload session ID
+            * Printing matrices web links
+                * get or update web for each matrix
+                    * Getting test matrices
+    * Pooling matrices
+        * Getting test matrices
+    * Generating report
+        * Parsing test suite
+            * Getting test matrices
+            * Creating JUnit test result
+                * Getting test cases
+                * Getting step result
+        * Uploading each report
+        * Getting test matrices for test executions
+        * Processing junit results
+            * processing full junit result
+                * Creating JUnit test result
+        * Create and upload performance metrics
+        * Upload matrices ids
+    * Fetching artifacts
+    * Printing matrices web links
+        * get or update web for each matrix
+            * Getting test matrices
+
 
 * `firebase/test/ios/IosRunCommand.kt`
-   * TODO
+    * validation
+        * Checking if bucket exist (common args validation)
+        * Getting ios device catalog for check supported devices
+
+    * After run test (from this point the path is same as for android)
 
 where
+
 * `?` - investigate if implementation is correct or is performing some not necessary operations. 
