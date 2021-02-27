@@ -342,9 +342,11 @@ From the CLI command point of view. The most nested points refer API calls.
         * Parsing test suite
             * Getting test matrices
             * Creating JUnit test result
-                * Getting test cases
-                * Getting step result
         * Uploading each report
+            * Cost report
+            * Matrix results report
+            * Html error report
+            * JUnit report
         * Getting test matrices for test executions
         * Processing junit results
             * processing full junit result
@@ -376,4 +378,151 @@ From the CLI command point of view. The most nested points refer API calls.
 
 where
 
-* `?` - investigate if implementation is correct or is performing some not necessary operations. 
+* `?` - investigate if implementation is correct or is performing some not necessary operations.
+
+#### Google API usage function call tree
+
+* `LoginCommand` -> `UserAuth/request`
+* `CancelCommand`
+    * `getLastArgs`
+        * `IosArgs/validateRefresh` -> `IosArgs/assertDevicesSupported`
+        * `AndroidArgs/validate`
+            * `AndroidArgs/assertDevicesSupported`
+                * `AndroidCatalog/supportedDeviceConfig`
+                * `AndroidCatalog/androidModelIds`
+                * `AndroidCatalog/androidVersionIds`
+                * `AndroidCatalog/getSupportedVersionId`
+            * `IArgs/checkResultsDirUnique` -> `GcStorage/exist`
+    * `cancelLastRun` -> `cancelMatrices` -> `GcTestMatrix/cancel`
+* `RefreshCommand` -> `refreshLastRun`
+    * `getLastArgs`
+        * `IosArgs/validateRefresh` -> `IosArgs/assertDevicesSupported`
+        * `AndroidArgs/validate`
+            * `AndroidArgs/assertDevicesSupported`
+                * `AndroidCatalog/supportedDeviceConfig`
+                * `AndroidCatalog/androidModelIds`
+                * `AndroidCatalog/androidVersionIds`
+                * `AndroidCatalog/getSupportedVersionId`
+            * `IArgs/checkResultsDirUnique` -> `GcStorage/exist`
+    * `refreshMatrices`
+        * `GcTestMatrix/refresh`
+        * `SavedMatrix/updateWithMatrix` -> `SavedMatrix/updatedSavedMatrix` -> `TestMatrix/fetchTestOutcomeContext`
+            * `TestMatrix/getToolResultsIds`
+            * `GcToolResults/listAllEnvironments`
+            * `GcToolResults/listAllSteps`
+* `ProvidedSoftwareListCommand` -> `providedSoftwareAsTable` -> `getProvidedSoftware`
+* `IPBlocksListCommand` -> `ipBlocksListAsTable` -> `deviceIPBlocks`
+* `NetworkProfilesDescribeCommand` -> `networkProfileDescription` -> `getNetworkConfiguration`
+* `NetworkProfilesListCommand` -> `networkConfigurationAsTable` -> `getNetworkConfiguration`
+
+* `AndroidLocalesDescribeCommand` -> `AndroidCatalog/getLocaleDescription` -> `AndroidCatalog/getLocales`
+* `AndroidLocalesListCommand` -> `AndroidCatalog/localesAsTable` -> `AndroidCatalog/getLocales`
+* `AndroidModelDescribeCommand` -> `AndroidCatalog/describeModel` -> `AndroidCatalog/getModels`
+* `AndroidModelsListCommand` -> `AndroidCatalog/devicesCatalogAsTable` -> `AndroidCatalog/getModels`
+* `AndroidOrientationsListCommand` -> `AndroidCatalog/supportedOrientationsAsTable` -> `AndroidCatalog/deviceCatalog`
+* `AndroidVersionsDescribeCommand` -> `AndroidCatalog/describeSoftwareVersion` -> `AndroidCatalog/getVersionsList`
+* `AndroidVersionsListCommand` -> `AndroidCatalog/supportedVersionsAsTable` -> `AndroidCatalog/getVersionsList`
+* `AndroidTestEnvironmentCommand`
+    * `AndroidModelsListCommand`
+    * `AndroidVersionsListCommand`
+    * `AndroidLocalesListCommand`
+    * `ProvidedSoftwareListCommand`
+    * `NetworkProfilesListCommand`
+    * `AndroidOrientationsListCommand`
+    * `IPBlocksListCommand`
+
+* `IosLocalesDescribeCommand` -> `IosCatalog/getLocaleDescription` -> `IosCatalog/getLocales`
+* `IosLocalesListCommand` -> `IosCatalog/localesAsTable` -> `IosCatalog/iosDeviceCatalog`
+* `IosModelDescribeCommand` -> `IosCatalog/describeModel` -> `IosCatalog/getModels`
+* `IosModelsListCommand` -> `IosCatalog/devicesCatalogAsTable` -> `IosCatalog/getModels`
+* `IosOrientationsListCommand` -> `IosCatalog/supportedOrientationsAsTable` -> `IosCatalog/iosDeviceCatalog`
+* `IosVersionsDescribeCommand` -> `IosCatalog/describeSoftwareVersion` -> `IosCatalog/getVersionsList`
+* `IosVersionsListCommand` -> `IosCatalog/softwareVersionsAsTable` -> `IosCatalog/getVersionsList`
+* `IosTestEnvironmentCommand`
+    * `IosModelsListCommand`
+    * `IosVersionsListCommand`
+    * `IosLocalesListCommand`
+    * `ProvidedSoftwareListCommand`
+    * `NetworkProfilesListCommand`
+    * `IosOrientationsListCommand`
+    * `IPBlocksListCommand`
+    
+* `AndroidRunCommand`
+    * `AndroidArgs/validate`
+        * `AndroidArgs/assertDevicesSupported`
+            * `AndroidCatalog/supportedDeviceConfig`
+            * `AndroidCatalog/androidModelIds`
+            * `AndroidCatalog/androidVersionIds`
+            * `AndroidCatalog/getSupportedVersionId`
+        * `IArgs/checkResultsDirUnique` -> `GcStorage/exist`
+    * `AndroidArgs/runAndroidTests`
+        * `GcAndroidDevice/build`
+        * `GcToolResults/createToolResultsHistory`
+        * `IArgs/uploadOtherFiles` -> `GcStorage/upload`
+        * `AndroidArgs/uploadAdditionalApks` -> `List<String>/uploadToGcloudIfNeeded` -> `FileReference/uploadIfNeeded`-> `GcStorage/upload`
+        * `AndroidArgs/uploadObbFiles` -> `GcStorage/upload`
+        * `AndroidArgs/createAndroidTestContexts` -> `List<AndroidTestContext>/setupShards`-> `InstrumentationTestContext/downloadApks` -> `FileReference/downloadIfNeeded` -> `GcStorage/download`
+        * `List<AndroidTestContext>/dumpShards` -> `GcStorage/upload`
+        * `List<AndroidTestContext>/upload` -> `AndroidTestContext/upload`
+            * `InstrumentationTestContext/upload` -> `FileReference/uploadIfNeeded` -> `GcStorage/upload`
+            * `RoboTestContext/upload` -> `FileReference/uploadIfNeeded` -> `GcStorage/upload`
+            * `SanityRoboTestContext/upload` -> `FileReference/uploadIfNeeded` -> `GcStorage/upload`
+            * `GameLoopContext/upload` -> `FileReference/uploadIfNeeded` -> `GcStorage/upload`
+        * `GcAndroidTestMatrix/build`
+        * `AbstractGoogleJsonClientRequest<T>/executeWithRetry`
+        * `IArgs/afterRunTests`
+            * `IArgs/uploadSessionId` -> `GcStorage/upload`
+            * `MatrixMap/printMatricesWebLinks` -> `getOrUpdateWebLink` -> `GcTestMatrix/refresh`
+    * `pollMatrices` -> `matrixChangesFlow` -> `GcTestMatrix/refresh`
+    * `Iterable<TestMatrix>/updateMatrixMap` -> `SavedMatrix/updateWithMatrix` -> `TestMatrix/fetchTestOutcomeContext`
+        * `TestMatrix/getToolResultsIds`
+        * `GcToolResults/listAllEnvironments`
+        * `GcToolResults/listAllSteps`
+    * `ReportManager/generate`
+        * `ReportManager/parseTestSuite`
+            * `refreshMatricesAndGetExecutions` -> `refreshTestMatrices` -> `GcTestMatrix/refresh`
+            * `List<TestExecution>/createJUnitTestResult` -> `List<TestExecution>/createTestExecutionDataListAsync`-> `TestExecution/createTestExecutionData` -> `getAsync`
+                * `GcToolResults/listTestCases`
+                * `GcToolResults/getStepResult`
+        * `CostReport.run` -> `GcStorage/uploadReportResult`
+        * `MatrixResultsReport.run` -> `GcStorage/uploadReportResult`
+        * `HtmlErrorReport.run` -> `GcStorage/uploadReportResult`
+        * `JUnitReport.run` -> `GcStorage/uploadReportResult`
+        * `refreshMatricesAndGetExecutions` -> `refreshTestMatrices` -> `GcTestMatrix/refresh`
+        * `ReportManager/processJunitResults`
+            * `ReportManager/processFullJunitResult` -> `List<TestExecution>/createJUnitTestResult` -> `List<TestExecution>/createTestExecutionDataListAsync`-> `TestExecution/createTestExecutionData` -> `getAsync`
+                * `GcToolResults/listTestCases`
+                * `GcToolResults/getStepResult`
+            * `FullJUnitReport.run` -> `GcStorage.uploadReportResult`
+        * `ReportManager/createAndUploadPerformanceMetricsForAndroid` -> `List<Pair<TestExecution, String>>.getAndUploadPerformanceMetrics` -> 
+            * `TestExecution.getPerformanceMetric` -> `GcToolResults.getPerformanceMetric`
+            * `PerfMetricsSummary.upload` -> `GcStorage.uploadPerformanceMetrics`
+        * `GcStorage/uploadMatricesId`
+    * `fetchArtifacts`
+        * `Storage.BlobListOption.fields`
+        * `Storage.BlobListOption.prefix`
+        * `GcStorage.storage.list`
+        * `Blob.downloadTo`
+    * `MatrixMap/printMatricesWebLinks` -> `getOrUpdateWebLink` -> `GcTestMatrix/refresh`
+    
+* `IosRunCommand`
+    * `IosArgs/validate`
+        * `IosArgs/assertDevicesSupported`
+            * `IosCatalog/supportedDevice`
+            * `IosCatalog/Device/getSupportedVersionId`
+        * `IArgs/checkResultsDirUnique` -> `GcStorage/exist`
+    * `IosArgs/runIosTests`
+        * `GcIosMatrix/build`
+        * `GcToolResults/createToolResultsHistory`
+        * `IArgs/uploadOtherFiles` -> `GcStorage/upload`
+        * `IosArgs.uploadAdditionalIpas`
+        * `IosArgs.dumpShardsIfXcTest` -> `GcStorage/upload`
+        * `IosArgs/createIosTestContexts` 
+            * `IosArgs.createXcTestContexts`
+                * `IArgs.uploadIfNeeded` -> `FileReference.uploadIfNeeded` -> `GcStorage.upload`
+                * `GcStorage.uploadXCTestFile`
+            * `IosArgs.createGameloopTestContexts`
+                * `IArgs.uploadIfNeeded` -> `FileReference.uploadIfNeeded` -> `GcStorage.upload`    
+        * `GcIosTestMatrix/build`
+        * `AbstractGoogleJsonClientRequest<T>/executeWithRetry`
+        * `IArgs/afterRunTests` - the rest of steps are same as for android
