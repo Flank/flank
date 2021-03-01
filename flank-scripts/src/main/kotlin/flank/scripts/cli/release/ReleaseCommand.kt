@@ -14,7 +14,9 @@ object ReleaseCommand : CliktCommand(
         subcommands(
             MakeReleaseCommand,
             DeleteReleaseCommand,
-            DeleteOldTagCommand
+            DeleteOldTagCommand,
+            NextTagCommand,
+            GenerateReleaseNotesCommand
         )
     }
 
