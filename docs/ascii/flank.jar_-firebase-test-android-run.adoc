@@ -37,6 +37,7 @@ flank.jar
                                      [*--num-flaky-test-attempts*=_<flakyTestAttemp_
                      _                ts>_] [*--num-test-runs*=_<repeatTests>_]
                                      [*--num-uniform-shards*=_<numUniformShards>_]
+                                     [*--output-report*=_<outputReport>_]
                                      [*--output-style*=_<outputStyle>_]
                                      [*--project*=_<project>_]
                                      [*--results-bucket*=_<resultsBucket>_]
@@ -197,6 +198,9 @@ Configuration is read from flank.yml
 
 *--disable-usage-statistics*::
   If set to true flank not send usage statistics.
+
+*--output-report*=_<outputReport>_::
+  Saves output results as parsable file and optionally upload it to Gcloud.
 
 *-h*, *--help*::
   Prints this help message
