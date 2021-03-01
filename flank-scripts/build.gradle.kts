@@ -119,9 +119,7 @@ val prepareJar by tasks.registering(Copy::class) {
 
 val download by tasks.registering(Exec::class) {
     commandLine(
-        // todo for test purposes only!!!! (workaround for temporarily unavailable newer version)
-//        "gh", "release", "download", "flank-scripts-$version", "-D", System.getenv("GITHUB_WORKSPACE") ?: ".."
-        "gh", "release", "download", "flank-scripts-1.7.0", "-D", System.getenv("GITHUB_WORKSPACE") ?: ".."
+        "gh", "release", "download", "flank-scripts-$version", "-D", System.getenv("GITHUB_WORKSPACE") ?: ".."
     )
     doLast {
         Files.copy(
@@ -184,5 +182,4 @@ fun execAndGetStdout(vararg args: String): String {
     return stdout.toString().trimEnd()
 }
 
-// todo for test purposes only!!!! (workaround for temporarily unavailable newer version)
-//tasks["lintKotlin"].dependsOn(tasks["checkIfVersionUpdated"])
+tasks["lintKotlin"].dependsOn(tasks["checkIfVersionUpdated"])

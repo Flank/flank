@@ -32,8 +32,8 @@ private fun logArgs(
 ) = println(
     """
     ** Parameters:
-         global Run Result: $result
-         run State: $url
+         global run result: $result
+         run state: $url
          runID:  $runID
     """.trimIndent()
 )

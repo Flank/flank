@@ -128,13 +128,4 @@ data class ITRunState(
     val linuxBSUrl: String = ""
 )
 
-internal val dummyITRunState = ITRunState(
-    windowsBSUrl = "",
-    windowsResult = ITResult.FAILURE,
-    macOsBSUrl = "",
-    macOsResult = ITResult.FAILURE,
-    linuxBSUrl = "",
-    linuxResult = ITResult.FAILURE,
-)
-
 internal fun String.toITRunState() = this.toObject<ITRunState>()
