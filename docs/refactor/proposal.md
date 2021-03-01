@@ -86,7 +86,7 @@ low-level domain functions, utils or API interfaces.
 For simplification, we can consider a simple common interface
 for all top-level functions.
 ```kotlin
-typealias UseCase<A, R> = suspend (T) -> Flow<R>
+typealias UseCase<A, R> = suspend (A) -> Flow<R>
 ```
 
 #### Low-level
