@@ -89,8 +89,10 @@ jobs:
 
     - name: Gradle Upload to MavenCentral
       uses: eskatos/gradle-command-action@v1
+      env:
+        PGP_SIGNING_KEY: ${{ secrets.PGP_SIGNING_KEY }}
       with:
-        arguments: :test_runner:publishMavenJavaPublicationToMavenCentralRepository -PMVN_CENTRAL_USER=${{ secrets.MVN_CENTRAL_USER }} -PMVN_CENTRAL_PASSWORD=${{ secrets.MVN_CENTRAL_PASSWORD }} -PPGP_SIGNING_KEY="${{ secrets.PGP_SIGNING_KEY }}"
+        arguments: :test_runner:publishMavenJavaPublicationToMavenCentralRepository -PMVN_CENTRAL_USER=${{ secrets.MVN_CENTRAL_USER }} -PMVN_CENTRAL_PASSWORD=${{ secrets.MVN_CENTRAL_PASSWORD }}
 
     - name: Gradle close staging on MavenCentral
       uses: eskatos/gradle-command-action@v1
