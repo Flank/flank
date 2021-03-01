@@ -13,6 +13,7 @@ import flank.scripts.ops.integrationtests.common.closeIssue
 import flank.scripts.ops.integrationtests.common.createNewIssue
 import flank.scripts.ops.integrationtests.common.postComment
 import flank.scripts.ops.integrationtests.common.toITRunState
+import flank.scripts.utils.toJson
 import kotlinx.coroutines.runBlocking
 
 fun processIntegrationTestsResult(
@@ -21,8 +22,9 @@ fun processIntegrationTestsResult(
     runState: String,
     runID: String
 ) {
-    logArgs(result, runState, runID)
-    createContext(result, githubToken, runState.toITRunState(), runID).processIntegrationTestsResult()
+    val state = runState.toITRunState()
+    logArgs(result, state.toJson(), runID)
+    createContext(result, githubToken, state, runID).processIntegrationTestsResult()
 }
 
 private fun logArgs(
@@ -31,11 +33,11 @@ private fun logArgs(
     runID: String
 ) = println(
     """
-    ** Parameters:
-         global run result: $result
-         run state: $url
-         runID:  $runID
-    """.trimIndent()
+    |** Parameters:
+    |     global run result: $result
+    |     run state: $url
+    |     runID:  $runID
+    """.trimMargin()
 )
 
 private fun createContext(

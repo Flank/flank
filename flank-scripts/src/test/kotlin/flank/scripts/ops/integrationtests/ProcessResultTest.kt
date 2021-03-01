@@ -109,7 +109,8 @@ private val issueClosed = """
 private val missingUrl = """
 ** Parameters:
      global run result: FAILURE
-     run state: {}
+     run state: {
+}
      runID:  123
 ** Last workflow run:
      name: any-name
