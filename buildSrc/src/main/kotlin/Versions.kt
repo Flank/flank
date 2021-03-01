@@ -14,7 +14,7 @@ object Versions {
     const val KTLINT = "0.40.0"
 
     // https://github.com/Codearte/gradle-nexus-staging-plugin
-    const val NEXUS_STAGING = "0.22.0"
+    const val NEXUS_STAGING = "0.30.0"
 
     // https://github.com/johnrengelman/shadow/releases
     const val SHADOW = "6.1.0"
@@ -23,7 +23,7 @@ object Versions {
     const val DEX_TEST_PARSER = "2.2.1"
 
     // match to Tools -> Kotlin -> Configure Kotlin Plugin Updates -> Update Channel: Stable
-    const val KOTLIN = "1.4.30"
+    const val KOTLIN = "1.4.31"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
     const val KOTLIN_COROUTINES = "1.4.2"
@@ -40,13 +40,13 @@ object Versions {
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
     // https://github.com/googleapis/google-oauth-java-client/issues/251#issuecomment-504565533
-    const val GOOGLE_AUTH = "0.23.0"
+    const val GOOGLE_AUTH = "0.24.1"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.122.6"
+    const val GOOGLE_NIO = "0.122.10"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "1.113.10"
+    const val GOOGLE_STORAGE = "1.113.11"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.8.6"
