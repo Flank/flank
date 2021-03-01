@@ -119,7 +119,9 @@ val prepareJar by tasks.registering(Copy::class) {
 
 val download by tasks.registering(Exec::class) {
     commandLine(
-        "gh", "release", "download", "flank-scripts-$version", "-D", System.getenv("GITHUB_WORKSPACE") ?: ".."
+        // todo for test purposes only!!!! (workaround for temporarily unavailable newer version)
+//        "gh", "release", "download", "flank-scripts-$version", "-D", System.getenv("GITHUB_WORKSPACE") ?: ".."
+        "gh", "release", "download", "flank-scripts-1.7.0", "-D", System.getenv("GITHUB_WORKSPACE") ?: ".."
     )
     doLast {
         Files.copy(
@@ -161,7 +163,6 @@ val releaseFlankScripts by tasks.registering(Exec::class) {
     )
 }
 
-
 fun isVersionChangedInBuildGradle(): Boolean {
 
     val localResultsStream = execAndGetStdout("git", "diff", "origin/master", "HEAD", "--", "build.gradle.kts")
@@ -183,4 +184,5 @@ fun execAndGetStdout(vararg args: String): String {
     return stdout.toString().trimEnd()
 }
 
-tasks["lintKotlin"].dependsOn(tasks["checkIfVersionUpdated"])
+// todo for test purposes only!!!! (workaround for temporarily unavailable newer version)
+//tasks["lintKotlin"].dependsOn(tasks["checkIfVersionUpdated"])

@@ -147,17 +147,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Download flankScripts and add it to PATH
-        env: 
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ./gradlew :flank-scripts:download
           echo "./flank-scripts/bash" >> $GITHUB_PATH
 
+      - name: Prepare run styate JSON
+        id: state-json
+        run: |
+          STATE_JSON='{
+            "windows-latest": "${{ env.windows-latest }}",
+            "windows-latest-bs": "${{ env.windows-latest-bs }}",
+            "ubuntu-latest": "${{ env.ubuntu-latest }}",
+            "ubuntu-latest-bs": "${{ env.ubuntu-latest-bs }}",
+            "macos-latest": "${{ env.macos-latest }}",
+            "macos-latest-bs": "${{ env.macos-latest-bs }}"
+          }'
+          echo "::set-output name=run-state::$STATE_JSON"
+
       - name: Process IT results
         run: |
           flankScripts integration_tests process_results \
-          --result=${{ needs.run-it-full-suite.outputs.job_status }} \
-          --url=${{ needs.run-it-full-suite.outputs.build-scan-url }} \
+          --global-result=${{ needs.run-it-full-suite.outputs.job_status }} \
+          --run-result=${{ steps.state-json.outputs.run-state }} \
           --github-token=${{ secrets.GITHUB_TOKEN }} \
           --run-id=${{ github.run_id }}
 
