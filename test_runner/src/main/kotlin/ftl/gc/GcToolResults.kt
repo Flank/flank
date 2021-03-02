@@ -8,6 +8,7 @@ import com.google.api.services.toolresults.model.ListEnvironmentsResponse
 import com.google.api.services.toolresults.model.ListStepsResponse
 import com.google.api.services.toolresults.model.ListTestCasesResponse
 import com.google.api.services.toolresults.model.Step
+import com.google.api.services.toolresults.model.TestCase
 import com.google.testing.model.TestExecution
 import com.google.testing.model.ToolResultsExecution
 import com.google.testing.model.ToolResultsHistory
@@ -123,7 +124,10 @@ object GcToolResults {
         .executeWithRetry()
 
     // Lists Test Cases attached to a Step
-    fun listTestCases(toolResultsStep: ToolResultsStep): ListTestCasesResponse {
+    fun listTestCases(
+        toolResultsStep: ToolResultsStep,
+        pageToken: String? = null
+    ): ListTestCasesResponse {
         return service
             .projects()
             .histories()
@@ -135,7 +139,19 @@ object GcToolResults {
                 toolResultsStep.historyId,
                 toolResultsStep.executionId,
                 toolResultsStep.stepId
-            ).executeWithRetry()
+            )
+            .setPageToken(pageToken)
+            .executeWithRetry()
+    }
+
+    fun listAllTestCases(results: ToolResultsStep): List<TestCase> {
+        var response = listTestCases(results)
+        val testCases = response.testCases.toMutableList()
+        while (response.nextPageToken != null) {
+            response = listTestCases(results, response.nextPageToken)
+            testCases += response.testCases ?: emptyList()
+        }
+        return testCases
     }
 
     fun getDefaultBucket(projectId: String, source: String? = null): String? = try {
