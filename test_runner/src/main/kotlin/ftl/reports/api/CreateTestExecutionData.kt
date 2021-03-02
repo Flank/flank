@@ -1,6 +1,5 @@
 package ftl.reports.api
 
-import com.google.api.services.toolresults.model.ListTestCasesResponse
 import com.google.api.services.toolresults.model.Step
 import com.google.api.services.toolresults.model.TestCase
 import com.google.api.services.toolresults.model.Timestamp
@@ -26,11 +25,9 @@ internal fun List<TestExecution>.createTestExecutionDataListAsync(): List<TestEx
 
 private suspend fun TestExecution.createTestExecutionData(): TestExecutionData {
     val (
-        response: ListTestCasesResponse,
+        testCases: List<TestCase>,
         step: Step
     ) = getAsync(toolResultsStep)
-
-    val testCases = response.testCases ?: emptyList()
 
     return TestExecutionData(
         testExecution = this@createTestExecutionData,
@@ -41,7 +38,7 @@ private suspend fun TestExecution.createTestExecutionData(): TestExecutionData {
 }
 
 private suspend fun getAsync(toolResultsStep: ToolResultsStep) = coroutineScope {
-    val response = async { GcToolResults.listTestCases(toolResultsStep) }
+    val response = async { GcToolResults.listAllTestCases(toolResultsStep) }
     val step = async { GcToolResults.getStepResult(toolResultsStep) }
     response.await() to step.await()
 }

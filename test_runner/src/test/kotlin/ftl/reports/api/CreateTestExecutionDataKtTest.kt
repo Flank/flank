@@ -67,7 +67,7 @@ class CreateTestExecutionDataKtTest {
     fun `should not throw is ListTestCasesResponse testCases are null`() {
         // given
         every { GcToolResults.getStepResult(any()) } returns Step()
-        every { GcToolResults.listTestCases(any()) } returns ListTestCasesResponse()
+        every { GcToolResults.listAllTestCases(any()) } returns emptyList()
 
         val testExecution = TestExecution().apply {
             toolResultsStep = ToolResultsStep()
