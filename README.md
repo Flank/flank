@@ -1,4 +1,4 @@
-# Flank [![codecov](https://codecov.io/gh/Flank/flank/branch/master/graph/badge.svg)](https://codecov.io/gh/Flank/flank) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.flank/flank/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.flank/flank)
+# Flank [![codecov](https://codecov.io/gh/Flank/flank/branch/master/graph/badge.svg)](https://codecov.io/gh/Flank/flank)
 
 Flank is a [massively parallel Android and iOS test runner](https://docs.google.com/presentation/d/1goan9cXpimSJsS3L60WjljnFA_seUyaWb2e-bezm084/edit#slide=id.p1) for [Firebase Test Lab](https://firebase.google.com/docs/test-lab/). 
 
