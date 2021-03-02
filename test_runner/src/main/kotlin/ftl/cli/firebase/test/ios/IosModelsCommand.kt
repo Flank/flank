@@ -1,5 +1,7 @@
-package ftl.cli.firebase.test.ios.models
+package ftl.cli.firebase.test.ios
 
+import ftl.cli.firebase.test.ios.models.IosModelDescribeCommand
+import ftl.cli.firebase.test.ios.models.IosModelsListCommand
 import picocli.CommandLine
 
 @CommandLine.Command(

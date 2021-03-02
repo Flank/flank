@@ -1,5 +1,6 @@
-package ftl.cli.firebase.test.android.orientations
+package ftl.cli.firebase.test.ios
 
+import ftl.cli.firebase.test.ios.orientations.IosOrientationsListCommand
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -9,13 +10,13 @@ import picocli.CommandLine
     descriptionHeading = "%n@|bold,underline Description:|@%n%n",
     parameterListHeading = "%n@|bold,underline Parameters:|@%n",
     optionListHeading = "%n@|bold,underline Options:|@%n",
-    header = ["Information about available orientations"],
+    header = ["Information about available orientation versions"],
     description = ["Prints list of available orientations"],
-    subcommands = [AndroidOrientationsListCommand::class],
+    subcommands = [IosOrientationsListCommand::class],
     usageHelpAutoWidth = true
 )
-class AndroidOrientationsCommand : Runnable {
+class IosOrientationsCommand : Runnable {
     override fun run() {
-        CommandLine.usage(AndroidOrientationsCommand(), System.out)
+        CommandLine.usage(IosOrientationsCommand(), System.out)
     }
 }

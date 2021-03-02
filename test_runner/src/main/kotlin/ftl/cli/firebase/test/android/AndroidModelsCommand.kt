@@ -1,5 +1,7 @@
-package ftl.cli.firebase.test.android.models
+package ftl.cli.firebase.test.android
 
+import ftl.cli.firebase.test.android.models.AndroidModelDescribeCommand
+import ftl.cli.firebase.test.android.models.AndroidModelsListCommand
 import picocli.CommandLine
 
 @CommandLine.Command(
