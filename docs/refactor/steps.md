@@ -136,10 +136,10 @@ data class SoftwareCatalog(
 }
 ```
 
-#### Output
+#### Presentation
 
 ```kotlin
-val printSoftwareCatalogTable: suspend (SoftwareCatalog) -> Unit = TODO()
+val softwareCatalogTable: suspend SoftwareCatalog.() -> String = TODO()
 ```
 
 ### IP Blocks List
@@ -165,10 +165,10 @@ data class IpBlock(
 }
 ```
 
-#### Output
+#### Presentation
 
 ```kotlin
-val printIpBlocksTable: suspend (List<IpBlock>) -> Unit = TODO()
+val ipBlocksTable: suspend List<IpBlock>.() -> String = TODO()
 ```
 
 ### Network profiles
@@ -196,23 +196,26 @@ data class NetworkProfile(
         val packetDuplicationRatio: Float,
         val burst: Float
     )
-
+   
     interface Fetch : () -> List<NetworkProfile>
 }
 ```
 
-#### Output
+#### Presentation
 
 ```kotlin
-val printNetworkProfileDescription: suspend (NetworkProfile) -> Unit = TODO()
-val printNetworkProfileList: suspend (List<NetworkProfile>) -> Unit = TODO() 
+val networkProfileDescription: suspend NetworkProfile.() -> String = TODO()
+val networkProfileList: suspend List<NetworkProfile>.() -> String = TODO() 
 ```
 
 ### Locales
 
 #### Target
 
-`ftl/android/AndroidCatalog.kt`
+* `AndroidLocalesDescribeCommand` -> `AndroidCatalog/getLocaleDescription` -> `AndroidCatalog/getLocales`
+* `AndroidLocalesListCommand` -> `AndroidCatalog/localesAsTable` -> `AndroidCatalog/getLocales`
+* `IosLocalesDescribeCommand` -> `IosCatalog/getLocaleDescription` -> `IosCatalog/getLocales`
+* `IosLocalesListCommand` -> `IosCatalog/localesAsTable` -> `IosCatalog/iosDeviceCatalog`
 
 #### Interface
 
@@ -228,21 +231,159 @@ data class Locale(
     val tags: List<String>,
 ) {
    
-    interface Fetch : (platform: String, projectId: String) -> List<Locale>
+    interface Fetch : (projectId: String, platform: String) -> List<Locale>
 }
 ```
 
-#### Output
+#### Presentation
 
 ```kotlin
-val printLocaleDescription: suspend (Locale) -> Unit = TODO()
-val printLocaleTable: suspend (List<Locale>) -> Unit = TODO()
+val localeDescription: suspend Locale.() -> String = TODO()
+val localeTable: suspend List<Locale>.() -> String = TODO()
 ```
 
+### Device models
 
+#### Target
 
+* `AndroidModelDescribeCommand` -> `AndroidCatalog/describeModel` -> `AndroidCatalog/getModels`
+* `AndroidModelsListCommand` -> `AndroidCatalog/devicesCatalogAsTable` -> `AndroidCatalog/getModels`
+* `IosModelDescribeCommand` -> `IosCatalog/describeModel` -> `IosCatalog/getModels`
+* `IosModelsListCommand` -> `IosCatalog/devicesCatalogAsTable` -> `IosCatalog/getModels`
 
+#### Interface
 
+`ftl/interfaces/DeviceModels.kt`
+
+```kotlin
+package ftl.interfaces
+
+object DeviceModel {
+
+   data class Android(
+      val id: String,
+      val name: String,
+      val tags: List<String>,
+      val screenX: Int,
+      val screenY: Int,
+      val formFactor: String,
+      val screenDensity: Int,
+      val supportedVersionIds: List<String>,
+      val form: String,
+      val brand: String,
+      val codename: String,
+      val manufacturer: String,
+      val thumbnailUrl: String,
+      val supportedAbis: List<String>,
+      val lowFpsVideoRecording: Boolean,
+   ) {
+      
+      interface Fetch : (projectId: String) -> List<Android>
+   }
+
+   data class Ios(
+      val id: String,
+      val name: String,
+      val tags: List<String>,
+      val screenX: Int,
+      val screenY: Int,
+      val formFactor: String,
+      val screenDensity: Int,
+      val supportedVersionIds: List<String>,
+      val deviceCapabilities: List<String>,
+   ) {
+      
+      interface Fetch : (projectId: String) -> List<Ios>
+   }
+}
+```
+
+#### Presentation
+
+```kotlin
+val androidModelDescription: suspend DeviceModel.Android.() -> String = TODO()
+val androidModelsTable: suspend List<DeviceModel.Android>.() -> String = TODO()
+val iosModelDescription: suspend DeviceModel.Ios.() -> String = TODO()
+val iosModelsTable: suspend List<DeviceModel.Ios>.() -> String = TODO()
+```
+
+### Orientation
+
+#### Target
+
+* `AndroidOrientationsListCommand` -> `AndroidCatalog/supportedOrientationsAsTable` -> `AndroidCatalog/deviceCatalog`
+* `IosOrientationsListCommand` -> `IosCatalog/supportedOrientationsAsTable` -> `IosCatalog/iosDeviceCatalog`
+
+#### Interface
+
+`ftl/interfaces/Orientation.kt`
+
+```kotlin
+package ftl.interfaces
+
+data class Orientation(
+   val id: String,
+   val name: String,
+   val tags: String,
+) {
+   interface Fetch : (projectId: String, platform: String) -> List<Orientation>
+}
+```
+
+#### Presentation
+
+```kotlin
+val orientationsTable: suspend List<Orientation>.() -> String = TODO()
+```
+
+### OS Version
+
+#### Target
+
+* `AndroidVersionsListCommand` -> `AndroidCatalog/supportedVersionsAsTable` -> `AndroidCatalog/getVersionsList`
+* `IosVersionsListCommand` -> `IosCatalog/softwareVersionsAsTable` -> `IosCatalog/getVersionsList`
+
+#### Interface
+
+`ftl/interfaces/OsVersion.kt`
+
+```kotlin
+package ftl.interfaces
+
+object OsVersion {
+
+   data class Android(
+      val apiLevel: Int,
+      val codeName: String,
+      val distribution: Distribution,
+      val id: String,
+      val releaseDate: Date,
+      val tags: List<String>,
+      val versionString: String,
+   ) {
+      interface Fetch: (projectId: String) -> List<Android>
+   }
+
+   data class Ios(
+      val id: String,
+      val majorVersion: Int,
+      val minorVersion: Int,
+      val supportedXcodeVersionIds: List<String>,
+      val tags: List<String>,
+   ) {
+      interface Fetch: (projectId: String) -> List<Ios>
+   }
+}
+```
+
+#### Presentation
+
+```kotlin
+val androidOsVersionDescription: suspend OsVersion.Android.() -> String = TODO()
+val androidOsVersionsTable: suspend List<OsVersion.Android>.() -> String = TODO()
+val iosOsVersionDescription: suspend OsVersion.Ios.() -> String = TODO()
+val iosOsVersionsTable: suspend List<OsVersion.Ios>.() -> String = TODO()
+```
 
 ### 
 
@@ -258,7 +399,7 @@ val printLocaleTable: suspend (List<Locale>) -> Unit = TODO()
 package ftl.interfaces
 ```
 
-#### Output
+#### Presentation
 
 ```kotlin
 
