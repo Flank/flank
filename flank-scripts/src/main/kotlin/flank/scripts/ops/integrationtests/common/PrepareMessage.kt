@@ -52,9 +52,9 @@ private val failureTemplate = { lastRun: String, runId: String, runState: ITRunS
 }
 
 private fun ITRunState.failureResult() = """
-    |**Windows status:**  $windowsResult  - url:${windowsBSUrl.withDefault()}
-    |**Linux status:**    $linuxResult  - url:${linuxBSUrl.withDefault()}
-    |**MacOs status:**    $macOsResult  - url:${macOsBSUrl.withDefault()}
+    |**Windows status:**  $windowsResult  - url: ${windowsBSUrl.withDefault()}
+    |**Linux status:**    $linuxResult  - url: ${linuxBSUrl.withDefault()}
+    |**MacOs status:**    $macOsResult  - url: ${macOsBSUrl.withDefault()}
 """.trimIndent()
 
 private fun String.withDefault() = if (this.isBlank()) "N/A" else this
