@@ -63,7 +63,8 @@ publishing {
         maven {
             val staging = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
             val snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
-            url = uri(if (version.toString().endsWith("-SNAPSHOT")) snapshotsRepoUrl else staging)
+            val version = System.getenv("MVN_VERSION") ?: "local-SNAPSHOT"
+            url = uri(if (version.endsWith("-SNAPSHOT")) snapshotsRepoUrl else staging)
             name = "MavenCentral"
             credentials {
                 username = System.getenv("MVN_CENTRAL_USER") ?: properties["MVN_CENTRAL_USER"].toString()
