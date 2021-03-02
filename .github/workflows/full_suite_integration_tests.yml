@@ -147,7 +147,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Download flankScripts and add it to PATH
-        env: 
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ./gradlew :flank-scripts:download
@@ -156,8 +156,8 @@ jobs:
       - name: Process IT results
         run: |
           flankScripts integration_tests process_results \
-          --result=${{ needs.run-it-full-suite.outputs.job_status }} \
-          --url=${{ needs.run-it-full-suite.outputs.build-scan-url }} \
+          --global-result=${{ needs.run-it-full-suite.outputs.job_status }} \
+          --run-result=${{ env }} \
           --github-token=${{ secrets.GITHUB_TOKEN }} \
           --run-id=${{ github.run_id }}
 

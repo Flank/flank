@@ -26,7 +26,7 @@ shadowJar.apply {
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
-version = "1.7.2"
+version = "1.7.3"
 group = "com.github.flank"
 
 application {
@@ -160,7 +160,6 @@ val releaseFlankScripts by tasks.registering(Exec::class) {
         "-p"
     )
 }
-
 
 fun isVersionChangedInBuildGradle(): Boolean {
 

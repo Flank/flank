@@ -118,23 +118,14 @@ data class ITRunState(
     val windowsResult: ITResult = ITResult.FAILURE,
     @SerialName("windows-latest-bs")
     val windowsBSUrl: String = "",
-    @SerialName("macOs-latest")
+    @SerialName("macos-latest")
     val macOsResult: ITResult = ITResult.FAILURE,
-    @SerialName("macOs-latest-bs")
+    @SerialName("macos-latest-bs")
     val macOsBSUrl: String = "",
     @SerialName("ubuntu-latest")
     val linuxResult: ITResult = ITResult.FAILURE,
-    @SerialName("ubuntut-latest-bs")
+    @SerialName("ubuntu-latest-bs")
     val linuxBSUrl: String = ""
-)
-
-internal val dummyITRunState = ITRunState(
-    windowsBSUrl = "",
-    windowsResult = ITResult.FAILURE,
-    macOsBSUrl = "",
-    macOsResult = ITResult.FAILURE,
-    linuxBSUrl = "",
-    linuxResult = ITResult.FAILURE,
 )
 
 internal fun String.toITRunState() = this.toObject<ITRunState>()
