@@ -157,7 +157,7 @@ jobs:
         run: |
           flankScripts integration_tests process_results \
           --global-result=${{ needs.run-it-full-suite.outputs.job_status }} \
-          --run-result=${{ env }} \
+          --run-result=${{ toJSON(env) }} \
           --github-token=${{ secrets.GITHUB_TOKEN }} \
           --run-id=${{ github.run_id }}
 
