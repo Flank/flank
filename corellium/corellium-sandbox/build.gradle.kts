@@ -19,7 +19,7 @@ repositories {
 tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
 
 dependencies {
-    implementation(kotlin("stdlib", org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION))
+    implementation(Dependencies.KOTLIN_COROUTINES_CORE)
     implementation(project(":corellium:corellium-client"))
 }
 
