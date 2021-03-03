@@ -1,5 +1,7 @@
-package ftl.cli.firebase.test.ios.configuration
+package ftl.cli.firebase.test.ios
 
+import ftl.cli.firebase.test.ios.configuration.IosLocalesDescribeCommand
+import ftl.cli.firebase.test.ios.configuration.IosLocalesListCommand
 import picocli.CommandLine
 
 @CommandLine.Command(

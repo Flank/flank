@@ -1,5 +1,7 @@
-package ftl.cli.firebase.test.android.configuration
+package ftl.cli.firebase.test.android
 
+import ftl.cli.firebase.test.android.configuration.AndroidLocalesDescribeCommand
+import ftl.cli.firebase.test.android.configuration.AndroidLocalesListCommand
 import picocli.CommandLine
 
 @CommandLine.Command(
