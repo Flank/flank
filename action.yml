@@ -15,5 +15,5 @@ runs:
       shell: bash
     - id: download_flank
       run: |
-        ./flankScripts downloadFlank --version=${{ inputs.version }}
+        ./flankScripts github download_flank --version=${{ inputs.version }}
       shell: bash
