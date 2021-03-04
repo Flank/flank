@@ -16,13 +16,6 @@ class DownloadFlankTest {
     }
 
     @Test
-    fun `Should return latest tag if version is blank`() {
-        val downloadedVersion = runBlocking { " ".getVersion() }
-        val latestVersion = runBlocking { getLatestReleaseTag("").map { it.tag }.get() }
-        Assert.assertEquals(downloadedVersion, latestVersion)
-    }
-
-    @Test
     fun `Should return latest tag if version is empty`() {
         val downloadedVersion = runBlocking { "".getVersion() }
         val latestVersion = runBlocking { getLatestReleaseTag("").map { it.tag }.get() }
