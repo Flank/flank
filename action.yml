@@ -14,5 +14,5 @@ runs:
         chmod +x flankScripts
       shell: bash
     - id: download_flank
-      run: ./flankScripts
+      run: echo Flank Version: ${{ inputs.version }}
       shell: bash
