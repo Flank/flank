@@ -6,7 +6,7 @@ import flank.scripts.ops.github.downloadFlank
 import kotlinx.coroutines.runBlocking
 
 object DownloadFlankCommand : CliktCommand(
-    name = "downloadFlank",
+    name = "download_flank",
     help = "Downloads flank.jar with selected version."
 
 ) {
