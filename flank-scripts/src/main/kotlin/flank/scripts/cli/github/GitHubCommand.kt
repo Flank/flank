@@ -12,7 +12,8 @@ object GitHubCommand : CliktCommand(
             CopyIssuePropertiesCommand,
             DeleteReleaseCommand,
             DeleteOldTagCommand,
-            MakeReleaseCommand
+            MakeReleaseCommand,
+            DownloadFlankCommand
         )
     }
 
