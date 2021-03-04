@@ -34,7 +34,6 @@ class MultipleDevicesIT {
             resOutput,
             "app-multiple-success-debug-androidTest.apk",
             "app-multiple-error-debug-androidTest.apk",
-            "performanceMetrics.json"
         )
         assertContainsOutcomeSummary(resOutput) {
             success = 6

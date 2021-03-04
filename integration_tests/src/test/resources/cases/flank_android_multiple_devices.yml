@@ -7,8 +7,8 @@ gcloud:
       version: 28
     - model: Pixel2
       version: 28
-    - model: HUR
-      version: 28
+    - model: Nexus6P
+      version: 27
 
 flank:
   disable-sharding: false
