@@ -13,6 +13,6 @@ runs:
         echo 'java -jar ./flank-scripts.jar "$@"' > flankScripts
         chmod +x flankScripts
       shell: bash
-    - id: download flank
+    - id: download_flank
       run: ./flankScripts
       shell: bash
