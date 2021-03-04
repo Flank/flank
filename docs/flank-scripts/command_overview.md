@@ -39,6 +39,7 @@ ___
     - `delete_old_tag` - Delete old tag on GitHub
     - `delete_release` - Delete old release on github
     - `make_release` - Make new Github release
+    - `download_flank` - Downloads flank.jar with selected version.
 
 ___
 
@@ -78,47 +79,87 @@ ___
 
 ```bash
 flank-scripts/
-└── cli/
-    ├── assemble/
-    │   ├── android/
-    │   │   └── AppCommand.kt
-    │   ├── ios/
-    │   │   ├── AllCommand.kt
-    │   │   ├── EarlGreyCommand.kt
-    │   │   ├── FlankExampleCommand.kt
-    │   │   ├── GameLoopCommand.kt
-    │   │   └── TestPlansCommand.kt
-    │   └── GoArtifactsCommand.kt
-    ├── firebase/
-    │   ├── CheckForSdkUpdatesCommand.kt
-    │   ├── GenerateClientCommand.kt
-    │   └── UpdateApiCommand.kt
-    ├── github/
-    │   ├── DeleteOldTagCommand.kt
-    │   ├── DeleteGithubReleaseCommand.kt
-    │   ├── MakeGithubReleaseCommand.kt
-    │   ├── CopyIssuePropertiesCommand.kt
-    ├── gradle/
-    │   └── UpdateDependenciesCommand.kt
-    ├── integrationtests/
-    │   └── ProcessResultsCommand.kt
-    ├── linter/
-    │   ├── ApplyToGitHooksCommand.kt
-    │   └── ApplyToIdeCommand.kt
-    ├── release/
-    │   ├── DeleteSnapshotCommand.kt
-    │   ├── GenerateReleaseNotesCommand.kt
-    │   ├── NextTagCommand.kt
-    │   └── SyncWithMavenCentralCommand.kt
-    └── testartifacts/
-        ├── DownloadCommand.kt
-        ├── LinkCommand.kt
-        ├── PrepareCommand.kt
-        ├── RemoveRemoteCommand.kt
-        ├── ResolveCommand.kt
-        ├── UnzipCommand.kt
-        ├── UploadCommand.kt
-        └── ZipCommand.kt
+├── cli
+│   ├── Main.kt
+│   ├── assemble
+│   │   ├── AssembleCommand.kt
+│   │   ├── FlankCommand.kt
+│   │   ├── GoCommand.kt
+│   │   ├── android
+│   │   │   ├── AndroidCommand.kt
+│   │   │   └── AppCommand.kt
+│   │   └── ios
+│   │       ├── EarlGreyCommand.kt
+│   │       ├── ExampleCommand.kt
+│   │       ├── FlankExampleCommand.kt
+│   │       ├── FtlCommand.kt
+│   │       ├── GameLoopExampleCommand.kt
+│   │       ├── IosCommand.kt
+│   │       ├── RunFtlLocalCommand.kt
+│   │       └── TestPlansExample.kt
+│   ├── dependencies
+│   │   ├── DependenciesCommand.kt
+│   │   ├── InstallXcPrettyCommand.kt
+│   │   ├── SetupIosEnvCommand.kt
+│   │   ├── UniversalFrameworkCommand.kt
+│   │   ├── UpdateBinariesCommand.kt
+│   │   └── UpdateCommand.kt
+│   ├── firebase
+│   │   ├── CheckForSdkUpdatesCommand.kt
+│   │   ├── FirebaseCommand.kt
+│   │   ├── GenerateClientCommand.kt
+│   │   └── UpdateApiCommand.kt
+│   ├── github
+│   │   ├── CopyIssuePropertiesCommand.kt
+│   │   ├── DeleteOldTagCommand.kt
+│   │   ├── DeleteReleaseCommand.kt
+│   │   ├── DownloadFlankCommand.kt
+│   │   ├── GitHubCommand.kt
+│   │   └── MakeReleaseCommand.kt
+│   ├── integrationtests
+│   │   ├── IntegrationTestsCommand.kt
+│   │   └── ProcessResultCommand.kt
+│   ├── linter
+│   │   ├── ApplyToGitHooksCommand.kt
+│   │   ├── ApplyToIdeCommand.kt
+│   │   └── LinterCommand.kt
+│   ├── release
+│   │   ├── GenerateReleaseNotesCommand.kt
+│   │   ├── NextTagCommand.kt
+│   │   └── ReleaseCommand.kt
+│   └── testartifacts
+│       ├── DownloadCommand.kt
+│       ├── LinkCommand.kt
+│       ├── PrepareCommand.kt
+│       ├── RemoveRemoteCommand.kt
+│       ├── ResolveCommand.kt
+│       ├── TestArtifactsCommand.kt
+│       ├── UnzipCommand.kt
+│       ├── UploadCommand.kt
+│       └── ZipCommand.kt
+├── data
+│   ├── github
+│   │   ├── GitHubErrorResponse.kt
+│   │   ├── GithubApi.kt
+│   │   ├── commons
+│   │   │   └── LastWorkflowRunDate.kt
+│   │   └── objects
+│   │       ├── GitHubCommit.kt
+│   │       ├── GitHubCreateIssue.kt
+│   │       ├── GitHubCreateIssueComment.kt
+│   │       ├── GitHubRelease.kt
+│   │       ├── GitHubSetAssigneesRequest.kt
+│   │       ├── GitHubSetLabelsRequest.kt
+│   │       ├── GitHubUpdateIssue.kt
+│   │       ├── GitHubWorkflowRun.kt
+│   │       └── GithubPullRequest.kt
+│   └── zenhub
+│       ├── ZenHubAPI.kt
+│       ├── ZenHubIssue.kt
+│       └── objects
+│           └── ConvertToEpicRequest.kt
+
+
 ```
 
 ### Usage

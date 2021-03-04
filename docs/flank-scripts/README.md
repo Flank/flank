@@ -155,6 +155,7 @@ Properties are skipped by git and should not be attached to a commit. Note, the 
 │   │   ├── CopyIssuePropertiesCommand.kt
 │   │   ├── DeleteOldTagCommand.kt
 │   │   ├── DeleteReleaseCommand.kt
+│   │   ├── DownloadFlankCommand.kt
 │   │   ├── GitHubCommand.kt
 │   │   └── MakeReleaseCommand.kt
 │   ├── integrationtests
@@ -165,11 +166,9 @@ Properties are skipped by git and should not be attached to a commit. Note, the 
 │   │   ├── ApplyToIdeCommand.kt
 │   │   └── LinterCommand.kt
 │   ├── release
-│   │   ├── DeleteSnapshotCommand.kt
 │   │   ├── GenerateReleaseNotesCommand.kt
 │   │   ├── NextTagCommand.kt
-│   │   ├── ReleaseCommand.kt
-│   │   └── SyncWithMavenCentralCommand.kt
+│   │   └── ReleaseCommand.kt
 │   └── testartifacts
 │       ├── DownloadCommand.kt
 │       ├── LinkCommand.kt
@@ -256,17 +255,14 @@ Properties are skipped by git and should not be attached to a commit. Note, the 
 │   │   ├── CopyGitHubProperties.kt
 │   │   ├── DeleteOldRelease.kt
 │   │   ├── DeleteOldTag.kt
+│   │   ├── DownloadFlank.kt
 │   │   └── ReleaseFlank.kt
 │   ├── integrationtests
 │   │   ├── ProcessIntegrationTestsResult.kt
 │   │   └── common
-│   │       ├── ITResults.kt
-│   │       ├── IntegrationContext.kt
+│   │       ├── ITResult.kt
+│   │       ├── IntegrationResultContext.kt
 │   │       └── PrepareMessage.kt
-│   ├── jfrog
-│   │   ├── DeleteOldSnapshot.kt
-│   │   ├── JFrogCommandHelper.kt
-│   │   └── SyncMaven.kt
 │   ├── linter
 │   │   ├── ApplyKtlintToIdea.kt
 │   │   └── LinkGitHooks.kt
