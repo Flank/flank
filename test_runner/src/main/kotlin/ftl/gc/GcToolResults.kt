@@ -146,7 +146,7 @@ object GcToolResults {
 
     fun listAllTestCases(results: ToolResultsStep): List<TestCase> {
         var response = listTestCases(results)
-        val testCases = response.testCases.toMutableList()
+        val testCases = response.testCases.orEmpty().toMutableList()
         while (response.nextPageToken != null) {
             response = listTestCases(results, response.nextPageToken)
             testCases += response.testCases ?: emptyList()
