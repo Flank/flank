@@ -1,9 +1,9 @@
 package ftl.args
 
+import flank.common.defaultCredentialPath
 import flank.common.logLn
 import ftl.config.Device
 import ftl.config.FtlConstants
-import ftl.config.defaultCredentialPath
 import ftl.gc.GcStorage
 import ftl.reports.FullJUnitReport
 import ftl.reports.JUnitReport

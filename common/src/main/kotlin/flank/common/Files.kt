@@ -9,6 +9,10 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
+val defaultCredentialPath: Path by lazy {
+    Paths.get(userHome, ".config/gcloud/application_default_credentials.json")
+}
+
 val userHome: String by lazy {
     if (isWindows) System.getenv("HOMEPATH") else System.getProperty("user.home")
 }

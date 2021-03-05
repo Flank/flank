@@ -5,19 +5,13 @@ import com.google.api.client.http.HttpRequestInitializer
 import com.google.auth.oauth2.AccessToken
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.auth.oauth2.ServiceAccountCredentials
+import flank.common.defaultCredentialPath
 import flank.common.isWindows
-import flank.common.userHome
 import ftl.gc.UserAuth
 import ftl.http.HttpTimeoutIncrease
 import ftl.run.exception.FlankGeneralError
 import java.io.IOException
-import java.nio.file.Path
-import java.nio.file.Paths
 import java.util.Date
-
-val defaultCredentialPath: Path by lazy {
-    Paths.get(userHome, ".config/gcloud/application_default_credentials.json")
-}
 
 val credential: GoogleCredentials by lazy {
     when {

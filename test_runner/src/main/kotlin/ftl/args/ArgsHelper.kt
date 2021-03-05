@@ -9,6 +9,7 @@ import com.google.cloud.storage.BucketInfo
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageClass
 import com.google.cloud.storage.StorageOptions
+import flank.common.defaultCredentialPath
 import flank.common.isWindows
 import flank.common.logLn
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
@@ -17,7 +18,6 @@ import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.config.FtlConstants.useMock
 import ftl.config.credential
-import ftl.config.defaultCredentialPath
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.reports.xml.model.JUnitTestResult

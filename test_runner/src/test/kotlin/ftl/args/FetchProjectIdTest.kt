@@ -2,8 +2,8 @@ package ftl.args
 
 import com.google.cloud.ServiceOptions
 import com.google.common.truth.Truth.assertThat
+import flank.common.defaultCredentialPath
 import ftl.config.FtlConstants
-import ftl.config.defaultCredentialPath
 import ftl.util.getGACPathOrEmpty
 import io.mockk.every
 import io.mockk.mockkStatic
@@ -63,7 +63,7 @@ class FetchProjectIdTest {
     fun `should fetch project id from default credentials`() {
         mockkStatic(
             "ftl.util.Utils",
-            "ftl.config.CredentialsKt",
+            "flank.common.FilesKt",
             ServiceOptions::class.qualifiedName ?: ""
         ) {
             every { defaultCredentialPath } returns def.toPath()
