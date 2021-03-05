@@ -2,6 +2,7 @@ package ftl.test.util
 
 import com.google.cloud.storage.BlobInfo
 import ftl.gc.GcStorage
+import ftl.gc.TestStorageProvider
 import ftl.run.exception.FlankGeneralError
 import org.junit.Assert
 import java.nio.file.Files
@@ -29,14 +30,9 @@ object LocalGcs {
         )
     }
 
-    fun uploadFiles() {
-        val appApk = "../test_projects/android/apks/app-debug.apk"
-        val testApk = "../test_projects/android/apks/app-debug-androidTest.apk"
-        val ipaZip = "./src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExample.zip"
-        val xctestrun = "./src/test/kotlin/ftl/fixtures/tmp/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun"
+    fun uploadFileForTest(path: String) = uploadToMockGcs(Paths.get(path))
 
-        listOf(appApk, testApk, ipaZip, xctestrun).forEach { file ->
-            uploadToMockGcs(Paths.get(file))
-        }
+    fun clear() {
+        TestStorageProvider.clearStorage()
     }
 }

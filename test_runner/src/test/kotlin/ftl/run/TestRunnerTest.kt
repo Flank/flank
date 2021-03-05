@@ -12,6 +12,7 @@ import ftl.args.IosArgs
 import ftl.http.executeWithRetry
 import ftl.run.common.getDownloadPath
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.LocalGcs
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
@@ -120,6 +121,11 @@ class TestRunnerTest {
 
     @Test
     fun `mockedAndroidTestRun gcsAndHistoryName`() {
+        // given
+        LocalGcs.uploadFileForTest("../test_projects/android/apks/app-debug.apk")
+        LocalGcs.uploadFileForTest("../test_projects/android/apks/app-debug-androidTest.apk")
+
+        // then
         val gcsConfig = AndroidArgs.load(Paths.get("src/test/kotlin/ftl/fixtures/flank.gcs.yml"))
         runBlocking {
             gcsConfig.newTestRun()
