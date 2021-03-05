@@ -4,6 +4,9 @@ inputs:
   version: 
     description: 'Flank version to run'
     required: false
+  service_account:
+    description: 'Service account for authentication. It could be file content or file itself.'
+    required: true
 runs:
   using: "composite"
   steps:
@@ -16,4 +19,8 @@ runs:
     - id: download_flank
       run: |
         ./flankScripts github download_flank --version=${{ inputs.version }}
+      shell: bash
+    - id: authentication
+      run: |
+        ./flankScripts <TODO fill with command> --service_account=${{ inputs.service_account }}
       shell: bash
