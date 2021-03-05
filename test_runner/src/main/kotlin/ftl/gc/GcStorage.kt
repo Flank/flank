@@ -51,7 +51,7 @@ object GcStorage {
     val storage: Storage by lazy {
         GoogleApiLogger.silenceComputeEngine()
         if (FtlConstants.useMock) {
-            LocalStorageHelper.getOptions().service
+            TestStorageProvider.storage
         } else {
             storageOptions.service
         }
@@ -209,4 +209,22 @@ object GcStorage {
     }
 
     private fun String.dropLeadingSlash() = drop(1)
+}
+
+object TestStorageProvider {
+    init {
+        require(FtlConstants.useMock) { "Storage provider can be used only during tests" }
+    }
+
+    private var backingStorage: Storage? = null
+
+    val storage: Storage
+        get() = backingStorage ?: LocalStorageHelper.getOptions().service.apply {
+            backingStorage = this
+        }
+
+    fun clearStorage() {
+        println("storage null")
+        backingStorage = null
+    }
 }

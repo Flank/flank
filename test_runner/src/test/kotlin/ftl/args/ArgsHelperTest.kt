@@ -16,6 +16,7 @@ import ftl.shard.TestMethod
 import ftl.shard.TestShard
 import ftl.shard.stringShards
 import ftl.test.util.FlankTestRunner
+import ftl.test.util.LocalGcs
 import ftl.test.util.TestHelper.absolutePath
 import ftl.test.util.assertThrowsWithMessage
 import io.mockk.every
@@ -76,6 +77,10 @@ class ArgsHelperTest {
 
     @Test
     fun `assertGcsFileExists succeeds`() {
+        // given
+        LocalGcs.uploadFileForTest("../test_projects/android/apks/app-debug.apk")
+
+        // then
         assertGcsFileExists("gs://tmp_bucket_2/app-debug.apk")
     }
 
