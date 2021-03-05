@@ -34,7 +34,7 @@ fun handleGithubMockRequest(url: String, request: Request) = when {
     url ends """/issues/\d*/comments""" && request.isPOST -> request.buildResponse(createComment, 200)
     url ends """/commits\?since=*""" -> request.buildResponse(testGithubIssueList, 200)
     url.endsWith("/git/refs/tags/success") -> request.buildResponse("", 200)
-    url.endsWith("/releases/latest") && request.containsSuccessHeader() ->
+    url.endsWith("/releases/latest") ->
         request.buildResponse(GitHubRelease("v20.08.0").toJson(), 200)
     url.endsWith("/commits/success/pulls") -> request.buildResponse(Json.encodeToString(githubPullRequestTest), 200)
     url.endsWith("/commits") -> request.buildResponse(testGithubIssueList, 200)
