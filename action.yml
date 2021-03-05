@@ -9,7 +9,7 @@ runs:
   steps:
     - name: Download flankScripts
       run: |
-        curl -L https://github.com/Flank/flank/releases/download/flank-scripts-1.7.3/flank-scripts.jar --output flank-scripts.jar
+        curl -L https://github.com/Flank/flank/releases/download/flank-scripts-1.8.0/flank-scripts.jar --output flank-scripts.jar
         echo 'java -jar ./flank-scripts.jar "$@"' > flankScripts
         chmod +x flankScripts
       shell: bash
