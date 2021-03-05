@@ -30,82 +30,69 @@ Ops package structure and file organization are presented on the tree below:
 │   │       ├── BuildIosTestArtifacts.kt
 │   │       ├── BuildTestPlansExample.kt
 │   │       ├── IosBuildCommand.kt
-│   │       ├── LipoHelper.kt
 │   │       ├── RunFtlLocal.kt
 │   │       └── UniversalFramework.kt
 │   ├── common
-│   │   ├── ConventionalCommitFormatter.kt
+│   │   ├── DownloadSoftware.kt
 │   │   ├── EarlGreyExampleConsts.kt
 │   │   ├── GenerateChangeLog.kt
 │   │   └── ReleaseNotesWithType.kt
 │   ├── dependencies
-│   │   ├── DependenciesResultCheck.kt
-│   │   ├── DependencyExtensions.kt
-│   │   ├── DependencyUpdate.kt
-│   │   ├── DownloadSoftware.kt
-│   │   ├── FindOutdatedDependencies.kt
-│   │   ├── FindVersionInLines.kt
-│   │   ├── GradleDependency.kt
 │   │   ├── InstallXcPretty.kt
 │   │   ├── SetupIosEnv.kt
 │   │   ├── UpdateAllDependencies.kt
-│   │   ├── UpdateDependencies.kt
-│   │   ├── UpdateGradle.kt
-│   │   ├── UpdatePlugins.kt
-│   │   ├── UpdateVersionsInFile.kt
-│   │   └── updatebinaries
-│   │       ├── UpdateAtomic.kt
-│   │       ├── UpdateBinaries.kt
-│   │       ├── UpdateLlvm.kt
-│   │       └── UpdateSwift.kt
+│   │   └── common
+│   │       ├── DependenciesResultCheck.kt
+│   │       ├── DependencyExtensions.kt
+│   │       ├── DependencyUpdate.kt
+│   │       ├── FindOutdatedDependencies.kt
+│   │       ├── GradleDependency.kt
+│   │       ├── UpdateDependencies.kt
+│   │       ├── UpdateGradle.kt
+│   │       ├── UpdatePlugins.kt
+│   │       └── UpdateVersionsInFile.kt
 │   ├── firebase
-│   │   ├── CheckForSDKUpdateCommand.kt
+│   │   ├── CheckForSDKUpdate.kt
 │   │   ├── CommitList.kt
-│   │   ├── Extensions.kt
 │   │   ├── GenerateJavaClient.kt
-│   │   ├── LastSDKUpdateRun.kt
-│   │   ├── OpenedUpdates.kt
 │   │   ├── SDKUpdateContext.kt
-│   │   └── UpdateApiJson.kt
+│   │   ├── UpdateApiJson.kt
+│   │   └── common
+│   │       └── Extensions.kt
 │   ├── github
 │   │   ├── CopyGitHubProperties.kt
 │   │   ├── DeleteOldRelease.kt
 │   │   ├── DeleteOldTag.kt
-│   │   ├── FindReferenceIssue.kt
-│   │   ├── ReleaseFlank.kt
-│   │   ├── SetAssignees.kt
-│   │   └── SetLabels.kt
+│   │   ├── DownloadFlank.kt
+│   │   └── ReleaseFlank.kt
 │   ├── integrationtests
-│   │   ├── CommitList.kt
-│   │   ├── Extensions.kt
-│   │   ├── IntegrationContext.kt
-│   │   ├── IssueList.kt
-│   │   ├── PrepareMessage.kt
 │   │   ├── ProcessIntegrationTestsResult.kt
-│   │   └── WorkflowSummary.kt
+│   │   └── common
+│   │       ├── ITResult.kt
+│   │       ├── IntegrationResultContext.kt
+│   │       └── PrepareMessage.kt
 │   ├── linter
 │   │   ├── ApplyKtlintToIdea.kt
 │   │   └── LinkGitHooks.kt
 │   ├── release
-│   │   ├── AppendReleaseNotes.kt
 │   │   ├── CreateReleaseNotes.kt
-│   │   ├── NextReleaseTag.kt
-│   │   └── jfrog
-│   │       ├── DeleteOldSnapshot.kt
-│   │       ├── JFrogCommandHelper.kt
-│   │       └── SyncMaven.kt
-│   └── testartifacts
-│       ├── ArtifactsArchive.kt
-│       ├── Constants.kt
-│       ├── Context.kt
-│       ├── DownloadFixtures.kt
-│       ├── IsNewVersionAvailable.kt
-│       ├── LinkArtifacts.kt
-│       ├── PrepareTestArtifacts.kt
-│       ├── RemoveRemoteCopy.kt
-│       ├── ResolveArtifacts.kt
-│       ├── TestArtifactsRepo.kt
-│       ├── UploadFixtures.kt
-│       └── ZipArtifacts.kt
+│   │   └── NextReleaseTag.kt
+│   ├── testartifacts
+│   │   ├── ArtifactsArchive.kt
+│   │   ├── Context.kt
+│   │   ├── DownloadFixtures.kt
+│   │   ├── Helpers.kt
+│   │   ├── LinkArtifacts.kt
+│   │   ├── PrepareTestArtifacts.kt
+│   │   ├── RemoveRemoteCopy.kt
+│   │   ├── ResolveArtifacts.kt
+│   │   ├── UploadFixtures.kt
+│   │   └── ZipArtifacts.kt
+│   └── updatebinaries
+│       ├── UpdateAtomic.kt
+│       ├── UpdateBinaries.kt
+│       ├── UpdateLlvm.kt
+│       └── UpdateSwift.kt
+
 
 ```

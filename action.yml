@@ -1,0 +1,19 @@
+name: 'Flank'
+description: 'Run Flank from Github actions!'
+inputs:
+  version: 
+    description: 'Flank version to run'
+    required: false
+runs:
+  using: "composite"
+  steps:
+    - name: Download flankScripts
+      run: |
+        curl -L https://github.com/Flank/flank/releases/download/flank-scripts-1.8.0/flank-scripts.jar --output flank-scripts.jar
+        echo 'java -jar ./flank-scripts.jar "$@"' > flankScripts
+        chmod +x flankScripts
+      shell: bash
+    - id: download_flank
+      run: |
+        ./flankScripts github download_flank --version=${{ inputs.version }}
+      shell: bash
