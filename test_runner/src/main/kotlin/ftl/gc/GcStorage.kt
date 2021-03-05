@@ -224,7 +224,6 @@ object TestStorageProvider {
         }
 
     fun clearStorage() {
-        println("storage null")
         backingStorage = null
     }
 }
