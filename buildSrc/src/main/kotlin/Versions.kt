@@ -1,6 +1,6 @@
 object Versions {
     // https://github.com/getsentry/sentry-java/releases
-    const val SENTRY = "4.2.0"
+    const val SENTRY = "4.3.0"
 
     // https://github.com/mixpanel/mixpanel-java/releases
     const val MIXPANEL = "1.5.0"
@@ -26,7 +26,7 @@ object Versions {
     const val KOTLIN = "1.4.31"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    const val KOTLIN_COROUTINES = "1.4.2"
+    const val KOTLIN_COROUTINES = "1.4.3"
 
     // https://github.com/remkop/picocli/releases
     const val PICOCLI = "4.6.1"
@@ -35,7 +35,7 @@ object Versions {
     const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20201029-1.30.10"
 
     // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
-    const val GOOGLE_API = "1.31.2"
+    const val GOOGLE_API = "1.31.3"
 
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
@@ -46,14 +46,14 @@ object Versions {
     const val GOOGLE_NIO = "0.122.10"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "1.113.11"
+    const val GOOGLE_STORAGE = "1.113.12"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.8.6"
 
     // https://github.com/FasterXML/jackson-core/releases
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
-    const val JACKSON = "2.12.1"
+    const val JACKSON = "2.12.2"
 
     const val JUNIT = "4.13.2"
 
@@ -78,7 +78,7 @@ object Versions {
     // https://github.com/FasterXML/woodstox/releases
     const val WOODSTOX = "6.2.4"
 
-    const val KOTLIN_LOGGING = "2.0.4"
+    const val KOTLIN_LOGGING = "2.0.6"
 
     // https://github.com/mockk/mockk
     const val MOCKK = "1.10.6"
@@ -90,7 +90,7 @@ object Versions {
     const val JANSI = "2.3.1"
 
     // https://github.com/ben-manes/gradle-versions-plugin/releases
-    const val BEN_MANES = "0.36.0"
+    const val BEN_MANES = "0.38.0"
 
     // https://github.com/Guardsquare/proguard
     const val PROGUARD = "7.0.1"
