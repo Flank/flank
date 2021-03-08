@@ -7,7 +7,7 @@ import flank.scripts.ops.firebase.saveServiceAccount
 
 object SaveServiceAccountCommand : CliktCommand(
     name = "save_service_account",
-    help = ""
+    help = "Save given service account to flank credentials location"
 ) {
     private val serviceAccount: String by option("--account").required()
     override fun run() {

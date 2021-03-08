@@ -5,6 +5,7 @@ import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.core.requests.DefaultBody
 import flank.scripts.data.zenhub.ZENHUB_BASE_URL
+import flank.scripts.ops.firebase.testContent
 
 class FuelMockServer : Client {
     override fun executeRequest(request: Request): Response {
@@ -12,6 +13,7 @@ class FuelMockServer : Client {
         return when {
             url.startsWith("https://api.github.com/repos/flank/flank/", ignoreCase = true) -> handleGithubMockRequest(url, request)
             url.startsWith(ZENHUB_BASE_URL) -> handleZenhubMockRequest(url, request)
+            url == "http://test.account.service" -> request.buildResponse(testContent, 200)
             else -> Response(request.url)
         }
     }
