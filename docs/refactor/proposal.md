@@ -20,14 +20,14 @@ but also well organized and documented code base, easy to scale and navigate thr
 presentation -> domain
 presentation -> utils
 domain -> utils
-domain -> interfaces
-adapters -> interfaces
+domain -> data
+adapters -> data
 adapters -> external API
 ```
 
-#### Consider interfaces as boundaries
+#### Consider data & interfaces as boundaries
 
-Interfaces in this case means communication bridge between flank domain code and external APIs.
+Data & interfaces in this case means communication bridge between flank domain code and external APIs.
 So those are boundaries from the domain perspective, 
 but from technical perspective those will be interfaces, type aliases, and structures. 
 
@@ -36,8 +36,8 @@ but from technical perspective those will be interfaces, type aliases, and struc
 * ftl
     * cli
     * domain
-    * interfaces ?
     * data ?
+    * adapters ?
     * utils
    
 
@@ -50,9 +50,9 @@ Should be thin as possible and aware only about domain layer API (top-level publ
 * Aware about
     * CLI library
     * domain API - top-level public functions
+    * data
     * adapters - for mapping results from the domain to console logs.
 * Not aware about
-    * data
     * low-level domain functions
     * helpers / libs
 * Consider awareness about 
@@ -99,6 +99,9 @@ can make a code much harder to understand.
 
 
 ### Data
+
+Will contain only data structures and interfaces, 
+which will be a bridge between domain and external APIs.  
 
 #### Requirements
 

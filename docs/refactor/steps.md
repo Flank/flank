@@ -87,12 +87,28 @@ ftl.domain
 └── RefreshLastRun.kt 
 ```
 
+## Use FileReference abstraction where possible
+
+For convenience, all files that needs to be synchronized with the bucket,
+should treat as `FileReference` instead of `String`.
+
+### CommonArgs
+* `otherFiles`
+
+### AndroidArgs
+* `appApk`
+* `testApk`
+* `additionalApks`
+* `roboScript`
+* `obbFiles`
+* `additionalAppTestApks`
+
 ## Add packages for data layer
 
 1. Add `ftl.interface`
 1. Add `ftl.adapter`
 
-## Group external API related code in package
+## Create abstraction layer for external API
 
 #### Important note!
 
@@ -385,22 +401,195 @@ val iosOsVersionDescription: suspend OsVersion.Ios.() -> String = TODO()
 val iosOsVersionsTable: suspend List<OsVersion.Ios>.() -> String = TODO()
 ```
 
-### 
+### Test matrix results
 
 #### Target
 
-``
+* `SavedMatrix`
+* `TestOutcome`
+* `TestSuiteOverviewData`
 
 #### Interface
 
-`ftl/interfaces/`
+`ftl/interfaces/TestMatrix.kt`
 
 ```kotlin
-package ftl.interfaces
+object TestMatrix {
+   data class Result(
+      val matrixId: String = "",
+      val state: String = "",
+      val gcsPath: String = "",
+      val webLink: String = "",
+      val downloaded: Boolean = false,
+      val billableVirtualMinutes: Long = 0,
+      val billablePhysicalMinutes: Long = 0,
+      val clientDetails: Map<String, String>? = null,
+      val gcsPathWithoutRootBucket: String = "",
+      val gcsRootBucket: String = "",
+      val webLinkWithoutExecutionDetails: String? = "",
+      val testAxises: List<Outcome> = emptyList()
+   )
+
+   data class Outcome(
+      val device: String = "",
+      val outcome: String = "",
+      val details: String = "",
+      val testSuiteOverview: SuiteOverview = SuiteOverview()
+   )
+
+   data class SuiteOverview(
+      val total: Int = 0,
+      val errors: Int = 0,
+      val failures: Int = 0,
+      val flakes: Int = 0,
+      val skipped: Int = 0,
+      val elapsedTime: Double = 0.0,
+      val overheadTime: Double = 0.0
+   )
+}
 ```
 
 #### Presentation
 
 ```kotlin
+TODO()
+```
 
+### Execute Android tests matrix
+
+#### Target
+
+* `AndroidRunCommand` -> `AndroidArgs/runAndroidTests` -> `GcAndroidTestMatrix/build`
+
+
+#### Interface
+
+`ftl/interfaces/AndroidTestMatrix.kt`
+
+```kotlin
+package ftl.interfaces
+
+object AndroidTestMatrix {
+   
+   data class Config(
+      // args
+      val clientDetails: Map<String, String>?,
+      val resultsBucket: String,
+      val autoGoogleLogin: Boolean,
+      val networkProfile: String?,
+      val directoriesToPull: List<String>,
+      val obbNames: List<String>,
+      val environmentVariables: Map<String, String>,
+      val autograntPermissions: Boolean,
+      val testTimeout: String,
+      val performanceMetrics: Boolean,
+      val recordVideo: Boolean,
+      val flakyTestAttempts: Int,
+      val failFast: Boolean,
+      val project: String,
+
+      // build
+      val otherFiles: Map<String, String>,
+      val runGcsPath: String,
+      val androidDeviceList: AndroidDeviceList,
+      val toolResultsHistory: ToolResultsHistory,
+      val additionalApkGcsPaths: List<String>,
+      val obbFiles: Map<String, String>,
+   )
+
+   sealed class Type {
+      data class Instrumentation(
+         val appApkGcsPath: String,
+         val testApkGcsPath: String,
+         val testRunnerClass: String?,
+         val orchestratorOption: String?,
+         // sharding
+         val disableSharding: Boolean,
+         val testShards: ShardChunks,
+         val numUniformShards: Int?,
+         val keepTestTargetsEmpty: Boolean,
+         val environmentVariables: Map<String, String> = emptyMap(),
+         val testTargetsForShard: ShardChunks
+      ) : Type()
+
+      data class Robo(
+         val appApkGcsPath: String,
+         val flankRoboDirectives: List<FlankRoboDirective>?,
+         val roboScriptGcsPath: String?
+      ) : Type()
+
+      data class GameLoop(
+         val appApkGcsPath: String,
+         val testRunnerClass: String?,
+         val scenarioNumbers: List<String>,
+         val scenarioLabels: List<String>
+      ) : Type()
+   }
+
+   interface Execute: (Config, Type) -> TestMatrix.Result
+}
+```
+
+#### Presentation
+
+```kotlin
+TODO()
+```
+
+### Execute Ios tests matrix 
+
+#### Target
+* `AndroidRunCommand` -> `AndroidArgs/runAndroidTests` -> `GcAndroidTestMatrix/build`
+
+#### Interface
+
+`ftl/interfaces/IosTestMatrix.kt`
+
+```kotlin
+package ftl.interfaces
+
+object IosTestMatrix {
+
+   data class Config(
+      // args
+      val clientDetails: Map<String, String>?,
+      val networkProfile: String?,
+      val directoriesToPull: List<String>,
+      val testTimeout: String,
+      val recordVideo: Boolean,
+      val flakyTestAttempts: Int,
+      val failFast: Boolean,
+      val project: String,
+
+      // build
+      val iosDeviceList: IosDeviceList,
+      val toolResultsHistory: ToolResultsHistory,
+      val otherFiles: Map<String, String>,
+      val additionalIpasGcsPaths: List<String>,
+   )
+
+   sealed class Type {
+      data class XcTest(
+         val xcTestGcsPath: String,
+         val xcTestRunFileGcsPath: String,
+         val xcodeVersion: String,
+         val testSpecialEntitlements: Boolean,
+         val matrixGcsPath: String,
+      )
+
+      data class GameLoop(
+         val appGcsPath: String,
+         val scenarios: List<Int>,
+         val matrixGcsPath: String,
+      )
+   }
+
+   interface Execute: (Config, Type) -> TestMatrix.Result
+}
+```
+
+#### Presentation
+
+```kotlin
+TODO()
 ```
