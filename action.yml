@@ -28,7 +28,7 @@ runs:
       shell: bash
     - id: authentication
       run: |
-        ./flankScripts firebase save_service_account --account=${{ inputs.service_account }}
+        ./flankScripts firebase save_service_account --account='${{ inputs.service_account }}'
       shell: bash
     - id: run_flank
       run: |
