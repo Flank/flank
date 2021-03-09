@@ -89,13 +89,15 @@ ftl.domain
 
 ## Use FileReference abstraction where possible
 
-For convenience, all files that needs to be synchronized with the bucket,
-should treat as `FileReference` instead of `String`.
+For convenience, all files that needs to be synchronized with the bucket, should treat as `FileReference` instead
+of `String`.
 
 ### CommonArgs
+
 * `otherFiles`
 
 ### AndroidArgs
+
 * `appApk`
 * `testApk`
 * `additionalApks`
@@ -122,10 +124,10 @@ Printing output to console is a part of presentation layer.
 
 #### Interface
 
-`ftl/interfaces/AuthorizeUser.kt`
+`ftl/data/AuthorizeUser.kt`
 
 ```kotlin
-package ftl.interfaces
+package ftl.data
 
 object UserAuthorization {
     interface Request : () -> UserAuthorization
@@ -140,10 +142,10 @@ object UserAuthorization {
 
 #### Interface
 
-`ftl/interfaces/SoftwareCatalog.kt`
+`ftl/data/SoftwareCatalog.kt`
 
 ```kotlin
-package ftl.interfaces
+package ftl.data
 
 data class SoftwareCatalog(
     val orchestratorVersion: String
@@ -166,10 +168,10 @@ val softwareCatalogTable: suspend SoftwareCatalog.() -> String = TODO()
 
 #### Interface
 
-`ftl/interfaces/IpBlocks.kt`
+`ftl/data/IpBlocks.kt`
 
 ```kotlin
-package ftl.interfaces
+package ftl.data
 
 data class IpBlock(
     val block: String,
@@ -195,10 +197,10 @@ val ipBlocksTable: suspend List<IpBlock>.() -> String = TODO()
 
 #### Interface
 
-`ftl/interfaces/NetworkProfile.kt`
+`ftl/data/NetworkProfile.kt`
 
 ```kotlin
-package ftl.interfaces
+package ftl.data
 
 data class NetworkProfile(
     val id: String,
@@ -212,7 +214,7 @@ data class NetworkProfile(
         val packetDuplicationRatio: Float,
         val burst: Float
     )
-   
+
     interface Fetch : () -> List<NetworkProfile>
 }
 ```
@@ -235,10 +237,10 @@ val networkProfileList: suspend List<NetworkProfile>.() -> String = TODO()
 
 #### Interface
 
-`ftl/interfaces/Locales.kt`
+`ftl/data/Locales.kt`
 
 ```kotlin
-package ftl.interfaces
+package ftl.data
 
 data class Locale(
     val id: String,
@@ -246,7 +248,7 @@ data class Locale(
     val region: String,
     val tags: List<String>,
 ) {
-   
+
     interface Fetch : (projectId: String, platform: String) -> List<Locale>
 }
 ```
@@ -269,48 +271,48 @@ val localeTable: suspend List<Locale>.() -> String = TODO()
 
 #### Interface
 
-`ftl/interfaces/DeviceModels.kt`
+`ftl/data/DeviceModels.kt`
 
 ```kotlin
-package ftl.interfaces
+package ftl.data
 
 object DeviceModel {
 
-   data class Android(
-      val id: String,
-      val name: String,
-      val tags: List<String>,
-      val screenX: Int,
-      val screenY: Int,
-      val formFactor: String,
-      val screenDensity: Int,
-      val supportedVersionIds: List<String>,
-      val form: String,
-      val brand: String,
-      val codename: String,
-      val manufacturer: String,
-      val thumbnailUrl: String,
-      val supportedAbis: List<String>,
-      val lowFpsVideoRecording: Boolean,
-   ) {
-      
-      interface Fetch : (projectId: String) -> List<Android>
-   }
+    data class Android(
+        val id: String,
+        val name: String,
+        val tags: List<String>,
+        val screenX: Int,
+        val screenY: Int,
+        val formFactor: String,
+        val screenDensity: Int,
+        val supportedVersionIds: List<String>,
+        val form: String,
+        val brand: String,
+        val codename: String,
+        val manufacturer: String,
+        val thumbnailUrl: String,
+        val supportedAbis: List<String>,
+        val lowFpsVideoRecording: Boolean,
+    ) {
 
-   data class Ios(
-      val id: String,
-      val name: String,
-      val tags: List<String>,
-      val screenX: Int,
-      val screenY: Int,
-      val formFactor: String,
-      val screenDensity: Int,
-      val supportedVersionIds: List<String>,
-      val deviceCapabilities: List<String>,
-   ) {
-      
-      interface Fetch : (projectId: String) -> List<Ios>
-   }
+        interface Fetch : (projectId: String) -> List<Android>
+    }
+
+    data class Ios(
+        val id: String,
+        val name: String,
+        val tags: List<String>,
+        val screenX: Int,
+        val screenY: Int,
+        val formFactor: String,
+        val screenDensity: Int,
+        val supportedVersionIds: List<String>,
+        val deviceCapabilities: List<String>,
+    ) {
+
+        interface Fetch : (projectId: String) -> List<Ios>
+    }
 }
 ```
 
@@ -332,17 +334,17 @@ val iosModelsTable: suspend List<DeviceModel.Ios>.() -> String = TODO()
 
 #### Interface
 
-`ftl/interfaces/Orientation.kt`
+`ftl/data/Orientation.kt`
 
 ```kotlin
-package ftl.interfaces
+package ftl.data
 
 data class Orientation(
-   val id: String,
-   val name: String,
-   val tags: String,
+    val id: String,
+    val name: String,
+    val tags: String,
 ) {
-   interface Fetch : (projectId: String, platform: String) -> List<Orientation>
+    interface Fetch : (projectId: String, platform: String) -> List<Orientation>
 }
 ```
 
@@ -361,34 +363,34 @@ val orientationsTable: suspend List<Orientation>.() -> String = TODO()
 
 #### Interface
 
-`ftl/interfaces/OsVersion.kt`
+`ftl/data/OsVersion.kt`
 
 ```kotlin
-package ftl.interfaces
+package ftl.data
 
 object OsVersion {
 
-   data class Android(
-      val apiLevel: Int,
-      val codeName: String,
-      val distribution: Distribution,
-      val id: String,
-      val releaseDate: Date,
-      val tags: List<String>,
-      val versionString: String,
-   ) {
-      interface Fetch: (projectId: String) -> List<Android>
-   }
+    data class Android(
+        val apiLevel: Int,
+        val codeName: String,
+        val distribution: Distribution,
+        val id: String,
+        val releaseDate: Date,
+        val tags: List<String>,
+        val versionString: String,
+    ) {
+        interface Fetch : (projectId: String) -> List<Android>
+    }
 
-   data class Ios(
-      val id: String,
-      val majorVersion: Int,
-      val minorVersion: Int,
-      val supportedXcodeVersionIds: List<String>,
-      val tags: List<String>,
-   ) {
-      interface Fetch: (projectId: String) -> List<Ios>
-   }
+    data class Ios(
+        val id: String,
+        val majorVersion: Int,
+        val minorVersion: Int,
+        val supportedXcodeVersionIds: List<String>,
+        val tags: List<String>,
+    ) {
+        interface Fetch : (projectId: String) -> List<Ios>
+    }
 }
 ```
 
@@ -401,6 +403,26 @@ val iosOsVersionDescription: suspend OsVersion.Ios.() -> String = TODO()
 val iosOsVersionsTable: suspend List<OsVersion.Ios>.() -> String = TODO()
 ```
 
+### File reference
+
+#### Target
+
+* `FileReference`
+
+#### Interface
+
+`ftl/data/FileReference.kt`
+
+```kotlin
+data class FileReference(
+    val local: String = "",
+    val remote: String = ""
+) {
+    interface Upload : (FileReference) -> FileReference
+    interface Download : (FileReference) -> FileReference
+}
+```
+
 ### Test matrix results
 
 #### Target
@@ -411,41 +433,41 @@ val iosOsVersionsTable: suspend List<OsVersion.Ios>.() -> String = TODO()
 
 #### Interface
 
-`ftl/interfaces/TestMatrix.kt`
+`ftl/data/TestMatrix.kt`
 
 ```kotlin
 object TestMatrix {
-   data class Result(
-      val matrixId: String = "",
-      val state: String = "",
-      val gcsPath: String = "",
-      val webLink: String = "",
-      val downloaded: Boolean = false,
-      val billableVirtualMinutes: Long = 0,
-      val billablePhysicalMinutes: Long = 0,
-      val clientDetails: Map<String, String>? = null,
-      val gcsPathWithoutRootBucket: String = "",
-      val gcsRootBucket: String = "",
-      val webLinkWithoutExecutionDetails: String? = "",
-      val testAxises: List<Outcome> = emptyList()
-   )
+    data class Result(
+        val matrixId: String = "",
+        val state: String = "",
+        val gcsPath: String = "",
+        val webLink: String = "",
+        val downloaded: Boolean = false,
+        val billableVirtualMinutes: Long = 0,
+        val billablePhysicalMinutes: Long = 0,
+        val clientDetails: Map<String, String>? = null,
+        val gcsPathWithoutRootBucket: String = "",
+        val gcsRootBucket: String = "",
+        val webLinkWithoutExecutionDetails: String? = "",
+        val axes: List<Outcome> = emptyList()
+    )
 
-   data class Outcome(
-      val device: String = "",
-      val outcome: String = "",
-      val details: String = "",
-      val testSuiteOverview: SuiteOverview = SuiteOverview()
-   )
+    data class Outcome(
+        val device: String = "",
+        val outcome: String = "",
+        val details: String = "",
+        val suiteOverview: SuiteOverview = SuiteOverview()
+    )
 
-   data class SuiteOverview(
-      val total: Int = 0,
-      val errors: Int = 0,
-      val failures: Int = 0,
-      val flakes: Int = 0,
-      val skipped: Int = 0,
-      val elapsedTime: Double = 0.0,
-      val overheadTime: Double = 0.0
-   )
+    data class SuiteOverview(
+        val total: Int = 0,
+        val errors: Int = 0,
+        val failures: Int = 0,
+        val flakes: Int = 0,
+        val skipped: Int = 0,
+        val elapsedTime: Double = 0.0,
+        val overheadTime: Double = 0.0
+    )
 }
 ```
 
@@ -461,72 +483,71 @@ TODO()
 
 * `AndroidRunCommand` -> `AndroidArgs/runAndroidTests` -> `GcAndroidTestMatrix/build`
 
-
 #### Interface
 
-`ftl/interfaces/AndroidTestMatrix.kt`
+`ftl/data/AndroidTestMatrix.kt`
 
 ```kotlin
-package ftl.interfaces
+package ftl.data
 
 object AndroidTestMatrix {
-   
-   data class Config(
-      // args
-      val clientDetails: Map<String, String>?,
-      val resultsBucket: String,
-      val autoGoogleLogin: Boolean,
-      val networkProfile: String?,
-      val directoriesToPull: List<String>,
-      val obbNames: List<String>,
-      val environmentVariables: Map<String, String>,
-      val autograntPermissions: Boolean,
-      val testTimeout: String,
-      val performanceMetrics: Boolean,
-      val recordVideo: Boolean,
-      val flakyTestAttempts: Int,
-      val failFast: Boolean,
-      val project: String,
 
-      // build
-      val otherFiles: Map<String, String>,
-      val runGcsPath: String,
-      val androidDeviceList: AndroidDeviceList,
-      val toolResultsHistory: ToolResultsHistory,
-      val additionalApkGcsPaths: List<String>,
-      val obbFiles: Map<String, String>,
-   )
+    data class Config(
+        // args
+        val clientDetails: Map<String, String>?,
+        val resultsBucket: String,
+        val autoGoogleLogin: Boolean,
+        val networkProfile: String?,
+        val directoriesToPull: List<String>,
+        val obbNames: List<String>,
+        val environmentVariables: Map<String, String>,
+        val autograntPermissions: Boolean,
+        val testTimeout: String,
+        val performanceMetrics: Boolean,
+        val recordVideo: Boolean,
+        val flakyTestAttempts: Int,
+        val failFast: Boolean,
+        val project: String,
+        val resultsHistoryName: String?,
 
-   sealed class Type {
-      data class Instrumentation(
-         val appApkGcsPath: String,
-         val testApkGcsPath: String,
-         val testRunnerClass: String?,
-         val orchestratorOption: String?,
-         // sharding
-         val disableSharding: Boolean,
-         val testShards: ShardChunks,
-         val numUniformShards: Int?,
-         val keepTestTargetsEmpty: Boolean,
-         val environmentVariables: Map<String, String> = emptyMap(),
-         val testTargetsForShard: ShardChunks
-      ) : Type()
+        // build
+        val otherFiles: Map<String, String>,
+        val runGcsPath: String,
+        val devices: List<Device>,
+        val additionalApkGcsPaths: List<String>,
+        val obbFiles: Map<String, String>,
+    )
 
-      data class Robo(
-         val appApkGcsPath: String,
-         val flankRoboDirectives: List<FlankRoboDirective>?,
-         val roboScriptGcsPath: String?
-      ) : Type()
+    sealed class Type {
+        data class Instrumentation(
+            val appApkGcsPath: String,
+            val testApkGcsPath: String,
+            val testRunnerClass: String?,
+            val orchestratorOption: String?,
+            // sharding
+            val disableSharding: Boolean,
+            val testShards: ShardChunks,
+            val numUniformShards: Int?,
+            val keepTestTargetsEmpty: Boolean,
+            val environmentVariables: Map<String, String> = emptyMap(),
+            val testTargetsForShard: ShardChunks
+        ) : Type()
 
-      data class GameLoop(
-         val appApkGcsPath: String,
-         val testRunnerClass: String?,
-         val scenarioNumbers: List<String>,
-         val scenarioLabels: List<String>
-      ) : Type()
-   }
+        data class Robo(
+            val appApkGcsPath: String,
+            val flankRoboDirectives: List<FlankRoboDirective>?,
+            val roboScriptGcsPath: String?
+        ) : Type()
 
-   interface Execute: (Config, Type) -> TestMatrix.Result
+        data class GameLoop(
+            val appApkGcsPath: String,
+            val testRunnerClass: String?,
+            val scenarioNumbers: List<String>,
+            val scenarioLabels: List<String>
+        ) : Type()
+    }
+
+    interface Execute : (Config, Type) -> TestMatrix.Result
 }
 ```
 
@@ -536,55 +557,56 @@ object AndroidTestMatrix {
 TODO()
 ```
 
-### Execute Ios tests matrix 
+### Execute Ios tests matrix
 
 #### Target
+
 * `AndroidRunCommand` -> `AndroidArgs/runAndroidTests` -> `GcAndroidTestMatrix/build`
 
 #### Interface
 
-`ftl/interfaces/IosTestMatrix.kt`
+`ftl/data/IosTestMatrix.kt`
 
 ```kotlin
-package ftl.interfaces
+package ftl.data
 
 object IosTestMatrix {
 
-   data class Config(
-      // args
-      val clientDetails: Map<String, String>?,
-      val networkProfile: String?,
-      val directoriesToPull: List<String>,
-      val testTimeout: String,
-      val recordVideo: Boolean,
-      val flakyTestAttempts: Int,
-      val failFast: Boolean,
-      val project: String,
+    data class Config(
+        // args
+        val clientDetails: Map<String, String>?,
+        val networkProfile: String?,
+        val directoriesToPull: List<String>,
+        val testTimeout: String,
+        val recordVideo: Boolean,
+        val flakyTestAttempts: Int,
+        val failFast: Boolean,
+        val project: String,
+        val resultsHistoryName: String?,
 
-      // build
-      val iosDeviceList: IosDeviceList,
-      val toolResultsHistory: ToolResultsHistory,
-      val otherFiles: Map<String, String>,
-      val additionalIpasGcsPaths: List<String>,
-   )
+        // build
+        val devices: List<Device>,
+        val otherFiles: Map<String, String>,
+        val additionalIpasGcsPaths: List<String>,
+    )
 
-   sealed class Type {
-      data class XcTest(
-         val xcTestGcsPath: String,
-         val xcTestRunFileGcsPath: String,
-         val xcodeVersion: String,
-         val testSpecialEntitlements: Boolean,
-         val matrixGcsPath: String,
-      )
+    sealed class Type {
+        data class XcTest(
+            val xcTestGcsPath: String,
+            val xcTestRunFileGcsPath: String,
+            val xcodeVersion: String,
+            val testSpecialEntitlements: Boolean,
+            val matrixGcsPath: String,
+        )
 
-      data class GameLoop(
-         val appGcsPath: String,
-         val scenarios: List<Int>,
-         val matrixGcsPath: String,
-      )
-   }
+        data class GameLoop(
+            val appGcsPath: String,
+            val scenarios: List<Int>,
+            val matrixGcsPath: String,
+        )
+    }
 
-   interface Execute: (Config, Type) -> TestMatrix.Result
+    interface Execute : (Config, Type) -> TestMatrix.Result
 }
 ```
 
