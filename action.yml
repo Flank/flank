@@ -32,5 +32,5 @@ runs:
       shell: bash
     - id: run_flank
       run: |
-        java - jar flank.jar firebase test ${{ inputs.platform }} run
+        java -jar flank.jar firebase test ${{ inputs.platform }} run
       shell: bash
