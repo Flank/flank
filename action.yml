@@ -30,7 +30,7 @@ runs:
       run: |
         ./flankScripts firebase save_service_account --account=${{ inputs.service_account }}
       shell: bash
-    - id: run flank
+    - id: run_flank
       run: |
         java - jar flank.jar firebase test ${{ inputs.platform }} run
       shell: bash
