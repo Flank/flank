@@ -27,7 +27,7 @@ Current result table:
 
 # Motivation
 
-Flank gives a possibility to run multiple apks in parallel within a single test run. This feature is extensively used by companies with big projects with lots of additional modules. Unfortunately, processing results in the current form is neither easy nor straightforward. The user needs to associate matrix with related apk/module which can be time-consuming and error-prone. To achieve a better result overview, flank should add apk name to the both result table and output JSON.
+Flank gives the possibility to run multiple apks in parallel within a single test run. This feature is extensively used by companies with big projects that include a multitude of additional modules. Unfortunately, processing results in the current form is neither easy nor straightforward. The user needs to associate the matrix with the related apk/modules which can be time-consuming and error-prone. To achieve a better result overview, flank should add the apk name to both the result table and the output JSON.
 
 # Goals
 
