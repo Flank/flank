@@ -29,8 +29,9 @@ ___
 
 - `firebase` - Group of commands for managing firebase integrations
   - `check_for_sdk_updates` - Check for new SDK features and create update tasks for it
-    - `generate_client` - Generate Java Client based on api schema
-    - `update_api` - Update api schema
+  - `generate_client` - Generate Java Client based on api schema
+  - `update_api` - Update api schema
+  - `save_service_account` - Save given service account to flank credentials location
 
 ___
 
@@ -74,93 +75,6 @@ ___
     - `zip` - Create zip archive from test artifacts directory.
 
 (1) - please note that there is only one command, but it may change in the future.
-
-### Package structure for CLI
-
-```bash
-flank-scripts/
-├── cli
-│   ├── Main.kt
-│   ├── assemble
-│   │   ├── AssembleCommand.kt
-│   │   ├── FlankCommand.kt
-│   │   ├── GoCommand.kt
-│   │   ├── android
-│   │   │   ├── AndroidCommand.kt
-│   │   │   └── AppCommand.kt
-│   │   └── ios
-│   │       ├── EarlGreyCommand.kt
-│   │       ├── ExampleCommand.kt
-│   │       ├── FlankExampleCommand.kt
-│   │       ├── FtlCommand.kt
-│   │       ├── GameLoopExampleCommand.kt
-│   │       ├── IosCommand.kt
-│   │       ├── RunFtlLocalCommand.kt
-│   │       └── TestPlansExample.kt
-│   ├── dependencies
-│   │   ├── DependenciesCommand.kt
-│   │   ├── InstallXcPrettyCommand.kt
-│   │   ├── SetupIosEnvCommand.kt
-│   │   ├── UniversalFrameworkCommand.kt
-│   │   ├── UpdateBinariesCommand.kt
-│   │   └── UpdateCommand.kt
-│   ├── firebase
-│   │   ├── CheckForSdkUpdatesCommand.kt
-│   │   ├── FirebaseCommand.kt
-│   │   ├── GenerateClientCommand.kt
-│   │   └── UpdateApiCommand.kt
-│   ├── github
-│   │   ├── CopyIssuePropertiesCommand.kt
-│   │   ├── DeleteOldTagCommand.kt
-│   │   ├── DeleteReleaseCommand.kt
-│   │   ├── DownloadFlankCommand.kt
-│   │   ├── GitHubCommand.kt
-│   │   └── MakeReleaseCommand.kt
-│   ├── integrationtests
-│   │   ├── IntegrationTestsCommand.kt
-│   │   └── ProcessResultCommand.kt
-│   ├── linter
-│   │   ├── ApplyToGitHooksCommand.kt
-│   │   ├── ApplyToIdeCommand.kt
-│   │   └── LinterCommand.kt
-│   ├── release
-│   │   ├── GenerateReleaseNotesCommand.kt
-│   │   ├── NextTagCommand.kt
-│   │   └── ReleaseCommand.kt
-│   └── testartifacts
-│       ├── DownloadCommand.kt
-│       ├── LinkCommand.kt
-│       ├── PrepareCommand.kt
-│       ├── RemoveRemoteCommand.kt
-│       ├── ResolveCommand.kt
-│       ├── TestArtifactsCommand.kt
-│       ├── UnzipCommand.kt
-│       ├── UploadCommand.kt
-│       └── ZipCommand.kt
-├── data
-│   ├── github
-│   │   ├── GitHubErrorResponse.kt
-│   │   ├── GithubApi.kt
-│   │   ├── commons
-│   │   │   └── LastWorkflowRunDate.kt
-│   │   └── objects
-│   │       ├── GitHubCommit.kt
-│   │       ├── GitHubCreateIssue.kt
-│   │       ├── GitHubCreateIssueComment.kt
-│   │       ├── GitHubRelease.kt
-│   │       ├── GitHubSetAssigneesRequest.kt
-│   │       ├── GitHubSetLabelsRequest.kt
-│   │       ├── GitHubUpdateIssue.kt
-│   │       ├── GitHubWorkflowRun.kt
-│   │       └── GithubPullRequest.kt
-│   └── zenhub
-│       ├── ZenHubAPI.kt
-│       ├── ZenHubIssue.kt
-│       └── objects
-│           └── ConvertToEpicRequest.kt
-
-
-```
 
 ### Usage
 
