@@ -1,6 +1,6 @@
 # Add apk name or module name to the result matrix
 
-Currently, the result matrix displays matrices ids only. When there are lots of additional test apks it's hard to distinguish which apk failed. Having apk file name associated with results (matrices) will give a better overview and will allow a user to find a failing apk module without the need of jumping between result URLs.
+Currently, the result matrix displays matrices ids only. When there are lots of additional test apks it's hard to distinguish which apk has failed. Having the apk file name associated with the results (matrices) will give a better overview and will allow a user to find a failing apk module without the need of jumping between result URLs.
 
 Current result table:
 ```
