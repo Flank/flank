@@ -7,6 +7,12 @@ inputs:
   service_account:
     description: 'Service account for authentication. It could be file content or file itself.'
     required: true
+  platform:
+    description: 'Platform to run [ios | android]'
+    required: true
+  flank_configuration_file:
+    description: 'Flank configuration file'
+    required: true
 runs:
   using: "composite"
   steps:
@@ -23,4 +29,8 @@ runs:
     - id: authentication
       run: |
         ./flankScripts firebase save_service_account --account=${{ inputs.service_account }}
+      shell: bash
+    - id: run flank
+      run: |
+        java - jar flank.jar firebase test ${{ inputs.platform }} run
       shell: bash
