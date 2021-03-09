@@ -37,7 +37,7 @@ Add an associated apk file name to the result table and output JSON.
 
 `Flank` is not aware of any project, modules, etc so it can't find module names on its own, in a reasonable way, without breaking backward compatibility.
 
-On the other hand finding, the apk file name is simple and straightforward. To achieve it we need:
+On the other hand, finding the apk file name is simple and straightforward. To achieve it we need:
 1. add new field `app` to the `SavedMatrix` data class
 2. update private extension function `SavedMatrix#updateProperties` to extract apk file name from the `newMatrix`
    * find app used during tests under the `TestMatrix` -> `TestSpecification`
