@@ -43,7 +43,7 @@ On the other hand, finding the apk file name is simple and straightforward. To a
    * find app used during tests under the `TestMatrix` -> `TestSpecification`
    * once we have `TestSpecification`, iterate over all specs (android/ios/instrumentation/etc.) and find non-null
    * since we can run only one spec within a matrix, only one (spec) is non-null
-   * fetch `appApk` from spec (this is full `gs://` path) `TestSpecyfication#appApk`
+   * fetch `appApk` from spec (this is full `gs://` path) `TestSpecification#appApk`
    * extract file name from `gs://` path
    * logic should be converted to a separate function to preserve readability
    * Google API likes to return `null` - flank should handle it!
