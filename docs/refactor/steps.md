@@ -423,13 +423,14 @@ data class FileReference(
 }
 ```
 
-### Test matrix results
+### Test matrix results, cancel & refresh
 
 #### Target
 
 * `SavedMatrix`
 * `TestOutcome`
 * `TestSuiteOverviewData`
+* `GcTestMatrix.cancel`
 
 #### Interface
 
@@ -468,6 +469,14 @@ object TestMatrix {
         val elapsedTime: Double = 0.0,
         val overheadTime: Double = 0.0
     )
+   
+    data class Identity(
+       val matrixId: String,
+       val projectId: String,
+    )
+    
+   interface Cancel : (Identity) -> Unit
+   interface Refresh : (Identity) -> Result
 }
 ```
 
