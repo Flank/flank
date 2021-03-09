@@ -41,7 +41,7 @@ On the other hand finding, the apk file name is simple and straightforward. To a
 1. add new field `app` to the `SavedMatrix` data class
 2. update private extension function `SavedMatrix#updateProperties` to extract apk file name from the `newMatrix`
    * find app used during tests under the `TestMatrix` -> `TestSpecification`
-   * once we have `TestSpecyfication`, iterate over all specs (android/ios/instrumentation/etc.) and find non-null
+   * once we have `TestSpecification`, iterate over all specs (android/ios/instrumentation/etc.) and find non-null
    * since we can run only one spec within a matrix, only one (spec) is non-null
    * fetch `appApk` from spec (this is full `gs://` path) `TestSpecyfication#appApk`
    * extract file name from `gs://` path
