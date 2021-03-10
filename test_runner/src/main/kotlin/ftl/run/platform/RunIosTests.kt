@@ -1,9 +1,11 @@
 package ftl.run.platform
 
+import flank.common.join
 import flank.common.logLn
 import ftl.args.IosArgs
 import ftl.args.isXcTest
 import ftl.args.shardsFilePath
+import ftl.config.FtlConstants
 import ftl.gc.GcIosMatrix
 import ftl.gc.GcIosTestMatrix
 import ftl.gc.GcStorage
@@ -20,6 +22,7 @@ import ftl.run.platform.common.beforeRunTests
 import ftl.run.platform.ios.createIosTestContexts
 import ftl.shard.testCases
 import ftl.util.repeat
+import ftl.util.saveToFlankLinks
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -42,7 +45,10 @@ internal suspend fun IosArgs.runIosTests(): TestResult =
         val additionalIpasGcsFiles = uploadAdditionalIpas()
 
         dumpShardsIfXcTest()
-
+        saveToFlankLinks(
+            shardsFilePath,
+            FtlConstants.GCS_STORAGE_LINK + join(resultsBucket, resultsDir)
+        )
         val testShardChunks = xcTestRunData.flattenShardChunks()
         logLn(beforeRunMessage(testShardChunks))
 
