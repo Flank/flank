@@ -268,6 +268,11 @@ val localeTable: suspend List<Locale>.() -> String = TODO()
 * `AndroidModelsListCommand` -> `AndroidCatalog/devicesCatalogAsTable` -> `AndroidCatalog/getModels`
 * `IosModelDescribeCommand` -> `IosCatalog/describeModel` -> `IosCatalog/getModels`
 * `IosModelsListCommand` -> `IosCatalog/devicesCatalogAsTable` -> `IosCatalog/getModels`
+* `AndroidArgs/validate` -> `AndroidArgs/assertDevicesSupported`
+      * `AndroidCatalog/supportedDeviceConfig` -> `AndroidCatalog/deviceCatalog(projectId).models`
+      * `AndroidCatalog/androidModelIds` -> `AndroidCatalog/deviceCatalog(projectId).models`
+      * `AndroidCatalog/getSupportedVersionId` -> `AndroidCatalog/deviceCatalog(projectId).models`
+* `IosArgs/validateRefresh` -> `IosArgs/assertDevicesSupported` -> `IosCatalog/iosDeviceCatalog(projectId).models`
 
 #### Interface
 
@@ -360,6 +365,7 @@ val orientationsTable: suspend List<Orientation>.() -> String = TODO()
 
 * `AndroidVersionsListCommand` -> `AndroidCatalog/supportedVersionsAsTable` -> `AndroidCatalog/getVersionsList`
 * `IosVersionsListCommand` -> `IosCatalog/softwareVersionsAsTable` -> `IosCatalog/getVersionsList`
+* `AndroidArgs/validate` -> `AndroidArgs/assertDevicesSupported` -> `AndroidCatalog/androidVersionIds` -> `AndroidCatalog/deviceCatalog(projectId).versions`
 
 #### Interface
 
@@ -418,8 +424,33 @@ data class FileReference(
     val local: String = "",
     val remote: String = ""
 ) {
+    interface Exist : (FileReference) -> Boolean
     interface Upload : (FileReference) -> FileReference
     interface Download : (FileReference) -> FileReference
+}
+```
+
+### Remote storage aka GcStorage
+
+#### Target
+
+* `IArgs/checkResultsDirUnique`
+
+#### Interface
+
+`ftl/data/RemoteStorage.kt`
+
+```kotlin
+package ftl.data
+
+object RemoteStorage {
+    
+    data class Dir(
+        val bucket: String,
+        val path: String
+    )
+    
+    interface Exist: (Dir) -> Boolean
 }
 ```
 
@@ -430,7 +461,17 @@ data class FileReference(
 * `SavedMatrix`
 * `TestOutcome`
 * `TestSuiteOverviewData`
-* `GcTestMatrix.cancel`
+* `CancelCommand` -> `cancelLastRun` -> `cancelMatrices` -> `GcTestMatrix/cancel`
+* `RefreshCommand` -> `refreshLastRun`
+    * `refreshMatrices`
+        * `GcTestMatrix/refresh`
+        * `SavedMatrix/updateWithMatrix` -> `SavedMatrix/updatedSavedMatrix` -> `TestMatrix/fetchTestOutcomeContext`
+* `newTestRun`
+    * `pollMatrices` -> `matrixChangesFlow` -> `GcTestMatrix/refresh`
+    * `Iterable<TestMatrix>/updateMatrixMap` -> `SavedMatrix/updateWithMatrix` -> `TestMatrix/fetchTestOutcomeContext`
+    * `ReportManager/generate`
+        * `ReportManager/parseTestSuite`
+            * `refreshMatricesAndGetExecutions` -> `refreshTestMatrices` -> `GcTestMatrix/refresh`
 
 #### Interface
 
@@ -444,8 +485,7 @@ object TestMatrix {
         val gcsPath: String = "",
         val webLink: String = "",
         val downloaded: Boolean = false,
-        val billableVirtualMinutes: Long = 0,
-        val billablePhysicalMinutes: Long = 0,
+        val billableMinutes: BillableMinutes = BillableMinutes(),
         val clientDetails: Map<String, String>? = null,
         val gcsPathWithoutRootBucket: String = "",
         val gcsRootBucket: String = "",
@@ -469,6 +509,24 @@ object TestMatrix {
         val elapsedTime: Double = 0.0,
         val overheadTime: Double = 0.0
     )
+
+    data class BillableMinutes(
+        val virtual: Long = 0,
+        val physical: Long = 0
+    )
+    
+    data class Summary(
+        val billableMinutes: BillableMinutes,
+        val axes: List<Outcome>,
+    ) {
+        data class Identity(
+            val projectId: String,
+            val historyId: String,
+            val executionId: String,
+        )
+        
+        interface Fetch : (Identity) -> Summary
+    }
    
     data class Identity(
        val matrixId: String,
@@ -491,6 +549,7 @@ TODO()
 #### Target
 
 * `AndroidRunCommand` -> `AndroidArgs/runAndroidTests` -> `GcAndroidTestMatrix/build`
+* `AndroidTestConfig`
 
 #### Interface
 
@@ -570,7 +629,8 @@ TODO()
 
 #### Target
 
-* `AndroidRunCommand` -> `AndroidArgs/runAndroidTests` -> `GcAndroidTestMatrix/build`
+* `IosRunCommand` -> `IosArgs/runIosTests` -> `GcIosTestMatrix/build`
+* `IosTestContext`
 
 #### Interface
 

@@ -388,10 +388,10 @@ where
         * `IosArgs/validateRefresh` -> `IosArgs/assertDevicesSupported`
         * `AndroidArgs/validate`
             * `AndroidArgs/assertDevicesSupported`
-                * `AndroidCatalog/supportedDeviceConfig`
-                * `AndroidCatalog/androidModelIds`
-                * `AndroidCatalog/androidVersionIds`
-                * `AndroidCatalog/getSupportedVersionId`
+                * `AndroidCatalog/supportedDeviceConfig` -> `AndroidCatalog/deviceCatalog(projectId).models`
+                * `AndroidCatalog/androidModelIds` -> `AndroidCatalog/deviceCatalog(projectId).models`
+                * `AndroidCatalog/androidVersionIds` -> `AndroidCatalog/deviceCatalog(projectId).versions`
+                * `AndroidCatalog/getSupportedVersionId` -> `AndroidCatalog/deviceCatalog(projectId).models`
             * `IArgs/checkResultsDirUnique` -> `GcStorage/exist`
     * `cancelLastRun` -> `cancelMatrices` -> `GcTestMatrix/cancel`
 * `RefreshCommand` -> `refreshLastRun`
@@ -399,10 +399,10 @@ where
         * `IosArgs/validateRefresh` -> `IosArgs/assertDevicesSupported`
         * `AndroidArgs/validate`
             * `AndroidArgs/assertDevicesSupported`
-                * `AndroidCatalog/supportedDeviceConfig`
-                * `AndroidCatalog/androidModelIds`
-                * `AndroidCatalog/androidVersionIds`
-                * `AndroidCatalog/getSupportedVersionId`
+                * `AndroidCatalog/supportedDeviceConfig` -> `AndroidCatalog/deviceCatalog(projectId).models`
+                * `AndroidCatalog/androidModelIds` -> `AndroidCatalog/deviceCatalog(projectId).models`
+                * `AndroidCatalog/androidVersionIds` -> `AndroidCatalog/deviceCatalog(projectId).versions`
+                * `AndroidCatalog/getSupportedVersionId` -> `AndroidCatalog/deviceCatalog(projectId).models`
             * `IArgs/checkResultsDirUnique` -> `GcStorage/exist`
     * `refreshMatrices`
         * `GcTestMatrix/refresh`
