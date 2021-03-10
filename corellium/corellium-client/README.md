@@ -1,7 +1,7 @@
 ## About
 
 Only for POC integration purposes. It's based on [corellium-api](https://github.com/corellium/corellium-api). It has
-only essential features implemented to be able to run simple iOS test run similar
+only essential features implemented to be able to run a simple set of IOS tests that coincide
 to [example](https://github.com/corellium/corellium-api/blob/master/examples/agent-simple.js)
 
 ## **IT IS DEFINITELY NOT PRODUCTION READY!**
@@ -81,12 +81,12 @@ val instances: List<Instance> = client.getProjectInstancesList(projectId)
 
 #### createNewInstance(newInstance: Instance): String (instance id)
 
-Creates new [Instance](#data-class-instance), returns newly created instance id.
+Creates a new [Instance](#data-class-instance), returns newly created instance id.
 
 NOTE: instance created with this method is not ready to use (state ==  `creating`).
 Use [waitUntilInstanceIsReady](#waituntilinstanceisreadyinstanceid-string) to ensure VM has `on` state
 
-Following options are required (all `Instance` fields are described [here](#data-class-instance))
+The following options are required (all `Instance` fields are described [here](#data-class-instance))
 
 * `project` -> id of the project your instance is going to be created in
 * `name` -> instance's name
