@@ -61,7 +61,7 @@ object Versions {
     const val JSOUP = "1.13.1"
 
     // https://github.com/ktorio/ktor/releases
-    const val KTOR = "1.4.1"
+    const val KTOR = "1.5.2"
 
     // https://github.com/qos-ch/logback/releases
     const val LOGBACK = "1.2.3"

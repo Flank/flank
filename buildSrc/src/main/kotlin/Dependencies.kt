@@ -23,9 +23,17 @@ object Dependencies {
     const val KOTLIN_REFLECT = "org.jetbrains.kotlin:kotlin-reflect:${Versions.KOTLIN}"
     const val KOTLIN_STD_LIB = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.KOTLIN}"
 
+    //region ktor
     const val KTOR_GSON = "io.ktor:ktor-gson:${Versions.KTOR}"
     const val KTOR_SERVER_CORE = "io.ktor:ktor-server-core:${Versions.KTOR}"
     const val KTOR_SERVER_NETTY = "io.ktor:ktor-server-netty:${Versions.KTOR}"
+    const val KTOR_CLIENT_SERIALIZATION = "io.ktor:ktor-client-serialization:${Versions.KTOR}"
+    const val KTOR_CLIENT_WEBSOCKETS = "io.ktor:ktor-client-websockets:${Versions.KTOR}"
+    const val KTOR_CLIENT_LOGGING = "io.ktor:ktor-client-logging:${Versions.KTOR}"
+    const val KTOR_CLIENT_CORE = "io.ktor:ktor-client-core:${Versions.KTOR}"
+    const val KTOR_CLIENT_CIO = "io.ktor:ktor-client-cio:${Versions.KTOR}"
+    //endregion ktor
+
     const val LOGBACK = "ch.qos.logback:logback-classic:${Versions.LOGBACK}"
 
     const val WOODSTOX = "com.fasterxml.woodstox:woodstox-core:${Versions.WOODSTOX}"
