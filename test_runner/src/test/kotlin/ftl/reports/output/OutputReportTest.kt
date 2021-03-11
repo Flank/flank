@@ -4,11 +4,15 @@ import com.google.common.truth.Truth.assertThat
 import ftl.gc.GcStorage
 import io.mockk.mockkObject
 import io.mockk.verify
+import org.junit.Rule
 import org.junit.Test
-import java.nio.file.Files
+import org.junit.rules.TemporaryFolder
 import java.nio.file.Paths
 
 class OutputReportTest {
+
+    @get:Rule
+    val root = TemporaryFolder()
 
     @Test
     fun `should update configuration`() {
@@ -43,7 +47,7 @@ class OutputReportTest {
     @Test
     fun `should not generate report if disabled`() {
         // given
-        val tempDirectory = Files.createTempDirectory("temp")
+        val tempDirectory = root.newFolder("tmp")
         val configuration = OutputReportConfiguration(
             enabled = false,
             local = OutputReportLocalConfiguration(tempDirectory.toString()),
@@ -61,9 +65,9 @@ class OutputReportTest {
     }
 
     @Test
-    fun `should generate report if report type is NONE`() {
+    fun `should not generate report if report type is NONE`() {
         // given
-        val tempDirectory = Files.createTempDirectory("temp")
+        val tempDirectory = root.newFolder("tmp")
         val configuration = OutputReportConfiguration(
             enabled = true,
             type = OutputReportType.NONE,
@@ -82,9 +86,29 @@ class OutputReportTest {
     }
 
     @Test
+    fun `should not generate report if results folder is missing`() {
+        // given
+        val configuration = OutputReportConfiguration(
+            enabled = true,
+            type = OutputReportType.JSON,
+            local = OutputReportLocalConfiguration("tmp"),
+            remote = OutputReportRemoteConfiguration(uploadReport = false)
+        )
+        val expectedPath = Paths.get(configuration.local.storageDirectory, configuration.local.outputFile)
+
+        // when
+        outputReport.configure(configuration)
+        outputReport.add("test", "node")
+        outputReport.generate()
+
+        // then
+        assertThat(expectedPath.toFile().exists()).isFalse()
+    }
+
+    @Test
     fun `should generate report if enabled`() {
         // given
-        val tempDirectory = Files.createTempDirectory("temp")
+        val tempDirectory = root.newFolder("tmp")
         val configuration = OutputReportConfiguration(
             enabled = true,
             type = OutputReportType.JSON,
@@ -108,7 +132,7 @@ class OutputReportTest {
     @Test
     fun `should generate report if enabled and not upload to gcloud if disabled`() {
         // given
-        val tempDirectory = Files.createTempDirectory("temp")
+        val tempDirectory = root.newFolder("temp")
         val configuration = OutputReportConfiguration(
             enabled = true,
             type = OutputReportType.JSON,
