@@ -15,10 +15,10 @@ inputs:
     required: true
 outputs:
   local_results_directory:
-    description: "Random number"
+    description: "Path to local results directory"
     value: ${{ steps.output_paths.outputs.local_results_directory }}
   gcloud_results_directory:
-    description: "Random number"
+    description: "Path to Gcloud storage"
     value: ${{ steps.output_paths.outputs.gcloud_results_directory }}
 runs:
   using: "composite"
