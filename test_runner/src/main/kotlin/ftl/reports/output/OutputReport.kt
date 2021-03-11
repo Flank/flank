@@ -1,5 +1,6 @@
 package ftl.reports.output
 
+import flank.common.fileExists
 import ftl.gc.GcStorage
 import ftl.run.common.prettyPrint
 import java.io.File
@@ -45,13 +46,14 @@ private fun OutputReport.storeOutputData(
     OutputReportType.NONE -> null
 }
 
-private fun OutputData.toJson() = prettyPrint.toJson(this)
+private fun OutputData.toJson(): String = prettyPrint.toJson(this)
 
 private fun String.storeToFile(
     directoryPath: String,
     fileName: String
-) = Paths.get(directoryPath, fileName).toFile()
-    .apply { writeText(this@storeToFile) }
+) = if (directoryPath.fileExists())
+    Paths.get(directoryPath, fileName).toFile().apply { writeText(this@storeToFile) }
+else null
 
 private fun File.uploadToGcloud(resultsBucket: String, resultsDir: String) {
     GcStorage.upload(absolutePath, resultsBucket, resultsDir)

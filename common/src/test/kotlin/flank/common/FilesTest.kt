@@ -48,7 +48,7 @@ class FilesTest {
         copyDirectory(folder1.absolutePath, folder2.absolutePath)
 
         // then
-        val strFile = folder2.absolutePath.toStr().plus(osPathSeperator()).plus(tempFolder2.root.name).plus(osPathSeperator())
+        val strFile = folder2.absolutePath.toStr().plus(osPathSeparator()).plus(tempFolder2.root.name).plus(osPathSeparator())
             .plus(fileInFolder1.name)
         assertTrue(strFile.fileExists())
         temporaryFolder.delete()

@@ -111,7 +111,7 @@ fun File.hasAllFiles(fileList: List<String>): Boolean {
 
 fun String.fileExists(): Boolean = Paths.get(this).exists()
 
-fun osPathSeperator() = (if (isWindows) "\\" else "/")
+fun osPathSeparator() = (if (isWindows) "\\" else "/")
 
 private fun Path.exists(): Boolean = Files.exists(this)
 
