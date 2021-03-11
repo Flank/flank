@@ -5,6 +5,7 @@ package ftl.util
 import com.fasterxml.jackson.annotation.JsonProperty
 import flank.common.logLn
 import ftl.run.exception.FlankGeneralError
+import java.io.File
 import java.io.InputStream
 import java.time.Instant
 import java.time.ZoneOffset
@@ -114,3 +115,5 @@ fun <T> KMutableProperty<T?>.require() =
     )
 
 fun getGACPathOrEmpty(): String = System.getenv("GOOGLE_APPLICATION_CREDENTIALS").orEmpty()
+
+fun saveToFlankLinks(vararg links: String) = File("flank-links.log").writeText(links.joinToString(System.lineSeparator()))
