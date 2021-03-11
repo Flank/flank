@@ -1,3 +1,34 @@
+## v21.03.1
+### Bug Fixes
+- [#1680](https://github.com/Flank/flank/pull/1680) Fix output report error with dump shards ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1671](https://github.com/Flank/flank/pull/1671) Saving service account by flank script ([adamfilipow92](https://github.com/adamfilipow92))
+- [#1662](https://github.com/Flank/flank/pull/1662) Fix NPE in GcToolResults ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1657](https://github.com/Flank/flank/pull/1657) Remove physical device from integration tests ([adamfilipow92](https://github.com/adamfilipow92))
+- [#1656](https://github.com/Flank/flank/pull/1656) Snapshot publish by disabling closing staging artifacts ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1652](https://github.com/Flank/flank/pull/1652) Fix snapshot upload ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1649](https://github.com/Flank/flank/pull/1649) JUnitReport.xml only contained 50 test results ([dmytrodanylyk](https://github.com/dmytrodanylyk))
+- [#1648](https://github.com/Flank/flank/pull/1648) Publishing to GithubPackages ([piotradamczyk5](https://github.com/piotradamczyk5))
+### Features
+- [#1675](https://github.com/Flank/flank/pull/1675) Return directories path in Flank Github action ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1673](https://github.com/Flank/flank/pull/1673) Run Flank Github action with config provided by user ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1663](https://github.com/Flank/flank/pull/1663) Added reading service account in Github action ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1660](https://github.com/Flank/flank/pull/1660) Add Flank GitHub action ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1659](https://github.com/Flank/flank/pull/1659) Remove flank-actions ([Sloox](https://github.com/Sloox))
+- [#1655](https://github.com/Flank/flank/pull/1655) Update Flank Slack release notifier ([Sloox](https://github.com/Sloox))
+### CI Changes
+- [#1679](https://github.com/Flank/flank/pull/1679) Fix publishing snapshots ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1654](https://github.com/Flank/flank/pull/1654) Treat env json as a string ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1653](https://github.com/Flank/flank/pull/1653) Parse env object to JSON ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1639](https://github.com/Flank/flank/pull/1639) Update workflow file ([pawelpasterz](https://github.com/pawelpasterz))
+### Documentation
+- [#1621](https://github.com/Flank/flank/pull/1621) Corellium sandbox ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1670](https://github.com/Flank/flank/pull/1670) Add SDD for 1609 feature request ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1644](https://github.com/Flank/flank/pull/1644) Add Flank output research docs ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+### Tests update
+- [#1661](https://github.com/Flank/flank/pull/1661) Implement logic to clear LocalGcs after each test ([pawelpasterz](https://github.com/pawelpasterz))
+### Refactor
+- [#1651](https://github.com/Flank/flank/pull/1651) Change packages of commands ([piotradamczyk5](https://github.com/piotradamczyk5))
+
 ## v21.03.0
 ### CI Changes
 - [#1641](https://github.com/Flank/flank/pull/1641) Add missing subcommands ([pawelpasterz](https://github.com/pawelpasterz))
