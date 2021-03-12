@@ -181,7 +181,6 @@ dependencies {
     implementation(Dependencies.DD_PLIST)
     implementation(Dependencies.DEX_TEST_PARSER)
 
-    implementation(Dependencies.JACKSON_DATABIND)
     implementation(Dependencies.JACKSON_KOTLIN)
     implementation(Dependencies.JACKSON_YAML)
     implementation(Dependencies.JACKSON_XML)
@@ -195,7 +194,6 @@ dependencies {
     implementation(Dependencies.KTOR_SERVER_NETTY)
     implementation(Dependencies.KTOR_GSON)
 
-    implementation(Dependencies.KOTLIN_STD_LIB)
     implementation(Dependencies.KOTLIN_COROUTINES_CORE)
 
     implementation(Dependencies.LOGBACK)
