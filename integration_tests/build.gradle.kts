@@ -16,7 +16,6 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
     implementation(project(":common"))
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.JACKSON_XML)

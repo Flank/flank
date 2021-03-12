@@ -1,11 +1,11 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import groovy.util.Node
 import groovy.util.NodeList
-import java.io.ByteArrayOutputStream
-import java.nio.file.Paths
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.io.ByteArrayOutputStream
+import java.nio.file.Paths
 
 plugins {
     application
@@ -181,8 +181,6 @@ dependencies {
     implementation(Dependencies.DD_PLIST)
     implementation(Dependencies.DEX_TEST_PARSER)
 
-//    implementation(Dependencies.GSON)
-
     implementation(Dependencies.JACKSON_DATABIND)
     implementation(Dependencies.JACKSON_KOTLIN)
     implementation(Dependencies.JACKSON_YAML)
@@ -205,7 +203,6 @@ dependencies {
     implementation(Dependencies.PICOCLI)
     annotationProcessor(Dependencies.PICOCLI_CODEGEN)
 
-//    implementation(Dependencies.WOODSTOX)
     implementation(Dependencies.KOTLIN_LOGGING)
     implementation(Dependencies.COMMON_TEXT)
     implementation(Dependencies.JANSI)
@@ -215,8 +212,6 @@ dependencies {
     // compile("com.google.apis:google-api-services-testing:v1-rev30-1.23.0")
     implementation(project(":firebase_apis:test_api"))
 
-//    testImplementation(Dependencies.JSOUP)
-//    testImplementation(Dependencies.OKHTTP)
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.SYSTEM_RULES)
     testImplementation(Dependencies.TRUTH)

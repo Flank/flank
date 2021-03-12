@@ -93,11 +93,9 @@ repositories {
 }
 
 dependencies {
-//    implementation(kotlin("stdlib", org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION)) // or "stdlib-jdk8"
     implementation(Dependencies.KOTLIN_SERIALIZATION)
     implementation(project(":common"))
     implementation(Dependencies.CLIKT)
-//    implementation(Dependencies.JSOUP)
     implementation(Dependencies.JCABI_GITHUB)
     implementation(Dependencies.SLF4J_NOP)
     implementation(Dependencies.GLASSFISH_JSON)
