@@ -1,11 +1,11 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import groovy.util.Node
 import groovy.util.NodeList
-import java.io.ByteArrayOutputStream
-import java.nio.file.Paths
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.io.ByteArrayOutputStream
+import java.nio.file.Paths
 
 plugins {
     application
@@ -181,9 +181,6 @@ dependencies {
     implementation(Dependencies.DD_PLIST)
     implementation(Dependencies.DEX_TEST_PARSER)
 
-    implementation(Dependencies.GSON)
-
-    implementation(Dependencies.JACKSON_DATABIND)
     implementation(Dependencies.JACKSON_KOTLIN)
     implementation(Dependencies.JACKSON_YAML)
     implementation(Dependencies.JACKSON_XML)
@@ -197,7 +194,6 @@ dependencies {
     implementation(Dependencies.KTOR_SERVER_NETTY)
     implementation(Dependencies.KTOR_GSON)
 
-    implementation(Dependencies.KOTLIN_STD_LIB)
     implementation(Dependencies.KOTLIN_COROUTINES_CORE)
 
     implementation(Dependencies.LOGBACK)
@@ -205,26 +201,19 @@ dependencies {
     implementation(Dependencies.PICOCLI)
     annotationProcessor(Dependencies.PICOCLI_CODEGEN)
 
-    implementation(Dependencies.WOODSTOX)
-
     implementation(Dependencies.KOTLIN_LOGGING)
+    implementation(Dependencies.COMMON_TEXT)
+    implementation(Dependencies.JANSI)
 
     // NOTE: iOS support isn't in the public artifact. Use testing jar generated from the private gcloud CLI json
     // https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.apis%22%20AND%20a%3A%22google-api-services-testing%22
     // compile("com.google.apis:google-api-services-testing:v1-rev30-1.23.0")
     implementation(project(":firebase_apis:test_api"))
 
-    implementation(Dependencies.JSOUP)
-    implementation(Dependencies.OKHTTP)
-
     testImplementation(Dependencies.JUNIT)
-    implementation(Dependencies.SYSTEM_RULES)
+    testImplementation(Dependencies.SYSTEM_RULES)
     testImplementation(Dependencies.TRUTH)
     testImplementation(Dependencies.MOCKK)
-
-    implementation(Dependencies.COMMON_TEXT)
-
-    implementation(Dependencies.JANSI)
 }
 
 buildscript {

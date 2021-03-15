@@ -13,14 +13,8 @@ tasks.test {
 tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
 
 dependencies {
-    implementation(kotlin("stdlib", org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION)) // or "stdlib-jdk8"
-    // Fuel
     api(Dependencies.Fuel.CORE)
-    api(Dependencies.Fuel.KOTLINX_SERIALIZATION)
-    api(Dependencies.Fuel.COROUTINES)
-    // Archive
     api(Dependencies.ARCHIVE_LIB)
-    api(Dependencies.TUKAANI_XZ)
 
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.MOCKK)
