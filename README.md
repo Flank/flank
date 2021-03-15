@@ -7,6 +7,4 @@ Flank is YAML compatible with [the gcloud CLI](https://cloud.google.com/sdk/gclo
 ### Documentation is at [flank.github.io/flank](https://flank.github.io/flank/)
 
 
-### Github action documentation
-
-[Github action documentation](https://github.com/Flank/flank/blob/%231600_marketplace_documentation/docs/flank-github-action/store_documentation.md)
+### Github action documentation is at [repository](https://github.com/Flank/flank/blob/master/docs/flank-github-action/store_documentation.md)
