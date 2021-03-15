@@ -46,7 +46,7 @@ object Versions {
     const val GOOGLE_NIO = "0.122.10"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "1.113.12"
+    const val GOOGLE_STORAGE = "1.113.14"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.8.6"
@@ -98,7 +98,7 @@ object Versions {
     // ============== flank-scripts ==============
     const val KOTLIN_SERIALIZATION = "1.1.0"
     const val ARCHIVE_LIB = "1.1.0"
-    const val TUKAANI_XZ = "1.8"
+    const val TUKAANI_XZ = "1.9"
     const val FUEL = "2.3.1"
     const val CLIKT = "2.8.0"
     const val JCABI_GITHUB = "1.1.2"
