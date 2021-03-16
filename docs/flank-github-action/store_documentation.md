@@ -14,7 +14,7 @@ Documentation for Flank is at [flank.github.io/flank](https://flank.github.io/fl
 | `version`                  | Flank version to run. Minimal supported version is `v21.03.1`. Leaving it blank will fallback to latest version.                                                                                                                                          | `false`  | latest available |
 | `service_account`          | Service account to authenticate with. Could be path to file, link to file or file content itself. More information about creating a service account could be found at [documentation](https://flank.github.io/flank/#authenticate-with-a-service-account) | `true`   |                  |
 | `platform`                 | Platform to run. Could be `ios` or `android`                                                                                                                                                                                                              | `true`   |                  |
-| `flank_configuration_file` | Flank configuration file. More info how it should look like is in [documentation](https://flank.github.io/flank/#flank-configuration)                                                                                                                     | `true`   |                  |
+| `flank_configuration_file` | Flank configuration file. More information on how it should look like is in [documentation](https://flank.github.io/flank/#flank-configuration)                                                                                                                     | `true`   |                  |
 
 ### Outputs
 
