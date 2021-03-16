@@ -249,7 +249,12 @@ data class Locale(
     val tags: List<String>,
 ) {
 
-    interface Fetch : (projectId: String, platform: String) -> List<Locale>
+    data class Identity(
+        val projectId: String,
+        val platform: String,
+    )
+
+    interface Fetch : (Identity) -> List<Locale>
 }
 ```
 
@@ -269,9 +274,9 @@ val localeTable: suspend List<Locale>.() -> String = TODO()
 * `IosModelDescribeCommand` -> `IosCatalog/describeModel` -> `IosCatalog/getModels`
 * `IosModelsListCommand` -> `IosCatalog/devicesCatalogAsTable` -> `IosCatalog/getModels`
 * `AndroidArgs/validate` -> `AndroidArgs/assertDevicesSupported`
-      * `AndroidCatalog/supportedDeviceConfig` -> `AndroidCatalog/deviceCatalog(projectId).models`
-      * `AndroidCatalog/androidModelIds` -> `AndroidCatalog/deviceCatalog(projectId).models`
-      * `AndroidCatalog/getSupportedVersionId` -> `AndroidCatalog/deviceCatalog(projectId).models`
+    * `AndroidCatalog/supportedDeviceConfig` -> `AndroidCatalog/deviceCatalog(projectId).models`
+    * `AndroidCatalog/androidModelIds` -> `AndroidCatalog/deviceCatalog(projectId).models`
+    * `AndroidCatalog/getSupportedVersionId` -> `AndroidCatalog/deviceCatalog(projectId).models`
 * `IosArgs/validateRefresh` -> `IosArgs/assertDevicesSupported` -> `IosCatalog/iosDeviceCatalog(projectId).models`
 
 #### Interface
@@ -444,13 +449,20 @@ data class FileReference(
 package ftl.data
 
 object RemoteStorage {
-    
+
     data class Dir(
         val bucket: String,
         val path: String
     )
-    
-    interface Exist: (Dir) -> Boolean
+
+    class Data(
+        val path: String,
+        val bytes: ByteArray? = null // Use, when file under the given path doesn't exist. 
+    )
+
+    interface Exist : (Dir) -> Boolean
+
+    interface Upload : (Dir, Data) -> Unit
 }
 ```
 
@@ -514,7 +526,7 @@ object TestMatrix {
         val virtual: Long = 0,
         val physical: Long = 0
     )
-    
+
     data class Summary(
         val billableMinutes: BillableMinutes,
         val axes: List<Outcome>,
@@ -524,17 +536,17 @@ object TestMatrix {
             val historyId: String,
             val executionId: String,
         )
-        
+
         interface Fetch : (Identity) -> Summary
     }
-   
+
     data class Identity(
-       val matrixId: String,
-       val projectId: String,
+        val matrixId: String,
+        val projectId: String,
     )
-    
-   interface Cancel : (Identity) -> Unit
-   interface Refresh : (Identity) -> Result
+
+    interface Cancel : (Identity) -> Unit
+    interface Refresh : (Identity) -> Result
 }
 ```
 
@@ -683,4 +695,215 @@ object IosTestMatrix {
 
 ```kotlin
 TODO()
+```
+
+### JUnit results
+
+#### Target
+
+* `ReportManager/generate` -> `ReportManager/parseTestSuite`
+    * `ReportManager/processXmlFromFile`
+    * `refreshMatricesAndGetExecutions` -> `List<TestExecution>/createJUnitTestResult`
+
+#### Interface
+
+`ftl/data/JUnitTestResult.kt`
+
+```kotlin
+package ftl.data
+
+object JUnitTest {
+
+    @JacksonXmlRootElement(localName = "testsuites")
+    data class Result(
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @JacksonXmlProperty(localName = "testsuite")
+        var testsuites: MutableList<Suite>? = null
+    ) {
+        data class ApiIdentity(
+            val projectId: String,
+            val matrixIds: List<String>
+        )
+        interface GenerateFromApi : (ApiIdentity) -> Result
+
+        interface ParseFromFiles : (File) -> Result
+    }
+
+    data class Suite(
+        @JacksonXmlProperty(isAttribute = true)
+        var name: String,
+
+        @JacksonXmlProperty(isAttribute = true)
+        var tests: String, // Int
+
+        @JacksonXmlProperty(isAttribute = true)
+        var failures: String, // Int
+
+        @JacksonXmlProperty(isAttribute = true)
+        var flakes: Int? = null,
+
+        @JacksonXmlProperty(isAttribute = true)
+        var errors: String, // Int
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JacksonXmlProperty(isAttribute = true)
+        var skipped: String?, // Int. Android only
+
+        @JacksonXmlProperty(isAttribute = true)
+        var time: String, // Double
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JacksonXmlProperty(isAttribute = true)
+        val timestamp: String?, // String. Android only
+
+        @JacksonXmlProperty(isAttribute = true)
+        val hostname: String? = "localhost", // String.
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JacksonXmlProperty(isAttribute = true)
+        val testLabExecutionId: String? = null, // String.
+
+        @JacksonXmlProperty(localName = "testcase")
+        var testcases: MutableCollection<Case>?,
+
+        // not used
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        val properties: Any? = null, // <properties />
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JacksonXmlProperty(localName = "system-out")
+        val systemOut: Any? = null, // <system-out />
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JacksonXmlProperty(localName = "system-err")
+        val systemErr: Any? = null // <system-err />
+    )
+
+    data class Case(
+        // name, classname, and time are always present except for empty test cases <testcase/>
+        @JacksonXmlProperty(isAttribute = true)
+        val name: String?,
+
+        @JacksonXmlProperty(isAttribute = true)
+        val classname: String?,
+
+        @JacksonXmlProperty(isAttribute = true)
+        val time: String?,
+
+        // iOS contains multiple failures for a single test.
+        // JUnit XML allows arbitrary amounts of failure/error tags
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JacksonXmlProperty(localName = "failure")
+        val failures: List<String>? = null,
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JacksonXmlProperty(localName = "error")
+        val errors: List<String>? = null,
+
+        @JsonInclude(JsonInclude.Include.CUSTOM, valueFilter = FilterNotNull::class)
+        val skipped: String? = "absent" // used by FilterNotNull to filter out absent `skipped` values
+    ) {
+
+        // Consider to move all properties to constructor if will doesn't conflict with parser
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        var webLink: String? = null
+
+        @JacksonXmlProperty(isAttribute = true)
+        var flaky: Boolean? = null // use null instead of false
+    }
+
+    @Suppress("UnusedPrivateClass")
+    private class FilterNotNull {
+        override fun equals(other: Any?): Boolean {
+            // other is null     = present
+            // other is not null = absent (default value)
+            return other != null
+        }
+
+        override fun hashCode(): Int {
+            return javaClass.hashCode()
+        }
+    }
+}
+
+
+```
+
+### Performance Metrics
+
+#### Target
+
+`GcToolResults/getPerformanceMetric`
+
+#### Interface
+
+`ftl/data/PerfMetrics.kt`
+
+```kotlin
+
+object PerfMetrics {
+
+    // based on com.google.api.services.toolresults.model.PerfMetricsSummary
+    data class Summary(
+        val appStartTime: AppStartTime? = null,
+        val graphicsStats: GraphicsStats? = null,
+        val perfEnvironment: PerfEnvironment? = null,
+        val perfMetrics: List<String>? = null,
+        val executionId: String? = null,
+        val historyId: String? = null,
+        val projectId: String? = null,
+        val stepId: String? = null,
+    )
+
+    data class GraphicsStats(
+        val buckets: List<Bucket>? = null,
+        val highInputLatencyCount: Long? = null,
+        val jankyFrames: Long? = null,
+        val missedVsyncCount: Long? = null,
+        val p50Millis: Long? = null,
+        val p90Millis: Long? = null,
+        val p95Millis: Long? = null,
+        val p99Millis: Long? = null,
+        val slowBitmapUploadCount: Long? = null,
+        val slowDrawCount: Long? = null,
+        val slowUiThreadCount: Long? = null,
+        val totalFrames: Long? = null,
+    ) {
+        data class Bucket(
+            val frameCount: Long?,
+            val renderMillis: Long?,
+        )
+    }
+
+    data class AppStartTime(
+        val fullyDrawnTime: Duration? = null,
+        val initialDisplayTime: Duration? = null,
+    )
+
+    data class PerfEnvironment(
+        val cpuInfo: CPUInfo? = null,
+        val memoryInfo: MemoryInfo? = null,
+    )
+
+    data class CPUInfo(
+        val cpuProcessor: String? = null,
+        val cpuSpeedInGhz: Float? = null,
+        val numberOfCores: Int? = null,
+    )
+
+    data class MemoryInfo(
+        val memoryCapInKibibyte: Long? = null,
+        val memoryTotalInKibibyte: Long? = null,
+    )
+
+    data class Identity(
+        val executionId: String,
+        val historyId: String,
+        val projectId: String,
+        val stepId: String,
+    )
+
+    interface Fetch : (Identity) -> Summary
+}
 ```
