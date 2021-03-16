@@ -1,6 +1,6 @@
 ## Action
 
-This Github action allow running Flank using your Github workflows.
+This Github action allows for running Flank as a Github workflow.
 
 Documentation for Flank is at [flank.github.io/flank](https://flank.github.io/flank/)
 
