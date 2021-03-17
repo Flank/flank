@@ -1,6 +1,6 @@
 gcloud:
-  app: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk
-  test: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-single-success-debug-androidTest.apk
+  app: /Users/adamfilipowicz/Repos/flank/test_projects/flutter/flutter_example/build/app/outputs/apk/debug/app-debug.apk
+  test: /Users/adamfilipowicz/Repos/flank/test_projects/flutter/flutter_example/build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 
 flank:
   disable-sharding: true
