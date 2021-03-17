@@ -473,6 +473,7 @@ object RemoteStorage {
 * `SavedMatrix`
 * `TestOutcome`
 * `TestSuiteOverviewData`
+* `MatrixMap`
 * `CancelCommand` -> `cancelLastRun` -> `cancelMatrices` -> `GcTestMatrix/cancel`
 * `RefreshCommand` -> `refreshLastRun`
     * `refreshMatrices`
@@ -491,7 +492,13 @@ object RemoteStorage {
 
 ```kotlin
 object TestMatrix {
+    
     data class Result(
+        val runPath: String,
+        val map: Map<String, Data>,
+    )
+    
+    data class Data(
         val matrixId: String = "",
         val state: String = "",
         val gcsPath: String = "",
@@ -546,7 +553,7 @@ object TestMatrix {
     )
 
     interface Cancel : (Identity) -> Unit
-    interface Refresh : (Identity) -> Result
+    interface Refresh : (Identity) -> Data
 }
 ```
 
@@ -841,6 +848,7 @@ object JUnitTest {
 `ftl/data/PerfMetrics.kt`
 
 ```kotlin
+package ftl.data
 
 object PerfMetrics {
 
@@ -905,5 +913,38 @@ object PerfMetrics {
     )
 
     interface Fetch : (Identity) -> Summary
+}
+```
+
+### Fetching Artifacts
+
+#### Target
+
+* `FetchArtifacts.kt`
+
+#### Interface
+
+`ftl/data/PerfMetrics.kt`
+
+```kotlin
+package ftl.data
+
+object Artifacts {
+    
+    data class Identity(
+        val gcsPathWithoutRootBucket: String,
+        val gcsRootBucket: String,
+        val regex: List<Regex>,
+        val blobPath: String,
+        val downloadPath: DownloadPath,
+    )
+    
+    data class DownloadPath(
+        val localResultDir: String,
+        val useLocalResultDir: Boolean,
+        val keepFilePath: Boolean,
+    )
+    
+    interface Fetch: (Identity) -> List<String> 
 }
 ```
