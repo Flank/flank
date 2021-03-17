@@ -17,7 +17,10 @@ internal fun OutputReport.log(matrices: Collection<SavedMatrix>) {
     add(
         "test_results",
         matrices.map {
-            it.matrixId to it.testAxises
+            it.matrixId to mapOf(
+                "app" to it.appFileName,
+                "test-axises" to it.testAxises
+            )
         }.toMap()
     )
 }

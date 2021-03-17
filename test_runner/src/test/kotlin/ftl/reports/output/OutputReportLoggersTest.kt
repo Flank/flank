@@ -43,10 +43,13 @@ class OutputReportLoggersTest {
     fun `should log test_results`() {
         // given
         val matrices = listOf(
-            SavedMatrix(matrixId = "1", testAxises = listOf(TestOutcome("device1")))
+            SavedMatrix(matrixId = "1", testAxises = listOf(TestOutcome("device1")), appFileName = "any.apk")
         )
         val testResults = matrices.map {
-            it.matrixId to it.testAxises
+            it.matrixId to mapOf(
+                "app" to it.appFileName,
+                "test-axises" to it.testAxises
+            )
         }.toMap()
 
         // when
