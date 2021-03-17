@@ -86,8 +86,8 @@ enum class TestOutcome(val regex: Regex) {
 
 private val fromCommon =
     { outcome: String ->
-        if (isWindows) "\\?\\s$outcome\\s\\?\\smatrix-[a-zA-Z0-9]*\\s\\?\\s*[a-zA-Z0-9-]*\\s*\\?\\s[a-zA-Z0-9\\s,-]*\\s*\\?".toRegex()
-        else "│\\s$outcome\\s│\\s${"matrix"}-[a-zA-Z0-9]*\\s│\\s*[a-zA-Z0-9-]*\\s*│\\s[a-zA-Z0-9\\s,-]*\\s*│".toRegex()
+        if (isWindows) "\\?\\s$outcome\\s\\?\\smatrix-[a-zA-Z0-9]*\\s\\?\\s*[a-zA-Z0-9._-]*\\s*\\?\\s*[a-zA-Z0-9-]*\\s*\\?\\s[a-zA-Z0-9\\s,-]*\\s*\\?".toRegex()
+        else "│\\s$outcome\\s│\\s${"matrix"}-[a-zA-Z0-9]*\\s│\\s*[a-zA-Z0-9._-]*\\s*│\\s*[a-zA-Z0-9-]*\\s*│\\s[a-zA-Z0-9\\s,-]*\\s*│".toRegex()
     }
 
 fun String.removeUnicode() = replace("\u001B\\[\\d{1,2}m".toRegex(), "").trimIndent()
