@@ -81,12 +81,12 @@ object AndroidCatalog {
                 logLn("Unable to find device type for $modelId. PHYSICAL used as fallback in cost calculations")
             }
 
-        return form.equals(DeviceType.VIRTUAL.name, ignoreCase = true)
+        return form.equals(DeviceType.VIRTUAL.name, ignoreCase = true) || form.equals(DeviceType.EMULATOR.name, ignoreCase = true)
     }
 }
 
 enum class DeviceType {
-    VIRTUAL, PHYSICAL
+    VIRTUAL, PHYSICAL, EMULATOR
 }
 
 sealed class DeviceConfigCheck

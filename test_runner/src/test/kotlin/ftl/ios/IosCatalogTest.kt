@@ -19,7 +19,7 @@ class IosCatalogTest {
 
     @Test
     fun supportedXcode() {
-        assertThat(IosCatalog.supportedXcode("9.2", projectId)).isTrue()
+        assertThat(IosCatalog.supportedXcode("10.3", projectId)).isTrue()
         assertThat(IosCatalog.supportedXcode("0.1", projectId)).isFalse()
     }
 

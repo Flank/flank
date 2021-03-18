@@ -1,6 +1,7 @@
 package ftl.environment.android
 
 import com.google.testing.model.AndroidModel
+import ftl.environment.EMULATOR_DEVICE
 import ftl.environment.FORM
 import ftl.environment.MAKE
 import ftl.environment.MODEL_ID
@@ -10,6 +11,7 @@ import ftl.environment.PHYSICAL_DEVICE
 import ftl.environment.RESOLUTION
 import ftl.environment.TAGS
 import ftl.environment.TestEnvironmentInfo
+import ftl.environment.VIRTUAL_DEVICE
 import ftl.environment.createTableColumnFor
 import ftl.environment.getOrCreateList
 import ftl.environment.orUnknown
@@ -47,5 +49,10 @@ private val AndroidModel.resolution
     get() = if (screenX == null || screenY == null) "UNKNOWN" else "$screenY x $screenX"
 
 private val formToSystemOutColorMapper: (String) -> SystemOutColor = {
-    if (it == PHYSICAL_DEVICE) SystemOutColor.YELLOW else SystemOutColor.BLUE
+    when (it) {
+        PHYSICAL_DEVICE -> SystemOutColor.YELLOW
+        VIRTUAL_DEVICE -> SystemOutColor.BLUE
+        EMULATOR_DEVICE -> SystemOutColor.GREEN
+        else -> SystemOutColor.DEFAULT
+    }
 }
