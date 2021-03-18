@@ -9,28 +9,24 @@ import java.nio.file.Paths
 private val currentPath = Paths.get("")
 private val llvmPath = Paths.get(currentPath.toString(), "llvm")
 
-fun updateLlvm() = if (isWindows) updateLlvmWindows() else updateLlvmNonWindows()
+fun updateLlvm() = if (isWindows) retrieveNMForWindows() else updateLlvmNonWindows()
 
-private fun updateLlvmWindows() {
-    println(" Will be available after #1134")
-   /*
-   TODO finish this in #1134
-   val llvmExe = Paths.get(llvmPath.toString(), "LLVM-win64.exe")
-    if (llvmExe.toFile().exists()) {
-        println("LLVM exists")
+private fun retrieveNMForWindows() {
+    val binariesPath = Paths.get(currentPath.toString(), "master.zip")
+    if (binariesPath.toFile().exists()) {
+        println("Binaries already exists")
     } else {
-        println("Downloading Windows LLVM...")
-        llvmPath.toFile().mkdirs()
+        println("Downloading binaries for windows...")
+        binariesPath.toFile().mkdirs()
         downloadFile(
-            srcUrl = "https://releases.llvm.org/8.0.0/LLVM-8.0.0-win64.exe",
-            destinationPath = llvmExe.toString()
+            sourceUrl = "https://github.com/Flank/binaries/archive/master.zip",
+            destination = binariesPath.toString()
         )
     }
 
-    llvmExe.toFile().extract(llvmPath.toFile(), "zip", "xz")
-    findAndCopyLlvmLicense()
+    binariesPath.toFile().extract(binariesPath.toFile(), "zip", "xz")
     findAndCopyLlvmNmFile()
-    llvmPath.toFile().deleteRecursively()*/
+    llvmPath.toFile().deleteRecursively()
 }
 
 private fun updateLlvmNonWindows() {
@@ -66,8 +62,12 @@ private fun findAndCopyLlvmLicense() {
 }
 
 private fun findAndCopyLlvmNmFile() {
-    val llvmNmSuffix = Paths.get("bin", "llvm-nm").toString()
-    val llvmNmOutputFile = Paths.get(currentPath.toString(), "nm").toFile()
+    val llvmNmSuffix =
+        if (!isWindows) Paths.get("bin", "llvm-nm").toString() else Paths.get("bin", "llvm-nm.exe").toString()
+    val llvmNmOutputFile = if (!isWindows) Paths.get(currentPath.toString(), "nm").toFile() else Paths.get(
+        currentPath.toString(),
+        "nm.exe"
+    ).toFile()
 
     println("Copying llvm nm ...")
     Files.walk(llvmPath)

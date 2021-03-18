@@ -12,26 +12,21 @@ private val swiftPath = Paths.get(currentPath.toString(), "swift")
 fun updateSwift() = if (isWindows) updateSwiftWindows() else updateSwiftOther()
 
 private fun updateSwiftWindows() {
-    println(" Will be available after #1134")
-    /*
-    TODO finish this in #1134
-    val swiftExe = Paths.get(swiftPath.toString(), "swift.exe")
+    val binariesPath = Paths.get(currentPath.toString(), "master.zip")
+    if (binariesPath.toFile().exists()) {
+        println("Binaries already exists")
+    } else {
+        println("Downloading binaries for windows...")
+        binariesPath.toFile().mkdirs()
+        downloadFile(
+            sourceUrl = "https://github.com/Flank/binaries/archive/master.zip",
+            destination = binariesPath.toString()
+        )
+    }
 
-     if (swiftExe.toFile().exists()) {
-         println("Swift exists")
-     } else {
-         println("Downloading swift for Windows")
-         swiftPath.toFile().mkdirs()
-         downloadFile(
-             srcUrl = "https://swift.org/builds/swift-5.3-release/windows10/swift-5.3-RELEASE/swift-5.3-RELEASE-windows10.exe",
-             destinationPath = swiftExe.toString()
-         )
-     }
-
-     swiftExe.toFile().extract(swiftPath.toFile(), "zip", "gz")
-     findAndCopySwiftLicense()
-     findAndCopySwiftDemangleFile()
-     swiftPath.toFile().deleteRecursively()*/
+    binariesPath.toFile().extract(binariesPath.toFile(), "zip", "xz")
+    findAndCopySwiftDemangleFile()
+    swiftPath.toFile().deleteRecursively()
 }
 
 private fun updateSwiftOther() {
@@ -67,8 +62,8 @@ private fun findAndCopySwiftLicense() {
 }
 
 private fun findAndCopySwiftDemangleFile() {
-    val switftDemangleFileSuffix = Paths.get("usr", "bin", "swift-demangle").toString()
-    val switftDemangleOutputFile = Paths.get(currentPath.toString(), "swift-demangle").toFile()
+    val switftDemangleFileSuffix = if (isWindows) Paths.get("swift-demangle.exe").toString() else Paths.get("usr", "bin", "swift-demangle").toString()
+    val switftDemangleOutputFile = if (isWindows) Paths.get(currentPath.toString(), "swift-demangle.exe").toFile() else Paths.get(currentPath.toString(), "swift-demangle").toFile()
 
     println("Copying swift-demangle ...")
     Files.walk(swiftPath)
