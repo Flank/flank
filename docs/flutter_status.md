@@ -95,4 +95,4 @@ statuses in method ```run``` (lines: 78, 82, 84).
 
 1. Report results.
 
-Probably this solution need needs flutter plugin development. We need to create POC to check if it's possible to do. 
+Probably this solution needs flutter plugin development. We need to create POC to check if it's possible to do. 
