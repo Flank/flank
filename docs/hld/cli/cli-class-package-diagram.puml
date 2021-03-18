@@ -19,7 +19,7 @@ class FirebaseCommand [[../../../test_runner/src/main/kotlin/ftl/cli/FirebaseCom
 }
 
 package "auth" {
-class LoginCommand [[../../../test_runner/src/main/kotlin/ftl/cli/auth/LoginCommand.kt]] {
+class LoginCommand [[../../../test_runner/src/main/kotlin/ftl/cli/auth/LoginCommand.kt]] #lightblue {
     login
 }
 }
@@ -27,10 +27,10 @@ class LoginCommand [[../../../test_runner/src/main/kotlin/ftl/cli/auth/LoginComm
 
 package "firebase" {
 
-class CancelCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/CancelCommand.kt]] {
+class CancelCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/CancelCommand.kt]] #lightblue {
     cancel
 }
-class RefreshCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/RefreshCommand.kt]] {
+class RefreshCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/RefreshCommand.kt]] #lightblue {
     refresh
 }
 class TestCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/TestCommand.kt]] {
@@ -57,7 +57,7 @@ class ProvidedSoftwareCommand [[../../../test_runner/src/main/kotlin/ftl/cli/fir
 
 package "android" {
 
-class AndroidDoctorCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidDoctorCommand.kt]] {
+class AndroidDoctorCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidDoctorCommand.kt]] #lightblue {
     doctor
 }
 class AndroidLocalesCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidLocalesCommand.kt]] {
@@ -69,10 +69,10 @@ class AndroidModelsCommand [[../../../test_runner/src/main/kotlin/ftl/cli/fireba
 class AndroidOrientationsCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidOrientationsCommand.kt]] {
     screen-orientations
 }
-class AndroidRunCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidRunCommand.kt]] {
+class AndroidRunCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidRunCommand.kt]] #lightblue {
     run
 }
-class AndroidTestEnvironmentCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidTestEnvironmentCommand.kt]] {
+class AndroidTestEnvironmentCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidTestEnvironmentCommand.kt]] #lightblue {
     test-environment
 }
 class AndroidVersionsCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidVersionsCommand.kt]] {
@@ -80,34 +80,34 @@ class AndroidVersionsCommand [[../../../test_runner/src/main/kotlin/ftl/cli/fire
 }
 
 package "android.locales" {
-class AndroidLocalesListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/configuration/AndroidLocalesListCommand.kt]] {
+class AndroidLocalesListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/configuration/AndroidLocalesListCommand.kt]] #lightblue {
     list
 }
-class AndroidLocalesDescribeCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/configuration/AndroidLocalesDescribeCommand.kt]] {
+class AndroidLocalesDescribeCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/configuration/AndroidLocalesDescribeCommand.kt]] #lightblue {
     describe
 }
 }
 
 package "android.models" {
-class AndroidModelsListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/models/AndroidModelsListCommand.kt]] {
+class AndroidModelsListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/models/AndroidModelsListCommand.kt]] #lightblue {
     list
 }
-class AndroidModelDescribeCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/models/AndroidModelDescribeCommand.kt]] {
+class AndroidModelDescribeCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/models/AndroidModelDescribeCommand.kt]] #lightblue {
     describe
 }
 }
 
 package "android.orientations" {
-class AndroidOrientationsListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/orientations/AndroidOrientationsListCommand.kt]] {
+class AndroidOrientationsListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/orientations/AndroidOrientationsListCommand.kt]] #lightblue {
     list
 }
 }
 
 package "android.versions" {
-class AndroidVersionsListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/versions/AndroidVersionsListCommand.kt]] {
+class AndroidVersionsListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/versions/AndroidVersionsListCommand.kt]] #lightblue {
     list
 }
-class AndroidVersionsDescribeCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/versions/AndroidVersionsDescribeCommand.kt]] {
+class AndroidVersionsDescribeCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/versions/AndroidVersionsDescribeCommand.kt]] #lightblue {
     describe
 }
 }
@@ -116,7 +116,7 @@ class AndroidVersionsDescribeCommand [[../../../test_runner/src/main/kotlin/ftl/
 
 package "ios" {
 
-class IosDoctorCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosDoctorCommand.kt]] {
+class IosDoctorCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosDoctorCommand.kt]] #lightblue {
     doctor
 }
 
@@ -129,10 +129,10 @@ class IosModelsCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/t
 class IosOrientationsCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosOrientationsCommand.kt]] {
     screen-orientations
 }
-class IosRunCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosRunCommand.kt]] {
+class IosRunCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosRunCommand.kt]] #lightblue {
     run
 }
-class IosTestEnvironmentCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosTestEnvironmentCommand.kt]] {
+class IosTestEnvironmentCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosTestEnvironmentCommand.kt]] #lightblue {
     test-environment
 }
 class IosVersionsCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosVersionsCommand.kt]] {
@@ -140,34 +140,34 @@ class IosVersionsCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase
 }
 
 package "ios.locales" {
-class IosLocalesListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/configuration/IosLocalesListCommand.kt]] {
+class IosLocalesListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/configuration/IosLocalesListCommand.kt]] #lightblue {
     list
 }
-class IosLocalesDescribeCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/configuration/IosLocalesDescribeCommand.kt]] {
+class IosLocalesDescribeCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/configuration/IosLocalesDescribeCommand.kt]] #lightblue {
     describe
 }
 }
 
 package "ios.models" {
-class IosModelsListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/models/IosModelsListCommand.kt]] {
+class IosModelsListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/models/IosModelsListCommand.kt]] #lightblue {
     list
 }
-class IosModelDescribeCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/models/IosModelDescribeCommand.kt]] {
+class IosModelDescribeCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/models/IosModelDescribeCommand.kt]] #lightblue {
     describe
 }
 }
 
 package "ios.orientations" {
-class IosOrientationsListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/orientations/IosOrientationsListCommand.kt]] {
+class IosOrientationsListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/orientations/IosOrientationsListCommand.kt]] #lightblue {
     list
 }
 }
 
 package "ios.versions" {
-class IosVersionsListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/versions/IosVersionsListCommand.kt]] {
+class IosVersionsListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/versions/IosVersionsListCommand.kt]] #lightblue {
     list
 }
-class IosVersionsDescribeCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/versions/IosVersionsDescribeCommand.kt]] {
+class IosVersionsDescribeCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/versions/IosVersionsDescribeCommand.kt]] #lightblue {
     describe
 }
 }
@@ -175,22 +175,22 @@ class IosVersionsDescribeCommand [[../../../test_runner/src/main/kotlin/ftl/cli/
 }
 
 package "ipblocks" {
-class IPBlocksListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ipblocks/IPBlocksListCommand.kt]] {
+class IPBlocksListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ipblocks/IPBlocksListCommand.kt]] #lightblue {
     list
 }
 }
 
 package "networkprofiles" {
-class NetworkProfilesDescribeCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/networkprofiles/NetworkProfilesDescribeCommand.kt]] {
+class NetworkProfilesDescribeCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/networkprofiles/NetworkProfilesDescribeCommand.kt]] #lightblue {
     describe
 }
-class NetworkProfilesListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/networkprofiles/NetworkProfilesListCommand.kt]] {
+class NetworkProfilesListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/networkprofiles/NetworkProfilesListCommand.kt]] #lightblue {
     list
 }
 }
 
 package "providedsoftware" {
-class ProvidedSoftwareListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/providedsoftware/ProvidedSoftwareListCommand.kt]] {
+class ProvidedSoftwareListCommand [[../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/providedsoftware/ProvidedSoftwareListCommand.kt]] #lightblue {
     list
 }
 }
