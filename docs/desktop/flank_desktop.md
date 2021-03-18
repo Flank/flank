@@ -2,7 +2,7 @@
 
 ## Prototype Flank options
 
-The prototype will run simple Android test on given apk and test apk with option to specify some flanks flags, as well
+The prototype will run a simple Android test on a given apk and test the apk with options to specify some flanks flags, as well
 as max tests shards. Those flags are the most popular one based on [mixpanel analytics](https://mixpanel.com/report/2288623/view/2835119/dashboards#id=879189)
 
 - Flags
