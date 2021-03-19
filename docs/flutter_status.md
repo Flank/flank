@@ -31,10 +31,10 @@ gcloud alpha firebase test android run \
 
 ```
 
-In this case gcloud will create 3 shards.
+In this case, gcloud will create 3 shards.
 
-1. One shard contain all test's
-1. Two other shards are empty.
+1. One shard will contain all test's
+1. Two other shards will be empty.
 
 ## Flank
 
