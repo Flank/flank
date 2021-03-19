@@ -2,10 +2,39 @@
 
 ## Firebase
 
-1. Firebase can run flutter tests. You can find example in ```test_projects/flutter```,
+1. Firebase can run flutter tests. You can find example in ```test_projects/flutter/flutter_example```,
    simple run ```./build_and_run_tests_firebase```.
 
 1. Firebase not supporting sharding for Flutter.
+
+To test sharding on gcloud run
+
+```shell
+
+flutter build apk
+dir=$(pwd)
+pushd android
+
+./gradlew app:assembleAndroidTest
+
+./gradlew app:assembleDebug -Ptarget=$dir"/integration_tests/integration_tests.dart"
+
+popd
+
+gcloud alpha firebase test android run \
+  --project flank-open-source \
+  --type instrumentation \
+  --app build/app/outputs/apk/debug/app-debug.apk \
+  --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+  --num-uniform-shards=3 \
+  --timeout 5m
+
+```
+
+In this case gcloud will create 3 shards.
+
+1. One shard contain all test's
+1. Two other shards are empty.
 
 ## Flank
 
