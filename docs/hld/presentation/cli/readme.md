@@ -11,7 +11,7 @@ From the:
 
 ## Package
 
-[`ftl.cli`](https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/cli) and nested.
+All CLI commands are placed in [`ftl.cli`](https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/cli) or inside nested packages.
 
 ## Libraries
 
@@ -20,7 +20,7 @@ Flank command line interface is build upon the [picocli](https://picocli.info/).
 ## Design
 
 * The commands design is based on [gcloud firebase](https://cloud.google.com/sdk/gcloud/reference/alpha/firebase),
-* The goal is to keep flanks CLI compatible with gcloud.
+* The goal is to have implemented equivalent for each gcloud command in firebase scope, so Flank will keep CLI parity with gcloud.
 
 ## Responsibilities
 
