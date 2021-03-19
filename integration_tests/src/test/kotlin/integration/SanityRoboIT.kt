@@ -4,11 +4,10 @@ import FlankCommand
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import run
-import utils.assertCountOfFailedTests
-import utils.assertTestResultContainsWebLinks
+import utils.asOutputReport
 import utils.findTestDirectoryFromOutput
-import utils.loadAsTestSuite
-import utils.toJUnitXmlFile
+import utils.json
+import utils.toOutputReportFile
 
 class SanityRoboIT {
     private val name = this::class.java.simpleName
@@ -27,13 +26,10 @@ class SanityRoboIT {
         assertExitCode(result, 0)
 
         val resOutput = result.output.removeUnicode()
-        assertThat(resOutput).containsMatch(findInCompare(name))
-        assertContainsOutcomeSummary(resOutput) {
-            success = 1
-        }
-        resOutput.findTestDirectoryFromOutput().toJUnitXmlFile().loadAsTestSuite().run {
-            assertTestResultContainsWebLinks()
-            assertCountOfFailedTests(0)
-        }
+        val outputReport = resOutput.findTestDirectoryFromOutput().toOutputReportFile().json().asOutputReport()
+        assertThat(outputReport.cost).isNotNull()
+        assertThat(outputReport.testResults).isNotEmpty()
+        println(outputReport.testResults)
+        assertThat(outputReport.weblinks).isNotEmpty()
     }
 }

@@ -14,7 +14,7 @@ data class OutputReport(
     val args: Any,
     val cost: OutputReportCostNode? = null,
     val weblinks: List<String> = emptyList(),
-    @JsonProperty("test_results") val testResults: Map<String, Matrix> = emptyMap(),
+    @JsonProperty("test_results") val testResults: Map<String, List<TextAxis>> = emptyMap(),
     val error: String = ""
 )
 

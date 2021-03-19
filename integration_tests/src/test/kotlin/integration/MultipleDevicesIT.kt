@@ -4,12 +4,11 @@ import FlankCommand
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import run
-import utils.assertTestFail
-import utils.assertTestPass
-import utils.assertTestResultContainsWebLinks
+import utils.asOutputReport
 import utils.findTestDirectoryFromOutput
-import utils.loadAsTestSuite
-import utils.toJUnitXmlFile
+import utils.json
+import utils.toOutputReportFile
+import java.math.BigDecimal
 
 class MultipleDevicesIT {
     private val name = this::class.java.simpleName
@@ -29,20 +28,17 @@ class MultipleDevicesIT {
         assertExitCode(result, 10)
 
         val resOutput = result.output.removeUnicode()
-        assertThat(resOutput).containsMatch(findInCompare(name))
-        assertContainsUploads(
-            resOutput,
-            "app-multiple-success-debug-androidTest.apk",
-            "app-multiple-error-debug-androidTest.apk",
-        )
-        assertContainsOutcomeSummary(resOutput) {
-            success = 6
-            failure = 3
-        }
-        resOutput.findTestDirectoryFromOutput().toJUnitXmlFile().loadAsTestSuite().run {
-            assertTestResultContainsWebLinks()
-            assertTestPass(multipleSuccessfulTests)
-            assertTestFail(multipleFailedTests)
-        }
+
+        val outputReport = resOutput.findTestDirectoryFromOutput().toOutputReportFile().json().asOutputReport()
+        assertThat(outputReport.weblinks.size).isEqualTo(3)
+        assertThat(outputReport.error).isEmpty()
+        assertThat(outputReport.cost?.virtual).isGreaterThan(BigDecimal.ZERO)
+        assertThat(outputReport.cost?.virtual).isEqualToIgnoringScale(outputReport.cost?.total)
+        val testsResults = outputReport.testResults
+            .map { it.value }
+            .flatten()
+
+        assertThat(testsResults.sumBy { it.testSuiteOverview.failures }).isEqualTo(15)
+        assertThat(testsResults.sumBy { it.testSuiteOverview.total }).isEqualTo(123)
     }
 }
