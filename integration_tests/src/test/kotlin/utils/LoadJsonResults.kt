@@ -8,3 +8,5 @@ import java.io.File
 private val jsonMapper by lazy { JsonMapper().registerModule(KotlinModule()) }
 
 fun File.loadJsonResults() = jsonMapper.readValue<Map<String, Any>>(this)
+
+fun File.json() = readText()

@@ -4,3 +4,4 @@ gcloud:
   results-dir: test_dir
 flank:
   legacy-junit-result: true
+  output-report: json

@@ -2,14 +2,13 @@ package integration
 
 import FlankCommand
 import com.google.common.truth.Truth.assertThat
-import flank.common.OUTPUT_ARGS
-import flank.common.OUTPUT_ERROR
 import flank.common.isWindows
 import org.junit.Assume.assumeFalse
 import org.junit.Test
 import run
+import utils.asOutputReport
 import utils.findTestDirectoryFromOutput
-import utils.loadJsonResults
+import utils.json
 import utils.toOutputReportFile
 import java.io.File
 
@@ -31,14 +30,12 @@ class AllTestFilteredIT {
         assertExitCode(result, 1)
 
         val resOutput = result.output.removeUnicode()
-        assertThat(resOutput).containsMatch(findInCompare(name))
-        assertNoOutcomeSummary(resOutput)
-        val json = resOutput.findTestDirectoryFromOutput().toOutputReportFile().loadJsonResults()
+        val outputReport = resOutput.findTestDirectoryFromOutput().toOutputReportFile().json().asOutputReport()
 
-        assertThat(json).containsKey(OUTPUT_ARGS)
-        assertThat(json).containsKey(OUTPUT_ERROR)
-
-        assertThat(json[OUTPUT_ERROR].toString()).contains("There are no tests to run.")
+        assertThat(outputReport.error).contains("There are no tests to run.")
+        assertThat(outputReport.cost).isNull()
+        assertThat(outputReport.testResults).isEmpty()
+        assertThat(outputReport.weblinks).isEmpty()
     }
 
     @Test
