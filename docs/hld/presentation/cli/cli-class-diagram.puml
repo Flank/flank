@@ -134,7 +134,7 @@ package "android.locales" {
 class AndroidLocalesListCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/android/configuration/AndroidLocalesListCommand.kt]] #lightblue {
     list
     [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/configuration/AndroidLocalesListCommand.kt local link]]
-    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-android-localeslist.adoc github adoc]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-android-locales-list.adoc github adoc]]
     [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/locales/list gcloud equivalent]]
 }
 class AndroidLocalesDescribeCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/android/configuration/AndroidLocalesDescribeCommand.kt]] #lightblue {

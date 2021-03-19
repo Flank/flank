@@ -19,8 +19,8 @@ Flank command line interface is build upon the [picocli](https://picocli.info/).
 
 ## Design
 
-The commands design is based on [gcloud firebase](https://cloud.google.com/sdk/gcloud/reference/alpha/firebase), also
-the goal is to keep flanks CLI compatible with gcloud.
+* The commands design is based on [gcloud firebase](https://cloud.google.com/sdk/gcloud/reference/alpha/firebase),
+* The goal is to keep flanks CLI compatible with gcloud.
 
 ## Responsibilities
 
@@ -39,15 +39,22 @@ The class which represents the CLI command:
 * CAN'T
     * define logical operations
 
-## Class diagram
+## Class & relations diagram
 
 ![cli_class_diagram](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/1493-add-cli-class-diagram/docs/hld/presentation/cli/cli-class-diagram.puml)
 
+### Notes
+
+* Click on the class name will navigate to `kt` source file on github.
+* Click on the `local link` is compatible with intellij PlantUML plugin.
+* Click on `github adoc` will navigate to command documentation on github.
+* Click on `gcloud equivalent` will navigate to documentation page of gcloud command equivalent.
+* Classes that are calling domain functions by overridden `run` are marked with `#lightblue` background.
+
 ## Shortcuts
 
-Flank also specifies shortcuts to some commands. 
-Those relations are not shown on the diagram, because are producing a more complicated graph. 
-Down below, you can read the list of commands that are missing on the diagram.
+Flank also specifies shortcuts to some commands. Those relations are not shown on the diagram, because are producing a
+more complicated graph. Down below, you can read the list of commands that are missing on the diagram.
 
 | Class | Command |
 |:-------:|:-------:| 
@@ -59,6 +66,8 @@ Down below, you can read the list of commands that are missing on the diagram.
 | IosCommand | `ios`|
 | AndroidCommand | `android`| 
 
-Be aware that
-* for preceding commands you can omit the `firebase test` prefix, just call the command name.
-* shortcuts are working also with subcommands chaining.
+### Notes
+
+* For preceding commands you can omit the `firebase test` prefix, just type the command name as first argument
+  like `$ flank.jar refresh`.
+* Shortcuts are working also with subcommands chaining like `$ flank.jar ip-blocks list`
