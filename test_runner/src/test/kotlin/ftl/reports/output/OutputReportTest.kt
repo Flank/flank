@@ -86,26 +86,6 @@ class OutputReportTest {
     }
 
     @Test
-    fun `should not generate report if results folder is missing`() {
-        // given
-        val configuration = OutputReportConfiguration(
-            enabled = true,
-            type = OutputReportType.JSON,
-            local = OutputReportLocalConfiguration("tmp"),
-            remote = OutputReportRemoteConfiguration(uploadReport = false)
-        )
-        val expectedPath = Paths.get(configuration.local.storageDirectory, configuration.local.outputFile)
-
-        // when
-        outputReport.configure(configuration)
-        outputReport.add("test", "node")
-        outputReport.generate()
-
-        // then
-        assertThat(expectedPath.toFile().exists()).isFalse()
-    }
-
-    @Test
     fun `should generate report if enabled`() {
         // given
         val tempDirectory = root.newFolder("tmp")

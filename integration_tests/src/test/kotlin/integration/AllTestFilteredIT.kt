@@ -10,7 +10,6 @@ import utils.asOutputReport
 import utils.findTestDirectoryFromOutput
 import utils.json
 import utils.toOutputReportFile
-import java.io.File
 
 class AllTestFilteredIT {
     private val name = this::class.java.simpleName
@@ -30,7 +29,10 @@ class AllTestFilteredIT {
         assertExitCode(result, 1)
 
         val resOutput = result.output.removeUnicode()
+
         val outputReport = resOutput.findTestDirectoryFromOutput().toOutputReportFile().json().asOutputReport()
+
+        assertNoOutcomeSummary(resOutput)
 
         assertThat(outputReport.error).contains("There are no tests to run.")
         assertThat(outputReport.cost).isNull()
@@ -54,8 +56,16 @@ class AllTestFilteredIT {
         assertExitCode(result, 1)
 
         val resOutput = result.output.removeUnicode()
-        assertThat(resOutput).containsMatch(findInCompare(name))
+
         assertNoOutcomeSummary(resOutput)
-        val json = File(resOutput.findTestDirectoryFromOutput())
+
+        val outputReport = resOutput.findTestDirectoryFromOutput().toOutputReportFile().json().asOutputReport()
+
+        assertNoOutcomeSummary(resOutput)
+
+        assertThat(outputReport.error).contains("Empty shards. Cannot match any method to [nonExisting/Class]")
+        assertThat(outputReport.cost).isNull()
+        assertThat(outputReport.testResults).isEmpty()
+        assertThat(outputReport.weblinks).isEmpty()
     }
 }
