@@ -62,12 +62,6 @@ flutter build apk
 
 ```shell
 ./gradlew app:assembleAndroidTest
-```
-
-```shell
-./gradlew app:assembleAndroidTest
-```
-
 ```shell
 ./gradlew app:assembleDebug -Ptarget="path to test entry point eg. $dir/integration_tests/integration_tests.dart"
 ```
