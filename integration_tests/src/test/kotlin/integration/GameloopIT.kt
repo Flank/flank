@@ -1,13 +1,18 @@
 package integration
 
 import FlankCommand
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import flank.common.isLinux
 import flank.common.isMacOS
 import flank.common.isWindows
 import org.junit.Assume.assumeFalse
 import org.junit.Test
 import run
+import utils.asOutputReport
+import utils.findTestDirectoryFromOutput
+import utils.json
+import utils.toOutputReportFile
+import java.math.BigDecimal
 
 class GameloopIT {
 
@@ -28,10 +33,27 @@ class GameloopIT {
         assertExitCode(result, 0)
 
         val resOutput = result.output.removeUnicode()
-        Truth.assertThat(resOutput).containsMatch(findInCompare(name))
-        assertContainsOutcomeSummary(resOutput) {
-            success = 1
-        }
+
+        val outputReport = resOutput.findTestDirectoryFromOutput().toOutputReportFile().json().asOutputReport()
+
+        assertThat(outputReport.error).isEmpty()
+        assertThat(outputReport.cost).isNotNull()
+
+        assertThat(outputReport.cost?.physical).isEqualToIgnoringScale(BigDecimal.ZERO)
+        assertThat(outputReport.cost?.virtual).isEqualToIgnoringScale("0.02")
+        assertThat(outputReport.cost?.total).isEqualTo(outputReport.cost?.virtual)
+
+        assertThat(outputReport.testResults.count()).isEqualTo(1)
+        assertThat(outputReport.weblinks.count()).isEqualTo(1)
+
+        val testAxis = outputReport.testResults.values.first().first()
+        assertThat(testAxis.outcome).isEqualTo("success")
+
+        val testSuiteOverview = testAxis.testSuiteOverview
+
+        assertThat(testSuiteOverview.failures).isEqualTo(0)
+        assertThat(testSuiteOverview.flakes).isEqualTo(0)
+        assertThat(testSuiteOverview.skipped).isEqualTo(0)
     }
 
     @Test
@@ -52,6 +74,26 @@ class GameloopIT {
         assertExitCode(result, 0)
 
         val resOutput = result.output.removeUnicode()
-        Truth.assertThat(resOutput).containsMatch(findInCompare(name))
+
+        val outputReport = resOutput.findTestDirectoryFromOutput().toOutputReportFile().json().asOutputReport()
+
+        assertThat(outputReport.error).isEmpty()
+        assertThat(outputReport.cost).isNotNull()
+
+        assertThat(outputReport.cost?.physical).isEqualToIgnoringScale(BigDecimal.ZERO)
+        assertThat(outputReport.cost?.virtual).isEqualToIgnoringScale("0.02")
+        assertThat(outputReport.cost?.total).isEqualTo(outputReport.cost?.virtual)
+
+        assertThat(outputReport.testResults.count()).isEqualTo(1)
+        assertThat(outputReport.weblinks.count()).isEqualTo(1)
+
+        val testAxis = outputReport.testResults.values.first().first()
+        assertThat(testAxis.outcome).isEqualTo("success")
+
+        val testSuiteOverview = testAxis.testSuiteOverview
+
+        assertThat(testSuiteOverview.failures).isEqualTo(0)
+        assertThat(testSuiteOverview.flakes).isEqualTo(0)
+        assertThat(testSuiteOverview.skipped).isEqualTo(0)
     }
 }
