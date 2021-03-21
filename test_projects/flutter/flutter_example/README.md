@@ -29,7 +29,7 @@ flutter drive \
 
 ```bash
 
-./build_flutter_example
+./build_flutter_example.sh
 
 ```
 
@@ -41,7 +41,7 @@ simple run
 
 ```bash
 
-./build_and_run_tests_firebase
+./build_and_run_tests_firebase.sh
 
 ```
 

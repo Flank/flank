@@ -3,7 +3,7 @@
 ## Firebase
 
 1. Firebase can run flutter tests. You can find example in ```test_projects/flutter/flutter_example```,
-   simple run ```./build_and_run_tests_firebase```.
+   simple run ```./build_and_run_tests_firebase.sh```.
 
 1. Firebase not supporting sharding for Flutter.
 
