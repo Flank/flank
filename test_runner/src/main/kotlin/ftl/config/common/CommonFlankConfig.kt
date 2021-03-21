@@ -191,7 +191,7 @@ data class CommonFlankConfig @JsonIgnore constructor(
     @set:CommandLine.Option(
         names = ["--skip-config-validation"],
         description = [
-            "Flank won't validate options provided by the user if true. In general, it's not a good idea but, " +
+            "If true, Flank won't validate options provided by the user. In general, it's not a good idea but, " +
                 "there are cases when this could be useful for a user (example: project can use devices " +
                 "that are not commonly available, the project has higher sharding limits, etc."
         ]
