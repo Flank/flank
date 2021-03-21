@@ -62,6 +62,7 @@ AndroidArgs
       default-class-test-time: 240.0
       disable-usage-statistics: true
       output-report: none
+      skip-config-validation: false
 
 RunTests
   Saved 1 shards to .*[\\\/]android_shards.json

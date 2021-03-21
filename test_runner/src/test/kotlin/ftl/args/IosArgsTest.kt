@@ -286,6 +286,7 @@ IosArgs
       only-test-configuration: pl
       skip-test-configuration: 
       output-report: json
+      skip-config-validation: false
             """.trimIndent()
         )
     }
@@ -350,6 +351,7 @@ IosArgs
       only-test-configuration: 
       skip-test-configuration: 
       output-report: none
+      skip-config-validation: false
             """.trimIndent(),
             args.toString()
         )
@@ -585,6 +587,36 @@ IosArgs
       """
         assertThat(IosArgs.load(yaml).maxTestShards).isEqualTo(2)
         assertThat(IosArgs.load(yaml, cli).maxTestShards).isEqualTo(3)
+    }
+
+    @Test
+    fun `should not throw an error if validation is disabled (yml) -- max test shards`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $xctestrunFile
+        flank:
+          max-test-shards: ${Int.MAX_VALUE}
+          skip-config-validation: true
+        """.trimIndent()
+        IosArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should not throw an error if validation is disabled (command line) -- device`() {
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $xctestrunFile
+          device:
+            - model: funnyDevice
+              version: 28
+              locale: en
+              orientation: portrait
+        flank:
+          skip-config-validation: true
+        """.trimIndent()
+        IosArgs.load(yaml).validate()
     }
 
     @Test

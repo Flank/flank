@@ -68,6 +68,7 @@ AndroidArgs
       default-class-test-time: 240.0
       disable-usage-statistics: true
       output-report: none
+      skip-config-validation: false
 \s*
 RunTests
 \s*

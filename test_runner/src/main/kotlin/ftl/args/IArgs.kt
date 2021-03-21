@@ -97,6 +97,9 @@ interface IArgs {
     val disableUsageStatistics: Boolean
 
     val outputReportType: OutputReportType
+    val skipConfigValidation: Boolean
+    val shouldValidateConfig: Boolean
+        get() = !skipConfigValidation
 
     fun useLocalResultDir() = localResultDir != defaultLocalResultsDir
 
