@@ -40,10 +40,10 @@ object Versions {
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
     // https://github.com/googleapis/google-oauth-java-client/issues/251#issuecomment-504565533
-    const val GOOGLE_AUTH = "0.24.1"
+    const val GOOGLE_AUTH = "0.25.1"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.122.10"
+    const val GOOGLE_NIO = "0.122.11"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
     const val GOOGLE_STORAGE = "1.113.14"
@@ -81,13 +81,13 @@ object Versions {
     const val KOTLIN_LOGGING = "2.0.6"
 
     // https://github.com/mockk/mockk
-    const val MOCKK = "1.10.6"
+    const val MOCKK = "1.11.0"
 
     // https://commons.apache.org/proper/commons-text/
     const val COMMON_TEXT = "1.9"
 
     // https://github.com/fusesource/jansi/releases
-    const val JANSI = "2.3.1"
+    const val JANSI = "2.3.2"
 
     // https://github.com/ben-manes/gradle-versions-plugin/releases
     const val BEN_MANES = "0.38.0"
