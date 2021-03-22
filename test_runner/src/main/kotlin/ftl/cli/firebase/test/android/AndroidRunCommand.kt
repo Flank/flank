@@ -31,7 +31,6 @@ Configuration is read from flank.yml
 )
 class AndroidRunCommand :
     CommonRunCommand(),
-    Runnable,
     RunTestAndroid {
 
     @CommandLine.Mixin

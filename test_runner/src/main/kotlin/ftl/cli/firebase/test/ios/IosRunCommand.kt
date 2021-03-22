@@ -31,7 +31,6 @@ Configuration is read from flank.yml
 )
 class IosRunCommand :
     CommonRunCommand(),
-    Runnable,
     RunIosTest {
 
     @CommandLine.Mixin

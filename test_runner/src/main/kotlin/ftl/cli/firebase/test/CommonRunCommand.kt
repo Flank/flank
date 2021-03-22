@@ -8,7 +8,7 @@ import ftl.config.common.CommonGcloudConfig
 import ftl.config.common.addDevice
 import picocli.CommandLine
 
-abstract class CommonRunCommand {
+abstract class CommonRunCommand : Runnable {
 
     @CommandLine.Mixin
     private val commonGcloudConfig = CommonGcloudConfig()
