@@ -19,7 +19,6 @@ import utils.iosRunCommands
 import utils.json
 import utils.removeUnicode
 import utils.toOutputReportFile
-import java.math.BigDecimal
 
 class GameloopIT {
 
@@ -79,9 +78,7 @@ class GameloopIT {
         assertThat(outputReport.error).isEmpty()
         assertThat(outputReport.cost).isNotNull()
 
-        assertThat(outputReport.cost?.physical).isEqualToIgnoringScale(BigDecimal.ZERO)
-        assertThat(outputReport.cost?.virtual).isEqualToIgnoringScale("0.02")
-        assertThat(outputReport.cost?.total).isEqualTo(outputReport.cost?.virtual)
+        outputReport.assertCostMatches()
 
         assertThat(outputReport.testResults.count()).isEqualTo(1)
         assertThat(outputReport.weblinks.count()).isEqualTo(1)
