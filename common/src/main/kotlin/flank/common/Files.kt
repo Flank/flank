@@ -8,6 +8,7 @@ import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 
 val defaultCredentialPath: Path by lazy {
     Paths.get(userHome, ".config/gcloud/application_default_credentials.json")
@@ -36,7 +37,8 @@ fun createCopy(sourceDirectoryLocation: String, destinationDirectoryLocation: St
     copyDirectory(sourceDirectoryLocation, destinationDirectoryLocation)
 }
 
-fun createFileCopy(source: String, destination: String): Path = Files.copy(Paths.get(source), Paths.get(destination))
+fun createFileCopy(source: String, destination: String): Path =
+    Files.copy(Paths.get(source), Paths.get(destination), StandardCopyOption.REPLACE_EXISTING)
 
 fun copyDirectory(sourceDirectoryLocation: String, destinationDirectoryLocation: String) {
     Files.walk(Paths.get(sourceDirectoryLocation))
