@@ -51,7 +51,7 @@ class GameloopIT {
         assertThat(outputReport.testResults.count()).isEqualTo(1)
         assertThat(outputReport.weblinks.count()).isEqualTo(1)
 
-        val testAxis = outputReport.testResults.values.first().first()
+        val testAxis = outputReport.testResults.values.first().testAxises.first()
         assertThat(testAxis.outcome).isEqualTo("success")
     }
 
@@ -86,7 +86,7 @@ class GameloopIT {
         assertThat(outputReport.testResults.count()).isEqualTo(1)
         assertThat(outputReport.weblinks.count()).isEqualTo(1)
 
-        val testAxis = outputReport.testResults.values.first().first()
+        val testAxis = outputReport.testResults.values.first().testAxises.first()
         assertThat(testAxis.outcome).isEqualTo("success")
     }
 }

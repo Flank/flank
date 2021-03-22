@@ -42,6 +42,7 @@ class MultipleDevicesIT {
 
         val testsResults = outputReport.testResults
             .map { it.value }
+            .map { it.testAxises }
             .flatten()
 
         assertThat(testsResults.sumBy { it.testSuiteOverview.failures }).isEqualTo(15)
