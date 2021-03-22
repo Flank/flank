@@ -54,7 +54,8 @@ fun CommonConfig.createCommonArgs(
     defaultClassTestTime = flank::defaultClassTestTime.require(),
     useAverageTestTimeForNewTests = flank::useAverageTestTimeForNewTests.require(),
     disableUsageStatistics = flank.disableUsageStatistics ?: false,
-    outputReportType = OutputReportType.fromName(flank.outputReport)
+    outputReportType = OutputReportType.fromName(flank.outputReport),
+    skipConfigValidation = flank::skipConfigValidation.require()
 ).apply {
     ArgsHelper.createJunitBucket(project, smartFlankGcsPath)
 }

@@ -15,7 +15,7 @@ import ftl.run.exception.FlankGeneralError
 import ftl.run.exception.IncompatibleTestDimensionError
 import java.io.File
 
-fun AndroidArgs.validate() = apply {
+fun AndroidArgs.validate() = if (shouldValidateConfig) apply {
     commonArgs.validate()
     assertDevicesSupported()
     assertShards()
@@ -33,7 +33,7 @@ fun AndroidArgs.validate() = apply {
     checkEnvironmentVariables()
     checkFilesToDownload()
     checkNumUniformShards()
-}
+} else this
 
 private fun AndroidArgs.assertTestTargetForShards() {
     if (testTargetsForShard.isNotEmpty()) {

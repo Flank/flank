@@ -54,6 +54,7 @@ IosArgs
       only-test-configuration:\s
       skip-test-configuration:\s
       output-report: none
+      skip-config-validation: false
 
 RunTests
 \s*

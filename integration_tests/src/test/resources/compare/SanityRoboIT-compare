@@ -62,6 +62,7 @@ AndroidArgs
       default-class-test-time: 240.0
       disable-usage-statistics: true
       output-report: none
+      skip-config-validation: false
 
 RunTests
   Uploading \[app-debug.apk\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*

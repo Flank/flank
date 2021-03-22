@@ -380,6 +380,7 @@ AndroidArgs
       default-class-test-time: 30.0
       disable-usage-statistics: false
       output-report: json
+      skip-config-validation: false
             """.trimIndent()
         )
     }
@@ -453,6 +454,7 @@ AndroidArgs
       default-class-test-time: 240.0
       disable-usage-statistics: false
       output-report: none
+      skip-config-validation: false
             """.trimIndent(),
             args.toString()
         )
@@ -1584,6 +1586,36 @@ AndroidArgs
         flank:
           max-test-shards: ${AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE.last + 1}
           disable-results-upload: true
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should not throw an error if validation is disabled (yml) -- max test shards`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          max-test-shards: ${Int.MAX_VALUE}
+          skip-config-validation: true
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should not throw an error if validation is disabled (command line) -- device`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          device:
+            - model: funnyDevice
+              version: 28
+              locale: en
+              orientation: portrait
+        flank:
+          skip-config-validation: true
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
     }
