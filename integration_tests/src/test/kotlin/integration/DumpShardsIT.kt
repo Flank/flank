@@ -6,9 +6,17 @@ import flank.common.isWindows
 import org.junit.Assume
 import org.junit.Test
 import run
+import utils.CONFIGS_PATH
+import utils.FLANK_JAR_PATH
+import utils.androidRunCommands
+import utils.assertExitCode
+import utils.assertNoOutcomeSummary
 import utils.containsAll
+import utils.findInCompare
+import utils.iosRunCommands
 import utils.loadAndroidDumpShards
 import utils.loadIosDumpShards
+import utils.removeUnicode
 import java.io.File
 
 class DumpShardsIT {

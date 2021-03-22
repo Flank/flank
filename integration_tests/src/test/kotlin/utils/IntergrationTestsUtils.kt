@@ -1,10 +1,10 @@
-package integration
+package utils
 
 import com.google.common.truth.Truth.assertThat
 import flank.common.isWindows
 import org.junit.Assert.assertEquals
-import utils.ProcessResult
 import java.io.File
+import java.math.BigDecimal
 
 const val FLANK_JAR_PATH = "../test_runner/build/libs/flank.jar"
 const val CONFIGS_PATH = "./src/test/resources/cases"
@@ -60,19 +60,25 @@ fun assertContainsUploads(input: String, vararg uploads: String) = uploads.forEa
     assertThat(input).contains("Uploading [$it]")
 }
 
-fun assertContainsOutcomeSummary(input: String, block: OutcomeSummary.() -> Unit) =
-    OutcomeSummary().apply(block).matcher.entries.forEach { (outcome, times) ->
-        val actual = outcome.regex.findAll(input).toList().size
-        if (actual != times) throw AssertionError(
-            """
-             |Incorrect number of ${outcome.name}
-             |  expected: $times
-             |  but was:  $actual
-             |Output:
-             |${"┌[\\s\\S]*┘".toRegex().find(input)?.value?.trimIndent()}
-         """.trimMargin()
-        )
-    }
+fun TestSuiteOverview.assertTestCountMatches(
+    total: Int = 0,
+    errors: Int = 0,
+    failures: Int = 0,
+    flakes: Int = 0,
+    skipped: Int = 0,
+) {
+    assertThat(this.total).isEqualTo(total)
+    assertThat(this.errors).isEqualTo(errors)
+    assertThat(this.failures).isEqualTo(failures)
+    assertThat(this.flakes).isEqualTo(flakes)
+    assertThat(this.skipped).isEqualTo(skipped)
+}
+
+fun OutputReport.assertCostMatches() {
+    assertThat(cost?.physical).isEqualToIgnoringScale(BigDecimal.ZERO)
+    assertThat(cost?.virtual).isGreaterThan(BigDecimal.ZERO)
+    assertThat(cost?.virtual).isEqualToIgnoringScale(cost?.total)
+}
 
 fun assertNoOutcomeSummary(input: String) {
     if ("┌[\\s\\S]*┘".toRegex().matches(input)) throw AssertionError("There should be no outcome table.")

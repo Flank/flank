@@ -4,9 +4,15 @@ import FlankCommand
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import run
+import utils.CONFIGS_PATH
+import utils.FLANK_JAR_PATH
+import utils.androidRunCommands
 import utils.asOutputReport
+import utils.assertCostMatches
+import utils.assertExitCode
 import utils.findTestDirectoryFromOutput
 import utils.json
+import utils.removeUnicode
 import utils.toOutputReportFile
 
 class SanityRoboIT {
@@ -27,7 +33,10 @@ class SanityRoboIT {
 
         val resOutput = result.output.removeUnicode()
         val outputReport = resOutput.findTestDirectoryFromOutput().toOutputReportFile().json().asOutputReport()
+
         assertThat(outputReport.cost).isNotNull()
+        outputReport.assertCostMatches()
+
         assertThat(outputReport.testResults).isNotEmpty()
         println(outputReport.testResults)
         assertThat(outputReport.weblinks).isNotEmpty()

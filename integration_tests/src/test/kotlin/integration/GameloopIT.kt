@@ -8,9 +8,16 @@ import flank.common.isWindows
 import org.junit.Assume.assumeFalse
 import org.junit.Test
 import run
+import utils.CONFIGS_PATH
+import utils.FLANK_JAR_PATH
+import utils.androidRunCommands
 import utils.asOutputReport
+import utils.assertCostMatches
+import utils.assertExitCode
 import utils.findTestDirectoryFromOutput
+import utils.iosRunCommands
 import utils.json
+import utils.removeUnicode
 import utils.toOutputReportFile
 import java.math.BigDecimal
 
@@ -39,21 +46,13 @@ class GameloopIT {
         assertThat(outputReport.error).isEmpty()
         assertThat(outputReport.cost).isNotNull()
 
-        assertThat(outputReport.cost?.physical).isEqualToIgnoringScale(BigDecimal.ZERO)
-        assertThat(outputReport.cost?.virtual).isEqualToIgnoringScale("0.02")
-        assertThat(outputReport.cost?.total).isEqualTo(outputReport.cost?.virtual)
+        outputReport.assertCostMatches()
 
         assertThat(outputReport.testResults.count()).isEqualTo(1)
         assertThat(outputReport.weblinks.count()).isEqualTo(1)
 
         val testAxis = outputReport.testResults.values.first().first()
         assertThat(testAxis.outcome).isEqualTo("success")
-
-        val testSuiteOverview = testAxis.testSuiteOverview
-
-        assertThat(testSuiteOverview.failures).isEqualTo(0)
-        assertThat(testSuiteOverview.flakes).isEqualTo(0)
-        assertThat(testSuiteOverview.skipped).isEqualTo(0)
     }
 
     @Test
@@ -89,11 +88,5 @@ class GameloopIT {
 
         val testAxis = outputReport.testResults.values.first().first()
         assertThat(testAxis.outcome).isEqualTo("success")
-
-        val testSuiteOverview = testAxis.testSuiteOverview
-
-        assertThat(testSuiteOverview.failures).isEqualTo(0)
-        assertThat(testSuiteOverview.flakes).isEqualTo(0)
-        assertThat(testSuiteOverview.skipped).isEqualTo(0)
     }
 }

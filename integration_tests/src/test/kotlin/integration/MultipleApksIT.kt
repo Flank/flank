@@ -4,16 +4,24 @@ import FlankCommand
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import run
+import utils.CONFIGS_PATH
+import utils.FLANK_JAR_PATH
+import utils.androidRunCommands
 import utils.asOutputReport
+import utils.assertContainsUploads
+import utils.assertCostMatches
+import utils.assertExitCode
 import utils.assertTestFail
 import utils.assertTestPass
 import utils.assertTestResultContainsWebLinks
 import utils.findTestDirectoryFromOutput
 import utils.json
 import utils.loadAsTestSuite
+import utils.multipleFailedTests
+import utils.multipleSuccessfulTests
+import utils.removeUnicode
 import utils.toJUnitXmlFile
 import utils.toOutputReportFile
-import java.math.BigDecimal
 
 class MultipleApksIT {
     private val name = this::class.java.simpleName
@@ -37,11 +45,6 @@ class MultipleApksIT {
             "MainActivity_robo_script.json"
         )
 
-        assertContainsOutcomeSummary(resOutput) {
-            success = 3
-            failure = 1
-        }
-
         resOutput.findTestDirectoryFromOutput().toJUnitXmlFile().loadAsTestSuite().run {
             assertTestResultContainsWebLinks()
             assertTestPass(multipleSuccessfulTests)
@@ -53,9 +56,7 @@ class MultipleApksIT {
         assertThat(outputReport.error).isEmpty()
         assertThat(outputReport.cost).isNotNull()
 
-        assertThat(outputReport.cost?.physical).isEqualToIgnoringScale(BigDecimal.ZERO)
-        assertThat(outputReport.cost?.virtual).isEqualToIgnoringScale("0.35")
-        assertThat(outputReport.cost?.total).isEqualTo(outputReport.cost?.virtual)
+        outputReport.assertCostMatches()
 
         assertThat(outputReport.testResults.count()).isEqualTo(4)
         assertThat(outputReport.weblinks.count()).isEqualTo(4)

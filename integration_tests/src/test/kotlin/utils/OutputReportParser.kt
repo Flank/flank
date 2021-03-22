@@ -10,6 +10,9 @@ private val jsonMapper by lazy { JsonMapper().registerModule(KotlinModule()) }
 
 fun String.asOutputReport() = jsonMapper.readValue<OutputReport>(this)
 
+val OutputReport.firstTestSuiteOverview: TestSuiteOverview
+    get() = testResults.values.first().first().testSuiteOverview
+
 data class OutputReport(
     val args: Any,
     val cost: OutputReportCostNode? = null,
