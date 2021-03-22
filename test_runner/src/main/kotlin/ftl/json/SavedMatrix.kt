@@ -1,11 +1,14 @@
 package ftl.json
 
+import com.google.testing.model.FileReference
 import com.google.testing.model.TestMatrix
+import ftl.analytics.toJSONObject
 import ftl.environment.orUnknown
 import ftl.reports.outcome.BillableMinutes
 import ftl.reports.outcome.TestOutcome
 import ftl.reports.outcome.createMatrixOutcomeSummary
 import ftl.reports.outcome.fetchTestOutcomeContext
+import ftl.run.common.prettyPrint
 import ftl.util.MatrixState.FINISHED
 import ftl.util.MatrixState.INVALID
 import ftl.util.StepOutcome
@@ -32,10 +35,13 @@ data class SavedMatrix(
     val gcsPathWithoutRootBucket: String = "",
     val gcsRootBucket: String = "",
     val webLinkWithoutExecutionDetails: String? = "",
-    val testAxises: List<TestOutcome> = emptyList()
+    val testAxises: List<TestOutcome> = emptyList(),
+    val appFileName: String = fallbackAppName
 ) {
     val outcome = testAxises.maxByOrNull { StepOutcome.order.indexOf(it.outcome) }?.outcome.orEmpty()
 }
+
+private const val fallbackAppName = "N/A"
 
 fun createSavedMatrix(testMatrix: TestMatrix) = SavedMatrix().updateWithMatrix(testMatrix)
 
@@ -97,8 +103,23 @@ private fun SavedMatrix.updateProperties(newMatrix: TestMatrix) = copy(
     clientDetails = newMatrix.getClientDetails(),
     gcsPathWithoutRootBucket = newMatrix.getGcsPathWithoutRootBucket(),
     gcsRootBucket = newMatrix.getGcsRootBucket(),
-    webLinkWithoutExecutionDetails = newMatrix.webLinkWithoutExecutionDetails()
+    webLinkWithoutExecutionDetails = newMatrix.webLinkWithoutExecutionDetails(),
+    appFileName = newMatrix.extractAppFileName() ?: fallbackAppName
 )
+
+private fun TestMatrix.extractAppFileName() = testSpecification?.run {
+    listOf(
+        androidInstrumentationTest,
+        androidTestLoop,
+        androidRoboTest,
+        iosXcTest,
+        iosTestLoop
+    )
+        .firstOrNull { it != null }
+        ?.toJSONObject()
+        ?.let { prettyPrint.fromJson(it.toString(), AppPath::class.java).gcsPath }
+        ?.substringAfterLast('/')
+}
 
 private fun SavedMatrix.updateBillableMinutes(billableMinutes: BillableMinutes) = copy(
     billablePhysicalMinutes = billableMinutes.physical,
@@ -113,3 +134,12 @@ private fun TestMatrix.invalidTestOutcome() = TestOutcome(
     outcome = INVALID,
     details = invalidMatrixDetails.orUnknown()
 )
+
+private data class AppPath(
+    private val appApk: FileReference?,
+    private val testsZip: FileReference?,
+    private val appIpa: FileReference?
+) {
+    val gcsPath: String?
+        get() = (appApk ?: testsZip ?: appIpa)?.gcsPath
+}

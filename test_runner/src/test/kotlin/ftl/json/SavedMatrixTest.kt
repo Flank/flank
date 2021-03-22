@@ -2,14 +2,17 @@ package ftl.json
 
 import com.google.common.truth.Truth.assertThat
 import com.google.testing.model.Environment
+import com.google.testing.model.FileReference
 import com.google.testing.model.GoogleCloudStorage
 import com.google.testing.model.ResultStorage
 import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
+import com.google.testing.model.TestSpecification
 import com.google.testing.model.ToolResultsExecution
 import com.google.testing.model.ToolResultsStep
 import ftl.config.Device
 import ftl.gc.GcAndroidDevice
+import ftl.reports.outcome.make
 import ftl.test.util.FlankTestRunner
 import ftl.util.MatrixState.FINISHED
 import ftl.util.MatrixState.INVALID
@@ -60,9 +63,10 @@ class SavedMatrixTest {
             }
         }
 
-        fun testMatrix() = TestMatrix().also {
+        fun testMatrix(block: TestMatrix.() -> Unit = {}) = TestMatrix().also {
             it.projectId = projectId
             it.testMatrixId = testMatrixId
+            it.block()
         }
     }
 
@@ -235,4 +239,81 @@ class SavedMatrixTest {
             savedMatrix.outcome
         )
     }
+
+    @Test
+    fun `SavedMatrix should be updated with apk file name - android`() {
+        val appName = "any-test_app.apk"
+
+        val specs = listOf<TestSpecification.() -> Unit>(
+            { androidInstrumentationTest = make { appApk = ref { "gs://any/path/to/app/$appName" } } },
+            { androidTestLoop = make { appApk = ref { "gs://any/path/to/app/$appName" } } },
+            { androidRoboTest = make { appApk = ref { "gs://any/path/to/app/$appName" } } },
+        )
+
+        val getNewTestMatrix = {
+            testMatrix {
+                state = PENDING
+                resultStorage = createResultsStorage()
+                testExecutions = listOf(createStepExecution(1, "NexusLowRes"))
+            }
+        }
+
+        specs.forEach { spec ->
+            val testMatrix = getNewTestMatrix()
+            val savedMatrix = createSavedMatrix(testMatrix)
+
+            testMatrix.state = FINISHED
+            testMatrix.testSpecification = make(spec)
+            val updatedMatrix = savedMatrix.updateWithMatrix(testMatrix)
+            assertEquals(appName, updatedMatrix.appFileName)
+        }
+    }
+
+    @Test
+    fun `SavedMatrix should be updated with apk file name - ios`() {
+        val appName = "any-test_app.zip"
+
+        val specs = listOf<TestSpecification.() -> Unit>(
+            { iosXcTest = make { testsZip = ref { "gs://any/path/to/app/$appName" } } },
+            { iosTestLoop = make { appIpa = ref { "gs://any/path/to/app/$appName" } } },
+        )
+
+        val getNewTestMatrix = {
+            testMatrix {
+                state = PENDING
+                resultStorage = createResultsStorage()
+                testExecutions = listOf(createStepExecution(1, "iPhone6"))
+            }
+        }
+
+        specs.forEach { spec ->
+            val testMatrix = getNewTestMatrix()
+            val savedMatrix = createSavedMatrix(testMatrix)
+
+            testMatrix.state = FINISHED
+            testMatrix.testSpecification = make(spec)
+            val updatedMatrix = savedMatrix.updateWithMatrix(testMatrix)
+            assertEquals(appName, updatedMatrix.appFileName)
+        }
+    }
+
+    @Test
+    fun `SavedMatrix should be updated with NA file name if none is available`() {
+        val getNewTestMatrix = {
+            testMatrix {
+                state = PENDING
+                resultStorage = createResultsStorage()
+                testExecutions = listOf(createStepExecution(1, "iPhone6"))
+            }
+        }
+
+        val testMatrix = getNewTestMatrix()
+        val savedMatrix = createSavedMatrix(testMatrix)
+
+        testMatrix.state = FINISHED
+        val updatedMatrix = savedMatrix.updateWithMatrix(testMatrix)
+        assertEquals("N/A", updatedMatrix.appFileName)
+    }
 }
+
+private inline fun ref(path: () -> String) = FileReference().apply { gcsPath = path() }
