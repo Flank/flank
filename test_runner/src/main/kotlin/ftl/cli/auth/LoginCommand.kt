@@ -1,6 +1,7 @@
 package ftl.cli.auth
 
-import ftl.gc.UserAuth
+import ftl.domain.LoginGoogleAccount
+import ftl.domain.invoke
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -15,10 +16,9 @@ import picocli.CommandLine
     description = ["""Authenticates using your user account. For CI, a service account is recommended."""],
     usageHelpAutoWidth = true
 )
-class LoginCommand : Runnable {
-    override fun run() {
-        UserAuth().request()
-    }
+class LoginCommand :
+    Runnable,
+    LoginGoogleAccount {
 
     @CommandLine.Option(
         names = ["-h", "--help"],
@@ -26,4 +26,6 @@ class LoginCommand : Runnable {
         description = ["Prints this help message"]
     )
     var usageHelpRequested: Boolean = false
+
+    override fun run() = invoke()
 }

@@ -1,11 +1,9 @@
 package ftl.cli.firebase.test.ios.models
 
-import flank.common.logLn
-import ftl.args.IosArgs
 import ftl.config.FtlConstants
-import ftl.ios.IosCatalog.devicesCatalogAsTable
+import ftl.domain.ListIosModels
+import ftl.domain.invoke
 import picocli.CommandLine
-import java.nio.file.Paths
 
 @CommandLine.Command(
     name = "list",
@@ -18,14 +16,22 @@ import java.nio.file.Paths
     description = ["Print current list of iOS devices available to test against"],
     usageHelpAutoWidth = true
 )
-class IosModelsListCommand : Runnable {
-    override fun run() {
-        logLn(devicesCatalogAsTable(IosArgs.loadOrDefault(Paths.get(configPath)).project))
-    }
+class IosModelsListCommand :
+    Runnable,
+    ListIosModels {
 
-    @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])
-    var configPath: String = FtlConstants.defaultIosConfig
+    @CommandLine.Option(
+        names = ["-c", "--config"],
+        description = ["YAML config file path"]
+    )
+    override var configPath: String = FtlConstants.defaultIosConfig
 
-    @CommandLine.Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
+    @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
     var usageHelpRequested: Boolean = false
+
+    override fun run() = invoke()
 }

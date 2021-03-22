@@ -1,7 +1,7 @@
 package ftl.cli.firebase.test.providedsoftware
 
-import flank.common.logLn
-import ftl.environment.providedSoftwareAsTable
+import ftl.domain.ListProvidedSoftware
+import ftl.domain.invoke
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -15,8 +15,8 @@ import picocli.CommandLine
     header = ["The software environment provided by TestExecutionService."],
     usageHelpAutoWidth = true
 )
-class ProvidedSoftwareListCommand : Runnable {
-    override fun run() {
-        logLn(providedSoftwareAsTable())
-    }
+class ProvidedSoftwareListCommand :
+    Runnable,
+    ListProvidedSoftware {
+    override fun run() = invoke()
 }

@@ -2,6 +2,7 @@ package ftl.cli.firebase.test.android
 
 import ftl.cli.firebase.test.android.versions.AndroidVersionsDescribeCommand
 import ftl.cli.firebase.test.android.versions.AndroidVersionsListCommand
+import ftl.util.PrintHelp
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -16,8 +17,4 @@ import picocli.CommandLine
     subcommands = [AndroidVersionsListCommand::class, AndroidVersionsDescribeCommand::class],
     usageHelpAutoWidth = true
 )
-class AndroidVersionsCommand : Runnable {
-    override fun run() {
-        CommandLine.usage(AndroidVersionsCommand(), System.out)
-    }
-}
+class AndroidVersionsCommand : PrintHelp

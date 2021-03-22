@@ -1,13 +1,7 @@
 package ftl.cli.firebase.test
 
-import ftl.cli.firebase.test.android.AndroidDoctorCommand
-import ftl.cli.firebase.test.android.AndroidLocalesCommand
-import ftl.cli.firebase.test.android.AndroidModelsCommand
-import ftl.cli.firebase.test.android.AndroidOrientationsCommand
-import ftl.cli.firebase.test.android.AndroidRunCommand
-import ftl.cli.firebase.test.android.AndroidTestEnvironmentCommand
-import ftl.cli.firebase.test.android.AndroidVersionsCommand
-import picocli.CommandLine
+import ftl.cli.firebase.test.android.*
+import ftl.util.PrintHelp
 import picocli.CommandLine.Command
 
 @Command(
@@ -24,8 +18,4 @@ import picocli.CommandLine.Command
     ],
     usageHelpAutoWidth = true
 )
-class AndroidCommand : Runnable {
-    override fun run() {
-        CommandLine.usage(AndroidCommand(), System.out)
-    }
-}
+class AndroidCommand : PrintHelp

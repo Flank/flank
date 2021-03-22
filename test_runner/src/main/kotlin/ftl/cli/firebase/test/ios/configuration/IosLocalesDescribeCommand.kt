@@ -1,12 +1,9 @@
 package ftl.cli.firebase.test.ios.configuration
 
-import flank.common.log
-import ftl.args.IosArgs
 import ftl.config.FtlConstants
-import ftl.ios.IosCatalog.getLocaleDescription
-import ftl.run.exception.FlankConfigurationError
+import ftl.domain.DescribeIosLocales
+import ftl.domain.invoke
 import picocli.CommandLine
-import java.nio.file.Paths
 
 @CommandLine.Command(
     name = "describe",
@@ -18,11 +15,9 @@ import java.nio.file.Paths
     header = ["Describe a locales "],
     usageHelpAutoWidth = true
 )
-class IosLocalesDescribeCommand : Runnable {
-    override fun run() {
-        if (locale.isBlank()) throw FlankConfigurationError("Argument LOCALE must be specified.")
-        log(getLocaleDescription(IosArgs.loadOrDefault(Paths.get(configPath)).project, locale))
-    }
+class IosLocalesDescribeCommand :
+    Runnable,
+    DescribeIosLocales {
 
     @CommandLine.Parameters(
         index = "0",
@@ -34,8 +29,13 @@ class IosLocalesDescribeCommand : Runnable {
                 " using \$ gcloud firebase test ios locales list\n."
         ]
     )
-    var locale: String = ""
+    override var locale: String = ""
 
-    @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])
-    var configPath: String = FtlConstants.defaultIosConfig
+    @CommandLine.Option(
+        names = ["-c", "--config"],
+        description = ["YAML config file path"]
+    )
+    override var configPath: String = FtlConstants.defaultIosConfig
+
+    override fun run() = invoke()
 }

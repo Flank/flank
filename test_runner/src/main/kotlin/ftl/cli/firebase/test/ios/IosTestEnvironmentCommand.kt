@@ -1,17 +1,9 @@
 package ftl.cli.firebase.test.ios
 
-import flank.common.logLn
-import ftl.args.IosArgs
 import ftl.config.FtlConstants
-import ftl.environment.ipBlocksListAsTable
-import ftl.environment.networkConfigurationAsTable
-import ftl.environment.providedSoftwareAsTable
-import ftl.ios.IosCatalog.devicesCatalogAsTable
-import ftl.ios.IosCatalog.localesAsTable
-import ftl.ios.IosCatalog.softwareVersionsAsTable
-import ftl.ios.IosCatalog.supportedOrientationsAsTable
+import ftl.domain.DescribeIosTestEnvironment
+import ftl.domain.invoke
 import picocli.CommandLine
-import java.nio.file.Paths
 
 @CommandLine.Command(
     name = "test-environment",
@@ -30,21 +22,22 @@ import java.nio.file.Paths
     ],
     usageHelpAutoWidth = true
 )
-class IosTestEnvironmentCommand : Runnable {
-    override fun run() {
-        val projectId = IosArgs.loadOrDefault(Paths.get(configPath)).project
-        logLn(devicesCatalogAsTable(projectId))
-        logLn(softwareVersionsAsTable(projectId))
-        logLn(localesAsTable(projectId))
-        logLn(providedSoftwareAsTable())
-        logLn(networkConfigurationAsTable())
-        logLn(supportedOrientationsAsTable(projectId))
-        logLn(ipBlocksListAsTable())
-    }
+class IosTestEnvironmentCommand :
+    Runnable,
+    DescribeIosTestEnvironment {
 
-    @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])
-    var configPath: String = FtlConstants.defaultIosConfig
+    @CommandLine.Option(
+        names = ["-c", "--config"],
+        description = ["YAML config file path"]
+    )
+    override var configPath: String = FtlConstants.defaultIosConfig
 
-    @CommandLine.Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
+    @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
     var usageHelpRequested: Boolean = false
+
+    override fun run() = invoke()
 }

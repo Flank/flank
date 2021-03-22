@@ -1,17 +1,9 @@
 package ftl.cli.firebase.test.android
 
-import flank.common.logLn
-import ftl.android.AndroidCatalog.devicesCatalogAsTable
-import ftl.android.AndroidCatalog.localesAsTable
-import ftl.android.AndroidCatalog.supportedOrientationsAsTable
-import ftl.android.AndroidCatalog.supportedVersionsAsTable
-import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
-import ftl.environment.ipBlocksListAsTable
-import ftl.environment.networkConfigurationAsTable
-import ftl.environment.providedSoftwareAsTable
+import ftl.domain.DescribeAndroidTestEnvironment
+import ftl.domain.invoke
 import picocli.CommandLine
-import java.nio.file.Paths
 
 @CommandLine.Command(
     name = "test-environment",
@@ -30,21 +22,22 @@ import java.nio.file.Paths
     ],
     usageHelpAutoWidth = true
 )
-class AndroidTestEnvironmentCommand : Runnable {
-    override fun run() {
-        val projectId = AndroidArgs.loadOrDefault(Paths.get(configPath)).project
-        logLn(devicesCatalogAsTable(projectId))
-        logLn(supportedVersionsAsTable(projectId))
-        logLn(localesAsTable(projectId))
-        logLn(providedSoftwareAsTable())
-        logLn(networkConfigurationAsTable())
-        logLn(supportedOrientationsAsTable(projectId))
-        logLn(ipBlocksListAsTable())
-    }
+class AndroidTestEnvironmentCommand :
+    Runnable,
+    DescribeAndroidTestEnvironment {
 
-    @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])
-    var configPath: String = FtlConstants.defaultAndroidConfig
+    @CommandLine.Option(
+        names = ["-c", "--config"],
+        description = ["YAML config file path"]
+    )
+    override var configPath: String = FtlConstants.defaultAndroidConfig
 
-    @CommandLine.Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
+    @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
     var usageHelpRequested: Boolean = false
+
+    override fun run() = invoke()
 }

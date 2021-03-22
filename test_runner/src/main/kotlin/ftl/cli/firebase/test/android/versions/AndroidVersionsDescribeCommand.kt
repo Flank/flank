@@ -1,12 +1,9 @@
 package ftl.cli.firebase.test.android.versions
 
-import flank.common.logLn
-import ftl.android.AndroidCatalog
-import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
-import ftl.run.exception.FlankConfigurationError
+import ftl.domain.DescribeAndroidVersions
+import ftl.domain.invoke
 import picocli.CommandLine
-import java.nio.file.Paths
 
 @CommandLine.Command(
     name = "describe",
@@ -19,14 +16,15 @@ import java.nio.file.Paths
     description = ["Print current list of android versions available to test against"],
     usageHelpAutoWidth = true
 )
-class AndroidVersionsDescribeCommand : Runnable {
-    override fun run() {
-        if (versionId.isBlank()) throw FlankConfigurationError("Argument VERSION_ID must be specified.")
-        logLn(AndroidCatalog.describeSoftwareVersion(AndroidArgs.loadOrDefault(Paths.get(configPath)).project, versionId))
-    }
+class AndroidVersionsDescribeCommand :
+    Runnable,
+    DescribeAndroidVersions {
 
-    @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])
-    var configPath: String = FtlConstants.defaultAndroidConfig
+    @CommandLine.Option(
+        names = ["-c", "--config"],
+        description = ["YAML config file path"]
+    )
+    override var configPath: String = FtlConstants.defaultAndroidConfig
 
     @CommandLine.Parameters(
         index = "0",
@@ -38,5 +36,7 @@ class AndroidVersionsDescribeCommand : Runnable {
                 " using \$ gcloud firebase test android versions list."
         ]
     )
-    var versionId: String = ""
+    override var versionId: String = ""
+
+    override fun run() = invoke()
 }

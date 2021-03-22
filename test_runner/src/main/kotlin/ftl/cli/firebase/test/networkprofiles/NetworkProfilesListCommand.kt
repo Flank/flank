@@ -1,7 +1,7 @@
 package ftl.cli.firebase.test.networkprofiles
 
-import flank.common.logLn
-import ftl.environment.networkConfigurationAsTable
+import ftl.domain.ListNetworkProfiles
+import ftl.domain.invoke
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -15,9 +15,8 @@ import picocli.CommandLine
     header = ["List all network profiles available for testing "],
     usageHelpAutoWidth = true
 )
-class NetworkProfilesListCommand : Runnable {
-    override fun run() {
-        logLn("fetching available network profiles...")
-        logLn(networkConfigurationAsTable())
-    }
+class NetworkProfilesListCommand :
+    Runnable,
+    ListNetworkProfiles {
+    override fun run() = invoke()
 }

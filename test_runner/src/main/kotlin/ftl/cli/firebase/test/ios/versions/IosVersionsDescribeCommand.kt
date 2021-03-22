@@ -1,12 +1,9 @@
 package ftl.cli.firebase.test.ios.versions
 
-import flank.common.logLn
-import ftl.args.IosArgs
 import ftl.config.FtlConstants
-import ftl.ios.IosCatalog
-import ftl.run.exception.FlankConfigurationError
+import ftl.domain.DescribeIosVersions
+import ftl.domain.invoke
 import picocli.CommandLine
-import java.nio.file.Paths
 
 @CommandLine.Command(
     name = "describe",
@@ -19,14 +16,15 @@ import java.nio.file.Paths
     description = ["Print current list of iOS versions available to test against"],
     usageHelpAutoWidth = true
 )
-class IosVersionsDescribeCommand : Runnable {
-    override fun run() {
-        if (versionId.isBlank()) throw FlankConfigurationError("Argument VERSION_ID must be specified.")
-        logLn(IosCatalog.describeSoftwareVersion(IosArgs.loadOrDefault(Paths.get(configPath)).project, versionId))
-    }
+class IosVersionsDescribeCommand :
+    Runnable,
+    DescribeIosVersions {
 
-    @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])
-    var configPath: String = FtlConstants.defaultIosConfig
+    @CommandLine.Option(
+        names = ["-c", "--config"],
+        description = ["YAML config file path"]
+    )
+    override var configPath: String = FtlConstants.defaultIosConfig
 
     @CommandLine.Parameters(
         index = "0",
@@ -38,5 +36,7 @@ class IosVersionsDescribeCommand : Runnable {
                 " using \$ gcloud firebase test ios versions list."
         ]
     )
-    var versionId: String = ""
+    override var versionId: String = ""
+
+    override fun run() = invoke()
 }

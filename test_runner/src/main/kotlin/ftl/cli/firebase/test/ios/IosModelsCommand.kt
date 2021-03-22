@@ -2,6 +2,7 @@ package ftl.cli.firebase.test.ios
 
 import ftl.cli.firebase.test.ios.models.IosModelDescribeCommand
 import ftl.cli.firebase.test.ios.models.IosModelsListCommand
+import ftl.util.PrintHelp
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -16,8 +17,4 @@ import picocli.CommandLine
     subcommands = [IosModelsListCommand::class, IosModelDescribeCommand::class],
     usageHelpAutoWidth = true
 )
-class IosModelsCommand : Runnable {
-    override fun run() {
-        CommandLine.usage(IosModelsCommand(), System.out)
-    }
-}
+class IosModelsCommand : PrintHelp

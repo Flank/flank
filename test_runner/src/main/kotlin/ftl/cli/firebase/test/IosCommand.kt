@@ -1,13 +1,7 @@
 package ftl.cli.firebase.test
 
-import ftl.cli.firebase.test.ios.IosDoctorCommand
-import ftl.cli.firebase.test.ios.IosLocalesCommand
-import ftl.cli.firebase.test.ios.IosModelsCommand
-import ftl.cli.firebase.test.ios.IosOrientationsCommand
-import ftl.cli.firebase.test.ios.IosRunCommand
-import ftl.cli.firebase.test.ios.IosTestEnvironmentCommand
-import ftl.cli.firebase.test.ios.IosVersionsCommand
-import picocli.CommandLine
+import ftl.cli.firebase.test.ios.*
+import ftl.util.PrintHelp
 import picocli.CommandLine.Command
 
 @Command(
@@ -24,8 +18,4 @@ import picocli.CommandLine.Command
     ],
     usageHelpAutoWidth = true
 )
-class IosCommand : Runnable {
-    override fun run() {
-        CommandLine.usage(IosCommand(), System.out)
-    }
-}
+class IosCommand : PrintHelp
