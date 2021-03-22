@@ -2,8 +2,6 @@ package integration
 
 import FlankCommand
 import com.google.common.truth.Truth
-import flank.common.isWindows
-import org.junit.Assume
 import org.junit.Test
 import run
 import utils.containsAll
@@ -57,7 +55,6 @@ class DumpShardsIT {
 
     @Test
     fun `dump shards - ios`() {
-        Assume.assumeFalse(isWindows)
         val name = "$name-ios"
         val result = FlankCommand(
             flankPath = FLANK_JAR_PATH,
