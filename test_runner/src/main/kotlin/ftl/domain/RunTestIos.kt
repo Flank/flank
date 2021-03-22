@@ -2,8 +2,13 @@ package ftl.domain
 
 import flank.common.logLn
 import ftl.analytics.sendConfiguration
-import ftl.args.*
-import ftl.config.*
+import ftl.args.createIosArgs
+import ftl.args.setupLogLevel
+import ftl.args.validate
+import ftl.config.IosConfig
+import ftl.config.defaultIosConfig
+import ftl.config.loadIosConfig
+import ftl.config.plus
 import ftl.mock.MockServer
 import ftl.reports.output.configure
 import ftl.reports.output.log
@@ -11,7 +16,11 @@ import ftl.reports.output.outputReport
 import ftl.reports.output.toOutputReportConfiguration
 import ftl.run.dumpShards
 import ftl.run.newTestRun
-import ftl.util.*
+import ftl.util.DEVICE_SYSTEM
+import ftl.util.TEST_TYPE
+import ftl.util.loadFile
+import ftl.util.printVersionInfo
+import ftl.util.setCrashReportTag
 import kotlinx.coroutines.runBlocking
 import java.nio.file.Paths
 
@@ -32,8 +41,8 @@ operator fun RunIosTest.invoke() {
 
     createIosArgs(
         config = defaultIosConfig() +
-                loadIosConfig(reader = loadFile(Paths.get(configPath))) +
-                config,
+            loadIosConfig(reader = loadFile(Paths.get(configPath))) +
+            config,
         obfuscate = obfuscate
     ).apply {
         setupLogLevel()

@@ -39,7 +39,7 @@ class AndroidModelDescribeCommand :
         defaultValue = "",
         description = [
             "The models to describe, found" +
-                    " using \$ gcloud firebase test android models list."
+                " using \$ gcloud firebase test android models list."
         ]
     )
     override var modelId: String = ""

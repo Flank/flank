@@ -16,7 +16,11 @@ import ftl.reports.output.outputReport
 import ftl.reports.output.toOutputReportConfiguration
 import ftl.run.dumpShards
 import ftl.run.newTestRun
-import ftl.util.*
+import ftl.util.DEVICE_SYSTEM
+import ftl.util.TEST_TYPE
+import ftl.util.loadFile
+import ftl.util.printVersionInfo
+import ftl.util.setCrashReportTag
 import kotlinx.coroutines.runBlocking
 import java.nio.file.Paths
 
@@ -37,8 +41,8 @@ operator fun RunTestAndroid.invoke() {
 
     createAndroidArgs(
         config = defaultAndroidConfig() +
-                loadAndroidConfig(reader = loadFile(Paths.get(configPath))) +
-                config,
+            loadAndroidConfig(reader = loadFile(Paths.get(configPath))) +
+            config,
         obfuscate = obfuscate
     ).apply {
         setupLogLevel()

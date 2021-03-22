@@ -24,7 +24,11 @@ class CancelCommand :
     Runnable,
     CancelLastRun {
 
-    @CommandLine.Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
+    @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
     var usageHelpRequested: Boolean = false
 
     override fun run() = invoke()
