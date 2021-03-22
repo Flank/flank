@@ -7,7 +7,9 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 private val currentPath = Paths.get("")
-private val llvmPath = Paths.get(currentPath.toString(), "llvm")
+private val llvmPath =
+    if (isWindows) Paths.get(currentPath.toString(), "master")
+    else Paths.get(currentPath.toString(), "llvm")
 
 fun updateLlvm() = if (isWindows) retrieveNMForWindows() else updateLlvmNonWindows()
 
@@ -17,14 +19,14 @@ private fun retrieveNMForWindows() {
         println("Binaries already exists")
     } else {
         println("Downloading binaries for windows...")
-        binariesPath.toFile().mkdirs()
         downloadFile(
             sourceUrl = "https://github.com/Flank/binaries/archive/master.zip",
             destination = binariesPath.toString()
         )
     }
-
-    binariesPath.toFile().extract(binariesPath.toFile(), "zip", "xz")
+    val destinationPath = Paths.get(currentPath.toString(), "master")
+    destinationPath.toFile().mkdirs()
+    binariesPath.toFile().extract(destinationPath.toFile(), "zip")
     findAndCopyLlvmNmFile()
     llvmPath.toFile().deleteRecursively()
 }
@@ -63,11 +65,12 @@ private fun findAndCopyLlvmLicense() {
 
 private fun findAndCopyLlvmNmFile() {
     val llvmNmSuffix =
-        if (!isWindows) Paths.get("bin", "llvm-nm").toString() else Paths.get("bin", "llvm-nm.exe").toString()
-    val llvmNmOutputFile = if (!isWindows) Paths.get(currentPath.toString(), "nm").toFile() else Paths.get(
-        currentPath.toString(),
-        "nm.exe"
-    ).toFile()
+        if (!isWindows) Paths.get("bin", "llvm-nm").toString()
+        else Paths.get("master", "binaries-master", "llvm-nm.exe").toString()
+
+    val llvmNmOutputFile =
+        if (!isWindows) Paths.get(currentPath.toString(), "nm").toFile()
+        else Paths.get(currentPath.toString(), "nm.exe").toFile()
 
     println("Copying llvm nm ...")
     Files.walk(llvmPath)
