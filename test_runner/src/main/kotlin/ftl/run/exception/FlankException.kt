@@ -67,8 +67,8 @@ class FlankConfigurationError : FlankException {
  */
 class FlankGeneralError : FlankException {
     constructor(message: String) : super(message)
-    constructor(cause: Exception) : super(cause = cause)
-    constructor(message: String, cause: Exception) : super(message, cause)
+    constructor(cause: Throwable) : super(cause = cause)
+    constructor(message: String, cause: Throwable) : super(message, cause)
 }
 
 /**

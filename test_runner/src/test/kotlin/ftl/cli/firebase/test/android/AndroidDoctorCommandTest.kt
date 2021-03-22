@@ -37,8 +37,6 @@ class AndroidDoctorCommandTest {
                 "\n" +
                 "\n" +
                 "Options:\n" +
-                "  -c, --config=<configPath>\n" +
-                "               YAML config file path\n" +
                 "  -h, --help   Prints this help message\n"
         )
 
