@@ -11,13 +11,13 @@ private val jsonMapper by lazy { JsonMapper().registerModule(KotlinModule()) }
 fun String.asOutputReport() = jsonMapper.readValue<OutputReport>(this)
 
 val OutputReport.firstTestSuiteOverview: TestSuiteOverview
-    get() = testResults.values.first().first().testSuiteOverview
+    get() = testResults.values.first().testAxises.first().testSuiteOverview
 
 data class OutputReport(
     val args: Any,
     val cost: OutputReportCostNode? = null,
     val weblinks: List<String> = emptyList(),
-    @JsonProperty("test_results") val testResults: Map<String, List<TextAxis>> = emptyMap(),
+    @JsonProperty("test_results") val testResults: Map<String, Matrix> = emptyMap(),
     val error: String = ""
 )
 
