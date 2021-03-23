@@ -1,17 +1,22 @@
 # Current Flutter status
 
-## Gcloud
+Investigation of flutter-android support on gcloud including test sharding.
 
-In the gcloud we can use following commands for sharding:
+
+
+# Gcloud
+
+In the gcloud we can use following commands to run tests in shards:
 
 * [`--num-uniform-shards`](https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/run#--num-uniform-shards)
 * [`--test-targets-for-shard`](https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/run#--test-targets-for-shard)
-* [`--test-targets`](https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/run#--test-targets)
+* [`--test-targets`](https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/run#--test-targets) - this option is not designed directly for sharding but filtering
 
-### --num-uniform-shards
+## Preparing flutter app
+
+All following tests require a flutter app for testing that can be build using following script:
 
 ```shell
-
 flutter build apk
 dir=$(pwd)
 pushd android
@@ -21,7 +26,12 @@ pushd android
 ./gradlew app:assembleDebug -Ptarget=$dir"/integration_tests/integration_tests.dart"
 
 popd
+```
 
+## --num-uniform-shards
+
+Test:
+```shell
 gcloud alpha firebase test android run \
   --project flank-open-source \
   --type instrumentation \
@@ -56,20 +66,10 @@ Using this option you can specify shards targets by:
 * `annotation`
 
 
-### Test method name
+### Sharding by method
 
+Test:
 ```shell
-
-flutter build apk
-dir=$(pwd)
-pushd android
-
-./gradlew app:assembleAndroidTest
-
-./gradlew app:assembleDebug -Ptarget=$dir"/integration_tests/integration_tests.dart"
-
-popd
-
 gcloud alpha firebase test android run \
   --project flank-open-source \
   --type instrumentation \
@@ -79,8 +79,8 @@ gcloud alpha firebase test android run \
   --timeout 5m
   
 ```
-Where: 
-* ```success_test_example_5``` is [dart test](https://github.com/Flank/flank/blob/master/test_projects/flutter/flutter_example/integration_tests/success_test.dart#L78).
+Where:
+```success_test_example_5``` is a [dart test](https://github.com/Flank/flank/blob/master/test_projects/flutter/flutter_example/integration_tests/success_test.dart#L78).
 
 Result:
    
@@ -106,10 +106,8 @@ Gcloud is returning `Test failed to run` as test details, no test are being run.
 * gcloud can't find dart tests.
 * gcloud will create an empty shard.
 
-### Package or class name 
-
-Android source code contains test class without tests, so we can use 
-
+### Sharding by class or package
+Test:
 ```shell
   --test-targets-for-shard "class org.flank.flutter_example.MainActivityTest"
 ```
@@ -140,22 +138,31 @@ Test results are same as expected.
 
 #### Conclusions
 
-The gcloud can run class and package that exist in test apk.
+The gcloud can run tests by class or package if there are exists in test apk as normal android test.
 
 ## --test-targets
 
-Gcloud can detect android test class with annotation. All options based on android package, class, and annotation works
-but options using test method not.
+This option works similar to 
+Using this option you can filter test cases for running only the specified units:
+* `metod` - test method name
+* `class` - test class name
+* `package` - test package name
+* `annotation`
 
-1. Test name
+### Filtering by method:
 
-If we set a specific test to execute as test target eg:
-
+Test:
 ```shell
-  --test-targets "class org.flank.flutter_example.MainActivityTest#success_test_example_5"
+gcloud alpha firebase test android run \
+  --project flank-open-source \
+  --type instrumentation \
+  --app build/app/outputs/apk/debug/app-debug.apk \
+  --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+  --test-targets "class org.flank.flutter_example.MainActivityTest#success_test_example_5" \
+  --timeout 5m
 ```
 
-Testlab will fail with the following error
+Result:
 
 ```shell
 ┌─────────┬────────────────────────┬────────────────────┐
@@ -166,19 +173,32 @@ Testlab will fail with the following error
 
 ```
 
-1. Class or package name
+### Filtering by class or package:
 
+Test:
 ```shell
-  --test-targets "class org.flank.flutter_example.MainActivityTest"
+gcloud alpha firebase test android run \
+  --project flank-open-source \
+  --type instrumentation \
+  --app build/app/outputs/apk/debug/app-debug.apk \
+  --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+  --test-targets "class org.flank.flutter_example.MainActivityTest" \
+  --timeout 5m
 ```
 
 or
 
 ```shell
-  --test-targets "package org.flank.flutter_example"
+gcloud alpha firebase test android run \
+  --project flank-open-source \
+  --type instrumentation \
+  --app build/app/outputs/apk/debug/app-debug.apk \
+  --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+  --test-targets "package org.flank.flutter_example" \
+  --timeout 5m
 ```
 
-With this parameter Firebase will create a shard with all test cases.
+Result:
 
 ```shell
 ┌─────────┬────────────────────────┬───────────────────────────────┐
@@ -199,7 +219,7 @@ Test results are same as expected.
 
 #### Conclusions
 
-The gcloud can run class and package that exist in test apk.
+The gcloud can filter tests by class or package if there are exists in test apk as normal android test.
 
 ### Summary conclusion
 
@@ -207,7 +227,7 @@ The gcloud can run class and package that exist in test apk.
    simple run [build_and_run_tests_firebase.sh](https://github.com/Flank/flank/blob/master/test_projects/flutter/flutter_example/build_and_run_tests_firebase.sh).
 
 * Gcloud is not supporting sharding for Flutter, 
-  because all `dart` tests according to the [firebase doc](https://pub.dev/packages/integration_test) are hidden behind [android test class](https://github.com/Flank/flank/blob/master/test_projects/flutter/flutter_example/android/app/src/androidTest/java/org/flank/flutter_example/MainActivityTest.java) and are not visible for gcloud.
+  because all `dart` tests according to the [flutter integration tests doc](https://pub.dev/packages/integration_test#android-device-testing) are hidden behind [android test class](https://github.com/Flank/flank/blob/master/test_projects/flutter/flutter_example/android/app/src/androidTest/java/org/flank/flutter_example/MainActivityTest.java) and are not visible for gcloud.
 
 
 ## Flank
