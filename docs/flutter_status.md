@@ -58,8 +58,8 @@ each shard should contain 2 methods.
 
 #### Investigation results
 
-* One shard will contain all test's
-* Two other shards will be empty.
+* One shard contains all test's
+* Two other shards are being empty.
 
 #### Conclusions
 
