@@ -62,6 +62,7 @@ AndroidArgs
       default-class-test-time: 240.0
       disable-usage-statistics: true
       output-report: none
+      skip-config-validation: false
 
 RunTests
   Uploading \[app-debug.apk\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*
@@ -83,11 +84,7 @@ CostReport
 
 MatrixResultsReport
   1 \/ 1 \(100\.00\%\)
-.*
-[│\?] OUTCOME [│\?]      MATRIX ID       [│\?]      TEST AXIS VALUE       [│\?] TEST DETAILS [│\?]
-.*
-[│\?] success [│\?] matrix-[a-zA-Z0-9\s]*[│\?] NexusLowRes-28-en-portrait [│\?] ---          [│\?]
-.*
+[\s\S]*
   Uploading \[MatrixResultsReport.txt\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*
   Uploading \[JUnitReport.xml\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*
   Uploading \[matrix_ids.json\] to https:\/\/console.developers.google.com\/storage\/browser\/test-lab-[a-zA-Z0-9_-]*\/[.a-zA-Z0-9_-]*\/\.*

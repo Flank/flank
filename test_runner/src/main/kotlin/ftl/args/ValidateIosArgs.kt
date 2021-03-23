@@ -11,7 +11,7 @@ import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 import ftl.run.exception.IncompatibleTestDimensionError
 
-fun IosArgs.validate() = apply {
+fun IosArgs.validate() = if (shouldValidateConfig) apply {
     commonArgs.validate()
     assertXcodeSupported()
     assertDevicesSupported()
@@ -24,7 +24,7 @@ fun IosArgs.validate() = apply {
     assertXcTestRunVersion()
     assertGameloop()
     assertXcTestRunData()
-}
+} else this
 
 private fun IosArgs.assertGameloop() {
     validateApp()

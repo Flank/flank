@@ -99,6 +99,7 @@ IosArgs
       only-test-configuration: $onlyTestConfiguration
       skip-test-configuration: $skipTestConfiguration
       output-report: $outputReportType
+      skip-config-validation: $skipConfigValidation
         """.trimIndent()
     }
 }

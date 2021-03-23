@@ -11,12 +11,14 @@ import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 
 fun CommonArgs.validate() {
-    assertProjectId()
-    assertShardTime()
-    assertRepeatTests()
-    assertSmartFlankGcsPath()
-    assertOrientationCorrectness()
-    checkDisableSharding()
+    if (shouldValidateConfig) {
+        assertProjectId()
+        assertShardTime()
+        assertRepeatTests()
+        assertSmartFlankGcsPath()
+        assertOrientationCorrectness()
+        checkDisableSharding()
+    }
 }
 
 private fun List<Device>.devicesWithMispeltOrientations(availableOrientations: List<String>) =

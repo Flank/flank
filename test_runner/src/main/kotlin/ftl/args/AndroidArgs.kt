@@ -120,6 +120,7 @@ AndroidArgs
       default-class-test-time: $defaultClassTestTime
       disable-usage-statistics: $disableUsageStatistics
       output-report: $outputReportType
+      skip-config-validation: $skipConfigValidation
         """.trimIndent()
     }
 }
