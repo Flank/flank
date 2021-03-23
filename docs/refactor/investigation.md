@@ -15,7 +15,7 @@ This document is and entity point for further improvements.
 
 #### Issues
 
-1. `ftl.Main` command shouldn't be bound with `main` function with constructor
+1. `ftl.Main` command shouldn't be bound with `main` function through companion object due to single responsibility principle.
 1. Some commands that can run domain code are doing too much.
 1. Some of composing commands seem to be in wrong package.
 
@@ -103,7 +103,7 @@ command that:
 1. The domain layer of flank is not clearly separated of CLI and external APIs.
 1. Domain logic is huge and complicated but there is lack of diagram for visualize it.
 
-### Data [ consider better name ]
+### Data & Adapters
 
 #### Issues
 

@@ -1,4 +1,4 @@
-# Flank refactor proposal [Not complete]
+# Flank refactor proposal
 
 ## Motivation
 
@@ -36,8 +36,8 @@ but from technical perspective those will be interfaces, type aliases, and struc
 * ftl
     * cli
     * domain
-    * data ?
-    * adapters ?
+    * data
+    * adapters
     * utils
    
 
