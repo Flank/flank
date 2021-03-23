@@ -2,6 +2,7 @@ package ftl
 
 import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
+import ftl.cli.MainCommand
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
@@ -39,7 +40,7 @@ class MainTest {
     private fun runCommand(vararg args: String): String {
         systemErrRule.clearLog()
         systemOutRule.clearLog()
-        CommandLine(Main()).execute(*args)
+        CommandLine(MainCommand()).execute(*args)
         return systemOutRule.log.normalizeLineEnding() + systemErrRule.log.normalizeLineEnding()
     }
 
@@ -81,14 +82,14 @@ class MainTest {
     @Test
     fun `should exit with status code 0 if no args provided`() {
         systemExit.expectSystemExitWithStatus(0)
-        Main.main(emptyArray())
+        main(emptyArray())
         assertMainHelpStrings(systemOutRule.log)
     }
 
     @Test
     fun `should terminate jvm with exit status 2 if yml parsing error occurs`() {
         systemExit.expectSystemExitWithStatus(2)
-        Main.main(
+        main(
             arrayOf(
                 "firebase",
                 "test",
