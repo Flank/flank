@@ -24,6 +24,6 @@ private fun copyManyTestsApk() {
 
     if (!outputDir.parent.toFile().exists()) Files.createDirectories(outputDir.parent)
 
-    val assembleDirectory = Paths.get(androidTestProjectsPath, "app_many_tests", "build", "outputs", "apk", "debug", "app_many_tests.apk")
+    val assembleDirectory = Paths.get(androidTestProjectsPath, "app_many_tests", "build", "outputs", "apk", "debug", "app_many_tests-debug.apk")
     Files.copy(assembleDirectory, outputDir, StandardCopyOption.REPLACE_EXISTING)
 }
