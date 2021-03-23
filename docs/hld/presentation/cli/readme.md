@@ -41,7 +41,7 @@ The class which represents the CLI command:
 
 ## Class & relations diagram
 
-![cli_class_diagram](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/1493-add-cli-class-diagram/docs/hld/presentation/cli/cli-class-diagram.puml)
+![cli_class_diagram](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/presentation/cli/cli-class-diagram.puml)
 
 ### Notes
 
