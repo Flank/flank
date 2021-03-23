@@ -1,6 +1,6 @@
 @file:Suppress("InvalidPackageDeclaration")
 
-import ftl.Main
+import ftl.cli.MainCommand
 import ftl.run.exception.withGlobalExceptionHandling
 import ftl.util.disableCrashReporting
 import picocli.CommandLine
@@ -18,7 +18,7 @@ fun main() {
         ?: "YOUR PROJECT ID"
 
     withGlobalExceptionHandling {
-        CommandLine(Main()).execute(
+        CommandLine(MainCommand()).execute(
 //            "--debug",
             "firebase",
             "test",
