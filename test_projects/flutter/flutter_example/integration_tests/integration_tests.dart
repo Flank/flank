@@ -10,4 +10,5 @@ void main() {
   runSuccessTests2();
   runSuccessTests3();
   runSuccessTests4();
+  runSuccessTests5();
 }

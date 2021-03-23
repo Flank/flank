@@ -9,6 +9,8 @@
 
 To test sharding on gcloud run
 
+## --num-uniform-shards
+
 ```shell
 
 flutter build apk
@@ -36,6 +38,116 @@ In this case, gcloud will create 3 shards.
 1. One shard will contain all test's
 1. Two other shards will be empty.
 
+## --test-targets-for-shard
+
+1. Test name
+
+```shell
+
+flutter build apk
+dir=$(pwd)
+pushd android
+
+./gradlew app:assembleAndroidTest
+
+./gradlew app:assembleDebug -Ptarget=$dir"/integration_tests/integration_tests.dart"
+
+popd
+
+gcloud alpha firebase test android run \
+  --project flank-open-source \
+  --type instrumentation \
+  --app build/app/outputs/apk/debug/app-debug.apk \
+  --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+  --test-targets-for-shard "class org.flank.flutter_example.MainActivityTest#success_test_example_5" \
+  --timeout 5m
+  
+```
+
+1. ```success_test_example_5``` is dart test.
+1. Testlab can't find dart tests.
+1. Testlab will create an empty shard.
+Result:
+   
+```shell
+┌─────────┬────────────────────────┬────────────────────┐
+│ OUTCOME │    TEST_AXIS_VALUE     │    TEST_DETAILS    │
+├─────────┼────────────────────────┼────────────────────┤
+│ Failed  │ walleye-27-en-portrait │ Test failed to run │
+└─────────┴────────────────────────┴────────────────────┘
+
+```
+
+1. Package or class name 
+
+Android source code contains test class without tests, so we can use 
+
+```shell
+  --test-targets-for-shard "class org.flank.flutter_example.MainActivityTest"
+```
+or
+
+```shell
+  --test-targets-for-shard "package org.flank.flutter_example"
+```
+
+With this parameter, Firebase will create a shard with all test cases.
+
+```shell
+┌─────────┬────────────────────────┬───────────────────────────────┐
+│ OUTCOME │    TEST_AXIS_VALUE     │          TEST_DETAILS         │
+├─────────┼────────────────────────┼───────────────────────────────┤
+│ Failed  │ walleye-27-en-portrait │ 1 test cases failed, 5 passed │
+└─────────┴────────────────────────┴───────────────────────────────┘
+
+```
+
+## --test-targets
+
+Firebase Testlab can detect android test class with annotation. All options based on android package, class, and annotation works
+but options using test method not.
+
+1. Test name
+
+If we set a specific test to execute as test target eg:
+
+```shell
+  --test-targets "class org.flank.flutter_example.MainActivityTest#success_test_example_5"
+```
+
+Testlab will fail with the following error
+
+```shell
+┌─────────┬────────────────────────┬────────────────────┐
+│ OUTCOME │    TEST_AXIS_VALUE     │    TEST_DETAILS    │
+├─────────┼────────────────────────┼────────────────────┤
+│ Failed  │ walleye-27-en-portrait │ Test failed to run │
+└─────────┴────────────────────────┴────────────────────┘
+
+```
+
+1. Class or package name
+
+```shell
+  --test-targets "class org.flank.flutter_example.MainActivityTest"
+```
+
+or
+
+```shell
+  --test-targets "package org.flank.flutter_example"
+```
+
+With this parameter Firebase will create a shard with all test cases.
+
+```shell
+┌─────────┬────────────────────────┬───────────────────────────────┐
+│ OUTCOME │    TEST_AXIS_VALUE     │          TEST_DETAILS         │
+├─────────┼────────────────────────┼───────────────────────────────┤
+│ Failed  │ walleye-27-en-portrait │ 1 test cases failed, 5 passed │
+└─────────┴────────────────────────┴───────────────────────────────┘
+
+```
 ## Flank
 
 Currently, Flank cannot run any flutter tests.
