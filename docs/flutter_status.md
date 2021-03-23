@@ -40,6 +40,16 @@ gcloud alpha firebase test android run \
   --timeout 5m
 ```
 
+Result:
+
+```shell
+┌─────────┬────────────────────────┬───────────────────────────────┐
+│ OUTCOME │    TEST_AXIS_VALUE     │          TEST_DETAILS         │
+├─────────┼────────────────────────┼───────────────────────────────┤
+│ Failed  │ walleye-27-en-portrait │ 1 test cases failed, 5 passed │
+└─────────┴────────────────────────┴───────────────────────────────┘
+```
+
 #### Expected behaviour
 
 The Flutter example app contains 6 test methods, so according to doc, 
@@ -110,16 +120,28 @@ Gcloud is returning `Test failed to run` as test details, no test are being run.
 Test:
 
 ```shell
-  --test-targets-for-shard "class org.flank.flutter_example.MainActivityTest"
+gcloud alpha firebase test android run \
+  --project flank-open-source \
+  --type instrumentation \
+  --app build/app/outputs/apk/debug/app-debug.apk \
+  --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+  --test-targets-for-shard "class org.flank.flutter_example.MainActivityTest" \
+  --timeout 5m
 ```
 
 or
 
 ```shell
-  --test-targets-for-shard "package org.flank.flutter_example"
+gcloud alpha firebase test android run \
+  --project flank-open-source \
+  --type instrumentation \
+  --app build/app/outputs/apk/debug/app-debug.apk \
+  --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+  --test-targets-for-shard "package org.flank.flutter_example" \
+  --timeout 5m
 ```
 
-With this parameter, Firebase will create a shard with all test cases.
+Result:
 
 ```shell
 ┌─────────┬────────────────────────┬───────────────────────────────┐
