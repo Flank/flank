@@ -6,4 +6,5 @@ fun AndroidBuildConfiguration.runAndroidBuild() = takeIf { generate }?.let {
     buildDuplicatedNamesApks()
     buildMultiModulesApks()
     buildCucumberSampleApp()
+    buildManyTestsApk()
 }

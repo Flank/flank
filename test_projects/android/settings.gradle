@@ -1,3 +1,4 @@
+include ':app_many_tests'
 include ':multi-modules:multiapp'
 include ':app',
         ':multi-modules:fullyIgnoredModule',
