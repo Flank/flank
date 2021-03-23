@@ -5,14 +5,17 @@ left to right direction
 
 package "ftl" {
 
-class MainCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/Main.kt]] {
-    flank.jar
+object main [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/Main.kt]] {
     [[../../../../test_runner/src/main/kotlin/ftl/Main.kt local link]]
-    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_.adoc github adoc]]
-    [[]]
 }
 
 package "cli" {
+
+class MainCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/MainCommand.kt]] {
+    flank.jar
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/MainCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_.adoc github adoc]]
+}
 
 class AuthCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/AuthCommand.kt]] {
     auth
@@ -38,6 +41,13 @@ class FirebaseCommand [[https://github.com/Flank/flank/blob/master/test_runner/s
 
 package "firebase" {
 
+class TestCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/TestCommand.kt]] {
+    test
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/TestCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test gcloud equivalent]]
+}
+
 class RefreshCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/RefreshCommand.kt]] #lightblue {
     refresh
     [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/RefreshCommand.kt local link]]
@@ -47,12 +57,6 @@ class CancelCommand [[https://github.com/Flank/flank/blob/master/test_runner/src
     cancel
     [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/CancelCommand.kt local link]]
     [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-cancel.adoc github adoc]]
-}
-class TestCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/TestCommand.kt]] {
-    test
-    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/TestCommand.kt local link]]
-    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test.adoc github adoc]]
-    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test gcloud equivalent]]
 }
 
 package "test" {
@@ -318,8 +322,12 @@ class ProvidedSoftwareListCommand [[https://github.com/Flank/flank/blob/master/t
 }
 }
 
-MainCommand --> FirebaseCommand
+main --> MainCommand
+
 MainCommand --> AuthCommand
+AuthCommand --> LoginCommand
+
+MainCommand --> FirebaseCommand
 
 'MainCommand --> RefreshCommand
 'MainCommand --> CancelCommand
@@ -329,7 +337,6 @@ MainCommand --> AuthCommand
 'MainCommand --> IosCommand
 'MainCommand --> AndroidCommand
 
-AuthCommand --> LoginCommand
 
 IPBlocksCommand --> IPBlocksListCommand
 
