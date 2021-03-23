@@ -259,12 +259,40 @@ The gcloud can filter tests by class or package if there are exists in test apk 
 
 ## Flank
 
-Currently, Flank cannot run any flutter tests. That happens because  ```app-debug-androidTest.apk``` contains only the
-test class with the rule. All tests are in ```app-debug.apk```.
+```yaml
+gcloud:
+  app: ./test_projects/flutter/flutter_example/build/app/outputs/apk/debug/app-debug.apk
+  test: ./test_projects/flutter/flutter_example/build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+
+flank:
+  disable-sharding: true
+```
+
+Result:
+
+```shell
+  Saved 0 shards to [...]/android_shards.json
+  Uploading [android_shards.json] to https://console.developers.google.com/storage/browser/test-lab-v9cn46bb990nx-kz69ymd4nm9aq/2021-03-23_12-02-26.392553_lYnS/...
+
+There are no tests to run.
+
+```
+
+#### Expected behaviour
+
+The gcloud should run all tests, one tests is failing intentionally.
+
+#### Investigation results
+
+Currently, Flank cannot run any flutter tests. That happens because flank is calculating test methods using 
+[Flank using DexParser](https://github.com/Flank/flank/blob/1f219bae7462036a23aaab9ffc99256817da2625/test_runner/src/main/kotlin/ftl/run/platform/android/CreateAndroidTestContext.kt#L92)
+even with option ```disable-sharding```. This behaviour probably could be fixed but requires more investigation.
 
 ## How to create flutter tests for firebase
 
-1. Android side
+You can find Flutter Integration test plugin documentation with example [here](https://pub.dev/packages/integration_test).
+
+### Android side
 
 ```java
 
@@ -276,7 +304,7 @@ public class MainActivityTest {
 
 ```
 
-1. Flutter side
+### Flutter side
 
 This is the test app entry point.
 
@@ -333,6 +361,12 @@ Native code receive information's in [```IntegrationTestPlugin.onMethodCall()```
 1. [```notifier.fireTestFinished(d);```](https://github.com/flutter/plugins/blob/7b9ac6b0c20da2ae3cdbaf4f2a06a9b9eb6e1474/packages/integration_test/android/src/main/java/dev/flutter/plugins/integration_test/FlutterTestRunner.java#L84)
 
 ## Hypothetical solution to allow flank run flutter tests
+
+### Run test without sharding
+
+* We can try to turn off fetching test methods by dexparser when ```disable-sharding``` is set to true
+
+### Sharding support
 
 1. Create a channel to communicate native tests with dart code.
 
