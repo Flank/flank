@@ -1,15 +1,14 @@
 # Current Flutter status
 
-## Firebase
+## Gcloud
 
-1. Firebase can run flutter tests. You can find example in ```test_projects/flutter/flutter_example```,
-   simple run ```./build_and_run_tests_firebase.sh```.
+In the gcloud we can use following commands for sharding:
 
-1. Firebase not supporting sharding for Flutter.
+* [`--num-uniform-shards`](https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/run#--num-uniform-shards)
+* [`--test-targets-for-shard`](https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/run#--test-targets-for-shard)
+* [`--test-targets`](https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/run#--test-targets)
 
-To test sharding on gcloud run
-
-## --num-uniform-shards
+### --num-uniform-shards
 
 ```shell
 
@@ -33,14 +32,31 @@ gcloud alpha firebase test android run \
 
 ```
 
-In this case, gcloud will create 3 shards.
+#### Expected behaviour
 
-1. One shard will contain all test's
-1. Two other shards will be empty.
+The Flutter example app contains 6 test methods, 
+so according to doc, the gcloud should create 3 shards,
+each shard should contain 2 methods.
+
+#### Investigation results
+
+* One shard will contain all test's
+* Two other shards will be empty.
+
+#### Conclusions
+
+The result is different from expected behaviour.
 
 ## --test-targets-for-shard
 
-1. Test name
+Using this option you can specify shards targets by:
+* `metod` - test method name
+* `class` - test class name
+* `package` - test package name
+* `annotation`
+
+
+### Test method name
 
 ```shell
 
@@ -63,10 +79,9 @@ gcloud alpha firebase test android run \
   --timeout 5m
   
 ```
+Where: 
+* ```success_test_example_5``` is [dart test](https://github.com/Flank/flank/blob/master/test_projects/flutter/flutter_example/integration_tests/success_test.dart#L78).
 
-1. ```success_test_example_5``` is dart test.
-1. Testlab can't find dart tests.
-1. Testlab will create an empty shard.
 Result:
    
 ```shell
@@ -78,7 +93,20 @@ Result:
 
 ```
 
-1. Package or class name 
+#### Expected behaviour
+
+The gcloud should run only one shard with one test method: `org.flank.flutter_example.MainActivityTest#success_test_example_5`
+
+#### Investigation results
+
+Gcloud is returning `Test failed to run` as test details, no test are being run.
+
+#### Conclusions
+
+* gcloud can't find dart tests.
+* gcloud will create an empty shard.
+
+### Package or class name 
 
 Android source code contains test class without tests, so we can use 
 
@@ -102,9 +130,21 @@ With this parameter, Firebase will create a shard with all test cases.
 
 ```
 
+#### Expected behaviour
+
+The gcloud should run all tests, one tests is failing intentionally.
+
+#### Investigation results
+
+Test results are same as expected.
+
+#### Conclusions
+
+The gcloud can run class and package that exist in test apk.
+
 ## --test-targets
 
-Firebase Testlab can detect android test class with annotation. All options based on android package, class, and annotation works
+Gcloud can detect android test class with annotation. All options based on android package, class, and annotation works
 but options using test method not.
 
 1. Test name
@@ -148,6 +188,28 @@ With this parameter Firebase will create a shard with all test cases.
 └─────────┴────────────────────────┴───────────────────────────────┘
 
 ```
+
+#### Expected behaviour
+
+The gcloud should run all tests, one tests is failing intentionally.
+
+#### Investigation results
+
+Test results are same as expected.
+
+#### Conclusions
+
+The gcloud can run class and package that exist in test apk.
+
+### Summary conclusion
+
+* Gcloud can run flutter tests without sharding. You can find example in [flutter_example](https://github.com/Flank/flank/blob/master/test_projects/flutter/flutter_example),
+   simple run [build_and_run_tests_firebase.sh](https://github.com/Flank/flank/blob/master/test_projects/flutter/flutter_example/build_and_run_tests_firebase.sh).
+
+* Gcloud is not supporting sharding for Flutter, 
+  because all `dart` tests according to the [firebase doc](https://pub.dev/packages/integration_test) are hidden behind [android test class](https://github.com/Flank/flank/blob/master/test_projects/flutter/flutter_example/android/app/src/androidTest/java/org/flank/flutter_example/MainActivityTest.java) and are not visible for gcloud.
+
+
 ## Flank
 
 Currently, Flank cannot run any flutter tests.
