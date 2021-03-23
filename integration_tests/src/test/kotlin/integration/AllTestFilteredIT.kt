@@ -6,6 +6,17 @@ import flank.common.isWindows
 import org.junit.Assume.assumeFalse
 import org.junit.Test
 import run
+import utils.CONFIGS_PATH
+import utils.FLANK_JAR_PATH
+import utils.androidRunCommands
+import utils.asOutputReport
+import utils.assertExitCode
+import utils.assertNoOutcomeSummary
+import utils.findTestDirectoryFromOutput
+import utils.iosRunCommands
+import utils.json
+import utils.removeUnicode
+import utils.toOutputReportFile
 
 class AllTestFilteredIT {
     private val name = this::class.java.simpleName
@@ -25,8 +36,15 @@ class AllTestFilteredIT {
         assertExitCode(result, 1)
 
         val resOutput = result.output.removeUnicode()
-        assertThat(resOutput).containsMatch(findInCompare(name))
+
+        val outputReport = resOutput.findTestDirectoryFromOutput().toOutputReportFile().json().asOutputReport()
+
         assertNoOutcomeSummary(resOutput)
+
+        assertThat(outputReport.error).contains("There are no tests to run.")
+        assertThat(outputReport.cost).isNull()
+        assertThat(outputReport.testResults).isEmpty()
+        assertThat(outputReport.weblinks).isEmpty()
     }
 
     @Test
@@ -45,7 +63,16 @@ class AllTestFilteredIT {
         assertExitCode(result, 1)
 
         val resOutput = result.output.removeUnicode()
-        assertThat(resOutput).containsMatch(findInCompare(name))
+
         assertNoOutcomeSummary(resOutput)
+
+        val outputReport = resOutput.findTestDirectoryFromOutput().toOutputReportFile().json().asOutputReport()
+
+        assertNoOutcomeSummary(resOutput)
+
+        assertThat(outputReport.error).contains("Empty shards. Cannot match any method to [nonExisting/Class]")
+        assertThat(outputReport.cost).isNull()
+        assertThat(outputReport.testResults).isEmpty()
+        assertThat(outputReport.weblinks).isEmpty()
     }
 }
