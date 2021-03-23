@@ -39,7 +39,6 @@ gcloud alpha firebase test android run \
   --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
   --num-uniform-shards=3 \
   --timeout 5m
-
 ```
 
 #### Expected behaviour
@@ -285,6 +284,7 @@ flutter build apk
 
 ```shell
 ./gradlew app:assembleAndroidTest
+```
 ```shell
 ./gradlew app:assembleDebug -Ptarget="path to test entry point eg. $dir/integration_tests/integration_tests.dart"
 ```
