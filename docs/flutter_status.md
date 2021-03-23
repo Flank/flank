@@ -2,8 +2,6 @@
 
 Investigation of flutter-android support on gcloud including test sharding.
 
-
-
 # Gcloud
 
 In the gcloud we can use following commands to run tests in shards:
@@ -31,6 +29,7 @@ popd
 ## --num-uniform-shards
 
 Test:
+
 ```shell
 gcloud alpha firebase test android run \
   --project flank-open-source \
@@ -43,8 +42,8 @@ gcloud alpha firebase test android run \
 
 #### Expected behaviour
 
-The Flutter example app contains 6 test methods, 
-so according to doc, the gcloud should create 3 shards,
+The Flutter example app contains 6 test methods, so according to doc, 
+the gcloud should create 3 shards, 
 each shard should contain 2 methods.
 
 #### Investigation results
@@ -59,15 +58,16 @@ The result is different from expected behaviour.
 ## --test-targets-for-shard
 
 Using this option you can specify shards targets by:
+
 * `metod` - test method name
 * `class` - test class name
 * `package` - test package name
 * `annotation`
 
-
 ### Sharding by method
 
 Test:
+
 ```shell
 gcloud alpha firebase test android run \
   --project flank-open-source \
@@ -76,25 +76,25 @@ gcloud alpha firebase test android run \
   --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
   --test-targets-for-shard "class org.flank.flutter_example.MainActivityTest#success_test_example_5" \
   --timeout 5m
-  
 ```
+
 Where:
 ```success_test_example_5``` is a [dart test](https://github.com/Flank/flank/blob/master/test_projects/flutter/flutter_example/integration_tests/success_test.dart#L78).
 
 Result:
-   
+
 ```shell
 ┌─────────┬────────────────────────┬────────────────────┐
 │ OUTCOME │    TEST_AXIS_VALUE     │    TEST_DETAILS    │
 ├─────────┼────────────────────────┼────────────────────┤
 │ Failed  │ walleye-27-en-portrait │ Test failed to run │
 └─────────┴────────────────────────┴────────────────────┘
-
 ```
 
 #### Expected behaviour
 
-The gcloud should run only one shard with one test method: `org.flank.flutter_example.MainActivityTest#success_test_example_5`
+The gcloud should run only one shard with one test
+method: `org.flank.flutter_example.MainActivityTest#success_test_example_5`
 
 #### Investigation results
 
@@ -106,10 +106,13 @@ Gcloud is returning `Test failed to run` as test details, no test are being run.
 * gcloud will create an empty shard.
 
 ### Sharding by class or package
+
 Test:
+
 ```shell
   --test-targets-for-shard "class org.flank.flutter_example.MainActivityTest"
 ```
+
 or
 
 ```shell
@@ -124,7 +127,6 @@ With this parameter, Firebase will create a shard with all test cases.
 ├─────────┼────────────────────────┼───────────────────────────────┤
 │ Failed  │ walleye-27-en-portrait │ 1 test cases failed, 5 passed │
 └─────────┴────────────────────────┴───────────────────────────────┘
-
 ```
 
 #### Expected behaviour
@@ -141,8 +143,8 @@ The gcloud can run tests by class or package if there are exists in test apk as 
 
 ## --test-targets
 
-This option works similar to 
-Using this option you can filter test cases for running only the specified units:
+This option works similar to Using this option you can filter test cases for running only the specified units:
+
 * `metod` - test method name
 * `class` - test class name
 * `package` - test package name
@@ -151,6 +153,7 @@ Using this option you can filter test cases for running only the specified units
 ### Filtering by method:
 
 Test:
+
 ```shell
 gcloud alpha firebase test android run \
   --project flank-open-source \
@@ -175,6 +178,7 @@ Result:
 ### Filtering by class or package:
 
 Test:
+
 ```shell
 gcloud alpha firebase test android run \
   --project flank-open-source \
@@ -222,17 +226,19 @@ The gcloud can filter tests by class or package if there are exists in test apk 
 
 ### Summary conclusion
 
-* Gcloud can run flutter tests without sharding. You can find example in [flutter_example](https://github.com/Flank/flank/blob/master/test_projects/flutter/flutter_example),
-   simple run [build_and_run_tests_firebase.sh](https://github.com/Flank/flank/blob/master/test_projects/flutter/flutter_example/build_and_run_tests_firebase.sh).
+* Gcloud can run flutter tests without sharding. You can find example
+  in [flutter_example](https://github.com/Flank/flank/blob/master/test_projects/flutter/flutter_example), simple
+  run [build_and_run_tests_firebase.sh](https://github.com/Flank/flank/blob/master/test_projects/flutter/flutter_example/build_and_run_tests_firebase.sh).
 
-* Gcloud is not supporting sharding for Flutter, 
-  because all `dart` tests according to the [flutter integration tests doc](https://pub.dev/packages/integration_test#android-device-testing) are hidden behind [android test class](https://github.com/Flank/flank/blob/master/test_projects/flutter/flutter_example/android/app/src/androidTest/java/org/flank/flutter_example/MainActivityTest.java) and are not visible for gcloud.
-
+* Gcloud is not supporting sharding for Flutter, because all `dart` tests according to
+  the [flutter integration tests doc](https://pub.dev/packages/integration_test#android-device-testing) are hidden
+  behind [android test class](https://github.com/Flank/flank/blob/master/test_projects/flutter/flutter_example/android/app/src/androidTest/java/org/flank/flutter_example/MainActivityTest.java)
+  and are not visible for gcloud.
 
 ## Flank
 
-Currently, Flank cannot run any flutter tests.
-That happens because  ```app-debug-androidTest.apk``` contains only the test class with the rule. All tests are in ```app-debug.apk```.
+Currently, Flank cannot run any flutter tests. That happens because  ```app-debug-androidTest.apk``` contains only the
+test class with the rule. All tests are in ```app-debug.apk```.
 
 ## How to create flutter tests for firebase
 
@@ -285,26 +291,24 @@ flutter build apk
 ```shell
 ./gradlew app:assembleAndroidTest
 ```
+
 ```shell
 ./gradlew app:assembleDebug -Ptarget="path to test entry point eg. $dir/integration_tests/integration_tests.dart"
 ```
 
-All dart tests are placed in ```app-debug.apk``` instead of ```app-debug-androidTest.apk```.
-That's why Flank doesn't see flutter tests.
+All dart tests are placed in ```app-debug.apk``` instead of ```app-debug-androidTest.apk```. That's why Flank doesn't
+see flutter tests.
 
 ## How flutter tests work in firebase
 
-Flutter Integration Test plugin use ```channel``` to communicate between ```FlutterTestRunner```on android side
-and dart code.
-When dart tests was finished, flutter send information about test results to native code. Native code
-receive information's in [```IntegrationTestPlugin.onMethodCall()```](https://github.com/flutter/plugins/blob/7b9ac6b0c20da2ae3cdbaf4f2a06a9b9eb6e1474/packages/integration_test/android/src/main/java/dev/flutter/plugins/integration_test/IntegrationTestPlugin.java#L52). ```FlutterTestRunner``` sets test
-statuses in method [```FlutterTestRunner.run()```](https://github.com/flutter/plugins/blob/7b9ac6b0c20da2ae3cdbaf4f2a06a9b9eb6e1474/packages/integration_test/android/src/main/java/dev/flutter/plugins/integration_test/FlutterTestRunner.java#L55)
-in lines: 
+Flutter Integration Test plugin use ```channel``` to communicate between ```FlutterTestRunner```on android side and dart code. 
+When dart tests was finished, flutter send information about test results to native code. 
+Native code receive information's in [```IntegrationTestPlugin.onMethodCall()```](https://github.com/flutter/plugins/blob/7b9ac6b0c20da2ae3cdbaf4f2a06a9b9eb6e1474/packages/integration_test/android/src/main/java/dev/flutter/plugins/integration_test/IntegrationTestPlugin.java#L52). 
+```FlutterTestRunner``` sets test statuses in method [```FlutterTestRunner.run()```](https://github.com/flutter/plugins/blob/7b9ac6b0c20da2ae3cdbaf4f2a06a9b9eb6e1474/packages/integration_test/android/src/main/java/dev/flutter/plugins/integration_test/FlutterTestRunner.java#L55) in lines:
 
-1. [```notifier.fireTestStarted(d);```](https://github.com/flutter/plugins/blob/7b9ac6b0c20da2ae3cdbaf4f2a06a9b9eb6e1474/packages/integration_test/android/src/main/java/dev/flutter/plugins/integration_test/FlutterTestRunner.java#L78) 
+1. [```notifier.fireTestStarted(d);```](https://github.com/flutter/plugins/blob/7b9ac6b0c20da2ae3cdbaf4f2a06a9b9eb6e1474/packages/integration_test/android/src/main/java/dev/flutter/plugins/integration_test/FlutterTestRunner.java#L78)
 1. [```notifier.fireTestFailure(new Failure(d, dummyException));```](https://github.com/flutter/plugins/blob/7b9ac6b0c20da2ae3cdbaf4f2a06a9b9eb6e1474/packages/integration_test/android/src/main/java/dev/flutter/plugins/integration_test/FlutterTestRunner.java#L82)
 1. [```notifier.fireTestFinished(d);```](https://github.com/flutter/plugins/blob/7b9ac6b0c20da2ae3cdbaf4f2a06a9b9eb6e1474/packages/integration_test/android/src/main/java/dev/flutter/plugins/integration_test/FlutterTestRunner.java#L84)
-
 
 ## Hypothetical solution to allow flank run flutter tests
 
