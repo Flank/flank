@@ -4,12 +4,18 @@ import FlankCommand
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import run
-import utils.assertCountOfFailedTests
-import utils.assertTestPass
-import utils.assertTestResultContainsWebLinks
+import utils.CONFIGS_PATH
+import utils.FLANK_JAR_PATH
+import utils.androidRunCommands
+import utils.asOutputReport
+import utils.assertCostMatches
+import utils.assertExitCode
+import utils.assertTestCountMatches
 import utils.findTestDirectoryFromOutput
-import utils.loadAsTestSuite
-import utils.toJUnitXmlFile
+import utils.firstTestSuiteOverview
+import utils.json
+import utils.removeUnicode
+import utils.toOutputReportFile
 
 class TestFilteringIT {
     private val name = this::class.java.simpleName
@@ -28,14 +34,14 @@ class TestFilteringIT {
         assertExitCode(result, 0)
 
         val resOutput = result.output.removeUnicode()
-        assertThat(resOutput).containsMatch(findInCompare(name))
-        assertContainsOutcomeSummary(resOutput) {
-            success = 1
-        }
-        resOutput.findTestDirectoryFromOutput().toJUnitXmlFile().loadAsTestSuite().run {
-            assertTestResultContainsWebLinks()
-            assertCountOfFailedTests(0)
-            assertTestPass(listOf("test2"))
-        }
+        val outputReport = resOutput.findTestDirectoryFromOutput().toOutputReportFile().json().asOutputReport()
+
+        assertThat(outputReport.cost).isNotNull()
+        assertThat(outputReport.weblinks).isNotEmpty()
+        assertThat(outputReport.error).isEmpty()
+
+        outputReport.assertCostMatches()
+
+        outputReport.firstTestSuiteOverview.assertTestCountMatches(total = 1)
     }
 }

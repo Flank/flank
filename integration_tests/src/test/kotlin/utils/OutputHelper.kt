@@ -12,6 +12,10 @@ fun String.findTestDirectoryFromOutput() =
 
 fun String.toJUnitXmlFile(): File = Paths.get("./", "results", this, "JUnitReport.xml").toFile()
 
+fun String.toOutputReportFile(): File =
+    if (isEmpty()) Paths.get("outputReport.json").toFile()
+    else Paths.get("./", "results", this, "outputReport.json").toFile()
+
 fun TestSuites.assertTestResultContainsWebLinks() =
     testSuites.flatMap { it.testCases }.filter { it.skipped == null }.forEach {
         assertFalse(it.webLink.isNullOrBlank())

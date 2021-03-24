@@ -4,9 +4,22 @@ import FlankCommand
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import run
+import utils.CONFIGS_PATH
+import utils.FLANK_JAR_PATH
+import utils.androidRunCommands
+import utils.asOutputReport
+import utils.assertCostMatches
+import utils.assertExitCode
+import utils.assertTestCountMatches
+import utils.findTestDirectoryFromOutput
+import utils.firstTestSuiteOverview
+import utils.json
+import utils.removeUnicode
+import utils.toOutputReportFile
 
 class IgnoreFailedIT {
     private val name = this::class.java.simpleName
+
     @Test
     fun `return with exit code 0 for failed tests`() {
         val result = FlankCommand(
@@ -21,9 +34,21 @@ class IgnoreFailedIT {
         assertExitCode(result, 0)
 
         val resOutput = result.output.removeUnicode()
-        assertThat(resOutput).containsMatch(findInCompare(name))
-        assertContainsOutcomeSummary(resOutput) {
-            failure = 1
-        }
+        val outputReport = resOutput.findTestDirectoryFromOutput().toOutputReportFile().json().asOutputReport()
+
+        assertThat(outputReport.error).isEmpty()
+        assertThat(outputReport.cost).isNotNull()
+
+        outputReport.assertCostMatches()
+
+        assertThat(outputReport.testResults.count()).isEqualTo(1)
+        assertThat(outputReport.weblinks.count()).isEqualTo(1)
+
+        val testSuiteOverview = outputReport.firstTestSuiteOverview
+
+        testSuiteOverview.assertTestCountMatches(
+            total = 1,
+            failures = 1
+        )
     }
 }

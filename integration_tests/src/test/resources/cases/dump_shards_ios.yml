@@ -7,3 +7,4 @@ flank:
   max-test-shards: 2
   output-style: single
   disable-usage-statistics: true
+  output-report: json

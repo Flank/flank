@@ -23,4 +23,8 @@ function cucumber_sample_app() {
   $DIR/../../flank-scripts/bash/flankScripts assemble android app --copy --generate --artifacts=buildCucumberSampleApp
 }
 
+function many_tests_apk() {
+  $DIR/../../flank-scripts/bash/flankScripts assemble android app --copy --generate --artifacts=manyTestsApp
+}
+
 echo "Android test projects ops loaded"
