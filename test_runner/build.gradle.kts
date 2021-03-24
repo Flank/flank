@@ -155,7 +155,7 @@ tasks.withType<KotlinCompile>().configureEach {
 
 application {
     // unfortunately shadowJar task seems not to be working correctly with new property based approach
-    mainClassName = "ftl.Main"
+    mainClassName = "ftl.MainKt"
 }
 
 repositories {
