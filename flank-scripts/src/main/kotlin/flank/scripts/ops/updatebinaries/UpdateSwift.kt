@@ -2,36 +2,14 @@ package flank.scripts.ops.updatebinaries
 
 import flank.common.downloadFile
 import flank.common.extract
-import flank.scripts.utils.isWindows
+import flank.common.isWindows
 import java.nio.file.Files
 import java.nio.file.Paths
 
 private val currentPath = Paths.get("")
-private val swiftPath =
-    if (isWindows) Paths.get(currentPath.toString(), "master-swift")
-    else Paths.get(currentPath.toString(), "swift")
+private val swiftPath = Paths.get(currentPath.toString(), "swift")
 
-fun updateSwift() = if (isWindows) updateSwiftWindows() else updateSwiftOther()
-
-private fun updateSwiftWindows() {
-    val binariesPath = Paths.get(currentPath.toString(), "master.zip")
-    if (binariesPath.toFile().exists()) {
-        println("Binaries already exists")
-    } else {
-        println("Downloading binaries for windows...")
-        binariesPath.toFile().mkdirs()
-        downloadFile(
-            sourceUrl = "https://github.com/Flank/binaries/archive/master.zip",
-            destination = binariesPath.toString()
-        )
-    }
-
-    val destinationPath = Paths.get(currentPath.toString(), "master-swift")
-    destinationPath.toFile().mkdirs()
-    binariesPath.toFile().extract(destinationPath.toFile(), "zip")
-    findAndCopySwiftDemangleFile()
-    swiftPath.toFile().deleteRecursively()
-}
+fun updateSwift() = if (isWindows) Unit else updateSwiftOther()
 
 private fun updateSwiftOther() {
     val swiftTarGz = Paths.get(swiftPath.toString(), "swift.tar.gz")
@@ -66,13 +44,9 @@ private fun findAndCopySwiftLicense() {
 }
 
 private fun findAndCopySwiftDemangleFile() {
-    val switftDemangleFileSuffix =
-        if (isWindows) Paths.get("master-swift", "binaries-master", "swift-demangle.exe").toString()
-        else Paths.get("usr", "bin", "swift-demangle").toString()
+    val switftDemangleFileSuffix = Paths.get("usr", "bin", "swift-demangle").toString()
 
-    val switftDemangleOutputFile =
-        if (isWindows) Paths.get(currentPath.toString(), "swift-demangle.exe").toFile()
-        else Paths.get(currentPath.toString(), "swift-demangle").toFile()
+    val switftDemangleOutputFile = Paths.get(currentPath.toString(), "swift-demangle").toFile()
 
     println("Copying swift-demangle ...")
     Files.walk(swiftPath)
@@ -80,20 +54,4 @@ private fun findAndCopySwiftDemangleFile() {
         .findFirst()
         .takeIf { it.isPresent }
         ?.run { get().toFile().copyTo(switftDemangleOutputFile, overwrite = true) }
-
-    if (isWindows) {
-        println("Copying Windows DLL files")
-        findAndCopyWindowsRequiredDLlFile()
-    }
-}
-
-private fun findAndCopyWindowsRequiredDLlFile() {
-    val switftDLLFileSuffix = Paths.get("master-swift", "binaries-master", "swiftDemangle.dll").toString()
-    val switftDLLOutputFile = Paths.get(currentPath.toString(), "swiftDemangle.dll").toFile()
-
-    Files.walk(swiftPath)
-        .filter { it.toString().endsWith(switftDLLFileSuffix) }
-        .findFirst()
-        .takeIf { it.isPresent }
-        ?.run { get().toFile().copyTo(switftDLLOutputFile, overwrite = true) }
 }
