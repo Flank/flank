@@ -2,36 +2,14 @@ package flank.scripts.ops.updatebinaries
 
 import flank.common.downloadFile
 import flank.common.extract
-import flank.scripts.utils.isWindows
+import flank.common.isWindows
 import java.nio.file.Files
 import java.nio.file.Paths
 
 private val currentPath = Paths.get("")
 private val llvmPath = Paths.get(currentPath.toString(), "llvm")
 
-fun updateLlvm() = if (isWindows) updateLlvmWindows() else updateLlvmNonWindows()
-
-private fun updateLlvmWindows() {
-    println(" Will be available after #1134")
-   /*
-   TODO finish this in #1134
-   val llvmExe = Paths.get(llvmPath.toString(), "LLVM-win64.exe")
-    if (llvmExe.toFile().exists()) {
-        println("LLVM exists")
-    } else {
-        println("Downloading Windows LLVM...")
-        llvmPath.toFile().mkdirs()
-        downloadFile(
-            srcUrl = "https://releases.llvm.org/8.0.0/LLVM-8.0.0-win64.exe",
-            destinationPath = llvmExe.toString()
-        )
-    }
-
-    llvmExe.toFile().extract(llvmPath.toFile(), "zip", "xz")
-    findAndCopyLlvmLicense()
-    findAndCopyLlvmNmFile()
-    llvmPath.toFile().deleteRecursively()*/
-}
+fun updateLlvm() = if (isWindows) Unit else updateLlvmNonWindows()
 
 private fun updateLlvmNonWindows() {
     val llvmTarXz = Paths.get(llvmPath.toString(), "llvm.tar.xz")
@@ -67,6 +45,7 @@ private fun findAndCopyLlvmLicense() {
 
 private fun findAndCopyLlvmNmFile() {
     val llvmNmSuffix = Paths.get("bin", "llvm-nm").toString()
+
     val llvmNmOutputFile = Paths.get(currentPath.toString(), "nm").toFile()
 
     println("Copying llvm nm ...")

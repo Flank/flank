@@ -2,8 +2,6 @@ package integration
 
 import FlankCommand
 import com.google.common.truth.Truth.assertThat
-import flank.common.isWindows
-import org.junit.Assume.assumeFalse
 import org.junit.Test
 import run
 import utils.CONFIGS_PATH
@@ -49,7 +47,6 @@ class AllTestFilteredIT {
 
     @Test
     fun `filter all tests - ios`() {
-        assumeFalse(isWindows)
         val name = "$name-ios"
         val result = FlankCommand(
             flankPath = FLANK_JAR_PATH,
