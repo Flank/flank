@@ -199,6 +199,15 @@ data class CommonFlankConfig @JsonIgnore constructor(
     @set:JsonProperty("skip-config-validation")
     var skipConfigValidation: Boolean? by data
 
+    @set:CommandLine.Option(
+        names = ["--sharding-json"],
+        description = [
+            "Path to JSON with user's shards configuration. Flank will reflect provided sharding"
+        ]
+    )
+    @set:JsonProperty("sharding-json")
+    var shardingJson: String? by data
+
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {

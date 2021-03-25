@@ -20,6 +20,7 @@ import ftl.filter.TestFilters
 import ftl.run.model.AndroidTestContext
 import ftl.run.model.InstrumentationTestContext
 import ftl.shard.createShardsByTestForShards
+import ftl.shard.userShards
 import ftl.util.FlankTestMethod
 import ftl.util.downloadIfNeeded
 import kotlinx.coroutines.async
@@ -37,7 +38,8 @@ private suspend fun List<AndroidTestContext>.setupShards(
         async {
             when {
                 testContext !is InstrumentationTestContext -> testContext
-                args.testTargetsForShard.isNotEmpty() ->
+                args.useCustomSharding -> testContext.userShards()
+                args.useTestTargetsForShard ->
                     testContext.downloadApks()
                         .calculateDummyShards(args, testFilter)
                 else -> testContext.downloadApks().calculateShards(args, testFilter)
@@ -45,6 +47,12 @@ private suspend fun List<AndroidTestContext>.setupShards(
         }
     }.awaitAll().dropEmptyInstrumentationTest()
 }
+
+private val AndroidArgs.useCustomSharding: Boolean
+    get() = commonArgs.customSharding.isNotEmpty()
+
+private val AndroidArgs.useTestTargetsForShard: Boolean
+    get() = testTargetsForShard.isNotEmpty()
 
 private fun InstrumentationTestContext.downloadApks(): InstrumentationTestContext = copy(
     app = app.downloadIfNeeded(),
