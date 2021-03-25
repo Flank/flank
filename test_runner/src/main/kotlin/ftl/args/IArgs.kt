@@ -101,6 +101,8 @@ interface IArgs {
     val shouldValidateConfig: Boolean
         get() = !skipConfigValidation
 
+    val shardingJson: String?
+
     fun useLocalResultDir() = localResultDir != defaultLocalResultsDir
 
     companion object {
