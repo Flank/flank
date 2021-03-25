@@ -1,21 +1,26 @@
 package ftl.reports.output
 
+import flank.common.OUTPUT_ARGS
+import flank.common.OUTPUT_COST
+import flank.common.OUTPUT_TEST_RESULTS
+import flank.common.OUTPUT_WEBLINKS
+import flank.common.OutputReportCostNode
 import ftl.args.IArgs
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
 import java.math.BigDecimal
 
 internal fun OutputReport.log(args: IArgs) {
-    add("args", args)
+    add(OUTPUT_ARGS, args)
 }
 
 internal fun OutputReport.log(matrixMap: MatrixMap) {
-    add("weblinks", matrixMap.map.values.map { it.webLink })
+    add(OUTPUT_WEBLINKS, matrixMap.map.values.map { it.webLink })
 }
 
 internal fun OutputReport.log(matrices: Collection<SavedMatrix>) {
     add(
-        "test_results",
+        OUTPUT_TEST_RESULTS,
         matrices.map {
             it.matrixId to mapOf(
                 "app" to it.appFileName,
@@ -30,11 +35,5 @@ internal fun OutputReport.log(
     virtualCost: BigDecimal,
     totalCost: BigDecimal
 ) {
-    add("cost", OutputReportCostNode(physicalCost, virtualCost, totalCost))
+    add(OUTPUT_COST, OutputReportCostNode(physicalCost, virtualCost, totalCost))
 }
-
-private data class OutputReportCostNode(
-    val physical: BigDecimal,
-    val virtual: BigDecimal,
-    val total: BigDecimal
-)

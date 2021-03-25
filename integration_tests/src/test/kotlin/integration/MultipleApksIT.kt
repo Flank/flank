@@ -4,12 +4,24 @@ import FlankCommand
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import run
+import utils.CONFIGS_PATH
+import utils.FLANK_JAR_PATH
+import utils.androidRunCommands
+import utils.asOutputReport
+import utils.assertContainsUploads
+import utils.assertCostMatches
+import utils.assertExitCode
 import utils.assertTestFail
 import utils.assertTestPass
 import utils.assertTestResultContainsWebLinks
 import utils.findTestDirectoryFromOutput
+import utils.json
 import utils.loadAsTestSuite
+import utils.multipleFailedTests
+import utils.multipleSuccessfulTests
+import utils.removeUnicode
 import utils.toJUnitXmlFile
+import utils.toOutputReportFile
 
 class MultipleApksIT {
     private val name = this::class.java.simpleName
@@ -25,7 +37,7 @@ class MultipleApksIT {
         assertExitCode(result, 10)
 
         val resOutput = result.output.removeUnicode()
-        assertThat(resOutput).containsMatch(findInCompare(name))
+
         assertContainsUploads(
             resOutput,
             "app-multiple-success-debug-androidTest.apk",
@@ -33,15 +45,28 @@ class MultipleApksIT {
             "MainActivity_robo_script.json"
         )
 
-        assertContainsOutcomeSummary(resOutput) {
-            success = 3
-            failure = 1
-        }
-
         resOutput.findTestDirectoryFromOutput().toJUnitXmlFile().loadAsTestSuite().run {
             assertTestResultContainsWebLinks()
             assertTestPass(multipleSuccessfulTests)
             assertTestFail(multipleFailedTests)
         }
+
+        val outputReport = resOutput.findTestDirectoryFromOutput().toOutputReportFile().json().asOutputReport()
+
+        assertThat(outputReport.error).isEmpty()
+        assertThat(outputReport.cost).isNotNull()
+
+        outputReport.assertCostMatches()
+
+        assertThat(outputReport.testResults.count()).isEqualTo(4)
+        assertThat(outputReport.weblinks.count()).isEqualTo(4)
+
+        val testsResults = outputReport.testResults
+            .map { it.value }
+            .map { it.testAxises }
+            .flatten()
+
+        assertThat(testsResults.sumBy { it.testSuiteOverview.failures }).isEqualTo(5)
+        assertThat(testsResults.sumBy { it.testSuiteOverview.total }).isEqualTo(41)
     }
 }

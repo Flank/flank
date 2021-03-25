@@ -453,7 +453,7 @@ AndroidArgs
       disable-results-upload: false
       default-class-test-time: 240.0
       disable-usage-statistics: false
-      output-report: none
+      output-report: json
       skip-config-validation: false
             """.trimIndent(),
             args.toString()

@@ -7,3 +7,4 @@ flank:
   disable-sharding: true
   run-timeout: 1m
   disable-usage-statistics: true
+  output-report: json

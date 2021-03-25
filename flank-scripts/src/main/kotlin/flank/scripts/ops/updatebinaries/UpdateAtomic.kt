@@ -2,6 +2,7 @@ package flank.scripts.ops.updatebinaries
 
 import flank.common.downloadFile
 import flank.common.extract
+import flank.common.isWindows
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.stream.Collectors
@@ -10,6 +11,8 @@ private val currentPath = Paths.get("")
 private val atomicPath = Paths.get(currentPath.toString(), "libatomic")
 
 fun updateAtomic() {
+    if (isWindows) return
+
     val atomicDeb = Paths.get(atomicPath.toString(), "libatomic.deb").toFile()
     val atomicDataTarXz = Paths.get(atomicPath.toString(), "data.tar.xz").toFile()
 

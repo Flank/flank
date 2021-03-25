@@ -1,0 +1,395 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+'https://github.com/Flank/flank/blob/master
+left to right direction
+
+package "ftl" {
+
+object main [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/Main.kt]] {
+    [[../../../../test_runner/src/main/kotlin/ftl/Main.kt local link]]
+}
+
+package "cli" {
+
+class MainCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/MainCommand.kt]] {
+    flank.jar
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/MainCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_.adoc github adoc]]
+}
+
+class AuthCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/AuthCommand.kt]] {
+    auth
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/AuthCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-auth.adoc github adoc]]
+}
+
+package "auth" {
+class LoginCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/auth/LoginCommand.kt]] #lightblue {
+    login
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/auth/LoginCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-auth-login.adoc github adoc]]
+}
+}
+
+class FirebaseCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/FirebaseCommand.kt]] {
+    firebase
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/FirebaseCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase gcloud equivalent]]
+}
+
+
+package "firebase" {
+
+class TestCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/TestCommand.kt]] {
+    test
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/TestCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test gcloud equivalent]]
+}
+
+class RefreshCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/RefreshCommand.kt]] #lightblue {
+    refresh
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/RefreshCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-refresh.adoc github adoc]]
+}
+class CancelCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/CancelCommand.kt]] #lightblue {
+    cancel
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/CancelCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-cancel.adoc github adoc]]
+}
+
+package "test" {
+
+class AndroidCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/AndroidCommand.kt]] {
+    android
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/AndroidCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-android.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android gcloud equivalent]]
+}
+class IosCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/IosCommand.kt]] {
+    ios
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/IosCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-ios.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios gcloud equivalent]]
+}
+class IPBlocksCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/IPBlocksCommand.kt]] {
+    ip-blocks
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/IPBlocksCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-ip-blocks.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ip-blocks gcloud equivalent]]
+}
+class NetworkProfilesCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/NetworkProfilesCommand.kt]] {
+    network-profiles
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/NetworkProfilesCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-network-profiles.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/network-profiles gcloud equivalent]]
+}
+class ProvidedSoftwareCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/ProvidedSoftwareCommand.kt]] {
+    provided-software
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ProvidedSoftwareCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-provided-software.adoc github adoc]]
+}
+
+
+package "android" {
+
+class AndroidDoctorCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidDoctorCommand.kt]] #lightblue {
+    doctor
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidDoctorCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-android-doctor.adoc github adoc]]
+}
+class AndroidLocalesCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidLocalesCommand.kt]] {
+    locales
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidLocalesCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-android-locales.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/locales gcloud equivalent]]
+}
+class AndroidModelsCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidModelsCommand.kt]] {
+    models
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidModelsCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-android-models.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/models gcloud equivalent]]
+}
+class AndroidOrientationsCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidOrientationsCommand.kt]] {
+    screen-orientations
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidOrientationsCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-android-orientations.adoc github adoc]]
+}
+class AndroidRunCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidRunCommand.kt]] #lightblue {
+    run
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidRunCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-android-run.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/run gcloud equivalent]]
+}
+class AndroidTestEnvironmentCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidTestEnvironmentCommand.kt]] #lightblue {
+    test-environment
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidTestEnvironmentCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-android-test-environment.adoc github adoc]]
+}
+class AndroidVersionsCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidVersionsCommand.kt]] {
+    versions
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/AndroidVersionsCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-android-versions.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/versions gcloud equivalent]]
+}
+
+package "android.locales" {
+class AndroidLocalesListCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/android/configuration/AndroidLocalesListCommand.kt]] #lightblue {
+    list
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/configuration/AndroidLocalesListCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-android-locales-list.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/locales/list gcloud equivalent]]
+}
+class AndroidLocalesDescribeCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/android/configuration/AndroidLocalesDescribeCommand.kt]] #lightblue {
+    describe
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/configuration/AndroidLocalesDescribeCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-android-locales-describe.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/locales/describe gcloud equivalent]]
+}
+}
+
+package "android.models" {
+class AndroidModelsListCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/android/models/AndroidModelsListCommand.kt]] #lightblue {
+    list
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/models/AndroidModelsListCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test_android-models-list.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/models/list gcloud equivalent]]
+}
+class AndroidModelDescribeCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/android/models/AndroidModelDescribeCommand.kt]] #lightblue {
+    describe
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/models/AndroidModelDescribeCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-android-models-describe.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/models/describe gcloud equivalent]]
+}
+}
+
+package "android.orientations" {
+class AndroidOrientationsListCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/android/orientations/AndroidOrientationsListCommand.kt]] #lightblue {
+    list
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/orientations/AndroidOrientationsListCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-android-orientations-list.adoc github adoc]]
+}
+}
+
+package "android.versions" {
+class AndroidVersionsListCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/android/versions/AndroidVersionsListCommand.kt]] #lightblue {
+    list
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/versions/AndroidVersionsListCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-android-versions-list.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/versions/list gcloud equivalent]]
+}
+class AndroidVersionsDescribeCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/android/versions/AndroidVersionsDescribeCommand.kt]] #lightblue {
+    describe
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/android/versions/AndroidVersionsDescribeCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-android-versions-describe.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/android/versions/describe gcloud equivalent]]
+}
+}
+}
+
+
+package "ios" {
+
+class IosDoctorCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosDoctorCommand.kt]] #lightblue {
+    doctor
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosDoctorCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-ios-doctor.adoc github adoc]]
+}
+class IosOrientationsCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosOrientationsCommand.kt]] {
+    screen-orientations
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosOrientationsCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-ios-orientations.adoc github adoc]]
+}
+class IosLocalesCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosLocalesCommand.kt]] {
+    locales
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosLocalesCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-ios-locales.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios gcloud equivalent]]
+}
+class IosRunCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosRunCommand.kt]] #lightblue {
+    run
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosRunCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-ios-run.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios gcloud equivalent]]
+}
+class IosModelsCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosModelsCommand.kt]] {
+    models
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosModelsCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-ios-models.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios gcloud equivalent]]
+}
+class IosTestEnvironmentCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosTestEnvironmentCommand.kt]] #lightblue {
+    test-environment
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosTestEnvironmentCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-ios-test-environment.adoc github adoc]]
+}
+class IosVersionsCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosVersionsCommand.kt]] {
+    versions
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/IosVersionsCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-ios-versions.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios gcloud equivalent]]
+}
+
+package "ios.locales" {
+class IosLocalesListCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/configuration/IosLocalesListCommand.kt]] #lightblue {
+    list
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/configuration/IosLocalesListCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-ios-locales-list.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/locales/list gcloud equivalent]]
+}
+class IosLocalesDescribeCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/configuration/IosLocalesDescribeCommand.kt]] #lightblue {
+    describe
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/configuration/IosLocalesDescribeCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-ios-locales-describe.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/locales/describe gcloud equivalent]]
+}
+}
+
+package "ios.models" {
+class IosModelsListCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/models/IosModelsListCommand.kt]] #lightblue {
+    list
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/models/IosModelsListCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-ios-models-list.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/models/list gcloud equivalent]]
+}
+class IosModelDescribeCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/models/IosModelDescribeCommand.kt]] #lightblue {
+    describe
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/models/IosModelDescribeCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-ios-model-describe.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/models/describe gcloud equivalent]]
+}
+}
+
+package "ios.orientations" {
+class IosOrientationsListCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/orientations/IosOrientationsListCommand.kt]] #lightblue {
+    list
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/orientations/IosOrientationsListCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-ios-orientations-list.adoc github adoc]]
+}
+}
+
+package "ios.versions" {
+class IosVersionsListCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/versions/IosVersionsListCommand.kt]] #lightblue {
+    list
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/versions/IosVersionsListCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-ios-versions-list.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/versions/list gcloud equivalent]]
+}
+class IosVersionsDescribeCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/versions/IosVersionsDescribeCommand.kt]] #lightblue {
+    describe
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ios/versions/IosVersionsDescribeCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-ios-versions-describe.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/versions/describe gcloud equivalent]]
+}
+}
+
+}
+
+package "ipblocks" {
+class IPBlocksListCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/ipblocks/IPBlocksListCommand.kt]] #lightblue {
+    list
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/ipblocks/IPBlocksListCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-ip-blocks-list.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ip-blocks/list gcloud equivalent]]
+}
+}
+
+package "networkprofiles" {
+class NetworkProfilesDescribeCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/networkprofiles/NetworkProfilesDescribeCommand.kt]] #lightblue {
+    describe
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/networkprofiles/NetworkProfilesDescribeCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-network-profiles-describe.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/network-profiles/describe gcloud equivalent]]
+}
+class NetworkProfilesListCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/networkprofiles/NetworkProfilesListCommand.kt]] #lightblue {
+    list
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/networkprofiles/NetworkProfilesListCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-network-profiles-list.adoc github adoc]]
+    [[https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/network-profiles/list gcloud equivalent]]
+}
+}
+
+package "providedsoftware" {
+class ProvidedSoftwareListCommand [[https://github.com/Flank/flank/blob/master/test_runner/src/main/kotlin/ftl/cli/firebase/test/providedsoftware/ProvidedSoftwareListCommand.kt]] #lightblue {
+    list
+    [[../../../../test_runner/src/main/kotlin/ftl/cli/firebase/test/providedsoftware/ProvidedSoftwareListCommand.kt local link]]
+    [[https://github.com/Flank/flank/blob/master/docs/ascii/flank.jar_-firebase-test-provided-software-list.adoc github adoc]]
+}
+}
+}
+}
+}
+}
+
+main --> MainCommand
+
+MainCommand --> AuthCommand
+AuthCommand --> LoginCommand
+
+MainCommand --> FirebaseCommand
+
+'MainCommand --> RefreshCommand
+'MainCommand --> CancelCommand
+'MainCommand --> ProvidedSoftwareCommand
+'MainCommand --> NetworkProfilesCommand
+'MainCommand --> IPBlocksCommand
+'MainCommand --> IosCommand
+'MainCommand --> AndroidCommand
+
+
+IPBlocksCommand --> IPBlocksListCommand
+
+IosCommand --> IosRunCommand
+IosCommand --> IosDoctorCommand
+IosCommand --> IosModelsCommand
+IosCommand --> IosVersionsCommand
+IosCommand --> IosLocalesCommand
+IosCommand --> IosOrientationsCommand
+IosCommand --> IosTestEnvironmentCommand
+
+IosModelsCommand --> IosModelsListCommand
+IosModelsCommand --> IosModelDescribeCommand
+
+IosVersionsCommand --> IosVersionsListCommand
+IosVersionsCommand --> IosVersionsDescribeCommand
+
+IosLocalesCommand --> IosLocalesListCommand
+IosLocalesCommand --> IosLocalesDescribeCommand
+
+IosOrientationsCommand --> IosOrientationsListCommand
+
+AndroidCommand --> AndroidRunCommand
+AndroidCommand --> AndroidDoctorCommand
+AndroidCommand --> AndroidModelsCommand
+AndroidCommand --> AndroidVersionsCommand
+AndroidCommand --> AndroidLocalesCommand
+AndroidCommand --> AndroidOrientationsCommand
+AndroidCommand --> AndroidTestEnvironmentCommand
+
+AndroidModelsCommand --> AndroidModelsListCommand
+AndroidModelsCommand --> AndroidModelDescribeCommand
+
+AndroidVersionsCommand --> AndroidVersionsListCommand
+AndroidVersionsCommand --> AndroidVersionsDescribeCommand
+
+AndroidLocalesCommand --> AndroidLocalesListCommand
+AndroidLocalesCommand --> AndroidLocalesDescribeCommand
+
+AndroidOrientationsCommand --> AndroidOrientationsListCommand
+
+FirebaseCommand --> TestCommand
+FirebaseCommand --> RefreshCommand
+FirebaseCommand --> CancelCommand
+
+TestCommand --> AndroidCommand
+TestCommand --> IosCommand
+TestCommand --> NetworkProfilesCommand
+TestCommand --> ProvidedSoftwareCommand
+TestCommand --> IPBlocksCommand
+
+NetworkProfilesCommand --> NetworkProfilesDescribeCommand
+NetworkProfilesCommand --> NetworkProfilesListCommand
+
+ProvidedSoftwareCommand --> ProvidedSoftwareListCommand
+@enduml

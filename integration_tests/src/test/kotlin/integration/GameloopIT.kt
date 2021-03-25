@@ -1,13 +1,24 @@
 package integration
 
 import FlankCommand
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import flank.common.isLinux
 import flank.common.isMacOS
 import flank.common.isWindows
 import org.junit.Assume.assumeFalse
 import org.junit.Test
 import run
+import utils.CONFIGS_PATH
+import utils.FLANK_JAR_PATH
+import utils.androidRunCommands
+import utils.asOutputReport
+import utils.assertCostMatches
+import utils.assertExitCode
+import utils.findTestDirectoryFromOutput
+import utils.iosRunCommands
+import utils.json
+import utils.removeUnicode
+import utils.toOutputReportFile
 
 class GameloopIT {
 
@@ -28,10 +39,19 @@ class GameloopIT {
         assertExitCode(result, 0)
 
         val resOutput = result.output.removeUnicode()
-        Truth.assertThat(resOutput).containsMatch(findInCompare(name))
-        assertContainsOutcomeSummary(resOutput) {
-            success = 1
-        }
+
+        val outputReport = resOutput.findTestDirectoryFromOutput().toOutputReportFile().json().asOutputReport()
+
+        assertThat(outputReport.error).isEmpty()
+        assertThat(outputReport.cost).isNotNull()
+
+        outputReport.assertCostMatches()
+
+        assertThat(outputReport.testResults.count()).isEqualTo(1)
+        assertThat(outputReport.weblinks.count()).isEqualTo(1)
+
+        val testAxis = outputReport.testResults.values.first().testAxises.first()
+        assertThat(testAxis.outcome).isEqualTo("success")
     }
 
     @Test
@@ -52,6 +72,18 @@ class GameloopIT {
         assertExitCode(result, 0)
 
         val resOutput = result.output.removeUnicode()
-        Truth.assertThat(resOutput).containsMatch(findInCompare(name))
+
+        val outputReport = resOutput.findTestDirectoryFromOutput().toOutputReportFile().json().asOutputReport()
+
+        assertThat(outputReport.error).isEmpty()
+        assertThat(outputReport.cost).isNotNull()
+
+        outputReport.assertCostMatches()
+
+        assertThat(outputReport.testResults.count()).isEqualTo(1)
+        assertThat(outputReport.weblinks.count()).isEqualTo(1)
+
+        val testAxis = outputReport.testResults.values.first().testAxises.first()
+        assertThat(testAxis.outcome).isEqualTo("success")
     }
 }

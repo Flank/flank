@@ -4,3 +4,4 @@ gcloud:
 
 flank:
   disable-sharding: true
+  output-report: json
