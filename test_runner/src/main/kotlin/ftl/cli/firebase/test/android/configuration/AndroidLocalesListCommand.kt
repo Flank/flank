@@ -1,11 +1,9 @@
 package ftl.cli.firebase.test.android.configuration
 
-import flank.common.logLn
-import ftl.android.AndroidCatalog
-import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
+import ftl.domain.ListAndroidLocales
+import ftl.domain.invoke
 import picocli.CommandLine
-import java.nio.file.Paths
 
 @CommandLine.Command(
     name = "list",
@@ -18,14 +16,22 @@ import java.nio.file.Paths
     description = ["Print current list of Android locales available to test against"],
     usageHelpAutoWidth = true
 )
-class AndroidLocalesListCommand : Runnable {
-    override fun run() {
-        logLn(AndroidCatalog.localesAsTable(projectId = AndroidArgs.loadOrDefault(Paths.get(configPath)).project))
-    }
+class AndroidLocalesListCommand :
+    Runnable,
+    ListAndroidLocales {
 
-    @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])
-    var configPath: String = FtlConstants.defaultAndroidConfig
+    @CommandLine.Option(
+        names = ["-c", "--config"],
+        description = ["YAML config file path"]
+    )
+    override var configPath: String = FtlConstants.defaultAndroidConfig
 
-    @CommandLine.Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
+    @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
     var usageHelpRequested: Boolean = false
+
+    override fun run() = invoke()
 }

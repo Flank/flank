@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test
 
 import ftl.cli.firebase.test.providedsoftware.ProvidedSoftwareListCommand
+import ftl.util.PrintHelp
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -11,8 +12,4 @@ import picocli.CommandLine
     ],
     usageHelpAutoWidth = true
 )
-class ProvidedSoftwareCommand : Runnable {
-    override fun run() {
-        CommandLine.usage(ProvidedSoftwareCommand(), System.out)
-    }
-}
+class ProvidedSoftwareCommand : PrintHelp

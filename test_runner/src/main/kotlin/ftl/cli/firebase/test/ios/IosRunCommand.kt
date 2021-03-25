@@ -1,32 +1,16 @@
 package ftl.cli.firebase.test.ios
 
-import flank.common.logLn
-import ftl.analytics.sendConfiguration
-import ftl.args.IosArgs
-import ftl.args.setupLogLevel
-import ftl.args.validate
 import ftl.cli.firebase.test.CommonRunCommand
 import ftl.config.FtlConstants
 import ftl.config.createConfiguration
 import ftl.config.ios.IosFlankConfig
 import ftl.config.ios.IosGcloudConfig
-import ftl.mock.MockServer
-import ftl.reports.output.configure
-import ftl.reports.output.log
-import ftl.reports.output.outputReport
-import ftl.reports.output.toOutputReportConfiguration
+import ftl.domain.RunIosTest
+import ftl.domain.invoke
 import ftl.run.IOS_SHARD_FILE
-import ftl.run.dumpShards
-import ftl.run.newTestRun
-import ftl.util.DEVICE_SYSTEM
-import ftl.util.TEST_TYPE
-import ftl.util.printVersionInfo
-import ftl.util.setCrashReportTag
-import kotlinx.coroutines.runBlocking
 import picocli.CommandLine
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
-import java.nio.file.Paths
 
 @Command(
     name = "run",
@@ -45,7 +29,9 @@ Configuration is read from flank.yml
     ],
     usageHelpAutoWidth = true
 )
-class IosRunCommand : CommonRunCommand(), Runnable {
+class IosRunCommand :
+    CommonRunCommand(),
+    RunIosTest {
 
     @CommandLine.Mixin
     private val iosGcloudConfig = IosGcloudConfig()
@@ -55,36 +41,15 @@ class IosRunCommand : CommonRunCommand(), Runnable {
 
     override val config by createConfiguration(iosGcloudConfig, iosFlankConfig)
 
-    init {
-        configPath = FtlConstants.defaultIosConfig
-    }
-
-    override fun run() {
-        printVersionInfo()
-
-        if (dryRun) {
-            MockServer.start()
-        }
-
-        IosArgs.load(Paths.get(configPath), cli = this).apply {
-            setupLogLevel()
-            outputReport.configure(toOutputReportConfiguration())
-            outputReport.log(this)
-            setCrashReportTag(
-                DEVICE_SYSTEM to "ios",
-                TEST_TYPE to type?.name.orEmpty()
-            )
-            sendConfiguration()
-            if (dumpShards.not()) logLn(this)
-        }.validate().run {
-            if (dumpShards) dumpShards()
-            else runBlocking { newTestRun() }
-        }
-    }
-
     @Option(
         names = ["--dump-shards"],
         description = ["Measures test shards from given test apks and writes them into $IOS_SHARD_FILE file instead of executing."]
     )
-    var dumpShards: Boolean = false
+    override var dumpShards: Boolean = false
+
+    init {
+        configPath = FtlConstants.defaultIosConfig
+    }
+
+    override fun run() = invoke()
 }

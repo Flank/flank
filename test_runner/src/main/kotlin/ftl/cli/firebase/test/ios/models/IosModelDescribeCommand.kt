@@ -1,12 +1,9 @@
 package ftl.cli.firebase.test.ios.models
 
-import flank.common.logLn
-import ftl.args.IosArgs
 import ftl.config.FtlConstants
-import ftl.ios.IosCatalog
-import ftl.run.exception.FlankConfigurationError
+import ftl.domain.DescribeIosModels
+import ftl.domain.invoke
 import picocli.CommandLine
-import java.nio.file.Paths
 
 @CommandLine.Command(
     name = "describe",
@@ -18,17 +15,15 @@ import java.nio.file.Paths
     header = ["Describe iOS model "],
     usageHelpAutoWidth = true
 )
-class IosModelDescribeCommand : Runnable {
-    override fun run() {
-        if (modelId.isBlank()) throw FlankConfigurationError("Argument MODEL_ID must be specified.")
-        logLn(IosCatalog.describeModel(IosArgs.loadOrDefault(Paths.get(configPath)).project, modelId))
-    }
+class IosModelDescribeCommand :
+    Runnable,
+    DescribeIosModels {
 
-    @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])
-    var configPath: String = FtlConstants.defaultIosConfig
-
-    @CommandLine.Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
-    var usageHelpRequested: Boolean = false
+    @CommandLine.Option(
+        names = ["-c", "--config"],
+        description = ["YAML config file path"]
+    )
+    override var configPath: String = FtlConstants.defaultIosConfig
 
     @CommandLine.Parameters(
         index = "0",
@@ -40,5 +35,14 @@ class IosModelDescribeCommand : Runnable {
                 " using \$ gcloud firebase test ios models list."
         ]
     )
-    var modelId: String = ""
+    override var modelId: String = ""
+
+    @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
+    var usageHelpRequested: Boolean = false
+
+    override fun run() = invoke()
 }

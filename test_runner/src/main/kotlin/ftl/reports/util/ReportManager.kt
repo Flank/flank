@@ -24,6 +24,7 @@ import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.getSkippedJUnitTestSuite
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.parseOneSuiteXml
+import ftl.run.exception.FlankGeneralError
 import ftl.shard.createTestMethodDurationMap
 import ftl.util.Artifacts
 import ftl.util.resolveLocalRunPath
@@ -63,7 +64,11 @@ object ReportManager {
         var mergedXml: JUnitTestResult? = null
 
         findXmlFiles(matrices, args).forEach { xmlFile ->
-            val parsedXml = process(xmlFile)
+            val parsedXml = try {
+                process(xmlFile)
+            } catch (e: Throwable) {
+                throw FlankGeneralError("Cannot process xml file: ${xmlFile.absolutePath}", e)
+            }
             val webLink = getWebLink(matrices, xmlFile)
             val deviceName = getDeviceString(xmlFile.parentFile.name)
 

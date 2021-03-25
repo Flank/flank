@@ -1,7 +1,7 @@
 package ftl.cli
 
 import ftl.cli.auth.LoginCommand
-import picocli.CommandLine
+import ftl.util.PrintHelp
 import picocli.CommandLine.Command
 
 @Command(
@@ -13,8 +13,4 @@ import picocli.CommandLine.Command
     ],
     usageHelpAutoWidth = true
 )
-class AuthCommand : Runnable {
-    override fun run() {
-        CommandLine.usage(AuthCommand(), System.out)
-    }
-}
+class AuthCommand : PrintHelp

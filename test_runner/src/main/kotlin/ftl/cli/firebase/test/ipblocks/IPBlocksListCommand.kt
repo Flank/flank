@@ -1,7 +1,7 @@
 package ftl.cli.firebase.test.ipblocks
 
-import flank.common.logLn
-import ftl.environment.ipBlocksListAsTable
+import ftl.domain.ListIPBlocks
+import ftl.domain.invoke
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -15,8 +15,8 @@ import picocli.CommandLine
     header = ["List all IP address blocks used by Firebase Test Lab devices"],
     usageHelpAutoWidth = true
 )
-class IPBlocksListCommand : Runnable {
-    override fun run() {
-        logLn(ipBlocksListAsTable())
-    }
+class IPBlocksListCommand :
+    Runnable,
+    ListIPBlocks {
+    override fun run() = invoke()
 }

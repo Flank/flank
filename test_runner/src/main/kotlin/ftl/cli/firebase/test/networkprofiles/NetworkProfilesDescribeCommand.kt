@@ -1,8 +1,7 @@
 package ftl.cli.firebase.test.networkprofiles
 
-import flank.common.logLn
-import ftl.environment.networkProfileDescription
-import ftl.run.exception.FlankConfigurationError
+import ftl.domain.DescribeNetworkProfiles
+import ftl.domain.invoke
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -16,11 +15,9 @@ import picocli.CommandLine
     header = ["Describe a network profile "],
     usageHelpAutoWidth = true
 )
-class NetworkProfilesDescribeCommand : Runnable {
-    override fun run() {
-        if (profileId.isBlank()) throw FlankConfigurationError("Argument PROFILE_ID must be specified.")
-        logLn(networkProfileDescription(profileId))
-    }
+class NetworkProfilesDescribeCommand :
+    Runnable,
+    DescribeNetworkProfiles {
 
     @CommandLine.Parameters(
         index = "0",
@@ -32,5 +29,7 @@ class NetworkProfilesDescribeCommand : Runnable {
                 " using \$ gcloud beta firebase test network-profiles list."
         ]
     )
-    var profileId: String = ""
+    override var profileId: String = ""
+
+    override fun run() = invoke()
 }

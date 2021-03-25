@@ -2,6 +2,7 @@ package ftl.cli.firebase.test
 
 import ftl.cli.firebase.test.networkprofiles.NetworkProfilesDescribeCommand
 import ftl.cli.firebase.test.networkprofiles.NetworkProfilesListCommand
+import ftl.util.PrintHelp
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -14,8 +15,4 @@ import picocli.CommandLine
     header = ["Explore network profiles available for testing."],
     usageHelpAutoWidth = true
 )
-class NetworkProfilesCommand : Runnable {
-    override fun run() {
-        CommandLine.usage(NetworkProfilesCommand(), System.out)
-    }
-}
+class NetworkProfilesCommand : PrintHelp

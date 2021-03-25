@@ -2,6 +2,7 @@ package ftl.cli.firebase.test.ios
 
 import ftl.cli.firebase.test.ios.configuration.IosLocalesDescribeCommand
 import ftl.cli.firebase.test.ios.configuration.IosLocalesListCommand
+import ftl.util.PrintHelp
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -16,8 +17,4 @@ import picocli.CommandLine
     subcommands = [IosLocalesListCommand::class, IosLocalesDescribeCommand::class],
     usageHelpAutoWidth = true
 )
-class IosLocalesCommand : Runnable {
-    override fun run() {
-        CommandLine.usage(IosLocalesCommand(), System.out)
-    }
-}
+class IosLocalesCommand : PrintHelp

@@ -2,6 +2,7 @@ package ftl.cli.firebase.test.ios
 
 import ftl.cli.firebase.test.ios.versions.IosVersionsDescribeCommand
 import ftl.cli.firebase.test.ios.versions.IosVersionsListCommand
+import ftl.util.PrintHelp
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -16,8 +17,4 @@ import picocli.CommandLine
     description = ["Information about available software versions. For example prints list of available software versions"],
     usageHelpAutoWidth = true
 )
-class IosVersionsCommand : Runnable {
-    override fun run() {
-        CommandLine.usage(IosVersionsCommand(), System.out)
-    }
-}
+class IosVersionsCommand : PrintHelp

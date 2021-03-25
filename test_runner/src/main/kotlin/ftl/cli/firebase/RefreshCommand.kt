@@ -1,7 +1,7 @@
 package ftl.cli.firebase
 
-import ftl.args.AndroidArgs
-import ftl.run.refreshLastRun
+import ftl.domain.RefreshLastRun
+import ftl.domain.invoke
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
@@ -22,16 +22,16 @@ Reads in the matrix_ids.json file. Refreshes any incomplete matrices.
     ],
     usageHelpAutoWidth = true
 )
-class RefreshCommand : Runnable {
-    override fun run() {
-        runBlocking {
-            refreshLastRun(
-                currentArgs = AndroidArgs.default(),
-                testShardChunks = emptyList()
-            )
-        }
-    }
+class RefreshCommand :
+    Runnable,
+    RefreshLastRun {
 
-    @Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
+    @Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
     var usageHelpRequested: Boolean = false
+
+    override fun run() = runBlocking { invoke() }
 }

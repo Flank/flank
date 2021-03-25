@@ -1,12 +1,9 @@
 package ftl.cli.firebase.test.android.models
 
-import flank.common.logLn
-import ftl.android.AndroidCatalog
-import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
-import ftl.run.exception.FlankConfigurationError
+import ftl.domain.DescribeAndroidModels
+import ftl.domain.invoke
 import picocli.CommandLine
-import java.nio.file.Paths
 
 @CommandLine.Command(
     name = "describe",
@@ -18,17 +15,22 @@ import java.nio.file.Paths
     header = ["Describe android model "],
     usageHelpAutoWidth = true
 )
-class AndroidModelDescribeCommand : Runnable {
-    override fun run() {
-        if (modelId.isBlank()) throw FlankConfigurationError("Argument MODEL_ID must be specified.")
-        logLn(AndroidCatalog.describeModel(AndroidArgs.loadOrDefault(Paths.get(configPath)).project, modelId))
-    }
+class AndroidModelDescribeCommand :
+    Runnable,
+    DescribeAndroidModels {
 
-    @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])
-    var configPath: String = FtlConstants.defaultAndroidConfig
-
-    @CommandLine.Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
+    @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
     var usageHelpRequested: Boolean = false
+
+    @CommandLine.Option(
+        names = ["-c", "--config"],
+        description = ["YAML config file path"]
+    )
+    override var configPath = FtlConstants.defaultAndroidConfig
 
     @CommandLine.Parameters(
         index = "0",
@@ -40,5 +42,7 @@ class AndroidModelDescribeCommand : Runnable {
                 " using \$ gcloud firebase test android models list."
         ]
     )
-    var modelId: String = ""
+    override var modelId: String = ""
+
+    override fun run() = invoke()
 }

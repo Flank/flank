@@ -2,6 +2,7 @@ package ftl.cli.firebase.test.android
 
 import ftl.cli.firebase.test.android.configuration.AndroidLocalesDescribeCommand
 import ftl.cli.firebase.test.android.configuration.AndroidLocalesListCommand
+import ftl.util.PrintHelp
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -16,8 +17,4 @@ import picocli.CommandLine
     subcommands = [AndroidLocalesListCommand::class, AndroidLocalesDescribeCommand::class],
     usageHelpAutoWidth = true
 )
-class AndroidLocalesCommand : Runnable {
-    override fun run() {
-        CommandLine.usage(AndroidLocalesCommand(), System.out)
-    }
-}
+class AndroidLocalesCommand : PrintHelp

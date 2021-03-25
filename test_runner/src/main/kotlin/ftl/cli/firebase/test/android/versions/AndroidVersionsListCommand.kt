@@ -1,11 +1,9 @@
 package ftl.cli.firebase.test.android.versions
 
-import flank.common.logLn
-import ftl.android.AndroidCatalog.supportedVersionsAsTable
-import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
+import ftl.domain.ListAndroidVersions
+import ftl.domain.invoke
 import picocli.CommandLine
-import java.nio.file.Paths
 
 @CommandLine.Command(
     name = "list",
@@ -18,14 +16,22 @@ import java.nio.file.Paths
     description = ["Print current list of Android OS versions available to test against"],
     usageHelpAutoWidth = true
 )
-class AndroidVersionsListCommand : Runnable {
-    override fun run() {
-        logLn(supportedVersionsAsTable(AndroidArgs.loadOrDefault(Paths.get(configPath)).project))
-    }
+class AndroidVersionsListCommand :
+    Runnable,
+    ListAndroidVersions {
 
-    @CommandLine.Option(names = ["-c", "--config"], description = ["YAML config file path"])
-    var configPath: String = FtlConstants.defaultAndroidConfig
+    @CommandLine.Option(
+        names = ["-c", "--config"],
+        description = ["YAML config file path"]
+    )
+    override var configPath: String = FtlConstants.defaultAndroidConfig
 
-    @CommandLine.Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
+    @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
     var usageHelpRequested: Boolean = false
+
+    override fun run() = invoke()
 }

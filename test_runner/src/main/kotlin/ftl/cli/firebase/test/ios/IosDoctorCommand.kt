@@ -1,12 +1,10 @@
 package ftl.cli.firebase.test.ios
 
-import ftl.args.IosArgs
-import ftl.cli.firebase.test.processValidation
 import ftl.config.FtlConstants
-import ftl.doctor.validateYaml
+import ftl.domain.RunDoctorIos
+import ftl.domain.invoke
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
-import java.nio.file.Paths
 
 @Command(
     name = "doctor",
@@ -23,19 +21,28 @@ import java.nio.file.Paths
     ],
     usageHelpAutoWidth = true
 )
-class IosDoctorCommand : Runnable {
-    override fun run() {
-        val ymlPath = Paths.get(configPath)
-        val validationResult = validateYaml(IosArgs, Paths.get(configPath))
-        processValidation(validationResult, fix, ymlPath)
-    }
+class IosDoctorCommand :
+    Runnable,
+    RunDoctorIos {
 
-    @Option(names = ["-c", "--config"], description = ["YAML config file path"])
-    var configPath: String = FtlConstants.defaultIosConfig
-
-    @Option(names = ["-h", "--help"], usageHelp = true, description = ["Prints this help message"])
+    @Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
     var usageHelpRequested: Boolean = false
 
-    @Option(names = ["-f", "--fix"], description = ["Auto fix flank YAML file"])
-    var fix: Boolean = false
+    @Option(
+        names = ["-c", "--config"],
+        description = ["YAML config file path"]
+    )
+    override var configPath: String = FtlConstants.defaultIosConfig
+
+    @Option(
+        names = ["-f", "--fix"],
+        description = ["Auto fix flank YAML file"]
+    )
+    override var fix: Boolean = false
+
+    override fun run() = invoke()
 }
