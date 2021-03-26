@@ -1,0 +1,64 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+skinparam ConditionEndStyle hline
+partition "calculate xc test run data" #LightBlue {
+  repeat
+    partition "calculate shards" #LightBlue {
+      #snow :get flank test methods;
+      partition "get old results or default" #LightBlue {
+        #snow :download xml results;
+        partition "parse all suites xml" #LightBlue {
+          #snow :fix html codes;
+          #snow :read value;
+        }
+      }
+      partition "calculate shards count" #LightBlue {
+        #snow :create tests duration map;
+        #snow :get test method time;
+        #snow :shards count>
+      }
+      partition "create shards by shard count" #LightBlue {
+        #snow :create tests duration map;
+        partition "create test methods" #LightBlue {
+          #snow :get fallback times;
+          repeat
+            #snow :get test method time;
+            #snow :enrich test method with time;
+          repeat while (for each test)
+          #snow :list of test methods with time>
+        }
+        #snow :add always run methods;
+        #snow :print cache info;
+        #snow :print shards info;
+        #snow :shards>
+      }
+    }
+  repeat while (for each test configuration)
+}
+-[#orange,dashed]-> === NOTE!
+Sharding for iOS is performed
+during validation phase.
+Results (of **calculate xc test run data**) are used
+later inside **new test run** function;
+partition "create iOS test contexts" #LightBlue {
+  split
+  partition "xc test run" #LightBlue {
+    #snow :create counter;
+    #snow :upload files;
+    #snow :xc test run data as byte array;
+    #snow :upload xc test file;
+    #snow :xc test context>
+  }
+  split again
+  partition "game loop test run" #LightBlue {
+    #snow :create counter;
+    #snow :upload files;
+    #snow :game loop test context>
+  }
+  end split
+}
+end
+
+@enduml
