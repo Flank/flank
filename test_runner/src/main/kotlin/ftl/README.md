@@ -14,4 +14,4 @@ Basing on the model above it will be easy to:
 * separate third-party library code from the domain, for keeping code clean.
 * consider each layer as a separate module if needed.
 * deliver builds for different configurations.
-* deliver domain layer as a standalone library.
+* deliver the domain layer as a standalone library.
