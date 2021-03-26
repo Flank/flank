@@ -1,4 +1,4 @@
-package ftl.cli.firebase.test.android.configuration
+package ftl.cli.firebase.test.android.locales
 
 import ftl.android.AndroidCatalog
 import ftl.run.exception.FlankConfigurationError
