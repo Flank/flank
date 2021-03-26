@@ -1,6 +1,6 @@
 # Domain
 
-Owns business logic of the application.
+Owns the business logic of the application.
 
 ## Design
 
