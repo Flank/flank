@@ -16,7 +16,7 @@ that is providing access to business logic through pure kotlin functions.
 ### Top-level function
 
 Is public and accessible from the root of the domain package.
-IS responsible to run domain logic directly or compose it using low-level domain functions, utils, or data interfaces.
+Is responsible to run domain logic directly or compose it using low-level domain functions, utils, or data interfaces.
 For simplification, consider a simple common interface for all top-level functions.
 
 ```kotlin
