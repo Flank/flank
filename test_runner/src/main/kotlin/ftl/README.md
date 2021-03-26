@@ -8,7 +8,7 @@ Flank architecture is based on the classic [PresentationDomainDataLayering](http
 
 ## Advantages
 
-Basing on the model above will be easy to:
+Basing on the model above it will be easy to:
 * scale the presentation layer by adding necessary implementations.
 * replace external data providers.
 * separate third-party library code from the domain, for keeping code clean.
