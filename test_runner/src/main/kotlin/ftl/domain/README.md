@@ -38,7 +38,7 @@ More nesting in depth, can make a code much harder to understand and maintain.
 
 ## Responsibility
 
-* Contain a business logic of application
+* Contains the business logic of the application
 * Provide access to the use cases through formalized API
 
 ## Requirements
