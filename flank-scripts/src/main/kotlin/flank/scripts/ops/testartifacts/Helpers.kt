@@ -4,7 +4,7 @@ import com.jcabi.github.Repo
 import flank.common.config.flankTestArtifactsRepository
 import flank.scripts.data.github.githubRepo
 import flank.scripts.utils.currentGitBranch
-import flank.scripts.utils.getEnv
+import flank.scripts.utils.getEnvOrDefault
 import java.io.File
 
 const val GITHUB_TOKEN_ENV_KEY = "GITHUB_TOKEN"
@@ -17,4 +17,5 @@ val File.testArtifacts: File get() = resolve(TEST_ARTIFACTS_PATH).apply { if (!e
 
 fun File.testArtifacts(branch: String = currentGitBranch()): File = testArtifacts.resolve(branch)
 
-internal fun testArtifactsRepo(): Repo = githubRepo(getEnv(GITHUB_TOKEN_ENV_KEY), flankTestArtifactsRepository)
+internal fun testArtifactsRepo(): Repo =
+    githubRepo(getEnvOrDefault(GITHUB_TOKEN_ENV_KEY, ""), flankTestArtifactsRepository)

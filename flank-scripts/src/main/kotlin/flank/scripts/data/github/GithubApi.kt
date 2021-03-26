@@ -205,10 +205,10 @@ fun Request.appendGitHubHeaders(githubToken: String, contentType: String = "appl
 fun githubRepo(
     token: String,
     repoPath: String
-): Repo =
-    RtGithub(token)
-        .repos()
-        .get(Coordinates.Simple(repoPath))
+): Repo = when {
+    token.isEmpty() -> RtGithub()
+    else -> RtGithub(token)
+}.repos().get(Coordinates.Simple(repoPath))
 
 fun Repo.getRelease(tag: String): Release.Smart? =
     Releases.Smart(releases()).run {
