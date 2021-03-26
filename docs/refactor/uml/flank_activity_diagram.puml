@@ -1,0 +1,326 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+skinparam ConditionEndStyle hline
+legend left
+  |= Color |= Type |
+  |<#snow>| Atomic activities |
+  |<#LightBlue>| Related to domain scope |
+  |<#Orange>| Presented in separate diagram. Can be considered as atomic |
+endlegend
+:main;
+partition "cli command" #LightGreen {
+  split
+  :login;
+
+  split again
+  partition "new test run" #LightBlue  {
+    #orange :load config;
+    #orange :create args;
+    partition "validate args" #orange {
+      if (is iOS run ?) then (yes)
+        #orange :calculate xc test run data (create iOS shards);
+      else (no)
+      endif
+    }
+    partition "run tests" #LightBlue {
+      split
+      partition "run android" #LightBlue {
+        partition "before run tests" #LightBlue {
+          #snow :start stop watch;
+          #snow :prepare result directory;
+          #snow :ensure not running on mock;
+        }
+        #snow :prepare data;
+        #snow :upload files;
+        partition "prepare android contexts" #orange {
+          #orange :create shards;
+          #orange :create contexts>
+        }
+        partition "dump shards" #LightBlue {
+          #snow :as matrix test shards;
+          partition "save shards" #LightBlue {
+            if (printer ?) then
+              #snow :pretty;
+            else
+              #snow :obfuscated;
+            endif
+            #snow :save to file;
+          }
+          #snow :upload dump file;
+        }
+        #snow :upload test files;
+        repeat
+          #snow :create test config;
+          #snow :build test matrix;
+          #snow :execute with retry;
+        repeat while (for each context)
+        #snow :before run message;
+        partition "after test run" #LightBlue {
+          #snow :update matrix file;
+          #snow :save config file;
+          #snow :save session id;
+          #snow :upload session id;
+          repeat
+            #snow :get and print\nmatrix weblink;
+          repeat while (for each test matrix)
+        }
+        #snow :test results>
+      }
+
+      split again
+      partition "run ios" #LightBlue {
+        partition "before run tests" #LightBlue {
+          #snow :start stop watch;
+          #snow :prepare result directory;
+          #snow :ensure not running on mock;
+        }
+        #snow :prepare data;
+        #snow :upload files;
+        partition "dump shards" #LightBlue {
+          #snow :prepare xc test run shards;
+          partition "save shards" #LightBlue {
+            if (printer ?) then
+              #snow :pretty;
+            else
+              #snow :obfuscated;
+            endif
+            #snow :save to file;
+          }
+          #snow :upload dump file;
+        }
+        #snow :before run message;
+        #orange :create iOS test contexts;
+        repeat
+          #snow :build test matrix;
+          #snow :execute with retry;
+        repeat while (for each context)
+        partition "after test run" #LightBlue {
+          #snow :update matrix file;
+          #snow :save config file;
+          #snow :save session id;
+          #snow :upload session id;
+          repeat
+            #snow :get and print\nmatrix weblink;
+          repeat while (for each test matrix)
+        }
+        #snow :test results>
+      }
+      end split
+    }
+
+    partition "poll matrices" #LightBlue {
+      while (all matrices completed?) is (no)
+        #snow :refresh;
+        #snow :print status;
+      endwhile (yes)
+      #snow :update matrix map;
+    }
+    partition "generate report" #LightBlue {
+      partition "parse test suite" #LightBlue {
+        if (iOS test run\nor\nuse legacy junit result ?) then (yes)
+          #snow :process xml from file;
+        else (no)
+          partition "refresh test matrices and get executions" #LightBlue {
+            repeat
+              #snow :refresh;
+            repeat while (for each matrix)
+            #snow :get test executions;
+          }
+          partition "create junit test result" #LightBlue {
+            partition "create test execution data" #LightBlue {
+              fork
+                #snow :list test cases;
+              fork again
+                #snow :get step results;
+              end fork
+              #snow :test execution data>
+            }
+            #snow :prepare for junit results;
+            partition "create junit test suites" #LightBlue {
+              repeat
+                #snow :create test suite overview data;
+              repeat while(for each execution data)
+            }
+          }
+        endif
+        #snow :JUnit test result>
+      }
+      if (use legacy junit results ?) then (yes)
+        #snow :remove duplicated test cases;
+      endif
+      partition "generate cost report" #LightBlue {
+        #snow :upload report;
+      }
+      partition "generate matrix results report" #LightBlue {
+        #snow :upload report;
+      }
+      if (any test failed?) then (yes)
+        partition "generate HTML report" #LightBlue {
+          #snow :upload report;
+        }
+      else (no)
+      endif
+      partition "generate junit report" #LightBlue {
+        #snow :get ignored test cases;
+        #snow :xml to string;
+        #snow :upload report;
+      }
+      partition "refresh test matrices and get executions" #LightBlue {
+        repeat
+          #snow :refresh;
+        repeat while (for each matrix)
+        #snow :get test executions;
+      }
+      partition "process junit results" #LightBlue {
+        if (make full junit result) then (yes)
+          partition "create junit test result" #LightBlue {
+            partition "create test execution data" #LightBlue {
+              fork
+                #snow :list test cases;
+              fork again
+                #snow :get step results;
+              end fork
+              #snow :test execution data>
+            }
+            #snow :prepare for junit results;
+            partition "create junit test suites" #LightBlue {
+              repeat
+                #snow :create test suite overview data;
+              repeat while(for each execution data)
+            }
+          }
+          partition "generate full junit result" #LightBlue {
+            #snow :xml to string;
+            #snow :upload report;
+          }
+          partition "process junit xml" #LightBlue {
+            #snow :download junit xml;
+            #snow :merge test times;
+            if (has previous test times to compare?) then (yes)
+              partition "create shard efficiency list" #LightBlue {
+                #snow :create test method duration map;
+              }
+            else (no)
+            endif
+            #snow :upload junit xml;
+          }
+        else (no)
+          partition "process junit xml" #LightBlue {
+            #snow :download junit xml;
+            #snow :merge test times;
+            if (has previous test times to compare?) then (yes)
+              partition "create shard efficiency list" #LightBlue {
+                #snow :create test method duration map;
+              }
+            else (no)
+            endif
+            #snow :upload junit xml;
+          }
+        endif
+      }
+      partition "create and upload performance metrics for android" #LightBlue {
+        partition "get and upload performance metrics" #LightBlue {
+          repeat
+            #snow :download performance metric;
+            #snow :save metric to file;
+            #snow :upload metric file;
+          repeat while (for each test execution)
+        }
+      }
+      #snow :upload matrices id;
+    }
+    partition "fetch artifacts" #LightBlue {
+      #snow :prepare blob list option - field name;
+      repeat
+        #snow :prepare blob list option - prefix;
+        #snow :get files list in bucket;
+        repeat
+          #snow :download file;
+        repeat while (for each file in bucket)
+      repeat while (for each finished matrix)
+      #snow :update matrix file;
+    }
+    partition "print matrices web links" #LightBlue {
+      repeat
+        #snow :refresh matrix;
+        #snow :print links;
+      repeat while (for each matrix)
+    }
+    #snow :validate matrices;
+  }
+
+  split again
+  partition "refresh last run" #LightBlue {
+    :get last matrices;
+    :get last args;
+    :refresh matrices;
+    :poll matrices;
+    :fetch artifacts;
+    :generate report;
+    :validate matrices;
+  }
+
+  split again
+  partition "cancel last run" #LightBlue {
+    :get last matrices;
+    :get last args;
+    :cancel matrices;
+  }
+
+  split again
+  partition "android / ios" #LightBlue {
+  split
+
+  partition "configuration" #LightBlue {
+    split
+    :print locales description;
+    split again
+    :print locales table;
+    split end
+  }
+
+  split again
+  partition "models" #LightBlue {
+    split
+    :print description;
+    split again
+    :print table;
+    split end
+  }
+
+  split again
+  partition "supported orientations" #LightBlue {
+    split
+    :print table;
+    split end
+  }
+
+  split again
+  partition "versions" #LightBlue {
+    split
+    :print description;
+    split again
+    :print table;
+    split end
+  }
+
+  split again
+  :print ip blocks list;
+
+  split again
+  :print network configurations;
+
+  split again
+  :print network profile description;
+
+  split again
+  :print provided software;
+
+  end split
+}
+end split
+stop
+
+@enduml

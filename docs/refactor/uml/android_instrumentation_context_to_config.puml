@@ -1,0 +1,50 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+left to right direction
+
+class AndroidTestConfig_Instrumentation {
+val appApkGcsPath: String
+val testApkGcsPath: String
+val testShards: ShardChunks
+val environmentVariables: Map<String, String>
+
+val testRunnerClass: String?
+val orchestratorOption: String?
+val numUniformShards: Int?
+val disableSharding: Boolean
+val keepTestTargetsEmpty: Boolean
+val testTargetsForShard: ShardChunks
+}
+
+class InstrumentationTestContext {
+val app: FileReference
+val test: FileReference
+val shards: List<Chunk>
+val environmentVariables: Map<String, String>
+}
+
+class AndroidArgs {
+val testRunnerClass: String?
+val useOrchestrator: Boolean
+val numUniformShards: Int?
+val disableSharding: Boolean
+val testTargets: List<String>
+val testTargetsForShard: ShardChunks
+}
+
+
+AndroidTestConfig_Instrumentation::appApkGcsPath -- InstrumentationTestContext::app
+AndroidTestConfig_Instrumentation::testApkGcsPath -- InstrumentationTestContext::test
+AndroidTestConfig_Instrumentation::testShards -- InstrumentationTestContext::shards
+AndroidTestConfig_Instrumentation::environmentVariables -- InstrumentationTestContext::environmentVariables
+
+AndroidTestConfig_Instrumentation::testRunnerClass -- AndroidArgs::testRunnerClass
+AndroidTestConfig_Instrumentation::orchestratorOption -- AndroidArgs::useOrchestrator
+AndroidTestConfig_Instrumentation::disableSharding -- AndroidArgs::disableSharding
+AndroidTestConfig_Instrumentation::numUniformShards -- AndroidArgs::numUniformShards
+AndroidTestConfig_Instrumentation::keepTestTargetsEmpty -- AndroidArgs::disableSharding
+AndroidTestConfig_Instrumentation::keepTestTargetsEmpty -- AndroidArgs::testTargets
+AndroidTestConfig_Instrumentation::testTargetsForShard -- AndroidArgs::testTargetsForShard
+
+@enduml
