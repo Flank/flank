@@ -4,7 +4,7 @@ A lightweight layer of structures and interfaces.
 
 ## Responsibility
 
-Declare structures and interfaces required by domain layer.
+Declare structures and interfaces required by the domain layer.
 
 ## Requirements
 
