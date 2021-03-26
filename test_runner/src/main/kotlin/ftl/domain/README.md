@@ -32,7 +32,7 @@ The context can provide arguments for the execution and its name should reflect 
 ### Low-level function
 
 The low-level function is useful when it comes to dividing complex top-level 
-function into the composition of smaller chunks or reuse some logic in many top-level functions.
+functions into the composition of smaller chunks or the reuse of some logic in many top-level functions.
 It is crucial in keeping the composition of low-level functions flat. 
 More nesting in depth, can make a code much harder to understand and maintain.
 
