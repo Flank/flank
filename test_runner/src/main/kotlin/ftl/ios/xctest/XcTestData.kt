@@ -33,13 +33,16 @@ private fun IosArgs.calculateXcTest(): XcTestRunData {
     val xcTestRoot: String = xcTestRunFile.parent + "/"
     val xcTestNsDictionary: NSDictionary = parseToNSDictionary(xcTestRunFile)
 
-    val calculatedShards: Map<String, Pair<List<Chunk>, List<XctestrunMethods>>> =
-        if (disableSharding) emptyMap()
-        else calculateConfigurationShards(
+    val calculatedShards: Map<String, Pair<List<Chunk>, List<XctestrunMethods>>> = when {
+        disableSharding -> emptyMap()
+        useCustomShardingV1(xcTestNsDictionary) -> emptyMap()
+        useCustomShardingV2(xcTestNsDictionary) -> emptyMap()
+        else -> calculateConfigurationShards(
             xcTestRoot = xcTestRoot,
             xcTestNsDictionary = xcTestNsDictionary,
             regexList = testTargets.mapToRegex()
         )
+    }
 
     return XcTestRunData(
         rootDir = xcTestRoot,
@@ -49,11 +52,18 @@ private fun IosArgs.calculateXcTest(): XcTestRunData {
     )
 }
 
+private fun IosArgs.useCustomShardingV1(dictionary: NSDictionary) =
+    !shardingJson.isNullOrBlank() && dictionary.getXcTestRunVersion() == V1
+
+private fun IosArgs.useCustomShardingV2(dictionary: NSDictionary) =
+    !shardingJson.isNullOrBlank() && dictionary.getXcTestRunVersion() == V2
+
 private fun emptyXcTestRunData() = XcTestRunData(
     rootDir = "",
     nsDict = NSDictionary(),
     version = V1
 )
+
 private fun IosArgs.filterTestConfigurationsIfNeeded(
     configurations: Map<String, Map<String, List<String>>>
 ): Map<String, Map<String, List<String>>> = when {

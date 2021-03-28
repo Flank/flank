@@ -46,4 +46,4 @@ private fun AndroidArgs.additionalApksContexts() = additionalAppTestApks.map {
     )
 }.toTypedArray()
 
-private fun AndroidArgs.findShards() = commonArgs.customSharding.firstOrNull { it.app == appApk && it.test == testApk }
+private fun AndroidArgs.findShards() = customSharding.values.firstOrNull { it.app == appApk && it.test == testApk }

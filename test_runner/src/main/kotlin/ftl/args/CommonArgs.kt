@@ -3,10 +3,7 @@ package ftl.args
 import ftl.args.yml.Type
 import ftl.config.Device
 import ftl.reports.output.OutputReportType
-import ftl.run.common.fromJson
-import ftl.run.model.CustomShards
 import ftl.run.status.OutputStyle
-import java.nio.file.Paths
 
 data class CommonArgs(
     override val data: String,
@@ -52,9 +49,4 @@ data class CommonArgs(
     override val outputReportType: OutputReportType,
     override val skipConfigValidation: Boolean,
     override val shardingJson: String?
-) : IArgs {
-    val customSharding: List<CustomShards> by lazy {
-        if (shardingJson.isNullOrBlank()) emptyList()
-        else fromJson(Paths.get(shardingJson).toFile().readText())
-    }
-}
+) : IArgs

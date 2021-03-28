@@ -8,6 +8,7 @@ import ftl.ios.xctest.XcTestRunData
 import ftl.ios.xctest.calculateXcTestRunData
 import ftl.ios.xctest.common.XctestrunMethods
 import ftl.run.IOS_SHARD_FILE
+import ftl.run.common.fromJson
 import ftl.run.exception.FlankConfigurationError
 import java.nio.file.Paths
 
@@ -43,6 +44,16 @@ data class IosArgs(
 
     @get:JsonIgnore
     val xcTestRunData: XcTestRunData by lazy { calculateXcTestRunData() }
+
+    val customShardingV1: List<List<String>> by lazy {
+        if (shardingJson.isNullOrBlank()) emptyList()
+        else fromJson(Paths.get(shardingJson).toFile().readText())
+    }
+
+    val customShardingV2: Map<String, List<List<String>>> by lazy {
+        if (shardingJson.isNullOrBlank()) emptyMap()
+        else fromJson(Paths.get(shardingJson).toFile().readText())
+    }
 
     companion object : IosArgsCompanion()
 
@@ -100,7 +111,7 @@ IosArgs
       skip-test-configuration: $skipTestConfiguration
       output-report: $outputReportType
       skip-config-validation: $skipConfigValidation
-      sharding-json: $shardingJson
+      sharding-json: ${shardingJson.orEmpty()}
         """.trimIndent()
     }
 }

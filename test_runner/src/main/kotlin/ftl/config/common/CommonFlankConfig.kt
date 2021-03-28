@@ -243,6 +243,7 @@ data class CommonFlankConfig @JsonIgnore constructor(
             disableUsageStatistics = false
             outputReport = OutputReportType.NONE.name
             skipConfigValidation = false
+            shardingJson = null
         }
     }
 }
