@@ -15,7 +15,10 @@ internal fun parseObjcTests(binary: String): List<String> {
     var cmd = if (!isWindows) "nm -U ${binary.quote()}" else "llvm-nm.exe --undefined-only ${binary.quote()}"
     if (!isMacOS) cmd = if (isWindows) cmd.replace("\\", "/") else "PATH=~/.flank $cmd"
 
-    val output = if (isWindows) Bash.execute(cmd, "$appDataDirectory\\.flank\\") else Bash.execute(cmd)
+    val path = if (isWindows) listOf(Pair("Path", "$appDataDirectory\\.flank\\"))
+    else emptyList()
+
+    val output = Bash.execute(cmd, path)
 
     output.lines().forEach { line ->
         // 000089b0 t -[EarlGreyExampleTests testLayout]
