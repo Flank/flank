@@ -4,9 +4,10 @@ import flank.common.isWindows
 import flank.common.logLn
 import ftl.run.exception.FlankGeneralError
 import java.lang.ProcessBuilder.Redirect.PIPE
+
 object Bash {
 
-    fun execute(cmd: String, additionalPath: String = ""): String {
+    fun execute(cmd: String, additionalPath: List<Pair<String, String>> = emptyList()): String {
         logLn(cmd)
 
         val bashPath = if (isWindows) "bash.exe" else "/bin/bash"
@@ -14,7 +15,9 @@ object Bash {
         val process = ProcessBuilder(bashPath, "-c", cmd).also {
             if (additionalPath.isNotEmpty()) {
                 val envs: MutableMap<String, String> = it.environment()
-                envs["Path"] = additionalPath
+                additionalPath.forEach { extra ->
+                    envs[extra.component1()] = extra.component2()
+                }
             }
         }.redirectOutput(PIPE).redirectError(PIPE).start()
 
