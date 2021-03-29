@@ -13,7 +13,8 @@ internal fun parseSwiftTests(binary: String): List<String> {
     // The OS limits the list of arguments to ARG_MAX. Setting the xargs limit avoids a fatal
     // 'argument too long' error. xargs will split the args and run the command for each chunk.
     // getconf ARG_MAX
-    val argMax = 262_144
+    // Windows has different limits
+    val argMax = if (isWindows) 251_36 else 262_144
 
     val cmd = when {
         isMacOS -> "nm -gU ${binary.quote()} | xargs -s $argMax xcrun swift-demangle"
