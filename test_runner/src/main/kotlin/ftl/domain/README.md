@@ -8,7 +8,7 @@ The domain layer is exposing its own API as a collection of public suspendable e
 which could be called `top-level functions`.
 Each `top-level function` have its own `execution context`, 
 that can produce a `structured output` during the `execution`
-and can be composed of one or many low-level functions.
+and can be composed of one or more low-level functions.
 This layer could be considered as a standalone library, 
 that is providing access to business logic through pure kotlin functions. 
 
