@@ -1,4 +1,4 @@
-# Flank high level design
+# Flank high-level design
 
 Flank architecture is based on the classic [PresentationDomainDataLayering](https://www.martinfowler.com/bliki/PresentationDomainDataLayering.html) proposed by Martin Fowler.
 
