@@ -1,0 +1,228 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface Config {
+val data: MutableMap<String, Any?>
+}
+
+class CommonGcloudConfig implements Config {
+devices: List<Device>?
+resultsBucket: String?
+resultsDir: String?
+recordVideo: Boolean?
+timeout: String?
+async: Boolean?
+clientDetails: Map<String, String>?
+networkProfile: String?
+resultsHistoryName: String?
+flakyTestAttempts: Int?
+directoriesToPull: List<String>?
+otherFiles: Map<String, String>?
+scenarioNumbers: List<String>?
+type: String?
+failFast: Boolean?
+}
+
+class CommonFlankConfig implements Config {
+maxTestShards: Int?
+shardTime: Int?
+repeatTests: Int?
+smartFlankGcsPath: String?
+smartFlankDisableUpload: Boolean?
+disableSharding: Boolean?
+testTargetsAlwaysRun: List<String>?
+filesToDownload: List<String>?
+project: String?
+localResultsDir: String?
+runTimeout: String?
+fullJUnitResult: Boolean?
+ignoreFailedTests: Boolean?
+keepFilePath: Boolean?
+outputStyle: String?
+disableResultsUpload: Boolean?
+defaultTestTime: Double?
+defaultClassTestTime: Double?
+useAverageTestTimeForNewTests: Boolean?
+disableUsageStatistics: Boolean?
+outputReport: String?
+}
+
+class AndroidGcloudConfig implements Config {
+app: String?
+test: String?
+additionalApks: List<String>?
+autoGoogleLogin: Boolean?
+useOrchestrator: Boolean?
+environmentVariables: Map<String, String>?
+grantPermissions: String?
+scenarioLabels: List<String>?
+obbnames: List<String>?
+obbfiles: List<String>?
+performanceMetrics: Boolean?
+numUniformShards: Int?
+testRunnerClass: String?
+testTargets: List<String?>?
+roboDirectives: Map<String, String>?
+roboScript: String?
+testTargetsForShard: List<String>?
+}
+
+class AndroidFlankConfig implements Config {
+additionalAppTestApks: MutableList<AppTestPair>?
+useLegacyJUnitResult: Boolean?
+}
+
+class IosGcloudConfig implements Config {
+test: String?
+xctestrunFile: String?
+xcodeVersion: String?
+additionalIpas: List<String>?
+app: String?
+testSpecialEntitlements: Boolean?
+}
+
+class IosFlankConfig implements Config {
+testTargets: List<String?>?
+onlyTestConfiguration: String?
+skipTestConfiguration: String?
+}
+
+class Config.Partial<GCloud: Config, Flank: Config> {
+gcloud: Gcloud
+flank: Flank
+}
+
+class Config.Platform<GCloud: Config, Flank: Config> {
+data: String
+common: CommonPartial
+platform: Partial<Gcloud, Flank>
+}
+
+entity CommonPartial extends Config.Partial {
+gcloud: CommonGcloudConfig
+flank: CommonFlankConfig
+}
+
+class AndroidPartial extends Config.Partial {
+gcloud: AndroidGcloudConfig
+flank: AndroidFlankConfig
+}
+
+class IosPartial extends Config.Partial {
+gcloud: IosGcloudConfig
+flank: IosFlankConfig
+}
+
+entity AndroidConfig extends Config.Platform {
+common: CommonPartial
+platform: AndroidPartial
+}
+
+entity IosConfig extends Config.Platform {
+common: CommonPartial
+platform: IosPartial
+}
+
+
+CommonPartial *-- Config.Platform
+
+AndroidGcloudConfig *-- AndroidPartial
+AndroidFlankConfig *-- AndroidPartial
+
+IosGcloudConfig *-- IosPartial
+IosFlankConfig *-- IosPartial
+
+CommonGcloudConfig *--- CommonPartial
+CommonFlankConfig *--- CommonPartial
+
+AndroidPartial *-- AndroidConfig
+
+IosPartial *-- IosConfig
+
+
+interface IArgs {
+data: String
+devices: List<Device>
+resultsBucket: String
+resultsDir: String
+recordVideo: Boolean
+testTimeout: String
+async: Boolean
+resultsHistoryName: String?
+flakyTestAttempts: Int
+clientDetails: Map<String, String>?
+networkProfile: String?
+otherFiles: Map<String, String>
+type: Type?
+directoriesToPull: List<String>
+scenarioNumbers: List<String>
+failFast: Boolean
+project: String
+maxTestShards: Int
+shardTime: Int
+repeatTests: Int
+smartFlankGcsPath: String
+smartFlankDisableUpload: Boolean
+testTargetsAlwaysRun: List<String>
+filesToDownload: List<String>
+disableSharding: Boolean
+localResultDir: String
+runTimeout: String
+fullJUnitResult: Boolean
+ignoreFailedTests: Boolean
+keepFilePath: Boolean
+outputStyle: OutputStyle
+disableResultsUpload: Boolean
+defaultTestTime: Double
+defaultClassTestTime: Double
+useAverageTestTimeForNewTests: Boolean
+disableUsageStatistics: Boolean
+outputReportType: OutputReportType
+}
+
+class CommonArgs implements IArgs
+
+class AndroidArgs implements IArgs {
+commonArgs: CommonArgs
+appApk: String?
+testApk: String?
+additionalApks: List<String>
+autoGoogleLogin: Boolean
+useOrchestrator: Boolean
+roboDirectives: List<FlankRoboDirective>
+roboScript: String?
+environmentVariables: Map<String, String>
+grantPermissions: String?
+scenarioLabels: List<String>
+obbFiles: List<String>
+obbNames: List<String>
+performanceMetrics: Boolean
+numUniformShards: Int?
+testRunnerClass: String?
+testTargets: List<String>
+additionalAppTestApks: List<AppTestPair>
+obfuscateDumpShards: Boolean
+testTargetsForShard: ShardChunks
+}
+
+class IosArgs implements IArgs {
+commonArgs: CommonArgs
+xctestrunZip: String
+xctestrunFile: String
+xcodeVersion: String?
+testTargets: List<String>
+obfuscateDumpShards: Boolean
+additionalIpas: List<String>
+app: String
+testSpecialEntitlements: Boolean?
+onlyTestConfiguration: String
+skipTestConfiguration: String
+xcTestRunData: XcTestRunData
+}
+
+CommonArgs *-- AndroidArgs
+CommonArgs *-- IosArgs
+
+AndroidConfig .[thickness=4]..> AndroidArgs
+IosConfig .[thickness=4]..> IosArgs
+@enduml

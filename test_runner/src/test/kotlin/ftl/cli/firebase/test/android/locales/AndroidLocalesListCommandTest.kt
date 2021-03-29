@@ -1,4 +1,4 @@
-package ftl.cli.firebase.test.android.configuration
+package ftl.cli.firebase.test.android.locales
 
 import com.google.common.truth.Truth.assertThat
 import ftl.android.AndroidCatalog
