@@ -7,7 +7,7 @@ Owns the business logic of the application.
 The domain layer is exposing its own API as a collection of public suspendable extension functions,
 which could be called `top-level functions`.
 Each `top-level function` have its own `execution context`, 
-can produce `structured output` during the `execution`
+that can produce a `structured output` during the `execution`
 and can be composed of one or many low-level functions.
 This layer could be considered as a standalone library, 
 that is providing access to business logic through pure kotlin functions. 
