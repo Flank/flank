@@ -45,11 +45,13 @@ data class IosArgs(
     @get:JsonIgnore
     val xcTestRunData: XcTestRunData by lazy { calculateXcTestRunData() }
 
+    @get:JsonIgnore
     val customShardingV1: List<List<String>> by lazy {
         if (shardingJson.isNullOrBlank()) emptyList()
         else fromJson(Paths.get(shardingJson).toFile().readText())
     }
 
+    @get:JsonIgnore
     val customShardingV2: Map<String, List<List<String>>> by lazy {
         if (shardingJson.isNullOrBlank()) emptyMap()
         else fromJson(Paths.get(shardingJson).toFile().readText())

@@ -12,6 +12,7 @@ import ftl.ios.xctest.common.getXcTestRunVersion
 import ftl.ios.xctest.common.mapToRegex
 import ftl.ios.xctest.common.parseToNSDictionary
 import ftl.shard.Chunk
+import ftl.shard.TestMethod
 import ftl.shard.testCases
 import ftl.util.FlankTestMethod
 import java.io.File
@@ -35,8 +36,8 @@ private fun IosArgs.calculateXcTest(): XcTestRunData {
 
     val calculatedShards: Map<String, Pair<List<Chunk>, List<XctestrunMethods>>> = when {
         disableSharding -> emptyMap()
-        useCustomShardingV1(xcTestNsDictionary) -> emptyMap()
-        useCustomShardingV2(xcTestNsDictionary) -> emptyMap()
+        useCustomShardingV1(xcTestNsDictionary) -> shardsFromV1()
+        useCustomShardingV2(xcTestNsDictionary) -> shardsFromV2()
         else -> calculateConfigurationShards(
             xcTestRoot = xcTestRoot,
             xcTestNsDictionary = xcTestNsDictionary,
@@ -55,8 +56,22 @@ private fun IosArgs.calculateXcTest(): XcTestRunData {
 private fun IosArgs.useCustomShardingV1(dictionary: NSDictionary) =
     !shardingJson.isNullOrBlank() && dictionary.getXcTestRunVersion() == V1
 
+private fun IosArgs.shardsFromV1() = mapOf(
+    "" to run {
+        val chunks = customShardingV1.map { Chunk(it.map(::TestMethod)) }
+        val targets = customShardingV1.map { mapOf("" to it) }
+        chunks to targets
+    }
+)
+
 private fun IosArgs.useCustomShardingV2(dictionary: NSDictionary) =
     !shardingJson.isNullOrBlank() && dictionary.getXcTestRunVersion() == V2
+
+private fun IosArgs.shardsFromV2() = customShardingV2.mapValues { (_, shards) ->
+    val chunks = shards.map { Chunk(it.map(::TestMethod)) }
+    val targets = shards.map { mapOf("" to it) }
+    chunks to targets
+}
 
 private fun emptyXcTestRunData() = XcTestRunData(
     rootDir = "",
