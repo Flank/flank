@@ -19,7 +19,7 @@ internal fun parseSwiftTests(binary: String): List<String> {
     val cmd = when {
         isMacOS -> "nm -gU ${binary.quote()} | xargs -s $argMax xcrun swift-demangle"
         isLinux -> "export LD_LIBRARY_PATH=~/.flank; export PATH=~/.flank:\$PATH; nm -gU ${binary.quote()} | xargs -s $argMax swift-demangle"
-        isWindows -> "llvm-nm.exe --undefined-only --extern-only ${binary.quote().replace("\\", "/")} | xargs -s $argMax swift-demangle"
+        isWindows -> "llvm-nm.exe --undefined-only --extern-only ${binary.quote().replace("\\", "/")} | xargs swift-demangle"
         else -> throw RuntimeException("Unsupported OS for Integration Tests")
     }
 
