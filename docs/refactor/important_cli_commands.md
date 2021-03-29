@@ -1,0 +1,29 @@
+The list of Flank CLI commands that calls domain use cases
+
+* `auth/LoginCommand.kt`
+* `firebase/CancelCommand.kt`
+* `firebase/RefreshCommand.kt`
+* `firebase/test/android/configuration/AndroidLocalesDescribeCommand.kt`
+* `firebase/test/android/configuration/AndroidLocalesListCommand.kt`
+* `firebase/test/android/models/AndroidModelDescribeCommand.kt`
+* `firebase/test/android/models/AndroidModelsListCommand.kt`
+* `firebase/test/android/orientations/AndroidOrientationsListCommand.kt`
+* `firebase/test/android/versions/AndroidVersionsDescribeCommand.kt`
+* `firebase/test/android/versions/AndroidVersionsListCommand.kt`
+* `firebase/test/android/AndroidDoctorCommand.kt`
+* `firebase/test/android/AndroidRunCommand.kt`
+* `firebase/test/android/AndroidTestEnvironmentCommand.kt`
+* `firebase/test/ios/configuration/IosLocalesDescribeCommand.kt`
+* `firebase/test/ios/configuration/IosLocalesListCommand.kt`
+* `firebase/test/ios/models/IosModelDescribeCommand.kt`
+* `firebase/test/ios/models/IosModelsListCommand.kt`
+* `firebase/test/ios/orientations/IosOrientationsListCommand.kt`
+* `firebase/test/ios/versions/IosVersionsDescribeCommand.kt`
+* `firebase/test/ios/versions/IosVersionsListCommand.kt`
+* `firebase/test/ios/IosDoctorCommand.kt`
+* `firebase/test/ios/IosRunCommand.kt`
+* `firebase/test/ios/IosTestEnvironmentCommand.kt`
+* `firebase/test/ipblocks/IPBlocksListCommand.kt`
+* `firebase/test/networkprofiles/NetworkProfilesDescribeCommand.kt`
+* `firebase/test/networkprofiles/NetworkProfilesListCommand.kt`
+* `firebase/test/providedsoftware/ProvidedSoftwareListCommand.kt`

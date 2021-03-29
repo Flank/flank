@@ -1,0 +1,29 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+left to right direction
+
+class AndroidTestConfig_GameLoop {
+val appApkGcsPath: String
+val testRunnerClass: String?
+val scenarioNumbers: List<String>
+val scenarioLabels: List<String>
+}
+
+class GameLoopContext {
+val app: FileReference
+}
+
+class AndroidArgs {
+val testRunnerClass: String?
+val scenarioNumbers: List<String>
+val scenarioLabels: List<String>
+}
+
+AndroidTestConfig_GameLoop::appApkGcsPath -- GameLoopContext::app
+
+AndroidTestConfig_GameLoop::testRunnerClass -- AndroidArgs::testRunnerClass
+AndroidTestConfig_GameLoop::scenarioNumbers -- AndroidArgs::scenarioNumbers
+AndroidTestConfig_GameLoop::scenarioLabels -- AndroidArgs::scenarioLabels
+
+@enduml
