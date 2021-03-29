@@ -5,7 +5,7 @@ Owns the business logic of the application.
 ## Design
 
 The domain layer is exposing its own API as a collection of public suspendable extension functions,
-which could be called a `top-level functions`.
+which could be called `top-level functions`.
 Each `top-level function` have own `execution context`, 
 can produce `structured output` during the `execution`
 and can be composed of one or many low-level functions.
