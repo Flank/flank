@@ -287,6 +287,7 @@ IosArgs
       skip-test-configuration: 
       output-report: json
       skip-config-validation: false
+      sharding-json: 
             """.trimIndent()
         )
     }
@@ -352,6 +353,7 @@ IosArgs
       skip-test-configuration: 
       output-report: none
       skip-config-validation: false
+      sharding-json: 
             """.trimIndent(),
             args.toString()
         )

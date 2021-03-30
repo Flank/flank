@@ -25,7 +25,7 @@ private fun AndroidArgs.mainApkContext() = appApk?.let { appApk ->
             test = testApk.asFileReference(),
             environmentVariables = emptyMap(),
             testTargetsForShard = testTargetsForShard,
-            customShards = findShards()
+            customShards = findShards(appApk, testApk)
         )
         roboScript != null -> RoboTestContext(app = appApk.asFileReference(), roboScript = roboScript.asFileReference())
         isSanityRobo -> SanityRoboTestContext(app = appApk.asFileReference())
@@ -35,15 +35,16 @@ private fun AndroidArgs.mainApkContext() = appApk?.let { appApk ->
 }
 
 private fun AndroidArgs.additionalApksContexts() = additionalAppTestApks.map {
+    val appApk = (it.app ?: appApk)
+        ?: throw FlankGeneralError("Cannot create app-test apks pair for instrumentation tests, missing app apk for test ${it.test}")
     InstrumentationTestContext(
-        app = (it.app ?: appApk)
-            ?.asFileReference()
-            ?: throw FlankGeneralError("Cannot create app-test apks pair for instrumentation tests, missing app apk for test ${it.test}"),
+        app = appApk.asFileReference(),
         test = it.test.asFileReference(),
         environmentVariables = it.environmentVariables,
         testTargetsForShard = testTargetsForShard,
-        customShards = findShards()
+        customShards = findShards(appApk, it.test)
     )
 }.toTypedArray()
 
-private fun AndroidArgs.findShards() = commonArgs.customSharding.firstOrNull { it.app == appApk && it.test == testApk }
+private fun AndroidArgs.findShards(appApk: String, testApk: String) =
+    customSharding.values.firstOrNull { it.app == appApk && it.test == testApk }

@@ -100,7 +100,7 @@ IosArgs
       skip-test-configuration: $skipTestConfiguration
       output-report: $outputReportType
       skip-config-validation: $skipConfigValidation
-      sharding-json: $shardingJson
+      sharding-json: ${shardingJson.orEmpty()}
         """.trimIndent()
     }
 }

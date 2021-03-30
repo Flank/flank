@@ -4,6 +4,8 @@ import ftl.analytics.AnonymizeInStatistics
 import ftl.args.yml.AppTestPair
 import ftl.args.yml.Type
 import ftl.run.ANDROID_SHARD_FILE
+import ftl.run.common.fromJson
+import ftl.run.model.AndroidTestShards
 import java.nio.file.Paths
 
 data class AndroidArgs(
@@ -57,6 +59,20 @@ data class AndroidArgs(
     val testTargetsForShard: ShardChunks
 ) : IArgs by commonArgs {
     companion object : AndroidArgsCompanion()
+
+    val customSharding: Map<String, AndroidTestShards> by lazy {
+        if (shardingJson.isNullOrBlank()) emptyMap()
+        else {
+            fromJson<Map<String, AndroidTestShards>>(
+                Paths.get(shardingJson).toFile().readText()
+            ).mapValues { (_, shards) ->
+                shards.copy(
+                    app = ArgsHelper.evaluateFilePath(shards.app),
+                    test = ArgsHelper.evaluateFilePath(shards.test)
+                )
+            }
+        }
+    }
 
     override fun toString(): String {
         return """
@@ -121,7 +137,7 @@ AndroidArgs
       disable-usage-statistics: $disableUsageStatistics
       output-report: $outputReportType
       skip-config-validation: $skipConfigValidation
-      sharding-json: $shardingJson
+      sharding-json: ${shardingJson.orEmpty()}
         """.trimIndent()
     }
 }

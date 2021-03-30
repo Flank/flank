@@ -49,7 +49,7 @@ private suspend fun List<AndroidTestContext>.setupShards(
 }
 
 private val AndroidArgs.useCustomSharding: Boolean
-    get() = commonArgs.customSharding.isNotEmpty()
+    get() = customSharding.isNotEmpty()
 
 private val AndroidArgs.useTestTargetsForShard: Boolean
     get() = testTargetsForShard.isNotEmpty()
