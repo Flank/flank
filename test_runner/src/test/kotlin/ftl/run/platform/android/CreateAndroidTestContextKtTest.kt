@@ -212,20 +212,24 @@ class CreateAndroidTestContextKtTest {
                 else this
             }
 
-        val customShardingFile = root.newFile("custom_sharding.json").also {
+        val templateConfigPath =
+            "./src/test/kotlin/ftl/fixtures/test_app_cases/flank-multiple-mixed-with-additional-apks.yml"
+
+        val customShardingPath = root.newFile("custom_sharding.json").also {
             it.writeText(prettyPrint.toJson(customSharding))
-        }
+        }.absolutePath
+
+        val config = root.newFile("flank.yml").also {
+            it.writeText(
+                Paths.get(templateConfigPath)
+                    .toFile()
+                    .readText()
+                    .replace("{{PLACEHOLDER}}", customShardingPath)
+            )
+        }.toPath()
 
         val actual: List<AndroidTestContext> = runBlocking {
-            AndroidArgs.load(
-                Paths.get("./src/test/kotlin/ftl/fixtures/test_app_cases/flank-multiple-mixed-with-additional-apks.yml")
-            ).run {
-                copy(
-                    commonArgs = commonArgs.copy(
-                        shardingJson = customShardingFile.absolutePath
-                    )
-                ).createAndroidTestContexts()
-            }
+            AndroidArgs.load(config).createAndroidTestContexts()
         }
 
         // total number contexts
