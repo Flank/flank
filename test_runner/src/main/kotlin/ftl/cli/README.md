@@ -2,17 +2,6 @@
 
 Flank command line interface layer.
 
-## Basics
-
-From the:
-
-* higher level of view CLI layer is a bridge between end user and business logic.
-* implementation perspective it is just adapter for domain function call.
-
-## Package
-
-All CLI commands are placed in [`ftl.cli`](https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/cli) or inside nested packages.
-
 ## Libraries
 
 Flank command line interface is build upon the [picocli](https://picocli.info/).
@@ -39,7 +28,7 @@ The class which represents the CLI command:
 * CAN'T
     * define logical operations
 
-## Class & relations diagram
+## Diagram
 
 ![cli_class_diagram](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/presentation/cli/cli-class-diagram.puml)
 
