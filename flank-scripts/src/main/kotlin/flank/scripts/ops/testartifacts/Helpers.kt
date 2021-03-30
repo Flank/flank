@@ -4,7 +4,7 @@ import com.jcabi.github.Repo
 import flank.common.config.flankTestArtifactsRepository
 import flank.scripts.data.github.githubRepo
 import flank.scripts.utils.currentGitBranch
-import flank.scripts.utils.getEnvOrDefault
+import flank.scripts.utils.getEnv
 import java.io.File
 
 const val GITHUB_TOKEN_ENV_KEY = "GITHUB_TOKEN"
