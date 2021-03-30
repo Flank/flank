@@ -4,7 +4,9 @@ import com.google.common.truth.Truth.assertThat
 import com.linkedin.dex.parser.DexParser
 import com.linkedin.dex.parser.DexParser.Companion.findTestMethods
 import com.linkedin.dex.parser.TestMethod
+import flank.common.isWindows
 import ftl.args.AndroidArgs
+import ftl.args.normalizeFilePath
 import ftl.filter.TestFilter
 import ftl.filter.TestFilters
 import ftl.run.common.prettyPrint
@@ -199,7 +201,16 @@ class CreateAndroidTestContextKtTest {
                         "class com.example.test_app.foo.FooInstrumentedTest#ignoredTestFoo"
                     )
                 )
-            )
+            ).run {
+                // we need to change files paths to make tests happy when started on windows OS
+                if (isWindows) mapValues { (_, shards) ->
+                    shards.copy(
+                        app = shards.app.normalizeFilePath(),
+                        test = shards.test.normalizeFilePath()
+                    )
+                }
+                else this
+            }
 
         val customShardingFile = root.newFile("custom_sharding.json").also {
             it.writeText(prettyPrint.toJson(customSharding))
@@ -217,6 +228,7 @@ class CreateAndroidTestContextKtTest {
             }
         }
 
+        // total number contexts
         assertEquals(4, actual.size)
 
         val roboContexts = actual.filterIsInstance<RoboTestContext>()
@@ -230,11 +242,14 @@ class CreateAndroidTestContextKtTest {
                 it.app.local.contains(customShards.app.drop(1)) &&
                     it.test.local.contains(customShards.test.drop(1))
             }.run {
+                // there should be only one context with app and test matching
                 assertEquals(1, size)
                 get(0)
             }
 
+            // ignored tests should be present in the context
             assertEquals(customShards.junitIgnored, context.ignoredTestCases)
+            // all custom shards are present in the context
             assertTrue(customShards.shards.values.containsAll(context.shards.map { it.testMethodNames }))
         }
     }

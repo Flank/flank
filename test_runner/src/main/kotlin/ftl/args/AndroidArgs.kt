@@ -69,8 +69,8 @@ data class AndroidArgs(
                 Paths.get(shardingJson).toFile().readText()
             ).mapValues { (_, shards) ->
                 shards.copy(
-                    app = ArgsHelper.evaluateFilePath(shards.app),
-                    test = ArgsHelper.evaluateFilePath(shards.test)
+                    app = shards.app.normalizeFilePath(),
+                    test = shards.test.normalizeFilePath()
                 )
             }
         }
