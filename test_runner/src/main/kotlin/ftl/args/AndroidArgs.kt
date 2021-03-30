@@ -1,7 +1,7 @@
 package ftl.args
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import ftl.analytics.AnonymizeInStatistics
+import ftl.analytics.IgnoreInStatistics
 import ftl.args.yml.AppTestPair
 import ftl.args.yml.Type
 import ftl.run.ANDROID_SHARD_FILE
@@ -58,8 +58,7 @@ data class AndroidArgs(
     @property:AnonymizeInStatistics
     val testTargetsForShard: ShardChunks,
 
-    @JsonIgnore
-    @property:AnonymizeInStatistics
+    @property:IgnoreInStatistics
     val customSharding: Map<String, AndroidTestShards>
 ) : IArgs by commonArgs {
     companion object : AndroidArgsCompanion()
