@@ -15,7 +15,7 @@ flank:
     - test: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-error-debug-androidTest.apk
     - test: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-success-debug-androidTest.apk
     - test: ../test_projects/android/apks/invalid.apk
-  sharding-json: {{PLACEHOLDER}}
+  custom-sharding-json: {{PLACEHOLDER}}
   output-report: json
   disable-results-upload: true
   disable-usage-statistics: true

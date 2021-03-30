@@ -147,7 +147,6 @@ class AndroidArgsTest {
           disable-results-upload: true
           default-class-test-time: 30.0
           output-report: json
-          sharding-json: 
       """
 
     @After
@@ -382,7 +381,7 @@ AndroidArgs
       disable-usage-statistics: false
       output-report: json
       skip-config-validation: false
-      sharding-json: 
+      custom-sharding-json: 
             """.trimIndent()
         )
     }
@@ -457,7 +456,7 @@ AndroidArgs
       disable-usage-statistics: false
       output-report: json
       skip-config-validation: false
-      sharding-json: 
+      custom-sharding-json: 
             """.trimIndent(),
             args.toString()
         )

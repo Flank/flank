@@ -126,7 +126,7 @@ AndroidArgs
       disable-usage-statistics: $disableUsageStatistics
       output-report: $outputReportType
       skip-config-validation: $skipConfigValidation
-      sharding-json: ${shardingJson.orEmpty()}
+      custom-sharding-json: $customShardingJson
         """.trimIndent()
     }
 }

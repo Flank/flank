@@ -102,7 +102,7 @@ interface IArgs {
         get() = !skipConfigValidation
 
     @AnonymizeInStatistics
-    val shardingJson: String?
+    val customShardingJson: String
 
     fun useLocalResultDir() = localResultDir != defaultLocalResultsDir
 

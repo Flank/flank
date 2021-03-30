@@ -24,8 +24,7 @@ private fun AndroidArgs.mainApkContext() = appApk?.let { appApk ->
             app = appApk.asFileReference(),
             test = testApk.asFileReference(),
             environmentVariables = emptyMap(),
-            testTargetsForShard = testTargetsForShard,
-            customShards = findShards(appApk, testApk)
+            testTargetsForShard = testTargetsForShard
         )
         roboScript != null -> RoboTestContext(app = appApk.asFileReference(), roboScript = roboScript.asFileReference())
         isSanityRobo -> SanityRoboTestContext(app = appApk.asFileReference())
@@ -41,10 +40,6 @@ private fun AndroidArgs.additionalApksContexts() = additionalAppTestApks.map {
         app = appApk.asFileReference(),
         test = it.test.asFileReference(),
         environmentVariables = it.environmentVariables,
-        testTargetsForShard = testTargetsForShard,
-        customShards = findShards(appApk, it.test)
+        testTargetsForShard = testTargetsForShard
     )
 }.toTypedArray()
-
-private fun AndroidArgs.findShards(appApk: String, testApk: String) =
-    customSharding.values.firstOrNull { it.app == appApk && it.test == testApk }

@@ -15,4 +15,4 @@ flank:
     - test: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-flaky-debug-androidTest.apk
     - test: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-success-debug-androidTest.apk
     - test: ../test_projects/android/apks/invalid.apk
-  sharding-json: {{PLACEHOLDER}}
+  custom-sharding-json: {{PLACEHOLDER}}

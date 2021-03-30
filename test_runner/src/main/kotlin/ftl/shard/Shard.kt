@@ -6,7 +6,6 @@ import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.run.exception.FlankConfigurationError
-import ftl.run.model.InstrumentationTestContext
 import ftl.util.FlankTestMethod
 import kotlin.math.roundToInt
 
@@ -48,14 +47,6 @@ fun AndroidArgs.createShardsByTestForShards(): List<Chunk> = testTargetsForShard
         testMethods = testMethods
     )
 }.map { Chunk(it.testMethods) }
-
-fun InstrumentationTestContext.userShards() = copy(
-    shards = customShards
-        ?.shards
-        ?.map { methods -> Chunk(methods.value.map(::TestMethod)) }
-        ?: emptyList(),
-    ignoredTestCases = customShards?.junitIgnored ?: emptyList()
-)
 
 // take in the XML with timing info then return list of shards based on the amount of shards to use
 fun createShardsByShardCount(

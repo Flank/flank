@@ -46,18 +46,19 @@ fun createAndroidArgs(
     obbNames = gcloud::obbnames.require(),
     grantPermissions = gcloud.grantPermissions,
     testTargetsForShard = gcloud.testTargetsForShard?.normalizeToTestTargets().orEmpty(),
-    customSharding = createCustomShards(commonArgs.shardingJson)
+    customSharding = createCustomShards(commonArgs.customShardingJson)
 )
 
-private fun createCustomShards(shardingJsonPath: String?) =
-    if (shardingJsonPath.isNullOrBlank()) emptyMap()
-    else {
-        fromJson<Map<String, AndroidTestShards>>(
-            Paths.get(shardingJsonPath).toFile().readText()
-        ).mapValues { (_, shards) ->
-            shards.copy(
-                app = shards.app.normalizeFilePath(),
-                test = shards.test.normalizeFilePath()
-            )
-        }
+private fun createCustomShards(shardingJsonPath: String) =
+    if (shardingJsonPath.isBlank()) emptyMap()
+    else fromJson<Map<String, AndroidTestShards>>(
+        Paths.get(shardingJsonPath).toFile().readText()
+    ).normalizeShardPaths()
+
+private fun Map<String, AndroidTestShards>.normalizeShardPaths() =
+    mapValues { (_, shards) ->
+        shards.copy(
+            app = shards.app.normalizeFilePath(),
+            test = shards.test.normalizeFilePath()
+        )
     }

@@ -200,13 +200,13 @@ data class CommonFlankConfig @JsonIgnore constructor(
     var skipConfigValidation: Boolean? by data
 
     @set:CommandLine.Option(
-        names = ["--sharding-json"],
+        names = ["--custom-sharding-json"],
         description = [
             "Path to JSON with user's shards configuration. Flank will reflect provided sharding"
         ]
     )
-    @set:JsonProperty("sharding-json")
-    var shardingJson: String? by data
+    @set:JsonProperty("custom-sharding-json")
+    var customShardingJson: String? by data
 
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
@@ -243,7 +243,7 @@ data class CommonFlankConfig @JsonIgnore constructor(
             disableUsageStatistics = false
             outputReport = OutputReportType.NONE.name
             skipConfigValidation = false
-            shardingJson = null
+            customShardingJson = ""
         }
     }
 }
