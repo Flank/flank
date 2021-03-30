@@ -1,5 +1,6 @@
 package ftl.args
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import ftl.analytics.AnonymizeInStatistics
 import ftl.args.yml.AppTestPair
 import ftl.args.yml.Type
@@ -60,6 +61,7 @@ data class AndroidArgs(
 ) : IArgs by commonArgs {
     companion object : AndroidArgsCompanion()
 
+    @get:JsonIgnore
     val customSharding: Map<String, AndroidTestShards> by lazy {
         if (shardingJson.isNullOrBlank()) emptyMap()
         else {
