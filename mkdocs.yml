@@ -37,6 +37,14 @@ nav:
       - Secrets: flank_secrets.md
       - Releasing: release_process.md
       - Binaries for Flank's iOS: binaries_used_in_flank_io_testing.md
+  - High-level design:
+      - Overview: "https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl#flank-high-level-design"
+      - Presentation:
+          - Overview: "https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/presentation#presentation"
+          - CLI: "https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/cli#cli"
+      - Domain: "https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/domain#domain"
+      - Data: "https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/data#data"
+      - Adapter: "https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/adapter#adapter"
 
 theme:
   name: material
