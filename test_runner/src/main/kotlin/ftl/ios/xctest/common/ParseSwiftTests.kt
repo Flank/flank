@@ -25,7 +25,7 @@ internal fun parseSwiftTests(binary: String): List<String> {
     }
 
     val path = if (isWindows) {
-        listOf(Pair("Path", "$appDataDirectory\\.flank\\"), Pair("LD_LIBRARY_PATH", "$appDataDirectory\\.flank\\"))
+        listOf(Pair("Path", "$appDataDirectory\\.flank\\;C:\\Windows\\System32\\"), Pair("LD_LIBRARY_PATH", "$appDataDirectory\\.flank\\"))
     } else emptyList()
 
     // https://github.com/linkedin/bluepill/blob/37e7efa42472222b81adaa0e88f2bd82aa289b44/Source/Shared/BPXCTestFile.m#L17-18
