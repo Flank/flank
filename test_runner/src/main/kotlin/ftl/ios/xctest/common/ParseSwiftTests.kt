@@ -5,6 +5,7 @@ import flank.common.isLinux
 import flank.common.isMacOS
 import flank.common.isWindows
 import ftl.util.Bash
+import ftl.util.ShellEnvironment
 
 internal fun parseSwiftTests(binary: String): List<String> {
     installBinaries
@@ -28,7 +29,9 @@ internal fun parseSwiftTests(binary: String): List<String> {
     } else emptyList()
 
     // https://github.com/linkedin/bluepill/blob/37e7efa42472222b81adaa0e88f2bd82aa289b44/Source/Shared/BPXCTestFile.m#L17-18
-    val demangledOutput = Bash.execute(cmd, path)
+    val shell = if (isWindows) ShellEnvironment.Cmd else ShellEnvironment.Default
+
+    val demangledOutput = Bash.execute(cmd, path, shell)
     demangledOutput.lines().forEach { line ->
         // _T025EarlGreyExampleTestsSwift0abceD0C10testLayoutyyF ---> EarlGreyExampleTestsSwift.EarlGreyExampleSwiftTests.testLayout() -> ()
         // _T025EarlGreyExampleTestsSwift0abceD0C16testCustomActionyyF ---> EarlGreyExampleTestsSwift.EarlGreyExampleSwiftTests.testCustomAction() -> ()
