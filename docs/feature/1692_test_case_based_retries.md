@@ -31,7 +31,7 @@ Failed test case retries could be done using an automatic solution that starts f
 
 #### Possible problems
 
-- The output should clearly show information that failed tests are re-executed.
+- The output should clearly show information that failed tests were re-executed.
 
 
 
