@@ -39,7 +39,7 @@ Failed test case retries could be done using an automatic solution that starts f
 
 #### Run
 
-- Flank will have a new command to run only failed tests. As an argument of this command report file should be appended.
+- Flank will have a new command to run only failed tests. The report file should have this argument appended.
 
 #### Implementation
 
