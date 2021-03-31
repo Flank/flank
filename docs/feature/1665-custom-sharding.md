@@ -3,8 +3,8 @@
 ##### NOTE: Currently for android only, iOS support will be released soon
 
 With [#1665](https://github.com/Flank/flank/issues/1665) Flank received the new feature called `Custom Sharding`. It
-enables Flank to consume predefined sharding and apply it during a test run. The feature gives flexibility and enables manual
-optimization. It also allows users to set up different sharding per app-test apk pair (android only).
+enables Flank to consume predefined sharding and apply it during a test run. The feature gives flexibility and enables
+manual optimization. It also allows users to set up different sharding per app-test apk pair (android only).
 
 ## Android
 
@@ -100,8 +100,7 @@ flank:
 
 ### 2. Prepare custom sharding JSON file
 
-Now you can make changes of your interest, flank will try to find corresponding by app-test pair names, and then apply
-custom sharding.
+You can now make changes as you wish, flank will attempt to find corresponding app-test pair names, and then apply custom sharding.
 
 1. for `debug-1.apk` let's add another shard and move `TestClassB#test4` & `TestClassB#test3` into it:
 
@@ -207,26 +206,25 @@ flank:
   custom-sharding-json: ./custom_sharding.json
 ```
 
-You can verify if shards are correctly applied `flank firebase test android run -c=flank.yml --dump-shards` and check if
-that is what you expected
+You can verify if shards are correctly applied by running the following command `flank firebase test android run -c=flank.yml --dump-shards`
 
 ### Start Test Run
 
-Now you can start a flank test run, with updated config there will be still 4 matrices:
+You can now start a flank test run. With the updated config there will still be 4 matrices:
 
 * 1x Robo test
 * 3x instrumentation tests:
-  * `debug-1.apk` with 3 shards
-  * `debug-2.apk` with 2 shards
-  * `debug-3.apk` with 1 shard
+    * `debug-1.apk` with 3 shards
+    * `debug-2.apk` with 2 shards
+    * `debug-3.apk` with 1 shard
 
 ## NOTE:
 
-* flank **DOES NOT** validate provided custom sharding JSON --  it's your responsibility to provide proper configuration
-* flank apply sharding by searching test pairs by app apk and test apk paths
+* flank **DOES NOT** validate the provided custom sharding JSON -- it's your responsibility to provide a proper configuration
+* flank will apply sharding by searching for test pairs by app apk and test apk paths
 * custom sharding supports `gs://` paths
 * custom sharding JSON is a source of truth -- no smart sharding is applied (or sharding related configurations)
-* matrices ids and shards ids are not important, the only requirement is -- they should be unique
+* matrices ids and shard ids are not important, the only requirement is -- they should be unique
 * you can provide custom sharding JSON created entirely from scratch
 * custom sharding is very similar to `test-targets-for-shard`, which means you can use the same test targets when
   preparing custom sharding. Below example will create 3 shards, one for each of the packages (`bar`, `foo`, `parameterized`):
@@ -253,8 +251,6 @@ Now you can start a flank test run, with updated config there will be still 4 ma
     }
     ```
 
-
 ## Problems? Something missing?
 
-If you believe there is a problem with the custom sharding, or you would like to have some additional feature -- let us know and create an issue in flank's backlog.
-Any feedback is more than welcome!
+If you believe there is a problem with the custom sharding, or you would like to have some additional feature -- let us know and create an issue in flank's backlog. Any feedback is more than welcome!
