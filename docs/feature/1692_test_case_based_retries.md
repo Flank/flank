@@ -12,8 +12,7 @@ Test case-based retires is a feature request which automatically retries failed 
 ## Solution
 
 Failed test case retries could be done using an automatic solution that starts failing tests just after the previous test run finished. Also, there should be a possibility to manually run only failed tests based on the report from a previous run.
-
-
+Test case based retries will not be compatible with the FTL option `num-flaky-test-attempts`.
 
 ### Automatic
 
