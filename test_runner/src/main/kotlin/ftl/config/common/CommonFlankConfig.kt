@@ -202,7 +202,8 @@ data class CommonFlankConfig @JsonIgnore constructor(
     @set:CommandLine.Option(
         names = ["--custom-sharding-json"],
         description = [
-            "Path to JSON with user's shards configuration. Flank will reflect provided sharding"
+            "Path to custom sharding JSON file. Flank will apply provided sharding to the configuration.",
+            "More info https://github.com/Flank/flank/blob/master/docs/feature/1665-custom-sharding.md"
         ]
     )
     @set:JsonProperty("custom-sharding-json")

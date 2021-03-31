@@ -171,7 +171,7 @@ custom sharding.
   "matrix-1": {},
   "matrix-2": {
     "app": "[PATH]/app-debug.apk",
-    "test": "[PATH]/debug-3.apk",
+    "test": "gs://path/to/your/bucket/debug-3.apk",
     "shards": {
       "shard-0": [
         "class com.package4.TestClass4#test1",
@@ -224,6 +224,7 @@ Now you can start a flank test run, with updated config there will be still 4 ma
 
 * flank **DOES NOT** validate provided custom sharding JSON --  it's your responsibility to provide proper configuration
 * flank apply sharding by searching test pairs by app apk and test apk paths
+* custom sharding supports `gs://` paths
 * custom sharding JSON is a source of truth -- no smart sharding is applied (or sharding related configurations)
 * matrices ids and shards ids are not important, the only requirement is -- they should be unique
 * you can provide custom sharding JSON created entirely from scratch
@@ -234,7 +235,7 @@ Now you can start a flank test run, with updated config there will be still 4 ma
     {
       "matrix-0": {
         "app": "./any-app.apk",
-        "test": "/any-debug.apk",
+        "test": "./any-debug.apk",
         "shards": {
           "shard-0": [
             "package com.bar"

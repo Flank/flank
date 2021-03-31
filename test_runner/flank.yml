@@ -359,3 +359,8 @@ flank:
   ## (example: project can use devices that are not commonly available, the project has higher sharding limits, etc).
   ## Default: false
   # skip-config-validation: false
+
+  ### Path to the custom sharding JSON file
+  ## Flank will apply provided sharding to the configuration.
+  ## For detailed explanation please check https://github.com/Flank/flank/blob/master/docs/feature/1665-custom-sharding.md
+  # custom-sharding-json: ./custom_sharding.json
