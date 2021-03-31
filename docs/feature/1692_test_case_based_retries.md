@@ -43,7 +43,7 @@ Failed test case retries could be done using an automatic solution that starts f
 
 #### Implementation
 
-- To run manual retry failed test case-based retries new flank command needs to be added. As an additional Flank argument, the previous report file needs to be provided
+- To run manual retry failed test case-based retries a new flank command needs to be added. As an additional Flank argument, the previous report file needs to be provided
 
 #### Result
 
