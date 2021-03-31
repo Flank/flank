@@ -19,7 +19,7 @@ Failed test case retries could be done using an automatic solution that starts f
 
 #### Run
 
-- Flank config will contain a boolean option to retry failed tests. With using this option flank automatically create a new matrix with failed tests and run it after.
+- Flank config will contain a Boolean option to retry failed tests. When using this option flank will automatically create a new matrix with failed tests which will be run afterwards.
 
 #### Implementation
 
