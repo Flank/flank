@@ -17,4 +17,5 @@ val File.testArtifacts: File get() = resolve(TEST_ARTIFACTS_PATH).apply { if (!e
 
 fun File.testArtifacts(branch: String = currentGitBranch()): File = testArtifacts.resolve(branch)
 
-internal fun testArtifactsRepo(): Repo = githubRepo(getEnv(GITHUB_TOKEN_ENV_KEY), flankTestArtifactsRepository)
+internal fun testArtifactsRepo(): Repo =
+    githubRepo(getEnv(GITHUB_TOKEN_ENV_KEY, ""), flankTestArtifactsRepository)
