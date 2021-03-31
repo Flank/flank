@@ -30,7 +30,7 @@ flank:
 
 `flank firebase test android run -c=flank.yml` will run on 4 matrices:
 
-* 1x Robo run
+* 1x Robo run (just for example that `robo-script` will not collide with custom sharding on `additional-app-test-apks`)
 * 3x instrumentation tests with 2 shards max each
 
 `flank firebase test android run -c=flank.yml --dump-shards` produces `android_shards.json` with sharding:
@@ -104,7 +104,7 @@ You can now make changes as you wish, flank will attempt to find corresponding a
 
 1. for `debug-1.apk` let's add another shard and move `TestClassB#test4` & `TestClassB#test3` into it:
 
-```json
+```
 {
   "matrix-0": {
     "app": "[PATH]/app-debug.apk",
@@ -128,16 +128,16 @@ You can now make changes as you wish, flank will attempt to find corresponding a
       "class com.TestClassA#ignoredTest"
     ]
   },
-  "matrix-1": {},
-  "matrix-2": {}
+  "matrix-1": {...},
+  "matrix-2": {...}
 }
 ```
 
 2. for `debug-2.apk` we know that parameterized test takes lots of time so we want to have it in a separate shard:
 
-```json
+```
 {
-  "matrix-0": {},
+  "matrix-0": {...},
   "matrix-1": {
     "app": "[PATH]/app-debug.apk",
     "test": "[PATH]/debug-2.apk",
@@ -158,16 +158,16 @@ You can now make changes as you wish, flank will attempt to find corresponding a
       "class com.package.3.TestClassA#ignoredTest2"
     ]
   },
-  "matrix-2": {}
+  "matrix-2": {...}
 }
 ```
 
 3. for `debug-3.apk` all tests are rather quick, so we don't care about sharding, let's move them into one shard:
 
-```json
+```
 {
-  "matrix-0": {},
-  "matrix-1": {},
+  "matrix-0": {...},
+  "matrix-1": {...},
   "matrix-2": {
     "app": "[PATH]/app-debug.apk",
     "test": "gs://path/to/your/bucket/debug-3.apk",
@@ -189,7 +189,7 @@ You can now make changes as you wish, flank will attempt to find corresponding a
 
 4. Let's save newly created JSON as `custom_sharding.json`
 
-### Add custom sharding to your configuration
+### 3. Add custom sharding to your configuration
 
 Update `flank.yml` with `custom-sharding-json` option:
 
@@ -206,9 +206,11 @@ flank:
   custom-sharding-json: ./custom_sharding.json
 ```
 
-You can verify if shards are correctly applied by running the following command `flank firebase test android run -c=flank.yml --dump-shards`
+You can verify if shards are correctly applied by running the following command `flank firebase test android run -c=flank.yml --dump-shards`.
+This command will parse your shards configuration JSON into internal structures used for executing test and will print them back to the JSON file.
+The diff between the file specified in `custom-sharding-json` and the output file produced by `--dump-shards` should show that no changes were applied to custom shard configuration.
 
-### Start Test Run
+### 4. Start Test Run
 
 You can now start a flank test run. With the updated config there will still be 4 matrices:
 
