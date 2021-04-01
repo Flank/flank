@@ -6,6 +6,7 @@ import ftl.args.IosArgs
 import ftl.json.SavedMatrix
 import ftl.json.updateMatrixMap
 import ftl.json.validate
+import ftl.reports.addStepTime
 import ftl.reports.output.log
 import ftl.reports.output.outputReport
 import ftl.reports.util.ReportManager
@@ -17,6 +18,7 @@ import ftl.run.model.TestResult
 import ftl.run.platform.common.printMatricesWebLinks
 import ftl.run.platform.runAndroidTests
 import ftl.run.platform.runIosTests
+import ftl.util.measureTime
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withTimeoutOrNull
 
@@ -32,12 +34,17 @@ suspend fun IArgs.newTestRun() = withTimeoutOrNull(parsedTimeout) {
                 matrixMap
             )
         }
-        ReportManager.generate(matrixMap, args, testShardChunks, ignoredTests)
-        cancelTestsOnTimeout(args.project, matrixMap.map) { fetchArtifacts(matrixMap, args) }
 
-        matrixMap.printMatricesWebLinks(project)
-        outputReport.log(matrixMap)
-        matrixMap.validate(ignoreFailedTests)
+        val duration = measureTime {
+            ReportManager.generate(matrixMap, args, testShardChunks, ignoredTests)
+            cancelTestsOnTimeout(args.project, matrixMap.map) { fetchArtifacts(matrixMap, args) }
+
+            matrixMap.printMatricesWebLinks(project)
+            outputReport.log(matrixMap)
+            matrixMap.validate(ignoreFailedTests)
+        }
+
+        addStepTime("Generating reports", duration)
     }
 }
 

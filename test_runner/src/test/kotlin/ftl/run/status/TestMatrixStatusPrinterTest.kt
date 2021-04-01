@@ -3,8 +3,10 @@ package ftl.run.status
 import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
 import ftl.args.IArgs
+import ftl.util.Duration
 import ftl.util.MatrixState
 import ftl.util.StopWatch
+import ftl.util.formatted
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -21,7 +23,8 @@ class TestMatrixStatusPrinterTest {
     @Test
     fun test() {
         // given
-        val time = "time"
+        val expectedDuration = Duration(4)
+        val time = expectedDuration.formatted(alignSeconds = true)
         val testMatricesIds = (0..1).map(Int::toString)
         val matrices = testMatricesIds.mapIndexed { index, s ->
             TestMatrix().apply {
@@ -34,7 +37,7 @@ class TestMatrixStatusPrinterTest {
             every { outputStyle } returns OutputStyle.Single
         }
         val stopWatch = mockk<StopWatch>(relaxed = true) {
-            every { check(any()) } returns time
+            every { check() } returns expectedDuration
         }
         val printExecutionStatusList = mockk<(String, List<TestExecution>?) -> Unit>(relaxed = true)
         val printMatrices = TestMatrixStatusPrinter(
@@ -46,8 +49,8 @@ class TestMatrixStatusPrinterTest {
         val expected = listOf(
             "",
             """
-  time 0 FINISHED
-  time 1 FINISHED
+  $time 0 FINISHED
+  $time 1 FINISHED
 """
         )
         // when
@@ -55,7 +58,7 @@ class TestMatrixStatusPrinterTest {
             printMatrices(matrices[index])
 
             // then
-            verify { stopWatch.check(true) }
+            verify { stopWatch.check() }
             verify { printExecutionStatusList(time, matrices[index].testExecutions) }
             assertEquals(expected[index], systemOutRule.log.filterMockk())
         }

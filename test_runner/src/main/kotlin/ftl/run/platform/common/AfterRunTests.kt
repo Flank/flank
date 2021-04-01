@@ -10,9 +10,11 @@ import ftl.gc.GcStorage.uploadSessionId
 import ftl.gc.GcTestMatrix
 import ftl.json.MatrixMap
 import ftl.json.createSavedMatrix
+import ftl.reports.addStepTime
 import ftl.run.common.saveSessionId
 import ftl.run.common.updateMatrixFile
 import ftl.util.StopWatch
+import ftl.util.formatted
 import ftl.util.isInvalid
 import ftl.util.webLink
 import kotlinx.coroutines.Dispatchers
@@ -33,10 +35,11 @@ internal suspend fun IArgs.afterRunTests(
     saveConfigFile(matrixMap)
     saveSessionId()
     uploadSessionId()
-    logLn(FtlConstants.indent + "${matrixMap.map.size} matrix ids created in ${stopwatch.check()}")
+    logLn(FtlConstants.indent + "${matrixMap.map.size} matrix ids created in ${stopwatch.check().formatted()}")
     val gcsBucket = GCS_STORAGE_LINK + resultsBucket + "/" + matrixMap.runPath
     logLn("${FtlConstants.indent}Raw results will be stored in your GCS bucket at [$gcsBucket]")
     matrixMap.printMatricesWebLinks(project)
+    addStepTime("Running tests", stopwatch.check())
 }
 
 private fun List<TestMatrix>.toSavedMatrixMap() =

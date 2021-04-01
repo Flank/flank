@@ -5,6 +5,7 @@ import ftl.json.SavedMatrix
 import ftl.reports.output.add
 import ftl.reports.output.generate
 import ftl.reports.output.outputReport
+import ftl.reports.printTotalDuration
 import ftl.run.cancelMatrices
 import ftl.util.closeCrashReporter
 import ftl.util.report
@@ -15,6 +16,7 @@ fun withGlobalExceptionHandling(block: () -> Int) {
     withGlobalExceptionHandling(block) {
         closeCrashReporter()
         outputReport.generate()
+        printTotalDuration()
         exitProcess(it)
     }
 }
