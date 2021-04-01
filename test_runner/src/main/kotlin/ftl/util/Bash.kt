@@ -21,7 +21,7 @@ object Bash {
             if (additionalPath.isNotEmpty()) {
                 val envs: MutableMap<String, String> = it.environment()
                 additionalPath.forEach { extra ->
-                    envs[extra.component1()] = extra.component2()
+                    envs[extra.first] = extra.second
                 }
             }
         }.redirectOutput(PIPE).redirectError(PIPE).start()
