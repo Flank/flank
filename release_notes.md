@@ -1,3 +1,33 @@
+## v21.04.0
+### Bug Fixes
+- [#1761](https://github.com/Flank/flank/pull/1761) Removed mandatory GitHub token on artifacts downloading ([adamfilipow92](https://github.com/adamfilipow92))
+- [#1732](https://github.com/Flank/flank/pull/1732) Follow up refactor fix ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1725](https://github.com/Flank/flank/pull/1725) Ix cli class diagram link ()
+- [#1694](https://github.com/Flank/flank/pull/1694) Output path to local results github action ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1693](https://github.com/Flank/flank/pull/1693) White space in Github action ([piotradamczyk5](https://github.com/piotradamczyk5))
+### Documentation
+- [#1735](https://github.com/Flank/flank/pull/1735) Add base pages for flank layers ([jan-gogo](https://github.com/jan-gogo))
+- [#1714](https://github.com/Flank/flank/pull/1714) Flutter support ([jan-gogo](https://github.com/jan-gogo), [adamfilipow92](https://github.com/adamfilipow92))
+- [#1733](https://github.com/Flank/flank/pull/1733) Add flank component diagram ([jan-gogo](https://github.com/jan-gogo))
+- [#1707](https://github.com/Flank/flank/pull/1707) Add cli class diagram ([jan-gogo](https://github.com/jan-gogo))
+- [#1709](https://github.com/Flank/flank/pull/1709) Desktop POC SDD ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1701](https://github.com/Flank/flank/pull/1701) Create Github marketplace documentation for Flank action ([piotradamczyk5](https://github.com/piotradamczyk5))
+### Refactor
+- [#1741](https://github.com/Flank/flank/pull/1741) Rename cli package ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1588](https://github.com/Flank/flank/pull/1588) Investigate and create proposal ([pawelpasterz](https://github.com/pawelpasterz), [jan-gogo](https://github.com/jan-gogo))
+- [#1718](https://github.com/Flank/flank/pull/1718) Extract logic from cli to domain ([jan-gogo](https://github.com/jan-gogo))
+- [#1724](https://github.com/Flank/flank/pull/1724) Separate main function from MainCommand ([jan-gogo](https://github.com/jan-gogo))
+- [#1696](https://github.com/Flank/flank/pull/1696) Clean up dependencies ([pawelpasterz](https://github.com/pawelpasterz))
+### Tests update
+- [#1737](https://github.com/Flank/flank/pull/1737) Add IT for large shard test suite ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1730](https://github.com/Flank/flank/pull/1730) Added app with many tests ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1719](https://github.com/Flank/flank/pull/1719) Improve integration tests ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+### Features
+- [#1717](https://github.com/Flank/flank/pull/1717) Windows Updates For Integration Tests ([Sloox](https://github.com/Sloox))
+- [#1715](https://github.com/Flank/flank/pull/1715) Add option to skip config validation ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1704](https://github.com/Flank/flank/pull/1704) Add app name to the test result ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1711](https://github.com/Flank/flank/pull/1711) Add support for emulator devices ([pawelpasterz](https://github.com/pawelpasterz))
+
 ## v21.03.1
 ### Bug Fixes
 - [#1680](https://github.com/Flank/flank/pull/1680) Fix output report error with dump shards ([pawelpasterz](https://github.com/pawelpasterz))
