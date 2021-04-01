@@ -10,9 +10,10 @@ class TestArtifactsRepoTest {
 
     @Test
     fun `should not throw when gh token not set`() {
-        mockkStatic(::getEnv)
-        every { getEnv(any(), any()) } returns ""
-        testArtifactsRepo().getRelease("master")
-            ?.body()?.toLong()
+        mockkStatic(::getEnv) {
+            every { getEnv(any(), any()) } returns ""
+            testArtifactsRepo().getRelease("master")
+                ?.body()?.toLong()
+        }
     }
 }
