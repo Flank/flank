@@ -32,7 +32,7 @@ private fun shouldDownloadBinaries(): Boolean {
 }
 
 private fun neededFilesListByOs(): List<String> = if (isWindows) {
-    listOf("libatomic.so.1", "libatomic.so.1.2.0", "nm.exe", "swift-demangle.exe", "swiftDemangle.dll")
+    listOf("libatomic.so.1", "libatomic.so.1.2.0", "nm.exe", "swift-demangle.exe", "swiftDemangle.dll", "xargs.cmd")
 } else {
     listOf("nm", "swift-demangle", "libatomic.so.1", "libatomic.so.1.2.0")
 }
