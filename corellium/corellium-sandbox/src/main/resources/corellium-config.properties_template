@@ -21,4 +21,7 @@ udid=
 osbuild=
 flavor=iphone7
 os=13.0
+screen=
+apk_path=./corellium/corellium-sandbox/src/main/resources/android/app-debug.apk
+test_apk_path=./corellium/corellium-sandbox/src/main/resources/android/app-multiple-success-debug-androidTest.apk
 

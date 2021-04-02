@@ -7,7 +7,7 @@ plugins {
 }
 
 application {
-    mainClassName = "flank.corellium.sandbox.ExampleCorelliumRun"
+    mainClassName = "flank.corellium.sandbox.ios.ExampleCorelliumRun"
 }
 
 repositories {
@@ -26,7 +26,28 @@ dependencies {
 val runExampleScript by tasks.registering(JavaExec::class) {
     dependsOn(tasks.build)
     classpath = sourceSets["main"].runtimeClasspath
-    main = "flank.corellium.sandbox.ExampleCorelliumRun"
+    main = "flank.corellium.sandbox.ios.ExampleCorelliumRun"
+}
+
+val androidExampleJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("all")
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    archiveBaseName.set("android-example")
+    manifest {
+        attributes("Main-Class" to "flank.corellium.sandbox.android.AndroidExample")
+    }
+    from(
+        configurations.runtimeClasspath
+            .get()
+            .map { if (it.isDirectory) it else zipTree(it) }
+    )
+    from(sourceSets.main.get().output)
+}
+
+val runAndroidExample by tasks.registering(Exec::class) {
+    dependsOn(androidExampleJar)
+    workingDir = project.rootDir
+    commandLine("java", "-jar", "./corellium/corellium-sandbox/build/libs/android-example-all.jar")
 }
 
 file("./src/main/resources/corellium-config.properties").also { propFile ->

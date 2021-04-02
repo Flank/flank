@@ -37,4 +37,10 @@ object Config {
     val flavor = getProp("flavor")
 
     val os = getProp("os")
+
+    val screen = getProp("screen")
+
+    val apkPath = getProp("apk_path")
+
+    val testApkPath = getProp("test_apk_path")
 }

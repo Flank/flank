@@ -1,5 +1,5 @@
 @file:JvmName("ExampleCorelliumRun")
-package flank.corellium.sandbox
+package flank.corellium.sandbox.ios
 
 import flank.corellium.client.Corellium
 import flank.corellium.client.data.BootOptions
