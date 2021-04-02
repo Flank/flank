@@ -2,6 +2,7 @@ package ftl.cli.auth
 
 import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
+import ftl.presentation.cli.auth.LoginCommand
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
@@ -21,7 +22,7 @@ class LoginCommandTest {
 
     @Test
     fun cancelCommandPrintsHelp() {
-        val command = ftl.presentation.cli.auth.LoginCommand()
+        val command = LoginCommand()
         assertThat(command.usageHelpRequested).isFalse()
         CommandLine(command).execute("-h")
 
@@ -39,12 +40,12 @@ login [-h]
 
     @Test
     fun commandRuns() {
-        ftl.presentation.cli.auth.LoginCommand().run()
+        LoginCommand().run()
     }
 
     @Test
     fun cancelCommandOptions() {
-        val cmd = ftl.presentation.cli.auth.LoginCommand()
+        val cmd = LoginCommand()
         assertThat(cmd.usageHelpRequested).isFalse()
         cmd.usageHelpRequested = true
         assertThat(cmd.usageHelpRequested).isTrue()

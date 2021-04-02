@@ -40,7 +40,7 @@ class MainTest {
     private fun runCommand(vararg args: String): String {
         systemErrRule.clearLog()
         systemOutRule.clearLog()
-        CommandLine(ftl.presentation.cli.MainCommand()).execute(*args)
+        CommandLine(MainCommand()).execute(*args)
         return systemOutRule.log.normalizeLineEnding() + systemErrRule.log.normalizeLineEnding()
     }
 

@@ -1,5 +1,6 @@
 package ftl.presentation.cli
 
+import ftl.presentation.cli.auth.LoginCommand
 import ftl.util.PrintHelp
 import picocli.CommandLine.Command
 
@@ -8,7 +9,7 @@ import picocli.CommandLine.Command
     synopsisHeading = "%n",
     header = ["Manage oauth2 credentials for Google Cloud"],
     subcommands = [
-        ftl.presentation.cli.auth.LoginCommand::class
+        LoginCommand::class
     ],
     usageHelpAutoWidth = true
 )

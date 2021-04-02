@@ -2,6 +2,7 @@ package ftl.cli
 
 import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
+import ftl.presentation.cli.FirebaseCommand
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
@@ -16,7 +17,7 @@ class FirebaseCommandTest {
 
     @Test
     fun firebaseCommandPrintsHelp() {
-        ftl.presentation.cli.FirebaseCommand().run()
+        FirebaseCommand().run()
         val output = systemOutRule.log.normalizeLineEnding()
         assertThat(output).startsWith(
             "firebase [COMMAND]\n" +

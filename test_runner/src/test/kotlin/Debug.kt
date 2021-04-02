@@ -18,7 +18,7 @@ fun main() {
         ?: "YOUR PROJECT ID"
 
     withGlobalExceptionHandling {
-        CommandLine(ftl.presentation.cli.MainCommand()).execute(
+        CommandLine(MainCommand()).execute(
 //            "--debug",
             "firebase",
             "test",

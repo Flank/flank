@@ -2,6 +2,7 @@ package ftl.cli
 
 import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
+import ftl.presentation.cli.AuthCommand
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
@@ -16,7 +17,7 @@ class AuthCommandTest {
 
     @Test
     fun firebaseCommandPrintsHelp() {
-        ftl.presentation.cli.AuthCommand().run()
+        AuthCommand().run()
         val output = systemOutRule.log.normalizeLineEnding()
         assertThat(output).startsWith(
             "Manage oauth2 credentials for Google Cloud\n\n" +

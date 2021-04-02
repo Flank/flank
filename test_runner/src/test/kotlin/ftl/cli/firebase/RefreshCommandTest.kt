@@ -2,6 +2,7 @@ package ftl.cli.firebase
 
 import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
+import ftl.presentation.cli.firebase.RefreshCommand
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
@@ -64,7 +65,7 @@ class RefreshCommandTest {
 
     @Test
     fun refreshCommandPrintsHelp() {
-        val refresh = ftl.presentation.cli.firebase.RefreshCommand()
+        val refresh = RefreshCommand()
         assertThat(refresh.usageHelpRequested).isFalse()
         CommandLine(refresh).execute("-h")
 
@@ -91,7 +92,7 @@ class RefreshCommandTest {
     fun refreshCommandRuns() {
         // TODO: ':' is an illegal character on windows
         setupResultsDir()
-        val cmd = ftl.presentation.cli.firebase.RefreshCommand()
+        val cmd = RefreshCommand()
         cmd.usageHelpRequested
         cmd.run()
         val output = systemOutRule.log
@@ -100,7 +101,7 @@ class RefreshCommandTest {
 
     @Test
     fun refreshCommandOptions() {
-        val cmd = ftl.presentation.cli.firebase.RefreshCommand()
+        val cmd = RefreshCommand()
         assertThat(cmd.usageHelpRequested).isFalse()
         cmd.usageHelpRequested = true
         assertThat(cmd.usageHelpRequested).isTrue()
