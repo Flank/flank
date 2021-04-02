@@ -24,10 +24,15 @@ fun addStepTime(name: String, duration: Duration) {
 }
 
 fun printTotalDuration() {
-
     logLn(level = OutputLogLevel.DETAILED)
-    logLn("Total run duration: ${totalDurationStopWatch.check().formatted(alignSeconds = true)}", level = OutputLogLevel.DETAILED)
+    logLn(
+        "Total run duration: ${totalDurationStopWatch.check().formatted(alignSeconds = true)}",
+        level = OutputLogLevel.DETAILED
+    )
     stepsTimes.forEach { stepRunDuration ->
-        logLn("\t- ${stepRunDuration.name}: ${stepRunDuration.duration.formatted()}", level = OutputLogLevel.DETAILED)
+        logLn(
+            "\t- ${stepRunDuration.name}: ${stepRunDuration.duration.formatted()}",
+            level = OutputLogLevel.DETAILED
+        )
     }
 }

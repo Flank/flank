@@ -49,6 +49,7 @@ import java.io.File
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.system.exitProcess
 
 private const val VERIFICATION_FILE = "./should_exists.txt"
 private const val VERIFICATION_MESSAGE = "Killing thread intentionally"
@@ -336,7 +337,10 @@ class UtilsTest {
         fun main(args: Array<String>) {
             FtlConstants.useMock = true
             System.setProperty("runningTests", "true")
-            withGlobalExceptionHandling { CommandLine(Malicious()).execute(*args) }
+            withGlobalExceptionHandling(
+                block = { CommandLine(Malicious()).execute(*args) },
+                exitProcessFunction = { exitProcess(it) }
+            )
         }
     }
 

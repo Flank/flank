@@ -362,4 +362,3 @@ tasks.test {
     minHeapSize = "512m"
     dependsOn(resolveArtifacts)
 }
-val compileKotlin: KotlinCompile by tasks
