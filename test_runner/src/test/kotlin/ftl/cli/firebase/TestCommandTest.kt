@@ -16,7 +16,7 @@ class TestCommandTest {
 
     @Test
     fun testCommandPrintsHelp() {
-        TestCommand().run()
+        ftl.presentation.cli.firebase.TestCommand().run()
         val output = systemOutRule.log.normalizeLineEnding()
         assertThat(output).startsWith(
             "test [COMMAND]\n" +

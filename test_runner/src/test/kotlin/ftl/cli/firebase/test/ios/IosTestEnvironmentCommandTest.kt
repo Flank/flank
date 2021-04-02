@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.ios
 
 import com.google.common.truth.Truth
+import ftl.presentation.cli.firebase.test.ios.IosTestEnvironmentCommand
 import org.junit.Test
 import picocli.CommandLine
 

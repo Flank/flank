@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.ios.versions
 
 import ftl.ios.IosCatalog
+import ftl.presentation.cli.firebase.test.ios.versions.IosVersionsDescribeCommand
 import ftl.run.exception.FlankConfigurationError
 import ftl.test.util.TestHelper.getThrowable
 import io.mockk.mockkObject

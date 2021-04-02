@@ -21,7 +21,7 @@ class LoginCommandTest {
 
     @Test
     fun cancelCommandPrintsHelp() {
-        val command = LoginCommand()
+        val command = ftl.presentation.cli.auth.LoginCommand()
         assertThat(command.usageHelpRequested).isFalse()
         CommandLine(command).execute("-h")
 
@@ -39,12 +39,12 @@ login [-h]
 
     @Test
     fun commandRuns() {
-        LoginCommand().run()
+        ftl.presentation.cli.auth.LoginCommand().run()
     }
 
     @Test
     fun cancelCommandOptions() {
-        val cmd = LoginCommand()
+        val cmd = ftl.presentation.cli.auth.LoginCommand()
         assertThat(cmd.usageHelpRequested).isFalse()
         cmd.usageHelpRequested = true
         assertThat(cmd.usageHelpRequested).isTrue()

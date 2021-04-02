@@ -3,6 +3,7 @@ package ftl.cli.firebase.test.networkprofiles
 import com.google.testing.model.NetworkConfiguration
 import com.google.testing.model.TrafficRule
 import ftl.environment.getNetworkConfiguration
+import ftl.presentation.cli.firebase.test.networkprofiles.NetworkProfilesDescribeCommand
 import ftl.run.exception.FlankConfigurationError
 import ftl.test.util.assertThrowsWithMessage
 import ftl.test.util.runMainCommand

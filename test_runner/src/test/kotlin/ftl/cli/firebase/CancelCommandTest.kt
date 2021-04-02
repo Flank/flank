@@ -2,7 +2,7 @@ package ftl.cli.firebase
 
 import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
-import ftl.cli.firebase.test.android.AndroidRunCommand
+import ftl.presentation.cli.firebase.test.android.AndroidRunCommand
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
@@ -18,7 +18,7 @@ class CancelCommandTest {
 
     @Test
     fun cancelCommandPrintsHelp() {
-        val command = CancelCommand()
+        val command = ftl.presentation.cli.firebase.CancelCommand()
         assertThat(command.usageHelpRequested).isFalse()
         CommandLine(command).execute("-h")
 
@@ -46,14 +46,14 @@ class CancelCommandTest {
         val runCmd = AndroidRunCommand()
         runCmd.configPath = "./src/test/kotlin/ftl/fixtures/simple-android-flank.yml"
         runCmd.run()
-        CancelCommand().run()
+        ftl.presentation.cli.firebase.CancelCommand().run()
         val output = systemOutRule.log
         assertThat(output).contains("No matrices to cancel")
     }
 
     @Test
     fun cancelCommandOptions() {
-        val cmd = CancelCommand()
+        val cmd = ftl.presentation.cli.firebase.CancelCommand()
         assertThat(cmd.usageHelpRequested).isFalse()
         cmd.usageHelpRequested = true
         assertThat(cmd.usageHelpRequested).isTrue()

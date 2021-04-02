@@ -2,7 +2,6 @@ package ftl.args
 
 import com.google.common.annotations.VisibleForTesting
 import ftl.args.yml.mergeYmlKeys
-import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.config.common.CommonFlankConfig
 import ftl.config.common.CommonGcloudConfig
 import ftl.config.defaultIosConfig
@@ -10,6 +9,7 @@ import ftl.config.ios.IosFlankConfig
 import ftl.config.ios.IosGcloudConfig
 import ftl.config.loadIosConfig
 import ftl.config.plus
+import ftl.presentation.cli.firebase.test.ios.IosRunCommand
 import ftl.util.loadFile
 import java.io.Reader
 import java.nio.file.Files

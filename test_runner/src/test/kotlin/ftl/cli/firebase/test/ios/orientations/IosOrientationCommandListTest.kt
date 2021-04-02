@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.ios.orientations
 
 import ftl.ios.IosCatalog
+import ftl.presentation.cli.firebase.test.ios.orientations.IosOrientationsListCommand
 import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.Assert.assertEquals

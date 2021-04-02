@@ -16,7 +16,7 @@ class AuthCommandTest {
 
     @Test
     fun firebaseCommandPrintsHelp() {
-        AuthCommand().run()
+        ftl.presentation.cli.AuthCommand().run()
         val output = systemOutRule.log.normalizeLineEnding()
         assertThat(output).startsWith(
             "Manage oauth2 credentials for Google Cloud\n\n" +

@@ -2,7 +2,7 @@ package ftl
 
 import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
-import ftl.cli.MainCommand
+import ftl.presentation.cli.MainCommand
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
@@ -40,7 +40,7 @@ class MainTest {
     private fun runCommand(vararg args: String): String {
         systemErrRule.clearLog()
         systemOutRule.clearLog()
-        CommandLine(MainCommand()).execute(*args)
+        CommandLine(ftl.presentation.cli.MainCommand()).execute(*args)
         return systemOutRule.log.normalizeLineEnding() + systemErrRule.log.normalizeLineEnding()
     }
 

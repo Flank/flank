@@ -2,13 +2,13 @@ package ftl.args
 
 import com.google.common.truth.Truth.assertThat
 import flank.common.isWindows
-import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.config.Device
 import ftl.config.FtlConstants.defaultIosModel
 import ftl.config.FtlConstants.defaultIosVersion
 import ftl.config.defaultIosConfig
 import ftl.gc.GcStorage
 import ftl.ios.xctest.flattenShardChunks
+import ftl.presentation.cli.firebase.test.ios.IosRunCommand
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.status.OutputStyle
 import ftl.test.util.FlankTestRunner

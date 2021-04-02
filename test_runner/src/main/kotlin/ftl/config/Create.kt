@@ -1,13 +1,13 @@
 package ftl.config
 
-import ftl.cli.firebase.test.android.AndroidRunCommand
-import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.config.android.AndroidFlankConfig
 import ftl.config.android.AndroidGcloudConfig
 import ftl.config.common.CommonFlankConfig
 import ftl.config.common.CommonGcloudConfig
 import ftl.config.ios.IosFlankConfig
 import ftl.config.ios.IosGcloudConfig
+import ftl.presentation.cli.firebase.test.android.AndroidRunCommand
+import ftl.presentation.cli.firebase.test.ios.IosRunCommand
 import kotlin.properties.ReadOnlyProperty
 
 fun defaultAndroidConfig() = AndroidConfig(

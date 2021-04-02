@@ -2,6 +2,7 @@ package ftl.cli.firebase.test.android.locales
 
 import com.google.common.truth.Truth.assertThat
 import ftl.android.AndroidCatalog
+import ftl.presentation.cli.firebase.test.android.locales.AndroidLocalesListCommand
 import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.Test

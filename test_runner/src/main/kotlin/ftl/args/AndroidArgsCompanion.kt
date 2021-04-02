@@ -2,7 +2,6 @@ package ftl.args
 
 import com.google.common.annotations.VisibleForTesting
 import ftl.args.yml.mergeYmlKeys
-import ftl.cli.firebase.test.android.AndroidRunCommand
 import ftl.config.android.AndroidFlankConfig
 import ftl.config.android.AndroidGcloudConfig
 import ftl.config.common.CommonFlankConfig
@@ -10,6 +9,7 @@ import ftl.config.common.CommonGcloudConfig
 import ftl.config.defaultAndroidConfig
 import ftl.config.loadAndroidConfig
 import ftl.config.plus
+import ftl.presentation.cli.firebase.test.android.AndroidRunCommand
 import ftl.util.loadFile
 import java.io.Reader
 import java.nio.file.Files

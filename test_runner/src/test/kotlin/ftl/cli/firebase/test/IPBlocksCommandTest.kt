@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test
 
 import ftl.doctor.assertEqualsIgnoreNewlineStyle
+import ftl.presentation.cli.firebase.test.IPBlocksCommand
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule

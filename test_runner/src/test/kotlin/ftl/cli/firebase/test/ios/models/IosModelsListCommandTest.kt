@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.ios.models
 
 import com.google.common.truth.Truth.assertThat
+import ftl.presentation.cli.firebase.test.ios.models.IosModelsListCommand
 import org.junit.Test
 import picocli.CommandLine
 

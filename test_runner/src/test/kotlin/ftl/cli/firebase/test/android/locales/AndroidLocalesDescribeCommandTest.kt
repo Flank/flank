@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test.android.locales
 
 import ftl.android.AndroidCatalog
+import ftl.presentation.cli.firebase.test.android.locales.AndroidLocalesDescribeCommand
 import ftl.run.exception.FlankConfigurationError
 import ftl.test.util.TestHelper.getThrowable
 import io.mockk.mockkObject

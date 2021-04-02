@@ -1,6 +1,6 @@
 package ftl
 
-import ftl.cli.MainCommand
+import ftl.presentation.cli.MainCommand
 import ftl.run.exception.withGlobalExceptionHandling
 import picocli.CommandLine
 

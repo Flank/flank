@@ -2,7 +2,7 @@
 
 package ftl.test.util
 
-import ftl.cli.MainCommand
+import ftl.presentation.cli.MainCommand
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
@@ -66,4 +66,4 @@ internal fun <T : Throwable> assertThrowsWithMessage(clazz: KClass<T>, message: 
     assertThrows(clazz.java) { block() }.also { assertTrue(it.message?.contains(message) ?: false) }
 }
 
-internal fun runMainCommand(vararg args: String) = CommandLine(MainCommand()).execute(*args)
+internal fun runMainCommand(vararg args: String) = CommandLine(ftl.presentation.cli.MainCommand()).execute(*args)

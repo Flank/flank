@@ -5,6 +5,7 @@ import flank.common.normalizeLineEnding
 import ftl.cli.firebase.test.INVALID_YML_PATH
 import ftl.cli.firebase.test.SUCCESS_VALIDATION_MESSAGE
 import ftl.config.FtlConstants
+import ftl.presentation.cli.firebase.test.ios.IosDoctorCommand
 import ftl.run.exception.YmlValidationError
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule

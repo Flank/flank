@@ -64,7 +64,7 @@ class RefreshCommandTest {
 
     @Test
     fun refreshCommandPrintsHelp() {
-        val refresh = RefreshCommand()
+        val refresh = ftl.presentation.cli.firebase.RefreshCommand()
         assertThat(refresh.usageHelpRequested).isFalse()
         CommandLine(refresh).execute("-h")
 
@@ -91,7 +91,7 @@ class RefreshCommandTest {
     fun refreshCommandRuns() {
         // TODO: ':' is an illegal character on windows
         setupResultsDir()
-        val cmd = RefreshCommand()
+        val cmd = ftl.presentation.cli.firebase.RefreshCommand()
         cmd.usageHelpRequested
         cmd.run()
         val output = systemOutRule.log
@@ -100,7 +100,7 @@ class RefreshCommandTest {
 
     @Test
     fun refreshCommandOptions() {
-        val cmd = RefreshCommand()
+        val cmd = ftl.presentation.cli.firebase.RefreshCommand()
         assertThat(cmd.usageHelpRequested).isFalse()
         cmd.usageHelpRequested = true
         assertThat(cmd.usageHelpRequested).isTrue()

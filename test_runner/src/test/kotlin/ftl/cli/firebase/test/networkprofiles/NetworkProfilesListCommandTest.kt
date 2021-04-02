@@ -2,6 +2,7 @@ package ftl.cli.firebase.test.networkprofiles
 
 import ftl.environment.networkConfigurationAsTable
 import ftl.gc.GcTesting
+import ftl.presentation.cli.firebase.test.networkprofiles.NetworkProfilesListCommand
 import io.mockk.every
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
