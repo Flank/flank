@@ -32,7 +32,7 @@ object Versions {
     const val PICOCLI = "4.6.1"
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
-    const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20201029-1.30.10"
+    const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20210325-1.31.0"
 
     // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
     const val GOOGLE_API = "1.31.3"
@@ -61,7 +61,7 @@ object Versions {
     const val JSOUP = "1.13.1"
 
     // https://github.com/ktorio/ktor/releases
-    const val KTOR = "1.5.2"
+    const val KTOR = "1.5.3"
 
     // https://github.com/qos-ch/logback/releases
     const val LOGBACK = "1.2.3"
