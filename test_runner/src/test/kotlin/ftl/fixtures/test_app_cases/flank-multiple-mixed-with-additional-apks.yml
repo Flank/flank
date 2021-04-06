@@ -1,0 +1,18 @@
+gcloud:
+  app: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk
+  robo-script: ./src/test/kotlin/ftl/fixtures/tmp/apk/MainActivity_robo_script.json
+  num-flaky-test-attempts: 2
+  environment-variables:
+    coverage: true
+    coverageFilePath: /sdcard/
+    clearPackageData: true
+flank:
+  disable-sharding: false
+  max-test-shards: 2
+  num-test-runs: 1
+  additional-app-test-apks:
+    - test: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-single-success-debug-androidTest.apk
+    - test: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-flaky-debug-androidTest.apk
+    - test: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-success-debug-androidTest.apk
+    - test: ../test_projects/android/apks/invalid.apk
+  custom-sharding-json: {{PLACEHOLDER}}

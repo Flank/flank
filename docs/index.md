@@ -344,6 +344,18 @@ flank:
  ## Saves output results as parsable file and optionally upload it to Gcloud..
  ## Default: none
  # output-report: none
+
+ ### Disable config validation (for both, yml and command line)
+ ## If true, Flank won't validate options provided by the user. In general, it's not a good idea but,
+ ## there are cases when this could be useful for a user
+ ## (example: project can use devices that are not commonly available, the project has higher sharding limits, etc).
+ ## Default: false
+ # skip-config-validation: false
+
+ ### Path to the custom sharding JSON file
+ ## Flank will apply provided sharding to the configuration.
+ ## For detailed explanation please check https://github.com/Flank/flank/blob/master/docs/feature/1665-custom-sharding.md
+ # custom-sharding-json: ./custom_sharding.json
 ```
 
 ### Android example
@@ -700,6 +712,18 @@ flank:
   ## Saves output results as parsable file and optionally upload it to Gcloud. Possible values are [none, json].
   ## Default: none
   # output-report: none
+
+ ### Disable config validation (for both, yml and command line)
+ ## If true, Flank won't validate options provided by the user. In general, it's not a good idea but,
+ ## there are cases when this could be useful for a user
+ ## (example: project can use devices that are not commonly available, the project has higher sharding limits, etc).
+ ## Default: false
+ # skip-config-validation: false
+
+ ### Path to the custom sharding JSON file
+ ## Flank will apply provided sharding to the configuration.
+ ## For detailed explanation please check https://github.com/Flank/flank/blob/master/docs/feature/1665-custom-sharding.md
+ # custom-sharding-json: ./custom_sharding.json
 ```
 
 ## Android code coverage

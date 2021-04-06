@@ -5,7 +5,7 @@ import ftl.util.FlankTestMethod
 
 data class TestMethod(
     val name: String,
-    val time: Double,
+    val time: Double = 0.0,
     val isParameterized: Boolean = false
 )
 

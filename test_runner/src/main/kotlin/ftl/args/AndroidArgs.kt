@@ -1,9 +1,11 @@
 package ftl.args
 
 import ftl.analytics.AnonymizeInStatistics
+import ftl.analytics.IgnoreInStatistics
 import ftl.args.yml.AppTestPair
 import ftl.args.yml.Type
 import ftl.run.ANDROID_SHARD_FILE
+import ftl.run.model.AndroidTestShards
 import java.nio.file.Paths
 
 data class AndroidArgs(
@@ -54,7 +56,10 @@ data class AndroidArgs(
     val obfuscateDumpShards: Boolean,
 
     @property:AnonymizeInStatistics
-    val testTargetsForShard: ShardChunks
+    val testTargetsForShard: ShardChunks,
+
+    @property:IgnoreInStatistics
+    val customSharding: Map<String, AndroidTestShards>
 ) : IArgs by commonArgs {
     companion object : AndroidArgsCompanion()
 
@@ -121,6 +126,7 @@ AndroidArgs
       disable-usage-statistics: $disableUsageStatistics
       output-report: $outputReportType
       skip-config-validation: $skipConfigValidation
+      custom-sharding-json: $customShardingJson
         """.trimIndent()
     }
 }

@@ -199,6 +199,16 @@ data class CommonFlankConfig @JsonIgnore constructor(
     @set:JsonProperty("skip-config-validation")
     var skipConfigValidation: Boolean? by data
 
+    @set:CommandLine.Option(
+        names = ["--custom-sharding-json"],
+        description = [
+            "Path to custom sharding JSON file. Flank will apply provided sharding to the configuration.",
+            "More info https://github.com/Flank/flank/blob/master/docs/feature/1665-custom-sharding.md"
+        ]
+    )
+    @set:JsonProperty("custom-sharding-json")
+    var customShardingJson: String? by data
+
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {
@@ -234,6 +244,7 @@ data class CommonFlankConfig @JsonIgnore constructor(
             disableUsageStatistics = false
             outputReport = OutputReportType.NONE.name
             skipConfigValidation = false
+            customShardingJson = ""
         }
     }
 }

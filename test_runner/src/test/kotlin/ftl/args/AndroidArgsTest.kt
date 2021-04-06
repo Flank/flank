@@ -381,6 +381,7 @@ AndroidArgs
       disable-usage-statistics: false
       output-report: json
       skip-config-validation: false
+      custom-sharding-json: 
             """.trimIndent()
         )
     }
@@ -455,6 +456,7 @@ AndroidArgs
       disable-usage-statistics: false
       output-report: json
       skip-config-validation: false
+      custom-sharding-json: 
             """.trimIndent(),
             args.toString()
         )

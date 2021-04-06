@@ -18,14 +18,18 @@ import ftl.config.FtlConstants
 import ftl.filter.TestFilter
 import ftl.filter.TestFilters
 import ftl.run.model.AndroidTestContext
+import ftl.run.model.AndroidTestShards
 import ftl.run.model.InstrumentationTestContext
+import ftl.shard.Chunk
 import ftl.shard.createShardsByTestForShards
+import ftl.util.FileReference
 import ftl.util.FlankTestMethod
 import ftl.util.downloadIfNeeded
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import java.io.File
+import ftl.shard.TestMethod as ShardTestMethod
 
 suspend fun AndroidArgs.createAndroidTestContexts(): List<AndroidTestContext> = resolveApks().setupShards(this)
 
@@ -37,7 +41,8 @@ private suspend fun List<AndroidTestContext>.setupShards(
         async {
             when {
                 testContext !is InstrumentationTestContext -> testContext
-                args.testTargetsForShard.isNotEmpty() ->
+                args.useCustomSharding -> testContext.userShards(args.customSharding)
+                args.useTestTargetsForShard ->
                     testContext.downloadApks()
                         .calculateDummyShards(args, testFilter)
                 else -> testContext.downloadApks().calculateShards(args, testFilter)
@@ -45,6 +50,26 @@ private suspend fun List<AndroidTestContext>.setupShards(
         }
     }.awaitAll().dropEmptyInstrumentationTest()
 }
+
+private fun InstrumentationTestContext.userShards(customShardingMap: Map<String, AndroidTestShards>) = customShardingMap
+    .values
+    .firstOrNull { app.hasReference(it.app) && test.hasReference(it.test) }
+    ?.let { customSharding ->
+        copy(
+            shards = customSharding.shards
+                .map { methods -> Chunk(methods.value.map(::ShardTestMethod)) },
+            ignoredTestCases = customSharding.junitIgnored
+        )
+    }
+    ?: this
+
+private fun FileReference.hasReference(path: String) = local == path || gcs == path
+
+private val AndroidArgs.useCustomSharding: Boolean
+    get() = customSharding.isNotEmpty()
+
+private val AndroidArgs.useTestTargetsForShard: Boolean
+    get() = testTargetsForShard.isNotEmpty()
 
 private fun InstrumentationTestContext.downloadApks(): InstrumentationTestContext = copy(
     app = app.downloadIfNeeded(),

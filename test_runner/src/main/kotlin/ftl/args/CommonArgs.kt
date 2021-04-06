@@ -48,4 +48,5 @@ data class CommonArgs(
     override val disableUsageStatistics: Boolean,
     override val outputReportType: OutputReportType,
     override val skipConfigValidation: Boolean,
+    override val customShardingJson: String
 ) : IArgs

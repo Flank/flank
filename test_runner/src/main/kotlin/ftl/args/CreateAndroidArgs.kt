@@ -4,7 +4,10 @@ import ftl.args.yml.AppTestPair
 import ftl.config.AndroidConfig
 import ftl.config.android.AndroidFlankConfig
 import ftl.config.android.AndroidGcloudConfig
+import ftl.run.common.fromJson
+import ftl.run.model.AndroidTestShards
 import ftl.util.require
+import java.nio.file.Paths
 
 fun createAndroidArgs(
     config: AndroidConfig? = null,
@@ -42,5 +45,20 @@ fun createAndroidArgs(
     obbFiles = gcloud::obbfiles.require(),
     obbNames = gcloud::obbnames.require(),
     grantPermissions = gcloud.grantPermissions,
-    testTargetsForShard = gcloud.testTargetsForShard?.normalizeToTestTargets().orEmpty()
+    testTargetsForShard = gcloud.testTargetsForShard?.normalizeToTestTargets().orEmpty(),
+    customSharding = createCustomShards(commonArgs.customShardingJson)
 )
+
+private fun createCustomShards(shardingJsonPath: String) =
+    if (shardingJsonPath.isBlank()) emptyMap()
+    else fromJson<Map<String, AndroidTestShards>>(
+        Paths.get(shardingJsonPath).toFile().readText()
+    ).normalizeShardPaths()
+
+private fun Map<String, AndroidTestShards>.normalizeShardPaths() =
+    mapValues { (_, shards) ->
+        shards.copy(
+            app = shards.app.normalizeFilePath(),
+            test = shards.test.normalizeFilePath()
+        )
+    }
