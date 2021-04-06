@@ -64,17 +64,14 @@ private fun IosArgs.useCustomShardingV1(dictionary: NSDictionary) =
 private fun IosArgs.useCustomShardingV2(dictionary: NSDictionary) =
     customShardingJson.isNotBlank() && dictionary.getXcTestRunVersion() == V2
 
-private fun IosArgs.shardsFromV1() =
-    createCustomSharding<List<XctestrunMethods>>(commonArgs.customShardingJson)
+private fun IosArgs.shardsFromV1() = mapOf(
+    "" to createCustomSharding<List<XctestrunMethods>>(commonArgs.customShardingJson)
         .run {
-            mapOf(
-                "" to run {
-                    map { xcMethods ->
-                        Chunk(xcMethods.values.flatMap { it.map(::TestMethod) })
-                    } to this
-                }
-            )
+            map { xcMethods ->
+                Chunk(xcMethods.values.flatMap { it.map(::TestMethod) })
+            } to this
         }
+)
 
 private fun IosArgs.shardsFromV2() =
     createCustomSharding<Map<String, List<XctestrunMethods>>>(commonArgs.customShardingJson)
