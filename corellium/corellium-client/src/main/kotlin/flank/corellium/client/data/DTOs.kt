@@ -100,3 +100,8 @@ data class CommandError(
     val name: String = "",
     val message: String = "",
 )
+
+@Serializable
+data class ConsoleSocket(
+    val url: String
+)

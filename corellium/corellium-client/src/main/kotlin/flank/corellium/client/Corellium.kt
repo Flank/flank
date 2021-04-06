@@ -1,5 +1,6 @@
 package flank.corellium.client
 
+import flank.corellium.client.data.ConsoleSocket
 import flank.corellium.client.data.Credentials
 import flank.corellium.client.data.Id
 import flank.corellium.client.data.Instance
@@ -155,5 +156,13 @@ class Corellium(
         }
         val fileName = if (type == VPN.TBLK) "tblk.zip" else "config.ovpn"
         response.content.copyAndClose(File(fileName).writeChannel())
+    }
+
+    suspend fun getInstanceConsole(instanceId: String) = withRetry {
+        val url = client.get<ConsoleSocket> {
+            url("$urlBase/instances/$instanceId/console")
+            header("Authorization", token)
+        }.url
+        Console(url, token)
     }
 }

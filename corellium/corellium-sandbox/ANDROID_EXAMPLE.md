@@ -2,6 +2,8 @@
 
 ## Flank test run with Corellium instances (Android)
 
+script: [AndroidExample.kt](./src/main/kotlin/flank/corellium/sandbox/android/AndroidExample.kt)
+
 ### 1. ADB + credentials
 
 Ensure you have `adb` installed and added to the `PATH`.
@@ -83,3 +85,39 @@ Cleaning up...
 Success
 Success
 ```
+
+## Flank test run with Corellium instances (Android) -- no VPN and adb
+
+script: [AndroidExample.kt](./src/main/kotlin/flank/corellium/sandbox/android/AndroidExampleNoVPN.kt)
+
+### 1. ADB + credentials
+
+Ensure you have `adb` installed and added to the `PATH`.
+
+Add credentials to the [properties file](./src/main/resources/corellium-config.properties) (if properties file is missing, please run `./gradlew tasks` - it will create it automatically), required:
+* api
+* username
+* password
+
+### 2. Start VPN
+
+Setup described [here](./README.md#vpn)
+
+### 3. Run example
+
+Run example with gradle task `./gradlew runAndroidExampleNoVPN`
+
+#### What example script does?
+
+1. log in
+2. find project `Default Project` and fetch its info
+3. look for instance with `instance_name` (see properties file)
+4. if there is no such instance -- create a new one (it takes some time)
+5. wait until the instance is ready
+6. create and connect an agent
+7. wait until the agent is ready to use
+8. upload apks
+9. install apks (send command to the device)   
+10. start instrumentation test (send command to the device)
+
+#### Note: output will be a bit different comparing to VPN version

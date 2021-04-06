@@ -13,14 +13,13 @@ import io.ktor.client.request.header
 import io.ktor.client.request.url
 import io.ktor.http.cio.websocket.Frame
 import io.ktor.http.cio.websocket.close
-import io.ktor.http.cio.websocket.ponger
 import io.ktor.http.cio.websocket.readText
 import kotlinx.coroutines.CompletableJob
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -39,6 +38,7 @@ class Agent(
     private val counter = AtomicInteger(1)
     private val format = Json {}
     private val tasks = ConcurrentHashMap<Int, (CommandResult) -> Unit>()
+    private var uploading = false
 
     private val wsClient = HttpClient {
         install(WebSockets)
@@ -52,15 +52,13 @@ class Agent(
             url(agentUrl)
             header("Authorization", token)
         }.apply {
-            ponger(outgoing)
-
             launch {
                 for (frame in incoming) {
                     when (frame) {
                         is Frame.Text -> textFrameHandler(frame)
                         is Frame.Ping -> println("got ping")
                         is Frame.Pong -> println("got pong")
-                        else -> println("got response")
+                        else -> println(frame.data.decodeToString())
                     }
                 }
             }
@@ -118,19 +116,15 @@ class Agent(
             .order(ByteOrder.LITTLE_ENDIAN)
             .put(id.toByte())
             .array()
-        val payload = ByteBuffer.wrap(idBytes + bytes)
+        val payload = ByteBuffer.wrap(idBytes + bytes).order(ByteOrder.LITTLE_ENDIAN)
 
         connection.send(Frame.Binary(true, payload))
+        connection.send(Frame.Binary(true, idBytes))
 
         val task = Job()
-        tasks[id] = getCommonHandler(task)
-        try {
-            withTimeout(10_000) {
-                task.join()
-            }
-        } catch (ex: TimeoutCancellationException) {
-            println("Awaiting for server's upload confirmation cancelled due to timeout")
-            println("File was uploaded successfully though")
+        tasks[id] = getUploadHandler(task)
+        withTimeoutOrNull(10_000) {
+            task.join()
         }
     }
 
@@ -142,6 +136,16 @@ class Agent(
     private fun getCommonHandler(task: CompletableJob): (CommandResult) -> Unit = {
         if (it.success) task.complete()
         else {
+            println("Task ${it.id} failed")
+            println(it)
+        }
+    }
+
+    private fun getUploadHandler(task: CompletableJob): (CommandResult) -> Unit = {
+        if (it.success) {
+            task.complete()
+            uploading = false
+        } else {
             println("Task ${it.id} failed")
             println(it)
         }
