@@ -1,0 +1,39 @@
+[
+  {
+    "EarlGreyExampleSwiftTests": [
+      "EarlGreyExampleSwiftTests/testWithGreyAssertions",
+      "EarlGreyExampleSwiftTests/testWithCondition",
+      "EarlGreyExampleSwiftTests/testBasicSelection"
+    ]
+  },
+  {
+    "EarlGreyExampleSwiftTests": [
+      "EarlGreyExampleSwiftTests/testLayout",
+      "EarlGreyExampleSwiftTests/testCustomAction",
+      "EarlGreyExampleSwiftTests/testWithCustomMatcher",
+      "EarlGreyExampleSwiftTests/testWithCustomAssertion"
+    ]
+  },
+  {
+    "EarlGreyExampleSwiftTests": [
+      "EarlGreyExampleSwiftTests/testThatThrows",
+      "EarlGreyExampleSwiftTests/testWithInRoot",
+      "EarlGreyExampleSwiftTests/testCollectionMatchers",
+      "EarlGreyExampleSwiftTests/testCatchErrorOnFailure"
+    ]
+  },
+  {
+    "EarlGreyExampleSwiftTests": [
+      "EarlGreyExampleSwiftTests/testTableCellOutOfScreen",
+      "EarlGreyExampleSwiftTests/testBasicSelectionAndAction"
+    ]
+  },
+  {
+    "EarlGreyExampleSwiftTests": [
+      "EarlGreyExampleSwiftTests/testBasicSelectionAndAssert",
+      "EarlGreyExampleSwiftTests/testSelectionOnMultipleElements",
+      "EarlGreyExampleSwiftTests/testWithCustomFailureHandler",
+      "EarlGreyExampleSwiftTests/testBasicSelectionActionAssert"
+    ]
+  }
+]

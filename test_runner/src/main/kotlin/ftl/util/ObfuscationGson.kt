@@ -3,10 +3,10 @@ package ftl.util
 import com.google.common.annotations.VisibleForTesting
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import com.google.gson.reflect.TypeToken
-import ftl.args.ShardChunks
 import java.lang.reflect.Type
 
 val obfuscatePrettyPrinter = GsonBuilder()
@@ -19,7 +19,7 @@ val obfuscatePrettyPrinter = GsonBuilder()
 internal object ListOfStringTypeToken : TypeToken<List<String>>()
 
 @VisibleForTesting
-internal object ListOfStringListTypeToken : TypeToken<ShardChunks>()
+internal object ListOfStringListTypeToken : TypeToken<List<Map<String, List<String>>>>()
 
 private object ObfuscatedAndroidJsonSerializer : JsonSerializer<List<String>> {
     private val obfuscationContext by lazy { mutableMapOf<String, MutableMap<String, String>>() }
@@ -36,20 +36,27 @@ private object ObfuscatedAndroidJsonSerializer : JsonSerializer<List<String>> {
     }
 }
 
-private object ObfuscatedIosJsonSerializer : JsonSerializer<List<List<String>>> {
+private object ObfuscatedIosJsonSerializer : JsonSerializer<List<Map<String, List<String>>>> {
     private val obfuscationContext by lazy { mutableMapOf<String, MutableMap<String, String>>() }
 
     override fun serialize(
-        src: List<List<String>>,
+        src: List<Map<String, List<String>>>,
         typeOfSrc: Type,
         context: JsonSerializationContext
     ) = JsonArray().also { jsonArray ->
-        src.forEach { list ->
-            jsonArray.add(
-                JsonArray().also { nestedJsonArray ->
-                    list.forEach { nestedJsonArray.add(obfuscationContext.obfuscateIosTestName(it)) }
-                }
-            )
+        src.forEach { xcTestMethodList ->
+            val xcTestMethodJson = JsonObject()
+            xcTestMethodList.forEach {
+                xcTestMethodJson.add(
+                    obfuscationContext.obfuscateIosTestName(it.key),
+                    JsonArray().also { nestedJsonArray ->
+                        it.value.forEach {
+                            nestedJsonArray.add(obfuscationContext.obfuscateIosTestName(it))
+                        }
+                    }
+                )
+            }
+            jsonArray.add(xcTestMethodJson)
         }
     }
 }

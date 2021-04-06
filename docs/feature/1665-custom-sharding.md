@@ -220,6 +220,109 @@ You can now start a flank test run. With the updated config there will still be 
     * `debug-2.apk` with 2 shards
     * `debug-3.apk` with 1 shard
 
+## iOS
+
+iOS custom sharding works exactly the same as Android (dump shards, modify, add a path to JSON file, etc) the same with small exceptions:
+
+* there is no `additional-app-test-apks` feature for iOS
+* every shard in iOS is a separate matrix (FTL limitations)
+* dump shard JSON is different for xctestrun with test plans and not, therefore there is different custom sharding JSON
+  structure for both versions.
+
+#### Custom sharding JSON for xctestrun without Test Plans (example)
+
+```json
+[
+  {
+    "ExampleSwiftTests": [
+      "ExampleSwiftTests/test1",
+      "ExampleSwiftTests/test2",
+      "ExampleSwiftTests/test3",
+      "ExampleSwiftTests/test4",
+      "ExampleSwiftTests/test5"
+    ]
+  },
+  {
+    "ExampleSwiftTests": [
+      "ExampleSwiftTests/test6",
+      "ExampleSwiftTests/test7",
+      "ExampleSwiftTests/test8",
+      "ExampleSwiftTests/test9"
+    ]
+  },
+  {
+    "ExampleSwiftTests": [
+      "ExampleSwiftTests/test10",
+      "ExampleSwiftTests/test11",
+      "ExampleSwiftTests/test12",
+      "ExampleSwiftTests/test13"
+    ]
+  },
+  {
+    "ExampleSwiftTests": [
+      "ExampleSwiftTests/test14",
+      "ExampleSwiftTests/test15",
+      "ExampleSwiftTests/test16",
+      "ExampleSwiftTests/test17"
+    ]
+  }
+]
+```
+
+#### Custom sharding JSON for xctestrun with Test Plans (example)
+
+```json
+{
+  "en": [
+    {
+      "SecondUITests": [
+        "SecondUITestsClass/test2_PLLocale",
+        "SecondUITestsClass/test2_3",
+        "SecondUITestsClass/test2_ENLocale"
+      ],
+      "UITests": [
+        "UITestsClass/test1_1",
+        "UITestsClass/test1_2",
+        "UITestsClass/test1_3"
+      ]
+    },
+    {
+      "UITests": [
+        "UITestsClass/test1_ENLocale",
+        "UITestsClass/test1_PLLocale"
+      ]
+    },
+    {
+      "SecondUITests": [
+        "SecondUITestsClass/test2_1",
+        "SecondUITestsClass/test2_2"
+      ]
+    }
+  ],
+  "pl": [
+    {
+      "UITests": [
+        "UITestsClass/test1_1",
+        "UITestsClass/test1_2",
+        "UITestsClass/test1_3",
+        "UITestsClass/test1_ENLocale",
+        "UITestsClass/test1_PLLocale"
+      ]
+    },
+    {
+      "SecondUITests": [
+        "SecondUITestsClass/test2_1",
+        "SecondUITestsClass/test2_2",
+        "SecondUITestsClass/test2_PLLocale",
+        "SecondUITestsClass/test2_3",
+        "SecondUITestsClass/test2_ENLocale"
+      ]
+    }
+  ]
+}
+
+```
+
 ## NOTE:
 
 * flank **DOES NOT** validate the provided custom sharding JSON -- it's your responsibility to provide a proper configuration

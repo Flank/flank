@@ -38,13 +38,9 @@ fun IosArgs.dumpShards(
     // VisibleForTesting
     shardFilePath: String = IOS_SHARD_FILE,
 ) {
-    val xcTestRunShards: Map<String, List<List<String>>> = xcTestRunData.shardTargets.mapValues {
-        it.value.flatMap { it.values }
-    }
-
     val rawShards: Any = when (xcTestRunData.version) {
-        V1 -> xcTestRunShards.values.first()
-        V2 -> xcTestRunShards
+        V1 -> xcTestRunData.shardTargets.values.first()
+        V2 -> xcTestRunData.shardTargets
     }
 
     val size = xcTestRunData.shardTargets.values
