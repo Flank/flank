@@ -121,7 +121,7 @@ class MainTest {
             .redirectError(ProcessBuilder.Redirect.INHERIT)
             .start().waitFor()
 
-        assertEquals("Process did not finish with exit code 0, check entry point", 0, result)
+        assertEquals("Process did not finish with exit code 0, check entrypoint", 0, result)
         assertMainHelpStrings(logFile.readText())
     }
 }
