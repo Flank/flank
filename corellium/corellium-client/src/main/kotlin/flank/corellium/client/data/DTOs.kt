@@ -1,5 +1,6 @@
 package flank.corellium.client.data
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -22,7 +23,10 @@ data class Instance(
     val patches: List<String> = emptyList(),
     val os: String = "",
     val osbuild: String = "",
-    val agent: InstanceAgent? = InstanceAgent()
+    val agent: InstanceAgent? = InstanceAgent(),
+    val serviceIp: String = "",
+    @SerialName("port-adb")
+    val portAdb: String = ""
 )
 
 @Serializable
@@ -36,7 +40,8 @@ data class BootOptions(
     val bootArgs: String = "",
     val restoreBootArgs: String = "",
     val udid: String = "",
-    val ecid: String = ""
+    val ecid: String = "",
+    val screen: String = ""
 )
 
 @Serializable
@@ -94,4 +99,9 @@ data class CommandResult(
 data class CommandError(
     val name: String = "",
     val message: String = "",
+)
+
+@Serializable
+data class ConsoleSocket(
+    val url: String
 )

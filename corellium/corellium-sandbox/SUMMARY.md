@@ -1,6 +1,6 @@
 # Research summary
 
-## Flank test run with Corellium instances
+## Flank test run with Corellium instances (iOS)
 
 ### 1. Start VPN
 
