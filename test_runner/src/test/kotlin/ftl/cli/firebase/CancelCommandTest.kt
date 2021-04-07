@@ -2,7 +2,8 @@ package ftl.cli.firebase
 
 import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
-import ftl.cli.firebase.test.android.AndroidRunCommand
+import ftl.presentation.cli.firebase.CancelCommand
+import ftl.presentation.cli.firebase.test.android.AndroidRunCommand
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test

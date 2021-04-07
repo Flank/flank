@@ -1,0 +1,48 @@
+package ftl.presentation.cli.firebase.test.ios.models
+
+import ftl.config.FtlConstants
+import ftl.domain.DescribeIosModels
+import ftl.domain.invoke
+import picocli.CommandLine
+
+@CommandLine.Command(
+    name = "describe",
+    headerHeading = "",
+    synopsisHeading = "%n",
+    descriptionHeading = "%n@|bold,underline Description:|@%n%n",
+    parameterListHeading = "%n@|bold,underline Parameters:|@%n",
+    optionListHeading = "%n@|bold,underline Options:|@%n",
+    header = ["Describe iOS model "],
+    usageHelpAutoWidth = true
+)
+class IosModelDescribeCommand :
+    Runnable,
+    DescribeIosModels {
+
+    @CommandLine.Option(
+        names = ["-c", "--config"],
+        description = ["YAML config file path"]
+    )
+    override var configPath: String = FtlConstants.defaultIosConfig
+
+    @CommandLine.Parameters(
+        index = "0",
+        arity = "1",
+        paramLabel = "MODEL_ID",
+        defaultValue = "",
+        description = [
+            "The models to describe, found" +
+                " using \$ gcloud firebase test ios models list."
+        ]
+    )
+    override var modelId: String = ""
+
+    @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
+    var usageHelpRequested: Boolean = false
+
+    override fun run() = invoke()
+}

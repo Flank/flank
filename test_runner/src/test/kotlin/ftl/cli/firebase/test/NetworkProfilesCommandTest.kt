@@ -1,6 +1,7 @@
 package ftl.cli.firebase.test
 
 import flank.common.normalizeLineEnding
+import ftl.presentation.cli.firebase.test.NetworkProfilesCommand
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test

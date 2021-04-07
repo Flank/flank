@@ -1,7 +1,8 @@
 package ftl.cli.firebase.test.android.orientations
 
 import ftl.android.AndroidCatalog
-import ftl.cli.firebase.test.android.versions.AndroidVersionsListCommand
+import ftl.presentation.cli.firebase.test.android.orientations.AndroidOrientationsListCommand
+import ftl.presentation.cli.firebase.test.android.versions.AndroidVersionsListCommand
 import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.Assert.assertEquals

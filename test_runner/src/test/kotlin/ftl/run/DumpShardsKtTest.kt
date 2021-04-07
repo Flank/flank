@@ -4,9 +4,9 @@ import com.google.common.truth.Truth.assertThat
 import flank.common.isWindows
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
-import ftl.cli.firebase.test.android.AndroidRunCommand
-import ftl.cli.firebase.test.ios.IosRunCommand
 import ftl.doctor.assertEqualsIgnoreNewlineStyle
+import ftl.presentation.cli.firebase.test.android.AndroidRunCommand
+import ftl.presentation.cli.firebase.test.ios.IosRunCommand
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.ios2ConfigYaml
 import ftl.test.util.mixedConfigYaml

@@ -2,7 +2,7 @@
 
 package ftl.test.util
 
-import ftl.cli.MainCommand
+import ftl.presentation.cli.MainCommand
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot

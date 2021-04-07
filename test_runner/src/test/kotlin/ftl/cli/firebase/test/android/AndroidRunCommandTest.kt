@@ -7,6 +7,7 @@ import ftl.args.yml.AppTestPair
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.gc.GcStorage
+import ftl.presentation.cli.firebase.test.android.AndroidRunCommand
 import ftl.run.ANDROID_SHARD_FILE
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.platform.android.createAndroidTestContexts

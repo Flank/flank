@@ -3,7 +3,7 @@ package ftl.ios.xctest
 import flank.common.isWindows
 import ftl.args.IosArgs
 import ftl.args.validate
-import ftl.cli.firebase.test.ios.IosRunCommand
+import ftl.presentation.cli.firebase.test.ios.IosRunCommand
 import org.junit.Assume
 import org.junit.Test
 import java.io.StringReader

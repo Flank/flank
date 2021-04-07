@@ -1,8 +1,8 @@
 package ftl.domain
 
 import ftl.args.AndroidArgs
-import ftl.cli.firebase.test.processValidation
 import ftl.doctor.validateYaml
+import ftl.presentation.cli.firebase.test.processValidation
 import java.nio.file.Paths
 
 interface RunDoctorAndroid {

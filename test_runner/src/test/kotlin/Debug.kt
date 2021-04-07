@@ -1,6 +1,6 @@
 @file:Suppress("InvalidPackageDeclaration")
 
-import ftl.cli.MainCommand
+import ftl.presentation.cli.MainCommand
 import ftl.run.exception.withGlobalExceptionHandling
 import ftl.util.disableCrashReporting
 import picocli.CommandLine

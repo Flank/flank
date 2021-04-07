@@ -7,6 +7,7 @@ import ftl.args.IosArgs
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.gc.GcStorage
+import ftl.presentation.cli.firebase.test.ios.IosRunCommand
 import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards
 import ftl.test.util.FlankTestRunner

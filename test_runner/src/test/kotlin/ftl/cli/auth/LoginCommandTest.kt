@@ -2,6 +2,7 @@ package ftl.cli.auth
 
 import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
+import ftl.presentation.cli.auth.LoginCommand
 import ftl.test.util.FlankTestRunner
 import org.junit.Rule
 import org.junit.Test
