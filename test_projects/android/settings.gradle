@@ -30,5 +30,8 @@ include ':app',
         ':dir3:testModule'
 
 
-include ':cucumber_sample_app'
-include ':cucumber_sample_app:cucumber-android', ':cucumber_sample_app:cukeulator'
+include ':cucumber_sample_app',
+        ':cucumber_sample_app:cucumber-android',
+        ':cucumber_sample_app:cukeulator'
+
+include ':benchmark'

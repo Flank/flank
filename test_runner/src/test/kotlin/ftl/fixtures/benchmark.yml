@@ -1,0 +1,12 @@
+gcloud:
+  app: "./src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk"
+  test: "./src/test/kotlin/ftl/fixtures/tmp/apk/benchmark/benchmark-debug-androidTest.apk"
+  directories-to-pull:
+    - "/sdcard/Android/data/com.futuremark.dmandroid.application/files/3DMarkAndroid/"
+  additional-apks:
+    - "./src/test/kotlin/ftl/fixtures/tmp/apk/benchmark/3dmarkandroid-v2-1-4726.apk"
+  device:
+    - model: NexusLowRes
+      version: 30
+      locale: en
+      orientation: portrait
