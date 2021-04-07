@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
 import ftl.presentation.cli.MainCommand
 import ftl.test.util.FlankTestRunner
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.ExpectedSystemExit
@@ -99,5 +100,20 @@ class MainTest {
                 "-c=./src/test/kotlin/ftl/fixtures/invalid.yml"
             )
         )
+    }
+
+    @Test
+    fun `flank entrypoint should be ftl_Main`() {
+        val result = ProcessBuilder(
+            "java",
+            "-cp",
+            System.getProperty("java.class.path"),
+            "ftl.Main"
+        )
+            .redirectOutput(ProcessBuilder.Redirect.INHERIT)
+            .redirectError(ProcessBuilder.Redirect.INHERIT)
+            .start().waitFor()
+
+        assertEquals("Process did not finish with exit code 0, check entry point", 0, result)
     }
 }
