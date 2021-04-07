@@ -27,6 +27,7 @@ private object Text {
 }
 
 private object Res {
+    const val tabLayout = "com.futuremark.dmandroid.application:id/flm_tab_layout_benchmarks"
     const val btnSkip = "com.futuremark.dmandroid.application:id/flm_bt_tutorial_skip"
     const val fabBenchmark = "com.futuremark.dmandroid.application:id/flm_fab_benchmark"
     const val fabSettings = "com.futuremark.dmandroid.application:id/flm_fab_settings"
@@ -53,8 +54,12 @@ class Run3DMark {
             // Wait for 3d mark launcher icon
             wait(Until.hasObject(By.text(Text.appName)), TIMEOUT)
 
+            waitForIdle(5000)
+
             // Click 3d mark launcher icon
             findObject(UiSelector().text(Text.appName)).click()
+
+            waitForIdle(5000)
 
             // Check permissions dialog
             if (findObject(UiSelector().text(Text.permTitle)).exists()) {
@@ -62,15 +67,26 @@ class Run3DMark {
                 findObject(UiSelector().text(Text.allow)).click()
             }
 
-            Thread.sleep(3000)
+            waitForIdle(5000)
+            Thread.sleep(2000)
 
             // Skip tutorial if needed
             findObject(UiSelector().resourceId(Res.btnSkip)).apply {
                 if (exists()) click()
             }
 
+            waitForIdle(5000)
+
+            if (findObject(UiSelector().text(Text.benchmarkType)).exists().not()) {
+                findObject(UiSelector().resourceId(Res.tabLayout)).swipeLeft(10)
+                waitForIdle(1000)
+            }
+
             // Choose proper benchmark screen
             findObject(UiSelector().text(Text.benchmarkType)).click()
+//            click(318, 104)
+
+            waitForIdle(5000)
 
             // Settings fab is not visible if the additional software is not installed
             if (findObject(UiSelector().resourceId(Res.fabSettings)).exists().not()) {
@@ -89,7 +105,7 @@ class Run3DMark {
             findObject(UiSelector().resourceId(Res.fabBenchmark)).click()
 
 
-            Thread.sleep(3000)
+            waitForIdle(5000)
 
             // Wait until benchmark finish
             wait(Until.hasObject(By.res(Res.scoreDetails)), BENCHMARK_TIMEOUT)
