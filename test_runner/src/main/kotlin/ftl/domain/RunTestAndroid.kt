@@ -40,7 +40,7 @@ operator fun RunTestAndroid.invoke() {
     if (dryRun) {
         MockServer.start()
     }
-    val prepareStopWatch = StopWatch().run { start() }
+    val prepareStopWatch = StopWatch().start()
     createAndroidArgs(
         config = defaultAndroidConfig() +
             loadAndroidConfig(reader = loadFile(Paths.get(configPath))) +

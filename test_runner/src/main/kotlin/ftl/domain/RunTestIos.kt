@@ -41,7 +41,7 @@ operator fun RunIosTest.invoke() {
         MockServer.start()
     }
 
-    val prepareStopWatch = StopWatch().run { start() }
+    val prepareStopWatch = StopWatch().start()
     createIosArgs(
         config = defaultIosConfig() +
             loadIosConfig(reader = loadFile(Paths.get(configPath))) +
