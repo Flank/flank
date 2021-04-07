@@ -10,6 +10,7 @@ import org.junit.Test
 import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.SystemErrRule
 import org.junit.contrib.java.lang.system.SystemOutRule
+import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import picocli.CommandLine
 
@@ -24,6 +25,9 @@ class MainTest {
 
     @get:Rule
     val systemExit: ExpectedSystemExit = ExpectedSystemExit.none()
+
+    @get:Rule
+    val root = TemporaryFolder()
 
     private fun assertMainHelpStrings(output: String) {
         assertThat(output.normalizeLineEnding()).contains(
@@ -104,16 +108,20 @@ class MainTest {
 
     @Test
     fun `flank entrypoint should be ftl_Main`() {
+        // For reference: https://github.com/Flank/flank/issues/1780
+
+        val logFile = root.newFile()
         val result = ProcessBuilder(
             "java",
             "-cp",
             System.getProperty("java.class.path"),
             "ftl.Main"
         )
-            .redirectOutput(ProcessBuilder.Redirect.INHERIT)
+            .redirectOutput(logFile)
             .redirectError(ProcessBuilder.Redirect.INHERIT)
             .start().waitFor()
 
         assertEquals("Process did not finish with exit code 0, check entry point", 0, result)
+        assertMainHelpStrings(logFile.readText())
     }
 }
