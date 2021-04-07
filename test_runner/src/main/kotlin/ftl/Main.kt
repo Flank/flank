@@ -1,3 +1,4 @@
+@file:JvmName("Main")
 package ftl
 
 import ftl.presentation.cli.MainCommand
