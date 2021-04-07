@@ -11,3 +11,4 @@ gcloud:
       version: 30
       locale: en
       orientation: portrait
+  record-video: true
