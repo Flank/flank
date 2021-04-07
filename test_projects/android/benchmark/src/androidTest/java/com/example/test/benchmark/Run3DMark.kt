@@ -1,4 +1,4 @@
-package com.example.benchmarkroboscript
+package com.example.test.benchmark
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
