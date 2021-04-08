@@ -1,7 +1,5 @@
 # Custom sharding
 
-##### NOTE: Currently for android only, iOS support will be released soon
-
 With [#1665](https://github.com/Flank/flank/issues/1665) Flank received the new feature called `Custom Sharding`. It
 enables Flank to consume predefined sharding and apply it during a test run. The feature gives flexibility and enables
 manual optimization. It also allows users to set up different sharding per app-test apk pair (android only).
@@ -222,7 +220,7 @@ You can now start a flank test run. With the updated config there will still be 
 
 ## iOS
 
-iOS custom sharding works exactly the same as Android (dump shards, modify, add a path to JSON file, etc) the same with small exceptions:
+iOS custom sharding works exactly the same as Android (dump shards, modify, add a path to JSON file, etc) same with small exceptions:
 
 * there is no `additional-app-test-apks` feature for iOS
 * every shard in iOS is a separate matrix (FTL limitations)
@@ -235,35 +233,35 @@ iOS custom sharding works exactly the same as Android (dump shards, modify, add 
 [
   {
     "ExampleSwiftTests": [
-      "ExampleSwiftTests/test1",
-      "ExampleSwiftTests/test2",
-      "ExampleSwiftTests/test3",
-      "ExampleSwiftTests/test4",
-      "ExampleSwiftTests/test5"
+      "ExampleSwiftTestsClass/test1",
+      "ExampleSwiftTestsClass/test2",
+      "ExampleSwiftTestsClass/test3",
+      "ExampleSwiftTestsClass/test4",
+      "ExampleSwiftTestsClass/test5"
     ]
   },
   {
     "ExampleSwiftTests": [
-      "ExampleSwiftTests/test6",
-      "ExampleSwiftTests/test7",
-      "ExampleSwiftTests/test8",
-      "ExampleSwiftTests/test9"
+      "ExampleSwiftTestsClass/test6",
+      "ExampleSwiftTestsClass/test7",
+      "ExampleSwiftTestsClass/test8",
+      "ExampleSwiftTestsClass/test9"
     ]
   },
   {
     "ExampleSwiftTests": [
-      "ExampleSwiftTests/test10",
-      "ExampleSwiftTests/test11",
-      "ExampleSwiftTests/test12",
-      "ExampleSwiftTests/test13"
+      "ExampleSwiftTestsClass/test10",
+      "ExampleSwiftTestsClass/test11",
+      "ExampleSwiftTestsClass/test12",
+      "ExampleSwiftTestsClass/test13"
     ]
   },
   {
     "ExampleSwiftTests": [
-      "ExampleSwiftTests/test14",
-      "ExampleSwiftTests/test15",
-      "ExampleSwiftTests/test16",
-      "ExampleSwiftTests/test17"
+      "ExampleSwiftTestsClass/test14",
+      "ExampleSwiftTestsClass/test15",
+      "ExampleSwiftTestsClass/test16",
+      "ExampleSwiftTestsClass/test17"
     ]
   }
 ]
