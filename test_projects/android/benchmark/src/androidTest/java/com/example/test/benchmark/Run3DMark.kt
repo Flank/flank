@@ -27,11 +27,13 @@ private object Text {
 }
 
 private object Res {
-    const val tabLayout = "com.futuremark.dmandroid.application:id/flm_tab_layout_benchmarks"
+    const val centerLayout = "com.futuremark.dmandroid.application:id/flm_pager_benchmarks"
+    const val centerLayoutChild = "com.futuremark.dmandroid.application:id/flm_cl_root"
     const val btnSkip = "com.futuremark.dmandroid.application:id/flm_bt_tutorial_skip"
     const val fabBenchmark = "com.futuremark.dmandroid.application:id/flm_fab_benchmark"
     const val fabSettings = "com.futuremark.dmandroid.application:id/flm_fab_settings"
-    const val scoreDetails = "com.futuremark.dmandroid.application:id/flm_ll_score_details_container"
+    const val scoreDetails =
+        "com.futuremark.dmandroid.application:id/flm_ll_score_details_container"
 }
 
 
@@ -76,15 +78,22 @@ class Run3DMark {
             }
 
             waitForIdle(5000)
+            Thread.sleep(2000)
 
-            if (findObject(UiSelector().text(Text.benchmarkType)).exists().not()) {
-                findObject(UiSelector().resourceId(Res.tabLayout)).swipeLeft(10)
-                waitForIdle(1000)
+            // Swipe to the sling shot benchmark if needed
+            var swipeCount = 0
+            while (findObject(UiSelector().text(Text.benchmarkType)).exists().not()) {
+                findObject(UiSelector().resourceId(Res.centerLayoutChild)).apply {
+                    with(visibleBounds) { swipe(right - 80, centerY(), left + 10, centerY(), 10) }
+                }
+                waitForIdle(2000)
+                Thread.sleep(1500)
+                if (swipeCount++ >= 4) Assert.fail("Max swipe count exceeded")
             }
+            waitForIdle(2000)
 
             // Choose proper benchmark screen
             findObject(UiSelector().text(Text.benchmarkType)).click()
-//            click(318, 104)
 
             waitForIdle(5000)
 
