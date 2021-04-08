@@ -1,10 +1,10 @@
 # Flank Activity Diagram 
 
-![activity_diagram](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/1317-flank-run-refactor/docs/refactor/uml/flank_activity_diagram.puml)
+![activity_diagram](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/refactor/uml/flank_activity_diagram.puml)
 
-![ios_sharding](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/1317-flank-run-refactor/docs/refactor/uml/flank_ios_sharding_diagram.puml)
+![ios_sharding](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/refactor/uml/flank_ios_sharding_diagram.puml)
 
-![android_sharding](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/1317-flank-run-refactor/docs/refactor/uml/flank_android_sharding_diagram.puml)
+![android_sharding](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/refactor/uml/flank_android_sharding_diagram.puml)
 
 ## Description
 
