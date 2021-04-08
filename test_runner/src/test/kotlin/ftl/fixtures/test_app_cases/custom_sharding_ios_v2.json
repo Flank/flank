@@ -1,0 +1,48 @@
+{
+  "en": [
+    {
+      "SecondUITests": [
+        "SecondUITestsClass/test2_PLLocale",
+        "SecondUITestsClass/test2_3",
+        "SecondUITestsClass/test2_ENLocale"
+      ],
+      "UITests": [
+        "UITestsClass/test1_1",
+        "UITestsClass/test1_2",
+        "UITestsClass/test1_3"
+      ]
+    },
+    {
+      "UITests": [
+        "UITestsClass/test1_ENLocale",
+        "UITestsClass/test1_PLLocale"
+      ]
+    },
+    {
+      "SecondUITests": [
+        "SecondUITestsClass/test2_1",
+        "SecondUITestsClass/test2_2"
+      ]
+    }
+  ],
+  "pl": [
+    {
+      "UITests": [
+        "UITestsClass/test1_1",
+        "UITestsClass/test1_2",
+        "UITestsClass/test1_3",
+        "UITestsClass/test1_ENLocale",
+        "UITestsClass/test1_PLLocale"
+      ]
+    },
+    {
+      "SecondUITests": [
+        "SecondUITestsClass/test2_1",
+        "SecondUITestsClass/test2_2",
+        "SecondUITestsClass/test2_PLLocale",
+        "SecondUITestsClass/test2_3",
+        "SecondUITestsClass/test2_ENLocale"
+      ]
+    }
+  ]
+}

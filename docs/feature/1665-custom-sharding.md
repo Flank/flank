@@ -1,7 +1,5 @@
 # Custom sharding
 
-##### NOTE: Currently for android only, iOS support will be released soon
-
 With [#1665](https://github.com/Flank/flank/issues/1665) Flank received the new feature called `Custom Sharding`. It
 enables Flank to consume predefined sharding and apply it during a test run. The feature gives flexibility and enables
 manual optimization. It also allows users to set up different sharding per app-test apk pair (android only).
@@ -219,6 +217,109 @@ You can now start a flank test run. With the updated config there will still be 
     * `debug-1.apk` with 3 shards
     * `debug-2.apk` with 2 shards
     * `debug-3.apk` with 1 shard
+
+## iOS
+
+iOS custom sharding works exactly the same as Android (dump shards, modify, add a path to JSON file, etc) with some small exceptions:
+
+* there is no `additional-app-test-apks` feature for iOS
+* every shard in iOS is a separate matrix (FTL limitations)
+* dump shard JSON is different for xctestrun with test plans, therefore there is different custom sharding JSON
+  structure for both versions.
+
+#### Custom sharding JSON for xctestrun without Test Plans (example)
+
+```json
+[
+  {
+    "ExampleSwiftTests": [
+      "ExampleSwiftTestsClass/test1",
+      "ExampleSwiftTestsClass/test2",
+      "ExampleSwiftTestsClass/test3",
+      "ExampleSwiftTestsClass/test4",
+      "ExampleSwiftTestsClass/test5"
+    ]
+  },
+  {
+    "ExampleSwiftTests": [
+      "ExampleSwiftTestsClass/test6",
+      "ExampleSwiftTestsClass/test7",
+      "ExampleSwiftTestsClass/test8",
+      "ExampleSwiftTestsClass/test9"
+    ]
+  },
+  {
+    "ExampleSwiftTests": [
+      "ExampleSwiftTestsClass/test10",
+      "ExampleSwiftTestsClass/test11",
+      "ExampleSwiftTestsClass/test12",
+      "ExampleSwiftTestsClass/test13"
+    ]
+  },
+  {
+    "ExampleSwiftTests": [
+      "ExampleSwiftTestsClass/test14",
+      "ExampleSwiftTestsClass/test15",
+      "ExampleSwiftTestsClass/test16",
+      "ExampleSwiftTestsClass/test17"
+    ]
+  }
+]
+```
+
+#### Custom sharding JSON for xctestrun with Test Plans (example)
+
+```json
+{
+  "en": [
+    {
+      "SecondUITests": [
+        "SecondUITestsClass/test2_PLLocale",
+        "SecondUITestsClass/test2_3",
+        "SecondUITestsClass/test2_ENLocale"
+      ],
+      "UITests": [
+        "UITestsClass/test1_1",
+        "UITestsClass/test1_2",
+        "UITestsClass/test1_3"
+      ]
+    },
+    {
+      "UITests": [
+        "UITestsClass/test1_ENLocale",
+        "UITestsClass/test1_PLLocale"
+      ]
+    },
+    {
+      "SecondUITests": [
+        "SecondUITestsClass/test2_1",
+        "SecondUITestsClass/test2_2"
+      ]
+    }
+  ],
+  "pl": [
+    {
+      "UITests": [
+        "UITestsClass/test1_1",
+        "UITestsClass/test1_2",
+        "UITestsClass/test1_3",
+        "UITestsClass/test1_ENLocale",
+        "UITestsClass/test1_PLLocale"
+      ]
+    },
+    {
+      "SecondUITests": [
+        "SecondUITestsClass/test2_1",
+        "SecondUITestsClass/test2_2",
+        "SecondUITestsClass/test2_PLLocale",
+        "SecondUITestsClass/test2_3",
+        "SecondUITestsClass/test2_ENLocale"
+      ]
+    }
+  ]
+}
+
+```
 
 ## NOTE:
 

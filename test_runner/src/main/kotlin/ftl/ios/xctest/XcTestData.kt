@@ -11,10 +11,13 @@ import ftl.ios.xctest.common.XctestrunMethods
 import ftl.ios.xctest.common.getXcTestRunVersion
 import ftl.ios.xctest.common.mapToRegex
 import ftl.ios.xctest.common.parseToNSDictionary
+import ftl.run.common.fromJson
 import ftl.shard.Chunk
+import ftl.shard.TestMethod
 import ftl.shard.testCases
 import ftl.util.FlankTestMethod
 import java.io.File
+import java.nio.file.Paths
 
 data class XcTestRunData(
     val rootDir: String,
@@ -33,13 +36,16 @@ private fun IosArgs.calculateXcTest(): XcTestRunData {
     val xcTestRoot: String = xcTestRunFile.parent + "/"
     val xcTestNsDictionary: NSDictionary = parseToNSDictionary(xcTestRunFile)
 
-    val calculatedShards: Map<String, Pair<List<Chunk>, List<XctestrunMethods>>> =
-        if (disableSharding) emptyMap()
-        else calculateConfigurationShards(
+    val calculatedShards: Map<String, Pair<List<Chunk>, List<XctestrunMethods>>> = when {
+        disableSharding -> emptyMap()
+        useCustomShardingV1(xcTestNsDictionary) -> shardsFromV1()
+        useCustomShardingV2(xcTestNsDictionary) -> shardsFromV2()
+        else -> calculateConfigurationShards(
             xcTestRoot = xcTestRoot,
             xcTestNsDictionary = xcTestNsDictionary,
             regexList = testTargets.mapToRegex()
         )
+    }
 
     return XcTestRunData(
         rootDir = xcTestRoot,
@@ -49,11 +55,38 @@ private fun IosArgs.calculateXcTest(): XcTestRunData {
     )
 }
 
+private inline fun <reified T> createCustomSharding(shardingJsonPath: String) =
+    fromJson<T>(Paths.get(shardingJsonPath).toFile().readText())
+
+private fun IosArgs.useCustomShardingV1(dictionary: NSDictionary) =
+    customShardingJson.isNotBlank() && dictionary.getXcTestRunVersion() == V1
+
+private fun IosArgs.useCustomShardingV2(dictionary: NSDictionary) =
+    customShardingJson.isNotBlank() && dictionary.getXcTestRunVersion() == V2
+
+private fun IosArgs.shardsFromV1() = mapOf(
+    "" to createCustomSharding<List<XctestrunMethods>>(commonArgs.customShardingJson)
+        .run {
+            map { xcMethods ->
+                Chunk(xcMethods.values.flatMap { it.map(::TestMethod) })
+            } to this
+        }
+)
+
+private fun IosArgs.shardsFromV2() =
+    createCustomSharding<Map<String, List<XctestrunMethods>>>(commonArgs.customShardingJson)
+        .mapValues { (_, xcMethodsList) ->
+            xcMethodsList.map { xcMethods ->
+                Chunk(xcMethods.values.flatMap { it.map(::TestMethod) })
+            } to xcMethodsList
+        }
+
 private fun emptyXcTestRunData() = XcTestRunData(
     rootDir = "",
     nsDict = NSDictionary(),
     version = V1
 )
+
 private fun IosArgs.filterTestConfigurationsIfNeeded(
     configurations: Map<String, Map<String, List<String>>>
 ): Map<String, Map<String, List<String>>> = when {

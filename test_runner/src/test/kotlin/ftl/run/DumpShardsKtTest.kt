@@ -159,17 +159,21 @@ class DumpShardsKtTest {
         // given
         val expected = """
 [
-  [
-    "EarlGreyExampleSwiftTests/testWithGreyAssertions",
-    "EarlGreyExampleSwiftTests/testWithInRoot",
-    "EarlGreyExampleSwiftTests/testWithCondition",
-    "EarlGreyExampleSwiftTests/testWithCustomFailureHandler"
-  ],
-  [
-    "EarlGreyExampleSwiftTests/testWithGreyAssertions",
-    "EarlGreyExampleSwiftTests/testWithCustomMatcher",
-    "EarlGreyExampleSwiftTests/testWithCustomAssertion"
-  ]
+  {
+    "EarlGreyExampleSwiftTests": [
+      "EarlGreyExampleSwiftTests/testWithGreyAssertions",
+      "EarlGreyExampleSwiftTests/testWithInRoot",
+      "EarlGreyExampleSwiftTests/testWithCondition",
+      "EarlGreyExampleSwiftTests/testWithCustomFailureHandler"
+    ]
+  },
+  {
+    "EarlGreyExampleSwiftTests": [
+      "EarlGreyExampleSwiftTests/testWithGreyAssertions",
+      "EarlGreyExampleSwiftTests/testWithCustomMatcher",
+      "EarlGreyExampleSwiftTests/testWithCustomAssertion"
+    ]
+  }
 ]
         """.trimIndent()
         // when
@@ -190,17 +194,21 @@ class DumpShardsKtTest {
         // given
         val expected = """
 [
-  [
-    "A/a",
-    "A/b",
-    "A/c",
-    "A/d"
-  ],
-  [
-    "A/a",
-    "A/e",
-    "A/f"
-  ]
+  {
+    "A/A": [
+      "A/a",
+      "A/b",
+      "A/c",
+      "A/d"
+    ]
+  },
+  {
+    "A/A": [
+      "A/a",
+      "A/e",
+      "A/f"
+    ]
+  }
 ]
         """.trimIndent()
 
