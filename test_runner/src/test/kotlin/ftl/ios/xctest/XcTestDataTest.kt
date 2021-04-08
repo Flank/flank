@@ -4,8 +4,8 @@ import flank.common.isWindows
 import ftl.args.IosArgs
 import ftl.args.normalizeFilePath
 import ftl.args.validate
-import ftl.presentation.cli.firebase.test.ios.IosRunCommand
 import ftl.ios.xctest.common.XctestrunMethods
+import ftl.presentation.cli.firebase.test.ios.IosRunCommand
 import ftl.run.common.fromJson
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
