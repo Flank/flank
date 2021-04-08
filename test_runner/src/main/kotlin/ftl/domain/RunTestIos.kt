@@ -10,6 +10,7 @@ import ftl.config.defaultIosConfig
 import ftl.config.loadIosConfig
 import ftl.config.plus
 import ftl.mock.MockServer
+import ftl.reports.addStepTime
 import ftl.reports.output.configure
 import ftl.reports.output.log
 import ftl.reports.output.outputReport
@@ -17,6 +18,7 @@ import ftl.reports.output.toOutputReportConfiguration
 import ftl.run.dumpShards
 import ftl.run.newTestRun
 import ftl.util.DEVICE_SYSTEM
+import ftl.util.StopWatch
 import ftl.util.TEST_TYPE
 import ftl.util.loadFile
 import ftl.util.printVersionInfo
@@ -39,6 +41,7 @@ operator fun RunIosTest.invoke() {
         MockServer.start()
     }
 
+    val prepareStopWatch = StopWatch().start()
     createIosArgs(
         config = defaultIosConfig() +
             loadIosConfig(reader = loadFile(Paths.get(configPath))) +
@@ -56,6 +59,9 @@ operator fun RunIosTest.invoke() {
         if (dumpShards.not()) logLn(this)
     }.validate().run {
         if (dumpShards) dumpShards()
-        else runBlocking { newTestRun() }
+        else runBlocking {
+            addStepTime("Preparation", prepareStopWatch.check())
+            newTestRun()
+        }
     }
 }

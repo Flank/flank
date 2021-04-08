@@ -5,8 +5,10 @@ import com.google.testing.model.TestMatrix
 import flank.common.logLn
 import ftl.args.IArgs
 import ftl.config.FtlConstants
+import ftl.reports.addStepTime
 import ftl.util.MatrixState
 import ftl.util.StopWatch
+import ftl.util.formatted
 
 class TestMatrixStatusPrinter(
     private val args: IArgs,
@@ -22,10 +24,13 @@ class TestMatrixStatusPrinter(
     private val allMatricesCompleted get() = cache.values.all(MatrixState::completed)
 
     override fun invoke(matrix: TestMatrix) {
-        val time = stopWatch.check(alignSeconds = true)
-        printExecutionStatusList(time, matrix.testExecutions)
+        val time = stopWatch.check()
+        printExecutionStatusList(time.formatted(alignSeconds = true), matrix.testExecutions)
         cache[matrix.testMatrixId] = matrix.state
-        if (allMatricesCompleted) printTestMatrixStatusList(time)
+        if (allMatricesCompleted) {
+            printTestMatrixStatusList(time.formatted(alignSeconds = true))
+            addStepTime("Executing matrices", time)
+        }
     }
 
     private fun printTestMatrixStatusList(time: String) {
