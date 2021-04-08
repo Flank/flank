@@ -12,3 +12,6 @@ gcloud:
       locale: en
       orientation: portrait
   record-video: true
+flank:
+  test-targets:
+    - "class com.example.test.benchmark.Run3dMark"

@@ -17,28 +17,29 @@ private const val BENCHMARK_TIMEOUT = 15 * 60 * 1000L
 
 private const val DOWNLOAD_TIMEOUT = 5 * 60 * 1000L
 
-private object Text {
-    const val search = "Search"
-    const val ok = "OK"
-    const val allow = "Allow"
-    const val permTitle = "Before we start…"
-    const val appName = "3DMark"
-    const val benchmarkType = "SLING SHOT"
-}
-
-private object Res {
-    const val centerLayout = "com.futuremark.dmandroid.application:id/flm_pager_benchmarks"
-    const val centerLayoutChild = "com.futuremark.dmandroid.application:id/flm_cl_root"
-    const val btnSkip = "com.futuremark.dmandroid.application:id/flm_bt_tutorial_skip"
-    const val fabBenchmark = "com.futuremark.dmandroid.application:id/flm_fab_benchmark"
-    const val fabSettings = "com.futuremark.dmandroid.application:id/flm_fab_settings"
-    const val scoreDetails =
-        "com.futuremark.dmandroid.application:id/flm_ll_score_details_container"
-}
-
 
 @RunWith(AndroidJUnit4::class)
 class Run3DMark {
+
+    private object Text {
+        const val search = "Search"
+        const val ok = "OK"
+        const val allow = "Allow"
+        const val permTitle = "Before we start…"
+        const val appName = "3DMark"
+        const val benchmarkType = "SLING SHOT"
+    }
+
+    private object Res {
+        const val centerLayout = "com.futuremark.dmandroid.application:id/flm_pager_benchmarks"
+        const val centerLayoutChild = "com.futuremark.dmandroid.application:id/flm_cl_root"
+        const val btnSkip = "com.futuremark.dmandroid.application:id/flm_bt_tutorial_skip"
+        const val fabBenchmark = "com.futuremark.dmandroid.application:id/flm_fab_benchmark"
+        const val fabSettings = "com.futuremark.dmandroid.application:id/flm_fab_settings"
+        const val scoreDetails =
+            "com.futuremark.dmandroid.application:id/flm_ll_score_details_container"
+    }
+
     @Test
     fun run() {
 

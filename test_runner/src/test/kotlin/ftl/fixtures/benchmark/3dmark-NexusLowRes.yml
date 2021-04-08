@@ -7,8 +7,11 @@ gcloud:
   additional-apks:
     - "./src/test/kotlin/ftl/fixtures/tmp/apk/benchmark/3dmarkandroid-v2-1-4726.apk"
   device:
-    - model: NexusLowResEmulator
+    - model: NexusLowRes
       version: 30
       locale: en
       orientation: portrait
   record-video: true
+flank:
+  test-targets:
+    - "class com.example.test.benchmark.Run3dMark"
