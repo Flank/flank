@@ -68,7 +68,7 @@ class Run3DMark {
             }
 
             waitForIdle(5000)
-            Thread.sleep(2000)
+            Thread.sleep(4000)
 
             // Skip tutorial if needed
             findObject(UiSelector().resourceId(Res.btnSkip)).apply {
