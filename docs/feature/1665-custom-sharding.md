@@ -220,11 +220,11 @@ You can now start a flank test run. With the updated config there will still be 
 
 ## iOS
 
-iOS custom sharding works exactly the same as Android (dump shards, modify, add a path to JSON file, etc) same with small exceptions:
+iOS custom sharding works exactly the same as Android (dump shards, modify, add a path to JSON file, etc) with some small exceptions:
 
 * there is no `additional-app-test-apks` feature for iOS
 * every shard in iOS is a separate matrix (FTL limitations)
-* dump shard JSON is different for xctestrun with test plans and not, therefore there is different custom sharding JSON
+* dump shard JSON is different for xctestrun with test plans, therefore there is different custom sharding JSON
   structure for both versions.
 
 #### Custom sharding JSON for xctestrun without Test Plans (example)

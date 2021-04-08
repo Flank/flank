@@ -9,6 +9,8 @@ import com.google.gson.JsonSerializer
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
+private typealias CustomShardChunks = List<Map<String, List<String>>>
+
 val obfuscatePrettyPrinter = GsonBuilder()
     .registerTypeHierarchyAdapter(ListOfStringListTypeToken.rawType, ObfuscatedIosJsonSerializer)
     .registerTypeAdapter(ListOfStringTypeToken.rawType, ObfuscatedAndroidJsonSerializer)
@@ -19,7 +21,7 @@ val obfuscatePrettyPrinter = GsonBuilder()
 internal object ListOfStringTypeToken : TypeToken<List<String>>()
 
 @VisibleForTesting
-internal object ListOfStringListTypeToken : TypeToken<List<Map<String, List<String>>>>()
+internal object ListOfStringListTypeToken : TypeToken<CustomShardChunks>()
 
 private object ObfuscatedAndroidJsonSerializer : JsonSerializer<List<String>> {
     private val obfuscationContext by lazy { mutableMapOf<String, MutableMap<String, String>>() }
@@ -36,11 +38,11 @@ private object ObfuscatedAndroidJsonSerializer : JsonSerializer<List<String>> {
     }
 }
 
-private object ObfuscatedIosJsonSerializer : JsonSerializer<List<Map<String, List<String>>>> {
+private object ObfuscatedIosJsonSerializer : JsonSerializer<CustomShardChunks> {
     private val obfuscationContext by lazy { mutableMapOf<String, MutableMap<String, String>>() }
 
     override fun serialize(
-        src: List<Map<String, List<String>>>,
+        src: CustomShardChunks,
         typeOfSrc: Type,
         context: JsonSerializationContext
     ) = JsonArray().also { jsonArray ->
