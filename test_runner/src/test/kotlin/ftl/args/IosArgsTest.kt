@@ -60,7 +60,7 @@ class IosArgsTest {
             key1: value1
             key2: value2
           network-profile: LTE
-          project: projectFoo
+          project: project-foo
           results-history-name: ios-history
           other-files:
             com.my.app:/Documents/file.txt: local/file.txt
@@ -182,7 +182,7 @@ flank:
                 )
             )
             assert(networkProfile, "LTE")
-            assert(project, "projectFoo")
+            assert(project, "project-foo")
             assert(resultsHistoryName ?: "", "ios-history")
 
             // IosGcloudYml
@@ -275,7 +275,7 @@ IosArgs
         - b/testBasicSelection
         - b/testBasicSelection2
       disable-sharding: true
-      project: projectFoo
+      project: project-foo
       local-result-dir: results
       run-timeout: 15m
       ignore-failed-tests: true
@@ -341,7 +341,7 @@ IosArgs
       # iOS flank
       test-targets:
       disable-sharding: false
-      project: mockProjectId
+      project: mock-project-id
       local-result-dir: results
       run-timeout: -1
       ignore-failed-tests: false
@@ -375,7 +375,7 @@ IosArgs
             assert(recordVideo, false)
             assert(testTimeout, "15m")
             assert(async, false)
-            assert(project, "mockProjectId")
+            assert(project, "mock-project-id")
             assert(clientDetails, null)
             assert(networkProfile, null)
 
@@ -557,6 +557,21 @@ IosArgs
       """
         assertThat(IosArgs.load(yaml).project).isEqualTo("a")
         assertThat(IosArgs.load(yaml, cli).project).isEqualTo("b")
+    }
+
+    @Test
+    fun `should parse cli project as lower case string`() {
+        val cli = IosRunCommand()
+        CommandLine(cli).parseArgs("--project=Upper-B")
+
+        val yaml = """
+        gcloud:
+          test: $testPath
+          xctestrun-file: $xctestrunFile
+          project: uPPer-a
+      """
+        assertThat(IosArgs.load(yaml).project).isEqualTo("upper-a")
+        assertThat(IosArgs.load(yaml, cli).project).isEqualTo("upper-b")
     }
 
     @Test
