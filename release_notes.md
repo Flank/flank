@@ -1,3 +1,20 @@
+## v21.04.1
+### Tests update
+- [#1790](https://github.com/Flank/flank/pull/1790) Update DumpShardsIT ([pawelpasterz](https://github.com/pawelpasterz))
+### Features
+- [#1773](https://github.com/Flank/flank/pull/1773) Add printing total run duration ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1779](https://github.com/Flank/flank/pull/1779) Implement custom sharding -- iOS ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1763](https://github.com/Flank/flank/pull/1763) 1665 implement custom sharding -- android ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1739](https://github.com/Flank/flank/pull/1739) Windows IOS integration tests ([Sloox](https://github.com/Sloox), [adamfilipow92](https://github.com/adamfilipow92))
+### Bug Fixes
+- [#1784](https://github.com/Flank/flank/pull/1784) Skip Dump shards IT test ([Sloox](https://github.com/Sloox))
+- [#1782](https://github.com/Flank/flank/pull/1782) Fix entrypoint file name ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1772](https://github.com/Flank/flank/pull/1772) Fix flank-scripts test failure on MacOS ([adamfilipow92](https://github.com/adamfilipow92), [piotradamczyk5](https://github.com/piotradamczyk5))
+### Documentation
+- [#1775](https://github.com/Flank/flank/pull/1775) Add corellium android example ([pawelpasterz](https://github.com/pawelpasterz))
+### Refactor
+- [#1774](https://github.com/Flank/flank/pull/1774) Move cli to presentation ([Sloox](https://github.com/Sloox))
+
 ## v21.04.0
 ### Bug Fixes
 - [#1761](https://github.com/Flank/flank/pull/1761) Removed mandatory GitHub token on artifacts downloading ([adamfilipow92](https://github.com/adamfilipow92))
