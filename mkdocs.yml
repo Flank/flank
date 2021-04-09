@@ -45,6 +45,8 @@ nav:
       - Domain: "https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/domain#domain"
       - Data: "https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/data#data"
       - Adapter: "https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/adapter#adapter"
+  - Hypershard:
+      - Android: "hypershard_android.md"
 
 theme:
   name: material
