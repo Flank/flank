@@ -12,4 +12,4 @@ data class AndroidTestShards(
     val junitIgnored: List<String> = emptyList()
 )
 
-typealias IosMatrixTestShards = List<List<String>>
+typealias IosMatrixTestShards = List<Map<String, List<String>>>
