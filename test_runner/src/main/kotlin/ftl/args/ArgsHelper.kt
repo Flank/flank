@@ -181,9 +181,10 @@ object ArgsHelper {
         return bucket
     }
 
-    fun getDefaultProjectIdOrNull(): String? = if (useMock) "mockProjectId"
+    fun getDefaultProjectIdOrNull() = (if (useMock) "mock-project-id" else getUserProjectId())?.toLowerCase()
+
     // Allow users control over project by checking using Google's logic first before falling back to JSON.
-    else fromUserProvidedCredentials()
+    private fun getUserProjectId(): String? = fromUserProvidedCredentials()
         ?: ServiceOptions.getDefaultProjectId()?.let { if (it.isBlank()) null else it }
         ?: fromDefaultCredentials()
 

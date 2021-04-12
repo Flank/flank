@@ -47,8 +47,8 @@ nav:
       - Adapter: "https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl/adapter#adapter"
   - Hypershard:
       - iOS: hypershard_ios.md
-
-
+      - Android: hypershard_android.md
+      
 theme:
   name: material
 

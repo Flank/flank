@@ -85,7 +85,7 @@ class AndroidArgsTest {
             key1: value1
             key2: value2
           network-profile: LTE
-          project: projectFoo
+          project: project-foo
           results-history-name: android-history
 
           app: $appApk
@@ -233,7 +233,7 @@ class AndroidArgsTest {
                 )
             )
             assert(networkProfile, "LTE")
-            assert(project, "projectFoo")
+            assert(project, "project-foo")
             assert(resultsHistoryName ?: "", "android-history")
 
             // AndroidGcloudYml
@@ -364,7 +364,7 @@ AndroidArgs
         - class example.Test#grantPermission
         - class example.Test#grantPermission2
       disable-sharding: true
-      project: projectFoo
+      project: project-foo
       local-result-dir: results
       full-junit-result: true
       # Android Flank Yml
@@ -441,7 +441,7 @@ AndroidArgs
       files-to-download:
       test-targets-always-run:
       disable-sharding: false
-      project: mockProjectId
+      project: mock-project-id
       local-result-dir: results
       full-junit-result: false
       # Android Flank Yml
@@ -478,7 +478,7 @@ AndroidArgs
             assert(recordVideo, false)
             assert(testTimeout, "15m")
             assert(async, false)
-            assert(project, "mockProjectId")
+            assert(project, "mock-project-id")
             assert(clientDetails, null)
             assert(networkProfile, null)
 
@@ -968,6 +968,21 @@ AndroidArgs
       """
         assertThat(AndroidArgs.load(yaml).project).isEqualTo("a")
         assertThat(AndroidArgs.load(yaml, cli).project).isEqualTo("b")
+    }
+
+    @Test
+    fun `should parse cli project as lower case string`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parseArgs("--project=Upper-B")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          project: uPPer-a
+      """
+        assertThat(AndroidArgs.load(yaml).project).isEqualTo("upper-a")
+        assertThat(AndroidArgs.load(yaml, cli).project).isEqualTo("upper-b")
     }
 
     @Test
