@@ -178,9 +178,13 @@ val customSharding =
         // we need to change files paths to make tests happy when started on windows OS
         if (isWindows) mapValues { (_, shards) ->
             shards.copy(
-                app = shards.app.replace("/", "\\"),
-                test = shards.test.replace("/", "\\")
+                app = shards.app.changeToWindowsPath(),
+                test = shards.test.changeToWindowsPath()
             )
         }
         else this
     }
+
+private fun String.changeToWindowsPath() =
+    if (startsWith("gs://")) this
+    else replace("/", "\\")
