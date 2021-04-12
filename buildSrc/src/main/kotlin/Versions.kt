@@ -35,7 +35,7 @@ object Versions {
     const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20210325-1.31.0"
 
     // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
-    const val GOOGLE_API = "1.31.3"
+    const val GOOGLE_API = "1.31.4"
 
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
