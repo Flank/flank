@@ -144,7 +144,7 @@ class ArgsHelperTest {
     @Test
     fun `getDefaultProjectId succeeds`() {
         assertThat(ArgsHelper.getDefaultProjectIdOrNull())
-            .isEqualTo("mockProjectId")
+            .isEqualTo("mock-project-id")
     }
 
     private fun makeTmpFile(filePath: String): String {

@@ -42,7 +42,7 @@ class RefreshCommandTest {
                 "matrixId": "matrix-1",
                 "state": "FINISHED",
                 "gcsPath": "1",
-                "webLink": "https://console.firebase.google.com/project/mockProjectId/testlab/histories/1/matrices/1/executions/1",
+                "webLink": "https://console.firebase.google.com/project/mock-project-id/testlab/histories/1/matrices/1/executions/1",
                 "downloaded": false,
                 "billableVirtualMinutes": 1,
                 "billablePhysicalMinutes": 0,
