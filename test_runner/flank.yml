@@ -279,8 +279,8 @@ flank:
   # files-to-download:
   #   - .*\.mp4$
 
-  ### Billing Project Name
-  ## The billing enabled Google Cloud Platform project name to use
+  ### Billing Project ID
+  ## The billing enabled Google Cloud Platform project id to use
   # project: flank-open-source
 
   ### Local Results Directory
