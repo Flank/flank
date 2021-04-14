@@ -3,8 +3,8 @@ package ftl.reports.utils
 import com.google.common.truth.Truth.assertThat
 import com.google.testing.model.TestExecution
 import flank.common.isWindows
+import ftl.adapter.google.GcStorage
 import ftl.args.AndroidArgs
-import ftl.gc.GcStorage
 import ftl.json.validate
 import ftl.reports.CostReport
 import ftl.reports.FullJUnitReport

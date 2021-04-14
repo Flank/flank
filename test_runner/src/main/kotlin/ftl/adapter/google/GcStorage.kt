@@ -1,4 +1,4 @@
-package ftl.gc
+package ftl.adapter.google
 
 import com.google.api.client.http.GoogleApiLogger
 import com.google.api.services.toolresults.model.PerfMetricsSummary

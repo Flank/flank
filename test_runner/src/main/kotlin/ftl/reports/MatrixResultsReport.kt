@@ -3,9 +3,9 @@ package ftl.reports
 import flank.common.log
 import flank.common.println
 import flank.common.startWithNewLine
+import ftl.adapter.google.GcStorage
 import ftl.args.IArgs
 import ftl.config.FtlConstants.indent
-import ftl.gc.GcStorage
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
 import ftl.json.asPrintableTable

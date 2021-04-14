@@ -2,9 +2,9 @@ package ftl.args
 
 import flank.common.defaultCredentialPath
 import flank.common.logLn
+import ftl.adapter.google.GcStorage
 import ftl.config.Device
 import ftl.config.FtlConstants
-import ftl.gc.GcStorage
 import ftl.reports.FullJUnitReport
 import ftl.reports.JUnitReport
 import ftl.run.exception.FlankConfigurationError

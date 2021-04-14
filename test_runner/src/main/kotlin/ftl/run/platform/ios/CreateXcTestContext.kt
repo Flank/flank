@@ -1,8 +1,8 @@
 package ftl.run.platform.ios
 
 import flank.common.join
+import ftl.adapter.google.GcStorage
 import ftl.args.IosArgs
-import ftl.gc.GcStorage
 import ftl.ios.xctest.xcTestRunFlow
 import ftl.run.model.IosTestContext
 import ftl.run.model.XcTestContext

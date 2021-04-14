@@ -3,12 +3,12 @@ package ftl.reports.util
 import com.google.common.annotations.VisibleForTesting
 import com.google.testing.model.TestExecution
 import flank.common.logLn
+import ftl.adapter.google.GcStorage
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IgnoredTestCases
 import ftl.args.IosArgs
 import ftl.args.ShardChunks
-import ftl.gc.GcStorage
 import ftl.json.MatrixMap
 import ftl.json.isAllSuccessful
 import ftl.reports.CostReport

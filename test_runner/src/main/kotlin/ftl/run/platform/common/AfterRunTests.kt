@@ -3,10 +3,10 @@ package ftl.run.platform.common
 import com.google.testing.model.TestMatrix
 import flank.common.logLn
 import flank.common.startWithNewLine
+import ftl.adapter.google.GcStorage.uploadSessionId
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_STORAGE_LINK
-import ftl.gc.GcStorage.uploadSessionId
 import ftl.gc.GcTestMatrix
 import ftl.json.MatrixMap
 import ftl.json.createSavedMatrix

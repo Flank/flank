@@ -1,8 +1,8 @@
 package ftl.test.util
 
 import com.google.cloud.storage.BlobInfo
-import ftl.gc.GcStorage
-import ftl.gc.TestStorageProvider
+import ftl.adapter.google.GcStorage
+import ftl.adapter.google.TestStorageProvider
 import ftl.run.exception.FlankGeneralError
 import org.junit.Assert
 import java.nio.file.Files

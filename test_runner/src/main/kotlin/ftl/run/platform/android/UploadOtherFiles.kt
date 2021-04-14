@@ -1,8 +1,8 @@
 package ftl.run.platform.android
 
+import ftl.adapter.google.GcStorage
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
-import ftl.gc.GcStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll

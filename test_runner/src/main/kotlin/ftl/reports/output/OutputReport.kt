@@ -1,6 +1,6 @@
 package ftl.reports.output
 
-import ftl.gc.GcStorage
+import ftl.adapter.google.GcStorage
 import ftl.run.common.prettyPrint
 import java.io.File
 import java.nio.file.Paths

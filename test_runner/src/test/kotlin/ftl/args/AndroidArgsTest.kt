@@ -2,6 +2,8 @@ package ftl.args
 
 import com.google.common.truth.Truth.assertThat
 import com.google.testing.model.TestSpecification
+import ftl.adapter.google.GcStorage
+import ftl.adapter.google.GcStorage.exist
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 import ftl.args.IArgs.Companion.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE
 import ftl.args.yml.AppTestPair
@@ -9,8 +11,6 @@ import ftl.args.yml.Type
 import ftl.config.Device
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
-import ftl.gc.GcStorage
-import ftl.gc.GcStorage.exist
 import ftl.gc.android.setupAndroidTest
 import ftl.presentation.cli.firebase.test.android.AndroidRunCommand
 import ftl.run.exception.FlankConfigurationError

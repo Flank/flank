@@ -2,11 +2,11 @@ package ftl.cli.firebase.test.android
 
 import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
+import ftl.adapter.google.GcStorage
 import ftl.args.AndroidArgs
 import ftl.args.yml.AppTestPair
 import ftl.config.Device
 import ftl.config.FtlConstants
-import ftl.gc.GcStorage
 import ftl.presentation.cli.firebase.test.android.AndroidRunCommand
 import ftl.run.ANDROID_SHARD_FILE
 import ftl.run.exception.FlankConfigurationError

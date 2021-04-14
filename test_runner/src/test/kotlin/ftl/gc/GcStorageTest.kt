@@ -3,6 +3,7 @@ package ftl.gc
 import com.google.api.services.toolresults.model.AppStartTime
 import com.google.api.services.toolresults.model.Duration
 import com.google.api.services.toolresults.model.PerfMetricsSummary
+import ftl.adapter.google.GcStorage
 import ftl.args.AndroidArgs
 import ftl.test.util.FlankTestRunner
 import io.mockk.every

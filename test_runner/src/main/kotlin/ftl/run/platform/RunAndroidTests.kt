@@ -4,13 +4,13 @@ import com.google.testing.Testing
 import com.google.testing.model.TestMatrix
 import flank.common.join
 import flank.common.logLn
+import ftl.adapter.google.GcStorage
 import ftl.args.AndroidArgs
 import ftl.args.isInstrumentationTest
 import ftl.args.shardsFilePath
 import ftl.config.FtlConstants
 import ftl.gc.GcAndroidDevice
 import ftl.gc.GcAndroidTestMatrix
-import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
 import ftl.run.exception.FlankGeneralError

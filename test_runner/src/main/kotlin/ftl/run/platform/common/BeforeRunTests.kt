@@ -1,9 +1,9 @@
 package ftl.run.platform.common
 
 import flank.common.logLn
+import ftl.adapter.google.GcStorage
 import ftl.args.IArgs
 import ftl.config.FtlConstants
-import ftl.gc.GcStorage
 import ftl.gc.GcTesting
 import ftl.gc.GcToolResults
 import ftl.run.exception.FlankGeneralError

@@ -1,8 +1,8 @@
 package ftl.util
 
+import ftl.adapter.google.GcStorage
 import ftl.args.IArgs
 import ftl.config.FtlConstants
-import ftl.gc.GcStorage
 import ftl.run.exception.FlankGeneralError
 
 data class FileReference(

@@ -2,13 +2,13 @@ package ftl.run.platform
 
 import flank.common.join
 import flank.common.logLn
+import ftl.adapter.google.GcStorage
 import ftl.args.IosArgs
 import ftl.args.isXcTest
 import ftl.args.shardsFilePath
 import ftl.config.FtlConstants
 import ftl.gc.GcIosMatrix
 import ftl.gc.GcIosTestMatrix
-import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
 import ftl.ios.xctest.flattenShardChunks
