@@ -28,4 +28,3 @@ private fun copyApks() {
     val outputDir = Paths.get(flankFixturesTmpPath, "apk", BENCHMARK).toString()
     Paths.get(androidTestProjectsPath, BENCHMARK).toFile().findApks().copyApksToPath(outputDir)
 }
-
