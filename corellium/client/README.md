@@ -15,7 +15,7 @@ JDK 8+ is required (tested on java 8 & 15). [KTOR](https://ktor.io/) is used as 
 To build just run (from the root of the project)
 
 ```
-./gradlew build -p corellium/corellium-client
+./gradlew build -p corellium/client
 ```
 
 ## API

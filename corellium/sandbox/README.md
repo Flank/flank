@@ -51,7 +51,7 @@ There are two options:
 
 ## Corellium client
 
-For details please check [client documentation](../corellium-client/README.md)
+For details please check [client documentation](../client/README.md)
 
 ## Optional Config File
 

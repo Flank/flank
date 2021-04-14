@@ -12,8 +12,8 @@ include(
     "test_projects:android",
     ":common",
     ":corellium",
-    ":corellium:corellium-sandbox",
-    ":corellium:corellium-client"
+    ":corellium:sandbox",
+    ":corellium:client"
 )
 
 plugins {
