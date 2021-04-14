@@ -1,4 +1,4 @@
-package ftl.gc
+package ftl.adapter.google
 
 import com.google.auth.oauth2.ClientId
 import com.google.auth.oauth2.MemoryTokensStorage

@@ -11,11 +11,11 @@ import com.google.cloud.storage.contrib.nio.testing.LocalStorageHelper
 import com.google.common.annotations.VisibleForTesting
 import flank.common.join
 import flank.common.logLn
+import ftl.adapter.google.credential
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.FtlConstants.GCS_STORAGE_LINK
-import ftl.config.credential
 import ftl.json.MatrixMap
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
