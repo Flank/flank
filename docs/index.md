@@ -281,8 +281,8 @@ flank:
   # test-targets:
   #   - className/testName
 
-  ### Billing Project Name
-  ## The billing enabled Google Cloud Platform project name to use
+  ### Billing Project ID
+  ## The billing enabled Google Cloud Platform project id to use
   # project: flank-open-source
 
   ### Local Result Directory Storage
@@ -648,8 +648,8 @@ flank:
   # files-to-download:
   #   - .*\.mp4$
 
-  ### Billing Project Name
-  ## The billing enabled Google Cloud Platform project name to use
+  ### Billing Project ID
+  ## The billing enabled Google Cloud Platform id name to use
   # project: flank-open-source
 
   ### Local Results Directory
@@ -1027,6 +1027,11 @@ and flank's example [gradle-export-api](https://github.com/Flank/flank/tree/mast
 5) > Does Flank support Cucumber?
    
    Please check [document](docs/cucumber_support.md) for more info
+
+6) > How can I find project id?
+   
+  Please check the [firebase documentation](https://firebase.google.com/docs/projects/learn-more?hl=en#find_the_project_id) about finding the project id
+   
 
 # Resources
 
