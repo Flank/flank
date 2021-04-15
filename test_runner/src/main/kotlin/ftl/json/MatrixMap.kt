@@ -1,7 +1,7 @@
 package ftl.json
 
 import com.google.testing.model.TestMatrix
-import ftl.environment.orUnknown
+import ftl.adapter.environment.orUnknown
 import ftl.reports.outcome.getOutcomeMessageByKey
 import ftl.run.exception.FTLError
 import ftl.run.exception.FailedMatrixError

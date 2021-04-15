@@ -1,9 +1,10 @@
 package ftl.domain
 
 import flank.common.logLn
+import ftl.adapter.environment.ipBlocksList
+import ftl.adapter.environment.toCliTable
 import ftl.android.AndroidCatalog
 import ftl.args.AndroidArgs
-import ftl.environment.ipBlocksListAsTable
 import ftl.environment.networkConfigurationAsTable
 import ftl.environment.providedSoftwareAsTable
 import java.nio.file.Paths
@@ -20,5 +21,6 @@ fun DescribeAndroidTestEnvironment.invoke() {
     logLn(providedSoftwareAsTable())
     logLn(networkConfigurationAsTable())
     logLn(AndroidCatalog.supportedOrientationsAsTable(projectId))
-    logLn(ipBlocksListAsTable())
+    // TODO move toCliTable() to presentation layer during refactor of presentation after #1728
+    logLn(ipBlocksList().toCliTable())
 }

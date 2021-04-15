@@ -1,10 +1,10 @@
 package ftl.environment.common
 
 import com.google.testing.model.Orientation
-import ftl.environment.TestEnvironmentInfo
-import ftl.environment.createTableColumnFor
-import ftl.environment.getOrCreateList
-import ftl.environment.tagToSystemOutColorMapper
+import ftl.adapter.environment.TestEnvironmentInfo
+import ftl.adapter.environment.createTableColumnFor
+import ftl.adapter.environment.getOrCreateList
+import ftl.adapter.environment.tagToSystemOutColorMapper
 import ftl.util.applyColorsUsing
 import ftl.util.buildTable
 

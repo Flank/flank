@@ -2,8 +2,8 @@ package ftl.json
 
 import com.google.testing.model.FileReference
 import com.google.testing.model.TestMatrix
+import ftl.adapter.environment.orUnknown
 import ftl.analytics.toJSONObject
-import ftl.environment.orUnknown
 import ftl.reports.outcome.BillableMinutes
 import ftl.reports.outcome.TestOutcome
 import ftl.reports.outcome.createMatrixOutcomeSummary
