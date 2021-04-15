@@ -1,0 +1,24 @@
+gcloud:
+  app: "./src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk"
+  test: "./src/test/kotlin/ftl/fixtures/tmp/apk/benchmark/benchmark-debug-androidTest.apk"
+  use-orchestrator: false
+  directories-to-pull:
+    - "/sdcard/Android/data/com.futuremark.dmandroid.application/files/3DMarkAndroid/"
+  additional-apks:
+    - "./src/test/kotlin/ftl/fixtures/tmp/apk/benchmark/PassMark_PerformanceTest_10.0.1001-fileplanet.apk"
+  device:
+    - model: NexusLowRes
+      version: 30
+      locale: en
+      orientation: portrait
+    - model: NexusLowResEmulator
+      version: 30
+      locale: en
+      orientation: portrait
+#    - model: redfin
+#      version: 30
+#      locale: en
+#      orientation: portrait
+  record-video: true
+  test-targets:
+    - "class com.example.test.benchmark.RunPassMark"
