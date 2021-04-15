@@ -1,4 +1,4 @@
-package ftl.config
+package ftl.adapter.google
 
 import com.google.api.client.http.GoogleApiLogger
 import com.google.api.client.http.HttpRequestInitializer
@@ -7,7 +7,7 @@ import com.google.auth.oauth2.GoogleCredentials
 import com.google.auth.oauth2.ServiceAccountCredentials
 import flank.common.defaultCredentialPath
 import flank.common.isWindows
-import ftl.gc.UserAuth
+import ftl.config.FtlConstants
 import ftl.http.HttpTimeoutIncrease
 import ftl.run.exception.FlankGeneralError
 import java.io.IOException

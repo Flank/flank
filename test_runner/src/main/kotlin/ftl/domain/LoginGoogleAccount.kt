@@ -1,9 +1,9 @@
 package ftl.domain
 
-import ftl.gc.UserAuth
+import ftl.data.requestUserAuthorization
 
 interface LoginGoogleAccount
 
 operator fun LoginGoogleAccount.invoke() {
-    UserAuth().request()
+    requestUserAuthorization()
 }

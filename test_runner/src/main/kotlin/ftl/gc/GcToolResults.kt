@@ -13,12 +13,13 @@ import com.google.testing.model.TestExecution
 import com.google.testing.model.ToolResultsExecution
 import com.google.testing.model.ToolResultsHistory
 import com.google.testing.model.ToolResultsStep
+import ftl.adapter.google.UserAuth
+import ftl.adapter.google.httpCredential
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.config.FtlConstants.applicationName
 import ftl.config.FtlConstants.httpTransport
-import ftl.config.httpCredential
 import ftl.http.executeWithRetry
 import ftl.run.exception.FTLProjectError
 import ftl.run.exception.FailureToken
