@@ -16,6 +16,8 @@ import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.FtlConstants.GCS_STORAGE_LINK
 import ftl.config.credential
+import ftl.data.RemoteStorage
+import ftl.data.uploadToRemoteStorage
 import ftl.json.MatrixMap
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
@@ -59,13 +61,7 @@ object GcStorage {
 
     fun upload(file: String, rootGcsBucket: String, runGcsPath: String): String {
         if (file.startsWith(GCS_PREFIX)) return file
-
-        return upload(
-            filePath = file,
-            fileBytes = Files.readAllBytes(Paths.get(file)),
-            rootGcsBucket = rootGcsBucket,
-            runGcsPath = runGcsPath
-        )
+        return uploadToRemoteStorage(RemoteStorage.Dir(rootGcsBucket, runGcsPath), RemoteStorage.Data(file, Files.readAllBytes(Paths.get(file))))
     }
 
     fun uploadJunitXml(testResult: JUnitTestResult, args: IArgs) {
@@ -83,11 +79,9 @@ object GcStorage {
 
     fun uploadPerformanceMetrics(perfMetricsSummary: PerfMetricsSummary, resultsBucket: String, resultDir: String) =
         runCatching {
-            upload(
-                "performanceMetrics.json",
-                perfMetricsSummary.toPrettyString().toByteArray(),
-                resultsBucket,
-                resultDir
+            uploadToRemoteStorage(
+                RemoteStorage.Dir(resultsBucket, resultDir),
+                RemoteStorage.Data("performanceMetrics.json", perfMetricsSummary.toPrettyString().toByteArray())
             )
         }.onFailure {
             logLn("Cannot upload performance metrics ${it.message}")
@@ -112,20 +106,16 @@ object GcStorage {
 
     fun uploadReportResult(testResult: String, args: IArgs, fileName: String) {
         if (args.resultsBucket.isBlank() || args.resultsDir.isBlank() || args.disableResultsUpload) return
-        upload(
-            filePath = fileName,
-            fileBytes = testResult.toByteArray(),
-            rootGcsBucket = args.resultsBucket,
-            runGcsPath = args.resultsDir
+        uploadToRemoteStorage(
+            RemoteStorage.Dir(args.resultsBucket, args.resultsDir),
+            RemoteStorage.Data(fileName, testResult.toByteArray())
         )
     }
 
     fun uploadXCTestFile(fileName: String, gcsBucket: String, runGcsPath: String, fileBytes: ByteArray): String =
-        upload(
-            filePath = fileName,
-            fileBytes = fileBytes,
-            rootGcsBucket = gcsBucket,
-            runGcsPath = runGcsPath
+        uploadToRemoteStorage(
+            RemoteStorage.Dir(gcsBucket, runGcsPath),
+            RemoteStorage.Data(fileName, fileBytes)
         )
 
     // junit xml may not exist. ignore error if it doesn't exist

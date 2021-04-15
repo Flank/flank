@@ -20,5 +20,5 @@ object RemoteStorage {
 
     interface Exist : (Dir) -> Boolean
 
-    interface Upload : (Dir, Data) -> Unit
+    interface Upload : (Dir, Data) -> String
 }

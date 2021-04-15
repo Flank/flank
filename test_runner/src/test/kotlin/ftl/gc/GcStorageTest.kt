@@ -5,6 +5,9 @@ import com.google.api.services.toolresults.model.Duration
 import com.google.api.services.toolresults.model.PerfMetricsSummary
 import ftl.adapter.google.GcStorage
 import ftl.args.AndroidArgs
+import ftl.data.RemoteStorage
+import ftl.data.existRemoteStorage
+import ftl.data.uploadToRemoteStorage
 import ftl.test.util.FlankTestRunner
 import io.mockk.every
 import io.mockk.mockk
@@ -65,11 +68,9 @@ class GcStorageTest {
                 "path1/baz.foo",
                 "path2/baz.foo"
             ).map { filePath ->
-                GcStorage.upload(
-                    filePath = filePath,
-                    fileBytes = ByteArray(0),
-                    rootGcsBucket = "bucket",
-                    runGcsPath = "gcsPath"
+                uploadToRemoteStorage(
+                    RemoteStorage.Dir("bucket", "gcsPath"),
+                    RemoteStorage.Data(filePath, ByteArray(0))
                 )
             }
         )
@@ -81,10 +82,7 @@ class GcStorageTest {
         GcStorage.upload(File.createTempFile("testFile", ".txt").path, "bucket", "path")
 
         // when
-        val actual = GcStorage.exist(
-            "bucket",
-            "path"
-        )
+        val actual = existRemoteStorage(RemoteStorage.Dir("bucket", "path"))
 
         // then
         assertTrue(actual)
@@ -93,10 +91,7 @@ class GcStorageTest {
     @Test
     fun `should return that file does not exist`() {
         // when
-        val actual = GcStorage.exist(
-            "bucket",
-            "path_not_existed"
-        )
+        val actual = existRemoteStorage(RemoteStorage.Dir("bucket", "path_not_existed"))
 
         // then
         assertFalse(actual)
