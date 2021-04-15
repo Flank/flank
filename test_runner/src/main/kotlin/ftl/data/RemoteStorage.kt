@@ -1,8 +1,9 @@
 package ftl.data
 
 import ftl.adapter.GcStorageExists
+import ftl.adapter.GcStorageUpload
 
-val uploadToRemoteStorage: RemoteStorage.Upload get() = TODO()
+val uploadToRemoteStorage: RemoteStorage.Upload get() = GcStorageUpload
 val existRemoteStorage: RemoteStorage.Exist get() = GcStorageExists
 
 object RemoteStorage {
@@ -12,9 +13,9 @@ object RemoteStorage {
         val path: String
     )
 
-    class Data(
+    data class Data(
         val path: String,
-        val bytes: ByteArray? = null // Use, when file under the given path doesn't exist.
+        val bytes: ByteArray
     )
 
     interface Exist : (Dir) -> Boolean
