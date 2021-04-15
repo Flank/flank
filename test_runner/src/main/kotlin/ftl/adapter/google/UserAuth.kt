@@ -45,7 +45,7 @@ class UserAuth {
         }
 
         fun throwAuthenticationError(): Nothing {
-            Files.delete(userToken)
+            Files.deleteIfExists(userToken)
             throw FlankGeneralError(
                 "Could not load user authentication, please\n" +
                     " - login again using command: flank auth login\n" +
