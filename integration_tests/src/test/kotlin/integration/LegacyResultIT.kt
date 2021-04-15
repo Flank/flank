@@ -1,7 +1,9 @@
 package integration
 
 import FlankCommand
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
+import flank.common.isWindows
+import org.junit.Assume.assumeFalse
 import org.junit.Test
 import run
 import utils.CONFIGS_PATH
@@ -37,17 +39,17 @@ class LegacyResultIT {
 
         val resOutput = result.output.removeUnicode()
         val resultDirectory = resOutput.findTestDirectoryFromOutput()
-        Truth.assertThat(resultDirectory.toJUnitXmlFile().exists()).isTrue()
+        assertThat(resultDirectory.toJUnitXmlFile().exists()).isTrue()
 
         val outputReport = resultDirectory.toOutputReportFile().json().asOutputReport()
 
-        Truth.assertThat(outputReport.error).isEmpty()
-        Truth.assertThat(outputReport.cost).isNotNull()
+        assertThat(outputReport.error).isEmpty()
+        assertThat(outputReport.cost).isNotNull()
 
         outputReport.assertCostMatches()
 
-        Truth.assertThat(outputReport.testResults.count()).isEqualTo(1)
-        Truth.assertThat(outputReport.weblinks.count()).isEqualTo(1)
+        assertThat(outputReport.testResults.count()).isEqualTo(1)
+        assertThat(outputReport.weblinks.count()).isEqualTo(1)
 
         val testSuiteOverview = outputReport.firstTestSuiteOverview
 
@@ -59,6 +61,7 @@ class LegacyResultIT {
 
     @Test
     fun iosLegacyJUnitResultTest() {
+        assumeFalse(isWindows)
         val result = FlankCommand(
             flankPath = FLANK_JAR_PATH,
             ymlPath = "$CONFIGS_PATH/flank_ios_single_legacy.yml",
@@ -72,15 +75,15 @@ class LegacyResultIT {
 
         val resOutput = result.output.removeUnicode()
         val resultDirectory = resOutput.findTestDirectoryFromOutput()
-        Truth.assertThat(resultDirectory.toJUnitXmlFile().exists()).isTrue()
+        assertThat(resultDirectory.toJUnitXmlFile().exists()).isTrue()
 
         val outputReport = resultDirectory.toOutputReportFile().json().asOutputReport()
 
-        Truth.assertThat(outputReport.error).isEmpty()
-        Truth.assertThat(outputReport.cost).isNotNull()
+        assertThat(outputReport.error).isEmpty()
+        assertThat(outputReport.cost).isNotNull()
 
-        Truth.assertThat(outputReport.testResults.count()).isEqualTo(1)
-        Truth.assertThat(outputReport.weblinks.count()).isEqualTo(1)
+        assertThat(outputReport.testResults.count()).isEqualTo(1)
+        assertThat(outputReport.weblinks.count()).isEqualTo(1)
 
         val testSuiteOverview = outputReport.firstTestSuiteOverview
 
