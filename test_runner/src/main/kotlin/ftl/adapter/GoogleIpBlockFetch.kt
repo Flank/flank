@@ -1,8 +1,8 @@
 package ftl.adapter
 
 import ftl.adapter.google.deviceIPBlocks
-import ftl.data.IpBlock
 import ftl.adapter.google.prettyDate
+import ftl.data.IpBlock
 
 object GoogleIpBlockFetch :
     IpBlock.Fetch,

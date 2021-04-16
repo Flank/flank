@@ -17,5 +17,3 @@ object GcTesting {
         builder.build()
     }
 }
-
-
