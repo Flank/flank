@@ -1,11 +1,11 @@
 package ftl.domain
 
 import flank.common.logLn
-import ftl.adapter.environment.ipBlocksList
-import ftl.adapter.environment.toCliTable
 import ftl.args.IosArgs
+import ftl.environment.ipBlocksList
 import ftl.environment.networkConfigurationAsTable
 import ftl.environment.providedSoftwareAsTable
+import ftl.environment.toCliTable
 import ftl.ios.IosCatalog
 import java.nio.file.Paths
 

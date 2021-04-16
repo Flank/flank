@@ -1,7 +1,7 @@
 package ftl.adapter
 
-import ftl.adapter.environment.ipBlocksList
 import ftl.data.IpBlock
+import ftl.environment.ipBlocksList
 
 object GoogleIpBlockFetch :
     IpBlock.Fetch,

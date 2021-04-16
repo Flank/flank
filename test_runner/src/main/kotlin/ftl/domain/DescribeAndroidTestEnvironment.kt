@@ -1,12 +1,12 @@
 package ftl.domain
 
 import flank.common.logLn
-import ftl.adapter.environment.ipBlocksList
-import ftl.adapter.environment.toCliTable
 import ftl.android.AndroidCatalog
 import ftl.args.AndroidArgs
+import ftl.environment.ipBlocksList
 import ftl.environment.networkConfigurationAsTable
 import ftl.environment.providedSoftwareAsTable
+import ftl.environment.toCliTable
 import java.nio.file.Paths
 
 interface DescribeAndroidTestEnvironment {
