@@ -1,4 +1,4 @@
-package ftl.gc
+package ftl.adapter.google
 
 import com.google.auth.oauth2.ClientId
 import com.google.auth.oauth2.MemoryTokensStorage
@@ -45,7 +45,7 @@ class UserAuth {
         }
 
         fun throwAuthenticationError(): Nothing {
-            Files.delete(userToken)
+            Files.deleteIfExists(userToken)
             throw FlankGeneralError(
                 "Could not load user authentication, please\n" +
                     " - login again using command: flank auth login\n" +
