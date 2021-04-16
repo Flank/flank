@@ -10,6 +10,7 @@ import flank.corellium.client.data.Instance
 import flank.corellium.client.data.Project
 import flank.corellium.client.util.withProgress
 import flank.corellium.client.util.withRetry
+import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.header
@@ -113,7 +114,7 @@ suspend fun Corellium.connectAgent(
     connectAgent(
         agentUrl = "${urlBase.replace("https", "wss")}/agent/$agentInfo",
         token = token,
-        logLevel = logLevel,
+        logLevel = LogLevel.NONE,
     )
 
 suspend fun Corellium.getVPNConfig(

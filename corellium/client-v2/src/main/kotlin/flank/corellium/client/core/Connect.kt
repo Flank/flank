@@ -18,8 +18,7 @@ import kotlinx.serialization.json.Json
 suspend fun connectCorellium(
     api: String,
     username: String,
-    password: String,
-    logLevel: LogLevel = LogLevel.NONE
+    password: String
 ): Corellium {
     val client = HttpClient(CIO) {
         install(JsonFeature) {
@@ -31,7 +30,7 @@ suspend fun connectCorellium(
             )
         }
         install(Logging) {
-            level = logLevel
+            level = LogLevel.NONE
         }
     }
 
@@ -48,7 +47,6 @@ suspend fun connectCorellium(
     return Corellium(
         client = client,
         urlBase = token,
-        token = token,
-        logLevel = logLevel
+        token = token
     )
 }
