@@ -26,9 +26,9 @@ private const val flavor = "ranchu"
 private const val os = "11.0.0"
 private const val screen = "720x1280:280"
 private const val projectName = "Default Project"
-private const val apkPath = "./corellium/corellium-sandbox/src/main/resources/android/app-debug.apk"
+private const val apkPath = "./corellium/sandbox/src/main/resources/android/app-debug.apk"
 private const val testApkPath =
-    "./corellium/corellium-sandbox/src/main/resources/android/app-multiple-success-debug-androidTest.apk"
+    "./corellium/sandbox/src/main/resources/android/app-multiple-success-debug-androidTest.apk"
 private const val pathToUpload = "/sdcard"
 
 fun main(): Unit = runBlocking {
