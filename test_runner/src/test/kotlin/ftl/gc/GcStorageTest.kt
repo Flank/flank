@@ -8,6 +8,7 @@ import ftl.args.AndroidArgs
 import ftl.data.RemoteStorage
 import ftl.data.existRemoteStorage
 import ftl.data.uploadToRemoteStorage
+import ftl.reports.api.uploadPerformanceMetrics
 import ftl.test.util.FlankTestRunner
 import io.mockk.every
 import io.mockk.mockk
@@ -41,7 +42,7 @@ class GcStorageTest {
             .setAppStartTime(AppStartTime().setInitialDisplayTime(Duration().setSeconds(5)))
 
         // when
-        val filePath = GcStorage.uploadPerformanceMetrics(expectedPerformanceMetrics, "bucket", "path/test")
+        val filePath = uploadPerformanceMetrics(expectedPerformanceMetrics, "bucket", "path/test")
 
         // then
         assertTrue(GcStorage.exist(filePath.orEmpty()))

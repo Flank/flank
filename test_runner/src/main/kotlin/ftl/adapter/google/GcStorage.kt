@@ -1,7 +1,6 @@
 package ftl.adapter.google
 
 import com.google.api.client.http.GoogleApiLogger
-import com.google.api.services.toolresults.model.PerfMetricsSummary
 import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.Storage.BlobListOption.pageSize
@@ -10,7 +9,6 @@ import com.google.cloud.storage.StorageOptions
 import com.google.cloud.storage.contrib.nio.testing.LocalStorageHelper
 import com.google.common.annotations.VisibleForTesting
 import flank.common.join
-import flank.common.logLn
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
@@ -57,7 +55,13 @@ object GcStorage {
 
     @VisibleForTesting
     internal fun upload(file: String, rootGcsBucket: String, runGcsPath: String): String {
-        return uploadToRemoteStorage(RemoteStorage.Dir(rootGcsBucket, runGcsPath), RemoteStorage.Data(file, Files.readAllBytes(Paths.get(file))))
+        if (file.startsWith(GCS_PREFIX)) return file
+        return upload(
+            filePath = file,
+            fileBytes = Files.readAllBytes(Paths.get(file)),
+            rootGcsBucket = rootGcsBucket,
+            runGcsPath = runGcsPath
+        )
     }
 
     fun uploadJunitXml(testResult: JUnitTestResult, args: IArgs) {
@@ -73,16 +77,6 @@ object GcStorage {
         )
     }
 
-    fun uploadPerformanceMetrics(perfMetricsSummary: PerfMetricsSummary, resultsBucket: String, resultDir: String) =
-        runCatching {
-            uploadToRemoteStorage(
-                RemoteStorage.Dir(resultsBucket, resultDir),
-                RemoteStorage.Data("performanceMetrics.json", perfMetricsSummary.toPrettyString().toByteArray())
-            )
-        }.onFailure {
-            logLn("Cannot upload performance metrics ${it.message}")
-        }.getOrNull()
-
     fun uploadReportResult(testResult: String, args: IArgs, fileName: String) {
         if (args.resultsBucket.isBlank() || args.resultsDir.isBlank() || args.disableResultsUpload) return
         uploadToRemoteStorage(
@@ -90,12 +84,6 @@ object GcStorage {
             RemoteStorage.Data(fileName, testResult.toByteArray())
         )
     }
-
-    fun uploadXCTestFile(fileName: String, gcsBucket: String, runGcsPath: String, fileBytes: ByteArray): String =
-        uploadToRemoteStorage(
-            RemoteStorage.Dir(gcsBucket, runGcsPath),
-            RemoteStorage.Data(fileName, fileBytes)
-        )
 
     // junit xml may not exist. ignore error if it doesn't exist
     fun downloadJunitXml(
@@ -168,7 +156,8 @@ object GcStorage {
         }
     }
 
-    fun exist(
+    @VisibleForTesting
+    internal fun exist(
         rootGcsBucket: String,
         runGcsPath: String
     ) = storage.list(rootGcsBucket, pageSize(1), prefix("$runGcsPath/")).values.count() > 0
