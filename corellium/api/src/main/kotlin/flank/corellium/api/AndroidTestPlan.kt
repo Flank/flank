@@ -8,7 +8,7 @@ object AndroidTestPlan {
     /**
      * The configuration of the Android test plan.
      *
-     * @property instances the map of shards related to instance ids.
+     * @property instances the map of instance ids with related shards.
      */
     data class Config(
         val instances: Map<InstanceId, List<Shard>>

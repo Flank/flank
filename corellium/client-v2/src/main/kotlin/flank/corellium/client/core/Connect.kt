@@ -46,7 +46,7 @@ suspend fun connectCorellium(
 
     return Corellium(
         client = client,
-        urlBase = token,
+        urlBase = urlBase,
         token = token
     )
 }
