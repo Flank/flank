@@ -10,14 +10,13 @@ import flank.scripts.data.github.getLabelsFromIssue
 import flank.scripts.data.github.objects.GithubPullRequest
 import flank.scripts.data.github.setAssigneesToPullRequest
 import flank.scripts.data.github.setLabelsToPullRequest
-import flank.scripts.data.zenhub.copyEstimation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-fun copyGitHubProperties(githubToken: String, zenhubToken: String, prNumber: Int) = runBlocking {
+fun copyGitHubProperties(githubToken: String, prNumber: Int) = runBlocking {
     getGitHubPullRequest(githubToken, prNumber)
         .onError { println("Could not copy properties, because of ${it.message}") }
         .success { pullRequest ->
@@ -27,13 +26,6 @@ fun copyGitHubProperties(githubToken: String, zenhubToken: String, prNumber: Int
             launch(Dispatchers.IO) {
                 copyGitHubProperties(
                     githubToken,
-                    issueNumber,
-                    prNumber
-                )
-            }
-            launch(Dispatchers.IO) {
-                copyZenhubProperties(
-                    zenhubToken,
                     issueNumber,
                     prNumber
                 )
@@ -79,12 +71,4 @@ internal suspend fun copyLabels(githubToken: String, issueNumber: Int, pullReque
         .map { it.map { label -> label.name } }
         .getOrNull()
         ?.run { setLabelsToPullRequest(githubToken, pullRequestNumber, this) }
-}
-
-private suspend fun copyZenhubProperties(
-    zenhubToken: String,
-    baseIssueNumber: Int,
-    prNumber: Int
-) {
-    copyEstimation(zenhubToken, baseIssueNumber, prNumber)
 }
