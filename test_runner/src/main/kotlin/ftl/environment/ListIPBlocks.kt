@@ -1,4 +1,4 @@
-package ftl.adapter.environment
+package ftl.environment
 
 import com.google.testing.model.Date
 import com.google.testing.model.DeviceIpBlock
@@ -7,7 +7,7 @@ import ftl.gc.deviceIPBlocks
 import ftl.reports.api.twoDigitString
 import java.util.Objects
 
-fun ipBlocksList() = deviceIPBlocks().toIpBlocks()
+fun ipBlocksList(): List<IpBlock> = deviceIPBlocks().toIpBlocks()
 
 private fun List<DeviceIpBlock>.toIpBlocks(): List<IpBlock> =
     map { IpBlock(it.block.orUnable, it.form.orUnable, addedDate = it.addedDate.prettyDate) }

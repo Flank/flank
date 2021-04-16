@@ -1,8 +1,8 @@
 package ftl.domain
 
 import flank.common.logLn
-import ftl.adapter.environment.toCliTable
 import ftl.data.fetchIpBLocks
+import ftl.environment.toCliTable
 
 interface ListIPBlocks
 
