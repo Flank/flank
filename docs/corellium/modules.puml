@@ -1,0 +1,14 @@
+@startuml
+
+left to right direction
+
+[cli] #snow
+[domain] #snow
+
+[cli] --> [domain]
+[domain] --> [api]
+[domain] ...> [adapter]
+[api] <-- [adapter]
+[adapter] --> [client]
+
+@enduml
