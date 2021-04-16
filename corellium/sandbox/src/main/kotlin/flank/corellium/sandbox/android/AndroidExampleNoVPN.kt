@@ -2,9 +2,21 @@
 
 package flank.corellium.sandbox.android
 
-import flank.corellium.client.Corellium
-import flank.corellium.client.data.BootOptions
+import flank.corellium.client.agent.disconnect
+import flank.corellium.client.agent.uploadFile
+import flank.corellium.client.console.close
+import flank.corellium.client.console.sendCommand
+import flank.corellium.client.console.waitForIdle
+import flank.corellium.client.core.connectAgent
+import flank.corellium.client.core.connectConsole
+import flank.corellium.client.core.connectCorellium
+import flank.corellium.client.core.createNewInstance
+import flank.corellium.client.core.getAllProjects
+import flank.corellium.client.core.getInstanceInfo
+import flank.corellium.client.core.getProjectInstancesList
+import flank.corellium.client.core.waitUntilInstanceIsReady
 import flank.corellium.client.data.Instance
+import flank.corellium.client.data.Instance.BootOptions
 import flank.corellium.sandbox.config.Config
 import kotlinx.coroutines.runBlocking
 import java.io.File
@@ -20,13 +32,11 @@ private const val testApkPath =
 private const val pathToUpload = "/sdcard"
 
 fun main(): Unit = runBlocking {
-    val client = Corellium(
+    val client = connectCorellium(
         api = Config.api,
         username = Config.username,
         password = Config.password
     )
-
-    client.logIn()
 
     val projectId = client.getAllProjects().first { it.name == projectName }.id
 
@@ -54,9 +64,8 @@ fun main(): Unit = runBlocking {
     val instance = client.getInstanceInfo(instanceId)
 
     println("Creating agent")
-    val agent = client.createAgent(instance.agent?.info ?: error("Agent info is not present"))
     println("Await agent is connected and ready to use")
-    agent.waitForAgentReady()
+    val agent = client.connectAgent(instance.agent?.info ?: error("Agent info is not present"))
     println("Agent ready")
 
     agent.uploadFile(
@@ -69,11 +78,14 @@ fun main(): Unit = runBlocking {
         bytes = File(testApkPath).readBytes()
     )
 
-    val console = client.getInstanceConsole(instanceId)
+    val console = client.connectConsole(instanceId)
 
     console.sendCommand("pm install $pathToUpload/app-debug.apk")
     console.sendCommand("pm install -t $pathToUpload/app-multiple-success-debug-androidTest.apk")
     console.sendCommand("am instrument -w com.example.test_app.test/androidx.test.runner.AndroidJUnitRunner")
 
-    console.waitUntilFinished()
+    console.waitForIdle(5_000)
+    console.close()
+
+    agent.disconnect()
 }
