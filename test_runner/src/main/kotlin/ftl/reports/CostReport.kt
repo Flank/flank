@@ -1,11 +1,11 @@
 package ftl.reports
 
 import flank.common.println
-import ftl.adapter.google.GcStorage
 import ftl.args.IArgs
 import ftl.config.FtlConstants.indent
 import ftl.json.MatrixMap
 import ftl.reports.util.IReport
+import ftl.reports.util.uploadReportResult
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.util.estimateCosts
 import java.io.StringWriter
@@ -40,6 +40,6 @@ object CostReport : IReport {
         val output = generate(matrices)
         if (printToStdout) print(output)
         write(matrices, output, args)
-        GcStorage.uploadReportResult(output, args, fileName())
+        uploadReportResult(output, args, fileName())
     }
 }

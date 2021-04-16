@@ -254,6 +254,14 @@ object ReportManager {
     }
 }
 
+fun uploadReportResult(testResult: String, args: IArgs, fileName: String) {
+    if (args.resultsBucket?.isBlank() || args.resultsDir?.isBlank() || args?.disableResultsUpload) return
+    uploadToRemoteStorage(
+        RemoteStorage.Dir(args.resultsBucket, args.resultsDir),
+        RemoteStorage.Data(fileName, testResult.toByteArray())
+    )
+}
+
 fun uploadMatricesId(args: IArgs, matrixMap: MatrixMap) {
     if (args.disableResultsUpload) return
     val file = args.getMatrixFilePath(matrixMap).toString()

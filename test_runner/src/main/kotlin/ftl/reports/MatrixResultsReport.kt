@@ -3,7 +3,6 @@ package ftl.reports
 import flank.common.log
 import flank.common.println
 import flank.common.startWithNewLine
-import ftl.adapter.google.GcStorage
 import ftl.args.IArgs
 import ftl.config.FtlConstants.indent
 import ftl.json.MatrixMap
@@ -13,6 +12,7 @@ import ftl.json.isFailed
 import ftl.reports.output.log
 import ftl.reports.output.outputReport
 import ftl.reports.util.IReport
+import ftl.reports.util.uploadReportResult
 import ftl.reports.xml.model.JUnitTestResult
 import java.io.StringWriter
 import java.text.DecimalFormat
@@ -77,6 +77,6 @@ object MatrixResultsReport : IReport {
         val output = generate(matrices)
         if (printToStdout) log(output)
         write(matrices, output, args)
-        GcStorage.uploadReportResult(output, args, fileName())
+        uploadReportResult(output, args, fileName())
     }
 }

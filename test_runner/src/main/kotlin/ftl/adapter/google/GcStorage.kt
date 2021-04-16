@@ -13,8 +13,6 @@ import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.FtlConstants.GCS_STORAGE_LINK
-import ftl.data.RemoteStorage
-import ftl.data.uploadToRemoteStorage
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.xmlToString
@@ -74,14 +72,6 @@ object GcStorage {
             bucket = rawPath.substringBefore('/'),
             path = rawPath.substringAfter('/'),
             name = "smart flank XML"
-        )
-    }
-
-    fun uploadReportResult(testResult: String, args: IArgs, fileName: String) {
-        if (args.resultsBucket.isBlank() || args.resultsDir.isBlank() || args.disableResultsUpload) return
-        uploadToRemoteStorage(
-            RemoteStorage.Dir(args.resultsBucket, args.resultsDir),
-            RemoteStorage.Data(fileName, testResult.toByteArray())
         )
     }
 

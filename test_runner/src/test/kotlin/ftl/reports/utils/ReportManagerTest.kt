@@ -14,6 +14,7 @@ import ftl.reports.api.createJUnitTestResult
 import ftl.reports.api.refreshMatricesAndGetExecutions
 import ftl.reports.util.ReportManager
 import ftl.reports.util.getMatrixPath
+import ftl.reports.util.uploadReportResult
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
@@ -165,13 +166,13 @@ class ReportManagerTest {
         val mockArgs = prepareMockAndroidArgs()
         mockkObject(GcStorage) {
             every {
-                GcStorage.uploadReportResult(any(), any(), any())
+                uploadReportResult(any(), any(), any())
             } returns Unit
             ReportManager.generate(matrix, mockArgs, emptyList())
             verify {
-                GcStorage.uploadReportResult(any(), mockArgs, CostReport.fileName())
-                GcStorage.uploadReportResult(any(), mockArgs, MatrixResultsReport.fileName())
-                GcStorage.uploadReportResult(any(), mockArgs, JUnitReport.fileName())
+                uploadReportResult(any(), mockArgs, CostReport.fileName())
+                uploadReportResult(any(), mockArgs, MatrixResultsReport.fileName())
+                uploadReportResult(any(), mockArgs, JUnitReport.fileName())
             }
         }
     }
@@ -183,14 +184,14 @@ class ReportManagerTest {
         every { mockArgs.disableResultsUpload } returns true
         mockkObject(GcStorage) {
             every {
-                GcStorage.uploadReportResult(any(), any(), any())
+                uploadReportResult(any(), any(), any())
             } returns Unit
             ReportManager.generate(matrix, mockArgs, emptyList())
             verify(inverse = true) {
-                GcStorage.uploadReportResult(any(), mockArgs, CostReport.fileName())
-                GcStorage.uploadReportResult(any(), mockArgs, MatrixResultsReport.fileName())
-                GcStorage.uploadReportResult(any(), mockArgs, JUnitReport.fileName())
-                GcStorage.uploadReportResult(any(), mockArgs, FullJUnitReport.fileName())
+                uploadReportResult(any(), mockArgs, CostReport.fileName())
+                uploadReportResult(any(), mockArgs, MatrixResultsReport.fileName())
+                uploadReportResult(any(), mockArgs, JUnitReport.fileName())
+                uploadReportResult(any(), mockArgs, FullJUnitReport.fileName())
             }
         }
     }
@@ -201,11 +202,11 @@ class ReportManagerTest {
         val mockArgs = prepareMockAndroidArgs()
         mockkObject(GcStorage) {
             every {
-                GcStorage.uploadReportResult(any(), any(), any())
+                uploadReportResult(any(), any(), any())
             } returns Unit
             ReportManager.generate(matrix, mockArgs, emptyList())
             verify(inverse = true) {
-                GcStorage.uploadReportResult(any(), mockArgs, FullJUnitReport.fileName())
+                uploadReportResult(any(), mockArgs, FullJUnitReport.fileName())
             }
         }
     }
@@ -218,11 +219,11 @@ class ReportManagerTest {
         every { mockArgs.project } returns "test"
         mockkObject(GcStorage) {
             every {
-                GcStorage.uploadReportResult(any(), any(), any())
+                uploadReportResult(any(), any(), any())
             } returns Unit
             ReportManager.generate(matrix, mockArgs, emptyList())
             verify {
-                GcStorage.uploadReportResult(any(), mockArgs, FullJUnitReport.fileName())
+                uploadReportResult(any(), mockArgs, FullJUnitReport.fileName())
             }
         }
     }

@@ -1,10 +1,10 @@
 package ftl.reports
 
 import flank.common.log
-import ftl.adapter.google.GcStorage
 import ftl.args.IArgs
 import ftl.json.MatrixMap
 import ftl.reports.util.IReport
+import ftl.reports.util.uploadReportResult
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.xmlToString
 
@@ -18,6 +18,6 @@ object FullJUnitReport : IReport {
         } else {
             write(matrices, output, args)
         }
-        GcStorage.uploadReportResult(output, args, fileName())
+        uploadReportResult(output, args, fileName())
     }
 }
