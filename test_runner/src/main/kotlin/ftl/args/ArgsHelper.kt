@@ -12,8 +12,8 @@ import com.google.cloud.storage.StorageOptions
 import flank.common.defaultCredentialPath
 import flank.common.isWindows
 import flank.common.logLn
-import ftl.adapter.google.credential
 import ftl.adapter.google.GcStorage
+import ftl.adapter.google.credential
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 import ftl.args.yml.YamlObjectMapper
 import ftl.config.FtlConstants.GCS_PREFIX
