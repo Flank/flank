@@ -1,7 +1,6 @@
 package ftl.environment
 
 import com.google.common.truth.Truth.assertThat
-import ftl.adapter.environment.tagToSystemOutColorMapper
 import ftl.util.SystemOutColor
 import org.junit.Test
 

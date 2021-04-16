@@ -1,4 +1,4 @@
-package ftl.adapter.environment
+package ftl.environment
 
 import ftl.util.SystemOutColor
 import ftl.util.TableColumn

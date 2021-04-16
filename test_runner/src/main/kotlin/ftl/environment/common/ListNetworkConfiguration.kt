@@ -1,9 +1,9 @@
 package ftl.environment.common
 
 import com.google.testing.model.NetworkConfiguration
-import ftl.adapter.environment.TestEnvironmentInfo
-import ftl.adapter.environment.createTableColumnFor
-import ftl.adapter.environment.getOrCreateList
+import ftl.environment.TestEnvironmentInfo
+import ftl.environment.createTableColumnFor
+import ftl.environment.getOrCreateList
 import ftl.util.TableStyle
 import ftl.util.buildTable
 

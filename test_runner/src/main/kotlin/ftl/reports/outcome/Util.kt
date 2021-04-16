@@ -3,7 +3,7 @@ package ftl.reports.outcome
 import com.google.api.client.json.GenericJson
 import com.google.api.services.toolresults.model.Environment
 import com.google.api.services.toolresults.model.Step
-import ftl.adapter.environment.orUnknown
+import ftl.environment.orUnknown
 import ftl.util.mutableMapProperty
 
 internal fun Step.axisValue() = dimensionValue.axisValue()

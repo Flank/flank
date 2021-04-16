@@ -1,13 +1,13 @@
 package ftl.environment.ios
 
 import com.google.testing.model.IosVersion
-import ftl.adapter.environment.OS_VERSION_ID
-import ftl.adapter.environment.TAGS
-import ftl.adapter.environment.TestEnvironmentInfo
-import ftl.adapter.environment.createTableColumnFor
-import ftl.adapter.environment.getOrCreateList
-import ftl.adapter.environment.orUnknown
-import ftl.adapter.environment.tagToSystemOutColorMapper
+import ftl.environment.OS_VERSION_ID
+import ftl.environment.TAGS
+import ftl.environment.TestEnvironmentInfo
+import ftl.environment.createTableColumnFor
+import ftl.environment.getOrCreateList
+import ftl.environment.orUnknown
+import ftl.environment.tagToSystemOutColorMapper
 import ftl.util.applyColorsUsing
 import ftl.util.buildTable
 
