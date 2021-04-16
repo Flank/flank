@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import ftl.args.IArgs
 import ftl.json.MatrixMap
 import ftl.reports.util.IReport
-import ftl.reports.util.uploadReportResult
+import ftl.reports.util.ReportManager
 import ftl.reports.xml.model.JUnitTestCase
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.JUnitTestSuite
@@ -32,7 +32,7 @@ object HtmlErrorReport : IReport {
         Paths.get(reportPath(matrices, args)).let {
             val htmlReport = suites.createHtmlReport()
             Files.write(it, htmlReport.toByteArray())
-            uploadReportResult(htmlReport, args, it.fileName.toString())
+            ReportManager.uploadReportResult(htmlReport, args, it.fileName.toString())
         }
     }
 }

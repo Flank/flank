@@ -4,7 +4,7 @@ import flank.common.log
 import ftl.args.IArgs
 import ftl.json.MatrixMap
 import ftl.reports.util.IReport
-import ftl.reports.util.uploadReportResult
+import ftl.reports.util.ReportManager
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.xmlToString
 
@@ -21,6 +21,6 @@ object JUnitReport : IReport {
         } else {
             write(matrices, output, args)
         }
-        uploadReportResult(result.xmlToString(), args, fileName())
+        ReportManager.uploadReportResult(result.xmlToString(), args, fileName())
     }
 }

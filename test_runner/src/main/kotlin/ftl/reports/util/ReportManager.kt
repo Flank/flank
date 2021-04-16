@@ -135,6 +135,15 @@ object ReportManager {
         uploadMatricesId(args, matrices)
     }
 
+    @VisibleForTesting
+    internal fun uploadReportResult(testResult: String, args: IArgs, fileName: String) {
+        if (args.resultsBucket.isBlank() || args.resultsDir.isBlank() || args.disableResultsUpload) return
+        uploadToRemoteStorage(
+            RemoteStorage.Dir(args.resultsBucket, args.resultsDir),
+            RemoteStorage.Data(fileName, testResult.toByteArray())
+        )
+    }
+
     private fun processJunitResults(
         args: IArgs,
         matrices: MatrixMap,
@@ -252,14 +261,6 @@ object ReportManager {
 
         GcStorage.uploadJunitXml(newTestResult, args)
     }
-}
-
-fun uploadReportResult(testResult: String, args: IArgs, fileName: String) {
-    if (args.resultsBucket?.isBlank() || args.resultsDir?.isBlank() || args?.disableResultsUpload) return
-    uploadToRemoteStorage(
-        RemoteStorage.Dir(args.resultsBucket, args.resultsDir),
-        RemoteStorage.Data(fileName, testResult.toByteArray())
-    )
 }
 
 fun uploadMatricesId(args: IArgs, matrixMap: MatrixMap) {
