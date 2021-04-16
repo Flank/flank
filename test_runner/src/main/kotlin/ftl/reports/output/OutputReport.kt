@@ -1,8 +1,10 @@
 package ftl.reports.output
 
-import ftl.adapter.google.GcStorage
+import ftl.data.RemoteStorage
+import ftl.data.uploadToRemoteStorage
 import ftl.run.common.prettyPrint
 import java.io.File
+import java.nio.file.Files
 import java.nio.file.Paths
 
 var outputReport = OutputReport()
@@ -57,5 +59,11 @@ private fun String.storeToFile(
 }
 
 private fun File.uploadToGcloud(resultsBucket: String, resultsDir: String) {
-    GcStorage.upload(absolutePath, resultsBucket, resultsDir)
+    upload(absolutePath, resultsBucket, resultsDir)
 }
+
+fun upload(file: String, rootGcsBucket: String, runGcsPath: String): String =
+    uploadToRemoteStorage(
+        RemoteStorage.Dir(rootGcsBucket, runGcsPath),
+        RemoteStorage.Data(file, Files.readAllBytes(Paths.get(file)))
+    )

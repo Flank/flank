@@ -9,6 +9,9 @@ import ftl.args.IArgs
 import ftl.args.IgnoredTestCases
 import ftl.args.IosArgs
 import ftl.args.ShardChunks
+import ftl.config.FtlConstants
+import ftl.data.RemoteStorage
+import ftl.data.uploadToRemoteStorage
 import ftl.json.MatrixMap
 import ftl.json.isAllSuccessful
 import ftl.reports.CostReport
@@ -24,11 +27,14 @@ import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.model.getSkippedJUnitTestSuite
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.parseOneSuiteXml
+import ftl.run.common.getMatrixFilePath
 import ftl.run.exception.FlankGeneralError
 import ftl.shard.createTestMethodDurationMap
 import ftl.util.Artifacts
 import ftl.util.resolveLocalRunPath
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
 import kotlin.math.roundToInt
 
 object ReportManager {
@@ -126,7 +132,7 @@ object ReportManager {
         val testExecutions = refreshMatricesAndGetExecutions(matrices, args)
         processJunitResults(args, matrices, testSuite, testShardChunks, testExecutions)
         createAndUploadPerformanceMetricsForAndroid(args, testExecutions, matrices)
-        GcStorage.uploadMatricesId(args, matrices)
+        uploadMatricesId(args, matrices)
     }
 
     private fun processJunitResults(
@@ -246,6 +252,17 @@ object ReportManager {
 
         GcStorage.uploadJunitXml(newTestResult, args)
     }
+}
+
+fun uploadMatricesId(args: IArgs, matrixMap: MatrixMap) {
+    if (args.disableResultsUpload) return
+    val file = args.getMatrixFilePath(matrixMap).toString()
+    if (file.startsWith(FtlConstants.GCS_PREFIX)) return
+
+    uploadToRemoteStorage(
+        RemoteStorage.Dir(args.resultsBucket, args.resultsDir),
+        RemoteStorage.Data(file, Files.readAllBytes(Paths.get(file)))
+    )
 }
 
 private fun String.findMatrixPath(matrices: MatrixMap) = matrices.map.values

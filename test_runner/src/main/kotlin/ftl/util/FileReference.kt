@@ -3,7 +3,11 @@ package ftl.util
 import ftl.adapter.google.GcStorage
 import ftl.args.IArgs
 import ftl.config.FtlConstants
+import ftl.data.RemoteStorage
+import ftl.data.uploadToRemoteStorage
 import ftl.run.exception.FlankGeneralError
+import java.nio.file.Files
+import java.nio.file.Paths
 
 data class FileReference(
     val local: String = "",
@@ -39,4 +43,11 @@ fun FileReference.uploadIfNeeded(
     runGcsPath: String
 ): FileReference =
     if (gcs.isNotBlank()) this
-    else copy(gcs = GcStorage.upload(local, rootGcsBucket, runGcsPath))
+    else copy(gcs = upload(local, rootGcsBucket, runGcsPath))
+
+fun upload(file: String, rootGcsBucket: String, runGcsPath: String): String {
+    return uploadToRemoteStorage(
+        RemoteStorage.Dir(rootGcsBucket, runGcsPath),
+        RemoteStorage.Data(file, Files.readAllBytes(Paths.get(file)))
+    )
+}

@@ -4,11 +4,12 @@ import com.google.testing.Testing
 import com.google.testing.model.TestMatrix
 import flank.common.join
 import flank.common.logLn
-import ftl.adapter.google.GcStorage
 import ftl.args.AndroidArgs
 import ftl.args.isInstrumentationTest
 import ftl.args.shardsFilePath
 import ftl.config.FtlConstants
+import ftl.data.RemoteStorage
+import ftl.data.uploadToRemoteStorage
 import ftl.gc.GcAndroidDevice
 import ftl.gc.GcAndroidTestMatrix
 import ftl.gc.GcToolResults
@@ -37,6 +38,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import java.nio.file.Files
+import java.nio.file.Paths
 
 internal suspend fun AndroidArgs.runAndroidTests(): TestResult = coroutineScope {
     val args = this@runAndroidTests
@@ -99,7 +102,11 @@ private fun List<AndroidTestContext>.dumpShards(config: AndroidArgs) = takeIf { 
         filterIsInstance<InstrumentationTestContext>()
             .asMatrixTestShards()
             .saveShards(config)
-    if (config.disableResultsUpload.not()) GcStorage.upload(config.shardsFilePath, config.resultsBucket, config.resultsDir)
+    if (config.disableResultsUpload.not())
+        uploadToRemoteStorage(
+            RemoteStorage.Dir(config.resultsBucket, config.resultsDir),
+            RemoteStorage.Data(config.shardsFilePath, Files.readAllBytes(Paths.get(config.shardsFilePath)))
+        )
 } ?: this
 
 private fun AndroidMatrixTestShards.saveShards(config: AndroidArgs) = saveShardChunks(
