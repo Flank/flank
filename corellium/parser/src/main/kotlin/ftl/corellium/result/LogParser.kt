@@ -60,7 +60,8 @@ private fun LogsChunk.toTestResult(): TestResult {
             log isLine Lines.TEST_CODE -> result.copy(code = (log getValue Lines.TEST_CODE).toInt())
             log isLine Lines.STACK -> result.copy(stack = listOf(log getValue Lines.STACK))
             log isLine Lines.TEST -> result.copy(test = log getValue Lines.TEST)
-            result.stack.isNotEmpty() -> result.copy(stack = result.stack + log)
+            log isLine Lines.STREAM -> result.copy(updateStack = false)
+            result.stack.isNotEmpty() && result.updateStack -> result.copy(stack = result.stack + log)
             else -> result
         }
     }
@@ -95,7 +96,7 @@ private fun LogsChunk.toTestSummary(): TestSummary {
     return summary
 }
 
-private fun LogsChunk.updateLogs(line: String) = copy(logs = logs + line)
+private fun LogsChunk.updateLogs(line: String) = copy(logs = logs + line.trim())
 private fun TestError.getOrEmpty() = if (stack.isNotEmpty()) listOf(this) else emptyList()
 private val testFailure = "[0-9]*\\)\\s(.*)\\((.*)\\)".toRegex()
 private infix fun String.getValue(line: Lines) = substringAfter(line.fullLine).trim()
@@ -107,6 +108,7 @@ private enum class Lines(
 ) {
     NUMTESTS(makeFullLine("numtests")),
     STACK(makeFullLine("stack")),
+    STREAM(makeFullLine("stream")),
     ID(makeFullLine("id")),
     CURRENT(makeFullLine("current")),
     TEST(makeFullLine("test")),
@@ -143,6 +145,7 @@ data class TestResult(
     val numTests: Int = Int.MIN_VALUE,
     val test: String = "",
     val stack: List<String> = emptyList(),
+    val updateStack: Boolean = true,
     override val code: Int = Int.MIN_VALUE,
 ) : AndroidRunLog(code)
 
