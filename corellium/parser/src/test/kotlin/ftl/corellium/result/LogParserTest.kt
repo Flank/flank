@@ -19,7 +19,28 @@ class LogParserTest {
             assertEquals("1.076", first().time)
             assertEquals(-1, first().code)
         }
-        assertEquals(2, smallResult.filterIsInstance<TestResult>().size)
+
+        smallResult.filterIsInstance<TestResult>().run {
+            assertEquals(2, size)
+            first().run {
+                assertTrue(stack.isEmpty())
+                assertEquals("com.example.test_app.InstrumentedTest", clazz)
+                assertEquals(1, current)
+                assertEquals("AndroidJUnitRunner", id)
+                assertEquals(1, numTests)
+                assertEquals("test", test)
+                assertEquals(1, code)
+            }
+            last().run {
+                assertTrue(stack.isEmpty())
+                assertEquals("com.example.test_app.InstrumentedTest", clazz)
+                assertEquals(1, current)
+                assertEquals("AndroidJUnitRunner", id)
+                assertEquals(1, numTests)
+                assertEquals("test", test)
+                assertEquals(0, code)
+            }
+        }
     }
 
     @Test
@@ -32,7 +53,29 @@ class LogParserTest {
             assertEquals("40.647", first().time)
             assertEquals(-1, first().code)
         }
-        assertEquals(58, result.filterIsInstance<TestResult>().size)
+        result.filterIsInstance<TestResult>().run {
+            assertEquals(58, size)
+            first().run {
+                assertTrue(stack.isEmpty())
+                assertEquals("com.example.test_app.InstrumentedTest", clazz)
+                assertEquals(1, current)
+                assertEquals("AndroidJUnitRunner", id)
+                assertEquals(29, numTests)
+                assertEquals("ignoredTestWithIgnore", test)
+                assertEquals(1, code)
+            }
+            last().run {
+                assertEquals(38, stack.size)
+                assertEquals("java.lang.AssertionError", stack.first())
+                assertEquals("at android.app.Instrumentation\$InstrumentationThread.run(Instrumentation.java:2205)", stack.last())
+                assertEquals("com.example.test_app.similar.SimilarNameTest1", clazz)
+                assertEquals(29, current)
+                assertEquals("AndroidJUnitRunner", id)
+                assertEquals(29, numTests)
+                assertEquals("test2", test)
+                assertEquals(-2, code)
+            }
+        }
     }
 }
 
