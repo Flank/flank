@@ -41,9 +41,9 @@ private suspend fun Flow<String>.toLogChunks(): Flow<LogsChunk> = coroutineScope
     filterNot(String::isBlank)
         .transform { line ->
             when {
-                line isLine "class" -> emitAndCreateNew(line)
-                line isLine "result" -> emitAndCreateSummary(line)
-                line isLine "run-code" -> emit(logChunk.updateLogs(line))
+                line isLine Lines.CLASS -> emitAndCreateNew(line)
+                line isLine Lines.RESULT -> emitAndCreateSummary(line)
+                line isLine Lines.TEST_RUN_CODE -> emit(logChunk.updateLogs(line))
                 else -> logChunk = logChunk.updateLogs(line)
             }
         }
@@ -53,12 +53,13 @@ private fun LogsChunk.toTestResult(): TestResult {
     var result = TestResult()
     logs.forEach { log ->
         result = when {
-            log isLine "class" -> result.copy(clazz = log.getValue("class"))
-            log isLine "numtests" -> result.copy(numTests = log.getValue("numtests").toInt())
-            log isLine "id" -> result.copy(id = log.getValue("id"))
-            log isLine "current" -> result.copy(current = log.getValue("current").toInt())
-            log isLine "code" -> result.copy(code = log.getValue("code").toInt())
-            log isLine "stack" -> result.copy(stack = listOf(log.getValue("stack")))
+            log isLine Lines.CLASS -> result.copy(clazz = log getValue Lines.CLASS)
+            log isLine Lines.NUMTESTS -> result.copy(numTests = (log getValue Lines.NUMTESTS).toInt())
+            log isLine Lines.ID -> result.copy(id = log getValue Lines.ID)
+            log isLine Lines.CURRENT -> result.copy(current = (log getValue Lines.CURRENT).toInt())
+            log isLine Lines.TEST_CODE -> result.copy(code = (log getValue Lines.TEST_CODE).toInt())
+            log isLine Lines.STACK -> result.copy(stack = listOf(log getValue Lines.STACK))
+            log isLine Lines.TEST -> result.copy(test = log getValue Lines.TEST)
             result.stack.isNotEmpty() -> result.copy(stack = result.stack + log)
             else -> result
         }
@@ -71,14 +72,14 @@ private fun LogsChunk.toTestSummary(): TestSummary {
     var error = TestError()
     logs.forEach { log ->
         summary = when {
-            log isLine "result" -> TestSummary()
-            log isLine "time" -> summary.copy(time = log.getValue("time"))
-            log isLine "run-code" -> summary.copy(
-                code = log.getValue("run-code").toInt(),
+            log isLine Lines.RESULT -> TestSummary()
+            log isLine Lines.TIME -> summary.copy(time = log getValue Lines.TIME)
+            log isLine Lines.TEST_RUN_CODE -> summary.copy(
+                code = (log getValue Lines.TEST_RUN_CODE).toInt(),
                 errors = summary.errors + if (error.stack.isNotEmpty()) listOf(error) else emptyList()
             )
-            log isLine "error-summary" -> summary
-            log isLine "ok" -> summary
+            log isLine Lines.FAILURES_SUMMARY -> summary
+            log isLine Lines.TEST_RUN_OK -> summary
             log isLine testFailure -> {
                 val previousError = error.getOrEmpty()
                 error = testFailure.find(log)?.groupValues?.run { TestError(test = get(1), testClass = get(2)) }
@@ -97,26 +98,28 @@ private fun LogsChunk.toTestSummary(): TestSummary {
 private fun LogsChunk.updateLogs(line: String) = copy(logs = logs + line)
 private fun TestError.getOrEmpty() = if (stack.isNotEmpty()) listOf(this) else emptyList()
 private val testFailure = "[0-9]*\\)\\s(.*)\\((.*)\\)".toRegex()
-private fun String.getValue(line: String) = substringAfter(lines[line] ?: error("Should not happen"))
-private infix fun String.isLine(line: String) = contains(lines[line] ?: error("Should not happen"))
+private infix fun String.getValue(line: Lines) = substringAfter(line.fullLine).trim()
+private infix fun String.isLine(line: Lines) = startsWith(line.fullLine)
 private infix fun String.isLine(regex: Regex) = contains(regex)
 
-private val lines = listOf(
-    "numtests",
-    "stack",
-    "id",
-    "current",
-    "test",
-    "class"
-).associateWith { "INSTRUMENTATION_STATUS: $it=" } + mapOf(
-    "code" to "INSTRUMENTATION_STATUS_CODE: ",
-    "result" to "INSTRUMENTATION_RESULT",
-    "time" to "Time: ",
-    "failures" to "There were",
-    "run-code" to "INSTRUMENTATION_CODE: ",
-    "error-summary" to "There were",
-    "ok" to "OK ("
-)
+private enum class Lines(
+    val fullLine: String
+) {
+    NUMTESTS(makeFullLine("numtests")),
+    STACK(makeFullLine("stack")),
+    ID(makeFullLine("id")),
+    CURRENT(makeFullLine("current")),
+    TEST(makeFullLine("test")),
+    CLASS(makeFullLine("class")),
+    TEST_CODE("INSTRUMENTATION_STATUS_CODE:"),
+    RESULT("INSTRUMENTATION_RESULT"),
+    TIME("Time:"),
+    FAILURES_SUMMARY("There were"),
+    TEST_RUN_CODE("INSTRUMENTATION_CODE:"),
+    TEST_RUN_OK("OK")
+}
+
+private fun makeFullLine(line: String) = "INSTRUMENTATION_STATUS: $line="
 
 private enum class ChunkType {
     RESULT, SUMMARY, NONE
@@ -139,7 +142,6 @@ data class TestResult(
     val id: String = "",
     val numTests: Int = Int.MIN_VALUE,
     val test: String = "",
-    val stream: List<String> = emptyList(),
     val stack: List<String> = emptyList(),
     override val code: Int = Int.MIN_VALUE,
 ) : AndroidRunLog(code)
