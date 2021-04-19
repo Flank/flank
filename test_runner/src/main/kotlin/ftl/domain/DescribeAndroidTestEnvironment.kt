@@ -1,9 +1,12 @@
 package ftl.domain
 
 import flank.common.logLn
-import ftl.android.AndroidCatalog
+import ftl.api.Platform
 import ftl.api.fetchIpBlocks
+import ftl.api.fetchOrientation
 import ftl.args.AndroidArgs
+import ftl.client.google.AndroidCatalog
+import ftl.environment.common.toCliTable
 import ftl.environment.networkConfigurationAsTable
 import ftl.environment.providedSoftwareAsTable
 import ftl.environment.toCliTable
@@ -20,7 +23,7 @@ fun DescribeAndroidTestEnvironment.invoke() {
     logLn(AndroidCatalog.localesAsTable(projectId))
     logLn(providedSoftwareAsTable())
     logLn(networkConfigurationAsTable())
-    logLn(AndroidCatalog.supportedOrientationsAsTable(projectId))
     // TODO move toCliTable() to presentation layer during refactor of presentation after #1728
+    logLn(fetchOrientation(projectId, Platform.ANDROID).toCliTable())
     logLn(fetchIpBlocks().toCliTable())
 }

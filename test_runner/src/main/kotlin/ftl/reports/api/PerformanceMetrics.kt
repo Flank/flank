@@ -2,8 +2,8 @@ package ftl.reports.api
 
 import com.google.api.services.toolresults.model.PerfMetricsSummary
 import com.google.testing.model.TestExecution
-import ftl.android.AndroidCatalog
 import ftl.args.IArgs
+import ftl.client.google.AndroidCatalog
 import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import kotlinx.coroutines.Dispatchers

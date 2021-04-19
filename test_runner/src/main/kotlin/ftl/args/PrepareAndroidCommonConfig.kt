@@ -1,6 +1,6 @@
 package ftl.args
 
-import ftl.android.AndroidCatalog
+import ftl.client.google.AndroidCatalog
 import ftl.config.AndroidConfig
 import ftl.config.Device
 import ftl.config.containsPhysicalDevices

@@ -7,7 +7,7 @@ import ftl.environment.getOrCreateList
 import ftl.util.TableStyle
 import ftl.util.buildTable
 
-fun List<NetworkConfiguration>.asPrintableTable() = createConfigurationDetails().createConfigurationsTable()
+fun List<NetworkConfiguration>.toCliTable() = createConfigurationDetails().createConfigurationsTable()
 
 private fun List<NetworkConfiguration>.createConfigurationDetails() = fold(mutableMapOf<String, MutableList<String>>()) { networkInfo, networkConfiguration ->
     networkInfo.apply {
