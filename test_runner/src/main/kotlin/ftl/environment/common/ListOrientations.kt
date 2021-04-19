@@ -8,7 +8,7 @@ import ftl.environment.tagToSystemOutColorMapper
 import ftl.util.applyColorsUsing
 import ftl.util.buildTable
 
-fun List<Orientation>.asPrintableTable() = createOrientationsDetails().createOrientationsTable()
+fun List<Orientation>.toCliTable() = createOrientationsDetails().createOrientationsTable()
 
 private fun List<Orientation>.createOrientationsDetails() = fold(mutableMapOf<String, MutableList<String>>()) { orientationInfo, orientation ->
     orientationInfo.apply {

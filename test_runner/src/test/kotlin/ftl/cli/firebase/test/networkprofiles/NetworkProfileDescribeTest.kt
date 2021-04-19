@@ -1,8 +1,7 @@
 package ftl.cli.firebase.test.networkprofiles
 
-import com.google.testing.model.NetworkConfiguration
-import com.google.testing.model.TrafficRule
-import ftl.environment.getNetworkConfiguration
+import ftl.api.NetworkProfile
+import ftl.api.fetchNetworkProfiles
 import ftl.presentation.cli.firebase.test.networkprofiles.NetworkProfilesDescribeCommand
 import ftl.run.exception.FlankConfigurationError
 import ftl.test.util.assertThrowsWithMessage
@@ -24,7 +23,7 @@ class NetworkProfileDescribeTest {
 
     @Before
     fun setup() {
-        mockkStatic("ftl.environment.NetworkConfigurationCatalogKt")
+        mockkStatic("ftl.api.NetworkProfileKt")
     }
 
     @After
@@ -40,18 +39,18 @@ class NetworkProfileDescribeTest {
     @Test
     fun `should print profile description if data exists`() {
         val configs = listOf(
-            NetworkConfiguration().apply {
-                downRule = makeRule(0.5f)
-                upRule = makeRule(0.8f)
+            NetworkProfile(
+                downRule = makeRule(0.5f),
+                upRule = makeRule(0.8f),
                 id = "ANY"
-            },
-            NetworkConfiguration().apply {
-                downRule = makeRule(0.1f)
-                upRule = makeRule(0.2f)
+            ),
+            NetworkProfile(
+                downRule = makeRule(0.1f),
+                upRule = makeRule(0.2f),
                 id = "DIFFERENT"
-            }
+            )
         )
-        every { getNetworkConfiguration() } returns configs
+        every { fetchNetworkProfiles() } returns configs
 
         systemOutRule.clearLog()
         runMainCommand("network-profiles", "describe", "ANY")
@@ -74,7 +73,7 @@ class NetworkProfileDescribeTest {
 
     @Test
     fun `should handle case when API answers with null for configuration request`() {
-        every { getNetworkConfiguration() } returns emptyList()
+        every { fetchNetworkProfiles() } returns emptyList()
 
         systemOutRule.clearLog()
         runMainCommand("network-profiles", "describe", "NON-EXISTING")
@@ -88,23 +87,23 @@ class NetworkProfileDescribeTest {
     @Test
     fun `should print message if unable to find provided profile`() {
         val configs = listOf(
-            NetworkConfiguration().apply {
-                downRule = makeRule(0.456f)
-                id = "ANY_1"
+            NetworkProfile(
+                downRule = makeRule(0.456f),
+                id = "ANY_1",
                 upRule = makeRule(0.111f)
-            },
-            NetworkConfiguration().apply {
-                downRule = makeRule(0.0976f)
-                id = "ANY_2"
+            ),
+            NetworkProfile(
+                downRule = makeRule(0.0976f),
+                id = "ANY_2",
                 upRule = makeRule(0.234f)
-            },
-            NetworkConfiguration().apply {
-                downRule = makeRule(0.1f)
-                id = "ANY_3"
+            ),
+            NetworkProfile(
+                downRule = makeRule(0.1f),
+                id = "ANY_3",
                 upRule = makeRule(0.11233f)
-            }
+            )
         )
-        every { getNetworkConfiguration() } returns configs
+        every { fetchNetworkProfiles() } returns configs
 
         systemOutRule.clearLog()
         runMainCommand("network-profiles", "describe", "NON-EXISTING")
@@ -118,13 +117,19 @@ class NetworkProfileDescribeTest {
     @Test
     fun `should handle possible null values`() {
         val configs = listOf(
-            NetworkConfiguration().apply {
-                downRule = makeRule(0.456f)
-                id = "WITH_NULLS"
-                upRule = TrafficRule().apply { packetLossRatio = 0.123f }
-            }
+            NetworkProfile(
+                downRule = makeRule(0.456f),
+                id = "WITH_NULLS",
+                upRule = NetworkProfile.Rule(
+                    bandwidth = null,
+                    delay = null,
+                    packetLossRatio = 0.123f,
+                    packetDuplicationRatio = 0F,
+                    burst = 0F
+                )
+            )
         )
-        every { getNetworkConfiguration() } returns configs
+        every { fetchNetworkProfiles() } returns configs
 
         systemOutRule.clearLog()
         runMainCommand("network-profiles", "describe", "WITH_NULLS")
@@ -146,8 +151,10 @@ class NetworkProfileDescribeTest {
     }
 }
 
-private fun makeRule(ratio: Float) = TrafficRule().apply {
-    bandwidth = ratio
-    delay = "${ratio}s"
-    packetLossRatio = ratio
-}
+private fun makeRule(ratio: Float) = NetworkProfile.Rule(
+    bandwidth = ratio,
+    delay = "${ratio}s",
+    packetLossRatio = ratio,
+    packetDuplicationRatio = ratio,
+    burst = ratio
+)

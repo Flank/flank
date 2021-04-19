@@ -7,7 +7,7 @@ import ftl.config.Device
 import ftl.environment.android.asPrintableTable
 import ftl.environment.android.getDescription
 import ftl.environment.asPrintableTable
-import ftl.environment.common.asPrintableTable
+import ftl.environment.common.toCliTable
 import ftl.environment.getLocaleDescription
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
@@ -44,7 +44,7 @@ object AndroidCatalog {
 
     private fun getVersionsList(projectId: String) = deviceCatalog(projectId).versions
 
-    fun supportedOrientationsAsTable(projectId: String) = deviceCatalog(projectId).runtimeConfiguration.orientations.asPrintableTable()
+    fun supportedOrientationsAsTable(projectId: String) = deviceCatalog(projectId).runtimeConfiguration.orientations.toCliTable()
 
     fun localesAsTable(projectId: String) = getLocales(projectId).asPrintableTable()
 
