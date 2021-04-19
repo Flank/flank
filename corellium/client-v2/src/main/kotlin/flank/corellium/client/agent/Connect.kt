@@ -37,14 +37,16 @@ suspend fun connectAgent(
             connection = client
                 .createSession(agentUrl, token)
                 .let(::Agent)
-                .apply { waitForReady() }
-            delay(20_000)
+                .apply {
+                    handleIncomingFrames()
+                    waitForReady()
+                }
         } catch (ex: Exception) {
             ex.printStackTrace()
+            delay(20_000)
         }
     } while (connection == null)
 
-    connection.handleIncomingFrames()
     connection
 }
 
