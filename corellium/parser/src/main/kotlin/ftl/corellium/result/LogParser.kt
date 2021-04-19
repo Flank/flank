@@ -24,29 +24,26 @@ suspend fun Flow<String>.parseLogs(): List<AndroidRunLog> = toLogChunks()
 private suspend fun Flow<String>.toLogChunks(): Flow<LogsChunk> = coroutineScope {
     var logChunk = LogsChunk()
 
-    val emitAndCreateNew: suspend FlowCollector<LogsChunk>.(String) -> Unit = { line ->
-        if (logChunk.logs.isNotEmpty()) {
-            emit(logChunk)
-        }
-        logChunk = LogsChunk(type = ChunkType.RESULT, logs = listOf(line))
-    }
-
-    val emitAndCreateSummary: suspend FlowCollector<LogsChunk>.(String) -> Unit = { line ->
-        if (logChunk.logs.isNotEmpty()) {
-            emit(logChunk)
-        }
-        logChunk = LogsChunk(type = ChunkType.SUMMARY, logs = listOf(line))
-    }
-
     filterNot(String::isBlank)
+//        .map { it.substringAfter("INSTRUMENTATION_STATUS:").trim() }
         .transform { line ->
             when {
-                line isLine Lines.CLASS -> emitAndCreateNew(line)
-                line isLine Lines.RESULT -> emitAndCreateSummary(line)
+                line isLine Lines.CLASS -> logChunk = emitAndCreateNew(logChunk, line, ChunkType.RESULT)
+                line isLine Lines.RESULT -> logChunk = emitAndCreateNew(logChunk, line, ChunkType.SUMMARY)
                 line isLine Lines.TEST_RUN_CODE -> emit(logChunk.updateLogs(line))
                 else -> logChunk = logChunk.updateLogs(line)
             }
         }
+        .filterNot { it.type == ChunkType.NONE }
+}
+
+private suspend fun FlowCollector<LogsChunk>.emitAndCreateNew(
+    oldChunk: LogsChunk,
+    line: String,
+    type: ChunkType
+): LogsChunk {
+    emit(oldChunk)
+    return LogsChunk(type = type, logs = listOf(line))
 }
 
 private fun LogsChunk.toTestResult(): TestResult {
