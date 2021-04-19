@@ -2,7 +2,7 @@ package ftl.cli.firebase.test.ipblocks
 
 import com.google.testing.model.Date
 import com.google.testing.model.DeviceIpBlock
-import ftl.adapter.google.deviceIPBlocks
+import ftl.client.google.deviceIPBlocks
 import ftl.test.util.runMainCommand
 import io.mockk.every
 import io.mockk.mockkStatic
@@ -20,7 +20,7 @@ class IPBlocksListCommandTest {
     val out = SystemOutRule().enableLog().muteForSuccessfulTests() as SystemOutRule
 
     @Before
-    fun setup() = mockkStatic("ftl.gc.GcTestingKt")
+    fun setup() = mockkStatic("ftl.client.google.DeviceIpBlocksKt")
 
     @After
     fun tearDown() = unmockkAll()

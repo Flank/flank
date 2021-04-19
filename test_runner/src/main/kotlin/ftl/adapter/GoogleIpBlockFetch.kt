@@ -1,19 +1,11 @@
 package ftl.adapter
 
-import ftl.adapter.google.deviceIPBlocks
-import ftl.adapter.google.prettyDate
-import ftl.data.IpBlock
+import ftl.adapter.google.toApiModel
+import ftl.api.IpBlock
+import ftl.client.google.deviceIPBlocks
 
 object GoogleIpBlockFetch :
     IpBlock.Fetch,
     () -> List<IpBlock> by {
-        deviceIPBlocks().map { deviceIpBlock ->
-            IpBlock(
-                block = deviceIpBlock.block ?: UNABLE,
-                form = deviceIpBlock.form ?: UNABLE,
-                addedDate = deviceIpBlock.addedDate?.prettyDate() ?: UNABLE
-            )
-        }
+        deviceIPBlocks().toApiModel()
     }
-
-private const val UNABLE = "[Unable to fetch]"

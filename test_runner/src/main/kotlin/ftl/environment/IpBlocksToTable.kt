@@ -1,6 +1,6 @@
 package ftl.environment
 
-import ftl.data.IpBlock
+import ftl.api.IpBlock
 import ftl.util.TableColumn
 import ftl.util.TableStyle
 

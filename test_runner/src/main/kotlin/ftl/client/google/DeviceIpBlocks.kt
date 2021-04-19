@@ -1,11 +1,12 @@
-package ftl.adapter.google
+package ftl.client.google
 
 import com.google.testing.model.Date
+import com.google.testing.model.DeviceIpBlock
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
 import ftl.reports.api.twoDigitString
 
-internal fun deviceIPBlocks() = GcTesting.get.testEnvironmentCatalog()
+internal fun deviceIPBlocks(): List<DeviceIpBlock> = GcTesting.get.testEnvironmentCatalog()
     .get("DEVICE_IP_BLOCKS")
     .executeWithRetry()
     ?.deviceIpBlockCatalog

@@ -1,8 +1,8 @@
-package ftl.data
+package ftl.api
 
 import ftl.adapter.GoogleIpBlockFetch
 
-val fetchIpBLocks: IpBlock.Fetch get() = GoogleIpBlockFetch
+val fetchIpBlocks: IpBlock.Fetch get() = GoogleIpBlockFetch
 
 data class IpBlock(
     val block: String,
