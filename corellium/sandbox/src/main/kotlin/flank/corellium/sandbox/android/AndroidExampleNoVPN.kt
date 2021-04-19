@@ -82,7 +82,7 @@ fun main(): Unit = runBlocking {
 
     console.sendCommand("pm install $pathToUpload/app-debug.apk")
     console.sendCommand("pm install -t $pathToUpload/app-multiple-success-debug-androidTest.apk")
-    console.sendCommand("am instrument -w com.example.test_app.test/androidx.test.runner.AndroidJUnitRunner")
+    console.sendCommand("am instrument -w -r com.example.test_app.test/androidx.test.runner.AndroidJUnitRunner")
 
     console.waitForIdle(5_000)
     console.close()
