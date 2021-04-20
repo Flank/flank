@@ -1,7 +1,7 @@
 package ftl.reports.output
 
-import ftl.data.RemoteStorage
-import ftl.data.uploadToRemoteStorage
+import ftl.api.RemoteStorage
+import ftl.api.uploadToRemoteStorage
 import ftl.run.common.prettyPrint
 import java.io.File
 import java.nio.file.Files

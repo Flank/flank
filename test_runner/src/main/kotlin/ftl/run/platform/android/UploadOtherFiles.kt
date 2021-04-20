@@ -1,9 +1,9 @@
 package ftl.run.platform.android
 
+import ftl.api.RemoteStorage
+import ftl.api.uploadToRemoteStorage
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
-import ftl.data.RemoteStorage
-import ftl.data.uploadToRemoteStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll

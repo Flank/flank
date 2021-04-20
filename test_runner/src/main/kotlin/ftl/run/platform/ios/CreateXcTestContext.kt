@@ -1,9 +1,9 @@
 package ftl.run.platform.ios
 
 import flank.common.join
+import ftl.api.RemoteStorage
+import ftl.api.uploadToRemoteStorage
 import ftl.args.IosArgs
-import ftl.data.RemoteStorage
-import ftl.data.uploadToRemoteStorage
 import ftl.ios.xctest.xcTestRunFlow
 import ftl.run.model.IosTestContext
 import ftl.run.model.XcTestContext

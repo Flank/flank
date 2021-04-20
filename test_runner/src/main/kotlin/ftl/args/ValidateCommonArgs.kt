@@ -2,10 +2,10 @@ package ftl.args
 
 import flank.common.defaultCredentialPath
 import flank.common.logLn
+import ftl.api.RemoteStorage
+import ftl.api.existRemoteStorage
 import ftl.config.Device
 import ftl.config.FtlConstants
-import ftl.data.RemoteStorage
-import ftl.data.existRemoteStorage
 import ftl.reports.FullJUnitReport
 import ftl.reports.JUnitReport
 import ftl.run.exception.FlankConfigurationError

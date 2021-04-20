@@ -2,12 +2,12 @@ package ftl.run.platform
 
 import flank.common.join
 import flank.common.logLn
+import ftl.api.RemoteStorage
+import ftl.api.uploadToRemoteStorage
 import ftl.args.IosArgs
 import ftl.args.isXcTest
 import ftl.args.shardsFilePath
 import ftl.config.FtlConstants
-import ftl.data.RemoteStorage
-import ftl.data.uploadToRemoteStorage
 import ftl.gc.GcIosMatrix
 import ftl.gc.GcIosTestMatrix
 import ftl.gc.GcToolResults

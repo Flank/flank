@@ -4,12 +4,12 @@ import com.google.testing.Testing
 import com.google.testing.model.TestMatrix
 import flank.common.join
 import flank.common.logLn
+import ftl.api.RemoteStorage
+import ftl.api.uploadToRemoteStorage
 import ftl.args.AndroidArgs
 import ftl.args.isInstrumentationTest
 import ftl.args.shardsFilePath
 import ftl.config.FtlConstants
-import ftl.data.RemoteStorage
-import ftl.data.uploadToRemoteStorage
 import ftl.gc.GcAndroidDevice
 import ftl.gc.GcAndroidTestMatrix
 import ftl.gc.GcToolResults
