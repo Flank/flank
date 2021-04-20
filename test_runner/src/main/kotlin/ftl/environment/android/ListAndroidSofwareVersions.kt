@@ -13,7 +13,7 @@ import ftl.reports.api.twoDigitString
 import ftl.util.applyColorsUsing
 import ftl.util.buildTable
 
-fun List<AndroidVersion>.asPrintableTable() = createTestEnvironmentInfo().createAndroidSoftwareVersionsTable()
+fun List<AndroidVersion>.toCliTable() = createTestEnvironmentInfo().createAndroidSoftwareVersionsTable()
 
 private fun List<AndroidVersion>.createTestEnvironmentInfo() =
     fold(mutableMapOf<String, MutableList<String>>()) { softwareInfo, softwareVersion ->

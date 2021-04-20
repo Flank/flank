@@ -1,13 +1,13 @@
 package ftl.args
 
 import flank.common.logLn
-import ftl.android.AndroidCatalog
-import ftl.android.AndroidCatalog.getSupportedVersionId
-import ftl.android.IncompatibleModelVersion
-import ftl.android.SupportedDeviceConfig
-import ftl.android.UnsupportedModelId
-import ftl.android.UnsupportedVersionId
 import ftl.args.yml.Type
+import ftl.client.google.AndroidCatalog
+import ftl.client.google.AndroidCatalog.getSupportedVersionId
+import ftl.client.google.IncompatibleModelVersion
+import ftl.client.google.SupportedDeviceConfig
+import ftl.client.google.UnsupportedModelId
+import ftl.client.google.UnsupportedVersionId
 import ftl.config.containsPhysicalDevices
 import ftl.config.containsVirtualDevices
 import ftl.run.exception.FlankConfigurationError
