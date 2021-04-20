@@ -5,6 +5,7 @@ package flank.corellium.sandbox.android
 import flank.corellium.client.agent.disconnect
 import flank.corellium.client.agent.uploadFile
 import flank.corellium.client.console.close
+import flank.corellium.client.console.launchOutputPrinter
 import flank.corellium.client.console.sendCommand
 import flank.corellium.client.console.waitForIdle
 import flank.corellium.client.core.connectAgent
@@ -21,7 +22,7 @@ import flank.corellium.sandbox.config.Config
 import kotlinx.coroutines.runBlocking
 import java.io.File
 
-private const val instanceName = "corellium-android"
+private const val instanceName = "corellium-android-2"
 private const val flavor = "ranchu"
 private const val os = "11.0.0"
 private const val screen = "720x1280:280"
@@ -72,19 +73,34 @@ fun main(): Unit = runBlocking {
         path = "$pathToUpload/app-debug.apk",
         bytes = File(apkPath).readBytes()
     )
+    println("App apk uploaded")
 
     agent.uploadFile(
         path = "$pathToUpload/app-multiple-success-debug-androidTest.apk",
         bytes = File(testApkPath).readBytes()
     )
+    println("Test apk uploaded")
 
     val console = client.connectConsole(instanceId)
+    println("Console connected")
 
+    // prevent flooding the output by the system and kernel logging
+    console.sendCommand("su")
+    console.sendCommand("dmesg -n 1")
+    console.sendCommand("exit")
+
+    println("Installing apps...")
     console.sendCommand("pm install $pathToUpload/app-debug.apk")
     console.sendCommand("pm install -t $pathToUpload/app-multiple-success-debug-androidTest.apk")
-    console.sendCommand("am instrument -w -r com.example.test_app.test/androidx.test.runner.AndroidJUnitRunner")
 
-    console.waitForIdle(5_000)
+    println("Running tests... ")
+    console.sendCommand("am instrument -r -w com.example.test_app.test/androidx.test.runner.AndroidJUnitRunner")
+    console.launchOutputPrinter()
+
+    console.waitForIdle(10_000)
+    println()
+    println("Console idle up 10s")
+    println("Disconnecting...")
     console.close()
 
     agent.disconnect()

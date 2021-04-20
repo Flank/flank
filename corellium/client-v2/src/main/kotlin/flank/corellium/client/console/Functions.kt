@@ -3,6 +3,7 @@ package flank.corellium.client.console
 import io.ktor.http.cio.websocket.Frame
 import io.ktor.http.cio.websocket.close
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 suspend fun Console.sendCommand(command: String) =
     session.send(Frame.Binary(true, (command + "\n").encodeToByteArray()))
@@ -13,3 +14,14 @@ suspend fun Console.waitForIdle(timeToWait: Long) {
 }
 
 suspend fun Console.close() = session.close()
+
+
+fun Console.launchOutputPrinter() = session.launch {
+    // drop console bash history which is received as first frame
+    session.incoming.receive()
+
+    for (frame in session.incoming) {
+        lastResponseTime.set(System.currentTimeMillis())
+        print(frame.data.decodeToString())
+    }
+}

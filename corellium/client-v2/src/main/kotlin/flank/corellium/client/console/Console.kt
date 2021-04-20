@@ -6,5 +6,5 @@ import java.util.concurrent.atomic.AtomicLong
 class Console internal constructor(
     internal val session: ClientWebSocketSession
 ) {
-    internal val lastResponseTime: AtomicLong = AtomicLong()
+    internal val lastResponseTime: AtomicLong = AtomicLong(System.currentTimeMillis())
 }
