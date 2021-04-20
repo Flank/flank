@@ -1,11 +1,11 @@
 package ftl.adapter
 
 import ftl.adapter.google.GcStorage
-import ftl.data.RemoteStorage
-import ftl.data.RemoteStorage.Dir
+import ftl.adapter.google.existsToApiModel
+import ftl.api.RemoteStorage
 
 object GcStorageExists :
     RemoteStorage.Exist,
-    (Dir) -> Boolean by {
-        GcStorage.exist(it.bucket, it.path)
+    (RemoteStorage.Dir) -> Boolean by {
+        GcStorage.existsToApiModel(it.bucket, it.path)
     }
