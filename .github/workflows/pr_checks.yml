@@ -21,7 +21,7 @@ jobs:
           echo "./flank-scripts/bash" >> $GITHUB_PATH
 
       - name: Copy properties
-        run: flankScripts github copy_issue_properties --github-token=${{ secrets.GITHUB_TOKEN }} --zenhub-token=${{ secrets.ZENHUB_API_KEY }} --pr-number=${{ github.event.number }}
+        run: flankScripts github copy_issue_properties --github-token=${{ secrets.GITHUB_TOKEN }} --pr-number=${{ github.event.number }}
   check_title:
     runs-on: macos-latest
     steps:
