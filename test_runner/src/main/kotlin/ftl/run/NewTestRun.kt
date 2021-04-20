@@ -36,8 +36,8 @@ suspend fun IArgs.newTestRun() = withTimeoutOrNull(parsedTimeout) {
         }
 
         val duration = measureTime {
-            ReportManager.generate(matrixMap, args, testShardChunks, ignoredTests)
             cancelTestsOnTimeout(args.project, matrixMap.map) { fetchArtifacts(matrixMap, args) }
+            ReportManager.generate(matrixMap, args, testShardChunks, ignoredTests)
 
             matrixMap.printMatricesWebLinks(project)
             outputReport.log(matrixMap)

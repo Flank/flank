@@ -40,20 +40,20 @@ object Versions {
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
     // https://github.com/googleapis/google-oauth-java-client/issues/251#issuecomment-504565533
-    const val GOOGLE_AUTH = "0.25.1"
+    const val GOOGLE_AUTH = "0.25.3"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.122.11"
+    const val GOOGLE_NIO = "0.122.12"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "1.113.14"
+    const val GOOGLE_STORAGE = "1.113.15"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.8.6"
 
     // https://github.com/FasterXML/jackson-core/releases
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
-    const val JACKSON = "2.12.2"
+    const val JACKSON = "2.12.3"
 
     const val JUNIT = "4.13.2"
 

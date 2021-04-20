@@ -1,0 +1,8 @@
+gcloud:
+  app: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk
+  test: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-single-success-debug-androidTest.apk
+
+flank:
+  disable-sharding: true
+  output-report: json
+  legacy-junit-result: true
