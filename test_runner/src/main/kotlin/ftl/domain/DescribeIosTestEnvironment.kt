@@ -2,9 +2,9 @@ package ftl.domain
 
 import flank.common.logLn
 import ftl.api.fetchIpBlocks
+import ftl.api.fetchSoftwareCatalogAsTable
 import ftl.args.IosArgs
 import ftl.environment.networkConfigurationAsTable
-import ftl.environment.providedSoftwareAsTable
 import ftl.environment.toCliTable
 import ftl.ios.IosCatalog
 import java.nio.file.Paths
@@ -18,7 +18,7 @@ operator fun DescribeIosTestEnvironment.invoke() {
     logLn(IosCatalog.devicesCatalogAsTable(projectId))
     logLn(IosCatalog.softwareVersionsAsTable(projectId))
     logLn(IosCatalog.localesAsTable(projectId))
-    logLn(providedSoftwareAsTable())
+    logLn(fetchSoftwareCatalogAsTable())
     logLn(networkConfigurationAsTable())
     logLn(IosCatalog.supportedOrientationsAsTable(projectId))
     // TODO move toCliTable() and printing presentation layer during refactor of presentation after #1728

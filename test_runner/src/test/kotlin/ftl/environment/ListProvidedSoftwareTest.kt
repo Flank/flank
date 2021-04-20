@@ -1,6 +1,7 @@
 package ftl.environment
 
 import com.google.common.truth.Truth.assertThat
+import ftl.api.fetchSoftwareCatalogAsTable
 import ftl.test.util.FlankTestRunner
 import io.mockk.unmockkAll
 import org.junit.After
@@ -20,7 +21,7 @@ class ListProvidedSoftwareTest {
         val expectedHeader = "ORCHESTRATOR VERSION"
 
         // when
-        val output = providedSoftwareAsTable()
+        val output = fetchSoftwareCatalogAsTable()
 
         // then
         assertThat(output.lines()[0]).doesNotContain("│")

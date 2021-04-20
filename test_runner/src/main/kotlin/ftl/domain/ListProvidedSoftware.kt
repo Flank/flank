@@ -1,10 +1,10 @@
 package ftl.domain
 
 import flank.common.logLn
-import ftl.environment.providedSoftwareAsTable
+import ftl.api.fetchSoftwareCatalogAsTable
 
 interface ListProvidedSoftware
 
 operator fun ListProvidedSoftware.invoke() {
-    logLn(providedSoftwareAsTable())
+    logLn(fetchSoftwareCatalogAsTable())
 }
