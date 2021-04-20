@@ -2,7 +2,7 @@ package ftl.reports.outcome
 
 import com.google.api.services.toolresults.model.Step
 import com.google.testing.model.AndroidModel
-import ftl.android.DeviceType
+import ftl.client.google.DeviceType
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
 import io.mockk.every

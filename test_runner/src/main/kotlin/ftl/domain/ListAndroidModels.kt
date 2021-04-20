@@ -1,8 +1,8 @@
 package ftl.domain
 
 import flank.common.logLn
-import ftl.android.AndroidCatalog
 import ftl.args.AndroidArgs
+import ftl.client.google.AndroidCatalog
 import java.nio.file.Paths
 
 interface ListAndroidModels {

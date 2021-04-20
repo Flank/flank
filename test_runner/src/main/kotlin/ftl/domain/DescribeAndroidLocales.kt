@@ -1,8 +1,8 @@
 package ftl.domain
 
 import flank.common.log
-import ftl.android.AndroidCatalog
 import ftl.args.AndroidArgs
+import ftl.client.google.AndroidCatalog
 import ftl.run.exception.FlankConfigurationError
 import java.nio.file.Paths
 
