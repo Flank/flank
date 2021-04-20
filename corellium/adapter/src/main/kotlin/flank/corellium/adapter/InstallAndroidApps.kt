@@ -5,17 +5,19 @@ import flank.corellium.client.agent.uploadFile
 import flank.corellium.client.console.sendCommand
 import flank.corellium.client.core.connectAgent
 import flank.corellium.client.core.connectConsole
+import flank.corellium.client.core.getAllProjects
 import flank.corellium.client.core.getProjectInstancesList
 import java.io.File
 
 private const val pathToUpload = "/sdcard"
 
 class InstallAndroidApps(
-    private val projectId: String
+    private val projectName: String
 ) : AndroidApps.Install {
 
     override suspend fun List<AndroidApps>.invoke() {
         val corellium = corellium
+        val projectId = corellium.getAllProjects().first { it.name == projectName }.id
         val instances = corellium.getProjectInstancesList(projectId).associateBy { it.id }
 
         forEach { apps ->

@@ -1,5 +1,7 @@
 package flank.corellium.api
 
+import kotlinx.coroutines.flow.Flow
+
 /**
  * The configuration of test plan for android tests executions.
  */
@@ -38,7 +40,7 @@ object AndroidTestPlan {
     /**
      * Execute tests on android instances using specified configuration.
      */
-    interface Execute : Request<Config, Unit>
+    interface Execute : Request<Config, Flow<String>>
 }
 
 private typealias InstanceId = String

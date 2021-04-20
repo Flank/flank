@@ -8,3 +8,5 @@ package flank.corellium.api
 interface Request<A, R> {
     suspend operator fun A.invoke(): R
 }
+
+suspend infix operator fun <A, R> Request<A, R>.invoke(data: A) = run { data() }
