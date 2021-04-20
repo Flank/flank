@@ -5,8 +5,8 @@ import com.google.testing.model.AndroidDevice
 import com.google.testing.model.TestExecution
 import com.google.testing.model.ToolResultsStep
 import ftl.adapter.google.GcStorage
-import ftl.android.AndroidCatalog
 import ftl.args.IArgs
+import ftl.client.google.AndroidCatalog
 import ftl.gc.GcToolResults
 import ftl.test.util.FlankTestRunner
 import io.mockk.every

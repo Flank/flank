@@ -3,10 +3,10 @@ package ftl.reports.api
 import com.google.api.services.toolresults.model.PerfMetricsSummary
 import com.google.testing.model.TestExecution
 import flank.common.logLn
-import ftl.android.AndroidCatalog
 import ftl.api.RemoteStorage
 import ftl.api.uploadToRemoteStorage
 import ftl.args.IArgs
+import ftl.client.google.AndroidCatalog
 import ftl.gc.GcToolResults
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async

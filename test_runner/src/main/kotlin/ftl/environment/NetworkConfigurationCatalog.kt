@@ -1,10 +1,10 @@
 package ftl.environment
 
-import ftl.environment.common.asPrintableTable
+import ftl.environment.common.toCliTable
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
 
-fun networkConfigurationAsTable() = getNetworkConfiguration().asPrintableTable()
+fun networkConfigurationAsTable() = getNetworkConfiguration().toCliTable()
 
 fun getNetworkConfiguration() = GcTesting.get.testEnvironmentCatalog()
     .get("NETWORK_CONFIGURATION")

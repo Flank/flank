@@ -1,8 +1,10 @@
 package ftl.domain
 
 import flank.common.logLn
-import ftl.android.AndroidCatalog
+import ftl.api.Platform
+import ftl.api.fetchOrientation
 import ftl.args.AndroidArgs
+import ftl.environment.common.toCliTable
 import java.nio.file.Paths
 
 interface ListAndroidOrientations {
@@ -10,5 +12,10 @@ interface ListAndroidOrientations {
 }
 
 operator fun ListAndroidOrientations.invoke() {
-    logLn(AndroidCatalog.supportedOrientationsAsTable(AndroidArgs.loadOrDefault(Paths.get(configPath)).project))
+    logLn(
+        fetchOrientation(
+            AndroidArgs.loadOrDefault(Paths.get(configPath)).project,
+            Platform.ANDROID
+        ).toCliTable()
+    )
 }
