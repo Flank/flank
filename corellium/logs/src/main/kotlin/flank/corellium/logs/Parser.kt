@@ -3,8 +3,9 @@ package flank.corellium.logs
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Parse instrument test output logs into structures.
+ * Parse instrument test logs into structures.
  * This parser requires a clean logs only from the single command execution.
+ *
  * @receiver The [Flow] of [String] lines from console output produced by "am instrument -r -w" command.
  * @return The [Flow] of [Instrument] structures. Only the last element of flow is [Instrument.Result]
  */
