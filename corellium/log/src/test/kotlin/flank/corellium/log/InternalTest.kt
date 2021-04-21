@@ -1,4 +1,4 @@
-package flank.corellium.logs
+package flank.corellium.log
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -33,7 +33,6 @@ class InternalTest {
         // 2 * 29 statuses + 1 result
         Assert.assertEquals(59, chunks.size)
     }
-
 
     @Test
     fun parseInstrumentStatus() {
