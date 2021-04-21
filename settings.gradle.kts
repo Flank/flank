@@ -13,7 +13,8 @@ include(
     ":common",
     ":corellium",
     ":corellium:sandbox",
-    ":corellium:client"
+    ":corellium:client",
+    ":corellium:logs"
 )
 
 plugins {
