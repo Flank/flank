@@ -16,7 +16,30 @@ fun Flow<String>.parseAdbInstrumentLog(): Flow<Instrument> = this
 
 sealed class Instrument {
     /**
-     * Representation of the pair of status chunks.
+     * Representation of the following pair of two status chunks:
+     * ```
+     * INSTRUMENTATION_STATUS: class=com.example.test_app.InstrumentedTest
+     * INSTRUMENTATION_STATUS: current=1
+     * INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+     * INSTRUMENTATION_STATUS: numtests=3
+     * INSTRUMENTATION_STATUS: stream=
+     * com.example.test_app.InstrumentedTest:
+     * INSTRUMENTATION_STATUS: test=ignoredTestWithIgnore
+     * INSTRUMENTATION_STATUS_CODE: 1
+     * INSTRUMENTATION_STATUS: class=com.example.test_app.InstrumentedTest
+     * INSTRUMENTATION_STATUS: current=1
+     * INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+     * INSTRUMENTATION_STATUS: numtests=3
+     * INSTRUMENTATION_STATUS: stream=
+     * com.example.test_app.InstrumentedTest:
+     * INSTRUMENTATION_STATUS: test=ignoredTestWithIgnore
+     * INSTRUMENTATION_STATUS_CODE: -3
+     * ```
+     *
+     * @property code The value of INSTRUMENTATION_STATUS_CODE of the second chunk
+     * @property startTime The time of creation the first chunk of status.
+     * @property endTime The time of creation the second chunk of status.
+     * @property details The summary details of both chunks.
      */
     class Status(
         val code: Int,
@@ -26,7 +49,21 @@ sealed class Instrument {
     ) : Instrument()
 
     /**
-     * Representation of the final structure of instrument test logs.
+     * Representation of the final structure of instrument test logs:
+     * ```
+     * INSTRUMENTATION_RESULT: stream=
+     *
+     * Time: 2.076
+     *
+     * OK (2 test)
+     *
+     *
+     * INSTRUMENTATION_CODE: -1
+     * ```
+     *
+     * @property code The value of INSTRUMENTATION_CODE
+     * @property time The time of creation the result chunk.
+     * @property details The details recorded for the result (Perhaps only a "stream" value).
      */
     class Result(
         val code: Int,
