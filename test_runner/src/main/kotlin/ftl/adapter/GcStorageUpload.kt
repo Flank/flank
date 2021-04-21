@@ -1,11 +1,12 @@
 package ftl.adapter
 
 import ftl.adapter.google.GcStorage
-import ftl.adapter.google.uploadToApiModel
 import ftl.api.RemoteStorage
+import ftl.config.FtlConstants
 
 object GcStorageUpload :
     RemoteStorage.Upload,
     (RemoteStorage.Dir, RemoteStorage.Data) -> String by { dir, data ->
-        GcStorage.uploadToApiModel(data.path, data.bytes, dir.bucket, dir.path)
+        if (data.path.startsWith(FtlConstants.GCS_PREFIX)) data.path
+        else GcStorage.upload(data.path, data.bytes, dir.bucket, dir.path)
     }
