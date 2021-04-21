@@ -5,8 +5,11 @@ import com.google.common.truth.Truth.assertThat
 import flank.common.isLinux
 import flank.common.isMacOS
 import flank.common.isWindows
+import integration.config.AndroidTest
+import integration.config.IosTest
 import org.junit.Assume.assumeFalse
 import org.junit.Test
+import org.junit.experimental.categories.Category
 import run
 import utils.CONFIGS_PATH
 import utils.FLANK_JAR_PATH
@@ -24,6 +27,7 @@ class GameloopIT {
 
     private val name = this::class.java.simpleName
 
+    @Category(AndroidTest::class)
     @Test
     fun androidGameloop() {
         val name = "$name-android"
@@ -54,6 +58,7 @@ class GameloopIT {
         assertThat(testAxis.outcome).isEqualTo("success")
     }
 
+    @Category(IosTest::class)
     @Test
     fun iosGameloop() {
         assumeFalse(isWindows)
