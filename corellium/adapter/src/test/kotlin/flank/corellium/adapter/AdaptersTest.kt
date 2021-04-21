@@ -8,7 +8,6 @@ import flank.corellium.client.core.getProjectInstancesList
 import flank.corellium.corelliumApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
-import org.junit.Test
 
 private const val PROJECT_NAME = "Default Project"
 
@@ -49,29 +48,25 @@ private val androidTestPlanConfig = AndroidTestPlan.Config(
     )
 )
 
-class AdaptersTest {
+fun main() {
+    val api = corelliumApi(PROJECT_NAME)
 
-    @Test
-    fun test() {
-        val api = corelliumApi(PROJECT_NAME)
+    runBlocking {
 
-        runBlocking {
+        println("* Authorizing")
+        api.authorize(credentials)
 
-            println("* Authorizing")
-            api.authorize(credentials)
-
-            corellium.run {
-                getProjectInstancesList(getAllProjects().first { it.name == PROJECT_NAME }.id)
-            }.forEach {
-                println(it)
-            }
-
-            println("* Executing tests")
-            api.executeTest(androidTestPlanConfig).collect { line ->
-                print(line)
-            }
-            println()
-            println("* Finish")
+        corellium.run {
+            getProjectInstancesList(getAllProjects().first { it.name == PROJECT_NAME }.id)
+        }.forEach {
+            println(it)
         }
+
+        println("* Executing tests")
+        api.executeTest(androidTestPlanConfig).collect { line ->
+            print(line)
+        }
+        println()
+        println("* Finish")
     }
 }
