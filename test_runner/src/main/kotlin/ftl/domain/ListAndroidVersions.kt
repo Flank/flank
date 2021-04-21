@@ -1,8 +1,9 @@
 package ftl.domain
 
 import flank.common.logLn
-import ftl.android.AndroidCatalog
+import ftl.api.fetchAndroidOsVersion
 import ftl.args.AndroidArgs
+import ftl.environment.android.toCliTable
 import java.nio.file.Paths
 
 interface ListAndroidVersions {
@@ -10,5 +11,6 @@ interface ListAndroidVersions {
 }
 
 operator fun ListAndroidVersions.invoke() {
-    logLn(AndroidCatalog.supportedVersionsAsTable(AndroidArgs.loadOrDefault(Paths.get(configPath)).project))
+    // TODO move toCliTable() to presentation layer during refactor of presentation after #1728
+    logLn(fetchAndroidOsVersion(AndroidArgs.loadOrDefault(Paths.get(configPath)).project).toCliTable())
 }

@@ -4,8 +4,8 @@ import com.google.testing.model.AndroidDevice
 import com.google.testing.model.AndroidDeviceCatalog
 import flank.common.logLn
 import ftl.config.Device
-import ftl.environment.android.asPrintableTable
 import ftl.environment.android.getDescription
+import ftl.environment.android.toCliTable
 import ftl.environment.asPrintableTable
 import ftl.environment.common.asPrintableTable
 import ftl.environment.getLocaleDescription
@@ -29,22 +29,23 @@ object AndroidCatalog {
             .androidDeviceCatalog
     }
 
-    fun devicesCatalogAsTable(projectId: String) = getModels(projectId).asPrintableTable()
+    fun devicesCatalogAsTable(projectId: String) = getModels(projectId).toCliTable()
 
     fun describeModel(projectId: String, modelId: String) = getModels(projectId).getDescription(modelId)
 
     private fun getModels(projectId: String) = deviceCatalog(projectId).models
 
-    fun Device.getSupportedVersionId(projectId: String): List<String> = getModels(projectId).find { it.id == model }?.supportedVersionIds
-        ?: emptyList()
+    fun Device.getSupportedVersionId(projectId: String): List<String> =
+        getModels(projectId).find { it.id == model }?.supportedVersionIds
+            ?: emptyList()
 
-    fun supportedVersionsAsTable(projectId: String) = getVersionsList(projectId).asPrintableTable()
-
-    fun describeSoftwareVersion(projectId: String, versionId: String) = getVersionsList(projectId).getDescription(versionId)
+    fun describeSoftwareVersion(projectId: String, versionId: String) =
+        getVersionsList(projectId).getDescription(versionId)
 
     private fun getVersionsList(projectId: String) = deviceCatalog(projectId).versions
 
-    fun supportedOrientationsAsTable(projectId: String) = deviceCatalog(projectId).runtimeConfiguration.orientations.asPrintableTable()
+    fun supportedOrientationsAsTable(projectId: String) =
+        deviceCatalog(projectId).runtimeConfiguration.orientations.asPrintableTable()
 
     fun localesAsTable(projectId: String) = getLocales(projectId).asPrintableTable()
 
@@ -81,7 +82,10 @@ object AndroidCatalog {
                 logLn("Unable to find device type for $modelId. PHYSICAL used as fallback in cost calculations")
             }
 
-        return form.equals(DeviceType.VIRTUAL.name, ignoreCase = true) || form.equals(DeviceType.EMULATOR.name, ignoreCase = true)
+        return form.equals(DeviceType.VIRTUAL.name, ignoreCase = true) || form.equals(
+            DeviceType.EMULATOR.name,
+            ignoreCase = true
+        )
     }
 }
 

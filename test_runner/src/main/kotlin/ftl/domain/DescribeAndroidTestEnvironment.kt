@@ -2,8 +2,10 @@ package ftl.domain
 
 import flank.common.logLn
 import ftl.android.AndroidCatalog
+import ftl.api.fetchAndroidOsVersion
 import ftl.api.fetchIpBlocks
 import ftl.args.AndroidArgs
+import ftl.environment.android.toCliTable
 import ftl.environment.networkConfigurationAsTable
 import ftl.environment.providedSoftwareAsTable
 import ftl.environment.toCliTable
@@ -16,7 +18,8 @@ interface DescribeAndroidTestEnvironment {
 fun DescribeAndroidTestEnvironment.invoke() {
     val projectId = AndroidArgs.loadOrDefault(Paths.get(configPath)).project
     logLn(AndroidCatalog.devicesCatalogAsTable(projectId))
-    logLn(AndroidCatalog.supportedVersionsAsTable(projectId))
+    // TODO move toCliTable() to presentation layer during refactor of presentation after #1728
+    logLn(fetchAndroidOsVersion(projectId).toCliTable())
     logLn(AndroidCatalog.localesAsTable(projectId))
     logLn(providedSoftwareAsTable())
     logLn(networkConfigurationAsTable())
