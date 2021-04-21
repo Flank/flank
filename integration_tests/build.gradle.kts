@@ -52,7 +52,7 @@ tasks.register<Test>("integrationTestsAndroid") {
         events("skipped", "failed")
         exceptionFormat = TestExceptionFormat.FULL
     }
-    maxParallelForks = Runtime.getRuntime().availableProcessors() / 2
+    maxParallelForks = Runtime.getRuntime().availableProcessors()
 }
 
 tasks.register<Test>("integrationTestsIos") {
