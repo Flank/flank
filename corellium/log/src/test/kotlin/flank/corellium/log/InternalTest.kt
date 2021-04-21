@@ -61,7 +61,7 @@ class InternalTest {
 
 private fun flowLogs(): Flow<String> =
     Unit.javaClass.classLoader
-        .getResourceAsStream("example_android_logs.log")!!
+        .getResourceAsStream("example_android_logs.txt")!!
         .bufferedReader()
         .lineSequence()
         .asFlow()
