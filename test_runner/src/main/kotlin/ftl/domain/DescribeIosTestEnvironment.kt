@@ -3,10 +3,10 @@ package ftl.domain
 import flank.common.logLn
 import ftl.api.Platform
 import ftl.api.fetchIpBlocks
+import ftl.api.fetchNetworkProfiles
 import ftl.api.fetchOrientation
 import ftl.args.IosArgs
 import ftl.environment.common.toCliTable
-import ftl.environment.networkConfigurationAsTable
 import ftl.environment.providedSoftwareAsTable
 import ftl.environment.toCliTable
 import ftl.ios.IosCatalog
