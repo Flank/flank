@@ -20,7 +20,7 @@ import ftl.util.SystemOutColor
 import ftl.util.applyColorsUsing
 import ftl.util.buildTable
 
-fun List<AndroidModel>.asPrintableTable() = createTestEnvironmentInfo().createAndroidDevicesTable()
+fun List<AndroidModel>.toCliTable() = createTestEnvironmentInfo().createAndroidDevicesTable()
 
 private fun List<AndroidModel>.createTestEnvironmentInfo() =
     fold(mutableMapOf<String, MutableList<String>>()) { devicesInfo, androidDevice ->

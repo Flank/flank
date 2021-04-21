@@ -1,11 +1,12 @@
-package ftl.android
+package ftl.client.google
 
 import com.google.testing.model.AndroidDevice
 import com.google.testing.model.AndroidDeviceCatalog
+import com.google.testing.model.Orientation
 import flank.common.logLn
 import ftl.config.Device
-import ftl.environment.android.asPrintableTable
 import ftl.environment.android.getDescription
+import ftl.environment.android.toCliTable
 import ftl.environment.asPrintableTable
 import ftl.environment.common.toCliTable
 import ftl.environment.getLocaleDescription
@@ -29,7 +30,7 @@ object AndroidCatalog {
             .androidDeviceCatalog
     }
 
-    fun devicesCatalogAsTable(projectId: String) = getModels(projectId).asPrintableTable()
+    fun devicesCatalogAsTable(projectId: String) = getModels(projectId).toCliTable()
 
     fun describeModel(projectId: String, modelId: String) = getModels(projectId).getDescription(modelId)
 
@@ -38,13 +39,13 @@ object AndroidCatalog {
     fun Device.getSupportedVersionId(projectId: String): List<String> = getModels(projectId).find { it.id == model }?.supportedVersionIds
         ?: emptyList()
 
-    fun supportedVersionsAsTable(projectId: String) = getVersionsList(projectId).asPrintableTable()
+    fun supportedVersionsAsTable(projectId: String) = getVersionsList(projectId).toCliTable()
 
     fun describeSoftwareVersion(projectId: String, versionId: String) = getVersionsList(projectId).getDescription(versionId)
 
     private fun getVersionsList(projectId: String) = deviceCatalog(projectId).versions
 
-    fun supportedOrientationsAsTable(projectId: String) = deviceCatalog(projectId).runtimeConfiguration.orientations.toCliTable()
+    fun supportedOrientations(projectId: String): List<Orientation> = deviceCatalog(projectId).runtimeConfiguration.orientations
 
     fun localesAsTable(projectId: String) = getLocales(projectId).asPrintableTable()
 

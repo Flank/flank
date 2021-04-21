@@ -1,8 +1,10 @@
 package ftl.domain
 
 import flank.common.logLn
+import ftl.api.Platform
+import ftl.api.fetchOrientation
 import ftl.args.IosArgs
-import ftl.ios.IosCatalog
+import ftl.environment.common.toCliTable
 import java.nio.file.Paths
 
 interface ListIosOrientations {
@@ -10,5 +12,11 @@ interface ListIosOrientations {
 }
 
 operator fun ListIosOrientations.invoke() {
-    logLn(IosCatalog.supportedOrientationsAsTable(IosArgs.loadOrDefault(Paths.get(configPath)).project))
+    // TODO move toCliTable() to presentation layer during refactor of presentation after #1728
+    logLn(
+        fetchOrientation(
+            IosArgs.loadOrDefault(Paths.get(configPath)).project,
+            Platform.IOS
+        ).toCliTable()
+    )
 }

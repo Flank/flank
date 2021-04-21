@@ -13,7 +13,7 @@ class IosOrientationCommandListTest {
     fun `should execute IosCatalog supportedOrientationsAsTable when run IosOrientationsListCommand`() {
         mockkObject(IosCatalog) {
             CommandLine(IosOrientationsListCommand()).execute()
-            verify { IosCatalog.supportedOrientationsAsTable(any()) }
+            verify { IosCatalog.supportedOrientations(any()) }
         }
     }
 
