@@ -14,7 +14,6 @@ fun Flow<String>.parseAdbInstrumentLog(): Flow<Instrument> = this
     .parseChunks()
     .parseStatusResult()
 
-
 sealed class Instrument {
     /**
      * Representation of the following pair of two status chunks:
