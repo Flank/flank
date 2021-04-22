@@ -1,6 +1,5 @@
-package ftl.adapter.google
+package ftl.client.google
 
-import ftl.client.google.GcStorage
 import ftl.config.FtlConstants
 
 internal fun gcStorageUpload(

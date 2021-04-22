@@ -1,7 +1,7 @@
 package ftl.adapter
 
-import ftl.adapter.google.gcStorageUpload
 import ftl.api.RemoteStorage
+import ftl.client.google.gcStorageUpload
 
 object GcStorageUpload :
     RemoteStorage.Upload,
