@@ -38,17 +38,43 @@ tasks.test {
     }
 }
 
-tasks.register<Test>("integrationTests") {
+tasks.register<Test>("integrationTestsAndroid") {
     group = "Verification"
-    description = "Runs flank integration tests"
+    description = "Runs flank integration tests -- Android"
     filter {
         includeTestsMatching("*IT")
+    }
+    useJUnit {
+        includeCategories = setOf("integration.config.AndroidTest")
+        excludeCategories = setOf("integration.config.IosTest")
     }
     testLogging {
         events("skipped", "failed")
         exceptionFormat = TestExceptionFormat.FULL
     }
-    maxParallelForks = Runtime.getRuntime().availableProcessors() / 2
+    maxParallelForks = Runtime.getRuntime().availableProcessors()
+}
+
+tasks.register<Test>("integrationTestsIos") {
+    group = "Verification"
+    description = "Runs flank integration tests -- iOS"
+    filter {
+        includeTestsMatching("*IT")
+    }
+    useJUnit {
+        includeCategories = setOf("integration.config.IosTest")
+        excludeCategories = setOf("integration.config.AndroidTest")
+    }
+    testLogging {
+        events("skipped", "failed")
+        exceptionFormat = TestExceptionFormat.FULL
+    }
+    failFast = true
+}
+
+tasks.register("integrationTests") {
+    dependsOn("integrationTestsAndroid", "integrationTestsIos")
+    tasks["integrationTestsIos"].mustRunAfter("integrationTestsAndroid")
 }
 
 val compileTestKotlin: KotlinCompile by tasks

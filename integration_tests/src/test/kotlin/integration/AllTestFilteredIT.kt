@@ -2,7 +2,10 @@ package integration
 
 import FlankCommand
 import com.google.common.truth.Truth.assertThat
+import integration.config.AndroidTest
+import integration.config.IosTest
 import org.junit.Test
+import org.junit.experimental.categories.Category
 import run
 import utils.CONFIGS_PATH
 import utils.FLANK_JAR_PATH
@@ -19,6 +22,7 @@ import utils.toOutputReportFile
 class AllTestFilteredIT {
     private val name = this::class.java.simpleName
 
+    @Category(AndroidTest::class)
     @Test
     fun `filter all tests - android`() {
         val name = "$name-android"
@@ -45,6 +49,7 @@ class AllTestFilteredIT {
         assertThat(outputReport.weblinks).isEmpty()
     }
 
+    @Category(IosTest::class)
     @Test
     fun `filter all tests - ios`() {
         val name = "$name-ios"
