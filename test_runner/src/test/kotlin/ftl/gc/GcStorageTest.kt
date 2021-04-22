@@ -3,7 +3,12 @@ package ftl.gc
 import com.google.api.services.toolresults.model.AppStartTime
 import com.google.api.services.toolresults.model.Duration
 import com.google.api.services.toolresults.model.PerfMetricsSummary
+import ftl.api.RemoteStorage
+import ftl.api.existRemoteStorage
+import ftl.api.uploadToRemoteStorage
 import ftl.args.AndroidArgs
+import ftl.client.google.GcStorage
+import ftl.reports.api.uploadPerformanceMetrics
 import ftl.test.util.FlankTestRunner
 import io.mockk.every
 import io.mockk.mockk
@@ -37,7 +42,7 @@ class GcStorageTest {
             .setAppStartTime(AppStartTime().setInitialDisplayTime(Duration().setSeconds(5)))
 
         // when
-        val filePath = GcStorage.uploadPerformanceMetrics(expectedPerformanceMetrics, "bucket", "path/test")
+        val filePath = uploadPerformanceMetrics(expectedPerformanceMetrics, "bucket", "path/test")
 
         // then
         assertTrue(GcStorage.exist(filePath.orEmpty()))
@@ -64,11 +69,9 @@ class GcStorageTest {
                 "path1/baz.foo",
                 "path2/baz.foo"
             ).map { filePath ->
-                GcStorage.upload(
-                    filePath = filePath,
-                    fileBytes = ByteArray(0),
-                    rootGcsBucket = "bucket",
-                    runGcsPath = "gcsPath"
+                uploadToRemoteStorage(
+                    RemoteStorage.Dir("bucket", "gcsPath"),
+                    RemoteStorage.Data(filePath, ByteArray(0))
                 )
             }
         )
@@ -80,10 +83,7 @@ class GcStorageTest {
         GcStorage.upload(File.createTempFile("testFile", ".txt").path, "bucket", "path")
 
         // when
-        val actual = GcStorage.exist(
-            "bucket",
-            "path"
-        )
+        val actual = existRemoteStorage(RemoteStorage.Dir("bucket", "path"))
 
         // then
         assertTrue(actual)
@@ -92,10 +92,7 @@ class GcStorageTest {
     @Test
     fun `should return that file does not exist`() {
         // when
-        val actual = GcStorage.exist(
-            "bucket",
-            "path_not_existed"
-        )
+        val actual = existRemoteStorage(RemoteStorage.Dir("bucket", "path_not_existed"))
 
         // then
         assertFalse(actual)

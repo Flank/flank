@@ -2,9 +2,9 @@ package ftl.reports
 
 import flank.common.log
 import ftl.args.IArgs
-import ftl.gc.GcStorage
 import ftl.json.MatrixMap
 import ftl.reports.util.IReport
+import ftl.reports.util.ReportManager
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.xmlToString
 
@@ -18,6 +18,6 @@ object FullJUnitReport : IReport {
         } else {
             write(matrices, output, args)
         }
-        GcStorage.uploadReportResult(output, args, fileName())
+        ReportManager.uploadReportResult(output, args, fileName())
     }
 }

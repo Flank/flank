@@ -1,7 +1,7 @@
 package ftl.reports.output
 
 import com.google.common.truth.Truth.assertThat
-import ftl.gc.GcStorage
+import ftl.client.google.GcStorage
 import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.Rule

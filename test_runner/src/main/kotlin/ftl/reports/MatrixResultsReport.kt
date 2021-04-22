@@ -5,7 +5,6 @@ import flank.common.println
 import flank.common.startWithNewLine
 import ftl.args.IArgs
 import ftl.config.FtlConstants.indent
-import ftl.gc.GcStorage
 import ftl.json.MatrixMap
 import ftl.json.SavedMatrix
 import ftl.json.asPrintableTable
@@ -13,6 +12,7 @@ import ftl.json.isFailed
 import ftl.reports.output.log
 import ftl.reports.output.outputReport
 import ftl.reports.util.IReport
+import ftl.reports.util.ReportManager
 import ftl.reports.xml.model.JUnitTestResult
 import java.io.StringWriter
 import java.text.DecimalFormat
@@ -77,6 +77,6 @@ object MatrixResultsReport : IReport {
         val output = generate(matrices)
         if (printToStdout) log(output)
         write(matrices, output, args)
-        GcStorage.uploadReportResult(output, args, fileName())
+        ReportManager.uploadReportResult(output, args, fileName())
     }
 }

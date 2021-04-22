@@ -6,11 +6,11 @@ import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 import ftl.args.IArgs.Companion.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE
 import ftl.args.yml.AppTestPair
 import ftl.args.yml.Type
+import ftl.client.google.GcStorage
+import ftl.client.google.GcStorage.exist
 import ftl.config.Device
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
-import ftl.gc.GcStorage
-import ftl.gc.GcStorage.exist
 import ftl.gc.android.setupAndroidTest
 import ftl.presentation.cli.firebase.test.android.AndroidRunCommand
 import ftl.run.exception.FlankConfigurationError
