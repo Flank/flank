@@ -4,9 +4,10 @@ import flank.common.logLn
 import ftl.api.Platform
 import ftl.api.fetchIpBlocks
 import ftl.api.fetchOrientation
-import ftl.api.fetchSoftwareCatalogAsTable
+import ftl.api.fetchSoftwareCatalog
 import ftl.args.AndroidArgs
 import ftl.client.google.AndroidCatalog
+import ftl.environment.common.asTable
 import ftl.environment.common.toCliTable
 import ftl.environment.networkConfigurationAsTable
 import ftl.environment.toCliTable
@@ -21,7 +22,7 @@ fun DescribeAndroidTestEnvironment.invoke() {
     logLn(AndroidCatalog.devicesCatalogAsTable(projectId))
     logLn(AndroidCatalog.supportedVersionsAsTable(projectId))
     logLn(AndroidCatalog.localesAsTable(projectId))
-    logLn(fetchSoftwareCatalogAsTable())
+    logLn(fetchSoftwareCatalog().asTable())
     logLn(networkConfigurationAsTable())
     // TODO move toCliTable() to presentation layer during refactor of presentation after #1728
     logLn(fetchOrientation(projectId, Platform.ANDROID).toCliTable())
