@@ -2,7 +2,7 @@ package ftl.args
 
 import com.google.common.truth.Truth.assertThat
 import flank.common.isWindows
-import ftl.adapter.google.GcStorage
+import ftl.client.google.GcStorage
 import ftl.config.Device
 import ftl.config.FtlConstants.defaultIosModel
 import ftl.config.FtlConstants.defaultIosVersion

@@ -2,9 +2,9 @@ package ftl.cli.firebase.test.android
 
 import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
-import ftl.adapter.google.GcStorage
 import ftl.args.AndroidArgs
 import ftl.args.yml.AppTestPair
+import ftl.client.google.GcStorage
 import ftl.config.Device
 import ftl.config.FtlConstants
 import ftl.presentation.cli.firebase.test.android.AndroidRunCommand

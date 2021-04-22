@@ -1,4 +1,4 @@
-package ftl.adapter.google
+package ftl.client.google
 
 import com.google.api.client.http.GoogleApiLogger
 import com.google.cloud.storage.BlobInfo
@@ -9,6 +9,7 @@ import com.google.cloud.storage.StorageOptions
 import com.google.cloud.storage.contrib.nio.testing.LocalStorageHelper
 import com.google.common.annotations.VisibleForTesting
 import flank.common.join
+import ftl.adapter.google.credential
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX

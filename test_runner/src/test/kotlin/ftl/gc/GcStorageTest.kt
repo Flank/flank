@@ -3,11 +3,11 @@ package ftl.gc
 import com.google.api.services.toolresults.model.AppStartTime
 import com.google.api.services.toolresults.model.Duration
 import com.google.api.services.toolresults.model.PerfMetricsSummary
-import ftl.adapter.google.GcStorage
 import ftl.api.RemoteStorage
 import ftl.api.existRemoteStorage
 import ftl.api.uploadToRemoteStorage
 import ftl.args.AndroidArgs
+import ftl.client.google.GcStorage
 import ftl.reports.api.uploadPerformanceMetrics
 import ftl.test.util.FlankTestRunner
 import io.mockk.every

@@ -1,8 +1,8 @@
 package ftl.run.platform.common
 
 import flank.common.logLn
-import ftl.adapter.google.GcStorage
 import ftl.args.IArgs
+import ftl.client.google.GcStorage
 import ftl.config.FtlConstants
 import ftl.gc.GcTesting
 import ftl.gc.GcToolResults

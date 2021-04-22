@@ -1,9 +1,9 @@
 package ftl.util
 
-import ftl.adapter.google.GcStorage
 import ftl.api.RemoteStorage
 import ftl.api.uploadToRemoteStorage
 import ftl.args.IArgs
+import ftl.client.google.GcStorage
 import ftl.config.FtlConstants
 import ftl.run.exception.FlankGeneralError
 import java.nio.file.Files

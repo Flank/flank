@@ -5,8 +5,8 @@ import flank.common.OutputLogLevel
 import flank.common.log
 import flank.common.logLn
 import flank.common.startWithNewLine
-import ftl.adapter.google.GcStorage
 import ftl.args.IArgs
+import ftl.client.google.GcStorage
 import ftl.config.FtlConstants
 import ftl.json.MatrixMap
 import ftl.util.Artifacts
