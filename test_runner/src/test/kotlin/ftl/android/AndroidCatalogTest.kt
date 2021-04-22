@@ -30,8 +30,12 @@ class AndroidCatalogTest {
     @Test
     fun supportedDeviceConfig() {
         assertThat(AndroidCatalog.supportedDeviceConfig("ios", "23", projectId)).isEqualTo(UnsupportedModelId)
-        assertThat(AndroidCatalog.supportedDeviceConfig("NexusLowRes", "twenty-three", projectId)).isEqualTo(UnsupportedVersionId)
-        assertThat(AndroidCatalog.supportedDeviceConfig("NexusLowRes", "21", projectId)).isEqualTo(IncompatibleModelVersion)
+        assertThat(AndroidCatalog.supportedDeviceConfig("NexusLowRes", "twenty-three", projectId)).isEqualTo(
+            UnsupportedVersionId
+        )
+        assertThat(AndroidCatalog.supportedDeviceConfig("NexusLowRes", "21", projectId)).isEqualTo(
+            IncompatibleModelVersion
+        )
         assertThat(AndroidCatalog.supportedDeviceConfig("NexusLowRes", "23", projectId)).isEqualTo(SupportedDeviceConfig)
         assertThat(AndroidCatalog.supportedDeviceConfig("brokenModel", "23", projectId)).isEqualTo(UnsupportedModelId)
         assertThat(AndroidCatalog.supportedDeviceConfig("does not exist", "23", projectId)).isEqualTo(UnsupportedModelId)

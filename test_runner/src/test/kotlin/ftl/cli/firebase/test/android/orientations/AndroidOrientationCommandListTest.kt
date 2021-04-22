@@ -1,6 +1,6 @@
 package ftl.cli.firebase.test.android.orientations
 
-import ftl.android.AndroidCatalog
+import ftl.client.google.AndroidCatalog
 import ftl.presentation.cli.firebase.test.android.orientations.AndroidOrientationsListCommand
 import ftl.presentation.cli.firebase.test.android.versions.AndroidVersionsListCommand
 import io.mockk.mockkObject
@@ -14,7 +14,7 @@ class AndroidOrientationCommandListTest {
     fun `should execute AndroidCatalog supportedOrientationsAsTable when run AndroidOrientationsListCommand`() {
         mockkObject(AndroidCatalog) {
             CommandLine(AndroidOrientationsListCommand()).execute()
-            verify { AndroidCatalog.supportedOrientationsAsTable(any()) }
+            verify { AndroidCatalog.supportedOrientations(any()) }
         }
     }
 

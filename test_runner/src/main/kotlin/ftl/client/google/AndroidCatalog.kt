@@ -1,13 +1,14 @@
-package ftl.android
+package ftl.client.google
 
 import com.google.testing.model.AndroidDevice
 import com.google.testing.model.AndroidDeviceCatalog
+import com.google.testing.model.Orientation
 import flank.common.logLn
 import ftl.config.Device
 import ftl.environment.android.getDescription
 import ftl.environment.android.toCliTable
 import ftl.environment.asPrintableTable
-import ftl.environment.common.asPrintableTable
+import ftl.environment.common.toCliTable
 import ftl.environment.getLocaleDescription
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
@@ -39,13 +40,13 @@ object AndroidCatalog {
         getModels(projectId).find { it.id == model }?.supportedVersionIds
             ?: emptyList()
 
-    fun describeSoftwareVersion(projectId: String, versionId: String) =
-        getVersionsList(projectId).getDescription(versionId)
+    fun supportedVersionsAsTable(projectId: String) = getVersionsList(projectId).toCliTable()
+
+    fun describeSoftwareVersion(projectId: String, versionId: String) = getVersionsList(projectId).getDescription(versionId)
 
     private fun getVersionsList(projectId: String) = deviceCatalog(projectId).versions
 
-    fun supportedOrientationsAsTable(projectId: String) =
-        deviceCatalog(projectId).runtimeConfiguration.orientations.asPrintableTable()
+    fun supportedOrientations(projectId: String): List<Orientation> = deviceCatalog(projectId).runtimeConfiguration.orientations
 
     fun localesAsTable(projectId: String) = getLocales(projectId).asPrintableTable()
 

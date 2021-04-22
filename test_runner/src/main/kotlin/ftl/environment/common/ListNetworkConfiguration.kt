@@ -1,15 +1,15 @@
 package ftl.environment.common
 
-import com.google.testing.model.NetworkConfiguration
+import ftl.api.NetworkProfile
 import ftl.environment.TestEnvironmentInfo
 import ftl.environment.createTableColumnFor
 import ftl.environment.getOrCreateList
 import ftl.util.TableStyle
 import ftl.util.buildTable
 
-fun List<NetworkConfiguration>.asPrintableTable() = createConfigurationDetails().createConfigurationsTable()
+fun List<NetworkProfile>.toCliTable() = createConfigurationDetails().createConfigurationsTable()
 
-private fun List<NetworkConfiguration>.createConfigurationDetails() = fold(mutableMapOf<String, MutableList<String>>()) { networkInfo, networkConfiguration ->
+private fun List<NetworkProfile>.createConfigurationDetails() = fold(mutableMapOf<String, MutableList<String>>()) { networkInfo, networkConfiguration ->
     networkInfo.apply {
         getOrCreateList(PROFILE_ID).add(" ")
         getOrCreateList(PROFILE_ID).add(networkConfiguration.id)
