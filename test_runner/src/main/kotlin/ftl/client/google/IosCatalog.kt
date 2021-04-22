@@ -32,9 +32,9 @@ object IosCatalog {
 
     private fun getVersionsList(projectId: String) = iosDeviceCatalog(projectId).versions
 
-    fun localesAsTable(projectId: String) = iosDeviceCatalog(projectId).runtimeConfiguration.locales.asPrintableTable()
+    private fun localesAsTable(projectId: String) = iosDeviceCatalog(projectId).runtimeConfiguration.locales.asPrintableTable()
 
-    fun getLocaleDescription(projectId: String, locale: String) = getLocales(projectId).getLocaleDescription(locale)
+    private fun getLocaleDescription(projectId: String, locale: String) = getLocales(projectId).getLocaleDescription(locale)
 
     internal fun getLocales(projectId: String) = iosDeviceCatalog(projectId).runtimeConfiguration.locales
 

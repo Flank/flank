@@ -1,8 +1,11 @@
 package ftl.domain
 
 import flank.common.logLn
+import ftl.adapter.google.asPrintableTable
+import ftl.api.Locale.Identity
+import ftl.api.Platform
+import ftl.api.fetchLocales
 import ftl.args.IosArgs
-import ftl.client.google.IosCatalog
 import java.nio.file.Paths
 
 interface ListIosLocales {
@@ -10,5 +13,5 @@ interface ListIosLocales {
 }
 
 operator fun ListIosLocales.invoke() {
-    logLn(IosCatalog.localesAsTable(projectId = IosArgs.loadOrDefault(Paths.get(configPath)).project))
+    logLn(fetchLocales(Identity(IosArgs.loadOrDefault(Paths.get(configPath)).project, Platform.IOS)).asPrintableTable())
 }

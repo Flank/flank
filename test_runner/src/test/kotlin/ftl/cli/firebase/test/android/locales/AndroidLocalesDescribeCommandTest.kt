@@ -20,7 +20,7 @@ class AndroidLocalesDescribeCommandTest {
     fun `should execute AndroidCatalog getLocaleDescription when run AndroidLocalesDescribeCommand`() {
         mockkObject(AndroidCatalog) {
             CommandLine(AndroidLocalesDescribeCommand()).execute("pl")
-            verify { AndroidCatalog.getLocaleDescription(any(), any()) }
+            verify { AndroidCatalog.getLocales(any()) }
         }
     }
 

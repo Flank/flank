@@ -46,9 +46,9 @@ object AndroidCatalog {
 
     fun supportedOrientations(projectId: String): List<Orientation> = deviceCatalog(projectId).runtimeConfiguration.orientations
 
-    fun localesAsTable(projectId: String) = getLocales(projectId).asPrintableTable()
+    private fun localesAsTable(projectId: String) = getLocales(projectId).asPrintableTable()
 
-    fun getLocaleDescription(projectId: String, locale: String) = getLocales(projectId).getLocaleDescription(locale)
+    private fun getLocaleDescription(projectId: String, locale: String) = getLocales(projectId).getLocaleDescription(locale)
 
     internal fun getLocales(projectId: String) = deviceCatalog(projectId).runtimeConfiguration.locales
 

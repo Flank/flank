@@ -1,8 +1,11 @@
 package ftl.domain
 
 import flank.common.log
+import ftl.adapter.google.getLocaleDescription
+import ftl.api.Locale.Identity
+import ftl.api.Platform
+import ftl.api.fetchLocales
 import ftl.args.IosArgs
-import ftl.client.google.IosCatalog
 import ftl.run.exception.FlankConfigurationError
 import java.nio.file.Paths
 
@@ -13,5 +16,7 @@ interface DescribeIosLocales {
 
 fun DescribeIosLocales.invoke() {
     if (locale.isBlank()) throw FlankConfigurationError("Argument LOCALE must be specified.")
-    log(IosCatalog.getLocaleDescription(IosArgs.loadOrDefault(Paths.get(configPath)).project, locale))
+    log(
+        fetchLocales(Identity(IosArgs.loadOrDefault(Paths.get(configPath)).project, Platform.IOS)).getLocaleDescription(locale)
+    )
 }

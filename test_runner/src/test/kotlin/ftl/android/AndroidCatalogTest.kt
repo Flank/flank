@@ -2,6 +2,10 @@ package ftl.android
 
 import com.google.common.truth.Truth.assertThat
 import com.google.testing.model.AndroidDevice
+import ftl.adapter.google.asPrintableTable
+import ftl.api.Locale
+import ftl.api.Platform
+import ftl.api.fetchLocales
 import ftl.client.google.AndroidCatalog
 import ftl.client.google.IncompatibleModelVersion
 import ftl.client.google.SupportedDeviceConfig
@@ -125,7 +129,7 @@ class AndroidCatalogTest {
         val expectedSeparatorCount = expectedHeaders.size + 1
 
         // when
-        val devicesTable = AndroidCatalog.localesAsTable(projectId)
+        val devicesTable = fetchLocales(Locale.Identity(projectId, Platform.ANDROID)).asPrintableTable()
         val headers = devicesTable.lines()[1]
 
         // then

@@ -23,9 +23,16 @@ class IosLocalesDescribeCommandTest {
     fun `should execute IosCatalog getLocaleDescription when run IosLocalesDescribeCommand`() {
         mockkObject(IosCatalog) {
             CommandLine(IosLocalesDescribeCommand()).execute("pl", "--config=$simpleFlankPath")
-            verify { IosCatalog.getLocaleDescription(any(), any()) }
+            verify { IosCatalog.getLocales(any()) }
         }
     }
+
+    /*
+    every { fetchLocales(any()) } returns emptyList()
+        every { any<List<Locale>>().asPrintableTable() } returns ""
+        CommandLine(AndroidLocalesListCommand()).execute()
+        verify { any<List<Locale>>().asPrintableTable() }
+    * */
 
     @Test(expected = FlankConfigurationError::class)
     fun `should throw if locale not specified`() {

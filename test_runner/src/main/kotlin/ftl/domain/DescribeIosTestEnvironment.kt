@@ -1,8 +1,11 @@
 package ftl.domain
 
 import flank.common.logLn
+import ftl.adapter.google.asPrintableTable
+import ftl.api.Locale.Identity
 import ftl.api.Platform
 import ftl.api.fetchIpBlocks
+import ftl.api.fetchLocales
 import ftl.api.fetchOrientation
 import ftl.args.IosArgs
 import ftl.client.google.IosCatalog
@@ -20,7 +23,7 @@ operator fun DescribeIosTestEnvironment.invoke() {
     val projectId = IosArgs.loadOrDefault(Paths.get(configPath)).project
     logLn(IosCatalog.devicesCatalogAsTable(projectId))
     logLn(IosCatalog.softwareVersionsAsTable(projectId))
-    logLn(IosCatalog.localesAsTable(projectId))
+    logLn(fetchLocales(Identity(projectId, Platform.IOS)).asPrintableTable())
     logLn(providedSoftwareAsTable())
     logLn(networkConfigurationAsTable())
     // TODO move toCliTable() and printing presentation layer during refactor of presentation after #1728

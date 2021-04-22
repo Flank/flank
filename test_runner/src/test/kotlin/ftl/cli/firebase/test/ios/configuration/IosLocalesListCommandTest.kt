@@ -14,7 +14,7 @@ class IosLocalesListCommandTest {
     fun `should execute IosCatalog localesAsTable when run IosLocalesListCommand`() {
         mockkObject(IosCatalog) {
             CommandLine(IosLocalesListCommand()).execute()
-            verify { IosCatalog.localesAsTable(any()) }
+            verify { IosCatalog.getLocales(any()) }
         }
     }
 
