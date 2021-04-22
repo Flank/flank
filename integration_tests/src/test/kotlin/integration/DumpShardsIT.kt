@@ -3,8 +3,11 @@ package integration
 import FlankCommand
 import com.google.common.truth.Truth.assertThat
 import flank.common.isWindows
+import integration.config.AndroidTest
+import integration.config.IosTest
 import org.junit.Assume.assumeFalse
 import org.junit.Test
+import org.junit.experimental.categories.Category
 import run
 import utils.CONFIGS_PATH
 import utils.FLANK_JAR_PATH
@@ -22,6 +25,7 @@ import java.io.File
 class DumpShardsIT {
     private val name = this::class.java.simpleName
 
+    @Category(AndroidTest::class)
     @Test
     fun `dump shards - android`() {
         val name = "$name-android"
@@ -63,6 +67,7 @@ class DumpShardsIT {
             )
     }
 
+    @Category(IosTest::class)
     @Test
     fun `dump shards - ios`() {
         assumeFalse(isWindows)
