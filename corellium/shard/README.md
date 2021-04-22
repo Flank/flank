@@ -1,7 +1,9 @@
 # Sharding
 
-* Splitting test cases from one test apk to run on many devices.
-* Grouping test cases from many test apks to run on a single device.
+Depending on provided test cases duration, sharding algorithm will:
+
+* Split test cases from one test apk to run on many devices.
+* Group test cases from many test apks to run on a single device.
 * Mix both of the above options.
 
 ### Input
