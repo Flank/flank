@@ -2,7 +2,9 @@ package integration
 
 import FlankCommand
 import com.google.common.truth.Truth.assertThat
+import integration.config.AndroidTest
 import org.junit.Test
+import org.junit.experimental.categories.Category
 import run
 import utils.CONFIGS_PATH
 import utils.FLANK_JAR_PATH
@@ -18,6 +20,7 @@ import utils.toOutputReportFile
 class MultipleDevicesIT {
     private val name = this::class.java.simpleName
 
+    @Category(AndroidTest::class)
     @Test
     fun `run tests on multiple devices - android`() {
         val name = "$name-android"

@@ -3,8 +3,11 @@ package integration
 import FlankCommand
 import com.google.common.truth.Truth.assertThat
 import flank.common.isWindows
+import integration.config.AndroidTest
+import integration.config.IosTest
 import org.junit.Assume.assumeFalse
 import org.junit.Test
+import org.junit.experimental.categories.Category
 import run
 import utils.CONFIGS_PATH
 import utils.FLANK_JAR_PATH
@@ -24,6 +27,7 @@ import utils.toOutputReportFile
 class LegacyResultIT {
     private val name = this::class.java.simpleName
 
+    @Category(AndroidTest::class)
     @Test
     fun androidLegacyJUnitResultTest() {
         val result = FlankCommand(
@@ -59,6 +63,7 @@ class LegacyResultIT {
         )
     }
 
+    @Category(IosTest::class)
     @Test
     fun iosLegacyJUnitResultTest() {
         assumeFalse(isWindows)
