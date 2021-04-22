@@ -18,7 +18,6 @@ suspend fun Console.waitForIdle(timeToWait: Long) {
 
 suspend fun Console.close() = session.close()
 
-
 fun Console.launchOutputPrinter() = session.launch {
     // drop console bash history which is received as first frame
     session.incoming.receive()
