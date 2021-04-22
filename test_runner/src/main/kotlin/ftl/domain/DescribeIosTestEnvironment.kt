@@ -6,7 +6,6 @@ import ftl.api.fetchIpBlocks
 import ftl.api.fetchOrientation
 import ftl.api.fetchSoftwareCatalog
 import ftl.args.IosArgs
-import ftl.environment.common.asTable
 import ftl.environment.common.toCliTable
 import ftl.environment.networkConfigurationAsTable
 import ftl.environment.toCliTable
@@ -22,7 +21,7 @@ operator fun DescribeIosTestEnvironment.invoke() {
     logLn(IosCatalog.devicesCatalogAsTable(projectId))
     logLn(IosCatalog.softwareVersionsAsTable(projectId))
     logLn(IosCatalog.localesAsTable(projectId))
-    logLn(fetchSoftwareCatalog().asTable())
+    logLn(fetchSoftwareCatalog().toCliTable())
     logLn(networkConfigurationAsTable())
     // TODO move toCliTable() and printing presentation layer during refactor of presentation after #1728
     logLn(fetchOrientation(projectId, Platform.IOS).toCliTable())
