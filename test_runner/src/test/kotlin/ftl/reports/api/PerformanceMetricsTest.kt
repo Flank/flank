@@ -6,7 +6,7 @@ import com.google.testing.model.TestExecution
 import com.google.testing.model.ToolResultsStep
 import ftl.args.IArgs
 import ftl.client.google.AndroidCatalog
-import ftl.gc.GcStorage
+import ftl.client.google.GcStorage
 import ftl.gc.GcToolResults
 import ftl.test.util.FlankTestRunner
 import io.mockk.every
@@ -56,7 +56,7 @@ class PerformanceMetricsTest {
                 }
                 testExecutions.map { it to expectedPath }.getAndUploadPerformanceMetrics(args)
                 performanceMetrics.forEach {
-                    verify { GcStorage.uploadPerformanceMetrics(it, expectedBucket, expectedPath) }
+                    verify { uploadPerformanceMetrics(it, expectedBucket, expectedPath) }
                 }
             }
         }
@@ -82,7 +82,7 @@ class PerformanceMetricsTest {
                 }
                 testExecutions.map { it to expectedPath }.getAndUploadPerformanceMetrics(args)
                 performanceMetrics.forEach {
-                    verify(exactly = 0) { GcStorage.uploadPerformanceMetrics(it, expectedBucket, expectedPath) }
+                    verify(exactly = 0) { uploadPerformanceMetrics(it, expectedBucket, expectedPath) }
                 }
             }
         }
