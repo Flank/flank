@@ -13,7 +13,7 @@ suspend fun Console.sendCommand(command: String) =
 
 suspend fun Console.waitForIdle(timeToWait: Long) {
     delay(10_000)
-    while (System.currentTimeMillis() - lastResponseTime.get() > timeToWait) delay(100)
+    while (System.currentTimeMillis() - lastResponseTime > timeToWait) delay(100)
 }
 
 suspend fun Console.close() = session.close()
@@ -23,7 +23,7 @@ fun Console.launchOutputPrinter() = session.launch {
     session.incoming.receive()
 
     for (frame in session.incoming) {
-        lastResponseTime.set(System.currentTimeMillis())
+        lastResponseTime = System.currentTimeMillis()
         print(frame.data.decodeToString())
     }
 }
@@ -34,5 +34,5 @@ suspend fun Console.clear() {
 
 fun Console.flowLogs() = session.incoming
     .receiveAsFlow()
-    .onEach { lastResponseTime.set(System.currentTimeMillis()) }
+    .onEach { lastResponseTime = System.currentTimeMillis() }
     .map { it.data.decodeToString() }
