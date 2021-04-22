@@ -6,6 +6,12 @@ Depending on provided test cases duration, sharding algorithm will:
 * Group test cases from many test apks to run on a single device.
 * Mix both of the above options.
 
+## Diagram
+
+![sharding_class_diagram](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/1801_Multi-module_sharding_algorithm/docs/corellium/sharding-class.puml)
+
+## Example
+
 ### Input
 
 ```yaml
