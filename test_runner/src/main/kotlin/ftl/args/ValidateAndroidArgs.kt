@@ -1,13 +1,16 @@
 package ftl.args
 
+import com.google.common.annotations.VisibleForTesting
 import flank.common.logLn
+import ftl.api.fetchDeviceModelAndroid
 import ftl.args.yml.Type
 import ftl.client.google.AndroidCatalog
-import ftl.client.google.AndroidCatalog.getSupportedVersionId
+import ftl.client.google.DeviceConfigCheck
 import ftl.client.google.IncompatibleModelVersion
 import ftl.client.google.SupportedDeviceConfig
 import ftl.client.google.UnsupportedModelId
 import ftl.client.google.UnsupportedVersionId
+import ftl.config.Device
 import ftl.config.containsPhysicalDevices
 import ftl.config.containsVirtualDevices
 import ftl.run.exception.FlankConfigurationError
@@ -94,7 +97,7 @@ private fun AndroidArgs.assertGrantPermissions() = grantPermissions?.let {
 
 private fun AndroidArgs.assertDevicesSupported() = devices
     .associateWith { device ->
-        AndroidCatalog.supportedDeviceConfig(device.model, device.version, project)
+        supportedDeviceConfig(device.model, device.version, project)
     }
     .forEach { (device, check) ->
         when (check) {
@@ -109,9 +112,26 @@ private fun AndroidArgs.assertDevicesSupported() = devices
                 AndroidCatalog.androidVersionIds(project)
                 }"
             )
-            IncompatibleModelVersion -> throw IncompatibleTestDimensionError("Incompatible model, '${device.model}', and version, '${device.version}'\nSupported version ids for '${device.model}': ${device.getSupportedVersionId(project).joinToString { it }}")
+            IncompatibleModelVersion -> throw IncompatibleTestDimensionError(
+                "Incompatible model, '${device.model}', and version, '${device.version}'\nSupported version ids for '${device.model}': ${
+                device.getSupportedVersionId(project).joinToString { it }
+                }"
+            )
         }
     }
+
+@VisibleForTesting
+internal fun supportedDeviceConfig(modelId: String, versionId: String, projectId: String): DeviceConfigCheck {
+    val foundModel = fetchDeviceModelAndroid(projectId).find { it.id == modelId } ?: return UnsupportedModelId
+    if (!AndroidCatalog.androidVersionIds(projectId).contains(versionId)) return UnsupportedVersionId
+    if (!foundModel.supportedVersionIds.contains(versionId)) return IncompatibleModelVersion
+
+    return SupportedDeviceConfig
+}
+
+fun Device.getSupportedVersionId(
+    projectId: String
+): List<String> = fetchDeviceModelAndroid(projectId).find { it.id == model }?.supportedVersionIds.orEmpty()
 
 private fun AndroidArgs.assertShards() {
     if (numUniformShards != null && maxTestShards > 1) throw FlankConfigurationError(

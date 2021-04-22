@@ -19,6 +19,10 @@ internal val tagToSystemOutColorMapper: (String) -> SystemOutColor = {
 }
 
 internal fun String?.orUnknown() = this ?: "UNKNOWN"
+internal fun Int?.orUnspecified() = this ?: UNSPECIFIED
+internal fun Int.isValid() = this != UNSPECIFIED
+
+private const val UNSPECIFIED = Integer.MIN_VALUE
 
 const val MODEL_ID = "MODEL_ID"
 const val MAKE = "MAKE"
