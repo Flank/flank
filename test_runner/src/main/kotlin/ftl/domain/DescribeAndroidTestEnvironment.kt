@@ -2,11 +2,13 @@ package ftl.domain
 
 import flank.common.logLn
 import ftl.api.Platform
+import ftl.api.fetchAndroidOsVersion
 import ftl.api.fetchIpBlocks
 import ftl.api.fetchNetworkProfiles
 import ftl.api.fetchOrientation
 import ftl.args.AndroidArgs
 import ftl.client.google.AndroidCatalog
+import ftl.environment.android.toCliTable
 import ftl.environment.common.toCliTable
 import ftl.environment.providedSoftwareAsTable
 import ftl.environment.toCliTable

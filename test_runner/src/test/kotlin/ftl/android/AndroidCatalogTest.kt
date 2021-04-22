@@ -3,6 +3,11 @@ package ftl.android
 import com.google.common.truth.Truth.assertThat
 import com.google.testing.model.AndroidDevice
 import ftl.api.fetchAndroidOsVersion
+import ftl.client.google.AndroidCatalog
+import ftl.client.google.IncompatibleModelVersion
+import ftl.client.google.SupportedDeviceConfig
+import ftl.client.google.UnsupportedModelId
+import ftl.client.google.UnsupportedVersionId
 import ftl.environment.android.toCliTable
 import ftl.test.util.FlankTestRunner
 import io.mockk.every

@@ -4,6 +4,7 @@ import com.google.testing.model.AndroidDevice
 import com.google.testing.model.AndroidDeviceCatalog
 import com.google.testing.model.Orientation
 import flank.common.logLn
+import ftl.api.fetchAndroidOsVersion
 import ftl.config.Device
 import ftl.environment.android.getDescription
 import ftl.environment.android.toCliTable
@@ -40,7 +41,7 @@ object AndroidCatalog {
         getModels(projectId).find { it.id == model }?.supportedVersionIds
             ?: emptyList()
 
-    fun supportedVersionsAsTable(projectId: String) = getVersionsList(projectId).toCliTable()
+    fun supportedVersionsAsTable(projectId: String) = fetchAndroidOsVersion(projectId).toCliTable()
 
     fun describeSoftwareVersion(projectId: String, versionId: String) = getVersionsList(projectId).getDescription(versionId)
 
