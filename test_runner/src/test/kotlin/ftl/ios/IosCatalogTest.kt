@@ -1,6 +1,7 @@
 package ftl.ios
 
 import com.google.common.truth.Truth.assertThat
+import ftl.client.google.IosCatalog
 import ftl.test.util.FlankTestRunner
 import org.junit.Test
 import org.junit.runner.RunWith

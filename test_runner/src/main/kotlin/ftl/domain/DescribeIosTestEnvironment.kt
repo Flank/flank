@@ -5,11 +5,11 @@ import ftl.api.Platform
 import ftl.api.fetchIpBlocks
 import ftl.api.fetchOrientation
 import ftl.args.IosArgs
+import ftl.client.google.IosCatalog
 import ftl.environment.common.toCliTable
 import ftl.environment.networkConfigurationAsTable
 import ftl.environment.providedSoftwareAsTable
 import ftl.environment.toCliTable
-import ftl.ios.IosCatalog
 import java.nio.file.Paths
 
 interface DescribeIosTestEnvironment {

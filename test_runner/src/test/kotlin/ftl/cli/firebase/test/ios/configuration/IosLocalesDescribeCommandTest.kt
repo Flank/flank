@@ -1,6 +1,6 @@
 package ftl.cli.firebase.test.ios.configuration
 
-import ftl.ios.IosCatalog
+import ftl.client.google.IosCatalog
 import ftl.presentation.cli.firebase.test.ios.configuration.IosLocalesDescribeCommand
 import ftl.run.exception.FlankConfigurationError
 import ftl.test.util.TestHelper

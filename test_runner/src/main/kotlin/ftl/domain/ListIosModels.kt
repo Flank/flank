@@ -2,7 +2,7 @@ package ftl.domain
 
 import flank.common.logLn
 import ftl.args.IosArgs
-import ftl.ios.IosCatalog
+import ftl.client.google.IosCatalog
 import java.nio.file.Paths
 
 interface ListIosModels {

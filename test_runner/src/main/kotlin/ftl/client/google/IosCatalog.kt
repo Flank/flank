@@ -1,4 +1,4 @@
-package ftl.ios
+package ftl.client.google
 
 import com.google.testing.model.IosDeviceCatalog
 import com.google.testing.model.Orientation
@@ -36,7 +36,7 @@ object IosCatalog {
 
     fun getLocaleDescription(projectId: String, locale: String) = getLocales(projectId).getLocaleDescription(locale)
 
-    private fun getLocales(projectId: String) = iosDeviceCatalog(projectId).runtimeConfiguration.locales
+    internal fun getLocales(projectId: String) = iosDeviceCatalog(projectId).runtimeConfiguration.locales
 
     fun supportedOrientations(projectId: String): List<Orientation> =
         iosDeviceCatalog(projectId).runtimeConfiguration.orientations

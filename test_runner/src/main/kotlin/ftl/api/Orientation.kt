@@ -11,8 +11,3 @@ data class Orientation(
 ) {
     interface Fetch : (String, Platform) -> List<Orientation>
 }
-
-enum class Platform {
-    ANDROID,
-    IOS
-}

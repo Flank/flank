@@ -2,7 +2,7 @@ package ftl.domain
 
 import flank.common.log
 import ftl.args.IosArgs
-import ftl.ios.IosCatalog
+import ftl.client.google.IosCatalog
 import ftl.run.exception.FlankConfigurationError
 import java.nio.file.Paths
 

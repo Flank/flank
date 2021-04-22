@@ -2,8 +2,8 @@ package ftl.args
 
 import flank.common.logLn
 import ftl.args.yml.Type
-import ftl.ios.IosCatalog
-import ftl.ios.IosCatalog.getSupportedVersionId
+import ftl.client.google.IosCatalog
+import ftl.client.google.IosCatalog.getSupportedVersionId
 import ftl.ios.xctest.XcTestRunData
 import ftl.ios.xctest.common.XcTestRunVersion
 import ftl.ios.xctest.common.mapToRegex

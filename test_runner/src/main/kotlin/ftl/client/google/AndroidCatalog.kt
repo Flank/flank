@@ -8,7 +8,6 @@ import ftl.config.Device
 import ftl.environment.android.getDescription
 import ftl.environment.android.toCliTable
 import ftl.environment.asPrintableTable
-import ftl.environment.common.toCliTable
 import ftl.environment.getLocaleDescription
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
@@ -51,7 +50,7 @@ object AndroidCatalog {
 
     fun getLocaleDescription(projectId: String, locale: String) = getLocales(projectId).getLocaleDescription(locale)
 
-    private fun getLocales(projectId: String) = deviceCatalog(projectId).runtimeConfiguration.locales
+    internal fun getLocales(projectId: String) = deviceCatalog(projectId).runtimeConfiguration.locales
 
     fun androidModelIds(projectId: String) =
         modelMap.getOrPut(projectId) { deviceCatalog(projectId).models.map { it.id } }
