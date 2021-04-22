@@ -1,8 +1,9 @@
 package ftl.run.platform.ios
 
 import flank.common.join
+import ftl.api.RemoteStorage
+import ftl.api.uploadToRemoteStorage
 import ftl.args.IosArgs
-import ftl.gc.GcStorage
 import ftl.ios.xctest.xcTestRunFlow
 import ftl.run.model.IosTestContext
 import ftl.run.model.XcTestContext
@@ -24,8 +25,10 @@ internal fun IosArgs.createXcTestContexts(): Flow<IosTestContext> {
         val xcTestRunNewFileName =
             StringBuilder(xctestrunFile).insert(xctestrunFile.lastIndexOf("."), "_$shardName").toString()
 
-        val xcTestRunFileGcsPath =
-            GcStorage.uploadXCTestFile(xcTestRunNewFileName, gcsBucket, matrixGcsSuffix, xcTestRun)
+        val xcTestRunFileGcsPath = uploadToRemoteStorage(
+            RemoteStorage.Dir(gcsBucket, matrixGcsSuffix),
+            RemoteStorage.Data(xcTestRunNewFileName, xcTestRun)
+        )
 
         XcTestContext(
             xcTestGcsPath = xcTestGcsPath,

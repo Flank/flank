@@ -1,7 +1,6 @@
-package ftl.gc
+package ftl.client.google
 
 import com.google.api.client.http.GoogleApiLogger
-import com.google.api.services.toolresults.model.PerfMetricsSummary
 import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.Storage.BlobListOption.pageSize
@@ -10,18 +9,14 @@ import com.google.cloud.storage.StorageOptions
 import com.google.cloud.storage.contrib.nio.testing.LocalStorageHelper
 import com.google.common.annotations.VisibleForTesting
 import flank.common.join
-import flank.common.logLn
 import ftl.adapter.google.credential
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.FtlConstants.GCS_STORAGE_LINK
-import ftl.json.MatrixMap
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
 import ftl.reports.xml.xmlToString
-import ftl.run.common.SESSION_ID_FILE
-import ftl.run.common.getMatrixFilePath
 import ftl.run.exception.FlankGeneralError
 import ftl.util.runWithProgress
 import java.io.File
@@ -57,9 +52,9 @@ object GcStorage {
         }
     }
 
-    fun upload(file: String, rootGcsBucket: String, runGcsPath: String): String {
+    @VisibleForTesting
+    internal fun upload(file: String, rootGcsBucket: String, runGcsPath: String): String {
         if (file.startsWith(GCS_PREFIX)) return file
-
         return upload(
             filePath = file,
             fileBytes = Files.readAllBytes(Paths.get(file)),
@@ -80,53 +75,6 @@ object GcStorage {
             name = "smart flank XML"
         )
     }
-
-    fun uploadPerformanceMetrics(perfMetricsSummary: PerfMetricsSummary, resultsBucket: String, resultDir: String) =
-        runCatching {
-            upload(
-                "performanceMetrics.json",
-                perfMetricsSummary.toPrettyString().toByteArray(),
-                resultsBucket,
-                resultDir
-            )
-        }.onFailure {
-            logLn("Cannot upload performance metrics ${it.message}")
-        }.getOrNull()
-
-    fun uploadMatricesId(args: IArgs, matrixMap: MatrixMap) {
-        if (args.disableResultsUpload) return
-        upload(
-            file = args.getMatrixFilePath(matrixMap).toString(),
-            rootGcsBucket = args.resultsBucket,
-            runGcsPath = args.resultsDir
-        )
-    }
-
-    fun IArgs.uploadSessionId() = takeUnless { disableResultsUpload }?.let {
-        upload(
-            file = Paths.get(localResultDir, SESSION_ID_FILE).toString(),
-            rootGcsBucket = resultsBucket,
-            runGcsPath = resultsDir
-        )
-    }
-
-    fun uploadReportResult(testResult: String, args: IArgs, fileName: String) {
-        if (args.resultsBucket.isBlank() || args.resultsDir.isBlank() || args.disableResultsUpload) return
-        upload(
-            filePath = fileName,
-            fileBytes = testResult.toByteArray(),
-            rootGcsBucket = args.resultsBucket,
-            runGcsPath = args.resultsDir
-        )
-    }
-
-    fun uploadXCTestFile(fileName: String, gcsBucket: String, runGcsPath: String, fileBytes: ByteArray): String =
-        upload(
-            filePath = fileName,
-            fileBytes = fileBytes,
-            rootGcsBucket = gcsBucket,
-            runGcsPath = runGcsPath
-        )
 
     // junit xml may not exist. ignore error if it doesn't exist
     fun downloadJunitXml(
@@ -199,7 +147,8 @@ object GcStorage {
         }
     }
 
-    fun exist(
+    @VisibleForTesting
+    internal fun exist(
         rootGcsBucket: String,
         runGcsPath: String
     ) = storage.list(rootGcsBucket, pageSize(1), prefix("$runGcsPath/")).values.count() > 0

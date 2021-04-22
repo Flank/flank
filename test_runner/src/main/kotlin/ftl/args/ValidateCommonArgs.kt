@@ -2,9 +2,10 @@ package ftl.args
 
 import flank.common.defaultCredentialPath
 import flank.common.logLn
+import ftl.api.RemoteStorage
+import ftl.api.existRemoteStorage
 import ftl.config.Device
 import ftl.config.FtlConstants
-import ftl.gc.GcStorage
 import ftl.reports.FullJUnitReport
 import ftl.reports.JUnitReport
 import ftl.run.exception.FlankConfigurationError
@@ -74,7 +75,7 @@ private fun CommonArgs.assertSmartFlankGcsPath() = with(smartFlankGcsPath) {
 }
 
 fun IArgs.checkResultsDirUnique() {
-    if (useLegacyJUnitResult && GcStorage.exist(resultsBucket, resultsDir))
+    if (useLegacyJUnitResult && existRemoteStorage(RemoteStorage.Dir(resultsBucket, resultsDir)))
         logLn("WARNING: Google cloud storage result directory should be unique, otherwise results from multiple test matrices will be overwritten or intermingled\n")
 }
 

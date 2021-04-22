@@ -4,9 +4,9 @@ import com.google.common.truth.Truth.assertThat
 import flank.common.isWindows
 import flank.common.normalizeLineEnding
 import ftl.args.IosArgs
+import ftl.client.google.GcStorage
 import ftl.config.Device
 import ftl.config.FtlConstants
-import ftl.gc.GcStorage
 import ftl.presentation.cli.firebase.test.ios.IosRunCommand
 import ftl.run.IOS_SHARD_FILE
 import ftl.run.dumpShards

@@ -2,9 +2,11 @@ package ftl.reports.api
 
 import com.google.api.services.toolresults.model.PerfMetricsSummary
 import com.google.testing.model.TestExecution
+import flank.common.logLn
+import ftl.api.RemoteStorage
+import ftl.api.uploadToRemoteStorage
 import ftl.args.IArgs
 import ftl.client.google.AndroidCatalog
-import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -47,4 +49,14 @@ private fun TestExecution.getPerformanceMetric() = GcToolResults.getPerformanceM
 private fun PerfMetricsSummary.upload(
     resultBucket: String,
     resultDir: String
-) = GcStorage.uploadPerformanceMetrics(this, resultBucket, resultDir)
+) = uploadPerformanceMetrics(this, resultBucket, resultDir)
+
+internal fun uploadPerformanceMetrics(perfMetricsSummary: PerfMetricsSummary, resultsBucket: String, resultDir: String) =
+    runCatching {
+        uploadToRemoteStorage(
+            RemoteStorage.Dir(resultsBucket, resultDir),
+            RemoteStorage.Data("performanceMetrics.json", perfMetricsSummary.toPrettyString().toByteArray())
+        )
+    }.onFailure {
+        logLn("Cannot upload performance metrics ${it.message}")
+    }.getOrNull()
