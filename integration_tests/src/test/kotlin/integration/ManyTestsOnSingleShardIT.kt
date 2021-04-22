@@ -2,7 +2,9 @@ package integration
 
 import FlankCommand
 import com.google.common.truth.Truth.assertThat
+import integration.config.AndroidTest
 import org.junit.Test
+import org.junit.experimental.categories.Category
 import run
 import utils.CONFIGS_PATH
 import utils.FLANK_JAR_PATH
@@ -25,6 +27,7 @@ class ManyTestsOnSingleShardIT {
 
     private val name = this::class.java.simpleName
 
+    @Category(AndroidTest::class)
     @Test
     fun `return with exit code 0 and has correct output`() {
         val result = FlankCommand(

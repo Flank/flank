@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.common.truth.Truth.assertThat
 import flank.common.isWindows
+import integration.config.AndroidTest
 import org.junit.Rule
 import org.junit.Test
+import org.junit.experimental.categories.Category
 import org.junit.rules.TemporaryFolder
 import run
 import utils.AndroidTestShards
@@ -38,6 +40,7 @@ class CustomShardingIT {
     @get:Rule
     val root = TemporaryFolder()
 
+    @Category(AndroidTest::class)
     @Test
     fun `flank custom sharding -- android`() {
 
