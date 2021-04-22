@@ -20,7 +20,7 @@ tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
 
 dependencies {
     implementation(Dependencies.KOTLIN_COROUTINES_CORE)
-    implementation(project(":corellium:client-v2"))
+    implementation(project(":corellium:client"))
 }
 
 val runExampleScript by tasks.registering(JavaExec::class) {

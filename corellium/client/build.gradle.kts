@@ -14,6 +14,8 @@ repositories {
 tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
 
 dependencies {
+    implementation(project(":corellium:api"))
+
     implementation(Dependencies.KOTLIN_SERIALIZATION)
     implementation(Dependencies.KTOR_CLIENT_SERIALIZATION)
     implementation(Dependencies.KTOR_CLIENT_WEBSOCKETS)

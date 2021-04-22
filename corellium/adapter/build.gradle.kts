@@ -15,7 +15,7 @@ tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
 
 dependencies {
     implementation(project(":corellium:api"))
-    implementation(project(":corellium:client-v2"))
+    implementation(project(":corellium:client"))
 
     implementation(Dependencies.KOTLIN_SERIALIZATION)
     implementation(Dependencies.KTOR_CLIENT_SERIALIZATION)
