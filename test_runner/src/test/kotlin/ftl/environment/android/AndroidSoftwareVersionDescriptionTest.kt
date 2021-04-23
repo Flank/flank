@@ -1,6 +1,5 @@
 package ftl.environment.android
 
-import ftl.api.Date
 import ftl.api.OsVersion
 import ftl.test.util.TestHelper.getThrowable
 import org.junit.Assert
@@ -15,7 +14,7 @@ class AndroidSoftwareVersionDescriptionTest {
                 apiLevel = 26,
                 codeName = "Oreo",
                 versionString = "8.0.x",
-                releaseDate = Date(
+                releaseDate = OsVersion.Date(
                     day = 21,
                     month = 8,
                     year = 2017
@@ -49,7 +48,7 @@ class AndroidSoftwareVersionDescriptionTest {
                 apiLevel = 23,
                 codeName = "Marshmallow",
                 versionString = "6.0.x",
-                releaseDate = Date(
+                releaseDate = OsVersion.Date(
                     day = 5,
                     month = 10,
                     year = 2015,

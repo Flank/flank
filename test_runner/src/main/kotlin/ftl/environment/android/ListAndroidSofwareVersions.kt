@@ -1,6 +1,5 @@
 package ftl.environment.android
 
-import ftl.api.Date
 import ftl.api.OsVersion
 import ftl.environment.OS_VERSION_ID
 import ftl.environment.TAGS
@@ -27,7 +26,7 @@ private fun List<OsVersion.Android>.createTestEnvironmentInfo() =
         }
     }
 
-private fun Date?.printableReleaseDate() =
+private fun OsVersion.Date?.printableReleaseDate() =
     if (this == null || year == null || month == null || day == null) "UNKNOWN"
     else "$year-${month.twoDigitString()}-${day.twoDigitString()}"
 

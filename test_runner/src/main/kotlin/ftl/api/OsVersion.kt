@@ -29,11 +29,11 @@ object OsVersion {
     ) {
         interface Fetch : (String) -> List<Ios>
     }
+
+    data class Distribution(
+        val marketShare: Double,
+        val measurementTime: String,
+    )
+
+    data class Date(val day: Int?, val month: Int?, val year: Int?)
 }
-
-data class Distribution(
-    val marketShare: Double,
-    val measurementTime: String,
-)
-
-data class Date(val day: Int?, val month: Int?, val year: Int?)
