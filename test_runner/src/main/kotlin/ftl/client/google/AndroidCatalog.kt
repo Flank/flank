@@ -5,10 +5,10 @@ import com.google.testing.model.AndroidDeviceCatalog
 import com.google.testing.model.AndroidModel
 import com.google.testing.model.Orientation
 import flank.common.logLn
+import ftl.api.fetchAndroidOsVersion
 import ftl.environment.android.getDescription
 import ftl.environment.android.toCliTable
 import ftl.environment.asPrintableTable
-import ftl.environment.common.toCliTable
 import ftl.environment.getLocaleDescription
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
@@ -32,9 +32,9 @@ object AndroidCatalog {
 
     fun getModels(projectId: String): List<AndroidModel> = deviceCatalog(projectId).models.orEmpty()
 
-    fun supportedVersionsAsTable(projectId: String) = getVersionsList(projectId).toCliTable()
+    fun supportedVersionsAsTable(projectId: String) = fetchAndroidOsVersion(projectId).toCliTable()
 
-    fun describeSoftwareVersion(projectId: String, versionId: String) = getVersionsList(projectId).getDescription(versionId)
+    fun describeSoftwareVersion(projectId: String, versionId: String) = fetchAndroidOsVersion(projectId).getDescription(versionId)
 
     private fun getVersionsList(projectId: String) = deviceCatalog(projectId).versions
 

@@ -1,7 +1,6 @@
 package ftl.environment.android
 
-import com.google.testing.model.AndroidVersion
-import com.google.testing.model.Date
+import ftl.api.OsVersion
 import ftl.environment.OS_VERSION_ID
 import ftl.environment.TAGS
 import ftl.environment.TestEnvironmentInfo
@@ -13,9 +12,9 @@ import ftl.reports.api.twoDigitString
 import ftl.util.applyColorsUsing
 import ftl.util.buildTable
 
-fun List<AndroidVersion>.toCliTable() = createTestEnvironmentInfo().createAndroidSoftwareVersionsTable()
+fun List<OsVersion.Android>.toCliTable() = createTestEnvironmentInfo().createAndroidSoftwareVersionsTable()
 
-private fun List<AndroidVersion>.createTestEnvironmentInfo() =
+private fun List<OsVersion.Android>.createTestEnvironmentInfo() =
     fold(mutableMapOf<String, MutableList<String>>()) { softwareInfo, softwareVersion ->
         softwareInfo.apply {
             getOrCreateList(OS_VERSION_ID).add(softwareVersion.id.orUnknown())
@@ -27,7 +26,7 @@ private fun List<AndroidVersion>.createTestEnvironmentInfo() =
         }
     }
 
-private fun Date?.printableReleaseDate() =
+private fun OsVersion.Date?.printableReleaseDate() =
     if (this == null || year == null || month == null || day == null) "UNKNOWN"
     else "$year-${month.twoDigitString()}-${day.twoDigitString()}"
 
