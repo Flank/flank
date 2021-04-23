@@ -18,6 +18,8 @@ class ValidateDirectoriesToPullAndroidArgsTest {
                 - /sdcard/data/sample
                 - /data/local/tmp/sample
                 - /sdcard/
+                - /storage
+                - /storage/emulated/0/Download
             flank:
               disable-sharding: true
         """.trimIndent()
@@ -50,7 +52,7 @@ class ValidateDirectoriesToPullAndroidArgsTest {
     @Test
     fun `should throw error with bad prefixed paths in directoriesToPull`() {
         // given
-        val expectedErrorMessage = getExpectedMessageForPaths(listOf("/sdcard/data/sample!", "/data/local/tmp/sample#"))
+        val expectedErrorMessage = getExpectedMessageForPaths(listOf("/sdcard/data/sample!", "/data/local/tmp/sample#", "/storage/sample@"))
         val testYaml = """
             gcloud:
               app: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk
@@ -58,6 +60,7 @@ class ValidateDirectoriesToPullAndroidArgsTest {
               directories-to-pull:
                 - /sdcard/data/sample!
                 - /data/local/tmp/sample#
+                - /storage/sample@
             flank:
               disable-sharding: true
         """.trimIndent()
@@ -81,6 +84,7 @@ class ValidateDirectoriesToPullAndroidArgsTest {
                 - /app/
                 - /data/sample
                 - /sdcard/test
+                - /storage/emulated
             flank:
               disable-sharding: true
         """.trimIndent()
@@ -94,6 +98,6 @@ class ValidateDirectoriesToPullAndroidArgsTest {
 
     private fun getExpectedMessageForPaths(badPaths: List<String>) =
         "Invalid value for [directories-to-pull]: Invalid path $badPaths.\n" +
-            "Path must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2).\n" +
+            "Path must be absolute paths under /sdcard, /storage, or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2).\n" +
             "Path names are restricted to the characters [a-zA-Z0-9_-./+]. "
 }
