@@ -21,7 +21,6 @@ interface DescribeAndroidTestEnvironment {
 
 fun DescribeAndroidTestEnvironment.invoke() {
     val projectId = AndroidArgs.loadOrDefault(Paths.get(configPath)).project
-    logLn(AndroidCatalog.devicesCatalogAsTable(projectId))
     // TODO move toCliTable() to presentation layer during refactor of presentation after #1728
     logLn(fetchAndroidOsVersion(projectId).toCliTable())
     logLn(fetchDeviceModelAndroid(projectId).toCliTable()) // TODO move toCliTable() to presentation layer during refactor of presentation after #1728

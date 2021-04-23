@@ -6,7 +6,6 @@ import com.google.testing.model.AndroidModel
 import com.google.testing.model.Orientation
 import flank.common.logLn
 import ftl.api.fetchAndroidOsVersion
-import ftl.config.Device
 import ftl.environment.android.getDescription
 import ftl.environment.android.toCliTable
 import ftl.environment.asPrintableTable
@@ -31,20 +30,13 @@ object AndroidCatalog {
             .androidDeviceCatalog
     }
 
-    fun devicesCatalogAsTable(projectId: String) = getModels(projectId).toCliTable()
-
-    fun describeModel(projectId: String, modelId: String) = getModels(projectId).getDescription(modelId)
-
-    private fun getModels(projectId: String) = deviceCatalog(projectId).models
-
-    fun Device.getSupportedVersionId(projectId: String): List<String> =
-        getModels(projectId).find { it.id == model }?.supportedVersionIds
-            ?: emptyList()
     fun getModels(projectId: String): List<AndroidModel> = deviceCatalog(projectId).models.orEmpty()
 
     fun supportedVersionsAsTable(projectId: String) = fetchAndroidOsVersion(projectId).toCliTable()
 
     fun describeSoftwareVersion(projectId: String, versionId: String) = fetchAndroidOsVersion(projectId).getDescription(versionId)
+
+    private fun getVersionsList(projectId: String) = deviceCatalog(projectId).versions
 
     fun supportedOrientations(projectId: String): List<Orientation> = deviceCatalog(projectId).runtimeConfiguration.orientations
 
@@ -72,10 +64,7 @@ object AndroidCatalog {
                 logLn("Unable to find device type for $modelId. PHYSICAL used as fallback in cost calculations")
             }
 
-        return form.equals(DeviceType.VIRTUAL.name, ignoreCase = true) || form.equals(
-            DeviceType.EMULATOR.name,
-            ignoreCase = true
-        )
+        return form.equals(DeviceType.VIRTUAL.name, ignoreCase = true) || form.equals(DeviceType.EMULATOR.name, ignoreCase = true)
     }
 }
 
