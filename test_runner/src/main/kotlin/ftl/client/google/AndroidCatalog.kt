@@ -2,6 +2,7 @@ package ftl.client.google
 
 import com.google.testing.model.AndroidDevice
 import com.google.testing.model.AndroidDeviceCatalog
+import com.google.testing.model.AndroidModel
 import com.google.testing.model.Orientation
 import flank.common.logLn
 import ftl.api.fetchAndroidOsVersion
@@ -39,6 +40,7 @@ object AndroidCatalog {
     fun Device.getSupportedVersionId(projectId: String): List<String> =
         getModels(projectId).find { it.id == model }?.supportedVersionIds
             ?: emptyList()
+    fun getModels(projectId: String): List<AndroidModel> = deviceCatalog(projectId).models.orEmpty()
 
     fun supportedVersionsAsTable(projectId: String) = fetchAndroidOsVersion(projectId).toCliTable()
 
@@ -57,17 +59,6 @@ object AndroidCatalog {
 
     fun androidVersionIds(projectId: String) =
         versionMap.getOrPut(projectId) { deviceCatalog(projectId).versions.map { it.id } }
-
-    fun supportedDeviceConfig(modelId: String, versionId: String, projectId: String): DeviceConfigCheck {
-        val foundModel = deviceCatalog(projectId).models.find { it.id == modelId } ?: return UnsupportedModelId
-        if (!androidVersionIds(projectId).contains(versionId)) return UnsupportedVersionId
-
-        foundModel.supportedVersionIds?.let {
-            if (!it.contains(versionId)) return IncompatibleModelVersion
-        } ?: return UnsupportedModelId
-
-        return SupportedDeviceConfig
-    }
 
     fun isVirtualDevice(device: AndroidDevice?, projectId: String): Boolean = device
         ?.androidModelId

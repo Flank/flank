@@ -8,6 +8,8 @@ import ftl.client.google.IncompatibleModelVersion
 import ftl.client.google.SupportedDeviceConfig
 import ftl.client.google.UnsupportedModelId
 import ftl.client.google.UnsupportedVersionId
+import ftl.api.fetchDeviceModelAndroid
+import ftl.client.google.AndroidCatalog
 import ftl.environment.android.toCliTable
 import ftl.test.util.FlankTestRunner
 import io.mockk.every
@@ -30,20 +32,6 @@ class AndroidCatalogTest {
     @Test
     fun androidModelIds() {
         assertThat(AndroidCatalog.androidModelIds(projectId)).isNotEmpty()
-    }
-
-    @Test
-    fun supportedDeviceConfig() {
-        assertThat(AndroidCatalog.supportedDeviceConfig("ios", "23", projectId)).isEqualTo(UnsupportedModelId)
-        assertThat(AndroidCatalog.supportedDeviceConfig("NexusLowRes", "twenty-three", projectId)).isEqualTo(
-            UnsupportedVersionId
-        )
-        assertThat(AndroidCatalog.supportedDeviceConfig("NexusLowRes", "21", projectId)).isEqualTo(
-            IncompatibleModelVersion
-        )
-        assertThat(AndroidCatalog.supportedDeviceConfig("NexusLowRes", "23", projectId)).isEqualTo(SupportedDeviceConfig)
-        assertThat(AndroidCatalog.supportedDeviceConfig("brokenModel", "23", projectId)).isEqualTo(UnsupportedModelId)
-        assertThat(AndroidCatalog.supportedDeviceConfig("does not exist", "23", projectId)).isEqualTo(UnsupportedModelId)
     }
 
     @Test
@@ -87,7 +75,7 @@ class AndroidCatalogTest {
         val expectedSeparatorCount = expectedHeaders.size + 1
 
         // when
-        val devicesTable = AndroidCatalog.devicesCatalogAsTable(projectId)
+        val devicesTable = fetchDeviceModelAndroid(projectId).toCliTable()
         val headers = devicesTable.lines()[1]
 
         // then

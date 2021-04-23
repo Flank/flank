@@ -1,12 +1,13 @@
 package ftl.ios
 
 import com.google.testing.model.IosDeviceCatalog
+import com.google.testing.model.IosModel
 import com.google.testing.model.Orientation
 import ftl.config.Device
 import ftl.environment.asPrintableTable
 import ftl.environment.getLocaleDescription
-import ftl.environment.ios.asPrintableTable
 import ftl.environment.ios.getDescription
+import ftl.environment.ios.toCliTable
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
 
@@ -19,13 +20,9 @@ object IosCatalog {
     private val catalogMap: MutableMap<String, IosDeviceCatalog> = mutableMapOf()
     private val xcodeMap: MutableMap<String, List<String>> = mutableMapOf()
 
-    fun devicesCatalogAsTable(projectId: String) = getModels(projectId).asPrintableTable()
+    fun getModels(projectId: String): List<IosModel> = iosDeviceCatalog(projectId).models.orEmpty()
 
-    fun describeModel(projectId: String, modelId: String) = getModels(projectId).getDescription(modelId)
-
-    private fun getModels(projectId: String) = iosDeviceCatalog(projectId).models
-
-    fun softwareVersionsAsTable(projectId: String) = getVersionsList(projectId).asPrintableTable()
+    fun softwareVersionsAsTable(projectId: String) = getVersionsList(projectId).toCliTable()
 
     fun describeSoftwareVersion(projectId: String, versionId: String) =
         getVersionsList(projectId).getDescription(versionId)
@@ -45,12 +42,6 @@ object IosCatalog {
 
     private fun xcodeVersions(projectId: String) =
         xcodeMap.getOrPut(projectId) { iosDeviceCatalog(projectId).xcodeVersions.map { it.version } }
-
-    fun supportedDevice(
-        modelId: String,
-        versionId: String,
-        projectId: String
-    ) = iosDeviceCatalog(projectId).models.find { it.id == modelId }?.supportedVersionIds?.contains(versionId) ?: false
 
     fun Device.getSupportedVersionId(projectId: String): List<String> = iosDeviceCatalog(projectId).models.find { it.id == model }?.supportedVersionIds
         ?: emptyList()
