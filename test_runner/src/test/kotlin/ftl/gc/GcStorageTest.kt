@@ -1,8 +1,6 @@
 package ftl.gc
 
-import com.google.api.services.toolresults.model.AppStartTime
-import com.google.api.services.toolresults.model.Duration
-import com.google.api.services.toolresults.model.PerfMetricsSummary
+import ftl.api.PerfMetrics
 import ftl.api.RemoteStorage
 import ftl.api.existRemoteStorage
 import ftl.api.uploadToRemoteStorage
@@ -38,8 +36,7 @@ class GcStorageTest {
     @Test
     fun `should upload performance metrics`() {
         // given
-        val expectedPerformanceMetrics = PerfMetricsSummary()
-            .setAppStartTime(AppStartTime().setInitialDisplayTime(Duration().setSeconds(5)))
+        val expectedPerformanceMetrics = PerfMetrics.Summary(executionId = "test")
 
         // when
         val filePath = uploadPerformanceMetrics(expectedPerformanceMetrics, "bucket", "path/test")

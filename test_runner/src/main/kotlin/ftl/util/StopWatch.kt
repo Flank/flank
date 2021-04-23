@@ -26,7 +26,10 @@ suspend fun measureTime(block: suspend () -> Unit) = StopWatch().run {
     check()
 }
 
-data class Duration(val seconds: Long)
+data class Duration(
+    val seconds: Long,
+    val nanos: Int? = null
+)
 
 fun Duration.formatted(alignSeconds: Boolean = false): String {
     val minutes = TimeUnit.SECONDS.toMinutes(seconds)
