@@ -11,6 +11,7 @@ import ftl.args.IgnoredTestCases
 import ftl.args.IosArgs
 import ftl.args.ShardChunks
 import ftl.client.google.GcStorage
+import ftl.client.google.downloadAsJunitXml
 import ftl.config.FtlConstants
 import ftl.json.MatrixMap
 import ftl.json.isAllSuccessful
@@ -249,7 +250,7 @@ object ReportManager {
     ) {
         if (newTestResult == null || newTestResult.testsuites.isNullOrEmpty()) return
 
-        val oldTestResult = GcStorage.downloadJunitXml(args)
+        val oldTestResult = downloadAsJunitXml(args)
 
         if (args.useLegacyJUnitResult) {
             newTestResult.mergeTestTimes(oldTestResult)

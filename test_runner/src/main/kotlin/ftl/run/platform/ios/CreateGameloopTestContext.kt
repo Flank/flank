@@ -1,11 +1,11 @@
 package ftl.run.platform.ios
 
 import flank.common.join
+import ftl.adapter.google.asFileReference
 import ftl.args.IosArgs
 import ftl.run.model.GameloopTestContext
 import ftl.run.model.IosTestContext
 import ftl.util.ShardCounter
-import ftl.util.asFileReference
 import ftl.util.uploadIfNeeded
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf

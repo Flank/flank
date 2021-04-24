@@ -16,6 +16,7 @@ import ftl.adapter.google.credential
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 import ftl.args.yml.YamlObjectMapper
 import ftl.client.google.GcStorage
+import ftl.client.google.downloadAsJunitXml
 import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.config.FtlConstants.useMock
@@ -255,7 +256,7 @@ object ArgsHelper {
                 )
             )
         } else {
-            val oldTestResult = GcStorage.downloadJunitXml(args) ?: JUnitTestResult(mutableListOf())
+            val oldTestResult = downloadAsJunitXml(args) ?: JUnitTestResult(mutableListOf())
             val shardCount = forcedShardCount ?: shardCountByTime(testsToExecute, oldTestResult, args)
             createShardsByShardCount(testsToExecute, oldTestResult, args, shardCount).map { Chunk(it.testMethods) }
         }

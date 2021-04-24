@@ -7,8 +7,8 @@ import ftl.shard.testCases
 internal fun AndroidArgs.createInstrumentationConfig(
     testApk: InstrumentationTestContext
 ) = AndroidTestConfig.Instrumentation(
-    appApkGcsPath = testApk.app.gcs,
-    testApkGcsPath = testApk.test.gcs,
+    appApkGcsPath = testApk.app.remote,
+    testApkGcsPath = testApk.test.remote,
     testRunnerClass = testRunnerClass,
     orchestratorOption = "USE_ORCHESTRATOR".takeIf { useOrchestrator },
     disableSharding = disableSharding,

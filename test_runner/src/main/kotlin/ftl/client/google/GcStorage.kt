@@ -9,7 +9,10 @@ import com.google.cloud.storage.StorageOptions
 import com.google.cloud.storage.contrib.nio.testing.LocalStorageHelper
 import com.google.common.annotations.VisibleForTesting
 import flank.common.join
+import ftl.adapter.google.asFileReference
 import ftl.adapter.google.credential
+import ftl.api.FileReference
+import ftl.api.downloadFileReference
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
@@ -77,7 +80,7 @@ object GcStorage {
     }
 
     // junit xml may not exist. ignore error if it doesn't exist
-    fun downloadJunitXml(
+    private fun downloadJunitXml(
         args: IArgs
     ): JUnitTestResult? = download(args.smartFlankGcsPath, ignoreError = true)
         .takeIf { it.isNotEmpty() }
@@ -159,6 +162,25 @@ object GcStorage {
 
     private fun String.dropLeadingSlash() = drop(1)
 }
+
+internal fun gcStorageUpload(
+    filePath: String,
+    fileBytes: ByteArray,
+    rootGcsBucket: String,
+    runGcsPath: String
+) = if (filePath.startsWith(GCS_PREFIX)) filePath else GcStorage.upload(filePath, fileBytes, rootGcsBucket, runGcsPath)
+
+internal fun gcStorageExist(rootGcsBucket: String, runGcsPath: String) = GcStorage.exist(rootGcsBucket, runGcsPath)
+
+internal fun gcStorageDownload(gcsUriString: String, ignoreError: Boolean = false) =
+    GcStorage.download(gcsUriString, ignoreError)
+
+internal fun downloadAsJunitXml(args: IArgs): JUnitTestResult? =
+    downloadFileReference(args.smartFlankGcsPath.asFileReference(), false, true)
+        .local.takeIf { it.isNotEmpty() }
+        ?.let { parseAllSuitesXml(Paths.get(it)) }
+
+internal fun FileReference.downloadIfNeeded() = downloadFileReference(this, true, false)
 
 object TestStorageProvider {
     init {

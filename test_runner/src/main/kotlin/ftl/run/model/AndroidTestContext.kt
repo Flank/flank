@@ -1,9 +1,9 @@
 package ftl.run.model
 
+import ftl.api.FileReference
 import ftl.args.IgnoredTestCases
 import ftl.args.ShardChunks
 import ftl.shard.Chunk
-import ftl.util.FileReference
 
 sealed class AndroidTestContext
 
