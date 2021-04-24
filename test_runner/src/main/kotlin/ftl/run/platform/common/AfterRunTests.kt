@@ -3,14 +3,16 @@ package ftl.run.platform.common
 import com.google.testing.model.TestMatrix
 import flank.common.logLn
 import flank.common.startWithNewLine
+import ftl.api.RemoteStorage
+import ftl.api.uploadToRemoteStorage
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_STORAGE_LINK
-import ftl.gc.GcStorage.uploadSessionId
 import ftl.gc.GcTestMatrix
 import ftl.json.MatrixMap
 import ftl.json.createSavedMatrix
 import ftl.reports.addStepTime
+import ftl.run.common.SESSION_ID_FILE
 import ftl.run.common.saveSessionId
 import ftl.run.common.updateMatrixFile
 import ftl.util.StopWatch
@@ -71,3 +73,9 @@ private tailrec suspend fun getOrUpdateWebLink(link: String, project: String, ma
         project = project,
         matrixId = matrixId
     )
+
+fun IArgs.uploadSessionId() = takeUnless { disableResultsUpload }?.let {
+    val file = Paths.get(localResultDir, SESSION_ID_FILE).toString()
+    if (file.startsWith(FtlConstants.GCS_PREFIX)) return file
+    uploadToRemoteStorage(RemoteStorage.Dir(resultsBucket, resultsDir), RemoteStorage.Data(file, Files.readAllBytes(Paths.get(file))))
+}

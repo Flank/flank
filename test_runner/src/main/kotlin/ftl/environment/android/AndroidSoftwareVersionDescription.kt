@@ -1,21 +1,22 @@
 package ftl.environment.android
 
-import com.google.testing.model.AndroidVersion
+import ftl.api.OsVersion
+import ftl.environment.orUnknown
 import ftl.run.exception.FlankGeneralError
 
-fun List<AndroidVersion>.getDescription(versionId: String) = findVersion(versionId)?.prepareDescription().orErrorMessage(versionId)
+fun List<OsVersion.Android>.getDescription(versionId: String) = findVersion(versionId)?.prepareDescription().orErrorMessage(versionId)
 
-private fun List<AndroidVersion>.findVersion(versionId: String) = firstOrNull { it.id == versionId }
+private fun List<OsVersion.Android>.findVersion(versionId: String) = firstOrNull { it.id == versionId }
 
-private fun AndroidVersion.prepareDescription() = """
+private fun OsVersion.Android.prepareDescription() = """
     apiLevel: $apiLevel
     codeName: $codeName
     id: '$id'
     releaseDate:
-      day: ${releaseDate.day}
-      month: ${releaseDate.month}
-      year: ${releaseDate.year}
-""".trimIndent().addDataIfExists(tags).addVersion(versionString).trim()
+      day: ${releaseDate?.day}
+      month: ${releaseDate?.month}
+      year: ${releaseDate?.year}
+""".trimIndent().addDataIfExists(tags).addVersion(versionString.orUnknown()).trim()
 
 private fun String.addVersion(versionString: String) = StringBuilder(this).appendLine("\nversionString: $versionString")
     .toString()

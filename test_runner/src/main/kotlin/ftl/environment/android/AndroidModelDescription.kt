@@ -1,13 +1,13 @@
 package ftl.environment.android
 
-import com.google.testing.model.AndroidModel
+import ftl.api.DeviceModel
 import ftl.run.exception.FlankGeneralError
 
-fun List<AndroidModel>.getDescription(modelId: String) = findModel(modelId)?.prepareDescription().orErrorMessage(modelId)
+fun List<DeviceModel.Android>.getDescription(modelId: String) = findModel(modelId)?.prepareDescription().orErrorMessage(modelId)
 
-private fun List<AndroidModel>.findModel(modelId: String) = firstOrNull { it.id == modelId }
+private fun List<DeviceModel.Android>.findModel(modelId: String) = firstOrNull { it.id == modelId }
 
-private fun AndroidModel.prepareDescription() = """
+private fun DeviceModel.Android.prepareDescription() = """
     brand: $brand
     codename: $codename
     form: $form

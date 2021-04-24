@@ -8,8 +8,8 @@ import ftl.args.ArgsHelper.assertGcsFileExists
 import ftl.args.ArgsHelper.createGcsBucket
 import ftl.args.ArgsHelper.validateTestMethods
 import ftl.args.yml.mergeYmlKeys
-import ftl.gc.GcStorage
-import ftl.gc.GcStorage.exist
+import ftl.client.google.GcStorage
+import ftl.client.google.GcStorage.exist
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 import ftl.shard.TestMethod

@@ -2,13 +2,14 @@ package ftl.run.platform
 
 import flank.common.join
 import flank.common.logLn
+import ftl.api.RemoteStorage
+import ftl.api.uploadToRemoteStorage
 import ftl.args.IosArgs
 import ftl.args.isXcTest
 import ftl.args.shardsFilePath
 import ftl.config.FtlConstants
 import ftl.gc.GcIosMatrix
 import ftl.gc.GcIosTestMatrix
-import ftl.gc.GcStorage
 import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
 import ftl.ios.xctest.flattenShardChunks
@@ -29,6 +30,8 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
+import java.nio.file.Files
+import java.nio.file.Paths
 
 // https://github.com/bootstraponline/gcloud_cli/blob/5bcba57e825fc98e690281cf69484b7ba4eb668a/google-cloud-sdk/lib/googlecloudsdk/api_lib/firebase/test/ios/matrix_creator.py#L109
 // https://cloud.google.com/sdk/gcloud/reference/alpha/firebase/test/ios/run
@@ -79,5 +82,8 @@ private fun IosArgs.dumpShardsIfXcTest() = takeIf { isXcTest }?.let {
         shardFilePath = shardsFilePath
     )
     if (disableResultsUpload.not())
-        GcStorage.upload(shardsFilePath, resultsBucket, resultsDir)
+        uploadToRemoteStorage(
+            RemoteStorage.Dir(resultsBucket, resultsDir),
+            RemoteStorage.Data(shardsFilePath, Files.readAllBytes(Paths.get(shardsFilePath)))
+        )
 }
