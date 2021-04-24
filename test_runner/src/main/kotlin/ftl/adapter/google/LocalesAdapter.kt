@@ -27,7 +27,7 @@ private fun List<Locale>.createTestEnvironment() =
             getOrCreateList(LOCALE).add(locale.id.orEmpty())
             getOrCreateList(NAME).add(locale.name.orEmpty())
             getOrCreateList(REGION).add(locale.region.orEmpty())
-            getOrCreateList(TAGS).add(locale.tags?.joinToString().orEmpty())
+            getOrCreateList(TAGS).add(locale.tags.joinToString().orEmpty())
         }
     }
 
