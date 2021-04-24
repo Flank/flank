@@ -5,17 +5,17 @@ import ftl.adapter.google.asFileReference
 import ftl.api.RemoteStorage
 import ftl.api.uploadToRemoteStorage
 import ftl.args.IosArgs
+import ftl.client.google.uploadIfNeeded
 import ftl.ios.xctest.xcTestRunFlow
 import ftl.run.model.IosTestContext
 import ftl.run.model.XcTestContext
 import ftl.util.ShardCounter
-import ftl.util.uploadIfNeeded
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 internal fun IosArgs.createXcTestContexts(): Flow<IosTestContext> {
     val shardCounter = ShardCounter()
-    val xcTestGcsPath = uploadIfNeeded(xctestrunZip.asFileReference()).gcs
+    val xcTestGcsPath = uploadIfNeeded(xctestrunZip.asFileReference()).remote
     val gcsBucket = resultsBucket
     return xcTestRunFlow().map { xcTestRun ->
         val shardName = shardCounter.next()

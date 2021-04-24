@@ -3,12 +3,12 @@ package ftl.run.platform.android
 import ftl.adapter.google.asFileReference
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
+import ftl.client.google.uploadIfNeeded
 import ftl.run.model.AndroidTestContext
 import ftl.run.model.GameLoopContext
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.RoboTestContext
 import ftl.run.model.SanityRoboTestContext
-import ftl.util.uploadIfNeeded
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -58,6 +58,6 @@ private suspend fun List<String>.uploadToGcloudIfNeeded(
     resultsBucket: String
 ) = coroutineScope {
     map {
-        async { it.asFileReference().uploadIfNeeded(resultsBucket, runGcsPath).gcs }
+        async { it.asFileReference().uploadIfNeeded(resultsBucket, runGcsPath).remote }
     }.awaitAll()
 }

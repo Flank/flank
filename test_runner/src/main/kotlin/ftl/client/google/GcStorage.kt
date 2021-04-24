@@ -9,10 +9,7 @@ import com.google.cloud.storage.StorageOptions
 import com.google.cloud.storage.contrib.nio.testing.LocalStorageHelper
 import com.google.common.annotations.VisibleForTesting
 import flank.common.join
-import ftl.adapter.google.asFileReference
 import ftl.adapter.google.credential
-import ftl.api.FileReference
-import ftl.api.downloadFileReference
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
@@ -174,13 +171,6 @@ internal fun gcStorageExist(rootGcsBucket: String, runGcsPath: String) = GcStora
 
 internal fun gcStorageDownload(gcsUriString: String, ignoreError: Boolean = false) =
     GcStorage.download(gcsUriString, ignoreError)
-
-internal fun downloadAsJunitXml(args: IArgs): JUnitTestResult? =
-    downloadFileReference(args.smartFlankGcsPath.asFileReference(), false, true)
-        .local.takeIf { it.isNotEmpty() }
-        ?.let { parseAllSuitesXml(Paths.get(it)) }
-
-internal fun FileReference.downloadIfNeeded() = downloadFileReference(this, true, false)
 
 object TestStorageProvider {
     init {

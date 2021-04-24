@@ -2,6 +2,7 @@ package ftl.args
 
 import com.google.common.truth.Truth.assertThat
 import com.google.testing.model.TestSpecification
+import ftl.adapter.google.asFileReference
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 import ftl.args.IArgs.Companion.AVAILABLE_VIRTUAL_SHARD_COUNT_RANGE
 import ftl.args.yml.AppTestPair
@@ -30,7 +31,6 @@ import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
 import ftl.test.util.TestHelper.getThrowable
 import ftl.test.util.assertThrowsWithMessage
-import ftl.util.asFileReference
 import io.mockk.every
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
