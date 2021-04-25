@@ -78,7 +78,7 @@ tasks.register("integrationTests") {
 }
 
 tasks.withType<Test> {
-    dependsOn(":test_runner:assemble")
+    dependsOn(":test_runner:build")
 }
 
 val compileTestKotlin: KotlinCompile by tasks
