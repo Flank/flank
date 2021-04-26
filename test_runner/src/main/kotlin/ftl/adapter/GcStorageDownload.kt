@@ -11,10 +11,11 @@ object GcStorageDownload :
         if (!ignoreErrors) {
             if (fileReference.local.isBlank() && fileReference.remote.isBlank()) throw FlankGeneralError("Cannot create empty FileReference")
         }
-        if (ifNeeded) {
-            if (fileReference.local.isNotBlank()) fileReference
-            else gcStorageDownload(fileReference.remote, ignoreErrors).toApiModel(fileReference)
-        } else {
-            gcStorageDownload(fileReference.remote, ignoreErrors).toApiModel(fileReference)
+        when {
+            ifNeeded -> {
+                if (fileReference.local.isNotBlank()) fileReference
+                else gcStorageDownload(fileReference.remote, ignoreErrors).toApiModel(fileReference)
+            }
+            else -> gcStorageDownload(fileReference.remote, ignoreErrors).toApiModel(fileReference)
         }
     }
