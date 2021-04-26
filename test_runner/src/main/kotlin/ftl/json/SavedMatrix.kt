@@ -28,7 +28,9 @@ data class SavedMatrix(
     val state: String = "",
     val gcsPath: String = "",
     val webLink: String = "",
-    val downloaded: Boolean = false,
+    // this is variable intentionally, this is workaround to pass changes while fetching artifacts
+    // todo think about different solution
+    var downloaded: Boolean = false,
     val billableVirtualMinutes: Long = 0,
     val billablePhysicalMinutes: Long = 0,
     val clientDetails: Map<String, String>? = null,

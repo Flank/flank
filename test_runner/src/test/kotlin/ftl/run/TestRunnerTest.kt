@@ -7,14 +7,14 @@ import com.google.testing.model.ResultStorage
 import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
 import flank.common.isWindows
+import ftl.adapter.google.getFilePathToDownload
+import ftl.api.Artifacts.DownloadPath
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
 import ftl.http.executeWithRetry
-import ftl.run.common.getDownloadPath
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.LocalGcs
 import io.mockk.every
-import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
@@ -42,8 +42,6 @@ private const val FULL_ANDROID_PATH = "$OBJECT_NAME/$MATRIX/$ANDROID_DEVICE/$TES
 
 @RunWith(FlankTestRunner::class)
 class TestRunnerTest {
-    private val iosArgs = mockk<IosArgs>()
-    private val androidArgs = mockk<AndroidArgs>()
 
     @get:Rule
     val systemOutRule: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
@@ -53,61 +51,49 @@ class TestRunnerTest {
 
     @Test
     fun `Verify getDownloadPath localResultDir false and keepFilePath false - ios`() {
-        every { iosArgs.localResultDir } returns LOCAL_DIR
-        every { iosArgs.useLocalResultDir() } returns false
-        every { iosArgs.keepFilePath } returns false
+        val downloadPath = DownloadPath(LOCAL_DIR, false, false)
 
-        val downloadFile = getDownloadPath(iosArgs, FULL_IOS_PATH)
+        val downloadFile = getFilePathToDownload(downloadPath, FULL_IOS_PATH)
         assertThat(downloadFile).isEqualTo(Paths.get("$LOCAL_DIR/$OBJECT_NAME/$SHARD/$IOS_DEVICE/$FILE_NAME"))
     }
 
     @Test
     fun `Verify getDownloadPath localResultDir false and keepFilePath true - ios`() {
-        every { iosArgs.localResultDir } returns LOCAL_DIR
-        every { iosArgs.useLocalResultDir() } returns false
-        every { iosArgs.keepFilePath } returns true
+        val downloadPath = DownloadPath(LOCAL_DIR, false, true)
 
-        val downloadFile = getDownloadPath(iosArgs, FULL_IOS_PATH)
+        val downloadFile = getFilePathToDownload(downloadPath, FULL_IOS_PATH)
         assertThat(downloadFile).isEqualTo(Paths.get("$LOCAL_DIR/$FULL_IOS_PATH"))
     }
 
     @Test
     fun `Verify getDownloadPath localResultDir true and keepFilePath false - ios`() {
-        every { iosArgs.localResultDir } returns LOCAL_DIR
-        every { iosArgs.useLocalResultDir() } returns true
-        every { iosArgs.keepFilePath } returns false
+        val downloadPath = DownloadPath(LOCAL_DIR, true, false)
 
-        val downloadFile = getDownloadPath(iosArgs, FULL_IOS_PATH)
+        val downloadFile = getFilePathToDownload(downloadPath, FULL_IOS_PATH)
         assertThat(downloadFile).isEqualTo(Paths.get("$LOCAL_DIR/$SHARD/$IOS_DEVICE/$FILE_NAME"))
     }
 
     @Test
     fun `Verify getDownloadPath localResultDir true and keepFilePath true - ios`() {
-        every { iosArgs.localResultDir } returns LOCAL_DIR
-        every { iosArgs.useLocalResultDir() } returns true
-        every { iosArgs.keepFilePath } returns true
+        val downloadPath = DownloadPath(LOCAL_DIR, true, true)
 
-        val downloadFile = getDownloadPath(iosArgs, FULL_IOS_PATH)
+        val downloadFile = getFilePathToDownload(downloadPath, FULL_IOS_PATH)
         assertThat(downloadFile).isEqualTo(Paths.get("$LOCAL_DIR/$SHARD/$IOS_DEVICE/$TEST_FILE_PATH/$FILE_NAME"))
     }
 
     @Test
     fun `Verify getDownloadPath localResultDir true and keepFilePath true - android`() {
-        every { androidArgs.localResultDir } returns LOCAL_DIR
-        every { androidArgs.useLocalResultDir() } returns true
-        every { androidArgs.keepFilePath } returns true
+        val downloadPath = DownloadPath(LOCAL_DIR, true, true)
 
-        val downloadFile = getDownloadPath(androidArgs, FULL_ANDROID_PATH)
+        val downloadFile = getFilePathToDownload(downloadPath, FULL_ANDROID_PATH)
         assertThat(downloadFile).isEqualTo(Paths.get("$LOCAL_DIR/$MATRIX/$ANDROID_DEVICE/$TEST_FILE_PATH/$FILE_NAME"))
     }
 
     @Test
     fun `Verify getDownloadPath localResultDir false and keepFilePath true`() {
-        every { androidArgs.localResultDir } returns LOCAL_DIR
-        every { androidArgs.useLocalResultDir() } returns false
-        every { androidArgs.keepFilePath } returns true
+        val downloadPath = DownloadPath(LOCAL_DIR, false, true)
 
-        val downloadFile = getDownloadPath(androidArgs, FULL_ANDROID_PATH)
+        val downloadFile = getFilePathToDownload(downloadPath, FULL_ANDROID_PATH)
         assertThat(downloadFile).isEqualTo(Paths.get("$LOCAL_DIR/$FULL_ANDROID_PATH"))
     }
 
