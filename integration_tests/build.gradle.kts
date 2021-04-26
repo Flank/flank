@@ -77,11 +77,11 @@ tasks.register("integrationTests") {
     tasks["integrationTestsIos"].mustRunAfter("integrationTestsAndroid")
 }
 
+tasks.withType<Test> {
+    dependsOn(":test_runner:build")
+}
+
 val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.kotlinOptions {
     freeCompilerArgs = listOf("-Xinline-classes")
-}
-// Locally you should have flank built already, on CI we need to build it
-if (System.getenv("CI") != null) {
-    tasks["integrationTests"].dependsOn(":test_runner:build")
 }
