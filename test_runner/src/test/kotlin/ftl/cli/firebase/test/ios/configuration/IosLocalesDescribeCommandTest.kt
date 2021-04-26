@@ -27,13 +27,6 @@ class IosLocalesDescribeCommandTest {
         }
     }
 
-    /*
-    every { fetchLocales(any()) } returns emptyList()
-        every { any<List<Locale>>().asPrintableTable() } returns ""
-        CommandLine(AndroidLocalesListCommand()).execute()
-        verify { any<List<Locale>>().asPrintableTable() }
-    * */
-
     @Test(expected = FlankConfigurationError::class)
     fun `should throw if locale not specified`() {
         CommandLine(IosLocalesDescribeCommand()).execute("--config=$simpleFlankPath")
