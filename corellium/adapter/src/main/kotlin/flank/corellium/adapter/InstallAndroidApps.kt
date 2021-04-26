@@ -9,7 +9,7 @@ import flank.corellium.client.core.getAllProjects
 import flank.corellium.client.core.getProjectInstancesList
 import java.io.File
 
-private const val pathToUpload = "/sdcard"
+private const val PATH_TO_UPLOAD = "/sdcard"
 
 class InstallAndroidApps(
     private val projectName: String
@@ -27,7 +27,7 @@ class InstallAndroidApps(
 
             apps.paths.forEach { localPath ->
                 val file = File(localPath)
-                val remotePath = "$pathToUpload/${file.name}"
+                val remotePath = "$PATH_TO_UPLOAD/${file.name}"
 
                 agent.uploadFile(remotePath, file.readBytes())
                 console.sendCommand("pm install $remotePath")

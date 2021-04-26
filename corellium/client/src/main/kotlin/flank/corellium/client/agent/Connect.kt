@@ -32,7 +32,9 @@ suspend fun connectAgent(
     }
 
     var connection: Agent? = null
+    var retryCount = 10
     do {
+        require(retryCount-- > 0) { "Max retry count reached" }
         try {
             connection = client
                 .createSession(agentUrl, token)
