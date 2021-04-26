@@ -14,6 +14,7 @@ import java.nio.file.Paths
 
 suspend fun fetchArtifacts(identity: Identity): Pair<MatrixId, List<String>> = coroutineScope {
     val prefix = Storage.BlobListOption.prefix(identity.gcsPathWithoutRootBucket)
+    val fields = Storage.BlobListOption.fields(Storage.BlobField.NAME)
     val result = GcStorage.storage.list(identity.gcsRootBucket, prefix, fields)
 
     MatrixId(identity.matrixId) to result.iterateAll().mapNotNull { blob ->
@@ -45,4 +46,4 @@ internal fun getFilePathToDownload(downloadPath: DownloadPath, blobPath: String)
     return Paths.get("$localDir/$objName/$matrixName/$deviceName/$filePathName/$fileName")
 }
 
-private val fields = Storage.BlobListOption.fields(Storage.BlobField.NAME)
+// private val fields = Storage.BlobListOption.fields(Storage.BlobField.NAME)
