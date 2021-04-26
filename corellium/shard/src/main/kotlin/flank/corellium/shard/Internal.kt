@@ -5,7 +5,7 @@ import kotlin.math.min
 // Stage 1
 
 /**
- * Create flat and easy to iterate list of [Chunk] without loosing info about app and test related to test case.
+ * Create flat and easy to iterate list of [Chunk] without losing info about app and test related to test case.
  * @receiver The [List] of [Shard.App].
  * @return The [List] of [Chunk] which is just different representation of input data.
  */
