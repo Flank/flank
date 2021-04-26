@@ -1,6 +1,6 @@
 # Sharding
 
-Depending on provided test cases duration, sharding algorithm will:
+Depending on the provided test cases duration, the sharding algorithm will:
 
 * Split the test cases from one test apk to run on many devices.
 * Group the test cases from many test apks to run on a single device.
