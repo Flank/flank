@@ -25,7 +25,5 @@ object Artifacts {
      * @return Matrix ID of which files were downloaded
      * associated with list of downloaded files
      */
-    interface Fetch {
-        suspend operator fun invoke(input: Identity): Pair<String, List<String>>
-    }
+    interface Fetch : (Identity) -> Pair<String, List<String>>
 }

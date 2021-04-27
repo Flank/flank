@@ -7,11 +7,11 @@ import ftl.client.google.GcStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.runBlocking
 import java.nio.file.Path
 import java.nio.file.Paths
 
-suspend fun fetchArtifacts(identity: Identity): Pair<String, List<String>> = coroutineScope {
+fun fetchArtifacts(identity: Identity): Pair<String, List<String>> = runBlocking {
     val prefix = Storage.BlobListOption.prefix(identity.gcsPathWithoutRootBucket)
     val result = GcStorage.storage.list(identity.gcsRootBucket, prefix, fields)
 
