@@ -22,3 +22,9 @@ dependencies {
     testImplementation(Dependencies.MOCKK)
     testImplementation(Dependencies.TRUTH)
 }
+
+tasks.test {
+    maxHeapSize = "3072m"
+    minHeapSize = "512m"
+    dependsOn(":resolveArtifacts")
+}
