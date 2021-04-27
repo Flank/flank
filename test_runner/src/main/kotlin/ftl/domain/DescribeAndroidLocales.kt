@@ -1,11 +1,11 @@
 package ftl.domain
 
 import flank.common.log
-import ftl.adapter.google.getLocaleDescription
 import ftl.api.Locale
 import ftl.api.Platform
 import ftl.api.fetchLocales
 import ftl.args.AndroidArgs
+import ftl.environment.getLocaleDescription
 import ftl.run.exception.FlankConfigurationError
 import java.nio.file.Paths
 

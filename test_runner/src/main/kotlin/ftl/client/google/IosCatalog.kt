@@ -4,7 +4,6 @@ import com.google.testing.model.IosDeviceCatalog
 import com.google.testing.model.IosModel
 import com.google.testing.model.Orientation
 import ftl.config.Device
-import ftl.environment.asPrintableTable
 import ftl.environment.getLocaleDescription
 import ftl.environment.ios.getDescription
 import ftl.environment.ios.toCliTable
@@ -28,8 +27,6 @@ object IosCatalog {
         getVersionsList(projectId).getDescription(versionId)
 
     private fun getVersionsList(projectId: String) = iosDeviceCatalog(projectId).versions
-
-    private fun localesAsTable(projectId: String) = iosDeviceCatalog(projectId).runtimeConfiguration.locales.asPrintableTable()
 
     private fun getLocaleDescription(projectId: String, locale: String) = getLocales(projectId).getLocaleDescription(locale)
 

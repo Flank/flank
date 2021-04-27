@@ -1,11 +1,11 @@
 package ftl.domain
 
 import flank.common.logLn
-import ftl.adapter.google.asPrintableTable
 import ftl.api.Locale.Identity
 import ftl.api.Platform
 import ftl.api.fetchLocales
 import ftl.args.AndroidArgs
+import ftl.environment.toCliTable
 import java.nio.file.Paths
 
 interface ListAndroidLocales {
@@ -14,6 +14,6 @@ interface ListAndroidLocales {
 
 operator fun ListAndroidLocales.invoke() {
     logLn(
-        fetchLocales(Identity(AndroidArgs.loadOrDefault(Paths.get(configPath)).project, Platform.ANDROID)).asPrintableTable()
+        fetchLocales(Identity(AndroidArgs.loadOrDefault(Paths.get(configPath)).project, Platform.ANDROID)).toCliTable()
     )
 }

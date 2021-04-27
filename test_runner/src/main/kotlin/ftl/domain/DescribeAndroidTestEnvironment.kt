@@ -1,7 +1,6 @@
 package ftl.domain
 
 import flank.common.logLn
-import ftl.adapter.google.asPrintableTable
 import ftl.api.Locale.Identity
 import ftl.api.Platform
 import ftl.api.fetchAndroidOsVersion
@@ -26,7 +25,7 @@ fun DescribeAndroidTestEnvironment.invoke() {
     // TODO move toCliTable() to presentation layer during refactor of presentation after #1728
     logLn(fetchAndroidOsVersion(projectId).toCliTable())
     logLn(fetchDeviceModelAndroid(projectId).toCliTable()) // TODO move toCliTable() to presentation layer during refactor of presentation after #1728
-    logLn(fetchLocales(Identity(projectId, Platform.ANDROID)).asPrintableTable())
+    logLn(fetchLocales(Identity(projectId, Platform.ANDROID)).toCliTable())
     logLn(fetchSoftwareCatalog().toCliTable())
     logLn(fetchNetworkProfiles().toCliTable())
     logLn(fetchOrientation(projectId, Platform.ANDROID).toCliTable()) // TODO move toCliTable() to presentation layer during refactor of presentation after #1728
