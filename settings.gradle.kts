@@ -14,6 +14,7 @@ include(
     ":corellium:sandbox",
     ":corellium:client",
     ":corellium:log",
+    ":corellium:api",
     ":corellium:shard",
 )
 
