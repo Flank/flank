@@ -24,6 +24,8 @@ internal suspend fun fetchAllTestRunArtifacts(matrixMap: MatrixMap, args: IArgs)
         keepFilePath = args.keepFilePath
     )
 
+    val regexes = Artifacts.regexList(args)
+
     matrixMap.map.values
         .filter {
             val finished = it.state == MatrixState.FINISHED
@@ -34,15 +36,14 @@ internal suspend fun fetchAllTestRunArtifacts(matrixMap: MatrixMap, args: IArgs)
             Identity(
                 gcsPathWithoutRootBucket = it.gcsPathWithoutRootBucket,
                 gcsRootBucket = it.gcsRootBucket,
-                regex = Artifacts.regexList(args),
-                blobPath = "",
+                regex = regexes,
                 downloadPath = downloadPath,
                 matrixId = it.matrixId
             )
         }
         .map { fetchArtifacts(it) }
         .forEach { (matrixId, _) ->
-            matrixMap.map[matrixId.value]?.downloaded = true
+            matrixMap.map[matrixId]?.downloaded = true
         }
 
     logLn(FtlConstants.indent + "Updating matrix file", level = OutputLogLevel.DETAILED)

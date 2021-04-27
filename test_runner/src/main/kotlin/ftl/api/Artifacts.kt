@@ -10,7 +10,6 @@ object Artifacts {
         val gcsPathWithoutRootBucket: String,
         val gcsRootBucket: String,
         val regex: List<Regex>,
-        val blobPath: String, // todo not needed?
         val downloadPath: DownloadPath,
         val matrixId: String
     )
@@ -27,8 +26,6 @@ object Artifacts {
      * associated with list of downloaded files
      */
     interface Fetch {
-        suspend operator fun invoke(input: Identity): Pair<MatrixId, List<String>>
+        suspend operator fun invoke(input: Identity): Pair<String, List<String>>
     }
 }
-
-inline class MatrixId(val value: String)

@@ -3,7 +3,6 @@ package ftl.adapter.google
 import com.google.cloud.storage.Storage
 import ftl.api.Artifacts.DownloadPath
 import ftl.api.Artifacts.Identity
-import ftl.api.MatrixId
 import ftl.client.google.GcStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -12,11 +11,11 @@ import kotlinx.coroutines.coroutineScope
 import java.nio.file.Path
 import java.nio.file.Paths
 
-suspend fun fetchArtifacts(identity: Identity): Pair<MatrixId, List<String>> = coroutineScope {
+suspend fun fetchArtifacts(identity: Identity): Pair<String, List<String>> = coroutineScope {
     val prefix = Storage.BlobListOption.prefix(identity.gcsPathWithoutRootBucket)
     val result = GcStorage.storage.list(identity.gcsRootBucket, prefix, fields)
 
-    MatrixId(identity.matrixId) to result.iterateAll().mapNotNull { blob ->
+    identity.matrixId to result.iterateAll().mapNotNull { blob ->
         val blobPath = blob.blobId.name
         val matched = identity.regex.any { blobPath.matches(it) }
         val downloadFile = getFilePathToDownload(identity.downloadPath, blobPath)
