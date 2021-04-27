@@ -27,7 +27,7 @@ package domain {
 [Internal domain logic] <- [Public domain functions]
 }
 
-package data {
+package api {
 [Structures] - () Interfaces
 }
 
