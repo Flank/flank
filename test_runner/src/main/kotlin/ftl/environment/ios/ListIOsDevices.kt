@@ -1,6 +1,6 @@
 package ftl.environment.ios
 
-import com.google.testing.model.IosModel
+import ftl.api.DeviceModel
 import ftl.environment.MODEL_ID
 import ftl.environment.MODEL_NAME
 import ftl.environment.OS_VERSION_IDS
@@ -9,26 +9,26 @@ import ftl.environment.TAGS
 import ftl.environment.TestEnvironmentInfo
 import ftl.environment.createTableColumnFor
 import ftl.environment.getOrCreateList
-import ftl.environment.orUnknown
+import ftl.environment.isValid
 import ftl.environment.tagToSystemOutColorMapper
 import ftl.util.applyColorsUsing
 import ftl.util.buildTable
 
-fun List<IosModel>.asPrintableTable() = createTestEnvironmentInfo().createIoDevicesTable()
+fun List<DeviceModel.Ios>.toCliTable() = createTestEnvironmentInfo().createIoDevicesTable()
 
-fun List<IosModel>.createTestEnvironmentInfo() =
+fun List<DeviceModel.Ios>.createTestEnvironmentInfo() =
     fold(mutableMapOf<String, MutableList<String>>()) { deviceInfo, iOsDevice ->
         deviceInfo.apply {
-            getOrCreateList(MODEL_ID).add(iOsDevice.id.orUnknown())
-            getOrCreateList(MODEL_NAME).add(iOsDevice.name.orUnknown())
+            getOrCreateList(MODEL_ID).add(iOsDevice.id)
+            getOrCreateList(MODEL_NAME).add(iOsDevice.name)
             getOrCreateList(RESOLUTION).add(iOsDevice.resolution)
-            getOrCreateList(OS_VERSION_IDS).add(iOsDevice.supportedVersionIds?.joinToString().orEmpty())
-            getOrCreateList(TAGS).add(iOsDevice.tags?.joinToString().orEmpty())
+            getOrCreateList(OS_VERSION_IDS).add(iOsDevice.supportedVersionIds.joinToString())
+            getOrCreateList(TAGS).add(iOsDevice.tags.joinToString())
         }
     }
 
-private val IosModel.resolution
-    get() = if (screenX == null || screenY == null) "UNKNOWN" else "$screenY x $screenX"
+private val DeviceModel.Ios.resolution
+    get() = if (screenX.isValid() && screenY.isValid()) "$screenY x $screenX" else "UNKNOWN"
 
 private fun TestEnvironmentInfo.createIoDevicesTable() = buildTable(
     createTableColumnFor(MODEL_ID),

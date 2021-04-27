@@ -2,13 +2,12 @@ package ftl.client.google
 
 import com.google.testing.model.AndroidDevice
 import com.google.testing.model.AndroidDeviceCatalog
+import com.google.testing.model.AndroidModel
 import com.google.testing.model.Orientation
 import flank.common.logLn
-import ftl.config.Device
+import ftl.api.fetchAndroidOsVersion
 import ftl.environment.android.getDescription
 import ftl.environment.android.toCliTable
-import ftl.environment.asPrintableTable
-import ftl.environment.common.toCliTable
 import ftl.environment.getLocaleDescription
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
@@ -30,45 +29,25 @@ object AndroidCatalog {
             .androidDeviceCatalog
     }
 
-    fun devicesCatalogAsTable(projectId: String) = getModels(projectId).toCliTable()
+    fun getModels(projectId: String): List<AndroidModel> = deviceCatalog(projectId).models.orEmpty()
 
-    fun describeModel(projectId: String, modelId: String) = getModels(projectId).getDescription(modelId)
+    fun supportedVersionsAsTable(projectId: String) = fetchAndroidOsVersion(projectId).toCliTable()
 
-    private fun getModels(projectId: String) = deviceCatalog(projectId).models
-
-    fun Device.getSupportedVersionId(projectId: String): List<String> = getModels(projectId).find { it.id == model }?.supportedVersionIds
-        ?: emptyList()
-
-    fun supportedVersionsAsTable(projectId: String) = getVersionsList(projectId).toCliTable()
-
-    fun describeSoftwareVersion(projectId: String, versionId: String) = getVersionsList(projectId).getDescription(versionId)
+    fun describeSoftwareVersion(projectId: String, versionId: String) = fetchAndroidOsVersion(projectId).getDescription(versionId)
 
     private fun getVersionsList(projectId: String) = deviceCatalog(projectId).versions
 
     fun supportedOrientations(projectId: String): List<Orientation> = deviceCatalog(projectId).runtimeConfiguration.orientations
 
-    fun localesAsTable(projectId: String) = getLocales(projectId).asPrintableTable()
+    private fun getLocaleDescription(projectId: String, locale: String) = getLocales(projectId).getLocaleDescription(locale)
 
-    fun getLocaleDescription(projectId: String, locale: String) = getLocales(projectId).getLocaleDescription(locale)
-
-    private fun getLocales(projectId: String) = deviceCatalog(projectId).runtimeConfiguration.locales
+    internal fun getLocales(projectId: String) = deviceCatalog(projectId).runtimeConfiguration.locales
 
     fun androidModelIds(projectId: String) =
         modelMap.getOrPut(projectId) { deviceCatalog(projectId).models.map { it.id } }
 
     fun androidVersionIds(projectId: String) =
         versionMap.getOrPut(projectId) { deviceCatalog(projectId).versions.map { it.id } }
-
-    fun supportedDeviceConfig(modelId: String, versionId: String, projectId: String): DeviceConfigCheck {
-        val foundModel = deviceCatalog(projectId).models.find { it.id == modelId } ?: return UnsupportedModelId
-        if (!androidVersionIds(projectId).contains(versionId)) return UnsupportedVersionId
-
-        foundModel.supportedVersionIds?.let {
-            if (!it.contains(versionId)) return IncompatibleModelVersion
-        } ?: return UnsupportedModelId
-
-        return SupportedDeviceConfig
-    }
 
     fun isVirtualDevice(device: AndroidDevice?, projectId: String): Boolean = device
         ?.androidModelId

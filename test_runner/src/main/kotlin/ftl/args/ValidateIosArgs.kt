@@ -1,9 +1,11 @@
 package ftl.args
 
+import com.google.common.annotations.VisibleForTesting
 import flank.common.logLn
+import ftl.api.fetchDeviceModelIos
 import ftl.args.yml.Type
-import ftl.ios.IosCatalog
-import ftl.ios.IosCatalog.getSupportedVersionId
+import ftl.client.google.IosCatalog
+import ftl.client.google.IosCatalog.getSupportedVersionId
 import ftl.ios.xctest.XcTestRunData
 import ftl.ios.xctest.common.XcTestRunVersion
 import ftl.ios.xctest.common.mapToRegex
@@ -81,9 +83,16 @@ private fun IosArgs.assertXcodeSupported() = when {
 }
 
 private fun IosArgs.assertDevicesSupported() = devices.forEach { device ->
-    if (!IosCatalog.supportedDevice(device.model, device.version, this.project))
+    if (!isDeviceSupported(device.model, device.version, this.project))
         throw IncompatibleTestDimensionError("iOS ${device.version} on ${device.model} is not a supported\nSupported version ids for '${device.model}': ${device.getSupportedVersionId(project).joinToString()}")
 }
+
+@VisibleForTesting
+internal fun isDeviceSupported(
+    modelId: String,
+    versionId: String,
+    projectId: String
+) = fetchDeviceModelIos(projectId).find { it.id == modelId }?.supportedVersionIds?.contains(versionId) ?: false
 
 private fun IosArgs.assertTestFiles() =
     if (isXcTest) {

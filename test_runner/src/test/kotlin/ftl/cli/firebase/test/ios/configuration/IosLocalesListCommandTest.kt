@@ -1,7 +1,7 @@
 package ftl.cli.firebase.test.ios.configuration
 
 import com.google.common.truth.Truth
-import ftl.ios.IosCatalog
+import ftl.client.google.IosCatalog
 import ftl.presentation.cli.firebase.test.ios.configuration.IosLocalesListCommand
 import io.mockk.mockkObject
 import io.mockk.verify
@@ -14,7 +14,7 @@ class IosLocalesListCommandTest {
     fun `should execute IosCatalog localesAsTable when run IosLocalesListCommand`() {
         mockkObject(IosCatalog) {
             CommandLine(IosLocalesListCommand()).execute()
-            verify { IosCatalog.localesAsTable(any()) }
+            verify { IosCatalog.getLocales(any()) }
         }
     }
 

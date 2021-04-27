@@ -7,6 +7,7 @@ import com.google.api.services.toolresults.model.History
 import com.google.api.services.toolresults.model.ListEnvironmentsResponse
 import com.google.api.services.toolresults.model.ListStepsResponse
 import com.google.api.services.toolresults.model.ListTestCasesResponse
+import com.google.api.services.toolresults.model.PerfMetricsSummary
 import com.google.api.services.toolresults.model.Step
 import com.google.api.services.toolresults.model.TestCase
 import com.google.testing.model.TestExecution
@@ -111,7 +112,7 @@ object GcToolResults {
 
     fun getPerformanceMetric(
         toolResultsStep: ToolResultsStep
-    ) = service
+    ): PerfMetricsSummary = service
         .projects()
         .histories()
         .executions()
