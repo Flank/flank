@@ -62,13 +62,13 @@ val androidExampleNoVPNJar by tasks.registering(Jar::class) {
 val runAndroidExample by tasks.registering(Exec::class) {
     dependsOn(androidExampleJar)
     workingDir = project.rootDir
-    commandLine("java", "-jar", "./corellium/corellium-sandbox/build/libs/android-example-all.jar")
+    commandLine("java", "-jar", "./corellium/sandbox/build/libs/android-example-all.jar")
 }
 
 val runAndroidExampleNoVPN by tasks.registering(Exec::class) {
     dependsOn(androidExampleNoVPNJar)
     workingDir = project.rootDir
-    commandLine("java", "-jar", "./corellium/corellium-sandbox/build/libs/android-example-no-vpn-all.jar")
+    commandLine("java", "-jar", "./corellium/sandbox/build/libs/android-example-no-vpn-all.jar")
 }
 
 file("./src/main/resources/corellium-config.properties").also { propFile ->

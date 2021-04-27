@@ -7,6 +7,8 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+// TODO convert print lines to structural logging
+
 suspend inline fun <T> withRetry(crossinline block: suspend CoroutineScope.() -> T) = coroutineScope {
     var currentDelay = 500L
     repeat(6) {
