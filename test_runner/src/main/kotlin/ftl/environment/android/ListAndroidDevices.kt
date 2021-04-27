@@ -1,6 +1,6 @@
 package ftl.environment.android
 
-import com.google.testing.model.AndroidModel
+import ftl.api.DeviceModel
 import ftl.environment.EMULATOR_DEVICE
 import ftl.environment.FORM
 import ftl.environment.MAKE
@@ -14,24 +14,24 @@ import ftl.environment.TestEnvironmentInfo
 import ftl.environment.VIRTUAL_DEVICE
 import ftl.environment.createTableColumnFor
 import ftl.environment.getOrCreateList
-import ftl.environment.orUnknown
+import ftl.environment.isValid
 import ftl.environment.tagToSystemOutColorMapper
 import ftl.util.SystemOutColor
 import ftl.util.applyColorsUsing
 import ftl.util.buildTable
 
-fun List<AndroidModel>.toCliTable() = createTestEnvironmentInfo().createAndroidDevicesTable()
+fun List<DeviceModel.Android>.toCliTable() = createTestEnvironmentInfo().createAndroidDevicesTable()
 
-private fun List<AndroidModel>.createTestEnvironmentInfo() =
+private fun List<DeviceModel.Android>.createTestEnvironmentInfo() =
     fold(mutableMapOf<String, MutableList<String>>()) { devicesInfo, androidDevice ->
         devicesInfo.apply {
-            getOrCreateList(MODEL_ID).add(androidDevice.codename.orUnknown())
-            getOrCreateList(MAKE).add(androidDevice.manufacturer.orUnknown())
-            getOrCreateList(MODEL_NAME).add(androidDevice.name.orUnknown())
-            getOrCreateList(FORM).add(androidDevice.form.orUnknown())
+            getOrCreateList(MODEL_ID).add(androidDevice.codename)
+            getOrCreateList(MAKE).add(androidDevice.manufacturer)
+            getOrCreateList(MODEL_NAME).add(androidDevice.name)
+            getOrCreateList(FORM).add(androidDevice.form)
             getOrCreateList(RESOLUTION).add(androidDevice.resolution)
-            getOrCreateList(OS_VERSION_IDS).add(androidDevice.supportedVersionIds?.joinToString().orEmpty())
-            getOrCreateList(TAGS).add(androidDevice.tags?.joinToString().orEmpty())
+            getOrCreateList(OS_VERSION_IDS).add(androidDevice.supportedVersionIds.joinToString())
+            getOrCreateList(TAGS).add(androidDevice.tags.joinToString())
         }
     }
 
@@ -45,8 +45,8 @@ private fun TestEnvironmentInfo.createAndroidDevicesTable() = buildTable(
     createTableColumnFor(TAGS).applyColorsUsing(tagToSystemOutColorMapper)
 )
 
-private val AndroidModel.resolution
-    get() = if (screenX == null || screenY == null) "UNKNOWN" else "$screenY x $screenX"
+private val DeviceModel.Android.resolution
+    get() = if (screenX.isValid() && screenY.isValid()) "$screenY x $screenX" else "UNKNOWN"
 
 private val formToSystemOutColorMapper: (String) -> SystemOutColor = {
     when (it) {

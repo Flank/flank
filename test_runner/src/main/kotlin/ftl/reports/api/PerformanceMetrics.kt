@@ -1,13 +1,14 @@
 package ftl.reports.api
 
-import com.google.api.services.toolresults.model.PerfMetricsSummary
 import com.google.testing.model.TestExecution
 import flank.common.logLn
+import ftl.api.PerfMetrics
 import ftl.api.RemoteStorage
+import ftl.api.fetchPerformanceMetrics
 import ftl.api.uploadToRemoteStorage
 import ftl.args.IArgs
 import ftl.client.google.AndroidCatalog
-import ftl.gc.GcToolResults
+import ftl.run.common.prettyPrint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -31,31 +32,44 @@ internal fun List<Pair<TestExecution, String>>.getAndUploadPerformanceMetrics(
         .awaitAll()
 }
 
-private fun PerfMetricsSummary.save(resultsDir: String, args: IArgs) {
+private fun PerfMetrics.Summary.save(resultsDir: String, args: IArgs) {
     val configFilePath =
         if (args.useLocalResultDir()) Paths.get(args.localResultDir, "performanceMetrics.json")
         else Paths.get(args.localResultDir, resultsDir, "performanceMetrics.json")
 
     configFilePath.parent.toFile().mkdirs()
-    Files.write(configFilePath, toPrettyString().toByteArray())
+
+    Files.write(configFilePath, prettyPrint.toJson(this).toByteArray())
 }
 
 private fun List<Pair<TestExecution, String>>.filterAndroidPhysicalDevicesRuns() = filterNot { (testExecution, _) ->
     AndroidCatalog.isVirtualDevice(testExecution.environment.androidDevice, testExecution.projectId)
 }
 
-private fun TestExecution.getPerformanceMetric() = GcToolResults.getPerformanceMetric(toolResultsStep)
+// TODO probably this mapping and test execution will be removed in #1756
+private fun TestExecution.getPerformanceMetric(): PerfMetrics.Summary = fetchPerformanceMetrics(
+    PerfMetrics.Identity(
+        executionId = toolResultsStep.executionId,
+        historyId = toolResultsStep.historyId,
+        projectId = toolResultsStep.projectId,
+        stepId = toolResultsStep.stepId
+    )
+)
 
-private fun PerfMetricsSummary.upload(
+private fun PerfMetrics.Summary.upload(
     resultBucket: String,
     resultDir: String
 ) = uploadPerformanceMetrics(this, resultBucket, resultDir)
 
-internal fun uploadPerformanceMetrics(perfMetricsSummary: PerfMetricsSummary, resultsBucket: String, resultDir: String) =
+internal fun uploadPerformanceMetrics(
+    perfMetricsSummary: PerfMetrics.Summary,
+    resultsBucket: String,
+    resultDir: String
+) =
     runCatching {
         uploadToRemoteStorage(
             RemoteStorage.Dir(resultsBucket, resultDir),
-            RemoteStorage.Data("performanceMetrics.json", perfMetricsSummary.toPrettyString().toByteArray())
+            RemoteStorage.Data("performanceMetrics.json", prettyPrint.toJson(perfMetricsSummary).toByteArray())
         )
     }.onFailure {
         logLn("Cannot upload performance metrics ${it.message}")

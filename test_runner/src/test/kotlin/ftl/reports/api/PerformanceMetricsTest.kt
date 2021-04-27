@@ -4,10 +4,11 @@ import com.google.common.truth.Truth.assertThat
 import com.google.testing.model.AndroidDevice
 import com.google.testing.model.TestExecution
 import com.google.testing.model.ToolResultsStep
+import ftl.api.PerfMetrics
+import ftl.api.fetchPerformanceMetrics
 import ftl.args.IArgs
 import ftl.client.google.AndroidCatalog
 import ftl.client.google.GcStorage
-import ftl.gc.GcToolResults
 import ftl.test.util.FlankTestRunner
 import io.mockk.every
 import io.mockk.mockk
@@ -43,9 +44,10 @@ class PerformanceMetricsTest {
 
         mockkObject(AndroidCatalog) {
             every { AndroidCatalog.isVirtualDevice(any<AndroidDevice>(), any()) } returns false
-            val performanceMetrics = testExecutions.map {
-                GcToolResults.getPerformanceMetric(it.toolResultsStep)
-            }
+            val performanceMetrics = testExecutions
+                .map { it.toolResultsStep }
+                .map { PerfMetrics.Identity(it.executionId, it.historyId, it.projectId, it.stepId) }
+                .map { fetchPerformanceMetrics(it) }
 
             mockkObject(GcStorage) {
                 val args = mockk<IArgs> {
@@ -69,9 +71,10 @@ class PerformanceMetricsTest {
 
         mockkObject(AndroidCatalog) {
             every { AndroidCatalog.isVirtualDevice(any<AndroidDevice>(), any()) } returns false
-            val performanceMetrics = testExecutions.map {
-                GcToolResults.getPerformanceMetric(it.toolResultsStep)
-            }
+            val performanceMetrics = testExecutions
+                .map { it.toolResultsStep }
+                .map { PerfMetrics.Identity(it.executionId, it.historyId, it.projectId, it.stepId) }
+                .map { fetchPerformanceMetrics(it) }
 
             mockkObject(GcStorage) {
                 val args = mockk<IArgs> {
