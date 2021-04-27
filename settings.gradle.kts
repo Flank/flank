@@ -14,7 +14,8 @@ include(
     ":corellium",
     ":corellium:sandbox",
     ":corellium:client",
-    ":corellium:log"
+    ":corellium:log",
+    ":corellium:api",
 )
 
 plugins {
