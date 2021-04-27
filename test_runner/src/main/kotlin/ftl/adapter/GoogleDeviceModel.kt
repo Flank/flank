@@ -4,7 +4,7 @@ import ftl.adapter.google.toAndroidApiModel
 import ftl.adapter.google.toIosApiModel
 import ftl.api.DeviceModel
 import ftl.client.google.AndroidCatalog
-import ftl.ios.IosCatalog
+import ftl.client.google.IosCatalog
 
 object GoogleAndroidDeviceModel :
     DeviceModel.Android.Fetch,

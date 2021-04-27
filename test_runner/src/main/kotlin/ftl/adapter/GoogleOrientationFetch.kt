@@ -4,7 +4,7 @@ import ftl.adapter.google.toApiModel
 import ftl.api.Orientation
 import ftl.api.Platform
 import ftl.client.google.AndroidCatalog
-import ftl.ios.IosCatalog
+import ftl.client.google.IosCatalog
 
 object GoogleOrientationFetch :
     Orientation.Fetch,

@@ -8,7 +8,6 @@ import flank.common.logLn
 import ftl.api.fetchAndroidOsVersion
 import ftl.environment.android.getDescription
 import ftl.environment.android.toCliTable
-import ftl.environment.asPrintableTable
 import ftl.environment.getLocaleDescription
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
@@ -40,11 +39,9 @@ object AndroidCatalog {
 
     fun supportedOrientations(projectId: String): List<Orientation> = deviceCatalog(projectId).runtimeConfiguration.orientations
 
-    fun localesAsTable(projectId: String) = getLocales(projectId).asPrintableTable()
+    private fun getLocaleDescription(projectId: String, locale: String) = getLocales(projectId).getLocaleDescription(locale)
 
-    fun getLocaleDescription(projectId: String, locale: String) = getLocales(projectId).getLocaleDescription(locale)
-
-    private fun getLocales(projectId: String) = deviceCatalog(projectId).runtimeConfiguration.locales
+    internal fun getLocales(projectId: String) = deviceCatalog(projectId).runtimeConfiguration.locales
 
     fun androidModelIds(projectId: String) =
         modelMap.getOrPut(projectId) { deviceCatalog(projectId).models.map { it.id } }
