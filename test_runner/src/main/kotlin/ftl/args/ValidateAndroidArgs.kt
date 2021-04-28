@@ -147,12 +147,12 @@ private fun AndroidArgs.assertTestTypes() {
 private fun AndroidArgs.assertDirectoriesToPull() {
     val correctNameRegex = "(/[a-zA-Z0-9_\\-.+]+)+/?".toRegex()
     directoriesToPull
-        .filter { !it.startsWith("/sdcard") && !it.startsWith("/data/local/tmp") || !correctNameRegex.matches(it) }
+        .filter { !it.startsWith("/sdcard") && !it.startsWith("/data/local/tmp") && !it.startsWith("/storage") || !correctNameRegex.matches(it) }
         .takeIf { it.isNotEmpty() }
         ?.also {
             throw FlankConfigurationError(
                 "Invalid value for [directories-to-pull]: Invalid path $it.\n" +
-                    "Path must be absolute paths under /sdcard or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2).\n" +
+                    "Path must be absolute paths under /sdcard, /storage, or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2).\n" +
                     "Path names are restricted to the characters [a-zA-Z0-9_-./+]. "
             )
         }
