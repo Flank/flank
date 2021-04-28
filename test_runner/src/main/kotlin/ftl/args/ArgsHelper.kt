@@ -12,16 +12,15 @@ import com.google.cloud.storage.StorageOptions
 import flank.common.defaultCredentialPath
 import flank.common.isWindows
 import flank.common.logLn
+import ftl.adapter.DownloadAsJunitXML
 import ftl.adapter.google.credential
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 import ftl.args.yml.YamlObjectMapper
 import ftl.client.google.GcStorage
-import ftl.client.google.downloadAsJunitXml
 import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.config.FtlConstants.useMock
 import ftl.gc.GcToolResults
-import ftl.reports.xml.model.JUnitTestResult
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 import ftl.shard.Chunk
@@ -31,6 +30,7 @@ import ftl.shard.shardCountByTime
 import ftl.util.FlankTestMethod
 import ftl.util.assertNotEmpty
 import ftl.util.getGACPathOrEmpty
+import ftl.util.getSmartFlankGCSPathAsFileReference
 import java.io.File
 import java.net.URI
 import java.nio.charset.StandardCharsets
@@ -256,7 +256,7 @@ object ArgsHelper {
                 )
             )
         } else {
-            val oldTestResult = downloadAsJunitXml(args) ?: JUnitTestResult(mutableListOf())
+            val oldTestResult = DownloadAsJunitXML(args.getSmartFlankGCSPathAsFileReference())
             val shardCount = forcedShardCount ?: shardCountByTime(testsToExecute, oldTestResult, args)
             createShardsByShardCount(testsToExecute, oldTestResult, args, shardCount).map { Chunk(it.testMethods) }
         }

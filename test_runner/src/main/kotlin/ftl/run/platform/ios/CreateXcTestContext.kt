@@ -1,7 +1,6 @@
 package ftl.run.platform.ios
 
 import flank.common.join
-import ftl.adapter.google.asFileReference
 import ftl.api.RemoteStorage
 import ftl.api.uploadToRemoteStorage
 import ftl.args.IosArgs
@@ -10,6 +9,7 @@ import ftl.ios.xctest.xcTestRunFlow
 import ftl.run.model.IosTestContext
 import ftl.run.model.XcTestContext
 import ftl.util.ShardCounter
+import ftl.util.asFileReference
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

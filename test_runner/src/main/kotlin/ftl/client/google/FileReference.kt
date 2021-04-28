@@ -1,6 +1,5 @@
 package ftl.client.google
 
-import ftl.adapter.google.asFileReference
 import ftl.api.FileReference
 import ftl.api.RemoteStorage
 import ftl.api.downloadFileReference
@@ -8,6 +7,7 @@ import ftl.api.uploadToRemoteStorage
 import ftl.args.IArgs
 import ftl.reports.xml.model.JUnitTestResult
 import ftl.reports.xml.parseAllSuitesXml
+import ftl.run.exception.FlankGeneralError
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -29,9 +29,22 @@ fun upload(file: String, rootGcsBucket: String, runGcsPath: String): String {
     )
 }
 
-internal fun downloadAsJunitXml(args: IArgs): JUnitTestResult? =
-    downloadFileReference(args.smartFlankGcsPath.asFileReference(), false, true)
-        .local.takeIf { it.isNotEmpty() }
+internal fun fileReferenceDownload(fileReference: FileReference, ifNeeded: Boolean, ignoreErrors: Boolean): String {
+    if (!ignoreErrors) {
+        if (fileReference.local.isBlank() && fileReference.remote.isBlank()) throw FlankGeneralError("Cannot create empty FileReference")
+    }
+    return when {
+        ifNeeded -> {
+            if (fileReference.local.isNotBlank()) fileReference.local
+            else gcStorageDownload(fileReference.remote, ignoreErrors)
+        }
+        else -> gcStorageDownload(fileReference.remote, ignoreErrors)
+    }
+}
+
+internal fun downloadAsJunitXml(fileReference: FileReference): JUnitTestResult? =
+    fileReferenceDownload(fileReference, ifNeeded = false, ignoreErrors = true)
+        .takeIf { it.isNotEmpty() }
         ?.let { parseAllSuitesXml(Paths.get(it)) }
 
 internal fun FileReference.downloadIfNeeded() = downloadFileReference(this, true, false)

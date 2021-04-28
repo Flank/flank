@@ -1,9 +1,8 @@
 package ftl.adapter.google
 
 import ftl.api.FileReference
-import ftl.config.FtlConstants
+import ftl.reports.xml.model.JUnitTestResult
 
 internal fun String.toApiModel(fileReference: FileReference) = fileReference.copy(local = this)
 
-internal fun String.asFileReference(): FileReference =
-    if (startsWith(FtlConstants.GCS_PREFIX)) FileReference(remote = this) else FileReference(local = this)
+internal fun JUnitTestResult?.toApiModel() = JUnitTestResult(testsuites = this?.testsuites)

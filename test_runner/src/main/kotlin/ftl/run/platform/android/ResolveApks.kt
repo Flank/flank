@@ -1,7 +1,6 @@
 package ftl.run.platform.android
 
 import com.google.common.annotations.VisibleForTesting
-import ftl.adapter.google.asFileReference
 import ftl.args.AndroidArgs
 import ftl.args.isGameLoop
 import ftl.args.isSanityRobo
@@ -11,6 +10,7 @@ import ftl.run.model.GameLoopContext
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.RoboTestContext
 import ftl.run.model.SanityRoboTestContext
+import ftl.util.asFileReference
 
 @VisibleForTesting
 internal fun AndroidArgs.resolveApks(): List<AndroidTestContext> = listOfNotNull(

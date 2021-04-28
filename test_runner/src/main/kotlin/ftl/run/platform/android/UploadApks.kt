@@ -1,6 +1,5 @@
 package ftl.run.platform.android
 
-import ftl.adapter.google.asFileReference
 import ftl.args.AndroidArgs
 import ftl.args.IosArgs
 import ftl.client.google.uploadIfNeeded
@@ -9,6 +8,7 @@ import ftl.run.model.GameLoopContext
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.RoboTestContext
 import ftl.run.model.SanityRoboTestContext
+import ftl.util.asFileReference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
