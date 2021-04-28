@@ -3,7 +3,6 @@ package ftl.domain
 import flank.common.logLn
 import ftl.api.fetchDeviceModelIos
 import ftl.args.IosArgs
-import ftl.environment.android.getDescription
 import ftl.environment.ios.getDescription
 import ftl.run.exception.FlankConfigurationError
 import java.nio.file.Paths

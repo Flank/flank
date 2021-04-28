@@ -14,7 +14,7 @@ class AndroidLocalesListCommandTest {
     fun `should execute AndroidCatalog localesAsTable when run AndroidLocalesListCommand`() {
         mockkObject(AndroidCatalog) {
             CommandLine(AndroidLocalesListCommand()).execute()
-            verify { AndroidCatalog.localesAsTable(any()) }
+            verify { AndroidCatalog.getLocales(any()) }
         }
     }
 

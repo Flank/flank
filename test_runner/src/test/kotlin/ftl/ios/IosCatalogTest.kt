@@ -1,6 +1,11 @@
 package ftl.ios
 
 import com.google.common.truth.Truth.assertThat
+import ftl.api.Locale.Identity
+import ftl.api.Platform
+import ftl.api.fetchLocales
+import ftl.client.google.IosCatalog
+import ftl.environment.toCliTable
 import ftl.test.util.FlankTestRunner
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -43,7 +48,7 @@ class IosCatalogTest {
         val expectedSeparatorCount = expectedHeaders.size + 1
 
         // when
-        val devicesTable = IosCatalog.localesAsTable(projectId)
+        val devicesTable = fetchLocales(Identity(projectId, Platform.IOS)).toCliTable()
         val headers = devicesTable.lines()[1]
 
         // then
