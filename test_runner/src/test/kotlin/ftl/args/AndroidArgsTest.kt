@@ -30,6 +30,7 @@ import ftl.test.util.TestHelper.assert
 import ftl.test.util.TestHelper.getPath
 import ftl.test.util.TestHelper.getThrowable
 import ftl.test.util.assertThrowsWithMessage
+import ftl.util.asFileReference
 import io.mockk.every
 import io.mockk.mockkObject
 import io.mockk.mockkStatic

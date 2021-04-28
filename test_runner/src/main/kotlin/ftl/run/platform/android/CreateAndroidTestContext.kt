@@ -15,7 +15,6 @@ import ftl.api.FileReference
 import ftl.args.AndroidArgs
 import ftl.args.ArgsHelper
 import ftl.args.CalculateShardsResult
-import ftl.client.google.downloadIfNeeded
 import ftl.config.FtlConstants
 import ftl.filter.TestFilter
 import ftl.filter.TestFilters
@@ -25,6 +24,7 @@ import ftl.run.model.InstrumentationTestContext
 import ftl.shard.Chunk
 import ftl.shard.createShardsByTestForShards
 import ftl.util.FlankTestMethod
+import ftl.util.downloadIfNeeded
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope

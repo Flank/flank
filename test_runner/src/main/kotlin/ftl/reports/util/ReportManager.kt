@@ -257,9 +257,7 @@ object ReportManager {
             newTestResult.mergeTestTimes(oldTestResult)
         }
 
-        if (oldTestResult != null) {
-            printActual(oldTestResult, newTestResult, args, testShardChunks)
-        }
+        printActual(oldTestResult, newTestResult, args, testShardChunks)
 
         GcStorage.uploadJunitXml(newTestResult, args)
     }
