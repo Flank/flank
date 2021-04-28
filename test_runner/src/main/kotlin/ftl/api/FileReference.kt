@@ -6,7 +6,6 @@ import ftl.reports.xml.model.JUnitTestResult
 
 val downloadFileReference: FileReference.Download get() = GcStorageDownload
 val downloadAsJunitXML: FileReference.DownloadAsXML get() = DownloadAsJunitXML
-val existFileReference: FileReference.Exist get() = TODO()
 
 data class FileReference(
     val local: String = "",
@@ -15,5 +14,4 @@ data class FileReference(
 
     interface Download : (FileReference, Boolean, Boolean) -> FileReference
     interface DownloadAsXML : (FileReference) -> JUnitTestResult
-    interface Exist : (FileReference) -> Boolean
 }

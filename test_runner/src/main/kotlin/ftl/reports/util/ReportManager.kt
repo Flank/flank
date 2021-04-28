@@ -3,8 +3,8 @@ package ftl.reports.util
 import com.google.common.annotations.VisibleForTesting
 import com.google.testing.model.TestExecution
 import flank.common.logLn
-import ftl.adapter.DownloadAsJunitXML
 import ftl.api.RemoteStorage
+import ftl.api.downloadAsJunitXML
 import ftl.api.uploadToRemoteStorage
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
@@ -251,7 +251,7 @@ object ReportManager {
     ) {
         if (newTestResult == null || newTestResult.testsuites.isNullOrEmpty()) return
 
-        val oldTestResult = DownloadAsJunitXML(args.getSmartFlankGCSPathAsFileReference())
+        val oldTestResult = downloadAsJunitXML(args.getSmartFlankGCSPathAsFileReference())
 
         if (args.useLegacyJUnitResult) {
             newTestResult.mergeTestTimes(oldTestResult)

@@ -2,7 +2,6 @@ package ftl.client.google
 
 import ftl.api.FileReference
 import ftl.api.RemoteStorage
-import ftl.api.downloadFileReference
 import ftl.api.uploadToRemoteStorage
 import ftl.args.IArgs
 import ftl.reports.xml.model.JUnitTestResult
@@ -46,5 +45,3 @@ internal fun downloadAsJunitXml(fileReference: FileReference): JUnitTestResult? 
     fileReferenceDownload(fileReference, ifNeeded = false, ignoreErrors = true)
         .takeIf { it.isNotEmpty() }
         ?.let { parseAllSuitesXml(Paths.get(it)) }
-
-internal fun FileReference.downloadIfNeeded() = downloadFileReference(this, true, false)
