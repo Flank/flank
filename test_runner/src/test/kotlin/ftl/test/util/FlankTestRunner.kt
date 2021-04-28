@@ -16,14 +16,14 @@ class FlankTestRunner(klass: Class<*>) : BlockJUnit4ClassRunner(klass) {
         }
     }
 
-    override fun run(notifier: RunNotifier?) {
+    override fun run(notifier: RunNotifier) {
         val listener = object : RunListener() {
             override fun testFinished(description: Description?) {
                 LocalGcs.clear()
                 super.testFinished(description)
             }
         }
-        notifier?.addListener(listener)
+        notifier.addListener(listener)
         super.run(notifier)
     }
 }
