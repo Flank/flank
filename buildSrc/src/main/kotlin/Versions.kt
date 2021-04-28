@@ -22,6 +22,9 @@ object Versions {
     // https://github.com/linkedin/dex-test-parser/releases
     const val DEX_TEST_PARSER = "2.2.1"
 
+    // https://github.com/hsiafan/apk-parser
+    const val APK_PARSER = "2.6.10"
+
     // match to Tools -> Kotlin -> Configure Kotlin Plugin Updates -> Update Channel: Stable
     const val KOTLIN = "1.4.31"
 

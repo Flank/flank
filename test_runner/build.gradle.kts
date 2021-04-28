@@ -341,24 +341,8 @@ fun execAndGetStdout(vararg args: String): String {
     return stdout.toString().trimEnd()
 }
 
-val resolveArtifacts by tasks.registering {
-    dependsOn(":flank-scripts:prepareJar")
-    group = "verification"
-    doLast {
-        val flankScriptsRunnerName = if (DefaultNativePlatform.getCurrentOperatingSystem().isWindows)
-            "flankScripts.bat" else "flankScripts"
-        val flankScriptsPath = Paths.get("flank-scripts", "bash", flankScriptsRunnerName).toString()
-        val rootFlankScriptsPath = rootDir.resolve(flankScriptsPath).absolutePath
-        println(rootFlankScriptsPath)
-        exec {
-            commandLine(rootFlankScriptsPath, "testArtifacts", "-p", rootDir.absolutePath, "resolve")
-            workingDir = rootDir
-        }
-    }
-}
-
 tasks.test {
     maxHeapSize = "3072m"
     minHeapSize = "512m"
-    dependsOn(resolveArtifacts)
+    dependsOn(":resolveArtifacts")
 }

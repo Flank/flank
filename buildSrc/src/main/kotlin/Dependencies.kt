@@ -3,6 +3,7 @@ object Dependencies {
     const val MIXPANEL = "com.mixpanel:mixpanel-java:${Versions.MIXPANEL}"
     const val DD_PLIST = "com.googlecode.plist:dd-plist:${Versions.DD_PLIST}"
     const val DEX_TEST_PARSER = "com.linkedin.dextestparser:parser:${Versions.DEX_TEST_PARSER}"
+    const val APK_PARSER = "net.dongliu:apk-parser:${Versions.APK_PARSER}"
 
     const val GOOGLE_API_CLIENT = "com.google.api-client:google-api-client:${Versions.GOOGLE_API}"
     const val GOOGLE_AUTH = "com.google.auth:google-auth-library-oauth2-http:${Versions.GOOGLE_AUTH}"
