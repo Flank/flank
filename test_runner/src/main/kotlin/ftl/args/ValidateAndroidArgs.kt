@@ -147,7 +147,7 @@ private fun AndroidArgs.assertTestTypes() {
 private fun AndroidArgs.assertDirectoriesToPull() {
     val correctNameRegex = "(/[a-zA-Z0-9_\\-.+]+)+/?".toRegex()
     directoriesToPull
-        .filter { !it.startsWith("/sdcard") && !it.startsWith("/data/local/tmp")  && !it.startsWith("/storage") || !correctNameRegex.matches(it) }
+        .filter { !it.startsWith("/sdcard") && !it.startsWith("/data/local/tmp") && !it.startsWith("/storage") || !correctNameRegex.matches(it) }
         .takeIf { it.isNotEmpty() }
         ?.also {
             throw FlankConfigurationError(
