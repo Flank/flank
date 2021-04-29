@@ -19,9 +19,9 @@ import flank.corellium.client.core.waitUntilInstanceIsReady
 import flank.corellium.client.data.Instance
 import flank.corellium.client.data.Instance.BootOptions
 import flank.corellium.sandbox.config.Config
-import java.io.File
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
+import java.io.File
 
 private const val instanceName = "flank-android-20"
 private const val flavor = "ranchu"

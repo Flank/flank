@@ -20,11 +20,11 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.util.cio.writeChannel
 import io.ktor.utils.io.copyAndClose
-import java.io.File
-import java.util.UUID
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
+import java.io.File
+import java.util.UUID
 
 suspend fun Corellium.getAllProjects(): List<Project> =
     getProjectIdList().map {

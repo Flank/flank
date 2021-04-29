@@ -6,10 +6,10 @@ import flank.corellium.api.AndroidTestPlan
 import flank.corellium.api.Authorization
 import flank.corellium.api.invoke
 import flank.corellium.corelliumApi
-import java.util.Properties
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
+import java.util.Properties
 
 private const val PROJECT_NAME = "Default Project"
 

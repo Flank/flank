@@ -9,9 +9,9 @@ import flank.corellium.client.core.connectAgent
 import flank.corellium.client.core.connectConsole
 import flank.corellium.client.core.getAllProjects
 import flank.corellium.client.core.getProjectInstancesList
-import java.io.File
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
+import java.io.File
 
 private const val PATH_TO_UPLOAD = "/sdcard"
 
