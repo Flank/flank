@@ -7,11 +7,14 @@ import com.google.api.services.toolresults.model.TestExecutionStep
 import com.google.api.services.toolresults.model.Timestamp
 import com.google.testing.model.TestExecution
 import com.google.testing.model.ToolResultsStep
-import ftl.reports.api.data.TestExecutionData
+import ftl.client.junit.JUnitTestCase
+import ftl.client.junit.JUnitTestSuite
+import ftl.client.junit.TestExecutionData
+import ftl.client.junit.createJUnitTestCases
+import ftl.client.junit.createJUnitTestSuites
+import ftl.client.junit.createTestSuiteOverviewData
+import ftl.client.junit.xmlPrettyWriter
 import ftl.reports.api.data.TestSuiteOverviewData
-import ftl.reports.xml.model.JUnitTestCase
-import ftl.reports.xml.model.JUnitTestSuite
-import ftl.reports.xml.xmlPrettyWriter
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
@@ -25,8 +28,8 @@ class CreateJUnitTestSuiteKtTest {
     @Before
     fun setUp() {
         mockkStatic(
-            "ftl.reports.api.CreateTestSuiteOverviewDataKt",
-            "ftl.reports.api.CreateJUnitTestCaseKt"
+            "ftl.client.junit.CreateTestSuiteOverviewDataKt",
+            "ftl.client.junit.CreateJUnitTestCaseKt"
         )
     }
 

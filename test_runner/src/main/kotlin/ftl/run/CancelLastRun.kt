@@ -2,8 +2,8 @@ package ftl.run
 
 import flank.common.logLn
 import ftl.args.IArgs
+import ftl.client.google.GcTestMatrix
 import ftl.config.FtlConstants
-import ftl.gc.GcTestMatrix
 import ftl.json.SavedMatrix
 import ftl.run.common.getLastArgs
 import ftl.run.common.getLastMatrices

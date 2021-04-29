@@ -1,4 +1,4 @@
-package ftl.reports.api
+package ftl.client.junit
 
 import com.google.api.services.toolresults.model.Step
 import com.google.api.services.toolresults.model.TestCase
@@ -6,7 +6,6 @@ import com.google.api.services.toolresults.model.Timestamp
 import com.google.testing.model.TestExecution
 import com.google.testing.model.ToolResultsStep
 import ftl.gc.GcToolResults
-import ftl.reports.api.data.TestExecutionData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll

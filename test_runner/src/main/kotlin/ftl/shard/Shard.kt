@@ -1,10 +1,10 @@
 package ftl.shard
 
 import flank.common.logLn
+import ftl.api.JUnitTest
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
-import ftl.reports.xml.model.JUnitTestResult
 import ftl.run.exception.FlankConfigurationError
 import ftl.util.FlankTestMethod
 import kotlin.math.roundToInt
@@ -51,7 +51,7 @@ fun AndroidArgs.createShardsByTestForShards(): List<Chunk> = testTargetsForShard
 // take in the XML with timing info then return list of shards based on the amount of shards to use
 fun createShardsByShardCount(
     testsToRun: List<FlankTestMethod>,
-    oldTestResult: JUnitTestResult,
+    oldTestResult: JUnitTest.Result,
     args: IArgs,
     forcedShardCount: Int = -1
 ): List<TestShard> {

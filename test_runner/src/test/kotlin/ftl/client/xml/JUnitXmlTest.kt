@@ -1,11 +1,18 @@
-package ftl.reports.xml
+package ftl.client.xml
 
 import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
+import ftl.adapter.google.toApiModel
+import ftl.client.junit.parseAllSuitesXml
+import ftl.client.junit.parseOneSuiteXml
 import ftl.doctor.assertEqualsIgnoreNewlineStyle
+import ftl.domain.junit.merge
+import ftl.domain.junit.mergeTestTimes
+import ftl.reports.toXmlString
 import ftl.run.exception.FlankGeneralError
 import org.junit.Assert
 import org.junit.Test
+import java.io.File
 import java.nio.file.Paths
 
 class JUnitXmlTest {
@@ -38,22 +45,23 @@ class JUnitXmlTest {
 </testsuites>
         """.trimIndent()
 
-        parseAllSuitesXml(xml)
+        parseAllSuitesXml(xml.writeToTempFile())
     }
 
     @Test
     fun `empty testcase -- infrastructure error result`() {
         val xml = "<testsuites/>"
 
-        parseAllSuitesXml(xml).run {
+        parseAllSuitesXml(xml.writeToTempFile()).run {
             assertThat(testsuites).isNull()
         }
     }
 
     @Test
     fun `merge android`() {
-        val mergedXml = parseOneSuiteXml(androidPassXml).merge(parseOneSuiteXml(androidFailXml))
-        val merged = mergedXml.xmlToString().normalizeLineEnding()
+        val mergedXml = parseOneSuiteXml(androidPassXml).toApiModel()
+            .merge(parseOneSuiteXml(androidFailXml).toApiModel())
+        val merged = mergedXml.toXmlString().normalizeLineEnding()
 
         val testSuite = mergedXml.testsuites?.first() ?: throw java.lang.RuntimeException("no test suite")
         assertThat(testSuite.name).isEqualTo("")
@@ -86,7 +94,10 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
     @Test
     fun `merge ios`() {
         val merged =
-            parseAllSuitesXml(iosPassXml).merge(parseAllSuitesXml(iosFailXml)).xmlToString().normalizeLineEnding()
+            parseAllSuitesXml(iosPassXml).toApiModel()
+                .merge(parseAllSuitesXml(iosFailXml).toApiModel())
+                .toXmlString()
+                .normalizeLineEnding()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
@@ -108,7 +119,10 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
     @Test
     fun `Merge iOS large time`() {
         val merged =
-            parseAllSuitesXml(iosLargeNum).merge(parseAllSuitesXml(iosLargeNum)).xmlToString().normalizeLineEnding()
+            parseAllSuitesXml(iosLargeNum).toApiModel()
+                .merge(parseAllSuitesXml(iosLargeNum).toApiModel())
+                .toXmlString()
+                .normalizeLineEnding()
 
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
@@ -125,15 +139,15 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun `parse androidSkipped`() {
-        val parsed = parseOneSuiteXml(androidSkipped)
+        val parsed = parseOneSuiteXml(androidSkipped.writeToTempFile())
         assertThat(parsed.testsuites?.first()?.testcases?.first()?.skipped).isNull()
     }
 
     @Test
     fun `merge androidSkipped`() {
-        val merged = parseOneSuiteXml(androidSkipped)
+        val merged = parseOneSuiteXml(androidSkipped.writeToTempFile()).toApiModel()
         merged.merge(merged)
-        val actual = merged.xmlToString().normalizeLineEnding()
+        val actual = merged.toXmlString().normalizeLineEnding()
 
         assertThat(actual).isEqualTo(
             """
@@ -176,14 +190,14 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
         """.trimIndent()
 
-        val parsed = parseAllSuitesXml(unknownXml).xmlToString()
+        val parsed = parseAllSuitesXml(unknownXml.writeToTempFile()).toApiModel().toXmlString()
 
         assertEqualsIgnoreNewlineStyle(parsed, expected)
     }
 
     @Test
     fun `junitXmlToString androidPassXml`() {
-        val parsed = parseOneSuiteXml(androidPassXml).xmlToString().normalizeLineEnding()
+        val parsed = parseOneSuiteXml(androidPassXml).toApiModel().toXmlString().normalizeLineEnding()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
@@ -199,7 +213,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun `junitXmlToString androidFailXml`() {
-        val parsed = parseOneSuiteXml(androidFailXml).xmlToString().normalizeLineEnding()
+        val parsed = parseOneSuiteXml(androidFailXml).toApiModel().toXmlString().normalizeLineEnding()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
@@ -219,7 +233,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun `junitXmlToString iosPassXml`() {
-        val parsed = parseAllSuitesXml(iosPassXml).xmlToString().normalizeLineEnding()
+        val parsed = parseAllSuitesXml(iosPassXml).toApiModel().toXmlString().normalizeLineEnding()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
@@ -236,7 +250,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
 
     @Test
     fun `junitXmlToString iosFailXml`() {
-        val parsed = parseAllSuitesXml(iosFailXml).xmlToString().normalizeLineEnding()
+        val parsed = parseAllSuitesXml(iosFailXml).toApiModel().toXmlString().normalizeLineEnding()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
@@ -437,7 +451,8 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
         // * d() was skipped in newRun and successful in oldRun. d() is excluded from the merged result
 
         val merged =
-            parseAllSuitesXml(newRun).mergeTestTimes(parseAllSuitesXml(oldRun)).xmlToString().normalizeLineEnding()
+            parseAllSuitesXml(newRun.writeToTempFile()).toApiModel()
+                .mergeTestTimes(parseAllSuitesXml(oldRun.writeToTempFile()).toApiModel()).toXmlString().normalizeLineEnding()
         val expected = """
 <?xml version='1.0' encoding='UTF-8' ?>
 <testsuites>
@@ -479,7 +494,7 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
               </testsuite>
             </testsuites>
         """.trimIndent()
-        val allSuitesXml = parseAllSuitesXml(crashingAllSuitesMessage).xmlToString().trimIndent()
+        val allSuitesXml = parseAllSuitesXml(crashingAllSuitesMessage.writeToTempFile()).toApiModel().toXmlString().trimIndent()
         Assert.assertEquals("All Suite Messages should be the same!", expectedAllSuitesMessage, allSuitesXml)
     }
 
@@ -508,7 +523,10 @@ junit.framework.Assert.fail(Assert.java:50)</failure>
               </testsuite>
             </testsuites>
         """.trimIndent()
-        val oneSuiteXml = parseOneSuiteXml(crashingOneSuiteMessage).xmlToString().trimIndent()
+        val oneSuiteXml = parseOneSuiteXml(crashingOneSuiteMessage.writeToTempFile()).toApiModel().toXmlString().trimIndent()
         Assert.assertEquals("One Suite Messages should be the same!", expectedOneSuiteMessage, oneSuiteXml)
     }
 }
+
+private fun String.writeToTempFile(): File = File.createTempFile("temp", "test")
+    .apply { writeText(this@writeToTempFile) }
