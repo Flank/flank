@@ -2,10 +2,9 @@ package flank.corellium.client.agent
 
 import flank.corellium.client.data.AgentOperation
 import io.ktor.http.cio.websocket.Frame
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.withTimeoutOrNull
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.withTimeout
 
 suspend fun Agent.uploadFile(path: String, bytes: ByteArray) {

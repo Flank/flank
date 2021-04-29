@@ -111,7 +111,7 @@ private fun calculateAdditionalIndexes(
     current: List<Instance>,
     requiredAmount: Int,
 ): List<Int> =
-    (0 until requiredAmount).toSet()         // Create set of possible indexes starting from 0
+    (0 until requiredAmount).toSet() // Create set of possible indexes starting from 0
         .minus(current.map(Instance::index)) // Subtract already created indexes
         .sorted()
         .take(requiredAmount - current.size) // Skip the excess indexes

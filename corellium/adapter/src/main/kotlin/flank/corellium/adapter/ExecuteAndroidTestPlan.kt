@@ -1,4 +1,4 @@
-package flank.corellium.adapter
+package flank.corellium.adapter // ktlint-disable
 
 import flank.corellium.api.AndroidTestPlan
 import flank.corellium.client.console.clear
@@ -39,13 +39,12 @@ object ExecuteAndroidTestPlan : AndroidTestPlan.Execute {
 }
 
 private fun AndroidTestPlan.Shard.prepareRunCommand(): String {
-
-    val testCases = testCases                           // example: listOf("class foo.Bar#baz")
-        .map { it.split(" ") }                          // example: listOf(listOf("class", "foo.Bar#baz"))
-        .groupBy({ it.first() }, { it.last() })         // example: first => "class", last => "foo.Bar#baz"
+    val testCases = testCases // example: listOf("class foo.Bar#baz")
+        .map { it.split(" ") } // example: listOf(listOf("class", "foo.Bar#baz"))
+        .groupBy({ it.first() }, { it.last() }) // example: first => "class", last => "foo.Bar#baz"
         .toList().joinToString("") { (type, tests: List<String>) ->
-            "-e $type ${tests.joinToString(",")} "      // example: "-e class foo.Bar#baz"
-        }                                               // example: "-e class foo.Bar#baz1,foo.Bar#baz2 -e package foo.test "
+            "-e $type ${tests.joinToString(",")} " // example: "-e class foo.Bar#baz"
+        } // example: "-e class foo.Bar#baz1,foo.Bar#baz2 -e package foo.test "
 
     val runner = "$packageName/$testRunner"
 
