@@ -11,6 +11,7 @@ import com.linkedin.dex.parser.getClassAnnotationValues
 import com.linkedin.dex.spec.ClassDefItem
 import com.linkedin.dex.spec.DexFile
 import flank.common.logLn
+import ftl.api.FileReference
 import ftl.args.AndroidArgs
 import ftl.args.ArgsHelper
 import ftl.args.CalculateShardsResult
@@ -22,7 +23,6 @@ import ftl.run.model.AndroidTestShards
 import ftl.run.model.InstrumentationTestContext
 import ftl.shard.Chunk
 import ftl.shard.createShardsByTestForShards
-import ftl.util.FileReference
 import ftl.util.FlankTestMethod
 import ftl.util.downloadIfNeeded
 import kotlinx.coroutines.async
@@ -63,7 +63,7 @@ private fun InstrumentationTestContext.userShards(customShardingMap: Map<String,
     }
     ?: this
 
-private fun FileReference.hasReference(path: String) = local == path || gcs == path
+private fun FileReference.hasReference(path: String) = local == path || remote == path
 
 private val AndroidArgs.useCustomSharding: Boolean
     get() = customSharding.isNotEmpty()

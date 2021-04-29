@@ -77,7 +77,7 @@ object GcStorage {
     }
 
     // junit xml may not exist. ignore error if it doesn't exist
-    fun downloadJunitXml(
+    private fun downloadJunitXml(
         args: IArgs
     ): JUnitTestResult? = download(args.smartFlankGcsPath, ignoreError = true)
         .takeIf { it.isNotEmpty() }
@@ -159,6 +159,18 @@ object GcStorage {
 
     private fun String.dropLeadingSlash() = drop(1)
 }
+
+internal fun gcStorageUpload(
+    filePath: String,
+    fileBytes: ByteArray,
+    rootGcsBucket: String,
+    runGcsPath: String
+) = if (filePath.startsWith(GCS_PREFIX)) filePath else GcStorage.upload(filePath, fileBytes, rootGcsBucket, runGcsPath)
+
+internal fun gcStorageExist(rootGcsBucket: String, runGcsPath: String) = GcStorage.exist(rootGcsBucket, runGcsPath)
+
+internal fun gcStorageDownload(gcsUriString: String, ignoreError: Boolean = false) =
+    GcStorage.download(gcsUriString, ignoreError)
 
 object TestStorageProvider {
     init {

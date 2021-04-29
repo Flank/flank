@@ -1,36 +1,20 @@
 package ftl.util
 
+import ftl.api.FileReference
 import ftl.api.RemoteStorage
+import ftl.api.downloadFileReference
 import ftl.api.uploadToRemoteStorage
 import ftl.args.IArgs
-import ftl.client.google.GcStorage
 import ftl.config.FtlConstants
-import ftl.run.exception.FlankGeneralError
 import java.nio.file.Files
 import java.nio.file.Paths
 
-data class FileReference(
-    val local: String = "",
-    val gcs: String = ""
-) {
-    init {
-        assertNotEmpty()
-    }
-}
-
-private fun FileReference.assertNotEmpty() {
-    if (local.isBlank() && gcs.isBlank())
-        throw FlankGeneralError("Cannot create empty FileReference")
-}
-
 fun String.asFileReference(): FileReference =
-    if (startsWith(FtlConstants.GCS_PREFIX))
-        FileReference(gcs = this) else
-        FileReference(local = this)
+    if (startsWith(FtlConstants.GCS_PREFIX)) FileReference(remote = this) else FileReference(local = this)
 
-fun FileReference.downloadIfNeeded() =
-    if (local.isNotBlank()) this
-    else copy(local = GcStorage.download(gcs))
+fun IArgs.getSmartFlankGCSPathAsFileReference() = this.smartFlankGcsPath.asFileReference()
+
+internal fun FileReference.downloadIfNeeded() = downloadFileReference(this, true, false)
 
 fun IArgs.uploadIfNeeded(file: FileReference): FileReference =
     file.uploadIfNeeded(
@@ -41,9 +25,7 @@ fun IArgs.uploadIfNeeded(file: FileReference): FileReference =
 fun FileReference.uploadIfNeeded(
     rootGcsBucket: String,
     runGcsPath: String
-): FileReference =
-    if (gcs.isNotBlank()) this
-    else copy(gcs = upload(local, rootGcsBucket, runGcsPath))
+): FileReference = if (remote.isNotBlank()) this else copy(remote = upload(local, rootGcsBucket, runGcsPath))
 
 fun upload(file: String, rootGcsBucket: String, runGcsPath: String): String {
     return uploadToRemoteStorage(

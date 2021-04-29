@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.map
 
 internal fun IosArgs.createXcTestContexts(): Flow<IosTestContext> {
     val shardCounter = ShardCounter()
-    val xcTestGcsPath = uploadIfNeeded(xctestrunZip.asFileReference()).gcs
+    val xcTestGcsPath = uploadIfNeeded(xctestrunZip.asFileReference()).remote
     val gcsBucket = resultsBucket
     return xcTestRunFlow().map { xcTestRun ->
         val shardName = shardCounter.next()

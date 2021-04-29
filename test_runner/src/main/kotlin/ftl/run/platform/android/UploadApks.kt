@@ -58,6 +58,6 @@ private suspend fun List<String>.uploadToGcloudIfNeeded(
     resultsBucket: String
 ) = coroutineScope {
     map {
-        async { it.asFileReference().uploadIfNeeded(resultsBucket, runGcsPath).gcs }
+        async { it.asFileReference().uploadIfNeeded(resultsBucket, runGcsPath).remote }
     }.awaitAll()
 }

@@ -4,6 +4,7 @@ import com.google.common.annotations.VisibleForTesting
 import com.google.testing.model.TestExecution
 import flank.common.logLn
 import ftl.api.RemoteStorage
+import ftl.api.downloadAsJunitXML
 import ftl.api.uploadToRemoteStorage
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
@@ -31,6 +32,7 @@ import ftl.run.common.getMatrixFilePath
 import ftl.run.exception.FlankGeneralError
 import ftl.shard.createTestMethodDurationMap
 import ftl.util.Artifacts
+import ftl.util.getSmartFlankGCSPathAsFileReference
 import ftl.util.resolveLocalRunPath
 import java.io.File
 import java.nio.file.Files
@@ -249,15 +251,13 @@ object ReportManager {
     ) {
         if (newTestResult == null || newTestResult.testsuites.isNullOrEmpty()) return
 
-        val oldTestResult = GcStorage.downloadJunitXml(args)
+        val oldTestResult = downloadAsJunitXML(args.getSmartFlankGCSPathAsFileReference())
 
         if (args.useLegacyJUnitResult) {
             newTestResult.mergeTestTimes(oldTestResult)
         }
 
-        if (oldTestResult != null) {
-            printActual(oldTestResult, newTestResult, args, testShardChunks)
-        }
+        printActual(oldTestResult, newTestResult, args, testShardChunks)
 
         GcStorage.uploadJunitXml(newTestResult, args)
     }

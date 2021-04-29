@@ -5,6 +5,7 @@ import com.linkedin.dex.parser.DexParser
 import com.linkedin.dex.parser.DexParser.Companion.findTestMethods
 import com.linkedin.dex.parser.TestMethod
 import flank.common.isWindows
+import ftl.api.FileReference
 import ftl.args.AndroidArgs
 import ftl.args.normalizeFilePath
 import ftl.filter.TestFilter
@@ -16,7 +17,6 @@ import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.RoboTestContext
 import ftl.test.util.mixedConfigYaml
 import ftl.test.util.should
-import ftl.util.FileReference
 import ftl.util.FlankTestMethod
 import io.mockk.every
 import io.mockk.mockk

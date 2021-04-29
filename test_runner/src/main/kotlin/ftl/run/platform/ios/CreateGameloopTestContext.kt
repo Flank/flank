@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.flowOf
 
 internal fun IosArgs.createGameloopTestContexts(): Flow<IosTestContext> {
     val shardCounter = ShardCounter()
-    val appGcsPath = uploadIfNeeded(app.asFileReference()).gcs
+    val appGcsPath = uploadIfNeeded(app.asFileReference()).remote
     val gcsBucket = resultsBucket
     val shardName = shardCounter.next()
     val matrixGcsSuffix = join(resultsDir, shardName)
