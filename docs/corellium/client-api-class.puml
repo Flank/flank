@@ -1,0 +1,50 @@
+@startuml
+
+left to right direction
+
+object connectCorellium
+
+class Corellium
+object getAllProjects
+object getProjectIdList
+object getProjectInstancesList
+object createNewInstance
+object deleteInstance
+object getInstanceInfo
+object waitUntilInstanceIsReady
+object getVPNConfig
+object connectAgent
+object connectConsole
+
+class Agent
+object uploadFile
+
+class Console
+object sendCommand
+object waitForIdle
+object close
+
+
+connectCorellium ..> Corellium
+
+Corellium -- getAllProjects
+Corellium -- getProjectIdList
+Corellium -- getProjectInstancesList
+Corellium -- createNewInstance
+Corellium -- deleteInstance
+Corellium -- getInstanceInfo
+Corellium -- waitUntilInstanceIsReady
+Corellium --  getVPNConfig
+Corellium --  connectAgent
+Corellium --  connectConsole
+
+connectAgent ..> Agent
+connectConsole ..> Console
+
+Agent -- uploadFile
+
+Console -- sendCommand
+Console -- waitForIdle
+Console -- close
+
+@enduml

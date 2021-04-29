@@ -2,13 +2,6 @@ package flank.corellium.client.data
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-
-private val format = Json {
-    ignoreUnknownKeys = true
-    encodeDefaults = false
-}
 
 @Serializable
 data class Instance(
@@ -23,26 +16,26 @@ data class Instance(
     val patches: List<String> = emptyList(),
     val os: String = "",
     val osbuild: String = "",
-    val agent: InstanceAgent? = InstanceAgent(),
+    val agent: Agent? = Agent(),
     val serviceIp: String = "",
     @SerialName("port-adb")
     val portAdb: String = ""
-)
+) {
+    @Serializable
+    data class Agent(
+        val hash: String = "",
+        val info: String = ""
+    )
 
-@Serializable
-data class InstanceAgent(
-    val hash: String = "",
-    val info: String = ""
-)
-
-@Serializable
-data class BootOptions(
-    val bootArgs: String = "",
-    val restoreBootArgs: String = "",
-    val udid: String = "",
-    val ecid: String = "",
-    val screen: String = ""
-)
+    @Serializable
+    data class BootOptions(
+        val bootArgs: String = "",
+        val restoreBootArgs: String = "",
+        val udid: String = "",
+        val ecid: String = "",
+        val screen: String = ""
+    )
+}
 
 @Serializable
 data class Project(
@@ -50,17 +43,18 @@ data class Project(
     val name: String,
     val quotas: Quotas,
     val quotasUsed: Quotas
-)
+) {
 
-@Serializable
-data class Quotas(
-    val cores: Int,
-    val instances: Int,
-    val ram: Int,
-    val cpus: Int,
-    val gpus: Int? = null,
-    val instance: Int? = null
-)
+    @Serializable
+    data class Quotas(
+        val cores: Int,
+        val instances: Int,
+        val ram: Int,
+        val cpus: Int,
+        val gpus: Int? = null,
+        val instance: Int? = null
+    )
+}
 
 @Serializable
 data class Id(
@@ -90,16 +84,14 @@ data class AgentOperation(
 data class CommandResult(
     val id: Int,
     val success: Boolean,
-    val error: CommandError? = null
+    val error: Error? = null
 ) {
-    override fun toString() = format.encodeToString(this)
+    @Serializable
+    data class Error(
+        val name: String = "",
+        val message: String = "",
+    )
 }
-
-@Serializable
-data class CommandError(
-    val name: String = "",
-    val message: String = "",
-)
 
 @Serializable
 data class ConsoleSocket(

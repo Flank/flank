@@ -1,0 +1,33 @@
+@startuml
+
+abstract class Execution
+abstract class Device
+
+interface Shards <List<List<Shard>>>
+
+entity TestContext {
+shards: List<Shard>
+}
+
+entity Shard {
+appApk: Reference
+testApk: Reference
+testCases: List<TestCase>
+}
+
+entity TestCase {
+name: String
+duration: Long
+}
+
+Execution "1" ..> "1" Shards : calculating
+Execution "1" ..> "*" Device : invoking
+Execution "1" ..> "*" TestContext : running
+
+TestContext "1" .> "1" Device : on
+TestContext "1" o-- "*" Shard
+
+Shards "1" o-- "*" Shard
+Shard "1" o-- "*" TestCase
+
+@enduml

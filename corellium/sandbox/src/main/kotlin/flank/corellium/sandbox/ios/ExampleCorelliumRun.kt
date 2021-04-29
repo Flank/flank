@@ -1,9 +1,17 @@
 @file:JvmName("ExampleCorelliumRun")
 package flank.corellium.sandbox.ios
 
-import flank.corellium.client.Corellium
-import flank.corellium.client.data.BootOptions
+import flank.corellium.client.agent.disconnect
+import flank.corellium.client.agent.uploadFile
+import flank.corellium.client.core.connectAgent
+import flank.corellium.client.core.connectCorellium
+import flank.corellium.client.core.createNewInstance
+import flank.corellium.client.core.getAllProjects
+import flank.corellium.client.core.getInstanceInfo
+import flank.corellium.client.core.getProjectInstancesList
+import flank.corellium.client.core.waitUntilInstanceIsReady
 import flank.corellium.client.data.Instance
+import flank.corellium.client.data.Instance.BootOptions
 import flank.corellium.sandbox.config.Config
 import kotlinx.coroutines.runBlocking
 import java.io.File
@@ -14,13 +22,11 @@ private val localPathString = Config.plistPath
 private val xctestrunPath = Config.xctestrunPath
 
 fun main() = runBlocking {
-    val client = Corellium(
+    val client = connectCorellium(
         api = Config.api,
         username = Config.username,
         password = Config.password
     )
-
-    client.logIn()
 
     println("Fetching [Amanda] project")
     val projectId = client.getAllProjects().first { it.name == "Amanda" }.id
@@ -50,9 +56,8 @@ fun main() = runBlocking {
     val instance = client.getInstanceInfo(instanceId)
 
     println("Creating agent")
-    val agent = client.createAgent(instance.agent?.info ?: error("Agent info is not present"))
     println("Await agent is connected and ready to use")
-    agent.waitForAgentReady()
+    val agent = client.connectAgent(instance.agent?.info ?: error("Agent info is not present"))
     println("Agent ready")
 
     println("Uploading plist file")
@@ -75,5 +80,5 @@ fun main() = runBlocking {
         .redirectError(ProcessBuilder.Redirect.INHERIT)
         .start().waitFor()
 
-    agent.close()
+    agent.disconnect()
 }
