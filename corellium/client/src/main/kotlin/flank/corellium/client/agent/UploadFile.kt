@@ -6,6 +6,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.withTimeoutOrNull
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import kotlinx.coroutines.withTimeout
 
 suspend fun Agent.uploadFile(path: String, bytes: ByteArray) {
     val id = counter.getAndIncrement()
@@ -31,7 +32,7 @@ suspend fun Agent.uploadFile(path: String, bytes: ByteArray) {
 
     val task = Job()
     tasks[id] = defaultResultHandler(task)
-    withTimeoutOrNull(10_000) {
+    withTimeout(100_000) {
         task.join()
     }
 }

@@ -21,15 +21,15 @@ import flank.corellium.client.data.Instance.BootOptions
 import flank.corellium.sandbox.config.Config
 import kotlinx.coroutines.runBlocking
 import java.io.File
+import kotlinx.coroutines.delay
 
-private const val instanceName = "corellium-android-2"
+private const val instanceName = "flank-android-20"
 private const val flavor = "ranchu"
 private const val os = "11.0.0"
 private const val screen = "720x1280:280"
 private const val projectName = "Default Project"
-private const val apkPath = "./corellium/sandbox/src/main/resources/android/app-debug.apk"
-private const val testApkPath =
-    "./corellium/sandbox/src/main/resources/android/app-multiple-success-debug-androidTest.apk"
+private const val apkPath = "./test_artifacts/master/apk/app-debug.apk"
+private const val testApkPath = "./test_artifacts/master/apk/app-multiple-success-debug-androidTest.apk"
 private const val pathToUpload = "/sdcard"
 
 fun main(): Unit = runBlocking {
@@ -97,9 +97,14 @@ fun main(): Unit = runBlocking {
     console.sendCommand("am instrument -r -w com.example.test_app.test/androidx.test.runner.AndroidJUnitRunner")
     console.launchOutputPrinter()
 
-    console.waitForIdle(10_000)
+    console.waitForIdle(5_000)
     println()
     println("Console idle up 10s")
+
+    println("Removing apps...")
+    console.sendCommand("pm uninstall com.example.test_app")
+    delay(2000)
+
     println("Disconnecting...")
     console.close()
 

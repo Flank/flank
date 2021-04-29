@@ -8,7 +8,6 @@ import flank.corellium.client.data.ConsoleSocket
 import flank.corellium.client.data.Id
 import flank.corellium.client.data.Instance
 import flank.corellium.client.data.Project
-import flank.corellium.client.util.withProgress
 import flank.corellium.client.util.withRetry
 import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.request.delete
@@ -21,11 +20,11 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.util.cio.writeChannel
 import io.ktor.utils.io.copyAndClose
+import java.io.File
+import java.util.UUID
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
-import java.io.File
-import java.util.UUID
 
 suspend fun Corellium.getAllProjects(): List<Project> =
     getProjectIdList().map {
@@ -33,7 +32,6 @@ suspend fun Corellium.getAllProjects(): List<Project> =
             async {
                 client.get<Project> {
                     url("$urlBase/projects/$it")
-                    contentType(ContentType.Application.Json)
                     header("Authorization", token)
                 }
             }
@@ -44,7 +42,6 @@ suspend fun Corellium.getProjectIdList(): List<String> =
     withRetry {
         client.get<List<Id>> {
             url("$urlBase/projects?ids_only=1")
-            contentType(ContentType.Application.Json)
             header("Authorization", token)
         }.map { it.id }
     }
@@ -55,7 +52,6 @@ suspend fun Corellium.getProjectInstancesList(
     withRetry {
         client.get {
             url("$urlBase/projects/$projectId/instances")
-            contentType(ContentType.Application.Json)
             header("Authorization", token)
         }
     }
@@ -66,8 +62,8 @@ suspend fun Corellium.createNewInstance(
     withRetry {
         client.post<Id> {
             url("$urlBase/instances")
-            contentType(ContentType.Application.Json)
             header("Authorization", token)
+            contentType(ContentType.Application.Json)
             body = newInstance
         }.id
     }
@@ -78,7 +74,46 @@ suspend fun Corellium.deleteInstance(
     withRetry {
         client.delete {
             url("$urlBase/instances/$instanceId")
-            contentType(ContentType.Application.Json)
+            header("Authorization", token)
+        }
+    }
+
+suspend fun Corellium.startInstance(
+    instanceId: String
+): Unit =
+    withRetry {
+        client.post {
+            url("$urlBase/instances/$instanceId/start")
+            header("Authorization", token)
+        }
+    }
+
+suspend fun Corellium.stopInstance(
+    instanceId: String
+): Unit =
+    withRetry {
+        client.post {
+            url("$urlBase/instances/$instanceId/stop")
+            header("Authorization", token)
+        }
+    }
+
+suspend fun Corellium.pauseInstance(
+    instanceId: String
+): Unit =
+    withRetry {
+        client.post {
+            url("$urlBase/instances/$instanceId/stop")
+            header("Authorization", token)
+        }
+    }
+
+suspend fun Corellium.unpauseInstance(
+    instanceId: String
+): Unit =
+    withRetry {
+        client.post {
+            url("$urlBase/instances/$instanceId/stop")
             header("Authorization", token)
         }
     }
@@ -89,7 +124,6 @@ suspend fun Corellium.getInstanceInfo(
     withRetry {
         client.get {
             url("$urlBase/instances/$instanceId")
-            contentType(ContentType.Application.Json)
             header("Authorization", token)
         }
     }
@@ -97,13 +131,11 @@ suspend fun Corellium.getInstanceInfo(
 suspend fun Corellium.waitUntilInstanceIsReady(
     instanceId: String
 ): Unit =
-    withProgress {
-        while (true) {
-            if (getInstanceInfo(instanceId).state == "on") {
-                println()
-                break
-            }
-            // it really takes loooong time
+    withRetry {
+        while (getInstanceInfo(instanceId).state != "on") {
+            // it could takes long time
+            // if instance was created just moment ago
+            // TODO: adjust the delay time depending on returned state
             delay(20_000)
         }
     }

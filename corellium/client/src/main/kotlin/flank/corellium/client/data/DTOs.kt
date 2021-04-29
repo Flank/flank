@@ -21,6 +21,17 @@ data class Instance(
     @SerialName("port-adb")
     val portAdb: String = ""
 ) {
+
+    object State {
+        const val ON = "on"
+        const val OFF = "off"
+        const val CREATING = "creating"
+        const val DELETING = "deleting"
+        const val DELETED = "deleted"
+        const val PAUSED = "paused"
+        val unavailable = setOf(DELETED, DELETING)
+    }
+
     @Serializable
     data class Agent(
         val hash: String = "",

@@ -13,6 +13,8 @@ fun corelliumApi(
     installAndroidApps = InstallAndroidApps(
         projectName = projectName
     ),
-    invokeAndroidDevices = InvokeAndroidDevices,
+    invokeAndroidDevices = InvokeAndroidDevices(
+        projectName = projectName
+    ),
     executeTest = ExecuteAndroidTestPlan
 )

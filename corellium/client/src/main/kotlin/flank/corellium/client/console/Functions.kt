@@ -12,12 +12,13 @@ suspend fun Console.sendCommand(command: String) =
     session.send(Frame.Binary(true, (command + "\n").encodeToByteArray()))
 
 suspend fun Console.waitForIdle(timeToWait: Long) {
-    delay(10_000)
-    while (System.currentTimeMillis() - lastResponseTime > timeToWait) delay(100)
+    delay(3_000)
+    while (System.currentTimeMillis() - lastResponseTime < timeToWait) delay(200)
 }
 
 suspend fun Console.close() = session.close()
 
+@Deprecated("Use Console.flowLogs()")
 fun Console.launchOutputPrinter() = session.launch {
     // drop console bash history which is received as first frame
     session.incoming.receive()
