@@ -42,46 +42,6 @@ import kotlin.math.roundToInt
 
 object ReportManager {
 
-    private fun Pair<IArgs, MatrixMap>.toApiIdentity(): JUnitTest.Result.ApiIdentity {
-        val (args, matrices) = this
-        return JUnitTest.Result.ApiIdentity(
-            projectId = args.project,
-            matrixIds = matrices.map.values.map { it.matrixId }
-        )
-    }
-
-    @VisibleForTesting
-    internal fun processXmlFromFile(
-        matrices: MatrixMap,
-        args: IArgs,
-        parsingFunction: (File) -> JUnitTest.Result
-    ): JUnitTest.Result? = findXmlFiles(matrices, args)
-        .map { xmlFile -> parsingFunction(xmlFile).updateWebLink(getWebLink(matrices, xmlFile)) }
-        .reduceOrNull { acc, result -> result.merge(acc) }
-
-    private fun getWebLink(matrices: MatrixMap, xmlFile: File): String =
-        xmlFile.getMatrixPath(matrices.runPath)
-            ?.findMatrixPath(matrices)
-            ?: "".also { logLn("WARNING: Matrix path not found in JSON.") }
-
-    private fun findXmlFiles(
-        matrices: MatrixMap,
-        args: IArgs
-    ) = File(resolveLocalRunPath(matrices, args))
-        .walk()
-        .filter { it.name.matches(Artifacts.testResultRgx) }
-        .fold(listOf<File>()) { xmlFiles, file -> xmlFiles + file }
-
-    private fun JUnitTest.Result.updateWebLink(
-        webLink: String
-    ) = apply {
-        testsuites?.forEach { testSuite ->
-            testSuite.testcases?.forEach { testCase ->
-                testCase.webLink = webLink
-            }
-        }
-    }
-
     /** Returns true if there were no test failures */
     fun generate(
         matrices: MatrixMap,
@@ -118,6 +78,55 @@ object ReportManager {
         // TODO move it to next #1756
         // createAndUploadPerformanceMetricsForAndroid(args, testsResult, matrices)
         uploadMatricesId(args, matrices)
+    }
+
+    private fun Pair<IArgs, MatrixMap>.toApiIdentity(): JUnitTest.Result.ApiIdentity {
+        val (args, matrices) = this
+        return JUnitTest.Result.ApiIdentity(
+            projectId = args.project,
+            matrixIds = matrices.map.values.map { it.matrixId }
+        )
+    }
+
+    @VisibleForTesting
+    internal fun processXmlFromFile(
+        matrices: MatrixMap,
+        args: IArgs,
+        parsingFunction: (File) -> JUnitTest.Result
+    ): JUnitTest.Result? = findXmlFiles(matrices, args)
+        .map { xmlFile -> parsingFunction(xmlFile).updateWebLink(getWebLink(matrices, xmlFile)) }
+        .reduceOrNull { acc, result -> result.merge(acc) }
+
+    private fun findXmlFiles(
+        matrices: MatrixMap,
+        args: IArgs
+    ) = File(resolveLocalRunPath(matrices, args))
+        .walk()
+        .filter { it.name.matches(Artifacts.testResultRgx) }
+        .fold(listOf<File>()) { xmlFiles, file -> xmlFiles + file }
+
+    private fun getWebLink(matrices: MatrixMap, xmlFile: File): String =
+        xmlFile.getMatrixPath(matrices.runPath)
+            ?.findMatrixPath(matrices)
+            ?: "".also { logLn("WARNING: Matrix path not found in JSON.") }
+
+    private fun String.findMatrixPath(matrices: MatrixMap) = matrices.map.values
+        .firstOrNull { savedMatrix -> savedMatrix.gcsPath.endsWithTextWithOptionalSlashAtTheEnd(this) }
+        ?.webLink
+        ?: "".also { logLn("WARNING: Matrix path not found in JSON. $this") }
+
+    @VisibleForTesting
+    internal fun String.endsWithTextWithOptionalSlashAtTheEnd(text: String) =
+        "($text)/*$".toRegex().containsMatchIn(this)
+
+    private fun JUnitTest.Result.updateWebLink(
+        webLink: String
+    ) = apply {
+        testsuites?.forEach { testSuite ->
+            testSuite.testcases?.forEach { testCase ->
+                testCase.webLink = webLink
+            }
+        }
     }
 
     private fun parseTestSuite(matrices: MatrixMap, args: IArgs): JUnitTest.Result? = when {
@@ -273,13 +282,4 @@ object ReportManager {
             RemoteStorage.Data(file, Files.readAllBytes(Paths.get(file)))
         )
     }
-
-    private fun String.findMatrixPath(matrices: MatrixMap) = matrices.map.values
-        .firstOrNull { savedMatrix -> savedMatrix.gcsPath.endsWithTextWithOptionalSlashAtTheEnd(this) }
-        ?.webLink
-        ?: "".also { logLn("WARNING: Matrix path not found in JSON. $this") }
-
-    @VisibleForTesting
-    internal fun String.endsWithTextWithOptionalSlashAtTheEnd(text: String) =
-        "($text)/*$".toRegex().containsMatchIn(this)
 }

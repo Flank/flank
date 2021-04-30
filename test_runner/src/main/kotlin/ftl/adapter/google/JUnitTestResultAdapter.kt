@@ -38,5 +38,8 @@ private fun JUnitTestCase.toApiModel() = JUnitTest.Case(
     time = time,
     failures = failures,
     errors = errors,
-    skipped = skipped
-)
+    skipped = skipped,
+    flaky = flaky
+).also {
+    it.webLink = webLink
+}
