@@ -40,7 +40,7 @@ class NetworkProfilesDescribeCommand :
     override val out = outputLogger {
         when (this) {
             is NetworkProfile -> prepareDescription()
-            is String -> this
+            is NetworkProfile.ErrorMessage -> message
             else -> throwUnknownType()
         }
     }

@@ -17,5 +17,9 @@ data class NetworkProfile(
         val burst: Float?
     )
 
+    data class ErrorMessage(
+        val message: String
+    )
+
     interface Fetch : () -> List<NetworkProfile>
 }
