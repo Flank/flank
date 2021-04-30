@@ -11,6 +11,11 @@ data class Locale(
     val tags: List<String>,
 ) {
 
+    data class Available(
+        val locale: String,
+        val result: List<Locale>
+    )
+
     data class Identity(
         val projectId: String,
         val platform: Platform
