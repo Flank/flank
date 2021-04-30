@@ -132,7 +132,7 @@ suspend fun Corellium.waitUntilInstanceIsReady(
     instanceId: String
 ): Unit =
     withRetry {
-        while (getInstanceInfo(instanceId).state != "on") {
+        while (getInstanceInfo(instanceId).state != Instance.State.ON) {
             // it could takes long time
             // if instance was created just moment ago
             // TODO: adjust the delay time depending on returned state

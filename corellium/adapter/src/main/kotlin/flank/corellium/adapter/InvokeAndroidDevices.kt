@@ -75,7 +75,7 @@ private suspend fun getCreatedInstances(
 private suspend fun startNotRunningInstances(
     instances: List<Instance>
 ): Unit = instances
-    .filter { it.state != "on" }
+    .filter { it.state != Instance.State.ON }
     .apply { if (isNotEmpty()) println("Starting not running $size instances.") }
     .forEach { instance ->
         corellium.startInstance(instance.id)
