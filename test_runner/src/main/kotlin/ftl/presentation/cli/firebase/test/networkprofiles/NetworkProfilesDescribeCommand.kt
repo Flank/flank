@@ -1,7 +1,11 @@
 package ftl.presentation.cli.firebase.test.networkprofiles
 
+import ftl.api.NetworkProfile
 import ftl.domain.DescribeNetworkProfiles
 import ftl.domain.invoke
+import ftl.environment.prepareDescription
+import ftl.presentation.outputLogger
+import ftl.presentation.throwUnknownType
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -32,4 +36,12 @@ class NetworkProfilesDescribeCommand :
     override var profileId: String = ""
 
     override fun run() = invoke()
+
+    override val out = outputLogger {
+        when (this) {
+            is NetworkProfile -> prepareDescription()
+            is NetworkProfile.ErrorMessage -> message
+            else -> throwUnknownType()
+        }
+    }
 }
