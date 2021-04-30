@@ -16,5 +16,5 @@ interface DescribeIosLocales : Output {
 fun DescribeIosLocales.invoke() {
     if (locale.isBlank()) throw FlankConfigurationError("Argument LOCALE must be specified.")
 
-    fetchLocales(Identity(IosArgs.loadOrDefault(Paths.get(configPath)).project, Platform.IOS)).out()
+    fetchLocales(Identity(IosArgs.loadOrDefault(Paths.get(configPath)).project, Platform.IOS, locale)).out()
 }
