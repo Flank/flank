@@ -74,7 +74,6 @@ fun main() {
 
         // If tests will be executed to fast just after the
         // app installed, the instrumentation will fail
-        //
         delay(10_000)
 
         // Update test plan device ids
