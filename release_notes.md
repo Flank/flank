@@ -1,3 +1,38 @@
+## v21.05.0
+### Refactor
+- [#1885](https://github.com/Flank/flank/pull/1885) Refactor DescribeNetworkProfiles logging ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1841](https://github.com/Flank/flank/pull/1841) Data scratch file references ([Sloox](https://github.com/Sloox))
+- [#1878](https://github.com/Flank/flank/pull/1878) Corellium client to functional style ([jan-gogo](https://github.com/jan-gogo))
+- [#1828](https://github.com/Flank/flank/pull/1828) Data scratch getLocales ([Sloox](https://github.com/Sloox))
+- [#1840](https://github.com/Flank/flank/pull/1840) Refactor data scratch-performance metrics ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1833](https://github.com/Flank/flank/pull/1833) Refactor os versions commands ([adamfilipow92](https://github.com/adamfilipow92))
+- [#1834](https://github.com/Flank/flank/pull/1834) Refactor data scratch-device model ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1823](https://github.com/Flank/flank/pull/1823) Refactor data scratch-softwarecatalog ([Sloox](https://github.com/Sloox))
+- [#1810](https://github.com/Flank/flank/pull/1810) Refactor data scratch-remote storage ([Sloox](https://github.com/Sloox))
+- [#1819](https://github.com/Flank/flank/pull/1819) Refactor data scratch network profiles ([adamfilipow92](https://github.com/adamfilipow92))
+- [#1820](https://github.com/Flank/flank/pull/1820) Refactor data scratch-orientation ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1811](https://github.com/Flank/flank/pull/1811) Refactor data scratch-ipblocks ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1809](https://github.com/Flank/flank/pull/1809) Refactor data scratch-authorization ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1806](https://github.com/Flank/flank/pull/1806) Rename corellium modules ([pawelpasterz](https://github.com/pawelpasterz))
+### Bug Fixes
+- [#1883](https://github.com/Flank/flank/pull/1883) Fix release job ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1874](https://github.com/Flank/flank/pull/1874) Add storage dir support ([wclausen](https://github.com/wclausen))
+- [#1829](https://github.com/Flank/flank/pull/1829) CI issues on ubuntu ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1807](https://github.com/Flank/flank/pull/1807) Fix missing junit report in legacy mode ([adamfilipow92](https://github.com/adamfilipow92))
+### Features
+- [#1877](https://github.com/Flank/flank/pull/1877) TestApk parser ([jan-gogo](https://github.com/jan-gogo))
+- [#1879](https://github.com/Flank/flank/pull/1879) API layer for corellium MVP ([jan-gogo](https://github.com/jan-gogo))
+- [#1835](https://github.com/Flank/flank/pull/1835) Add sharding implementation for corellium ([jan-gogo](https://github.com/jan-gogo))
+- [#1824](https://github.com/Flank/flank/pull/1824) Instrument test console log parser ([pawelpasterz](https://github.com/pawelpasterz), [jan-gogo](https://github.com/jan-gogo))
+### Tests update
+- [#1842](https://github.com/Flank/flank/pull/1842) Update task ordering ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1825](https://github.com/Flank/flank/pull/1825) Optimize quota usage in IT ([pawelpasterz](https://github.com/pawelpasterz))
+- [#1783](https://github.com/Flank/flank/pull/1783) Add 3dmark instrumented test ([jan-gogo](https://github.com/jan-gogo))
+### CI Changes
+- [#1813](https://github.com/Flank/flank/pull/1813) Disabled estimations copying ([piotradamczyk5](https://github.com/piotradamczyk5))
+### Documentation
+- [#1805](https://github.com/Flank/flank/pull/1805) Fix information about project id ([piotradamczyk5](https://github.com/piotradamczyk5))
+
 ## v21.04.1
 ### Documentation
 - [#1788](https://github.com/Flank/flank/pull/1788) Added hypershard-ios setup tutorial ([piotradamczyk5](https://github.com/piotradamczyk5))
