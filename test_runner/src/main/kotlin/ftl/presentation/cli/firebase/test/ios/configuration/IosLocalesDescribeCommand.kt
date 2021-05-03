@@ -9,6 +9,7 @@ import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
 import picocli.CommandLine
 
+@Suppress("UNCHECKED_CAST")
 @CommandLine.Command(
     name = "describe",
     headerHeading = "",
