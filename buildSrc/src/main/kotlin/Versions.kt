@@ -9,7 +9,7 @@ object Versions {
     const val DD_PLIST = "1.23"
 
     // https://github.com/jeremymailen/kotlinter-gradle
-    const val KTLINT_GRADLE = "3.4.0"
+    const val KTLINT_GRADLE = "3.4.3"
 
     const val KTLINT = "0.40.0"
 
@@ -17,10 +17,10 @@ object Versions {
     const val NEXUS_STAGING = "0.30.0"
 
     // https://github.com/johnrengelman/shadow/releases
-    const val SHADOW = "6.1.0"
+    const val SHADOW = "7.0.0"
 
     // https://github.com/linkedin/dex-test-parser/releases
-    const val DEX_TEST_PARSER = "2.2.1"
+    const val DEX_TEST_PARSER = "2.3.1"
 
     // https://github.com/hsiafan/apk-parser
     const val APK_PARSER = "2.6.10"
@@ -46,10 +46,10 @@ object Versions {
     const val GOOGLE_AUTH = "0.25.5"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.122.12"
+    const val GOOGLE_NIO = "0.122.13"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "1.113.15"
+    const val GOOGLE_STORAGE = "1.113.16"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.8.6"
@@ -64,7 +64,7 @@ object Versions {
     const val JSOUP = "1.13.1"
 
     // https://github.com/ktorio/ktor/releases
-    const val KTOR = "1.5.3"
+    const val KTOR = "1.5.4"
 
     // https://github.com/qos-ch/logback/releases
     const val LOGBACK = "1.2.3"
@@ -99,7 +99,7 @@ object Versions {
     const val PROGUARD = "7.0.1"
 
     // ============== flank-scripts ==============
-    const val KOTLIN_SERIALIZATION = "1.1.0"
+    const val KOTLIN_SERIALIZATION = "1.2.0"
     const val ARCHIVE_LIB = "1.1.0"
     const val TUKAANI_XZ = "1.9"
     const val FUEL = "2.3.1"
