@@ -29,14 +29,14 @@ private const val NAME = "NAME"
 private const val REGION = "REGION"
 
 fun List<Locale>.getLocaleDescription(localeId: String) =
-    findLocales(localeId)?.prepareDescription().orErrorMessage(localeId).plus("\n")
+    findLocales(localeId)?.prepareDescription(localeId).orErrorMessage(localeId).plus("\n")
 
 private fun List<Locale>.findLocales(localeId: String) = find { it.id == localeId }
 
-private fun Locale.prepareDescription() = """
-    id: $id
-    name: $name
-""".trimIndent().addRegionIfExist(region).addTagsIfExists(this)
+fun Locale.prepareDescription(locale: String) = """
+id: $id
+name: $name
+""".trimIndent().addRegionIfExist(region).addTagsIfExists(this).orErrorMessage(locale).plus("\n")
 
 private fun String.addRegionIfExist(region: String?) =
     if (!region.isNullOrEmpty()) StringBuilder(this).appendLine("\nregion: $region").trim().toString()
