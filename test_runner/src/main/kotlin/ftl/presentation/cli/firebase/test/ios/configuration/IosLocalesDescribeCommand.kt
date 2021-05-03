@@ -44,7 +44,7 @@ class IosLocalesDescribeCommand :
 
     override val out = outputLogger {
         when (this) {
-            is Locale -> prepareDescription(locale)
+            is Locale -> prepareDescription()
             else -> throwUnknownType()
         }
     }

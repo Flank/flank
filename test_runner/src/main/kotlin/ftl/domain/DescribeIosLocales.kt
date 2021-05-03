@@ -6,6 +6,7 @@ import ftl.api.fetchLocales
 import ftl.args.IosArgs
 import ftl.presentation.Output
 import ftl.run.exception.FlankConfigurationError
+import ftl.run.exception.FlankGeneralError
 import java.nio.file.Paths
 
 interface DescribeIosLocales : Output {
@@ -18,5 +19,5 @@ fun DescribeIosLocales.invoke() {
 
     fetchLocales(Identity(IosArgs.loadOrDefault(Paths.get(configPath)).project, Platform.IOS, locale)).find {
         it.id == locale
-    }?.out()
+    }?.out() ?: throw FlankGeneralError("ERROR: '$locale' is not a valid locale")
 }
