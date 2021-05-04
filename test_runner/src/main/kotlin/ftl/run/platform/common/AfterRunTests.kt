@@ -1,6 +1,5 @@
 package ftl.run.platform.common
 
-import com.google.testing.model.TestMatrix
 import flank.common.logLn
 import flank.common.startWithNewLine
 import ftl.api.RemoteStorage
@@ -10,7 +9,6 @@ import ftl.client.google.GcTestMatrix
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_STORAGE_LINK
 import ftl.json.MatrixMap
-import ftl.json.createSavedMatrix
 import ftl.reports.addStepTime
 import ftl.run.common.SESSION_ID_FILE
 import ftl.run.common.saveSessionId
@@ -27,7 +25,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 internal suspend fun IArgs.afterRunTests(
-    testMatrices: List<TestMatrix>,
+    testMatrices: List<ftl.api.TestMatrix.Data>,
     stopwatch: StopWatch,
 ) = MatrixMap(
     map = testMatrices.toSavedMatrixMap(),
@@ -44,8 +42,8 @@ internal suspend fun IArgs.afterRunTests(
     addStepTime("Running tests", stopwatch.check())
 }
 
-private fun List<TestMatrix>.toSavedMatrixMap() =
-    associate { matrix -> matrix.testMatrixId to createSavedMatrix(matrix) }
+private fun List<ftl.api.TestMatrix.Data>.toSavedMatrixMap() =
+    associate { matrix -> matrix.matrixId to matrix }
 
 private fun IArgs.saveConfigFile(matrixMap: MatrixMap) {
     val configFilePath = if (useLocalResultDir())

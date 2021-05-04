@@ -2,13 +2,8 @@ package ftl.reports.outcome
 
 import com.google.api.services.toolresults.model.Environment
 import com.google.api.services.toolresults.model.Step
-import com.google.testing.model.TestMatrix
 import com.google.testing.model.ToolResultsExecution
 import ftl.gc.GcToolResults
-import ftl.json.SavedMatrix
-import ftl.json.createSavedMatrix
-import ftl.run.exception.FTLError
-import ftl.util.timeoutToSeconds
 
 data class TestOutcomeContext(
     val matrixId: String,
@@ -19,32 +14,24 @@ data class TestOutcomeContext(
     val isRoboTest: Boolean
 )
 
-fun TestMatrix.fetchTestOutcomeContext() = getToolResultsIds().let { ids ->
+fun ftl.api.TestMatrix.Data.fetchTestOutcomeContext() = getToolResultsIds().let { ids ->
     TestOutcomeContext(
         projectId = projectId,
-        matrixId = testMatrixId,
+        matrixId = matrixId,
         environments = GcToolResults.listAllEnvironments(ids),
         steps = GcToolResults.listAllSteps(ids),
-        testTimeout = testTimeout(),
-        isRoboTest = isRoboTest()
+        testTimeout = testTimeout,
+        isRoboTest = isRoboTest
     )
 }
 
-private fun TestMatrix.getToolResultsIds(): ToolResultsExecution = ToolResultsExecution()
+private fun ftl.api.TestMatrix.Data.getToolResultsIds(): ToolResultsExecution = ToolResultsExecution()
     .setProjectId(projectId)
-    .setHistoryId(resultStorage?.toolResultsExecution?.historyId ?: throw badMatrixError())
-    .setExecutionId(resultStorage?.toolResultsExecution?.executionId ?: throw badMatrixError())
+    .setHistoryId(historyId)
+    .setExecutionId(executionId)
 
-private fun TestMatrix.badMatrixError() = BadMatrixError(createSavedMatrix(this))
 
-class BadMatrixError(matrix: SavedMatrix) : FTLError(matrix)
 
-private fun TestMatrix.testTimeout() = timeoutToSeconds(
-    testExecutions
-        .firstOrNull { it?.testSpecification?.testTimeout != null }
-        ?.testSpecification
-        ?.testTimeout
-        ?: "0s"
-)
 
-private fun TestMatrix.isRoboTest() = testExecutions.orEmpty().any { it?.testSpecification?.androidRoboTest != null }
+
+

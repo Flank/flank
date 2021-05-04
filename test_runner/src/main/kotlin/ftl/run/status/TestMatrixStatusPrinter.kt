@@ -1,8 +1,7 @@
 package ftl.run.status
 
-import com.google.testing.model.TestExecution
-import com.google.testing.model.TestMatrix
 import flank.common.logLn
+import ftl.api.TestMatrix
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.reports.addStepTime
@@ -14,8 +13,8 @@ class TestMatrixStatusPrinter(
     private val args: IArgs,
     testMatricesIds: Iterable<String>,
     private val stopWatch: StopWatch = StopWatch(),
-    private val printExecutionStatusList: (String, List<TestExecution>?) -> Unit = ExecutionStatusListPrinter(args)
-) : (TestMatrix) -> Unit {
+    private val printExecutionStatusList: (String, List<TestMatrix.TestExecution>) -> Unit = ExecutionStatusListPrinter(args)
+) : (TestMatrix.Data) -> Unit {
     init {
         stopWatch.start()
     }
@@ -23,10 +22,10 @@ class TestMatrixStatusPrinter(
     private val cache = testMatricesIds.associateWith { MatrixState.PENDING }.toMutableMap()
     private val allMatricesCompleted get() = cache.values.all(MatrixState::completed)
 
-    override fun invoke(matrix: TestMatrix) {
+    override fun invoke(matrix: TestMatrix.Data) {
         val time = stopWatch.check()
         printExecutionStatusList(time.formatted(alignSeconds = true), matrix.testExecutions)
-        cache[matrix.testMatrixId] = matrix.state
+        cache[matrix.matrixId] = matrix.state
         if (allMatricesCompleted) {
             printTestMatrixStatusList(time.formatted(alignSeconds = true))
             addStepTime("Executing matrices", time)

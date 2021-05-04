@@ -1,9 +1,9 @@
 package ftl.reports.output
 
 import com.google.common.truth.Truth.assertThat
+import ftl.api.TestMatrix
 import ftl.args.AndroidArgs
-import ftl.json.SavedMatrix
-import ftl.reports.outcome.TestOutcome
+import ftl.json.SavedMatrixTest.Companion.historyId
 import org.junit.Before
 import org.junit.Test
 import java.math.BigDecimal
@@ -43,12 +43,17 @@ class OutputReportLoggersTest {
     fun `should log test_results`() {
         // given
         val matrices = listOf(
-            SavedMatrix(matrixId = "1", testAxises = listOf(TestOutcome("device1")), appFileName = "any.apk")
+            TestMatrix.Data(
+                matrixId = "1",
+                axes = listOf(TestMatrix.Outcome("device1")),
+                appFileName = "any.apk",
+                historyId = historyId
+            )
         )
         val testResults = matrices.map {
             it.matrixId to mapOf(
                 "app" to it.appFileName,
-                "test-axises" to it.testAxises
+                "test-axises" to it.axes
             )
         }.toMap()
 

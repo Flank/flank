@@ -10,6 +10,8 @@ import com.google.testing.model.TestMatrix
 import com.google.testing.model.TestSpecification
 import com.google.testing.model.ToolResultsExecution
 import com.google.testing.model.ToolResultsStep
+import ftl.adapter.google.toApiModel
+import ftl.adapter.google.updateWithMatrix
 import ftl.config.Device
 import ftl.gc.GcAndroidDevice
 import ftl.reports.outcome.make
@@ -22,6 +24,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 
+//TODO: fix naming
 @RunWith(FlankTestRunner::class)
 class SavedMatrixTest {
 
@@ -89,20 +92,20 @@ class SavedMatrixTest {
         }
         testMatrix.testExecutions = testExecutions
 
-        val savedMatrix = createSavedMatrix(testMatrix)
-        assertThat(savedMatrix.outcome).isEqualTo("failure")
+        val testMatrixData = testMatrix.toApiModel()
+        assertThat(testMatrixData.outcome).isEqualTo("failure")
 
         // assert other properties
-        assertThat(savedMatrix.matrixId).isEqualTo(matrixId)
-        assertThat(savedMatrix.state).isEqualTo(matrixState)
-        assertThat(savedMatrix.gcsPath).isEqualTo(mockGcsPath)
-        assertThat(savedMatrix.webLink).isEqualTo("https://console.firebase.google.com/project/1/testlab/histories/2/matrices/-1")
-        assertThat(savedMatrix.downloaded).isFalse()
-        assertThat(savedMatrix.billableVirtualMinutes).isEqualTo(1)
-        assertThat(savedMatrix.billablePhysicalMinutes).isEqualTo(1)
-        assertThat(savedMatrix.gcsPathWithoutRootBucket).isEqualTo(mockFileName)
-        assertThat(savedMatrix.gcsRootBucket).isEqualTo(mockBucket)
-        assertThat(savedMatrix.testAxises.first().details).isNotEmpty()
+        assertThat(testMatrixData.matrixId).isEqualTo(matrixId)
+        assertThat(testMatrixData.state).isEqualTo(matrixState)
+        assertThat(testMatrixData.gcsPath).isEqualTo(mockGcsPath)
+        assertThat(testMatrixData.webLink).isEqualTo("https://console.firebase.google.com/project/1/testlab/histories/2/matrices/-1")
+        assertThat(testMatrixData.downloaded).isFalse()
+        assertThat(testMatrixData.billableMinutes.virtual).isEqualTo(1)
+        assertThat(testMatrixData.billableMinutes.physical).isEqualTo(1)
+        assertThat(testMatrixData.gcsPathWithoutRootBucket).isEqualTo(mockFileName)
+        assertThat(testMatrixData.gcsRootBucket).isEqualTo(mockBucket)
+        assertThat(testMatrixData.axes.first().details).isNotEmpty()
     }
 
     @Test
@@ -123,7 +126,7 @@ class SavedMatrixTest {
         }
         testMatrix.testExecutions = testExecutions
 
-        val savedMatrix = createSavedMatrix(testMatrix)
+        val savedMatrix = testMatrix.toApiModel()
         assertThat(savedMatrix.outcome).isEqualTo("skipped")
 
         // assert other properties
@@ -132,11 +135,11 @@ class SavedMatrixTest {
         assertThat(savedMatrix.gcsPath).isEqualTo(mockGcsPath)
         assertThat(savedMatrix.webLink).isEqualTo("https://console.firebase.google.com/project/1/testlab/histories/2/matrices/-3/executions/-3")
         assertThat(savedMatrix.downloaded).isFalse()
-        assertThat(savedMatrix.billableVirtualMinutes).isEqualTo(1)
-        assertThat(savedMatrix.billablePhysicalMinutes).isEqualTo(1)
+        assertThat(savedMatrix.billableMinutes.virtual).isEqualTo(1)
+        assertThat(savedMatrix.billableMinutes.physical).isEqualTo(1)
         assertThat(savedMatrix.gcsPathWithoutRootBucket).isEqualTo(mockFileName)
         assertThat(savedMatrix.gcsRootBucket).isEqualTo(mockBucket)
-        assertThat(savedMatrix.testAxises.first().details).isNotEmpty()
+        assertThat(savedMatrix.axes.first().details).isNotEmpty()
     }
 
     @Test
@@ -153,12 +156,12 @@ class SavedMatrixTest {
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
 
-        var savedMatrix = createSavedMatrix(testMatrix)
+        var savedMatrix = testMatrix.toApiModel()
 
         assert(savedMatrix.state != FINISHED)
         testMatrix.state = FINISHED
         testMatrix.webLink()
-        savedMatrix = savedMatrix.updateWithMatrix(testMatrix)
+        savedMatrix = savedMatrix.updateWithMatrix(testMatrix.toApiModel())
         assert(savedMatrix.state == FINISHED)
     }
 
@@ -175,13 +178,13 @@ class SavedMatrixTest {
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
 
-        var savedMatrix = createSavedMatrix(testMatrix)
+        var savedMatrix = testMatrix.toApiModel()
 
         testMatrix.state = FINISHED
         testMatrix.webLink()
-        savedMatrix = savedMatrix.updateWithMatrix(testMatrix)
-        assertEquals(1, savedMatrix.billableVirtualMinutes)
-        assertEquals(1, savedMatrix.billablePhysicalMinutes)
+        savedMatrix = savedMatrix.updateWithMatrix(testMatrix.toApiModel())
+        assertEquals(1, savedMatrix.billableMinutes.virtual)
+        assertEquals(1, savedMatrix.billableMinutes.physical)
     }
 
     @Test
@@ -193,12 +196,12 @@ class SavedMatrixTest {
         testMatrix.state = PENDING
         testMatrix.resultStorage = createResultsStorage()
 
-        var savedMatrix = createSavedMatrix(testMatrix)
+        var savedMatrix = testMatrix.toApiModel()
 
         testMatrix.state = INVALID
-        savedMatrix = savedMatrix.updateWithMatrix(testMatrix)
+        savedMatrix = savedMatrix.updateWithMatrix(testMatrix.toApiModel())
         assertEquals(expectedOutcome, savedMatrix.outcome)
-        assertEquals(expectedOutcomeDetails, savedMatrix.testAxises.first().details)
+        assertEquals(expectedOutcomeDetails, savedMatrix.axes.first().details)
         assertEquals(INVALID, savedMatrix.state)
     }
 
@@ -231,7 +234,7 @@ class SavedMatrixTest {
             testExecutions = executions
         }
 
-        val savedMatrix = createSavedMatrix(testMatrix)
+        val savedMatrix = testMatrix.toApiModel()
 
         assertEquals(
             "Does not return failed outcome when last execution is flaky",
@@ -260,11 +263,11 @@ class SavedMatrixTest {
 
         specs.forEach { spec ->
             val testMatrix = getNewTestMatrix()
-            val savedMatrix = createSavedMatrix(testMatrix)
+            val savedMatrix = testMatrix.toApiModel()
 
             testMatrix.state = FINISHED
             testMatrix.testSpecification = make(spec)
-            val updatedMatrix = savedMatrix.updateWithMatrix(testMatrix)
+            val updatedMatrix = savedMatrix.updateWithMatrix(testMatrix.toApiModel())
             assertEquals(appName, updatedMatrix.appFileName)
         }
     }
@@ -288,11 +291,11 @@ class SavedMatrixTest {
 
         specs.forEach { spec ->
             val testMatrix = getNewTestMatrix()
-            val savedMatrix = createSavedMatrix(testMatrix)
+            val savedMatrix = testMatrix.toApiModel()
 
             testMatrix.state = FINISHED
             testMatrix.testSpecification = make(spec)
-            val updatedMatrix = savedMatrix.updateWithMatrix(testMatrix)
+            val updatedMatrix = savedMatrix.updateWithMatrix(testMatrix.toApiModel())
             assertEquals(appName, updatedMatrix.appFileName)
         }
     }
@@ -308,10 +311,10 @@ class SavedMatrixTest {
         }
 
         val testMatrix = getNewTestMatrix()
-        val savedMatrix = createSavedMatrix(testMatrix)
+        val savedMatrix = testMatrix.toApiModel()
 
         testMatrix.state = FINISHED
-        val updatedMatrix = savedMatrix.updateWithMatrix(testMatrix)
+        val updatedMatrix = savedMatrix.updateWithMatrix(testMatrix.toApiModel())
         assertEquals("N/A", updatedMatrix.appFileName)
     }
 }

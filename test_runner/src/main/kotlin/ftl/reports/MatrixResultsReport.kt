@@ -4,12 +4,11 @@ import flank.common.log
 import flank.common.println
 import flank.common.startWithNewLine
 import ftl.api.JUnitTest
+import ftl.api.TestMatrix
 import ftl.args.IArgs
 import ftl.config.FtlConstants.indent
 import ftl.json.MatrixMap
-import ftl.json.SavedMatrix
 import ftl.json.asPrintableTable
-import ftl.json.isFailed
 import ftl.reports.output.log
 import ftl.reports.output.outputReport
 import ftl.reports.util.IReport
@@ -71,7 +70,7 @@ object MatrixResultsReport : IReport {
         }
     }
 
-    private fun Collection<SavedMatrix>.printMatricesLinks(writer: StringWriter) = this
+    private fun Collection<TestMatrix.Data>.printMatricesLinks(writer: StringWriter) = this
         .filter { it.isFailed() }
         .takeIf { it.isNotEmpty() }
         ?.run {

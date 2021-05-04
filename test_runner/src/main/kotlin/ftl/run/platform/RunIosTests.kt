@@ -2,6 +2,7 @@ package ftl.run.platform
 
 import flank.common.join
 import flank.common.logLn
+import ftl.adapter.google.toApiModel
 import ftl.api.RemoteStorage
 import ftl.api.uploadToRemoteStorage
 import ftl.args.IosArgs
@@ -70,7 +71,7 @@ internal suspend fun IosArgs.runIosTests(): TestResult = coroutineScope {
 
     TestResult(
         matrixMap = afterRunTests(
-            testMatrices = result,
+            testMatrices = result.map { it.toApiModel() },
             stopwatch = stopwatch
         ),
         shardChunks = testShardChunks.testCases
