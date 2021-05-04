@@ -4,7 +4,6 @@ import ftl.api.Locale.Identity
 import ftl.api.Platform
 import ftl.api.fetchLocales
 import ftl.args.AndroidArgs
-import ftl.environment.toCliTable
 import ftl.presentation.Output
 import java.nio.file.Paths
 
@@ -13,5 +12,5 @@ interface ListAndroidLocales : Output {
 }
 
 operator fun ListAndroidLocales.invoke() {
-    fetchLocales(Identity(AndroidArgs.loadOrDefault(Paths.get(configPath)).project, Platform.ANDROID)).toCliTable()
+    fetchLocales(Identity(AndroidArgs.loadOrDefault(Paths.get(configPath)).project, Platform.ANDROID)).out()
 }
