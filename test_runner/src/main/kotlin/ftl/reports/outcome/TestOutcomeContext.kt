@@ -14,7 +14,7 @@ data class TestOutcomeContext(
     val isRoboTest: Boolean
 )
 
-fun ftl.api.TestMatrix.Data.fetchTestOutcomeContext() = getToolResultsIds().let { ids ->
+fun ftl.api.TestMatrix.Data.fetchTestOutcomeContext(): TestOutcomeContext = getToolResultsIds().let { ids ->
     TestOutcomeContext(
         projectId = projectId,
         matrixId = matrixId,
@@ -29,9 +29,3 @@ private fun ftl.api.TestMatrix.Data.getToolResultsIds(): ToolResultsExecution = 
     .setProjectId(projectId)
     .setHistoryId(historyId)
     .setExecutionId(executionId)
-
-
-
-
-
-

@@ -24,7 +24,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 
-//TODO: fix naming
+// TODO: fix naming
 @RunWith(FlankTestRunner::class)
 class SavedMatrixTest {
 

@@ -10,7 +10,6 @@ import ftl.reports.outcome.TestOutcome
 import ftl.reports.outcome.createMatrixOutcomeSummary
 import ftl.reports.outcome.fetchTestOutcomeContext
 import ftl.run.common.prettyPrint
-import ftl.run.exception.FTLError
 import ftl.util.MatrixState
 import ftl.util.getClientDetails
 import ftl.util.getGcsPath
@@ -21,8 +20,9 @@ import ftl.util.webLink
 import ftl.util.webLinkWithoutExecutionDetails
 
 fun TestMatrix.toApiModel() = ftl.api.TestMatrix.Data(
-    matrixId = testMatrixId,
-    state = state,
+    projectId = projectId.orEmpty(),
+    matrixId = testMatrixId.orEmpty(),
+    state = state.orEmpty(),
     gcsPath = getGcsPath(),
     webLink = webLink(),
     downloaded = false,
@@ -32,18 +32,18 @@ fun TestMatrix.toApiModel() = ftl.api.TestMatrix.Data(
     webLinkWithoutExecutionDetails = webLinkWithoutExecutionDetails(),
     appFileName = extractAppFileName() ?: fallbackAppName,
     isCompleted = MatrixState.completed(state) &&
-        testExecutions?.all { MatrixState.completed(it.state) } ?: true,
-    testExecutions = testExecutions.map(),
+        testExecutions?.all { MatrixState.completed(it.state.orEmpty()) } ?: true,
+    testExecutions = testExecutions?.toApiModel().orEmpty(),
     testTimeout = testTimeout(),
     isRoboTest = isRoboTest(),
-    historyId = resultStorage.toolResultsExecution.historyId ?: throw badMatrixError(),
-    executionId = resultStorage?.toolResultsExecution?.executionId ?: throw badMatrixError(),
-    invalidMatrixDetails = invalidMatrixDetails.orUnknown()
+    historyId = resultStorage?.toolResultsExecution?.historyId.orEmpty(),
+    executionId = resultStorage?.toolResultsExecution?.executionId.orEmpty(),
+    invalidMatrixDetails = invalidMatrixDetails.orUnknown(),
 )
 
 private fun TestMatrix.testTimeout() = timeoutToSeconds(
     testExecutions
-        .firstOrNull { it?.testSpecification?.testTimeout != null }
+        ?.firstOrNull { it?.testSpecification?.testTimeout != null }
         ?.testSpecification
         ?.testTimeout
         ?: "0s"
@@ -74,17 +74,21 @@ private fun ftl.api.TestMatrix.Data.updatedSavedMatrix(
         newMatrix.fetchTestOutcomeContext().createMatrixOutcomeSummary().let { (billableMinutes, outcomes) ->
             updateProperties(newMatrix).updateOutcome(
                 outcomes.map {
-                    it.map()
+                    it.toApiModel()
                 }
             ).updateBillableMinutes(billableMinutes)
         }
 
-    MatrixState.INVALID -> updateProperties(newMatrix).updateOutcome(listOf(newMatrix.invalidTestOutcome().map()))
+    MatrixState.INVALID -> updateProperties(newMatrix).updateOutcome(
+        listOf(
+            newMatrix.invalidTestOutcome().toApiModel()
+        )
+    )
 
     else -> updateProperties(newMatrix)
 }
 
-private fun TestOutcome.map() = ftl.api.TestMatrix.Outcome(
+private fun TestOutcome.toApiModel() = ftl.api.TestMatrix.Outcome(
     device, outcome, details,
     ftl.api.TestMatrix.SuiteOverview(
         testSuiteOverview.total,
@@ -113,19 +117,19 @@ private fun ftl.api.TestMatrix.Data.updateProperties(newMatrix: ftl.api.TestMatr
     testExecutions = newMatrix.testExecutions
 )
 
-private fun List<TestExecution>.map() = map { testExecution ->
-    ftl.api.TestMatrix.TestExecution(
-        id = testExecution.id,
-        modelId = testExecution.environment?.androidDevice?.androidModelId
-            ?: testExecution.environment?.iosDevice?.iosModelId ?: "",
-        deviceVersion = testExecution.environment?.androidDevice?.androidVersionId
-            ?: testExecution.environment?.iosDevice?.iosVersionId ?: "",
-        shardIndex = testExecution.shard?.shardIndex ?: 0,
-        state = testExecution.state ?: "UNKNOWN",
-        errorMessage = testExecution.testDetails?.errorMessage.orEmpty(),
-        progress = testExecution.testDetails?.progressMessages ?: emptyList()
-    )
-}
+fun List<TestExecution>.toApiModel() = map(TestExecution::toApiModel)
+
+fun TestExecution.toApiModel() = ftl.api.TestMatrix.TestExecution(
+    id = id.orEmpty(),
+    modelId = environment?.androidDevice?.androidModelId
+        ?: environment?.iosDevice?.iosModelId ?: "",
+    deviceVersion = environment?.androidDevice?.androidVersionId
+        ?: environment?.iosDevice?.iosVersionId ?: "",
+    shardIndex = shard?.shardIndex ?: 0,
+    state = state.orUnknown(),
+    errorMessage = testDetails?.errorMessage.orEmpty(),
+    progress = testDetails?.progressMessages ?: emptyList()
+)
 
 private fun TestMatrix.extractAppFileName() = testSpecification?.run {
     listOf(
@@ -162,7 +166,9 @@ private data class AppPath(
     val gcsPath: String?
         get() = (appApk ?: testsZip ?: appIpa)?.gcsPath
 }
+/*
 
 private fun TestMatrix.badMatrixError() = BadMatrixError(this)
 
-class BadMatrixError(matrix: TestMatrix) : FTLError(matrix.toApiModel())
+class BadMatrixError(matrix: TestMatrix) : FTLError(matrix)
+*/
