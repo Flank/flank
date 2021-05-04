@@ -8,7 +8,7 @@ fun List<OsVersion.Android>.getDescription(versionId: String) = findVersion(vers
 
 private fun List<OsVersion.Android>.findVersion(versionId: String) = firstOrNull { it.id == versionId }
 
-private fun OsVersion.Android.prepareDescription() = """
+fun OsVersion.Android.prepareDescription() = """
     apiLevel: $apiLevel
     codeName: $codeName
     id: '$id'

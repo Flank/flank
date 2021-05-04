@@ -1,8 +1,12 @@
 package ftl.presentation.cli.firebase.test.android.versions
 
+import ftl.api.OsVersion
 import ftl.config.FtlConstants
 import ftl.domain.DescribeAndroidVersions
 import ftl.domain.invoke
+import ftl.environment.android.prepareDescription
+import ftl.presentation.outputLogger
+import ftl.presentation.throwUnknownType
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -39,4 +43,11 @@ class AndroidVersionsDescribeCommand :
     override var versionId: String = ""
 
     override fun run() = invoke()
+
+    override val out = outputLogger {
+        when (this) {
+            is OsVersion.Android -> prepareDescription()
+            else -> throwUnknownType()
+        }
+    }
 }
