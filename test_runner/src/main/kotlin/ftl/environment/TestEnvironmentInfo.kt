@@ -1,8 +1,5 @@
 package ftl.environment
 
-import ftl.api.TestEnvironment
-import ftl.environment.android.toCliTable
-import ftl.environment.common.toCliTable
 import ftl.util.SystemOutColor
 import ftl.util.TableColumn
 
@@ -38,14 +35,3 @@ const val PHYSICAL_DEVICE = "PHYSICAL"
 const val VIRTUAL_DEVICE = "VIRTUAL"
 const val EMULATOR_DEVICE = "EMULATOR"
 const val OS_VERSION_ID = "OS_VERSION_ID"
-
-// todo move somewhere else?
-fun TestEnvironment.Android.prepareOutputString() = buildString {
-    appendLine(osVersions.toCliTable())
-    appendLine(models.toCliTable())
-    appendLine(locales.toCliTable())
-    appendLine(softwareCatalog.toCliTable())
-    appendLine(networkProfiles.toCliTable())
-    appendLine(orientations.toCliTable())
-    appendLine(ipBlocks.toCliTable())
-}

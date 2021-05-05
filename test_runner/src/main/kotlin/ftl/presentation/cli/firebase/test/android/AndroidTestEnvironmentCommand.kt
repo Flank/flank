@@ -4,7 +4,7 @@ import ftl.api.TestEnvironment
 import ftl.config.FtlConstants
 import ftl.domain.DescribeAndroidTestEnvironment
 import ftl.domain.invoke
-import ftl.environment.prepareOutputString
+import ftl.presentation.cli.firebase.test.environment.prepareOutputString
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
 import picocli.CommandLine
