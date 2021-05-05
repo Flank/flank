@@ -10,6 +10,7 @@ import com.google.testing.model.TestMatrix
 import com.google.testing.model.TestSpecification
 import com.google.testing.model.ToolResultsExecution
 import com.google.testing.model.ToolResultsStep
+import ftl.adapter.google.createAndUpdateMatrix
 import ftl.adapter.google.toApiModel
 import ftl.adapter.google.updateWithMatrix
 import ftl.config.Device
@@ -92,7 +93,7 @@ class SavedMatrixTest {
         }
         testMatrix.testExecutions = testExecutions
 
-        val testMatrixData = testMatrix.toApiModel()
+        val testMatrixData = createAndUpdateMatrix(testMatrix)
         assertThat(testMatrixData.outcome).isEqualTo("failure")
 
         // assert other properties
@@ -126,7 +127,7 @@ class SavedMatrixTest {
         }
         testMatrix.testExecutions = testExecutions
 
-        val savedMatrix = testMatrix.toApiModel()
+        val savedMatrix = createAndUpdateMatrix(testMatrix)
         assertThat(savedMatrix.outcome).isEqualTo("skipped")
 
         // assert other properties
@@ -234,7 +235,7 @@ class SavedMatrixTest {
             testExecutions = executions
         }
 
-        val savedMatrix = testMatrix.toApiModel()
+        val savedMatrix = createAndUpdateMatrix(testMatrix)
 
         assertEquals(
             "Does not return failed outcome when last execution is flaky",

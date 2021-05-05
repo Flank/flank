@@ -9,6 +9,6 @@ object TestMatrixRefresh :
     TestMatrix.Refresh,
     (TestMatrix.Identity) -> TestMatrix.Data by {
         runBlocking {
-            refreshMatrix(it).toApiModel()
+            refreshMatrix(it).toApiModel(it)
         }
     }

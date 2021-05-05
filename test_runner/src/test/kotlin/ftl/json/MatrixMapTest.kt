@@ -1,7 +1,7 @@
 package ftl.json
 
 import com.google.common.truth.Truth.assertThat
-import ftl.adapter.google.toApiModel
+import ftl.adapter.google.createAndUpdateMatrix
 import ftl.api.TestMatrix
 import ftl.json.SavedMatrixTest.Companion.createResultsStorage
 import ftl.json.SavedMatrixTest.Companion.createStepExecution
@@ -28,19 +28,21 @@ class MatrixMapTest {
     }
 
     private fun matrixForExecution(executionId: Int): TestMatrix.Data {
-        return testMatrix()
-            .setResultStorage(
-                createResultsStorage().apply {
-                    toolResultsExecution.executionId = executionId.toString()
-                }
-            )
-            .setState(MatrixState.FINISHED)
-            .setTestMatrixId("123")
-            .setTestExecutions(
-                listOf(
-                    createStepExecution(executionId, "")
+        return createAndUpdateMatrix(
+            testMatrix()
+                .setResultStorage(
+                    createResultsStorage().apply {
+                        toolResultsExecution.executionId = executionId.toString()
+                    }
                 )
-            ).toApiModel()
+                .setState(MatrixState.FINISHED)
+                .setTestMatrixId("123")
+                .setTestExecutions(
+                    listOf(
+                        createStepExecution(executionId, "")
+                    )
+                )
+        )
     }
 
     @Test
@@ -58,7 +60,7 @@ class MatrixMapTest {
         testMatrix.testMatrixId = "123"
         testMatrix.state = MatrixState.INVALID
 
-        val savedMatrix = testMatrix.toApiModel()
+        val savedMatrix = createAndUpdateMatrix(testMatrix)
 
         val expectedErrorMessage = "Matrix: [${testMatrix.testMatrixId}] failed: Unknown error"
         assertThrowsWithMessage(MatrixValidationError::class, expectedErrorMessage) {

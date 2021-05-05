@@ -122,6 +122,8 @@ object TestMatrix {
     data class Identity(
         val matrixId: String,
         val projectId: String,
+        val historyId: String = "",
+        val executionId: String = "",
     )
 
     interface Cancel : (Identity) -> Unit

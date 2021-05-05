@@ -19,7 +19,7 @@ import ftl.util.timeoutToSeconds
 import ftl.util.webLink
 import ftl.util.webLinkWithoutExecutionDetails
 
-fun TestMatrix.toApiModel() = ftl.api.TestMatrix.Data(
+fun TestMatrix.toApiModel(identity: ftl.api.TestMatrix.Identity? = null) = ftl.api.TestMatrix.Data(
     projectId = projectId.orEmpty(),
     matrixId = testMatrixId.orEmpty(),
     gcsPath = getGcsPath(),
@@ -35,12 +35,13 @@ fun TestMatrix.toApiModel() = ftl.api.TestMatrix.Data(
     testExecutions = testExecutions?.toApiModel().orEmpty(),
     testTimeout = testTimeout(),
     isRoboTest = isRoboTest(),
-    historyId = resultStorage?.toolResultsExecution?.historyId.orEmpty(),
-    executionId = resultStorage?.toolResultsExecution?.executionId.orEmpty(),
+    historyId = resultStorage?.toolResultsExecution?.historyId ?: identity?.historyId.orEmpty(),
+    executionId = resultStorage?.toolResultsExecution?.executionId ?: identity?.executionId.orEmpty(),
     invalidMatrixDetails = invalidMatrixDetails.orUnknown(),
-).run {
-    updatedSavedMatrix(copy(state = this@toApiModel.state))
-}
+    state = state.orEmpty(),
+)
+
+fun createAndUpdateMatrix(testMatrix: TestMatrix) = ftl.api.TestMatrix.Data().updateWithMatrix(testMatrix.toApiModel())
 
 private fun TestMatrix.testTimeout() = timeoutToSeconds(
     testExecutions

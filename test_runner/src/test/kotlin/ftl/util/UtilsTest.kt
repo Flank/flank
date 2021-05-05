@@ -1,6 +1,7 @@
 package ftl.util
 
 import com.google.common.truth.Truth.assertThat
+import ftl.adapter.google.createAndUpdateMatrix
 import ftl.adapter.google.toApiModel
 import ftl.api.TestMatrix
 import ftl.config.FtlConstants
@@ -102,7 +103,7 @@ class UtilsTest {
             toolResultsExecution.executionId = "-1"
         }
         testMatrix.testExecutions = testExecutions
-        val finishedMatrix = testMatrix.toApiModel()
+        val finishedMatrix = createAndUpdateMatrix(testMatrix)
         MatrixMap(mutableMapOf("finishedMatrix" to finishedMatrix), "MockPath").validate()
     }
 
@@ -116,7 +117,7 @@ class UtilsTest {
         testMatrix.state = MatrixState.FINISHED
         testMatrix.resultStorage = createResultsStorage()
         testMatrix.testExecutions = testExecutions
-        val finishedMatrix = testMatrix.toApiModel()
+        val finishedMatrix = createAndUpdateMatrix(testMatrix)
         MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath").validate()
     }
 
@@ -132,7 +133,7 @@ class UtilsTest {
             toolResultsExecution.executionId = "-2"
         }
         testMatrix.testExecutions = testExecutions
-        val finishedMatrix = testMatrix.toApiModel()
+        val finishedMatrix = createAndUpdateMatrix(testMatrix)
         MatrixMap(mutableMapOf("" to finishedMatrix), "MockPath").validate()
     }
 
