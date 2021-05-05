@@ -1,11 +1,11 @@
 package ftl.api
 
 import com.google.testing.model.ProvidedSoftwareCatalog
-import ftl.adapter.GoogleTestEnvironmentAndroid
-import ftl.adapter.GoogleTestEnvironmentIos
+import ftl.adapter.FetchGoogleTestEnvironmentAndroid
+import ftl.adapter.FetchGoogleTestEnvironmentIos
 
-val fetchAndroidTestEnvironment: TestEnvironment.Android.Fetch get() = GoogleTestEnvironmentAndroid
-val fetchIosTestEnvironment: TestEnvironment.Ios.Fetch get() = GoogleTestEnvironmentIos
+val fetchAndroidTestEnvironment: TestEnvironment.Android.Fetch get() = FetchGoogleTestEnvironmentAndroid
+val fetchIosTestEnvironment: TestEnvironment.Ios.Fetch get() = FetchGoogleTestEnvironmentIos
 
 object TestEnvironment {
     data class Android(

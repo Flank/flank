@@ -11,7 +11,7 @@ import ftl.api.fetchNetworkProfiles
 import ftl.api.fetchOrientation
 import ftl.api.fetchSoftwareCatalog
 
-object GoogleTestEnvironmentAndroid :
+object FetchGoogleTestEnvironmentAndroid :
     TestEnvironment.Android.Fetch,
     (String) -> TestEnvironment.Android by { projectId ->
         TestEnvironment.Android(
@@ -25,7 +25,6 @@ object GoogleTestEnvironmentAndroid :
         )
     }
 
-// todo this is just for linter to be happy
-object GoogleTestEnvironmentIos :
+object FetchGoogleTestEnvironmentIos :
     TestEnvironment.Ios.Fetch,
-    (String) -> TestEnvironment.Ios by { TODO() }
+    (String) -> TestEnvironment.Ios by { TODO("Will be implemented in https://github.com/Flank/flank/issues/1851") }
