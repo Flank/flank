@@ -1,9 +1,12 @@
-package ftl.reports.outcome
+package ftl.domain.testmatrix
 
 import com.google.api.services.toolresults.model.Environment
 import com.google.api.services.toolresults.model.Step
 import com.google.testing.model.ToolResultsExecution
+import ftl.api.TestMatrix
 import ftl.gc.GcToolResults
+
+// TODO Piotrek client
 
 data class TestOutcomeContext(
     val matrixId: String,
@@ -14,7 +17,7 @@ data class TestOutcomeContext(
     val isRoboTest: Boolean
 )
 
-fun ftl.api.TestMatrix.Data.fetchTestOutcomeContext(): TestOutcomeContext = getToolResultsIds().let { ids ->
+fun TestMatrix.Data.fetchTestOutcomeContext(): TestOutcomeContext = getToolResultsIds().let { ids ->
     TestOutcomeContext(
         projectId = projectId,
         matrixId = matrixId,
@@ -25,7 +28,7 @@ fun ftl.api.TestMatrix.Data.fetchTestOutcomeContext(): TestOutcomeContext = getT
     )
 }
 
-private fun ftl.api.TestMatrix.Data.getToolResultsIds(): ToolResultsExecution = ToolResultsExecution()
+private fun TestMatrix.Data.getToolResultsIds(): ToolResultsExecution = ToolResultsExecution()
     .setProjectId(projectId)
     .setHistoryId(historyId)
     .setExecutionId(executionId)

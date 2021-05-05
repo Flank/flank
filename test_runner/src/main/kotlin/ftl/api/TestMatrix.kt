@@ -2,17 +2,11 @@ package ftl.api
 
 import ftl.adapter.TestMatrixCancel
 import ftl.adapter.TestMatrixRefresh
-import ftl.json.ABORTED_BY_USER_MESSAGE
-import ftl.json.INCOMPATIBLE_APP_VERSION_MESSAGE
-import ftl.json.INCOMPATIBLE_ARCHITECTURE_MESSAGE
-import ftl.json.INCOMPATIBLE_DEVICE_MESSAGE
-import ftl.json.INFRASTRUCTURE_FAILURE_MESSAGE
-import ftl.util.MatrixState
 import ftl.util.StepOutcome
 
 val refreshTestMatrix: TestMatrix.Refresh get() = TestMatrixRefresh
 val cancelTestMatrix: TestMatrix.Cancel get() = TestMatrixCancel
-val fetchTestMatrixSummary: TestMatrix.Summary.Fetch get() = TODO()
+val update: TestMatrix.Summary.Fetch get() = TODO()
 
 private const val fallbackAppName = "N/A"
 
@@ -46,32 +40,6 @@ object TestMatrix {
         val invalidMatrixDetails: String = ""
     ) {
         val outcome = axes.maxByOrNull { StepOutcome.order.indexOf(it.outcome) }?.outcome.orEmpty()
-
-        fun isFailed() = when (outcome) {
-            StepOutcome.failure -> true
-            StepOutcome.skipped -> true
-            StepOutcome.inconclusive -> true
-            MatrixState.INVALID -> true
-            else -> false
-        }
-
-        val canceledByUser
-            get() = axes.any { it.details == ABORTED_BY_USER_MESSAGE }
-
-        val infrastructureFail
-            get() = axes.any { it.details == INFRASTRUCTURE_FAILURE_MESSAGE }
-
-        val incompatibleFail
-            get() = axes.map { it.details }.intersect(incompatibleFails).isNotEmpty()
-
-        private val incompatibleFails = setOf(
-            INCOMPATIBLE_APP_VERSION_MESSAGE,
-            INCOMPATIBLE_ARCHITECTURE_MESSAGE,
-            INCOMPATIBLE_DEVICE_MESSAGE
-        )
-
-        val invalid
-            get() = axes.any { it.outcome == MatrixState.INVALID }
     }
 
     data class TestExecution(

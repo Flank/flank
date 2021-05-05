@@ -1,10 +1,10 @@
 package ftl.reports.util
 
 import com.google.common.annotations.VisibleForTesting
-import com.google.testing.model.TestExecution
 import flank.common.logLn
 import ftl.api.JUnitTest
 import ftl.api.RemoteStorage
+import ftl.api.TestMatrix
 import ftl.api.downloadAsJunitXML
 import ftl.api.generateJUnitTestResultFromApi
 import ftl.api.parseJUnitLegacyTestResultFromFile
@@ -29,6 +29,12 @@ import ftl.reports.MatrixResultsReport
 import ftl.reports.api.getAndUploadPerformanceMetrics
 import ftl.reports.api.utcDateFormat
 import ftl.reports.toXmlString
+import ftl.reports.api.refreshMatricesAndGetExecutions
+import ftl.reports.xml.model.JUnitTestCase
+import ftl.reports.xml.model.JUnitTestResult
+import ftl.reports.xml.model.getSkippedJUnitTestSuite
+import ftl.reports.xml.parseAllSuitesXml
+import ftl.reports.xml.parseOneSuiteXml
 import ftl.run.common.getMatrixFilePath
 import ftl.shard.createTestMethodDurationMap
 import ftl.util.Artifacts
@@ -161,7 +167,7 @@ object ReportManager {
 
     private fun createAndUploadPerformanceMetricsForAndroid(
         args: IArgs,
-        testExecutions: List<TestExecution>,
+        testExecutions: List<TestMatrix.TestExecution>,
         matrices: MatrixMap
     ) {
         testExecutions
@@ -169,7 +175,7 @@ object ReportManager {
             ?.run { withGcsStoragePath(matrices, args.resultsDir).getAndUploadPerformanceMetrics(args) }
     }
 
-    private fun List<TestExecution>.withGcsStoragePath(
+    private fun List<TestMatrix.TestExecution>.withGcsStoragePath(
         matrices: MatrixMap,
         defaultResultDir: String
     ) = map { testExecution ->

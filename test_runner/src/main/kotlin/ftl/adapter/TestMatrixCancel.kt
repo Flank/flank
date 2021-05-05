@@ -1,13 +1,13 @@
 package ftl.adapter
 
-import ftl.adapter.google.cancelMatrices
+import ftl.client.google.cancelMatrices
 import ftl.api.TestMatrix
 import kotlinx.coroutines.runBlocking
 
 object TestMatrixCancel :
     TestMatrix.Cancel,
-    (TestMatrix.Identity) -> Unit by {
+    (TestMatrix.Identity) -> Unit by { identity ->
         runBlocking {
-            cancelMatrices(it)
+            cancelMatrices(identity.matrixId, identity.projectId)
         }
     }

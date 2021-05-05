@@ -2,12 +2,18 @@ package ftl.client.google
 
 import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
+import ftl.api.TestMatrix
+import ftl.api.TestMatrix.Identity
+import ftl.api.refreshTestMatrix
+import ftl.args.IArgs
+import ftl.json.MatrixMap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 
-fun fetchMatrices(matricesIds: List<String>, projectId: String): List<TestExecution> = refreshTestMatrices(
+fun fetchMatrices(matricesIds: List<String>, projectId: String
+): List<TestMatrix.TestExecution> = refreshTestMatrices(
     matrixIds = matricesIds,
     projectId = projectId
 ).getTestExecutions()
@@ -15,17 +21,14 @@ fun fetchMatrices(matricesIds: List<String>, projectId: String): List<TestExecut
 private fun refreshTestMatrices(
     matrixIds: List<String>,
     projectId: String
-): List<TestMatrix> = runBlocking {
+): List<TestMatrix.Data> = runBlocking {
     matrixIds.map { matrixId ->
         async(Dispatchers.IO) {
-            GcTestMatrix.refresh(
-                matrixId,
-                projectId
-            )
+            refreshTestMatrix(Identity(matrixId, projectId))
         }
     }.awaitAll()
 }
 
-private fun List<TestMatrix>.getTestExecutions(): List<TestExecution> =
-    mapNotNull(TestMatrix::getTestExecutions)
+private fun List<TestMatrix.Data>.getTestExecutions(): List<TestMatrix.TestExecution> =
+    mapNotNull(TestMatrix.Data::testExecutions)
         .flatten()

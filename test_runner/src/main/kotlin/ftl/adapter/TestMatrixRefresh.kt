@@ -7,8 +7,8 @@ import kotlinx.coroutines.runBlocking
 
 object TestMatrixRefresh :
     TestMatrix.Refresh,
-    (TestMatrix.Identity) -> TestMatrix.Data by {
+        (TestMatrix.Identity) -> TestMatrix.Data by { identity ->
         runBlocking {
-            refreshMatrix(it).toApiModel(it)
+            refreshMatrix(identity.matrixId, identity.projectId).toApiModel(identity)
         }
     }

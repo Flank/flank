@@ -1,6 +1,9 @@
 package ftl.client.google
 
-import ftl.api.TestMatrix
+import com.google.testing.model.TestMatrix
 import ftl.gc.GcTestMatrix
 
-suspend fun refreshMatrix(identity: TestMatrix.Identity) = GcTestMatrix.refresh(identity.matrixId, identity.projectId)
+suspend fun refreshMatrix(
+    matrixId: String,
+    projectId: String
+): TestMatrix = GcTestMatrix.refresh(matrixId, projectId)

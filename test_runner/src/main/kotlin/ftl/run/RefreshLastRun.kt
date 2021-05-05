@@ -1,13 +1,14 @@
 package ftl.run
 
 import flank.common.logLn
-import ftl.adapter.google.needsUpdate
-import ftl.adapter.google.updateWithMatrix
+import ftl.api.TestMatrix
 import ftl.api.refreshTestMatrix
 import ftl.args.IArgs
 import ftl.args.ShardChunks
 import ftl.client.google.GcTestMatrix
 import ftl.config.FtlConstants
+import ftl.domain.testmatrix.needsUpdate
+import ftl.domain.testmatrix.updateWithMatrix
 import ftl.json.MatrixMap
 import ftl.json.updateMatrixMap
 import ftl.json.validate
@@ -43,14 +44,14 @@ suspend fun refreshLastRun(currentArgs: IArgs, testShardChunks: ShardChunks) {
 private suspend fun refreshMatrices(matrixMap: MatrixMap, args: IArgs) = coroutineScope {
     logLn("RefreshMatrices")
 
-    val jobs = arrayListOf<Deferred<ftl.api.TestMatrix.Data>>()
+    val jobs = arrayListOf<Deferred<TestMatrix.Data>>()
     val map = matrixMap.map
     var matrixCount = 0
     map.forEach { matrix ->
         // Only refresh unfinished
         if (MatrixState.inProgress(matrix.value.state)) {
             matrixCount += 1
-            jobs += async(Dispatchers.IO) { refreshTestMatrix(ftl.api.TestMatrix.Identity(matrix.key, args.project, matrix.value.historyId, matrix.value.executionId)) }
+            jobs += async(Dispatchers.IO) { refreshTestMatrix(TestMatrix.Identity(matrix.key, args.project, matrix.value.historyId, matrix.value.executionId)) }
         }
     }
 

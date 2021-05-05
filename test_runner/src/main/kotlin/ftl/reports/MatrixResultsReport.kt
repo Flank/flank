@@ -9,6 +9,7 @@ import ftl.args.IArgs
 import ftl.config.FtlConstants.indent
 import ftl.json.MatrixMap
 import ftl.json.asPrintableTable
+import ftl.json.isFailed
 import ftl.reports.output.log
 import ftl.reports.output.outputReport
 import ftl.reports.util.IReport

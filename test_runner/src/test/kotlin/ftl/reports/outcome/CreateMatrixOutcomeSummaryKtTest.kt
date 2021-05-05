@@ -2,6 +2,8 @@ package ftl.reports.outcome
 
 import com.google.api.services.toolresults.model.Environment
 import com.google.api.services.toolresults.model.Step
+import ftl.domain.testmatrix.TestOutcomeContext
+import ftl.domain.testmatrix.createMatrixOutcomeSummary
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll

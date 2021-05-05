@@ -3,6 +3,8 @@ package ftl.run.platform.common
 import flank.common.logLn
 import flank.common.startWithNewLine
 import ftl.api.RemoteStorage
+import ftl.api.TestMatrix
+import ftl.api.refreshTestMatrix
 import ftl.api.uploadToRemoteStorage
 import ftl.args.IArgs
 import ftl.client.google.GcTestMatrix
@@ -25,7 +27,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 internal suspend fun IArgs.afterRunTests(
-    testMatrices: List<ftl.api.TestMatrix.Data>,
+    testMatrices: List<TestMatrix.Data>,
     stopwatch: StopWatch,
 ) = MatrixMap(
     map = testMatrices.toSavedMatrixMap(),
@@ -42,7 +44,7 @@ internal suspend fun IArgs.afterRunTests(
     addStepTime("Running tests", stopwatch.check())
 }
 
-private fun List<ftl.api.TestMatrix.Data>.toSavedMatrixMap() =
+private fun List<TestMatrix.Data>.toSavedMatrixMap() =
     associate { matrix -> matrix.matrixId to matrix }
 
 private fun IArgs.saveConfigFile(matrixMap: MatrixMap) {
@@ -67,7 +69,7 @@ internal suspend inline fun MatrixMap.printMatricesWebLinks(project: String) = c
 private tailrec suspend fun getOrUpdateWebLink(link: String, project: String, matrixId: String): String =
     if (link.isNotBlank()) link
     else getOrUpdateWebLink(
-        link = GcTestMatrix.refresh(matrixId, project).run { if (isInvalid()) "Unable to get web link" else webLink() },
+        link = refreshTestMatrix(TestMatrix.Identity(matrixId, project)).run { if (isInvalid()) "Unable to get web link" else webLink() },
         project = project,
         matrixId = matrixId
     )

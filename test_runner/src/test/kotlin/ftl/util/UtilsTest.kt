@@ -1,7 +1,6 @@
 package ftl.util
 
 import com.google.common.truth.Truth.assertThat
-import ftl.adapter.google.createAndUpdateMatrix
 import ftl.adapter.google.toApiModel
 import ftl.api.TestMatrix
 import ftl.config.FtlConstants
@@ -9,6 +8,7 @@ import ftl.json.MatrixMap
 import ftl.json.SavedMatrixTest.Companion.createResultsStorage
 import ftl.json.SavedMatrixTest.Companion.createStepExecution
 import ftl.json.SavedMatrixTest.Companion.testMatrix
+import ftl.json.createAndUpdateMatrix
 import ftl.json.validate
 import ftl.reports.outcome.TestOutcome
 import ftl.run.MatrixCancelStatus

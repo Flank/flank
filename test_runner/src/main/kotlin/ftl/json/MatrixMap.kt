@@ -1,6 +1,7 @@
 package ftl.json
 
-import ftl.adapter.google.updateWithMatrix
+import ftl.api.TestMatrix
+import ftl.domain.testmatrix.updateWithMatrix
 import ftl.environment.orUnknown
 import ftl.reports.outcome.getOutcomeMessageByKey
 import ftl.run.exception.FTLError
@@ -10,21 +11,24 @@ import ftl.run.exception.InfrastructureError
 import ftl.run.exception.MatrixCanceledError
 import ftl.run.exception.MatrixValidationError
 import ftl.util.MatrixState
+import ftl.util.StepOutcome
 
-data class MatrixMap(val map: Map<String, ftl.api.TestMatrix.Data>, val runPath: String) {
+data class MatrixMap(val map: Map<String, TestMatrix.Data>, val runPath: String) {
     private val mutableMap
-        get() = map as MutableMap<String, ftl.api.TestMatrix.Data>
+        get() = map as MutableMap<String, TestMatrix.Data>
 
-    fun update(id: String, savedMatrix: ftl.api.TestMatrix.Data) {
+    fun update(id: String, savedMatrix: TestMatrix.Data) {
         mutableMap[id] = savedMatrix
     }
 }
 
-fun MatrixMap.isAllSuccessful() = map.values.any(ftl.api.TestMatrix.Data::isFailed).not()
+fun MatrixMap.isAllSuccessful() = map.values.any(TestMatrix.Data::isFailed).not()
 
-fun Iterable<ftl.api.TestMatrix.Data>.updateMatrixMap(matrixMap: MatrixMap) = forEach { matrix ->
-    matrixMap.map[matrix.matrixId]?.updateWithMatrix(matrix)?.let {
-        matrixMap.update(matrix.matrixId, it)
+fun Iterable<TestMatrix.Data>.updateMatrixMap(matrixMap: MatrixMap) {
+    forEach { matrix ->
+        matrixMap.map[matrix.matrixId]?.updateWithMatrix(matrix)?.let {
+            matrixMap.update(matrix.matrixId, it)
+        }
     }
 }
 
@@ -66,6 +70,32 @@ fun MatrixMap.validate(shouldIgnore: Boolean = false) {
     }
 }
 
-private val ftl.api.TestMatrix.Data.outcomeDetails get() = axes.firstOrNull()?.details.orEmpty()
+fun TestMatrix.Data.isFailed() = when (outcome) {
+    StepOutcome.failure -> true
+    StepOutcome.skipped -> true
+    StepOutcome.inconclusive -> true
+    MatrixState.INVALID -> true
+    else -> false
+}
 
-private fun ftl.api.TestMatrix.Data.errorMessage() = "Matrix: [$matrixId] failed: ".plus(getOutcomeMessageByKey(axes.firstOrNull()?.details.orUnknown()))
+private val TestMatrix.Data.canceledByUser: Boolean
+    get() = axes.any { it.details == ABORTED_BY_USER_MESSAGE }
+
+private val TestMatrix.Data.infrastructureFail: Boolean
+    get() = axes.any { it.details == INFRASTRUCTURE_FAILURE_MESSAGE }
+
+private val TestMatrix.Data.incompatibleFail: Boolean
+    get() = axes.map { it.details }.intersect(incompatibleFails).isNotEmpty()
+
+private val TestMatrix.Data.invalid: Boolean
+    get() = axes.any { it.outcome == MatrixState.INVALID }
+
+private val incompatibleFails = setOf(
+    INCOMPATIBLE_APP_VERSION_MESSAGE,
+    INCOMPATIBLE_ARCHITECTURE_MESSAGE,
+    INCOMPATIBLE_DEVICE_MESSAGE
+)
+
+private val TestMatrix.Data.outcomeDetails get() = axes.firstOrNull()?.details.orEmpty()
+
+private fun TestMatrix.Data.errorMessage() = "Matrix: [$matrixId] failed: ".plus(getOutcomeMessageByKey(axes.firstOrNull()?.details.orUnknown()))

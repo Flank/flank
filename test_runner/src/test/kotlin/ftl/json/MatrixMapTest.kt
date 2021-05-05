@@ -1,7 +1,6 @@
 package ftl.json
 
 import com.google.common.truth.Truth.assertThat
-import ftl.adapter.google.createAndUpdateMatrix
 import ftl.api.TestMatrix
 import ftl.json.SavedMatrixTest.Companion.createResultsStorage
 import ftl.json.SavedMatrixTest.Companion.createStepExecution

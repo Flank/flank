@@ -10,10 +10,9 @@ import com.google.testing.model.TestMatrix
 import com.google.testing.model.TestSpecification
 import com.google.testing.model.ToolResultsExecution
 import com.google.testing.model.ToolResultsStep
-import ftl.adapter.google.createAndUpdateMatrix
 import ftl.adapter.google.toApiModel
-import ftl.adapter.google.updateWithMatrix
 import ftl.config.Device
+import ftl.domain.testmatrix.updateWithMatrix
 import ftl.gc.GcAndroidDevice
 import ftl.reports.outcome.make
 import ftl.test.util.FlankTestRunner

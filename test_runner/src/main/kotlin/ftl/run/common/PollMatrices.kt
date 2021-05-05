@@ -3,6 +3,7 @@
 package ftl.run.common
 
 import flank.common.logLn
+import ftl.api.TestMatrix
 import ftl.api.refreshTestMatrix
 import ftl.args.IArgs
 import ftl.run.status.TestMatrixStatusPrinter
@@ -18,11 +19,11 @@ import kotlinx.coroutines.flow.onEach
 suspend fun pollMatrices(
     testMatricesIds: Iterable<String>,
     args: IArgs,
-    printMatrixStatus: (ftl.api.TestMatrix.Data) -> Unit = TestMatrixStatusPrinter(
+    printMatrixStatus: (TestMatrix.Data) -> Unit = TestMatrixStatusPrinter(
         args = args,
         testMatricesIds = testMatricesIds
     )
-): Collection<ftl.api.TestMatrix.Data> = coroutineScope {
+): Collection<TestMatrix.Data> = coroutineScope {
     testMatricesIds.asFlow().flatMapMerge { testMatrixId ->
         matrixChangesFlow(
             testMatrixId = testMatrixId,
@@ -30,7 +31,7 @@ suspend fun pollMatrices(
         )
     }.onEach {
         printMatrixStatus(it)
-    }.fold(emptyMap<String, ftl.api.TestMatrix.Data>()) { matrices, next ->
+    }.fold(emptyMap<String, TestMatrix.Data>()) { matrices, next ->
         matrices + (next.matrixId to next)
     }.values.also {
         logLn()
@@ -40,9 +41,9 @@ suspend fun pollMatrices(
 private fun matrixChangesFlow(
     testMatrixId: String,
     projectId: String
-): Flow<ftl.api.TestMatrix.Data> = flow {
+): Flow<TestMatrix.Data> = flow {
     while (true) {
-        val matrix = refreshTestMatrix(ftl.api.TestMatrix.Identity(testMatrixId, projectId))
+        val matrix = refreshTestMatrix(TestMatrix.Identity(testMatrixId, projectId))
         emit(matrix)
         if (matrix.isCompleted) break else delay(5_000)
     }

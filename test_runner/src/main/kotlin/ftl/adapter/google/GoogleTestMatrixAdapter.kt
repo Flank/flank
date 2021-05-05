@@ -4,11 +4,11 @@ import com.google.testing.model.FileReference
 import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
 import ftl.analytics.toJSONObject
+import ftl.api.TestMatrix.Data
+import ftl.api.TestMatrix.Outcome
+import ftl.api.TestMatrix.SuiteOverview
 import ftl.environment.orUnknown
-import ftl.reports.outcome.BillableMinutes
 import ftl.reports.outcome.TestOutcome
-import ftl.reports.outcome.createMatrixOutcomeSummary
-import ftl.reports.outcome.fetchTestOutcomeContext
 import ftl.run.common.prettyPrint
 import ftl.util.MatrixState
 import ftl.util.getClientDetails
@@ -19,7 +19,7 @@ import ftl.util.timeoutToSeconds
 import ftl.util.webLink
 import ftl.util.webLinkWithoutExecutionDetails
 
-fun TestMatrix.toApiModel(identity: ftl.api.TestMatrix.Identity? = null) = ftl.api.TestMatrix.Data(
+fun TestMatrix.toApiModel(identity: ftl.api.TestMatrix.Identity? = null) = Data(
     projectId = projectId.orEmpty(),
     matrixId = testMatrixId.orEmpty(),
     gcsPath = getGcsPath(),
@@ -41,8 +41,6 @@ fun TestMatrix.toApiModel(identity: ftl.api.TestMatrix.Identity? = null) = ftl.a
     state = state.orEmpty(),
 )
 
-fun createAndUpdateMatrix(testMatrix: TestMatrix) = ftl.api.TestMatrix.Data().updateWithMatrix(testMatrix.toApiModel())
-
 private fun TestMatrix.testTimeout() = timeoutToSeconds(
     testExecutions
         ?.firstOrNull { it?.testSpecification?.testTimeout != null }
@@ -55,44 +53,9 @@ private fun TestMatrix.isRoboTest() = testExecutions.orEmpty().any { it?.testSpe
 
 private const val fallbackAppName = "N/A"
 
-internal fun ftl.api.TestMatrix.Data.updateWithMatrix(newMatrix: ftl.api.TestMatrix.Data): ftl.api.TestMatrix.Data =
-    if (needsUpdate(newMatrix)) updatedSavedMatrix(newMatrix)
-    else this
-
-fun ftl.api.TestMatrix.Data.needsUpdate(newMatrix: ftl.api.TestMatrix.Data): Boolean {
-    val newState = newMatrix.state
-    val newLink = newMatrix.webLink
-    val changedState = state != newState
-    val changedLink = webLink != newLink
-    return (changedState || changedLink)
-}
-
-private fun ftl.api.TestMatrix.Data.updatedSavedMatrix(
-    newMatrix: ftl.api.TestMatrix.Data
-): ftl.api.TestMatrix.Data = when (newMatrix.state) {
-    state -> this
-
-    MatrixState.FINISHED ->
-        newMatrix.fetchTestOutcomeContext().createMatrixOutcomeSummary().let { (billableMinutes, outcomes) ->
-            updateProperties(newMatrix).updateOutcome(
-                outcomes.map {
-                    it.toApiModel()
-                }
-            ).updateBillableMinutes(billableMinutes)
-        }
-
-    MatrixState.INVALID -> updateProperties(newMatrix).updateOutcome(
-        listOf(
-            newMatrix.invalidTestOutcome().toApiModel()
-        )
-    )
-
-    else -> updateProperties(newMatrix)
-}
-
-private fun TestOutcome.toApiModel() = ftl.api.TestMatrix.Outcome(
+ fun TestOutcome.toApiModel() = Outcome(
     device, outcome, details,
-    ftl.api.TestMatrix.SuiteOverview(
+    SuiteOverview(
         testSuiteOverview.total,
         testSuiteOverview.errors,
         testSuiteOverview.failures,
@@ -101,22 +64,6 @@ private fun TestOutcome.toApiModel() = ftl.api.TestMatrix.Outcome(
         testSuiteOverview.elapsedTime,
         testSuiteOverview.overheadTime
     )
-)
-
-private fun ftl.api.TestMatrix.Data.updateProperties(newMatrix: ftl.api.TestMatrix.Data) = copy(
-    matrixId = newMatrix.matrixId,
-    state = newMatrix.state,
-    gcsPath = newMatrix.gcsPath,
-    webLink = newMatrix.webLink,
-    downloaded = false,
-    clientDetails = newMatrix.clientDetails,
-    gcsPathWithoutRootBucket = newMatrix.gcsPathWithoutRootBucket,
-    gcsRootBucket = newMatrix.gcsRootBucket,
-    webLinkWithoutExecutionDetails = newMatrix.webLinkWithoutExecutionDetails,
-    appFileName = newMatrix.appFileName,
-    isCompleted = MatrixState.completed(state) &&
-        newMatrix.testExecutions.all { MatrixState.completed(it.state) },
-    testExecutions = newMatrix.testExecutions
 )
 
 fun List<TestExecution>.toApiModel() = map(TestExecution::toApiModel)
@@ -147,19 +94,6 @@ private fun TestMatrix.extractAppFileName() = testSpecification?.run {
         ?.substringAfterLast('/')
 }
 
-private fun ftl.api.TestMatrix.Data.updateBillableMinutes(billableMinutes: BillableMinutes) = copy(
-    billableMinutes = ftl.api.TestMatrix.BillableMinutes(billableMinutes.virtual, billableMinutes.physical)
-)
-
-private fun ftl.api.TestMatrix.Data.updateOutcome(outcome: List<ftl.api.TestMatrix.Outcome>) = copy(
-    axes = outcome
-)
-
-private fun ftl.api.TestMatrix.Data.invalidTestOutcome() = TestOutcome(
-    outcome = MatrixState.INVALID,
-    details = invalidMatrixDetails.orUnknown()
-)
-
 private data class AppPath(
     private val appApk: FileReference?,
     private val testsZip: FileReference?,
@@ -168,9 +102,3 @@ private data class AppPath(
     val gcsPath: String?
         get() = (appApk ?: testsZip ?: appIpa)?.gcsPath
 }
-/*
-
-private fun TestMatrix.badMatrixError() = BadMatrixError(this)
-
-class BadMatrixError(matrix: TestMatrix) : FTLError(matrix)
-*/
