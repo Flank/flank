@@ -78,7 +78,7 @@ object TestMatrix {
         val id: String,
         val modelId: String,
         val deviceVersion: String,
-        val shardIndex: Int,
+        val shardIndex: Int?,
         val state: String,
         val errorMessage: String = "",
         val progress: List<String> = emptyList()

@@ -32,7 +32,7 @@ private fun TestMatrix.TestExecution.formatName(args: IArgs): String {
     val matrixExecutionId = id.split("_")
     val matrixId = matrixExecutionId.first()
     val executionId = matrixExecutionId.takeIf { args.flakyTestAttempts > 0 }?.getOrNull(1)?.let { " $it" } ?: ""
-    val shard = takeUnless { args.disableSharding }?.run { " shard-${(shardIndex)}" } ?: ""
+    val shard = shardIndex?.takeUnless { args.disableSharding }?.run { " shard-${(shardIndex)}" } ?: ""
     return "$matrixId $modelId-$deviceVersion$shard$executionId"
 }
 

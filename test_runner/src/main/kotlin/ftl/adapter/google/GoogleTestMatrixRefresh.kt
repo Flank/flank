@@ -22,7 +22,6 @@ import ftl.util.webLinkWithoutExecutionDetails
 fun TestMatrix.toApiModel() = ftl.api.TestMatrix.Data(
     projectId = projectId.orEmpty(),
     matrixId = testMatrixId.orEmpty(),
-    state = state.orEmpty(),
     gcsPath = getGcsPath(),
     webLink = webLink(),
     downloaded = false,
@@ -39,7 +38,9 @@ fun TestMatrix.toApiModel() = ftl.api.TestMatrix.Data(
     historyId = resultStorage?.toolResultsExecution?.historyId.orEmpty(),
     executionId = resultStorage?.toolResultsExecution?.executionId.orEmpty(),
     invalidMatrixDetails = invalidMatrixDetails.orUnknown(),
-)
+).run {
+    updatedSavedMatrix(copy(state = this@toApiModel.state))
+}
 
 private fun TestMatrix.testTimeout() = timeoutToSeconds(
     testExecutions
@@ -125,7 +126,7 @@ fun TestExecution.toApiModel() = ftl.api.TestMatrix.TestExecution(
         ?: environment?.iosDevice?.iosModelId ?: "",
     deviceVersion = environment?.androidDevice?.androidVersionId
         ?: environment?.iosDevice?.iosVersionId ?: "",
-    shardIndex = shard?.shardIndex ?: 0,
+    shardIndex = shard?.shardIndex,
     state = state.orUnknown(),
     errorMessage = testDetails?.errorMessage.orEmpty(),
     progress = testDetails?.progressMessages ?: emptyList()
