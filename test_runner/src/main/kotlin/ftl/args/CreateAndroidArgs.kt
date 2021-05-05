@@ -32,11 +32,20 @@ fun createAndroidArgs(
     roboScript = gcloud.roboScript?.normalizeFilePath(),
 
     // flank
-    additionalAppTestApks = flank.additionalAppTestApks?.map { (app, test, env) ->
+    additionalAppTestApks = flank.additionalAppTestApks?.map {
+        // if additional-pair did not provide certain values, set as top level ones
+        val mergedClientDetails = mutableMapOf<String, String>().apply {
+            // merge additionalAppTestApk's client-details with top-level client-details
+            putAll(commonArgs.clientDetails ?: emptyMap())
+            putAll(it.clientDetails)
+        }
+
         AppTestPair(
-            app = app?.normalizeFilePath(),
-            test = test.normalizeFilePath(),
-            environmentVariables = env
+            app = it.app?.normalizeFilePath(),
+            test = it.test.normalizeFilePath(),
+            environmentVariables = it.environmentVariables,
+            maxTestShards = if (it.maxTestShards == -1) commonArgs.maxTestShards else it.maxTestShards,
+            clientDetails = mergedClientDetails
         )
     } ?: emptyList(),
     useLegacyJUnitResult = flank::useLegacyJUnitResult.require(),

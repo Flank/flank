@@ -15,7 +15,8 @@ sealed class AndroidTestConfig {
         val numUniformShards: Int?,
         val keepTestTargetsEmpty: Boolean,
         val environmentVariables: Map<String, String> = emptyMap(),
-        val testTargetsForShard: ShardChunks
+        val testTargetsForShard: ShardChunks,
+        val clientDetails: Map<String, String> = emptyMap()
     ) : AndroidTestConfig()
 
     data class Robo(

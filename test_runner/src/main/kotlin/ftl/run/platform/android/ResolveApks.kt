@@ -5,11 +5,7 @@ import ftl.args.AndroidArgs
 import ftl.args.isGameLoop
 import ftl.args.isSanityRobo
 import ftl.run.exception.FlankGeneralError
-import ftl.run.model.AndroidTestContext
-import ftl.run.model.GameLoopContext
-import ftl.run.model.InstrumentationTestContext
-import ftl.run.model.RoboTestContext
-import ftl.run.model.SanityRoboTestContext
+import ftl.run.model.*
 import ftl.util.asFileReference
 
 @VisibleForTesting
@@ -40,6 +36,8 @@ private fun AndroidArgs.additionalApksContexts() = additionalAppTestApks.map {
         app = appApk.asFileReference(),
         test = it.test.asFileReference(),
         environmentVariables = it.environmentVariables,
-        testTargetsForShard = testTargetsForShard
+        testTargetsForShard = testTargetsForShard,
+        maxTestShards = it.maxTestShards,
+        clientDetails = it.clientDetails,
     )
 }.toTypedArray()
