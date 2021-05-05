@@ -4,7 +4,7 @@ import ftl.api.Locale
 import ftl.config.FtlConstants
 import ftl.domain.DescribeIosLocales
 import ftl.domain.invoke
-import ftl.environment.prepareDescription
+import ftl.presentation.cli.firebase.test.locale.prepareDescription
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
 import picocli.CommandLine

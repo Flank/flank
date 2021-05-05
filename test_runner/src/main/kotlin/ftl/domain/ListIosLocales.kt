@@ -5,7 +5,7 @@ import ftl.api.Locale.Identity
 import ftl.api.Platform
 import ftl.api.fetchLocales
 import ftl.args.IosArgs
-import ftl.environment.toCliTable
+import ftl.presentation.cli.firebase.test.locale.toCliTable
 import java.nio.file.Paths
 
 interface ListIosLocales {

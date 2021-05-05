@@ -1,6 +1,11 @@
-package ftl.environment
+package ftl.presentation.cli.firebase.test.locale
 
 import ftl.api.Locale
+import ftl.environment.TAGS
+import ftl.environment.TestEnvironmentInfo
+import ftl.environment.createTableColumnFor
+import ftl.environment.getOrCreateList
+import ftl.environment.tagToSystemOutColorMapper
 import ftl.run.exception.FlankGeneralError
 import ftl.util.applyColorsUsing
 import ftl.util.buildTable
@@ -21,7 +26,7 @@ fun TestEnvironmentInfo.createLocalesTable() = buildTable(
     createTableColumnFor(LOCALE),
     createTableColumnFor(NAME),
     createTableColumnFor(REGION),
-    createTableColumnFor(ftl.environment.TAGS).applyColorsUsing(tagToSystemOutColorMapper)
+    createTableColumnFor(TAGS).applyColorsUsing(tagToSystemOutColorMapper)
 )
 
 private const val LOCALE = "LOCALE"
