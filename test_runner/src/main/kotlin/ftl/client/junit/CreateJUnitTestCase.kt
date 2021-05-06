@@ -1,9 +1,10 @@
-package ftl.reports.api
+package ftl.client.junit
 
 import com.google.api.services.toolresults.model.StackTrace
 import com.google.api.services.toolresults.model.TestCase
 import com.google.testing.model.ToolResultsStep
-import ftl.reports.xml.model.JUnitTestCase
+import ftl.reports.api.format
+import ftl.reports.api.millis
 
 internal fun createJUnitTestCases(
     testCases: List<TestCase>,

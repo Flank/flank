@@ -14,9 +14,6 @@ import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.FtlConstants.GCS_STORAGE_LINK
-import ftl.reports.xml.model.JUnitTestResult
-import ftl.reports.xml.parseAllSuitesXml
-import ftl.reports.xml.xmlToString
 import ftl.run.exception.FlankGeneralError
 import ftl.util.runWithProgress
 import java.io.File
@@ -63,25 +60,18 @@ object GcStorage {
         )
     }
 
-    fun uploadJunitXml(testResult: JUnitTestResult, args: IArgs) {
+    fun uploadJunitXml(testResultXml: String, args: IArgs) {
         if (args.smartFlankGcsPath.isBlank() || args.smartFlankDisableUpload) return
 
         // bucket/path/to/object
         val rawPath = args.smartFlankGcsPath.drop(GCS_PREFIX.length)
 
-        testResult.xmlToString().toByteArray().uploadWithProgress(
+        testResultXml.toByteArray().uploadWithProgress(
             bucket = rawPath.substringBefore('/'),
             path = rawPath.substringAfter('/'),
             name = "smart flank XML"
         )
     }
-
-    // junit xml may not exist. ignore error if it doesn't exist
-    private fun downloadJunitXml(
-        args: IArgs
-    ): JUnitTestResult? = download(args.smartFlankGcsPath, ignoreError = true)
-        .takeIf { it.isNotEmpty() }
-        ?.let { parseAllSuitesXml(Paths.get(it)) }
 
     private val duplicatedGcsPathCounter = ConcurrentHashMap<String, Int>()
 

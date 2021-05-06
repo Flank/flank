@@ -1,4 +1,4 @@
-package ftl.reports.api.data
+package ftl.client.junit
 
 import com.google.api.services.toolresults.model.Step
 import com.google.api.services.toolresults.model.TestCase

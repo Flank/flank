@@ -1,13 +1,10 @@
-package ftl.reports.xml
+package ftl.client.junit
 
 import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.dataformat.xml.deser.FromXmlParser.Feature.EMPTY_ELEMENT_AS_NULL
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import ftl.reports.xml.model.JUnitTestResult
-import ftl.reports.xml.model.JUnitTestSuite
-import ftl.reports.xml.preprocesor.fixHtmlCodes
 import ftl.run.exception.FlankGeneralError
 import java.io.File
 import java.nio.file.Files
@@ -27,25 +24,17 @@ private fun xmlText(path: Path): String {
     return String(Files.readAllBytes(path))
 }
 
-fun JUnitTestResult?.xmlToString(): String {
-    if (this == null) return ""
-    val prefix = "<?xml version='1.0' encoding='UTF-8' ?>\n"
-    return prefix + xmlPrettyWriter.writeValueAsString(this)
+fun parseOneSuiteXml(path: File): JUnitTestResult {
+    return parseOneSuiteXml(xmlText(path.toPath()))
 }
 
 fun parseOneSuiteXml(path: Path): JUnitTestResult {
     return parseOneSuiteXml(xmlText(path))
 }
 
-fun parseOneSuiteXml(path: File): JUnitTestResult {
-    return parseOneSuiteXml(xmlText(path.toPath()))
-}
-
-fun parseOneSuiteXml(data: String): JUnitTestResult {
+private fun parseOneSuiteXml(data: String): JUnitTestResult {
     return JUnitTestResult(mutableListOf(xmlMapper.readValue(fixHtmlCodes(data), JUnitTestSuite::class.java)))
 }
-
-// --
 
 fun parseAllSuitesXml(path: Path): JUnitTestResult {
     return parseAllSuitesXml(xmlText(path))
@@ -55,7 +44,7 @@ fun parseAllSuitesXml(path: File): JUnitTestResult {
     return parseAllSuitesXml(path.toPath())
 }
 
-fun parseAllSuitesXml(data: String): JUnitTestResult =
+private fun parseAllSuitesXml(data: String): JUnitTestResult =
     // This is workaround for flank being unable to parse <testsuites/> into JUnitTesResults
     // We need to preserve configure(EMPTY_ELEMENT_AS_NULL, true) to skip empty elements
     // Once better solution is found, this should be fixed

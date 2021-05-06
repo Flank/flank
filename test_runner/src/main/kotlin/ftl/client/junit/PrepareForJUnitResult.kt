@@ -1,8 +1,7 @@
-package ftl.reports.api
+package ftl.client.junit
 
 import com.google.api.services.toolresults.model.Step
 import com.google.api.services.toolresults.model.TestCase
-import ftl.reports.api.data.TestExecutionData
 
 // List of TestExecutionData can contains also secondary steps from flaky tests reruns.
 // We need only primary steps, but we also prefer to display failed tests over successful,

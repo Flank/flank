@@ -7,7 +7,9 @@ import com.google.api.services.toolresults.model.TestExecutionStep
 import com.google.api.services.toolresults.model.TestSuiteOverview
 import com.google.api.services.toolresults.model.Timestamp
 import com.google.testing.model.TestExecution
-import ftl.reports.api.data.TestExecutionData
+import ftl.client.junit.TestExecutionData
+import ftl.client.junit.createTestSuiteOverviewData
+import ftl.client.junit.flaky
 import ftl.reports.api.data.TestSuiteOverviewData
 import org.junit.Assert.assertEquals
 import org.junit.Test

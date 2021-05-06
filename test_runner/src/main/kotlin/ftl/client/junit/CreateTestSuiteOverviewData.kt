@@ -1,9 +1,9 @@
-package ftl.reports.api
+package ftl.client.junit
 
 import com.google.api.services.toolresults.model.TestCase
 import com.google.api.services.toolresults.model.TestSuiteOverview
-import ftl.reports.api.data.TestExecutionData
 import ftl.reports.api.data.TestSuiteOverviewData
+import ftl.reports.api.millis
 
 internal fun TestExecutionData.createTestSuiteOverviewData(): TestSuiteOverviewData? = step
     .testExecutionStep

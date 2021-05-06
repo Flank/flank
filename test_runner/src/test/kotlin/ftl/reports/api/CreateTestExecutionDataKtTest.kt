@@ -6,8 +6,9 @@ import com.google.api.services.toolresults.model.TestCase
 import com.google.api.services.toolresults.model.Timestamp
 import com.google.testing.model.TestExecution
 import com.google.testing.model.ToolResultsStep
+import ftl.client.junit.TestExecutionData
+import ftl.client.junit.createTestExecutionDataListAsync
 import ftl.gc.GcToolResults
-import ftl.reports.api.data.TestExecutionData
 import io.mockk.every
 import io.mockk.mockkObject
 import io.mockk.unmockkObject

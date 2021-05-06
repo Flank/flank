@@ -104,6 +104,16 @@ fun <R : MutableMap<String, Any>, T> mutableMapProperty(
 }
 
 /**
+ * Strips all characters except numbers and a period
+ * Returns 0 when the string is null or blank
+ *
+ * Example: z1,23.45 => 123.45 */
+fun String?.stripNotNumbers(): String {
+    if (this.isNullOrBlank()) return "0"
+    return this.replace(Regex("""[^0-9\\.]"""), "")
+}
+
+/**
  * Used to validate values from yml config file.
  * Should be used only on properties with [JsonProperty] annotation.
  */
