@@ -43,7 +43,7 @@ object GcStorage {
     val storage: Storage by lazy {
         GoogleApiLogger.silenceComputeEngine()
         if (FtlConstants.useMock) {
-            TestStorageProvider.storage
+            LocalStorageHelper.getOptions().service
         } else {
             storageOptions.service
         }

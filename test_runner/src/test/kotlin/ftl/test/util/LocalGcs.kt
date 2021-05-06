@@ -1,8 +1,8 @@
 package ftl.test.util
 
 import com.google.cloud.storage.BlobInfo
+import com.google.cloud.storage.contrib.nio.testing.LocalStorageHelper
 import ftl.client.google.GcStorage
-import ftl.client.google.TestStorageProvider
 import ftl.run.exception.FlankGeneralError
 import org.junit.Assert
 import java.nio.file.Files
@@ -33,6 +33,6 @@ object LocalGcs {
     fun uploadFileForTest(path: String) = uploadToMockGcs(Paths.get(path))
 
     fun clear() {
-        TestStorageProvider.clearStorage()
+        LocalStorageHelper.getOptions()
     }
 }
