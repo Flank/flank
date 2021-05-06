@@ -39,14 +39,14 @@ object GcAndroidTestMatrix {
     ): Testing.Projects.TestMatrices.Create {
         // https://github.com/bootstraponline/studio-google-cloud-testing/blob/203ed2890c27a8078cd1b8f7ae12cf77527f426b/firebase-testing/src/com/google/gct/testing/launcher/CloudTestsLauncher.java#L120
         val clientInfo = if (androidTestConfig is AndroidTestConfig.Instrumentation && androidTestConfig.clientDetails.isNotEmpty()) {
-                            ClientInfo()
-                                .setName("Flank")
-                                .setClientInfoDetails(androidTestConfig.clientDetails.toClientInfoDetailList())
-                        } else {
-                            ClientInfo()
-                                .setName("Flank")
-                                .setClientInfoDetails(args.clientDetails?.toClientInfoDetailList())
-                        }
+            ClientInfo()
+                .setName("Flank")
+                .setClientInfoDetails(androidTestConfig.clientDetails.toClientInfoDetailList())
+        } else {
+            ClientInfo()
+                .setName("Flank")
+                .setClientInfoDetails(args.clientDetails?.toClientInfoDetailList())
+        }
         val matrixGcsPath = join(args.resultsBucket, runGcsPath)
 
         // --auto-google-login
