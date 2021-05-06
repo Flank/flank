@@ -4,7 +4,7 @@ import ftl.api.Locale
 import ftl.config.FtlConstants
 import ftl.domain.ListAndroidLocales
 import ftl.domain.invoke
-import ftl.environment.toCliTable
+import ftl.presentation.cli.firebase.test.locale.toCliTable
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
 import picocli.CommandLine
