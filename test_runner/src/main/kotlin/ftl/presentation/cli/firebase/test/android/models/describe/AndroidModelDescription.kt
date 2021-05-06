@@ -1,13 +1,8 @@
-package ftl.environment.android
+package ftl.presentation.cli.firebase.test.android.models.describe
 
 import ftl.api.DeviceModel
-import ftl.run.exception.FlankGeneralError
 
-fun List<DeviceModel.Android>.getDescription(modelId: String) = findModel(modelId)?.prepareDescription().orErrorMessage(modelId)
-
-private fun List<DeviceModel.Android>.findModel(modelId: String) = firstOrNull { it.id == modelId }
-
-private fun DeviceModel.Android.prepareDescription() = """
+fun DeviceModel.Android.prepareDescription() = """
     brand: $brand
     codename: $codename
     form: $form
@@ -35,8 +30,6 @@ private fun StringBuilder.appendItems(items: List<String>) = apply {
 private fun String.appendThumbnail(thumbnailUrl: String?) =
     if (!thumbnailUrl.isNullOrBlank()) StringBuilder(this).appendLine("\n$THUBNAIL_URL_HEADER $thumbnailUrl").toString()
     else this
-
-private fun String?.orErrorMessage(modelId: String) = this ?: throw FlankGeneralError("ERROR: '$modelId' is not a valid model")
 
 private const val SUPPORTED_ABIS_HEADER = "supportedAbis:"
 private const val SUPPORTED_VERSIONS_HEADER = "supportedVersionIds:"

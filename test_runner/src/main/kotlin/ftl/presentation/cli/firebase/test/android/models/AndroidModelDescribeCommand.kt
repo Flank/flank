@@ -1,8 +1,12 @@
 package ftl.presentation.cli.firebase.test.android.models
 
+import ftl.api.DeviceModel
 import ftl.config.FtlConstants
 import ftl.domain.DescribeAndroidModels
 import ftl.domain.invoke
+import ftl.presentation.cli.firebase.test.android.models.describe.prepareDescription
+import ftl.presentation.outputLogger
+import ftl.presentation.throwUnknownType
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -45,4 +49,11 @@ class AndroidModelDescribeCommand :
     override var modelId: String = ""
 
     override fun run() = invoke()
+
+    override val out = outputLogger {
+        when (this) {
+            is DeviceModel.Android -> prepareDescription()
+            else -> throwUnknownType()
+        }
+    }
 }
