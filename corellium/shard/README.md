@@ -8,7 +8,7 @@ Depending on the provided test cases duration, the sharding algorithm will:
 
 ## Diagram
 
-![sharding_class_diagram](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/1801_Multi-module_sharding_algorithm/docs/corellium/sharding-class.puml)
+![sharding_class_diagram](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/corellium/sharding-class.puml)
 
 ## Example
 

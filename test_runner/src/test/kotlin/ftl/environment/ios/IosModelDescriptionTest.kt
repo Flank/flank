@@ -1,9 +1,8 @@
 package ftl.environment.ios
 
 import ftl.api.DeviceModel
-import ftl.run.exception.FlankGeneralError
-import ftl.test.util.TestHelper.getThrowable
-import org.junit.Assert
+import ftl.presentation.cli.firebase.test.ios.models.describe.prepareDescription
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class IosModelDescriptionTest {
@@ -23,7 +22,7 @@ class IosModelDescriptionTest {
             )
         )
 
-        val modelDescription = models.getDescription("iphone6s")
+        val modelDescription = models.find { it.id == "iphone6s" }?.prepareDescription()
         val expected = """
         deviceCapabilities:
         - accelerometer
@@ -41,7 +40,7 @@ class IosModelDescriptionTest {
         - deprecated=10.3
         - deprecated=11.2
         """.trimIndent()
-        Assert.assertEquals(expected, modelDescription)
+        assertEquals(expected, modelDescription)
     }
 
     @Test
@@ -60,7 +59,7 @@ class IosModelDescriptionTest {
             )
         )
 
-        val modelDescription = models.getDescription("iphone6s")
+        val modelDescription = models.find { it.id == "iphone6s" }?.prepareDescription()
         val expected = """
         deviceCapabilities:
         - accelerometer
@@ -75,16 +74,6 @@ class IosModelDescriptionTest {
         - 10.3
         - 11.2
         """.trimIndent()
-        Assert.assertEquals(expected, modelDescription)
-    }
-
-    @Test(expected = FlankGeneralError::class)
-    fun `should return error message if model not found and throw FlankGeneralError`() {
-        val versions = listOf<DeviceModel.Ios>()
-        val versionName = "test"
-        val localesDescription = getThrowable { versions.getDescription(versionName) }
-        val expected = "ERROR: '$versionName' is not a valid model"
-        Assert.assertEquals(expected, localesDescription.message)
-        throw localesDescription
+        assertEquals(expected, modelDescription)
     }
 }

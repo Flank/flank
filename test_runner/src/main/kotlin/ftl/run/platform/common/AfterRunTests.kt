@@ -6,9 +6,9 @@ import flank.common.startWithNewLine
 import ftl.api.RemoteStorage
 import ftl.api.uploadToRemoteStorage
 import ftl.args.IArgs
+import ftl.client.google.GcTestMatrix
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_STORAGE_LINK
-import ftl.gc.GcTestMatrix
 import ftl.json.MatrixMap
 import ftl.json.createSavedMatrix
 import ftl.reports.addStepTime

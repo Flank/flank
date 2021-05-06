@@ -2,7 +2,6 @@ package flank.corellium.client.agent
 
 import flank.corellium.client.data.AgentOperation
 import flank.corellium.client.data.CommandResult
-import flank.corellium.client.util.withProgress
 import io.ktor.client.HttpClient
 import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logging
@@ -23,7 +22,7 @@ suspend fun connectAgent(
     agentUrl: String,
     token: String,
     logLevel: LogLevel = LogLevel.NONE
-): Agent = withProgress {
+): Agent = run {
     val client = HttpClient {
         install(WebSockets)
         install(Logging) {
@@ -44,7 +43,6 @@ suspend fun connectAgent(
                     waitForReady()
                 }
         } catch (ex: Exception) {
-            ex.printStackTrace()
             delay(20_000)
         }
     } while (connection == null)
@@ -95,7 +93,7 @@ private fun Agent.handleIncomingFrames() =
     }
 
 private fun Agent.handleTestFrame(frame: Frame.Text) {
-    println("\nReceived: ${frame.readText()}")
+    println("Received: ${frame.readText()}")
     val result = format.decodeFromString<CommandResult>(frame.readText())
     tasks[result.id]?.invoke(result)
 }

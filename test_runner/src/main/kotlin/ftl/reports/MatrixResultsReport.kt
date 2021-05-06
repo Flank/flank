@@ -3,6 +3,7 @@ package ftl.reports
 import flank.common.log
 import flank.common.println
 import flank.common.startWithNewLine
+import ftl.api.JUnitTest
 import ftl.args.IArgs
 import ftl.config.FtlConstants.indent
 import ftl.json.MatrixMap
@@ -13,7 +14,6 @@ import ftl.reports.output.log
 import ftl.reports.output.outputReport
 import ftl.reports.util.IReport
 import ftl.reports.util.ReportManager
-import ftl.reports.xml.model.JUnitTestResult
 import java.io.StringWriter
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -33,6 +33,13 @@ object MatrixResultsReport : IReport {
     override val extension = ".txt"
 
     private val percentFormat by lazy { DecimalFormat("#0.00", DecimalFormatSymbols(Locale.US)) }
+
+    override fun run(matrices: MatrixMap, result: JUnitTest.Result?, printToStdout: Boolean, args: IArgs) {
+        val output = generate(matrices)
+        if (printToStdout) log(output)
+        write(matrices, output, args)
+        ReportManager.uploadReportResult(output, args, fileName())
+    }
 
     private fun generate(matrices: MatrixMap): String {
         val total = matrices.map.size
@@ -72,11 +79,4 @@ object MatrixResultsReport : IReport {
             forEach { writer.println(it.webLinkWithoutExecutionDetails.orEmpty()) }
             writer.println()
         }
-
-    override fun run(matrices: MatrixMap, result: JUnitTestResult?, printToStdout: Boolean, args: IArgs) {
-        val output = generate(matrices)
-        if (printToStdout) log(output)
-        write(matrices, output, args)
-        ReportManager.uploadReportResult(output, args, fileName())
-    }
 }

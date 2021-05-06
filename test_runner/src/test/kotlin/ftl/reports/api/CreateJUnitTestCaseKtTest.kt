@@ -5,8 +5,10 @@ import com.google.api.services.toolresults.model.StackTrace
 import com.google.api.services.toolresults.model.TestCase
 import com.google.api.services.toolresults.model.TestCaseReference
 import com.google.testing.model.ToolResultsStep
-import ftl.reports.xml.model.JUnitTestCase
-import ftl.reports.xml.xmlPrettyWriter
+import ftl.client.junit.JUnitTestCase
+import ftl.client.junit.createJUnitTestCases
+import ftl.client.junit.flaky
+import ftl.client.junit.xmlPrettyWriter
 import org.junit.Assert.assertArrayEquals
 import org.junit.Test
 

@@ -1,12 +1,12 @@
 package ftl.reports
 
 import flank.common.println
+import ftl.api.JUnitTest
 import ftl.args.IArgs
 import ftl.config.FtlConstants.indent
 import ftl.json.MatrixMap
 import ftl.reports.util.IReport
 import ftl.reports.util.ReportManager
-import ftl.reports.xml.model.JUnitTestResult
 import ftl.util.estimateCosts
 import java.io.StringWriter
 
@@ -36,7 +36,7 @@ object CostReport : IReport {
         }
     }
 
-    override fun run(matrices: MatrixMap, result: JUnitTestResult?, printToStdout: Boolean, args: IArgs) {
+    override fun run(matrices: MatrixMap, result: JUnitTest.Result?, printToStdout: Boolean, args: IArgs) {
         val output = generate(matrices)
         if (printToStdout) print(output)
         write(matrices, output, args)

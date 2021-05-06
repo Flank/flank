@@ -1,8 +1,12 @@
 package ftl.presentation.cli.firebase.test.android.locales
 
+import ftl.api.Locale
 import ftl.config.FtlConstants
 import ftl.domain.ListAndroidLocales
 import ftl.domain.invoke
+import ftl.presentation.cli.firebase.test.locale.toCliTable
+import ftl.presentation.outputLogger
+import ftl.presentation.throwUnknownType
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -25,6 +29,14 @@ class AndroidLocalesListCommand :
         description = ["YAML config file path"]
     )
     override var configPath: String = FtlConstants.defaultAndroidConfig
+
+    override val out = outputLogger {
+        @Suppress("UNCHECKED_CAST")
+        when (this) {
+            is List<*> -> (this as List<Locale>).toCliTable()
+            else -> throwUnknownType()
+        }
+    }
 
     @CommandLine.Option(
         names = ["-h", "--help"],

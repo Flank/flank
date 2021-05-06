@@ -5,7 +5,7 @@ import ftl.api.Locale.Identity
 import ftl.api.Platform
 import ftl.api.fetchLocales
 import ftl.client.google.IosCatalog
-import ftl.environment.toCliTable
+import ftl.presentation.cli.firebase.test.locale.toCliTable
 import ftl.test.util.FlankTestRunner
 import org.junit.Test
 import org.junit.runner.RunWith

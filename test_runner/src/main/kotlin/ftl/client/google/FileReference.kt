@@ -1,8 +1,8 @@
 package ftl.client.google
 
 import ftl.api.FileReference
-import ftl.reports.xml.model.JUnitTestResult
-import ftl.reports.xml.parseAllSuitesXml
+import ftl.client.junit.JUnitTestResult
+import ftl.client.junit.parseAllSuitesXml
 import ftl.run.exception.FlankGeneralError
 import java.nio.file.Paths
 

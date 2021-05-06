@@ -1,9 +1,8 @@
 package ftl.environment.android
 
 import ftl.api.DeviceModel
-import ftl.run.exception.FlankGeneralError
-import ftl.test.util.TestHelper.getThrowable
-import org.junit.Assert
+import ftl.presentation.cli.firebase.test.android.models.describe.prepareDescription
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class AndroidModelDescriptionTest {
@@ -30,7 +29,7 @@ class AndroidModelDescriptionTest {
             )
         )
 
-        val modelDescription = models.getDescription("walleye")
+        val modelDescription = models.find { it.id == "walleye" }?.prepareDescription()
         val expected = """
         brand: Google
         codename: walleye
@@ -54,7 +53,7 @@ class AndroidModelDescriptionTest {
         - default
         thumbnailUrl: https://lh3.googleusercontent.com/j4urvb3lXTaFGZI6IzHmAjum2HQVID1OHPhDB7dOzRvXb2WscSX2RFwEEFFSYhajqRO5Yu0e6FYQ
         """.trimIndent()
-        Assert.assertEquals(expected, modelDescription)
+        assertEquals(expected, modelDescription)
     }
 
     @Test
@@ -80,7 +79,7 @@ class AndroidModelDescriptionTest {
             )
         )
 
-        val modelDescription = models.getDescription("walleye")
+        val modelDescription = models.find { it.id == "walleye" }?.prepareDescription()
         val expected = """
         brand: Google
         codename: walleye
@@ -102,16 +101,6 @@ class AndroidModelDescriptionTest {
         - 28
         thumbnailUrl: https://lh3.googleusercontent.com/j4urvb3lXTaFGZI6IzHmAjum2HQVID1OHPhDB7dOzRvXb2WscSX2RFwEEFFSYhajqRO5Yu0e6FYQ
         """.trimIndent()
-        Assert.assertEquals(expected, modelDescription)
-    }
-
-    @Test(expected = FlankGeneralError::class)
-    fun `should return error message if model not found and throw FlankGeneralError`() {
-        val versions = listOf<DeviceModel.Android>()
-        val versionName = "test"
-        val localesDescription = getThrowable { versions.getDescription(versionName) }
-        val expected = "ERROR: '$versionName' is not a valid model"
-        Assert.assertEquals(expected, localesDescription.message)
-        throw localesDescription
+        assertEquals(expected, modelDescription)
     }
 }
