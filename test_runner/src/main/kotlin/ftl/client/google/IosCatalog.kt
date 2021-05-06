@@ -6,6 +6,7 @@ import com.google.testing.model.Orientation
 import ftl.config.Device
 import ftl.environment.getLocaleDescription
 import ftl.environment.ios.getDescription
+import ftl.environment.ios.iosVersionsToCliTable
 import ftl.environment.ios.toCliTable
 import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
@@ -21,7 +22,7 @@ object IosCatalog {
 
     fun getModels(projectId: String): List<IosModel> = iosDeviceCatalog(projectId).models.orEmpty()
 
-    fun softwareVersionsAsTable(projectId: String) = getVersionsList(projectId).toCliTable()
+    fun softwareVersionsAsTable(projectId: String) = getVersionsList(projectId).iosVersionsToCliTable()
 
     fun describeSoftwareVersion(projectId: String, versionId: String) =
         getVersionsList(projectId).getDescription(versionId)

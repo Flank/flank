@@ -5,6 +5,8 @@ import ftl.api.Platform
 import ftl.api.TestEnvironment
 import ftl.api.fetchAndroidOsVersion
 import ftl.api.fetchDeviceModelAndroid
+import ftl.api.fetchDeviceModelIos
+import ftl.api.fetchIosOsVersion
 import ftl.api.fetchIpBlocks
 import ftl.api.fetchLocales
 import ftl.api.fetchNetworkProfiles
@@ -27,4 +29,14 @@ object FetchGoogleTestEnvironmentAndroid :
 
 object FetchGoogleTestEnvironmentIos :
     TestEnvironment.Ios.Fetch,
-    (String) -> TestEnvironment.Ios by { TODO("Will be implemented in https://github.com/Flank/flank/issues/1851") }
+    (String) -> TestEnvironment.Ios by { projectId ->
+        TestEnvironment.Ios(
+            osVersions = fetchIosOsVersion(projectId),
+            models = fetchDeviceModelIos(projectId),
+            locales = fetchLocales(Locale.Identity(projectId, Platform.IOS)),
+            softwareCatalog = fetchSoftwareCatalog(),
+            networkProfiles = fetchNetworkProfiles(),
+            orientations = fetchOrientation(projectId, Platform.IOS),
+            ipBlocks = fetchIpBlocks(),
+        )
+    }
