@@ -12,9 +12,6 @@ import ftl.util.MatrixState
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import ftl.client.google.GcTestMatrix
-import ftl.gc.GcTestMatrix
-import ftl.json.SavedMatrix
 
 // used to cancel and update results from an async run
 fun cancelLastRun(args: IArgs): MatrixCancelStatus = runBlocking {

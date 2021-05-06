@@ -77,7 +77,8 @@ fun TestExecution.toApiModel() = ftl.api.TestMatrix.TestExecution(
     shardIndex = shard?.shardIndex,
     state = state.orUnknown(),
     errorMessage = testDetails?.errorMessage.orEmpty(),
-    progress = testDetails?.progressMessages ?: emptyList()
+    progress = testDetails?.progressMessages ?: emptyList(),
+    toolResultsStep = toolResultsStep
 )
 
 private fun TestMatrix.extractAppFileName() = testSpecification?.run {

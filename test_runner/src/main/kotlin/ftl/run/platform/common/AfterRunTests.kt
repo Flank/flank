@@ -66,10 +66,10 @@ internal suspend inline fun MatrixMap.printMatricesWebLinks(project: String) = c
     logLn()
 }
 
-private tailrec suspend fun getOrUpdateWebLink(link: String, project: String, matrixId: String): String =
+private tailrec fun getOrUpdateWebLink(link: String, project: String, matrixId: String): String =
     if (link.isNotBlank()) link
     else getOrUpdateWebLink(
-        link = refreshTestMatrix(TestMatrix.Identity(matrixId, project)).run { if (isInvalid()) "Unable to get web link" else webLink() },
+        link = refreshTestMatrix(TestMatrix.Identity(matrixId, project)).run { if (isInvalid) "Unable to get web link" else webLink },
         project = project,
         matrixId = matrixId
     )

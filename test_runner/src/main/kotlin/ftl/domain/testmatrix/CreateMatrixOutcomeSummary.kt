@@ -14,7 +14,7 @@ import ftl.reports.outcome.calculateAndroidBillableMinutes
 import ftl.reports.outcome.createTestSuiteOverviewData
 import ftl.util.StepOutcome
 
-// TODO Piotrek adapter
+// TODO Piotrek adapter ?
 
 fun fetchMatrixOutcome(newMatrix: TestMatrix.Data) = newMatrix.fetchTestOutcomeContext().createMatrixOutcomeSummary()
 

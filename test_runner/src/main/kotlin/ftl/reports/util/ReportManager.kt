@@ -4,13 +4,11 @@ import com.google.common.annotations.VisibleForTesting
 import flank.common.logLn
 import ftl.api.JUnitTest
 import ftl.api.RemoteStorage
-import ftl.api.TestMatrix
 import ftl.api.downloadAsJunitXML
 import ftl.api.generateJUnitTestResultFromApi
 import ftl.api.parseJUnitLegacyTestResultFromFile
 import ftl.api.parseJUnitTestResultFromFile
 import ftl.api.uploadToRemoteStorage
-import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IgnoredTestCases
 import ftl.args.IosArgs
@@ -26,15 +24,8 @@ import ftl.reports.FullJUnitReport
 import ftl.reports.HtmlErrorReport
 import ftl.reports.JUnitReport
 import ftl.reports.MatrixResultsReport
-import ftl.reports.api.getAndUploadPerformanceMetrics
 import ftl.reports.api.utcDateFormat
 import ftl.reports.toXmlString
-import ftl.reports.api.refreshMatricesAndGetExecutions
-import ftl.reports.xml.model.JUnitTestCase
-import ftl.reports.xml.model.JUnitTestResult
-import ftl.reports.xml.model.getSkippedJUnitTestSuite
-import ftl.reports.xml.parseAllSuitesXml
-import ftl.reports.xml.parseOneSuiteXml
 import ftl.run.common.getMatrixFilePath
 import ftl.shard.createTestMethodDurationMap
 import ftl.util.Artifacts
@@ -43,7 +34,7 @@ import ftl.util.resolveLocalRunPath
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.Date
+import java.util.*
 import kotlin.math.roundToInt
 
 object ReportManager {
@@ -165,7 +156,8 @@ object ReportManager {
         }
     }
 
-    private fun createAndUploadPerformanceMetricsForAndroid(
+    // TODO Adam
+/*    private fun createAndUploadPerformanceMetricsForAndroid(
         args: IArgs,
         testExecutions: List<TestMatrix.TestExecution>,
         matrices: MatrixMap
@@ -173,14 +165,7 @@ object ReportManager {
         testExecutions
             .takeIf { args is AndroidArgs }
             ?.run { withGcsStoragePath(matrices, args.resultsDir).getAndUploadPerformanceMetrics(args) }
-    }
-
-    private fun List<TestMatrix.TestExecution>.withGcsStoragePath(
-        matrices: MatrixMap,
-        defaultResultDir: String
-    ) = map { testExecution ->
-        testExecution to (matrices.map[testExecution.matrixId]?.gcsPathWithoutRootBucket ?: defaultResultDir)
-    }
+    }*/
 
     private fun IgnoredTestCases.toJunitTestsResults() = getSkippedJUnitTestSuite(
         map {

@@ -1,5 +1,6 @@
 package ftl.api
 
+import com.google.testing.model.ToolResultsStep
 import ftl.adapter.TestMatrixCancel
 import ftl.adapter.TestMatrixRefresh
 import ftl.util.StepOutcome
@@ -49,7 +50,8 @@ object TestMatrix {
         val shardIndex: Int?,
         val state: String,
         val errorMessage: String = "",
-        val progress: List<String> = emptyList()
+        val progress: List<String> = emptyList(),
+        val toolResultsStep: ToolResultsStep // TODO Piotrek change this
     )
 
     data class Outcome(
