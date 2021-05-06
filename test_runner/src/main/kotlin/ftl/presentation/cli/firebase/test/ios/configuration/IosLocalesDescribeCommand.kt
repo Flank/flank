@@ -1,10 +1,15 @@
 package ftl.presentation.cli.firebase.test.ios.configuration
 
+import ftl.api.Locale
 import ftl.config.FtlConstants
 import ftl.domain.DescribeIosLocales
 import ftl.domain.invoke
+import ftl.presentation.cli.firebase.test.locale.prepareDescription
+import ftl.presentation.outputLogger
+import ftl.presentation.throwUnknownType
 import picocli.CommandLine
 
+@Suppress("UNCHECKED_CAST")
 @CommandLine.Command(
     name = "describe",
     headerHeading = "",
@@ -36,6 +41,13 @@ class IosLocalesDescribeCommand :
         description = ["YAML config file path"]
     )
     override var configPath: String = FtlConstants.defaultIosConfig
+
+    override val out = outputLogger {
+        when (this) {
+            is Locale -> prepareDescription()
+            else -> throwUnknownType()
+        }
+    }
 
     override fun run() = invoke()
 }

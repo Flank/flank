@@ -75,7 +75,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ macos-latest, windows-latest, ubuntu-latest ]
+        os: [ macos-latest, windows-latest, ubuntu-18.04 ]
       fail-fast: false
     outputs:
       job_status: ${{ job.status }}

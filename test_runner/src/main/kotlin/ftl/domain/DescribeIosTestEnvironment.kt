@@ -14,6 +14,7 @@ import ftl.client.google.IosCatalog
 import ftl.environment.common.toCliTable
 import ftl.environment.ios.toCliTable
 import ftl.environment.toCliTable
+import ftl.presentation.cli.firebase.test.locale.toCliTable
 import java.nio.file.Paths
 
 interface DescribeIosTestEnvironment {

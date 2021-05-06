@@ -13,7 +13,8 @@ data class Locale(
 
     data class Identity(
         val projectId: String,
-        val platform: Platform
+        val platform: Platform,
+        val locale: String? = null,
     )
 
     interface Fetch : (Identity) -> List<Locale>

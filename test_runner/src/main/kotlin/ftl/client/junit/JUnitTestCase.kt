@@ -1,20 +1,7 @@
-package ftl.reports.xml.model
+package ftl.client.junit
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
-
-@Suppress("UnusedPrivateClass")
-private class FilterNotNull {
-    override fun equals(other: Any?): Boolean {
-        // other is null     = present
-        // other is not null = absent (default value)
-        return other != null
-    }
-
-    override fun hashCode(): Int {
-        return javaClass.hashCode()
-    }
-}
 
 // https://android.googlesource.com/platform/tools/base/+/tools_r22/ddmlib/src/main/java/com/android/ddmlib/testrunner/XmlTestRunListener.java#256
 data class JUnitTestCase(
@@ -47,25 +34,17 @@ data class JUnitTestCase(
 
     @JacksonXmlProperty(isAttribute = true)
     var flaky: Boolean? = null // use null instead of false
+}
 
-    fun empty(): Boolean {
-        return name == null || classname == null || time == null
+@Suppress("UnusedPrivateClass")
+private class FilterNotNull {
+    override fun equals(other: Any?): Boolean {
+        // other is null     = present
+        // other is not null = absent (default value)
+        return other != null
     }
 
-    /** Failed means there was a failure or an error. */
-    fun failed(): Boolean {
-        return failures?.isNotEmpty() == true || errors?.isNotEmpty() == true
-    }
-
-    fun skipped(): Boolean {
-        return skipped == null
-    }
-
-    fun successful(): Boolean {
-        return failed().not().and(skipped().not())
-    }
-
-    fun stackTrace(): String {
-        return failures?.joinToString() + errors?.joinToString()
+    override fun hashCode(): Int {
+        return javaClass.hashCode()
     }
 }

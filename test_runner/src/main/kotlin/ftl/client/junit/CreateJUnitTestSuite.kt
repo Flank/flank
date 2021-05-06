@@ -1,9 +1,8 @@
-package ftl.reports.api
+package ftl.client.junit
 
-import ftl.reports.api.data.TestExecutionData
 import ftl.reports.api.data.TestSuiteOverviewData
+import ftl.reports.api.format
 import ftl.reports.outcome.axisValue
-import ftl.reports.xml.model.JUnitTestSuite
 
 internal fun List<TestExecutionData>.createJUnitTestSuites() = mapNotNull { data: TestExecutionData ->
     data.createTestSuiteOverviewData()?.let { overviewData ->

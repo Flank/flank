@@ -2,7 +2,6 @@ package ftl.api
 
 import ftl.adapter.DownloadAsJunitXML
 import ftl.adapter.GcStorageDownload
-import ftl.reports.xml.model.JUnitTestResult
 
 val downloadFileReference: FileReference.Download get() = GcStorageDownload
 val downloadAsJunitXML: FileReference.DownloadAsXML get() = DownloadAsJunitXML
@@ -13,5 +12,5 @@ data class FileReference(
 ) {
 
     interface Download : (FileReference, Boolean, Boolean) -> FileReference
-    interface DownloadAsXML : (FileReference) -> JUnitTestResult
+    interface DownloadAsXML : (FileReference) -> JUnitTest.Result
 }

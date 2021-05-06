@@ -1,7 +1,8 @@
-package ftl.gc
+package ftl.client.google
 
 import com.google.testing.model.CancelTestMatrixResponse
 import com.google.testing.model.TestMatrix
+import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
 import ftl.run.exception.FlankGeneralError
 import kotlinx.coroutines.Dispatchers

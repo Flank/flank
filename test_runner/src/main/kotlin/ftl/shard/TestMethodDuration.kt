@@ -1,11 +1,11 @@
 package ftl.shard
 
+import ftl.api.JUnitTest
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
-import ftl.reports.xml.model.JUnitTestCase
-import ftl.reports.xml.model.JUnitTestResult
+import ftl.domain.junit.empty
 
-fun createTestMethodDurationMap(junitResult: JUnitTestResult, args: IArgs): Map<String, Double> {
+fun createTestMethodDurationMap(junitResult: JUnitTest.Result, args: IArgs): Map<String, Double> {
     val junitMap = mutableMapOf<String, Double>()
 
     // Create a map with information from previous junit run
@@ -23,11 +23,11 @@ fun createTestMethodDurationMap(junitResult: JUnitTestResult, args: IArgs): Map<
     return junitMap
 }
 
-private fun JUnitTestCase.androidKey(): String {
+private fun JUnitTest.Case.androidKey(): String {
     return "class $classname#$name"
 }
 
-private fun JUnitTestCase.iosKey(): String {
+private fun JUnitTest.Case.iosKey(): String {
     // FTL iOS XML appends `()` to each test name. ex: `testBasicSelection()`
     // xctestrun file requires classname/name with no `()`
     val testName = name?.substringBefore('(')

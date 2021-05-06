@@ -1,8 +1,8 @@
 package ftl.shard
 
+import ftl.api.JUnitTest
 import ftl.args.IArgs
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
-import ftl.reports.xml.model.JUnitTestResult
 import ftl.run.exception.FlankConfigurationError
 import ftl.util.FlankTestMethod
 import kotlin.math.ceil
@@ -14,7 +14,7 @@ private const val NO_LIMIT = -1
 // take in the XML with timing info then return the shard count based on execution time
 fun shardCountByTime(
     testsToRun: List<FlankTestMethod>,
-    oldTestResult: JUnitTestResult,
+    oldTestResult: JUnitTest.Result,
     args: IArgs
 ): Int = when {
     args.shardTime == NO_LIMIT -> NO_LIMIT
@@ -24,7 +24,7 @@ fun shardCountByTime(
 
 private fun calculateShardCount(
     testsToRun: List<FlankTestMethod>,
-    oldTestResult: JUnitTestResult,
+    oldTestResult: JUnitTest.Result,
     args: IArgs
 ): Int {
     val previousMethodDurations = createTestMethodDurationMap(oldTestResult, args)

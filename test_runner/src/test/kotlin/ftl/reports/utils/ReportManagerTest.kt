@@ -1,19 +1,19 @@
 package ftl.reports.utils
 
 import com.google.common.truth.Truth.assertThat
-import com.google.testing.model.TestExecution
 import flank.common.isWindows
+import ftl.adapter.GoogleJUnitTestFetch
+import ftl.api.JUnitTest
+import ftl.api.generateJUnitTestResultFromApi
+import ftl.api.parseJUnitLegacyTestResultFromFile
+import ftl.api.parseJUnitTestResultFromFile
 import ftl.args.AndroidArgs
 import ftl.client.google.GcStorage
+import ftl.client.junit.getDeviceString
 import ftl.json.validate
-import ftl.reports.api.createJUnitTestResult
-import ftl.reports.api.refreshMatricesAndGetExecutions
+import ftl.reports.toXmlString
 import ftl.reports.util.ReportManager
 import ftl.reports.util.getMatrixPath
-import ftl.reports.xml.model.JUnitTestCase
-import ftl.reports.xml.model.JUnitTestResult
-import ftl.reports.xml.model.JUnitTestSuite
-import ftl.reports.xml.parseOneSuiteXml
 import ftl.run.common.matrixPathToObj
 import ftl.run.exception.FTLError
 import ftl.test.util.FlankTestRunner
@@ -54,8 +54,8 @@ class ReportManagerTest {
         val mockArgs = mockk<AndroidArgs>(relaxed = true)
         every { mockArgs.smartFlankGcsPath } returns ""
         every { mockArgs.useLegacyJUnitResult } returns true
-        mockkStatic("ftl.reports.api.ProcessFromApiKt")
-        every { refreshMatricesAndGetExecutions(any(), any()) } returns emptyList()
+        mockkObject(GoogleJUnitTestFetch)
+        every { generateJUnitTestResultFromApi(any()) } returns JUnitTest.Result(mutableListOf())
         ReportManager.generate(matrix, mockArgs, emptyList())
         matrix.validate()
     }
@@ -66,8 +66,8 @@ class ReportManagerTest {
         val mockArgs = mockk<AndroidArgs>(relaxed = true)
         every { mockArgs.smartFlankGcsPath } returns ""
         every { mockArgs.useLegacyJUnitResult } returns true
-        mockkStatic("ftl.reports.api.ProcessFromApiKt")
-        every { refreshMatricesAndGetExecutions(any(), any()) } returns emptyList()
+        mockkObject(GoogleJUnitTestFetch)
+        every { generateJUnitTestResultFromApi(any()) } returns JUnitTest.Result(mutableListOf())
         ReportManager.generate(matrix, mockArgs, emptyList())
     }
 
@@ -113,9 +113,9 @@ class ReportManagerTest {
     fun `uploadJunitXml should be called`() {
         val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/success_result", AndroidArgs.default())
         val mockArgs = prepareMockAndroidArgs()
-        val junitTestResult = ReportManager.processXmlFromFile(matrix, mockArgs, ::parseOneSuiteXml)
+        val junitTestResult = ReportManager.processXmlFromFile(matrix, mockArgs, parseJUnitTestResultFromFile)
         ReportManager.generate(matrix, mockArgs, emptyList())
-        verify { GcStorage.uploadJunitXml(junitTestResult!!, mockArgs) }
+        verify { GcStorage.uploadJunitXml(junitTestResult.toXmlString(), mockArgs) }
     }
 
     @Test
@@ -125,15 +125,13 @@ class ReportManagerTest {
         every { mockArgs.useLegacyJUnitResult } returns false
         every { mockArgs.project } returns "projecId"
 
-        val executions = emptyList<TestExecution>()
-        mockkStatic("ftl.reports.api.ProcessFromApiKt")
-        mockkStatic("ftl.reports.api.CreateJUnitTestResultKt")
-        every { refreshMatricesAndGetExecutions(any(), any()) } returns executions
-        every { executions.createJUnitTestResult(any()) } returns JUnitTestResult(mutableListOf(suite))
+        mockkObject(GoogleJUnitTestFetch)
+        mockkStatic("ftl.client.junit.CreateJUnitTestResultKt")
+        every { generateJUnitTestResultFromApi(any()) } returns JUnitTest.Result(mutableListOf(suite))
 
-        val junitTestResult = ReportManager.processXmlFromFile(matrix, mockArgs, ::parseOneSuiteXml)
+        val junitTestResult = ReportManager.processXmlFromFile(matrix, mockArgs, parseJUnitLegacyTestResultFromFile)
         ReportManager.generate(matrix, mockArgs, emptyList())
-        verify { GcStorage.uploadJunitXml(junitTestResult!!, mockArgs) }
+        verify { GcStorage.uploadJunitXml(junitTestResult.toXmlString(), mockArgs) }
     }
 
     @Test
@@ -144,36 +142,34 @@ class ReportManagerTest {
         every { mockArgs.fullJUnitResult } returns true
         every { mockArgs.project } returns "projecId"
 
-        val executions = emptyList<TestExecution>()
-        mockkStatic("ftl.reports.api.ProcessFromApiKt")
-        mockkStatic("ftl.reports.api.CreateJUnitTestResultKt")
-        every { refreshMatricesAndGetExecutions(any(), any()) } returns executions
-        every { executions.createJUnitTestResult(any()) } returns JUnitTestResult(mutableListOf(suite))
+        mockkObject(GoogleJUnitTestFetch)
+        mockkStatic("ftl.client.junit.CreateJUnitTestResultKt")
+        every { generateJUnitTestResultFromApi(any()) } returns JUnitTest.Result(mutableListOf(suite))
 
-        val junitTestResult = ReportManager.processXmlFromFile(matrix, mockArgs, ::parseOneSuiteXml)
+        val junitTestResult = ReportManager.processXmlFromFile(matrix, mockArgs, parseJUnitLegacyTestResultFromFile)
         ReportManager.generate(matrix, mockArgs, emptyList())
-        verify { GcStorage.uploadJunitXml(junitTestResult!!, mockArgs) }
+        verify { GcStorage.uploadJunitXml(junitTestResult.toXmlString(), mockArgs) }
     }
 
     @Test
     fun createShardEfficiencyListTest() {
         val oldRunTestCases = mutableListOf(
-            JUnitTestCase("a", "a", "10.0"),
-            JUnitTestCase("b", "b", "20.0"),
-            JUnitTestCase("c", "c", "30.0")
+            JUnitTest.Case("a", "a", "10.0"),
+            JUnitTest.Case("b", "b", "20.0"),
+            JUnitTest.Case("c", "c", "30.0")
         )
         val oldRunSuite =
-            JUnitTestSuite("", "-1", "-1", -1, "-1", "-1", "-1", "-1", "-1", "-1", oldRunTestCases, null, null, null)
-        val oldTestResult = JUnitTestResult(mutableListOf(oldRunSuite))
+            JUnitTest.Suite("", "-1", "-1", -1, "-1", "-1", "-1", "-1", "-1", "-1", oldRunTestCases, null, null, null)
+        val oldTestResult = JUnitTest.Result(mutableListOf(oldRunSuite))
 
         val newRunTestCases = mutableListOf(
-            JUnitTestCase("a", "a", "9.0"),
-            JUnitTestCase("b", "b", "21.0"),
-            JUnitTestCase("c", "c", "30.0")
+            JUnitTest.Case("a", "a", "9.0"),
+            JUnitTest.Case("b", "b", "21.0"),
+            JUnitTest.Case("c", "c", "30.0")
         )
         val newRunSuite =
-            JUnitTestSuite("", "-1", "-1", -1, "-1", "-1", "-1", "-1", "-1", "-1", newRunTestCases, null, null, null)
-        val newTestResult = JUnitTestResult(mutableListOf(newRunSuite))
+            JUnitTest.Suite("", "-1", "-1", -1, "-1", "-1", "-1", "-1", "-1", "-1", newRunTestCases, null, null, null)
+        val newTestResult = JUnitTest.Result(mutableListOf(newRunSuite))
 
         val mockArgs = mockk<AndroidArgs>()
 
@@ -191,13 +187,13 @@ class ReportManagerTest {
 
     @Test
     fun `Test getDeviceString`() {
-        assertThat(ReportManager.getDeviceString("NexusLowRes-28-en-portrait-rerun_1"))
+        assertThat(getDeviceString("NexusLowRes-28-en-portrait-rerun_1"))
             .isEqualTo("NexusLowRes-28-en-portrait")
 
-        assertThat(ReportManager.getDeviceString("NexusLowRes-28-en-portrait"))
+        assertThat(getDeviceString("NexusLowRes-28-en-portrait"))
             .isEqualTo("NexusLowRes-28-en-portrait")
 
-        assertThat(ReportManager.getDeviceString(""))
+        assertThat(getDeviceString(""))
             .isEqualTo("")
     }
 
@@ -221,8 +217,8 @@ class ReportManagerTest {
         assertEquals("test_dir/shard_0", path.getMatrixPath("test_dir"))
     }
 
-    private val suite: JUnitTestSuite
-        get() = JUnitTestSuite(
+    private val suite: JUnitTest.Suite
+        get() = JUnitTest.Suite(
             name = "any",
             tests = "2",
             failures = "0",

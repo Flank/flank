@@ -4,8 +4,8 @@ import com.google.testing.model.TestMatrix
 import flank.common.logLn
 import ftl.args.IArgs
 import ftl.args.ShardChunks
+import ftl.client.google.GcTestMatrix
 import ftl.config.FtlConstants
-import ftl.gc.GcTestMatrix
 import ftl.json.MatrixMap
 import ftl.json.needsUpdate
 import ftl.json.updateMatrixMap

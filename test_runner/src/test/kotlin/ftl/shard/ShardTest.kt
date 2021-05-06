@@ -1,12 +1,10 @@
 package ftl.shard
 
 import com.google.common.truth.Truth.assertThat
+import ftl.api.JUnitTest
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
-import ftl.reports.xml.model.JUnitTestCase
-import ftl.reports.xml.model.JUnitTestResult
-import ftl.reports.xml.model.JUnitTestSuite
 import ftl.run.exception.FlankConfigurationError
 import ftl.test.util.FlankTestRunner
 import ftl.util.FlankTestMethod
@@ -67,7 +65,7 @@ class ShardTest {
     @Test
     fun firstRun() {
         val testsToRun = listOfFlankTestMethod("a", "b", "c")
-        val result = createShardsByShardCount(testsToRun, JUnitTestResult(null), mockArgs(2))
+        val result = createShardsByShardCount(testsToRun, JUnitTest.Result(null), mockArgs(2))
 
         assertThat(result.size).isEqualTo(2)
         assertThat(result.sumByDouble { it.time }).isEqualTo(3 * DEFAULT_TEST_TIME_SEC)
@@ -110,7 +108,7 @@ class ShardTest {
 
         while (attempt++ < maxAttempts && ms >= maxMs) {
             ms = measureTimeMillis {
-                createShardsByShardCount(testsToRun, JUnitTestResult(null), arg)
+                createShardsByShardCount(testsToRun, JUnitTest.Result(null), arg)
             }
             println("Shards calculated in $ms ms, attempt: $attempt")
         }
@@ -127,10 +125,10 @@ class ShardTest {
         )
     }
 
-    private fun newSuite(testCases: MutableList<JUnitTestCase>): JUnitTestResult {
-        return JUnitTestResult(
+    private fun newSuite(testCases: MutableList<JUnitTest.Case>): JUnitTest.Result {
+        return JUnitTest.Result(
             mutableListOf(
-                JUnitTestSuite(
+                JUnitTest.Suite(
                     "",
                     "3",
                     "0",
@@ -153,9 +151,9 @@ class ShardTest {
     private fun shardCountByTime(shardTime: Int): Int {
         val testsToRun = listOfFlankTestMethod("a/a", "b/b", "c/c")
         val testCases = mutableListOf(
-            JUnitTestCase("a", "a", "0.001"),
-            JUnitTestCase("b", "b", "0.0"),
-            JUnitTestCase("c", "c", "0.0")
+            JUnitTest.Case("a", "a", "0.001"),
+            JUnitTest.Case("b", "b", "0.0"),
+            JUnitTest.Case("c", "c", "0.0")
         )
 
         val oldTestResult = newSuite(testCases)
@@ -192,7 +190,7 @@ class ShardTest {
 
     @Test(expected = FlankConfigurationError::class)
     fun `should terminate with exit status == 3 test targets is 0 and maxTestShards == -1`() {
-        createShardsByShardCount(emptyList(), JUnitTestResult(mutableListOf()), mockArgs(-1))
+        createShardsByShardCount(emptyList(), JUnitTest.Result(mutableListOf()), mockArgs(-1))
     }
 
     @Test
@@ -209,9 +207,9 @@ class ShardTest {
 
         val oldTestResult = newSuite(
             mutableListOf(
-                JUnitTestCase("a", "a", "5.0"),
-                JUnitTestCase("b", "b", "10.0"),
-                JUnitTestCase("c", "c", "10.0")
+                JUnitTest.Case("a", "a", "5.0"),
+                JUnitTest.Case("b", "b", "10.0"),
+                JUnitTest.Case("c", "c", "10.0")
             )
         )
 
