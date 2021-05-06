@@ -1,13 +1,9 @@
 package ftl.domain.testmatrix
 
-import ftl.adapter.google.toApiModel
 import ftl.api.TestMatrix
+import ftl.api.fetchTestSummary
 import ftl.environment.orUnknown
-import ftl.reports.outcome.BillableMinutes
-import ftl.reports.outcome.TestOutcome
 import ftl.util.MatrixState
-
-// TODO Piotrek api
 
 internal fun TestMatrix.Data.updateWithMatrix(newMatrix: TestMatrix.Data): TestMatrix.Data =
     if (needsUpdate(newMatrix)) updatedSavedMatrix(newMatrix)
@@ -26,9 +22,9 @@ private fun TestMatrix.Data.updatedSavedMatrix(
 ): TestMatrix.Data = when (newMatrix.state) {
     state -> this
     MatrixState.FINISHED -> {
-        val (billableMinutes, outcomes) = fetchMatrixOutcome(newMatrix)
+        val (billableMinutes, outcomes) = fetchTestSummary(newMatrix)
         updateProperties(newMatrix)
-            .updateOutcome(outcomes.map(TestOutcome::toApiModel))
+            .updateOutcome(outcomes)
             .updateBillableMinutes(billableMinutes)
     }
 
@@ -52,7 +48,7 @@ private fun TestMatrix.Data.updateProperties(newMatrix: TestMatrix.Data) = copy(
     testExecutions = newMatrix.testExecutions
 )
 
-private fun TestMatrix.Data.updateBillableMinutes(billableMinutes: BillableMinutes) = copy(
+private fun TestMatrix.Data.updateBillableMinutes(billableMinutes: TestMatrix.BillableMinutes) = copy(
     billableMinutes = TestMatrix.BillableMinutes(billableMinutes.virtual, billableMinutes.physical)
 )
 
@@ -64,4 +60,3 @@ private fun TestMatrix.Data.invalidTestOutcome() = TestMatrix.Outcome(
     outcome = MatrixState.INVALID,
     details = invalidMatrixDetails.orUnknown()
 )
-

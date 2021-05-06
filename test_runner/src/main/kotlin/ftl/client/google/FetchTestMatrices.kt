@@ -1,6 +1,6 @@
 package ftl.client.google
 
-//import ftl.api.TestMatrix
+// import ftl.api.TestMatrix
 import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
 import kotlinx.coroutines.Dispatchers
@@ -8,7 +8,9 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 
-fun fetchMatrices(matricesIds: List<String>, projectId: String
+fun fetchMatrices(
+    matricesIds: List<String>,
+    projectId: String
 ): List<TestExecution> = refreshTestMatrices(
     matrixIds = matricesIds,
     projectId = projectId

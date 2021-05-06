@@ -2,12 +2,13 @@ package ftl.api
 
 import com.google.testing.model.ToolResultsStep
 import ftl.adapter.TestMatrixCancel
+import ftl.adapter.TestMatrixFetch
 import ftl.adapter.TestMatrixRefresh
 import ftl.util.StepOutcome
 
 val refreshTestMatrix: TestMatrix.Refresh get() = TestMatrixRefresh
 val cancelTestMatrix: TestMatrix.Cancel get() = TestMatrixCancel
-val update: TestMatrix.Summary.Fetch get() = TODO()
+val fetchTestSummary: TestMatrix.Summary.Fetch get() = TestMatrixFetch
 
 private const val fallbackAppName = "N/A"
 
@@ -80,13 +81,7 @@ object TestMatrix {
         val billableMinutes: BillableMinutes,
         val axes: List<Outcome>,
     ) {
-        data class Identity(
-            val projectId: String,
-            val historyId: String,
-            val executionId: String,
-        )
-
-        interface Fetch : (Identity) -> Summary
+        interface Fetch : (Data) -> Summary
     }
 
     data class Identity(

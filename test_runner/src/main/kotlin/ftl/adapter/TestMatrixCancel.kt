@@ -1,7 +1,7 @@
 package ftl.adapter
 
-import ftl.client.google.cancelMatrices
 import ftl.api.TestMatrix
+import ftl.client.google.cancelMatrices
 import kotlinx.coroutines.runBlocking
 
 object TestMatrixCancel :

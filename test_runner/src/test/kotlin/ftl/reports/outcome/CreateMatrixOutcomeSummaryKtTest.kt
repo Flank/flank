@@ -2,8 +2,9 @@ package ftl.reports.outcome
 
 import com.google.api.services.toolresults.model.Environment
 import com.google.api.services.toolresults.model.Step
-import ftl.domain.testmatrix.TestOutcomeContext
-import ftl.domain.testmatrix.createMatrixOutcomeSummary
+import ftl.client.google.TestOutcomeContext
+import ftl.client.google.calculateAndroidBillableMinutes
+import ftl.client.google.createMatrixOutcomeSummary
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll

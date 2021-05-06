@@ -7,8 +7,8 @@ import ftl.analytics.toJSONObject
 import ftl.api.TestMatrix.Data
 import ftl.api.TestMatrix.Outcome
 import ftl.api.TestMatrix.SuiteOverview
+import ftl.client.google.TestOutcome
 import ftl.environment.orUnknown
-import ftl.reports.outcome.TestOutcome
 import ftl.run.common.prettyPrint
 import ftl.util.MatrixState
 import ftl.util.getClientDetails
@@ -53,7 +53,7 @@ private fun TestMatrix.isRoboTest() = testExecutions.orEmpty().any { it?.testSpe
 
 private const val fallbackAppName = "N/A"
 
- fun TestOutcome.toApiModel() = Outcome(
+fun TestOutcome.toApiModel() = Outcome(
     device, outcome, details,
     SuiteOverview(
         testSuiteOverview.total,

@@ -7,7 +7,6 @@ import ftl.api.TestMatrix
 import ftl.api.refreshTestMatrix
 import ftl.api.uploadToRemoteStorage
 import ftl.args.IArgs
-import ftl.client.google.GcTestMatrix
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.GCS_STORAGE_LINK
 import ftl.json.MatrixMap

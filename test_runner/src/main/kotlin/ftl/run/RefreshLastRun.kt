@@ -5,7 +5,6 @@ import ftl.api.TestMatrix
 import ftl.api.refreshTestMatrix
 import ftl.args.IArgs
 import ftl.args.ShardChunks
-import ftl.client.google.GcTestMatrix
 import ftl.config.FtlConstants
 import ftl.domain.testmatrix.needsUpdate
 import ftl.domain.testmatrix.updateWithMatrix

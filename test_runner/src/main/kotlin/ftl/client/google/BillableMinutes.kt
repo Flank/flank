@@ -1,8 +1,6 @@
-package ftl.reports.outcome
+package ftl.client.google
 
 import com.google.api.services.toolresults.model.Step
-import ftl.client.google.AndroidCatalog
-import ftl.client.google.DeviceType
 import ftl.environment.orUnknown
 import ftl.util.billableMinutes
 import kotlin.math.min

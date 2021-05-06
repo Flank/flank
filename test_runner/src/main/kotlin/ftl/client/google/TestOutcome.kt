@@ -1,4 +1,4 @@
-package ftl.reports.outcome
+package ftl.client.google
 
 import ftl.reports.api.data.TestSuiteOverviewData
 
@@ -8,4 +8,3 @@ data class TestOutcome(
     val details: String = "",
     val testSuiteOverview: TestSuiteOverviewData = TestSuiteOverviewData()
 )
-
