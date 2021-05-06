@@ -14,6 +14,7 @@ import ftl.args.AndroidArgs
 import ftl.environment.android.toCliTable
 import ftl.environment.common.toCliTable
 import ftl.environment.toCliTable
+import ftl.presentation.cli.firebase.test.locale.toCliTable
 import java.nio.file.Paths
 
 interface DescribeAndroidTestEnvironment {

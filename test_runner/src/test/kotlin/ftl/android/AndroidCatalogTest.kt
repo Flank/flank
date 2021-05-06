@@ -9,7 +9,7 @@ import ftl.api.fetchDeviceModelAndroid
 import ftl.api.fetchLocales
 import ftl.client.google.AndroidCatalog
 import ftl.environment.android.toCliTable
-import ftl.environment.toCliTable
+import ftl.presentation.cli.firebase.test.locale.toCliTable
 import ftl.test.util.FlankTestRunner
 import io.mockk.every
 import io.mockk.mockk
