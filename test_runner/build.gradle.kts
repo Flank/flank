@@ -345,4 +345,10 @@ tasks.test {
     maxHeapSize = "3072m"
     minHeapSize = "512m"
     dependsOn(":resolveArtifacts")
+
+    // deletes 'results' directory which contains remainings from unit tests
+    // think about better solution
+    doLast {
+        project.delete("results")
+    }
 }

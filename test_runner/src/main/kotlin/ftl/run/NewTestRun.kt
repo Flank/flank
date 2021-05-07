@@ -10,7 +10,7 @@ import ftl.reports.addStepTime
 import ftl.reports.output.log
 import ftl.reports.output.outputReport
 import ftl.reports.util.ReportManager
-import ftl.run.common.fetchArtifacts
+import ftl.run.common.fetchAllTestRunArtifacts
 import ftl.run.common.pollMatrices
 import ftl.run.exception.FlankGeneralError
 import ftl.run.exception.FlankTimeoutError
@@ -36,7 +36,7 @@ suspend fun IArgs.newTestRun() = withTimeoutOrNull(parsedTimeout) {
         }
 
         val duration = measureTime {
-            cancelTestsOnTimeout(args.project, matrixMap.map) { fetchArtifacts(matrixMap, args) }
+            cancelTestsOnTimeout(args.project, matrixMap.map) { fetchAllTestRunArtifacts(matrixMap, args) }
             ReportManager.generate(matrixMap, args, testShardChunks, ignoredTests)
 
             matrixMap.printMatricesWebLinks(project)

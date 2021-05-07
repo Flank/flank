@@ -1,8 +1,12 @@
 package ftl.presentation.cli.firebase.test.android.locales
 
+import ftl.api.Locale
 import ftl.config.FtlConstants
 import ftl.domain.DescribeAndroidLocales
 import ftl.domain.invoke
+import ftl.presentation.cli.firebase.test.locale.prepareDescription
+import ftl.presentation.outputLogger
+import ftl.presentation.throwUnknownType
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -36,6 +40,13 @@ class AndroidLocalesDescribeCommand :
         description = ["YAML config file path"]
     )
     override var configPath: String = FtlConstants.defaultAndroidConfig
+
+    override val out = outputLogger {
+        when (this) {
+            is Locale -> prepareDescription()
+            else -> throwUnknownType()
+        }
+    }
 
     override fun run() = invoke()
 }

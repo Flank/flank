@@ -12,7 +12,7 @@ import ftl.json.updateMatrixMap
 import ftl.json.updateWithMatrix
 import ftl.json.validate
 import ftl.reports.util.ReportManager
-import ftl.run.common.fetchArtifacts
+import ftl.run.common.fetchAllTestRunArtifacts
 import ftl.run.common.getLastArgs
 import ftl.run.common.getLastMatrices
 import ftl.run.common.pollMatrices
@@ -31,7 +31,7 @@ suspend fun refreshLastRun(currentArgs: IArgs, testShardChunks: ShardChunks) {
 
     refreshMatrices(matrixMap, lastArgs)
     pollMatrices(matrixMap.map.keys, lastArgs).updateMatrixMap(matrixMap)
-    fetchArtifacts(matrixMap, lastArgs)
+    fetchAllTestRunArtifacts(matrixMap, lastArgs)
 
     // Must generate reports *after* fetching xml artifacts since reports require xml
     ReportManager.generate(matrixMap, lastArgs, testShardChunks)
