@@ -50,6 +50,7 @@ sealed class Instrument {
 
     /**
      * Representation of the final structure of instrument test logs:
+     *
      * ```
      * INSTRUMENTATION_RESULT: stream=
      *
@@ -70,4 +71,19 @@ sealed class Instrument {
         val time: Long,
         val details: Map<String, Any>
     ) : Instrument()
+
+    /**
+     * Status code from am instrument output
+     *
+     * @property RUNNING Test running
+     * @property PASSED Test passed
+     * @property FAILED Assertion failure
+     * @property EXCEPTION Other exception
+     */
+    object Code {
+        const val RUNNING = 1
+        const val PASSED = 0
+        const val FAILED = -2
+        const val EXCEPTION = -1
+    }
 }

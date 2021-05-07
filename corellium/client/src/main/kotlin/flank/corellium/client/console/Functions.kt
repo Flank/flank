@@ -3,9 +3,11 @@ package flank.corellium.client.console
 import io.ktor.http.cio.websocket.Frame
 import io.ktor.http.cio.websocket.close
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 
 suspend fun Console.sendCommand(command: String) =
@@ -37,3 +39,17 @@ fun Console.flowLogs() = session.incoming
     .receiveAsFlow()
     .onEach { lastResponseTime = System.currentTimeMillis() }
     .map { it.data.decodeToString() }
+    .normalizeLines()
+
+internal fun Flow<String>.normalizeLines(): Flow<String> {
+    var acc = ""
+    return transform { next ->
+        acc += next
+        acc.split("\n").let { list ->
+            acc = list.last()
+            list.dropLast(1).forEach {
+                emit(it)
+            }
+        }
+    }
+}

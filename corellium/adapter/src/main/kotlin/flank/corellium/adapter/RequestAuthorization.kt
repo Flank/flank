@@ -2,13 +2,15 @@ package flank.corellium.adapter
 
 import flank.corellium.api.Authorization
 import flank.corellium.client.core.connectCorellium
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-object RequestAuthorization : Authorization.Request {
-    override suspend fun Authorization.Credentials.invoke() {
+val requestAuthorization = Authorization.Request { credentials ->
+    GlobalScope.launch {
         corelliumRef = connectCorellium(
-            api = host,
-            username = username,
-            password = password
+            api = credentials.host,
+            username = credentials.username,
+            password = credentials.password
         )
     }
 }
