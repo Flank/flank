@@ -19,12 +19,11 @@ fun List<Step>.calculateAndroidBillableMinutes(projectId: String, timeoutValue: 
         )
     }
 
-private fun Step.deviceModel() = dimensionValue.find { it.key.equals("Model", ignoreCase = true) }?.value.orUnknown()
+private fun Step.deviceModel() = dimensionValue?.find { it.key.equals("Model", ignoreCase = true) }?.value.orUnknown()
 
 private fun List<Step>.sumBillableMinutes(timeout: Long) = this
     .mapNotNull { it.getBillableSeconds(default = timeout) }
-    .map { billableMinutes(it) }
-    .sum()
+    .sumOf { billableMinutes(it) }
 
 private fun Step.getBillableSeconds(default: Long) =
     testExecutionStep?.testTiming?.testProcessDuration?.seconds?.let {

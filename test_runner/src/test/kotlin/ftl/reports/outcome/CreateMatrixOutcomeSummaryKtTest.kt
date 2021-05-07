@@ -19,7 +19,7 @@ class CreateMatrixOutcomeSummaryKtTest {
     @Before
     fun setUp() {
         mockkStatic("ftl.reports.outcome.UtilKt")
-        mockkStatic("ftl.reports.outcome.BillableMinutesKt")
+        mockkStatic("ftl.client.google.BillableMinutesKt")
     }
 
     @After

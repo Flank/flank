@@ -52,7 +52,7 @@ object TestMatrix {
         val state: String,
         val errorMessage: String = "",
         val progress: List<String> = emptyList(),
-        val toolResultsStep: ToolResultsStep // TODO Piotrek change this
+        val toolResultsStep: ToolResultsStep? // TODO Piotrek change this
     )
 
     data class Outcome(
