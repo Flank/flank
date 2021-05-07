@@ -72,16 +72,15 @@ object ReportManager {
 
         val testsResult = generateJUnitTestResultFromApi((args to matrices).toApiIdentity())
         processJunitResults(args, matrices, testSuite, testShardChunks, testsResult)
-        // TODO move it to next #1756
-        // createAndUploadPerformanceMetricsForAndroid(args, testsResult, matrices)
+
         uploadMatricesId(args, matrices)
     }
 
     private fun Pair<IArgs, MatrixMap>.toApiIdentity(): JUnitTest.Result.ApiIdentity {
         val (args, matrices) = this
         return JUnitTest.Result.ApiIdentity(
-            projectId = args.project,
-            matrixIds = matrices.map.values.map { it.matrixId }
+            args = args,
+            matrixMap = matrices
         )
     }
 
