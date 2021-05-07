@@ -12,7 +12,6 @@ data class TestExecutionData(
     val timestamp: Timestamp
 )
 
-// TODO Piotrek find better name
 data class TestCasesWithStep(
     val testCases: List<TestCase>,
     val step: Step,
