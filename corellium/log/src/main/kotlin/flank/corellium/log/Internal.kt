@@ -58,7 +58,10 @@ private enum class Type(val text: String) {
  */
 internal fun Flow<List<Line>>.parseChunks(): Flow<Chunk> = map { group ->
     val reversed = group.reversed().toMutableList()
-    val code = reversed.removeFirst()
+    val (prefix, text) = reversed.removeFirst()
+    requireNotNull(prefix) {
+        "Invalid last line in group, expected code but was: $text"
+    }
     val linesAccumulator = mutableListOf<String>()
     val map = mutableMapOf<String, List<String>>()
     reversed.forEach { line ->
@@ -66,15 +69,15 @@ internal fun Flow<List<Line>>.parseChunks(): Flow<Chunk> = map { group ->
             linesAccumulator += line.text
         else
             linesAccumulator.apply {
-                val (key, text) = line.text.split("=", limit = 2)
-                add(text.trim())
+                val (key, value) = line.text.split("=", limit = 2)
+                add(value.trim())
                 map[key.trim()] = reversed()
                 clear()
             }
     }
     Chunk(
-        type = code.prefix!!,
-        code = code.text.trim().toInt(),
+        type = prefix,
+        code = text.trim().toInt(),
         map = map
     )
 }
