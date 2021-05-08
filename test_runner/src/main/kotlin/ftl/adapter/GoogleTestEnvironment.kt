@@ -18,7 +18,7 @@ object FetchGoogleTestEnvironmentAndroid :
     (String) -> TestEnvironment.Android by { projectId ->
         TestEnvironment.Android(
             osVersions = fetchAndroidOsVersion(projectId),
-            models = fetchDeviceModelAndroid(projectId),
+            models = fetchDeviceModelAndroid(projectId).list,
             locales = fetchLocales(Locale.Identity(projectId, Platform.ANDROID)),
             softwareCatalog = fetchSoftwareCatalog(),
             networkProfiles = fetchNetworkProfiles(),
