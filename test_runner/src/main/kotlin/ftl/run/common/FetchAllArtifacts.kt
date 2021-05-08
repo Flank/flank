@@ -43,9 +43,13 @@ internal suspend fun fetchAllTestRunArtifacts(matrixMap: MatrixMap, args: IArgs)
         }
         .map { fetchArtifacts(it) }
         .forEach { (matrixId, _) ->
-            matrixMap.map[matrixId]?.downloaded = true
+            matrixMap.matrixDownloaded(matrixId)
         }
 
     logLn(FtlConstants.indent + "Updating matrix file", level = OutputLogLevel.DETAILED)
     args.updateMatrixFile(matrixMap)
+}
+
+private fun MatrixMap.matrixDownloaded(matrixId: String) = map[matrixId]?.let { matrix ->
+    update(matrixId, matrix.copy(downloaded = true))
 }
