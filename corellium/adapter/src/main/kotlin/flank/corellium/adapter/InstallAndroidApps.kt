@@ -11,29 +11,29 @@ import flank.corellium.client.core.getAllProjects
 import flank.corellium.client.core.getProjectInstancesList
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 import java.io.File
 
 private const val PATH_TO_UPLOAD = "/sdcard"
 
-class InstallAndroidApps(
-    private val projectName: String
-) : AndroidApps.Install {
+fun installAndroidApps(
+    projectName: String
+) = AndroidApps.Install { apps ->
+    corellium.launch {
+        val projectId = corellium.getAllProjects().first { it.name == projectName }.id
+        val instances = corellium.getProjectInstancesList(projectId).associateBy { it.id }
 
-    override suspend fun List<AndroidApps>.invoke(): Unit = corellium.run {
-        val projectId = getAllProjects().first { it.name == projectName }.id
-        val instances = getProjectInstancesList(projectId).associateBy { it.id }
-
-        forEach { apps ->
+        apps.forEach { apps ->
             val instance = instances.getValue(apps.instanceId)
 
             println("Connecting agent for ${apps.instanceId}")
             val agentInfo = requireNotNull(instance.agent?.info) {
                 "Cannot connect to the agent, no agent info for instance ${instance.name} with id: ${instance.id}"
             }
-            val agent = connectAgent(agentInfo)
+            val agent = corellium.connectAgent(agentInfo)
 
             println("Connecting console for ${apps.instanceId}")
-            val console = connectConsole(instance.id)
+            val console = corellium.connectConsole(instance.id)
 
             // Disable system logging
             flowOf("su", "dmesg -n 1", "exit").collect(console::sendCommand)

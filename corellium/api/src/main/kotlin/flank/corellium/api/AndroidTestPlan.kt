@@ -40,7 +40,7 @@ object AndroidTestPlan {
     /**
      * Execute tests on android instances using specified configuration.
      */
-    interface Execute : Request<Config, Flow<String>>
+    fun interface Execute : (Config) -> List<Flow<String>>
 }
 
 private typealias InstanceId = String

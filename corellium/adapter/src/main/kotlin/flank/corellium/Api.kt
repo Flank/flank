@@ -1,20 +1,26 @@
 package flank.corellium
 
-import flank.corellium.adapter.ExecuteAndroidTestPlan
-import flank.corellium.adapter.InstallAndroidApps
-import flank.corellium.adapter.InvokeAndroidDevices
-import flank.corellium.adapter.RequestAuthorization
+import flank.corellium.adapter.executeAndroidTestPlan
+import flank.corellium.adapter.installAndroidApps
+import flank.corellium.adapter.invokeAndroidDevices
+import flank.corellium.adapter.parseApkInfo
+import flank.corellium.adapter.parseApkPackageName
+import flank.corellium.adapter.parseApkTestCases
+import flank.corellium.adapter.requestAuthorization
 import flank.corellium.api.CorelliumApi
 
 fun corelliumApi(
     projectName: String
 ) = CorelliumApi(
-    authorize = RequestAuthorization,
-    installAndroidApps = InstallAndroidApps(
+    authorize = requestAuthorization,
+    installAndroidApps = installAndroidApps(
         projectName = projectName
     ),
-    invokeAndroidDevices = InvokeAndroidDevices(
+    invokeAndroidDevices = invokeAndroidDevices(
         projectName = projectName
     ),
-    executeTest = ExecuteAndroidTestPlan
+    executeTest = executeAndroidTestPlan,
+    parseTestCases = parseApkTestCases,
+    parseTestApkInfo = parseApkInfo,
+    parsePackageName = parseApkPackageName
 )
