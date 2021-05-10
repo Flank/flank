@@ -5,7 +5,7 @@ import com.google.testing.model.AndroidModel
 import ftl.client.google.BillableMinutes
 import ftl.client.google.DeviceType
 import ftl.client.google.calculateAndroidBillableMinutes
-import ftl.gc.GcTesting
+import ftl.client.google.GcTesting
 import ftl.http.executeWithRetry
 import io.mockk.every
 import io.mockk.mockkObject

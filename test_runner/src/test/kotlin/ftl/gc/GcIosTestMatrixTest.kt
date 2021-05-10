@@ -3,6 +3,7 @@ package ftl.gc
 import com.google.testing.model.IosDeviceList
 import flank.common.isWindows
 import ftl.args.IosArgs
+import ftl.client.google.GcToolResults
 import ftl.ios.xctest.FIXTURES_PATH
 import ftl.run.model.XcTestContext
 import ftl.test.util.FlankTestRunner

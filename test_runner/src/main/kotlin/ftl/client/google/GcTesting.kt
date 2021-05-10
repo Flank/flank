@@ -1,7 +1,6 @@
-package ftl.gc
+package ftl.client.google
 
 import com.google.testing.Testing
-import ftl.adapter.google.httpCredential
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.config.FtlConstants.applicationName

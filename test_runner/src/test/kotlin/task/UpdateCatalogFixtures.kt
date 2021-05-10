@@ -1,7 +1,7 @@
 package task
 
 import com.google.api.client.json.GenericJson
-import ftl.gc.GcTesting
+import ftl.client.google.GcTesting
 import java.nio.file.Files
 import java.nio.file.Paths
 
