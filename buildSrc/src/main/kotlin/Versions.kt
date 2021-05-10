@@ -9,7 +9,7 @@ object Versions {
     const val DD_PLIST = "1.23"
 
     // https://github.com/jeremymailen/kotlinter-gradle
-    const val KTLINT_GRADLE = "3.4.3"
+    const val KTLINT_GRADLE = "3.4.4"
 
     const val KTLINT = "0.40.0"
 
