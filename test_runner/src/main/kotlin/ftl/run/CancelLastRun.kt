@@ -4,8 +4,6 @@ import flank.common.logLn
 import ftl.api.TestMatrix
 import ftl.api.cancelTestMatrix
 import ftl.args.IArgs
-import ftl.config.FtlConstants
-import ftl.json.SavedMatrix
 import ftl.run.common.getLastArgs
 import ftl.run.common.getLastMatrices
 import ftl.util.MatrixState

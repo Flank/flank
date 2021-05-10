@@ -10,7 +10,6 @@ import ftl.json.SavedMatrixTest.Companion.createStepExecution
 import ftl.json.SavedMatrixTest.Companion.testMatrix
 import ftl.json.createAndUpdateMatrix
 import ftl.json.validate
-import ftl.reports.outcome.TestOutcome
 import ftl.run.MatrixCancelStatus
 import ftl.run.cancelMatrices
 import ftl.run.exception.CONFIGURATION_FAIL
