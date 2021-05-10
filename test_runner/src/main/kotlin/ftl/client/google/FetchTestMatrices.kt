@@ -1,6 +1,5 @@
 package ftl.client.google
 
-// import ftl.api.TestMatrix
 import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
 import kotlinx.coroutines.Dispatchers
@@ -28,5 +27,5 @@ private fun refreshTestMatrices(
 }
 
 private fun List<TestMatrix>.getTestExecutions(): List<TestExecution> = this
-    .mapNotNull(com.google.testing.model.TestMatrix::getTestExecutions)
+    .mapNotNull(TestMatrix::getTestExecutions)
     .flatten()

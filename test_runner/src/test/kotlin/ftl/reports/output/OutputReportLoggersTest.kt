@@ -2,8 +2,8 @@ package ftl.reports.output
 
 import com.google.common.truth.Truth.assertThat
 import ftl.api.TestMatrix
+import ftl.api.TestMatrixTest.Companion.historyId
 import ftl.args.AndroidArgs
-import ftl.json.SavedMatrixTest.Companion.historyId
 import org.junit.Before
 import org.junit.Test
 import java.math.BigDecimal

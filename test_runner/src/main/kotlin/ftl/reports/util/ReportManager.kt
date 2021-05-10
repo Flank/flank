@@ -155,17 +155,6 @@ object ReportManager {
         }
     }
 
-    // TODO Adam
-/*    private fun createAndUploadPerformanceMetricsForAndroid(
-        args: IArgs,
-        testExecutions: List<TestMatrix.TestExecution>,
-        matrices: MatrixMap
-    ) {
-        testExecutions
-            .takeIf { args is AndroidArgs }
-            ?.run { withGcsStoragePath(matrices, args.resultsDir).getAndUploadPerformanceMetrics(args) }
-    }*/
-
     private fun IgnoredTestCases.toJunitTestsResults() = getSkippedJUnitTestSuite(
         map {
             JUnitTest.Case(

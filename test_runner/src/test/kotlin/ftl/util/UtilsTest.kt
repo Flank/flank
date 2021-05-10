@@ -3,11 +3,11 @@ package ftl.util
 import com.google.common.truth.Truth.assertThat
 import ftl.adapter.google.toApiModel
 import ftl.api.TestMatrix
+import ftl.api.TestMatrixTest.Companion.createResultsStorage
+import ftl.api.TestMatrixTest.Companion.createStepExecution
+import ftl.api.TestMatrixTest.Companion.ftlTestMatrix
 import ftl.config.FtlConstants
 import ftl.json.MatrixMap
-import ftl.json.SavedMatrixTest.Companion.createResultsStorage
-import ftl.json.SavedMatrixTest.Companion.createStepExecution
-import ftl.json.SavedMatrixTest.Companion.testMatrix
 import ftl.json.createAndUpdateMatrix
 import ftl.json.validate
 import ftl.run.MatrixCancelStatus
@@ -95,7 +95,7 @@ class UtilsTest {
             createStepExecution(1, "Success"),
             createStepExecution(-1, "Failed")
         )
-        val testMatrix = testMatrix()
+        val testMatrix = ftlTestMatrix()
         testMatrix.testMatrixId = "123"
         testMatrix.state = MatrixState.FINISHED
         testMatrix.resultStorage = createResultsStorage().apply {
@@ -111,7 +111,7 @@ class UtilsTest {
         val testExecutions = listOf(
             createStepExecution(1, "Success")
         )
-        val testMatrix = testMatrix()
+        val testMatrix = ftlTestMatrix()
         testMatrix.testMatrixId = "123"
         testMatrix.state = MatrixState.FINISHED
         testMatrix.resultStorage = createResultsStorage()
@@ -125,7 +125,7 @@ class UtilsTest {
         val testExecutions = listOf(
             createStepExecution(-2, "Inconclusive")
         )
-        val testMatrix = testMatrix()
+        val testMatrix = ftlTestMatrix()
         testMatrix.testMatrixId = "123"
         testMatrix.state = MatrixState.FINISHED
         testMatrix.resultStorage = createResultsStorage().apply {
@@ -142,7 +142,7 @@ class UtilsTest {
             createStepExecution(-2, "Inconclusive"),
             createStepExecution(-3, "Skipped")
         )
-        val testMatrix = testMatrix()
+        val testMatrix = ftlTestMatrix()
         testMatrix.testMatrixId = "123"
         testMatrix.state = MatrixState.ERROR
         testMatrix.resultStorage = createResultsStorage()
@@ -158,7 +158,7 @@ class UtilsTest {
             createStepExecution(1, "Success"),
             createStepExecution(-1, "Failed")
         )
-        val testMatrix = testMatrix()
+        val testMatrix = ftlTestMatrix()
         testMatrix.testMatrixId = "123"
         testMatrix.state = MatrixState.FINISHED
         testMatrix.resultStorage = createResultsStorage()
