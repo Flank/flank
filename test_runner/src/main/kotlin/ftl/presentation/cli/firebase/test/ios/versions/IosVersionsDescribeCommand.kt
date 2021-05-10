@@ -1,8 +1,12 @@
 package ftl.presentation.cli.firebase.test.ios.versions
 
+import ftl.api.DeviceModel
 import ftl.config.FtlConstants
 import ftl.domain.DescribeIosVersions
 import ftl.domain.invoke
+import ftl.presentation.cli.firebase.test.ios.models.describe.prepareDescription
+import ftl.presentation.outputLogger
+import ftl.presentation.throwUnknownType
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -37,6 +41,13 @@ class IosVersionsDescribeCommand :
         ]
     )
     override var versionId: String = ""
+
+    override val out = outputLogger {
+        when (this) {
+            is DeviceModel.Ios -> prepareDescription()
+            else -> throwUnknownType()
+        }
+    }
 
     override fun run() = invoke()
 }

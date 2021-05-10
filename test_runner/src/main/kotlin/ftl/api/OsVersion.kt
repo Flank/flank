@@ -21,11 +21,11 @@ object OsVersion {
     }
 
     data class Ios(
-        val id: String,
-        val majorVersion: Int,
-        val minorVersion: Int,
-        val supportedXcodeVersionIds: List<String>,
-        val tags: List<String>,
+        val id: String?,
+        val majorVersion: Int?,
+        val minorVersion: Int?,
+        val supportedXcodeVersionIds: List<String>?,
+        val tags: List<String>?,
     ) {
         interface Fetch : (String) -> List<Ios>
     }

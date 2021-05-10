@@ -1,5 +1,7 @@
 package flank.corellium.api
 
+import kotlinx.coroutines.flow.Flow
+
 /**
  * The scope is representing API for managing the corellium android instances.
  *
@@ -23,5 +25,5 @@ object AndroidInstance {
      *
      * @return list of invoked device ids.
      */
-    interface Invoke : Request<Config, List<String>>
+    fun interface Invoke : (Config) -> Flow<String>
 }

@@ -1,5 +1,7 @@
 package flank.corellium.api
 
+import kotlinx.coroutines.Job
+
 /**
  * [AndroidApps] represents a bunch of apk files related to the testing instance.
  *
@@ -14,5 +16,5 @@ data class AndroidApps(
     /**
      * Install android apps on the specified instances.
      */
-    interface Install : Request<List<AndroidApps>, Unit>
+    fun interface Install : (List<AndroidApps>) -> Job
 }

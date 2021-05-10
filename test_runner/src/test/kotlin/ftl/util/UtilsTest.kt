@@ -10,6 +10,7 @@ import ftl.json.SavedMatrixTest.Companion.testMatrix
 import ftl.json.createSavedMatrix
 import ftl.json.validate
 import ftl.reports.outcome.TestOutcome
+import ftl.run.MatrixCancelStatus
 import ftl.run.cancelMatrices
 import ftl.run.exception.CONFIGURATION_FAIL
 import ftl.run.exception.FTLError
@@ -28,10 +29,8 @@ import ftl.test.util.FlankTestRunner
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
-import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
-import io.mockk.runs
 import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.After
@@ -204,7 +203,7 @@ class UtilsTest {
     fun `should terminate process with exit code 1 and cancel running matrices if FlankTimeoutError is thrown`() {
         // given
         mockkStatic("ftl.run.CancelLastRunKt")
-        coEvery { cancelMatrices(any(), any()) } just runs
+        coEvery { cancelMatrices(any(), any()) } returns MatrixCancelStatus.MatricesCanceled(1)
         val exception = FlankTimeoutError(mapOf("anyMatrix" to mockk(relaxed = true)), "anyProject")
 
         // when-then

@@ -1,6 +1,7 @@
 package ftl.environment.ios
 
 import com.google.testing.model.IosVersion
+import ftl.api.OsVersion
 import ftl.environment.OS_VERSION_ID
 import ftl.environment.TAGS
 import ftl.environment.TestEnvironmentInfo
@@ -11,9 +12,23 @@ import ftl.environment.tagToSystemOutColorMapper
 import ftl.util.applyColorsUsing
 import ftl.util.buildTable
 
-fun List<IosVersion>.toCliTable() = createTestEnvironmentInfo().createIOsSoftwareVersionsTable()
+fun List<OsVersion.Ios>.toCliTable() = createTestEnvironmentInfo().createIOsSoftwareVersionsTable()
 
-private fun List<IosVersion>.createTestEnvironmentInfo() =
+private fun List<OsVersion.Ios>.createTestEnvironmentInfo() =
+    fold(mutableMapOf<String, MutableList<String>>()) { softwareInfo, softwareVersion ->
+        softwareInfo.apply {
+            getOrCreateList(OS_VERSION_ID).add(softwareVersion.id.orUnknown())
+            getOrCreateList(MAJOR_VERSION).add(softwareVersion.majorVersion?.toString().orUnknown())
+            getOrCreateList(MINOR_VERSION).add(softwareVersion.minorVersion?.toString().orUnknown())
+            getOrCreateList(TAGS).add(softwareVersion.tags.orEmpty().joinToString())
+            getOrCreateList(SUPPORTED_XCODE_VERSION_IDS).add(softwareVersion.supportedXcodeVersionIds.orEmpty().joinToString())
+        }
+    }
+
+// todo code duplicated for backward compatibility -- will be removed in one of future refactor tasks
+fun List<IosVersion>.iosVersionsToCliTable() = createTestEnvironmentInfoFromIosVersions().createIOsSoftwareVersionsTable()
+
+private fun List<IosVersion>.createTestEnvironmentInfoFromIosVersions() =
     fold(mutableMapOf<String, MutableList<String>>()) { softwareInfo, softwareVersion ->
         softwareInfo.apply {
             getOrCreateList(OS_VERSION_ID).add(softwareVersion.id.orUnknown())

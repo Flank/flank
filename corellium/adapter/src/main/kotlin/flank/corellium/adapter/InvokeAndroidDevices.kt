@@ -1,14 +1,15 @@
 package flank.corellium.adapter
 
 import flank.corellium.api.AndroidInstance
-import flank.corellium.api.AndroidInstance.Config
 import flank.corellium.client.core.createNewInstance
 import flank.corellium.client.core.getAllProjects
 import flank.corellium.client.core.getProjectInstancesList
 import flank.corellium.client.core.startInstance
 import flank.corellium.client.core.waitUntilInstanceIsReady
 import flank.corellium.client.data.Instance
+import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 
@@ -17,10 +18,10 @@ private const val FLAVOUR = "ranchu"
 private const val OS = "11.0.0"
 private const val SCREEN = "720x1280:280"
 
-class InvokeAndroidDevices(
-    private val projectName: String,
-) : AndroidInstance.Invoke {
-    override suspend fun Config.invoke(): List<String> = coroutineScope {
+fun invokeAndroidDevices(
+    projectName: String,
+) = AndroidInstance.Invoke { (amount) ->
+    channelFlow {
         val projectId = getProjectId(projectName)
         val instances = getCreatedInstances(projectId, amount)
         startNotRunningInstances(instances)
@@ -39,8 +40,7 @@ class InvokeAndroidDevices(
             )
         }
 
-        waitForInstances(ids)
-        ids
+        waitForInstances(channel, ids)
     }
 }
 
@@ -125,12 +125,16 @@ private val Instance.index get() = name.removePrefix(FLANK_INSTANCE_NAME_PREFIX)
 /**
  * Block the execution and wait until each instance change the status to "on".
  */
-private suspend fun waitForInstances(ids: List<String>): Unit = coroutineScope {
+private suspend fun waitForInstances(
+    channel: SendChannel<String>,
+    ids: List<String>
+) = coroutineScope {
     println("Wait until all instances are ready...")
     ids.map { id ->
         launch {
             corellium.waitUntilInstanceIsReady(id)
             println("ready: $id")
+            channel.send(id)
         }
     }.joinAll()
     println("All instances invoked and ready to use.")
