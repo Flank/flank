@@ -1,4 +1,4 @@
-package ftl.environment.common
+package ftl.presentation.cli.firebase.test.android.orientations
 
 import ftl.api.Orientation
 import ftl.environment.TestEnvironmentInfo
