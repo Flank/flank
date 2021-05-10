@@ -32,7 +32,7 @@ object FetchGoogleTestEnvironmentIos :
     (String) -> TestEnvironment.Ios by { projectId ->
         TestEnvironment.Ios(
             osVersions = fetchIosOsVersion(projectId),
-            models = fetchDeviceModelIos(projectId),
+            models = fetchDeviceModelIos(projectId).list,
             locales = fetchLocales(Locale.Identity(projectId, Platform.IOS)),
             softwareCatalog = fetchSoftwareCatalog(),
             networkProfiles = fetchNetworkProfiles(),

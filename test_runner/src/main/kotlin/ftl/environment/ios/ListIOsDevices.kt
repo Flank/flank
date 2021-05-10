@@ -14,6 +14,8 @@ import ftl.environment.tagToSystemOutColorMapper
 import ftl.util.applyColorsUsing
 import ftl.util.buildTable
 
+fun DeviceModel.Ios.Available.toCliTable() = list.toCliTable()
+
 fun List<DeviceModel.Ios>.toCliTable() = createTestEnvironmentInfo().createIoDevicesTable()
 
 fun List<DeviceModel.Ios>.createTestEnvironmentInfo() =
