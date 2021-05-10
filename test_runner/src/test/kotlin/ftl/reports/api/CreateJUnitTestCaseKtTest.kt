@@ -5,7 +5,7 @@ import com.google.api.services.toolresults.model.StackTrace
 import com.google.api.services.toolresults.model.TestCase
 import com.google.api.services.toolresults.model.TestCaseReference
 import com.google.testing.model.ToolResultsStep
-import ftl.client.junit.JUnitTestCase
+import ftl.api.JUnitTest
 import ftl.client.junit.createJUnitTestCases
 import ftl.client.junit.flaky
 import ftl.client.junit.xmlPrettyWriter
@@ -47,7 +47,7 @@ class CreateJUnitTestCaseKtTest {
 
         // when
         val expected = listOf(
-            JUnitTestCase(
+            JUnitTest.Case(
                 name = "test1",
                 classname = "TestClassName",
                 time = "2.200"
@@ -55,7 +55,7 @@ class CreateJUnitTestCaseKtTest {
                 webLink =
                     "https://console.firebase.google.com/project/projectId/testlab/histories/historyId/matrices/executionId/executions/stepId/testcases/test1"
             },
-            JUnitTestCase(
+            JUnitTest.Case(
                 name = "test2",
                 classname = "TestClassName",
                 time = "2.200",
@@ -64,7 +64,7 @@ class CreateJUnitTestCaseKtTest {
                 webLink =
                     "https://console.firebase.google.com/project/projectId/testlab/histories/historyId/matrices/executionId/executions/stepId/testcases/test2"
             },
-            JUnitTestCase(
+            JUnitTest.Case(
                 name = "test3",
                 classname = "TestClassName",
                 time = "2.200",
@@ -73,7 +73,7 @@ class CreateJUnitTestCaseKtTest {
                 webLink =
                     "https://console.firebase.google.com/project/projectId/testlab/histories/historyId/matrices/executionId/executions/stepId/testcases/test3"
             },
-            JUnitTestCase(
+            JUnitTest.Case(
                 name = "test4",
                 classname = "TestClassName",
                 time = "2.200",
@@ -82,7 +82,7 @@ class CreateJUnitTestCaseKtTest {
                 webLink =
                     "https://console.firebase.google.com/project/projectId/testlab/histories/historyId/matrices/executionId/executions/stepId/testcases/test4"
             },
-            JUnitTestCase(
+            JUnitTest.Case(
                 name = "test5",
                 classname = "TestClassName",
                 time = "2.200",

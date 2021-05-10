@@ -5,6 +5,7 @@ import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.dataformat.xml.deser.FromXmlParser.Feature.EMPTY_ELEMENT_AS_NULL
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import ftl.api.JUnitTest
 import ftl.run.exception.FlankGeneralError
 import java.io.File
 import java.nio.file.Files
@@ -24,31 +25,31 @@ private fun xmlText(path: Path): String {
     return String(Files.readAllBytes(path))
 }
 
-fun parseOneSuiteXml(path: File): JUnitTestResult {
+fun parseOneSuiteXml(path: File): JUnitTest.Result {
     return parseOneSuiteXml(xmlText(path.toPath()))
 }
 
-fun parseOneSuiteXml(path: Path): JUnitTestResult {
+fun parseOneSuiteXml(path: Path): JUnitTest.Result {
     return parseOneSuiteXml(xmlText(path))
 }
 
-private fun parseOneSuiteXml(data: String): JUnitTestResult {
-    return JUnitTestResult(mutableListOf(xmlMapper.readValue(fixHtmlCodes(data), JUnitTestSuite::class.java)))
+private fun parseOneSuiteXml(data: String): JUnitTest.Result {
+    return JUnitTest.Result(mutableListOf(xmlMapper.readValue(fixHtmlCodes(data), JUnitTest.Suite::class.java)))
 }
 
-fun parseAllSuitesXml(path: Path): JUnitTestResult {
+fun parseAllSuitesXml(path: Path): JUnitTest.Result {
     return parseAllSuitesXml(xmlText(path))
 }
 
-fun parseAllSuitesXml(path: File): JUnitTestResult {
+fun parseAllSuitesXml(path: File): JUnitTest.Result {
     return parseAllSuitesXml(path.toPath())
 }
 
-private fun parseAllSuitesXml(data: String): JUnitTestResult =
+private fun parseAllSuitesXml(data: String): JUnitTest.Result =
     // This is workaround for flank being unable to parse <testsuites/> into JUnitTesResults
     // We need to preserve configure(EMPTY_ELEMENT_AS_NULL, true) to skip empty elements
     // Once better solution is found, this should be fixed
     if (data.contains("<testsuites/>"))
-        JUnitTestResult(null)
+        JUnitTest.Result(null)
     else
-        xmlMapper.readValue(fixHtmlCodes(data), JUnitTestResult::class.java)
+        xmlMapper.readValue(fixHtmlCodes(data), JUnitTest.Result::class.java)
