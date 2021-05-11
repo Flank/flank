@@ -1,11 +1,11 @@
 package ftl.adapter
 
 import ftl.adapter.google.toApiModel
-import ftl.api.IpBlock
+import ftl.api.IpBlockList
 import ftl.client.google.deviceIPBlocks
 
 object GoogleIpBlockFetch :
-    IpBlock.Fetch,
-    () -> List<IpBlock> by {
+    IpBlockList.Fetch,
+    () -> IpBlockList by {
         deviceIPBlocks().toApiModel()
     }

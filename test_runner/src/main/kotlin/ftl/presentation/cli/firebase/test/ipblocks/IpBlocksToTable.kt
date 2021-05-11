@@ -1,21 +1,22 @@
-package ftl.environment
+package ftl.presentation.cli.firebase.test.ipblocks
 
-import ftl.api.IpBlock
+import ftl.api.IpBlockList
+import ftl.environment.getOrCreateList
 import ftl.util.TableColumn
 import ftl.util.TableStyle
 
-// TODO move to presentation layer during refactor of presentation after #1728
-fun List<IpBlock>.toCliTable() = createDataMap()
+fun IpBlockList.toCliTable() = createDataMap()
     .collectDataPerColumn()
     .buildTable()
 
-private fun List<IpBlock>.createDataMap() = fold(mutableMapOf<String, MutableList<String>>()) { map, ipBlock ->
-    map.apply {
-        getOrCreateList(IP_BLOCK).add(ipBlock.block)
-        getOrCreateList(IP_FORM).add(ipBlock.form)
-        getOrCreateList(IP_ADDED_DATE).add(ipBlock.addedDate)
+private fun IpBlockList.createDataMap() = blocks
+    .fold(mutableMapOf<String, MutableList<String>>()) { map, ipBlock ->
+        map.apply {
+            getOrCreateList(IP_BLOCK).add(ipBlock.block)
+            getOrCreateList(IP_FORM).add(ipBlock.form)
+            getOrCreateList(IP_ADDED_DATE).add(ipBlock.addedDate)
+        }
     }
-}
 
 private fun Map<String, List<String>>.collectDataPerColumn() = map { (header, data) -> TableColumn(header, data) }
 

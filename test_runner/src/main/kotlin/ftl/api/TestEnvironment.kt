@@ -15,7 +15,7 @@ object TestEnvironment {
         val softwareCatalog: ProvidedSoftwareCatalog,
         val networkProfiles: List<NetworkProfile>,
         val orientations: List<Orientation>,
-        val ipBlocks: List<IpBlock>
+        val ipBlocks: IpBlockList
     ) {
         interface Fetch : (String) -> Android
     }
@@ -27,7 +27,7 @@ object TestEnvironment {
         val softwareCatalog: ProvidedSoftwareCatalog,
         val networkProfiles: List<NetworkProfile>,
         val orientations: List<Orientation>,
-        val ipBlocks: List<IpBlock>
+        val ipBlocks: IpBlockList
     ) {
         interface Fetch : (String) -> Ios
     }
