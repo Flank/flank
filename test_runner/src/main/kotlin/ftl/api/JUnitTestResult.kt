@@ -6,6 +6,8 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
 import ftl.adapter.GoogleJUnitTestFetch
 import ftl.adapter.GoogleJUnitTestParse
 import ftl.adapter.GoogleLegacyJunitTestParse
+import ftl.args.IArgs
+import ftl.json.MatrixMap
 import java.io.File
 
 val generateJUnitTestResultFromApi: JUnitTest.Result.GenerateFromApi get() = GoogleJUnitTestFetch
@@ -21,8 +23,8 @@ object JUnitTest {
         var testsuites: MutableList<Suite>? = null
     ) {
         data class ApiIdentity(
-            val projectId: String,
-            val matrixIds: List<String>
+            val args: IArgs,
+            val matrixMap: MatrixMap
         )
 
         interface GenerateFromApi : (ApiIdentity) -> Result

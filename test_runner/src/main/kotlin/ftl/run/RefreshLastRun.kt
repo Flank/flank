@@ -1,15 +1,15 @@
 package ftl.run
 
-import com.google.testing.model.TestMatrix
 import flank.common.logLn
+import ftl.api.TestMatrix
+import ftl.api.refreshTestMatrix
 import ftl.args.IArgs
 import ftl.args.ShardChunks
-import ftl.client.google.GcTestMatrix
 import ftl.config.FtlConstants
+import ftl.domain.testmatrix.needsUpdate
+import ftl.domain.testmatrix.updateWithMatrix
 import ftl.json.MatrixMap
-import ftl.json.needsUpdate
 import ftl.json.updateMatrixMap
-import ftl.json.updateWithMatrix
 import ftl.json.validate
 import ftl.reports.util.ReportManager
 import ftl.run.common.fetchAllTestRunArtifacts
@@ -43,14 +43,14 @@ suspend fun refreshLastRun(currentArgs: IArgs, testShardChunks: ShardChunks) {
 private suspend fun refreshMatrices(matrixMap: MatrixMap, args: IArgs) = coroutineScope {
     logLn("RefreshMatrices")
 
-    val jobs = arrayListOf<Deferred<TestMatrix>>()
+    val jobs = arrayListOf<Deferred<TestMatrix.Data>>()
     val map = matrixMap.map
     var matrixCount = 0
     map.forEach { matrix ->
         // Only refresh unfinished
         if (MatrixState.inProgress(matrix.value.state)) {
             matrixCount += 1
-            jobs += async(Dispatchers.IO) { GcTestMatrix.refresh(matrix.key, args.project) }
+            jobs += async(Dispatchers.IO) { refreshTestMatrix(TestMatrix.Identity(matrix.key, args.project, matrix.value.historyId, matrix.value.executionId)) }
         }
     }
 
@@ -60,7 +60,7 @@ private suspend fun refreshMatrices(matrixMap: MatrixMap, args: IArgs) = corouti
 
     var dirty = false
     jobs.awaitAll().forEach { matrix ->
-        val matrixId = matrix.testMatrixId
+        val matrixId = matrix.matrixId
 
         logLn(FtlConstants.indent + "${matrix.state} $matrixId")
 
