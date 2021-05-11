@@ -8,9 +8,11 @@ import ftl.client.google.IosCatalog
 
 object GoogleAndroidDeviceModel :
     DeviceModel.Android.Fetch,
-    (String) -> List<DeviceModel.Android> by { projectId ->
-        AndroidCatalog.getModels(projectId).toAndroidApiModel()
+    (String) -> DeviceModel.Android.Available by { projectId ->
+        AndroidCatalog.getModels(projectId).toAndroidApiModel().available()
     }
+
+private fun List<DeviceModel.Android>.available() = DeviceModel.Android.Available(this)
 
 object GoogleIosDeviceModel :
     DeviceModel.Ios.Fetch,
