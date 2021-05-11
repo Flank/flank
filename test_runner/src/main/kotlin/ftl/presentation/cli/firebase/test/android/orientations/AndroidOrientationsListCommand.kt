@@ -1,8 +1,12 @@
 package ftl.presentation.cli.firebase.test.android.orientations
 
+import ftl.api.Orientation
 import ftl.config.FtlConstants
 import ftl.domain.ListAndroidOrientations
 import ftl.domain.invoke
+import ftl.environment.common.toCliTable
+import ftl.presentation.outputLogger
+import ftl.presentation.throwUnknownType
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -34,4 +38,9 @@ class AndroidOrientationsListCommand :
     var usageHelpRequested: Boolean = false
 
     override fun run() = invoke()
+
+    override val out = outputLogger {
+        @Suppress("UNCHECKED_CAST")
+        (this as? List<Orientation>)?.toCliTable() ?: throwUnknownType()
+    }
 }
