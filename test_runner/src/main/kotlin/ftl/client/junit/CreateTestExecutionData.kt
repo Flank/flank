@@ -5,7 +5,7 @@ import com.google.api.services.toolresults.model.TestCase
 import com.google.api.services.toolresults.model.Timestamp
 import com.google.testing.model.TestExecution
 import com.google.testing.model.ToolResultsStep
-import ftl.gc.GcToolResults
+import ftl.client.google.GcToolResults
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll

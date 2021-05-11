@@ -7,7 +7,6 @@ import com.google.common.annotations.VisibleForTesting
 import com.google.testing.model.ToolResultsExecution
 import flank.common.logLn
 import ftl.api.TestMatrix
-import ftl.gc.GcToolResults
 import ftl.json.getDetails
 import ftl.reports.outcome.axisValue
 import ftl.reports.outcome.createTestSuiteOverviewData

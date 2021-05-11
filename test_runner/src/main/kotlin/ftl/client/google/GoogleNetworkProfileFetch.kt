@@ -1,6 +1,5 @@
 package ftl.client.google
 
-import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
 
 fun getGoogleNetworkConfiguration() = GcTesting.get.testEnvironmentCatalog()

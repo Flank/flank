@@ -1,4 +1,4 @@
-package ftl.adapter.google
+package ftl.client.google
 
 import com.google.api.client.http.GoogleApiLogger
 import com.google.api.client.http.HttpRequestInitializer

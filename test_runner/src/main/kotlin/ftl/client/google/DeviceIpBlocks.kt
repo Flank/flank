@@ -2,7 +2,6 @@ package ftl.client.google
 
 import com.google.testing.model.Date
 import com.google.testing.model.DeviceIpBlock
-import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
 import ftl.reports.api.twoDigitString
 

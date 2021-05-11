@@ -1,7 +1,8 @@
 package ftl.adapter.google
 
 import com.google.common.truth.Truth.assertThat
-import ftl.adapter.google.UserAuth.Companion.userToken
+import ftl.client.google.UserAuth
+import ftl.client.google.UserAuth.Companion.userToken
 import ftl.run.exception.FlankGeneralError
 import ftl.test.util.TestHelper.getThrowable
 import io.mockk.every

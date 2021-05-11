@@ -1,4 +1,4 @@
-package ftl.data
+package ftl.api
 
 import ftl.adapter.GoogleUserAuthorizationRequest
 

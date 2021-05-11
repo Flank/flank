@@ -1,4 +1,4 @@
-package ftl.gc
+package ftl.client.google
 
 import com.google.api.services.toolresults.ToolResults
 import com.google.api.services.toolresults.model.Environment
@@ -14,8 +14,6 @@ import com.google.testing.model.TestExecution
 import com.google.testing.model.ToolResultsExecution
 import com.google.testing.model.ToolResultsHistory
 import com.google.testing.model.ToolResultsStep
-import ftl.adapter.google.UserAuth
-import ftl.adapter.google.httpCredential
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.JSON_FACTORY

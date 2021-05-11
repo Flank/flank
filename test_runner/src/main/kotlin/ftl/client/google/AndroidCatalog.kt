@@ -9,7 +9,6 @@ import ftl.api.fetchAndroidOsVersion
 import ftl.environment.android.getDescription
 import ftl.environment.android.toCliTable
 import ftl.environment.getLocaleDescription
-import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
 
 /**

@@ -8,10 +8,10 @@ import ftl.api.uploadToRemoteStorage
 import ftl.args.IosArgs
 import ftl.args.isXcTest
 import ftl.args.shardsFilePath
+import ftl.client.google.GcToolResults
 import ftl.config.FtlConstants
 import ftl.gc.GcIosMatrix
 import ftl.gc.GcIosTestMatrix
-import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
 import ftl.ios.xctest.flattenShardChunks
 import ftl.run.dumpShards

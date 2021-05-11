@@ -10,10 +10,10 @@ import ftl.api.uploadToRemoteStorage
 import ftl.args.AndroidArgs
 import ftl.args.isInstrumentationTest
 import ftl.args.shardsFilePath
+import ftl.client.google.GcToolResults
 import ftl.config.FtlConstants
 import ftl.gc.GcAndroidDevice
 import ftl.gc.GcAndroidTestMatrix
-import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
 import ftl.run.exception.FlankGeneralError
 import ftl.run.model.AndroidMatrixTestShards

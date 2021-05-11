@@ -7,7 +7,6 @@ import ftl.config.Device
 import ftl.environment.getLocaleDescription
 import ftl.environment.ios.getDescription
 import ftl.environment.ios.iosVersionsToCliTable
-import ftl.gc.GcTesting
 import ftl.http.executeWithRetry
 
 /**
