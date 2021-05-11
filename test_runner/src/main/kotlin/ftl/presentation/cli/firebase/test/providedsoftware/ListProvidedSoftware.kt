@@ -1,4 +1,4 @@
-package ftl.environment.common
+package ftl.presentation.cli.firebase.test.providedsoftware
 
 import com.google.testing.model.ProvidedSoftwareCatalog
 import ftl.util.TableColumn
