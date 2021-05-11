@@ -1,7 +1,11 @@
 package ftl.presentation.cli.firebase.test.networkprofiles
 
+import ftl.api.NetworkProfile
 import ftl.domain.ListNetworkProfiles
 import ftl.domain.invoke
+import ftl.environment.common.toCliTable
+import ftl.presentation.outputLogger
+import ftl.presentation.throwUnknownType
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -19,4 +23,14 @@ class NetworkProfilesListCommand :
     Runnable,
     ListNetworkProfiles {
     override fun run() = invoke()
+
+    override val out = outputLogger {
+
+        @Suppress("UNCHECKED_CAST")
+        when {
+            (this as? List<NetworkProfile>) != null -> this.toCliTable()
+            this is String -> this
+            else -> throwUnknownType()
+        }
+    }
 }
