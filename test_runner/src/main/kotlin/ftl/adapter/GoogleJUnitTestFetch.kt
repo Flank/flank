@@ -1,6 +1,5 @@
 package ftl.adapter
 
-import ftl.adapter.google.toApiModel
 import ftl.api.JUnitTest
 import ftl.client.google.createAndUploadPerformanceMetricsForAndroid
 import ftl.client.google.fetchMatrices
@@ -12,5 +11,4 @@ object GoogleJUnitTestFetch :
         fetchMatrices(matrixMap.map.values.map { it.matrixId }, args.project)
             .createAndUploadPerformanceMetricsForAndroid(args, matrixMap)
             .createJUnitTestResult()
-            .toApiModel()
     }

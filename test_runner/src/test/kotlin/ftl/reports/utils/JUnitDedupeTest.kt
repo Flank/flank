@@ -2,7 +2,6 @@ package ftl.reports.utils
 
 import com.google.common.truth.Truth.assertThat
 import flank.common.normalizeLineEnding
-import ftl.adapter.google.toApiModel
 import ftl.client.junit.parseAllSuitesXml
 import ftl.reports.toXmlString
 import ftl.reports.util.JUnitDedupe
@@ -67,7 +66,7 @@ class JUnitDedupeTest {
 
         val suites = parseAllSuitesXml(
             File.createTempFile("test", "file").apply { writeText(inputXml) }
-        ).toApiModel()
+        )
         JUnitDedupe.modify(suites)
 
         assertThat(suites.toXmlString().normalizeLineEnding()).isEqualTo(expectedXml)
