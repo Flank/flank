@@ -100,7 +100,5 @@ class GenerateJUnitReport {
         println(actual.formatXmlString())
 
         Assert.assertEquals(expected, actual)
-
     }
-
 }
