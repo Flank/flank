@@ -14,6 +14,8 @@ object GoogleAndroidDeviceModel :
 
 object GoogleIosDeviceModel :
     DeviceModel.Ios.Fetch,
-    (String) -> List<DeviceModel.Ios> by { projectId ->
-        IosCatalog.getModels(projectId).toIosApiModel()
+    (String) -> DeviceModel.Ios.Available by { projectId ->
+        IosCatalog.getModels(projectId).toIosApiModel().available()
     }
+
+private fun List<DeviceModel.Ios>.available() = DeviceModel.Ios.Available(this)

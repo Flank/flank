@@ -41,6 +41,9 @@ object DeviceModel {
         val deviceCapabilities: List<String>,
     ) {
 
-        interface Fetch : (String) -> List<Ios>
+        data class Available(
+            val list: List<Ios>
+        )
+        interface Fetch : (String) -> Available
     }
 }
