@@ -9,12 +9,11 @@ class ParseAndFormatJUnitReport {
     @Test
     fun test() {
         val path = RESOURCES + "JUnitReport.xml"
-        val expected = File(path).readText()
+        val expected = File(path).readLines().toTypedArray()
 
         val parsed = path.parseJUnitReportFromFile()
-        val formatted = parsed.formatXmlString()
+        val formatted = parsed.formatXmlString().trim().lines().toTypedArray()
 
-        println(formatted)
-        Assert.assertEquals(expected, formatted)
+        Assert.assertArrayEquals(expected, formatted)
     }
 }
