@@ -1,6 +1,6 @@
 package ftl.json
 
-import ftl.reports.outcome.TestOutcome
+import ftl.api.TestMatrix
 import ftl.util.StepOutcome.failure
 import ftl.util.StepOutcome.flaky
 import ftl.util.StepOutcome.success
@@ -8,9 +8,9 @@ import ftl.util.SystemOutColor
 import ftl.util.TableColumn
 import ftl.util.buildTable
 
-fun SavedMatrix.asPrintableTable(): String = listOf(this).asPrintableTable()
+fun TestMatrix.Data.asPrintableTable(): String = listOf(this).asPrintableTable()
 
-fun List<SavedMatrix>.asPrintableTable(): String = buildTable(
+fun List<TestMatrix.Data>.asPrintableTable(): String = buildTable(
     TableColumn(
         header = OUTCOME_COLUMN_HEADER,
         data = flatMapTestAxis { outcome },
@@ -34,10 +34,10 @@ fun List<SavedMatrix>.asPrintableTable(): String = buildTable(
     )
 )
 
-private fun <T> List<SavedMatrix>.flatMapTestAxis(transform: TestOutcome.(SavedMatrix) -> T) =
-    flatMap { matrix -> matrix.testAxises.map { axis -> axis.transform(matrix) } }
+private fun <T> List<TestMatrix.Data>.flatMapTestAxis(transform: TestMatrix.Outcome.(TestMatrix.Data) -> T) =
+    flatMap { matrix -> matrix.axes.map { axis -> axis.transform(matrix) } }
 
-private val TestOutcome.outcomeColor
+private val TestMatrix.Outcome.outcomeColor
     get() = when (outcome) {
         failure -> SystemOutColor.RED
         success -> SystemOutColor.GREEN

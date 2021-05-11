@@ -1,9 +1,9 @@
 package ftl.run
 
+import ftl.api.TestMatrix
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
-import ftl.json.SavedMatrix
 import ftl.json.updateMatrixMap
 import ftl.json.validate
 import ftl.reports.addStepTime
@@ -57,7 +57,7 @@ private suspend fun IArgs.runTests(): TestResult =
 
 private suspend fun <T> cancelTestsOnTimeout(
     projectId: String,
-    savedMatrix: Map<String, SavedMatrix>? = null,
+    savedMatrix: Map<String, TestMatrix.Data>? = null,
     block: suspend () -> T
 ) = try {
     block()

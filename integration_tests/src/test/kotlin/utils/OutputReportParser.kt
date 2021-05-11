@@ -10,8 +10,8 @@ private val jsonMapper by lazy { JsonMapper().registerModule(KotlinModule()) }
 
 fun String.asOutputReport() = jsonMapper.readValue<OutputReport>(this)
 
-val OutputReport.firstTestSuiteOverview: TestSuiteOverview
-    get() = testResults.values.first().testAxises.first().testSuiteOverview
+val OutputReport.firstTestSuiteOverview: SuiteOverview
+    get() = testResults.values.first().testAxises.first().suiteOverview
 
 data class OutputReport(
     val args: Any,
@@ -23,22 +23,22 @@ data class OutputReport(
 
 data class Matrix(
     val app: String = "",
-    @JsonProperty("test-axises") val testAxises: List<TextAxis>
+    @JsonProperty("test-axises") val testAxises: List<Outcome> = emptyList()
 )
 
-data class TextAxis(
-    val device: String,
-    val outcome: String,
-    val details: String,
-    val testSuiteOverview: TestSuiteOverview
+data class Outcome(
+    val device: String = "",
+    val outcome: String = "",
+    val details: String = "",
+    val suiteOverview: SuiteOverview = SuiteOverview()
 )
 
-data class TestSuiteOverview(
-    val total: Int,
-    val errors: Int,
-    val failures: Int,
-    val flakes: Int,
-    val skipped: Int,
-    val elapsedTime: Double,
-    val overheadTime: Double
+data class SuiteOverview(
+    val total: Int = 0,
+    val errors: Int = 0,
+    val failures: Int = 0,
+    val flakes: Int = 0,
+    val skipped: Int = 0,
+    val elapsedTime: Double = 0.0,
+    val overheadTime: Double = 0.0
 )

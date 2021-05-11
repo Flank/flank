@@ -60,7 +60,7 @@ fun assertContainsUploads(input: String, vararg uploads: String) = uploads.forEa
     assertThat(input).contains("Uploading [$it]")
 }
 
-fun TestSuiteOverview.assertTestCountMatches(
+fun SuiteOverview.assertTestCountMatches(
     total: Int = 0,
     errors: Int = 0,
     failures: Int = 0,

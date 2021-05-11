@@ -7,7 +7,10 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 
-fun fetchMatrices(matricesIds: List<String>, projectId: String): List<TestExecution> = refreshTestMatrices(
+fun fetchMatrices(
+    matricesIds: List<String>,
+    projectId: String
+): List<TestExecution> = refreshTestMatrices(
     matrixIds = matricesIds,
     projectId = projectId
 ).getTestExecutions()
@@ -18,14 +21,11 @@ private fun refreshTestMatrices(
 ): List<TestMatrix> = runBlocking {
     matrixIds.map { matrixId ->
         async(Dispatchers.IO) {
-            GcTestMatrix.refresh(
-                matrixId,
-                projectId
-            )
+            GcTestMatrix.refresh(matrixId, projectId)
         }
     }.awaitAll()
 }
 
-private fun List<TestMatrix>.getTestExecutions(): List<TestExecution> =
-    mapNotNull(TestMatrix::getTestExecutions)
-        .flatten()
+private fun List<TestMatrix>.getTestExecutions(): List<TestExecution> = this
+    .mapNotNull(TestMatrix::getTestExecutions)
+    .flatten()

@@ -1,4 +1,4 @@
-package ftl.json
+package ftl.api
 
 import com.google.common.truth.Truth.assertThat
 import com.google.testing.model.Environment
@@ -10,8 +10,11 @@ import com.google.testing.model.TestMatrix
 import com.google.testing.model.TestSpecification
 import com.google.testing.model.ToolResultsExecution
 import com.google.testing.model.ToolResultsStep
+import ftl.adapter.google.toApiModel
 import ftl.config.Device
+import ftl.domain.testmatrix.updateWithMatrix
 import ftl.gc.GcAndroidDevice
+import ftl.json.createAndUpdateMatrix
 import ftl.reports.outcome.make
 import ftl.test.util.FlankTestRunner
 import ftl.util.MatrixState.FINISHED
@@ -22,8 +25,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 
+// TODO: fix naming
 @RunWith(FlankTestRunner::class)
-class SavedMatrixTest {
+class TestMatrixTest {
 
     companion object {
         const val projectId = "1"
@@ -63,7 +67,7 @@ class SavedMatrixTest {
             }
         }
 
-        fun testMatrix(block: TestMatrix.() -> Unit = {}) = TestMatrix().also {
+        fun ftlTestMatrix(block: TestMatrix.() -> Unit = {}) = TestMatrix().also {
             it.projectId = projectId
             it.testMatrixId = testMatrixId
             it.block()
@@ -71,7 +75,7 @@ class SavedMatrixTest {
     }
 
     @Test
-    fun `savedMatrix failureOutcome`() {
+    fun `testMatrix failureOutcome`() {
         // Verify that if we have two executions: failure then success
         // the SavedMatrix outcome is correctly recorded as failure
         val testExecutions = listOf(
@@ -81,7 +85,7 @@ class SavedMatrixTest {
 
         val matrixId = "123"
         val matrixState = FINISHED
-        val testMatrix = testMatrix()
+        val testMatrix = ftlTestMatrix()
         testMatrix.testMatrixId = matrixId
         testMatrix.state = matrixState
         testMatrix.resultStorage = createResultsStorage().apply {
@@ -89,24 +93,24 @@ class SavedMatrixTest {
         }
         testMatrix.testExecutions = testExecutions
 
-        val savedMatrix = createSavedMatrix(testMatrix)
-        assertThat(savedMatrix.outcome).isEqualTo("failure")
+        val testMatrixData = createAndUpdateMatrix(testMatrix)
+        assertThat(testMatrixData.outcome).isEqualTo("failure")
 
         // assert other properties
-        assertThat(savedMatrix.matrixId).isEqualTo(matrixId)
-        assertThat(savedMatrix.state).isEqualTo(matrixState)
-        assertThat(savedMatrix.gcsPath).isEqualTo(mockGcsPath)
-        assertThat(savedMatrix.webLink).isEqualTo("https://console.firebase.google.com/project/1/testlab/histories/2/matrices/-1")
-        assertThat(savedMatrix.downloaded).isFalse()
-        assertThat(savedMatrix.billableVirtualMinutes).isEqualTo(1)
-        assertThat(savedMatrix.billablePhysicalMinutes).isEqualTo(1)
-        assertThat(savedMatrix.gcsPathWithoutRootBucket).isEqualTo(mockFileName)
-        assertThat(savedMatrix.gcsRootBucket).isEqualTo(mockBucket)
-        assertThat(savedMatrix.testAxises.first().details).isNotEmpty()
+        assertThat(testMatrixData.matrixId).isEqualTo(matrixId)
+        assertThat(testMatrixData.state).isEqualTo(matrixState)
+        assertThat(testMatrixData.gcsPath).isEqualTo(mockGcsPath)
+        assertThat(testMatrixData.webLink).isEqualTo("https://console.firebase.google.com/project/1/testlab/histories/2/matrices/-1")
+        assertThat(testMatrixData.downloaded).isFalse()
+        assertThat(testMatrixData.billableMinutes.virtual).isEqualTo(1)
+        assertThat(testMatrixData.billableMinutes.physical).isEqualTo(1)
+        assertThat(testMatrixData.gcsPathWithoutRootBucket).isEqualTo(mockFileName)
+        assertThat(testMatrixData.gcsRootBucket).isEqualTo(mockBucket)
+        assertThat(testMatrixData.axes.first().details).isNotEmpty()
     }
 
     @Test
-    fun `savedMatrix skippedOutcome`() {
+    fun `testMatrix skippedOutcome`() {
         // Verify that if we have two executions: skipped
         // the SavedMatrix outcome is correctly recorded as skipped
         val testExecutions = listOf(
@@ -115,95 +119,95 @@ class SavedMatrixTest {
 
         val matrixId = "123"
         val matrixState = FINISHED
-        val testMatrix = testMatrix()
-        testMatrix.testMatrixId = matrixId
-        testMatrix.state = matrixState
-        testMatrix.resultStorage = createResultsStorage().apply {
+        val ftlTestMatrix = ftlTestMatrix()
+        ftlTestMatrix.testMatrixId = matrixId
+        ftlTestMatrix.state = matrixState
+        ftlTestMatrix.resultStorage = createResultsStorage().apply {
             toolResultsExecution.executionId = "-3"
         }
-        testMatrix.testExecutions = testExecutions
+        ftlTestMatrix.testExecutions = testExecutions
 
-        val savedMatrix = createSavedMatrix(testMatrix)
-        assertThat(savedMatrix.outcome).isEqualTo("skipped")
+        val testMatrix = createAndUpdateMatrix(ftlTestMatrix)
+        assertThat(testMatrix.outcome).isEqualTo("skipped")
 
         // assert other properties
-        assertThat(savedMatrix.matrixId).isEqualTo(matrixId)
-        assertThat(savedMatrix.state).isEqualTo(matrixState)
-        assertThat(savedMatrix.gcsPath).isEqualTo(mockGcsPath)
-        assertThat(savedMatrix.webLink).isEqualTo("https://console.firebase.google.com/project/1/testlab/histories/2/matrices/-3/executions/-3")
-        assertThat(savedMatrix.downloaded).isFalse()
-        assertThat(savedMatrix.billableVirtualMinutes).isEqualTo(1)
-        assertThat(savedMatrix.billablePhysicalMinutes).isEqualTo(1)
-        assertThat(savedMatrix.gcsPathWithoutRootBucket).isEqualTo(mockFileName)
-        assertThat(savedMatrix.gcsRootBucket).isEqualTo(mockBucket)
-        assertThat(savedMatrix.testAxises.first().details).isNotEmpty()
+        assertThat(testMatrix.matrixId).isEqualTo(matrixId)
+        assertThat(testMatrix.state).isEqualTo(matrixState)
+        assertThat(testMatrix.gcsPath).isEqualTo(mockGcsPath)
+        assertThat(testMatrix.webLink).isEqualTo("https://console.firebase.google.com/project/1/testlab/histories/2/matrices/-3/executions/-3")
+        assertThat(testMatrix.downloaded).isFalse()
+        assertThat(testMatrix.billableMinutes.virtual).isEqualTo(1)
+        assertThat(testMatrix.billableMinutes.physical).isEqualTo(1)
+        assertThat(testMatrix.gcsPathWithoutRootBucket).isEqualTo(mockFileName)
+        assertThat(testMatrix.gcsRootBucket).isEqualTo(mockBucket)
+        assertThat(testMatrix.axes.first().details).isNotEmpty()
     }
 
     @Test
-    fun `savedMatrix update`() {
+    fun `testMatrix update`() {
         val testExecutions = listOf(
             createStepExecution(1, "shamu"),
             createStepExecution(1, "NexusLowRes")
         )
 
         val matrixId = "123"
-        val testMatrix = testMatrix()
-        testMatrix.testMatrixId = matrixId
-        testMatrix.state = PENDING
-        testMatrix.resultStorage = createResultsStorage()
-        testMatrix.testExecutions = testExecutions
+        val ftlTestMatrix = ftlTestMatrix()
+        ftlTestMatrix.testMatrixId = matrixId
+        ftlTestMatrix.state = PENDING
+        ftlTestMatrix.resultStorage = createResultsStorage()
+        ftlTestMatrix.testExecutions = testExecutions
 
-        var savedMatrix = createSavedMatrix(testMatrix)
+        var testMatrix = ftlTestMatrix.toApiModel()
 
-        assert(savedMatrix.state != FINISHED)
-        testMatrix.state = FINISHED
-        testMatrix.webLink()
-        savedMatrix = savedMatrix.updateWithMatrix(testMatrix)
-        assert(savedMatrix.state == FINISHED)
+        assert(testMatrix.state != FINISHED)
+        ftlTestMatrix.state = FINISHED
+        ftlTestMatrix.webLink()
+        testMatrix = testMatrix.updateWithMatrix(ftlTestMatrix.toApiModel())
+        assert(testMatrix.state == FINISHED)
     }
 
     @Test
-    fun `savedMatrix on finish should calculate cost when state != ERROR`() {
+    fun `testMatrix on finish should calculate cost when state != ERROR`() {
         val testExecutions = listOf(
             createStepExecution(1, "shamu"),
             createStepExecution(1, "NexusLowRes")
         )
-        val testMatrix = testMatrix()
-        testMatrix.projectId = projectId
-        testMatrix.testMatrixId = "123"
-        testMatrix.state = PENDING
-        testMatrix.resultStorage = createResultsStorage()
-        testMatrix.testExecutions = testExecutions
+        val ftlTestMatrix = ftlTestMatrix()
+        ftlTestMatrix.projectId = projectId
+        ftlTestMatrix.testMatrixId = "123"
+        ftlTestMatrix.state = PENDING
+        ftlTestMatrix.resultStorage = createResultsStorage()
+        ftlTestMatrix.testExecutions = testExecutions
 
-        var savedMatrix = createSavedMatrix(testMatrix)
+        var testMatrix = ftlTestMatrix.toApiModel()
 
-        testMatrix.state = FINISHED
-        testMatrix.webLink()
-        savedMatrix = savedMatrix.updateWithMatrix(testMatrix)
-        assertEquals(1, savedMatrix.billableVirtualMinutes)
-        assertEquals(1, savedMatrix.billablePhysicalMinutes)
+        ftlTestMatrix.state = FINISHED
+        ftlTestMatrix.webLink()
+        testMatrix = testMatrix.updateWithMatrix(ftlTestMatrix.toApiModel())
+        assertEquals(1, testMatrix.billableMinutes.virtual)
+        assertEquals(1, testMatrix.billableMinutes.physical)
     }
 
     @Test
-    fun `savedMatrix should have outcome and outcome details properly filled when state is INVALID`() {
+    fun `testMatrix should have outcome and outcome details properly filled when state is INVALID`() {
         val expectedOutcome = "INVALID"
         val expectedOutcomeDetails = "UNKNOWN"
-        val testMatrix = testMatrix()
-        testMatrix.testMatrixId = "123"
-        testMatrix.state = PENDING
-        testMatrix.resultStorage = createResultsStorage()
+        val ftlTestMatrix = ftlTestMatrix()
+        ftlTestMatrix.testMatrixId = "123"
+        ftlTestMatrix.state = PENDING
+        ftlTestMatrix.resultStorage = createResultsStorage()
 
-        var savedMatrix = createSavedMatrix(testMatrix)
+        var testMatrix = ftlTestMatrix.toApiModel()
 
-        testMatrix.state = INVALID
-        savedMatrix = savedMatrix.updateWithMatrix(testMatrix)
-        assertEquals(expectedOutcome, savedMatrix.outcome)
-        assertEquals(expectedOutcomeDetails, savedMatrix.testAxises.first().details)
-        assertEquals(INVALID, savedMatrix.state)
+        ftlTestMatrix.state = INVALID
+        testMatrix = testMatrix.updateWithMatrix(ftlTestMatrix.toApiModel())
+        assertEquals(expectedOutcome, testMatrix.outcome)
+        assertEquals(expectedOutcomeDetails, testMatrix.axes.first().details)
+        assertEquals(INVALID, testMatrix.state)
     }
 
     @Test
-    fun `savedMatrix should have failed outcome when at least one test is failed`() {
+    fun `testMatrix should have failed outcome when at least one test is failed`() {
         val expectedOutcome = "failure"
         val successStepExecution = createStepExecution(1) // success
         val failedStepExecution = createStepExecution(-1) // failure
@@ -222,7 +226,7 @@ class SavedMatrixTest {
             flakyOutcomeComparedStepExecution
         )
 
-        val testMatrix = testMatrix().apply {
+        val ftlTestMatrix = ftlTestMatrix().apply {
             testMatrixId = "123"
             state = FINISHED
             resultStorage = createResultsStorage().apply {
@@ -231,17 +235,17 @@ class SavedMatrixTest {
             testExecutions = executions
         }
 
-        val savedMatrix = createSavedMatrix(testMatrix)
+        val testMatrix = createAndUpdateMatrix(ftlTestMatrix)
 
         assertEquals(
             "Does not return failed outcome when last execution is flaky",
             expectedOutcome,
-            savedMatrix.outcome
+            testMatrix.outcome
         )
     }
 
     @Test
-    fun `SavedMatrix should be updated with apk file name - android`() {
+    fun `testMatrix should be updated with apk file name - android`() {
         val appName = "any-test_app.apk"
 
         val specs = listOf<TestSpecification.() -> Unit>(
@@ -251,7 +255,7 @@ class SavedMatrixTest {
         )
 
         val getNewTestMatrix = {
-            testMatrix {
+            ftlTestMatrix {
                 state = PENDING
                 resultStorage = createResultsStorage()
                 testExecutions = listOf(createStepExecution(1, "NexusLowRes"))
@@ -259,12 +263,12 @@ class SavedMatrixTest {
         }
 
         specs.forEach { spec ->
-            val testMatrix = getNewTestMatrix()
-            val savedMatrix = createSavedMatrix(testMatrix)
+            val ftlTestMatrix = getNewTestMatrix()
+            val testMatrix = ftlTestMatrix.toApiModel()
 
-            testMatrix.state = FINISHED
-            testMatrix.testSpecification = make(spec)
-            val updatedMatrix = savedMatrix.updateWithMatrix(testMatrix)
+            ftlTestMatrix.state = FINISHED
+            ftlTestMatrix.testSpecification = make(spec)
+            val updatedMatrix = testMatrix.updateWithMatrix(ftlTestMatrix.toApiModel())
             assertEquals(appName, updatedMatrix.appFileName)
         }
     }
@@ -279,7 +283,7 @@ class SavedMatrixTest {
         )
 
         val getNewTestMatrix = {
-            testMatrix {
+            ftlTestMatrix {
                 state = PENDING
                 resultStorage = createResultsStorage()
                 testExecutions = listOf(createStepExecution(1, "iPhone6"))
@@ -287,12 +291,12 @@ class SavedMatrixTest {
         }
 
         specs.forEach { spec ->
-            val testMatrix = getNewTestMatrix()
-            val savedMatrix = createSavedMatrix(testMatrix)
+            val ftlTestMatrix = getNewTestMatrix()
+            val testMatrix = ftlTestMatrix.toApiModel()
 
-            testMatrix.state = FINISHED
-            testMatrix.testSpecification = make(spec)
-            val updatedMatrix = savedMatrix.updateWithMatrix(testMatrix)
+            ftlTestMatrix.state = FINISHED
+            ftlTestMatrix.testSpecification = make(spec)
+            val updatedMatrix = testMatrix.updateWithMatrix(ftlTestMatrix.toApiModel())
             assertEquals(appName, updatedMatrix.appFileName)
         }
     }
@@ -300,18 +304,18 @@ class SavedMatrixTest {
     @Test
     fun `SavedMatrix should be updated with NA file name if none is available`() {
         val getNewTestMatrix = {
-            testMatrix {
+            ftlTestMatrix {
                 state = PENDING
                 resultStorage = createResultsStorage()
                 testExecutions = listOf(createStepExecution(1, "iPhone6"))
             }
         }
 
-        val testMatrix = getNewTestMatrix()
-        val savedMatrix = createSavedMatrix(testMatrix)
+        val ftlTestMatrix = getNewTestMatrix()
+        val testMatrix = ftlTestMatrix.toApiModel()
 
-        testMatrix.state = FINISHED
-        val updatedMatrix = savedMatrix.updateWithMatrix(testMatrix)
+        ftlTestMatrix.state = FINISHED
+        val updatedMatrix = testMatrix.updateWithMatrix(ftlTestMatrix.toApiModel())
         assertEquals("N/A", updatedMatrix.appFileName)
     }
 }

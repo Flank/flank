@@ -1,10 +1,10 @@
 package ftl.run.common
 
 import flank.common.logLn
+import ftl.api.TestMatrix
 import ftl.args.IArgs
 import ftl.config.FtlConstants
 import ftl.json.MatrixMap
-import ftl.json.SavedMatrix
 import ftl.run.exception.FlankGeneralError
 import java.nio.file.Paths
 
@@ -24,7 +24,7 @@ internal fun matrixPathToObj(path: String, args: IArgs): MatrixMap {
     }
     val json = filePath.readText()
 
-    val map: MutableMap<String, SavedMatrix> = fromJson(json)
+    val map: MutableMap<String, TestMatrix.Data> = fromJson(json)
 
     return MatrixMap(map, path)
 }

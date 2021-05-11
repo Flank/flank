@@ -2,6 +2,8 @@ package ftl.run.status
 
 import com.google.testing.model.TestDetails
 import com.google.testing.model.TestExecution
+import ftl.adapter.google.toApiModel
+import ftl.api.TestMatrix
 import ftl.args.IArgs
 import ftl.util.MatrixState
 import io.mockk.every
@@ -15,7 +17,7 @@ class ExecutionStatusListPrinterTest {
     fun test() {
         // given
         val time = "time"
-        val executions = (0..1).map { size ->
+        val executions: List<List<TestMatrix.TestExecution>> = (0..1).map { size ->
             (0..size).map { index ->
                 TestExecution().apply {
                     id = "${size}_$index"
@@ -26,10 +28,11 @@ class ExecutionStatusListPrinterTest {
                     }
                 }
             }
-        }
+        }.map { it.toApiModel() }
         val args = mockk<IArgs> {
             every { outputStyle } returns OutputStyle.Single
             every { flakyTestAttempts } returns 1
+            every { disableSharding } returns false
         }
         val result = mutableListOf<ExecutionStatus.Change>()
         val printExecutionStatues = { changes: List<ExecutionStatus.Change> ->
@@ -47,9 +50,9 @@ class ExecutionStatusListPrinterTest {
             progress = listOf("test progress")
         )
         val expected = listOf(
-            ExecutionStatus.Change("0 null-null 0", previous, current, time),
-            ExecutionStatus.Change("1 null-null 0", previous, current, time),
-            ExecutionStatus.Change("1 null-null 1", previous, current, time)
+            ExecutionStatus.Change("0 - 0", previous, current, time),
+            ExecutionStatus.Change("1 - 0", previous, current, time),
+            ExecutionStatus.Change("1 - 1", previous, current, time)
         )
         // when
         executions.forEach { execution ->
