@@ -16,7 +16,7 @@ class GenerateJUnitReport {
                     errors = 1,
                     skipped = 0,
                     time = 8.0,
-                    timestamp = "1970-01-01T01:00:01+01:00",
+                    timestamp = JUnit.dateFormat.format(1_000),
                     testcases = listOf(
                         JUnit.Case(
                             name = "test1",
@@ -44,7 +44,7 @@ class GenerateJUnitReport {
                     errors = 0,
                     skipped = 1,
                     time = 0.0,
-                    timestamp = "1970-01-01T01:00:00+01:00",
+                    timestamp = JUnit.dateFormat.format(0),
                     testcases = listOf(
                         JUnit.Case(
                             name = "test1",
