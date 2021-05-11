@@ -13,13 +13,26 @@ import flank.junit.mapper.xmlPrettyWriter
 import java.io.File
 import java.text.SimpleDateFormat
 
+// ========================= Functions =========================
+
 /**
- * Generate [JUnit.Report] from the list of [JUnit.TestResult].
+ * The default way for generating the structural representation of XML JUnit report, from the list of raw test results.
  *
+ * * This early implementation doesn't support flaky tests.
+ * * The list of test case results should be sorted in same order as received from console output
+ *
+ * @receiver list of raw test cases results.
+ * @return structural representation of XML JUnit report
  */
 fun List<JUnit.TestResult>.generateJUnitReport(): JUnit.Report =
     JUnit.Report(mapToTestSuites())
 
+/**
+ * Parse [JUnit.Report] from file path.
+ *
+ * @receiver path to XML JUnit report
+ * @return parsed structural representation of XML JUnit report
+ */
 fun String.parseJUnitReportFromFile(): JUnit.Report =
     File(this).let { file ->
         objectMapper.readValue(file)
@@ -27,8 +40,16 @@ fun String.parseJUnitReportFromFile(): JUnit.Report =
             ?: throw IllegalArgumentException("cannot parse JUnitReport from: $this")
     }
 
+/**
+ * Write JUnite report as formatted XML string.
+ *
+ * @receiver structural representation of XML JUnit report
+ * @return formatted XML string
+ */
 fun JUnit.Report.formatXmlString(): String =
     xmlPrettyWriter.writeValueAsString(this)
+
+// ========================= Structures =========================
 
 /**
  * The scope for JUnit structures
