@@ -32,10 +32,7 @@ class AndroidLocalesListCommand :
 
     override val out = outputLogger {
         @Suppress("UNCHECKED_CAST")
-        when (this) {
-            is List<*> -> (this as List<Locale>).toCliTable()
-            else -> throwUnknownType()
-        }
+        (this as? List<Locale>)?.toCliTable() ?: throwUnknownType()
     }
 
     @CommandLine.Option(
