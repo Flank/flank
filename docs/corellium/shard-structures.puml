@@ -1,14 +1,16 @@
 @startuml
 'https://plantuml.com/component-diagram
 
-object calculateShards
-
-abstract Input {
-one: App
+abstract Apps {
+List<App>
 }
 
-abstract Output {
-many: List<App>
+abstract Shards {
+List<Shard>
+}
+
+abstract Shard {
+List<App>
 }
 
 class App {
@@ -26,11 +28,9 @@ name: String
 duration: Long
 }
 
-calculateShards ..> Input : receive
-calculateShards ..> Output : return
-
-Input "1" o-- "1" App
-Output "1" o-- "*" App
+Apps "1" o-- "*" App
+Shards "1" o-- "*" Shard
+Shard "1" o-- "*" App
 App "1" o-- "*" Test
 Test "1" o-- "*" Case
 
