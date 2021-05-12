@@ -2,11 +2,11 @@ package ftl.presentation.cli.firebase.test.environment
 
 import ftl.api.TestEnvironment
 import ftl.environment.android.toCliTable
-import ftl.environment.common.toCliTable
 import ftl.environment.ios.toCliTable
 import ftl.presentation.cli.firebase.test.android.orientations.toCliTable
 import ftl.presentation.cli.firebase.test.ipblocks.toCliTable
 import ftl.presentation.cli.firebase.test.locale.toCliTable
+import ftl.presentation.cli.firebase.test.networkprofiles.toCliTable
 import ftl.presentation.cli.firebase.test.providedsoftware.toCliTable
 
 fun TestEnvironment.Android.prepareOutputString() = buildString {

@@ -1,4 +1,4 @@
-package ftl.environment.common
+package ftl.presentation.cli.firebase.test.networkprofiles
 
 import ftl.api.NetworkProfile
 import ftl.environment.TestEnvironmentInfo
