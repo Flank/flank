@@ -7,6 +7,7 @@ import ftl.environment.ios.toCliTable
 import ftl.presentation.cli.firebase.test.android.orientations.toCliTable
 import ftl.presentation.cli.firebase.test.ipblocks.toCliTable
 import ftl.presentation.cli.firebase.test.locale.toCliTable
+import ftl.presentation.cli.firebase.test.providedsoftware.toCliTable
 
 fun TestEnvironment.Android.prepareOutputString() = buildString {
     appendLine(osVersions.toCliTable())

@@ -4,7 +4,6 @@ import ftl.api.Orientation
 import ftl.config.FtlConstants
 import ftl.domain.ListAndroidOrientations
 import ftl.domain.invoke
-import ftl.environment.common.toCliTable
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
 import picocli.CommandLine
