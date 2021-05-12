@@ -10,13 +10,18 @@ package flank.corellium.shard
 fun Shards.obfuscate(): Shards =
     map { shard ->
         shard.map { app ->
-            app.copy(tests = app.tests.map { test ->
-                test.copy(cases = test.cases.map { case ->
-                    case.copy(name = obfuscationMappings.obfuscateAndroidTestName(case.name))
-                })
-            })
+            app.copy(
+                tests = app.tests.map { test ->
+                    test.copy(
+                        cases = test.cases.map { case ->
+                            case.copy(
+                                name = obfuscationMappings.obfuscateAndroidTestName(case.name)
+                            )
+                        }
+                    )
+                }
+            )
         }
     }
-
 
 internal val obfuscationMappings: ObfuscationMappings = mutableMapOf()
