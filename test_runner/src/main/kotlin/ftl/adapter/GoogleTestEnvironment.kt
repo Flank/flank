@@ -31,7 +31,7 @@ object FetchGoogleTestEnvironmentIos :
     TestEnvironment.Ios.Fetch,
     (String) -> TestEnvironment.Ios by { projectId ->
         TestEnvironment.Ios(
-            osVersions = fetchIosOsVersion(projectId),
+            osVersions = fetchIosOsVersion(projectId).list,
             models = fetchDeviceModelIos(projectId).list,
             locales = fetchLocales(Locale.Identity(projectId, Platform.IOS)),
             softwareCatalog = fetchSoftwareCatalog(),
