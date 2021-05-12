@@ -6,6 +6,7 @@ import ftl.domain.ListAndroidOrientations
 import ftl.domain.invoke
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
+import ftl.util.asListOrNull
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -39,7 +40,6 @@ class AndroidOrientationsListCommand :
     override fun run() = invoke()
 
     override val out = outputLogger {
-        @Suppress("UNCHECKED_CAST")
-        (this as? List<Orientation>)?.toCliTable() ?: throwUnknownType()
+        asListOrNull<Orientation>()?.toCliTable() ?: throwUnknownType()
     }
 }
