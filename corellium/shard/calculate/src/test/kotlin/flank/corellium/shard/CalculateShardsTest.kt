@@ -55,7 +55,7 @@ val apps = listOf(
     )
 )
 
-class ShardKtTest {
+class CalculateShardsTest {
 
     @JTest
     fun test2() {
