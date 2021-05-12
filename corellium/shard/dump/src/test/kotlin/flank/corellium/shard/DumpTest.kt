@@ -126,7 +126,7 @@ class DumpTest {
     }
   ]
 ]
-""".trimIndent()
+    """.trimIndent()
 
     @Test
     fun testDumpToFile() {
@@ -137,7 +137,7 @@ class DumpTest {
     }
 
     @After
-    fun cleanUp () {
+    fun cleanUp() {
         file.delete()
     }
 }
