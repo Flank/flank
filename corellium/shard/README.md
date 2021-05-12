@@ -9,3 +9,5 @@ This module is specifying only a data structures for sharding.
 ## Nested modules
 
 * [:shard:calculate](./calculate)
+* [:shard:dump](./calculate)
+* [:shard:obfuscate](./calculate)
