@@ -15,6 +15,7 @@ interface DescribeIosVersions : Output {
 operator fun DescribeIosVersions.invoke() {
     if (versionId.isBlank()) throw FlankConfigurationError("Argument VERSION_ID must be specified.")
     fetchIosOsVersion(IosArgs.loadOrDefault(Paths.get(configPath)).project)
+        .list
         .find { it.id == versionId }
         ?.out()
         ?: throw FlankGeneralError("ERROR: '$versionId' is not a valid OS version")

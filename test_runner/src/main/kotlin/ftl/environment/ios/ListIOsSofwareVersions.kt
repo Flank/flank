@@ -12,6 +12,8 @@ import ftl.environment.tagToSystemOutColorMapper
 import ftl.util.applyColorsUsing
 import ftl.util.buildTable
 
+fun OsVersion.Ios.Available.toCliTable() = list.toCliTable()
+
 fun List<OsVersion.Ios>.toCliTable() = createTestEnvironmentInfo().createIOsSoftwareVersionsTable()
 
 private fun List<OsVersion.Ios>.createTestEnvironmentInfo() =
