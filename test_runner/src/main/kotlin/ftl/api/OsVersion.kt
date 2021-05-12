@@ -27,7 +27,11 @@ object OsVersion {
         val supportedXcodeVersionIds: List<String>?,
         val tags: List<String>?,
     ) {
-        interface Fetch : (String) -> List<Ios>
+        data class Available(
+            val list: List<Ios>
+        )
+
+        interface Fetch : (String) -> Available
     }
 
     data class Distribution(
