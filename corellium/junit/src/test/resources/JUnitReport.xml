@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites>
+  <testsuite name="NexusLowRes-28-en-portrait" tests="3" failures="0" errors="0" skipped="0" time="2.028" timestamp="2021-05-03T01:14:33" hostname="localhost">
+    <testcase name="clickRightButton[0]" classname="com.example.test_app.parametrized.EspressoParametrizedClassTestParameterized" time="1.308"/>
+    <testcase name="clickRightButton[1]" classname="com.example.test_app.parametrized.EspressoParametrizedClassTestParameterized" time="0.349"/>
+    <testcase name="clickRightButton[2]" classname="com.example.test_app.parametrized.EspressoParametrizedClassTestParameterized" time="0.372"/>
+  </testsuite>
+  <testsuite name="NexusLowRes-28-en-portrait" tests="3" failures="0" errors="0" skipped="0" time="1.998" timestamp="2021-05-03T01:14:23" hostname="localhost">
+    <testcase name="clickRightButton[0: toast toast]" classname="com.example.test_app.parametrized.EspressoParametrizedClassParameterizedNamed" time="1.340"/>
+    <testcase name="clickRightButton[1: alert alert]" classname="com.example.test_app.parametrized.EspressoParametrizedClassParameterizedNamed" time="0.328"/>
+    <testcase name="clickRightButton[2: exception exception]" classname="com.example.test_app.parametrized.EspressoParametrizedClassParameterizedNamed" time="0.331"/>
+  </testsuite>
+  <testsuite name="NexusLowRes-28-en-portrait" tests="1" failures="0" errors="0" skipped="0" time="1.386" timestamp="2021-05-03T01:14:37" hostname="localhost">
+    <testcase name="test0" classname="com.example.test_app.InstrumentedTest" time="1.386"/>
+  </testsuite>
+  <testsuite name="NexusLowRes-28-en-portrait" tests="1" failures="0" errors="0" skipped="0" time="1.374" timestamp="2021-05-03T01:14:24" hostname="localhost">
+    <testcase name="test2" classname="com.example.test_app.InstrumentedTest" time="1.374"/>
+  </testsuite>
+  <testsuite name="NexusLowRes-28-en-portrait" tests="1" failures="0" errors="0" skipped="0" time="1.447" timestamp="2021-05-03T01:14:32" hostname="localhost">
+    <testcase name="testFoo" classname="com.example.test_app.foo.FooInstrumentedTest" time="1.447"/>
+  </testsuite>
+  <testsuite name="NexusLowRes-28-en-portrait" tests="3" failures="0" errors="0" skipped="0" time="0.014" timestamp="2021-05-03T01:14:39" hostname="localhost">
+    <testcase name="shouldHopefullyPass[0]" classname="com.example.test_app.ParameterizedTest" time="0.005"/>
+    <testcase name="shouldHopefullyPass[1]" classname="com.example.test_app.ParameterizedTest" time="0.004"/>
+    <testcase name="shouldHopefullyPass[2]" classname="com.example.test_app.ParameterizedTest" time="0.004"/>
+  </testsuite>
+  <testsuite name="NexusLowRes-28-en-portrait" tests="6" failures="0" errors="0" skipped="0" time="3.209" timestamp="2021-05-03T01:14:53" hostname="localhost">
+    <testcase name="clickRightButtonFromMethod(toast, toast) [0]" classname="com.example.test_app.parametrized.EspressoParametrizedMethodTestJUnitParamsRunner" time="1.497"/>
+    <testcase name="clickRightButtonFromMethod(alert, alert) [1]" classname="com.example.test_app.parametrized.EspressoParametrizedMethodTestJUnitParamsRunner" time="0.356"/>
+    <testcase name="clickRightButtonFromMethod(exception, exception) [2]" classname="com.example.test_app.parametrized.EspressoParametrizedMethodTestJUnitParamsRunner" time="0.352"/>
+    <testcase name="clickRightButtonFromAnnotation(toast, toast) [0]" classname="com.example.test_app.parametrized.EspressoParametrizedMethodTestJUnitParamsRunner" time="0.352"/>
+    <testcase name="clickRightButtonFromAnnotation(alert, alert) [1]" classname="com.example.test_app.parametrized.EspressoParametrizedMethodTestJUnitParamsRunner" time="0.327"/>
+    <testcase name="clickRightButtonFromAnnotation(exception, exception) [2]" classname="com.example.test_app.parametrized.EspressoParametrizedMethodTestJUnitParamsRunner" time="0.328"/>
+  </testsuite>
+  <testsuite name="NexusLowRes-28-en-portrait" tests="1" failures="0" errors="0" skipped="0" time="1.363" timestamp="2021-05-03T01:14:21" hostname="localhost">
+    <testcase name="test1" classname="com.example.test_app.InstrumentedTest" time="1.363"/>
+  </testsuite>
+  <testsuite name="NexusLowRes-28-en-portrait" tests="1" failures="0" errors="0" skipped="0" time="1.376" timestamp="2021-05-03T01:14:49" hostname="localhost">
+    <testcase name="testBar" classname="com.example.test_app.bar.BarInstrumentedTest" time="1.376"/>
+  </testsuite>
+  <testsuite name="NexusLowRes-28-en-portrait" tests="1" failures="1" errors="0" skipped="0" time="2.020" timestamp="2021-05-03T01:14:41" hostname="localhost">
+    <testcase name="test1" classname="com.example.test_app.InstrumentedTest" time="2.020">
+      <failure>java.lang.AssertionError
+        at org.junit.Assert.fail(Assert.java:86)
+        at org.junit.Assert.assertTrue(Assert.java:41)
+        at org.junit.Assert.assertTrue(Assert.java:52)
+        at com.example.test_app.BaseInstrumentedTest.testMethod(BaseInstrumentedTest.kt:35)
+        at com.example.test_app.InstrumentedTest.test1(InstrumentedTest.kt:19)
+        at java.lang.reflect.Method.invoke(Native Method)
+        at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+        at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+        at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+        at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+        at androidx.test.rule.GrantPermissionRule$RequestPermissionStatement.evaluate(GrantPermissionRule.java:134)
+        at androidx.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:531)
+        at com.example.test_app.screenshot.ScreenshotTestRule$apply$1.evaluate(ScreenshotTestRule.kt:58)
+        at org.junit.rules.RunRules.evaluate(RunRules.java:20)
+        at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+        at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+        at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+        at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+        at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+        at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+        at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+        at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+        at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+        at androidx.test.ext.junit.runners.AndroidJUnit4.run(AndroidJUnit4.java:154)
+        at org.junit.runners.Suite.runChild(Suite.java:128)
+        at org.junit.runners.Suite.runChild(Suite.java:27)
+        at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+        at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+        at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+        at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+        at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+        at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+        at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+        at org.junit.runner.JUnitCore.run(JUnitCore.java:115)
+        at androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:56)
+        at androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:395)
+        at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2145)
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="NexusLowRes-28-en-portrait" tests="3" failures="0" errors="0" skipped="0" time="2.137" timestamp="2021-05-03T01:14:32" hostname="localhost">
+    <testcase name="clickRightButton[0: toast toast]" classname="com.example.test_app.parametrized.EspressoParametrizedClassParameterizedNamed" time="1.385"/>
+    <testcase name="clickRightButton[1: alert alert]" classname="com.example.test_app.parametrized.EspressoParametrizedClassParameterizedNamed" time="0.325"/>
+    <testcase name="clickRightButton[2: exception exception]" classname="com.example.test_app.parametrized.EspressoParametrizedClassParameterizedNamed" time="0.426"/>
+  </testsuite>
+  <testsuite name="NexusLowRes-28-en-portrait" tests="1" failures="1" errors="0" skipped="0" time="1.901" timestamp="2021-05-03T01:14:20" hostname="localhost">
+    <testcase name="test0" classname="com.example.test_app.InstrumentedTest" time="1.901">
+      <failure>java.lang.AssertionError
+        at org.junit.Assert.fail(Assert.java:86)
+        at org.junit.Assert.assertTrue(Assert.java:41)
+        at org.junit.Assert.assertTrue(Assert.java:52)
+        at com.example.test_app.BaseInstrumentedTest.testMethod(BaseInstrumentedTest.kt:35)
+        at com.example.test_app.InstrumentedTest.test0(InstrumentedTest.kt:16)
+        at java.lang.reflect.Method.invoke(Native Method)
+        at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+        at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+        at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+        at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+        at androidx.test.rule.GrantPermissionRule$RequestPermissionStatement.evaluate(GrantPermissionRule.java:134)
+        at androidx.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:531)
+        at com.example.test_app.screenshot.ScreenshotTestRule$apply$1.evaluate(ScreenshotTestRule.kt:58)
+        at org.junit.rules.RunRules.evaluate(RunRules.java:20)
+        at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+        at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+        at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+        at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+        at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+        at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+        at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+        at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+        at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+        at androidx.test.ext.junit.runners.AndroidJUnit4.run(AndroidJUnit4.java:154)
+        at org.junit.runners.Suite.runChild(Suite.java:128)
+        at org.junit.runners.Suite.runChild(Suite.java:27)
+        at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+        at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+        at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+        at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+        at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+        at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+        at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+        at org.junit.runner.JUnitCore.run(JUnitCore.java:115)
+        at androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:56)
+        at androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:395)
+        at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2145)
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="NexusLowRes-28-en-portrait" tests="1" failures="1" errors="0" skipped="0" time="1.852" timestamp="2021-05-03T01:14:32" hostname="localhost">
+    <testcase name="testBar" classname="com.example.test_app.bar.BarInstrumentedTest" time="1.852">
+      <failure>java.lang.AssertionError
+        at org.junit.Assert.fail(Assert.java:86)
+        at org.junit.Assert.assertTrue(Assert.java:41)
+        at org.junit.Assert.assertTrue(Assert.java:52)
+        at com.example.test_app.BaseInstrumentedTest.testMethod(BaseInstrumentedTest.kt:35)
+        at com.example.test_app.bar.BarInstrumentedTest.testBar(BarInstrumentedTest.kt:13)
+        at java.lang.reflect.Method.invoke(Native Method)
+        at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+        at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+        at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+        at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+        at androidx.test.rule.GrantPermissionRule$RequestPermissionStatement.evaluate(GrantPermissionRule.java:134)
+        at androidx.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:531)
+        at com.example.test_app.screenshot.ScreenshotTestRule$apply$1.evaluate(ScreenshotTestRule.kt:58)
+        at org.junit.rules.RunRules.evaluate(RunRules.java:20)
+        at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+        at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+        at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+        at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+        at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+        at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+        at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+        at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+        at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+        at androidx.test.ext.junit.runners.AndroidJUnit4.run(AndroidJUnit4.java:154)
+        at org.junit.runners.Suite.runChild(Suite.java:128)
+        at org.junit.runners.Suite.runChild(Suite.java:27)
+        at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+        at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+        at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+        at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+        at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+        at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+        at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+        at org.junit.runner.JUnitCore.run(JUnitCore.java:115)
+        at androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:56)
+        at androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:395)
+        at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2145)
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="NexusLowRes-28-en-portrait" tests="6" failures="0" errors="0" skipped="0" time="2.958" timestamp="2021-05-03T01:14:29" hostname="localhost">
+    <testcase name="clickRightButtonFromMethod(toast, toast) [0]" classname="com.example.test_app.parametrized.EspressoParametrizedMethodTestJUnitParamsRunner" time="1.271"/>
+    <testcase name="clickRightButtonFromMethod(alert, alert) [1]" classname="com.example.test_app.parametrized.EspressoParametrizedMethodTestJUnitParamsRunner" time="0.337"/>
+    <testcase name="clickRightButtonFromMethod(exception, exception) [2]" classname="com.example.test_app.parametrized.EspressoParametrizedMethodTestJUnitParamsRunner" time="0.388"/>
+    <testcase name="clickRightButtonFromAnnotation(toast, toast) [0]" classname="com.example.test_app.parametrized.EspressoParametrizedMethodTestJUnitParamsRunner" time="0.338"/>
+    <testcase name="clickRightButtonFromAnnotation(alert, alert) [1]" classname="com.example.test_app.parametrized.EspressoParametrizedMethodTestJUnitParamsRunner" time="0.338"/>
+    <testcase name="clickRightButtonFromAnnotation(exception, exception) [2]" classname="com.example.test_app.parametrized.EspressoParametrizedMethodTestJUnitParamsRunner" time="0.287"/>
+  </testsuite>
+  <testsuite name="NexusLowRes-28-en-portrait" tests="1" failures="1" errors="0" skipped="0" time="2.017" timestamp="2021-05-03T01:14:38" hostname="localhost">
+    <testcase name="testFoo" classname="com.example.test_app.foo.FooInstrumentedTest" time="2.017">
+      <failure>java.lang.AssertionError
+        at org.junit.Assert.fail(Assert.java:86)
+        at org.junit.Assert.assertTrue(Assert.java:41)
+        at org.junit.Assert.assertTrue(Assert.java:52)
+        at com.example.test_app.BaseInstrumentedTest.testMethod(BaseInstrumentedTest.kt:35)
+        at com.example.test_app.foo.FooInstrumentedTest.testFoo(FooInstrumentedTest.kt:13)
+        at java.lang.reflect.Method.invoke(Native Method)
+        at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+        at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+        at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+        at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+        at androidx.test.rule.GrantPermissionRule$RequestPermissionStatement.evaluate(GrantPermissionRule.java:134)
+        at androidx.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:531)
+        at com.example.test_app.screenshot.ScreenshotTestRule$apply$1.evaluate(ScreenshotTestRule.kt:58)
+        at org.junit.rules.RunRules.evaluate(RunRules.java:20)
+        at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+        at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+        at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+        at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+        at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+        at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+        at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+        at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+        at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+        at androidx.test.ext.junit.runners.AndroidJUnit4.run(AndroidJUnit4.java:154)
+        at org.junit.runners.Suite.runChild(Suite.java:128)
+        at org.junit.runners.Suite.runChild(Suite.java:27)
+        at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+        at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+        at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+        at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+        at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+        at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+        at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+        at org.junit.runner.JUnitCore.run(JUnitCore.java:115)
+        at androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:56)
+        at androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:395)
+        at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2145)
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="NexusLowRes-28-en-portrait" tests="3" failures="0" errors="0" skipped="0" time="0.014" timestamp="2021-05-03T01:14:50" hostname="localhost">
+    <testcase name="shouldHopefullyPass[0]" classname="com.example.test_app.ParameterizedTest" time="0.005"/>
+    <testcase name="shouldHopefullyPass[1]" classname="com.example.test_app.ParameterizedTest" time="0.005"/>
+    <testcase name="shouldHopefullyPass[2]" classname="com.example.test_app.ParameterizedTest" time="0.005"/>
+  </testsuite>
+  <testsuite name="NexusLowRes-28-en-portrait" tests="3" failures="0" errors="0" skipped="0" time="2.053" timestamp="2021-05-03T01:14:26" hostname="localhost">
+    <testcase name="clickRightButton[0]" classname="com.example.test_app.parametrized.EspressoParametrizedClassTestParameterized" time="1.288"/>
+    <testcase name="clickRightButton[1]" classname="com.example.test_app.parametrized.EspressoParametrizedClassTestParameterized" time="0.357"/>
+    <testcase name="clickRightButton[2]" classname="com.example.test_app.parametrized.EspressoParametrizedClassTestParameterized" time="0.407"/>
+  </testsuite>
+  <testsuite name="NexusLowRes-28-en-portrait" tests="1" failures="1" errors="0" skipped="0" time="1.857" timestamp="2021-05-03T01:14:28" hostname="localhost">
+    <testcase name="test2" classname="com.example.test_app.InstrumentedTest" time="1.857">
+      <failure>java.lang.AssertionError
+        at org.junit.Assert.fail(Assert.java:86)
+        at org.junit.Assert.assertTrue(Assert.java:41)
+        at org.junit.Assert.assertTrue(Assert.java:52)
+        at com.example.test_app.BaseInstrumentedTest.testMethod(BaseInstrumentedTest.kt:35)
+        at com.example.test_app.InstrumentedTest.test2(InstrumentedTest.kt:22)
+        at java.lang.reflect.Method.invoke(Native Method)
+        at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+        at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+        at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+        at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+        at androidx.test.rule.GrantPermissionRule$RequestPermissionStatement.evaluate(GrantPermissionRule.java:134)
+        at androidx.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:531)
+        at com.example.test_app.screenshot.ScreenshotTestRule$apply$1.evaluate(ScreenshotTestRule.kt:58)
+        at org.junit.rules.RunRules.evaluate(RunRules.java:20)
+        at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+        at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+        at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+        at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+        at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+        at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+        at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+        at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+        at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+        at androidx.test.ext.junit.runners.AndroidJUnit4.run(AndroidJUnit4.java:154)
+        at org.junit.runners.Suite.runChild(Suite.java:128)
+        at org.junit.runners.Suite.runChild(Suite.java:27)
+        at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+        at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+        at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+        at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+        at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+        at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+        at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+        at org.junit.runner.JUnitCore.run(JUnitCore.java:115)
+        at androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:56)
+        at androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:395)
+        at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2145)
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="NexusLowRes-28-en-portrait" tests="1" failures="0" errors="0" skipped="0" time="1.431" timestamp="2021-05-03T01:14:36" hostname="localhost">
+    <testcase name="test" classname="com.example.test_app.InstrumentedTest" time="1.431"/>
+  </testsuite>
+  <testsuite name="junit-ignored" tests="10" failures="0" errors="0" skipped="10" time="0.0" timestamp="2021-05-03T01:16:23" hostname="localhost">
+    <testcase name="ignoredTestWitSuppress" classname="com.example.test_app.InstrumentedTest" time="0.0">
+      <skipped/>
+    </testcase>
+    <testcase name="ignoredTestWithIgnore" classname="com.example.test_app.InstrumentedTest" time="0.0">
+      <skipped/>
+    </testcase>
+    <testcase name="ignoredTestBar" classname="com.example.test_app.bar.BarInstrumentedTest" time="0.0">
+      <skipped/>
+    </testcase>
+    <testcase name="ignoredTestFoo" classname="com.example.test_app.foo.FooInstrumentedTest" time="0.0">
+      <skipped/>
+    </testcase>
+    <testcase name="ignoredTestWitSuppress" classname="com.example.test_app.InstrumentedTest" time="0.0">
+      <skipped/>
+    </testcase>
+    <testcase name="ignoredTestWithIgnore" classname="com.example.test_app.InstrumentedTest" time="0.0">
+      <skipped/>
+    </testcase>
+    <testcase name="ignoredTestBar" classname="com.example.test_app.bar.BarInstrumentedTest" time="0.0">
+      <skipped/>
+    </testcase>
+    <testcase name="ignoredTestFoo" classname="com.example.test_app.foo.FooInstrumentedTest" time="0.0">
+      <skipped/>
+    </testcase>
+    <testcase name="ignoredTestWithIgnore" classname="com.example.test_app.InstrumentedTest" time="0.0">
+      <skipped/>
+    </testcase>
+    <testcase name="ignoredTestWithSuppress" classname="com.example.test_app.InstrumentedTest" time="0.0">
+      <skipped/>
+    </testcase>
+  </testsuite>
+</testsuites>

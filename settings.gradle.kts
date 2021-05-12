@@ -18,6 +18,7 @@ include(
     ":corellium:shard",
     ":corellium:shard:calculate",
     ":corellium:adapter",
+    ":corellium:junit",
 )
 
 plugins {
