@@ -372,6 +372,9 @@ AndroidArgs
       additional-app-test-apks:
         - app: $appApkAbsolutePath
           test: $testErrorApkAbsolutePath
+          client-details:
+            key1: value1
+            key2: value2
       run-timeout: 20m
       legacy-junit-result: false
       ignore-failed-tests: true
@@ -1181,12 +1184,12 @@ AndroidArgs
             test: $testErrorApk
       """
         assertEquals(
-            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath)),
+            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath, maxTestShards = 1)),
             AndroidArgs.load(yaml).validate().additionalAppTestApks
         )
 
         assertEquals(
-            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath)),
+            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath, maxTestShards = 1)),
             AndroidArgs.load(yaml, cli).validate().additionalAppTestApks
         )
     }

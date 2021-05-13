@@ -39,14 +39,16 @@ fun createAndroidArgs(
             putAll(commonArgs.clientDetails ?: emptyMap())
             putAll(it.clientDetails)
         }
-
+        println("commonArgs.maxTestShards ${commonArgs.maxTestShards}")
         AppTestPair(
             app = it.app?.normalizeFilePath(),
             test = it.test.normalizeFilePath(),
             environmentVariables = it.environmentVariables,
-            maxTestShards = if (it.maxTestShards == -1) commonArgs.maxTestShards else it.maxTestShards,
+            maxTestShards = it.maxTestShards ?: commonArgs.maxTestShards,
             clientDetails = mergedClientDetails
-        )
+        ).apply {
+            println(this)
+        }
     } ?: emptyList(),
     useLegacyJUnitResult = flank::useLegacyJUnitResult.require(),
     scenarioLabels = gcloud::scenarioLabels.require(),

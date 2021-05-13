@@ -1,5 +1,6 @@
 package ftl.run.platform.android
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.truth.Truth.assertThat
 import com.linkedin.dex.parser.DexParser
 import com.linkedin.dex.parser.DexParser.Companion.findTestMethods
@@ -18,11 +19,7 @@ import ftl.run.model.RoboTestContext
 import ftl.test.util.mixedConfigYaml
 import ftl.test.util.should
 import ftl.util.FlankTestMethod
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.mockkObject
-import io.mockk.mockkStatic
-import io.mockk.unmockkAll
+import io.mockk.*
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -31,6 +28,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import java.nio.file.Paths
+
 
 class CreateAndroidTestContextKtTest {
 
@@ -52,13 +50,15 @@ class CreateAndroidTestContextKtTest {
                 app = should { local.endsWith("app-debug.apk") },
                 test = should { local.endsWith("app-single-success-debug-androidTest.apk") },
                 shards = should { size == 1 },
-                ignoredTestCases = should { size == 2 }
+                ignoredTestCases = should { size == 2 },
+                maxTestShards =  1
             ),
             InstrumentationTestContext(
                 app = should { local.endsWith("app-debug.apk") },
                 test = should { local.endsWith("app-multiple-flaky-debug-androidTest.apk") },
                 shards = should { size == 2 },
-                ignoredTestCases = should { size == 4 }
+                ignoredTestCases = should { size == 4 },
+                maxTestShards = 2
             )
         )
 

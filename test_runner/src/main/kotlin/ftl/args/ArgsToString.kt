@@ -36,16 +36,16 @@ object ArgsToString {
         return NEW_LINE + devices.joinToString(System.lineSeparator()) {
 
             val environmentVars = if (it.environmentVariables.isNotEmpty()) {
-                "          environment-variables:\n" +
+                "\n          environment-variables:\n" +
                     "            ${it.environmentVariables.toList().joinToString("\n            ") { pair -> "${pair.first}: ${pair.second}" }}"
             } else ""
 
             val clientDetails = if (it.clientDetails.isNotEmpty()) {
-                "          client-details:\n" +
+                "\n          client-details:\n" +
                     "            ${it.clientDetails.toList().joinToString("\n            ") { pair -> "${pair.first}: ${pair.second}" }}"
             } else ""
 
-            "        - app: ${it.app}\n          test: ${it.test}\n$clientDetails\n$environmentVars"
+            "        - app: ${it.app}\n          test: ${it.test}$clientDetails$environmentVars"
         }
     }
 }
