@@ -1,6 +1,5 @@
 package ftl.run.platform.android
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.truth.Truth.assertThat
 import com.linkedin.dex.parser.DexParser
 import com.linkedin.dex.parser.DexParser.Companion.findTestMethods
@@ -29,7 +28,6 @@ import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import java.nio.file.Paths
 
-
 class CreateAndroidTestContextKtTest {
 
     @get:Rule
@@ -51,7 +49,7 @@ class CreateAndroidTestContextKtTest {
                 test = should { local.endsWith("app-single-success-debug-androidTest.apk") },
                 shards = should { size == 1 },
                 ignoredTestCases = should { size == 2 },
-                maxTestShards =  1
+                maxTestShards = 1
             ),
             InstrumentationTestContext(
                 app = should { local.endsWith("app-debug.apk") },
