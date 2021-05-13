@@ -1,8 +1,12 @@
 package ftl.presentation.cli.firebase.test.ios
 
+import ftl.api.TestEnvironment
 import ftl.config.FtlConstants
 import ftl.domain.DescribeIosTestEnvironment
 import ftl.domain.invoke
+import ftl.presentation.cli.firebase.test.environment.prepareOutputString
+import ftl.presentation.outputLogger
+import ftl.presentation.throwUnknownType
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -40,4 +44,11 @@ class IosTestEnvironmentCommand :
     var usageHelpRequested: Boolean = false
 
     override fun run() = invoke()
+
+    override val out = outputLogger {
+        when (this) {
+            is TestEnvironment.Ios -> prepareOutputString()
+            else -> throwUnknownType()
+        }
+    }
 }

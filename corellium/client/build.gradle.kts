@@ -14,6 +14,7 @@ repositories {
 tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
 
 dependencies {
+    implementation(Dependencies.KOTLIN_COROUTINES_CORE)
     implementation(Dependencies.KOTLIN_SERIALIZATION)
     implementation(Dependencies.KTOR_CLIENT_SERIALIZATION)
     implementation(Dependencies.KTOR_CLIENT_WEBSOCKETS)

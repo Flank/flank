@@ -58,7 +58,10 @@ private enum class Type(val text: String) {
  */
 internal fun Flow<List<Line>>.parseChunks(): Flow<Chunk> = map { group ->
     val reversed = group.reversed().toMutableList()
-    val code = reversed.removeFirst()
+    val (prefix, text) = reversed.removeFirst()
+    requireNotNull(prefix) {
+        "Invalid last line in group, expected code but was: $text"
+    }
     val linesAccumulator = mutableListOf<String>()
     val map = mutableMapOf<String, List<String>>()
     reversed.forEach { line ->
@@ -66,13 +69,17 @@ internal fun Flow<List<Line>>.parseChunks(): Flow<Chunk> = map { group ->
             linesAccumulator += line.text
         else
             linesAccumulator.apply {
-                val (key, text) = line.text.split("=", limit = 2)
-                add(text)
-                map[key] = reversed()
+                val (key, value) = line.text.split("=", limit = 2)
+                add(value.trim())
+                map[key.trim()] = reversed()
                 clear()
             }
     }
-    Chunk(code.prefix!!, code.text.toInt(), map)
+    Chunk(
+        type = prefix,
+        code = text.trim().toInt(),
+        map = map
+    )
 }
 
 /**
@@ -91,11 +98,13 @@ internal data class Chunk(
 // Stage 3 ============================================
 
 internal fun Flow<Chunk>.parseStatusResult(): Flow<Instrument> {
-    var prev = Chunk(
+    val emptyChunk = Chunk(
         type = "",
         code = 0,
         map = mapOf("current" to listOf("0"))
     )
+
+    var prev = emptyChunk
 
     return transform { next ->
         when (next.type) {
@@ -108,14 +117,17 @@ internal fun Flow<Chunk>.parseStatusResult(): Flow<Instrument> {
             }
 
             // Handling the final chunk which is representing the Result.
-            Type.Code.text -> emit(createResult(next))
+            Type.Code.text -> {
+                prev = emptyChunk
+                emit(createResult(next))
+            }
 
             else -> throw IllegalArgumentException("Unknown type of Chunk: ${next.type}")
         }
     }
 }
 
-private val Chunk.id: Int get() = map.getValue("current").first().toInt()
+private val Chunk.id: Int get() = map.getValue("current").first().trim().toInt()
 
 private fun createStatus(first: Chunk, second: Chunk) = Instrument.Status(
     code = second.code,
@@ -130,7 +142,7 @@ private fun createStatus(first: Chunk, second: Chunk) = Instrument.Status(
 
             "current",
             "numTests",
-            -> value.first().toInt()
+            -> value.first().trim().toInt()
 
             else -> value
         }

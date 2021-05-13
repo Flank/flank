@@ -1,5 +1,7 @@
 package flank.corellium.api
 
+import kotlinx.coroutines.Job
+
 /**
  * The scope is representing user authorization in Corellium.
  */
@@ -19,5 +21,5 @@ object Authorization {
      * The authorization API call.
      * The successful return is making the rest of API functions available.
      */
-    interface Request : flank.corellium.api.Request<Credentials, Unit>
+    fun interface Request : (Credentials) -> Job
 }

@@ -4,10 +4,11 @@ import flank.corellium.api.AndroidApps
 import flank.corellium.api.AndroidInstance
 import flank.corellium.api.AndroidTestPlan
 import flank.corellium.api.Authorization
-import flank.corellium.api.invoke
 import flank.corellium.corelliumApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.Properties
 
@@ -63,14 +64,14 @@ fun main() {
     runBlocking {
 
         println("* Authorizing")
-        api.authorize(credentials)
+        api.authorize(credentials).join()
 
         println("* Invoking devices")
-        val ids = api.invokeAndroidDevices(AndroidInstance.Config(2)).toMutableList()
+        val ids = api.invokeAndroidDevices(AndroidInstance.Config(2)).toList().toMutableList()
 
         println("* Installing apks")
         val apps = ids.map { id -> AndroidApps(id, apks) }
-        api.installAndroidApps(apps)
+        api.installAndroidApps(apps).join()
 
         // If tests will be executed to fast just after the
         // app installed, the instrumentation will fail
@@ -85,8 +86,8 @@ fun main() {
         )
 
         println("* Executing tests")
-        api.executeTest(testPlan).collect { line ->
-            print(line)
+        api.executeTest(testPlan).forEach { flow ->
+            launch { flow.collect { line -> println(line) } }
         }
         println()
         println("* Finish")

@@ -2,6 +2,9 @@ package ftl.presentation.cli.firebase
 
 import ftl.domain.CancelLastRun
 import ftl.domain.invoke
+import ftl.presentation.outputLogger
+import ftl.presentation.throwUnknownType
+import ftl.run.MatrixCancelStatus
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -32,4 +35,11 @@ class CancelCommand :
     var usageHelpRequested: Boolean = false
 
     override fun run() = invoke()
+
+    override val out = outputLogger {
+        when (this) {
+            is MatrixCancelStatus -> mapToMessage()
+            else -> throwUnknownType()
+        }
+    }
 }
