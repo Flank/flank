@@ -1,8 +1,9 @@
 package ftl.client.junit
 
 import com.google.testing.model.TestExecution
+import ftl.api.JUnitTest
 
-internal fun List<TestExecution>.createJUnitTestResult() = JUnitTestResult(
+internal fun List<TestExecution>.createJUnitTestResult() = JUnitTest.Result(
     testsuites = filterNullToolResultsStep()
         .createTestExecutionDataListAsync()
         .prepareForJUnitResult()

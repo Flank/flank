@@ -1,9 +1,9 @@
 package ftl.run
 
 import flank.common.logLn
+import ftl.api.TestMatrix
+import ftl.api.cancelTestMatrix
 import ftl.args.IArgs
-import ftl.client.google.GcTestMatrix
-import ftl.json.SavedMatrix
 import ftl.run.common.getLastArgs
 import ftl.run.common.getLastMatrices
 import ftl.util.MatrixState
@@ -21,7 +21,7 @@ fun cancelLastRun(args: IArgs): MatrixCancelStatus = runBlocking {
 
 /** Cancel all in progress matrices in parallel **/
 suspend fun cancelMatrices(
-    matrixMap: Map<String, SavedMatrix>,
+    matrixMap: Map<String, TestMatrix.Data>,
     project: String
 ): MatrixCancelStatus = coroutineScope {
     logLn("CancelMatrices")
@@ -29,7 +29,7 @@ suspend fun cancelMatrices(
     return@coroutineScope matrixMap
         .filter { matrix -> MatrixState.inProgress(matrix.value.state) }
         .map { (matrixKey, _) -> matrixKey }
-        .onEach { matrixKey -> launch { GcTestMatrix.cancel(matrixKey, project) } }
+        .onEach { matrixKey -> launch { cancelTestMatrix(TestMatrix.Identity(matrixKey, project)) } }
         .toMatrixCancelStatus()
 }
 

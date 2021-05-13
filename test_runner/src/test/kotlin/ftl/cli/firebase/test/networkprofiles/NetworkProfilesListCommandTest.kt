@@ -2,8 +2,8 @@ package ftl.cli.firebase.test.networkprofiles
 
 import ftl.api.NetworkProfile
 import ftl.api.fetchNetworkProfiles
-import ftl.environment.common.toCliTable
 import ftl.presentation.cli.firebase.test.networkprofiles.NetworkProfilesListCommand
+import ftl.presentation.cli.firebase.test.networkprofiles.toCliTable
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll

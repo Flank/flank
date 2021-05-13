@@ -2,7 +2,7 @@ package ftl.environment
 
 import com.google.common.truth.Truth.assertThat
 import ftl.api.fetchSoftwareCatalog
-import ftl.environment.common.toCliTable
+import ftl.presentation.cli.firebase.test.providedsoftware.toCliTable
 import ftl.test.util.FlankTestRunner
 import io.mockk.unmockkAll
 import org.junit.After

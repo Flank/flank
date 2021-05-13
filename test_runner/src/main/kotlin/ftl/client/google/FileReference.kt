@@ -1,7 +1,7 @@
 package ftl.client.google
 
 import ftl.api.FileReference
-import ftl.client.junit.JUnitTestResult
+import ftl.api.JUnitTest
 import ftl.client.junit.parseAllSuitesXml
 import ftl.run.exception.FlankGeneralError
 import java.nio.file.Paths
@@ -19,7 +19,7 @@ internal fun fileReferenceDownload(fileReference: FileReference, ifNeeded: Boole
     }
 }
 
-internal fun downloadAsJunitXml(fileReference: FileReference): JUnitTestResult? =
+internal fun downloadAsJunitXml(fileReference: FileReference): JUnitTest.Result? =
     fileReferenceDownload(fileReference, ifNeeded = false, ignoreErrors = true)
         .takeIf { it.isNotEmpty() }
         ?.let { parseAllSuitesXml(Paths.get(it)) }

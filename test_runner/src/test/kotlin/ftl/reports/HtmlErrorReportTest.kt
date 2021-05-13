@@ -1,6 +1,5 @@
 package ftl.reports
 
-import ftl.adapter.google.toApiModel
 import ftl.api.JUnitTest
 import ftl.client.junit.parseAllSuitesXml
 import ftl.client.junit.parseOneSuiteXml
@@ -14,13 +13,13 @@ class HtmlErrorReportTest {
 
     @Test
     fun `reactJson androidPassXml`() {
-        val results = parseOneSuiteXml(JUnitXmlTest.androidPassXml).toApiModel().testsuites!!.process()
+        val results = parseOneSuiteXml(JUnitXmlTest.androidPassXml).testsuites!!.process()
         assertTrue(results.isEmpty())
     }
 
     @Test
     fun `reactJson androidFailXml`() {
-        val results: List<HtmlErrorReport.Group> = parseOneSuiteXml(JUnitXmlTest.androidFailXml).toApiModel().testsuites!!.process()
+        val results: List<HtmlErrorReport.Group> = parseOneSuiteXml(JUnitXmlTest.androidFailXml).testsuites!!.process()
 
         val group = results.first()
         assertEquals(1, results.size)
@@ -36,7 +35,7 @@ class HtmlErrorReportTest {
     @Test
     fun `reactJson androidFailXml merged`() {
         // 4 tests - 2 pass, 2 fail. we should have 2 failures in the report
-        val mergedXml: JUnitTest.Result = parseOneSuiteXml(JUnitXmlTest.androidFailXml).toApiModel()
+        val mergedXml: JUnitTest.Result = parseOneSuiteXml(JUnitXmlTest.androidFailXml)
         mergedXml.merge(mergedXml)
 
         assertEquals(4, mergedXml.testsuites?.first()?.testcases?.size)
@@ -57,13 +56,13 @@ class HtmlErrorReportTest {
 
     @Test
     fun `reactJson iosPassXml`() {
-        val results = parseAllSuitesXml(JUnitXmlTest.iosPassXml).toApiModel().testsuites!!.process()
+        val results = parseAllSuitesXml(JUnitXmlTest.iosPassXml).testsuites!!.process()
         assertTrue(results.isEmpty())
     }
 
     @Test
     fun `reactJson iosFailXml`() {
-        val results = parseAllSuitesXml(JUnitXmlTest.iosFailXml).toApiModel().testsuites!!.process()
+        val results = parseAllSuitesXml(JUnitXmlTest.iosFailXml).testsuites!!.process()
 
         val group = results.first()
         assertEquals(1, results.size)

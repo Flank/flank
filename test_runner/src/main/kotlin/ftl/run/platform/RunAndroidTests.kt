@@ -4,15 +4,16 @@ import com.google.testing.Testing
 import com.google.testing.model.TestMatrix
 import flank.common.join
 import flank.common.logLn
+import ftl.adapter.google.toApiModel
 import ftl.api.RemoteStorage
 import ftl.api.uploadToRemoteStorage
 import ftl.args.AndroidArgs
 import ftl.args.isInstrumentationTest
 import ftl.args.shardsFilePath
+import ftl.client.google.GcToolResults
 import ftl.config.FtlConstants
 import ftl.gc.GcAndroidDevice
 import ftl.gc.GcAndroidTestMatrix
-import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
 import ftl.run.exception.FlankGeneralError
 import ftl.run.model.AndroidMatrixTestShards
@@ -80,7 +81,8 @@ internal suspend fun AndroidArgs.runAndroidTests(): TestResult = coroutineScope 
     logLn(beforeRunMessage(allTestShardChunks))
 
     TestResult(
-        matrixMap = afterRunTests(testMatrices.awaitAll(), stopwatch),
+        // TDODO: https://github.com/Flank/flank/issues/1754
+        matrixMap = afterRunTests(testMatrices.awaitAll().map { it.toApiModel() }, stopwatch),
         shardChunks = allTestShardChunks.testCases,
         ignoredTests = ignoredTestsShardChunks.flatten()
     )

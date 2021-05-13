@@ -1,5 +1,6 @@
 package ftl.client.junit
 
+import ftl.api.JUnitTest
 import ftl.reports.api.data.TestSuiteOverviewData
 import ftl.reports.api.format
 import ftl.reports.outcome.axisValue
@@ -16,7 +17,7 @@ internal fun List<TestExecutionData>.createJUnitTestSuites() = mapNotNull { data
 private fun createJUnitTestSuite(
     data: TestExecutionData,
     overview: TestSuiteOverviewData
-) = JUnitTestSuite(
+) = JUnitTest.Suite(
     name = data.step.axisValue(),
     timestamp = data.timestamp.asUnixTimestamp().formatUtcDate(),
     tests = overview.total.toString(),

@@ -11,3 +11,9 @@ data class TestExecutionData(
     val step: Step,
     val timestamp: Timestamp
 )
+
+data class TestCasesWithStep(
+    val testCases: List<TestCase>,
+    val step: Step,
+    val timestamp: Timestamp
+)

@@ -12,15 +12,15 @@ import com.google.cloud.storage.StorageOptions
 import flank.common.defaultCredentialPath
 import flank.common.isWindows
 import flank.common.logLn
-import ftl.adapter.google.credential
 import ftl.api.downloadAsJunitXML
 import ftl.args.IArgs.Companion.AVAILABLE_PHYSICAL_SHARD_COUNT_RANGE
 import ftl.args.yml.YamlObjectMapper
 import ftl.client.google.GcStorage
+import ftl.client.google.GcToolResults
+import ftl.client.google.credential
 import ftl.config.FtlConstants.GCS_PREFIX
 import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.config.FtlConstants.useMock
-import ftl.gc.GcToolResults
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 import ftl.shard.Chunk

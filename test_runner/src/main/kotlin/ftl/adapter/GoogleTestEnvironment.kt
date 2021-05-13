@@ -18,7 +18,7 @@ object FetchGoogleTestEnvironmentAndroid :
     (String) -> TestEnvironment.Android by { projectId ->
         TestEnvironment.Android(
             osVersions = fetchAndroidOsVersion(projectId),
-            models = fetchDeviceModelAndroid(projectId),
+            models = fetchDeviceModelAndroid(projectId).list,
             locales = fetchLocales(Locale.Identity(projectId, Platform.ANDROID)),
             softwareCatalog = fetchSoftwareCatalog(),
             networkProfiles = fetchNetworkProfiles(),
@@ -31,8 +31,8 @@ object FetchGoogleTestEnvironmentIos :
     TestEnvironment.Ios.Fetch,
     (String) -> TestEnvironment.Ios by { projectId ->
         TestEnvironment.Ios(
-            osVersions = fetchIosOsVersion(projectId),
-            models = fetchDeviceModelIos(projectId),
+            osVersions = fetchIosOsVersion(projectId).list,
+            models = fetchDeviceModelIos(projectId).list,
             locales = fetchLocales(Locale.Identity(projectId, Platform.IOS)),
             softwareCatalog = fetchSoftwareCatalog(),
             networkProfiles = fetchNetworkProfiles(),

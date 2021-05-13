@@ -1,8 +1,12 @@
 package ftl.presentation.cli.firebase.test.android.models
 
+import ftl.api.DeviceModel
 import ftl.config.FtlConstants
 import ftl.domain.ListAndroidModels
 import ftl.domain.invoke
+import ftl.environment.android.toCliTable
+import ftl.presentation.outputLogger
+import ftl.presentation.throwUnknownType
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -25,6 +29,12 @@ class AndroidModelsListCommand :
         description = ["YAML config file path"]
     )
     override var configPath: String = FtlConstants.defaultAndroidConfig
+    override val out = outputLogger {
+        when (this) {
+            is DeviceModel.Android.Available -> toCliTable()
+            else -> throwUnknownType()
+        }
+    }
 
     @CommandLine.Option(
         names = ["-h", "--help"],

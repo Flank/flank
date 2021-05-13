@@ -20,8 +20,8 @@ object CostReport : IReport {
         var totalBillablePhysicalMinutes = 0L
 
         matrices.map.values.forEach {
-            totalBillableVirtualMinutes += it.billableVirtualMinutes
-            totalBillablePhysicalMinutes += it.billablePhysicalMinutes
+            totalBillableVirtualMinutes += it.billableMinutes.virtual
+            totalBillablePhysicalMinutes += it.billableMinutes.physical
         }
 
         return estimateCosts(totalBillableVirtualMinutes, totalBillablePhysicalMinutes)

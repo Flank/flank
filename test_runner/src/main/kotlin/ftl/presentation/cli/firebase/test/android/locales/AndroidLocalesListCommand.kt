@@ -7,6 +7,7 @@ import ftl.domain.invoke
 import ftl.presentation.cli.firebase.test.locale.toCliTable
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
+import ftl.util.asListOrNull
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -30,14 +31,6 @@ class AndroidLocalesListCommand :
     )
     override var configPath: String = FtlConstants.defaultAndroidConfig
 
-    override val out = outputLogger {
-        @Suppress("UNCHECKED_CAST")
-        when (this) {
-            is List<*> -> (this as List<Locale>).toCliTable()
-            else -> throwUnknownType()
-        }
-    }
-
     @CommandLine.Option(
         names = ["-h", "--help"],
         usageHelp = true,
@@ -46,4 +39,8 @@ class AndroidLocalesListCommand :
     var usageHelpRequested: Boolean = false
 
     override fun run() = invoke()
+
+    override val out = outputLogger {
+        asListOrNull<Locale>()?.toCliTable() ?: throwUnknownType()
+    }
 }

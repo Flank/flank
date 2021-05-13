@@ -92,7 +92,7 @@ internal fun isDeviceSupported(
     modelId: String,
     versionId: String,
     projectId: String
-) = fetchDeviceModelIos(projectId).find { it.id == modelId }?.supportedVersionIds?.contains(versionId) ?: false
+) = fetchDeviceModelIos(projectId).list.find { it.id == modelId }?.supportedVersionIds?.contains(versionId) ?: false
 
 private fun IosArgs.assertTestFiles() =
     if (isXcTest) {

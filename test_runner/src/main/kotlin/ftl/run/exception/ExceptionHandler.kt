@@ -1,7 +1,7 @@
 package ftl.run.exception
 
 import flank.common.logLn
-import ftl.json.SavedMatrix
+import ftl.api.TestMatrix
 import ftl.reports.output.add
 import ftl.reports.output.generate
 import ftl.reports.output.outputReport
@@ -97,6 +97,6 @@ private fun printError(string: String?) {
     string?.let { outputReport.add("error", it) }
 }
 
-private fun SavedMatrix.logError() {
+private fun TestMatrix.Data.logError() {
     logLn("Matrix is $state")
 }

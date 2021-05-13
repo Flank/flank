@@ -6,6 +6,8 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
 import ftl.adapter.GoogleJUnitTestFetch
 import ftl.adapter.GoogleJUnitTestParse
 import ftl.adapter.GoogleLegacyJunitTestParse
+import ftl.args.IArgs
+import ftl.json.MatrixMap
 import java.io.File
 
 val generateJUnitTestResultFromApi: JUnitTest.Result.GenerateFromApi get() = GoogleJUnitTestFetch
@@ -21,8 +23,8 @@ object JUnitTest {
         var testsuites: MutableList<Suite>? = null
     ) {
         data class ApiIdentity(
-            val projectId: String,
-            val matrixIds: List<String>
+            val args: IArgs,
+            val matrixMap: MatrixMap
         )
 
         interface GenerateFromApi : (ApiIdentity) -> Result
@@ -103,10 +105,10 @@ object JUnitTest {
 
         @JsonInclude(JsonInclude.Include.CUSTOM, valueFilter = FilterNotNull::class)
         val skipped: String? = "absent", // used by FilterNotNull to filter out absent `skipped` values
+    ) {
 
         @JacksonXmlProperty(isAttribute = true)
-        val flaky: Boolean? = null // use null instead of false
-    ) {
+        var flaky: Boolean? = null // use null instead of false
 
         // Consider to move all properties to constructor if will doesn't conflict with parser
         @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -126,3 +128,5 @@ object JUnitTest {
         }
     }
 }
+
+fun emptyJunitTestResult() = JUnitTest.Result()

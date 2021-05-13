@@ -74,7 +74,7 @@ class AndroidCatalogTest {
         val expectedSeparatorCount = expectedHeaders.size + 1
 
         // when
-        val devicesTable = fetchDeviceModelAndroid(projectId).toCliTable()
+        val devicesTable = fetchDeviceModelAndroid(projectId).list.toCliTable()
         val headers = devicesTable.lines()[1]
 
         // then

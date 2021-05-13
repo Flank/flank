@@ -1,18 +1,6 @@
 package flank.corellium.shard
 
 /**
- * Distribute the test cases into the [List] of shards where each shard have similar duration.
- * @receiver The bunch of test cases grouped by test and app.
- * @return [List] of shards where each shard may contains many apps and test cases.
- */
-fun List<Shard.App>.calculateShards(
-    maxCount: Int
-): List<List<Shard.App>> = this
-    .mapToInternalChunks()
-    .groupByDuration(maxCount)
-    .mapToShards()
-
-/**
  * Namespace for sharding input and output structures.
  */
 object Shard {
@@ -49,3 +37,18 @@ object Shard {
 
     private const val DEFAULT_DURATION = 120L
 }
+
+/**
+ * Collection of apps, tests, and test cases that can be identified as test-shard for running on a single device instance.
+ */
+typealias InstanceShard = List<Shard.App>
+
+/**
+ * List of shards. Each shard for another device instance.
+ */
+typealias Shards = List<InstanceShard>
+
+/**
+ * Collection of apps, tests, and test cases that can be used to calculate [Shards]
+ */
+typealias Apps = List<Shard.App>

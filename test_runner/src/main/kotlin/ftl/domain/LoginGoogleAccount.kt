@@ -1,6 +1,6 @@
 package ftl.domain
 
-import ftl.data.requestUserAuthorization
+import ftl.api.requestUserAuthorization
 
 interface LoginGoogleAccount
 

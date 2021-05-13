@@ -7,8 +7,7 @@ import com.google.api.services.toolresults.model.TestExecutionStep
 import com.google.api.services.toolresults.model.Timestamp
 import com.google.testing.model.TestExecution
 import com.google.testing.model.ToolResultsStep
-import ftl.client.junit.JUnitTestCase
-import ftl.client.junit.JUnitTestSuite
+import ftl.api.JUnitTest
 import ftl.client.junit.TestExecutionData
 import ftl.client.junit.createJUnitTestCases
 import ftl.client.junit.createJUnitTestSuites
@@ -45,7 +44,7 @@ class CreateJUnitTestSuiteKtTest {
             any<TestExecutionData>().createTestSuiteOverviewData()
         } returns TestSuiteOverviewData(1, 1, 1, 1, 1, 1.1, 1.1)
 
-        val jUnitTestCase = JUnitTestCase(null, null, "1.1")
+        val jUnitTestCase = JUnitTest.Case(null, null, "1.1")
 
         every {
             createJUnitTestCases(any(), any(), any())
@@ -71,7 +70,7 @@ class CreateJUnitTestSuiteKtTest {
         )
 
         // when
-        val expected = JUnitTestSuite(
+        val expected = JUnitTest.Suite(
             name = "Model-Version-Locale-Orientation",
             tests = "1",
             failures = "1",

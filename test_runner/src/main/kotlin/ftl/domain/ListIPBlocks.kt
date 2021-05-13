@@ -1,12 +1,10 @@
 package ftl.domain
 
-import flank.common.logLn
 import ftl.api.fetchIpBlocks
-import ftl.environment.toCliTable
+import ftl.presentation.Output
 
-interface ListIPBlocks
+interface ListIPBlocks : Output
 
 operator fun ListIPBlocks.invoke() {
-    // TODO move toCliTable() to presentation layer during refactor of presentation after #1728
-    logLn(fetchIpBlocks().toCliTable())
+    fetchIpBlocks().out()
 }

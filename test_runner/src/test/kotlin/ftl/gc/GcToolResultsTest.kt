@@ -6,6 +6,7 @@ import com.google.common.truth.Truth.assertThat
 import com.google.testing.model.ToolResultsHistory
 import com.google.testing.model.ToolResultsStep
 import ftl.args.AndroidArgs
+import ftl.client.google.GcToolResults
 import ftl.config.FtlConstants
 import ftl.run.exception.FailureToken
 import ftl.run.exception.FlankGeneralError

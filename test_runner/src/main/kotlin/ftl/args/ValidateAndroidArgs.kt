@@ -122,7 +122,7 @@ private fun AndroidArgs.assertDevicesSupported() = devices
 
 @VisibleForTesting
 internal fun supportedDeviceConfig(modelId: String, versionId: String, projectId: String): DeviceConfigCheck {
-    val foundModel = fetchDeviceModelAndroid(projectId).find { it.id == modelId } ?: return UnsupportedModelId
+    val foundModel = fetchDeviceModelAndroid(projectId).list.find { it.id == modelId } ?: return UnsupportedModelId
     if (!AndroidCatalog.androidVersionIds(projectId).contains(versionId)) return UnsupportedVersionId
     if (!foundModel.supportedVersionIds.contains(versionId)) return IncompatibleModelVersion
 
@@ -131,7 +131,7 @@ internal fun supportedDeviceConfig(modelId: String, versionId: String, projectId
 
 fun Device.getSupportedVersionId(
     projectId: String
-): List<String> = fetchDeviceModelAndroid(projectId).find { it.id == model }?.supportedVersionIds.orEmpty()
+): List<String> = fetchDeviceModelAndroid(projectId).list.find { it.id == model }?.supportedVersionIds.orEmpty()
 
 private fun AndroidArgs.assertShards() {
     if (numUniformShards != null && maxTestShards > 1) throw FlankConfigurationError(
