@@ -1,8 +1,12 @@
 package ftl.presentation.cli.firebase.test.android.versions
 
+import ftl.api.OsVersion
 import ftl.config.FtlConstants
 import ftl.domain.ListAndroidVersions
 import ftl.domain.invoke
+import ftl.environment.android.prepareDescription
+import ftl.presentation.outputLogger
+import ftl.presentation.throwUnknownType
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -25,6 +29,10 @@ class AndroidVersionsListCommand :
         description = ["YAML config file path"]
     )
     override var configPath: String = FtlConstants.defaultAndroidConfig
+
+    override val out = outputLogger {
+        asListOrNull<OsVersion.Android>()?.toCliTable() ?: throwUnknownType()
+    }
 
     @CommandLine.Option(
         names = ["-h", "--help"],

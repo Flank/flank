@@ -4,9 +4,10 @@ import flank.common.logLn
 import ftl.api.fetchAndroidOsVersion
 import ftl.args.AndroidArgs
 import ftl.environment.android.toCliTable
+import ftl.presentation.Output
 import java.nio.file.Paths
 
-interface ListAndroidVersions {
+interface ListAndroidVersions : Output {
     val configPath: String
 }
 
