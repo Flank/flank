@@ -29,13 +29,13 @@ fun processIntegrationTestsResult(
 
 private fun logArgs(
     result: ITResult,
-    url: String,
+    state: String,
     runID: String
 ) = println(
     """
     |** Parameters:
     |     global run result: $result
-    |     run state: $url
+    |     run state: $state
     |     runID:  $runID
     """.trimMargin()
 )
