@@ -7,9 +7,9 @@ import com.google.testing.model.Orientation
 import flank.common.logLn
 import ftl.api.fetchAndroidOsVersion
 import ftl.environment.android.getDescription
-import ftl.environment.android.toCliTable
 import ftl.environment.getLocaleDescription
 import ftl.http.executeWithRetry
+import ftl.presentation.cli.firebase.test.android.versions.toCliTable
 
 /**
  * Contains lists of possible Android device and version ids, as well as checks
