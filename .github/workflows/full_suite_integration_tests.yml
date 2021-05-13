@@ -129,8 +129,8 @@ jobs:
         uses: UnlyEd/github-action-store-variable@v2.1.0
         with:
           variables: |
-            ${{ matrix.os }}=${{ job.status }}
-            ${{ matrix.os }}-bs=${{steps.run-it.outputs.build-scan-url}}
+            ${{ runner.os }}=${{ job.status }}
+            ${{ runner.os }}-bs=${{steps.run-it.outputs.build-scan-url}}
 
   process-results:
     needs: [ run-it-full-suite ]
@@ -142,7 +142,7 @@ jobs:
         with:
           delimiter: ','
           variables: |
-            windows-latest,windows-latest-bs,macos-latest,macos-latest-bs,ubuntu-18.04,ubuntu-18.04-bs
+            Windows,Windows-bs,macOS,macOS-bs,Linux,Linux-bs
 
       - name: Checkout code
         uses: actions/checkout@v2
@@ -171,7 +171,7 @@ jobs:
         with:
           delimiter: ','
           variables: |
-            windows-latest,windows-latest-bs,macos-latest,macos-latest-bs,ubuntu-18.04,ubuntu-18.04-bs
+            Windows,Windows-bs,macOS,macOS-bs,Linux,Linux-bs
 
       - name: Update comment on failure
         if: ${{ needs.run-it-full-suite.outputs.job_status == 'failure' }}
@@ -181,9 +181,9 @@ jobs:
           edit-mode: replace
           body: |
             **Integration tests failed :x:**
-            Windows status ${{ env.windows-latest }} - Build scan: ${{ env.windows-latest-bs }}
-            MacOS status ${{ env.macos-latest }} - Build scan: ${{ env.macos-latest-bs }}
-            Linux status ${{ env.ubuntu-18.04 }} - Build scan: ${{ env.ubuntu-18.04-bs }}
+            Windows status ${{ env.Windows }} - Build scan: ${{ env.Windows-bs }}
+            MacOS status ${{ env.macOS }} - Build scan: ${{ env.macOS-bs }}
+            Linux status ${{ env.Linux }} - Build scan: ${{ env.Linux-bs }}
             Workflow run https://github.com/Flank/flank/actions/runs/${{ github.run_id }}
           reactions: '-1'
 
@@ -195,9 +195,9 @@ jobs:
           edit-mode: replace
           body: |
             **Integration tests succeed for all OSes :white_check_mark:**
-            Windows Build scan: ${{ env.windows-latest-bs }}
-            MacOS Build scan: ${{ env.macos-latest-bs }}
-            Linux Build scan: ${{ env.ubuntu-18.04-bs }}
+            Windows Build scan: ${{ env.Windows-bs }}
+            MacOS Build scan: ${{ env.macOS-bs }}
+            Linux Build scan: ${{ env.Linux-bs }}
             Workflow run https://github.com/Flank/flank/actions/runs/${{ github.run_id }}
           reactions: '+1'
 
