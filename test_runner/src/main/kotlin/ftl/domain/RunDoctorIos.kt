@@ -15,3 +15,15 @@ operator fun RunDoctorIos.invoke() {
     val validationResult = validateYaml(IosArgs, Paths.get(configPath))
     processValidation(validationResult, fix, ymlPath)
 }
+
+data class DoctorResult(
+    val parsingError: String,
+    val topLevelUnknownKeys: List<String>,
+    val nestedUnknownKeys: Map<String, List<String>>,
+    val invalidDevices: List<InvalidDevice>
+) {
+    data class InvalidDevice(
+        val version: String,
+        val model: String
+    )
+}
