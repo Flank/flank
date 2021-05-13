@@ -44,8 +44,8 @@ object ArgsToString {
                 "\n          client-details:\n" +
                     "            ${it.clientDetails.toList().joinToString("\n            ") { pair -> "${pair.first}: ${pair.second}" }}"
             } else ""
-
-            "        - app: ${it.app}\n          test: ${it.test}$clientDetails$environmentVars"
+            val maxTestShards = if (it.maxTestShards != null) "\n          max-test-shards: ${it.maxTestShards}" else ""
+            "        - app: ${it.app}\n          test: ${it.test}$maxTestShards$clientDetails$environmentVars"
         }
     }
 }
