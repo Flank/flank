@@ -2,6 +2,9 @@ package ftl.reports.outcome
 
 import com.google.api.services.toolresults.model.Environment
 import com.google.api.services.toolresults.model.Step
+import ftl.client.google.TestOutcomeContext
+import ftl.client.google.calculateAndroidBillableMinutes
+import ftl.client.google.createMatrixOutcomeSummary
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
@@ -16,7 +19,7 @@ class CreateMatrixOutcomeSummaryKtTest {
     @Before
     fun setUp() {
         mockkStatic("ftl.reports.outcome.UtilKt")
-        mockkStatic("ftl.reports.outcome.BillableMinutesKt")
+        mockkStatic("ftl.client.google.BillableMinutesKt")
     }
 
     @After

@@ -1,8 +1,12 @@
 package ftl.presentation.cli.firebase.test.ios.versions
 
+import ftl.api.OsVersion
 import ftl.config.FtlConstants
 import ftl.domain.ListIosVersions
 import ftl.domain.invoke
+import ftl.environment.ios.toCliTable
+import ftl.presentation.outputLogger
+import ftl.presentation.throwUnknownType
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -34,4 +38,11 @@ class IosVersionsListCommand :
     var usageHelpRequested: Boolean = false
 
     override fun run() = invoke()
+
+    override val out = outputLogger {
+        when (this) {
+            is OsVersion.Ios.Available -> toCliTable()
+            else -> throwUnknownType()
+        }
+    }
 }

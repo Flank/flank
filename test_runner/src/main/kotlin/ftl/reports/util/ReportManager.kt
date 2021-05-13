@@ -1,7 +1,6 @@
 package ftl.reports.util
 
 import com.google.common.annotations.VisibleForTesting
-import com.google.testing.model.TestExecution
 import flank.common.logLn
 import ftl.api.JUnitTest
 import ftl.api.RemoteStorage
@@ -10,7 +9,6 @@ import ftl.api.generateJUnitTestResultFromApi
 import ftl.api.parseJUnitLegacyTestResultFromFile
 import ftl.api.parseJUnitTestResultFromFile
 import ftl.api.uploadToRemoteStorage
-import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IgnoredTestCases
 import ftl.args.IosArgs
@@ -26,7 +24,6 @@ import ftl.reports.FullJUnitReport
 import ftl.reports.HtmlErrorReport
 import ftl.reports.JUnitReport
 import ftl.reports.MatrixResultsReport
-import ftl.reports.api.getAndUploadPerformanceMetrics
 import ftl.reports.api.utcDateFormat
 import ftl.reports.toXmlString
 import ftl.run.common.getMatrixFilePath
@@ -75,16 +72,15 @@ object ReportManager {
 
         val testsResult = generateJUnitTestResultFromApi((args to matrices).toApiIdentity())
         processJunitResults(args, matrices, testSuite, testShardChunks, testsResult)
-        // TODO move it to next #1756
-        // createAndUploadPerformanceMetricsForAndroid(args, testsResult, matrices)
+
         uploadMatricesId(args, matrices)
     }
 
     private fun Pair<IArgs, MatrixMap>.toApiIdentity(): JUnitTest.Result.ApiIdentity {
         val (args, matrices) = this
         return JUnitTest.Result.ApiIdentity(
-            projectId = args.project,
-            matrixIds = matrices.map.values.map { it.matrixId }
+            args = args,
+            matrixMap = matrices
         )
     }
 
@@ -157,23 +153,6 @@ object ReportManager {
             args.useLegacyJUnitResult -> processJunitXml(testSuite, args, testShardChunks)
             else -> processJunitXml(testSuite, args, testShardChunks)
         }
-    }
-
-    private fun createAndUploadPerformanceMetricsForAndroid(
-        args: IArgs,
-        testExecutions: List<TestExecution>,
-        matrices: MatrixMap
-    ) {
-        testExecutions
-            .takeIf { args is AndroidArgs }
-            ?.run { withGcsStoragePath(matrices, args.resultsDir).getAndUploadPerformanceMetrics(args) }
-    }
-
-    private fun List<TestExecution>.withGcsStoragePath(
-        matrices: MatrixMap,
-        defaultResultDir: String
-    ) = map { testExecution ->
-        testExecution to (matrices.map[testExecution.matrixId]?.gcsPathWithoutRootBucket ?: defaultResultDir)
     }
 
     private fun IgnoredTestCases.toJunitTestsResults() = getSkippedJUnitTestSuite(

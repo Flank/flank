@@ -25,8 +25,10 @@ object DeviceModel {
         val supportedAbis: List<String>,
         val lowFpsVideoRecording: Boolean,
     ) {
-
-        interface Fetch : (String) -> List<Android>
+        data class Available(
+            val list: List<Android>
+        )
+        interface Fetch : (String) -> Available
     }
 
     data class Ios(
@@ -41,6 +43,9 @@ object DeviceModel {
         val deviceCapabilities: List<String>,
     ) {
 
-        interface Fetch : (String) -> List<Ios>
+        data class Available(
+            val list: List<Ios>
+        )
+        interface Fetch : (String) -> Available
     }
 }

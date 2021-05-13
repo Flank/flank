@@ -2,15 +2,16 @@ package ftl.run.platform
 
 import flank.common.join
 import flank.common.logLn
+import ftl.adapter.google.toApiModel
 import ftl.api.RemoteStorage
 import ftl.api.uploadToRemoteStorage
 import ftl.args.IosArgs
 import ftl.args.isXcTest
 import ftl.args.shardsFilePath
+import ftl.client.google.GcToolResults
 import ftl.config.FtlConstants
 import ftl.gc.GcIosMatrix
 import ftl.gc.GcIosTestMatrix
-import ftl.gc.GcToolResults
 import ftl.http.executeWithRetry
 import ftl.ios.xctest.flattenShardChunks
 import ftl.run.dumpShards
@@ -70,7 +71,7 @@ internal suspend fun IosArgs.runIosTests(): TestResult = coroutineScope {
 
     TestResult(
         matrixMap = afterRunTests(
-            testMatrices = result,
+            testMatrices = result.map { it.toApiModel() },
             stopwatch = stopwatch
         ),
         shardChunks = testShardChunks.testCases

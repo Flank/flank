@@ -1,6 +1,6 @@
 package ftl.util
 
-import com.google.testing.model.TestMatrix
+import ftl.api.TestMatrix
 
 object MatrixState {
     // https://github.com/bootstraponline/gcloud_cli/blob/0752e88b155a417a18d244c242b4ab3fb9aa1c1f/google-cloud-sdk/lib/googlecloudsdk/third_party/apis/testing_v1.json#L171
@@ -47,4 +47,5 @@ object MatrixState {
     }
 }
 
-fun TestMatrix.isInvalid() = MatrixState.isInvalid(this.state)
+val TestMatrix.Data.isInvalid
+    get() = MatrixState.isInvalid(this.state)

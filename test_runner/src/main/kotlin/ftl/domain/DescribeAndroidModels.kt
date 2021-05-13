@@ -15,6 +15,7 @@ interface DescribeAndroidModels : Output {
 operator fun DescribeAndroidModels.invoke() {
     if (modelId.isBlank()) throw FlankConfigurationError("Argument MODEL_ID must be specified.")
     fetchDeviceModelAndroid(AndroidArgs.loadOrDefault(Paths.get(configPath)).project)
+        .list
         .find { it.id == modelId }
         ?.out()
         ?: throw FlankGeneralError("ERROR: '$modelId' is not a valid model")

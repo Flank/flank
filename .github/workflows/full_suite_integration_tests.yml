@@ -142,7 +142,7 @@ jobs:
         with:
           delimiter: ','
           variables: |
-            windows-latest,windows-latest-bs,macos-latest,macos-latest-bs,ubuntu-latest,ubuntu-latest-bs
+            windows-latest,windows-latest-bs,macos-latest,macos-latest-bs,ubuntu-18.04,ubuntu-18.04-bs
 
       - name: Checkout code
         uses: actions/checkout@v2

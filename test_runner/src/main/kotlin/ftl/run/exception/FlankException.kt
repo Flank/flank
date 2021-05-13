@@ -1,6 +1,6 @@
 package ftl.run.exception
 
-import ftl.json.SavedMatrix
+import ftl.api.TestMatrix
 import java.io.IOException
 import java.lang.Exception
 
@@ -16,7 +16,7 @@ sealed class FlankException(message: String? = null, cause: Throwable? = null) :
  *
  * @param matrices [List]<[SavedMatrix]> List of failed matrices
  */
-class FailedMatrixError(val matrices: List<SavedMatrix>, val ignoreFailed: Boolean = false) : FlankException()
+class FailedMatrixError(val matrices: List<TestMatrix.Data>, val ignoreFailed: Boolean = false) : FlankException()
 
 /**
  * Thrown when at least one matrix is not finished.
@@ -26,7 +26,7 @@ class FailedMatrixError(val matrices: List<SavedMatrix>, val ignoreFailed: Boole
  *
  * @param matrix [SavedMatrix] Not finished matrix (with matrix state different then FINISHED)
  */
-open class FTLError(val matrix: SavedMatrix) : FlankException()
+open class FTLError(val matrix: TestMatrix.Data) : FlankException()
 
 /**
  * Thrown when doctor command found an error in yml fail and wa unable to fix it
@@ -43,7 +43,7 @@ class YmlValidationError(message: String? = null) : FlankException(message)
  * @param map [Map]<[String], [SavedMatrix]>? map of matrices to be cancelled
  * @param projectId [String] id of flank's project
  */
-class FlankTimeoutError(val map: Map<String, SavedMatrix>?, val projectId: String) : FlankException()
+class FlankTimeoutError(val map: Map<String, TestMatrix.Data>?, val projectId: String) : FlankException()
 
 /**
  * Usually indicates missing or wrong usage of flags, incorrect parameters, errors in config files.

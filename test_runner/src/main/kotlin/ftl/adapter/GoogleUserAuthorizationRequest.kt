@@ -1,7 +1,7 @@
 package ftl.adapter
 
-import ftl.adapter.google.UserAuth
-import ftl.data.UserAuthorization
+import ftl.api.UserAuthorization
+import ftl.client.google.UserAuth
 
 object GoogleUserAuthorizationRequest :
     UserAuthorization.Request,

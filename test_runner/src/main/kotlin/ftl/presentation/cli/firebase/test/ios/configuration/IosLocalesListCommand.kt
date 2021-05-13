@@ -1,8 +1,13 @@
 package ftl.presentation.cli.firebase.test.ios.configuration
 
+import ftl.api.Locale
 import ftl.config.FtlConstants
 import ftl.domain.ListIosLocales
 import ftl.domain.invoke
+import ftl.presentation.cli.firebase.test.locale.toCliTable
+import ftl.presentation.outputLogger
+import ftl.presentation.throwUnknownType
+import ftl.util.asListOrNull
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -34,4 +39,8 @@ class IosLocalesListCommand :
     var usageHelpRequested: Boolean = false
 
     override fun run() = invoke()
+
+    override val out = outputLogger {
+        asListOrNull<Locale>()?.toCliTable() ?: throwUnknownType()
+    }
 }

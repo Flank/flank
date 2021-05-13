@@ -1,9 +1,10 @@
 package ftl.json
 
 import com.google.common.truth.Truth.assertThat
-import ftl.json.SavedMatrixTest.Companion.createResultsStorage
-import ftl.json.SavedMatrixTest.Companion.createStepExecution
-import ftl.json.SavedMatrixTest.Companion.testMatrix
+import ftl.api.TestMatrix
+import ftl.api.TestMatrixTest.Companion.createResultsStorage
+import ftl.api.TestMatrixTest.Companion.createStepExecution
+import ftl.api.TestMatrixTest.Companion.ftlTestMatrix
 import ftl.run.exception.MatrixValidationError
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.assertThrowsWithMessage
@@ -25,23 +26,21 @@ class MatrixMapTest {
         assertThat(matrixMap.map).isNotNull()
     }
 
-    private fun matrixForExecution(executionId: Int): SavedMatrix {
-        return createSavedMatrix(
-            testMatrix = testMatrix()
-                .setResultStorage(
-                    createResultsStorage().apply {
-                        toolResultsExecution.executionId = executionId.toString()
-                    }
+    private fun matrixForExecution(executionId: Int): TestMatrix.Data = createAndUpdateMatrix(
+        ftlTestMatrix()
+            .setResultStorage(
+                createResultsStorage().apply {
+                    toolResultsExecution.executionId = executionId.toString()
+                }
+            )
+            .setState(MatrixState.FINISHED)
+            .setTestMatrixId("123")
+            .setTestExecutions(
+                listOf(
+                    createStepExecution(executionId, "")
                 )
-                .setState(MatrixState.FINISHED)
-                .setTestMatrixId("123")
-                .setTestExecutions(
-                    listOf(
-                        createStepExecution(executionId, "")
-                    )
-                )
-        )
-    }
+            )
+    )
 
     @Test
     fun `matrixMap failure`() {
@@ -54,11 +53,11 @@ class MatrixMapTest {
 
     @Test
     fun `invalid matrix should contain a specific error message`() {
-        val testMatrix = testMatrix()
+        val testMatrix = ftlTestMatrix()
         testMatrix.testMatrixId = "123"
         testMatrix.state = MatrixState.INVALID
 
-        val savedMatrix = createSavedMatrix(testMatrix)
+        val savedMatrix = createAndUpdateMatrix(testMatrix)
 
         val expectedErrorMessage = "Matrix: [${testMatrix.testMatrixId}] failed: Unknown error"
         assertThrowsWithMessage(MatrixValidationError::class, expectedErrorMessage) {

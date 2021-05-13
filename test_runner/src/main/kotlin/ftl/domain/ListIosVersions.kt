@@ -1,14 +1,14 @@
 package ftl.domain
 
-import flank.common.logLn
+import ftl.api.fetchIosOsVersion
 import ftl.args.IosArgs
-import ftl.client.google.IosCatalog
+import ftl.presentation.Output
 import java.nio.file.Paths
 
-interface ListIosVersions {
+interface ListIosVersions : Output {
     var configPath: String
 }
 
 operator fun ListIosVersions.invoke() {
-    logLn(IosCatalog.softwareVersionsAsTable(IosArgs.loadOrDefault(Paths.get(configPath)).project))
+    fetchIosOsVersion(IosArgs.loadOrDefault(Paths.get(configPath)).project).out()
 }

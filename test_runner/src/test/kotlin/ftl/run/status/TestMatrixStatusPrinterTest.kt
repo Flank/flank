@@ -1,7 +1,8 @@
 package ftl.run.status
 
-import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
+import ftl.adapter.google.toApiModel
+import ftl.api.TestMatrix.TestExecution
 import ftl.args.IArgs
 import ftl.util.Duration
 import ftl.util.MatrixState
@@ -14,6 +15,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
+import com.google.testing.model.TestExecution as GoogleTestExecution
 
 class TestMatrixStatusPrinterTest {
     @Rule
@@ -28,10 +30,11 @@ class TestMatrixStatusPrinterTest {
         val testMatricesIds = (0..1).map(Int::toString)
         val matrices = testMatricesIds.mapIndexed { index, s ->
             TestMatrix().apply {
+                projectId = "test"
                 testMatrixId = s
                 state = MatrixState.FINISHED
-                testExecutions = (0..index).map { TestExecution() }
-            }
+                testExecutions = (0..index).map { GoogleTestExecution() }
+            }.toApiModel()
         }
         val args = mockk<IArgs> {
             every { outputStyle } returns OutputStyle.Single
