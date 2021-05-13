@@ -4,9 +4,9 @@ import ftl.api.OsVersion
 import ftl.config.FtlConstants
 import ftl.domain.ListAndroidVersions
 import ftl.domain.invoke
-import ftl.environment.android.prepareDescription
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
+import ftl.util.asListOrNull
 import picocli.CommandLine
 
 @CommandLine.Command(

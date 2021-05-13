@@ -3,8 +3,8 @@ package ftl.domain
 import flank.common.logLn
 import ftl.api.fetchAndroidOsVersion
 import ftl.args.AndroidArgs
-import ftl.environment.android.toCliTable
 import ftl.presentation.Output
+import ftl.presentation.cli.firebase.test.android.versions.toCliTable
 import java.nio.file.Paths
 
 interface ListAndroidVersions : Output {

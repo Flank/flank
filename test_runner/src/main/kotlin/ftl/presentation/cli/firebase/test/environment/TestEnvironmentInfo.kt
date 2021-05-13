@@ -4,6 +4,7 @@ import ftl.api.TestEnvironment
 import ftl.environment.android.toCliTable
 import ftl.environment.ios.toCliTable
 import ftl.presentation.cli.firebase.test.android.orientations.toCliTable
+import ftl.presentation.cli.firebase.test.android.versions.toCliTable
 import ftl.presentation.cli.firebase.test.ipblocks.toCliTable
 import ftl.presentation.cli.firebase.test.locale.toCliTable
 import ftl.presentation.cli.firebase.test.networkprofiles.toCliTable

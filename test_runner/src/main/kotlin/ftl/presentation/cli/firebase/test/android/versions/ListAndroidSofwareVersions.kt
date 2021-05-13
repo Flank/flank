@@ -1,4 +1,4 @@
-package ftl.environment.android
+package ftl.presentation.cli.firebase.test.android.versions
 
 import ftl.api.OsVersion
 import ftl.environment.OS_VERSION_ID
