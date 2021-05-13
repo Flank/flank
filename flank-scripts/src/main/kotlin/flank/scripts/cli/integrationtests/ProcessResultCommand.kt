@@ -23,9 +23,7 @@ object ProcessResultCommand : CliktCommand(
     ).default("")
 
     private val validateRunResult: String
-        get() = if (envResult.isBlank())
-            "No run data found" else
-            envResult
+        get() = envResult.ifBlank { "No run data found" }
 
     private val githubToken by option(help = "Git Token").required()
     private val runID by option(help = "Workflow job ID").required()

@@ -122,9 +122,9 @@ data class ITRunState(
     val macOsResult: ITResult = ITResult.FAILURE,
     @SerialName("macos-latest-bs")
     val macOsBSUrl: String = "",
-    @SerialName("ubuntu-latest")
+    @SerialName("ubuntu-18.04")
     val linuxResult: ITResult = ITResult.FAILURE,
-    @SerialName("ubuntu-latest-bs")
+    @SerialName("ubuntu-18.04-bs")
     val linuxBSUrl: String = ""
 )
 

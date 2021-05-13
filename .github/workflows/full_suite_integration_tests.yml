@@ -171,7 +171,7 @@ jobs:
         with:
           delimiter: ','
           variables: |
-            windows-latest,windows-latest-bs,macos-latest,macos-latest-bs,ubuntu-latest,ubuntu-latest-bs
+            windows-latest,windows-latest-bs,macos-latest,macos-latest-bs,ubuntu-18.04,ubuntu-18.04-bs
 
       - name: Update comment on failure
         if: ${{ needs.run-it-full-suite.outputs.job_status == 'failure' }}
@@ -183,7 +183,7 @@ jobs:
             **Integration tests failed :x:**
             Windows status ${{ env.windows-latest }} - Build scan: ${{ env.windows-latest-bs }}
             MacOS status ${{ env.macos-latest }} - Build scan: ${{ env.macos-latest-bs }}
-            Linux status ${{ env.ubuntu-latest }} - Build scan: ${{ env.ubuntu-latest-bs }}
+            Linux status ${{ env.ubuntu-18.04 }} - Build scan: ${{ env.ubuntu-18.04-bs }}
             Workflow run https://github.com/Flank/flank/actions/runs/${{ github.run_id }}
           reactions: '-1'
 
@@ -197,7 +197,7 @@ jobs:
             **Integration tests succeed for all OSes :white_check_mark:**
             Windows Build scan: ${{ env.windows-latest-bs }}
             MacOS Build scan: ${{ env.macos-latest-bs }}
-            Linux Build scan: ${{ env.ubuntu-latest-bs }}
+            Linux Build scan: ${{ env.ubuntu-18.04-bs }}
             Workflow run https://github.com/Flank/flank/actions/runs/${{ github.run_id }}
           reactions: '+1'
 
