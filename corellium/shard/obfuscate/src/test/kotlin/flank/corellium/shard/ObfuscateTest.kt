@@ -66,7 +66,7 @@ class ObfuscateTest {
 
     @Test
     fun test() {
-        val obfuscatedShards = shards.obfuscate()
+        val obfuscatedShards = obfuscate(shards)
 
         assertEquals(shards.size, obfuscatedShards.size)
 
