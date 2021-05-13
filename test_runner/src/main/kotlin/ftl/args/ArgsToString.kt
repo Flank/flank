@@ -32,6 +32,20 @@ object ArgsToString {
 
     fun apksToString(devices: List<AppTestPair>): String {
         if (devices.isNullOrEmpty()) return ""
-        return NEW_LINE + devices.joinToString(System.lineSeparator()) { (app, test) -> "        - app: $app\n          test: $test" }
+
+        return NEW_LINE + devices.joinToString(System.lineSeparator()) {
+
+            val environmentVars = if (it.environmentVariables.isNotEmpty()) {
+                "          environment-variables:\n" +
+                    "            ${it.environmentVariables.toList().joinToString("\n            ") { pair -> "${pair.first}: ${pair.second}" }}"
+            } else ""
+
+            val clientDetails = if (it.clientDetails.isNotEmpty()) {
+                "          client-details:\n" +
+                    "            ${it.clientDetails.toList().joinToString("\n            ") { pair -> "${pair.first}: ${pair.second}" }}"
+            } else ""
+
+            "        - app: ${it.app}\n          test: ${it.test}\n$clientDetails\n$environmentVars"
+        }
     }
 }
