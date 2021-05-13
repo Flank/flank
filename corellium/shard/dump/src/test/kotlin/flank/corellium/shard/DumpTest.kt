@@ -68,7 +68,7 @@ class DumpTest {
             )
         )
 
-    val expected = """
+    private val expected = """
 [
   [
     {
@@ -78,7 +78,7 @@ class DumpTest {
           "name": "app1-test1",
           "cases": [
             {
-              "name": "app1-test1#case1",
+              "name": "app1.test1.Test1#case1",
               "duration": 10000
             }
           ]
@@ -94,7 +94,7 @@ class DumpTest {
           "name": "app1-test1",
           "cases": [
             {
-              "name": "app1-test1#case2",
+              "name": "app1.test1.Test1#case2",
               "duration": 2000
             }
           ]
@@ -108,7 +108,7 @@ class DumpTest {
           "name": "app2-test1",
           "cases": [
             {
-              "name": "app2-test1#case1",
+              "name": "app2.test1.Test2#case1",
               "duration": 1000
             }
           ]
@@ -117,7 +117,7 @@ class DumpTest {
           "name": "app2-test1",
           "cases": [
             {
-              "name": "app2-test1#case2",
+              "name": "app2.test1.Test2#case2",
               "duration": 120
             }
           ]
