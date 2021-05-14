@@ -17,6 +17,7 @@ import ftl.client.google.GcStorage
 import ftl.config.FtlConstants
 import ftl.domain.junit.merge
 import ftl.domain.junit.mergeTestTimes
+import ftl.domain.junit.removeStackTraces
 import ftl.json.MatrixMap
 import ftl.json.isAllSuccessful
 import ftl.reports.CostReport
@@ -129,7 +130,7 @@ object ReportManager {
         // ios supports only legacy parsing
         args is IosArgs -> processXmlFromFile(matrices, args, parseJUnitTestResultFromFile)
         args.useLegacyJUnitResult -> processXmlFromFile(matrices, args, parseJUnitLegacyTestResultFromFile)
-        else -> generateJUnitTestResultFromApi((args to matrices).toApiIdentity())
+        else -> generateJUnitTestResultFromApi((args to matrices).toApiIdentity()).removeStackTraces()
     }
 
     @VisibleForTesting
