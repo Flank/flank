@@ -37,17 +37,17 @@ internal fun validateYaml(args: IArgs.ICompanion, data: Reader): DoctorResult =
         ?: DoctorResult()
 
 private fun JsonNode.validateYamlKeys(args: IArgs.ICompanion) = DoctorResult(
-    topLevelUnknownKeys = listOf(validateTopLevelKeys(args)),
+    topLevelUnknownKeys = validateTopLevelKeys(args),
     nestedUnknownKeys = args.validArgs.map { (topLevelKey, validArgsKeys) ->
         (topLevelKey to validateNestedKeys(topLevelKey, validArgsKeys))
-    }.toMap(),
+    }.filter { it.second.isNotBlank() }.toMap(),
     invalidDevices = validateDevices().orEmpty()
 )
 
-private fun JsonNode.validateTopLevelKeys(args: IArgs.ICompanion) =
+private fun JsonNode.validateTopLevelKeys(args: IArgs.ICompanion): List<String> =
     (parseArgs().keys - args.validArgs.keys)
         .takeIf { it.isNotEmpty() }
-        ?.let { unknownKeys -> "Unknown top level keys: $unknownKeys\n" }
+        ?.map { it }
         .orEmpty()
 
 private fun JsonNode.parseArgs() = mutableMapOf<String, List<String>>().apply {
