@@ -372,6 +372,7 @@ AndroidArgs
       additional-app-test-apks:
         - app: $appApkAbsolutePath
           test: $testErrorApkAbsolutePath
+          max-test-shards: 7
           client-details:
             key1: value1
             key2: value2

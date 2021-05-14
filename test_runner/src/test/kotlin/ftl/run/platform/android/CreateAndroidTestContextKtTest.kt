@@ -18,7 +18,11 @@ import ftl.run.model.RoboTestContext
 import ftl.test.util.mixedConfigYaml
 import ftl.test.util.should
 import ftl.util.FlankTestMethod
-import io.mockk.*
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.mockkStatic
+import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
