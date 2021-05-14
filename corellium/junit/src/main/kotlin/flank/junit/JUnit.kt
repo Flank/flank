@@ -7,10 +7,11 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
 import com.fasterxml.jackson.module.kotlin.readValue
 import flank.junit.mapper.TimeSerializer
 import flank.junit.mapper.mapToTestSuites
-import flank.junit.mapper.objectMapper
 import flank.junit.mapper.readEmptyTestSuites
+import flank.junit.mapper.xmlMapper
 import flank.junit.mapper.xmlPrettyWriter
 import java.io.File
+import java.io.Writer
 import java.text.SimpleDateFormat
 
 // ========================= Functions =========================
@@ -35,7 +36,7 @@ fun List<JUnit.TestResult>.generateJUnitReport(): JUnit.Report =
  */
 fun String.parseJUnitReportFromFile(): JUnit.Report =
     File(this).let { file ->
-        objectMapper.readValue(file)
+        xmlMapper.readValue(file)
             ?: file.readEmptyTestSuites()
             ?: throw IllegalArgumentException("cannot parse JUnitReport from: $this")
     }
@@ -43,11 +44,12 @@ fun String.parseJUnitReportFromFile(): JUnit.Report =
 /**
  * Write JUnite report as formatted XML string.
  *
- * @receiver structural representation of XML JUnit report
- * @return formatted XML string
+ * @receiver structural representation of XML JUnit report.
+ * @param writer The output where report will be written.
  */
-fun JUnit.Report.formatXmlString(): String =
-    xmlPrettyWriter.writeValueAsString(this)
+fun JUnit.Report.writeAsXml(writer: Writer) {
+    xmlPrettyWriter.writeValue(writer, this)
+}
 
 // ========================= Structures =========================
 

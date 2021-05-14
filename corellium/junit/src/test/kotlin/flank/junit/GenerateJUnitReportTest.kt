@@ -1,9 +1,10 @@
 package flank.junit
 
+import flank.junit.mapper.xmlPrettyWriter
 import org.junit.Assert
 import org.junit.Test
 
-class GenerateJUnitReport {
+class GenerateJUnitReportTest {
 
     @Test
     fun test() {
@@ -97,7 +98,7 @@ class GenerateJUnitReport {
 
         val actual = testCases.generateJUnitReport()
 
-        println(actual.formatXmlString())
+        println(xmlPrettyWriter.writeValueAsString(actual))
 
         Assert.assertEquals(expected, actual)
     }

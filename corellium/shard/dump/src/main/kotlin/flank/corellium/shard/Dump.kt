@@ -1,18 +1,17 @@
 package flank.corellium.shard
 
-import java.nio.file.Files.newBufferedWriter
-import java.nio.file.Paths.get
+import flank.corellium.shard.mapper.prettyGson
+import java.io.Writer
 
 /**
- * Dump shards as formatted json file.
+ * Dump shards as json formatted string.
  *
  * @receiver List of shards to dump.
- * @param filePath Relative or absolut path the file.
+ * @param writer Writer that will receive formatted json.
  */
-fun Shards.dumpToFile(
-    filePath: String
+infix fun Shards.dumpTo(
+    writer: Writer
 ) {
-    val writer = newBufferedWriter(get(filePath))
     prettyGson.toJson(this, writer)
     writer.flush()
 }

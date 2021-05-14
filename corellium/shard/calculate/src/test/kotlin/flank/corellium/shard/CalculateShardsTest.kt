@@ -59,7 +59,7 @@ class CalculateShardsTest {
 
     @JTest
     fun test2() {
-        apps.calculateShards(2).apply {
+        calculateShards(apps, 2).apply {
             printShards()
             verifyDurationEqual()
         }
@@ -67,7 +67,7 @@ class CalculateShardsTest {
 
     @JTest
     fun test3() {
-        apps.calculateShards(3).apply {
+        calculateShards(apps, 3).apply {
             printShards()
             verifyDurationEqual()
         }

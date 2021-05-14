@@ -15,7 +15,7 @@ import java.util.Locale
 
 internal val xmlModule = JacksonXmlModule().apply { setDefaultUseWrapper(false) }
 
-internal val objectMapper = XmlMapper(xmlModule)
+internal val xmlMapper = XmlMapper(xmlModule)
     .apply {
         configure(FromXmlParser.Feature.EMPTY_ELEMENT_AS_NULL, true)
         configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true)
@@ -23,7 +23,7 @@ internal val objectMapper = XmlMapper(xmlModule)
     .registerModules(KotlinModule())
     .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
-internal val xmlPrettyWriter = objectMapper.writerWithDefaultPrettyPrinter()
+internal val xmlPrettyWriter = xmlMapper.writerWithDefaultPrettyPrinter()
 
 internal class TimeSerializer : JsonSerializer<Double>() {
     override fun serialize(value: Double, gen: JsonGenerator, serializers: SerializerProvider) {
