@@ -21,6 +21,7 @@ include(
     ":corellium:shard:dump",
     ":corellium:adapter",
     ":corellium:junit",
+    ":corellium:domain",
 )
 
 plugins {
