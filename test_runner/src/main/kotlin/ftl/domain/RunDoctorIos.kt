@@ -17,13 +17,24 @@ operator fun RunDoctorIos.invoke() {
 }
 
 data class DoctorResult(
-    val parsingError: String,
-    val topLevelUnknownKeys: List<String>,
-    val nestedUnknownKeys: Map<String, List<String>>,
-    val invalidDevices: List<InvalidDevice>
+    val parsingErrors: List<String> = emptyList(),
+    val topLevelUnknownKeys: List<String> = emptyList(),
+    val nestedUnknownKeys: Map<String, String> = emptyMap(),
+    val invalidDevices: List<InvalidDevice> = emptyList()
 ) {
     data class InvalidDevice(
         val version: String,
         val model: String
     )
 }
+
+operator fun DoctorResult.plus(right: DoctorResult) = DoctorResult(
+    parsingErrors = parsingErrors + right.parsingErrors,
+    topLevelUnknownKeys = topLevelUnknownKeys + right.topLevelUnknownKeys,
+    nestedUnknownKeys = nestedUnknownKeys + right.nestedUnknownKeys,
+    invalidDevices = invalidDevices + right.invalidDevices
+)
+
+fun DoctorResult.isEmpty() =
+    parsingErrors.isEmpty() && topLevelUnknownKeys.isEmpty() &&
+        nestedUnknownKeys.isEmpty() && invalidDevices.isEmpty()

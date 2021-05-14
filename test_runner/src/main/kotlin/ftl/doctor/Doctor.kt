@@ -5,38 +5,44 @@ import com.google.common.annotations.VisibleForTesting
 import ftl.args.AndroidArgsCompanion
 import ftl.args.ArgsHelper
 import ftl.args.IArgs
-import ftl.args.yml.DEVICES_NODE
-import ftl.args.yml.GCLOUD_NODE
 import ftl.args.yml.MODEL_NODE
 import ftl.args.yml.VERSION_NODE
 import ftl.args.yml.devicesNode
 import ftl.args.yml.notValidDevices
 import ftl.config.loadAndroidConfig
 import ftl.config.loadIosConfig
+import ftl.domain.DoctorResult
+import ftl.domain.plus
 import ftl.run.exception.FlankConfigurationError
 import ftl.util.loadFile
 import java.io.Reader
-import java.lang.StringBuilder
 import java.nio.file.Path
 
 fun validateYaml(args: IArgs.ICompanion, data: Path) =
-    if (!data.toFile().exists()) "Skipping yaml validation. No file at path $data"
+    if (!data.toFile().exists()) DoctorResult(parsingErrors = listOf("Skipping yaml validation. No file at path $data"))
     else validateYaml(args, loadFile(data)) + preloadConfiguration(data, args is AndroidArgsCompanion)
 
 @VisibleForTesting
-internal fun validateYaml(args: IArgs.ICompanion, data: Reader) =
+internal fun validateYaml(args: IArgs.ICompanion, data: Reader): DoctorResult =
     runCatching { ArgsHelper.yamlMapper.readTree(data) }
-        .onFailure { return it.message?.replace(System.lineSeparator(), "\n") ?: "Unknown error when parsing tree" }
+        .onFailure {
+            return DoctorResult(
+                parsingErrors = listOf(
+                    it.message?.replace(System.lineSeparator(), "\n") ?: "Unknown error when parsing tree"
+                )
+            )
+        }
         .getOrNull()
-        ?.run { validateYamlKeys(args).plus(validateDevices()) }
-        .orEmpty()
+        ?.run { validateYamlKeys(args) }
+        ?: DoctorResult()
 
-private fun JsonNode.validateYamlKeys(args: IArgs.ICompanion) = StringBuilder().apply {
-    append(validateTopLevelKeys(args))
-    args.validArgs.forEach { (topLevelKey, validArgsKeys) ->
-        append(validateNestedKeys(topLevelKey, validArgsKeys))
-    }
-}.toString()
+private fun JsonNode.validateYamlKeys(args: IArgs.ICompanion) = DoctorResult(
+    topLevelUnknownKeys = listOf(validateTopLevelKeys(args)),
+    nestedUnknownKeys = args.validArgs.map { (topLevelKey, validArgsKeys) ->
+        (topLevelKey to validateNestedKeys(topLevelKey, validArgsKeys))
+    }.toMap(),
+    invalidDevices = validateDevices().orEmpty()
+)
 
 private fun JsonNode.validateTopLevelKeys(args: IArgs.ICompanion) =
     (parseArgs().keys - args.validArgs.keys)
@@ -63,16 +69,20 @@ private fun JsonNode.nestedKeysFor(topLevelKey: String) =
 private fun preloadConfiguration(data: Path, isAndroid: Boolean) =
     try {
         if (isAndroid) loadAndroidConfig(data) else loadIosConfig(data)
-        ""
+        DoctorResult()
     } catch (e: FlankConfigurationError) {
-        e.message
+        DoctorResult(
+            parsingErrors = listOf(e.message.orEmpty())
+        )
     }
 
-private fun JsonNode.validateDevices() = StringBuilder().apply {
-    devicesNode?.notValidDevices?.withVersionNode?.forEach { device ->
-        appendLine("Warning: Version should be string $GCLOUD_NODE -> $DEVICES_NODE[${device[MODEL_NODE]}] -> $VERSION_NODE[${device[VERSION_NODE]}]")
+private fun JsonNode.validateDevices() =
+    devicesNode?.notValidDevices?.withVersionNode?.map { device ->
+        DoctorResult.InvalidDevice(
+            device[VERSION_NODE]?.textValue().orEmpty(),
+            device[MODEL_NODE]?.textValue().orEmpty()
+        )
     }
-}.toString()
 
 private val List<JsonNode>.withVersionNode
     get() = this.filter { it.has(VERSION_NODE) }
