@@ -35,7 +35,8 @@ data class AndroidFlankConfig @JsonIgnore constructor(
             additionalAppTestApks?.add(
                 AppTestPair(
                     app = appApk,
-                    test = testApk
+                    test = testApk,
+                    maxTestShards = map["max-test-shards"]?.toInt()
                 )
             )
         }

@@ -1196,6 +1196,31 @@ AndroidArgs
     }
 
     @Test
+    fun `cli additional-app-test-apks with max-test-shards override`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parseArgs("--additional-app-test-apks=app=$appApk,test=$testFlakyApk,max-test-shards=4")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          additional-app-test-apks:
+          - app: $appApk
+            test: $testErrorApk
+      """
+        assertEquals(
+            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath, maxTestShards = 1)),
+            AndroidArgs.load(yaml).validate().additionalAppTestApks
+        )
+
+        assertEquals(
+            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath, maxTestShards = 4)),
+            AndroidArgs.load(yaml, cli).validate().additionalAppTestApks
+        )
+    }
+
+    @Test
     fun `cli keep-file-path`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parseArgs("--keep-file-path=true")
