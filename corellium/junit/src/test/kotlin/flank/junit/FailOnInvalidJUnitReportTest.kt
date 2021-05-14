@@ -4,7 +4,7 @@ import org.junit.Assert
 import org.junit.Test
 import java.lang.IllegalArgumentException
 
-class FailOnInvalidJUnitReport {
+class FailOnInvalidJUnitReportTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun test() {

@@ -133,7 +133,11 @@ private fun createStatus(first: Chunk, second: Chunk) = Instrument.Status(
     code = second.code,
     startTime = first.timestamp,
     endTime = second.timestamp,
-    details = (first.map + second.map).mapValues { (key, value) ->
+    details = (first.map + second.map).parseValues().createDetails()
+)
+
+private fun Map<String, List<String>>.parseValues(): Map<String, Any> =
+    mapValues { (key, value) ->
         when (key) {
             "id",
             "test",
@@ -146,6 +150,15 @@ private fun createStatus(first: Chunk, second: Chunk) = Instrument.Status(
 
             else -> value
         }
+    }
+
+private fun Map<String, Any>.createDetails() = Instrument.Status.Details(
+    raw = this,
+    className = get("class") as String,
+    testName = get("test") as String,
+    stack = get("stack")?.run {
+        require(this is List<*>)
+        joinToString("\n") { line -> line.toString().trim() }
     }
 )
 

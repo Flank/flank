@@ -5,9 +5,10 @@ package flank.corellium.shard
  * @receiver The bunch of test cases grouped by test and app.
  * @return [List] of shards where each shard may contains many apps and test cases.
  */
-fun Apps.calculateShards(
+fun calculateShards(
+    apps: Apps,
     maxCount: Int
-): Shards = this
+): Shards = apps
     .mapToInternalChunks()
     .groupByDuration(maxCount)
     .mapToShards()

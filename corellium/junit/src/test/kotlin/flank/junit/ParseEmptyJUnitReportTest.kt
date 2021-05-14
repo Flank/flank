@@ -9,7 +9,7 @@ import org.junit.runners.Parameterized
  * Various tests for parsing empty test reports in different shapes.
  */
 @RunWith(Parameterized::class)
-class ParseEmptyJUnitReport(
+class ParseEmptyJUnitReportTest(
     private val name: String
 ) {
 

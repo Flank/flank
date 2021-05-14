@@ -130,7 +130,7 @@ class DumpTest {
 
     @Test
     fun testDumpToFile() {
-        input.dumpToFile(filePath)
+        input.dumpTo(file.writer())
 
         Assert.assertTrue(file.exists())
         Assert.assertEquals(expected, file.readText().trim())
