@@ -11,22 +11,22 @@ import ftl.args.yml.devicesNode
 import ftl.args.yml.notValidDevices
 import ftl.config.loadAndroidConfig
 import ftl.config.loadIosConfig
-import ftl.domain.DoctorResult
+import ftl.domain.DoctorErrors
 import ftl.domain.plus
 import ftl.run.exception.FlankConfigurationError
 import ftl.util.loadFile
 import java.io.Reader
 import java.nio.file.Path
 
-fun validateYaml(args: IArgs.ICompanion, data: Path) =
-    if (!data.toFile().exists()) DoctorResult(parsingErrors = listOf("Skipping yaml validation. No file at path $data"))
+fun validateYaml(args: IArgs.ICompanion, data: Path): DoctorErrors =
+    if (!data.toFile().exists()) DoctorErrors(parsingErrors = listOf("Skipping yaml validation. No file at path $data"))
     else validateYaml(args, loadFile(data)) + preloadConfiguration(data, args is AndroidArgsCompanion)
 
 @VisibleForTesting
-internal fun validateYaml(args: IArgs.ICompanion, data: Reader): DoctorResult =
+internal fun validateYaml(args: IArgs.ICompanion, data: Reader): DoctorErrors =
     runCatching { ArgsHelper.yamlMapper.readTree(data) }
         .onFailure {
-            return DoctorResult(
+            return DoctorErrors(
                 parsingErrors = listOf(
                     it.message?.replace(System.lineSeparator(), "\n") ?: "Unknown error when parsing tree"
                 )
@@ -34,13 +34,13 @@ internal fun validateYaml(args: IArgs.ICompanion, data: Reader): DoctorResult =
         }
         .getOrNull()
         ?.run { validateYamlKeys(args) }
-        ?: DoctorResult()
+        ?: DoctorErrors.EMPTY
 
-private fun JsonNode.validateYamlKeys(args: IArgs.ICompanion) = DoctorResult(
+private fun JsonNode.validateYamlKeys(args: IArgs.ICompanion) = DoctorErrors(
     topLevelUnknownKeys = validateTopLevelKeys(args),
     nestedUnknownKeys = args.validArgs.map { (topLevelKey, validArgsKeys) ->
         (topLevelKey to validateNestedKeys(topLevelKey, validArgsKeys))
-    }.filter { it.second.isNotBlank() }.toMap(),
+    }.filter { it.second.isNotEmpty() }.toMap(),
     invalidDevices = validateDevices().orEmpty()
 )
 
@@ -57,11 +57,7 @@ private fun JsonNode.parseArgs() = mutableMapOf<String, List<String>>().apply {
 }
 
 private fun JsonNode.validateNestedKeys(topLevelKey: String, validArgsKeys: List<String>) =
-    nestedKeysFor(topLevelKey)
-        .minus(validArgsKeys)
-        .takeIf { it.isNotEmpty() }
-        ?.let { "Unknown keys in $topLevelKey -> $it\n" }
-        .orEmpty()
+    nestedKeysFor(topLevelKey) - validArgsKeys
 
 private fun JsonNode.nestedKeysFor(topLevelKey: String) =
     this[topLevelKey]?.fields()?.asSequence()?.map { it.key }?.toList().orEmpty()
@@ -69,18 +65,18 @@ private fun JsonNode.nestedKeysFor(topLevelKey: String) =
 private fun preloadConfiguration(data: Path, isAndroid: Boolean) =
     try {
         if (isAndroid) loadAndroidConfig(data) else loadIosConfig(data)
-        DoctorResult()
+        DoctorErrors.EMPTY
     } catch (e: FlankConfigurationError) {
-        DoctorResult(
+        DoctorErrors(
             parsingErrors = listOf(e.message.orEmpty())
         )
     }
 
 private fun JsonNode.validateDevices() =
     devicesNode?.notValidDevices?.withVersionNode?.map { device ->
-        DoctorResult.InvalidDevice(
-            device[VERSION_NODE]?.textValue().orEmpty(),
-            device[MODEL_NODE]?.textValue().orEmpty()
+        DoctorErrors.InvalidDevice(
+            device[VERSION_NODE].asText("Unknown"),
+            device[MODEL_NODE].asText("Unknown")
         )
     }
 

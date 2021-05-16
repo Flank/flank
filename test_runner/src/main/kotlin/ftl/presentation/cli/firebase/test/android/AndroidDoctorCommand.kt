@@ -1,8 +1,11 @@
 package ftl.presentation.cli.firebase.test.android
 
 import ftl.config.FtlConstants
+import ftl.domain.DoctorErrors
 import ftl.domain.RunDoctorAndroid
 import ftl.domain.invoke
+import ftl.presentation.outputLogger
+import ftl.presentation.throwUnknownType
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
 
@@ -45,4 +48,11 @@ class AndroidDoctorCommand :
     override var fix: Boolean = false
 
     override fun run() = invoke()
+
+    override val out = outputLogger {
+        when (this) {
+            is DoctorErrors -> summary()
+            else -> throwUnknownType()
+        }
+    }
 }

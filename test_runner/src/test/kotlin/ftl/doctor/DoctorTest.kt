@@ -18,12 +18,11 @@ class DoctorTest {
     fun androidDoctorTest() {
         val lint = validateYaml(AndroidArgs, Paths.get("src/test/kotlin/ftl/fixtures/flank.local.yml"))
         val expected = """
-                Warning: Version should be string gcloud -> device["NexusLowRes"] -> version[23]
-                Warning: Version should be string gcloud -> device["NexusLowRes"] -> version[23]
-                Warning: Version should be string gcloud -> device["shamu"] -> version[22]
-                
+                Warning: Version should be string gcloud -> device[NexusLowRes] -> version[23]
+                Warning: Version should be string gcloud -> device[NexusLowRes] -> version[23]
+                Warning: Version should be string gcloud -> device[shamu] -> version[22]
         """.trimIndent()
-        assertEquals(expected, lint)
+        assertEquals(expected, lint.summary())
     }
 
     @Test
@@ -68,12 +67,11 @@ flank:
   project: .
             """.trimIndent()
         )
-        assertThat(lint).isEqualTo(
+        assertThat(lint.summary()).isEqualTo(
             """
 Unknown top level keys: [hi, foo]
 Unknown keys in gcloud -> [two]
 Unknown keys in flank -> [three]
-
             """.trimIndent()
         )
     }
@@ -90,14 +88,13 @@ flank:
   project: .
             """.trimIndent()
         )
-        assertThat(lint).isEqualTo("")
+        assertThat(lint.summary()).isEqualTo("Valid yml file")
     }
 
     @Test
     fun androidDoctorTestWithFailedConfiguration() {
         // given
         val expectedErrorMessage = """
-Warning: Version should be string gcloud -> device["Nexus5"] -> version[23]
 Error on parse config: flank->additional-app-test-apks
 At line: 20, column: 5
 Error node: {
@@ -106,6 +103,7 @@ Error node: {
     "test" : "../library/databases/build/output/apk/androidTest/debug/sample-databases-test.apk"
   }
 }
+Warning: Version should be string gcloud -> device[Nexus5] -> version[23]
         """.trimIndent()
 
         // when
@@ -113,7 +111,7 @@ Error node: {
             AndroidArgs,
             Paths.get("src/test/kotlin/ftl/fixtures/flank_android_failed_configuration.yml")
         )
-        // assertEqualsIgnoreNewlineStyle(expectedErrorMessage, actual)
+        assertEqualsIgnoreNewlineStyle(expectedErrorMessage, actual.summary())
     }
 
     @Test
@@ -143,10 +141,9 @@ Error node: {
     fun iosDoctorTest() {
         val lint = validateYaml(IosArgs, Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.yml"))
         val expected = """
-            Warning: Version should be string gcloud -> device["iphone8"] -> version[11.2]
-            
+            Warning: Version should be string gcloud -> device[iphone8] -> version[11.2]    
         """.trimIndent()
-        assertEquals(expected, lint)
+        assertEquals(expected, lint.summary())
     }
 
     @Test
@@ -184,12 +181,11 @@ flank:
   project: .
             """.trimIndent()
         )
-        assertThat(lint).isEqualTo(
+        assertThat(lint.summary()).isEqualTo(
             """
 Unknown top level keys: [hi, foo]
 Unknown keys in gcloud -> [two]
 Unknown keys in flank -> [three]
-
             """.trimIndent()
         )
     }
@@ -206,7 +202,7 @@ flank:
   project: .
             """.trimIndent()
         )
-        assertThat(lint).isEqualTo("")
+        assertThat(lint.summary()).isEqualTo("Valid yml file")
     }
 
     @Test
@@ -242,7 +238,7 @@ flank:
   project: .
             """.trimIndent()
         )
-        assertEquals("", lint)
+        assertEquals("Valid yml file", lint.summary())
     }
 }
 
