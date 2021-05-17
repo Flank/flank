@@ -22,6 +22,7 @@ include(
     ":corellium:adapter",
     ":corellium:junit",
     ":corellium:domain",
+    ":corellium:cli",
 )
 
 plugins {
