@@ -33,13 +33,13 @@ data class DoctorErrors(
         }.trim()
 }
 
+fun DoctorErrors.isEmpty() =
+    parsingErrors.isEmpty() && topLevelUnknownKeys.isEmpty() &&
+        nestedUnknownKeys.isEmpty() && invalidDevices.isEmpty()
+
 operator fun DoctorErrors.plus(right: DoctorErrors) = DoctorErrors(
     parsingErrors = parsingErrors + right.parsingErrors,
     topLevelUnknownKeys = topLevelUnknownKeys + right.topLevelUnknownKeys,
     nestedUnknownKeys = nestedUnknownKeys + right.nestedUnknownKeys,
     invalidDevices = invalidDevices + right.invalidDevices
 )
-
-private fun DoctorErrors.isEmpty() =
-    parsingErrors.isEmpty() && topLevelUnknownKeys.isEmpty() &&
-        nestedUnknownKeys.isEmpty() && invalidDevices.isEmpty()

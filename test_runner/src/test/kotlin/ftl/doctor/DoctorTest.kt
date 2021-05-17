@@ -122,7 +122,8 @@ Warning: Version should be string gcloud -> device[Nexus5] -> version[23]
     At line: 19, column: 4
     Error node: 
             test: ../main/app/build/output/a ... 
-            ^Error on parse config: expected <block end>, but found '?'
+            ^
+    Error on parse config: expected <block end>, but found '?'
     At line: 19, column: 4
     Error node: 
             test: ../main/app/build/output/a ... 
@@ -134,15 +135,13 @@ Warning: Version should be string gcloud -> device[Nexus5] -> version[23]
             AndroidArgs,
             Paths.get("src/test/kotlin/ftl/fixtures/flank_android_failed_tree.yml")
         )
-        //  assertEqualsIgnoreNewlineStyle(expectedErrorMessage, actual)
+        assertEqualsIgnoreNewlineStyle(expectedErrorMessage, actual.summary())
     }
 
     @Test
     fun iosDoctorTest() {
         val lint = validateYaml(IosArgs, Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.yml"))
-        val expected = """
-            Warning: Version should be string gcloud -> device[iphone8] -> version[11.2]    
-        """.trimIndent()
+        val expected = "Warning: Version should be string gcloud -> device[iphone8] -> version[11.2]"
         assertEquals(expected, lint.summary())
     }
 
@@ -220,7 +219,10 @@ flank:
   project: .
             """.trimIndent()
         )
-        //  assertEquals("Warning: Version should be string gcloud -> device[\"NexusLowRes\"] -> version[23]", lint.trim())
+        assertEquals(
+            "Warning: Version should be string gcloud -> device[NexusLowRes] -> version[23]",
+            lint.summary().trim()
+        )
     }
 
     @Test
@@ -247,7 +249,7 @@ private fun validateYaml(args: IArgs.ICompanion, data: String) = validateYaml(ar
 fun assertEqualsIgnoreNewlineStyle(s1: String?, s2: String?) {
     Assert.assertNotNull(s1)
     Assert.assertNotNull(s2)
-    return Assert.assertEquals(normalizeLineEnds(s1!!), normalizeLineEnds(s2!!))
+    return assertEquals(normalizeLineEnds(s1!!), normalizeLineEnds(s2!!))
 }
 
 private fun normalizeLineEnds(s: String): String {

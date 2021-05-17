@@ -4,6 +4,7 @@ import ftl.args.IosArgs
 import ftl.doctor.validateYaml
 import ftl.presentation.Output
 import ftl.presentation.cli.firebase.test.processValidation
+import ftl.run.exception.YmlValidationError
 import java.nio.file.Paths
 
 interface RunDoctorIos : Output {
@@ -12,8 +13,8 @@ interface RunDoctorIos : Output {
 }
 
 operator fun RunDoctorIos.invoke() {
-    val ymlPath = Paths.get(configPath)
     val validationResult = validateYaml(IosArgs, Paths.get(configPath))
-    processValidation(fix, ymlPath)
     validationResult.out()
+    if (fix) processValidation(Paths.get(configPath))
+    if (!validationResult.isEmpty()) throw YmlValidationError()
 }

@@ -4,6 +4,7 @@ import ftl.args.AndroidArgs
 import ftl.doctor.validateYaml
 import ftl.presentation.Output
 import ftl.presentation.cli.firebase.test.processValidation
+import ftl.run.exception.YmlValidationError
 import java.nio.file.Paths
 
 interface RunDoctorAndroid : Output {
@@ -12,8 +13,8 @@ interface RunDoctorAndroid : Output {
 }
 
 operator fun RunDoctorAndroid.invoke() {
-    val ymlPath = Paths.get(configPath)
-    val validationResult = validateYaml(AndroidArgs, ymlPath)
-    processValidation(fix, ymlPath)
+    val validationResult = validateYaml(AndroidArgs, Paths.get(configPath))
     validationResult.out()
+    if (fix) processValidation(Paths.get(configPath))
+    if (!validationResult.isEmpty()) throw YmlValidationError()
 }

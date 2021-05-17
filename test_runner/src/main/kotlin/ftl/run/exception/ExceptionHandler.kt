@@ -74,7 +74,7 @@ internal fun withGlobalExceptionHandling(block: () -> Int, exitProcessFunction: 
             is MatrixValidationError,
             is YmlValidationError,
             is FlankConfigurationError -> {
-                printError(t.message)
+                t.message?.let(::printError)
                 exitProcessFunction(CONFIGURATION_FAIL)
             }
 
