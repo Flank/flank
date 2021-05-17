@@ -280,7 +280,7 @@ tasks.create("applyProguard", proguard.gradle.ProGuardTask::class.java) {
 val generateCliAsciiDoc by tasks.registering(JavaExec::class) {
     dependsOn(tasks.classes)
     classpath(
-        configurations.compile,
+        configurations.implementation,
         configurations.annotationProcessor,
         sourceSets["main"].runtimeClasspath
     )
