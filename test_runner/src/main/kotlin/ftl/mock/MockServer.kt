@@ -193,7 +193,7 @@ object MockServer {
                             ObjectMapper().readValue<Map<String, Any>>(it.readText())
                         }
                     }
-                    val clientName = requestBody["clientInfo"]?.objectToMap()?.get("name") as String ?: "Flank"
+                    val clientName = requestBody["clientInfo"]?.objectToMap()?.get("name") as String
                     val allClientDetails = mutableMapOf<String, String>()
                     requestBody["clientInfo"]
                         ?.objectToMap()
@@ -202,12 +202,12 @@ object MockServer {
                                 list.forEach { map ->
                                     if (map is Map<*, *>) {
                                         map.toList().chunked(2).forEach {
-                                            if (it.size != 2)
-                                                return@forEach
-                                            val k = it[0].second
-                                            val v = it[1].second
-                                            if (k is String && v is String) {
-                                                allClientDetails[k] = v
+                                            if (it.size == 2) {
+                                                val k = it[0].second
+                                                val v = it[1].second
+                                                if (k is String && v is String) {
+                                                    allClientDetails[k] = v
+                                                }
                                             }
                                         }
                                     }
