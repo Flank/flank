@@ -10,7 +10,6 @@ import flank.corellium.log.Instrument
 import flank.corellium.shard.Shard
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
-import java.util.Date
 
 object RunTestAndroidCorellium {
 
@@ -20,17 +19,17 @@ object RunTestAndroidCorellium {
      */
     interface Context {
         val api: CorelliumApi
-        val config: Config
+        val args: Args
     }
 
     /**
      * The user configuration for invocation.
      */
-    data class Config(
+    data class Args(
         val credentials: Authorization.Credentials,
         val apks: List<Apk.App>,
         val maxShardsCount: Int,
-        val outputDir: String = "results/corellium/android/" + Date(),
+        val outputDir: String,
     )
 
     sealed class Apk {
