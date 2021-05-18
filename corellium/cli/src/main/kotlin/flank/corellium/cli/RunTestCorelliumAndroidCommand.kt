@@ -14,6 +14,17 @@ import flank.corellium.domain.RunTestCorelliumAndroid.Args
 import flank.corellium.domain.invoke
 import picocli.CommandLine
 
+@CommandLine.Command(
+    name = "run",
+    sortOptions = false,
+    headerHeading = "",
+    synopsisHeading = "%n",
+    descriptionHeading = "%n@|bold,underline Description:|@%n%n",
+    parameterListHeading = "%n@|bold,underline Parameters:|@%n",
+    optionListHeading = "%n@|bold,underline Options:|@%n",
+    header = ["Run tests on Corellium Android instances"],
+    usageHelpAutoWidth = true
+)
 class RunTestCorelliumAndroidCommand :
     Runnable,
     RunTestCorelliumAndroid.Context {
