@@ -45,8 +45,16 @@ sealed class Instrument {
         val code: Int,
         val startTime: Long,
         val endTime: Long,
-        val details: Map<String, Any>
-    ) : Instrument()
+        val details: Details,
+    ) : Instrument() {
+
+        class Details(
+            val raw: Map<String, Any>,
+            val className: String,
+            val testName: String,
+            val stack: String?,
+        )
+    }
 
     /**
      * Representation of the final structure of instrument test logs:
@@ -85,5 +93,6 @@ sealed class Instrument {
         const val PASSED = 0
         const val FAILED = -2
         const val EXCEPTION = -1
+        const val SKIPPED = -3
     }
 }

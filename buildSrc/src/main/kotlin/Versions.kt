@@ -26,7 +26,7 @@ object Versions {
     const val APK_PARSER = "2.6.10"
 
     // match to Tools -> Kotlin -> Configure Kotlin Plugin Updates -> Update Channel: Stable
-    const val KOTLIN = "1.4.31"
+    const val KOTLIN = "1.4.32"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
     const val KOTLIN_COROUTINES = "1.4.3"
@@ -38,7 +38,7 @@ object Versions {
     const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20210325-1.31.0"
 
     // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
-    const val GOOGLE_API = "1.31.4"
+    const val GOOGLE_API = "1.31.5"
 
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
@@ -46,10 +46,10 @@ object Versions {
     const val GOOGLE_AUTH = "0.25.5"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.122.13"
+    const val GOOGLE_NIO = "0.122.14"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "1.113.16"
+    const val GOOGLE_STORAGE = "1.114.0"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.8.6"
@@ -99,7 +99,7 @@ object Versions {
     const val PROGUARD = "7.0.1"
 
     // ============== flank-scripts ==============
-    const val KOTLIN_SERIALIZATION = "1.2.0"
+    const val KOTLIN_SERIALIZATION = "1.2.1"
     const val ARCHIVE_LIB = "1.1.0"
     const val TUKAANI_XZ = "1.9"
     const val FUEL = "2.3.1"

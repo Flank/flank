@@ -17,8 +17,12 @@ include(
     ":corellium:api",
     ":corellium:shard",
     ":corellium:shard:calculate",
+    ":corellium:shard:obfuscate",
+    ":corellium:shard:dump",
     ":corellium:adapter",
     ":corellium:junit",
+    ":corellium:domain",
+    ":corellium:cli",
 )
 
 plugins {

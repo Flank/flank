@@ -9,7 +9,6 @@ import com.google.testing.model.TestExecution
 import ftl.client.junit.TestExecutionData
 import ftl.client.junit.flaky
 import ftl.client.junit.prepareForJUnitResult
-import ftl.client.junit.removeStackTraces
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -131,42 +130,6 @@ class PrepareForJUnitResultKtTest {
         assertEquals(preparedTestCase.count(), 1)
         assertEquals(preparedTestCase.first().testCases.count(), 1)
         assertEquals(3, preparedTestCase.first().testCases.first().stackTraces.count())
-    }
-
-    @Test
-    fun `should return single prepared test case without stack trace`() {
-        val testCases = listOf(
-            TestCase().apply {
-                startTime = Timestamp().apply {
-                    seconds = 1
-                }
-            },
-            TestCase().apply {
-                startTime = Timestamp().apply {
-                    seconds = 2
-                }
-                stackTraces = listOf(
-                    StackTrace().apply {
-                        exception = "exception"
-                    }
-                )
-            }
-        )
-        val primaryStep = Step().apply {
-            stepId = "1"
-        }
-        val testExecutionDataList = listOf(
-            TestExecutionData(
-                testExecution = TestExecution(),
-                timestamp = Timestamp(),
-                testCases = testCases,
-                step = primaryStep
-            )
-        )
-        val preparedTestCase = testExecutionDataList.prepareForJUnitResult().removeStackTraces()
-        assertEquals(preparedTestCase.count(), 1)
-        assertEquals(preparedTestCase.first().testCases.count(), 1)
-        assertTrue(preparedTestCase.first().testCases.first().stackTraces.isNullOrEmpty())
     }
 
     @Test
