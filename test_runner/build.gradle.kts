@@ -210,6 +210,8 @@ dependencies {
     // compile("com.google.apis:google-api-services-testing:v1-rev30-1.23.0")
     implementation(project(":firebase_apis:test_api"))
 
+    implementation(project(":corellium:cli"))
+
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.SYSTEM_RULES)
     testImplementation(Dependencies.TRUTH)

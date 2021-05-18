@@ -85,7 +85,10 @@ object RunTestCorelliumAndroid {
 }
 
 operator fun Context.invoke(): Unit = runBlocking {
-    State() execute flowOf(
-        // TODO steps will be added in next PR
-    )
+    State() execute flowOf {
+        println("Not integrated yet, check following PR:")
+        println("https://github.com/Flank/flank/pull/1897")
+        println("will integrate business logic.")
+        this
+    }
 }
