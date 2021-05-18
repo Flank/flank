@@ -1,0 +1,45 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+'left to right direction
+
+legend left
+  |= Color |= Depends on |
+  |<#LightGreen>| API |
+  |<#LightBlue>| tool |
+end legend
+
+object authorize #LightGreen
+object parseTestCasesFromApks #LightBlue
+object createOutputDir
+object prepareShards #LightBlue
+object dumpShards #LightBlue
+object invokeDevices #LightGreen
+object installApks #LightGreen
+object parseApksInfo #LightBlue
+object executeTests #LightGreen
+object cleanUpInstances #LightGreen
+object generateReport #LightBlue
+object finish
+
+prepareShards --> invokeDevices
+
+prepareShards --> dumpShards
+parseTestCasesFromApks --> prepareShards
+authorize --> invokeDevices
+authorize --> installApks
+authorize --> executeTests
+authorize --> cleanUpInstances
+invokeDevices --> installApks
+invokeDevices --> executeTests
+createOutputDir --> dumpShards
+createOutputDir --> generateReport
+prepareShards --> executeTests
+parseApksInfo --> executeTests
+installApks --> executeTests
+executeTests --> generateReport
+executeTests ..> cleanUpInstances
+cleanUpInstances --> finish
+generateReport --> finish
+
+@enduml
