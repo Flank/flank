@@ -1,6 +1,6 @@
 package ftl.presentation.cli.corellium
 
-import ftl.presentation.cli.firebase.test.AndroidCommand
+import ftl.presentation.cli.corellium.test.AndroidCommand
 import ftl.util.PrintHelp
 import picocli.CommandLine.Command
 
