@@ -1,14 +1,12 @@
 package ftl.run.platform
 
+import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
-import ftl.gc.GcAndroidTestMatrix
+import ftl.client.google.createGcsPath
 import ftl.run.model.TestResult
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.mixedConfigYaml
 import ftl.test.util.should
-import io.mockk.every
-import io.mockk.mockkObject
-import io.mockk.verify
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -40,52 +38,34 @@ class RunAndroidTestsKtTest {
     }
 
     @Test
-    fun `should add additional index if repeatTests set`() {
-        val androidArgs = AndroidArgs.load(mixedConfigYaml)
-        mockkObject(GcAndroidTestMatrix, androidArgs) {
+    fun `should add additional index if run count not 0`() {
+        // given
+        val testDir = "test_dir"
 
-            every { androidArgs.resultsDir } returns "test_dir"
-            every { androidArgs.resultsBucket } returns "test_bucket"
-            every { androidArgs.repeatTests } returns 2
+        // when
+        val actual0 = testDir.createGcsPath(contextIndex = 0, runIndex = 2)
+        val actual1 = testDir.createGcsPath(contextIndex = 1, runIndex = 1)
+        val actual2 = testDir.createGcsPath(contextIndex = 2, runIndex = 3)
 
-            runBlocking {
-                androidArgs.runAndroidTests()
-            }
-
-            verify {
-                GcAndroidTestMatrix.build(any(), any(), "test_dir/matrix_0/", any(), any(), any(), any(), any())
-                GcAndroidTestMatrix.build(any(), any(), "test_dir/matrix_0_1/", any(), any(), any(), any(), any())
-                GcAndroidTestMatrix.build(any(), any(), "test_dir/matrix_1/", any(), any(), any(), any(), any())
-                GcAndroidTestMatrix.build(any(), any(), "test_dir/matrix_1_1/", any(), any(), any(), any(), any())
-                GcAndroidTestMatrix.build(any(), any(), "test_dir/matrix_2/", any(), any(), any(), any(), any())
-                GcAndroidTestMatrix.build(any(), any(), "test_dir/matrix_2_1/", any(), any(), any(), any(), any())
-            }
-
-            verify(inverse = true) {
-                GcAndroidTestMatrix.build(any(), any(), "test_dir/matrix_0_2/", any(), any(), any(), any(), any())
-            }
-        }
+        // then
+        assertThat(actual0).isEqualTo("$testDir/matrix_0_2/")
+        assertThat(actual1).isEqualTo("$testDir/matrix_1_1/")
+        assertThat(actual2).isEqualTo("$testDir/matrix_2_3/")
     }
 
     @Test
-    fun `shouldn't add additional index if repeatTests not set`() {
-        val androidArgs = AndroidArgs.load(mixedConfigYaml)
-        mockkObject(GcAndroidTestMatrix, androidArgs) {
+    fun `shouldn't add additional index if run count is 0`() {
+        // given
+        val testDir = "test_dir"
 
-            every { androidArgs.resultsDir } returns "test_dir"
-            every { androidArgs.resultsBucket } returns "test_bucket"
+        // when
+        val actual0 = testDir.createGcsPath(contextIndex = 0, runIndex = 0)
+        val actual1 = testDir.createGcsPath(contextIndex = 1, runIndex = 0)
+        val actual2 = testDir.createGcsPath(contextIndex = 2, runIndex = 0)
 
-            runBlocking {
-                androidArgs.runAndroidTests()
-            }
-
-            verify(inverse = true) {
-                GcAndroidTestMatrix.build(any(), any(), "test_dir/matrix_0_1/", any(), any(), any(), any(), any())
-            }
-
-            verify {
-                GcAndroidTestMatrix.build(any(), any(), "test_dir/matrix_0/", any(), any(), any(), any(), any())
-            }
-        }
+        // then
+        assertThat(actual0).isEqualTo("$testDir/matrix_0/")
+        assertThat(actual1).isEqualTo("$testDir/matrix_1/")
+        assertThat(actual2).isEqualTo("$testDir/matrix_2/")
     }
 }

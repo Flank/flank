@@ -18,8 +18,8 @@ import ftl.run.exception.FlankGeneralError
 import ftl.run.exception.IncompatibleTestDimensionError
 import ftl.run.model.GameLoopContext
 import ftl.run.model.InstrumentationTestContext
-import ftl.run.platform.android.createAndroidTestConfig
 import ftl.run.platform.android.createAndroidTestContexts
+import ftl.run.platform.android.createAndroidTestMatrixType
 import ftl.run.platform.runAndroidTests
 import ftl.run.status.OutputStyle
 import ftl.shard.Chunk
@@ -1485,7 +1485,7 @@ AndroidArgs
           disable-sharding: true
         """.trimIndent()
         val args = AndroidArgs.load(yaml).validate()
-        val androidTestConfig = args.createAndroidTestConfig(
+        val androidTestConfig = args.createAndroidTestMatrixType(
             InstrumentationTestContext(
                 app = "app".asFileReference(),
                 test = "test".asFileReference(),
@@ -1512,7 +1512,7 @@ AndroidArgs
           disable-sharding: true
         """.trimIndent()
         val args = AndroidArgs.load(yaml).validate()
-        val androidTestConfig = args.createAndroidTestConfig(
+        val androidTestConfig = args.createAndroidTestMatrixType(
             InstrumentationTestContext(
                 app = "app".asFileReference(),
                 test = "test".asFileReference(),
@@ -2225,7 +2225,7 @@ AndroidArgs
             - 2
         """.trimIndent()
         val args = AndroidArgs.load(yaml).validate()
-        val androidTestConfig = args.createAndroidTestConfig(
+        val androidTestConfig = args.createAndroidTestMatrixType(
             GameLoopContext(
                 app = "app".asFileReference(),
                 scenarioNumbers = args.scenarioNumbers,

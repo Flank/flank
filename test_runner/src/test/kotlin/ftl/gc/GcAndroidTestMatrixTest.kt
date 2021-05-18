@@ -1,15 +1,16 @@
 package ftl.gc
 
-import com.google.testing.model.AndroidDeviceList
 import com.google.testing.model.TestSetup
+import ftl.api.TestMatrixAndroid.Type
 import ftl.args.AndroidArgs
-import ftl.client.google.GcToolResults.createToolResultsHistory
+import ftl.client.google.executeAndroidTests
 import ftl.gc.android.setEnvironmentVariables
-import ftl.run.platform.android.AndroidTestConfig
+import ftl.run.platform.android.createAndroidTestConfig
 import ftl.test.util.FlankTestRunner
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -27,10 +28,15 @@ class GcAndroidTestMatrixTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun `build negativeShardErrors`() {
-        val androidArgs = mockk<AndroidArgs>(relaxed = true)
-
-        GcAndroidTestMatrix.build(
-            androidTestConfig = AndroidTestConfig.Instrumentation(
+        runBlocking {
+            val androidArgs = mockk<AndroidArgs>(relaxed = true) {
+                every { otherFiles } returns emptyMap()
+                every { devices } returns emptyList()
+                every { resultsHistoryName } returns ""
+                every { additionalAppTestApks } returns emptyList()
+                every { obbFiles } returns emptyList()
+            }
+            val type = Type.Instrumentation(
                 appApkGcsPath = "",
                 testApkGcsPath = "",
                 testShards = emptyList(),
@@ -40,23 +46,25 @@ class GcAndroidTestMatrixTest {
                 testRunnerClass = "",
                 keepTestTargetsEmpty = false,
                 testTargetsForShard = emptyList()
-            ),
-            runGcsPath = "",
-            otherFiles = emptyMap(),
-            androidDeviceList = AndroidDeviceList(),
-            args = androidArgs,
-            toolResultsHistory = createToolResultsHistory(androidArgs),
-            additionalApkGcsPaths = emptyList(),
-            obbFiles = emptyMap()
-        )
+            )
+            val config = createAndroidTestConfig(androidArgs)
+
+            executeAndroidTests(config, listOf(type))
+        }
     }
 
     @Test(expected = IllegalArgumentException::class)
     fun `build invalidShardErrors`() {
-        val androidArgs = mockk<AndroidArgs>(relaxed = true)
+        runBlocking {
+            val androidArgs = mockk<AndroidArgs>(relaxed = true) {
+                every { otherFiles } returns emptyMap()
+                every { devices } returns emptyList()
+                every { resultsHistoryName } returns ""
+                every { additionalAppTestApks } returns emptyList()
+                every { obbFiles } returns emptyList()
+            }
 
-        GcAndroidTestMatrix.build(
-            androidTestConfig = AndroidTestConfig.Instrumentation(
+            val type = Type.Instrumentation(
                 appApkGcsPath = "",
                 testApkGcsPath = "",
                 testShards = listOf(listOf("")),
@@ -66,27 +74,31 @@ class GcAndroidTestMatrixTest {
                 testRunnerClass = "",
                 keepTestTargetsEmpty = false,
                 testTargetsForShard = emptyList()
-            ),
-            runGcsPath = "",
-            otherFiles = emptyMap(),
-            androidDeviceList = AndroidDeviceList(),
-            args = androidArgs,
-            toolResultsHistory = createToolResultsHistory(androidArgs),
-            additionalApkGcsPaths = emptyList(),
-            obbFiles = emptyMap()
-        )
+            )
+
+            val config = createAndroidTestConfig(androidArgs)
+
+            executeAndroidTests(config, listOf(type))
+        }
     }
 
     @Test
     fun `build validArgs`() {
-        val androidArgs = mockk<AndroidArgs>(relaxed = true)
+        runBlocking {
 
-        every { androidArgs.testTimeout } returns "3m"
-        every { androidArgs.resultsBucket } returns "/hi"
-        every { androidArgs.project } returns "123"
+            val androidArgs = mockk<AndroidArgs>(relaxed = true) {
+                every { otherFiles } returns emptyMap()
+                every { devices } returns emptyList()
+                every { resultsHistoryName } returns ""
+                every { additionalAppTestApks } returns emptyList()
+                every { obbFiles } returns emptyList()
 
-        GcAndroidTestMatrix.build(
-            androidTestConfig = AndroidTestConfig.Instrumentation(
+                every { testTimeout } returns "3m"
+                every { resultsBucket } returns "/hi"
+                every { project } returns "123"
+            }
+
+            val type = Type.Instrumentation(
                 appApkGcsPath = "",
                 testApkGcsPath = "",
                 testShards = emptyList(),
@@ -96,15 +108,12 @@ class GcAndroidTestMatrixTest {
                 testRunnerClass = "",
                 keepTestTargetsEmpty = false,
                 testTargetsForShard = emptyList()
-            ),
-            runGcsPath = "",
-            otherFiles = emptyMap(),
-            androidDeviceList = AndroidDeviceList(),
-            args = androidArgs,
-            toolResultsHistory = createToolResultsHistory(androidArgs),
-            additionalApkGcsPaths = emptyList(),
-            obbFiles = emptyMap()
-        )
+            )
+
+            val config = createAndroidTestConfig(androidArgs)
+
+            executeAndroidTests(config, listOf(type))
+        }
     }
 
     @Test
@@ -125,8 +134,8 @@ class GcAndroidTestMatrixTest {
         val androidArgs = AndroidArgs.load(StringReader(yaml), null)
 
         val testSetup = TestSetup().setEnvironmentVariables(
-            androidArgs,
-            AndroidTestConfig.Robo(
+            androidArgs.environmentVariables,
+            Type.Robo(
                 appApkGcsPath = "",
                 flankRoboDirectives = emptyList(),
                 roboScriptGcsPath = ""
@@ -153,8 +162,8 @@ class GcAndroidTestMatrixTest {
         val androidArgs = AndroidArgs.load(StringReader(yaml), null)
 
         val testSetup = TestSetup().setEnvironmentVariables(
-            androidArgs,
-            AndroidTestConfig.Instrumentation(
+            androidArgs.environmentVariables,
+            Type.Instrumentation(
                 appApkGcsPath = "",
                 testApkGcsPath = "",
                 testShards = emptyList(),
@@ -183,8 +192,8 @@ class GcAndroidTestMatrixTest {
         val androidArgs = AndroidArgs.load(StringReader(yaml), null)
 
         val testSetup = TestSetup().setEnvironmentVariables(
-            androidArgs,
-            AndroidTestConfig.Instrumentation(
+            androidArgs.environmentVariables,
+            Type.Instrumentation(
                 appApkGcsPath = "",
                 testApkGcsPath = "",
                 testShards = emptyList(),
@@ -214,8 +223,8 @@ class GcAndroidTestMatrixTest {
         val androidArgs = AndroidArgs.load(StringReader(yaml), null)
 
         val testSetup = TestSetup().setEnvironmentVariables(
-            androidArgs,
-            AndroidTestConfig.Instrumentation(
+            androidArgs.environmentVariables,
+            Type.Instrumentation(
                 appApkGcsPath = "",
                 testApkGcsPath = "",
                 testShards = emptyList(),
@@ -245,8 +254,8 @@ class GcAndroidTestMatrixTest {
         val androidArgs = AndroidArgs.load(StringReader(yaml), null)
 
         val testSetup = TestSetup().setEnvironmentVariables(
-            androidArgs,
-            AndroidTestConfig.Instrumentation(
+            androidArgs.environmentVariables,
+            Type.Instrumentation(
                 appApkGcsPath = "",
                 testApkGcsPath = "",
                 testShards = emptyList(),

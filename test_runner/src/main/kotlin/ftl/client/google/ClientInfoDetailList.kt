@@ -1,4 +1,4 @@
-package ftl.gc
+package ftl.client.google
 
 import com.google.testing.model.ClientInfoDetail
 

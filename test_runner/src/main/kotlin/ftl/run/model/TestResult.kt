@@ -1,7 +1,7 @@
 package ftl.run.model
 
+import ftl.api.ShardChunks
 import ftl.args.IgnoredTestCases
-import ftl.args.ShardChunks
 import ftl.json.MatrixMap
 
 data class TestResult(

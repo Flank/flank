@@ -1,17 +1,32 @@
 package ftl.run.platform.android
 
+import ftl.api.TestMatrixAndroid
 import ftl.args.AndroidArgs
-import ftl.run.model.AndroidTestContext
-import ftl.run.model.GameLoopContext
-import ftl.run.model.InstrumentationTestContext
-import ftl.run.model.RoboTestContext
-import ftl.run.model.SanityRoboTestContext
+import ftl.args.isDontAutograntPermissions
+import ftl.client.google.GcToolResults
 
-internal fun AndroidArgs.createAndroidTestConfig(
-    testContext: AndroidTestContext
-): AndroidTestConfig = when (testContext) {
-    is InstrumentationTestContext -> createInstrumentationConfig(testContext)
-    is RoboTestContext -> createRoboConfig(testContext)
-    is SanityRoboTestContext -> createSanityRoboConfig(testContext)
-    is GameLoopContext -> createAndroidLoopConfig(testContext)
-}
+suspend fun createAndroidTestConfig(
+    args: AndroidArgs
+): TestMatrixAndroid.Config = TestMatrixAndroid.Config(
+    clientDetails = args.clientDetails,
+    resultsBucket = args.resultsBucket,
+    autoGoogleLogin = args.autoGoogleLogin,
+    networkProfile = args.networkProfile,
+    directoriesToPull = args.directoriesToPull,
+    obbNames = args.obbNames,
+    obbFiles = args.uploadObbFiles(),
+    environmentVariables = args.environmentVariables,
+    autoGrantPermissions = args.isDontAutograntPermissions.not(),
+    testTimeout = args.testTimeout,
+    performanceMetrics = args.performanceMetrics,
+    recordVideo = args.recordVideo,
+    flakyTestAttempts = args.flakyTestAttempts,
+    failFast = args.failFast,
+    project = args.project,
+    resultsHistoryName = GcToolResults.createToolResultsHistory(args).historyId,
+    otherFiles = args.uploadOtherFiles(),
+    resultsDir = args.resultsDir,
+    devices = args.devices,
+    additionalApkGcsPaths = args.uploadAdditionalApks(),
+    repeatTests = args.repeatTests
+)

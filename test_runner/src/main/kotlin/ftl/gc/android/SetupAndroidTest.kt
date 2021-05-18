@@ -1,12 +1,12 @@
 package ftl.gc.android
 
 import com.google.testing.model.TestSpecification
-import ftl.run.platform.android.AndroidTestConfig
+import ftl.api.TestMatrixAndroid
 
-internal fun TestSpecification.setupAndroidTest(config: AndroidTestConfig) = apply {
+internal fun TestSpecification.setupAndroidTest(config: TestMatrixAndroid.Type) = apply {
     when (config) {
-        is AndroidTestConfig.Instrumentation -> androidInstrumentationTest = createAndroidInstrumentationTest(config)
-        is AndroidTestConfig.Robo -> androidRoboTest = createAndroidRoboTest(config)
-        is AndroidTestConfig.GameLoop -> androidTestLoop = createGameLoopTest(config)
+        is TestMatrixAndroid.Type.Instrumentation -> androidInstrumentationTest = createAndroidInstrumentationTest(config)
+        is TestMatrixAndroid.Type.Robo -> androidRoboTest = createAndroidRoboTest(config)
+        is TestMatrixAndroid.Type.GameLoop -> androidTestLoop = createGameLoopTest(config)
     }
 }

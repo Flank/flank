@@ -12,6 +12,7 @@ import com.google.testing.model.TestSpecification
 import com.google.testing.model.ToolResultsHistory
 import ftl.args.IosArgs
 import ftl.client.google.GcTesting
+import ftl.client.google.toClientInfoDetailList
 import ftl.gc.android.mapGcsPathsToFileReference
 import ftl.gc.android.mapToIosDeviceFiles
 import ftl.gc.android.toIosDeviceFile

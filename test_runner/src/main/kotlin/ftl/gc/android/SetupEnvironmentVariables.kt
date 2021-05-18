@@ -3,16 +3,15 @@ package ftl.gc.android
 import com.google.common.annotations.VisibleForTesting
 import com.google.testing.model.EnvironmentVariable
 import com.google.testing.model.TestSetup
-import ftl.args.AndroidArgs
-import ftl.run.platform.android.AndroidTestConfig
+import ftl.api.TestMatrixAndroid
 
 @VisibleForTesting
-internal fun TestSetup.setEnvironmentVariables(args: AndroidArgs, testConfig: AndroidTestConfig) = apply {
+internal fun TestSetup.setEnvironmentVariables(args: Map<String, String>, testConfig: TestMatrixAndroid.Type) = apply {
     environmentVariables = when (testConfig) {
-        is AndroidTestConfig.Instrumentation ->
-            testConfig.environmentVariables.map { it.toEnvironmentVariable() } + args.environmentVariables.map { it.toEnvironmentVariable() }
-        is AndroidTestConfig.Robo -> emptyList()
-        is AndroidTestConfig.GameLoop -> emptyList()
+        is TestMatrixAndroid.Type.Instrumentation ->
+            testConfig.environmentVariables.map { it.toEnvironmentVariable() } + args.map { it.toEnvironmentVariable() }
+        is TestMatrixAndroid.Type.Robo -> emptyList()
+        is TestMatrixAndroid.Type.GameLoop -> emptyList()
     }.distinctBy { it.key }
 }
 
