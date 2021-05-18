@@ -18,27 +18,27 @@ data class DoctorErrors(
         val version: String,
         val model: String
     )
-
-    fun summary(): String =
-        if (isEmpty()) "Valid yml file"
-        else buildString {
-            parsingErrors.forEach { appendLine(it) }
-            invalidDevices
-                .map { "Warning: Version should be string $GCLOUD_NODE -> $DEVICES_NODE[${it.model}] -> $VERSION_NODE[${it.version}]" }
-                .forEach { appendLine(it) }
-            if (topLevelUnknownKeys.isNotEmpty()) appendLine("Unknown top level keys: $topLevelUnknownKeys")
-            nestedUnknownKeys.forEach { (topLevelKey, keys) ->
-                appendLine("Unknown keys in $topLevelKey -> $keys")
-            }
-        }.trim()
 }
+
+fun DoctorErrors.summary(): String =
+    if (isEmpty()) "Valid yml file"
+    else buildString {
+        parsingErrors.forEach { appendLine(it) }
+        invalidDevices
+            .map { "Warning: Version should be string $GCLOUD_NODE -> $DEVICES_NODE[${it.model}] -> $VERSION_NODE[${it.version}]" }
+            .forEach { appendLine(it) }
+        if (topLevelUnknownKeys.isNotEmpty()) appendLine("Unknown top level keys: $topLevelUnknownKeys")
+        nestedUnknownKeys.forEach { (topLevelKey, keys) ->
+            appendLine("Unknown keys in $topLevelKey -> $keys")
+        }
+    }.trim()
 
 fun DoctorErrors.isEmpty() =
     parsingErrors.isEmpty() && topLevelUnknownKeys.isEmpty() &&
         nestedUnknownKeys.isEmpty() && invalidDevices.isEmpty()
 
 operator fun DoctorErrors.plus(right: DoctorErrors) = DoctorErrors(
-    parsingErrors = parsingErrors + right.parsingErrors,
+    parsingErrors = parsingErrors.plus(right.parsingErrors).distinct(),
     topLevelUnknownKeys = topLevelUnknownKeys + right.topLevelUnknownKeys,
     nestedUnknownKeys = nestedUnknownKeys + right.nestedUnknownKeys,
     invalidDevices = invalidDevices + right.invalidDevices

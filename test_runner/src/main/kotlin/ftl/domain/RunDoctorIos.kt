@@ -14,7 +14,7 @@ interface RunDoctorIos : Output {
 
 operator fun RunDoctorIos.invoke() {
     val validationResult = validateYaml(IosArgs, Paths.get(configPath))
-    validationResult.out()
     if (fix) processValidation(Paths.get(configPath))
+    validationResult.out()
     if (!validationResult.isEmpty()) throw YmlValidationError()
 }

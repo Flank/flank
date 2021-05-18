@@ -47,7 +47,7 @@ private fun JsonNode.validateYamlKeys(args: IArgs.ICompanion) = DoctorErrors(
 private fun JsonNode.validateTopLevelKeys(args: IArgs.ICompanion): List<String> =
     (parseArgs().keys - args.validArgs.keys)
         .takeIf { it.isNotEmpty() }
-        ?.map { it }
+        ?.toList()
         .orEmpty()
 
 private fun JsonNode.parseArgs() = mutableMapOf<String, List<String>>().apply {

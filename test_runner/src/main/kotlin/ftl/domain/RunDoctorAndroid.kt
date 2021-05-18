@@ -14,7 +14,7 @@ interface RunDoctorAndroid : Output {
 
 operator fun RunDoctorAndroid.invoke() {
     val validationResult = validateYaml(AndroidArgs, Paths.get(configPath))
-    validationResult.out()
     if (fix) processValidation(Paths.get(configPath))
+    validationResult.out()
     if (!validationResult.isEmpty()) throw YmlValidationError()
 }
