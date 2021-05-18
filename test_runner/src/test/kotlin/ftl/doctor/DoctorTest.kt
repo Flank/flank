@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
+import ftl.domain.summary
 import ftl.test.util.FlankTestRunner
 import org.junit.Assert
 import org.junit.Assert.assertEquals
@@ -118,11 +119,6 @@ Warning: Version should be string gcloud -> device[Nexus5] -> version[23]
     fun androidDoctorTestWithFailedTree() {
         // given
         val expectedErrorMessage = """
-    Error on parse config: expected <block end>, but found '?'
-    At line: 19, column: 4
-    Error node: 
-            test: ../main/app/build/output/a ... 
-            ^
     Error on parse config: expected <block end>, but found '?'
     At line: 19, column: 4
     Error node: 

@@ -4,6 +4,7 @@ import ftl.config.FtlConstants
 import ftl.domain.DoctorErrors
 import ftl.domain.RunDoctorAndroid
 import ftl.domain.invoke
+import ftl.domain.summary
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
 import picocli.CommandLine.Command
