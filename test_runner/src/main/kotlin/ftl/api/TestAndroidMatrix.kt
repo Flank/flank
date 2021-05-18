@@ -48,7 +48,7 @@ object TestMatrixAndroid {
             val keepTestTargetsEmpty: Boolean,
             val environmentVariables: Map<String, String> = emptyMap(),
             val testTargetsForShard: ShardChunks,
-            val clientDetail: Map<String, String> = emptyMap(),
+            val clientDetails: Map<String, String> = emptyMap(),
         ) : Type()
 
         data class Robo(

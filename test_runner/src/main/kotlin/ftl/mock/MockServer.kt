@@ -57,7 +57,8 @@ import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
 import io.ktor.gson.GsonConverter
 import io.ktor.http.ContentType
-import io.ktor.request.*
+import io.ktor.request.receive
+import io.ktor.request.uri
 import io.ktor.response.respond
 import io.ktor.routing.get
 import io.ktor.routing.post

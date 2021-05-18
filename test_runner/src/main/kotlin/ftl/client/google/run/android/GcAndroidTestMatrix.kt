@@ -58,8 +58,14 @@ private fun createAndroidTestMatrix(
     runIndex: Int
 ): Testing.Projects.TestMatrices.Create {
 
+    val clientDetails = if (testMatrixType is TestMatrixAndroid.Type.Instrumentation && testMatrixType.clientDetails.isNotEmpty()) {
+        ClientInfo()
+            .setName("Flank")
+            .setClientInfoDetails(testMatrixType.clientDetails.toClientInfoDetailList())
+    } else config.clientInfo
+
     val testMatrix = TestMatrix()
-        .setClientInfo(config.clientInfo)
+        .setClientInfo(clientDetails)
         .setTestSpecification(getTestSpecification(testMatrixType, config))
         .setResultStorage(config.resultsStorage(contextIndex, runIndex))
         .setEnvironmentMatrix(config.environmentMatrix)
