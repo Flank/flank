@@ -2,16 +2,18 @@ package flank.corellium.domain
 
 import flank.corellium.api.Authorization
 import flank.corellium.api.CorelliumApi
-import flank.corellium.domain.RunTestAndroidCorellium.Context
-import flank.corellium.domain.RunTestAndroidCorellium.State
+import flank.corellium.domain.RunTestCorelliumAndroid.Context
+import flank.corellium.domain.RunTestCorelliumAndroid.State
 import flank.corellium.domain.util.CreateTransformation
 import flank.corellium.domain.util.execute
 import flank.corellium.log.Instrument
 import flank.corellium.shard.Shard
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
+import java.lang.System.currentTimeMillis
+import java.text.SimpleDateFormat
 
-object RunTestAndroidCorellium {
+object RunTestCorelliumAndroid {
 
     /**
      * The context of android test execution on corellium.
@@ -29,20 +31,31 @@ object RunTestAndroidCorellium {
         val credentials: Authorization.Credentials,
         val apks: List<Apk.App>,
         val maxShardsCount: Int,
-        val outputDir: String,
-    )
+        val obfuscateDumpShards: Boolean = false,
+        val outputDir: String = DefaultOutputDir.new,
+    ) {
+        object DefaultOutputDir {
+            private const val PATH = "results/corellium/android/"
+            private val date = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS")
+            val new get() = PATH + date.format(currentTimeMillis())
+        }
 
-    sealed class Apk {
-        abstract val path: String
+        /**
+         * Abstraction for app and test apk files.
+         * @property path Absolut or relative path to apk file.
+         */
+        sealed class Apk {
+            abstract val path: String
 
-        data class App(
-            override val path: String,
-            val tests: List<Test>,
-        ) : Apk()
+            data class App(
+                override val path: String,
+                val tests: List<Test>
+            ) : Apk()
 
-        data class Test(
-            override val path: String
-        ) : Apk()
+            data class Test(
+                override val path: String
+            ) : Apk()
+        }
     }
 
     /**
@@ -65,7 +78,7 @@ object RunTestAndroidCorellium {
     )
 
     /**
-     * The reference to the step factory function.
+     * The reference to the step factory.
      * Invoke it to generate new execution step.
      */
     internal val step = CreateTransformation<State>()
