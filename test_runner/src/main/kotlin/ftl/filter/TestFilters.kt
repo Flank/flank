@@ -2,7 +2,7 @@ package ftl.filter
 
 import com.linkedin.dex.parser.TestMethod
 import flank.common.logLn
-import ftl.args.ShardChunks
+import ftl.api.ShardChunks
 import ftl.config.FtlConstants
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError

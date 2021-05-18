@@ -4,6 +4,7 @@ import com.google.common.annotations.VisibleForTesting
 import flank.common.logLn
 import ftl.api.JUnitTest
 import ftl.api.RemoteStorage
+import ftl.api.ShardChunks
 import ftl.api.downloadAsJunitXML
 import ftl.api.generateJUnitTestResultFromApi
 import ftl.api.parseJUnitLegacyTestResultFromFile
@@ -12,7 +13,6 @@ import ftl.api.uploadToRemoteStorage
 import ftl.args.IArgs
 import ftl.args.IgnoredTestCases
 import ftl.args.IosArgs
-import ftl.args.ShardChunks
 import ftl.client.google.GcStorage
 import ftl.config.FtlConstants
 import ftl.domain.junit.merge

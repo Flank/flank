@@ -2,6 +2,7 @@ package ftl.args
 
 import ftl.analytics.AnonymizeInStatistics
 import ftl.analytics.IgnoreInStatistics
+import ftl.api.ShardChunks
 import ftl.args.yml.AppTestPair
 import ftl.args.yml.Type
 import ftl.run.ANDROID_SHARD_FILE

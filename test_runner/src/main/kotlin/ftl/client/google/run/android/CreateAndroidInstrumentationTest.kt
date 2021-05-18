@@ -1,4 +1,4 @@
-package ftl.gc.android
+package ftl.client.google.run.android
 
 import com.google.testing.model.AndroidInstrumentationTest
 import com.google.testing.model.FileReference
@@ -7,11 +7,11 @@ import com.google.testing.model.ShardingOption
 import com.google.testing.model.TestTargetsForShard
 import com.google.testing.model.UniformSharding
 import flank.common.logLn
-import ftl.args.ShardChunks
-import ftl.run.platform.android.AndroidTestConfig
+import ftl.api.ShardChunks
+import ftl.api.TestMatrixAndroid
 
 internal fun createAndroidInstrumentationTest(
-    config: AndroidTestConfig.Instrumentation
+    config: TestMatrixAndroid.Type.Instrumentation
 ) = AndroidInstrumentationTest().apply {
     appApk = FileReference().setGcsPath(config.appApkGcsPath)
     testApk = FileReference().setGcsPath(config.testApkGcsPath)

@@ -2,13 +2,14 @@ package ftl.gc.android
 
 import com.google.testing.model.AndroidInstrumentationTest
 import com.google.testing.model.FileReference
+import ftl.api.ShardChunks
 import ftl.args.IArgs
-import ftl.args.ShardChunks
+import ftl.client.google.run.android.setupTestTargets
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
 
-class UtilsKtTest {
+class ClientInfoDetailListKtTest {
 
     @Test
     fun `setupTestTargets should setup testTargets`() {

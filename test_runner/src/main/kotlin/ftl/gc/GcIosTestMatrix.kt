@@ -12,9 +12,10 @@ import com.google.testing.model.TestSpecification
 import com.google.testing.model.ToolResultsHistory
 import ftl.args.IosArgs
 import ftl.client.google.GcTesting
-import ftl.gc.android.mapGcsPathsToFileReference
-import ftl.gc.android.mapToIosDeviceFiles
-import ftl.gc.android.toIosDeviceFile
+import ftl.client.google.run.mapGcsPathsToFileReference
+import ftl.client.google.run.mapToIosDeviceFiles
+import ftl.client.google.run.toClientInfoDetailList
+import ftl.client.google.run.toIosDeviceFile
 import ftl.gc.ios.setupIosTest
 import ftl.run.exception.FlankGeneralError
 import ftl.run.model.IosTestContext

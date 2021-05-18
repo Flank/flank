@@ -1,13 +1,13 @@
-package ftl.gc.android
+package ftl.client.google.run.android
 
 import com.google.testing.model.AndroidRoboTest
 import com.google.testing.model.FileReference
 import com.google.testing.model.RoboDirective
+import ftl.api.TestMatrixAndroid
 import ftl.args.FlankRoboDirective
-import ftl.run.platform.android.AndroidTestConfig
 
 internal fun createAndroidRoboTest(
-    config: AndroidTestConfig.Robo
+    config: TestMatrixAndroid.Type.Robo
 ) = AndroidRoboTest().apply {
     appApk = FileReference().setGcsPath(config.appApkGcsPath)
     roboDirectives = config.flankRoboDirectives?.mapToApiRoboDirectives()
