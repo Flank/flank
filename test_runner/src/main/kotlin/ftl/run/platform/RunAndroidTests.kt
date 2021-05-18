@@ -53,7 +53,6 @@ internal suspend fun AndroidArgs.runAndroidTests(): TestResult = coroutineScope 
     logLn(beforeRunMessage(allTestShardChunks))
 
     TestResult(
-        // TDODO: https://github.com/Flank/flank/issues/1754
         matrixMap = afterRunTests(testMatricesData, stopwatch),
         shardChunks = allTestShardChunks.testCases,
         ignoredTests = ignoredTestsShardChunks.flatten()
