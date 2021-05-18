@@ -132,6 +132,41 @@ class AndroidArgsFileTest {
             assertEquals(52, get("matrix-1")!!.shards["shard-2"]!!.size)
         }
     }
+    @Test
+    fun `calculateShards additionalAppTestApks with override`() {
+        val test1 = "src/test/kotlin/ftl/fixtures/tmp/apk/app-debug-androidTest_1.apk"
+        val test155 = "src/test/kotlin/ftl/fixtures/tmp/apk/app-debug-androidTest_155.apk"
+        val config = createAndroidArgs(
+            defaultAndroidConfig().apply {
+                platform.apply {
+                    gcloud.apply {
+                        app = appApkLocal
+                        test = getString(test1)
+                    }
+                    flank.apply {
+                        additionalAppTestApks = mutableListOf(
+                            AppTestPair(
+                                app = appApkLocal,
+                                test = getString(test155),
+                                maxTestShards = 4
+                            )
+                        )
+                    }
+                }
+                common.flank.maxTestShards = 3
+            }
+        )
+        with(runBlocking { config.getAndroidMatrixShards() }) {
+            assertEquals(1, get("matrix-0")!!.shards.size)
+            assertEquals(4, get("matrix-1")!!.shards.size)
+            assertEquals(1, get("matrix-0")!!.shards["shard-0"]!!.size)
+            // 155/4 = ~39
+            assertEquals(38, get("matrix-1")!!.shards["shard-0"]!!.size)
+            assertEquals(39, get("matrix-1")!!.shards["shard-1"]!!.size)
+            assertEquals(39, get("matrix-1")!!.shards["shard-2"]!!.size)
+            assertEquals(39, get("matrix-1")!!.shards["shard-3"]!!.size)
+        }
+    }
 
     @Test
     fun `calculateShards 0`() = runBlocking {
