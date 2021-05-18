@@ -1,5 +1,6 @@
 package ftl.domain
 
+import flank.common.normalizeLineEnding
 import ftl.args.yml.DEVICES_NODE
 import ftl.args.yml.GCLOUD_NODE
 import ftl.args.yml.VERSION_NODE
@@ -38,7 +39,7 @@ fun DoctorErrors.isEmpty() =
         nestedUnknownKeys.isEmpty() && invalidDevices.isEmpty()
 
 operator fun DoctorErrors.plus(right: DoctorErrors) = DoctorErrors(
-    parsingErrors = parsingErrors.plus(right.parsingErrors).distinct(),
+    parsingErrors = parsingErrors.plus(right.parsingErrors).distinctBy { it.normalizeLineEnding() },
     topLevelUnknownKeys = topLevelUnknownKeys + right.topLevelUnknownKeys,
     nestedUnknownKeys = nestedUnknownKeys + right.nestedUnknownKeys,
     invalidDevices = invalidDevices + right.invalidDevices
