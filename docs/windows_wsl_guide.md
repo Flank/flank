@@ -44,7 +44,7 @@ You could configure it using your own Windows machine or you could use GitHub ac
     ```
     - uses: Vampire/setup-wsl@v1
       with:
-        distribution: Ubuntu-18.04
+        distribution: Ubuntu-20.04
         additional-packages:
           dos2unix
     ```
