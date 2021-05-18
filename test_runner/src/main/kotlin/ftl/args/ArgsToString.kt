@@ -34,18 +34,18 @@ object ArgsToString {
         if (devices.isNullOrEmpty()) return ""
 
         return NEW_LINE + devices.joinToString(System.lineSeparator()) {
-
+            val sep = System.lineSeparator()
             val environmentVars = if (it.environmentVariables.isNotEmpty()) {
-                "\n          environment-variables:\n" +
-                    "            ${it.environmentVariables.toList().joinToString("\n            ") { pair -> "${pair.first}: ${pair.second}" }}"
+                "$sep          environment-variables:$sep" +
+                    "            ${it.environmentVariables.toList().joinToString("$sep            ") { pair -> "${pair.first}: ${pair.second}" }}"
             } else ""
 
             val clientDetails = if (it.clientDetails.isNotEmpty()) {
-                "\n          client-details:\n" +
-                    "            ${it.clientDetails.toList().joinToString("\n            ") { pair -> "${pair.first}: ${pair.second}" }}"
+                "$sep          client-details:$sep" +
+                    "            ${it.clientDetails.toList().joinToString("$sep            ") { pair -> "${pair.first}: ${pair.second}" }}"
             } else ""
-            val maxTestShards = if (it.maxTestShards != null) "\n          max-test-shards: ${it.maxTestShards}" else ""
-            "        - app: ${it.app}\n          test: ${it.test}$maxTestShards$clientDetails$environmentVars"
+            val maxTestShards = if (it.maxTestShards != null) "$sep          max-test-shards: ${it.maxTestShards}" else ""
+            "        - app: ${it.app}$sep          test: ${it.test}$maxTestShards$clientDetails$environmentVars"
         }
     }
 }
