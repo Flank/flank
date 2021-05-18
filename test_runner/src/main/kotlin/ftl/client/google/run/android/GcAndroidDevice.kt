@@ -1,4 +1,4 @@
-package ftl.gc
+package ftl.client.google.run.android
 
 import com.google.testing.model.AndroidDevice
 import com.google.testing.model.AndroidDeviceList

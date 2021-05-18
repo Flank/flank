@@ -8,10 +8,10 @@ import ftl.args.yml.AppTestPair
 import ftl.args.yml.Type
 import ftl.client.google.GcStorage
 import ftl.client.google.GcStorage.exist
+import ftl.client.google.run.android.setupAndroidTest
 import ftl.config.Device
 import ftl.config.FtlConstants.defaultAndroidModel
 import ftl.config.FtlConstants.defaultAndroidVersion
-import ftl.gc.android.setupAndroidTest
 import ftl.presentation.cli.firebase.test.android.AndroidRunCommand
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError

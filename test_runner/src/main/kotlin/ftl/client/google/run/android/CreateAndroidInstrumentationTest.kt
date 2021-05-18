@@ -1,4 +1,4 @@
-package ftl.gc.android
+package ftl.client.google.run.android
 
 import com.google.testing.model.AndroidInstrumentationTest
 import com.google.testing.model.FileReference

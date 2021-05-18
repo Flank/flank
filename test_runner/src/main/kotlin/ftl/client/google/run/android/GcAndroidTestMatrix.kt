@@ -1,12 +1,17 @@
-package ftl.client.google
+package ftl.client.google.run.android
 
 import com.google.common.annotations.VisibleForTesting
 import com.google.testing.Testing
 import com.google.testing.model.Account
+import com.google.testing.model.Apk
 import com.google.testing.model.ClientInfo
+import com.google.testing.model.DeviceFile
 import com.google.testing.model.EnvironmentMatrix
+import com.google.testing.model.FileReference
 import com.google.testing.model.GoogleAuto
 import com.google.testing.model.GoogleCloudStorage
+import com.google.testing.model.ObbFile
+import com.google.testing.model.RegularFile
 import com.google.testing.model.ResultStorage
 import com.google.testing.model.TestMatrix
 import com.google.testing.model.TestSetup
@@ -14,12 +19,9 @@ import com.google.testing.model.TestSpecification
 import com.google.testing.model.ToolResultsHistory
 import flank.common.join
 import ftl.api.TestMatrixAndroid
-import ftl.gc.GcAndroidDevice
-import ftl.gc.android.mapGcsPathsToApks
-import ftl.gc.android.mapToDeviceFiles
-import ftl.gc.android.mapToDeviceObbFiles
-import ftl.gc.android.setEnvironmentVariables
-import ftl.gc.android.setupAndroidTest
+import ftl.client.google.GcTesting
+import ftl.client.google.run.toClientInfoDetailList
+import ftl.client.google.run.toFileReference
 import ftl.http.executeWithRetry
 import ftl.run.exception.FlankGeneralError
 import ftl.util.timeoutToSeconds
@@ -100,6 +102,27 @@ private fun getTestSetup(
     .setFilesToPush(config.otherFiles.mapToDeviceFiles() + config.obbFiles.mapToDeviceObbFiles(config.obbNames))
     .setDontAutograntPermissions(config.autoGrantPermissions.not())
     .setEnvironmentVariables(config.environmentVariables, testMatrixType)
+
+internal fun List<String>.mapGcsPathsToApks(): List<Apk>? = this
+    .map { gcsPath -> Apk().setLocation(gcsPath.toFileReference()) }
+    .takeIf { it.isNotEmpty() }
+
+private fun Map<String, String>.mapToDeviceFiles(): List<DeviceFile> =
+    map { (devicePath: String, gcsFilePath: String) ->
+        DeviceFile().setRegularFile(
+            RegularFile()
+                .setDevicePath(devicePath)
+                .setContent(gcsFilePath.toFileReference())
+        )
+    }
+
+private fun Map<String, String>.mapToDeviceObbFiles(obbnames: List<String>): List<DeviceFile> {
+    return values.mapIndexed { index, gcsFilePath ->
+        DeviceFile().setObbFile(
+            ObbFile().setObb(FileReference().setGcsPath(gcsFilePath)).setObbFileName(obbnames[index])
+        )
+    }
+}
 
 private fun TestMatrixAndroid.Config.resultsStorage(
     contextIndex: Int,

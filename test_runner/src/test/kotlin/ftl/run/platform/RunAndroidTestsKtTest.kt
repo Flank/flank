@@ -2,7 +2,7 @@ package ftl.run.platform
 
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
-import ftl.client.google.createGcsPath
+import ftl.client.google.run.android.createGcsPath
 import ftl.run.model.TestResult
 import ftl.test.util.FlankTestRunner
 import ftl.test.util.mixedConfigYaml

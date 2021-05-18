@@ -1,4 +1,4 @@
-package ftl.gc.android
+package ftl.client.google.run.android
 
 import com.google.common.annotations.VisibleForTesting
 import com.google.testing.model.EnvironmentVariable

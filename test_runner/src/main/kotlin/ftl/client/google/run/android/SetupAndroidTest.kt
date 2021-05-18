@@ -1,4 +1,4 @@
-package ftl.gc.android
+package ftl.client.google.run.android
 
 import com.google.testing.model.TestSpecification
 import ftl.api.TestMatrixAndroid

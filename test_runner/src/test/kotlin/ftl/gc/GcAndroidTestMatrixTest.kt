@@ -3,8 +3,8 @@ package ftl.gc
 import com.google.testing.model.TestSetup
 import ftl.api.TestMatrixAndroid.Type
 import ftl.args.AndroidArgs
-import ftl.client.google.executeAndroidTests
-import ftl.gc.android.setEnvironmentVariables
+import ftl.client.google.run.android.executeAndroidTests
+import ftl.client.google.run.android.setEnvironmentVariables
 import ftl.run.platform.android.createAndroidTestConfig
 import ftl.test.util.FlankTestRunner
 import io.mockk.every

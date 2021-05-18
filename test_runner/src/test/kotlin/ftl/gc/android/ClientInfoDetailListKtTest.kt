@@ -4,6 +4,7 @@ import com.google.testing.model.AndroidInstrumentationTest
 import com.google.testing.model.FileReference
 import ftl.api.ShardChunks
 import ftl.args.IArgs
+import ftl.client.google.run.android.setupTestTargets
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
