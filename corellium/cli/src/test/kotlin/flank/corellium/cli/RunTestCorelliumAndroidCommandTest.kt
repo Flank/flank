@@ -1,7 +1,7 @@
 package flank.corellium.cli
 
 import flank.corellium.api.Authorization
-import flank.corellium.domain.RunTestAndroidCorellium
+import flank.corellium.domain.RunTestCorelliumAndroid.Args
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
@@ -17,22 +17,23 @@ class RunTestCorelliumAndroidCommandTest {
         auth = "test_auth.yml"
         project = "test project"
         apks = listOf(
-            RunTestAndroidCorellium.Apk.App(
+            Args.Apk.App(
                 "app1.apk",
                 tests = listOf(
-                    RunTestAndroidCorellium.Apk.Test("app1-test1.apk"),
+                    Args.Apk.Test("app1-test1.apk"),
                 )
             ),
-            RunTestAndroidCorellium.Apk.App(
+            Args.Apk.App(
                 "app2.apk",
                 tests = listOf(
-                    RunTestAndroidCorellium.Apk.Test("app2-test1.apk"),
-                    RunTestAndroidCorellium.Apk.Test("app2-test2.apk"),
+                    Args.Apk.Test("app2-test1.apk"),
+                    Args.Apk.Test("app2-test2.apk"),
                 )
             ),
         )
         maxTestShards = Int.MAX_VALUE
         localResultsDir = "test_result_dir"
+        obfuscate = true
     }
 
     /**
@@ -50,11 +51,12 @@ class RunTestCorelliumAndroidCommandTest {
 
         val cliArgs = expectedConfig.run {
             arrayOf(
-                "--auth=$auth",
                 "--project=$project",
+                "--auth=$auth",
                 "--apks=app1.apk=app1-test1.apk;app2.apk=app2-test1.apk,app2-test2.apk",
                 "--max-test-shards=$maxTestShards",
-                "--local-result-dir=$localResultsDir"
+                "--local-result-dir=$localResultsDir",
+                "--obfuscate=$obfuscate",
             )
         }
 
@@ -72,7 +74,7 @@ apks:
   - path: "app2-test2.apk"
 max-test-shards: $maxTestShards
 local-result-dir: $localResultsDir
-        
+obfuscate: $obfuscate
             """.trimIndent()
         }
 
@@ -129,11 +131,12 @@ local-result-dir: $localResultsDir
         )
 
         val expected = testConfig.run {
-            RunTestAndroidCorellium.Args(
+            Args(
                 credentials = expectedCredentials,
                 apks = apks!!,
                 maxShardsCount = maxTestShards!!,
-                outputDir = localResultsDir!!
+                outputDir = localResultsDir!!,
+                obfuscateDumpShards = obfuscate!!
             )
         }
 
