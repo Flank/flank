@@ -3,24 +3,28 @@ package flank.corellium.cli
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import flank.corellium.cli.RunTestCorelliumAndroidCommand.Config
 import flank.corellium.cli.util.ConfigMap
 import flank.corellium.cli.util.emptyConfigMap
 import flank.corellium.cli.util.loadYaml
 import flank.corellium.cli.util.merge
 import flank.corellium.corelliumApi
-import flank.corellium.domain.RunTestAndroidCorellium
+import flank.corellium.domain.RunTestCorelliumAndroid
+import flank.corellium.domain.RunTestCorelliumAndroid.Args
 import flank.corellium.domain.invoke
 import picocli.CommandLine
 
 class RunTestCorelliumAndroidCommand :
     Runnable,
-    RunTestAndroidCorellium.Context {
+    RunTestCorelliumAndroid.Context {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class Config @JsonIgnore constructor(
         @JsonIgnore
         override val data: MutableMap<String, Any?>
     ) : ConfigMap {
+        constructor() : this(emptyConfigMap())
+
         @set:CommandLine.Option(
             names = ["-a", "--auth"],
             description = ["YAML authorization file path"]
@@ -43,14 +47,14 @@ class RunTestCorelliumAndroidCommand :
         )
         fun addApks(map: Map<String, String>) {
             apks = (apks ?: emptyList()) + map.map { (app, tests) ->
-                RunTestAndroidCorellium.Apk.App(
+                Args.Apk.App(
                     path = app,
-                    tests = tests.split(",").map(RunTestAndroidCorellium.Apk::Test)
+                    tests = tests.split(",").map(Args.Apk::Test)
                 )
             }
         }
 
-        var apks: List<RunTestAndroidCorellium.Apk.App>? by data
+        var apks: List<Args.Apk.App>? by data
 
         @set:CommandLine.Option(
             names = ["--max-test-shards"],
@@ -66,7 +70,14 @@ class RunTestCorelliumAndroidCommand :
         @set:JsonProperty("local-result-dir")
         var localResultsDir: String? by data
 
-        constructor() : this(emptyConfigMap())
+        @set:CommandLine.Option(
+            names = ["--obfuscate"],
+            description = [
+                "Replacing internal test names with unique identifiers when using --dump-shards option " +
+                    "to avoid exposing internal details"
+            ]
+        )
+        var obfuscate: Boolean? by data
     }
 
     @CommandLine.Mixin
@@ -87,20 +98,22 @@ class RunTestCorelliumAndroidCommand :
     override fun run() = invoke()
 }
 
-private fun defaultConfig() = RunTestCorelliumAndroidCommand.Config().apply {
-    auth = "auth.yml"
+private fun defaultConfig() = Config().apply {
     project = "Default Project"
+    auth = "auth.yml"
     apks = emptyList()
     maxTestShards = 3
-    localResultsDir = ""
+    localResultsDir = null
+    obfuscate = false
 }
 
-private fun RunTestCorelliumAndroidCommand.yamlConfig(): RunTestCorelliumAndroidCommand.Config =
-    yamlConfigPath?.let(::loadYaml) ?: RunTestCorelliumAndroidCommand.Config()
+private fun RunTestCorelliumAndroidCommand.yamlConfig(): Config =
+    yamlConfigPath?.let(::loadYaml) ?: Config()
 
-private fun RunTestCorelliumAndroidCommand.createArgs() = RunTestAndroidCorellium.Args(
+private fun RunTestCorelliumAndroidCommand.createArgs() = Args(
+    credentials = loadYaml(config.auth!!),
     apks = config.apks!!,
-    outputDir = config.localResultsDir!!,
     maxShardsCount = config.maxTestShards!!,
-    credentials = loadYaml(config.auth!!)
+    outputDir = config.localResultsDir ?: Args.DefaultOutputDir.new,
+    obfuscateDumpShards = config.obfuscate!!,
 )
