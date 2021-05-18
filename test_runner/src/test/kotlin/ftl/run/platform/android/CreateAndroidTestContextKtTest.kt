@@ -52,13 +52,15 @@ class CreateAndroidTestContextKtTest {
                 app = should { local.endsWith("app-debug.apk") },
                 test = should { local.endsWith("app-single-success-debug-androidTest.apk") },
                 shards = should { size == 1 },
-                ignoredTestCases = should { size == 2 }
+                ignoredTestCases = should { size == 2 },
+                maxTestShards = 1
             ),
             InstrumentationTestContext(
                 app = should { local.endsWith("app-debug.apk") },
                 test = should { local.endsWith("app-multiple-flaky-debug-androidTest.apk") },
                 shards = should { size == 2 },
-                ignoredTestCases = should { size == 4 }
+                ignoredTestCases = should { size == 4 },
+                maxTestShards = 2
             )
         )
 

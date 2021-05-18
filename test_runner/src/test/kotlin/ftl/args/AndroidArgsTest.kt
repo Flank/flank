@@ -1181,12 +1181,12 @@ AndroidArgs
             test: $testErrorApk
       """
         assertEquals(
-            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath)),
+            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath, maxTestShards = 1)),
             AndroidArgs.load(yaml).validate().additionalAppTestApks
         )
 
         assertEquals(
-            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath)),
+            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath, maxTestShards = 1)),
             AndroidArgs.load(yaml, cli).validate().additionalAppTestApks
         )
     }
