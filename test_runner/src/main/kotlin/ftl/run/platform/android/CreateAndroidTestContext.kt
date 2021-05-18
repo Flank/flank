@@ -39,13 +39,14 @@ private suspend fun List<AndroidTestContext>.setupShards(
 ): List<AndroidTestContext> = coroutineScope {
     map { testContext ->
         async {
+            val newArgs = if (testContext is InstrumentationTestContext && testContext.maxTestShards != null) {
+                args.copy(commonArgs = args.commonArgs.copy(maxTestShards = testContext.maxTestShards))
+            } else args
             when {
                 testContext !is InstrumentationTestContext -> testContext
-                args.useCustomSharding -> testContext.userShards(args.customSharding)
-                args.useTestTargetsForShard ->
-                    testContext.downloadApks()
-                        .calculateDummyShards(args, testFilter)
-                else -> testContext.downloadApks().calculateShards(args, testFilter)
+                newArgs.useCustomSharding -> testContext.userShards(newArgs.customSharding)
+                newArgs.useTestTargetsForShard -> testContext.downloadApks().calculateDummyShards(newArgs, testFilter)
+                else -> testContext.downloadApks().calculateShards(newArgs, testFilter)
             }
         }
     }.awaitAll().dropEmptyInstrumentationTest()
