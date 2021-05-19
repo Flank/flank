@@ -49,7 +49,7 @@ private suspend fun List<AndroidTestContext>.setupShards(
         }
     }.awaitAll().dropEmptyInstrumentationTest()
 }
-fun AndroidArgs.prepareArgsForSharding(context: AndroidTestContext): AndroidArgs {
+private fun AndroidArgs.prepareArgsForSharding(context: AndroidTestContext): AndroidArgs {
     return if (context is InstrumentationTestContext && context.maxTestShards != null) {
         copy(commonArgs = commonArgs.copy(maxTestShards = context.maxTestShards))
     } else this
