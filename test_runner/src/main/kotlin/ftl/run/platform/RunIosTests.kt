@@ -10,7 +10,7 @@ import ftl.args.isXcTest
 import ftl.args.shardsFilePath
 import ftl.client.google.GcToolResults
 import ftl.config.FtlConstants
-import ftl.gc.GcIosMatrix
+import ftl.client.google.run.ios.GcIosDevice
 import ftl.gc.GcIosTestMatrix
 import ftl.http.executeWithRetry
 import ftl.ios.xctest.flattenShardChunks
@@ -41,7 +41,7 @@ internal suspend fun IosArgs.runIosTests(): TestResult = coroutineScope {
     val args = this@runIosTests
     val stopwatch = beforeRunTests()
 
-    val iosDeviceList = GcIosMatrix.build(devices)
+    val iosDeviceList = GcIosDevice.build(devices)
 
     val history = GcToolResults.createToolResultsHistory(args)
     val otherGcsFiles = uploadOtherFiles()
