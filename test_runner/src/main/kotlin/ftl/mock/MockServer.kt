@@ -195,30 +195,7 @@ object MockServer {
                             ObjectMapper().readValue<Map<String, Any>>(it.readText())
                         }
                     }
-                    val clientName = requestBody["clientInfo"]?.objectToMap()?.get("name") as String
-                    val allClientDetails = mutableMapOf<String, String>()
-                    requestBody["clientInfo"]
-                        ?.objectToMap()
-                        ?.get("clientInfoDetails")?.let { list ->
-                            if (list is List<*>) {
-                                list.forEach { map ->
-                                    if (map is Map<*, *>) {
-                                        map.toList().chunked(2).forEach {
-                                            if (it.size == 2) {
-                                                val k = it[0].second
-                                                val v = it[1].second
-                                                if (k is String && v is String) {
-                                                    allClientDetails[k] = v
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    val clientInfo = ClientInfo()
-                        .setName(clientName)
-                        .setClientInfoDetails(allClientDetails.toClientInfoDetailList())
+                    val clientInfo = parseClientDetails(requestBody)
 
                     val resultStorage = ResultStorage().apply {
                         toolResultsExecution = ToolResultsExecution()
@@ -404,6 +381,29 @@ object MockServer {
                 }
             }
         }
+    }
+
+    private fun parseClientDetails(requestBody: Map<String, Any>): ClientInfo {
+        val clientName = requestBody["clientInfo"]?.objectToMap()?.get("name") as String
+        val allClientDetails = mutableMapOf<String, String>()
+        requestBody["clientInfo"]
+            ?.objectToMap()
+            ?.get("clientInfoDetails")
+            ?.let { list ->
+                if (list !is List<*>)
+                    return@let
+                list.filterIsInstance<Map<String, String>>()
+                    .forEach {
+                        val k = it["key"]
+                        val v = it["value"]
+                        if (k != null && v != null) {
+                            allClientDetails[k] = v
+                        }
+                    }
+            }
+        return ClientInfo()
+            .setName(clientName)
+            .setClientInfoDetails(allClientDetails.toClientInfoDetailList())
     }
 
     fun start() {
