@@ -9,7 +9,7 @@ import com.google.testing.model.TestMatrix as GoogleTestMatrix
 
 object GoogleTestMatrixIos :
     TestMatrixIos.Execute,
-        (TestMatrixIos.Config, List<TestMatrixIos.Type>) -> List<TestMatrix.Data> by { config, types ->
+    (TestMatrixIos.Config, List<TestMatrixIos.Type>) -> List<TestMatrix.Data> by { config, types ->
         runBlocking {
             executeIosTests(config, types).map(GoogleTestMatrix::toApiModel)
         }
