@@ -39,9 +39,7 @@ private suspend fun List<AndroidTestContext>.setupShards(
 ): List<AndroidTestContext> = coroutineScope {
     map { testContext ->
         async {
-            val newArgs = if (testContext is InstrumentationTestContext && testContext.maxTestShards != null) {
-                args.copy(commonArgs = args.commonArgs.copy(maxTestShards = testContext.maxTestShards))
-            } else args
+            val newArgs = args.prepareArgsForSharding(testContext)
             when {
                 testContext !is InstrumentationTestContext -> testContext
                 newArgs.useCustomSharding -> testContext.userShards(newArgs.customSharding)
@@ -50,6 +48,11 @@ private suspend fun List<AndroidTestContext>.setupShards(
             }
         }
     }.awaitAll().dropEmptyInstrumentationTest()
+}
+fun AndroidArgs.prepareArgsForSharding(context: AndroidTestContext): AndroidArgs {
+    return if (context is InstrumentationTestContext && context.maxTestShards != null) {
+        copy(commonArgs = commonArgs.copy(maxTestShards = context.maxTestShards))
+    } else this
 }
 
 private fun InstrumentationTestContext.userShards(customShardingMap: Map<String, AndroidTestShards>) = customShardingMap
