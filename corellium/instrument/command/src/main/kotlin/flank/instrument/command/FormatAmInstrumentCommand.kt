@@ -23,7 +23,7 @@ fun formatAmInstrumentCommand(
     packageName: String,
     testRunner: String,
     testCases: List<String>,
-) : String {
+): String {
     val testCasesChunk = testCases // example: listOf("class foo.Bar#baz")
         .map { it.split(" ") } // example: listOf(listOf("class", "foo.Bar#baz"))
         .groupBy({ it.first() }, { it.last() }) // example: first => "class", last => "foo.Bar#baz"
