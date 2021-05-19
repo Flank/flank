@@ -16,16 +16,25 @@ import java.util.Date
 val credential: GoogleCredentials by lazy {
     when {
         FtlConstants.useMock -> GoogleCredentials.create(AccessToken("mock", Date()))
-        UserAuth.exists() -> UserAuth.load()
         else ->
             runCatching {
                 GoogleApiLogger.silenceComputeEngine()
                 ServiceAccountCredentials.getApplicationDefault()
             }.getOrElse {
-                if (isWindows) loadGoogleAccountCredentials()
-                else throw FlankGeneralError("Error: Failed to read service account credential.\n${it.message}")
+                when {
+                    isWindows -> loadCredentialsWindows()
+                    UserAuth.exists() -> UserAuth.load()
+                    else -> throw FlankGeneralError("Error: Failed to read service account credential.\n${it.message}")
+                }
             }
     }
+}
+
+private fun loadCredentialsWindows() = runCatching {
+    loadGoogleAccountCredentials()
+}.getOrElse {
+    if (UserAuth.exists()) UserAuth.load()
+    else throw FlankGeneralError("Error: Failed to read service account credential.\n${it.message}")
 }
 
 private fun loadGoogleAccountCredentials(): GoogleCredentials = try {
