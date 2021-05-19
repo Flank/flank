@@ -1,5 +1,7 @@
 package ftl.mock
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.api.services.toolresults.model.AppStartTime
 import com.google.api.services.toolresults.model.CPUInfo
 import com.google.api.services.toolresults.model.Duration
@@ -27,6 +29,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.LongSerializationPolicy
 import com.google.testing.model.AndroidDevice
 import com.google.testing.model.AndroidDeviceCatalog
+import com.google.testing.model.ClientInfo
 import com.google.testing.model.Environment
 import com.google.testing.model.GoogleCloudStorage
 import com.google.testing.model.IosDeviceCatalog
@@ -37,6 +40,8 @@ import com.google.testing.model.TestExecution
 import com.google.testing.model.TestMatrix
 import com.google.testing.model.ToolResultsExecution
 import com.google.testing.model.ToolResultsStep
+import ftl.analytics.objectToMap
+import ftl.client.google.run.toClientInfoDetailList
 import ftl.config.FtlConstants
 import ftl.config.FtlConstants.JSON_FACTORY
 import ftl.log.LogbackLogger
@@ -52,6 +57,7 @@ import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
 import io.ktor.gson.GsonConverter
 import io.ktor.http.ContentType
+import io.ktor.request.receive
 import io.ktor.request.uri
 import io.ktor.response.respond
 import io.ktor.routing.get
@@ -59,10 +65,14 @@ import io.ktor.routing.post
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.net.BindException
+import java.nio.charset.StandardCharsets.UTF_8
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.concurrent.atomic.AtomicInteger
+import java.util.zip.GZIPInputStream
 
 object MockServer {
 
@@ -180,6 +190,12 @@ object MockServer {
                     val projectId = call.parameters["project"]
 
                     val matrixId = matrixIdCounter.incrementAndGet().toString()
+                    val requestBody = withContext(Dispatchers.IO) {
+                        GZIPInputStream(call.receive<ByteArray>().inputStream()).bufferedReader(UTF_8).use {
+                            ObjectMapper().readValue<Map<String, Any>>(it.readText())
+                        }
+                    }
+                    val clientInfo = parseClientDetails(requestBody)
 
                     val resultStorage = ResultStorage().apply {
                         toolResultsExecution = ToolResultsExecution()
@@ -207,6 +223,7 @@ object MockServer {
                         .setEnvironment(environment)
 
                     val matrix = TestMatrix()
+                        .setClientInfo(clientInfo)
                         .setProjectId(projectId)
                         .setTestMatrixId("matrix-$matrixId")
                         .setState("FINISHED")
@@ -364,6 +381,25 @@ object MockServer {
                 }
             }
         }
+    }
+
+    private fun parseClientDetails(requestBody: Map<String, Any>): ClientInfo {
+        val clientName = requestBody["clientInfo"]?.objectToMap()?.get("name") as String
+        val allClientDetails = mutableMapOf<String, String>()
+        requestBody["clientInfo"]
+            ?.objectToMap()
+            ?.get("clientInfoDetails")
+            .run { this as? List<*> }
+            ?.let { list ->
+                list.filterIsInstance<Map<String, String>>()
+                    .filter { it.containsKey("key") && it.containsKey("value") }
+                    .map { it.getValue("key") to it.getValue("value") }
+                    .forEach { (key, value) -> allClientDetails[key] = value }
+            }
+
+        return ClientInfo()
+            .setName(clientName)
+            .setClientInfoDetails(allClientDetails.toClientInfoDetailList())
     }
 
     fun start() {

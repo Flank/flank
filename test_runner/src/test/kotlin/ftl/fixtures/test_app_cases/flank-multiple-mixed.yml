@@ -12,5 +12,6 @@ flank:
   num-test-runs: 1
   additional-app-test-apks:
     - test: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-single-success-debug-androidTest.apk
+      max-test-shards: 1
     - test: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-flaky-debug-androidTest.apk
     - test: ../test_projects/android/apks/invalid.apk

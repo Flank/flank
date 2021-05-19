@@ -13,7 +13,9 @@ data class InstrumentationTestContext(
     val shards: List<Chunk> = emptyList(),
     val ignoredTestCases: IgnoredTestCases = emptyList(),
     val environmentVariables: Map<String, String> = emptyMap(),
-    val testTargetsForShard: ShardChunks = emptyList()
+    val testTargetsForShard: ShardChunks = emptyList(),
+    val maxTestShards: Int? = null,
+    val clientDetails: Map<String, String> = emptyMap(),
 ) : AndroidTestContext()
 
 data class RoboTestContext(

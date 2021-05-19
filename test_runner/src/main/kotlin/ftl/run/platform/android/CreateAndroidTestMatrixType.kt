@@ -39,7 +39,8 @@ internal fun AndroidArgs.createInstrumentationConfig(
     testShards = testApk.shards.testCases,
     keepTestTargetsEmpty = disableSharding && testTargets.isEmpty(),
     environmentVariables = testApk.environmentVariables,
-    testTargetsForShard = testTargetsForShard
+    testTargetsForShard = testTargetsForShard,
+    clientDetails = testApk.clientDetails
 )
 
 internal fun AndroidArgs.createRoboConfig(

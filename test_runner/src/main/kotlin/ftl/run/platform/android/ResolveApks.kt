@@ -40,6 +40,8 @@ private fun AndroidArgs.additionalApksContexts() = additionalAppTestApks.map {
         app = appApk.asFileReference(),
         test = it.test.asFileReference(),
         environmentVariables = it.environmentVariables,
-        testTargetsForShard = testTargetsForShard
+        testTargetsForShard = testTargetsForShard,
+        maxTestShards = it.maxTestShards,
+        clientDetails = it.clientDetails,
     )
 }.toTypedArray()

@@ -8,5 +8,9 @@ data class AppTestPair(
     val app: String?,
     val test: String,
     @JsonProperty("environment-variables")
-    val environmentVariables: Map<String, String> = emptyMap()
+    val environmentVariables: Map<String, String> = emptyMap(),
+    @JsonProperty("max-test-shards")
+    val maxTestShards: Int? = null,
+    @JsonProperty("client-details")
+    var clientDetails: Map<String, String> = emptyMap()
 )

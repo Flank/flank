@@ -58,8 +58,10 @@ private fun createAndroidTestMatrix(
     runIndex: Int
 ): Testing.Projects.TestMatrices.Create {
 
+    val clientDetails = config.clientInfo(testMatrixType)
+
     val testMatrix = TestMatrix()
-        .setClientInfo(config.clientInfo)
+        .setClientInfo(clientDetails)
         .setTestSpecification(getTestSpecification(testMatrixType, config))
         .setResultStorage(config.resultsStorage(contextIndex, runIndex))
         .setEnvironmentMatrix(config.environmentMatrix)
@@ -71,11 +73,18 @@ private fun createAndroidTestMatrix(
     }.getOrElse { e -> throw FlankGeneralError(e) }
 }
 
-// https://github.com/bootstraponline/studio-google-cloud-testing/blob/203ed2890c27a8078cd1b8f7ae12cf77527f426b/firebase-testing/src/com/google/gct/testing/launcher/CloudTestsLauncher.java#L120
-private val TestMatrixAndroid.Config.clientInfo
-    get() = ClientInfo()
-        .setName("Flank")
-        .setClientInfoDetails(clientDetails?.toClientInfoDetailList())
+fun TestMatrixAndroid.Config.clientInfo(matrix: TestMatrixAndroid.Type): ClientInfo {
+    return if (matrix is TestMatrixAndroid.Type.Instrumentation && matrix.clientDetails.isNotEmpty()) {
+        ClientInfo()
+            .setName("Flank")
+            .setClientInfoDetails(matrix.clientDetails.toClientInfoDetailList())
+    } else {
+        // https://github.com/bootstraponline/studio-google-cloud-testing/blob/203ed2890c27a8078cd1b8f7ae12cf77527f426b/firebase-testing/src/com/google/gct/testing/launcher/CloudTestsLauncher.java#L120
+        ClientInfo()
+            .setName("Flank")
+            .setClientInfoDetails(clientDetails?.toClientInfoDetailList())
+    }
+}
 
 private val TestMatrixAndroid.Config.environmentMatrix
     get() = EnvironmentMatrix()

@@ -39,6 +39,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import org.junit.Rule
@@ -1181,14 +1182,151 @@ AndroidArgs
             test: $testErrorApk
       """
         assertEquals(
-            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath)),
+            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath, maxTestShards = 1)),
             AndroidArgs.load(yaml).validate().additionalAppTestApks
         )
 
         assertEquals(
-            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath)),
+            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath, maxTestShards = 1)),
             AndroidArgs.load(yaml, cli).validate().additionalAppTestApks
         )
+    }
+
+    @Test
+    fun `cli additional-app-test-apks with max-test-shards override`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parseArgs("--additional-app-test-apks=app=$appApk,test=$testFlakyApk,max-test-shards=4")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          additional-app-test-apks:
+          - app: $appApk
+            test: $testErrorApk
+      """
+        assertEquals(
+            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath, maxTestShards = 1)),
+            AndroidArgs.load(yaml).validate().additionalAppTestApks
+        )
+
+        assertEquals(
+            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath, maxTestShards = 4)),
+            AndroidArgs.load(yaml, cli).validate().additionalAppTestApks
+        )
+    }
+
+    @Test
+    fun `additional-app-test-apks inherit top level client-details`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          client-details:
+            top-key1: top-val1
+        flank:
+          additional-app-test-apks:
+          - test: $testErrorApk
+          - app: null
+            test: $testErrorApk
+        """.trimIndent()
+
+        val parsedYml = AndroidArgs.load(yaml).validate()
+
+        val (matrixMap, chunks) = runBlocking { parsedYml.runAndroidTests() }
+        assertTrue(
+            "Not all matrices have the `top-key1` client-detail",
+            matrixMap.map.all { it.value.clientDetails!!["top-key1"] != null }
+        )
+        assertEquals(3, matrixMap.map.size)
+        assertEquals(3, chunks.size)
+    }
+
+    @Test
+    fun `additional-app-test-apks can override top-level client-details`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          client-details:
+            top-key1: top-val1
+        flank:
+          additional-app-test-apks:
+          - test: $testErrorApk
+            client-details:
+                top-key1: overridden-top-val1
+                key22: val22
+          - app: null
+            test: $testErrorApk
+        """.trimIndent()
+
+        val parsedYml = AndroidArgs.load(yaml).validate()
+
+        val (matrixMap, chunks) = runBlocking { parsedYml.runAndroidTests() }
+        assertTrue(
+            "Not all matrices have the `top-key1` client-detail",
+            matrixMap.map.all { it.value.clientDetails!!.containsKey("top-key1") }
+        )
+
+        assertNotNull(
+            "Matrix did not override `top-key1` client-detail",
+            matrixMap.map.toList().firstOrNull {
+                it.second.clientDetails!!["top-key1"] == "overridden-top-val1"
+            }
+        )
+
+        assertEquals(3, matrixMap.map.size)
+        assertEquals(3, chunks.size)
+    }
+
+    @Test
+    fun `additional-app-test-apks should pick up client-details`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+          client-details:
+            top-key1: top-val1
+        flank:
+          additional-app-test-apks:
+          - test: $testErrorApk
+            client-details:
+                key1: val1
+                key2: val2
+                top-key1: overwritten-top-val1
+          - app: null
+            test: $testErrorApk
+        """.trimIndent()
+
+        val parsedYml = AndroidArgs.load(yaml).validate()
+
+        val (matrixMap, chunks) = runBlocking { parsedYml.runAndroidTests() }
+        assertTrue(
+            "Not all matrices have the `top-key1` client-detail",
+            matrixMap.map.all { it.value.clientDetails!!.containsKey("top-key1") }
+        )
+        matrixMap.map
+            .toList().apply {
+                // test the module which overrides and adds client details
+                first { it.second.clientDetails!!.size == 3 }
+                    .apply {
+                        assertEquals("val1", second.clientDetails!!["key1"])
+                        assertEquals("val2", second.clientDetails!!["key2"])
+                        assertEquals("overwritten-top-val1", second.clientDetails!!["top-key1"])
+                    }
+                // test all other modules got top level client details
+                first { it.second.clientDetails!!.size == 1 }
+                    .apply {
+                        assertEquals("top-val1", second.clientDetails!!["top-key1"])
+                    }
+                last { it.second.clientDetails!!.size == 1 }
+                    .apply {
+                        assertEquals("top-val1", second.clientDetails!!["top-key1"])
+                    }
+            }
+        assertEquals(3, matrixMap.map.size)
+        assertEquals(3, chunks.size)
     }
 
     @Test
