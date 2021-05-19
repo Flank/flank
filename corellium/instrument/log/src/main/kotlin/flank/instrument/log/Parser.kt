@@ -1,4 +1,4 @@
-package flank.corellium.log
+package flank.instrument.log
 
 import kotlinx.coroutines.flow.Flow
 

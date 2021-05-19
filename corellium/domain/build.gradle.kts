@@ -20,7 +20,8 @@ dependencies {
     implementation(project(":corellium:shard:calculate"))
     implementation(project(":corellium:shard:obfuscate"))
     implementation(project(":corellium:shard:dump"))
-    implementation(project(":corellium:log"))
+    implementation(project(":corellium:instrument:command"))
+    implementation(project(":corellium:instrument:log"))
     implementation(project(":corellium:junit"))
 
     testImplementation(Dependencies.JUNIT)

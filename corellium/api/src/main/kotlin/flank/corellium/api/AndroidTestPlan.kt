@@ -10,37 +10,20 @@ object AndroidTestPlan {
     /**
      * The configuration of the Android test plan.
      *
-     * @property instances the map of instance ids with related shards.
+     * @property instances the map of instance ids with related `am instrument` commands to execute.
      */
     data class Config(
-        val instances: Map<InstanceId, List<Shard>>
-    )
-
-    /**
-     * The configuration data for the shell command:
-     * ```
-     * $ adb am instrument -r -w -e "testCases[0..n]" "$packageName/$testRunner"
-     * ```
-     *
-     * Test cases names should match the following format:
-     * ```
-     * "class package.name.ClassName#methodName"
-     * ```
-     *
-     * @property packageName the package name of the android test apk.
-     * @property testRunner the test runner full name.
-     * @property testCases the list of test cases names.
-     */
-    data class Shard(
-        val packageName: String,
-        val testRunner: String,
-        val testCases: List<String>
+        val instances: Map<InstanceId, List<AmInstrumentCommand>>
     )
 
     /**
      * Execute tests on android instances using specified configuration.
      */
-    fun interface Execute : (Config) -> List<Flow<String>>
+    fun interface Execute : (Config) -> List<Flow<AmInstrumentOutputLine>>
 }
 
 private typealias InstanceId = String
+
+private typealias AmInstrumentCommand = String
+
+private typealias AmInstrumentOutputLine = String
