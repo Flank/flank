@@ -389,18 +389,14 @@ object MockServer {
         requestBody["clientInfo"]
             ?.objectToMap()
             ?.get("clientInfoDetails")
+            .run { this as? List<*> }
             ?.let { list ->
-                if (list !is List<*>)
-                    return@let
                 list.filterIsInstance<Map<String, String>>()
-                    .forEach {
-                        val k = it["key"]
-                        val v = it["value"]
-                        if (k != null && v != null) {
-                            allClientDetails[k] = v
-                        }
-                    }
+                    .filter { it.containsKey("key") && it.containsKey("value") }
+                    .map { it.getValue("key") to it.getValue("value") }
+                    .forEach { (key, value) -> allClientDetails[key] = value }
             }
+
         return ClientInfo()
             .setName(clientName)
             .setClientInfoDetails(allClientDetails.toClientInfoDetailList())
