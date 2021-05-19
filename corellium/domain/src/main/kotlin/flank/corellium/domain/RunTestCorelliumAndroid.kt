@@ -4,6 +4,18 @@ import flank.corellium.api.Authorization
 import flank.corellium.api.CorelliumApi
 import flank.corellium.domain.RunTestCorelliumAndroid.Context
 import flank.corellium.domain.RunTestCorelliumAndroid.State
+import flank.corellium.domain.run.test.android.step.authorize
+import flank.corellium.domain.run.test.android.step.cleanUpInstances
+import flank.corellium.domain.run.test.android.step.createOutputDir
+import flank.corellium.domain.run.test.android.step.dumpShards
+import flank.corellium.domain.run.test.android.step.executeTests
+import flank.corellium.domain.run.test.android.step.finish
+import flank.corellium.domain.run.test.android.step.generateReport
+import flank.corellium.domain.run.test.android.step.installApks
+import flank.corellium.domain.run.test.android.step.invokeDevices
+import flank.corellium.domain.run.test.android.step.parseApksInfo
+import flank.corellium.domain.run.test.android.step.parseTestCasesFromApks
+import flank.corellium.domain.run.test.android.step.prepareShards
 import flank.corellium.domain.util.CreateTransformation
 import flank.corellium.domain.util.execute
 import flank.corellium.log.Instrument
@@ -85,10 +97,18 @@ object RunTestCorelliumAndroid {
 }
 
 operator fun Context.invoke(): Unit = runBlocking {
-    State() execute flowOf {
-        println("Not integrated yet, check following PR:")
-        println("https://github.com/Flank/flank/pull/1897")
-        println("will integrate business logic.")
-        this
-    }
+    State() execute flowOf(
+        authorize(),
+        parseTestCasesFromApks(),
+        prepareShards(),
+        createOutputDir(),
+        dumpShards(),
+        invokeDevices(),
+        installApks(),
+        parseApksInfo(),
+        executeTests(),
+        cleanUpInstances(),
+        generateReport(),
+        finish(),
+    )
 }
