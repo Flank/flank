@@ -1,12 +1,13 @@
-package flank.corellium.adapter
+package flank.apk
 
-import flank.corellium.api.Apk
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 private const val TEST_APK_PATH = "../../test_artifacts/master/apk/app-single-success-debug-androidTest.apk"
 
 class ParseApkTest {
+
+    private val apk = Apk.Api()
 
     @Test
     fun parseTestCases() {
@@ -16,7 +17,7 @@ class ParseApkTest {
                 "com.example.test_app.InstrumentedTest#ignoredTestWithSuppress",
                 "com.example.test_app.InstrumentedTest#test",
             ),
-            parseApkTestCases(TEST_APK_PATH)
+            apk.parseTestCases(TEST_APK_PATH)
         )
     }
 
@@ -24,7 +25,7 @@ class ParseApkTest {
     fun parsePackageName() {
         assertEquals(
             "com.example.test_app.test",
-            parseApkPackageName(TEST_APK_PATH)
+            apk.parsePackageName(TEST_APK_PATH)
         )
     }
 
@@ -35,7 +36,7 @@ class ParseApkTest {
                 packageName = "com.example.test_app.test",
                 testRunner = "androidx.test.runner.AndroidJUnitRunner"
             ),
-            parseApkInfo(TEST_APK_PATH)
+            apk.parseInfo(TEST_APK_PATH)
         )
     }
 }

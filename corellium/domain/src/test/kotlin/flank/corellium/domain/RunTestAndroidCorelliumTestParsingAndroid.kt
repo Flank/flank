@@ -1,8 +1,6 @@
 package flank.corellium.domain
 
-import flank.corellium.adapter.parseApkInfo
-import flank.corellium.adapter.parseApkPackageName
-import flank.corellium.adapter.parseApkTestCases
+import flank.apk.Apk
 import flank.corellium.api.CorelliumApi
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
@@ -25,9 +23,6 @@ class RunTestAndroidCorelliumTestParsingAndroid : RunTestCorelliumAndroid.Contex
     }
 
     override val api = CorelliumApi(
-        parseTestCases = parseApkTestCases,
-        parsePackageName = parseApkPackageName,
-        parseTestApkInfo = parseApkInfo,
         authorize = { credentials ->
             println(credentials)
             assertEquals(args.credentials, credentials)
@@ -59,6 +54,8 @@ class RunTestAndroidCorelliumTestParsingAndroid : RunTestCorelliumAndroid.Contex
             emptyList()
         },
     )
+
+    override val apk = Apk.Api()
 
     @Test
     fun test(): Unit = invoke()

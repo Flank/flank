@@ -3,6 +3,7 @@ package flank.corellium.cli
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import flank.apk.Apk
 import flank.corellium.cli.RunTestCorelliumAndroidCommand.Config
 import flank.corellium.cli.util.ConfigMap
 import flank.corellium.cli.util.emptyConfigMap
@@ -103,6 +104,8 @@ class RunTestCorelliumAndroidCommand :
     internal val config by lazy { merge(defaultConfig(), yamlConfig(), cliConfig) }
 
     override val api by lazy { corelliumApi(config.project!!) }
+
+    override val apk = Apk.Api()
 
     override val args by lazy { createArgs() }
 

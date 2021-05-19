@@ -1,23 +1,23 @@
-package flank.corellium.adapter
+package flank.apk.internal
 
 import com.linkedin.dex.parser.DexParser
 import com.linkedin.dex.parser.TestMethod
-import flank.corellium.api.Apk
+import flank.apk.Apk
 import net.dongliu.apk.parser.ApkFile
 import org.xml.sax.InputSource
 import java.io.StringReader
 import javax.xml.parsers.DocumentBuilderFactory
 
-val parseApkTestCases = Apk.ParseTestCases { path ->
+internal val parseApkTestCases = Apk.ParseTestCases { path ->
     DexParser.findTestMethods(path)
         .map(TestMethod::testName)
 }
 
-val parseApkPackageName = Apk.ParsePackageName { path ->
+internal val parseApkPackageName = Apk.ParsePackageName { path ->
     ApkFile(path).apkMeta.packageName
 }
 
-val parseApkInfo = Apk.ParseInfo { path ->
+internal val parseApkInfo = Apk.ParseInfo { path ->
     Apk.Info(
         packageName = ApkFile(path).apkMeta.packageName,
         testRunner = DocumentBuilderFactory.newInstance()
