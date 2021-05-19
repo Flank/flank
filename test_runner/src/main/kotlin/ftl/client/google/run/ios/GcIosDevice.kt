@@ -1,10 +1,10 @@
-package ftl.gc
+package ftl.client.google.run.ios
 
 import com.google.testing.model.IosDevice
 import com.google.testing.model.IosDeviceList
 import ftl.config.Device
 
-object GcIosMatrix {
+object GcIosDevice {
 
     fun build(deviceList: List<Device>): IosDeviceList = IosDeviceList().setIosDevices(
         deviceList.map {

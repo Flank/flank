@@ -1,28 +1,26 @@
-package ftl.gc.ios
+package ftl.client.google.run.ios
 
 import com.google.testing.model.FileReference
 import com.google.testing.model.IosTestLoop
 import com.google.testing.model.IosXcTest
 import com.google.testing.model.TestSpecification
-import ftl.run.model.GameloopTestContext
-import ftl.run.model.IosTestContext
-import ftl.run.model.XcTestContext
+import ftl.api.TestMatrixIos
 
-fun TestSpecification.setupIosTest(context: IosTestContext) = apply {
-    when (context) {
-        is XcTestContext -> iosXcTest = setupXcTest(context)
-        is GameloopTestContext -> iosTestLoop = setupGameLoopTest(context)
+internal fun TestSpecification.setupIosTest(config: TestMatrixIos.Type) = apply {
+    when (config) {
+        is TestMatrixIos.Type.XcTest -> iosXcTest = setupXcTest(config)
+        is TestMatrixIos.Type.GameLoop -> iosTestLoop = setupGameLoopTest(config)
     }
 }
 
-private fun setupXcTest(context: XcTestContext) = IosXcTest().apply {
+private fun setupXcTest(context: TestMatrixIos.Type.XcTest) = IosXcTest().apply {
     testsZip = FileReference().setGcsPath(context.xcTestGcsPath)
     xctestrun = FileReference().setGcsPath(context.xcTestRunFileGcsPath)
     xcodeVersion = context.xcodeVersion
     testSpecialEntitlements = context.testSpecialEntitlements
 }
 
-private fun setupGameLoopTest(context: GameloopTestContext) = IosTestLoop().apply {
+private fun setupGameLoopTest(context: TestMatrixIos.Type.GameLoop) = IosTestLoop().apply {
     appIpa = FileReference().setGcsPath(context.appGcsPath)
     scenarios = context.scenarios
 }
