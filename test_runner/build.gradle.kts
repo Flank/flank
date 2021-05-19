@@ -2,10 +2,8 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import groovy.util.Node
 import groovy.util.NodeList
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
-import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
-import java.nio.file.Paths
 
 plugins {
     application
@@ -125,6 +123,12 @@ signing {
     val pgpSigningKey: String = System.getenv("PGP_SIGNING_KEY") ?: properties["PGP_SIGNING_KEY"].toString()
     useInMemoryPgpKeys(pgpSigningKey, "")
     sign(publishing.publications["mavenJava"])
+}
+
+tasks.withType<PublishToMavenRepository>().configureEach {
+    doFirst {
+        assertValidVersion(publication.version)
+    }
 }
 
 // http://www.eclemma.org/jacoco/
