@@ -1,15 +1,16 @@
 package ftl.gc
 
-import com.google.testing.model.IosDeviceList
 import flank.common.isWindows
+import ftl.api.TestMatrixIos
 import ftl.args.IosArgs
-import ftl.client.google.GcToolResults
+import ftl.client.google.run.ios.executeIosTests
 import ftl.ios.xctest.FIXTURES_PATH
-import ftl.run.model.XcTestContext
+import ftl.run.platform.ios.createIosTestConfig
 import ftl.test.util.FlankTestRunner
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assume.assumeFalse
@@ -25,49 +26,46 @@ class GcIosTestMatrixTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun `build negativeShardErrors`() {
-        val iosArgs = mockk<IosArgs>(relaxed = true)
+        runBlocking {
+            val iosArgs = mockk<IosArgs>(relaxed = true) {
+                every { otherFiles } returns emptyMap()
+                every { devices } returns emptyList()
+                every { resultsHistoryName } returns ""
+            }
 
-        GcIosTestMatrix.build(
-            iosDeviceList = IosDeviceList(),
-            args = iosArgs,
-            toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs),
-            otherFiles = mapOf(),
-            additionalIpasGcsPaths = emptyList(),
-            iosTestContext = XcTestContext("", "", "", false, "")
-        )
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun `build invalidShardErrors`() {
-        val iosArgs = mockk<IosArgs>(relaxed = true)
-        GcIosTestMatrix.build(
-            iosDeviceList = IosDeviceList(),
-            args = iosArgs,
-            toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs),
-            otherFiles = mapOf(),
-            additionalIpasGcsPaths = emptyList(),
-            iosTestContext = XcTestContext("", "", "", false, "")
-        )
+            val type = TestMatrixIos.Type.XcTest(
+                xcTestGcsPath = "",
+                xcodeVersion = "",
+                testSpecialEntitlements = false,
+                matrixGcsPath = "",
+                xcTestRunFileGcsPath = ""
+            )
+            val config = createIosTestConfig(iosArgs)
+            executeIosTests(config, listOf(type))
+        }
     }
 
     @Test
     fun `build validArgs`() {
-        assumeFalse(isWindows) // TODO enable it on #1180
+        runBlocking {
+            assumeFalse(isWindows) // TODO enable it on #1180
 
-        val iosArgs = mockk<IosArgs>(relaxed = true)
-        every { iosArgs.testTimeout } returns "3m"
-        every { iosArgs.resultsBucket } returns "/hi"
-        every { iosArgs.project } returns "123"
-        every { iosArgs.xctestrunFile } returns "$FIXTURES_PATH/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun"
+            val iosArgs = mockk<IosArgs>(relaxed = true)
+            every { iosArgs.testTimeout } returns "3m"
+            every { iosArgs.resultsBucket } returns "/hi"
+            every { iosArgs.project } returns "123"
+            every { iosArgs.xctestrunFile } returns "$FIXTURES_PATH/ios/EarlGreyExample/EarlGreyExampleSwiftTests.xctestrun"
 
-        GcIosTestMatrix.build(
-            iosDeviceList = IosDeviceList(),
-            args = iosArgs,
-            toolResultsHistory = GcToolResults.createToolResultsHistory(iosArgs),
-            otherFiles = mapOf(),
-            additionalIpasGcsPaths = emptyList(),
-            iosTestContext = XcTestContext("", "", "", false, "")
-        )
+            val type = TestMatrixIos.Type.XcTest(
+                xcTestGcsPath = "",
+                xcodeVersion = "",
+                testSpecialEntitlements = false,
+                matrixGcsPath = "",
+                xcTestRunFileGcsPath = ""
+            )
+            val config = createIosTestConfig(iosArgs)
+            executeIosTests(config, listOf(type))
+        }
     }
 
     @Test
