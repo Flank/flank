@@ -15,6 +15,6 @@ internal fun RunTestCorelliumAndroid.Context.parseTestCasesFromApks() = RunTestC
             // Get the list of paths to test apks
             .flatMap { app -> app.tests.map { test -> test.path } }
             // Associate parsed test methods to each apk path
-            .associateWith(api.parseTestCases)
+            .associateWith(apk.parseTestCases)
     )
 }

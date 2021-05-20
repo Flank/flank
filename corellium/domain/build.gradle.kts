@@ -16,6 +16,7 @@ tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
 dependencies {
     implementation(Dependencies.KOTLIN_COROUTINES_CORE)
     implementation(project(":corellium:api"))
+    implementation(project(":corellium:apk"))
     implementation(project(":corellium:shard:calculate"))
     implementation(project(":corellium:shard:obfuscate"))
     implementation(project(":corellium:shard:dump"))

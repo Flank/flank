@@ -14,10 +14,10 @@ internal fun RunTestCorelliumAndroid.Context.parseApksInfo() = RunTestCorelliumA
     val packageNames = mutableMapOf<String, String>()
     val testRunners = mutableMapOf<String, String>()
     args.apks.map { app ->
-        packageNames[app.path] = api.parsePackageName(app.path)
+        packageNames[app.path] = apk.parsePackageName(app.path)
 
         app.tests.map { test ->
-            val info = api.parseTestApkInfo(test.path)
+            val info = apk.parseInfo(test.path)
             packageNames[test.path] = info.packageName
             testRunners[test.path] = info.testRunner
         }

@@ -1,5 +1,6 @@
 package flank.corellium.domain
 
+import flank.apk.Apk
 import flank.corellium.api.Authorization
 import flank.corellium.api.CorelliumApi
 import flank.corellium.domain.RunTestCorelliumAndroid.Context
@@ -33,6 +34,7 @@ object RunTestCorelliumAndroid {
      */
     interface Context {
         val api: CorelliumApi
+        val apk: Apk.Api
         val args: Args
     }
 

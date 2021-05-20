@@ -15,6 +15,7 @@ include(
     ":corellium:client",
     ":corellium:log",
     ":corellium:api",
+    ":corellium:apk",
     ":corellium:shard",
     ":corellium:shard:calculate",
     ":corellium:shard:obfuscate",

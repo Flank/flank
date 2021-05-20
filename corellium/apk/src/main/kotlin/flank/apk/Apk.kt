@@ -1,9 +1,19 @@
-package flank.corellium.api
+package flank.apk
+
+import flank.apk.internal.parseApkInfo
+import flank.apk.internal.parseApkPackageName
+import flank.apk.internal.parseApkTestCases
 
 /**
  * Structured representation of the parsed test apk file.
  */
 object Apk {
+
+    class Api(
+        val parseTestCases: ParseTestCases = parseApkTestCases,
+        val parsePackageName: ParsePackageName = parseApkPackageName,
+        val parseInfo: ParseInfo = parseApkInfo
+    )
 
     data class Info(
         val packageName: String,

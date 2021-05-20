@@ -1,6 +1,6 @@
 package flank.corellium.domain
 
-import flank.corellium.api.Apk
+import flank.apk.Apk
 import flank.corellium.api.CorelliumApi
 import flank.corellium.domain.RunTestCorelliumAndroid.Args
 import kotlinx.coroutines.flow.asFlow
@@ -48,12 +48,6 @@ class RunTestAndroidCorelliumTestMockApiAndroid : RunTestCorelliumAndroid.Contex
             assertEquals(args.credentials, credentials)
             completeJob
         },
-        parseTestCases = { path ->
-            println(path)
-            (1..path.last().toString().toInt()).map {
-                path.replace("/", ".") + ".Test#test$it"
-            }
-        },
         invokeAndroidDevices = { (amount) ->
             assertEquals(expectedShardsCount, amount)
             (1..amount).asFlow().map(Int::toString)
@@ -63,21 +57,30 @@ class RunTestAndroidCorelliumTestMockApiAndroid : RunTestCorelliumAndroid.Contex
             assertEquals(expectedShardsCount, list.size)
             completeJob
         },
+        executeTest = { (instances) ->
+            println(instances)
+            assertEquals(expectedShardsCount, instances.size)
+            emptyList()
+        },
+    )
+
+    override val apk = Apk.Api(
+        parseTestCases = { path ->
+            println(path)
+            (1..path.last().toString().toInt()).map {
+                path.replace("/", ".") + ".Test#test$it"
+            }
+        },
         parsePackageName = { path ->
             println(path)
             path
         },
-        parseTestApkInfo = { path ->
+        parseInfo = { path ->
             println(path)
             Apk.Info(
                 packageName = path,
                 testRunner = path
             )
-        },
-        executeTest = { (instances) ->
-            println(instances)
-            assertEquals(expectedShardsCount, instances.size)
-            emptyList()
         },
     )
 
