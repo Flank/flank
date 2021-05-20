@@ -32,7 +32,6 @@ suspend fun executeIosTests(
         testMatrices + executeIosTestMatrixAsync(testMatrixType, config)
     }.awaitAll()
 
-
 private suspend fun executeIosTestMatrixAsync(
     type: TestMatrixIos.Type,
     config: TestMatrixIos.Config
