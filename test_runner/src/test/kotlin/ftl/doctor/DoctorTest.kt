@@ -4,7 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
-import ftl.domain.summary
+import ftl.presentation.cli.firebase.test.summary
 import ftl.test.util.FlankTestRunner
 import org.junit.Assert
 import org.junit.Assert.assertEquals
