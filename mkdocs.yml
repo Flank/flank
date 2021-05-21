@@ -37,6 +37,7 @@ nav:
       - Secrets: flank_secrets.md
       - Releasing: release_process.md
       - Binaries for Flank's iOS: binaries_used_in_flank_io_testing.md
+      - Architecture abstraction: architecture.md
   - High-level design:
       - Overview: "https://github.com/Flank/flank/tree/master/test_runner/src/main/kotlin/ftl#flank-high-level-design"
       - Presentation:
