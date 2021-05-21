@@ -1,7 +1,7 @@
 package flank.corellium.domain.run.test.android.step
 
 import flank.corellium.domain.RunTestCorelliumAndroid
-import flank.corellium.log.Instrument
+import flank.instrument.log.Instrument
 import flank.junit.JUnit
 import flank.junit.generateJUnitReport
 import flank.junit.writeAsXml

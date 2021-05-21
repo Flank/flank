@@ -2,8 +2,9 @@ package flank.corellium.domain.run.test.android.step
 
 import flank.corellium.api.AndroidTestPlan
 import flank.corellium.domain.RunTestCorelliumAndroid
-import flank.corellium.log.Instrument
-import flank.corellium.log.parseAdbInstrumentLog
+import flank.instrument.command.formatAmInstrumentCommand
+import flank.instrument.log.Instrument
+import flank.instrument.log.parseAdbInstrumentLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -51,14 +52,14 @@ internal fun RunTestCorelliumAndroid.Context.executeTests() = RunTestCorelliumAn
 
 /**
  * Prepare [AndroidTestPlan.Config] for test execution.
- * It's a simple data mapping, no API calls or logical operations.
+ * It just mapping and formatting the data collected in state.
  */
 private fun RunTestCorelliumAndroid.State.prepareTestPlan(): AndroidTestPlan.Config =
     AndroidTestPlan.Config(
         shards.mapIndexed { index, shards ->
             ids[index] to shards.flatMap { shard ->
                 shard.tests.map { test ->
-                    AndroidTestPlan.Shard(
+                    formatAmInstrumentCommand(
                         packageName = packageNames.getValue(test.name),
                         testRunner = testRunners.getValue(test.name),
                         testCases = test.cases.map { case ->
