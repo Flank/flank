@@ -117,7 +117,7 @@ private fun InstrumentationTestContext.calculateDummyShards(
 internal fun InstrumentationTestContext.getFlankTestMethods(
     testFilter: TestFilter
 ): List<FlankTestMethod> =
-    getParametrizedClasses() .let { parameterizedClasses: List<TestMethod> ->
+    getParametrizedClasses().let { parameterizedClasses: List<TestMethod> ->
         DexParser.findTestMethods(test.local).asSequence()
             .distinctBy { it.testName }
             .filter(testFilter.shouldRun)
