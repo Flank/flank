@@ -65,6 +65,7 @@ class AndroidArgsTest {
     private val invalidApk = "../test_projects/android/apks/invalid.apk"
     private val nonExistingApk = "../test_projects/android/apks/app-debug_non_existing.apk"
     private val testApk = "../test_projects/android/apks/app-debug-androidTest.apk"
+    private val testLargeParameterizedApk = "../test_projects/android/apks/app-Large-Parameterized.apk"
     private val testErrorApk = "../test_projects/android/apks/error-androidTest.apk"
     private val testFlakyApk = "../test_projects/android/apks/flaky-androidTest.apk"
     private val obbFile = "../test_projects/android/gameloop/test.obb"
@@ -1562,6 +1563,50 @@ AndroidArgs
 
         val parsedYml = AndroidArgs.load(yaml).validate()
         runBlocking { parsedYml.runAndroidTests() }
+    }
+
+    @Test
+    fun `should only keep @LargeTest`() {
+        val expectedTests = setOf("LargeParameterizedTests","ExampleInstrumentedTest#useAppContextLarge","LargeTestClass#testLargeClass")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testLargeParameterizedApk
+          test-targets:
+            - annotation androidx.test.filters.LargeTest
+        """.trimIndent()
+
+        val parsedYml = AndroidArgs.load(yaml).validate()
+        val chunks = runBlocking { parsedYml.runAndroidTests() }.shardChunks
+        chunks[0]
+            .apply { assertTrue(isNotEmpty()) }
+            .map { it.substringAfterLast(".") }
+            .forEach {
+                assertTrue(it in expectedTests)
+            }
+    }
+
+    @Test
+    fun `should keep no @LargeTest`() {
+        val expectedTests = setOf("LargeParameterizedTests","ExampleInstrumentedTest#useAppContextLarge","LargeTestClass#testLargeClass")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testLargeParameterizedApk
+          test-targets:
+            - notAnnotation androidx.test.filters.LargeTest
+        """.trimIndent()
+
+        val parsedYml = AndroidArgs.load(yaml).validate()
+        val chunks = runBlocking { parsedYml.runAndroidTests() }.shardChunks
+        chunks[0]
+            .apply { assertTrue(isNotEmpty()) }
+            .map { it.substringAfterLast(".") }
+            .forEach {
+                assertTrue(it !in expectedTests)
+            }
     }
 
     @Test
