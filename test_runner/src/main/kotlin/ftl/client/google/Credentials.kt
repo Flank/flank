@@ -23,8 +23,7 @@ val credential: GoogleCredentials by lazy {
             }.getOrElse {
                 when {
                     isWindows -> loadCredentialsWindows()
-                    UserAuth.exists() -> UserAuth.load()
-                    else -> throw FlankGeneralError("Error: Failed to read service account credential.\n${it.message}")
+                    else -> loadUserAuth(it.message.orEmpty())
                 }
             }
     }
@@ -33,8 +32,7 @@ val credential: GoogleCredentials by lazy {
 private fun loadCredentialsWindows() = runCatching {
     loadGoogleAccountCredentials()
 }.getOrElse {
-    if (UserAuth.exists()) UserAuth.load()
-    else throw FlankGeneralError("Error: Failed to read service account credential.\n${it.message}")
+    loadUserAuth(it.message.orEmpty())
 }
 
 private fun loadGoogleAccountCredentials(): GoogleCredentials = try {
@@ -42,6 +40,10 @@ private fun loadGoogleAccountCredentials(): GoogleCredentials = try {
 } catch (e: IOException) {
     throw FlankGeneralError("Error: Failed to read service account credential.\n${e.message}")
 }
+
+private fun loadUserAuth(topLevelErrorMessage: String) =
+    if (UserAuth.exists()) UserAuth.load()
+    else throw FlankGeneralError("Error: Failed to read service account credential.\n$topLevelErrorMessage")
 
 val httpCredential: HttpRequestInitializer by lazy {
     if (FtlConstants.useMock) {
