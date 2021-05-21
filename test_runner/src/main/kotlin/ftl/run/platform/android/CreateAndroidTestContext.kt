@@ -149,9 +149,10 @@ internal fun InstrumentationTestContext.getParametrizedClasses(): List<TestMetho
         accumulator + file.classDefs
             .filter(file::isParametrizedClass)
             .map {
-                val name = file.formatClassName(it).dropLast(1)
-                val annotations = file.getClassAnnotationValues(file.getAnnotationsDirectory(it))
-                TestMethod(name, annotations)
+                TestMethod(
+                    testName = file.formatClassName(it).dropLast(1),
+                    annotations = file.getClassAnnotationValues(file.getAnnotationsDirectory(it))
+                )
             }
     }
 
