@@ -12,6 +12,7 @@ plugins {
     id(Plugins.MAVEN_PUBLISH)
     signing
     id(Plugins.PLUGIN_SHADOW_JAR) version Versions.SHADOW
+    id(Plugins.MAVEN_VERSION_CHECK)
 }
 
 val artifactID = "flank"
@@ -123,12 +124,6 @@ signing {
     val pgpSigningKey: String = System.getenv("PGP_SIGNING_KEY") ?: properties["PGP_SIGNING_KEY"].toString()
     useInMemoryPgpKeys(pgpSigningKey, "")
     sign(publishing.publications["mavenJava"])
-}
-
-tasks.withType<PublishToMavenRepository>().configureEach {
-    doFirst {
-        assertValidVersion(publication.version)
-    }
 }
 
 // http://www.eclemma.org/jacoco/
