@@ -2,46 +2,52 @@ package ftl.doctor
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.google.common.annotations.VisibleForTesting
+import flank.common.normalizeLineEnding
 import ftl.args.AndroidArgsCompanion
 import ftl.args.ArgsHelper
 import ftl.args.IArgs
-import ftl.args.yml.DEVICES_NODE
-import ftl.args.yml.GCLOUD_NODE
 import ftl.args.yml.MODEL_NODE
 import ftl.args.yml.VERSION_NODE
 import ftl.args.yml.devicesNode
 import ftl.args.yml.notValidDevices
 import ftl.config.loadAndroidConfig
 import ftl.config.loadIosConfig
+import ftl.domain.RunDoctor
 import ftl.run.exception.FlankConfigurationError
 import ftl.util.loadFile
 import java.io.Reader
-import java.lang.StringBuilder
 import java.nio.file.Path
 
-fun validateYaml(args: IArgs.ICompanion, data: Path) =
-    if (!data.toFile().exists()) "Skipping yaml validation. No file at path $data"
-    else validateYaml(args, loadFile(data)) + preloadConfiguration(data, args is AndroidArgsCompanion)
+fun validateYaml(args: IArgs.ICompanion, path: Path): RunDoctor.Error =
+    if (!path.toFile().exists()) RunDoctor.Error(parsingErrors = listOf("Skipping yaml validation. No file at path $path"))
+    else validateYaml(args, loadFile(path)) + preloadConfiguration(path, args is AndroidArgsCompanion)
 
 @VisibleForTesting
-internal fun validateYaml(args: IArgs.ICompanion, data: Reader) =
+internal fun validateYaml(args: IArgs.ICompanion, data: Reader): RunDoctor.Error =
     runCatching { ArgsHelper.yamlMapper.readTree(data) }
-        .onFailure { return it.message?.replace(System.lineSeparator(), "\n") ?: "Unknown error when parsing tree" }
+        .onFailure {
+            return RunDoctor.Error(
+                parsingErrors = listOf(
+                    it.message?.replace(System.lineSeparator(), "\n") ?: "Unknown error when parsing tree"
+                )
+            )
+        }
         .getOrNull()
-        ?.run { validateYamlKeys(args).plus(validateDevices()) }
-        .orEmpty()
+        ?.run { validateYamlKeys(args) }
+        ?: RunDoctor.Error.EMPTY
 
-private fun JsonNode.validateYamlKeys(args: IArgs.ICompanion) = StringBuilder().apply {
-    append(validateTopLevelKeys(args))
-    args.validArgs.forEach { (topLevelKey, validArgsKeys) ->
-        append(validateNestedKeys(topLevelKey, validArgsKeys))
-    }
-}.toString()
+private fun JsonNode.validateYamlKeys(args: IArgs.ICompanion) = RunDoctor.Error(
+    topLevelUnknownKeys = validateTopLevelKeys(args),
+    nestedUnknownKeys = args.validArgs.map { (topLevelKey, validArgsKeys) ->
+        (topLevelKey to validateNestedKeys(topLevelKey, validArgsKeys))
+    }.filter { it.second.isNotEmpty() }.toMap(),
+    invalidDevices = validateDevices().orEmpty()
+)
 
-private fun JsonNode.validateTopLevelKeys(args: IArgs.ICompanion) =
+private fun JsonNode.validateTopLevelKeys(args: IArgs.ICompanion): List<String> =
     (parseArgs().keys - args.validArgs.keys)
         .takeIf { it.isNotEmpty() }
-        ?.let { unknownKeys -> "Unknown top level keys: $unknownKeys\n" }
+        ?.toList()
         .orEmpty()
 
 private fun JsonNode.parseArgs() = mutableMapOf<String, List<String>>().apply {
@@ -51,11 +57,7 @@ private fun JsonNode.parseArgs() = mutableMapOf<String, List<String>>().apply {
 }
 
 private fun JsonNode.validateNestedKeys(topLevelKey: String, validArgsKeys: List<String>) =
-    nestedKeysFor(topLevelKey)
-        .minus(validArgsKeys)
-        .takeIf { it.isNotEmpty() }
-        ?.let { "Unknown keys in $topLevelKey -> $it\n" }
-        .orEmpty()
+    nestedKeysFor(topLevelKey) - validArgsKeys
 
 private fun JsonNode.nestedKeysFor(topLevelKey: String) =
     this[topLevelKey]?.fields()?.asSequence()?.map { it.key }?.toList().orEmpty()
@@ -63,16 +65,27 @@ private fun JsonNode.nestedKeysFor(topLevelKey: String) =
 private fun preloadConfiguration(data: Path, isAndroid: Boolean) =
     try {
         if (isAndroid) loadAndroidConfig(data) else loadIosConfig(data)
-        ""
+        RunDoctor.Error.EMPTY
     } catch (e: FlankConfigurationError) {
-        e.message
+        RunDoctor.Error(
+            parsingErrors = listOf(e.message.orEmpty())
+        )
     }
 
-private fun JsonNode.validateDevices() = StringBuilder().apply {
-    devicesNode?.notValidDevices?.withVersionNode?.forEach { device ->
-        appendLine("Warning: Version should be string $GCLOUD_NODE -> $DEVICES_NODE[${device[MODEL_NODE]}] -> $VERSION_NODE[${device[VERSION_NODE]}]")
+private fun JsonNode.validateDevices() =
+    devicesNode?.notValidDevices?.withVersionNode?.map { device ->
+        RunDoctor.Error.InvalidDevice(
+            device[VERSION_NODE].asText("Unknown"),
+            device[MODEL_NODE].asText("Unknown")
+        )
     }
-}.toString()
 
 private val List<JsonNode>.withVersionNode
     get() = this.filter { it.has(VERSION_NODE) }
+
+private operator fun RunDoctor.Error.plus(right: RunDoctor.Error) = RunDoctor.Error(
+    parsingErrors = parsingErrors.plus(right.parsingErrors).distinctBy { it.normalizeLineEnding() },
+    topLevelUnknownKeys = topLevelUnknownKeys + right.topLevelUnknownKeys,
+    nestedUnknownKeys = nestedUnknownKeys + right.nestedUnknownKeys,
+    invalidDevices = invalidDevices + right.invalidDevices
+)

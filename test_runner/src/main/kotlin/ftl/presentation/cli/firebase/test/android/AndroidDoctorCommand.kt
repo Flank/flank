@@ -1,8 +1,12 @@
 package ftl.presentation.cli.firebase.test.android
 
+import ftl.args.AndroidArgs
 import ftl.config.FtlConstants
-import ftl.domain.RunDoctorAndroid
+import ftl.domain.RunDoctor
 import ftl.domain.invoke
+import ftl.presentation.cli.firebase.test.summary
+import ftl.presentation.outputLogger
+import ftl.presentation.throwUnknownType
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
 
@@ -23,7 +27,7 @@ import picocli.CommandLine.Option
 )
 class AndroidDoctorCommand :
     Runnable,
-    RunDoctorAndroid {
+    RunDoctor {
 
     @Option(
         names = ["-h", "--help"],
@@ -44,5 +48,12 @@ class AndroidDoctorCommand :
     )
     override var fix: Boolean = false
 
-    override fun run() = invoke()
+    override fun run() = invoke(AndroidArgs)
+
+    override val out = outputLogger {
+        when (this) {
+            is RunDoctor.Error -> summary()
+            else -> throwUnknownType()
+        }
+    }
 }

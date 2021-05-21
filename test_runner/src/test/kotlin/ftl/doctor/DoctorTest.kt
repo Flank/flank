@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
 import ftl.args.IArgs
 import ftl.args.IosArgs
+import ftl.presentation.cli.firebase.test.summary
 import ftl.test.util.FlankTestRunner
 import org.junit.Assert
 import org.junit.Assert.assertEquals
@@ -18,12 +19,11 @@ class DoctorTest {
     fun androidDoctorTest() {
         val lint = validateYaml(AndroidArgs, Paths.get("src/test/kotlin/ftl/fixtures/flank.local.yml"))
         val expected = """
-                Warning: Version should be string gcloud -> device["NexusLowRes"] -> version[23]
-                Warning: Version should be string gcloud -> device["NexusLowRes"] -> version[23]
-                Warning: Version should be string gcloud -> device["shamu"] -> version[22]
-                
+                Warning: Version should be string gcloud -> device[NexusLowRes] -> version[23]
+                Warning: Version should be string gcloud -> device[NexusLowRes] -> version[23]
+                Warning: Version should be string gcloud -> device[shamu] -> version[22]
         """.trimIndent()
-        assertEquals(expected, lint)
+        assertEquals(expected, lint.summary())
     }
 
     @Test
@@ -68,12 +68,11 @@ flank:
   project: .
             """.trimIndent()
         )
-        assertThat(lint).isEqualTo(
+        assertThat(lint.summary()).isEqualTo(
             """
 Unknown top level keys: [hi, foo]
 Unknown keys in gcloud -> [two]
 Unknown keys in flank -> [three]
-
             """.trimIndent()
         )
     }
@@ -90,14 +89,13 @@ flank:
   project: .
             """.trimIndent()
         )
-        assertThat(lint).isEqualTo("")
+        assertThat(lint.summary()).isEqualTo("Valid yml file")
     }
 
     @Test
     fun androidDoctorTestWithFailedConfiguration() {
         // given
         val expectedErrorMessage = """
-Warning: Version should be string gcloud -> device["Nexus5"] -> version[23]
 Error on parse config: flank->additional-app-test-apks
 At line: 20, column: 5
 Error node: {
@@ -106,6 +104,7 @@ Error node: {
     "test" : "../library/databases/build/output/apk/androidTest/debug/sample-databases-test.apk"
   }
 }
+Warning: Version should be string gcloud -> device[Nexus5] -> version[23]
         """.trimIndent()
 
         // when
@@ -113,7 +112,7 @@ Error node: {
             AndroidArgs,
             Paths.get("src/test/kotlin/ftl/fixtures/flank_android_failed_configuration.yml")
         )
-        assertEqualsIgnoreNewlineStyle(expectedErrorMessage, actual)
+        assertEqualsIgnoreNewlineStyle(expectedErrorMessage, actual.summary())
     }
 
     @Test
@@ -121,10 +120,6 @@ Error node: {
         // given
         val expectedErrorMessage = """
     Error on parse config: expected <block end>, but found '?'
-    At line: 19, column: 4
-    Error node: 
-            test: ../main/app/build/output/a ... 
-            ^Error on parse config: expected <block end>, but found '?'
     At line: 19, column: 4
     Error node: 
             test: ../main/app/build/output/a ... 
@@ -136,17 +131,14 @@ Error node: {
             AndroidArgs,
             Paths.get("src/test/kotlin/ftl/fixtures/flank_android_failed_tree.yml")
         )
-        assertEqualsIgnoreNewlineStyle(expectedErrorMessage, actual)
+        assertEqualsIgnoreNewlineStyle(expectedErrorMessage, actual.summary())
     }
 
     @Test
     fun iosDoctorTest() {
         val lint = validateYaml(IosArgs, Paths.get("src/test/kotlin/ftl/fixtures/flank.ios.yml"))
-        val expected = """
-            Warning: Version should be string gcloud -> device["iphone8"] -> version[11.2]
-            
-        """.trimIndent()
-        assertEquals(expected, lint)
+        val expected = "Warning: Version should be string gcloud -> device[iphone8] -> version[11.2]"
+        assertEquals(expected, lint.summary())
     }
 
     @Test
@@ -184,12 +176,11 @@ flank:
   project: .
             """.trimIndent()
         )
-        assertThat(lint).isEqualTo(
+        assertThat(lint.summary()).isEqualTo(
             """
 Unknown top level keys: [hi, foo]
 Unknown keys in gcloud -> [two]
 Unknown keys in flank -> [three]
-
             """.trimIndent()
         )
     }
@@ -206,7 +197,7 @@ flank:
   project: .
             """.trimIndent()
         )
-        assertThat(lint).isEqualTo("")
+        assertThat(lint.summary()).isEqualTo("Valid yml file")
     }
 
     @Test
@@ -224,7 +215,10 @@ flank:
   project: .
             """.trimIndent()
         )
-        assertEquals("Warning: Version should be string gcloud -> device[\"NexusLowRes\"] -> version[23]", lint.trim())
+        assertEquals(
+            "Warning: Version should be string gcloud -> device[NexusLowRes] -> version[23]",
+            lint.summary().trim()
+        )
     }
 
     @Test
@@ -242,16 +236,16 @@ flank:
   project: .
             """.trimIndent()
         )
-        assertEquals("", lint)
+        assertEquals("Valid yml file", lint.summary())
     }
 }
 
-private fun validateYaml(args: IArgs.ICompanion, data: String): String = validateYaml(args, StringReader(data))
+private fun validateYaml(args: IArgs.ICompanion, data: String) = validateYaml(args, StringReader(data))
 
 fun assertEqualsIgnoreNewlineStyle(s1: String?, s2: String?) {
     Assert.assertNotNull(s1)
     Assert.assertNotNull(s2)
-    return Assert.assertEquals(normalizeLineEnds(s1!!), normalizeLineEnds(s2!!))
+    return assertEquals(normalizeLineEnds(s1!!), normalizeLineEnds(s2!!))
 }
 
 private fun normalizeLineEnds(s: String): String {
