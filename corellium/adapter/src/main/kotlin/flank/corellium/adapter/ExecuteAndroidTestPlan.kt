@@ -11,15 +11,16 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 val executeAndroidTestPlan = AndroidTestPlan.Execute { config ->
-    config.instances.map { (instanceId, shards: List<AndroidTestPlan.Shard>) ->
+    config.instances.map { (instanceId, commands: List<String>) ->
         channelFlow {
             println("Getting console $instanceId")
             corellium.connectConsole(instanceId).apply {
                 clear()
                 launch {
-                    shards.map { it.prepareRunCommand() }
-                        .onEach { println("Sending command: $it") }
-                        .forEach { sendCommand(it) }
+                    commands.forEach { string ->
+                        println("Sending command: $string")
+                        sendCommand(string)
+                    }
                 }
                 launch { flowLogs().collect(channel::send) }
                 waitForIdle(10_000)
@@ -27,19 +28,3 @@ val executeAndroidTestPlan = AndroidTestPlan.Execute { config ->
         }
     }
 }
-
-private fun AndroidTestPlan.Shard.prepareRunCommand(): String {
-    val testCases = testCases // example: listOf("class foo.Bar#baz")
-        .map { it.split(" ") } // example: listOf(listOf("class", "foo.Bar#baz"))
-        .groupBy({ it.first() }, { it.last() }) // example: first => "class", last => "foo.Bar#baz"
-        .toList().joinToString("") { (type, tests: List<String>) ->
-            "-e $type ${tests.joinToString(",")} " // example: "-e class foo.Bar#baz"
-        } // example: "-e class foo.Bar#baz1,foo.Bar#baz2 -e package foo.test "
-
-    val runner = "$packageName/$testRunner"
-
-    // example: "am instrument -r -w -e class foo.Bar#baz foo.test/androidx.test.runner.AndroidJUnitRunner"
-    return AM_INSTRUMENT + testCases + runner
-}
-
-private const val AM_INSTRUMENT = "am instrument -r -w "
