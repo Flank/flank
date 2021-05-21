@@ -2,6 +2,7 @@ package ftl.doctor
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.google.common.annotations.VisibleForTesting
+import flank.common.normalizeLineEnding
 import ftl.args.AndroidArgsCompanion
 import ftl.args.ArgsHelper
 import ftl.args.IArgs
@@ -12,7 +13,6 @@ import ftl.args.yml.notValidDevices
 import ftl.config.loadAndroidConfig
 import ftl.config.loadIosConfig
 import ftl.domain.RunDoctor
-import ftl.domain.plus
 import ftl.run.exception.FlankConfigurationError
 import ftl.util.loadFile
 import java.io.Reader
@@ -82,3 +82,10 @@ private fun JsonNode.validateDevices() =
 
 private val List<JsonNode>.withVersionNode
     get() = this.filter { it.has(VERSION_NODE) }
+
+private operator fun RunDoctor.Error.plus(right: RunDoctor.Error) = RunDoctor.Error(
+    parsingErrors = parsingErrors.plus(right.parsingErrors).distinctBy { it.normalizeLineEnding() },
+    topLevelUnknownKeys = topLevelUnknownKeys + right.topLevelUnknownKeys,
+    nestedUnknownKeys = nestedUnknownKeys + right.nestedUnknownKeys,
+    invalidDevices = invalidDevices + right.invalidDevices
+)

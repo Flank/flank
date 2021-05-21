@@ -7,7 +7,6 @@ import ftl.args.yml.VERSION_NODE
 import ftl.args.yml.YamlDeprecated
 import ftl.args.yml.fixDevices
 import ftl.domain.RunDoctor
-import ftl.domain.isEmpty
 import ftl.run.exception.YmlValidationError
 import java.nio.file.Path
 
@@ -20,7 +19,7 @@ fun processValidation(ymlPath: Path) {
 }
 
 fun RunDoctor.Error.summary(): String =
-    if (isEmpty()) "Valid yml file"
+    if (this == RunDoctor.Error.EMPTY) "Valid yml file"
     else buildString {
         parsingErrors.forEach { appendLine(it) }
         invalidDevices

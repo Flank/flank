@@ -1,6 +1,5 @@
 package ftl.domain
 
-import flank.common.normalizeLineEnding
 import ftl.args.IArgs
 import ftl.doctor.validateYaml
 import ftl.presentation.Output
@@ -33,16 +32,5 @@ operator fun RunDoctor.invoke(args: IArgs.ICompanion) {
     val validationResult = validateYaml(args, path = Paths.get(configPath))
     if (fix) processValidation(Paths.get(configPath))
     validationResult.out()
-    if (!validationResult.isEmpty()) throw YmlValidationError()
+    if (validationResult != RunDoctor.Error.EMPTY) throw YmlValidationError()
 }
-
-fun RunDoctor.Error.isEmpty() =
-    parsingErrors.isEmpty() && topLevelUnknownKeys.isEmpty() &&
-        nestedUnknownKeys.isEmpty() && invalidDevices.isEmpty()
-
-operator fun RunDoctor.Error.plus(right: RunDoctor.Error) = RunDoctor.Error(
-    parsingErrors = parsingErrors.plus(right.parsingErrors).distinctBy { it.normalizeLineEnding() },
-    topLevelUnknownKeys = topLevelUnknownKeys + right.topLevelUnknownKeys,
-    nestedUnknownKeys = nestedUnknownKeys + right.nestedUnknownKeys,
-    invalidDevices = invalidDevices + right.invalidDevices
-)
