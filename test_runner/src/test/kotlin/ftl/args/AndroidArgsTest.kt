@@ -1567,7 +1567,7 @@ AndroidArgs
 
     @Test
     fun `should only keep @LargeTest`() {
-        val expectedTests = setOf("LargeParameterizedTests","ExampleInstrumentedTest#useAppContextLarge","LargeTestClass#testLargeClass")
+        val expectedTests = setOf("LargeParameterizedTests", "ExampleInstrumentedTest#useAppContextLarge", "LargeTestClass#testLargeClass")
 
         val yaml = """
         gcloud:
@@ -1589,7 +1589,7 @@ AndroidArgs
 
     @Test
     fun `should keep no @LargeTest`() {
-        val expectedTests = setOf("LargeParameterizedTests","ExampleInstrumentedTest#useAppContextLarge","LargeTestClass#testLargeClass")
+        val expectedTests = setOf("LargeParameterizedTests", "ExampleInstrumentedTest#useAppContextLarge", "LargeTestClass#testLargeClass")
 
         val yaml = """
         gcloud:
