@@ -45,7 +45,7 @@ private fun testTotalTime(
     previousMethodDurations: Map<String, Double>,
     defaultTestTime: Double,
     defaultClassTestTime: Double
-) = testsToRun.sumByDouble { flankTestMethod ->
+) = testsToRun.sumOf { flankTestMethod ->
     getTestMethodTime(
         flankTestMethod,
         previousMethodDurations,

@@ -16,7 +16,7 @@ fun CommonConfig.createCommonArgs(
     // gcloud
     devices = gcloud::devices.require(),
     resultsBucket = ArgsHelper.createGcsBucket(
-        projectId = flank::project.require().toLowerCase(),
+        projectId = flank::project.require().lowercase(),
         bucket = gcloud::resultsBucket.require()
     ),
     resultsDir = gcloud.resultsDir ?: uniqueObjectName(),
@@ -42,7 +42,7 @@ fun CommonConfig.createCommonArgs(
     testTargetsAlwaysRun = flank::testTargetsAlwaysRun.require(),
     runTimeout = flank::runTimeout.require(),
     fullJUnitResult = flank::fullJUnitResult.require(),
-    project = flank::project.require().toLowerCase(),
+    project = flank::project.require().lowercase(),
     outputStyle = outputStyle,
     keepFilePath = flank::keepFilePath.require(),
     ignoreFailedTests = flank::ignoreFailedTests.require(),

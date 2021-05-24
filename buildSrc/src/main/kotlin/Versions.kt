@@ -26,10 +26,10 @@ object Versions {
     const val APK_PARSER = "2.6.10"
 
     // match to Tools -> Kotlin -> Configure Kotlin Plugin Updates -> Update Channel: Stable
-    const val KOTLIN = "1.4.32"
+    const val KOTLIN = "1.5.10"
 
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    const val KOTLIN_COROUTINES = "1.4.3"
+    const val KOTLIN_COROUTINES = "1.5.0"
 
     // https://github.com/remkop/picocli/releases
     const val PICOCLI = "4.6.1"

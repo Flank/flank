@@ -128,7 +128,7 @@ signing {
 
 // http://www.eclemma.org/jacoco/
 jacoco {
-    toolVersion = "0.8.6"
+    toolVersion = "0.8.7"
 }
 
 tasks.jacocoTestReport {
@@ -194,6 +194,7 @@ dependencies {
     implementation(Dependencies.KTOR_GSON)
 
     implementation(Dependencies.KOTLIN_COROUTINES_CORE)
+    implementation(Dependencies.KOTLIN_REFLECT)
 
     implementation(Dependencies.LOGBACK)
 

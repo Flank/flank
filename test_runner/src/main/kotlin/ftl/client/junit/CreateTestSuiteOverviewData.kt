@@ -33,4 +33,4 @@ private fun getOverheadTime(
     0.0 else
     (overview.elapsedTime.millis() - testCases.sumTime()) / testCases.size
 
-private fun List<TestCase>.sumTime(): Double = sumByDouble { it.elapsedTime.millis() }
+private fun List<TestCase>.sumTime(): Double = sumOf { it.elapsedTime.millis() }

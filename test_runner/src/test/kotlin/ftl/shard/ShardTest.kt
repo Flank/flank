@@ -49,7 +49,7 @@ class ShardTest {
             assertThat(it.testMethods).isNotEmpty()
         }
 
-        assertThat(result.sumByDouble { it.time }).isEqualTo(16.5)
+        assertThat(result.sumOf { it.time }).isEqualTo(16.5)
 
         val testNames = mutableListOf<String>()
         result.forEach { shard ->
@@ -68,7 +68,7 @@ class ShardTest {
         val result = createShardsByShardCount(testsToRun, JUnitTest.Result(null), mockArgs(2))
 
         assertThat(result.size).isEqualTo(2)
-        assertThat(result.sumByDouble { it.time }).isEqualTo(3 * DEFAULT_TEST_TIME_SEC)
+        assertThat(result.sumOf { it.time }).isEqualTo(3 * DEFAULT_TEST_TIME_SEC)
 
         val ordered = result.sortedBy { it.testMethods.size }
         assertThat(ordered[0].testMethods.size).isEqualTo(1)
@@ -80,7 +80,7 @@ class ShardTest {
         val testsToRun = listOfFlankTestMethod("a/a", "b/b", "c/c", "w", "y", "z")
         val result = createShardsByShardCount(testsToRun, sample(), mockArgs(4))
         assertThat(result.size).isEqualTo(4)
-        assertThat(result.sumByDouble { it.time }).isEqualTo(7.0 + 3 * DEFAULT_TEST_TIME_SEC)
+        assertThat(result.sumOf { it.time }).isEqualTo(7.0 + 3 * DEFAULT_TEST_TIME_SEC)
 
         val ordered = result.sortedBy { it.testMethods.size }
         // Expect a/a, b/b, c/c to be in one shard, and w, y, z to each be in their own shards.

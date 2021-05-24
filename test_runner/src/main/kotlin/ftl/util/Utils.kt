@@ -51,7 +51,7 @@ fun uniqueObjectName(): String {
     // A-Z: 65 - 90
     repeat(4) {
         val ascii = random.nextInt(26)
-        var letter = (ascii + 'a'.toInt()).toChar()
+        var letter = (ascii + 'a'.code).toChar()
 
         if (ascii % 2 == 0) {
             letter -= 32 // upcase

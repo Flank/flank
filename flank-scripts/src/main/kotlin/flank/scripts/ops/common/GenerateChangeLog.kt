@@ -58,13 +58,13 @@ private fun GithubPullRequest.toReleaseNoteMessage() =
     }
 
 internal fun String.mapPrTitleWithType() = when {
-    startsWith("feat") -> "Features" to skipConventionalCommitPrefix().capitalize()
-    startsWith("fix") -> "Bug Fixes" to skipConventionalCommitPrefix().capitalize()
-    startsWith("docs") -> "Documentation" to skipConventionalCommitPrefix().capitalize()
-    startsWith("refactor") -> "Refactor" to skipConventionalCommitPrefix().capitalize()
-    startsWith("ci") -> "CI Changes" to skipConventionalCommitPrefix().capitalize()
-    startsWith("test") -> "Tests update" to skipConventionalCommitPrefix().capitalize()
-    startsWith("perf") -> "Performance upgrade" to skipConventionalCommitPrefix().capitalize()
+    startsWith("feat") -> "Features" to skipConventionalCommitPrefix().replaceFirstChar { it.uppercase() }
+    startsWith("fix") -> "Bug Fixes" to skipConventionalCommitPrefix().replaceFirstChar { it.uppercase() }
+    startsWith("docs") -> "Documentation" to skipConventionalCommitPrefix().replaceFirstChar { it.uppercase() }
+    startsWith("refactor") -> "Refactor" to skipConventionalCommitPrefix().replaceFirstChar { it.uppercase() }
+    startsWith("ci") -> "CI Changes" to skipConventionalCommitPrefix().replaceFirstChar { it.uppercase() }
+    startsWith("test") -> "Tests update" to skipConventionalCommitPrefix().replaceFirstChar { it.uppercase() }
+    startsWith("perf") -> "Performance upgrade" to skipConventionalCommitPrefix().replaceFirstChar { it.uppercase() }
     else -> null // we do not accept other prefix to have update in release notes
 }
 
