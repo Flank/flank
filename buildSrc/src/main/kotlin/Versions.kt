@@ -43,7 +43,7 @@ object Versions {
     // https://github.com/googleapis/google-auth-library-java/releases
     // NOTE: https://github.com/googleapis/google-oauth-java-client is End of Life and replaced by google-auth-library-java
     // https://github.com/googleapis/google-oauth-java-client/issues/251#issuecomment-504565533
-    const val GOOGLE_AUTH = "0.25.5"
+    const val GOOGLE_AUTH = "0.26.0"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
     const val GOOGLE_NIO = "0.122.14"
