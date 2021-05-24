@@ -65,7 +65,7 @@ Typically, `horizontal` scaling is preferred when `vertical` scaling become to b
 
 The example diagram that is exposing relations between layers:
 
-![architecture_template](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/1953_Add_abstract_architecture_doc/docs/hld/architecture-template.puml)
+![architecture_template](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/architecture-template.puml)
 
 # Presentation <a name="presentation"/>
 
@@ -292,7 +292,7 @@ the functions can be composed in two different ways.
 
 The preceding function is calling the following, so the composition of functions is similar to the linked list.
 
-![vertical-composition](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/vertical-composition.puml)
+![vertical-composition](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/1960_Add_implementation_section_to_architecture_doc/docs/hld/vertical-composition.puml)
 
 Try to **AVOID** this pattern where possible especially in business logic.
 In some situations it's can be even worse than one huge monolithic function with comments,
@@ -304,7 +304,7 @@ almost always require analyzing the whole chain of functions which typically is 
 
 Root function is controlling independent internal and specialized functions.
 
-![horizontal-composition](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/horizontal-composition.puml)
+![horizontal-composition](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/1960_Add_implementation_section_to_architecture_doc/docs/hld/horizontal-composition.puml)
 
 This approach is giving a fast overview of high-level implementation but is hiding the details not important from the high-level perspective.
 Comparing to `vertical` composition where the cost of access to internal functions (using reference jumping) in the worst-case scenario is `n`,
@@ -314,4 +314,4 @@ the horizontal composition almost always gives `1` on the same layer.
 
 An example of horizontal composition in layered architecture can look as following:
 
-![horizontal-composition-layered](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/horizontal-composition-layered.puml)
+![horizontal-composition-layered](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/1960_Add_implementation_section_to_architecture_doc/docs/hld/horizontal-composition-layered.puml)
