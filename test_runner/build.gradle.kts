@@ -2,10 +2,8 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import groovy.util.Node
 import groovy.util.NodeList
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
-import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
-import java.nio.file.Paths
 
 plugins {
     application
@@ -14,6 +12,7 @@ plugins {
     id(Plugins.MAVEN_PUBLISH)
     signing
     id(Plugins.PLUGIN_SHADOW_JAR) version Versions.SHADOW
+    id(Plugins.MAVEN_VERSION_CHECK)
 }
 
 val artifactID = "flank"

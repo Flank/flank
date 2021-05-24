@@ -3,6 +3,8 @@ import org.gradle.kotlin.dsl.support.serviceOf
 
 rootProject.name = "flank"
 
+includeBuild("maven_version_check")
+
 include(
     ":test_runner",
     ":firebase_apis:test_api",
