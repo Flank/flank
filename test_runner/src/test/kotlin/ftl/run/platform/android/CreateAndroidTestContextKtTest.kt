@@ -118,7 +118,7 @@ class CreateAndroidTestContextKtTest {
                 TestMethod("foo.bar.ParamClass#testParam", emptyList()),
             )
             mockkStatic("ftl.run.platform.android.CreateAndroidTestContextKt")
-            every { testInstrumentationContext.getParametrizedClasses() } returns listOf("foo.bar.ParamClass")
+            every { testInstrumentationContext.getParametrizedClasses() } returns listOf(TestMethod("foo.bar.ParamClass", listOf()))
 
             val actual =
                 testInstrumentationContext.getFlankTestMethods(TestFilters.fromTestTargets(listOf("class foo.bar.TestClass1")))

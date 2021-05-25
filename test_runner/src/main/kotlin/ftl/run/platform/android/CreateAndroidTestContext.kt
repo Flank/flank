@@ -117,7 +117,7 @@ private fun InstrumentationTestContext.calculateDummyShards(
 internal fun InstrumentationTestContext.getFlankTestMethods(
     testFilter: TestFilter
 ): List<FlankTestMethod> =
-    getParametrizedClasses().let { parameterizedClasses: List<String> ->
+    getParametrizedClasses().let { parameterizedClasses: List<TestMethod> ->
         DexParser.findTestMethods(test.local).asSequence()
             .distinctBy { it.testName }
             .filter(testFilter.shouldRun)
@@ -126,11 +126,11 @@ internal fun InstrumentationTestContext.getFlankTestMethods(
             .plus(parameterizedClasses.onlyShouldRun(testFilter))
     }
 
-private fun List<String>.belong(method: TestMethod) = any { className -> method.testName.startsWith(className) }
+private fun List<TestMethod>.belong(method: TestMethod) = any { method.testName.startsWith(it.testName) }
 
-private fun List<String>.onlyShouldRun(filter: TestFilter) = this
-    .filter { filter.shouldRun(TestMethod(it, emptyList())) }
-    .map { FlankTestMethod("class $it", ignored = false, isParameterizedClass = true) }
+private fun List<TestMethod>.onlyShouldRun(filter: TestFilter) = this
+    .filter { filter.shouldRun(it) }
+    .map { FlankTestMethod("class ${it.testName}", ignored = false, isParameterizedClass = true) }
 
 private fun TestMethod.toFlankTestMethod() = FlankTestMethod(
     testName = "class $testName",
@@ -144,12 +144,16 @@ private val ignoredAnnotations = listOf(
 )
 
 @VisibleForTesting
-internal fun InstrumentationTestContext.getParametrizedClasses(): List<String> =
+internal fun InstrumentationTestContext.getParametrizedClasses(): List<TestMethod> =
     DexParser.readDexFiles(test.local).fold(emptyList()) { accumulator, file: DexFile ->
         accumulator + file.classDefs
             .filter(file::isParametrizedClass)
-            .map(file::formatClassName) // returns class name + '#'
-            .map { it.dropLast(1) } // so drop '#'
+            .map {
+                TestMethod(
+                    testName = file.formatClassName(it).dropLast(1),
+                    annotations = file.getClassAnnotationValues(file.getAnnotationsDirectory(it))
+                )
+            }
     }
 
 private fun DexFile.isParametrizedClass(classDef: ClassDefItem): Boolean =
