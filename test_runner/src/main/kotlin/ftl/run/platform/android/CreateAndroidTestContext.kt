@@ -118,7 +118,7 @@ internal fun InstrumentationTestContext.getFlankTestMethods(
     testFilter: TestFilter
 ): List<FlankTestMethod> =
     getParametrizedClasses().let { parameterizedClasses: List<TestMethod> ->
-        DexParser.findTestMethods(test.local).asSequence()
+        DexParser.findTestMethods(test.local, listOf("org.junit.experimental.theories.Theory")).asSequence()
             .distinctBy { it.testName }
             .filter(testFilter.shouldRun)
             .filterNot(parameterizedClasses::belong)
