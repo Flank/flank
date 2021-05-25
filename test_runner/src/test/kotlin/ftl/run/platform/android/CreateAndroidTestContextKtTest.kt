@@ -74,6 +74,23 @@ class CreateAndroidTestContextKtTest {
     }
 
     @Test
+    fun `should pick up @Theory tests`() {
+        val testInstrumentationContext = InstrumentationTestContext(
+            FileReference("", ""),
+            FileReference("../test_projects/android/apks/app-theory-androidTest.apk", "")
+        )
+
+        val parsedTests = testInstrumentationContext
+            .getFlankTestMethods(TestFilter("filter", shouldRun = { true }))
+            .map { it.testName }
+            .map { it.substringAfterLast("#") }
+            .toSet()
+
+        assertTrue(parsedTests.isNotEmpty())
+        assertTrue(parsedTests.contains("exampleTheoryTest"))
+    }
+
+    @Test
     fun `should filter out methods by distinct name`() {
         // given
         val testInstrumentationContext = InstrumentationTestContext(
