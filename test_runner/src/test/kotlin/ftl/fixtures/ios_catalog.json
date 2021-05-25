@@ -31,12 +31,10 @@
       "screenX": 1536,
       "screenY": 2048,
       "supportedVersionIds": [
-        "11.2",
-        "12.0",
         "14.1"
       ],
       "tags": [
-        "deprecated=11.2"
+        "deprecated=14.1"
       ]
     },
     {
@@ -69,50 +67,10 @@
       "screenX": 1536,
       "screenY": 2048,
       "supportedVersionIds": [
-        "11.2",
-        "12.0",
         "14.1"
       ],
       "tags": [
-        "deprecated=11.2"
-      ]
-    },
-    {
-      "deviceCapabilities": [
-        "accelerometer",
-        "arm64",
-        "armv6",
-        "armv7",
-        "auto-focus-camera",
-        "bluetooth-le",
-        "front-facing-camera",
-        "gamekit",
-        "gyroscope",
-        "location-services",
-        "magnetometer",
-        "metal",
-        "microphone",
-        "opengles-1",
-        "opengles-2",
-        "opengles-3",
-        "peer-peer",
-        "still-camera",
-        "video-camera",
-        "wifi",
-        "arkit",
-        "camera-flash"
-      ],
-      "formFactor": "TABLET",
-      "id": "ipadpro_105",
-      "name": "iPad Pro (10.5-inch)",
-      "screenDensity": 264,
-      "screenX": 1668,
-      "screenY": 2224,
-      "supportedVersionIds": [
-        "11.2"
-      ],
-      "tags": [
-        "deprecated=11.2"
+        "deprecated=14.1"
       ]
     },
     {
@@ -195,47 +153,9 @@
       "supportedVersionIds": [
         "13.3",
         "14.1"
-      ]
-    },
-    {
-      "deviceCapabilities": [
-        "accelerometer",
-        "arm64",
-        "armv6",
-        "armv7",
-        "auto-focus-camera",
-        "bluetooth-le",
-        "front-facing-camera",
-        "gamekit",
-        "gyroscope",
-        "location-services",
-        "magnetometer",
-        "metal",
-        "microphone",
-        "opengles-1",
-        "opengles-2",
-        "opengles-3",
-        "peer-peer",
-        "still-camera",
-        "video-camera",
-        "wifi",
-        "camera-flash",
-        "gps",
-        "healthkit",
-        "sms",
-        "telephony"
-      ],
-      "formFactor": "PHONE",
-      "id": "iphone6",
-      "name": "iPhone 6",
-      "screenDensity": 326,
-      "screenX": 750,
-      "screenY": 1334,
-      "supportedVersionIds": [
-        "11.4"
       ],
       "tags": [
-        "deprecated=11.4"
+        "deprecated=14.1"
       ]
     },
     {
@@ -274,14 +194,7 @@
       "screenX": 750,
       "screenY": 1334,
       "supportedVersionIds": [
-        "10.3",
-        "11.2",
-        "11.4",
         "12.0"
-      ],
-      "tags": [
-        "deprecated=10.3",
-        "deprecated=11.2"
       ]
     },
     {
@@ -321,13 +234,7 @@
       "screenX": 750,
       "screenY": 1334,
       "supportedVersionIds": [
-        "11.2",
-        "11.4",
-        "12.0",
         "12.3"
-      ],
-      "tags": [
-        "deprecated=11.2"
       ]
     },
     {
@@ -367,13 +274,10 @@
       "screenX": 1080,
       "screenY": 1920,
       "supportedVersionIds": [
-        "11.2",
-        "11.4",
-        "12.0",
         "14.1"
       ],
       "tags": [
-        "deprecated=11.2"
+        "deprecated=14.1"
       ]
     },
     {
@@ -413,14 +317,14 @@
       "screenX": 750,
       "screenY": 1334,
       "supportedVersionIds": [
-        "11.2",
         "11.4",
+        "12.0",
         "12.4",
         "13.6",
         "14.1"
       ],
       "tags": [
-        "deprecated=11.2",
+        "deprecated=14.1",
         "default"
       ]
     },
@@ -461,102 +365,8 @@
       "screenX": 1080,
       "screenY": 1920,
       "supportedVersionIds": [
-        "11.2",
-        "11.4",
         "12.0",
         "12.3"
-      ],
-      "tags": [
-        "deprecated=11.2"
-      ]
-    },
-    {
-      "deviceCapabilities": [
-        "accelerometer",
-        "arm64",
-        "armv6",
-        "armv7",
-        "auto-focus-camera",
-        "bluetooth-le",
-        "front-facing-camera",
-        "gamekit",
-        "gyroscope",
-        "location-services",
-        "magnetometer",
-        "metal",
-        "microphone",
-        "opengles-1",
-        "opengles-2",
-        "opengles-3",
-        "peer-peer",
-        "still-camera",
-        "video-camera",
-        "wifi",
-        "arkit",
-        "camera-flash",
-        "gps",
-        "healthkit",
-        "sms",
-        "telephony"
-      ],
-      "formFactor": "PHONE",
-      "id": "iphonese",
-      "name": "iPhone SE",
-      "screenDensity": 326,
-      "screenX": 640,
-      "screenY": 1136,
-      "supportedVersionIds": [
-        "11.2",
-        "11.4",
-        "12.0",
-        "12.3"
-      ],
-      "tags": [
-        "deprecated=11.2"
-      ]
-    },
-    {
-      "deviceCapabilities": [
-        "accelerometer",
-        "arm64",
-        "armv6",
-        "armv7",
-        "auto-focus-camera",
-        "bluetooth-le",
-        "front-facing-camera",
-        "gamekit",
-        "gyroscope",
-        "location-services",
-        "magnetometer",
-        "metal",
-        "microphone",
-        "opengles-1",
-        "opengles-2",
-        "opengles-3",
-        "peer-peer",
-        "still-camera",
-        "video-camera",
-        "wifi",
-        "arkit",
-        "camera-flash",
-        "gps",
-        "healthkit",
-        "nfc",
-        "sms",
-        "telephony"
-      ],
-      "formFactor": "PHONE",
-      "id": "iphonex",
-      "name": "iPhone X",
-      "screenDensity": 458,
-      "screenX": 1125,
-      "screenY": 2436,
-      "supportedVersionIds": [
-        "11.2",
-        "11.4"
-      ],
-      "tags": [
-        "deprecated=11.2"
       ]
     },
     {
@@ -596,47 +406,8 @@
       "screenX": 828,
       "screenY": 1792,
       "supportedVersionIds": [
+        "12.4",
         "13.2"
-      ]
-    },
-    {
-      "deviceCapabilities": [
-        "accelerometer",
-        "arm64",
-        "armv6",
-        "armv7",
-        "auto-focus-camera",
-        "bluetooth-le",
-        "front-facing-camera",
-        "gamekit",
-        "gyroscope",
-        "location-services",
-        "magnetometer",
-        "metal",
-        "microphone",
-        "opengles-1",
-        "opengles-2",
-        "opengles-3",
-        "peer-peer",
-        "still-camera",
-        "video-camera",
-        "wifi",
-        "arkit",
-        "camera-flash",
-        "gps",
-        "healthkit",
-        "nfc",
-        "sms",
-        "telephony"
-      ],
-      "formFactor": "PHONE",
-      "id": "iphonexs",
-      "name": "iPhone XS",
-      "screenDensity": 458,
-      "screenX": 1125,
-      "screenY": 2436,
-      "supportedVersionIds": [
-        "12.0"
       ]
     },
     {
@@ -676,7 +447,6 @@
       "screenX": 1242,
       "screenY": 2688,
       "supportedVersionIds": [
-        "12.0",
         "12.1",
         "12.3"
       ]
@@ -3584,7 +3354,8 @@
         "11.6",
         "11.7",
         "12.1",
-        "12.3"
+        "12.3",
+        "12.5"
       ]
     },
     {
@@ -3596,10 +3367,8 @@
         "11.6",
         "11.7",
         "12.1",
-        "12.3"
-      ],
-      "tags": [
-        "default"
+        "12.3",
+        "12.5"
       ]
     },
     {
@@ -3611,7 +3380,8 @@
         "11.6",
         "11.7",
         "12.1",
-        "12.3"
+        "12.3",
+        "12.5"
       ]
     },
     {
@@ -3622,7 +3392,8 @@
         "11.6",
         "11.7",
         "12.1",
-        "12.3"
+        "12.3",
+        "12.5"
       ]
     },
     {
@@ -3634,7 +3405,8 @@
         "11.6",
         "11.7",
         "12.1",
-        "12.3"
+        "12.3",
+        "12.5"
       ]
     },
     {
@@ -3646,7 +3418,8 @@
         "11.6",
         "11.7",
         "12.1",
-        "12.3"
+        "12.3",
+        "12.5"
       ]
     },
     {
@@ -3658,7 +3431,8 @@
         "11.6",
         "11.7",
         "12.1",
-        "12.3"
+        "12.3",
+        "12.5"
       ]
     },
     {
@@ -3669,7 +3443,8 @@
         "11.6",
         "11.7",
         "12.1",
-        "12.3"
+        "12.3",
+        "12.5"
       ]
     },
     {
@@ -3680,7 +3455,8 @@
         "11.6",
         "11.7",
         "12.1",
-        "12.3"
+        "12.3",
+        "12.5"
       ]
     },
     {
@@ -3691,7 +3467,8 @@
         "11.6",
         "11.7",
         "12.1",
-        "12.3"
+        "12.3",
+        "12.5"
       ]
     },
     {
@@ -3702,7 +3479,8 @@
         "11.6",
         "11.7",
         "12.1",
-        "12.3"
+        "12.3",
+        "12.5"
       ]
     },
     {
@@ -3711,7 +3489,11 @@
       "minorVersion": 1,
       "supportedXcodeVersionIds": [
         "12.1",
-        "12.3"
+        "12.3",
+        "12.5"
+      ],
+      "tags": [
+        "default"
       ]
     }
   ],
@@ -3729,13 +3511,22 @@
       "version": "11.7"
     },
     {
+      "tags": [
+        "deprecated"
+      ],
       "version": "12.1"
+    },
+    {
+      "tags": [
+        "deprecated"
+      ],
+      "version": "12.3"
     },
     {
       "tags": [
         "default"
       ],
-      "version": "12.3"
+      "version": "12.5"
     }
   ]
 }

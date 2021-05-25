@@ -24,10 +24,12 @@ class BillableMinutesTest {
     val output: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
 
     private val androidModels = listOf<AndroidModel>(
-        make { id = "NexusLowRes"; form = DeviceType.VIRTUAL.name },
-        make { id = "Nexus5"; form = DeviceType.VIRTUAL.name },
-        make { id = "g3"; form = DeviceType.PHYSICAL.name },
-        make { id = "sailfish"; form = DeviceType.PHYSICAL.name }
+        make { id = "NexusLowRes"; form = DeviceType.VIRTUAL.name; supportedVersionIds = listOf("28", "29") },
+        make { id = "Nexus5"; form = DeviceType.VIRTUAL.name; supportedVersionIds = listOf("27", "28", "29") },
+        make { id = "g3"; form = DeviceType.PHYSICAL.name; supportedVersionIds = listOf("29") },
+        make { id = "sailfish"; form = DeviceType.PHYSICAL.name; supportedVersionIds = listOf("26", "27", "28", "29") },
+        make { id = "noVersions"; form = DeviceType.PHYSICAL.name; supportedVersionIds = emptyList<String>() },
+        make { id = "nullVersions"; form = DeviceType.PHYSICAL.name; supportedVersionIds = null }
     )
 
     @Before
@@ -90,7 +92,10 @@ class BillableMinutesTest {
         val step3: Step = makeStep(model = "NEXUSLOWRES", duration = 352)
         val step4: Step = makeStep(model = "G3", duration = 657)
 
-        val minutes = listOf(step1, step2, step3, step4).calculateAndroidBillableMinutes(projectId = "anyId", timeoutValue = 1000L)
+        val minutes = listOf(step1, step2, step3, step4).calculateAndroidBillableMinutes(
+            projectId = "anyId",
+            timeoutValue = 1000L
+        )
 
         verifyBilling(minutes, expectedVirtual, expectedPhysical)
     }
@@ -105,7 +110,10 @@ class BillableMinutesTest {
         val step3: Step = makeStep(model = "NEXUSLOWRES", duration = 352)
         val step4: Step = makeStep(model = "G3", duration = 657)
 
-        val minutes = listOf(step1, step2, step3, step4).calculateAndroidBillableMinutes(projectId = "anyId", timeoutValue = timeout)
+        val minutes = listOf(step1, step2, step3, step4).calculateAndroidBillableMinutes(
+            projectId = "anyId",
+            timeoutValue = timeout
+        )
 
         verifyBilling(minutes, expectedVirtual, expectedPhysical)
     }

@@ -52,6 +52,7 @@ object IosCatalog {
                 .setProjectId(projectId)
                 .executeWithRetry()
                 .iosDeviceCatalog
+                .filterDevicesWithoutSupportedVersions()
         }
     } catch (e: java.lang.Exception) {
         throw java.lang.RuntimeException(
@@ -68,4 +69,7 @@ If you are still having issues, please email ftl-ios-feedback@google.com for sup
             e
         )
     }
+
+    private fun IosDeviceCatalog.filterDevicesWithoutSupportedVersions() =
+        setModels(models.filterNotNull().filter { it.supportedVersionIds?.isNotEmpty() ?: false })
 }

@@ -13,7 +13,7 @@ class ValidateIosArgsTest {
     fun supportedDevice() {
         assertThat(isDeviceSupported("bogus", "11.2", projectId)).isFalse()
         assertThat(isDeviceSupported("iphone8", "bogus", projectId)).isFalse()
-        assertThat(isDeviceSupported("iphone8", "11.2", projectId)).isTrue()
+        assertThat(isDeviceSupported("iphone8", "12.0", projectId)).isTrue()
     }
 
     @Test

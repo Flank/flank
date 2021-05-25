@@ -26,19 +26,26 @@ object AndroidCatalog {
             .setProjectId(projectId)
             .executeWithRetry()
             .androidDeviceCatalog
+            .filterDevicesWithoutSupportedVersions()
     }
+
+    private fun AndroidDeviceCatalog.filterDevicesWithoutSupportedVersions() =
+        setModels(models.filterNotNull().filter { it.supportedVersionIds?.isNotEmpty() ?: false })
 
     fun getModels(projectId: String): List<AndroidModel> = deviceCatalog(projectId).models.orEmpty()
 
     fun supportedVersionsAsTable(projectId: String) = fetchAndroidOsVersion(projectId).toCliTable()
 
-    fun describeSoftwareVersion(projectId: String, versionId: String) = fetchAndroidOsVersion(projectId).getDescription(versionId)
+    fun describeSoftwareVersion(projectId: String, versionId: String) =
+        fetchAndroidOsVersion(projectId).getDescription(versionId)
 
     private fun getVersionsList(projectId: String) = deviceCatalog(projectId).versions
 
-    fun supportedOrientations(projectId: String): List<Orientation> = deviceCatalog(projectId).runtimeConfiguration.orientations
+    fun supportedOrientations(projectId: String): List<Orientation> =
+        deviceCatalog(projectId).runtimeConfiguration.orientations
 
-    private fun getLocaleDescription(projectId: String, locale: String) = getLocales(projectId).getLocaleDescription(locale)
+    private fun getLocaleDescription(projectId: String, locale: String) =
+        getLocales(projectId).getLocaleDescription(locale)
 
     internal fun getLocales(projectId: String) = deviceCatalog(projectId).runtimeConfiguration.locales
 
@@ -60,7 +67,10 @@ object AndroidCatalog {
                 logLn("Unable to find device type for $modelId. PHYSICAL used as fallback in cost calculations")
             }
 
-        return form.equals(DeviceType.VIRTUAL.name, ignoreCase = true) || form.equals(DeviceType.EMULATOR.name, ignoreCase = true)
+        return form.equals(DeviceType.VIRTUAL.name, ignoreCase = true) || form.equals(
+            DeviceType.EMULATOR.name,
+            ignoreCase = true
+        )
     }
 }
 
