@@ -43,7 +43,7 @@ class AllTestFilteredIT {
 
         assertNoOutcomeSummary(resOutput)
 
-        assertThat(outputReport.error).contains("There are no tests to run.")
+        assertThat(outputReport.error).contains("There are no Android tests to run.")
         assertThat(outputReport.cost).isNull()
         assertThat(outputReport.testResults).isEmpty()
         assertThat(outputReport.weblinks).isEmpty()

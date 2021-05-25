@@ -8,26 +8,21 @@ import ftl.api.uploadToRemoteStorage
 import ftl.args.IosArgs
 import ftl.args.isXcTest
 import ftl.args.shardsFilePath
-import ftl.client.google.GcToolResults
+import ftl.client.google.run.ios.executeIosTests
 import ftl.config.FtlConstants
-import ftl.gc.GcIosMatrix
-import ftl.gc.GcIosTestMatrix
-import ftl.http.executeWithRetry
 import ftl.ios.xctest.flattenShardChunks
 import ftl.run.dumpShards
+import ftl.run.exception.FlankGeneralError
 import ftl.run.model.TestResult
-import ftl.run.platform.android.uploadAdditionalIpas
-import ftl.run.platform.android.uploadOtherFiles
 import ftl.run.platform.common.afterRunTests
 import ftl.run.platform.common.beforeRunMessage
 import ftl.run.platform.common.beforeRunTests
+import ftl.run.platform.ios.createIosTestConfig
 import ftl.run.platform.ios.createIosTestContexts
+import ftl.run.platform.ios.createIosTestMatrixType
 import ftl.shard.testCases
 import ftl.util.repeat
 import ftl.util.saveToFlankLinks
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
@@ -41,12 +36,6 @@ internal suspend fun IosArgs.runIosTests(): TestResult = coroutineScope {
     val args = this@runIosTests
     val stopwatch = beforeRunTests()
 
-    val iosDeviceList = GcIosMatrix.build(devices)
-
-    val history = GcToolResults.createToolResultsHistory(args)
-    val otherGcsFiles = uploadOtherFiles()
-    val additionalIpasGcsFiles = uploadAdditionalIpas()
-
     dumpShardsIfXcTest()
     saveToFlankLinks(
         shardsFilePath,
@@ -55,19 +44,11 @@ internal suspend fun IosArgs.runIosTests(): TestResult = coroutineScope {
     val testShardChunks = xcTestRunData.flattenShardChunks()
     logLn(beforeRunMessage(testShardChunks))
 
-    val result = createIosTestContexts().map { context ->
-        GcIosTestMatrix.build(
-            iosDeviceList = iosDeviceList,
-            args = args,
-            iosTestContext = context,
-            toolResultsHistory = history,
-            otherFiles = otherGcsFiles,
-            additionalIpasGcsPaths = additionalIpasGcsFiles
-        )
-    }.repeat(repeatTests)
-        .map { async(Dispatchers.IO) { it.executeWithRetry() } }
-        .toList()
-        .awaitAll()
+    val result = createIosTestContexts()
+        .map { context -> createIosTestMatrixType(context) }
+        .repeat(repeatTests)
+        .run { executeIosTests(createIosTestConfig(args), toList()) }
+        .takeIf { it.isNotEmpty() } ?: throw FlankGeneralError("There are no iOS tests to run")
 
     TestResult(
         matrixMap = afterRunTests(
