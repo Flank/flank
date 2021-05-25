@@ -48,7 +48,7 @@ class MultipleDevicesIT {
             .map { it.testAxises }
             .flatten()
 
-        assertThat(testsResults.sumBy { it.suiteOverview.failures }).isEqualTo(15)
-        assertThat(testsResults.sumBy { it.suiteOverview.total }).isEqualTo(123)
+        assertThat(testsResults.sumOf { it.suiteOverview.failures }).isEqualTo(15)
+        assertThat(testsResults.sumOf { it.suiteOverview.total }).isEqualTo(123)
     }
 }

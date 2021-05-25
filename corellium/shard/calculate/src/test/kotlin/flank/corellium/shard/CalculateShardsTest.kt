@@ -91,9 +91,9 @@ private fun List<List<Shard.App>>.printShards() {
 
 private fun List<List<Shard.App>>.verifyDurationEqual() {
     map {
-        it.sumByDouble {
-            it.tests.sumByDouble {
-                it.cases.sumByDouble {
+        it.sumOf {
+            it.tests.sumOf {
+                it.cases.sumOf {
                     it.duration.toDouble()
                 }
             }

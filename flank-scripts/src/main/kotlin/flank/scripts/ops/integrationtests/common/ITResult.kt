@@ -15,6 +15,6 @@ enum class ITResult {
 
 object ITResultSerializer : KSerializer<ITResult> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("ITResult", PrimitiveKind.STRING)
-    override fun deserialize(decoder: Decoder) = ITResult.valueOf(decoder.decodeString().toUpperCase())
-    override fun serialize(encoder: Encoder, value: ITResult) = encoder.encodeString(value.name.toLowerCase())
+    override fun deserialize(decoder: Decoder) = ITResult.valueOf(decoder.decodeString().uppercase())
+    override fun serialize(encoder: Encoder, value: ITResult) = encoder.encodeString(value.name.lowercase())
 }

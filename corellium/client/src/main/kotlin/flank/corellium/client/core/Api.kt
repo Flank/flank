@@ -156,7 +156,7 @@ suspend fun Corellium.getVPNConfig(
 ) {
     val response: HttpResponse = withRetry {
         client.get {
-            url("$urlBase/projects/$projectId/vpn-configs/$id.${type.name.toLowerCase()}")
+            url("$urlBase/projects/$projectId/vpn-configs/$id.${type.name.lowercase()}")
             header("Authorization", token)
         }
     }

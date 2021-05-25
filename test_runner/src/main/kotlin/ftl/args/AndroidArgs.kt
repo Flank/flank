@@ -121,7 +121,7 @@ AndroidArgs
       run-timeout: $runTimeout
       legacy-junit-result: $useLegacyJUnitResult
       ignore-failed-tests: $ignoreFailedTests
-      output-style: ${outputStyle.name.toLowerCase()}
+      output-style: ${outputStyle.name.lowercase()}
       disable-results-upload: $disableResultsUpload
       default-class-test-time: $defaultClassTestTime
       disable-usage-statistics: $disableUsageStatistics

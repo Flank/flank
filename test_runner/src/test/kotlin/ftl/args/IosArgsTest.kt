@@ -135,7 +135,7 @@ flank:
 
     @Test
     fun `args invalidDeviceExits`() {
-        assertThrowsWithMessage(Throwable::class, "iOS 11.2 on iphonexsmax is not a supported\nSupported version ids for 'iphonexsmax': 12.0, 12.1") {
+        assertThrowsWithMessage(Throwable::class, "iOS 11.2 on iphonexsmax is not a supported\nSupported version ids for 'iphonexsmax': 12.1, 12.3") {
             val invalidDevice = mutableListOf(Device("iphonexsmax", "11.2"))
             createIosArgs(
                 config = defaultIosConfig().apply {

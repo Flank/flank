@@ -2,6 +2,27 @@
   "models": [
     {
       "brand": "vivo",
+      "codename": "1725",
+      "form": "PHYSICAL",
+      "formFactor": "PHONE",
+      "id": "1725",
+      "manufacturer": "Vivo",
+      "name": "vivo 1725",
+      "screenDensity": 480,
+      "screenX": 1080,
+      "screenY": 2280,
+      "supportedAbis": [
+        "arm64-v8a",
+        "armeabi",
+        "armeabi-v7a"
+      ],
+      "supportedVersionIds": [
+        "27"
+      ],
+      "thumbnailUrl": "https://lh3.googleusercontent.com/ExXbgtjpgeKdLG52-0gafTkfIFBdqr_kN_5npDPffZOA8RtB4uPnkoV_GO74kR2LWUZvJm4vYpTsxw"
+    },
+    {
+      "brand": "vivo",
       "codename": "1805",
       "form": "PHYSICAL",
       "formFactor": "PHONE",
@@ -39,6 +60,9 @@
       ],
       "supportedVersionIds": [
         "26"
+      ],
+      "tags": [
+        "deprecated=26"
       ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/90WcauuJiCYABEl8U0lcZeuS5STUbf2yW6UcUqjymnhFd8GoVzxGha1PjXIJvJQr4zXQkYuulTJJ"
     },
@@ -95,12 +119,6 @@
         "arm64-v8a",
         "armeabi",
         "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "tags": [
-        "deprecated=26"
       ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/oasSSIuwpj2a7vZUynkZ7n63nThsz4W9AZaMAGWAi57UFayQ_SGzrv0nePpyzKL2SkBG4TZABt4"
     },
@@ -183,6 +201,29 @@
       "thumbnailUrl": "https://lh3.googleusercontent.com/exQVQIQyKfmMgyu5aPO24ajo_Pfc-K3X5fEreNGbOl6QDZnTh_shVLrF9P1hbOUsrvc1F10lBEc"
     },
     {
+      "brand": "Google",
+      "codename": "AmatiTvEmulator",
+      "form": "EMULATOR",
+      "id": "AmatiTvEmulator",
+      "manufacturer": "Google",
+      "name": "Google TV Amati",
+      "screenDensity": 320,
+      "screenX": 1920,
+      "screenY": 1080,
+      "supportedAbis": [
+        "x86",
+        "29:armeabi",
+        "29:armeabi-v7a"
+      ],
+      "supportedVersionIds": [
+        "29"
+      ],
+      "tags": [
+        "beta=29",
+        "alpha"
+      ]
+    },
+    {
       "brand": "Nokia",
       "codename": "B2N_sprout",
       "form": "PHYSICAL",
@@ -197,12 +238,6 @@
         "arm64-v8a",
         "armeabi",
         "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "28"
-      ],
-      "tags": [
-        "deprecated=28"
       ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/kZxU1r89KGfxIriCCKaBzjyVOrTQr0-3MT5MxFGtMylyTOcMxfXELQK5D99ErzgIbqyQ5R3Q10xV"
     },
@@ -255,9 +290,6 @@
         "arm64-v8a",
         "armeabi",
         "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "28"
       ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/peXVpDEZJKFY_KpD5Zh-GRj2uBX4CkaBElPx61LUZVDkWz8tfWoR1g1FcMJ4_TDigQ6wkdOQIEiy"
     },
@@ -439,6 +471,9 @@
       "supportedVersionIds": [
         "26"
       ],
+      "tags": [
+        "unstable=26"
+      ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/GKkzomYlZGEMWh5ks3ggxuFGtLLt2WQL8ECoGODek7Z7WrS_ZrusNegAaXxGidDe7NhNIRJHNwLh"
     },
     {
@@ -619,13 +654,47 @@
         "armeabi",
         "armeabi-v7a"
       ],
-      "supportedVersionIds": [
-        "27"
-      ],
-      "tags": [
-        "deprecated=27"
-      ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/oX5XoCA8Ew5TVHThaM-j7IWjB60VetyS2ZtZIHpAn58AclR9nGx_hAqpVerFhv-TTpRKVwjnPThS"
+    },
+    {
+      "brand": "HUAWEI",
+      "codename": "HWANE-LX1",
+      "form": "PHYSICAL",
+      "formFactor": "PHONE",
+      "id": "HWANE-LX1",
+      "manufacturer": "Huawei",
+      "name": "ANE-LX1",
+      "screenDensity": 480,
+      "screenX": 2280,
+      "screenY": 1080,
+      "supportedAbis": [
+        "arm64-v8a",
+        "armeabi",
+        "armeabi-v7a"
+      ],
+      "supportedVersionIds": [
+        "28"
+      ]
+    },
+    {
+      "brand": "HUAWEI",
+      "codename": "HWANE-LX2",
+      "form": "PHYSICAL",
+      "formFactor": "PHONE",
+      "id": "HWANE-LX2",
+      "manufacturer": "Huawei",
+      "name": "ANE-LX2",
+      "screenDensity": 480,
+      "screenX": 2280,
+      "screenY": 1080,
+      "supportedAbis": [
+        "arm64-v8a",
+        "armeabi",
+        "armeabi-v7a"
+      ],
+      "supportedVersionIds": [
+        "28"
+      ]
     },
     {
       "brand": "HONOR",
@@ -955,21 +1024,29 @@
       "screenX": 360,
       "screenY": 640,
       "supportedAbis": [
-        "x86",
         "23:armeabi",
         "23:armeabi-v7a",
+        "23:x86",
         "24:armeabi",
         "24:armeabi-v7a",
+        "24:x86",
         "25:armeabi",
         "25:armeabi-v7a",
+        "25:x86",
         "26:armeabi",
         "26:armeabi-v7a",
+        "26:x86",
         "27:armeabi",
         "27:armeabi-v7a",
+        "27:x86",
         "28:armeabi",
         "28:armeabi-v7a",
+        "28:x86",
         "29:armeabi",
-        "29:armeabi-v7a"
+        "29:armeabi-v7a",
+        "29:x86",
+        "30:x86",
+        "31:x86_64"
       ],
       "supportedVersionIds": [
         "23",
@@ -1072,8 +1149,7 @@
         "arm64-v8a",
         "armeabi",
         "armeabi-v7a"
-      ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/ZpfESR_730aTTHj4OLm2nx2rffZAybcikU6W-RaRUAgPQ8iJLM0k-k8xaUEXUiVPInPbjy3F1hY"
+      ]
     },
     {
       "brand": "OnePlus",
@@ -1112,12 +1188,6 @@
         "armeabi",
         "armeabi-v7a"
       ],
-      "supportedVersionIds": [
-        "28"
-      ],
-      "tags": [
-        "deprecated=28"
-      ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/XvfYU4PEyjHM8BIEhG4xxXkM0H4yiPG9f714hp0UpUPcx5A3euCb-cFBGcf3eRoAovkK_KTVYe91"
     },
     {
@@ -1136,9 +1206,6 @@
         "armeabi-v7a",
         "armeabi"
       ],
-      "supportedVersionIds": [
-        "28"
-      ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/6XaKJd0md-JkETrTo3m6diXJsGKfU1m-cTsPdjHVt-hGgxBSxMSfHT3iIUTZNwZdA7l_zqv4l-Lx"
     },
     {
@@ -1153,15 +1220,20 @@
       "screenX": 1080,
       "screenY": 1920,
       "supportedAbis": [
-        "x86",
         "26:armeabi",
         "26:armeabi-v7a",
+        "26:x86",
         "27:armeabi",
         "27:armeabi-v7a",
+        "27:x86",
         "28:armeabi",
         "28:armeabi-v7a",
+        "28:x86",
         "29:armeabi",
-        "29:armeabi-v7a"
+        "29:armeabi-v7a",
+        "29:x86",
+        "30:x86",
+        "31:x86_64"
       ],
       "supportedVersionIds": [
         "26",
@@ -1190,6 +1262,27 @@
         "29:armeabi",
         "29:armeabi-v7a"
       ]
+    },
+    {
+      "brand": "samsung",
+      "codename": "SC-02J",
+      "form": "PHYSICAL",
+      "formFactor": "PHONE",
+      "id": "SC-02J",
+      "manufacturer": "Samsung",
+      "name": "SC-02J",
+      "screenDensity": 640,
+      "screenX": 1440,
+      "screenY": 2960,
+      "supportedAbis": [
+        "arm64-v8a",
+        "armeabi",
+        "armeabi-v7a"
+      ],
+      "supportedVersionIds": [
+        "28"
+      ],
+      "thumbnailUrl": "https://lh3.googleusercontent.com/a4IoNjNfOAOHaBRnlxBYZcuAiTh5z4MeD44Fb_xQl07Yjnr2oqEpb7hu6ESCB7wVNpPKzYKg3ZyZ"
     },
     {
       "brand": "samsung",
@@ -1227,12 +1320,6 @@
         "arm64-v8a",
         "armeabi",
         "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "28"
-      ],
-      "tags": [
-        "deprecated=28"
       ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/3z0th18ljLa6z5cL38d4m8x9be7A-U7_mlIXfsNO1J_B2VJa_xvTbmCq_peDG8nauCB5oZQhmoNvag"
     },
@@ -1330,12 +1417,6 @@
         "armeabi",
         "armeabi-v7a"
       ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "tags": [
-        "deprecated=26"
-      ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/vS4FBICg_dy1GJhHUGBRBAVYH285JCgrVtSqmfH-AIPIAsOkBZum8THi_rFpk4Y-NZyRbwwCbW-3"
     },
     {
@@ -1354,12 +1435,6 @@
         "armeabi",
         "armeabi-v7a"
       ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "tags": [
-        "deprecated=26"
-      ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/90WcauuJiCYABEl8U0lcZeuS5STUbf2yW6UcUqjymnhFd8GoVzxGha1PjXIJvJQr4zXQkYuulTJJ"
     },
     {
@@ -1377,12 +1452,6 @@
         "arm64-v8a",
         "armeabi",
         "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "tags": [
-        "deprecated=26"
       ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/35uNQcLHN2Tqt2cNHVJvjWBNiVFLnB5_sQGCf2IQGX4jF6ooJyNDHefR7l8f2jttyshW6lyTM_MN"
     },
@@ -1500,12 +1569,6 @@
         "armeabi",
         "armeabi-v7a"
       ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "tags": [
-        "deprecated=26"
-      ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/FwTRBcZlB6uB9C8i16vvuL1qvf3jKhw5fFoWeOjx5rCGyX2z0j6OrdzkRk8LHAJsjkxmFkXohuc"
     },
     {
@@ -1557,12 +1620,6 @@
         "arm64-v8a",
         "armeabi",
         "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "tags": [
-        "deprecated=26"
       ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/mQQxjkC-aSqCZ8ssvbkYE-3nKr6bp04o7Ur6HkCxwwDCjjdFL-OkqGC0Lrl_AG6Gs5IQ074LnBMiVQ"
     },
@@ -1622,9 +1679,6 @@
       "supportedAbis": [
         "armeabi",
         "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "23"
       ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/NeViTy68Ks5jTCgnTJXw-stotdMuAMXy70BxDu65_BUvRQdVXJEfVhAmSjNyCEiWUx3dG2Lb4_WX"
     },
@@ -1699,9 +1753,6 @@
         "arm64-v8a",
         "armeabi",
         "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "28"
       ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/51n90VMMdQTj8C455bkDTw8Y4tZ51cLplz80KsJG4MCqBWX6UCK54QE4z2am_iBKHtU8ypDyjpng"
     },
@@ -1783,12 +1834,6 @@
         "armeabi",
         "armeabi-v7a"
       ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "tags": [
-        "deprecated=26"
-      ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/sYiPV-aBXyJL-qji6fIZHUFFNznXtS9uGqt0BvXBeKlrpJHTZ1UkAXJOEtCUUFMq6Y6tSFahNqr7"
     },
     {
@@ -1808,6 +1853,27 @@
         "armeabi-v7a"
       ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/jUbbqqY5056fWjAlsDB8CfR-1a7vkmTSYh1wuLS3PoBYsmufmEPll17odSwrlvG_YNh5R34agR7O"
+    },
+    {
+      "brand": "Xiaomi",
+      "codename": "chiron",
+      "form": "PHYSICAL",
+      "formFactor": "PHONE",
+      "id": "chiron",
+      "manufacturer": "Xiaomi",
+      "name": "Mi MIX 2",
+      "screenDensity": 480,
+      "screenX": 1080,
+      "screenY": 2160,
+      "supportedAbis": [
+        "arm64-v8a",
+        "armeabi",
+        "armeabi-v7a"
+      ],
+      "supportedVersionIds": [
+        "26"
+      ],
+      "thumbnailUrl": "https://lh3.googleusercontent.com/g3pLZEcjCSBrWgMYDY_gr9VwJRx-dqQ-_Vls6ZTC7z4aD9ewdi6SKiKxP5DCVBWzuQqWT9mp49KrEw"
     },
     {
       "brand": "motorola",
@@ -1884,7 +1950,7 @@
         "armeabi",
         "armeabi-v7a"
       ],
-      "thumbnailUrl": "https://lh3.googleusercontent.com/PXeC47toPODDw2mKeIrUEs0eSMDqzphHEslMb2ChbsOsFFez_8NYjmX5-u4t1zuM-LnJb-IWOyDD"
+      "thumbnailUrl": "https://lh3.googleusercontent.com/iwGhr7B7brEIQc-Rw20aW_-JmisJRjiPHq2PLwoPjqkp0tkAlbDB_GQO2UK0uLkauTrfumbl_A"
     },
     {
       "brand": "samsung",
@@ -1943,12 +2009,6 @@
         "arm64-v8a",
         "armeabi",
         "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "tags": [
-        "deprecated=26"
       ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/S4ZW1XgARJMlKaTQXjvfj8mIZpmPcqa4xDeREFWRnPmgi9FFJ2NaTPiXsXcyjboALfOL2LTDBmE"
     },
@@ -2048,12 +2108,6 @@
         "arm64-v8a",
         "armeabi",
         "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "tags": [
-        "deprecated=26"
       ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/J2Z8osWlxO60aP-jSkLIwkyTIKi4Ig5s7gAFWyCFL4R09jpEEra4pppix-jS2yWcM8llUstXqJfW"
     },
@@ -2216,6 +2270,25 @@
     },
     {
       "brand": "samsung",
+      "codename": "grandppltedx",
+      "form": "PHYSICAL",
+      "formFactor": "PHONE",
+      "id": "grandppltedx",
+      "manufacturer": "Samsung",
+      "name": "SM-G532G",
+      "screenDensity": 240,
+      "screenX": 960,
+      "screenY": 540,
+      "supportedAbis": [
+        "armeabi",
+        "armeabi-v7a"
+      ],
+      "supportedVersionIds": [
+        "23"
+      ]
+    },
+    {
+      "brand": "samsung",
       "codename": "greatlte",
       "form": "PHYSICAL",
       "formFactor": "PHONE",
@@ -2274,6 +2347,9 @@
       ],
       "supportedVersionIds": [
         "26"
+      ],
+      "tags": [
+        "unstable=26"
       ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/oPfMSkk4ee8S39qGhsxagwo7pMgtBz6wcnXpzbNqYB_6kM0kSKgUbLMTwYd3cigr5r7NlP3YgpKX"
     },
@@ -2495,12 +2571,6 @@
         "armeabi",
         "armeabi-v7a"
       ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "tags": [
-        "deprecated=26"
-      ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/iRhN_I6roRLR48j6uoANdelfD9qOBdcsdzQPawMeIFvQIVFJJW2sesos12a0hMm90yF2e697sTU"
     },
     {
@@ -2681,12 +2751,6 @@
         "armeabi",
         "armeabi-v7a"
       ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "tags": [
-        "deprecated=26"
-      ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/tyqr_6-lqhL7qmDoiB6-Y1yZ-OuF8SWBOcXhk2IFZh3ISqZidw8qIY5FE75QzYj8h0r7Cpaoekjy"
     },
     {
@@ -2844,9 +2908,6 @@
         "armeabi",
         "armeabi-v7a"
       ],
-      "supportedVersionIds": [
-        "26"
-      ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/HzO61Vquk8tjYQN4ig-U3-mXnUBaOj3wcwAXZVKcGTXe-dLGFHRc33NZslJiYfwTrNrG0T43k2yBXA"
     },
     {
@@ -2968,6 +3029,27 @@
       "thumbnailUrl": "https://lh3.googleusercontent.com/Xb2R2cQuo971e3VuddoV9LV_nr8issaszeLlpku-aNl-aVQ_2K41KGkRN1ztbG1FqrBhq0j2gokx"
     },
     {
+      "brand": "Verizon",
+      "codename": "j7popltevzw",
+      "form": "PHYSICAL",
+      "formFactor": "PHONE",
+      "id": "j7popltevzw",
+      "manufacturer": "Samsung",
+      "name": "SM-J727V",
+      "screenDensity": 320,
+      "screenX": 720,
+      "screenY": 1280,
+      "supportedAbis": [
+        "arm64-v8a",
+        "armeabi",
+        "armeabi-v7a"
+      ],
+      "supportedVersionIds": [
+        "27"
+      ],
+      "thumbnailUrl": "https://lh3.googleusercontent.com/eORX0ROwItAAKaXHUIses4o2i1VlvTVEJ53guLrkpCRiGvBL7KGktYlEqrgkyl5CnqnYqUYKJQgL0A"
+    },
+    {
       "brand": "samsung",
       "codename": "j7xelte",
       "form": "PHYSICAL",
@@ -3002,6 +3084,9 @@
       "supportedVersionIds": [
         "26"
       ],
+      "tags": [
+        "unstable=26"
+      ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/OJ2Uvo7H0thDQTaKr3eUAO50-5yHagHLINea_BYNwnDvVEs8jA5jIq0dCByAw1nzxL_36YwryC0M"
     },
     {
@@ -3018,12 +3103,6 @@
       "supportedAbis": [
         "armeabi",
         "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "tags": [
-        "deprecated=26"
       ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/c0nvdIY5MqPbloD9MFdG8MhuapwpKfHn29BKD4dnFFilV7Du1lCyg6vHe03pN6ltHMHvP3VyrtvA"
     },
@@ -3068,6 +3147,22 @@
         "28"
       ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/79-OKmsXWRQW-gO3SleYA7IR_BLTOizZJiZyq0mhJM2j9HIsfzFnPD5y1VVOEfEqGTuzTlosCes"
+    },
+    {
+      "brand": "alps",
+      "codename": "k61v1_basic_ref",
+      "form": "PHYSICAL",
+      "formFactor": "PHONE",
+      "id": "k61v1_basic_ref",
+      "manufacturer": "Alps",
+      "name": "k61v1_basic_ref",
+      "screenDensity": 320,
+      "screenX": 720,
+      "screenY": 1500,
+      "supportedAbis": [
+        "armeabi",
+        "armeabi-v7a"
+      ]
     },
     {
       "brand": "motorola",
@@ -3263,12 +3358,6 @@
         "armeabi",
         "armeabi-v7a"
       ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "tags": [
-        "deprecated=26"
-      ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/VA5AbKJ8DgKP4kZQxXa7tE9aO1tpp5_A-q_Jbp_Iy3LbY98wconCtfjngO6ZsyvTjt40-UxSV4tE"
     },
     {
@@ -3422,6 +3511,27 @@
     },
     {
       "brand": "google",
+      "codename": "redfin",
+      "form": "PHYSICAL",
+      "formFactor": "PHONE",
+      "id": "redfin",
+      "manufacturer": "Google",
+      "name": "Pixel 5e",
+      "screenDensity": 440,
+      "screenX": 1080,
+      "screenY": 2340,
+      "supportedAbis": [
+        "arm64-v8a",
+        "armeabi",
+        "armeabi-v7a"
+      ],
+      "supportedVersionIds": [
+        "30"
+      ],
+      "thumbnailUrl": "https://lh3.googleusercontent.com/yTrlQMFILGX8Y1yKlsZYMxsLeQjPzOiNMXH7b5do5k4L7gnYl0qYLEg_JxvG0TmRt9kzlJNu_-8"
+    },
+    {
+      "brand": "google",
       "codename": "sailfish",
       "form": "PHYSICAL",
       "formFactor": "PHONE",
@@ -3439,8 +3549,10 @@
       "supportedVersionIds": [
         "25",
         "26",
-        "27",
         "28"
+      ],
+      "tags": [
+        "deprecated=28"
       ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/Y695akw6GQifgofN_GNrZQMTgTZgxnsMg6ZoQNX84xor7Zxmk7IU0N0GnE-YYha40lqFLH6Fa7qW"
     },
@@ -3458,9 +3570,6 @@
       "supportedAbis": [
         "armeabi",
         "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
       ],
       "tags": [
         "beta"
@@ -3482,12 +3591,6 @@
         "arm64-v8a",
         "armeabi",
         "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "26"
-      ],
-      "tags": [
-        "deprecated=26"
       ],
       "thumbnailUrl": "https://lh3.googleusercontent.com/km_naivFSSI88Yay3v8EU8IVLh1V9KKEtY7bvxE77dme0KrGV1RIZCUJWV-TSTD7lueZaMO5V5PB"
     },
@@ -3798,12 +3901,6 @@
         "armeabi",
         "armeabi-v7a"
       ],
-      "supportedVersionIds": [
-        "19"
-      ],
-      "tags": [
-        "deprecated=19"
-      ],
       "thumbnailUrl": "https://lh3.ggpht.com/n_CStC2vSdJ2DDzLP3NUnSQbnY8pvWJduA9G1MrtJOMDiH8Lxybb7ijgHB5_IaTSaVYRot4TJBWq"
     },
     {
@@ -3867,9 +3964,6 @@
         "arm64-v8a",
         "armeabi",
         "armeabi-v7a"
-      ],
-      "supportedVersionIds": [
-        "23"
       ],
       "thumbnailUrl": "https://lh5.ggpht.com/_lP3rtazy3LYQDdsliGG7d0F3zyEQKPFwvYrKShUJXVRoEWGwkyQnCRP3SCezNpu1akuGKM7n9s"
     },

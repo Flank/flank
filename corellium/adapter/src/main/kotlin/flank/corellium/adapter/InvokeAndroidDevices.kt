@@ -21,7 +21,7 @@ private const val SCREEN = "720x1280:280"
 fun invokeAndroidDevices(
     projectName: String,
 ) = AndroidInstance.Invoke { (amount) ->
-    channelFlow {
+    channelFlow<String> {
         val projectId = getProjectId(projectName)
         val instances = getCreatedInstances(projectId, amount)
         startNotRunningInstances(instances)

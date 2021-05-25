@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 val executeAndroidTestPlan = AndroidTestPlan.Execute { config ->
     config.instances.map { (instanceId, commands: List<String>) ->
-        channelFlow {
+        channelFlow<String> {
             println("Getting console $instanceId")
             corellium.connectConsole(instanceId).apply {
                 clear()
