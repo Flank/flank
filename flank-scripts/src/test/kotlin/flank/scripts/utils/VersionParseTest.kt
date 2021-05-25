@@ -43,7 +43,7 @@ class VersionParseTest(
 
 sealed class Compare(private val lambda: (Int) -> Boolean) {
     operator fun invoke(int: Int) = lambda(int)
-    fun name() = this::class.simpleName?.toUpperCase() ?: ""
+    fun name() = this::class.simpleName?.uppercase() ?: ""
     override fun toString() = name()
 }
 

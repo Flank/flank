@@ -101,8 +101,8 @@ class CustomShardingIT {
             .map { it.testAxises }
             .flatten()
 
-        assertThat(testsResults.sumBy { it.suiteOverview.failures }).isEqualTo(5)
-        assertThat(testsResults.sumBy { it.suiteOverview.total }).isEqualTo(41)
+        assertThat(testsResults.sumOf { it.suiteOverview.failures }).isEqualTo(5)
+        assertThat(testsResults.sumOf { it.suiteOverview.total }).isEqualTo(41)
     }
 }
 
