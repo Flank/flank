@@ -101,7 +101,7 @@ class CreateAndroidTestContextKtTest {
 
         // when
         mockkObject(DexParser) {
-            every { findTestMethods(any()) } returns listOf(
+            every { findTestMethods(any(), any()) } returns listOf(
                 TestMethod("testMethod", listOf(mockk(relaxed = true))),
                 TestMethod("testMethod", listOf(mockk(relaxed = true))),
                 TestMethod("testMethod", listOf()),
@@ -127,7 +127,7 @@ class CreateAndroidTestContextKtTest {
         )
 
         mockkObject(DexParser) {
-            every { findTestMethods(any()) } returns listOf(
+            every { findTestMethods(any(), any()) } returns listOf(
                 TestMethod("foo.bar.TestClass1#test1", emptyList()),
                 TestMethod("foo.bar.TestClass1#test2", emptyList()),
                 TestMethod("foo.bar.TestClass2#test1", emptyList()),
