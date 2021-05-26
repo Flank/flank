@@ -1,10 +1,12 @@
 # Android apk parser
 
-Module responsible for parsing android apk files and retrieving data like:
+Module responsible for retrieving data like:
 
 * test cases names
 * test runner name
 * package name
+
+from the provided apk files.
 
 ### References
 

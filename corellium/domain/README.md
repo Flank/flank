@@ -27,7 +27,4 @@ Following specification is suitable for complicated long-running use-cases, when
 
 #### Utility:
 
-`Transform.kt`
-
-* [local link](src/main/kotlin/flank/corellium/domain/util/Transform.kt)
-* [github link](https://github.com/Flank/flank/blob/master/corellium/domain/src/main/kotlin/flank/corellium/domain/util/Transform.kt)
+* [`Transform.kt`](src/main/kotlin/flank/corellium/domain/util/Transform.kt)

@@ -1,4 +1,4 @@
-# Instrument command formatter
+# Instrumentation command formatter
 
 This module is providing function for formatting `am instrument -r -w -e` with additional test cases filtering.
 

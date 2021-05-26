@@ -1,6 +1,8 @@
 # Flank - Corellium - API
 
-This module is specifying API required by business logic to operate on corellium features. The API is designed to exactly meet the domain layer requirements rather than reflecting the remote protocol or third-party client.
+This module is specifying API required by business logic to operate on corellium features. 
+
+The API is designed to exactly meet domain requirements rather than reflect the remote protocol or third-party client.
 
 ### References
 

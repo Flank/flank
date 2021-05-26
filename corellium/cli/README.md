@@ -1,6 +1,6 @@
 # Flank - Corellium - CLI
 
-This module is responsible for specifying and implementing a command-line user interface for Flank-Corellium features. 
+This module is specifying and implementing a command-line user interface for Flank-Corellium features. 
 
 ### References
 

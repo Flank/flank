@@ -1,4 +1,4 @@
-# Activity Manager Instrument
+# Activity Manager Instrumentation
 
 Common directory for tools related to `adb shell am instrument` command.
 

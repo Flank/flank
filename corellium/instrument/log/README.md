@@ -1,6 +1,6 @@
-# Instrument log parser
+# Instrumentation log parser
 
-This module is providing a tool for parsing raw console log from the `adb shell am instrument -r` into data structures.
+This module is providing a tool for parsing raw console log from the `adb shell am instrument -r` command into data the structures.
 
 ### References
 

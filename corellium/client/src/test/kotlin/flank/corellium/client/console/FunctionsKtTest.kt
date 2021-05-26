@@ -1,6 +1,5 @@
-package flank.corellium.client.parser
+package flank.corellium.client.console
 
-import flank.corellium.client.console.normalizeLines
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
