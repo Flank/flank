@@ -74,6 +74,23 @@ class CreateAndroidTestContextKtTest {
     }
 
     @Test
+    fun `should pick up @Theory tests`() {
+        val testInstrumentationContext = InstrumentationTestContext(
+            FileReference("", ""),
+            FileReference("../test_projects/android/apks/app-theory-androidTest.apk", "")
+        )
+
+        val parsedTests = testInstrumentationContext
+            .getFlankTestMethods(TestFilter("filter", shouldRun = { true }))
+            .map { it.testName }
+            .map { it.substringAfterLast("#") }
+            .toSet()
+
+        assertTrue(parsedTests.isNotEmpty())
+        assertTrue(parsedTests.contains("exampleTheoryTest"))
+    }
+
+    @Test
     fun `should filter out methods by distinct name`() {
         // given
         val testInstrumentationContext = InstrumentationTestContext(
@@ -84,7 +101,7 @@ class CreateAndroidTestContextKtTest {
 
         // when
         mockkObject(DexParser) {
-            every { findTestMethods(any()) } returns listOf(
+            every { findTestMethods(any(), any()) } returns listOf(
                 TestMethod("testMethod", listOf(mockk(relaxed = true))),
                 TestMethod("testMethod", listOf(mockk(relaxed = true))),
                 TestMethod("testMethod", listOf()),
@@ -110,7 +127,7 @@ class CreateAndroidTestContextKtTest {
         )
 
         mockkObject(DexParser) {
-            every { findTestMethods(any()) } returns listOf(
+            every { findTestMethods(any(), any()) } returns listOf(
                 TestMethod("foo.bar.TestClass1#test1", emptyList()),
                 TestMethod("foo.bar.TestClass1#test2", emptyList()),
                 TestMethod("foo.bar.TestClass2#test1", emptyList()),
