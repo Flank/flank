@@ -24,6 +24,7 @@ internal fun OutputReport.log(matrices: Collection<TestMatrix.Data>) {
         matrices.map {
             it.matrixId to mapOf(
                 "app" to it.appFileName,
+                "test-file" to it.testFileName,
                 "test-axises" to it.axes
             )
         }.toMap()

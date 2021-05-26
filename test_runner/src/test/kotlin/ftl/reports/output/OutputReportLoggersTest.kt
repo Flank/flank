@@ -47,12 +47,14 @@ class OutputReportLoggersTest {
                 matrixId = "1",
                 axes = listOf(TestMatrix.Outcome("device1")),
                 appFileName = "any.apk",
+                testFileName = "test-debug.apk",
                 historyId = historyId
             )
         )
         val testResults = matrices.map {
             it.matrixId to mapOf(
                 "app" to it.appFileName,
+                "test-file" to it.testFileName,
                 "test-axises" to it.axes
             )
         }.toMap()

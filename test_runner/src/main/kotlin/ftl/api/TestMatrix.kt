@@ -11,6 +11,7 @@ val cancelTestMatrix: TestMatrix.Cancel get() = TestMatrixCancel
 val fetchTestSummary: TestMatrix.Summary.Fetch get() = TestMatrixFetch
 
 private const val fallbackAppName = "N/A"
+private const val fallbackTestFileName = "---"
 
 object TestMatrix {
 
@@ -33,6 +34,7 @@ object TestMatrix {
         val webLinkWithoutExecutionDetails: String? = "",
         val axes: List<Outcome> = emptyList(),
         val appFileName: String = fallbackAppName,
+        val testFileName: String = fallbackTestFileName,
         val isCompleted: Boolean = false,
         val testExecutions: List<TestExecution> = emptyList(),
         val testTimeout: Long = 0,
