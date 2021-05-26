@@ -277,16 +277,16 @@ For convenience and clarity, the code should be written in a functional programm
 
 ## Public API <a name="implementation_public_api"/>
 
-Any application or library always have a public API and internal/private part. For convenience keep public functions and structures in the root package, so the API will be easy to find. Additionally, if the `component`:
+Any application or library must always have a public API and an internal/private part. For convenience keep public functions and structures in the root package, so the API will be easy to find. Additionally, if the `component`:
 
-* is providing reach public API with additional structures. - Is mandatory to distinct the public structures and functions from internal implementation which should be kept in nested package(s).
-* is just a simple tool with a compact implementation that is not specifying many structures. - Private implementation can be kept in the same file, just behind the public API or even whole tool can be delivered as one public function if the implementation is simple enough.
+* is providing accessibility to public API's with additional structures. -It is mandatory to keep the public structures and functions distinct from internal implementation which should be kept in nested package(s).
+* is just a simple tool with a compact implementation that is not specifying many structures. - Private implementations can be kept in the same file, just behind the public API or even the whole tool can be delivered as one public function if the implementation is simple enough.
 
-DO NOT keep many public functions along with internal implementation in the same file or package, because it is messing up the public API, which makes code harder to analyze and navigate.
+DO NOT keep multiple public functions along with internal implementations in the same file or package, because it is messes up the public API, which makes code harder to analyze and navigate.
 
 ## Components composition <a name="components_composition"/>
 
-Business logic shouldn't implement complicated tools on its own because it is messing up crucial high-level implementation making it harder to understand. Instead of this, it should be decomposed into high-level use-case implementation that is operating on tools provided by specialized components.
+Business logic shouldn't implement complicated tools on its own because it is can mess up crucial high-level implementations making it harder to understand. Instead, it should be decomposed into high-level use-case implementations that operate on tools provided by specialized components.
 
 ## Code composition <a name="code_composition"/>
 
@@ -294,7 +294,7 @@ Typically, when huge features are divided into smaller functions and one of thos
 
 ### Vertical <a name="code_composition_vertical"/>
 
-The preceding function is calling the following, so the composition of functions is similar to the linked list.
+The preceding function is calling the following, so the composition of functions is similar to a linked list.
 
 ![vertical-composition](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/1960_Add_implementation_section_to_architecture_doc/docs/hld/vertical-composition.puml)
 
@@ -306,7 +306,7 @@ Root function is controlling independent internal and specialized functions.
 
 ![horizontal-composition](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/1960_Add_implementation_section_to_architecture_doc/docs/hld/horizontal-composition.puml)
 
-This approach is giving a fast overview of high-level implementation but is hiding the details not important from the high-level perspective. Comparing to `vertical` composition where the cost of manual access to internal functions (jumping on references in IDE) in the worst-case scenario is `n`, the horizontal composition almost always gives `1` on the same layer (or `2` taking private functions into account if exist).
+This approach gives a fast overview of high-level implementation but is hiding the details not important from the high-level perspective. Comparing to `vertical` composition where the cost of manual access to internal functions (jumping on references in IDE) in the worst-case scenario is `n`, the horizontal composition almost always gives `1` on the same layer (or `2` taking private functions into account if exist).
 
 ### Horizontal-Layered <a name="code_composition_horizontal_layered"/>
 
