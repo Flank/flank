@@ -36,6 +36,13 @@ This document describes abstract architecture design which should be able to app
 1. [Adapter](#adapter)
     1. [How to scale](#adapter_scale)
     1. [Dependencies](#adapter_dependencies)
+1. [Implementation](#implementation)
+    1. [Public API](#implementation_public_api)
+    1. [Components composition](#components_composition)
+    1. [Code composition](#code_composition)
+    1. [Vertical](#code_composition_vertical)
+    1. [Horizontal](#code_composition_horizontal)
+    1. [Horizontal Layered](#code_composition_horizontal_layered)
 
 # Motivation <a name="motivation"/>
 
@@ -65,7 +72,7 @@ Typically, `horizontal` scaling is preferred when `vertical` scaling become to b
 
 The example diagram that is exposing relations between layers:
 
-![architecture_template](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/1953_Add_abstract_architecture_doc/docs/hld/architecture-template.puml)
+![architecture_template](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/architecture-template.puml)
 
 # Presentation <a name="presentation"/>
 
@@ -263,3 +270,46 @@ one of or many:
 
 * internal [`client`](#client) library
 * third-party client library
+
+# Implementation <a name="implementation"/>
+
+For convenience and clarity, the code should be written in a functional programming style. It's mandatory to avoid the OOP style which almost always makes things much more complicated than should be.
+
+## Public API <a name="implementation_public_api"/>
+
+Any application or library must always have a public API and an internal/private part. For convenience keep public functions and structures in the root package, so the API will be easy to find. Additionally, if the `component`:
+
+* is providing accessibility to public API's with additional structures. -It is mandatory to keep the public structures and functions distinct from internal implementation which should be kept in nested package(s).
+* is just a simple tool with a compact implementation that is not specifying many structures. - Private implementations can be kept in the same file, just behind the public API or even the whole tool can be delivered as one public function if the implementation is simple enough.
+
+DO NOT keep multiple public functions along with internal implementations in the same file or package, because it is messes up the public API, which makes code harder to analyze and navigate.
+
+## Components composition <a name="components_composition"/>
+
+Business logic shouldn't implement complicated tools on its own because it is can mess up crucial high-level implementations making it harder to understand. Instead, it should be decomposed into high-level use-case implementations that operate on tools provided by specialized components.
+
+## Code composition <a name="code_composition"/>
+
+Typically, when huge features are divided into smaller functions and one of those functions is a (public) root, the functions can be composed in two different ways.
+
+### Vertical <a name="code_composition_vertical"/>
+
+The preceding function is calling the following, so the composition of functions is similar to a linked list.
+
+![vertical-composition](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/vertical-composition.puml)
+
+Try to **AVOID** this pattern where possible, especially in business logic. In some situations it can be even worse than one huge monolithic function with comments, for example when internal functions are not ordered correctly. Understanding the feature composed in vertical style, almost always require analyzing the whole chain of functions which typically is not efficient.
+
+### Horizontal <a name="code_composition_horizontal"/>
+
+Root function is controlling independent internal and specialized functions.
+
+![horizontal-composition](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/horizontal-composition.puml)
+
+This approach gives a fast overview of high-level implementation but is hiding the details not important from the high-level perspective. Comparing to `vertical` composition where the cost of manual access to internal functions (jumping on references in IDE) in the worst-case scenario is `n`, the horizontal composition almost always gives `1` on the same layer (or `2` taking private functions into account if exist).
+
+### Horizontal-Layered <a name="code_composition_horizontal_layered"/>
+
+An example of horizontal composition in layered architecture can look as following:
+
+![horizontal-composition-layered](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/horizontal-composition-layered.puml)

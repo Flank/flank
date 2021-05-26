@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/object-diagram
+
+[public function] -right-> [any function 1]
+[any function 1] -right-> [any function 2]
+[any function 2] -right-> [any function 3]
+[any function 3] -down-> [any function 4]
+[any function 4] -left-> [any function 5]
+[any function 5] -left-> [any function 6]
+[any function 6] -left-> [any function 7]
+[any function 7] -down-> [any function 8]
+[any function 8] -right-> [any function 9]
+[any function 9] -right-> [any function 10]
+[any function 10] -right-> [any function 11]
+
+@enduml
