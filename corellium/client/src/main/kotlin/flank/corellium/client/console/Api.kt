@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 
-suspend fun Console.sendCommand(command: String) =
+suspend fun Console.sendCommand(command: String): Unit =
     session.send(Frame.Binary(true, (command + "\n").encodeToByteArray()))
 
 suspend fun Console.waitForIdle(timeToWait: Long) {
@@ -18,7 +18,7 @@ suspend fun Console.waitForIdle(timeToWait: Long) {
     while (System.currentTimeMillis() - lastResponseTime < timeToWait) delay(200)
 }
 
-suspend fun Console.close() = session.close()
+suspend fun Console.close(): Unit = session.close()
 
 @Deprecated("Use Console.flowLogs()")
 fun Console.launchOutputPrinter() = session.launch {
@@ -35,10 +35,10 @@ suspend fun Console.clear() {
     session.incoming.receive()
 }
 
-fun Console.flowLogs() = session.incoming
+fun Console.flowLogs(): Flow<String> = session.incoming
     .receiveAsFlow()
     .onEach { lastResponseTime = System.currentTimeMillis() }
-    .map { it.data.decodeToString() }
+    .map { frame: Frame -> frame.data.decodeToString() }
     .normalizeLines()
 
 internal fun Flow<String>.normalizeLines(): Flow<String> {

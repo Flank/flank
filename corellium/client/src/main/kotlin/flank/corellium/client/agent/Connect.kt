@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 import kotlinx.serialization.decodeFromString
 
-suspend fun connectAgent(
+internal suspend fun connectAgent(
     agentUrl: String,
     token: String,
     logLevel: LogLevel = LogLevel.NONE

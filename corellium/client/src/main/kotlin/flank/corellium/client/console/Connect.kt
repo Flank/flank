@@ -7,7 +7,7 @@ import io.ktor.client.features.websocket.webSocketSession
 import io.ktor.client.request.header
 import io.ktor.client.request.url
 
-suspend fun connectConsole(
+internal suspend fun connectConsole(
     url: String,
     token: String
 ): Console =

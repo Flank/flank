@@ -7,7 +7,10 @@ import kotlinx.coroutines.withTimeout
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
-suspend fun Agent.uploadFile(path: String, bytes: ByteArray) {
+suspend fun Agent.uploadFile(
+    path: String,
+    bytes: ByteArray
+) {
     val id = counter.getAndIncrement()
 
     sendCommand(
