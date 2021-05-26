@@ -33,6 +33,8 @@ import ftl.shard.TestMethod as ShardTestMethod
 
 suspend fun AndroidArgs.createAndroidTestContexts(): List<AndroidTestContext> = resolveApks().setupShards(this)
 
+private val customTestAnnotations = listOf("org.junit.experimental.theories.Theory")
+
 private suspend fun List<AndroidTestContext>.setupShards(
     args: AndroidArgs,
     testFilter: TestFilter = TestFilters.fromTestTargets(args.testTargets, args.testTargetsForShard)
@@ -118,7 +120,8 @@ internal fun InstrumentationTestContext.getFlankTestMethods(
     testFilter: TestFilter
 ): List<FlankTestMethod> =
     getParametrizedClasses().let { parameterizedClasses: List<TestMethod> ->
-        DexParser.findTestMethods(test.local).asSequence()
+        DexParser.findTestMethods(test.local, customTestAnnotations)
+            .asSequence()
             .distinctBy { it.testName }
             .filter(testFilter.shouldRun)
             .filterNot(parameterizedClasses::belong)
