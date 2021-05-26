@@ -30,6 +30,7 @@ fun TestMatrix.toApiModel(identity: ftl.api.TestMatrix.Identity? = null) = Data(
     gcsRootBucket = getGcsRootBucket(),
     webLinkWithoutExecutionDetails = webLinkWithoutExecutionDetails(),
     appFileName = extractAppFileName() ?: fallbackAppName,
+    testFileName = extractTestFileName() ?: fallbackAppName,
     isCompleted = MatrixState.completed(state) &&
         testExecutions?.all { MatrixState.completed(it.state.orEmpty()) } ?: true,
     testExecutions = testExecutions?.toApiModel().orEmpty(),
@@ -81,7 +82,11 @@ fun TestExecution.toApiModel() = ftl.api.TestMatrix.TestExecution(
     toolResultsStep = toolResultsStep
 )
 
-private fun TestMatrix.extractAppFileName() = testSpecification?.run {
+private fun TestMatrix.extractAppFileName() = extractFileName { gcsPath }
+
+private fun TestMatrix.extractTestFileName() = extractFileName { testFile }
+
+private fun TestMatrix.extractFileName(fileName: TestFilesPathWrapper.() -> String?) = testSpecification?.run {
     listOf(
         androidInstrumentationTest,
         androidTestLoop,
@@ -91,15 +96,21 @@ private fun TestMatrix.extractAppFileName() = testSpecification?.run {
     )
         .firstOrNull { it != null }
         ?.toJSONObject()
-        ?.let { prettyPrint.fromJson(it.toString(), AppPath::class.java).gcsPath }
+        ?.let { prettyPrint.fromJson(it.toString(), TestFilesPathWrapper::class.java).fileName() }
         ?.substringAfterLast('/')
 }
 
-private data class AppPath(
+private data class TestFilesPathWrapper(
     private val appApk: FileReference?,
     private val testsZip: FileReference?,
-    private val appIpa: FileReference?
+    private val appIpa: FileReference?,
+    private val xctestrun: FileReference?,
+    private val testApk: FileReference?,
+    private val roboScript: FileReference?
 ) {
     val gcsPath: String?
         get() = (appApk ?: testsZip ?: appIpa)?.gcsPath
+
+    val testFile: String?
+        get() = (testApk ?: xctestrun ?: roboScript)?.gcsPath
 }

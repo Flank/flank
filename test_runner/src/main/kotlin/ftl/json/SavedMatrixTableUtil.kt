@@ -25,6 +25,10 @@ fun List<TestMatrix.Data>.asPrintableTable(): String = buildTable(
         data = flatMapTestAxis { matrix -> matrix.appFileName }
     ),
     TableColumn(
+        header = TEST_APP_NAME_COLUMN_HEADER,
+        data = flatMapTestAxis { matrix -> matrix.testFileName }
+    ),
+    TableColumn(
         header = TEST_AXIS_VALUE_HEADER,
         data = flatMapTestAxis { device }
     ),
@@ -48,5 +52,6 @@ private val TestMatrix.Outcome.outcomeColor
 private const val OUTCOME_COLUMN_HEADER = "OUTCOME"
 private const val MATRIX_ID_COLUMN_HEADER = "MATRIX ID"
 private const val APP_NAME_COLUMN_HEADER = "APP NAME"
+private const val TEST_APP_NAME_COLUMN_HEADER = "TEST FILE NAME"
 private const val TEST_AXIS_VALUE_HEADER = "TEST AXIS VALUE"
 private const val OUTCOME_DETAILS_COLUMN_HEADER = "TEST DETAILS"

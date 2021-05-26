@@ -23,7 +23,10 @@ data class OutputReport(
 
 data class Matrix(
     val app: String = "",
-    @JsonProperty("test-axises") val testAxises: List<Outcome> = emptyList()
+    @JsonProperty("test-file")
+    val testFile: String = "",
+    @JsonProperty("test-axises")
+    val testAxises: List<Outcome> = emptyList()
 )
 
 data class Outcome(
