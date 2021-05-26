@@ -3,7 +3,7 @@ package flank.instrument.command
 /**
  * The helper function for formatting instrumentation test shell command:
  * ```
- * $ adb am instrument -r -w -e "testCases[0..n]" "$packageName/$testRunner"
+ * $ adb shell am instrument -r -w -e "testCases[0..n]" "$packageName/$testRunner"
  * ```
  *
  * Test cases names should match the following format:

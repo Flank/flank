@@ -41,14 +41,14 @@ sealed class Instrument {
      * @property endTime The time of creation the second chunk of status.
      * @property details The summary details of both chunks.
      */
-    class Status(
+    data class Status(
         val code: Int,
         val startTime: Long,
         val endTime: Long,
         val details: Details,
     ) : Instrument() {
 
-        class Details(
+        data class Details(
             val raw: Map<String, Any>,
             val className: String,
             val testName: String,
@@ -74,7 +74,7 @@ sealed class Instrument {
      * @property time The time of creation the result chunk.
      * @property details The details recorded for the result (Perhaps only a "stream" value).
      */
-    class Result(
+    data class Result(
         val code: Int,
         val time: Long,
         val details: Map<String, Any>

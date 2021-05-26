@@ -1,21 +1,19 @@
-# Flank-Corellium Domain Layer
+# Flank - Corellium - Domain
 
-This module is specifying public API and internal implementation of flank-corellium use-cases.
+This module is specifying public API and internal implementation of Flank-Corellium use-cases.
 
-## Public API
+### References
 
-Functions and structures which are specified directly inside [flank.corellium.domain](./src/main/kotlin/flank/corellium/domain) package.
-
-## Internal implementation
-
-Everything inside nested packages of [flank.corellium.domain](./src/main/kotlin/flank/corellium/domain).
+* Module type - [domain](../../docs/architecture.md#domain)
+* Dependency type - [static](../../docs/architecture.md#static_dependencies)
+* Public API - files inside [flank.corellium.domain](./src/main/kotlin/flank/corellium/domain)
+* Internal functions - nested packages inside [flank.corellium.domain](./src/main/kotlin/flank/corellium/domain)
 
 ## Design
 
 ### Stateful execution
 
-Following specification is suitable for complicated long-running use-cases,
-when becomes convenient to split execution into smaller atomic chunks of work.
+Following specification is suitable for complicated long-running use-cases, when becomes convenient to split execution into smaller atomic chunks of work.
 
 #### Definition:
 
@@ -30,5 +28,6 @@ when becomes convenient to split execution into smaller atomic chunks of work.
 #### Utility:
 
 `Transform.kt`
+
 * [local link](src/main/kotlin/flank/corellium/domain/util/Transform.kt)
 * [github link](https://github.com/Flank/flank/blob/master/corellium/domain/src/main/kotlin/flank/corellium/domain/util/Transform.kt)

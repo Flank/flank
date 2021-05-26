@@ -1,30 +1,21 @@
-## About
+## Corellium Client
 
-Only for POC integration purposes. It's based on [corellium-api](https://github.com/corellium/corellium-api). It has
-only essential features implemented to be able to run a simple set of IOS tests that coincide
-to [example](https://github.com/corellium/corellium-api/blob/master/examples/agent-simple.js)
+The kotlin implementation of Corellium API client based on official [JS implementation](https://github.com/corellium/corellium-api).
+Be aware, this library is designed for the Flank-Corellium integration, so the features not required by Flank but available in official client, may not (or even shouldn't) be provided here.  
 
-## **IT IS DEFINITELY NOT PRODUCTION READY!**
+### References
 
-There are lots of features missing (compared to nodeJS corellium [client](https://github.com/corellium/corellium-api)).
-
-## Installing
-
-JDK 8+ is required (tested on java 8 & 15). [KTOR](https://ktor.io/) is used as HTTP client.
-
-To build just run (from the root of the project)
-
-```
-./gradlew build -p corellium/client
-```
+* Official Corellium JS client - [corellium-api](https://github.com/corellium/corellium-api)
+* Official JS example - [agent-simple.js](https://github.com/corellium/corellium-api/blob/master/examples/agent-simple.js)
+* HTTP client - [KTOR](https://ktor.io/)
 
 ## API
 
-### class Corellium
+![corellium-client](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/corellium/client-api-class.puml)
 
--------
+### Connecting
 
-#### new instance
+For gaining access to the Corellium API is required to call `connectCorellium`  
 
 Creates new corellium client instance. Options:
 

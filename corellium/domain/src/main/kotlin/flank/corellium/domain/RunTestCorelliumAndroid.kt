@@ -26,6 +26,9 @@ import kotlinx.coroutines.runBlocking
 import java.lang.System.currentTimeMillis
 import java.text.SimpleDateFormat
 
+/**
+ * Use case for running android tests on corellium virtual devices.
+ */
 object RunTestCorelliumAndroid {
 
     /**
@@ -39,7 +42,13 @@ object RunTestCorelliumAndroid {
     }
 
     /**
-     * The user configuration for invocation.
+     * The user arguments for the test execution.
+     *
+     * @param credentials The user credentials for authorizing connection with API.
+     * @param apks List of app apks with related test apks for testing.
+     * @param maxShardsCount Maximum amount of shards to create. For each shard Flank is invoking dedicated device instance, so do not use values grater than maximum number available instances in the Corellium account.
+     * @param obfuscateDumpShards Obfuscate the test names in shards before dumping to file.
+     * @param outputDir Set output dir. Default value is [DefaultOutputDir.new]
      */
     data class Args(
         val credentials: Authorization.Credentials,
@@ -48,6 +57,11 @@ object RunTestCorelliumAndroid {
         val obfuscateDumpShards: Boolean = false,
         val outputDir: String = DefaultOutputDir.new,
     ) {
+        /**
+         * Default output directory scheme.
+         *
+         * @property new Directory name in format: `results/corellium/android/yyyy-MM-dd_HH-mm-ss-SSS`.
+         */
         object DefaultOutputDir {
             private const val PATH = "results/corellium/android/"
             private val date = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS")
@@ -56,16 +70,25 @@ object RunTestCorelliumAndroid {
 
         /**
          * Abstraction for app and test apk files.
+         *
          * @property path Absolut or relative path to apk file.
          */
         sealed class Apk {
             abstract val path: String
 
+            /**
+             * App apk data
+             *
+             * @property tests List of test apks to run on app apk.
+             */
             data class App(
                 override val path: String,
                 val tests: List<Test>
             ) : Apk()
 
+            /**
+             * Test apk data
+             */
             data class Test(
                 override val path: String
             ) : Apk()

@@ -2,6 +2,12 @@
 
 Allows dumping shards as formatted json file.
 
+### References
+
+* Module type - [tool](../../../docs/architecture.md#tool)
+* Dependency type - [static](../../../docs/architecture.md#static_dependencies)
+* Public API - [Dump.kt](./src/main/kotlin/flank/corellium/shard/Dump.kt)
+
 ## Example
 
 For the example input structure:

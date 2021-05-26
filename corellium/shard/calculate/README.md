@@ -6,6 +6,12 @@ Depending on the provided test cases duration, the sharding algorithm will:
 * Group the test cases from many test apks to run on a single device.
 * A mix both of the above options.
 
+### References
+
+* Module type - [tool](../../../docs/architecture.md#tool)
+* Dependency type - [static](../../../docs/architecture.md#static_dependencies)
+* Public API - [CalculateShards.kt](./src/main/kotlin/flank/corellium/shard/CalculateShards.kt)
+
 ## Example
 
 ### Input
@@ -32,7 +38,7 @@ bundle:
 
 ### Output
 
-#### Max shards 3
+Max shards = 3
 
 ```yaml
 shards:
@@ -67,7 +73,7 @@ shards:
           - "class app2.test2.TestClass#test7" // 7s
 ```
 
-#### Max shards 2
+Max shards = 2
 
 ```yaml
 shards:

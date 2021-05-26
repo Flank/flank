@@ -91,9 +91,11 @@ internal fun Flow<List<Line>>.parseChunks(): Flow<Chunk> = map { group ->
 internal data class Chunk(
     val type: String,
     val code: Int,
-    val map: Map<String, List<String>>,
+    val map: RawProperties,
     val timestamp: Long = System.currentTimeMillis(),
 )
+
+private typealias RawProperties = Map<String, List<String>>
 
 // Stage 3 ============================================
 
@@ -133,22 +135,25 @@ private fun createStatus(first: Chunk, second: Chunk) = Instrument.Status(
     code = second.code,
     startTime = first.timestamp,
     endTime = second.timestamp,
-    details = (first.map + second.map).parseValues().createDetails()
+    details = (first.map to second.map).parseValues().createDetails()
 )
 
-private fun Map<String, List<String>>.parseValues(): Map<String, Any> =
-    mapValues { (key, value) ->
+private fun Pair<RawProperties, RawProperties>.parseValues(): Map<String, Any> =
+    (first.keys + second.keys).associateWith { key ->
+        listOfNotNull(first[key], second[key]).flatten()
+        (first[key] ?: emptyList()) + (second[key] ?: emptyList())
+    }.mapValues { (key, value: List<String>) ->
         when (key) {
             "id",
             "test",
             "class",
-            -> value.first()
+            -> value.first() // all values are the same so we need only one
 
             "current",
-            "numTests",
-            -> value.first().trim().toInt()
+            "numtests",
+            -> value.first().trim().toInt() // same here but we want int
 
-            else -> value
+            else -> value // merged lines from stream or stack
         }
     }
 
