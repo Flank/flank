@@ -105,11 +105,12 @@ private data class TestFilesPathWrapper(
     private val testsZip: FileReference?,
     private val appIpa: FileReference?,
     private val xctestrun: FileReference?,
-    private val testApk: FileReference?
+    private val testApk: FileReference?,
+    private val roboScript: FileReference?
 ) {
     val gcsPath: String?
         get() = (appApk ?: testsZip ?: appIpa)?.gcsPath
 
     val testFile: String?
-        get() = (testApk ?: xctestrun)?.gcsPath
+        get() = (testApk ?: xctestrun ?: roboScript)?.gcsPath
 }
