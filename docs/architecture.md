@@ -296,7 +296,7 @@ Typically, when huge features are divided into smaller functions and one of thos
 
 The preceding function is calling the following, so the composition of functions is similar to a linked list.
 
-![vertical-composition](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/1960_Add_implementation_section_to_architecture_doc/docs/hld/vertical-composition.puml)
+![vertical-composition](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/vertical-composition.puml)
 
 Try to **AVOID** this pattern where possible, especially in business logic. In some situations it can be even worse than one huge monolithic function with comments, for example when internal functions are not ordered correctly. Understanding the feature composed in vertical style, almost always require analyzing the whole chain of functions which typically is not efficient.
 
@@ -304,7 +304,7 @@ Try to **AVOID** this pattern where possible, especially in business logic. In s
 
 Root function is controlling independent internal and specialized functions.
 
-![horizontal-composition](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/1960_Add_implementation_section_to_architecture_doc/docs/hld/horizontal-composition.puml)
+![horizontal-composition](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/horizontal-composition.puml)
 
 This approach gives a fast overview of high-level implementation but is hiding the details not important from the high-level perspective. Comparing to `vertical` composition where the cost of manual access to internal functions (jumping on references in IDE) in the worst-case scenario is `n`, the horizontal composition almost always gives `1` on the same layer (or `2` taking private functions into account if exist).
 
@@ -312,4 +312,4 @@ This approach gives a fast overview of high-level implementation but is hiding t
 
 An example of horizontal composition in layered architecture can look as following:
 
-![horizontal-composition-layered](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/1960_Add_implementation_section_to_architecture_doc/docs/hld/horizontal-composition-layered.puml)
+![horizontal-composition-layered](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/hld/horizontal-composition-layered.puml)
