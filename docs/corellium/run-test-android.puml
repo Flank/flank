@@ -45,6 +45,7 @@ package api {
 }
 package adapter {
 [Create Corellium API]
+[Corellium API Adapter]
 }
 package client {
 [Corellium]
@@ -92,11 +93,12 @@ package client {
 
 [Generate JUnit report] *-down- [Generate Report]
 
-[Request authorization] <|--- [Create Corellium API]
-[Install android apps] <|-- [Create Corellium API]
-[Invoke android devices] <|-- [Create Corellium API]
-[Execute android test plan] <|-- [Create Corellium API]
+[Request authorization] <|--- [Corellium API Adapter]
+[Install android apps] <|-- [Corellium API Adapter]
+[Invoke android devices] <|-- [Corellium API Adapter]
+[Execute android test plan] <|-- [Corellium API Adapter]
 
-[Create Corellium API] -left-* [Corellium]
+[Create Corellium API] -left-* [Corellium API Adapter]
+[Corellium API Adapter] -left-* [Corellium]
 
 @enduml
