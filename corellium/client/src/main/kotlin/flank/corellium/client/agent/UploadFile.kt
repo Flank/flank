@@ -7,6 +7,12 @@ import kotlinx.coroutines.withTimeout
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
+/**
+ * Upload [ByteArray] to specific virtual instance as file under a given path.
+ *
+ * @param path The path on virtual where the file will be created.
+ * @param bytes Bytes that will be written under a given path.
+ */
 suspend fun Agent.uploadFile(
     path: String,
     bytes: ByteArray

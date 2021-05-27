@@ -6,6 +6,14 @@ import kotlinx.serialization.json.Json
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 
+/**
+ * The context of connection with instance agent.
+ *
+ * @property session Web socket session with the agent.
+ * @property tasks References to the running task result listeners.
+ * @property counter Task counter.
+ * @property format [Json] helper for parsing and formatting.
+ */
 class Agent internal constructor(
     internal val session: ClientWebSocketSession,
     internal val tasks: TasksMap = TasksMap(),
@@ -13,4 +21,4 @@ class Agent internal constructor(
     internal val format: Json = Json {},
 )
 
-typealias TasksMap = ConcurrentHashMap<Int, (CommandResult) -> Unit>
+internal typealias TasksMap = ConcurrentHashMap<Int, (CommandResult) -> Unit>
