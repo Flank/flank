@@ -23,6 +23,7 @@ nav:
   - Building & updating Flank: building_updating_flank.md
   - Windows WSL: windows_wsl_guide.md
   - Cucumber: cucumber_support.md
+  - Corellium: flank_corellium.md
   - Contribution:
       - Pull request: pr_titles.md
   - Development:
