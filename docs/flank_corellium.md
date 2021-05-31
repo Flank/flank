@@ -1,26 +1,26 @@
 # Flank - Corellium
 
-Run your tests in parallel on virtual devices driven by Corellium backend.
+Run mobile tests in parallel on virtual devices driven by Corellium backend.
 
 ## Status
 
-The Flank - Corellium integration is at the MVP stage, so only core, most important features are available.
+The Flank - Corellium integration is at the MVP stage, so only the core and most important features are available.
 
 [Read more](https://github.com/sparkrnyc/sparkr_general_docs/wiki/What-are-Prototype,-POC,-Alpha,-Beta-and-MVP#minimum-viable-product-mvp) about Minimum Viable Product.
 
 ## Why Corellium
 
-Flank is just a client-side application that can prepare the time-efficient parallel test plan to run on several devices. It requires a third-party provider that can serve a huge amount of devices to run tests on them.   
+Flank is just a client-side application that can prepare a time-efficient parallel test plan to run on several devices. It requires a third-party provider that can serve a huge amount of devices to run tests on them.   
 Corellium is solving this problem as follows:
 
-* Provides technology to virtualize mobile operating systems on servers powered by ARM cores. - Which is giving incredible ability for scaling amount of devices.
-* Gives access to the bare operating system (Android or iOS). - Which is allowing to run optimized sharding algorithm for improving test execution time and reducing costs.
+* Provides technology to virtualize mobile operating systems on servers powered by ARM cores. - This gives an incredible ability for scaling with regards to the amount of devices.
+* Gives access to the bare operating system (Android or iOS). - Which allows a run optimized sharding algorithm that improves test execution time and reduces costs.
 
 ## How to get
 
 ### The Latest build
 
-Flank - Corellium integration is built in the `flank.jar` executable, so the latest Flank build is giving you access to the features driven on the Corellium backend.
+Flank - Corellium integration is built in the `flank.jar` executable, so the latest Flank build gives you access to the features driven on the Corellium backend.
 
 ### Manual compilation
 
@@ -125,7 +125,7 @@ apks:
 
 ### Command-line arguments
 
-Instead of or along with configuration file you can specify same options, in a command-line, which will override config file options.
+These can be included alongside the configuration file. They will override or supplement the configuration file depending on the usage.
 
 ### Execution
 
