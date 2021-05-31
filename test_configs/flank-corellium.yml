@@ -1,0 +1,6 @@
+auth: "test_configs/corellium_auth.yml"
+apks:
+  - path: "test_artifacts/master/apk/app-debug.apk"
+    tests:
+      - path: "test_artifacts/master/apk/app-multiple-flaky-debug-androidTest.apk"
+max-test-shards: 3

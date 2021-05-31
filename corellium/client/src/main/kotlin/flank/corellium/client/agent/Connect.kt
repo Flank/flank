@@ -3,6 +3,7 @@ package flank.corellium.client.agent
 import flank.corellium.client.data.AgentOperation
 import flank.corellium.client.data.CommandResult
 import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
 import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logging
 import io.ktor.client.features.websocket.DefaultClientWebSocketSession
@@ -23,7 +24,7 @@ suspend fun connectAgent(
     token: String,
     logLevel: LogLevel = LogLevel.NONE
 ): Agent = run {
-    val client = HttpClient {
+    val client = HttpClient(CIO) {
         install(WebSockets)
         install(Logging) {
             level = logLevel
