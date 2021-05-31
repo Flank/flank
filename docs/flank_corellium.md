@@ -44,6 +44,28 @@ Or build directly using gradle command:
 ./gradlew :test_runner:build :test_runner:shadowJar
 ```
 
+### Manual compilation
+
+Clone the repository and go to dir:
+
+```shell
+git clone git@github.com:Flank/flank.git
+cd flank
+```
+
+Build flank using flank-scripts (this method will give you access to `flank.jar` through `flank` shell command):
+
+```shell
+. .env
+flankScripts assemble flank
+```
+
+Or build directly using gradle command:
+
+```shell
+./gradlew :test_runner:build :test_runner:shadowJar
+```
+
 ## How to run
 
 To call the root command for Corellium related features:
@@ -159,13 +181,13 @@ The successful run should generate the following files:
 
 # Features
 
-* Calculating multi-module shards
-* Creating or reusing instances (devices)
-* Installing APKs on remote devices
-* Running android tests
-* Dumping shards to file
-* Parsing `adb am instrument` logs
-* Generating JUnit report
+* Calculating multi-module shards.
+* Creating or reusing instances (devices).
+* Installing APKs on remote devices.
+* Running android tests.
+* Dumping shards to file.
+* Parsing `adb am instrument` logs.
+* Generating JUnit report.
 
 # Roadmap
 
@@ -173,7 +195,8 @@ The successful run should generate the following files:
 * Reusing test cases duration for sharding.
 * Flaky test detection.
 * Structural logging.
-* iOS support
+* iOS support.
+* and much more...
 
 # Known bugs
 
