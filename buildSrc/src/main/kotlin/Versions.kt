@@ -52,7 +52,7 @@ object Versions {
     const val GOOGLE_STORAGE = "1.114.0"
 
     // https://github.com/google/gson/releases
-    const val GSON = "2.8.6"
+    const val GSON = "2.8.7"
 
     // https://github.com/FasterXML/jackson-core/releases
     // https://github.com/FasterXML/jackson-dataformat-xml/releases
@@ -64,7 +64,7 @@ object Versions {
     const val JSOUP = "1.13.1"
 
     // https://github.com/ktorio/ktor/releases
-    const val KTOR = "1.5.4"
+    const val KTOR = "1.6.0"
 
     // https://github.com/qos-ch/logback/releases
     const val LOGBACK = "1.2.3"
@@ -76,7 +76,7 @@ object Versions {
     const val SYSTEM_RULES = "1.19.0"
 
     // https://github.com/google/truth/releases
-    const val TRUTH = "1.1.2"
+    const val TRUTH = "1.1.3"
 
     // https://github.com/FasterXML/woodstox/releases
     const val WOODSTOX = "6.2.4"
@@ -93,7 +93,7 @@ object Versions {
     const val JANSI = "2.3.2"
 
     // https://github.com/ben-manes/gradle-versions-plugin/releases
-    const val BEN_MANES = "0.38.0"
+    const val BEN_MANES = "0.39.0"
 
     // https://github.com/Guardsquare/proguard
     const val PROGUARD = "7.0.1"
