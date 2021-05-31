@@ -114,9 +114,9 @@ class RunTestCorelliumAndroidCommand :
 
 private fun defaultConfig() = Config().apply {
     project = "Default Project"
-    auth = "auth.yml"
+    auth = "corellium_auth.yml"
     apks = emptyList()
-    maxTestShards = 3
+    maxTestShards = 1
     localResultsDir = null
     obfuscate = false
 }
