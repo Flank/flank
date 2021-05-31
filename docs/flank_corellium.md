@@ -18,14 +18,46 @@ Corellium is solving this problem as follows:
 
 ## How to get
 
+### The Latest build
+
 Flank - Corellium integration is built in the `flank.jar` executable, so the latest Flank build is giving you access to the features driven on the Corellium backend.
+
+### Manual compilation
+
+Clone the repository and go to dir:
+
+```shell
+git clone git@github.com:Flank/flank.git
+cd flank
+```
+
+Build flank using flank-scripts (this method will give you access to `flank.jar` through `flank` shell command):
+
+```shell
+. .env
+flankScripts assemble flank
+```
+
+Or build directly using gradle command:
+
+```shell
+./gradlew :test_runner:build :test_runner:shadowJar
+```
 
 ## How to run
 
-To call the root command for Corellium related features run:
+To call the root command for Corellium related features:
+
+locate your flank.jar in terminal and run:
 
 ```bash
-$ flank.jar corellium
+flank.jar corellium
+```
+
+or if flank was build using `. .env && flankScripts assemble flank`, just type:
+
+```bash
+flank corellium
 ```
 
 ## Authorization
@@ -64,16 +96,15 @@ apks:
       - path: "app2-test1.apk"
       - path: "app2-test2.apk"
 
+### Authorization file
+## Path to YAML file with host address and credentials.
+## default: corellium_auth.yml
+# auth: auth_file.yml
 
-    ### Authorization file
-    ## Path to YAML file with host address and credentials.
-    ## default: corellium_auth.yml
-    # auth: auth_file.yml
-
-    ### Project name
-    ## The name of Corellium project.
-    ## default: "Default project"
-    # project: "project name"
+### Project name
+## The name of Corellium project.
+## default: "Default project"
+# project: "project name"
 
 ### Max Test Shards
 ## test shards - the amount of groups to split the test suite into.
@@ -126,6 +157,24 @@ The successful run should generate the following files:
 * JUnitReport.xml
 * android_shards.json
 
-## iOS test execution
+# Features
 
-Not available yet
+* Calculating multi-module shards
+* Creating or reusing instances (devices)
+* Installing APKs on remote devices
+* Running android tests
+* Dumping shards to file
+* Parsing `adb am instrument` logs
+* Generating JUnit report
+
+# Roadmap
+
+* Cleaning devices after test execution.
+* Reusing test cases duration for sharding.
+* Flaky test detection.
+* Structural logging.
+* iOS support
+
+# Known bugs
+
+* Missing `<skipped/>` tag for skipped test cases in JUnit report 
