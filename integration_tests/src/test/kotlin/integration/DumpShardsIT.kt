@@ -2,10 +2,8 @@ package integration
 
 import FlankCommand
 import com.google.common.truth.Truth.assertThat
-import flank.common.isWindows
 import integration.config.AndroidTest
 import integration.config.IosTest
-import org.junit.Assume.assumeFalse
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import run
@@ -70,7 +68,6 @@ class DumpShardsIT {
     @Category(IosTest::class)
     @Test
     fun `dump shards - ios`() {
-        assumeFalse(isWindows)
 
         val name = "$name-ios"
         val result = FlankCommand(
