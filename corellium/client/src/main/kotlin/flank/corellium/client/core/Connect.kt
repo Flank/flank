@@ -15,6 +15,14 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import kotlinx.serialization.json.Json
 
+/**
+ * Factory method for creating initialized Corellium connection context.
+ *
+ * @param api Corellium host address without protocol (https), example: `yourcompany.enterprise.corellium.com`.
+ * @param username Corellium account user name.
+ * @param password Corellium account password.
+ * @return Context of initialized Corellium connection.
+ */
 suspend fun connectCorellium(
     api: String,
     username: String,

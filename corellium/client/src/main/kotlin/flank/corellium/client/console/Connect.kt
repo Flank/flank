@@ -7,7 +7,10 @@ import io.ktor.client.features.websocket.webSocketSession
 import io.ktor.client.request.header
 import io.ktor.client.request.url
 
-suspend fun connectConsole(
+/**
+ * Internal factory method for creating initialized [Console] context.
+ */
+internal suspend fun connectConsole(
     url: String,
     token: String
 ): Console =

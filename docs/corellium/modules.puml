@@ -2,13 +2,25 @@
 
 left to right direction
 
-[cli] #snow
-[domain] #snow
+[cli] ..> [adapter]
+[cli] ..> [apk]
+[cli] -right-> [domain]
 
-[cli] --> [domain]
-[domain] --> [api]
-[domain] ...> [adapter]
-[api] <-- [adapter]
-[adapter] --> [client]
+[adapter] --* [client]
+[adapter] --* [api]
+
+[domain] --o [api]
+[domain] --o [apk]
+
+[domain] --* [shard:calculate]
+[domain] --* [shard:obfuscate]
+[domain] --* [shard:dump]
+[domain] --* [instrument:command]
+[domain] --* [instrument:log]
+[domain] --* [junit]
+
+[shard:dump] --* [shard]
+[shard:calculate] --* [shard]
+[shard:obfuscate] --* [shard]
 
 @enduml

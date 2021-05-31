@@ -19,7 +19,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 import kotlinx.serialization.decodeFromString
 
-suspend fun connectAgent(
+/**
+ * Internal factory method for creating initialized [Agent] connection context.
+ */
+internal suspend fun connectAgent(
     agentUrl: String,
     token: String,
     logLevel: LogLevel = LogLevel.NONE

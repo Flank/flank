@@ -1,7 +1,7 @@
 @startuml
 'https://plantuml.com/activity-diagram-beta
 
-'left to right direction
+skinparam componentStyle rectangle
 
 legend left
   |= Color |= Depends on |
@@ -9,18 +9,18 @@ legend left
   |<#LightBlue>| tool |
 end legend
 
-object authorize #LightGreen
-object parseTestCasesFromApks #LightBlue
-object createOutputDir
-object prepareShards #LightBlue
-object dumpShards #LightBlue
-object invokeDevices #LightGreen
-object installApks #LightGreen
-object parseApksInfo #LightBlue
-object executeTests #LightGreen
-object cleanUpInstances #LightGreen
-object generateReport #LightBlue
-object finish
+[authorize] #LightGreen
+[parseTestCasesFromApks] #LightBlue
+[createOutputDir]
+[prepareShards] #LightBlue
+[dumpShards] #LightBlue
+[invokeDevices] #LightGreen
+[installApks] #LightGreen
+[parseApksInfo] #LightBlue
+[executeTests] #LightGreen
+[cleanUpInstances] #LightGreen
+[generateReport] #LightBlue
+[finish]
 
 prepareShards --> invokeDevices
 

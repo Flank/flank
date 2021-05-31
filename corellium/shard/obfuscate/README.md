@@ -2,7 +2,13 @@
 
 Allows obfuscating test cases names for security reasons.
 
-## Example
+### References
+
+* Module type - [tool](../../../docs/architecture.md#tool)
+* Dependency type - [static](../../../docs/architecture.md#static_dependencies)
+* Public API - [Parser.kt](./src/main/kotlin/flank/corellium/shard/Obfuscate.kt)
+
+### Example
 
 Obfuscation will change the test cases names as following:
 

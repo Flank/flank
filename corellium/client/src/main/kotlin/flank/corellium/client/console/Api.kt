@@ -10,15 +10,24 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 
-suspend fun Console.sendCommand(command: String) =
+/**
+ * Send a command to serial console.
+ */
+suspend fun Console.sendCommand(command: String): Unit =
     session.send(Frame.Binary(true, (command + "\n").encodeToByteArray()))
 
+/**
+ * Block the execution and wait until the console is not producing output for a specified amount of time.
+ */
 suspend fun Console.waitForIdle(timeToWait: Long) {
     delay(3_000)
     while (System.currentTimeMillis() - lastResponseTime < timeToWait) delay(200)
 }
 
-suspend fun Console.close() = session.close()
+/**
+ * Close the console connection.
+ */
+suspend fun Console.close(): Unit = session.close()
 
 @Deprecated("Use Console.flowLogs()")
 fun Console.launchOutputPrinter() = session.launch {
@@ -31,16 +40,31 @@ fun Console.launchOutputPrinter() = session.launch {
     }
 }
 
+/**
+ * Clear unread log messages buffer.
+ */
 suspend fun Console.clear() {
     session.incoming.receive()
 }
 
-fun Console.flowLogs() = session.incoming
+/**
+ * Flow log lines from the serial console output.
+ *
+ * Do not collect more than one flow from the same [Console] at the same time to prevent a race condition.
+ */
+fun Console.flowLogs(): Flow<String> = session.incoming
     .receiveAsFlow()
     .onEach { lastResponseTime = System.currentTimeMillis() }
-    .map { it.data.decodeToString() }
+    .map { frame: Frame -> frame.data.decodeToString() }
     .normalizeLines()
 
+/**
+ * Converts flow of frames into flow of lines.
+ *
+ * The incoming console logs are divided into frames for network purposes, but lines are much more convenient to parse.
+ *
+ * To check the example, see the unit test of this method.
+ */
 internal fun Flow<String>.normalizeLines(): Flow<String> {
     var acc = ""
     return transform { next ->

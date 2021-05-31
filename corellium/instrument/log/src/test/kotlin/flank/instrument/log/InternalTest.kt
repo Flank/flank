@@ -71,4 +71,17 @@ class InternalTest {
             statusResults.last() is Instrument.Result
         )
     }
+
+    @Test
+    fun printExample() {
+        val list = runBlocking {
+            flowLogs(LOG3)
+                .groupLines()
+                .parseChunks()
+                .parseStatusResult()
+                .toList()
+        }
+
+        list.forEach(::println)
+    }
 }

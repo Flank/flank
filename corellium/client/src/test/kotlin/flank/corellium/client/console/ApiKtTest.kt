@@ -1,13 +1,12 @@
-package flank.corellium.client.parser
+package flank.corellium.client.console
 
-import flank.corellium.client.console.normalizeLines
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
 
-class FunctionsKtTest {
+class ApiKtTest {
 
     @Test
     fun normalizeLinesTest() {
