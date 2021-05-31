@@ -1,6 +1,6 @@
 # Flank - Corellium - Adapters
 
-This module is implementing adapters that connecting [API](../api) interfaces with Corellium [client](../client).
+This module is implementing adapters that connect [API](../api) interfaces with Corellium [client](../client).
 
 ### References
 

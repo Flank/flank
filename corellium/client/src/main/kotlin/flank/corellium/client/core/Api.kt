@@ -68,7 +68,7 @@ suspend fun Corellium.getProjectInstancesList(
 /**
  * Creates a new [Instance].
  *
- * Newly created instance needs some time to setup (state == `creating`).
+ * A newly created instance needs some time to setup (state == `creating`).
  * Use [waitUntilInstanceIsReady] to ensure VM has `on` state and is ready to use.
  *
  * @param newInstance
@@ -219,7 +219,7 @@ suspend fun Corellium.connectAgent(
 /**
  * Download VPN configuration to connect to the project network.
  * This is only available for cloud.
- * At least one instance must be on in the project.
+ * At least one instance must be `on` in the project.
  *
  * The configuration file will be saved as:
  * * `tblk.zip` - [VPN.TBLK]

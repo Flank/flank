@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
- * The context of connection with instance agent.
+ * The context of connection with the instance agent.
  *
  * @property session Web socket session with the agent.
  * @property tasks References to the running task result listeners.
