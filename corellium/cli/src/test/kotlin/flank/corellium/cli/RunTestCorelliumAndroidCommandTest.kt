@@ -34,6 +34,7 @@ class RunTestCorelliumAndroidCommandTest {
         maxTestShards = Int.MAX_VALUE
         localResultsDir = "test_result_dir"
         obfuscate = true
+        gpuAcceleration = false
     }
 
     /**
@@ -57,6 +58,7 @@ class RunTestCorelliumAndroidCommandTest {
                 "--max-test-shards=$maxTestShards",
                 "--local-result-dir=$localResultsDir",
                 "--obfuscate=$obfuscate",
+                "--gpu-acceleration=$gpuAcceleration",
             )
         }
 
@@ -75,6 +77,7 @@ apks:
 max-test-shards: $maxTestShards
 local-result-dir: $localResultsDir
 obfuscate: $obfuscate
+gpu-acceleration: $gpuAcceleration
             """.trimIndent()
         }
 
@@ -136,7 +139,8 @@ obfuscate: $obfuscate
                 apks = apks!!,
                 maxShardsCount = maxTestShards!!,
                 outputDir = localResultsDir!!,
-                obfuscateDumpShards = obfuscate!!
+                obfuscateDumpShards = obfuscate!!,
+                gpuAcceleration = gpuAcceleration!!,
             )
         }
 

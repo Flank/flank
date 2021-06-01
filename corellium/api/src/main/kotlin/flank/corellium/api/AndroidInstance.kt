@@ -12,10 +12,12 @@ object AndroidInstance {
     /**
      * Configuration for devices to invoke.
      *
-     * @property amount the amount of devices to invoke.
+     * @property amount The amount of devices to invoke.
+     * @property gpuAcceleration Enables gpu acceleration for virtual devices.
      */
     data class Config(
-        val amount: Int
+        val amount: Int,
+        val gpuAcceleration: Boolean
     )
 
     /**
@@ -23,7 +25,7 @@ object AndroidInstance {
      *
      * After successful invoke, the devices specified in th [Config] should be running and ready for use.
      *
-     * @return list of invoked device ids.
+     * @return List of invoked device ids.
      */
     fun interface Invoke : (Config) -> Flow<String>
 }

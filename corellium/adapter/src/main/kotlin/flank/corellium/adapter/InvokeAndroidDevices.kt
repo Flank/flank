@@ -7,6 +7,7 @@ import flank.corellium.client.core.getProjectInstancesList
 import flank.corellium.client.core.startInstance
 import flank.corellium.client.core.waitUntilInstanceIsReady
 import flank.corellium.client.data.Instance
+import flank.corellium.client.data.Instance.BootOptions.AdditionalTags.GPU
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.channelFlow
@@ -20,23 +21,24 @@ private const val SCREEN = "720x1280:280"
 
 fun invokeAndroidDevices(
     projectName: String,
-) = AndroidInstance.Invoke { (amount) ->
+) = AndroidInstance.Invoke { config ->
     channelFlow<String> {
         val projectId = getProjectId(projectName)
-        val instances = getCreatedInstances(projectId, amount)
+        val instances = getCreatedInstances(projectId, config.amount)
         startNotRunningInstances(instances)
 
         val ids = instances.map(Instance::id) + let {
             // When existing instances size match required amount
             // there is not needs for creating more instances.
-            if (instances.size == amount) emptyList()
+            if (instances.size == config.amount) emptyList()
             // Otherwise is required to create some additional instances
             else createInstances(
                 projectId = projectId,
+                gpuAcceleration = config.gpuAcceleration,
                 indexes = calculateAdditionalIndexes(
                     current = instances,
-                    requiredAmount = amount
-                )
+                    requiredAmount = config.amount
+                ),
             )
         }
 
@@ -87,7 +89,8 @@ private suspend fun startNotRunningInstances(
  */
 private suspend fun createInstances(
     projectId: String,
-    indexes: List<Int>
+    indexes: List<Int>,
+    gpuAcceleration: Boolean,
 ) = indexes
     .apply { println("Creating additional ${indexes.size} instances. Connecting to the agents may take longer.") }
     .map { index ->
@@ -98,7 +101,10 @@ private suspend fun createInstances(
                 flavor = FLAVOUR,
                 os = OS,
                 bootOptions = Instance.BootOptions(
-                    screen = SCREEN
+                    screen = SCREEN,
+                    additionalTags = listOfNotNull(
+                        GPU.takeIf { gpuAcceleration }
+                    )
                 )
             )
         )

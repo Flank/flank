@@ -49,6 +49,7 @@ object RunTestCorelliumAndroid {
      * @param maxShardsCount Maximum amount of shards to create. For each shard Flank is invoking dedicated device instance, so do not use values grater than maximum number available instances in the Corellium account.
      * @param obfuscateDumpShards Obfuscate the test names in shards before dumping to file.
      * @param outputDir Set output dir. Default value is [DefaultOutputDir.new]
+     * @param gpuAcceleration Enable gpu acceleration for newly created virtual devices.
      */
     data class Args(
         val credentials: Authorization.Credentials,
@@ -56,6 +57,7 @@ object RunTestCorelliumAndroid {
         val maxShardsCount: Int,
         val obfuscateDumpShards: Boolean = false,
         val outputDir: String = DefaultOutputDir.new,
+        val gpuAcceleration: Boolean = true,
     ) {
         /**
          * Default output directory scheme.

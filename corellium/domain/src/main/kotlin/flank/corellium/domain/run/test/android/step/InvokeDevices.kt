@@ -16,5 +16,9 @@ import kotlinx.coroutines.flow.toList
  */
 internal fun RunTestCorelliumAndroid.Context.invokeDevices() = RunTestCorelliumAndroid.step {
     println("* Invoking devices")
-    copy(ids = api.invokeAndroidDevices(AndroidInstance.Config(shards.size)).toList())
+    val config = AndroidInstance.Config(
+        amount = shards.size,
+        gpuAcceleration = args.gpuAcceleration
+    )
+    copy(ids = api.invokeAndroidDevices(config).toList())
 }
