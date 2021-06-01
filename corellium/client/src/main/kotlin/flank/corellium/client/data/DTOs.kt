@@ -38,14 +38,29 @@ data class Instance(
         val info: String = ""
     )
 
+    /**
+     * @param udid Predefined Unique Device ID (UDID) for iOS device
+     * @param screen Change the screen metrics for Ranchu devices `XxY[:DPI]`, e.g. `720x1280:280`
+     * @param additionalTags features to utilize for the device, valid options include. Check [AdditionalTags]
+     */
     @Serializable
     data class BootOptions(
         val bootArgs: String = "",
         val restoreBootArgs: String = "",
         val udid: String = "",
         val ecid: String = "",
-        val screen: String = ""
-    )
+        val screen: String = "",
+        val additionalTags: List<String> = emptyList(),
+    ) {
+        /**
+         * @property GPU Enable cloud GPU acceleration (Extra costs incurred, cloud only).
+         * @property KALLOC Enable kalloc/kfree trace access via GDB (Enterprise only).
+         */
+        object AdditionalTags {
+            const val GPU = "gpu"
+            const val KALLOC = "kalloc"
+        }
+    }
 }
 
 @Serializable

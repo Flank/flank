@@ -90,6 +90,17 @@ class RunTestCorelliumAndroidCommand :
             ]
         )
         var obfuscate: Boolean? by data
+
+        @set:CommandLine.Option(
+            names = ["--gpu-acceleration"],
+            description = [
+                "Enable cloud GPU acceleration (Extra costs incurred)." +
+                    "Currently this option only works for newly devices created." +
+                    "To create new device pool with gpu-acceleration, remove old devices manually and let Flank recreate the pool."
+            ]
+        )
+        @set:JsonProperty("gpu-acceleration")
+        var gpuAcceleration: Boolean? by data
     }
 
     @CommandLine.Mixin
@@ -119,6 +130,7 @@ private fun defaultConfig() = Config().apply {
     maxTestShards = 1
     localResultsDir = null
     obfuscate = false
+    gpuAcceleration = true
 }
 
 private fun RunTestCorelliumAndroidCommand.yamlConfig(): Config =
@@ -130,4 +142,5 @@ private fun RunTestCorelliumAndroidCommand.createArgs() = Args(
     maxShardsCount = config.maxTestShards!!,
     outputDir = config.localResultsDir ?: Args.DefaultOutputDir.new,
     obfuscateDumpShards = config.obfuscate!!,
+    gpuAcceleration = config.gpuAcceleration!!
 )
