@@ -14,7 +14,7 @@ Be aware, this library is designed for the Flank-Corellium integration, so the f
 
 Access to the Corellium API is provided through the connection contexts, that are represented by structures. Connection contexts along with API functions are creating hierarchical relations visible on following diagram:
 
-![corellium-client](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/1951_Improve_Flank-Corellium_documentation/docs/corellium/client-api-class.puml)
+![corellium-client](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/master/docs/corellium/client-api-class.puml)
 
 ### Corellium
 
