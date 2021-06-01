@@ -8,6 +8,7 @@ class FormatAmInstrumentCommandKtTest {
     @Test
     fun test() {
         val expected = "am instrument -r -w" +
+            " --no-window-animation" +
             " -e class com.package.Test1#testMethod1,com.package.Test2#testMethod1,com.package.Test2#testMethod2" +
             " -e package com.package.nested1,com.package.nested2 com.package/AnyRunner"
 
@@ -20,7 +21,8 @@ class FormatAmInstrumentCommandKtTest {
                 "class com.package.Test2#testMethod2",
                 "package com.package.nested1",
                 "package com.package.nested2",
-            )
+            ),
+            // noWindowAnimation = true, // No window animation should be disable by default
         )
 
         assertEquals(expected, actual)
