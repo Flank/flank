@@ -1,6 +1,6 @@
-package flank.junit
+package flank.junit.mapper
 
-import flank.junit.mapper.xmlPrettyWriter
+import flank.junit.RESOURCES
 import org.junit.Assert.assertArrayEquals
 import org.junit.Test
 import java.io.File
@@ -9,10 +9,10 @@ class ParseJUnitReportTest {
 
     @Test
     fun test() {
-        val path = RESOURCES + "JUnitReport.xml"
-        val expected = File(path).readLines().filter(String::isNotBlank).toTypedArray()
+        val file = File(RESOURCES + "JUnitReport.xml")
+        val expected = file.readLines().filter(String::isNotBlank).toTypedArray()
 
-        val parsed = path.parseJUnitReportFromFile()
+        val parsed = file.reader().parseJUnitReport()
         val formatted = xmlPrettyWriter.writeValueAsString(parsed).lines()
         val actual = formatted.filter(String::isNotBlank).toTypedArray()
 

@@ -14,6 +14,7 @@ import flank.corellium.domain.run.test.android.step.finish
 import flank.corellium.domain.run.test.android.step.generateReport
 import flank.corellium.domain.run.test.android.step.installApks
 import flank.corellium.domain.run.test.android.step.invokeDevices
+import flank.corellium.domain.run.test.android.step.loadPreviousDurations
 import flank.corellium.domain.run.test.android.step.parseApksInfo
 import flank.corellium.domain.run.test.android.step.parseTestCasesFromApks
 import flank.corellium.domain.run.test.android.step.prepareShards
@@ -21,6 +22,7 @@ import flank.corellium.domain.util.CreateTransformation
 import flank.corellium.domain.util.execute
 import flank.corellium.shard.Shard
 import flank.instrument.log.Instrument
+import flank.junit.JUnit
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import java.lang.System.currentTimeMillis
@@ -38,6 +40,7 @@ object RunTestCorelliumAndroid {
     interface Context {
         val api: CorelliumApi
         val apk: Apk.Api
+        val junit: JUnit.Api
         val args: Args
     }
 
@@ -50,6 +53,7 @@ object RunTestCorelliumAndroid {
      * @param obfuscateDumpShards Obfuscate the test names in shards before dumping to file.
      * @param outputDir Set output dir. Default value is [DefaultOutputDir.new]
      * @param gpuAcceleration Enable gpu acceleration for newly created virtual devices.
+     * @param scanPreviousDurations Scan the specified amount of JUnitReport.xml files to obtain test cases durations necessary for optimized sharding. The [outputDir] is used for searching JUnit reports.
      */
     data class Args(
         val credentials: Authorization.Credentials,
@@ -58,6 +62,7 @@ object RunTestCorelliumAndroid {
         val obfuscateDumpShards: Boolean = false,
         val outputDir: String = DefaultOutputDir.new,
         val gpuAcceleration: Boolean = true,
+        val scanPreviousDurations: Int = 10,
     ) {
         /**
          * Default output directory scheme.
@@ -65,9 +70,9 @@ object RunTestCorelliumAndroid {
          * @property new Directory name in format: `results/corellium/android/yyyy-MM-dd_HH-mm-ss-SSS`.
          */
         object DefaultOutputDir {
-            private const val PATH = "results/corellium/android/"
+            internal const val ROOT = "results/corellium/android/"
             private val date = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS")
-            val new get() = PATH + date.format(currentTimeMillis())
+            val new get() = ROOT + date.format(currentTimeMillis())
         }
 
         /**
@@ -102,6 +107,7 @@ object RunTestCorelliumAndroid {
      * For convenience the properties are sorted in order equal to its initialization.
      *
      * @param testCases key - path to the test apk, value - list of test method names.
+     * @param previousDurations key - test case name, value - calculated previous duration.
      * @param shards each item is representing list of apps to run on another device instance.
      * @param ids the ids of corellium device instances.
      * @param packageNames key - path to the test apk, value - package name.
@@ -109,12 +115,17 @@ object RunTestCorelliumAndroid {
      */
     internal data class State(
         val testCases: Map<String, List<String>> = emptyMap(),
+        val previousDurations: Map<String, Long> = defaultPreviousDurations,
         val shards: List<List<Shard.App>> = emptyList(),
         val ids: List<String> = emptyList(),
         val packageNames: Map<String, String> = emptyMap(),
         val testRunners: Map<String, String> = emptyMap(),
         val testResult: List<List<Instrument>> = emptyList(),
     )
+
+    private const val DEFAULT_TEST_CASE_DURATION = 120L
+
+    private val defaultPreviousDurations = emptyMap<String, Long>().withDefault { DEFAULT_TEST_CASE_DURATION }
 
     /**
      * The reference to the step factory.
@@ -127,6 +138,7 @@ operator fun Context.invoke(): Unit = runBlocking {
     State() execute flowOf(
         authorize(),
         parseTestCasesFromApks(),
+        loadPreviousDurations(),
         prepareShards(),
         createOutputDir(),
         dumpShards(),

@@ -13,6 +13,7 @@ import flank.corellium.corelliumApi
 import flank.corellium.domain.RunTestCorelliumAndroid
 import flank.corellium.domain.RunTestCorelliumAndroid.Args
 import flank.corellium.domain.invoke
+import flank.junit.JUnit
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -101,6 +102,16 @@ class RunTestCorelliumAndroidCommand :
         )
         @set:JsonProperty("gpu-acceleration")
         var gpuAcceleration: Boolean? by data
+
+        @set:CommandLine.Option(
+            names = ["--scan-previous-durations"],
+            description = [
+                "Scan the specified amount of JUnitReport.xml files to obtain test cases durations necessary for optimized sharding." +
+                    "The `local-result-dir` is used for searching JUnit reports."
+            ]
+        )
+        @set:JsonProperty("scan-previous-durations")
+        var scanPreviousDurations: Int? by data
     }
 
     @CommandLine.Mixin
@@ -118,6 +129,8 @@ class RunTestCorelliumAndroidCommand :
 
     override val apk = Apk.Api()
 
+    override val junit = JUnit.Api()
+
     override val args by lazy { createArgs() }
 
     override fun run() = invoke()
@@ -131,6 +144,7 @@ private fun defaultConfig() = Config().apply {
     localResultsDir = null
     obfuscate = false
     gpuAcceleration = true
+    scanPreviousDurations = 10
 }
 
 private fun RunTestCorelliumAndroidCommand.yamlConfig(): Config =
@@ -142,5 +156,6 @@ private fun RunTestCorelliumAndroidCommand.createArgs() = Args(
     maxShardsCount = config.maxTestShards!!,
     outputDir = config.localResultsDir ?: Args.DefaultOutputDir.new,
     obfuscateDumpShards = config.obfuscate!!,
-    gpuAcceleration = config.gpuAcceleration!!
+    gpuAcceleration = config.gpuAcceleration!!,
+    scanPreviousDurations = config.scanPreviousDurations!!,
 )

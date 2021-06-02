@@ -35,6 +35,7 @@ class RunTestCorelliumAndroidCommandTest {
         localResultsDir = "test_result_dir"
         obfuscate = true
         gpuAcceleration = false
+        scanPreviousDurations = 123
     }
 
     /**
@@ -59,6 +60,7 @@ class RunTestCorelliumAndroidCommandTest {
                 "--local-result-dir=$localResultsDir",
                 "--obfuscate=$obfuscate",
                 "--gpu-acceleration=$gpuAcceleration",
+                "--scan-previous-durations=$scanPreviousDurations",
             )
         }
 
@@ -78,6 +80,7 @@ max-test-shards: $maxTestShards
 local-result-dir: $localResultsDir
 obfuscate: $obfuscate
 gpu-acceleration: $gpuAcceleration
+scan-previous-durations: $scanPreviousDurations
             """.trimIndent()
         }
 
@@ -141,6 +144,7 @@ gpu-acceleration: $gpuAcceleration
                 outputDir = localResultsDir!!,
                 obfuscateDumpShards = obfuscate!!,
                 gpuAcceleration = gpuAcceleration!!,
+                scanPreviousDurations = scanPreviousDurations!!,
             )
         }
 

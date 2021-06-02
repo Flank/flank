@@ -1,9 +1,12 @@
-package flank.junit
+package flank.junit.mapper
 
+import flank.junit.JUnit
+import flank.junit.RESOURCES
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import java.io.File
 
 /**
  * Various tests for parsing empty test reports in different shapes.
@@ -27,7 +30,7 @@ class ParseEmptyJUnitReportTest(
     @Test
     fun test() {
         val path = RESOURCES + name
-        val parsed = path.parseJUnitReportFromFile()
+        val parsed = File(path).reader().parseJUnitReport()
 
         println(parsed)
         Assert.assertEquals(

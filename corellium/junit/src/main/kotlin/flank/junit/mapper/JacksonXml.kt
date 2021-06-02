@@ -9,11 +9,9 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.dataformat.xml.deser.FromXmlParser
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import flank.junit.JUnit
-import java.io.File
 import java.util.Locale
 
-internal val xmlModule = JacksonXmlModule().apply { setDefaultUseWrapper(false) }
+private val xmlModule = JacksonXmlModule().apply { setDefaultUseWrapper(false) }
 
 internal val xmlMapper = XmlMapper(xmlModule)
     .apply {
@@ -33,14 +31,3 @@ internal class TimeSerializer : JsonSerializer<Double>() {
         )
     }
 }
-
-/**
- * For <testsuites/> objectMapper is returning null.
- * This is helper method for fixing this behaviour.
- */
-internal fun File.readEmptyTestSuites(): JUnit.Report? =
-    JUnit.Report().takeIf {
-        readLines()
-            .filter { it.isNotBlank() }
-            .run { size < 3 && last() == "<testsuites/>" }
-    }

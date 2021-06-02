@@ -4,13 +4,11 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
-import com.fasterxml.jackson.module.kotlin.readValue
+import flank.junit.internal.calculateMedianDurations
+import flank.junit.internal.parseJUnitTestResults
 import flank.junit.mapper.TimeSerializer
 import flank.junit.mapper.mapToTestSuites
-import flank.junit.mapper.readEmptyTestSuites
-import flank.junit.mapper.xmlMapper
 import flank.junit.mapper.xmlPrettyWriter
-import java.io.File
 import java.io.Writer
 import java.text.SimpleDateFormat
 
@@ -22,34 +20,27 @@ import java.text.SimpleDateFormat
  * * This early implementation doesn't support flaky tests.
  * * The list of test case results should be sorted in same order as received from console output
  *
- * @receiver list of raw test cases results.
- * @return structural representation of XML JUnit report
+ * @receiver List of raw test cases results.
+ * @return Structural representation of XML JUnit report
  */
 fun List<JUnit.TestResult>.generateJUnitReport(): JUnit.Report =
     JUnit.Report(mapToTestSuites())
 
 /**
- * Parse [JUnit.Report] from file path.
- *
- * @receiver path to XML JUnit report
- * @return parsed structural representation of XML JUnit report
- */
-fun String.parseJUnitReportFromFile(): JUnit.Report =
-    File(this).let { file ->
-        xmlMapper.readValue(file)
-            ?: file.readEmptyTestSuites()
-            ?: throw IllegalArgumentException("cannot parse JUnitReport from: $this")
-    }
-
-/**
  * Write JUnite report as formatted XML string.
  *
- * @receiver structural representation of XML JUnit report.
+ * @receiver Structural representation of XML JUnit report.
  * @param writer The output where report will be written.
  */
 fun JUnit.Report.writeAsXml(writer: Writer) {
     xmlPrettyWriter.writeValue(writer, this)
 }
+
+/**
+ * Calculate associate full test cases names to calculated duration.
+ */
+fun List<JUnit.TestResult>.calculateTestCaseDurations(): Map<String, Long> =
+    calculateMedianDurations()
 
 // ========================= Structures =========================
 
@@ -61,6 +52,10 @@ fun JUnit.Report.writeAsXml(writer: Writer) {
  * * [xsd schema](https://github.com/windyroad/JUnit-Schema/blob/master/JUnit.xsd)
  */
 object JUnit {
+
+    class Api(
+        val parseTestResults: TestResult.Parse = parseJUnitTestResults
+    )
 
     /**
      * Compact representation of test case execution result.
@@ -76,6 +71,11 @@ object JUnit {
         val status: Status,
     ) {
         enum class Status { Passed, Failed, Error, Skipped }
+
+        /**
+         * Search given file or directory for [REPORT_FILE_NAME] and parse as TestResults
+         */
+        fun interface Parse : (String) -> Sequence<List<TestResult>>
     }
 
     /**
@@ -200,4 +200,6 @@ object JUnit {
     private const val ISO8601_DATETIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ssXXX"
 
     internal val dateFormat = SimpleDateFormat(ISO8601_DATETIME_PATTERN)
+
+    const val REPORT_FILE_NAME = "JUnitReport.xml"
 }
