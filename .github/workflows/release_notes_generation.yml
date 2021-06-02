@@ -17,10 +17,11 @@ jobs:
         git fetch --prune --unshallow --tags
         git tag
 
-    - name: Generate documentation
-      uses: eskatos/gradle-command-action@v1
-      with:
-        arguments: "test_runner:processCliAsciiDoc"
+# Temporary disable ASCII doc generation because is failing and blocking crucial release.
+#    - name: Generate documentation
+#      uses: eskatos/gradle-command-action@v1
+#      with:
+#        arguments: "test_runner:processCliAsciiDoc"
 
     - name: Download flankScripts and add it to PATH
       env: 
