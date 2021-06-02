@@ -35,7 +35,7 @@ class CalculateMedianDurationsKtTest {
 
 private fun result(
     name: String,
-    duration: Long
+    duration: Long,
 ) = JUnit.TestResult(
     className = name,
     testName = name,
@@ -43,5 +43,5 @@ private fun result(
     endsAt = duration,
     stack = emptyList(),
     status = JUnit.TestResult.Status.Passed,
-    suiteName = ""
+    suiteName = "",
 )
