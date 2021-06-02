@@ -45,4 +45,3 @@ private fun result(
     status = JUnit.TestResult.Status.Passed,
     suiteName = ""
 )
-
