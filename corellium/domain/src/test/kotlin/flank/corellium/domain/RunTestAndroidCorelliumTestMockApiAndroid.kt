@@ -3,6 +3,7 @@ package flank.corellium.domain
 import flank.apk.Apk
 import flank.corellium.api.CorelliumApi
 import flank.corellium.domain.RunTestCorelliumAndroid.Args
+import flank.junit.JUnit
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
 import org.junit.After
@@ -83,6 +84,8 @@ class RunTestAndroidCorelliumTestMockApiAndroid : RunTestCorelliumAndroid.Contex
             )
         },
     )
+
+    override val junit = JUnit.Api()
 
     @Test
     fun test(): Unit = invoke()

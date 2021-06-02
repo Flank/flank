@@ -18,7 +18,7 @@ import java.io.File
  */
 internal fun RunTestCorelliumAndroid.Context.generateReport() = RunTestCorelliumAndroid.step {
     println("* Generating report")
-    val file = File(args.outputDir, JUNIT_REPORT_FILENAME)
+    val file = File(args.outputDir, JUnit.REPORT_FILE_NAME)
     testResult
         .prepareInputForJUnit()
         .generateJUnitReport()
@@ -26,8 +26,6 @@ internal fun RunTestCorelliumAndroid.Context.generateReport() = RunTestCorellium
     println("Created ${file.absolutePath}")
     this
 }
-
-private const val JUNIT_REPORT_FILENAME = "JUnitReport.xml"
 
 /**
  * Simple mapper, no logical operations or API calls,

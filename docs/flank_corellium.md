@@ -160,6 +160,7 @@ The successful run should generate the following files:
 # Features
 
 * Calculating multi-module shards.
+* Reusing test cases duration for sharding.
 * Creating or reusing instances (devices).
 * Installing APKs on remote devices.
 * Running android tests.
@@ -170,7 +171,6 @@ The successful run should generate the following files:
 # Roadmap
 
 * Cleaning devices after test execution.
-* Reusing test cases duration for sharding.
 * Flaky test detection.
 * Structural logging.
 * iOS support.

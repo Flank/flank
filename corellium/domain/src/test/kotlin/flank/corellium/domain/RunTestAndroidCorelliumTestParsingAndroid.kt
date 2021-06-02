@@ -2,6 +2,7 @@ package flank.corellium.domain
 
 import flank.apk.Apk
 import flank.corellium.api.CorelliumApi
+import flank.junit.JUnit
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
 import org.junit.After
@@ -54,6 +55,8 @@ class RunTestAndroidCorelliumTestParsingAndroid : RunTestCorelliumAndroid.Contex
             emptyList()
         },
     )
+
+    override val junit = JUnit.Api()
 
     override val apk = Apk.Api()
 

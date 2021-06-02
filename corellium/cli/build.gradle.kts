@@ -19,6 +19,7 @@ dependencies {
     implementation(project(":corellium:domain"))
     implementation(project(":corellium:adapter"))
     implementation(project(":corellium:apk"))
+    implementation(project(":corellium:junit"))
     implementation(Dependencies.JACKSON_KOTLIN)
     implementation(Dependencies.JACKSON_YAML)
     implementation(Dependencies.JACKSON_XML)

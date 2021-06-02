@@ -20,6 +20,7 @@ internal fun RunTestCorelliumAndroid.Context.prepareShards() = RunTestCorelliumA
             apps = prepareDataForSharding(
                 apks = args.apks,
                 testCases = testCases,
+                durations = previousDurations,
             ),
             maxCount = args.maxShardsCount
         )
@@ -32,7 +33,8 @@ internal fun RunTestCorelliumAndroid.Context.prepareShards() = RunTestCorelliumA
  */
 private fun prepareDataForSharding(
     apks: List<RunTestCorelliumAndroid.Args.Apk.App>,
-    testCases: Map<String, List<String>>
+    testCases: Map<String, List<String>>,
+    durations: Map<String, Long>,
 ): List<Shard.App> =
     apks.map { app ->
         Shard.App(
@@ -42,7 +44,12 @@ private fun prepareDataForSharding(
                     name = test.path,
                     cases = testCases
                         .getValue(test.path)
-                        .map(Shard.Test::Case)
+                        .map { name ->
+                            Shard.Test.Case(
+                                name = name,
+                                duration = durations.getValue(name)
+                            )
+                        }
                 )
             }
         )
