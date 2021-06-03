@@ -31,6 +31,8 @@ include(
     ":tool:junit",
     ":tool:log",
     ":tool:log:format",
+    ":tool:execution:parallel",
+    ":tool:execution:synchronized",
 )
 
 plugins {
