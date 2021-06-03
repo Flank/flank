@@ -65,7 +65,7 @@ object TestMatrixAndroid {
         ) : Type()
     }
 
-    interface Execute : (Config, List<Type>) -> List<TestMatrix.Data>
+    interface Execute : (List<Pair<Config, Type>>) -> List<TestMatrix.Data>
 }
 
 typealias ShardChunks = List<List<String>>

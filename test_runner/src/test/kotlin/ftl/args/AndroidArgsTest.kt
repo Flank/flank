@@ -1183,12 +1183,12 @@ AndroidArgs
             test: $testErrorApk
       """
         assertEquals(
-            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath, maxTestShards = 1)),
+            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath, maxTestShards = 1, clientDetails = emptyMap())),
             AndroidArgs.load(yaml).validate().additionalAppTestApks
         )
 
         assertEquals(
-            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath, maxTestShards = 1)),
+            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath, maxTestShards = 1, clientDetails = emptyMap())),
             AndroidArgs.load(yaml, cli).validate().additionalAppTestApks
         )
     }
@@ -1208,12 +1208,12 @@ AndroidArgs
             test: $testErrorApk
       """
         assertEquals(
-            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath, maxTestShards = 1)),
+            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath, maxTestShards = 1, clientDetails = emptyMap())),
             AndroidArgs.load(yaml).validate().additionalAppTestApks
         )
 
         assertEquals(
-            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath, maxTestShards = 4)),
+            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath, maxTestShards = 4, clientDetails = emptyMap())),
             AndroidArgs.load(yaml, cli).validate().additionalAppTestApks
         )
     }
@@ -1675,7 +1675,8 @@ AndroidArgs
                 shards = listOf(
                     Chunk(listOf(TestMethod(name = "test", time = 0.0))),
                     Chunk(listOf(TestMethod(name = "test", time = 0.0)))
-                )
+                ),
+                args = args
             )
         )
         val testSpecification = TestSpecification().setupAndroidTest(androidTestConfig)
@@ -1702,7 +1703,8 @@ AndroidArgs
                 shards = listOf(
                     Chunk(listOf(TestMethod(name = "test", time = 0.0))),
                     Chunk(listOf(TestMethod(name = "test", time = 0.0)))
-                )
+                ),
+                args = args
             )
         )
         val testSpecification = TestSpecification().setupAndroidTest(androidTestConfig)
@@ -2412,7 +2414,8 @@ AndroidArgs
             GameLoopContext(
                 app = "app".asFileReference(),
                 scenarioNumbers = args.scenarioNumbers,
-                scenarioLabels = args.scenarioLabels
+                scenarioLabels = args.scenarioLabels,
+                args = args
             )
         )
         val testSpecification = TestSpecification().setupAndroidTest(androidTestConfig)

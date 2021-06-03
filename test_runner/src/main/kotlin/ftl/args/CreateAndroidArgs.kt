@@ -33,18 +33,14 @@ fun createAndroidArgs(
 
     // flank
     additionalAppTestApks = flank.additionalAppTestApks?.map {
-        // if additional-pair did not provide certain values, set as top level ones
-        val mergedClientDetails = mutableMapOf<String, String>().apply {
-            // merge additionalAppTestApk's client-details with top-level client-details
-            putAll(commonArgs.clientDetails ?: emptyMap())
-            putAll(it.clientDetails)
-        }
         AppTestPair(
             app = it.app?.normalizeFilePath(),
             test = it.test.normalizeFilePath(),
             environmentVariables = it.environmentVariables,
             maxTestShards = it.maxTestShards ?: commonArgs.maxTestShards,
-            clientDetails = mergedClientDetails
+            clientDetails = commonArgs.clientDetails.orEmpty() + it.clientDetails.orEmpty(),
+            devices = it.devices,
+            testTargets = it.testTargets
         )
     } ?: emptyList(),
     useLegacyJUnitResult = flank::useLegacyJUnitResult.require(),

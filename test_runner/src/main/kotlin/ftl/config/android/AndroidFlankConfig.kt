@@ -7,6 +7,7 @@ import ftl.args.yml.AppTestPair
 import ftl.args.yml.IYmlKeys
 import ftl.args.yml.ymlKeys
 import ftl.config.Config
+import ftl.config.Device
 import picocli.CommandLine
 
 /** Flank specific parameters for Android */
@@ -24,7 +25,7 @@ data class AndroidFlankConfig @JsonIgnore constructor(
                 "Useful for running multiple module tests within a single Flank run."
         ]
     )
-    fun additionalAppTestApks(map: Map<String, String>?) {
+    fun additionalAppTestApks(map: Map<String, Any>?) {
         if (map.isNullOrEmpty()) return
         if (additionalAppTestApks == null) additionalAppTestApks = mutableListOf()
 
@@ -34,9 +35,11 @@ data class AndroidFlankConfig @JsonIgnore constructor(
         if (testApk != null) {
             additionalAppTestApks?.add(
                 AppTestPair(
-                    app = appApk,
-                    test = testApk,
-                    maxTestShards = map["max-test-shards"]?.toInt()
+                    app = appApk.toString(),
+                    test = testApk.toString(),
+                    maxTestShards = map["max-test-shards"]?.toString()?.toInt(),
+                    testTargets = map["test-targets"] as? List<String>,
+                    devices = map["device"] as? List<Device>
                 )
             )
         }

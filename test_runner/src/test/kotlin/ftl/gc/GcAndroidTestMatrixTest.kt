@@ -49,7 +49,7 @@ class GcAndroidTestMatrixTest {
             )
             val config = createAndroidTestConfig(androidArgs)
 
-            executeAndroidTests(config, listOf(type))
+            executeAndroidTests(listOf(config to type))
         }
     }
 
@@ -78,7 +78,7 @@ class GcAndroidTestMatrixTest {
 
             val config = createAndroidTestConfig(androidArgs)
 
-            executeAndroidTests(config, listOf(type))
+            executeAndroidTests(listOf(config to type))
         }
     }
 
@@ -112,7 +112,7 @@ class GcAndroidTestMatrixTest {
 
             val config = createAndroidTestConfig(androidArgs)
 
-            executeAndroidTests(config, listOf(type))
+            executeAndroidTests(listOf(config to type))
         }
     }
 

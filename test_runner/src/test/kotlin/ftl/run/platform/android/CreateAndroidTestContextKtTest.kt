@@ -37,6 +37,8 @@ class CreateAndroidTestContextKtTest {
     @get:Rule
     val root = TemporaryFolder()
 
+    private val args: AndroidArgs = AndroidArgs.load(mixedConfigYaml)
+
     @After
     fun tearDown() = unmockkAll()
 
@@ -46,27 +48,28 @@ class CreateAndroidTestContextKtTest {
         val expected = listOf(
             RoboTestContext(
                 app = should { local.endsWith("app-debug.apk") },
-                roboScript = should { local.endsWith("MainActivity_robo_script.json") }
+                roboScript = should { local.endsWith("MainActivity_robo_script.json") },
+                args = should { maxTestShards == 2 }
             ),
             InstrumentationTestContext(
                 app = should { local.endsWith("app-debug.apk") },
                 test = should { local.endsWith("app-single-success-debug-androidTest.apk") },
                 shards = should { size == 1 },
                 ignoredTestCases = should { size == 2 },
-                maxTestShards = 1
+                args = should { maxTestShards == 1 }
             ),
             InstrumentationTestContext(
                 app = should { local.endsWith("app-debug.apk") },
                 test = should { local.endsWith("app-multiple-flaky-debug-androidTest.apk") },
                 shards = should { size == 2 },
                 ignoredTestCases = should { size == 4 },
-                maxTestShards = 2
+                args = should { testTargets == listOf("class any.test.TestClass#test1") }
             )
         )
 
         // when
         val actual: List<AndroidTestContext> = runBlocking {
-            AndroidArgs.load(mixedConfigYaml).createAndroidTestContexts()
+            args.createAndroidTestContexts()
         }
 
         // then
@@ -77,7 +80,8 @@ class CreateAndroidTestContextKtTest {
     fun `should pick up @Theory tests`() {
         val testInstrumentationContext = InstrumentationTestContext(
             FileReference("", ""),
-            FileReference("../test_projects/android/apks/app-theory-androidTest.apk", "")
+            FileReference("../test_projects/android/apks/app-theory-androidTest.apk", ""),
+            args = args
         )
 
         val parsedTests = testInstrumentationContext
@@ -95,7 +99,8 @@ class CreateAndroidTestContextKtTest {
         // given
         val testInstrumentationContext = InstrumentationTestContext(
             FileReference("./src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk", ""),
-            FileReference("./src/test/kotlin/ftl/fixtures/tmp/apk/app-single-success-debug-androidTest.apk", "")
+            FileReference("./src/test/kotlin/ftl/fixtures/tmp/apk/app-single-success-debug-androidTest.apk", ""),
+            args = args
         )
         var actual = 0
 
@@ -123,7 +128,8 @@ class CreateAndroidTestContextKtTest {
     fun `should not append all parameterized classes to list of test methods`() {
         val testInstrumentationContext = InstrumentationTestContext(
             FileReference("./src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk", ""),
-            FileReference("./src/test/kotlin/ftl/fixtures/tmp/apk/app-single-success-debug-androidTest.apk", "")
+            FileReference("./src/test/kotlin/ftl/fixtures/tmp/apk/app-single-success-debug-androidTest.apk", ""),
+            args = args
         )
 
         mockkObject(DexParser) {

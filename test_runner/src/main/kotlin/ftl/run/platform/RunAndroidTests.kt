@@ -45,8 +45,8 @@ internal suspend fun AndroidArgs.runAndroidTests(): TestResult = coroutineScope 
                 allTestShardChunks += context.shards
             }
         }
-        .map { context -> createAndroidTestMatrixType(context) }
-        .run { executeTestMatrixAndroid(createAndroidTestConfig(args), toList()) }
+        .map { context -> createAndroidTestConfig(context.args) to createAndroidTestMatrixType(context) }
+        .run { executeTestMatrixAndroid(this) }
         .takeIf { it.isNotEmpty() }
         ?: throw FlankGeneralError("There are no Android tests to run.")
 
