@@ -3,6 +3,7 @@ package flank.exection.parallel
 import flank.exection.parallel.internal.CreateFunction
 import flank.exection.parallel.internal.execute
 import flank.exection.parallel.internal.lazy
+import flank.exection.parallel.internal.subgraph
 import java.lang.System.currentTimeMillis
 
 object Parallel {
@@ -98,5 +99,5 @@ infix fun <C : Parallel.Context, R : Any> Parallel.Type<R>.using(execute: C.() -
 /**
  * Execute tasks on a given state
  */
-suspend fun <C : Parallel.Context> C.execute(tasks: Tasks<C>, state: ParallelState = emptyMap()) =
-    execute(context = this, state, tasks)
+suspend fun <C : Parallel.Context> C.execute(tasks: Tasks<C>, select: Tasks<C> = emptySet(), state: ParallelState = emptyMap()) =
+    execute(context = this, state, tasks.subgraph(select))

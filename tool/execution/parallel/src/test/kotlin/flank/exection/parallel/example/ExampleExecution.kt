@@ -72,7 +72,7 @@ object ExampleExecution {
     )
 }
 
-fun Context.invoke() = runBlocking { execute(ExampleExecution.tasks) }
+fun Context.invoke() = runBlocking { execute(ExampleExecution.tasks, setOf(groupAndCount)) }
 
 // ======================= Internal Tasks =======================
 

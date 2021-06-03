@@ -25,8 +25,6 @@ class ParallelTest {
             private val format = SimpleDateFormat("yyyy.MM.dd HH:mm:ss.SSS")
         }.invoke()
 
-        result.forEach {
-            println(it)
-        }
+        result.forEach { println(it) }
     }
 }
