@@ -158,12 +158,11 @@ object ArgsHelper {
         val storageLocation = "us-central1"
 
         val bucketListOption = Storage.BucketListOption.prefix(bucket)
-        val storageList = emptyList<String>()
-
-        try {
-            storage.list(bucketListOption).values?.map { it.name }
+        val storageList = try {
+            storage.list(bucketListOption).values?.map { it.name } ?: emptyList()
         } catch (e: Exception) {
             // User may not have list permission
+            emptyList()
         }
 
         if (storageList.contains(bucket)) return bucket
