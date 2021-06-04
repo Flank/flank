@@ -58,7 +58,7 @@ object ArgsToString {
                         .map { it.replace("\n", "\n  ") }
                         .forEach { append(it) }
                 }
-            }
+            }.trimEnd()
         }
     }
 }

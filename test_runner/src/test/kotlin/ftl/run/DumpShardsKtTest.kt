@@ -55,24 +55,16 @@ class DumpShardsKtTest {
     "test": "$path/src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-flaky-debug-androidTest.apk",
     "shards": {
       "shard-0": [
-        "class com.example.test_app.parametrized.EspressoParametrizedClassParameterizedNamed",
-        "class com.example.test_app.parametrized.EspressoParametrizedClassTestParameterized",
-        "class com.example.test_app.InstrumentedTest#test1",
-        "class com.example.test_app.InstrumentedTest#test2"
+        "class com.example.test_app.InstrumentedTest#test0"
       ],
       "shard-1": [
-        "class com.example.test_app.ParameterizedTest",
-        "class com.example.test_app.parametrized.EspressoParametrizedMethodTestJUnitParamsRunner",
-        "class com.example.test_app.InstrumentedTest#test0",
-        "class com.example.test_app.bar.BarInstrumentedTest#testBar",
-        "class com.example.test_app.foo.FooInstrumentedTest#testFoo"
+        "class com.example.test_app.InstrumentedTest#test1",
+        "class com.example.test_app.InstrumentedTest#test2"
       ]
     },
     "junit-ignored": [
       "class com.example.test_app.InstrumentedTest#ignoredTestWitSuppress",
-      "class com.example.test_app.InstrumentedTest#ignoredTestWithIgnore",
-      "class com.example.test_app.bar.BarInstrumentedTest#ignoredTestBar",
-      "class com.example.test_app.foo.FooInstrumentedTest#ignoredTestFoo"
+      "class com.example.test_app.InstrumentedTest#ignoredTestWithIgnore"
     ]
   }
 }
@@ -95,8 +87,8 @@ class DumpShardsKtTest {
         val notExpected = """
 {
   "matrix-0": {
-    "app": "/pathToApk/app-debug.apk",
-    "test": "/pathToApk/app-single-success-debug-androidTest.apk",
+    "app": "pathToApk/src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk",
+    "test": "pathToApk/src/test/kotlin/ftl/fixtures/tmp/apk/app-single-success-debug-androidTest.apk",
     "shards": {
       "shard-0": [
         "class com.example.test_app.InstrumentedTest#test"
@@ -108,28 +100,20 @@ class DumpShardsKtTest {
     ]
   },
   "matrix-1": {
-    "app": "/pathToApk/app-debug.apk",
-    "test": "/pathToApk/app-multiple-flaky-debug-androidTest.apk",
+    "app": "pathToApk/src/test/kotlin/ftl/fixtures/tmp/apk/app-debug.apk",
+    "test": "pathToApk/src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-flaky-debug-androidTest.apk",
     "shards": {
       "shard-0": [
-        "class com.example.test_app.InstrumentedTest#test1",
-        "class com.example.test_app.InstrumentedTest#test2",
-        "class com.example.test_app.ParameterizedTest",
-        "class com.example.test_app.parametrized.EspressoParametrizedClassParameterizedNamed"
+        "class com.example.test_app.InstrumentedTest#test0"
       ],
       "shard-1": [
-        "class com.example.test_app.InstrumentedTest#test0",
-        "class com.example.test_app.bar.BarInstrumentedTest#testBar",
-        "class com.example.test_app.foo.FooInstrumentedTest#testFoo",
-        "class com.example.test_app.parametrized.EspressoParametrizedClassTestParameterized",
-        "class com.example.test_app.parametrized.EspressoParametrizedMethodTestJUnitParamsRunner"
+        "class com.example.test_app.InstrumentedTest#test1",
+        "class com.example.test_app.InstrumentedTest#test2"
       ]
     },
     "junit-ignored": [
-      "class com.example.test_app.InstrumentedTest#ignoredTestWithIgnore",
-      "class com.example.test_app.InstrumentedTest#ignoredTestWithSuppress",
-      "class com.example.test_app.bar.BarInstrumentedTest#ignoredTestBar",
-      "class com.example.test_app.foo.FooInstrumentedTest#ignoredTestFoo"
+      "class com.example.test_app.InstrumentedTest#ignoredTestWitSuppress",
+      "class com.example.test_app.InstrumentedTest#ignoredTestWithIgnore"
     ]
   }
 }

@@ -62,8 +62,8 @@ class CreateAndroidTestContextKtTest {
                 app = should { local.endsWith("app-debug.apk") },
                 test = should { local.endsWith("app-multiple-flaky-debug-androidTest.apk") },
                 shards = should { size == 2 },
-                ignoredTestCases = should { size == 4 },
-                args = should { testTargets == listOf("class any.test.TestClass#test1") }
+                ignoredTestCases = should { size == 2 },
+                args = should { testTargets == listOf("class com.example.test_app.InstrumentedTest") }
             )
         )
 
@@ -73,7 +73,7 @@ class CreateAndroidTestContextKtTest {
         }
 
         // then
-        assertEquals(expected, actual)
+        actual.forEachIndexed { index, androidTestContext -> assertEquals(expected[index], androidTestContext) }
     }
 
     @Test

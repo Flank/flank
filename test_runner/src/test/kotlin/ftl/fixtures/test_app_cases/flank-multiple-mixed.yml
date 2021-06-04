@@ -15,5 +15,5 @@ flank:
       max-test-shards: 1
     - test: ./src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-flaky-debug-androidTest.apk
       test-targets:
-        - class any.test.TestClass#test1
+        - class com.example.test_app.InstrumentedTest
     - test: ../test_projects/android/apks/invalid.apk
