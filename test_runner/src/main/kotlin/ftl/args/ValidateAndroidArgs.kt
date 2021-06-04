@@ -200,6 +200,22 @@ private fun AndroidArgs.assertAdditionalAppTestApks() {
         .filter { (app, _) -> app == null }
         .map { File(it.test).name }
         .run { if (isNotEmpty()) throw FlankConfigurationError("Cannot resolve app apk pair for $this") }
+
+    additionalAppTestApks
+        .map {
+            copy(
+                appApk = it.app ?: appApk,
+                testApk = it.test,
+                commonArgs = commonArgs.copy(
+                    maxTestShards = it.maxTestShards ?: maxTestShards,
+                    devices = it.devices ?: devices
+                ),
+                additionalAppTestApks = emptyList()
+            )
+        }
+        .forEach {
+            it.validate()
+        }
 }
 
 private fun AndroidArgs.assertApkFilePaths() {
