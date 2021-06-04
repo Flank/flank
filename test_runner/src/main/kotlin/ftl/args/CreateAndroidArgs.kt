@@ -1,6 +1,5 @@
 package ftl.args
 
-import ftl.args.yml.AppTestPair
 import ftl.config.AndroidConfig
 import ftl.config.android.AndroidFlankConfig
 import ftl.config.android.AndroidGcloudConfig
@@ -33,14 +32,9 @@ fun createAndroidArgs(
 
     // flank
     additionalAppTestApks = flank.additionalAppTestApks?.map {
-        AppTestPair(
+        it.copy(
             app = it.app?.normalizeFilePath(),
             test = it.test.normalizeFilePath(),
-            environmentVariables = it.environmentVariables,
-            maxTestShards = it.maxTestShards ?: commonArgs.maxTestShards,
-            clientDetails = commonArgs.clientDetails.orEmpty() + it.clientDetails.orEmpty(),
-            devices = it.devices,
-            testTargets = it.testTargets
         )
     } ?: emptyList(),
     useLegacyJUnitResult = flank::useLegacyJUnitResult.require(),

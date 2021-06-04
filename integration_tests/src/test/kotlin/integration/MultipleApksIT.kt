@@ -3,6 +3,7 @@ package integration
 import FlankCommand
 import com.google.common.truth.Truth.assertThat
 import integration.config.AndroidTest
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import run
@@ -48,10 +49,16 @@ class MultipleApksIT {
             "MainActivity_robo_script.json"
         )
 
-        resOutput.findTestDirectoryFromOutput().toJUnitXmlFile().loadAsTestSuite().run {
-            assertTestResultContainsWebLinks()
-            assertTestPass(multipleSuccessfulTests)
-            assertTestFail(multipleFailedTests)
+        val xmlResult = resOutput.findTestDirectoryFromOutput().toJUnitXmlFile().loadAsTestSuite()
+
+        xmlResult.assertTestResultContainsWebLinks()
+        xmlResult.assertTestPass(multipleSuccessfulTests)
+        xmlResult.assertTestFail(multipleFailedTests)
+
+        xmlResult.testSuites.groupBy { it.name }.run {
+            assertEquals(2, get("NexusLowRes-28-en-portrait")?.size)
+            assertEquals(9, get("Pixel2-28-en-portrait")?.size)
+            assertEquals(1, get("Nexus6P-28-en-portrait")?.size)
         }
 
         val outputReport = resOutput.findTestDirectoryFromOutput().toOutputReportFile().json().asOutputReport()

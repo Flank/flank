@@ -143,6 +143,12 @@ class AndroidArgsTest {
           additional-app-test-apks:
             - app: $appApk
               test: $testErrorApk
+              max-test-shards: 123
+              test-targets:
+              - class any.additional.TestClass#test1
+              device:
+              - model: Nexus9
+                version: 23
           run-timeout: 20m
           ignore-failed-tests: true
           output-style: single
@@ -374,6 +380,14 @@ AndroidArgs
       additional-app-test-apks:
         - app: $appApkAbsolutePath
           test: $testErrorApkAbsolutePath
+          max-test-shards: 123
+          test-targets:
+          - class any.additional.TestClass#test1
+          device:
+          - model: Nexus9
+            version: 23
+            locale: en
+            orientation: portrait
       run-timeout: 20m
       legacy-junit-result: false
       ignore-failed-tests: true
@@ -1183,12 +1197,12 @@ AndroidArgs
             test: $testErrorApk
       """
         assertEquals(
-            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath, maxTestShards = 1, clientDetails = emptyMap())),
+            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath)),
             AndroidArgs.load(yaml).validate().additionalAppTestApks
         )
 
         assertEquals(
-            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath, maxTestShards = 1, clientDetails = emptyMap())),
+            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath)),
             AndroidArgs.load(yaml, cli).validate().additionalAppTestApks
         )
     }
@@ -1208,12 +1222,12 @@ AndroidArgs
             test: $testErrorApk
       """
         assertEquals(
-            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath, maxTestShards = 1, clientDetails = emptyMap())),
+            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath)),
             AndroidArgs.load(yaml).validate().additionalAppTestApks
         )
 
         assertEquals(
-            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath, maxTestShards = 4, clientDetails = emptyMap())),
+            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath, maxTestShards = 4)),
             AndroidArgs.load(yaml, cli).validate().additionalAppTestApks
         )
     }

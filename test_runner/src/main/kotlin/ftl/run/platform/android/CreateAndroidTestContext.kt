@@ -31,22 +31,20 @@ import kotlinx.coroutines.coroutineScope
 import java.io.File
 import ftl.shard.TestMethod as ShardTestMethod
 
-suspend fun AndroidArgs.createAndroidTestContexts(): List<AndroidTestContext> = resolveApks().setupShards(this)
+suspend fun AndroidArgs.createAndroidTestContexts(): List<AndroidTestContext> = resolveApks().setupShards()
 
 private val customTestAnnotations = listOf("org.junit.experimental.theories.Theory")
 
-private suspend fun List<AndroidTestContext>.setupShards(
-    args: AndroidArgs,
-    testFilter: TestFilter = TestFilters.fromTestTargets(args.testTargets, args.testTargetsForShard)
-): List<AndroidTestContext> = coroutineScope {
+private suspend fun List<AndroidTestContext>.setupShards(): List<AndroidTestContext> = coroutineScope {
     map { testContext ->
         async {
             val newArgs = testContext.args
+            val filters = TestFilters.fromTestTargets(newArgs.testTargets, newArgs.testTargetsForShard)
             when {
                 testContext !is InstrumentationTestContext -> testContext
                 newArgs.useCustomSharding -> testContext.userShards(newArgs.customSharding)
-                newArgs.useTestTargetsForShard -> testContext.downloadApks().calculateDummyShards(newArgs, testFilter)
-                else -> testContext.downloadApks().calculateShards(newArgs, testFilter)
+                newArgs.useTestTargetsForShard -> testContext.downloadApks().calculateDummyShards(newArgs, filters)
+                else -> testContext.downloadApks().calculateShards(newArgs, filters)
             }
         }
     }.awaitAll().dropEmptyInstrumentationTest()
