@@ -1233,6 +1233,31 @@ AndroidArgs
     }
 
     @Test
+    fun `cli additional-app-test-apks with test-targets override`() {
+        val cli = AndroidRunCommand()
+        CommandLine(cli).parseArgs("--additional-app-test-apks=app=$appApk,test=$testFlakyApk,test-targets=class any.class.TestClass")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          additional-app-test-apks:
+          - app: $appApk
+            test: $testErrorApk
+      """
+        assertEquals(
+            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath)),
+            AndroidArgs.load(yaml).validate().additionalAppTestApks
+        )
+
+        assertEquals(
+            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath, testTargets = listOf("class any.class.TestClass"))),
+            AndroidArgs.load(yaml, cli).validate().additionalAppTestApks
+        )
+    }
+
+    @Test
     fun `additional-app-test-apks inherit top level client-details`() {
         val yaml = """
         gcloud:

@@ -13,9 +13,9 @@ data class AppTestPair(
     @JsonProperty("max-test-shards")
     val maxTestShards: Int? = null,
     @JsonProperty("client-details")
-    var clientDetails: Map<String, String>? = null,
+    val clientDetails: Map<String, String>? = null,
     @JsonProperty("test-targets")
-    var testTargets: List<String>? = null,
-    @set:JsonProperty("device")
-    var devices: List<Device>? = null
+    val testTargets: List<String>? = null,
+    @JsonProperty("device")
+    val devices: List<Device>? = null
 )
