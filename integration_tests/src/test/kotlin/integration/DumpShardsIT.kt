@@ -68,7 +68,6 @@ class DumpShardsIT {
     @Category(IosTest::class)
     @Test
     fun `dump shards - ios`() {
-
         val name = "$name-ios"
         val result = FlankCommand(
             flankPath = FLANK_JAR_PATH,
@@ -91,8 +90,7 @@ class DumpShardsIT {
 
         shards.first().values.flatten().let { firstShard ->
             assertThat(firstShard.count()).isEqualTo(8)
-            assertThat(firstShard)
-                .contains("EarlGreyExampleSwiftTests/testWithCustomFailureHandler")
+            assertThat(firstShard).contains("EarlGreyExampleSwiftTests/testWithCustomFailureHandler")
         }
     }
 }

@@ -21,17 +21,17 @@ fun main() {
     withGlobalExceptionHandling {
         startDurationMeasurement()
         CommandLine(MainCommand()).execute(
-//            "--debug",
             "firebase",
             "test",
-            "android",
+            "ios",
             "run",
+//            "--debug",
 //            "--dry",
 //            "--dump-shards",
-            "--output-style=single",
+//           "--output-style=single",
 //            "--full-junit-result",
 //            "--legacy-junit-result",
-            "-c=./test_runner/src/test/kotlin/ftl/fixtures/test_app_cases/flank-single-success.yml",
+            "-c=./integration_tests/src/test/resources/cases/all_test_filtered_ios.yml",
             "--project=$projectId"
 //            "--client-details=key1=value1,key2=value2"
         )

@@ -12,7 +12,7 @@ internal fun parseObjcTests(binary: String): List<String> {
     val results = mutableListOf<String>()
     // https://github.com/linkedin/bluepill/blob/37e7efa42472222b81adaa0e88f2bd82aa289b44/Source/Shared/BPXCTestFile.m#L18
     // must quote binary path in case there are spaces
-    var cmd = if (!isWindows) "nm -U ${binary.quote()}" else "llvm-nm.exe --undefined-only ${binary.quote()}"
+    var cmd = if (!isWindows) "nm -U ${binary.quote()}" else "llvm-nm.exe -U ${binary.quote()}"
     if (!isMacOS) cmd = if (isWindows) cmd.replace("\\", "/") else "PATH=~/.flank $cmd"
 
     val path = if (isWindows) listOf(Pair("Path", "$appDataDirectory\\.flank\\;C:\\Windows\\System32\\"))
