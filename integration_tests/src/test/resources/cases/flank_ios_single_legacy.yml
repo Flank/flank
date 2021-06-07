@@ -5,3 +5,4 @@ gcloud:
 flank:
   output-report: json
   legacy-junit-result: true
+  disable-usage-statistics: true
