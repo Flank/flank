@@ -6,19 +6,30 @@ import flank.exection.parallel.internal.invoke
 import flank.exection.parallel.internal.lazy
 import flank.exection.parallel.internal.reduce
 import flank.exection.parallel.internal.validate
+import kotlinx.coroutines.flow.Flow
 import java.lang.System.currentTimeMillis
 
 /**
  * Reduce given [Tasks] by [returns] types to remove unneeded tasks from the graph.
  * The returned graph will contain only tasks that are returning selected types, their dependencies and derived dependencies.
+ *
+ * @return Reduced [Tasks]
  */
-operator fun Tasks.invoke(returns: Set<Parallel.Type<*>>): Tasks = reduce(returns)
+operator fun Tasks.invoke(
+    returns: Set<Parallel.Type<*>>
+): Tasks =
+    reduce(returns)
 
 /**
  * Execute tasks in parallel with a given args.
  * Before executing the [validate] is performed on a [Tasks] for a given [args] to detect missing dependencies.
+ *
+ * @return [Flow] of [ParallelState] changes.
  */
-infix operator fun Tasks.invoke(args: ParallelState) = Execution(validate(args), args).invoke()
+infix operator fun Tasks.invoke(
+    args: ParallelState
+): Flow<ParallelState> =
+    Execution(validate(args), args).invoke()
 
 /**
  * The namespace for parallel execution primitives.
@@ -56,7 +67,7 @@ object Parallel {
      */
     data class Task<R : Any>(
         val signature: Signature<R>,
-        val execute: suspend ParallelState.() -> R
+        val execute: ExecuteTask<R>
     ) {
         /**
          * The task signature that contains arguments types and returned type.
@@ -87,6 +98,11 @@ object Parallel {
         val data: MissingDependencies
     ) : Exception("Cannot resolve dependencies $data")
 }
+
+/**
+ * Signature for [Parallel.Task] function.
+ */
+internal typealias ExecuteTask<R> = suspend ParallelState.() -> R
 
 /**
  * Common signature for structural log output.

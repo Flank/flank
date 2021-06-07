@@ -1,5 +1,6 @@
 package flank.exection.parallel.internal
 
+import flank.exection.parallel.DeadlockError
 import flank.exection.parallel.Output
 import flank.exection.parallel.Parallel.Event
 import flank.exection.parallel.Parallel.Logger
@@ -14,6 +15,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.scan
@@ -54,6 +56,9 @@ internal operator fun Execution.invoke(): Flow<ParallelState> =
 
         // Cancel the coroutine scope for tasks.
         .onCompletion { scope.cancel() }
+
+        // Drop first element which is always the initial state
+        .drop(1)
 
 /**
  * Internal context of the tasks execution.
@@ -111,10 +116,11 @@ private fun Execution.isNotClosed(): Boolean = !channel.isClosedForSend
 /**
  * Cancel running jobs, update state for cancellation values and close the execution.
  */
-private fun Execution.abortBy(type: Type<*>, cause: Throwable) {
+private suspend fun Execution.abortBy(type: Type<*>, cause: Throwable) {
 
     // Abort running jobs.
     scope.cancel("aborted by ${type.javaClass.name}", cause)
+    scope.coroutineContext[Job]?.join()
 
     // Add remaining tasks to state.
     remaining.toMap().values.flatten().forEach { task ->
@@ -149,7 +155,12 @@ private fun Execution.filterTasksFor(state: ParallelState): Map<Set<Type<*>>, Li
         .apply { remaining -= keys }
 
         // Check if execution is not detached. Typically will fail if broken graph was not validated before execution and passed here.
-        .apply { check(isNotEmpty() || jobs.any { (_, job) -> job.isActive }) { "Deadlock!" } }
+        .apply {
+            isNotEmpty()
+                || jobs.any { (_, job) -> job.isActive }
+                || channel.isEmpty.not()
+                || throw DeadlockError(state, jobs, remaining)
+        }
 
 /**
  * Execute given tasks as coroutine job.

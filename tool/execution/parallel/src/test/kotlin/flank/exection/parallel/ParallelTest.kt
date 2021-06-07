@@ -1,68 +1,165 @@
 package flank.exection.parallel
 
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
+import kotlinx.coroutines.withTimeout
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.util.concurrent.atomic.AtomicInteger
 
-object A : Parallel.Type<Int>
-object B : Parallel.Type<Int>
-object C : Parallel.Type<Int>
-object WaitTime : Parallel.Type<Long>
-object Sum : Parallel.Type<Int>
-object Delayed : Parallel.Type<Unit>
-object Failed : Parallel.Type<Nothing>
-object NotRunning : Parallel.Type<Unit>
+// ====================== COMMON TYPES ======================
 
-private class Context : Parallel.Context() {
-    val wait by WaitTime()
-    val a by A()
-    val b by B()
-    val c by C()
-    val sum by Sum()
-}
+object IntType : Parallel.Type<Int>
+object A : Parallel.Type<Any>
+object B : Parallel.Type<Any>
+object C : Parallel.Type<Any>
+object D : Parallel.Type<Any>
+object E : Parallel.Type<Any>
 
-private val async = Parallel.Task.Body(::Context)
+// ====================== TESTS ======================
 
-private val execute = setOf(
+class ParallelTest {
 
-    A using { 1 },
-
-    B using { 2 },
-
-    C using { 3 },
-
-    Delayed using async { delay(wait) },
-
-    Failed from setOf(Delayed, Sum) using async { throw Exception() },
-
-    Sum from setOf(A, B, C) using async { a + b + c },
-
-    NotRunning from setOf(Failed) using { }
-
-)
-
-private val tasks = execute.associateBy { it.signature.returns }
-
-private val initial: ParallelState = mapOf(WaitTime to 300)
-
-class ExecutionKtTest {
-
+    /**
+     * Executing [Tasks] will return empty flow of [ParallelState].
+     */
     @Test
-    fun test1() {
-        val result = runBlocking { execute(initial).last() }
-        Assert.assertEquals(1, result[A])
-        Assert.assertEquals(2, result[B])
-        Assert.assertEquals(3, result[C])
-        Assert.assertEquals(6, result[Sum])
-        Assert.assertEquals(Unit, result[Delayed])
-        Assert.assertTrue(result[Failed] is Exception)
-        Assert.assertEquals(execute.last(), result[NotRunning])
+    fun `run empty execution`() {
+        val execute: Tasks = emptySet()
+        val expected = listOf<ParallelState>()
+        val actual = runBlocking { execute().toList() }
+        assertEquals(expected, actual)
     }
 
+    /**
+     * Executing a [Parallel.Task] is producing initial state with accumulated value.
+     */
     @Test
-    fun test2() {
-        runBlocking { (tasks - A).values.toSet()(Sum)(initial).last() }
+    fun `run single task`() {
+        val execute = setOf(IntType using { 1 })
+        val expected = listOf<ParallelState>(mapOf(IntType to 1))
+        val actual = runBlocking { execute().toList() }
+        assertEquals(expected, actual)
+    }
+
+    /**
+     * Valid graph of task of task is run in optimized order.
+     */
+    @Test
+    fun `run many tasks`() {
+        val counter = AtomicInteger()
+        val waitTime = (0..50L)
+        val nextValue: ExecuteTask<Int> = {
+            delay(waitTime.random())
+            counter.accumulateAndGet(1) { l, r -> l + r }
+        }
+        val execute = setOf(
+            A from setOf(B, C) using nextValue,
+            B from setOf(D, E) using nextValue,
+            C using nextValue,
+            D using nextValue,
+            E using nextValue,
+        )
+        val expectedOrder = mapOf(
+            E to setOf(1, 2, 3),
+            D to setOf(1, 2, 3),
+            C to setOf(1, 2, 3, 4),
+            B to setOf(3, 4),
+            A to setOf(5),
+        )
+        val actual = runBlocking { execute().last() }
+
+        assert(
+            actual.all { (key, value) -> value in expectedOrder[key]!! }
+        ) {
+            expectedOrder.map { (key, expected) -> key to (actual[key] to expected) }.joinToString("\n", prefix = "\n")
+        }
+    }
+
+    /**
+     * Several random executions for detecting concurrent issues.
+     */
+    @Test
+    fun `run randomized stress test`() = runBlocking {
+        data class Type(val id: Int) : Parallel.Type<Any>
+        repeat(100) {
+            withTimeout(1000) {
+                // given
+                val types = (0..100).map { Type(it) }
+                val used = mutableSetOf<Parallel.Type<Any>>()
+                val execute: Tasks = types.map { returns ->
+                    used += returns
+                    val args = (types - used)
+                        .shuffled()
+                        .run { take((0..size).random()) }
+                        .toSet()
+                    returns from args using {}
+                }.toSet()
+                // when
+                runBlocking { execute().collect() }
+                // then expect no errors
+            }
+        }
+    }
+
+    /**
+     * For failing task, the execution is accumulating [Throwable] instead of value with expected type.
+     */
+    @Test
+    fun `run failing task`() {
+        val exception = Exception()
+        val execute = setOf(IntType using { throw exception })
+        val expected = listOf<ParallelState>(mapOf(IntType to exception))
+        val actual = runBlocking { execute().toList() }
+        assertEquals(expected, actual)
+    }
+
+    /**
+     * Single failing task is aborting all running and remaining tasks.
+     */
+    @Test
+    fun `abort execution`() {
+        val execute = setOf(
+            A using { delay(50); throw Exception() },
+            B using { delay(100) },
+            C from setOf(B) using {}
+        )
+        val actual = runBlocking { execute().last() }
+        assertTrue(actual[B].toString(), actual[B] is CancellationException)
+        assertTrue(actual[C].toString(), actual[C] is Parallel.Task<*>)
+    }
+
+    /**
+     * Task can access only initial and specified properties
+     */
+    @Test
+    fun `hermetic context`() {
+        class Context : Parallel.Context() {
+            val initial by D()
+            val b by B()
+            val c by C()
+        }
+
+        val func = Parallel.Task.Body(::Context)
+        val execute = setOf(
+            A from setOf(B) using func {
+                initial
+                b
+                c // accessing this property will throw exception
+            },
+            B from setOf(C) using { 1 },
+            C using { 2 }
+        )
+        val args: ParallelState = mapOf(
+            D to 3
+        )
+        val actual = runBlocking { execute(args).last() }
+
+        assert(actual[A] is NullPointerException)
     }
 }
