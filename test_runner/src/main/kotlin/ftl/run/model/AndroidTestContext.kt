@@ -6,11 +6,7 @@ import ftl.args.AndroidArgs
 import ftl.args.IgnoredTestCases
 import ftl.shard.Chunk
 
-interface WithArgs {
-    val args: AndroidArgs
-}
-
-sealed class AndroidTestContext : WithArgs
+sealed class AndroidTestContext(open val args: AndroidArgs)
 
 data class InstrumentationTestContext(
     val app: FileReference,
@@ -20,22 +16,22 @@ data class InstrumentationTestContext(
     val environmentVariables: Map<String, String> = emptyMap(),
     val testTargetsForShard: ShardChunks = emptyList(),
     override val args: AndroidArgs
-) : AndroidTestContext()
+) : AndroidTestContext(args)
 
 data class RoboTestContext(
     val app: FileReference,
     val roboScript: FileReference,
     override val args: AndroidArgs
-) : AndroidTestContext()
+) : AndroidTestContext(args)
 
 data class GameLoopContext(
     val app: FileReference,
     val scenarioLabels: List<String>,
     val scenarioNumbers: List<String>,
     override val args: AndroidArgs
-) : AndroidTestContext()
+) : AndroidTestContext(args)
 
 data class SanityRoboTestContext(
     val app: FileReference,
     override val args: AndroidArgs
-) : AndroidTestContext()
+) : AndroidTestContext(args)
