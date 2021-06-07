@@ -2,6 +2,7 @@ package ftl.util
 
 import flank.common.config.isTest
 import io.sentry.Sentry
+import io.sentry.SentryLevel
 import java.io.File
 import java.util.UUID
 
@@ -26,10 +27,10 @@ fun disableCrashReporting() {
     configureCrashReporter
 }
 
-fun Throwable.report() {
+fun Throwable.report(logLevel: SentryLevel = SentryLevel.ERROR) {
     if (isTest().not()) {
         configureCrashReporter
-        notify(this)
+        notify(this, logLevel)
     }
 }
 
@@ -66,8 +67,11 @@ fun setCrashReportTag(
     vararg tags: Pair<String, String>
 ) = tags.forEach { (property, value) -> Sentry.setTag(property, value) }
 
-private fun notify(error: Throwable) {
-    Sentry.captureException(error)
+private fun notify(error: Throwable, logLevel: SentryLevel) {
+    Sentry.withScope {
+        it.level = logLevel
+        Sentry.captureException(error)
+    }
 }
 
 fun closeCrashReporter() {

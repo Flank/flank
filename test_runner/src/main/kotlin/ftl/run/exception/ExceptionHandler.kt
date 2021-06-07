@@ -9,6 +9,7 @@ import ftl.reports.printTotalDuration
 import ftl.run.cancelMatrices
 import ftl.util.closeCrashReporter
 import ftl.util.report
+import io.sentry.SentryLevel
 import kotlinx.coroutines.runBlocking
 import kotlin.system.exitProcess
 
@@ -54,7 +55,7 @@ internal fun withGlobalExceptionHandling(block: () -> Int, exitProcessFunction: 
             }
 
             is InfrastructureError -> {
-                t.report()
+                t.report(SentryLevel.DEBUG)
                 printError("An infrastructure error occurred.")
                 printError("Details: ${t.messageOrUnavailable}")
                 exitProcessFunction(INFRASTRUCTURE_ERROR)
