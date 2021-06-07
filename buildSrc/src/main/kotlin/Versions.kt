@@ -1,6 +1,6 @@
 object Versions {
     // https://github.com/getsentry/sentry-java/releases
-    const val SENTRY = "4.3.0"
+    const val SENTRY = "5.0.0"
 
     // https://github.com/mixpanel/mixpanel-java/releases
     const val MIXPANEL = "1.5.0"
@@ -20,7 +20,7 @@ object Versions {
     const val SHADOW = "7.0.0"
 
     // https://github.com/linkedin/dex-test-parser/releases
-    const val DEX_TEST_PARSER = "2.3.1"
+    const val DEX_TEST_PARSER = "2.3.3"
 
     // https://github.com/hsiafan/apk-parser
     const val APK_PARSER = "2.6.10"
@@ -46,10 +46,10 @@ object Versions {
     const val GOOGLE_AUTH = "0.26.0"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.122.14"
+    const val GOOGLE_NIO = "0.123.1"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "1.114.0"
+    const val GOOGLE_STORAGE = "1.115.0"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.8.7"
@@ -81,7 +81,7 @@ object Versions {
     // https://github.com/FasterXML/woodstox/releases
     const val WOODSTOX = "6.2.4"
 
-    const val KOTLIN_LOGGING = "2.0.6"
+    const val KOTLIN_LOGGING = "2.0.8"
 
     // https://github.com/mockk/mockk
     const val MOCKK = "1.11.0"
