@@ -17,4 +17,11 @@ import picocli.CommandLine
     description = ["Information about available software versions. For example prints list of available software versions"],
     usageHelpAutoWidth = true
 )
-class IosVersionsCommand : PrintHelp
+class IosVersionsCommand : PrintHelp {
+    @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
+    var usageHelpRequested: Boolean = false
+}

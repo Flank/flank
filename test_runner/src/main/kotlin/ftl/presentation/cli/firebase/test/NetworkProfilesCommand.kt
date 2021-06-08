@@ -15,4 +15,11 @@ import picocli.CommandLine
     header = ["Explore network profiles available for testing."],
     usageHelpAutoWidth = true
 )
-class NetworkProfilesCommand : PrintHelp
+class NetworkProfilesCommand : PrintHelp {
+    @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
+    var usageHelpRequested: Boolean = false
+}

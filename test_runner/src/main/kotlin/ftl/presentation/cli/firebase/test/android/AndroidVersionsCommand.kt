@@ -17,4 +17,11 @@ import picocli.CommandLine
     subcommands = [AndroidVersionsListCommand::class, AndroidVersionsDescribeCommand::class],
     usageHelpAutoWidth = true
 )
-class AndroidVersionsCommand : PrintHelp
+class AndroidVersionsCommand : PrintHelp {
+    @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
+    var usageHelpRequested: Boolean = false
+}

@@ -12,4 +12,11 @@ import picocli.CommandLine
     ],
     usageHelpAutoWidth = true
 )
-class ProvidedSoftwareCommand : PrintHelp
+class ProvidedSoftwareCommand : PrintHelp {
+    @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
+    var usageHelpRequested: Boolean = false
+}

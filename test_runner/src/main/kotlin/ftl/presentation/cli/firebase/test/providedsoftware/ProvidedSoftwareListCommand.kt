@@ -22,6 +22,13 @@ class ProvidedSoftwareListCommand :
     Runnable,
     ListProvidedSoftware {
 
+    @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
+    var usageHelpRequested: Boolean = false
+
     override fun run() = invoke()
 
     override val out = outputLogger {

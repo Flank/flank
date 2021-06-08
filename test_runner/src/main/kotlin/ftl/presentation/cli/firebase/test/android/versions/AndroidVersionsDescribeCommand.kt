@@ -25,6 +25,13 @@ class AndroidVersionsDescribeCommand :
     DescribeAndroidVersions {
 
     @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
+    var usageHelpRequested: Boolean = false
+
+    @CommandLine.Option(
         names = ["-c", "--config"],
         description = ["YAML config file path"]
     )

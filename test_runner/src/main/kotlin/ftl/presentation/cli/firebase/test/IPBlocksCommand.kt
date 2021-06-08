@@ -11,4 +11,11 @@ import picocli.CommandLine
     header = ["Explore IP blocks used by Firebase Test Lab devices."],
     usageHelpAutoWidth = true
 )
-class IPBlocksCommand : PrintHelp
+class IPBlocksCommand : PrintHelp {
+    @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
+    var usageHelpRequested: Boolean = false
+}

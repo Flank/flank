@@ -23,6 +23,14 @@ import picocli.CommandLine
 class NetworkProfilesListCommand :
     Runnable,
     ListNetworkProfiles {
+
+    @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
+    var usageHelpRequested: Boolean = false
+
     override fun run() = invoke()
 
     override val out = outputLogger {

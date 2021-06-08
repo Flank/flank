@@ -21,6 +21,14 @@ import picocli.CommandLine
 class IPBlocksListCommand :
     Runnable,
     ListIPBlocks {
+
+    @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
+    var usageHelpRequested: Boolean = false
+
     override fun run() = invoke()
 
     override val out = outputLogger {

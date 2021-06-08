@@ -2,6 +2,7 @@ package ftl.presentation.cli
 
 import ftl.presentation.cli.corellium.TestCommand
 import ftl.util.PrintHelp
+import picocli.CommandLine
 import picocli.CommandLine.Command
 
 @Command(
@@ -12,4 +13,11 @@ import picocli.CommandLine.Command
     ],
     usageHelpAutoWidth = true
 )
-class CorelliumCommand : PrintHelp
+class CorelliumCommand : PrintHelp {
+    @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
+    var usageHelpRequested: Boolean = false
+}

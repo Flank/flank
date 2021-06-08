@@ -36,6 +36,13 @@ class MainCommand : Runnable {
     private var printVersion = false
 
     @CommandLine.Option(
+        names = ["-h", "--help"],
+        usageHelp = true,
+        description = ["Prints this help message"]
+    )
+    var usageHelpRequested: Boolean = false
+
+    @CommandLine.Option(
         names = ["--debug"],
         description = ["Enables debug logging"],
         defaultValue = "false"
