@@ -295,10 +295,16 @@ flank:
   ### Additional App/Test APKS
   ## Include additional app/test apk pairs in the run. Apks are unique by just filename and not by path!
   ## If app is omitted, then the top level app is used for that pair.
+  ## You can overwrite global config per each test pair.
+  ## Currently supported options are: max-test-shards, test-targets, client-details, environment-variables, device
   # additional-app-test-apks:
   #  - app: ../test_projects/android/apks/app-debug.apk
   #    test: ../test_projects/android/apks/app1-debug-androidTest.apk
+  #    device:
+  #      - model: Nexus6P
+  #        version: 27
   #  - test: ../test_projects/android/apks/app2-debug-androidTest.apk
+  #    max-test-shards: 5
 
   ### Run Timeout
   ## The max time this test run can execute before it is cancelled (default: unlimited).
