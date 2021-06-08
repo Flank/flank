@@ -18,3 +18,5 @@ ios_shards.json
 test_runner/src/main/resources/binaries/
 ktlint
 flank-scripts.jar
+corellium/shard/dump/dump-shards.json
+corellium/domain/test_results/*

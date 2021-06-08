@@ -15,12 +15,12 @@ internal fun parseSwiftTests(binary: String): List<String> {
     // 'argument too long' error. xargs will split the args and run the command for each chunk.
     // getconf ARG_MAX
     // Windows has different limits
-    val argMax = if (isWindows) 251_36 else 262_144
+    val argMax = if (isWindows) 250_36 else 262_144
 
     val cmd = when {
         isMacOS -> "nm -gU ${binary.quote()} | xargs -s $argMax xcrun swift-demangle"
         isLinux -> "export LD_LIBRARY_PATH=~/.flank; export PATH=~/.flank:\$PATH; nm -gU ${binary.quote()} | xargs -s $argMax swift-demangle"
-        isWindows -> "llvm-nm.exe --undefined-only --extern-only ${binary.quote().replace("\\", "/")} | xargs swift-demangle"
+        isWindows -> "llvm-nm.exe -gU ${binary.quote().replace("\\", "/")} | xargs.exe -s $argMax swift-demangle.exe"
         else -> throw RuntimeException("Unsupported OS for Integration Tests")
     }
 

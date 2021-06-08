@@ -5,4 +5,5 @@ gcloud:
 flank:
   disable-sharding: true
   output-report: json
+  disable-usage-statistics: true
   legacy-junit-result: true
