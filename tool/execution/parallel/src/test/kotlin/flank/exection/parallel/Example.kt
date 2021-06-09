@@ -56,7 +56,7 @@ private object Example {
     /**
      * Factory method for creating task functions with [Context].
      */
-    val func = Parallel.Task.Body(::Context)
+    val context = Parallel.Function(::Context)
 
     /**
      * List of tasks in [Example] scope
@@ -82,32 +82,32 @@ private object Example {
         "hello"
     }
 
-    private val helloFail = Hello.Failing from setOf(Hello) using func {
+    private val helloFail = Hello.Failing from setOf(Hello) using context {
         throw IllegalStateException(hello)
     }
 
-    private val produceA = A using func {
+    private val produceA = A using context {
         (0..args.a).asFlow().onEach {
             out("A" to it)
             delay((0..args.wait).random())
         }.toList()
     }
 
-    private val produceB = B using func {
+    private val produceB = B using context {
         (0..args.b).asFlow().onEach {
             out("B" to it)
             delay((0..args.wait).random())
         }.toList()
     }
 
-    private val produceC = C using func {
+    private val produceC = C using context {
         (0..args.c).asFlow().onEach {
             out("C" to it)
             delay((0..args.wait).random())
         }.toList()
     }
 
-    private val groupAndCount = Summary from setOf(A, B, C) using func {
+    private val groupAndCount = Summary from setOf(A, B, C) using context {
         delay(args.wait)
         (a + b + c)
             .groupBy { it }

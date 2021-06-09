@@ -14,11 +14,11 @@ class "Parallel.Task.Signature" as Task_Signature<R>{
 returns: Type<R>
 args: Set<Type<*>>
 }
-class "Parallel.Task.Body" as Task_Body<X: ParallelContext> {
-= <T> (X.() -> R) -> ParallelState.() -> R
+class "Parallel.Function" as Function<X: ParallelContext> {
+= suspend <R> (X.() -> R) -> ExecuteTask
 }
 interface ExecuteTask<R> << (T, orchid) >> {
-= ParallelState.() -> R
+= suspend ParallelState.() -> R
 }
 interface "Parallel.Type" as Type <T>
 interface ParallelState << (T, orchid) >> {
@@ -36,7 +36,7 @@ Type "1" --* "1" Task_Signature
 Type "*" --o "1" Task_Signature
 Task_Signature "1" --* "*" Task
 
-Task_Body "1" ..> "*" ExecuteTask
+Function "1" ..> "*" ExecuteTask
 ExecuteTask "1" --* "1" Task
 
 @enduml

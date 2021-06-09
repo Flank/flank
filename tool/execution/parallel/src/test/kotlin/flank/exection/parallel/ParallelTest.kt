@@ -146,9 +146,9 @@ class ParallelTest {
             val c by -C
         }
 
-        val func = Parallel.Task.Body(::Context)
+        val context = Parallel.Function(::Context)
         val execute = setOf(
-            A from setOf(B) using func {
+            A from setOf(B) using context {
                 initial
                 b
                 c // accessing this property will throw exception

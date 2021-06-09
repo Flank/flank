@@ -47,7 +47,7 @@ The following diagram is showing parallel execution algorithm in details:
 
 * is a set of `argument` `types` related with one `return` `type` just like in normal functions.
 
-### Function
+### Function (ExecuteTask)
 
 * is getting access to arguments through reduced copy of state.
 * is returning object described by the return type.
@@ -65,4 +65,5 @@ The following diagram is showing parallel execution algorithm in details:
 
 ## API
 
-![parallel-execution](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2001_Implement_tool_for_parallel_execution/docs/hld/parallel-execution-api.puml)
+![parallel-execution](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2001_Implement_tool_for_parallel_execution/docs/hld/parallel-execution-api-functions.puml)
+![parallel-execution](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2001_Implement_tool_for_parallel_execution/docs/hld/parallel-execution-api-structures.puml)

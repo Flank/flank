@@ -1,6 +1,6 @@
 package flank.exection.parallel
 
-import flank.exection.parallel.internal.CreateTaskFunction
+import flank.exection.parallel.internal.ContextProvider
 import flank.exection.parallel.internal.EagerProperties
 import flank.exection.parallel.internal.Execution
 import flank.exection.parallel.internal.initialValidators
@@ -102,11 +102,12 @@ object Parallel {
             val args: Set<Type<*>>,
         )
 
-        /**
-         * Parameterized factory for creating task functions in scope of [X].
-         */
-        class Body<X : Context>(override val context: () -> X) : CreateTaskFunction<X>
     }
+
+    /**
+     * Parameterized factory for creating task functions in scope of [X].
+     */
+    class Function<X : Context>(override val context: () -> X) : ContextProvider<X>
 
     data class Event internal constructor(
         val type: Type<*>,

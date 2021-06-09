@@ -2,14 +2,14 @@
 'left to right direction
 package "parallel" {
 
-object "Task.Body.invoke()" as Task_Body {
+object "Parallel.Function.invoke()" as Function {
 creates
 }
 
-class Task<R>
-class "Task.Signature" as Task_Signature<R>
-interface Type<R>
-interface "Type<R>" as Type2
+class "Parallel.Task" as Task<R>
+class "Parallel.Task.Signature" as Task_Signature<R>
+interface "Parallel.Type<R>" as Type
+interface "Parallel.Type<R>" as Type2
 interface ExecuteTask<R>
 interface ParallelState
 
@@ -30,7 +30,7 @@ object "invoke()" as reduce {
 reduces
 }
 
-Task_Body "1" ..> ExecuteTask
+Function "1" ..> ExecuteTask
 
 ExecuteTask <--o "1" usingSignature
 usingSignature "1" #--> Task_Signature
