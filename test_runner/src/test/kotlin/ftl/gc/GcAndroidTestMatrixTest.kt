@@ -1,6 +1,7 @@
 package ftl.gc
 
 import com.google.testing.model.TestSetup
+import ftl.api.TestMatrixAndroid
 import ftl.api.TestMatrixAndroid.Type
 import ftl.args.AndroidArgs
 import ftl.client.google.run.android.executeAndroidTests
@@ -49,7 +50,7 @@ class GcAndroidTestMatrixTest {
             )
             val config = createAndroidTestConfig(androidArgs)
 
-            executeAndroidTests(listOf(config to type))
+            executeAndroidTests(listOf(TestMatrixAndroid.TestSetup(config, type)))
         }
     }
 
@@ -78,7 +79,7 @@ class GcAndroidTestMatrixTest {
 
             val config = createAndroidTestConfig(androidArgs)
 
-            executeAndroidTests(listOf(config to type))
+            executeAndroidTests(listOf(TestMatrixAndroid.TestSetup(config, type)))
         }
     }
 
@@ -112,7 +113,7 @@ class GcAndroidTestMatrixTest {
 
             val config = createAndroidTestConfig(androidArgs)
 
-            executeAndroidTests(listOf(config to type))
+            executeAndroidTests(listOf(TestMatrixAndroid.TestSetup(config, type)))
         }
     }
 

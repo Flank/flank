@@ -9,7 +9,7 @@ import com.google.testing.model.TestMatrix as GoogleTestMatrix
 
 object GoogleTestMatrixAndroid :
     TestMatrixAndroid.Execute,
-    (List<Pair<TestMatrixAndroid.Config, TestMatrixAndroid.Type>>) -> List<TestMatrix.Data> by { configTypePairs ->
+    (List<TestMatrixAndroid.TestSetup>) -> List<TestMatrix.Data> by { configTypePairs ->
         runBlocking {
             executeAndroidTests(configTypePairs).map(GoogleTestMatrix::toApiModel)
         }

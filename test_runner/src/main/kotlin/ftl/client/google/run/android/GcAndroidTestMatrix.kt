@@ -32,10 +32,10 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 
 suspend fun executeAndroidTests(
-    typeConfigPairs: List<Pair<TestMatrixAndroid.Config, TestMatrixAndroid.Type>>
-): List<TestMatrix> = typeConfigPairs
-    .foldIndexed(emptyList<Deferred<TestMatrix>>()) { testMatrixTypeIndex, testMatrices, testPair ->
-        testMatrices + executeAndroidTestMatrix(testPair.second, testMatrixTypeIndex, testPair.first)
+    testSetups: List<TestMatrixAndroid.TestSetup>
+): List<TestMatrix> = testSetups
+    .foldIndexed(emptyList<Deferred<TestMatrix>>()) { testMatrixTypeIndex, testMatrices, setUp ->
+        testMatrices + executeAndroidTestMatrix(setUp.type, testMatrixTypeIndex, setUp.config)
     }.awaitAll()
 
 private suspend fun executeAndroidTestMatrix(

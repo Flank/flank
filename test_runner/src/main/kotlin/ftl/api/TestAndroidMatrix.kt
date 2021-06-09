@@ -65,7 +65,12 @@ object TestMatrixAndroid {
         ) : Type()
     }
 
-    interface Execute : (List<Pair<Config, Type>>) -> List<TestMatrix.Data>
+    data class TestSetup(
+        val config: Config,
+        val type: Type
+    )
+
+    interface Execute : (List<TestSetup>) -> List<TestMatrix.Data>
 }
 
 typealias ShardChunks = List<List<String>>
