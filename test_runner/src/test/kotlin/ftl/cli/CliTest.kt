@@ -1,4 +1,4 @@
-package ftl
+package ftl.cli
 
 import ftl.presentation.cli.MainCommand
 import org.junit.Test
