@@ -58,7 +58,7 @@ I2 *--> I2
 }
 }
 package "Broken graph" {
-map H3 #lightgrey {
+map H3 #lightgreen {
 }
 map I3 #black {
 }
@@ -84,6 +84,36 @@ B3 *--> B3
 F3 *--> F3
 C3 *--> C3
 I3 *--> I3
+}
+}
+
+package "Failed graph" {
+map H4 #lightgreen {
+}
+map I4 #lightgreen {
+}
+map F4 #red {
+I4 *--> I4
+}
+map E4 #yellow {
+I4 *--> I4
+}
+map D4 #yellow {
+I4 *--> I4
+}
+map C4 #lightgrey {
+D4 *--> D4
+}
+map B4 #lightgrey {
+C4 *-> C4
+E4 *--> E4
+H4*---> H4
+}
+map A4 #lightgrey {
+B4 *--> B4
+F4 *--> F4
+C4 *--> C4
+I4 *--> I4
 }
 }
 @enduml

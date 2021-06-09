@@ -36,23 +36,14 @@ object Logger : Parallel.Type<Output>
 
 ## Task
 
+* is representing a single atomic operation in the execution process. 
+* is a relation of signature and task function.
 * `arguments` for task are coming from `initial state` (`arguments`) or results from other `tasks`.
-* can be grouped into set to create the `execution` graph.
-* graph can have broken paths, when any task have `missing dependencies`.
 * can be uniquely identified using return type of its signature.
 
 ### Signature
 
-* is a set of `argument` `types` related with one `return` `type` just like in normal functions.
-
-#### Example
-
-```kotlin
-// following expression
-Foo from setOf(Bar, Baz)
-// is equal to
-Parallel.Task.Signature(returns = Foo, args = setOf(Bar, baz))
-```
+* is a set of argument `types` related with one return `type` just like in normal functions.
 
 ### Function (ExecuteTask)
 
@@ -63,6 +54,14 @@ Parallel.Task.Signature(returns = Foo, args = setOf(Bar, baz))
 
 * argument types that are not specified as return types by any task in the graph or provided in the initial state.
 * missing dependencies can be detected before execution from the set of `tasks` and `initial state`.
+
+### Graph
+
+* can be represented as tree structure without cycles, where each type can reference others.
+* can be created from a set of tasks.
+* can have broken paths, when any task have `missing dependencies`.
+
+![parallel-execution](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2001_Implement_tool_for_parallel_execution/docs/hld/task-graph.puml)
 
 ### Example
 
@@ -94,12 +93,6 @@ val execute = setOf(
     Foo from setOf(Bar, Baz) using context { "$bar, $baz".apply(out) }
 )
 ```
-
-### Graph
-
-Task graphs can be represented as tree structure without cycles, where each type can reference others.
-
-![parallel-execution](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2001_Implement_tool_for_parallel_execution/docs/hld/task-graph.puml)
 
 ## State
 
