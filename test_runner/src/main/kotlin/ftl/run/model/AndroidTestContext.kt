@@ -2,10 +2,11 @@ package ftl.run.model
 
 import ftl.api.FileReference
 import ftl.api.ShardChunks
+import ftl.args.AndroidArgs
 import ftl.args.IgnoredTestCases
 import ftl.shard.Chunk
 
-sealed class AndroidTestContext
+sealed class AndroidTestContext(open val args: AndroidArgs)
 
 data class InstrumentationTestContext(
     val app: FileReference,
@@ -14,21 +15,23 @@ data class InstrumentationTestContext(
     val ignoredTestCases: IgnoredTestCases = emptyList(),
     val environmentVariables: Map<String, String> = emptyMap(),
     val testTargetsForShard: ShardChunks = emptyList(),
-    val maxTestShards: Int? = null,
-    val clientDetails: Map<String, String> = emptyMap(),
-) : AndroidTestContext()
+    override val args: AndroidArgs
+) : AndroidTestContext(args)
 
 data class RoboTestContext(
     val app: FileReference,
-    val roboScript: FileReference
-) : AndroidTestContext()
+    val roboScript: FileReference,
+    override val args: AndroidArgs
+) : AndroidTestContext(args)
 
 data class GameLoopContext(
     val app: FileReference,
     val scenarioLabels: List<String>,
     val scenarioNumbers: List<String>,
-) : AndroidTestContext()
+    override val args: AndroidArgs
+) : AndroidTestContext(args)
 
 data class SanityRoboTestContext(
-    val app: FileReference
-) : AndroidTestContext()
+    val app: FileReference,
+    override val args: AndroidArgs
+) : AndroidTestContext(args)

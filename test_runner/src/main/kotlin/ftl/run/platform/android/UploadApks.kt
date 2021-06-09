@@ -45,7 +45,7 @@ private fun GameLoopContext.upload(rootGcsBucket: String, runGcsPath: String) = 
 )
 
 private fun SanityRoboTestContext.upload(rootGcsBucket: String, runGcsPath: String) =
-    SanityRoboTestContext(app.uploadIfNeeded(rootGcsBucket, runGcsPath))
+    SanityRoboTestContext(app.uploadIfNeeded(rootGcsBucket, runGcsPath), args)
 
 suspend fun AndroidArgs.uploadAdditionalApks() =
     additionalApks.uploadToGcloudIfNeeded(resultsDir, resultsBucket)

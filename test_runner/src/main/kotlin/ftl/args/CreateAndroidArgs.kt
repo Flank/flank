@@ -1,6 +1,5 @@
 package ftl.args
 
-import ftl.args.yml.AppTestPair
 import ftl.config.AndroidConfig
 import ftl.config.android.AndroidFlankConfig
 import ftl.config.android.AndroidGcloudConfig
@@ -33,18 +32,9 @@ fun createAndroidArgs(
 
     // flank
     additionalAppTestApks = flank.additionalAppTestApks?.map {
-        // if additional-pair did not provide certain values, set as top level ones
-        val mergedClientDetails = mutableMapOf<String, String>().apply {
-            // merge additionalAppTestApk's client-details with top-level client-details
-            putAll(commonArgs.clientDetails ?: emptyMap())
-            putAll(it.clientDetails)
-        }
-        AppTestPair(
+        it.copy(
             app = it.app?.normalizeFilePath(),
             test = it.test.normalizeFilePath(),
-            environmentVariables = it.environmentVariables,
-            maxTestShards = it.maxTestShards ?: commonArgs.maxTestShards,
-            clientDetails = mergedClientDetails
         )
     } ?: emptyList(),
     useLegacyJUnitResult = flank::useLegacyJUnitResult.require(),

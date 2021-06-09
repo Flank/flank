@@ -21,46 +21,45 @@ class ResolveApksKtTest {
 
     @Test
     fun `should resolve apks from global app and test`() {
+        val args = mockk<AndroidArgs> {
+            every { appApk } returns "app"
+            every { testApk } returns "test"
+            every { additionalApks } returns emptyList()
+            every { additionalAppTestApks } returns emptyList()
+            every { testTargetsForShard } returns emptyList()
+            every { customSharding } returns emptyMap()
+        }
         assertArrayEquals(
             arrayOf(
                 InstrumentationTestContext(
                     app = "app".asFileReference(),
-                    test = "test".asFileReference()
+                    test = "test".asFileReference(),
+                    args = args
                 )
             ),
-            mockk<AndroidArgs> {
-                every { appApk } returns "app"
-                every { testApk } returns "test"
-                every { additionalApks } returns emptyList()
-                every { additionalAppTestApks } returns emptyList()
-                every { testTargetsForShard } returns emptyList()
-                every { customSharding } returns emptyMap()
-            }.resolveApks().toTypedArray()
+            args.resolveApks().toTypedArray()
         )
     }
 
     @Test
     fun `should resolve apks from additionalAppTestApks`() {
+        val args = AndroidArgs.default().copy(
+            additionalAppTestApks = listOf(
+                AppTestPair(
+                    app = "app",
+                    test = "test"
+                )
+            )
+        )
         assertArrayEquals(
             arrayOf(
                 InstrumentationTestContext(
                     app = "app".asFileReference(),
-                    test = "test".asFileReference()
+                    test = "test".asFileReference(),
+                    args = args
                 )
             ),
-            mockk<AndroidArgs> {
-                every { appApk } returns null
-                every { testApk } returns null
-                every { additionalApks } returns emptyList()
-                every { additionalAppTestApks } returns listOf(
-                    AppTestPair(
-                        app = "app",
-                        test = "test"
-                    )
-                )
-                every { testTargetsForShard } returns emptyList()
-                every { customSharding } returns emptyMap()
-            }.resolveApks().toTypedArray()
+            args.resolveApks().toTypedArray()
         )
     }
 
@@ -90,7 +89,7 @@ class ResolveApksKtTest {
             every { type } returns Type.ROBO
         }
         assertArrayEquals(
-            arrayOf(SanityRoboTestContext("app".asFileReference())),
+            arrayOf(SanityRoboTestContext("app".asFileReference(), androidArgs)),
             androidArgs.resolveApks().toTypedArray()
         )
     }

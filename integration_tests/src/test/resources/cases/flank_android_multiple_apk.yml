@@ -9,7 +9,16 @@ flank:
   output-style: single
   additional-app-test-apks:
     - test: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-success-debug-androidTest.apk
+      max-test-shards: 2
     - test: ../test_runner/src/test/kotlin/ftl/fixtures/tmp/apk/app-multiple-error-debug-androidTest.apk
+      device:
+        - model: Pixel2
+          version: 28
+      test-targets:
+        - class com.example.test_app.InstrumentedTest#test2
     - test: gs://flank-open-source.appspot.com/integration/app-single-success-debug-androidTest.apk
+      device:
+        - model: Nexus6P
+          version: 27
   disable-usage-statistics: true
   output-report: json

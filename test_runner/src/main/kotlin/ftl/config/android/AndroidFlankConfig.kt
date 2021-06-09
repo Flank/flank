@@ -20,8 +20,10 @@ data class AndroidFlankConfig @JsonIgnore constructor(
         names = ["--additional-app-test-apks"],
         split = ",",
         description = [
-            "A list of app & test apks to include in the run. " +
-                "Useful for running multiple module tests within a single Flank run."
+            "A list of app & test apks to include in the run. Useful for running multiple module tests " +
+                "within a single Flank run.",
+            "You can overwrite global config per each test pair. Currently supported options are: " +
+                "max-test-shards, test-targets, client-details, environment-variables, device"
         ]
     )
     fun additionalAppTestApks(map: Map<String, String>?) {
@@ -34,9 +36,10 @@ data class AndroidFlankConfig @JsonIgnore constructor(
         if (testApk != null) {
             additionalAppTestApks?.add(
                 AppTestPair(
-                    app = appApk,
-                    test = testApk,
-                    maxTestShards = map["max-test-shards"]?.toInt()
+                    app = appApk.toString(),
+                    test = testApk.toString(),
+                    maxTestShards = map["max-test-shards"]?.toInt(),
+                    testTargets = map["test-targets"]?.split(",")
                 )
             )
         }

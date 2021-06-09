@@ -2,6 +2,7 @@ package ftl.args.yml
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import ftl.config.Device
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class AppTestPair(
@@ -12,5 +13,9 @@ data class AppTestPair(
     @JsonProperty("max-test-shards")
     val maxTestShards: Int? = null,
     @JsonProperty("client-details")
-    var clientDetails: Map<String, String> = emptyMap()
+    val clientDetails: Map<String, String>? = null,
+    @JsonProperty("test-targets")
+    val testTargets: List<String>? = null,
+    @JsonProperty("device")
+    val devices: List<Device>? = null
 )

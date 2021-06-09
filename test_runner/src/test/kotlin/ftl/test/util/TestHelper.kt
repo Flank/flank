@@ -50,9 +50,8 @@ inline fun <reified T : Any> should(crossinline match: T.() -> Boolean): T = moc
         val value = slot.captured
         value.match().also { matches ->
             matched = matches
-            if (matches)
-                println("${this@mockk} match succeed: $value") else
-                println("${this@mockk} match failed: $value")
+            if (matches) println("${this@mockk} match succeed: $value")
+            else println("${this@mockk} match failed: $value")
         }
     }
     every { this@mockk.toString() } answers {

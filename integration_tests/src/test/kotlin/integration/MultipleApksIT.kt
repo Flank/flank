@@ -3,6 +3,7 @@ package integration
 import FlankCommand
 import com.google.common.truth.Truth.assertThat
 import integration.config.AndroidTest
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import run
@@ -19,9 +20,9 @@ import utils.assertTestResultContainsWebLinks
 import utils.findTestDirectoryFromOutput
 import utils.json
 import utils.loadAsTestSuite
-import utils.multipleFailedTests
 import utils.multipleSuccessfulTests
 import utils.removeUnicode
+import utils.testResults.TestSuite
 import utils.toJUnitXmlFile
 import utils.toOutputReportFile
 
@@ -48,10 +49,20 @@ class MultipleApksIT {
             "MainActivity_robo_script.json"
         )
 
-        resOutput.findTestDirectoryFromOutput().toJUnitXmlFile().loadAsTestSuite().run {
-            assertTestResultContainsWebLinks()
-            assertTestPass(multipleSuccessfulTests)
-            assertTestFail(multipleFailedTests)
+        val xmlResult = resOutput.findTestDirectoryFromOutput().toJUnitXmlFile().loadAsTestSuite()
+
+        xmlResult.assertTestResultContainsWebLinks()
+        xmlResult.assertTestPass(multipleSuccessfulTests)
+        xmlResult.assertTestFail(listOf("test2"))
+
+        xmlResult.testSuites.groupBy { it.name }.mapValues { it.value.flatMap(TestSuite::testCases) }.run {
+            assertEquals(20, get("NexusLowRes-28-en-portrait")?.size)
+            assertEquals(1, get("Pixel2-28-en-portrait")?.size)
+            assertEquals("com.example.test_app.InstrumentedTest", get("Pixel2-28-en-portrait")?.get(0)?.classname)
+            assertEquals("test2", get("Pixel2-28-en-portrait")?.get(0)?.name)
+            assertEquals(1, get("Nexus6P-27-en-portrait")?.size)
+            assertEquals("com.example.test_app.InstrumentedTest", get("Nexus6P-27-en-portrait")?.get(0)?.classname)
+            assertEquals("test", get("Nexus6P-27-en-portrait")?.get(0)?.name)
         }
 
         val outputReport = resOutput.findTestDirectoryFromOutput().toOutputReportFile().json().asOutputReport()
@@ -69,7 +80,7 @@ class MultipleApksIT {
             .map { it.testAxises }
             .flatten()
 
-        assertThat(testsResults.sumOf { it.suiteOverview.failures }).isEqualTo(5)
-        assertThat(testsResults.sumOf { it.suiteOverview.total }).isEqualTo(41)
+        assertThat(testsResults.sumOf { it.suiteOverview.failures }).isEqualTo(1)
+        assertThat(testsResults.sumOf { it.suiteOverview.total }).isEqualTo(22)
     }
 }

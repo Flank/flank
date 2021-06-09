@@ -22,10 +22,10 @@ class RunAndroidTestsKtTest {
             should { map.size == 3 },
             listOf(
                 should { size == 1 },
-                should { size == 4 },
-                should { size == 5 }
+                should { size == 1 },
+                should { size == 2 }
             ),
-            should { size == 6 }
+            should { size == 4 }
         )
 
         // when

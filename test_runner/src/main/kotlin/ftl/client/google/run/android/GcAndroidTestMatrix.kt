@@ -32,11 +32,10 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 
 suspend fun executeAndroidTests(
-    config: TestMatrixAndroid.Config,
-    testMatrixTypes: List<TestMatrixAndroid.Type>,
-): List<TestMatrix> = testMatrixTypes
-    .foldIndexed(emptyList<Deferred<TestMatrix>>()) { testMatrixTypeIndex, testMatrices, testMatrixType ->
-        testMatrices + executeAndroidTestMatrix(testMatrixType, testMatrixTypeIndex, config)
+    testSetups: List<TestMatrixAndroid.TestSetup>
+): List<TestMatrix> = testSetups
+    .foldIndexed(emptyList<Deferred<TestMatrix>>()) { testMatrixTypeIndex, testMatrices, setUp ->
+        testMatrices + executeAndroidTestMatrix(setUp.type, testMatrixTypeIndex, setUp.config)
     }.awaitAll()
 
 private suspend fun executeAndroidTestMatrix(
@@ -58,10 +57,8 @@ private fun createAndroidTestMatrix(
     runIndex: Int
 ): Testing.Projects.TestMatrices.Create {
 
-    val clientDetails = config.clientInfo(testMatrixType)
-
     val testMatrix = TestMatrix()
-        .setClientInfo(clientDetails)
+        .setClientInfo(config.clientInfo)
         .setTestSpecification(getTestSpecification(testMatrixType, config))
         .setResultStorage(config.resultsStorage(contextIndex, runIndex))
         .setEnvironmentMatrix(config.environmentMatrix)
@@ -73,18 +70,11 @@ private fun createAndroidTestMatrix(
     }.getOrElse { e -> throw FlankGeneralError(e) }
 }
 
-fun TestMatrixAndroid.Config.clientInfo(matrix: TestMatrixAndroid.Type): ClientInfo {
-    return if (matrix is TestMatrixAndroid.Type.Instrumentation && matrix.clientDetails.isNotEmpty()) {
-        ClientInfo()
-            .setName("Flank")
-            .setClientInfoDetails(matrix.clientDetails.toClientInfoDetailList())
-    } else {
-        // https://github.com/bootstraponline/studio-google-cloud-testing/blob/203ed2890c27a8078cd1b8f7ae12cf77527f426b/firebase-testing/src/com/google/gct/testing/launcher/CloudTestsLauncher.java#L120
-        ClientInfo()
-            .setName("Flank")
-            .setClientInfoDetails(clientDetails?.toClientInfoDetailList())
-    }
-}
+// https://github.com/bootstraponline/studio-google-cloud-testing/blob/203ed2890c27a8078cd1b8f7ae12cf77527f426b/firebase-testing/src/com/google/gct/testing/launcher/CloudTestsLauncher.java#L120
+private val TestMatrixAndroid.Config.clientInfo
+    get() = ClientInfo()
+        .setName("Flank")
+        .setClientInfoDetails(clientDetails?.toClientInfoDetailList())
 
 private val TestMatrixAndroid.Config.environmentMatrix
     get() = EnvironmentMatrix()

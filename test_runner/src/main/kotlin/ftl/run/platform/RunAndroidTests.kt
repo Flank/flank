@@ -3,6 +3,7 @@ package ftl.run.platform
 import flank.common.join
 import flank.common.logLn
 import ftl.api.RemoteStorage
+import ftl.api.TestMatrixAndroid
 import ftl.api.executeTestMatrixAndroid
 import ftl.api.uploadToRemoteStorage
 import ftl.args.AndroidArgs
@@ -45,8 +46,8 @@ internal suspend fun AndroidArgs.runAndroidTests(): TestResult = coroutineScope 
                 allTestShardChunks += context.shards
             }
         }
-        .map { context -> createAndroidTestMatrixType(context) }
-        .run { executeTestMatrixAndroid(createAndroidTestConfig(args), toList()) }
+        .map { createTestSetup(it) }
+        .run { executeTestMatrixAndroid(this) }
         .takeIf { it.isNotEmpty() }
         ?: throw FlankGeneralError("There are no Android tests to run.")
 
@@ -82,4 +83,9 @@ private fun AndroidMatrixTestShards.saveShards(config: AndroidArgs) = saveShardC
     shards = this,
     size = size,
     obfuscatedOutput = config.obfuscateDumpShards
+)
+
+private suspend fun createTestSetup(context: AndroidTestContext) = TestMatrixAndroid.TestSetup(
+    config = createAndroidTestConfig(context.args),
+    type = context.args.createAndroidTestMatrixType(context)
 )
