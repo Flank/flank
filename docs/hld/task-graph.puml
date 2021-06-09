@@ -29,61 +29,61 @@ I1 *--> I1
 }
 }
 package "Selected graph" {
-map H3 #lightgreen {
+map H2 #lightgreen {
 }
-map I3 #lightgreen {
+map I2 #lightgreen {
 }
-map F3 #lightgrey {
-I3 *--> I3
-}
-map E3 #lightgreen {
-I3 *--> I3
-}
-map D3 #lightgreen {
-I3 *--> I3
-}
-map C3 #lightgreen {
-D3 *--> D3
-}
-map B3 #lightblue {
-C3 *-> C3
-E3 *--> E3
-H3*---> H3
-}
-map A3 #lightgrey {
-B3 *--> B3
-F3 *--> F3
-C3 *--> C3
-I3 *--> I3
-}
-}
-package "Broken graph" {
-map H2 #lightgrey {
-}
-map I2 #black {
-}
-map F2 #red {
+map F2 #lightgrey {
 I2 *--> I2
 }
-map E2 #red {
+map E2 #lightgreen {
 I2 *--> I2
 }
-map D2 #red {
+map D2 #lightgreen {
 I2 *--> I2
 }
-map C2 #yellow {
+map C2 #lightgreen {
 D2 *--> D2
 }
-map B2 #yellow {
+map B2 #lightblue {
 C2 *-> C2
 E2 *--> E2
 H2*---> H2
 }
-map A2 #yellow {
+map A2 #lightgrey {
 B2 *--> B2
 F2 *--> F2
 C2 *--> C2
 I2 *--> I2
+}
+}
+package "Broken graph" {
+map H3 #lightgrey {
+}
+map I3 #black {
+}
+map F3 #red {
+I3 *--> I3
+}
+map E3 #red {
+I3 *--> I3
+}
+map D3 #red {
+I3 *--> I3
+}
+map C3 #yellow {
+D3 *--> D3
+}
+map B3 #yellow {
+C3 *-> C3
+E3 *--> E3
+H3*---> H3
+}
+map A3 #yellow {
+B3 *--> B3
+F3 *--> F3
+C3 *--> C3
+I3 *--> I3
 }
 }
 @enduml

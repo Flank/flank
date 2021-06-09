@@ -60,7 +60,7 @@ internal operator fun Execution.invoke(): Flow<ParallelState> =
         .drop(1)
 
 /**
- * Internal context of the tasks execution.
+ * Internal context of the execution. A single instance can be invoked only once.
  */
 internal class Execution(
     /**
