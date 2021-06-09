@@ -281,6 +281,9 @@ tasks.create("applyProguard", proguard.gradle.ProGuardTask::class.java) {
 // begin --- ASCII doc generation ---
 val generateCliAsciiDoc by tasks.registering(JavaExec::class) {
     dependsOn(tasks.classes)
+    configurations.implementation.configure {
+        isCanBeResolved = true
+    }
     classpath(
         configurations.implementation,
         configurations.annotationProcessor,
@@ -290,7 +293,7 @@ val generateCliAsciiDoc by tasks.registering(JavaExec::class) {
     description = "Generate AsciiDoc manpage"
     main = "picocli.codegen.docgen.manpage.ManPageGenerator"
     args = listOf(
-        application.mainClass.get(),
+        "ftl.presentation.cli.MainCommand",
         "--outdir=${project.rootDir}/docs/ascii/",
         "-v"
     )
