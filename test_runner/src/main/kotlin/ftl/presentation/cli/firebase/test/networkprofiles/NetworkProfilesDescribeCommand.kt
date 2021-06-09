@@ -6,6 +6,7 @@ import ftl.domain.invoke
 import ftl.environment.prepareDescription
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
+import ftl.util.PrintHelp
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -20,15 +21,8 @@ import picocli.CommandLine
     usageHelpAutoWidth = true
 )
 class NetworkProfilesDescribeCommand :
-    Runnable,
+    PrintHelp(),
     DescribeNetworkProfiles {
-
-    @CommandLine.Option(
-        names = ["-h", "--help"],
-        usageHelp = true,
-        description = ["Prints this help message"]
-    )
-    var usageHelpRequested: Boolean = false
 
     @CommandLine.Parameters(
         index = "0",

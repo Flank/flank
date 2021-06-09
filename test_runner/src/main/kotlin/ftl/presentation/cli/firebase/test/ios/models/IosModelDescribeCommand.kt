@@ -7,6 +7,7 @@ import ftl.domain.invoke
 import ftl.presentation.cli.firebase.test.ios.models.describe.prepareDescription
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
+import ftl.util.PrintHelp
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -20,7 +21,7 @@ import picocli.CommandLine
     usageHelpAutoWidth = true
 )
 class IosModelDescribeCommand :
-    Runnable,
+    PrintHelp(),
     DescribeIosModels {
 
     @CommandLine.Option(
@@ -40,13 +41,6 @@ class IosModelDescribeCommand :
         ]
     )
     override var modelId: String = ""
-
-    @CommandLine.Option(
-        names = ["-h", "--help"],
-        usageHelp = true,
-        description = ["Prints this help message"]
-    )
-    var usageHelpRequested: Boolean = false
 
     override fun run() = invoke()
 

@@ -5,6 +5,7 @@ import ftl.domain.ListNetworkProfiles
 import ftl.domain.invoke
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
+import ftl.util.PrintHelp
 import ftl.util.asList
 import ftl.util.asListOrNull
 import picocli.CommandLine
@@ -21,15 +22,8 @@ import picocli.CommandLine
     usageHelpAutoWidth = true
 )
 class NetworkProfilesListCommand :
-    Runnable,
+    PrintHelp(),
     ListNetworkProfiles {
-
-    @CommandLine.Option(
-        names = ["-h", "--help"],
-        usageHelp = true,
-        description = ["Prints this help message"]
-    )
-    var usageHelpRequested: Boolean = false
 
     override fun run() = invoke()
 
