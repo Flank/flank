@@ -17,11 +17,4 @@ import picocli.CommandLine
     subcommands = [IosModelsListCommand::class, IosModelDescribeCommand::class],
     usageHelpAutoWidth = true
 )
-class IosModelsCommand : PrintHelp {
-    @CommandLine.Option(
-        names = ["-h", "--help"],
-        usageHelp = true,
-        description = ["Prints this help message"]
-    )
-    var usageHelpRequested: Boolean = false
-}
+class IosModelsCommand : PrintHelp()

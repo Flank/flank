@@ -16,11 +16,4 @@ import picocli.CommandLine
     subcommands = [AndroidOrientationsListCommand::class],
     usageHelpAutoWidth = true
 )
-class AndroidOrientationsCommand : PrintHelp {
-    @CommandLine.Option(
-        names = ["-h", "--help"],
-        usageHelp = true,
-        description = ["Prints this help message"]
-    )
-    var usageHelpRequested: Boolean = false
-}
+class AndroidOrientationsCommand : PrintHelp()

@@ -8,7 +8,6 @@ import ftl.presentation.cli.firebase.test.android.AndroidRunCommand
 import ftl.presentation.cli.firebase.test.android.AndroidTestEnvironmentCommand
 import ftl.presentation.cli.firebase.test.android.AndroidVersionsCommand
 import ftl.util.PrintHelp
-import picocli.CommandLine
 import picocli.CommandLine.Command
 
 @Command(
@@ -25,11 +24,4 @@ import picocli.CommandLine.Command
     ],
     usageHelpAutoWidth = true
 )
-class AndroidCommand : PrintHelp {
-    @CommandLine.Option(
-        names = ["-h", "--help"],
-        usageHelp = true,
-        description = ["Prints this help message"]
-    )
-    var usageHelpRequested: Boolean = false
-}
+class AndroidCommand : PrintHelp()

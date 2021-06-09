@@ -8,7 +8,6 @@ import ftl.presentation.cli.firebase.test.ios.IosRunCommand
 import ftl.presentation.cli.firebase.test.ios.IosTestEnvironmentCommand
 import ftl.presentation.cli.firebase.test.ios.IosVersionsCommand
 import ftl.util.PrintHelp
-import picocli.CommandLine
 import picocli.CommandLine.Command
 
 @Command(
@@ -25,11 +24,4 @@ import picocli.CommandLine.Command
     ],
     usageHelpAutoWidth = true
 )
-class IosCommand : PrintHelp {
-    @CommandLine.Option(
-        names = ["-h", "--help"],
-        usageHelp = true,
-        description = ["Prints this help message"]
-    )
-    var usageHelpRequested: Boolean = false
-}
+class IosCommand : PrintHelp()

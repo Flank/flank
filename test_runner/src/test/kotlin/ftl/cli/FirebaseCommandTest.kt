@@ -20,7 +20,8 @@ class FirebaseCommandTest {
         FirebaseCommand().run()
         val output = systemOutRule.log.normalizeLineEnding()
         assertThat(output).startsWith(
-            "firebase [COMMAND]\n" +
+            "firebase [-h] [COMMAND]\n" +
+                "  -h, --help   Prints this help message\n" +
                 "Commands:\n" +
                 "  test\n" +
                 "  refresh  Downloads results for the last Firebase Test Lab run\n" +

@@ -2,7 +2,6 @@ package ftl.presentation.cli
 
 import ftl.presentation.cli.auth.LoginCommand
 import ftl.util.PrintHelp
-import picocli.CommandLine
 import picocli.CommandLine.Command
 
 @Command(
@@ -14,11 +13,4 @@ import picocli.CommandLine.Command
     ],
     usageHelpAutoWidth = true
 )
-class AuthCommand : PrintHelp {
-    @CommandLine.Option(
-        names = ["-h", "--help"],
-        usageHelp = true,
-        description = ["Prints this help message"]
-    )
-    var usageHelpRequested: Boolean = false
-}
+class AuthCommand : PrintHelp()
