@@ -5,7 +5,7 @@ import ftl.domain.ListIPBlocks
 import ftl.domain.invoke
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -20,7 +20,7 @@ import picocli.CommandLine
     usageHelpAutoWidth = true
 )
 class IPBlocksListCommand :
-    PrintHelp(),
+    PrintHelpCommand(),
     ListIPBlocks {
 
     override fun run() = invoke()

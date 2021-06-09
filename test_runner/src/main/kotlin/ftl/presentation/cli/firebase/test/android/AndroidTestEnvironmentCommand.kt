@@ -7,7 +7,7 @@ import ftl.domain.invoke
 import ftl.presentation.cli.firebase.test.environment.prepareOutputString
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -28,7 +28,7 @@ import picocli.CommandLine
     usageHelpAutoWidth = true
 )
 class AndroidTestEnvironmentCommand :
-    PrintHelp(),
+    PrintHelpCommand(),
     DescribeAndroidTestEnvironment {
 
     @CommandLine.Option(

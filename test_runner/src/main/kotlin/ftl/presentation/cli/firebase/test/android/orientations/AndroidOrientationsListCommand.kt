@@ -6,7 +6,7 @@ import ftl.domain.ListAndroidOrientations
 import ftl.domain.invoke
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import ftl.util.asListOrNull
 import picocli.CommandLine
 
@@ -22,7 +22,7 @@ import picocli.CommandLine
     usageHelpAutoWidth = true
 )
 class AndroidOrientationsListCommand :
-    PrintHelp(),
+    PrintHelpCommand(),
     ListAndroidOrientations {
 
     @CommandLine.Option(

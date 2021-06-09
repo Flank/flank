@@ -7,7 +7,7 @@ import ftl.presentation.cli.firebase.test.android.AndroidOrientationsCommand
 import ftl.presentation.cli.firebase.test.android.AndroidRunCommand
 import ftl.presentation.cli.firebase.test.android.AndroidTestEnvironmentCommand
 import ftl.presentation.cli.firebase.test.android.AndroidVersionsCommand
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine.Command
 
 @Command(
@@ -24,4 +24,4 @@ import picocli.CommandLine.Command
     ],
     usageHelpAutoWidth = true
 )
-class AndroidCommand : PrintHelp()
+class AndroidCommand : PrintHelpCommand()

@@ -7,7 +7,7 @@ import ftl.domain.invoke
 import ftl.presentation.cli.firebase.test.summary
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
 
@@ -27,7 +27,7 @@ import picocli.CommandLine.Option
     usageHelpAutoWidth = true
 )
 class AndroidDoctorCommand :
-    PrintHelp(),
+    PrintHelpCommand(),
     RunDoctor {
 
     @Option(

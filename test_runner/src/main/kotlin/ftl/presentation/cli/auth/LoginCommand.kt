@@ -2,7 +2,7 @@ package ftl.presentation.cli.auth
 
 import ftl.domain.LoginGoogleAccount
 import ftl.domain.invoke
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -18,7 +18,7 @@ import picocli.CommandLine
     usageHelpAutoWidth = true
 )
 class LoginCommand :
-    PrintHelp(),
+    PrintHelpCommand(),
     LoginGoogleAccount {
 
     override fun run() = invoke()

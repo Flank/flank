@@ -2,7 +2,7 @@ package ftl.presentation.cli.firebase.test.android
 
 import ftl.presentation.cli.firebase.test.android.models.AndroidModelDescribeCommand
 import ftl.presentation.cli.firebase.test.android.models.AndroidModelsListCommand
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -17,4 +17,4 @@ import picocli.CommandLine
     subcommands = [AndroidModelsListCommand::class, AndroidModelDescribeCommand::class],
     usageHelpAutoWidth = true
 )
-class AndroidModelsCommand : PrintHelp()
+class AndroidModelsCommand : PrintHelpCommand()

@@ -29,5 +29,5 @@ class CliTest {
     private fun Collection<CommandLine>.getCommandWithoutHelp() = map { command ->
         command to command.commandSpec.args().mapNotNull { arg -> arg as? CommandLine.Model.OptionSpec }
             .any { arg -> arg.names().contains("-h") || arg.names().contains("--help") }
-    }.filter { !it.second }.map { it.first }
+    }.filter { (_, containsHelp) -> !containsHelp }.map { (command, _) -> command }
 }

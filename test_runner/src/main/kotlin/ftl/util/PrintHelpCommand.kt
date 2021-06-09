@@ -2,7 +2,7 @@ package ftl.util
 
 import picocli.CommandLine
 
-abstract class PrintHelp : Runnable {
+abstract class PrintHelpCommand : Runnable {
     override fun run() {
         CommandLine.usage(this, System.out)
     }

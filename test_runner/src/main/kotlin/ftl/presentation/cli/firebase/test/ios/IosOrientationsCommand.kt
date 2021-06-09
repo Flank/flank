@@ -1,7 +1,7 @@
 package ftl.presentation.cli.firebase.test.ios
 
 import ftl.presentation.cli.firebase.test.ios.orientations.IosOrientationsListCommand
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -16,4 +16,4 @@ import picocli.CommandLine
     subcommands = [IosOrientationsListCommand::class],
     usageHelpAutoWidth = true
 )
-class IosOrientationsCommand : PrintHelp()
+class IosOrientationsCommand : PrintHelpCommand()

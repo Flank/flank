@@ -2,7 +2,7 @@ package ftl.presentation.cli.firebase
 
 import ftl.domain.RefreshLastRun
 import ftl.domain.invoke
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine.Command
 
@@ -23,7 +23,7 @@ Reads in the matrix_ids.json file. Refreshes any incomplete matrices.
     usageHelpAutoWidth = true
 )
 class RefreshCommand :
-    PrintHelp(),
+    PrintHelpCommand(),
     RefreshLastRun {
 
     override fun run() = runBlocking { invoke() }

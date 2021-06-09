@@ -7,7 +7,7 @@ import ftl.domain.invoke
 import ftl.presentation.cli.firebase.test.locale.toCliTable
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import ftl.util.asListOrNull
 import picocli.CommandLine
 
@@ -23,7 +23,7 @@ import picocli.CommandLine
     usageHelpAutoWidth = true
 )
 class IosLocalesListCommand :
-    PrintHelp(),
+    PrintHelpCommand(),
     ListIosLocales {
 
     @CommandLine.Option(

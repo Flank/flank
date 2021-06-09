@@ -7,7 +7,7 @@ import ftl.domain.invoke
 import ftl.environment.ios.toCliTable
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -22,7 +22,7 @@ import picocli.CommandLine
     usageHelpAutoWidth = true
 )
 class IosVersionsListCommand :
-    PrintHelp(),
+    PrintHelpCommand(),
     ListIosVersions {
 
     @CommandLine.Option(

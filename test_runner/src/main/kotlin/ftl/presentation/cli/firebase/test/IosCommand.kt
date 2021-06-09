@@ -7,7 +7,7 @@ import ftl.presentation.cli.firebase.test.ios.IosOrientationsCommand
 import ftl.presentation.cli.firebase.test.ios.IosRunCommand
 import ftl.presentation.cli.firebase.test.ios.IosTestEnvironmentCommand
 import ftl.presentation.cli.firebase.test.ios.IosVersionsCommand
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine.Command
 
 @Command(
@@ -24,4 +24,4 @@ import picocli.CommandLine.Command
     ],
     usageHelpAutoWidth = true
 )
-class IosCommand : PrintHelp()
+class IosCommand : PrintHelpCommand()

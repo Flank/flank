@@ -5,7 +5,7 @@ import ftl.domain.ListNetworkProfiles
 import ftl.domain.invoke
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import ftl.util.asList
 import ftl.util.asListOrNull
 import picocli.CommandLine
@@ -22,7 +22,7 @@ import picocli.CommandLine
     usageHelpAutoWidth = true
 )
 class NetworkProfilesListCommand :
-    PrintHelp(),
+    PrintHelpCommand(),
     ListNetworkProfiles {
 
     override fun run() = invoke()

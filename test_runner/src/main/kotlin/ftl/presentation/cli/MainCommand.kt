@@ -8,7 +8,7 @@ import ftl.presentation.cli.firebase.test.IPBlocksCommand
 import ftl.presentation.cli.firebase.test.IosCommand
 import ftl.presentation.cli.firebase.test.NetworkProfilesCommand
 import ftl.presentation.cli.firebase.test.ProvidedSoftwareCommand
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import ftl.util.printVersionInfo
 import picocli.CommandLine
 
@@ -28,7 +28,7 @@ import picocli.CommandLine
         IPBlocksCommand::class
     ]
 )
-class MainCommand : PrintHelp() {
+class MainCommand : PrintHelpCommand() {
 
     @CommandLine.Option(
         names = ["-v", "--version"],

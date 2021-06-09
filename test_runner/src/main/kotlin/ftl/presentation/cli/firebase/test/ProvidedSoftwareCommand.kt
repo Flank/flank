@@ -1,7 +1,7 @@
 package ftl.presentation.cli.firebase.test
 
 import ftl.presentation.cli.firebase.test.providedsoftware.ProvidedSoftwareListCommand
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -12,4 +12,4 @@ import picocli.CommandLine
     ],
     usageHelpAutoWidth = true
 )
-class ProvidedSoftwareCommand : PrintHelp()
+class ProvidedSoftwareCommand : PrintHelpCommand()

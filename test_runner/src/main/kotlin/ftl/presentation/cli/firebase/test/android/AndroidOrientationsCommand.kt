@@ -1,7 +1,7 @@
 package ftl.presentation.cli.firebase.test.android
 
 import ftl.presentation.cli.firebase.test.android.orientations.AndroidOrientationsListCommand
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -16,4 +16,4 @@ import picocli.CommandLine
     subcommands = [AndroidOrientationsListCommand::class],
     usageHelpAutoWidth = true
 )
-class AndroidOrientationsCommand : PrintHelp()
+class AndroidOrientationsCommand : PrintHelpCommand()

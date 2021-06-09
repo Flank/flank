@@ -6,10 +6,10 @@ import ftl.config.asDevice
 import ftl.config.common.CommonFlankConfig
 import ftl.config.common.CommonGcloudConfig
 import ftl.config.common.addDevice
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine
 
-abstract class CommonRunCommand : PrintHelp() {
+abstract class CommonRunCommand : PrintHelpCommand() {
 
     @CommandLine.Mixin
     private val commonGcloudConfig = CommonGcloudConfig()
