@@ -1,38 +1,25 @@
 package flank.exection.parallel
 
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
 
+// ======================= Reduce =======================
 /**
- * Extension for executing tasks on a given state.
- */
-operator fun Tasks.invoke(
-    vararg state: Pair<Parallel.Type<*>, Any>
-) = invoke(state.toMap())
-
-/**
- * Extension for executing tasks on empty state.
- */
-operator fun Tasks.invoke() =
-    invoke(emptyMap())
-
-/**
- * Extension for reducing tasks to returned with dependencies.
+ * Shortcut for tasks reducing.
  */
 operator fun Tasks.invoke(
     vararg returns: Parallel.Type<*>
-) = invoke(returns.toSet())
+): Tasks = invoke(returns.toSet())
 
+// ======================= Execute =======================
+/**
+ * Shortcut for executing tasks on a given state.
+ */
+operator fun Tasks.invoke(
+    vararg state: Pair<Parallel.Type<*>, Any>
+): Flow<ParallelState> = invoke(state.toMap())
 
-data class DeadlockError(
-    val state: ParallelState,
-    val jobs: Map<Parallel.Type<*>, Job>,
-    val remaining: Map<Set<Parallel.Type<*>>, List<Parallel.Task<*>>>,
-) : Error() {
-    override fun toString(): String = listOf(
-        "Parallel execution dump:",
-        state,
-        jobs,
-        remaining,
-        "", super.toString(),
-    ).joinToString("\n")
-}
+/**
+ * Shortcut for executing tasks on empty state.
+ */
+operator fun Tasks.invoke(): Flow<ParallelState> =
+    invoke(emptyMap())

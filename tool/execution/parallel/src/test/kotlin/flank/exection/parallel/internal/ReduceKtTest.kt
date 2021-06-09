@@ -28,7 +28,7 @@ class ReduceKtTest {
         val omitted = setOf(E, F)
         val expected = execute.filter { it.signature.returns !in omitted }
 
-        val actual = execute.reduce(setOf(D))
+        val actual = execute.reduceTo(setOf(D))
 
         assert(expected.containsAll(actual))
         assert(expected.size == actual.size)
@@ -37,7 +37,7 @@ class ReduceKtTest {
     @Test
     fun test2() {
 
-        val actual = execute.filter { it.signature.returns != C }.toSet().reduce(setOf(D))
+        val actual = execute.filter { it.signature.returns != C }.toSet().reduceTo(setOf(D))
 
         actual.forEach(::println)
     }

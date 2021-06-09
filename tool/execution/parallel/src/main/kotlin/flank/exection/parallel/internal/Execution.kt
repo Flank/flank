@@ -1,6 +1,5 @@
 package flank.exection.parallel.internal
 
-import flank.exection.parallel.DeadlockError
 import flank.exection.parallel.Output
 import flank.exection.parallel.Parallel.Event
 import flank.exection.parallel.Parallel.Logger
@@ -149,18 +148,35 @@ private fun Execution.isFinished(state: ParallelState): Boolean =
  * @throws IllegalStateException If there are no tasks to run and no running jobs for a given state.
  */
 private fun Execution.filterTasksFor(state: ParallelState): Map<Set<Type<*>>, List<Task<*>>> =
-    remaining.filterKeys(state.keys::containsAll)
+    remaining.filterKeys(state.keys::containsAll).apply {
+
+        // Check if execution is not detached, other words some of tasks cannot be run because of missing values in state.
+        // Typically will fail if broken graph was not validated before execution.
+        isNotEmpty() || // Found tasks to execute.
+            jobs.any { (_, job) -> job.isActive } || // some jobs still are running, is required to wait for values from them.
+            channel.isEmpty.not() || // some values are waiting in the channel queue.
+            throw DeadlockError(state, jobs, remaining)
 
         // Remove from queue the tasks for current iteration.
-        .apply { remaining -= keys }
+        remaining -= keys
+    }
 
-        // Check if execution is not detached. Typically will fail if broken graph was not validated before execution and passed here.
-        .apply {
-            isNotEmpty()
-                || jobs.any { (_, job) -> job.isActive }
-                || channel.isEmpty.not()
-                || throw DeadlockError(state, jobs, remaining)
-        }
+/**
+ * Typically can occurs when execution is running on broken graph of tasks.
+ */
+private data class DeadlockError(
+    val state: ParallelState,
+    val jobs: Map<Type<*>, Job>,
+    val remaining: Map<Set<Type<*>>, List<Task<*>>>,
+) : Error() {
+    override fun toString(): String = listOf(
+        "Parallel execution dump:",
+        state,
+        jobs,
+        remaining,
+        "", super.toString(),
+    ).joinToString("\n")
+}
 
 /**
  * Execute given tasks as coroutine job.

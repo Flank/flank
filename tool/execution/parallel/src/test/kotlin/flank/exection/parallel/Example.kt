@@ -16,15 +16,18 @@ import kotlinx.coroutines.runBlocking
 private object Example {
 
     /**
-     * Context for [Example].
+     * Context for [Example] scope.
      * Wrapper for state values with exposed static accessors.
      */
     class Context : Parallel.Context() {
-        val args by Args()
-        val a by A()
-        val b by B()
-        val c by C()
-        val hello by Hello()
+        // Initial part of state.
+        // Validated before execution
+        val args by !Args
+        // Values evaluated during execution by tasks.
+        val a by -A
+        val b by -B
+        val c by -C
+        val hello by -Hello
     }
 
     /**
@@ -36,6 +39,9 @@ private object Example {
         val b: Int,
         val c: Int
     ) {
+        /**
+         * Specify type for [Args] so can be added to [ParallelState]
+         */
         companion object : Type<Args>
     }
 
@@ -48,15 +54,16 @@ private object Example {
     }
 
     /**
-     * Factory method for creating step functions in scope of [Context].
+     * Factory method for creating task functions with [Context].
      */
     val func = Parallel.Task.Body(::Context)
 
     /**
-     * List of tasks available for [Example]
+     * List of tasks in [Example] scope
      */
-    val execute by lazy {
+    val execute: Tasks by lazy {
         setOf(
+            validate,
             hello,
             helloFail,
             produceA,
@@ -68,7 +75,9 @@ private object Example {
 
     // ======================= Internal Tasks =======================
 
-    private val hello = Hello using {
+    private val validate: Parallel.Task<Unit> = validator(::Context)
+
+    private val hello: Parallel.Task<String> = Hello using {
         delay(100)
         "hello"
     }
@@ -111,10 +120,14 @@ private object Example {
 fun main() {
     runBlocking {
         Example.execute(
+            // Expect selected tasks.
             Summary,
             Hello,
-            Hello.Failing,
+            // Uncomment to simulate failing execution.
+            // Hello.Failing,
         )(
+            // Specify initial state.
+            // Commend initial Args to simulate failure of initial validation.
             Args to Args(
                 wait = 50,
                 a = 5,
@@ -123,8 +136,9 @@ fun main() {
             ),
             Parallel.Logger to { log: Any ->
                 println(log)
-            }
+            },
         ).last().let { state ->
+            // Print final state
             println()
             state.forEach(::println)
             println()

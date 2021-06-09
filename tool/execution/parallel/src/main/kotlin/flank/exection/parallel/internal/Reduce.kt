@@ -3,10 +3,10 @@ package flank.exection.parallel.internal
 import flank.exection.parallel.Parallel
 import flank.exection.parallel.Tasks
 
-internal infix fun Tasks.reduce(
-    select: Set<Parallel.Type<*>>
+internal infix fun Tasks.reduceTo(
+    selectedTypes: Set<Parallel.Type<*>>
 ): Tasks =
-    filter { task -> task.signature.returns in select }
+    filter { task -> task.signature.run { returns in selectedTypes } }
         .toSet()
         .reduce(this)
 

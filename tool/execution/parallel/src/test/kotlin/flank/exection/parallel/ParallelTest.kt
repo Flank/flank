@@ -10,6 +10,7 @@ import kotlinx.coroutines.withTimeout
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.lang.ClassCastException
 import java.util.concurrent.atomic.AtomicInteger
 
 // ====================== COMMON TYPES ======================
@@ -140,9 +141,9 @@ class ParallelTest {
     @Test
     fun `hermetic context`() {
         class Context : Parallel.Context() {
-            val initial by D()
-            val b by B()
-            val c by C()
+            val initial by !D
+            val b by -B
+            val c by -C
         }
 
         val func = Parallel.Task.Body(::Context)
@@ -161,5 +162,20 @@ class ParallelTest {
         val actual = runBlocking { execute(args).last() }
 
         assert(actual[A] is NullPointerException)
+    }
+
+    /**
+     * If the validator function is specified in tasks it will validate arguments before running the execution.
+     * The failing validation will throw [NullPointerException] or [ClassCastException]
+     */
+    @Test(expected = ClassCastException::class)
+    fun `validate arguments`() {
+        class Context : Parallel.Context() {
+            val initial by !IntType
+        }
+
+        val args: ParallelState = mapOf(IntType to "asd")
+        val execute = setOf(validator(::Context))
+        runBlocking { execute(args).last() }
     }
 }

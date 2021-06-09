@@ -1,28 +1,33 @@
 package flank.exection.parallel
 
 import flank.exection.parallel.internal.CreateTaskFunction
+import flank.exection.parallel.internal.EagerProperties
 import flank.exection.parallel.internal.Execution
+import flank.exection.parallel.internal.initialValidators
 import flank.exection.parallel.internal.invoke
-import flank.exection.parallel.internal.lazy
-import flank.exection.parallel.internal.reduce
+import flank.exection.parallel.internal.lazyProperty
+import flank.exection.parallel.internal.reduceTo
 import flank.exection.parallel.internal.validate
 import kotlinx.coroutines.flow.Flow
 import java.lang.System.currentTimeMillis
 
+// ======================= Core functions =======================
+
 /**
- * Reduce given [Tasks] by [returns] types to remove unneeded tasks from the graph.
- * The returned graph will contain only tasks that are returning selected types, their dependencies and derived dependencies.
+ * Reduce given [Tasks] by [select] types to remove unneeded tasks from the graph.
+ * The returned graph will only tasks that are returning selected types, their dependencies and derived dependencies.
+ * Additionally this is keeping also the validators for initial state.
  *
  * @return Reduced [Tasks]
  */
 operator fun Tasks.invoke(
-    returns: Set<Parallel.Type<*>>
+    select: Set<Parallel.Type<*>>
 ): Tasks =
-    reduce(returns)
+    reduceTo(select + initialValidators)
 
 /**
  * Execute tasks in parallel with a given args.
- * Before executing the [validate] is performed on a [Tasks] for a given [args] to detect missing dependencies.
+ * Before executing, the [validate] is performed on a [Tasks] for a given [args] to detect missing dependencies.
  *
  * @return [Flow] of [ParallelState] changes.
  */
@@ -30,6 +35,8 @@ infix operator fun Tasks.invoke(
     args: ParallelState
 ): Flow<ParallelState> =
     Execution(validate(args), args).invoke()
+
+// ======================= Types =======================
 
 /**
  * The namespace for parallel execution primitives.
@@ -40,21 +47,34 @@ object Parallel {
      * Abstraction for execution data provider which is also an context for task execution.
      * For initialization purpose some properties are exposed as variable.
      */
-    open class Context {
+    open class Context : Type<Unit> {
+
+        /**
+         * Exposed reference to output, accessible by tasks.
+         */
+        val out: Output by -Logger
+
         /**
          * The state properties map. Is for initialization purpose, and shouldn't be mutated after initialization.
          */
         internal lateinit var state: ParallelState
 
         /**
-         * Exposed reference to output, accessible by tasks.
+         * Eager property delegate provider and initializer of a state values.
          */
-        val out: Output by Logger()
+        val eager = EagerProperties { state }
 
         /**
-         * Factory method for creating properties from data objects.
+         * DSL for creating eager delegate accessor to the state value for a given type.
+         *
+         * @see [EagerProperties.invoke]
          */
-        operator fun <T : Any> Type<T>.invoke(): Lazy<T> = lazy(type = this)
+        inline operator fun <reified T : Any> Type<T>.not() = eager(this)
+
+        /**
+         * DSL for creating lazy delegate accessor to the state value for a given type.
+         */
+        operator fun <T : Any> Type<T>.unaryMinus() = lazyProperty(this)
     }
 
     /**
@@ -83,7 +103,7 @@ object Parallel {
         class Body<X : Context>(override val context: () -> X) : CreateTaskFunction<X>
     }
 
-    data class Event(
+    data class Event internal constructor(
         val type: Type<*>,
         val data: Any,
         val timestamp: Long = currentTimeMillis(),
@@ -99,27 +119,29 @@ object Parallel {
     ) : Exception("Cannot resolve dependencies $data")
 }
 
+// ======================= Aliases =======================
+
 /**
  * Signature for [Parallel.Task] function.
  */
-internal typealias ExecuteTask<R> = suspend ParallelState.() -> R
+typealias ExecuteTask<R> = suspend ParallelState.() -> R
 
 /**
  * Common signature for structural log output.
  */
-internal typealias Output = Any.() -> Unit
+typealias Output = Any.() -> Unit
 
 /**
  * Immutable state for parallel execution.
  */
-internal typealias ParallelState = Map<Parallel.Type<*>, Any>
+typealias ParallelState = Map<Parallel.Type<*>, Any>
 
 /**
  * Type for group of parallel tasks. Each task must be unique in group.
  */
-internal typealias Tasks = Set<Parallel.Task<*>>
+typealias Tasks = Set<Parallel.Task<*>>
 
 /**
  * The [Map.values] are representing missing dependencies required by the tasks to provide [Map.keys].
  */
-internal typealias MissingDependencies = Map<Parallel.Type<*>, Set<Parallel.Type<*>>>
+typealias MissingDependencies = Map<Parallel.Type<*>, Set<Parallel.Type<*>>>

@@ -3,7 +3,7 @@ package flank.exection.parallel.internal
 import flank.exection.parallel.Parallel
 import flank.exection.parallel.from
 import flank.exection.parallel.using
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ValidateKtTest {
