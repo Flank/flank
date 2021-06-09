@@ -6,6 +6,7 @@ import ftl.run.exception.FailureToken
 import ftl.run.exception.PermissionDenied
 import ftl.run.exception.ProjectNotFound
 import ftl.util.report
+import io.sentry.SentryLevel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import java.io.IOException
@@ -24,7 +25,7 @@ private inline fun <T> withRetry(crossinline block: () -> T): T = runBlocking {
         } catch (err: IOException) {
             // We want to send every occurrence of Google API error for statistic purposes
             // https://github.com/Flank/flank/issues/701
-            FlankGoogleApiError(err).report()
+            FlankGoogleApiError(err).report(SentryLevel.DEBUG)
 
             lastError = err
             if (err is HttpResponseException) {
