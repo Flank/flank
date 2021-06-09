@@ -51,6 +51,13 @@ class RunTestCorelliumAndroidCommand :
         var project: String? by data
 
         @CommandLine.Option(
+            names = ["-h", "--help"],
+            usageHelp = true,
+            description = ["Prints this help message"]
+        )
+        var usageHelpRequested: Boolean = false
+
+        @CommandLine.Option(
             names = ["--apks"],
             split = ";",
             description = [

@@ -5,16 +5,16 @@ import org.junit.Test
 import picocli.CommandLine
 
 class CliTest {
+
     @Test
     fun `all commands should contain help flags`() {
         val cmd = CommandLine(MainCommand())
-        val allCommands = (cmd.subcommands.values.toList().getAllSubCommands() + cmd)
-        allCommands.forEach { command ->
-            val helpCommandExist = command.commandSpec.args().mapNotNull { arg -> arg as? CommandLine.Model.OptionSpec }
-                .any { arg -> arg.names().contains("-h") && arg.names().contains("--help") }
+        val allCommands = (cmd.subcommands.values.getAllSubCommands() + cmd)
+        val commandsWithoutHelpFlag =
+            allCommands
+                .getCommandWithoutHelp()
 
-            assert(helpCommandExist) { "Help flag not found in command: flank ${command.getCommandPath()}" }
-        }
+        assert(commandsWithoutHelpFlag.isEmpty()) { "Help flag not found in command: flank ${commandsWithoutHelpFlag.joinToString { it.getCommandPath() }}" }
     }
 
     private fun CommandLine.getCommandPath(message: String = ""): String {
@@ -22,7 +22,12 @@ class CliTest {
         else message.trim()
     }
 
-    fun List<CommandLine>.getAllSubCommands(): List<CommandLine> =
-        if (any().not()) this
-        else (this + flatMap { it.subcommands.values }.getAllSubCommands())
+    private fun Collection<CommandLine>.getAllSubCommands(): Collection<CommandLine> =
+        if (any()) (this + flatMap { it.subcommands.values }.getAllSubCommands())
+        else this
+
+    private fun Collection<CommandLine>.getCommandWithoutHelp() = map { command ->
+        command to command.commandSpec.args().mapNotNull { arg -> arg as? CommandLine.Model.OptionSpec }
+            .any { arg -> arg.names().contains("-h") || arg.names().contains("--help") }
+    }.filter { !it.second }.map { it.first }
 }
