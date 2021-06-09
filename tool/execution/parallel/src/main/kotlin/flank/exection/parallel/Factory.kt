@@ -39,4 +39,4 @@ infix fun <R : Any> Parallel.Type<R>.using(
 internal fun <C : Parallel.Context> validator(
     context: (() -> C)
 ): Parallel.Task<Unit> =
-    context() using { context().also { it.state = this }.run { eager() } }
+    context() using { context().also { it.state = this }.run { validate() } }

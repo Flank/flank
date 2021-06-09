@@ -62,3 +62,7 @@ The following diagram is showing parallel execution algorithm in details:
 * is storing the result from each executed task.
 * is used for providing arguments for tasks.
 * is emitted in flow after each change. 
+
+## API
+
+![parallel-execution](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2001_Implement_tool_for_parallel_execution/docs/hld/parallel-execution-api.puml)

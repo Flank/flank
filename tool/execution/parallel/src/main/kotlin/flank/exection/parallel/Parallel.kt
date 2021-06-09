@@ -62,19 +62,24 @@ object Parallel {
         /**
          * Eager property delegate provider and initializer of a state values.
          */
-        val eager = EagerProperties { state }
+        protected val eager = EagerProperties { state }
 
         /**
          * DSL for creating eager delegate accessor to the state value for a given type.
          *
          * @see [EagerProperties.invoke]
          */
-        inline operator fun <reified T : Any> Type<T>.not() = eager(this)
+        protected inline operator fun <reified T : Any> Type<T>.not() = eager(this)
 
         /**
          * DSL for creating lazy delegate accessor to the state value for a given type.
          */
-        operator fun <T : Any> Type<T>.unaryMinus() = lazyProperty(this)
+        protected operator fun <T : Any> Type<T>.unaryMinus() = lazyProperty(this)
+
+        /**
+         * Internal accessor for initializing (validating) eager properties
+         */
+        internal fun validate() = eager()
     }
 
     /**
