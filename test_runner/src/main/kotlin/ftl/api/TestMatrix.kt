@@ -94,5 +94,7 @@ object TestMatrix {
     )
 
     interface Cancel : (Identity) -> Unit
-    interface Refresh : (Identity) -> Data
+    interface Refresh {
+        suspend operator fun invoke(identity: Identity): Data
+    }
 }
