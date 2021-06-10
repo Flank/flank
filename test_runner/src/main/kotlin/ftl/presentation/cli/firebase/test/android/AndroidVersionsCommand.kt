@@ -2,7 +2,7 @@ package ftl.presentation.cli.firebase.test.android
 
 import ftl.presentation.cli.firebase.test.android.versions.AndroidVersionsDescribeCommand
 import ftl.presentation.cli.firebase.test.android.versions.AndroidVersionsListCommand
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -17,4 +17,4 @@ import picocli.CommandLine
     subcommands = [AndroidVersionsListCommand::class, AndroidVersionsDescribeCommand::class],
     usageHelpAutoWidth = true
 )
-class AndroidVersionsCommand : PrintHelp
+class AndroidVersionsCommand : PrintHelpCommand()

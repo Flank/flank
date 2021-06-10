@@ -5,6 +5,7 @@ import ftl.domain.invoke
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
 import ftl.run.MatrixCancelStatus
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -24,15 +25,8 @@ Reads in the matrix_ids.json file. Cancels any incomplete matrices.
     usageHelpAutoWidth = true
 )
 class CancelCommand :
-    Runnable,
+    PrintHelpCommand(),
     CancelLastRun {
-
-    @CommandLine.Option(
-        names = ["-h", "--help"],
-        usageHelp = true,
-        description = ["Prints this help message"]
-    )
-    var usageHelpRequested: Boolean = false
 
     override fun run() = invoke()
 

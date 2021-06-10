@@ -1,7 +1,7 @@
 package ftl.presentation.cli.firebase.test
 
 import ftl.presentation.cli.firebase.test.ipblocks.IPBlocksListCommand
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -11,4 +11,4 @@ import picocli.CommandLine
     header = ["Explore IP blocks used by Firebase Test Lab devices."],
     usageHelpAutoWidth = true
 )
-class IPBlocksCommand : PrintHelp
+class IPBlocksCommand : PrintHelpCommand()

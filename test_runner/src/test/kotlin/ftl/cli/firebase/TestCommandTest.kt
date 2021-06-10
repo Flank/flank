@@ -20,7 +20,8 @@ class TestCommandTest {
         TestCommand().run()
         val output = systemOutRule.log.normalizeLineEnding()
         assertThat(output).startsWith(
-            "test [COMMAND]\n" +
+            "test [-h] [COMMAND]\n" +
+                "  -h, --help   Prints this help message\n" +
                 "Commands:\n" +
                 "  android\n" +
                 "  ios\n"

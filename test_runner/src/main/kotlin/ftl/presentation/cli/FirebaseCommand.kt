@@ -3,7 +3,7 @@ package ftl.presentation.cli
 import ftl.presentation.cli.firebase.CancelCommand
 import ftl.presentation.cli.firebase.RefreshCommand
 import ftl.presentation.cli.firebase.TestCommand
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine.Command
 
 @Command(
@@ -16,4 +16,4 @@ import picocli.CommandLine.Command
     ],
     usageHelpAutoWidth = true
 )
-class FirebaseCommand : PrintHelp
+class FirebaseCommand : PrintHelpCommand()

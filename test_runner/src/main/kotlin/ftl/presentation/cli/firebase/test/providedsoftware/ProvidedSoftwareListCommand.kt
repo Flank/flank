@@ -5,6 +5,7 @@ import ftl.domain.ListProvidedSoftware
 import ftl.domain.invoke
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -19,7 +20,7 @@ import picocli.CommandLine
     usageHelpAutoWidth = true
 )
 class ProvidedSoftwareListCommand :
-    Runnable,
+    PrintHelpCommand(),
     ListProvidedSoftware {
 
     override fun run() = invoke()

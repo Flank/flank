@@ -5,7 +5,7 @@ import ftl.presentation.cli.firebase.test.IPBlocksCommand
 import ftl.presentation.cli.firebase.test.IosCommand
 import ftl.presentation.cli.firebase.test.NetworkProfilesCommand
 import ftl.presentation.cli.firebase.test.ProvidedSoftwareCommand
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine.Command
 
 @Command(
@@ -20,4 +20,4 @@ import picocli.CommandLine.Command
     ],
     usageHelpAutoWidth = true
 )
-class TestCommand : PrintHelp
+class TestCommand : PrintHelpCommand()

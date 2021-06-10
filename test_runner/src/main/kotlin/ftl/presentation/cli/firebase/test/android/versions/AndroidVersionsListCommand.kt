@@ -6,6 +6,7 @@ import ftl.domain.ListAndroidVersions
 import ftl.domain.invoke
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
+import ftl.util.PrintHelpCommand
 import ftl.util.asListOrNull
 import picocli.CommandLine
 
@@ -21,7 +22,7 @@ import picocli.CommandLine
     usageHelpAutoWidth = true
 )
 class AndroidVersionsListCommand :
-    Runnable,
+    PrintHelpCommand(),
     ListAndroidVersions {
 
     @CommandLine.Option(
@@ -33,13 +34,6 @@ class AndroidVersionsListCommand :
     override val out = outputLogger {
         asListOrNull<OsVersion.Android>()?.toCliTable() ?: throwUnknownType()
     }
-
-    @CommandLine.Option(
-        names = ["-h", "--help"],
-        usageHelp = true,
-        description = ["Prints this help message"]
-    )
-    var usageHelpRequested: Boolean = false
 
     override fun run() = invoke()
 }

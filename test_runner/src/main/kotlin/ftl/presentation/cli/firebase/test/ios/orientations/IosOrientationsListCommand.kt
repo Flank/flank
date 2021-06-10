@@ -5,9 +5,9 @@ import ftl.config.FtlConstants
 import ftl.domain.ListIosOrientations
 import ftl.domain.invoke
 import ftl.presentation.cli.firebase.test.android.orientations.toCliTable
-import ftl.presentation.cli.firebase.test.locale.toCliTable
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
+import ftl.util.PrintHelpCommand
 import ftl.util.asListOrNull
 import picocli.CommandLine
 
@@ -23,7 +23,7 @@ import picocli.CommandLine
     usageHelpAutoWidth = true
 )
 class IosOrientationsListCommand :
-    Runnable,
+    PrintHelpCommand(),
     ListIosOrientations {
 
     @CommandLine.Option(
@@ -31,13 +31,6 @@ class IosOrientationsListCommand :
         description = ["YAML config file path"]
     )
     override var configPath: String = FtlConstants.defaultIosConfig
-
-    @CommandLine.Option(
-        names = ["-h", "--help"],
-        usageHelp = true,
-        description = ["Prints this help message"]
-    )
-    var usageHelpRequested: Boolean = false
 
     override fun run() = invoke()
 

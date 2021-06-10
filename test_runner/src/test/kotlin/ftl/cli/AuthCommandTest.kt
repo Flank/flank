@@ -21,7 +21,8 @@ class AuthCommandTest {
         val output = systemOutRule.log.normalizeLineEnding()
         assertThat(output).startsWith(
             "Manage oauth2 credentials for Google Cloud\n\n" +
-                "auth [COMMAND]\n" +
+                "auth [-h] [COMMAND]\n" +
+                "  -h, --help   Prints this help message\n" +
                 "Commands:\n" +
                 "  login"
         )

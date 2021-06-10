@@ -2,7 +2,7 @@ package ftl.presentation.cli.firebase.test.ios
 
 import ftl.presentation.cli.firebase.test.ios.models.IosModelDescribeCommand
 import ftl.presentation.cli.firebase.test.ios.models.IosModelsListCommand
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -17,4 +17,4 @@ import picocli.CommandLine
     subcommands = [IosModelsListCommand::class, IosModelDescribeCommand::class],
     usageHelpAutoWidth = true
 )
-class IosModelsCommand : PrintHelp
+class IosModelsCommand : PrintHelpCommand()

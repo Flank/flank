@@ -32,8 +32,9 @@ class MainTest {
     private fun assertMainHelpStrings(output: String) {
         assertThat(output.normalizeLineEnding()).contains(
             "flank.jar\n" +
-                " [-v] [--debug] [COMMAND]\n" +
+                " [-hv] [--debug] [COMMAND]\n" +
                 "      --debug     Enables debug logging\n" +
+                "  -h, --help      Prints this help message\n" +
                 "  -v, --version   Prints the version\n" +
                 "Commands:\n" +
                 "  firebase\n" +

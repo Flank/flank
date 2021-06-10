@@ -17,7 +17,8 @@ class IPBlocksCommandTest {
 
         val expected = """
 Explore IP blocks used by Firebase Test Lab devices.
-ip-blocks [COMMAND]
+ip-blocks [-h] [COMMAND]
+  -h, --help   Prints this help message
 Commands:
   list  List all IP address blocks used by Firebase Test Lab devices
         """.trimIndent()

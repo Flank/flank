@@ -2,7 +2,7 @@ package ftl.presentation.cli.firebase.test.ios
 
 import ftl.presentation.cli.firebase.test.ios.configuration.IosLocalesDescribeCommand
 import ftl.presentation.cli.firebase.test.ios.configuration.IosLocalesListCommand
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -17,4 +17,4 @@ import picocli.CommandLine
     subcommands = [IosLocalesListCommand::class, IosLocalesDescribeCommand::class],
     usageHelpAutoWidth = true
 )
-class IosLocalesCommand : PrintHelp
+class IosLocalesCommand : PrintHelpCommand()

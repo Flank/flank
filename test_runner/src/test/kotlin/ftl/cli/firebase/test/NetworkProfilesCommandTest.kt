@@ -19,7 +19,8 @@ class NetworkProfilesCommandTest {
 
         val expected = listOf(
             "Explore network profiles available for testing.",
-            "network-profiles [COMMAND]",
+            "network-profiles [-h] [COMMAND]",
+            "  -h, --help   Prints this help message",
             "Commands:",
             "  list      List all network profiles available for testing",
             "  describe  Describe a network profile",

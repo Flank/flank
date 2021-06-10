@@ -6,9 +6,10 @@ import ftl.config.asDevice
 import ftl.config.common.CommonFlankConfig
 import ftl.config.common.CommonGcloudConfig
 import ftl.config.common.addDevice
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine
 
-abstract class CommonRunCommand : Runnable {
+abstract class CommonRunCommand : PrintHelpCommand() {
 
     @CommandLine.Mixin
     private val commonGcloudConfig = CommonGcloudConfig()
@@ -22,13 +23,6 @@ abstract class CommonRunCommand : Runnable {
     )
 
     abstract val config: Config.Platform<*, *>
-
-    @CommandLine.Option(
-        names = ["-h", "--help"],
-        usageHelp = true,
-        description = ["Prints this help message"]
-    )
-    var usageHelpRequested: Boolean = false
 
     // Gcloud
     @CommandLine.Option(

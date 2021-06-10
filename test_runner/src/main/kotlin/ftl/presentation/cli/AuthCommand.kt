@@ -1,7 +1,7 @@
 package ftl.presentation.cli
 
 import ftl.presentation.cli.auth.LoginCommand
-import ftl.util.PrintHelp
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine.Command
 
 @Command(
@@ -13,4 +13,4 @@ import picocli.CommandLine.Command
     ],
     usageHelpAutoWidth = true
 )
-class AuthCommand : PrintHelp
+class AuthCommand : PrintHelpCommand()

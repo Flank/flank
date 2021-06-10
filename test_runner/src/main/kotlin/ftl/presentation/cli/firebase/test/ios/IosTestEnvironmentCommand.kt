@@ -7,6 +7,7 @@ import ftl.domain.invoke
 import ftl.presentation.cli.firebase.test.environment.prepareOutputString
 import ftl.presentation.outputLogger
 import ftl.presentation.throwUnknownType
+import ftl.util.PrintHelpCommand
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -27,7 +28,7 @@ import picocli.CommandLine
     usageHelpAutoWidth = true
 )
 class IosTestEnvironmentCommand :
-    Runnable,
+    PrintHelpCommand(),
     DescribeIosTestEnvironment {
 
     @CommandLine.Option(
@@ -35,13 +36,6 @@ class IosTestEnvironmentCommand :
         description = ["YAML config file path"]
     )
     override var configPath: String = FtlConstants.defaultIosConfig
-
-    @CommandLine.Option(
-        names = ["-h", "--help"],
-        usageHelp = true,
-        description = ["Prints this help message"]
-    )
-    var usageHelpRequested: Boolean = false
 
     override fun run() = invoke()
 
