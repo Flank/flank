@@ -90,12 +90,12 @@ internal class Execution(
     /**
      * The set of value types required to complete the execution.
      */
-    val required = tasks.map { task -> task.signature.returns }.toSet()
+    val required = tasks.map(Task<*>::type).toSet()
 
     /**
      * Map of remaining tasks for run grouped by arguments.
      */
-    val remaining = tasks.groupBy { task -> task.signature.args }.toMutableMap()
+    val remaining = tasks.groupBy(Task<*>::args).toMutableMap()
 
     /**
      * Reference to optional output for structural logs.
@@ -123,7 +123,7 @@ private suspend fun Execution.abortBy(type: Type<*>, cause: Throwable) {
 
     // Add remaining tasks to state.
     remaining.toMap().values.flatten().forEach { task ->
-        channel.trySend(task.signature.returns to task)
+        channel.trySend(task.type to task)
     }
 
     // Close execution channel.
@@ -185,8 +185,8 @@ private fun Execution.execute(
     task: Task<*>,
     args: Map<Type<*>, Any>,
 ) {
-    // Obtain return type for current task.
-    val type: Type<*> = task.signature.returns
+    // Obtain type of current task.
+    val type: Type<*> = task.type
 
     // Keep task job.
     jobs += type to scope.launch {

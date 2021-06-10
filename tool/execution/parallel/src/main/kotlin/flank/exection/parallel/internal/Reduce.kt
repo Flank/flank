@@ -6,8 +6,12 @@ import flank.exection.parallel.Tasks
 internal infix fun Tasks.reduceTo(
     selectedTypes: Set<Parallel.Type<*>>
 ): Tasks =
-    filter { task -> task.signature.run { returns in selectedTypes } }
+    filter { task -> task.type in selectedTypes }
         .toSet()
+        .apply {
+            val notFound = selectedTypes - map(Parallel.Task<*>::type)
+            if (notFound.isNotEmpty()) throw Exception("Cannot reduce find tasks for the following types: $notFound")
+        }
         .reduce(this)
 
 /**
@@ -26,7 +30,7 @@ private tailrec fun Tasks.reduce(
 ): Tasks =
     when {
         isEmpty() -> acc
-        else -> flatMap { task -> task.signature.args }
+        else -> flatMap(Parallel.Task<*>::args)
             .mapNotNull(all::findByReturnType)
             .toSet()
             .reduce(all, acc + this)
@@ -35,4 +39,4 @@ private tailrec fun Tasks.reduce(
 private fun Tasks.findByReturnType(
     type: Parallel.Type<*>
 ): Parallel.Task<*>? =
-    find { task -> task.signature.returns == type }
+    find { task -> task.type == type }

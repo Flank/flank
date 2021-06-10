@@ -2,39 +2,8 @@ package flank.exection.parallel
 
 import flank.exection.parallel.internal.ContextProvider
 import flank.exection.parallel.internal.EagerProperties
-import flank.exection.parallel.internal.Execution
-import flank.exection.parallel.internal.initialValidators
-import flank.exection.parallel.internal.invoke
 import flank.exection.parallel.internal.lazyProperty
-import flank.exection.parallel.internal.reduceTo
-import flank.exection.parallel.internal.validate
-import kotlinx.coroutines.flow.Flow
 import java.lang.System.currentTimeMillis
-
-// ======================= Core functions =======================
-
-/**
- * Reduce given [Tasks] by [select] types to remove unneeded tasks from the graph.
- * The returned graph will only tasks that are returning selected types, their dependencies and derived dependencies.
- * Additionally this is keeping also the validators for initial state.
- *
- * @return Reduced [Tasks]
- */
-operator fun Tasks.invoke(
-    select: Set<Parallel.Type<*>>
-): Tasks =
-    reduceTo(select + initialValidators)
-
-/**
- * Execute tasks in parallel with a given args.
- * Before executing, the [validate] is performed on a [Tasks] for a given [args] to detect missing dependencies.
- *
- * @return [Flow] of [ParallelState] changes.
- */
-infix operator fun Tasks.invoke(
-    args: ParallelState
-): Flow<ParallelState> =
-    Execution(validate(args), args).invoke()
 
 // ======================= Types =======================
 
@@ -95,13 +64,15 @@ object Parallel {
         val execute: ExecuteTask<R>
     ) {
         /**
-         * The task signature that contains arguments types and returned type.
+         * The task signature.
+         *
+         * @param type A return type of a task
+         * @param args A set of types for arguments
          */
         data class Signature<R : Any>(
-            val returns: Type<R>,
+            val type: Type<R>,
             val args: Set<Type<*>>,
         )
-
     }
 
     /**
@@ -120,9 +91,14 @@ object Parallel {
 
     object Logger : Type<Output>
 
-    data class ValidationError(
-        val data: MissingDependencies
-    ) : Exception("Cannot resolve dependencies $data")
+    object DependenciesError {
+        data class Missing(val data: TypeDependencies) : Error("Missing dependencies $data")
+        data class Duplicate(val data: DuplicateDependencies) : Error("Duplicate dependencies $data")
+        data class NoEntryPoint(val initial: Set<Type<*>>, val tasks: TypeDependencies) :
+            Error("No entry points in tasks $tasks with initial state $initial")
+
+        data class Cycles(val data: List<List<Type<*>>>) : Error("Found cycles in graph $data")
+    }
 }
 
 // ======================= Aliases =======================
@@ -150,4 +126,9 @@ typealias Tasks = Set<Parallel.Task<*>>
 /**
  * The [Map.values] are representing missing dependencies required by the tasks to provide [Map.keys].
  */
-typealias MissingDependencies = Map<Parallel.Type<*>, Set<Parallel.Type<*>>>
+typealias TypeDependencies = Map<Parallel.Type<*>, Set<Parallel.Type<*>>>
+
+/**
+ * The [Map.values] are representing missing dependencies required by the tasks to provide [Map.keys].
+ */
+typealias DuplicateDependencies = Map<Parallel.Type<*>, Int>

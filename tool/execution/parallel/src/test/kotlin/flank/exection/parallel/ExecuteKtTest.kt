@@ -10,7 +10,6 @@ import kotlinx.coroutines.withTimeout
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import java.lang.ClassCastException
 import java.util.concurrent.atomic.AtomicInteger
 
 // ====================== COMMON TYPES ======================
@@ -24,7 +23,7 @@ object E : Parallel.Type<Any>
 
 // ====================== TESTS ======================
 
-class ParallelTest {
+class ExecuteKtTest {
 
     /**
      * Executing [Tasks] will return empty flow of [ParallelState].
@@ -128,7 +127,7 @@ class ParallelTest {
         val execute = setOf(
             A using { delay(50); throw Exception() },
             B using { delay(100) },
-            C from setOf(B) using {}
+            C from setOf(B) using { }
         )
         val actual = runBlocking { execute().last() }
         assertTrue(actual[B].toString(), actual[B] is CancellationException)
@@ -162,20 +161,5 @@ class ParallelTest {
         val actual = runBlocking { execute(args).last() }
 
         assert(actual[A] is NullPointerException)
-    }
-
-    /**
-     * If the validator function is specified in tasks it will validate arguments before running the execution.
-     * The failing validation will throw [NullPointerException] or [ClassCastException]
-     */
-    @Test(expected = ClassCastException::class)
-    fun `validate arguments`() {
-        class Context : Parallel.Context() {
-            val initial by !IntType
-        }
-
-        val args: ParallelState = mapOf(IntType to "asd")
-        val execute = setOf(validator(::Context))
-        runBlocking { execute(args).last() }
     }
 }

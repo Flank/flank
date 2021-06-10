@@ -8,4 +8,4 @@ import flank.exection.parallel.Tasks
  * This is necessary to perform validations of initial state before the execution.
  */
 internal val Tasks.initialValidators: List<Parallel.Context>
-    get() = mapNotNull { task -> task.signature.returns as? Parallel.Context }
+    get() = mapNotNull { task -> task.type as? Parallel.Context }

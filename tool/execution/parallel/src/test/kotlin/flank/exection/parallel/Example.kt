@@ -54,11 +54,6 @@ private object Example {
     }
 
     /**
-     * Factory method for creating task functions with [Context].
-     */
-    val context = Parallel.Function(::Context)
-
-    /**
      * List of tasks in [Example] scope
      */
     val execute: Tasks by lazy {
@@ -73,7 +68,12 @@ private object Example {
         )
     }
 
-    // ======================= Internal Tasks =======================
+    /**
+     * Factory method for creating task functions with [Context].
+     */
+    private val context = Parallel.Function(::Context)
+
+    // ======================= Tasks =======================
 
     private val validate: Parallel.Task<Unit> = validator(::Context)
 
