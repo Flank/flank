@@ -31,12 +31,12 @@ private tailrec fun Tasks.reduce(
     when {
         isEmpty() -> acc
         else -> flatMap(Parallel.Task<*>::args)
-            .mapNotNull(all::findByReturnType)
+            .mapNotNull(all::findByType)
             .toSet()
             .reduce(all, acc + this)
     }
 
-private fun Tasks.findByReturnType(
+private fun Tasks.findByType(
     type: Parallel.Type<*>
 ): Parallel.Task<*>? =
     find { task -> task.type == type }
