@@ -15,7 +15,6 @@ infix operator fun Tasks.invoke(
 ): Flow<ParallelState> =
     Execution(this, args).invoke()
 
-
 // ======================= Extensions =======================
 
 /**

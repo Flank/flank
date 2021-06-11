@@ -5,7 +5,6 @@ import org.junit.Test
 
 class FindCyclesKtTest {
 
-
     @Test
     fun valid0() {
         val graph = mapOf(
@@ -26,7 +25,7 @@ class FindCyclesKtTest {
         val used = mutableSetOf<Int>()
         val graph = nodes.associateWith {
             used += it
-            (nodes.shuffled() - used).run { take((0..(size/10)).random()) }.toSet()
+            (nodes.shuffled() - used).run { take((0..(size / 10)).random()) }.toSet()
         }
         // println("=================================")
         // graph.forEach { println(it) }
@@ -61,7 +60,6 @@ class FindCyclesKtTest {
 
         assertEquals(expected, actual)
     }
-
 
     @Test
     fun cyclic2() {
@@ -121,8 +119,8 @@ class FindCyclesKtTest {
             5 to setOf(3)
         )
         val expected = listOf(
-            listOf(3,1,2,3),
-            listOf(3,4,5,3),
+            listOf(3, 1, 2, 3),
+            listOf(3, 4, 5, 3),
         )
         val actual = graph.findCycles()
 

@@ -40,4 +40,3 @@ fun Tasks.validate(initial: ParallelState = emptyMap()): Tasks = run {
 private fun Iterable<Parallel.Task<*>>.splitTasks() = this
     .groupBy { task -> task.type is Parallel.Context }
     .run { getOrDefault(true, emptyList()) to getOrDefault(false, emptyList()) }
-
