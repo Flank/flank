@@ -13,7 +13,9 @@ Library for task parallelization and asynchronous execution.
 
 # Design
 
-Imagine a complicated long-running `execution` that needs to perform several operations (`tasks`) in correct order to collect a required `data` and produce `side effects`. Any `execution` like that, can be modeled as set of unrelated data `types` and suspendable functions (`tasks`).
+Imagine a complicated long-running `execution` that needs to perform several operations (`tasks`) in correct order to
+collect a required `data` and produce `side effects`. Any `execution` like that, can be modeled as set of unrelated
+data `types` and suspendable functions (`tasks`).
 
 #### The example execution graph
 
@@ -28,7 +30,7 @@ Imagine a complicated long-running `execution` that needs to perform several ope
     * returned from task.
     * returned from execution.
 
-### Example
+#### Example code
 
 ```kotlin
 object Args : Parallel.Type<List<Any>>
@@ -40,7 +42,7 @@ object Logger : Parallel.Type<Output>
 
 ## Task
 
-* is representing a single atomic operation in the execution process. 
+* is representing a single atomic operation in the execution process.
 * is a relation of signature and task function.
 * `arguments` for task are coming from `initial state` (`arguments`) or results from other `tasks`.
 * can be uniquely identified using return type of its signature.
@@ -67,7 +69,7 @@ object Logger : Parallel.Type<Output>
 
 ![parallel-execution](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2001_Implement_tool_for_parallel_execution/docs/hld/task-graph.puml)
 
-### Example
+#### Example code
 
 ```kotlin
 
@@ -105,7 +107,7 @@ val execute = setOf(
 * is used for providing arguments and dependencies for tasks.
 * is emitted in flow after each change.
 
-### Example
+#### Example code
 
 ```kotlin
 // Preparing initial state
@@ -117,11 +119,14 @@ val initial = mapOf(
 
 ## Execution
 
-* will run tasks in optimized order creating synchronization points where needed and running all other stuff in parallel.
+* will run tasks in optimized order creating synchronization points where needed and running all other stuff in
+  parallel.
 * is collecting result from each task, and accumulating it to state.
 * is returning the flow of realtime state changes.
 * can detach and fail if set of `tasks` are creating broken graph with `missing dependencies`.
 * Each task in execution scope must have unique return type. This is crucial for producing correct graph.
+
+#### Example code
 
 ```kotlin
 
