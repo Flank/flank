@@ -1,6 +1,6 @@
 package flank.exection.parallel.internal.graph
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class FindCyclesKtTest {
