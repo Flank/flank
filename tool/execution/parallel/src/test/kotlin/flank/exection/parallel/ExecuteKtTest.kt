@@ -125,8 +125,8 @@ class ExecuteKtTest {
     @Test
     fun `abort execution`() {
         val execute = setOf(
-            A using { delay(50); throw Exception() },
-            B using { delay(100) },
+            A using { delay(100); throw Exception() },
+            B using { delay(300) },
             C from setOf(B) using { }
         )
         val actual = runBlocking { execute().last() }
