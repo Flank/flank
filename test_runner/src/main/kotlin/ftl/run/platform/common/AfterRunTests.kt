@@ -17,7 +17,6 @@ import ftl.run.common.updateMatrixFile
 import ftl.util.StopWatch
 import ftl.util.formatted
 import ftl.util.isInvalid
-import ftl.util.webLink
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.joinAll
@@ -65,7 +64,7 @@ internal suspend inline fun MatrixMap.printMatricesWebLinks(project: String) = c
     logLn()
 }
 
-private tailrec fun getOrUpdateWebLink(link: String, project: String, matrixId: String): String =
+private tailrec suspend fun getOrUpdateWebLink(link: String, project: String, matrixId: String): String =
     if (link.isNotBlank()) link
     else getOrUpdateWebLink(
         link = refreshTestMatrix(TestMatrix.Identity(matrixId, project)).run { if (isInvalid) "Unable to get web link" else webLink },
