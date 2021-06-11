@@ -94,9 +94,6 @@ object Parallel {
     object DependenciesError {
         data class Missing(val data: TypeDependencies) : Error("Missing dependencies $data")
         data class Duplicate(val data: DuplicateDependencies) : Error("Duplicate dependencies $data")
-        data class NoEntryPoint(val initial: Set<Type<*>>, val tasks: TypeDependencies) :
-            Error("No entry points in tasks $tasks with initial state $initial")
-
         data class Cycles(val data: List<List<Type<*>>>) : Error("Found cycles in graph $data")
     }
 }
