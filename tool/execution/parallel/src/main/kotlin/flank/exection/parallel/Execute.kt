@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 /**
  * Execute tasks in parallel with a given args.
- * Before executing, the [validate] is performed on a [Tasks] for a given [args] to detect missing dependencies.
  *
  * @return [Flow] of [ParallelState] changes.
  */
