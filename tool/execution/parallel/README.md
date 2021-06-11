@@ -17,7 +17,7 @@ Imagine a complicated long-running `execution` that needs to perform several ope
 collect a required `data` and produce `side effects`. Any `execution` like that, can be modeled as set of unrelated
 data `types` and suspendable functions (`tasks`).
 
-#### The example execution graph
+#### Example execution graph
 
 ![example-graph](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2001_Implement_tool_for_parallel_execution/docs/hld/parallel-example-graph.puml)
 
@@ -30,7 +30,7 @@ data `types` and suspendable functions (`tasks`).
     * returned from task.
     * returned from execution.
 
-#### Example code
+#### Example kotlin code
 
 ```kotlin
 object Args : Parallel.Type<List<Any>>
@@ -69,7 +69,7 @@ object Logger : Parallel.Type<Output>
 
 ![parallel-execution](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2001_Implement_tool_for_parallel_execution/docs/hld/task-graph.puml)
 
-#### Example code
+#### Example kotlin code
 
 ```kotlin
 
@@ -107,7 +107,7 @@ val execute = setOf(
 * is used for providing arguments and dependencies for tasks.
 * is emitted in flow after each change.
 
-#### Example code
+#### Example kotlin code
 
 ```kotlin
 // Preparing initial state
@@ -126,7 +126,7 @@ val initial = mapOf(
 * can detach and fail if set of `tasks` are creating broken graph with `missing dependencies`.
 * Each task in execution scope must have unique return type. This is crucial for producing correct graph.
 
-#### Example code
+#### Example kotlin code
 
 ```kotlin
 
