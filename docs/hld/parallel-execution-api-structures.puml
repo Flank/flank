@@ -10,13 +10,14 @@ class "Parallel.Task" as Task<R> {
 signature: Signature<R>
 execute: ExecuteTask<R>
 }
-class "Parallel.Task.Signature" as Task_Signature<R>{
+class "Parallel.Task.Signature" as Signature<R>{
 returns: Type<R>
 args: Set<Type<*>>
 }
 class "Parallel.Function" as Function<X: ParallelContext> {
 = suspend <R> (X.() -> R) -> ExecuteTask
 }
+interface "Any data" as Data << (R, yellow) >>
 interface ExecuteTask<R> << (T, orchid) >> {
 = suspend ParallelState.() -> R
 }
@@ -28,15 +29,28 @@ interface Output << (T, orchid) >> {
 = Any.() -> Unit
 }
 
-Output "0..1" ..o "1" Context
+
+Function ..> ExecuteTask
+
 ParallelState "1" --o "1" Context
-Type <|-- Context
+ParallelState "1" o- "*" Type
 
-Type "1" --* "1" Task_Signature
-Type "*" --o "1" Task_Signature
-Task_Signature "1" --* "*" Task
+ExecuteTask "1" -* "1" Task
+ExecuteTask o.. ParallelState
+ExecuteTask ..> Data
 
-Function "1" ..> "*" ExecuteTask
-ExecuteTask "1" --* "1" Task
+'Data "*" -o "1" ParallelState
+'Data "*" -o "1" ParallelState
+ParallelState "1" o- "*" Data
+Data .. Type
+
+
+Task "1" *--- "1" Signature
+
+Type "1" -* "1" Signature
+Type "*" -o "1" Signature
+Context -|> Type
+
+Context "0..1" o..> "1" Output
 
 @enduml
