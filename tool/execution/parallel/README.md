@@ -8,8 +8,11 @@ Library for task parallelization and asynchronous execution.
 * Dependency type - [static](../../docs/architecture.md#static_dependencies)
 * Public API
     * Core - [Parallel.kt](./src/main/kotlin/flank/exection/parallel/Parallel.kt)
-    * Task factories DSL - [Factory.kt](./src/main/kotlin/flank/exection/parallel/Factory.kt)
-    * Extensions - [Ext.kt](./src/main/kotlin/flank/exection/parallel/Ext.kt)
+    * Execution - [Execute.kt](./src/main/kotlin/flank/exection/parallel/Execute.kt)
+    * Task factories DSL - [Create.kt](./src/main/kotlin/flank/exection/parallel/Create.kt)
+    * Graph validation - [Create.kt](./src/main/kotlin/flank/exection/parallel/Validate.kt)
+    * Graph reduction - [Reduce.kt](./src/main/kotlin/flank/exection/parallel/Reduce.kt)
+* Example usage - [Example.kt](./src/test/kotlin/flank/exection/parallel/Example.kt)
 
 # Design
 
@@ -146,9 +149,9 @@ The following diagram is showing parallel execution algorithm in details:
 
 ![parallel-execution](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/Flank/flank/2001_Implement_tool_for_parallel_execution/docs/hld/parallel-execution.puml)
 
-# Relations
+# API
 
-The following graphs are showing constrains between elements described previously.
+The following graphs are showing constrains between API elements described previously.
 
 ### Functions
 
