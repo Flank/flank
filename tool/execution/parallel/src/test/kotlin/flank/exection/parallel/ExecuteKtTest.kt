@@ -4,6 +4,8 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
@@ -20,6 +22,7 @@ object B : Parallel.Type<Any>
 object C : Parallel.Type<Any>
 object D : Parallel.Type<Any>
 object E : Parallel.Type<Any>
+object F : Parallel.Type<Any>
 
 // ====================== TESTS ======================
 
@@ -161,5 +164,36 @@ class ExecuteKtTest {
         val actual = runBlocking { execute(args).last() }
 
         assert(actual[A] is NullPointerException)
+    }
+
+    /**
+     * Values of types that are not expected but required as dependencies,
+     * can be automatically removed when there are no remaining tasks depending on them.
+     */
+    @Test
+    fun `removing unneeded values`() {
+        val execute = setOf(
+            A from setOf(B) using {},
+            B from setOf(E, C) using {},
+            C from setOf(F, E, D) using {},
+            D from setOf(E, F) using {},
+            E from setOf(F) using {},
+            F using {},
+        )
+        val expected = listOf(
+            setOf(F),
+            setOf(F, E),
+            setOf(F, E, D),
+            setOf(E, C),
+            setOf(B),
+            setOf(A),
+        )
+        val actual = runBlocking {
+            execute(A)()
+                .onEach { state -> println(); state.forEach(::println) }
+                .map { state -> state.keys }
+                .toList()
+        }
+        assertEquals(expected, actual)
     }
 }

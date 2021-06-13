@@ -1,42 +1,22 @@
 package flank.exection.parallel.internal
 
-import flank.exection.parallel.Parallel
+import flank.exection.parallel.Parallel.Task
+import flank.exection.parallel.Parallel.Type
 import flank.exection.parallel.Tasks
+import flank.exection.parallel.internal.graph.findDependenciesIn
 
 internal infix fun Tasks.reduceTo(
-    selectedTypes: Set<Parallel.Type<*>>
-): Tasks =
-    filter { task -> task.type in selectedTypes }
-        .toSet()
-        .apply {
-            val notFound = selectedTypes - map(Parallel.Task<*>::type)
-            if (notFound.isNotEmpty()) throw Exception("Cannot reduce find tasks for the following types: $notFound")
+    expected: Set<Type<*>>
+): Tasks {
+    val notFound = expected - map(Task<*>::type)
+    if (notFound.isNotEmpty()) throw Exception("Cannot find tasks for the following types: $notFound")
+    val graph: Map<Type<*>, Set<Type<*>>> = associate { task -> task.type to task.args }
+    val dependencies = expected.findDependenciesIn(graph)
+    return mapNotNull { task ->
+        when (task.type) {
+            in expected -> task
+            in dependencies -> task.copy(expected = false)
+            else -> null
         }
-        .reduce(this)
-
-/**
- * Reduce [all] steps to given receiver steps and their dependencies.
- *
- * @receiver The task selector for current reducing step.
- * @param all The list of all tasks that are under reducing.
- * @param acc Currently accumulated tasks.
- * @return Accumulated tasks if selector is empty.
- */
-private tailrec fun Tasks.reduce(
-    all: Tasks,
-    acc: Tasks =
-        if (isEmpty()) all
-        else emptySet(),
-): Tasks =
-    when {
-        isEmpty() -> acc
-        else -> flatMap(Parallel.Task<*>::args)
-            .mapNotNull(all::findByType)
-            .toSet()
-            .reduce(all, acc + this)
-    }
-
-private fun Tasks.findByType(
-    type: Parallel.Type<*>
-): Parallel.Task<*>? =
-    find { task -> task.type == type }
+    }.toSet()
+}

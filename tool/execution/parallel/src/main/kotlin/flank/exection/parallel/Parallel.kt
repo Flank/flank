@@ -61,7 +61,8 @@ object Parallel {
      */
     data class Task<R : Any>(
         val signature: Signature<R>,
-        val execute: ExecuteTask<R>
+        val execute: ExecuteTask<R>,
+        val expected: Boolean = true,
     ) {
         /**
          * The task signature.
@@ -78,7 +79,7 @@ object Parallel {
     /**
      * Parameterized factory for creating task functions in scope of [X].
      */
-    class Function<X : Context>(override val context: () -> X) : ContextProvider<X>
+    class Function<X : Context>(override val context: () -> X) : ContextProvider<X>()
 
     data class Event internal constructor(
         val type: Type<*>,
@@ -114,6 +115,11 @@ typealias Output = Any.() -> Unit
  * Immutable state for parallel execution.
  */
 typealias ParallelState = Map<Parallel.Type<*>, Any>
+
+/**
+ * Immutable state for parallel execution.
+ */
+typealias Property = Pair<Parallel.Type<*>, Any>
 
 /**
  * Type for group of parallel tasks. Each task must be unique in group.

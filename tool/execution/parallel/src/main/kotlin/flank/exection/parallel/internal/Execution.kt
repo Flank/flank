@@ -6,6 +6,7 @@ import flank.exection.parallel.Parallel.Logger
 import flank.exection.parallel.Parallel.Task
 import flank.exection.parallel.Parallel.Type
 import flank.exection.parallel.ParallelState
+import flank.exection.parallel.Property
 import flank.exection.parallel.Tasks
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +20,7 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.scan
 import kotlinx.coroutines.launch
+import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * Invoke the given [Execution] in parallel.
@@ -30,7 +32,7 @@ internal operator fun Execution.invoke(): Flow<ParallelState> =
         .onEach { (type, value) -> if (value is Throwable && isNotClosed()) abortBy(type, value) }
 
         // Accumulate each received value in state.
-        .scan(initial) { state, value -> state + value }
+        .scan(initial, updateState())
 
         // Handle state changes.
         .onEach { state: ParallelState ->
@@ -90,12 +92,20 @@ internal class Execution(
     /**
      * The set of value types required to complete the execution.
      */
-    val required = tasks.map(Task<*>::type).toSet()
+    val required = tasks.filter(Task<*>::expected).map(Task<*>::type).toSet()
 
     /**
      * Map of remaining tasks for run grouped by arguments.
      */
     val remaining = tasks.groupBy(Task<*>::args).toMutableMap()
+
+    /**
+     * Reference counter for state types marked as not expected.
+     * Values of types that are not expected but required as dependencies,
+     * can be removed when there are no remaining tasks depending on them.
+     */
+    val references = tasks.flatMap(Task<*>::args).groupBy { it }
+        .minus(required).mapValues { (_, refs) -> AtomicInteger(refs.size) }
 
     /**
      * Reference to optional output for structural logs.
@@ -131,6 +141,17 @@ private suspend fun Execution.abortBy(type: Type<*>, cause: Throwable) {
 }
 
 /**
+ * Create function for updating state depending on reference counter state.
+ */
+private fun Execution.updateState(): suspend (ParallelState, Property) -> ParallelState =
+    if (references.isEmpty()) ParallelState::plus
+    else { state, property ->
+        references.filterValues { counter -> counter.compareAndSet(0, 0) }
+            .map { (type, _) -> type }
+            .let { junks -> state + property - junks }
+    }
+
+/**
  * The execution is complete when all required types was accumulated to state.
  */
 private fun Execution.isComplete(state: ParallelState): Boolean =
@@ -157,7 +178,7 @@ private fun Execution.filterTasksFor(state: ParallelState): Map<Set<Type<*>>, Li
             channel.isEmpty.not() || // some values are waiting in the channel queue.
             throw DeadlockError(state, jobs, remaining)
 
-        // Remove from queue the tasks for current iteration.
+        // Remove from queue tasks for current iteration.
         remaining -= keys
     }
 
@@ -185,6 +206,11 @@ private fun Execution.execute(
     task: Task<*>,
     args: Map<Type<*>, Any>,
 ) {
+    // Decrement references to arguments types
+    if (references.isNotEmpty()) task.args.forEach { type ->
+        references[type]?.getAndUpdate { count -> count - 1 }
+    }
+
     // Obtain type of current task.
     val type: Type<*> = task.type
 

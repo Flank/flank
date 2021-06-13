@@ -6,7 +6,7 @@ import flank.exection.parallel.Example.Summary
 import flank.exection.parallel.Parallel.Type
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
@@ -14,22 +14,6 @@ import kotlinx.coroutines.runBlocking
 // ======================= Public API =======================
 
 private object Example {
-
-    /**
-     * Context for [Example] scope.
-     * Wrapper for state values with exposed static accessors.
-     */
-    class Context : Parallel.Context() {
-        // Initial part of state.
-        // Validated before execution
-        val args by !Args
-        // Values evaluated during execution by tasks.
-        val a by -A
-        val b by -B
-        val c by -C
-        val hello by -Hello
-    }
-
     /**
      * Arguments for [Example].
      */
@@ -54,6 +38,27 @@ private object Example {
     }
 
     /**
+     * Context for [Example] scope.
+     * Wrapper for state values with exposed static accessors.
+     */
+    class Context : Parallel.Context() {
+        // Initial part of state.
+        // Validated before execution
+        val args by !Args
+
+        // Values evaluated during execution by tasks.
+        val a by -A
+        val b by -B
+        val c by -C
+        val hello by -Hello
+    }
+
+    /**
+     * Factory method for creating task functions with [Context].
+     */
+    val context = Parallel.Function(::Context)
+
+    /**
      * List of tasks in [Example] scope
      */
     val execute: Tasks by lazy {
@@ -67,11 +72,6 @@ private object Example {
             groupAndCount,
         )
     }
-
-    /**
-     * Factory method for creating task functions with [Context].
-     */
-    private val context = Parallel.Function(::Context)
 
     // ======================= Tasks =======================
 
@@ -118,6 +118,27 @@ private object Example {
 // ======================= Example Run =======================
 
 fun main() {
+    val args = mapOf(
+        // Specify initial state.
+        // Commend initial Args to simulate failure of initial validation.
+        Args to Args(
+            wait = 50,
+            a = 5,
+            b = 8,
+            c = 13,
+        ),
+        Parallel.Logger to { log: Any ->
+            // println(log)
+        },
+    )
+
+    Example.run {
+        execute + context.validator
+    }.validate(
+        // Comment line below to simulate error on context.validator
+        args
+    )
+
     runBlocking {
         Example.execute(
             // Expect selected tasks.
@@ -125,19 +146,7 @@ fun main() {
             Hello,
             // Uncomment to simulate failing execution.
             // Hello.Failing,
-        )(
-            // Specify initial state.
-            // Commend initial Args to simulate failure of initial validation.
-            Args to Args(
-                wait = 50,
-                a = 5,
-                b = 8,
-                c = 13,
-            ),
-            Parallel.Logger to { log: Any ->
-                println(log)
-            },
-        ).last().let { state ->
+        )(args).collect { state ->
             // Print final state
             println()
             state.forEach(::println)

@@ -1,11 +1,17 @@
 package flank.exection.parallel.internal.graph
 
-tailrec fun <T : Any> Map<T, Set<T>>.findCycles(
+/**
+ * Find cycles in given graph.
+ *
+ * @receiver Graph to search.
+ * @return List of cycles. Each cycle is a list of nodes.
+ */
+internal tailrec fun <T : Any> Map<T, Set<T>>.findCycles(
 
-    remaining: List<T> = toList()
-        .sortedByDescending { (_, edges) -> edges.size }
-        .map { (vertices, _) -> vertices }
-        .toMutableList(),
+    remaining: Set<T> = toList()
+        .sortedByDescending { (_, children) -> children.size }
+        .map { (parent, _) -> parent }
+        .toSet(),
 
     queue: List<T> = emptyList(),
 
@@ -28,7 +34,6 @@ tailrec fun <T : Any> Map<T, Set<T>>.findCycles(
     val cycle = current in path + next
 
     // println("$cycle R:$remaining Q:$queue N:$next C:$current P:$path V:$visited")
-    // println()
 
     return findCycles(
         remaining =
