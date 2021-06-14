@@ -1,6 +1,6 @@
 object Versions {
     // https://github.com/getsentry/sentry-java/releases
-    const val SENTRY = "5.0.0"
+    const val SENTRY = "5.0.1"
 
     // https://github.com/mixpanel/mixpanel-java/releases
     const val MIXPANEL = "1.5.0"
@@ -9,7 +9,7 @@ object Versions {
     const val DD_PLIST = "1.23"
 
     // https://github.com/jeremymailen/kotlinter-gradle
-    const val KTLINT_GRADLE = "3.4.4"
+    const val KTLINT_GRADLE = "3.4.5"
 
     const val KTLINT = "0.40.0"
 
@@ -90,7 +90,7 @@ object Versions {
     const val COMMON_TEXT = "1.9"
 
     // https://github.com/fusesource/jansi/releases
-    const val JANSI = "2.3.2"
+    const val JANSI = "2.3.3"
 
     // https://github.com/ben-manes/gradle-versions-plugin/releases
     const val BEN_MANES = "0.39.0"
