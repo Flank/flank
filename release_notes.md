@@ -1,3 +1,14 @@
+## v21.06.1
+### Bug Fixes
+- [#2026](https://github.com/Flank/flank/pull/2026) Fix flank freezes when large number of matrices is launched ([pawelpasterz](https://github.com/pawelpasterz))
+- [#2020](https://github.com/Flank/flank/pull/2020) Added missing help command ()
+- [#2019](https://github.com/Flank/flank/pull/2019) Fix generating documentation ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#2010](https://github.com/Flank/flank/pull/2010) Dumpshards fix #1 ([Sloox](https://github.com/Sloox))
+### Features
+- [#2004](https://github.com/Flank/flank/pull/2004) Additional config options for test pairs ([pawelpasterz](https://github.com/pawelpasterz))
+- [#2016](https://github.com/Flank/flank/pull/2016) Set Google api issues level as DEBUG ([piotradamczyk5](https://github.com/piotradamczyk5))
+- [#1998](https://github.com/Flank/flank/pull/1998) Load test cases durations from previous run and use for sharding ([jan-gogo](https://github.com/jan-gogo))
+
 ## v21.06.0
 ### Bug Fixes
 - [#1994](https://github.com/Flank/flank/pull/1994) Disable ASCII doc generation (release blocker) ()
