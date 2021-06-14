@@ -2,39 +2,25 @@
 'https://plantuml.com/component-diagram
 skinparam componentStyle rectangle
 
-rectangle 7 {
 component Finalize
-}
 
-rectangle 6 {
 component NotifyRemoteServices
 component GenerateReport
-}
 
-rectangle 5 {
 component CalculateResults
-}
 
-rectangle 4 {
 component PerformExecution
-}
 
-rectangle 3 {
 component CollectRemoteData1
 component FetchPreviousResults
-}
 
-rectangle 2 {
 component InitialCalculations
 component RunRemoteProcess1
 component RunRemoteProcess2
-}
 
-rectangle 1 {
 component CollectLocalData2
 component CollectLocalData1
 component Authorize
-}
 
 Finalize *--> GenerateReport
 Finalize *--> NotifyRemoteServices
@@ -45,18 +31,22 @@ NotifyRemoteServices *--> CalculateResults
 CalculateResults *--> PerformExecution
 CalculateResults *--> FetchPreviousResults
 
-PerformExecution *----> InitialCalculations
-PerformExecution *--> CollectRemoteData1
-FetchPreviousResults *---> Authorize
-
 InitialCalculations *--> CollectLocalData1
 InitialCalculations *--> CollectLocalData2
 
-CollectRemoteData1 *--> Authorize
+PerformExecution *--> CollectRemoteData1
+PerformExecution *---> InitialCalculations
+
+FetchPreviousResults *--> Authorize
+
+InitialCalculations -[hidden]r- RunRemoteProcess1
+
 CollectRemoteData1 *--> RunRemoteProcess1
 CollectRemoteData1 *--> RunRemoteProcess2
 
-RunRemoteProcess1 *---> Authorize
-RunRemoteProcess2 *---> Authorize
+RunRemoteProcess1 *--> Authorize
+RunRemoteProcess2 *--> Authorize
+RunRemoteProcess2 -[hidden]r- FetchPreviousResults
+
 
 @enduml
