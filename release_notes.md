@@ -1,7 +1,7 @@
 ## v21.06.1
 ### Bug Fixes
 - [#2026](https://github.com/Flank/flank/pull/2026) Fix flank freezes when large number of matrices is launched ([pawelpasterz](https://github.com/pawelpasterz))
-- [#2020](https://github.com/Flank/flank/pull/2020) Added missing help command ()
+- [#2020](https://github.com/Flank/flank/pull/2020) Added missing help command ([adamfilipow92](https://github.com/adamfilipow92))
 - [#2019](https://github.com/Flank/flank/pull/2019) Fix generating documentation ([piotradamczyk5](https://github.com/piotradamczyk5))
 - [#2010](https://github.com/Flank/flank/pull/2010) Dumpshards fix #1 ([Sloox](https://github.com/Sloox))
 ### Features
