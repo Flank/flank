@@ -1,6 +1,8 @@
 package flank.corellium.domain.run.test.android.step
 
 import flank.corellium.domain.RunTestCorelliumAndroid
+import flank.corellium.domain.RunTestCorelliumAndroid.GenerateReport
+import flank.corellium.domain.step
 import flank.instrument.log.Instrument
 import flank.junit.JUnit
 import flank.junit.generateJUnitReport
@@ -16,14 +18,13 @@ import java.io.File
  * * [RunTestCorelliumAndroid.Context.createOutputDir]
  *
  */
-internal fun RunTestCorelliumAndroid.Context.generateReport() = RunTestCorelliumAndroid.step {
-    println("* Generating report")
+internal fun RunTestCorelliumAndroid.Context.generateReport() = step(GenerateReport) { out ->
     val file = File(args.outputDir, JUnit.REPORT_FILE_NAME)
     testResult
         .prepareInputForJUnit()
         .generateJUnitReport()
         .writeAsXml(file.bufferedWriter())
-    println("Created ${file.absolutePath}")
+    RunTestCorelliumAndroid.Created(file).out()
     this
 }
 

@@ -15,14 +15,15 @@ tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
 
 dependencies {
     implementation(Dependencies.KOTLIN_COROUTINES_CORE)
-    implementation(project(":corellium:api"))
-    implementation(project(":tool:apk"))
-    implementation(project(":tool:shard:calculate"))
-    implementation(project(":tool:shard:obfuscate"))
-    implementation(project(":tool:shard:dump"))
-    implementation(project(":tool:instrument:command"))
-    implementation(project(":tool:instrument:log"))
-    implementation(project(":tool:junit"))
+    api(project(":corellium:api"))
+    api(project(":tool:apk"))
+    api(project(":tool:shard:calculate"))
+    api(project(":tool:shard:obfuscate"))
+    api(project(":tool:shard:dump"))
+    api(project(":tool:instrument:command"))
+    api(project(":tool:instrument:log"))
+    api(project(":tool:junit"))
+    api(project(":tool:log"))
 
     testImplementation(Dependencies.JUNIT)
     testImplementation(project(":corellium:adapter"))

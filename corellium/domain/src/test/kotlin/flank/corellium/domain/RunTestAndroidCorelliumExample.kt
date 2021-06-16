@@ -2,6 +2,7 @@ package flank.corellium.domain
 
 import flank.apk.Apk
 import flank.corellium.corelliumApi
+import flank.log.Output
 import flank.junit.JUnit
 
 object RunTestAndroidCorelliumExample : RunTestCorelliumAndroid.Context {
@@ -13,6 +14,7 @@ object RunTestAndroidCorelliumExample : RunTestCorelliumAndroid.Context {
         apks = fewTestArtifactsApks(APK_PATH_MAIN),
         maxShardsCount = 3
     )
+    override val out: Output = { println(this) }
 }
 
 fun main() = RunTestAndroidCorelliumExample()

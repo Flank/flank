@@ -1,5 +1,9 @@
 package flank.corellium.domain.util
 
+import flank.log.Event
+import flank.log.Logger
+import flank.log.Output
+import flank.log.event
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.fold
 
@@ -20,4 +24,20 @@ internal class CreateTransformation<S> : (Transform<S>) -> Transform<S> by { it 
 /**
  * Type-alias for suspendable transforming operation
  */
-private typealias Transform<S> = suspend S.() -> S
+typealias Transform<S> = suspend S.() -> S
+
+/**
+ * Inject log output to the transform function.
+ */
+internal fun <S> Logger.injectLogger(
+    type: Any = Unit,
+    transform: suspend S.(Output) -> S
+): Transform<S> {
+    val out: Output = { type.event(this).out() }
+    return {
+        Event.Start.out()
+        val result = transform(this, out)
+        Event.Stop.out()
+        result
+    }
+}

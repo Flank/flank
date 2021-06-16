@@ -24,4 +24,5 @@ dependencies {
     implementation(Dependencies.JACKSON_YAML)
     implementation(Dependencies.JACKSON_XML)
     testImplementation(Dependencies.JUNIT)
+    testImplementation(Dependencies.MOCKK)
 }

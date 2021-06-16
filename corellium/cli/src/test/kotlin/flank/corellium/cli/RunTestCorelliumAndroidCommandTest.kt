@@ -1,9 +1,28 @@
 package flank.corellium.cli
 
+import flank.corellium.api.AndroidApps
+import flank.corellium.api.AndroidInstance
 import flank.corellium.api.Authorization
+import flank.corellium.domain.RunTestCorelliumAndroid
 import flank.corellium.domain.RunTestCorelliumAndroid.Args
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
+import flank.corellium.domain.RunTestCorelliumAndroid.Authorize
+import flank.corellium.domain.RunTestCorelliumAndroid.CleanUp
+import flank.corellium.domain.RunTestCorelliumAndroid.CompleteTests
+import flank.corellium.domain.RunTestCorelliumAndroid.DumpShards
+import flank.corellium.domain.RunTestCorelliumAndroid.ExecuteTests
+import flank.corellium.domain.RunTestCorelliumAndroid.GenerateReport
+import flank.corellium.domain.RunTestCorelliumAndroid.InstallApks
+import flank.corellium.domain.RunTestCorelliumAndroid.InvokeDevices
+import flank.corellium.domain.RunTestCorelliumAndroid.LoadPreviousDurations
+import flank.corellium.domain.RunTestCorelliumAndroid.OutputDir
+import flank.corellium.domain.RunTestCorelliumAndroid.ParseApkInfo
+import flank.corellium.domain.RunTestCorelliumAndroid.ParseTestCases
+import flank.corellium.domain.RunTestCorelliumAndroid.PrepareShards
+import flank.log.Event
+import flank.log.event
+import flank.log.invoke
+import flank.instrument.log.Instrument
+import org.junit.Assert.*
 import org.junit.Test
 import picocli.CommandLine
 import java.io.File
@@ -171,5 +190,67 @@ password: $password
         // ======================== THEN ========================
 
         assertEquals(expected, actual)
+    }
+
+    /**
+     * Test is checking if all specified events have registered dedicated formatters.
+     */
+    @Test
+    fun outputTest() {
+        // ======================== GIVEN ========================
+
+        val events = listOf(
+            Authorize event Event.Start,
+            CleanUp event Event.Start,
+            OutputDir event Event.Start,
+            DumpShards event Event.Start,
+            ExecuteTests event Event.Start,
+            CompleteTests event Event.Start,
+            GenerateReport event Event.Start,
+            InstallApks event Event.Start,
+            InvokeDevices event Event.Start,
+            LoadPreviousDurations event Event.Start,
+            ParseApkInfo event Event.Start,
+            ParseTestCases event Event.Start,
+            PrepareShards event Event.Start,
+            Unit event LoadPreviousDurations.Searching(5),
+            Unit event LoadPreviousDurations.Summary(1, 2, 3),
+            Unit event InstallApks.Status(AndroidApps.Event.Connecting.Agent("123456")),
+            Unit event InstallApks.Status(AndroidApps.Event.Connecting.Console("123456")),
+            Unit event InstallApks.Status(AndroidApps.Event.Apk.Uploading("path/to/apk.apk")),
+            Unit event InstallApks.Status(AndroidApps.Event.Apk.Installing("path/to/apk.apk")),
+            Unit event InvokeDevices.Status(AndroidInstance.Event.GettingAlreadyCreated),
+            Unit event InvokeDevices.Status(AndroidInstance.Event.Obtained(5)),
+            Unit event InvokeDevices.Status(AndroidInstance.Event.Starting(6)),
+            Unit event InvokeDevices.Status(AndroidInstance.Event.Started("123456", "AndroidDevice")),
+            Unit event InvokeDevices.Status(AndroidInstance.Event.Creating(7)),
+            Unit event InvokeDevices.Status(AndroidInstance.Event.Waiting),
+            Unit event InvokeDevices.Status(AndroidInstance.Event.Ready("123456")),
+            Unit event ExecuteTests.Status(
+                id = "123456",
+                status = Instrument.Status(
+                    code = 0,
+                    startTime = 1,
+                    endTime = 2,
+                    details = Instrument.Status.Details(emptyMap(), "Class", "Test", null)
+                )
+            ),
+            Unit event RunTestCorelliumAndroid.Created(File("path/to/apk.apk")),
+            Unit event RunTestCorelliumAndroid.AlreadyExist(File("path/to/apk.apk")),
+        )
+
+        // ======================== WHEN ========================
+
+        val nulls = events
+            .associateWith { format(it) }
+            .onEach { (_, string) -> println(string) }
+            .filterValues { it == null }
+
+        // ======================== THEN ========================
+
+        assertTrue(
+            nulls.keys.joinToString("\n", "Missing formatters for:\n"),
+            nulls.isEmpty()
+        )
     }
 }

@@ -1,10 +1,13 @@
 package flank.corellium.domain
 
 import flank.apk.Apk
+import flank.corellium.api.AndroidInstance
 import flank.corellium.api.CorelliumApi
 import flank.corellium.domain.RunTestCorelliumAndroid.Args
+import flank.log.Output
 import flank.junit.JUnit
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -51,12 +54,14 @@ class RunTestAndroidCorelliumTestMockApiAndroid : RunTestCorelliumAndroid.Contex
         },
         invokeAndroidDevices = { (amount) ->
             assertEquals(expectedShardsCount, amount)
-            (1..amount).asFlow().map(Int::toString)
+            (1..amount).asFlow().map {
+                AndroidInstance.Event.Ready(it.toString())
+            }
         },
         installAndroidApps = { list ->
             println(list)
             assertEquals(expectedShardsCount, list.size)
-            completeJob
+            emptyFlow()
         },
         executeTest = { (instances) ->
             println(instances)
@@ -84,6 +89,8 @@ class RunTestAndroidCorelliumTestMockApiAndroid : RunTestCorelliumAndroid.Contex
             )
         },
     )
+
+    override val out: Output = { }
 
     override val junit = JUnit.Api()
 

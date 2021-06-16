@@ -1,6 +1,8 @@
 package flank.corellium.domain.run.test.android.step
 
 import flank.corellium.domain.RunTestCorelliumAndroid
+import flank.corellium.domain.RunTestCorelliumAndroid.DumpShards
+import flank.corellium.domain.step
 import flank.shard.dumpTo
 import flank.shard.obfuscate
 import java.io.File
@@ -13,14 +15,13 @@ import java.io.File
  * * [RunTestCorelliumAndroid.Context.createOutputDir]
  */
 
-internal fun RunTestCorelliumAndroid.Context.dumpShards() = RunTestCorelliumAndroid.step {
-    println("* Dumping shards")
+internal fun RunTestCorelliumAndroid.Context.dumpShards() = step(DumpShards) { out ->
     val file = File(args.outputDir, ANDROID_SHARD_FILENAME)
     when (args.obfuscateDumpShards) {
         true -> obfuscate(shards)
         else -> shards
     } dumpTo file.writer()
-    println("Created ${file.absolutePath}")
+    RunTestCorelliumAndroid.Created(file).out()
     this
 }
 
