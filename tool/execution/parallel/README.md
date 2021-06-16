@@ -17,7 +17,7 @@ Library for task parallelization and asynchronous execution.
 # Design
 
 Imagine a complicated long-running `execution` that needs to perform several operations (`tasks`) in correct order to
-collect a required `data` and produce `side effects`. Any `execution` like that, can be modeled as set of unrelated
+collect required `data` and produce `side effects`. Any `execution` like that, can be modeled as a set of unrelated
 data `types` and suspendable functions (`tasks`).
 
 #### Example execution graph
@@ -48,11 +48,11 @@ object Logger : Parallel.Type<Output>
 * is representing a single atomic operation in the execution process.
 * is a relation of signature and task function.
 * `arguments` for task are coming from `initial state` (`arguments`) or results from other `tasks`.
-* can be uniquely identified using return type of its signature.
+* can be uniquely identified using the return type of its signature.
 
 ### Signature
 
-* is a set of argument `types` related with one return `type` just like in normal functions.
+* is a set of argument `types` related with one return `type` just like in a normal functions.
 
 ### Function (ExecuteTask)
 
