@@ -18,11 +18,13 @@ import flank.corellium.domain.RunTestCorelliumAndroid.OutputDir
 import flank.corellium.domain.RunTestCorelliumAndroid.ParseApkInfo
 import flank.corellium.domain.RunTestCorelliumAndroid.ParseTestCases
 import flank.corellium.domain.RunTestCorelliumAndroid.PrepareShards
+import flank.instrument.log.Instrument
 import flank.log.Event
 import flank.log.event
 import flank.log.invoke
-import flank.instrument.log.Instrument
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import picocli.CommandLine
 import java.io.File

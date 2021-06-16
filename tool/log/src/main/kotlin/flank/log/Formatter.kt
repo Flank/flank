@@ -21,4 +21,3 @@ operator fun Formatter.invoke(event: Event<*>): String? = event.run {
 val Formatter.output: Output get() = output(::println)
 
 fun Formatter.output(log: (String) -> Unit): Output = { (this as? Event<*>)?.let { invoke(it)?.let(log) } }
-

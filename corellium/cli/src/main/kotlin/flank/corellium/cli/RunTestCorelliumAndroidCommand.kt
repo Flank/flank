@@ -28,11 +28,11 @@ import flank.corellium.domain.RunTestCorelliumAndroid.ParseApkInfo
 import flank.corellium.domain.RunTestCorelliumAndroid.ParseTestCases
 import flank.corellium.domain.RunTestCorelliumAndroid.PrepareShards
 import flank.corellium.domain.invoke
+import flank.instrument.log.Instrument
+import flank.junit.JUnit
 import flank.log.Event.Start
 import flank.log.buildFormatter
 import flank.log.output
-import flank.instrument.log.Instrument
-import flank.junit.JUnit
 import picocli.CommandLine
 
 @CommandLine.Command(

@@ -38,5 +38,4 @@ class Builder internal constructor() {
         val wrap: DynamicMatcher = { invoke(this, it) != null }
         dynamic += wrap to toString
     }
-
 }
