@@ -25,7 +25,7 @@ internal fun RunTestCorelliumAndroid.Context.invokeDevices() = step(InvokeDevice
         gpuAcceleration = args.gpuAcceleration
     )
     copy(ids = api.invokeAndroidDevices(config)
-        .onEach { event -> out(event) }
+        .onEach { event -> InvokeDevices.Status(event).out() }
         .filterIsInstance<AndroidInstance.Event.Ready>()
         .map { instance -> instance.id }
         .toList()

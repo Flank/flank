@@ -3,7 +3,7 @@ package flank.corellium.domain.util
 import flank.log.Event
 import flank.log.Logger
 import flank.log.Output
-import flank.log.event
+import flank.log.wrapEvents
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.fold
 
@@ -33,7 +33,7 @@ internal fun <S> Logger.injectLogger(
     type: Any = Unit,
     transform: suspend S.(Output) -> S
 ): Transform<S> {
-    val out: Output = { type.event(this).out() }
+    val out: Output = out.wrapEvents(type)
     return {
         Event.Start.out()
         val result = transform(this, out)

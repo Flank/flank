@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.collect
 internal fun RunTestCorelliumAndroid.Context.installApks() = step(InstallApks) { out ->
     require(shards.size <= ids.size) { "Not enough instances, required ${shards.size} but was $ids.size" }
     val apks = prepareApkToInstall()
-    api.installAndroidApps(apks).collect { event -> event.out() }
+    api.installAndroidApps(apks).collect { event -> InstallApks.Status(event).out() }
     // If tests will be executed too fast just after the
     // app installed, the instrumentation will fail
     delay(8_000)
