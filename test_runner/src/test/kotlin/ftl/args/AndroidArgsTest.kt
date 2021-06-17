@@ -356,6 +356,7 @@ AndroidArgs
       num-flaky-test-attempts: 3
       test-targets-for-shard:
       fail-fast: false
+      parameterized-tests: default
 
     flank:
       max-test-shards: 7
@@ -445,6 +446,7 @@ AndroidArgs
       num-flaky-test-attempts: 0
       test-targets-for-shard:
       fail-fast: false
+      parameterized-tests: default
 
     flank:
       max-test-shards: 1

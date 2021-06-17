@@ -7,6 +7,7 @@ import ftl.args.yml.AppTestPair
 import ftl.args.yml.IYmlKeys
 import ftl.args.yml.ymlKeys
 import ftl.config.Config
+import ftl.config.FlankDefaults
 import picocli.CommandLine
 
 /** Flank specific parameters for Android */
@@ -55,6 +56,13 @@ data class AndroidFlankConfig @JsonIgnore constructor(
     @set:JsonProperty("legacy-junit-result")
     var useLegacyJUnitResult: Boolean? by data
 
+    @set:CommandLine.Option(
+        names = ["--parameterized-tests"],
+        description = ["Specifies how to handle tests which contain the parameterization annotation."]
+    )
+    @set:JsonProperty("parameterized-tests")
+    var parameterizedTests: String? by data
+
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {
@@ -68,6 +76,7 @@ data class AndroidFlankConfig @JsonIgnore constructor(
         fun default() = AndroidFlankConfig().apply {
             additionalAppTestApks = null
             useLegacyJUnitResult = false
+            parameterizedTests = FlankDefaults.DEFAULT_PARAMETERIZED_TESTS
         }
     }
 }
