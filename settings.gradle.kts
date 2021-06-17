@@ -16,10 +16,10 @@ include(
 
     ":corellium:cli",
     ":corellium:domain",
-    ":corellium:sandbox",
     ":corellium:api",
     ":corellium:adapter",
     ":corellium:client",
+    ":corellium:sandbox",
 
     ":tool:apk",
     ":tool:shard",
@@ -29,6 +29,8 @@ include(
     ":tool:instrument:command",
     ":tool:instrument:log",
     ":tool:junit",
+    ":tool:log",
+    ":tool:log:format",
 )
 
 plugins {
