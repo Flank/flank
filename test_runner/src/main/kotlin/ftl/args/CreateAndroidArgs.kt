@@ -45,7 +45,7 @@ fun createAndroidArgs(
     grantPermissions = gcloud.grantPermissions,
     testTargetsForShard = gcloud.testTargetsForShard?.normalizeToTestTargets().orEmpty(),
     customSharding = createCustomShards(commonArgs.customShardingJson),
-    parameterizedTests = flank::parameterizedTests.get()
+    parameterizedTests = gcloud.parameterizedTests
 )
 
 private fun createCustomShards(shardingJsonPath: String) =

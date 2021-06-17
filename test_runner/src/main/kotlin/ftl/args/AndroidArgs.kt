@@ -59,6 +59,7 @@ data class AndroidArgs(
     @property:AnonymizeInStatistics
     val testTargetsForShard: ShardChunks,
 
+    @property:IgnoreInStatistics
     val parameterizedTests: String?,
 
     @property:IgnoreInStatistics

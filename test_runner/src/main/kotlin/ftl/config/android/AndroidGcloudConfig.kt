@@ -248,6 +248,13 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
     @set:JsonProperty("test-targets-for-shard")
     var testTargetsForShard: List<String>? by data
 
+    @set:CommandLine.Option(
+        names = ["--parameterized-tests"],
+        description = ["Specifies how to handle tests which contain the parameterization annotation."]
+    )
+    @set:JsonProperty("parameterized-tests")
+    var parameterizedTests: String? by data
+
     constructor() : this(mutableMapOf<String, Any?>().withDefault { null })
 
     companion object : IYmlKeys {
@@ -276,6 +283,7 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
             roboDirectives = emptyMap()
             roboScript = null
             testTargetsForShard = emptyList()
+            parameterizedTests = FlankDefaults.DEFAULT_PARAMETERIZED_TESTS
         }
     }
 }
