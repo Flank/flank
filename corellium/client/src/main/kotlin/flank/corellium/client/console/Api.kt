@@ -29,17 +29,6 @@ suspend fun Console.waitForIdle(timeToWait: Long) {
  */
 suspend fun Console.close(): Unit = session.close()
 
-@Deprecated("Use Console.flowLogs()")
-fun Console.launchOutputPrinter() = session.launch {
-    // drop console bash history which is received as first frame
-    session.incoming.receive()
-
-    for (frame in session.incoming) {
-        lastResponseTime = System.currentTimeMillis()
-        print(frame.data.decodeToString())
-    }
-}
-
 /**
  * Clear unread log messages buffer.
  */

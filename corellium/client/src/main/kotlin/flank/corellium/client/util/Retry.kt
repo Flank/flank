@@ -1,45 +1,16 @@
 package flank.corellium.client.util
 
 import io.ktor.client.features.ServerResponseException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.cancelAndJoin
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlin.math.pow
 
-// TODO convert print lines to structural logging
-
-suspend inline fun <T> withRetry(crossinline block: suspend CoroutineScope.() -> T) = coroutineScope {
-    var currentDelay = 500L
-    repeat(6) {
+suspend inline fun <R> withRetry(crossinline block: suspend () -> R): R =
+    (0 until 5).mapNotNull { multi ->
         try {
-            return@coroutineScope block()
+            block()
         } catch (e: ServerResponseException) {
-            println("Request failed due to: ${e.message}")
-            println("Waiting $currentDelay ms before $it attempt")
+            val wait = (2.0).pow(multi).times(1000).toLong()
+            delay(wait)
+            null
         }
-        delay(currentDelay)
-        currentDelay = (currentDelay * 2).coerceAtMost(20_000)
-    }
-    return@coroutineScope block()
-}
-
-suspend inline fun <T> withProgress(
-    initialDelay: Long = 0,
-    crossinline block: suspend CoroutineScope.() -> T
-) = coroutineScope {
-    if (initialDelay > 0) delay(initialDelay)
-    val progress = launch {
-        println("Progress")
-        while (true) {
-            print(".")
-            delay(2500)
-        }
-    }
-    try {
-        return@coroutineScope block()
-    } finally {
-        progress.cancelAndJoin()
-        println()
-    }
-}
+    }.firstOrNull() ?: block()

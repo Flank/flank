@@ -5,7 +5,7 @@ package flank.corellium.sandbox.android
 import flank.corellium.client.agent.disconnect
 import flank.corellium.client.agent.uploadFile
 import flank.corellium.client.console.close
-import flank.corellium.client.console.launchOutputPrinter
+import flank.corellium.client.console.flowLogs
 import flank.corellium.client.console.sendCommand
 import flank.corellium.client.console.waitForIdle
 import flank.corellium.client.core.connectAgent
@@ -20,6 +20,8 @@ import flank.corellium.client.data.Instance
 import flank.corellium.client.data.Instance.BootOptions
 import flank.corellium.sandbox.config.Config
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.io.File
 
@@ -95,7 +97,7 @@ fun main(): Unit = runBlocking {
 
     println("Running tests... ")
     console.sendCommand("am instrument -r -w com.example.test_app.test/androidx.test.runner.AndroidJUnitRunner")
-    console.launchOutputPrinter()
+    console.launch { console.flowLogs().collect { println(it) } }
 
     console.waitForIdle(5_000)
     println()
