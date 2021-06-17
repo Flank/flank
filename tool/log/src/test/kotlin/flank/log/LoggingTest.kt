@@ -8,12 +8,22 @@ private const val VALUE = "value"
 private const val CLASS = "class"
 private const val STRING = "string"
 
+/**
+ * Complete logger API test.
+ */
 class LoggingTest {
 
     private object Singleton : Event.Type<Unit>
     private object Value : Event.Type<String>
     private data class Class(val value: String) : Event.Data
 
+    /**
+     * Test logging API.
+     *
+     * * Build [Formatter] with different types of formatting functions.
+     * * Create output with events wrapper.
+     * * Pass various objects to logger output.
+     */
     @Test
     fun test() {
         // Given
