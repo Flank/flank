@@ -2,25 +2,25 @@
 
 left to right direction
 
-[cli] ..> [adapter]
-[cli] ..> [apk]
-[cli] -right-> [domain]
+[cli] *..> [adapter]
+[cli] *..> [apk]
+[cli] *-right-> [domain]
 
-[adapter] --* [client]
-[adapter] --* [api]
+[adapter] *-- [client]
+[adapter] *-- [api]
 
-[domain] --o [api]
-[domain] --o [apk]
+[domain] o-- [api]
+[domain] o-- [apk]
 
-[domain] --* [shard:calculate]
-[domain] --* [shard:obfuscate]
-[domain] --* [shard:dump]
-[domain] --* [instrument:command]
-[domain] --* [instrument:log]
-[domain] --* [junit]
+[domain] *-- [shard:calculate]
+[domain] *-- [shard:obfuscate]
+[domain] *-- [shard:dump]
+[domain] *-- [instrument:command]
+[domain] *-- [instrument:log]
+[domain] *-- [junit]
 
-[shard:dump] --* [shard]
-[shard:calculate] --* [shard]
-[shard:obfuscate] --* [shard]
+[shard:dump] *-- [shard]
+[shard:calculate] *-- [shard]
+[shard:obfuscate] *-- [shard]
 
 @enduml
