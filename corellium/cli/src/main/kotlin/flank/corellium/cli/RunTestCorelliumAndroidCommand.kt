@@ -188,7 +188,7 @@ private fun RunTestCorelliumAndroidCommand.createArgs() = Args(
     scanPreviousDurations = config.scanPreviousDurations!!,
 )
 
-internal val format = buildFormatter {
+internal val format = buildFormatter<String> {
 
     Start(Authorize) { "* Authorizing" }
     Start(CleanUp) { "* Cleaning instances" }

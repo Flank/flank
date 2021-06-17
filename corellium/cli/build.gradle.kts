@@ -20,6 +20,7 @@ dependencies {
     implementation(project(":corellium:adapter"))
     implementation(project(":tool:apk"))
     implementation(project(":tool:junit"))
+    implementation(project(":tool:log:format"))
     implementation(Dependencies.JACKSON_KOTLIN)
     implementation(Dependencies.JACKSON_YAML)
     implementation(Dependencies.JACKSON_XML)
