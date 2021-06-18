@@ -1,6 +1,7 @@
 package ftl.reports
 
 import flank.common.println
+import ftl.analytics.sendConfiguration
 import ftl.api.JUnitTest
 import ftl.args.IArgs
 import ftl.config.FtlConstants.indent
@@ -15,7 +16,7 @@ object CostReport : IReport {
 
     override val extension = ".txt"
 
-    private fun estimate(matrices: MatrixMap): String {
+    private fun estimate(args: IArgs, matrices: MatrixMap): String {
         var totalBillableVirtualMinutes = 0L
         var totalBillablePhysicalMinutes = 0L
 
@@ -23,12 +24,19 @@ object CostReport : IReport {
             totalBillableVirtualMinutes += it.billableMinutes.virtual
             totalBillablePhysicalMinutes += it.billableMinutes.physical
         }
-
+        args.sendConfiguration(
+            events = mapOf(
+                "VIRTUAL_MINUTES" to totalBillableVirtualMinutes,
+                "PHYSICAL_MINUTES" to totalBillablePhysicalMinutes,
+                "TOTAL_MINUTES" to totalBillablePhysicalMinutes + totalBillableVirtualMinutes
+            ),
+            eventName = "DEVICES_TIME"
+        )
         return estimateCosts(totalBillableVirtualMinutes, totalBillablePhysicalMinutes)
     }
 
-    private fun generate(matrices: MatrixMap): String {
-        val cost = estimate(matrices)
+    private fun generate(args: IArgs, matrices: MatrixMap): String {
+        val cost = estimate(args, matrices)
         StringWriter().use { writer ->
             writer.println(reportName())
             cost.split("\n").forEach { writer.println(indent + it) }
@@ -37,7 +45,7 @@ object CostReport : IReport {
     }
 
     override fun run(matrices: MatrixMap, result: JUnitTest.Result?, printToStdout: Boolean, args: IArgs) {
-        val output = generate(matrices)
+        val output = generate(args, matrices)
         if (printToStdout) print(output)
         write(matrices, output, args)
         ReportManager.uploadReportResult(output, args, fileName())

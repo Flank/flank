@@ -18,10 +18,12 @@ import ftl.reports.output.toOutputReportConfiguration
 import ftl.run.dumpShards
 import ftl.run.newTestRun
 import ftl.util.DEVICE_SYSTEM
+import ftl.util.FLANK_VERSION
 import ftl.util.StopWatch
 import ftl.util.TEST_TYPE
 import ftl.util.loadFile
 import ftl.util.printVersionInfo
+import ftl.util.readVersion
 import ftl.util.setCrashReportTag
 import kotlinx.coroutines.runBlocking
 import java.nio.file.Paths
@@ -56,6 +58,7 @@ operator fun RunTestAndroid.invoke() {
             TEST_TYPE to type?.name.orEmpty()
         )
         sendConfiguration()
+        sendConfiguration(mapOf(FLANK_VERSION to readVersion()))
     }.validate().also { args ->
         runBlocking {
             if (dumpShards)

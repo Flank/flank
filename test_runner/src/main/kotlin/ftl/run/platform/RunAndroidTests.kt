@@ -2,18 +2,24 @@ package ftl.run.platform
 
 import flank.common.join
 import flank.common.logLn
+import ftl.analytics.sendAppId
 import ftl.api.RemoteStorage
 import ftl.api.TestMatrixAndroid
 import ftl.api.executeTestMatrixAndroid
 import ftl.api.uploadToRemoteStorage
 import ftl.args.AndroidArgs
+import ftl.args.IArgs
 import ftl.args.isInstrumentationTest
 import ftl.args.shardsFilePath
+import ftl.client.google.getAndroidAppDetails
 import ftl.config.FtlConstants
 import ftl.run.exception.FlankGeneralError
 import ftl.run.model.AndroidMatrixTestShards
 import ftl.run.model.AndroidTestContext
+import ftl.run.model.GameLoopContext
 import ftl.run.model.InstrumentationTestContext
+import ftl.run.model.RoboTestContext
+import ftl.run.model.SanityRoboTestContext
 import ftl.run.model.TestResult
 import ftl.run.platform.android.asMatrixTestShards
 import ftl.run.platform.android.createAndroidTestConfig
@@ -45,6 +51,7 @@ internal suspend fun AndroidArgs.runAndroidTests(): TestResult = coroutineScope 
                 ignoredTestsShardChunks += context.ignoredTestCases
                 allTestShardChunks += context.shards
             }
+            context.reportPackageName(args)
         }
         .map { createTestSetup(it) }
         .run { executeTestMatrixAndroid(this) }
@@ -89,3 +96,12 @@ private suspend fun createTestSetup(context: AndroidTestContext) = TestMatrixAnd
     config = createAndroidTestConfig(context.args),
     type = context.args.createAndroidTestMatrixType(context)
 )
+
+private fun AndroidTestContext.reportPackageName(args: IArgs) = when (this) {
+    is InstrumentationTestContext -> getAndroidAppDetails(app.remote)
+    is RoboTestContext -> getAndroidAppDetails(app.remote)
+    is SanityRoboTestContext -> getAndroidAppDetails(app.remote)
+    is GameLoopContext -> getAndroidAppDetails(app.remote)
+}.sendPackageName(args)
+
+private fun String.sendPackageName(args: IArgs) = args.sendAppId(this)

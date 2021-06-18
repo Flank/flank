@@ -29,9 +29,9 @@ fun estimateCosts(billableVirtualMinutes: Long, billablePhysicalMinutes: Long): 
 }
 
 private fun estimateCosts(billableVirtualMinutes: BigDecimal, billablePhysicalMinutes: BigDecimal): String {
-    val virtualCost = billableVirtualMinutes.multiply(virtualCostPerMinute).setScale(2, RoundingMode.HALF_UP)
-    val physicalCost = billablePhysicalMinutes.multiply(physicalCostPerMinute).setScale(2, RoundingMode.HALF_UP)
-    val totalCost = (virtualCost + physicalCost).setScale(2, RoundingMode.HALF_UP)
+    val virtualCost = calculateVirtualCost(billableVirtualMinutes)
+    val physicalCost = calculatePhysicalCost(billablePhysicalMinutes)
+    val totalCost = calculateTotalCost(virtualCost, physicalCost)
 
     outputReport.log(physicalCost, virtualCost, totalCost)
 
@@ -71,6 +71,17 @@ Total
 
     return result.trim()
 }
+
+fun calculateVirtualCost(time: BigDecimal): BigDecimal =
+    time.multiply(virtualCostPerMinute).costScale()
+
+fun calculatePhysicalCost(time: BigDecimal): BigDecimal =
+    time.multiply(physicalCostPerMinute).costScale()
+
+fun calculateTotalCost(virtualCost: BigDecimal, physicalCost: BigDecimal): BigDecimal =
+    (virtualCost + physicalCost).costScale()
+
+private fun BigDecimal.costScale() = setScale(2, RoundingMode.HALF_UP)
 
 private fun prettyTime(billableMinutes: BigDecimal): String {
     val remainder = billableMinutes.toLong()

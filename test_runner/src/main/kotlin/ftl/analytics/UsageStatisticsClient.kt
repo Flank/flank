@@ -10,7 +10,6 @@ import ftl.util.sessionId
 import org.json.JSONObject
 
 private const val MIXPANEL_API_TOKEN = "d9728b2c8e6ca9fd6de1fcd32dd8cdc2"
-private const val CONFIGURATION_KEY = "configuration"
 
 internal val messageBuilder by lazy {
     MessageBuilder(MIXPANEL_API_TOKEN)
@@ -29,7 +28,7 @@ internal val objectMapper by lazy {
 @VisibleForTesting
 internal fun JSONObject.send() = apiClient.sendMessage(this)
 
-internal fun Map<String, Any?>.toEvent(projectId: String) =
+internal fun Map<String, Any?>.toEvent(projectId: String, eventName: String) =
     (this + Pair(SESSION_ID, sessionId)).run {
-        messageBuilder.event(projectId, CONFIGURATION_KEY, toJSONObject())
+        messageBuilder.event(projectId, eventName, toJSONObject())
     }
