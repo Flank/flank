@@ -20,9 +20,9 @@ import flank.corellium.domain.run.test.android.step.parseTestCasesFromApks
 import flank.corellium.domain.run.test.android.step.prepareShards
 import flank.corellium.domain.util.CreateTransformation
 import flank.corellium.domain.util.execute
-import flank.shard.Shard
 import flank.instrument.log.Instrument
 import flank.junit.JUnit
+import flank.shard.Shard
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import java.lang.System.currentTimeMillis
