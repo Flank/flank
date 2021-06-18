@@ -13,7 +13,7 @@ repositories {
 tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
 
 dependencies {
-    api(project(":corellium:shard"))
+    api(project(":tool:shard"))
 
     testImplementation(Dependencies.JUNIT)
 }

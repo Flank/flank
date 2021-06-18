@@ -14,7 +14,8 @@ tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
 
 dependencies {
     implementation(Dependencies.KOTLIN_COROUTINES_CORE)
-    api(project(":corellium:shard"))
+    implementation(Dependencies.GSON)
+    api(project(":tool:shard"))
 
     testImplementation(Dependencies.JUNIT)
 }
