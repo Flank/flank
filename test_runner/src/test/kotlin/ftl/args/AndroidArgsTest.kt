@@ -356,6 +356,7 @@ AndroidArgs
       num-flaky-test-attempts: 3
       test-targets-for-shard:
       fail-fast: false
+      parameterized-tests: default
 
     flank:
       max-test-shards: 7
@@ -445,6 +446,7 @@ AndroidArgs
       num-flaky-test-attempts: 0
       test-targets-for-shard:
       fail-fast: false
+      parameterized-tests: default
 
     flank:
       max-test-shards: 1
@@ -2657,6 +2659,57 @@ AndroidArgs
             Supported version ids for 'Nexus7': 19, 21, 22
         """.trimIndent()
         assertEquals(expectedMessage, errorMessage)
+    }
+
+    @Test
+    fun `should throw exception if paramterized test is incorrect`() {
+        val yaml = """
+        gcloud:
+            # Android gcloud
+            app: $appApk
+            test: $testApk
+            parameterized-tests: error
+        """.trimIndent()
+        val errorMessage = getThrowable { AndroidArgs.load(yaml).validate() }.message ?: ""
+        val expectedMessage = """
+            Parameterized test flag must be one of the following: `default`, `ignore-all`, `shard-into-single`, leaving it blank will result in `default` sharding.
+        """.trimIndent()
+        assertEquals(expectedMessage, errorMessage)
+    }
+
+    @Test
+    fun `should throw NOT throw an exception if parameterized test is left to be blank`() {
+        val yaml = """
+        gcloud:
+            # Android gcloud
+            app: $appApk
+            test: $testApk
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should throw NOT throw an exception if paramterized test is ignore-all`() {
+        val yaml = """
+        gcloud:
+            # Android gcloud
+            app: $appApk
+            test: $testApk
+            parameterized-tests: ignore-all
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
+    }
+
+    @Test
+    fun `should throw NOT throw an exception if paramterized test is shard-into-single`() {
+        val yaml = """
+        gcloud:
+            # Android gcloud
+            app: $appApk
+            test: $testApk
+            parameterized-tests: shard-into-single
+        """.trimIndent()
+        AndroidArgs.load(yaml).validate()
     }
 }
 

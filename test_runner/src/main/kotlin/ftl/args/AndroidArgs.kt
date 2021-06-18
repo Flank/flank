@@ -60,6 +60,9 @@ data class AndroidArgs(
     val testTargetsForShard: ShardChunks,
 
     @property:IgnoreInStatistics
+    val parameterizedTests: String?,
+
+    @property:IgnoreInStatistics
     val customSharding: Map<String, AndroidTestShards>
 ) : IArgs by commonArgs {
     companion object : AndroidArgsCompanion()
@@ -100,6 +103,7 @@ AndroidArgs
       num-flaky-test-attempts: $flakyTestAttempts
       test-targets-for-shard:${ArgsToString.listOfListToString(testTargetsForShard)}
       fail-fast: $failFast
+      parameterized-tests: $parameterizedTests
 
     flank:
       max-test-shards: $maxTestShards
