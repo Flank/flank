@@ -21,4 +21,6 @@ class Agent internal constructor(
     internal val format: Json = Json {},
 )
 
-internal typealias TasksMap = ConcurrentHashMap<Int, (CommandResult) -> Unit>
+internal typealias TasksMap = ConcurrentHashMap<Int, suspend (CommandResult) -> Unit>
+
+class TaskException(val error: CommandResult.Error) : Exception("${error.name}: ${error.message}")
