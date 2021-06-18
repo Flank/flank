@@ -1,4 +1,4 @@
-package flank.corellium.shard
+package flank.shard
 
 /**
  * Obfuscate each test cases names.

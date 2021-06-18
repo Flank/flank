@@ -1,4 +1,4 @@
-package flank.corellium.shard
+package flank.shard
 
 import kotlin.math.min
 

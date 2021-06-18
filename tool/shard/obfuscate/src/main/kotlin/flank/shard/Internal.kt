@@ -1,4 +1,4 @@
-package flank.corellium.shard
+package flank.shard
 
 private const val LOWER_CASE_CHARS = "abcdefghijklmnopqrstuvwxyz"
 private const val UPPER_CASE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

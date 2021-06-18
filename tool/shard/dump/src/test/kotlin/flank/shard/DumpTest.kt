@@ -1,4 +1,4 @@
-package flank.corellium.shard
+package flank.shard
 
 import org.junit.After
 import org.junit.Assert

@@ -1,4 +1,4 @@
-package flank.corellium.shard
+package flank.shard
 
 /**
  * Distribute the test cases into the [List] of shards where each shard have similar duration.

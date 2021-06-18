@@ -1,6 +1,6 @@
-package flank.corellium.shard
+package flank.shard
 
-import flank.corellium.shard.mapper.prettyGson
+import flank.shard.mapper.prettyGson
 import java.io.Writer
 
 /**

@@ -1,4 +1,4 @@
-package flank.corellium.shard
+package flank.shard
 
 /**
  * Namespace for sharding input and output structures.

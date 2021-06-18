@@ -1,4 +1,4 @@
-package flank.corellium.shard.mapper
+package flank.shard.mapper
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
