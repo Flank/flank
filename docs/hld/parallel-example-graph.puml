@@ -1,0 +1,52 @@
+@startuml
+'https://plantuml.com/component-diagram
+skinparam componentStyle rectangle
+
+component Finalize
+
+component NotifyRemoteServices
+component GenerateReport
+
+component CalculateResults
+
+component PerformExecution
+
+component CollectRemoteData1
+component FetchPreviousResults
+
+component InitialCalculations
+component RunRemoteProcess1
+component RunRemoteProcess2
+
+component CollectLocalData2
+component CollectLocalData1
+component Authorize
+
+Finalize *--> GenerateReport
+Finalize *--> NotifyRemoteServices
+
+GenerateReport *--> CalculateResults
+NotifyRemoteServices *--> CalculateResults
+
+CalculateResults *--> PerformExecution
+CalculateResults *--> FetchPreviousResults
+
+InitialCalculations *--> CollectLocalData1
+InitialCalculations *--> CollectLocalData2
+
+PerformExecution *--> CollectRemoteData1
+PerformExecution *---> InitialCalculations
+
+FetchPreviousResults *--> Authorize
+
+InitialCalculations -[hidden]r- RunRemoteProcess1
+
+CollectRemoteData1 *--> RunRemoteProcess1
+CollectRemoteData1 *--> RunRemoteProcess2
+
+RunRemoteProcess1 *--> Authorize
+RunRemoteProcess2 *--> Authorize
+RunRemoteProcess2 -[hidden]r- FetchPreviousResults
+
+
+@enduml
