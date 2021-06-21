@@ -2,8 +2,8 @@ package flank.corellium.domain
 
 import flank.apk.Apk
 import flank.corellium.corelliumApi
-import flank.log.Output
 import flank.junit.JUnit
+import flank.log.Output
 
 object RunTestAndroidCorelliumExample : RunTestCorelliumAndroid.Context {
     override val api = corelliumApi("Default Project")

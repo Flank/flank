@@ -4,8 +4,8 @@ import flank.apk.Apk
 import flank.corellium.api.AndroidInstance
 import flank.corellium.api.CorelliumApi
 import flank.corellium.domain.RunTestCorelliumAndroid.Args
-import flank.log.Output
 import flank.junit.JUnit
+import flank.log.Output
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
