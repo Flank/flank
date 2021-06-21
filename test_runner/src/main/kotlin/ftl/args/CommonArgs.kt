@@ -6,6 +6,7 @@ import ftl.reports.output.OutputReportType
 import ftl.run.status.OutputStyle
 
 data class CommonArgs(
+    @Transient // we don't want to have this field saved in outputReport.json
     override val data: String,
 
     // Gcloud
