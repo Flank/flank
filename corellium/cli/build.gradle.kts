@@ -14,6 +14,7 @@ tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
 
 dependencies {
     implementation(Dependencies.KOTLIN_COROUTINES_CORE)
+    implementation(Dependencies.KOTLIN_REFLECT)
     implementation(Dependencies.PICOCLI)
     implementation(project(":corellium:api"))
     implementation(project(":corellium:domain"))
