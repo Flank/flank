@@ -8,8 +8,11 @@ import ftl.args.blockSendingUsageStatistics
 import ftl.util.isGoogleAnalyticsDisabled
 
 private const val CONFIGURATION_KEY = "configuration"
-private const val APP_ID = "APP_ID"
-private const val DEVICE_TYPE = "DEVICE_TYPE"
+private const val APP_ID = "app_id"
+private const val DEVICE_TYPE = "device_type"
+const val FLANK_VERSION = "flank_version"
+const val FLANK_VERSION_PROPERTY = "version"
+
 fun AndroidArgs.sendConfiguration() = sendConfiguration(events = createEventMap())
 
 fun IosArgs.sendConfiguration() = sendConfiguration(events = createEventMap())

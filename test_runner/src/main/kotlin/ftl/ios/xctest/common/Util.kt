@@ -57,7 +57,8 @@ private fun NSDictionary.getName(): String = get(NAME)
 
 internal fun NSDictionary.getBlueprintName() = get(BLUEPRINT_NAME).toString()
 
-internal fun NSDictionary.getBundleId() = get(BUNDLE_ID).toString()
+internal fun NSDictionary.getBundleId() =
+    flatMap { (it.value as NSDictionary).entries }.firstOrNull { it.key == BUNDLE_ID }?.value?.toString().orEmpty()
 
 internal fun NSDictionary.toByteArray(): ByteArray {
     val out = ByteArrayOutputStream()

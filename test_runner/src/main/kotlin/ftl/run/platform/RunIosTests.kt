@@ -69,13 +69,3 @@ private fun IosArgs.dumpShardsIfXcTest() = takeIf { isXcTest }?.let {
             RemoteStorage.Data(shardsFilePath, Files.readAllBytes(Paths.get(shardsFilePath)))
         )
 }
-/*
-private fun IosTestContext.reportPackageName(args: IArgs) = when(this) {
-    is InstrumentationTestContext -> getAndroidAppDetails(app.remote)
-    is RoboTestContext -> getAndroidAppDetails(app.remote)
-    is SanityRoboTestContext -> getAndroidAppDetails(app.remote)
-    is GameLoopContext -> getAndroidAppDetails(app.remote)
-}.sendPackageName(args)
-
-private fun String.sendPackageName(args: IArgs) = args.sendConfiguration(mapOf("PACKAGE_NAME" to this))
-*/

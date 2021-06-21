@@ -90,5 +90,5 @@ fun IArgs.uploadSessionId() = takeUnless { disableResultsUpload }?.let {
 
 private fun Duration.saveAndReportStepTime(args: IArgs) {
     addStepTime("Running tests", this)
-    args.sendConfiguration(events = mapOf("TEST_DURATION" to this), eventName = "TOTAL_TEST_TIME")
+    args.sendConfiguration(events = mapOf("test_duration" to this), eventName = "total_test_time")
 }

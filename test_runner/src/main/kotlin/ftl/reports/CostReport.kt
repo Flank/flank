@@ -8,6 +8,9 @@ import ftl.config.FtlConstants.indent
 import ftl.json.MatrixMap
 import ftl.reports.util.IReport
 import ftl.reports.util.ReportManager
+import ftl.util.calculatePhysicalCost
+import ftl.util.calculateTotalCost
+import ftl.util.calculateVirtualCost
 import ftl.util.estimateCosts
 import java.io.StringWriter
 
@@ -24,14 +27,19 @@ object CostReport : IReport {
             totalBillableVirtualMinutes += it.billableMinutes.virtual
             totalBillablePhysicalMinutes += it.billableMinutes.physical
         }
+
         args.sendConfiguration(
             events = mapOf(
-                "VIRTUAL_MINUTES" to totalBillableVirtualMinutes,
-                "PHYSICAL_MINUTES" to totalBillablePhysicalMinutes,
-                "TOTAL_MINUTES" to totalBillablePhysicalMinutes + totalBillableVirtualMinutes
+                "virtual_cost" to calculateVirtualCost(totalBillableVirtualMinutes.toBigDecimal()),
+                "physical_cost" to calculatePhysicalCost(totalBillablePhysicalMinutes.toBigDecimal()),
+                "total_cost" to calculateTotalCost(
+                    totalBillablePhysicalMinutes.toBigDecimal(),
+                    totalBillableVirtualMinutes.toBigDecimal()
+                )
             ),
-            eventName = "DEVICES_TIME"
+            eventName = "devices_cost"
         )
+
         return estimateCosts(totalBillableVirtualMinutes, totalBillablePhysicalMinutes)
     }
 
