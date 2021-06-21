@@ -35,7 +35,7 @@ object Versions {
     const val PICOCLI = "4.6.1"
 
     // https://search.maven.org/search?q=a:google-api-services-toolresults%20g:com.google.apis
-    const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20210325-1.31.0"
+    const val GOOGLE_API_TOOLRESULTS = "v1beta3-rev20210325-1.31.5"
 
     // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
     const val GOOGLE_API = "1.31.5"
@@ -46,10 +46,10 @@ object Versions {
     const val GOOGLE_AUTH = "0.26.0"
 
     // https://search.maven.org/search?q=a:google-cloud-nio%20g:com.google.cloud
-    const val GOOGLE_NIO = "0.123.1"
+    const val GOOGLE_NIO = "0.123.2"
 
     // https://search.maven.org/search?q=a:google-cloud-storage%20g:com.google.cloud
-    const val GOOGLE_STORAGE = "1.115.0"
+    const val GOOGLE_STORAGE = "1.116.0"
 
     // https://github.com/google/gson/releases
     const val GSON = "2.8.7"
@@ -105,6 +105,6 @@ object Versions {
     const val FUEL = "2.3.1"
     const val CLIKT = "2.8.0"
     const val JCABI_GITHUB = "1.1.2"
-    const val SLF4J_NOP = "1.7.30"
+    const val SLF4J_NOP = "1.7.31"
     const val GLASSFISH_JSON = "1.1.4"
 }
