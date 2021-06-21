@@ -8,6 +8,10 @@ The Flank - Corellium integration is at the MVP stage, so only the core and most
 
 [Read more](https://github.com/sparkrnyc/sparkr_general_docs/wiki/What-are-Prototype,-POC,-Alpha,-Beta-and-MVP#minimum-viable-product-mvp) about Minimum Viable Product.
 
+## Supported API levels
+
+The following Android API levels are supported: 25, 27, 28, 29, and 30. Additional API levels may be added based on customer feedback.
+
 ## Why Corellium
 
 Flank is just a client-side application that can prepare a time-efficient parallel test plan to run on several devices. It requires a third-party provider that can serve a huge amount of devices to run tests on them.   
