@@ -24,10 +24,11 @@ internal fun RunTestCorelliumAndroid.Context.invokeDevices() = step(InvokeDevice
         amount = shards.size,
         gpuAcceleration = args.gpuAcceleration
     )
-    copy(ids = api.invokeAndroidDevices(config)
-        .onEach { event -> InvokeDevices.Status(event).out() }
-        .filterIsInstance<AndroidInstance.Event.Ready>()
-        .map { instance -> instance.id }
-        .toList()
+    copy(
+        ids = api.invokeAndroidDevices(config)
+            .onEach { event -> InvokeDevices.Status(event).out() }
+            .filterIsInstance<AndroidInstance.Event.Ready>()
+            .map { instance -> instance.id }
+            .toList()
     )
 }
