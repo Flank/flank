@@ -1,8 +1,8 @@
 package flank.corellium.domain.run.test.android.step
 
 import flank.corellium.domain.RunTestCorelliumAndroid
-import flank.corellium.shard.dumpTo
-import flank.corellium.shard.obfuscate
+import flank.shard.dumpTo
+import flank.shard.obfuscate
 import java.io.File
 
 /**

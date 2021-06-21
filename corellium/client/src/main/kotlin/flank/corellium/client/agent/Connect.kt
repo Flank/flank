@@ -13,10 +13,8 @@ import io.ktor.client.request.header
 import io.ktor.client.request.url
 import io.ktor.http.cio.websocket.Frame
 import io.ktor.http.cio.websocket.readText
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeout
 import kotlinx.serialization.decodeFromString
 
 /**
@@ -42,10 +40,8 @@ internal suspend fun connectAgent(
             connection = client
                 .createSession(agentUrl, token)
                 .let(::Agent)
-                .apply {
-                    handleIncomingFrames()
-                    waitForReady()
-                }
+                .apply { handleIncomingFrames() }
+                .waitForReady()
         } catch (ex: Exception) {
             delay(20_000)
         }
@@ -63,8 +59,7 @@ private suspend fun HttpClient.createSession(
         header("Authorization", token)
     }
 
-private suspend fun Agent.waitForReady() {
-    val task = Job()
+private suspend fun Agent.waitForReady() = apply {
     val id = counter.getAndIncrement()
     sendCommand(
         AgentOperation(
@@ -73,15 +68,7 @@ private suspend fun Agent.waitForReady() {
             id = id
         )
     )
-    tasks[id] = { result ->
-        if (result.success) task.complete() else {
-            println("Task ${result.id} failed")
-            println(result)
-        }
-    }
-    withTimeout(20_000) {
-        task.join()
-    }
+    await(id, 20_000)
 }
 
 private fun Agent.handleIncomingFrames() =
@@ -91,13 +78,12 @@ private fun Agent.handleIncomingFrames() =
                 is Frame.Text -> handleTestFrame(frame)
                 is Frame.Ping -> println("got ping")
                 is Frame.Pong -> println("got pong")
-                else -> println(frame.data.decodeToString())
+                else -> Unit
             }
         }
     }
 
-private fun Agent.handleTestFrame(frame: Frame.Text) {
-    println("Received: ${frame.readText()}")
+private suspend fun Agent.handleTestFrame(frame: Frame.Text) {
     val result = format.decodeFromString<CommandResult>(frame.readText())
     tasks[result.id]?.invoke(result)
 }

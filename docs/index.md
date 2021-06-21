@@ -587,6 +587,15 @@ gcloud:
   # - package com.package1.for.shard1
   # - class com.package2.for.shard2.Class
 
+  ### parameterized-tests
+  ## Specifies how to handle tests which contain Parameterization.
+  ## 3 options are available
+  ## default: treat Parameterized tests as normal and shard accordingly
+  ## ignore-all: Parameterized tests are ignored and not sharded
+  ## collect-all-single: Parameterized tests are collected and put into a single shard
+  ## Note: if left blank default is used.
+  # parameterized-tests: default
+
 flank:
   # -- FlankYml --
 

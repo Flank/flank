@@ -36,6 +36,7 @@ fun AndroidArgs.validate() = if (shouldValidateConfig) apply {
     checkEnvironmentVariables()
     checkFilesToDownload()
     checkNumUniformShards()
+    assertParameterizedTests()
 } else this
 
 private fun AndroidArgs.assertTestTargetForShards() {
@@ -147,7 +148,11 @@ private fun AndroidArgs.assertTestTypes() {
 private fun AndroidArgs.assertDirectoriesToPull() {
     val correctNameRegex = "(/[a-zA-Z0-9_\\-.+]+)+/?".toRegex()
     directoriesToPull
-        .filter { !it.startsWith("/sdcard") && !it.startsWith("/data/local/tmp") && !it.startsWith("/storage") || !correctNameRegex.matches(it) }
+        .filter {
+            !it.startsWith("/sdcard") && !it.startsWith("/data/local/tmp") && !it.startsWith("/storage") || !correctNameRegex.matches(
+                it
+            )
+        }
         .takeIf { it.isNotEmpty() }
         ?.also {
             throw FlankConfigurationError(
@@ -264,4 +269,13 @@ private fun AndroidArgs.checkFilesToDownload() {
 private fun AndroidArgs.checkNumUniformShards() {
     if ((numUniformShards ?: 0) > 0 && disableSharding)
         logLn("WARNING: disable-sharding is enabled with num-uniform-shards = $numUniformShards, Flank will ignore num-uniform-shards and disable sharding.")
+}
+
+private fun AndroidArgs.assertParameterizedTests() {
+    if (parameterizedTests.isNullOrEmpty() || parameterizedTests !in listOf(
+            "ignore-all",
+            "default",
+            "shard-into-single"
+        )
+    ) throw FlankConfigurationError("Parameterized test flag must be one of the following: `default`, `ignore-all`, `shard-into-single`, leaving it blank will result in `default` sharding.")
 }

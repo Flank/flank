@@ -54,8 +54,8 @@ package client {
 
 '----------------- Relations
 
-[Run command] -----* [Create Corellium API]
-[Run command] -left-* [Run android Tests]
+[Run command] *----- [Create Corellium API]
+[Run command] *-left- [Run android Tests]
 
 [Run android Tests] -left-> () "Internal steps"
 () "Internal steps" .left- [Authorize]
@@ -72,33 +72,33 @@ package client {
 [Clean up instances] .left-> [Generate Report]
 [Generate Report] .left-> [Finish]
 
-[Authorize] --o () "Request authorization"
+[Authorize] o-- () "Request authorization"
 
-[Parse apk test cases] o-down--- [Parse test cases]
+[Parse apk test cases] -down---* [Parse test cases]
 
-[Calculate shards] *-down- [Prepare shards]
+[Calculate shards] -down-* [Prepare shards]
 
-[Dump to writer] *-down- [Dump shards]
+[Dump to writer] -down-* [Dump shards]
 
-[Invoke devices] --o () "Invoke android devices"
+[Invoke devices] o-- () "Invoke android devices"
 
-[Install Apks] --o () "Install android apps"
+[Install Apks] o-- () "Install android apps"
 
-[Parse package name] o-down- [Parse apks info]
-[Parse apk info] o-down- [Parse apks info]
+[Parse package name] -down-o [Parse apks info]
+[Parse apk info] -down-o [Parse apks info]
 
-[Format am instrument command] *-down- [Execute Tests]
-[Execute Tests] --o [Execute android test plan]
-[Parse am instrument log] *-down- [Execute Tests]
+[Format am instrument command] -down-* [Execute Tests]
+[Execute Tests] o-- [Execute android test plan]
+[Parse am instrument log] -down-* [Execute Tests]
 
-[Generate JUnit report] *-down- [Generate Report]
+[Generate JUnit report] -down-* [Generate Report]
 
 [Request authorization] <|--- [Corellium API Adapter]
 [Install android apps] <|-- [Corellium API Adapter]
 [Invoke android devices] <|-- [Corellium API Adapter]
 [Execute android test plan] <|-- [Corellium API Adapter]
 
-[Create Corellium API] -left-* [Corellium API Adapter]
-[Corellium API Adapter] -left-* [Corellium]
+[Create Corellium API] *-left- [Corellium API Adapter]
+[Corellium API Adapter] *-left- [Corellium]
 
 @enduml

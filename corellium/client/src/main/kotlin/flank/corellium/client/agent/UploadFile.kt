@@ -2,8 +2,6 @@ package flank.corellium.client.agent
 
 import flank.corellium.client.data.AgentOperation
 import io.ktor.http.cio.websocket.Frame
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.withTimeout
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
@@ -38,9 +36,5 @@ suspend fun Agent.uploadFile(
     session.send(Frame.Binary(true, payload))
     session.send(Frame.Binary(true, idBytes))
 
-    val task = Job()
-    tasks[id] = defaultResultHandler(task)
-    withTimeout(100_000) {
-        task.join()
-    }
+    await(id, 100_000)
 }
