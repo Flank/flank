@@ -20,3 +20,4 @@ ktlint
 flank-scripts.jar
 corellium/shard/dump/dump-shards.json
 corellium/domain/test_results/*
+tool/shard/dump/dump-shards.json

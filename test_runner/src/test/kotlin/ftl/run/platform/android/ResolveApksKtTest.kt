@@ -3,6 +3,7 @@ package ftl.run.platform.android
 import ftl.args.AndroidArgs
 import ftl.args.yml.AppTestPair
 import ftl.args.yml.Type
+import ftl.config.FlankDefaults
 import ftl.run.exception.FlankGeneralError
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.SanityRoboTestContext
@@ -28,6 +29,7 @@ class ResolveApksKtTest {
             every { additionalAppTestApks } returns emptyList()
             every { testTargetsForShard } returns emptyList()
             every { customSharding } returns emptyMap()
+            every { parameterizedTests } returns ""
         }
         assertArrayEquals(
             arrayOf(
@@ -49,14 +51,16 @@ class ResolveApksKtTest {
                     app = "app",
                     test = "test"
                 )
-            )
+            ),
+
         )
         assertArrayEquals(
             arrayOf(
                 InstrumentationTestContext(
                     app = "app".asFileReference(),
                     test = "test".asFileReference(),
-                    args = args
+                    args = args,
+                    parameterizedTestsOption = FlankDefaults.DEFAULT_PARAMETERIZED_TESTS
                 )
             ),
             args.resolveApks().toTypedArray()

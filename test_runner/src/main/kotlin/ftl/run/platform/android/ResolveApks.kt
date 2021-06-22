@@ -25,7 +25,8 @@ private fun AndroidArgs.mainApkContext() = appApk?.let { appApk ->
             test = testApk.asFileReference(),
             environmentVariables = emptyMap(),
             testTargetsForShard = testTargetsForShard,
-            args = this
+            args = this,
+            parameterizedTestsOption = parameterizedTests.orEmpty()
         )
         roboScript != null -> RoboTestContext(app = appApk.asFileReference(), roboScript = roboScript.asFileReference(), this)
         isSanityRobo -> SanityRoboTestContext(app = appApk.asFileReference(), this)
@@ -49,6 +50,7 @@ private fun AndroidArgs.additionalApksContexts() = additionalAppTestApks.map {
                 clientDetails = it.clientDetails ?: clientDetails
             ),
             testTargets = it.testTargets ?: testTargets
-        )
+        ),
+        parameterizedTestsOption = parameterizedTests.orEmpty()
     )
 }.toTypedArray()

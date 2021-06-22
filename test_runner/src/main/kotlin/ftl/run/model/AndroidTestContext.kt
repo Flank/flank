@@ -15,6 +15,7 @@ data class InstrumentationTestContext(
     val ignoredTestCases: IgnoredTestCases = emptyList(),
     val environmentVariables: Map<String, String> = emptyMap(),
     val testTargetsForShard: ShardChunks = emptyList(),
+    val parameterizedTestsOption: String = "",
     override val args: AndroidArgs
 ) : AndroidTestContext(args)
 

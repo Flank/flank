@@ -8,6 +8,7 @@ import flank.common.isWindows
 import ftl.api.FileReference
 import ftl.args.AndroidArgs
 import ftl.args.normalizeFilePath
+import ftl.config.FlankDefaults
 import ftl.filter.TestFilter
 import ftl.filter.TestFilters
 import ftl.run.common.prettyPrint
@@ -56,14 +57,16 @@ class CreateAndroidTestContextKtTest {
                 test = should { local.endsWith("app-single-success-debug-androidTest.apk") },
                 shards = should { size == 1 },
                 ignoredTestCases = should { size == 2 },
-                args = should { maxTestShards == 1 }
+                args = should { maxTestShards == 1 },
+                parameterizedTestsOption = FlankDefaults.DEFAULT_PARAMETERIZED_TESTS
             ),
             InstrumentationTestContext(
                 app = should { local.endsWith("app-debug.apk") },
                 test = should { local.endsWith("app-multiple-flaky-debug-androidTest.apk") },
                 shards = should { size == 2 },
                 ignoredTestCases = should { size == 2 },
-                args = should { testTargets == listOf("class com.example.test_app.InstrumentedTest") }
+                args = should { testTargets == listOf("class com.example.test_app.InstrumentedTest") },
+                parameterizedTestsOption = FlankDefaults.DEFAULT_PARAMETERIZED_TESTS
             )
         )
 
