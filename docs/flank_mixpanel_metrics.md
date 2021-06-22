@@ -22,7 +22,7 @@ Fields reflect configuration names.
 
 ## Bundle and package id [app_id]
 
-This event contains information about bundle id for ios and package id for android project. Additionally,
+This event contains information about the bundle id for ios and the package id for android project. Additionally,
 contains platform type (android, ios). This event allows implementing ```Who uses Flank``` report with additional breakdown by ```device type```.
 
 Fields:
