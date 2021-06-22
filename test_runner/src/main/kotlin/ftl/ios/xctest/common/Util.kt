@@ -3,6 +3,7 @@ package ftl.ios.xctest.common
 import com.dd.plist.NSArray
 import com.dd.plist.NSDictionary
 import com.dd.plist.PropertyListParser
+import ftl.args.IosArgs
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 import java.io.ByteArrayOutputStream
@@ -57,8 +58,11 @@ private fun NSDictionary.getName(): String = get(NAME)
 
 internal fun NSDictionary.getBlueprintName() = get(BLUEPRINT_NAME).toString()
 
-internal fun NSDictionary.getBundleId() =
-    flatMap { (it.value as NSDictionary).entries }.firstOrNull { it.key == BUNDLE_ID }?.value?.toString().orEmpty()
+internal fun IosArgs.getBundleId(): String =
+    File(xctestrunFile).parentFile.walk().maxDepth(3).first { it.extension == "plist" && it.parent.endsWith(".app") }
+        .let { plist ->
+            PropertyListParser.parse(plist) as NSDictionary
+        }["CFBundleIdentifier"]?.toString().orEmpty()
 
 internal fun NSDictionary.toByteArray(): ByteArray {
     val out = ByteArrayOutputStream()

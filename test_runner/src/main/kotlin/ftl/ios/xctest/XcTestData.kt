@@ -3,7 +3,6 @@ package ftl.ios.xctest
 import com.dd.plist.NSDictionary
 import ftl.analytics.sendAppId
 import ftl.args.ArgsHelper.calculateShards
-import ftl.args.IArgs
 import ftl.args.IosArgs
 import ftl.args.isXcTest
 import ftl.ios.xctest.common.XcTestRunVersion
@@ -49,7 +48,8 @@ private fun IosArgs.calculateXcTest(): XcTestRunData {
             regexList = testTargets.mapToRegex()
         )
     }
-    xcTestNsDictionary.reportBundleId(this)
+
+    reportBundleId()
 
     return XcTestRunData(
         rootDir = xcTestRoot,
@@ -59,7 +59,7 @@ private fun IosArgs.calculateXcTest(): XcTestRunData {
     )
 }
 
-private fun NSDictionary.reportBundleId(args: IArgs) = args.sendAppId(getBundleId())
+private fun IosArgs.reportBundleId() = sendAppId(getBundleId())
 
 private inline fun <reified T> createCustomSharding(shardingJsonPath: String) =
     fromJson<T>(Paths.get(shardingJsonPath).toFile().readText())

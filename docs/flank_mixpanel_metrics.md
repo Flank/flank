@@ -9,8 +9,7 @@ Flank is currently tracking the following events:
 - test duration
 - flank version
 
-Every event contains a session id and project id. By ```project id``` you can find all events from every execution with specific ```project id```. By ```session id``` you can find events from specific
-Flank execution.
+Every event contains a session id and project id. By ```project id``` you can find all events from every execution with specific ```project id```. By ```session id``` you can find events from specific Flank execution.
 
 ## Configuration
 
