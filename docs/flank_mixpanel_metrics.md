@@ -32,7 +32,7 @@ Fields:
 
 ## Total cost and cost per device type [devices_cost]
 
-By this event's we can implement the report ```How many millions per month in spend is Flank responsible for on Firebase Test Lab? ```
+With these event's we can realize the report ```How many millions per month in spend is Flank responsible for on Firebase Test Lab? ```
 
 Fields:
 
