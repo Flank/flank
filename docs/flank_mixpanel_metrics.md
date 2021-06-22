@@ -50,7 +50,7 @@ Fields:
 
 ## Flank Version [flank_version]
 
-By this event's we can check how frequently users upgrade the Flank version.
+By these event's we can check how frequently users upgrade the Flank version.
 
 Fields:
 
