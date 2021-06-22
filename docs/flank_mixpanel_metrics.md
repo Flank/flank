@@ -14,7 +14,7 @@ Flank execution.
 
 ## Configuration
 
-This event contains information about configuration executed in Flank. This event allows us
+This event contains information about the configuration executed in Flank. This event allows us to
 track information about devices and features used in Flank.
 It could be useful to check what features are most important for the community.
 
