@@ -42,7 +42,7 @@ Fields:
 
 ## Test duration [total_test_time]
 
-By this event's we can check how long tests took.
+With these event's we can check how long tests took.
 
 Fields:
 
