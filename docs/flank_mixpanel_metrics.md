@@ -1,6 +1,6 @@
 # Mixpanel events in Flank
 
-Flank currently tracking the following events:
+Flank is currently tracking the following events:
 
 - configuration
 - bundle id and package name with information about the device type
