@@ -11,7 +11,7 @@ internal class TableColumnTest {
         val expectedColumnSize = 8
 
         // when
-        val tableColumn = TableColumn("55555", listOf("1", "22", "333", "4444", "55555", "666666"))
+        val tableColumn = TableColumn("55555", listOf("1", "22", "333", "4444", "55555", "666666"), alignment = Alignment.LEFT)
 
         // then
         assertThat(tableColumn.columnSize).isEqualTo(expectedColumnSize)
@@ -23,7 +23,7 @@ internal class TableColumnTest {
         val expectedColumnSize = 7
 
         // when
-        val tableColumn = TableColumn("55555", listOf("1", "22", "333", "4444"))
+        val tableColumn = TableColumn("55555", listOf("1", "22", "333", "4444"), alignment = Alignment.LEFT)
 
         // then
         assertThat(tableColumn.columnSize).isEqualTo(expectedColumnSize)

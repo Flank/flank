@@ -12,16 +12,19 @@ data class TableColumn(
     val header: String,
     val data: List<String>,
     val dataColor: List<SystemOutColor> = listOf(),
-    val columnSize: Int = ((data + header).maxByOrNull { it.length }?.length ?: 0) + DEFAULT_COLUMN_PADDING
+    val columnSize: Int = ((data + header).maxByOrNull { it.length }?.length ?: 0) + DEFAULT_COLUMN_PADDING,
+    val alignment: Alignment
 )
+
+enum class Alignment {
+    LEFT, CENTER
+}
 
 private data class DataWithSize(
     val data: String,
     val columnSize: Int,
-    val centered: Boolean
-) {
-    constructor(data: String, columnSize: Int) : this(data, columnSize, data.matches("-?\\d+(\\.\\d+)?".toRegex()))
-}
+    val alignment: Alignment
+)
 
 private const val DEFAULT_COLUMN_PADDING = 2
 
@@ -63,7 +66,7 @@ fun buildTable(vararg tableColumns: TableColumn, tableStyle: TableStyle = TableS
     val builder = StringBuilder().apply {
         startTable(rowSizes)
         tableColumns
-            .map { DataWithSize(data = it.header, columnSize = it.columnSize, centered = true) }
+            .map { DataWithSize(data = it.header, columnSize = it.columnSize, alignment = Alignment.CENTER) }
             .apply { appendDataRow(this) }
         rowSeparator(rowSizes)
         appendData(tableColumns, rowSizes, tableStyle)
@@ -92,7 +95,11 @@ private fun StringBuilder.rowSeparator(rowSizes: List<Int>) {
     appendLine()
 }
 
-private fun StringBuilder.appendData(tableColumns: Array<out TableColumn>, rowSizes: List<Int>, tableStyle: TableStyle) {
+private fun StringBuilder.appendData(
+    tableColumns: Array<out TableColumn>,
+    rowSizes: List<Int>,
+    tableStyle: TableStyle
+) {
     val rowCount = (tableColumns.maxByOrNull { it.data.size } ?: tableColumns.first()).data.size
     (0 until rowCount)
         .map { rowNumber ->
@@ -100,8 +107,8 @@ private fun StringBuilder.appendData(tableColumns: Array<out TableColumn>, rowSi
                 val color = it.dataColor.getOrNull(rowNumber) ?: SystemOutColor.DEFAULT
                 val data = it.data.getOrNull(rowNumber).orEmpty()
                 val columnSize = it.columnSize
-                if (color == SystemOutColor.DEFAULT) DataWithSize(data, columnSize)
-                else DataWithSize(color.applyTo(data), columnSize + color.additionalLengthWhenApplied)
+                if (color == SystemOutColor.DEFAULT) DataWithSize(data, columnSize, it.alignment)
+                else DataWithSize(color.applyTo(data), columnSize + color.additionalLengthWhenApplied, it.alignment)
             }
         }
         .forEachIndexed { index, list ->
@@ -131,7 +138,12 @@ private fun StringBuilder.appendTableSeparator(startChar: Char, middleChar: Char
 private fun StringBuilder.appendDataRow(data: List<DataWithSize>) {
     append(TABLE_VERTICAL_LINE)
     data.forEach {
-        if (it.centered) append(it.center()) else append(it.leftAligned())
+        append(
+            when (it.alignment) {
+                Alignment.LEFT -> it.leftAligned()
+                Alignment.CENTER -> it.center()
+            }
+        )
         append(TABLE_VERTICAL_LINE)
     }
     appendLine()
@@ -145,3 +157,11 @@ private fun DataWithSize.center() = String.format(
 )
 
 inline fun TableColumn.applyColorsUsing(mapper: (String) -> SystemOutColor) = copy(dataColor = data.map(mapper))
+
+// RESOLUTION column needs dedicated alignment logic and data pre-processing
+fun TableColumn.alignToTheXMark() = copy(
+    data = data.map {
+        val dimensions = it.split("x")
+        if (dimensions[0].length + 1 == dimensions[1].length) " $it" else it
+    }
+)

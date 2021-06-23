@@ -7,6 +7,7 @@ import ftl.environment.createTableColumnFor
 import ftl.environment.getOrCreateList
 import ftl.environment.tagToSystemOutColorMapper
 import ftl.run.exception.FlankGeneralError
+import ftl.util.Alignment
 import ftl.util.applyColorsUsing
 import ftl.util.buildTable
 
@@ -23,10 +24,10 @@ fun List<Locale>.createTestEnvironment() =
     }
 
 fun TestEnvironmentInfo.createLocalesTable() = buildTable(
-    createTableColumnFor(LOCALE),
-    createTableColumnFor(NAME),
-    createTableColumnFor(REGION),
-    createTableColumnFor(TAGS).applyColorsUsing(tagToSystemOutColorMapper)
+    createTableColumnFor(LOCALE, Alignment.LEFT),
+    createTableColumnFor(NAME, Alignment.LEFT),
+    createTableColumnFor(REGION, Alignment.LEFT),
+    createTableColumnFor(TAGS, Alignment.CENTER).applyColorsUsing(tagToSystemOutColorMapper)
 )
 
 private const val LOCALE = "LOCALE"

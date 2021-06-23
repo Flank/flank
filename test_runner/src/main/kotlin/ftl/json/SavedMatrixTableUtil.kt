@@ -1,6 +1,7 @@
 package ftl.json
 
 import ftl.api.TestMatrix
+import ftl.util.Alignment
 import ftl.util.StepOutcome.failure
 import ftl.util.StepOutcome.flaky
 import ftl.util.StepOutcome.success
@@ -14,27 +15,33 @@ fun List<TestMatrix.Data>.asPrintableTable(): String = buildTable(
     TableColumn(
         header = OUTCOME_COLUMN_HEADER,
         data = flatMapTestAxis { outcome },
-        dataColor = flatMapTestAxis { outcomeColor }
+        dataColor = flatMapTestAxis { outcomeColor },
+        alignment = Alignment.LEFT
     ),
     TableColumn(
         header = MATRIX_ID_COLUMN_HEADER,
-        data = flatMapTestAxis { matrix -> matrix.matrixId }
+        data = flatMapTestAxis { matrix -> matrix.matrixId },
+        alignment = Alignment.LEFT
     ),
     TableColumn(
         header = APP_NAME_COLUMN_HEADER,
-        data = flatMapTestAxis { matrix -> matrix.appFileName }
+        data = flatMapTestAxis { matrix -> matrix.appFileName },
+        alignment = Alignment.LEFT
     ),
     TableColumn(
         header = TEST_APP_NAME_COLUMN_HEADER,
-        data = flatMapTestAxis { matrix -> matrix.testFileName }
+        data = flatMapTestAxis { matrix -> matrix.testFileName },
+        alignment = Alignment.LEFT
     ),
     TableColumn(
         header = TEST_AXIS_VALUE_HEADER,
-        data = flatMapTestAxis { device }
+        data = flatMapTestAxis { device },
+        alignment = Alignment.LEFT
     ),
     TableColumn(
         header = OUTCOME_DETAILS_COLUMN_HEADER,
-        data = flatMapTestAxis { details }
+        data = flatMapTestAxis { details },
+        alignment = Alignment.LEFT
     )
 )
 

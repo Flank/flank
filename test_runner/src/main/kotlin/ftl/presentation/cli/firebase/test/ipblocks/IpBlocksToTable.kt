@@ -2,6 +2,7 @@ package ftl.presentation.cli.firebase.test.ipblocks
 
 import ftl.api.IpBlockList
 import ftl.environment.getOrCreateList
+import ftl.util.Alignment
 import ftl.util.TableColumn
 import ftl.util.TableStyle
 
@@ -18,7 +19,8 @@ private fun IpBlockList.createDataMap() = blocks
         }
     }
 
-private fun Map<String, List<String>>.collectDataPerColumn() = map { (header, data) -> TableColumn(header, data) }
+private fun Map<String, List<String>>.collectDataPerColumn() =
+    map { (header, data) -> TableColumn(header = header, data = data, alignment = Alignment.LEFT) }
 
 private fun List<TableColumn>.buildTable() =
     if (isNotEmpty()) ftl.util.buildTable(*toTypedArray(), tableStyle = TableStyle.DEFAULT)
