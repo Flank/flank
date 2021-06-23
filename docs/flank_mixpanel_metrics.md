@@ -7,7 +7,7 @@ Flank is currently tracking the following events:
 - total cost
 - cost per device type
 - test duration
-- flank version
+- flank version with information if tests run on corellium or firebase
 
 Every event contains a session id and project id. By ```project id``` you can find all events from every execution with specific ```project id```. By ```session id``` you can find events from specific Flank execution.
 
@@ -54,3 +54,4 @@ By these event's we can check how frequently users upgrade the Flank version.
 Fields:
 
 - ```version```
+- ```test_platform```

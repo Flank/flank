@@ -1,8 +1,10 @@
 package ftl.domain
 
 import flank.common.logLn
+import ftl.analytics.FIREBASE
 import ftl.analytics.FLANK_VERSION
 import ftl.analytics.FLANK_VERSION_PROPERTY
+import ftl.analytics.TEST_PLATFORM
 import ftl.analytics.sendConfiguration
 import ftl.args.createAndroidArgs
 import ftl.args.setupLogLevel
@@ -59,7 +61,7 @@ operator fun RunTestAndroid.invoke() {
             TEST_TYPE to type?.name.orEmpty()
         )
         sendConfiguration()
-        sendConfiguration(mapOf(FLANK_VERSION_PROPERTY to readVersion()), eventName = FLANK_VERSION)
+        sendConfiguration(mapOf(FLANK_VERSION_PROPERTY to readVersion(), TEST_PLATFORM to FIREBASE), eventName = FLANK_VERSION)
     }.validate().also { args ->
         runBlocking {
             if (dumpShards)

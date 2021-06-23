@@ -12,6 +12,8 @@ private const val APP_ID = "app_id"
 private const val DEVICE_TYPE = "device_type"
 const val FLANK_VERSION = "flank_version"
 const val FLANK_VERSION_PROPERTY = "version"
+const val TEST_PLATFORM = "test_platform"
+const val FIREBASE = "firebase"
 
 fun AndroidArgs.sendConfiguration() = sendConfiguration(events = createEventMap())
 
