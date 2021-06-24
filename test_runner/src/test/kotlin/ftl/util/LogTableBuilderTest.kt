@@ -6,10 +6,10 @@ import org.junit.Test
 internal class LogTableBuilderTest {
 
     private val sampleColumns = arrayOf(
-        TableColumn("header1", listOf("value1"), columnSize = 10, alignment = Alignment.LEFT),
-        TableColumn("header2", listOf("value2"), columnSize = 15, alignment = Alignment.LEFT),
-        TableColumn("header3", listOf("value3"), columnSize = 20, alignment = Alignment.LEFT),
-        TableColumn("header4", listOf("value4"), columnSize = 21, alignment = Alignment.LEFT)
+        TableColumn("header1", listOf("value1"), columnSize = 10, align = Align.LEFT),
+        TableColumn("header2", listOf("value2"), columnSize = 15, align = Align.LEFT),
+        TableColumn("header3", listOf("value3"), columnSize = 20, align = Align.LEFT),
+        TableColumn("header4", listOf("value4"), columnSize = 21, align = Align.LEFT)
     )
 
     @Test

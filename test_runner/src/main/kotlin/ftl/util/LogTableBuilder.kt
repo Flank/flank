@@ -13,17 +13,17 @@ data class TableColumn(
     val data: List<String>,
     val dataColor: List<SystemOutColor> = listOf(),
     val columnSize: Int = ((data + header).maxByOrNull { it.length }?.length ?: 0) + DEFAULT_COLUMN_PADDING,
-    val alignment: Alignment
+    val align: Align
 )
 
-enum class Alignment {
+enum class Align {
     LEFT, CENTER
 }
 
 private data class DataWithSize(
     val data: String,
     val columnSize: Int,
-    val alignment: Alignment
+    val align: Align
 )
 
 private const val DEFAULT_COLUMN_PADDING = 2
@@ -66,7 +66,7 @@ fun buildTable(vararg tableColumns: TableColumn, tableStyle: TableStyle = TableS
     val builder = StringBuilder().apply {
         startTable(rowSizes)
         tableColumns
-            .map { DataWithSize(data = it.header, columnSize = it.columnSize, alignment = Alignment.CENTER) }
+            .map { DataWithSize(data = it.header, columnSize = it.columnSize, align = Align.CENTER) }
             .apply { appendDataRow(this) }
         rowSeparator(rowSizes)
         appendData(tableColumns, rowSizes, tableStyle)
@@ -107,8 +107,8 @@ private fun StringBuilder.appendData(
                 val color = it.dataColor.getOrNull(rowNumber) ?: SystemOutColor.DEFAULT
                 val data = it.data.getOrNull(rowNumber).orEmpty()
                 val columnSize = it.columnSize
-                if (color == SystemOutColor.DEFAULT) DataWithSize(data, columnSize, it.alignment)
-                else DataWithSize(color.applyTo(data), columnSize + color.additionalLengthWhenApplied, it.alignment)
+                if (color == SystemOutColor.DEFAULT) DataWithSize(data, columnSize, it.align)
+                else DataWithSize(color.applyTo(data), columnSize + color.additionalLengthWhenApplied, it.align)
             }
         }
         .forEachIndexed { index, list ->
@@ -139,9 +139,9 @@ private fun StringBuilder.appendDataRow(data: List<DataWithSize>) {
     append(TABLE_VERTICAL_LINE)
     data.forEach {
         append(
-            when (it.alignment) {
-                Alignment.LEFT -> it.leftAligned()
-                Alignment.CENTER -> it.center()
+            when (it.align) {
+                Align.LEFT -> it.leftAligned()
+                Align.CENTER -> it.center()
             }
         )
         append(TABLE_VERTICAL_LINE)

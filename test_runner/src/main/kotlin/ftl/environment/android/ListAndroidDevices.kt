@@ -16,7 +16,7 @@ import ftl.environment.createTableColumnFor
 import ftl.environment.getOrCreateList
 import ftl.environment.isValid
 import ftl.environment.tagToSystemOutColorMapper
-import ftl.util.Alignment
+import ftl.util.Align
 import ftl.util.SystemOutColor
 import ftl.util.alignToTheXMark
 import ftl.util.applyColorsUsing
@@ -40,13 +40,13 @@ private fun List<DeviceModel.Android>.createTestEnvironmentInfo() =
     }
 
 private fun TestEnvironmentInfo.createAndroidDevicesTable() = buildTable(
-    createTableColumnFor(MODEL_ID, Alignment.LEFT),
-    createTableColumnFor(MAKE, Alignment.LEFT),
-    createTableColumnFor(MODEL_NAME, Alignment.LEFT),
-    createTableColumnFor(FORM, Alignment.LEFT).applyColorsUsing(formToSystemOutColorMapper),
-    createTableColumnFor(RESOLUTION, Alignment.CENTER).alignToTheXMark(),
-    createTableColumnFor(OS_VERSION_IDS, Alignment.LEFT),
-    createTableColumnFor(TAGS, Alignment.LEFT).applyColorsUsing(tagToSystemOutColorMapper)
+    createTableColumnFor(MODEL_ID, Align.LEFT),
+    createTableColumnFor(MAKE, Align.LEFT),
+    createTableColumnFor(MODEL_NAME, Align.LEFT),
+    createTableColumnFor(FORM, Align.LEFT).applyColorsUsing(formToSystemOutColorMapper),
+    createTableColumnFor(RESOLUTION, Align.CENTER).alignToTheXMark(),
+    createTableColumnFor(OS_VERSION_IDS, Align.LEFT),
+    createTableColumnFor(TAGS, Align.LEFT).applyColorsUsing(tagToSystemOutColorMapper)
 )
 
 private val DeviceModel.Android.resolution

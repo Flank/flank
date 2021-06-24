@@ -9,7 +9,7 @@ import ftl.environment.getOrCreateList
 import ftl.environment.orUnknown
 import ftl.environment.tagToSystemOutColorMapper
 import ftl.reports.api.twoDigitString
-import ftl.util.Alignment
+import ftl.util.Align
 import ftl.util.applyColorsUsing
 import ftl.util.buildTable
 
@@ -32,12 +32,12 @@ private fun OsVersion.Date?.printableReleaseDate() =
     else "$year-${month.twoDigitString()}-${day.twoDigitString()}"
 
 private fun TestEnvironmentInfo.createAndroidSoftwareVersionsTable() = buildTable(
-    createTableColumnFor(OS_VERSION_ID, Alignment.CENTER),
-    createTableColumnFor(VERSION, Alignment.CENTER),
-    createTableColumnFor(CODE_NAME, Alignment.LEFT),
-    createTableColumnFor(API_LEVEL, Alignment.CENTER),
-    createTableColumnFor(RELEASE_DATE, Alignment.CENTER),
-    createTableColumnFor(TAGS, Alignment.CENTER).applyColorsUsing(tagToSystemOutColorMapper)
+    createTableColumnFor(OS_VERSION_ID, Align.CENTER),
+    createTableColumnFor(VERSION, Align.CENTER),
+    createTableColumnFor(CODE_NAME, Align.LEFT),
+    createTableColumnFor(API_LEVEL, Align.CENTER),
+    createTableColumnFor(RELEASE_DATE, Align.CENTER),
+    createTableColumnFor(TAGS, Align.CENTER).applyColorsUsing(tagToSystemOutColorMapper)
 )
 
 const val VERSION = "VERSION"

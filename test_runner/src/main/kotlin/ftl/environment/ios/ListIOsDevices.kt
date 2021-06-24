@@ -11,7 +11,7 @@ import ftl.environment.createTableColumnFor
 import ftl.environment.getOrCreateList
 import ftl.environment.isValid
 import ftl.environment.tagToSystemOutColorMapper
-import ftl.util.Alignment
+import ftl.util.Align
 import ftl.util.alignToTheXMark
 import ftl.util.applyColorsUsing
 import ftl.util.buildTable
@@ -35,9 +35,9 @@ private val DeviceModel.Ios.resolution
     get() = if (screenX.isValid() && screenY.isValid()) "$screenY x $screenX" else "UNKNOWN"
 
 private fun TestEnvironmentInfo.createIoDevicesTable() = buildTable(
-    createTableColumnFor(MODEL_ID, Alignment.LEFT),
-    createTableColumnFor(MODEL_NAME, Alignment.LEFT),
-    createTableColumnFor(RESOLUTION, Alignment.CENTER).alignToTheXMark(),
-    createTableColumnFor(OS_VERSION_IDS, Alignment.LEFT),
-    createTableColumnFor(TAGS, Alignment.LEFT).applyColorsUsing(tagToSystemOutColorMapper)
+    createTableColumnFor(MODEL_ID, Align.LEFT),
+    createTableColumnFor(MODEL_NAME, Align.LEFT),
+    createTableColumnFor(RESOLUTION, Align.CENTER).alignToTheXMark(),
+    createTableColumnFor(OS_VERSION_IDS, Align.LEFT),
+    createTableColumnFor(TAGS, Align.LEFT).applyColorsUsing(tagToSystemOutColorMapper)
 )

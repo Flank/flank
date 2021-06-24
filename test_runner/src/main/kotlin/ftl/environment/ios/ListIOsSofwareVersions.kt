@@ -9,7 +9,7 @@ import ftl.environment.createTableColumnFor
 import ftl.environment.getOrCreateList
 import ftl.environment.orUnknown
 import ftl.environment.tagToSystemOutColorMapper
-import ftl.util.Alignment
+import ftl.util.Align
 import ftl.util.applyColorsUsing
 import ftl.util.buildTable
 
@@ -43,11 +43,11 @@ private fun List<IosVersion>.createTestEnvironmentInfoFromIosVersions() =
     }
 
 private fun TestEnvironmentInfo.createIOsSoftwareVersionsTable() = buildTable(
-    createTableColumnFor(OS_VERSION_ID, Alignment.CENTER),
-    createTableColumnFor(MAJOR_VERSION, Alignment.CENTER),
-    createTableColumnFor(MINOR_VERSION, Alignment.CENTER),
-    createTableColumnFor(TAGS, Alignment.CENTER).applyColorsUsing(tagToSystemOutColorMapper),
-    createTableColumnFor(SUPPORTED_XCODE_VERSION_IDS, Alignment.LEFT)
+    createTableColumnFor(OS_VERSION_ID, Align.CENTER),
+    createTableColumnFor(MAJOR_VERSION, Align.CENTER),
+    createTableColumnFor(MINOR_VERSION, Align.CENTER),
+    createTableColumnFor(TAGS, Align.CENTER).applyColorsUsing(tagToSystemOutColorMapper),
+    createTableColumnFor(SUPPORTED_XCODE_VERSION_IDS, Align.LEFT)
 )
 
 private const val MAJOR_VERSION = "MAJOR_VERSION"

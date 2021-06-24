@@ -1,6 +1,6 @@
 package ftl.environment
 
-import ftl.util.Alignment
+import ftl.util.Align
 import ftl.util.SystemOutColor
 import ftl.util.TableColumn
 
@@ -8,7 +8,7 @@ typealias TestEnvironmentInfo = MutableMap<String, MutableList<String>>
 
 internal fun TestEnvironmentInfo.getOrCreateList(key: String) = getOrPut(key) { mutableListOf() }
 
-internal fun TestEnvironmentInfo.createTableColumnFor(key: String, alignment: Alignment) = TableColumn(key, getValue(key), alignment = alignment)
+internal fun TestEnvironmentInfo.createTableColumnFor(key: String, align: Align) = TableColumn(key, getValue(key), align = align)
 
 internal val tagToSystemOutColorMapper: (String) -> SystemOutColor = {
     when {
