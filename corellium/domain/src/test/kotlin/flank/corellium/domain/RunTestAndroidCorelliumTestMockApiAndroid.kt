@@ -90,7 +90,7 @@ class RunTestAndroidCorelliumTestMockApiAndroid : RunTestCorelliumAndroid.Contex
         },
     )
 
-    override val out: Output = { }
+    override val out: Output = ::println
 
     override val junit = JUnit.Api()
 

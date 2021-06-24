@@ -234,4 +234,6 @@ internal val format = buildFormatter<String> {
     }
     RunTestCorelliumAndroid.Created { "Created $path" }
     RunTestCorelliumAndroid.AlreadyExist { "Already exist $path" }
+
+    match { it as? String } to { this }
 }

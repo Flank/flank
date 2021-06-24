@@ -22,6 +22,7 @@ import flank.instrument.log.Instrument
 import flank.log.Event
 import flank.log.event
 import flank.log.invoke
+import flank.log.output
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
@@ -196,6 +197,7 @@ password: $password
 
     /**
      * Test is checking if all specified events have registered dedicated formatters.
+     * Also, the specified events should be formatted and printed to console output.
      */
     @Test
     fun outputTest() {
@@ -241,11 +243,13 @@ password: $password
             Unit event RunTestCorelliumAndroid.AlreadyExist(File("path/to/apk.apk")),
         )
 
+        val printLog = format.output
+
         // ======================== WHEN ========================
 
         val nulls = events
+            .onEach(printLog)
             .associateWith { format(it) }
-            .onEach { (_, string) -> println(string) }
             .filterValues { it == null }
 
         // ======================== THEN ========================
