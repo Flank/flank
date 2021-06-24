@@ -1,6 +1,8 @@
 package flank.corellium.domain.run.test.android.step
 
 import flank.corellium.domain.RunTestCorelliumAndroid
+import flank.corellium.domain.RunTestCorelliumAndroid.ParseApkInfo
+import flank.corellium.domain.step
 
 /**
  * The step is parsing information from app and test apk files.
@@ -9,8 +11,7 @@ import flank.corellium.domain.RunTestCorelliumAndroid
  * * [RunTestCorelliumAndroid.State.packageNames]
  * * [RunTestCorelliumAndroid.State.testRunners]
  */
-internal fun RunTestCorelliumAndroid.Context.parseApksInfo() = RunTestCorelliumAndroid.step {
-    println("* Parsing apk info")
+internal fun RunTestCorelliumAndroid.Context.parseApksInfo() = step(ParseApkInfo) {
     val packageNames = mutableMapOf<String, String>()
     val testRunners = mutableMapOf<String, String>()
     args.apks.map { app ->

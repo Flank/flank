@@ -12,16 +12,10 @@ import kotlinx.coroutines.launch
 
 val executeAndroidTestPlan = AndroidTestPlan.Execute { config ->
     config.instances.map { (instanceId, commands: List<String>) ->
-        channelFlow<String> {
-            println("Getting console $instanceId")
+        instanceId to channelFlow<String> {
             corellium.connectConsole(instanceId).apply {
                 clear()
-                launch {
-                    commands.forEach { string ->
-                        println("Sending command: $string")
-                        sendCommand(string)
-                    }
-                }
+                launch { commands.forEach { string -> sendCommand(string) } }
                 launch { flowLogs().collect(channel::send) }
                 waitForIdle(10_000)
             }

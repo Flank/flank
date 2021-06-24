@@ -1,25 +1,28 @@
 package flank.corellium.domain.run.test.android.step
 
 import flank.corellium.domain.RunTestCorelliumAndroid
+import flank.corellium.domain.RunTestCorelliumAndroid.AlreadyExist
+import flank.corellium.domain.RunTestCorelliumAndroid.Created
+import flank.corellium.domain.RunTestCorelliumAndroid.OutputDir
+import flank.corellium.domain.step
 import java.io.File
 
 /**
  * The step is creating the output directory for execution results.
  */
-internal fun RunTestCorelliumAndroid.Context.createOutputDir() = RunTestCorelliumAndroid.step {
-    println("* Preparing output directory")
+internal fun RunTestCorelliumAndroid.Context.createOutputDir() = step(OutputDir) { out ->
     require(args.outputDir.isNotEmpty())
     val dir = File(args.outputDir)
     when {
         !dir.exists() -> {
             dir.mkdirs()
-            println("Created ${dir.absolutePath}")
+            Created(dir).out()
         }
         !dir.isDirectory -> {
-            throw IllegalStateException("Cannot create output directory, file ${dir.absolutePath} already exist")
+            throw IllegalStateException("Cannot create output directory, file ${dir.path} already exist")
         }
         else -> {
-            println(println("Already exist ${dir.absolutePath}"))
+            AlreadyExist(dir).out()
         }
     }
     this

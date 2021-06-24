@@ -1,6 +1,8 @@
 package flank.corellium.domain.run.test.android.step
 
 import flank.corellium.domain.RunTestCorelliumAndroid
+import flank.corellium.domain.RunTestCorelliumAndroid.PrepareShards
+import flank.corellium.domain.step
 import flank.shard.Shard
 import flank.shard.calculateShards
 
@@ -13,8 +15,7 @@ import flank.shard.calculateShards
  * updates:
  * * [RunTestCorelliumAndroid.State.shards]
  */
-internal fun RunTestCorelliumAndroid.Context.prepareShards() = RunTestCorelliumAndroid.step {
-    println("* Calculating shards")
+internal fun RunTestCorelliumAndroid.Context.prepareShards() = step(PrepareShards) {
     copy(
         shards = calculateShards(
             apps = prepareDataForSharding(

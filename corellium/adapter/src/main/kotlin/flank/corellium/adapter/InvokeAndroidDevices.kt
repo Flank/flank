@@ -1,6 +1,7 @@
 package flank.corellium.adapter
 
 import flank.corellium.api.AndroidInstance
+import flank.corellium.api.AndroidInstance.Event
 import flank.corellium.client.core.createNewInstance
 import flank.corellium.client.core.getAllProjects
 import flank.corellium.client.core.getProjectInstancesList
@@ -22,7 +23,7 @@ private const val SCREEN = "720x1280:280"
 fun invokeAndroidDevices(
     projectName: String,
 ) = AndroidInstance.Invoke { config ->
-    channelFlow<String> {
+    channelFlow<Event> {
         val projectId = getProjectId(projectName)
         val instances = getCreatedInstances(projectId, config.amount)
         startNotRunningInstances(instances)
@@ -42,13 +43,15 @@ fun invokeAndroidDevices(
             )
         }
 
-        waitForInstances(channel, ids)
+        waitForInstances(ids)
     }
 }
 
 // Important!!!
 // Try to keep the private methods not dependent on each other.
 // Otherwise the implementation will go complicated.
+
+private typealias OutputChannel = SendChannel<Event>
 
 /**
  * @return The project id for given project name.
@@ -60,39 +63,39 @@ private suspend fun getProjectId(name: String) =
  * Get all instances that was already created for flank.
  * @return [List] of [Instance] where [List.size] <= [amount]
  */
-private suspend fun getCreatedInstances(
+private suspend fun OutputChannel.getCreatedInstances(
     projectId: String,
     amount: Int
 ): List<Instance> = corellium
-    .also { println("Getting instances already created by flank.") }
+    .also { send(Event.GettingAlreadyCreated) }
     .getProjectInstancesList(projectId)
     .filter { it.name.startsWith(FLANK_INSTANCE_NAME_PREFIX) }
     .filter { it.state !in Instance.State.unavailable }
     .take(amount)
-    .apply { println("Obtained $size already created devices") }
+    .apply { send(Event.Obtained(size)) }
 
 /**
  * Start all given instances with status different than "on".
  */
-private suspend fun startNotRunningInstances(
+private suspend fun OutputChannel.startNotRunningInstances(
     instances: List<Instance>
 ): Unit = instances
     .filter { it.state != Instance.State.ON }
-    .apply { if (isNotEmpty()) println("Starting not running $size instances.") }
+    .apply { if (isNotEmpty()) send(Event.Starting(size)) }
     .forEach { instance ->
         corellium.startInstance(instance.id)
-        println(instance)
+        send(Event.Started(instance.id, instance.name))
     }
 
 /**
  * Create new instances basing on given indexes.
  */
-private suspend fun createInstances(
+private suspend fun OutputChannel.createInstances(
     projectId: String,
     indexes: List<Int>,
     gpuAcceleration: Boolean,
 ) = indexes
-    .apply { println("Creating additional ${indexes.size} instances. Connecting to the agents may take longer.") }
+    .apply { send(Event.Creating(size)) }
     .map { index ->
         corellium.createNewInstance(
             Instance(
@@ -131,17 +134,15 @@ private val Instance.index get() = name.removePrefix(FLANK_INSTANCE_NAME_PREFIX)
 /**
  * Block the execution and wait until each instance change the status to "on".
  */
-private suspend fun waitForInstances(
-    channel: SendChannel<String>,
+private suspend fun OutputChannel.waitForInstances(
     ids: List<String>
 ) = coroutineScope {
-    println("Wait until all instances are ready...")
+    send(Event.Waiting)
     ids.map { id ->
         launch {
             corellium.waitUntilInstanceIsReady(id)
-            println("ready: $id")
-            channel.send(id)
+            send(Event.Ready(id))
         }
     }.joinAll()
-    println("All instances invoked and ready to use.")
+    send(Event.AllReady)
 }
