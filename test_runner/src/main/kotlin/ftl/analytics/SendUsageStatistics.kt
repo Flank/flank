@@ -32,6 +32,6 @@ fun IArgs.sendConfiguration(
     }
 
 fun IArgs.sendAppId(appId: String) = when (this) {
-    is AndroidArgs -> sendConfiguration(mapOf(APP_ID to appId, DEVICE_TYPE to "Android"), eventName = APP_ID)
-    else -> sendConfiguration(mapOf(APP_ID to appId, DEVICE_TYPE to "Ios"), eventName = APP_ID)
+    is AndroidArgs -> sendConfiguration(mapOf(APP_ID to appId, DEVICE_TYPE to "android"), eventName = APP_ID)
+    else -> sendConfiguration(mapOf(APP_ID to appId, DEVICE_TYPE to "ios"), eventName = APP_ID)
 }
