@@ -14,14 +14,14 @@ tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
 
 dependencies {
     implementation(Dependencies.KOTLIN_COROUTINES_CORE)
+    implementation(Dependencies.KOTLIN_REFLECT)
     implementation(Dependencies.PICOCLI)
-    implementation(project(":corellium:api"))
     implementation(project(":corellium:domain"))
     implementation(project(":corellium:adapter"))
-    implementation(project(":tool:apk"))
-    implementation(project(":tool:junit"))
+    implementation(project(":tool:log:format"))
     implementation(Dependencies.JACKSON_KOTLIN)
     implementation(Dependencies.JACKSON_YAML)
     implementation(Dependencies.JACKSON_XML)
     testImplementation(Dependencies.JUNIT)
+    testImplementation(Dependencies.MOCKK)
 }

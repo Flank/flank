@@ -2,6 +2,11 @@ package flank.corellium.domain.run.test.android.step
 
 import flank.corellium.api.AndroidInstance
 import flank.corellium.domain.RunTestCorelliumAndroid
+import flank.corellium.domain.RunTestCorelliumAndroid.InvokeDevices
+import flank.corellium.domain.step
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.toList
 
 /**
@@ -14,11 +19,16 @@ import kotlinx.coroutines.flow.toList
  * updates:
  * * [RunTestCorelliumAndroid.State.ids]
  */
-internal fun RunTestCorelliumAndroid.Context.invokeDevices() = RunTestCorelliumAndroid.step {
-    println("* Invoking devices")
+internal fun RunTestCorelliumAndroid.Context.invokeDevices() = step(InvokeDevices) { out ->
     val config = AndroidInstance.Config(
         amount = shards.size,
         gpuAcceleration = args.gpuAcceleration
     )
-    copy(ids = api.invokeAndroidDevices(config).toList())
+    copy(
+        ids = api.invokeAndroidDevices(config)
+            .onEach { event -> InvokeDevices.Status(event).out() }
+            .filterIsInstance<AndroidInstance.Event.Ready>()
+            .map { instance -> instance.id }
+            .toList()
+    )
 }

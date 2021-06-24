@@ -27,4 +27,4 @@ fun <T> GenericOutput<T>.normalize(transform: (Any) -> T?): Output =
  * Normalizes [GenericOutput] into [Output] by filtering values of type [T]
  */
 inline fun <reified T> GenericOutput<T>.filter(): Output =
-    normalize { this as? T }
+    normalize { it as? T }

@@ -3,6 +3,7 @@ package flank.corellium.domain
 import flank.apk.Apk
 import flank.corellium.corelliumApi
 import flank.junit.JUnit
+import flank.log.Output
 
 object RunTestAndroidCorelliumExample : RunTestCorelliumAndroid.Context {
     override val api = corelliumApi("Default Project")
@@ -13,6 +14,7 @@ object RunTestAndroidCorelliumExample : RunTestCorelliumAndroid.Context {
         apks = fewTestArtifactsApks(APK_PATH_MAIN),
         maxShardsCount = 3
     )
+    override val out: Output = { println(this) }
 }
 
 fun main() = RunTestAndroidCorelliumExample()

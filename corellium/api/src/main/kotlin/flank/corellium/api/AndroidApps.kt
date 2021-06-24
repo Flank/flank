@@ -1,6 +1,6 @@
 package flank.corellium.api
 
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
 
 /**
  * [AndroidApps] represents a bunch of apk files related to the testing instance.
@@ -16,5 +16,17 @@ data class AndroidApps(
     /**
      * Install android apps on the specified instances.
      */
-    fun interface Install : (List<AndroidApps>) -> Job
+    fun interface Install : (List<AndroidApps>) -> Flow<Event>
+
+    sealed class Event {
+        object Connecting {
+            data class Agent(val instanceId: String) : Event()
+            data class Console(val instanceId: String) : Event()
+        }
+
+        object Apk {
+            data class Uploading(val path: String) : Event()
+            data class Installing(val path: String) : Event()
+        }
+    }
 }

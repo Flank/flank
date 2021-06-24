@@ -27,5 +27,16 @@ object AndroidInstance {
      *
      * @return List of invoked device ids.
      */
-    fun interface Invoke : (Config) -> Flow<String>
+    fun interface Invoke : (Config) -> Flow<Event>
+
+    sealed class Event {
+        object GettingAlreadyCreated : Event()
+        class Obtained(val size: Int) : Event()
+        class Starting(val size: Int) : Event()
+        class Started(val id: String, val name: String) : Event()
+        class Creating(val size: Int) : Event()
+        object Waiting : Event()
+        class Ready(val id: String) : Event()
+        object AllReady : Event()
+    }
 }

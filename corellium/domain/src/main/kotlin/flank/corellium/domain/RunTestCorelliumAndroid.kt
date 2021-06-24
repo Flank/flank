@@ -1,8 +1,12 @@
 package flank.corellium.domain
 
 import flank.apk.Apk
+import flank.corellium.api.AndroidApps
+import flank.corellium.api.AndroidInstance
 import flank.corellium.api.Authorization
 import flank.corellium.api.CorelliumApi
+import flank.corellium.domain.RunTestCorelliumAndroid.Args.DefaultOutputDir
+import flank.corellium.domain.RunTestCorelliumAndroid.Args.DefaultOutputDir.new
 import flank.corellium.domain.RunTestCorelliumAndroid.Context
 import flank.corellium.domain.RunTestCorelliumAndroid.State
 import flank.corellium.domain.run.test.android.step.authorize
@@ -18,13 +22,18 @@ import flank.corellium.domain.run.test.android.step.loadPreviousDurations
 import flank.corellium.domain.run.test.android.step.parseApksInfo
 import flank.corellium.domain.run.test.android.step.parseTestCasesFromApks
 import flank.corellium.domain.run.test.android.step.prepareShards
-import flank.corellium.domain.util.CreateTransformation
+import flank.corellium.domain.util.Transform
 import flank.corellium.domain.util.execute
+import flank.corellium.domain.util.injectLogger
 import flank.instrument.log.Instrument
 import flank.junit.JUnit
+import flank.log.Event
+import flank.log.Logger
+import flank.log.Output
 import flank.shard.Shard
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
+import java.io.File
 import java.lang.System.currentTimeMillis
 import java.text.SimpleDateFormat
 
@@ -37,7 +46,7 @@ object RunTestCorelliumAndroid {
      * The context of android test execution on corellium.
      * Is providing all necessary data and operations for [Context.invoke].
      */
-    interface Context {
+    interface Context : Logger {
         val api: CorelliumApi
         val apk: Apk.Api
         val junit: JUnit.Api
@@ -127,12 +136,50 @@ object RunTestCorelliumAndroid {
 
     private val defaultPreviousDurations = emptyMap<String, Long>().withDefault { DEFAULT_TEST_CASE_DURATION }
 
-    /**
-     * The reference to the step factory.
-     * Invoke it to generate new execution step.
-     */
-    internal val step = CreateTransformation<State>()
+    // Types
+
+    object Authorize
+    object CleanUp
+    object OutputDir
+    object DumpShards
+    object ExecuteTests {
+        data class Status(val id: String, val status: Instrument) : Event.Data
+    }
+
+    object CompleteTests
+    object GenerateReport
+    object InstallApks {
+        object Status : Event.Type<AndroidApps.Event>
+    }
+
+    object InvokeDevices {
+        object Status : Event.Type<AndroidInstance.Event>
+    }
+
+    object LoadPreviousDurations {
+        object Searching : Event.Type<Int>
+        data class Summary(val unknown: Int, val matching: Int, val required: Int) : Event.Data
+    }
+
+    object ParseApkInfo
+    object ParseTestCases
+    object PrepareShards
+
+    // Common Events
+
+    object Created : Event.Type<File>
+    object AlreadyExist : Event.Type<File>
 }
+
+/**
+ * The reference to the step factory.
+ * Invoke it to generate new execution step.
+ */
+internal fun Context.step(
+    type: Any = Unit,
+    transform: suspend State.(Output) -> State
+): Transform<State> =
+    injectLogger(type, transform)
 
 operator fun Context.invoke(): Unit = runBlocking {
     State() execute flowOf(

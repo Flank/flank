@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import flank.apk.Apk
+import flank.corellium.api.AndroidApps
+import flank.corellium.api.AndroidInstance
 import flank.corellium.cli.RunTestCorelliumAndroidCommand.Config
 import flank.corellium.cli.util.ConfigMap
 import flank.corellium.cli.util.emptyConfigMap
@@ -12,8 +14,25 @@ import flank.corellium.cli.util.merge
 import flank.corellium.corelliumApi
 import flank.corellium.domain.RunTestCorelliumAndroid
 import flank.corellium.domain.RunTestCorelliumAndroid.Args
+import flank.corellium.domain.RunTestCorelliumAndroid.Authorize
+import flank.corellium.domain.RunTestCorelliumAndroid.CleanUp
+import flank.corellium.domain.RunTestCorelliumAndroid.CompleteTests
+import flank.corellium.domain.RunTestCorelliumAndroid.DumpShards
+import flank.corellium.domain.RunTestCorelliumAndroid.ExecuteTests
+import flank.corellium.domain.RunTestCorelliumAndroid.GenerateReport
+import flank.corellium.domain.RunTestCorelliumAndroid.InstallApks
+import flank.corellium.domain.RunTestCorelliumAndroid.InvokeDevices
+import flank.corellium.domain.RunTestCorelliumAndroid.LoadPreviousDurations
+import flank.corellium.domain.RunTestCorelliumAndroid.OutputDir
+import flank.corellium.domain.RunTestCorelliumAndroid.ParseApkInfo
+import flank.corellium.domain.RunTestCorelliumAndroid.ParseTestCases
+import flank.corellium.domain.RunTestCorelliumAndroid.PrepareShards
 import flank.corellium.domain.invoke
+import flank.instrument.log.Instrument
 import flank.junit.JUnit
+import flank.log.Event.Start
+import flank.log.buildFormatter
+import flank.log.output
 import picocli.CommandLine
 
 @CommandLine.Command(
@@ -134,11 +153,13 @@ class RunTestCorelliumAndroidCommand :
 
     override val api by lazy { corelliumApi(config.project!!) }
 
-    override val apk = Apk.Api()
+    override val apk by lazy { Apk.Api() }
 
-    override val junit = JUnit.Api()
+    override val junit by lazy { JUnit.Api() }
 
     override val args by lazy { createArgs() }
+
+    override val out by lazy { format.output }
 
     override fun run() = invoke()
 }
@@ -166,3 +187,53 @@ private fun RunTestCorelliumAndroidCommand.createArgs() = Args(
     gpuAcceleration = config.gpuAcceleration!!,
     scanPreviousDurations = config.scanPreviousDurations!!,
 )
+
+internal val format = buildFormatter<String> {
+
+    Start(Authorize) { "* Authorizing" }
+    Start(CleanUp) { "* Cleaning instances" }
+    Start(OutputDir) { "* Preparing output directory" }
+    Start(DumpShards) { "* Dumping shards" }
+    Start(ExecuteTests) { "* Executing tests" }
+    Start(CompleteTests) { "* Finish" }
+    Start(GenerateReport) { "* Generating report" }
+    Start(InstallApks) { "* Installing apks" }
+    Start(InvokeDevices) { "* Invoking devices" }
+    Start(LoadPreviousDurations) { "* Obtaining previous test cases durations" }
+    Start(ParseApkInfo) { "* Parsing apk info" }
+    Start(ParseTestCases) { "* Parsing test cases" }
+    Start(PrepareShards) { "* Calculating shards" }
+
+    LoadPreviousDurations.Searching { "Searching in $this JUnitReport.xml files..." }
+    LoadPreviousDurations.Summary::class { "For $required test cases, found $matching matching and $unknown unknown" }
+    InstallApks.Status {
+        when (this) {
+            is AndroidApps.Event.Connecting.Agent -> "Connecting agent for $instanceId"
+            is AndroidApps.Event.Connecting.Console -> "Connecting console for $instanceId"
+            is AndroidApps.Event.Apk.Uploading -> "Uploading apk $path"
+            is AndroidApps.Event.Apk.Installing -> "Installing apk $path"
+        }
+    }
+    InvokeDevices.Status {
+        when (this) {
+            is AndroidInstance.Event.GettingAlreadyCreated -> "Getting instances already created by flank."
+            is AndroidInstance.Event.Obtained -> "Obtained $size already created devices"
+            is AndroidInstance.Event.Starting -> "Starting not running $size instances."
+            is AndroidInstance.Event.Started -> "$id - $name"
+            is AndroidInstance.Event.Creating -> "Creating additional $size instances. Connecting to the agents may take longer."
+            is AndroidInstance.Event.Waiting -> "Wait until all instances are ready..."
+            is AndroidInstance.Event.Ready -> "ready: $id"
+            is AndroidInstance.Event.AllReady -> "All instances invoked and ready to use."
+        }
+    }
+    ExecuteTests.Status::class {
+        when (val status = status) {
+            is Instrument.Status -> "$id: " + status.details.run { "$className#$testName" } + " - " + status.code
+            else -> null
+        }
+    }
+    RunTestCorelliumAndroid.Created { "Created $path" }
+    RunTestCorelliumAndroid.AlreadyExist { "Already exist $path" }
+
+    match { it as? String } to { this }
+}

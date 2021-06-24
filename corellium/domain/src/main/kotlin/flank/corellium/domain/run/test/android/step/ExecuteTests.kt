@@ -2,8 +2,9 @@ package flank.corellium.domain.run.test.android.step
 
 import flank.corellium.api.AndroidTestPlan
 import flank.corellium.domain.RunTestCorelliumAndroid
+import flank.corellium.domain.RunTestCorelliumAndroid.ExecuteTests
+import flank.corellium.domain.step
 import flank.instrument.command.formatAmInstrumentCommand
-import flank.instrument.log.Instrument
 import flank.instrument.log.parseAdbInstrumentLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -27,22 +28,15 @@ import kotlinx.coroutines.flow.toList
  * updates:
  * * [RunTestCorelliumAndroid.State.shards]
  */
-internal fun RunTestCorelliumAndroid.Context.executeTests() = RunTestCorelliumAndroid.step {
-    println("* Executing tests")
+internal fun RunTestCorelliumAndroid.Context.executeTests() = step(ExecuteTests) { out ->
     val testPlan: AndroidTestPlan.Config = prepareTestPlan()
     val list = coroutineScope {
-        api.executeTest(testPlan).mapIndexed { index, flow ->
+        api.executeTest(testPlan).map { (id, flow) ->
             async {
-                flow
-                    .flowOn(Dispatchers.IO)
-                    .dropWhile { !it.startsWith("INSTRUMENTATION_STATUS") }
+                flow.flowOn(Dispatchers.IO)
+                    .dropWhile { line -> !line.startsWith("INSTRUMENTATION_STATUS") }
                     .parseAdbInstrumentLog()
-                    .onEach { status ->
-                        if (status is Instrument.Status) {
-                            val line = "$index: " + status.details.run { "$className#$testName" } + " - " + status.code
-                            println(line)
-                        }
-                    }
+                    .onEach { status -> ExecuteTests.Status(id, status).out() }
                     .toList()
             }
         }.awaitAll()

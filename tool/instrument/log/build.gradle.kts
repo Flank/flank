@@ -10,7 +10,10 @@ repositories {
     maven(url = "https://kotlin.bintray.com/kotlinx")
 }
 
-tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
+tasks {
+    withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
+    withType<Jar> { archiveBaseName.set("instrument_log") }
+}
 
 dependencies {
     implementation(Dependencies.KOTLIN_COROUTINES_CORE)
