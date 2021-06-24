@@ -1,6 +1,8 @@
 package ftl.domain
 
 import flank.common.logLn
+import ftl.analytics.FLANK_VERSION
+import ftl.analytics.FLANK_VERSION_PROPERTY
 import ftl.analytics.sendConfiguration
 import ftl.args.createIosArgs
 import ftl.args.setupLogLevel
@@ -22,6 +24,7 @@ import ftl.util.StopWatch
 import ftl.util.TEST_TYPE
 import ftl.util.loadFile
 import ftl.util.printVersionInfo
+import ftl.util.readVersion
 import ftl.util.setCrashReportTag
 import kotlinx.coroutines.runBlocking
 import java.nio.file.Paths
@@ -56,6 +59,7 @@ operator fun RunIosTest.invoke() {
             TEST_TYPE to type?.name.orEmpty()
         )
         sendConfiguration()
+        sendConfiguration(mapOf(FLANK_VERSION_PROPERTY to readVersion()), eventName = FLANK_VERSION)
         if (dumpShards.not()) logLn(this)
     }.validate().run {
         if (dumpShards) dumpShards()

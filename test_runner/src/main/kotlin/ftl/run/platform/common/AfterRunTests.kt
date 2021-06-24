@@ -2,6 +2,7 @@ package ftl.run.platform.common
 
 import flank.common.logLn
 import flank.common.startWithNewLine
+import ftl.analytics.sendConfiguration
 import ftl.api.RemoteStorage
 import ftl.api.TestMatrix
 import ftl.api.refreshTestMatrix
@@ -14,6 +15,7 @@ import ftl.reports.addStepTime
 import ftl.run.common.SESSION_ID_FILE
 import ftl.run.common.saveSessionId
 import ftl.run.common.updateMatrixFile
+import ftl.util.Duration
 import ftl.util.StopWatch
 import ftl.util.formatted
 import ftl.util.isInvalid
@@ -39,7 +41,7 @@ internal suspend fun IArgs.afterRunTests(
     val gcsBucket = GCS_STORAGE_LINK + resultsBucket + "/" + matrixMap.runPath
     logLn("${FtlConstants.indent}Raw results will be stored in your GCS bucket at [$gcsBucket]")
     matrixMap.printMatricesWebLinks(project)
-    addStepTime("Running tests", stopwatch.check())
+    stopwatch.check().saveAndReportStepTime(this)
 }
 
 private fun List<TestMatrix.Data>.toSavedMatrixMap() =
@@ -67,7 +69,12 @@ internal suspend inline fun MatrixMap.printMatricesWebLinks(project: String) = c
 private tailrec suspend fun getOrUpdateWebLink(link: String, project: String, matrixId: String): String =
     if (link.isNotBlank()) link
     else getOrUpdateWebLink(
-        link = refreshTestMatrix(TestMatrix.Identity(matrixId, project)).run { if (isInvalid) "Unable to get web link" else webLink },
+        link = refreshTestMatrix(
+            TestMatrix.Identity(
+                matrixId,
+                project
+            )
+        ).run { if (isInvalid) "Unable to get web link" else webLink },
         project = project,
         matrixId = matrixId
     )
@@ -75,5 +82,13 @@ private tailrec suspend fun getOrUpdateWebLink(link: String, project: String, ma
 fun IArgs.uploadSessionId() = takeUnless { disableResultsUpload }?.let {
     val file = Paths.get(localResultDir, SESSION_ID_FILE).toString()
     if (file.startsWith(FtlConstants.GCS_PREFIX)) return file
-    uploadToRemoteStorage(RemoteStorage.Dir(resultsBucket, resultsDir), RemoteStorage.Data(file, Files.readAllBytes(Paths.get(file))))
+    uploadToRemoteStorage(
+        RemoteStorage.Dir(resultsBucket, resultsDir),
+        RemoteStorage.Data(file, Files.readAllBytes(Paths.get(file)))
+    )
+}
+
+private fun Duration.saveAndReportStepTime(args: IArgs) {
+    addStepTime("Running tests", this)
+    args.sendConfiguration(events = mapOf("test_duration" to this), eventName = "total_test_time")
 }

@@ -26,6 +26,7 @@ import com.google.api.services.toolresults.model.TestExecutionStep
 import com.google.api.services.toolresults.model.TestSuiteOverview
 import com.google.api.services.toolresults.model.TestTiming
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonObject
 import com.google.gson.LongSerializationPolicy
 import com.google.testing.model.AndroidDevice
 import com.google.testing.model.AndroidDeviceCatalog
@@ -378,6 +379,10 @@ object MockServer {
                             GraphicsStats().setP90Millis(100)
                         )
                     call.respond(performanceMetricsSummary)
+                }
+
+                post("/v1/applicationDetailService/getApkDetails") {
+                    call.respond(JsonObject())
                 }
             }
         }

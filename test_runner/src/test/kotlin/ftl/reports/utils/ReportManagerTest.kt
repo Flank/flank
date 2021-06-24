@@ -81,6 +81,7 @@ class ReportManagerTest {
         every { mockArgs.localResultDir } returns "./src/test/kotlin/ftl/fixtures/success_result"
         every { mockArgs.flakyTestAttempts } returns 0
         every { mockArgs.disableResultsUpload } returns false
+        every { mockArgs.disableUsageStatistics } returns true
         every { mockArgs.fullJUnitResult } returns false
         every { mockArgs.ignoreFailedTests } returns false
         every { mockArgs.smartFlankDisableUpload } returns true
@@ -93,6 +94,7 @@ class ReportManagerTest {
         val matrix = matrixPathToObj("./src/test/kotlin/ftl/fixtures/empty_result", AndroidArgs.default())
         val mockArgs = prepareMockAndroidArgs()
         every { mockArgs.localResultDir } returns "./src/test/kotlin/ftl/fixtures/empty_result"
+
         mockkObject(GcStorage)
         ReportManager.generate(matrix, mockArgs, emptyList())
         verify(exactly = 0) { GcStorage.uploadJunitXml(any(), any()) }

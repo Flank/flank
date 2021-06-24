@@ -3,6 +3,7 @@ package ftl.ios.xctest.common
 import com.dd.plist.NSArray
 import com.dd.plist.NSDictionary
 import com.dd.plist.PropertyListParser
+import ftl.args.IosArgs
 import ftl.run.exception.FlankConfigurationError
 import ftl.run.exception.FlankGeneralError
 import java.io.ByteArrayOutputStream
@@ -14,6 +15,7 @@ enum class XcTestRunVersion { V1, V2 }
 
 internal const val XCTEST_METADATA = "__xctestrun_metadata__"
 internal const val FORMAT_VERSION = "FormatVersion"
+internal const val BUNDLE_ID = "TestHostBundleIdentifier"
 internal const val TEST_CONFIGURATIONS = "TestConfigurations"
 internal const val TEST_TARGETS = "TestTargets"
 internal const val TEST_PLAN = "TestPlan"
@@ -55,6 +57,12 @@ private fun NSDictionary.getName(): String = get(NAME)
     ?: throw FlankConfigurationError("Cannot get Name key from NSDictionary:\n ${toXMLPropertyList()}")
 
 internal fun NSDictionary.getBlueprintName() = get(BLUEPRINT_NAME).toString()
+
+internal fun IosArgs.getBundleId(): String =
+    File(xctestrunFile).parentFile.walk().maxDepth(3).first { it.extension == "plist" && it.parent.endsWith(".app") }
+        .let { plist ->
+            PropertyListParser.parse(plist) as NSDictionary
+        }["CFBundleIdentifier"]?.toString().orEmpty()
 
 internal fun NSDictionary.toByteArray(): ByteArray {
     val out = ByteArrayOutputStream()
