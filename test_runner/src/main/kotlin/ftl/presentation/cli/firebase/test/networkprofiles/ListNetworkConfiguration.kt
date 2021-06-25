@@ -4,6 +4,7 @@ import ftl.api.NetworkProfile
 import ftl.environment.TestEnvironmentInfo
 import ftl.environment.createTableColumnFor
 import ftl.environment.getOrCreateList
+import ftl.util.Align
 import ftl.util.TableStyle
 import ftl.util.buildTable
 
@@ -37,11 +38,11 @@ private fun List<NetworkProfile>.createConfigurationDetails() = fold(mutableMapO
 private fun TestEnvironmentInfo.createConfigurationsTable() = buildTable(
     createTableColumnFor(PROFILE_ID),
     createTableColumnFor(RULE),
-    createTableColumnFor(DELAY),
-    createTableColumnFor(LOSS_RATION),
-    createTableColumnFor(DUPLICATION_RATION),
-    createTableColumnFor(BANDWIDTH),
-    createTableColumnFor(BURST),
+    createTableColumnFor(DELAY, Align.CENTER),
+    createTableColumnFor(LOSS_RATION, Align.CENTER),
+    createTableColumnFor(DUPLICATION_RATION, Align.CENTER),
+    createTableColumnFor(BANDWIDTH, Align.CENTER),
+    createTableColumnFor(BURST, Align.CENTER),
     tableStyle = TableStyle.ROW_SEPARATOR
 )
 

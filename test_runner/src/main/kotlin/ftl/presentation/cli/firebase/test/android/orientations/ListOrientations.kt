@@ -5,6 +5,7 @@ import ftl.environment.TestEnvironmentInfo
 import ftl.environment.createTableColumnFor
 import ftl.environment.getOrCreateList
 import ftl.environment.tagToSystemOutColorMapper
+import ftl.util.Align
 import ftl.util.applyColorsUsing
 import ftl.util.buildTable
 
@@ -21,7 +22,7 @@ private fun List<Orientation>.createOrientationsDetails() = fold(mutableMapOf<St
 private fun TestEnvironmentInfo.createOrientationsTable() = buildTable(
     createTableColumnFor(ORIENTATION_ID),
     createTableColumnFor(NAME),
-    createTableColumnFor(TAG).applyColorsUsing(tagToSystemOutColorMapper)
+    createTableColumnFor(TAG, Align.CENTER).applyColorsUsing(tagToSystemOutColorMapper)
 )
 
 private const val ORIENTATION_ID = "ORIENTATION_ID"

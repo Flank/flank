@@ -18,7 +18,8 @@ private fun IpBlockList.createDataMap() = blocks
         }
     }
 
-private fun Map<String, List<String>>.collectDataPerColumn() = map { (header, data) -> TableColumn(header, data) }
+private fun Map<String, List<String>>.collectDataPerColumn() =
+    map { (header, data) -> TableColumn(header = header, data = data) }
 
 private fun List<TableColumn>.buildTable() =
     if (isNotEmpty()) ftl.util.buildTable(*toTypedArray(), tableStyle = TableStyle.DEFAULT)

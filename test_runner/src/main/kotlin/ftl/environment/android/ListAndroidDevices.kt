@@ -16,7 +16,9 @@ import ftl.environment.createTableColumnFor
 import ftl.environment.getOrCreateList
 import ftl.environment.isValid
 import ftl.environment.tagToSystemOutColorMapper
+import ftl.util.Align
 import ftl.util.SystemOutColor
+import ftl.util.alignToTheXMark
 import ftl.util.applyColorsUsing
 import ftl.util.buildTable
 
@@ -42,7 +44,7 @@ private fun TestEnvironmentInfo.createAndroidDevicesTable() = buildTable(
     createTableColumnFor(MAKE),
     createTableColumnFor(MODEL_NAME),
     createTableColumnFor(FORM).applyColorsUsing(formToSystemOutColorMapper),
-    createTableColumnFor(RESOLUTION),
+    createTableColumnFor(RESOLUTION, Align.CENTER).alignToTheXMark(),
     createTableColumnFor(OS_VERSION_IDS),
     createTableColumnFor(TAGS).applyColorsUsing(tagToSystemOutColorMapper)
 )

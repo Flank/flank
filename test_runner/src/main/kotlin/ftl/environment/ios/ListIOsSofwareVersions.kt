@@ -9,6 +9,7 @@ import ftl.environment.createTableColumnFor
 import ftl.environment.getOrCreateList
 import ftl.environment.orUnknown
 import ftl.environment.tagToSystemOutColorMapper
+import ftl.util.Align
 import ftl.util.applyColorsUsing
 import ftl.util.buildTable
 
@@ -42,10 +43,10 @@ private fun List<IosVersion>.createTestEnvironmentInfoFromIosVersions() =
     }
 
 private fun TestEnvironmentInfo.createIOsSoftwareVersionsTable() = buildTable(
-    createTableColumnFor(OS_VERSION_ID),
-    createTableColumnFor(MAJOR_VERSION),
-    createTableColumnFor(MINOR_VERSION),
-    createTableColumnFor(TAGS).applyColorsUsing(tagToSystemOutColorMapper),
+    createTableColumnFor(OS_VERSION_ID, Align.CENTER),
+    createTableColumnFor(MAJOR_VERSION, Align.CENTER),
+    createTableColumnFor(MINOR_VERSION, Align.CENTER),
+    createTableColumnFor(TAGS, Align.CENTER).applyColorsUsing(tagToSystemOutColorMapper),
     createTableColumnFor(SUPPORTED_XCODE_VERSION_IDS)
 )
 
