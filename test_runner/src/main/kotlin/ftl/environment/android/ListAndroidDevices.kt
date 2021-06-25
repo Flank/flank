@@ -40,13 +40,13 @@ private fun List<DeviceModel.Android>.createTestEnvironmentInfo() =
     }
 
 private fun TestEnvironmentInfo.createAndroidDevicesTable() = buildTable(
-    createTableColumnFor(MODEL_ID, Align.LEFT),
-    createTableColumnFor(MAKE, Align.LEFT),
-    createTableColumnFor(MODEL_NAME, Align.LEFT),
-    createTableColumnFor(FORM, Align.LEFT).applyColorsUsing(formToSystemOutColorMapper),
+    createTableColumnFor(MODEL_ID),
+    createTableColumnFor(MAKE),
+    createTableColumnFor(MODEL_NAME),
+    createTableColumnFor(FORM).applyColorsUsing(formToSystemOutColorMapper),
     createTableColumnFor(RESOLUTION, Align.CENTER).alignToTheXMark(),
-    createTableColumnFor(OS_VERSION_IDS, Align.LEFT),
-    createTableColumnFor(TAGS, Align.LEFT).applyColorsUsing(tagToSystemOutColorMapper)
+    createTableColumnFor(OS_VERSION_IDS),
+    createTableColumnFor(TAGS).applyColorsUsing(tagToSystemOutColorMapper)
 )
 
 private val DeviceModel.Android.resolution

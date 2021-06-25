@@ -36,8 +36,8 @@ private fun List<NetworkProfile>.createConfigurationDetails() = fold(mutableMapO
 }
 
 private fun TestEnvironmentInfo.createConfigurationsTable() = buildTable(
-    createTableColumnFor(PROFILE_ID, Align.LEFT),
-    createTableColumnFor(RULE, Align.LEFT),
+    createTableColumnFor(PROFILE_ID),
+    createTableColumnFor(RULE),
     createTableColumnFor(DELAY, Align.CENTER),
     createTableColumnFor(LOSS_RATION, Align.CENTER),
     createTableColumnFor(DUPLICATION_RATION, Align.CENTER),

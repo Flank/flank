@@ -20,8 +20,8 @@ private fun List<Orientation>.createOrientationsDetails() = fold(mutableMapOf<St
 }
 
 private fun TestEnvironmentInfo.createOrientationsTable() = buildTable(
-    createTableColumnFor(ORIENTATION_ID, Align.LEFT),
-    createTableColumnFor(NAME, Align.LEFT),
+    createTableColumnFor(ORIENTATION_ID),
+    createTableColumnFor(NAME),
     createTableColumnFor(TAG, Align.CENTER).applyColorsUsing(tagToSystemOutColorMapper)
 )
 

@@ -47,7 +47,7 @@ private fun TestEnvironmentInfo.createIOsSoftwareVersionsTable() = buildTable(
     createTableColumnFor(MAJOR_VERSION, Align.CENTER),
     createTableColumnFor(MINOR_VERSION, Align.CENTER),
     createTableColumnFor(TAGS, Align.CENTER).applyColorsUsing(tagToSystemOutColorMapper),
-    createTableColumnFor(SUPPORTED_XCODE_VERSION_IDS, Align.LEFT)
+    createTableColumnFor(SUPPORTED_XCODE_VERSION_IDS)
 )
 
 private const val MAJOR_VERSION = "MAJOR_VERSION"

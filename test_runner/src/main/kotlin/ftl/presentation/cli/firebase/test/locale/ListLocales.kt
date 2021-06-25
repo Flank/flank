@@ -24,9 +24,9 @@ fun List<Locale>.createTestEnvironment() =
     }
 
 fun TestEnvironmentInfo.createLocalesTable() = buildTable(
-    createTableColumnFor(LOCALE, Align.LEFT),
-    createTableColumnFor(NAME, Align.LEFT),
-    createTableColumnFor(REGION, Align.LEFT),
+    createTableColumnFor(LOCALE),
+    createTableColumnFor(NAME),
+    createTableColumnFor(REGION),
     createTableColumnFor(TAGS, Align.CENTER).applyColorsUsing(tagToSystemOutColorMapper)
 )
 

@@ -13,7 +13,7 @@ data class TableColumn(
     val data: List<String>,
     val dataColor: List<SystemOutColor> = listOf(),
     val columnSize: Int = ((data + header).maxByOrNull { it.length }?.length ?: 0) + DEFAULT_COLUMN_PADDING,
-    val align: Align
+    val align: Align = Align.LEFT
 )
 
 enum class Align {

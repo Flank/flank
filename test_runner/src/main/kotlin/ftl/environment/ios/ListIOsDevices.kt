@@ -35,9 +35,9 @@ private val DeviceModel.Ios.resolution
     get() = if (screenX.isValid() && screenY.isValid()) "$screenY x $screenX" else "UNKNOWN"
 
 private fun TestEnvironmentInfo.createIoDevicesTable() = buildTable(
-    createTableColumnFor(MODEL_ID, Align.LEFT),
-    createTableColumnFor(MODEL_NAME, Align.LEFT),
+    createTableColumnFor(MODEL_ID),
+    createTableColumnFor(MODEL_NAME),
     createTableColumnFor(RESOLUTION, Align.CENTER).alignToTheXMark(),
-    createTableColumnFor(OS_VERSION_IDS, Align.LEFT),
-    createTableColumnFor(TAGS, Align.LEFT).applyColorsUsing(tagToSystemOutColorMapper)
+    createTableColumnFor(OS_VERSION_IDS),
+    createTableColumnFor(TAGS).applyColorsUsing(tagToSystemOutColorMapper)
 )

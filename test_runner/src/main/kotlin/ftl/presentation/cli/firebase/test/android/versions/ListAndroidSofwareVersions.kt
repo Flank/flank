@@ -34,7 +34,7 @@ private fun OsVersion.Date?.printableReleaseDate() =
 private fun TestEnvironmentInfo.createAndroidSoftwareVersionsTable() = buildTable(
     createTableColumnFor(OS_VERSION_ID, Align.CENTER),
     createTableColumnFor(VERSION, Align.CENTER),
-    createTableColumnFor(CODE_NAME, Align.LEFT),
+    createTableColumnFor(CODE_NAME),
     createTableColumnFor(API_LEVEL, Align.CENTER),
     createTableColumnFor(RELEASE_DATE, Align.CENTER),
     createTableColumnFor(TAGS, Align.CENTER).applyColorsUsing(tagToSystemOutColorMapper)
