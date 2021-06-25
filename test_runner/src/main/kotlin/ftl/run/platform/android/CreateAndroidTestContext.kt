@@ -15,6 +15,7 @@ import ftl.api.FileReference
 import ftl.args.AndroidArgs
 import ftl.args.ArgsHelper
 import ftl.args.CalculateShardsResult
+import ftl.config.FlankDefaults
 import ftl.config.FtlConstants
 import ftl.filter.TestFilter
 import ftl.filter.TestFilters
@@ -79,7 +80,10 @@ private fun InstrumentationTestContext.calculateShards(
     args: AndroidArgs,
     testFilter: TestFilter = TestFilters.fromTestTargets(args.testTargets, args.testTargetsForShard)
 ): InstrumentationTestContext = ArgsHelper.calculateShards(
-    filteredTests = getFlankTestMethods(testFilter),
+    filteredTests = getFlankTestMethods(
+        testFilter = testFilter,
+        parameterizedTests = args.parameterizedTests ?: FlankDefaults.DEFAULT_PARAMETERIZED_TESTS
+    ),
     args = args,
     forcedShardCount = args.numUniformShards
 ).run {
@@ -91,9 +95,10 @@ private fun InstrumentationTestContext.calculateShards(
 
 private fun InstrumentationTestContext.calculateDummyShards(
     args: AndroidArgs,
-    testFilter: TestFilter = TestFilters.fromTestTargets(args.testTargets, args.testTargetsForShard),
+    testFilter: TestFilter = TestFilters.fromTestTargets(args.testTargets, args.testTargetsForShard)
 ): InstrumentationTestContext {
-    val filteredTests = getFlankTestMethods(testFilter)
+    val filteredTests =
+        getFlankTestMethods(testFilter, args.parameterizedTests ?: FlankDefaults.DEFAULT_PARAMETERIZED_TESTS)
     val shardsResult = if (filteredTests.isEmpty()) {
         CalculateShardsResult(emptyList(), emptyList())
     } else {
@@ -110,7 +115,8 @@ private fun InstrumentationTestContext.calculateDummyShards(
 
 @VisibleForTesting
 internal fun InstrumentationTestContext.getFlankTestMethods(
-    testFilter: TestFilter
+    testFilter: TestFilter,
+    parameterizedTests: String = FlankDefaults.DEFAULT_PARAMETERIZED_TESTS
 ): List<FlankTestMethod> =
     getParametrizedClasses().let { parameterizedClasses: List<TestMethod> ->
         DexParser.findTestMethods(test.local, customTestAnnotations)
@@ -122,7 +128,9 @@ internal fun InstrumentationTestContext.getFlankTestMethods(
             .plus(parameterizedClasses.onlyShouldRun(testFilter))
     }
 
-private fun List<TestMethod>.belong(method: TestMethod) = any { method.testName.startsWith(it.testName) }
+private fun List<TestMethod>.belong(method: TestMethod) = any {
+    method.testName.startsWith(it.testName)
+}
 
 private fun List<TestMethod>.onlyShouldRun(filter: TestFilter) = this
     .filter { filter.shouldRun(it) }
@@ -138,6 +146,8 @@ private val ignoredAnnotations = listOf(
     "androidx.test.filters.Suppress",
     "android.support.test.filters.Suppress"
 )
+
+private fun String.shouldIgnore(): Boolean = (this == "ignore-all")
 
 @VisibleForTesting
 internal fun InstrumentationTestContext.getParametrizedClasses(): List<TestMethod> =
