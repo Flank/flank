@@ -64,7 +64,7 @@ class FetchProjectIdTest {
         mockkStatic(
             "ftl.util.Utils",
             "flank.common.FilesKt",
-            ServiceOptions::class.qualifiedName ?: ""
+            "com.google.cloud.ServiceOptions"
         ) {
             every { defaultCredentialPath } returns def.toPath()
             every { getGACPathOrEmpty() } returns ""

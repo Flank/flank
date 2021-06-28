@@ -41,5 +41,5 @@ sealed class ShellEnvironment(val execution: String) {
     object Bash : ShellEnvironment("Bash.exe")
     object BinBash : ShellEnvironment("/bin/bash")
     object Cmd : ShellEnvironment("cmd.exe")
-    object Default : ShellEnvironment(if (isWindows) Cmd.execution else BinBash.execution)
+    object Default : ShellEnvironment(if (isWindows) "cmd.exe" else "/bin/bash")
 }
