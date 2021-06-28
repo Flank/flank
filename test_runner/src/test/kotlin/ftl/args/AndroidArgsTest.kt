@@ -2746,12 +2746,12 @@ AndroidArgs
         gcloud:
           app: $appApk
           test: $testExtremeParameterizedOtherApk
-          parameterized-tests: default
+          parameterized-tests: shard-into-single
         """.trimIndent()
 
         val parsedYml = AndroidArgs.load(yaml).validate()
         val chunks = runBlocking { parsedYml.runAndroidTests() }.shardChunks
-        assertTrue(chunks.size == 1)
+        assertTrue(chunks.size == 2)
     }
 }
 
