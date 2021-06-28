@@ -125,15 +125,16 @@ internal fun InstrumentationTestContext.getFlankTestMethods(
             .filter(testFilter.shouldRun)
             .filterNot(parameterizedClasses::belong)
             .map(TestMethod::toFlankTestMethod).toList()
-            .plus(parameterizedClasses.onlyShouldRun(testFilter))
+            .plus(parameterizedClasses.onlyShouldRun(testFilter, parameterizedTests.shouldIgnore()))
     }
 
 private fun List<TestMethod>.belong(method: TestMethod) = any {
     method.testName.startsWith(it.testName)
 }
 
-private fun List<TestMethod>.onlyShouldRun(filter: TestFilter) = this
-    .filter { filter.shouldRun(it) }
+private fun List<TestMethod>.onlyShouldRun(filter: TestFilter, shouldIgnore: Boolean) = if (shouldIgnore) {
+    emptyList()
+} else this.filter { filter.shouldRun(it) }
     .map { FlankTestMethod("class ${it.testName}", ignored = false, isParameterizedClass = true) }
 
 private fun TestMethod.toFlankTestMethod() = FlankTestMethod(

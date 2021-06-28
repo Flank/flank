@@ -2713,8 +2713,20 @@ AndroidArgs
         AndroidArgs.load(yaml).validate()
     }
 
+    @Test(expected = FlankGeneralError::class)
+    fun `should throw exception as there are no tests to run - ignore-all parameterized tests`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testExtremeParameterizedApk
+          parameterized-tests: ignore-all
+        """.trimIndent()
+        val parsedYml = AndroidArgs.load(yaml).validate()
+        runBlocking { parsedYml.runAndroidTests() }
+    }
+
     @Test
-    fun `ignore all parameterized test should shard no tests`() {
+    fun `should NOT throw exception as there are no tests to run - default parameterized tests`() {
         val yaml = """
         gcloud:
           app: $appApk
@@ -2724,7 +2736,7 @@ AndroidArgs
 
         val parsedYml = AndroidArgs.load(yaml).validate()
         val chunks = runBlocking { parsedYml.runAndroidTests() }.shardChunks
-        assertTrue(chunks[0].isEmpty())
+        assertTrue(chunks.size == 1)
     }
 }
 
