@@ -67,6 +67,7 @@ class AndroidArgsTest {
     private val testApk = "../test_projects/android/apks/app-debug-androidTest.apk"
     private val testLargeParameterizedApk = "../test_projects/android/apks/app-Large-Parameterized.apk"
     private val testExtremeParameterizedApk = "../test_projects/android/apks/app-Extreme-ParameterizedTests.apk"
+    private val testExtremeParameterizedOtherApk = "../test_projects/android/apks/app-Extreme-Other-ParameterizedTests.apk"
     private val testErrorApk = "../test_projects/android/apks/error-androidTest.apk"
     private val testFlakyApk = "../test_projects/android/apks/flaky-androidTest.apk"
     private val obbFile = "../test_projects/android/gameloop/test.obb"
@@ -2731,6 +2732,20 @@ AndroidArgs
         gcloud:
           app: $appApk
           test: $testExtremeParameterizedApk
+          parameterized-tests: default
+        """.trimIndent()
+
+        val parsedYml = AndroidArgs.load(yaml).validate()
+        val chunks = runBlocking { parsedYml.runAndroidTests() }.shardChunks
+        assertTrue(chunks.size == 1)
+    }
+
+    @Test
+    fun `should shard tests correctly into a single shard with shard-into-single used`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testExtremeParameterizedOtherApk
           parameterized-tests: default
         """.trimIndent()
 
