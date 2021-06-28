@@ -4,8 +4,8 @@ import java.nio.file.Paths
 
 fun createGradleCommand(
     workingDir: String,
-    vararg options: String
-) = createGradleCommand(workingDir, options.asList())
+    vararg options: String?
+) = createGradleCommand(workingDir, options.asList().filterNotNull())
 
 fun createGradleCommand(
     workingDir: String,

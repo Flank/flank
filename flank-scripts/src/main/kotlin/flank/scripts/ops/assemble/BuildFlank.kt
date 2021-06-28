@@ -7,13 +7,14 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
-fun buildFlank() {
+fun buildFlank(clean: Boolean = true) {
     createGradleCommand(
         workingDir = rootDirectoryPathString,
-        "-p", rootDirectoryPathString, ":test_runner:clean", ":test_runner:assemble", ":test_runner:shadowJar"
-    )
-        .runCommand()
-
+        "-p", rootDirectoryPathString,
+        ":test_runner:clean".takeIf { clean },
+        ":test_runner:assemble",
+        ":test_runner:shadowJar"
+    ).runCommand()
     copyFlankOutputFile()
 }
 
