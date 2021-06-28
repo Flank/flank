@@ -143,7 +143,15 @@ object RunTestCorelliumAndroid {
     object OutputDir
     object DumpShards
     object ExecuteTests {
+        const val ADB_LOG = "adb_log"
+
         data class Status(val id: String, val status: Instrument) : Event.Data
+        data class Error(
+            val id: String,
+            val cause: Throwable,
+            val logFile: String,
+            val lines: IntRange
+        ) : Event.Data
     }
 
     object CompleteTests

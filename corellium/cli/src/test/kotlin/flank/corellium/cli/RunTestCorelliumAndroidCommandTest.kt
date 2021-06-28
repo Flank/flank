@@ -239,6 +239,7 @@ password: $password
                     details = Instrument.Status.Details(emptyMap(), "Class", "Test", null)
                 )
             ),
+            Unit event ExecuteTests.Error("1", NullPointerException(), "path/to/log/1", 5..10),
             Unit event RunTestCorelliumAndroid.Created(File("path/to/apk.apk")),
             Unit event RunTestCorelliumAndroid.AlreadyExist(File("path/to/apk.apk")),
         )

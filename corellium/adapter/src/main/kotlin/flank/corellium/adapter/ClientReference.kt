@@ -9,3 +9,7 @@ internal val corellium: Corellium
 
 // It's totally ok to keep corellium as singleton since we don't need handle more than one connection for single run.
 internal var corelliumRef: Corellium? = null
+
+internal typealias GetCorellium = () -> Corellium
+
+internal val getCorellium: GetCorellium = { corellium }

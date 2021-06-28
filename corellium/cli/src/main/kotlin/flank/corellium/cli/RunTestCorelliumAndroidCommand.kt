@@ -232,6 +232,13 @@ internal val format = buildFormatter<String> {
             else -> null
         }
     }
+    ExecuteTests.Error::class {
+        """
+            Error while parsing results from instance $id.
+            For details check $logFile lines $lines.
+            
+        """.trimIndent() + cause.stackTraceToString()
+    }
     RunTestCorelliumAndroid.Created { "Created $path" }
     RunTestCorelliumAndroid.AlreadyExist { "Already exist $path" }
 
