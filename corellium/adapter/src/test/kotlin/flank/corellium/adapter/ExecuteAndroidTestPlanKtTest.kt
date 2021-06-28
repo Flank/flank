@@ -15,10 +15,8 @@ import io.mockk.mockkStatic
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
