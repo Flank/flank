@@ -53,6 +53,7 @@ ECHO Flank is up to date
 
 :EXIT
 DEL flank_tmp
+java -jar %FLANK_FILE% %*
 EXIT
 
 :downloadFLank
