@@ -29,7 +29,7 @@ class MatrixUtilTest {
         assertThat(timeoutToSeconds("1")).isEqualTo(1)
         assertThat(timeoutToSeconds("1s")).isEqualTo(1)
         assertThat(timeoutToSeconds("1m")).isEqualTo(60)
-        assertThat(timeoutToSeconds("1h")).isEqualTo(60 * 60)
+        assertThat(timeoutToSeconds("1h")).isEqualTo(3600)
     }
 
     @Test(expected = NumberFormatException::class)
