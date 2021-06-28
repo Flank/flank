@@ -60,3 +60,12 @@ jobs:
           release
         reviewers: bootstraponline,jan-gogo,pawelpasterz,adamfilipow92,piotradamczyk5,Sloox
         draft: false
+
+    - name: Team notification in case of failure
+      uses: Flank/flank_slack_notifier@master
+      if: failure() && startsWith(github.ref, 'refs/tags/v')
+      with:
+        xoxctoken: ${{ secrets.SLACK_ERROR_NOTIFICATION_XOXCTOKEN }}
+        message: There was a problem with Flank release ${{ env.RELEASE_TAG }}. Check <https://github.com/Flank/flank/actions/runs/${{ github.run_id }}| here!>
+        channel: ${{ secrets.SLACK_ERROR_NOTIFICATION_CHANNEL}}
+        cookie: ${{ secrets.SLACK_ERROR_NOTIFICATION_COOKIE}}
