@@ -48,9 +48,9 @@ class ExecuteTestsKtTest : RunTestCorelliumAndroid.Context {
     private val additionalInput = (0..1000).map(Int::toString).asFlow().onStart { delay(500) }
 
     private fun setLog(log: String) {
-        api = CorelliumApi(executeTest = {
-            listOf(instanceId to flowOf(log.lines().asFlow(), additionalInput).flattenConcat())
-        })
+        api = CorelliumApi(
+            executeTest = { listOf(instanceId to flowOf(log.lines().asFlow(), additionalInput).flattenConcat()) }
+        )
     }
 
     @Before
