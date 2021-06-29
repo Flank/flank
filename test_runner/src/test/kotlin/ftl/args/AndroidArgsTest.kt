@@ -2775,7 +2775,7 @@ AndroidArgs
         gcloud:
           app: $appApk
           test: $testExtremeParameterizedOtherApk
-          parameterized-tests: shard-into-single
+          parameterized-tests: default
         """.trimIndent()
 
         val parsedYml = AndroidArgs.load(yaml).validate()
