@@ -12,12 +12,14 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
+import io.mockk.unmockkAll
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Assert
 import org.junit.Test
 
@@ -61,5 +63,10 @@ class ExecuteAndroidTestPlanKtTest {
         coVerify(exactly = 1) { console.sendCommand(command) } // Verify sendCommand called.
         coVerify(exactly = 1) { console.close() } // Verify console close.
         Assert.assertNotEquals(range.last, emitted.last()) // Check the emission not reach last element.
+    }
+
+    @After
+    fun tearDown() {
+        unmockkAll()
     }
 }
