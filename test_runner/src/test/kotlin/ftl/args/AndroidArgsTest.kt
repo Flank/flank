@@ -67,7 +67,8 @@ class AndroidArgsTest {
     private val testApk = "../test_projects/android/apks/app-debug-androidTest.apk"
     private val testLargeParameterizedApk = "../test_projects/android/apks/app-Large-Parameterized.apk"
     private val testExtremeParameterizedApk = "../test_projects/android/apks/app-Extreme-ParameterizedTests.apk"
-    private val testExtremeParameterizedOtherApk = "../test_projects/android/apks/app-Extreme-Other-ParameterizedTests.apk"
+    private val testExtremeParameterizedOtherApk =
+        "../test_projects/android/apks/app-Extreme-Other-ParameterizedTests.apk"
     private val testErrorApk = "../test_projects/android/apks/error-androidTest.apk"
     private val testFlakyApk = "../test_projects/android/apks/flaky-androidTest.apk"
     private val obbFile = "../test_projects/android/gameloop/test.obb"
@@ -1256,7 +1257,13 @@ AndroidArgs
         )
 
         assertEquals(
-            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath, testTargets = listOf("class any.class.TestClass"))),
+            listOf(
+                AppTestPair(
+                    appApkAbsolutePath,
+                    testFlakyApkAbsolutePath,
+                    testTargets = listOf("class any.class.TestClass")
+                )
+            ),
             AndroidArgs.load(yaml, cli).validate().additionalAppTestApks
         )
     }
@@ -1610,7 +1617,11 @@ AndroidArgs
 
     @Test
     fun `should only keep @LargeTest`() {
-        val expectedTests = setOf("LargeParameterizedTests", "ExampleInstrumentedTest#useAppContextLarge", "LargeTestClass#testLargeClass")
+        val expectedTests = setOf(
+            "LargeParameterizedTests",
+            "ExampleInstrumentedTest#useAppContextLarge",
+            "LargeTestClass#testLargeClass"
+        )
 
         val yaml = """
         gcloud:
@@ -1632,7 +1643,11 @@ AndroidArgs
 
     @Test
     fun `should keep no @LargeTest`() {
-        val expectedTests = setOf("LargeParameterizedTests", "ExampleInstrumentedTest#useAppContextLarge", "LargeTestClass#testLargeClass")
+        val expectedTests = setOf(
+            "LargeParameterizedTests",
+            "ExampleInstrumentedTest#useAppContextLarge",
+            "LargeTestClass#testLargeClass"
+        )
 
         val yaml = """
         gcloud:
@@ -2752,6 +2767,20 @@ AndroidArgs
         val parsedYml = AndroidArgs.load(yaml).validate()
         val chunks = runBlocking { parsedYml.runAndroidTests() }.shardChunks
         assertTrue(chunks.size == 2)
+    }
+
+    @Test
+    fun `should shard tests normally when default used`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testExtremeParameterizedOtherApk
+          parameterized-tests: shard-into-single
+        """.trimIndent()
+
+        val parsedYml = AndroidArgs.load(yaml).validate()
+        val chunks = runBlocking { parsedYml.runAndroidTests() }.shardChunks
+        assertTrue(chunks.size == 1)
     }
 }
 

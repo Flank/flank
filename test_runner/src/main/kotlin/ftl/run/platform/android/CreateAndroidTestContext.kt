@@ -76,7 +76,7 @@ private fun InstrumentationTestContext.downloadApks(): InstrumentationTestContex
     test = test.downloadIfNeeded()
 )
 
-private fun InstrumentationTestContext.calculateShards(
+private fun InstrumentationTestContext.calculateShardsNormally(
     args: AndroidArgs,
     testFilter: TestFilter = TestFilters.fromTestTargets(args.testTargets, args.testTargetsForShard)
 ): InstrumentationTestContext = ArgsHelper.calculateShards(
@@ -92,6 +92,36 @@ private fun InstrumentationTestContext.calculateShards(
         ignoredTestCases = ignoredTestCases
     )
 }
+
+private fun InstrumentationTestContext.calculateShards(
+    args: AndroidArgs,
+    testFilter: TestFilter = TestFilters.fromTestTargets(args.testTargets, args.testTargetsForShard)
+): InstrumentationTestContext =
+    if (args.parameterizedTests?.shouldShardIntoSingle() == true) {
+        var flankTestMethods = getFlankTestMethods(testFilter, args.parameterizedTests)
+        val parameterizedTests = flankTestMethods.filter { it.isParameterizedClass }
+        flankTestMethods = flankTestMethods.filterNot { it.isParameterizedClass }
+        val shards = calculateParameterizedShards(flankTestMethods, args)
+        val parameterizedShard = calculateParameterizedShards(parameterizedTests, args, 1)
+        shards.copy(shards = shards.shards + parameterizedShard.shards)
+    } else calculateShardsNormally(args, testFilter)
+
+private fun InstrumentationTestContext.calculateParameterizedShards(
+    filteredTests: List<FlankTestMethod>,
+    args: AndroidArgs,
+    shardCount: Int? = args.numUniformShards
+): InstrumentationTestContext = ArgsHelper.calculateShards(
+    filteredTests = filteredTests,
+    args = args,
+    forcedShardCount = shardCount
+).run {
+    copy(
+        shards = shardChunks.filter { it.testMethods.isNotEmpty() },
+        ignoredTestCases = ignoredTestCases
+    )
+}
+
+private fun String.shouldShardIntoSingle() = (this == "shard-into-single")
 
 private fun InstrumentationTestContext.calculateDummyShards(
     args: AndroidArgs,
