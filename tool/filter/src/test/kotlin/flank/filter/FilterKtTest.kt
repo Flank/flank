@@ -1,7 +1,6 @@
 package flank.filter
 
 import flank.filter.internal.fromTestTargets
-
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
