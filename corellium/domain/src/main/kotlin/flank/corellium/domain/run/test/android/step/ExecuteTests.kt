@@ -42,6 +42,7 @@ internal fun RunTestCorelliumAndroid.Context.executeTests() = step(ExecuteTests)
     val outputDir = File(args.outputDir, ExecuteTests.ADB_LOG).apply { mkdir() }
     val testPlan: AndroidTestPlan.Config = prepareTestPlan()
     val list = coroutineScope {
+        ExecuteTests.Plan(testPlan).out()
         api.executeTest(testPlan).map { (id, flow) ->
             async {
                 var read = 0

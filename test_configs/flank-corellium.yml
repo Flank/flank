@@ -3,4 +3,7 @@ apks:
   - path: "test_artifacts/master/apk/app-debug.apk"
     tests:
       - path: "test_artifacts/master/apk/app-multiple-flaky-debug-androidTest.apk"
+test-targets:
+  - "package com.example.test_app"
+#  - "notClass com.example.test_app.InstrumentedTest#test0"
 max-test-shards: 3

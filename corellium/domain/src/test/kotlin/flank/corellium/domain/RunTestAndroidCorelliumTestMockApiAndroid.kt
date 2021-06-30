@@ -71,10 +71,12 @@ class RunTestAndroidCorelliumTestMockApiAndroid : RunTestCorelliumAndroid.Contex
     )
 
     override val apk = Apk.Api(
-        parseTestCases = { path ->
-            println(path)
-            (1..path.last().toString().toInt()).map {
-                path.replace("/", ".") + ".Test#test$it"
+        parseTestCases = {
+            { path ->
+                println(path)
+                (1..path.last().toString().toInt()).map {
+                    path.replace("/", ".") + ".Test#test$it"
+                }
             }
         },
         parsePackageName = { path ->

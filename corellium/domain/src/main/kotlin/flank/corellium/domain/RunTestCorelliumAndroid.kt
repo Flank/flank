@@ -3,6 +3,7 @@ package flank.corellium.domain
 import flank.apk.Apk
 import flank.corellium.api.AndroidApps
 import flank.corellium.api.AndroidInstance
+import flank.corellium.api.AndroidTestPlan
 import flank.corellium.api.Authorization
 import flank.corellium.api.CorelliumApi
 import flank.corellium.domain.RunTestCorelliumAndroid.Args.DefaultOutputDir
@@ -58,6 +59,7 @@ object RunTestCorelliumAndroid {
      *
      * @param credentials The user credentials for authorizing connection with API.
      * @param apks List of app apks with related test apks for testing.
+     * @param testTargets Test targets to filter.
      * @param maxShardsCount Maximum amount of shards to create. For each shard Flank is invoking dedicated device instance, so do not use values grater than maximum number available instances in the Corellium account.
      * @param obfuscateDumpShards Obfuscate the test names in shards before dumping to file.
      * @param outputDir Set output dir. Default value is [DefaultOutputDir.new]
@@ -67,6 +69,7 @@ object RunTestCorelliumAndroid {
     data class Args(
         val credentials: Authorization.Credentials = Authorization.Empty,
         val apks: List<Apk.App> = emptyList(),
+        val testTargets: List<String> = emptyList(),
         val maxShardsCount: Int = 1,
         val obfuscateDumpShards: Boolean = false,
         val outputDir: String = DefaultOutputDir.new,
@@ -152,6 +155,7 @@ object RunTestCorelliumAndroid {
     object ExecuteTests {
         const val ADB_LOG = "adb_log"
 
+        object Plan : Event.Type<AndroidTestPlan.Config>
         data class Status(val id: String, val status: Instrument) : Event.Data
         data class Error(
             val id: String,
@@ -198,15 +202,15 @@ internal fun Context.step(
 
 operator fun Context.invoke(): Unit = runBlocking {
     State() execute flowOf(
-        authorize(),
         parseTestCasesFromApks(),
         loadPreviousDurations(),
         prepareShards(),
         createOutputDir(),
         dumpShards(),
+        parseApksInfo(),
+        authorize(),
         invokeDevices(),
         installApks(),
-        parseApksInfo(),
         executeTests(),
         cleanUpInstances(),
         generateReport(),

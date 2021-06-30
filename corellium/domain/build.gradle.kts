@@ -17,6 +17,7 @@ dependencies {
     implementation(Dependencies.KOTLIN_COROUTINES_CORE)
     api(project(":corellium:api"))
     api(project(":tool:apk"))
+    // api(project(":tool:filter"))
     api(project(":tool:shard:calculate"))
     api(project(":tool:shard:obfuscate"))
     api(project(":tool:shard:dump"))
