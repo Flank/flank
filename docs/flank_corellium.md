@@ -160,6 +160,34 @@ The successful run should generate the following files:
 
 * JUnitReport.xml
 * android_shards.json
+* adb_log
+  * Directory that contains dumped log from `am instrument` commands.
+  * Each dump name is related instance id.
+
+### Errors
+
+The execution or its part can fail due to exceptions occur. 
+Typically, most of the errors can be sourced in incorrect initial arguments or network issues.  
+
+List of known possible errors:
+
+#### Test result parsing
+
+Flank is using `am instrument` command to execute tests on Corellium devices.
+The console output of the device is collected and parsed until all expected tests return their results.
+Due to an invalid apk file, the console can print unexpected output that cannot be parsed by Flank.
+In this case, Flank will print an error message similar to the following:
+
+```
+Error while parsing results from instance { instance id }.
+For details check "results/corellium/android/{ report_dir }/adb_log/{ instance id }" lines { from..to }.
+java.lang.Exception
+	at flank.corellium.cli.RunTestCorelliumAndroidCommandTest.outputTest(RunTestCorelliumAndroidCommandTest.kt:242)
+	{ ... }
+```
+
+The visible exception is related directly to the parsing issue.
+To see the source of the problem check the log file referenced in the error message. The file should contain a direct dump from `am instrument command`. 
 
 # Features
 
@@ -179,7 +207,3 @@ The successful run should generate the following files:
 * Structural logging.
 * iOS support.
 * and much more...
-
-# Known bugs
-
-* Missing `<skipped/>` tag for skipped test cases in JUnit report 

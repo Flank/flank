@@ -15,5 +15,6 @@ dependencies {
     implementation(project(":corellium:client"))
     implementation(Dependencies.KOTLIN_COROUTINES_CORE)
     testImplementation(Dependencies.JUNIT)
+    testImplementation(Dependencies.MOCKK)
 }
 

@@ -1,6 +1,7 @@
 package flank.corellium
 
 import flank.corellium.adapter.executeAndroidTestPlan
+import flank.corellium.adapter.getCorellium
 import flank.corellium.adapter.installAndroidApps
 import flank.corellium.adapter.invokeAndroidDevices
 import flank.corellium.adapter.requestAuthorization
@@ -16,5 +17,5 @@ fun corelliumApi(
     invokeAndroidDevices = invokeAndroidDevices(
         projectName = projectName
     ),
-    executeTest = executeAndroidTestPlan,
+    executeTest = executeAndroidTestPlan(getCorellium),
 )
