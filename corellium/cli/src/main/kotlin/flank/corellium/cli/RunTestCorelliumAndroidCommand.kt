@@ -165,14 +165,18 @@ class RunTestCorelliumAndroidCommand :
 }
 
 private fun defaultConfig() = Config().apply {
-    project = "Default Project"
-    auth = "corellium_auth.yml"
-    apks = emptyList()
-    maxTestShards = 1
-    localResultsDir = null
-    obfuscate = false
-    gpuAcceleration = true
-    scanPreviousDurations = 10
+    project = Args.DEFAULT_PROJECT
+    auth = Args.AUTH_FILE
+    this += Args.Default
+}
+
+private operator fun Config.plusAssign(args: Args) {
+    apks = args.apks
+    maxTestShards = args.maxShardsCount
+    localResultsDir = args.outputDir
+    obfuscate = args.obfuscateDumpShards
+    gpuAcceleration = args.gpuAcceleration
+    scanPreviousDurations = args.scanPreviousDurations
 }
 
 private fun RunTestCorelliumAndroidCommand.yamlConfig(): Config =
@@ -182,7 +186,7 @@ private fun RunTestCorelliumAndroidCommand.createArgs() = Args(
     credentials = loadYaml(config.auth!!),
     apks = config.apks!!,
     maxShardsCount = config.maxTestShards!!,
-    outputDir = config.localResultsDir ?: Args.DefaultOutputDir.new,
+    outputDir = config.localResultsDir!!,
     obfuscateDumpShards = config.obfuscate!!,
     gpuAcceleration = config.gpuAcceleration!!,
     scanPreviousDurations = config.scanPreviousDurations!!,

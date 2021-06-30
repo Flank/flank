@@ -65,14 +65,21 @@ object RunTestCorelliumAndroid {
      * @param scanPreviousDurations Scan the specified amount of JUnitReport.xml files to obtain test cases durations necessary for optimized sharding. The [outputDir] is used for searching JUnit reports.
      */
     data class Args(
-        val credentials: Authorization.Credentials,
-        val apks: List<Apk.App>,
-        val maxShardsCount: Int,
+        val credentials: Authorization.Credentials = Authorization.Empty,
+        val apks: List<Apk.App> = emptyList(),
+        val maxShardsCount: Int = 1,
         val obfuscateDumpShards: Boolean = false,
         val outputDir: String = DefaultOutputDir.new,
         val gpuAcceleration: Boolean = true,
         val scanPreviousDurations: Int = 10,
     ) {
+
+        companion object {
+            val Default = Args()
+            const val DEFAULT_PROJECT = "Default Project"
+            const val AUTH_FILE = "corellium_auth.yml"
+        }
+
         /**
          * Default output directory scheme.
          *
