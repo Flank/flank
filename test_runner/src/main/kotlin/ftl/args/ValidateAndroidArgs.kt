@@ -215,6 +215,7 @@ private fun AndroidArgs.assertAdditionalAppTestApks() {
                     maxTestShards = it.maxTestShards ?: maxTestShards,
                     devices = it.devices ?: devices
                 ),
+                parameterizedTests = it.parameterizedTests ?: parameterizedTests,
                 additionalAppTestApks = emptyList()
             )
         }

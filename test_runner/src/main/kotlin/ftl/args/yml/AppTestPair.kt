@@ -17,5 +17,7 @@ data class AppTestPair(
     @JsonProperty("test-targets")
     val testTargets: List<String>? = null,
     @JsonProperty("device")
-    val devices: List<Device>? = null
+    val devices: List<Device>? = null,
+    @JsonProperty("parameterized-tests")
+    val parameterizedTests: String? = null
 )

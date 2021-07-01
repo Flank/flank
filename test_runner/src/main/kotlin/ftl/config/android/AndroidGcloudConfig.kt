@@ -250,7 +250,7 @@ data class AndroidGcloudConfig @JsonIgnore constructor(
 
     @set:CommandLine.Option(
         names = ["--parameterized-tests"],
-        description = ["Specifies how to handle tests which contain the parameterization annotation."]
+        description = ["Specifies how to handle tests which contain the parameterization annotation. Possible values: `default`, `ignore-all`, `shard-into-single`, leaving it blank will result in `default` sharding"]
     )
     @set:JsonProperty("parameterized-tests")
     var parameterizedTests: String? by data

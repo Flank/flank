@@ -1238,6 +1238,34 @@ AndroidArgs
     }
 
     @Test
+    fun `cli additional-app-test-apks with parameterized-tests override`() {
+        val cli = AndroidRunCommand()
+        val text = "ignore-all"
+        CommandLine(cli).parseArgs("--additional-app-test-apks=app=$appApk,test=$testFlakyApk,parameterized-tests=$text")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          additional-app-test-apks:
+          - app: $appApk
+            test: $testErrorApk
+            parameterized-tests: default
+      """
+
+        assertEquals(
+            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath, parameterizedTests = "default")),
+            AndroidArgs.load(yaml).validate().additionalAppTestApks
+        )
+
+        assertEquals(
+            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath, parameterizedTests = "ignore-all")),
+            AndroidArgs.load(yaml, cli).validate().additionalAppTestApks
+        )
+    }
+
+    @Test
     fun `cli additional-app-test-apks with test-targets override`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parseArgs("--additional-app-test-apks=app=$appApk,test=$testFlakyApk,test-targets=class any.class.TestClass")

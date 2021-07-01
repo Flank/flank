@@ -58,6 +58,9 @@ object ArgsToString {
                         .map { it.replace("\n", "\n  ") }
                         .forEach { append(it) }
                 }
+                pair.parameterizedTests?.let { option ->
+                    appendLine("$SPACESx8 parameterized-tests: $option")
+                }
             }.trimEnd()
         }
     }

@@ -52,7 +52,8 @@ private fun AndroidArgs.additionalApksContexts() = additionalAppTestApks.map {
                 devices = it.devices ?: devices,
                 clientDetails = it.clientDetails ?: clientDetails
             ),
-            testTargets = it.testTargets ?: testTargets
+            testTargets = it.testTargets ?: testTargets,
+            parameterizedTests = it.parameterizedTests ?: parameterizedTests
         )
     )
 }.toTypedArray()
