@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
 import flank.junit.internal.calculateMedianDurations
+import flank.junit.internal.mergeDurations
 import flank.junit.internal.parseJUnitTestResults
 import flank.junit.mapper.TimeSerializer
 import flank.junit.mapper.mapToTestSuites
@@ -35,6 +36,12 @@ fun List<JUnit.TestResult>.generateJUnitReport(): JUnit.Report =
 fun JUnit.Report.writeAsXml(writer: Writer) {
     xmlPrettyWriter.writeValue(writer, this)
 }
+
+/**
+ * Merge [JUnit.TestResult] test methods by class names to accumulate duration and return them as classes of test methods.
+ */
+fun List<JUnit.TestResult>.mergeTestCases(byClasses: Set<String>): List<JUnit.TestResult> =
+    mergeDurations(byClasses)
 
 /**
  * Calculate associate full test cases names to calculated duration.

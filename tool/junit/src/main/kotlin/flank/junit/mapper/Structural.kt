@@ -31,13 +31,17 @@ internal fun List<JUnit.TestResult>.mapToTestSuites(): List<JUnit.Suite> = this
 
 internal fun List<JUnit.Suite>.mapToTestResults(): List<JUnit.TestResult> =
     flatMap { suite ->
+        var startAt: Long
+        var endAt: Long = 0
         suite.testcases.map { case ->
+            startAt = endAt
+            endAt = startAt + (case.time * 1000).toLong()
             JUnit.TestResult(
                 suiteName = suite.name,
                 testName = case.name,
                 className = case.classname,
-                startAt = 0,
-                endsAt = (case.time * 1000).toLong(),
+                startAt = startAt.also { startAt = endAt },
+                endsAt = endAt,
                 status = when {
                     case.error.isNotEmpty() -> JUnit.TestResult.Status.Error
                     case.failure.isNotEmpty() -> JUnit.TestResult.Status.Failed
