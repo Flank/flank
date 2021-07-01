@@ -25,10 +25,13 @@ private fun AndroidArgs.mainApkContext() = appApk?.let { appApk ->
             test = testApk.asFileReference(),
             environmentVariables = emptyMap(),
             testTargetsForShard = testTargetsForShard,
-            args = this,
-            parameterizedTestsOption = parameterizedTests.orEmpty()
+            args = this
         )
-        roboScript != null -> RoboTestContext(app = appApk.asFileReference(), roboScript = roboScript.asFileReference(), this)
+        roboScript != null -> RoboTestContext(
+            app = appApk.asFileReference(),
+            roboScript = roboScript.asFileReference(),
+            this
+        )
         isSanityRobo -> SanityRoboTestContext(app = appApk.asFileReference(), this)
         isGameLoop -> GameLoopContext(appApk.asFileReference(), scenarioLabels, scenarioNumbers, this)
         else -> null
@@ -50,7 +53,6 @@ private fun AndroidArgs.additionalApksContexts() = additionalAppTestApks.map {
                 clientDetails = it.clientDetails ?: clientDetails
             ),
             testTargets = it.testTargets ?: testTargets
-        ),
-        parameterizedTestsOption = parameterizedTests.orEmpty()
+        )
     )
 }.toTypedArray()

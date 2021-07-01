@@ -3,7 +3,6 @@ package ftl.run.platform.android
 import ftl.args.AndroidArgs
 import ftl.args.yml.AppTestPair
 import ftl.args.yml.Type
-import ftl.config.FlankDefaults
 import ftl.run.exception.FlankGeneralError
 import ftl.run.model.InstrumentationTestContext
 import ftl.run.model.SanityRoboTestContext
@@ -59,8 +58,7 @@ class ResolveApksKtTest {
                 InstrumentationTestContext(
                     app = "app".asFileReference(),
                     test = "test".asFileReference(),
-                    args = args,
-                    parameterizedTestsOption = FlankDefaults.DEFAULT_PARAMETERIZED_TESTS
+                    args = args
                 )
             ),
             args.resolveApks().toTypedArray()

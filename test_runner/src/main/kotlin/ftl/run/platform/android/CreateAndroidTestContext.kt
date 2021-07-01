@@ -127,8 +127,7 @@ private fun InstrumentationTestContext.calculateDummyShards(
     args: AndroidArgs,
     testFilter: TestFilter = TestFilters.fromTestTargets(args.testTargets, args.testTargetsForShard)
 ): InstrumentationTestContext {
-    val filteredTests =
-        getFlankTestMethods(testFilter, args.parameterizedTests ?: FlankDefaults.DEFAULT_PARAMETERIZED_TESTS)
+    val filteredTests = getFlankTestMethods(testFilter, args.parameterizedTests)
     val shardsResult = if (filteredTests.isEmpty()) {
         CalculateShardsResult(emptyList(), emptyList())
     } else {

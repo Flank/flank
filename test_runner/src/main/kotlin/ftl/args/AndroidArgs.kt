@@ -60,7 +60,7 @@ data class AndroidArgs(
     val testTargetsForShard: ShardChunks,
 
     @property:IgnoreInStatistics
-    val parameterizedTests: String?,
+    val parameterizedTests: String,
 
     @property:IgnoreInStatistics
     val customSharding: Map<String, AndroidTestShards>
