@@ -22,6 +22,7 @@ include(
     ":corellium:sandbox",
 
     ":tool:apk",
+    ":tool:filter",
     ":tool:shard",
     ":tool:shard:calculate",
     ":tool:shard:obfuscate",
