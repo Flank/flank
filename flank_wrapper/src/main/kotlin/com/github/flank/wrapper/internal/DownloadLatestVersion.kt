@@ -2,8 +2,7 @@ package com.github.flank.wrapper.internal
 
 import flank.common.downloadFile
 
-// https://github.com/Flank/flank/releases/latest/download/flank.jar
-fun downloadLatestFlankVersion() {
+internal fun downloadLatestFlankVersion() {
     downloadFile(
         sourceUrl = FLANK_JAR_REMOTE_PATH,
         destination = flankRunnerPath

@@ -1,12 +1,7 @@
 package com.github.flank.wrapper
 
-import com.github.flank.wrapper.internal.compareLatestVersionCheckSumWithCurrent
-import com.github.flank.wrapper.internal.downloadLatestFlankVersion
-import com.github.flank.wrapper.internal.runFlank
+import com.github.flank.wrapper.internal.runFlankOnLatestVersion
 
 fun main(vararg args: String) {
-    if (!compareLatestVersionCheckSumWithCurrent()) {
-        downloadLatestFlankVersion()
-    }
-    runFlank(args)
+    runFlankOnLatestVersion(args)
 }
