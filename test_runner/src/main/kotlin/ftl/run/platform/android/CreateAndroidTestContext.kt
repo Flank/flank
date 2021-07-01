@@ -82,7 +82,7 @@ private fun InstrumentationTestContext.calculateShardsNormally(
 ): InstrumentationTestContext = ArgsHelper.calculateShards(
     filteredTests = getFlankTestMethods(
         testFilter = testFilter,
-        parameterizedTests = args.parameterizedTests ?: FlankDefaults.DEFAULT_PARAMETERIZED_TESTS
+        parameterizedTests = args.parameterizedTests
     ),
     args = args,
     forcedShardCount = args.numUniformShards
@@ -97,7 +97,7 @@ private fun InstrumentationTestContext.calculateShards(
     args: AndroidArgs,
     testFilter: TestFilter = TestFilters.fromTestTargets(args.testTargets, args.testTargetsForShard)
 ): InstrumentationTestContext =
-    if (args.parameterizedTests?.shouldShardIntoSingle() == true) {
+    if (args.parameterizedTests.shouldShardIntoSingle()) {
         var flankTestMethods = getFlankTestMethods(testFilter, args.parameterizedTests)
         val parameterizedTests = flankTestMethods.filter { it.isParameterizedClass }
         flankTestMethods = flankTestMethods.filterNot { it.isParameterizedClass }
