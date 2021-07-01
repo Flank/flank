@@ -1,3 +1,21 @@
+## v21.07.0
+### Features
+- [#2049](https://github.com/Flank/flank/pull/2049) Save `am instrument` logs to file & handle parsing error. ([jan-gogo](https://github.com/jan-gogo))
+- [#2047](https://github.com/Flank/flank/pull/2047) Implement slack notifications for failed release ([pawelpasterz](https://github.com/pawelpasterz))
+- [#2042](https://github.com/Flank/flank/pull/2042) Send missing analytics data from Flank to Mixpanel ([pawelpasterz](https://github.com/pawelpasterz), [adamfilipow92](https://github.com/adamfilipow92))
+- [#2032](https://github.com/Flank/flank/pull/2032) Add structural logging ([jan-gogo](https://github.com/jan-gogo))
+- [#2009](https://github.com/Flank/flank/pull/2009) Implement tool for parallel execution ([jan-gogo](https://github.com/jan-gogo))
+- [#2033](https://github.com/Flank/flank/pull/2033) Add tools for structural logging ([jan-gogo](https://github.com/jan-gogo))
+- [#2035](https://github.com/Flank/flank/pull/2035) Added new Parameterized Test Option ([Sloox](https://github.com/Sloox))
+- [#2034](https://github.com/Flank/flank/pull/2034) Remove print lines from Corellium client ([jan-gogo](https://github.com/jan-gogo))
+### Bug Fixes
+- [#2050](https://github.com/Flank/flank/pull/2050) Corellium client request retry  ([jan-gogo](https://github.com/jan-gogo))
+- [#2043](https://github.com/Flank/flank/pull/2043) Enhance table builder logic ([pawelpasterz](https://github.com/pawelpasterz))
+- [#2031](https://github.com/Flank/flank/pull/2031) Bump up trim-newlines version ([pawelpasterz](https://github.com/pawelpasterz))
+### Refactor
+- [#2039](https://github.com/Flank/flank/pull/2039) Data field should not be serialized ([pawelpasterz](https://github.com/pawelpasterz))
+- [#2038](https://github.com/Flank/flank/pull/2038) Move tools from corellium directory ([jan-gogo](https://github.com/jan-gogo))
+
 ## v21.06.1
 ### Bug Fixes
 - [#2026](https://github.com/Flank/flank/pull/2026) Fix flank freezes when large number of matrices is launched ([pawelpasterz](https://github.com/pawelpasterz))
