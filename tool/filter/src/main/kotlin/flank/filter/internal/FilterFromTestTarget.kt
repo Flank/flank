@@ -36,15 +36,15 @@ private fun parseTarget(target: String): Target =
 
 private fun Target.createFilter(): Test.Filter =
     when (type) {
-        Test.Target.Type.ARGUMENT_TEST_CLASS -> withClassName(args)
-        Test.Target.Type.ARGUMENT_NOT_TEST_CLASS -> not(withClassName(args))
-        Test.Target.Type.ARGUMENT_TEST_PACKAGE -> withPackageName(args)
-        Test.Target.Type.ARGUMENT_NOT_TEST_PACKAGE -> not(withPackageName(args))
-        Test.Target.Type.ARGUMENT_ANNOTATION -> withAnnotation(args)
-        Test.Target.Type.ARGUMENT_NOT_ANNOTATION -> not(withAnnotation(args))
-        Test.Target.Type.ARGUMENT_TEST_FILE -> fromTestFile(args)
-        Test.Target.Type.ARGUMENT_NOT_TEST_FILE -> not(fromTestFile(args))
-        Test.Target.Type.ARGUMENT_TEST_SIZE -> withSize(args)
+        Test.Target.Type.TEST_CLASS -> withClassName(args)
+        Test.Target.Type.NOT_TEST_CLASS -> not(withClassName(args))
+        Test.Target.Type.TEST_PACKAGE -> withPackageName(args)
+        Test.Target.Type.NOT_TEST_PACKAGE -> not(withPackageName(args))
+        Test.Target.Type.ANNOTATION -> withAnnotation(args)
+        Test.Target.Type.NOT_ANNOTATION -> not(withAnnotation(args))
+        Test.Target.Type.TEST_FILE -> fromTestFile(args)
+        Test.Target.Type.NOT_TEST_FILE -> not(fromTestFile(args))
+        Test.Target.Type.TEST_SIZE -> withSize(args)
         else -> throw IllegalArgumentException("Filtering option $type not supported")
     }
 

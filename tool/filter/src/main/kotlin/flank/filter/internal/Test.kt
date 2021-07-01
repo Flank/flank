@@ -28,19 +28,19 @@ internal object Test {
     internal object Target {
 
         object Type {
-            const val ARGUMENT_TEST_CLASS = "class"
-            const val ARGUMENT_NOT_TEST_CLASS = "notClass"
+            const val TEST_CLASS = "class"
+            const val NOT_TEST_CLASS = "notClass"
 
-            const val ARGUMENT_TEST_SIZE = "size"
+            const val TEST_SIZE = "size"
 
-            const val ARGUMENT_ANNOTATION = "annotation"
-            const val ARGUMENT_NOT_ANNOTATION = "notAnnotation"
+            const val ANNOTATION = "annotation"
+            const val NOT_ANNOTATION = "notAnnotation"
 
-            const val ARGUMENT_TEST_PACKAGE = "package"
-            const val ARGUMENT_NOT_TEST_PACKAGE = "notPackage"
+            const val TEST_PACKAGE = "package"
+            const val NOT_TEST_PACKAGE = "notPackage"
 
-            const val ARGUMENT_TEST_FILE = "testFile"
-            const val ARGUMENT_NOT_TEST_FILE = "notTestFile"
+            const val TEST_FILE = "testFile"
+            const val NOT_TEST_FILE = "notTestFile"
         }
 
         object Size {
