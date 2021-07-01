@@ -13,6 +13,7 @@ include(
     "samples:gradle-export-api",
     "test_projects:android",
     ":common",
+    ":flank_wrapper",
 
     ":corellium:cli",
     ":corellium:domain",

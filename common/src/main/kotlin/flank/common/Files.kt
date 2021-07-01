@@ -22,6 +22,8 @@ val appDataDirectory: String by lazy {
     if (isWindows) System.getenv("APPDATA") else System.getProperty("user.home")
 }
 
+val dotFlank = Paths.get(userHome, ".flank")
+
 fun linkFiles(
     link: String,
     target: String
