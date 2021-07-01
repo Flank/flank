@@ -2,7 +2,6 @@ package ftl.analytics
 
 import com.google.common.truth.Truth.assertThat
 import ftl.args.AndroidArgs
-import ftl.args.IosArgs
 import ftl.test.util.FlankTestRunner
 import ftl.util.readVersion
 import io.mockk.every
@@ -23,67 +22,17 @@ class UsageStatisticsTest {
     }
 
     @Test
-    fun `should filter default args for android`() {
-        val default = AndroidArgs.default()
-        val args = default.copy(
-            appApk = "test"
-        ).objectToMap()
-
-        val nonDefaultArgs = args.filterNonCommonArgs().getNonDefaultArgs(default.objectToMap())
-
-        assertThat(nonDefaultArgs).containsKey("appApk")
-        assertThat(nonDefaultArgs.count()).isEqualTo(1)
-    }
-
-    @Test
-    fun `should filter default args for ios`() {
-        val default = IosArgs.default()
-        val args = default.copy(xctestrunFile = "test").objectToMap()
-
-        val nonDefaultArgs = args.filterNonCommonArgs().getNonDefaultArgs(default.objectToMap())
-
-        assertThat(nonDefaultArgs).containsKey("xctestrunFile")
-        assertThat(nonDefaultArgs.count()).isEqualTo(1)
-    }
-
-    @Test
-    fun `should filter default args for ios with commonArgs`() {
-        val default = IosArgs.default()
-        val args =
-            default.copy(xctestrunFile = "test", commonArgs = default.commonArgs.copy(resultsBucket = "test_bucket"))
-
-        val nonDefaultArgs = args.createEventMap(default)
-
-        assertThat(nonDefaultArgs).containsKey("xctestrunFile")
-        assertThat(nonDefaultArgs).containsKey("resultsBucket")
-        assertThat(nonDefaultArgs.count()).isEqualTo(2)
-    }
-
-    @Test
-    fun `should filter default args for android with commonArgs`() {
-        val default = AndroidArgs.default()
-        val args = default.copy(testApk = "test", commonArgs = default.commonArgs.copy(resultsBucket = "test_bucket"))
-
-        val nonDefaultArgs = args.createEventMap(default)
-
-        assertThat(nonDefaultArgs).containsKey("testApk")
-        assertThat(nonDefaultArgs).containsKey("resultsBucket")
-        assertThat(nonDefaultArgs.count()).isEqualTo(2)
-    }
-
-    @Test
     fun `should anonymize maps to (key,anonymizedValue)`() {
         val default = AndroidArgs.default()
         val args = default.copy(environmentVariables = mapOf("testKey" to "testValue", "testKey2" to "testValue2"))
 
-        val nonDefaultArgs = args.createEventMap(default)
+        val nonDefaultArgs = args.createEventMap()
         (nonDefaultArgs["environmentVariables"] as? Map<*, *>)?.let { environmentVariables ->
             assertThat(environmentVariables.count()).isEqualTo(2)
             assertThat(environmentVariables.values.all { it == "..." }).isTrue()
         }
 
-        assertThat(nonDefaultArgs.count()).isEqualTo(1)
-        assertThat(nonDefaultArgs.keys).containsExactly("environmentVariables")
+        assertThat(nonDefaultArgs.keys).contains("environmentVariables")
     }
 
     @Test
