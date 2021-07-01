@@ -8,17 +8,11 @@ import ftl.args.IosArgs
 
 private const val COMMON_ARGS = "commonArgs"
 
-internal fun AndroidArgs.createEventMap(
-    defaultArgs: AndroidArgs = AndroidArgs.default(),
-) = toArgsMap(defaultArgs).plus(commonArgs.toArgsMap(defaultArgs.commonArgs))
+fun AndroidArgs.createEventMap() = toArgsMap().plus(commonArgs.toArgsMap()).removeNotNeededKeys().filterSensitiveValues()
 
-internal fun IosArgs.createEventMap(
-    defaultArgs: IosArgs = IosArgs.default(),
-) = toArgsMap(defaultArgs).plus(commonArgs.toArgsMap(defaultArgs.commonArgs))
+fun IosArgs.createEventMap() = toArgsMap().plus(commonArgs.toArgsMap()).removeNotNeededKeys().filterSensitiveValues()
 
-private fun IArgs.toArgsMap(
-    defaultArgs: IArgs
-) = objectToMap().filterNonCommonArgs().getNonDefaultArgs(defaultArgs.objectToMap())
+private fun IArgs.toArgsMap() = objectToMap().filterNonCommonArgs()
 
 @VisibleForTesting
 internal fun Any.objectToMap() = objectMapper.convertValue(this, object : TypeReference<Map<String, Any>>() {})

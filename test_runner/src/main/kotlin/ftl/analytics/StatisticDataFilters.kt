@@ -28,9 +28,9 @@ private fun findMembersWithAnnotation(
     }
 }
 
-internal fun Map<String, Any>.removeNotNeededKeys(defaultArgs: Map<String, Any>) =
-    filterNot { (key, value) ->
-        value == defaultArgs[key] || key in keysToRemove
+internal fun Map<String, Any>.removeNotNeededKeys() =
+    filterNot { (key, _) ->
+        key in keysToRemove
     }
 
 internal fun Map<String, Any>.filterSensitiveValues() = mapValues { it.anonymousSensitiveValues() }

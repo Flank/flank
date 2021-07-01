@@ -12,8 +12,4 @@ internal fun IArgs.registerUser(): IArgs = apply {
     ).send()
 }
 
-internal fun Map<String, Any>.getNonDefaultArgs(
-    defaultArgs: Map<String, Any>
-) = removeNotNeededKeys(defaultArgs).filterSensitiveValues()
-
 internal fun Map<*, *>.toJSONObject() = JSONObject(this)
