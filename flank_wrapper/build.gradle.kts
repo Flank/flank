@@ -7,7 +7,7 @@ plugins {
     id(Plugins.MAVEN_PUBLISH)
 }
 
-val artifactID = "flank-wrapper"
+val artifactID = "flank_wrapper"
 val runnerClass = "com.github.flank.wrapper.MainKt"
 val shadowJar: ShadowJar by tasks
 
@@ -84,7 +84,10 @@ val releaseFlankWrapper by tasks.registering(Exec::class) {
     dependsOn(":flank_wrapper:publish")
     commandLine(
         "gh", "release", "create",
-        "flank-wrapper-$version", "$buildDir/libs/$artifactID.jar",
+        "flank-wrapper-$version",
+        "$buildDir/libs/$artifactID.jar",
+        "flankw",
+        "flankw.bat",
         "-t", "Flank Wrapper $version",
         "-p"
     )

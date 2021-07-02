@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+DIR=`dirname "$BASH_SOURCE"`
+
+/usr/bin/env java -jar "$DIR/flank_wrapper.jar" "$@"
