@@ -25,7 +25,6 @@ internal val parseApkTestCases = Apk.ParseTestCases { config ->
             filter { it.testName.split("#").first() !in toDrop }
         }
 
-
         return (testMethods + testClasses)
             .filter { method -> config.filterTest(method.plain()) }
             .map(TestMethod::testName)
