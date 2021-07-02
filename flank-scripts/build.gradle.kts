@@ -26,7 +26,7 @@ shadowJar.apply {
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
-version = "1.9.20"
+version = "1.9.21"
 group = "com.github.flank"
 
 application {
@@ -128,6 +128,7 @@ val download by tasks.registering(Exec::class) {
     }
 }
 
+// TODO replace with plugin in #2063
 val checkIfVersionUpdated by tasks.registering(Exec::class) {
     group = "verification"
     commandLine("git", "fetch", "--no-tags")
@@ -160,25 +161,4 @@ val releaseFlankScripts by tasks.registering(Exec::class) {
     )
 }
 
-fun isVersionChangedInBuildGradle(): Boolean {
-
-    val localResultsStream = execAndGetStdout("git", "diff", "origin/master", "HEAD", "--", "build.gradle.kts")
-        .split("\n")
-    val commitedResultsStream = execAndGetStdout("git", "diff", "origin/master", "--", "build.gradle.kts")
-        .split("\n")
-    return (commitedResultsStream + localResultsStream)
-        .filter { it.startsWith("-version = ") || it.startsWith("+version = ") }
-        .size >= 2
-}
-
-fun execAndGetStdout(vararg args: String): String {
-    val stdout = ByteArrayOutputStream()
-    exec {
-        commandLine(*args)
-        standardOutput = stdout
-        workingDir = projectDir
-    }
-    return stdout.toString().trimEnd()
-}
-
-tasks["lintKotlin"].dependsOn(tasks["checkIfVersionUpdated"])
+tasks["lintKotlin"].dependsOn(checkIfVersionUpdated)
