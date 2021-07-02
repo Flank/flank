@@ -741,6 +741,14 @@ flank:
  # custom-sharding-json: ./custom_sharding.json
 ```
 
+## Flank Wrapper
+
+Flank wrapper is a solution to always run the latest version of Flank.
+It will download the latest version of Flank itself always when it changed.
+Using Flank wrapper is similar to using Flank, all options provided to Flank wrapper will be passed to Flank itself.
+To download the latest version of Flank wrapper, please visit [GitHub releases](https://github.com/Flank/flank/releases)
+and search for tag `flank_wrapper-XXX`. There are also shell and a batch wrapper over `.jar` file included.
+
 ## Android code coverage
 
 <details>
