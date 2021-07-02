@@ -208,10 +208,10 @@ internal val format = buildFormatter<String> {
     LoadPreviousDurations.Summary::class { "For $required test cases, found $matching matching and $unknown unknown" }
     InstallApks.Status {
         when (this) {
-            is AndroidApps.Event.Connecting.Agent -> "Connecting agent for $instanceId"
-            is AndroidApps.Event.Connecting.Console -> "Connecting console for $instanceId"
-            is AndroidApps.Event.Apk.Uploading -> "Uploading apk $path"
-            is AndroidApps.Event.Apk.Installing -> "Installing apk $path"
+            is AndroidApps.Event.Connecting.Agent -> "$instanceId: Connecting agent"
+            is AndroidApps.Event.Connecting.Console -> "$instanceId: Connecting console"
+            is AndroidApps.Event.Apk.Uploading -> "$instanceId: Uploading apk $path"
+            is AndroidApps.Event.Apk.Installing -> "$instanceId: Installing apk $path"
         }
     }
     InvokeDevices.Status {

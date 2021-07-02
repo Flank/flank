@@ -25,8 +25,8 @@ data class AndroidApps(
         }
 
         object Apk {
-            data class Uploading(val path: String) : Event()
-            data class Installing(val path: String) : Event()
+            data class Uploading(val instanceId: String, val path: String) : Event()
+            data class Installing(val instanceId: String, val path: String) : Event()
         }
     }
 }

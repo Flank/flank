@@ -11,6 +11,7 @@ import flank.corellium.client.core.connectAgent
 import flank.corellium.client.core.connectConsole
 import flank.corellium.client.core.getAllProjects
 import flank.corellium.client.core.getProjectInstancesList
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.flow.channelFlow
@@ -38,39 +39,42 @@ private suspend fun SendChannel<AndroidApps.Event>.install(
         val instances = corellium.getProjectInstancesList(projectId).associateBy { it.id }
 
         appsList.forEach { apps ->
-            val instance = instances.getValue(apps.instanceId)
+            launch(Dispatchers.IO) {
 
-            send(Connecting.Agent(apps.instanceId))
+                val instance = instances.getValue(apps.instanceId)
 
-            val agentInfo = requireNotNull(instance.agent?.info) {
-                "Cannot connect to the agent, no agent info for instance ${instance.name} with id: ${instance.id}"
+                send(Connecting.Agent(instance.id))
+
+                val agentInfo = requireNotNull(instance.agent?.info) {
+                    "Cannot connect to the agent, no agent info for instance ${instance.name} with id: ${instance.id}"
+                }
+                val agent = corellium.connectAgent(agentInfo)
+
+                send(Connecting.Console(instance.id))
+                val console = corellium.connectConsole(instance.id)
+
+                // Disable system logging
+                flowOf("su", "dmesg -n 1", "exit").collect(console::sendCommand)
+
+                apps.paths.forEach { localPath ->
+                    val file = File(localPath)
+                    val remotePath = "$PATH_TO_UPLOAD/${file.name}"
+
+                    send(Apk.Uploading(instance.id, localPath))
+                    agent.uploadFile(remotePath, file.readBytes())
+
+                    send(Apk.Installing(instance.id, localPath))
+                    console.sendCommand(
+                        // Current solution is enough for the MVP.
+                        // Fixme: Find better solution for recognizing test apk.
+                        if (localPath.endsWith("androidTest.apk"))
+                            "pm install -t $remotePath" else
+                            "pm install $remotePath"
+                    )
+                }
+
+                console.close()
+                agent.disconnect()
             }
-            val agent = corellium.connectAgent(agentInfo)
-
-            send(Connecting.Console(apps.instanceId))
-            val console = corellium.connectConsole(instance.id)
-
-            // Disable system logging
-            flowOf("su", "dmesg -n 1", "exit").collect(console::sendCommand)
-
-            apps.paths.forEach { localPath ->
-                val file = File(localPath)
-                val remotePath = "$PATH_TO_UPLOAD/${file.name}"
-
-                send(Apk.Uploading(localPath))
-                agent.uploadFile(remotePath, file.readBytes())
-
-                send(Apk.Installing(localPath))
-                console.sendCommand(
-                    // Current solution is enough for the MVP.
-                    // Fixme: Find better solution for recognizing test apk.
-                    if (localPath.endsWith("androidTest.apk"))
-                        "pm install -t $remotePath" else
-                        "pm install $remotePath"
-                )
-            }
-
-            console.close()
-            agent.disconnect()
         }
     }
