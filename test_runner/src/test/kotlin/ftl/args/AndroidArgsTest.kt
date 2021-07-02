@@ -66,6 +66,9 @@ class AndroidArgsTest {
     private val nonExistingApk = "../test_projects/android/apks/app-debug_non_existing.apk"
     private val testApk = "../test_projects/android/apks/app-debug-androidTest.apk"
     private val testLargeParameterizedApk = "../test_projects/android/apks/app-Large-Parameterized.apk"
+    private val testExtremeParameterizedApk = "../test_projects/android/apks/app-Extreme-ParameterizedTests.apk"
+    private val testExtremeParameterizedOtherApk =
+        "../test_projects/android/apks/app-Extreme-Other-ParameterizedTests.apk"
     private val testErrorApk = "../test_projects/android/apks/error-androidTest.apk"
     private val testFlakyApk = "../test_projects/android/apks/flaky-androidTest.apk"
     private val obbFile = "../test_projects/android/gameloop/test.obb"
@@ -1235,6 +1238,34 @@ AndroidArgs
     }
 
     @Test
+    fun `cli additional-app-test-apks with parameterized-tests override`() {
+        val cli = AndroidRunCommand()
+        val text = "ignore-all"
+        CommandLine(cli).parseArgs("--additional-app-test-apks=app=$appApk,test=$testFlakyApk,parameterized-tests=$text")
+
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testApk
+        flank:
+          additional-app-test-apks:
+          - app: $appApk
+            test: $testErrorApk
+            parameterized-tests: default
+      """
+
+        assertEquals(
+            listOf(AppTestPair(appApkAbsolutePath, testErrorApkAbsolutePath, parameterizedTests = "default")),
+            AndroidArgs.load(yaml).validate().additionalAppTestApks
+        )
+
+        assertEquals(
+            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath, parameterizedTests = "ignore-all")),
+            AndroidArgs.load(yaml, cli).validate().additionalAppTestApks
+        )
+    }
+
+    @Test
     fun `cli additional-app-test-apks with test-targets override`() {
         val cli = AndroidRunCommand()
         CommandLine(cli).parseArgs("--additional-app-test-apks=app=$appApk,test=$testFlakyApk,test-targets=class any.class.TestClass")
@@ -1254,7 +1285,13 @@ AndroidArgs
         )
 
         assertEquals(
-            listOf(AppTestPair(appApkAbsolutePath, testFlakyApkAbsolutePath, testTargets = listOf("class any.class.TestClass"))),
+            listOf(
+                AppTestPair(
+                    appApkAbsolutePath,
+                    testFlakyApkAbsolutePath,
+                    testTargets = listOf("class any.class.TestClass")
+                )
+            ),
             AndroidArgs.load(yaml, cli).validate().additionalAppTestApks
         )
     }
@@ -1608,7 +1645,11 @@ AndroidArgs
 
     @Test
     fun `should only keep @LargeTest`() {
-        val expectedTests = setOf("LargeParameterizedTests", "ExampleInstrumentedTest#useAppContextLarge", "LargeTestClass#testLargeClass")
+        val expectedTests = setOf(
+            "LargeParameterizedTests",
+            "ExampleInstrumentedTest#useAppContextLarge",
+            "LargeTestClass#testLargeClass"
+        )
 
         val yaml = """
         gcloud:
@@ -1630,7 +1671,11 @@ AndroidArgs
 
     @Test
     fun `should keep no @LargeTest`() {
-        val expectedTests = setOf("LargeParameterizedTests", "ExampleInstrumentedTest#useAppContextLarge", "LargeTestClass#testLargeClass")
+        val expectedTests = setOf(
+            "LargeParameterizedTests",
+            "ExampleInstrumentedTest#useAppContextLarge",
+            "LargeTestClass#testLargeClass"
+        )
 
         val yaml = """
         gcloud:
@@ -2710,6 +2755,60 @@ AndroidArgs
             parameterized-tests: shard-into-single
         """.trimIndent()
         AndroidArgs.load(yaml).validate()
+    }
+
+    @Test(expected = FlankGeneralError::class)
+    fun `should throw exception as there are no tests to run - ignore-all parameterized tests`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testExtremeParameterizedApk
+          parameterized-tests: ignore-all
+        """.trimIndent()
+        val parsedYml = AndroidArgs.load(yaml).validate()
+        runBlocking { parsedYml.runAndroidTests() }
+    }
+
+    @Test
+    fun `should NOT throw exception as there are no tests to run - default parameterized tests`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testExtremeParameterizedApk
+          parameterized-tests: default
+        """.trimIndent()
+
+        val parsedYml = AndroidArgs.load(yaml).validate()
+        val chunks = runBlocking { parsedYml.runAndroidTests() }.shardChunks
+        assertTrue(chunks.size == 1)
+    }
+
+    @Test
+    fun `should shard tests correctly into a single shard with shard-into-single used`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testExtremeParameterizedOtherApk
+          parameterized-tests: shard-into-single
+        """.trimIndent()
+
+        val parsedYml = AndroidArgs.load(yaml).validate()
+        val chunks = runBlocking { parsedYml.runAndroidTests() }.shardChunks
+        assertTrue(chunks.size == 2)
+    }
+
+    @Test
+    fun `should shard tests normally when default used`() {
+        val yaml = """
+        gcloud:
+          app: $appApk
+          test: $testExtremeParameterizedOtherApk
+          parameterized-tests: default
+        """.trimIndent()
+
+        val parsedYml = AndroidArgs.load(yaml).validate()
+        val chunks = runBlocking { parsedYml.runAndroidTests() }.shardChunks
+        assertTrue(chunks.size == 1)
     }
 }
 

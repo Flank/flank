@@ -28,6 +28,7 @@ class ResolveApksKtTest {
             every { additionalAppTestApks } returns emptyList()
             every { testTargetsForShard } returns emptyList()
             every { customSharding } returns emptyMap()
+            every { parameterizedTests } returns ""
         }
         assertArrayEquals(
             arrayOf(
@@ -49,7 +50,8 @@ class ResolveApksKtTest {
                     app = "app",
                     test = "test"
                 )
-            )
+            ),
+
         )
         assertArrayEquals(
             arrayOf(

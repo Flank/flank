@@ -22,8 +22,8 @@ object AndroidTestPlan {
     fun interface Execute : (Config) -> List<Pair<InstanceId, Flow<AmInstrumentOutputLine>>>
 }
 
-private typealias InstanceId = String
+typealias InstanceId = String
 
-private typealias AmInstrumentCommand = String
+typealias AmInstrumentCommand = String
 
 private typealias AmInstrumentOutputLine = String
