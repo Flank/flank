@@ -8,7 +8,7 @@ plugins {
 }
 
 val artifactID = "flank-wrapper"
-val mainClass = "com.github.flank.wrapper.MainKt"
+val runnerClass = "com.github.flank.wrapper.MainKt"
 val shadowJar: ShadowJar by tasks
 
 shadowJar.apply {
@@ -18,7 +18,7 @@ shadowJar.apply {
 
     @Suppress("UnstableApiUsage")
     manifest {
-        attributes(mapOf("Main-Class" to mainClass))
+        attributes(mapOf("Main-Class" to runnerClass))
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
@@ -92,7 +92,7 @@ val releaseFlankWrapper by tasks.registering(Exec::class) {
 
 
 application {
-    mainClass.set(mainClass)
+    mainClass.set(runnerClass)
 }
 
 // TODO replace with plugin in #2063
@@ -117,5 +117,13 @@ val checkIfVersionUpdated by tasks.registering(Exec::class) {
         }
     }
 }
+
+val prepareJar by tasks.registering(Copy::class) {
+    dependsOn("shadowJar")
+    from("$buildDir/libs")
+    include("flank_wrapper.jar")
+    into("$projectDir")
+}
+
 
 tasks["lintKotlin"].dependsOn(checkIfVersionUpdated)
