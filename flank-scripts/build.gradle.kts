@@ -25,7 +25,7 @@ shadowJar.apply {
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
-version = "1.9.21"
+version = "1.9.22"
 group = "com.github.flank"
 
 application {
