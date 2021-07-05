@@ -224,8 +224,8 @@ gcloud:
   ## 3 options are available
   ## default: treat Parameterized tests as normal and shard accordingly
   ## ignore-all: Parameterized tests are ignored and not sharded
-  ## collect-all-single: Parameterized tests are collected and put into a single shard
-  ## Note: if left blank default is used.
+  ## shard-into-single: Parameterized tests are collected and put into a single shard
+  ## Note: if left blank default is used. Default usage may result in significant increase/difference of shard times observed
   # parameterized-tests: default
 
 flank:
