@@ -194,7 +194,7 @@ jobs:
           comment-id: ${{ needs.integration-tests-post-link.outputs.comment_id }}
           edit-mode: replace
           body: |
-            **Integration tests succeed for all OSes :white_check_mark:**
+            **Integration tests succeed for all OSs :white_check_mark:**
             Windows Build scan: ${{ env.Windows-bs }}
             MacOS Build scan: ${{ env.macOS-bs }}
             Linux Build scan: ${{ env.Linux-bs }}
