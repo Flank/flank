@@ -11,6 +11,10 @@ import flank.junit.mergeTestCases
  * The step is searching result directory for JUnitReport.xml.
  * Collected reports are used for calculating test cases durations.
  *
+ * For test cases represented by their class, the duration will be based on summary durations from methods of this class.
+ * Basically, this is necessary for parameterized tests that are treated as class instead of method.
+ *
+ *
  * require:
  * * [RunTestCorelliumAndroid.Context.parseTestCasesFromApks]
  *
