@@ -22,14 +22,14 @@ internal fun RunTestCorelliumAndroid.Context.loadPreviousDurations() = step(Load
         if (args.outputDir.startsWith(DefaultOutputDir.ROOT)) DefaultOutputDir.ROOT
         else args.outputDir
 
-    val classesCases: Set<String> =
+    val classCases: Set<String> =
         testCases.values.flatten().filter { '#' !in it }.toSet()
 
     copy(
         previousDurations = junit.parseTestResults(directoryToScan)
             .take(args.scanPreviousDurations).toList()
             .apply { LoadPreviousDurations.Searching(size).out() }
-            .map { suite -> suite.mergeTestCases(classesCases) }
+            .map { suite -> suite.mergeTestCases(classCases) }
             .flatten()
             .calculateTestCaseDurations()
             .withDefault { previousDurations.getValue(it) }
