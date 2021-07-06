@@ -118,7 +118,7 @@ private object Example {
 // ======================= Example Run =======================
 
 fun main() {
-    val args = mapOf(
+    val args: ParallelState = mapOf(
         // Specify initial state.
         // Commend initial Args to simulate failure of initial validation.
         Args to Args(
@@ -127,9 +127,7 @@ fun main() {
             b = 8,
             c = 13,
         ),
-        Parallel.Logger to { log: Any ->
-            println(log)
-        },
+        // Parallel.Logger to { log: Any -> println(log) },
         // Parallel.Sequence to Unit,
     )
 
