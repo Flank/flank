@@ -13,10 +13,13 @@ object Authorization {
      * @property host the host part of base Corellium API url "https://[host]/api/v1".
      */
     data class Credentials(
-        val host: String,
-        val username: String,
-        val password: String,
+        val host: String = "",
+        val username: String = "",
+        val password: String = "",
     )
+
+    val Empty = Credentials()
+
     /**
      * The authorization API call.
      * The successful return is making the rest of API functions available.
