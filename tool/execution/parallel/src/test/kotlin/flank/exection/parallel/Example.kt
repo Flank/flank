@@ -128,8 +128,9 @@ fun main() {
             c = 13,
         ),
         Parallel.Logger to { log: Any ->
-            // println(log)
+            println(log)
         },
+        // Parallel.Sequence to Unit,
     )
 
     Example.run {

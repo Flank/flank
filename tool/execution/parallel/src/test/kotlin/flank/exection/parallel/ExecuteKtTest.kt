@@ -12,6 +12,7 @@ import kotlinx.coroutines.withTimeout
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.lang.System.nanoTime
 import java.util.concurrent.atomic.AtomicInteger
 
 // ====================== COMMON TYPES ======================
@@ -51,7 +52,7 @@ class ExecuteKtTest {
     }
 
     /**
-     * Valid graph of task of task is run in optimized order.
+     * Valid graph of task is run in optimized order.
      */
     @Test
     fun `run many tasks`() {
@@ -195,5 +196,34 @@ class ExecuteKtTest {
                 .toList()
         }
         assertEquals(expected, actual)
+    }
+
+    /**
+     * If option [Parallel.Sequence] is added to the initial state, the tasks should run one by on instead of parallel.
+     */
+    @Test
+    fun `run as sequence`() {
+        val timestamps = mutableListOf<Pair<Long, Long>>()
+
+        val exec: suspend ParallelState.() -> Unit = {
+            timestamps += nanoTime().also { delay(5) } to nanoTime()
+        }
+        val execute = setOf(
+            A from setOf(B, C, D, E, F) using {},
+            B using exec,
+            C using exec,
+            D using exec,
+            E using exec,
+            F using exec,
+        )
+
+        runBlocking { execute(Parallel.Sequence to Unit).collect() }
+
+        timestamps.forEach(::println)
+
+        timestamps.reduce { prev, next ->
+            assertTrue("${prev.second} < ${next.first}", prev.second < next.first)
+            next
+        }
     }
 }

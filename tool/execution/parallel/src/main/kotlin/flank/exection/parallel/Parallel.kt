@@ -92,6 +92,11 @@ object Parallel {
 
     object Logger : Type<Output>
 
+    /**
+     * Added to the initial state will force the execution to run parallel tasks one by one.
+     */
+    object Sequence : Type<Unit>
+
     object DependenciesError {
         data class Missing(val data: TypeDependencies) : Error("Missing dependencies $data")
         data class Duplicate(val data: DuplicateDependencies) : Error("Duplicate dependencies $data")
