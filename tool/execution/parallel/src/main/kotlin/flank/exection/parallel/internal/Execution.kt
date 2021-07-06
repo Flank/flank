@@ -1,6 +1,7 @@
 package flank.exection.parallel.internal
 
 import flank.exection.parallel.Output
+import flank.exection.parallel.Parallel
 import flank.exection.parallel.Parallel.Event
 import flank.exection.parallel.Parallel.Logger
 import flank.exection.parallel.Parallel.Task
@@ -112,6 +113,8 @@ internal class Execution(
      */
     @Suppress("UNCHECKED_CAST")
     val output = initial[Logger] as? Output
+
+    val sequence = Parallel.Sequence in initial
 }
 
 // ========================== Private functions ==========================
@@ -202,7 +205,7 @@ private data class DeadlockError(
 /**
  * Execute given tasks as coroutine job.
  */
-private fun Execution.execute(
+private suspend fun Execution.execute(
     task: Task<*>,
     args: Map<Type<*>, Any>,
 ) {
@@ -240,5 +243,7 @@ private fun Execution.execute(
 
         // Feed up the execution.
         channel.trySend(type to result)
+    }.apply {
+        if (sequence) join()
     }
 }
