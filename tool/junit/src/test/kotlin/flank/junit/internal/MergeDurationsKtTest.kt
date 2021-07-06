@@ -39,7 +39,6 @@ class MergeDurationsKtTest {
         Assert.assertEquals(expected, actual)
     }
 
-
     /**
      * All test case methods will be merged into test case classes.
      */
