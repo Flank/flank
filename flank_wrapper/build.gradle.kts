@@ -1,17 +1,14 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import java.nio.file.Files
-import java.nio.file.Paths
 
 plugins {
     application
     kotlin(Plugins.Kotlin.PLUGIN_JVM)
-    kotlin(Plugins.Kotlin.PLUGIN_SERIALIZATION) version Versions.KOTLIN
     id(Plugins.PLUGIN_SHADOW_JAR) version Versions.SHADOW
     id(Plugins.MAVEN_PUBLISH)
 }
 
-val artifactID = "flank-scripts"
-
+val artifactID = "flank_wrapper"
+val runnerClass = "com.github.flank.wrapper.MainKt"
 val shadowJar: ShadowJar by tasks
 
 shadowJar.apply {
@@ -21,19 +18,15 @@ shadowJar.apply {
 
     @Suppress("UnstableApiUsage")
     manifest {
-        attributes(mapOf("Main-Class" to "flank.scripts.MainKt"))
+        attributes(mapOf("Main-Class" to runnerClass))
     }
 }
 // <breaking change>.<feature added>.<fix/minor change>
-version = "1.9.22"
+version = "1.0.0"
 group = "com.github.flank"
 
-application {
-    mainClassName = "flank.scripts.cli.MainKt"
-    applicationDefaultJvmArgs = listOf(
-        "-Xmx2048m",
-        "-Xms512m"
-    )
+repositories {
+    mavenCentral()
 }
 
 publishing {
@@ -56,8 +49,8 @@ publishing {
             artifact(shadowJar)
 
             pom {
-                name.set("Flank-scripts")
-                description.set("Scripts for Flank")
+                name.set("Flank-wrapper")
+                description.set("Wrapper to run latest version of Flank")
                 url.set("https://github.com/Flank/flank")
 
                 licenses {
@@ -80,51 +73,29 @@ publishing {
     }
 }
 
-tasks.test {
-    maxHeapSize = "2048m"
-    minHeapSize = "512m"
-}
-
-repositories {
-    jcenter()
-    mavenCentral()
-    maven(url = "https://kotlin.bintray.com/kotlinx")
-}
-
 dependencies {
-    implementation(Dependencies.KOTLIN_SERIALIZATION)
     implementation(project(":common"))
-    implementation(Dependencies.CLIKT)
-    implementation(Dependencies.JCABI_GITHUB)
-    implementation(Dependencies.SLF4J_NOP)
-    implementation(Dependencies.GLASSFISH_JSON)
-    implementation(Dependencies.Fuel.COROUTINES)
-
+    implementation(Dependencies.Fuel.CORE)
     testImplementation(Dependencies.JUNIT)
-    testImplementation(Dependencies.MOCKK)
     testImplementation(Dependencies.TRUTH)
-    testImplementation(Dependencies.SYSTEM_RULES)
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
-
-val prepareJar by tasks.registering(Copy::class) {
-    dependsOn("shadowJar")
-    from("$buildDir/libs")
-    include("flank-scripts.jar")
-    into("$projectDir/bash")
-}
-
-val download by tasks.registering(Exec::class) {
+val releaseFlankWrapper by tasks.registering(Exec::class) {
+    dependsOn(":flank_wrapper:publish")
     commandLine(
-        "gh", "release", "download", "flank-scripts-$version", "-D", System.getenv("GITHUB_WORKSPACE") ?: ".."
+        "gh", "release", "create",
+        "flank-wrapper-$version",
+        "$buildDir/libs/$artifactID.jar",
+        "flankw",
+        "flankw.bat",
+        "-t", "Flank Wrapper $version",
+        "-p"
     )
-    doLast {
-        Files.copy(
-            Paths.get("$artifactID.jar"),
-            Paths.get("flank-scripts", "bash", "$artifactID.jar")
-        )
-    }
+}
+
+
+application {
+    mainClass.set(runnerClass)
 }
 
 // TODO replace with plugin in #2063
@@ -135,13 +106,13 @@ val checkIfVersionUpdated by tasks.registering(Exec::class) {
     doLast {
         val changedFiles = execAndGetStdout("git", "diff", "origin/master", "HEAD", "--name-only").split("\n") +
             execAndGetStdout("git", "diff", "origin/master", "--name-only").split("\n")
-        val isVersionChanged = changedFiles.any { it.startsWith("flank-scripts") }.not() ||
-            (changedFiles.contains("flank-scripts/build.gradle.kts") && isVersionChangedInBuildGradle())
+        val isVersionChanged = changedFiles.any { it.startsWith("flank_wrapper") }.not() ||
+            (changedFiles.contains("flank_wrapper/build.gradle.kts") && isVersionChangedInBuildGradle())
 
         if (isVersionChanged.not()) {
             throw GradleException(
                 """
-                   Flank scripts version is not updated, but files changed.
+                   Flank wrapper version is not updated, but files changed.
                    Please update version according to schema: <breaking change>.<feature added>.<fix/minor change>
                 """.trimIndent()
 
@@ -150,14 +121,12 @@ val checkIfVersionUpdated by tasks.registering(Exec::class) {
     }
 }
 
-val releaseFlankScripts by tasks.registering(Exec::class) {
-    dependsOn(":flank-scripts:publish")
-    commandLine(
-        "gh", "release", "create",
-        "flank-scripts-$version", "$buildDir/libs/$artifactID.jar",
-        "-t", "Flank Scripts $version",
-        "-p"
-    )
+val prepareJar by tasks.registering(Copy::class) {
+    dependsOn("shadowJar")
+    from("$buildDir/libs")
+    include("flank_wrapper.jar")
+    into("$projectDir")
 }
+
 
 tasks["lintKotlin"].dependsOn(checkIfVersionUpdated)

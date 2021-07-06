@@ -4,8 +4,8 @@ import com.google.auth.oauth2.ClientId
 import com.google.auth.oauth2.MemoryTokensStorage
 import com.google.auth.oauth2.UserAuthorizer
 import com.google.auth.oauth2.UserCredentials
+import flank.common.dotFlank
 import flank.common.logLn
-import flank.common.userHome
 import ftl.config.FtlConstants
 import ftl.run.exception.FlankGeneralError
 import io.ktor.application.call
@@ -29,7 +29,6 @@ import java.nio.file.Paths
 class UserAuth {
 
     companion object {
-        private val dotFlank = Paths.get(userHome, ".flank")
         val userToken: Path = if (FtlConstants.useMock) File.createTempFile("test_", ".Token").toPath()
         else Paths.get(dotFlank.toString(), "UserToken")
 
